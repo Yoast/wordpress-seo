@@ -218,6 +218,12 @@ yoast-seo.g12[id="c13"] {
         "calls": Array [
           Array [],
         ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
       }
     }
     type="button"

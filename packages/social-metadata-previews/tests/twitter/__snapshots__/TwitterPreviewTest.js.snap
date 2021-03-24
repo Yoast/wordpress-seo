@@ -1,12 +1,196 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TwitterPreview matches the snapshot 1`] = `
+.c15 {
+  text-transform: lowercase;
+  color: #8899a6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  fill: currentcolor;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+yoast-seo.g1[id="c14"] {
+  content: "c15,";
+}
+
+.c17 {
+  height: 1.25em;
+  max-width: 100%;
+  margin-right: 2px;
+}
+
+yoast-seo.g2[id="c16"] {
+  content: "c17,";
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 0;
+  padding: 1em;
+  text-align: center;
+  font-size: 1rem;
+  width: 125px;
+  border-radius: 14px 0 0 14px;
+}
+
+yoast-seo.g5[id="c4"] {
+  content: "c6,";
+}
+
+.c7 {
+  border-top-left-radius: 14px;
+  border-bottom-left-radius: 14px;
+  border-style: dashed;
+  border-width: 1px;
+  color: #006DAC;
+  background-color: #f1f1f1;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+yoast-seo.g6[id="c5"] {
+  content: "c7,";
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 10px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 0;
+  box-sizing: border-box;
+  -webkit-flex: auto;
+  -ms-flex: auto;
+  flex: auto;
+  min-width: 0px;
+}
+
+yoast-seo.g7[id="c8"] {
+  content: "c9,";
+}
+
+.c11 {
+  line-height: 18px;
+  min-height: 18px;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 0;
+  margin-bottom: 2px;
+  color: rgb(20,23,26);
+  cursor: pointer;
+}
+
+yoast-seo.g8[id="c10"] {
+  content: "c11,";
+}
+
+.c13 {
+  max-height: 55px;
+  min-height: 20px;
+  overflow: hidden;
+  font-size: 15px;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  margin: 0 0 2px;
+  color: rgb(101,119,134);
+  display: -webkit-box;
+  cursor: pointer;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+yoast-seo.g9[id="c12"] {
+  content: "c13,";
+}
+
+.c2 {
+  font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  max-width: 507px;
+  border: 1px solid #E1E8ED;
+  box-sizing: border-box;
+  border-radius: 14px;
+  color: #292F33;
+  background: #FFFFFF;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c2:hover {
+  background: #f5f8fa;
+  border: 1px solid rgba(136,153,166,.5);
+}
+
+yoast-seo.g10[id="c0"] {
+  content: "c2,";
+}
+
+.c3 {
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  height: 125px;
+}
+
+yoast-seo.g12[id="c1"] {
+  content: "c3,";
+}
+
+@media all and ( max-width:506px ) {
+  .c13 {
+    display: none;
+  }
+}
+
 <div
-  className="iVaNXo"
+  className="c0 c1 c2 c3"
   id="twitterPreview"
 >
   <div
-    className="kMULAV"
+    className="c4 c5 c6 c7"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
@@ -14,10 +198,10 @@ exports[`TwitterPreview matches the snapshot 1`] = `
     Select image
   </div>
   <div
-    className="iOvlVM"
+    className="c8 c9"
   >
     <p
-      className="cWjHeZ"
+      className="c10 c11"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -25,7 +209,7 @@ exports[`TwitterPreview matches the snapshot 1`] = `
       YoastCon Workshops • Yoast
     </p>
     <p
-      className="dKsrmk"
+      className="c12 c13"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -33,10 +217,10 @@ exports[`TwitterPreview matches the snapshot 1`] = `
       
     </p>
     <div
-      className="dILUyD"
+      className="c14 c15"
     >
       <svg
-        className="lEoKc"
+        className="c16 c17"
         viewBox="0 0 24 24"
       >
         <g>

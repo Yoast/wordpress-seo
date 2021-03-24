@@ -1,13 +1,177 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
+.c7 {
+  color: #606770;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 20px;
+  overflow: hidden;
+  padding: 0;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin: 0;
+  position: static;
+}
+
+yoast-seo.g2[id="c6"] {
+  content: "c7,";
+}
+
+.c9 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  text-transform: uppercase;
+  overflow: hidden;
+}
+
+yoast-seo.g4[id="c8"] {
+  content: "c9,";
+}
+
+.c3 {
+  box-sizing: border-box;
+  max-width: 527px;
+  height: 273px;
+  background-color: #ddd;
+  border-style: dashed;
+  border-width: 1px;
+  color: #006DAC;
+  background-color: #f1f1f1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+yoast-seo.g9[id="c2"] {
+  content: "c3,";
+}
+
+.c11 {
+  line-height: 20px;
+  min-height: 20px;
+  color: #1d2129;
+  font-weight: 600;
+  overflow: hidden;
+  font-size: 16px;
+  margin: 0;
+  -webkit-letter-spacing: normal;
+  -moz-letter-spacing: normal;
+  -ms-letter-spacing: normal;
+  letter-spacing: normal;
+  white-space: normal;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+yoast-seo.g10[id="c10"] {
+  content: "c11,";
+}
+
+.c13 {
+  line-height: 16px;
+  min-height: 16px;
+  color: #606770;
+  font-size: 12px;
+  padding: 0;
+  text-overflow: ellipsis;
+  margin: 3px 0 0 0;
+  display: -webkit-box;
+  cursor: pointer;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+yoast-seo.g11[id="c12"] {
+  content: "c13,";
+}
+
+.c1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  background-color: #f2f3f5;
+  max-width: 527px;
+}
+
+yoast-seo.g12[id="c0"] {
+  content: "c1,";
+}
+
+.c5 {
+  box-sizing: border-box;
+  background-color: #f2f3f5;
+  margin: 0;
+  padding: 10px 12px;
+  position: relative;
+  border-bottom: 1px solid #dddfe2;
+  border-top: 1px solid #dddfe2;
+  border-right: 1px solid #dddfe2;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 12px;
+  overflow: hidden;
+}
+
+yoast-seo.g13[id="c4"] {
+  content: "c5,";
+}
+
+@media all and ( max-width:476px ) {
+  .c13 {
+    display: none;
+  }
+}
+
 <div
-  className="fcqaLC"
+  className="c0 c1"
   id="facebookPreview"
   mode={null}
 >
   <div
-    className="budNPo"
+    className="c2 c3"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
@@ -15,7 +179,7 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
     Select image
   </div>
   <div
-    className="jwoaow"
+    className="c4 c5"
     mode={null}
   >
     <span
@@ -25,16 +189,16 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
     </span>
     <p
       aria-hidden="true"
-      className="bLnSsW"
+      className="c6 c7"
     >
       <span
-        className="fgfKyj"
+        className="c8 c9"
       >
         yoast.com
       </span>
     </p>
     <span
-      className="fAKGrh"
+      className="c10 c11"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -42,7 +206,7 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
       YoastCon Workshops
     </span>
     <p
-      className="hWOELD"
+      className="c12 c13"
       mode={null}
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -55,13 +219,177 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
 `;
 
 exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
+.c7 {
+  color: #606770;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 20px;
+  overflow: hidden;
+  padding: 0;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin: 0;
+  position: static;
+}
+
+yoast-seo.g2[id="c6"] {
+  content: "c7,";
+}
+
+.c9 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  text-transform: uppercase;
+  overflow: hidden;
+}
+
+yoast-seo.g4[id="c8"] {
+  content: "c9,";
+}
+
+.c3 {
+  box-sizing: border-box;
+  max-width: 527px;
+  height: 273px;
+  background-color: #ddd;
+  border-style: dashed;
+  border-width: 1px;
+  color: #006DAC;
+  background-color: #f1f1f1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+yoast-seo.g9[id="c2"] {
+  content: "c3,";
+}
+
+.c11 {
+  line-height: 20px;
+  min-height: 20px;
+  color: #1d2129;
+  font-weight: 600;
+  overflow: hidden;
+  font-size: 16px;
+  margin: 0;
+  -webkit-letter-spacing: normal;
+  -moz-letter-spacing: normal;
+  -ms-letter-spacing: normal;
+  letter-spacing: normal;
+  white-space: normal;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+yoast-seo.g10[id="c10"] {
+  content: "c11,";
+}
+
+.c13 {
+  line-height: 16px;
+  min-height: 16px;
+  color: #606770;
+  font-size: 12px;
+  padding: 0;
+  text-overflow: ellipsis;
+  margin: 3px 0 0 0;
+  display: -webkit-box;
+  cursor: pointer;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+yoast-seo.g11[id="c12"] {
+  content: "c13,";
+}
+
+.c1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  background-color: #f2f3f5;
+  max-width: 527px;
+}
+
+yoast-seo.g12[id="c0"] {
+  content: "c1,";
+}
+
+.c5 {
+  box-sizing: border-box;
+  background-color: #f2f3f5;
+  margin: 0;
+  padding: 10px 12px;
+  position: relative;
+  border-bottom: 1px solid #dddfe2;
+  border-top: 1px solid #dddfe2;
+  border-right: 1px solid #dddfe2;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 12px;
+  overflow: hidden;
+}
+
+yoast-seo.g13[id="c4"] {
+  content: "c5,";
+}
+
+@media all and ( max-width:476px ) {
+  .c13 {
+    display: none;
+  }
+}
+
 <div
-  className="fcqaLC"
+  className="c0 c1"
   id="facebookPreview"
   mode={null}
 >
   <div
-    className="budNPo"
+    className="c2 c3"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
@@ -69,7 +397,7 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
     Select image
   </div>
   <div
-    className="jwoaow"
+    className="c4 c5"
     mode={null}
   >
     <span
@@ -79,16 +407,16 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
     </span>
     <p
       aria-hidden="true"
-      className="bLnSsW"
+      className="c6 c7"
     >
       <span
-        className="fgfKyj"
+        className="c8 c9"
       >
         yoast.com
       </span>
     </p>
     <span
-      className="fAKGrh"
+      className="c10 c11"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -96,7 +424,7 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
       YoastCon Workshops
     </span>
     <p
-      className="hWOELD"
+      className="c12 c13"
       mode={null}
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -109,13 +437,177 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
 `;
 
 exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
+.c7 {
+  color: #606770;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 20px;
+  overflow: hidden;
+  padding: 0;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin: 0;
+  position: static;
+}
+
+yoast-seo.g2[id="c6"] {
+  content: "c7,";
+}
+
+.c9 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  text-transform: uppercase;
+  overflow: hidden;
+}
+
+yoast-seo.g4[id="c8"] {
+  content: "c9,";
+}
+
+.c3 {
+  box-sizing: border-box;
+  max-width: 527px;
+  height: 273px;
+  background-color: #ddd;
+  border-style: dashed;
+  border-width: 1px;
+  color: #006DAC;
+  background-color: #f1f1f1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+yoast-seo.g9[id="c2"] {
+  content: "c3,";
+}
+
+.c11 {
+  line-height: 20px;
+  min-height: 20px;
+  color: #1d2129;
+  font-weight: 600;
+  overflow: hidden;
+  font-size: 16px;
+  margin: 0;
+  -webkit-letter-spacing: normal;
+  -moz-letter-spacing: normal;
+  -ms-letter-spacing: normal;
+  letter-spacing: normal;
+  white-space: normal;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+yoast-seo.g10[id="c10"] {
+  content: "c11,";
+}
+
+.c13 {
+  line-height: 16px;
+  min-height: 16px;
+  color: #606770;
+  font-size: 12px;
+  padding: 0;
+  text-overflow: ellipsis;
+  margin: 3px 0 0 0;
+  display: -webkit-box;
+  cursor: pointer;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+yoast-seo.g11[id="c12"] {
+  content: "c13,";
+}
+
+.c1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  background-color: #f2f3f5;
+  max-width: 527px;
+}
+
+yoast-seo.g12[id="c0"] {
+  content: "c1,";
+}
+
+.c5 {
+  box-sizing: border-box;
+  background-color: #f2f3f5;
+  margin: 0;
+  padding: 10px 12px;
+  position: relative;
+  border-bottom: 1px solid #dddfe2;
+  border-top: 1px solid #dddfe2;
+  border-right: 1px solid #dddfe2;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 12px;
+  overflow: hidden;
+}
+
+yoast-seo.g13[id="c4"] {
+  content: "c5,";
+}
+
+@media all and ( max-width:476px ) {
+  .c13 {
+    display: none;
+  }
+}
+
 <div
-  className="fcqaLC"
+  className="c0 c1"
   id="facebookPreview"
   mode={null}
 >
   <div
-    className="budNPo"
+    className="c2 c3"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
@@ -123,7 +615,7 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
     Select image
   </div>
   <div
-    className="jwoaow"
+    className="c4 c5"
     mode={null}
   >
     <span
@@ -133,16 +625,16 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
     </span>
     <p
       aria-hidden="true"
-      className="bLnSsW"
+      className="c6 c7"
     >
       <span
-        className="fgfKyj"
+        className="c8 c9"
       >
         yoast.com
       </span>
     </p>
     <span
-      className="fAKGrh"
+      className="c10 c11"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -150,7 +642,7 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
       YoastCon Workshops
     </span>
     <p
-      className="hWOELD"
+      className="c12 c13"
       mode={null}
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -163,13 +655,177 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
 `;
 
 exports[`FacebookPreview matches the snapshot for a square image 1`] = `
+.c7 {
+  color: #606770;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 20px;
+  overflow: hidden;
+  padding: 0;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin: 0;
+  position: static;
+}
+
+yoast-seo.g2[id="c6"] {
+  content: "c7,";
+}
+
+.c9 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  text-transform: uppercase;
+  overflow: hidden;
+}
+
+yoast-seo.g4[id="c8"] {
+  content: "c9,";
+}
+
+.c3 {
+  box-sizing: border-box;
+  max-width: 527px;
+  height: 273px;
+  background-color: #ddd;
+  border-style: dashed;
+  border-width: 1px;
+  color: #006DAC;
+  background-color: #f1f1f1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+yoast-seo.g9[id="c2"] {
+  content: "c3,";
+}
+
+.c11 {
+  line-height: 20px;
+  min-height: 20px;
+  color: #1d2129;
+  font-weight: 600;
+  overflow: hidden;
+  font-size: 16px;
+  margin: 0;
+  -webkit-letter-spacing: normal;
+  -moz-letter-spacing: normal;
+  -ms-letter-spacing: normal;
+  letter-spacing: normal;
+  white-space: normal;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+yoast-seo.g10[id="c10"] {
+  content: "c11,";
+}
+
+.c13 {
+  line-height: 16px;
+  min-height: 16px;
+  color: #606770;
+  font-size: 12px;
+  padding: 0;
+  text-overflow: ellipsis;
+  margin: 3px 0 0 0;
+  display: -webkit-box;
+  cursor: pointer;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+yoast-seo.g11[id="c12"] {
+  content: "c13,";
+}
+
+.c1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  background-color: #f2f3f5;
+  max-width: 527px;
+}
+
+yoast-seo.g12[id="c0"] {
+  content: "c1,";
+}
+
+.c5 {
+  box-sizing: border-box;
+  background-color: #f2f3f5;
+  margin: 0;
+  padding: 10px 12px;
+  position: relative;
+  border-bottom: 1px solid #dddfe2;
+  border-top: 1px solid #dddfe2;
+  border-right: 1px solid #dddfe2;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 12px;
+  overflow: hidden;
+}
+
+yoast-seo.g13[id="c4"] {
+  content: "c5,";
+}
+
+@media all and ( max-width:476px ) {
+  .c13 {
+    display: none;
+  }
+}
+
 <div
-  className="fcqaLC"
+  className="c0 c1"
   id="facebookPreview"
   mode={null}
 >
   <div
-    className="budNPo"
+    className="c2 c3"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
@@ -177,7 +833,7 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
     Select image
   </div>
   <div
-    className="jwoaow"
+    className="c4 c5"
     mode={null}
   >
     <span
@@ -187,16 +843,16 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
     </span>
     <p
       aria-hidden="true"
-      className="bLnSsW"
+      className="c6 c7"
     >
       <span
-        className="fgfKyj"
+        className="c8 c9"
       >
         yoast.com
       </span>
     </p>
     <span
-      className="fAKGrh"
+      className="c10 c11"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -204,7 +860,7 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
       YoastCon Workshops
     </span>
     <p
-      className="hWOELD"
+      className="c12 c13"
       mode={null}
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -217,13 +873,177 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
 `;
 
 exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
+.c7 {
+  color: #606770;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 20px;
+  overflow: hidden;
+  padding: 0;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin: 0;
+  position: static;
+}
+
+yoast-seo.g2[id="c6"] {
+  content: "c7,";
+}
+
+.c9 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  text-transform: uppercase;
+  overflow: hidden;
+}
+
+yoast-seo.g4[id="c8"] {
+  content: "c9,";
+}
+
+.c3 {
+  box-sizing: border-box;
+  max-width: 527px;
+  height: 273px;
+  background-color: #ddd;
+  border-style: dashed;
+  border-width: 1px;
+  color: #006DAC;
+  background-color: #f1f1f1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+yoast-seo.g9[id="c2"] {
+  content: "c3,";
+}
+
+.c11 {
+  line-height: 20px;
+  min-height: 20px;
+  color: #1d2129;
+  font-weight: 600;
+  overflow: hidden;
+  font-size: 16px;
+  margin: 0;
+  -webkit-letter-spacing: normal;
+  -moz-letter-spacing: normal;
+  -ms-letter-spacing: normal;
+  letter-spacing: normal;
+  white-space: normal;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+yoast-seo.g10[id="c10"] {
+  content: "c11,";
+}
+
+.c13 {
+  line-height: 16px;
+  min-height: 16px;
+  color: #606770;
+  font-size: 12px;
+  padding: 0;
+  text-overflow: ellipsis;
+  margin: 3px 0 0 0;
+  display: -webkit-box;
+  cursor: pointer;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+yoast-seo.g11[id="c12"] {
+  content: "c13,";
+}
+
+.c1 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  background-color: #f2f3f5;
+  max-width: 527px;
+}
+
+yoast-seo.g12[id="c0"] {
+  content: "c1,";
+}
+
+.c5 {
+  box-sizing: border-box;
+  background-color: #f2f3f5;
+  margin: 0;
+  padding: 10px 12px;
+  position: relative;
+  border-bottom: 1px solid #dddfe2;
+  border-top: 1px solid #dddfe2;
+  border-right: 1px solid #dddfe2;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 12px;
+  overflow: hidden;
+}
+
+yoast-seo.g13[id="c4"] {
+  content: "c5,";
+}
+
+@media all and ( max-width:476px ) {
+  .c13 {
+    display: none;
+  }
+}
+
 <div
-  className="fcqaLC"
+  className="c0 c1"
   id="facebookPreview"
   mode={null}
 >
   <div
-    className="budNPo"
+    className="c2 c3"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
@@ -231,7 +1051,7 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
     Select image
   </div>
   <div
-    className="jwoaow"
+    className="c4 c5"
     mode={null}
   >
     <span
@@ -241,16 +1061,16 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
     </span>
     <p
       aria-hidden="true"
-      className="bLnSsW"
+      className="c6 c7"
     >
       <span
-        className="fgfKyj"
+        className="c8 c9"
       >
         yoast.com
       </span>
     </p>
     <span
-      className="fAKGrh"
+      className="c10 c11"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -258,7 +1078,7 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
       YoastCon Workshops
     </span>
     <p
-      className="hWOELD"
+      className="c12 c13"
       mode={null}
       onClick={[Function]}
       onMouseEnter={[Function]}

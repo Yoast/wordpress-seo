@@ -1,7 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ReplacementVariableEditor wraps a Draft.js editor instance 1`] = `
-<ContextConsumer>
-  <Component />
-</ContextConsumer>
+<ReplacementVariableEditorStandalone
+  ariaLabelledBy="id"
+  content="Dummy content"
+  onBlur={[Function]}
+  onChange={[Function]}
+  onFocus={[Function]}
+  placeholder=""
+  recommendedReplacementVariables={Array []}
+  replacementVariables={Array []}
+  theme={
+    Object {
+      "isRtl": "false",
+    }
+  }
+/>
 `;

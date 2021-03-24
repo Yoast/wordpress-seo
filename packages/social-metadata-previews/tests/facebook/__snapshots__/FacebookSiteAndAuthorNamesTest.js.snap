@@ -7,24 +7,75 @@ Array [
   >
     sitename.com by John Doe
   </span>,
-  <p
+  .c7 {
+  color: #3b5998;
+  font-size: 12px;
+  line-height: 11px;
+}
+
+yoast-seo.g1[id="c6"] {
+  content: "c7,";
+}
+
+.c1 {
+  color: #606770;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 20px;
+  overflow: hidden;
+  padding: 0;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin: 0;
+  position: static;
+}
+
+yoast-seo.g2[id="c0"] {
+  content: "c1,";
+}
+
+.c5 {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+yoast-seo.g3[id="c4"] {
+  content: "c5,";
+}
+
+.c3 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  text-transform: uppercase;
+  overflow: hidden;
+}
+
+yoast-seo.g4[id="c2"] {
+  content: "c3,";
+}
+
+<p
     aria-hidden="true"
-    className="bLnSsW"
+    className="c0 c1"
   >
     <span
-      className="fgfKyj"
+      className="c2 c3"
     >
       sitename.com
     </span>
     <span
-      className="disREE"
+      className="c4 c5"
     >
       |
     </span>
     By
      
     <span
-      className="hLDccc"
+      className="c6 c7"
     >
       John Doe
     </span>

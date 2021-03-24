@@ -1,8 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FacebookImage Component matches the snapshot for a faulty image 1`] = `
+.c1 {
+  box-sizing: border-box;
+  max-width: 527px;
+  height: 273px;
+  background-color: #ddd;
+  border-style: dashed;
+  border-width: 1px;
+  color: #006DAC;
+  background-color: #f1f1f1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+yoast-seo.g5[id="c0"] {
+  content: "c1,";
+}
+
 <div
-  className="budNPo"
+  className="c0 c1"
   onClick={[Function]}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
@@ -12,8 +43,36 @@ exports[`FacebookImage Component matches the snapshot for a faulty image 1`] = `
 `;
 
 exports[`FacebookImage Component matches the snapshot for a landscape image 1`] = `
+.c1 {
+  position: relative;
+  height: 273px;
+  max-width: 527px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c1,";
+}
+
+.c3.c3 {
+  max-width: 600px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  max-width: none;
+}
+
+yoast-seo.g4[id="c2"] {
+  content: "c3,";
+}
+
 <div
-  className="caajba"
+  className="c0 c1"
   mode="landscape"
   onClick={[Function]}
   onMouseEnter={[Function]}
@@ -21,15 +80,43 @@ exports[`FacebookImage Component matches the snapshot for a landscape image 1`] 
 >
   <img
     alt=""
-    className="dAFSQH"
+    className="c2 c3"
     src="https://yoast.com/app/uploads/2015/06/How_to_choose_keywords_FI.png"
   />
 </div>
 `;
 
 exports[`FacebookImage Component matches the snapshot for a portrait image 1`] = `
+.c1 {
+  position: relative;
+  height: 237px;
+  min-width: 158px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c1,";
+}
+
+.c3.c3 {
+  max-width: 300px;
+  height: 600px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  max-width: none;
+}
+
+yoast-seo.g4[id="c2"] {
+  content: "c3,";
+}
+
 <div
-  className="hLXFjt"
+  className="c0 c1"
   mode="portrait"
   onClick={[Function]}
   onMouseEnter={[Function]}
@@ -37,15 +124,43 @@ exports[`FacebookImage Component matches the snapshot for a portrait image 1`] =
 >
   <img
     alt=""
-    className="jkSDlU"
+    className="c2 c3"
     src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png"
   />
 </div>
 `;
 
 exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
+.c1 {
+  position: relative;
+  height: 158px;
+  min-width: 158px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c1,";
+}
+
+.c3.c3 {
+  max-width: 300px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  max-width: none;
+}
+
+yoast-seo.g4[id="c2"] {
+  content: "c3,";
+}
+
 <div
-  className="gAWKUL"
+  className="c0 c1"
   mode="square"
   onClick={[Function]}
   onMouseEnter={[Function]}
@@ -53,15 +168,43 @@ exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
 >
   <img
     alt=""
-    className="bLQVUI"
+    className="c2 c3"
     src="https://yoast.com/app/uploads/2018/09/avatar_user_1_1537774226.png"
   />
 </div>
 `;
 
 exports[`FacebookImage Component matches the snapshot for a too small image 1`] = `
+.c1 {
+  position: relative;
+  height: 158px;
+  min-width: 158px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c1,";
+}
+
+.c3.c3 {
+  max-width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  max-width: none;
+}
+
+yoast-seo.g4[id="c2"] {
+  content: "c3,";
+}
+
 <div
-  className="gAWKUL"
+  className="c0 c1"
   mode="square"
   onClick={[Function]}
   onMouseEnter={[Function]}
@@ -69,15 +212,46 @@ exports[`FacebookImage Component matches the snapshot for a too small image 1`] 
 >
   <img
     alt=""
-    className="knxvfW"
+    className="c2 c3"
     src="https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png"
   />
 </div>
 `;
 
 exports[`FacebookImage Component matches the snapshot in the loading state 1`] = `
+.c1 {
+  box-sizing: border-box;
+  max-width: 527px;
+  height: 273px;
+  background-color: #ddd;
+  border-style: dashed;
+  border-width: 1px;
+  color: #006DAC;
+  background-color: #f1f1f1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+yoast-seo.g5[id="c0"] {
+  content: "c1,";
+}
+
 <div
-  className="budNPo"
+  className="c0 c1"
   onClick={[Function]}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}

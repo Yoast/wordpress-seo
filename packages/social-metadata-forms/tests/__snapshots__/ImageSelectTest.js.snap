@@ -1,22 +1,296 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The ImageSelect component displays warnings 1`] = `
+.c7 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c6"] {
+  content: "c7,";
+}
+
+.c26 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c20"] {
+  content: "c26,";
+}
+
+.c27:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c21"] {
+  content: "c27,";
+}
+
+.c28::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c28:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c22"] {
+  content: "c28,";
+}
+
+.c29:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c23"] {
+  content: "c29,";
+}
+
+.c30 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c30 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c24"] {
+  content: "c30,";
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 16px;
+  color: #674e00;
+  background: #fff3cd;
+  margin-bottom: 20px;
+}
+
+yoast-seo.g9[id="c4"] {
+  content: "c5,";
+}
+
+.c11 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c11 a {
+  color: #004973;
+}
+
+yoast-seo.g10[id="c10"] {
+  content: "c11,";
+}
+
+.c9 {
+  margin-top: 0.125rem;
+  margin-right: 8px;
+}
+
+yoast-seo.g11[id="c8"] {
+  content: "c9,";
+}
+
+.c3 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  margin: 4px 0;
+  color: #303030;
+  font-weight: 500;
+}
+
+yoast-seo.g45[id="c2"] {
+  content: "c3,";
+}
+
+.c16.c16.c16 {
+  padding: 0 8px;
+  min-height: 34px;
+  font-size: 1em;
+  box-shadow: inset 0 1px 2px rgba( 0,0,0,0.07 );
+  border: 1px solid #ddd;
+  border-radius: 0;
+}
+
+.c16.c16.c16:focus {
+  border-color: #5b9dd9;
+  box-shadow: 0 0 2px rgba( 30,140,190,0.8 );
+}
+
+yoast-seo.g71[id="c14"] {
+  content: "c16,";
+}
+
+.c31 {
+  color: #303030;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: inset 0 -2px 0 0 rgba(0,0,0,0.1);
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  padding: 4px;
+  border: 1px solid #dbdbdb;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 5px;
+  width: 112px;
+  height: 40px;
+}
+
+yoast-seo.g107[id="c25"] {
+  content: "c31,";
+}
+
+.c33 {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  color: #a00;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.c33:hover {
+  color: #F00;
+}
+
+.c33:focus {
+  color: #F00;
+}
+
+yoast-seo.g110[id="c32"] {
+  content: "c33,";
+}
+
+.c17 {
+  min-width: 100%;
+}
+
+yoast-seo.g111[id="c15"] {
+  content: "c17,";
+}
+
+.c13 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+yoast-seo.g112[id="c12"] {
+  content: "c13,";
+}
+
+.c19 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 10px 0 0 0;
+}
+
+yoast-seo.g113[id="c18"] {
+  content: "c19,";
+}
+
+.c1 {
+  margin-top: 24px;
+}
+
+yoast-seo.g114[id="c0"] {
+  content: "c1,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c30::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="euXXSE"
+  className="c0 c1"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
   <div
-    className="kwUolq"
+    className="c2 c3"
   >
     Facebook image
   </div>
   <div
-    className="lfexDP"
+    className="c4 c5"
   >
     <svg
       aria-hidden={true}
-      className="cPnaHk yoast-svg-icon yoast-svg-icon-alert-warning camkTq"
+      className="c6 c7 yoast-svg-icon yoast-svg-icon-alert-warning c8 c9"
       fill="#674e00"
       focusable="false"
       role="img"
@@ -29,17 +303,17 @@ exports[`The ImageSelect component displays warnings 1`] = `
       />
     </svg>
     <div
-      className="jJuGwm"
+      className="c10 c11"
     >
       Your image is too small
     </div>
   </div>
   <div
-    className="lfexDP"
+    className="c4 c5"
   >
     <svg
       aria-hidden={true}
-      className="cPnaHk yoast-svg-icon yoast-svg-icon-alert-warning camkTq"
+      className="c6 c7 yoast-svg-icon yoast-svg-icon-alert-warning c8 c9"
       fill="#674e00"
       focusable="false"
       role="img"
@@ -52,25 +326,25 @@ exports[`The ImageSelect component displays warnings 1`] = `
       />
     </svg>
     <div
-      className="jJuGwm"
+      className="c10 c11"
     >
       Wow, I like writing tests
     </div>
   </div>
   <div
-    className="jeVJgH"
+    className="c12 c13"
   >
     <input
-      className="geMTXX"
+      className="c14 c15 c16 c17"
       disabled="disabled"
       id="twitter-url-input"
       value=""
     />
     <div
-      className="egFFPu"
+      className="c18 c19"
     >
       <button
-        className="hgYWFL"
+        className="c20 c21 c22 c23 c24 c25 c26 c27 c28 c29 c30 c31"
         id="twitter-replace-button"
         onClick={[Function]}
         type="button"
@@ -78,7 +352,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
         Replace image
       </button>
       <button
-        className="bHUaLk"
+        className="c20 c21 c22 c23 c24 c25 c32 c26 c27 c28 c29 c30 c31 c33"
         id="twitter-remove-button"
         onClick={[Function]}
         type="button"
@@ -91,18 +365,159 @@ exports[`The ImageSelect component displays warnings 1`] = `
 `;
 
 exports[`The ImageSelect component renders 1`] = `
+.c10 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c4"] {
+  content: "c10,";
+}
+
+.c11:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c5"] {
+  content: "c11,";
+}
+
+.c12::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c12:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c6"] {
+  content: "c12,";
+}
+
+.c13:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c7"] {
+  content: "c13,";
+}
+
+.c14 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c14 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c8"] {
+  content: "c14,";
+}
+
+.c3 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  margin: 4px 0;
+  color: #303030;
+  font-weight: 500;
+}
+
+yoast-seo.g45[id="c2"] {
+  content: "c3,";
+}
+
+.c15 {
+  color: #303030;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: inset 0 -2px 0 0 rgba(0,0,0,0.1);
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  padding: 4px;
+  border: 1px solid #dbdbdb;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 5px;
+  width: 112px;
+  height: 40px;
+}
+
+yoast-seo.g107[id="c9"] {
+  content: "c15,";
+}
+
+.c1 {
+  margin-top: 24px;
+}
+
+yoast-seo.g114[id="c0"] {
+  content: "c1,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c14::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="euXXSE"
+  className="c0 c1"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
   <div
-    className="kwUolq"
+    className="c2 c3"
   >
     Facebook image
   </div>
   <button
-    className="hgYWFL"
+    className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
     id="facebook-select-button"
     onClick={[Function]}
     type="button"

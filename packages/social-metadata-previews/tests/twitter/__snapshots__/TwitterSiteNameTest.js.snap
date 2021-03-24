@@ -1,11 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TwitterSiteUrl matches the snapshot by default 1`] = `
+.c1 {
+  text-transform: lowercase;
+  color: #8899a6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  fill: currentcolor;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+yoast-seo.g1[id="c0"] {
+  content: "c1,";
+}
+
+.c3 {
+  height: 1.25em;
+  max-width: 100%;
+  margin-right: 2px;
+}
+
+yoast-seo.g2[id="c2"] {
+  content: "c3,";
+}
+
 <div
-  className="dILUyD"
+  className="c0 c1"
 >
   <svg
-    className="lEoKc"
+    className="c2 c3"
     viewBox="0 0 24 24"
   >
     <g>

@@ -111,7 +111,6 @@ yoast-seo.g8[id="c1"] {
 }
 
 <button
-  aria-expanded={undefined}
   className="c0 c1 c2 c3"
   onClick={[Function]}
   type="button"
@@ -247,7 +246,6 @@ yoast-seo.g8[id="c1"] {
 }
 
 <button
-  aria-expanded={undefined}
   className="c0 c1 c2 c3"
   onClick={[Function]}
   type="button"
@@ -383,9 +381,7 @@ yoast-seo.g8[id="c1"] {
 }
 
 <button
-  aria-expanded={undefined}
   className="c0 c1 c2 c3"
-  onClick={undefined}
   type="button"
 >
   <span>
