@@ -17,6 +17,9 @@ export default function initSocialSettings() {
 				target="yoast-og-default-image-select"
 				hiddenField="og_default_image"
 				hiddenFieldImageId="og_default_image_id"
+				selectImageButtonId="yoast-og-default-image-select-button"
+				replaceImageButtonId="yoast-og-default-image-replace-button"
+				removeImageButtonId="yoast-og-default-image-remove-button"
 			/>
 		</Fragment>,
 		element

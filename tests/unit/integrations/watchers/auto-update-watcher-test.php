@@ -81,8 +81,8 @@ class Auto_Update_Watcher_Test extends TestCase {
 	 */
 	public function test_register_hooks() {
 		Monkey\Actions\expectAdded( 'admin_init' );
-		Monkey\Actions\expectAdded( 'update_option_auto_update_core_major' );
-		Monkey\Actions\expectAdded( 'update_option_auto_update_plugins' );
+		Monkey\Actions\expectAdded( 'update_site_option_auto_update_core_major' );
+		Monkey\Actions\expectAdded( 'update_site_option_auto_update_plugins' );
 
 		$this->instance->register_hooks();
 	}
@@ -102,12 +102,12 @@ class Auto_Update_Watcher_Test extends TestCase {
 	 * @covers ::save_dismissal_status
 	 */
 	public function test_toggle_core_auto_updates_no_notification( $core_updates_enabled, $plugins_to_auto_update ) {
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_core_major' )
 			->once()
 			->andReturn( $core_updates_enabled );
 
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_plugins' )
 			->once()
 			->andReturn( $plugins_to_auto_update );
@@ -157,12 +157,12 @@ class Auto_Update_Watcher_Test extends TestCase {
 	 * @covers ::maybe_create_notification
 	 */
 	public function test_auto_update_notification_enable_core_while_yoast_disabled() {
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_core_major' )
 			->once()
 			->andReturn( 'enabled' );
 
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_plugins' )
 			->once()
 			->andReturn( [ 'not_yoast_seo', 'another_plugin_file' ] );
@@ -192,12 +192,12 @@ class Auto_Update_Watcher_Test extends TestCase {
 	 * @covers ::notification
 	 */
 	public function test_auto_update_notification_enable_core_while_yoast_disabled_create_notification() {
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_core_major' )
 			->once()
 			->andReturn( 'enabled' );
 
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_plugins' )
 			->once()
 			->andReturn( [ 'not_yoast_seo', 'another_plugin_file' ] );
@@ -246,12 +246,12 @@ class Auto_Update_Watcher_Test extends TestCase {
 	 * @covers ::maybe_remove_notification
 	 */
 	public function test_auto_update_notification_enable_yoast_while_core_enabled_save_dismiss_status() {
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_core_major' )
 			->once()
 			->andReturn( 'enabled' );
 
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_plugins' )
 			->once()
 			->andReturn( [ 'wordpress-seo/wp-seo.php', 'another_plugin_file' ] );
@@ -299,12 +299,12 @@ class Auto_Update_Watcher_Test extends TestCase {
 	 * @covers ::maybe_create_notification_if_not_dismissed
 	 */
 	public function test_auto_update_notification_disable_yoast_while_core_enabled() {
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_core_major' )
 			->once()
 			->andReturn( 'enabled' );
 
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_plugins' )
 			->twice()
 			->andReturn( [ 'not_yoast_seo', 'another_plugin_file' ] );
@@ -340,12 +340,12 @@ class Auto_Update_Watcher_Test extends TestCase {
 	 * @covers ::maybe_create_notification_if_not_dismissed
 	 */
 	public function test_auto_update_notification_disable_yoast_while_core_enabled_notification_dismissed() {
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_core_major' )
 			->once()
 			->andReturn( 'enabled' );
 
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_plugins' )
 			->twice()
 			->andReturn( [ 'not_yoast_seo', 'another_plugin_file' ] );

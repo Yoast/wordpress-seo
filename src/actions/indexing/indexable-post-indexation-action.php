@@ -141,12 +141,12 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		return $this->wpdb->prepare(
 			"
 			SELECT $select
-			FROM {$this->wpdb->posts} as P
-			LEFT JOIN $indexable_table AS I 
-				ON P.ID = I.object_id 
-				AND I.object_type = 'post' 
+			FROM {$this->wpdb->posts} AS P
+			LEFT JOIN $indexable_table AS I
+				ON P.ID = I.object_id
+				AND I.object_type = 'post'
 				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id is Null 
+			WHERE I.object_id IS NULL
 				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")
 			$limit_query",
 			$replacements

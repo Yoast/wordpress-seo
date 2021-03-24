@@ -24,12 +24,13 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 *
 	 * @var string[]
 	 */
-	const ADD_ONS = [
+	const ADD_ON_PLUGIN_FILES = [
 		'wordpress-seo-premium/wp-seo-premium.php',
 		'wpseo-video/video-seo.php',
-		'wpseo-local/local-seo.php',
+		'wpseo-local/local-seo.php', // When installing Local through a released zip, the path is different from the path on a dev environment.
 		'wpseo-woocommerce/wpseo-woocommerce.php',
 		'wpseo-news/wpseo-news.php',
+		'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php', // When installing ACF for Yoast through a released zip, the path is different from the path on a dev environment.
 	];
 
 	/**
@@ -37,13 +38,13 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action(
-			'update_option_auto_update_plugins',
+			'update_site_option_auto_update_plugins',
 			[
 				$this,
 				'toggle_auto_updates_for_add_ons',
 			],
 			10,
-			2
+			3
 		);
 		\add_filter( 'plugin_auto_update_setting_html', [ $this, 'replace_auto_update_toggles_of_addons' ], 10, 2 );
 	}
@@ -72,13 +73,13 @@ class Addon_Update_Watcher implements Integration_Interface {
 			return $old_html;
 		}
 
-		$not_a_yoast_addon = ! \in_array( $plugin, self::ADD_ONS, true );
+		$not_a_yoast_addon = ! \in_array( $plugin, self::ADD_ON_PLUGIN_FILES, true );
 
 		if ( $not_a_yoast_addon ) {
 			return $old_html;
 		}
 
-		$auto_updated_plugins = \get_option( 'auto_update_plugins' );
+		$auto_updated_plugins = \get_site_option( 'auto_update_plugins' );
 
 		if ( $this->are_auto_updates_enabled( self::WPSEO_FREE_PLUGIN_ID, $auto_updated_plugins ) ) {
 			return \sprintf(
@@ -104,12 +105,18 @@ class Addon_Update_Watcher implements Integration_Interface {
 	/**
 	 * Enables premium auto updates when free are enabled and the other way around.
 	 *
-	 * @param array $old_value The old value of the `auto_update_plugins` option.
-	 * @param array $new_value The new value of the `auto_update_plugins` option.
+	 * @param string $option    The name of the option that has been updated.
+	 * @param array  $new_value The new value of the `auto_update_plugins` option.
+	 * @param array  $old_value The old value of the `auto_update_plugins` option.
 	 *
 	 * @return void
 	 */
-	public function toggle_auto_updates_for_add_ons( $old_value, $new_value ) {
+	public function toggle_auto_updates_for_add_ons( $option, $new_value, $old_value ) {
+		if ( $option !== 'auto_update_plugins' ) {
+			// If future versions of WordPress change this filter's behavior, our behavior should stay consistent.
+			return;
+		}
+
 		if ( ! \is_array( $old_value ) || ! \is_array( $new_value ) ) {
 			return;
 		}
@@ -126,11 +133,10 @@ class Addon_Update_Watcher implements Integration_Interface {
 
 		if ( $auto_updates_have_been_enabled ) {
 			$this->enable_auto_updates_for_addons( $new_value );
-
-			return;
 		}
-
-		$this->disable_auto_updates_for_addons( $new_value );
+		else {
+			$this->disable_auto_updates_for_addons( $new_value );
+		}
 	}
 
 	/**
@@ -139,8 +145,8 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * @param string[] $auto_updated_plugins The current list of auto-updated plugins.
 	 */
 	protected function enable_auto_updates_for_addons( $auto_updated_plugins ) {
-		$plugins = \array_merge( $auto_updated_plugins, self::ADD_ONS );
-		\update_option( 'auto_update_plugins', $plugins );
+		$plugins = \array_merge( $auto_updated_plugins, self::ADD_ON_PLUGIN_FILES );
+		\update_site_option( 'auto_update_plugins', $plugins );
 	}
 
 	/**
@@ -149,7 +155,8 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * @param string[] $auto_updated_plugins The current list of auto-updated plugins.
 	 */
 	protected function disable_auto_updates_for_addons( $auto_updated_plugins ) {
-		\update_option( 'auto_update_plugins', \array_values( \array_diff( $auto_updated_plugins, self::ADD_ONS ) ) );
+		$plugins = \array_values( \array_diff( $auto_updated_plugins, self::ADD_ON_PLUGIN_FILES ) );
+		\update_site_option( 'auto_update_plugins', $plugins );
 	}
 
 	/**
