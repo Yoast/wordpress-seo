@@ -1,6 +1,12 @@
 import { createElement, Fragment, ReactElement } from "@wordpress/element";
-import { registerBlockType, BlockConfiguration, BlockEditProps, BlockSaveProps } from "@wordpress/blocks";
-import { InspectorControls } from "@wordpress/block-editor";
+import {
+	registerBlockType,
+	BlockConfiguration,
+	BlockEditProps,
+	BlockSaveProps,
+	normalizeIconObject,
+} from "@wordpress/blocks";
+import { InspectorControls, BlockIcon } from "@wordpress/block-editor";
 import BlockInstruction from "./BlockInstruction";
 import Definition from "../Definition";
 import BlockRootLeaf from "../../leaves/blocks/BlockRootLeaf";
@@ -86,6 +92,15 @@ export default class BlockDefinition extends Definition {
 		configuration.save = props => this.save( props );
 
 		logger.info( "registering block " + name );
+
+		if ( configuration.icon && typeof configuration.icon === "string" && configuration.icon.includes( "<svg" ) ) {
+			configuration.icon = createElement(
+				BlockIcon,
+				{
+					icon: createElement( "span", { dangerouslySetInnerHTML: { __html: configuration.icon } } ),
+				},
+			);
+		}
 
 		// Register the block to WordPress.
 		registerBlockType( name, configuration );
