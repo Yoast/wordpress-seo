@@ -6,11 +6,22 @@ import BlockLeaf from "../../core/blocks/BlockLeaf";
 // @ts-ignore -- __experimentalBlockVariationPicker is defined in the package, though no type info is available.
 import { __experimentalBlockVariationPicker as ExperimentalBlockVariationPicker, useBlockProps } from "@wordpress/block-editor";
 import { get, map } from "lodash";
-import { createBlock } from "@wordpress/blocks";
+import { BlockInstance, createBlock } from "@wordpress/blocks";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement } from "@wordpress/element";
-import { BlockInstance } from "@wordpress/blocks";
 import { VariationInterface } from "./Variation";
+import { BlockValidationResult } from "../../core/validation";
+
+/**
+ * Helper function to check whether the block instance includes a picked variation.
+ *
+ * @param blockInstance The block instance to check.
+ *
+ * @returns Whether the block instance includes a variation.
+ */
+function includesAVariation( blockInstance: BlockInstance ): boolean {
+	return blockInstance.innerBlocks && blockInstance.innerBlocks.length > 0;
+}
 
 /**
  * VariationPicker instruction.
@@ -123,6 +134,23 @@ class VariationPicker extends BlockInstruction {
 				/>
 			</div>
 		);
+	}
+
+	/**
+	 * Checks if the variation picker instruction is valid.
+	 *
+	 * @param blockInstance The attributes from the block.
+	 *
+	 * @returns {BlockValidationResult} The validation result.
+	 */
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		if ( this.options.required ) {
+			if ( includesAVariation( blockInstance ) ) {
+				return BlockValidationResult.Valid( blockInstance );
+			}
+			return BlockValidationResult.MissingAttribute( blockInstance );
+		}
+		return BlockValidationResult.Valid( blockInstance );
 	}
 }
 

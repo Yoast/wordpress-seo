@@ -4,20 +4,26 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.17.0 April 5th, 2021
+### Enhancements
+* Updates the `Checkbox` component to the newer style. Now wrapped in a `FieldGroup`.
+* Adds a maximum width to the `Alert` component.
+* Exposes the `CheckboxGroup` Component.
+
 ## 2.15.0 February 22nd, 2021
-### Bugfixes:
+### Bugfixes
 * Fixes a bug where the checkbox and radio button components didn't have a focus style.
 
 ## 2.14.0 February 8th, 2021
-### Enhancements:
+### Enhancements
 * Adds a DurationInput component, which can handle the input of a duration in hours, minutes, and seconds.
 * Adds an ImageSelect component with an image preview or url preview.
 
 ## 2.12.0 January 12th, 2021
-### Enhancements:
+### Enhancements
 * Adds an InsightCard component.
 
-### Bugfixes:
+### Bugfixes
 * Fixes a bug where a console error would appear when closing the Google Preview modal.
 
 ## 2.11.0 October 26th, 2020

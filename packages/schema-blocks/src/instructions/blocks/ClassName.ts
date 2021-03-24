@@ -23,7 +23,7 @@ export default class ClassName extends BlockInstruction {
 	 *
 	 * @returns "yoast-inner-container"
 	 */
-	save(): "yoast-inner-container" {
+	save(): string {
 		return "yoast-inner-container";
 	}
 }

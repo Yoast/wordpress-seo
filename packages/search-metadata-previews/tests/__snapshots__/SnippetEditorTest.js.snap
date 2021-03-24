@@ -18,12 +18,12 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   font-size: 14px;
 }
 
-.c10 {
+.c11 {
   cursor: pointer;
   position: relative;
 }
 
-.c11 {
+.c12 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -41,7 +41,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   text-overflow: ellipsis;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -79,10 +79,15 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 
 .c9 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c13 {
+.c10 {
+  color: #3c4043;
+}
+
+.c14 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -91,7 +96,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   max-width: 600px;
 }
 
-.c13:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
@@ -270,7 +275,6 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
     <div
       className="c4"
       id="yoast-snippet-preview-container"
-      onMouseLeave={undefined}
       width={null}
     >
       <div
@@ -307,7 +311,12 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
             <span
               className="c9"
             >
-              example.org › totally-different-url
+              <span
+                className="c10"
+              >
+                example.org
+              </span>
+               › totally-different-url
             </span>
           </div>
         </div>
@@ -326,16 +335,16 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c11"
+            className="c12"
           >
             <span
-              className="c12"
+              className="c13"
             >
               Totally different title
             </span>
@@ -378,13 +387,13 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c13"
+          className="c14"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c13"
+            className="c14"
           >
             
             
@@ -471,7 +480,7 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
       onMouseUp={[Function]}
       shoppingData={Object {}}
       title="Test title"
-      url="example.org/test-slug"
+      url="http://example.org/test-slug"
       wordsToHighlight={Array []}
     />
     <SnippetEditor__EditSnippetButton
@@ -657,12 +666,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   font-size: 14px;
 }
 
-.c10 {
+.c11 {
   cursor: pointer;
   position: relative;
 }
 
-.c11 {
+.c12 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -680,7 +689,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   text-overflow: ellipsis;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -718,10 +727,15 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 
 .c9 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c13 {
+.c10 {
+  color: #3c4043;
+}
+
+.c14 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -730,7 +744,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   max-width: 600px;
 }
 
-.c13:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
@@ -1363,7 +1377,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         onMouseUp={[Function]}
         shoppingData={Object {}}
         title="Test title"
-        url="example.org/test-slug"
+        url="http://example.org/test-slug"
         wordsToHighlight={Array []}
       >
         <section>
@@ -1414,7 +1428,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -1424,7 +1438,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -1542,7 +1556,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                             "isStatic": false,
                                             "lastClassName": "c8",
                                             "rules": Array [
@@ -1552,7 +1566,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                           "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -1584,6 +1598,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                             "rules": Array [
                                               "font-size:",
                                               [Function],
+                                              ";line-height:",
+                                              [Function],
                                               ";color:",
                                               [Function],
                                               ";",
@@ -1605,7 +1621,42 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                       <span
                                         className="c9"
                                       >
-                                        example.org › test-slug
+                                        <SnippetPreview__UrlBaseContainer>
+                                          <StyledComponent
+                                            forwardedComponent={
+                                              Object {
+                                                "$$typeof": Symbol(react.forward_ref),
+                                                "attrs": Array [],
+                                                "componentStyle": ComponentStyle {
+                                                  "componentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                  "isStatic": false,
+                                                  "lastClassName": "c10",
+                                                  "rules": Array [
+                                                    "color:",
+                                                    [Function],
+                                                    ";",
+                                                  ],
+                                                },
+                                                "displayName": "SnippetPreview__UrlBaseContainer",
+                                                "foldedComponentIds": Array [],
+                                                "render": [Function],
+                                                "styledComponentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                "target": "span",
+                                                "toString": [Function],
+                                                "warnTooManyClasses": [Function],
+                                                "withComponent": [Function],
+                                              }
+                                            }
+                                            forwardedRef={null}
+                                          >
+                                            <span
+                                              className="c10"
+                                            >
+                                              example.org
+                                            </span>
+                                          </StyledComponent>
+                                        </SnippetPreview__UrlBaseContainer>
+                                         › test-slug
                                       </span>
                                     </StyledComponent>
                                   </SnippetPreview__UrlContentContainer>
@@ -1644,7 +1695,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               "componentStyle": ComponentStyle {
                                 "componentId": "SnippetPreview__BaseTitle-sc-1hxg8jo-2",
                                 "isStatic": false,
-                                "lastClassName": "c10",
+                                "lastClassName": "c11",
                                 "rules": Array [
                                   "cursor:pointer;position:relative;",
                                 ],
@@ -1665,7 +1716,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c10"
+                            className="c11"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -1681,7 +1732,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                     "componentStyle": ComponentStyle {
                                       "componentId": "SnippetPreview__TitleBounded-sc-1hxg8jo-5",
                                       "isStatic": false,
-                                      "lastClassName": "c11",
+                                      "lastClassName": "c12",
                                       "rules": Array [
                                         "color:",
                                         [Function],
@@ -1713,7 +1764,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                 screenMode="mobile"
                               >
                                 <div
-                                  className="c11"
+                                  className="c12"
                                 >
                                   <SnippetPreview__TitleUnboundedMobile>
                                     <StyledComponent
@@ -1724,7 +1775,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                           "componentStyle": ComponentStyle {
                                             "componentId": "SnippetPreview__TitleUnboundedMobile-sc-1hxg8jo-7",
                                             "isStatic": false,
-                                            "lastClassName": "c12",
+                                            "lastClassName": "c13",
                                             "rules": Array [
                                               "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
@@ -1742,7 +1793,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                       forwardedRef={[Function]}
                                     >
                                       <span
-                                        className="c12"
+                                        className="c13"
                                       >
                                         Test title
                                       </span>
@@ -1815,7 +1866,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -1825,7 +1876,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -1865,9 +1916,9 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               "$$typeof": Symbol(react.forward_ref),
                               "attrs": Array [],
                               "componentStyle": ComponentStyle {
-                                "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                 "isStatic": false,
-                                "lastClassName": "c13",
+                                "lastClassName": "c14",
                                 "rules": Array [
                                   "color:",
                                   "#3c4043",
@@ -1879,7 +1930,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               "displayName": "SnippetPreview__MobileDescription",
                               "foldedComponentIds": Array [],
                               "render": [Function],
-                              "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                              "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                               "target": "div",
                               "toString": [Function],
                               "warnTooManyClasses": [Function],
@@ -1893,7 +1944,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c13"
+                            className="c14"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -1907,9 +1958,9 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                     "$$typeof": Symbol(react.forward_ref),
                                     "attrs": Array [],
                                     "componentStyle": ComponentStyle {
-                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                       "isStatic": false,
-                                      "lastClassName": "c13",
+                                      "lastClassName": "c14",
                                       "rules": Array [
                                         "color:",
                                         "#3c4043",
@@ -1921,7 +1972,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                     "displayName": "SnippetPreview__MobileDescription",
                                     "foldedComponentIds": Array [],
                                     "render": [Function],
-                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                     "target": "div",
                                     "toString": [Function],
                                     "warnTooManyClasses": [Function],
@@ -1932,7 +1983,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                 isDescriptionPlaceholder={false}
                               >
                                 <div
-                                  className="c13"
+                                  className="c14"
                                 >
                                   Test description, %%replacement_variable%%
                                 </div>
@@ -3046,12 +3097,12 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   font-size: 14px;
 }
 
-.c10 {
+.c11 {
   cursor: pointer;
   position: relative;
 }
 
-.c11 {
+.c12 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -3069,7 +3120,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   text-overflow: ellipsis;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -3107,10 +3158,15 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 
 .c9 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c13 {
+.c10 {
+  color: #3c4043;
+}
+
+.c14 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -3119,7 +3175,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   max-width: 600px;
 }
 
-.c13:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
@@ -3629,7 +3685,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
         onMouseUp={[Function]}
         shoppingData={Object {}}
         title="Test title"
-        url="example.org/test-slug"
+        url="http://example.org/test-slug"
         wordsToHighlight={Array []}
       >
         <section>
@@ -3680,7 +3736,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -3690,7 +3746,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -3808,7 +3864,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                             "isStatic": false,
                                             "lastClassName": "c8",
                                             "rules": Array [
@@ -3818,7 +3874,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                           "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -3850,6 +3906,8 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                             "rules": Array [
                                               "font-size:",
                                               [Function],
+                                              ";line-height:",
+                                              [Function],
                                               ";color:",
                                               [Function],
                                               ";",
@@ -3871,7 +3929,42 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                       <span
                                         className="c9"
                                       >
-                                        example.org › test-slug
+                                        <SnippetPreview__UrlBaseContainer>
+                                          <StyledComponent
+                                            forwardedComponent={
+                                              Object {
+                                                "$$typeof": Symbol(react.forward_ref),
+                                                "attrs": Array [],
+                                                "componentStyle": ComponentStyle {
+                                                  "componentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                  "isStatic": false,
+                                                  "lastClassName": "c10",
+                                                  "rules": Array [
+                                                    "color:",
+                                                    [Function],
+                                                    ";",
+                                                  ],
+                                                },
+                                                "displayName": "SnippetPreview__UrlBaseContainer",
+                                                "foldedComponentIds": Array [],
+                                                "render": [Function],
+                                                "styledComponentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                "target": "span",
+                                                "toString": [Function],
+                                                "warnTooManyClasses": [Function],
+                                                "withComponent": [Function],
+                                              }
+                                            }
+                                            forwardedRef={null}
+                                          >
+                                            <span
+                                              className="c10"
+                                            >
+                                              example.org
+                                            </span>
+                                          </StyledComponent>
+                                        </SnippetPreview__UrlBaseContainer>
+                                         › test-slug
                                       </span>
                                     </StyledComponent>
                                   </SnippetPreview__UrlContentContainer>
@@ -3910,7 +4003,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                               "componentStyle": ComponentStyle {
                                 "componentId": "SnippetPreview__BaseTitle-sc-1hxg8jo-2",
                                 "isStatic": false,
-                                "lastClassName": "c10",
+                                "lastClassName": "c11",
                                 "rules": Array [
                                   "cursor:pointer;position:relative;",
                                 ],
@@ -3931,7 +4024,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c10"
+                            className="c11"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -3947,7 +4040,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                     "componentStyle": ComponentStyle {
                                       "componentId": "SnippetPreview__TitleBounded-sc-1hxg8jo-5",
                                       "isStatic": false,
-                                      "lastClassName": "c11",
+                                      "lastClassName": "c12",
                                       "rules": Array [
                                         "color:",
                                         [Function],
@@ -3979,7 +4072,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                 screenMode="mobile"
                               >
                                 <div
-                                  className="c11"
+                                  className="c12"
                                 >
                                   <SnippetPreview__TitleUnboundedMobile>
                                     <StyledComponent
@@ -3990,7 +4083,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                           "componentStyle": ComponentStyle {
                                             "componentId": "SnippetPreview__TitleUnboundedMobile-sc-1hxg8jo-7",
                                             "isStatic": false,
-                                            "lastClassName": "c12",
+                                            "lastClassName": "c13",
                                             "rules": Array [
                                               "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
@@ -4008,7 +4101,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                       forwardedRef={[Function]}
                                     >
                                       <span
-                                        className="c12"
+                                        className="c13"
                                       >
                                         Test title
                                       </span>
@@ -4033,7 +4126,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -4043,7 +4136,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -4145,7 +4238,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                               "displayName": "SnippetPreview__MobileDescription",
                               "foldedComponentIds": Array [],
                               "render": [Function],
-                              "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                              "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                               "target": "div",
                               "toString": [Function],
                               "warnTooManyClasses": [Function],
@@ -4159,7 +4252,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c13"
+                            className="c14"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -4173,9 +4266,9 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                     "$$typeof": Symbol(react.forward_ref),
                                     "attrs": Array [],
                                     "componentStyle": ComponentStyle {
-                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                       "isStatic": false,
-                                      "lastClassName": "c13",
+                                      "lastClassName": "c14",
                                       "rules": Array [
                                         "color:",
                                         "#3c4043",
@@ -4187,7 +4280,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                     "displayName": "SnippetPreview__MobileDescription",
                                     "foldedComponentIds": Array [],
                                     "render": [Function],
-                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                     "target": "div",
                                     "toString": [Function],
                                     "warnTooManyClasses": [Function],
@@ -4198,7 +4291,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                 isDescriptionPlaceholder={false}
                               >
                                 <div
-                                  className="c13"
+                                  className="c14"
                                 >
                                   Test description, %%replacement_variable%%
                                 </div>
@@ -4843,12 +4936,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   font-size: 14px;
 }
 
-.c10 {
+.c11 {
   cursor: pointer;
   position: relative;
 }
 
-.c11 {
+.c12 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -4866,7 +4959,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   text-overflow: ellipsis;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -4904,10 +4997,15 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 
 .c9 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c13 {
+.c10 {
+  color: #3c4043;
+}
+
+.c14 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -4916,7 +5014,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   max-width: 600px;
 }
 
-.c13:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
@@ -5549,7 +5647,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         onMouseUp={[Function]}
         shoppingData={Object {}}
         title="Test title"
-        url="example.org/test-slug"
+        url="http://example.org/test-slug"
         wordsToHighlight={Array []}
       >
         <section>
@@ -5600,7 +5698,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -5610,7 +5708,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -5728,7 +5826,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                             "isStatic": false,
                                             "lastClassName": "c8",
                                             "rules": Array [
@@ -5738,7 +5836,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                           "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -5770,6 +5868,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                             "rules": Array [
                                               "font-size:",
                                               [Function],
+                                              ";line-height:",
+                                              [Function],
                                               ";color:",
                                               [Function],
                                               ";",
@@ -5791,7 +5891,42 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                       <span
                                         className="c9"
                                       >
-                                        example.org › test-slug
+                                        <SnippetPreview__UrlBaseContainer>
+                                          <StyledComponent
+                                            forwardedComponent={
+                                              Object {
+                                                "$$typeof": Symbol(react.forward_ref),
+                                                "attrs": Array [],
+                                                "componentStyle": ComponentStyle {
+                                                  "componentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                  "isStatic": false,
+                                                  "lastClassName": "c10",
+                                                  "rules": Array [
+                                                    "color:",
+                                                    [Function],
+                                                    ";",
+                                                  ],
+                                                },
+                                                "displayName": "SnippetPreview__UrlBaseContainer",
+                                                "foldedComponentIds": Array [],
+                                                "render": [Function],
+                                                "styledComponentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                "target": "span",
+                                                "toString": [Function],
+                                                "warnTooManyClasses": [Function],
+                                                "withComponent": [Function],
+                                              }
+                                            }
+                                            forwardedRef={null}
+                                          >
+                                            <span
+                                              className="c10"
+                                            >
+                                              example.org
+                                            </span>
+                                          </StyledComponent>
+                                        </SnippetPreview__UrlBaseContainer>
+                                         › test-slug
                                       </span>
                                     </StyledComponent>
                                   </SnippetPreview__UrlContentContainer>
@@ -5830,7 +5965,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               "componentStyle": ComponentStyle {
                                 "componentId": "SnippetPreview__BaseTitle-sc-1hxg8jo-2",
                                 "isStatic": false,
-                                "lastClassName": "c10",
+                                "lastClassName": "c11",
                                 "rules": Array [
                                   "cursor:pointer;position:relative;",
                                 ],
@@ -5851,7 +5986,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c10"
+                            className="c11"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -5867,7 +6002,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                     "componentStyle": ComponentStyle {
                                       "componentId": "SnippetPreview__TitleBounded-sc-1hxg8jo-5",
                                       "isStatic": false,
-                                      "lastClassName": "c11",
+                                      "lastClassName": "c12",
                                       "rules": Array [
                                         "color:",
                                         [Function],
@@ -5899,7 +6034,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                 screenMode="mobile"
                               >
                                 <div
-                                  className="c11"
+                                  className="c12"
                                 >
                                   <SnippetPreview__TitleUnboundedMobile>
                                     <StyledComponent
@@ -5910,7 +6045,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                           "componentStyle": ComponentStyle {
                                             "componentId": "SnippetPreview__TitleUnboundedMobile-sc-1hxg8jo-7",
                                             "isStatic": false,
-                                            "lastClassName": "c12",
+                                            "lastClassName": "c13",
                                             "rules": Array [
                                               "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
@@ -5928,7 +6063,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                       forwardedRef={[Function]}
                                     >
                                       <span
-                                        className="c12"
+                                        className="c13"
                                       >
                                         Test title
                                       </span>
@@ -6001,7 +6136,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -6011,7 +6146,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -6051,9 +6186,9 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               "$$typeof": Symbol(react.forward_ref),
                               "attrs": Array [],
                               "componentStyle": ComponentStyle {
-                                "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                 "isStatic": false,
-                                "lastClassName": "c13",
+                                "lastClassName": "c14",
                                 "rules": Array [
                                   "color:",
                                   "#3c4043",
@@ -6065,7 +6200,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               "displayName": "SnippetPreview__MobileDescription",
                               "foldedComponentIds": Array [],
                               "render": [Function],
-                              "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                              "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                               "target": "div",
                               "toString": [Function],
                               "warnTooManyClasses": [Function],
@@ -6079,7 +6214,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c13"
+                            className="c14"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -6093,9 +6228,9 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                     "$$typeof": Symbol(react.forward_ref),
                                     "attrs": Array [],
                                     "componentStyle": ComponentStyle {
-                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                       "isStatic": false,
-                                      "lastClassName": "c13",
+                                      "lastClassName": "c14",
                                       "rules": Array [
                                         "color:",
                                         "#3c4043",
@@ -6107,7 +6242,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                     "displayName": "SnippetPreview__MobileDescription",
                                     "foldedComponentIds": Array [],
                                     "render": [Function],
-                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                     "target": "div",
                                     "toString": [Function],
                                     "warnTooManyClasses": [Function],
@@ -6118,7 +6253,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                 isDescriptionPlaceholder={false}
                               >
                                 <div
-                                  className="c13"
+                                  className="c14"
                                 >
                                   Test description, %%replacement_variable%%
                                 </div>
@@ -7313,12 +7448,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   font-size: 14px;
 }
 
-.c10 {
+.c11 {
   cursor: pointer;
   position: relative;
 }
 
-.c11 {
+.c12 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -7336,7 +7471,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   text-overflow: ellipsis;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -7374,10 +7509,15 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 
 .c9 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c13 {
+.c10 {
+  color: #3c4043;
+}
+
+.c14 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -7386,7 +7526,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   max-width: 600px;
 }
 
-.c13:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
@@ -8019,7 +8159,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         onMouseUp={[Function]}
         shoppingData={Object {}}
         title="Test title"
-        url="example.org/test-slug"
+        url="http://example.org/test-slug"
         wordsToHighlight={Array []}
       >
         <section>
@@ -8070,7 +8210,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -8080,7 +8220,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -8198,7 +8338,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                             "isStatic": false,
                                             "lastClassName": "c8",
                                             "rules": Array [
@@ -8208,7 +8348,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                           "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -8240,6 +8380,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                             "rules": Array [
                                               "font-size:",
                                               [Function],
+                                              ";line-height:",
+                                              [Function],
                                               ";color:",
                                               [Function],
                                               ";",
@@ -8261,7 +8403,42 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                       <span
                                         className="c9"
                                       >
-                                        example.org › test-slug
+                                        <SnippetPreview__UrlBaseContainer>
+                                          <StyledComponent
+                                            forwardedComponent={
+                                              Object {
+                                                "$$typeof": Symbol(react.forward_ref),
+                                                "attrs": Array [],
+                                                "componentStyle": ComponentStyle {
+                                                  "componentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                  "isStatic": false,
+                                                  "lastClassName": "c10",
+                                                  "rules": Array [
+                                                    "color:",
+                                                    [Function],
+                                                    ";",
+                                                  ],
+                                                },
+                                                "displayName": "SnippetPreview__UrlBaseContainer",
+                                                "foldedComponentIds": Array [],
+                                                "render": [Function],
+                                                "styledComponentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                "target": "span",
+                                                "toString": [Function],
+                                                "warnTooManyClasses": [Function],
+                                                "withComponent": [Function],
+                                              }
+                                            }
+                                            forwardedRef={null}
+                                          >
+                                            <span
+                                              className="c10"
+                                            >
+                                              example.org
+                                            </span>
+                                          </StyledComponent>
+                                        </SnippetPreview__UrlBaseContainer>
+                                         › test-slug
                                       </span>
                                     </StyledComponent>
                                   </SnippetPreview__UrlContentContainer>
@@ -8300,7 +8477,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               "componentStyle": ComponentStyle {
                                 "componentId": "SnippetPreview__BaseTitle-sc-1hxg8jo-2",
                                 "isStatic": false,
-                                "lastClassName": "c10",
+                                "lastClassName": "c11",
                                 "rules": Array [
                                   "cursor:pointer;position:relative;",
                                 ],
@@ -8321,7 +8498,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c10"
+                            className="c11"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -8337,7 +8514,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                     "componentStyle": ComponentStyle {
                                       "componentId": "SnippetPreview__TitleBounded-sc-1hxg8jo-5",
                                       "isStatic": false,
-                                      "lastClassName": "c11",
+                                      "lastClassName": "c12",
                                       "rules": Array [
                                         "color:",
                                         [Function],
@@ -8369,7 +8546,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                 screenMode="mobile"
                               >
                                 <div
-                                  className="c11"
+                                  className="c12"
                                 >
                                   <SnippetPreview__TitleUnboundedMobile>
                                     <StyledComponent
@@ -8380,7 +8557,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                           "componentStyle": ComponentStyle {
                                             "componentId": "SnippetPreview__TitleUnboundedMobile-sc-1hxg8jo-7",
                                             "isStatic": false,
-                                            "lastClassName": "c12",
+                                            "lastClassName": "c13",
                                             "rules": Array [
                                               "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
@@ -8398,7 +8575,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                       forwardedRef={[Function]}
                                     >
                                       <span
-                                        className="c12"
+                                        className="c13"
                                       >
                                         Test title
                                       </span>
@@ -8471,7 +8648,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -8481,7 +8658,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -8521,9 +8698,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               "$$typeof": Symbol(react.forward_ref),
                               "attrs": Array [],
                               "componentStyle": ComponentStyle {
-                                "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                 "isStatic": false,
-                                "lastClassName": "c13",
+                                "lastClassName": "c14",
                                 "rules": Array [
                                   "color:",
                                   "#3c4043",
@@ -8535,7 +8712,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               "displayName": "SnippetPreview__MobileDescription",
                               "foldedComponentIds": Array [],
                               "render": [Function],
-                              "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                              "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                               "target": "div",
                               "toString": [Function],
                               "warnTooManyClasses": [Function],
@@ -8549,7 +8726,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c13"
+                            className="c14"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -8563,9 +8740,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                     "$$typeof": Symbol(react.forward_ref),
                                     "attrs": Array [],
                                     "componentStyle": ComponentStyle {
-                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                       "isStatic": false,
-                                      "lastClassName": "c13",
+                                      "lastClassName": "c14",
                                       "rules": Array [
                                         "color:",
                                         "#3c4043",
@@ -8577,7 +8754,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                     "displayName": "SnippetPreview__MobileDescription",
                                     "foldedComponentIds": Array [],
                                     "render": [Function],
-                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                     "target": "div",
                                     "toString": [Function],
                                     "warnTooManyClasses": [Function],
@@ -8588,7 +8765,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                 isDescriptionPlaceholder={false}
                               >
                                 <div
-                                  className="c13"
+                                  className="c14"
                                 >
                                   Test description, %%replacement_variable%%
                                 </div>
@@ -9702,12 +9879,12 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   font-size: 14px;
 }
 
-.c10 {
+.c11 {
   cursor: pointer;
   position: relative;
 }
 
-.c11 {
+.c12 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -9725,7 +9902,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   text-overflow: ellipsis;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -9763,10 +9940,15 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 
 .c9 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c13 {
+.c10 {
+  color: #3c4043;
+}
+
+.c14 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -9775,7 +9957,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   max-width: 600px;
 }
 
-.c13:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
@@ -9954,7 +10136,6 @@ exports[`SnippetEditor highlights a focused field 1`] = `
     <div
       className="c4"
       id="yoast-snippet-preview-container"
-      onMouseLeave={undefined}
       width={null}
     >
       <div
@@ -9991,7 +10172,12 @@ exports[`SnippetEditor highlights a focused field 1`] = `
             <span
               className="c9"
             >
-              example.org › test-slug
+              <span
+                className="c10"
+              >
+                example.org
+              </span>
+               › test-slug
             </span>
           </div>
         </div>
@@ -10010,16 +10196,16 @@ exports[`SnippetEditor highlights a focused field 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c11"
+            className="c12"
           >
             <span
-              className="c12"
+              className="c13"
             >
               Test title
             </span>
@@ -10062,13 +10248,13 @@ exports[`SnippetEditor highlights a focused field 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c13"
+          className="c14"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c13"
+            className="c14"
           >
             
             
@@ -10146,12 +10332,12 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   font-size: 14px;
 }
 
-.c10 {
+.c11 {
   cursor: pointer;
   position: relative;
 }
 
-.c11 {
+.c12 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -10169,7 +10355,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   text-overflow: ellipsis;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -10207,10 +10393,15 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 
 .c9 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c13 {
+.c10 {
+  color: #3c4043;
+}
+
+.c14 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -10219,7 +10410,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   max-width: 600px;
 }
 
-.c13:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
@@ -10398,7 +10589,6 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
     <div
       className="c4"
       id="yoast-snippet-preview-container"
-      onMouseLeave={undefined}
       width={null}
     >
       <div
@@ -10435,7 +10625,12 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
             <span
               className="c9"
             >
-              example.org › test-slug
+              <span
+                className="c10"
+              >
+                example.org
+              </span>
+               › test-slug
             </span>
           </div>
         </div>
@@ -10454,16 +10649,16 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c11"
+            className="c12"
           >
             <span
-              className="c12"
+              className="c13"
             >
               Test title
             </span>
@@ -10506,13 +10701,13 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c13"
+          className="c14"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c13"
+            className="c14"
           >
             
             
@@ -10671,12 +10866,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   font-size: 14px;
 }
 
-.c10 {
+.c11 {
   cursor: pointer;
   position: relative;
 }
 
-.c11 {
+.c12 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -10694,7 +10889,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   text-overflow: ellipsis;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -10732,10 +10927,15 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 
 .c9 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c14 {
+.c10 {
+  color: #3c4043;
+}
+
+.c15 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -10744,7 +10944,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   max-width: 600px;
 }
 
-.c14:after {
+.c15:after {
   display: table;
   content: "";
   clear: both;
@@ -10984,7 +11184,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   align-self: center;
 }
 
-.c13 {
+.c14 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -10993,13 +11193,13 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   max-width: 600px;
 }
 
-.c13:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
 }
 
-.c13::before {
+.c14::before {
   display: block;
   position: absolute;
   top: 0;
@@ -11406,7 +11606,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         onMouseUp={[Function]}
         shoppingData={Object {}}
         title="Test title"
-        url="example.org/test-slug"
+        url="http://example.org/test-slug"
         wordsToHighlight={Array []}
       >
         <section>
@@ -11457,7 +11657,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -11467,7 +11667,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -11585,7 +11785,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                             "isStatic": false,
                                             "lastClassName": "c8",
                                             "rules": Array [
@@ -11595,7 +11795,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                           "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -11627,6 +11827,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                             "rules": Array [
                                               "font-size:",
                                               [Function],
+                                              ";line-height:",
+                                              [Function],
                                               ";color:",
                                               [Function],
                                               ";",
@@ -11648,7 +11850,42 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                       <span
                                         className="c9"
                                       >
-                                        example.org › test-slug
+                                        <SnippetPreview__UrlBaseContainer>
+                                          <StyledComponent
+                                            forwardedComponent={
+                                              Object {
+                                                "$$typeof": Symbol(react.forward_ref),
+                                                "attrs": Array [],
+                                                "componentStyle": ComponentStyle {
+                                                  "componentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                  "isStatic": false,
+                                                  "lastClassName": "c10",
+                                                  "rules": Array [
+                                                    "color:",
+                                                    [Function],
+                                                    ";",
+                                                  ],
+                                                },
+                                                "displayName": "SnippetPreview__UrlBaseContainer",
+                                                "foldedComponentIds": Array [],
+                                                "render": [Function],
+                                                "styledComponentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                "target": "span",
+                                                "toString": [Function],
+                                                "warnTooManyClasses": [Function],
+                                                "withComponent": [Function],
+                                              }
+                                            }
+                                            forwardedRef={null}
+                                          >
+                                            <span
+                                              className="c10"
+                                            >
+                                              example.org
+                                            </span>
+                                          </StyledComponent>
+                                        </SnippetPreview__UrlBaseContainer>
+                                         › test-slug
                                       </span>
                                     </StyledComponent>
                                   </SnippetPreview__UrlContentContainer>
@@ -11687,7 +11924,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               "componentStyle": ComponentStyle {
                                 "componentId": "SnippetPreview__BaseTitle-sc-1hxg8jo-2",
                                 "isStatic": false,
-                                "lastClassName": "c10",
+                                "lastClassName": "c11",
                                 "rules": Array [
                                   "cursor:pointer;position:relative;",
                                 ],
@@ -11708,7 +11945,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c10"
+                            className="c11"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -11724,7 +11961,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                     "componentStyle": ComponentStyle {
                                       "componentId": "SnippetPreview__TitleBounded-sc-1hxg8jo-5",
                                       "isStatic": false,
-                                      "lastClassName": "c11",
+                                      "lastClassName": "c12",
                                       "rules": Array [
                                         "color:",
                                         [Function],
@@ -11756,7 +11993,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                 screenMode="mobile"
                               >
                                 <div
-                                  className="c11"
+                                  className="c12"
                                 >
                                   <SnippetPreview__TitleUnboundedMobile>
                                     <StyledComponent
@@ -11767,7 +12004,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                           "componentStyle": ComponentStyle {
                                             "componentId": "SnippetPreview__TitleUnboundedMobile-sc-1hxg8jo-7",
                                             "isStatic": false,
-                                            "lastClassName": "c12",
+                                            "lastClassName": "c13",
                                             "rules": Array [
                                               "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
@@ -11785,7 +12022,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                       forwardedRef={[Function]}
                                     >
                                       <span
-                                        className="c12"
+                                        className="c13"
                                       >
                                         Test title
                                       </span>
@@ -11858,7 +12095,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -11868,7 +12105,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -11910,7 +12147,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               "componentStyle": ComponentStyle {
                                 "componentId": "SnippetPreview-sc-1hxg8jo-3",
                                 "isStatic": false,
-                                "lastClassName": "c13",
+                                "lastClassName": "c14",
                                 "rules": Array [
                                   "color:",
                                   "#3c4043",
@@ -11928,7 +12165,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               },
                               "displayName": "SnippetPreview",
                               "foldedComponentIds": Array [
-                                "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                               ],
                               "render": [Function],
                               "styledComponentId": "SnippetPreview-sc-1hxg8jo-3",
@@ -11945,7 +12182,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c13"
+                            className="c14"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -11959,9 +12196,9 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                     "$$typeof": Symbol(react.forward_ref),
                                     "attrs": Array [],
                                     "componentStyle": ComponentStyle {
-                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                       "isStatic": false,
-                                      "lastClassName": "c14",
+                                      "lastClassName": "c15",
                                       "rules": Array [
                                         "color:",
                                         "#3c4043",
@@ -11973,7 +12210,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                     "displayName": "SnippetPreview__MobileDescription",
                                     "foldedComponentIds": Array [],
                                     "render": [Function],
-                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                     "target": "div",
                                     "toString": [Function],
                                     "warnTooManyClasses": [Function],
@@ -11984,7 +12221,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                 isDescriptionPlaceholder={false}
                               >
                                 <div
-                                  className="c14"
+                                  className="c15"
                                 >
                                   Test description, %%replacement_variable%%
                                 </div>
@@ -13179,12 +13416,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   font-size: 14px;
 }
 
-.c10 {
+.c11 {
   cursor: pointer;
   position: relative;
 }
 
-.c11 {
+.c12 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -13202,7 +13439,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   text-overflow: ellipsis;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -13240,10 +13477,15 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 
 .c9 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c14 {
+.c10 {
+  color: #3c4043;
+}
+
+.c15 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -13252,7 +13494,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   max-width: 600px;
 }
 
-.c14:after {
+.c15:after {
   display: table;
   content: "";
   clear: both;
@@ -13492,7 +13734,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   align-self: center;
 }
 
-.c13 {
+.c14 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -13501,13 +13743,13 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   max-width: 600px;
 }
 
-.c13:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
 }
 
-.c13::before {
+.c14::before {
   display: block;
   position: absolute;
   top: 0;
@@ -13914,7 +14156,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         onMouseUp={[Function]}
         shoppingData={Object {}}
         title="Test title"
-        url="example.org/test-slug"
+        url="http://example.org/test-slug"
         wordsToHighlight={Array []}
       >
         <section>
@@ -13965,7 +14207,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -13975,7 +14217,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -14093,7 +14335,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                             "isStatic": false,
                                             "lastClassName": "c8",
                                             "rules": Array [
@@ -14103,7 +14345,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                           "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -14135,6 +14377,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                             "rules": Array [
                                               "font-size:",
                                               [Function],
+                                              ";line-height:",
+                                              [Function],
                                               ";color:",
                                               [Function],
                                               ";",
@@ -14156,7 +14400,42 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                       <span
                                         className="c9"
                                       >
-                                        example.org › test-slug
+                                        <SnippetPreview__UrlBaseContainer>
+                                          <StyledComponent
+                                            forwardedComponent={
+                                              Object {
+                                                "$$typeof": Symbol(react.forward_ref),
+                                                "attrs": Array [],
+                                                "componentStyle": ComponentStyle {
+                                                  "componentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                  "isStatic": false,
+                                                  "lastClassName": "c10",
+                                                  "rules": Array [
+                                                    "color:",
+                                                    [Function],
+                                                    ";",
+                                                  ],
+                                                },
+                                                "displayName": "SnippetPreview__UrlBaseContainer",
+                                                "foldedComponentIds": Array [],
+                                                "render": [Function],
+                                                "styledComponentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                "target": "span",
+                                                "toString": [Function],
+                                                "warnTooManyClasses": [Function],
+                                                "withComponent": [Function],
+                                              }
+                                            }
+                                            forwardedRef={null}
+                                          >
+                                            <span
+                                              className="c10"
+                                            >
+                                              example.org
+                                            </span>
+                                          </StyledComponent>
+                                        </SnippetPreview__UrlBaseContainer>
+                                         › test-slug
                                       </span>
                                     </StyledComponent>
                                   </SnippetPreview__UrlContentContainer>
@@ -14195,7 +14474,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               "componentStyle": ComponentStyle {
                                 "componentId": "SnippetPreview__BaseTitle-sc-1hxg8jo-2",
                                 "isStatic": false,
-                                "lastClassName": "c10",
+                                "lastClassName": "c11",
                                 "rules": Array [
                                   "cursor:pointer;position:relative;",
                                 ],
@@ -14216,7 +14495,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c10"
+                            className="c11"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -14232,7 +14511,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                     "componentStyle": ComponentStyle {
                                       "componentId": "SnippetPreview__TitleBounded-sc-1hxg8jo-5",
                                       "isStatic": false,
-                                      "lastClassName": "c11",
+                                      "lastClassName": "c12",
                                       "rules": Array [
                                         "color:",
                                         [Function],
@@ -14264,7 +14543,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                 screenMode="mobile"
                               >
                                 <div
-                                  className="c11"
+                                  className="c12"
                                 >
                                   <SnippetPreview__TitleUnboundedMobile>
                                     <StyledComponent
@@ -14275,7 +14554,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                           "componentStyle": ComponentStyle {
                                             "componentId": "SnippetPreview__TitleUnboundedMobile-sc-1hxg8jo-7",
                                             "isStatic": false,
-                                            "lastClassName": "c12",
+                                            "lastClassName": "c13",
                                             "rules": Array [
                                               "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
@@ -14293,7 +14572,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                       forwardedRef={[Function]}
                                     >
                                       <span
-                                        className="c12"
+                                        className="c13"
                                       >
                                         Test title
                                       </span>
@@ -14366,7 +14645,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -14376,7 +14655,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -14418,7 +14697,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               "componentStyle": ComponentStyle {
                                 "componentId": "SnippetPreview-sc-1hxg8jo-3",
                                 "isStatic": false,
-                                "lastClassName": "c13",
+                                "lastClassName": "c14",
                                 "rules": Array [
                                   "color:",
                                   "#3c4043",
@@ -14436,7 +14715,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               },
                               "displayName": "SnippetPreview",
                               "foldedComponentIds": Array [
-                                "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                               ],
                               "render": [Function],
                               "styledComponentId": "SnippetPreview-sc-1hxg8jo-3",
@@ -14453,7 +14732,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c13"
+                            className="c14"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -14467,9 +14746,9 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                     "$$typeof": Symbol(react.forward_ref),
                                     "attrs": Array [],
                                     "componentStyle": ComponentStyle {
-                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                       "isStatic": false,
-                                      "lastClassName": "c14",
+                                      "lastClassName": "c15",
                                       "rules": Array [
                                         "color:",
                                         "#3c4043",
@@ -14481,7 +14760,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                     "displayName": "SnippetPreview__MobileDescription",
                                     "foldedComponentIds": Array [],
                                     "render": [Function],
-                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                     "target": "div",
                                     "toString": [Function],
                                     "warnTooManyClasses": [Function],
@@ -14492,7 +14771,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                 isDescriptionPlaceholder={false}
                               >
                                 <div
-                                  className="c14"
+                                  className="c15"
                                 >
                                   Test description, %%replacement_variable%%
                                 </div>
@@ -15687,12 +15966,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   font-size: 14px;
 }
 
-.c10 {
+.c11 {
   cursor: pointer;
   position: relative;
 }
 
-.c11 {
+.c12 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -15710,7 +15989,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   text-overflow: ellipsis;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -15748,10 +16027,15 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 
 .c9 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c13 {
+.c10 {
+  color: #3c4043;
+}
+
+.c14 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -15760,7 +16044,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   max-width: 600px;
 }
 
-.c13:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
@@ -16393,7 +16677,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         onMouseUp={[Function]}
         shoppingData={Object {}}
         title="Test title"
-        url="example.org/test-slug"
+        url="http://example.org/test-slug"
         wordsToHighlight={Array []}
       >
         <section>
@@ -16444,7 +16728,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -16454,7 +16738,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -16572,7 +16856,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                             "isStatic": false,
                                             "lastClassName": "c8",
                                             "rules": Array [
@@ -16582,7 +16866,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                           "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -16614,6 +16898,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                             "rules": Array [
                                               "font-size:",
                                               [Function],
+                                              ";line-height:",
+                                              [Function],
                                               ";color:",
                                               [Function],
                                               ";",
@@ -16635,7 +16921,42 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                       <span
                                         className="c9"
                                       >
-                                        example.org › test-slug
+                                        <SnippetPreview__UrlBaseContainer>
+                                          <StyledComponent
+                                            forwardedComponent={
+                                              Object {
+                                                "$$typeof": Symbol(react.forward_ref),
+                                                "attrs": Array [],
+                                                "componentStyle": ComponentStyle {
+                                                  "componentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                  "isStatic": false,
+                                                  "lastClassName": "c10",
+                                                  "rules": Array [
+                                                    "color:",
+                                                    [Function],
+                                                    ";",
+                                                  ],
+                                                },
+                                                "displayName": "SnippetPreview__UrlBaseContainer",
+                                                "foldedComponentIds": Array [],
+                                                "render": [Function],
+                                                "styledComponentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                "target": "span",
+                                                "toString": [Function],
+                                                "warnTooManyClasses": [Function],
+                                                "withComponent": [Function],
+                                              }
+                                            }
+                                            forwardedRef={null}
+                                          >
+                                            <span
+                                              className="c10"
+                                            >
+                                              example.org
+                                            </span>
+                                          </StyledComponent>
+                                        </SnippetPreview__UrlBaseContainer>
+                                         › test-slug
                                       </span>
                                     </StyledComponent>
                                   </SnippetPreview__UrlContentContainer>
@@ -16674,7 +16995,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               "componentStyle": ComponentStyle {
                                 "componentId": "SnippetPreview__BaseTitle-sc-1hxg8jo-2",
                                 "isStatic": false,
-                                "lastClassName": "c10",
+                                "lastClassName": "c11",
                                 "rules": Array [
                                   "cursor:pointer;position:relative;",
                                 ],
@@ -16695,7 +17016,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c10"
+                            className="c11"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -16711,7 +17032,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                     "componentStyle": ComponentStyle {
                                       "componentId": "SnippetPreview__TitleBounded-sc-1hxg8jo-5",
                                       "isStatic": false,
-                                      "lastClassName": "c11",
+                                      "lastClassName": "c12",
                                       "rules": Array [
                                         "color:",
                                         [Function],
@@ -16743,7 +17064,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                 screenMode="mobile"
                               >
                                 <div
-                                  className="c11"
+                                  className="c12"
                                 >
                                   <SnippetPreview__TitleUnboundedMobile>
                                     <StyledComponent
@@ -16754,7 +17075,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                           "componentStyle": ComponentStyle {
                                             "componentId": "SnippetPreview__TitleUnboundedMobile-sc-1hxg8jo-7",
                                             "isStatic": false,
-                                            "lastClassName": "c12",
+                                            "lastClassName": "c13",
                                             "rules": Array [
                                               "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
@@ -16772,7 +17093,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                       forwardedRef={[Function]}
                                     >
                                       <span
-                                        className="c12"
+                                        className="c13"
                                       >
                                         Test title
                                       </span>
@@ -16845,7 +17166,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -16855,7 +17176,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -16895,9 +17216,9 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               "$$typeof": Symbol(react.forward_ref),
                               "attrs": Array [],
                               "componentStyle": ComponentStyle {
-                                "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                 "isStatic": false,
-                                "lastClassName": "c13",
+                                "lastClassName": "c14",
                                 "rules": Array [
                                   "color:",
                                   "#3c4043",
@@ -16909,7 +17230,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               "displayName": "SnippetPreview__MobileDescription",
                               "foldedComponentIds": Array [],
                               "render": [Function],
-                              "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                              "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                               "target": "div",
                               "toString": [Function],
                               "warnTooManyClasses": [Function],
@@ -16923,7 +17244,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c13"
+                            className="c14"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -16937,9 +17258,9 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                     "$$typeof": Symbol(react.forward_ref),
                                     "attrs": Array [],
                                     "componentStyle": ComponentStyle {
-                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                       "isStatic": false,
-                                      "lastClassName": "c13",
+                                      "lastClassName": "c14",
                                       "rules": Array [
                                         "color:",
                                         "#3c4043",
@@ -16951,7 +17272,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                     "displayName": "SnippetPreview__MobileDescription",
                                     "foldedComponentIds": Array [],
                                     "render": [Function],
-                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                     "target": "div",
                                     "toString": [Function],
                                     "warnTooManyClasses": [Function],
@@ -16962,7 +17283,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                 isDescriptionPlaceholder={false}
                               >
                                 <div
-                                  className="c13"
+                                  className="c14"
                                 >
                                   Test description, %%replacement_variable%%
                                 </div>
@@ -18157,12 +18478,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
   font-size: 14px;
 }
 
-.c10 {
+.c11 {
   cursor: pointer;
   position: relative;
 }
 
-.c11 {
+.c12 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -18180,7 +18501,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   text-overflow: ellipsis;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -18218,10 +18539,15 @@ exports[`SnippetEditor passes replacement variables to the title and description
 
 .c9 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c13 {
+.c10 {
+  color: #3c4043;
+}
+
+.c14 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -18230,7 +18556,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   max-width: 600px;
 }
 
-.c13:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
@@ -18878,7 +19204,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
         onMouseUp={[Function]}
         shoppingData={Object {}}
         title="Test title"
-        url="example.org/test-slug"
+        url="http://example.org/test-slug"
         wordsToHighlight={Array []}
       >
         <section>
@@ -18929,7 +19255,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -18939,7 +19265,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -19057,7 +19383,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                             "isStatic": false,
                                             "lastClassName": "c8",
                                             "rules": Array [
@@ -19067,7 +19393,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                           "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -19099,6 +19425,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                             "rules": Array [
                                               "font-size:",
                                               [Function],
+                                              ";line-height:",
+                                              [Function],
                                               ";color:",
                                               [Function],
                                               ";",
@@ -19120,7 +19448,42 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                       <span
                                         className="c9"
                                       >
-                                        example.org › test-slug
+                                        <SnippetPreview__UrlBaseContainer>
+                                          <StyledComponent
+                                            forwardedComponent={
+                                              Object {
+                                                "$$typeof": Symbol(react.forward_ref),
+                                                "attrs": Array [],
+                                                "componentStyle": ComponentStyle {
+                                                  "componentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                  "isStatic": false,
+                                                  "lastClassName": "c10",
+                                                  "rules": Array [
+                                                    "color:",
+                                                    [Function],
+                                                    ";",
+                                                  ],
+                                                },
+                                                "displayName": "SnippetPreview__UrlBaseContainer",
+                                                "foldedComponentIds": Array [],
+                                                "render": [Function],
+                                                "styledComponentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                "target": "span",
+                                                "toString": [Function],
+                                                "warnTooManyClasses": [Function],
+                                                "withComponent": [Function],
+                                              }
+                                            }
+                                            forwardedRef={null}
+                                          >
+                                            <span
+                                              className="c10"
+                                            >
+                                              example.org
+                                            </span>
+                                          </StyledComponent>
+                                        </SnippetPreview__UrlBaseContainer>
+                                         › test-slug
                                       </span>
                                     </StyledComponent>
                                   </SnippetPreview__UrlContentContainer>
@@ -19159,7 +19522,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               "componentStyle": ComponentStyle {
                                 "componentId": "SnippetPreview__BaseTitle-sc-1hxg8jo-2",
                                 "isStatic": false,
-                                "lastClassName": "c10",
+                                "lastClassName": "c11",
                                 "rules": Array [
                                   "cursor:pointer;position:relative;",
                                 ],
@@ -19180,7 +19543,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c10"
+                            className="c11"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -19196,7 +19559,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                     "componentStyle": ComponentStyle {
                                       "componentId": "SnippetPreview__TitleBounded-sc-1hxg8jo-5",
                                       "isStatic": false,
-                                      "lastClassName": "c11",
+                                      "lastClassName": "c12",
                                       "rules": Array [
                                         "color:",
                                         [Function],
@@ -19228,7 +19591,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                 screenMode="mobile"
                               >
                                 <div
-                                  className="c11"
+                                  className="c12"
                                 >
                                   <SnippetPreview__TitleUnboundedMobile>
                                     <StyledComponent
@@ -19239,7 +19602,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                           "componentStyle": ComponentStyle {
                                             "componentId": "SnippetPreview__TitleUnboundedMobile-sc-1hxg8jo-7",
                                             "isStatic": false,
-                                            "lastClassName": "c12",
+                                            "lastClassName": "c13",
                                             "rules": Array [
                                               "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
@@ -19257,7 +19620,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                       forwardedRef={[Function]}
                                     >
                                       <span
-                                        className="c12"
+                                        className="c13"
                                       >
                                         Test title
                                       </span>
@@ -19330,7 +19693,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -19340,7 +19703,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -19380,9 +19743,9 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               "$$typeof": Symbol(react.forward_ref),
                               "attrs": Array [],
                               "componentStyle": ComponentStyle {
-                                "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                 "isStatic": false,
-                                "lastClassName": "c13",
+                                "lastClassName": "c14",
                                 "rules": Array [
                                   "color:",
                                   "#3c4043",
@@ -19394,7 +19757,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               "displayName": "SnippetPreview__MobileDescription",
                               "foldedComponentIds": Array [],
                               "render": [Function],
-                              "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                              "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                               "target": "div",
                               "toString": [Function],
                               "warnTooManyClasses": [Function],
@@ -19408,7 +19771,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c13"
+                            className="c14"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -19422,9 +19785,9 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                     "$$typeof": Symbol(react.forward_ref),
                                     "attrs": Array [],
                                     "componentStyle": ComponentStyle {
-                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                       "isStatic": false,
-                                      "lastClassName": "c13",
+                                      "lastClassName": "c14",
                                       "rules": Array [
                                         "color:",
                                         "#3c4043",
@@ -19436,7 +19799,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                     "displayName": "SnippetPreview__MobileDescription",
                                     "foldedComponentIds": Array [],
                                     "render": [Function],
-                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                     "target": "div",
                                     "toString": [Function],
                                     "warnTooManyClasses": [Function],
@@ -19447,7 +19810,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                 isDescriptionPlaceholder={false}
                               >
                                 <div
-                                  className="c13"
+                                  className="c14"
                                 >
                                   Test description, %%replacement_variable%%
                                 </div>
@@ -20606,12 +20969,12 @@ exports[`SnippetEditor passes the date prop 1`] = `
   font-size: 14px;
 }
 
-.c10 {
+.c11 {
   cursor: pointer;
   position: relative;
 }
 
-.c11 {
+.c12 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -20629,7 +20992,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
   text-overflow: ellipsis;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -20667,10 +21030,15 @@ exports[`SnippetEditor passes the date prop 1`] = `
 
 .c9 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c13 {
+.c10 {
+  color: #3c4043;
+}
+
+.c14 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -20679,7 +21047,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
   max-width: 600px;
 }
 
-.c13:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
@@ -20693,7 +21061,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
   margin-bottom: -16px;
 }
 
-.c14 {
+.c15 {
   color: #70757a;
 }
 
@@ -20862,7 +21230,6 @@ exports[`SnippetEditor passes the date prop 1`] = `
     <div
       className="c4"
       id="yoast-snippet-preview-container"
-      onMouseLeave={undefined}
       width={null}
     >
       <div
@@ -20899,7 +21266,12 @@ exports[`SnippetEditor passes the date prop 1`] = `
             <span
               className="c9"
             >
-              example.org › test-slug
+              <span
+                className="c10"
+              >
+                example.org
+              </span>
+               › test-slug
             </span>
           </div>
         </div>
@@ -20918,16 +21290,16 @@ exports[`SnippetEditor passes the date prop 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c11"
+            className="c12"
           >
             <span
-              className="c12"
+              className="c13"
             >
               Test title
             </span>
@@ -20970,17 +21342,17 @@ exports[`SnippetEditor passes the date prop 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c13"
+          className="c14"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c13"
+            className="c14"
           >
             
             <span
-              className="c14"
+              className="c15"
             >
               date string
                
@@ -21070,7 +21442,7 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
       onMouseUp={[Function]}
       shoppingData={Object {}}
       title="Test title"
-      url="example.org/test-slug"
+      url="http://example.org/test-slug"
       wordsToHighlight={Array []}
     />
     <SnippetEditor__EditSnippetButton
@@ -21256,12 +21628,12 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   font-size: 14px;
 }
 
-.c10 {
+.c11 {
   cursor: pointer;
   position: relative;
 }
 
-.c11 {
+.c12 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -21279,7 +21651,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   text-overflow: ellipsis;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -21317,10 +21689,15 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 
 .c9 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c13 {
+.c10 {
+  color: #3c4043;
+}
+
+.c14 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -21329,7 +21706,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   max-width: 600px;
 }
 
-.c13:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
@@ -21962,7 +22339,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
         onMouseUp={[Function]}
         shoppingData={Object {}}
         title="Test title"
-        url="example.org/test-slug"
+        url="http://example.org/test-slug"
         wordsToHighlight={Array []}
       >
         <section>
@@ -22013,7 +22390,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -22023,7 +22400,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -22141,7 +22518,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                             "isStatic": false,
                                             "lastClassName": "c8",
                                             "rules": Array [
@@ -22151,7 +22528,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                           "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-20",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -22183,6 +22560,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                             "rules": Array [
                                               "font-size:",
                                               [Function],
+                                              ";line-height:",
+                                              [Function],
                                               ";color:",
                                               [Function],
                                               ";",
@@ -22204,7 +22583,42 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                       <span
                                         className="c9"
                                       >
-                                        example.org › test-slug
+                                        <SnippetPreview__UrlBaseContainer>
+                                          <StyledComponent
+                                            forwardedComponent={
+                                              Object {
+                                                "$$typeof": Symbol(react.forward_ref),
+                                                "attrs": Array [],
+                                                "componentStyle": ComponentStyle {
+                                                  "componentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                  "isStatic": false,
+                                                  "lastClassName": "c10",
+                                                  "rules": Array [
+                                                    "color:",
+                                                    [Function],
+                                                    ";",
+                                                  ],
+                                                },
+                                                "displayName": "SnippetPreview__UrlBaseContainer",
+                                                "foldedComponentIds": Array [],
+                                                "render": [Function],
+                                                "styledComponentId": "SnippetPreview__UrlBaseContainer-sc-1hxg8jo-11",
+                                                "target": "span",
+                                                "toString": [Function],
+                                                "warnTooManyClasses": [Function],
+                                                "withComponent": [Function],
+                                              }
+                                            }
+                                            forwardedRef={null}
+                                          >
+                                            <span
+                                              className="c10"
+                                            >
+                                              example.org
+                                            </span>
+                                          </StyledComponent>
+                                        </SnippetPreview__UrlBaseContainer>
+                                         › test-slug
                                       </span>
                                     </StyledComponent>
                                   </SnippetPreview__UrlContentContainer>
@@ -22243,7 +22657,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               "componentStyle": ComponentStyle {
                                 "componentId": "SnippetPreview__BaseTitle-sc-1hxg8jo-2",
                                 "isStatic": false,
-                                "lastClassName": "c10",
+                                "lastClassName": "c11",
                                 "rules": Array [
                                   "cursor:pointer;position:relative;",
                                 ],
@@ -22264,7 +22678,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c10"
+                            className="c11"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -22280,7 +22694,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                     "componentStyle": ComponentStyle {
                                       "componentId": "SnippetPreview__TitleBounded-sc-1hxg8jo-5",
                                       "isStatic": false,
-                                      "lastClassName": "c11",
+                                      "lastClassName": "c12",
                                       "rules": Array [
                                         "color:",
                                         [Function],
@@ -22312,7 +22726,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                 screenMode="mobile"
                               >
                                 <div
-                                  className="c11"
+                                  className="c12"
                                 >
                                   <SnippetPreview__TitleUnboundedMobile>
                                     <StyledComponent
@@ -22323,7 +22737,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                           "componentStyle": ComponentStyle {
                                             "componentId": "SnippetPreview__TitleUnboundedMobile-sc-1hxg8jo-7",
                                             "isStatic": false,
-                                            "lastClassName": "c12",
+                                            "lastClassName": "c13",
                                             "rules": Array [
                                               "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
@@ -22341,7 +22755,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                       forwardedRef={[Function]}
                                     >
                                       <span
-                                        className="c12"
+                                        className="c13"
                                       >
                                         Test title
                                       </span>
@@ -22414,7 +22828,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                          "componentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                           "isStatic": false,
                           "lastClassName": "c5",
                           "rules": Array [
@@ -22424,7 +22838,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         "displayName": "SnippetPreview__MobilePartContainer",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-15",
+                        "styledComponentId": "SnippetPreview__MobilePartContainer-sc-1hxg8jo-16",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -22464,9 +22878,9 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               "$$typeof": Symbol(react.forward_ref),
                               "attrs": Array [],
                               "componentStyle": ComponentStyle {
-                                "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                 "isStatic": false,
-                                "lastClassName": "c13",
+                                "lastClassName": "c14",
                                 "rules": Array [
                                   "color:",
                                   "#3c4043",
@@ -22478,7 +22892,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               "displayName": "SnippetPreview__MobileDescription",
                               "foldedComponentIds": Array [],
                               "render": [Function],
-                              "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                              "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                               "target": "div",
                               "toString": [Function],
                               "warnTooManyClasses": [Function],
@@ -22492,7 +22906,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           onMouseUp={[Function]}
                         >
                           <div
-                            className="c13"
+                            className="c14"
                             onMouseEnter={[Function]}
                             onMouseLeave={[Function]}
                             onMouseUp={[Function]}
@@ -22506,9 +22920,9 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                     "$$typeof": Symbol(react.forward_ref),
                                     "attrs": Array [],
                                     "componentStyle": ComponentStyle {
-                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                      "componentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                       "isStatic": false,
-                                      "lastClassName": "c13",
+                                      "lastClassName": "c14",
                                       "rules": Array [
                                         "color:",
                                         "#3c4043",
@@ -22520,7 +22934,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                     "displayName": "SnippetPreview__MobileDescription",
                                     "foldedComponentIds": Array [],
                                     "render": [Function],
-                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-12",
+                                    "styledComponentId": "SnippetPreview__MobileDescription-sc-1hxg8jo-13",
                                     "target": "div",
                                     "toString": [Function],
                                     "warnTooManyClasses": [Function],
@@ -22531,7 +22945,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                 isDescriptionPlaceholder={false}
                               >
                                 <div
-                                  className="c13"
+                                  className="c14"
                                 >
                                   Test description, %%replacement_variable%%
                                 </div>
@@ -23652,12 +24066,12 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   box-sizing: border-box;
 }
 
-.c7 {
+.c12 {
   cursor: pointer;
   position: relative;
 }
 
-.c8 {
+.c13 {
   color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -23675,11 +24089,11 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   text-overflow: ellipsis;
 }
 
-.c9 {
+.c14 {
   white-space: nowrap;
 }
 
-.c10 {
+.c7 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -23689,7 +24103,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   vertical-align: top;
 }
 
-.c11 {
+.c8 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -23706,9 +24120,10 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   vertical-align: baseline;
 }
 
-.c12 {
-  font-size: 16px;
-  color: #006621;
+.c9 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
 }
 
 .c15 {
@@ -23718,14 +24133,14 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   max-width: 600px;
   padding-top: 1px;
   font-size: 14px;
-  line-height: 1.57;
+  line-height: 1.58;
 }
 
-.c13 {
+.c11 {
   display: inline-block;
   margin-top: 9px;
   margin-left: 6px;
-  border-top: 5px solid #006621;
+  border-top: 5px solid #70757a;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
   vertical-align: top;
@@ -23908,24 +24323,32 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
               }
             }
           >
-            SEO title preview:
+            Url preview:
           </span>
           <div
             className="c7"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
           >
             <div
               className="c8"
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
             >
               <span
                 className="c9"
               >
-                Test title
+                <span
+                  className="c10"
+                >
+                  example.org
+                </span>
+                 › test-slug
               </span>
             </div>
           </div>
+          <div
+            className="c11"
+          />
           <span
             className="screen-reader-text"
             style={
@@ -23938,27 +24361,24 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
               }
             }
           >
-            Url preview:
+            SEO title preview:
           </span>
           <div
-            className="c10"
+            className="c12"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
           >
             <div
-              className="c11"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
+              className="c13"
             >
               <span
-                className="c12"
+                className="c14"
               >
-                example.org/test-slug/
+                Test title
               </span>
             </div>
           </div>
-          <div
-            className="c13"
-          />
         </div>
         <div
           className="yoast-shopping-data-preview--desktop"
@@ -24158,12 +24578,12 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
   font-size: 14px;
 }
 
-.c10 {
+.c11 {
   cursor: pointer;
   position: relative;
 }
 
-.c11 {
+.c12 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -24181,7 +24601,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
   text-overflow: ellipsis;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -24219,10 +24639,15 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
 
 .c9 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c13 {
+.c10 {
+  color: #3c4043;
+}
+
+.c14 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -24231,7 +24656,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
   max-width: 600px;
 }
 
-.c13:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
@@ -24371,7 +24796,6 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
     <div
       className="c4"
       id="yoast-snippet-preview-container"
-      onMouseLeave={undefined}
       width={null}
     >
       <div
@@ -24408,7 +24832,12 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
             <span
               className="c9"
             >
-              example.org › test-slug
+              <span
+                className="c10"
+              >
+                example.org
+              </span>
+               › test-slug
             </span>
           </div>
         </div>
@@ -24427,16 +24856,16 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
           SEO title preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c11"
+            className="c12"
           >
             <span
-              className="c12"
+              className="c13"
             >
               Test title
             </span>
@@ -24479,13 +24908,13 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
           Meta description preview:
         </span>
         <div
-          className="c13"
+          className="c14"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c13"
+            className="c14"
           >
             
             
@@ -24580,12 +25009,12 @@ exports[`SnippetEditor shows the editor 1`] = `
   font-size: 14px;
 }
 
-.c10 {
+.c11 {
   cursor: pointer;
   position: relative;
 }
 
-.c11 {
+.c12 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -24603,7 +25032,7 @@ exports[`SnippetEditor shows the editor 1`] = `
   text-overflow: ellipsis;
 }
 
-.c12 {
+.c13 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -24641,10 +25070,15 @@ exports[`SnippetEditor shows the editor 1`] = `
 
 .c9 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c13 {
+.c10 {
+  color: #3c4043;
+}
+
+.c14 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -24653,7 +25087,7 @@ exports[`SnippetEditor shows the editor 1`] = `
   max-width: 600px;
 }
 
-.c13:after {
+.c14:after {
   display: table;
   content: "";
   clear: both;
@@ -24832,7 +25266,6 @@ exports[`SnippetEditor shows the editor 1`] = `
     <div
       className="c4"
       id="yoast-snippet-preview-container"
-      onMouseLeave={undefined}
       width={null}
     >
       <div
@@ -24869,7 +25302,12 @@ exports[`SnippetEditor shows the editor 1`] = `
             <span
               className="c9"
             >
-              example.org › test-slug
+              <span
+                className="c10"
+              >
+                example.org
+              </span>
+               › test-slug
             </span>
           </div>
         </div>
@@ -24888,16 +25326,16 @@ exports[`SnippetEditor shows the editor 1`] = `
           SEO title preview:
         </span>
         <div
-          className="c10"
+          className="c11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c11"
+            className="c12"
           >
             <span
-              className="c12"
+              className="c13"
             >
               Test title
             </span>
@@ -24940,13 +25378,13 @@ exports[`SnippetEditor shows the editor 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c13"
+          className="c14"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <div
-            className="c13"
+            className="c14"
           >
             
             

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 0.16.0 March 15th, 2021
+### Bugfixes
+* Fixes a bug where the `wicked-good-xpath` package would be missing because it was set as a development dependency.
+
 ## 0.14.0 October 26th, 2020
 ### Enhancements
 * Adds `join` that filters an array with Boolean and then joins it.
