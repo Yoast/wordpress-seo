@@ -55,7 +55,7 @@ function getDefaultWarningMessage( blockTitle: string, warningType: WarningType 
 					"yoast-schema-blocks",
 				),
 				blockTitle,
-				'<a href=" ' + ( window as any ).yoastSchemaBlocks.requiredLink + '" target="_blank">',
+				'<a href="' + ( window as any ).yoastSchemaBlocks.requiredLink + '" target="_blank">',
 				"</a>",
 			);
 		}
@@ -68,7 +68,7 @@ function getDefaultWarningMessage( blockTitle: string, warningType: WarningType 
 					"yoast-schema-blocks",
 				),
 				blockTitle,
-				'<a href=" ' + ( window as any ).yoastSchemaBlocks.recommendedLink + '" target="_blank">',
+				'<a href="' + ( window as any ).yoastSchemaBlocks.recommendedLink + '" target="_blank">',
 				"</a>",
 			);
 		}
