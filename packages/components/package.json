@@ -41,7 +41,7 @@
     "react-modal": "^3.8.1",
     "react-select": "^4.1.0",
     "react-tabs": "^2.3.0",
-    "styled-components": "^4.4.1"
+    "styled-components": "^5.2.1"
   },
   "devDependencies": {
     "@yoast/browserslist-config": "^1.2.2",

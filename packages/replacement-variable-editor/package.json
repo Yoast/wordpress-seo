@@ -44,7 +44,7 @@
     "draft-js-single-line-plugin": "^2.0.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
-    "styled-components": "^4.4.1",
+    "styled-components": "^5.2.1",
     "yoastseo": "^1.90.0"
   }
 }

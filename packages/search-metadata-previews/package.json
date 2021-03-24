@@ -30,7 +30,7 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
     "react-transition-group": "^2.7.1",
-    "styled-components": "^4.4.1",
+    "styled-components": "^5.2.1",
     "yoastseo": "^1.90.0"
   },
   "devDependencies": {

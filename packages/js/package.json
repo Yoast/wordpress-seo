@@ -60,7 +60,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
-    "styled-components": "^4.4.1",
+    "styled-components": "^5.2.1",
     "tokenizr": "^1.5.7",
     "yoast-components": "^5.20.0",
     "yoastseo": "^1.90.0"
