@@ -54,7 +54,7 @@ class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 			->andReturn( true );
 
 		Monkey\Functions\expect( 'check_ajax_referer' )
-			->with( 'inlineeditnonce', '_inline_edit' );
+			->with( 'inlineeditnonce', '_inline_edit', false );
 
 		self::assertFalse( $this->instance->is_met() );
 	}
@@ -69,7 +69,7 @@ class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 			->andReturn( true );
 
 		Monkey\Functions\expect( 'check_ajax_referer' )
-			->with( 'inlineeditnonce', '_inline_edit' );
+			->with( 'inlineeditnonce', '_inline_edit', false );
 
 		$_POST['action'] = 'wrong-action';
 
@@ -86,7 +86,7 @@ class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 			->andReturn( true );
 
 		Monkey\Functions\expect( 'check_ajax_referer' )
-			->with( 'inlineeditnonce', '_inline_edit' );
+			->with( 'inlineeditnonce', '_inline_edit', false );
 
 		$_POST['action'] = 'inline-save';
 
