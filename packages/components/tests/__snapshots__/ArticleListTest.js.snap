@@ -1,30 +1,102 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the ArticleList matches the snapshot 1`] = `
+.c11 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+yoast-seo.g1[id="c10"] {
+  content: "c11,";
+}
+
+.c1 {
+  box-sizing: border-box;
+}
+
+.c1 p {
+  margin: 0;
+  font-size: 14px;
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c1,";
+}
+
+.c3 {
+  margin: 8px 0;
+  font-size: 1em;
+}
+
+yoast-seo.g4[id="c2"] {
+  content: "c3,";
+}
+
+.c5 {
+  margin: 0;
+  list-style: none;
+  padding: 0;
+}
+
+yoast-seo.g5[id="c4"] {
+  content: "c5,";
+}
+
+.c9 {
+  display: inline-block;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+yoast-seo.g6[id="c8"] {
+  content: "c9,";
+}
+
+.c7 {
+  margin: 8px 0;
+}
+
+yoast-seo.g7[id="c6"] {
+  content: "c7,";
+}
+
 <div
-  className="kQdEnK articlelist-feed"
+  className="c0 c1 articlelist-feed"
 >
   <h3
-    className="dDdpLZ articlelist-feed__header"
+    className="c2 c3 articlelist-feed__header"
   >
     Feed title
   </h3>
   <ul
-    className="dfXWGx articlelist-feed__posts"
+    className="c4 c5 articlelist-feed__posts"
     role="list"
   >
     <li
-      className="dEOLjB articlelist-feed__post"
+      className="c6 c7 articlelist-feed__post"
     >
       <a
-        className="guuSkw articlelist-feed__post-link"
+        className="c8 c9 articlelist-feed__post-link"
         href="https://www.yoast.com/1"
         rel={null}
         target="_blank"
       >
         Wordpress SEO
         <span
-          className="gHCoqL"
+          className="c10 c11"
         >
           (Opens in a new browser tab)
         </span>
@@ -36,17 +108,17 @@ exports[`the ArticleList matches the snapshot 1`] = `
       </p>
     </li>
     <li
-      className="dEOLjB articlelist-feed__post"
+      className="c6 c7 articlelist-feed__post"
     >
       <a
-        className="guuSkw articlelist-feed__post-link"
+        className="c8 c9 articlelist-feed__post-link"
         href="https://www.yoast.com/2"
         rel={null}
         target="_blank"
       >
         Wordpress SEO
         <span
-          className="gHCoqL"
+          className="c10 c11"
         >
           (Opens in a new browser tab)
         </span>

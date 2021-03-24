@@ -1,31 +1,220 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Collapsible matches the snapshot by default 1`] = `
+.c21 {
+  width: 24px;
+  height: 24px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c20"] {
+  content: "c21,";
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c4"] {
+  content: "c9,";
+}
+
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c5"] {
+  content: "c10,";
+}
+
+.c11::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c11:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c6"] {
+  content: "c11,";
+}
+
+.c12:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c7"] {
+  content: "c12,";
+}
+
+.c13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c13 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c8"] {
+  content: "c13,";
+}
+
+.c17 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+yoast-seo.g53[id="c16"] {
+  content: "c17,";
+}
+
+.c19 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+yoast-seo.g54[id="c18"] {
+  content: "c19,";
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+yoast-seo.g98[id="c0"] {
+  content: "c1,";
+}
+
+.c15 {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.c15:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c15:active {
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.c15 svg:first-child {
+  margin-right: 8px;
+}
+
+.c15 svg:last-child {
+  margin-left: 8px;
+}
+
+yoast-seo.g100[id="c14"] {
+  content: "c15,";
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+}
+
+yoast-seo.g101[id="c2"] {
+  content: "c3,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c13::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="bXDzPy"
+  className="c0 c1"
 >
   <h2
-    className="fytkxp"
+    className="c2 c3"
   >
     <button
       aria-expanded={false}
-      className="nHkJq ixEIcM"
+      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="fOIIAL"
+        className="c16 c17"
       >
         <span
-          className="gQZIbX"
+          className="c18 c19"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="ebKEvD yoast-svg-icon yoast-svg-icon-chevron-down"
+        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-down"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -51,31 +240,220 @@ exports[`Collapsible matches the snapshot by default 1`] = `
 `;
 
 exports[`Collapsible matches the snapshot by default 2`] = `
+.c21 {
+  width: 24px;
+  height: 24px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c20"] {
+  content: "c21,";
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c4"] {
+  content: "c9,";
+}
+
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c5"] {
+  content: "c10,";
+}
+
+.c11::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c11:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c6"] {
+  content: "c11,";
+}
+
+.c12:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c7"] {
+  content: "c12,";
+}
+
+.c13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c13 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c8"] {
+  content: "c13,";
+}
+
+.c17 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+yoast-seo.g53[id="c16"] {
+  content: "c17,";
+}
+
+.c19 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+yoast-seo.g54[id="c18"] {
+  content: "c19,";
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+yoast-seo.g98[id="c0"] {
+  content: "c1,";
+}
+
+.c15 {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.c15:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c15:active {
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.c15 svg:first-child {
+  margin-right: 8px;
+}
+
+.c15 svg:last-child {
+  margin-left: 8px;
+}
+
+yoast-seo.g100[id="c14"] {
+  content: "c15,";
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+}
+
+yoast-seo.g101[id="c2"] {
+  content: "c3,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c13::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="bXDzPy"
+  className="c0 c1"
 >
   <h2
-    className="fytkxp"
+    className="c2 c3"
   >
     <button
       aria-expanded={true}
-      className="nHkJq ixEIcM"
+      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="fOIIAL"
+        className="c16 c17"
       >
         <span
-          className="gQZIbX"
+          className="c18 c19"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="ebKEvD yoast-svg-icon yoast-svg-icon-chevron-up"
+        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-up"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -113,31 +491,220 @@ exports[`Collapsible matches the snapshot by default 2`] = `
 `;
 
 exports[`Collapsible matches the snapshot by default when the collapsible has an ID 1`] = `
+.c21 {
+  width: 24px;
+  height: 24px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c20"] {
+  content: "c21,";
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c4"] {
+  content: "c9,";
+}
+
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c5"] {
+  content: "c10,";
+}
+
+.c11::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c11:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c6"] {
+  content: "c11,";
+}
+
+.c12:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c7"] {
+  content: "c12,";
+}
+
+.c13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c13 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c8"] {
+  content: "c13,";
+}
+
+.c17 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+yoast-seo.g53[id="c16"] {
+  content: "c17,";
+}
+
+.c19 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+yoast-seo.g54[id="c18"] {
+  content: "c19,";
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+yoast-seo.g98[id="c0"] {
+  content: "c1,";
+}
+
+.c15 {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.c15:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c15:active {
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.c15 svg:first-child {
+  margin-right: 8px;
+}
+
+.c15 svg:last-child {
+  margin-left: 8px;
+}
+
+yoast-seo.g100[id="c14"] {
+  content: "c15,";
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+}
+
+yoast-seo.g101[id="c2"] {
+  content: "c3,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c13::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="bXDzPy"
+  className="c0 c1"
 >
   <h2
-    className="fytkxp"
+    className="c2 c3"
   >
     <button
       aria-expanded={false}
-      className="nHkJq ixEIcM"
+      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
       id="yoast-collapsible"
       onClick={[Function]}
       type="button"
     >
       <span
-        className="fOIIAL"
+        className="c16 c17"
       >
         <span
-          className="gQZIbX"
+          className="c18 c19"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="ebKEvD yoast-svg-icon yoast-svg-icon-chevron-down"
+        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-down"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -163,31 +730,220 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
 `;
 
 exports[`Collapsible matches the snapshot by default when the collapsible has an ID 2`] = `
+.c21 {
+  width: 24px;
+  height: 24px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c20"] {
+  content: "c21,";
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c4"] {
+  content: "c9,";
+}
+
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c5"] {
+  content: "c10,";
+}
+
+.c11::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c11:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c6"] {
+  content: "c11,";
+}
+
+.c12:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c7"] {
+  content: "c12,";
+}
+
+.c13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c13 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c8"] {
+  content: "c13,";
+}
+
+.c17 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+yoast-seo.g53[id="c16"] {
+  content: "c17,";
+}
+
+.c19 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+yoast-seo.g54[id="c18"] {
+  content: "c19,";
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+yoast-seo.g98[id="c0"] {
+  content: "c1,";
+}
+
+.c15 {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.c15:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c15:active {
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.c15 svg:first-child {
+  margin-right: 8px;
+}
+
+.c15 svg:last-child {
+  margin-left: 8px;
+}
+
+yoast-seo.g100[id="c14"] {
+  content: "c15,";
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+}
+
+yoast-seo.g101[id="c2"] {
+  content: "c3,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c13::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="bXDzPy"
+  className="c0 c1"
 >
   <h2
-    className="fytkxp"
+    className="c2 c3"
   >
     <button
       aria-expanded={true}
-      className="nHkJq ixEIcM"
+      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
       id="yoast-collapsible"
       onClick={[Function]}
       type="button"
     >
       <span
-        className="fOIIAL"
+        className="c16 c17"
       >
         <span
-          className="gQZIbX"
+          className="c18 c19"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="ebKEvD yoast-svg-icon yoast-svg-icon-chevron-up"
+        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-up"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -225,31 +981,220 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
 `;
 
 exports[`Collapsible matches the snapshot when it is closed 1`] = `
+.c21 {
+  width: 24px;
+  height: 24px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c20"] {
+  content: "c21,";
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c4"] {
+  content: "c9,";
+}
+
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c5"] {
+  content: "c10,";
+}
+
+.c11::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c11:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c6"] {
+  content: "c11,";
+}
+
+.c12:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c7"] {
+  content: "c12,";
+}
+
+.c13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c13 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c8"] {
+  content: "c13,";
+}
+
+.c17 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+yoast-seo.g53[id="c16"] {
+  content: "c17,";
+}
+
+.c19 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+yoast-seo.g54[id="c18"] {
+  content: "c19,";
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+yoast-seo.g98[id="c0"] {
+  content: "c1,";
+}
+
+.c15 {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.c15:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c15:active {
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.c15 svg:first-child {
+  margin-right: 8px;
+}
+
+.c15 svg:last-child {
+  margin-left: 8px;
+}
+
+yoast-seo.g100[id="c14"] {
+  content: "c15,";
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+}
+
+yoast-seo.g101[id="c2"] {
+  content: "c3,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c13::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="bXDzPy"
+  className="c0 c1"
 >
   <h2
-    className="fytkxp"
+    className="c2 c3"
   >
     <button
       aria-expanded={false}
-      className="nHkJq ixEIcM"
+      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="fOIIAL"
+        className="c16 c17"
       >
         <span
-          className="gQZIbX"
+          className="c18 c19"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="ebKEvD yoast-svg-icon yoast-svg-icon-chevron-down"
+        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-down"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -275,31 +1220,220 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
 `;
 
 exports[`Collapsible matches the snapshot when it is closed 2`] = `
+.c21 {
+  width: 24px;
+  height: 24px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c20"] {
+  content: "c21,";
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c4"] {
+  content: "c9,";
+}
+
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c5"] {
+  content: "c10,";
+}
+
+.c11::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c11:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c6"] {
+  content: "c11,";
+}
+
+.c12:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c7"] {
+  content: "c12,";
+}
+
+.c13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c13 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c8"] {
+  content: "c13,";
+}
+
+.c17 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+yoast-seo.g53[id="c16"] {
+  content: "c17,";
+}
+
+.c19 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+yoast-seo.g54[id="c18"] {
+  content: "c19,";
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+yoast-seo.g98[id="c0"] {
+  content: "c1,";
+}
+
+.c15 {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.c15:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c15:active {
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.c15 svg:first-child {
+  margin-right: 8px;
+}
+
+.c15 svg:last-child {
+  margin-left: 8px;
+}
+
+yoast-seo.g100[id="c14"] {
+  content: "c15,";
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+}
+
+yoast-seo.g101[id="c2"] {
+  content: "c3,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c13::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="bXDzPy"
+  className="c0 c1"
 >
   <h2
-    className="fytkxp"
+    className="c2 c3"
   >
     <button
       aria-expanded={true}
-      className="nHkJq ixEIcM"
+      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="fOIIAL"
+        className="c16 c17"
       >
         <span
-          className="gQZIbX"
+          className="c18 c19"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="ebKEvD yoast-svg-icon yoast-svg-icon-chevron-up"
+        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-up"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -337,31 +1471,220 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
 `;
 
 exports[`Collapsible matches the snapshot when it is open 1`] = `
+.c21 {
+  width: 24px;
+  height: 24px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c20"] {
+  content: "c21,";
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c4"] {
+  content: "c9,";
+}
+
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c5"] {
+  content: "c10,";
+}
+
+.c11::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c11:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c6"] {
+  content: "c11,";
+}
+
+.c12:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c7"] {
+  content: "c12,";
+}
+
+.c13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c13 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c8"] {
+  content: "c13,";
+}
+
+.c17 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+yoast-seo.g53[id="c16"] {
+  content: "c17,";
+}
+
+.c19 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+yoast-seo.g54[id="c18"] {
+  content: "c19,";
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+yoast-seo.g98[id="c0"] {
+  content: "c1,";
+}
+
+.c15 {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.c15:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c15:active {
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.c15 svg:first-child {
+  margin-right: 8px;
+}
+
+.c15 svg:last-child {
+  margin-left: 8px;
+}
+
+yoast-seo.g100[id="c14"] {
+  content: "c15,";
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+}
+
+yoast-seo.g101[id="c2"] {
+  content: "c3,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c13::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="bXDzPy"
+  className="c0 c1"
 >
   <h2
-    className="fytkxp"
+    className="c2 c3"
   >
     <button
       aria-expanded={true}
-      className="nHkJq ixEIcM"
+      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="fOIIAL"
+        className="c16 c17"
       >
         <span
-          className="gQZIbX"
+          className="c18 c19"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="ebKEvD yoast-svg-icon yoast-svg-icon-chevron-up"
+        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-up"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -399,31 +1722,220 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
 `;
 
 exports[`Collapsible matches the snapshot when it is open 2`] = `
+.c21 {
+  width: 24px;
+  height: 24px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c20"] {
+  content: "c21,";
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c4"] {
+  content: "c9,";
+}
+
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c5"] {
+  content: "c10,";
+}
+
+.c11::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c11:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c6"] {
+  content: "c11,";
+}
+
+.c12:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c7"] {
+  content: "c12,";
+}
+
+.c13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c13 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c8"] {
+  content: "c13,";
+}
+
+.c17 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+yoast-seo.g53[id="c16"] {
+  content: "c17,";
+}
+
+.c19 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+yoast-seo.g54[id="c18"] {
+  content: "c19,";
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+yoast-seo.g98[id="c0"] {
+  content: "c1,";
+}
+
+.c15 {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.c15:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c15:active {
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.c15 svg:first-child {
+  margin-right: 8px;
+}
+
+.c15 svg:last-child {
+  margin-left: 8px;
+}
+
+yoast-seo.g100[id="c14"] {
+  content: "c15,";
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+}
+
+yoast-seo.g101[id="c2"] {
+  content: "c3,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c13::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="bXDzPy"
+  className="c0 c1"
 >
   <h2
-    className="fytkxp"
+    className="c2 c3"
   >
     <button
       aria-expanded={false}
-      className="nHkJq ixEIcM"
+      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="fOIIAL"
+        className="c16 c17"
       >
         <span
-          className="gQZIbX"
+          className="c18 c19"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="ebKEvD yoast-svg-icon yoast-svg-icon-chevron-down"
+        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-down"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -449,24 +1961,201 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
 `;
 
 exports[`CollapsibleStateless matches the snapshot by default 1`] = `
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c4"] {
+  content: "c9,";
+}
+
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c5"] {
+  content: "c10,";
+}
+
+.c11::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c11:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c6"] {
+  content: "c11,";
+}
+
+.c12:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c7"] {
+  content: "c12,";
+}
+
+.c13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c13 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c8"] {
+  content: "c13,";
+}
+
+.c17 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+yoast-seo.g53[id="c16"] {
+  content: "c17,";
+}
+
+.c19 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+yoast-seo.g54[id="c18"] {
+  content: "c19,";
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+yoast-seo.g98[id="c0"] {
+  content: "c1,";
+}
+
+.c15 {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.c15:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c15:active {
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.c15 svg:first-child {
+  margin-right: 8px;
+}
+
+.c15 svg:last-child {
+  margin-left: 8px;
+}
+
+yoast-seo.g100[id="c14"] {
+  content: "c15,";
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+}
+
+yoast-seo.g101[id="c2"] {
+  content: "c3,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c13::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="bXDzPy"
+  className="c0 c1"
 >
   <h2
-    className="fytkxp"
+    className="c2 c3"
   >
     <button
       aria-expanded={true}
-      className="nHkJq ixEIcM"
+      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="fOIIAL"
+        className="c16 c17"
       >
         <span
-          className="gQZIbX"
+          className="c18 c19"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -489,24 +2178,201 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
 `;
 
 exports[`CollapsibleStateless matches the snapshot when it is opened and closed 1`] = `
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c4"] {
+  content: "c9,";
+}
+
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c5"] {
+  content: "c10,";
+}
+
+.c11::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c11:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c6"] {
+  content: "c11,";
+}
+
+.c12:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c7"] {
+  content: "c12,";
+}
+
+.c13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c13 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c8"] {
+  content: "c13,";
+}
+
+.c17 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+yoast-seo.g53[id="c16"] {
+  content: "c17,";
+}
+
+.c19 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+yoast-seo.g54[id="c18"] {
+  content: "c19,";
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+yoast-seo.g98[id="c0"] {
+  content: "c1,";
+}
+
+.c15 {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.c15:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c15:active {
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.c15 svg:first-child {
+  margin-right: 8px;
+}
+
+.c15 svg:last-child {
+  margin-left: 8px;
+}
+
+yoast-seo.g100[id="c14"] {
+  content: "c15,";
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+}
+
+yoast-seo.g101[id="c2"] {
+  content: "c3,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c13::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="bXDzPy"
+  className="c0 c1"
 >
   <h2
-    className="fytkxp"
+    className="c2 c3"
   >
     <button
       aria-expanded={true}
-      className="nHkJq ixEIcM"
+      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="fOIIAL"
+        className="c16 c17"
       >
         <span
-          className="gQZIbX"
+          className="c18 c19"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -529,24 +2395,201 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 `;
 
 exports[`CollapsibleStateless matches the snapshot when it is opened and closed 2`] = `
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c4"] {
+  content: "c9,";
+}
+
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c5"] {
+  content: "c10,";
+}
+
+.c11::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c11:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c6"] {
+  content: "c11,";
+}
+
+.c12:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c7"] {
+  content: "c12,";
+}
+
+.c13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c13 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c8"] {
+  content: "c13,";
+}
+
+.c17 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+yoast-seo.g53[id="c16"] {
+  content: "c17,";
+}
+
+.c19 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+yoast-seo.g54[id="c18"] {
+  content: "c19,";
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+yoast-seo.g98[id="c0"] {
+  content: "c1,";
+}
+
+.c15 {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.c15:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c15:active {
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.c15 svg:first-child {
+  margin-right: 8px;
+}
+
+.c15 svg:last-child {
+  margin-left: 8px;
+}
+
+yoast-seo.g100[id="c14"] {
+  content: "c15,";
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+}
+
+yoast-seo.g101[id="c2"] {
+  content: "c3,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c13::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="bXDzPy"
+  className="c0 c1"
 >
   <h2
-    className="fytkxp"
+    className="c2 c3"
   >
     <button
       aria-expanded={true}
-      className="nHkJq ixEIcM"
+      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="fOIIAL"
+        className="c16 c17"
       >
         <span
-          className="gQZIbX"
+          className="c18 c19"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -569,22 +2612,211 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 `;
 
 exports[`CollapsibleStateless matches the snapshot with prefix seo icon and screen reader text 1`] = `
+.c17 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c16"] {
+  content: "c17,";
+}
+
+.c9 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c4"] {
+  content: "c9,";
+}
+
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c5"] {
+  content: "c10,";
+}
+
+.c11::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c11:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c6"] {
+  content: "c11,";
+}
+
+.c12:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c7"] {
+  content: "c12,";
+}
+
+.c13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c13 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c8"] {
+  content: "c13,";
+}
+
+.c19 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+yoast-seo.g53[id="c18"] {
+  content: "c19,";
+}
+
+.c21 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+}
+
+yoast-seo.g54[id="c20"] {
+  content: "c21,";
+}
+
+.c1 {
+  background-color: #fff;
+}
+
+yoast-seo.g98[id="c0"] {
+  content: "c1,";
+}
+
+.c15 {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.c15:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c15:active {
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.c15 svg:first-child {
+  margin-right: 8px;
+}
+
+.c15 svg:last-child {
+  margin-left: 8px;
+}
+
+yoast-seo.g100[id="c14"] {
+  content: "c15,";
+}
+
+.c3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+}
+
+yoast-seo.g101[id="c2"] {
+  content: "c3,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c13::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-  className="bXDzPy"
+  className="c0 c1"
 >
   <h2
-    className="fytkxp"
+    className="c2 c3"
   >
     <button
       aria-expanded={true}
-      className="nHkJq ixEIcM"
+      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <svg
         aria-hidden={true}
-        className="cPnaHk yoast-svg-icon yoast-svg-icon-circle"
+        className="c16 c17 yoast-svg-icon yoast-svg-icon-circle"
         fill="red"
         focusable="false"
         role="img"
@@ -597,10 +2829,10 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
         />
       </svg>
       <span
-        className="fOIIAL"
+        className="c18 c19"
       >
         <span
-          className="gQZIbX"
+          className="c20 c21"
         >
           Lorem ipsum dolor sit amet
           <span

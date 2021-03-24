@@ -1,12 +1,96 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the AnalysisResult component matches the snapshot 1`] = `
+.c3 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c10 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c2"] {
+  content: "c3,c10,";
+}
+
+.c9 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #a4286a;
+  box-shadow: inset 0 2px 0 rgba( 93,35,122,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 23px;
+}
+
+.c9:hover {
+  border-color: #fff;
+}
+
+.c9:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+yoast-seo.g44[id="c8"] {
+  content: "c9,";
+}
+
+.c1 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+yoast-seo.g102[id="c0"] {
+  content: "c1,";
+}
+
+.c5 {
+  margin: 3px 11px 0 0;
+}
+
+yoast-seo.g103[id="c4"] {
+  content: "c5,";
+}
+
+.c7 {
+  margin: 0 16px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+yoast-seo.g104[id="c6"] {
+  content: "c7,";
+}
+
 <li
-  className="bFjFfr"
+  className="c0 c1"
 >
   <svg
     aria-hidden={true}
-    className="jXxqhK yoast-svg-icon yoast-svg-icon-circle fJLoCd"
+    className="c2 c3 yoast-svg-icon yoast-svg-icon-circle c4 c5"
     fill="blue"
     focusable="false"
     role="img"
@@ -19,7 +103,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
     />
   </svg>
   <p
-    className="dYfseL"
+    className="c6 c7"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -29,7 +113,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="bcezWQ"
+    className="c8 c9"
     disabled={false}
     id="Result button"
     onClick={[Function]}
@@ -37,7 +121,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="dqTDIA yoast-svg-icon yoast-svg-icon-eye"
+      className="c2 c10 yoast-svg-icon yoast-svg-icon-eye"
       fill="#fff"
       focusable="false"
       role="img"
@@ -54,12 +138,96 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 `;
 
 exports[`the AnalysisResult component with disabled buttons matches the snapshot 1`] = `
+.c3 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c10 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c2"] {
+  content: "c3,c10,";
+}
+
+.c9 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #a4286a;
+  box-shadow: inset 0 2px 0 rgba( 93,35,122,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 23px;
+}
+
+.c9:hover {
+  border-color: #fff;
+}
+
+.c9:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+yoast-seo.g44[id="c8"] {
+  content: "c9,";
+}
+
+.c1 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+yoast-seo.g102[id="c0"] {
+  content: "c1,";
+}
+
+.c5 {
+  margin: 3px 11px 0 0;
+}
+
+yoast-seo.g103[id="c4"] {
+  content: "c5,";
+}
+
+.c7 {
+  margin: 0 16px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+yoast-seo.g104[id="c6"] {
+  content: "c7,";
+}
+
 <li
-  className="bFjFfr"
+  className="c0 c1"
 >
   <svg
     aria-hidden={true}
-    className="jXxqhK yoast-svg-icon yoast-svg-icon-circle fJLoCd"
+    className="c2 c3 yoast-svg-icon yoast-svg-icon-circle c4 c5"
     fill="blue"
     focusable="false"
     role="img"
@@ -72,7 +240,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
     />
   </svg>
   <p
-    className="dYfseL"
+    className="c6 c7"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -82,7 +250,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="bcezWQ"
+    className="c8 c9"
     disabled={true}
     id="Result button"
     onClick={[Function]}
@@ -90,7 +258,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   >
     <svg
       aria-hidden={true}
-      className="dqTDIA yoast-svg-icon yoast-svg-icon-eye"
+      className="c2 c10 yoast-svg-icon yoast-svg-icon-eye"
       fill="#ddd"
       focusable="false"
       role="img"
@@ -107,12 +275,60 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
 `;
 
 exports[`the AnalysisResult component with hidden buttons matches the snapshot 1`] = `
+.c3 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c2"] {
+  content: "c3,";
+}
+
+.c1 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+yoast-seo.g102[id="c0"] {
+  content: "c1,";
+}
+
+.c5 {
+  margin: 3px 11px 0 0;
+}
+
+yoast-seo.g103[id="c4"] {
+  content: "c5,";
+}
+
+.c7 {
+  margin: 0 16px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+yoast-seo.g104[id="c6"] {
+  content: "c7,";
+}
+
 <li
-  className="bFjFfr"
+  className="c0 c1"
 >
   <svg
     aria-hidden={true}
-    className="jXxqhK yoast-svg-icon yoast-svg-icon-circle fJLoCd"
+    className="c2 c3 yoast-svg-icon yoast-svg-icon-circle c4 c5"
     fill="blue"
     focusable="false"
     role="img"
@@ -125,7 +341,7 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
     />
   </svg>
   <p
-    className="dYfseL"
+    className="c6 c7"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing great!",
@@ -136,12 +352,96 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
 `;
 
 exports[`the AnalysisResult component with html in the text matches the snapshot 1`] = `
+.c3 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c10 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c2"] {
+  content: "c3,c10,";
+}
+
+.c9 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #a4286a;
+  box-shadow: inset 0 2px 0 rgba( 93,35,122,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 23px;
+}
+
+.c9:hover {
+  border-color: #fff;
+}
+
+.c9:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+yoast-seo.g44[id="c8"] {
+  content: "c9,";
+}
+
+.c1 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+yoast-seo.g102[id="c0"] {
+  content: "c1,";
+}
+
+.c5 {
+  margin: 3px 11px 0 0;
+}
+
+yoast-seo.g103[id="c4"] {
+  content: "c5,";
+}
+
+.c7 {
+  margin: 0 16px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+yoast-seo.g104[id="c6"] {
+  content: "c7,";
+}
+
 <li
-  className="bFjFfr"
+  className="c0 c1"
 >
   <svg
     aria-hidden={true}
-    className="jXxqhK yoast-svg-icon yoast-svg-icon-circle fJLoCd"
+    className="c2 c3 yoast-svg-icon yoast-svg-icon-circle c4 c5"
     fill="blue"
     focusable="false"
     role="img"
@@ -154,7 +454,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
     />
   </svg>
   <p
-    className="dYfseL"
+    className="c6 c7"
     dangerouslySetInnerHTML={
       Object {
         "__html": "You're doing <b>great!</b>",
@@ -164,7 +464,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   <button
     aria-label="SEOResult"
     aria-pressed={true}
-    className="bcezWQ"
+    className="c8 c9"
     disabled={false}
     id="Result button"
     onClick={[Function]}
@@ -172,7 +472,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   >
     <svg
       aria-hidden={true}
-      className="dqTDIA yoast-svg-icon yoast-svg-icon-eye"
+      className="c2 c10 yoast-svg-icon yoast-svg-icon-eye"
       fill="#fff"
       focusable="false"
       role="img"

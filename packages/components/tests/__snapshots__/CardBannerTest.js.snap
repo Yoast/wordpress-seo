@@ -2,24 +2,80 @@
 
 exports[`The CardBanner with specific props matches the snapshot 1`] = `
 Array [
-  <span
-    className="HRyDz"
+  .c1 {
+  position: absolute;
+  top: 8px;
+  left: -8px;
+  font-weight: 500;
+  color: yellow;
+  line-height: 16px;
+  background-color: purple;
+  padding: 8px 16px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c1,";
+}
+
+<span
+    className="c0 c1"
   >
     Free Trial Available.
   </span>,
-  <span
-    className="lalIBs"
+  .c1 {
+  position: absolute;
+  top: 40px;
+  left: -8px;
+  border-top: 8px solid #6c2548;
+  border-left: 8px solid transparent;
+}
+
+yoast-seo.g4[id="c0"] {
+  content: "c1,";
+}
+
+<span
+    className="c0 c1"
   />,
 ]
 `;
 
 exports[`The empty CardBanner matches the snapshot 1`] = `
 Array [
-  <span
-    className="jvpaxk"
+  .c1 {
+  position: absolute;
+  top: 8px;
+  left: -8px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 16px;
+  background-color: #a4286a;
+  padding: 8px 16px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c1,";
+}
+
+<span
+    className="c0 c1"
   />,
-  <span
-    className="lalIBs"
+  .c1 {
+  position: absolute;
+  top: 40px;
+  left: -8px;
+  border-top: 8px solid #6c2548;
+  border-left: 8px solid transparent;
+}
+
+yoast-seo.g4[id="c0"] {
+  content: "c1,";
+}
+
+<span
+    className="c0 c1"
   />,
 ]
 `;

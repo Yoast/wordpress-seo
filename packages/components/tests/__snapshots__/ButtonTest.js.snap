@@ -1,8 +1,104 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BaseButton executes callback 1`] = `
+.c5 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c5,";
+}
+
+.c6:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c1"] {
+  content: "c6,";
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c2"] {
+  content: "c7,";
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c3"] {
+  content: "c8,";
+}
+
+.c9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c9 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c4"] {
+  content: "c9,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c9::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="nHkJq"
+  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
   onClick={[Function]}
   type="button"
 >
@@ -11,8 +107,104 @@ exports[`BaseButton executes callback 1`] = `
 `;
 
 exports[`BaseButton executes callback 2`] = `
+.c5 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c5,";
+}
+
+.c6:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c1"] {
+  content: "c6,";
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c2"] {
+  content: "c7,";
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c3"] {
+  content: "c8,";
+}
+
+.c9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c9 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c4"] {
+  content: "c9,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c9::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="nHkJq"
+  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
   onClick={[Function]}
   type="button"
 >
@@ -21,8 +213,104 @@ exports[`BaseButton executes callback 2`] = `
 `;
 
 exports[`SnippetPreviewButton executes callback 1`] = `
+.c5 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c5,";
+}
+
+.c6:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c1"] {
+  content: "c6,";
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c2"] {
+  content: "c7,";
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c3"] {
+  content: "c8,";
+}
+
+.c9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c9 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c4"] {
+  content: "c9,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c9::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="nHkJq"
+  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
   onClick={[Function]}
   type="button"
 >
@@ -31,8 +319,104 @@ exports[`SnippetPreviewButton executes callback 1`] = `
 `;
 
 exports[`SnippetPreviewButton executes callback 2`] = `
+.c5 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c5,";
+}
+
+.c6:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c1"] {
+  content: "c6,";
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c2"] {
+  content: "c7,";
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c3"] {
+  content: "c8,";
+}
+
+.c9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c9 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c4"] {
+  content: "c9,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c9::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="nHkJq"
+  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
   onClick={[Function]}
   type="button"
 >
@@ -41,8 +425,104 @@ exports[`SnippetPreviewButton executes callback 2`] = `
 `;
 
 exports[`the BaseButton matches the snapshot 1`] = `
+.c5 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c5,";
+}
+
+.c6:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c1"] {
+  content: "c6,";
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c2"] {
+  content: "c7,";
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c3"] {
+  content: "c8,";
+}
+
+.c9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c9 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c4"] {
+  content: "c9,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c9::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="nHkJq"
+  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
   type="button"
 >
   ButtonValue
@@ -50,13 +530,121 @@ exports[`the BaseButton matches the snapshot 1`] = `
 `;
 
 exports[`the IconButton matches the snapshot 1`] = `
+.c11 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c10"] {
+  content: "c11,";
+}
+
+.c5 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c5,";
+}
+
+.c6:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c1"] {
+  content: "c6,";
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c2"] {
+  content: "c7,";
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c3"] {
+  content: "c8,";
+}
+
+.c9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c9 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c4"] {
+  content: "c9,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c9::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="nHkJq"
+  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
   type="button"
 >
   <svg
     aria-hidden={true}
-    className="cPnaHk yoast-svg-icon yoast-svg-icon-edit"
+    className="c10 c11 yoast-svg-icon yoast-svg-icon-edit"
     fill="black"
     focusable="false"
     role="img"
@@ -72,13 +660,132 @@ exports[`the IconButton matches the snapshot 1`] = `
 `;
 
 exports[`the IconButton with text matches the snapshot 1`] = `
+.c11 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c10"] {
+  content: "c11,";
+}
+
+.c5 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c5,";
+}
+
+.c6:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c1"] {
+  content: "c6,";
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c2"] {
+  content: "c7,";
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c3"] {
+  content: "c8,";
+}
+
+.c9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c9 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c4"] {
+  content: "c9,";
+}
+
+.c13 {
+  margin: 0 8px 0 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+yoast-seo.g102[id="c12"] {
+  content: "c13,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c9::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="nHkJq"
+  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
   type="button"
 >
   <svg
     aria-hidden={true}
-    className="cPnaHk yoast-svg-icon yoast-svg-icon-edit khhyWe"
+    className="c10 c11 yoast-svg-icon yoast-svg-icon-edit c12 c13"
     fill="black"
     focusable="false"
     role="img"
@@ -95,8 +802,104 @@ exports[`the IconButton with text matches the snapshot 1`] = `
 `;
 
 exports[`the SnippetPreviewButton matches the snapshot 1`] = `
+.c5 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c5,";
+}
+
+.c6:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g4[id="c1"] {
+  content: "c6,";
+}
+
+.c7::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c7:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g5[id="c2"] {
+  content: "c7,";
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g6[id="c3"] {
+  content: "c8,";
+}
+
+.c9 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c9 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+yoast-seo.g7[id="c4"] {
+  content: "c9,";
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c9::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <button
-  className="nHkJq"
+  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
   type="button"
 >
   ButtonValue

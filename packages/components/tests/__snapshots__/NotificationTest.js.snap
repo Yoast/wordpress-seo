@@ -1,19 +1,153 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the Notification with props matches the snapshot 1`] = `
+.c11 {
+  width: 24px;
+  height: 24px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c10"] {
+  content: "c11,";
+}
+
+.c1 {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  background-color: #fff;
+  min-height: 0;
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c1,";
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.c3 h1,
+.c3 h2,
+.c3 h3,
+.c3 h4,
+.c3 h5,
+.c3 h6 {
+  font-size: 1.4em;
+  line-height: 1;
+  margin: 0 0 4px 0;
+}
+
+.c3 p:last-child {
+  margin: 0;
+}
+
+yoast-seo.g5[id="c2"] {
+  content: "c3,";
+}
+
+.c5 {
+  -webkit-flex: 0 0 40px;
+  -ms-flex: 0 0 40px;
+  flex: 0 0 40px;
+  height: 40px;
+  margin-right: 24px;
+}
+
+yoast-seo.g6[id="c4"] {
+  content: "c5,";
+}
+
+.c7 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+yoast-seo.g7[id="c6"] {
+  content: "c7,";
+}
+
+.c9 {
+  -webkit-flex: 0 0 40px;
+  -ms-flex: 0 0 40px;
+  flex: 0 0 40px;
+  height: 40px;
+  border: 0;
+  margin: 0 0 0 10px;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+yoast-seo.g8[id="c8"] {
+  content: "c9,";
+}
+
+.c13 {
+  vertical-align: middle;
+}
+
+yoast-seo.g9[id="c12"] {
+  content: "c13,";
+}
+
+@media screen and ( max-width:768px ) {
+  .c3 h1,
+  .c3 h2,
+  .c3 h3,
+  .c3 h4,
+  .c3 h5,
+  .c3 h6 {
+    margin-right: 30px;
+  }
+}
+
+@media screen and ( max-width:768px ) {
+  .c3 {
+    display: block;
+    position: relative;
+    padding: 16px;
+  }
+}
+
+@media screen and ( max-width:768px ) {
+  .c5 {
+    display: none;
+  }
+}
+
+@media screen and ( max-width:768px ) {
+  .c9 {
+    width: 40px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    margin: 0;
+  }
+}
+
 <div
-  className="eSByDL"
+  className="c0 c1"
 >
   <div
-    className="jgOTFM"
+    className="c2 c3"
   >
     <img
       alt=""
-      className="hwYJIV"
+      className="c4 c5"
       src="some-image.png"
     />
     <div
-      className="iYPrko"
+      className="c6 c7"
     >
       <h3>
         New User?
@@ -29,13 +163,13 @@ exports[`the Notification with props matches the snapshot 1`] = `
     </div>
     <button
       aria-label="Dismiss this notice"
-      className="hfImaK"
+      className="c8 c9"
       onClick={[Function]}
       type="button"
     >
       <svg
         aria-hidden={true}
-        className="ebKEvD yoast-svg-icon yoast-svg-icon-times kNqQRF"
+        className="c10 c11 yoast-svg-icon yoast-svg-icon-times c12 c13"
         fill="#616161"
         focusable="false"
         role="img"
@@ -53,14 +187,77 @@ exports[`the Notification with props matches the snapshot 1`] = `
 `;
 
 exports[`the Notification without props matches the snapshot 1`] = `
+.c1 {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  background-color: #fff;
+  min-height: 0;
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c1,";
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.c3 h1,
+.c3 h2,
+.c3 h3,
+.c3 h4,
+.c3 h5,
+.c3 h6 {
+  font-size: 1.4em;
+  line-height: 1;
+  margin: 0 0 4px 0;
+}
+
+.c3 p:last-child {
+  margin: 0;
+}
+
+yoast-seo.g5[id="c2"] {
+  content: "c3,";
+}
+
+.c5 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+yoast-seo.g7[id="c4"] {
+  content: "c5,";
+}
+
+@media screen and ( max-width:768px ) {
+
+}
+
+@media screen and ( max-width:768px ) {
+  .c3 {
+    display: block;
+    position: relative;
+    padding: 16px;
+  }
+}
+
 <div
-  className="eSByDL"
+  className="c0 c1"
 >
   <div
-    className="kkWWEd"
+    className="c2 c3"
   >
     <div
-      className="iYPrko"
+      className="c4 c5"
     >
       <h3 />
       <p

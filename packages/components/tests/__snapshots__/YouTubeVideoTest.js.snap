@@ -1,8 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the YouTubeVideo component matches the snapshot 1`] = `
+.c1 {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+}
+
+.c1 iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+yoast-seo.g1[id="c0"] {
+  content: "c1,";
+}
+
 <div
-  className="bNzZNB"
+  className="c0 c1"
 >
   <iframe
     allowFullScreen={true}

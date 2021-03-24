@@ -1,59 +1,334 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The FullHeightCard is rendered including some props 1`] = `
+.c1 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  background-color: #fff;
+  width: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+}
+
+yoast-seo.g5[id="c0"] {
+  content: "c1,";
+}
+
+.c5 {
+  padding: 12px 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+yoast-seo.g7[id="c4"] {
+  content: "c5,";
+}
+
+.c3 {
+  height: 100%;
+}
+
+yoast-seo.g10[id="c2"] {
+  content: "c3,";
+}
+
 <div
-  className="jcXXIE dgKSLD CourseCard_Empty"
+  className="c0 c1 c2 c3 CourseCard_Empty"
   id="Test01"
 >
   <div
-    className="fICiEc"
+    className="c4 c5"
   />
 </div>
 `;
 
 exports[`The FullHeightCard is rendered including the CardBanner and CardDetails components 1`] = `
+.c11 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
+yoast-seo.g1[id="c10"] {
+  content: "c11,";
+}
+
+.c13 {
+  position: absolute;
+  top: 8px;
+  left: -8px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 16px;
+  background-color: #a4286a;
+  padding: 8px 16px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+}
+
+yoast-seo.g3[id="c12"] {
+  content: "c13,";
+}
+
+.c15 {
+  position: absolute;
+  top: 40px;
+  left: -8px;
+  border-top: 8px solid #6c2548;
+  border-left: 8px solid transparent;
+}
+
+yoast-seo.g4[id="c14"] {
+  content: "c15,";
+}
+
+.c1 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  background-color: #fff;
+  width: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+}
+
+yoast-seo.g5[id="c0"] {
+  content: "c1,";
+}
+
+.c7 {
+  width: 100%;
+  vertical-align: bottom;
+}
+
+yoast-seo.g6[id="c6"] {
+  content: "c7,";
+}
+
+.c17 {
+  padding: 12px 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+yoast-seo.g7[id="c16"] {
+  content: "c17,";
+}
+
+.c5 {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: #a4286a;
+  overflow: hidden;
+}
+
+.c5:hover,
+.c5:focus,
+.c5:active {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  color: #a4286a;
+}
+
+.c5:focus,
+.c5:active {
+  box-shadow: none;
+}
+
+yoast-seo.g8[id="c4"] {
+  content: "c5,";
+}
+
+.c9 {
+  margin: 16px 16px 0 16px;
+  font-weight: 400;
+  font-size: 1.5em;
+  line-height: 1.2;
+  color: currentColor;
+}
+
+yoast-seo.g9[id="c8"] {
+  content: "c9,";
+}
+
+.c3 {
+  height: 100%;
+}
+
+yoast-seo.g10[id="c2"] {
+  content: "c3,";
+}
+
+.c25 {
+  color: #000;
+  white-space: nowrap;
+  display: block;
+  border-radius: 4px;
+  background-color: #ddd;
+  padding: 12px 16px;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2);
+  border: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: inherit;
+  margin-bottom: 8px;
+}
+
+.c25:hover,
+.c25:focus,
+.c25:active {
+  color: #000;
+  background-color: #cecece;
+}
+
+.c25:active {
+  background-color: #cecece;
+  -webkit-transform: translateY( 1px );
+  -ms-transform: translateY( 1px );
+  transform: translateY( 1px );
+  box-shadow: none;
+  -webkit-filter: none;
+  filter: none;
+}
+
+yoast-seo.g11[id="c24"] {
+  content: "c25,";
+}
+
+.c27 {
+  font-weight: bold;
+}
+
+yoast-seo.g13[id="c26"] {
+  content: "c27,";
+}
+
+.c23 {
+  text-align: center;
+}
+
+yoast-seo.g14[id="c22"] {
+  content: "c23,";
+}
+
+.c21 ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.c21 li {
+  position: relative;
+  margin-left: 16px;
+}
+
+.c21 li:before {
+  content: "✓";
+  color: #77b227;
+  position: absolute;
+  font-weight: bold;
+  display: inline-block;
+  left: -16px;
+}
+
+yoast-seo.g15[id="c20"] {
+  content: "c21,";
+}
+
+.c19 {
+  margin-bottom: 12px;
+  border-bottom: 1px #ddd solid;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+yoast-seo.g16[id="c18"] {
+  content: "c19,";
+}
+
 <div
-  className="jcXXIE dgKSLD CourseCard"
+  className="c0 c1 c2 c3 CourseCard"
   id="Test02"
 >
   <a
-    className="oJQsb"
+    className="c4 c5"
     href="https://yoast.com/academy/keyword-research-training/"
     rel={null}
     target="_blank"
   >
     <img
       alt=""
-      className="ehfyDt"
+      className="c6 c7"
       src="../wp-content/plugins/wordpress-seo/images/sample_course_card_header.png"
     />
     <h2
-      className="jkjWVU"
+      className="c8 c9"
     >
       Keyword Research
     </h2>
     <span
-      className="gHCoqL"
+      className="c10 c11"
     >
       (Opens in a new browser tab)
     </span>
   </a>
   <span
-    className="jvpaxk"
+    className="c12 c13"
   >
     Free
   </span>
   <span
-    className="lalIBs"
+    className="c14 c15"
   />
   <div
-    className="fICiEc"
+    className="c16 c17"
   >
     <div
-      className="ixyey"
+      className="c18 c19"
     >
       <div
-        className="hDEKkD"
+        className="c20 c21"
         dangerouslySetInnerHTML={
           Object {
             "__html": "Do you know the essential first step of good SEO? It’s keyword research. In this training, 
@@ -63,30 +338,30 @@ you’ll learn how to research and select the keywords that will guide searchers
       />
     </div>
     <div
-      className="hLFZrf"
+      className="c22 c23"
     >
       <a
-        className="hoNwyE"
+        className="c24 c25"
         href="https://yoast.com/cart/?add-to-cart=1311259"
         rel={null}
         target="_blank"
       >
         Start your free trail
         <span
-          className="gHCoqL"
+          className="c10 c11"
         >
           (Opens in a new browser tab)
         </span>
       </a>
       <a
-        className="blWwuK"
+        className="c26 c27"
         href="https://yoast.com/academy/keyword-research-training/"
         rel={null}
         target="_blank"
       >
         Read more about this training »
         <span
-          className="gHCoqL"
+          className="c10 c11"
         >
           (Opens in a new browser tab)
         </span>
@@ -97,12 +372,49 @@ you’ll learn how to research and select the keywords that will guide searchers
 `;
 
 exports[`The empty Card component matches the snapshot 1`] = `
+.c1 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  background-color: #fff;
+  width: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+}
+
+yoast-seo.g5[id="c0"] {
+  content: "c1,";
+}
+
+.c3 {
+  padding: 12px 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+yoast-seo.g7[id="c2"] {
+  content: "c3,";
+}
+
 <div
-  className="jcXXIE"
+  className="c0 c1"
   id=""
 >
   <div
-    className="fICiEc"
+    className="c2 c3"
   />
 </div>
 `;

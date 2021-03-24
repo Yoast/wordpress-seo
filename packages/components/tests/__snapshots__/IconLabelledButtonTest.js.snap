@@ -1,13 +1,110 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the IconLabelledButton matches the snapshot 1`] = `
+.c9 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c8"] {
+  content: "c9,";
+}
+
+.c5:active {
+  color: #fff;
+  background-color: #0066cd;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+yoast-seo.g5[id="c1"] {
+  content: "c5,";
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #fff;
+  background-color: #0066cd;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g6[id="c2"] {
+  content: "c6,";
+}
+
+.c7:hover {
+  color: #fff;
+  background-color: #0066cd;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g7[id="c3"] {
+  content: "c7,";
+}
+
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  margin: 0;
+  padding: 8px;
+  overflow: visible;
+  font-family: inherit;
+  font-weight: inherit;
+  color: #0066cd;
+  background: transparent;
+  font-size: inherit;
+}
+
+.c4 svg {
+  margin: 0 0 8px;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  fill: currentColor;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c4:active {
+  box-shadow: none;
+}
+
+yoast-seo.g9[id="c0"] {
+  content: "c4,";
+}
+
 <button
-  className="laOfvh"
+  className="c0 c1 c2 c3 c4 c5 c6 c7"
   type="button"
 >
   <svg
     aria-hidden={true}
-    className="cPnaHk yoast-svg-icon yoast-svg-icon-question-circle"
+    className="c8 c9 yoast-svg-icon yoast-svg-icon-question-circle"
     fill="#0066cd"
     focusable="false"
     role="img"
@@ -24,13 +121,110 @@ exports[`the IconLabelledButton matches the snapshot 1`] = `
 `;
 
 exports[`the IconLabelledButton with props matches the snapshot 1`] = `
+.c9 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c8"] {
+  content: "c9,";
+}
+
+.c5:active {
+  color: #fff;
+  background-color: #a4286a;
+  border-color: #f00;
+  box-shadow: inset 0 2px 5px -3px rgba( 164,40,106,0.5 );
+}
+
+yoast-seo.g5[id="c1"] {
+  content: "c5,";
+}
+
+.c6::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c6:focus {
+  outline: none;
+  border-color: #a4286a;
+  color: #a4286a;
+  background-color: #e1bee7;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+yoast-seo.g6[id="c2"] {
+  content: "c6,";
+}
+
+.c7:hover {
+  color: #fff;
+  background-color: #a4286a;
+  border-color: var(--yoast-color-border--default);
+}
+
+yoast-seo.g7[id="c3"] {
+  content: "c7,";
+}
+
+.c4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  margin: 0;
+  padding: 8px;
+  overflow: visible;
+  font-family: inherit;
+  font-weight: inherit;
+  color: #0f0;
+  background: #ff0;
+  font-size: 1em;
+}
+
+.c4 svg {
+  margin: 0 0 8px;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  fill: currentColor;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c4:active {
+  box-shadow: none;
+}
+
+yoast-seo.g9[id="c0"] {
+  content: "c4,";
+}
+
 <button
-  className="dyVzvl"
+  className="c0 c1 c2 c3 c4 c5 c6 c7"
   type="reset"
 >
   <svg
     aria-hidden={true}
-    className="cPnaHk yoast-svg-icon yoast-svg-icon-eye"
+    className="c8 c9 yoast-svg-icon yoast-svg-icon-eye"
     fill="#0f0"
     focusable="false"
     role="img"

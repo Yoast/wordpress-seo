@@ -1,13 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the Paper with props matches the snapshot 1`] = `
+.c1 {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  background-color: #eee;
+  min-height: 10em;
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c1,";
+}
+
 <div
-  className="dyWGuC"
+  className="c0 c1"
 />
 `;
 
 exports[`the Paper without props matches the snapshot 1`] = `
+.c1 {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  background-color: #fff;
+  min-height: 0;
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c1,";
+}
+
 <div
-  className="eSByDL"
+  className="c0 c1"
 />
 `;

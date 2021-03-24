@@ -3,12 +3,54 @@
 exports[`YoastWarning does not render without a message 1`] = `null`;
 
 exports[`YoastWarning matches the snapshot 1`] = `
+.c3 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c2"] {
+  content: "c3,";
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 16px;
+  background: #fff3cd;
+  color: #674e00;
+}
+
+yoast-seo.g4[id="c0"] {
+  content: "c1,";
+}
+
+.c5 {
+  margin-top: 2px;
+}
+
+yoast-seo.g5[id="c4"] {
+  content: "c5,";
+}
+
+.c7 {
+  margin: 0 0 0 8px;
+}
+
+yoast-seo.g6[id="c6"] {
+  content: "c7,";
+}
+
 <div
-  className="cleOfn"
+  className="c0 c1"
 >
   <svg
     aria-hidden={true}
-    className="cPnaHk yoast-svg-icon yoast-svg-icon-exclamation-triangle bCcBzk"
+    className="c2 c3 yoast-svg-icon yoast-svg-icon-exclamation-triangle c4 c5"
     fill="currentColor"
     focusable="false"
     role="img"
@@ -21,7 +63,7 @@ exports[`YoastWarning matches the snapshot 1`] = `
     />
   </svg>
   <div
-    className="looCKm"
+    className="c6 c7"
   >
     This is a warning message
     <a
@@ -38,12 +80,54 @@ exports[`YoastWarning matches the snapshot 1`] = `
 `;
 
 exports[`YoastWarning with a right to left language matches the snapshot 1`] = `
+.c3 {
+  width: 16px;
+  height: 16px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+yoast-seo.g2[id="c2"] {
+  content: "c3,";
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 16px;
+  background: #fff3cd;
+  color: #674e00;
+}
+
+yoast-seo.g4[id="c0"] {
+  content: "c1,";
+}
+
+.c5 {
+  margin-top: 2px;
+}
+
+yoast-seo.g5[id="c4"] {
+  content: "c5,";
+}
+
+.c7 {
+  margin: 0 8px 0 0;
+}
+
+yoast-seo.g6[id="c6"] {
+  content: "c7,";
+}
+
 <div
-  className="cleOfn"
+  className="c0 c1"
 >
   <svg
     aria-hidden={true}
-    className="cPnaHk yoast-svg-icon yoast-svg-icon-exclamation-triangle bCcBzk"
+    className="c2 c3 yoast-svg-icon yoast-svg-icon-exclamation-triangle c4 c5"
     fill="currentColor"
     focusable="false"
     role="img"
@@ -56,7 +140,7 @@ exports[`YoastWarning with a right to left language matches the snapshot 1`] = `
     />
   </svg>
   <div
-    className="iWSnrJ"
+    className="c6 c7"
   >
     This is a warning message
     <a

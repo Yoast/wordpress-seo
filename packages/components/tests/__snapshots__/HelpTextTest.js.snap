@@ -1,16 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HelpText matches the snapshot by default 1`] = `
+.c1 {
+  color: #767676;
+  margin-top: 0;
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c1,";
+}
+
 <p
-  className="dBPcRC"
+  className="c0 c1"
 >
   Some help text.
 </p>
 `;
 
 exports[`HelpText matches the snapshot when an array is provided as text 1`] = `
+.c1 {
+  color: #767676;
+  margin-top: 0;
+}
+
+yoast-seo.g3[id="c0"] {
+  content: "c1,";
+}
+
 <p
-  className="dBPcRC"
+  className="c0 c1"
 >
   Text 
   <a
