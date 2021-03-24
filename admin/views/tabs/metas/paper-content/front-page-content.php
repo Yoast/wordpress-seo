@@ -25,11 +25,14 @@ $yform->hidden( 'og_frontpage_image_id', 'og_frontpage_image_id' );
 $editor = new WPSEO_Replacevar_Editor(
 	$yform,
 	[
-		'title'                 => 'og_frontpage_title',
-		'description'           => 'og_frontpage_desc',
-		'page_type_recommended' => 'homepage',
-		'page_type_specific'    => 'page',
-		'paper_style'           => false,
+		'title'                   => 'og_frontpage_title',
+		'description'             => 'og_frontpage_desc',
+		'page_type_recommended'   => 'homepage',
+		'page_type_specific'      => 'page',
+		'paper_style'             => false,
+		'label_title'             => \esc_html__( 'Social title', 'wordpress-seo' ),
+		'label_description'       => \esc_html__( 'Social description', 'wordpress-seo' ),
+		'description_placeholder' => \esc_html__( 'Modify your social description by editing it right here.', 'wordpress-seo' ),
 	]
 );
 $editor->render();
