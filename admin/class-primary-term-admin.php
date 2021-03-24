@@ -272,15 +272,12 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		);
 
 		$mapped_terms_for_js = [];
-		array_walk(
-			$terms,
-			function ( &$value, $key ) use ( &$mapped_terms_for_js ) {
-				$mapped_terms_for_js[] = [
-					'id'   => $key,
-					'name' => $value,
-				];
-			}
-		);
+		foreach ( $terms as $id => $name ) {
+			$mapped_terms_for_js[] = [
+				'id'   => $id,
+				'name' => $name,
+			];
+		}
 
 		return [
 			'title'         => $taxonomy->labels->singular_name,
