@@ -76,8 +76,8 @@ class Main_Image_Test extends TestCase {
 		$this->instance->helpers = (object) [
 			'image'  => $this->image,
 			'schema' => (object) [
-				'id'      => $this->schema_id,
-				'image'   => $this->schema_image,
+				'id'    => $this->schema_id,
+				'image' => $this->schema_image,
 			],
 		];
 	}
@@ -87,6 +87,7 @@ class Main_Image_Test extends TestCase {
 	 *
 	 * @covers ::generate
 	 * @covers ::get_featured_image
+	 * @covers ::get_social_image
 	 */
 	public function test_generate_featured_image() {
 		$this->meta_tags_context->canonical = 'https://example.com/canonical';
@@ -117,14 +118,15 @@ class Main_Image_Test extends TestCase {
 			->with( $image_id, 1337 )
 			->andReturn( $image_schema );
 
-		$this->assertEquals( $image_schema, $this->instance->generate() );
-		$this->assertTrue( $this->meta_tags_context->has_image );
+		self::assertEquals( $image_schema, $this->instance->generate() );
+		self::assertTrue( $this->meta_tags_context->has_image );
 	}
 
 	/**
 	 * Tests that generate call generate from url without a featured image but with a content image.
 	 *
 	 * @covers ::generate
+	 * @covers ::get_social_image
 	 * @covers ::get_featured_image
 	 * @covers ::get_first_content_image
 	 */
@@ -156,14 +158,15 @@ class Main_Image_Test extends TestCase {
 			->with( $image_id, $image_url )
 			->andReturn( $image_schema );
 
-		$this->assertEquals( $image_schema, $this->instance->generate() );
-		$this->assertTrue( $this->meta_tags_context->has_image );
+		self::assertEquals( $image_schema, $this->instance->generate() );
+		self::assertTrue( $this->meta_tags_context->has_image );
 	}
 
 	/**
 	 * Tests that generate returns null if no image available.
 	 *
 	 * @covers ::generate
+	 * @covers ::get_social_image
 	 * @covers ::get_featured_image
 	 * @covers ::get_first_content_image
 	 */
@@ -183,7 +186,79 @@ class Main_Image_Test extends TestCase {
 			->with( 1337 )
 			->andReturn( '' );
 
-		$this->assertFalse( $this->instance->generate() );
+		self::assertFalse( $this->instance->generate() );
+	}
+
+	/**
+	 * Tests that generate returns the OpenGraph social image when available.
+	 *
+	 * @covers ::generate
+	 * @covers ::get_social_image
+	 * @covers ::get_featured_image
+	 * @covers ::get_first_content_image
+	 */
+	public function test_generate_from_open_graph_social_image() {
+		$this->meta_tags_context->canonical = 'https://example.com/canonical';
+		$this->meta_tags_context->id        = 1337;
+
+		$this->meta_tags_context->indexable->open_graph_image_id     = 4532;
+		$this->meta_tags_context->indexable->open_graph_image_source = 'set-by-user';
+
+		$image_id = $this->generate_image_id();
+
+		$image_schema = [
+			'@type'      => 'ImageObject',
+			'@id'        => 'http://basic.wordpress.test/2021/02/23/hello-world/#primaryimage',
+			'inLanguage' => 'en-US',
+			'url'        => 'http://basic.wordpress.test/wp-content/uploads/2021/03/og-image.jpg',
+			'contentUrl' => 'http://basic.wordpress.test/wp-content/uploads/2021/03/og-image.jpg',
+			'width'      => 732,
+			'height'     => 248,
+		];
+
+		$this->schema_image->expects( 'generate_from_attachment_id' )
+			->once()
+			->with( $image_id, 4532 )
+			->andReturn( $image_schema );
+
+		self::assertEquals( $image_schema, $this->instance->generate() );
+	}
+
+	/**
+	 * Tests that generate returns the Twitter social image when
+	 * an OpenGraph image is not available.
+	 *
+	 * @covers ::generate
+	 * @covers ::get_social_image
+	 * @covers ::get_featured_image
+	 * @covers ::get_first_content_image
+	 */
+	public function test_generate_from_twitter_social_image() {
+		$this->meta_tags_context->canonical = 'https://example.com/canonical';
+		$this->meta_tags_context->id        = 1337;
+
+		$this->meta_tags_context->indexable->twitter_image_id     = 5678;
+		$this->meta_tags_context->indexable->twitter_image_source = 'set-by-user';
+
+
+		$image_id = $this->generate_image_id();
+
+		$image_schema = [
+			'@type'      => 'ImageObject',
+			'@id'        => 'http://basic.wordpress.test/2021/02/23/hello-world/#primaryimage',
+			'inLanguage' => 'en-US',
+			'url'        => 'http://basic.wordpress.test/wp-content/uploads/2021/03/twitter-image.jpg',
+			'contentUrl' => 'http://basic.wordpress.test/wp-content/uploads/2021/03/twitter-image.jpg',
+			'width'      => 732,
+			'height'     => 248,
+		];
+
+		$this->schema_image->expects( 'generate_from_attachment_id' )
+			->once()
+			->with( $image_id, 5678 )
+			->andReturn( $image_schema );
+
+		self::assertEquals( $image_schema, $this->instance->generate() );
 	}
 
 	/**
@@ -194,7 +269,7 @@ class Main_Image_Test extends TestCase {
 	public function test_is_needed() {
 		$this->meta_tags_context->indexable->object_type = 'post';
 
-		$this->assertTrue( $this->instance->is_needed() );
+		self::assertTrue( $this->instance->is_needed() );
 	}
 
 	/**
@@ -205,7 +280,7 @@ class Main_Image_Test extends TestCase {
 	public function test_is_not_needed() {
 		$this->meta_tags_context->indexable->object_type = 'user';
 
-		$this->assertFalse( $this->instance->is_needed() );
+		self::assertFalse( $this->instance->is_needed() );
 	}
 
 	/**
