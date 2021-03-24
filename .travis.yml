@@ -224,7 +224,7 @@ script:
   - |
     if [[ "$CHECKJS" == "1" ]]; then
       travis_fold start "JavaScript.check" && travis_time_start
-      grunt check:js
+      yarn lint
       travis_time_finish && travis_fold end "JavaScript.check"
     fi
   # JavaScript tests
