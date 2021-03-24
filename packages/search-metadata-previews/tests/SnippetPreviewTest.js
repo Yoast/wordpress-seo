@@ -1,8 +1,8 @@
-import SnippetPreview from "../src/snippet-preview/SnippetPreview";
-import { MODE_DESKTOP, MODE_MOBILE } from "../src/snippet-preview/constants";
+import { mount } from "enzyme";
 import React from "react";
 import renderer from "react-test-renderer";
-import { mount } from "enzyme";
+import { MODE_DESKTOP, MODE_MOBILE } from "../src/snippet-preview/constants";
+import SnippetPreview from "../src/snippet-preview/SnippetPreview";
 
 const defaultArgs = {
 	description: "Description",
@@ -75,46 +75,40 @@ describe( "SnippetPreview", () => {
 		renderSnapshotWithArgs( { activeField: "url" } );
 	} );
 
-	it( "highlights keywords inside the description and url", () => {
-		renderSnapshotWithArgs( {
-			description: "Something with a keyword",
-			url: "https://example.org/this-keyword-url",
-			wordsToHighlight: [ "keyword" ],
+	describe( "highlights keyphrase in desktop mode", () => {
+		it( "highlights keywords inside the description and url", () => {
+			renderSnapshotWithArgs( {
+				mode: MODE_DESKTOP,
+				description: "Something with a keyword",
+				url: "https://example.org/this-keyword-url",
+				wordsToHighlight: [ "keyword" ],
+			} );
 		} );
-	} );
 
-	it( "highlights keywords even if they are transliterated", () => {
-		renderSnapshotWithArgs( {
-			description: "Something with a transliterated kaayword",
-			wordsToHighlight: [ "kåyword" ],
-			locale: "da_DK",
+		it( "highlights keywords even if they are transliterated", () => {
+			renderSnapshotWithArgs( {
+				mode: MODE_DESKTOP,
+				description: "Something with a transliterated kaayword",
+				wordsToHighlight: [ "kåyword" ],
+				locale: "da_DK",
+			} );
 		} );
-	} );
 
-	it( "highlights a keyword in different morphological forms", () => {
-		renderSnapshotWithArgs( {
-			description: "She runs every day and every run is longer than the previous. Running makes her happy.",
-			wordsToHighlight: [ "run", "runs", "running" ],
+		it( "highlights a keyword in different morphological forms", () => {
+			renderSnapshotWithArgs( {
+				mode: MODE_DESKTOP,
+				description: "She runs every day and every run is longer than the previous. Running makes her happy.",
+				wordsToHighlight: [ "run", "runs", "running" ],
+			} );
 		} );
-	} );
 
-	it( "highlights separate words from the keyphrase", () => {
-		renderSnapshotWithArgs( {
-			description: "She runs every day and every run is longer than the previous. Running makes her happy.",
-			wordsToHighlight: [ "run", "runs", "running", "every" ],
+		it( "highlights separate words from the keyphrase", () => {
+			renderSnapshotWithArgs( {
+				mode: MODE_DESKTOP,
+				description: "She runs every day and every run is longer than the previous. Running makes her happy.",
+				wordsToHighlight: [ "run", "runs", "running", "every" ],
+			} );
 		} );
-	} );
-
-	it( "adds a trailing slash to the url", () => {
-		const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "https://example.org/this-url" } );
-
-		expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "https://example.org/this-url/" );
-	} );
-
-	it( "does not add a trailing slash to the url", () => {
-		const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "https://example.org/this-url/" } );
-
-		expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "https://example.org/this-url/" );
 	} );
 
 	describe( "mobile mode", () => {
@@ -134,10 +128,46 @@ describe( "SnippetPreview", () => {
 			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › about" );
 		} );
 
-		it( "doesn't percent encode characters that are percent encoded by node's url.parse", () => {
+		it( "doesn't percent encode characters that are percent encoded by node's url.parse in mobile view", () => {
 			const wrapper = mountWithArgs( { mode: MODE_MOBILE, url: "http://www.google.nl/`^ {}" } );
 
 			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › `^ {}" );
+		} );
+
+		it( "properly renders multiple breadcrumbs in desktop view", () => {
+			const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "http://example.org/this-url" } );
+
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "example.org › this-url" );
+		} );
+
+		it( "properly renders multiple breadcrumbs in desktop view without a trailing slash", () => {
+			const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "http://example.org/this-url/" } );
+
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "example.org › this-url" );
+		} );
+
+		it( "strips http protocol in mobile view", () => {
+			const wrapper = mountWithArgs( { mode: MODE_MOBILE, url: "http://www.google.nl/about" } );
+
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › about" );
+		} );
+
+		it( "strips https protocol in mobile view", () => {
+			const wrapper = mountWithArgs( { mode: MODE_MOBILE, url: "https://www.google.nl/about" } );
+
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › about" );
+		} );
+
+		it( "strips http protocol in desktop view", () => {
+			const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "http://www.google.nl/about" } );
+
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › about" );
+		} );
+
+		it( "strips https protocol in desktop view", () => {
+			const wrapper = mountWithArgs( { mode: MODE_DESKTOP, url: "https://www.google.nl/about" } );
+
+			expect( wrapper.find( "SnippetPreview__BaseUrlOverflowContainer" ).text() ).toBe( "www.google.nl › about" );
 		} );
 	} );
 } );

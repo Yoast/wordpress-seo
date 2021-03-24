@@ -122,6 +122,7 @@ class SettingsSnippetEditor extends React.Component {
 			descriptionEditorFieldPlaceholder,
 			hasPaperStyle,
 			fieldIds,
+			labels,
 		} = this.props;
 
 		const { activeField, hoveredField } = this.state;
@@ -140,6 +141,7 @@ class SettingsSnippetEditor extends React.Component {
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					containerPadding={ hasPaperStyle ? "0 20px" : "0" }
 					fieldIds={ fieldIds }
+					labels={ labels }
 				/>
 			</ErrorBoundary>
 		);
@@ -160,13 +162,18 @@ SettingsSnippetEditor.propTypes = {
 		title: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
 	} ).isRequired,
+	labels: PropTypes.shape( {
+		title: PropTypes.string,
+		description: PropTypes.string,
+	} ),
 };
 
 SettingsSnippetEditor.defaultProps = {
 	replacementVariables: [],
 	recommendedReplacementVariables: [],
 	hasPaperStyle: true,
-	descriptionEditorFieldPlaceholder: "",
+	descriptionEditorFieldPlaceholder: null,
+	labels: {},
 };
 
 export default SettingsSnippetEditor;

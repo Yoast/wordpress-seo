@@ -82,11 +82,15 @@ export default abstract class Definition {
 
 		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown );
 
+		logger.startGroup( `Validation results: ${ blockInstance.name }` );
+
 		validation.issues = Object.values( this.instructions ).map( instruction => {
 			const issue = instruction.validate( blockInstance );
-			logger.debug( "validating " + instruction.options.name + " against " + blockInstance.name + " => " + BlockValidation[ issue.result ] );
+			logger.debug( `${ instruction.options.name} => ${ BlockValidation[ issue.result ] }` );
 			return issue;
 		} ).filter( issue => issue.result !== BlockValidation.Skipped );
+
+		logger.endGroup();
 
 		// In case of a block with just one innerblock, this prevents a duplicate, identical wrapper.
 		if ( validation.issues.length === 1 ) {

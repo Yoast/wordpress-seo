@@ -25,12 +25,12 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   box-sizing: border-box;
 }
 
-.c3 {
+.c8 {
   cursor: pointer;
   position: relative;
 }
 
-.c4 {
+.c9 {
   color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -48,11 +48,11 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   text-overflow: ellipsis;
 }
 
-.c5 {
+.c10 {
   white-space: nowrap;
 }
 
-.c6 {
+.c3 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -62,7 +62,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   vertical-align: top;
 }
 
-.c7 {
+.c4 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -79,9 +79,10 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   vertical-align: baseline;
 }
 
-.c8 {
-  font-size: 16px;
-  color: #006621;
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
 }
 
 .c11 {
@@ -91,14 +92,14 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   max-width: 600px;
   padding-top: 1px;
   font-size: 14px;
-  line-height: 1.57;
+  line-height: 1.58;
 }
 
-.c9 {
+.c7 {
   display: inline-block;
   margin-top: 9px;
   margin-left: 6px;
-  border-top: 5px solid #006621;
+  border-top: 5px solid #70757a;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
   vertical-align: top;
@@ -127,24 +128,32 @@ exports[`SnippetPreview changes the colors of the description if it was generate
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c3"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
         >
           <div
             className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
           >
             <span
               className="c5"
             >
-              Title
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
             </span>
           </div>
         </div>
+        <div
+          className="c7"
+        />
         <span
           className="screen-reader-text"
           style={
@@ -157,27 +166,24 @@ exports[`SnippetPreview changes the colors of the description if it was generate
             }
           }
         >
-          Url preview:
+          SEO title preview:
         </span>
         <div
-          className="c6"
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c7"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
+            className="c9"
           >
             <span
-              className="c8"
+              className="c10"
             >
-              https://example.org/
+              Title
             </span>
           </div>
         </div>
-        <div
-          className="c9"
-        />
       </div>
       <div
         className="yoast-shopping-data-preview--desktop"
@@ -255,7 +261,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 </section>
 `;
 
-exports[`SnippetPreview highlights a keyword in different morphological forms 1`] = `
+exports[`SnippetPreview highlights keyphrase in desktop mode highlights a keyword in different morphological forms 1`] = `
 .c0 {
   overflow: auto;
   width: 640px;
@@ -280,12 +286,12 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
   box-sizing: border-box;
 }
 
-.c3 {
+.c8 {
   cursor: pointer;
   position: relative;
 }
 
-.c4 {
+.c9 {
   color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -303,11 +309,11 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
   text-overflow: ellipsis;
 }
 
-.c5 {
+.c10 {
   white-space: nowrap;
 }
 
-.c6 {
+.c3 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -317,7 +323,7 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
   vertical-align: top;
 }
 
-.c7 {
+.c4 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -334,9 +340,10 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
   vertical-align: baseline;
 }
 
-.c8 {
-  font-size: 16px;
-  color: #006621;
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
 }
 
 .c11 {
@@ -346,14 +353,14 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
   max-width: 600px;
   padding-top: 1px;
   font-size: 14px;
-  line-height: 1.57;
+  line-height: 1.58;
 }
 
-.c9 {
+.c7 {
   display: inline-block;
   margin-top: 9px;
   margin-left: 6px;
-  border-top: 5px solid #006621;
+  border-top: 5px solid #70757a;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
   vertical-align: top;
@@ -382,24 +389,32 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c3"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
         >
           <div
             className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
           >
             <span
               className="c5"
             >
-              Title
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
             </span>
           </div>
         </div>
+        <div
+          className="c7"
+        />
         <span
           className="screen-reader-text"
           style={
@@ -412,27 +427,24 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
             }
           }
         >
-          Url preview:
+          SEO title preview:
         </span>
         <div
-          className="c6"
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c7"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
+            className="c9"
           >
             <span
-              className="c8"
+              className="c10"
             >
-              https://example.org/
+              Title
             </span>
           </div>
         </div>
-        <div
-          className="c9"
-        />
       </div>
       <div
         className="yoast-shopping-data-preview--desktop"
@@ -522,7 +534,7 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
 </section>
 `;
 
-exports[`SnippetPreview highlights keywords even if they are transliterated 1`] = `
+exports[`SnippetPreview highlights keyphrase in desktop mode highlights keywords even if they are transliterated 1`] = `
 .c0 {
   overflow: auto;
   width: 640px;
@@ -547,12 +559,12 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   box-sizing: border-box;
 }
 
-.c3 {
+.c8 {
   cursor: pointer;
   position: relative;
 }
 
-.c4 {
+.c9 {
   color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -570,11 +582,11 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   text-overflow: ellipsis;
 }
 
-.c5 {
+.c10 {
   white-space: nowrap;
 }
 
-.c6 {
+.c3 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -584,7 +596,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   vertical-align: top;
 }
 
-.c7 {
+.c4 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -601,9 +613,10 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   vertical-align: baseline;
 }
 
-.c8 {
-  font-size: 16px;
-  color: #006621;
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
 }
 
 .c11 {
@@ -613,14 +626,14 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   max-width: 600px;
   padding-top: 1px;
   font-size: 14px;
-  line-height: 1.57;
+  line-height: 1.58;
 }
 
-.c9 {
+.c7 {
   display: inline-block;
   margin-top: 9px;
   margin-left: 6px;
-  border-top: 5px solid #006621;
+  border-top: 5px solid #70757a;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
   vertical-align: top;
@@ -649,24 +662,32 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c3"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
         >
           <div
             className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
           >
             <span
               className="c5"
             >
-              Title
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
             </span>
           </div>
         </div>
+        <div
+          className="c7"
+        />
         <span
           className="screen-reader-text"
           style={
@@ -679,27 +700,24 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
             }
           }
         >
-          Url preview:
+          SEO title preview:
         </span>
         <div
-          className="c6"
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c7"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
+            className="c9"
           >
             <span
-              className="c8"
+              className="c10"
             >
-              https://example.org/
+              Title
             </span>
           </div>
         </div>
-        <div
-          className="c9"
-        />
       </div>
       <div
         className="yoast-shopping-data-preview--desktop"
@@ -780,7 +798,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 </section>
 `;
 
-exports[`SnippetPreview highlights keywords inside the description and url 1`] = `
+exports[`SnippetPreview highlights keyphrase in desktop mode highlights keywords inside the description and url 1`] = `
 .c0 {
   overflow: auto;
   width: 640px;
@@ -805,12 +823,12 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   box-sizing: border-box;
 }
 
-.c3 {
+.c8 {
   cursor: pointer;
   position: relative;
 }
 
-.c4 {
+.c9 {
   color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -828,11 +846,11 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   text-overflow: ellipsis;
 }
 
-.c5 {
+.c10 {
   white-space: nowrap;
 }
 
-.c6 {
+.c3 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -842,7 +860,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   vertical-align: top;
 }
 
-.c7 {
+.c4 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -859,9 +877,10 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   vertical-align: baseline;
 }
 
-.c8 {
-  font-size: 16px;
-  color: #006621;
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
 }
 
 .c11 {
@@ -871,14 +890,14 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   max-width: 600px;
   padding-top: 1px;
   font-size: 14px;
-  line-height: 1.57;
+  line-height: 1.58;
 }
 
-.c9 {
+.c7 {
   display: inline-block;
   margin-top: 9px;
   margin-left: 6px;
-  border-top: 5px solid #006621;
+  border-top: 5px solid #70757a;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
   vertical-align: top;
@@ -907,24 +926,32 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c3"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
         >
           <div
             className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
           >
             <span
               className="c5"
             >
-              Title
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › this-keyword-url
             </span>
           </div>
         </div>
+        <div
+          className="c7"
+        />
         <span
           className="screen-reader-text"
           style={
@@ -937,27 +964,24 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
             }
           }
         >
-          Url preview:
+          SEO title preview:
         </span>
         <div
-          className="c6"
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c7"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
+            className="c9"
           >
             <span
-              className="c8"
+              className="c10"
             >
-              https://example.org/this-keyword-url/
+              Title
             </span>
           </div>
         </div>
-        <div
-          className="c9"
-        />
       </div>
       <div
         className="yoast-shopping-data-preview--desktop"
@@ -1038,7 +1062,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 </section>
 `;
 
-exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
+exports[`SnippetPreview highlights keyphrase in desktop mode highlights separate words from the keyphrase 1`] = `
 .c0 {
   overflow: auto;
   width: 640px;
@@ -1063,12 +1087,12 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
   box-sizing: border-box;
 }
 
-.c3 {
+.c8 {
   cursor: pointer;
   position: relative;
 }
 
-.c4 {
+.c9 {
   color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -1086,11 +1110,11 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
   text-overflow: ellipsis;
 }
 
-.c5 {
+.c10 {
   white-space: nowrap;
 }
 
-.c6 {
+.c3 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -1100,7 +1124,7 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
   vertical-align: top;
 }
 
-.c7 {
+.c4 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -1117,9 +1141,10 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
   vertical-align: baseline;
 }
 
-.c8 {
-  font-size: 16px;
-  color: #006621;
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
 }
 
 .c11 {
@@ -1129,14 +1154,14 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
   max-width: 600px;
   padding-top: 1px;
   font-size: 14px;
-  line-height: 1.57;
+  line-height: 1.58;
 }
 
-.c9 {
+.c7 {
   display: inline-block;
   margin-top: 9px;
   margin-left: 6px;
-  border-top: 5px solid #006621;
+  border-top: 5px solid #70757a;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
   vertical-align: top;
@@ -1165,24 +1190,32 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c3"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
         >
           <div
             className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
           >
             <span
               className="c5"
             >
-              Title
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
             </span>
           </div>
         </div>
+        <div
+          className="c7"
+        />
         <span
           className="screen-reader-text"
           style={
@@ -1195,27 +1228,24 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
             }
           }
         >
-          Url preview:
+          SEO title preview:
         </span>
         <div
-          className="c6"
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c7"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
+            className="c9"
           >
             <span
-              className="c8"
+              className="c10"
             >
-              https://example.org/
+              Title
             </span>
           </div>
         </div>
-        <div
-          className="c9"
-        />
       </div>
       <div
         className="yoast-shopping-data-preview--desktop"
@@ -1329,12 +1359,12 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   font-size: 14px;
 }
 
-.c6 {
+.c7 {
   cursor: pointer;
   position: relative;
 }
 
-.c7 {
+.c8 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -1352,7 +1382,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   text-overflow: ellipsis;
 }
 
-.c8 {
+.c9 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -1390,10 +1420,15 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
 
 .c5 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c10 {
+.c6 {
+  color: #3c4043;
+}
+
+.c11 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -1402,7 +1437,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   max-width: 600px;
 }
 
-.c10:after {
+.c11:after {
   display: table;
   content: "";
   clear: both;
@@ -1423,7 +1458,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   vertical-align: middle;
 }
 
-.c9 {
+.c10 {
   background-size: 100% 100%;
   display: inline-block;
   height: 12px;
@@ -1438,7 +1473,6 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   <div
     className="c0"
     id="yoast-snippet-preview-container"
-    onMouseLeave={undefined}
     width={null}
   >
     <div
@@ -1475,7 +1509,12 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
           <span
             className="c5"
           >
-            https://example.org
+            <span
+              className="c6"
+            >
+              example.org
+            </span>
+             › 
           </span>
         </div>
       </div>
@@ -1494,24 +1533,300 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         SEO title preview:
       </span>
       <div
-        className="c6"
+        className="c7"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
-          className="c7"
+          className="c8"
         >
           <span
-            className="c8"
+            className="c9"
           >
             Title
           </span>
         </div>
       </div>
       <div
-        className="c9"
+        className="c10"
       />
+    </div>
+    <div
+      className="c1 yoast-shopping-data-preview--desktop"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Shopping data preview:
+      </span>
+    </div>
+    <div
+      className="c1"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Meta description preview:
+      </span>
+      <div
+        className="c11"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+      >
+        <div
+          className="c11"
+        >
+          
+          
+          Description
+        </div>
+      </div>
+    </div>
+    <div
+      className="c1 yoast-shopping-data-preview--mobile"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Shopping data preview:
+      </span>
+      <div
+        className="c11"
+      >
+        
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c0 {
+  border-bottom: 1px hidden #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  max-width: 400px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.c7 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c8 {
+  color: #1967d2;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c9 {
+  display: inline-block;
+  max-height: 40px;
+  padding-top: 1px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.c2 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 12px;
+  padding-top: 1px;
+  line-height: 20px;
+  vertical-align: top;
+}
+
+.c5 {
+  font-size: 12px;
+  line-height: 20px;
+  color: #3c4043;
+}
+
+.c6 {
+  color: #3c4043;
+}
+
+.c10 {
+  color: #3c4043;
+  font-size: 14px;
+  line-height: 20px;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+}
+
+.c10:after {
+  display: table;
+  content: "";
+  clear: both;
+}
+
+.c1 {
+  padding: 12px 16px;
+}
+
+.c1:first-child {
+  margin-bottom: -16px;
+}
+
+.c4 {
+  width: 16px;
+  height: 16px;
+  margin-right: 12px;
+  vertical-align: middle;
+}
+
+<section>
+  <div
+    className="c0"
+    id="yoast-snippet-preview-container"
+    width={null}
+  >
+    <div
+      className="c1"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Url preview:
+      </span>
+      <div
+        className="c2"
+      >
+        <div
+          className="c3"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <img
+            alt=""
+            className="c4"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
+          />
+          <span
+            className="c5"
+          >
+            <span
+              className="c6"
+            >
+              example.org
+            </span>
+             › 
+          </span>
+        </div>
+      </div>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        SEO title preview:
+      </span>
+      <div
+        className="c7"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+      >
+        <div
+          className="c8"
+        >
+          <span
+            className="c9"
+          >
+            Title
+          </span>
+        </div>
+      </div>
     </div>
     <div
       className="c1 yoast-shopping-data-preview--desktop"
@@ -1581,273 +1896,6 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         Shopping data preview:
       </span>
       <div
-        className="c11"
-      >
-        
-        
-        
-      </div>
-    </div>
-  </div>
-</section>
-`;
-
-exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
-.c10 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.c0 {
-  border-bottom: 1px hidden #fff;
-  border-radius: 8px;
-  box-shadow: 0 1px 6px rgba(32,33,36,0.28);
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 400px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-
-.c6 {
-  cursor: pointer;
-  position: relative;
-}
-
-.c7 {
-  color: #1967d2;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: normal;
-  margin: 0;
-  display: inline-block;
-  overflow: hidden;
-  max-width: 600px;
-  vertical-align: top;
-  text-overflow: ellipsis;
-  max-width: 600px;
-  vertical-align: top;
-  text-overflow: ellipsis;
-}
-
-.c8 {
-  display: inline-block;
-  max-height: 40px;
-  padding-top: 1px;
-  vertical-align: top;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.c2 {
-  display: inline-block;
-  cursor: pointer;
-  position: relative;
-  max-width: 90%;
-  white-space: nowrap;
-  font-size: 14px;
-  vertical-align: top;
-}
-
-.c3 {
-  display: inline-block;
-  cursor: pointer;
-  position: relative;
-  max-width: 90%;
-  white-space: nowrap;
-  font-size: 14px;
-  vertical-align: top;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  margin-bottom: 12px;
-  padding-top: 1px;
-  line-height: 20px;
-  vertical-align: top;
-}
-
-.c5 {
-  font-size: 12px;
-  color: #3c4043;
-}
-
-.c9 {
-  color: #3c4043;
-  font-size: 14px;
-  line-height: 20px;
-  cursor: pointer;
-  position: relative;
-  max-width: 600px;
-}
-
-.c9:after {
-  display: table;
-  content: "";
-  clear: both;
-}
-
-.c1 {
-  padding: 12px 16px;
-}
-
-.c1:first-child {
-  margin-bottom: -16px;
-}
-
-.c4 {
-  width: 16px;
-  height: 16px;
-  margin-right: 12px;
-  vertical-align: middle;
-}
-
-<section>
-  <div
-    className="c0"
-    id="yoast-snippet-preview-container"
-    onMouseLeave={undefined}
-    width={null}
-  >
-    <div
-      className="c1"
-    >
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        Url preview:
-      </span>
-      <div
-        className="c2"
-      >
-        <div
-          className="c3"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-        >
-          <img
-            alt=""
-            className="c4"
-            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
-          />
-          <span
-            className="c5"
-          >
-            https://example.org
-          </span>
-        </div>
-      </div>
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        SEO title preview:
-      </span>
-      <div
-        className="c6"
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
-        onMouseUp={[Function]}
-      >
-        <div
-          className="c7"
-        >
-          <span
-            className="c8"
-          >
-            Title
-          </span>
-        </div>
-      </div>
-    </div>
-    <div
-      className="c1 yoast-shopping-data-preview--desktop"
-    >
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        Shopping data preview:
-      </span>
-    </div>
-    <div
-      className="c1"
-    >
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        Meta description preview:
-      </span>
-      <div
-        className="c9"
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
-        onMouseUp={[Function]}
-      >
-        <div
-          className="c9"
-        >
-          
-          
-          Description
-        </div>
-      </div>
-    </div>
-    <div
-      className="c1 yoast-shopping-data-preview--mobile"
-    >
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        Shopping data preview:
-      </span>
-      <div
         className="c10"
       >
         
@@ -1877,12 +1925,12 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   font-size: 14px;
 }
 
-.c6 {
+.c7 {
   cursor: pointer;
   position: relative;
 }
 
-.c7 {
+.c8 {
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -1900,7 +1948,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   text-overflow: ellipsis;
 }
 
-.c8 {
+.c9 {
   display: inline-block;
   max-height: 40px;
   padding-top: 1px;
@@ -1938,10 +1986,15 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 
 .c5 {
   font-size: 12px;
+  line-height: 20px;
   color: #3c4043;
 }
 
-.c9 {
+.c6 {
+  color: #3c4043;
+}
+
+.c10 {
   color: #3c4043;
   font-size: 14px;
   line-height: 20px;
@@ -1950,7 +2003,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   max-width: 600px;
 }
 
-.c9:after {
+.c10:after {
   display: table;
   content: "";
   clear: both;
@@ -1975,7 +2028,6 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   <div
     className="c0"
     id="yoast-snippet-preview-container"
-    onMouseLeave={undefined}
     width={null}
   >
     <div
@@ -2012,7 +2064,12 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
           <span
             className="c5"
           >
-            https://example.org
+            <span
+              className="c6"
+            >
+              example.org
+            </span>
+             › 
           </span>
         </div>
       </div>
@@ -2031,16 +2088,16 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         SEO title preview:
       </span>
       <div
-        className="c6"
+        className="c7"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
-          className="c7"
+          className="c8"
         >
           <span
-            className="c8"
+            className="c9"
           >
             Title
           </span>
@@ -2083,13 +2140,13 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c9"
+        className="c10"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
-          className="c9"
+          className="c10"
         >
           
           
@@ -2151,12 +2208,12 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   box-sizing: border-box;
 }
 
-.c3 {
+.c8 {
   cursor: pointer;
   position: relative;
 }
 
-.c4 {
+.c9 {
   color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -2174,11 +2231,11 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   text-overflow: ellipsis;
 }
 
-.c5 {
+.c10 {
   white-space: nowrap;
 }
 
-.c6 {
+.c3 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -2188,7 +2245,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   vertical-align: top;
 }
 
-.c7 {
+.c4 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -2205,9 +2262,10 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   vertical-align: baseline;
 }
 
-.c8 {
-  font-size: 16px;
-  color: #006621;
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
 }
 
 .c11 {
@@ -2217,14 +2275,14 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   max-width: 600px;
   padding-top: 1px;
   font-size: 14px;
-  line-height: 1.57;
+  line-height: 1.58;
 }
 
-.c9 {
+.c7 {
   display: inline-block;
   margin-top: 9px;
   margin-left: 6px;
-  border-top: 5px solid #006621;
+  border-top: 5px solid #70757a;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
   vertical-align: top;
@@ -2253,24 +2311,32 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c3"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
         >
           <div
             className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
           >
             <span
               className="c5"
             >
-              Title
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
             </span>
           </div>
         </div>
+        <div
+          className="c7"
+        />
         <span
           className="screen-reader-text"
           style={
@@ -2283,27 +2349,24 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
             }
           }
         >
-          Url preview:
+          SEO title preview:
         </span>
         <div
-          className="c6"
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c7"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
+            className="c9"
           >
             <span
-              className="c8"
+              className="c10"
             >
-              https://example.org/
+              Title
             </span>
           </div>
         </div>
-        <div
-          className="c9"
-        />
       </div>
       <div
         className="yoast-shopping-data-preview--desktop"
@@ -2406,7 +2469,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   box-sizing: border-box;
 }
 
-.c4 {
+.c9 {
   color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -2424,11 +2487,11 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   text-overflow: ellipsis;
 }
 
-.c5 {
+.c10 {
   white-space: nowrap;
 }
 
-.c6 {
+.c3 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -2438,7 +2501,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   vertical-align: top;
 }
 
-.c7 {
+.c4 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -2455,9 +2518,10 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   vertical-align: baseline;
 }
 
-.c8 {
-  font-size: 16px;
-  color: #006621;
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
 }
 
 .c11 {
@@ -2467,25 +2531,25 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   max-width: 600px;
   padding-top: 1px;
   font-size: 14px;
-  line-height: 1.57;
+  line-height: 1.58;
 }
 
-.c9 {
+.c7 {
   display: inline-block;
   margin-top: 9px;
   margin-left: 6px;
-  border-top: 5px solid #006621;
+  border-top: 5px solid #70757a;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
   vertical-align: top;
 }
 
-.c3 {
+.c8 {
   cursor: pointer;
   position: relative;
 }
 
-.c3::before {
+.c8::before {
   display: block;
   position: absolute;
   top: 0;
@@ -2522,24 +2586,32 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c3"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
         >
           <div
             className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
           >
             <span
               className="c5"
             >
-              Title
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
             </span>
           </div>
         </div>
+        <div
+          className="c7"
+        />
         <span
           className="screen-reader-text"
           style={
@@ -2552,27 +2624,24 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
             }
           }
         >
-          Url preview:
+          SEO title preview:
         </span>
         <div
-          className="c6"
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c7"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
+            className="c9"
           >
             <span
-              className="c8"
+              className="c10"
             >
-              https://example.org/
+              Title
             </span>
           </div>
         </div>
-        <div
-          className="c9"
-        />
       </div>
       <div
         className="yoast-shopping-data-preview--desktop"
@@ -2675,12 +2744,12 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   box-sizing: border-box;
 }
 
-.c3 {
+.c8 {
   cursor: pointer;
   position: relative;
 }
 
-.c4 {
+.c9 {
   color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -2698,11 +2767,11 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   text-overflow: ellipsis;
 }
 
-.c5 {
+.c10 {
   white-space: nowrap;
 }
 
-.c6 {
+.c3 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -2712,7 +2781,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   vertical-align: top;
 }
 
-.c7 {
+.c4 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -2729,16 +2798,21 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   vertical-align: baseline;
 }
 
-.c8 {
-  font-size: 16px;
-  color: #006621;
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
 }
 
-.c9 {
+.c6 {
+  color: #3c4043;
+}
+
+.c7 {
   display: inline-block;
   margin-top: 9px;
   margin-left: 6px;
-  border-top: 5px solid #006621;
+  border-top: 5px solid #70757a;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
   vertical-align: top;
@@ -2751,7 +2825,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   max-width: 600px;
   padding-top: 1px;
   font-size: 14px;
-  line-height: 1.57;
+  line-height: 1.58;
 }
 
 .c11::before {
@@ -2791,24 +2865,32 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c3"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
         >
           <div
             className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
           >
             <span
               className="c5"
             >
-              Title
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
             </span>
           </div>
         </div>
+        <div
+          className="c7"
+        />
         <span
           className="screen-reader-text"
           style={
@@ -2821,27 +2903,24 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
             }
           }
         >
-          Url preview:
+          SEO title preview:
         </span>
         <div
-          className="c6"
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c7"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
+            className="c9"
           >
             <span
-              className="c8"
+              className="c10"
             >
-              https://example.org/
+              Title
             </span>
           </div>
         </div>
-        <div
-          className="c9"
-        />
       </div>
       <div
         className="yoast-shopping-data-preview--desktop"
@@ -2944,12 +3023,12 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   box-sizing: border-box;
 }
 
-.c3 {
+.c8 {
   cursor: pointer;
   position: relative;
 }
 
-.c4 {
+.c9 {
   color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -2967,11 +3046,11 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   text-overflow: ellipsis;
 }
 
-.c5 {
+.c10 {
   white-space: nowrap;
 }
 
-.c7 {
+.c4 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -2988,9 +3067,10 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   vertical-align: baseline;
 }
 
-.c8 {
-  font-size: 16px;
-  color: #006621;
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
 }
 
 .c11 {
@@ -3000,20 +3080,20 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   max-width: 600px;
   padding-top: 1px;
   font-size: 14px;
-  line-height: 1.57;
+  line-height: 1.58;
 }
 
-.c9 {
+.c7 {
   display: inline-block;
   margin-top: 9px;
   margin-left: 6px;
-  border-top: 5px solid #006621;
+  border-top: 5px solid #70757a;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
   vertical-align: top;
 }
 
-.c6 {
+.c3 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -3023,7 +3103,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   vertical-align: top;
 }
 
-.c6::before {
+.c3::before {
   display: block;
   position: absolute;
   top: 0;
@@ -3060,24 +3140,32 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c3"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
         >
           <div
             className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
           >
             <span
               className="c5"
             >
-              Title
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
             </span>
           </div>
         </div>
+        <div
+          className="c7"
+        />
         <span
           className="screen-reader-text"
           style={
@@ -3090,27 +3178,24 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
             }
           }
         >
-          Url preview:
+          SEO title preview:
         </span>
         <div
-          className="c6"
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c7"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
+            className="c9"
           >
             <span
-              className="c8"
+              className="c10"
             >
-              https://example.org/
+              Title
             </span>
           </div>
         </div>
-        <div
-          className="c9"
-        />
       </div>
       <div
         className="yoast-shopping-data-preview--desktop"
@@ -3213,7 +3298,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   box-sizing: border-box;
 }
 
-.c4 {
+.c9 {
   color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -3231,11 +3316,11 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   text-overflow: ellipsis;
 }
 
-.c5 {
+.c10 {
   white-space: nowrap;
 }
 
-.c6 {
+.c3 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -3245,7 +3330,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   vertical-align: top;
 }
 
-.c7 {
+.c4 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -3262,9 +3347,10 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   vertical-align: baseline;
 }
 
-.c8 {
-  font-size: 16px;
-  color: #006621;
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
 }
 
 .c11 {
@@ -3274,25 +3360,25 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   max-width: 600px;
   padding-top: 1px;
   font-size: 14px;
-  line-height: 1.57;
+  line-height: 1.58;
 }
 
-.c9 {
+.c7 {
   display: inline-block;
   margin-top: 9px;
   margin-left: 6px;
-  border-top: 5px solid #006621;
+  border-top: 5px solid #70757a;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
   vertical-align: top;
 }
 
-.c3 {
+.c8 {
   cursor: pointer;
   position: relative;
 }
 
-.c3::before {
+.c8::before {
   display: block;
   position: absolute;
   top: 0;
@@ -3329,24 +3415,32 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c3"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
         >
           <div
             className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
           >
             <span
               className="c5"
             >
-              Title
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
             </span>
           </div>
         </div>
+        <div
+          className="c7"
+        />
         <span
           className="screen-reader-text"
           style={
@@ -3359,27 +3453,24 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
             }
           }
         >
-          Url preview:
+          SEO title preview:
         </span>
         <div
-          className="c6"
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c7"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
+            className="c9"
           >
             <span
-              className="c8"
+              className="c10"
             >
-              https://example.org/
+              Title
             </span>
           </div>
         </div>
-        <div
-          className="c9"
-        />
       </div>
       <div
         className="yoast-shopping-data-preview--desktop"
@@ -3482,12 +3573,12 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   box-sizing: border-box;
 }
 
-.c3 {
+.c8 {
   cursor: pointer;
   position: relative;
 }
 
-.c4 {
+.c9 {
   color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -3505,11 +3596,11 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   text-overflow: ellipsis;
 }
 
-.c5 {
+.c10 {
   white-space: nowrap;
 }
 
-.c6 {
+.c3 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -3519,7 +3610,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   vertical-align: top;
 }
 
-.c7 {
+.c4 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -3536,16 +3627,21 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   vertical-align: baseline;
 }
 
-.c8 {
-  font-size: 16px;
-  color: #006621;
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
 }
 
-.c9 {
+.c6 {
+  color: #3c4043;
+}
+
+.c7 {
   display: inline-block;
   margin-top: 9px;
   margin-left: 6px;
-  border-top: 5px solid #006621;
+  border-top: 5px solid #70757a;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
   vertical-align: top;
@@ -3558,7 +3654,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   max-width: 600px;
   padding-top: 1px;
   font-size: 14px;
-  line-height: 1.57;
+  line-height: 1.58;
 }
 
 .c11::before {
@@ -3598,24 +3694,32 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c3"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
         >
           <div
             className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
           >
             <span
               className="c5"
             >
-              Title
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
             </span>
           </div>
         </div>
+        <div
+          className="c7"
+        />
         <span
           className="screen-reader-text"
           style={
@@ -3628,27 +3732,24 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
             }
           }
         >
-          Url preview:
+          SEO title preview:
         </span>
         <div
-          className="c6"
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c7"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
+            className="c9"
           >
             <span
-              className="c8"
+              className="c10"
             >
-              https://example.org/
+              Title
             </span>
           </div>
         </div>
-        <div
-          className="c9"
-        />
       </div>
       <div
         className="yoast-shopping-data-preview--desktop"
@@ -3751,12 +3852,12 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   box-sizing: border-box;
 }
 
-.c3 {
+.c8 {
   cursor: pointer;
   position: relative;
 }
 
-.c4 {
+.c9 {
   color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -3774,11 +3875,11 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   text-overflow: ellipsis;
 }
 
-.c5 {
+.c10 {
   white-space: nowrap;
 }
 
-.c7 {
+.c4 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -3795,9 +3896,10 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   vertical-align: baseline;
 }
 
-.c8 {
-  font-size: 16px;
-  color: #006621;
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
 }
 
 .c11 {
@@ -3807,20 +3909,20 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   max-width: 600px;
   padding-top: 1px;
   font-size: 14px;
-  line-height: 1.57;
+  line-height: 1.58;
 }
 
-.c9 {
+.c7 {
   display: inline-block;
   margin-top: 9px;
   margin-left: 6px;
-  border-top: 5px solid #006621;
+  border-top: 5px solid #70757a;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
   vertical-align: top;
 }
 
-.c6 {
+.c3 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -3830,7 +3932,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   vertical-align: top;
 }
 
-.c6::before {
+.c3::before {
   display: block;
   position: absolute;
   top: 0;
@@ -3867,24 +3969,32 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c3"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
         >
           <div
             className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
           >
             <span
               className="c5"
             >
-              Title
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
             </span>
           </div>
         </div>
+        <div
+          className="c7"
+        />
         <span
           className="screen-reader-text"
           style={
@@ -3897,27 +4007,24 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
             }
           }
         >
-          Url preview:
+          SEO title preview:
         </span>
         <div
-          className="c6"
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c7"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
+            className="c9"
           >
             <span
-              className="c8"
+              className="c10"
             >
-              https://example.org/
+              Title
             </span>
           </div>
         </div>
-        <div
-          className="c9"
-        />
       </div>
       <div
         className="yoast-shopping-data-preview--desktop"
@@ -4020,12 +4127,12 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   box-sizing: border-box;
 }
 
-.c3 {
+.c8 {
   cursor: pointer;
   position: relative;
 }
 
-.c4 {
+.c9 {
   color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -4043,11 +4150,11 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   text-overflow: ellipsis;
 }
 
-.c5 {
+.c10 {
   white-space: nowrap;
 }
 
-.c6 {
+.c3 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -4057,7 +4164,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   vertical-align: top;
 }
 
-.c7 {
+.c4 {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -4074,9 +4181,10 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   vertical-align: baseline;
 }
 
-.c8 {
-  font-size: 16px;
-  color: #006621;
+.c5 {
+  font-size: 14px;
+  line-height: 1.3;
+  color: #5f6368;
 }
 
 .c11 {
@@ -4086,14 +4194,14 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   max-width: 600px;
   padding-top: 1px;
   font-size: 14px;
-  line-height: 1.57;
+  line-height: 1.58;
 }
 
-.c9 {
+.c7 {
   display: inline-block;
   margin-top: 9px;
   margin-left: 6px;
-  border-top: 5px solid #006621;
+  border-top: 5px solid #70757a;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
   vertical-align: top;
@@ -4126,24 +4234,32 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c3"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
         >
           <div
             className="c4"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
           >
             <span
               className="c5"
             >
-              Title
+              <span
+                className="c6"
+              >
+                example.org
+              </span>
+               › 
             </span>
           </div>
         </div>
+        <div
+          className="c7"
+        />
         <span
           className="screen-reader-text"
           style={
@@ -4156,27 +4272,24 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
             }
           }
         >
-          Url preview:
+          SEO title preview:
         </span>
         <div
-          className="c6"
+          className="c8"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
         >
           <div
-            className="c7"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
+            className="c9"
           >
             <span
-              className="c8"
+              className="c10"
             >
-              https://example.org/
+              Title
             </span>
           </div>
         </div>
-        <div
-          className="c9"
-        />
       </div>
       <div
         className="yoast-shopping-data-preview--desktop"
