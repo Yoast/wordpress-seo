@@ -21,11 +21,14 @@ class WPSEO_Replacevar_Editor {
 	 * The arguments required for the div to render.
 	 *
 	 * @var array {
-	 *      @type string $title                 The title field id.
-	 *      @type string $description           The description field id.
-	 *      @type string $page_type_recommended The page type for the context of the recommended replace vars.
-	 *      @type string $page_type_specific    The page type for the context of the editor specific replace vars.
-	 *      @type bool   $paper_style           Optional. Whether the editor has paper style.
+	 *      @type string $title                   The title field id.
+	 *      @type string $description             The description field id.
+	 *      @type string $page_type_recommended   The page type for the context of the recommended replace vars.
+	 *      @type string $page_type_specific      The page type for the context of the editor specific replace vars.
+	 *      @type bool   $paper_style             Optional. Whether the editor has paper style.
+	 *      @type string $label_title             Optional. The label to use for the title field.
+	 *      @type string $label_description       Optional. The label to use for the description field.
+	 *      @type string $description_placeholder Optional. The placeholder text to use for the description field.
 	 * }
 	 */
 	private $arguments;
@@ -37,18 +40,24 @@ class WPSEO_Replacevar_Editor {
 	 * @param array      $arguments {
 	 *      The arguments that can be given.
 	 *
-	 *      @type string $title                 The title field id.
-	 *      @type string $description           The description field id.
-	 *      @type string $page_type_recommended The page type for the context of the recommended replace vars.
-	 *      @type string $page_type_specific    The page type for the context of the editor specific replace vars.
-	 *      @type bool   $paper_style           Optional. Whether the editor has paper style.
+	 *      @type string $title                   The title field id.
+	 *      @type string $description             The description field id.
+	 *      @type string $page_type_recommended   The page type for the context of the recommended replace vars.
+	 *      @type string $page_type_specific      The page type for the context of the editor specific replace vars.
+	 *      @type bool   $paper_style             Optional. Whether the editor has paper style.
+	 *      @type string $label_title             Optional. The label to use for the title field.
+	 *      @type string $label_description       Optional. The label to use for the description field.
+	 *      @type string $description_placeholder Optional. The placeholder text to use for the description field.
 	 * }
 	 */
 	public function __construct( Yoast_Form $yform, $arguments ) {
 		$arguments = wp_parse_args(
 			$arguments,
 			[
-				'paper_style' => true,
+				'paper_style'             => true,
+				'label_title'             => '',
+				'label_description'       => '',
+				'description_placeholder' => '',
 			]
 		);
 
@@ -56,11 +65,14 @@ class WPSEO_Replacevar_Editor {
 
 		$this->yform     = $yform;
 		$this->arguments = [
-			'title'                 => (string) $arguments['title'],
-			'description'           => (string) $arguments['description'],
-			'page_type_recommended' => (string) $arguments['page_type_recommended'],
-			'page_type_specific'    => (string) $arguments['page_type_specific'],
-			'paper_style'           => (bool) $arguments['paper_style'],
+			'title'                   => (string) $arguments['title'],
+			'description'             => (string) $arguments['description'],
+			'page_type_recommended'   => (string) $arguments['page_type_recommended'],
+			'page_type_specific'      => (string) $arguments['page_type_specific'],
+			'paper_style'             => (bool) $arguments['paper_style'],
+			'label_title'             => (string) $arguments['label_title'],
+			'label_description'       => (string) $arguments['label_description'],
+			'description_placeholder' => (string) $arguments['description_placeholder'],
 		];
 	}
 
@@ -82,12 +94,18 @@ class WPSEO_Replacevar_Editor {
 				data-react-replacevar-metadesc-field-id="%2$s"
 				data-react-replacevar-page-type-recommended="%3$s"
 				data-react-replacevar-page-type-specific="%4$s"
-				data-react-replacevar-paper-style="%5$s"></div>',
+				data-react-replacevar-paper-style="%5$s"
+				data-react-replacevar-label-title="%6$s"
+				data-react-replacevar-label-description="%7$s"
+				data-react-replacevar-description-placeholder="%8$s"></div>',
 			esc_attr( $this->arguments['title'] ),
 			esc_attr( $this->arguments['description'] ),
 			esc_attr( $this->arguments['page_type_recommended'] ),
 			esc_attr( $this->arguments['page_type_specific'] ),
-			esc_attr( $this->arguments['paper_style'] )
+			esc_attr( $this->arguments['paper_style'] ),
+			esc_attr( $this->arguments['label_title'] ),
+			esc_attr( $this->arguments['label_description'] ),
+			esc_attr( $this->arguments['description_placeholder'] )
 		);
 	}
 

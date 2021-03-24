@@ -306,7 +306,7 @@ class Article_Test extends TestCase {
 
 		$expected_value = [
 			'data1'    => 1,
-			'keywords' => 'Tag1,Tag2',
+			'keywords' => [ 'Tag1', 'Tag2' ],
 		];
 
 		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag' ) );

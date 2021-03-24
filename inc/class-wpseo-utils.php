@@ -784,7 +784,7 @@ class WPSEO_Utils {
 			return false;
 		}
 
-		return WPSEO_Options::get( 'display-metabox-pt-' . $post_type );
+		return apply_filters( 'wpseo_enable_editor_features_' . $post_type, WPSEO_Options::get( 'display-metabox-pt-' . $post_type ) );
 	}
 
 	/**
