@@ -1,8 +1,6 @@
 import SnippetEditor from "../src/snippet-editor/SnippetEditor";
 import React from "react";
-import renderer from "react-test-renderer";
-import { mount, shallow } from "enzyme";
-import { MODE_DESKTOP } from "../src/snippet-preview/constants";
+import { mount } from "enzyme";
 import { focus } from "@yoast/replacement-variable-editor";
 
 const defaultData = {
@@ -30,21 +28,7 @@ const mountWithArgs = ( changedArgs ) => {
 	return mount( <SnippetEditor { ...args } /> );
 };
 
-/**
- * Shallow render of the snippet editor component with changed arguments.
- *
- * @param {Object} changedArgs The changed arguments.
- *
- * @returns {ReactElement} The SnippetEditor component.
- */
-const shallowWithArgs = ( changedArgs ) => {
-	const args = { ...defaultArgs, ...changedArgs };
-	return shallow( <SnippetEditor { ...args } /> );
-};
-
-
 describe( "SnippetEditor", () => {
-
 	it( "accepts a custom data mapping function", () => {
 		const mapper = jest.fn( () => {
 			return {
