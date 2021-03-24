@@ -1,6 +1,6 @@
 import * as renderer from "react-test-renderer";
 
-import { ReactElement } from "@wordpress/element";
+import { ReactElement } from "React";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 
 import Select from "../../../src/instructions/blocks/Select";
