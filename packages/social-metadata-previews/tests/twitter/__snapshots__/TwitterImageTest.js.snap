@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TwitterImage Component matches the snapshot for a landscape image in a summary card 1`] = `
-.c1 {
+.c0 {
   position: relative;
   box-sizing: content-box;
   overflow: hidden;
@@ -14,11 +14,7 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
   border-radius: 14px 0 0 14px;
 }
 
-yoast-seo.g1[id="c0"] {
-  content: "c1,";
-}
-
-.c3.c3 {
+.c1.c1 {
   max-width: 600px;
   height: 300px;
   position: absolute;
@@ -29,26 +25,22 @@ yoast-seo.g1[id="c0"] {
   transform: translate(-50%,-50%);
 }
 
-yoast-seo.g2[id="c2"] {
-  content: "c3,";
-}
-
 <div
-  className="c0 c1"
+  className="c0"
   onClick={[Function]}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
   <img
     alt=""
-    className="c2 c3"
+    className="c1"
     src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
   />
 </div>
 `;
 
 exports[`TwitterImage Component matches the snapshot for a landscape image in a summary-large-image card 1`] = `
-.c1 {
+.c0 {
   position: relative;
   box-sizing: content-box;
   overflow: hidden;
@@ -62,11 +54,7 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
   border-radius: 14px 14px 0 0;
 }
 
-yoast-seo.g1[id="c0"] {
-  content: "c1,";
-}
-
-.c3.c3 {
+.c1.c1 {
   max-width: 600px;
   height: 300px;
   position: absolute;
@@ -77,26 +65,22 @@ yoast-seo.g1[id="c0"] {
   transform: translate(-50%,-50%);
 }
 
-yoast-seo.g2[id="c2"] {
-  content: "c3,";
-}
-
 <div
-  className="c0 c1"
+  className="c0"
   onClick={[Function]}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
   <img
     alt=""
-    className="c2 c3"
+    className="c1"
     src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
   />
 </div>
 `;
 
 exports[`TwitterImage Component matches the snapshot for a square image in a summary card 1`] = `
-.c1 {
+.c0 {
   position: relative;
   box-sizing: content-box;
   overflow: hidden;
@@ -109,11 +93,7 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
   border-radius: 14px 0 0 14px;
 }
 
-yoast-seo.g1[id="c0"] {
-  content: "c1,";
-}
-
-.c3.c3 {
+.c1.c1 {
   max-width: 300px;
   height: 300px;
   position: absolute;
@@ -124,26 +104,22 @@ yoast-seo.g1[id="c0"] {
   transform: translate(-50%,-50%);
 }
 
-yoast-seo.g2[id="c2"] {
-  content: "c3,";
-}
-
 <div
-  className="c0 c1"
+  className="c0"
   onClick={[Function]}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
   <img
     alt=""
-    className="c2 c3"
+    className="c1"
     src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png"
   />
 </div>
 `;
 
 exports[`TwitterImage Component matches the snapshot for a square image in a summary-large-image card 1`] = `
-.c1 {
+.c0 {
   position: relative;
   box-sizing: content-box;
   overflow: hidden;
@@ -157,11 +133,7 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
   border-radius: 14px 14px 0 0;
 }
 
-yoast-seo.g1[id="c0"] {
-  content: "c1,";
-}
-
-.c3.c3 {
+.c1.c1 {
   max-width: 300px;
   height: 300px;
   position: absolute;
@@ -172,26 +144,22 @@ yoast-seo.g1[id="c0"] {
   transform: translate(-50%,-50%);
 }
 
-yoast-seo.g2[id="c2"] {
-  content: "c3,";
-}
-
 <div
-  className="c0 c1"
+  className="c0"
   onClick={[Function]}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
   <img
     alt=""
-    className="c2 c3"
+    className="c1"
     src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png"
   />
 </div>
 `;
 
 exports[`TwitterImage Component matches the snapshot in the loading state 1`] = `
-.c2 {
+.c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -215,11 +183,7 @@ exports[`TwitterImage Component matches the snapshot in the loading state 1`] = 
   border-radius: 14px 14px 0 0;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c2,";
-}
-
-.c3 {
+.c1 {
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;
   border-style: dashed;
@@ -232,12 +196,8 @@ yoast-seo.g3[id="c0"] {
   cursor: pointer;
 }
 
-yoast-seo.g4[id="c1"] {
-  content: "c3,";
-}
-
 <div
-  className="c0 c1 c2 c3"
+  className="c0 c1"
   onClick={[Function]}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}

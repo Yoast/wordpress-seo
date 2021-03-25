@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the YoastLinkButton matches the snapshot 1`] = `
-.c3 {
+.c1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -29,25 +29,21 @@ exports[`the YoastLinkButton matches the snapshot 1`] = `
   transition: box-shadow 150ms ease-out;
 }
 
-.c3:hover,
-.c3:focus,
-.c3:active {
+.c1:hover,
+.c1:focus,
+.c1:active {
   box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ),inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
-.c3:active {
+.c1:active {
   -webkit-transform: translateY( 1px );
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
   box-shadow: none;
 }
 
-yoast-seo.g4[id="c1"] {
-  content: "c3,";
-}
-
-.c2 {
+.c0 {
   -webkit-text-decoration: none;
   text-decoration: none;
   color: #fff;
@@ -56,12 +52,8 @@ yoast-seo.g4[id="c1"] {
   text-shadow: 0 0 2px #000;
 }
 
-yoast-seo.g5[id="c0"] {
-  content: "c2,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
+  .c1::after {
     display: inline-block;
     content: "";
     min-height: 48px;
@@ -69,7 +61,7 @@ yoast-seo.g5[id="c0"] {
 }
 
 <a
-  className="c0 c1 c2 c3"
+  className="c0 c1"
 >
   YoastLinkButtonValue
 </a>

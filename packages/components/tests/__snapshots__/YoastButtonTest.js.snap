@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the YoastButton executes callback 1`] = `
-.c2 {
+.c0 {
   color: #fff;
   background: #64a60a;
   min-width: 152px;
@@ -10,11 +10,11 @@ exports[`the YoastButton executes callback 1`] = `
   cursor: pointer;
 }
 
-.c2::-moz-focus-inner {
+.c0::-moz-focus-inner {
   border-width: 0;
 }
 
-.c2 span {
+.c0 span {
   display: inherit;
   -webkit-align-items: inherit;
   -webkit-box-align: inherit;
@@ -27,11 +27,7 @@ exports[`the YoastButton executes callback 1`] = `
   width: 100%;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c2,";
-}
-
-.c3 {
+.c1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -59,26 +55,22 @@ yoast-seo.g3[id="c0"] {
   transition: box-shadow 150ms ease-out;
 }
 
-.c3:hover,
-.c3:focus,
-.c3:active {
+.c1:hover,
+.c1:focus,
+.c1:active {
   box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ),inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
-.c3:active {
+.c1:active {
   -webkit-transform: translateY( 1px );
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
   box-shadow: none;
 }
 
-yoast-seo.g4[id="c1"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
+  .c1::after {
     display: inline-block;
     content: "";
     min-height: 48px;
@@ -86,7 +78,7 @@ yoast-seo.g4[id="c1"] {
 }
 
 <button
-  className="c0 c1 c2 c3"
+  className="c0 c1"
   onClick={[Function]}
   type="button"
 >
@@ -97,7 +89,7 @@ yoast-seo.g4[id="c1"] {
 `;
 
 exports[`the YoastButton executes callback 2`] = `
-.c2 {
+.c0 {
   color: #fff;
   background: #64a60a;
   min-width: 152px;
@@ -106,11 +98,11 @@ exports[`the YoastButton executes callback 2`] = `
   cursor: pointer;
 }
 
-.c2::-moz-focus-inner {
+.c0::-moz-focus-inner {
   border-width: 0;
 }
 
-.c2 span {
+.c0 span {
   display: inherit;
   -webkit-align-items: inherit;
   -webkit-box-align: inherit;
@@ -123,11 +115,7 @@ exports[`the YoastButton executes callback 2`] = `
   width: 100%;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c2,";
-}
-
-.c3 {
+.c1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -155,26 +143,22 @@ yoast-seo.g3[id="c0"] {
   transition: box-shadow 150ms ease-out;
 }
 
-.c3:hover,
-.c3:focus,
-.c3:active {
+.c1:hover,
+.c1:focus,
+.c1:active {
   box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ),inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
-.c3:active {
+.c1:active {
   -webkit-transform: translateY( 1px );
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
   box-shadow: none;
 }
 
-yoast-seo.g4[id="c1"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
+  .c1::after {
     display: inline-block;
     content: "";
     min-height: 48px;
@@ -182,7 +166,7 @@ yoast-seo.g4[id="c1"] {
 }
 
 <button
-  className="c0 c1 c2 c3"
+  className="c0 c1"
   onClick={[Function]}
   type="button"
 >
@@ -193,7 +177,7 @@ yoast-seo.g4[id="c1"] {
 `;
 
 exports[`the YoastButton matches the snapshot 1`] = `
-.c2 {
+.c0 {
   color: #fff;
   background: #c00;
   min-width: 152px;
@@ -202,11 +186,11 @@ exports[`the YoastButton matches the snapshot 1`] = `
   cursor: pointer;
 }
 
-.c2::-moz-focus-inner {
+.c0::-moz-focus-inner {
   border-width: 0;
 }
 
-.c2 span {
+.c0 span {
   display: inherit;
   -webkit-align-items: inherit;
   -webkit-box-align: inherit;
@@ -219,11 +203,7 @@ exports[`the YoastButton matches the snapshot 1`] = `
   width: 100%;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c2,";
-}
-
-.c3 {
+.c1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -251,26 +231,22 @@ yoast-seo.g3[id="c0"] {
   transition: box-shadow 150ms ease-out;
 }
 
-.c3:hover,
-.c3:focus,
-.c3:active {
+.c1:hover,
+.c1:focus,
+.c1:active {
   box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ),inset 0 0 0 100px rgba( 0,0,0,0.1 );
   color: #fff;
 }
 
-.c3:active {
+.c1:active {
   -webkit-transform: translateY( 1px );
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
   box-shadow: none;
 }
 
-yoast-seo.g4[id="c1"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
+  .c1::after {
     display: inline-block;
     content: "";
     min-height: 48px;
@@ -278,7 +254,7 @@ yoast-seo.g4[id="c1"] {
 }
 
 <button
-  className="c0 c1 c2 c3"
+  className="c0 c1"
   type="button"
 >
   <span>

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the YoastButton executes callback 1`] = `
-.c5 {
+.c2 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -9,33 +9,25 @@ exports[`the YoastButton executes callback 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c7 {
+.c3 {
   margin: 2px 4px 0 4px;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-yoast-seo.g6[id="c6"] {
-  content: "c7,";
-}
-
-.c2 {
+.c0 {
   color: #000;
   background: #fec228;
   overflow: visible;
   cursor: pointer;
 }
 
-.c2::-moz-focus-inner {
+.c0::-moz-focus-inner {
   border-width: 0;
 }
 
-.c2 span {
+.c0 span {
   display: inherit;
   -webkit-align-items: inherit;
   -webkit-box-align: inherit;
@@ -48,11 +40,7 @@ yoast-seo.g6[id="c6"] {
   width: 100%;
 }
 
-yoast-seo.g7[id="c0"] {
-  content: "c2,";
-}
-
-.c3 {
+.c1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -83,13 +71,13 @@ yoast-seo.g7[id="c0"] {
   transition: box-shadow 150ms ease-out;
 }
 
-.c3:hover,
-.c3:focus,
-.c3:active {
+.c1:hover,
+.c1:focus,
+.c1:active {
   background: #f2ae01;
 }
 
-.c3:active {
+.c1:active {
   -webkit-transform: translateY( 1px );
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
@@ -98,12 +86,8 @@ yoast-seo.g7[id="c0"] {
   filter: none;
 }
 
-yoast-seo.g8[id="c1"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
+  .c1::after {
     display: inline-block;
     content: "";
     min-height: 32px;
@@ -111,7 +95,7 @@ yoast-seo.g8[id="c1"] {
 }
 
 <button
-  className="c0 c1 c2 c3"
+  className="c0 c1"
   onClick={[Function]}
   type="button"
 >
@@ -119,7 +103,7 @@ yoast-seo.g8[id="c1"] {
     ButtonValue
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-caret-right c6 c7"
+      className="c2 yoast-svg-icon yoast-svg-icon-caret-right c3"
       fill="#000"
       focusable="false"
       role="img"
@@ -136,7 +120,7 @@ yoast-seo.g8[id="c1"] {
 `;
 
 exports[`the YoastButton executes callback 2`] = `
-.c5 {
+.c2 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -144,33 +128,25 @@ exports[`the YoastButton executes callback 2`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c7 {
+.c3 {
   margin: 2px 4px 0 4px;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-yoast-seo.g6[id="c6"] {
-  content: "c7,";
-}
-
-.c2 {
+.c0 {
   color: #000;
   background: #fec228;
   overflow: visible;
   cursor: pointer;
 }
 
-.c2::-moz-focus-inner {
+.c0::-moz-focus-inner {
   border-width: 0;
 }
 
-.c2 span {
+.c0 span {
   display: inherit;
   -webkit-align-items: inherit;
   -webkit-box-align: inherit;
@@ -183,11 +159,7 @@ yoast-seo.g6[id="c6"] {
   width: 100%;
 }
 
-yoast-seo.g7[id="c0"] {
-  content: "c2,";
-}
-
-.c3 {
+.c1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -218,13 +190,13 @@ yoast-seo.g7[id="c0"] {
   transition: box-shadow 150ms ease-out;
 }
 
-.c3:hover,
-.c3:focus,
-.c3:active {
+.c1:hover,
+.c1:focus,
+.c1:active {
   background: #f2ae01;
 }
 
-.c3:active {
+.c1:active {
   -webkit-transform: translateY( 1px );
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
@@ -233,12 +205,8 @@ yoast-seo.g7[id="c0"] {
   filter: none;
 }
 
-yoast-seo.g8[id="c1"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
+  .c1::after {
     display: inline-block;
     content: "";
     min-height: 32px;
@@ -246,7 +214,7 @@ yoast-seo.g8[id="c1"] {
 }
 
 <button
-  className="c0 c1 c2 c3"
+  className="c0 c1"
   onClick={[Function]}
   type="button"
 >
@@ -254,7 +222,7 @@ yoast-seo.g8[id="c1"] {
     ButtonValue
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-caret-right c6 c7"
+      className="c2 yoast-svg-icon yoast-svg-icon-caret-right c3"
       fill="#000"
       focusable="false"
       role="img"
@@ -271,7 +239,7 @@ yoast-seo.g8[id="c1"] {
 `;
 
 exports[`the YoastButton matches the snapshot 1`] = `
-.c5 {
+.c2 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -279,33 +247,25 @@ exports[`the YoastButton matches the snapshot 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c7 {
+.c3 {
   margin: 2px 4px 0 4px;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-yoast-seo.g6[id="c6"] {
-  content: "c7,";
-}
-
-.c2 {
+.c0 {
   color: #fff;
   background: #c00;
   overflow: visible;
   cursor: pointer;
 }
 
-.c2::-moz-focus-inner {
+.c0::-moz-focus-inner {
   border-width: 0;
 }
 
-.c2 span {
+.c0 span {
   display: inherit;
   -webkit-align-items: inherit;
   -webkit-box-align: inherit;
@@ -318,11 +278,7 @@ yoast-seo.g6[id="c6"] {
   width: 100%;
 }
 
-yoast-seo.g7[id="c0"] {
-  content: "c2,";
-}
-
-.c3 {
+.c1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -353,13 +309,13 @@ yoast-seo.g7[id="c0"] {
   transition: box-shadow 150ms ease-out;
 }
 
-.c3:hover,
-.c3:focus,
-.c3:active {
+.c1:hover,
+.c1:focus,
+.c1:active {
   background: #f2ae01;
 }
 
-.c3:active {
+.c1:active {
   -webkit-transform: translateY( 1px );
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
@@ -368,12 +324,8 @@ yoast-seo.g7[id="c0"] {
   filter: none;
 }
 
-yoast-seo.g8[id="c1"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
+  .c1::after {
     display: inline-block;
     content: "";
     min-height: 32px;
@@ -381,14 +333,14 @@ yoast-seo.g8[id="c1"] {
 }
 
 <button
-  className="c0 c1 c2 c3"
+  className="c0 c1"
   type="button"
 >
   <span>
     ButtonValue
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-caret-right c6 c7"
+      className="c2 yoast-svg-icon yoast-svg-icon-caret-right c3"
       fill="#000"
       focusable="false"
       role="img"

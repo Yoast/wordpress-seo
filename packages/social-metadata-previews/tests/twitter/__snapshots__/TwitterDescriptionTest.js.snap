@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TwitterDescription matches the snapshot for the summary card 1`] = `
-.c1 {
+.c0 {
   max-height: 55px;
   min-height: 20px;
   overflow: hidden;
@@ -16,23 +16,19 @@ exports[`TwitterDescription matches the snapshot for the summary card 1`] = `
   -webkit-box-orient: vertical;
 }
 
-yoast-seo.g1[id="c0"] {
-  content: "c1,";
-}
-
 @media all and ( max-width:506px ) {
-  .c1 {
+  .c0 {
     display: none;
   }
 }
 
 <p
-  className="c0 c1"
+  className="c0"
 />
 `;
 
 exports[`TwitterDescription matches the snapshot for the summary with large image card 1`] = `
-.c1 {
+.c0 {
   max-height: 55px;
   min-height: 20px;
   overflow: hidden;
@@ -47,17 +43,13 @@ exports[`TwitterDescription matches the snapshot for the summary with large imag
   -webkit-box-orient: vertical;
 }
 
-yoast-seo.g1[id="c0"] {
-  content: "c1,";
-}
-
 @media all and ( max-width:506px ) {
-  .c1 {
+  .c0 {
     display: none;
   }
 }
 
 <p
-  className="c0 c1"
+  className="c0"
 />
 `;

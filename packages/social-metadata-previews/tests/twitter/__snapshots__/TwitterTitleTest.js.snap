@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TwitterTitle matches the snapshot by default 1`] = `
-.c1 {
+.c0 {
   line-height: 18px;
   min-height: 18px;
   font-size: 15px;
@@ -14,12 +14,8 @@ exports[`TwitterTitle matches the snapshot by default 1`] = `
   cursor: pointer;
 }
 
-yoast-seo.g1[id="c0"] {
-  content: "c1,";
-}
-
 <p
-  className="c0 c1"
+  className="c0"
   title="My Twitter Title"
 />
 `;

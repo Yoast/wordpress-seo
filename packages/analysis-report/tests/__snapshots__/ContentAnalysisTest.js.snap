@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ContentAnalysis the ContentAnalysis component with disabled buttons matches the snapshot 1`] = `
-.c21 {
+.c11 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -9,7 +9,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   flex: none;
 }
 
-.c30 {
+.c16 {
   width: 13px;
   height: 13px;
   -webkit-flex: none;
@@ -17,36 +17,24 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,c30,";
-}
-
-.c13 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c8"] {
-  content: "c13,";
-}
-
-.c14:active {
+.c5:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c9"] {
-  content: "c14,";
-}
-
-.c15::-moz-focus-inner {
+.c6::-moz-focus-inner {
   border-width: 0;
 }
 
-.c15:focus {
+.c6:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -54,21 +42,13 @@ yoast-seo.g4[id="c9"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c10"] {
-  content: "c15,";
-}
-
-.c16:hover {
+.c7:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c11"] {
-  content: "c16,";
-}
-
-.c17 {
+.c8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -99,17 +79,13 @@ yoast-seo.g6[id="c11"] {
   transition: var(--yoast-transition-default);
 }
 
-.c17 svg {
+.c8 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c12"] {
-  content: "c17,";
-}
-
-.c23 {
+.c12 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -118,11 +94,7 @@ yoast-seo.g7[id="c12"] {
   line-height: normal;
 }
 
-yoast-seo.g13[id="c22"] {
-  content: "c23,";
-}
-
-.c25 {
+.c13 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -130,19 +102,11 @@ yoast-seo.g13[id="c22"] {
   color: #555;
 }
 
-yoast-seo.g14[id="c24"] {
-  content: "c25,";
-}
-
-.c3 {
+.c1 {
   background-color: #fff;
 }
 
-yoast-seo.g17[id="c2"] {
-  content: "c3,";
-}
-
-.c19 {
+.c10 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -157,40 +121,32 @@ yoast-seo.g17[id="c2"] {
   font-weight: normal;
 }
 
-.c19:focus {
+.c10:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c19:active {
+.c10:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c19 svg:first-child {
+.c10 svg:first-child {
   margin-right: 8px;
 }
 
-.c19 svg:last-child {
+.c10 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g19[id="c18"] {
-  content: "c19,";
-}
-
-.c7 {
+.c3 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 13px !important;
   font-weight: bold !important;
 }
 
-yoast-seo.g20[id="c6"] {
-  content: "c7,";
-}
-
-.c36 {
+.c19 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -203,22 +159,18 @@ yoast-seo.g20[id="c6"] {
   height: 24px;
 }
 
-.c36:hover {
+.c19:hover {
   border-color: #fff;
 }
 
-.c36:disabled {
+.c19:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
   cursor: default;
 }
 
-yoast-seo.g44[id="c35"] {
-  content: "c36,";
-}
-
-.c29 {
+.c15 {
   min-height: 24px;
   padding: 0;
   display: -webkit-box;
@@ -231,68 +183,44 @@ yoast-seo.g44[id="c35"] {
   align-items: flex-start;
 }
 
-yoast-seo.g102[id="c28"] {
-  content: "c29,";
-}
-
-.c32 {
+.c17 {
   margin: 3px 11px 0 0;
 }
 
-yoast-seo.g103[id="c31"] {
-  content: "c32,";
-}
-
-.c34 {
+.c18 {
   margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
 
-yoast-seo.g104[id="c33"] {
-  content: "c34,";
-}
-
-.c27 {
+.c14 {
   margin: 8px 0;
   padding: 0;
   list-style: none;
 }
 
-yoast-seo.g105[id="c26"] {
-  content: "c27,";
-}
-
-.c1 {
+.c0 {
   width: 100%;
   background-color: white;
   border-bottom: 1px solid transparent;
 }
 
-yoast-seo.g106[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c5 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c5 .c18 {
+.c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
 }
 
-yoast-seo.g107[id="c4"] {
-  content: "c5,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c17::after {
+  .c8::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -300,24 +228,24 @@ yoast-seo.g107[id="c4"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -330,10 +258,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Errors (1)
           </span>
@@ -341,15 +269,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#888"
           focusable="false"
           role="img"
@@ -362,7 +290,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -373,21 +301,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -400,10 +328,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Problems (1)
           </span>
@@ -411,15 +339,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#dc3232"
           focusable="false"
           role="img"
@@ -432,7 +360,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Your text is bad, and you should feel bad.",
@@ -442,7 +370,7 @@ yoast-seo.g107[id="c4"] {
         <button
           aria-label="Marks are disabled in current view"
           aria-pressed={false}
-          className="c35 c36"
+          className="c19"
           disabled={true}
           id="1"
           onClick={[Function]}
@@ -450,7 +378,7 @@ yoast-seo.g107[id="c4"] {
         >
           <svg
             aria-hidden={true}
-            className="c20 c21 yoast-svg-icon yoast-svg-icon-eye"
+            className="c11 yoast-svg-icon yoast-svg-icon-eye"
             fill="#ddd"
             focusable="false"
             role="img"
@@ -467,21 +395,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -494,10 +422,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Improvements (1)
           </span>
@@ -505,15 +433,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#ee7c1b"
           focusable="false"
           role="img"
@@ -526,7 +454,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "I know you can do better! You can do it!",
@@ -537,21 +465,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -564,10 +492,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Considerations (1)
           </span>
@@ -575,15 +503,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#888"
           focusable="false"
           role="img"
@@ -596,7 +524,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Maybe you should change this...",
@@ -607,21 +535,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -634,10 +562,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Good results (2)
           </span>
@@ -645,15 +573,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -666,7 +594,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "You're doing great!",
@@ -675,11 +603,11 @@ yoast-seo.g107[id="c4"] {
         />
       </li>
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -692,7 +620,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Woohoo!",
@@ -702,7 +630,7 @@ yoast-seo.g107[id="c4"] {
         <button
           aria-label="Marks are disabled in current view"
           aria-pressed={false}
-          className="c35 c36"
+          className="c19"
           disabled={true}
           id="3"
           onClick={[Function]}
@@ -710,7 +638,7 @@ yoast-seo.g107[id="c4"] {
         >
           <svg
             aria-hidden={true}
-            className="c20 c21 yoast-svg-icon yoast-svg-icon-eye"
+            className="c11 yoast-svg-icon yoast-svg-icon-eye"
             fill="#ddd"
             focusable="false"
             role="img"
@@ -730,7 +658,7 @@ yoast-seo.g107[id="c4"] {
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component with hidden buttons matches the snapshot 1`] = `
-.c21 {
+.c11 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -738,7 +666,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   flex: none;
 }
 
-.c30 {
+.c16 {
   width: 13px;
   height: 13px;
   -webkit-flex: none;
@@ -746,36 +674,24 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,c30,";
-}
-
-.c13 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c8"] {
-  content: "c13,";
-}
-
-.c14:active {
+.c5:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c9"] {
-  content: "c14,";
-}
-
-.c15::-moz-focus-inner {
+.c6::-moz-focus-inner {
   border-width: 0;
 }
 
-.c15:focus {
+.c6:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -783,21 +699,13 @@ yoast-seo.g4[id="c9"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c10"] {
-  content: "c15,";
-}
-
-.c16:hover {
+.c7:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c11"] {
-  content: "c16,";
-}
-
-.c17 {
+.c8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -828,17 +736,13 @@ yoast-seo.g6[id="c11"] {
   transition: var(--yoast-transition-default);
 }
 
-.c17 svg {
+.c8 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c12"] {
-  content: "c17,";
-}
-
-.c23 {
+.c12 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -847,11 +751,7 @@ yoast-seo.g7[id="c12"] {
   line-height: normal;
 }
 
-yoast-seo.g13[id="c22"] {
-  content: "c23,";
-}
-
-.c25 {
+.c13 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -859,19 +759,11 @@ yoast-seo.g13[id="c22"] {
   color: #555;
 }
 
-yoast-seo.g14[id="c24"] {
-  content: "c25,";
-}
-
-.c3 {
+.c1 {
   background-color: #fff;
 }
 
-yoast-seo.g17[id="c2"] {
-  content: "c3,";
-}
-
-.c19 {
+.c10 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -886,40 +778,32 @@ yoast-seo.g17[id="c2"] {
   font-weight: normal;
 }
 
-.c19:focus {
+.c10:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c19:active {
+.c10:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c19 svg:first-child {
+.c10 svg:first-child {
   margin-right: 8px;
 }
 
-.c19 svg:last-child {
+.c10 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g19[id="c18"] {
-  content: "c19,";
-}
-
-.c7 {
+.c3 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 13px !important;
   font-weight: bold !important;
 }
 
-yoast-seo.g20[id="c6"] {
-  content: "c7,";
-}
-
-.c29 {
+.c15 {
   min-height: 24px;
   padding: 0;
   display: -webkit-box;
@@ -932,68 +816,44 @@ yoast-seo.g20[id="c6"] {
   align-items: flex-start;
 }
 
-yoast-seo.g102[id="c28"] {
-  content: "c29,";
-}
-
-.c32 {
+.c17 {
   margin: 3px 11px 0 0;
 }
 
-yoast-seo.g103[id="c31"] {
-  content: "c32,";
-}
-
-.c34 {
+.c18 {
   margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
 
-yoast-seo.g104[id="c33"] {
-  content: "c34,";
-}
-
-.c27 {
+.c14 {
   margin: 8px 0;
   padding: 0;
   list-style: none;
 }
 
-yoast-seo.g105[id="c26"] {
-  content: "c27,";
-}
-
-.c1 {
+.c0 {
   width: 100%;
   background-color: white;
   border-bottom: 1px solid transparent;
 }
 
-yoast-seo.g106[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c5 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c5 .c18 {
+.c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
 }
 
-yoast-seo.g107[id="c4"] {
-  content: "c5,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c17::after {
+  .c8::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1001,24 +861,24 @@ yoast-seo.g107[id="c4"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -1031,10 +891,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Errors (1)
           </span>
@@ -1042,15 +902,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#888"
           focusable="false"
           role="img"
@@ -1063,7 +923,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -1074,21 +934,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -1101,10 +961,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Problems (1)
           </span>
@@ -1112,15 +972,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#dc3232"
           focusable="false"
           role="img"
@@ -1133,7 +993,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Your text is bad, and you should feel bad.",
@@ -1144,21 +1004,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -1171,10 +1031,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Improvements (1)
           </span>
@@ -1182,15 +1042,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#ee7c1b"
           focusable="false"
           role="img"
@@ -1203,7 +1063,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "I know you can do better! You can do it!",
@@ -1214,21 +1074,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -1241,10 +1101,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Considerations (1)
           </span>
@@ -1252,15 +1112,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#888"
           focusable="false"
           role="img"
@@ -1273,7 +1133,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Maybe you should change this...",
@@ -1284,21 +1144,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -1311,10 +1171,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Good results (2)
           </span>
@@ -1322,15 +1182,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -1343,7 +1203,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "You're doing great!",
@@ -1352,11 +1212,11 @@ yoast-seo.g107[id="c4"] {
         />
       </li>
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -1369,7 +1229,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Woohoo!",
@@ -1383,7 +1243,7 @@ yoast-seo.g107[id="c4"] {
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component with specified header level matches the snapshot 1`] = `
-.c21 {
+.c11 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -1391,7 +1251,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   flex: none;
 }
 
-.c30 {
+.c16 {
   width: 13px;
   height: 13px;
   -webkit-flex: none;
@@ -1399,36 +1259,24 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,c30,";
-}
-
-.c13 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c8"] {
-  content: "c13,";
-}
-
-.c14:active {
+.c5:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c9"] {
-  content: "c14,";
-}
-
-.c15::-moz-focus-inner {
+.c6::-moz-focus-inner {
   border-width: 0;
 }
 
-.c15:focus {
+.c6:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -1436,21 +1284,13 @@ yoast-seo.g4[id="c9"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c10"] {
-  content: "c15,";
-}
-
-.c16:hover {
+.c7:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c11"] {
-  content: "c16,";
-}
-
-.c17 {
+.c8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1481,17 +1321,13 @@ yoast-seo.g6[id="c11"] {
   transition: var(--yoast-transition-default);
 }
 
-.c17 svg {
+.c8 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c12"] {
-  content: "c17,";
-}
-
-.c23 {
+.c12 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -1500,11 +1336,7 @@ yoast-seo.g7[id="c12"] {
   line-height: normal;
 }
 
-yoast-seo.g13[id="c22"] {
-  content: "c23,";
-}
-
-.c25 {
+.c13 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -1512,19 +1344,11 @@ yoast-seo.g13[id="c22"] {
   color: #555;
 }
 
-yoast-seo.g14[id="c24"] {
-  content: "c25,";
-}
-
-.c3 {
+.c1 {
   background-color: #fff;
 }
 
-yoast-seo.g17[id="c2"] {
-  content: "c3,";
-}
-
-.c19 {
+.c10 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -1539,40 +1363,32 @@ yoast-seo.g17[id="c2"] {
   font-weight: normal;
 }
 
-.c19:focus {
+.c10:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c19:active {
+.c10:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c19 svg:first-child {
+.c10 svg:first-child {
   margin-right: 8px;
 }
 
-.c19 svg:last-child {
+.c10 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g19[id="c18"] {
-  content: "c19,";
-}
-
-.c7 {
+.c3 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 13px !important;
   font-weight: bold !important;
 }
 
-yoast-seo.g20[id="c6"] {
-  content: "c7,";
-}
-
-.c36 {
+.c19 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -1585,22 +1401,18 @@ yoast-seo.g20[id="c6"] {
   height: 24px;
 }
 
-.c36:hover {
+.c19:hover {
   border-color: #fff;
 }
 
-.c36:disabled {
+.c19:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
   cursor: default;
 }
 
-yoast-seo.g44[id="c35"] {
-  content: "c36,";
-}
-
-.c29 {
+.c15 {
   min-height: 24px;
   padding: 0;
   display: -webkit-box;
@@ -1613,68 +1425,44 @@ yoast-seo.g44[id="c35"] {
   align-items: flex-start;
 }
 
-yoast-seo.g102[id="c28"] {
-  content: "c29,";
-}
-
-.c32 {
+.c17 {
   margin: 3px 11px 0 0;
 }
 
-yoast-seo.g103[id="c31"] {
-  content: "c32,";
-}
-
-.c34 {
+.c18 {
   margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
 
-yoast-seo.g104[id="c33"] {
-  content: "c34,";
-}
-
-.c27 {
+.c14 {
   margin: 8px 0;
   padding: 0;
   list-style: none;
 }
 
-yoast-seo.g105[id="c26"] {
-  content: "c27,";
-}
-
-.c1 {
+.c0 {
   width: 100%;
   background-color: white;
   border-bottom: 1px solid transparent;
 }
 
-yoast-seo.g106[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c5 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c5 .c18 {
+.c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
 }
 
-yoast-seo.g107[id="c4"] {
-  content: "c5,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c17::after {
+  .c8::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1682,24 +1470,24 @@ yoast-seo.g107[id="c4"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h3
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -1712,10 +1500,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Errors (1)
           </span>
@@ -1723,15 +1511,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h3>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#888"
           focusable="false"
           role="img"
@@ -1744,7 +1532,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -1755,21 +1543,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h3
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -1782,10 +1570,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Problems (1)
           </span>
@@ -1793,15 +1581,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h3>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#dc3232"
           focusable="false"
           role="img"
@@ -1814,7 +1602,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Your text is bad, and you should feel bad.",
@@ -1824,7 +1612,7 @@ yoast-seo.g107[id="c4"] {
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c35 c36"
+          className="c19"
           disabled={false}
           id="1"
           onClick={[Function]}
@@ -1832,7 +1620,7 @@ yoast-seo.g107[id="c4"] {
         >
           <svg
             aria-hidden={true}
-            className="c20 c21 yoast-svg-icon yoast-svg-icon-eye"
+            className="c11 yoast-svg-icon yoast-svg-icon-eye"
             fill="#555"
             focusable="false"
             role="img"
@@ -1849,21 +1637,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h3
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -1876,10 +1664,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Improvements (1)
           </span>
@@ -1887,15 +1675,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h3>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#ee7c1b"
           focusable="false"
           role="img"
@@ -1908,7 +1696,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "I know you can do better! You can do it!",
@@ -1919,21 +1707,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h3
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -1946,10 +1734,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Considerations (1)
           </span>
@@ -1957,15 +1745,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h3>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#888"
           focusable="false"
           role="img"
@@ -1978,7 +1766,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Maybe you should change this...",
@@ -1989,21 +1777,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h3
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -2016,10 +1804,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Good results (2)
           </span>
@@ -2027,15 +1815,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h3>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -2048,7 +1836,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "You're doing great!",
@@ -2057,11 +1845,11 @@ yoast-seo.g107[id="c4"] {
         />
       </li>
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -2074,7 +1862,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Woohoo!",
@@ -2084,7 +1872,7 @@ yoast-seo.g107[id="c4"] {
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c35 c36"
+          className="c19"
           disabled={false}
           id="3"
           onClick={[Function]}
@@ -2092,7 +1880,7 @@ yoast-seo.g107[id="c4"] {
         >
           <svg
             aria-hidden={true}
-            className="c20 c21 yoast-svg-icon yoast-svg-icon-eye"
+            className="c11 yoast-svg-icon yoast-svg-icon-eye"
             fill="#555"
             focusable="false"
             role="img"
@@ -2112,7 +1900,7 @@ yoast-seo.g107[id="c4"] {
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component without language notice matches the snapshot 1`] = `
-.c21 {
+.c11 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -2120,7 +1908,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   flex: none;
 }
 
-.c30 {
+.c16 {
   width: 13px;
   height: 13px;
   -webkit-flex: none;
@@ -2128,36 +1916,24 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,c30,";
-}
-
-.c13 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c8"] {
-  content: "c13,";
-}
-
-.c14:active {
+.c5:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c9"] {
-  content: "c14,";
-}
-
-.c15::-moz-focus-inner {
+.c6::-moz-focus-inner {
   border-width: 0;
 }
 
-.c15:focus {
+.c6:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -2165,21 +1941,13 @@ yoast-seo.g4[id="c9"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c10"] {
-  content: "c15,";
-}
-
-.c16:hover {
+.c7:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c11"] {
-  content: "c16,";
-}
-
-.c17 {
+.c8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2210,17 +1978,13 @@ yoast-seo.g6[id="c11"] {
   transition: var(--yoast-transition-default);
 }
 
-.c17 svg {
+.c8 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c12"] {
-  content: "c17,";
-}
-
-.c23 {
+.c12 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -2229,11 +1993,7 @@ yoast-seo.g7[id="c12"] {
   line-height: normal;
 }
 
-yoast-seo.g13[id="c22"] {
-  content: "c23,";
-}
-
-.c25 {
+.c13 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -2241,19 +2001,11 @@ yoast-seo.g13[id="c22"] {
   color: #555;
 }
 
-yoast-seo.g14[id="c24"] {
-  content: "c25,";
-}
-
-.c3 {
+.c1 {
   background-color: #fff;
 }
 
-yoast-seo.g17[id="c2"] {
-  content: "c3,";
-}
-
-.c19 {
+.c10 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -2268,40 +2020,32 @@ yoast-seo.g17[id="c2"] {
   font-weight: normal;
 }
 
-.c19:focus {
+.c10:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c19:active {
+.c10:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c19 svg:first-child {
+.c10 svg:first-child {
   margin-right: 8px;
 }
 
-.c19 svg:last-child {
+.c10 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g19[id="c18"] {
-  content: "c19,";
-}
-
-.c7 {
+.c3 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 13px !important;
   font-weight: bold !important;
 }
 
-yoast-seo.g20[id="c6"] {
-  content: "c7,";
-}
-
-.c36 {
+.c19 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -2314,22 +2058,18 @@ yoast-seo.g20[id="c6"] {
   height: 24px;
 }
 
-.c36:hover {
+.c19:hover {
   border-color: #fff;
 }
 
-.c36:disabled {
+.c19:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
   cursor: default;
 }
 
-yoast-seo.g44[id="c35"] {
-  content: "c36,";
-}
-
-.c29 {
+.c15 {
   min-height: 24px;
   padding: 0;
   display: -webkit-box;
@@ -2342,68 +2082,44 @@ yoast-seo.g44[id="c35"] {
   align-items: flex-start;
 }
 
-yoast-seo.g102[id="c28"] {
-  content: "c29,";
-}
-
-.c32 {
+.c17 {
   margin: 3px 11px 0 0;
 }
 
-yoast-seo.g103[id="c31"] {
-  content: "c32,";
-}
-
-.c34 {
+.c18 {
   margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
 
-yoast-seo.g104[id="c33"] {
-  content: "c34,";
-}
-
-.c27 {
+.c14 {
   margin: 8px 0;
   padding: 0;
   list-style: none;
 }
 
-yoast-seo.g105[id="c26"] {
-  content: "c27,";
-}
-
-.c1 {
+.c0 {
   width: 100%;
   background-color: white;
   border-bottom: 1px solid transparent;
 }
 
-yoast-seo.g106[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c5 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c5 .c18 {
+.c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
 }
 
-yoast-seo.g107[id="c4"] {
-  content: "c5,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c17::after {
+  .c8::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -2411,24 +2127,24 @@ yoast-seo.g107[id="c4"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -2441,10 +2157,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Errors (1)
           </span>
@@ -2452,15 +2168,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#888"
           focusable="false"
           role="img"
@@ -2473,7 +2189,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -2484,21 +2200,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -2511,10 +2227,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Problems (1)
           </span>
@@ -2522,15 +2238,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#dc3232"
           focusable="false"
           role="img"
@@ -2543,7 +2259,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Your text is bad, and you should feel bad.",
@@ -2553,7 +2269,7 @@ yoast-seo.g107[id="c4"] {
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c35 c36"
+          className="c19"
           disabled={false}
           id="1"
           onClick={[Function]}
@@ -2561,7 +2277,7 @@ yoast-seo.g107[id="c4"] {
         >
           <svg
             aria-hidden={true}
-            className="c20 c21 yoast-svg-icon yoast-svg-icon-eye"
+            className="c11 yoast-svg-icon yoast-svg-icon-eye"
             fill="#555"
             focusable="false"
             role="img"
@@ -2578,21 +2294,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -2605,10 +2321,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Improvements (1)
           </span>
@@ -2616,15 +2332,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#ee7c1b"
           focusable="false"
           role="img"
@@ -2637,7 +2353,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "I know you can do better! You can do it!",
@@ -2648,21 +2364,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -2675,10 +2391,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Considerations (1)
           </span>
@@ -2686,15 +2402,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#888"
           focusable="false"
           role="img"
@@ -2707,7 +2423,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Maybe you should change this...",
@@ -2718,21 +2434,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -2745,10 +2461,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Good results (2)
           </span>
@@ -2756,15 +2472,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -2777,7 +2493,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "You're doing great!",
@@ -2786,11 +2502,11 @@ yoast-seo.g107[id="c4"] {
         />
       </li>
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -2803,7 +2519,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Woohoo!",
@@ -2813,7 +2529,7 @@ yoast-seo.g107[id="c4"] {
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c35 c36"
+          className="c19"
           disabled={false}
           id="3"
           onClick={[Function]}
@@ -2821,7 +2537,7 @@ yoast-seo.g107[id="c4"] {
         >
           <svg
             aria-hidden={true}
-            className="c20 c21 yoast-svg-icon yoast-svg-icon-eye"
+            className="c11 yoast-svg-icon yoast-svg-icon-eye"
             fill="#555"
             focusable="false"
             role="img"
@@ -2841,7 +2557,7 @@ yoast-seo.g107[id="c4"] {
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component without problems and considerations, but with improvements and good matches the snapshot 1`] = `
-.c21 {
+.c11 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -2849,7 +2565,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   flex: none;
 }
 
-.c30 {
+.c16 {
   width: 13px;
   height: 13px;
   -webkit-flex: none;
@@ -2857,36 +2573,24 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,c30,";
-}
-
-.c13 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c8"] {
-  content: "c13,";
-}
-
-.c14:active {
+.c5:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c9"] {
-  content: "c14,";
-}
-
-.c15::-moz-focus-inner {
+.c6::-moz-focus-inner {
   border-width: 0;
 }
 
-.c15:focus {
+.c6:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -2894,21 +2598,13 @@ yoast-seo.g4[id="c9"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c10"] {
-  content: "c15,";
-}
-
-.c16:hover {
+.c7:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c11"] {
-  content: "c16,";
-}
-
-.c17 {
+.c8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2939,17 +2635,13 @@ yoast-seo.g6[id="c11"] {
   transition: var(--yoast-transition-default);
 }
 
-.c17 svg {
+.c8 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c12"] {
-  content: "c17,";
-}
-
-.c23 {
+.c12 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -2958,11 +2650,7 @@ yoast-seo.g7[id="c12"] {
   line-height: normal;
 }
 
-yoast-seo.g13[id="c22"] {
-  content: "c23,";
-}
-
-.c25 {
+.c13 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -2970,19 +2658,11 @@ yoast-seo.g13[id="c22"] {
   color: #555;
 }
 
-yoast-seo.g14[id="c24"] {
-  content: "c25,";
-}
-
-.c3 {
+.c1 {
   background-color: #fff;
 }
 
-yoast-seo.g17[id="c2"] {
-  content: "c3,";
-}
-
-.c19 {
+.c10 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -2997,40 +2677,32 @@ yoast-seo.g17[id="c2"] {
   font-weight: normal;
 }
 
-.c19:focus {
+.c10:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c19:active {
+.c10:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c19 svg:first-child {
+.c10 svg:first-child {
   margin-right: 8px;
 }
 
-.c19 svg:last-child {
+.c10 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g19[id="c18"] {
-  content: "c19,";
-}
-
-.c7 {
+.c3 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 13px !important;
   font-weight: bold !important;
 }
 
-yoast-seo.g20[id="c6"] {
-  content: "c7,";
-}
-
-.c36 {
+.c19 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -3043,22 +2715,18 @@ yoast-seo.g20[id="c6"] {
   height: 24px;
 }
 
-.c36:hover {
+.c19:hover {
   border-color: #fff;
 }
 
-.c36:disabled {
+.c19:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
   cursor: default;
 }
 
-yoast-seo.g44[id="c35"] {
-  content: "c36,";
-}
-
-.c29 {
+.c15 {
   min-height: 24px;
   padding: 0;
   display: -webkit-box;
@@ -3071,68 +2739,44 @@ yoast-seo.g44[id="c35"] {
   align-items: flex-start;
 }
 
-yoast-seo.g102[id="c28"] {
-  content: "c29,";
-}
-
-.c32 {
+.c17 {
   margin: 3px 11px 0 0;
 }
 
-yoast-seo.g103[id="c31"] {
-  content: "c32,";
-}
-
-.c34 {
+.c18 {
   margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
 
-yoast-seo.g104[id="c33"] {
-  content: "c34,";
-}
-
-.c27 {
+.c14 {
   margin: 8px 0;
   padding: 0;
   list-style: none;
 }
 
-yoast-seo.g105[id="c26"] {
-  content: "c27,";
-}
-
-.c1 {
+.c0 {
   width: 100%;
   background-color: white;
   border-bottom: 1px solid transparent;
 }
 
-yoast-seo.g106[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c5 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c5 .c18 {
+.c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
 }
 
-yoast-seo.g107[id="c4"] {
-  content: "c5,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c17::after {
+  .c8::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -3140,24 +2784,24 @@ yoast-seo.g107[id="c4"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -3170,10 +2814,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Errors (1)
           </span>
@@ -3181,15 +2825,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#888"
           focusable="false"
           role="img"
@@ -3202,7 +2846,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -3213,21 +2857,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -3240,10 +2884,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Improvements (1)
           </span>
@@ -3251,15 +2895,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#ee7c1b"
           focusable="false"
           role="img"
@@ -3272,7 +2916,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "I know you can do better! You can do it!",
@@ -3283,21 +2927,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -3310,10 +2954,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Good results (2)
           </span>
@@ -3321,15 +2965,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -3342,7 +2986,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "You're doing great!",
@@ -3351,11 +2995,11 @@ yoast-seo.g107[id="c4"] {
         />
       </li>
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -3368,7 +3012,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Woohoo!",
@@ -3378,7 +3022,7 @@ yoast-seo.g107[id="c4"] {
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c35 c36"
+          className="c19"
           disabled={false}
           id="3"
           onClick={[Function]}
@@ -3386,7 +3030,7 @@ yoast-seo.g107[id="c4"] {
         >
           <svg
             aria-hidden={true}
-            className="c20 c21 yoast-svg-icon yoast-svg-icon-eye"
+            className="c11 yoast-svg-icon yoast-svg-icon-eye"
             fill="#555"
             focusable="false"
             role="img"
@@ -3406,7 +3050,7 @@ yoast-seo.g107[id="c4"] {
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component without problems and improvements matches the snapshot 1`] = `
-.c21 {
+.c11 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -3414,7 +3058,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   flex: none;
 }
 
-.c30 {
+.c16 {
   width: 13px;
   height: 13px;
   -webkit-flex: none;
@@ -3422,36 +3066,24 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,c30,";
-}
-
-.c13 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c8"] {
-  content: "c13,";
-}
-
-.c14:active {
+.c5:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c9"] {
-  content: "c14,";
-}
-
-.c15::-moz-focus-inner {
+.c6::-moz-focus-inner {
   border-width: 0;
 }
 
-.c15:focus {
+.c6:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -3459,21 +3091,13 @@ yoast-seo.g4[id="c9"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c10"] {
-  content: "c15,";
-}
-
-.c16:hover {
+.c7:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c11"] {
-  content: "c16,";
-}
-
-.c17 {
+.c8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -3504,17 +3128,13 @@ yoast-seo.g6[id="c11"] {
   transition: var(--yoast-transition-default);
 }
 
-.c17 svg {
+.c8 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c12"] {
-  content: "c17,";
-}
-
-.c23 {
+.c12 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -3523,11 +3143,7 @@ yoast-seo.g7[id="c12"] {
   line-height: normal;
 }
 
-yoast-seo.g13[id="c22"] {
-  content: "c23,";
-}
-
-.c25 {
+.c13 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -3535,19 +3151,11 @@ yoast-seo.g13[id="c22"] {
   color: #555;
 }
 
-yoast-seo.g14[id="c24"] {
-  content: "c25,";
-}
-
-.c3 {
+.c1 {
   background-color: #fff;
 }
 
-yoast-seo.g17[id="c2"] {
-  content: "c3,";
-}
-
-.c19 {
+.c10 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -3562,40 +3170,32 @@ yoast-seo.g17[id="c2"] {
   font-weight: normal;
 }
 
-.c19:focus {
+.c10:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c19:active {
+.c10:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c19 svg:first-child {
+.c10 svg:first-child {
   margin-right: 8px;
 }
 
-.c19 svg:last-child {
+.c10 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g19[id="c18"] {
-  content: "c19,";
-}
-
-.c7 {
+.c3 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 13px !important;
   font-weight: bold !important;
 }
 
-yoast-seo.g20[id="c6"] {
-  content: "c7,";
-}
-
-.c36 {
+.c19 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -3608,22 +3208,18 @@ yoast-seo.g20[id="c6"] {
   height: 24px;
 }
 
-.c36:hover {
+.c19:hover {
   border-color: #fff;
 }
 
-.c36:disabled {
+.c19:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
   cursor: default;
 }
 
-yoast-seo.g44[id="c35"] {
-  content: "c36,";
-}
-
-.c29 {
+.c15 {
   min-height: 24px;
   padding: 0;
   display: -webkit-box;
@@ -3636,68 +3232,44 @@ yoast-seo.g44[id="c35"] {
   align-items: flex-start;
 }
 
-yoast-seo.g102[id="c28"] {
-  content: "c29,";
-}
-
-.c32 {
+.c17 {
   margin: 3px 11px 0 0;
 }
 
-yoast-seo.g103[id="c31"] {
-  content: "c32,";
-}
-
-.c34 {
+.c18 {
   margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
 
-yoast-seo.g104[id="c33"] {
-  content: "c34,";
-}
-
-.c27 {
+.c14 {
   margin: 8px 0;
   padding: 0;
   list-style: none;
 }
 
-yoast-seo.g105[id="c26"] {
-  content: "c27,";
-}
-
-.c1 {
+.c0 {
   width: 100%;
   background-color: white;
   border-bottom: 1px solid transparent;
 }
 
-yoast-seo.g106[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c5 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c5 .c18 {
+.c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
 }
 
-yoast-seo.g107[id="c4"] {
-  content: "c5,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c17::after {
+  .c8::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -3705,24 +3277,24 @@ yoast-seo.g107[id="c4"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -3735,10 +3307,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Errors (1)
           </span>
@@ -3746,15 +3318,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#888"
           focusable="false"
           role="img"
@@ -3767,7 +3339,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -3778,21 +3350,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -3805,10 +3377,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Considerations (1)
           </span>
@@ -3816,15 +3388,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#888"
           focusable="false"
           role="img"
@@ -3837,7 +3409,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Maybe you should change this...",
@@ -3848,21 +3420,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -3875,10 +3447,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Good results (2)
           </span>
@@ -3886,15 +3458,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -3907,7 +3479,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "You're doing great!",
@@ -3916,11 +3488,11 @@ yoast-seo.g107[id="c4"] {
         />
       </li>
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -3933,7 +3505,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Woohoo!",
@@ -3943,7 +3515,7 @@ yoast-seo.g107[id="c4"] {
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c35 c36"
+          className="c19"
           disabled={false}
           id="3"
           onClick={[Function]}
@@ -3951,7 +3523,7 @@ yoast-seo.g107[id="c4"] {
         >
           <svg
             aria-hidden={true}
-            className="c20 c21 yoast-svg-icon yoast-svg-icon-eye"
+            className="c11 yoast-svg-icon yoast-svg-icon-eye"
             fill="#555"
             focusable="false"
             role="img"
@@ -3971,7 +3543,7 @@ yoast-seo.g107[id="c4"] {
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component without problems matches the snapshot 1`] = `
-.c21 {
+.c11 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -3979,7 +3551,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   flex: none;
 }
 
-.c30 {
+.c16 {
   width: 13px;
   height: 13px;
   -webkit-flex: none;
@@ -3987,36 +3559,24 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,c30,";
-}
-
-.c13 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c8"] {
-  content: "c13,";
-}
-
-.c14:active {
+.c5:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c9"] {
-  content: "c14,";
-}
-
-.c15::-moz-focus-inner {
+.c6::-moz-focus-inner {
   border-width: 0;
 }
 
-.c15:focus {
+.c6:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -4024,21 +3584,13 @@ yoast-seo.g4[id="c9"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c10"] {
-  content: "c15,";
-}
-
-.c16:hover {
+.c7:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c11"] {
-  content: "c16,";
-}
-
-.c17 {
+.c8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -4069,17 +3621,13 @@ yoast-seo.g6[id="c11"] {
   transition: var(--yoast-transition-default);
 }
 
-.c17 svg {
+.c8 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c12"] {
-  content: "c17,";
-}
-
-.c23 {
+.c12 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -4088,11 +3636,7 @@ yoast-seo.g7[id="c12"] {
   line-height: normal;
 }
 
-yoast-seo.g13[id="c22"] {
-  content: "c23,";
-}
-
-.c25 {
+.c13 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -4100,19 +3644,11 @@ yoast-seo.g13[id="c22"] {
   color: #555;
 }
 
-yoast-seo.g14[id="c24"] {
-  content: "c25,";
-}
-
-.c3 {
+.c1 {
   background-color: #fff;
 }
 
-yoast-seo.g17[id="c2"] {
-  content: "c3,";
-}
-
-.c19 {
+.c10 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -4127,40 +3663,32 @@ yoast-seo.g17[id="c2"] {
   font-weight: normal;
 }
 
-.c19:focus {
+.c10:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c19:active {
+.c10:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c19 svg:first-child {
+.c10 svg:first-child {
   margin-right: 8px;
 }
 
-.c19 svg:last-child {
+.c10 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g19[id="c18"] {
-  content: "c19,";
-}
-
-.c7 {
+.c3 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 13px !important;
   font-weight: bold !important;
 }
 
-yoast-seo.g20[id="c6"] {
-  content: "c7,";
-}
-
-.c36 {
+.c19 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -4173,22 +3701,18 @@ yoast-seo.g20[id="c6"] {
   height: 24px;
 }
 
-.c36:hover {
+.c19:hover {
   border-color: #fff;
 }
 
-.c36:disabled {
+.c19:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
   cursor: default;
 }
 
-yoast-seo.g44[id="c35"] {
-  content: "c36,";
-}
-
-.c29 {
+.c15 {
   min-height: 24px;
   padding: 0;
   display: -webkit-box;
@@ -4201,68 +3725,44 @@ yoast-seo.g44[id="c35"] {
   align-items: flex-start;
 }
 
-yoast-seo.g102[id="c28"] {
-  content: "c29,";
-}
-
-.c32 {
+.c17 {
   margin: 3px 11px 0 0;
 }
 
-yoast-seo.g103[id="c31"] {
-  content: "c32,";
-}
-
-.c34 {
+.c18 {
   margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
 
-yoast-seo.g104[id="c33"] {
-  content: "c34,";
-}
-
-.c27 {
+.c14 {
   margin: 8px 0;
   padding: 0;
   list-style: none;
 }
 
-yoast-seo.g105[id="c26"] {
-  content: "c27,";
-}
-
-.c1 {
+.c0 {
   width: 100%;
   background-color: white;
   border-bottom: 1px solid transparent;
 }
 
-yoast-seo.g106[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c5 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c5 .c18 {
+.c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
 }
 
-yoast-seo.g107[id="c4"] {
-  content: "c5,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c17::after {
+  .c8::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -4270,24 +3770,24 @@ yoast-seo.g107[id="c4"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -4300,10 +3800,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Errors (1)
           </span>
@@ -4311,15 +3811,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#888"
           focusable="false"
           role="img"
@@ -4332,7 +3832,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -4343,21 +3843,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -4370,10 +3870,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Improvements (1)
           </span>
@@ -4381,15 +3881,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#ee7c1b"
           focusable="false"
           role="img"
@@ -4402,7 +3902,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "I know you can do better! You can do it!",
@@ -4413,21 +3913,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -4440,10 +3940,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Considerations (1)
           </span>
@@ -4451,15 +3951,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#888"
           focusable="false"
           role="img"
@@ -4472,7 +3972,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Maybe you should change this...",
@@ -4483,21 +3983,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -4510,10 +4010,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Good results (2)
           </span>
@@ -4521,15 +4021,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -4542,7 +4042,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "You're doing great!",
@@ -4551,11 +4051,11 @@ yoast-seo.g107[id="c4"] {
         />
       </li>
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -4568,7 +4068,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Woohoo!",
@@ -4578,7 +4078,7 @@ yoast-seo.g107[id="c4"] {
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c35 c36"
+          className="c19"
           disabled={false}
           id="3"
           onClick={[Function]}
@@ -4586,7 +4086,7 @@ yoast-seo.g107[id="c4"] {
         >
           <svg
             aria-hidden={true}
-            className="c20 c21 yoast-svg-icon yoast-svg-icon-eye"
+            className="c11 yoast-svg-icon yoast-svg-icon-eye"
             fill="#555"
             focusable="false"
             role="img"
@@ -4606,7 +4106,7 @@ yoast-seo.g107[id="c4"] {
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component without problems, improvements and considerations matches the snapshot 1`] = `
-.c21 {
+.c11 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -4614,7 +4114,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   flex: none;
 }
 
-.c30 {
+.c16 {
   width: 13px;
   height: 13px;
   -webkit-flex: none;
@@ -4622,36 +4122,24 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,c30,";
-}
-
-.c13 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c8"] {
-  content: "c13,";
-}
-
-.c14:active {
+.c5:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c9"] {
-  content: "c14,";
-}
-
-.c15::-moz-focus-inner {
+.c6::-moz-focus-inner {
   border-width: 0;
 }
 
-.c15:focus {
+.c6:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -4659,21 +4147,13 @@ yoast-seo.g4[id="c9"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c10"] {
-  content: "c15,";
-}
-
-.c16:hover {
+.c7:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c11"] {
-  content: "c16,";
-}
-
-.c17 {
+.c8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -4704,17 +4184,13 @@ yoast-seo.g6[id="c11"] {
   transition: var(--yoast-transition-default);
 }
 
-.c17 svg {
+.c8 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c12"] {
-  content: "c17,";
-}
-
-.c23 {
+.c12 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -4723,11 +4199,7 @@ yoast-seo.g7[id="c12"] {
   line-height: normal;
 }
 
-yoast-seo.g13[id="c22"] {
-  content: "c23,";
-}
-
-.c25 {
+.c13 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -4735,19 +4207,11 @@ yoast-seo.g13[id="c22"] {
   color: #555;
 }
 
-yoast-seo.g14[id="c24"] {
-  content: "c25,";
-}
-
-.c3 {
+.c1 {
   background-color: #fff;
 }
 
-yoast-seo.g17[id="c2"] {
-  content: "c3,";
-}
-
-.c19 {
+.c10 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -4762,40 +4226,32 @@ yoast-seo.g17[id="c2"] {
   font-weight: normal;
 }
 
-.c19:focus {
+.c10:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c19:active {
+.c10:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c19 svg:first-child {
+.c10 svg:first-child {
   margin-right: 8px;
 }
 
-.c19 svg:last-child {
+.c10 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g19[id="c18"] {
-  content: "c19,";
-}
-
-.c7 {
+.c3 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 13px !important;
   font-weight: bold !important;
 }
 
-yoast-seo.g20[id="c6"] {
-  content: "c7,";
-}
-
-.c36 {
+.c19 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -4808,22 +4264,18 @@ yoast-seo.g20[id="c6"] {
   height: 24px;
 }
 
-.c36:hover {
+.c19:hover {
   border-color: #fff;
 }
 
-.c36:disabled {
+.c19:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
   cursor: default;
 }
 
-yoast-seo.g44[id="c35"] {
-  content: "c36,";
-}
-
-.c29 {
+.c15 {
   min-height: 24px;
   padding: 0;
   display: -webkit-box;
@@ -4836,68 +4288,44 @@ yoast-seo.g44[id="c35"] {
   align-items: flex-start;
 }
 
-yoast-seo.g102[id="c28"] {
-  content: "c29,";
-}
-
-.c32 {
+.c17 {
   margin: 3px 11px 0 0;
 }
 
-yoast-seo.g103[id="c31"] {
-  content: "c32,";
-}
-
-.c34 {
+.c18 {
   margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
 
-yoast-seo.g104[id="c33"] {
-  content: "c34,";
-}
-
-.c27 {
+.c14 {
   margin: 8px 0;
   padding: 0;
   list-style: none;
 }
 
-yoast-seo.g105[id="c26"] {
-  content: "c27,";
-}
-
-.c1 {
+.c0 {
   width: 100%;
   background-color: white;
   border-bottom: 1px solid transparent;
 }
 
-yoast-seo.g106[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c5 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c5 .c18 {
+.c2 .c9 {
   padding: 8px 0;
   color: #0066cd;
 }
 
-yoast-seo.g107[id="c4"] {
-  content: "c5,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c17::after {
+  .c8::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -4905,24 +4333,24 @@ yoast-seo.g107[id="c4"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -4935,10 +4363,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Errors (1)
           </span>
@@ -4946,15 +4374,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#888"
           focusable="false"
           role="img"
@@ -4967,7 +4395,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Error: Analysis not loaded",
@@ -4978,21 +4406,21 @@ yoast-seo.g107[id="c4"] {
     </ul>
   </div>
   <div
-    className="c2 c3 c4 c5"
+    className="c1 c2"
   >
     <h4
-      className="c6 c7"
+      className="c3"
     >
       <button
         aria-expanded={true}
-        className="c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19"
+        className="c4 c5 c6 c7 c8 c9 c10"
         id={null}
         onClick={[Function]}
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="c20 c21 yoast-svg-icon yoast-svg-icon-angle-up"
+          className="c11 yoast-svg-icon yoast-svg-icon-angle-up"
           fill="#555"
           focusable="false"
           role="img"
@@ -5005,10 +4433,10 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <span
-          className="c22 c23"
+          className="c12"
         >
           <span
-            className="c24 c25"
+            className="c13"
           >
             Good results (2)
           </span>
@@ -5016,15 +4444,15 @@ yoast-seo.g107[id="c4"] {
       </button>
     </h4>
     <ul
-      className="c26 c27"
+      className="c14"
       role="list"
     >
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -5037,7 +4465,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "You're doing great!",
@@ -5046,11 +4474,11 @@ yoast-seo.g107[id="c4"] {
         />
       </li>
       <li
-        className="c28 c29"
+        className="c15"
       >
         <svg
           aria-hidden={true}
-          className="c20 c30 yoast-svg-icon yoast-svg-icon-circle c31 c32"
+          className="c16 yoast-svg-icon yoast-svg-icon-circle c17"
           fill="#7ad03a"
           focusable="false"
           role="img"
@@ -5063,7 +4491,7 @@ yoast-seo.g107[id="c4"] {
           />
         </svg>
         <p
-          className="c33 c34"
+          className="c18"
           dangerouslySetInnerHTML={
             Object {
               "__html": "Woohoo!",
@@ -5073,7 +4501,7 @@ yoast-seo.g107[id="c4"] {
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
-          className="c35 c36"
+          className="c19"
           disabled={false}
           id="3"
           onClick={[Function]}
@@ -5081,7 +4509,7 @@ yoast-seo.g107[id="c4"] {
         >
           <svg
             aria-hidden={true}
-            className="c20 c21 yoast-svg-icon yoast-svg-icon-eye"
+            className="c11 yoast-svg-icon yoast-svg-icon-eye"
             fill="#555"
             focusable="false"
             role="img"

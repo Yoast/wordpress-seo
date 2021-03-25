@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
-.c7 {
+.c3 {
   color: #606770;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -17,11 +17,7 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   position: static;
 }
 
-yoast-seo.g2[id="c6"] {
-  content: "c7,";
-}
-
-.c9 {
+.c4 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -29,11 +25,7 @@ yoast-seo.g2[id="c6"] {
   overflow: hidden;
 }
 
-yoast-seo.g4[id="c8"] {
-  content: "c9,";
-}
-
-.c3 {
+.c1 {
   box-sizing: border-box;
   max-width: 527px;
   height: 273px;
@@ -60,11 +52,7 @@ yoast-seo.g4[id="c8"] {
   cursor: pointer;
 }
 
-yoast-seo.g9[id="c2"] {
-  content: "c3,";
-}
-
-.c11 {
+.c5 {
   line-height: 20px;
   min-height: 20px;
   color: #1d2129;
@@ -87,11 +75,7 @@ yoast-seo.g9[id="c2"] {
   overflow: hidden;
 }
 
-yoast-seo.g10[id="c10"] {
-  content: "c11,";
-}
-
-.c13 {
+.c6 {
   line-height: 16px;
   min-height: 16px;
   color: #606770;
@@ -106,11 +90,7 @@ yoast-seo.g10[id="c10"] {
   overflow: hidden;
 }
 
-yoast-seo.g11[id="c12"] {
-  content: "c13,";
-}
-
-.c1 {
+.c0 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -123,11 +103,7 @@ yoast-seo.g11[id="c12"] {
   max-width: 527px;
 }
 
-yoast-seo.g12[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   box-sizing: border-box;
   background-color: #f2f3f5;
   margin: 0;
@@ -155,23 +131,19 @@ yoast-seo.g12[id="c0"] {
   overflow: hidden;
 }
 
-yoast-seo.g13[id="c4"] {
-  content: "c5,";
-}
-
 @media all and ( max-width:476px ) {
-  .c13 {
+  .c6 {
     display: none;
   }
 }
 
 <div
-  className="c0 c1"
+  className="c0"
   id="facebookPreview"
   mode={null}
 >
   <div
-    className="c2 c3"
+    className="c1"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
@@ -179,7 +151,7 @@ yoast-seo.g13[id="c4"] {
     Select image
   </div>
   <div
-    className="c4 c5"
+    className="c2"
     mode={null}
   >
     <span
@@ -189,16 +161,16 @@ yoast-seo.g13[id="c4"] {
     </span>
     <p
       aria-hidden="true"
-      className="c6 c7"
+      className="c3"
     >
       <span
-        className="c8 c9"
+        className="c4"
       >
         yoast.com
       </span>
     </p>
     <span
-      className="c10 c11"
+      className="c5"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -206,7 +178,7 @@ yoast-seo.g13[id="c4"] {
       YoastCon Workshops
     </span>
     <p
-      className="c12 c13"
+      className="c6"
       mode={null}
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -219,7 +191,7 @@ yoast-seo.g13[id="c4"] {
 `;
 
 exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
-.c7 {
+.c3 {
   color: #606770;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -235,11 +207,7 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   position: static;
 }
 
-yoast-seo.g2[id="c6"] {
-  content: "c7,";
-}
-
-.c9 {
+.c4 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -247,11 +215,7 @@ yoast-seo.g2[id="c6"] {
   overflow: hidden;
 }
 
-yoast-seo.g4[id="c8"] {
-  content: "c9,";
-}
-
-.c3 {
+.c1 {
   box-sizing: border-box;
   max-width: 527px;
   height: 273px;
@@ -278,11 +242,7 @@ yoast-seo.g4[id="c8"] {
   cursor: pointer;
 }
 
-yoast-seo.g9[id="c2"] {
-  content: "c3,";
-}
-
-.c11 {
+.c5 {
   line-height: 20px;
   min-height: 20px;
   color: #1d2129;
@@ -305,11 +265,7 @@ yoast-seo.g9[id="c2"] {
   overflow: hidden;
 }
 
-yoast-seo.g10[id="c10"] {
-  content: "c11,";
-}
-
-.c13 {
+.c6 {
   line-height: 16px;
   min-height: 16px;
   color: #606770;
@@ -324,11 +280,7 @@ yoast-seo.g10[id="c10"] {
   overflow: hidden;
 }
 
-yoast-seo.g11[id="c12"] {
-  content: "c13,";
-}
-
-.c1 {
+.c0 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -341,11 +293,7 @@ yoast-seo.g11[id="c12"] {
   max-width: 527px;
 }
 
-yoast-seo.g12[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   box-sizing: border-box;
   background-color: #f2f3f5;
   margin: 0;
@@ -373,23 +321,19 @@ yoast-seo.g12[id="c0"] {
   overflow: hidden;
 }
 
-yoast-seo.g13[id="c4"] {
-  content: "c5,";
-}
-
 @media all and ( max-width:476px ) {
-  .c13 {
+  .c6 {
     display: none;
   }
 }
 
 <div
-  className="c0 c1"
+  className="c0"
   id="facebookPreview"
   mode={null}
 >
   <div
-    className="c2 c3"
+    className="c1"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
@@ -397,7 +341,7 @@ yoast-seo.g13[id="c4"] {
     Select image
   </div>
   <div
-    className="c4 c5"
+    className="c2"
     mode={null}
   >
     <span
@@ -407,16 +351,16 @@ yoast-seo.g13[id="c4"] {
     </span>
     <p
       aria-hidden="true"
-      className="c6 c7"
+      className="c3"
     >
       <span
-        className="c8 c9"
+        className="c4"
       >
         yoast.com
       </span>
     </p>
     <span
-      className="c10 c11"
+      className="c5"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -424,7 +368,7 @@ yoast-seo.g13[id="c4"] {
       YoastCon Workshops
     </span>
     <p
-      className="c12 c13"
+      className="c6"
       mode={null}
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -437,7 +381,7 @@ yoast-seo.g13[id="c4"] {
 `;
 
 exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
-.c7 {
+.c3 {
   color: #606770;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -453,11 +397,7 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   position: static;
 }
 
-yoast-seo.g2[id="c6"] {
-  content: "c7,";
-}
-
-.c9 {
+.c4 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -465,11 +405,7 @@ yoast-seo.g2[id="c6"] {
   overflow: hidden;
 }
 
-yoast-seo.g4[id="c8"] {
-  content: "c9,";
-}
-
-.c3 {
+.c1 {
   box-sizing: border-box;
   max-width: 527px;
   height: 273px;
@@ -496,11 +432,7 @@ yoast-seo.g4[id="c8"] {
   cursor: pointer;
 }
 
-yoast-seo.g9[id="c2"] {
-  content: "c3,";
-}
-
-.c11 {
+.c5 {
   line-height: 20px;
   min-height: 20px;
   color: #1d2129;
@@ -523,11 +455,7 @@ yoast-seo.g9[id="c2"] {
   overflow: hidden;
 }
 
-yoast-seo.g10[id="c10"] {
-  content: "c11,";
-}
-
-.c13 {
+.c6 {
   line-height: 16px;
   min-height: 16px;
   color: #606770;
@@ -542,11 +470,7 @@ yoast-seo.g10[id="c10"] {
   overflow: hidden;
 }
 
-yoast-seo.g11[id="c12"] {
-  content: "c13,";
-}
-
-.c1 {
+.c0 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -559,11 +483,7 @@ yoast-seo.g11[id="c12"] {
   max-width: 527px;
 }
 
-yoast-seo.g12[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   box-sizing: border-box;
   background-color: #f2f3f5;
   margin: 0;
@@ -591,23 +511,19 @@ yoast-seo.g12[id="c0"] {
   overflow: hidden;
 }
 
-yoast-seo.g13[id="c4"] {
-  content: "c5,";
-}
-
 @media all and ( max-width:476px ) {
-  .c13 {
+  .c6 {
     display: none;
   }
 }
 
 <div
-  className="c0 c1"
+  className="c0"
   id="facebookPreview"
   mode={null}
 >
   <div
-    className="c2 c3"
+    className="c1"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
@@ -615,7 +531,7 @@ yoast-seo.g13[id="c4"] {
     Select image
   </div>
   <div
-    className="c4 c5"
+    className="c2"
     mode={null}
   >
     <span
@@ -625,16 +541,16 @@ yoast-seo.g13[id="c4"] {
     </span>
     <p
       aria-hidden="true"
-      className="c6 c7"
+      className="c3"
     >
       <span
-        className="c8 c9"
+        className="c4"
       >
         yoast.com
       </span>
     </p>
     <span
-      className="c10 c11"
+      className="c5"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -642,7 +558,7 @@ yoast-seo.g13[id="c4"] {
       YoastCon Workshops
     </span>
     <p
-      className="c12 c13"
+      className="c6"
       mode={null}
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -655,7 +571,7 @@ yoast-seo.g13[id="c4"] {
 `;
 
 exports[`FacebookPreview matches the snapshot for a square image 1`] = `
-.c7 {
+.c3 {
   color: #606770;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -671,11 +587,7 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   position: static;
 }
 
-yoast-seo.g2[id="c6"] {
-  content: "c7,";
-}
-
-.c9 {
+.c4 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -683,11 +595,7 @@ yoast-seo.g2[id="c6"] {
   overflow: hidden;
 }
 
-yoast-seo.g4[id="c8"] {
-  content: "c9,";
-}
-
-.c3 {
+.c1 {
   box-sizing: border-box;
   max-width: 527px;
   height: 273px;
@@ -714,11 +622,7 @@ yoast-seo.g4[id="c8"] {
   cursor: pointer;
 }
 
-yoast-seo.g9[id="c2"] {
-  content: "c3,";
-}
-
-.c11 {
+.c5 {
   line-height: 20px;
   min-height: 20px;
   color: #1d2129;
@@ -741,11 +645,7 @@ yoast-seo.g9[id="c2"] {
   overflow: hidden;
 }
 
-yoast-seo.g10[id="c10"] {
-  content: "c11,";
-}
-
-.c13 {
+.c6 {
   line-height: 16px;
   min-height: 16px;
   color: #606770;
@@ -760,11 +660,7 @@ yoast-seo.g10[id="c10"] {
   overflow: hidden;
 }
 
-yoast-seo.g11[id="c12"] {
-  content: "c13,";
-}
-
-.c1 {
+.c0 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -777,11 +673,7 @@ yoast-seo.g11[id="c12"] {
   max-width: 527px;
 }
 
-yoast-seo.g12[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   box-sizing: border-box;
   background-color: #f2f3f5;
   margin: 0;
@@ -809,23 +701,19 @@ yoast-seo.g12[id="c0"] {
   overflow: hidden;
 }
 
-yoast-seo.g13[id="c4"] {
-  content: "c5,";
-}
-
 @media all and ( max-width:476px ) {
-  .c13 {
+  .c6 {
     display: none;
   }
 }
 
 <div
-  className="c0 c1"
+  className="c0"
   id="facebookPreview"
   mode={null}
 >
   <div
-    className="c2 c3"
+    className="c1"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
@@ -833,7 +721,7 @@ yoast-seo.g13[id="c4"] {
     Select image
   </div>
   <div
-    className="c4 c5"
+    className="c2"
     mode={null}
   >
     <span
@@ -843,16 +731,16 @@ yoast-seo.g13[id="c4"] {
     </span>
     <p
       aria-hidden="true"
-      className="c6 c7"
+      className="c3"
     >
       <span
-        className="c8 c9"
+        className="c4"
       >
         yoast.com
       </span>
     </p>
     <span
-      className="c10 c11"
+      className="c5"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -860,7 +748,7 @@ yoast-seo.g13[id="c4"] {
       YoastCon Workshops
     </span>
     <p
-      className="c12 c13"
+      className="c6"
       mode={null}
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -873,7 +761,7 @@ yoast-seo.g13[id="c4"] {
 `;
 
 exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
-.c7 {
+.c3 {
   color: #606770;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -889,11 +777,7 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   position: static;
 }
 
-yoast-seo.g2[id="c6"] {
-  content: "c7,";
-}
-
-.c9 {
+.c4 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -901,11 +785,7 @@ yoast-seo.g2[id="c6"] {
   overflow: hidden;
 }
 
-yoast-seo.g4[id="c8"] {
-  content: "c9,";
-}
-
-.c3 {
+.c1 {
   box-sizing: border-box;
   max-width: 527px;
   height: 273px;
@@ -932,11 +812,7 @@ yoast-seo.g4[id="c8"] {
   cursor: pointer;
 }
 
-yoast-seo.g9[id="c2"] {
-  content: "c3,";
-}
-
-.c11 {
+.c5 {
   line-height: 20px;
   min-height: 20px;
   color: #1d2129;
@@ -959,11 +835,7 @@ yoast-seo.g9[id="c2"] {
   overflow: hidden;
 }
 
-yoast-seo.g10[id="c10"] {
-  content: "c11,";
-}
-
-.c13 {
+.c6 {
   line-height: 16px;
   min-height: 16px;
   color: #606770;
@@ -978,11 +850,7 @@ yoast-seo.g10[id="c10"] {
   overflow: hidden;
 }
 
-yoast-seo.g11[id="c12"] {
-  content: "c13,";
-}
-
-.c1 {
+.c0 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -995,11 +863,7 @@ yoast-seo.g11[id="c12"] {
   max-width: 527px;
 }
 
-yoast-seo.g12[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   box-sizing: border-box;
   background-color: #f2f3f5;
   margin: 0;
@@ -1027,23 +891,19 @@ yoast-seo.g12[id="c0"] {
   overflow: hidden;
 }
 
-yoast-seo.g13[id="c4"] {
-  content: "c5,";
-}
-
 @media all and ( max-width:476px ) {
-  .c13 {
+  .c6 {
     display: none;
   }
 }
 
 <div
-  className="c0 c1"
+  className="c0"
   id="facebookPreview"
   mode={null}
 >
   <div
-    className="c2 c3"
+    className="c1"
     onClick={[Function]}
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
@@ -1051,7 +911,7 @@ yoast-seo.g13[id="c4"] {
     Select image
   </div>
   <div
-    className="c4 c5"
+    className="c2"
     mode={null}
   >
     <span
@@ -1061,16 +921,16 @@ yoast-seo.g13[id="c4"] {
     </span>
     <p
       aria-hidden="true"
-      className="c6 c7"
+      className="c3"
     >
       <span
-        className="c8 c9"
+        className="c4"
       >
         yoast.com
       </span>
     </p>
     <span
-      className="c10 c11"
+      className="c5"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -1078,7 +938,7 @@ yoast-seo.g13[id="c4"] {
       YoastCon Workshops
     </span>
     <p
-      className="c12 c13"
+      className="c6"
       mode={null}
       onClick={[Function]}
       onMouseEnter={[Function]}

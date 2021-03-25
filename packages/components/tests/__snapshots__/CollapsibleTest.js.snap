@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Collapsible matches the snapshot by default 1`] = `
-.c21 {
+.c10 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -9,36 +9,24 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,";
-}
-
-.c9 {
+.c2 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c4"] {
-  content: "c9,";
-}
-
-.c10:active {
+.c3:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c5"] {
-  content: "c10,";
-}
-
-.c11::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c11:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -46,21 +34,13 @@ yoast-seo.g4[id="c5"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c6"] {
-  content: "c11,";
-}
-
-.c12:hover {
+.c5:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c7"] {
-  content: "c12,";
-}
-
-.c13 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -91,17 +71,13 @@ yoast-seo.g6[id="c7"] {
   transition: var(--yoast-transition-default);
 }
 
-.c13 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c8"] {
-  content: "c13,";
-}
-
-.c17 {
+.c8 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -110,11 +86,7 @@ yoast-seo.g7[id="c8"] {
   line-height: normal;
 }
 
-yoast-seo.g53[id="c16"] {
-  content: "c17,";
-}
-
-.c19 {
+.c9 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -122,19 +94,11 @@ yoast-seo.g53[id="c16"] {
   color: #555;
 }
 
-yoast-seo.g54[id="c18"] {
-  content: "c19,";
-}
-
-.c1 {
+.c0 {
   background-color: #fff;
 }
 
-yoast-seo.g98[id="c0"] {
-  content: "c1,";
-}
-
-.c15 {
+.c7 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -149,41 +113,33 @@ yoast-seo.g98[id="c0"] {
   font-weight: normal;
 }
 
-.c15:focus {
+.c7:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c15:active {
+.c7:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c15 svg:first-child {
+.c7 svg:first-child {
   margin-right: 8px;
 }
 
-.c15 svg:last-child {
+.c7 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g100[id="c14"] {
-  content: "c15,";
-}
-
-.c3 {
+.c1 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
 }
 
-yoast-seo.g101[id="c2"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c13::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -191,30 +147,30 @@ yoast-seo.g101[id="c2"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <h2
-    className="c2 c3"
+    className="c1"
   >
     <button
       aria-expanded={false}
-      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
+      className="c2 c3 c4 c5 c6 c7"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c16 c17"
+        className="c8"
       >
         <span
-          className="c18 c19"
+          className="c9"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-down"
+        className="c10 yoast-svg-icon yoast-svg-icon-chevron-down"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -240,7 +196,7 @@ yoast-seo.g101[id="c2"] {
 `;
 
 exports[`Collapsible matches the snapshot by default 2`] = `
-.c21 {
+.c10 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -248,36 +204,24 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,";
-}
-
-.c9 {
+.c2 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c4"] {
-  content: "c9,";
-}
-
-.c10:active {
+.c3:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c5"] {
-  content: "c10,";
-}
-
-.c11::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c11:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -285,21 +229,13 @@ yoast-seo.g4[id="c5"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c6"] {
-  content: "c11,";
-}
-
-.c12:hover {
+.c5:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c7"] {
-  content: "c12,";
-}
-
-.c13 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -330,17 +266,13 @@ yoast-seo.g6[id="c7"] {
   transition: var(--yoast-transition-default);
 }
 
-.c13 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c8"] {
-  content: "c13,";
-}
-
-.c17 {
+.c8 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -349,11 +281,7 @@ yoast-seo.g7[id="c8"] {
   line-height: normal;
 }
 
-yoast-seo.g53[id="c16"] {
-  content: "c17,";
-}
-
-.c19 {
+.c9 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -361,19 +289,11 @@ yoast-seo.g53[id="c16"] {
   color: #555;
 }
 
-yoast-seo.g54[id="c18"] {
-  content: "c19,";
-}
-
-.c1 {
+.c0 {
   background-color: #fff;
 }
 
-yoast-seo.g98[id="c0"] {
-  content: "c1,";
-}
-
-.c15 {
+.c7 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -388,41 +308,33 @@ yoast-seo.g98[id="c0"] {
   font-weight: normal;
 }
 
-.c15:focus {
+.c7:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c15:active {
+.c7:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c15 svg:first-child {
+.c7 svg:first-child {
   margin-right: 8px;
 }
 
-.c15 svg:last-child {
+.c7 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g100[id="c14"] {
-  content: "c15,";
-}
-
-.c3 {
+.c1 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
 }
 
-yoast-seo.g101[id="c2"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c13::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -430,30 +342,30 @@ yoast-seo.g101[id="c2"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <h2
-    className="c2 c3"
+    className="c1"
   >
     <button
       aria-expanded={true}
-      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
+      className="c2 c3 c4 c5 c6 c7"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c16 c17"
+        className="c8"
       >
         <span
-          className="c18 c19"
+          className="c9"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-up"
+        className="c10 yoast-svg-icon yoast-svg-icon-chevron-up"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -491,7 +403,7 @@ yoast-seo.g101[id="c2"] {
 `;
 
 exports[`Collapsible matches the snapshot by default when the collapsible has an ID 1`] = `
-.c21 {
+.c10 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -499,36 +411,24 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,";
-}
-
-.c9 {
+.c2 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c4"] {
-  content: "c9,";
-}
-
-.c10:active {
+.c3:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c5"] {
-  content: "c10,";
-}
-
-.c11::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c11:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -536,21 +436,13 @@ yoast-seo.g4[id="c5"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c6"] {
-  content: "c11,";
-}
-
-.c12:hover {
+.c5:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c7"] {
-  content: "c12,";
-}
-
-.c13 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -581,17 +473,13 @@ yoast-seo.g6[id="c7"] {
   transition: var(--yoast-transition-default);
 }
 
-.c13 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c8"] {
-  content: "c13,";
-}
-
-.c17 {
+.c8 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -600,11 +488,7 @@ yoast-seo.g7[id="c8"] {
   line-height: normal;
 }
 
-yoast-seo.g53[id="c16"] {
-  content: "c17,";
-}
-
-.c19 {
+.c9 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -612,19 +496,11 @@ yoast-seo.g53[id="c16"] {
   color: #555;
 }
 
-yoast-seo.g54[id="c18"] {
-  content: "c19,";
-}
-
-.c1 {
+.c0 {
   background-color: #fff;
 }
 
-yoast-seo.g98[id="c0"] {
-  content: "c1,";
-}
-
-.c15 {
+.c7 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -639,41 +515,33 @@ yoast-seo.g98[id="c0"] {
   font-weight: normal;
 }
 
-.c15:focus {
+.c7:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c15:active {
+.c7:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c15 svg:first-child {
+.c7 svg:first-child {
   margin-right: 8px;
 }
 
-.c15 svg:last-child {
+.c7 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g100[id="c14"] {
-  content: "c15,";
-}
-
-.c3 {
+.c1 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
 }
 
-yoast-seo.g101[id="c2"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c13::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -681,30 +549,30 @@ yoast-seo.g101[id="c2"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <h2
-    className="c2 c3"
+    className="c1"
   >
     <button
       aria-expanded={false}
-      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
+      className="c2 c3 c4 c5 c6 c7"
       id="yoast-collapsible"
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c16 c17"
+        className="c8"
       >
         <span
-          className="c18 c19"
+          className="c9"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-down"
+        className="c10 yoast-svg-icon yoast-svg-icon-chevron-down"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -730,7 +598,7 @@ yoast-seo.g101[id="c2"] {
 `;
 
 exports[`Collapsible matches the snapshot by default when the collapsible has an ID 2`] = `
-.c21 {
+.c10 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -738,36 +606,24 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,";
-}
-
-.c9 {
+.c2 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c4"] {
-  content: "c9,";
-}
-
-.c10:active {
+.c3:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c5"] {
-  content: "c10,";
-}
-
-.c11::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c11:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -775,21 +631,13 @@ yoast-seo.g4[id="c5"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c6"] {
-  content: "c11,";
-}
-
-.c12:hover {
+.c5:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c7"] {
-  content: "c12,";
-}
-
-.c13 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -820,17 +668,13 @@ yoast-seo.g6[id="c7"] {
   transition: var(--yoast-transition-default);
 }
 
-.c13 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c8"] {
-  content: "c13,";
-}
-
-.c17 {
+.c8 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -839,11 +683,7 @@ yoast-seo.g7[id="c8"] {
   line-height: normal;
 }
 
-yoast-seo.g53[id="c16"] {
-  content: "c17,";
-}
-
-.c19 {
+.c9 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -851,19 +691,11 @@ yoast-seo.g53[id="c16"] {
   color: #555;
 }
 
-yoast-seo.g54[id="c18"] {
-  content: "c19,";
-}
-
-.c1 {
+.c0 {
   background-color: #fff;
 }
 
-yoast-seo.g98[id="c0"] {
-  content: "c1,";
-}
-
-.c15 {
+.c7 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -878,41 +710,33 @@ yoast-seo.g98[id="c0"] {
   font-weight: normal;
 }
 
-.c15:focus {
+.c7:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c15:active {
+.c7:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c15 svg:first-child {
+.c7 svg:first-child {
   margin-right: 8px;
 }
 
-.c15 svg:last-child {
+.c7 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g100[id="c14"] {
-  content: "c15,";
-}
-
-.c3 {
+.c1 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
 }
 
-yoast-seo.g101[id="c2"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c13::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -920,30 +744,30 @@ yoast-seo.g101[id="c2"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <h2
-    className="c2 c3"
+    className="c1"
   >
     <button
       aria-expanded={true}
-      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
+      className="c2 c3 c4 c5 c6 c7"
       id="yoast-collapsible"
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c16 c17"
+        className="c8"
       >
         <span
-          className="c18 c19"
+          className="c9"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-up"
+        className="c10 yoast-svg-icon yoast-svg-icon-chevron-up"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -981,7 +805,7 @@ yoast-seo.g101[id="c2"] {
 `;
 
 exports[`Collapsible matches the snapshot when it is closed 1`] = `
-.c21 {
+.c10 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -989,36 +813,24 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,";
-}
-
-.c9 {
+.c2 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c4"] {
-  content: "c9,";
-}
-
-.c10:active {
+.c3:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c5"] {
-  content: "c10,";
-}
-
-.c11::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c11:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -1026,21 +838,13 @@ yoast-seo.g4[id="c5"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c6"] {
-  content: "c11,";
-}
-
-.c12:hover {
+.c5:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c7"] {
-  content: "c12,";
-}
-
-.c13 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1071,17 +875,13 @@ yoast-seo.g6[id="c7"] {
   transition: var(--yoast-transition-default);
 }
 
-.c13 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c8"] {
-  content: "c13,";
-}
-
-.c17 {
+.c8 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -1090,11 +890,7 @@ yoast-seo.g7[id="c8"] {
   line-height: normal;
 }
 
-yoast-seo.g53[id="c16"] {
-  content: "c17,";
-}
-
-.c19 {
+.c9 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -1102,19 +898,11 @@ yoast-seo.g53[id="c16"] {
   color: #555;
 }
 
-yoast-seo.g54[id="c18"] {
-  content: "c19,";
-}
-
-.c1 {
+.c0 {
   background-color: #fff;
 }
 
-yoast-seo.g98[id="c0"] {
-  content: "c1,";
-}
-
-.c15 {
+.c7 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -1129,41 +917,33 @@ yoast-seo.g98[id="c0"] {
   font-weight: normal;
 }
 
-.c15:focus {
+.c7:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c15:active {
+.c7:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c15 svg:first-child {
+.c7 svg:first-child {
   margin-right: 8px;
 }
 
-.c15 svg:last-child {
+.c7 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g100[id="c14"] {
-  content: "c15,";
-}
-
-.c3 {
+.c1 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
 }
 
-yoast-seo.g101[id="c2"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c13::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1171,30 +951,30 @@ yoast-seo.g101[id="c2"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <h2
-    className="c2 c3"
+    className="c1"
   >
     <button
       aria-expanded={false}
-      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
+      className="c2 c3 c4 c5 c6 c7"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c16 c17"
+        className="c8"
       >
         <span
-          className="c18 c19"
+          className="c9"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-down"
+        className="c10 yoast-svg-icon yoast-svg-icon-chevron-down"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -1220,7 +1000,7 @@ yoast-seo.g101[id="c2"] {
 `;
 
 exports[`Collapsible matches the snapshot when it is closed 2`] = `
-.c21 {
+.c10 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -1228,36 +1008,24 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,";
-}
-
-.c9 {
+.c2 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c4"] {
-  content: "c9,";
-}
-
-.c10:active {
+.c3:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c5"] {
-  content: "c10,";
-}
-
-.c11::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c11:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -1265,21 +1033,13 @@ yoast-seo.g4[id="c5"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c6"] {
-  content: "c11,";
-}
-
-.c12:hover {
+.c5:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c7"] {
-  content: "c12,";
-}
-
-.c13 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1310,17 +1070,13 @@ yoast-seo.g6[id="c7"] {
   transition: var(--yoast-transition-default);
 }
 
-.c13 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c8"] {
-  content: "c13,";
-}
-
-.c17 {
+.c8 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -1329,11 +1085,7 @@ yoast-seo.g7[id="c8"] {
   line-height: normal;
 }
 
-yoast-seo.g53[id="c16"] {
-  content: "c17,";
-}
-
-.c19 {
+.c9 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -1341,19 +1093,11 @@ yoast-seo.g53[id="c16"] {
   color: #555;
 }
 
-yoast-seo.g54[id="c18"] {
-  content: "c19,";
-}
-
-.c1 {
+.c0 {
   background-color: #fff;
 }
 
-yoast-seo.g98[id="c0"] {
-  content: "c1,";
-}
-
-.c15 {
+.c7 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -1368,41 +1112,33 @@ yoast-seo.g98[id="c0"] {
   font-weight: normal;
 }
 
-.c15:focus {
+.c7:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c15:active {
+.c7:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c15 svg:first-child {
+.c7 svg:first-child {
   margin-right: 8px;
 }
 
-.c15 svg:last-child {
+.c7 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g100[id="c14"] {
-  content: "c15,";
-}
-
-.c3 {
+.c1 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
 }
 
-yoast-seo.g101[id="c2"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c13::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1410,30 +1146,30 @@ yoast-seo.g101[id="c2"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <h2
-    className="c2 c3"
+    className="c1"
   >
     <button
       aria-expanded={true}
-      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
+      className="c2 c3 c4 c5 c6 c7"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c16 c17"
+        className="c8"
       >
         <span
-          className="c18 c19"
+          className="c9"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-up"
+        className="c10 yoast-svg-icon yoast-svg-icon-chevron-up"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -1471,7 +1207,7 @@ yoast-seo.g101[id="c2"] {
 `;
 
 exports[`Collapsible matches the snapshot when it is open 1`] = `
-.c21 {
+.c10 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -1479,36 +1215,24 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,";
-}
-
-.c9 {
+.c2 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c4"] {
-  content: "c9,";
-}
-
-.c10:active {
+.c3:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c5"] {
-  content: "c10,";
-}
-
-.c11::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c11:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -1516,21 +1240,13 @@ yoast-seo.g4[id="c5"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c6"] {
-  content: "c11,";
-}
-
-.c12:hover {
+.c5:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c7"] {
-  content: "c12,";
-}
-
-.c13 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1561,17 +1277,13 @@ yoast-seo.g6[id="c7"] {
   transition: var(--yoast-transition-default);
 }
 
-.c13 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c8"] {
-  content: "c13,";
-}
-
-.c17 {
+.c8 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -1580,11 +1292,7 @@ yoast-seo.g7[id="c8"] {
   line-height: normal;
 }
 
-yoast-seo.g53[id="c16"] {
-  content: "c17,";
-}
-
-.c19 {
+.c9 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -1592,19 +1300,11 @@ yoast-seo.g53[id="c16"] {
   color: #555;
 }
 
-yoast-seo.g54[id="c18"] {
-  content: "c19,";
-}
-
-.c1 {
+.c0 {
   background-color: #fff;
 }
 
-yoast-seo.g98[id="c0"] {
-  content: "c1,";
-}
-
-.c15 {
+.c7 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -1619,41 +1319,33 @@ yoast-seo.g98[id="c0"] {
   font-weight: normal;
 }
 
-.c15:focus {
+.c7:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c15:active {
+.c7:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c15 svg:first-child {
+.c7 svg:first-child {
   margin-right: 8px;
 }
 
-.c15 svg:last-child {
+.c7 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g100[id="c14"] {
-  content: "c15,";
-}
-
-.c3 {
+.c1 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
 }
 
-yoast-seo.g101[id="c2"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c13::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1661,30 +1353,30 @@ yoast-seo.g101[id="c2"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <h2
-    className="c2 c3"
+    className="c1"
   >
     <button
       aria-expanded={true}
-      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
+      className="c2 c3 c4 c5 c6 c7"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c16 c17"
+        className="c8"
       >
         <span
-          className="c18 c19"
+          className="c9"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-up"
+        className="c10 yoast-svg-icon yoast-svg-icon-chevron-up"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -1722,7 +1414,7 @@ yoast-seo.g101[id="c2"] {
 `;
 
 exports[`Collapsible matches the snapshot when it is open 2`] = `
-.c21 {
+.c10 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -1730,36 +1422,24 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c20"] {
-  content: "c21,";
-}
-
-.c9 {
+.c2 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c4"] {
-  content: "c9,";
-}
-
-.c10:active {
+.c3:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c5"] {
-  content: "c10,";
-}
-
-.c11::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c11:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -1767,21 +1447,13 @@ yoast-seo.g4[id="c5"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c6"] {
-  content: "c11,";
-}
-
-.c12:hover {
+.c5:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c7"] {
-  content: "c12,";
-}
-
-.c13 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1812,17 +1484,13 @@ yoast-seo.g6[id="c7"] {
   transition: var(--yoast-transition-default);
 }
 
-.c13 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c8"] {
-  content: "c13,";
-}
-
-.c17 {
+.c8 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -1831,11 +1499,7 @@ yoast-seo.g7[id="c8"] {
   line-height: normal;
 }
 
-yoast-seo.g53[id="c16"] {
-  content: "c17,";
-}
-
-.c19 {
+.c9 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -1843,19 +1507,11 @@ yoast-seo.g53[id="c16"] {
   color: #555;
 }
 
-yoast-seo.g54[id="c18"] {
-  content: "c19,";
-}
-
-.c1 {
+.c0 {
   background-color: #fff;
 }
 
-yoast-seo.g98[id="c0"] {
-  content: "c1,";
-}
-
-.c15 {
+.c7 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -1870,41 +1526,33 @@ yoast-seo.g98[id="c0"] {
   font-weight: normal;
 }
 
-.c15:focus {
+.c7:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c15:active {
+.c7:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c15 svg:first-child {
+.c7 svg:first-child {
   margin-right: 8px;
 }
 
-.c15 svg:last-child {
+.c7 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g100[id="c14"] {
-  content: "c15,";
-}
-
-.c3 {
+.c1 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
 }
 
-yoast-seo.g101[id="c2"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c13::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1912,30 +1560,30 @@ yoast-seo.g101[id="c2"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <h2
-    className="c2 c3"
+    className="c1"
   >
     <button
       aria-expanded={false}
-      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
+      className="c2 c3 c4 c5 c6 c7"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c16 c17"
+        className="c8"
       >
         <span
-          className="c18 c19"
+          className="c9"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="c20 c21 yoast-svg-icon yoast-svg-icon-chevron-down"
+        className="c10 yoast-svg-icon yoast-svg-icon-chevron-down"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -1961,32 +1609,24 @@ yoast-seo.g101[id="c2"] {
 `;
 
 exports[`CollapsibleStateless matches the snapshot by default 1`] = `
-.c9 {
+.c2 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c4"] {
-  content: "c9,";
-}
-
-.c10:active {
+.c3:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c5"] {
-  content: "c10,";
-}
-
-.c11::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c11:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -1994,21 +1634,13 @@ yoast-seo.g4[id="c5"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c6"] {
-  content: "c11,";
-}
-
-.c12:hover {
+.c5:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c7"] {
-  content: "c12,";
-}
-
-.c13 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2039,17 +1671,13 @@ yoast-seo.g6[id="c7"] {
   transition: var(--yoast-transition-default);
 }
 
-.c13 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c8"] {
-  content: "c13,";
-}
-
-.c17 {
+.c8 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -2058,11 +1686,7 @@ yoast-seo.g7[id="c8"] {
   line-height: normal;
 }
 
-yoast-seo.g53[id="c16"] {
-  content: "c17,";
-}
-
-.c19 {
+.c9 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -2070,19 +1694,11 @@ yoast-seo.g53[id="c16"] {
   color: #555;
 }
 
-yoast-seo.g54[id="c18"] {
-  content: "c19,";
-}
-
-.c1 {
+.c0 {
   background-color: #fff;
 }
 
-yoast-seo.g98[id="c0"] {
-  content: "c1,";
-}
-
-.c15 {
+.c7 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -2097,41 +1713,33 @@ yoast-seo.g98[id="c0"] {
   font-weight: normal;
 }
 
-.c15:focus {
+.c7:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c15:active {
+.c7:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c15 svg:first-child {
+.c7 svg:first-child {
   margin-right: 8px;
 }
 
-.c15 svg:last-child {
+.c7 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g100[id="c14"] {
-  content: "c15,";
-}
-
-.c3 {
+.c1 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
 }
 
-yoast-seo.g101[id="c2"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c13::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -2139,23 +1747,23 @@ yoast-seo.g101[id="c2"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <h2
-    className="c2 c3"
+    className="c1"
   >
     <button
       aria-expanded={true}
-      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
+      className="c2 c3 c4 c5 c6 c7"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c16 c17"
+        className="c8"
       >
         <span
-          className="c18 c19"
+          className="c9"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -2178,32 +1786,24 @@ yoast-seo.g101[id="c2"] {
 `;
 
 exports[`CollapsibleStateless matches the snapshot when it is opened and closed 1`] = `
-.c9 {
+.c2 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c4"] {
-  content: "c9,";
-}
-
-.c10:active {
+.c3:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c5"] {
-  content: "c10,";
-}
-
-.c11::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c11:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -2211,21 +1811,13 @@ yoast-seo.g4[id="c5"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c6"] {
-  content: "c11,";
-}
-
-.c12:hover {
+.c5:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c7"] {
-  content: "c12,";
-}
-
-.c13 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2256,17 +1848,13 @@ yoast-seo.g6[id="c7"] {
   transition: var(--yoast-transition-default);
 }
 
-.c13 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c8"] {
-  content: "c13,";
-}
-
-.c17 {
+.c8 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -2275,11 +1863,7 @@ yoast-seo.g7[id="c8"] {
   line-height: normal;
 }
 
-yoast-seo.g53[id="c16"] {
-  content: "c17,";
-}
-
-.c19 {
+.c9 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -2287,19 +1871,11 @@ yoast-seo.g53[id="c16"] {
   color: #555;
 }
 
-yoast-seo.g54[id="c18"] {
-  content: "c19,";
-}
-
-.c1 {
+.c0 {
   background-color: #fff;
 }
 
-yoast-seo.g98[id="c0"] {
-  content: "c1,";
-}
-
-.c15 {
+.c7 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -2314,41 +1890,33 @@ yoast-seo.g98[id="c0"] {
   font-weight: normal;
 }
 
-.c15:focus {
+.c7:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c15:active {
+.c7:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c15 svg:first-child {
+.c7 svg:first-child {
   margin-right: 8px;
 }
 
-.c15 svg:last-child {
+.c7 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g100[id="c14"] {
-  content: "c15,";
-}
-
-.c3 {
+.c1 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
 }
 
-yoast-seo.g101[id="c2"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c13::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -2356,23 +1924,23 @@ yoast-seo.g101[id="c2"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <h2
-    className="c2 c3"
+    className="c1"
   >
     <button
       aria-expanded={true}
-      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
+      className="c2 c3 c4 c5 c6 c7"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c16 c17"
+        className="c8"
       >
         <span
-          className="c18 c19"
+          className="c9"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -2395,32 +1963,24 @@ yoast-seo.g101[id="c2"] {
 `;
 
 exports[`CollapsibleStateless matches the snapshot when it is opened and closed 2`] = `
-.c9 {
+.c2 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c4"] {
-  content: "c9,";
-}
-
-.c10:active {
+.c3:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c5"] {
-  content: "c10,";
-}
-
-.c11::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c11:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -2428,21 +1988,13 @@ yoast-seo.g4[id="c5"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c6"] {
-  content: "c11,";
-}
-
-.c12:hover {
+.c5:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c7"] {
-  content: "c12,";
-}
-
-.c13 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2473,17 +2025,13 @@ yoast-seo.g6[id="c7"] {
   transition: var(--yoast-transition-default);
 }
 
-.c13 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c8"] {
-  content: "c13,";
-}
-
-.c17 {
+.c8 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -2492,11 +2040,7 @@ yoast-seo.g7[id="c8"] {
   line-height: normal;
 }
 
-yoast-seo.g53[id="c16"] {
-  content: "c17,";
-}
-
-.c19 {
+.c9 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -2504,19 +2048,11 @@ yoast-seo.g53[id="c16"] {
   color: #555;
 }
 
-yoast-seo.g54[id="c18"] {
-  content: "c19,";
-}
-
-.c1 {
+.c0 {
   background-color: #fff;
 }
 
-yoast-seo.g98[id="c0"] {
-  content: "c1,";
-}
-
-.c15 {
+.c7 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -2531,41 +2067,33 @@ yoast-seo.g98[id="c0"] {
   font-weight: normal;
 }
 
-.c15:focus {
+.c7:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c15:active {
+.c7:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c15 svg:first-child {
+.c7 svg:first-child {
   margin-right: 8px;
 }
 
-.c15 svg:last-child {
+.c7 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g100[id="c14"] {
-  content: "c15,";
-}
-
-.c3 {
+.c1 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
 }
 
-yoast-seo.g101[id="c2"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c13::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -2573,23 +2101,23 @@ yoast-seo.g101[id="c2"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <h2
-    className="c2 c3"
+    className="c1"
   >
     <button
       aria-expanded={true}
-      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
+      className="c2 c3 c4 c5 c6 c7"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c16 c17"
+        className="c8"
       >
         <span
-          className="c18 c19"
+          className="c9"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -2612,7 +2140,7 @@ yoast-seo.g101[id="c2"] {
 `;
 
 exports[`CollapsibleStateless matches the snapshot with prefix seo icon and screen reader text 1`] = `
-.c17 {
+.c8 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -2620,36 +2148,24 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   flex: none;
 }
 
-yoast-seo.g2[id="c16"] {
-  content: "c17,";
-}
-
-.c9 {
+.c2 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c4"] {
-  content: "c9,";
-}
-
-.c10:active {
+.c3:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c5"] {
-  content: "c10,";
-}
-
-.c11::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c11:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -2657,21 +2173,13 @@ yoast-seo.g4[id="c5"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c6"] {
-  content: "c11,";
-}
-
-.c12:hover {
+.c5:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c7"] {
-  content: "c12,";
-}
-
-.c13 {
+.c6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2702,17 +2210,13 @@ yoast-seo.g6[id="c7"] {
   transition: var(--yoast-transition-default);
 }
 
-.c13 svg {
+.c6 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c8"] {
-  content: "c13,";
-}
-
-.c19 {
+.c9 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -2721,11 +2225,7 @@ yoast-seo.g7[id="c8"] {
   line-height: normal;
 }
 
-yoast-seo.g53[id="c18"] {
-  content: "c19,";
-}
-
-.c21 {
+.c10 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -2733,19 +2233,11 @@ yoast-seo.g53[id="c18"] {
   color: #555;
 }
 
-yoast-seo.g54[id="c20"] {
-  content: "c21,";
-}
-
-.c1 {
+.c0 {
   background-color: #fff;
 }
 
-yoast-seo.g98[id="c0"] {
-  content: "c1,";
-}
-
-.c15 {
+.c7 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -2760,41 +2252,33 @@ yoast-seo.g98[id="c0"] {
   font-weight: normal;
 }
 
-.c15:focus {
+.c7:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c15:active {
+.c7:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c15 svg:first-child {
+.c7 svg:first-child {
   margin-right: 8px;
 }
 
-.c15 svg:last-child {
+.c7 svg:last-child {
   margin-left: 8px;
 }
 
-yoast-seo.g100[id="c14"] {
-  content: "c15,";
-}
-
-.c3 {
+.c1 {
   margin: 0 !important;
   padding: 0 !important;
   font-size: 1rem !important;
   font-weight: normal !important;
 }
 
-yoast-seo.g101[id="c2"] {
-  content: "c3,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c13::after {
+  .c6::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -2802,21 +2286,21 @@ yoast-seo.g101[id="c2"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <h2
-    className="c2 c3"
+    className="c1"
   >
     <button
       aria-expanded={true}
-      className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
+      className="c2 c3 c4 c5 c6 c7"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <svg
         aria-hidden={true}
-        className="c16 c17 yoast-svg-icon yoast-svg-icon-circle"
+        className="c8 yoast-svg-icon yoast-svg-icon-circle"
         fill="red"
         focusable="false"
         role="img"
@@ -2829,10 +2313,10 @@ yoast-seo.g101[id="c2"] {
         />
       </svg>
       <span
-        className="c18 c19"
+        className="c9"
       >
         <span
-          className="c20 c21"
+          className="c10"
         >
           Lorem ipsum dolor sit amet
           <span

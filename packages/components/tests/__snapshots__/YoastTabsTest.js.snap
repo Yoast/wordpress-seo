@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the Tabs matches the snapshot 1`] = `
-.c1 {
+.c0 {
   font-size: 1em;
 }
 
-.c1 .react-tabs__tab-list {
+.c0 .react-tabs__tab-list {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -23,7 +23,7 @@ exports[`the Tabs matches the snapshot 1`] = `
   border-bottom: 4px solid #f1f1f1;
 }
 
-.c1 .react-tabs__tab {
+.c0 .react-tabs__tab {
   -webkit-flex: 0 1 200px;
   -ms-flex: 0 1 200px;
   flex: 0 1 200px;
@@ -39,35 +39,31 @@ exports[`the Tabs matches the snapshot 1`] = `
   text-transform: none;
 }
 
-.c1 .react-tabs__tab.react-tabs__tab--selected {
+.c0 .react-tabs__tab.react-tabs__tab--selected {
   box-shadow: 0 4px 0 0 #a4286a;
 }
 
-.c1 .react-tabs__tab-panel {
+.c0 .react-tabs__tab-panel {
   display: none;
   padding: 24px 40px;
 }
 
-.c1 .react-tabs__tab-panel:focus {
+.c0 .react-tabs__tab-panel:focus {
   outline: none;
 }
 
-.c1 .react-tabs__tab-panel.react-tabs__tab-panel--selected {
+.c0 .react-tabs__tab-panel.react-tabs__tab-panel--selected {
   display: block;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c1,";
-}
-
 @media screen and ( max-width:768px ) {
-  .c1 .react-tabs__tab-panel {
+  .c0 .react-tabs__tab-panel {
     padding: 16px 16px;
   }
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <div
     className="react-tabs"
@@ -148,11 +144,11 @@ yoast-seo.g3[id="c0"] {
 `;
 
 exports[`the Tabs with props matches the snapshot 1`] = `
-.c1 {
+.c0 {
   font-size: 1em;
 }
 
-.c1 .react-tabs__tab-list {
+.c0 .react-tabs__tab-list {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -170,7 +166,7 @@ exports[`the Tabs with props matches the snapshot 1`] = `
   border-bottom: 4px solid #f1f1f1;
 }
 
-.c1 .react-tabs__tab {
+.c0 .react-tabs__tab {
   -webkit-flex: 0 1 300px;
   -ms-flex: 0 1 300px;
   flex: 0 1 300px;
@@ -186,35 +182,31 @@ exports[`the Tabs with props matches the snapshot 1`] = `
   text-transform: uppercase;
 }
 
-.c1 .react-tabs__tab.react-tabs__tab--selected {
+.c0 .react-tabs__tab.react-tabs__tab--selected {
   box-shadow: 0 4px 0 0 #a4286a;
 }
 
-.c1 .react-tabs__tab-panel {
+.c0 .react-tabs__tab-panel {
   display: none;
   padding: 24px 40px;
 }
 
-.c1 .react-tabs__tab-panel:focus {
+.c0 .react-tabs__tab-panel:focus {
   outline: none;
 }
 
-.c1 .react-tabs__tab-panel.react-tabs__tab-panel--selected {
+.c0 .react-tabs__tab-panel.react-tabs__tab-panel--selected {
   display: block;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c1,";
-}
-
 @media screen and ( max-width:768px ) {
-  .c1 .react-tabs__tab-panel {
+  .c0 .react-tabs__tab-panel {
     padding: 16px 16px;
   }
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <div
     className="react-tabs"

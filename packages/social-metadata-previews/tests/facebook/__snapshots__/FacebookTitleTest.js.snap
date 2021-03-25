@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FacebookTitle matches the snapshot by default 1`] = `
-.c1 {
+.c0 {
   line-height: 20px;
   min-height: 20px;
   color: #1d2129;
@@ -24,12 +24,8 @@ exports[`FacebookTitle matches the snapshot by default 1`] = `
   overflow: hidden;
 }
 
-yoast-seo.g1[id="c0"] {
-  content: "c1,";
-}
-
 <span
-  className="c0 c1"
+  className="c0"
   title="YoastCon Workshops"
 />
 `;

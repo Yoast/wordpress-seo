@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`StyledSection can change the heading level 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -9,20 +9,12 @@ exports[`StyledSection can change the heading level 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -31,19 +23,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -61,26 +53,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h4
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -104,7 +92,7 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`StyledSection can change the icon to angle-down 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -112,20 +100,12 @@ exports[`StyledSection can change the icon to angle-down 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -134,19 +114,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -164,26 +144,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h2
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-angle-down StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-angle-down StyledSection__StyledIcon-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -205,7 +181,7 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`StyledSection can change the icon to angle-left 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -213,20 +189,12 @@ exports[`StyledSection can change the icon to angle-left 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -235,19 +203,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -265,26 +233,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h2
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-angle-left StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-angle-left StyledSection__StyledIcon-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -306,7 +270,7 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`StyledSection can change the icon to angle-right 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -314,20 +278,12 @@ exports[`StyledSection can change the icon to angle-right 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -336,19 +292,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -366,26 +322,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h2
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-angle-right StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-angle-right StyledSection__StyledIcon-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -407,7 +359,7 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`StyledSection can change the icon to angle-up 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -415,20 +367,12 @@ exports[`StyledSection can change the icon to angle-up 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -437,19 +381,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -467,26 +411,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h2
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-angle-up StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-angle-up StyledSection__StyledIcon-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -508,7 +448,7 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`StyledSection can change the icon to circle 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -516,20 +456,12 @@ exports[`StyledSection can change the icon to circle 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -538,19 +470,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -568,26 +500,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h2
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-circle StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-circle StyledSection__StyledIcon-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -609,7 +537,7 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`StyledSection can change the icon to edit 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -617,20 +545,12 @@ exports[`StyledSection can change the icon to edit 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -639,19 +559,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -669,26 +589,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h2
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-edit StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-edit StyledSection__StyledIcon-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -710,7 +626,7 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`StyledSection can change the icon to eye 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -718,20 +634,12 @@ exports[`StyledSection can change the icon to eye 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -740,19 +648,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -770,26 +678,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h2
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-eye StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-eye StyledSection__StyledIcon-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -811,7 +715,7 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`StyledSection can change the icon to file-text 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -819,20 +723,12 @@ exports[`StyledSection can change the icon to file-text 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -841,19 +737,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -871,26 +767,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h2
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -912,7 +804,7 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`StyledSection can change the icon to key 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -920,20 +812,12 @@ exports[`StyledSection can change the icon to key 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -942,19 +826,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -972,26 +856,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h2
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-key StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-key StyledSection__StyledIcon-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -1013,7 +893,7 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`StyledSection can change the icon to list 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -1021,20 +901,12 @@ exports[`StyledSection can change the icon to list 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -1043,19 +915,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1073,26 +945,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h2
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-list StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-list StyledSection__StyledIcon-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -1114,7 +982,7 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`StyledSection can change the icon to question-circle 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -1122,20 +990,12 @@ exports[`StyledSection can change the icon to question-circle 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -1144,19 +1004,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1174,26 +1034,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h2
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-question-circle StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-question-circle StyledSection__StyledIcon-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -1215,7 +1071,7 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`StyledSection can change the icon to search 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -1223,20 +1079,12 @@ exports[`StyledSection can change the icon to search 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -1245,19 +1093,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1275,26 +1123,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h2
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -1316,7 +1160,7 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`StyledSection can change the icon to times 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -1324,20 +1168,12 @@ exports[`StyledSection can change the icon to times 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -1346,19 +1182,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1376,26 +1212,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h2
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-times StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-times StyledSection__StyledIcon-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -1417,7 +1249,7 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`StyledSection have a red icon 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -1425,20 +1257,12 @@ exports[`StyledSection have a red icon 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -1447,19 +1271,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1477,26 +1301,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h2
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-enyt8a-1"
       fill="red"
       focusable="false"
       role="img"
@@ -1517,7 +1337,7 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`StyledSection match the snapshot 1`] = `
-.c5 {
+.c3 {
   width: 16;
   height: 16;
   -webkit-flex: none;
@@ -1525,20 +1345,12 @@ exports[`StyledSection match the snapshot 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c2 {
   margin-left: 0;
   padding: 0;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
   background-color: #fff;
   padding-right: 20px;
@@ -1547,19 +1359,19 @@ yoast-seo.g4[id="c2"] {
   padding-top: 10px;
 }
 
-.c1 *,
-.c1 {
+.c0 *,
+.c0 {
   box-sizing: border-box;
 }
 
-.c1 *:before,
-.c1:before,
-.c1 *:after,
-.c1:after {
+.c0 *:before,
+.c0:before,
+.c0 *:after,
+.c0:after {
   box-sizing: border-box;
 }
 
-.c1 .c2 {
+.c0 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1577,26 +1389,22 @@ yoast-seo.g4[id="c2"] {
   color: red;
 }
 
-.c1 .StyledSection__StyledIcon-enyt8a-1 {
+.c0 .StyledSection__StyledIcon-enyt8a-1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <section
-  className="c0 c1 yoast-section"
+  className="c0 yoast-section"
 >
   <h2
-    className="c2 c3"
+    className="c1 c2"
   >
     <svg
       aria-hidden={true}
-      className="c4 c5 yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-enyt8a-1"
+      className="c3 yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"

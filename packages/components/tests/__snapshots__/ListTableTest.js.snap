@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the ListTable component matches the snapshot 1`] = `
-.c1 {
+.c0 {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -9,22 +9,18 @@ exports[`the ListTable component matches the snapshot 1`] = `
   width: 100%;
 }
 
-.c1 li:first-child > span::before {
+.c0 li:first-child > span::before {
   left: auto;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c1,";
-}
-
 <ul
-  className="c0 c1"
+  className="c0"
   role="list"
 />
 `;
 
 exports[`the ZebrafiedListTable component with multiple children matches the snapshot 1`] = `
-.c1 {
+.c0 {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -32,16 +28,12 @@ exports[`the ZebrafiedListTable component with multiple children matches the sna
   width: 100%;
 }
 
-.c1 li:first-child > span::before {
+.c0 li:first-child > span::before {
   left: auto;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c1,";
-}
-
 <ul
-  className="c0 c1"
+  className="c0"
   role="list"
 >
   <li
@@ -54,7 +46,7 @@ yoast-seo.g3[id="c0"] {
 `;
 
 exports[`the ZebrafiedListTable component with one child matches the snapshot 1`] = `
-.c1 {
+.c0 {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -62,16 +54,12 @@ exports[`the ZebrafiedListTable component with one child matches the snapshot 1`
   width: 100%;
 }
 
-.c1 li:first-child > span::before {
+.c0 li:first-child > span::before {
   left: auto;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c1,";
-}
-
 <ul
-  className="c0 c1"
+  className="c0"
   role="list"
 >
   <li

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the Row component matches the snapshot 1`] = `
-.c1 {
+.c0 {
   background: #fff;
   display: -webkit-box;
   display: -webkit-flex;
@@ -18,17 +18,13 @@ exports[`the Row component matches the snapshot 1`] = `
   justify-content: space-between;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c1,";
-}
-
 <li
-  className="c0 c1"
+  className="c0"
 />
 `;
 
 exports[`the RowResponsiveWrap component matches the snapshot 1`] = `
-.c2 {
+.c0 {
   background: #fff;
   display: -webkit-box;
   display: -webkit-flex;
@@ -44,16 +40,8 @@ exports[`the RowResponsiveWrap component matches the snapshot 1`] = `
   justify-content: space-between;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c2,";
-}
-
-yoast-seo.g4[id="c1"] {
-  content: "c3,";
-}
-
 @media screen and ( max-width:800px ) {
-  .c3 {
+  .c1 {
     -webkit-flex-wrap: wrap;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
@@ -63,23 +51,23 @@ yoast-seo.g4[id="c1"] {
     align-items: flex-start;
   }
 
-  .c3:first-child {
+  .c1:first-child {
     margin-top: 24px;
   }
 
-  .c3 > span::before {
+  .c1 > span::before {
     position: static;
     display: inline-block;
     padding-right: 0.5em;
     font-size: inherit;
   }
 
-  .c3 > span {
+  .c1 > span {
     padding-left: 0;
   }
 }
 
 <li
-  className="c0 c1 c2 c3"
+  className="c0 c1"
 />
 `;

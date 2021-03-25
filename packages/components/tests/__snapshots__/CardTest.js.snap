@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The FullHeightCard is rendered including some props 1`] = `
-.c1 {
+.c0 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -15,11 +15,7 @@ exports[`The FullHeightCard is rendered including some props 1`] = `
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
-yoast-seo.g5[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   padding: 12px 16px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -34,30 +30,22 @@ yoast-seo.g5[id="c0"] {
   flex-grow: 1;
 }
 
-yoast-seo.g7[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c1 {
   height: 100%;
 }
 
-yoast-seo.g10[id="c2"] {
-  content: "c3,";
-}
-
 <div
-  className="c0 c1 c2 c3 CourseCard_Empty"
+  className="c0 c1 CourseCard_Empty"
   id="Test01"
 >
   <div
-    className="c4 c5"
+    className="c2"
   />
 </div>
 `;
 
 exports[`The FullHeightCard is rendered including the CardBanner and CardDetails components 1`] = `
-.c11 {
+.c5 {
   border: 0;
   -webkit-clip: rect(1px,1px,1px,1px);
   clip: rect(1px,1px,1px,1px);
@@ -75,11 +63,7 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   transform: translateY(1em);
 }
 
-yoast-seo.g1[id="c10"] {
-  content: "c11,";
-}
-
-.c13 {
+.c6 {
   position: absolute;
   top: 8px;
   left: -8px;
@@ -91,11 +75,7 @@ yoast-seo.g1[id="c10"] {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
-yoast-seo.g3[id="c12"] {
-  content: "c13,";
-}
-
-.c15 {
+.c7 {
   position: absolute;
   top: 40px;
   left: -8px;
@@ -103,11 +83,7 @@ yoast-seo.g3[id="c12"] {
   border-left: 8px solid transparent;
 }
 
-yoast-seo.g4[id="c14"] {
-  content: "c15,";
-}
-
-.c1 {
+.c0 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -121,20 +97,12 @@ yoast-seo.g4[id="c14"] {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
-yoast-seo.g5[id="c0"] {
-  content: "c1,";
-}
-
-.c7 {
+.c3 {
   width: 100%;
   vertical-align: bottom;
 }
 
-yoast-seo.g6[id="c6"] {
-  content: "c7,";
-}
-
-.c17 {
+.c8 {
   padding: 12px 16px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -149,35 +117,27 @@ yoast-seo.g6[id="c6"] {
   flex-grow: 1;
 }
 
-yoast-seo.g7[id="c16"] {
-  content: "c17,";
-}
-
-.c5 {
+.c2 {
   -webkit-text-decoration: none;
   text-decoration: none;
   color: #a4286a;
   overflow: hidden;
 }
 
-.c5:hover,
-.c5:focus,
-.c5:active {
+.c2:hover,
+.c2:focus,
+.c2:active {
   -webkit-text-decoration: underline;
   text-decoration: underline;
   color: #a4286a;
 }
 
-.c5:focus,
-.c5:active {
+.c2:focus,
+.c2:active {
   box-shadow: none;
 }
 
-yoast-seo.g8[id="c4"] {
-  content: "c5,";
-}
-
-.c9 {
+.c4 {
   margin: 16px 16px 0 16px;
   font-weight: 400;
   font-size: 1.5em;
@@ -185,19 +145,11 @@ yoast-seo.g8[id="c4"] {
   color: currentColor;
 }
 
-yoast-seo.g9[id="c8"] {
-  content: "c9,";
-}
-
-.c3 {
+.c1 {
   height: 100%;
 }
 
-yoast-seo.g10[id="c2"] {
-  content: "c3,";
-}
-
-.c25 {
+.c12 {
   color: #000;
   white-space: nowrap;
   display: block;
@@ -213,14 +165,14 @@ yoast-seo.g10[id="c2"] {
   margin-bottom: 8px;
 }
 
-.c25:hover,
-.c25:focus,
-.c25:active {
+.c12:hover,
+.c12:focus,
+.c12:active {
   color: #000;
   background-color: #cecece;
 }
 
-.c25:active {
+.c12:active {
   background-color: #cecece;
   -webkit-transform: translateY( 1px );
   -ms-transform: translateY( 1px );
@@ -230,38 +182,26 @@ yoast-seo.g10[id="c2"] {
   filter: none;
 }
 
-yoast-seo.g11[id="c24"] {
-  content: "c25,";
-}
-
-.c27 {
+.c13 {
   font-weight: bold;
 }
 
-yoast-seo.g13[id="c26"] {
-  content: "c27,";
-}
-
-.c23 {
+.c11 {
   text-align: center;
 }
 
-yoast-seo.g14[id="c22"] {
-  content: "c23,";
-}
-
-.c21 ul {
+.c10 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-.c21 li {
+.c10 li {
   position: relative;
   margin-left: 16px;
 }
 
-.c21 li:before {
+.c10 li:before {
   content: "✓";
   color: #77b227;
   position: absolute;
@@ -270,11 +210,7 @@ yoast-seo.g14[id="c22"] {
   left: -16px;
 }
 
-yoast-seo.g15[id="c20"] {
-  content: "c21,";
-}
-
-.c19 {
+.c9 {
   margin-bottom: 12px;
   border-bottom: 1px #ddd solid;
   -webkit-box-flex: 1;
@@ -283,52 +219,48 @@ yoast-seo.g15[id="c20"] {
   flex-grow: 1;
 }
 
-yoast-seo.g16[id="c18"] {
-  content: "c19,";
-}
-
 <div
-  className="c0 c1 c2 c3 CourseCard"
+  className="c0 c1 CourseCard"
   id="Test02"
 >
   <a
-    className="c4 c5"
+    className="c2"
     href="https://yoast.com/academy/keyword-research-training/"
     rel={null}
     target="_blank"
   >
     <img
       alt=""
-      className="c6 c7"
+      className="c3"
       src="../wp-content/plugins/wordpress-seo/images/sample_course_card_header.png"
     />
     <h2
-      className="c8 c9"
+      className="c4"
     >
       Keyword Research
     </h2>
     <span
-      className="c10 c11"
+      className="c5"
     >
       (Opens in a new browser tab)
     </span>
   </a>
   <span
-    className="c12 c13"
+    className="c6"
   >
     Free
   </span>
   <span
-    className="c14 c15"
+    className="c7"
   />
   <div
-    className="c16 c17"
+    className="c8"
   >
     <div
-      className="c18 c19"
+      className="c9"
     >
       <div
-        className="c20 c21"
+        className="c10"
         dangerouslySetInnerHTML={
           Object {
             "__html": "Do you know the essential first step of good SEO? It’s keyword research. In this training, 
@@ -338,30 +270,30 @@ you’ll learn how to research and select the keywords that will guide searchers
       />
     </div>
     <div
-      className="c22 c23"
+      className="c11"
     >
       <a
-        className="c24 c25"
+        className="c12"
         href="https://yoast.com/cart/?add-to-cart=1311259"
         rel={null}
         target="_blank"
       >
         Start your free trail
         <span
-          className="c10 c11"
+          className="c5"
         >
           (Opens in a new browser tab)
         </span>
       </a>
       <a
-        className="c26 c27"
+        className="c13"
         href="https://yoast.com/academy/keyword-research-training/"
         rel={null}
         target="_blank"
       >
         Read more about this training »
         <span
-          className="c10 c11"
+          className="c5"
         >
           (Opens in a new browser tab)
         </span>
@@ -372,7 +304,7 @@ you’ll learn how to research and select the keywords that will guide searchers
 `;
 
 exports[`The empty Card component matches the snapshot 1`] = `
-.c1 {
+.c0 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -386,11 +318,7 @@ exports[`The empty Card component matches the snapshot 1`] = `
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
-yoast-seo.g5[id="c0"] {
-  content: "c1,";
-}
-
-.c3 {
+.c1 {
   padding: 12px 16px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -405,16 +333,12 @@ yoast-seo.g5[id="c0"] {
   flex-grow: 1;
 }
 
-yoast-seo.g7[id="c2"] {
-  content: "c3,";
-}
-
 <div
-  className="c0 c1"
+  className="c0"
   id=""
 >
   <div
-    className="c2 c3"
+    className="c1"
   />
 </div>
 `;

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the disabled IconButtonToggle matches the snapshot 1`] = `
-.c3 {
+.c1 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -9,11 +9,7 @@ exports[`the disabled IconButtonToggle matches the snapshot 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -26,25 +22,21 @@ yoast-seo.g2[id="c2"] {
   height: 24px;
 }
 
-.c1:hover {
+.c0:hover {
   border-color: #fff;
 }
 
-.c1:disabled {
+.c0:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
   cursor: default;
 }
 
-yoast-seo.g4[id="c0"] {
-  content: "c1,";
-}
-
 <button
   aria-label="important toggle"
   aria-pressed={false}
-  className="c0 c1"
+  className="c0"
   disabled={true}
   id="RadioButton2"
   onClick={[Function]}
@@ -52,7 +44,7 @@ yoast-seo.g4[id="c0"] {
 >
   <svg
     aria-hidden={true}
-    className="c2 c3 yoast-svg-icon yoast-svg-icon-eye"
+    className="c1 yoast-svg-icon yoast-svg-icon-eye"
     fill="#ddd"
     focusable="false"
     role="img"
@@ -68,7 +60,7 @@ yoast-seo.g4[id="c0"] {
 `;
 
 exports[`the pressed IconButtonToggle matches the snapshot 1`] = `
-.c3 {
+.c1 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -76,11 +68,7 @@ exports[`the pressed IconButtonToggle matches the snapshot 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -93,25 +81,21 @@ yoast-seo.g2[id="c2"] {
   height: 23px;
 }
 
-.c1:hover {
+.c0:hover {
   border-color: #fff;
 }
 
-.c1:disabled {
+.c0:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
   cursor: default;
 }
 
-yoast-seo.g4[id="c0"] {
-  content: "c1,";
-}
-
 <button
   aria-label="important toggle"
   aria-pressed={true}
-  className="c0 c1"
+  className="c0"
   disabled={false}
   id="RadioButton2"
   onClick={[Function]}
@@ -119,7 +103,7 @@ yoast-seo.g4[id="c0"] {
 >
   <svg
     aria-hidden={true}
-    className="c2 c3 yoast-svg-icon yoast-svg-icon-eye"
+    className="c1 yoast-svg-icon yoast-svg-icon-eye"
     fill="#fff"
     focusable="false"
     role="img"
@@ -135,7 +119,7 @@ yoast-seo.g4[id="c0"] {
 `;
 
 exports[`the unpressed IconButtonToggle matches the snapshot 1`] = `
-.c3 {
+.c1 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -143,11 +127,7 @@ exports[`the unpressed IconButtonToggle matches the snapshot 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   box-sizing: border-box;
   min-width: 32px;
   display: inline-block;
@@ -160,25 +140,21 @@ yoast-seo.g2[id="c2"] {
   height: 24px;
 }
 
-.c1:hover {
+.c0:hover {
   border-color: #fff;
 }
 
-.c1:disabled {
+.c0:disabled {
   background-color: #f7f7f7;
   box-shadow: none;
   border: none;
   cursor: default;
 }
 
-yoast-seo.g4[id="c0"] {
-  content: "c1,";
-}
-
 <button
   aria-label="important toggle"
   aria-pressed={false}
-  className="c0 c1"
+  className="c0"
   disabled={false}
   id="RadioButton"
   onClick={[Function]}
@@ -186,7 +162,7 @@ yoast-seo.g4[id="c0"] {
 >
   <svg
     aria-hidden={true}
-    className="c2 c3 yoast-svg-icon yoast-svg-icon-eye"
+    className="c1 yoast-svg-icon yoast-svg-icon-eye"
     fill="#555"
     focusable="false"
     role="img"

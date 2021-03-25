@@ -3,7 +3,7 @@
 exports[`YoastWarning does not render without a message 1`] = `null`;
 
 exports[`YoastWarning matches the snapshot 1`] = `
-.c3 {
+.c1 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -11,11 +11,7 @@ exports[`YoastWarning matches the snapshot 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -25,32 +21,20 @@ yoast-seo.g2[id="c2"] {
   color: #674e00;
 }
 
-yoast-seo.g4[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   margin-top: 2px;
 }
 
-yoast-seo.g5[id="c4"] {
-  content: "c5,";
-}
-
-.c7 {
+.c3 {
   margin: 0 0 0 8px;
 }
 
-yoast-seo.g6[id="c6"] {
-  content: "c7,";
-}
-
 <div
-  className="c0 c1"
+  className="c0"
 >
   <svg
     aria-hidden={true}
-    className="c2 c3 yoast-svg-icon yoast-svg-icon-exclamation-triangle c4 c5"
+    className="c1 yoast-svg-icon yoast-svg-icon-exclamation-triangle c2"
     fill="currentColor"
     focusable="false"
     role="img"
@@ -63,7 +47,7 @@ yoast-seo.g6[id="c6"] {
     />
   </svg>
   <div
-    className="c6 c7"
+    className="c3"
   >
     This is a warning message
     <a
@@ -80,7 +64,7 @@ yoast-seo.g6[id="c6"] {
 `;
 
 exports[`YoastWarning with a right to left language matches the snapshot 1`] = `
-.c3 {
+.c1 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -88,11 +72,7 @@ exports[`YoastWarning with a right to left language matches the snapshot 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -102,32 +82,20 @@ yoast-seo.g2[id="c2"] {
   color: #674e00;
 }
 
-yoast-seo.g4[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   margin-top: 2px;
 }
 
-yoast-seo.g5[id="c4"] {
-  content: "c5,";
-}
-
-.c7 {
+.c3 {
   margin: 0 8px 0 0;
 }
 
-yoast-seo.g6[id="c6"] {
-  content: "c7,";
-}
-
 <div
-  className="c0 c1"
+  className="c0"
 >
   <svg
     aria-hidden={true}
-    className="c2 c3 yoast-svg-icon yoast-svg-icon-exclamation-triangle c4 c5"
+    className="c1 yoast-svg-icon yoast-svg-icon-exclamation-triangle c2"
     fill="currentColor"
     focusable="false"
     role="img"
@@ -140,7 +108,7 @@ yoast-seo.g6[id="c6"] {
     />
   </svg>
   <div
-    className="c6 c7"
+    className="c3"
   >
     This is a warning message
     <a

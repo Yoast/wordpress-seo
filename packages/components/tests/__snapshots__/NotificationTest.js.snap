@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the Notification with props matches the snapshot 1`] = `
-.c11 {
+.c5 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -9,21 +9,13 @@ exports[`the Notification with props matches the snapshot 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c10"] {
-  content: "c11,";
-}
-
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   background-color: #fff;
   min-height: 0;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c1,";
-}
-
-.c3 {
+.c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -35,26 +27,22 @@ yoast-seo.g3[id="c0"] {
   padding: 24px;
 }
 
-.c3 h1,
-.c3 h2,
-.c3 h3,
-.c3 h4,
-.c3 h5,
-.c3 h6 {
+.c1 h1,
+.c1 h2,
+.c1 h3,
+.c1 h4,
+.c1 h5,
+.c1 h6 {
   font-size: 1.4em;
   line-height: 1;
   margin: 0 0 4px 0;
 }
 
-.c3 p:last-child {
+.c1 p:last-child {
   margin: 0;
 }
 
-yoast-seo.g5[id="c2"] {
-  content: "c3,";
-}
-
-.c5 {
+.c2 {
   -webkit-flex: 0 0 40px;
   -ms-flex: 0 0 40px;
   flex: 0 0 40px;
@@ -62,21 +50,13 @@ yoast-seo.g5[id="c2"] {
   margin-right: 24px;
 }
 
-yoast-seo.g6[id="c4"] {
-  content: "c5,";
-}
-
-.c7 {
+.c3 {
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
 
-yoast-seo.g7[id="c6"] {
-  content: "c7,";
-}
-
-.c9 {
+.c4 {
   -webkit-flex: 0 0 40px;
   -ms-flex: 0 0 40px;
   flex: 0 0 40px;
@@ -88,31 +68,23 @@ yoast-seo.g7[id="c6"] {
   cursor: pointer;
 }
 
-yoast-seo.g8[id="c8"] {
-  content: "c9,";
-}
-
-.c13 {
+.c6 {
   vertical-align: middle;
 }
 
-yoast-seo.g9[id="c12"] {
-  content: "c13,";
-}
-
 @media screen and ( max-width:768px ) {
-  .c3 h1,
-  .c3 h2,
-  .c3 h3,
-  .c3 h4,
-  .c3 h5,
-  .c3 h6 {
+  .c1 h1,
+  .c1 h2,
+  .c1 h3,
+  .c1 h4,
+  .c1 h5,
+  .c1 h6 {
     margin-right: 30px;
   }
 }
 
 @media screen and ( max-width:768px ) {
-  .c3 {
+  .c1 {
     display: block;
     position: relative;
     padding: 16px;
@@ -120,13 +92,13 @@ yoast-seo.g9[id="c12"] {
 }
 
 @media screen and ( max-width:768px ) {
-  .c5 {
+  .c2 {
     display: none;
   }
 }
 
 @media screen and ( max-width:768px ) {
-  .c9 {
+  .c4 {
     width: 40px;
     position: absolute;
     top: 5px;
@@ -136,18 +108,18 @@ yoast-seo.g9[id="c12"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <div
-    className="c2 c3"
+    className="c1"
   >
     <img
       alt=""
-      className="c4 c5"
+      className="c2"
       src="some-image.png"
     />
     <div
-      className="c6 c7"
+      className="c3"
     >
       <h3>
         New User?
@@ -163,13 +135,13 @@ yoast-seo.g9[id="c12"] {
     </div>
     <button
       aria-label="Dismiss this notice"
-      className="c8 c9"
+      className="c4"
       onClick={[Function]}
       type="button"
     >
       <svg
         aria-hidden={true}
-        className="c10 c11 yoast-svg-icon yoast-svg-icon-times c12 c13"
+        className="c5 yoast-svg-icon yoast-svg-icon-times c6"
         fill="#616161"
         focusable="false"
         role="img"
@@ -187,17 +159,13 @@ yoast-seo.g9[id="c12"] {
 `;
 
 exports[`the Notification without props matches the snapshot 1`] = `
-.c1 {
+.c0 {
   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
   background-color: #fff;
   min-height: 0;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c1,";
-}
-
-.c3 {
+.c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -209,41 +177,33 @@ yoast-seo.g3[id="c0"] {
   padding: 24px;
 }
 
-.c3 h1,
-.c3 h2,
-.c3 h3,
-.c3 h4,
-.c3 h5,
-.c3 h6 {
+.c1 h1,
+.c1 h2,
+.c1 h3,
+.c1 h4,
+.c1 h5,
+.c1 h6 {
   font-size: 1.4em;
   line-height: 1;
   margin: 0 0 4px 0;
 }
 
-.c3 p:last-child {
+.c1 p:last-child {
   margin: 0;
 }
 
-yoast-seo.g5[id="c2"] {
-  content: "c3,";
-}
-
-.c5 {
+.c2 {
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
 
-yoast-seo.g7[id="c4"] {
-  content: "c5,";
-}
-
 @media screen and ( max-width:768px ) {
 
 }
 
 @media screen and ( max-width:768px ) {
-  .c3 {
+  .c1 {
     display: block;
     position: relative;
     padding: 16px;
@@ -251,13 +211,13 @@ yoast-seo.g7[id="c4"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
 >
   <div
-    className="c2 c3"
+    className="c1"
   >
     <div
-      className="c4 c5"
+      className="c2"
     >
       <h3 />
       <p

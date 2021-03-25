@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the CellFixedWidth component matches the snapshot 1`] = `
-.c2 {
+.c0 {
   font-size: 14px;
   padding-left: 40px;
 }
 
-.c2:first-child {
+.c0:first-child {
   padding-left: 0;
 }
 
-.c2::before {
+.c0::before {
   position: absolute;
   left: -9999em;
   top: -30px;
@@ -19,22 +19,14 @@ exports[`the CellFixedWidth component matches the snapshot 1`] = `
   content: "FixedWidthCell";
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c2,";
-}
-
-.c3 {
+.c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
 }
 
-yoast-seo.g5[id="c1"] {
-  content: "c3,";
-}
-
 @media screen and ( max-width:1355px ) {
-  .c2 {
+  .c0 {
     padding-left: 20px;
   }
 }
@@ -44,23 +36,23 @@ yoast-seo.g5[id="c1"] {
 }
 
 <span
-  className="c0 c1 c2 c3"
+  className="c0 c1"
 >
   This is a cell with a fixed width
 </span>
 `;
 
 exports[`the CellIcon component matches the snapshot 1`] = `
-.c3 {
+.c0 {
   font-size: 14px;
   padding-left: 40px;
 }
 
-.c3:first-child {
+.c0:first-child {
   padding-left: 0;
 }
 
-.c3::before {
+.c0::before {
   position: absolute;
   left: -9999em;
   top: -30px;
@@ -69,30 +61,18 @@ exports[`the CellIcon component matches the snapshot 1`] = `
   content: "IconCell";
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c3,";
-}
-
-.c4 {
+.c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
 }
 
-yoast-seo.g5[id="c1"] {
-  content: "c4,";
-}
-
-.c5 {
+.c2 {
   height: 60px;
 }
 
-yoast-seo.g7[id="c2"] {
-  content: "c5,";
-}
-
 @media screen and ( max-width:1355px ) {
-  .c3 {
+  .c0 {
     padding-left: 20px;
   }
 }
@@ -102,29 +82,29 @@ yoast-seo.g7[id="c2"] {
 }
 
 @media screen and ( max-width:800px ) {
-  .c5 {
+  .c2 {
     height: 48px;
   }
 }
 
 <span
-  className="c0 c1 c2 c3 c4 c5"
+  className="c0 c1 c2"
 >
   Icon
 </span>
 `;
 
 exports[`the CellMinWidth component matches the snapshot 1`] = `
-.c2 {
+.c0 {
   font-size: 14px;
   padding-left: 40px;
 }
 
-.c2:first-child {
+.c0:first-child {
   padding-left: 0;
 }
 
-.c2::before {
+.c0::before {
   position: absolute;
   left: -9999em;
   top: -30px;
@@ -133,22 +113,14 @@ exports[`the CellMinWidth component matches the snapshot 1`] = `
   content: "MinWidthCell";
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c2,";
-}
-
-.c3 {
+.c1 {
   -webkit-flex: 1 0 100px;
   -ms-flex: 1 0 100px;
   flex: 1 0 100px;
 }
 
-yoast-seo.g6[id="c1"] {
-  content: "c3,";
-}
-
 @media screen and ( max-width:1355px ) {
-  .c2 {
+  .c0 {
     padding-left: 20px;
   }
 }
@@ -158,23 +130,23 @@ yoast-seo.g6[id="c1"] {
 }
 
 <span
-  className="c0 c1 c2 c3"
+  className="c0 c1"
 >
   This is a call with a min width
 </span>
 `;
 
 exports[`the CellPrimary component matches the snapshot 1`] = `
-.c2 {
+.c0 {
   font-size: 14px;
   padding-left: 40px;
 }
 
-.c2:first-child {
+.c0:first-child {
   padding-left: 0;
 }
 
-.c2::before {
+.c0::before {
   position: absolute;
   left: -9999em;
   top: -30px;
@@ -183,22 +155,14 @@ exports[`the CellPrimary component matches the snapshot 1`] = `
   content: "PrimaryCell";
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c2,";
-}
-
-.c3 {
+.c1 {
   -webkit-flex: 1 0 200px;
   -ms-flex: 1 0 200px;
   flex: 1 0 200px;
 }
 
-yoast-seo.g4[id="c1"] {
-  content: "c3,";
-}
-
 @media screen and ( max-width:1355px ) {
-  .c2 {
+  .c0 {
     padding-left: 20px;
   }
 }
@@ -208,7 +172,7 @@ yoast-seo.g4[id="c1"] {
 }
 
 @media screen and ( max-width:800px ) {
-  .c3 {
+  .c1 {
     -webkit-flex-shrink: 1;
     -ms-flex-negative: 1;
     flex-shrink: 1;
@@ -216,23 +180,23 @@ yoast-seo.g4[id="c1"] {
 }
 
 <span
-  className="c0 c1 c2 c3"
+  className="c0 c1"
 >
   This is a primary cell
 </span>
 `;
 
 exports[`the CellPrimary with responsiveHeaders matches the snapshot 1`] = `
-.c3 {
+.c0 {
   font-size: 14px;
   padding-left: 40px;
 }
 
-.c3:first-child {
+.c0:first-child {
   padding-left: 0;
 }
 
-.c3::before {
+.c0::before {
   position: absolute;
   left: -9999em;
   top: -30px;
@@ -241,26 +205,14 @@ exports[`the CellPrimary with responsiveHeaders matches the snapshot 1`] = `
   content: "responsiveHeaders";
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c3,";
-}
-
-.c4 {
+.c1 {
   -webkit-flex: 1 0 200px;
   -ms-flex: 1 0 200px;
   flex: 1 0 200px;
 }
 
-yoast-seo.g4[id="c1"] {
-  content: "c4,";
-}
-
-yoast-seo.g8[id="c2"] {
-  content: "c5,";
-}
-
 @media screen and ( max-width:1355px ) {
-  .c3 {
+  .c0 {
     padding-left: 20px;
   }
 }
@@ -270,7 +222,7 @@ yoast-seo.g8[id="c2"] {
 }
 
 @media screen and ( max-width:800px ) {
-  .c4 {
+  .c1 {
     -webkit-flex-shrink: 1;
     -ms-flex-negative: 1;
     flex-shrink: 1;
@@ -278,7 +230,7 @@ yoast-seo.g8[id="c2"] {
 }
 
 @media screen and ( max-width:800px ) {
-  .c5::before {
+  .c2::before {
     float: left;
     min-width: 60px;
     line-height: inherit;
@@ -286,13 +238,13 @@ yoast-seo.g8[id="c2"] {
     content: "responsiveHeaders:";
   }
 
-  .c5 > span {
+  .c2 > span {
     line-height: inherit;
   }
 }
 
 <span
-  className="c0 c1 c2 c3 c4 c5"
+  className="c0 c1 c2"
 >
   This is a primary cell with responsive headers
 </span>

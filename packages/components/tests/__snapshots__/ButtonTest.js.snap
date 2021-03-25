@@ -1,32 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BaseButton executes callback 1`] = `
-.c5 {
+.c0 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c5,";
-}
-
-.c6:active {
+.c1:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c1"] {
-  content: "c6,";
-}
-
-.c7::-moz-focus-inner {
+.c2::-moz-focus-inner {
   border-width: 0;
 }
 
-.c7:focus {
+.c2:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -34,21 +26,13 @@ yoast-seo.g4[id="c1"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c2"] {
-  content: "c7,";
-}
-
-.c8:hover {
+.c3:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c3"] {
-  content: "c8,";
-}
-
-.c9 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -79,18 +63,14 @@ yoast-seo.g6[id="c3"] {
   transition: var(--yoast-transition-default);
 }
 
-.c9 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c4"] {
-  content: "c9,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c9::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -98,7 +78,7 @@ yoast-seo.g7[id="c4"] {
 }
 
 <button
-  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
+  className="c0 c1 c2 c3 c4"
   onClick={[Function]}
   type="button"
 >
@@ -107,32 +87,24 @@ yoast-seo.g7[id="c4"] {
 `;
 
 exports[`BaseButton executes callback 2`] = `
-.c5 {
+.c0 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c5,";
-}
-
-.c6:active {
+.c1:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c1"] {
-  content: "c6,";
-}
-
-.c7::-moz-focus-inner {
+.c2::-moz-focus-inner {
   border-width: 0;
 }
 
-.c7:focus {
+.c2:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -140,21 +112,13 @@ yoast-seo.g4[id="c1"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c2"] {
-  content: "c7,";
-}
-
-.c8:hover {
+.c3:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c3"] {
-  content: "c8,";
-}
-
-.c9 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -185,18 +149,14 @@ yoast-seo.g6[id="c3"] {
   transition: var(--yoast-transition-default);
 }
 
-.c9 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c4"] {
-  content: "c9,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c9::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -204,7 +164,7 @@ yoast-seo.g7[id="c4"] {
 }
 
 <button
-  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
+  className="c0 c1 c2 c3 c4"
   onClick={[Function]}
   type="button"
 >
@@ -213,32 +173,24 @@ yoast-seo.g7[id="c4"] {
 `;
 
 exports[`SnippetPreviewButton executes callback 1`] = `
-.c5 {
+.c0 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c5,";
-}
-
-.c6:active {
+.c1:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c1"] {
-  content: "c6,";
-}
-
-.c7::-moz-focus-inner {
+.c2::-moz-focus-inner {
   border-width: 0;
 }
 
-.c7:focus {
+.c2:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -246,21 +198,13 @@ yoast-seo.g4[id="c1"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c2"] {
-  content: "c7,";
-}
-
-.c8:hover {
+.c3:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c3"] {
-  content: "c8,";
-}
-
-.c9 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -291,18 +235,14 @@ yoast-seo.g6[id="c3"] {
   transition: var(--yoast-transition-default);
 }
 
-.c9 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c4"] {
-  content: "c9,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c9::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -310,7 +250,7 @@ yoast-seo.g7[id="c4"] {
 }
 
 <button
-  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
+  className="c0 c1 c2 c3 c4"
   onClick={[Function]}
   type="button"
 >
@@ -319,32 +259,24 @@ yoast-seo.g7[id="c4"] {
 `;
 
 exports[`SnippetPreviewButton executes callback 2`] = `
-.c5 {
+.c0 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c5,";
-}
-
-.c6:active {
+.c1:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c1"] {
-  content: "c6,";
-}
-
-.c7::-moz-focus-inner {
+.c2::-moz-focus-inner {
   border-width: 0;
 }
 
-.c7:focus {
+.c2:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -352,21 +284,13 @@ yoast-seo.g4[id="c1"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c2"] {
-  content: "c7,";
-}
-
-.c8:hover {
+.c3:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c3"] {
-  content: "c8,";
-}
-
-.c9 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -397,18 +321,14 @@ yoast-seo.g6[id="c3"] {
   transition: var(--yoast-transition-default);
 }
 
-.c9 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c4"] {
-  content: "c9,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c9::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -416,7 +336,7 @@ yoast-seo.g7[id="c4"] {
 }
 
 <button
-  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
+  className="c0 c1 c2 c3 c4"
   onClick={[Function]}
   type="button"
 >
@@ -425,32 +345,24 @@ yoast-seo.g7[id="c4"] {
 `;
 
 exports[`the BaseButton matches the snapshot 1`] = `
-.c5 {
+.c0 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c5,";
-}
-
-.c6:active {
+.c1:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c1"] {
-  content: "c6,";
-}
-
-.c7::-moz-focus-inner {
+.c2::-moz-focus-inner {
   border-width: 0;
 }
 
-.c7:focus {
+.c2:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -458,21 +370,13 @@ yoast-seo.g4[id="c1"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c2"] {
-  content: "c7,";
-}
-
-.c8:hover {
+.c3:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c3"] {
-  content: "c8,";
-}
-
-.c9 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -503,18 +407,14 @@ yoast-seo.g6[id="c3"] {
   transition: var(--yoast-transition-default);
 }
 
-.c9 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c4"] {
-  content: "c9,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c9::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -522,7 +422,7 @@ yoast-seo.g7[id="c4"] {
 }
 
 <button
-  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
+  className="c0 c1 c2 c3 c4"
   type="button"
 >
   ButtonValue
@@ -530,7 +430,7 @@ yoast-seo.g7[id="c4"] {
 `;
 
 exports[`the IconButton matches the snapshot 1`] = `
-.c11 {
+.c5 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -538,36 +438,24 @@ exports[`the IconButton matches the snapshot 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c10"] {
-  content: "c11,";
-}
-
-.c5 {
+.c0 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c5,";
-}
-
-.c6:active {
+.c1:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c1"] {
-  content: "c6,";
-}
-
-.c7::-moz-focus-inner {
+.c2::-moz-focus-inner {
   border-width: 0;
 }
 
-.c7:focus {
+.c2:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -575,21 +463,13 @@ yoast-seo.g4[id="c1"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c2"] {
-  content: "c7,";
-}
-
-.c8:hover {
+.c3:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c3"] {
-  content: "c8,";
-}
-
-.c9 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -620,18 +500,14 @@ yoast-seo.g6[id="c3"] {
   transition: var(--yoast-transition-default);
 }
 
-.c9 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c4"] {
-  content: "c9,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c9::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -639,12 +515,12 @@ yoast-seo.g7[id="c4"] {
 }
 
 <button
-  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
+  className="c0 c1 c2 c3 c4"
   type="button"
 >
   <svg
     aria-hidden={true}
-    className="c10 c11 yoast-svg-icon yoast-svg-icon-edit"
+    className="c5 yoast-svg-icon yoast-svg-icon-edit"
     fill="black"
     focusable="false"
     role="img"
@@ -660,7 +536,7 @@ yoast-seo.g7[id="c4"] {
 `;
 
 exports[`the IconButton with text matches the snapshot 1`] = `
-.c11 {
+.c5 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -668,36 +544,24 @@ exports[`the IconButton with text matches the snapshot 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c10"] {
-  content: "c11,";
-}
-
-.c5 {
+.c0 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c5,";
-}
-
-.c6:active {
+.c1:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c1"] {
-  content: "c6,";
-}
-
-.c7::-moz-focus-inner {
+.c2::-moz-focus-inner {
   border-width: 0;
 }
 
-.c7:focus {
+.c2:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -705,21 +569,13 @@ yoast-seo.g4[id="c1"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c2"] {
-  content: "c7,";
-}
-
-.c8:hover {
+.c3:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c3"] {
-  content: "c8,";
-}
-
-.c9 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -750,29 +606,21 @@ yoast-seo.g6[id="c3"] {
   transition: var(--yoast-transition-default);
 }
 
-.c9 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c4"] {
-  content: "c9,";
-}
-
-.c13 {
+.c6 {
   margin: 0 8px 0 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-yoast-seo.g102[id="c12"] {
-  content: "c13,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c9::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -780,12 +628,12 @@ yoast-seo.g102[id="c12"] {
 }
 
 <button
-  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
+  className="c0 c1 c2 c3 c4"
   type="button"
 >
   <svg
     aria-hidden={true}
-    className="c10 c11 yoast-svg-icon yoast-svg-icon-edit c12 c13"
+    className="c5 yoast-svg-icon yoast-svg-icon-edit c6"
     fill="black"
     focusable="false"
     role="img"
@@ -802,32 +650,24 @@ yoast-seo.g102[id="c12"] {
 `;
 
 exports[`the SnippetPreviewButton matches the snapshot 1`] = `
-.c5 {
+.c0 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c5,";
-}
-
-.c6:active {
+.c1:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c1"] {
-  content: "c6,";
-}
-
-.c7::-moz-focus-inner {
+.c2::-moz-focus-inner {
   border-width: 0;
 }
 
-.c7:focus {
+.c2:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -835,21 +675,13 @@ yoast-seo.g4[id="c1"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c2"] {
-  content: "c7,";
-}
-
-.c8:hover {
+.c3:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c3"] {
-  content: "c8,";
-}
-
-.c9 {
+.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -880,18 +712,14 @@ yoast-seo.g6[id="c3"] {
   transition: var(--yoast-transition-default);
 }
 
-.c9 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c4"] {
-  content: "c9,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c9::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -899,7 +727,7 @@ yoast-seo.g7[id="c4"] {
 }
 
 <button
-  className="c0 c1 c2 c3 c4 c5 c6 c7 c8 c9"
+  className="c0 c1 c2 c3 c4"
   type="button"
 >
   ButtonValue

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`KeywordInput matches the snapshot by default 1`] = `
-.c17 {
+.c10 {
   width: 18px;
   height: 18px;
   -webkit-flex: none;
@@ -9,15 +9,11 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c16"] {
-  content: "c17,";
-}
-
-.c15::-moz-focus-inner {
+.c9::-moz-focus-inner {
   border-width: 0;
 }
 
-.c15:focus {
+.c9:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -25,11 +21,7 @@ yoast-seo.g2[id="c16"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c13"] {
-  content: "c15,";
-}
-
-.c10.c10.c10 {
+.c5.c5.c5 {
   padding: 0 8px;
   min-height: 34px;
   font-size: 1em;
@@ -38,16 +30,12 @@ yoast-seo.g5[id="c13"] {
   border-radius: 0;
 }
 
-.c10.c10.c10:focus {
+.c5.c5.c5:focus {
   border-color: #5b9dd9;
   box-shadow: 0 0 2px rgba( 30,140,190,0.8 );
 }
 
-yoast-seo.g71[id="c8"] {
-  content: "c10,";
-}
-
-.c1 {
+.c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -57,29 +45,17 @@ yoast-seo.g71[id="c8"] {
   flex-direction: column;
 }
 
-yoast-seo.g102[id="c0"] {
-  content: "c1,";
-}
-
-.c5 {
+.c2 {
   font-size: var(--yoast-font-size-default);
   font-weight: var(--yoast-font-weight-bold);
   margin-right: 4px;
 }
 
-yoast-seo.g103[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c1 {
   margin-bottom: 0.5em;
 }
 
-yoast-seo.g104[id="c2"] {
-  content: "c3,";
-}
-
-.c11 {
+.c6 {
   -webkit-flex: 1 !important;
   -ms-flex: 1 !important;
   flex: 1 !important;
@@ -88,24 +64,20 @@ yoast-seo.g104[id="c2"] {
   margin: 0;
 }
 
-.c11::-ms-clear {
+.c6::-ms-clear {
   display: none;
 }
 
-.c11.has-error {
+.c6.has-error {
   border-color: #dc3232 !important;
   background-color: #f9dcdc !important;
 }
 
-.c11.has-error:focus {
+.c6.has-error:focus {
   box-shadow: 0 0 2px #dc3232 !important;
 }
 
-yoast-seo.g105[id="c9"] {
-  content: "c11,";
-}
-
-.c14 {
+.c8 {
   border: 1px solid transparent;
   box-shadow: none;
   background: none;
@@ -118,19 +90,11 @@ yoast-seo.g105[id="c9"] {
   cursor: pointer;
 }
 
-yoast-seo.g108[id="c12"] {
-  content: "c14,";
-}
-
-.c19 {
+.c11 {
   margin-top: 4px;
 }
 
-yoast-seo.g109[id="c18"] {
-  content: "c19,";
-}
-
-.c7 {
+.c3 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -144,38 +108,34 @@ yoast-seo.g109[id="c18"] {
   align-items: center;
 }
 
-.c7.has-remove-keyword-button .c9 {
+.c3.has-remove-keyword-button .c4 {
   padding-right: 40px;
 }
 
-.c7.has-remove-keyword-button .c13 {
+.c3.has-remove-keyword-button .c7 {
   margin-left: -32px;
 }
 
-yoast-seo.g110[id="c6"] {
-  content: "c7,";
-}
-
 <div
-  className="c0 c1"
+  className="c0"
 >
   <span
-    className="c2 c3"
+    className="c1"
   >
     <label
-      className="c4 c5"
+      className="c2"
       htmlFor="test-id"
     >
       test label
     </label>
   </span>
   <div
-    className="c6 c7 has-remove-keyword-button"
+    className="c3 has-remove-keyword-button"
   >
     <input
       aria-label={null}
       autoComplete="off"
-      className="c8 c9 c10 c11"
+      className="c4 c5 c6"
       id="test-id"
       onBlur={[Function]}
       onChange={[Function]}
@@ -184,13 +144,13 @@ yoast-seo.g110[id="c6"] {
       value=""
     />
     <button
-      className="c12 c13 c14 c15"
+      className="c7 c8 c9"
       onClick={[Function]}
       type="button"
     >
       <svg
         aria-hidden={true}
-        className="c16 c17 yoast-svg-icon yoast-svg-icon-times-circle c18 c19"
+        className="c10 yoast-svg-icon yoast-svg-icon-times-circle c11"
         fill="#767676"
         focusable="false"
         role="img"

@@ -1,18 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FacebookAuthorName matches the snapshot by default 1`] = `
-.c1 {
+.c0 {
   color: #3b5998;
   font-size: 12px;
   line-height: 11px;
 }
 
-yoast-seo.g1[id="c0"] {
-  content: "c1,";
-}
-
 <span
-  className="c0 c1"
+  className="c0"
 >
   John Doe
 </span>

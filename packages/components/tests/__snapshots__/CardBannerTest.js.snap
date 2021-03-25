@@ -2,7 +2,7 @@
 
 exports[`The CardBanner with specific props matches the snapshot 1`] = `
 Array [
-  .c1 {
+  .c0 {
   position: absolute;
   top: 8px;
   left: -8px;
@@ -14,16 +14,12 @@ Array [
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c1,";
-}
-
 <span
-    className="c0 c1"
+    className="c0"
   >
     Free Trial Available.
   </span>,
-  .c1 {
+  .c0 {
   position: absolute;
   top: 40px;
   left: -8px;
@@ -31,19 +27,15 @@ yoast-seo.g3[id="c0"] {
   border-left: 8px solid transparent;
 }
 
-yoast-seo.g4[id="c0"] {
-  content: "c1,";
-}
-
 <span
-    className="c0 c1"
+    className="c0"
   />,
 ]
 `;
 
 exports[`The empty CardBanner matches the snapshot 1`] = `
 Array [
-  .c1 {
+  .c0 {
   position: absolute;
   top: 8px;
   left: -8px;
@@ -55,14 +47,10 @@ Array [
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c1,";
-}
-
 <span
-    className="c0 c1"
+    className="c0"
   />,
-  .c1 {
+  .c0 {
   position: absolute;
   top: 40px;
   left: -8px;
@@ -70,12 +58,8 @@ yoast-seo.g3[id="c0"] {
   border-left: 8px solid transparent;
 }
 
-yoast-seo.g4[id="c0"] {
-  content: "c1,";
-}
-
 <span
-    className="c0 c1"
+    className="c0"
   />,
 ]
 `;

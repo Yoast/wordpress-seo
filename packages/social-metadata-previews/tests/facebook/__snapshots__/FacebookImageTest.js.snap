@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FacebookImage Component matches the snapshot for a faulty image 1`] = `
-.c1 {
+.c0 {
   box-sizing: border-box;
   max-width: 527px;
   height: 273px;
@@ -28,12 +28,8 @@ exports[`FacebookImage Component matches the snapshot for a faulty image 1`] = `
   cursor: pointer;
 }
 
-yoast-seo.g5[id="c0"] {
-  content: "c1,";
-}
-
 <div
-  className="c0 c1"
+  className="c0"
   onClick={[Function]}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
@@ -43,7 +39,7 @@ yoast-seo.g5[id="c0"] {
 `;
 
 exports[`FacebookImage Component matches the snapshot for a landscape image 1`] = `
-.c1 {
+.c0 {
   position: relative;
   height: 273px;
   max-width: 527px;
@@ -51,11 +47,7 @@ exports[`FacebookImage Component matches the snapshot for a landscape image 1`] 
   background-color: #fff;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c1,";
-}
-
-.c3.c3 {
+.c1.c1 {
   max-width: 600px;
   height: 300px;
   position: absolute;
@@ -67,12 +59,8 @@ yoast-seo.g3[id="c0"] {
   max-width: none;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
 <div
-  className="c0 c1"
+  className="c0"
   mode="landscape"
   onClick={[Function]}
   onMouseEnter={[Function]}
@@ -80,14 +68,14 @@ yoast-seo.g4[id="c2"] {
 >
   <img
     alt=""
-    className="c2 c3"
+    className="c1"
     src="https://yoast.com/app/uploads/2015/06/How_to_choose_keywords_FI.png"
   />
 </div>
 `;
 
 exports[`FacebookImage Component matches the snapshot for a portrait image 1`] = `
-.c1 {
+.c0 {
   position: relative;
   height: 237px;
   min-width: 158px;
@@ -95,11 +83,7 @@ exports[`FacebookImage Component matches the snapshot for a portrait image 1`] =
   background-color: #fff;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c1,";
-}
-
-.c3.c3 {
+.c1.c1 {
   max-width: 300px;
   height: 600px;
   position: absolute;
@@ -111,12 +95,8 @@ yoast-seo.g3[id="c0"] {
   max-width: none;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
 <div
-  className="c0 c1"
+  className="c0"
   mode="portrait"
   onClick={[Function]}
   onMouseEnter={[Function]}
@@ -124,14 +104,14 @@ yoast-seo.g4[id="c2"] {
 >
   <img
     alt=""
-    className="c2 c3"
+    className="c1"
     src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png"
   />
 </div>
 `;
 
 exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
-.c1 {
+.c0 {
   position: relative;
   height: 158px;
   min-width: 158px;
@@ -139,11 +119,7 @@ exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
   background-color: #fff;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c1,";
-}
-
-.c3.c3 {
+.c1.c1 {
   max-width: 300px;
   height: 300px;
   position: absolute;
@@ -155,12 +131,8 @@ yoast-seo.g3[id="c0"] {
   max-width: none;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
 <div
-  className="c0 c1"
+  className="c0"
   mode="square"
   onClick={[Function]}
   onMouseEnter={[Function]}
@@ -168,14 +140,14 @@ yoast-seo.g4[id="c2"] {
 >
   <img
     alt=""
-    className="c2 c3"
+    className="c1"
     src="https://yoast.com/app/uploads/2018/09/avatar_user_1_1537774226.png"
   />
 </div>
 `;
 
 exports[`FacebookImage Component matches the snapshot for a too small image 1`] = `
-.c1 {
+.c0 {
   position: relative;
   height: 158px;
   min-width: 158px;
@@ -183,11 +155,7 @@ exports[`FacebookImage Component matches the snapshot for a too small image 1`] 
   background-color: #fff;
 }
 
-yoast-seo.g3[id="c0"] {
-  content: "c1,";
-}
-
-.c3.c3 {
+.c1.c1 {
   max-width: 100px;
   height: 100px;
   position: absolute;
@@ -199,12 +167,8 @@ yoast-seo.g3[id="c0"] {
   max-width: none;
 }
 
-yoast-seo.g4[id="c2"] {
-  content: "c3,";
-}
-
 <div
-  className="c0 c1"
+  className="c0"
   mode="square"
   onClick={[Function]}
   onMouseEnter={[Function]}
@@ -212,14 +176,14 @@ yoast-seo.g4[id="c2"] {
 >
   <img
     alt=""
-    className="c2 c3"
+    className="c1"
     src="https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png"
   />
 </div>
 `;
 
 exports[`FacebookImage Component matches the snapshot in the loading state 1`] = `
-.c1 {
+.c0 {
   box-sizing: border-box;
   max-width: 527px;
   height: 273px;
@@ -246,12 +210,8 @@ exports[`FacebookImage Component matches the snapshot in the loading state 1`] =
   cursor: pointer;
 }
 
-yoast-seo.g5[id="c0"] {
-  content: "c1,";
-}
-
 <div
-  className="c0 c1"
+  className="c0"
   onClick={[Function]}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}

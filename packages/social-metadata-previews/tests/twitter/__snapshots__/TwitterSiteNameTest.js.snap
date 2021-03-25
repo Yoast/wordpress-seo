@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TwitterSiteUrl matches the snapshot by default 1`] = `
-.c1 {
+.c0 {
   text-transform: lowercase;
   color: #8899a6;
   white-space: nowrap;
@@ -22,25 +22,17 @@ exports[`TwitterSiteUrl matches the snapshot by default 1`] = `
   align-items: flex-end;
 }
 
-yoast-seo.g1[id="c0"] {
-  content: "c1,";
-}
-
-.c3 {
+.c1 {
   height: 1.25em;
   max-width: 100%;
   margin-right: 2px;
 }
 
-yoast-seo.g2[id="c2"] {
-  content: "c3,";
-}
-
 <div
-  className="c0 c1"
+  className="c0"
 >
   <svg
-    className="c2 c3"
+    className="c1"
     viewBox="0 0 24 24"
   >
     <g>

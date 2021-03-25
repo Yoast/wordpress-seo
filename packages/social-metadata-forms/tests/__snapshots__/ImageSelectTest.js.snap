@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The ImageSelect component displays warnings 1`] = `
-.c7 {
+.c3 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -9,362 +9,6 @@ exports[`The ImageSelect component displays warnings 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c6"] {
-  content: "c7,";
-}
-
-.c26 {
-  color: #555;
-  border-color: #ccc;
-  background: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-yoast-seo.g3[id="c20"] {
-  content: "c26,";
-}
-
-.c27:active {
-  color: #000;
-  background-color: #f7f7f7;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-yoast-seo.g4[id="c21"] {
-  content: "c27,";
-}
-
-.c28::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c28:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-yoast-seo.g5[id="c22"] {
-  content: "c28,";
-}
-
-.c29:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: var(--yoast-color-border--default);
-}
-
-yoast-seo.g6[id="c23"] {
-  content: "c29,";
-}
-
-.c30 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0;
-  padding: 4px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  text-align: left;
-  overflow: visible;
-  min-height: 32px;
-  -webkit-transition: var(--yoast-transition-default);
-  transition: var(--yoast-transition-default);
-}
-
-.c30 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-yoast-seo.g7[id="c24"] {
-  content: "c30,";
-}
-
-.c5 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-  font-size: 14px;
-  line-height: 1.5;
-  border: 1px solid rgba(0,0,0,0.2);
-  padding: 16px;
-  color: #674e00;
-  background: #fff3cd;
-  margin-bottom: 20px;
-}
-
-yoast-seo.g9[id="c4"] {
-  content: "c5,";
-}
-
-.c11 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-}
-
-.c11 a {
-  color: #004973;
-}
-
-yoast-seo.g10[id="c10"] {
-  content: "c11,";
-}
-
-.c9 {
-  margin-top: 0.125rem;
-  margin-right: 8px;
-}
-
-yoast-seo.g11[id="c8"] {
-  content: "c9,";
-}
-
-.c3 {
-  -webkit-flex: 1 1 200px;
-  -ms-flex: 1 1 200px;
-  flex: 1 1 200px;
-  min-width: 200px;
-  cursor: pointer;
-  font-size: 14px;
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
-  margin: 4px 0;
-  color: #303030;
-  font-weight: 500;
-}
-
-yoast-seo.g45[id="c2"] {
-  content: "c3,";
-}
-
-.c16.c16.c16 {
-  padding: 0 8px;
-  min-height: 34px;
-  font-size: 1em;
-  box-shadow: inset 0 1px 2px rgba( 0,0,0,0.07 );
-  border: 1px solid #ddd;
-  border-radius: 0;
-}
-
-.c16.c16.c16:focus {
-  border-color: #5b9dd9;
-  box-shadow: 0 0 2px rgba( 30,140,190,0.8 );
-}
-
-yoast-seo.g71[id="c14"] {
-  content: "c16,";
-}
-
-.c31 {
-  color: #303030;
-  box-sizing: border-box;
-  border-radius: 4px;
-  box-shadow: inset 0 -2px 0 0 rgba(0,0,0,0.1);
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
-  padding: 4px;
-  border: 1px solid #dbdbdb;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.5;
-  margin-bottom: 5px;
-  width: 112px;
-  height: 40px;
-}
-
-yoast-seo.g107[id="c25"] {
-  content: "c31,";
-}
-
-.c33 {
-  background: none!important;
-  border: none;
-  padding: 0!important;
-  color: #a00;
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
-  cursor: pointer;
-  box-shadow: none;
-}
-
-.c33:hover {
-  color: #F00;
-}
-
-.c33:focus {
-  color: #F00;
-}
-
-yoast-seo.g110[id="c32"] {
-  content: "c33,";
-}
-
-.c17 {
-  min-width: 100%;
-}
-
-yoast-seo.g111[id="c15"] {
-  content: "c17,";
-}
-
-.c13 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-yoast-seo.g112[id="c12"] {
-  content: "c13,";
-}
-
-.c19 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 10px 0 0 0;
-}
-
-yoast-seo.g113[id="c18"] {
-  content: "c19,";
-}
-
-.c1 {
-  margin-top: 24px;
-}
-
-yoast-seo.g114[id="c0"] {
-  content: "c1,";
-}
-
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c30::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
-}
-
-<div
-  className="c0 c1"
-  onMouseEnter={[Function]}
-  onMouseLeave={[Function]}
->
-  <div
-    className="c2 c3"
-  >
-    Facebook image
-  </div>
-  <div
-    className="c4 c5"
-  >
-    <svg
-      aria-hidden={true}
-      className="c6 c7 yoast-svg-icon yoast-svg-icon-alert-warning c8 c9"
-      fill="#674e00"
-      focusable="false"
-      role="img"
-      size="16px"
-      viewBox="0 0 576 512"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
-      />
-    </svg>
-    <div
-      className="c10 c11"
-    >
-      Your image is too small
-    </div>
-  </div>
-  <div
-    className="c4 c5"
-  >
-    <svg
-      aria-hidden={true}
-      className="c6 c7 yoast-svg-icon yoast-svg-icon-alert-warning c8 c9"
-      fill="#674e00"
-      focusable="false"
-      role="img"
-      size="16px"
-      viewBox="0 0 576 512"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
-      />
-    </svg>
-    <div
-      className="c10 c11"
-    >
-      Wow, I like writing tests
-    </div>
-  </div>
-  <div
-    className="c12 c13"
-  >
-    <input
-      className="c14 c15 c16 c17"
-      disabled="disabled"
-      id="twitter-url-input"
-      value=""
-    />
-    <div
-      className="c18 c19"
-    >
-      <button
-        className="c20 c21 c22 c23 c24 c25 c26 c27 c28 c29 c30 c31"
-        id="twitter-replace-button"
-        onClick={[Function]}
-        type="button"
-      >
-        Replace image
-      </button>
-      <button
-        className="c20 c21 c22 c23 c24 c25 c32 c26 c27 c28 c29 c30 c31 c33"
-        id="twitter-remove-button"
-        onClick={[Function]}
-        type="button"
-      >
-        Remove image
-      </button>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`The ImageSelect component renders 1`] = `
 .c10 {
   color: #555;
   border-color: #ccc;
@@ -372,18 +16,10 @@ exports[`The ImageSelect component renders 1`] = `
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c4"] {
-  content: "c10,";
-}
-
 .c11:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-yoast-seo.g4[id="c5"] {
-  content: "c11,";
 }
 
 .c12::-moz-focus-inner {
@@ -398,18 +34,10 @@ yoast-seo.g4[id="c5"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c6"] {
-  content: "c12,";
-}
-
 .c13:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
-}
-
-yoast-seo.g6[id="c7"] {
-  content: "c13,";
 }
 
 .c14 {
@@ -449,11 +77,41 @@ yoast-seo.g6[id="c7"] {
   align-self: center;
 }
 
-yoast-seo.g7[id="c8"] {
-  content: "c14,";
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 16px;
+  color: #674e00;
+  background: #fff3cd;
+  margin-bottom: 20px;
 }
 
-.c3 {
+.c5 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c5 a {
+  color: #004973;
+}
+
+.c4 {
+  margin-top: 0.125rem;
+  margin-right: 8px;
+}
+
+.c1 {
   -webkit-flex: 1 1 200px;
   -ms-flex: 1 1 200px;
   flex: 1 1 200px;
@@ -466,8 +124,18 @@ yoast-seo.g7[id="c8"] {
   font-weight: 500;
 }
 
-yoast-seo.g45[id="c2"] {
-  content: "c3,";
+.c7.c7.c7 {
+  padding: 0 8px;
+  min-height: 34px;
+  font-size: 1em;
+  box-shadow: inset 0 1px 2px rgba( 0,0,0,0.07 );
+  border: 1px solid #ddd;
+  border-radius: 0;
+}
+
+.c7.c7.c7:focus {
+  border-color: #5b9dd9;
+  box-shadow: 0 0 2px rgba( 30,140,190,0.8 );
 }
 
 .c15 {
@@ -486,16 +154,49 @@ yoast-seo.g45[id="c2"] {
   height: 40px;
 }
 
-yoast-seo.g107[id="c9"] {
-  content: "c15,";
+.c16 {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  color: #a00;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  cursor: pointer;
+  box-shadow: none;
 }
 
-.c1 {
+.c16:hover {
+  color: #F00;
+}
+
+.c16:focus {
+  color: #F00;
+}
+
+.c8 {
+  min-width: 100%;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 10px 0 0 0;
+}
+
+.c0 {
   margin-top: 24px;
-}
-
-yoast-seo.g114[id="c0"] {
-  content: "c1,";
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -507,17 +208,216 @@ yoast-seo.g114[id="c0"] {
 }
 
 <div
-  className="c0 c1"
+  className="c0"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
   <div
-    className="c2 c3"
+    className="c1"
+  >
+    Facebook image
+  </div>
+  <div
+    className="c2"
+  >
+    <svg
+      aria-hidden={true}
+      className="c3 yoast-svg-icon yoast-svg-icon-alert-warning c4"
+      fill="#674e00"
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 576 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+      />
+    </svg>
+    <div
+      className="c5"
+    >
+      Your image is too small
+    </div>
+  </div>
+  <div
+    className="c2"
+  >
+    <svg
+      aria-hidden={true}
+      className="c3 yoast-svg-icon yoast-svg-icon-alert-warning c4"
+      fill="#674e00"
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 576 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+      />
+    </svg>
+    <div
+      className="c5"
+    >
+      Wow, I like writing tests
+    </div>
+  </div>
+  <div
+    className="c6"
+  >
+    <input
+      className="c7 c8"
+      disabled="disabled"
+      id="twitter-url-input"
+      value=""
+    />
+    <div
+      className="c9"
+    >
+      <button
+        className="c10 c11 c12 c13 c14 c15"
+        id="twitter-replace-button"
+        onClick={[Function]}
+        type="button"
+      >
+        Replace image
+      </button>
+      <button
+        className="c10 c11 c12 c13 c14 c15 c16"
+        id="twitter-remove-button"
+        onClick={[Function]}
+        type="button"
+      >
+        Remove image
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`The ImageSelect component renders 1`] = `
+.c2 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+}
+
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c4::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c4:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c5:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+.c6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c6 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c1 {
+  -webkit-flex: 1 1 200px;
+  -ms-flex: 1 1 200px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  margin: 4px 0;
+  color: #303030;
+  font-weight: 500;
+}
+
+.c7 {
+  color: #303030;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: inset 0 -2px 0 0 rgba(0,0,0,0.1);
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  padding: 4px;
+  border: 1px solid #dbdbdb;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 5px;
+  width: 112px;
+  height: 40px;
+}
+
+.c0 {
+  margin-top: 24px;
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c6::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
+<div
+  className="c0"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <div
+    className="c1"
   >
     Facebook image
   </div>
   <button
-    className="c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15"
+    className="c2 c3 c4 c5 c6 c7"
     id="facebook-select-button"
     onClick={[Function]}
     type="button"

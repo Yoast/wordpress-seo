@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
-.c7 {
+.c3 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -9,11 +9,7 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c6"] {
-  content: "c7,";
-}
-
-.c11 {
+.c5 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -23,7 +19,7 @@ yoast-seo.g2[id="c6"] {
   animation: loadingSpinnerRotator 1.4s linear infinite;
 }
 
-.c11 .path {
+.c5 .path {
   stroke: currentColor;
   stroke-dasharray: 187;
   stroke-dashoffset: 0;
@@ -34,34 +30,22 @@ yoast-seo.g2[id="c6"] {
   animation: loadingSpinnerDash 1.4s ease-in-out infinite;
 }
 
-yoast-seo.g3[id="c10"] {
-  content: "c11,";
-}
-
-.c1 {
+.c0 {
   padding: 8px;
 }
 
-yoast-seo.g4[id="c0"] {
-  content: "c1,";
-}
-
-.c3 {
+.c1 {
   padding: 0;
   margin: 0;
   list-style: none;
   counter-reset: multi-step-progress-counter;
 }
 
-.c3 li {
+.c1 li {
   counter-increment: multi-step-progress-counter;
 }
 
-yoast-seo.g5[id="c2"] {
-  content: "c3,";
-}
-
-.c5 {
+.c2 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -73,24 +57,24 @@ yoast-seo.g5[id="c2"] {
   margin: 8px 0;
 }
 
-.c5:first-child {
+.c2:first-child {
   margin-top: 0;
 }
 
-.c5:last-child {
+.c2:last-child {
   margin-bottom: 0;
 }
 
-.c5 span {
+.c2 span {
   margin: 0 8px;
 }
 
-.c5 svg {
+.c2 svg {
   position: relative;
   top: 2px;
 }
 
-.c5::before {
+.c2::before {
   content: counter( multi-step-progress-counter );
   font-size: 12px;
   background: #a4286a;
@@ -102,49 +86,37 @@ yoast-seo.g5[id="c2"] {
   text-align: center;
 }
 
-yoast-seo.g6[id="c4"] {
-  content: "c5,";
-}
-
-.c13 span {
+.c6 span {
   color: #767676;
 }
 
-.c13::before {
+.c6::before {
   background-color: #888;
 }
 
-yoast-seo.g7[id="c12"] {
-  content: "c13,";
-}
-
-.c9::before {
+.c4::before {
   background-color: #888;
-}
-
-yoast-seo.g8[id="c8"] {
-  content: "c9,";
 }
 
 <div
   aria-atomic={true}
   aria-live="polite"
   aria-relevant="additions text"
-  className="c0 c1"
+  className="c0"
   role="status"
 >
   <ol
-    className="c2 c3"
+    className="c1"
   >
     <li
-      className="c4 c5"
+      className="c2"
     >
       <span>
         This task has finished.
       </span>
       <svg
         aria-hidden={true}
-        className="c6 c7 yoast-svg-icon yoast-svg-icon-check"
+        className="c3 yoast-svg-icon yoast-svg-icon-check"
         fill="#64a60a"
         focusable="false"
         role="img"
@@ -158,14 +130,14 @@ yoast-seo.g8[id="c8"] {
       </svg>
     </li>
     <li
-      className="c4 c5"
+      className="c2"
     >
       <span>
         This task has failed.
       </span>
       <svg
         aria-hidden={true}
-        className="c6 c7 yoast-svg-icon yoast-svg-icon-times"
+        className="c3 yoast-svg-icon yoast-svg-icon-times"
         fill="#dc3232"
         focusable="false"
         role="img"
@@ -179,14 +151,14 @@ yoast-seo.g8[id="c8"] {
       </svg>
     </li>
     <li
-      className="c4 c8 c5 c9"
+      className="c2 c4"
     >
       <span>
         This task is running.
       </span>
       <svg
         aria-hidden={true}
-        className="c10 c11 yoast-svg-icon yoast-svg-icon-loading-spinner"
+        className="c5 yoast-svg-icon yoast-svg-icon-loading-spinner"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -206,7 +178,7 @@ yoast-seo.g8[id="c8"] {
       </svg>
     </li>
     <li
-      className="c4 c12 c5 c13"
+      className="c2 c6"
     >
       <span>
         This task is pending.

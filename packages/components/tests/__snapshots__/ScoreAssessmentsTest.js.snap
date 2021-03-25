@@ -1,25 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the ScoreAssessments matches the snapshot 1`] = `
-.c3 {
+.c1 {
   display: table-row;
   font-size: 14px;
 }
 
-yoast-seo.g1[id="c2"] {
-  content: "c3,";
-}
-
-.c6 {
+.c2 {
   display: table-cell;
   padding: 2px;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c6,";
-}
-
-.c7 {
+.c3 {
   position: relative;
   top: 1px;
   display: inline-block;
@@ -29,7 +21,7 @@ yoast-seo.g2[id="c4"] {
   background-color: #F00;
 }
 
-.c10 {
+.c5 {
   position: relative;
   top: 1px;
   display: inline-block;
@@ -39,20 +31,12 @@ yoast-seo.g2[id="c4"] {
   background-color: #0F0;
 }
 
-yoast-seo.g3[id="c5"] {
-  content: "c7,c10,";
-}
-
-.c9 {
+.c4 {
   padding-left: 8px;
   width: 100%;
 }
 
-yoast-seo.g4[id="c8"] {
-  content: "c9,";
-}
-
-.c1 {
+.c0 {
   display: table;
   box-sizing: border-box;
   list-style: none;
@@ -62,22 +46,18 @@ yoast-seo.g4[id="c8"] {
   padding: 0 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <ul
-  className="c0 c1 score-assessments"
+  className="c0 score-assessments"
   role="list"
 >
   <li
-    className="c2 c3 score-assessments__item"
+    className="c1 score-assessments__item"
   >
     <span
-      className="c4 c5 c6 c7 score-assessments__item-bullet"
+      className="c2 c3 score-assessments__item-bullet"
     />
     <span
-      className="c4 c8 c6 c9 score-assessments__item-text"
+      className="c2 c4 score-assessments__item-text"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
@@ -86,13 +66,13 @@ yoast-seo.g6[id="c0"] {
     />
   </li>
   <li
-    className="c2 c3 score-assessments__item"
+    className="c1 score-assessments__item"
   >
     <span
-      className="c4 c5 c6 c10 score-assessments__item-bullet"
+      className="c2 c5 score-assessments__item-bullet"
     />
     <span
-      className="c4 c8 c6 c9 score-assessments__item-text"
+      className="c2 c4 score-assessments__item-text"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
@@ -104,25 +84,17 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
-.c3 {
+.c1 {
   display: table-row;
   font-size: 14px;
 }
 
-yoast-seo.g1[id="c2"] {
-  content: "c3,";
-}
-
-.c6 {
+.c2 {
   display: table-cell;
   padding: 2px;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c6,";
-}
-
-.c7 {
+.c3 {
   position: relative;
   top: 1px;
   display: inline-block;
@@ -132,7 +104,7 @@ yoast-seo.g2[id="c4"] {
   background-color: #F00;
 }
 
-.c10 {
+.c5 {
   position: relative;
   top: 1px;
   display: inline-block;
@@ -142,20 +114,12 @@ yoast-seo.g2[id="c4"] {
   background-color: #0F0;
 }
 
-yoast-seo.g3[id="c5"] {
-  content: "c7,c10,";
-}
-
-.c9 {
+.c4 {
   padding-left: 8px;
   width: 100%;
 }
 
-yoast-seo.g4[id="c8"] {
-  content: "c9,";
-}
-
-.c1 {
+.c0 {
   display: table;
   box-sizing: border-box;
   list-style: none;
@@ -165,22 +129,18 @@ yoast-seo.g4[id="c8"] {
   padding: 0 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <ul
-  className="c0 c1 score-assessments"
+  className="c0 score-assessments"
   role="list"
 >
   <li
-    className="c2 c3 score-assessments__item"
+    className="c1 score-assessments__item"
   >
     <span
-      className="c4 c5 c6 c7 score-assessments__item-bullet"
+      className="c2 c3 score-assessments__item-bullet"
     />
     <span
-      className="c4 c8 c6 c9 score-assessments__item-text"
+      className="c2 c4 score-assessments__item-text"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
@@ -189,13 +149,13 @@ yoast-seo.g6[id="c0"] {
     />
   </li>
   <li
-    className="c2 c3 score-assessments__item"
+    className="c1 score-assessments__item"
   >
     <span
-      className="c4 c5 c6 c10 score-assessments__item-bullet"
+      className="c2 c5 score-assessments__item-bullet"
     />
     <span
-      className="c4 c8 c6 c9 score-assessments__item-text"
+      className="c2 c4 score-assessments__item-text"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
@@ -207,25 +167,17 @@ yoast-seo.g6[id="c0"] {
 `;
 
 exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
-.c3 {
+.c1 {
   display: table-row;
   font-size: 14px;
 }
 
-yoast-seo.g1[id="c2"] {
-  content: "c3,";
-}
-
-.c6 {
+.c2 {
   display: table-cell;
   padding: 2px;
 }
 
-yoast-seo.g2[id="c4"] {
-  content: "c6,";
-}
-
-.c7 {
+.c3 {
   position: relative;
   top: 1px;
   display: inline-block;
@@ -235,7 +187,7 @@ yoast-seo.g2[id="c4"] {
   background-color: #F00;
 }
 
-.c10 {
+.c5 {
   position: relative;
   top: 1px;
   display: inline-block;
@@ -245,20 +197,12 @@ yoast-seo.g2[id="c4"] {
   background-color: #0F0;
 }
 
-yoast-seo.g3[id="c5"] {
-  content: "c7,c10,";
-}
-
-.c9 {
+.c4 {
   padding-left: 8px;
   width: 100%;
 }
 
-yoast-seo.g4[id="c8"] {
-  content: "c9,";
-}
-
-.c1 {
+.c0 {
   display: table;
   box-sizing: border-box;
   list-style: none;
@@ -268,22 +212,18 @@ yoast-seo.g4[id="c8"] {
   padding: 0 8px;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <ul
-  className="c0 c1 score-assessments"
+  className="c0 score-assessments"
   role="list"
 >
   <li
-    className="c2 c3 score-assessments__item"
+    className="c1 score-assessments__item"
   >
     <span
-      className="c4 c5 c6 c7 score-assessments__item-bullet"
+      className="c2 c3 score-assessments__item-bullet"
     />
     <span
-      className="c4 c8 c6 c9 score-assessments__item-text"
+      className="c2 c4 score-assessments__item-text"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
@@ -292,13 +232,13 @@ yoast-seo.g6[id="c0"] {
     />
   </li>
   <li
-    className="c2 c3 score-assessments__item"
+    className="c1 score-assessments__item"
   >
     <span
-      className="c4 c5 c6 c10 score-assessments__item-bullet"
+      className="c2 c5 score-assessments__item-bullet"
     />
     <span
-      className="c4 c8 c6 c9 score-assessments__item-text"
+      className="c2 c4 score-assessments__item-text"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",

@@ -2,18 +2,18 @@
 
 exports[`The CardDetails component matches the snapshot when given specific props 1`] = `
 Array [
-  .c3 ul {
+  .c1 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-.c3 li {
+.c1 li {
   position: relative;
   margin-left: 16px;
 }
 
-.c3 li:before {
+.c1 li:before {
   content: "✓";
   color: #77b227;
   position: absolute;
@@ -22,11 +22,7 @@ Array [
   left: -16px;
 }
 
-yoast-seo.g7[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   margin-bottom: 12px;
   border-bottom: 1px #ddd solid;
   -webkit-box-flex: 1;
@@ -35,15 +31,11 @@ yoast-seo.g7[id="c2"] {
   flex-grow: 1;
 }
 
-yoast-seo.g8[id="c0"] {
-  content: "c1,";
-}
-
 <div
-    className="c0 c1"
+    className="c0"
   >
     <div
-      className="c2 c3"
+      className="c1"
       dangerouslySetInnerHTML={
         Object {
           "__html": "Do you know the essential first step of good SEO? It’s keyword research. In this training, 
@@ -52,7 +44,7 @@ you’ll learn how to research and select the keywords that will guide searchers
       }
     />
   </div>,
-  .c5 {
+  .c2 {
   border: 0;
   -webkit-clip: rect(1px,1px,1px,1px);
   clip: rect(1px,1px,1px,1px);
@@ -70,11 +62,7 @@ you’ll learn how to research and select the keywords that will guide searchers
   transform: translateY(1em);
 }
 
-yoast-seo.g1[id="c4"] {
-  content: "c5,";
-}
-
-.c3 {
+.c1 {
   color: #000;
   white-space: nowrap;
   display: block;
@@ -90,14 +78,14 @@ yoast-seo.g1[id="c4"] {
   margin-bottom: 8px;
 }
 
-.c3:hover,
-.c3:focus,
-.c3:active {
+.c1:hover,
+.c1:focus,
+.c1:active {
   color: #000;
   background-color: #cecece;
 }
 
-.c3:active {
+.c1:active {
   background-color: #cecece;
   -webkit-transform: translateY( 1px );
   -ms-transform: translateY( 1px );
@@ -107,51 +95,39 @@ yoast-seo.g1[id="c4"] {
   filter: none;
 }
 
-yoast-seo.g3[id="c2"] {
-  content: "c3,";
-}
-
-.c7 {
+.c3 {
   font-weight: bold;
 }
 
-yoast-seo.g5[id="c6"] {
-  content: "c7,";
-}
-
-.c1 {
+.c0 {
   text-align: center;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <div
-    className="c0 c1"
+    className="c0"
   >
     <a
-      className="c2 c3"
+      className="c1"
       href="https://yoast.com/cart/?add-to-cart=1311259"
       rel={null}
       target="_blank"
     >
       Start your free trail
       <span
-        className="c4 c5"
+        className="c2"
       >
         (Opens in a new browser tab)
       </span>
     </a>
     <a
-      className="c6 c7"
+      className="c3"
       href="https://yoast.com/academy/keyword-research-training/"
       rel={null}
       target="_blank"
     >
       Read more about this training »
       <span
-        className="c4 c5"
+        className="c2"
       >
         (Opens in a new browser tab)
       </span>
@@ -162,18 +138,18 @@ yoast-seo.g6[id="c0"] {
 
 exports[`The empty CardDetails component matches the snapshot 1`] = `
 Array [
-  .c3 ul {
+  .c1 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-.c3 li {
+.c1 li {
   position: relative;
   margin-left: 16px;
 }
 
-.c3 li:before {
+.c1 li:before {
   content: "✓";
   color: #77b227;
   position: absolute;
@@ -182,11 +158,7 @@ Array [
   left: -16px;
 }
 
-yoast-seo.g7[id="c2"] {
-  content: "c3,";
-}
-
-.c1 {
+.c0 {
   margin-bottom: 12px;
   border-bottom: 1px #ddd solid;
   -webkit-box-flex: 1;
@@ -195,15 +167,11 @@ yoast-seo.g7[id="c2"] {
   flex-grow: 1;
 }
 
-yoast-seo.g8[id="c0"] {
-  content: "c1,";
-}
-
 <div
-    className="c0 c1"
+    className="c0"
   >
     <div
-      className="c2 c3"
+      className="c1"
       dangerouslySetInnerHTML={
         Object {
           "__html": "",
@@ -211,16 +179,12 @@ yoast-seo.g8[id="c0"] {
       }
     />
   </div>,
-  .c1 {
+  .c0 {
   text-align: center;
 }
 
-yoast-seo.g6[id="c0"] {
-  content: "c1,";
-}
-
 <div
-    className="c0 c1"
+    className="c0"
   />,
 ]
 `;

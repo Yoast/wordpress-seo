@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HelpTextWrapper matches the snapshot by default 1`] = `
-.c15 {
+.c7 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -9,36 +9,24 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   flex: none;
 }
 
-yoast-seo.g2[id="c14"] {
-  content: "c15,";
-}
-
-.c8 {
+.c1 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-yoast-seo.g3[id="c2"] {
-  content: "c8,";
-}
-
-.c9:active {
+.c2:active {
   color: #000;
   background-color: #f7f7f7;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-yoast-seo.g4[id="c3"] {
-  content: "c9,";
-}
-
-.c10::-moz-focus-inner {
+.c3::-moz-focus-inner {
   border-width: 0;
 }
 
-.c10:focus {
+.c3:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -46,21 +34,13 @@ yoast-seo.g4[id="c3"] {
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-yoast-seo.g5[id="c4"] {
-  content: "c10,";
-}
-
-.c11:hover {
+.c4:hover {
   color: #000;
   background-color: #fff;
   border-color: var(--yoast-color-border--default);
 }
 
-yoast-seo.g6[id="c5"] {
-  content: "c11,";
-}
-
-.c12 {
+.c5 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -91,37 +71,25 @@ yoast-seo.g6[id="c5"] {
   transition: var(--yoast-transition-default);
 }
 
-.c12 svg {
+.c5 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-yoast-seo.g7[id="c6"] {
-  content: "c12,";
-}
-
-.c19 >:first-child {
+.c9 >:first-child {
   overflow: hidden;
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
 }
 
-yoast-seo.g102[id="c18"] {
-  content: "c19,";
-}
-
-.c1 {
+.c0 {
   max-width: 600px;
   font-weight: normal;
   margin: 0 20px 0 25px;
 }
 
-yoast-seo.g103[id="c0"] {
-  content: "c1,";
-}
-
-.c13 {
+.c6 {
   min-width: 14px;
   min-height: 14px;
   width: 30px;
@@ -136,39 +104,31 @@ yoast-seo.g103[id="c0"] {
   padding: 3px 0 0 6px;
 }
 
-.c13:hover {
+.c6:hover {
   color: #0066cd;
 }
 
-.c13:focus {
+.c6:focus {
   border: 1px solid #0066cd;
   outline: none;
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c13:focus svg {
+.c6:focus svg {
   fill: #0066cd;
   color: #0066cd;
 }
 
-.c13:active {
+.c6:active {
   box-shadow: none;
 }
 
-yoast-seo.g105[id="c7"] {
-  content: "c13,";
-}
-
-.c17:hover {
+.c8:hover {
   fill: #0066cd;
 }
 
-yoast-seo.g106[id="c16"] {
-  content: "c17,";
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c12::after {
+  .c5::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -176,19 +136,19 @@ yoast-seo.g106[id="c16"] {
 }
 
 <div
-  className="c0 c1 yoast-help"
+  className="c0 yoast-help"
 >
   <button
     aria-controls={null}
     aria-expanded={false}
     aria-label="Open help"
-    className="c2 c3 c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 yoast-help__button"
+    className="c1 c2 c3 c4 c5 c6 yoast-help__button"
     onClick={[Function]}
     type="button"
   >
     <svg
       aria-hidden={true}
-      className="c14 c15 yoast-svg-icon yoast-svg-icon-question-circle c16 c17"
+      className="c7 yoast-svg-icon yoast-svg-icon-question-circle c8"
       fill="#616161"
       focusable="false"
       role="img"
@@ -202,7 +162,7 @@ yoast-seo.g106[id="c16"] {
     </svg>
   </button>
   <div
-    className="c18 c19"
+    className="c9"
   />
 </div>
 `;
