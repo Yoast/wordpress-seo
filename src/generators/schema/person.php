@@ -151,6 +151,15 @@ class Person extends Abstract_Schema_Piece {
 
 		$data = $this->add_same_as_urls( $data, $user_data, $user_id );
 
+		/**
+		 * Filter: 'wpseo_schema_person_data' - Allows filtering of social profiles per user.
+		 *
+		 * @param int $user_id The current user we're grabbing social profiles for.
+		 *
+		 * @api string[] $data The schema data we have for this person.
+		 */
+		$data = \apply_filters( 'wpseo_schema_person_data', $data, $user_id );
+
 		return $data;
 	}
 
