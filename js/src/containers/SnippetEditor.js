@@ -79,6 +79,7 @@ export function mapSelectToProps( select ) {
 		getFocusKeyphrase,
 		getRecommendedReplaceVars,
 		getReplaceVars,
+		getShoppingData,
 		getSiteIconUrlFromSettings,
 		getSnippetEditorData,
 		getSnippetEditorMode,
@@ -105,7 +106,7 @@ export function mapSelectToProps( select ) {
 		mode: getSnippetEditorMode(),
 		recommendedReplacementVariables: getRecommendedReplaceVars(),
 		replacementVariables,
-    shoppingData: state.shoppingData,
+		shoppingData: getShoppingData,
 		wordsToHighlight: getSnippetEditorWordsToHighlight(),
 	};
 }
