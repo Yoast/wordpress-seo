@@ -1,9 +1,10 @@
-import { getBlockType } from "../BlockHelper";
 import { select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import { BlockValidationResult } from "../../core/validation";
 import { BlockValidation } from "../../core/validation";
+import { getBlockType } from "../BlockHelper";
+import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 
 const analysisMessageTemplates: Record<number, string> = {
 	[ BlockValidation.MissingBlock ]: "The '{child}' block is {status} but missing.",
@@ -32,7 +33,7 @@ export type sidebarWarning = {
  * @returns {BlockValidationResult} The validation results, or null if none were found.
  */
 function getValidationResult( clientId: string ): BlockValidationResult | null {
-	const validationResults: clientIdValidation = select( "yoast-seo/editor" ).getSchemaBlocksValidationResults();
+	const validationResults: clientIdValidation = select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getSchemaBlocksValidationResults();
 	if ( ! validationResults ) {
 		return null;
 	}

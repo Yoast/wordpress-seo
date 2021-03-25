@@ -30,7 +30,7 @@ export default function initialize( logLevel: LogLevel = LogLevel.ERROR ) {
 
 	initializeSchemaBlocksStore();
 
-	registerBlockType( "yoast/warning-block", WarningBlock );
+	registerInternalBlocks();
 
 	jQuery( 'script[type="text/schema-template"]' ).each( function() {
 		try {
@@ -57,4 +57,11 @@ export default function initialize( logLevel: LogLevel = LogLevel.ERROR ) {
 
 	// Watch Gutenberg for block changes that require schema updates.
 	watch();
+}
+
+/**
+ * Registers additional blocks needed for schema blocks use cases.
+ */
+function registerInternalBlocks() {
+	registerBlockType( "yoast/warning-block", WarningBlock );
 }
