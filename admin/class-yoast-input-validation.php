@@ -245,7 +245,7 @@ class Yoast_Input_Validation {
 		$error_description = self::get_error_description( $error_code );
 
 		if ( self::yoast_form_control_has_error( $error_code ) && $error_description ) {
-			return '<p id="' . esc_attr( $error_code ) . '-error-description" class="yoast-input-validation__error-description">' . $error_description . '</p>';
+			return '<p id="' . esc_attr( $error_code ) . '-error-description" class="yoast-input-validation__error-description">' . esc_html( $error_description ) . '</p>';
 		}
 
 		return '';
@@ -269,6 +269,7 @@ class Yoast_Input_Validation {
 
 		foreach ( $wp_settings_errors as $index => $error ) {
 			if ( $error['code'] === $error_code ) {
+				// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Reason: we're not overriding, we're just adding a custom key.
 				$wp_settings_errors[ $index ]['yoast_dirty_value'] = $dirty_value;
 			}
 		}

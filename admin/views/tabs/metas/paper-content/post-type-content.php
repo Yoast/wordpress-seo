@@ -11,6 +11,8 @@
  * @uses WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Help_Link_Presenter;
+
 $single_label = $wpseo_post_type->labels->singular_name;
 $paper_style  = false;
 
@@ -57,11 +59,18 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	);
 	$editor->render();
 
-	if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
-		/* translators: %s is the plural version of the post type's name. */
-		echo '<h4>' . esc_html( sprintf( __( 'Breadcrumb settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h4>';
-		$yform->textinput( 'bctitle-ptarchive-' . $wpseo_post_type->name, __( 'Breadcrumbs title', 'wordpress-seo' ) );
-	}
+	$breadcrumbs_title_help_link = new Help_Link_Presenter(
+		WPSEO_Shortlinker::get( 'https://yoa.st/4cf' ),
+		__( 'Learn more about the breadcrumbs title', 'wordpress-seo' )
+	);
+
+	echo '<div class="yoast-settings-section">';
+	$yform->textinput_extra_content(
+		'bctitle-ptarchive-' . $wpseo_post_type->name,
+		__( 'Breadcrumbs title', 'wordpress-seo' ),
+		[ 'extra_content' => $breadcrumbs_title_help_link ]
+	);
+	echo '</div>';
 }
 
 /**
