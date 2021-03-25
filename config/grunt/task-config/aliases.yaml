@@ -53,6 +53,8 @@
   - 'copy:makepot-yoast-js-helpers'
   - 'shell:makepot-yoast-js-search-metadata-previews'
   - 'copy:makepot-yoast-js-search-metadata-previews'
+  - 'shell:makepot-yoast-js-schema-blocks'
+  - 'copy:makepot-yoast-js-schema-blocks'
   - 'shell:makepot-yoast-components-remaining'
   - 'shell:combine-pots-yoast-components'
   - 'shell:makepot-yoastseojs'
@@ -81,12 +83,10 @@ clean:build-assets:
   - 'update-version:initializer'
 
 'artifact':
-  - 'shell:production-prefix-dependencies'
+  - 'shell:composer-install'
   - 'shell:compile-dependency-injection-container'
   - 'shell:remove-dependency-injection-meta'
   - 'shell:composer-install-production'
-  # Remove the folders that are already in the vendor_prefixed folder from the vendor folder.
-  - 'shell:remove-prefixed-sources'
   # Build like we normally would
   - 'release'
   # Remove build folder
@@ -95,22 +95,24 @@ clean:build-assets:
   - 'copy:artifact'
   # Create a zip file
   - 'compress:artifact'
-  # There is no `clean:artifact` here because the `wp_deploy` needs the `artifact` folder.
-  - 'restore-environment-after-artifact'
 
-'restore-environment-after-artifact':
-  - 'shell:composer-reset-config'
-  - 'shell:composer-reset-lock'
-  - 'shell:composer-install'
-
-'composer-artifact':
-  # Create our composer targeted artifact
-  - 'clean:composer-artifact'
-  - 'copy:composer-artifact'
-  - 'clean:composer-files'
-  - 'copy:composer-files'
-  - 'remove-vendor-prefixed-folder'
-  - 'shell:remove-vendor-prefixed-uses'
+# Get the project ready for beta
+'create-beta':
+  - 'ensure-monorepo-is-unlinked'
+  - 'ensure-clean-branch'
+  - 'ensure-pre-release-branch'
+  - 'update-readme'
+  - 'bump-beta-version'
+  - 'sync-gutenberg-version'
+  - 'artifact'
+  - 'github-pre-release'
+  - 'notify-slack:beta'
+  - 'sync-readme-stable-tag'
+  - 'check-deploy-allowed'
+  - 'wp_deploy:trunk'
+  - 'shell:readme-reset-txt'
+  - 'verify-zip-size'
+  - 'celebrate'
 
 # Get the project ready for release-candidate
 'create-rc':

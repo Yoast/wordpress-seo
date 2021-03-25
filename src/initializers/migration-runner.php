@@ -90,14 +90,15 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Initializes the migrations.
 	 *
-	 * @param string $name The name of the migration.
+	 * @param string $name    The name of the migration.
+	 * @param string $version The current version.
 	 *
 	 * @return bool True on success, false on failure.
 	 *
 	 * @throws Exception If the migration fails and YOAST_ENVIRONMENT is not production.
 	 */
-	public function run_migrations( $name ) {
-		if ( ! $this->migration_status->should_run_migration( $name ) ) {
+	public function run_migrations( $name, $version = \WPSEO_VERSION ) {
+		if ( ! $this->migration_status->should_run_migration( $name, $version ) ) {
 			return true;
 		}
 
@@ -108,7 +109,7 @@ class Migration_Runner implements Initializer_Interface {
 		$migrations = $this->loader->get_migrations( $name );
 
 		if ( $migrations === false ) {
-			$this->migration_status->set_error( $name, "Could not perform $name migrations. No migrations found." );
+			$this->migration_status->set_error( $name, "Could not perform $name migrations. No migrations found.", $version );
 			return false;
 		}
 
@@ -120,13 +121,13 @@ class Migration_Runner implements Initializer_Interface {
 
 			\sort( $to_do_versions, \SORT_STRING );
 
-			foreach ( $to_do_versions as $version ) {
-				$class = $migrations[ $version ];
-				$this->run_migration( $version, $class );
+			foreach ( $to_do_versions as $to_do_version ) {
+				$class = $migrations[ $to_do_version ];
+				$this->run_migration( $to_do_version, $class );
 			}
 		} catch ( Exception $exception ) {
 			// Something went wrong...
-			$this->migration_status->set_error( $name, $exception->getMessage() );
+			$this->migration_status->set_error( $name, $exception->getMessage(), $version );
 
 			if ( \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT !== 'production' ) {
 				throw $exception;
@@ -135,7 +136,7 @@ class Migration_Runner implements Initializer_Interface {
 			return false;
 		}
 
-		$this->migration_status->set_success( $name );
+		$this->migration_status->set_success( $name, $version );
 
 		return true;
 	}

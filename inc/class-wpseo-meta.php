@@ -1022,7 +1022,7 @@ class WPSEO_Meta {
 		 * In that case there's no use for an additional query as we already know
 		 * that the keyword has been used multiple times before.
 		 */
-		if ( WPSEO_Utils::is_yoast_seo_premium() && count( $post_ids ) < 2 ) {
+		if ( YoastSEO()->helpers->product->is_premium() && count( $post_ids ) < 2 ) {
 			$query = [
 				'meta_query'     => [
 					[

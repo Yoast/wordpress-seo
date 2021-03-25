@@ -20,6 +20,16 @@ class Schema_Templates_Loader {
 			$templates = [];
 		}
 
+		foreach ( $templates as $index => $template ) {
+			// Replace the root path based on current path from the template.
+			$template = str_replace( $root_directory, '', $template );
+
+			// Removes the slashes in the beginning and the end.
+			$template = trim( $template, '/' );
+
+			$templates[ $index ] = $template;
+		}
+
 		return $templates;
 	}
 }
