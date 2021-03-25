@@ -14,7 +14,6 @@ import isMarkerPaused from "./markerPauseStatus";
 import marksButtonStatus from "./markerButtons";
 import preferences from "./preferences";
 import primaryTaxonomies from "./primaryTaxonomies";
-import schemaBlocks from "./schemaBlocks";
 import schemaTab from "./schemaTab";
 import SEMrushModal from "./SEMrushModal";
 import SEMrushRequest from "./SEMrushRequest";
