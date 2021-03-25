@@ -1,9 +1,13 @@
 import { includes, isEmpty, intersection } from "lodash-es";
-import Participle from "../../../../values/Participle.js";
-import checkException from "../../../helpers/passiveVoice/periphrastic/checkException.js";
+import { languageProcessing, values } from "yoastseo";
+const {
+	checkException,
+	directPrecedenceException,
+	precedenceException,
+} = languageProcessing;
+const { Participle } = values;
+
 import nonVerbsEndingEd from "../config/internal/passiveVoiceNonVerbEndingEd.js";
-import directPrecedenceException from "../../../helpers/passiveVoice/directPrecedenceException";
-import precedenceException from "../../../helpers/passiveVoice/precedenceException";
 import {
 	cannotDirectlyPrecedePassiveParticiple,
 	cannotBeBetweenPassiveAuxiliaryAndParticiple,

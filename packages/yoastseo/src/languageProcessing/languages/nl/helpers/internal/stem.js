@@ -1,5 +1,15 @@
-import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnListThatCanHavePrefix } from "../../../../helpers/morphology/exceptionListHelpers";
-import { removeSuffixFromFullForm, removeSuffixesFromFullForm } from "../../../../helpers/morphology/stemHelpers";
+import { languageProcessing } from "yoastseo";
+const {
+	exceptionListHelpers: {
+		checkIfWordEndingIsOnExceptionList,
+		checkIfWordIsOnListThatCanHavePrefix,
+	},
+	stemHelpers: {
+		removeSuffixFromFullForm,
+		removeSuffixesFromFullForm,
+	},
+} = languageProcessing;
+
 import detectAndStemSuffixes from "./detectAndStemSuffixes";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding.js";
 import checkExceptionsWithFullForms from "./checkExceptionsWithFullForms";

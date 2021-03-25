@@ -1,4 +1,5 @@
-import formatNumber from "../../../../helpers/formatNumber.js";
+import { helpers } from "yoastseo";
+const { formatNumber } = helpers;
 
 /**
  * Returns the Flesch reading score for French.

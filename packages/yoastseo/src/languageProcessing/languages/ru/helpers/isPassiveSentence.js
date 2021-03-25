@@ -1,4 +1,6 @@
-import areWordsInSentence from "../../../helpers/word/areWordsInSentence";
+import { languageProcessing } from "yoastseo";
+const { areWordsInSentence } = languageProcessing;
+
 import getPassiveVerbs from "../config/internal/participlesShortenedList.js";
 
 /**

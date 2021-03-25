@@ -21,8 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import { findMatchingEndingInArray } from "../../../../helpers/morphology/findMatchingEndingInArray";
-
+import { languageProcessing } from "yoastseo";
+const { findMatchingEndingInArray } = languageProcessing;
 
 /**
  * Checks whether the character is a vowel.

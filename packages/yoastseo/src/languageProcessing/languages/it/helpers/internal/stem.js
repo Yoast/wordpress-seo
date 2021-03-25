@@ -19,7 +19,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import { createSingleRuleFromArray, createRulesFromArrays } from "../../../../helpers/morphology/createRulesFromArrays";
+import { languageProcessing } from "yoastseo";
+const { createSingleRuleFromArray, createRulesFromArrays } = languageProcessing;
 
 /**
  * Determines whether a letter is a vowel.

@@ -1,6 +1,8 @@
 import { flatten } from "lodash-es";
+import { languageProcessing } from "yoastseo";
+const { flattenSortLength } = languageProcessing;
+
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
-import { flattenSortLength } from "../../../../helpers/morphology/flattenSortLength";
 
 import stem from "./stem";
 

@@ -1,5 +1,7 @@
+import { languageProcessing } from "yoastseo";
+const { regexHelpers: { doesWordMatchRegex } } = languageProcessing;
+
 import nonParticiples from "../../config/internal/nonParticiples.js";
-import { doesWordMatchRegex } from "../../../../helpers/morphology/regexHelpers";
 import { modifyStem } from "./stemModificationHelpers";
 
 /**

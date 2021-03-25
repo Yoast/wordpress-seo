@@ -1,5 +1,7 @@
 import { get } from "lodash-es";
-import baseStemmer from "../../../helpers/morphology/baseStemmer";
+import { languageProcessing } from "yoastseo";
+const { baseStemmer } = languageProcessing;
+
 import determineStem from "./internal/determineStem";
 
 

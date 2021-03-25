@@ -1,4 +1,6 @@
-import SentencePart from "../../../../values/SentencePart.js";
+import { values } from "yoastseo";
+const { SentencePart } = values;
+
 import getParticiples from "../helpers/internal/getParticiples.js";
 
 /**

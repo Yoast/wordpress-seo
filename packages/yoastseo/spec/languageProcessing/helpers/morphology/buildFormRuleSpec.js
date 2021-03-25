@@ -1,4 +1,4 @@
-import { buildOneFormFromRegex } from "../../../../src/languageProcessing/helpers/morphology/buildFormRule";
+import buildFormRule from "../../../../src/languageProcessing/helpers/morphology/buildFormRule";
 
 const regexes = [
 	{ reg: new RegExp( "([^v])ies$" ), repl: "$1y" },
@@ -10,10 +10,10 @@ const arrayOfNulls = [
 
 describe( "Checks if the input word qualifies for the input regex and if so builds a required form.", () => {
 	it( "Checks if the input word qualifies for the input regex and if so builds a required form.", () => {
-		expect( buildOneFormFromRegex( "mann", regexes ) ).toBe( "man" );
-		expect( buildOneFormFromRegex( "butterflies", regexes ) ).toBe( "butterfly" );
+		expect( buildFormRule( "mann", regexes ) ).toBe( "man" );
+		expect( buildFormRule( "butterflies", regexes ) ).toBe( "butterfly" );
 	} );
 	it( "returns the input word if there are no regexes and replacements.", () => {
-		expect( buildOneFormFromRegex( "butterflies", arrayOfNulls ) ).toBe( "butterflies" );
+		expect( buildFormRule( "butterflies", arrayOfNulls ) ).toBe( "butterflies" );
 	} );
 } );

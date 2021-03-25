@@ -1,5 +1,5 @@
 import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
-import { buildOneFormFromRegex } from "../../../../../../src/languageProcessing/helpers/morphology/buildFormRule";
+import buildFormRule from "../../../../../../src/languageProcessing/helpers/morphology/buildFormRule";
 import createRulesFromMorphologyData from "../../../../../../src/languageProcessing/helpers/morphology/createRulesFromArrays";
 
 const morphologyData = getMorphologyData( "en" );
@@ -434,7 +434,7 @@ describe( "Test for getting base from plural", function() {
 
 	it( "for regular nouns", function() {
 		regularNounsToTest.forEach( function( paradigm ) {
-			base = buildOneFormFromRegex( paradigm[ 1 ], singularizeRule );
+			base = buildFormRule( paradigm[ 1 ], singularizeRule );
 			expect( base ).toEqual( paradigm[ 0 ] );
 		} );
 	} );
@@ -442,11 +442,11 @@ describe( "Test for getting base from plural", function() {
 	it( "for hispanic nouns", function() {
 		hispanicNounsToTest.forEach( function( paradigm ) {
 			// -os variant (e.g., tomatos)
-			base = buildOneFormFromRegex( paradigm[ 1 ], singularizeRule );
+			base = buildFormRule( paradigm[ 1 ], singularizeRule );
 			expect( base ).toEqual( paradigm[ 0 ] );
 
 			// -oes variant (e.g., tomatoes)
-			base = buildOneFormFromRegex( paradigm[ 2 ], singularizeRule );
+			base = buildFormRule( paradigm[ 2 ], singularizeRule );
 			expect( base ).toEqual( paradigm[ 0 ] );
 		} );
 	} );
@@ -457,7 +457,7 @@ describe( "Test for getting a non-possessive form", function() {
 
 	it( "from a possessive form", function() {
 		possessivesToBaseToTest.forEach( function( paradigm ) {
-			base = buildOneFormFromRegex( paradigm[ 1 ], depossessifyRule );
+			base = buildFormRule( paradigm[ 1 ], depossessifyRule );
 			expect( base ).toEqual( paradigm[ 0 ] );
 		} );
 	} );

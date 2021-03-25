@@ -1,8 +1,7 @@
 // "use strict";
 import { isUndefined } from "lodash-es";
-
-import createRulesFromArrays from "../../../../helpers/morphology/createRulesFromArrays.js";
-import { buildOneFormFromRegex } from "../../../../helpers/morphology/buildFormRule";
+import { languageProcessing } from "yoastseo";
+const { buildFormRule, createRulesFromArrays } = languageProcessing;
 
 const vowelRegex = /([aeiouy])/g;
 
@@ -208,21 +207,21 @@ const getInfinitive = function( word, regexVerb ) {
 
 	if ( endsWithS( word ) ) {
 		return {
-			infinitive: buildOneFormFromRegex( word, sFormToInfinitiveRegex ),
+			infinitive: buildFormRule( word, sFormToInfinitiveRegex ),
 			guessedForm: "s",
 		};
 	}
 
 	if ( endsWithIng( word ) ) {
 		return {
-			infinitive: buildOneFormFromRegex( word, ingFormToInfinitiveRegex ),
+			infinitive: buildFormRule( word, ingFormToInfinitiveRegex ),
 			guessedForm: "ing",
 		};
 	}
 
 	if ( endsWithEd( word ) ) {
 		return {
-			infinitive: buildOneFormFromRegex( word, edFormToInfinitiveRegex ) || word,
+			infinitive: buildFormRule( word, edFormToInfinitiveRegex ) || word,
 			guessedForm: "ed",
 		};
 	}
