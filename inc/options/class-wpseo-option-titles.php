@@ -88,6 +88,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		'stripcategorybase'                => false,
 
+		'bctitle-author-archive'           => '', // Text field.
+		'bctitle-date-archive'             => '', // Text field.
+
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
 		 * - 'title-' . $pt->name                => ''; // Text field.
@@ -104,6 +107,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		 * - 'metadesc-tax-' . $tax->name        => ''; // Text field.
 		 * - 'noindex-tax-' . $tax->name         => false;
 		 * - 'display-metabox-tax-' . $tax->name => false;
+		 * - 'bctitle-tax-' . $tax->name         => '''; // Text field.
 		 *
 		 * - 'schema-page-type-' . $pt->name     => 'WebPage';
 		 * - 'schema-article-type-' . $pt->name  => 'Article';
@@ -136,6 +140,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'social-description-',
 		'social-image-url-',
 		'social-image-id-',
+		'bctitle-tax-',
 	];
 
 	/**
@@ -322,6 +327,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$enriched_defaults[ 'social-image-url-tax-' . $tax->name ]   = ''; // Hidden input field.
 				$enriched_defaults[ 'social-image-id-tax-' . $tax->name ]    = ''; // Hidden input field.
 
+				$enriched_defaults[ 'bctitle-tax-' . $tax->name ] = ''; // Text field.
+
 				if ( ! $tax->_builtin ) {
 					$enriched_defaults[ 'taxonomy-' . $tax->name . '-ptparent' ] = 0; // Select box;.
 				}
@@ -453,12 +460,16 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'social-description-ptarchive-' . $pt->name
 				 *  'social-description-tax-' . $tax->name
 				 *  'social-description-author-wpseo', 'social-description-archive-wpseo'
+				 *  'bctitle-author-archive', 'bctitle-date-archive', 'bctitle-tax-' . $tax->name
 				 */
 				case 'metadesc-':
 				case 'bctitle-ptarchive-':
 				case 'company_name':
 				case 'person_name':
 				case 'social-description-':
+				case 'bctitle-author-archive':
+				case 'bctitle-date-archive':
+				case 'bctitle-tax-':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 					}
