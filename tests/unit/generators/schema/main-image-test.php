@@ -83,17 +83,17 @@ class Main_Image_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that generate returns the featured image schema.
+	 * Tests that generate returns the main image schema based on its ID.
 	 *
 	 * @covers ::generate
-	 * @covers ::get_featured_image
-	 * @covers ::get_social_image
 	 */
-	public function test_generate_featured_image() {
-		$this->meta_tags_context->canonical = 'https://example.com/canonical';
-		$this->meta_tags_context->id        = 1337;
+	public function test_generate_main_image_id() {
+		$this->meta_tags_context->canonical     = 'https://example.com/canonical';
+		$this->meta_tags_context->id            = 1337;
+		$this->meta_tags_context->main_image_id = 1338;
 
-		$image_id     = $this->generate_image_id();
+		$image_id = $this->generate_image_id();
+
 		$image_schema = [
 			'@type'      => 'ImageObject',
 			'@id'        => $image_id,
@@ -104,18 +104,9 @@ class Main_Image_Test extends TestCase {
 			'caption'    => 'test_image',
 		];
 
-		// In the `get_featured_image` method.
-		Monkey\Functions\expect( 'has_post_thumbnail' )
-			->once()
-			->with( 1337 )
-			->andReturn( true );
-		Monkey\Functions\expect( 'get_post_thumbnail_id' )
-			->once()
-			->with( 1337 )
-			->andReturn( true );
 		$this->schema_image->expects( 'generate_from_attachment_id' )
 			->once()
-			->with( $image_id, 1337 )
+			->with( $image_id, $this->meta_tags_context->main_image_id )
 			->andReturn( $image_schema );
 
 		self::assertEquals( $image_schema, $this->instance->generate() );
@@ -131,28 +122,18 @@ class Main_Image_Test extends TestCase {
 	 * @covers ::get_first_content_image
 	 */
 	public function test_generate_from_url() {
-		$this->meta_tags_context->canonical = 'https://example.com/canonical';
-		$this->meta_tags_context->id        = 1337;
+		$this->meta_tags_context->canonical      = 'https://example.com/canonical';
+		$this->meta_tags_context->id             = 1337;
+		$image_url                               = 'https://example.com/content_image';
+		$this->meta_tags_context->main_image_url = $image_url;
 
 		$image_id     = $this->generate_image_id();
-		$image_url    = 'https://example.com/content_image';
 		$image_schema = [
 			'@type' => 'ImageObject',
 			'@id'   => $image_id,
 			'url'   => 'image_url',
 		];
 
-		// In the `get_featured_image` method.
-		Monkey\Functions\expect( 'has_post_thumbnail' )
-			->once()
-			->with( 1337 )
-			->andReturn( false );
-
-		// In the `get_first_content_image` method.
-		$this->image->expects( 'get_post_content_image' )
-			->once()
-			->with( 1337 )
-			->andReturn( $image_url );
 		$this->schema_image->expects( 'generate_from_url' )
 			->once()
 			->with( $image_id, $image_url )
@@ -163,28 +144,21 @@ class Main_Image_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that generate returns null if no image available.
+	 * Tests that generate returns false if no image available.
 	 *
 	 * @covers ::generate
-	 * @covers ::get_social_image
-	 * @covers ::get_featured_image
-	 * @covers ::get_first_content_image
 	 */
 	public function test_generate_no_image() {
 		$this->meta_tags_context->canonical = 'https://example.com/canonical';
 		$this->meta_tags_context->id        = 1337;
 
-		// In the `get_featured_image` method.
-		Monkey\Functions\expect( 'has_post_thumbnail' )
-			->once()
-			->with( 1337 )
-			->andReturn( false );
+		$this->schema_image
+			->expects( 'generate_from_attachment_id' )
+			->never();
 
-		// In the `get_first_content_image` method.
-		$this->image->expects( 'get_post_content_image' )
-			->once()
-			->with( 1337 )
-			->andReturn( '' );
+		$this->schema_image
+			->expects( 'generate_from_url' )
+			->never();
 
 		self::assertFalse( $this->instance->generate() );
 	}

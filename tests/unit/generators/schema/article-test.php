@@ -306,13 +306,28 @@ class Article_Test extends TestCase {
 					'post_comment_status'           => 'open',
 					'approved_comments'             => 7,
 					'keywords'                      => [
-						(object) [ 'term_id' => 1, 'name' => 'Tag1' ],
-						(object) [ 'term_id' => 2, 'name' => 'Tag2' ],
-						(object) [ 'term_id' => 3, 'name' => 'Uncategorized' ],
+						(object) [
+							'term_id' => 1,
+							'name'    => 'Tag1',
+						],
+						(object) [
+							'term_id' => 2,
+							'name'    => 'Tag2',
+						],
+						(object) [
+							'term_id' => 3,
+							'name'    => 'Uncategorized',
+						],
 					],
 					'sections'                      => [
-						(object) [ 'term_id' => 1, 'name' => 'Category1' ],
-						(object) [ 'term_id' => 3, 'name' => 'Uncategorized' ],
+						(object) [
+							'term_id' => 1,
+							'name'    => 'Category1',
+						],
+						(object) [
+							'term_id' => 3,
+							'name'    => 'Uncategorized',
+						],
 					],
 				],
 				'expected_value' => [
@@ -349,13 +364,28 @@ class Article_Test extends TestCase {
 					'post_comment_status'           => 'open',
 					'approved_comments'             => 7,
 					'keywords'                      => [
-						(object) [ 'term_id' => 1, 'name' => 'Tag1' ],
-						(object) [ 'term_id' => 2, 'name' => 'Tag2' ],
-						(object) [ 'term_id' => 3, 'name' => 'Uncategorized' ],
+						(object) [
+							'term_id' => 1,
+							'name'    => 'Tag1',
+						],
+						(object) [
+							'term_id' => 2,
+							'name'    => 'Tag2',
+						],
+						(object) [
+							'term_id' => 3,
+							'name'    => 'Uncategorized',
+						],
 					],
 					'sections'                      => [
-						(object) [ 'term_id' => 1, 'name' => 'Category1' ],
-						(object) [ 'term_id' => 3, 'name' => 'Uncategorized' ],
+						(object) [
+							'term_id' => 1,
+							'name'    => 'Category1',
+						],
+						(object) [
+							'term_id' => 3,
+							'name'    => 'Uncategorized',
+						],
 					],
 				],
 				'expected_value' => [
@@ -393,13 +423,28 @@ class Article_Test extends TestCase {
 					'post_comment_status'           => 'open',
 					'approved_comments'             => 7,
 					'keywords'                      => [
-						(object) [ 'term_id' => 1, 'name' => 'Tag1' ],
-						(object) [ 'term_id' => 2, 'name' => 'Tag2' ],
-						(object) [ 'term_id' => 3, 'name' => 'Uncategorized' ],
+						(object) [
+							'term_id' => 1,
+							'name'    => 'Tag1',
+						],
+						(object) [
+							'term_id' => 2,
+							'name'    => 'Tag2',
+						],
+						(object) [
+							'term_id' => 3,
+							'name'    => 'Uncategorized',
+						],
 					],
 					'sections'                      => [
-						(object) [ 'term_id' => 1, 'name' => 'Category1' ],
-						(object) [ 'term_id' => 3, 'name' => 'Uncategorized' ],
+						(object) [
+							'term_id' => 1,
+							'name'    => 'Category1',
+						],
+						(object) [
+							'term_id' => 3,
+							'name'    => 'Uncategorized',
+						],
 					],
 				],
 				'expected_value' => [
@@ -427,13 +472,28 @@ class Article_Test extends TestCase {
 					'post_comment_status'           => 'closed',
 					'approved_comments'             => 7,
 					'keywords'                      => [
-						(object) [ 'term_id' => 1, 'name' => 'Tag1' ],
-						(object) [ 'term_id' => 2, 'name' => 'Tag2' ],
-						(object) [ 'term_id' => 3, 'name' => 'Uncategorized' ],
+						(object) [
+							'term_id' => 1,
+							'name'    => 'Tag1',
+						],
+						(object) [
+							'term_id' => 2,
+							'name'    => 'Tag2',
+						],
+						(object) [
+							'term_id' => 3,
+							'name'    => 'Uncategorized',
+						],
 					],
 					'sections'                      => [
-						(object) [ 'term_id' => 1, 'name' => 'Category1' ],
-						(object) [ 'term_id' => 3, 'name' => 'Uncategorized' ],
+						(object) [
+							'term_id' => 1,
+							'name'    => 'Category1',
+						],
+						(object) [
+							'term_id' => 3,
+							'name'    => 'Uncategorized',
+						],
 					],
 				],
 				'expected_value' => [
@@ -461,13 +521,28 @@ class Article_Test extends TestCase {
 					'post_comment_status'           => 'closed',
 					'approved_comments'             => 0,
 					'keywords'                      => [
-						(object) [ 'term_id' => 1, 'name' => 'Tag1' ],
-						(object) [ 'term_id' => 2, 'name' => 'Tag2' ],
-						(object) [ 'term_id' => 3, 'name' => 'Uncategorized' ],
+						(object) [
+							'term_id' => 1,
+							'name'    => 'Tag1',
+						],
+						(object) [
+							'term_id' => 2,
+							'name'    => 'Tag2',
+						],
+						(object) [
+							'term_id' => 3,
+							'name'    => 'Uncategorized',
+						],
 					],
 					'sections'                      => [
-						(object) [ 'term_id' => 1, 'name' => 'Category1' ],
-						(object) [ 'term_id' => 3, 'name' => 'Uncategorized' ],
+						(object) [
+							'term_id' => 1,
+							'name'    => 'Category1',
+						],
+						(object) [
+							'term_id' => 3,
+							'name'    => 'Uncategorized',
+						],
 					],
 				],
 				'expected_value' => [
@@ -608,8 +683,14 @@ class Article_Test extends TestCase {
 					'approved_comments'             => 7,
 					'keywords'                      => 'terms_not_as_array',
 					'sections'                      => [
-						(object) [ 'term_id' => 1, 'name' => 'Category1' ],
-						(object) [ 'term_id' => 3, 'name' => 'Uncategorized' ],
+						(object) [
+							'term_id' => 1,
+							'name'    => 'Category1',
+						],
+						(object) [
+							'term_id' => 3,
+							'name'    => 'Uncategorized',
+						],
 					],
 				],
 				'expected_value' => [
@@ -646,8 +727,14 @@ class Article_Test extends TestCase {
 					'approved_comments'             => 7,
 					'keywords'                      => [],
 					'sections'                      => [
-						(object) [ 'term_id' => 1, 'name' => 'Category1' ],
-						(object) [ 'term_id' => 3, 'name' => 'Uncategorized' ],
+						(object) [
+							'term_id' => 1,
+							'name'    => 'Category1',
+						],
+						(object) [
+							'term_id' => 3,
+							'name'    => 'Uncategorized',
+						],
 					],
 				],
 				'expected_value' => [
