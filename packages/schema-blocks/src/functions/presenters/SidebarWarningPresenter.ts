@@ -94,7 +94,7 @@ function getAnalysisConclusion( validation: BlockValidation, issues: analysisIss
  *
  * @param validation The root validation result.
  *
- * @return all validation results.
+ * @return All validation results.
  */
 function getAllDescendantIssues( validation: BlockValidationResult ): BlockValidationResult[] {
 	let results = [ validation ];
