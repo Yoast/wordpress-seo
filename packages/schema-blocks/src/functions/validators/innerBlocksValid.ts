@@ -23,7 +23,8 @@ import { BlockType } from "../../core/validation/BlockValidationResult";
  *
  * @returns {BlockValidationResult[]} The names of blocks that should/could occur but don't, with reason 'MissingBlock'.
  */
-function findMissingBlocks( existingBlocksOfType: BlockInstance[], allBlocksOfType: RequiredBlock[] | RecommendedBlock[], blockType: BlockType ): BlockValidationResult[] {
+function findMissingBlocks( existingBlocksOfType: BlockInstance[], allBlocksOfType: RequiredBlock[] | RecommendedBlock[],
+	blockType: BlockType ): BlockValidationResult[] {
 	const missingBlocks = allBlocksOfType.filter( blockOfType => {
 		// If, in the existing blocks, there are not any blocks with the name of blockOfType, that block is missing.
 		return ! existingBlocksOfType.some( block => block.name === blockOfType.name );
@@ -99,7 +100,8 @@ function validateInnerblockTree( blockInstance: BlockInstance ): BlockValidation
  *
  * @returns {BlockValidationResult[]} The names and reasons of the inner blocks that are invalid.
  */
-function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: RequiredBlock[] = [], recommendedBlocks: RecommendedBlock[] = [] ): BlockValidationResult[]  {
+function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: RequiredBlock[] = [],
+							  recommendedBlocks: RecommendedBlock[] = [] ): BlockValidationResult[]  {
 	const requiredBlockKeys = requiredBlocks.map( rblock => rblock.name );
 	const recommendedBlockKeys = recommendedBlocks.map( rblock => rblock.name );
 

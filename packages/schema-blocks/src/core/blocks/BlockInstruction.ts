@@ -85,10 +85,12 @@ export default abstract class BlockInstruction extends Instruction {
 			const attributeValid = attributeExists( blockInstance, this.options.name as string ) &&
 						           attributeNotEmpty( blockInstance, this.options.name as string );
 			if ( attributeValid ) {
-				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.Valid, BlockType.Unknown ) );
+				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name,
+					BlockValidation.Valid, BlockType.Unknown ) );
 			} else {
 				logger.warning( "block " + blockInstance.name + " has a required attributes " + this.options.name + " but it is missing or empty" );
-				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.MissingAttribute, BlockType.Unknown ) );
+				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name,
+					BlockValidation.MissingAttribute, BlockType.Unknown ) );
 				validation.result = BlockValidation.Invalid;
 			}
 		} else {
