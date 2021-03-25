@@ -150,4 +150,10 @@ describe( "The getWarnings method ", () => {
 			color: "red",
 		} );
 	} );
+
+	it( "creates no output when the validation results cannot be retrieved.", () => {
+		const result = getWarnings( "123" );
+
+		expect( result ).toBeNull();
+	} );
 } );
