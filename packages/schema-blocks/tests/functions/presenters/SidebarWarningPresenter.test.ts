@@ -72,6 +72,20 @@ describe( "The createAnalysisMessages method ", () => {
 			},
 		);
 	} );
+
+	it( "creates a warning for missing recommended blocks, but when all the required blocks are present " +
+		"the conclusion should still be green.", () => {
+		const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Invalid, BlockType.Recommended );
+		testcase.issues.push( new BlockValidationResult( null, "missing recommended block", BlockValidation.MissingBlock, BlockType.Recommended ) );
+		testcase.issues.push( new BlockValidationResult( null, "missing recommended block 2", BlockValidation.MissingBlock, BlockType.Recommended ) );
+
+		const result = createAnalysisMessages( testcase );
+
+		expect( result.length ).toEqual( 3 );
+		expect( result[ 0 ] ).toEqual( { text: "The 'missing recommended block' block is recommended but missing.", color: "orange" } );
+		expect( result[ 1 ] ).toEqual( { text: "The 'missing recommended block 2' block is recommended but missing.", color: "orange" } );
+		expect( result[ 2 ] ).toEqual( { text: "Good job! All required blocks have been completed.", color: "green" } );
+	} );
 } );
 
 describe( "The sanitizeBlockName method ", () => {

@@ -1,6 +1,12 @@
 import "../../matchMedia.mock";
 import { BlockInstance } from "@wordpress/blocks";
-import { BlockValidationResult, BlockValidation, RequiredBlock, RequiredBlockOption } from "../../../src/core/validation";
+import {
+	BlockValidationResult,
+	BlockValidation,
+	RequiredBlock,
+	RequiredBlockOption,
+	RecommendedBlock,
+} from "../../../src/core/validation";
 import BlockDefinition from "../../../src/core/blocks/BlockDefinition";
 import * as innerBlocksValid from "../../../src/functions/validators/innerBlocksValid";
 import * as blockDefinitionRepository from "../../../src/core/blocks/BlockDefinitionRepository";
@@ -92,6 +98,32 @@ describe( "The findMissingBlocks function", () => {
 
 		// Act.
 		const result: BlockValidationResult[] = innerBlocksValid.findMissingBlocks( existingRequiredBlocks, requiredBlocks, BlockType.Required );
+
+		// Assert.
+		expect( result.length ).toEqual( 1 );
+		expect( result[ 0 ].name ).toEqual( "missingblock" );
+		expect( result[ 0 ].result ).toEqual( BlockValidation.MissingBlock );
+	} );
+
+	it( "creates a BlockValidationResult with reason 'MissingBlock' when a recommended block is missing.", () => {
+		// Arrange.
+		const recommendedBlocks: RecommendedBlock[] = [
+			{
+				name: "existingRecommendedBlock",
+			} as RecommendedBlock,
+			{
+				name: "missingblock",
+			} as RecommendedBlock,
+		];
+		const existingRecommendedBlocks: BlockInstance[] = [
+			{
+				name: "existingRecommendedBlock",
+			} as BlockInstance,
+		];
+
+		// Act.
+		const result: BlockValidationResult[] = innerBlocksValid.findMissingBlocks( existingRecommendedBlocks, recommendedBlocks,
+			BlockType.Recommended );
 
 		// Assert.
 		expect( result.length ).toEqual( 1 );
