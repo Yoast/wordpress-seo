@@ -29,28 +29,6 @@ const mountWithArgs = ( changedArgs ) => {
 };
 
 describe( "SnippetEditor", () => {
-	it( "accepts a custom data mapping function", () => {
-		const mapper = jest.fn( () => {
-			return {
-				title: "Totally different title",
-				url: "http://example.org/totally-different-url",
-				description: "Totally different description",
-			};
-		} );
-		const defaultMappedData = {
-			title: "Test title",
-			url: "http://example.org/test-slug",
-			description: "Test description, replacement value",
-		};
-		const context = {
-			shortenedBaseUrl: "example.org/",
-		};
-
-		// The mapper is called both in the constructor, as well as the render function.
-		expect( mapper ).toHaveBeenCalledTimes( 2 );
-		expect( mapper ).toHaveBeenCalledWith( defaultMappedData, context );
-	} );
-
 	it( "closes when calling close()", () => {
 		focus.mockClear();
 		const editor = mountWithArgs( {} );
