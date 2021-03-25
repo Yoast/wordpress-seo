@@ -91,7 +91,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'og_frontpage_title'               => '', // Text field.
 		'og_frontpage_desc'                => '', // Text field.
 		'og_frontpage_image'               => '', // Text field.
-		'og_frontpage_image_id'            => '',
+		'og_frontpage_image_id'            => 0,
 
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
@@ -564,7 +564,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				/*
 				 * Covers:
 				 *  'company_or_person_user_id'
-				 *  'company_logo_id', 'person_logo_id'
+				 *  'company_logo_id', 'person_logo_id', 'og_frontpage_image_id'
 				 *  'social-image-id-' . $pt->name
 				 *  'social-image-id-ptarchive-' . $pt->name
 				 *  'social-image-id-tax-' . $tax->name
@@ -574,6 +574,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'company_logo_id':
 				case 'person_logo_id':
 				case 'social-image-id-':
+				case 'og_frontpage_image_id':
 					if ( isset( $dirty[ $key ] ) ) {
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 						if ( $int !== false && $int >= 0 ) {
@@ -623,19 +624,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 							$defaults      = $this->get_defaults();
 							$post_type     = str_replace( $switch_key, '', $key );
 							$clean[ $key ] = $defaults[ $switch_key . $post_type ];
-						}
-					}
-					break;
-
-				/*
-				 * Int fields.
-				 */
-				case 'og_frontpage_image_id':
-					if ( isset( $dirty[ $key ] ) ) {
-						$clean[ $key ] = (int) $dirty[ $key ];
-
-						if ( $dirty[ $key ] === '' ) {
-							$clean[ $key ] = $dirty[ $key ];
 						}
 					}
 					break;

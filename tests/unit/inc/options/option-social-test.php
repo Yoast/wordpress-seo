@@ -119,33 +119,15 @@ class Option_Social_Test extends TestCase {
 				'old'      => [],
 			],
 			[
-				'expected' => [ 'og_frontpage_image_id' => 'value' ],
-				'dirty'    => [],
-				'clean'    => [ 'og_frontpage_image_id' => 'value' ],
-				'old'      => [],
-			],
-			[
 				'expected' => [ 'og_default_image_id' => '' ],
 				'dirty'    => [ 'og_default_image_id' => '' ],
 				'clean'    => [ 'og_default_image_id' => '' ],
 				'old'      => [],
 			],
 			[
-				'expected' => [ 'og_frontpage_image_id' => '' ],
-				'dirty'    => [ 'og_frontpage_image_id' => '' ],
-				'clean'    => [ 'og_frontpage_image_id' => '' ],
-				'old'      => [],
-			],
-			[
 				'expected' => [ 'og_default_image_id' => 123 ],
 				'dirty'    => [ 'og_default_image_id' => '123' ],
 				'clean'    => [ 'og_default_image_id' => '' ],
-				'old'      => [],
-			],
-			[
-				'expected' => [ 'og_frontpage_image_id' => 0 ],
-				'dirty'    => [ 'og_frontpage_image_id' => 'testen' ],
-				'clean'    => [ 'og_frontpage_image_id' => '' ],
 				'old'      => [],
 			],
 			[
