@@ -4,6 +4,8 @@ import { isArray, mergeWith } from "lodash";
 import Instruction from "./Instruction";
 import Leaf from "./Leaf";
 import logger from "../functions/logger";
+import validateMany from "../functions/validators/validateMany";
+import { getAllDescendantIssues } from "../functions/validators/getAllDescendantIssues";
 
 export type DefinitionClass<T extends Definition> = {
 	new( separator: string, template?: string, instructions?: Record<string, Instruction>, tree?: Leaf ): T;
@@ -92,9 +94,16 @@ export default abstract class Definition {
 
 		logger.endGroup();
 
-		// In case of a block with just one innerblock, this prevents a duplicate, identical wrapper.
+		// In case of a block with just one validated (i.e., not skipped) instruction, this prevents a duplicate, identical wrapper.
 		if ( validation.issues.length === 1 ) {
 			return validation.issues[ 0 ];
+			// eslint-disable-next-line no-inline-comments,brace-style
+		} // If a block has multiple validated instructions, we should `validateMany` to avoid returning a BlockValidation.Unknown (-1).
+		else if ( validation.issues.length > 1 ) {
+			const descendantIssues = getAllDescendantIssues( validation );
+			// The first of the descendant issues is the parent, so we exclude it from the slice to avoid an infinite loop.
+			validation.issues = descendantIssues.slice( 1 );
+			return validateMany( validation );
 		}
 
 		return validation;
