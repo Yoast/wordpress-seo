@@ -75,12 +75,12 @@ function getAnalysisConclusion( validation: BlockValidation, issues: analysisIss
 	}
 
 	// Show a green bullet when all required blocks have been completed.
-	const requiredIssues = issues.filter( issue => {
+	const requiredBlockIssues = issues.filter( issue => {
 		return issue.status === BlockType.Required;
 	} );
 
 	if ( validation === BlockValidation.Valid ||
-		requiredIssues.every( issue => issue.result !== BlockValidation.MissingAttribute &&
+		requiredBlockIssues.every( issue => issue.result !== BlockValidation.MissingAttribute &&
 			issue.result !== BlockValidation.MissingBlock ) ) {
 		return {
 			text: __( "Good job! All required blocks have been completed.", "wpseo-schema-blocks" ),
