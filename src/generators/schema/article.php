@@ -55,11 +55,8 @@ class Article extends Abstract_Schema_Piece {
 			'mainEntityOfPage' => [ '@id' => $this->context->canonical . Schema_IDs::WEBPAGE_HASH ],
 		];
 
-		// If the comments are open -or- there are comments approved, show the count.
-		$comments_open = \comments_open( $this->context->id );
-		$comment_count = \get_comment_count( $this->context->id );
-		if ( $comments_open || $comment_count['approved'] > 0 ) {
-			$data['commentCount'] = $comment_count['approved'];
+		if ( $this->context->post->comment_status === 'open' ) {
+			$data['commentCount'] = intval( $this->context->post->comment_count, 10 );
 		}
 
 		if ( $this->context->site_represents_reference ) {
@@ -140,7 +137,7 @@ class Article extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$data[ $key ] = \implode( ',', \wp_list_pluck( $terms, 'name' ) );
+		$data[ $key ] = \wp_list_pluck( $terms, 'name' );
 
 		return $data;
 	}

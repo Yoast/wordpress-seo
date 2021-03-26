@@ -60,8 +60,8 @@ class Auto_Update_Watcher implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_init', [ $this, 'auto_update_notification_not_if_dismissed' ] );
-		\add_action( 'update_option_auto_update_core_major', [ $this, 'auto_update_notification_even_if_dismissed' ] );
-		\add_action( 'update_option_auto_update_plugins', [ $this, 'auto_update_notification_not_if_dismissed' ] );
+		\add_action( 'update_site_option_auto_update_core_major', [ $this, 'auto_update_notification_even_if_dismissed' ] );
+		\add_action( 'update_site_option_auto_update_plugins', [ $this, 'auto_update_notification_not_if_dismissed' ] );
 	}
 
 	/**
@@ -107,7 +107,7 @@ class Auto_Update_Watcher implements Integration_Interface {
 	 * @return bool Whether the notification should be shown.
 	 */
 	protected function should_show_notification() {
-		$core_updates_enabled  = \get_option( 'auto_update_core_major' ) === 'enabled';
+		$core_updates_enabled  = \get_site_option( 'auto_update_core_major' ) === 'enabled';
 		$yoast_updates_enabled = $this->yoast_auto_updates_enabled();
 
 		return $core_updates_enabled && ! $yoast_updates_enabled;
@@ -172,7 +172,7 @@ class Auto_Update_Watcher implements Integration_Interface {
 	 * @return bool True if they are enabled, false if not.
 	 */
 	protected function yoast_auto_updates_enabled() {
-		$plugins_to_auto_update = \get_option( 'auto_update_plugins' );
+		$plugins_to_auto_update = \get_site_option( 'auto_update_plugins' );
 
 		// If no plugins are set to be automatically updated, it means that Yoast SEO isn't either.
 		if ( ! $plugins_to_auto_update ) {
