@@ -97,7 +97,7 @@ export default abstract class BlockInstruction extends Instruction {
 			}
 		}
 
-		// Blocks with any invalid innerblock should be considerd invalid themselves.
+		// Blocks with any invalid innerblock should be considered invalid themselves.
 		if ( validation.issues.length > 0 ) {
 			return validateMany( validation );
 		}
