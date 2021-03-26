@@ -17,22 +17,22 @@ import { BlockPresence } from "../../core/validation/BlockValidationResult";
 /**
  * Finds all blocks that should/could be in the inner blocks, but aren't.
  *
- * @param existingBlocksOfType The actual array of all inner blocks.
- * @param allBlocksOfType      All of the blocks that should occur (required), or could occur (recommended) in the inner blocks.
- * @param blockType            The block type.
+ * @param existingBlocks The actual array of all inner blocks.
+ * @param allBlocks      All of the blocks that should occur (required), or could occur (recommended) in the inner blocks.
+ * @param blockPresence  The block presence.
  *
  * @returns {BlockValidationResult[]} The names of blocks that should/could occur but don't, with reason 'MissingBlock'.
  */
-function findMissingBlocks( existingBlocksOfType: BlockInstance[], allBlocksOfType: RequiredBlock[] | RecommendedBlock[],
-	blockType: BlockPresence ): BlockValidationResult[] {
-	const missingBlocks = allBlocksOfType.filter( blockOfType => {
-		// If, in the existing blocks, there are not any blocks with the name of blockOfType, that block is missing.
-		return ! existingBlocksOfType.some( block => block.name === blockOfType.name );
+function findMissingBlocks( existingBlocks: BlockInstance[], allBlocks: RequiredBlock[] | RecommendedBlock[],
+	blockPresence: BlockPresence ): BlockValidationResult[] {
+	const missingBlocks = allBlocks.filter( block => {
+		// If, in the existing blocks, there are not any blocks with the name of block, that block is missing.
+		return ! existingBlocks.some( existingBlock => existingBlock.name === block.name );
 	} );
 
 	// These blocks should've existed, but they don't.
 	return missingBlocks.map( missingBlock =>
-		new BlockValidationResult( null, missingBlock.name, BlockValidation.MissingBlock, blockType ) );
+		new BlockValidationResult( null, missingBlock.name, BlockValidation.MissingBlock, blockPresence ) );
 }
 
 /**
