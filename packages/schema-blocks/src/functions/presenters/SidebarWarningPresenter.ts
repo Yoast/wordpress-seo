@@ -2,8 +2,8 @@ import { getBlockType } from "../BlockHelper";
 import { select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
-import { BlockValidationResult } from "../../core/validation";
-import { BlockValidation } from "../../core/validation";
+import { BlockValidation, BlockValidationResult } from "../../core/validation";
+import { getAllDescendantIssues } from "../validators/getAllDescendantIssues";
 
 const analysisMessageTemplates: Record<number, string> = {
 	[ BlockValidation.MissingBlock ]: "The '{child}' block is {status} but missing.",
@@ -80,21 +80,6 @@ function getAnalysisConclusion( validation: BlockValidation, issues: analysisIss
 			color: "green",
 		} as sidebarWarning;
 	}
-}
-
-/**
- * Gathers all validation issues recursively and flattens them into one list.
- *
- * @param validation The root validation result.
- *
- * @return all validation results.
- */
-function getAllDescendantIssues( validation: BlockValidationResult ): BlockValidationResult[] {
-	let results = [ validation ];
-	validation.issues.forEach( issue => {
-		results = results.concat( getAllDescendantIssues( issue ) );
-	} );
-	return results;
 }
 
 /**
