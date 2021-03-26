@@ -10,7 +10,13 @@ import { RequiredBlock, RequiredBlockOption } from "../../../../src/core/validat
 
 jest.mock( "@wordpress/i18n", () => ( {
 	__: jest.fn( text => text ),
-	sprintf: jest.fn( ( text, value ) => text.replace( "%s", value ) ),
+	sprintf: jest.fn( ( text, value, value2, value3 ) => {
+		text = text.replace( "%1$s", value );
+		text = text.replace( "%2$s", value2 );
+		text = text.replace( "%3$s", value3 );
+
+		return text;
+	} ),
 } ) );
 
 jest.mock( "@wordpress/block-editor", () => ( {
@@ -53,6 +59,11 @@ jest.mock( "@yoast/components", () => {
 		SvgIcon: jest.fn(),
 	};
 } );
+
+( window as any ).yoastSchemaBlocks = {
+	requiredLink: "https://yoa.st/required-fields",
+	recommendedLink: "https://yoa.st/recommended-fields",
+};
 
 describe( "The warning watcher", () => {
 	it( "adds warnings when required blocks are removed", () => {
@@ -106,7 +117,8 @@ describe( "The warning watcher", () => {
 					innerBlocks: [],
 					name: "yoast/ingredients",
 				},
-				warningText: "You've just removed the ‘Ingredients’ block, but this is a required block for Schema output. " +
+				warningText: "You've just removed the ‘Ingredients’ block, but this is a " +
+					"<a href=\"https://yoa.st/required-fields\" target=\"_blank\">required block for Schema output</a>. " +
 					"Without this block no Schema will be generated. Are you sure you want to do this?",
 			},
 		);
@@ -164,7 +176,9 @@ describe( "The warning watcher", () => {
 					name: "yoast/ingredients",
 				},
 				// eslint-disable-next-line max-len
-				warningText: "You've just removed the ‘Ingredients’ block, but this is a recommended block for Schema output. Are you sure you want to do this?",
+				warningText: "You've just removed the ‘Ingredients’ block, but this is a " +
+					"<a href=\"https://yoa.st/recommended-fields\" target=\"_blank\">recommended block for Schema output</a>. " +
+					"Are you sure you want to do this?",
 			},
 		);
 		expect( dispatch ).toBeCalled();

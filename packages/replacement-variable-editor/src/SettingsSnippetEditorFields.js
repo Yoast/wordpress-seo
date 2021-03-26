@@ -124,6 +124,7 @@ class SettingsSnippetEditorFields extends React.Component {
 			},
 			containerPadding,
 			fieldIds,
+			labels,
 		} = this.props;
 
 		return (
@@ -132,7 +133,7 @@ class SettingsSnippetEditorFields extends React.Component {
 			>
 				<ReplacementVariableEditor
 					type="title"
-					label={ __( "SEO title", "yoast-components" ) }
+					label={ labels.title || __( "SEO title", "yoast-components" ) }
 					onFocus={ () => onFocus( "title" ) }
 					onBlur={ onBlur }
 					isActive={ activeField === "title" }
@@ -147,7 +148,7 @@ class SettingsSnippetEditorFields extends React.Component {
 				<ReplacementVariableEditor
 					type="description"
 					placeholder={ descriptionEditorFieldPlaceholder }
-					label={ __( "Meta description", "yoast-components" ) }
+					label={ labels.description ||  __( "Meta description", "yoast-components" ) }
 					onFocus={ () => onFocus( "description" ) }
 					onBlur={ onBlur }
 					isActive={ activeField === "description" }
@@ -182,6 +183,10 @@ SettingsSnippetEditorFields.propTypes = {
 		title: PropTypes.string.isRequired,
 		description: PropTypes.string.isRequired,
 	} ).isRequired,
+	labels: PropTypes.shape( {
+		title: PropTypes.string,
+		description: PropTypes.string,
+	} ),
 };
 
 SettingsSnippetEditorFields.defaultProps = {
@@ -189,6 +194,8 @@ SettingsSnippetEditorFields.defaultProps = {
 	onFocus: () => {},
 	onBlur: () => {},
 	containerPadding: "0 20px",
+	descriptionEditorFieldPlaceholder: null,
+	labels: {},
 };
 
 export default SettingsSnippetEditorFields;
