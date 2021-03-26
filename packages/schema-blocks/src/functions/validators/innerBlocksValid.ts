@@ -45,7 +45,7 @@ function findMissingBlocks( existingBlocksOfType: BlockInstance[], allBlocksOfTy
  */
 function findRedundantBlocks( existingRequiredBlocks: BlockInstance[], requiredBlocks: RequiredBlock[] ): BlockValidationResult[] {
 	const validationResults: BlockValidationResult[] = [];
-	const singletons = requiredBlocks.filter( block => block.option === RequiredBlockOption.One );
+	const singletons = requiredBlocks.filter( block => block.option !== RequiredBlockOption.Multiple );
 
 	if ( singletons.length > 0 ) {
 		// Count the occurrences of each block so we can find all keys that have too many occurrences.
