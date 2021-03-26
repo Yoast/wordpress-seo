@@ -409,8 +409,8 @@ class Elementor implements Integration_Interface {
 			],
 		];
 
-		$wp_scripts = wp_scripts();
-		$lodash_url_path = ( array_key_exists( 'lodash', $wp_scripts->registered ) ) ? $wp_scripts->registered[ 'lodash' ]->src : '';
+		$wp_scripts      = wp_scripts();
+		$lodash_url_path = ( array_key_exists( 'lodash', $wp_scripts->registered ) ) ? $wp_scripts->registered['lodash']->src : '';
 
 		$worker_script_data = [
 			'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
@@ -418,8 +418,8 @@ class Elementor implements Integration_Interface {
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 			// We need to make the feature flags separately available inside of the analysis web worker.
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
-			'language'				  => YoastSEO()->helpers->language->get_researcher_language(),
-			'lodashURL'				  => $wp_scripts->base_url . $lodash_url_path,
+			'language'                => YoastSEO()->helpers->language->get_researcher_language(),
+			'lodashURL'               => $wp_scripts->base_url . $lodash_url_path,
 		];
 
 		$alert_dismissal_action = YoastSEO()->classes->get( \Yoast\WP\SEO\Actions\Alert_Dismissal_Action::class );
@@ -450,7 +450,6 @@ class Elementor implements Integration_Interface {
 
 		$this->asset_manager->localize_script( 'elementor', 'wpseoScriptData', $script_data );
 		$this->asset_manager->enqueue_user_language_script();
-
 	}
 
 	/**
