@@ -106,6 +106,7 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 			$image_container = $backup_image_container;
 		}
 
+		$this->add_from_templates( $context, $image_container );
 		$this->add_from_default( $image_container );
 
 		return $image_container->get_images();
@@ -160,6 +161,27 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 		$default_image_url = $this->options->get( 'og_default_image', '' );
 		if ( $default_image_url ) {
 			$image_container->add_image_by_url( $default_image_url );
+		}
+	}
+
+	/**
+	 * Retrieves the default Open Graph image.
+	 *
+	 * @param Meta_Tags_Context $context         The context.
+	 * @param Images            $image_container The image container.
+	 */
+	protected function add_from_templates( Meta_Tags_Context $context, Images $image_container ) {
+		if ( $image_container->has_images() ) {
+			return;
+		}
+
+		if ( $context->presentation->open_graph_image_id ) {
+			$image_container->add_image_by_id( $context->presentation->open_graph_image_id );
+			return;
+		}
+
+		if ( $context->presentation->open_graph_image ) {
+			$image_container->add_image_by_url( $context->presentation->open_graph_image );
 		}
 	}
 

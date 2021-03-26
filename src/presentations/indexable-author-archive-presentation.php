@@ -141,44 +141,6 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * Generates the open graph title.
-	 *
-	 * @return string The open graph title.
-	 */
-	public function generate_open_graph_title() {
-		if ( $this->model->open_graph_title ) {
-			return $this->model->open_graph_title;
-		}
-
-		$option_titles_key = 'social-title-author-wpseo';
-		$title             = $this->options->get( $option_titles_key );
-		if ( $title ) {
-			return $title;
-		}
-
-		return $this->options->get_title_default( $option_titles_key );
-	}
-
-	/**
-	 * Generates the open graph description.
-	 *
-	 * @return string The open graph description.
-	 */
-	public function generate_open_graph_description() {
-		if ( $this->model->open_graph_description ) {
-			return $this->model->open_graph_description;
-		}
-
-		$option_titles_key = 'social-description-author-wpseo';
-		$description       = $this->options->get( $option_titles_key );
-		if ( $description ) {
-			return $description;
-		}
-
-		return $this->options->get_title_default( $option_titles_key );
-	}
-
-	/**
 	 * Generates the Open Graph type.
 	 *
 	 * @return string The Open Graph type.
