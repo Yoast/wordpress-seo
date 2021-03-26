@@ -2,11 +2,11 @@ import { BlockInstance } from "@wordpress/blocks";
 import { countBy } from "lodash";
 import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
 import {
-	RequiredBlockOption,
 	BlockValidation,
-	RequiredBlock,
 	BlockValidationResult,
 	RecommendedBlock,
+	RequiredBlock,
+	RequiredBlockOption,
 } from "../../core/validation";
 import recurseOverBlocks from "../blocks/recurseOverBlocks";
 import { getInnerblocksByName } from "../innerBlocksHelper";
