@@ -12,6 +12,8 @@
  * @uses WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Help_Link_Presenter;
+
 if ( $wpseo_taxonomy->name === 'post_format' ) {
 	$yform->light_switch(
 		'disable-post_format',
@@ -62,5 +64,18 @@ if ( $wpseo_taxonomy->name !== 'post_format' ) {
  * @api  Object             $tax    The taxonomy
  */
 do_action( 'wpseo_admin_page_meta_taxonomies', $yform, $wpseo_taxonomy );
+
+$taxonomy_breadcrumbs_title_help_link = new Help_Link_Presenter(
+	WPSEO_Shortlinker::get( 'https://yoa.st/4cf' ),
+	__( 'Learn more about the breadcrumbs title', 'wordpress-seo' )
+);
+
+echo '<div class="yoast-settings-section yoast-settings-section--last">';
+$yform->textinput_extra_content(
+	'bctitle-tax-' . $wpseo_taxonomy->name,
+	__( 'Breadcrumbs title', 'wordpress-seo' ),
+	[ 'extra_content' => $taxonomy_breadcrumbs_title_help_link ]
+);
+echo '</div>';
 
 echo '</div>';
