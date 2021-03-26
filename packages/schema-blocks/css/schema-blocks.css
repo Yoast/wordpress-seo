@@ -50,6 +50,11 @@
 	color: #0073aa;
 }
 
+.wp-block .yoast-warning-block > .yoast-warning-block-message > a {
+	text-decoration: underline;
+	color: #0073aa;
+}
+
 .yoast-warning-block > div > button:not(:last-child) {
 	margin-right: 24px;
 }
