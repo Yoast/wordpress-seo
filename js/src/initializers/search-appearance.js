@@ -49,46 +49,45 @@ export default function initSearchAppearance() {
 					message={ knowledgeGraphCompanyInfoMissing.message }
 					link={ knowledgeGraphCompanyInfoMissing.URL }
 				/>
-					<ImageSelectPortal
-						label="Social default image"
-						hasPreview={ true }
-						target="yoast-og-frontpage-image-select"
-						hiddenField="og_frontpage_image"
-						hiddenFieldImageId="og_frontpage_image_id"
-						selectImageButtonId="yoast-og-frontpage-image-select-button"
-						replaceImageButtonId="yoast-og-frontpage-image-replace-button"
-						removeImageButtonId="yoast-og-frontpage-image-remove-button"
+				<ImageSelectPortal
+					label="Social default image"
+					hasPreview={ true }
+					target="yoast-og-frontpage-image-select"
+					hiddenField="og_frontpage_image"
+					hiddenFieldImageId="og_frontpage_image_id"
+					selectImageButtonId="yoast-og-frontpage-image-select-button"
+					replaceImageButtonId="yoast-og-frontpage-image-replace-button"
+					removeImageButtonId="yoast-og-frontpage-image-remove-button"
+				/>
+				<ImageSelectPortal
+					label="Organization logo"
+					hasPreview={ true }
+					target="yoast-organization-image-select"
+					hiddenField="company_logo"
+					hiddenFieldImageId="company_logo_id"
+					selectImageButtonId="yoast-organization-image-select-button"
+					replaceImageButtonId="yoast-organization-image-replace-button"
+					removeImageButtonId="yoast-organization-image-remove-button"
+				/>
+				<ImageSelectPortal
+					label="Person logo / avatar"
+					hasPreview={ true }
+					target="yoast-person-image-select"
+					hiddenField="person_logo"
+					hiddenFieldImageId="person_logo_id"selectImageButtonId="yoast-person-image-select-button"
+					replaceImageButtonId="yoast-person-image-replace-button"
+					removeImageButtonId="yoast-person-image-remove-button"
+				/>
+				{ showLocalSEOUpsell && (
+					<LocalSEOUpsellPortal
+						target="wpseo-local-seo-upsell"
+						url={ localSEOUpsellURL }
+						backgroundUrl={ brushstrokeBackgroundURL }
 					/>
-					<ImageSelectPortal
-						label="Organization logo"
-						hasPreview={ true }
-						target="yoast-organization-image-select"
-						hiddenField="company_logo"
-						hiddenFieldImageId="company_logo_id"
-						selectImageButtonId="yoast-organization-image-select-button"
-						replaceImageButtonId="yoast-organization-image-replace-button"
-						removeImageButtonId="yoast-organization-image-remove-button"
-					/>
-					<ImageSelectPortal
-						label="Person logo / avatar"
-						hasPreview={ true }
-						target="yoast-person-image-select"
-						hiddenField="person_logo"
-						hiddenFieldImageId="person_logo_id"selectImageButtonId="yoast-person-image-select-button"
-						replaceImageButtonId="yoast-person-image-replace-button"
-						removeImageButtonId="yoast-person-image-remove-button"
-					/>
-					{ showLocalSEOUpsell && (
-						<LocalSEOUpsellPortal
-							target="wpseo-local-seo-upsell"
-							url={ localSEOUpsellURL }
-							backgroundUrl={ brushstrokeBackgroundURL }
-						/>
-					) }
-					<SchemaSettings targets={ schemaSettingsElements } />
-				</Fragment>
-			</ThemeProvider>
-		,
+				) }
+				<SchemaSettings targets={ schemaSettingsElements } />
+			</Fragment>
+		</ThemeProvider>,
 		element,
 	);
 }
