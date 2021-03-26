@@ -803,7 +803,7 @@ class WPSEO_Upgrade {
 	private function upgrade_1591() {
 		$enabled_auto_updates = \get_option( 'auto_update_plugins' );
 		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
-		$addon_update_watcher->toggle_auto_updates_for_add_ons( [], $enabled_auto_updates );
+		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', [], $enabled_auto_updates );
 	}
 
 	/**
