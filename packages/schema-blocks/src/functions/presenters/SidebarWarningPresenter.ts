@@ -3,7 +3,7 @@ import { select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
-import { getAllDescendantIssues } from "../validators/getAllDescendantIssues";
+import { getAllDescendantIssues } from "../validators";
 
 const analysisMessageTemplates: Record<number, string> = {
 	[ BlockValidation.MissingBlock ]: "The '{child}' block is {status} but missing.",

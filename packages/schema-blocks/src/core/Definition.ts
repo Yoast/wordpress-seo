@@ -5,7 +5,7 @@ import Instruction from "./Instruction";
 import Leaf from "./Leaf";
 import logger from "../functions/logger";
 import validateMany from "../functions/validators/validateMany";
-import { getAllDescendantIssues } from "../functions/validators/getAllDescendantIssues";
+import { getAllDescendantIssues } from "../functions/validators";
 
 export type DefinitionClass<T extends Definition> = {
 	new( separator: string, template?: string, instructions?: Record<string, Instruction>, tree?: Leaf ): T;
