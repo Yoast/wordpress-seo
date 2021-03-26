@@ -12,7 +12,7 @@ import recurseOverBlocks from "../blocks/recurseOverBlocks";
 import { getInnerblocksByName } from "../innerBlocksHelper";
 import logger from "../logger";
 import isValidResult from "./isValidResult";
-import { BlockType } from "../../core/validation/BlockValidationResult";
+import { BlockPresence } from "../../core/validation/BlockValidationResult";
 
 /**
  * Finds all blocks that should/could be in the inner blocks, but aren't.
@@ -24,7 +24,7 @@ import { BlockType } from "../../core/validation/BlockValidationResult";
  * @returns {BlockValidationResult[]} The names of blocks that should/could occur but don't, with reason 'MissingBlock'.
  */
 function findMissingBlocks( existingBlocksOfType: BlockInstance[], allBlocksOfType: RequiredBlock[] | RecommendedBlock[],
-	blockType: BlockType ): BlockValidationResult[] {
+	blockType: BlockPresence ): BlockValidationResult[] {
 	const missingBlocks = allBlocksOfType.filter( blockOfType => {
 		// If, in the existing blocks, there are not any blocks with the name of blockOfType, that block is missing.
 		return ! existingBlocksOfType.some( block => block.name === blockOfType.name );
@@ -59,7 +59,7 @@ function findRedundantBlocks( existingRequiredBlocks: BlockInstance[], requiredB
 
 			existingSingletons.forEach( ( block: BlockInstance ) => {
 				if ( block.name === blockName ) {
-					validationResults.push( new BlockValidationResult( block.clientId, blockName, BlockValidation.TooMany, BlockType.Unknown ) );
+					validationResults.push( new BlockValidationResult( block.clientId, blockName, BlockValidation.TooMany, BlockPresence.Unknown ) );
 				}
 			} );
 		}
@@ -85,7 +85,7 @@ function validateInnerblockTree( blockInstance: BlockInstance ): BlockValidation
 			validations.push( definition.validate( block ) );
 		} else {
 			logger.warning( "Block definition for '" + block.name + "' is not registered." );
-			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown, BlockType.Unknown ) );
+			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown, BlockPresence.Unknown ) );
 		}
 	} );
 	return validations;
@@ -111,7 +111,7 @@ function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Requ
 	const existingRequiredBlocks = getInnerblocksByName( blockInstance, requiredBlockKeys );
 
 	// Find all required block types that do not occur in existingRequiredBlocks.
-	validationResults.push( ...findMissingBlocks( existingRequiredBlocks, requiredBlocks, BlockType.Required ) );
+	validationResults.push( ...findMissingBlocks( existingRequiredBlocks, requiredBlocks, BlockPresence.Required ) );
 
 	// Find all required block types that allow only one occurrence.
 	validationResults.push( ...findRedundantBlocks( existingRequiredBlocks, requiredBlocks ) );
@@ -120,7 +120,7 @@ function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Requ
 	const existingRecommendedBlocks = getInnerblocksByName( blockInstance, recommendedBlockKeys );
 
 	// Find all recommended block types that do not occur in existingRecommendedBlocks.
-	validationResults.push( ...findMissingBlocks( existingRecommendedBlocks, recommendedBlocks, BlockType.Recommended ) );
+	validationResults.push( ...findMissingBlocks( existingRecommendedBlocks, recommendedBlocks, BlockPresence.Recommended ) );
 
 	// Let all innerblocks validate themselves.
 	// We differentiate between blocks that are internally valid but are not valid in the context of the innerblock.

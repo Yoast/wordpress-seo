@@ -4,7 +4,7 @@ import { isArray, mergeWith } from "lodash";
 import Instruction from "./Instruction";
 import Leaf from "./Leaf";
 import logger from "../functions/logger";
-import { BlockType } from "./validation/BlockValidationResult";
+import { BlockPresence } from "./validation/BlockValidationResult";
 
 export type DefinitionClass<T extends Definition> = {
 	new( separator: string, template?: string, instructions?: Record<string, Instruction>, tree?: Leaf ): T;
@@ -81,7 +81,7 @@ export default abstract class Definition {
 			return null;
 		}
 
-		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown, BlockType.Unknown );
+		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown, BlockPresence.Unknown );
 
 		logger.startGroup( `Validation results: ${ blockInstance.name }` );
 

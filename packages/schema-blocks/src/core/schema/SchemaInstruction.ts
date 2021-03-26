@@ -2,7 +2,7 @@ import { SchemaDefinitionConfiguration, SchemaValue } from "./SchemaDefinition";
 import Instruction, { InstructionOptions } from "../Instruction";
 import { BlockInstance } from "@wordpress/blocks";
 import { BlockValidation, BlockValidationResult } from "../validation";
-import { BlockType } from "../validation/BlockValidationResult";
+import { BlockPresence } from "../validation/BlockValidationResult";
 
 export type SchemaInstructionClass = { new( id: number, options: InstructionOptions ): SchemaInstruction };
 
@@ -40,6 +40,6 @@ export default abstract class SchemaInstruction extends Instruction {
 	 * @returns {BlockValidationResult} The validation results.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		return new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Valid, BlockType.Unknown );
+		return new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Valid, BlockPresence.Unknown );
 	}
 }

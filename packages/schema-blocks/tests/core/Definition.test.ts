@@ -2,7 +2,7 @@ import BlockInstruction from "../../src/core/blocks/BlockInstruction";
 import Definition from "../../src/core/Definition";
 import { BlockValidation, BlockValidationResult } from "../../src/core/validation";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
-import { BlockType } from "../../src/core/validation/BlockValidationResult";
+import { BlockPresence } from "../../src/core/validation/BlockValidationResult";
 
 /**
  * Test class, to be able to test the methods in the abstract Definition class.
@@ -52,7 +52,7 @@ class TestInstruction extends BlockInstruction {
      * @returns {BlockValidationResult[]} The constructor parameter wrapped in an array.
      */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		return new BlockValidationResult( "id" + this.id, "test", this.result, BlockType.Required );
+		return new BlockValidationResult( "id" + this.id, "test", this.result, BlockPresence.Required );
 	}
 	/* eslint-enable @typescript-eslint/no-unused-vars */
 }

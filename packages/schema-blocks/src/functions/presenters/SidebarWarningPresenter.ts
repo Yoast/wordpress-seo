@@ -4,7 +4,7 @@ import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import { BlockValidationResult } from "../../core/validation";
 import { BlockValidation } from "../../core/validation";
-import { BlockType } from "../../core/validation/BlockValidationResult";
+import { BlockPresence } from "../../core/validation/BlockValidationResult";
 
 const analysisMessageTemplates: Record<number, string> = {
 	[ BlockValidation.MissingBlock ]: "The '{child}' block is {status} but missing.",
@@ -65,7 +65,7 @@ export function replaceVariables( issue: analysisIssue ): string {
  */
 function getAnalysisConclusion( validation: BlockValidation, issues: analysisIssue[] ): sidebarWarning {
 	// Show a red bullet when not all required blocks have been completed.
-	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock && issue.status === BlockType.Required ||
+	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock && issue.status === BlockPresence.Required ||
 		issue.result === BlockValidation.MissingAttribute ) ) {
 		return {
 			text: __( "Not all required blocks have been completed! No " + issues[ 0 ].parent +
@@ -76,7 +76,7 @@ function getAnalysisConclusion( validation: BlockValidation, issues: analysisIss
 
 	// Show a green bullet when all required blocks have been completed.
 	const requiredBlockIssues = issues.filter( issue => {
-		return issue.status === BlockType.Required;
+		return issue.status === BlockPresence.Required;
 	} );
 
 	if ( validation === BlockValidation.Valid ||
@@ -121,11 +121,11 @@ export function createAnalysisMessages( validation: BlockValidationResult ): sid
 			name: sanitizeBlockName( issue.name ),
 			parent: sanitizeParentName( parent ),
 			result: issue.result,
-			status: issue.blockType,
+			status: issue.blockPresence,
 		} ) );
 
 	const messages = messageData.map( msg => {
-		return { text: replaceVariables( msg ), color: ( msg.status === BlockType.Recommended ? "orange" : "red" ) } as sidebarWarning;
+		return { text: replaceVariables( msg ), color: ( msg.status === BlockPresence.Recommended ? "orange" : "red" ) } as sidebarWarning;
 	} );
 
 	const conclusion = getAnalysisConclusion( validation.result, messageData );

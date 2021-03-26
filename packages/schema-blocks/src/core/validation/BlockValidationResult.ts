@@ -1,7 +1,7 @@
 import { BlockValidation } from ".";
 import { BlockInstance } from "@wordpress/blocks";
 
-export enum BlockType {
+export enum BlockPresence {
 	Required = "required",
 	Recommended = "recommended",
 	Optional = "optional",
@@ -28,9 +28,9 @@ export class BlockValidationResult {
 	public result: BlockValidation;
 
 	/**
-	 * The block type.
+	 * The block presence.
 	 */
-	public blockType: BlockType;
+	public blockPresence: BlockPresence;
 
 	/**
 	 * The validation issues for this block's innerblocks or attributes, if any.
@@ -41,13 +41,13 @@ export class BlockValidationResult {
 	 * @param clientId  The clientId of the validated block.
 	 * @param name      The name of the validated block.
 	 * @param result    The validation result.
-	 * @param blockType The block type.
+	 * @param blockPresence The block type.
 	 */
-	constructor( clientId: string, name: string, result: BlockValidation, blockType: BlockType ) {
+	constructor( clientId: string, name: string, result: BlockValidation, blockPresence: BlockPresence ) {
 		this.clientId = clientId;
 		this.name = name;
 		this.result = result;
-		this.blockType = blockType;
+		this.blockPresence = blockPresence;
 		this.issues = [];
 	}
 
@@ -64,7 +64,7 @@ export class BlockValidationResult {
 			blockInstance.clientId,
 			name || blockInstance.name,
 			BlockValidation.MissingAttribute,
-			BlockType.Unknown,
+			BlockPresence.Unknown,
 		);
 	}
 
@@ -81,7 +81,7 @@ export class BlockValidationResult {
 			blockInstance.clientId,
 			name || blockInstance.name,
 			BlockValidation.Valid,
-			BlockType.Unknown,
+			BlockPresence.Unknown,
 		);
 	}
 }
