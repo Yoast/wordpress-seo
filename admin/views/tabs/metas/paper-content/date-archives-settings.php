@@ -7,6 +7,8 @@
  * @uses Yoast_Form $yform Form object.
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Help_Link_Presenter;
+
 $yform->toggle_switch(
 	'disable-date',
 	[
@@ -51,5 +53,18 @@ $yform->toggle_switch(
 		]
 	);
 	$editor->render();
+
+	$date_archive_breadcrumbs_title_help_link = new Help_Link_Presenter(
+		WPSEO_Shortlinker::get( 'https://yoa.st/4cf' ),
+		__( 'Learn more about the breadcrumbs title', 'wordpress-seo' )
+	);
+
+	echo '<div class="yoast-settings-section yoast-settings-section--last">';
+	$yform->textinput_extra_content(
+		'bctitle-date-archive',
+		__( 'Breadcrumbs title', 'wordpress-seo' ),
+		[ 'extra_content' => $date_archive_breadcrumbs_title_help_link ]
+	);
+	echo '</div>';
 	?>
 </div>
