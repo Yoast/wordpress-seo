@@ -311,10 +311,12 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	/**
 	 * Tests the generation of the bread crumbs for a date archive.
 	 *
-	 * @param string $scenario     Scenario to test (day, month, year).
-	 * @param bool   $is_paged     Is the page being paged.
-	 * @param int    $current_page The current page number.
-	 * @param array  $expected     The expected output.
+	 * @param string $scenario        Scenario to test (day, month, year).
+	 * @param bool   $is_paged        Is the page being paged.
+	 * @param int    $current_page    The current page number.
+	 * @param string $global_prefix   The archive global prefix from the Breadcrubs prefix setting.
+	 * @param string $specific_prefix The archive specific prefix from the Archive breadcrumb title setting.
+	 * @param array  $expected        The expected output.
 	 *
 	 * @dataProvider date_archive_provider
 	 *
@@ -322,10 +324,10 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 * @covers ::get_date_archive_crumb
 	 * @covers ::add_paged_crumb
 	 */
-	public function test_with_date_archive( $scenario, $is_paged, $current_page, $expected ) {
+	public function test_with_date_archive( $scenario, $is_paged, $current_page, $global_prefix, $specific_prefix, $expected ) {
 		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
-		$this->setup_expectations_for_date_archive( $scenario, $is_paged, $current_page );
+		$this->setup_expectations_for_date_archive( $scenario, $is_paged, $current_page, $global_prefix, $specific_prefix );
 
 		$this->assertEquals(
 			$expected,
@@ -341,10 +343,12 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	public function date_archive_provider() {
 		return [
 			'for_day' => [
-				'scenario'     => 'day',
-				'is_paged'     => true,
-				'current_page' => 5,
-				'expected'     => [
+				'scenario'        => 'day',
+				'is_paged'        => true,
+				'current_page'    => 5,
+				'global_prefix'   => 'Archive',
+				'specific_prefix' => '',
+				'expected'        => [
 					[
 						'url'  => 'https://example.com/2020/08/11/',
 						'text' => 'Archive August 11th, 2020',
@@ -355,10 +359,12 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				],
 			],
 			'for_day_on_first_page' => [
-				'scenario'     => 'day',
-				'is_paged'     => true,
-				'current_page' => 1,
-				'expected'     => [
+				'scenario'        => 'day',
+				'is_paged'        => true,
+				'current_page'    => 1,
+				'global_prefix'   => 'Archive',
+				'specific_prefix' => '',
+				'expected'        => [
 					[
 						'url'  => 'https://example.com/2020/08/11/',
 						'text' => 'Archive August 11th, 2020',
@@ -366,10 +372,12 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				],
 			],
 			'for_day_not_paged' => [
-				'scenario'     => 'day',
-				'is_paged'     => false,
-				'current_page' => 5,
-				'expected'     => [
+				'scenario'        => 'day',
+				'is_paged'        => false,
+				'current_page'    => 5,
+				'global_prefix'   => 'Archive',
+				'specific_prefix' => '',
+				'expected'        => [
 					[
 						'url'  => 'https://example.com/2020/08/11/',
 						'text' => 'Archive August 11th, 2020',
@@ -377,10 +385,12 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				],
 			],
 			'for_month' => [
-				'scenario'     => 'month',
-				'is_paged'     => true,
-				'current_page' => 5,
-				'expected'     => [
+				'scenario'        => 'month',
+				'is_paged'        => true,
+				'current_page'    => 5,
+				'global_prefix'   => 'Archive',
+				'specific_prefix' => '',
+				'expected'        => [
 					[
 						'url'  => 'https://example.com/2020/08/',
 						'text' => 'Archive August',
@@ -391,10 +401,12 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				],
 			],
 			'for_month_on_first_page' => [
-				'scenario'     => 'month',
-				'is_paged'     => true,
-				'current_page' => 1,
-				'expected'     => [
+				'scenario'        => 'month',
+				'is_paged'        => true,
+				'current_page'    => 1,
+				'global_prefix'   => 'Archive',
+				'specific_prefix' => '',
+				'expected'        => [
 					[
 						'url'  => 'https://example.com/2020/08/',
 						'text' => 'Archive August',
@@ -402,10 +414,12 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				],
 			],
 			'for_month_not_paged' => [
-				'scenario'     => 'month',
-				'is_paged'     => false,
-				'current_page' => 5,
-				'expected'     => [
+				'scenario'        => 'month',
+				'is_paged'        => false,
+				'current_page'    => 5,
+				'global_prefix'   => 'Archive',
+				'specific_prefix' => '',
+				'expected'        => [
 					[
 						'url'  => 'https://example.com/2020/08/',
 						'text' => 'Archive August',
@@ -413,10 +427,12 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				],
 			],
 			'for_year' => [
-				'scenario'     => 'year',
-				'is_paged'     => true,
-				'current_page' => 5,
-				'expected'     => [
+				'scenario'        => 'year',
+				'is_paged'        => true,
+				'current_page'    => 5,
+				'global_prefix'   => 'Archive',
+				'specific_prefix' => '',
+				'expected'        => [
 					[
 						'url'  => 'https://example.com/2020/',
 						'text' => 'Archive 2020',
@@ -427,10 +443,12 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				],
 			],
 			'for_year_on_first_page' => [
-				'scenario'     => 'year',
-				'is_paged'     => true,
-				'current_page' => 1,
-				'expected'     => [
+				'scenario'        => 'year',
+				'is_paged'        => true,
+				'current_page'    => 1,
+				'global_prefix'   => 'Archive',
+				'specific_prefix' => '',
+				'expected'        => [
 					[
 						'url'  => 'https://example.com/2020/',
 						'text' => 'Archive 2020',
@@ -438,13 +456,31 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				],
 			],
 			'for_year_not_paged' => [
-				'scenario'     => 'year',
-				'is_paged'     => false,
-				'current_page' => 5,
-				'expected'     => [
+				'scenario'        => 'year',
+				'is_paged'        => false,
+				'current_page'    => 5,
+				'global_prefix'   => 'Archive',
+				'specific_prefix' => '',
+				'expected'        => [
 					[
 						'url'  => 'https://example.com/2020/',
 						'text' => 'Archive 2020',
+					],
+				],
+			],
+			'for_year_with_specific_prefix' => [
+				'scenario'        => 'year',
+				'is_paged'        => true,
+				'current_page'    => 5,
+				'global_prefix'   => 'Archive',
+				'specific_prefix' => 'Our awesome yearly archive',
+				'expected'        => [
+					[
+						'url'  => 'https://example.com/2020/',
+						'text' => 'Our awesome yearly archive 2020',
+					],
+					[
+						'text' => 'Page 5',
 					],
 				],
 			],
@@ -454,11 +490,13 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	/**
 	 * Sets some expectations specific for the data archive tests.
 	 *
-	 * @param string $scenario     The scenario to set.
-	 * @param bool   $is_paged     When the page is paged.
-	 * @param bool   $current_page The current page number.
+	 * @param string $scenario        The scenario to set.
+	 * @param bool   $is_paged        When the page is paged.
+	 * @param bool   $current_page    The current page number.
+	 * @param string $global_prefix   The archive global prefix from the Breadcrubs prefix setting.
+	 * @param string $specific_prefix The archive specific prefix from the Archive breadcrumb title setting.
 	 */
-	protected function setup_expectations_for_date_archive( $scenario, $is_paged, $current_page ) {
+	protected function setup_expectations_for_date_archive( $scenario, $is_paged, $current_page, $global_prefix, $specific_prefix ) {
 		$this->indexable                   = Mockery::mock( Indexable_Mock::class );
 		$this->indexable->object_id        = 1;
 		$this->indexable->object_type      = 'date-archive';
@@ -471,6 +509,8 @@ class Breadcrumbs_Generator_Test extends TestCase {
 		$is_day   = false;
 		$is_month = false;
 		$is_year  = false;
+
+		$breadcrumbs_archiveprefix_times = ! empty( $specific_prefix ) ? 0 : 1;
 
 		switch ( $scenario ) {
 			case 'day':
@@ -548,8 +588,15 @@ class Breadcrumbs_Generator_Test extends TestCase {
 
 		$this->options
 			->expects( 'get' )
+			->times( $breadcrumbs_archiveprefix_times )
 			->with( 'breadcrumbs-archiveprefix' )
-			->andReturn( 'Archive' );
+			->andReturn( $global_prefix );
+
+		$this->options
+			->expects( 'get' )
+			->once()
+			->with( 'bctitle-date-archive' )
+			->andReturn( $specific_prefix );
 
 		$this->current_page
 			->expects( 'is_simple_page' )

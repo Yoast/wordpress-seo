@@ -266,7 +266,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 */
 	private function get_user_crumb( $crumb, $ancestor ) {
 		$display_name  = \get_the_author_meta( 'display_name', $ancestor->object_id );
-		$crumb['text'] = $this->options->get( 'breadcrumbs-archiveprefix' ) . ' ' . $display_name;
+		$crumb['text'] = $this->get_user_crumb_prefix() . ' ' . $display_name;
 
 		return $crumb;
 	}
@@ -280,7 +280,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 */
 	protected function get_date_archive_crumb( $crumb ) {
 		$home_url = $this->url_helper->home();
-		$prefix   = $this->options->get( 'breadcrumbs-archiveprefix' );
+		$prefix   = $this->get_date_archive_crumb_prefix();
 
 		if ( \is_day() ) {
 			$day           = \esc_html( \get_the_date() );
@@ -299,6 +299,36 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		}
 
 		return $crumb;
+	}
+
+	/**
+	 * Determines the prefix to be used for the author archives.
+	 *
+	 * @return string The prefix to be used.
+	 */
+	protected function get_user_crumb_prefix() {
+		$bctitle_author_archive_prefix = $this->options->get( 'bctitle-author-archive' );
+
+		if ( ! empty( $bctitle_author_archive_prefix ) ) {
+			return $bctitle_author_archive_prefix;
+		}
+
+		return $this->options->get( 'breadcrumbs-archiveprefix' );
+	}
+
+	/**
+	 * Determines the prefix to be used for the date archives.
+	 *
+	 * @return string The prefix to be used.
+	 */
+	protected function get_date_archive_crumb_prefix() {
+		$bctitle_date_archive_prefix = $this->options->get( 'bctitle-date-archive' );
+
+		if ( ! empty( $bctitle_date_archive_prefix ) ) {
+			return $bctitle_date_archive_prefix;
+		}
+
+		return $this->options->get( 'breadcrumbs-archiveprefix' );
 	}
 
 	/**
