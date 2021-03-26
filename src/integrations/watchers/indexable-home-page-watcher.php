@@ -75,7 +75,7 @@ class Indexable_Home_Page_Watcher implements Integration_Interface {
 				'metadesc-home-wpseo',
 				'og_frontpage_title',
 				'og_frontpage_desc',
-				'og_frontpage_image'
+				'og_frontpage_image',
 			],
 		];
 

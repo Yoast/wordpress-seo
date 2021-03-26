@@ -28,15 +28,15 @@ $yform->light_switch( 'opengraph', \__( 'Add Open Graph meta data', 'wordpress-s
 <?php
 	$frontpage_settings_message = sprintf(
 	/* translators: 1: link open tag; 2: link close tag., 3: the translated label of the link */
-	\esc_html__( 'The frontpage settings have been moved to the %1$sSearch Appearance section%2$s.', 'wordpress-seo' ),
-	'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_titles#top#post-types' ) ) . '">',
-	'</a>',
+		\esc_html__( 'The frontpage settings have been moved to the %1$sSearch Appearance section%2$s.', 'wordpress-seo' ),
+		'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_titles#top#post-types' ) ) . '">',
+		'</a>'
 	);
 
 	$frontpage_settings_alert = new Alert_Presenter( $frontpage_settings_message, 'info' );
 
 	echo '<div class="yoast-measure">' . $frontpage_settings_alert->present() . '</div>';
-?>
+	?>
 <div id="wpseo-opengraph-settings" style="display: none;">
 <?php
 
