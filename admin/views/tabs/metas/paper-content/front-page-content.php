@@ -54,7 +54,7 @@ if ( ! empty( $homepage_meta_description ) ) {
 
 	echo '<input type="hidden" id="meta_description" value="' . \esc_attr( $homepage_meta_description ) . '" />';
 	echo '<div class="copy-home-meta-description"><p>' . $copy_home_description_help . '</p>' .
-		 // phpcs:ignore WordPress.Security.EscapeOutput -- $copy_home_description_button_label is escaped above.
-		 '<button type="button" id="copy-home-meta-description" class="yoast-button">' . $copy_home_description_button_label . '</button>' .
-		 '</div>';
+		// phpcs:ignore WordPress.Security.EscapeOutput -- $copy_home_description_button_label is escaped above.
+		'<button type="button" id="copy-home-meta-description" class="yoast-button">' . $copy_home_description_button_label . '</button>' .
+		'</div>';
 }
