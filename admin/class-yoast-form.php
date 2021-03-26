@@ -455,7 +455,6 @@ class Yoast_Form {
 		Yoast_Input_Validation::set_error_descriptions();
 		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $var );
 
-		// phpcs:disable WordPress.Security.EscapeOutput -- Reason: output is properly escaped or hardcoded.
 		printf(
 			'<input type="%1$s" name="%2$s" id="%3$s" class="%4$s"%5$s%6$s%7$s value="%8$s"%9$s>',
 			$type,
@@ -468,7 +467,7 @@ class Yoast_Form {
 			esc_attr( $val ),
 			$this->get_disabled_attribute( $var, $attr )
 		);
-		// phpcs:enable
+
 		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: output is properly escaped.
 		echo Yoast_Input_Validation::get_the_error_description( $var );
 	}
