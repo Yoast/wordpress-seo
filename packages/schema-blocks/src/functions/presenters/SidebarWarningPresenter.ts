@@ -7,7 +7,7 @@ import { BlockValidation } from "../../core/validation";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
 
 const analysisMessageTemplates: Record<number, string> = {
-	[ BlockValidation.MissingBlock ]: "The '{child}' block is {status} but missing.",
+	[ BlockValidation.MissingBlock ]: "The '{child}' block is {presence} but missing.",
 	[ BlockValidation.MissingAttribute ]: "The '{child}' block is empty.",
 };
 
@@ -17,7 +17,7 @@ type analysisIssue = {
 	name: string;
 	parent: string;
 	result: BlockValidation;
-	status: string;
+	presence: string;
 };
 
 export type sidebarWarning = {
@@ -52,7 +52,7 @@ export function replaceVariables( issue: analysisIssue ): string {
 	const warning = get( analysisMessageTemplates, issue.result, "" );
 	return warning.replace( "{parent}", __( issue.parent, "wpseo-schema-blocks" ) )
 		.replace( "{child}", __( issue.name, "wpseo-schema-blocks" ) )
-		.replace( "{status}", __( issue.status, "wpseo-schema-blocks" ) );
+		.replace( "{presence}", __( issue.presence, "wpseo-schema-blocks" ) );
 }
 
 /**
@@ -65,7 +65,7 @@ export function replaceVariables( issue: analysisIssue ): string {
  */
 function getAnalysisConclusion( validation: BlockValidation, issues: analysisIssue[] ): sidebarWarning {
 	// Show a red bullet when not all required blocks have been completed.
-	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock && issue.status === BlockPresence.Required ||
+	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock && issue.presence === BlockPresence.Required ||
 		issue.result === BlockValidation.MissingAttribute ) ) {
 		return {
 			text: __( "Not all required blocks have been completed! No " + issues[ 0 ].parent +
@@ -76,7 +76,7 @@ function getAnalysisConclusion( validation: BlockValidation, issues: analysisIss
 
 	// Show a green bullet when all required blocks have been completed.
 	const requiredBlockIssues = issues.filter( issue => {
-		return issue.status === BlockPresence.Required;
+		return issue.presence === BlockPresence.Required;
 	} );
 
 	if ( validation === BlockValidation.Valid ||
@@ -121,11 +121,11 @@ export function createAnalysisMessages( validation: BlockValidationResult ): sid
 			name: sanitizeBlockName( issue.name ),
 			parent: sanitizeParentName( parent ),
 			result: issue.result,
-			status: issue.blockPresence,
+			presence: issue.blockPresence,
 		} ) );
 
 	const messages = messageData.map( msg => {
-		return { text: replaceVariables( msg ), color: ( msg.status === BlockPresence.Recommended ? "orange" : "red" ) } as sidebarWarning;
+		return { text: replaceVariables( msg ), color: ( msg.presence === BlockPresence.Recommended ? "orange" : "red" ) } as sidebarWarning;
 	} );
 
 	const conclusion = getAnalysisConclusion( validation.result, messageData );
