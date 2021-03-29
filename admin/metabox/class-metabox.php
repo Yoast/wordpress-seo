@@ -882,8 +882,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			],
 		];
 
-		$wp_scripts = wp_scripts();
-		$lodash_url_path = ( array_key_exists( 'lodash', $wp_scripts->registered ) ) ? $wp_scripts->registered[ 'lodash' ]->src : '';
+		$wp_scripts      = wp_scripts();
+		$lodash_url_path = ( array_key_exists( 'lodash', $wp_scripts->registered ) ) ? $wp_scripts->registered['lodash']->src : '';
 
 		$worker_script_data = [
 			'url'                     => YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-analysis-worker' ),
@@ -892,8 +892,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 			// We need to make the feature flags separately available inside of the analysis web worker.
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
-			'language'				  => YoastSEO()->helpers->language->get_researcher_language(),
-			'lodashURL'				  => $wp_scripts->base_url . $lodash_url_path,
+			'language'                => YoastSEO()->helpers->language->get_researcher_language(),
+			'lodashURL'               => $wp_scripts->base_url . $lodash_url_path,
 		];
 
 		$alert_dismissal_action = YoastSEO()->classes->get( \Yoast\WP\SEO\Actions\Alert_Dismissal_Action::class );

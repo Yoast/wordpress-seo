@@ -43,7 +43,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		Monkey\Actions\expectAdded( 'update_option_auto_update_plugins' )
+		Monkey\Actions\expectAdded( 'update_site_option_auto_update_plugins' )
 			->with( [ $this->instance, 'toggle_auto_updates_for_add_ons' ] )
 			->once();
 
@@ -69,10 +69,10 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 * @covers ::toggle_auto_updates_for_add_ons
 	 */
 	public function test_do_not_toggle_when_old_value_not_array() {
-		Monkey\Functions\expect( 'update_option' )
+		Monkey\Functions\expect( 'update_site_option' )
 			->never();
 
-		$this->instance->toggle_auto_updates_for_add_ons( 'the old value', [ 'the_new_value' ] );
+		$this->instance->toggle_auto_updates_for_add_ons( 'auto_update_plugins', [ 'the_new_value' ], 'the old value' );
 	}
 
 	/**
@@ -81,26 +81,38 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 * @covers ::toggle_auto_updates_for_add_ons
 	 */
 	public function test_do_not_toggle_when_new_value_not_array() {
-		Monkey\Functions\expect( 'update_option' )
+		Monkey\Functions\expect( 'update_site_option' )
 			->never();
 
-		$this->instance->toggle_auto_updates_for_add_ons( [ 'the old value' ], 'the_new_value' );
+		$this->instance->toggle_auto_updates_for_add_ons( 'auto_update_plugins', 'the_new_value', [ 'the old value' ] );
 	}
 
 	/**
-	 * Tests that auto updates for add-ons are ensabled when auto updates
-	 * for Free are ensabled.
+	 * Tests that nothing happens when the option is not 'auto_update_plugins'.
+	 *
+	 * @covers ::toggle_auto_updates_for_add_ons
+	 */
+	public function test_do_not_toggle_when_option_has_unexpected_value() {
+		Monkey\Functions\expect( 'update_site_option' )
+			->never();
+
+		$this->instance->toggle_auto_updates_for_add_ons( 'another_option', [ 'the_new_value' ], [ 'the old value' ] );
+	}
+
+	/**
+	 * Tests that auto updates for add-ons are enabled when auto updates
+	 * for Free are enabled.
 	 *
 	 * @covers ::toggle_auto_updates_for_add_ons
 	 * @covers ::are_auto_updates_enabled
 	 * @covers ::disable_auto_updates_for_addons
 	 * @covers ::enable_auto_updates_for_addons
 	 */
-	public function test_enable_auto_updates_for_add_ons_on_free_auto_update_enable() {
+	public function test_enable_auto_updates_for_add_ons_on_free_auto_update_enabled() {
 		$old = [ 'other-plugin/plugin.php' ];
 		$new = [ 'other-plugin/plugin.php', 'wordpress-seo/wp-seo.php' ];
 
-		$option = [
+		$plugins = [
 			'other-plugin/plugin.php',
 			'wordpress-seo/wp-seo.php',
 			'wordpress-seo-premium/wp-seo-premium.php',
@@ -111,14 +123,15 @@ class Addon_Update_Watcher_Test extends TestCase {
 			'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php',
 		];
 
-		Monkey\Functions\expect( 'update_option' )
+		Monkey\Functions\expect( 'update_site_option' )
 			->once()
-			->with( 'auto_update_plugins', $option )
+			->with( 'auto_update_plugins', $plugins )
 			->andReturn( true );
 
 		$this->instance->toggle_auto_updates_for_add_ons(
-			$old,
-			$new
+			'auto_update_plugins',
+			$new,
+			$old
 		);
 	}
 
@@ -152,24 +165,24 @@ class Addon_Update_Watcher_Test extends TestCase {
 			'yoast-acf-analysis/yoast-acf-analysis.php',
 		];
 
-		$option = [
+		$plugins = [
 			'other-plugin/plugin.php',
 			'yoast-acf-analysis/yoast-acf-analysis.php',
 		];
 
-		Monkey\Functions\expect( 'update_option' )
+		Monkey\Functions\expect( 'update_site_option' )
 			->once()
-			->with( 'auto_update_plugins', $option );
+			->with( 'auto_update_plugins', $plugins );
 
 		$this->instance->toggle_auto_updates_for_add_ons(
-			$old,
-			$new
+			'auto_update_plugins',
+			$new,
+			$old
 		);
 	}
 
 	/**
-	 * Tests that auto updates for add-ons are enabled when auto updates
-	 * for Free are enabled.
+	 * Tests that nothing happens when auto updates are toggled for a plugin other than Yoast SEO.
 	 *
 	 * @covers ::toggle_auto_updates_for_add_ons
 	 * @covers ::are_auto_updates_enabled
@@ -195,17 +208,18 @@ class Addon_Update_Watcher_Test extends TestCase {
 			'yoast-acf-analysis/yoast-acf-analysis.php',
 		];
 
-		$option = [
+		$plugins = [
 			'other-plugin/plugin.php',
 		];
 
-		Monkey\Functions\expect( 'update_option' )
-			->with( 'auto_update_plugins', $option )
+		Monkey\Functions\expect( 'update_site_option' )
+			->with( 'auto_update_plugins', $plugins )
 			->never();
 
 		$this->instance->toggle_auto_updates_for_add_ons(
-			$old,
-			$new
+			'auto_update_plugins',
+			$new,
+			$old
 		);
 	}
 
@@ -218,7 +232,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 	public function test_html_not_replaced_when_html_not_string() {
 		$old_html = 123;
 
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->never();
 
 		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
@@ -238,7 +252,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 	public function test_html_not_replaced_when_auto_updated_plugins_does_not_exist() {
 		$old_html = 'old_html';
 
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_plugins' )
 			->andReturn( false );
 
@@ -259,7 +273,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 	public function test_html_not_replaced_when_auto_updated_plugins_not_an_array() {
 		$old_html = 'old_html';
 
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_plugins' )
 			->andReturn( 'the_plugin_as_string' );
 
@@ -281,7 +295,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 	public function test_do_not_replace_auto_update_toggles_from_other_plugins() {
 		$old_html = 'old_html';
 
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_plugins' )
 			->andReturn( [ 'wordpress-seo/wp-seo.php' ] );
 
@@ -307,7 +321,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 	public function test_replace_auto_update_toggles_from_addons_with_enabled_text( $plugin ) {
 		$old_html = 'old_html';
 
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_plugins' )
 			->andReturn( [ 'wordpress-seo/wp-seo.php' ] );
 
@@ -325,6 +339,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 * when auto-updates for WordPress SEO are disabled.
 	 *
 	 * @covers ::replace_auto_update_toggles_of_addons
+	 * @covers ::are_auto_updates_enabled
 	 *
 	 * @param string $plugin The plugin string to test.
 	 *
@@ -333,9 +348,63 @@ class Addon_Update_Watcher_Test extends TestCase {
 	public function test_replace_auto_update_toggles_from_addons_with_disabled_text( $plugin ) {
 		$old_html = 'old_html';
 
-		Monkey\Functions\expect( 'get_option' )
+		Monkey\Functions\expect( 'get_site_option' )
 			->with( 'auto_update_plugins' )
 			->andReturn( [] );
+
+		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
+			$old_html,
+			$plugin
+		);
+
+		self::assertEquals( '<em>Auto-updates are disabled based on this setting for Yoast SEO.</em>', $new_html );
+	}
+
+	/**
+	 * Tests the replacement of the auto-update toggles with the text
+	 * 'Auto-updates are disabled based on this setting for Yoast SEO.'
+	 * when the 'auto_update_plugins' database option returns false.
+	 *
+	 * @covers ::replace_auto_update_toggles_of_addons
+	 * @covers ::are_auto_updates_enabled
+	 *
+	 * @param string $plugin The plugin string to test.
+	 *
+	 * @dataProvider plugin_provider
+	 */
+	public function test_replace_auto_update_toggles_from_addons_when_enabled_plugins_false( $plugin ) {
+		$old_html = 'old_html';
+
+		Monkey\Functions\expect( 'get_site_option' )
+			->with( 'auto_update_plugins' )
+			->andReturn( false );
+
+		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
+			$old_html,
+			$plugin
+		);
+
+		self::assertEquals( '<em>Auto-updates are disabled based on this setting for Yoast SEO.</em>', $new_html );
+	}
+
+	/**
+	 * Tests the replacement of the auto-update toggles with the text
+	 * 'Auto-updates are disabled based on this setting for Yoast SEO.'
+	 * when the 'auto_update_plugins' database option does not return an array.
+	 *
+	 * @covers ::replace_auto_update_toggles_of_addons
+	 * @covers ::are_auto_updates_enabled
+	 *
+	 * @param string $plugin The plugin string to test.
+	 *
+	 * @dataProvider plugin_provider
+	 */
+	public function test_replace_auto_update_toggles_from_addons_when_enabled_plugins_not_an_array( $plugin ) {
+		$old_html = 'old_html';
+
+		Monkey\Functions\expect( 'get_site_option' )
+			->with( 'auto_update_plugins' )
+			->andReturn( 'a string' );
 
 		$new_html = $this->instance->replace_auto_update_toggles_of_addons(
 			$old_html,
