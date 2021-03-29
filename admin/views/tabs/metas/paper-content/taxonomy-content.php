@@ -77,7 +77,7 @@ do_action_deprecated(
 	'wpseo_admin_page_meta_taxonomies',
 	[ $yform, $wpseo_taxonomy ],
 	'16.2',
-	'yoast_admin_page_meta_taxonomies'
+	'Yoast\WP\SEO\admin_taxonomies_meta'
 );
 
 echo '</div>';
