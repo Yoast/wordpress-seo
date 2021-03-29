@@ -604,6 +604,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'editor-modules-' . $flat_version,
 				'deps' => [
 					'lodash',
+					'wp-api-fetch',
 					'wp-compose',
 					'wp-data',
 					'wp-element',
