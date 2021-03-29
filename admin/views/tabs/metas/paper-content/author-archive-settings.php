@@ -87,7 +87,7 @@ $editor->render();
  *
  * @since 16.2
  *
- * @api WPSEO_Admin_Pages $yform The WPSEO_Admin_Pages object
+ * @param WPSEO_Admin_Pages $yform The WPSEO_Admin_Pages object
  */
 do_action( 'Yoast\WP\SEO\admin_author_archives_meta', $yform );
 ?>

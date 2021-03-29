@@ -46,8 +46,8 @@ $editor->render();
  *
  * @since 16.2
  *
- * @api WPSEO_Admin_Pages $yform  The WPSEO_Admin_Pages object
- * @api string            $name   The post type name
+ * @param WPSEO_Admin_Pages $yform  The WPSEO_Admin_Pages object
+ * @param string            $name   The post type name
  */
 do_action( 'Yoast\WP\SEO\admin_post_types_meta', $yform, $wpseo_post_type->name );
 

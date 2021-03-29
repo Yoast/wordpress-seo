@@ -22,8 +22,8 @@ require __DIR__ . '/post_type/post-type.php';
 /**
  * Allow adding custom fields to the admin meta page, just before the archive settings - Post Types tab.
  *
- * @api WPSEO_Admin_Pages $yform  The WPSEO_Admin_Pages object
- * @api string            $name   The post type name
+ * @param WPSEO_Admin_Pages $yform  The WPSEO_Admin_Pages object
+ * @param string            $name   The post type name
  */
 do_action( 'Yoast\WP\SEO\admin_post_types_meta_before_archive', $yform, $wpseo_post_type->name );
 
@@ -77,8 +77,8 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
  *
  * @deprecated 16.2 Use the {@see 'Yoast\WP\SEO\admin_post_types_meta_before_archive'} action instead.
  *
- * @api  WPSEO_Admin_Pages  $yform  The WPSEO_Admin_Pages object
- * @api  String  $name  The post type name
+ * @param  WPSEO_Admin_Pages  $yform The WPSEO_Admin_Pages object
+ * @param  string             $name  The post type name
  */
 do_action_deprecated(
 	'wpseo_admin_page_meta_post_types',

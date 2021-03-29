@@ -60,8 +60,8 @@ if ( $wpseo_taxonomy->name !== 'post_format' ) {
  *
  * @since 16.2
  *
- * @api  WPSEO_Admin_Pages  $yform  The WPSEO_Admin_Pages object
- * @api  Object             $tax    The taxonomy
+ * @param  WPSEO_Admin_Pages  $yform  The WPSEO_Admin_Pages object
+ * @param  Object             $tax    The taxonomy
  */
 do_action( 'Yoast\WP\SEO\admin_taxonomies_meta', $yform, $wpseo_taxonomy );
 
@@ -70,8 +70,8 @@ do_action( 'Yoast\WP\SEO\admin_taxonomies_meta', $yform, $wpseo_taxonomy );
  *
  * @deprecated 16.2 Use {@see 'Yoast\WP\SEO\admin_taxonomies_meta'} instead.
  *
- * @api  WPSEO_Admin_Pages  $yform  The WPSEO_Admin_Pages object
- * @api  Object             $tax    The taxonomy
+ * @param  WPSEO_Admin_Pages  $yform  The WPSEO_Admin_Pages object
+ * @param  Object             $tax    The taxonomy
  */
 do_action_deprecated(
 	'wpseo_admin_page_meta_taxonomies',
