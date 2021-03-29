@@ -21,7 +21,7 @@ class Doing_Post_Quick_Edit_Save_Conditional implements Conditional {
 		}
 
 		// Perform the same nonce check as is done in wp_ajax_inline_save.
-		if ( \check_ajax_referer( 'inlineeditnonce', '_inline_edit', false ) ) {
+		if ( ! \check_ajax_referer( 'inlineeditnonce', '_inline_edit', false ) ) {
 			return false;
 		}
 
