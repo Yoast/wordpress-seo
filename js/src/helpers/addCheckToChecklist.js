@@ -95,8 +95,6 @@ export function maybeAddSchemaBlocksValidationCheck( checklist, yoastSchemaStore
 	if ( ! includesSchemaBlocks( blocks ) ) {
 		return;
 	}
-	console.log( yoastSchemaStore );
-
 	const schemaBlocksValidationResults = yoastSchemaStore.getSchemaBlocksValidationResults();
 	const validationResults = Object.values( schemaBlocksValidationResults );
 
