@@ -1,8 +1,8 @@
 import "../../matchMedia.mock";
 import { BlockInstance } from "@wordpress/blocks";
 import {
-	BlockValidationResult,
 	BlockValidation,
+	BlockValidationResult,
 	RequiredBlock,
 	RequiredBlockOption,
 	RecommendedBlock,
@@ -183,7 +183,7 @@ describe( "The findRedundantBlocks function", () => {
 		];
 
 		// Act.
-		const result = innerBlocksValid.findRedundantBlocks( existingRequiredBlocks, requiredBlocks );
+		const result = innerBlocksValid.findRedundantBlocks( existingRequiredBlocks, requiredBlocks, BlockPresence.Required );
 
 		// Assert.
 		expect( result.length ).toEqual( 2 );
@@ -218,7 +218,7 @@ describe( "The findRedundantBlocks function", () => {
 		];
 
 		// Act.
-		const result: BlockValidationResult[] = innerBlocksValid.findRedundantBlocks( existingBlocks, requiredBlocks );
+		const result: BlockValidationResult[] = innerBlocksValid.findRedundantBlocks( existingBlocks, requiredBlocks, BlockPresence.Required );
 
 		// Assert.
 		expect( result.length ).toEqual( 0 );
