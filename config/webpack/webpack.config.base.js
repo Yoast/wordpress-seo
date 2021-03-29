@@ -2,9 +2,12 @@
 const DependencyExtractionWebpackPlugin = require( "@wordpress/dependency-extraction-webpack-plugin" );
 const defaultConfig = require( "@wordpress/scripts/config/webpack.config" );
 const MiniCSSExtractPlugin = require( "mini-css-extract-plugin" );
+const { BundleAnalyzerPlugin } = require( "webpack-bundle-analyzer" );
 
 // Internal dependencies
 const { yoastExternals } = require( "./externals" );
+
+let analyzerPort = 8888;
 
 module.exports = function( { entry, output, combinedOutputFile, cssExtractFileName } ) {
 	const exclude = /node_modules[/\\](?!(yoast-components|gutenberg|yoastseo|@wordpress|@yoast|parse5)[/\\]).*/;
@@ -29,7 +32,8 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 				( plugin ) =>
 					plugin.constructor.name !== "DependencyExtractionWebpackPlugin" &&
 					plugin.constructor.name !== "MiniCSSExtractPlugin" &&
-					plugin.constructor.name !== "CleanWebpackPlugin",
+					plugin.constructor.name !== "CleanWebpackPlugin" &&
+					plugin.constructor.name !== "BundleAnalyzerPlugin",
 			),
 			new DependencyExtractionWebpackPlugin( {
 				injectPolyfill: true,
@@ -80,7 +84,9 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 				},
 			} ),
 			new MiniCSSExtractPlugin( { esModule: false, filename: cssExtractFileName } ),
-
-		],
+			process.env.WP_BUNDLE_ANALYZER && new BundleAnalyzerPlugin( {
+				analyzerPort: analyzerPort++,
+			} ),
+		].filter( Boolean ),
 	};
 };

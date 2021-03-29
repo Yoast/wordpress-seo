@@ -11,7 +11,6 @@ const additionalPackages  = [
 	"jed",
 	"prop-types",
 	"redux",
-	"url",
 ];
 
 const YOAST_PACKAGE_NAMESPACE = "@yoast/";
