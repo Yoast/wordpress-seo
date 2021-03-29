@@ -21,5 +21,7 @@ export default function storeBlockValidation( validations: BlockValidationResult
 			logger.debug( "storing validation: ", blockValidation );
 			store.addBlockValidation( blockValidation );
 		} );
+	} else {
+		logger.debug( "No Store!" );
 	}
 }

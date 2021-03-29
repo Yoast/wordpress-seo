@@ -9,7 +9,7 @@ import { SchemaBlocksStoreCommand, AddBlockValidationCommand, ResetBlockValidati
  * @returns {SchemaBlocksStoreAction} An action for redux.
  */
 export function addBlockValidation( blockValidationResult: BlockValidationResult ): SchemaBlocksStoreCommand {
-	return new AddBlockValidationCommand( blockValidationResult );
+	return AddBlockValidationCommand( blockValidationResult );
 }
 
 /**
@@ -17,5 +17,5 @@ export function addBlockValidation( blockValidationResult: BlockValidationResult
  * @returns {SchemaBlocksStoreAction} The command to set the initial state for the block validation store.
  */
 export function resetBlockValidation(): SchemaBlocksStoreCommand {
-	return new ResetBlockValidationCommand();
+	return ResetBlockValidationCommand();
 }

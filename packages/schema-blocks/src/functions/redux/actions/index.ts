@@ -15,34 +15,27 @@ export interface SchemaBlocksStoreCommand {
 }
 
 /**
- * Redux store command to add Block validation result to the store.
+ * Configures a redux command to store a validation result.
+ *
+ * @param validation The validation to store.
+ * @returns The configured AddBlockValidation command.
  */
-export class AddBlockValidationCommand implements SchemaBlocksStoreCommand {
-	type: string = SchemaBlocksStoreActions.ADD_BLOCK_VALIDATION;
-	validation?: BlockValidationResult;
-
-	/**
-	 * Creates an AddBlockValidation command.
-	 * @param validation The BlockValidationResult to add.
-	 */
-	constructor( validation: BlockValidationResult ) {
-		this.validation = validation;
-	}
+export function AddBlockValidationCommand( validation: BlockValidationResult ): SchemaBlocksStoreCommand {
+	return {
+		type: SchemaBlocksStoreActions.ADD_BLOCK_VALIDATION,
+		validation: validation,
+	};
 }
 
 /**
- * Redux store command to clear current validation data in the store.
+ * Configures a redux command to reset the current validation results.
+ *
+ * @returns Thge configured ResetBlockValidation command
  */
-export class ResetBlockValidationCommand implements SchemaBlocksStoreCommand {
-	type: string = SchemaBlocksStoreActions.RESET_BLOCK_VALIDATIONS;
-	validation?: BlockValidationResult = null;
-
-	/**
-	 * Creates an ResetBlockValidation command.
-	 */
-	constructor() {
-		this.validation = null;
-	}
+export function ResetBlockValidationCommand(): SchemaBlocksStoreCommand {
+	return {
+		type: SchemaBlocksStoreActions.RESET_BLOCK_VALIDATIONS,
+	};
 }
 
 export { schemaBlocksActions };
