@@ -2,7 +2,6 @@ import Clause from "../../src/values/Clause.js";
 
 describe( "creates a Clause", function() {
 	const mockClause = new Clause( "The cat is loved.", [ "is" ] );
-	// eslint-disable-next-line require-jsdoc
 
 	it( "tests the constructor", () => {
 		expect( mockClause._clauseText ).toEqual( "The cat is loved." );
