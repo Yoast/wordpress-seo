@@ -65,6 +65,7 @@
     "@yoast/grunt-plugin-tasks": "^2.0.0",
     "babel-plugin-dynamic-import-webpack": "^1.1.0",
     "colors": "^1.4.0",
+    "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.5.0",
@@ -80,6 +81,7 @@
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "readline-sync": "^1.4.9",
+    "shusher": "^0.1.1",
     "tmp": "^0.1.0"
   },
   "dependencies": {
