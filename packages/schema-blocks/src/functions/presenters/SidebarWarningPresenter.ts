@@ -3,13 +3,14 @@ import { __, sprintf } from "@wordpress/i18n";
 
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import { getHumanReadableBlockName } from "../BlockHelper";
+import { BlockPresence } from "../../core/validation/BlockValidationResult";
 
 type clientIdValidation = Record<string, BlockValidationResult>;
 
 /**
  * A warning message for in the sidebar schema analysis.
  */
-export type sidebarWarning = {
+export type SidebarWarning = {
 	/**
 	 * The warning message.
 	 */
@@ -17,7 +18,7 @@ export type sidebarWarning = {
 	/**
 	 * Color of the warning.
 	 */
-	color: "red" | "green";
+	color: "red" | "orange" | "green";
 }
 
 /**
@@ -37,6 +38,17 @@ function getValidationResult( clientId: string ): BlockValidationResult | null {
 }
 
 /**
+ * If some required blocks are missing.
+ *
+ * @param issues The block validation issues to check.
+ *
+ * @return `true` if some required blocks are missing, `false` if not.
+ */
+function someMissingRequiredBlocks( issues: BlockValidationResult[] ) {
+	return issues.some( issue => issue.result === BlockValidation.MissingBlock && issue.blockPresence === BlockPresence.Required );
+}
+
+/**
  * Adds analysis conclusions to the footer.
  *
  * @param validation The validation result for the current block.
@@ -44,20 +56,21 @@ function getValidationResult( clientId: string ): BlockValidationResult | null {
  *
  * @returns Any analysis conclusions that should be in the footer.
  */
-function getAnalysisConclusion( validation: BlockValidationResult, issues: BlockValidationResult[] ): sidebarWarning {
+function getAnalysisConclusion( validation: BlockValidationResult, issues: BlockValidationResult[] ): SidebarWarning {
 	let conclusionText = "";
 
-	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock ) ) {
+	// Show a red bullet when not all required blocks have been completed.
+	if ( someMissingRequiredBlocks( issues ) ) {
 		conclusionText = sprintf(
 			/* translators: %s expands to the schema block name. */
-			__( "Not all required blocks are completed! No %s schema will be generated for your page.", "yoast-schema-blocks" ),
+			__( "Not all required blocks have been completed! No %s schema will be generated for your page.", "yoast-schema-blocks" ),
 			sanitizeParentName( getHumanReadableBlockName( validation.name ) ),
 		);
 
 		return { text: conclusionText, color: "red" };
 	}
 
-	conclusionText = __( "Good job! All required blocks are completed.", "yoast-schema-blocks" );
+	conclusionText = __( "Good job! All required blocks have been completed.", "yoast-schema-blocks" );
 
 	return { text: conclusionText, color: "green" };
 }
@@ -67,7 +80,7 @@ function getAnalysisConclusion( validation: BlockValidationResult, issues: Block
  *
  * @param validation The root validation result.
  *
- * @return all validation results.
+ * @return All validation results.
  */
 function getAllDescendantIssues( validation: BlockValidationResult ): BlockValidationResult[] {
 	let results = [ validation ];
@@ -78,22 +91,51 @@ function getAllDescendantIssues( validation: BlockValidationResult ): BlockValid
 }
 
 /**
+ * Get a list of (red) error messages.
+ *
+ * @param issues The block validation issues.
+ *
+ * @return The error messages.
+ */
+function getErrorMessages( issues: BlockValidationResult[] ): SidebarWarning[] {
+	const requiredBlockIssues = issues.filter( issue => issue.message && issue.blockPresence === BlockPresence.Required );
+
+	return requiredBlockIssues.map( issue => ( {
+		color: "red",
+		text: issue.message,
+	} ) );
+}
+
+/**
+ * Get a list of (orange) warning messages.
+ *
+ * @param issues The block validation issues.
+ *
+ * @return The warning messages.
+ */
+function getWarningMessages( issues: BlockValidationResult[] ): SidebarWarning[] {
+	const recommendedBlockIssues = issues.filter( issue => issue.message && issue.blockPresence === BlockPresence.Recommended );
+
+	return recommendedBlockIssues.map( issue => ( {
+		color: "orange",
+		text: issue.message,
+	} ) );
+}
+
+/**
  * Creates an array of warning messages from a block validation result.
  *
  * @param validation The block being validated.
  *
- * @returns {sidebarWarning[]} The formatted warnings.
+ * @returns {SidebarWarning[]} The formatted warnings.
  */
-export function createAnalysisMessages( validation: BlockValidationResult ): sidebarWarning[] {
-	let issues = getAllDescendantIssues( validation );
+export function createAnalysisMessages( validation: BlockValidationResult ): SidebarWarning[] {
+	const issues = getAllDescendantIssues( validation );
 
-	// We are only interested in showing results that have a message ( missing blocks or results with a custom message).
-	issues = issues.filter( issue => issue.message );
+	const messages = [];
 
-	const messages: sidebarWarning[] = issues.map( issue => ( {
-		color: "red",
-		text: issue.message,
-	} ) );
+	messages.push( ...getErrorMessages( issues ) );
+	messages.push( ...getWarningMessages( issues ) );
 
 	messages.push( getAnalysisConclusion( validation, issues ) );
 
@@ -122,7 +164,7 @@ export function sanitizeParentName( parent: string ): string {
  *
  * @returns {string} The presentable warning message, or null if no warnings are found.
  */
-export default function getWarnings( clientId: string ): sidebarWarning[] {
+export default function getWarnings( clientId: string ): SidebarWarning[] {
 	const validation: BlockValidationResult = getValidationResult( clientId );
 	if ( ! validation ) {
 		return null;

@@ -5,6 +5,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { VariableTagRichText } from "./VariableTagRichText";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
+import { BlockPresence } from "../../core/validation/BlockValidationResult";
 
 /**
  * Interface for a WordPress post object.
@@ -48,6 +49,7 @@ class Title extends VariableTagRichText {
 				blockInstance.clientId,
 				blockInstance.name,
 				BlockValidation.Invalid,
+				BlockPresence.Recommended,
 				sprintf(
 					/* Translators: %s expands to the block's name. */
 					__( "Post title and %s are the same.", "wordpress-seo-premium" ),
