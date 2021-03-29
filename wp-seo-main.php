@@ -183,8 +183,11 @@ function _wpseo_activate() {
 		delete_option( 'rewrite_rules' );
 	}
 	else {
-		$wpseo_rewrite = new WPSEO_Rewrite();
-		$wpseo_rewrite->schedule_flush();
+		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
+			// Constructor has side effects so this registers all hooks.
+			$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
+		}
+		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
 	// Reset tracking to be disabled by default.
