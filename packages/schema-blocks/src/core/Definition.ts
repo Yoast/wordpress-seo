@@ -1,5 +1,6 @@
 import { BlockValidation, BlockValidationResult } from "./validation";
 import { BlockInstance } from "@wordpress/blocks";
+import { BlockPresence } from "./validation/BlockValidationResult";
 import { isArray, mergeWith } from "lodash";
 import Instruction from "./Instruction";
 import Leaf from "./Leaf";
@@ -82,7 +83,7 @@ export default abstract class Definition {
 			return null;
 		}
 
-		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown );
+		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown, BlockPresence.Unknown );
 
 		logger.startGroup( `Validation results: ${ blockInstance.name }` );
 
