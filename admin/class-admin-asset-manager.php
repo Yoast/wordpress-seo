@@ -841,7 +841,7 @@ class WPSEO_Admin_Asset_Manager {
 				],
 				'footer' => true,
 			],
-		];
+		);
 	}
 
 	/**
