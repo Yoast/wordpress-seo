@@ -604,10 +604,13 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'editor-modules-' . $flat_version,
 				'deps' => [
 					'lodash',
+					'wp-api-fetch',
 					'wp-compose',
+					'wp-components',
 					'wp-data',
 					'wp-element',
 					'wp-i18n',
+					'wp-url',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'analysis-report',
 					self::PREFIX . 'helpers',
