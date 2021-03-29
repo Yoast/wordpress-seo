@@ -25,7 +25,7 @@ require __DIR__ . '/post_type/post-type.php';
  * @param WPSEO_Admin_Pages $yform  The WPSEO_Admin_Pages object
  * @param string            $name   The post type name
  */
-do_action( 'Yoast\WP\SEO\admin_post_types_meta_before_archive', $yform, $wpseo_post_type->name );
+do_action( 'Yoast\WP\SEO\admin_post_types_archive', $yform, $wpseo_post_type->name );
 
 if ( $wpseo_post_type->name === 'product' && YoastSEO()->helpers->woocommerce->is_active() ) {
 	require __DIR__ . '/post_type/woocommerce-shop-page.php';
