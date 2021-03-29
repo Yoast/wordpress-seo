@@ -1,4 +1,4 @@
-import Tokenizr, { IToken } from "tokenizr";
+import Tokenizr, { Token } from "tokenizr";
 
 const lexer = new Tokenizr();
 
@@ -151,7 +151,7 @@ lexer.rule( "definition-value", /\s*"([^"\\]+|\\.)*"/, ( ctx, matches ) => {
  *
  * @returns An array of tokens.
  */
-export default function tokenize( text: string ): IToken[] {
+export default function tokenize( text: string ): Token[] {
 	lexer.reset();
 	lexer.input( text );
 	return lexer.tokens();

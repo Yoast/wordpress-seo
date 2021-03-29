@@ -1886,11 +1886,6 @@
   resolved "https://registry.yarnpkg.com/@types/tinycolor2/-/tinycolor2-1.4.2.tgz#721ca5c5d1a2988b4a886e35c2ffc5735b6afbdf"
   integrity sha512-PeHg/AtdW6aaIO2a+98Xj7rWY4KC1E6yOy7AFknJQ7VXUGNrMlyxDFxJo7HqLtjQms/ZhhQX52mLVW/EX3JGOw==
 
-"@types/tokenizr@^1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@types/tokenizr/-/tokenizr-1.5.1.tgz#63c2fd0e213735cc4fa50aa2876cd8b63cade3ba"
-  integrity sha512-8q17OkvdTTXmKpcW28rJhVmnkj1aCm8KcQnPwZUffFmGcY0/ukCBNqqYTUQ+o5sI3dFUAh772IOLV5wEQ9or2g==
-
 "@types/wordpress__api-fetch@*":
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/@types/wordpress__api-fetch/-/wordpress__api-fetch-3.2.3.tgz#ce76c593902fe40357b04c8dbc8e339049429af8"
@@ -19521,7 +19516,7 @@ tokenizer2@^2.0.1:
   dependencies:
     through2 "^2.0.0"
 
-tokenizr@^1.5.2, tokenizr@^1.5.7:
+tokenizr@^1.6.4:
   version "1.6.4"
   resolved "https://registry.yarnpkg.com/tokenizr/-/tokenizr-1.6.4.tgz#bc0c85c1fe1c6dfbfe15c237ddbccca3bd46fb70"
   integrity sha512-p4fMt6Ki9c3U00fTMK7Ao2kFPgniqHfYHGHikjoMHjFnNt+ZaF30mb+w1B0zPhZ4HYTRL+9BoypOZ0dWz7fKQw==

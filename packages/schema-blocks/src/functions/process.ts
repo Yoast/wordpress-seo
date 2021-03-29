@@ -1,5 +1,5 @@
 import { camelCase } from "lodash";
-import { IToken } from "tokenizr";
+import { Token } from "tokenizr";
 import BlockDefinition from "../core/blocks/BlockDefinition";
 import BlockInstruction from "../core/blocks/BlockInstruction";
 import Definition, { DefinitionClass } from "../core/Definition";
@@ -40,7 +40,7 @@ function generateNextId( separator: string ): number {
  *
  * @returns The array.
  */
-function processArray( tokens: IToken[] ): InstructionArray {
+function processArray( tokens: Token[] ): InstructionArray {
 	const value: Array<InstructionValue> = [];
 
 	// Consume the array-open token.
@@ -61,7 +61,7 @@ function processArray( tokens: IToken[] ): InstructionArray {
  *
  * @returns The object.
  */
-function processObject( tokens: IToken[] ): InstructionObject {
+function processObject( tokens: Token[] ): InstructionObject {
 	const value: InstructionObject = {};
 
 	// Consume the object-open token.
@@ -83,12 +83,12 @@ function processObject( tokens: IToken[] ): InstructionObject {
 /**
  * Processes a token from a list of tokens.
  *
- * @param {IToken}   currentToken The current token.
- * @param {IToken[]} tokens       The remaining tokens.
+ * @param {Token}   currentToken The current token.
+ * @param {Token[]} tokens       The remaining tokens.
  *
  * @returns The value of the first token.
  */
-function processToken( currentToken: IToken, tokens: IToken[] ): InstructionValue {
+function processToken( currentToken: Token, tokens: Token[] ): InstructionValue {
 	if ( currentToken.isA( "array-open" ) ) {
 		return processArray( tokens );
 	}
@@ -115,12 +115,12 @@ function processToken( currentToken: IToken, tokens: IToken[] ): InstructionValu
  *
  * @returns The instruction.
  */
-function processBlockInstruction( token: IToken<string>, tokens: IToken[], instructionClass: typeof Instruction, separator: string ) {
+function processBlockInstruction( token: Token, tokens: Token[], instructionClass: typeof Instruction, separator: string ) {
 	const defaultOptions = { name: token.value };
 	const instruction = instructionClass.create( token.value, generateNextId( separator ), defaultOptions );
 
 	while ( tokens[ 0 ] && tokens[ 0 ].isA( "key" ) ) {
-		const key = camelCase( ( tokens.shift() as IToken<string> ).value );
+		const key = camelCase( ( tokens.shift() as Token ).value );
 		instruction.options[ key ] = processToken( tokens[ 0 ], tokens );
 	}
 
@@ -180,7 +180,7 @@ function process<T extends Definition>(
 		}
 
 		if ( token.isA( "definition" ) ) {
-			const instruction = processBlockInstruction( token as IToken<string>, tokens, instructionClass, separator );
+			const instruction = processBlockInstruction( token as Token, tokens, instructionClass, separator );
 			definition.instructions[ instruction.id ] = instruction;
 			if ( instruction.renderable() ) {
 				definition.template += separator + instruction.id + separator;
