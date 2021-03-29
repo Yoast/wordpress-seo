@@ -125,6 +125,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_add_opengraph_images' )
 			->andThrow( new Error( 'Something went wrong' ) );
 
+		$this->instance->expects( 'add_from_templates' )->andReturnNull();
 		$this->instance->expects( 'add_from_default' )->andReturnNull();
 
 		$this->image_container
@@ -147,6 +148,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_add_opengraph_additional_images' )
 			->andThrow( new Error( 'Something went wrong' ) );
 
+		$this->instance->expects( 'add_from_templates' )->andReturnNull();
 		$this->instance->expects( 'add_from_default' )->andReturnNull();
 
 		$this->image_container
@@ -166,6 +168,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	public function test_generate_with_image_id_from_indexable() {
 		$this->indexable->open_graph_image_id = 1337;
 
+		$this->instance->expects( 'add_from_templates' )->andReturnNull();
 		$this->instance->expects( 'add_from_default' )->andReturnNull();
 
 		$this->image_container
@@ -185,6 +188,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	public function test_generate_with_image_url_from_indexable() {
 		$this->indexable->open_graph_image = 'image.jpg';
 
+		$this->instance->expects( 'add_from_templates' )->andReturnNull();
 		$this->instance->expects( 'add_from_default' )->andReturnNull();
 
 		$this->image_container
@@ -210,6 +214,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 			]
 		);
 
+		$this->instance->expects( 'add_from_templates' )->andReturnNull();
 		$this->instance->expects( 'add_from_default' )->andReturnNull();
 
 		$this->image_container
@@ -234,6 +239,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 */
 	public function test_with_add_from_default_with_image_id() {
 		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
+		$this->instance->expects( 'add_from_templates' )->andReturnNull();
 
 		$this->image_container
 			->expects( 'has_images' )
@@ -262,6 +268,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 */
 	public function test_with_add_from_default_with_image_url() {
 		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
+		$this->instance->expects( 'add_from_templates' )->andReturnNull();
 
 		$this->image_container
 			->expects( 'has_images' )
@@ -296,6 +303,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 */
 	public function test_with_add_from_default_when_having_images_already() {
 		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
+		$this->instance->expects( 'add_from_templates' )->andReturnNull();
 
 		$this->image_container
 			->expects( 'has_images' )

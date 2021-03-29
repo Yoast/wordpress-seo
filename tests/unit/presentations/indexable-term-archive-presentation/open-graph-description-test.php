@@ -46,6 +46,11 @@ class Open_Graph_Description_Test extends TestCase {
 		$this->indexable->open_graph_description = '';
 		$this->instance->meta_description        = '';
 
+		$this->values_helper
+			->expects( 'get_open_graph_description' )
+			->with( $this->indexable->description, $this->indexable->object_type, $this->indexable->object_sub_type )
+			->andReturn( $this->indexable->description );
+
 		$this->taxonomy
 			->expects( 'get_term_description' )
 			->with( $this->indexable->object_id )
