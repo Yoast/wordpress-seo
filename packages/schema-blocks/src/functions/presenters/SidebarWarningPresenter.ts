@@ -3,11 +3,11 @@ import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import { BlockValidationResult } from "../../core/validation";
 import { BlockValidation } from "../../core/validation";
-import { getBlockType } from "../BlockHelper";
+import { BlockPresence } from "../../core/validation/BlockValidationResult";
 import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 
 const analysisMessageTemplates: Record<number, string> = {
-	[ BlockValidation.MissingBlock ]: "The '{child}' block is {status} but missing.",
+	[ BlockValidation.MissingBlock ]: "The '{child}' block is {presence} but missing.",
 	[ BlockValidation.MissingAttribute ]: "The '{child}' block is empty.",
 };
 
@@ -17,7 +17,7 @@ type analysisIssue = {
 	name: string;
 	parent: string;
 	result: BlockValidation;
-	status: string;
+	presence: string;
 };
 
 export type sidebarWarning = {
@@ -52,7 +52,7 @@ export function replaceVariables( issue: analysisIssue ): string {
 	const warning = get( analysisMessageTemplates, issue.result, "" );
 	return warning.replace( "{parent}", __( issue.parent, "wpseo-schema-blocks" ) )
 		.replace( "{child}", __( issue.name, "wpseo-schema-blocks" ) )
-		.replace( "{status}", __( issue.status, "wpseo-schema-blocks" ) );
+		.replace( "{presence}", __( issue.presence, "wpseo-schema-blocks" ) );
 }
 
 /**
@@ -64,20 +64,26 @@ export function replaceVariables( issue: analysisIssue ): string {
  * @returns {sidebarWarning} Any analysis conclusions that should be in the footer.
  */
 function getAnalysisConclusion( validation: BlockValidation, issues: analysisIssue[] ): sidebarWarning {
-	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock ||
+	// Show a red bullet when not all required blocks have been completed.
+	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock && issue.presence === BlockPresence.Required ||
 		issue.result === BlockValidation.MissingAttribute ) ) {
 		return {
-			text: __( "Not all required blocks are completed! No " + issues[ 0 ].parent +
+			text: __( "Not all required blocks have been completed! No " + issues[ 0 ].parent +
 				" schema will be generated for your page.", "wpseo-schema-blocks" ),
 			color: "red",
 		} as sidebarWarning;
 	}
 
+	// Show a green bullet when all required blocks have been completed.
+	const requiredBlockIssues = issues.filter( issue => {
+		return issue.presence === BlockPresence.Required;
+	} );
+
 	if ( validation === BlockValidation.Valid ||
-		issues.every( issue => issue.result !== BlockValidation.MissingAttribute &&
+		requiredBlockIssues.every( issue => issue.result !== BlockValidation.MissingAttribute &&
 			issue.result !== BlockValidation.MissingBlock ) ) {
 		return {
-			text: __( "Good job! All required blocks are completed.", "wpseo-schema-blocks" ),
+			text: __( "Good job! All required blocks have been completed.", "wpseo-schema-blocks" ),
 			color: "green",
 		} as sidebarWarning;
 	}
@@ -88,7 +94,7 @@ function getAnalysisConclusion( validation: BlockValidation, issues: analysisIss
  *
  * @param validation The root validation result.
  *
- * @return all validation results.
+ * @return All validation results.
  */
 function getAllDescendantIssues( validation: BlockValidationResult ): BlockValidationResult[] {
 	let results = [ validation ];
@@ -115,10 +121,11 @@ export function createAnalysisMessages( validation: BlockValidationResult ): sid
 			name: sanitizeBlockName( issue.name ),
 			parent: sanitizeParentName( parent ),
 			result: issue.result,
-			status: "required",
+			presence: issue.blockPresence,
 		} ) );
+
 	const messages = messageData.map( msg => {
-		return { text: replaceVariables( msg ), color: "red" } as sidebarWarning;
+		return { text: replaceVariables( msg ), color: ( msg.presence === BlockPresence.Recommended ? "orange" : "red" ) } as sidebarWarning;
 	} );
 
 	const conclusion = getAnalysisConclusion( validation.result, messageData );

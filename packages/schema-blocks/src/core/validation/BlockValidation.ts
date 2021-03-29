@@ -1,4 +1,3 @@
-
 export enum BlockValidation {
 	/** This block was skipped during validation, on purpose. If you ever see this value, that's a bug.  */
 	Skipped = -2,
