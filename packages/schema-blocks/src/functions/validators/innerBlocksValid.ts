@@ -6,6 +6,7 @@ import recurseOverBlocks from "../blocks/recurseOverBlocks";
 import { getInnerblocksByName } from "../innerBlocksHelper";
 import logger from "../logger";
 import isValidResult from "./isValidResult";
+import { getHumanReadableBlockName } from "../BlockHelper";
 
 /**
  * Finds all blocks that should be in the inner blocks, but aren't.
@@ -23,7 +24,8 @@ function findMissingBlocks( existingRequiredBlocks: BlockInstance[], requiredBlo
 
 	// These blocks should've existed, but they don't.
 	return missingRequiredBlocks.map( missingBlock =>
-		new BlockValidationResult( null, missingBlock.name, BlockValidation.MissingBlock ) );
+		BlockValidationResult.MissingBlock( getHumanReadableBlockName( missingBlock.name ) ),
+	);
 }
 
 /**
@@ -90,7 +92,7 @@ function validateInnerblockTree( blockInstance: BlockInstance ): BlockValidation
  *
  * @returns {BlockValidationResult[]} The names and reasons of the inner blocks that are invalid.
  */
-function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: RequiredBlock[] = [] ): BlockValidationResult[]  {
+function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: RequiredBlock[] = [] ): BlockValidationResult[] {
 	const requiredBlockKeys = requiredBlocks.map( rblock => rblock.name );
 	let validationResults: BlockValidationResult[] = [];
 
@@ -110,7 +112,7 @@ function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Requ
 
 	validationResults = validationResults.filter( result =>
 		! ( isValidResult( result.result ) &&
-		validationResults.some( also => also.clientId === result.clientId && ! isValidResult( also.result ) ) ) );
+			validationResults.some( also => also.clientId === result.clientId && ! isValidResult( also.result ) ) ) );
 
 	return validationResults;
 }
