@@ -4,6 +4,7 @@ import { get } from "lodash";
 import { BlockValidationResult } from "../../core/validation";
 import { BlockValidation } from "../../core/validation";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
+import { getBlockType } from "../BlockHelper";
 import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 
 const analysisMessageTemplates: Record<number, string> = {
