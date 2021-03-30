@@ -27,7 +27,7 @@ export function mockSelectors( name, schemaBlocksValidations = null ) {
 		getPreferences,
 	};
 
-	const getSchemaBlocksValidationResults = jest.fn().mockReturnValue( schemaBlocksValidationresults || {
+	const getSchemaBlocksValidationResults = jest.fn().mockReturnValue( schemaBlocksValidations || {
 		"1234-abcde": {
 			result: 1,
 		},
