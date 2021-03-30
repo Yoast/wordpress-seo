@@ -9,7 +9,7 @@ import { arrayOrObjectToOptions } from "../../functions/select";
 /**
  * VariableTagRichText instruction.
  */
-class VariableTagRichText extends RichTextBase {
+export class VariableTagRichText extends RichTextBase {
 	public options: {
 		tags: ( keyof HTMLElementTagNameMap )[] | Record<string, keyof HTMLElementTagNameMap>;
 		name: string;
