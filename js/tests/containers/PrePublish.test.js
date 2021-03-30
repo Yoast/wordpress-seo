@@ -1,9 +1,9 @@
 import { mapSelectToProps, mapDispatchToProps } from "../../src/containers/PrePublish";
-import { MockSelectors } from "./MockSelectors";
+import { mockSelectors } from "./mockSelectors";
 
 describe( "The PrePublish container", () => {
 	it( "maps the select function to props", () => {
-		const select = MockSelectors( name );
+		const select = mockSelectors( name );
 
 		const props = mapSelectToProps( select );
 

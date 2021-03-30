@@ -1,9 +1,9 @@
-import {mapDispatchToProps, mapSelectToProps} from "../../src/containers/DocumentSidebar";
-import {MockSelectors} from "./MockSelectors";
+import { mapDispatchToProps, mapSelectToProps } from "../../src/containers/DocumentSidebar";
+import { mockSelectors } from "./MockSelectors";
 
 describe( "The DocumentSidebar container", () => {
 	it( "maps the select function to props", () => {
-		const select = MockSelectors( name );
+		const select = mockSelectors( name );
 
 		const props = mapSelectToProps( select );
 
@@ -29,7 +29,7 @@ describe( "The DocumentSidebar container", () => {
 	} );
 
 	it( "maps the select function to props when no schema validation results are present", () => {
-		const select = MockSelectors( name, { "1234-abcde": { result: 0 } } );
+		const select = mockSelectors( name, { "1234-abcde": { result: 0 } } );
 
 		const props = mapSelectToProps( select );
 
