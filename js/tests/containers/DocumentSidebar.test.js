@@ -1,5 +1,5 @@
 import { mapDispatchToProps, mapSelectToProps } from "../../src/containers/DocumentSidebar";
-import { mockSelectors } from "./MockSelectors";
+import { mockSelectors } from "./mockSelectors";
 
 describe( "The DocumentSidebar container", () => {
 	it( "maps the select function to props", () => {
