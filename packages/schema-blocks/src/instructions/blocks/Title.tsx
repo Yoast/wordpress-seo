@@ -52,7 +52,7 @@ class Title extends VariableTagRichText {
 				BlockPresence.Recommended,
 				sprintf(
 					/* Translators: %s expands to the block's name. */
-					__( "Post title and %s are the same.", "wordpress-seo-premium" ),
+					__( "Post title and %s are the same.", "yoast-schema-blocks" ),
 					this.options.blockName,
 				),
 			);
@@ -63,4 +63,3 @@ class Title extends VariableTagRichText {
 }
 
 BlockInstruction.register( "title", Title );
-
