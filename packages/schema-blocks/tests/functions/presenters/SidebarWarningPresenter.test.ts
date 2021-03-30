@@ -46,6 +46,23 @@ describe( "The SidebarWarningPresenter ", () => {
 			} ] );
 		} );
 
+		it( "creates a footer message when some required blocks have missing attributes.", () => {
+			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Invalid, BlockPresence.Unknown );
+			testcase.issues.push(
+				new BlockValidationResult( null, "missingblockattribute", BlockValidation.MissingAttribute, BlockPresence.Unknown )
+			);
+
+			const result = createAnalysisMessages( testcase );
+
+			expect( result.length ).toEqual( 1 );
+			expect( result[ 0 ] ).toEqual(
+				{
+					text: "Not all required blocks have been completed! No mijnblock schema will be generated for your page.",
+					color: "red",
+				},
+			);
+		} );
+
 		it( "creates warning messages for missing required blocks, with a footer message.", () => {
 			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Invalid, BlockPresence.Required );
 			testcase.issues.push( BlockValidationResult.MissingBlock( "missingblock", BlockPresence.Required ) );
@@ -115,7 +132,7 @@ describe( "The SidebarWarningPresenter ", () => {
 
 			expect( result ).toEqual( [ {
 				text: "Good job! All required blocks have been completed.",
-				color: "green"
+				color: "green",
 			} ] );
 		} );
 
