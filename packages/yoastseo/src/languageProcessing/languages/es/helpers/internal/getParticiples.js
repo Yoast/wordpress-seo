@@ -1,5 +1,7 @@
 import { forEach, includes } from "lodash-es";
-import getWords from "../../../../helpers/word/getWords";
+import { languageProcessing } from "yoastseo";
+const { getWords } = languageProcessing;
+
 import participles from "../../config/internal/passiveVoiceParticiples";
 import SpanishParticiple from "../../values/SpanishParticiple";
 

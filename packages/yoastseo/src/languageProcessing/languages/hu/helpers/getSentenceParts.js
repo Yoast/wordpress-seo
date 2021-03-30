@@ -1,5 +1,6 @@
-import splitSentence from "../../../helpers/passiveVoice/periphrastic/getSentencePartsSplitOnStopwords";
-import arrayToRegex from "../../../helpers/regex/createRegexFromArray";
+import { languageProcessing } from "yoastseo";
+const { splitSentence, createRegexFromArray } = languageProcessing;
+
 import SentencePart from "../values/SentencePart";
 import auxiliaries from "../config/internal/auxiliaries.js";
 import stopWords from "../config/stopWords.js";
@@ -7,8 +8,8 @@ import stopWords from "../config/stopWords.js";
 const options = {
 	SentencePart: SentencePart,
 	regexes: {
-		auxiliaryRegex: arrayToRegex( auxiliaries.allAuxiliaries ),
-		stopwordRegex: arrayToRegex( stopWords ),
+		auxiliaryRegex: createRegexFromArray( auxiliaries.allAuxiliaries ),
+		stopwordRegex: createRegexFromArray( stopWords ),
 	},
 };
 

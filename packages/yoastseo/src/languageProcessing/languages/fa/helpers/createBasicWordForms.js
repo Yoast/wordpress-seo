@@ -1,4 +1,6 @@
-import { searchAndReplaceWithRegex } from "../../../helpers/morphology/regexHelpers";
+import { languageProcessing } from "yoastseo";
+const { regexHelpers: { searchAndReplaceWithRegex } } = languageProcessing;
+
 /**
  * Creates the basic affixed-forms of a given Farsi word
  *

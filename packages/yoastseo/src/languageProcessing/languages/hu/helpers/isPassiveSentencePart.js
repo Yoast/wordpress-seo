@@ -1,5 +1,7 @@
+import { languageProcessing } from "yoastseo";
+const { determineSentencePartIsPassive } = languageProcessing;
+
 import getParticiples from "./internal/getParticiples";
-import determineSentencePartIsPassive from "../../../helpers/passiveVoice/periphrastic/determineSentencePartIsPassive";
 import passiveVoiceAuxiliaries from "../config/internal/auxiliaries.js";
 const auxiliaries = passiveVoiceAuxiliaries.allAuxiliaries;
 

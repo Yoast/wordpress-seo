@@ -1,4 +1,4 @@
-import { findMatchingEndingInArray } from "../../../../src/languageProcessing/helpers/morphology/findMatchingEndingInArray";
+import findMatchingEndingInArray from "../../../../src/languageProcessing/helpers/morphology/findMatchingEndingInArray";
 
 describe( "Test for matching a word to an array of regex(es) and returning the longest ending that was matched at the end of the string", () => {
 	it( "returns the longest ending that was matched at the end of the string", () => {

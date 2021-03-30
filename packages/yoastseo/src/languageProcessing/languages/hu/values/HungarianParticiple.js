@@ -1,5 +1,7 @@
-import Participle from "../../../../values/Participle.js";
-import checkException from "../../../helpers/passiveVoice/periphrastic/checkException.js";
+import { languageProcessing, values } from "yoastseo";
+const { checkException } = languageProcessing;
+const { Participle } = values;
+
 import nonPassivesInVaAndVe from "../config/internal/nonPassivesInVaAndVe.js";
 
 /**

@@ -1,5 +1,12 @@
-import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnListThatCanHavePrefix } from "../../../../helpers/morphology/exceptionListHelpers";
-import { doesWordMatchRegex, searchAndReplaceWithRegex } from "../../../../helpers/morphology/regexHelpers";
+import { languageProcessing } from "yoastseo";
+const {
+	regexHelpers: { searchAndReplaceWithRegex, doesWordMatchRegex },
+	exceptionListHelpers: {
+		checkIfWordEndingIsOnExceptionList,
+		checkIfWordIsOnListThatCanHavePrefix,
+	},
+} = languageProcessing;
+
 import { isVowelDoublingAllowed } from "./stemModificationHelpers";
 
 /**

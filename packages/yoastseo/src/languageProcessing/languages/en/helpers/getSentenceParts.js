@@ -1,5 +1,6 @@
-import getPeriphrasticSentenceParts from "../../../helpers/passiveVoice/periphrastic/getSentenceParts.js";
-import arrayToRegex from "../../../helpers/regex/createRegexFromArray";
+import { languageProcessing } from "yoastseo";
+const { createRegexFromArray, getPeriphrasticSentenceParts } = languageProcessing;
+
 import SentencePart from "../values/SentencePart";
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 import stopwords from "../config/stopWords.js";
@@ -10,7 +11,7 @@ const options = {
 	auxiliaries: auxiliaries,
 	ingExclusions: [ "king", "cling", "ring", "being", "thing", "something", "anything" ],
 	regexes: {
-		auxiliaryRegex: arrayToRegex( auxiliaries ),
+		auxiliaryRegex: createRegexFromArray( auxiliaries ),
 		stopCharacterRegex: /([:,]|('ll)|('ve))(?=[ \n\r\t'"+\-»«‹›<>])/ig,
 		verbEndingInIngRegex: /\w+ing(?=$|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
 	},

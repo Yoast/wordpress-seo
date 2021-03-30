@@ -1,4 +1,4 @@
-import { flattenSortLength } from "./flattenSortLength";
+import flattenSortLength from "./flattenSortLength";
 
 /**
  * Checks whether the word ends in one of the words in an exception list that is a simple array.

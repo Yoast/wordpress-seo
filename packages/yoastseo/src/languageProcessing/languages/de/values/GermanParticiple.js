@@ -1,6 +1,8 @@
-import Participle from "../../../../values/Participle.js";
-import { getIndicesByWord as getIndices } from "../../../helpers/word/indices.js";
-import { getIndicesByWordList as getIndicesOfList } from "../../../helpers/word/indices.js";
+import { languageProcessing, values } from "yoastseo";
+const { indices } = languageProcessing;
+const { getIndicesByWord, getIndicesByWordList } = indices;
+const { Participle } = values;
+
 import exceptionsParticiplesActive from "../config/internal/exceptionsParticiplesActive.js";
 
 import { participleLike as auxiliaries } from "../config/internal/passiveVoiceAuxiliaries.js";
@@ -66,8 +68,8 @@ GermanParticiple.prototype.hasNounSuffix = function() {
  * @returns {boolean} Returns true if it is an exception, otherwise returns false.
  */
 GermanParticiple.prototype.hasHabenSeinException = function() {
-	const participleIndices = getIndices( this.getParticiple(), this.getSentencePart() );
-	let habenSeinIndices = getIndicesOfList( [ "haben", "sein" ], this.getSentencePart() );
+	const participleIndices = getIndicesByWord( this.getParticiple(), this.getSentencePart() );
+	let habenSeinIndices = getIndicesByWordList( [ "haben", "sein" ], this.getSentencePart() );
 
 	// Don't check further if there is no participle or no haben/sein.
 	if ( participleIndices.length === 0 || habenSeinIndices.length === 0 ) {
