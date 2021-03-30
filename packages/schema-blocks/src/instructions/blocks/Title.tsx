@@ -48,7 +48,7 @@ class Title extends VariableTagRichText {
 			return new BlockValidationResult(
 				blockInstance.clientId,
 				blockInstance.name,
-				BlockValidation.Invalid,
+				BlockValidation.Valid,
 				BlockPresence.Recommended,
 				sprintf(
 					/* Translators: %s expands to the block's name. */
