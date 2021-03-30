@@ -239,7 +239,10 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'select2',
 			],
-			'term-edit'        => [ self::PREFIX . 'select2' ],
+			'term-edit'        => [
+				self::PREFIX . 'classic-editor',
+				self::PREFIX . 'select2'
+			],
 		];
 
 		$plugin_scripts   = $this->load_generated_asset_file(
