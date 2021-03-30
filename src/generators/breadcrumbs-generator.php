@@ -232,8 +232,35 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 */
 	private function get_term_crumb( $crumb, $ancestor ) {
 		$crumb['term_id'] = $ancestor->object_id;
+		$crumb['text']    = $this->get_term_crumb_title( $crumb );
 
 		return $crumb;
+	}
+
+	/**
+	 * Determines the title to be used for the term crumb.
+	 *
+	 * @param array $crumb The crumb.
+	 *
+	 * @return string The crumb title to be used.
+	 */
+	protected function get_term_crumb_title( $crumb ) {
+		$meta_breadcrumb_title = $crumb['text'];
+		if ( ! empty( $meta_breadcrumb_title ) ) {
+			return $meta_breadcrumb_title;
+		}
+
+		$term = \get_term( $crumb['term_id'] );
+		if ( $term === null || \is_wp_error( $term ) ) {
+			return '';
+		}
+
+		$option_breadcrumb_title = $this->options->get( 'bctitle-tax-' . $term->taxonomy );
+		if ( $option_breadcrumb_title ) {
+			return $option_breadcrumb_title;
+		}
+
+		return $term->name;
 	}
 
 	/**
