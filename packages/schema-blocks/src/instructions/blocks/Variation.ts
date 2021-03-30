@@ -55,6 +55,7 @@ export default class Variation extends BlockInstruction implements VariationInte
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
 		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown, BlockPresence.Unknown );
+		// The following line is borrowed from innerblocks.tsx; idea here is to gather the underlying variation, if any, and determine if it is valid / not empty.
 		validation.issues = validateInnerBlocks( blockInstance, this.options.requiredBlocks, this.options.recommendedBlocks );
 
 		return validateMany( validation );
