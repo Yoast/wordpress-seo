@@ -122,6 +122,10 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 export default function watch() {
 	subscribe(
 		debounce( () => {
+			if ( updatingSchema ) {
+				return;
+			}
+
 			const rootBlocks: BlockInstance[] = select( "core/block-editor" ).getBlocks();
 			if ( rootBlocks === previousRootBlocks ) {
 				return;
