@@ -1,8 +1,11 @@
 /**
- * Setup a specific store's redux selectors.
- * @param name The redux store to mock.
- * @param schemaBlocksValidations Overrides default (invalid) schema blocks validation results.
- * @returns {jest.Mock<{getPreferences: jest.Mock<unknown>, getResultsForFocusKeyword: jest.Mock<unknown>, getReadabilityResults: jest.Mock<unknown>, getFocusKeyphrase: jest.Mock<unknown>}|{getBlocks: jest.Mock<unknown>}|{getSchemaBlocksValidationResults: jest.Mock<unknown>}>}
+ * Sets up a specific store's redux selectors.
+ *
+ * @param {string} name                    The redux store to mock.
+ * @param {object} schemaBlocksValidations Overrides default (invalid) schema blocks validation results.
+ *
+ * @returns {jest.Mock<{getPreferences: jest.Mock<unknown>, getResultsForFocusKeyword: jest.Mock<unknown>, getReadabilityResults: jest.Mock<unknown>,
+ * getFocusKeyphrase: jest.Mock<unknown>}|{getBlocks: jest.Mock<unknown>}|{getSchemaBlocksValidationResults: jest.Mock<unknown>}>} The mock selectors.
  */
 export function mockSelectors( name, schemaBlocksValidations = null ) {
 	const getResultsForFocusKeyword = jest.fn().mockReturnValue( {
@@ -58,7 +61,7 @@ export function mockSelectors( name, schemaBlocksValidations = null ) {
 		getBlocks,
 	};
 
-	const select = jest.fn(storeName => {
+	const select = jest.fn( storeName => {
 		switch ( storeName ) {
 			case "yoast-seo/editor" :
 				return yoastSEOSelectors;
