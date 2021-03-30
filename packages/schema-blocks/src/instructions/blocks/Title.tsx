@@ -33,21 +33,6 @@ class Title extends VariableTagRichText {
 	};
 
 	/**
-	 * Checks whether the given block and post have the same title.
-	 *
-	 * @param block The block.
-	 * @param post The post.
-	 *
-	 * @returns If the block and post have the same title.
-	 */
-	private hasSameTitle( block: BlockInstance, post: Post ): boolean {
-		const blockTitle = block.attributes[ this.options.name ];
-		const postTitle = post.title;
-
-		return blockTitle.toLocaleLowerCase() === postTitle.toLocaleLowerCase();
-	}
-
-	/**
 	 * Checks if the instruction block is valid.
 	 *
 	 * @param blockInstance The attributes from the block.
@@ -57,7 +42,14 @@ class Title extends VariableTagRichText {
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
 		const post: Post = select( "core/editor" ).getCurrentPost();
 
-		if ( this.hasSameTitle( blockInstance, post ) ) {
+		const blockTitle: string = blockInstance.attributes[ this.options.name ];
+		const postTitle: string = post.title;
+
+		if ( ! ( blockTitle && postTitle ) ) {
+			return BlockValidationResult.Valid( blockInstance );
+		}
+
+		if ( blockTitle.toLocaleLowerCase() === postTitle.toLocaleLowerCase() ) {
 			return new BlockValidationResult(
 				blockInstance.clientId,
 				blockInstance.name,
