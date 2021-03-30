@@ -71,19 +71,19 @@ export default function initSearchAppearance() {
 					removeImageButtonId="yoast-person-image-remove-button"
 				/>
 
-				{ imagePortals.map((portal) => {
-					return (<ImageSelectPortal
+				{ imagePortals.map( ( portal ) => {
+					return ( <ImageSelectPortal
 						key={ portal.id }
 						label="Social default image"
 						hasPreview={ true }
 						target={ portal.id }
 						hiddenField={ portal.dataset.reactImagePortalTargetImage }
 						hiddenFieldImageId={ portal.dataset.reactImagePortalTargetImageId }
-						selectImageButtonId={ portal.id + '-select-button' }
-						replaceImageButtonId={ portal.id + '-replace-button' }
-						removeImageButtonId={ portal.id + '-remove-button' }
-					/> )
-				})}
+						selectImageButtonId={ portal.id + "-select-button" }
+						replaceImageButtonId={ portal.id + "-replace-button" }
+						removeImageButtonId={ portal.id + "-remove-button" }
+					/> );
+				} ) }
 
 				{ showLocalSEOUpsell && (
 					<LocalSEOUpsellPortal
