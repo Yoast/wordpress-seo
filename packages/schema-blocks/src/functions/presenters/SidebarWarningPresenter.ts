@@ -1,8 +1,6 @@
 import { select } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-import { getBlockType } from "../BlockHelper";
 import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
-
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import { getHumanReadableBlockName } from "../BlockHelper";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
