@@ -25,8 +25,11 @@ describe( "The DocumentSidebar container", () => {
 			getResultsForFocusKeyword,
 			getReadabilityResults,
 			getPreferences,
-			getSchemaBlocksValidationResults,
 		};
+
+		const schemaBlocksSelectors = {
+			getSchemaBlocksValidationResults,
+		}
 
 		const getBlocks = jest.fn().mockReturnValue( [
 			{
@@ -50,10 +53,13 @@ describe( "The DocumentSidebar container", () => {
 		};
 
 		const select = jest.fn( name => {
-			if ( name === "yoast-seo/editor" ) {
-				return yoastSEOSelectors;
-			} else if ( name === "core/editor" ) {
-				return coreEditorSelectors;
+			switch ( name ) {
+				case "yoast-seo/editor" :
+					return yoastSEOSelectors;
+				case "core/editor" :
+					return coreEditorSelectors;
+				case "yoast-seo/schema-blocks" :
+					return schemaBlocksSelectors;
 			}
 		} );
 
@@ -100,8 +106,11 @@ describe( "The DocumentSidebar container", () => {
 			getResultsForFocusKeyword,
 			getReadabilityResults,
 			getPreferences,
-			getSchemaBlocksValidationResults,
 		};
+
+		const schemaBlocksSelectors = {
+			getSchemaBlocksValidationResults,
+		}
 
 		const getBlocks = jest.fn().mockReturnValue( [
 			{
@@ -124,11 +133,15 @@ describe( "The DocumentSidebar container", () => {
 			getBlocks,
 		};
 
+
 		const select = jest.fn( name => {
-			if ( name === "yoast-seo/editor" ) {
-				return yoastSEOSelectors;
-			} else if ( name === "core/editor" ) {
-				return coreEditorSelectors;
+			switch ( name ) {
+				case "yoast-seo/editor" :
+					return yoastSEOSelectors;
+				case "core/editor" :
+					return coreEditorSelectors;
+				case "yoast-seo/schema-blocks" :
+					return schemaBlocksSelectors;
 			}
 		} );
 
