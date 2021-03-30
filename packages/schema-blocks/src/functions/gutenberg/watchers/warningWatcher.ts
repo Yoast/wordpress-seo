@@ -16,6 +16,13 @@ enum WarningType {
 	BLOCK_RECOMMENDED
 }
 
+type yoastLinks = {
+	yoastSchemaBlocks: {
+		requiredLink: string;
+		recommendedLink: string;
+	};
+}
+
 /**
  * Gets the inner blocks instruction of the block definition with the given name.
  *
@@ -55,7 +62,7 @@ function getDefaultWarningMessage( blockTitle: string, warningType: WarningType 
 					"yoast-schema-blocks",
 				),
 				blockTitle,
-				'<a href="' + ( window as any ).yoastSchemaBlocks.requiredLink + '" target="_blank">',
+				'<a href="' + ( window as unknown as yoastLinks ).yoastSchemaBlocks.requiredLink + '" target="_blank">',
 				"</a>",
 			);
 		}
@@ -68,7 +75,7 @@ function getDefaultWarningMessage( blockTitle: string, warningType: WarningType 
 					"yoast-schema-blocks",
 				),
 				blockTitle,
-				'<a href="' + ( window as any ).yoastSchemaBlocks.recommendedLink + '" target="_blank">',
+				'<a href="' + ( window as unknown as yoastLinks ).yoastSchemaBlocks.recommendedLink + '" target="_blank">',
 				"</a>",
 			);
 		}
