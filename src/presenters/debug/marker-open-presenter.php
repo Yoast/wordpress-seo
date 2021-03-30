@@ -26,7 +26,7 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 		}
 		$version_info = 'v' . \WPSEO_VERSION;
 
-		if (YoastSEO()->helpers->product->is_premium() ) {
+		if ($this->helpers->product->is_premium() ) {
 			$version_info = $this->construct_version_info();
 		}
 
