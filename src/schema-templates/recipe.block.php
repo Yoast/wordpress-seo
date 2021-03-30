@@ -1,5 +1,5 @@
 <?php // phpcs:ignore Internal.NoCodeFound ?>
-{{block name="yoast/recipe" title="Recipe" category="common" }}
+{{block name="yoast/recipe" title="Recipe" category="yoast-structured-data-blocks" }}
 {{sidebar-duration name="cook-time" output=false label="Cook time" }}
 {{sidebar-duration name="prep-time" output=false label="Preparation time" }}
 {{sidebar-input name="yield" output=false type="number" label="Serves #" }}

@@ -7,23 +7,23 @@
  * @uses    array $notifications_data
  */
 
-$type     = 'warnings';
-$dashicon = 'flag';
+$yoast_seo_type     = 'warnings';
+$yoast_seo_dashicon = 'flag';
 
-$active    = $notifications_data['warnings']['active'];
-$dismissed = $notifications_data['warnings']['dismissed'];
+$yoast_seo_active    = $notifications_data['warnings']['active'];
+$yoast_seo_dismissed = $notifications_data['warnings']['dismissed'];
 
-$active_total    = count( $notifications_data['warnings']['active'] );
-$dismissed_total = count( $notifications_data['warnings']['dismissed'] );
-$total           = $notifications_data['metrics']['warnings'];
+$yoast_seo_active_total    = count( $notifications_data['warnings']['active'] );
+$yoast_seo_dismissed_total = count( $notifications_data['warnings']['dismissed'] );
+$yoast_seo_total           = $notifications_data['metrics']['warnings'];
 
-$i18n_title              = __( 'Notifications', 'wordpress-seo' );
-$i18n_issues             = '';
-$i18n_no_issues          = __( 'No new notifications.', 'wordpress-seo' );
-$i18n_muted_issues_title = sprintf(
+$yoast_seo_i18n_title              = __( 'Notifications', 'wordpress-seo' );
+$yoast_seo_i18n_issues             = '';
+$yoast_seo_i18n_no_issues          = __( 'No new notifications.', 'wordpress-seo' );
+$yoast_seo_i18n_muted_issues_title = sprintf(
 	/* translators: %d expands the amount of hidden notifications. */
-	_n( 'You have %d hidden notification:', 'You have %d hidden notifications:', $dismissed_total, 'wordpress-seo' ),
-	$dismissed_total
+	_n( 'You have %d hidden notification:', 'You have %d hidden notifications:', $yoast_seo_dismissed_total, 'wordpress-seo' ),
+	$yoast_seo_dismissed_total
 );
 
 require WPSEO_PATH . 'admin/views/partial-notifications-template.php';
