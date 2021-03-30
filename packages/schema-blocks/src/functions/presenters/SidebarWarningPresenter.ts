@@ -7,7 +7,8 @@ import { getAllDescendantIssues } from "../validators";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
 
 const analysisMessageTemplates: Record<number, string> = {
-	[ BlockValidation.MissingBlock ]: "The '{child}' block is {presence} but missing.",
+	[ BlockValidation.MissingRequiredBlock ]: "The '{child}' block is required but missing.",
+	[ BlockValidation.MissingRecommendedBlock ]: "The '{child}' block is recommended but missing.",
 	[ BlockValidation.MissingAttribute ]: "The '{child}' block is empty.",
 };
 
@@ -65,7 +66,7 @@ export function replaceVariables( issue: analysisIssue ): string {
  */
 function getAnalysisConclusion( validation: BlockValidation, issues: analysisIssue[] ): sidebarWarning {
 	// Show a red bullet when not all required blocks have been completed.
-	if ( issues.some( issue => issue.result === BlockValidation.MissingBlock && issue.presence === BlockPresence.Required ||
+	if ( issues.some( issue => issue.result === BlockValidation.MissingRequiredBlock ||
 		issue.result === BlockValidation.MissingAttribute ) ) {
 		return {
 			text: __( "Not all required blocks have been completed! No " + issues[ 0 ].parent +
@@ -74,14 +75,9 @@ function getAnalysisConclusion( validation: BlockValidation, issues: analysisIss
 		} as sidebarWarning;
 	}
 
-	// Show a green bullet when all required blocks have been completed.
-	const requiredBlockIssues = issues.filter( issue => {
-		return issue.presence === BlockPresence.Required;
-	} );
-
 	if ( validation === BlockValidation.Valid ||
-		requiredBlockIssues.every( issue => issue.result !== BlockValidation.MissingAttribute &&
-			issue.result !== BlockValidation.MissingBlock ) ) {
+		issues.every( issue => issue.result !== BlockValidation.MissingAttribute &&
+			issue.result !== BlockValidation.MissingRequiredBlock ) ) {
 		return {
 			text: __( "Good job! All required blocks have been completed.", "wpseo-schema-blocks" ),
 			color: "green",

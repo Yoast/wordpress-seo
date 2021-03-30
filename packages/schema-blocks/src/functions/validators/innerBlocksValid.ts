@@ -30,9 +30,13 @@ function findMissingBlocks( existingBlocks: BlockInstance[], allBlocks: Required
 		return ! existingBlocks.some( existingBlock => existingBlock.name === block.name );
 	} );
 
+	// Determine which BlockValidation value should be mapped to the new BlockValidationResult.
+	const missingBlockResult = ( blockPresence === BlockPresence.Required ? BlockValidation.MissingRequiredBlock
+		: BlockValidation.MissingRecommendedBlock );
+
 	// These blocks should've existed, but they don't.
 	return missingBlocks.map( missingBlock =>
-		new BlockValidationResult( null, missingBlock.name, BlockValidation.MissingBlock, blockPresence ) );
+		new BlockValidationResult( null, missingBlock.name, missingBlockResult, blockPresence ) );
 }
 
 /**

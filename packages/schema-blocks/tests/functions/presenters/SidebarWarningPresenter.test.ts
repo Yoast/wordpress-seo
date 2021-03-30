@@ -59,7 +59,7 @@ describe( "The createAnalysisMessages method ", () => {
 
 	it( "creates warning messages for missing required blocks, with a footer message.", () => {
 		const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Invalid, BlockPresence.Required );
-		testcase.issues.push( new BlockValidationResult( null, "missingblock", BlockValidation.MissingBlock, BlockPresence.Required ) );
+		testcase.issues.push( new BlockValidationResult( null, "missingblock", BlockValidation.MissingRequiredBlock, BlockPresence.Required ) );
 
 		const result = createAnalysisMessages( testcase );
 
@@ -76,8 +76,8 @@ describe( "The createAnalysisMessages method ", () => {
 	it( "creates a warning for missing recommended blocks, but when all the required blocks are present " +
 		"the conclusion should still be green.", () => {
 		const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Invalid, BlockPresence.Recommended );
-		testcase.issues.push( new BlockValidationResult( null, "missing recommended block", BlockValidation.MissingBlock, BlockPresence.Recommended ) );
-		testcase.issues.push( new BlockValidationResult( null, "missing recommended block 2", BlockValidation.MissingBlock, BlockPresence.Recommended ) );
+		testcase.issues.push( new BlockValidationResult( null, "missing recommended block", BlockValidation.MissingRecommendedBlock, BlockPresence.Recommended ) );
+		testcase.issues.push( new BlockValidationResult( null, "missing recommended block 2", BlockValidation.MissingRecommendedBlock, BlockPresence.Recommended ) );
 
 		const result = createAnalysisMessages( testcase );
 
@@ -135,7 +135,7 @@ describe( "The getWarnings method ", () => {
 
 	it( "creates a warning for a required block with validation problems.", () => {
 		const testcase = new BlockValidationResult( "1", "myBlock", BlockValidation.Invalid, BlockPresence.Required );
-		testcase.issues.push( new BlockValidationResult( "2", "innerblock1", BlockValidation.MissingBlock, BlockPresence.Required ) );
+		testcase.issues.push( new BlockValidationResult( "2", "innerblock1", BlockValidation.MissingRequiredBlock, BlockPresence.Required ) );
 		validations[ "1" ] = testcase;
 
 		const result = getWarnings( "1" );
