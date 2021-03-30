@@ -2,7 +2,7 @@
 import { BlockConfiguration } from "@wordpress/blocks";
 import { DateTimePicker, Dropdown } from "@wordpress/components";
 import { createElement, useState } from "@wordpress/element";
-import { __experimentalGetSettings, dateI18n, getDate, format } from "@wordpress/date";
+import { __experimentalGetSettings, dateI18n, format } from "@wordpress/date";
 import { __ } from "@wordpress/i18n";
 
 // Internal imports.
@@ -36,7 +36,7 @@ export default class Date extends BlockInstruction {
 
 		let currentValue = __( "Select a date", "yoast-schema-blocks" );
 		if ( attributes[ this.options.name ] ) {
-			currentValue = format( "Y-m-d", getDate() );
+			currentValue = format( "Y-m-d", attributes[ this.options.name ] );
 		}
 
 		/**
