@@ -624,7 +624,7 @@ const paradigms = [
 		"kočkách",
 		"kočkou",
 		"kočkami",
-		] },
+	] },
 ];
 
 describe( "Test for stemming Czech words", () => {
