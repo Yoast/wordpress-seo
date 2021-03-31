@@ -1,6 +1,6 @@
 import { select } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-
+import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import { getHumanReadableBlockName } from "../BlockHelper";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
@@ -29,7 +29,7 @@ export type SidebarWarning = {
  * @returns {BlockValidationResult} The validation results, or null if none were found.
  */
 function getValidationResult( clientId: string ): BlockValidationResult | null {
-	const validationResults: clientIdValidation = select( "yoast-seo/editor" ).getSchemaBlocksValidationResults();
+	const validationResults: clientIdValidation = select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getSchemaBlocksValidationResults();
 	if ( ! validationResults ) {
 		return null;
 	}
