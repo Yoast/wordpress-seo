@@ -63,6 +63,13 @@ function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactE
 	);
 }
 
+/**
+ * Renders a list of suggested blocks.
+ *
+ * @param props The props.
+ *
+ * @returns The block suggestions element.
+ */
 export default function BlockSuggestions( { title, block, suggestions }: BlockSuggestionsProps ) {
 	const suggestedBlockNames = suggestions
 		.filter( suggestedBlock => typeof getBlockType( suggestedBlock ) !== "undefined" )

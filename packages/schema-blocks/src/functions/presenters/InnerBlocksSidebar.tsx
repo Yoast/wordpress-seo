@@ -38,6 +38,13 @@ function useValidationResults( clientId: string ) {
 	}, [ clientId ] );
 }
 
+/**
+ * Retrieves the latest block version from the WordPress store.
+ *
+ * @param clientId The client ID of the block to retrieve the latest version of.
+ *
+ * @returns The latest version of the block.
+ */
 function useBlock( clientId: string ) {
 	return useSelect( select => select( "core/block-editor" ).getBlock( clientId ), [ clientId ] );
 }
