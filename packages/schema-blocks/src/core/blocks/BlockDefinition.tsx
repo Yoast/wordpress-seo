@@ -51,8 +51,14 @@ export default class BlockDefinition extends Definition {
 
 		if ( sidebarElements.length > 0 ) {
 			// Need to add `children` on the `props` as well, because of the type definition of `InspectorControls.Props`.
-			const sidebar = createElement( PanelBody, { key: "sidebarPanelBody", children: sidebarElements }, sidebarElements );
-			const sidebarContainer = createElement( InspectorControls, { key: "sidebar", children: [ sidebar ] }, [ sidebar ] );
+			const sidebar = createElement( PanelBody, {
+				key: "sidebarPanelBody",
+				children: sidebarElements,
+			}, sidebarElements );
+			const sidebarContainer = createElement( InspectorControls, {
+				key: "sidebar",
+				children: [ sidebar ],
+			}, [ sidebar ] );
 			elements.unshift( sidebarContainer );
 		}
 
@@ -102,7 +108,9 @@ export default class BlockDefinition extends Definition {
 	 */
 	sidebarElements( props: RenderEditProps ): ReactElement[] {
 		return Object.values( this.instructions )
-			.map( ( instruction, index ) => instruction.sidebar( props, index ) )
+			.map( ( instruction, index ) => <Fragment key={ instruction.id }>
+				{ instruction.sidebar( props, index ) }
+			</Fragment> )
 			.filter( e => e !== null );
 	}
 }
