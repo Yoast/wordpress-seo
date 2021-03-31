@@ -85,7 +85,7 @@ export default class BlockDefinition extends Definition {
 		configuration.edit = props => this.edit( props );
 		configuration.save = props => this.save( props );
 
-		logger.info( "registering block " + name );
+		logger.debug( "registering block " + name );
 
 		// Register the block to WordPress.
 		registerBlockType( name, configuration );
