@@ -121,3 +121,7 @@
 .yoast-block-date-picker .components-datetime__time > fieldset:last-child {
 	display: none;
 }
+
+.yoast-schema-blocks-icon {
+	fill:none;
+}
