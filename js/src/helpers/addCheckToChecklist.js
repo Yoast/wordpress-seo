@@ -84,19 +84,18 @@ function includesSchemaBlocks( blocks ) {
  * (e.g. when no schema blocks exist on the page).
  *
  * @param {Object[]} checklist        The score items to add the score to.
- * @param {Object}   yoastEditorStore The `yoast-seo/editor` Yoast SEO redux store.
+ * @param {Object}   yoastSchemaStore The `yoast-seo/schema-blocks` Yoast SEO redux store.
  * @param {Object}   wpEditorStore    The `core/editor` WordPress store.
  *
  * @returns {void}
  */
-export function maybeAddSchemaBlocksValidationCheck( checklist, yoastEditorStore, wpEditorStore ) {
+export function maybeAddSchemaBlocksValidationCheck( checklist, yoastSchemaStore, wpEditorStore ) {
 	const blocks = wpEditorStore.getBlocks();
 
 	if ( ! includesSchemaBlocks( blocks ) ) {
 		return;
 	}
-
-	const schemaBlocksValidationResults = yoastEditorStore.getSchemaBlocksValidationResults();
+	const schemaBlocksValidationResults = yoastSchemaStore.getSchemaBlocksValidationResults();
 	const validationResults = Object.values( schemaBlocksValidationResults );
 
 	if ( validationResults && validationResults.length > 0 ) {
