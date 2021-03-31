@@ -97,7 +97,15 @@ export default class BlockDefinition extends Definition {
 			configuration.icon = createElement(
 				BlockIcon,
 				{
-					icon: createElement( "span", { dangerouslySetInnerHTML: { __html: configuration.icon } } ),
+					icon: createElement(
+						"span",
+						{
+							className: "yoast-schema-blocks-icon",
+							dangerouslySetInnerHTML: {
+								__html: configuration.icon,
+							},
+						},
+					),
 				},
 			);
 		}
