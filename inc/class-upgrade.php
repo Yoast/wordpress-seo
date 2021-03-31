@@ -1149,16 +1149,16 @@ class WPSEO_Upgrade {
 		];
 
 		foreach ( $options as $option ) {
-			if ( isset( $wpseo_social[ $option ] ) ) {
+			if ( \isset( $wpseo_social[ $option ] ) ) {
 				$migrated_options[ $option ] = $wpseo_social[ $option ];
 
-				unset( $wpseo_social[ $option ] );
+				\unset( $wpseo_social[ $option ] );
 			}
 		}
 
-		$wpseo_titles = array_merge( $wpseo_titles, $migrated_options );
+		$wpseo_titles = \array_merge( $wpseo_titles, $migrated_options );
 
-		update_option( 'wpseo_social', $wpseo_social );
-		update_option( 'wpseo_titles', $wpseo_titles );
+		\update_option( 'wpseo_social', $wpseo_social );
+		\update_option( 'wpseo_titles', $wpseo_titles );
 	}
 }
