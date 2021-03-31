@@ -81,7 +81,7 @@ export default function RequiredBlocks( sidebarTitle: string, block: BlockInstan
 	const presentBlockNames = findPresentBlocks.map( presentBlock => presentBlock.name );
 
 	return (
-		<PanelBody key={ block.clientId }>
+		<PanelBody key={ sidebarTitle + block.clientId }>
 			<div className="yoast-block-sidebar-title">{ sidebarTitle }</div>
 			<ul className="yoast-block-suggestions">
 				{
