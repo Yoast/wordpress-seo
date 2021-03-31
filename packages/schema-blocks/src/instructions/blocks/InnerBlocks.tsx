@@ -132,9 +132,23 @@ export default class InnerBlocks extends BlockInstruction {
 			return null;
 		}
 
+		let requiredBlockNames: string[] = [];
+		if ( this.options.requiredBlocks ) {
+			requiredBlockNames = this.options.requiredBlocks.map( block => block.name );
+		}
+
+		let recommendedBlockNames: string[] = [];
+		if ( this.options.recommendedBlocks ) {
+			recommendedBlockNames = this.options.recommendedBlocks.map( block => block.name );
+		}
+
 		return (
 			<Fragment key="innerblocks-sidebar">
-				<InnerBlocksSidebar currentBlock={ currentBlock } />
+				<InnerBlocksSidebar
+					currentBlock={ currentBlock }
+					requiredBlocks={ requiredBlockNames }
+					recommendedBlocks={ recommendedBlockNames }
+				/>
 			</Fragment>
 		);
 	}

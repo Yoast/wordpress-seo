@@ -10,11 +10,14 @@ import { SvgIcon } from "@yoast/components";
 import { createAnalysisMessages, SidebarWarning } from "./SidebarWarningPresenter";
 import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { BlockValidationResult } from "../../core/validation";
+import BlockSuggestions from "./BlockSuggestions";
 
 type ClientIdValidation = Record<string, BlockValidationResult>;
 
 interface InnerBlocksSidebarProps {
 	currentBlock: BlockInstance;
+	recommendedBlocks: string[];
+	requiredBlocks: string[];
 }
 
 /**
@@ -35,6 +38,10 @@ function useValidationResults( clientId: string ) {
 	}, [ clientId ] );
 }
 
+function useBlock( clientId: string ) {
+	return useSelect( select => select( "core/block-editor" ).getBlock( clientId ), [ clientId ] );
+}
+
 /**
  * Inner blocks sidebar.
  *
@@ -43,6 +50,7 @@ function useValidationResults( clientId: string ) {
  * @constructor
  */
 export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ) {
+	const block = useBlock( props.currentBlock.clientId );
 	const validationResults = useValidationResults( props.currentBlock.clientId );
 
 	let warnings: SidebarWarning[] = [];
@@ -53,6 +61,16 @@ export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ) {
 
 	return <Fragment>
 		<WarningList warnings={ warnings } />
+		<BlockSuggestions
+			title={ __( "Required Blocks", "yoast-schema-blocks" ) }
+			block={ block }
+			suggestions={ props.requiredBlocks }
+		/>
+		<BlockSuggestions
+			title={ __( "Recommended Blocks", "yoast-schema-blocks" ) }
+			block={ block }
+			suggestions={ props.recommendedBlocks }
+		/>
 	</Fragment>;
 }
 
