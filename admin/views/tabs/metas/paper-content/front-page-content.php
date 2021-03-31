@@ -44,7 +44,7 @@ if ( ! empty( $homepage_meta_description ) ) {
 	$copy_home_description_button_label = \esc_html__( 'Use meta description of your homepage', 'wordpress-seo' );
 
 	$copy_home_description_help = \sprintf(
-	/* translators: 1: link open tag; 2: link close tag., 3: the translated label of the button */
+		/* translators: 1: link open tag; 2: link close tag., 3: the translated label of the button */
 		\esc_html__( 'Click the "%3$s" button below to use the meta description set in the %1$sGeneral%2$s tab which is used for your homepage.', 'wordpress-seo' ),
 		'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_titles' ) ) . '">',
 		'</a>',

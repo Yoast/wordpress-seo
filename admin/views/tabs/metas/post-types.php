@@ -29,9 +29,9 @@ $view_utils                   = new Yoast_View_Utils();
 $recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
 $editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 
-$title = \esc_html__( 'Frontpage', 'wordpress-seo' );
-
 if ( get_option( 'show_on_front' ) === 'posts' ) {
+	$title = \esc_html__( 'Frontpage', 'wordpress-seo' );
+
 	$wpseo_front_page_presenter = new WPSEO_Paper_Presenter(
 		$title,
 		__DIR__ . '/paper-content/front-page-content.php',

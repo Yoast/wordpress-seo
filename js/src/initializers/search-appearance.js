@@ -74,7 +74,8 @@ export default function initSearchAppearance() {
 					hasPreview={ true }
 					target="yoast-person-image-select"
 					hiddenField="person_logo"
-					hiddenFieldImageId="person_logo_id"selectImageButtonId="yoast-person-image-select-button"
+					hiddenFieldImageId="person_logo_id"
+					selectImageButtonId="yoast-person-image-select-button"
 					replaceImageButtonId="yoast-person-image-replace-button"
 					removeImageButtonId="yoast-person-image-remove-button"
 				/>
