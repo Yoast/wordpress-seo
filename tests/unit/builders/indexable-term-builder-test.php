@@ -208,6 +208,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 					'wpseo_twitter-image'         => 'twitter_image',
 					'wpseo_twitter-image-id'      => 'twitter_image_id',
 					'wpseo_twitter-description'   => 'twitter_description',
+					'wpseo_bctitle'               => '',
 				]
 			);
 
@@ -221,7 +222,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 			'permalink'                   => 'https://example.org/category/1',
 			'canonical'                   => 'https://canonical-term',
 			'title'                       => 'title',
-			'breadcrumb_title'            => 'some_category',
 			'description'                 => 'description',
 			'open_graph_title'            => 'open_graph_title',
 			'open_graph_image'            => 'open_graph_image',
@@ -286,7 +286,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'set-by-user' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );
 
-		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnFalse();
 		$indexable_mock->orm->expects( 'set' )->once()->with( 'breadcrumb_title', null );
 
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'is_robots_noindex' )->andReturn( true );
@@ -463,9 +462,11 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$term_meta = [
 			'wpseo_focuskw' => 'focuskeyword',
 			'wpseo_title'   => '',
+			'wpseo_bctitle' => 'My breadcrumb title meta',
 		];
 
 		$this->assertSame( 'focuskeyword', $this->instance->get_meta_value( 'wpseo_focuskw', $term_meta ) );
+		$this->assertSame( 'My breadcrumb title meta', $this->instance->get_meta_value( 'wpseo_bctitle', $term_meta ) );
 	}
 
 	/**
