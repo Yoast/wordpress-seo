@@ -1149,10 +1149,10 @@ class WPSEO_Upgrade {
 		];
 
 		foreach ( $options as $option ) {
-			if ( \isset( $wpseo_social[ $option ] ) ) {
+			if ( isset( $wpseo_social[ $option ] ) ) {
 				$migrated_options[ $option ] = $wpseo_social[ $option ];
 
-				\unset( $wpseo_social[ $option ] );
+				unset( $wpseo_social[ $option ] );
 			}
 		}
 
