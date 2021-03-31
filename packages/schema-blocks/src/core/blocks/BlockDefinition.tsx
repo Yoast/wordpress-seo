@@ -91,7 +91,7 @@ export default class BlockDefinition extends Definition {
 		configuration.edit = props => this.edit( props );
 		configuration.save = props => this.save( props );
 
-		logger.info( "registering block " + name );
+		logger.debug( "registering block " + name );
 
 		if ( configuration.icon && typeof configuration.icon === "string" && configuration.icon.includes( "<svg" ) ) {
 			configuration.icon = createElement(

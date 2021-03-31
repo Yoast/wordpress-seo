@@ -1,5 +1,5 @@
-import { RequiredBlockOption } from ".";
 import { InstructionOptions } from "../Instruction";
+import { RequiredBlockOption } from ".";
 import { SuggestedBlockProperties } from "./SuggestedBlockProperties";
 
 /**
