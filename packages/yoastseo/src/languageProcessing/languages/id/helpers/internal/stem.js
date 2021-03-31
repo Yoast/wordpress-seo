@@ -1,6 +1,6 @@
-import { buildOneFormFromRegex } from "../../../../helpers/morphology/buildFormRule";
-import createRulesFromMorphologyData from "../../../../helpers/morphology/createRulesFromArrays";
-import { flattenSortLength } from "../../../../helpers/morphology/flattenSortLength";
+import { languageProcessing } from "yoastseo";
+const { flattenSortLength, buildFormRule, createRulesFromArrays } = languageProcessing;
+
 import { calculateTotalNumberOfSyllables, removeEnding, checkBeginningsList } from "./stemHelpers";
 
 /**
@@ -187,8 +187,8 @@ const removeFirstOrderPrefix = function( word, morphologyData ) {
 	if ( firstOrderPrefixException ) {
 		return firstOrderPrefixException;
 	}
-	const regex = createRulesFromMorphologyData( morphologyData.stemming.regexRules.removeFirstOrderPrefixes );
-	const withRemovedFirstOrderPrefix = buildOneFormFromRegex( word, regex );
+	const regex = createRulesFromArrays( morphologyData.stemming.regexRules.removeFirstOrderPrefixes );
+	const withRemovedFirstOrderPrefix = buildFormRule( word, regex );
 
 	return withRemovedFirstOrderPrefix || word;
 };
@@ -211,8 +211,8 @@ const removeSecondOrderPrefix = function( word, morphologyData ) {
 	if ( /^peng/i.test( word ) && checkBeginningsList( word, 4, morphologyData.stemming.beginningModification.kBeginning ) ) {
 		return word.replace( /^peng/i, "k" );
 	}
-	const regex = createRulesFromMorphologyData( morphologyData.stemming.regexRules.removeSecondOrderPrefixes );
-	const withRemovedSecondOrderPrefix = buildOneFormFromRegex( word, regex );
+	const regex = createRulesFromArrays( morphologyData.stemming.regexRules.removeSecondOrderPrefixes );
+	const withRemovedSecondOrderPrefix = buildFormRule( word, regex );
 
 	return withRemovedSecondOrderPrefix || word;
 };

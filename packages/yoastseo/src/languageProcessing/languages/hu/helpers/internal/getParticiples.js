@@ -1,4 +1,6 @@
-import getWords from "../../../../helpers/word/getWords.js";
+import { languageProcessing } from "yoastseo";
+const { getWords } = languageProcessing;
+
 import participlesInReAndRa from "../../config/internal/participles.js";
 
 import HungarianParticiple from "../../values/HungarianParticiple.js";

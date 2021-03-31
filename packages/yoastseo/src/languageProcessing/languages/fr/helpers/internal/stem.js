@@ -1,6 +1,9 @@
 /* eslint-disable max-statements, complexity */
-import { checkIfWordEndingIsOnExceptionList } from "../../../../helpers/morphology/exceptionListHelpers";
-import { applyAllReplacements } from "../../../../helpers/morphology/regexHelpers";
+import { languageProcessing } from "yoastseo";
+const {
+	exceptionListHelpers: { checkIfWordEndingIsOnExceptionList },
+	regexHelpers: { applyAllReplacements },
+} = languageProcessing;
 
 /*
  * MIT License

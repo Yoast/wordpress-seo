@@ -7,7 +7,7 @@ import { flatten } from "lodash-es";
  *
  * @returns {Array<string>} All words, sorted by length (descending).
  */
-export function flattenSortLength( dataWords ) {
+export default function flattenSortLength( dataWords ) {
 	const allWords = flatten( Object.values( dataWords ) );
 
 	return allWords.sort( ( a, b ) => b.length - a.length || a.localeCompare( b ) );

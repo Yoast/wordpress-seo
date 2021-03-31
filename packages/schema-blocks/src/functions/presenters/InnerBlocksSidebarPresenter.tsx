@@ -3,7 +3,7 @@ import { createElement } from "@wordpress/element";
 import { BlockInstance } from "@wordpress/blocks";
 import BlockSuggestions from "../../blocks/BlockSuggestions";
 import { __ } from "@wordpress/i18n";
-import getWarnings, { sidebarWarning } from "./SidebarWarningPresenter";
+import getWarnings, { SidebarWarning } from "./SidebarWarningPresenter";
 import { InnerBlocksInstructionOptions } from "../../instructions/blocks/InnerBlocksInstructionOptions";
 import { SvgIcon } from "@yoast/components";
 
@@ -11,7 +11,7 @@ import { SvgIcon } from "@yoast/components";
  * Renders warnings and appenders for any block's InnerBlocks.
  *
  * @param currentBlock The innerblocks instance.
- * @param options The InnerBlocksInstructionOptions of the innerblock.
+ * @param options      The InnerBlocksInstructionOptions of the innerblock.
  *
  * @returns {ReactElement[]} React Elements representing the sidebar elements for these innerblocks.
  */
@@ -41,7 +41,7 @@ export function innerBlocksSidebar( currentBlock: BlockInstance, options: InnerB
  *
  * @returns {ReactElement} A ReactElement containing the list of warnings.
  */
-function createWarningList( warnings: sidebarWarning[] ): ReactElement {
+function createWarningList( warnings: SidebarWarning[] ): ReactElement {
 	return (
 		<div className="yoast-block-sidebar-warnings">
 			<div className="yoast-block-sidebar-title">{ __( "Analysis", "yoast-schema-blocks" ) }</div>

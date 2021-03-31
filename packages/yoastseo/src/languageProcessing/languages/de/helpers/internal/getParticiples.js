@@ -1,9 +1,11 @@
-import getWords from "../../../../helpers/word/getWords.js";
+import { forEach } from "lodash-es";
+import { languageProcessing } from "yoastseo";
+const { getWords } = languageProcessing;
+
 import regexFunctionFactory from "../../config/internal/passiveVoiceRegex.js";
 const regexFunction = regexFunctionFactory();
 import irregularParticiples from "../../config/internal/passiveVoiceIrregulars.js";
 import GermanParticiple from "../../values/GermanParticiple.js";
-import { forEach } from "lodash-es";
 
 const verbsBeginningWithErVerEntBeZerHerUber = regexFunction.verbsBeginningWithErVerEntBeZerHerUber;
 const verbsBeginningWithGe = regexFunction.verbsBeginningWithGe;

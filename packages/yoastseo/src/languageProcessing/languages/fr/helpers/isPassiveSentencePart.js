@@ -1,5 +1,7 @@
+import { languageProcessing } from "yoastseo";
+const { determineSentencePartIsPassive } = languageProcessing;
+
 import getParticiples from "./internal/getParticiples";
-import determineSentencePartIsPassive from "../../../helpers/passiveVoice/periphrastic/determineSentencePartIsPassive";
 
 /**
  * Determines whether a sentence part is passive.

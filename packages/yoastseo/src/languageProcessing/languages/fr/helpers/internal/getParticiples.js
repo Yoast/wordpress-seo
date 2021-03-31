@@ -1,6 +1,7 @@
 import { forEach, includes } from "lodash-es";
-import getWords from "../../../../helpers/word/getWords";
-import matchRegularParticiples from "../../../../helpers/passiveVoice/periphrastic/matchRegularParticiples";
+import { languageProcessing } from "yoastseo";
+const { getWords, matchRegularParticiples } = languageProcessing;
+
 import FrenchParticiple from "../../values/FrenchParticiple";
 import {
 	irregularsRegular,

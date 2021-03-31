@@ -1,4 +1,6 @@
-import getWords from "../../../helpers/word/getWords";
+import { languageProcessing } from "yoastseo";
+const { getWords } = languageProcessing;
+
 import passiveVerbs from "../config/internal/odikVerbs";
 import { verbPrefixes, odikSuffixes1, odikSuffixes2 } from "../config/internal/morphologicalPassiveAffixes";
 

@@ -1,4 +1,5 @@
-import AbstractResearcher from "../../AbstractResearcher";
+import { languageProcessing } from "yoastseo";
+const { AbstractResearcher } = languageProcessing;
 
 // All helpers
 import getStemmer from "./helpers/getStemmer";

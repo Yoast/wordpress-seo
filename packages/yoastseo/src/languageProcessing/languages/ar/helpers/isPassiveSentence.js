@@ -1,5 +1,6 @@
 import getPassiveVerbs from "../config/internal/passiveVerbsWithLongVowel";
-import getWords from "../../../helpers/word/getWords";
+import { languageProcessing } from "yoastseo";
+const { getWords } = languageProcessing;
 
 /**
  * Checks the passed sentence to see if it contains Arabic passive verb-forms.

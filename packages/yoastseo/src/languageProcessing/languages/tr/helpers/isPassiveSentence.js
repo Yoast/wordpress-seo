@@ -1,4 +1,6 @@
-import getWords from "../../../helpers/word/getWords";
+import { languageProcessing } from "yoastseo";
+const { getWords } = languageProcessing;
+
 import passiveEndings from "../config/internal/passiveEndings";
 import { nonPassivesFullForms, nonPassiveStems } from "../config/internal/nonPassiveExceptions";
 
@@ -35,4 +37,3 @@ export default function isPassiveSentence( sentence ) {
 
 	return matchedPassives.some( word => passiveEndings.some( ending => word.endsWith( ending ) ) );
 }
-

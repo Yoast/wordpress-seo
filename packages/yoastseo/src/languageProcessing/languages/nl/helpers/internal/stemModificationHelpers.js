@@ -1,4 +1,10 @@
-import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnListThatCanHavePrefix } from "../../../../helpers/morphology/exceptionListHelpers.js";
+import { languageProcessing } from "yoastseo";
+const {
+	exceptionListHelpers: {
+		checkIfWordEndingIsOnExceptionList,
+		checkIfWordIsOnListThatCanHavePrefix,
+	},
+} = languageProcessing;
 
 /**
  * Checks whether the word is on any of the sub-lists of the noVowelDoublingList (ending match, exact match,

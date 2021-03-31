@@ -1,5 +1,6 @@
-import getPeriphrasticSentenceParts from "../../../helpers/passiveVoice/periphrastic/getSentenceParts.js";
-import arrayToRegex from "../../../helpers/regex/createRegexFromArray";
+import { languageProcessing } from "yoastseo";
+const { createRegexFromArray, getPeriphrasticSentenceParts } = languageProcessing;
+
 import SentencePart from "../values/SentencePart";
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 import stopWords from "../config/stopWords.js";
@@ -13,11 +14,11 @@ const options = {
 	stopwords: stopWords,
 	auxiliaries: auxiliaries,
 	regexes: {
-		auxiliaryRegex: arrayToRegex( auxiliaries ),
+		auxiliaryRegex: createRegexFromArray( auxiliaries ),
 		stopCharacterRegex: /(,)(?=[ \n\r\t'"+\-»«‹›<>])/ig,
-		followingAuxiliaryExceptionRegex: arrayToRegex( followingAuxiliaryExceptionWords ),
-		directPrecedenceExceptionRegex: arrayToRegex( reflexivePronouns ),
-		elisionAuxiliaryExceptionRegex: arrayToRegex( elisionAuxiliaryExceptionWords, true ),
+		followingAuxiliaryExceptionRegex: createRegexFromArray( followingAuxiliaryExceptionWords ),
+		directPrecedenceExceptionRegex: createRegexFromArray( reflexivePronouns ),
+		elisionAuxiliaryExceptionRegex: createRegexFromArray( elisionAuxiliaryExceptionWords, true ),
 	},
 };
 

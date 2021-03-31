@@ -1,9 +1,12 @@
 import { forEach, includes, memoize } from "lodash-es";
+import { languageProcessing, values } from "yoastseo";
+const {
+	checkException,
+	directPrecedenceException,
+	precedenceException,
+} = languageProcessing;
+const { Participle } = values;
 
-import Participle from "../../../../values/Participle";
-import checkException from "../../../helpers/passiveVoice/periphrastic/checkException";
-import directPrecedenceException from "../../../helpers/passiveVoice/directPrecedenceException";
-import precedenceException from "../../../helpers/passiveVoice/precedenceException";
 import {
 	cannotDirectlyPrecedePassiveParticiple,
 	cannotBeBetweenPassiveAuxiliaryAndParticiple,
