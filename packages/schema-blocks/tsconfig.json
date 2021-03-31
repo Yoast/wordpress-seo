@@ -11,7 +11,8 @@
             "ES5"
         ],
         "esModuleInterop": true,
-        "declaration": true
+        "declaration": true,
+        "moduleResolution": "node"
     },
     "include": [
         "src/**/*"

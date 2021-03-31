@@ -100,7 +100,7 @@
     "shusher": "^0.1.1",
     "svg-react-loader": "^0.4.6",
     "tmp": "^0.1.0",
-    "typescript": "^3.7.4",
+    "typescript": "^3.9.9",
     "webpack": "^4.20.2",
     "webpack-bundle-analyzer": "^3.0.2",
     "webpack-cli": "^3.1.1",
