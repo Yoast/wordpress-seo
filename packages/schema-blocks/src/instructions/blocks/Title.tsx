@@ -6,6 +6,7 @@ import { VariableTagRichText } from "./VariableTagRichText";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
+import { attributeExists, attributeNotEmpty } from "../../functions/validators";
 
 /**
  * Interface for a WordPress post object.
@@ -33,6 +34,19 @@ class Title extends VariableTagRichText {
 	};
 
 	/**
+	 * Whether the block is completed.
+	 *
+	 * E.g. whether the block's attribute in which the schema value is stored is filled in.
+	 *
+	 * @param blockInstance The block instance to check.
+	 *
+	 * @returns Whether the block is completed.
+	 */
+	private isCompleted( blockInstance: BlockInstance ): boolean {
+		return attributeNotEmpty( blockInstance, this.options.name ) && attributeExists( blockInstance, this.options.name );
+	}
+
+	/**
 	 * Checks if the instruction block is valid.
 	 *
 	 * @param blockInstance The attributes from the block.
@@ -45,8 +59,8 @@ class Title extends VariableTagRichText {
 		const blockTitle: string = blockInstance.attributes[ this.options.name ];
 		const postTitle: string = post.title;
 
-		if ( ! ( blockTitle && postTitle ) ) {
-			return BlockValidationResult.Valid( blockInstance );
+		if ( ! this.isCompleted( blockInstance ) ) {
+			return BlockValidationResult.MissingAttribute( blockInstance, this.options.name );
 		}
 
 		if ( blockTitle.toLocaleLowerCase() === postTitle.toLocaleLowerCase() ) {
