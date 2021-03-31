@@ -44,6 +44,8 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', [ 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ] );
 		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
 		add_action( 'post_submitbox_misc_actions', [ $this, 'add_publish_box_section' ] );
+
+		add_action( 'Yoast\WP\SEO\admin_taxonomies_meta', [ $this, 'add_taxonomies_breadcrumb_title_field' ], 11, 2 );
 		add_action( 'Yoast\WP\SEO\admin_author_archives_meta', [ $this, 'add_author_archive_breadcrumb_title_field' ], 11 );
 		add_action( 'Yoast\WP\SEO\admin_date_archives_meta', [ $this, 'add_date_archive_breadcrumb_title_field' ], 11 );
 
@@ -488,6 +490,18 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Adds a breadcrumbs title input field to the Taxonomies settings section.
+	 *
+	 * @param Yoast_Form  $yform          The Yoast_Form object.
+	 * @param WP_Taxonomy $wpseo_taxonomy The taxonomy.
+	 *
+	 * @return void
+	 */
+	public function add_taxonomies_breadcrumb_title_field( $yform, $wpseo_taxonomy ) {
+		$this->breadcrumbs_title_input_field( $yform, 'bctitle-tax-' . $wpseo_taxonomy->name );
+	}
+
+	/**
 	 * Adds a breadcrumbs title input field to the Author archives settings section.
 	 *
 	 * @param Yoast_Form $yform The Yoast_Form object.
@@ -495,13 +509,7 @@ class WPSEO_Admin_Init {
 	 * @return void
 	 */
 	public function add_author_archive_breadcrumb_title_field( $yform ) {
-		echo '<div class="yoast-settings-section yoast-settings-section--last">';
-		$yform->textinput_extra_content(
-			'bctitle-author-archive',
-			__( 'Breadcrumbs title', 'wordpress-seo' ),
-			[ 'extra_content' => $this->breadcrumbs_title_help() ]
-		);
-		echo '</div>';
+		$this->breadcrumbs_title_input_field( $yform, 'bctitle-author-archive' );
 	}
 
 	/**
@@ -512,25 +520,30 @@ class WPSEO_Admin_Init {
 	 * @return void
 	 */
 	public function add_date_archive_breadcrumb_title_field( $yform ) {
-		echo '<div class="yoast-settings-section yoast-settings-section--last">';
-		$yform->textinput_extra_content(
-			'bctitle-date-archive',
-			__( 'Breadcrumbs title', 'wordpress-seo' ),
-			[ 'extra_content' => $this->breadcrumbs_title_help() ]
-		);
-		echo '</div>';
+		$this->breadcrumbs_title_input_field( $yform, 'bctitle-date-archive' );
 	}
 
 	/**
-	 * Get the breadcrumbs title help link HTML.
+	 * Generates the breadcrumbs title input field HTML.
 	 *
-	 * @return string The breadcrumbs title help link HTML.
+	 * @param Yoast_Form $yform       The Yoast_Form object.
+	 * @param string     $option_name The option name to generate the input field for.
+	 *
+	 * @return void
 	 */
-	protected function breadcrumbs_title_help() {
-		return new Help_Link_Presenter(
+	protected function breadcrumbs_title_input_field( $yform, $option_name ) {
+		$help_link = new Help_Link_Presenter(
 			WPSEO_Shortlinker::get( 'https://yoa.st/4cf' ),
 			__( 'Learn more about the breadcrumbs title', 'wordpress-seo' )
 		);
+
+		echo '<div class="yoast-settings-section yoast-settings-section--last">';
+		$yform->textinput_extra_content(
+			$option_name,
+			__( 'Breadcrumbs title', 'wordpress-seo' ),
+			[ 'extra_content' => $help_link ]
+		);
+		echo '</div>';
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
