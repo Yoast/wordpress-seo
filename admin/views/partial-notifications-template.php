@@ -4,17 +4,17 @@
  *
  * @package WPSEO\Admin
  *
- * @uses    string $type
- * @uses    string $dashicon
- * @uses    string $i18n_title
- * @uses    string $i18n_issues
- * @uses    string $i18n_no_issues
- * @uses    string $i18n_muted_issues_title
- * @uses    int    $active_total
- * @uses    int    $dismissed_total
- * @uses    int    $total
- * @uses    array  $active
- * @uses    array  $dismissed
+ * @uses    string $yoast_seo_type
+ * @uses    string $yoast_seo_dashicon
+ * @uses    string $yoast_seo_i18n_title
+ * @uses    string $yoast_seo_i18n_issues
+ * @uses    string $yoast_seo_i18n_no_issues
+ * @uses    string $yoast_seo_i18n_muted_issues_title
+ * @uses    int    $yoast_seo_active_total
+ * @uses    int    $yoast_seo_dismissed_total
+ * @uses    int    $yoast_seo_total
+ * @uses    array  $yoast_seo_active
+ * @uses    array  $yoast_seo_dismissed
  */
 
 if ( ! function_exists( '_yoast_display_notifications' ) ) {
@@ -63,40 +63,40 @@ if ( ! function_exists( '_yoast_display_notifications' ) ) {
 	}
 }
 
-$wpseo_i18n_summary = $i18n_issues;
-if ( ! $active ) {
-	$dashicon           = 'yes';
-	$wpseo_i18n_summary = $i18n_no_issues;
+$wpseo_i18n_summary = $yoast_seo_i18n_issues;
+if ( ! $yoast_seo_active ) {
+	$yoast_seo_dashicon = 'yes';
+	$wpseo_i18n_summary = $yoast_seo_i18n_no_issues;
 }
 
 ?>
-<h3 class="yoast-notifications-header" id="<?php echo esc_attr( 'yoast-' . $type . '-header' ); ?>">
-	<span class="dashicons <?php echo esc_attr( 'dashicons-' . $dashicon ); ?>"></span>
-	<?php echo esc_html( $i18n_title ); ?> (<?php echo (int) $active_total; ?>)
+<h3 class="yoast-notifications-header" id="<?php echo esc_attr( 'yoast-' . $yoast_seo_type . '-header' ); ?>">
+	<span class="dashicons <?php echo esc_attr( 'dashicons-' . $yoast_seo_dashicon ); ?>"></span>
+	<?php echo esc_html( $yoast_seo_i18n_title ); ?> (<?php echo (int) $yoast_seo_active_total; ?>)
 </h3>
 
-<div id="<?php echo esc_attr( 'yoast-' . $type ); ?>">
+<div id="<?php echo esc_attr( 'yoast-' . $yoast_seo_type ); ?>">
 
-	<?php if ( $total ) : ?>
+	<?php if ( $yoast_seo_total ) : ?>
 		<p><?php echo esc_html( $wpseo_i18n_summary ); ?></p>
 
-		<div class="container yoast-notifications-active" id="<?php echo esc_attr( 'yoast-' . $type . '-active' ); ?>">
+		<div class="container yoast-notifications-active" id="<?php echo esc_attr( 'yoast-' . $yoast_seo_type . '-active' ); ?>">
 			<?php
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_notifications() as declared above is safe.
-			echo _yoast_display_notifications( $active, 'active' );
+			echo _yoast_display_notifications( $yoast_seo_active, 'active' );
 			?>
 		</div>
 
 		<?php
-		if ( $dismissed ) {
+		if ( $yoast_seo_dismissed ) {
 			$dismissed_paper = new WPSEO_Paper_Presenter(
-				esc_html( $i18n_muted_issues_title ),
+				esc_html( $yoast_seo_i18n_muted_issues_title ),
 				null,
 				[
-					'paper_id'                 => esc_attr( $type . '-dismissed' ),
+					'paper_id'                 => esc_attr( $yoast_seo_type . '-dismissed' ),
 					'paper_id_prefix'          => 'yoast-',
 					'class'                    => 'yoast-notifications-dismissed',
-					'content'                  => _yoast_display_notifications( $dismissed, 'dismissed' ),
+					'content'                  => _yoast_display_notifications( $yoast_seo_dismissed, 'dismissed' ),
 					'collapsible'              => true,
 					'collapsible_header_class' => 'yoast-notification',
 				]
@@ -108,7 +108,7 @@ if ( ! $active ) {
 
 	<?php else : ?>
 
-		<p><?php echo esc_html( $i18n_no_issues ); ?></p>
+		<p><?php echo esc_html( $yoast_seo_i18n_no_issues ); ?></p>
 
 	<?php endif; ?>
 </div>

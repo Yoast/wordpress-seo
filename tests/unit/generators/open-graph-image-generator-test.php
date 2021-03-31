@@ -211,6 +211,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 			[
 				'height' => 1024,
 				'width'  => 2048,
+				'url'    => 'image.jpg',
 			]
 		);
 
@@ -218,15 +219,9 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 		$this->instance->expects( 'add_from_default' )->andReturnNull();
 
 		$this->image_container
-			->expects( 'add_image' )
+			->expects( 'add_image_by_meta' )
 			->once()
-			->with(
-				[
-					'height' => 1024,
-					'width'  => 2048,
-					'url'    => 'image.jpg',
-				]
-			);
+			->with( $this->indexable->open_graph_image_meta );
 
 		$this->instance->generate( $this->context );
 	}

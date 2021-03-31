@@ -46,7 +46,7 @@ class WPSEO_Admin_Settings_Changed_Listener implements WPSEO_WordPress_Integrati
 
 			self::$settings_saved = true;
 			unset( $wp_settings_errors[ $key ] );
-			// Overwrite the global with the list excluding the Changed saved message.
+			// phpcs:ignore WordPress.WP.GlobalVariablesOverride -- Overwrite the global with the list excluding the Changed saved message.
 			$GLOBALS['wp_settings_errors'] = $wp_settings_errors;
 			break;
 		}
