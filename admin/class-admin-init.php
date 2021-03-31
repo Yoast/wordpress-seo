@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Help_Link_Presenter;
+
 /**
  * Performs the load on admin side.
  */
@@ -42,6 +44,8 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', [ 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ] );
 		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
 		add_action( 'post_submitbox_misc_actions', [ $this, 'add_publish_box_section' ] );
+		add_action( 'Yoast\WP\SEO\admin_author_archives_meta', [ $this, 'add_author_archive_breadcrumb_title_field' ], 11 );
+		add_action( 'Yoast\WP\SEO\admin_date_archives_meta', [ $this, 'add_date_archive_breadcrumb_title_field' ], 11 );
 
 		/*
 		 * The `admin_notices` hook fires on single site admin pages vs.
@@ -481,6 +485,52 @@ class WPSEO_Admin_Init {
 			 */
 			do_action( 'wpseo_publishbox_misc_actions', $post );
 		}
+	}
+
+	/**
+	 * Adds a breadcrumbs title input field to the Author archives settings section.
+	 *
+	 * @param Yoast_Form $yform The Yoast_Form object.
+	 *
+	 * @return void
+	 */
+	public function add_author_archive_breadcrumb_title_field( $yform ) {
+		echo '<div class="yoast-settings-section yoast-settings-section--last">';
+		$yform->textinput_extra_content(
+			'bctitle-author-archive',
+			__( 'Breadcrumbs title', 'wordpress-seo' ),
+			[ 'extra_content' => $this->breadcrumbs_title_help() ]
+		);
+		echo '</div>';
+	}
+
+	/**
+	 * Adds a breadcrumbs title input field to the Date archives settings section.
+	 *
+	 * @param Yoast_Form $yform The Yoast_Form object.
+	 *
+	 * @return void
+	 */
+	public function add_date_archive_breadcrumb_title_field( $yform ) {
+		echo '<div class="yoast-settings-section yoast-settings-section--last">';
+		$yform->textinput_extra_content(
+			'bctitle-date-archive',
+			__( 'Breadcrumbs title', 'wordpress-seo' ),
+			[ 'extra_content' => $this->breadcrumbs_title_help() ]
+		);
+		echo '</div>';
+	}
+
+	/**
+	 * Get the breadcrumbs title help link HTML.
+	 *
+	 * @return string The breadcrumbs title help link HTML.
+	 */
+	protected function breadcrumbs_title_help() {
+		return new Help_Link_Presenter(
+			WPSEO_Shortlinker::get( 'https://yoa.st/4cf' ),
+			__( 'Learn more about the breadcrumbs title', 'wordpress-seo' )
+		);
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
