@@ -72,8 +72,7 @@ function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactE
  */
 export default function BlockSuggestions( { title, block, suggestions }: BlockSuggestionsProps ) {
 	const suggestedBlockNames = suggestions
-		.filter( suggestedBlock => typeof getBlockType( suggestedBlock ) !== "undefined" )
-		.map( suggestedBlock => suggestedBlock );
+		.filter( suggestedBlock => typeof getBlockType( suggestedBlock ) !== "undefined" );
 
 	// When there are no suggestions, just return.
 	if ( suggestedBlockNames.length === 0 ) {
