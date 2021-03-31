@@ -17,13 +17,14 @@ import {
  */
 export function mapSelectToProps( select ) {
 	const yoastStore = select( "yoast-seo/editor" );
+	const yoastSchemaStore = select( "yoast-seo/schema-blocks" );
 	const wpEditorStore = select( "core/editor" );
 
 	const checklist = [];
 
 	maybeAddReadabilityCheck( checklist, yoastStore );
 	maybeAddSEOCheck( checklist, yoastStore );
-	maybeAddSchemaBlocksValidationCheck( checklist, yoastStore, wpEditorStore );
+	maybeAddSchemaBlocksValidationCheck( checklist, yoastSchemaStore, wpEditorStore );
 
 	return { checklist };
 }
