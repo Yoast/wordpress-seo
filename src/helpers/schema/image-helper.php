@@ -95,9 +95,10 @@ class Image_Helper {
 	public function generate_from_attachment_meta( $schema_id, $attachment_meta, $caption = '' ) {
 		$data = $this->generate_object( $schema_id );
 
-		$data['url']    = $attachment_meta['url'];
-		$data['width']  = $attachment_meta['width'];
-		$data['height'] = $attachment_meta['height'];
+		$data['url']        = $attachment_meta['url'];
+		$data['contentUrl'] = $data['url'];
+		$data['width']      = $attachment_meta['width'];
+		$data['height']     = $attachment_meta['height'];
 		if ( ! empty( $caption ) ) {
 			$data['caption'] = $this->html->smart_strip_tags( $caption );
 		}
