@@ -8,10 +8,10 @@ import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
 import validateMany from "../../functions/validators/validateMany";
-import { innerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebarPresenter";
 import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
+import { InnerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebar";
 
 /**
  * Custom props for InnerBlocks.
@@ -132,15 +132,9 @@ export default class InnerBlocks extends BlockInstruction {
 			return null;
 		}
 
-		const elements: ReactElement[] = innerBlocksSidebar( currentBlock, this.options );
-
-		if ( elements && elements.length === 0 ) {
-			return null;
-		}
-
 		return (
 			<Fragment key="innerblocks-sidebar">
-				{ ...elements }
+				<InnerBlocksSidebar currentBlock={ currentBlock } />
 			</Fragment>
 		);
 	}
