@@ -1,11 +1,11 @@
-import { registerBlockType } from "@wordpress/blocks";
-
 import "../instructions";
-import logger, { LogLevel } from "./logger";
+import { registerBlockType } from "@wordpress/blocks";
+import { initializeSchemaBlocksStore } from "../functions/redux";
 import { WarningBlock } from "../blocks/warning-block/configuration";
 import { processBlock, processSchema } from "./process";
 import filter from "./gutenberg/filter";
 import watch from "./gutenberg/watch";
+import logger, { LogLevel } from "./logger";
 
 /**
  * Removes all whitespace including line breaks from a string.
@@ -26,7 +26,9 @@ function removeWhitespace( text: string ): string {
 export function initialize( logLevel: LogLevel = LogLevel.ERROR ) {
 	logger.setLogLevel( logLevel );
 
-	registerBlockType( "yoast/warning-block", WarningBlock );
+	initializeSchemaBlocksStore();
+
+	registerInternalBlocks();
 
 	jQuery( 'script[type="text/schema-template"]' ).each( function() {
 		try {
@@ -53,4 +55,11 @@ export function initialize( logLevel: LogLevel = LogLevel.ERROR ) {
 
 	// Watch Gutenberg for block changes that require schema updates.
 	watch();
+}
+
+/**
+ * Registers additional blocks needed for schema blocks use cases.
+ */
+function registerInternalBlocks() {
+	registerBlockType( "yoast/warning-block", WarningBlock );
 }

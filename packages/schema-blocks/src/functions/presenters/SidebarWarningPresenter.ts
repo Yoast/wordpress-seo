@@ -1,6 +1,6 @@
 import { select } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-
+import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import { getHumanReadableBlockName } from "../BlockHelper";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
@@ -29,7 +29,7 @@ export type SidebarWarning = {
  * @returns {BlockValidationResult} The validation results, or null if none were found.
  */
 function getValidationResult( clientId: string ): BlockValidationResult | null {
-	const validationResults: clientIdValidation = select( "yoast-seo/editor" ).getSchemaBlocksValidationResults();
+	const validationResults: clientIdValidation = select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getSchemaBlocksValidationResults();
 	if ( ! validationResults ) {
 		return null;
 	}
@@ -38,14 +38,15 @@ function getValidationResult( clientId: string ): BlockValidationResult | null {
 }
 
 /**
- * If some required blocks are missing.
+ * If some required blocks are missing and/or not filled in.
  *
  * @param issues The block validation issues to check.
  *
- * @return `true` if some required blocks are missing, `false` if not.
+ * @return `true` if some required blocks are missing or not completed, `false` if not.
  */
-function someMissingRequiredBlocks( issues: BlockValidationResult[] ) {
-	return issues.some( issue => issue.result === BlockValidation.MissingBlock && issue.blockPresence === BlockPresence.Required );
+function someRequiredBlocksNotCompleted( issues: BlockValidationResult[] ) {
+	return issues.some( issue => issue.result === BlockValidation.MissingBlock && issue.blockPresence === BlockPresence.Required ||
+		issue.result === BlockValidation.MissingAttribute );
 }
 
 /**
@@ -60,7 +61,7 @@ function getAnalysisConclusion( validation: BlockValidationResult, issues: Block
 	let conclusionText = "";
 
 	// Show a red bullet when not all required blocks have been completed.
-	if ( someMissingRequiredBlocks( issues ) ) {
+	if ( someRequiredBlocksNotCompleted( issues ) ) {
 		conclusionText = sprintf(
 			/* translators: %s expands to the schema block name. */
 			__( "Not all required blocks have been completed! No %s schema will be generated for your page.", "yoast-schema-blocks" ),
