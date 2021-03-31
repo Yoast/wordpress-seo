@@ -599,6 +599,32 @@ const paradigms = [
 		"matčiných",
 		"matčinými",
 	] },
+	// Paradigms for the list of words with stems that belong to one word.
+	{ stem: "dít", forms: [
+		"děti",
+		"dítě",
+		"dítěte",
+		"dětem",
+		"dítěti",
+		"dítětem",
+		"dětech",
+	] },
+	{ stem: "koč", forms: [
+		"kočka",
+		"kočky",
+		"kočky",
+		"koček",
+		"kočce",
+		"kočkám",
+		"kočku",
+		"kočky",
+		"kočko",
+		"kočky",
+		"kočce",
+		"kočkách",
+		"kočkou",
+		"kočkami",
+	] },
 ];
 
 describe( "Test for stemming Czech words", () => {
