@@ -86,7 +86,8 @@ class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 			->andReturn( true );
 
 		Monkey\Functions\expect( 'check_ajax_referer' )
-			->with( 'inlineeditnonce', '_inline_edit', false );
+			->with( 'inlineeditnonce', '_inline_edit', false )
+			->andReturn( 1 );
 
 		$_POST['action'] = 'inline-save';
 

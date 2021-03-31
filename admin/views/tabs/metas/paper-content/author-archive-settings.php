@@ -84,6 +84,15 @@ $editor                       = new WPSEO_Replacevar_Editor(
 
 $editor->render();
 
+/**
+ * Allow adding custom fields to the admin meta page - Author Archives tab.
+ *
+ * @since 16.2
+ *
+ * @param WPSEO_Admin_Pages $yform The WPSEO_Admin_Pages object
+ */
+do_action( 'Yoast\WP\SEO\admin_author_archives_meta', $yform );
+
 $author_archive_breadcrumbs_title_help_link = new Help_Link_Presenter(
 	WPSEO_Shortlinker::get( 'https://yoa.st/4cf' ),
 	__( 'Learn more about the breadcrumbs title', 'wordpress-seo' )
