@@ -21,6 +21,12 @@ getBlockDefinitionMock.mockImplementation( ( name: string ) => {
 	return mockBlockRegistry[ name ];
 } );
 
+jest.mock( "../../../src/functions/BlockHelper", () => {
+	return {
+		getHumanReadableBlockName: jest.fn( name => name ),
+	};
+} );
+
 /**
  * Provides a fake definition.
  *

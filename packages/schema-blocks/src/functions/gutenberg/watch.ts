@@ -123,7 +123,7 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 export default function watch() {
 	subscribe(
 		debounce( () => {
-			if ( updatingSchema || select( "core/block-editor" ).isTyping() ) {
+			if ( updatingSchema ) {
 				return;
 			}
 

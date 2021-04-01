@@ -13,6 +13,7 @@ import { getInnerblocksByName } from "../innerBlocksHelper";
 import logger from "../logger";
 import isValidResult from "./isValidResult";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
+import { getHumanReadableBlockName } from "../BlockHelper";
 
 /**
  * Finds all blocks that should/could be in the inner blocks, but aren't.
@@ -30,13 +31,18 @@ function findMissingBlocks( existingBlocks: BlockInstance[], allBlocks: Required
 		return ! existingBlocks.some( existingBlock => existingBlock.name === block.name );
 	} );
 
-	// Determine which BlockValidation value should be mapped to the new BlockValidationResult.
-	const missingBlockResult = ( blockPresence === BlockPresence.Required ? BlockValidation.MissingRequiredBlock
-		: BlockValidation.MissingRecommendedBlock );
+	// Return a BlockValidationResult for a required block.
+	if ( blockPresence === BlockPresence.Required ) {
+		// These blocks should've existed, but they don't.
+		return missingBlocks.map( missingBlock =>
+			BlockValidationResult.MissingRequiredBlock( getHumanReadableBlockName( missingBlock.name ) ),
+		);
+	}
 
-	// These blocks should've existed, but they don't.
+	// Return a BlockValidationResult for a recommended block.
 	return missingBlocks.map( missingBlock =>
-		new BlockValidationResult( null, missingBlock.name, missingBlockResult, blockPresence ) );
+		BlockValidationResult.MissingRecommendedBlock( getHumanReadableBlockName( missingBlock.name ) ),
+	);
 }
 
 /**
@@ -107,7 +113,7 @@ function validateInnerblockTree( blockInstance: BlockInstance ): BlockValidation
  * @returns {BlockValidationResult[]} The names and reasons of the inner blocks that are invalid.
  */
 function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: RequiredBlock[] = [],
-							  recommendedBlocks: RecommendedBlock[] = [] ): BlockValidationResult[]  {
+							  recommendedBlocks: RecommendedBlock[] = [] ): BlockValidationResult[] {
 	const requiredBlockKeys = requiredBlocks.map( rblock => rblock.name );
 	const recommendedBlockKeys = recommendedBlocks.map( rblock => rblock.name );
 
@@ -138,7 +144,7 @@ function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Requ
 
 	validationResults = validationResults.filter( result =>
 		! ( isValidResult( result.result ) &&
-		validationResults.some( also => also.clientId === result.clientId && ! isValidResult( also.result ) ) ) );
+			validationResults.some( also => also.clientId === result.clientId && ! isValidResult( also.result ) ) ) );
 
 	return validationResults;
 }
