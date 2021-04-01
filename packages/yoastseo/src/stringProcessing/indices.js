@@ -63,7 +63,7 @@ var getIndicesByWordList = function( words, text ) {
  */
 var sortIndices = function( indices ) {
 	return indices.sort( function( a, b ) {
-		return ( a.index > b.index );
+		return ( a.index - b.index );
 	} );
 };
 
