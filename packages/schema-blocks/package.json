@@ -2,6 +2,7 @@
   "name": "@yoast/schema-blocks",
   "version": "1.6.0",
   "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "license": "MIT",
   "private": false,
   "dependencies": {
@@ -60,7 +61,7 @@
     "lint": "eslint \"src/**\"",
     "lint-fix": "eslint \"src/**\" --fix",
     "test": "jest",
-    "prepublishOnly": "rm -rf dist && yarn build && mkdir dist/css && cp -r css/*.css dist/css && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
+    "prepublishOnly": "rm -rf dist && yarn build && mkdir dist/css && cp -r css/*.css dist/css && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" -e \"this.typings='index.d.ts'\""
   },
   "publishConfig": {
     "access": "public"
