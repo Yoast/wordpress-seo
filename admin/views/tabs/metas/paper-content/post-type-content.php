@@ -69,13 +69,13 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 
 	$breadcrumbs_title_help_link = new Help_Link_Presenter(
 		WPSEO_Shortlinker::get( 'https://yoa.st/4cf' ),
-		__( 'Learn more about the breadcrumbs title', 'wordpress-seo' )
+		\__( 'Learn more about the breadcrumbs title', 'wordpress-seo' )
 	);
 
 	echo '<div class="yoast-settings-section yoast-settings-section--last">';
 	$yform->textinput_extra_content(
 		'bctitle-ptarchive-' . $wpseo_post_type->name,
-		__( 'Breadcrumbs title', 'wordpress-seo' ),
+		\esc_html__( 'Breadcrumbs title', 'wordpress-seo' ),
 		[ 'extra_content' => $breadcrumbs_title_help_link ]
 	);
 	echo '</div>';
