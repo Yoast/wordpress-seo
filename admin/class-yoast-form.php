@@ -417,6 +417,8 @@ class Yoast_Form {
 	 * @param string $var   The variable within the option to create the text input field for.
 	 * @param string $label The label to show for the variable.
 	 * @param array  $attr  Extra attributes to add to the input field.
+	 *
+	 * @return void
 	 */
 	public function textinput_extra_content( $var, $label, $attr = [] ) {
 		$type = 'text';
@@ -426,7 +428,7 @@ class Yoast_Form {
 			'disabled'    => false,
 		];
 
-		$attr = wp_parse_args( $attr, $defaults );
+		$attr = \wp_parse_args( $attr, $defaults );
 		$val  = $this->get_field_value( $var, '' );
 
 		if ( isset( $attr['type'] ) && $attr['type'] === 'url' ) {
@@ -459,13 +461,13 @@ class Yoast_Form {
 		printf(
 			'<input type="%1$s" name="%2$s" id="%3$s" class="%4$s"%5$s%6$s%7$s value="%8$s"%9$s>',
 			$type,
-			esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']',
-			esc_attr( $var ),
-			esc_attr( $attr['class'] ),
-			isset( $attr['placeholder'] ) ? ' placeholder="' . esc_attr( $attr['placeholder'] ) . '"' : '',
-			isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '',
+			\esc_attr( $this->option_name ) . '[' . \esc_attr( $var ) . ']',
+			\esc_attr( $var ),
+			\esc_attr( $attr['class'] ),
+			isset( $attr['placeholder'] ) ? ' placeholder="' . \esc_attr( $attr['placeholder'] ) . '"' : '',
+			isset( $attr['autocomplete'] ) ? ' autocomplete="' . \esc_attr( $attr['autocomplete'] ) . '"' : '',
 			$aria_attributes,
-			esc_attr( $val ),
+			\esc_attr( $val ),
 			$this->get_disabled_attribute( $var, $attr )
 		);
 		// phpcs:enable
