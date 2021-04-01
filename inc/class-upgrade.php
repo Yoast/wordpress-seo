@@ -71,6 +71,7 @@ class WPSEO_Upgrade {
 			'15.5-RC0'   => 'upgrade_155',
 			'15.7-RC0'   => 'upgrade_157',
 			'15.9.1-RC0' => 'upgrade_1591',
+			'16.2-RC0'   => 'upgrade_162',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -807,6 +808,16 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 16.2 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_162() {
+		// Run after the WPSEO_Options::enrich_defaults method which has priority 99.
+		\add_action( 'init', [ $this, 'set_og_settings_from_seo_values' ], 100 );
+	}
+
+	/**
 	 * Sets the home_url option for the 15.1 upgrade routine.
 	 *
 	 * @return void
@@ -1119,5 +1130,78 @@ class WPSEO_Upgrade {
 		}
 
 		WPSEO_Options::set( 'custom_taxonomy_slugs', $custom_taxonomies );
+	}
+
+	/**
+	 * Migrates the frontpage social settings to the titles options.
+	 *
+	 * @return void
+	 */
+	public function set_og_settings_from_seo_values() {
+		$wpseo_titles    = \get_option( 'wpseo_titles' );
+		$updated_options = [];
+
+		$options = [
+			'title-author-wpseo'     => 'social-title-author-wpseo',
+			'title-archive-wpseo'    => 'social-title-archive-wpseo',
+			'metadesc-author-wpseo'  => 'social-description-author-wpseo',
+			'metadesc-archive-wpseo' => 'social-description-archive-wpseo',
+		];
+
+		$options_templates_post_types = [
+			'title-'    => 'social-title-',
+			'metadesc-' => 'social-description-',
+		];
+
+		$options_templates_post_types_archive = [
+			'title-ptarchive-'    => 'social-title-ptarchive-',
+			'metadesc-ptarchive-' => 'social-description-ptarchive-',
+		];
+
+		$options_templates_term_archive = [
+			'title-tax-'    => 'social-title-tax-',
+			'metadesc-tax-' => 'social-description-tax-',
+		];
+
+		foreach ( $options as $seo => $social ) {
+			if ( isset( $wpseo_titles[ $seo ] ) ) {
+				$updated_options[ $social ] = $wpseo_titles[ $seo ];
+			}
+		}
+
+		$post_type_objects = get_post_types( [ 'public' => true ], 'objects' );
+
+		if ( $post_type_objects ) {
+			foreach ( $post_type_objects as $pt ) {
+				// Post types.
+				foreach ( $options_templates_post_types as $seo => $social ) {
+					if ( isset( $wpseo_titles[ $seo . $pt->name ] ) ) {
+						$updated_options[ $social . $pt->name ] = $wpseo_titles[ $seo . $pt->name ];
+					}
+				}
+				// Post type archives.
+				foreach ( $options_templates_post_types_archive as $seo_archive => $social_archive ) {
+					if ( isset( $wpseo_titles[ $seo_archive . $pt->name ] ) ) {
+						$updated_options[ $social_archive . $pt->name ] = $wpseo_titles[ $seo_archive . $pt->name ];
+					}
+				}
+			}
+		}
+
+		$taxonomy_objects = get_taxonomies( [ 'public' => true ], 'object' );
+
+		if ( $taxonomy_objects ) {
+			foreach ( $taxonomy_objects as $tax ) {
+				foreach ( $options_templates_term_archive as $seo => $social ) {
+					if ( isset( $wpseo_titles[ $seo . $tax->name ] ) ) {
+						$updated_options[ $social . $tax->name ] = $wpseo_titles[ $seo . $tax->name ];
+					}
+				}
+			}
+		}
+
+		$wpseo_titles = \array_merge( $wpseo_titles, $updated_options );
+
+		\update_option( 'wpseo_titles', $wpseo_titles );
 	}
 }
