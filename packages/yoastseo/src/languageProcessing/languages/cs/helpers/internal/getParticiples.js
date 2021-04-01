@@ -1,5 +1,6 @@
 import { forEach } from "lodash-es";
-import getWords from "../../../../helpers/word/getWords.js";
+import { languageProcessing } from "yoastseo";
+const { getWords } = languageProcessing;
 import CzechParticiple from "../../values/CzechParticiple";
 import getPassiveEndingsCzech from "../../config/internal/passiveVoiceEndings";
 
