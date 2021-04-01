@@ -106,7 +106,7 @@ export function mapSelectToProps( select ) {
 		mode: getSnippetEditorMode(),
 		recommendedReplacementVariables: getRecommendedReplaceVars(),
 		replacementVariables,
-		shoppingData: getShoppingData,
+		shoppingData: getShoppingData(),
 		wordsToHighlight: getSnippetEditorWordsToHighlight(),
 	};
 }
