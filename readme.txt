@@ -239,13 +239,13 @@ Release Date: April 6th, 2021
 
 Enhancements:
 
-* Optimizes the queries used for fetching unindexed objects.
+* Improves the performance of the SEO data indexing process by optimizing the queries used for fetching unindexed objects.
 * Adds your OpenGraph or Twitter image as the main image in Schema when they're set.
-* Adds `contentUrl` to the schema image output to more precisely say what the URL _is_.
+* Adds `contentUrl` to the schema image output.
 * Improves the performance of the post indexing. Props to [Ovidiu Liuta](https://github.com/ovidiul).
 * Improves the URL in the Google preview when in the desktop mode.
-* Performance optimization for loading the person & organization logo in Schema.
-* Optimizes several calls to WP path and basename functions by using already defined and calculated constants.
+* Improves the performance of loading the person & organization logo in Schema.
+* Improves the performance by optimizing several calls to WP path and basename functions by using already defined and calculated constants.
 * Removes the keyphrase highlighting in the mobile meta description to reflect new Google behavior.
 
 Bugfixes:
