@@ -412,6 +412,70 @@ class Yoast_Form {
 	}
 
 	/**
+	 * Creates a text input field with with the ability to add content after the label.
+	 *
+	 * @param string $var   The variable within the option to create the text input field for.
+	 * @param string $label The label to show for the variable.
+	 * @param array  $attr  Extra attributes to add to the input field.
+	 *
+	 * @return void
+	 */
+	public function textinput_extra_content( $var, $label, $attr = [] ) {
+		$type = 'text';
+
+		$defaults = [
+			'class'       => 'yoast-field-group__inputfield',
+			'disabled'    => false,
+		];
+
+		$attr = \wp_parse_args( $attr, $defaults );
+		$val  = $this->get_field_value( $var, '' );
+
+		if ( isset( $attr['type'] ) && $attr['type'] === 'url' ) {
+			$val  = urldecode( $val );
+			$type = 'url';
+		}
+
+		echo '<div class="yoast-field-group__title">';
+		$this->label(
+			$label,
+			[
+				'for'   => $var,
+				'class' => $attr['class'] . '--label',
+			]
+		);
+
+		if ( isset( $attr['extra_content'] ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: may contain HTML that should not be escaped.
+			echo $attr['extra_content'];
+		}
+		echo '</div>';
+
+		$has_input_error = Yoast_Input_Validation::yoast_form_control_has_error( $var );
+		$aria_attributes = Yoast_Input_Validation::get_the_aria_invalid_attribute( $var );
+
+		Yoast_Input_Validation::set_error_descriptions();
+		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $var );
+
+		// phpcs:disable WordPress.Security.EscapeOutput -- Reason: output is properly escaped or hardcoded.
+		printf(
+			'<input type="%1$s" name="%2$s" id="%3$s" class="%4$s"%5$s%6$s%7$s value="%8$s"%9$s>',
+			$type,
+			\esc_attr( $this->option_name ) . '[' . \esc_attr( $var ) . ']',
+			\esc_attr( $var ),
+			\esc_attr( $attr['class'] ),
+			isset( $attr['placeholder'] ) ? ' placeholder="' . \esc_attr( $attr['placeholder'] ) . '"' : '',
+			isset( $attr['autocomplete'] ) ? ' autocomplete="' . \esc_attr( $attr['autocomplete'] ) . '"' : '',
+			$aria_attributes,
+			\esc_attr( $val ),
+			$this->get_disabled_attribute( $var, $attr )
+		);
+		// phpcs:enable
+		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: output is properly escaped.
+		echo Yoast_Input_Validation::get_the_error_description( $var );
+	}
+
+	/**
 	 * Create a textarea.
 	 *
 	 * @since 2.0
