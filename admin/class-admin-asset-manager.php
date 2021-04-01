@@ -297,13 +297,14 @@ class WPSEO_Admin_Asset_Manager {
 		$scripts['post-edit-classic'] = [
 			'name'      => 'post-edit-classic',
 			'src'       => $scripts['post-edit']['src'],
-			'deps'      => array_replace(
-				array_keys(
-					$scripts['post-edit']['deps'],
-					self::PREFIX . 'block-editor',
-					true
-				),
-				[ self::PREFIX . 'classic-editor' ]
+			'deps'      => array_map(
+				function( $dep ) {
+					if ( $dep === self::PREFIX . 'block-editor' ) {
+						return self::PREFIX . 'classic-editor';
+					}
+					return $dep;
+				},
+				$scripts['post-edit']['deps']
 			),
 			'in_footer' => ! in_array( 'post-edit-classic', $header_scripts, true ),
 		];
