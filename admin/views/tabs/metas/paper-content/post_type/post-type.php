@@ -49,12 +49,10 @@ $editor->render();
 echo '</div>';
 
 /**
- * Allow adding custom fields to the admin meta page - Post Types tab.
+ * Allow adding custom fields to the admin meta page - Content Types tab.
  *
- * @since 16.2
- *
- * @param WPSEO_Admin_Pages $yform  The WPSEO_Admin_Pages object
- * @param string            $name   The post type name
+ * @param Yoast_Form $yform The Yoast_Form object.
+ * @param string     $name  The post type name.
  */
 do_action( 'Yoast\WP\SEO\admin_post_types_meta', $yform, $wpseo_post_type->name );
 

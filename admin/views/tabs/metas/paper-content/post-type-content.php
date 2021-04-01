@@ -20,10 +20,10 @@ echo '<h3>' . esc_html( sprintf( __( 'Settings for single %s URLs', 'wordpress-s
 require __DIR__ . '/post_type/post-type.php';
 
 /**
- * Allow adding custom fields to the admin meta page, just before the archive settings - Post Types tab.
+ * Allow adding custom fields to the admin meta page, just before the archive settings - Content Types tab.
  *
- * @param WPSEO_Admin_Pages $yform  The WPSEO_Admin_Pages object
- * @param string            $name   The post type name
+ * @param Yoast_Form $yform The Yoast_Form object.
+ * @param string     $name  The post type name.
  */
 do_action( 'Yoast\WP\SEO\admin_post_types_beforearchive', $yform, $wpseo_post_type->name );
 

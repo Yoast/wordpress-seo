@@ -58,11 +58,9 @@ $yform->toggle_switch(
 	echo '</div>';
 
 	/**
-	 * Allow adding custom fields to the admin meta page - Date Archives tab.
+	 * Allow adding custom fields to the admin meta page - Date archives panel in the Archives tab.
 	 *
-	 * @since 16.2
-	 *
-	 * @param WPSEO_Admin_Pages $yform The WPSEO_Admin_Pages object
+	 * @param Yoast_Form $yform The Yoast_Form object.
 	 */
 	do_action( 'Yoast\WP\SEO\admin_date_archives_meta', $yform );
 	?>
