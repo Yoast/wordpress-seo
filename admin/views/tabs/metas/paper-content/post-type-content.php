@@ -72,7 +72,7 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 		__( 'Learn more about the breadcrumbs title', 'wordpress-seo' )
 	);
 
-	echo '<div class="yoast-settings-section">';
+	echo '<div class="yoast-settings-section yoast-settings-section--last">';
 	$yform->textinput_extra_content(
 		'bctitle-ptarchive-' . $wpseo_post_type->name,
 		__( 'Breadcrumbs title', 'wordpress-seo' ),
