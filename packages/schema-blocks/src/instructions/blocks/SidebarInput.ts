@@ -4,21 +4,13 @@ import { TextControl } from "@wordpress/components";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderSaveProps, RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
-import SidebarBase from "./abstract/SidebarBase";
+import SidebarBase, { SidebarBaseOptions } from "./abstract/SidebarBase";
 
 /**
  * Sidebar input instruction.
  */
 class SidebarInput extends SidebarBase {
-	public options: {
-		name: string;
-		default?: string;
-		type?: string;
-		label?: string;
-		help?: string;
-		output?: boolean;
-		required?: boolean;
-	}
+	public options: SidebarBaseOptions;
 
 	/**
 	 * Renders the sidebar.

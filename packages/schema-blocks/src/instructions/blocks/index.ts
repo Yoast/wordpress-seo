@@ -2,6 +2,7 @@ import "./Block";
 import "./ClassName";
 import "./CurrencySelect";
 import "./Date";
+import "./InheritSidebar";
 import "./InnerBlocks";
 import "./RichText";
 import "./Select";
