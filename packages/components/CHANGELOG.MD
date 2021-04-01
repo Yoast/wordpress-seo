@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
-## 2.17.0 April 5th, 2021
+## 2.17.0 April 1st, 2021
 ### Enhancements
 * Updates the `Checkbox` component to the newer style. Now wrapped in a `FieldGroup`.
 * Adds a maximum width to the `Alert` component.
