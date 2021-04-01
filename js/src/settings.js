@@ -1,4 +1,6 @@
 /* global wpseoScriptData */
+import jQuery from "jquery";
+
 import initAdmin from "./initializers/admin";
 import initAdminMedia from "./initializers/admin-media";
 import initSearchAppearance from "./initializers/search-appearance";

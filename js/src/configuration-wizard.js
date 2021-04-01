@@ -2,8 +2,9 @@
 // External dependencies.
 import { Component, render } from "@wordpress/element";
 import ConfigurationWizard, { MessageBox } from "@yoast/configuration-wizard";
-import { setTranslations } from "yoast-components";
+import jQuery from "jquery";
 import { isUndefined } from "lodash-es";
+import { setTranslations } from "yoast-components";
 import { makeOutboundLink } from "@yoast/helpers";
 
 // Internal dependencies.

@@ -231,11 +231,21 @@ class WPSEO_Admin_Asset_Manager {
 			'analysis-worker'  => [ self::PREFIX . 'analysis-package' ],
 			'api-client'       => [ 'wp-api' ],
 			'dashboard-widget' => [ self::PREFIX . 'api-client' ],
+			'indexation'       => [
+				'jquery-ui-core',
+				'jquery-ui-progressbar',
+			],
 			'post-edit'        => [
 				self::PREFIX . 'block-editor',
 				self::PREFIX . 'select2',
 			],
+			'reindex-links'    => [
+				'jquery-ui-core',
+				'jquery-ui-progressbar',
+			],
 			'settings'         => [
+				'jquery-ui-core',
+				'jquery-ui-progressbar',
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'select2',
 			],

@@ -1,3 +1,6 @@
+import domReady from "@wordpress/dom-ready";
+import jQuery from "jquery";
+
 import initTabs from "./initializers/metabox-tabs";
 import initPrimaryCategory from "./initializers/primary-category";
 import initPostScraper from "./initializers/post-scraper";
@@ -6,7 +9,6 @@ import initAdminMedia from "./initializers/admin-media";
 import initAdmin from "./initializers/admin";
 import initEditorStore from "./initializers/editor-store";
 import initializeEstimatedReadingTime from "./initializers/estimated-reading-time";
-import domReady from "@wordpress/dom-ready";
 
 // Backwards compatibility globals.
 window.wpseoPostScraperL10n = window.wpseoScriptData.metabox;

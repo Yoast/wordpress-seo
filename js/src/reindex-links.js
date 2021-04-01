@@ -1,4 +1,5 @@
-/* global yoastReindexLinksData, jQuery, tb_remove */
+/* global yoastReindexLinksData, tb_remove */
+import jQuery from "jquery";
 
 const settings = yoastReindexLinksData.data;
 let linkIndexingCompleted = false;
