@@ -237,6 +237,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 16.1 =
 Release Date: April 6th, 2021
 
+Yoast SEO 16.1 is out today! It features several enhancements and fixes that make the plugin chug along nicely. Happy updating! Read more about what’s new in Yoast SEO 16.1 in [our release post](https://yoa.st/release-16-1)!
+
 Enhancements:
 
 * Improves the performance of the SEO data indexing process by optimizing the queries used for fetching unindexed objects.
