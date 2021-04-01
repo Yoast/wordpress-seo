@@ -139,9 +139,6 @@ class WPSEO_Taxonomy {
 			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 			$yoast_components_l10n->localize_script( 'term-edit' );
 
-			$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
-			$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
-
 			/**
 			 * Remove the emoji script as it is incompatible with both React and any
 			 * contenteditable fields.
@@ -150,9 +147,6 @@ class WPSEO_Taxonomy {
 
 			$asset_manager->localize_script( 'term-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 			$asset_manager->localize_script( 'term-edit', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
-
-			$wp_scripts      = wp_scripts();
-			$lodash_url_path = ( array_key_exists( 'lodash', $wp_scripts->registered ) ) ? $wp_scripts->registered['lodash']->src : '';
 
 			$script_data = [
 				'analysis'         => [
@@ -165,17 +159,10 @@ class WPSEO_Taxonomy {
 						],
 					],
 					'worker'  => [
-						'url'                     => $analysis_worker_location->get_url(
-							$analysis_worker_location->get_asset(),
-							WPSEO_Admin_Asset::TYPE_JS
-						),
-						'keywords_assessment_url' => $used_keywords_assessment_location->get_url(
-							$used_keywords_assessment_location->get_asset(),
-							WPSEO_Admin_Asset::TYPE_JS
-						),
+						'url'                     => YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-analysis-worker' ),
+						'dependencies'            => YoastSEO()->helpers->asset->get_dependency_urls_by_handle( 'yoast-seo-analysis-worker' ),
+						'keywords_assessment_url' => YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-used-keywords-assessment' ),
 						'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
-						'language'                => YoastSEO()->helpers->language->get_researcher_language(),
-						'lodashURL'               => $wp_scripts->base_url . $lodash_url_path,
 					],
 				],
 				'media'            => [
