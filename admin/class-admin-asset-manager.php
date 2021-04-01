@@ -360,7 +360,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name'      => $name,
 				'src'       => $args['base_dir'] . $file,
 				'deps'      => $deps,
-				'in_footer' => in_array( $name, $args['header_scripts'], true ),
+				'in_footer' => ! in_array( $name, $args['header_scripts'], true ),
 			];
 		}
 
