@@ -7,4 +7,4 @@ import { get } from "lodash";
  *
  * @returns {String} Shopping data.
  */
-export const getShoppingData = state => get( state, "shoppingData", "" );
+export const getShoppingData = state => get( state, "shoppingData", {} );

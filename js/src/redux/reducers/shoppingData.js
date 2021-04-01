@@ -1,7 +1,7 @@
 import { SET_SHOPPING_DATA } from "../actions/shoppingData";
 import { pick } from "lodash";
 
-const INITIAL_STATE = null;
+const INITIAL_STATE = {};
 
 /**
  * A reducer for the dismissedAlerts.
@@ -15,8 +15,8 @@ function shoppingDataReducer( state = INITIAL_STATE, action ) {
 	if ( action.type === SET_SHOPPING_DATA ) {
 		const shoppingData = pick( action.shoppingData, [ "rating", "reviewCount", "availability", "price" ] );
 		return {
-			... state,
-			... shoppingData,
+			...state,
+			...shoppingData,
 		};
 	}
 	return state;
