@@ -27,7 +27,7 @@ describe( "The validateMany function", () => {
 		validation.issues = [
 			new BlockValidationResult( "innerblock1", "innerblock1", BlockValidation.Invalid, BlockPresence.Required ),
 			new BlockValidationResult( "innerblock2", "innerblock2", BlockValidation.MissingAttribute, BlockPresence.Required ),
-			new BlockValidationResult( "innerblock2", "innerblock2", BlockValidation.MissingBlock, BlockPresence.Required ),
+			new BlockValidationResult( "innerblock2", "innerblock2", BlockValidation.MissingRequiredBlock, BlockPresence.Required ),
 			new BlockValidationResult( "innerblock2", "innerblock2", BlockValidation.TooMany, BlockPresence.Required ),
 		];
 
@@ -48,7 +48,7 @@ describe( "The validateMany function", () => {
 			new BlockValidationResult( "innerblock1", "innerblock1", BlockValidation.Unknown, BlockPresence.Required ),
 			new BlockValidationResult( "innerblock1", "innerblock1", BlockValidation.Invalid, BlockPresence.Required ),
 			new BlockValidationResult( "innerblock2", "innerblock2", BlockValidation.MissingAttribute, BlockPresence.Required ),
-			new BlockValidationResult( "innerblock2", "innerblock2", BlockValidation.MissingBlock, BlockPresence.Required ),
+			new BlockValidationResult( "innerblock2", "innerblock2", BlockValidation.MissingRequiredBlock, BlockPresence.Required ),
 			new BlockValidationResult( "innerblock2", "innerblock2", BlockValidation.TooMany, BlockPresence.Required ),
 		];
 
