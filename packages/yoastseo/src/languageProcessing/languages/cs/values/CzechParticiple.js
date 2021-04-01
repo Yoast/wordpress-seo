@@ -1,4 +1,5 @@
-import Participle from "../../../../values/Participle.js";
+import { values } from "yoastseo";
+const { Participle } = values;
 
 /**
  * Creates a Participle object for the Czech language.
