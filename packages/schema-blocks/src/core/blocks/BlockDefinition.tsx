@@ -56,7 +56,7 @@ export default class BlockDefinition extends Definition {
 				children: sidebarElements,
 			}, sidebarElements );
 			const sidebarContainer = createElement( InspectorControls, {
-				key: "sidebar",
+				key: this.options.name + "Sidebar",
 				children: [ sidebar ],
 			}, [ sidebar ] );
 			elements.unshift( sidebarContainer );
