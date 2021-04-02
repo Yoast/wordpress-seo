@@ -1,6 +1,11 @@
 import { createElement, Fragment, ReactElement } from "@wordpress/element";
-import { registerBlockType, BlockConfiguration, BlockEditProps, BlockSaveProps } from "@wordpress/blocks";
-import { InspectorControls } from "@wordpress/block-editor";
+import {
+	registerBlockType,
+	BlockConfiguration,
+	BlockEditProps,
+	BlockSaveProps,
+} from "@wordpress/blocks";
+import { InspectorControls, BlockIcon } from "@wordpress/block-editor";
 import BlockInstruction from "./BlockInstruction";
 import Definition from "../Definition";
 import BlockRootLeaf from "../../leaves/blocks/BlockRootLeaf";
@@ -87,6 +92,10 @@ export default class BlockDefinition extends Definition {
 
 		logger.debug( "registering block " + name );
 
+		if ( configuration.icon && typeof configuration.icon === "string" && configuration.icon.startsWith( "<svg" ) ) {
+			configuration.icon = this.createBlockIcon( configuration );
+		}
+
 		// Register the block to WordPress.
 		registerBlockType( name, configuration );
 		// Register the block with our own code.
@@ -104,5 +113,21 @@ export default class BlockDefinition extends Definition {
 		return Object.values( this.instructions )
 			.map( ( instruction, index ) => instruction.sidebar( props, index ) )
 			.filter( e => e !== null );
+	}
+
+	/**
+	 * Creates an block icon.
+	 *
+	 * @param {MutableBlockConfiguration} configuration The block configuration.
+	 *
+	 * @returns {ReactElement[]} The sidebar element to render.
+	 */
+	private createBlockIcon( configuration: MutableBlockConfiguration ): ReactElement {
+		const icon = <span
+			className="yoast-schema-blocks-icon"
+			dangerouslySetInnerHTML={ { __html: configuration.icon as string } }
+		/>;
+
+		return <BlockIcon icon={ icon } />;
 	}
 }
