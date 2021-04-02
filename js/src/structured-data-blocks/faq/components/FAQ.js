@@ -7,8 +7,8 @@ import { speak } from "@wordpress/a11y";
 import Question from "./Question";
 import appendSpace from "../../../components/higherorder/appendSpace";
 
-const { IconButton } = window.wp.components;
-const { Component, renderToString } = window.wp.element;
+import { IconButton } from "@wordpress/components";
+import { Component, renderToString } from "@wordpress/element";
 
 const QuestionContentWithAppendedSpace = appendSpace( Question.Content );
 

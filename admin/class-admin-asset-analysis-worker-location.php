@@ -36,7 +36,7 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 			$flat_version  = $asset_manager->flatten_version( WPSEO_VERSION );
 		}
 
-		$analysis_worker = $name . '-' . $flat_version;
+		$analysis_worker = $name . '-' . $flat_version . '.js';
 
 		$this->asset_location = WPSEO_Admin_Asset_Manager::create_default_location();
 		$this->asset          = new WPSEO_Admin_Asset(

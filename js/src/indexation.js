@@ -1,5 +1,6 @@
-/* global jQuery */
 import { render } from "@wordpress/element";
+import jQuery from "jquery";
+
 import Indexation from "./components/Indexation";
 
 const preIndexingActions = {};

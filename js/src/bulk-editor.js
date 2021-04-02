@@ -3,6 +3,8 @@
 /* global wpseoBulkEditorNonce */
 /* jshint -W097 */
 /* eslint-disable camelcase */
+import jQuery from "jquery";
+
 ( function() {
 	var bulkEditor = function( currentTable ) {
 		var newClass = currentTable.find( "[class^=wpseo-new]" ).first().attr( "class" );

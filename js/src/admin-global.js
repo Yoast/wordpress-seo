@@ -2,6 +2,7 @@
 /* global wpseoAdminGlobalL10n */
 /* jshint -W097 */
 /* jshint unused:false */
+import jQuery from "jquery";
 
 ( function( $ ) {
 	/**

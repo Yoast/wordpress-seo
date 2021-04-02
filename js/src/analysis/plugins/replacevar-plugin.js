@@ -6,6 +6,11 @@ import {
 	trim,
 	isUndefined,
 } from "lodash-es";
+// @wordpress/api loads directly from the wp-api script handle.
+import {
+	loadPromise,
+	models,
+} from "@wordpress/api";
 import {
 	removeReplacementVariable,
 	updateReplacementVariable,
@@ -164,8 +169,8 @@ YoastReplaceVarPlugin.prototype.subscribeToGutenberg = function() {
 			this.declareReloaded();
 			return;
 		}
-		wp.api.loadPromise.done( () => {
-			const page = new wp.api.models.Page( { id: newParent } );
+		loadPromise.done( () => {
+			const page = new models.Page( { id: newParent } );
 			page.fetch().then(
 				response => {
 					this._currentParentPageTitle = response.title.rendered;

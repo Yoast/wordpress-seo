@@ -3,6 +3,8 @@ import {
 	isFunction,
 	flatMap,
 } from "lodash-es";
+// The WP annotations package isn't loaded by default so force loading it.
+import "@wordpress/annotations";
 import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
 

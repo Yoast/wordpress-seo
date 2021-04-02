@@ -1,6 +1,7 @@
 /* global wpseoNetworkAdminGlobalL10n, ajaxurl */
 
 import a11ySpeak from "a11y-speak";
+import jQuery from "jquery";
 
 ( function( $ ) {
 	/**

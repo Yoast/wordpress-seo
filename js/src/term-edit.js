@@ -1,10 +1,12 @@
+import domReady from "@wordpress/dom-ready";
+import jQuery from "jquery";
+
 import initTabs from "./initializers/metabox-tabs";
 import initTermScraper from "./initializers/term-scraper";
 import initAdminMedia from "./initializers/admin-media";
 import initAdmin from "./initializers/admin";
 import initEditorStore from "./initializers/editor-store";
 import { termsTmceId } from "./lib/tinymce";
-import domReady from "@wordpress/dom-ready";
 
 domReady( () => {
 	// Backwards compatibility globals.

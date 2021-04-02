@@ -1,3 +1,5 @@
+import jQuery from "jquery";
+
 ( function( $ ) {
 	// Set the yoast-tooltips on the list table links columns that have links.
 	$( ".yoast-column-header-has-tooltip" ).each( function() {

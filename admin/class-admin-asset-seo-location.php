@@ -57,7 +57,7 @@ final class WPSEO_Admin_Asset_SEO_Location implements WPSEO_Admin_Asset_Location
 
 		switch ( $type ) {
 			case WPSEO_Admin_Asset::TYPE_JS:
-				$relative_path = 'js/dist/' . $asset->get_src() . $asset->get_suffix() . '.js';
+				$relative_path = 'js/dist/' . $asset->get_src();
 				break;
 
 			case WPSEO_Admin_Asset::TYPE_CSS:

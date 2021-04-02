@@ -269,8 +269,8 @@ class WPSEO_Admin {
 	 */
 	public function config_page_scripts() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_script( 'admin-global-script' );
-		$asset_manager->localize_script( 'admin-global-script', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
+		$asset_manager->enqueue_script( 'admin-global' );
+		$asset_manager->localize_script( 'admin-global', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
 	}
 
 	/**

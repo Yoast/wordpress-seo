@@ -22,7 +22,7 @@
   - 'clean:build-assets-js'
   - 'shell:install-schema-blocks'
   - 'copy:js-dependencies'
-  - 'webpack:buildDev'
+  - 'shell:webpack'
 
 # Build CSS for development
 'build:css':
@@ -145,7 +145,7 @@ release:
 'release:js':
   - 'shell:install-schema-blocks'
   - 'copy:js-dependencies'
-  - 'webpack:buildProd'
+  - 'shell:webpack-prod'
 
 # Build CSS for production
 'release:css':
