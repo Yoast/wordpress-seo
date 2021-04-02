@@ -20,7 +20,6 @@ function getDefaultState() {
 		isKeywordAnalysisActive: isKeywordAnalysisActive(),
 		isWordFormRecognitionActive: isUndefined( window.wpseoPremiumMetaboxData ) && isWordFormRecognitionActive(),
 		isCornerstoneActive: isCornerstoneActive(),
-		isBreadcrumbsDisabled: ! ! window.wpseoAdminL10n.isBreadcrumbsDisabled,
 		isPrivateBlog: ! ! window.wpseoAdminL10n.isPrivateBlog,
 		isSEMrushIntegrationActive: isSEMrushIntegrationActive(),
 		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ),

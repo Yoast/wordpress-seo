@@ -18,7 +18,7 @@ export default compose( [
 			getPreferences,
 		} = select( "yoast-seo/editor" );
 
-		const { isBreadcrumbsDisabled, isPrivateBlog } = getPreferences();
+		const { isPrivateBlog } = getPreferences();
 
 		return {
 			noIndex: getNoIndex(),
@@ -28,7 +28,6 @@ export default compose( [
 			canonical: getCanonical(),
 			isLoading: getIsLoading(),
 			editorContext: getEditorContext(),
-			isBreadcrumbsDisabled,
 			isPrivateBlog,
 		};
 	} ),

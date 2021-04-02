@@ -259,7 +259,6 @@ const AdvancedSettings = ( props ) => {
 		onLoad,
 		isLoading,
 		editorContext,
-		isBreadcrumbsDisabled,
 		isPrivateBlog,
 	} = props;
 
@@ -307,9 +306,7 @@ const AdvancedSettings = ( props ) => {
 			<MetaRobotsNoIndex { ...noIndexProps } />
 			{ editorContext.isPost && <MetaRobotsNoFollow { ...noFollowProps } /> }
 			{ editorContext.isPost && <MetaRobotsAdvanced { ...advancedProps } /> }
-			{
-				! isBreadcrumbsDisabled && <BreadcrumbsTitle { ...breadcrumbsTitleProps } />
-			}
+			<BreadcrumbsTitle { ...breadcrumbsTitleProps } />
 			<CanonicalURL { ...canonicalProps } />
 		</Fragment>
 	);
@@ -323,7 +320,6 @@ AdvancedSettings.propTypes = {
 	onLoad: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	editorContext: PropTypes.object.isRequired,
-	isBreadcrumbsDisabled: PropTypes.bool.isRequired,
 	isPrivateBlog: PropTypes.bool,
 	advanced: PropTypes.array,
 	onAdvancedChange: PropTypes.func,

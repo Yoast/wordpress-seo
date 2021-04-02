@@ -910,7 +910,6 @@ class WPSEO_Utils {
 			'postType'              => get_post_type(),
 			'postTypeNamePlural'    => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,
 			'postTypeNameSingular'  => ( $page_type === 'post' ) ? $label_object->labels->singular_name : $label_object->singular_name,
-			'isBreadcrumbsDisabled' => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
 			// phpcs:ignore Generic.ControlStructures.DisallowYodaConditions -- Bug: squizlabs/PHP_CodeSniffer#2962.
 			'isPrivateBlog'         => ( (string) get_option( 'blog_public' ) ) === '0',
 		];

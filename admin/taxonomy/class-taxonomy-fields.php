@@ -117,7 +117,7 @@ class WPSEO_Taxonomy_Fields {
 				'description' => '',
 				'type'        => 'hidden',
 				'options'     => '',
-				'hide'        => ( WPSEO_Options::get( 'breadcrumbs-enable' ) !== true ),
+				'hide'        => false,
 			],
 			'canonical' => [
 				'label'       => '',
