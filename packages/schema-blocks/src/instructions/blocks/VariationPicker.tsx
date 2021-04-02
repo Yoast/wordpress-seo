@@ -1,5 +1,5 @@
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { select, useDispatch, useSelect } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -12,7 +12,6 @@ import { createElement } from "@wordpress/element";
 import { VariationInterface } from "./Variation";
 import { BlockValidationResult } from "../../core/validation";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
-import logger from "../../functions/logger";
 import { getBlockByClientId } from "../../functions/BlockHelper";
 
 /**
