@@ -12,8 +12,6 @@
  * @uses WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
-use Yoast\WP\SEO\Presenters\Admin\Help_Link_Presenter;
-
 if ( $wpseo_taxonomy->name === 'post_format' ) {
 	$yform->light_switch(
 		'disable-post_format',
