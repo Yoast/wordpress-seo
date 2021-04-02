@@ -8,11 +8,8 @@ import { __ } from "@wordpress/i18n";
 import { SvgIcon } from "@yoast/components";
 
 import { createAnalysisMessages, SidebarWarning } from "./SidebarWarningPresenter";
-import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
-import { BlockValidationResult } from "../../core/validation";
+import { ClientIdValidation, YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import BlockSuggestions from "./BlockSuggestionsPresenter";
-
-type ClientIdValidation = Record<string, BlockValidationResult>;
 
 interface InnerBlocksSidebarProps {
 	currentBlock: BlockInstance;
