@@ -51,7 +51,7 @@ function BlockSuggestion( { blockTitle, blockName, blockClientId }: BlockSuggest
  */
 function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactElement {
 	return (
-		<li className="yoast-block-suggestion yoast-block-suggestion--added" key={ blockTitle }>
+		<li className="yoast-block-suggestion yoast-block-suggestion--added" key={ "BlockSuggestionAdded" + blockTitle }>
 			{ blockTitle }
 			<span className="yoast-block-suggestion-checkmark"> OK </span>
 		</li>
