@@ -10,7 +10,7 @@ import { SvgIcon } from "@yoast/components";
 import { createAnalysisMessages, SidebarWarning } from "./SidebarWarningPresenter";
 import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { BlockValidationResult } from "../../core/validation";
-import BlockSuggestions from "./BlockSuggestions";
+import BlockSuggestions from "./BlockSuggestionsPresenter";
 
 type ClientIdValidation = Record<string, BlockValidationResult>;
 

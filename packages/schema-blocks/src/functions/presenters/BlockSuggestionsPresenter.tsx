@@ -70,7 +70,7 @@ function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactE
  *
  * @returns The block suggestions element.
  */
-export default function BlockSuggestions( { title, block, suggestions }: BlockSuggestionsProps ) {
+export default function BlockSuggestionsPresenter( { title, block, suggestions }: BlockSuggestionsProps ) {
 	const suggestedBlockNames = suggestions
 		.filter( suggestedBlock => typeof getBlockType( suggestedBlock ) !== "undefined" );
 

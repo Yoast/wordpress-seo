@@ -11,7 +11,7 @@ import validateMany from "../../functions/validators/validateMany";
 import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
-import { InnerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebar";
+import { InnerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebarPresenter";
 
 /**
  * Custom props for InnerBlocks.
