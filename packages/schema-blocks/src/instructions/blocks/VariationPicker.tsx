@@ -11,6 +11,9 @@ import { BlockInstance, createBlock } from "@wordpress/blocks";
 import { createElement } from "@wordpress/element";
 import { VariationInterface } from "./Variation";
 import { BlockValidationResult } from "../../core/validation";
+import { BlockPresence } from "../../core/validation/BlockValidationResult";
+import logger from "../../functions/logger";
+import { getBlockByClientId } from "../../functions/BlockHelper";
 
 /**
  * Helper function to check whether the block instance includes a picked variation.
@@ -37,9 +40,10 @@ class VariationPicker extends BlockInstruction {
 	 *
 	 * @returns The variation picker or null.
 	 */
-	edit( props: RenderEditProps, leaf: BlockLeaf, index: number ) {
+	edit( props: RenderEditProps, leaf: BlockLeaf, index: number ): JSX.Element {
 		const { clientId } = props;
-		const hasInnerBlocks = select( "core/block-editor" ).getBlock( clientId ).innerBlocks.length > 0;
+		const blockInstance = getBlockByClientId( clientId );
+		const hasInnerBlocks = includesAVariation( blockInstance );
 
 		if ( hasInnerBlocks ) {
 			return null;
@@ -144,13 +148,12 @@ class VariationPicker extends BlockInstruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		if ( this.options.required ) {
-			if ( includesAVariation( blockInstance ) ) {
-				return BlockValidationResult.Valid( blockInstance );
-			}
-			return BlockValidationResult.MissingAttribute( blockInstance );
+		if ( includesAVariation( blockInstance ) ) {
+			return BlockValidationResult.Valid( blockInstance );
 		}
-		return BlockValidationResult.Valid( blockInstance );
+
+		const required = this.options.required;
+		return BlockValidationResult.MissingAttribute( blockInstance, null, required ? BlockPresence.Required : BlockPresence.Recommended );
 	}
 }
 
