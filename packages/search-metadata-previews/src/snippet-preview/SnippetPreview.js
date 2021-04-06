@@ -732,20 +732,25 @@ export default class SnippetPreview extends PureComponent {
 	renderProductData() {
 		const {	mode, shoppingData } = this.props;
 
-		if ( mode === MODE_DESKTOP && shoppingData !== null ) {
-			return (
-				<ProductDataDesktop
-					shoppingData={ shoppingData }
-				/>
-			);
-		} else if ( mode === MODE_MOBILE && shoppingData !== null ) {
-			return (
-				<ProductDataMobile
-					shoppingData={ shoppingData }
-				/>
-			);
-		}
-		return null;
+		if ( shoppingData !== {} ) {
+
+			if ( mode === MODE_DESKTOP ) {
+				return (
+					<ProductDataDesktop
+						shoppingData={ shoppingData }
+					/>
+				);
+			}
+			
+			if ( mode === MODE_MOBILE ) {
+				return (
+					<ProductDataMobile
+						shoppingData={ shoppingData }
+					/>
+				);
+			}
+
+			return null;	
 	}
 
 	/**
