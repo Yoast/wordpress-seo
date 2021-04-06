@@ -132,7 +132,13 @@ class Image_Helper {
 	 * @return string The image url or an empty string when not found.
 	 */
 	public function get_post_content_image( $post_id ) {
-		$image_url = $this->get_first_usable_content_image_for_post( $post_id );
+		$image_url = wp_cache_get( 'wpseo_post_content_image_' . $post_id, 'wpseo_images' );
+
+		if ( $image_url === false ) {
+			$image_url = $this->get_first_usable_content_image_for_post( $post_id );
+			// Short cache this to prevent duplicate queries.
+			wp_cache_set( 'wpseo_post_content_image_' . $post_id, $image_url, 'wpseo_images', 5 * MINUTE_IN_SECONDS );
+		}
 
 		if ( $image_url === null ) {
 			return '';
@@ -277,17 +283,26 @@ class Image_Helper {
 	 * @return int The found attachment ID, or 0 if none was found.
 	 */
 	public function get_attachment_by_url( $url ) {
+		$cache_key     = 'wpseo_att_url' . md5( $url );
+		$attachment_id = wp_cache_get( $cache_key, 'wpseo_images' );
+
+		if ( $attachment_id !== false ) {
+			return $attachment_id;
+		}
+
 		// Strip out the size part of an image URL.
 		$url = \preg_replace( '/(.*)-\d+x\d+\.(jpeg|jpg|png|gif)$/', '$1.$2', $url );
 
 		// Don't try to do this for external URLs.
 		if ( \strpos( $url, \get_site_url() ) !== 0 ) {
+			wp_cache_set( $cache_key, 0, 'wpseo_images', 5 * MINUTE_IN_SECONDS );
 			return 0;
 		}
 
 		$indexable = $this->indexable_repository->find_by_permalink( $url );
 
 		if ( $indexable && $indexable->object_type === 'post' && $indexable->object_sub_type === 'attachment' ) {
+			wp_cache_set( $cache_key, $indexable->object_id, 'wpseo_images', 5 * MINUTE_IN_SECONDS );
 			return $indexable->object_id;
 		}
 
@@ -298,6 +313,7 @@ class Image_Helper {
 			$this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
 		}
 
+		wp_cache_set( $cache_key, $post_id, 'wpseo_images', 5 * MINUTE_IN_SECONDS );
 		return $post_id;
 	}
 
