@@ -64,5 +64,3 @@ export function edit( props: RenderEditProps ): JSX.Element {
 		],
 	);
 }
-
-
