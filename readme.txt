@@ -234,6 +234,13 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 16.1.1 =
+Release Date: April 6th, 2021
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown when creating a new Elementor template or editing an existing one.
+
 = 16.1 =
 Release Date: April 6th, 2021
 
