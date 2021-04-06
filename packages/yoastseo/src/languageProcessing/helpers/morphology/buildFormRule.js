@@ -7,7 +7,7 @@
  *
  * @returns {string} The newly built form of the word.
  */
-export function buildOneFormFromRegex( word, regexes ) {
+export default function buildFormRule( word, regexes ) {
 	if ( regexes.includes( null ) ) {
 		return word;
 	}

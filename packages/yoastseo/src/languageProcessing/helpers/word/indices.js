@@ -138,9 +138,9 @@ export {
 };
 
 export default {
-	getIndicesByWord: getIndicesByWord,
-	getIndicesByWordList: getIndicesByWordList,
-	filterIndices: filterIndices,
-	sortIndices: sortIndices,
-	getIndicesByWordListSorted: getIndicesByWordListSorted,
+	getIndicesByWord,
+	getIndicesByWordList,
+	filterIndices,
+	sortIndices,
+	getIndicesByWordListSorted,
 };

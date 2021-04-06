@@ -1,4 +1,5 @@
-import baseStemmer from "../../../helpers/morphology/baseStemmer";
+import { languageProcessing } from "yoastseo";
+const { baseStemmer } = languageProcessing;
 
 /**
  * Returns the stemmer for a researcher.

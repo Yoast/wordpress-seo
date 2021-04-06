@@ -1,5 +1,5 @@
-import { buildOneFormFromRegex } from "../../../../helpers/morphology/buildFormRule";
-import createRulesFromMorphologyData from "../../../../helpers/morphology/createRulesFromArrays";
+import { languageProcessing } from "yoastseo";
+const { buildFormRule, createRulesFromArrays } = languageProcessing;
 
 const vowelCharacters = [ "a", "e", "i", "o", "u" ];
 
@@ -58,8 +58,8 @@ export function removeEnding( word, regexRules, exceptions, morphologyData ) {
 		}
 	}
 
-	const removePartRegex = createRulesFromMorphologyData( regexRules );
-	const withRemovedPart = buildOneFormFromRegex( word, removePartRegex );
+	const removePartRegex = createRulesFromArrays( regexRules );
+	const withRemovedPart = buildFormRule( word, removePartRegex );
 	return withRemovedPart || word;
 }
 

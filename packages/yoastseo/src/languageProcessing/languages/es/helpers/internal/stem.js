@@ -1,9 +1,12 @@
 /* eslint-disable max-statements, require-jsdoc, complexity */
 // The function will be further adjected anyways, so it makes no sense to randomly split it in smaller functions now.
 // The orginal stemmer is available at https://github.com/dmarman/lorca/blob/master/src/stemmer.js.
-import { buildOneFormFromRegex } from "../../../../helpers/morphology/buildFormRule";
-import createRulesFromArrays from "../../../../helpers/morphology/createRulesFromArrays";
-import { findMatchingEndingInArray } from "../../../../helpers/morphology/findMatchingEndingInArray";
+import { languageProcessing } from "yoastseo";
+const {
+	buildFormRule,
+	createRulesFromArrays,
+	findMatchingEndingInArray,
+} = languageProcessing;
 
 /**
  * Copyright (C) 2018 Domingo Martín Mancera
@@ -103,7 +106,7 @@ const tryStemAsMente = function( word, r1Text, menteStemming ) {
 		return word;
 	}
 
-	return buildOneFormFromRegex( word, createRulesFromArrays( menteStemming.menteToStem ) ) || word;
+	return buildFormRule( word, createRulesFromArrays( menteStemming.menteToStem ) ) || word;
 };
 
 /**
@@ -124,7 +127,7 @@ const tryStemAsSuperlative = function( word, r1Text, superlativesStemming ) {
 		return word;
 	}
 
-	return buildOneFormFromRegex( word, createRulesFromArrays( superlativesStemming.superlativeToStem ) );
+	return buildFormRule( word, createRulesFromArrays( superlativesStemming.superlativeToStem ) );
 };
 
 /**
@@ -156,7 +159,7 @@ const tryStemAsDiminutive = function( word, diminutivesStemming ) {
 		}
 	}
 
-	return buildOneFormFromRegex( word, createRulesFromArrays(  diminutivesStemming.diminutiveToStem ) ) || word;
+	return buildFormRule( word, createRulesFromArrays(  diminutivesStemming.diminutiveToStem ) ) || word;
 };
 
 /**

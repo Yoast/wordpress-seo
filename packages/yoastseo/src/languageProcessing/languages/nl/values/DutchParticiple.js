@@ -1,9 +1,12 @@
 import { includes } from "lodash-es";
+import { languageProcessing, values } from "yoastseo";
+const {
+	checkException,
+	directPrecedenceException,
+} = languageProcessing;
+const { Participle } = values;
 
-import Participle from "../../../../values/Participle.js";
-import checkException from "../../../helpers/passiveVoice/periphrastic/checkException.js";
 import nonParticiples from "../config/internal/nonParticiples";
-import directPrecedenceException from "../../../helpers/passiveVoice/directPrecedenceException";
 import { cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords.js";
 
 /**

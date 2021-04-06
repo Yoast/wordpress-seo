@@ -1,4 +1,11 @@
-import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnListThatCanHavePrefix } from "../../../../helpers/morphology/exceptionListHelpers";
+import { languageProcessing } from "yoastseo";
+const {
+	exceptionListHelpers: {
+		checkIfWordEndingIsOnExceptionList,
+		checkIfWordIsOnListThatCanHavePrefix,
+	},
+} = languageProcessing;
+
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding";
 import checkExceptionsWithFullForms from "./checkExceptionsWithFullForms";

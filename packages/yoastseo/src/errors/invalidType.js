@@ -1,3 +1,4 @@
+import "error-polyfill";
 import util from "util";
 
 /**

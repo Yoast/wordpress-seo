@@ -1,8 +1,14 @@
-import { flattenSortLength } from "../../../../helpers/morphology/flattenSortLength";
 import { flatten } from "lodash-es";
+import { languageProcessing } from "yoastseo";
+const {
+	flattenSortLength,
+	exceptionListHelpers: {
+		checkExceptionListWithTwoStems,
+	},
+} = languageProcessing;
+
 import stem from "./stem";
 import { stemTOrDFromEndOfWord } from "./stemTOrDFromEndOfWord";
-import { checkExceptionListWithTwoStems } from "../../../../helpers/morphology/exceptionListHelpers";
 
 /**
  * Checks if the word checked is in the list of strong verbs exceptions. If it is, only return the first stem from the stem set.
@@ -111,4 +117,3 @@ export default function determineStem( word, morphologyDataNL ) {
 
 	return stemmedWord;
 }
-

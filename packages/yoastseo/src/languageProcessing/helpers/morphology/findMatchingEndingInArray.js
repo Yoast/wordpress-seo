@@ -5,7 +5,7 @@
  * @param {string[]}    endings    The word endings to check.
  * @returns {string}    The longest matched ending.
  */
-export function findMatchingEndingInArray( string, endings ) {
+export default function findMatchingEndingInArray( string, endings ) {
 	const matches = [];
 	for ( const i in endings ) {
 		if ( string.endsWith( endings[ i ] ) ) {

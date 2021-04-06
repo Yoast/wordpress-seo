@@ -1,7 +1,11 @@
-import Participle from "../../../../values/Participle.js";
-import checkException from "../../../helpers/passiveVoice/periphrastic/checkException.js";
-import directPrecedenceException from "../../../helpers/passiveVoice/directPrecedenceException";
-import precedenceException from "../../../helpers/passiveVoice/precedenceException";
+import { languageProcessing, values } from "yoastseo";
+const {
+	checkException,
+	directPrecedenceException,
+	precedenceException,
+} = languageProcessing;
+const { Participle } = values;
+
 import {
 	cannotDirectlyPrecedePassiveParticiple,
 	cannotBeBetweenPassiveAuxiliaryAndParticiple,
