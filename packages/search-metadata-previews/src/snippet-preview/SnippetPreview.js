@@ -811,19 +811,19 @@ export default class SnippetPreview extends PureComponent {
 					</PartContainer>
 					<PartContainer className="yoast-shopping-data-preview--desktop">
 						<ScreenReaderText>
-							{ __( "Shopping data preview", "yoast-components" ) + ":" }
+							{ __( "Shopping data preview:", "yoast-components" ) }
 						</ScreenReaderText>
 						{ isDesktopMode && this.renderProductData() }
 					</PartContainer>
 					<PartContainer>
 						<ScreenReaderText>
-							{ __( "Meta description preview", "yoast-components" ) + ":" }
+							{ __( "Meta description preview:", "yoast-components" ) }
 						</ScreenReaderText>
 						{ this.renderDescription() }
 					</PartContainer>
 					<PartContainer className="yoast-shopping-data-preview--mobile">
 						<ScreenReaderText>
-							{ __( "Shopping data preview", "yoast-components" ) + ":" }
+							{ __( "Shopping data preview:", "yoast-components" ) }
 						</ScreenReaderText>
 						{ ! isDesktopMode && this.renderProductData() }
 					</PartContainer>

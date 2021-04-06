@@ -1,14 +1,11 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { round } from "lodash";
-
 import { StarRating } from "@yoast/components";
 
-const ProductData = styled.p`
-	display: inline;
-	margin-left: 0.3em;
+const ProductData = styled.span`
 	color: #70757a;
 `;
 
@@ -22,25 +19,29 @@ const ProductData = styled.p`
 function ProductDataDesktop( props ) {
 	const { shoppingData } = props;
 
+	/* Translators: %s expands to the actual rating. */
+	const ratingPart = sprintf( __( "Rating: %s", "yoast-components" ), round( ( shoppingData.rating * 2 ), 1 ) + "/10" );
+
+	/* Translators: %s expands to the actual rating. */
+	const reviewPart = sprintf( __( "%s reviews", "yoast-components" ), shoppingData.reviewCount );
+
 	return (
-		<Fragment>
-			{ ( shoppingData.reviewCount > 0 ) ? <StarRating rating={ shoppingData.rating } /> : "" }
 			<ProductData>
-				{ ( shoppingData.reviewCount > 0 )
-					? <Fragment>
-						<span>{ __( "Rating: ", "yoast-components" ) + round( ( shoppingData.rating * 2 ), 1 ) } /10 · </span>
-						<span>{ shoppingData.reviewCount } { __( "reviews", "yoast-components" ) } · </span>
+			{ ( shoppingData.reviewCount > 0 ) &&
+				<Fragment>
+					<StarRating rating={ shoppingData.rating } />
+					<span> { ratingPart } · </span>
+					<span>{ reviewPart } · </span>
 					</Fragment>
-					: "" }
-				{ ( shoppingData.price )
-					? <Fragment>
+			}
+			{ shoppingData.price &&
+				<Fragment>
 						<span dangerouslySetInnerHTML={ { __html: shoppingData.price } } />‎
 					</Fragment>
-					: ""
 				}
-				{ ( shoppingData.availability ) ? <span> · { shoppingData.availability }</span> : "" }
+			{ shoppingData.availability &&
+				<span> · { shoppingData.availability }</span> }
 			</ProductData>
-		</Fragment>
 	);
 }
 
