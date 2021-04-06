@@ -235,6 +235,14 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::get_post_content_image
 	 */
 	public function test_get_post_content_image() {
+//		Monkey\Functions\expect( 'wp_cache_get' )
+//			->with( 'wpseo_post_content_image_1337' )
+//			->once()
+//			->andReturn( false );
+
+//		Monkey\Functions\expect( 'wp_cache_set' )
+//			->once();
+
 		$this->instance
 			->expects( 'get_first_usable_content_image_for_post' )
 			->once()

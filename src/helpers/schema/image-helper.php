@@ -86,13 +86,16 @@ class Image_Helper {
 	/**
 	 * Retrieve data about an image from the database and use it to generate a Schema object.
 	 *
-	 * @param string $schema_id       The `@id` to use for the returned image.
-	 * @param array  $attachment_meta The attachment metadata.
-	 * @param string $caption         The caption string, if there is one.
+	 * @param string       $schema_id       The `@id` to use for the returned image.
+	 * @param string|array $attachment_meta The attachment metadata.
+	 * @param string       $caption         The caption string, if there is one.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
 	public function generate_from_attachment_meta( $schema_id, $attachment_meta, $caption = '' ) {
+		if ( ! is_array( $attachment_meta ) ) {
+			$attachment_meta = \json_decode( $attachment_meta, true );
+		}
 		$data = $this->generate_object( $schema_id );
 
 		$data['url']        = $attachment_meta['url'];

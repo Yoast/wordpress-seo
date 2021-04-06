@@ -357,9 +357,17 @@ class Indexable_Post_Builder {
 
 		$content_image = $this->image->get_post_content_image( $indexable->object_id );
 		if ( $content_image ) {
+			$content_image_id = \WPSEO_Image_Utils::get_attachment_by_url( $content_image );
+			if ( $content_image_id ) {
+				return [
+					'image_id' => $content_image_id,
+					'source'   => 'first-content-image',
+				];
+			}
+
 			return [
-				'image'  => $content_image,
-				'source' => 'first-content-image',
+				'image'    => $content_image,
+				'source'   => 'first-content-image',
 			];
 		}
 
