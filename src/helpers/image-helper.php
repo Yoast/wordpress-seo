@@ -283,15 +283,15 @@ class Image_Helper {
 	 * @return int The found attachment ID, or 0 if none was found.
 	 */
 	public function get_attachment_by_url( $url ) {
+		// Strip out the size part of an image URL.
+		$url = \preg_replace( '/(.*)-\d+x\d+\.(jpeg|jpg|png|gif)$/', '$1.$2', $url );
+
 		$cache_key     = 'wpseo_att_url' . md5( $url );
 		$attachment_id = wp_cache_get( $cache_key, 'wpseo_images' );
 
 		if ( $attachment_id !== false ) {
 			return $attachment_id;
 		}
-
-		// Strip out the size part of an image URL.
-		$url = \preg_replace( '/(.*)-\d+x\d+\.(jpeg|jpg|png|gif)$/', '$1.$2', $url );
 
 		// Don't try to do this for external URLs.
 		if ( \strpos( $url, \get_site_url() ) !== 0 ) {
