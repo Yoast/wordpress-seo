@@ -733,7 +733,6 @@ export default class SnippetPreview extends PureComponent {
 		const {	mode, shoppingData } = this.props;
 
 		if ( shoppingData !== {} ) {
-
 			if ( mode === MODE_DESKTOP ) {
 				return (
 					<ProductDataDesktop
@@ -741,7 +740,7 @@ export default class SnippetPreview extends PureComponent {
 					/>
 				);
 			}
-			
+
 			if ( mode === MODE_MOBILE ) {
 				return (
 					<ProductDataMobile
@@ -750,7 +749,8 @@ export default class SnippetPreview extends PureComponent {
 				);
 			}
 
-			return null;	
+			return null;
+		}
 	}
 
 	/**
