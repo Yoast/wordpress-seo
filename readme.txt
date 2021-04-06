@@ -237,7 +237,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 16.2 =
 Enhancements:
 
-* Enables/disables auto-updates for the `ACF Content Analysis for Yoast SEO` plugin when auto-updates for Yoast SEO are enabled/disabled. 
+* Enables/disables auto-updates for the `ACF Content Analysis for Yoast SEO` plugin when auto-updates for Yoast SEO are enabled/disabled.
 * Improves accessibility for the social sharing links in the post publish panel
 * Correctly reference the current webpage in breadcrumb schema output.
 * Changed the output of the `articleSection` and `keywords` attributes of the Article schema to an array instead of comma separated values.
@@ -248,6 +248,13 @@ Bugfixes:
 
 * Fixes an unreleased bug in which the `og:image` tags for Facebook and Twitter didn't reflect the correct images.
 * Fixes a bug where saving posts with URLs without protocol would fail or trigger warnings.
+
+= 16.1.1 =
+Release Date: April 6th, 2021
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown when creating a new Elementor template or editing an existing one.
 
 = 16.1 =
 Release Date: April 6th, 2021
