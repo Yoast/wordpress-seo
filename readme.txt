@@ -4,13 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-<<<<<<< HEAD
-Tested up to: 5.6
-Stable tag: 15.9
-=======
 Tested up to: 5.7
 Stable tag: 16.0.1
->>>>>>> trunk
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -257,7 +252,7 @@ Bugfixes:
 
 * Fixes a bug where the analysis highlight button would be visible in our Elementor integration even though we don't support it.
 * Fixes a bug where a warning was shown on the Features settings page when running the plugin on PHP 8.0.
-* Fixes a warning when running the plugin on PHP 8.0
+* Fixes a bug where a warning was shown on the Integrations settings page when running the plugin on PHP 8.0.
 
 = 16.0.1 =
 Release Date: March 16th, 2021
@@ -269,15 +264,6 @@ Bugfixes:
 = 16.0 =
 Release Date: March 16th, 2021
 
-<<<<<<< HEAD
- * Adds a preview of the chosen image for the organization and person image, social images, Facebook front page image and Facebook default image.
- * Improves interoperability and consistency in database queries.
- * Improves the performance by preventing database queries for the homepage indexable.
-
-Bugfixes:
-
-* Fixes a bug where the disabled style of the switch toggles didn't look right.
-=======
 Yoast SEO 16.0: The Sweet Sixteen release is out! It comes with several fixes and improvements. Happy updating and thank you for using Yoast SEO! Read more about what’s new in Yoast SEO 16.0 in [our release post](https://yoa.st/release-16-0)!
 
 Bugfixes:
@@ -289,7 +275,6 @@ Bugfixes:
 Other:
 
 * Sets the WordPress tested up to version to 5.7 and minimum supported WordPress version to 5.6.
->>>>>>> trunk
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
