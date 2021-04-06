@@ -31,9 +31,17 @@ function findMissingBlocks( existingBlocks: BlockInstance[], allBlocks: Required
 		return ! existingBlocks.some( existingBlock => existingBlock.name === block.name );
 	} );
 
-	// These blocks should've existed, but they don't.
+	// Return a BlockValidationResult for a required block.
+	if ( blockPresence === BlockPresence.Required ) {
+		// These blocks should've existed, but they don't.
+		return missingBlocks.map( missingBlock =>
+			BlockValidationResult.MissingRequiredBlock( getHumanReadableBlockName( missingBlock.name ) ),
+		);
+	}
+
+	// Return a BlockValidationResult for a recommended block.
 	return missingBlocks.map( missingBlock =>
-		BlockValidationResult.MissingBlock( getHumanReadableBlockName( missingBlock.name ), blockPresence ),
+		BlockValidationResult.MissingRecommendedBlock( getHumanReadableBlockName( missingBlock.name ) ),
 	);
 }
 

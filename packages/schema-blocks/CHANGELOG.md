@@ -5,7 +5,17 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 1.6.0 April 5th, 2021
+## 1.7.0 April 26th, 2021
+### Enhancements
+* Adds an orange bullet to the `Analysis` in the side bar when a recommended block is removed.
+
+### Bugfixes
+* Fixes a bug where the link to additional information in the warning was missing.
+
+### Other
+* Moves the `initialize` function to its own file, to clean up the `index.ts` file of the package.
+
+## 1.6.0 April 1st, 2021
 ### Enhancements
 * Adds the option to set `keepPlaceholderOnFocus` for the RichText field.
 
