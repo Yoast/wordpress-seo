@@ -65,7 +65,7 @@ describe( "The SidebarWarningPresenter ", () => {
 
 		it( "creates warning messages for missing required blocks, with a footer message.", () => {
 			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Invalid, BlockPresence.Required );
-			testcase.issues.push( BlockValidationResult.MissingBlock( "missingblock", BlockPresence.Required ) );
+			testcase.issues.push( BlockValidationResult.MissingRequiredBlock( "missingblock" ) );
 
 			const result = createAnalysisMessages( testcase );
 
@@ -85,10 +85,10 @@ describe( "The SidebarWarningPresenter ", () => {
 			"the conclusion should still be green.", () => {
 			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Invalid, BlockPresence.Recommended );
 			testcase.issues.push(
-				BlockValidationResult.MissingBlock( "missing recommended block", BlockPresence.Recommended ),
+				BlockValidationResult.MissingRecommendedBlock( "missing recommended block" ),
 			);
 			testcase.issues.push(
-				BlockValidationResult.MissingBlock( "missing recommended block 2", BlockPresence.Recommended ),
+				BlockValidationResult.MissingRecommendedBlock( "missing recommended block 2" ),
 			);
 
 			const result = createAnalysisMessages( testcase );
@@ -138,7 +138,7 @@ describe( "The SidebarWarningPresenter ", () => {
 
 		it( "creates a warning for a required block with validation problems.", () => {
 			const testcase = new BlockValidationResult( "1", "myBlock", BlockValidation.Invalid, BlockPresence.Required );
-			testcase.issues.push( BlockValidationResult.MissingBlock( "innerblock1", BlockPresence.Required ) );
+			testcase.issues.push( BlockValidationResult.MissingRequiredBlock( "innerblock1" ) );
 			validations[ "1" ] = testcase;
 
 			const result = getWarnings( "1" );

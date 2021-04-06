@@ -72,6 +72,7 @@ function generateSchemaForBlocks(
 
 		const validation = validations.find( v => v.clientId === block.clientId );
 		if ( validation && validation.result > BlockValidation.Valid ) {
+			dispatch( "core/block-editor" ).updateBlockAttributes( block.clientId, { "yoast-schema": null } );
 			continue;
 		}
 

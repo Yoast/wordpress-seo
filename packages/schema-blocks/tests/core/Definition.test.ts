@@ -73,7 +73,7 @@ describe( "The Definition class", () => {
 		// Arrange.
 		const testInstructions = {
 			test1: new TestInstruction( "test1", BlockValidation.Valid ),
-			test2: new TestInstruction( "test2", BlockValidation.MissingBlock ),
+			test2: new TestInstruction( "test2", BlockValidation.MissingRequiredBlock ),
 		};
 		const testCase = new TestDefinition( "", "", testInstructions, null );
 
@@ -86,14 +86,14 @@ describe( "The Definition class", () => {
 		expect( result.issues[ 0 ].result ).toEqual( BlockValidation.Valid );
 		expect( result.issues[ 1 ].name ).toEqual( "test" );
 		expect( result.issues[ 1 ].clientId ).toEqual( "id2" );
-		expect( result.issues[ 1 ].result ).toEqual( BlockValidation.MissingBlock );
+		expect( result.issues[ 1 ].result ).toEqual( BlockValidation.MissingRequiredBlock );
 	} );
 
 	it( "configures all known instructions", () => {
 		// Arrange.
 		const testInstructions = {
 			test1: new TestInstruction( "test1", BlockValidation.Valid ),
-			test2: new TestInstruction( "test2", BlockValidation.MissingBlock ),
+			test2: new TestInstruction( "test2", BlockValidation.MissingRequiredBlock ),
 		};
 		const testCase = new TestDefinition( "", "", testInstructions, null );
 
