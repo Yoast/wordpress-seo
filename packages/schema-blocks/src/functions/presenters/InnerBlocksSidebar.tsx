@@ -10,6 +10,7 @@ import { SvgIcon } from "@yoast/components";
 import { createAnalysisMessages, SidebarWarning } from "./SidebarWarningPresenter";
 import { ClientIdValidation, YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import BlockSuggestions from "./BlockSuggestionsPresenter";
+import { BlockValidationResult } from "../../core/validation";
 
 interface InnerBlocksSidebarProps {
 	currentBlock: BlockInstance;
@@ -24,7 +25,7 @@ interface InnerBlocksSidebarProps {
  *
  * @returns The validation results.
  */
-function useValidationResults( clientId: string ) {
+function useValidationResults( clientId: string ): BlockValidationResult {
 	return useSelect( select => {
 		const results: ClientIdValidation = select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getSchemaBlocksValidationResults();
 		if ( ! results ) {
@@ -42,18 +43,20 @@ function useValidationResults( clientId: string ) {
  *
  * @returns The latest version of the block.
  */
-function useBlock( clientId: string ) {
+function useBlock( clientId: string ): BlockInstance {
 	return useSelect( select => select( "core/block-editor" ).getBlock( clientId ), [ clientId ] );
 }
 
 /**
- * Inner blocks sidebar.
+ * Inner blocks sidebar component.
  *
  * @param props The properties.
  *
+ * @returns The inner blocks sidebar component.
+ *
  * @constructor
  */
-export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ) {
+export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ): ReactElement {
 	const block = useBlock( props.currentBlock.clientId );
 	const validationResults = useValidationResults( props.currentBlock.clientId );
 
@@ -87,7 +90,7 @@ interface WarningListProps {
  *
  * @param props The properties.
  *
- * @returns {ReactElement} A ReactElement containing the list of warnings.
+ * @returns A ReactElement containing the list of warnings.
  */
 function WarningList( props: WarningListProps ): ReactElement {
 	return (
@@ -109,7 +112,7 @@ interface WarningProps {
  *
  * @param props The properties.
  *
- * @returns {ReactElement} The formatted warning message.
+ * @returns The formatted warning message.
  */
 function Warning( props: WarningProps ): ReactElement {
 	return (
