@@ -137,7 +137,7 @@ class Image_Helper {
 		if ( $image_url === false ) {
 			$image_url = $this->get_first_usable_content_image_for_post( $post_id );
 			// Short cache this to prevent duplicate queries.
-			wp_cache_set( 'wpseo_post_content_image_' . $post_id, $image_url, 'wpseo_images', 5 * MINUTE_IN_SECONDS );
+			wp_cache_set( 'wpseo_post_content_image_' . $post_id, $image_url, 'wpseo_images', ( 5 * MINUTE_IN_SECONDS ) );
 		}
 
 		if ( $image_url === null ) {
@@ -295,14 +295,14 @@ class Image_Helper {
 
 		// Don't try to do this for external URLs.
 		if ( \strpos( $url, \get_site_url() ) !== 0 ) {
-			wp_cache_set( $cache_key, 0, 'wpseo_images', 5 * MINUTE_IN_SECONDS );
+			wp_cache_set( $cache_key, 0, 'wpseo_images', ( 5 * MINUTE_IN_SECONDS ) );
 			return 0;
 		}
 
 		$indexable = $this->indexable_repository->find_by_permalink( $url );
 
 		if ( $indexable && $indexable->object_type === 'post' && $indexable->object_sub_type === 'attachment' ) {
-			wp_cache_set( $cache_key, $indexable->object_id, 'wpseo_images', 5 * MINUTE_IN_SECONDS );
+			wp_cache_set( $cache_key, $indexable->object_id, 'wpseo_images', ( 5 * MINUTE_IN_SECONDS ) );
 			return $indexable->object_id;
 		}
 
@@ -313,7 +313,7 @@ class Image_Helper {
 			$this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
 		}
 
-		wp_cache_set( $cache_key, $post_id, 'wpseo_images', 5 * MINUTE_IN_SECONDS );
+		wp_cache_set( $cache_key, $post_id, 'wpseo_images', ( 5 * MINUTE_IN_SECONDS ) );
 		return $post_id;
 	}
 
