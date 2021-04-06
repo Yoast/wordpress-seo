@@ -1,5 +1,5 @@
-import { isValidResult } from ".";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
+import { isResultValidForSchema } from "./validateResults";
 
 /**
  * Analyzes many validations to draw a single conclusion.
@@ -10,7 +10,7 @@ import { BlockValidation, BlockValidationResult } from "../../core/validation";
  */
 function validateMany( validation: BlockValidationResult ): BlockValidationResult {
 	validation.result = validation.issues.some( issue =>
-		! isValidResult( issue.result ) )
+		! isResultValidForSchema( issue.result ) )
 		? BlockValidation.Invalid
 		: BlockValidation.Valid;
 	return validation;
