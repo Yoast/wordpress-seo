@@ -124,7 +124,7 @@ export default class BlockDefinition extends Definition {
 	}
 
 	/**
-	 * Creates an block icon.
+	 * Creates a block icon.
 	 *
 	 * @param {MutableBlockConfiguration} configuration The block configuration.
 	 *

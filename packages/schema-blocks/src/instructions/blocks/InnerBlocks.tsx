@@ -153,7 +153,7 @@ export default class InnerBlocks extends BlockInstruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown, BlockPresence.Unknown );
+		const validation = new BlockValidationResult( blockInstance.clientId, this.constructor.name, BlockValidation.Unknown, BlockPresence.Unknown );
 		validation.issues = validateInnerBlocks( blockInstance, this.options.requiredBlocks, this.options.recommendedBlocks );
 
 		return validateMany( validation );
