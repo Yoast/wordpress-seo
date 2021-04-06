@@ -75,9 +75,33 @@ class Image_Helper {
 	public function generate_from_attachment_id( $schema_id, $attachment_id, $caption = '' ) {
 		$data = $this->generate_object( $schema_id );
 
-		$data['url'] = $this->image->get_attachment_image_url( $attachment_id, 'full' );
-		$data        = $this->add_image_size( $data, $attachment_id );
-		$data        = $this->add_caption( $data, $attachment_id, $caption );
+		$data['url']        = $this->image->get_attachment_image_url( $attachment_id, 'full' );
+		$data['contentUrl'] = $data['url'];
+		$data               = $this->add_image_size( $data, $attachment_id );
+		$data               = $this->add_caption( $data, $attachment_id, $caption );
+
+		return $data;
+	}
+
+	/**
+	 * Retrieve data about an image from the database and use it to generate a Schema object.
+	 *
+	 * @param string $schema_id       The `@id` to use for the returned image.
+	 * @param array  $attachment_meta The attachment metadata.
+	 * @param string $caption         The caption string, if there is one.
+	 *
+	 * @return array Schema ImageObject array.
+	 */
+	public function generate_from_attachment_meta( $schema_id, $attachment_meta, $caption = '' ) {
+		$data = $this->generate_object( $schema_id );
+
+		$data['url']        = $attachment_meta['url'];
+		$data['contentUrl'] = $data['url'];
+		$data['width']      = $attachment_meta['width'];
+		$data['height']     = $attachment_meta['height'];
+		if ( ! empty( $caption ) ) {
+			$data['caption'] = $this->html->smart_strip_tags( $caption );
+		}
 
 		return $data;
 	}
@@ -94,7 +118,8 @@ class Image_Helper {
 	public function simple_image_object( $schema_id, $url, $caption = '' ) {
 		$data = $this->generate_object( $schema_id );
 
-		$data['url'] = $url;
+		$data['url']        = $url;
+		$data['contentUrl'] = $url;
 
 		if ( ! empty( $caption ) ) {
 			$data['caption'] = $this->html->smart_strip_tags( $caption );

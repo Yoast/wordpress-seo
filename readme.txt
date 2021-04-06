@@ -234,6 +234,31 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 16.1 =
+Release Date: April 6th, 2021
+
+Yoast SEO 16.1 is out today! It features several enhancements and fixes that make the plugin chug along nicely. Happy updating! Read more about what’s new in Yoast SEO 16.1 in [our release post](https://yoa.st/release-16-1)!
+
+Enhancements:
+
+* Improves the performance of the SEO data indexing process by optimizing the queries used for fetching unindexed objects.
+* Adds your OpenGraph or Twitter image as the main image in Schema when they're set.
+* Adds `contentUrl` to the schema image output.
+* Improves the performance of the post indexing. Props to [Ovidiu Liuta](https://github.com/ovidiul).
+* Improves the URL in the Google preview when in the desktop mode.
+* Improves the performance of loading the person & organization logo in Schema.
+* Improves the performance by optimizing several calls to WP path and basename functions by using already defined and calculated constants.
+* Removes the keyphrase highlighting in the mobile meta description to reflect new Google behavior.
+
+Bugfixes:
+
+* Fixes a bug where the analysis highlight button would be visible in our Elementor integration even though we don't support it.
+* Fixes a bug where a warning was shown on the Features settings page when running the plugin on PHP 8.0.
+* Fixes a bug where a warning was shown on the Integrations settings page when running the plugin on PHP 8.0.
+* Fixes a bug where, on a multisite installation, enabling/disabling auto-updates for Yoast SEO would not automatically enable/disable auto-updates for Yoast SEO Premium and the other Yoast add-ons.
+* Fixes a bug where the breadcrumbs aren't updated properly when editing a post via the quick edit.
+* Fixes a bug where the rewrite rules would not always be flushed on plugin activation.
+
 = 16.0.2 =
 Release Date: March 18th, 2021
 
@@ -262,48 +287,6 @@ Bugfixes:
 Other:
 
 * Sets the WordPress tested up to version to 5.7 and minimum supported WordPress version to 5.6.
-
-= 15.9.2 =
-Release Date: March 11th, 2021
-
-Bugfixes:
-
-* Fixes a bug where the order of the robots values was suboptimal when running WordPress 5.7. Note that the order has no effect on how the values are interpreted.
-
-= 15.9.1 =
-Release Date: March 4th, 2021
-
-Welcome to Yoast SEO 15.9.1! This release contains an improvement for the FAQ block schema output, and makes sure the plugin is compatible with WordPress Core's auto-update feature and `robots` changes. Read more about those changes in [our post about Yoast SEO 15.9.1 and WordPress 5.7](https://yoa.st/release-15-9-1)!
-
-Enhancements:
-
-* Removes `mainEntityOfPage` from our FAQ Schema block output and moves it to `mainEntity` on the `WebPage` output, fixing a Google parse issue with those FAQ blocks.
-* Performance enhancements in the post indexable builder by skipping link creation on drafts.
-
-Bugfixes:
-
-* Fixes a bug where indexable creation caused compatibility problems with code that would hook in to new post creation. 
-
-Other:
-
-* Adds a notification to prompt users to enable auto-updates for Yoast SEO, in case they also have auto-updates for WordPress Core enabled.
-* Ensures compatibility with WordPress Core's `robots` meta tag by hooking into the `wp_robots` filter and using our settings there.
-* Enables/disables auto-updates for the Yoast Woocommerce, News, Video and Local SEO plugins when auto-updates for Yoast SEO are enabled/disabled.
-
-= 15.9 =
-Release Date: February 23rd, 2021
-
-Yoast SEO 15.9 is out! This release comes with performance improvements and general enhancements. Happy updating and thanks for using Yoast SEO! Read more about what’s new in Yoast SEO 15.9 in [our release post](https://yoa.st/release-15-9)!
-
-Enhancements:
-
- * Adds a preview of the chosen image for the organization and person image, social images, Facebook front page image and Facebook default image.
- * Improves interoperability and consistency in database queries.
- * Improves the performance by preventing database queries for the homepage indexable.
-
-Bugfixes:
-
-* Fixes a bug where the disabled style of the switch toggles didn't look right.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

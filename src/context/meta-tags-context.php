@@ -33,6 +33,9 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * @property string       $site_url
  * @property string       $company_name
  * @property int          $company_logo_id
+ * @property array        $company_logo_meta
+ * @property int          $person_logo_id
+ * @property array        $person_logo_meta
  * @property int          $site_user_id
  * @property string       $site_represents
  * @property array|false  $site_represents_reference
@@ -278,6 +281,38 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	}
 
 	/**
+	 * Generates the person logo id.
+	 *
+	 * @return int|bool The company logo id.
+	 */
+	public function generate_person_logo_id() {
+		$person_logo_id = $this->image->get_attachment_id_from_settings( 'person_logo' );
+
+		/**
+		 * Filter: 'wpseo_schema_person_logo_id' - Allows filtering person logo id.
+		 *
+		 * @api integer $person_logo_id.
+		 */
+		return \apply_filters( 'wpseo_schema_person_logo_id', $person_logo_id );
+	}
+
+	/**
+	 * Retrieve the person logo meta.
+	 *
+	 * @return array|bool
+	 */
+	public function generate_person_logo_meta() {
+		$person_logo_meta = $this->image->get_attachment_meta_from_settings( 'person_logo' );
+
+		/**
+		 * Filter: 'wpseo_schema_person_logo_meta' - Allows filtering person logo meta.
+		 *
+		 * @api string $person_logo_meta.
+		 */
+		return \apply_filters( 'wpseo_schema_person_logo_meta', $person_logo_meta );
+	}
+
+	/**
 	 * Generates the company logo id.
 	 *
 	 * @return int|bool The company logo id.
@@ -286,11 +321,27 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		$company_logo_id = $this->image->get_attachment_id_from_settings( 'company_logo' );
 
 		/**
-		 * Filter: 'wpseo_schema_company_logo_id' - Allows filtering company logo id
+		 * Filter: 'wpseo_schema_company_logo_id' - Allows filtering company logo id.
 		 *
 		 * @api integer $company_logo_id.
 		 */
 		return \apply_filters( 'wpseo_schema_company_logo_id', $company_logo_id );
+	}
+
+	/**
+	 * Retrieve the company logo meta.
+	 *
+	 * @return array|bool
+	 */
+	public function generate_company_logo_meta() {
+		$company_logo_meta = $this->image->get_attachment_meta_from_settings( 'company_logo' );
+
+		/**
+		 * Filter: 'wpseo_schema_company_logo_meta' - Allows filtering company logo meta.
+		 *
+		 * @api string $company_logo_meta.
+		 */
+		return \apply_filters( 'wpseo_schema_company_logo_meta', $company_logo_meta );
 	}
 
 	/**

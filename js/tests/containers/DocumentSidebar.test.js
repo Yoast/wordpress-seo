@@ -33,7 +33,7 @@ describe( "The DocumentSidebar container", () => {
 				name: "yoast/recipe",
 				clientId: "0890e6b3-235b-4b71-9d27-c0c9fd980137",
 				attributes: {
-					"yoast-schema": {},
+					"is-yoast-schema-block": true,
 				},
 			},
 			{
@@ -108,7 +108,7 @@ describe( "The DocumentSidebar container", () => {
 				name: "yoast/recipe",
 				clientId: "0890e6b3-235b-4b71-9d27-c0c9fd980137",
 				attributes: {
-					"yoast-schema": {},
+					"is-yoast-schema-block": true,
 				},
 			},
 			{
