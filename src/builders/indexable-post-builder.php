@@ -366,8 +366,8 @@ class Indexable_Post_Builder {
 			}
 
 			return [
-				'image'    => $content_image,
-				'source'   => 'first-content-image',
+				'image'  => $content_image,
+				'source' => 'first-content-image',
 			];
 		}
 
