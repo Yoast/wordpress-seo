@@ -401,6 +401,11 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 			->once()
 			->with( $indexable );
 
+		$this->post_type_helper
+			->expects( 'is_excluded' )
+			->with( 'post_type' )
+			->andReturn( false );
+
 		$this->instance->build_post_hierarchy( 123, 'post_type' );
 	}
 
@@ -419,6 +424,33 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$this->indexable_hierarchy_builder
 			->expects( 'build' )
 			->never();
+
+		$this->post_type_helper
+			->expects( 'is_excluded' )
+			->with( 'post_type' )
+			->andReturn( false );
+
+		$this->instance->build_post_hierarchy( 123, 'post_type' );
+	}
+
+	/**
+	 * Tests that no post hierarchy is built when its post type is excluded.
+	 *
+	 * @covers ::build_post_hierarchy
+	 */
+	public function test_do_not_build_post_hierarchy_when_post_is_excluded() {
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->never();
+
+		$this->indexable_hierarchy_builder
+			->expects( 'build' )
+			->never();
+
+		$this->post_type_helper
+			->expects( 'is_excluded' )
+			->with( 'post_type' )
+			->andReturn( true );
 
 		$this->instance->build_post_hierarchy( 123, 'post_type' );
 	}

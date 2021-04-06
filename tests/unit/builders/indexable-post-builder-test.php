@@ -247,8 +247,10 @@ class Indexable_Post_Builder_Test extends TestCase {
 				]
 			);
 
-		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )
-			->andReturn( [] );
+		$this->post_type_helper
+			->expects( 'is_excluded' )
+			->with( 'post' )
+			->andReturn( false );
 
 		$indexable_expectations = [
 			'object_id'                      => 1,
@@ -869,7 +871,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$this->post_type_helper->expects( 'is_excluded' )
 			->once()
-			->andReturn( false );
+			->andReturnTrue();
 
 		self::assertFalse( $this->instance->build( $post_id, false ) );
 	}
