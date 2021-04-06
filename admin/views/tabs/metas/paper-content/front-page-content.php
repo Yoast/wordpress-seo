@@ -13,9 +13,9 @@
 use Yoast\WP\SEO\Presenters\Admin\Badge_Presenter;
 
 $frontpage_settings_badge = new Badge_Presenter( 'frontpage_settings' );
-echo '<p>' . $frontpage_settings_badge->present() . '</p>';
+echo '<div>' . $frontpage_settings_badge->present() . '</div>';
 
-\esc_html_e( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' );
+echo '<p>' . \esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
 
 echo '<div id="yoast-og-frontpage-image-select"></div>';
 
