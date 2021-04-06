@@ -126,7 +126,6 @@
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "draft-js": "^0.11.7",
-    "draft-js-mention-plugin": "^3.0.4",
     "find-with-regex": "~1.0.2",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
