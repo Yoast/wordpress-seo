@@ -70,5 +70,10 @@ function ProductDataMobile( props ) {
 export default ProductDataMobile;
 
 ProductDataMobile.propTypes = {
-	shoppingData: PropTypes.object.isRequired,
+	shoppingData: PropTypes.shape( {
+		rating: PropTypes.number,
+		reviewCount: PropTypes.number,
+		availability: PropTypes.string,
+		price: PropTypes.string,
+	} ).isRequired,
 };

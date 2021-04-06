@@ -26,27 +26,32 @@ function ProductDataDesktop( props ) {
 	const reviewPart = sprintf( __( "%s reviews", "yoast-components" ), shoppingData.reviewCount );
 
 	return (
-			<ProductData>
+		<ProductData>
 			{ ( shoppingData.reviewCount > 0 ) &&
 				<Fragment>
 					<StarRating rating={ shoppingData.rating } />
 					<span> { ratingPart } · </span>
 					<span>{ reviewPart } · </span>
-					</Fragment>
+				</Fragment>
 			}
 			{ shoppingData.price &&
 				<Fragment>
-						<span dangerouslySetInnerHTML={ { __html: shoppingData.price } } />‎
-					</Fragment>
-				}
+					<span dangerouslySetInnerHTML={ { __html: shoppingData.price } } />‎
+				</Fragment>
+			}
 			{ shoppingData.availability &&
 				<span> · { shoppingData.availability }</span> }
-			</ProductData>
+		</ProductData>
 	);
 }
 
 export default ProductDataDesktop;
 
 ProductDataDesktop.propTypes = {
-	shoppingData: PropTypes.object.isRequired,
+	shoppingData: PropTypes.shape( {
+		rating: PropTypes.number,
+		reviewCount: PropTypes.number,
+		availability: PropTypes.string,
+		price: PropTypes.string,
+	} ).isRequired,
 };
