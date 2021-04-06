@@ -79,24 +79,43 @@ export class BlockValidationResult {
 	}
 
 	/**
-	 * Named constructor for a 'missing block' validation result.
+	 * Named constructor for a 'missing required block' validation result.
 	 *
 	 * @param name The name of the missing block.
-	 * @param blockPresence The block type.
 	 *
 	 * @constructor
 	 */
-	static MissingBlock( name: string, blockPresence?: BlockPresence ) {
+	static MissingRequiredBlock( name: string ) {
 		return new BlockValidationResult(
 			null,
 			name,
-			BlockValidation.MissingBlock,
-			blockPresence || BlockPresence.Unknown,
+			BlockValidation.MissingRequiredBlock,
+			BlockPresence.Required,
 			sprintf(
-				/* Translators: %1$s expands to the block name, %2$s expands to 'required' or 'recommended'. */
-				__( "The '%1$s' block is %2$s but missing.", "yoast-schema-blocks" ),
+				/* Translators: %1$s expands to the block name. */
+				__( "The '%1$s' block is required but missing.", "yoast-schema-blocks" ),
 				name,
-				blockPresence || BlockPresence.Unknown,
+			),
+		);
+	}
+
+	/**
+	 * Named constructor for a 'missing recommended block' validation result.
+	 *
+	 * @param name The name of the missing block.
+	 *
+	 * @constructor
+	 */
+	static MissingRecommendedBlock( name: string ) {
+		return new BlockValidationResult(
+			null,
+			name,
+			BlockValidation.MissingRecommendedBlock,
+			BlockPresence.Recommended,
+			sprintf(
+				/* Translators: %1$s expands to the block name. */
+				__( "The '%1$s' block is recommended but missing.", "yoast-schema-blocks" ),
+				name,
 			),
 		);
 	}

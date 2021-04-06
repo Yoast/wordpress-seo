@@ -64,7 +64,8 @@ function mockDefinition( clientId: string, name: string, expectedValue: BlockVal
 }
 
 const createBlockValidationResultTestArrangement = [
-	{ name: "missingblock", reason: BlockValidation.MissingBlock },
+	{ name: "missingrequiredblock", reason: BlockValidation.MissingRequiredBlock },
+	{ name: "missingrecommendedblock", reason: BlockValidation.MissingRecommendedBlock },
 	{ name: "redundantblock", reason: BlockValidation.TooMany },
 	{ name: "missingattributeblock", reason: BlockValidation.MissingAttribute },
 	{ name: "validblock", reason: BlockValidation.Valid },
@@ -84,7 +85,7 @@ describe( "The BlockValidationResult constructor", () => {
 } );
 
 describe( "The findMissingBlocks function", () => {
-	it( "creates a BlockValidationResult with reason 'MissingBlock' when a required block is missing.", () => {
+	it( "creates a BlockValidationResult with reason 'MissingRequiredBlock' when a required block is missing.", () => {
 		// Arrange.
 		const requiredBlocks: RequiredBlock[] = [
 			{
@@ -108,10 +109,10 @@ describe( "The findMissingBlocks function", () => {
 		// Assert.
 		expect( result.length ).toEqual( 1 );
 		expect( result[ 0 ].name ).toEqual( "missingblock" );
-		expect( result[ 0 ].result ).toEqual( BlockValidation.MissingBlock );
+		expect( result[ 0 ].result ).toEqual( BlockValidation.MissingRequiredBlock );
 	} );
 
-	it( "creates a BlockValidationResult with reason 'MissingBlock' when a recommended block is missing.", () => {
+	it( "creates a BlockValidationResult with reason 'MissingRecommendedBlock' when a recommended block is missing.", () => {
 		// Arrange.
 		const recommendedBlocks: RecommendedBlock[] = [
 			{
@@ -134,7 +135,7 @@ describe( "The findMissingBlocks function", () => {
 		// Assert.
 		expect( result.length ).toEqual( 1 );
 		expect( result[ 0 ].name ).toEqual( "missingblock" );
-		expect( result[ 0 ].result ).toEqual( BlockValidation.MissingBlock );
+		expect( result[ 0 ].result ).toEqual( BlockValidation.MissingRecommendedBlock );
 	} );
 
 	it( "creates no missing blocks for required blocks that are present.", () => {
@@ -397,10 +398,10 @@ describe( "the getInvalidInnerBlocks function", () => {
 		expect( result.length ).toEqual( 4 );
 
 		// Be able to find missing blocks.
-		const missingBlock = result.filter( b => b.name === "missingBlock" && b.result === BlockValidation.MissingBlock );
+		const missingBlock = result.filter( b => b.name === "missingBlock" && b.result === BlockValidation.MissingRequiredBlock );
 		expect( missingBlock.length ).toEqual( 1 );
 		expect( missingBlock[ 0 ].name ).toEqual( "missingBlock" );
-		expect( missingBlock[ 0 ].result ).toEqual( BlockValidation.MissingBlock );
+		expect( missingBlock[ 0 ].result ).toEqual( BlockValidation.MissingRequiredBlock );
 
 		// Be able to find too many instances of singleton blocks.
 		const redundantBlocks: BlockValidationResult[] = result.filter( b => b.name === "redundantBlock" && b.result === BlockValidation.TooMany );
