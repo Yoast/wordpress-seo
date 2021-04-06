@@ -164,10 +164,9 @@ class Indexable_Repository {
 	public function find_by_permalink( $permalink ) {
 		$permalink_hash = \strlen( $permalink ) . ':' . \md5( $permalink );
 
-		// Find by both permalink_hash and permalink, permalink_hash is indexed so will be used first by the DB to optimize the query.
+		// Find by both permalink_hash only, as permalink_hash is indexed it makes the query faster.
 		return $this->query()
 			->where( 'permalink_hash', $permalink_hash )
-			->where( 'permalink', $permalink )
 			->find_one();
 	}
 
