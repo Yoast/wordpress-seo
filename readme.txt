@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.7
-Stable tag: 16.0.2
+Stable tag: 16.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -236,6 +236,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 16.1 =
 Release Date: April 6th, 2021
+
+Yoast SEO 16.1 is out today! It features several enhancements and fixes that make the plugin chug along nicely. Happy updating! Read more about what’s new in Yoast SEO 16.1 in [our release post](https://yoa.st/release-16-1)!
 
 Enhancements:
 
