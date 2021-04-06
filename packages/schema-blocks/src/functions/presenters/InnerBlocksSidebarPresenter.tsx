@@ -62,7 +62,7 @@ function createWarningList( warnings: SidebarWarning[] ): ReactElement {
  */
 function createWarningElement( warning: string, color = "red" ): ReactElement {
 	return (
-		<li className="yoast-block-sidebar-warning">
+		<li className="yoast-block-sidebar-warning" key={ warning }>
 			<SvgIcon
 				icon="circle"
 				color={ color }
