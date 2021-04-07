@@ -117,7 +117,7 @@ export const getAnimationStyles = ( state, props ) => {
 	let transform = "scale(0)";
 	let transition = "all 0.35s cubic-bezier(.3,1,.2,1)";
 
-	if ( state.isActive && props.suggestions.length > 0 ) {
+	if ( props.open && props.suggestions.length > 0 ) {
 		transform = "scale(1)";
 		transition = "all 0.25s cubic-bezier(.3,1.2,.2,1)";
 	}
