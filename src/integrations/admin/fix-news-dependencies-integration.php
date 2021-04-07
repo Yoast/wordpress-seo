@@ -35,13 +35,6 @@ class Fix_News_Dependencies_Integration implements Integration_Interface {
 		if ( $is_post_edit_page ) {
 			add_action( 'admin_enqueue_scripts', [ $this, 'add_news_script_dependency' ], 11 );
 		}
-
-		// Load the editor script when on an elementor edit page.
-		$get_action             = \filter_input( INPUT_GET, 'action', FILTER_SANITIZE_STRING );
-		$is_elementor_edit_page = $pagenow === 'post.php' && $get_action === 'elementor';
-		if ( $is_elementor_edit_page ) {
-			add_action( 'elementor/editor/before_enqueue_scripts', [ $this, 'add_news_script_dependency' ], 11 );
-		}
 	}
 
 	/**
