@@ -78,7 +78,7 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	echo '</div>';
 
 	/**
-	 * Allow adding custom fields to the admin meta page at the end of the archive settings for a post type.
+	 * Allow adding custom fields to the admin meta page at the end of the archive settings for a post type - Content Types tab.
 	 *
 	 * @param Yoast_Form $yform The Yoast_Form object.
 	 * @param string     $name  The post type name.
