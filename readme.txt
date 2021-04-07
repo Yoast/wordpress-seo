@@ -235,6 +235,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 16.2 =
+Release Date: April 28th, 2021
+
 Enhancements:
 
 * Enables/disables auto-updates for the ACF Content Analysis for Yoast SEO plugin when auto-updates for Yoast SEO are enabled/disabled.
