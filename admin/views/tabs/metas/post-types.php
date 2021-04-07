@@ -5,6 +5,8 @@
  * @package WPSEO\Admin\Views
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
+
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -30,26 +32,44 @@ $recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
 $editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 
 if ( get_option( 'show_on_front' ) === 'posts' ) {
-	$title = \esc_html__( 'Frontpage', 'wordpress-seo' );
+	$is_opengraph_enabled = WPSEO_Options::get( 'opengraph' );
 
-	$wpseo_front_page_presenter = new WPSEO_Paper_Presenter(
-		$title,
-		__DIR__ . '/paper-content/front-page-content.php',
-		[
-			'collapsible' => true,
-			'expanded'    => true,
-			'paper_id'    => 'settings-front-page',
-			'view_data'   => [
-				'view_utils'                   => $view_utils,
-				'recommended_replace_vars'     => $recommended_replace_vars,
-				'editor_specific_replace_vars' => $editor_specific_replace_vars,
-			],
-			'title'       => $title,
-			'class'       => 'search-appearance',
-		]
-	);
+	if ( ! $is_opengraph_enabled ) {
+		$frontpage_settings_message = sprintf(
+			/* translators: 1: link open tag; 2: link close tag. */
+			\esc_html__(
+				'The frontpage settings and the social image, social title and social description are hidden for all content types. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
+				'wordpress-seo'
+			),
+			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
+			'</a>'
+		);
 
-	echo $wpseo_front_page_presenter->get_output();
+		$frontpage_settings_alert = new Alert_Presenter( $frontpage_settings_message, 'info' );
+
+		echo '<div class="yoast-measure padded">' . $frontpage_settings_alert->present() . '</div>';
+	} else {
+		$title = \esc_html__( 'Frontpage', 'wordpress-seo' );
+
+		$wpseo_front_page_presenter = new WPSEO_Paper_Presenter(
+			$title,
+			__DIR__ . '/paper-content/front-page-content.php',
+			[
+				'collapsible' => true,
+				'expanded'    => true,
+				'paper_id'    => 'settings-front-page',
+				'view_data'   => [
+					'view_utils'                   => $view_utils,
+					'recommended_replace_vars'     => $recommended_replace_vars,
+					'editor_specific_replace_vars' => $editor_specific_replace_vars,
+				],
+				'title'       => $title,
+				'class'       => 'search-appearance',
+			]
+		);
+
+		echo $wpseo_front_page_presenter->get_output();
+	}
 }
 
 if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
