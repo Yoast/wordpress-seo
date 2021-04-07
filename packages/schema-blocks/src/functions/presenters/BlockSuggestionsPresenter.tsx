@@ -1,9 +1,10 @@
+import { ReactElement } from "react";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
-import { getBlockType } from "../BlockHelper";
-import { getInnerblocksByName, insertBlock } from "../innerBlocksHelper";
 import { PanelBody } from "@wordpress/components";
 import { createElement } from "@wordpress/element";
-import { ReactElement } from "react";
+
+import { getBlockType } from "../BlockHelper";
+import { getInnerblocksByName, insertBlock } from "../innerBlocksHelper";
 
 type BlockSuggestionAddedDto = {
 	blockTitle: string;
