@@ -1,3 +1,4 @@
+import "../matchMedia.mock";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
 import * as renderer from "react-test-renderer";
 import { mount } from "enzyme";
