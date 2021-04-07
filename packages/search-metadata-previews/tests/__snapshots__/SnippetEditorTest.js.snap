@@ -1423,7 +1423,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       "$$typeof": Symbol(react.forward_ref),
                       "attrs": Array [],
                       "componentStyle": e {
-                        "baseHash": 605855013,
+                        "baseHash": -319282521,
                         "baseStyle": undefined,
                         "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
                         "isStatic": false,
@@ -2509,7 +2509,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       "$$typeof": Symbol(react.forward_ref),
                       "attrs": Array [],
                       "componentStyle": e {
-                        "baseHash": 605855013,
+                        "baseHash": -319282521,
                         "baseStyle": undefined,
                         "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
                         "isStatic": false,
@@ -3550,7 +3550,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       "$$typeof": Symbol(react.forward_ref),
                       "attrs": Array [],
                       "componentStyle": e {
-                        "baseHash": 605855013,
+                        "baseHash": -319282521,
                         "baseStyle": undefined,
                         "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
                         "isStatic": false,
@@ -4766,7 +4766,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       "$$typeof": Symbol(react.forward_ref),
                       "attrs": Array [],
                       "componentStyle": e {
-                        "baseHash": 605855013,
+                        "baseHash": -319282521,
                         "baseStyle": undefined,
                         "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
                         "isStatic": false,
@@ -6824,7 +6824,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       "$$typeof": Symbol(react.forward_ref),
                       "attrs": Array [],
                       "componentStyle": e {
-                        "baseHash": 605855013,
+                        "baseHash": -319282521,
                         "baseStyle": undefined,
                         "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
                         "isStatic": false,
@@ -8054,7 +8054,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       "$$typeof": Symbol(react.forward_ref),
                       "attrs": Array [],
                       "componentStyle": e {
-                        "baseHash": 605855013,
+                        "baseHash": -319282521,
                         "baseStyle": undefined,
                         "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
                         "isStatic": false,
@@ -9270,7 +9270,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       "$$typeof": Symbol(react.forward_ref),
                       "attrs": Array [],
                       "componentStyle": e {
-                        "baseHash": 605855013,
+                        "baseHash": -319282521,
                         "baseStyle": undefined,
                         "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
                         "isStatic": false,
@@ -10501,7 +10501,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       "$$typeof": Symbol(react.forward_ref),
                       "attrs": Array [],
                       "componentStyle": e {
-                        "baseHash": 605855013,
+                        "baseHash": -319282521,
                         "baseStyle": undefined,
                         "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
                         "isStatic": false,
@@ -12300,7 +12300,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       "$$typeof": Symbol(react.forward_ref),
                       "attrs": Array [],
                       "componentStyle": e {
-                        "baseHash": 605855013,
+                        "baseHash": -319282521,
                         "baseStyle": undefined,
                         "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
                         "isStatic": false,
