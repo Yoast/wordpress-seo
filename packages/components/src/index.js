@@ -15,6 +15,7 @@ export * from "./radiobutton";
 export * from "./select";
 export * from "./help-icon";
 export * from "./tables";
+export * from "./new-badge";
 
 // Referenced index.js explicitly due to case-sensitive path conflicts.
 export * from "./toggle/index.js";
