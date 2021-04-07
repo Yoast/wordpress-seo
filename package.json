@@ -110,21 +110,22 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
+    "@draft-js-plugins/editor": "^4.1.0",
+    "@draft-js-plugins/mention": "^4.2.0",
     "@wordpress/dom-ready": "^2.10.0",
-    "@yoast/analysis-report": "^1.19.0-rc.1",
-    "@yoast/components": "^2.17.0-rc.1",
-    "@yoast/configuration-wizard": "^2.20.0-rc.1",
+    "@yoast/analysis-report": "^1.20.0-rc.0",
+    "@yoast/components": "^2.18.0-rc.0",
+    "@yoast/configuration-wizard": "^2.21.0-rc.0",
     "@yoast/feature-flag": "^0.5.2",
     "@yoast/helpers": "^0.16.0",
-    "@yoast/replacement-variable-editor": "^1.15.0-rc.1",
-    "@yoast/schema-blocks": "^1.6.0-rc.2",
-    "@yoast/search-metadata-previews": "^2.22.0-rc.1",
-    "@yoast/social-metadata-forms": "^1.15.0-rc.1",
+    "@yoast/replacement-variable-editor": "^1.16.0-rc.0",
+    "@yoast/schema-blocks": "^1.7.0-rc.0",
+    "@yoast/search-metadata-previews": "^2.23.0-rc.0",
+    "@yoast/social-metadata-forms": "^1.16.0-rc.0",
     "@yoast/style-guide": "^0.13.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
-    "draft-js": "^0.10.5",
-    "draft-js-mention-plugin": "^3.0.4",
+    "draft-js": "^0.11.7",
     "find-with-regex": "~1.0.2",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
@@ -142,13 +143,13 @@
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
     "tokenizr": "^1.5.7",
-    "yoast-components": "^5.22.0-rc.1",
-    "yoastseo": "^1.91.0-rc.0"
+    "yoast-components": "^5.23.0-rc.0",
+    "yoastseo": "^1.91.0"
   },
   "browserslist": [
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "16.1-RC6"
+    "pluginVersion": "16.2-beta1"
   }
 }
