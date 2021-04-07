@@ -11,6 +11,7 @@ import "./SidebarDuration";
 import "./SidebarInput";
 import "./SidebarSelect";
 import "./TextInput";
+import "./Title";
 import "./VariableTagRichText";
 import "./Variation";
 import "./VariationPicker";

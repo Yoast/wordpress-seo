@@ -1,12 +1,13 @@
 import BlockLeaf from "./BlockLeaf";
-import { RenderSaveProps, RenderEditProps } from "./BlockDefinition";
+import { RenderEditProps, RenderSaveProps } from "./BlockDefinition";
 import { ReactElement } from "react";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
-import { BlockValidationResult, BlockValidation } from "../validation";
+import { BlockValidation, BlockValidationResult } from "../validation";
 import Instruction, { InstructionOptions } from "../Instruction";
 import { attributeExists, attributeNotEmpty } from "../../functions/validators";
 import validateMany from "../../functions/validators/validateMany";
 import logger from "../../functions/logger";
+import { BlockPresence } from "../validation/BlockValidationResult";
 
 export type BlockInstructionClass = {
 	new( id: number, options: InstructionOptions ): BlockInstruction;
@@ -78,16 +79,18 @@ export default abstract class BlockInstruction extends Instruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Skipped );
+		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Skipped, BlockPresence.Unknown );
 
 		if ( this.options && this.options.required === true ) {
 			const attributeValid = attributeExists( blockInstance, this.options.name as string ) &&
 						           attributeNotEmpty( blockInstance, this.options.name as string );
 			if ( attributeValid ) {
-				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.Valid ) );
+				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name,
+					BlockValidation.Valid, BlockPresence.Unknown ) );
 			} else {
 				logger.warning( "block " + blockInstance.name + " has a required attributes " + this.options.name + " but it is missing or empty" );
-				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name, BlockValidation.MissingAttribute ) );
+				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name,
+					BlockValidation.MissingAttribute, BlockPresence.Unknown ) );
 				validation.result = BlockValidation.Invalid;
 			}
 		} else {
@@ -97,7 +100,7 @@ export default abstract class BlockInstruction extends Instruction {
 			}
 		}
 
-		// Blocks with any invalid innerblock should be considerd invalid themselves.
+		// Blocks with any invalid innerblock should be considered invalid themselves.
 		if ( validation.issues.length > 0 ) {
 			return validateMany( validation );
 		}
