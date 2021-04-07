@@ -391,6 +391,6 @@ class Indexable_Post_Builder {
 	 * @return bool `true` if the post should be excluded from building, `false` if not.
 	 */
 	protected function should_exclude_post( $post ) {
-		return \in_array( $post->post_type, $this->post_type_helper->get_excluded_post_types_for_indexables(), true );
+		return $this->post_type_helper->is_excluded( $post->post_type );
 	}
 }
