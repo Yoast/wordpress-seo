@@ -234,6 +234,28 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 16.2 =
+Enhancements:
+
+* Enables/disables auto-updates for the `ACF Content Analysis for Yoast SEO` plugin when auto-updates for Yoast SEO are enabled/disabled.
+* Improves accessibility for the social sharing links in the post publish panel
+* Correctly reference the current webpage in breadcrumb schema output.
+* Changed the output of the `articleSection` and `keywords` attributes of the Article schema to an array instead of comma separated values.
+* Performance improvement: improve how we build the `Article` schema, saving a query on pageload.
+* Adds a filter that allows for showing the Yoast SEO metabox on non-public post types if these are accessible. Props to jondcampbell.
+
+Bugfixes:
+
+* Fixes an unreleased bug in which the `og:image` tags for Facebook and Twitter didn't reflect the correct images.
+* Fixes a bug where saving posts with URLs without protocol would fail or trigger warnings.
+
+= 16.1.1 =
+Release Date: April 6th, 2021
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown when creating a new Elementor template or editing an existing one.
+
 = 16.1 =
 Release Date: April 6th, 2021
 
@@ -258,35 +280,6 @@ Bugfixes:
 * Fixes a bug where, on a multisite installation, enabling/disabling auto-updates for Yoast SEO would not automatically enable/disable auto-updates for Yoast SEO Premium and the other Yoast add-ons.
 * Fixes a bug where the breadcrumbs aren't updated properly when editing a post via the quick edit.
 * Fixes a bug where the rewrite rules would not always be flushed on plugin activation.
-
-= 16.0.2 =
-Release Date: March 18th, 2021
-
-Enhancements:
-
-* Changes the deactivation prevention text on the Plugins page from ‘Deactivate Yoast SEO Premium first’ to ‘Required by Yoast SEO Premium’ to avoid confusion.
-
-= 16.0.1 =
-Release Date: March 16th, 2021
-
-Bugfixes:
-
-* Fixes a bug where in rare cases incorrect usage of `WP_Query` could lead to incorrect SEO data.
-
-= 16.0 =
-Release Date: March 16th, 2021
-
-Yoast SEO 16.0: The Sweet Sixteen release is out! It comes with several fixes and improvements. Happy updating and thank you for using Yoast SEO! Read more about what’s new in Yoast SEO 16.0 in [our release post](https://yoa.st/release-16-0)!
-
-Bugfixes:
-
-* Fixes a bug where invalid breadcrumbs would show PHP warnings.
-* Fixes a bug where a fatal error would be thrown when a post ancestor was not an indexable.
-* Fixes a bug where a fatal error would be thrown when both Yoast SEO and Polylang for WooCommerce were installed, and the site contained WooCommerce variable products. Props to [manooweb](https://github.com/manooweb).
-
-Other:
-
-* Sets the WordPress tested up to version to 5.7 and minimum supported WordPress version to 5.6.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
