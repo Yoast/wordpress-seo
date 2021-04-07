@@ -195,7 +195,7 @@ class WPSEO_Admin_Asset_Manager {
 			return new WPSEO_Admin_Asset_Dev_Server_Location( $url );
 		}
 
-		return new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );
+		return new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE, false );
 	}
 
 	/**
