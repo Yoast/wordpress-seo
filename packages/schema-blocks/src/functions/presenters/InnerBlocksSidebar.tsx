@@ -108,7 +108,7 @@ interface WarningProps {
 }
 
 /**
- * Creates a React element for a warning message
+ * Creates a React element for a warning message.
  *
  * @param props The properties.
  *
