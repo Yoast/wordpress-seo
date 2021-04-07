@@ -1,7 +1,7 @@
 import { languageProcessing } from "yoastseo";
 const { determineSentencePartIsPassive } = languageProcessing;
 
-import getParticiples from "./internal/getParticiples";
+import getAndCheckParticiples from "./internal/getParticiples";
 
 /**
  * Determines whether a sentence part is passive.
@@ -12,7 +12,7 @@ import getParticiples from "./internal/getParticiples";
  * @returns {boolean} Returns true if passive, otherwise returns false.
  */
 export default function isPassiveSentencePart( sentencePartText, sentencePartAuxiliaries ) {
-	const participles = getParticiples( sentencePartText, sentencePartAuxiliaries );
+	const participles = getAndCheckParticiples( sentencePartText, sentencePartAuxiliaries );
 
 	return determineSentencePartIsPassive( participles );
 }
