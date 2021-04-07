@@ -37,6 +37,8 @@ $yform->toggle_switch(
 		$date_archives_help->get_button_html() . $date_archives_help->get_panel_html()
 	);
 
+	echo '<div class="yoast-settings-section">';
+
 	$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
 	$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 
@@ -52,6 +54,8 @@ $yform->toggle_switch(
 	);
 
 	$editor->render();
+
+	echo '</div>';
 
 	/**
 	 * Allow adding custom fields to the admin meta page - Date Archives tab.

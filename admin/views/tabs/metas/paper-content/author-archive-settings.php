@@ -67,6 +67,8 @@ $yform->index_switch(
 
 <?php
 
+echo '<div class="yoast-settings-section">';
+
 $recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
 $editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 $editor                       = new WPSEO_Replacevar_Editor(
@@ -81,6 +83,8 @@ $editor                       = new WPSEO_Replacevar_Editor(
 );
 
 $editor->render();
+
+echo '</div>';
 
 /**
  * Allow adding custom fields to the admin meta page - Author Archives tab.

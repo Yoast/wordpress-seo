@@ -25,7 +25,7 @@ require __DIR__ . '/post_type/post-type.php';
  * @param WPSEO_Admin_Pages $yform  The WPSEO_Admin_Pages object
  * @param string            $name   The post type name
  */
-do_action( 'Yoast\WP\SEO\admin_post_types_archive', $yform, $wpseo_post_type->name );
+do_action( 'Yoast\WP\SEO\admin_post_types_beforearchive', $yform, $wpseo_post_type->name );
 
 if ( $wpseo_post_type->name === 'product' && YoastSEO()->helpers->woocommerce->is_active() ) {
 	require __DIR__ . '/post_type/woocommerce-shop-page.php';
@@ -36,8 +36,14 @@ if ( $wpseo_post_type->name === 'product' && YoastSEO()->helpers->woocommerce->i
 if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	$plural_label = $wpseo_post_type->labels->name;
 
+	echo '<div class="yoast-settings-section">';
+
 	/* translators: %s is the plural version of the post type's name. */
 	echo '<h3>' . esc_html( sprintf( __( 'Settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
+
+	echo '</div>';
+
+	echo '<div class="yoast-settings-section">';
 
 	$custom_post_type_archive_help = $view_utils->search_results_setting_help( $wpseo_post_type, 'archive' );
 
@@ -50,6 +56,10 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 		),
 		$custom_post_type_archive_help->get_button_html() . $custom_post_type_archive_help->get_panel_html()
 	);
+
+	echo '</div>';
+
+	echo '<div class="yoast-settings-section">';
 
 	$page_type = $recommended_replace_vars->determine_for_archive( $wpseo_post_type->name );
 
@@ -65,6 +75,16 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	);
 	$editor->render();
 
+	echo '</div>';
+
+	/**
+	 * Allow adding custom fields to the admin meta page, just before the archive settings - Post Types tab.
+	 *
+	 * @param WPSEO_Admin_Pages $yform  The WPSEO_Admin_Pages object
+	 * @param string            $name   The post type name
+	 */
+	do_action( 'Yoast\WP\SEO\admin_post_types_archive', $yform, $wpseo_post_type->name );
+
 	if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
 		/* translators: %s is the plural version of the post type's name. */
 		echo '<h4>' . esc_html( sprintf( __( 'Breadcrumb settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h4>';
@@ -75,7 +95,7 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 /**
  * Allow adding a custom checkboxes to the admin meta page - Post Types tab.
  *
- * @deprecated 16.2 Use the {@see 'Yoast\WP\SEO\admin_post_types_archive'} action instead.
+ * @deprecated 16.2 Use the {@see 'Yoast\WP\SEO\admin_post_types_beforearchive'} action instead.
  *
  * @param  WPSEO_Admin_Pages  $yform The WPSEO_Admin_Pages object
  * @param  string             $name  The post type name
@@ -84,5 +104,5 @@ do_action_deprecated(
 	'wpseo_admin_page_meta_post_types',
 	[ $yform, $wpseo_post_type->name ],
 	'16.2',
-	'Yoast\WP\SEO\admin_post_types_archive'
+	'Yoast\WP\SEO\admin_post_types_beforearchive'
 );
