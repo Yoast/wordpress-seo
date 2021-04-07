@@ -43,11 +43,17 @@ exports[`The required blocks in the sidebar renders the required block as an add
       className="yoast-block-suggestion yoast-block-suggestion--added"
     >
       The required block
-      <span
-        className="yoast-block-suggestion-checkmark"
+    </li>
+    <li
+      className="yoast-block-suggestion"
+    >
+      The required block
+      <button
+        className="yoast-block-suggestion-button"
+        onClick={[Function]}
       >
-         OK 
-      </span>
+         Add 
+      </button>
     </li>
   </ul>
 </div>

@@ -1,13 +1,35 @@
 import { BlockInstance, createBlock } from "@wordpress/blocks";
 import * as renderer from "react-test-renderer";
 import { mount } from "enzyme";
-import { RequiredBlock } from "../../src/core/validation";
+import { BlockValidationResult, RequiredBlock } from "../../src/core/validation";
 import BlockSuggestions from "../../src/blocks/BlockSuggestions";
 import { insertBlock } from "../../src/functions/innerBlocksHelper";
+import { BlockPresence } from "../../src/core/validation/BlockValidationResult";
 
 jest.mock( "@wordpress/blocks", () => {
 	return {
 		createBlock: jest.fn(),
+	};
+} );
+
+const validatedBlock = new BlockValidationResult( "1", "yoast/valid-block", -1, BlockPresence.Required, "Is not that present" );
+validatedBlock.issues = [
+	new BlockValidationResult( "123", "yoast/added-to-content-valid", 1, BlockPresence.Required, "Is present" ),
+];
+
+const validations: Record<string, BlockValidationResult> = {
+	1: validatedBlock,
+};
+
+jest.mock( "@wordpress/data", () => {
+	return {
+		select: jest.fn( () => {
+			return {
+				getSchemaBlocksValidationResults: jest.fn( () => {
+					return validations;
+				} ),
+			};
+		} ),
 	};
 } );
 
@@ -55,10 +77,14 @@ describe( "The required blocks in the sidebar", () => {
 	} );
 
 	it( "renders the required block as an added one", () => {
-		const block = { innerBlocks: [] } as BlockInstance;
+		const block = { clientId: "1", innerBlocks: [] } as BlockInstance;
 		const requiredBlocks = [
 			{
 				name: "yoast/added-to-content",
+				option: "One",
+			} as RequiredBlock,
+			{
+				name: "yoast/added-to-content-valid",
 				option: "One",
 			} as RequiredBlock,
 		];
