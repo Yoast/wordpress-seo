@@ -1,12 +1,18 @@
 import { languageProcessing } from "yoastseo";
 const { createRegexFromArray, getPeriphrasticSentenceParts } = languageProcessing;
 
-import SentencePart from "../values/SentencePart";
+import Clause from "../values/SentencePart";
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 import stopwords from "../config/stopWords.js";
+import {  getParticiples, checkParticiples } from "./internal/getAndCheckParticiples.js";
+
+const EnglishClause = new Clause();
+const participles = getParticiples( EnglishClause.getClauseText() );
+EnglishClause.setParticiple( participles );
+EnglishClause.setClausePassiveness( checkParticiples( EnglishClause.getClauseText(), EnglishClause.getAuxiliaries(), participles ) );
 
 const options = {
-	SentencePart: SentencePart,
+	Clause: EnglishClause,
 	stopwords,
 	auxiliaries: auxiliaries,
 	ingExclusions: [ "king", "cling", "ring", "being", "thing", "something", "anything" ],
