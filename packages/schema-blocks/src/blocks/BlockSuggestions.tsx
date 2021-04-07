@@ -4,16 +4,37 @@ import { createElement } from "@wordpress/element";
 import { getInnerblocksByName, insertBlock } from "../functions/innerBlocksHelper";
 import { getBlockType } from "../functions/BlockHelper";
 import { PanelBody } from "@wordpress/components";
-import { SuggestedBlockProperties } from "../core/validation/SuggestedBlockProperties";
+import { SuggestedBlockProperties, BlockValidationResult } from "../core/validation";
+import { getAllDescendantIssues, getValidationResult } from "../functions/validators";
 
 type BlockSuggestionAddedDto = {
 	blockTitle: string;
+	isValid: boolean;
 }
 
 type BlockSuggestionDto = {
 	blockTitle: string;
 	blockName: string;
 	blockClientId: string;
+}
+
+/**
+ * Checks if the given block is valid.
+ *
+ * @param {string}                  blockName        The blockname to check.
+ * @param {BlockValidationResult[]} validationIssues The validationIssues for the parent block.
+ *
+ * @returns {boolean} Whether or not the block is valid.
+ */
+function isBlockValid( blockName: string, validationIssues: BlockValidationResult[] ): boolean {
+	const blockValidationResults = validationIssues.filter( issue => issue.name === blockName );
+
+	if ( blockValidationResults.length > 0 ) {
+		const blockValidationResult = blockValidationResults.shift();
+		return blockValidationResult.isValid();
+	}
+
+	return false;
 }
 
 /**
@@ -45,15 +66,18 @@ function BlockSuggestion( { blockTitle, blockName, blockClientId }: BlockSuggest
 /**
  * Renders a block suggestion that is already added
  *
- * @param {string} blockTitle The block title.
+ * @param {string}  blockTitle The block title.
+ * @param {boolean} isValid    Is the added block valid.
  *
  * @returns {ReactElement} The rendered element.
  */
-function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactElement {
+function BlockSuggestionAdded( { blockTitle, isValid }: BlockSuggestionAddedDto ): ReactElement {
 	return (
 		<li className="yoast-block-suggestion yoast-block-suggestion--added" key={ "BlockSuggestionAdded" + blockTitle }>
 			{ blockTitle }
-			<span className="yoast-block-suggestion-checkmark"> OK </span>
+			{ isValid &&
+				<span className="yoast-block-suggestion-checkmark"> OK </span>
+			}
 		</li>
 	);
 }
@@ -79,6 +103,12 @@ export default function RequiredBlocks( sidebarTitle: string, block: BlockInstan
 
 	const findPresentBlocks = getInnerblocksByName( block, suggestedBlockNames );
 	const presentBlockNames = findPresentBlocks.map( presentBlock => presentBlock.name );
+	const validationResult = getValidationResult( block.clientId );
+
+	let validationIssues: BlockValidationResult[] = [];
+	if ( validationResult ) {
+		validationIssues = getAllDescendantIssues( validationResult );
+	}
 
 	return (
 		<PanelBody key={ sidebarTitle + block.clientId }>
@@ -89,7 +119,11 @@ export default function RequiredBlocks( sidebarTitle: string, block: BlockInstan
 						const blockType = getBlockType( blockName );
 
 						if ( presentBlockNames.includes( blockName ) ) {
-							return <BlockSuggestionAdded key={ index } blockTitle={ blockType.title } />;
+							return <BlockSuggestionAdded
+								key={ index }
+								isValid={ isBlockValid( blockName, validationIssues ) }
+								blockTitle={ blockType.title }
+							/>;
 						}
 
 						return <BlockSuggestion

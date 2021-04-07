@@ -1,12 +1,8 @@
-import { select } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import { getHumanReadableBlockName } from "../BlockHelper";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
-import { getAllDescendantIssues } from "../validators";
-
-type clientIdValidation = Record<string, BlockValidationResult>;
+import { getAllDescendantIssues, getValidationResult } from "../validators";
 
 /**
  * A warning message for in the sidebar schema analysis.
@@ -21,22 +17,6 @@ export type SidebarWarning = {
 	 * Color of the warning.
 	 */
 	color: "red" | "orange" | "green";
-}
-
-/**
- * Gets the validation results from the store for a block instance with the given clientId.
- *
- * @param clientId The clientId to request validation results for.
- *
- * @returns {BlockValidationResult} The validation results, or null if none were found.
- */
-function getValidationResult( clientId: string ): BlockValidationResult | null {
-	const validationResults: clientIdValidation = select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getSchemaBlocksValidationResults();
-	if ( ! validationResults ) {
-		return null;
-	}
-
-	return validationResults[ clientId ];
 }
 
 /**
