@@ -12,23 +12,15 @@ jest.mock( "@wordpress/blocks", () => {
 	};
 } );
 
-const validatedBlock = new BlockValidationResult( "1", "yoast/valid-block", -1, BlockPresence.Required, "Is not that present" );
-validatedBlock.issues = [
-	new BlockValidationResult( "123", "yoast/added-to-content-valid", 1, BlockPresence.Required, "Is present" ),
-];
-
-const validations: Record<string, BlockValidationResult> = {
-	1: validatedBlock,
-};
-
-jest.mock( "@wordpress/data", () => {
+jest.mock( "../../src/functions/validators", () => {
 	return {
-		select: jest.fn( () => {
-			return {
-				getSchemaBlocksValidationResults: jest.fn( () => {
-					return validations;
-				} ),
-			};
+		getValidationResult: jest.fn( () => {
+			return new BlockValidationResult( "1", "yoast/valid-block", -1, BlockPresence.Required, "Is not that present" );
+		} ),
+		getAllDescendantIssues: jest.fn( () => {
+			return [
+				new BlockValidationResult( "123", "yoast/added-to-content-valid", 1, BlockPresence.Required, "Is present" ),
+			];
 		} ),
 	};
 } );
