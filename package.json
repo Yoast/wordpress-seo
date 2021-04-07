@@ -107,6 +107,6 @@
     "webpack-dev-server": "^3.1.14"
   },
   "yoast": {
-    "pluginVersion": "16.1-RC6"
+    "pluginVersion": "16.2-beta1"
   }
 }
