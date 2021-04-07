@@ -12,3 +12,7 @@
 	background-color: #cce5ff;
 	color: #004973;
 }
+
+.yoast-badge__in-label {
+	margin-left: 7px;
+}

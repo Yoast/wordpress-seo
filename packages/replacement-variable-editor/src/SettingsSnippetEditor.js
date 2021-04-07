@@ -123,6 +123,7 @@ class SettingsSnippetEditor extends React.Component {
 			hasPaperStyle,
 			fieldIds,
 			labels,
+			hasNewBadge,
 		} = this.props;
 
 		const { activeField, hoveredField } = this.state;
@@ -142,6 +143,7 @@ class SettingsSnippetEditor extends React.Component {
 					containerPadding={ hasPaperStyle ? "0 20px" : "0" }
 					fieldIds={ fieldIds }
 					labels={ labels }
+					hasNewBadge={ hasNewBadge }
 				/>
 			</ErrorBoundary>
 		);
@@ -166,6 +168,7 @@ SettingsSnippetEditor.propTypes = {
 		title: PropTypes.string,
 		description: PropTypes.string,
 	} ),
+	hasNewBadge: PropTypes.bool,
 };
 
 SettingsSnippetEditor.defaultProps = {
@@ -174,6 +177,7 @@ SettingsSnippetEditor.defaultProps = {
 	hasPaperStyle: true,
 	descriptionEditorFieldPlaceholder: null,
 	labels: {},
+	hasNewBadge: false,
 };
 
 export default SettingsSnippetEditor;

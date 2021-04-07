@@ -125,6 +125,7 @@ class SettingsSnippetEditorFields extends React.Component {
 			containerPadding,
 			fieldIds,
 			labels,
+			hasNewBadge,
 		} = this.props;
 
 		return (
@@ -144,6 +145,7 @@ class SettingsSnippetEditorFields extends React.Component {
 					content={ title }
 					onChange={ content => onChange( "title", content ) }
 					fieldId={ fieldIds.title }
+					hasNewBadge={ hasNewBadge }
 				/>
 				<ReplacementVariableEditor
 					type="description"
@@ -159,6 +161,7 @@ class SettingsSnippetEditorFields extends React.Component {
 					content={ description }
 					onChange={ content => onChange( "description", content ) }
 					fieldId={ fieldIds.description }
+					hasNewBadge={ hasNewBadge }
 				/>
 			</StyledEditor>
 		);
@@ -187,6 +190,7 @@ SettingsSnippetEditorFields.propTypes = {
 		title: PropTypes.string,
 		description: PropTypes.string,
 	} ),
+	hasNewBadge: PropTypes.bool,
 };
 
 SettingsSnippetEditorFields.defaultProps = {
@@ -196,6 +200,7 @@ SettingsSnippetEditorFields.defaultProps = {
 	containerPadding: "0 20px",
 	descriptionEditorFieldPlaceholder: null,
 	labels: {},
+	hasNewBadge: false,
 };
 
 export default SettingsSnippetEditorFields;
