@@ -2,7 +2,6 @@ import attributeExists from "./attributeExists";
 import attributeNotEmpty from "./attributeNotEmpty";
 import getAllDescendantIssues from "./getAllDescendantIssues";
 import getInvalidInnerBlocks from "./innerBlocksValid";
-import isValidResult from "./isValidResult";
 import getValidationResult from "./getValidationResult";
 
 export {
@@ -11,5 +10,4 @@ export {
 	getAllDescendantIssues,
 	getInvalidInnerBlocks,
 	getValidationResult,
-	isValidResult,
 };
