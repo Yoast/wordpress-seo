@@ -1,12 +1,13 @@
 import { ReactElement } from "react";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
-import { createElement } from "@wordpress/element";
-import { getInnerblocksByName, insertBlock } from "../functions/innerBlocksHelper";
-import { getBlockType } from "../functions/BlockHelper";
 import { PanelBody } from "@wordpress/components";
-import { SuggestedBlockProperties, BlockValidationResult } from "../core/validation";
-import { getAllDescendantIssues, getValidationResult } from "../functions/validators";
-import { isResultValidForSchema } from "../functions/validators/validateResults";
+import { BlockValidationResult } from "../../core/validation";
+import { getAllDescendantIssues, getValidationResult } from "../validators";
+import { isResultValidForSchema } from "../validators/validateResults";
+import { createElement } from "@wordpress/element";
+
+import { getBlockType } from "../BlockHelper";
+import { getInnerblocksByName, insertBlock } from "../innerBlocksHelper";
 
 type BlockSuggestionAddedDto = {
 	blockTitle: string;
@@ -17,6 +18,12 @@ type BlockSuggestionDto = {
 	blockTitle: string;
 	blockName: string;
 	blockClientId: string;
+}
+
+interface BlockSuggestionsProps {
+	title: string;
+	block: BlockInstance;
+	suggestions: string[];
 }
 
 /**
@@ -65,18 +72,15 @@ function BlockSuggestionAdded( { blockTitle, isValid }: BlockSuggestionAddedDto 
 }
 
 /**
- * Renders a sidebar panel with the required/recommended block names and a button to add a missing block.
+ * Renders a list of suggested blocks.
  *
- * @param sidebarTitle    The title of the sidebar section.
- * @param block           The block to render the suggestions for.
- * @param suggestedBlocks The required/recommended blocks.
+ * @param props The props.
  *
- * @returns The rendered sidebar section with block suggestions.
+ * @returns The block suggestions element.
  */
-export default function RequiredBlocks( sidebarTitle: string, block: BlockInstance, suggestedBlocks: SuggestedBlockProperties[] ): ReactElement {
-	const suggestedBlockNames = suggestedBlocks
-		.filter( suggestedBlock => typeof getBlockType( suggestedBlock.name ) !== "undefined" )
-		.map( suggestedBlock => suggestedBlock.name );
+export default function BlockSuggestionsPresenter( { title, block, suggestions }: BlockSuggestionsProps ) {
+	const suggestedBlockNames = suggestions
+		.filter( suggestedBlock => typeof getBlockType( suggestedBlock ) !== "undefined" );
 
 	// When there are no suggestions, just return.
 	if ( suggestedBlockNames.length === 0 ) {
@@ -93,8 +97,8 @@ export default function RequiredBlocks( sidebarTitle: string, block: BlockInstan
 	}
 
 	return (
-		<PanelBody key={ sidebarTitle + block.clientId }>
-			<div className="yoast-block-sidebar-title">{ sidebarTitle }</div>
+		<PanelBody key={ title + block.clientId }>
+			<div className="yoast-block-sidebar-title">{ title }</div>
 			<ul className="yoast-block-suggestions">
 				{
 					suggestedBlockNames.map( ( blockName: string, index: number ) => {

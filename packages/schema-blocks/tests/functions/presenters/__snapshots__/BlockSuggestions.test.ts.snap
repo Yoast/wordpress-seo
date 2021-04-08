@@ -44,17 +44,6 @@ exports[`The required blocks in the sidebar renders the required block as an add
     >
       The required block
     </li>
-    <li
-      className="yoast-block-suggestion"
-    >
-      The required block
-      <button
-        className="yoast-block-suggestion-button"
-        onClick={[Function]}
-      >
-         Add 
-      </button>
-    </li>
   </ul>
 </div>
 `;
