@@ -8,14 +8,15 @@ class Clause {
 	 *
 	 * @param {string} clauseText The text in the clause.
 	 * @param {Array} auxiliaries The auxiliaries in the clause.
+	 * @param {Array} participles The participles in the clause.
 	 *
 	 * @constructor
 	 */
-	constructor( clauseText, auxiliaries ) {
+	constructor( clauseText, auxiliaries, participles ) {
 		this._clauseText = clauseText;
 		this._auxiliaries = auxiliaries;
 		this._isPassive = false;
-		this._participles = [];
+		this._participles = participles;
 	}
 	/**
 	 * Returns the clause text.
@@ -76,18 +77,6 @@ class Clause {
 	}
 
 	/**
-	 * Applies language-specific checks to determine whether the clause is passive.
-	 * A clause is passive if it contains at least one passive participle.
-	 *
-	 * @param {boolean} isParticiplePassive	The language-specific function for checking whether the clause is passive which will return true or false.
-	 *
-	 * @returns {void}
-	 */
-	setClausePassiveness( isParticiplePassive ) {
-		this.setPassive( isParticiplePassive );
-	}
-
-	/**
 	 * Serializes the Clause instance to an object.
 	 *
 	 * @returns {Object} The serialized Clause.
@@ -110,7 +99,7 @@ class Clause {
 	 * @returns {Clause} The parsed Clause.
 	 */
 	parse( serialized ) {
-		const clause = new Clause( serialized.clauseText, serialized.auxiliaries );
+		const clause = new Clause( serialized.clauseText, serialized.auxiliaries, serialized.participles );
 		clause.setPassive( serialized.isPassive );
 
 		return clause;

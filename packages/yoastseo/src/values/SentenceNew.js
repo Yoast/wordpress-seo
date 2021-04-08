@@ -63,6 +63,7 @@ class Sentence {
 	 */
 	setClauses( clauses ) {
 		this._clauses = clauses;
+		this.setSentencePassiveness();
 	}
 
 	/**
