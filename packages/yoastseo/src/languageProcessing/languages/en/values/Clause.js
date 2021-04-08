@@ -6,8 +6,8 @@ import {
 } from "../config/functionWords";
 import nonVerbsEndingEd from "../config/internal/passiveVoiceNonVerbEndingEd";
 import getParticiples from "../helpers/internal/getParticiples";
-import directPrecedenceException from "../../../helpers/passiveVoice/directPrecedenceException";
-import precedenceException from "../../../helpers/passiveVoice/precedenceException";
+import { languageProcessing } from "yoastseo";
+const { precedenceException, directPrecedenceException } = languageProcessing;
 
 
 /**

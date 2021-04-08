@@ -1,9 +1,6 @@
-// import { languageProcessing, values } from "yoastseo";
-// const { createRegexFromArray, getPeriphrasticSentenceParts } = languageProcessing;
-// const { Clause } = values;
+import { languageProcessing } from "yoastseo";
+const { createRegexFromArray, getPeriphrasticSentenceParts } = languageProcessing;
 
-import createRegexFromArray from "../../../helpers/regex/createRegexFromArray";
-import getPeriphrasticSentenceParts from "../../../helpers/passiveVoice/periphrastic/getSentenceParts";
 import Clause from "../values/Clause";
 
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
