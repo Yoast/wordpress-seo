@@ -82,6 +82,7 @@ export default function initSearchAppearance() {
 						selectImageButtonId={ portal.id + "-select-button" }
 						replaceImageButtonId={ portal.id + "-replace-button" }
 						removeImageButtonId={ portal.id + "-remove-button" }
+						hasNewBadge={ true }
 					/> );
 				} ) }
 
