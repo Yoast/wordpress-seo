@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '16.1-RC4' );
+define( 'WPSEO_VERSION', '16.2-beta1' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -183,8 +183,11 @@ function _wpseo_activate() {
 		delete_option( 'rewrite_rules' );
 	}
 	else {
-		$wpseo_rewrite = new WPSEO_Rewrite();
-		$wpseo_rewrite->schedule_flush();
+		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
+			// Constructor has side effects so this registers all hooks.
+			$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
+		}
+		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
 	// Reset tracking to be disabled by default.
