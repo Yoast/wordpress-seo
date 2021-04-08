@@ -1,10 +1,14 @@
 import { forEach, includes, intersection, isEmpty } from "lodash-es";
-import getWords from "../../../../helpers/word/getWords";
+import { languageProcessing } from "yoastseo";
+// const { matchRegularParticiples, directPrecedenceException, getWords, precedenceException } = languageProcessing;
+
 import matchRegularParticiples from "../../../../helpers/passiveVoice/periphrastic/matchRegularParticiples";
-import irregularParticiples from "../../config/internal/passiveVoiceIrregulars";
-import nonVerbsEndingEd from "../../config/internal/passiveVoiceNonVerbEndingEd.js";
 import directPrecedenceException from "../../../../helpers/passiveVoice/directPrecedenceException";
 import precedenceException from "../../../../helpers/passiveVoice/precedenceException";
+import getWords from "../../../../helpers/word/getWords";
+import irregularParticiples from "../../config/internal/passiveVoiceIrregulars";
+import nonVerbsEndingEd from "../../config/internal/passiveVoiceNonVerbEndingEd.js";
+
 import {
 	cannotDirectlyPrecedePassiveParticiple,
 	cannotBeBetweenPassiveAuxiliaryAndParticiple,
@@ -54,15 +58,17 @@ function hasRidException( participle, auxiliaries ) {
  *
  * @param {string} clauseText   The text of the clause
  * @param {Array} auxiliaries   The array of the auxiliaries
- * @param {string} participle   The participle
+ * @param {string} participles   The participle
  *
  * @returns {boolean} Returns true if no exception is found.
  */
-function checkParticiples( clauseText, auxiliaries, participle,  ) {
-	return ! includes( nonVerbsEndingEd, participle ) &&
-		! hasRidException( participle, auxiliaries ) &&
-		! directPrecedenceException( clauseText, participle, cannotDirectlyPrecedePassiveParticiple ) &&
-		! precedenceException( clauseText, participle, cannotBeBetweenPassiveAuxiliaryAndParticiple );
+function checkParticiples( clauseText, auxiliaries, participles,  ) {
+	return participles.some( participle => {
+		return ! includes( nonVerbsEndingEd, participle ) &&
+			! hasRidException( participle, auxiliaries ) &&
+			! directPrecedenceException( clauseText, participle, cannotDirectlyPrecedePassiveParticiple ) &&
+			! precedenceException( clauseText, participle, cannotBeBetweenPassiveAuxiliaryAndParticiple );
+	} );
 }
 
 export { getParticiples, checkParticiples };
