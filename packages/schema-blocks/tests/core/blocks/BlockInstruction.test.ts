@@ -47,7 +47,12 @@ describe( "The BlockInstruction class", () => {
 			const result = blockInstruction.validate( blockInstance );
 			expect( result.name ).toEqual( "CoreWhateverInstruction" );
 			expect( result.result ).toEqual( BlockValidation.Invalid );
-			expect( result.issues.length ).toEqual( 0 );
+			expect( result.issues.length ).toEqual( 1 );
+
+			const issue = result.issues[ 0 ];
+			expect( issue.name ).toEqual( "CoreWhateverInstruction" );
+			expect( issue.result ).toEqual( BlockValidation.Invalid );
+			expect( issue.issues.length ).toEqual( 0 );
 		} );
 
 		it( "considers a required attribute to be valid if it exists and is not empty", () => {
@@ -85,9 +90,7 @@ describe( "The BlockInstruction class", () => {
 			const result = blockInstruction.validate( blockInstance );
 			expect( result.name ).toEqual( "TestBlockInstruction" );
 			expect( result.result ).toEqual( BlockValidation.Valid );
-			expect( result.issues.length ).toEqual( 1 );
-			expect( result.issues[ 0 ].name ).toEqual( "title" );
-			expect( result.issues[ 0 ].result ).toEqual( BlockValidation.Valid );
+			expect( result.issues.length ).toEqual( 0 );
 		} );
 
 		it( "considers a required attribute to be invalid if it does not exist", () => {
@@ -103,10 +106,12 @@ describe( "The BlockInstruction class", () => {
 
 			const result = blockInstruction.validate( blockInstance );
 			expect( result.name ).toEqual( "TestBlockInstruction" );
-			expect( result.result ).toEqual( BlockValidation.Invalid );
+			expect( result.result ).toEqual( BlockValidation.MissingAttribute );
 			expect( result.issues.length ).toEqual( 1 );
-			expect( result.issues[ 0 ].name ).toEqual( "title" );
-			expect( result.issues[ 0 ].result ).toEqual( BlockValidation.MissingAttribute );
+
+			const issue = result.issues[ 0 ];
+			expect( issue.name ).toEqual( "TestBlockInstruction" );
+			expect( issue.result ).toEqual( BlockValidation.MissingAttribute );
 		} );
 
 		it( "considers a required attribute to be invalid if it is empty", () => {
@@ -124,46 +129,12 @@ describe( "The BlockInstruction class", () => {
 
 			const result = blockInstruction.validate( blockInstance );
 			expect( result.name ).toEqual( "TestBlockInstruction" );
-			expect( result.result ).toEqual( BlockValidation.Invalid );
+			expect( result.result ).toEqual( BlockValidation.MissingAttribute );
 			expect( result.issues.length ).toEqual( 1 );
-			expect( result.issues[ 0 ].name ).toEqual( "title" );
-			expect( result.issues[ 0 ].result ).toEqual( BlockValidation.MissingAttribute );
-		} );
 
-		it( "skips validation for a block with no attributes and no attribute requirements", () => {
-			const blockInstruction = new TestBlockInstruction( 11, { name: "title", required: false } );
-
-			const blockInstance: BlockInstance = {
-				clientId: "clientid",
-				name: "blockName",
-				innerBlocks: [],
-				isValid: true,
-				attributes: {},
-			};
-
-			const result =  blockInstruction.validate( blockInstance );
-			expect( result.name ).toEqual( "TestBlockInstruction" );
-			expect( result.result ).toEqual( BlockValidation.Skipped );
-			expect( result.issues.length ).toEqual( 0 );
-		} );
-
-		it( "skips validation for a block with an attribute but no attribute requirements.", () => {
-			const blockInstruction = new TestBlockInstruction( 11, { name: "title" } );
-
-			const blockInstance: BlockInstance = {
-				clientId: "clientid",
-				name: "blockName",
-				innerBlocks: [],
-				isValid: true,
-				attributes: {
-					title: "",
-				},
-			};
-
-			const result = blockInstruction.validate( blockInstance );
-			expect( result.name ).toEqual( "TestBlockInstruction" );
-			expect( result.result ).toEqual( BlockValidation.Skipped );
-			expect( result.issues.length ).toEqual( 0 );
+			const issue = result.issues[ 0 ];
+			expect( issue.name ).toEqual( "TestBlockInstruction" );
+			expect( issue.result ).toEqual( BlockValidation.MissingAttribute );
 		} );
 	} );
 } );
