@@ -26,14 +26,14 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 		}
 		$version_info = 'v' . \WPSEO_VERSION;
 
-		if ($this->helpers->product->is_premium() ) {
+		if ( $this->helpers->product->is_premium() ) {
 			$version_info = $this->construct_version_info();
 		}
 
 		return \sprintf(
 			'<!-- This site is optimized with the %1$s %2$s - https://yoast.com/wordpress/plugins/seo/ -->',
 			\esc_html( $this->helpers->product->get_name() ),
-			( $version_info )
+			$version_info
 		);
 	}
 
@@ -42,15 +42,16 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @return string The constructed version information.
 	 */
-	private function construct_version_info(){
+	private function construct_version_info() {
 		/**
 		 * Filter: 'wpseo_hide_version' - can be used to hide the Yoast SEO version in the debug marker (only available in Yoast SEO Premium).
 		 *
 		 * @api bool
 		 */
-		if ( \apply_filters( 'wpseo_hide_version', false ) ){
+		if ( \apply_filters( 'wpseo_hide_version', false ) ) {
 			return '';
 		}
+
 		return 'v' . \WPSEO_PREMIUM_VERSION . ' (Yoast SEO v' . \WPSEO_VERSION . ')';
 	}
 
