@@ -4,17 +4,14 @@
 
 import createRegexFromArray from "../../../helpers/regex/createRegexFromArray";
 import getPeriphrasticSentenceParts from "../../../helpers/passiveVoice/periphrastic/getSentenceParts";
-import Clause from "../../../../values/Clause";
+import Clause from "../values/Clause";
 
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 import stopwords from "../config/stopWords.js";
-import {  getParticiples, checkParticiples } from "./internal/getAndCheckParticiples.js";
 
 
 const options = {
 	Clause,
-	getParticiples,
-	checkParticiples,
 	stopwords,
 	auxiliaries: auxiliaries,
 	ingExclusions: [ "king", "cling", "ring", "being", "thing", "something", "anything" ],

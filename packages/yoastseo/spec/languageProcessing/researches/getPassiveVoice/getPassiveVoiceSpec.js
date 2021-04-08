@@ -11,7 +11,7 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 0 );
 	} );
 
-	it( "returns active voice for periphrastic language", function() {
+	it( "returns passive voice for periphrastic language", function() {
 		// Passive: is cleaned.
 		const paper = new Paper( "Once a week, the house is cleaned by Tom." );
 		const researcher = new EnglishResearcher( paper );
