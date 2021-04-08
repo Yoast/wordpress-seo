@@ -9,15 +9,15 @@ import NewBadge from "../new-badge/NewBadge";
 /**
  * FieldGroup component that can be used to wrap our form elements in.
  *
- * @param {string} htmlFor 			ID to which HTML element the label belongs.
- * @param {string} label 			Text displayed as label.
- * @param {string} linkTo      		Location to which the icon links.
- * @param {string} linkText			Screen-reader text that is added to the link.
- * @param {string} description 		Optional: A description where the input element is used for.
- * @param {array}  children 		Children that are rendered in the FieldGroup.
+ * @param {string} htmlFor          ID to which HTML element the label belongs.
+ * @param {string} label            Text displayed as label.
+ * @param {string} linkTo           Location to which the icon links.
+ * @param {string} linkText         Screen-reader text that is added to the link.
+ * @param {string} description      Optional: A description where the input element is used for.
+ * @param {array}  children         Children that are rendered in the FieldGroup.
  * @param {string} wrapperClassName Optional: A classname for the FieldGroup's outer div. Default is "yoast-field-group".
- * @param {string} titleClassName 	Optional: A classname for the FieldGroup's title div. Default is "yoast-field-group__title".
- * @param {bool}   hasNewBadge		Optional: Whether the FieldGroup has a 'New' Badge.
+ * @param {string} titleClassName   Optional: A classname for the FieldGroup's title div. Default is "yoast-field-group__title".
+ * @param {bool}   hasNewBadge      Optional: Whether the FieldGroup has a 'New' Badge.
  *
  * @returns {React.Component} A div with a label, icon and optional description that renders all children.
  */

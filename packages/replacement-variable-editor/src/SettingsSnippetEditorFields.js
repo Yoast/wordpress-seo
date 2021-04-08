@@ -36,6 +36,7 @@ class SettingsSnippetEditorFields extends React.Component {
 	 *                                                     currently active.
 	 * @param {string}   props.hoveredField                The field that is
 	 *                                                     currently hovered.
+	 * @param {bool}     props.hasNewBadge                 Optional. Whether or not it has a 'New' badge.
 	 *
 	 * @returns {void}
 	 */

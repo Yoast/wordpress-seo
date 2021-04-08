@@ -10,21 +10,15 @@ import { __ } from "@wordpress/i18n";
  * @returns {React.Component} The NewBadge.
  */
 const NewBadge = ( { inLabel } ) => (
-	<span className={ inLabel ? "yoast-badge yoast-badge__in-label yoast-new-badge" : "yoast-badge yoast-new-badge" } >
+	<span className={ inLabel ? "yoast-badge yoast-badge__in-label yoast-new-badge" : "yoast-badge yoast-new-badge" }>
 		{ __( "New", "wordpress-seo" ) }
 	</span>
 );
 
-/**
- * Props for the NewBadge.
- */
 NewBadge.propTypes = {
 	inLabel: PropTypes.bool,
 };
 
-/**
- * Default props for the NewBadge.
- */
 NewBadge.defaultProps = {
 	inLabel: false,
 };
