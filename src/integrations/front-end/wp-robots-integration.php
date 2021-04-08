@@ -39,8 +39,10 @@ class WP_Robots_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		/* Allow control of the `wp_robots` filter by prioritizing our hook 10 less than max.
-		   Use the `wpseo_robots` filter to filter the Yoast robots output, instead of WordPress core. */
+		/**
+		 * Allow control of the `wp_robots` filter by prioritizing our hook 10 less than max.
+		 * Use the `wpseo_robots` filter to filter the Yoast robots output, instead of WordPress core.
+		 */
 		\add_filter( 'wp_robots', [ $this, 'add_robots' ], ( PHP_INT_MAX - 10 ) );
 	}
 
