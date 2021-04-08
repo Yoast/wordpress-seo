@@ -1,8 +1,7 @@
 import { languageProcessing } from "yoastseo";
-const { createRegexFromArray, getPeriphrasticSentenceParts } = languageProcessing;
+const { createRegexFromArray, getClauses } = languageProcessing;
 
 import Clause from "../values/Clause";
-
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 import stopwords from "../config/stopWords.js";
 
@@ -25,6 +24,6 @@ const options = {
  * @param {string} sentence The sentence to split up in sentence parts.
  * @returns {Array} The array with all parts of a sentence that have an auxiliary.
  */
-export default function getSentenceParts( sentence ) {
-	return getPeriphrasticSentenceParts( sentence, options );
+export default function getEnglishClauses( sentence ) {
+	return getClauses( sentence, options );
 }
