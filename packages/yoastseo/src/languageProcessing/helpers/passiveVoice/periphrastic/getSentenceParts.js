@@ -208,15 +208,14 @@ const getAuxiliaryMatches = function(
  * @returns {Array} The array with all parts of a sentence that have an auxiliary.
  */
 const getSentenceParts = function( sentence, options ) {
-	const sentenceParts = [];
+	const clauses = [];
 	const auxiliaryRegex = options.regexes.auxiliaryRegex;
-	const SentencePart = options.SentencePart;
 
 	sentence = normalizeSingleQuotes( sentence );
 
 	// First check if there is an auxiliary in the sentence.
 	if ( sentence.match( auxiliaryRegex ) === null ) {
-		return sentenceParts;
+		return clauses;
 	}
 
 	const indices = getSentenceBreakers( sentence, options );
@@ -228,16 +227,22 @@ const getSentenceParts = function( sentence, options ) {
 		}
 
 		// Cut the sentence from the current index to the endIndex (start of next breaker, of end of sentence).
-		const sentencePart = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
+		const clause = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
 
-		const auxiliaryMatches = getAuxiliaryMatches( sentencePart, options.regexes );
+		const auxiliaryMatches = getAuxiliaryMatches( clause, options.regexes );
 		// If a sentence part doesn't have an auxiliary, we don't need it, so it can be filtered out.
 		if ( auxiliaryMatches.length !== 0 ) {
-			sentenceParts.push( new SentencePart( sentencePart, auxiliaryMatches ) );
+			const foundClause = new options.Clause( clause, auxiliaryMatches );
+
+			const participles = options.getParticiples( foundClause.getClauseText() );
+			foundClause.setParticiples( participles );
+			foundClause.setClausePassiveness( options.checkParticiples( foundClause.getClauseText(), foundClause.getAuxiliaries(), participles ) );
+
+			clauses.push( foundClause );
 		}
 	}
 
-	return sentenceParts;
+	return clauses;
 };
 
 /**
