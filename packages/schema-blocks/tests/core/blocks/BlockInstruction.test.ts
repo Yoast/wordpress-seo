@@ -8,16 +8,10 @@ import { BlockValidation } from "../../../src/core/validation";
 class TestBlockInstruction extends BlockInstruction {
 }
 
-/**
- * Test class, to be able to test the non-abstract BlockInstruction methods.
- */
-class CoreWhateverInstruction extends TestBlockInstruction {
-}
-
 describe( "The BlockInstruction class", () => {
 	describe( "validate method", () => {
 		it( "considers a core block with no required attributes Valid, if Gutenberg seems to think so.", () => {
-			const blockInstruction = new CoreWhateverInstruction( 11, null );
+			const blockInstruction = new TestBlockInstruction( 11, null );
 
 			const blockInstance: BlockInstance = {
 				clientId: "clientid",
@@ -28,13 +22,13 @@ describe( "The BlockInstruction class", () => {
 			};
 
 			const result = blockInstruction.validate( blockInstance );
-			expect( result.name ).toEqual( "CoreWhateverInstruction" );
+			expect( result.name ).toEqual( "TestBlockInstruction" );
 			expect( result.result ).toEqual( BlockValidation.Valid );
 			expect( result.issues.length ).toEqual( 0 );
 		} );
 
 		it( "considers a core block with no required attributes Invalid, if Gutenberg seems to think so.", () => {
-			const blockInstruction = new CoreWhateverInstruction( 11, null );
+			const blockInstruction = new TestBlockInstruction( 11, null );
 
 			const blockInstance: BlockInstance = {
 				clientId: "clientid",
@@ -45,12 +39,12 @@ describe( "The BlockInstruction class", () => {
 			};
 
 			const result = blockInstruction.validate( blockInstance );
-			expect( result.name ).toEqual( "CoreWhateverInstruction" );
+			expect( result.name ).toEqual( "TestBlockInstruction" );
 			expect( result.result ).toEqual( BlockValidation.Invalid );
 			expect( result.issues.length ).toEqual( 1 );
 
 			const issue = result.issues[ 0 ];
-			expect( issue.name ).toEqual( "CoreWhateverInstruction" );
+			expect( issue.name ).toEqual( "TestBlockInstruction" );
 			expect( issue.result ).toEqual( BlockValidation.Invalid );
 			expect( issue.issues.length ).toEqual( 0 );
 		} );
