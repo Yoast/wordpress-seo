@@ -1621,9 +1621,9 @@
   resolved "https://registry.yarnpkg.com/@yoast/feature-flag/-/feature-flag-0.5.2.tgz#ef4cd8ddb959c5857c5d68639ab09ab75c381508"
   integrity sha512-erHel5POEyPpt1B2fToLm8caZPruiOxBRZvn7X9nWqwb0lIbxbOkDp/XQnm168bcvVEL95Dg9JMaPgQwO3rA9w==
 
-"@yoast/grunt-plugin-tasks@ssh://git@github.com:Yoast/plugin-grunt-tasks#2.1-RC4":
+"@yoast/grunt-plugin-tasks@ssh://git@github.com:Yoast/plugin-grunt-tasks#2.1-RC5":
   version "2.0.0"
-  resolved "ssh://git@github.com:Yoast/plugin-grunt-tasks#387ad58205a2a2957c8d2534d340da7e3b86760e"
+  resolved "ssh://git@github.com:Yoast/plugin-grunt-tasks#df454f74313dc509a0505f342ee73ef5a64c37da"
   dependencies:
     "@yoast/browserslist-config" "^1.0.0"
     autoprefixer "^9.7.2"
@@ -1653,9 +1653,9 @@
     load-grunt-config "^1.0.1"
     time-grunt "^1.0.0"
 
-"@yoast/grunt-plugin-tasks@ssh://git@github.com:Yoast/plugin-grunt-tasks#2.1-RC5":
+"@yoast/grunt-plugin-tasks@ssh://git@github.com:Yoast/plugin-grunt-tasks#2.1-RC6":
   version "2.0.0"
-  resolved "ssh://git@github.com:Yoast/plugin-grunt-tasks#df454f74313dc509a0505f342ee73ef5a64c37da"
+  resolved "ssh://git@github.com:Yoast/plugin-grunt-tasks#c1337c8b453b2bd6f83ba7a688ce61b4da7e4b56"
   dependencies:
     "@yoast/browserslist-config" "^1.0.0"
     autoprefixer "^9.7.2"
