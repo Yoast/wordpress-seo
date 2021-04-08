@@ -1,9 +1,7 @@
 import { forEach, includes } from "lodash-es";
-// import { languageProcessing } from "yoastseo";
-// const { matchRegularParticiples, directPrecedenceException, getWords, precedenceException } = languageProcessing;
+import { languageProcessing } from "yoastseo";
+const { matchRegularParticiples, getWords } = languageProcessing;
 
-import matchRegularParticiples from "../../../../helpers/passiveVoice/periphrastic/matchRegularParticiples";
-import getWords from "../../../../helpers/word/getWords";
 import irregularParticiples from "../../config/internal/passiveVoiceIrregulars";
 
 /**
