@@ -22,11 +22,11 @@ type BlockSuggestionDto = {
 /**
  * Renders a block suggestion with the possibility to add one.
  *
- * @param {string}   blockTitle    The title to show.
- * @param {string}   blockName     The name of the block to add.
- * @param {string}   blockClientId The clientId of the target to add the block to.
+ * @param blockTitle    The title to show.
+ * @param blockName     The name of the block to add.
+ * @param blockClientId The clientId of the target to add the block to.
  *
- * @returns {ReactElement} The rendered block suggestion.
+ * @returns The rendered block suggestion.
  */
 function BlockSuggestion( { blockTitle, blockName, blockClientId }: BlockSuggestionDto ): ReactElement {
 	/**
@@ -48,10 +48,10 @@ function BlockSuggestion( { blockTitle, blockName, blockClientId }: BlockSuggest
 /**
  * Renders a block suggestion that is already added
  *
- * @param {string}  blockTitle The block title.
- * @param {boolean} isValid    Is the added block valid.
+ * @param blockTitle The block title.
+ * @param isValid    Is the added block valid.
  *
- * @returns {ReactElement} The rendered element.
+ * @returns The rendered element.
  */
 function BlockSuggestionAdded( { blockTitle, isValid }: BlockSuggestionAddedDto ): ReactElement {
 	return (
@@ -67,11 +67,11 @@ function BlockSuggestionAdded( { blockTitle, isValid }: BlockSuggestionAddedDto 
 /**
  * Renders a sidebar panel with the required/recommended block names and a button to add a missing block.
  *
- * @param {string} sidebarTitle                        The title of the sidebar section.
- * @param {BlockInstance} block                        The block to render the suggestions for.
- * @param {SuggestedBlockProperties[]} suggestedBlocks The required/recommended blocks.
+ * @param sidebarTitle    The title of the sidebar section.
+ * @param block           The block to render the suggestions for.
+ * @param suggestedBlocks The required/recommended blocks.
  *
- * @returns {ReactElement} The rendered sidebar section with block suggestions.
+ * @returns The rendered sidebar section with block suggestions.
  */
 export default function RequiredBlocks( sidebarTitle: string, block: BlockInstance, suggestedBlocks: SuggestedBlockProperties[] ): ReactElement {
 	const suggestedBlockNames = suggestedBlocks
