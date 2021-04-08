@@ -5,7 +5,7 @@ import {
 	cannotDirectlyPrecedePassiveParticiple,
 } from "../config/functionWords";
 import nonVerbsEndingEd from "../config/internal/passiveVoiceNonVerbEndingEd";
-import getParticiples from "../helpers/internal/getAndCheckParticiples";
+import getParticiples from "../helpers/internal/getParticiples";
 import directPrecedenceException from "../../../helpers/passiveVoice/directPrecedenceException";
 import precedenceException from "../../../helpers/passiveVoice/precedenceException";
 

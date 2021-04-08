@@ -233,11 +233,6 @@ const getSentenceParts = function( sentence, options ) {
 		// If a sentence part doesn't have an auxiliary, we don't need it, so it can be filtered out.
 		if ( auxiliaryMatches.length !== 0 ) {
 			const foundClause = new options.Clause( clause, auxiliaryMatches );
-
-			const participles = options.getParticiples( foundClause.getClauseText() );
-			foundClause.setParticiples( participles );
-			foundClause.setClausePassiveness( options.checkParticiples( foundClause.getClauseText(), foundClause.getAuxiliaries(), participles ) );
-
 			clauses.push( foundClause );
 		}
 	}
