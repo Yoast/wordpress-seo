@@ -250,6 +250,7 @@ Bugfixes:
 * Fixes a bug where the current webpage would not always be referenced correctly in the breadcrumb schema output.
 
 Other:
+
 * Adds the `'wpseo_enable_editor_features_' . $post_type` filter to allow users to show the Yoast SEO metabox on non-public post types if these are accessible. Props to [jondcampbell](https://github.com/jondcampbell).
 
 = 16.1.1 =
