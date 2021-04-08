@@ -96,7 +96,7 @@ function WarningList( props: WarningListProps ): ReactElement {
 	return (
 		<div className="yoast-block-sidebar-warnings">
 			<div className="yoast-block-sidebar-title">{ __( "Analysis", "yoast-schema-blocks" ) }</div>
-			<ul className="yoast-block-sidebar-warnings"> { }
+			<ul className="yoast-block-sidebar-warnings">
 				{ ...props.warnings.map( warning => <Warning warning={ warning } key={ warning.text } /> ) }
 			</ul>
 		</div>
