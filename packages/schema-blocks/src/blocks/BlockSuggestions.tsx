@@ -6,6 +6,7 @@ import { getBlockType } from "../functions/BlockHelper";
 import { PanelBody } from "@wordpress/components";
 import { SuggestedBlockProperties, BlockValidationResult } from "../core/validation";
 import { getAllDescendantIssues, getValidationResult } from "../functions/validators";
+import { isResultValidForSchema } from "../functions/validators/validateResults";
 
 type BlockSuggestionAddedDto = {
 	blockTitle: string;
@@ -16,25 +17,6 @@ type BlockSuggestionDto = {
 	blockTitle: string;
 	blockName: string;
 	blockClientId: string;
-}
-
-/**
- * Checks if the given block is valid.
- *
- * @param {string}                  blockName        The blockname to check.
- * @param {BlockValidationResult[]} validationIssues The validationIssues for the parent block.
- *
- * @returns {boolean} Whether or not the block is valid.
- */
-function isBlockValid( blockName: string, validationIssues: BlockValidationResult[] ): boolean {
-	const blockValidationResults = validationIssues.filter( issue => issue.name === blockName );
-
-	if ( blockValidationResults.length > 0 ) {
-		const blockValidationResult = blockValidationResults.shift();
-		return blockValidationResult.isValid();
-	}
-
-	return false;
 }
 
 /**
@@ -117,11 +99,12 @@ export default function RequiredBlocks( sidebarTitle: string, block: BlockInstan
 				{
 					suggestedBlockNames.map( ( blockName: string, index: number ) => {
 						const blockType = getBlockType( blockName );
+						const isBlockValid = validationIssues.some( issue => issue.name === blockName && isResultValidForSchema( issue.result ) );
 
 						if ( presentBlockNames.includes( blockName ) ) {
 							return <BlockSuggestionAdded
 								key={ index }
-								isValid={ isBlockValid( blockName, validationIssues ) }
+								isValid={ isBlockValid }
 								blockTitle={ blockType.title }
 							/>;
 						}

@@ -135,13 +135,4 @@ export class BlockValidationResult {
 			BlockPresence.Unknown,
 		);
 	}
-
-	/**
-	 * Whether or not the validation is valid.
-	 *
-	 * @returns {boolean} True when validation result is valid.
-	 */
-	public isValid(): boolean {
-		return this.result <= 0;
-	}
 }
