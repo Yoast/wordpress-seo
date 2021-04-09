@@ -1,3 +1,4 @@
+import { maxBy } from "lodash";
 import { ComponentType, ReactElement } from "react";
 import { createElement, ComponentClass, Fragment } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
@@ -7,11 +8,10 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
-import { innerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebarPresenter";
 import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
-import { maxBy } from "lodash";
+import { InnerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebar";
 
 /**
  * Custom props for InnerBlocks.
@@ -132,15 +132,23 @@ export default class InnerBlocks extends BlockInstruction {
 			return null;
 		}
 
-		const elements: ReactElement[] = innerBlocksSidebar( currentBlock, this.options );
+		let requiredBlockNames: string[] = [];
+		if ( this.options.requiredBlocks ) {
+			requiredBlockNames = this.options.requiredBlocks.map( block => block.name );
+		}
 
-		if ( elements && elements.length === 0 ) {
-			return null;
+		let recommendedBlockNames: string[] = [];
+		if ( this.options.recommendedBlocks ) {
+			recommendedBlockNames = this.options.recommendedBlocks.map( block => block.name );
 		}
 
 		return (
 			<Fragment key="innerblocks-sidebar">
-				{ ...elements }
+				<InnerBlocksSidebar
+					currentBlock={ currentBlock }
+					requiredBlocks={ requiredBlockNames }
+					recommendedBlocks={ recommendedBlockNames }
+				/>
 			</Fragment>
 		);
 	}
