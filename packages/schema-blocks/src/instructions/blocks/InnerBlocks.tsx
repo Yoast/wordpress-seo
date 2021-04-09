@@ -2,16 +2,16 @@ import { ComponentType, ReactElement } from "react";
 import { createElement, ComponentClass, Fragment } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance } from "@wordpress/blocks";
-import { BlockValidation, BlockValidationResult } from "../../core/validation";
+import { BlockValidationResult } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { getBlockByClientId } from "../../functions/BlockHelper";
-import validateMany from "../../functions/validators/validateMany";
 import { innerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebarPresenter";
 import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
+import { maxBy } from "lodash";
 
 /**
  * Custom props for InnerBlocks.
@@ -153,10 +153,17 @@ export default class InnerBlocks extends BlockInstruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const validation = new BlockValidationResult( blockInstance.clientId, this.constructor.name, BlockValidation.Unknown, BlockPresence.Unknown );
-		validation.issues = validateInnerBlocks( blockInstance, this.options.requiredBlocks, this.options.recommendedBlocks );
+		const issues = validateInnerBlocks( blockInstance, this.options.requiredBlocks, this.options.recommendedBlocks );
 
-		return validateMany( validation );
+		if ( ! issues || issues.length < 1 ) {
+			return BlockValidationResult.Valid( blockInstance, this.constructor.name, BlockPresence.Unknown );
+		}
+
+		const worstCase: BlockValidationResult = maxBy( issues, issue => issue.result );
+		const validation = new BlockValidationResult( blockInstance.clientId, this.constructor.name, worstCase.result, worstCase.blockPresence );
+		validation.issues = issues;
+
+		return validation;
 	}
 }
 

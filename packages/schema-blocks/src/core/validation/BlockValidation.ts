@@ -10,7 +10,7 @@ export enum BlockValidation {
 
 	/** OK RESULTS (200+): Will give an orange bullet, but will not prevent Schema output.
 
-	 /** This block is not completely valid, but should not prevent the Schema to be output either. */
+	/** This block is not completely valid, but should not prevent the Schema to be output either. */
 	OK = 200,
 	/** This block is defined to recommend a particular inner block, but that block doesn't exist. */
 	MissingRecommendedBlock = 201,

@@ -55,12 +55,13 @@ class VariationPicker extends BlockInstruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		const required: BlockPresence = this.options.required ? BlockPresence.Required : BlockPresence.Recommended;
+
 		if ( includesAVariation( blockInstance ) ) {
-			return BlockValidationResult.Valid( blockInstance );
+			return BlockValidationResult.Valid( blockInstance, this.constructor.name, required );
 		}
 
-		const required = this.options.required;
-		return BlockValidationResult.MissingAttribute( blockInstance, null, required ? BlockPresence.Required : BlockPresence.Recommended );
+		return BlockValidationResult.MissingAttribute( blockInstance, this.constructor.name, required );
 	}
 }
 

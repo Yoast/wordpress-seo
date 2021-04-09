@@ -11,7 +11,6 @@ import {
 import recurseOverBlocks from "../blocks/recurseOverBlocks";
 import { getInnerblocksByName } from "../innerBlocksHelper";
 import logger from "../logger";
-import { isResultValidForSchema } from "./validateResults";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
 import { getHumanReadableBlockName } from "../BlockHelper";
 
@@ -117,7 +116,7 @@ function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Requ
 	const requiredBlockKeys = requiredBlocks.map( rblock => rblock.name );
 	const recommendedBlockKeys = recommendedBlocks.map( rblock => rblock.name );
 
-	let validationResults: BlockValidationResult[] = [];
+	const validationResults: BlockValidationResult[] = [];
 
 	// Find all instances of required block types.
 	const existingRequiredBlocks = getInnerblocksByName( blockInstance, requiredBlockKeys );
@@ -141,10 +140,6 @@ function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Requ
 	// We differentiate between blocks that are internally valid but are not valid in the context of the innerblock.
 	const innerValidations = validateInnerblockTree( blockInstance );
 	validationResults.push( ...innerValidations );
-
-	validationResults = validationResults.filter( result =>
-		! ( isResultValidForSchema( result.result ) &&
-			validationResults.some( also => also.clientId === result.clientId && ! isResultValidForSchema( also.result ) ) ) );
 
 	return validationResults;
 }
