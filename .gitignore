@@ -56,7 +56,6 @@ temp/
 .Trashes
 .env
 .svn
-.tmp
 
 ############
 ## Composer
@@ -96,9 +95,3 @@ test.sh
 ##############
 /javascript/
 .yoast
-
-
-############
-# Temp files
-############
-/.tmp
