@@ -49,17 +49,20 @@ function BlockSuggestion( { blockTitle, blockName, blockClientId }: BlockSuggest
 }
 
 /**
- * Renders a block suggestion that is already added
+ * Renders a block suggestion that has already been added.
  *
  * @param {string} blockTitle The block title.
  *
  * @returns {ReactElement} The rendered element.
  */
 function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactElement {
+	const heroIconCheck = "<svg xmlns='http://www.w3.org/2000/svg' class='h-6 w-6' fill='none' viewBox='0 -6 24 24' stroke='currentColor' " +
+		"height='24' width='32'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 13l4 4L19 7' /></svg>";
+
 	return (
 		<li className="yoast-block-suggestion yoast-block-suggestion--added" key={ "BlockSuggestionAdded" + blockTitle }>
 			{ blockTitle }
-			<span className="yoast-block-suggestion-checkmark"> OK </span>
+			<span className="yoast-block-suggestion-checkmark" dangerouslySetInnerHTML={ { __html: heroIconCheck as string } } />
 		</li>
 	);
 }
