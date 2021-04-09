@@ -24,7 +24,7 @@ class EnglishClause extends Clause {
 	 */
 	constructor( clauseText, auxiliaries ) {
 		super( clauseText, auxiliaries );
-		this.setParticiples( getParticiples( this.getClauseText() ) );
+		this._participles = getParticiples( this.getClauseText() );
 		this.checkParticiples();
 	}
 

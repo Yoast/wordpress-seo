@@ -5,11 +5,11 @@ const { matchRegularParticiples, getWords } = languageProcessing;
 import irregularParticiples from "../../config/internal/passiveVoiceIrregulars";
 
 /**
- * Creates participle objects for the participles found in a sentence part.
+ * Creates participle array for the participles found in a sentence part.
  *
  * @param {string} clauseText The sentence part to find participles in
  *
- * @returns {Array} The list with participle objects.
+ * @returns {Array} The list with participles.
  */
 export default function getParticiples( clauseText ) {
 	const words = getWords( clauseText );
