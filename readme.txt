@@ -243,6 +243,9 @@ Enhancements:
 * Improves the accessibility of the social sharing links in the post publish panel.
 * Changes the output of the `articleSection` and `keywords` attributes of the Article schema to an array instead of comma-separated values.
 * Improves the performance by optimizing the way `Article` schema is built, saving a query on pageload.
+* Correctly reference the current webpage in breadcrumb schema output.
+* Performance improvement: improve how we build the `Article` schema, saving a query on pageload.
+* Adds a filter that allows for showing the Yoast SEO metabox on non-public post types if these are accessible. Props to [jondcampbell](https://github.com/jondcampbell).
 
 Bugfixes:
 
