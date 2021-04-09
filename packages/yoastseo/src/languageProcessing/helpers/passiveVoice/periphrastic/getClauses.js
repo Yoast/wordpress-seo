@@ -124,13 +124,13 @@ const elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches, elisio
 
 /**
  * Gets the indexes of sentence breakers (auxiliaries, stopwords and stop characters;
- * in English also active verbs) to determine sentence parts.
+ * in English also active verbs) to determine clauses.
  * Indices are filtered because there could be duplicate matches, like "even though" and "though".
  * In addition, 'having' will be matched both as a -ing verb as well as an auxiliary.
  *
  * @param {string} sentence The sentence to check for indices of sentence breakers.
  * @param {Object} options The language options for which to match the sentence breakers.
- * @returns {Array} The array with valid indices to use for determining sentence parts.
+ * @returns {Array} The array with valid indices to use for determining clauses.
  */
 const getSentenceBreakers = function( sentence, options ) {
 	sentence = sentence.toLocaleLowerCase();
@@ -201,13 +201,13 @@ const getAuxiliaryMatches = function(
 };
 
 /**
- * Gets the sentence parts from a sentence by determining sentence breakers.
+ * Gets the clauses from a sentence by determining sentence breakers.
  *
- * @param {string} sentence The sentence to split up in sentence parts.
- * @param {object} options The language options for which to get the sentence parts.
- * @returns {Array} The array with all parts of a sentence that have an auxiliary.
+ * @param {string} sentence The sentence to split up into clauses.
+ * @param {object} options The language options for which to get the clauses.
+ * @returns {Array} The array with all clauses that have an auxiliary.
  */
-const getSentenceParts = function( sentence, options ) {
+const getClauses = function( sentence, options ) {
 	const clauses = [];
 	const auxiliaryRegex = options.regexes.auxiliaryRegex;
 
@@ -241,12 +241,12 @@ const getSentenceParts = function( sentence, options ) {
 };
 
 /**
- * Split the sentence in sentence parts based on auxiliaries.
+ * Split the sentence into clauses based on auxiliaries.
  *
  * @param {string} sentence The sentence to split in parts.
- * @param {Object} options The language options for which to get the sentence parts.
- * @returns {Array} A list with sentence parts.
+ * @param {Object} options The language options for which to get the clauses.
+ * @returns {Array} A list with clauses.
  */
 export default function( sentence, options ) {
-	return getSentenceParts( sentence, options );
+	return getClauses( sentence, options );
 }

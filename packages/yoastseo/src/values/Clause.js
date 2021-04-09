@@ -8,15 +8,14 @@ class Clause {
 	 *
 	 * @param {string} clauseText The text in the clause.
 	 * @param {Array} auxiliaries The auxiliaries in the clause.
-	 * @param {Array} participles The participles in the clause.
 	 *
 	 * @constructor
 	 */
-	constructor( clauseText, auxiliaries, participles ) {
+	constructor( clauseText, auxiliaries ) {
 		this._clauseText = clauseText;
 		this._auxiliaries = auxiliaries;
 		this._isPassive = false;
-		this._participles = participles;
+		this._participles = [];
 	}
 	/**
 	 * Returns the clause text.
