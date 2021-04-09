@@ -19,13 +19,12 @@ class EnglishClause extends Clause {
 	 *
 	 * @param {string} clauseText   The text of the clause.
 	 * @param {Array} auxiliaries   The auxiliaries.
-	 * @param {Array} participles   The participles.
 	 *
 	 * @constructor
 	 */
-	constructor( clauseText, auxiliaries, participles ) {
-		super( clauseText, auxiliaries, participles );
-		this._participles = getParticiples( this.getClauseText() );
+	constructor( clauseText, auxiliaries ) {
+		super( clauseText, auxiliaries );
+		this.setParticiples( getParticiples( this.getClauseText() ) );
 		this.checkParticiples();
 	}
 
