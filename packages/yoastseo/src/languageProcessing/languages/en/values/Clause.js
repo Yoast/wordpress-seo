@@ -1,13 +1,13 @@
 import { includes, intersection, isEmpty } from "lodash-es";
-import Clause from "../../../../values/Clause";
 import {
 	cannotBeBetweenPassiveAuxiliaryAndParticiple,
 	cannotDirectlyPrecedePassiveParticiple,
 } from "../config/functionWords";
 import nonVerbsEndingEd from "../config/internal/passiveVoiceNonVerbEndingEd";
 import getParticiples from "../helpers/internal/getParticiples";
-import { languageProcessing } from "yoastseo";
+import { languageProcessing, values } from "yoastseo";
 const { precedenceException, directPrecedenceException } = languageProcessing;
+const { Clause } = values;
 
 
 /**
