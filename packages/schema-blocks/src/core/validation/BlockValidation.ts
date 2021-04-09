@@ -12,8 +12,10 @@ export enum BlockValidation {
 
 	/** This block is not completely valid, but should not prevent the Schema to be output either. */
 	OK = 200,
+	/** This block has recommended attributes, but these attributes are missing or empty. */
+	MissingRecommendedAttribute = 201,
 	/** This block is defined to recommend a particular inner block, but that block doesn't exist. */
-	MissingRecommendedBlock = 201,
+	MissingRecommendedBlock = 202,
 
 	/** INVALID RESULTS (300+): Will prevent Schema output.
 

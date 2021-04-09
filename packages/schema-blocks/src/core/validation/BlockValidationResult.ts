@@ -70,10 +70,13 @@ export class BlockValidationResult {
 	 * @constructor
 	 */
 	static MissingAttribute( blockInstance: BlockInstance, name?: string, blockPresence?: BlockPresence ) {
+		const blockValidation: BlockValidation = ( blockPresence === BlockPresence.Required )
+			? BlockValidation.MissingAttribute : BlockValidation.MissingRecommendedAttribute;
+
 		return new BlockValidationResult(
 			blockInstance.clientId,
 			name || blockInstance.name,
-			BlockValidation.MissingAttribute,
+			blockValidation,
 			blockPresence || BlockPresence.Unknown,
 		);
 	}
