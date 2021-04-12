@@ -28,7 +28,6 @@ describe( "Creates a sentence object", function() {
 		const clauses = [ mockClause ];
 
 		sentence.setClauses( clauses );
-		sentence.setSentencePassiveness();
 		expect( sentence.getSentenceText() ).toBe( "Team Lingo is happy because the research was finished." );
 		expect( sentence.getClauses() ).toEqual( clauses );
 		expect( sentence.isPassive() ).toEqual( true );
@@ -41,7 +40,6 @@ describe( "Creates a sentence object", function() {
 		const clauses = [ mockClause ];
 
 		sentence.setClauses( clauses );
-		sentence.setSentencePassiveness();
 		expect( sentence.getSentenceText() ).toBe( "Team Lingo is happy because the research was easy." );
 		expect( sentence.getClauses() ).toEqual( clauses );
 		expect( sentence.isPassive() ).toEqual( false );
@@ -54,7 +52,6 @@ describe( "Creates a sentence object", function() {
 		const clauses = [ mockClause ];
 
 		sentence.setClauses( clauses );
-		sentence.setSentencePassiveness();
 		expect( sentence.getClauses() ).toEqual( clauses );
 		expect( sentence.serialize() ).toEqual( {
 			_parseClass: "Sentence",
