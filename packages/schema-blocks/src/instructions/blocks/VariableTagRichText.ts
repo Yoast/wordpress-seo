@@ -12,6 +12,7 @@ import { arrayOrObjectToOptions } from "../../functions/select";
 export class VariableTagRichText extends RichTextBase {
 	public options: {
 		tags: ( keyof HTMLElementTagNameMap )[] | Record<string, keyof HTMLElementTagNameMap>;
+		defaultTag: string;
 		name: string;
 		class: string;
 		default: string;
@@ -54,7 +55,7 @@ export class VariableTagRichText extends RichTextBase {
 	sidebar( props: BlockEditProps<Record<string, unknown>>, i: number ): JSX.Element {
 		return createElement( SelectControl, {
 			label: this.options.label,
-			value: props.attributes[ this.options.name + "_tag" ] as string,
+			value: props.attributes[ this.options.name + "_tag" ] as string || this.options.defaultTag,
 			options: arrayOrObjectToOptions( this.options.tags ),
 			onChange: value => props.setAttributes( { [ this.options.name + "_tag" ]: value } ),
 			key: i,
@@ -73,6 +74,7 @@ export class VariableTagRichText extends RichTextBase {
 		const attributes: RichTextSaveProps | RichTextEditProps = {
 			tagName:
 				props.attributes[ this.options.name + "_tag" ] as keyof HTMLElementTagNameMap ||
+				this.options.defaultTag as keyof HTMLElementTagNameMap ||
 				arrayOrObjectToOptions( this.options.tags )[ 0 ].value,
 			value: props.attributes[ this.options.name ] as string || this.options.value,
 			className: this.options.class,

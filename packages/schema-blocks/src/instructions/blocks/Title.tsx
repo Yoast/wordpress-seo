@@ -22,6 +22,7 @@ interface Post {
 class Title extends VariableTagRichText {
 	public options: {
 		tags: ( keyof HTMLElementTagNameMap )[] | Record<string, keyof HTMLElementTagNameMap>;
+		defaultTag: string;
 		name: string;
 		blockName: string;
 		class: string;
