@@ -37,6 +37,7 @@ $recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
 $editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 $opengraph_disabled_alert     = $view_utils->generate_opengraph_disabled_alert( 'archives' );
 
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the generate_opengraph_disabled_alert() method.
 echo $opengraph_disabled_alert;
 
 foreach ( $wpseo_archives as $wpseo_archive_index => $wpseo_archive ) {

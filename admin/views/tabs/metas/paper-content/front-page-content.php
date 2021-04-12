@@ -13,9 +13,11 @@
 use Yoast\WP\SEO\Presenters\Admin\Badge_Presenter;
 
 $frontpage_settings_badge = new Badge_Presenter( 'frontpage_settings' );
+
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the present() method.
 echo '<div>' . $frontpage_settings_badge->present() . '</div>';
 
-echo '<p>' . \esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
+echo '<p>' . esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
 
 echo '<div id="yoast-og-frontpage-image-select"></div>';
 
@@ -53,6 +55,8 @@ if ( ! empty( $homepage_meta_description ) ) {
 	);
 
 	echo '<input type="hidden" id="meta_description" value="' . \esc_attr( $homepage_meta_description ) . '" />';
+
+	// phpcs:ignore WordPress.Security.EscapeOutput -- $copy_home_description_help is escaped above
 	echo '<div class="copy-home-meta-description"><p>' . $copy_home_description_help . '</p>' .
 		// phpcs:ignore WordPress.Security.EscapeOutput -- $copy_home_description_button_label is escaped above.
 		'<button type="button" id="copy-home-meta-description" class="yoast-button">' . $copy_home_description_button_label . '</button>' .

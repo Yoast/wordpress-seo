@@ -81,8 +81,8 @@ class Yoast_View_Utils {
 		}
 
 		$message = sprintf(
+			/* translators: 1: link open tag; 2: link close tag. */
 			\esc_html__(
-				/* translators: 1: link open tag; 2: link close tag. */
 				'The frontpage settings and the social image, social title and social description are hidden for all content types. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
 				'wordpress-seo'
 			),
@@ -92,8 +92,8 @@ class Yoast_View_Utils {
 
 		if ( $type === 'taxonomies' ) {
 			$message = sprintf(
-				\esc_html__(
 				/* translators: 1: link open tag; 2: link close tag. */
+				\esc_html__(
 					'The frontpage settings and the social image, social title and social description are hidden for all taxonomies. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
 					'wordpress-seo'
 				),
@@ -104,8 +104,8 @@ class Yoast_View_Utils {
 
 		if ( $type === 'archives' ) {
 			$message = sprintf(
-				\esc_html__(
 				/* translators: 1: link open tag; 2: link close tag. */
+				\esc_html__(
 					'The frontpage settings and the social image, social title and social description are hidden for all archives. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
 					'wordpress-seo'
 				),
@@ -118,7 +118,7 @@ class Yoast_View_Utils {
 
 		return sprintf(
 			'<div class="yoast-measure padded">%s</div>',
-			$alert->present()
+			esc_html( $alert->present() )
 		);
 	}
 }

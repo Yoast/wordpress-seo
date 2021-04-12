@@ -30,13 +30,14 @@ $recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
 $editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 $opengraph_disabled_alert     = $view_utils->generate_opengraph_disabled_alert();
 
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the generate_opengraph_disabled_alert() method.
 echo $opengraph_disabled_alert;
 
 if ( get_option( 'show_on_front' ) === 'posts' && WPSEO_Options::get( 'opengraph', true ) ) {
-	$title = \esc_html__( 'Frontpage', 'wordpress-seo' );
+	$frontpage_settings_title = \esc_html__( 'Frontpage', 'wordpress-seo' );
 
 	$wpseo_front_page_presenter = new WPSEO_Paper_Presenter(
-		$title,
+		$frontpage_settings_title,
 		__DIR__ . '/paper-content/front-page-content.php',
 		[
 			'collapsible' => true,
@@ -47,12 +48,12 @@ if ( get_option( 'show_on_front' ) === 'posts' && WPSEO_Options::get( 'opengraph
 				'recommended_replace_vars'     => $recommended_replace_vars,
 				'editor_specific_replace_vars' => $editor_specific_replace_vars,
 			],
-			'title'       => $title,
+			'title'       => $frontpage_settings_title,
 			'class'       => 'search-appearance',
 		]
 	);
 
-	echo $wpseo_front_page_presenter->get_output();
+	echo esc_html( $wpseo_front_page_presenter->get_output() );
 }
 
 if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
