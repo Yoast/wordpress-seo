@@ -81,7 +81,7 @@ module.exports = {
 	},
 	"makepot-yoast-js-schema-blocks": {
 		src: "gettext.pot",
-		dest: "<%= files.pot.yoastSchemaBocks %>",
+		dest: "<%= files.pot.yoastSchemaBlocks %>",
 	},
 
 	// The default de_CH is formal on WordPress.org, but that one is not translated enough for wordpress-seo.
