@@ -28,6 +28,7 @@ class Marker_Open_Presenter_Test extends TestCase {
 
 		$product_mock = Mockery::mock( Product_Helper::class );
 		$product_mock->expects( 'get_name' )->andReturn( 'Yoast SEO plugin' );
+		$product_mock->expects( 'is_premium' )->andReturn( false );
 
 		$instance          = new Marker_Open_Presenter();
 		$instance->helpers = (object) [
