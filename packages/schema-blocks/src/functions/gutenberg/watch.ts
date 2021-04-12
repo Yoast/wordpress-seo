@@ -92,8 +92,9 @@ function generateSchemaForBlocks(
 }
 
 /**
- * Removes any existing schema output for a given blockinstance.
- * @param block The blockinstance to clear schema for.
+ * Removes any existing Schema output for a given block instance.
+ *
+ * @param block The block instance to clear schema for.
  */
 function clearSchemaForBlocks( block: BlockInstance ) {
 	dispatch( "core/block-editor" ).updateBlockAttributes( block.clientId, { "yoast-schema": null } );
