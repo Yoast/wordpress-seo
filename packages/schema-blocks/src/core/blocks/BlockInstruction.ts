@@ -92,12 +92,14 @@ export default abstract class BlockInstruction extends Instruction {
 			issues.push( new BlockValidationResult( blockInstance.clientId, this.constructor.name, BlockValidation.Invalid, BlockPresence.Unknown ) );
 		}
 
+		// No issues found? That means the block is valid.
 		if ( issues.length < 1 ) {
 			return BlockValidationResult.Valid( blockInstance, this.constructor.name );
 		}
 
-		// This is overkill for now but future proof.
+		// Make sure to report the worst case scenario as the final validation result.
 		const worstCase: BlockValidationResult = maxBy( issues, issue => issue.result );
+
 		const validation = new BlockValidationResult( blockInstance.clientId, this.constructor.name, worstCase.result, worstCase.blockPresence );
 		validation.issues = issues;
 

@@ -153,7 +153,7 @@ export default class InnerBlocks extends BlockInstruction {
 	}
 
 	/**
-	 * Checks if the instruction block is valid.
+	 * Checks if the InnerBlock and it's schildren are valid.
 	 *
 	 * @param blockInstance The block instance being validated.
 	 *
@@ -162,10 +162,12 @@ export default class InnerBlocks extends BlockInstruction {
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
 		const issues = validateInnerBlocks( blockInstance, this.options.requiredBlocks, this.options.recommendedBlocks );
 
+		// If no issues are found in any of the innerblocks, the Innerblock is valid too.
 		if ( ! issues || issues.length < 1 ) {
 			return BlockValidationResult.Valid( blockInstance, this.constructor.name );
 		}
 
+		// Make sure to report the worst problem we've found.
 		const worstCase: BlockValidationResult = maxBy( issues, issue => issue.result );
 		const validation = new BlockValidationResult( blockInstance.clientId, this.constructor.name, worstCase.result, worstCase.blockPresence );
 		validation.issues = issues;
