@@ -1,6 +1,7 @@
 import getClauses from "../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/getClauses.js";
 import arrayToRegex from "../../../../../src/languageProcessing/helpers/regex/createRegexFromArray";
 import Clause from "../../../../../src/values/Clause";
+import EnglishClause from "../../../../../src/languageProcessing/languages/en/values/Clause";
 
 const options1 = {
 	Clause: Clause,
@@ -18,7 +19,7 @@ const options1 = {
 };
 
 const options2 = {
-	Clause: Clause,
+	Clause: EnglishClause,
 	auxiliaries: [ "am", "is", "are", "est", "es", "sont" ],
 	stopwords: [ "to", "which", "who", "whom", "that" ],
 	regexes: {
@@ -78,7 +79,7 @@ describe( "splits sentences into clauses", function() {
 		expect( getClauses( sentence, options1 )[ 0 ].getClauseText() ).toBe( "is it\"" );
 		expect( getClauses( sentence, options1 ).length ).toBe( 1 );
 	} );
-	it( "doesn't return sentence parts when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
+	it( "doesn't return clauses when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
 		// Exception word after auxiliary: el.
 		let sentence = "Es el capítulo preferido de varios miembros del equipo de producción.";
 		expect( getClauses( sentence, options1 ).length ).toBe( 0 );
@@ -90,6 +91,14 @@ describe( "splits sentences into clauses", function() {
 		const sentence =  "The cat is vaccinated.";
 		expect( getClauses( sentence, options2 )[ 0 ].getClauseText() ).toBe( "is vaccinated." );
 		expect( getClauses( sentence, options2 ).length ).toBe( 1 );
+	} );
+	it( "returns clause(s) and correctly identify its passiveness when using language specific Clause class", function() {
+		let sentence =  "The cat is vaccinated.";
+		expect( getClauses( sentence, options2 )[ 0 ].getClauseText() ).toBe( "is vaccinated." );
+		expect( getClauses( sentence, options2 )[ 0 ].isPassive() ).toBe( true );
+		sentence = "The tortie cat is pretty.";
+		expect( getClauses( sentence, options2 )[ 0 ].getClauseText() ).toBe( "is pretty." );
+		expect( getClauses( sentence, options2 )[ 0 ].isPassive() ).toBe( false );
 	} );
 	it( "doesn't return clauses when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list " +
 		"and when the directPrecedenceException list is not available.", function() {
