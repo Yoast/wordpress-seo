@@ -32,7 +32,7 @@ $opengraph_disabled_alert     = $view_utils->generate_opengraph_disabled_alert()
 
 echo $opengraph_disabled_alert;
 
-if ( get_option( 'show_on_front' ) === 'posts' && $opengraph_disabled_alert === '' ) {
+if ( get_option( 'show_on_front' ) === 'posts' && WPSEO_Options::get( 'opengraph', true ) ) {
 	$title = \esc_html__( 'Frontpage', 'wordpress-seo' );
 
 	$wpseo_front_page_presenter = new WPSEO_Paper_Presenter(

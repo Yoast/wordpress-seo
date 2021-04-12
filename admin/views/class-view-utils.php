@@ -76,7 +76,7 @@ class Yoast_View_Utils {
 	public function generate_opengraph_disabled_alert( $type = '' ) {
 		$is_enabled = WPSEO_Options::get( 'opengraph', true );
 
-		if ( $is_enabled ) {
+		if ( $is_enabled || ! YoastSEO()->helpers->product->is_premium() ) {
 			return '';
 		}
 
