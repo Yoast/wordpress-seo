@@ -5,13 +5,14 @@ import passiveVoice from "../../../../src/languageProcessing/researches/getPassi
 import Paper from "../../../../src/values/Paper";
 
 describe( "detecting passive voice in sentences", function() {
-	it( "returns active voice for periphrastic language", function() {
+	// The specs using English Researcher are skipped, since we've already refactored English passive voice
+	xit( "returns active voice for periphrastic language", function() {
 		const paper = new Paper( "Once a week, Tom cleans the house." );
 		const researcher = new EnglishResearcher( paper );
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 0 );
 	} );
 
-	it( "returns passive voice for periphrastic language", function() {
+	xit( "returns passive voice for periphrastic language", function() {
 		// Passive: is cleaned.
 		const paper = new Paper( "Once a week, the house is cleaned by Tom." );
 		const researcher = new EnglishResearcher( paper );
