@@ -31,7 +31,7 @@ export default function( clause, participle, cannotBeBetweenPassiveAuxiliaryAndP
 
 	// Check if the words preceding the participle are in the exceptions list.
 	for ( let i = 0; i < participleIndex; i++ ) {
-		if ( includes( cannotBeBetweenPassiveAuxiliaryAndParticipleList, wordsInSentencePart[ i ] ) ) {
+		if ( includes( cannotBeBetweenPassiveAuxiliaryAndParticipleList, wordsInClause[ i ] ) ) {
 			return true;
 		}
 	}
