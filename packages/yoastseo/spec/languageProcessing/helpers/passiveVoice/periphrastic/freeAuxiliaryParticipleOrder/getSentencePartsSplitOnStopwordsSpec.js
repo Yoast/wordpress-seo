@@ -1,7 +1,7 @@
 import getSentencePartsSplitOnStopwords
-	from "../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/getSentencePartsSplitOnStopwords.js";
-import arrayToRegex from "../../../../../src/languageProcessing/helpers/regex/createRegexFromArray";
-import SentencePart from "../../../../../src/values/SentencePart";
+	from "../../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/getSentencePartsSplitOnStopwords.js";
+import arrayToRegex from "../../../../../../src/languageProcessing/helpers/regex/createRegexFromArray";
+import SentencePart from "../../../../../../src/values/SentencePart";
 
 const options1 = {
 	SentencePart: SentencePart,

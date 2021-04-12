@@ -1,4 +1,4 @@
-import Clause from "../../src/values/Clause.js";
+import Clause from "../../../src/languageProcessing/values/Clause.js";
 
 describe( "creates a Clause", function() {
 	const mockClause = new Clause( "The cat is loved.", [ "is" ] );

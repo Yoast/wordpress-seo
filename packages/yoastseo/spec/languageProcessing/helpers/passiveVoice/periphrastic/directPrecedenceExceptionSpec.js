@@ -1,4 +1,4 @@
-import directPrecedenceException from "../../../../src/languageProcessing/helpers/passiveVoice/directPrecedenceException";
+import directPrecedenceException from "../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/directPrecedenceException";
 
 describe( "Test to check whether the participle is directly preceded by a word from the direct precedence exception list.", () => {
 	it( "Returns true if the participle is directly preceded by a word from the direct precedence exception list.", () => {

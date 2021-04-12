@@ -1,4 +1,4 @@
-import precedenceException from "../../../../src/languageProcessing/helpers/passiveVoice/precedenceException";
+import precedenceException from "../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/precedenceException";
 
 describe( "Test to check whether a word from the precedence exception list occurs anywhere in the sentence part before the participle.", () => {
 	it( "Returns true if a word from the precedence exception list occurs anywhere in the sentence part before the participle", () => {

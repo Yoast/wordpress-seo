@@ -1,5 +1,5 @@
 import { includes } from "lodash-es";
-import getWords from "../word/getWords";
+import getWords from "../../word/getWords";
 
 /**
  * Checks whether a word from the precedence exception list occurs anywhere in the sentence part before the participle.
