@@ -158,6 +158,5 @@ class Schema_Blocks implements Integration_Interface {
 	public function load_translations() {
 		$yoast_components_l10n = new \WPSEO_Admin_Asset_Yoast_Components_L10n();
 		$yoast_components_l10n->localize_script( 'schema-blocks' );
-
 	}
 }
