@@ -1,12 +1,12 @@
 import { languageProcessing } from "yoastseo";
 const { splitSentence, createRegexFromArray } = languageProcessing;
 
-import SentencePart from "../values/SentencePart";
+import GermanClause from "../values/Clause";
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 import stopwords from "../config/stopWords.js";
 
 const options = {
-	SentencePart: SentencePart,
+	Clause: GermanClause,
 	regexes: {
 		auxiliaryRegex: createRegexFromArray( auxiliaries.all ),
 		stopwordRegex: createRegexFromArray( stopwords ),
@@ -14,12 +14,12 @@ const options = {
 };
 
 /**
- * Gets the sentence parts from a sentence by determining sentence breakers.
+ * Gets the clauses from a sentence by determining sentence breakers.
  *
- * @param {string} sentence The sentence to split up in sentence parts.
+ * @param {string} sentence The sentence to split up into clauses.
  *
- * @returns {Array} The array with all parts of a sentence that have an auxiliary.
+ * @returns {Array} The array with all clauses that have an auxiliary.
  */
-export default function getSentenceParts( sentence ) {
+export default function getClauses( sentence ) {
 	return splitSentence( sentence, options );
 }
