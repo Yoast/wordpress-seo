@@ -5,7 +5,7 @@ import BlockLeaf from "../../core/blocks/BlockLeaf";
 import { BlockInstance } from "@wordpress/blocks";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement } from "@wordpress/element";
-import { BlockPresence, BlockValidationResult } from "../../core/validation";
+import { BlockPresence, BlockValidation, BlockValidationResult } from "../../core/validation";
 import VariationPickerPresenter from "../../functions/presenters/VariationPickerPresenter";
 
 /**
@@ -55,13 +55,13 @@ class VariationPicker extends BlockInstruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const required: BlockPresence = this.options.required ? BlockPresence.Required : BlockPresence.Recommended;
+		const presence: BlockPresence = this.options.required ? BlockPresence.Required : BlockPresence.Recommended;
 
 		if ( includesAVariation( blockInstance ) ) {
-			return BlockValidationResult.Valid( blockInstance, this.constructor.name, required );
+			return BlockValidationResult.Valid( blockInstance, this.constructor.name, presence );
 		}
 
-		return BlockValidationResult.MissingAttribute( blockInstance, this.constructor.name, required );
+		return BlockValidationResult.MissingBlock( this.constructor.name, presence );
 	}
 }
 

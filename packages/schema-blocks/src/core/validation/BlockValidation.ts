@@ -22,7 +22,7 @@ export enum BlockValidation {
 	/** This block (OR some of its innerblocks) have a problem. The particular problem must be specified in BlockValidationResult.issues */
 	Invalid = 300,
 	/** This block has required attributes, but these attributes are missing or empty. */
-	MissingAttribute = 301,
+	MissingRequiredAttribute = 301,
 	/** This block is defined to require a particular inner block, but that block doesn't exist. */
 	MissingRequiredBlock = 302,
 	/** There may be only one of this type of block, but we found more than one. */

@@ -100,12 +100,12 @@ describe( "The BlockInstruction class", () => {
 
 			const result = blockInstruction.validate( blockInstance );
 			expect( result.name ).toEqual( "TestBlockInstruction" );
-			expect( result.result ).toEqual( BlockValidation.MissingAttribute );
+			expect( result.result ).toEqual( BlockValidation.MissingRequiredAttribute );
 			expect( result.issues.length ).toEqual( 1 );
 
 			const issue = result.issues[ 0 ];
 			expect( issue.name ).toEqual( "TestBlockInstruction" );
-			expect( issue.result ).toEqual( BlockValidation.MissingAttribute );
+			expect( issue.result ).toEqual( BlockValidation.MissingRequiredAttribute );
 		} );
 
 		it( "considers a required attribute to be invalid if it is empty", () => {
@@ -123,12 +123,12 @@ describe( "The BlockInstruction class", () => {
 
 			const result = blockInstruction.validate( blockInstance );
 			expect( result.name ).toEqual( "TestBlockInstruction" );
-			expect( result.result ).toEqual( BlockValidation.MissingAttribute );
+			expect( result.result ).toEqual( BlockValidation.MissingRequiredAttribute );
 			expect( result.issues.length ).toEqual( 1 );
 
 			const issue = result.issues[ 0 ];
 			expect( issue.name ).toEqual( "TestBlockInstruction" );
-			expect( issue.result ).toEqual( BlockValidation.MissingAttribute );
+			expect( issue.result ).toEqual( BlockValidation.MissingRequiredAttribute );
 		} );
 	} );
 } );

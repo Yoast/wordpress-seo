@@ -67,7 +67,7 @@ const createBlockValidationResultTestArrangement = [
 	{ name: "missingrequiredblock", reason: BlockValidation.MissingRequiredBlock },
 	{ name: "missingrecommendedblock", reason: BlockValidation.MissingRecommendedBlock },
 	{ name: "redundantblock", reason: BlockValidation.TooMany },
-	{ name: "missingattributeblock", reason: BlockValidation.MissingAttribute },
+	{ name: "missingattributeblock", reason: BlockValidation.MissingRequiredAttribute },
 	{ name: "validblock", reason: BlockValidation.Valid },
 	{ name: "invalidblock", reason: BlockValidation.Invalid },
 	{ name: "unknown", reason: BlockValidation.Unknown },
@@ -251,7 +251,7 @@ describe( "The findSelfInvalidatedBlocks function", () => {
 		} as BlockInstance;
 
 		mockDefinition( "validBlock1", "validBlock", BlockValidation.Valid );
-		mockDefinition( "missingattributeblock1", "missingattributeblock", BlockValidation.MissingAttribute );
+		mockDefinition( "missingattributeblock1", "missingattributeblock", BlockValidation.MissingRequiredAttribute );
 
 		// Act.
 		const result: BlockValidationResult[] = innerBlocksValid.validateInnerblockTree( testBlock );
@@ -266,7 +266,7 @@ describe( "The findSelfInvalidatedBlocks function", () => {
 		const missingattributeblock = result.find( x => x.clientId === "missingattributeblock1" );
 		expect( missingattributeblock.name ).toEqual( "missingattributeblock" );
 		expect( missingattributeblock.result ).toEqual( BlockValidation.Invalid );
-		expect( missingattributeblock.issues[ 0 ].result ).toEqual( BlockValidation.MissingAttribute );
+		expect( missingattributeblock.issues[ 0 ].result ).toEqual( BlockValidation.MissingRequiredAttribute );
 	} );
 } );
 
