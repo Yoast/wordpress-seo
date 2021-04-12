@@ -20,6 +20,12 @@ describe( "SnippetEditor container", () => {
 							value: "Value",
 						},
 					] ),
+					getShoppingData: jest.fn().mockReturnValue( {
+						rating: 1,
+						reviewCount: 2,
+						avalability: "in stock",
+						price: "&euro; 123",
+					} ),
 					getSiteIconUrlFromSettings: jest.fn().mockReturnValue( "https://localhost.test/wp-content/uploads/2021/01/WordPress1.jpg" ),
 					getSnippetEditorData: jest.fn().mockReturnValue( {
 						title: "Title",
@@ -57,6 +63,12 @@ describe( "SnippetEditor container", () => {
 					value: "Value",
 				},
 			],
+			shoppingData: {
+				rating: 1,
+				reviewCount: 2,
+				avalability: "in stock",
+				price: "&euro; 123",
+			},
 			wordsToHighlight: [ "active" ],
 		};
 
