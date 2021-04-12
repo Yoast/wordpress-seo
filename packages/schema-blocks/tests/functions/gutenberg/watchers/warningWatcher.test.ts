@@ -27,6 +27,8 @@ jest.mock( "../../../../src/core/blocks/BlockDefinitionRepository", () => ( {
 	getBlockDefinition: jest.fn(),
 } ) );
 
+jest.mock( "../../../../src/functions/presenters/BlockAppender", () => jest.fn() );
+
 jest.mock( "@wordpress/blocks", () => ( {
 	createBlock: jest.fn( ( name, attributes ) => {
 		return {
