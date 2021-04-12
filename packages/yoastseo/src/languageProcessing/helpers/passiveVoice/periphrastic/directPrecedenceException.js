@@ -3,9 +3,9 @@ import getWords from "../../word/getWords";
 
 /**
  * Checks whether the participle is directly preceded by a word from the direct precedence exception list.
- * If this is the case, the sentence part is not passive.
+ * If this is the case, the clause is not passive.
  *
- * @param {string} clause The sentence part that contains the participle.
+ * @param {string} clause 		The clause that contains the participle.
  * @param {string} participle   The participle.
  * @param {Array} cannotDirectlyPrecedePassiveParticipleList List of words which cannot directly precede a passive participle.
  *

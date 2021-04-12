@@ -205,6 +205,7 @@ const getAuxiliaryMatches = function(
  *
  * @param {string} sentence The sentence to split up into clauses.
  * @param {object} options The language options for which to get the clauses.
+ *
  * @returns {Array} The array with all clauses that have an auxiliary.
  */
 const getClauses = function( sentence, options ) {
