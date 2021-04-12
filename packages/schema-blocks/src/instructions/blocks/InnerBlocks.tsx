@@ -78,17 +78,15 @@ export default class InnerBlocks extends BlockInstruction {
 	/**
 	 * Renders the appender to add innerblocks as React elements.
 	 *
-	 * @param clientId The clientId.
-	 * @param placeholder The placeholder.
+	 * @param clientId The clientId of this block.
+	 * @param label The label to show next to the appender..
 	 *
 	 * @returns The block appender function.
 	 */
-	private renderAppender( clientId: string, placeholder: string ) {
+	private renderAppender( clientId: string, label: string ) {
 		return () => createElement(
 			BlockAppender,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-			// @ts-ignore
-			{ clientId, placeholder },
+			{ clientId, label },
 		);
 	}
 
