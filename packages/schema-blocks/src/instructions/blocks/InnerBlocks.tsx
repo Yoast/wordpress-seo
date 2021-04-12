@@ -10,7 +10,6 @@ import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinit
 import { getBlockByClientId } from "../../functions/BlockHelper";
 import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
-import { BlockPresence } from "../../core/validation/BlockValidationResult";
 import { InnerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebar";
 
 /**
@@ -164,7 +163,7 @@ export default class InnerBlocks extends BlockInstruction {
 		const issues = validateInnerBlocks( blockInstance, this.options.requiredBlocks, this.options.recommendedBlocks );
 
 		if ( ! issues || issues.length < 1 ) {
-			return BlockValidationResult.Valid( blockInstance, this.constructor.name, BlockPresence.Unknown );
+			return BlockValidationResult.Valid( blockInstance, this.constructor.name );
 		}
 
 		const worstCase: BlockValidationResult = maxBy( issues, issue => issue.result );

@@ -1,6 +1,5 @@
 import { BlockValidation, BlockValidationResult } from "./validation";
 import { BlockInstance } from "@wordpress/blocks";
-import { BlockPresence } from "./validation/BlockValidationResult";
 import { isArray, maxBy, mergeWith } from "lodash";
 import Instruction from "./Instruction";
 import Leaf from "./Leaf";
@@ -92,7 +91,7 @@ export default abstract class Definition {
 		logger.endGroup();
 
 		if ( issues.length < 1 ) {
-			return BlockValidationResult.Valid( blockInstance, blockInstance.name, BlockPresence.Unknown );
+			return BlockValidationResult.Valid( blockInstance, blockInstance.name );
 		}
 
 		const worstCase: BlockValidationResult = maxBy( issues, issue => issue.result );

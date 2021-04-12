@@ -93,7 +93,7 @@ export default abstract class BlockInstruction extends Instruction {
 		}
 
 		if ( issues.length < 1 ) {
-			return BlockValidationResult.Valid( blockInstance, this.constructor.name, BlockPresence.Unknown );
+			return BlockValidationResult.Valid( blockInstance, this.constructor.name );
 		}
 
 		// This is overkill for now but future proof.
