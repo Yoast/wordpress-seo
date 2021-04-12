@@ -29,31 +29,6 @@ describe( "creates a Clause", function() {
 	} );
 } );
 
-describe( "a test for checking whether clauses are passive", function() {
-	const mockClausePassive = new Clause( "The cat is loved.", [ "is" ] );
-	const mockClauseActive = new Clause( "My cat is tired.", [ "is" ] );
-
-	// eslint-disable-next-line require-jsdoc
-	const mockIsParticiplePassive = function( clauseText, participle ) {
-		if ( participle === "tired" ) {
-			return false;
-		}
-		return !! ( clauseText && participle.endsWith( "ed" ) );
-	};
-
-	it( "isPassive returns true after setClausePassiveness finds a passive", function() {
-		mockClausePassive.setParticiples( [ "loved" ] );
-		mockClausePassive.setClausePassiveness( mockIsParticiplePassive );
-		expect( mockClausePassive.isPassive() ).toBe( true );
-	} );
-
-	it( "isPassive returns false after setClausePassiveness doesn't find a passive", function() {
-		mockClauseActive.setParticiples( [ "tired" ] );
-		mockClauseActive.setClausePassiveness( mockIsParticiplePassive );
-		expect( mockClauseActive.isPassive() ).toBe( false );
-	} );
-} );
-
 describe( "a test for serializing and parsing a Clause class instance", function() {
 	const mockClause = new Clause( "The cat is loved.", [ "is" ] );
 
