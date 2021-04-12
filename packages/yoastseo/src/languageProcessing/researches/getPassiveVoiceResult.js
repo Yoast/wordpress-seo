@@ -64,9 +64,12 @@ export const getPeriphrasticPassives = function( paper, researcher ) {
 		const strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
 
 		// The functionality based on sentencePart objects should be rewritten using array indices of stopwords and auxiliaries.
+
+		// Divide a sentence into clauses and return an array of clause objects that have been checked for passiveness.
 		const clauses = getClauses( strippedSentence );
 		sentence.setClauses( clauses );
 
+		// Check sentence passiveness based on its clause passiveness.
 		if ( sentence.isPassive() ) {
 			passiveSentences.push( sentence.getSentenceText() );
 		}
