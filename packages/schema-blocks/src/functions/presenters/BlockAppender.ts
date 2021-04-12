@@ -44,7 +44,7 @@ export default compose(
 			 */
 			onAppend() {
 				const { clientId } = ownProps;
-				insertDefaultBlock( null, clientId );
+				insertDefaultBlock( {}, clientId );
 				startTyping();
 			},
 		};
