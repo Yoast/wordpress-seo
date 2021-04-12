@@ -29,8 +29,8 @@ class EnglishClause extends Clause {
 	}
 
 	/**
-	 * Checks if any exceptions are applicable to this participle that would result in the sentence part not being passive.
-	 * If no exceptions are found, the sentence part is passive.
+	 * Checks if any exceptions are applicable to this participle that would result in the clause not being passive.
+	 * If no exceptions are found, the clause is passive.
 	 *
 	 * @returns {boolean} Returns true if no exception is found.
 	 */
