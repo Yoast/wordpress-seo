@@ -38,10 +38,10 @@ const options3 = {
 	},
 };
 
-describe( "splits sentences into parts", function() {
-	it( "filters out sentence parts without auxiliary", function() {
+describe( "splits sentences into clauses", function() {
+	it( "filters out clauses without auxiliary", function() {
 		const sentence = "The English are always throwing parties.";
-		expect( getClauses( sentence, options1 )[ 0 ].getSentencePartText() ).toBe( "are always" );
+		expect( getClauses( sentence, options1 )[ 0 ].getClauseText() ).toBe( "are always" );
 		expect( getClauses( sentence, options1 )[ 0 ].isPassive() ).toBe( false );
 		expect( getClauses( sentence, options1 ).length ).toBe( 1 );
 	} );
@@ -49,33 +49,33 @@ describe( "splits sentences into parts", function() {
 		const sentence = "A comely lord.";
 		expect( getClauses( sentence, options1 ) ).toEqual( [] );
 	} );
-	it( "doesn't return sentence parts when an auxiliary is preceded by a reflexive pronoun", function() {
+	it( "doesn't return clauses when an auxiliary is preceded by a reflexive pronoun", function() {
 		const sentence = "Ils se sont lavés.";
 		expect( getClauses( sentence, options1 ).length ).toBe( 0 );
 	} );
-	it( "doesn't return sentence parts when an auxiliary is preceded by an elided reflexive pronoun", function() {
+	it( "doesn't return clauses when an auxiliary is preceded by an elided reflexive pronoun", function() {
 		const sentence = "L’emballement s'est prolongé mardi 9 janvier.";
 		expect( getClauses( sentence, options1 ).length ).toBe( 0 );
 	} );
 	it( "doesn't split on sentence breakers within words", function() {
 		// Sentence breaker: 'is' in 'praise'.
 		const sentence = "Commented is praise due.";
-		expect( getClauses( sentence, options1 )[ 0 ].getSentencePartText() ).toBe( "is praise due." );
+		expect( getClauses( sentence, options1 )[ 0 ].getClauseText() ).toBe( "is praise due." );
 		expect( getClauses( sentence, options1 ).length ).toBe( 1 );
 	} );
 	it( "splits sentences on stop characters", function() {
 		const sentence = "It is a hands-free, voice-controlled device.";
-		expect( getClauses( sentence, options1 )[ 0 ].getSentencePartText() ).toBe( "is a hands-free" );
+		expect( getClauses( sentence, options1 )[ 0 ].getClauseText() ).toBe( "is a hands-free" );
 		expect( getClauses( sentence, options1 ).length ).toBe( 1 );
 	} );
 	it( "doesn't split sentences on stop characters that are not preceded by a word and also not followed by a space/punctuation mark", function() {
 		const sentence = "It is a 1,000,000 dollar house.";
-		expect( getClauses( sentence, options1 )[ 0 ].getSentencePartText() ).toBe( "is a 1,000,000 dollar house." );
+		expect( getClauses( sentence, options1 )[ 0 ].getClauseText() ).toBe( "is a 1,000,000 dollar house." );
 		expect( getClauses( sentence, options1 ).length ).toBe( 1 );
 	} );
 	it( "splits sentences on stop characters when followed by a punctuation mark", function() {
 		const sentence = "\"This is it\", he said.";
-		expect( getClauses( sentence, options1 )[ 0 ].getSentencePartText() ).toBe( "is it\"" );
+		expect( getClauses( sentence, options1 )[ 0 ].getClauseText() ).toBe( "is it\"" );
 		expect( getClauses( sentence, options1 ).length ).toBe( 1 );
 	} );
 	it( "doesn't return sentence parts when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
@@ -86,12 +86,12 @@ describe( "splits sentences into parts", function() {
 		sentence = "C'est le film le plus vu.";
 		expect( getClauses( sentence, options1 ).length ).toBe( 0 );
 	} );
-	it( "returns sentence parts when there is no directPrecedenceException and followingAuxiliaryExceptionWords lists available", function() {
+	it( "returns clauses when there is no directPrecedenceException and followingAuxiliaryExceptionWords lists available", function() {
 		const sentence =  "The cat is vaccinated.";
-		expect( getClauses( sentence, options2 )[ 0 ].getSentencePartText() ).toBe( "is vaccinated." );
+		expect( getClauses( sentence, options2 )[ 0 ].getClauseText() ).toBe( "is vaccinated." );
 		expect( getClauses( sentence, options2 ).length ).toBe( 1 );
 	} );
-	it( "doesn't return sentence parts when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list " +
+	it( "doesn't return clauses when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list " +
 		"and when the directPrecedenceException list is not available.", function() {
 		// Exception word after auxiliary: le.
 		const sentence = "C'est le film le plus vu.";
