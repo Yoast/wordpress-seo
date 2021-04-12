@@ -26,7 +26,7 @@ const Section = styled( StyledSection )`
  *
  * @returns {wp.Element} Snippet Preview Section.
  */
-const SnippetPreviewSection = ( { children, title, icon, hasPaperStyle } ) => {
+const SnippetPreviewSection = ( { children, title, icon, hasPaperStyle, shoppingData } ) => {
 	return (
 		<Section
 			headingLevel={ 3 }
@@ -34,6 +34,7 @@ const SnippetPreviewSection = ( { children, title, icon, hasPaperStyle } ) => {
 			headingIcon={ icon }
 			headingIconColor="#555"
 			hasPaperStyle={ hasPaperStyle }
+			shoppingData={ shoppingData }
 		>
 			{ children }
 		</Section>
@@ -45,10 +46,12 @@ SnippetPreviewSection.propTypes = {
 	title: PropTypes.string,
 	icon: PropTypes.string,
 	hasPaperStyle: PropTypes.bool,
+	shoppingData: PropTypes.object,
 };
 
 SnippetPreviewSection.defaultProps = {
 	hasPaperStyle: true,
+	shoppingData: null,
 };
 
 export default SnippetPreviewSection;
