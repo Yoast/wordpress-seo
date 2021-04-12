@@ -1,4 +1,4 @@
-import ProminentWord from "../../src/values/ProminentWord";
+import ProminentWord from "../../../src/languageProcessing/values/ProminentWord";
 
 describe( "ProminentWord", function() {
 	describe( "getWord", function() {
