@@ -53,6 +53,15 @@ module.exports = {
 					return dest + src.replace( "wordpress-seo", "wordpress-seojs" );
 				},
 			},
+			{
+				expand: true,
+				cwd: "languages/",
+				src: [ "wordpress-seo-*.json" ],
+				dest: "languages/",
+				rename: ( dest, src ) => {
+					return dest + src.replace( "wordpress-seo", "yoast-schema-blocks" );
+				},
+			},
 		],
 	},
 	"makepot-wordpress-seo": {
