@@ -46,7 +46,21 @@ exports[`The required blocks in the sidebar renders the required block as an add
       <span
         className="yoast-block-suggestion-checkmark"
       >
-         OK 
+        <svg
+          fill="none"
+          height="12"
+          stroke="currentColor"
+          viewBox="-2 3 18 16"
+          width="22"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5 13l4 4L19 7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2.5}
+          />
+        </svg>
       </span>
     </li>
   </ul>
