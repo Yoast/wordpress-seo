@@ -3,7 +3,7 @@ import { BlockInstance, createBlock } from "@wordpress/blocks";
 import { PanelBody } from "@wordpress/components";
 import { BlockValidationResult } from "../../core/validation";
 import { getAllDescendantIssues, getValidationResult } from "../validators";
-import { isResultValidForSchema } from "../validators/validateResults";
+import { isValidResult } from "../validators/validateResults";
 import { createElement } from "@wordpress/element";
 
 import { getBlockType } from "../BlockHelper";
@@ -103,7 +103,7 @@ export default function BlockSuggestionsPresenter( { title, block, suggestions }
 				{
 					suggestedBlockNames.map( ( blockName: string, index: number ) => {
 						const blockType = getBlockType( blockName );
-						const isBlockValid = validationIssues.some( issue => issue.name === blockName && isResultValidForSchema( issue.result ) );
+						const isBlockValid = validationIssues.some( issue => issue.name === blockName && isValidResult( issue.result ) );
 
 						if ( presentBlockNames.includes( blockName ) ) {
 							return <BlockSuggestionAdded
