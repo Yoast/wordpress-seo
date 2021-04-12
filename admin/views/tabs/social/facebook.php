@@ -37,7 +37,8 @@ $yform->light_switch( 'opengraph', \__( 'Add Open Graph meta data', 'wordpress-s
 
 	$frontpage_settings_alert = new Alert_Presenter( $frontpage_settings_message, 'info' );
 
-	echo '<div class="yoast-measure">' . esc_html( $frontpage_settings_alert->present() ) . '</div>';
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.
+	echo '<div class="yoast-measure">' . $frontpage_settings_alert->present() . '</div>';
 	?>
 <?php
 

@@ -53,7 +53,8 @@ if ( get_option( 'show_on_front' ) === 'posts' && WPSEO_Options::get( 'opengraph
 		]
 	);
 
-	echo esc_html( $wpseo_front_page_presenter->get_output() );
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from get_output() is considered safe.
+	echo $wpseo_front_page_presenter->get_output();
 }
 
 if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
