@@ -113,6 +113,9 @@ class Schema_Blocks implements Integration_Interface {
 				'recommendedLink' => $this->short_link_helper->build( 'https://yoa.st/recommended-fields' ),
 			]
 		);
+
+		$yoast_components_l10n = new \WPSEO_Admin_Asset_Yoast_Components_L10n();
+		$yoast_components_l10n->localize_script( 'schema-blocks' );
 	}
 
 	/**
