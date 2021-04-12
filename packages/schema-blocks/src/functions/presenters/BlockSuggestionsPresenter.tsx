@@ -56,13 +56,14 @@ function BlockSuggestion( { blockTitle, blockName, blockClientId }: BlockSuggest
  * @returns {ReactElement} The rendered element.
  */
 function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactElement {
-	const heroIconCheck = "<svg xmlns='http://www.w3.org/2000/svg' class='h-6 w-6' fill='none' viewBox='0 -6 24 24' stroke='currentColor' " +
-		"height='24' width='32'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 13l4 4L19 7' /></svg>";
+	const heroIconCheck = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-2 3 18 16" stroke="currentColor" height="12" width="22">
+		<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2.5 } d="M5 13l4 4L19 7" />
+	</svg>;
 
 	return (
 		<li className="yoast-block-suggestion yoast-block-suggestion--added" key={ "BlockSuggestionAdded" + blockTitle }>
 			{ blockTitle }
-			<span className="yoast-block-suggestion-checkmark" dangerouslySetInnerHTML={ { __html: heroIconCheck as string } } />
+			<span className="yoast-block-suggestion-checkmark">{ heroIconCheck }</span>
 		</li>
 	);
 }
