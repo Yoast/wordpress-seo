@@ -272,6 +272,7 @@ script:
       if [[ "$IS_PREMIUM" == "1" ]]; then
         cd premium && composer check-cs && cd -
       else
+        composer check-cs
         composer check-cs-threshold
       fi
       travis_time_finish && travis_fold end "PHP.code-style"
