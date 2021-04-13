@@ -92,7 +92,7 @@ export class BlockValidationResult {
 			BlockPresence.Required,
 			sprintf(
 				/* Translators: %1$s expands to the block name. */
-				__( "The '%1$s' block is required but missing.", "yoast-schema-blocks" ),
+				__( "The `%1$s` block is required but missing.", "yoast-schema-blocks" ),
 				name,
 			),
 		);
@@ -113,7 +113,7 @@ export class BlockValidationResult {
 			BlockPresence.Recommended,
 			sprintf(
 				/* Translators: %1$s expands to the block name. */
-				__( "The '%1$s' block is recommended but missing.", "yoast-schema-blocks" ),
+				__( "The `%1$s` block is recommended but missing.", "yoast-schema-blocks" ),
 				name,
 			),
 		);
