@@ -118,7 +118,7 @@ class Yoast_View_Utils {
 
 		return sprintf(
 			'<div class="yoast-measure padded">%s</div>',
-			esc_html( $alert->present() )
+			$alert->present()
 		);
 	}
 }
