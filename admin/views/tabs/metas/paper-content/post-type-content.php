@@ -97,8 +97,8 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
  *
  * @deprecated 16.3 Use the {@see 'Yoast\WP\SEO\admin_post_types_beforearchive'} action instead.
  *
- * @param  Yoast_Form  $yform The Yoast_Form object
- * @param  string      $name  The post type name
+ * @param Yoast_Form $yform The Yoast_Form object.
+ * @param string     $name  The post type name.
  */
 do_action_deprecated(
 	'wpseo_admin_page_meta_post_types',

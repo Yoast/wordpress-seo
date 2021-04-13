@@ -36,7 +36,7 @@ $yform->index_switch(
 if ( $wpseo_taxonomy->name !== 'post_format' ) {
 	$yform->show_hide_switch(
 		'display-metabox-tax-' . $wpseo_taxonomy->name,
-		/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
+		/* translators: %s: Expands to an indexable object's name, like a post type or taxonomy. */
 		sprintf( __( 'Show SEO settings for %1$s', 'wordpress-seo' ), '<strong>' . $title . '</strong>' )
 	);
 }
@@ -75,8 +75,8 @@ do_action( 'Yoast\WP\SEO\admin_taxonomies_meta', $yform, $wpseo_taxonomy );
  *
  * @deprecated 16.3 Use {@see 'Yoast\WP\SEO\admin_taxonomies_meta'} instead.
  *
- * @param  Yoast_Form  $yform  The Yoast_Form object
- * @param  WP_Taxonomy $tax    The taxonomy
+ * @param Yoast_Form  $yform          The Yoast_Form object.
+ * @param WP_Taxonomy $wpseo_taxonomy The taxonomy.
  */
 do_action_deprecated(
 	'wpseo_admin_page_meta_taxonomies',
