@@ -44,7 +44,6 @@ module.exports = function( grunt ) {
 			// For the first beta and RC, use the full changelog. For follow-up betas and RCs, only use the changes.
 			let initialContent = `Changes compared to ${grunt.config.get( "previousPluginVersion" )}:\n`;
 
-			// Grab the string after index 5 (after "xx.x-") and check if it's the first beta or RC.
 			if ( pluginVersion.endsWith( "beta1" ) || pluginVersion.endsWith( "RC1" ) ) {
 				initialContent = `Changes in (${pluginVersion}):\n`;
 			}
