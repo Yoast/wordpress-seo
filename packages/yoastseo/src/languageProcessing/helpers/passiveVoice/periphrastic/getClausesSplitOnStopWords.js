@@ -17,10 +17,11 @@ function sanitizeMatches( matches ) {
 }
 
 /**
- * Splits sentences into sentence parts based on stopwords.
+ * Splits sentences into clauses based on stopwords.
  *
  * @param {string} sentence The sentence to split.
  * @param {Array} stopwords The array with matched stopwords.
+ *
  * @returns {Array} The array with sentence parts.
  */
 function splitOnWords( sentence, stopwords ) {
@@ -60,12 +61,12 @@ function createSentenceParts( sentences, options ) {
 }
 
 /**
- * Splits the sentence into sentence parts based on stopwords.
+ * Splits the sentence into clauses based on stopwords.
  *
- * @param {string} sentence The text to split into sentence parts.
- * @param {Object} options The language for which to split sentences.
+ * @param {string} sentence The text to split into clauses.
+ * @param {Object} options The language-specific regexes and Clause class.
  *
- * @returns {Array} The array with sentence parts.
+ * @returns {Array} The array with clauses.
  */
 function splitSentence( sentence, options ) {
 	const stopwords = sentence.match( options.regexes.stopwordRegex ) || [];
