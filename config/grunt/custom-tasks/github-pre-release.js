@@ -45,7 +45,7 @@ module.exports = function( grunt ) {
 			let initialContent = `Changes compared to ${grunt.config.get( "previousPluginVersion" )}:\n`;
 
 			// Grab the string after index 5 (after "xx.x-") and check if it's the first beta or RC.
-			if ( pluginVersion.substr( 5 ) === "beta1" || pluginVersion.substr( 5 ) === "RC1" ) {
+			if ( pluginVersion.endsWith( "beta1" ) || pluginVersion.endsWith( "RC1" ) ) {
 				initialContent = `Changes in (${pluginVersion}):\n`;
 			}
 
