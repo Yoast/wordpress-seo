@@ -58,7 +58,7 @@ class VariationPicker extends BlockInstruction {
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
 		const presence: BlockPresence = this.options.required ? BlockPresence.Required : BlockPresence.Recommended;
 		const parent = getParent( blockInstance.clientId );
-		const blockName = parent ? parent.options.type : this.constructor.name;
+		const blockName = parent ? parent.name : this.constructor.name;
 
 		if ( includesAVariation( blockInstance ) ) {
 			return BlockValidationResult.Valid( blockInstance, blockName, presence );
