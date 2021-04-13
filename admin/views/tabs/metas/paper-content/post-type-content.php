@@ -19,14 +19,6 @@ echo '<h3>' . esc_html( sprintf( __( 'Settings for single %s URLs', 'wordpress-s
 
 require __DIR__ . '/post_type/post-type.php';
 
-/**
- * Allow adding custom fields to the admin meta page, just before the archive settings - Post Types tab.
- *
- * @param WPSEO_Admin_Pages $yform  The WPSEO_Admin_Pages object
- * @param string            $name   The post type name
- */
-do_action( 'Yoast\WP\SEO\admin_post_types_archive', $yform, $wpseo_post_type->name );
-
 if ( $wpseo_post_type->name === 'product' && YoastSEO()->helpers->woocommerce->is_active() ) {
 	require __DIR__ . '/post_type/woocommerce-shop-page.php';
 
@@ -75,14 +67,7 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 /**
  * Allow adding a custom checkboxes to the admin meta page - Post Types tab.
  *
- * @deprecated 16.2 Use the {@see 'Yoast\WP\SEO\admin_post_types_archive'} action instead.
- *
- * @param  WPSEO_Admin_Pages  $yform The WPSEO_Admin_Pages object
- * @param  string             $name  The post type name
+ * @api  WPSEO_Admin_Pages  $yform  The WPSEO_Admin_Pages object
+ * @api  String  $name  The post type name
  */
-do_action_deprecated(
-	'wpseo_admin_page_meta_post_types',
-	[ $yform, $wpseo_post_type->name ],
-	'16.2',
-	'Yoast\WP\SEO\admin_post_types_archive'
-);
+do_action( 'wpseo_admin_page_meta_post_types', $yform, $wpseo_post_type->name );
