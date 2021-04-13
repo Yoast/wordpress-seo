@@ -5,7 +5,7 @@ import BlockLeaf from "../../core/blocks/BlockLeaf";
 import { BlockInstance } from "@wordpress/blocks";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement } from "@wordpress/element";
-import { BlockPresence, BlockValidation, BlockValidationResult } from "../../core/validation";
+import { BlockPresence, BlockValidationResult } from "../../core/validation";
 import VariationPickerPresenter from "../../functions/presenters/VariationPickerPresenter";
 
 /**
