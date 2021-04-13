@@ -1,12 +1,13 @@
 import { languageProcessing } from "yoastseo";
-const { createRegexFromArray, getPeriphrasticSentenceParts } = languageProcessing;
+const { createRegexFromArray, getClauses } = languageProcessing;
 
-import SentencePart from "../values/SentencePart";
+import Clause from "../values/Clause";
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 import stopwords from "../config/stopWords.js";
 
+
 const options = {
-	SentencePart: SentencePart,
+	Clause,
 	stopwords,
 	auxiliaries: auxiliaries,
 	ingExclusions: [ "king", "cling", "ring", "being", "thing", "something", "anything" ],
@@ -18,11 +19,12 @@ const options = {
 };
 
 /**
- * Gets the sentence parts from a sentence by determining sentence breakers.
+ * Gets the clauses from a sentence by determining sentence breakers.
  *
- * @param {string} sentence The sentence to split up in sentence parts.
- * @returns {Array} The array with all parts of a sentence that have an auxiliary.
+ * @param {string} sentence The sentence to split up in clauses.
+ *
+ * @returns {Array} The array with all clauses that have an auxiliary.
  */
-export default function getSentenceParts( sentence ) {
-	return getPeriphrasticSentenceParts( sentence, options );
+export default function getEnglishClauses( sentence ) {
+	return getClauses( sentence, options );
 }

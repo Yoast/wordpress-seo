@@ -76,20 +76,6 @@ class Clause {
 	}
 
 	/**
-	 * Applies language-specific checks to determine whether the clause is passive.
-	 * A clause is passive if it contains at least one passive participle.
-	 *
-	 * @param {function} isParticiplePassive	The language-specific function for checking whether the clause is passive.
-	 *
-	 * @returns {void}
-	 */
-	setClausePassiveness( isParticiplePassive ) {
-		const passiveParticiples = this.getParticiples().filter( participle => isParticiplePassive( this.getClauseText(), participle ) );
-
-		this.setPassive( passiveParticiples.length > 0 );
-	}
-
-	/**
 	 * Serializes the Clause instance to an object.
 	 *
 	 * @returns {Object} The serialized Clause.

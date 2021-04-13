@@ -63,6 +63,9 @@ class Sentence {
 	 */
 	setClauses( clauses ) {
 		this._clauses = clauses;
+
+		// Directly set the sentence passiveness based on the passiveness of the clauses that are just set.
+		this.setSentencePassiveness();
 	}
 
 	/**
