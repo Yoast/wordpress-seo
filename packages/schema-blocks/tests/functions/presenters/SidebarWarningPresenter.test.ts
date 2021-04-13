@@ -71,7 +71,7 @@ describe( "The SidebarWarningPresenter ", () => {
 
 			expect( result.length ).toEqual( 2 );
 			expect( result[ 0 ] ).toEqual( {
-				text: "The 'missingblock' block is required but missing.",
+				text: "The `missingblock` block is required but missing.",
 				color: "red",
 			} );
 			expect( result[ 1 ] ).toEqual(
@@ -95,11 +95,11 @@ describe( "The SidebarWarningPresenter ", () => {
 
 			expect( result.length ).toEqual( 3 );
 			expect( result[ 0 ] ).toEqual( {
-				text: "The 'missing recommended block' block is recommended but missing.",
+				text: "The `missing recommended block` block is recommended but missing.",
 				color: "orange",
 			} );
 			expect( result[ 1 ] ).toEqual( {
-				text: "The 'missing recommended block 2' block is recommended but missing.",
+				text: "The `missing recommended block 2` block is recommended but missing.",
 				color: "orange",
 			} );
 			expect( result[ 2 ] ).toEqual( {
@@ -117,7 +117,7 @@ describe( "The SidebarWarningPresenter ", () => {
 
 			expect( result ).toEqual( [ {
 				text: "Good job! All required blocks have been completed.",
-				color: "green"
+				color: "green",
 			} ] );
 		} );
 
@@ -145,7 +145,7 @@ describe( "The SidebarWarningPresenter ", () => {
 
 			expect( result.length ).toEqual( 2 );
 			expect( result[ 0 ] ).toEqual( {
-				text: "The 'innerblock1' block is required but missing.",
+				text: "The `innerblock1` block is required but missing.",
 				color: "red",
 			} );
 			expect( result[ 1 ] ).toEqual( {
