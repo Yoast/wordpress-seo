@@ -47,11 +47,9 @@ if ( ! empty( $homepage_meta_description ) ) {
 
 	$copy_home_description_help = \sprintf(
 		/* translators: 1: link open tag; 2: link close tag, 3: the translated label of the button. */
-		\esc_html__( 'Click the "%3$s" button below to use the meta description set in the %1$sGeneral%2$s tab which is used for your homepage.', 'wordpress-seo' ),
+		\esc_html__( 'Click the button below to use the meta description set in the %1$sthe \'General\' tab%2$s which is used for your homepage.', 'wordpress-seo' ),
 		'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_titles' ) ) . '">',
-		'</a>',
-		// $copy_home_description_button_label is escaped above.
-		$copy_home_description_button_label
+		'</a>'
 	);
 
 	echo '<input type="hidden" id="meta_description" value="' . \esc_attr( $homepage_meta_description ) . '" />';
