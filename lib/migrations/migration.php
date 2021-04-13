@@ -39,8 +39,6 @@ abstract class Migration {
 	 * Creates a new migration.
 	 *
 	 * @param Adapter $adapter The current adapter.
-	 *
-	 * @return \Migration
 	 */
 	public function __construct( Adapter $adapter ) {
 		$this->set_adapter( $adapter );
