@@ -10,7 +10,7 @@ export interface BlockAppenderProps {
 }
 
 /**
- * Block Appender for adding an inner block to a schema block.
+ * Block Appender for adding a new block to an innerblocks block.
  *
  * @param clientId The id of the parent block in which a block should be added when using the appender.
  * @param label A string
