@@ -1,5 +1,4 @@
-import getClausesSplitOnStopwords
-	from "../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/getClausesSplitOnStopwords.js";
+import getClausesSplitOnStopwords from "../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/getClausesSplitOnStopwords.js";
 import arrayToRegex from "../../../../../src/languageProcessing/helpers/regex/createRegexFromArray";
 import Clause from "../../../../../src/values/Clause";
 
