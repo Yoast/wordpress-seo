@@ -26,46 +26,27 @@ describe( "A test for checking German participles", function() {
 		expect( mockParticiple.isPassive() ).toBe( true );
 	} );
 
-	xit( "checks the properties of the de participle object with a participle from the exception list.", function() {
-		const mockParticiple = new GermanParticiple( "geburtsakt", "Es wird geburtsakt.", { auxiliaries: [ "wird" ], type: "ge- at beginning",
-			language: "de" } );
-		expect( mockParticiple.getParticiple() ).toBe( "geburtsakt" );
-		expect( mockParticiple.hasHabenSeinException() ).toBe( false );
-		expect( mockParticiple.isInExceptionList() ).toBe( true );
-		expect( mockParticiple.hasNounSuffix() ).toBe( false );
-		expect( mockParticiple.isAuxiliary() ).toBe( false );
-		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
+	it( "checks German clause with a participle from the exception list.", function() {
+		const mockParticiple = new GermanClause( "Es wird geburtsakt.", [ "wird" ] );
+		expect( mockParticiple.getParticiples() ).toEqual( [ "geburtsakt" ] );
+		expect( mockParticiple.isPassive() ).toBe( false );
 	} );
 
-	xit( "checks the properties of the de participle object with a participle that is an auxiliary.", function() {
-		const mockParticiple = new GermanParticiple( "bekommst", "In deinem Netzwerk bekommst du emotionale Unterstützung.",
-			{ auxiliaries: [ "bekommst" ], type: "be- at beginning", language: "de" } );
-		expect( mockParticiple.getParticiple() ).toBe( "bekommst" );
-		expect( mockParticiple.hasHabenSeinException() ).toBe( false );
-		expect( mockParticiple.isInExceptionList() ).toBe( false );
-		expect( mockParticiple.hasNounSuffix() ).toBe( false );
-		expect( mockParticiple.isAuxiliary() ).toBe( true );
-		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
+	it( "checks German clause with a participle that is a participle like auxiliary.", function() {
+		const mockParticiple = new GermanClause( "In deinem Netzwerk bekommst du emotionale Unterstützung.", [ "bekommst" ] );
+		expect( mockParticiple.getParticiples() ).toEqual( [] );
+		expect( mockParticiple.isPassive() ).toBe( false );
 	} );
 
-	xit( "checks the properties of the de participle object with a participle with a noun suffix.", function() {
-		const mockParticiple = new GermanParticiple( "gemütlichkeit", "Es wird gemütlichkeit.", { auxiliaries: [ "wird" ],
-			type: "ge- at beginning", language: "de" } );
-		expect( mockParticiple.getParticiple() ).toBe( "gemütlichkeit" );
-		expect( mockParticiple.hasHabenSeinException() ).toBe( false );
-		expect( mockParticiple.isInExceptionList() ).toBe( false );
-		expect( mockParticiple.hasNounSuffix() ).toBe( true );
-		expect( mockParticiple.isAuxiliary() ).toBe( false );
-		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( false );
+	it( "checks German clause with a participle with a noun suffix.", function() {
+		const mockParticiple = new GermanClause( "Es wird gemütlichkeit.", [ "wird" ] );
+		expect( mockParticiple.getParticiples() ).toEqual( [ "gemütlichkeit" ] );
+		expect( mockParticiple.isPassive() ).toBe( false );
 	} );
 
-	xit( "checks the properties of the german participle object with a participle follwed by a special quotation mark.", function() {
-		var mockParticiple = new GermanParticiple( "gekauft", "Es wurde “gekauft”.", { auxiliaries: [ "wurde" ], type: "ge- at beginning", language: "de" } );
-		expect( mockParticiple.getParticiple() ).toBe( "gekauft" );
-		expect( mockParticiple.hasHabenSeinException() ).toBe( false );
-		expect( mockParticiple.isInExceptionList() ).toBe( false );
-		expect( mockParticiple.hasNounSuffix() ).toBe( false );
-		expect( mockParticiple.isAuxiliary() ).toBe( false );
-		expect( mockParticiple.determinesSentencePartIsPassive() ).toBe( true );
+	it( "checks German clause with a participle followed by a special quotation mark.", function() {
+		var mockParticiple = new GermanClause( "Es wurde “gekauft”.", [ "wurde" ] );
+		expect( mockParticiple.getParticiples() ).toEqual( [ "gekauft" ] );
+		expect( mockParticiple.isPassive() ).toBe( true );
 	} );
 } );
