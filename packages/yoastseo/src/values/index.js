@@ -5,6 +5,8 @@ import Participle from "./Participle";
 import ProminentWord from "./ProminentWord";
 import Sentence from "./Sentence";
 import SentencePart from "./SentencePart";
+import Clause from "./Clause";
+import SentenceNew from "./SentenceNew";
 
 export {
 	AssessmentResult,
@@ -14,4 +16,6 @@ export {
 	ProminentWord,
 	Sentence,
 	SentencePart,
+	Clause,
+	SentenceNew,
 };

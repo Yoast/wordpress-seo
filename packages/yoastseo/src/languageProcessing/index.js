@@ -23,7 +23,8 @@ import * as regexHelpers from "./helpers/morphology/regexHelpers";
 import * as exceptionListHelpers from "./helpers/morphology/exceptionListHelpers";
 import * as stemHelpers from "./helpers/morphology/stemHelpers";
 import areWordsInSentence from "./helpers/word/areWordsInSentence";
-
+import getClauses from "./helpers/passiveVoice/periphrastic/getClauses";
+import getClausesSplitOnStopWords from "./helpers/passiveVoice/periphrastic/getClausesSplitOnStopWords";
 
 export {
 	AbstractResearcher,
@@ -52,4 +53,6 @@ export {
 	exceptionListHelpers,
 	stemHelpers,
 	areWordsInSentence,
+	getClauses,
+	getClausesSplitOnStopWords,
 };
