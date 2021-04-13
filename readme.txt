@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.7
-Stable tag: 16.1
+Stable tag: 16.1.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -250,6 +250,7 @@ Bugfixes:
 * Fixes a bug where the current webpage would not always be referenced correctly in the breadcrumb schema output.
 
 Other:
+
 * Adds the `'wpseo_enable_editor_features_' . $post_type` filter to allow users to show the Yoast SEO metabox on non-public post types if these are accessible. Props to [jondcampbell](https://github.com/jondcampbell).
 
 = 16.1.1 =
