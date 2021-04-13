@@ -29,6 +29,8 @@ export default function injectSidebar( blockNames: string[], parents: string[] )
 					</InspectorControls>
 				</Fragment>;
 			};
+
+			return settings;
 		},
 	);
 }
