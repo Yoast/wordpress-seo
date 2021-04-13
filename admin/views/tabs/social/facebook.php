@@ -39,14 +39,11 @@ $yform->light_switch( 'opengraph', \__( 'Add Open Graph meta data', 'wordpress-s
 
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.
 	echo '<div class="yoast-measure">' . $frontpage_settings_alert->present() . '</div>';
-	?>
-<?php
 
-echo '<h2>' . \esc_html__( 'Default settings', 'wordpress-seo' ) . '</h2>';
+	echo '<h2>' . \esc_html__( 'Default settings', 'wordpress-seo' ) . '</h2>';
 
-$yform->hidden( 'og_default_image', 'og_default_image' );
-$yform->hidden( 'og_default_image_id', 'og_default_image_id' );
-
+	$yform->hidden( 'og_default_image', 'og_default_image' );
+	$yform->hidden( 'og_default_image_id', 'og_default_image_id' );
 ?>
 	<p>
 		<?php \esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>
