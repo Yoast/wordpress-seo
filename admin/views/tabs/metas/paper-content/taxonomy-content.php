@@ -12,6 +12,8 @@
  * @uses WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
+echo '<div class="yoast-settings-section">';
+
 if ( $wpseo_taxonomy->name === 'post_format' ) {
 	$yform->light_switch(
 		'disable-post_format',
@@ -31,6 +33,17 @@ $yform->index_switch(
 	$taxonomies_help->get_button_html() . $taxonomies_help->get_panel_html()
 );
 
+if ( $wpseo_taxonomy->name !== 'post_format' ) {
+	$yform->show_hide_switch(
+		'display-metabox-tax-' . $wpseo_taxonomy->name,
+		/* translators: %s: Expands to an indexable object's name, like a post type or taxonomy. */
+		sprintf( __( 'Show SEO settings for %1$s', 'wordpress-seo' ), '<strong>' . $title . '</strong>' )
+	);
+}
+
+echo '</div>';
+
+echo '<div class="yoast-settings-section">';
 
 // Determine the page type for the term, this is needed for the recommended replacement variables.
 $page_type = $recommended_replace_vars->determine_for_term( $wpseo_taxonomy->name );
@@ -47,36 +60,28 @@ $editor = new WPSEO_Replacevar_Editor(
 );
 $editor->render();
 
-if ( $wpseo_taxonomy->name !== 'post_format' ) {
-	$yform->show_hide_switch(
-		'display-metabox-tax-' . $wpseo_taxonomy->name,
-		/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
-		sprintf( __( 'Show SEO settings for %1$s', 'wordpress-seo' ), '<strong>' . $title . '</strong>' )
-	);
-}
+echo '</div>';
 
 /**
  * Allow adding custom checkboxes to the admin meta page - Taxonomies tab.
  *
- * @since 16.2
- *
- * @param  WPSEO_Admin_Pages  $yform  The WPSEO_Admin_Pages object
- * @param  Object             $tax    The taxonomy
+ * @param Yoast_Form  $yform          The Yoast_Form object.
+ * @param WP_Taxonomy $wpseo_taxonomy The taxonomy.
  */
 do_action( 'Yoast\WP\SEO\admin_taxonomies_meta', $yform, $wpseo_taxonomy );
 
 /**
  * Allow adding custom checkboxes to the admin meta page - Taxonomies tab.
  *
- * @deprecated 16.2 Use {@see 'Yoast\WP\SEO\admin_taxonomies_meta'} instead.
+ * @deprecated 16.3 Use {@see 'Yoast\WP\SEO\admin_taxonomies_meta'} instead.
  *
- * @param  WPSEO_Admin_Pages  $yform  The WPSEO_Admin_Pages object
- * @param  Object             $tax    The taxonomy
+ * @param Yoast_Form  $yform          The Yoast_Form object.
+ * @param WP_Taxonomy $wpseo_taxonomy The taxonomy.
  */
 do_action_deprecated(
 	'wpseo_admin_page_meta_taxonomies',
 	[ $yform, $wpseo_taxonomy ],
-	'16.2',
+	'16.3',
 	'Yoast\WP\SEO\admin_taxonomies_meta'
 );
 

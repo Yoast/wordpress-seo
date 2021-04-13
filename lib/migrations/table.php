@@ -73,8 +73,6 @@ class Table {
 	 * @param array   $options The options.
 	 *
 	 * @throws Exception If invalid arguments are passed.
-	 *
-	 * @return Table
 	 */
 	public function __construct( $adapter, $name, $options = [] ) {
 		// Sanity checks.
