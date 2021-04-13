@@ -20,7 +20,7 @@ export interface BlockAppenderProps {
 export default function BlockAppender( { clientId, label }: BlockAppenderProps ) {
 	return (
 		<div
-			data-root-client-id={ clientId || "" }
+			data-root-client-id={ clientId }
 			className="wp-block block-editor-default-block-appender"
 		>
 			<p className="block-editor-default-block-appender__content yoast-schema-block-appender__content">
