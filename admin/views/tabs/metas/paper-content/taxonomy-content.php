@@ -56,11 +56,28 @@ if ( $wpseo_taxonomy->name !== 'post_format' ) {
 }
 
 /**
+ * Allow adding custom fields to the admin meta page - Taxonomies tab.
+ *
+ * @since 16.3
+ *
+ * @param Yoast_Form $yform The Yoast_Form object
+ * @param Object     $tax   The taxonomy
+ */
+do_action( 'Yoast\WP\SEO\admin_taxonomies_meta', $yform, $wpseo_taxonomy );
+
+/**
  * Allow adding custom checkboxes to the admin meta page - Taxonomies tab.
  *
- * @api  WPSEO_Admin_Pages  $yform  The WPSEO_Admin_Pages object
- * @api  Object             $tax    The taxonomy
+ * @deprecated 16.3 Use {@see 'Yoast\WP\SEO\admin_taxonomies_meta'} instead.
+ *
+ * @param Yoast_Form $yform The Yoast_Form object
+ * @param Object     $tax   The taxonomy
  */
-do_action( 'wpseo_admin_page_meta_taxonomies', $yform, $wpseo_taxonomy );
+do_action_deprecated(
+	'wpseo_admin_page_meta_taxonomies',
+	[ $yform, $wpseo_taxonomy ],
+	'16.3',
+	'Yoast\WP\SEO\admin_taxonomies_meta'
+);
 
 echo '</div>';
