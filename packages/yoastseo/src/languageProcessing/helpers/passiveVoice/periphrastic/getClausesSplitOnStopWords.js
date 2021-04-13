@@ -51,13 +51,13 @@ function splitOnWords( sentence, stopwords ) {
  *
  * @returns {Array} The array with sentence parts.
  */
-function createSentenceParts( sentences, options ) {
-	const sentenceParts = [];
+function createClauses( sentences, options ) {
+	const clauses = [];
 	forEach( sentences, function( part ) {
 		const foundAuxiliaries = sanitizeMatches( part.match( options.regexes.auxiliaryRegex || [] ) );
-		sentenceParts.push( new options.Clause( part, foundAuxiliaries ) );
+		clauses.push( new options.Clause( part, foundAuxiliaries ) );
 	} );
-	return sentenceParts;
+	return clauses;
 }
 
 /**
@@ -71,7 +71,7 @@ function createSentenceParts( sentences, options ) {
 function splitSentence( sentence, options ) {
 	const stopwords = sentence.match( options.regexes.stopwordRegex ) || [];
 	const splitSentences = splitOnWords( sentence, stopwords );
-	return createSentenceParts( splitSentences, options );
+	return createClauses( splitSentences, options );
 }
 
 export default splitSentence;
