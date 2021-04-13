@@ -22,6 +22,7 @@ import findMatchingEndingInArray from "./helpers/morphology/findMatchingEndingIn
 import * as regexHelpers from "./helpers/morphology/regexHelpers";
 import * as exceptionListHelpers from "./helpers/morphology/exceptionListHelpers";
 import * as stemHelpers from "./helpers/morphology/stemHelpers";
+import * as values from "./values";
 import areWordsInSentence from "./helpers/word/areWordsInSentence";
 import getClauses from "./helpers/passiveVoice/periphrastic/getClauses";
 import getClausesSplitOnStopWords from "./helpers/passiveVoice/periphrastic/getClausesSplitOnStopWords";
@@ -53,6 +54,7 @@ export {
 	exceptionListHelpers,
 	stemHelpers,
 	areWordsInSentence,
+	values,
 	getClauses,
 	getClausesSplitOnStopWords,
 };

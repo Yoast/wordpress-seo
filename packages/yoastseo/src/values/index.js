@@ -2,7 +2,6 @@ import AssessmentResult from "./AssessmentResult";
 import Mark from "./Mark";
 import Paper from "./Paper";
 import Participle from "./Participle";
-import ProminentWord from "../languageProcessing/values/ProminentWord";
 import Sentence from "./Sentence";
 import SentencePart from "./SentencePart";
 import Clause from "./Clause";
@@ -13,7 +12,6 @@ export {
 	Mark,
 	Paper,
 	Participle,
-	ProminentWord,
 	Sentence,
 	SentencePart,
 	Clause,
