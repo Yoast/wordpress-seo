@@ -69,7 +69,7 @@ class Yoast_View_Utils {
 	/**
 	 * Generates the OpenGraph disabled alert, depending on whether the OpenGraph feature is disabled.
 	 *
-	 * @param string $type The type of message. Can be altered to taxonimies or archives. Empty string by default.
+	 * @param string $type The type of message. Can be altered to taxonomies or archives. Empty string by default.
 	 *
 	 * @return string The alert. Returns an empty string if the setting is enabled.
 	 */
@@ -94,7 +94,7 @@ class Yoast_View_Utils {
 			$message = sprintf(
 				/* translators: 1: link open tag; 2: link close tag. */
 				\esc_html__(
-					'The frontpage settings and the social image, social title and social description are hidden for all taxonomies. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
+					'The social image, social title and social description are hidden for all taxonomies. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
 					'wordpress-seo'
 				),
 				'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
@@ -106,7 +106,7 @@ class Yoast_View_Utils {
 			$message = sprintf(
 				/* translators: 1: link open tag; 2: link close tag. */
 				\esc_html__(
-					'The frontpage settings and the social image, social title and social description are hidden for all archives. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
+					'The social image, social title and social description are hidden for all archives. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
 					'wordpress-seo'
 				),
 				'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
