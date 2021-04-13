@@ -47,7 +47,7 @@ function splitOnWords( sentence, stopwords ) {
  * Creates sentence parts based on split sentences.
 
  * @param {Array}   sentences   The array with split sentences.
- * @param {Object}  options    The language for which to create sentence parts.
+ * @param {Object}  options    The language-specific regexes and Clause class.
  *
  * @returns {Array} The array with sentence parts.
  */
