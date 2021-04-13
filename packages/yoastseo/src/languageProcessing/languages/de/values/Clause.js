@@ -7,7 +7,10 @@ const { Clause } = values;
 import getParticiples from "../helpers/internal/getParticiples";
 import exceptionsParticiplesActive from "../config/internal/exceptionsParticiplesActive.js";
 
-import { participleLikeAuxiliaries } from "../config/internal/passiveVoiceAuxiliaries.js";
+
+import passiveVoiceAuxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
+const participleLikeAuxiliaries = passiveVoiceAuxiliaries.participleLike;
+const passiveAuxiliaries = passiveVoiceAuxiliaries.all;
 
 const exceptionsRegex =
 	/\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t.,'()"+-;!?:/»«‹›<>])/ig;
@@ -33,7 +36,7 @@ class GermanClause extends Clause {
 
 	/**
 	 * Checks if any exceptions are applicable to this participle that would result in the clause not being passive.
-	 * If no exceptions are found, the sentence part is passive.
+	 * If no exceptions are found and there is an auxiliary present, the sentence part is passive.
 	 *
 	 * @returns {void}
 	 */
@@ -44,7 +47,12 @@ class GermanClause extends Clause {
 			! this.hasHabenSeinException( participle ) &&
 			! includes( participleLikeAuxiliaries, participle );
 		} );
+
 		this.setPassive( foundParticiples.length > 0 );
+
+		if ( ! this.getAuxiliaries().some( auxiliary => passiveAuxiliaries.includes( auxiliary ) ) ) {
+			this.setPassive( false );
+		}
 	}
 
 	/**
