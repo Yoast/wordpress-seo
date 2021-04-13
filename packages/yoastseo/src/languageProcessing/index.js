@@ -22,6 +22,7 @@ import findMatchingEndingInArray from "./helpers/morphology/findMatchingEndingIn
 import * as regexHelpers from "./helpers/morphology/regexHelpers";
 import * as exceptionListHelpers from "./helpers/morphology/exceptionListHelpers";
 import * as stemHelpers from "./helpers/morphology/stemHelpers";
+import * as values from "./values";
 import areWordsInSentence from "./helpers/word/areWordsInSentence";
 
 
@@ -52,4 +53,5 @@ export {
 	exceptionListHelpers,
 	stemHelpers,
 	areWordsInSentence,
+	values,
 };
