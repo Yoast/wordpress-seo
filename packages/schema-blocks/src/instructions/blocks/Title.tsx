@@ -56,10 +56,8 @@ class Title extends VariableTagRichText {
 	 * @returns The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const post: Post = select( "core/editor" ).getCurrentPost();
-
 		const blockTitle: string = blockInstance.attributes[ this.options.name ];
-		const postTitle: string = post.title;
+		const postTitle: string = select( "core/editor" ).getEditedPostAttribute( "title" );
 
 		if ( ! this.isCompleted( blockInstance ) ) {
 			const presence = this.options.required === true ? BlockPresence.Required : BlockPresence.Recommended;

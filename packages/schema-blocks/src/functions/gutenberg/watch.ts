@@ -12,6 +12,7 @@ import { isResultValidForSchema } from "../validators/validateResults";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
+let previousPostTitle: string;
 
 /**
  * Returns whether or not a schema definition should be rendered.
@@ -138,7 +139,9 @@ export default function watch() {
 			}
 
 			const rootBlocks: BlockInstance[] = select( "core/block-editor" ).getBlocks();
-			if ( rootBlocks === previousRootBlocks ) {
+			const postTitle: string = select( "core/editor" ).getEditedPostAttribute( "title" );
+
+			if ( rootBlocks === previousRootBlocks && previousPostTitle === postTitle ) {
 				return;
 			}
 
@@ -152,6 +155,7 @@ export default function watch() {
 				generateSchemaForBlocks( rootBlocks, validations, previousRootBlocks );
 
 				previousRootBlocks = rootBlocks;
+				previousPostTitle = postTitle;
 			}
 			updatingSchema = false;
 		}, 250, { trailing: true } ),
