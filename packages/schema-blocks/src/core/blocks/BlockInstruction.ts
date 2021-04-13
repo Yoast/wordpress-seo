@@ -80,11 +80,12 @@ export default abstract class BlockInstruction extends Instruction {
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
 		const issues: BlockValidationResult[] = [];
 
-		if ( this.options && this.options.required ) {
+		if ( this.options ) {
+			const presence = this.options.required ? BlockPresence.Required : BlockPresence.Recommended;
 			const attributeValid = attributeExists( blockInstance, this.options.name as string ) &&
-						           attributeNotEmpty( blockInstance, this.options.name as string );
+								attributeNotEmpty( blockInstance, this.options.name as string );
 			if ( ! attributeValid ) {
-				issues.push( BlockValidationResult.MissingAttribute( blockInstance, this.constructor.name, BlockPresence.Required ) );
+				issues.push( BlockValidationResult.MissingAttribute( blockInstance, this.constructor.name, presence ) );
 			}
 		}
 

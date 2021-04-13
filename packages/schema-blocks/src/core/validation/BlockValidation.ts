@@ -16,6 +16,8 @@ export enum BlockValidation {
 	MissingRecommendedAttribute = 201,
 	/** This block is defined to recommend a particular inner block, but that block doesn't exist. */
 	MissingRecommendedBlock = 202,
+	/** This block contains a Variationpicker to choose between subblocks, but no choice has been made yet for this recommended block. */
+	MissingRecommendedVariation = 203,
 
 	/** INVALID RESULTS (300+): Will prevent Schema output.
 
@@ -25,6 +27,8 @@ export enum BlockValidation {
 	MissingRequiredAttribute = 301,
 	/** This block is defined to require a particular inner block, but that block doesn't exist. */
 	MissingRequiredBlock = 302,
+	/** This block contains a Variationpicker to choose between subblocks, but no choice has been made yet for this recommended block. */
+	MissingRequiredVariation = 303,
 	/** There may be only one of this type of block, but we found more than one. */
 	TooMany = 303,
 }
