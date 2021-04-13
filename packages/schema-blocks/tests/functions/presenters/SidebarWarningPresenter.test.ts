@@ -124,7 +124,7 @@ describe( "The SidebarWarningPresenter ", () => {
 
 			expect( result.length ).toEqual( 2 );
 			expect( result[ 0 ] ).toEqual( {
-				text: "The 'missing recommended block' block is recommended but missing.",
+				text: "The `missing recommended block` block is recommended but missing.",
 				color: "orange",
 			} );
 			expect( result[ 1 ] ).toEqual( {
