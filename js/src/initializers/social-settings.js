@@ -1,5 +1,6 @@
 import { render, Fragment } from "@wordpress/element";
 import ImageSelectPortal from "../components/portals/ImageSelectPortal";
+import { __ } from "@wordpress/i18n";
 
 /**
  * @summary Initializes the search appearance settings script.
@@ -12,7 +13,7 @@ export default function initSocialSettings() {
 	render(
 		<Fragment>
 			<ImageSelectPortal
-				label="Image"
+				label={ __( "Image", "wordpress-seo" ) }
 				hasPreview={ true }
 				target="yoast-og-default-image-select"
 				hiddenField="og_default_image"
