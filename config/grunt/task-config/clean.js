@@ -11,6 +11,7 @@ module.exports = {
 		"<%= paths.languages %>*.po",
 		"<%= paths.languages %>*.pot",
 		"<%= paths.languages %>yoast-components.json",
+		"<%= paths.languages %>yoast-schema-blocks.json",
 		"<%= paths.languages %>yoast-seo.json",
 		"<%= paths.languages %>yoastseojsfiles.txt",
 	],
