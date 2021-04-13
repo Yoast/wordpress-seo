@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-const { splitSentence, createRegexFromArray } = languageProcessing;
+const { getClausesSplitOnStopWords, createRegexFromArray } = languageProcessing;
 
 import GermanClause from "../values/Clause";
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
@@ -21,5 +21,5 @@ const options = {
  * @returns {Array} The array with all clauses that have an auxiliary.
  */
 export default function getClauses( sentence ) {
-	return splitSentence( sentence, options );
+	return getClausesSplitOnStopWords( sentence, options );
 }
