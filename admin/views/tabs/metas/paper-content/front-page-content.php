@@ -32,9 +32,9 @@ $editor = new WPSEO_Replacevar_Editor(
 		'page_type_recommended'   => 'homepage',
 		'page_type_specific'      => 'page',
 		'paper_style'             => false,
-		'label_title'             => \esc_html__( 'Social title', 'wordpress-seo' ),
-		'label_description'       => \esc_html__( 'Social description', 'wordpress-seo' ),
-		'description_placeholder' => \esc_html__( 'Modify your social description by editing it right here.', 'wordpress-seo' ),
+		'label_title'             => __( 'Social title', 'wordpress-seo' ),
+		'label_description'       => __( 'Social description', 'wordpress-seo' ),
+		'description_placeholder' => __( 'Modify your social description by editing it right here.', 'wordpress-seo' ),
 	]
 );
 $editor->render();
