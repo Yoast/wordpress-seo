@@ -53,7 +53,7 @@ function BlockSuggestion( { blockTitle, blockName, blockClientId }: BlockSuggest
 }
 
 /**
- * Renders a block suggestion that is already added
+ * Renders a block suggestion that has already been added.
  *
  * @param blockTitle The block title.
  * @param isValid    Is the added block valid.
@@ -61,11 +61,14 @@ function BlockSuggestion( { blockTitle, blockName, blockClientId }: BlockSuggest
  * @returns The rendered element.
  */
 function BlockSuggestionAdded( { blockTitle, isValid }: BlockSuggestionAddedDto ): ReactElement {
+	const heroIconCheck = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-2 3 18 16" stroke="currentColor" height="12" width="22">
+		<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2.5 } d="M5 13l4 4L19 7" />
+	</svg>;
 	return (
 		<li className="yoast-block-suggestion yoast-block-suggestion--added" key={ "BlockSuggestionAdded" + blockTitle }>
 			{ blockTitle }
 			{ isValid &&
-				<span className="yoast-block-suggestion-checkmark"> OK </span>
+				<span className="yoast-block-suggestion-checkmark">{ heroIconCheck }</span>
 			}
 		</li>
 	);

@@ -28,7 +28,7 @@ export type SidebarWarning = {
  */
 function someRequiredBlocksNotCompleted( issues: BlockValidationResult[] ) {
 	return issues.some( issue => issue.result === BlockValidation.MissingRequiredBlock ||
-		issue.result === BlockValidation.MissingAttribute );
+		issue.result === BlockValidation.MissingRequiredAttribute );
 }
 
 /**

@@ -12,6 +12,7 @@ import { isResultValidForSchema } from "../validators/validateResults";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
+let previousPostTitle: string;
 
 /**
  * Returns whether or not a schema definition should be rendered.
@@ -73,7 +74,7 @@ function generateSchemaForBlocks(
 
 		const validation = validations.find( v => v.clientId === block.clientId );
 		if ( validation && ! isResultValidForSchema( validation.result ) ) {
-			dispatch( "core/block-editor" ).updateBlockAttributes( block.clientId, { "yoast-schema": null } );
+			clearSchemaForBlocks( block );
 			continue;
 		}
 
@@ -89,6 +90,15 @@ function generateSchemaForBlocks(
 			generateSchemaForBlocks( block.innerBlocks, validations, previousBlock ? previousBlock.innerBlocks : [], parentHasSchema );
 		}
 	}
+}
+
+/**
+ * Removes any existing Schema output for a given block instance.
+ *
+ * @param block The block instance to clear schema for.
+ */
+function clearSchemaForBlocks( block: BlockInstance ) {
+	dispatch( "core/block-editor" ).updateBlockAttributes( block.clientId, { "yoast-schema": null } );
 }
 
 /**
@@ -129,7 +139,9 @@ export default function watch() {
 			}
 
 			const rootBlocks: BlockInstance[] = select( "core/block-editor" ).getBlocks();
-			if ( rootBlocks === previousRootBlocks ) {
+			const postTitle: string = select( "core/editor" ).getEditedPostAttribute( "title" );
+
+			if ( rootBlocks === previousRootBlocks && previousPostTitle === postTitle ) {
 				return;
 			}
 
@@ -143,6 +155,7 @@ export default function watch() {
 				generateSchemaForBlocks( rootBlocks, validations, previousRootBlocks );
 
 				previousRootBlocks = rootBlocks;
+				previousPostTitle = postTitle;
 			}
 			updatingSchema = false;
 		}, 250, { trailing: true } ),
