@@ -1,4 +1,4 @@
-import ItalianSentencePart from "../../../../../src/languageProcessing/languages/it/values/SentencePart.js";
+import ItalianSentencePart from "../../../../../src/languageProcessing/languages/it/values/Clause.js";
 
 describe( "creates an Italian sentence part", function() {
 	it( "makes sure the Italian sentence part inherits all functions", function() {
