@@ -85,7 +85,7 @@ describe( "The SidebarWarningPresenter ", () => {
 
 		it( "creates a warning for missing recommended blocks, but when no required blocks are missing, " +
 			"the conclusion should still be green.", () => {
-			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Invalid, BlockPresence.Recommended );
+			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.MissingRecommendedBlock, BlockPresence.Recommended );
 			testcase.issues.push(
 				BlockValidationResult.MissingBlock( "missing recommended block", BlockPresence.Recommended ),
 			);
@@ -112,7 +112,7 @@ describe( "The SidebarWarningPresenter ", () => {
 
 		it( "creates a warning for missing recommended blocks, but when all required blocks are valid, " +
 			"the conclusion should still be green.", () => {
-			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Invalid, BlockPresence.Recommended );
+			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.MissingRecommendedBlock, BlockPresence.Recommended );
 			testcase.issues.push(
 				BlockValidationResult.MissingBlock( "missing recommended block", BlockPresence.Recommended ),
 			);
@@ -147,7 +147,8 @@ describe( "The SidebarWarningPresenter ", () => {
 		} );
 
 		it( "creates a compliment if we do not have copy for any of the validations of the required blocks.", () => {
-			const testcase = new BlockValidationResult( "1", "myBlock", BlockValidation.Invalid, BlockPresence.Required );
+			// `Skipped`, since this is the maximum result.
+			const testcase = new BlockValidationResult( "1", "myBlock", BlockValidation.Skipped, BlockPresence.Required );
 			testcase.issues.push( new BlockValidationResult( "2", "innerblock1", BlockValidation.Skipped, BlockPresence.Required ) );
 			testcase.issues.push( new BlockValidationResult( "3", "anotherinnerblock", BlockValidation.TooMany, BlockPresence.Required ) );
 			testcase.issues.push( new BlockValidationResult( "4", "anotherinnerblock", BlockValidation.Unknown, BlockPresence.Required ) );
