@@ -1,6 +1,6 @@
 import getClauses from "../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/getClauses.js";
 import arrayToRegex from "../../../../../src/languageProcessing/helpers/regex/createRegexFromArray";
-import Clause from "../../../../../src/values/Clause";
+import Clause from "../../../../../src/languageProcessing/values/Clause";
 import EnglishClause from "../../../../../src/languageProcessing/languages/en/values/Clause";
 
 const options1 = {
