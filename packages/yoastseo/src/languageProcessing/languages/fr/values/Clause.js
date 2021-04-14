@@ -1,18 +1,17 @@
-import { includes, intersection, isEmpty } from "lodash-es";
-import { languageProcessing, values } from "yoastseo";
-const { Clause } = values;
+import { includes } from "lodash-es";
 import getParticiples from "../helpers/internal/getParticiples.js";
+import { languageProcessing } from "yoastseo";
+const { precedenceException, directPrecedenceException, values } = languageProcessing;
+const { Clause } = values;
 import { cannotBeBetweenPassiveAuxiliaryAndParticiple, cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords";
-const { precedenceException, directPrecedenceException } = languageProcessing;
 import {
 	adjectivesVerbs as exceptionsParticiplesAdjectivesVerbs,
-	nounsStartingWithVowel as exceptionsParticiplesNounsVowel,
-	nounsStartingWithConsonant as exceptionsParticiplesNounsConsonant,
+	nouns as exceptionsParticiplesNouns,
 	others as exceptionsParticiplesOthers,
 } from "../config/internal/exceptionsParticiplesActive";
 
 /**
- * Creates a Clause object for the English language.
+ * Creates a Clause object for the French language.
  */
 class FrenchClause extends Clause {
 	/**
@@ -38,8 +37,10 @@ class FrenchClause extends Clause {
 	checkParticiples() {
 		const clause = this.getClauseText();
 
-		const passiveParticiples = this.getParticiples().filter( participle => ! includes( nonVerbsEndingEd, participle ) &&
-			! this.hasRidException( participle ) &&
+		const passiveParticiples = this.getParticiples().filter( participle => ! participle.startsWith( "l'" ) && ! participle.startsWith( "d'" ) &&
+			! includes( exceptionsParticiplesOthers, participle ) &&
+			! this.isOnAdjectiveVerbExceptionList( participle ) &&
+			! this.isOnNounExceptionList( participle ) &&
 			! directPrecedenceException( clause, participle, cannotDirectlyPrecedePassiveParticiple ) &&
 			! precedenceException( clause, participle, cannotBeBetweenPassiveAuxiliaryAndParticiple ) );
 
@@ -47,22 +48,44 @@ class FrenchClause extends Clause {
 	}
 
 	/**
-	 * Checks whether the participle is 'rid' in combination with 'get', 'gets', 'getting', 'got' or 'gotten'.
-	 * If this is true, the participle is not passive.
+	 * Checks whether the participle is on an exception list of words that look like participles but are adjectives or verbs.
 	 *
-	 * @param {string} participle   The participle
+	 * @param {string}	participle	The participle to check.
 	 *
-	 * @returns {boolean} Returns true if 'rid' is found in combination with a form of 'get'
-	 * otherwise returns false.
+	 * @returns {boolean}	Whether or not the participle is on the adjective and verb exception list.
 	 */
-	hasRidException( participle ) {
-		if ( participle === "rid" ) {
-			const irregularExclusionArray = [ "get", "gets", "getting", "got", "gotten" ];
-			return ! isEmpty( intersection( irregularExclusionArray, this.getAuxiliaries() ) );
+	isOnAdjectiveVerbExceptionList( participle ) {
+		if ( exceptionsParticiplesAdjectivesVerbs.includes( participle ) ) {
+			return true;
 		}
-		return false;
+		// Checks for and removes a suffix and checks the exception list again.
+		if ( participle.endsWith( "es" ) ) {
+			participle = participle.slice( 0, -2 );
+		} else if ( participle.endsWith( "e" ) || participle.endsWith( "s" ) ) {
+			participle = participle.slice( 0, -1 );
+		}
+		return exceptionsParticiplesAdjectivesVerbs.includes( participle );
+	}
+
+	/**
+	 * Checks whether the participle is on an exception list of words that look like participles but are nouns.
+	 *
+	 * @param {string}	participle	The participle to check.
+	 *
+	 * @returns {boolean}	Whether or not the participle is on the noun exception list.
+	 */
+	isOnNounExceptionList( participle ) {
+		if ( exceptionsParticiplesNouns.includes( participle ) ) {
+			return true;
+		}
+		// Checks for and removes a suffix and checks the exception list again.
+		if ( participle.endsWith( "s" ) ) {
+			participle = participle.slice( 0, -1 );
+		}
+		return exceptionsParticiplesNouns.includes( participle );
 	}
 }
+
 
 export default FrenchClause;
 
