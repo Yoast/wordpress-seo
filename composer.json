@@ -31,6 +31,7 @@
 		"league/oauth2-client": "2.4.1",
 		"php-parallel-lint/php-console-highlighter": "^0.5",
 		"php-parallel-lint/php-parallel-lint": "^1.2.0",
+		"php-stubs/wordpress-stubs": "^5.7",
 		"phpunit/phpunit": "^5.7",
 		"psalm/phar": "^4.7",
 		"psr/container": "1.0.0",
