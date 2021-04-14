@@ -2,7 +2,7 @@ import { forEach } from "lodash-es";
 import { isEmpty } from "lodash-es";
 import { map } from "lodash-es";
 
-import stripSpaces from "../../sanitize/stripSpaces.js";
+import stripSpaces from "../../../sanitize/stripSpaces.js";
 
 /**
  * Strips spaces from the auxiliary matches.
