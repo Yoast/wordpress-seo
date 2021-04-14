@@ -1,10 +1,8 @@
 import getSentences from "../helpers/sentence/getSentences.js";
 import { stripFullTags as stripHTMLTags } from "../helpers/sanitize/stripHTMLTags.js";
-import Sentence from "../../values/SentenceNew.js";
+import Sentence from "../../languageProcessing/values/SentenceNew.js";
 
 import { forEach } from "lodash-es";
-
-// Languages that employ both morphological and periphrastic passive voice marking have not been implemented yet: "da", "nb".
 
 /**
  * Looks for morphological passive voice.
@@ -83,7 +81,7 @@ export const getPeriphrasticPassives = function( paper, researcher ) {
 
 /**
  * Looks for both morphological and periphrastic passive voice
- * Supported languages with both morphological and periphrastic passives: "hu".
+ * Supported languages with both morphological and periphrastic passives: "hu". Languages that have not been implemented yet: "da", "nb".
  *
  * @param {Paper}      paper      The paper object.
  * @param {Researcher} researcher The researcher.

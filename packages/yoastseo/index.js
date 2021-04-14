@@ -7,7 +7,6 @@ import * as interpreters from "./src/scoring/interpreters";
 import * as config from "./src/config";
 import * as languageProcessing from "./src/languageProcessing";
 import * as values from "./src/values";
-
 import App from "./src/app";
 import Assessor from "./src/scoring/assessor";
 import ContentAssessor from "./src/scoring/contentAssessor";

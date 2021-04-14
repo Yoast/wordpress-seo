@@ -1,6 +1,7 @@
-import getClausesSplitOnStopwords from "../../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/getClausesSplitOnStopWords.js";
+import getClausesSplitOnStopwords
+	from "../../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/getClausesSplitOnStopWords.js";
 import arrayToRegex from "../../../../../../src/languageProcessing/helpers/regex/createRegexFromArray";
-import Clause from "../../../../../src/values/Clause";
+import Clause from "../../../../../../src/languageProcessing/values/Clause";
 
 const options1 = {
 	Clause: Clause,
