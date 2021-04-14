@@ -1,18 +1,20 @@
 import { includes, intersection, isEmpty } from "lodash-es";
+import { languageProcessing, values } from "yoastseo";
+const { Clause } = values;
+import getParticiples from "../helpers/internal/getParticiples.js";
+import { cannotBeBetweenPassiveAuxiliaryAndParticiple, cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords";
+const { precedenceException, directPrecedenceException } = languageProcessing;
 import {
-	cannotBeBetweenPassiveAuxiliaryAndParticiple,
-	cannotDirectlyPrecedePassiveParticiple,
-} from "../config/functionWords";
-import nonVerbsEndingEd from "../config/internal/passiveVoiceNonVerbEndingEd";
-import getParticiples from "../helpers/internal/getParticiples";
-import { languageProcessing } from "yoastseo";
-const { precedenceException, directPrecedenceException, values } = languageProcessing;
-const Clause = values.Clause;
+	adjectivesVerbs as exceptionsParticiplesAdjectivesVerbs,
+	nounsStartingWithVowel as exceptionsParticiplesNounsVowel,
+	nounsStartingWithConsonant as exceptionsParticiplesNounsConsonant,
+	others as exceptionsParticiplesOthers,
+} from "../config/internal/exceptionsParticiplesActive";
 
 /**
  * Creates a Clause object for the English language.
  */
-class EnglishClause extends Clause {
+class FrenchClause extends Clause {
 	/**
 	 * Constructor.
 	 *
@@ -62,4 +64,5 @@ class EnglishClause extends Clause {
 	}
 }
 
-export default EnglishClause;
+export default FrenchClause;
+

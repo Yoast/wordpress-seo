@@ -1,4 +1,4 @@
-import SentencePart from "../../../../../src/languageProcessing/languages/fr/values/SentencePart.js";
+import SentencePart from "../../../../../src/languageProcessing/languages/fr/values/Clause.js";
 
 describe( "creates a French sentence part", function() {
 	it( "makes sure the French sentence part inherits all functions", function() {

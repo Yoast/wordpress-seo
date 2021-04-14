@@ -4,7 +4,7 @@ import Paper from "../../../src/values/Paper";
 import Participle from "../../../src/values/Participle";
 import Sentence from "../../../src/values/Sentence";
 import SentencePart from "../../../src/values/SentencePart";
-import ProminentWord from "../../../src/values/ProminentWord";
+import ProminentWord from "../../../src/languageProcessing/values/ProminentWord";
 import parse from "../../../src/worker/transporter/parse";
 
 describe( "parse", () => {

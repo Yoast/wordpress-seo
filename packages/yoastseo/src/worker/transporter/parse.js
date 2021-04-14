@@ -8,7 +8,7 @@ import Paper from "../../values/Paper";
 import Participle from "../../values/Participle";
 import Sentence from "../../values/Sentence";
 import SentencePart from "../../values/SentencePart";
-import ProminentWord from "../../values/ProminentWord";
+import ProminentWord from "../../languageProcessing/values/ProminentWord";
 
 const PARSE_CLASSES = {
 	AssessmentResult,
