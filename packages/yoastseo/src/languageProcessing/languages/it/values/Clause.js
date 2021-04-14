@@ -1,9 +1,9 @@
-import { languageProcessing, values } from "yoastseo";
+import { languageProcessing } from "yoastseo";
 import { cannotDirectlyPrecedePassiveParticiple,
 	cannotBeBetweenPassiveAuxiliaryAndParticiple,
 } from "../config/functionWords.js";
 import getParticiples from "../helpers/internal/getParticiples.js";
-const { directPrecedenceException, precedenceException } = languageProcessing;
+const { directPrecedenceException, precedenceException, values } = languageProcessing;
 const { Clause } = values;
 
 /**
@@ -33,8 +33,8 @@ class ItalianClause extends Clause {
 	checkParticiples() {
 		const clause = this.getClauseText();
 
-		const passiveParticiples = ! directPrecedenceException( clause, participle, cannotDirectlyPrecedePassiveParticiple ) &&
-			! precedenceException( clause, participle, cannotBeBetweenPassiveAuxiliaryAndParticiple );
+		const passiveParticiples = this.getParticiples().filter( participle => ! directPrecedenceException( clause, participle, cannotDirectlyPrecedePassiveParticiple ) &&
+			! precedenceException( clause, participle, cannotBeBetweenPassiveAuxiliaryAndParticiple ) );
 
 		this.setPassive( passiveParticiples.length > 0 );
 	}
