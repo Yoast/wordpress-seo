@@ -356,8 +356,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	/**
 	 * Handles open and closing of the suggestions dropdown.
 	 *
-	 * @param {boolean} isOpen Whether the suggestions should be open.
-	 *
 	 * @returns {void}
 	 */
 	onSuggestionsOpenChange( isOpen ) {
