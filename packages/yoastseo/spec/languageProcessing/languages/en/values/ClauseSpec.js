@@ -16,7 +16,7 @@ describe( "creates an English clause", function() {
 		expect( mockPart.getParticiples()[ 0 ] ).toBe( "nailed" );
 		expect( mockPart.isPassive() ).toBe( true );
 	} );
-	it ( "returns non-participle for an English clause with a non-passive exception", function() {
+	it( "returns non-participle for an English clause with a non-passive exception", function() {
 		const mockPart = new EnglishClause( "They will be getting rid of the old clothes.", [ "be" ] );
 		expect( mockPart.getParticiples()[ 0 ] ).toBe( "rid" );
 		expect( mockPart.isPassive() ).toBe( false );
