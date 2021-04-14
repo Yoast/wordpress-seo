@@ -71,7 +71,7 @@ class WPSEO_Upgrade {
 			'15.5-RC0'   => 'upgrade_155',
 			'15.7-RC0'   => 'upgrade_157',
 			'15.9.1-RC0' => 'upgrade_1591',
-			'16.2-RC0'   => 'upgrade_162',
+			'16.3-RC0'   => 'upgrade_163',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -808,11 +808,11 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 16.2 upgrade.
+	 * Performs the 16.3 upgrade.
 	 *
 	 * @return void
 	 */
-	private function upgrade_162() {
+	private function upgrade_163() {
 		$this->migrate_og_settings_from_social_to_titles();
 	}
 
