@@ -25,7 +25,7 @@ import * as stemHelpers from "./helpers/morphology/stemHelpers";
 import * as values from "./values";
 import areWordsInSentence from "./helpers/word/areWordsInSentence";
 import getClauses from "./helpers/passiveVoice/periphrastic/getClauses";
-import getClausesSplitOnStopWords from "./helpers/passiveVoice/periphrastic/getClausesSplitOnStopWords";
+import getClausesSplitOnStopWords from "./helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/getClausesSplitOnStopWords";
 
 export {
 	AbstractResearcher,

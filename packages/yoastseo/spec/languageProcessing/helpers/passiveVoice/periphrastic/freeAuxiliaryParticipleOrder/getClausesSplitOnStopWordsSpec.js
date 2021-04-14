@@ -1,5 +1,5 @@
-import getClausesSplitOnStopwords from "../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/getClausesSplitOnStopWords.js";
-import arrayToRegex from "../../../../../src/languageProcessing/helpers/regex/createRegexFromArray";
+import getClausesSplitOnStopwords from "../../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/getClausesSplitOnStopWords.js";
+import arrayToRegex from "../../../../../../src/languageProcessing/helpers/regex/createRegexFromArray";
 import Clause from "../../../../../src/values/Clause";
 
 const options1 = {
