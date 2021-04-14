@@ -11,7 +11,6 @@ import {
 import recurseOverBlocks from "../blocks/recurseOverBlocks";
 import { getInnerblocksByName } from "../innerBlocksHelper";
 import logger from "../logger";
-import { isResultValidForSchema } from "./validateResults";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
 import { getHumanReadableBlockName } from "../BlockHelper";
 
@@ -19,29 +18,21 @@ import { getHumanReadableBlockName } from "../BlockHelper";
  * Finds all blocks that should/could be in the inner blocks, but aren't.
  *
  * @param existingBlocks The actual array of all inner blocks.
- * @param allBlocks      All of the blocks that should occur (required), or could occur (recommended) in the inner blocks.
+ * @param wantedBlocks   All of the blocks that should occur (required), or could occur (recommended) in the inner blocks.
  * @param blockPresence  The block presence.
  *
  * @returns {BlockValidationResult[]} The names of blocks that should/could occur but don't, with reason 'MissingBlock'.
  */
-function findMissingBlocks( existingBlocks: BlockInstance[], allBlocks: RequiredBlock[] | RecommendedBlock[],
+function findMissingBlocks( existingBlocks: BlockInstance[], wantedBlocks: RequiredBlock[] | RecommendedBlock[],
 	blockPresence: BlockPresence ): BlockValidationResult[] {
-	const missingBlocks = allBlocks.filter( block => {
+	const missingBlocks = wantedBlocks.filter( block => {
 		// If, in the existing blocks, there are not any blocks with the name of block, that block is missing.
 		return ! existingBlocks.some( existingBlock => existingBlock.name === block.name );
 	} );
 
-	// Return a BlockValidationResult for a required block.
-	if ( blockPresence === BlockPresence.Required ) {
-		// These blocks should've existed, but they don't.
-		return missingBlocks.map( missingBlock =>
-			BlockValidationResult.MissingRequiredBlock( getHumanReadableBlockName( missingBlock.name ) ),
-		);
-	}
-
-	// Return a BlockValidationResult for a recommended block.
+	// These blocks should've existed, but they don't.
 	return missingBlocks.map( missingBlock =>
-		BlockValidationResult.MissingRecommendedBlock( getHumanReadableBlockName( missingBlock.name ) ),
+		BlockValidationResult.MissingBlock( getHumanReadableBlockName( missingBlock.name ), blockPresence ),
 	);
 }
 
@@ -117,7 +108,7 @@ function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Requ
 	const requiredBlockKeys = requiredBlocks.map( rblock => rblock.name );
 	const recommendedBlockKeys = recommendedBlocks.map( rblock => rblock.name );
 
-	let validationResults: BlockValidationResult[] = [];
+	const validationResults: BlockValidationResult[] = [];
 
 	// Find all instances of required block types.
 	const existingRequiredBlocks = getInnerblocksByName( blockInstance, requiredBlockKeys );
@@ -141,10 +132,6 @@ function validateInnerBlocks( blockInstance: BlockInstance, requiredBlocks: Requ
 	// We differentiate between blocks that are internally valid but are not valid in the context of the innerblock.
 	const innerValidations = validateInnerblockTree( blockInstance );
 	validationResults.push( ...innerValidations );
-
-	validationResults = validationResults.filter( result =>
-		! ( isResultValidForSchema( result.result ) &&
-			validationResults.some( also => also.clientId === result.clientId && ! isResultValidForSchema( also.result ) ) ) );
 
 	return validationResults;
 }

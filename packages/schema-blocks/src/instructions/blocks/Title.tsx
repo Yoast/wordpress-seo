@@ -32,6 +32,7 @@ class Title extends VariableTagRichText {
 		multiline: boolean;
 		label: string;
 		value: string;
+		required?: boolean;
 	};
 
 	/**
@@ -44,7 +45,7 @@ class Title extends VariableTagRichText {
 	 * @returns Whether the block is completed.
 	 */
 	private isCompleted( blockInstance: BlockInstance ): boolean {
-		return attributeNotEmpty( blockInstance, this.options.name ) && attributeExists( blockInstance, this.options.name );
+		return attributeExists( blockInstance, this.options.name ) && attributeNotEmpty( blockInstance, this.options.name );
 	}
 
 	/**
@@ -59,7 +60,8 @@ class Title extends VariableTagRichText {
 		const postTitle: string = select( "core/editor" ).getEditedPostAttribute( "title" );
 
 		if ( ! this.isCompleted( blockInstance ) ) {
-			return BlockValidationResult.MissingAttribute( blockInstance, this.options.name );
+			const presence = this.options.required === true ? BlockPresence.Required : BlockPresence.Recommended;
+			return BlockValidationResult.MissingAttribute( blockInstance, this.constructor.name, presence );
 		}
 
 		if ( blockTitle.toLocaleLowerCase() === postTitle.toLocaleLowerCase() ) {

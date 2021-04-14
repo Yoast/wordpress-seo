@@ -74,7 +74,7 @@ function generateSchemaForBlocks(
 
 		const validation = validations.find( v => v.clientId === block.clientId );
 		if ( validation && ! isResultValidForSchema( validation.result ) ) {
-			dispatch( "core/block-editor" ).updateBlockAttributes( block.clientId, { "yoast-schema": null } );
+			clearSchemaForBlocks( block );
 			continue;
 		}
 
@@ -90,6 +90,15 @@ function generateSchemaForBlocks(
 			generateSchemaForBlocks( block.innerBlocks, validations, previousBlock ? previousBlock.innerBlocks : [], parentHasSchema );
 		}
 	}
+}
+
+/**
+ * Removes any existing Schema output for a given block instance.
+ *
+ * @param block The block instance to clear schema for.
+ */
+function clearSchemaForBlocks( block: BlockInstance ) {
+	dispatch( "core/block-editor" ).updateBlockAttributes( block.clientId, { "yoast-schema": null } );
 }
 
 /**
