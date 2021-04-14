@@ -1,5 +1,5 @@
 import { includes } from "lodash-es";
-import getWords from "../word/getWords";
+import getWords from "../../word/getWords";
 
 /**
  * Checks whether the participle is directly preceded by a word from the direct precedence exception list.

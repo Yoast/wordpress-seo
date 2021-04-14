@@ -1,5 +1,5 @@
-import Sentence from "../../src/values/SentenceNew.js";
-import Clause from "../../src/values/Clause";
+import Sentence from "../../../src/languageProcessing/values/SentenceNew.js";
+import Clause from "../../../src/languageProcessing/values/Clause";
 
 describe( "constructor", () => {
 	it( "creates a new sentence instance", () => {

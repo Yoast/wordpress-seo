@@ -2,7 +2,7 @@ import { forEach } from "lodash-es";
 import { isEmpty } from "lodash-es";
 import { map } from "lodash-es";
 
-import stripSpaces from "../../sanitize/stripSpaces.js";
+import stripSpaces from "../../../sanitize/stripSpaces.js";
 
 /**
  * Strips spaces from the auxiliary matches.
@@ -17,11 +17,10 @@ function sanitizeMatches( matches ) {
 }
 
 /**
- * Splits sentences into clauses based on stopwords.
+ * Splits sentences into sentence parts based on stopwords.
  *
  * @param {string} sentence The sentence to split.
  * @param {Array} stopwords The array with matched stopwords.
- *
  * @returns {Array} The array with sentence parts.
  */
 function splitOnWords( sentence, stopwords ) {
@@ -47,7 +46,7 @@ function splitOnWords( sentence, stopwords ) {
  * Creates sentence parts based on split sentences.
 
  * @param {Array}   sentences   The array with split sentences.
- * @param {Object}  options    The language-specific regexes and Clause class.
+ * @param {Object}  options    The language for which to create sentence parts.
  *
  * @returns {Array} The array with sentence parts.
  */
@@ -55,18 +54,18 @@ function createSentenceParts( sentences, options ) {
 	const sentenceParts = [];
 	forEach( sentences, function( part ) {
 		const foundAuxiliaries = sanitizeMatches( part.match( options.regexes.auxiliaryRegex || [] ) );
-		sentenceParts.push( new options.Clause( part, foundAuxiliaries ) );
+		sentenceParts.push( new options.SentencePart( part, foundAuxiliaries ) );
 	} );
 	return sentenceParts;
 }
 
 /**
- * Splits the sentence into clauses based on stopwords.
+ * Splits the sentence into sentence parts based on stopwords.
  *
- * @param {string} sentence The text to split into clauses.
- * @param {Object} options The language-specific regexes and Clause class.
+ * @param {string} sentence The text to split into sentence parts.
+ * @param {Object} options The language for which to split sentences.
  *
- * @returns {Array} The array with clauses.
+ * @returns {Array} The array with sentence parts.
  */
 function splitSentence( sentence, options ) {
 	const stopwords = sentence.match( options.regexes.stopwordRegex ) || [];
