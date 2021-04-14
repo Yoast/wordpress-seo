@@ -58,14 +58,15 @@ describe( "a test for the Dutch Researcher", function() {
 	} );
 
 	it( "splits Dutch sentence into parts", function() {
-		const sentence =  "Ik ging naar buiten omdat het mooi weer was.";
-		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 0 ].getSentencePartText() ).toBe( "Ik ging naar buiten" );
-		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 1 ].getSentencePartText() ).toBe( "omdat het mooi weer was." );
-	} );
+		let sentence =  "Ik ging naar buiten omdat het mooi weer was.";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Ik ging naar buiten" );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( false );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "omdat het mooi weer was." );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( false );
 
-	it( "checks if a Dutch sentence is passive or not", function() {
-		expect( researcher.getHelper( "isPassiveSentencePart" )( "De kat werd geadopteerd", [ "werd" ] ) ).toEqual( true );
-		expect( researcher.getHelper( "isPassiveSentencePart" )( "De vrouw heeft de kat geadopteerd.", [] ) ).toEqual( false );
+		sentence = "De kat werd geadopteerd";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "De kat werd geadopteerd" );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( true );
 	} );
 
 	it( "calculates the Flesch reading score using the formula for Dutch", function() {
