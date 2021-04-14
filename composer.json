@@ -105,6 +105,9 @@
 		"check-branch-cs": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_branch_cs"
 		],
+        "analyze": [
+          "@php ./vendor/psalm/phar/psalm.phar"
+        ],
 		"fix-cs": [
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
 		],
