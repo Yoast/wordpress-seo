@@ -1,6 +1,6 @@
 import getSentences from "../helpers/sentence/getSentences.js";
 import { stripFullTags as stripHTMLTags } from "../helpers/sanitize/stripHTMLTags.js";
-import Sentence from "../../values/Sentence.js";
+import Sentence from "../../values/SentenceNew.js";
 
 import { forEach } from "lodash-es";
 
@@ -51,8 +51,7 @@ export const getMorphologicalPassives = function( paper, researcher ) {
  * @returns {Object} The found passive sentences.
  */
 export const getPeriphrasticPassives = function( paper, researcher ) {
-	const getSentenceParts = researcher.getHelper( "getSentenceParts" );
-	const isPassiveSentencePart = researcher.getHelper( "isPassiveSentencePart" );
+	const getClauses = researcher.getHelper( "getClauses" );
 	const text = paper.getText();
 	const sentences = getSentences( text )
 		.map( function( sentence ) {
@@ -63,13 +62,15 @@ export const getPeriphrasticPassives = function( paper, researcher ) {
 
 	forEach( sentences, function( sentence ) {
 		const strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
-		const sentenceParts = getSentenceParts( strippedSentence );
 
-		let passive = false;
-		forEach( sentenceParts, function( sentencePart ) {
-			passive = passive || isPassiveSentencePart( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries() );
-		} );
-		if ( passive ) {
+		// The functionality based on sentencePart objects should be rewritten using array indices of stopwords and auxiliaries.
+
+		// Divide a sentence into clauses and return an array of clause objects that have been checked for passiveness.
+		const clauses = getClauses( strippedSentence );
+		sentence.setClauses( clauses );
+
+		// Check sentence passiveness based on its clause passiveness.
+		if ( sentence.isPassive() ) {
 			passiveSentences.push( sentence.getSentenceText() );
 		}
 	} );

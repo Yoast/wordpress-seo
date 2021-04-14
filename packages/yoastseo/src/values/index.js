@@ -4,6 +4,8 @@ import Paper from "./Paper";
 import Participle from "./Participle";
 import Sentence from "./Sentence";
 import SentencePart from "./SentencePart";
+import Clause from "./Clause";
+import SentenceNew from "./SentenceNew";
 
 export {
 	AssessmentResult,
@@ -12,4 +14,6 @@ export {
 	Participle,
 	Sentence,
 	SentencePart,
+	Clause,
+	SentenceNew,
 };
