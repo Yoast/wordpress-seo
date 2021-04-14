@@ -1,13 +1,11 @@
 import { includes, map } from "lodash-es";
-import { languageProcessing, values } from "yoastseo";
-const { indices } = languageProcessing;
+import { languageProcessing } from "yoastseo";
+const { indices, values } = languageProcessing;
 const { getIndicesByWord, getIndicesByWordList } = indices;
 const { Clause } = values;
 
 import getParticiples from "../helpers/internal/getParticiples";
 import exceptionsParticiplesActive from "../config/internal/exceptionsParticiplesActive.js";
-
-
 import passiveVoiceAuxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 const participleLikeAuxiliaries = passiveVoiceAuxiliaries.participleLike;
 const passiveAuxiliaries = passiveVoiceAuxiliaries.all;
