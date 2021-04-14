@@ -5,10 +5,9 @@ import {
 } from "../config/functionWords";
 import nonVerbsEndingEd from "../config/internal/passiveVoiceNonVerbEndingEd";
 import getParticiples from "../helpers/internal/getParticiples";
-import { languageProcessing, values } from "yoastseo";
-const { precedenceException, directPrecedenceException } = languageProcessing;
-const { Clause } = values;
-
+import { languageProcessing } from "yoastseo";
+const { precedenceException, directPrecedenceException, values } = languageProcessing;
+const Clause = values.Clause;
 
 /**
  * Creates a Clause object for the English language.
