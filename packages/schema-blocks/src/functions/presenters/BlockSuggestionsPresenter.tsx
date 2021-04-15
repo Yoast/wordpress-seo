@@ -1,7 +1,6 @@
 import { ReactElement } from "react";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
-import { PanelBody } from "@wordpress/components";
-import { createElement } from "@wordpress/element";
+import { createElement, Fragment } from "@wordpress/element";
 
 import { getBlockType } from "../BlockHelper";
 import { getInnerblocksByName, insertBlock } from "../innerBlocksHelper";
@@ -92,7 +91,7 @@ export default function BlockSuggestionsPresenter( { title, block, suggestions }
 	const presentBlockNames = findPresentBlocks.map( presentBlock => presentBlock.name );
 
 	return (
-		<PanelBody key={ title + block.clientId }>
+		<Fragment key={ title + block.clientId }>
 			<div className="yoast-block-sidebar-title">{ title }</div>
 			<ul className="yoast-block-suggestions">
 				{
@@ -112,6 +111,6 @@ export default function BlockSuggestionsPresenter( { title, block, suggestions }
 					} )
 				}
 			</ul>
-		</PanelBody>
+		</Fragment>
 	);
 }

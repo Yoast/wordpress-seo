@@ -66,7 +66,7 @@ export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ): ReactEleme
 		warnings = createAnalysisMessages( validationResults );
 	}
 
-	return <Fragment>
+	return <Fragment key={ "innerblocks-sidebar-" + block.clientId }>
 		<SidebarHeader />
 		<WarningList warnings={ warnings } />
 		<BlockSuggestions
@@ -121,12 +121,14 @@ function SidebarHeader(): ReactElement {
  */
 function WarningList( props: WarningListProps ): ReactElement {
 	return (
-		<div className="yoast-block-sidebar-warnings">
-			<div className="yoast-block-sidebar-title">{ __( "Analysis", "yoast-schema-blocks" ) }</div>
-			<ul className="yoast-block-sidebar-warnings">
-				{ ...props.warnings.map( warning => <Warning warning={ warning } key={ warning.text } /> ) }
-			</ul>
-		</div>
+		<Fragment>
+			<div className="yoast-block-sidebar-warnings">
+				<div className="yoast-block-sidebar-title">{ __( "Analysis", "yoast-schema-blocks" ) }</div>
+				<ul className="yoast-block-sidebar-warnings">
+					{ ...props.warnings.map( warning => <Warning warning={ warning } key={ warning.text } /> ) }
+				</ul>
+			</div>
+		</Fragment>
 	);
 }
 

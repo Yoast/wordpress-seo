@@ -62,11 +62,12 @@
 .yoast-block-sidebar-title {
 	font-weight: 600;
 	color: #303030;
+	padding: 10px 0 0 0;
 }
 
 .yoast-block-sidebar-header {
 	width:100%;
-	padding: 0 0 20px 0;
+	margin-bottom: 14px;
 }
 
 .yoast-block-suggestions {
@@ -76,12 +77,12 @@
 
 .yoast-block-sidebar-warnings {
 	width:100%;
-	padding: 0 0 0 15px;
 }
 
 .yoast-block-sidebar-warning {
 	list-style: none;
 	color: #404040;
+	padding: 0 0 0 17px;
 }
 
 .yoast-block-sidebar-warning > .yoast-svg-icon {
