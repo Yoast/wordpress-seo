@@ -2,10 +2,9 @@ import BlockLeaf from "./BlockLeaf";
 import { RenderEditProps, RenderSaveProps } from "./BlockDefinition";
 import { ReactElement } from "@wordpress/element";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
-import { BlockValidation, BlockValidationResult } from "../validation";
+import { BlockValidation, BlockValidationResult, BlockPresence } from "../validation";
 import Instruction, { InstructionOptions } from "../Instruction";
 import { attributeExists, attributeNotEmpty } from "../../functions/validators";
-import { BlockPresence } from "../validation/BlockValidationResult";
 import { maxBy } from "lodash";
 
 export type BlockInstructionClass = {
@@ -80,8 +79,9 @@ export default abstract class BlockInstruction extends Instruction {
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
 		const issues: BlockValidationResult[] = [];
 
+		let presence = BlockPresence.Unknown;
 		if ( this.options ) {
-			const presence = this.options.required ? BlockPresence.Required : BlockPresence.Recommended;
+			presence = this.options.required ? BlockPresence.Required : BlockPresence.Recommended;
 			const attributeValid = attributeExists( blockInstance, this.options.name as string ) &&
 								attributeNotEmpty( blockInstance, this.options.name as string );
 			if ( ! attributeValid ) {
@@ -90,12 +90,12 @@ export default abstract class BlockInstruction extends Instruction {
 		}
 
 		if ( blockInstance.name.startsWith( "core/" ) && ! blockInstance.isValid ) {
-			issues.push( new BlockValidationResult( blockInstance.clientId, this.constructor.name, BlockValidation.Invalid, BlockPresence.Unknown ) );
+			issues.push( new BlockValidationResult( blockInstance.clientId, this.constructor.name, BlockValidation.Invalid, presence ) );
 		}
 
 		// No issues found? That means the block is valid.
 		if ( issues.length < 1 ) {
-			return BlockValidationResult.Valid( blockInstance, this.constructor.name );
+			return BlockValidationResult.Valid( blockInstance, this.constructor.name, presence );
 		}
 
 		// Make sure to report the worst case scenario as the final validation result.
