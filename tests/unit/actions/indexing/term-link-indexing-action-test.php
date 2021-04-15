@@ -201,7 +201,7 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->with( 'query' )
 			->andReturn( null );
 
-		$this->assertFalse( $this->instance->get_total_unindexed() );
+		$this->assertEquals( 0, $this->instance->get_total_unindexed() );
 	}
 
 	/**

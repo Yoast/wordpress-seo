@@ -24,7 +24,10 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 		if ( ! \apply_filters( 'wpseo_debug_markers', true ) ) {
 			return '';
 		}
+
 		/**
+		 * Psalm isn't aware that the constant exists.
+		 *
 		 * @psalm-suppress UndefinedConstant
 		 */
 		$version_info = 'v' . \WPSEO_VERSION;
@@ -56,6 +59,8 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		/**
+		 * Psalm isn't aware that the constant exists.
+		 *
 		 * @psalm-suppress UndefinedConstant
 		 */
 		return 'v' . \WPSEO_PREMIUM_VERSION . ' (Yoast SEO v' . \WPSEO_VERSION . ')';

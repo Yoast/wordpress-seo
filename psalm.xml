@@ -15,6 +15,6 @@
 
     <stubs>
         <file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php" />
-		<file name="config/psalm/overrides.php" />
+		<file name="config/psalm/overrides.phpstub" />
     </stubs>
 </psalm>
