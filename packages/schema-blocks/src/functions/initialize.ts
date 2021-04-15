@@ -29,16 +29,17 @@ export function initialize( logLevel: LogLevel = LogLevel.ERROR ) {
 
 	initializeSchemaBlocksStore();
 
-	registerInternalBlocks();
-
 	injectSidebar( [
 		"core/paragraph",
 		"core/image",
 		"core/heading",
 		"core/separator",
+		"yoast/warning-block",
 	], [
 		"yoast/job-posting",
 	] );
+
+	registerInternalBlocks();
 
 	jQuery( 'script[type="text/schema-template"]' ).each( function() {
 		try {
