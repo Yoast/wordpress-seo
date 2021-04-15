@@ -135,8 +135,9 @@ class Permalink_Helper_Test extends TestCase {
 			->andReturn( null );
 
 
-		$this->assertNull(
-			$this->instance->get_permalink_for_indexable( $indexable )
+		$this->assertEquals(
+			$this->instance->get_permalink_for_indexable( $indexable ),
+			''
 		);
 	}
 
@@ -162,8 +163,9 @@ class Permalink_Helper_Test extends TestCase {
 			->with( $term )
 			->andReturn( true );
 
-		$this->assertNull(
-			$this->instance->get_permalink_for_indexable( $indexable )
+		$this->assertEquals(
+			$this->instance->get_permalink_for_indexable( $indexable ),
+			''
 		);
 	}
 
@@ -235,8 +237,9 @@ class Permalink_Helper_Test extends TestCase {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_type = 'unknown';
 
-		$this->assertNull(
-			$this->instance->get_permalink_for_indexable( $indexable )
+		$this->assertEquals(
+			$this->instance->get_permalink_for_indexable( $indexable ),
+			''
 		);
 	}
 }
