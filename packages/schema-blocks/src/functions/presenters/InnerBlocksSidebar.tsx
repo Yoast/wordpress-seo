@@ -69,14 +69,14 @@ export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ): ReactEleme
 	return <Fragment>
 		<WarningList warnings={ warnings } />
 		<BlockSuggestions
-			title={ __( "Required Blocks", "yoast-schema-blocks" ) }
-			block={ block }
-			suggestions={ props.requiredBlocks }
+			heading={ __( "Required Blocks", "yoast-schema-blocks" ) }
+			parentBlock={ block }
+			suggestedBlockNames={ props.requiredBlocks }
 		/>
 		<BlockSuggestions
-			title={ __( "Recommended Blocks", "yoast-schema-blocks" ) }
-			block={ block }
-			suggestions={ props.recommendedBlocks }
+			heading={ __( "Recommended Blocks", "yoast-schema-blocks" ) }
+			parentBlock={ block }
+			suggestedBlockNames={ props.recommendedBlocks }
 		/>
 	</Fragment>;
 }
