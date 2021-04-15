@@ -64,6 +64,11 @@
 	color: #303030;
 }
 
+.yoast-block-sidebar-header {
+	width:100%;
+	padding: 0 0 20px 0;
+}
+
 .yoast-block-suggestions {
 	width:100%;
 	padding: 0 5px 0 15px;
