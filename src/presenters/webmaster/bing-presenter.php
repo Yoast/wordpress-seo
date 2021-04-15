@@ -22,6 +22,11 @@ class Bing_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 * @return string $verification_value The webmaster tool site verification value.
 	 */
 	public function get() {
-		return $this->helpers->options->get( 'msverify', '' );
+		$verify = $this->helpers->options->get( 'msverify', '' );
+		if( is_string( $verify ) ) {
+			return $verify;
+		}
+
+		return '';
 	}
 }

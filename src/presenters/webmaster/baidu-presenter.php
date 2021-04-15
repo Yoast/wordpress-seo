@@ -22,6 +22,11 @@ class Baidu_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 * @return string $verification_value The webmaster tool site verification value.
 	 */
 	public function get() {
-		return $this->helpers->options->get( 'baiduverify', '' );
+		$verify = $this->helpers->options->get( 'baiduverify', '' );
+		if( is_string( $verify ) ) {
+			return $verify;
+		}
+
+		return '';
 	}
 }

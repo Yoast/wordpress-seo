@@ -61,6 +61,6 @@ class Rel_Next_Presenter extends Abstract_Indexable_Tag_Presenter {
 		 * @param string                 $rel          Link relationship, prev or next.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) \trim( \apply_filters( 'wpseo_adjacent_rel_url', $this->presentation->rel_next, 'next', $this->presentation ) );
+		return \trim( \apply_filters( 'wpseo_adjacent_rel_url', $this->presentation->rel_next, 'next', $this->presentation ) );
 	}
 }
