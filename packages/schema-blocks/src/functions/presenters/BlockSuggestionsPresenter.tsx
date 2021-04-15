@@ -1,8 +1,7 @@
 import { ReactElement } from "react";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
 import { PanelBody } from "@wordpress/components";
-import { BlockPresence, BlockValidation, BlockValidationResult } from "../../core/validation";
-import { getValidationResult } from "../validators";
+import { getValidationResults, getValidationResultForClientId } from "../validators";
 import { createElement } from "@wordpress/element";
 import { getBlockType } from "../BlockHelper";
 import { getInnerblocksByName, insertBlock } from "../innerBlocksHelper";
@@ -70,30 +69,7 @@ function BlockSuggestionAdded( { suggestedBlockTitle, isValid }: BlockSuggestion
 		</li>
 	);
 }
-/**
- * Finds a blockInstance's validation result in a tree of validation results based on the block's clientId.
- * @param clientId The ClientId of the block you want validation results for.
- * @param validationResults The ValidationResult tree to investigate.
- * @returns The BlockValidationResult matching the clientId or null if none were found.
- */
-function GetValidationForClientId( clientId: string, validationResults: BlockValidationResult[] ): BlockValidationResult {
-	for ( const validationResult of validationResults ) {
-		// When the validation result matches the client id. Just return it.
-		if ( validationResult.clientId === clientId ) {
-			return validationResult;
-		}
 
-		// Just keep it calling until we have found a result.
-		if ( validationResult.issues.length > 0 ) {
-			const validation = GetValidationForClientId( clientId, validationResult.issues );
-			if ( validation ) {
-				return validation;
-			}
-		}
-	}
-
-	return null;
-}
 /**
  * Renders a list of suggested blocks.
  *
@@ -112,29 +88,24 @@ export default function BlockSuggestionsPresenter( { heading, parentBlock, sugge
 	}
 
 	const presentBlocks = getInnerblocksByName( parentBlock, filteredSuggestedBlockNames );
-	const validationResult = getValidationResult( parentBlock.clientId );
-	let validationIssues: BlockValidationResult[] = [];
-	if ( validationResult ) {
-		validationIssues = validationResult.issues;
-	}
+	const validationResults = getValidationResults();
 
 	return (
 		<PanelBody key={ heading + parentBlock.clientId }>
-			<div className="yoast-block-sidebar-title">{ heading }</div>
+			<div className="yoast-block-sidebaryarn lint-fix-title">{ heading }</div>
 			<ul className="yoast-block-suggestions">
 				{
 					filteredSuggestedBlockNames.map( ( suggestedBlockName: string, index: number ) => {
 						const suggestedBlockType = getBlockType( suggestedBlockName );
+
 						const existingBlock = presentBlocks.find( block => block.name === suggestedBlockName );
 						if ( existingBlock ) {
-							const validation = GetValidationForClientId( existingBlock.clientId, validationIssues ) ||
-								new BlockValidationResult(
-									existingBlock.clientId,
-									existingBlock.name,
-									BlockValidation.Unknown,
-									BlockPresence.Unknown );
+							// Find the validation result for this block.
+							const validation = getValidationResultForClientId( existingBlock.clientId, validationResults );
+							// If the validation was found, and it is completely OK, we will add a check mark.
+							const isTheBlockValid = validation && isValidResult( validation.result );
 
-							const isTheBlockValid = isValidResult( validation.result );
+							// Show the validation result.
 							return <BlockSuggestionAdded
 								key={ index }
 								isValid={ isTheBlockValid }
@@ -142,6 +113,7 @@ export default function BlockSuggestionsPresenter( { heading, parentBlock, sugge
 							/>;
 						}
 
+						// Show the suggestion to add an instance of this block.
 						return <BlockSuggestion
 							key={ index }
 							suggestedBlockTitle={ suggestedBlockType.title }

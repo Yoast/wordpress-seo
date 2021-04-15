@@ -14,7 +14,7 @@ jest.mock( "@wordpress/blocks", () => {
 
 jest.mock( "../../../src/functions/validators", () => {
 	return {
-		getValidationResult: jest.fn( () => {
+		getValidationResults: jest.fn( () => {
 			return new BlockValidationResult( "1", "yoast/valid-block", -1, BlockPresence.Required, "Is not that present" );
 		} ),
 		getAllDescendantIssues: jest.fn( () => {
@@ -34,7 +34,7 @@ jest.mock( "../../../src/functions/BlockHelper", () => {
 			}
 
 			return {
-				title: "The required block",
+				heading: "The required block",
 			};
 		} ),
 	};
@@ -47,6 +47,7 @@ jest.mock( "../../../src/functions/innerBlocksHelper", () => {
 			return [
 				{
 					name: "yoast/added-to-content",
+					clientId: "existingBlockClientId",
 				},
 			];
 		} ),
@@ -55,41 +56,41 @@ jest.mock( "../../../src/functions/innerBlocksHelper", () => {
 
 describe( "The required blocks in the sidebar", () => {
 	it( "doesn't have the required block being registered as a block", () => {
-		const block = { innerBlocks: [] } as BlockInstance;
+		const parentBlock = { innerBlocks: [] } as BlockInstance;
 		const requiredBlocks = [ "yoast/nonexisting" ];
 
-		const actual = BlockSuggestionsPresenter( { title: "Required blocks", block, suggestions: requiredBlocks } );
+		const actual = BlockSuggestionsPresenter( { heading: "Required blocks", parentBlock, suggestedBlockNames: requiredBlocks } );
 
 		expect( actual ).toBe( null );
 	} );
 
 	it( "renders the required block as an added one", () => {
-		const block = { innerBlocks: [] } as BlockInstance;
+		const parentBlock = { innerBlocks: [] } as BlockInstance;
 		const requiredBlocks = [ "yoast/added-to-content"  ];
 
 		const tree = renderer
-			.create( BlockSuggestionsPresenter( { title: "Required blocks", block, suggestions: requiredBlocks } ) )
+			.create( BlockSuggestionsPresenter( { heading: "Required blocks", parentBlock, suggestedBlockNames: requiredBlocks } ) )
 			.toJSON();
 
 		expect( tree ).toMatchSnapshot();
 	} );
 
 	it( "renders the required block as a non-added one", () => {
-		const block = { innerBlocks: [] } as BlockInstance;
+		const parentBlock = { innerBlocks: [] } as BlockInstance;
 		const requiredBlocks = [ "yoast/non-added-to-content" ];
 
 		const tree = renderer
-			.create( BlockSuggestionsPresenter( { title: "Required blocks", block, suggestions: requiredBlocks } ) )
+			.create( BlockSuggestionsPresenter( { heading: "Required blocks", parentBlock, suggestedBlockNames: requiredBlocks } ) )
 			.toJSON();
 
 		expect( tree ).toMatchSnapshot();
 	} );
 
 	it( "should call the function to add the block when the button is clicked.", () => {
-		const block = { innerBlocks: [], clientId: "1" } as BlockInstance;
+		const parentBlock = { innerBlocks: [], clientId: "1" } as BlockInstance;
 		const requiredBlocks = [ "yoast/non-added-to-content" ];
 
-		const tree = mount( BlockSuggestionsPresenter( { title: "Required blocks", block, suggestions: requiredBlocks } )  );
+		const tree = mount( BlockSuggestionsPresenter( { heading: "Required blocks", parentBlock, suggestedBlockNames: requiredBlocks } )  );
 
 		const addButton = tree.find( "button" ).first();
 

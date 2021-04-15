@@ -2,12 +2,13 @@ import attributeExists from "./attributeExists";
 import attributeNotEmpty from "./attributeNotEmpty";
 import getAllDescendantIssues from "./getAllDescendantIssues";
 import getInvalidInnerBlocks from "./innerBlocksValid";
-import getValidationResult from "./getValidationResult";
+import { getValidationResults, getValidationResultForClientId } from "./getValidationResult";
 
 export {
 	attributeExists,
 	attributeNotEmpty,
 	getAllDescendantIssues,
 	getInvalidInnerBlocks,
-	getValidationResult,
+	getValidationResults,
+	getValidationResultForClientId,
 };

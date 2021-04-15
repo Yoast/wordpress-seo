@@ -2,7 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import { getHumanReadableBlockName } from "../BlockHelper";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
-import { getAllDescendantIssues, getValidationResult } from "../validators";
+import { getAllDescendantIssues } from "../validators";
 
 /**
  * A warning message for in the sidebar schema analysis.
@@ -123,20 +123,4 @@ export function sanitizeParentName( parent: string ): string {
 	}
 
 	return parent.toLowerCase();
-}
-
-/**
- * Converts the validation results for a block instance with the given clientId to a presentable text.
- *
- * @param clientId The clientId to request validation results for.
- *
- * @returns {string} The presentable warning message, or null if no warnings are found.
- */
-export default function getWarnings( clientId: string ): SidebarWarning[] {
-	const validation: BlockValidationResult = getValidationResult( clientId );
-	if ( ! validation ) {
-		return null;
-	}
-
-	return createAnalysisMessages( validation );
 }

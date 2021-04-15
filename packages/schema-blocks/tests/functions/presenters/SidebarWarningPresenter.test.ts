@@ -1,5 +1,5 @@
 import { BlockValidation, BlockValidationResult } from "../../../src/core/validation";
-import getWarnings, { createAnalysisMessages } from "../../../src/functions/presenters/SidebarWarningPresenter";
+import { createAnalysisMessages } from "../../../src/functions/presenters/SidebarWarningPresenter";
 import { BlockPresence } from "../../../src/core/validation/BlockValidationResult";
 import { BlockInstance } from "@wordpress/blocks";
 
@@ -132,57 +132,5 @@ describe( "The SidebarWarningPresenter ", () => {
 				color: "green",
 			} );
 		} );
-	} );
-
-	describe( "The getWarnings method ", () => {
-		it( "creates a compliment for required valid blocks.", () => {
-			validations[ "1" ] = new BlockValidationResult( "1", "myBlock", BlockValidation.Valid, BlockPresence.Required );
-
-			const result = getWarnings( "1" );
-
-			expect( result ).toEqual( [ {
-				text: "Good job! All required blocks have been completed.",
-				color: "green",
-			} ] );
-		} );
-
-		it( "creates a compliment if we do not have copy for any of the validations of the required blocks.", () => {
-			const testcase = new BlockValidationResult( "1", "myBlock", BlockValidation.Invalid, BlockPresence.Required );
-			testcase.issues.push( new BlockValidationResult( "2", "innerblock1", BlockValidation.Skipped, BlockPresence.Required ) );
-			testcase.issues.push( new BlockValidationResult( "3", "anotherinnerblock", BlockValidation.TooMany, BlockPresence.Required ) );
-			testcase.issues.push( new BlockValidationResult( "4", "anotherinnerblock", BlockValidation.Unknown, BlockPresence.Required ) );
-			validations[ "1" ] = testcase;
-
-			const result = getWarnings( "1" );
-
-			expect( result ).toEqual( [ {
-				text: "Good job! All required blocks have been completed.",
-				color: "green",
-			} ] );
-		} );
-
-		it( "creates a warning for a required block with validation problems.", () => {
-			const testcase = new BlockValidationResult( "1", "myBlock", BlockValidation.Invalid, BlockPresence.Required );
-			testcase.issues.push( BlockValidationResult.MissingBlock( "innerblock1", BlockPresence.Required ) );
-			validations[ "1" ] = testcase;
-
-			const result = getWarnings( "1" );
-
-			expect( result.length ).toEqual( 2 );
-			expect( result[ 0 ] ).toEqual( {
-				text: "The `innerblock1` block is required but missing.",
-				color: "red",
-			} );
-			expect( result[ 1 ] ).toEqual( {
-				text: "Not all required blocks have been completed! No myblock schema will be generated for your page.",
-				color: "red",
-			} );
-		} );
-	} );
-
-	it( "creates no output when the validation results cannot be retrieved.", () => {
-		const result = getWarnings( "123" );
-
-		expect( result ).toBeNull();
 	} );
 } );
