@@ -64,7 +64,7 @@ class Help_Link_Presenter extends Abstract_Presenter {
 	 */
 	public function present() {
 		if ( $this->link === '' || $this->link_text === '' ) {
-			return;
+			return '';
 		}
 
 		$target_blank_attribute = '';
