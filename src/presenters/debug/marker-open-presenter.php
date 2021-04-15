@@ -24,6 +24,9 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 		if ( ! \apply_filters( 'wpseo_debug_markers', true ) ) {
 			return '';
 		}
+		/**
+		 * @psalm-suppress UndefinedConstant
+		 */
 		$version_info = 'v' . \WPSEO_VERSION;
 
 		if ( $this->helpers->product->is_premium() ) {
@@ -52,6 +55,9 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 			return '';
 		}
 
+		/**
+		 * @psalm-suppress UndefinedConstant
+		 */
 		return 'v' . \WPSEO_PREMIUM_VERSION . ' (Yoast SEO v' . \WPSEO_VERSION . ')';
 	}
 
