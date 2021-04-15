@@ -62,6 +62,8 @@ class Alert_Presenter extends Abstract_Presenter {
 		$out  = '<div class="yoast-alert yoast-alert--' . $this->type . '">';
 		$out .= '<span>';
 		/**
+		 * Psalm isn't aware that the constant exists.
+		 *
 		 * @psalm-suppress UndefinedConstant
 		 */
 		$out .= '<img class="yoast-alert__icon" src="' . \esc_url( \plugin_dir_url( \WPSEO_FILE ) . $icon_file ) . '" alt="" />';
