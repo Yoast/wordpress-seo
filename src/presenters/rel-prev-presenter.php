@@ -60,6 +60,6 @@ class Rel_Prev_Presenter extends Abstract_Indexable_Tag_Presenter {
 		 *
 		 * @param string                 $rel          Link relationship, prev or next.
 		 */
-		return (string) \trim( \apply_filters( 'wpseo_adjacent_rel_url', $this->presentation->rel_prev, 'prev', $this->presentation ) );
+		return \trim( \apply_filters( 'wpseo_adjacent_rel_url', $this->presentation->rel_prev, 'prev', $this->presentation ) );
 	}
 }
