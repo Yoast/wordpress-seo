@@ -262,9 +262,9 @@ class Indexable_Builder {
 	/**
 	 * Ensures we have a valid indexable. Creates one if false is passed.
 	 *
-	 * @param Indexable|false $indexable The indexable.
+	 * @param Indexable|boolean $indexable The indexable.
 	 *
-	 * @return Indexable The indexable.
+	 * @return Indexable|boolean The indexable or false.
 	 */
 	private function ensure_indexable( $indexable ) {
 		if ( ! $indexable ) {
@@ -277,12 +277,12 @@ class Indexable_Builder {
 	/**
 	 * Saves and returns an indexable (on production environments only).
 	 *
-	 * @param Indexable      $indexable        The indexable.
-	 * @param Indexable|null $indexable_before The indexable before possible changes.
+	 * @param Indexable         $indexable        The indexable.
+	 * @param Indexable|boolean $indexable_before The indexable before possible changes.
 	 *
 	 * @return Indexable The indexable.
 	 */
-	private function save_indexable( $indexable, $indexable_before = null ) {
+	private function save_indexable( $indexable, $indexable_before = false ) {
 		$intend_to_save = $this->indexable_helper->should_index_indexables();
 
 		/**
