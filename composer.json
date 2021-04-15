@@ -106,7 +106,7 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_branch_cs"
 		],
         "analyze": [
-          "@php ./vendor/psalm/phar/psalm.phar"
+          "@php ./vendor/psalm/phar/psalm.phar --output-format=compact"
         ],
 		"fix-cs": [
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf"
