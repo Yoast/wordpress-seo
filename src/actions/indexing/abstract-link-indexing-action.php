@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Actions\Indexing;
 
 use wpdb;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -74,9 +75,14 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 		$result = $this->wpdb->get_var( $query );
 
 		if ( \is_null( $result ) ) {
-			return false;
+			return 0;
 		}
 
+		/**
+		 * Psalm isn't aware that the constant exists.
+		 *
+		 * @psalm-suppress UndefinedConstant
+		 */
 		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, $result, \DAY_IN_SECONDS );
 
 		return (int) $result;
@@ -85,7 +91,7 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	/**
 	 * Builds links for indexables which haven't had their links indexed yet.
 	 *
-	 * @return SEO_Links[] The created SEO links.
+	 * @return Indexable[] The indexables that links were created for.
 	 */
 	public function index() {
 		$objects = $this->get_objects();
@@ -93,6 +99,11 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 		$indexables = [];
 		foreach ( $objects as $object ) {
 			$indexable = $this->repository->find_by_id_and_type( $object->id, $object->type );
+
+			if ( ! $indexable instanceof Indexable ) {
+				continue;
+			}
+
 			$this->link_builder->build( $indexable, $object->content );
 			$indexable->save();
 
