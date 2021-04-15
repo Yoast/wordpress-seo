@@ -117,7 +117,6 @@ cache:
 before_install:
   - export SECURITYCHECK_DIR=/tmp/security-checker
   - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
-  - if [[ -d "premium" ]]; then IS_PREMIUM=1; fi
   - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
   - |
     if [[ "$CHECKJS" == "1" ]]; then
@@ -146,25 +145,12 @@ install:
     fi
   - |
     if [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
-      if [[ "$IS_PREMIUM" == "1" ]]; then
-        cd premium
-        travis_retry composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
-        cd -
-      else
-        travis_retry composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
-      fi
+      travis_retry composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
     elif [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$PHPCS" == "1" || "$PHPLINT" == "1" ]]; then
       # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
       travis_retry composer update
       travis_retry composer install --no-interaction
       composer du
-      if [[ "$IS_PREMIUM" == "1" ]]; then
-        if [[ "$PHPCS" == "1" || "$PHPLINT" == "1" ]]; then
-          cd premium
-          travis_retry composer install --no-interaction
-          cd -
-        fi
-      fi
     elif [[ "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
       travis_retry composer update
       travis_retry composer install --no-dev --no-interaction
@@ -258,22 +244,14 @@ script:
   - |
     if [[ "$PHPLINT" == "1" ]]; then
       travis_fold start "PHP.check" && travis_time_start
-      if [[ "$IS_PREMIUM" == "1" ]]; then
-        cd premium && composer lint && cd -
-      else
-        composer lint
-      fi
+      composer lint
       travis_time_finish && travis_fold end "PHP.check"
     fi
   # PHP CS
   - |
     if [[ "$PHPCS" == "1" ]]; then
       travis_fold start "PHP.code-style" && travis_time_start
-      if [[ "$IS_PREMIUM" == "1" ]]; then
-        cd premium && composer check-cs && cd -
-      else
-        composer check-cs-threshold
-      fi
+      composer check-cs-threshold
       travis_time_finish && travis_fold end "PHP.code-style"
     fi
   # PHP Unit
