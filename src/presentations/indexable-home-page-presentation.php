@@ -28,7 +28,7 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 
 		$current_page = $this->pagination->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
-			return $this->pagination->get_paginated_url( $permalink, $current_page );
+			return $this->pagination->get_paginated_url( $permalink, (string) $current_page );
 		}
 
 		return $permalink;

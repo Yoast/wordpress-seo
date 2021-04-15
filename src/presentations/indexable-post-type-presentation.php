@@ -81,7 +81,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		if ( $current_page > 1 ) {
 			$number_of_pages = $this->model->number_of_pages;
 			if ( $number_of_pages && $current_page <= $number_of_pages ) {
-				$permalink = $this->get_paginated_url( $permalink, $current_page );
+				$permalink = $this->get_paginated_url( $permalink, (string) $current_page );
 			}
 		}
 
@@ -114,7 +114,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $this->model->permalink;
 		}
 
-		return $this->get_paginated_url( $this->model->permalink, ( $current_page - 1 ) );
+		return $this->get_paginated_url( $this->model->permalink, (string) ( $current_page - 1 ) );
 	}
 
 	/**
@@ -136,7 +136,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		return $this->get_paginated_url( $this->model->permalink, ( $current_page + 1 ) );
+		return $this->get_paginated_url( $this->model->permalink, (string) ( $current_page + 1 ) );
 	}
 
 	/**

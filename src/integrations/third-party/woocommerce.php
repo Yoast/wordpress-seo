@@ -123,7 +123,7 @@ class WooCommerce implements Integration_Interface {
 
 		$current_page = $this->pagination_helper->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
-			return $this->pagination_helper->get_paginated_url( $permalink, $current_page );
+			return $this->pagination_helper->get_paginated_url( $permalink, (string) $current_page );
 		}
 
 		return $permalink;

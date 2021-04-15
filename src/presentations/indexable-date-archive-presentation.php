@@ -37,7 +37,7 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 
 		$current_page = $this->pagination->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
-			return $this->pagination->get_paginated_url( $canonical, $current_page );
+			return $this->pagination->get_paginated_url( $canonical, (string) $current_page );
 		}
 
 		return $canonical;
@@ -91,7 +91,7 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 			return $this->current_page->get_date_archive_permalink();
 		}
 
-		return $this->pagination->get_paginated_url( $this->current_page->get_date_archive_permalink(), ( $current_page - 1 ) );
+		return $this->pagination->get_paginated_url( $this->current_page->get_date_archive_permalink(), (string) ( $current_page - 1 ) );
 	}
 
 	/**
@@ -109,7 +109,7 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		return $this->pagination->get_paginated_url( $this->current_page->get_date_archive_permalink(), ( $current_page + 1 ) );
+		return $this->pagination->get_paginated_url( $this->current_page->get_date_archive_permalink(), (string) ( $current_page + 1 ) );
 	}
 
 	/**
