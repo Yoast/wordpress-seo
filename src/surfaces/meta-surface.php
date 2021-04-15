@@ -141,7 +141,7 @@ class Meta_Surface {
 	/**
 	 * Returns the meta tags context for a post type archive.
 	 *
-	 * @param string $post_type Optional. The post type to get the archive meta for. Defaults to the current post type.
+	 * @param null|string $post_type Optional. The post type to get the archive meta for. Defaults to the current post type.
 	 *
 	 * @return Meta|false The meta values. False if none could be found.
 	 */

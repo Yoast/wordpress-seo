@@ -35,7 +35,7 @@ abstract class Abstract_Indexable_Presenter extends Abstract_Presenter {
 	/**
 	 * Gets the raw value of a presentation.
 	 *
-	 * @return string|array The raw value.
+	 * @return null|string|array The raw value.
 	 */
 	abstract public function get();
 

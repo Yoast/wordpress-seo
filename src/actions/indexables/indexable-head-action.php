@@ -108,7 +108,7 @@ class Indexable_Head_Action {
 	/**
 	 * Retrieves the head for a post type archive.
 	 *
-	 * @param int $type The id.
+	 * @param string $type The post type.
 	 *
 	 * @return object Object with head and status properties.
 	 */
