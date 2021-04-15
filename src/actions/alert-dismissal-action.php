@@ -134,7 +134,7 @@ class Alert_Dismissal_Action {
 	/**
 	 * Returns an object with all alerts dismissed by current user.
 	 *
-	 * @return array An array with the keys of all Alerts that have been dismissed by the current user.
+	 * @return bool|array An array with the keys of all Alerts that have been dismissed by the current user.
 	 */
 	public function all_dismissed() {
 		$user_id = $this->user->get_current_user_id();
@@ -199,7 +199,7 @@ class Alert_Dismissal_Action {
 		 */
 		$allowed_dismissable_alerts = \apply_filters( 'wpseo_allowed_dismissable_alerts', [] );
 
-		if ( \is_array( $allowed_dismissable_alerts ) === false ) {
+		if ( ! \is_array( $allowed_dismissable_alerts ) || empty( $allowed_dismissable_alerts ) ) {
 			return [];
 		}
 
