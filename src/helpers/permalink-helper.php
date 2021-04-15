@@ -22,19 +22,11 @@ class Permalink_Helper {
 				if ( $indexable->object_sub_type === 'attachment' ) {
 					$attachment_url = \wp_get_attachment_url( $indexable->object_id );
 
-					if ( is_string( $attachment_url ) ) {
-						return $attachment_url;
-					}
-
-					return '';
+					return is_string( $attachment_url ) ? $attachment_url : '';
 				}
 
 				$permalink = \get_permalink( $indexable->object_id );
-				if ( is_string( $permalink ) ) {
-					return $permalink;
-				}
-
-				return '';
+				return is_string( $permalink ) ? $permalink : '';
 
 			case $indexable->object_type === 'home-page':
 				return \home_url( '/' );
@@ -46,22 +38,14 @@ class Permalink_Helper {
 				}
 
 				$term_link = \get_term_link( $term, $term->taxonomy );
-				if ( is_string( $term_link ) ) {
-					return $term_link;
-				}
-
-				return '';
+				return is_string( $term_link ) ? $term_link : '';
 
 			case $indexable->object_type === 'system-page' && $indexable->object_sub_type === 'search-page':
 				return \get_search_link();
 
 			case $indexable->object_type === 'post-type-archive':
 				$post_type_archive_link = \get_post_type_archive_link( $indexable->object_sub_type );
-				if ( is_string( $post_type_archive_link ) ) {
-					return $post_type_archive_link;
-				}
-
-				return '';
+				return is_string( $post_type_archive_link ) ? $post_type_archive_link : '';
 
 			case $indexable->object_type === 'user':
 				return \get_author_posts_url( $indexable->object_id );

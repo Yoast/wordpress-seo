@@ -483,7 +483,7 @@ class Indexable_Repository {
 			$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
 
 			// Only save if changed.
-			if ( $indexable->permalink !== null ) {
+			if ( $indexable->permalink !== '' ) {
 				$indexable->save();
 			}
 		}
