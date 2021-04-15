@@ -23,7 +23,7 @@ class Bing_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 */
 	public function get() {
 		$verify = $this->helpers->options->get( 'msverify', '' );
-		if( is_string( $verify ) ) {
+		if ( is_string( $verify ) ) {
 			return $verify;
 		}
 

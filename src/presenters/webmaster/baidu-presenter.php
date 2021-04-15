@@ -23,7 +23,7 @@ class Baidu_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 */
 	public function get() {
 		$verify = $this->helpers->options->get( 'baiduverify', '' );
-		if( is_string( $verify ) ) {
+		if ( is_string( $verify ) ) {
 			return $verify;
 		}
 
