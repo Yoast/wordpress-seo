@@ -641,7 +641,7 @@ class Model implements JsonSerializable {
 	/**
 	 * Save the data associated with this model instance to the database.
 	 *
-	 * @return null Nothing.
+	 * @return bool True on success.
 	 */
 	public function save() {
 		if ( $this->uses_timestamps ) {

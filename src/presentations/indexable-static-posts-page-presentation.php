@@ -34,7 +34,7 @@ class Indexable_Static_Posts_Page_Presentation extends Indexable_Post_Type_Prese
 		$permalink    = $this->get_permalink();
 
 		if ( $current_page > 1 ) {
-			return $this->pagination->get_paginated_url( $permalink, $current_page );
+			return $this->pagination->get_paginated_url( $permalink, (string) $current_page );
 		}
 
 		return $permalink;

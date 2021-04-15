@@ -47,7 +47,7 @@ trait Archive_Adjacent {
 			return $this->get_permalink();
 		}
 
-		return $this->pagination->get_paginated_url( $this->get_permalink(), ( $current_page - 1 ) );
+		return $this->pagination->get_paginated_url( $this->get_permalink(), (string) ( $current_page - 1 ) );
 	}
 
 	/**
@@ -63,6 +63,6 @@ trait Archive_Adjacent {
 			return '';
 		}
 
-		return $this->pagination->get_paginated_url( $this->get_permalink(), ( $current_page + 1 ) );
+		return $this->pagination->get_paginated_url( $this->get_permalink(), (string) ( $current_page + 1 ) );
 	}
 }
