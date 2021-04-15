@@ -55,7 +55,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	/**
 	 * Returns the total number of unindexed posts.
 	 *
-	 * @return int|false The total number of unindexed posts. False if the query fails.
+	 * @return int The total number of unindexed posts. False if the query fails.
 	 */
 	public function get_total_unindexed() {
 		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
@@ -68,7 +68,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		$result = $this->wpdb->get_var( $query );
 
 		if ( \is_null( $result ) ) {
-			return false;
+			return 0;
 		}
 
 		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );

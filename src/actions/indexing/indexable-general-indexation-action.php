@@ -61,7 +61,9 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 			$indexables[] = $this->indexable_repository->find_for_home_page();
 		}
 
-		return $indexables;
+		return \array_filter( $indexables, function( $indexable ) {
+			return $indexable instanceof Indexable;
+		} );
 	}
 
 	/**

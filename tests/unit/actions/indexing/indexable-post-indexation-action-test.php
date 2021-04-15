@@ -135,7 +135,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( null );
 
-		$this->assertFalse( $this->instance->get_total_unindexed() );
+		$this->assertEquals( 0, $this->instance->get_total_unindexed() );
 	}
 
 	/**
