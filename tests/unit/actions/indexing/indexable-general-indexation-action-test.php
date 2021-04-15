@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexing;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -75,25 +76,30 @@ class Indexable_General_Indexation_Action_Test extends TestCase {
 	public function test_index() {
 		$this->set_query();
 
+		$indexable = Mockery::mock( Indexable::class );
+
 		$this->indexable_repository
 			->expects( 'find_for_system_page' )
 			->with( '404' )
-			->andReturn( '404' );
+			->andReturn( $indexable );
 
 		$this->indexable_repository
 			->expects( 'find_for_system_page' )
 			->with( 'search-result' )
-			->andReturn( 'search' );
+			->andReturn( $indexable );
 
 		$this->indexable_repository
 			->expects( 'find_for_date_archive' )
-			->andReturn( 'date archive' );
+			->andReturn( $indexable );
 
 		$this->indexable_repository
 			->expects( 'find_for_home_page' )
-			->andReturn( 'home page' );
+			->andReturn( $indexable );
 
-		$this->assertEquals( [ '404', 'search', 'date archive', 'home page' ], $this->instance->index() );
+		$result = $this->instance->index();
+
+		$this->assertCount( 4, $result );
+		$this->assertContainsOnlyInstancesOf( Indexable::class, $result );
 	}
 
 	/**
