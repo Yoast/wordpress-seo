@@ -93,7 +93,7 @@ interface WarningListProps {
  */
 function SidebarHeader(): ReactElement {
 	const questionMarkIcon: JSX.Element =
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -4.5 20 22" fill="currentColor" height="15" width="22">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 0 20 18" fill="currentColor" height="15" width="22">
 			<a href="https://yoast.com/help/required-recommended-optional-fields/" rel="noopener noreferrer" target="_blank">
 				<path
 					fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113
