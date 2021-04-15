@@ -68,6 +68,11 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 
 		$result = \count( $this->get_unindexed_post_type_archives( false ) );
 
+		/**
+		 * Psalm isn't aware that the constant exists.
+		 *
+		 * @psalm-suppress UndefinedConstant
+		 */
 		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
 
 		return $result;
