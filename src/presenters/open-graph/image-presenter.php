@@ -82,7 +82,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		$image_url = \trim( \apply_filters( 'wpseo_opengraph_image', $image['url'], $this->presentation ) );
-		if ( ! empty( $image_url ) && \is_string( $image_url ) ) {
+		if ( ! empty( $image_url ) ) {
 			$image['url'] = $image_url;
 		}
 
