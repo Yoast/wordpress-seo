@@ -44,7 +44,12 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 			return $this->model->description;
 		}
 
-		return $this->options->get( 'metadesc-home-wpseo' );
+		$metadesc = $this->options->get( 'metadesc-home-wpseo' );
+		if ( is_string( $metadesc ) ) {
+			return $metadesc;
+		}
+
+		return '';
 	}
 
 	/**
