@@ -71,6 +71,11 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 			return 0;
 		}
 
+		/**
+		 * Psalm isn't aware that the constant exists.
+		 *
+		 * @psalm-suppress UndefinedConstant
+		 */
 		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
 
 		return (int) $result;
@@ -87,7 +92,13 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 
 		$indexables = [];
 		foreach ( $post_ids as $post_id ) {
-			$indexables[] = $this->repository->find_by_id_and_type( (int) $post_id, 'post' );
+			$indexable = $this->repository->find_by_id_and_type( (int) $post_id, 'post' );
+
+			if ( ! $indexable instanceof Indexable ) {
+				continue;
+			}
+
+			$indexables[] = $indexable;
 		}
 
 		\delete_transient( static::TRANSIENT_CACHE_KEY );
