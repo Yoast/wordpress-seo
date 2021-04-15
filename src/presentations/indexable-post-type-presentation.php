@@ -170,7 +170,12 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $this->model->description;
 		}
 
-		return $this->options->get( 'metadesc-' . $this->model->object_sub_type );
+		$metadesc = $this->options->get( 'metadesc-' . $this->model->object_sub_type );
+		if ( is_string( $metadesc ) ) {
+			return $metadesc;
+		}
+
+		return '';
 	}
 
 	/**
