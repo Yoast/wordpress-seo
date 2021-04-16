@@ -73,5 +73,6 @@ export default {
 	helpers,
 	markers,
 	interpreters,
-	languageProcessing
+	languageProcessing,
+	values,
 };
