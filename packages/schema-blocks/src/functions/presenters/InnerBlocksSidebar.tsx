@@ -106,7 +106,7 @@ function SidebarHeader(): ReactElement {
 		<div className="yoast-block-sidebar-header">
 			<div className="yoast-block-sidebar-title">
 				{ __( "Blocks for Schema output", "yoast-schema-blocks" ) }
-				<span>{ questionMarkIcon }</span>
+				<span className="yoast-inline-icon">{ questionMarkIcon }</span>
 			</div>
 		</div>
 	);
