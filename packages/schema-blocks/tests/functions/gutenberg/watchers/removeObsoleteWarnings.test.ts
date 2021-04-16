@@ -1,21 +1,37 @@
 import "../../../matchMedia.mock";
-
-import { select } from "@wordpress/data";
+import { removeObsoleteWarnings } from "../../../../src/functions/gutenberg/watchers/removeObsoleteWarnings";
 import { BlockInstance } from "@wordpress/blocks";
-import recurseOverBlocks from "../../blocks/recurseOverBlocks";
-import { removeBlock } from "../../BlockHelper";
-import { getBlocksByBlockName } from "../../blocks/getBlocksByBlockName";
-import { WarningBlockAttributes } from "../../../blocks/warning-block";
+import { removeBlock } from "../../../../src/functions/BlockHelper";
 
-
-jest.mock( "@wordpress/data", () => ( {
-	dispatch: jest.fn( () => ( {
-		insertBlock: jest.fn(),
-	} ) ),
+jest.mock( "../../../../src/functions/BlockHelper", () => ( {
+	removeBlock: jest.fn(),
 } ) );
 
 describe( "The removeObsoleteWarnings function", () => {
 	it( "removes any warnings that no longer apply", () => {
+		const blocks: BlockInstance[] = [
+			{
+				name: "yoast/warning-block",
+				clientId: "1234-abcde",
+				innerBlocks: [],
+				isValid: true,
+				attributes: {
+					removedBlock: {
+						name: "yoast/a-removed-block",
+					},
+				},
+			},
+			{
+				name: "yoast/a-removed-block",
+				clientId: "1234-abcde",
+				innerBlocks: [],
+				isValid: true,
+				attributes: {},
+			},
+		];
 
+		removeObsoleteWarnings( blocks );
+
+		expect( removeBlock ).toBeCalled();
 	} );
 } );

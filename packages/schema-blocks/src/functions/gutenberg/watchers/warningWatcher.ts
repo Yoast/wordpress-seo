@@ -4,7 +4,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { getBlockDefinition } from "../../../core/blocks/BlockDefinitionRepository";
 import InnerBlocks from "../../../instructions/blocks/InnerBlocks";
 import recurseOverBlocks from "../../blocks/recurseOverBlocks";
-import { mapBlocksRecursively } from "../../innerBlocksHelper";
+import { getAllBlocks, mapBlocksRecursively } from "../../innerBlocksHelper";
 import BlockDefinition from "../../../core/blocks/BlockDefinition";
 import { InstructionObject } from "../../../core/Instruction";
 import { getBlockType } from "../../BlockHelper";
@@ -206,7 +206,7 @@ function addWarningsForRecommendedBlocks(
 export default function warningWatcher( currentBlocks: BlockInstance[], previousBlocks: BlockInstance[] = [] ): void {
 	const currentBlockIds: string[] = mapBlocksRecursively( currentBlocks, block => block.clientId );
 
-	removeObsoleteWarnings();
+	removeObsoleteWarnings( getAllBlocks( currentBlocks ) );
 
 	recurseOverBlocks( previousBlocks, ( block: BlockInstance ) => {
 		if ( ! block.innerBlocks || block.innerBlocks.length === 0 ) {

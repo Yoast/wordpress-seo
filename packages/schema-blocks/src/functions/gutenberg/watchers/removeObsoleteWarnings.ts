@@ -1,15 +1,16 @@
 import { BlockInstance } from "@wordpress/blocks";
 import recurseOverBlocks from "../../blocks/recurseOverBlocks";
 import { removeBlock } from "../../BlockHelper";
-import { getBlocksByBlockName } from "../../blocks/getBlocksByBlockName";
 import { WarningBlockAttributes } from "../../../blocks/warning-block";
 
 /**
  * Removes any warning blocks that no longer apply.
+ *
+ * @param blocks The list of blocks.
  */
-export function removeObsoleteWarnings() {
+export function removeObsoleteWarnings( blocks: BlockInstance[] ) {
 	// Are any warnings present?
-	const currentWarnings = getBlocksByBlockName( "yoast/warning-block" );
+	const currentWarnings = blocks.filter( block => block.name === "yoast/warning-block" );
 	if ( ! currentWarnings ) {
 		return;
 	}
@@ -18,7 +19,7 @@ export function removeObsoleteWarnings() {
 	recurseOverBlocks( currentWarnings, ( warning: BlockInstance ) => {
 		const attributes = warning.attributes as WarningBlockAttributes;
 
-		if ( ! warningApplies( attributes.removedBlock.name ) ) {
+		if ( ! warningApplies( blocks, attributes.removedBlock.name ) ) {
 			// The missing block was found; remove it.
 			removeBlock( warning.clientId );
 		}
@@ -26,10 +27,13 @@ export function removeObsoleteWarnings() {
 }
 
 /**
+ * Checks if a warning for the block with the given name is still applicable.
  *
+ * @param blocks    The list of blocks.
  * @param blockName The name of the block that used to trigger a warning.
- * @returns {boolean} True if the warning is still appliccable.
+ *
+ * @returns {boolean} True if the warning is still applicable.
  */
-export function warningApplies( blockName: string ): boolean {
-	return getBlocksByBlockName( blockName ).length < 1;
+function warningApplies( blocks: BlockInstance[], blockName: string ): boolean {
+	return blocks.filter( block => block.name === blockName ).length < 1;
 }
