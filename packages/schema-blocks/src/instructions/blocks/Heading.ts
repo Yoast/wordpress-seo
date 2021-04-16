@@ -7,9 +7,9 @@ import { SelectControl } from "@wordpress/components";
 import { arrayOrObjectToOptions } from "../../functions/select";
 
 /**
- * VariableTagRichText instruction.
+ * Heading instruction.
  */
-export class VariableTagRichText extends RichTextBase {
+export class Heading extends RichTextBase {
 	public options: {
 		tags: ( keyof HTMLElementTagNameMap )[] | Record<string, keyof HTMLElementTagNameMap>;
 		defaultTag: string;
@@ -92,4 +92,4 @@ export class VariableTagRichText extends RichTextBase {
 	}
 }
 
-BlockInstruction.register( "variable-tag-rich-text", VariableTagRichText );
+BlockInstruction.register( "variable-tag-rich-text", Heading );

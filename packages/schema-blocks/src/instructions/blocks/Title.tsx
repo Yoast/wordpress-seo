@@ -2,7 +2,7 @@ import { BlockInstance } from "@wordpress/blocks";
 import { select } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 
-import { VariableTagRichText } from "./VariableTagRichText";
+import { Heading } from "./Heading";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
@@ -19,7 +19,7 @@ interface Post {
  * Job title instruction.
  * Is invalid when its contents is the same as the post title.
  */
-class Title extends VariableTagRichText {
+class Title extends Heading {
 	public options: {
 		tags: ( keyof HTMLElementTagNameMap )[] | Record<string, keyof HTMLElementTagNameMap>;
 		defaultTag: string;
