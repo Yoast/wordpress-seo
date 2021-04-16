@@ -1,14 +1,16 @@
 import PortugueseClause from "../../../../../src/languageProcessing/languages/pt/values/Clause.js";
 
-describe( "A test for checking the Portuguese participle", function() {
+describe( "A test for checking the Portuguese clause", function() {
 	it( "checks Portuguese clause with a participle and checks its passiveness", function() {
 		const mockParticiple = new PortugueseClause( "A decisão és aprovado por mim.", [ "és" ] );
+		expect( mockParticiple.getClauseText() ).toEqual( "A decisão és aprovado por mim." );
 		expect( mockParticiple.getParticiples() ).toEqual( [ "aprovado" ] );
 		expect( mockParticiple.isPassive() ).toBe( true );
 	} );
 
 	it( "checks Portuguese clause with a participle with a direct precedence exception and checks its passiveness", function() {
 		const mockParticiple = new PortugueseClause( "Ela é a amada.", [ "é" ] );
+		expect( mockParticiple.getClauseText() ).toEqual( "Ela é a amada." );
 		expect( mockParticiple.getParticiples() ).toEqual( [ "amada" ] );
 		expect( mockParticiple.isPassive() ).toBe( false );
 	} );

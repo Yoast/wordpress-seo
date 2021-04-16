@@ -5,7 +5,6 @@ const { Clause } = values;
 
 import { cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords";
 import nonParticiples from "../config/internal/nonParticiples";
-import passiveAuxiliaries from "../config/internal/passiveVoiceAuxiliaries";
 import getParticiples from "../helpers/internal/getParticiples";
 
 /**
