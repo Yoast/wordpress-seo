@@ -57,7 +57,7 @@ describe( "a test for the English Researcher", function() {
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "cats" ) ).toEqual( "cat" );
 	} );
 
-	it( "splits English sentence into getClauses and checks if the clauses are passive or not.", function() {
+	it( "splits English sentence into clauses and checks if the clauses are passive or not.", function() {
 		let sentence =  "The English are still having a party.";
 		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "are still" );
 		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "having a party." );
