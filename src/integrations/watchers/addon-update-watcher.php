@@ -37,15 +37,8 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * Registers the hooks.
 	 */
 	public function register_hooks() {
-		\add_action(
-			'update_site_option_auto_update_plugins',
-			[
-				$this,
-				'toggle_auto_updates_for_add_ons',
-			],
-			10,
-			3
-		);
+		\add_action( 'add_option_auto_update_plugins', [ $this, 'call_toggle_auto_updates_with_empty_array' ], 10, 2 );
+		\add_action( 'update_site_option_auto_update_plugins', [ $this, 'toggle_auto_updates_for_add_ons' ], 10, 3 );
 		\add_filter( 'plugin_auto_update_setting_html', [ $this, 'replace_auto_update_toggles_of_addons' ], 10, 2 );
 	}
 
@@ -100,6 +93,20 @@ class Addon_Update_Watcher implements Integration_Interface {
 				'Yoast SEO'
 			)
 		);
+	}
+
+	/**
+	 * Handles the situation where the auto_update_plugins option did not previously exist.
+	 *
+	 * @param string      $option The name of the option that is being created.
+	 * @param array|mixed $value  The new (and first) value of the option that is being created.
+	 */
+	public function call_toggle_auto_updates_with_empty_array( $option, $value ) {
+		if ( $option !== 'auto_update_plugins' ) {
+			return;
+		}
+
+		$this->toggle_auto_updates_for_add_ons( $option, $value, [] );
 	}
 
 	/**

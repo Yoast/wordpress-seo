@@ -43,6 +43,10 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
+		Monkey\Actions\expectAdded( 'add_option_auto_update_plugins' )
+			->with( [ $this->instance, 'call_toggle_auto_updates_with_empty_array' ] )
+			->once();
+
 		Monkey\Actions\expectAdded( 'update_site_option_auto_update_plugins' )
 			->with( [ $this->instance, 'toggle_auto_updates_for_add_ons' ] )
 			->once();
@@ -61,6 +65,30 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		self::assertEquals( [ Admin_Conditional::class ], Addon_Update_Watcher::get_conditionals() );
+	}
+
+	/**
+	 * Tests that add-on auto-updates are enabled when the `auto_update_plugins` option didn't previously exist.
+	 *
+	 * @covers ::call_toggle_auto_updates_with_empty_array
+	 */
+	public function test_auto_update_plugins_option_did_not_exist() {
+		$plugins = [
+			'wordpress-seo/wp-seo.php',
+			'wordpress-seo-premium/wp-seo-premium.php',
+			'wpseo-video/video-seo.php',
+			'wpseo-local/local-seo.php',
+			'wpseo-woocommerce/wpseo-woocommerce.php',
+			'wpseo-news/wpseo-news.php',
+			'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php',
+		];
+
+		Monkey\Functions\expect( 'update_site_option' )
+			->once()
+			->with( 'auto_update_plugins', $plugins )
+			->andReturn( true );
+
+		$this->instance->call_toggle_auto_updates_with_empty_array( 'auto_update_plugins', [ 'wordpress-seo/wp-seo.php' ] );
 	}
 
 	/**
