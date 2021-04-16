@@ -36,12 +36,8 @@ if ( $wpseo_post_type->name === 'product' && YoastSEO()->helpers->woocommerce->i
 if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	$plural_label = $wpseo_post_type->labels->name;
 
-	echo '<div class="yoast-settings-section">';
-
 	/* translators: %s is the plural version of the post type's name. */
 	echo '<h3>' . esc_html( sprintf( __( 'Settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
-
-	echo '</div>';
 
 	echo '<div class="yoast-settings-section">';
 

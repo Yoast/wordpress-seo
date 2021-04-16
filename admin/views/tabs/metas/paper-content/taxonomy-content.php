@@ -12,8 +12,6 @@
  * @uses WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
-echo '<div class="yoast-settings-section">';
-
 if ( $wpseo_taxonomy->name === 'post_format' ) {
 	$yform->light_switch(
 		'disable-post_format',
@@ -23,6 +21,7 @@ if ( $wpseo_taxonomy->name === 'post_format' ) {
 	);
 }
 
+echo '<div class="yoast-settings-section">';
 echo "<div id='" . esc_attr( $wpseo_taxonomy->name ) . "-titles-metas'>";
 
 $taxonomies_help = $view_utils->search_results_setting_help( $wpseo_taxonomy );
@@ -41,6 +40,7 @@ if ( $wpseo_taxonomy->name !== 'post_format' ) {
 	);
 }
 
+echo '</div>';
 echo '</div>';
 
 echo '<div class="yoast-settings-section">';
@@ -84,5 +84,3 @@ do_action_deprecated(
 	'16.3',
 	'Yoast\WP\SEO\admin_taxonomies_meta'
 );
-
-echo '</div>';
