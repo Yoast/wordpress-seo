@@ -93,4 +93,4 @@ export class Heading extends RichTextBase {
 	}
 }
 
-BlockInstruction.register( "variable-tag-rich-text", Heading );
+BlockInstruction.register( "heading", Heading );
