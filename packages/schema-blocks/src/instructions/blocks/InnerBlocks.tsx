@@ -1,7 +1,8 @@
 import { maxBy } from "lodash";
 import { ComponentType, ReactElement } from "react";
-import { createElement, ComponentClass, Fragment } from "@wordpress/element";
+import { createElement, Fragment } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
+import BlockAppender from "../../functions/presenters/BlockAppender";
 import { BlockInstance } from "@wordpress/blocks";
 import { BlockValidationResult } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
@@ -58,7 +59,11 @@ export default class InnerBlocks extends BlockInstruction {
 		this.options.requiredBlocks = this.options.requiredBlocks || [];
 		this.options.recommendedBlocks = this.options.recommendedBlocks || [];
 
-		this.renderAppender( properties );
+		if ( this.options.appender ) {
+			properties.renderAppender = this.renderAppender( props.clientId, this.options.appenderLabel );
+		} else {
+			properties.renderAppender = false;
+		}
 
 		this.arrangeAllowedBlocks( properties );
 
@@ -72,33 +77,16 @@ export default class InnerBlocks extends BlockInstruction {
 	/**
 	 * Renders the appender to add innerblocks as React elements.
 	 *
-	 * @param properties The properties of the innerblock.
+	 * @param clientId The clientId of this block.
+	 * @param label The label to show next to the appender..
+	 *
+	 * @returns The block appender function.
 	 */
-	private renderAppender( properties: React.ClassAttributes<unknown> & InnerBlocksProps ) {
-		if ( this.options.appender === false ) {
-			properties.renderAppender = false;
-			return;
-		}
-
-		if ( this.options.appender === "button" ) {
-			properties.renderAppender = () => {
-				// The type definition of InnerBlocks are wrong so cast to fix them.
-				return createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender );
-			};
-		} else {
-			properties.renderAppender = () => createElement( WordPressInnerBlocks.DefaultBlockAppender );
-		}
-
-		if ( typeof this.options.appenderLabel === "string" ) {
-			properties.renderAppender = () => {
-				return createElement(
-					"div",
-					{ className: "yoast-labeled-inserter", "data-label": this.options.appenderLabel },
-					// The type definition of InnerBlocks are wrong so cast to fix them.
-					createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender ),
-				);
-			};
-		}
+	private renderAppender( clientId: string, label: string ) {
+		return () => createElement(
+			BlockAppender,
+			{ clientId, label },
+		);
 	}
 
 	/**
