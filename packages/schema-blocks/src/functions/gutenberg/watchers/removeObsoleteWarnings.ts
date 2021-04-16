@@ -11,7 +11,7 @@ import { WarningBlockAttributes } from "../../../blocks/warning-block";
 export function removeObsoleteWarnings( blocks: BlockInstance[] ) {
 	// Are any warnings present?
 	const currentWarnings = blocks.filter( block => block.name === "yoast/warning-block" );
-	if ( ! currentWarnings ) {
+	if ( currentWarnings.length === 0 ) {
 		return;
 	}
 

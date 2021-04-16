@@ -28,10 +28,42 @@ describe( "The removeObsoleteWarnings function", () => {
 				isValid: true,
 				attributes: {},
 			},
+			{
+				name: "yoast/warning-block",
+				clientId: "9101-klmno",
+				innerBlocks: [],
+				isValid: true,
+				attributes: {
+					removedBlock: {
+						name: "yoast/another-block",
+					},
+				},
+			},
 		];
 
 		removeObsoleteWarnings( blocks );
 
 		expect( removeBlock ).toBeCalled();
+	} );
+
+	it( "does not do anything when no warnings are there", () => {
+		const blocks: BlockInstance[] = [
+			{
+				name: "yoast/a-block",
+				clientId: "1234-abcde",
+				innerBlocks: [],
+				isValid: true,
+				attributes: {},
+			},
+			{
+				name: "yoast/another-block",
+				clientId: "5678-fghij",
+				innerBlocks: [],
+				isValid: true,
+				attributes: {},
+			},
+		];
+
+		removeObsoleteWarnings( blocks );
 	} );
 } );
