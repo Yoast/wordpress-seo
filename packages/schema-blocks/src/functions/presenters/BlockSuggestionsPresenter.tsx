@@ -92,7 +92,7 @@ export default function BlockSuggestionsPresenter( { heading, parentBlock, sugge
 
 	return (
 		<PanelBody key={ heading + parentBlock.clientId }>
-			<div className="yoast-block-sidebaryarn lint-fix-title">{ heading }</div>
+			<div className="yoast-block-sidebar-title">{ heading }</div>
 			<ul className="yoast-block-suggestions">
 				{
 					filteredSuggestedBlockNames.map( ( suggestedBlockName: string, index: number ) => {

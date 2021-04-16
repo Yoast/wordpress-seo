@@ -17,7 +17,7 @@ jest.mock( "../../../src/functions/validators", () => {
 		getValidationResults: jest.fn( () => {
 			return new BlockValidationResult( "1", "yoast/valid-block", -1, BlockPresence.Required, "Is not that present" );
 		} ),
-		getAllDescendantIssues: jest.fn( () => {
+		getValidationResultForClientId: jest.fn( () => {
 			return [
 				new BlockValidationResult( "123", "yoast/added-to-content-valid", 1, BlockPresence.Required, "Is present" ),
 			];
