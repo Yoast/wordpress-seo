@@ -28,7 +28,7 @@ class DutchClause extends Clause {
 
 	/**
 	 * Checks if any exceptions are applicable to this participle that would result in the clause not being passive.
-	 * If no exceptions are found and there is an auxiliary present, the sentence part is passive.
+	 * If no exceptions are found and there is an auxiliary present, the clause is passive.
 	 *
 	 * @returns {void}
 	 */
