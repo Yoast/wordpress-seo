@@ -1,4 +1,4 @@
-import { forEach, includes } from "lodash-es";
+import { includes } from "lodash-es";
 import { languageProcessing } from "yoastseo";
 const { getWords, matchRegularParticiples } = languageProcessing;
 
@@ -13,16 +13,10 @@ import irregularParticiples from "../../config/internal/passiveVoiceIrregulars";
  */
 export default function getParticiples( clauseText ) {
 	const words = getWords( clauseText );
-	const foundParticiples = [];
+	const regexes = [
+		/^(ge|be|ont|ver|her|er)\S+([dt])($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
+		/^(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+([dtn])($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
+	];
 
-	forEach( words, function( word ) {
-		const regexes = [
-			/^(ge|be|ont|ver|her|er)\S+([dt])($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
-			/^(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+([dtn])($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
-		];
-		if ( matchRegularParticiples( word, regexes ).length !== 0 || includes( irregularParticiples, word ) ) {
-			foundParticiples.push( word );
-		}
-	} );
-	return foundParticiples;
+	return words.filter( word => matchRegularParticiples( word, regexes ).length !== 0 || includes( irregularParticiples, word ) );
 }
