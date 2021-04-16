@@ -57,7 +57,6 @@ function useBlock( clientId: string ): BlockInstance {
  * @constructor
  */
 export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ): ReactElement {
-	const block = useBlock( props.currentBlock.clientId );
 	const validationResults = useValidationResults( props.currentBlock.clientId );
 
 	let warnings: SidebarWarning[] = [];
@@ -70,13 +69,13 @@ export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ): ReactEleme
 		<WarningList warnings={ warnings } />
 		<BlockSuggestions
 			heading={ __( "Required Blocks", "yoast-schema-blocks" ) }
-			parentBlock={ block }
-			suggestedBlockNames={ props.requiredBlocks }
+			parentClientId={ props.currentBlock.clientId }
+			blockNames={ props.requiredBlocks }
 		/>
 		<BlockSuggestions
 			heading={ __( "Recommended Blocks", "yoast-schema-blocks" ) }
-			parentBlock={ block }
-			suggestedBlockNames={ props.recommendedBlocks }
+			parentClientId={ props.currentBlock.clientId }
+			blockNames={ props.recommendedBlocks }
 		/>
 	</Fragment>;
 }

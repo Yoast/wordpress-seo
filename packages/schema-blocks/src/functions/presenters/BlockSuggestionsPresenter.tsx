@@ -1,11 +1,13 @@
+import { get } from "lodash";
+import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { ReactElement } from "react";
-import { BlockInstance, createBlock } from "@wordpress/blocks";
+import { createBlock } from "@wordpress/blocks";
 import { PanelBody } from "@wordpress/components";
-import { getValidationResults, getValidationResultForClientId } from "../validators";
+import { withSelect } from "@wordpress/data";
 import { createElement } from "@wordpress/element";
-import { getBlockType } from "../BlockHelper";
-import { getInnerblocksByName, insertBlock } from "../innerBlocksHelper";
-import { isValidResult } from "../validators/validateResults";
+import { insertBlock } from "../innerBlocksHelper";
+import { isMissingResult, isValidResult } from "../validators/validateResults";
+import { BlockValidationResult } from "../../core/validation";
 
 type BlockSuggestionAddedDto = {
 	suggestedBlockTitle: string;
@@ -20,9 +22,19 @@ type BlockSuggestionDto = {
 
 interface BlockSuggestionsProps {
 	heading: string;
-	parentBlock: BlockInstance;
-	suggestedBlockNames: string[];
+	parentClientId: string;
+	blockNames: string[];
 }
+
+export type SuggestionDetails = BlockValidationResult & {
+	title: string;
+}
+
+type SuggestionDto = {
+	heading: string;
+	parentClientId: string;
+	suggestions: SuggestionDetails[];
+};
 
 /**
  * Renders a block suggestion with the possibility to add one.
@@ -48,6 +60,7 @@ function BlockSuggestion( { suggestedBlockTitle, suggestedBlockName, parentBlock
 		</li>
 	);
 }
+
 /**
  * Renders a block suggestion that has already been added.
  *
@@ -71,54 +84,36 @@ function BlockSuggestionAdded( { suggestedBlockTitle, isValid }: BlockSuggestion
 }
 
 /**
- * Renders a list of suggested blocks.
- *
- * @param props The props.
- *
- * @returns The block suggestions element.
+ * Renders a list of block suggestions.
+ * @param props The BlockValidationResults and the Blocks' titles.
+ * @returns The appropriate Block Suggestion elements.
  */
-export default function BlockSuggestionsPresenter( { heading, parentBlock, suggestedBlockNames }: BlockSuggestionsProps ) {
-	// Filters all suggested blocks that doesn't have a blockType registered.
-	const filteredSuggestedBlockNames = suggestedBlockNames
-		.filter( suggestedBlock => typeof getBlockType( suggestedBlock ) !== "undefined" );
-
-	// When there are no suggestions, just return.
-	if ( filteredSuggestedBlockNames.length === 0 ) {
-		return null;
-	}
-
-	const presentBlocks = getInnerblocksByName( parentBlock, filteredSuggestedBlockNames );
-	const validationResults = getValidationResults();
-
+export function PureBlockSuggestionsPresenter( { heading, parentClientId, suggestions }: SuggestionDto ): ReactElement {
 	return (
-		<PanelBody key={ heading + parentBlock.clientId }>
+		<PanelBody key={ heading + parentClientId }>
 			<div className="yoast-block-sidebar-title">{ heading }</div>
 			<ul className="yoast-block-suggestions">
 				{
-					filteredSuggestedBlockNames.map( ( suggestedBlockName: string, index: number ) => {
-						const suggestedBlockType = getBlockType( suggestedBlockName );
+					suggestions.map( ( suggestion, index: number ) => {
+						// If the validation was found, and it is completely OK, we will add a check mark.
+						const isValid = suggestion && isValidResult( suggestion.result );
+						const isMissing = suggestion && isMissingResult( suggestion.result );
 
-						const existingBlock = presentBlocks.find( block => block.name === suggestedBlockName );
-						if ( existingBlock ) {
-							// Find the validation result for this block.
-							const validation = getValidationResultForClientId( existingBlock.clientId, validationResults );
-							// If the validation was found, and it is completely OK, we will add a check mark.
-							const isTheBlockValid = validation && isValidResult( validation.result );
-
-							// Show the validation result.
-							return <BlockSuggestionAdded
+						if ( isMissing ) {
+							// Show the suggestion to add an instance of this block.
+							return <BlockSuggestion
 								key={ index }
-								isValid={ isTheBlockValid }
-								suggestedBlockTitle={ suggestedBlockType.title }
+								suggestedBlockTitle={ suggestion.title }
+								suggestedBlockName={ suggestion.name }
+								parentBlockClientId={ parentClientId }
 							/>;
 						}
 
-						// Show the suggestion to add an instance of this block.
-						return <BlockSuggestion
+						// Show the validation result.
+						return <BlockSuggestionAdded
 							key={ index }
-							suggestedBlockTitle={ suggestedBlockType.title }
-							suggestedBlockName={ suggestedBlockName }
-							parentBlockClientId={ parentBlock.clientId }
+							isValid={ isValid }
+							suggestedBlockTitle={ suggestion.title }
 						/>;
 					} )
 				}
@@ -126,3 +121,27 @@ export default function BlockSuggestionsPresenter( { heading, parentBlock, sugge
 		</PanelBody>
 	);
 }
+
+/**
+ * Renders a list of suggested blocks.
+ *
+ * @param props The props.
+ *
+ * @returns The block suggestions element.
+ */
+export default withSelect<Partial<SuggestionDto>, BlockSuggestionsProps, SuggestionDto>( ( select, props: BlockSuggestionsProps ) => {
+	const validations: BlockValidationResult[] =
+		select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getInnerblockValidations( props.parentClientId, props.blockNames );
+
+	const suggestionDetails = validations.map( validation =>  {
+		const type = select( "core/blocks" ).getBlockType( validation.name );
+		return {
+			title: get( type, "title", "" ),
+			...validation,
+		};
+	} );
+
+	return {
+		suggestions: suggestionDetails,
+	};
+} )( PureBlockSuggestionsPresenter );
