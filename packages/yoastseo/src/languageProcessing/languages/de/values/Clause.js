@@ -8,7 +8,6 @@ import getParticiples from "../helpers/internal/getParticiples";
 import exceptionsParticiplesActive from "../config/internal/exceptionsParticiplesActive.js";
 import passiveVoiceAuxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 const participleLikeAuxiliaries = passiveVoiceAuxiliaries.participleLike;
-const passiveAuxiliaries = passiveVoiceAuxiliaries.all;
 
 const exceptionsRegex =
 	/\S+(apparat|arbeit|dienst|haft|halt|keit|kraft|not|pflicht|schaft|schrift|tät|wert|zeit)($|[ \n\r\t.,'()"+-;!?:/»«‹›<>])/ig;
