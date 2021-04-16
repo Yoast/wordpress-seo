@@ -23,7 +23,7 @@ describe( "The removeObsoleteWarnings function", () => {
 			},
 			{
 				name: "yoast/a-removed-block",
-				clientId: "1234-abcde",
+				clientId: "5678-fghij",
 				innerBlocks: [],
 				isValid: true,
 				attributes: {},
