@@ -58,18 +58,18 @@ describe( "a test for the Hungarian Researcher", function() {
 	} );
 
 	it( "splits Hungarian sentence into parts", function() {
-		const sentence =  "Péter és Sára szeretnek aludni.";
-		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 0 ].getSentencePartText() ).toBe( "Péter" );
-		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 1 ].getSentencePartText() ).toBe( "és Sára szeretnek aludni." );
+		let sentence =  "Péter és Sára szeretnek aludni.";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Péter" );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "és Sára szeretnek aludni." );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( false );
+
+		sentence = "Ki van plakátolva a képe.";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Ki van plakátolva" );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( true );
 	} );
 
 	it( "checks if a Hungarian sentence is passive or not", function() {
 		expect( researcher.getHelper( "isPassiveSentence" )( "A telefon gyorsan töltődik." ) ).toEqual( true );
 		expect( researcher.getHelper( "isPassiveSentence" )( "Teát iszom." ) ).toEqual( false );
-	} );
-
-	it( "checks if a Hungarian sentence part is passive or not", function() {
-		expect( researcher.getHelper( "isPassiveSentencePart" )( "Ki van plakátolva a képe", [ "van" ] ) ).toEqual( true );
-		expect( researcher.getHelper( "isPassiveSentencePart" )( "Aranyos kis macska", [] ) ).toEqual( false );
 	} );
 } );
