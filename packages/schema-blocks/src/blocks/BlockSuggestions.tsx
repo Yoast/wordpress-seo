@@ -35,7 +35,7 @@ function BlockSuggestion( { blockTitle, blockName, blockClientId }: BlockSuggest
 	};
 
 	return (
-		<li className="yoast-block-suggestion">
+		<li className="yoast-block-suggestion" key={ blockTitle }>
 			{ blockTitle }
 			{ /* eslint-disable-next-line react/jsx-no-bind */ }
 			<button className="yoast-block-suggestion-button" onClick={ addBlockClick }> Add </button>
@@ -52,7 +52,7 @@ function BlockSuggestion( { blockTitle, blockName, blockClientId }: BlockSuggest
  */
 function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactElement {
 	return (
-		<li className="yoast-block-suggestion yoast-block-suggestion--added">
+		<li className="yoast-block-suggestion yoast-block-suggestion--added" key={ "BlockSuggestionAdded" + blockTitle }>
 			{ blockTitle }
 			<span className="yoast-block-suggestion-checkmark"> OK </span>
 		</li>
@@ -82,7 +82,7 @@ export default function RequiredBlocks( sidebarTitle: string, block: BlockInstan
 	const presentBlockNames = findPresentBlocks.map( presentBlock => presentBlock.name );
 
 	return (
-		<PanelBody key={ block.clientId }>
+		<PanelBody key={ sidebarTitle + block.clientId }>
 			<div className="yoast-block-sidebar-title">{ sidebarTitle }</div>
 			<ul className="yoast-block-suggestions">
 				{

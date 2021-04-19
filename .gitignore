@@ -91,3 +91,10 @@ test.sh
 /js/dist/*
 /css/dist/*
 /packages/*/dist
+yarn-error.log
+coverage
+dependencies.json
+dependencies.md
+.vscode
+.idea/
+.DS_Store

@@ -4836,7 +4836,7 @@ in order to offer easy upgrades -- jsgettext.berlios.de
 
       // No options found
       if ( ! this.options ) {
-        // There's likely something wrong, but we'll return the correct key for english
+        // There's likely something wrong, but we'll return the correct key for en
         // We do this by instantiating a brand new Jed instance with the default set
         // for everything that could be broken.
         fallback = new Jed();
@@ -4899,7 +4899,7 @@ in order to offer easy upgrades -- jsgettext.berlios.de
       val_list = dict[ key ];
 
       // If there is no match, then revert back to
-      // english style singular/plural with the keys passed in.
+      // en style singular/plural with the keys passed in.
       if ( ! val_list || val_idx > val_list.length ) {
         if (this.options.missing_key_callback) {
           this.options.missing_key_callback(key, domain);

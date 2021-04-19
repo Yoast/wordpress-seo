@@ -7,6 +7,7 @@ import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository"
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import storeBlockValidation from "./storeBlockValidation";
 import logger from "../logger";
+import { BlockPresence } from "../../core/validation/BlockValidationResult";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -71,6 +72,7 @@ function generateSchemaForBlocks(
 
 		const validation = validations.find( v => v.clientId === block.clientId );
 		if ( validation && validation.result > BlockValidation.Valid ) {
+			dispatch( "core/block-editor" ).updateBlockAttributes( block.clientId, { "yoast-schema": null } );
 			continue;
 		}
 
@@ -104,7 +106,7 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 			validations.push( definition.validate( block ) );
 		} else {
 			logger.warning( "Unable to validate block of type [" + block.name + "] " + block.clientId );
-			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown ) );
+			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown, BlockPresence.Unknown ) );
 
 			// Recursively validate all blocks' innerblocks.
 			if ( block.innerBlocks && block.innerBlocks.length > 0 ) {
@@ -121,7 +123,7 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 export default function watch() {
 	subscribe(
 		debounce( () => {
-			if ( updatingSchema || select( "core/block-editor" ).isTyping() ) {
+			if ( updatingSchema ) {
 				return;
 			}
 

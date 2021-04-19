@@ -16,6 +16,13 @@ enum WarningType {
 	BLOCK_RECOMMENDED
 }
 
+type yoastLinks = {
+	yoastSchemaBlocks: {
+		requiredLink: string;
+		recommendedLink: string;
+	};
+}
+
 /**
  * Gets the inner blocks instruction of the block definition with the given name.
  *
@@ -47,25 +54,29 @@ function getInnerBlocksInstruction( blockName: string ): InnerBlocks | null {
 function getDefaultWarningMessage( blockTitle: string, warningType: WarningType ): string {
 	switch ( warningType ) {
 		case WarningType.BLOCK_REQUIRED: {
-			/* translators: %s expands to the block name that is removed. */
+			/* translators: %1$s: the block name that is removed, %2$s: the anchor to a page about required blocks, %3$s the closing anchor tag. */
 			return sprintf(
 				__(
-					"You've just removed the ‘%s’ block, but this is a required block for Schema output. " +
+					"You've just removed the ‘%1$s’ block, but this is a %2$srequired block for Schema output%3$s. " +
 					"Without this block no Schema will be generated. Are you sure you want to do this?",
 					"yoast-schema-blocks",
 				),
 				blockTitle,
+				'<a href="' + ( window as unknown as yoastLinks ).yoastSchemaBlocks.requiredLink + '" target="_blank">',
+				"</a>",
 			);
 		}
 		case WarningType.BLOCK_RECOMMENDED: {
-			/* translators: %s expands to the block name that is removed. */
+			/* translators: %1$s: the block name that is removed, %2$s: the anchor to a page about recommended blocks, %3$s the closing anchor tag. */
 			return sprintf(
 				__(
-					"You've just removed the ‘%s’ block, but this is a recommended block for Schema output. " +
+					"You've just removed the ‘%1$s’ block, but this is a %2$srecommended block for Schema output%3$s. " +
 					"Are you sure you want to do this?",
 					"yoast-schema-blocks",
 				),
 				blockTitle,
+				'<a href="' + ( window as unknown as yoastLinks ).yoastSchemaBlocks.recommendedLink + '" target="_blank">',
+				"</a>",
 			);
 		}
 	}

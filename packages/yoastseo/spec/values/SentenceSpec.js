@@ -11,6 +11,5 @@ describe( "Creates an empty sentence object", function() {
 	it( "returns an object containing no text", function() {
 		var sentence = new Sentence();
 		expect( sentence.getSentenceText() ).toBe( "" );
-		expect( sentence.getLocale() ).toBe( "en_US" );
 	} );
 } );

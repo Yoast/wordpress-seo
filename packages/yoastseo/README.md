@@ -75,12 +75,12 @@ worker.initialize( {
 If you want to have a more barebones API, or are in an environment without access to Web Worker you can use the internal objects:
 
 ```js
-import { Researcher, Paper } from "yoastseo";
+import { AbstractResearcher, Paper } from "yoastseo";
 
 const paper = new Paper( "Text to analyze", {
     keyword: "analyze",
 } );
-const researcher = new Researcher( paper );
+const researcher = new AbstractResearcher( paper );
 
 console.log( researcher.getResearch( "wordCountInText" ) );
 ```
@@ -107,6 +107,7 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 | Hebrew      |   ✅                | ❌<sup>3</sup>             | ✅             |    ✅               |      ✅                   |           ✅                     | ✅                         |
 | Farsi    	  |                  	|                         |               	|                       |                             	| ✅                          	|
 | Turkish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Czech     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
 

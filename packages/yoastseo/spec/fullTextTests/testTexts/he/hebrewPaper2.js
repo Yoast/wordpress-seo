@@ -154,4 +154,3 @@ export default {
 	paper: paper,
 	expectedResults: expectedResults,
 };
-

@@ -1,11 +1,9 @@
-import scoreToRating from "../interpreters/scoreToRating";
 import { measureTextWidth } from "./createMeasurementElement";
-import getLanguagesWithWordFormSupport from "./getLanguagesWithWordFormSupport";
+import { getLanguagesWithWordFormSupport } from "./getLanguagesWithWordFormSupport";
+import formatNumber from "./formatNumber";
 
 export {
 	measureTextWidth,
-	scoreToRating,
 	getLanguagesWithWordFormSupport,
+	formatNumber,
 };
-
-export * from "./inRange";

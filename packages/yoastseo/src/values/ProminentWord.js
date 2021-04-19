@@ -14,7 +14,7 @@ function ProminentWord( word, stem, occurrences ) {
 }
 
 /**
- * Sets the word to the word combination.
+ * Sets the word.
  *
  * @param {string} word The word to set.
  *
@@ -54,7 +54,7 @@ ProminentWord.prototype.setOccurrences = function( numberOfOccurrences ) {
 };
 
 /**
- * Returns the amount of occurrences of this word combination.
+ * Returns the amount of occurrences of this word.
  *
  * @returns {number} The number of occurrences.
  */
@@ -77,11 +77,11 @@ ProminentWord.prototype.serialize = function() {
 };
 
 /**
- * Parses the object to a WordCombination.
+ * Parses the object to a ProminentWord.
  *
  * @param {Object} serialized The serialized object.
  *
- * @returns {ProminentWord} The parsed WordCombination.
+ * @returns {ProminentWord} The parsed ProminentWord.
  */
 ProminentWord.parse = function( serialized ) {
 	return new ProminentWord( serialized.word, serialized.stem, serialized.occurrences );

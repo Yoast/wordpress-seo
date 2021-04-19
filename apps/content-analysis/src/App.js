@@ -6,7 +6,7 @@ import { Suite } from "benchmark";
 import testPapers from "yoastseo/spec/fullTextTests/testTexts";
 import { Paper } from "yoastseo";
 import getMorphologyData from "yoastseo/spec/specHelpers/getMorphologyData";
-import getLanguage from "yoastseo/src/helpers/getLanguage";
+import getLanguage from "yoastseo/src/languageProcessing/helpers/language/getLanguage";
 
 
 // Internal dependencies.
@@ -18,7 +18,6 @@ import Inputs from "./components/Inputs";
 import Markings from "./components/Markings";
 import ProminentWordsForInternalLinking from "./components/ProminentWordsForInternalLinking";
 import ProminentWordsForInsights from "./components/ProminentWordsForInsights";
-import RelevantWords from "./components/RelevantWords";
 import Results from "./components/Results";
 import TreeView from "./components/TreeView";
 import WorkerStatus from "./components/WorkerStatus";
@@ -256,12 +255,6 @@ class App extends React.Component {
 			<Container>
 				<Collapsible title="New prominent words for Internal linking suggestions" initialIsOpen={ false }>
 					<ProminentWordsForInternalLinking />
-				</Collapsible>
-			</Container>
-
-			<Container>
-				<Collapsible title="Old relevant words" initialIsOpen={ false }>
-					<RelevantWords />
 				</Collapsible>
 			</Container>
 

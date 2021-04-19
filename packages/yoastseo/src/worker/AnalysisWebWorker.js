@@ -6,25 +6,24 @@ import { forEach, has, includes, isNull, isObject, isString, isUndefined, merge,
 import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.
-import * as assessments from "../assessments";
+import * as assessments from "../scoring/assessments";
 import * as bundledPlugins from "../bundledPlugins";
 import * as helpers from "../helpers";
 import * as markers from "../markers";
-import * as string from "../stringProcessing";
-import * as interpreters from "../interpreters";
+import * as interpreters from "../scoring/interpreters";
 import * as config from "../config";
 
-import Assessor from "../assessor";
-import Assessment from "../assessment";
-import SEOAssessor from "../seoAssessor";
-import ContentAssessor from "../contentAssessor";
-import TaxonomyAssessor from "../taxonomyAssessor";
+import Assessor from "../scoring/assessor";
+import Assessment from "../scoring/assessments/assessment";
+import SEOAssessor from "../scoring/seoAssessor";
+import ContentAssessor from "../scoring/contentAssessor";
+import TaxonomyAssessor from "../scoring/taxonomyAssessor";
 import Pluggable from "../pluggable";
-import Researcher from "../researcher";
-import SnippetPreview from "../snippetPreview";
+import SnippetPreview from "../snippetPreview/snippetPreview";
 import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
-import RelatedKeywordAssessor from "../relatedKeywordAssessor";
+import RelatedKeywordAssessor from "../scoring/relatedKeywordAssessor";
+import removeHtmlBlocks from "../languageProcessing/helpers/html/htmlParser";
 
 const YoastSEO = {
 	Assessor,
@@ -33,7 +32,6 @@ const YoastSEO = {
 	ContentAssessor,
 	TaxonomyAssessor,
 	Pluggable,
-	Researcher,
 	SnippetPreview,
 	RelatedKeywordAssessor,
 
@@ -44,19 +42,18 @@ const YoastSEO = {
 	bundledPlugins,
 	helpers,
 	markers,
-	string,
 	interpreters,
 	config,
 };
 
 // Internal dependencies.
-import CornerstoneContentAssessor from "../cornerstone/contentAssessor";
-import CornerstoneRelatedKeywordAssessor from "../cornerstone/relatedKeywordAssessor";
-import CornerstoneSEOAssessor from "../cornerstone/seoAssessor";
+import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";
+import CornerstoneRelatedKeywordAssessor from "../scoring/cornerstone/relatedKeywordAssessor";
+import CornerstoneSEOAssessor from "../scoring/cornerstone/seoAssessor";
 import InvalidTypeError from "../errors/invalidType";
 import includesAny from "../helpers/includesAny";
 import { configureShortlinker } from "../helpers/shortlinker";
-import RelatedKeywordTaxonomyAssessor from "../relatedKeywordTaxonomyAssessor";
+import RelatedKeywordTaxonomyAssessor from "../scoring/relatedKeywordTaxonomyAssessor";
 import Scheduler from "./scheduler";
 import Transporter from "./transporter";
 import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
@@ -79,10 +76,11 @@ export default class AnalysisWebWorker {
 	/**
 	 * Initializes the AnalysisWebWorker class.
 	 *
-	 * @param {Object} scope The scope for the messaging. Expected to have the
-	 *                       `onmessage` event and the `postMessage` function.
+	 * @param {Object}      scope       The scope for the messaging. Expected to have the
+	 *                                  `onmessage` event and the `postMessage` function.
+	 * @param {Researcher}  researcher  The researcher to use.
 	 */
-	constructor( scope ) {
+	constructor( scope, researcher ) {
 		this._scope = scope;
 
 		this._configuration = {
@@ -101,7 +99,7 @@ export default class AnalysisWebWorker {
 		this._relatedKeywords = {};
 
 		this._i18n = AnalysisWebWorker.createI18n();
-		this._researcher = new Researcher( this._paper );
+		this._researcher = researcher;
 
 		this._contentAssessor = null;
 		this._seoAssessor = null;
@@ -344,7 +342,6 @@ export default class AnalysisWebWorker {
 		const {
 			contentAnalysisActive,
 			useCornerstone,
-			locale,
 		} = this._configuration;
 
 		if ( contentAnalysisActive === false ) {
@@ -352,8 +349,8 @@ export default class AnalysisWebWorker {
 		}
 
 		const assessor = useCornerstone === true
-			? new CornerstoneContentAssessor( this._i18n, { locale } )
-			: new ContentAssessor( this._i18n, { locale } );
+			? new CornerstoneContentAssessor( this._i18n, this._researcher )
+			: new ContentAssessor( this._i18n, this._researcher );
 
 		return assessor;
 	}
@@ -371,7 +368,6 @@ export default class AnalysisWebWorker {
 			useCornerstone,
 			useKeywordDistribution,
 			useTaxonomy,
-			locale,
 		} = this._configuration;
 
 		if ( keywordAnalysisActive === false ) {
@@ -381,11 +377,11 @@ export default class AnalysisWebWorker {
 		let assessor;
 
 		if ( useTaxonomy === true ) {
-			assessor = new TaxonomyAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
+			assessor = new TaxonomyAssessor( this._i18n, this._researcher );
 		} else {
 			assessor = useCornerstone === true
-				? new CornerstoneSEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
-				: new SEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
+				? new CornerstoneSEOAssessor( this._i18n, this._researcher )
+				: new SEOAssessor( this._i18n, this._researcher );
 		}
 
 
@@ -414,7 +410,6 @@ export default class AnalysisWebWorker {
 			keywordAnalysisActive,
 			useCornerstone,
 			useTaxonomy,
-			locale,
 		} = this._configuration;
 
 		if ( keywordAnalysisActive === false ) {
@@ -424,11 +419,11 @@ export default class AnalysisWebWorker {
 		let assessor;
 
 		if ( useTaxonomy === true ) {
-			assessor = new RelatedKeywordTaxonomyAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
+			assessor = new RelatedKeywordTaxonomyAssessor( this._i18n, this._researcher );
 		} else {
 			assessor = useCornerstone === true
-				? new CornerstoneRelatedKeywordAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
-				: new RelatedKeywordAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
+				? new CornerstoneRelatedKeywordAssessor( this._i18n, this._researcher )
+				: new RelatedKeywordAssessor( this._i18n, this._researcher );
 		}
 
 		this._registeredAssessments.forEach( ( { name, assessment } ) => {
@@ -779,7 +774,7 @@ export default class AnalysisWebWorker {
 	async analyze( id, { paper, relatedKeywords = {} } ) {
 		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
 		paper._text = autop( paper._text );
-		paper._text = string.removeHtmlBlocks( paper._text );
+		paper._text = removeHtmlBlocks( paper._text );
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
 
@@ -1083,10 +1078,10 @@ export default class AnalysisWebWorker {
 		// Save morphology data if it is available in the current researcher.
 		const morphologyData = this._researcher.getData( "morphology" );
 
-		let researcher = this._researcher;
+		const researcher = this._researcher;
 		// When a specific paper is passed we create a temporary new researcher.
 		if ( paper !== null ) {
-			researcher = new Researcher( paper );
+			researcher.setPaper( paper );
 			researcher.addResearchData( "morphology", morphologyData );
 		}
 

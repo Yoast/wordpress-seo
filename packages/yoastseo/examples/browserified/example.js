@@ -1,4 +1,4 @@
-var SnippetPreview = require( "../../src/snippetPreview" );
+var SnippetPreview = require( "../../src/snippetPreview/snippetPreview" );
 var App = require( "../../src/app" );
 var PreviouslyUsedKeywords = require( "../../src/bundledPlugins/previouslyUsedKeywords.js" );
 var TestPlugin = require( "./example-plugin-test.js" );

@@ -11,6 +11,7 @@ import validateMany from "../../functions/validators/validateMany";
 import { innerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebarPresenter";
 import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
 import BlockLeaf from "../../core/blocks/BlockLeaf";
+import { BlockPresence } from "../../core/validation/BlockValidationResult";
 
 /**
  * Custom props for InnerBlocks.
@@ -152,8 +153,9 @@ export default class InnerBlocks extends BlockInstruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown );
-		validation.issues = validateInnerBlocks( blockInstance, this.options.requiredBlocks );
+		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown, BlockPresence.Unknown );
+		validation.issues = validateInnerBlocks( blockInstance, this.options.requiredBlocks, this.options.recommendedBlocks );
+
 		return validateMany( validation );
 	}
 }

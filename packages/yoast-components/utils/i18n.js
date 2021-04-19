@@ -5,7 +5,7 @@ import assign from "lodash/assign";
 var jed = null;
 
 /**
- * Creates a new Jed object that just passes the english originals.
+ * Creates a new Jed object that just passes the en originals.
  *
  * @returns {Jed} The new Jed object.
  */

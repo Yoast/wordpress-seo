@@ -1,10 +1,10 @@
-import getStemForLanguage from "./getStemForLanguage";
+const supportedLanguages = [ "en", "de", "es", "fr", "it", "nl", "ru", "id", "pt", "pl", "ar", "sv", "he", "hu", "nb", "tr", "cs" ];
 
 /**
  * Checks which languages have morphology support inside YoastSEO.js.
  *
  * @returns {string[]} A list of languages that have morphology support.
  */
-export default function() {
-	return Object.keys( getStemForLanguage() );
+export function getLanguagesWithWordFormSupport() {
+	return supportedLanguages;
 }

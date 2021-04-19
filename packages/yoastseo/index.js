@@ -1,23 +1,23 @@
 import { AnalysisWebWorker, AnalysisWorkerWrapper, createWorker } from "./src/worker";
-import * as assessments from "./src/assessments";
+import * as assessments from "./src/scoring/assessments";
 import * as bundledPlugins from "./src/bundledPlugins";
 import * as helpers from "./src/helpers";
 import * as markers from "./src/markers";
-import * as string from "./src/stringProcessing";
-import * as interpreters from "./src/interpreters";
+import * as interpreters from "./src/scoring/interpreters";
 import * as config from "./src/config";
+import * as languageProcessing from "./src/languageProcessing";
+import * as values from "./src/values";
 
 import App from "./src/app";
-import Assessor from "./src/assessor";
-import ContentAssessor from "./src/contentAssessor";
-import SeoAssessor from './src/seoAssessor';
-import TaxonomyAssessor from "./src/taxonomyAssessor";
+import Assessor from "./src/scoring/assessor";
+import ContentAssessor from "./src/scoring/contentAssessor";
+import SeoAssessor from "./src/scoring/seoAssessor";
+import TaxonomyAssessor from "./src/scoring/taxonomyAssessor";
 import Pluggable from "./src/pluggable";
-import Researcher from "./src/researcher";
-import SnippetPreview from "./src/snippetPreview";
+import SnippetPreview from "./src/snippetPreview/snippetPreview";
 import Paper from "./src/values/Paper";
 import AssessmentResult from "./src/values/AssessmentResult";
-import Assessment from "./src/assessment";
+import Assessment from "./src/scoring/assessments/assessment";
 
 /*
  * Everything exported here is put on the `yoast.analysis` global in the plugin.
@@ -29,7 +29,6 @@ export {
 	SeoAssessor,
 	TaxonomyAssessor,
 	Pluggable,
-	Researcher,
 	SnippetPreview,
 
 	Paper,
@@ -45,8 +44,9 @@ export {
 	config,
 	helpers,
 	markers,
-	string,
 	interpreters,
+	languageProcessing,
+	values,
 };
 
 /*
@@ -59,7 +59,6 @@ export default {
 	ContentAssessor,
 	TaxonomyAssessor,
 	Pluggable,
-	Researcher,
 	SnippetPreview,
 
 	Paper,
@@ -74,6 +73,6 @@ export default {
 	config,
 	helpers,
 	markers,
-	string,
 	interpreters,
+	languageProcessing
 };
