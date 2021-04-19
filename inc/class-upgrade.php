@@ -813,6 +813,8 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_163() {
+		$this->migrate_og_settings_from_social_to_titles();
+
 		// Run after the WPSEO_Options::enrich_defaults method which has priority 99.
 		\add_action( 'init', [ $this, 'set_og_settings_from_seo_values' ], 100 );
 	}
@@ -1130,6 +1132,37 @@ class WPSEO_Upgrade {
 		}
 
 		WPSEO_Options::set( 'custom_taxonomy_slugs', $custom_taxonomies );
+	}
+
+	/**
+	 * Migrates the frontpage social settings to the titles options.
+	 *
+	 * @return void
+	 */
+	public function migrate_og_settings_from_social_to_titles() {
+		$wpseo_social = \get_option( 'wpseo_social' );
+		$wpseo_titles = \get_option( 'wpseo_titles' );
+
+		$migrated_options = [];
+		$options          = [
+			'og_frontpage_title',
+			'og_frontpage_desc',
+			'og_frontpage_image',
+			'og_frontpage_image_id',
+		];
+
+		foreach ( $options as $option ) {
+			if ( isset( $wpseo_social[ $option ] ) ) {
+				$migrated_options[ $option ] = $wpseo_social[ $option ];
+
+				unset( $wpseo_social[ $option ] );
+			}
+		}
+
+		$wpseo_titles = \array_merge( $wpseo_titles, $migrated_options );
+
+		\update_option( 'wpseo_social', $wpseo_social );
+		\update_option( 'wpseo_titles', $wpseo_titles );
 	}
 
 	/**
