@@ -22,7 +22,7 @@ class CzechClause extends Clause {
 	}
 
 	/**
-	 * Sets the clause passiveness to true if both auxiliary and participle present in the clause, otherwise sets it to false.
+	 * Sets the clause passiveness to true if there is a participle present in the clause, otherwise sets it to false.
 	 *
 	 * @returns {void}
 	 */
