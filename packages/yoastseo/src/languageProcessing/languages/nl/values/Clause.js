@@ -5,7 +5,6 @@ const { Clause } = values;
 
 import { cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords";
 import nonParticiples from "../config/internal/nonParticiples";
-import passiveAuxiliaries from "../config/internal/passiveVoiceAuxiliaries";
 import getParticiples from "../helpers/internal/getParticiples";
 
 /**
@@ -28,7 +27,7 @@ class DutchClause extends Clause {
 
 	/**
 	 * Checks if any exceptions are applicable to this participle that would result in the clause not being passive.
-	 * If no exceptions are found and there is an auxiliary present, the sentence part is passive.
+	 * If no exceptions are found and there is an auxiliary present, the clause is passive.
 	 *
 	 * @returns {void}
 	 */
@@ -42,7 +41,7 @@ class DutchClause extends Clause {
 		this.setPassive( foundParticiples.length > 0 );
 
 		// Check if there is an auxiliary present in the clause, set the clause passiveness to false if there isn't
-		if ( ! this.getAuxiliaries().some( auxiliary => passiveAuxiliaries.includes( auxiliary ) ) ) {
+		if ( this.getAuxiliaries().length === 0 ) {
 			this.setPassive( false );
 		}
 	}

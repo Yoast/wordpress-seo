@@ -1,8 +1,9 @@
 import DutchClause from "../../../../../src/languageProcessing/languages/nl/values/Clause.js";
 
-describe( "A test for checking the Dutch participle", function() {
+describe( "A test for checking the Dutch clause", function() {
 	it( "checks Dutch clause with a regular participle and checks its passiveness", function() {
 		const mockParticiple = new DutchClause( "werd door mij gekocht.", [ "werd" ] );
+		expect( mockParticiple.getClauseText() ).toEqual(  "werd door mij gekocht." );
 		expect( mockParticiple.getParticiples() ).toEqual( [ "gekocht" ] );
 		expect( mockParticiple.isPassive() ).toBe( true );
 	} );
@@ -31,6 +32,7 @@ describe( "A test for checking the Dutch participle", function() {
 
 	it( "checks Dutch clause without auxiliary and checks its passiveness", function() {
 		const mockParticiple = new DutchClause( "Mijn lieve tortie heeft haar avondeten gegeten.", [] );
+		expect( mockParticiple.getClauseText() ).toEqual( "Mijn lieve tortie heeft haar avondeten gegeten." );
 		expect( mockParticiple.getParticiples() ).toEqual( [ "gegeten" ] );
 		expect( mockParticiple.isPassive() ).toBe( false );
 	} );

@@ -62,15 +62,14 @@ describe( "a test for the Portuguese Researcher", function() {
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "gatas" ) ).toEqual( "gat" );
 	} );
 
-	it( "splits Portuguese sentence into parts", function() {
-		const sentence =  "Eles eram três amigos quando eram crianças.";
-		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 0 ].getSentencePartText() ).toBe( "eram três amigos" );
-		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 1 ].getSentencePartText() ).toBe( "eram crianças." );
-	} );
+	it( "splits Portuguese sentence into clauses", function() {
+		let sentence =  "Eles eram três amigos quando os conheci.";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "eram três amigos" );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( false );
 
-	it( "checks if a Portuguese sentence is passive or not", function() {
-		expect( researcher.getHelper( "isPassiveSentencePart" )( "Os gatos são amados.", [ "são" ] ) ).toEqual( true );
-		expect( researcher.getHelper( "isPassiveSentencePart" )( "A garota ama seus gatos.", [] ) ).toEqual( false );
+		sentence = "Os gatos são amados.";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "são amados." );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( true );
 	} );
 
 	it( "calculates the Flesch reading score using the formula for Portuguese", function() {
