@@ -23,4 +23,10 @@ describe( "creates an Spanish clause", function() {
 		expect( mockPart.getParticiples() ).toEqual( [ "construidos" ] );
 		expect( mockPart.isPassive() ).toBe( false );
 	} );
+	it( "checks Spanish clause with a word from the exception list of words that cannot be between auxiliary and passive " +
+		"and checks its passiveness", function() {
+		const mockPart = new SpanishClause( "Las casas fueron estar construidas aqui.", [ "han" ] );
+		expect( mockPart.getParticiples() ).toEqual( [ "construidas" ] );
+		expect( mockPart.isPassive() ).toBe( false );
+	} );
 } );
