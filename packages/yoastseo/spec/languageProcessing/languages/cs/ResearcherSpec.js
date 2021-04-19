@@ -57,15 +57,15 @@ describe( "a test for the Czech Researcher", function() {
 		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "periphrastic" );
 	} );
 
-	it( "splits Czech sentence into parts", function() {
-		const sentence =  "Zkuste to znovu albo to nechte tak.";
-		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 0 ].getSentencePartText() ).toBe( "Zkuste to znovu" );
-		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 1 ].getSentencePartText() ).toBe( "albo to nechte tak." );
-	} );
+	it( "splits Czech sentence into clauses and checks their passiveness", function() {
+		let sentence =  "Zkuste to znovu albo to nechte tak.";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Zkuste to znovu" );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "albo to nechte tak." );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( false );
 
-	it( "checks if a Czech sentence part is passive or not", function() {
-		expect( researcher.getHelper( "isPassiveSentencePart" )( "Stěny byly vyzdobeny včas.", [ "byly" ] ) ).toEqual( true );
-		expect( researcher.getHelper( "isPassiveSentencePart" )( "Lékaři doporučili lék.", [] ) ).toEqual( false );
+		sentence = "Stěny byly vyzdobeny včas.";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Stěny byly vyzdobeny včas." );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( true );
 	} );
 } );
 
