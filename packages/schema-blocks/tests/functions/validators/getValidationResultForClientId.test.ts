@@ -1,9 +1,6 @@
 import "../../matchMedia.mock";
 import { BlockInstance } from "@wordpress/blocks";
-import {
-	BlockValidation,
-	BlockValidationResult,
-} from "../../../src/core/validation";
+import { BlockValidation, BlockValidationResult } from "../../../src/core/validation";
 import { BlockPresence } from "../../../src/core/validation/BlockValidationResult";
 import { getValidationResultForClientId } from "../../../src/functions/validators";
 

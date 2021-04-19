@@ -12,21 +12,33 @@ export function isValidResult( source: BlockValidation ): boolean {
 }
 
 /**
- * Determines if a specific validation indicates if something is missing.
+ * Determines if a specific validation indicates if an element is missing.
  *
  * @param source The validation to check.
  *
- * @returns Wether the source indicates something is missing.
+ * @returns Wether the validation found a missing element.
  */
 export function isMissingResult( source: BlockValidation ): boolean {
 	return [
-		BlockValidation.MissingRecommendedAttribute,
 		BlockValidation.MissingRecommendedBlock,
 		BlockValidation.MissingRecommendedVariation,
 
-		BlockValidation.MissingRequiredAttribute,
 		BlockValidation.MissingRequiredBlock,
 		BlockValidation.MissingRequiredVariation,
+	].includes( source );
+}
+
+/**
+ * Determines if a specific validation indicates if an element is present, but empty.
+ *
+ * @param source The validation to check.
+ *
+ * @returns Wether the validation found an empty element.
+ */
+export function isEmptyResult( source: BlockValidation ): boolean {
+	return [
+		BlockValidation.MissingRecommendedAttribute,
+		BlockValidation.MissingRequiredAttribute,
 	].includes( source );
 }
 

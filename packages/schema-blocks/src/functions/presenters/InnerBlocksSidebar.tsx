@@ -8,7 +8,7 @@ import { __ } from "@wordpress/i18n";
 import { SvgIcon } from "@yoast/components";
 
 import { createAnalysisMessages, SidebarWarning } from "./SidebarWarningPresenter";
-import { ClientIdValidation, YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
+import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import BlockSuggestions from "./BlockSuggestionsPresenter";
 import { BlockValidationResult } from "../../core/validation";
 
@@ -27,12 +27,7 @@ interface InnerBlocksSidebarProps {
  */
 function useValidationResults( clientId: string ): BlockValidationResult {
 	return useSelect( select => {
-		const results: ClientIdValidation = select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getSchemaBlocksValidationResults();
-		if ( ! results ) {
-			return null;
-		}
-
-		return results[ clientId ];
+		return select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getValidationResultForClientId( clientId );
 	}, [ clientId ] );
 }
 

@@ -3,19 +3,18 @@ import { createAnalysisMessages } from "../../../src/functions/presenters/Sideba
 import { BlockPresence } from "../../../src/core/validation/BlockValidationResult";
 import { BlockInstance } from "@wordpress/blocks";
 
-const validations: Record<string, BlockValidationResult> = {};
-
-jest.mock( "@wordpress/data", () => {
-	return {
-		select: jest.fn( () => {
-			return {
-				getSchemaBlocksValidationResults: jest.fn( () => {
-					return validations;
-				} ),
-			};
-		} ),
-	};
-} );
+// Const validations: Record<string, BlockValidationResult> = {};
+// Jest.mock( "@wordpress/data", () => {
+// 	Return {
+// 		Select: jest.fn( () => {
+// 			Return {
+// 				GetSchemaBlocksValidationResults: jest.fn( () => {
+// 					Return validations;
+// 				} ),
+// 			};
+// 		} ),
+// 	};
+// } );
 
 jest.mock( "../../../src/functions/BlockHelper", () => {
 	return {

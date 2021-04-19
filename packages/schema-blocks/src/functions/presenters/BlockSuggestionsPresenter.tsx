@@ -6,11 +6,12 @@ import { PanelBody } from "@wordpress/components";
 import { withSelect } from "@wordpress/data";
 import { createElement } from "@wordpress/element";
 import { insertBlock } from "../innerBlocksHelper";
-import { isMissingResult, isValidResult } from "../validators/validateResults";
+import { isEmptyResult, isMissingResult, isValidResult } from "../validators/validateResults";
 import { BlockValidationResult } from "../../core/validation";
+import logger from "../logger";
 
 type BlockSuggestionAddedDto = {
-	suggestedBlockTitle: string;
+	blockTitle: string;
 	isValid: boolean;
 }
 
@@ -30,11 +31,9 @@ export type SuggestionDetails = BlockValidationResult & {
 	title: string;
 }
 
-type SuggestionDto = {
-	heading: string;
-	parentClientId: string;
+interface SuggestionDto extends BlockSuggestionsProps {
 	suggestions: SuggestionDetails[];
-};
+}
 
 /**
  * Renders a block suggestion with the possibility to add one.
@@ -64,21 +63,27 @@ function BlockSuggestion( { suggestedBlockTitle, suggestedBlockName, parentBlock
 /**
  * Renders a block suggestion that has already been added.
  *
- * @param suggestedBlockTitle The block title.
- * @param isValid             Is the added block valid.
+ * @param blockTitle The block title.
+ * @param isValid    Is the added block valid.
  *
  * @returns The rendered element.
  */
-function BlockSuggestionAdded( { suggestedBlockTitle, isValid }: BlockSuggestionAddedDto ): ReactElement {
+function BlockSuggestionAdded( { blockTitle, isValid }: BlockSuggestionAddedDto ): ReactElement {
 	const heroIconCheck = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-2 3 18 16" stroke="currentColor" height="12" width="22">
 		<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2.5 } d="M5 13l4 4L19 7" />
 	</svg>;
+
+	let checkmark: JSX.Element;
+	if ( isValid ) {
+		checkmark = ( <span className="yoast-block-suggestion-checkmark">{ heroIconCheck }</span> );
+	} else {
+		checkmark = null;
+	}
+
 	return (
-		<li className="yoast-block-suggestion yoast-block-suggestion--added" key={ "BlockSuggestionAdded" + suggestedBlockTitle }>
-			{ suggestedBlockTitle }
-			{ isValid &&
-			<span className="yoast-block-suggestion-checkmark">{ heroIconCheck }</span>
-			}
+		<li className="yoast-block-suggestion yoast-block-suggestion--added" key={ "BlockSuggestionAdded" + blockTitle }>
+			{ blockTitle }
+			{ checkmark }
 		</li>
 	);
 }
@@ -88,16 +93,31 @@ function BlockSuggestionAdded( { suggestedBlockTitle, isValid }: BlockSuggestion
  * @param props The BlockValidationResults and the Blocks' titles.
  * @returns The appropriate Block Suggestion elements.
  */
-export function PureBlockSuggestionsPresenter( { heading, parentClientId, suggestions }: SuggestionDto ): ReactElement {
+export function PureBlockSuggestionsPresenter( { heading, parentClientId, suggestions, blockNames }: SuggestionDto ): ReactElement {
+	if ( ! suggestions || suggestions.length < 1 ) {
+		return null;
+	}
+
 	return (
 		<PanelBody key={ heading + parentClientId }>
 			<div className="yoast-block-sidebar-title">{ heading }</div>
 			<ul className="yoast-block-suggestions">
 				{
-					suggestions.map( ( suggestion, index: number ) => {
-						// If the validation was found, and it is completely OK, we will add a check mark.
+					blockNames.map( ( blockName, index: number ) => {
+						const suggestion = suggestions.find( sug => sug.name === blockName );
+						logger.debug( "suggestion for block " + blockName + " = ", suggestion );
 						const isValid = suggestion && isValidResult( suggestion.result );
 						const isMissing = suggestion && isMissingResult( suggestion.result );
+						const isEmpty = suggestion && isEmptyResult( suggestion.result );
+
+						if ( isValid || isEmpty ) {
+							// Show the validation result.
+							return <BlockSuggestionAdded
+								key={ index }
+								isValid={ isValid }
+								blockTitle={ suggestion.title }
+							/>;
+						}
 
 						if ( isMissing ) {
 							// Show the suggestion to add an instance of this block.
@@ -109,13 +129,8 @@ export function PureBlockSuggestionsPresenter( { heading, parentClientId, sugges
 							/>;
 						}
 
-						// Show the validation result.
-						return <BlockSuggestionAdded
-							key={ index }
-							isValid={ isValid }
-							suggestedBlockTitle={ suggestion.title }
-						/>;
-					} )
+						logger.debug( "No use case for block ", blockName );
+					}, this )
 				}
 			</ul>
 		</PanelBody>
@@ -123,11 +138,11 @@ export function PureBlockSuggestionsPresenter( { heading, parentClientId, sugges
 }
 
 /**
- * Renders a list of suggested blocks.
+ * Appends metadata to validation results retreived from the store.
  *
- * @param props The props.
+ * @param props The props containing the parent clientId and blocknames we're interested in.
  *
- * @returns The block suggestions element.
+ * @returns The props extended with suggestion data.
  */
 export default withSelect<Partial<SuggestionDto>, BlockSuggestionsProps, SuggestionDto>( ( select, props: BlockSuggestionsProps ) => {
 	const validations: BlockValidationResult[] =
@@ -141,6 +156,7 @@ export default withSelect<Partial<SuggestionDto>, BlockSuggestionsProps, Suggest
 		};
 	} );
 
+	// The return object also includes properties from props.
 	return {
 		suggestions: suggestionDetails,
 	};
