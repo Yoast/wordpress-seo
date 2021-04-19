@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snapshot 1`] = `
+<div
+  className="SiteSEOReport__SiteSEOReportContainer-yh1o4t-0 test_SiteSEOReport"
+>
+  <p
+    className="SiteSEOReport__SiteSEOReportText-yh1o4t-1 cRCgoF test_SiteSEOReport__text"
+  >
+    Test assessment
+  </p>
+  <div
+    className="StackedProgressBar__StackedProgressBarContainer-sc-10t3bky-0 eGzjZF progress"
+  >
+    <span
+      className="StackedProgressBar__StackedProgressBarProgress-sc-10t3bky-1 imAbmj progress__part"
+    />
+    <span
+      className="StackedProgressBar__StackedProgressBarProgress-sc-10t3bky-1 cEupsm progress__part"
+    />
+    <span
+      className="StackedProgressBar__StackedProgressBarProgress-sc-10t3bky-1 eDGGTp progress__part"
+    />
+  </div>
+  <ul
+    className="ScoreAssessments__ScoreAssessmentList-sc-163g4zx-5 kRYHhF assessments"
+    role="list"
+  >
+    <li
+      className="ScoreAssessments__ScoreAssessmentItem-sc-163g4zx-0 kLrYMG assessments__item"
+    >
+      <span
+        className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentBullet-sc-163g4zx-2 fCtCcc iRfNgo assessments__item-bullet"
+      />
+      <span
+        className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentText-sc-163g4zx-3 fCtCcc ivaaCZ assessments__item-text"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<div></div>",
+          }
+        }
+      />
+      <span
+        className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentScore-sc-163g4zx-4 fCtCcc iPMgTe assessments__item-score"
+      >
+        10
+      </span>
+    </li>
+    <li
+      className="ScoreAssessments__ScoreAssessmentItem-sc-163g4zx-0 kLrYMG assessments__item"
+    >
+      <span
+        className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentBullet-sc-163g4zx-2 fCtCcc cIprUt assessments__item-bullet"
+      />
+      <span
+        className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentText-sc-163g4zx-3 fCtCcc ivaaCZ assessments__item-text"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<div></div>",
+          }
+        }
+      />
+      <span
+        className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentScore-sc-163g4zx-4 fCtCcc iPMgTe assessments__item-score"
+      >
+        15
+      </span>
+    </li>
+    <li
+      className="ScoreAssessments__ScoreAssessmentItem-sc-163g4zx-0 kLrYMG assessments__item"
+    >
+      <span
+        className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentBullet-sc-163g4zx-2 fCtCcc dmjkUu assessments__item-bullet"
+      />
+      <span
+        className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentText-sc-163g4zx-3 fCtCcc ivaaCZ assessments__item-text"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<div></div>",
+          }
+        }
+      />
+      <span
+        className="ScoreAssessments__ScoreAssessmentPart-sc-163g4zx-1 ScoreAssessments__ScoreAssessmentScore-sc-163g4zx-4 fCtCcc iPMgTe assessments__item-score"
+      >
+        20
+      </span>
+    </li>
+  </ul>
+</div>
+`;

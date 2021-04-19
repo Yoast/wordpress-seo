@@ -25,11 +25,10 @@ const yoastPackages = Object.keys( dependencies )
 	);
 
 /**
- * Convert packages to externals configuration.
+ * Convert Yoast packages to externals configuration.
  */
-// Yoast Packages.
 const yoastExternals = yoastPackages.reduce( ( memo, packageName ) => {
-	let useablePackageName = packageName.replace( YOAST_PACKAGE_NAMESPACE, "" );
+	let usablePackageName = packageName.replace( YOAST_PACKAGE_NAMESPACE, "" );
 
 	switch ( useablePackageName ) {
 		case "components":

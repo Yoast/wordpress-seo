@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+	<script
+			src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+			integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+			crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+
+	<style>
+		/* Demo styling */
+		body {
+			font-family: var(--yoast-font-family);
+			font-size: var(--yoast-font-size-default);
+			color: var(--yoast-color-font-default);
+			line-height: 1.5;
+		}
+	</style>
+
+	<link rel='stylesheet' href='../base/colors.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/typography.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/borders.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/utility.css' type='text/css' media='all'/>
+
+	<link rel='stylesheet' href='../field-group/field-group.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../help-icon/help-icon.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../button/buttons.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='select.css' type='text/css' media='all'/>
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+<body class="yoast">
+<form>
+
+	<p>Select with legend/heading and help icon</p>
+
+	<div class="yoast-field-group">
+		<div class="yoast-field-group__title">
+			<label for="selectid">Label name</label>
+			<a class="yoast-help" target="_blank" href="https://yoast.com">
+				<span class="yoast-help__icon">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
+						 focusable="false"><path
+							d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
+				</span>
+				<span class="screen-reader-text">Tell what this link does.</span>
+				<span class="screen-reader-text">(Opens in a new browser tab)</span>
+			</a>
+		</div>
+		<div class="yoast-field-group__select">
+			<select name="pets" id="selectid">
+				<option value="">Please choose an option</option>
+				<option value="dog">Dog</option>
+				<option value="cat">Cat</option>
+				<option value="hamster">Hamster</option>
+				<option value="parrot">Parrot</option>
+				<option value="spider">Spider</option>
+				<option value="goldfish">Goldfish</option>
+			</select>
+		</div>
+	</div>
+
+	<p>Multiselect with select2 component</p>
+
+	<div class="yoast-field-group">
+		<select class="js-example-basic-multiple" name="states[]" multiple="multiple">
+			<option value="dog">Dog</option>
+			<option value="cat">Cat</option>
+			<option value="hamster">Hamster</option>
+			<option value="parrot">Parrot</option>
+			<option value="spider">Spider</option>
+			<option value="goldfish">Goldfish</option>
+		</select>
+	</div>
+
+	<p>Multiselect select2 component with a button beside it</p>
+
+	<div class="yoast-field-group">
+		<select class="js-example-basic-multiple-inline" name="states[]" multiple="multiple">
+			<option value="dog">Dog</option>
+			<option value="cat">Cat</option>
+			<option value="hamster">Hamster</option>
+			<option value="parrot">Parrot</option>
+			<option value="spider">Spider</option>
+			<option value="goldfish">Goldfish</option>
+		</select>
+
+		<button class="yoast-button yoast-button--secondary">Secondary button</button>
+	</div>
+
+	<p>Select without additional styling</p>
+
+	<label for="selectid2">Label name</label>
+	<select name="pets" id="selectid2">
+		<option value="">Please choose an option</option>
+		<option value="dog">Dog</option>
+		<option value="cat">Cat</option>
+		<option value="hamster">Hamster</option>
+		<option value="parrot">Parrot</option>
+		<option value="spider">Spider</option>
+		<option value="goldfish">Goldfish</option>
+	</select>
+
+</form>
+
+<script>
+	$(document).ready(function() {
+		$('.js-example-basic-multiple').select2({
+			containerCssClass: 'yoast-multiselect',
+			dropdownCssClass: "yoast-select__dropdown",
+		});
+	});
+
+	$(document).ready(function() {
+		$('.js-example-basic-multiple-inline').select2({
+			containerCssClass: 'yoast-multiselect',
+			theme: 'default yoast-select2--inline',
+			dropdownCssClass: "yoast-select__dropdown",
+		});
+	});
+</script>
+</body>
+</html>

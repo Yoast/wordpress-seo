@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The edit function should render the warning block when the removed block was not required. 1`] = `
+<div
+  className="yoast-warning-block recommended"
+>
+  <p
+    className="yoast-warning-block-message"
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "Are you sure you want to remove this block?",
+      }
+    }
+  />
+  <div>
+    <button
+      onClick={[Function]}
+    >
+      Yes
+    </button>
+    <button
+      onClick={[Function]}
+    >
+      No, please undo this
+    </button>
+  </div>
+</div>
+`;
+
+exports[`The edit function should render the warning block. 1`] = `
+<div
+  className="yoast-warning-block required"
+>
+  <p
+    className="yoast-warning-block-message"
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "Are you sure you want to remove this block?",
+      }
+    }
+  />
+  <div>
+    <button
+      onClick={[Function]}
+    >
+      Yes
+    </button>
+    <button
+      onClick={[Function]}
+    >
+      No, please undo this
+    </button>
+  </div>
+</div>
+`;

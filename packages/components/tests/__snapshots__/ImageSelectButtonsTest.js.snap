@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImageSelectButtons ImageSelectButtons with image selected matches the snapshot 1`] = `
+<div
+  className="yoast-image-select-buttons"
+>
+  <button
+    className="yoast-button yoast-button--secondary"
+    id=""
+    onClick={[Function]}
+    type="button"
+  >
+    Replace image
+  </button>
+  <button
+    className="yoast-remove"
+    id=""
+    onClick={[Function]}
+    type="button"
+  >
+    Remove image
+  </button>
+</div>
+`;
+
+exports[`ImageSelectButtons ImageSelectButtons without image selected matches the snapshot 1`] = `
+<div
+  className="yoast-image-select-buttons"
+>
+  <button
+    className="yoast-button yoast-button--secondary"
+    id=""
+    onClick={[Function]}
+    type="button"
+  >
+    Select image
+  </button>
+</div>
+`;

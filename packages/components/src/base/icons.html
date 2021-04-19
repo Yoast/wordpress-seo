@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel='stylesheet' href='icons.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='typography.css' type='text/css' media='all' />
+	<link rel='stylesheet' href='colors.css' type='text/css' media='all' />
+
+	<style>
+		/* Demo styling */
+		body {
+			font-size:20px;
+			color:#000;
+			line-height: 1.5;
+			font-family: var(--yoast-font-family);
+			font-size: var(--yoast-font-size-default);
+			color: var(--yoast-color-font-default);
+			line-height: 1.5;
+		}
+
+		span.normal {
+			background: var(--yoast-svg-icon-yoast);
+			background-size: 100% 100%;
+			display: inline-block;
+			width: 50px;
+			height: 50px;
+		}
+
+		span.mask {
+			background-color: var(--yoast-color-primary);
+			mask-image: var(--yoast-svg-icon-yoast);
+			-webkit-mask-image: var(--yoast-svg-icon-yoast);
+			mask-size: 100% 100%;
+			-webkit-mask-size: 100% 100%;
+			display: inline-block;
+			width: 50px;
+			height: 50px;
+		}
+
+		span.mask:hover{
+			background-color: var(--yoast-color-primary-darker);
+		}
+	</style>
+
+</head>
+<body class="yoast">
+	<p>
+		An example of how you can use the icons without additional styling.
+	</p>
+	<span class="normal"></span>
+	<p>
+		An example of how you can use the icons if you want to apply additional styling.
+	</p>
+	<span class="mask"></span>
+</body>
+</html>

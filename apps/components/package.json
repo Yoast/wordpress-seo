@@ -1,0 +1,79 @@
+{
+  "name": "@yoast/example-component-app",
+  "version": "1.5.0",
+  "description": "This app demonstrates the possibilites of our components",
+  "main": "index.js",
+  "author": "Yoast",
+  "license": "GPL",
+  "private": true,
+  "scripts": {
+    "start": "concurrently --kill-others \"stubby -d stubby/endpoints.yaml -k privatekey.pem -c certificate.pem\" \"webpack-dev-server --mode=development\"",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@wordpress/i18n": "1.2.3",
+    "@yoast/analysis-report": "^1.17.0",
+    "@yoast/components": "^2.15.0",
+    "@yoast/configuration-wizard": "^2.18.0",
+    "@yoast/helpers": "^0.15.0",
+    "@yoast/search-metadata-previews": "^2.20.0",
+    "@yoast/style-guide": "^0.13.0",
+    "babel-polyfill": "^6.23.0",
+    "lodash": "4.17.11",
+    "lodash-es": "^4.17.11",
+    "prop-types": "15.7.2",
+    "react-tap-event-plugin": "^3.0.3",
+    "react-test-renderer": "^16.8.6",
+    "redux-devtools-dock-monitor": "^1.1.3",
+    "redux-devtools-log-monitor": "^1.4.0",
+    "styled-components": "^4.3.2",
+    "yoastseo": "^1.90.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-styled-components": "^1.10.6",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^7.3.0",
+    "case-sensitive-paths-webpack-plugin": "^2.1.2",
+    "concurrently": "^3.5.0",
+    "css-loader": "^2.1.1",
+    "draft-js-mention-plugin": "^3.0.4",
+    "redux-devtools": "3.5.0",
+    "sass-loader": "7.1.0",
+    "stubby": "^0.3.1",
+    "style-loader": "^0.23.1",
+    "webpack": "4.19.1",
+    "webpack-cli": "^2.1.3",
+    "webpack-dev-server": "3.1.14",
+    "yoast-components": "^5.20.0"
+  },
+  "peerDependencies": {
+    "material-ui": "^0.18.6",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-redux": "6.0.1",
+    "redux": "4.0.1"
+  },
+  "jest": {
+    "testRegex": ".*Test.js$",
+    "testEnvironment": "jsdom",
+    "testURL": "http://localhost",
+    "transform": {
+      "\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+    ],
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/tests/__mocks__/styleMock.js"
+    }
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  }
+}

@@ -1,0 +1,236 @@
+.yoast-tooltip {
+	position: relative;
+}
+
+button.yoast-tooltip {
+	/* IE 11 needs overflow: visible on buttons. */
+	overflow: visible;
+}
+
+.yoast-tooltip::after {
+	display: none;
+	position: absolute;
+	z-index: 1000000;
+	padding: 6px 8px 5px;
+	border-radius: 3px;
+	opacity: 0;
+	color: #fff;
+	background: rgba(0,0,0,0.8);
+	text-shadow: none;
+	font: normal normal 11px/1.45454545 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	text-align: center;
+	white-space: pre;
+	text-decoration: none;
+	letter-spacing: normal;
+	text-transform: none;
+	word-wrap: break-word;
+	content: attr(aria-label);
+	pointer-events: none;
+
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+
+/*
+ * Use a data attribute as alternative source for the tooltip text.
+ * Add this selector as modifier of the base selector.
+ */
+.yoast-tooltip-alt::after {
+	content: attr(data-label);
+}
+
+.yoast-tooltip::before {
+	display: none;
+	position: absolute;
+	z-index: 1000001;
+	width: 0;
+	height: 0;
+	border: 5px solid transparent;
+	opacity: 0;
+	color: rgba(0,0,0,0.8);
+	content: "\00a0";
+	pointer-events: none;
+}
+
+@keyframes yoast-tooltip-appear {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+.yoast-tooltip:hover::before,
+.yoast-tooltip:hover::after,
+.yoast-tooltip:active::before,
+.yoast-tooltip:active::after,
+.yoast-tooltip:focus::before,
+.yoast-tooltip:focus::after {
+	display: inline-block;
+	text-decoration: none;
+	animation-name: yoast-tooltip-appear;
+	animation-duration: 0.1s;
+	animation-timing-function: ease-in;
+	animation-delay: 0.4s;
+
+	animation-fill-mode: forwards;
+}
+
+.yoast-tooltip-no-delay:hover::before,
+.yoast-tooltip-no-delay:hover::after,
+.yoast-tooltip-no-delay:active::before,
+.yoast-tooltip-no-delay:active::after,
+.yoast-tooltip-no-delay:focus::before,
+.yoast-tooltip-no-delay:focus::after {
+	opacity: 1;
+	animation: none;
+}
+
+.yoast-tooltip-multiline:hover::after,
+.yoast-tooltip-multiline:active::after,
+.yoast-tooltip-multiline:focus::after {
+	display: table-cell;
+}
+
+.yoast-tooltip-s::after,
+.yoast-tooltip-se::after,
+.yoast-tooltip-sw::after {
+	top: 100%;
+	right: 50%;
+	margin-top: 5px;
+}
+
+.yoast-tooltip-s::before,
+.yoast-tooltip-se::before,
+.yoast-tooltip-sw::before {
+	top: auto;
+	right: 50%;
+	bottom: -5px;
+	margin-right: -5px;
+	border-bottom-color: rgba(0,0,0,0.8);
+}
+
+.yoast-tooltip-se::after {
+	right: auto;
+	left: 50%;
+	margin-left: -15px;
+}
+
+.yoast-tooltip-sw::after {
+	margin-right: -15px;
+}
+
+.yoast-tooltip-n::after,
+.yoast-tooltip-ne::after,
+.yoast-tooltip-nw::after {
+	right: 50%;
+	bottom: 100%;
+	margin-bottom: 5px;
+}
+
+.yoast-tooltip-n::before,
+.yoast-tooltip-ne::before,
+.yoast-tooltip-nw::before {
+	top: -5px;
+	right: 50%;
+	bottom: auto;
+	margin-right: -5px;
+	border-top-color: rgba(0,0,0,0.8);
+}
+
+.yoast-tooltip-ne::after {
+	right: auto;
+	left: 50%;
+	margin-left: -15px;
+}
+
+.yoast-tooltip-nw::after {
+	margin-right: -15px;
+}
+
+.yoast-tooltip-s::after,
+.yoast-tooltip-n::after {
+	transform: translateX(50%);
+}
+
+.yoast-tooltip-w::after {
+	right: 100%;
+	bottom: 50%;
+	margin-right: 5px;
+	transform: translateY(50%);
+}
+
+.yoast-tooltip-w::before {
+	top: 50%;
+	bottom: 50%;
+	left: -5px;
+	margin-top: -5px;
+	border-left-color: rgba(0,0,0,0.8);
+}
+
+.yoast-tooltip-e::after {
+	bottom: 50%;
+	left: 100%;
+	margin-left: 5px;
+	transform: translateY(50%);
+}
+
+.yoast-tooltip-e::before {
+	top: 50%;
+	right: -5px;
+	bottom: 50%;
+	margin-top: -5px;
+	border-right-color: rgba(0,0,0,0.8);
+}
+
+.yoast-tooltip-multiline::after {
+	/* Microsoft Edge doesn't support max-content. */
+	width: 250px;
+	/* Modern browsers. */
+	width: max-content;
+	max-width: 250px;
+	border-collapse: separate;
+	white-space: pre-line;
+	word-wrap: normal;
+	word-break: break-word;
+}
+
+.yoast-tooltip-multiline.yoast-tooltip-s::after,
+.yoast-tooltip-multiline.yoast-tooltip-n::after {
+	right: auto;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.yoast-tooltip-multiline.yoast-tooltip-w::after,
+.yoast-tooltip-multiline.yoast-tooltip-e::after {
+	right: 100%;
+}
+
+@media screen and (min-width: 0\0) {
+	.yoast-tooltip-multiline::after {
+		width: 250px;
+	}
+}
+
+.yoast-tooltip-sticky::before,
+.yoast-tooltip-sticky::after {
+	display: inline-block;
+}
+
+.yoast-tooltip-sticky.yoast-tooltip-multiline::after {
+	display: table-cell;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+	.yoast-tooltip-w::after {
+		margin-right: 4.5px;
+	}
+}
+
+/* Rule with higher specificity to hide the tooltips when necessary. */
+.yoast-tooltip.yoast-tooltip-hidden::before,
+.yoast-tooltip.yoast-tooltip-hidden::after {
+	display: none;
+}
