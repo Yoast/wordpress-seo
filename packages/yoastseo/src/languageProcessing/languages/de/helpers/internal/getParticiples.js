@@ -13,9 +13,9 @@ const verbsWithErVerEntBeZerHerUberInMiddle = regexFunction.verbsWithErVerEntBeZ
 const verbsEndingWithIert = regexFunction.verbsEndingWithIert;
 
 /**
- * Creates German participles array for the participles found in a sentence.
+ * Creates German participles array for the participles found in a clause.
  *
- * @param {string} clauseText The sentence to finds participles in.
+ * @param {string} clauseText The clause to finds participles in.
  *
  * @returns {Array} The array with the German participles found.
  */
