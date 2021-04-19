@@ -15,7 +15,7 @@ describe( "creates an Italian clause", function() {
 
 	it( "checks an Italian clause with a precedence exception between the passive auxiliary and the participle" +
 		"and checks its passiveness", function() {
-		const mockClause = new ItalianClause( "Ciò che ebbe l'aveva costruito suo padre.", [ "fue" ] );
+		const mockClause = new ItalianClause( "Ciò che ebbe l'aveva costruito suo padre.", [ "ebbe" ] );
 		expect( mockClause.getParticiples() ).toEqual( [ "costruito" ] );
 		expect( mockClause.isPassive() ).toBe( false );
 	} );
