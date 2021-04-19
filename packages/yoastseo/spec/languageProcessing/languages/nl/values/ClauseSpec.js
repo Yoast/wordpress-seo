@@ -29,11 +29,4 @@ describe( "A test for checking the Dutch clause", function() {
 		expect( mockClause.getParticiples() ).toEqual( [ "geliefd" ] );
 		expect( mockClause.isPassive() ).toBe( false );
 	} );
-
-	it( "checks Dutch clause without auxiliary and checks its passiveness", function() {
-		const mockClause = new DutchClause( "Mijn lieve tortie heeft haar avondeten gegeten.", [] );
-		expect( mockClause.getClauseText() ).toEqual( "Mijn lieve tortie heeft haar avondeten gegeten." );
-		expect( mockClause.getParticiples() ).toEqual( [ "gegeten" ] );
-		expect( mockClause.isPassive() ).toBe( false );
-	} );
 } );
