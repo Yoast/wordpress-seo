@@ -33,11 +33,6 @@ class HungarianClause extends Clause {
 		const foundParticiples = this.getParticiples().filter( participle => ! nonPassivesInVaAndVe.includes( participle ) );
 
 		this.setPassive( foundParticiples.length > 0 );
-
-		// Set the clause passiveness to false if there is no auxiliary present
-		if ( this.getAuxiliaries().length === 0 ) {
-			this.setPassive( false );
-		}
 	}
 }
 

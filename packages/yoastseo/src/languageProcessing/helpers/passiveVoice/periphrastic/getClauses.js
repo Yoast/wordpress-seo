@@ -237,7 +237,7 @@ const getClauses = function( sentence, options ) {
 		const clause = stripSpaces( sentence.substr( indices[ i ].index, endIndex - indices[ i ].index ) );
 
 		const auxiliaryMatches = getAuxiliaryMatches( clause, options.regexes );
-		// If a sentence part doesn't have an auxiliary, we don't need it, so it can be filtered out.
+		// If a clause doesn't have an auxiliary, we don't need it, so it can be filtered out.
 		if ( auxiliaryMatches.length !== 0 ) {
 			const foundClause = new options.Clause( clause, auxiliaryMatches );
 			clauses.push( foundClause );
