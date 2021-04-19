@@ -11,7 +11,7 @@ describe( "creates an Spanish clause", function() {
 		expect( mockPart.getParticiples()[ 0 ] ).toBe( "emplazado" );
 		expect( mockPart.isPassive() ).toBe( true );
 	} );
-	it( "checks Spanish clause with a participles with a direct precedence exception not directly preceding the participle" +
+	it( "checks Spanish clause with a participle with a direct precedence exception not directly preceding the participle" +
 		"and checks its passiveness", function() {
 		const mockPart = new SpanishClause( "Algo fue construido dos edificios a tiempo.", [ "fue" ] );
 		expect( mockPart.getParticiples() ).toEqual( [ "construido" ] );
