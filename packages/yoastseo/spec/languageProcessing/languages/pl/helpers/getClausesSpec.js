@@ -7,9 +7,9 @@ describe( "splits Polish sentences into clauses", function() {
 		expect( getClauses( sentence ).length ).toBe( 1 );
 	} );
 	it( "returns all clauses from the sentence beginning to the stopword and from the stopword to the end of the sentence", function() {
-		const sentence = "Pojechałam na wakacje żeby odpocząć.";
-		expect( getClauses( sentence )[ 0 ].getClauseText() ).toBe( "Pojechałam na wakacje" );
-		expect( getClauses( sentence )[ 1 ].getClauseText() ).toBe( "żeby odpocząć." );
+		const sentence = "Ten kot został adoptowany, bo jest uroczy.";
+		expect( getClauses( sentence )[ 0 ].getClauseText() ).toBe( "Ten kot został adoptowany," );
+		expect( getClauses( sentence )[ 1 ].getClauseText() ).toBe( "bo jest uroczy." );
 		expect( getClauses( sentence ).length ).toBe( 2 );
 	} );
 } );
