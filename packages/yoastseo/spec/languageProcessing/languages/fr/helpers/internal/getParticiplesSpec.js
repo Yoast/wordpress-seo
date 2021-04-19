@@ -26,8 +26,8 @@ describe( "Test for matching French participles", function() {
 	} );
 
 	it( "returns an empty array when there is no participle", function() {
-		const clausePartText = "Je voulais vous demander pardon.";
-		const foundParticiples = getParticiples( clausePartText );
+		const clauseText = "Je voulais vous demander pardon.";
+		const foundParticiples = getParticiples( clauseText );
 		expect( foundParticiples ).toEqual( [] );
 	} );
 } );
