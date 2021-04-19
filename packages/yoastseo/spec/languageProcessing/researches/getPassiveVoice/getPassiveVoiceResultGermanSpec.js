@@ -3,34 +3,34 @@ import Paper from "../../../../src/values/Paper.js";
 import Researcher from "../../../../src/languageProcessing/languages/de/Researcher";
 
 describe( "detecting passive voice in sentences with irregularParticiples", function() {
-	it( "does not return passive for an irregular directly followed by 'sein'", function() {
+	it( "does not return passive for an irregular participle directly followed by 'sein'", function() {
 		const paper = new Paper( "Ich werde geschwommen sein.", { locale: "de_DE" } );
 		const researcher = new Researcher( paper );
 
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 0 );
 	} );
-	it( "returns passive voice for an irregular not directly followed by 'sein'", function() {
+	it( "returns passive voice for an irregular participle not directly followed by 'sein'", function() {
 		const paper = new Paper( "Es wird geschwommen worden sein.", { locale: "de_DE" } );
 		const researcher = new Researcher( paper );
 
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 1 );
 	} );
 
-	it( "does not return passive voice for an irregular directly followed by 'haben'", function() {
+	it( "does not return passive voice for an irregular participle directly followed by 'haben'", function() {
 		const paper = new Paper( "Wir werden geschlossen haben.", { locale: "de_DE" } );
 		const researcher = new Researcher( paper );
 
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 0 );
 	} );
 
-	it( "returns passive voice for an irregular not directly followed by 'haben'", function() {
+	it( "returns passive voice for an irregular participle not directly followed by 'haben'", function() {
 		const paper = new Paper( "Es wird geschlossen worden sein.", { locale: "de_DE" } );
 		const researcher = new Researcher( paper );
 
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 1 );
 	} );
 
-	it( "returns passive voice for an irregular without 'haben' or 'sein'", function() {
+	it( "returns passive voice for an irregular participle without 'haben' or 'sein'", function() {
 		const paper = new Paper( "Es wird geschlossen.", { locale: "de_DE" } );
 		const researcher = new Researcher( paper );
 
