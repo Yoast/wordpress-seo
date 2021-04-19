@@ -1,22 +1,15 @@
 import ItalianClause from "../../../../../src/languageProcessing/languages/it/values/Clause.js";
 
-describe( "A test for checking the Italian participle", function() {
-	it( "checks the properties of the Italian participle object with a passive", function() {
-		const mockParticiple = new ItalianClause( "Il libro è stato scritto dal mio amico.", [ "è stato" ] );
-		expect( mockParticiple.getParticiples() ).toEqual( [ "scritto" ] );
-		expect( mockParticiple.isPassive() ).toBe( true );
+describe( "creates an Italian clause", function() {
+	it( "makes sure the Italian sentence part inherits all functions", function() {
+		const mockClause = new ItalianClause( "I testi italiani sono stati bellissimi.", [ "stati" ] );
+		expect( mockClause.getClauseText() ).toBe( "I testi italiani sono stati bellissimi." );
+		expect( mockClause.getAuxiliaries() ).toEqual( [ "stati" ] );
 	} );
 
-	it( "checks the properties of the Italian participle object with a direct precedence exception", function() {
-		// Direct precedence exception word: il.
-		const mockParticiple = new ItalianClause(  "Dovresti andare a vedere se esiste il mandato.", [ "andare" ]  );
-		expect( mockParticiple.getParticiples() ).toEqual( [ "mandato" ] );
-		expect( mockParticiple.isPassive() ).toBe( false );
-	} );
-
-	it( "ensures that the sentence part is not set to passive if the participle is empty.", function() {
-		const mockParticiple = new ItalianClause( "Il maglione è stato del mio amico.", [ "è stato" ] );
-		expect( mockParticiple.getParticiples() ).toEqual( [] );
-		expect( mockParticiple.isPassive() ).toBe( false );
+	it( "returns a participle for an Italian clause", function() {
+		const mockClause = new ItalianClause( "Il testo è stato corretto.", [ "stato" ] );
+		expect( mockClause.getParticiples() ).toEqual( [ "corretto" ] );
+		expect( mockClause.isPassive() ).toBe( true );
 	} );
 } );

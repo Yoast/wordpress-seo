@@ -20,6 +20,7 @@ import { forEach } from "lodash-es";
  * @param {string} sentence The sentence to get the active verbs from.
  * @param {RegExp} regex Regex to find the sentences with verbs ending in -ing.
  * @param {string} exclusions List of -ing ending words that shouldn't match.
+ *
  * @returns {Array} The array with valid matches.
  */
 const getVerbsEndingInIng = function( sentence, regex, exclusions ) {
@@ -36,6 +37,7 @@ const getVerbsEndingInIng = function( sentence, regex, exclusions ) {
  *
  * @param {string} sentence The sentence to get the stop characters from.
  * @param {RegExp} stopCharacterRegex Regex to match the stop characters.
+ *
  * @returns {Array} The array with stop characters.
  */
 const getStopCharacters = function( sentence, stopCharacterRegex ) {
@@ -84,6 +86,7 @@ const auxiliaryPrecedenceExceptionFilter = function( text, auxiliaryMatches, dir
  * @param {string} text The text part in which to check.
  * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
  * @param {RegExp} followingAuxiliaryExceptionRegex The regex needed to find the right auxiliaries.
+ *
  * @returns {Array} The filtered list of auxiliary indices.
  */
 const followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches, followingAuxiliaryExceptionRegex ) {
@@ -106,6 +109,7 @@ const followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches, foll
  * @param {string} text The text part in which to check.
  * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
  * @param {RegExp} elisionAuxiliaryExceptionRegex Regex to match the elisionAuxiliary exception.
+ *
  * @returns {Array} The filtered list of auxiliary indices.
  */
 const elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches, elisionAuxiliaryExceptionRegex ) {
@@ -130,6 +134,7 @@ const elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches, elisio
  *
  * @param {string} sentence The sentence to check for indices of sentence breakers.
  * @param {Object} options The language options for which to match the sentence breakers.
+ *
  * @returns {Array} The array with valid indices to use for determining clauses.
  */
 const getSentenceBreakers = function( sentence, options ) {
@@ -169,6 +174,7 @@ const getSentenceBreakers = function( sentence, options ) {
  *
  * @param {string} sentencePart The part of the sentence to match for auxiliaries.
  * @param {object} regexes The regexes needed to find the auxiliaries.
+ *
  * @returns {Array} All formatted matches from the sentence part.
  */
 const getAuxiliaryMatches = function(
@@ -246,6 +252,7 @@ const getClauses = function( sentence, options ) {
  *
  * @param {string} sentence The sentence to split in parts.
  * @param {Object} options The language options for which to get the clauses.
+ *
  * @returns {Array} A list with clauses.
  */
 export default function( sentence, options ) {
