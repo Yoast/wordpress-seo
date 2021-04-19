@@ -3,18 +3,19 @@ import { createAnalysisMessages } from "../../../src/functions/presenters/Sideba
 import { BlockPresence } from "../../../src/core/validation/BlockValidationResult";
 import { BlockInstance } from "@wordpress/blocks";
 
-// Const validations: Record<string, BlockValidationResult> = {};
-// Jest.mock( "@wordpress/data", () => {
-// 	Return {
-// 		Select: jest.fn( () => {
-// 			Return {
-// 				GetSchemaBlocksValidationResults: jest.fn( () => {
-// 					Return validations;
-// 				} ),
-// 			};
-// 		} ),
-// 	};
-// } );
+const validations: Record<string, BlockValidationResult> = {};
+
+jest.mock( "@wordpress/data", () => {
+	return {
+		select: jest.fn( () => {
+			return {
+				getSchemaBlocksValidationResults: jest.fn( () => {
+					return validations;
+				} ),
+			};
+		} ),
+	};
+} );
 
 jest.mock( "../../../src/functions/BlockHelper", () => {
 	return {
@@ -84,7 +85,7 @@ describe( "The SidebarWarningPresenter ", () => {
 
 		it( "creates a warning for missing recommended blocks, but when no required blocks are missing, " +
 			"the conclusion should still be green.", () => {
-			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Invalid, BlockPresence.Recommended );
+			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.MissingRecommendedBlock, BlockPresence.Recommended );
 			testcase.issues.push(
 				BlockValidationResult.MissingBlock( "missing recommended block", BlockPresence.Recommended ),
 			);
@@ -111,7 +112,7 @@ describe( "The SidebarWarningPresenter ", () => {
 
 		it( "creates a warning for missing recommended blocks, but when all required blocks are valid, " +
 			"the conclusion should still be green.", () => {
-			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Invalid, BlockPresence.Recommended );
+			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.MissingRecommendedBlock, BlockPresence.Recommended );
 			testcase.issues.push(
 				BlockValidationResult.MissingBlock( "missing recommended block", BlockPresence.Recommended ),
 			);
@@ -131,5 +132,58 @@ describe( "The SidebarWarningPresenter ", () => {
 				color: "green",
 			} );
 		} );
+	} );
+
+	describe( "The getWarnings method ", () => {
+		it( "creates a compliment for required valid blocks.", () => {
+			validations[ "1" ] = new BlockValidationResult( "1", "myBlock", BlockValidation.Valid, BlockPresence.Required );
+
+			const result = getWarnings( "1" );
+
+			expect( result ).toEqual( [ {
+				text: "Good job! All required blocks have been completed.",
+				color: "green",
+			} ] );
+		} );
+
+		it( "creates a compliment if we do not have copy for any of the validations of the required blocks.", () => {
+			// `Skipped`, since this is the maximum result.
+			const testcase = new BlockValidationResult( "1", "myBlock", BlockValidation.Skipped, BlockPresence.Required );
+			testcase.issues.push( new BlockValidationResult( "2", "innerblock1", BlockValidation.Skipped, BlockPresence.Required ) );
+			testcase.issues.push( new BlockValidationResult( "3", "anotherinnerblock", BlockValidation.TooMany, BlockPresence.Required ) );
+			testcase.issues.push( new BlockValidationResult( "4", "anotherinnerblock", BlockValidation.Unknown, BlockPresence.Required ) );
+			validations[ "1" ] = testcase;
+
+			const result = getWarnings( "1" );
+
+			expect( result ).toEqual( [ {
+				text: "Good job! All required blocks have been completed.",
+				color: "green",
+			} ] );
+		} );
+
+		it( "creates a warning for a required block with validation problems.", () => {
+			const testcase = new BlockValidationResult( "1", "myBlock", BlockValidation.Invalid, BlockPresence.Required );
+			testcase.issues.push( BlockValidationResult.MissingBlock( "innerblock1", BlockPresence.Required ) );
+			validations[ "1" ] = testcase;
+
+			const result = getWarnings( "1" );
+
+			expect( result.length ).toEqual( 2 );
+			expect( result[ 0 ] ).toEqual( {
+				text: "The `innerblock1` block is required but missing.",
+				color: "red",
+			} );
+			expect( result[ 1 ] ).toEqual( {
+				text: "Not all required blocks have been completed! No myblock schema will be generated for your page.",
+				color: "red",
+			} );
+		} );
+	} );
+
+	it( "creates no output when the validation results cannot be retrieved.", () => {
+		const result = getWarnings( "123" );
+
+		expect( result ).toBeNull();
 	} );
 } );

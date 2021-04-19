@@ -50,6 +50,10 @@
 	color: #0073aa;
 }
 
+.yoast-schema-block-appender__content {
+	color: rgba( 30, 30, 30, 0.6 );
+}
+
 .wp-block .yoast-warning-block > .yoast-warning-block-message > a {
 	text-decoration: underline;
 	color: #0073aa;
@@ -62,6 +66,12 @@
 .yoast-block-sidebar-title {
 	font-weight: 600;
 	color: #303030;
+	padding: 10px 0 0 0;
+}
+
+.yoast-block-sidebar-header {
+	width:100%;
+	margin-bottom: 14px;
 }
 
 .yoast-block-suggestions {
@@ -69,14 +79,18 @@
 	padding: 0 5px 0 15px;
 }
 
+.yoast-inline-icon {
+	vertical-align: middle;
+}
+
 .yoast-block-sidebar-warnings {
 	width:100%;
-	padding: 0 0 0 15px;
 }
 
 .yoast-block-sidebar-warning {
 	list-style: none;
 	color: #404040;
+	padding: 0 0 0 17px;
 }
 
 .yoast-block-sidebar-warning > .yoast-svg-icon {

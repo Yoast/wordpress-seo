@@ -1,14 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The required blocks in the sidebar renders the required block as a non-added one 1`] = `
-<div
-  className="components-panel__body is-opened"
->
+Array [
   <div
     className="yoast-block-sidebar-title"
   >
     Required blocks
-  </div>
+  </div>,
   <ul
     className="yoast-block-suggestions"
   >
@@ -23,19 +21,17 @@ exports[`The required blocks in the sidebar renders the required block as a non-
          Add 
       </button>
     </li>
-  </ul>
-</div>
+  </ul>,
+]
 `;
 
 exports[`The required blocks in the sidebar renders the required block as an added one 1`] = `
-<div
-  className="components-panel__body is-opened"
->
+Array [
   <div
     className="yoast-block-sidebar-title"
   >
     Required blocks
-  </div>
+  </div>,
   <ul
     className="yoast-block-suggestions"
   >
@@ -44,6 +40,6 @@ exports[`The required blocks in the sidebar renders the required block as an add
     >
       The required block
     </li>
-  </ul>
-</div>
+  </ul>,
+]
 `;

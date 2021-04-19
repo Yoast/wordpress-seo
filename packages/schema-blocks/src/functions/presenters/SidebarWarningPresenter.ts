@@ -20,30 +20,17 @@ export type SidebarWarning = {
 }
 
 /**
- * If some required blocks are missing and/or not filled in.
- *
- * @param issues The block validation issues to check.
- *
- * @return `true` if some required blocks are missing or not completed, `false` if not.
- */
-function someRequiredBlocksNotCompleted( issues: BlockValidationResult[] ) {
-	return issues.some( issue => issue.result === BlockValidation.MissingRequiredBlock ||
-		issue.result === BlockValidation.MissingRequiredAttribute );
-}
-
-/**
  * Adds analysis conclusions to the footer.
  *
  * @param validation The validation result for the current block.
- * @param issues     The detected issues.
  *
  * @returns Any analysis conclusions that should be in the footer.
  */
-function getAnalysisConclusion( validation: BlockValidationResult, issues: BlockValidationResult[] ): SidebarWarning {
+function getAnalysisConclusion( validation: BlockValidationResult ): SidebarWarning {
 	let conclusionText = "";
 
-	// Show a red bullet when not all required blocks have been completed.
-	if ( someRequiredBlocksNotCompleted( issues ) ) {
+	// Show a red bullet when the block is invalid.
+	if ( validation.result >= BlockValidation.Invalid ) {
 		conclusionText = sprintf(
 			/* translators: %s expands to the schema block name. */
 			__( "Not all required blocks have been completed! No %s schema will be generated for your page.", "yoast-schema-blocks" ),
@@ -105,7 +92,7 @@ export function createAnalysisMessages( validation: BlockValidationResult ): Sid
 	messages.push( ...getErrorMessages( issues ) );
 	messages.push( ...getWarningMessages( issues ) );
 
-	messages.push( getAnalysisConclusion( validation, issues ) );
+	messages.push( getAnalysisConclusion( validation ) );
 
 	return messages;
 }

@@ -35,7 +35,7 @@ function createBlocksFromInnerBlocksTemplate( innerBlocksTemplate: BlockInstance
  *
  * @returns {ReactElement} The component.
  */
-export default function VariationPickerPresenter( { clientId, name, setAttributes, key }: RenderEditProps & { key: string } ) {
+export default function VariationPickerPresenter( { clientId, name, setAttributes }: RenderEditProps ) {
 	const { blockType, defaultVariation, variations } = useSelect(
 		select => {
 			const {
@@ -82,7 +82,7 @@ export default function VariationPickerPresenter( { clientId, name, setAttribute
 	};
 
 	return (
-		<div key={ key } { ...blockProps }>
+		<div { ...blockProps }>
 			<ExperimentalBlockVariationPicker
 				icon={ false }
 				label={ get( blockType, [ "title" ] ) }

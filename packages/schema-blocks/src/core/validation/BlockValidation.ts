@@ -8,7 +8,7 @@ export enum BlockValidation {
 	/** This block was skipped during validation, on purpose. If you ever see this value, that's a bug.  */
 	Skipped = 102,
 
-	/** OK RESULTS (200+): Will give an orange bullet, but will not prevent Schema output.
+	/** OK RESULTS (200+): Will give an orange bullet, but will not prevent Schema output. */
 
 	/** This block is not completely valid, but should not prevent the Schema to be output either. */
 	OK = 200,
@@ -19,7 +19,7 @@ export enum BlockValidation {
 	/** This block contains a Variationpicker to choose between subblocks, but no choice has been made yet for this recommended block. */
 	MissingRecommendedVariation = 203,
 
-	/** INVALID RESULTS (300+): Will prevent Schema output.
+	/** INVALID RESULTS (300+): Will prevent Schema output. */
 
 	/** This block (OR some of its innerblocks) have a problem. The particular problem must be specified in BlockValidationResult.issues */
 	Invalid = 300,
