@@ -248,6 +248,8 @@ Bugfixes:
 
 * Fixes a bug where saving posts containing URLs without protocol would fail or trigger warnings.
 * Fixes a bug where the current webpage would not always be referenced correctly in the breadcrumb schema output.
+* Fixes a bug where the primary term isn't saved at the right moment resulting in having an unexpected term for the breadcrumbs.
+* Fixes a bug where our add-ons would not automatically be updated if Yoast SEO was the first plugin for which the user ever enabled auto-updates.
 
 Other:
 
