@@ -11,9 +11,8 @@ import syllables from "./config/syllables.json";
 import sentenceLength from "./config/sentenceLength";
 
 // All helpers
-import getSentenceParts from "./helpers/getSentenceParts";
+import getClauses from "./helpers/getClauses";
 import getStemmer from "./helpers/getStemmer";
-import isPassiveSentencePart from "./helpers/isPassiveSentencePart";
 import fleschReadingScore from "./helpers/calculateFleschReadingScore";
 
 /**
@@ -41,9 +40,8 @@ export default class Researcher extends AbstractResearcher {
 		} );
 
 		Object.assign( this.helpers, {
-			getSentenceParts,
+			getClauses,
 			getStemmer,
-			isPassiveSentencePart,
 			fleschReadingScore,
 		} );
 	}
