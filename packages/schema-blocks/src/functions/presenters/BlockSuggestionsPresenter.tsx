@@ -1,7 +1,6 @@
 import { ReactElement } from "react";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
-import { PanelBody } from "@wordpress/components";
-import { createElement } from "@wordpress/element";
+import { createElement, Fragment } from "@wordpress/element";
 
 import { getBlockType } from "../BlockHelper";
 import { getInnerblocksByName, insertBlock } from "../innerBlocksHelper";
@@ -56,9 +55,13 @@ function BlockSuggestion( { blockTitle, blockName, blockClientId }: BlockSuggest
  * @returns {ReactElement} The rendered element.
  */
 function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactElement {
-	const heroIconCheck = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-2 3 18 16" stroke="currentColor" height="12" width="22">
-		<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2.5 } d="M5 13l4 4L19 7" />
-	</svg>;
+	const heroIconCheck: JSX.Element =
+		<svg
+			xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-2 3 18 16" stroke="currentColor"
+			height="12" width="22"
+		>
+			<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2.5 } d="M5 13l4 4L19 7" />
+		</svg>;
 
 	return (
 		<li className="yoast-block-suggestion yoast-block-suggestion--added" key={ "BlockSuggestionAdded" + blockTitle }>
@@ -88,7 +91,7 @@ export default function BlockSuggestionsPresenter( { title, block, suggestions }
 	const presentBlockNames = findPresentBlocks.map( presentBlock => presentBlock.name );
 
 	return (
-		<PanelBody key={ title + block.clientId }>
+		<Fragment key={ title + block.clientId }>
 			<div className="yoast-block-sidebar-title">{ title }</div>
 			<ul className="yoast-block-suggestions">
 				{
@@ -108,6 +111,6 @@ export default function BlockSuggestionsPresenter( { title, block, suggestions }
 					} )
 				}
 			</ul>
-		</PanelBody>
+		</Fragment>
 	);
 }
