@@ -63,7 +63,6 @@ describe( "a test for the French Researcher", function() {
 		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "est aimé." );
 		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toEqual( false );
 		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toEqual( true );
-
 	} );
 
 	it( "calculates the Flesch reading score using the formula for French", function() {

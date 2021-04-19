@@ -1,12 +1,12 @@
 import { languageProcessing } from "yoastseo";
-const { splitSentence, createRegexFromArray } = languageProcessing;
+const { getClausesSplitOnStopWords, createRegexFromArray } = languageProcessing;
 
-import SentencePart from "../values/SentencePart";
+import Clause from "../values/Clause";
 import auxiliaries from "../config/internal/auxiliaries.js";
 import stopwords from "../config/stopWords.js";
 
 const options = {
-	SentencePart: SentencePart,
+	Clause,
 	regexes: {
 		auxiliaryRegex: createRegexFromArray( auxiliaries ),
 		stopwordRegex: createRegexFromArray( stopwords ),
@@ -20,6 +20,6 @@ const options = {
  *
  * @returns {Array} The array with all parts of a sentence that have an auxiliary.
  */
-export default function getSentenceParts( sentence ) {
-	return splitSentence( sentence, options );
+export default function getClauses( sentence ) {
+	return getClausesSplitOnStopWords( sentence, options );
 }
