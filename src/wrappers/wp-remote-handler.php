@@ -48,7 +48,7 @@ class WP_Remote_Handler {
 
 		$raw_response = \wp_remote_request( $request->getUri(), $args );
 		if ( \is_wp_error( $raw_response ) ) {
-			$exception = new Exception( $raw_response->get_error_message(), $raw_response->get_error_code() );
+			$exception = new Exception( $raw_response->get_error_message() );
 			return new RejectedPromise( $exception );
 		}
 

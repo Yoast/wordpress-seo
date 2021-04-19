@@ -5,6 +5,8 @@
  * @package WPSEO\Admin\Views
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
+
 /**
  * Class Yoast_View_Utils.
  */
@@ -62,5 +64,61 @@ class Yoast_View_Utils {
 		);
 
 		return $help_panel;
+	}
+
+	/**
+	 * Generates the OpenGraph disabled alert, depending on whether the OpenGraph feature is disabled.
+	 *
+	 * @param string $type The type of message. Can be altered to taxonomies or archives. Empty string by default.
+	 *
+	 * @return string The alert. Returns an empty string if the setting is enabled.
+	 */
+	public function generate_opengraph_disabled_alert( $type = '' ) {
+		$is_enabled = WPSEO_Options::get( 'opengraph', true );
+
+		if ( $is_enabled || ! YoastSEO()->helpers->product->is_premium() ) {
+			return '';
+		}
+
+		$message = sprintf(
+			/* translators: 1: link open tag; 2: link close tag. */
+			\esc_html__(
+				'The frontpage settings and the social image, social title and social description are hidden for all content types. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
+				'wordpress-seo'
+			),
+			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
+			'</a>'
+		);
+
+		if ( $type === 'taxonomies' ) {
+			$message = sprintf(
+				/* translators: 1: link open tag; 2: link close tag. */
+				\esc_html__(
+					'The social image, social title and social description are hidden for all taxonomies. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
+					'wordpress-seo'
+				),
+				'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
+				'</a>'
+			);
+		}
+
+		if ( $type === 'archives' ) {
+			$message = sprintf(
+				/* translators: 1: link open tag; 2: link close tag. */
+				\esc_html__(
+					'The social image, social title and social description are hidden for all archives. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
+					'wordpress-seo'
+				),
+				'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
+				'</a>'
+			);
+		}
+
+		$alert = new Alert_Presenter( $message, 'info' );
+
+		return sprintf(
+			'<div class="yoast-measure padded">%s</div>',
+			$alert->present()
+		);
 	}
 }
