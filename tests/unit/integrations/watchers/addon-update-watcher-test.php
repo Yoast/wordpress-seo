@@ -43,7 +43,7 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		Monkey\Actions\expectAdded( 'add_option_auto_update_plugins' )
+		Monkey\Actions\expectAdded( 'add_site_option_auto_update_plugins' )
 			->with( [ $this->instance, 'call_toggle_auto_updates_with_empty_array' ] )
 			->once();
 
