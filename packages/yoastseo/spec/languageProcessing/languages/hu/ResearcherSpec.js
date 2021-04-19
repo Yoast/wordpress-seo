@@ -57,7 +57,7 @@ describe( "a test for the Hungarian Researcher", function() {
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "abrosszal" ) ).toEqual( "abrosz" );
 	} );
 
-	it( "splits Hungarian sentence into parts", function() {
+	it( "splits Hungarian sentence into clauses", function() {
 		let sentence =  "Péter és Sára szeretnek aludni.";
 		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Péter" );
 		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "és Sára szeretnek aludni." );
