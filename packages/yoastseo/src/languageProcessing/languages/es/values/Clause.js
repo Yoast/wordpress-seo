@@ -26,11 +26,11 @@ class SpanishClause extends Clause {
 	}
 
 	/**
-* Checks if any exceptions are applicable to this participle that would result in the clause not being passive.
-* If no exceptions are found, the clause is passive.
-*
-* @returns { void }
-*/
+	 * Checks if any exceptions are applicable to this participle that would result in the clause not being passive.
+	 * If no exceptions are found, the clause is passive.
+	 *
+	 * @returns { void }
+	 */
 	checkParticiples() {
 		const clause = this.getClauseText();
 
