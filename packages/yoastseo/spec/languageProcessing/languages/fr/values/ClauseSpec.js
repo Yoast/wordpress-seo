@@ -7,19 +7,19 @@ describe( "creates a French clause", function() {
 		expect( mockClause.getAuxiliaries() ).toEqual( [ "sont" ] );
 	} );
 
-	it( "returns a irregular participle for a French clause", function() {
+	it( "returns an irregular participle for a French clause", function() {
 		const mockClause = new FrenchClause( "Le texte fut lu.", [ "fut" ] );
 		expect( mockClause.getParticiples() ).toEqual( [ "lu" ] );
 		expect( mockClause.isPassive() ).toBe( true );
 	} );
 
-	it( "returns a irregular participle with a suffix for a French clause", function() {
+	it( "returns an irregular participle with a suffix for a French clause", function() {
 		const mockClause = new FrenchClause( "La voiture fut vendue.", [ "fut" ] );
 		expect( mockClause.getParticiples() ).toEqual( [ "vendue" ] );
 		expect( mockClause.isPassive() ).toBe( true );
 	} );
 
-	it( "returns a irregular participle with irregular conjugation pattern for a French clause", function() {
+	it( "returns an irregular participle with irregular conjugation pattern for a French clause", function() {
 		const mockClause = new FrenchClause( "Il était mû par un désir puissant.", [ "fut" ] );
 		expect( mockClause.getParticiples() ).toEqual( [ "mû" ] );
 		expect( mockClause.isPassive() ).toBe( true );
