@@ -3,33 +3,35 @@ import getClauses from "../../../../../src/languageProcessing/languages/fr/helpe
 describe( "splits French sentences into parts", function() {
 	it( "returns all sentence parts from the auxiliary to the stopword and from the stopword to the end of the sentence", function() {
 		const sentence = "Ils étaient très amis lorsqu'ils étaient enfants.";
-		expect( getClauses( sentence, )[ 0 ].getSentencePartText() ).toBe( "étaient très amis" );
-		expect( getClauses( sentence, )[ 1 ].getSentencePartText() ).toBe( "étaient enfants." );
+		expect( getClauses( sentence, )[ 0 ].getClauseText() ).toBe( "étaient très amis" );
+		expect( getClauses( sentence, )[ 1 ].getClauseText() ).toBe( "étaient enfants." );
 		expect( getClauses( sentence, ).length ).toBe( 2 );
 	} );
 
 	it( "returns all sentence parts from the auxiliary to the stopword", function() {
 		const sentence = "Ils étaient très heureux lorsque je les y conduisais.";
-		expect( getClauses( sentence, )[ 0 ].getSentencePartText() ).toBe( "étaient très heureux" );
+		expect( getClauses( sentence, )[ 0 ].getClauseText() ).toBe( "étaient très heureux" );
 		expect( getClauses( sentence, ).length ).toBe( 1 );
 	} );
 
 	it( "doesn't split sentences on a sentence breaker if it's within a word", function() {
 		// Sentence breaker: 'es' in 'responsable', 'tes' and 'actes'.
 		const sentence = "Désormais tu es responsable de tes actes.";
-		expect( getClauses( sentence, )[ 0 ].getSentencePartText() ).toBe( "es responsable de tes actes." );
+		expect( getClauses( sentence, )[ 0 ].getClauseText() ).toBe( "es responsable de tes actes." );
 		expect( getClauses( sentence, ).length ).toBe( 1 );
 	} );
 
-	it( "returns sentence parts when there is a stop characters followed by a space/punctuation mark", function() {
+	it( "returns sentence parts when there is a stop character followed by a space/punctuation mark", function() {
+		// Stop character: ,
 		const sentence = "Cela est en particulier une question d'argent, a résumé le Premier ministre néerlandais Mark Rutte.";
-		expect( getClauses( sentence, )[ 0 ].getSentencePartText() ).toBe( "est en particulier une question d'argent" );
+		expect( getClauses( sentence, )[ 0 ].getClauseText() ).toBe( "est en particulier une question d'argent" );
 		expect( getClauses( sentence, ).length ).toBe( 1 );
 	} );
 
 	it( "doesn't split sentences on a stop character that is not followed by a space/punctuation mark", function() {
+		// Stop character: ,
 		const sentence = "La branche était déficitaire de 1,5 milliard.";
-		expect( getClauses( sentence, )[ 0 ].getSentencePartText() ).toBe( "était déficitaire de 1,5 milliard." );
+		expect( getClauses( sentence, )[ 0 ].getClauseText() ).toBe( "était déficitaire de 1,5 milliard." );
 		expect( getClauses( sentence, ).length ).toBe( 1 );
 	} );
 
@@ -46,7 +48,7 @@ describe( "splits French sentences into parts", function() {
 	it( "doesn't return a sentence part when there is a non-auxiliary sentence breaker (comma) but the auxiliary is preceded" +
 		" by a reflexive pronoun", function() {
 		const sentence = "Nous sommes arrivés, nous nous sommes lavés, et puis nous nous sommes couchés.";
-		expect( getClauses( sentence, )[ 0 ].getSentencePartText() ).toBe( "sommes arrivés" );
+		expect( getClauses( sentence, )[ 0 ].getClauseText() ).toBe( "sommes arrivés" );
 		expect( getClauses( sentence, ).length ).toBe( 1 );
 	} );
 
