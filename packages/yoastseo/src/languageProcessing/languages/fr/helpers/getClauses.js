@@ -23,11 +23,11 @@ const options = {
 };
 
 /**
- * Gets the sentence parts from a sentence by determining sentence breakers.
+ * Gets the clauses from a sentence by determining sentence breakers.
  *
- * @param {string} sentence The sentence to split up in sentence parts.
+ * @param {string} sentence The sentence to split up in clauses.
  *
- * @returns {Array} The array with all parts of a sentence that have an auxiliary.
+ * @returns {Array} The array with all clauses that have an auxiliary.
  */
 export default function getFrenchClauses( sentence ) {
 	return getClauses( sentence, options );

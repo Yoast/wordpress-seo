@@ -49,9 +49,9 @@ const matchIrregularParticiples = function( word ) {
 };
 
 /**
- * Creates participle objects for the participles found in a sentence part.
+ * Creates an array of the participles found in a clause.
  *
- * @param {string} clauseText The sentence part to find participles in.
+ * @param {string} clauseText The clause to find participles in.
 
  * @returns {Array} The list with participles.
  */
