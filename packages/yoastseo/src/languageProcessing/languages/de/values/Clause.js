@@ -33,7 +33,7 @@ class GermanClause extends Clause {
 
 	/**
 	 * Checks if any exceptions are applicable to this participle that would result in the clause not being passive.
-	 * If no exceptions are found and there is an auxiliary present, the sentence part is passive.
+	 * If no exceptions are found and there is an auxiliary present, the clause is passive.
 	 *
 	 * @returns {void}
 	 */
@@ -66,7 +66,7 @@ class GermanClause extends Clause {
 
 	/**
 	 * Checks whether a participle is followed by 'haben' or 'sein'.
-	 * If a participle is followed by one of these, the sentence is not passive.
+	 * If a participle is followed by one of these, the clause is not passive.
 	 *
 	 * @param {string} participle   The participle to check.
 	 *
