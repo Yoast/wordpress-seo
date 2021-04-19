@@ -46,10 +46,6 @@ class GermanClause extends Clause {
 		} );
 
 		this.setPassive( foundParticiples.length > 0 );
-
-		if ( this.getAuxiliaries().length === 0 ) {
-			this.setPassive( false );
-		}
 	}
 
 	/**

@@ -39,11 +39,6 @@ class DutchClause extends Clause {
 		} );
 
 		this.setPassive( foundParticiples.length > 0 );
-
-		// Check if there is an auxiliary present in the clause, set the clause passiveness to false if there isn't
-		if ( this.getAuxiliaries().length === 0 ) {
-			this.setPassive( false );
-		}
 	}
 
 	/**

@@ -27,7 +27,7 @@ class CzechClause extends Clause {
 	 * @returns {void}
 	 */
 	checkParticiples() {
-		this.setPassive( this.getAuxiliaries().length > 0 && this.getParticiples().length > 0 );
+		this.setPassive( this.getParticiples().length > 0 );
 	}
 }
 
