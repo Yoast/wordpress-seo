@@ -113,6 +113,27 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 	}
 
 	/**
+	 * Retrieves the images for an author archive indexable.
+	 *
+	 * This is a custom method to address the case of Author Archives, since they always have an Open Graph image
+	 * set in the indexable (eve if it is an empty default Gravatar).
+	 *
+	 * @param Meta_Tags_Context $context The context.
+	 *
+	 * @return array The images.
+	 */
+	public function generate_for_author_archive( Meta_Tags_Context $context ) {
+		$image_container = $this->get_image_container();
+
+		$this->add_from_templates( $context, $image_container );
+		if ( $image_container->has_images() ) {
+			return $image_container->get_images();
+		}
+
+		return $this->generate( $context );
+	}
+
+	/**
 	 * Adds an image based on the given indexable.
 	 *
 	 * @param Indexable $indexable       The indexable.
