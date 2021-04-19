@@ -62,7 +62,7 @@ describe( "a test for the Spanish Researcher", function() {
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "gatos" ) ).toEqual( "gat" );
 	} );
 
-	it( "splits Spanish sentence into clauses and checks if the clause are passive or not", function() {
+	it( "splits Spanish sentence into clauses and checks if the clauses are passive or not", function() {
 		const sentence = "Ellos eran tres amigos cuando los conocí.";
 		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "eran tres amigos" );
 		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( false );
