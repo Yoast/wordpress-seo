@@ -58,15 +58,11 @@ describe( "a test for the Dutch Researcher", function() {
 	} );
 
 	it( "splits Dutch sentence into parts", function() {
-		let sentence =  "Ik ging naar buiten omdat het mooi weer was.";
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Ik ging naar buiten" );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( false );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "omdat het mooi weer was." );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( false );
-
-		sentence = "De kat werd geadopteerd";
+		const sentence = "De kat werd geadopteerd zodra hij werd gezien.";
 		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "De kat werd geadopteerd" );
 		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( true );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "zodra hij werd gezien." );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( true );
 	} );
 
 	it( "calculates the Flesch reading score using the formula for Dutch", function() {
