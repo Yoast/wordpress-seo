@@ -4,11 +4,11 @@ module.exports = function( grunt ) {
 	/**
 	 * Helper function to update the content of the file.
 	 *
-	 * @param {string} file Target file.
+	 * @param {string} file    Target file.
 	 * @param {RegExp} pattern Pattern to search for.
 	 * @param {string} version Version to insert.
 	 *
-	 * @returns {null} does not retrun,
+	 * @returns {void}
 	 */
 	 function setVersion( file, pattern, version ) {
 		const contents = grunt.file.read( file ).replace(
@@ -22,9 +22,9 @@ module.exports = function( grunt ) {
 	/**
 	 * Reads the current Gutenberg version from the file.
 	 *
-	 * @param {string} file Target file.
+	 * @param {string} file    Target file.
 	 * @param {RegExp} pattern Pattern to search for.
-	 * @param {int} index Index to return.
+	 * @param {int} index      Index to return.
 	 *
 	 * @returns {string} The version from the file.
 	 */
