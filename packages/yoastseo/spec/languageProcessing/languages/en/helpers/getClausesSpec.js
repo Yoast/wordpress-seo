@@ -38,4 +38,9 @@ describe( "splits English sentences into clauses", function() {
 		expect( getClauses( sentence )[ 0 ].getClauseText() ).toBe( "having)" );
 		expect( getClauses( sentence ).length ).toBe( 1 );
 	} );
+	it( "does not split an English sentence on a word from the -ing exception list", function() {
+		const sentence = "He is the king of the castle";
+		expect( getClauses( sentence )[ 0 ].getClauseText() ).toBe( "is the king of the castle" );
+		expect( getClauses( sentence ).length ).toBe( 1 );
+	} );
 } );

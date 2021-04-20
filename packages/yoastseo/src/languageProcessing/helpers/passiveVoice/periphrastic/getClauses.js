@@ -127,8 +127,9 @@ const getSentenceBreakers = function( sentence, options ) {
 	const stopCharacterIndices = getStopCharacters( sentence, regexes.stopCharacterRegex );
 
 	let indices = [];
+	// Check if there are any language-specific indices in the options.
 	if ( options.indices ) {
-		indices = options.indices;
+		indices.push( options.indices );
 	}
 
 	if ( typeof regexes.directPrecedenceExceptionRegex !== "undefined" ) {
@@ -141,7 +142,7 @@ const getSentenceBreakers = function( sentence, options ) {
 		auxiliaryIndices = elisionAuxiliaryExceptionFilter( sentence, auxiliaryIndices, regexes.elisionAuxiliaryExceptionRegex );
 	}
 
-	indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
+	indices.concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
 
 	indices = filterIndices( indices );
 	return sortIndices( indices );
