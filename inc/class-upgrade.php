@@ -1166,12 +1166,12 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Migrates the frontpage social settings to the titles options.
+	 * Overwrites the social options defaults with the values from the matching SEO options.
 	 *
 	 * @return void
 	 */
 	public function set_og_settings_from_seo_values() {
-		$wpseo_titles    = \get_option( 'wpseo_titles' );
+		$wpseo_titles    = get_option( 'wpseo_titles' );
 		$updated_options = [];
 
 		$options = [
@@ -1233,8 +1233,8 @@ class WPSEO_Upgrade {
 			}
 		}
 
-		$wpseo_titles = \array_merge( $wpseo_titles, $updated_options );
+		$wpseo_titles = array_merge( $wpseo_titles, $updated_options );
 
-		\update_option( 'wpseo_titles', $wpseo_titles );
+		update_option( 'wpseo_titles', $wpseo_titles );
 	}
 }
