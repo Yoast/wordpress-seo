@@ -6,7 +6,6 @@ import { BlockValidation, BlockValidationResult, BlockPresence } from "../valida
 import Instruction, { InstructionOptions } from "../Instruction";
 import { attributeExists, attributeNotEmpty } from "../../functions/validators";
 import { maxBy } from "lodash";
-import logger from "../../functions/logger";
 
 export type BlockInstructionClass = {
 	new( id: number, options: InstructionOptions ): BlockInstruction;

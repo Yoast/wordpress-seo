@@ -105,7 +105,7 @@ export function PureBlockSuggestionsPresenter( { heading, parentClientId, sugges
 				{
 					blockNames.map( ( blockName, index: number ) => {
 						const suggestion = suggestions.find( sug => sug.name === blockName );
-						logger.debug( "suggestion for block " + blockName + " = ", suggestion );
+
 						const isValid = suggestion && isValidResult( suggestion.result );
 						const isMissing = suggestion && isMissingResult( suggestion.result );
 						const isEmpty = suggestion && isEmptyResult( suggestion.result );

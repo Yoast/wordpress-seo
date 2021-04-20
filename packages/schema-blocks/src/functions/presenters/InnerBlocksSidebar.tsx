@@ -1,12 +1,9 @@
 import { ReactElement } from "react";
-
-import { createElement, Fragment } from "@wordpress/element";
-import { useSelect } from "@wordpress/data";
 import { BlockInstance } from "@wordpress/blocks";
+import { useSelect } from "@wordpress/data";
+import { createElement, Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-
 import { SvgIcon } from "@yoast/components";
-
 import { createAnalysisMessages, SidebarWarning } from "./SidebarWarningPresenter";
 import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import BlockSuggestions from "./BlockSuggestionsPresenter";
@@ -29,17 +26,6 @@ function useValidationResults( clientId: string ): BlockValidationResult {
 	return useSelect( select => {
 		return select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getValidationResultForClientId( clientId );
 	}, [ clientId ] );
-}
-
-/**
- * Retrieves the latest block version from the WordPress store.
- *
- * @param clientId The client ID of the block to retrieve the latest version of.
- *
- * @returns The latest version of the block.
- */
-function useBlock( clientId: string ): BlockInstance {
-	return useSelect( select => select( "core/block-editor" ).getBlock( clientId ), [ clientId ] );
 }
 
 /**
