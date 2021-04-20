@@ -8,9 +8,7 @@ import getWordIndices from "./getIndicesWithRegex.js";
 import includesIndex from "../../word/includesIndex";
 import followsIndex from "../../word/followsIndex";
 
-import { filter } from "lodash-es";
 import { isUndefined } from "lodash-es";
-import { includes } from "lodash-es";
 import { map } from "lodash-es";
 import { forEach } from "lodash-es";
 
@@ -126,11 +124,12 @@ const getSentenceBreakers = function( sentence, options ) {
 	const stopwordIndices = getIndicesOfList( options.stopwords, sentence );
 	const stopCharacterIndices = getStopCharacters( sentence, regexes.stopCharacterRegex );
 
-	let indices = [];
-	// Check if there are any language-specific indices in the options.
-	if ( options.indices ) {
-		indices.push( options.indices );
+	// Check if there are already any indices in the options.
+	let indicesFromOptions = [];
+	if ( options.indices && options.indices.length > 0 ) {
+		indicesFromOptions = options.indices;
 	}
+	console.log( indicesFromOptions )
 
 	if ( typeof regexes.directPrecedenceExceptionRegex !== "undefined" ) {
 		// Filters auxiliaries matched in the sentence based on a precedence exception filter.
@@ -142,10 +141,11 @@ const getSentenceBreakers = function( sentence, options ) {
 		auxiliaryIndices = elisionAuxiliaryExceptionFilter( sentence, auxiliaryIndices, regexes.elisionAuxiliaryExceptionRegex );
 	}
 
-	indices.concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
+	let totalIndices = indicesFromOptions.concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
 
-	indices = filterIndices( indices );
-	return sortIndices( indices );
+	totalIndices = filterIndices( totalIndices );
+
+	return sortIndices( totalIndices );
 };
 
 /**
