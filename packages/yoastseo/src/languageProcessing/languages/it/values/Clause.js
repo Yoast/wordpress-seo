@@ -33,7 +33,8 @@ class ItalianClause extends Clause {
 	checkParticiples() {
 		const clause = this.getClauseText();
 
-		const passiveParticiples = this.getParticiples().filter( participle => ! directPrecedenceException( clause, participle, cannotDirectlyPrecedePassiveParticiple ) &&
+		const passiveParticiples = this.getParticiples().filter( participle =>
+			! directPrecedenceException( clause, participle, cannotDirectlyPrecedePassiveParticiple ) &&
 			! precedenceException( clause, participle, cannotBeBetweenPassiveAuxiliaryAndParticiple ) );
 
 		this.setPassive( passiveParticiples.length > 0 );
@@ -41,7 +42,5 @@ class ItalianClause extends Clause {
 }
 
 export default ItalianClause;
-
-
 
 
