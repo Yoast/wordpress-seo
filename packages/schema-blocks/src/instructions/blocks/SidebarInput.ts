@@ -7,7 +7,7 @@ import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
 import SidebarBase, { SidebarBaseOptions } from "./abstract/SidebarBase";
 
 /**
- * Sidebar input instruction.
+ * SidebarInput instruction.
  */
 class SidebarInput extends SidebarBase {
 	public options: SidebarBaseOptions;

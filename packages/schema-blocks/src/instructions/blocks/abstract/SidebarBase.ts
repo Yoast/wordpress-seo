@@ -13,7 +13,7 @@ export type SidebarBaseOptions = {
 }
 
 /**
- * Sidebar input instruction
+ * SidebarBase instruction.
  */
 export default abstract class SidebarBase extends BlockInstruction {
 	public options: SidebarBaseOptions;
