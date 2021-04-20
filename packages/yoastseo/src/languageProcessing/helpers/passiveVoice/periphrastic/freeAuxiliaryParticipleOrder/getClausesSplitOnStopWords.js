@@ -22,42 +22,45 @@ function sanitizeMatches( matches ) {
  * @param {string} sentence The sentence to split.
  * @param {Array} stopwords The array with matched stopwords.
  *
- * @returns {Array} The array with sentence parts.
+ * @returns {Array} The array with clauses.
  */
-function splitOnWords( sentence, stopwords ) {
-	const splitSentences = [];
+function splitOnStopWords( sentence, stopwords ) {
+	const clauses = [];
 
 	// Split the sentence on each found stopword and push this part in an array.
 	forEach( stopwords, function( stopword ) {
-		const sentenceSplit = sentence.split( stopword );
-		if ( ! isEmpty( sentenceSplit[ 0 ] ) ) {
-			splitSentences.push( sentenceSplit[ 0 ] );
+		const clause = sentence.split( stopword );
+		if ( ! isEmpty( clause[ 0 ] ) ) {
+			clauses.push( clause[ 0 ] );
 		}
 		const startIndex = sentence.indexOf( stopword );
 		const endIndex = sentence.length;
 		sentence = stripSpaces( sentence.substr( startIndex, endIndex ) );
 	} );
 
-	// Push the remainder of the sentence in the sentence parts array.
-	splitSentences.push( sentence );
-	return splitSentences;
+	// Push the remainder of the sentence in the clauses array.
+	clauses.push( sentence );
+	return clauses;
 }
 
 /**
- * Creates sentence parts based on split sentences.
+ * Creates clauses based on split sentences.
 
- * @param {Array}   sentences   The array with split sentences.
+ * @param {Array}   clauses   The array with clauses.
  * @param {Object}  options    The language-specific regexes and Clause class.
  *
  * @returns {Array} The array with sentence parts.
  */
-function createSentenceParts( sentences, options ) {
-	const sentenceParts = [];
-	forEach( sentences, function( part ) {
-		const foundAuxiliaries = sanitizeMatches( part.match( options.regexes.auxiliaryRegex || [] ) );
-		sentenceParts.push( new options.Clause( part, foundAuxiliaries ) );
+function createClauseObjects( clauses, options ) {
+	const clauseObjects = [];
+	forEach( clauses, function( clause ) {
+		const foundAuxiliaries = sanitizeMatches( clause.match( options.regexes.auxiliaryRegex || [] ) );
+		// If a clause doesn't have an auxiliary, we don't need it, so it can be filtered out.
+		if ( foundAuxiliaries.length !== 0 ) {
+			clauseObjects.push( new options.Clause( clause, foundAuxiliaries ) );
+		}
 	} );
-	return sentenceParts;
+	return clauseObjects;
 }
 
 /**
@@ -68,10 +71,17 @@ function createSentenceParts( sentences, options ) {
  *
  * @returns {Array} The array with clauses.
  */
-function splitSentence( sentence, options ) {
+function getClausesSplitOnStopWords( sentence, options ) {
+	const auxiliaryRegex = options.regexes.auxiliaryRegex;
+
+	// First check if there is an auxiliary in the sentence.
+	if ( sentence.match( auxiliaryRegex ) === null ) {
+		return [];
+	}
+
 	const stopwords = sentence.match( options.regexes.stopwordRegex ) || [];
-	const splitSentences = splitOnWords( sentence, stopwords );
-	return createSentenceParts( splitSentences, options );
+	const clauses = splitOnStopWords( sentence, stopwords );
+	return createClauseObjects( clauses, options );
 }
 
-export default splitSentence;
+export default getClausesSplitOnStopWords;

@@ -1,29 +1,16 @@
-import { forEach } from "lodash-es";
 import { languageProcessing } from "yoastseo";
 const { getWords } = languageProcessing;
-import CzechParticiple from "../../values/CzechParticiple";
 import getPassiveEndingsCzech from "../../config/internal/passiveVoiceEndings";
 
-
 /**
- * Creates participle objects for the participles found in a sentence part.
+ * Creates an array of participles found in a clause.
  *
- * @param {string} sentencePartText The sentence part to find participles in.
- * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
- * @returns {Array} The list with participle objects.
+ * @param {string} clauseText The clause to find participles in.
+ *
+ * @returns {Array} The list with participles found.
  */
-export default function( sentencePartText, auxiliaries ) {
-	const words = getWords( sentencePartText );
+export default function( clauseText ) {
+	const words = getWords( clauseText );
 
-	const foundParticiples = [];
-
-	forEach( words, function( word ) {
-		forEach( getPassiveEndingsCzech, function( ending ) {
-			if ( word.endsWith( ending ) ) {
-				foundParticiples.push( new CzechParticiple( word, sentencePartText,
-					{ auxiliaries: auxiliaries, language: "cs" } ) );
-			}
-		} );
-	} );
-	return foundParticiples;
+	return words.filter( word => getPassiveEndingsCzech.some( ending => word.endsWith( ending ) ) );
 }
