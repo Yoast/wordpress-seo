@@ -33,7 +33,7 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 					plugin.constructor.name !== "DependencyExtractionWebpackPlugin" &&
 					plugin.constructor.name !== "MiniCSSExtractPlugin" &&
 					plugin.constructor.name !== "CleanWebpackPlugin" &&
-					plugin.constructor.name !== "BundleAnalyzerPlugin",
+					plugin.constructor.name !== "BundleAnalyzerPlugin"
 			),
 			new DependencyExtractionWebpackPlugin( {
 				injectPolyfill: true,

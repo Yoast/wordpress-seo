@@ -1,5 +1,5 @@
 // External dependencies
-const { readdirSync } = require( "fs" );
+const { existsSync, readdirSync } = require( "fs" );
 const { join } = require( "path" );
 
 // Variables
@@ -29,11 +29,15 @@ module.exports = [
 			},
 			combinedOutputFile: root + "src/generated/assets/plugin.php",
 			cssExtractFileName: root + "../../css/dist/plugin-" + pluginVersionSlug + ".css",
-		},
+		}
 	),
 	baseConfig(
 		{
 			entry: yoastPackages.reduce( ( memo, packageName ) => {
+				if ( existsSync( "./packages/" + packageName ) ) {
+					memo[ yoastExternals[ packageName ] ] = "./packages/" + packageName;
+					return memo;
+				}
 				memo[ yoastExternals[ packageName ] ] = "./node_modules/" + packageName;
 				return memo;
 			}, {} ),
@@ -45,7 +49,7 @@ module.exports = [
 			},
 			combinedOutputFile: root + "src/generated/assets/externals.php",
 			cssExtractFileName: "../../../css/dist/monorepo-" + pluginVersionSlug + ".css",
-		},
+		}
 	),
 	baseConfig(
 		{
@@ -62,6 +66,6 @@ module.exports = [
 			},
 			combinedOutputFile: root + "src/generated/assets/languages.php",
 			cssExtractFileName: "../../../css/dist/languages-" + pluginVersionSlug + ".css",
-		},
+		}
 	),
 ];

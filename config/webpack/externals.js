@@ -3,7 +3,7 @@ const { camelCaseDash } = require( "@wordpress/dependency-extraction-webpack-plu
 /**
  * Yoast dependencies, declared as such in the package.json.
  */
-const { dependencies }    = require( "../../package" );
+const { dependencies }    = require( "../../packages/js/package" );
 const legacyYoastPackages = [ "yoast-components", "yoastseo" ];
 const additionalPackages  = [
 	"draft-js",
@@ -28,7 +28,7 @@ const yoastPackages = Object.keys( dependencies )
  * Convert Yoast packages to externals configuration.
  */
 const yoastExternals = yoastPackages.reduce( ( memo, packageName ) => {
-	let usablePackageName = packageName.replace( YOAST_PACKAGE_NAMESPACE, "" );
+	let useablePackageName = packageName.replace( YOAST_PACKAGE_NAMESPACE, "" );
 
 	switch ( useablePackageName ) {
 		case "components":
