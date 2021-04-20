@@ -4,7 +4,7 @@ describe( "splits Portuguese sentences into clauses", function() {
 	it( "returns all clauses from the auxiliary to the stopword and from the stopword to the end of the sentence, " +
 		"and returns their passiveness", function() {
 		const sentence = "Eles eram três amigos quando eram crianças.";
-		expect( getClauses( sentence )[ 0 ].getClauseText() ).toBe( "eram três amigos quando" );
+		expect( getClauses( sentence )[ 0 ].getClauseText() ).toBe( "eram três amigos" );
 		expect( getClauses( sentence )[ 0 ].isPassive() ).toBe( false );
 		expect( getClauses( sentence )[ 1 ].getClauseText() ).toBe( "eram crianças." );
 		expect( getClauses( sentence )[ 1 ].isPassive() ).toBe( false );
