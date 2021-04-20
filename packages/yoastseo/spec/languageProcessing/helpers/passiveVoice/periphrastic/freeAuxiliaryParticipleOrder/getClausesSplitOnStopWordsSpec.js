@@ -7,7 +7,7 @@ const options1 = {
 	Clause: Clause,
 	regexes: {
 		auxiliaryRegex: arrayToRegex( [ "word", "wordt", "worden", "werd" ] ),
-		stopwordRegex: arrayToRegex( [ "als", "dan", "doordat", "hoewel", "omdat" ] ),
+		stopwordRegex: arrayToRegex( [ "als", "dan", "zodra", "hoewel", "omdat" ] ),
 	},
 };
 
@@ -29,20 +29,31 @@ describe( "splits sentences into parts", function() {
 	} );
 
 	it( "returns all clauses from sentence beginning to the stopword and from the stopword to the end of the sentence", function() {
-		const sentence = "Ik ging naar buiten omdat het mooi weer was.";
-		expect( getClausesSplitOnStopwords( sentence, options1 )[ 0 ].getClauseText() ).toBe( "Ik ging naar buiten" );
-		expect( getClausesSplitOnStopwords( sentence, options1 )[ 0 ].getAuxiliaries() ).toEqual( [] );
-		expect( getClausesSplitOnStopwords( sentence, options1 )[ 1 ].getClauseText() ).toBe( "omdat het mooi weer was." );
-		expect( getClausesSplitOnStopwords( sentence, options1 )[ 1 ].getAuxiliaries() ).toEqual( [] );
+		const sentence = "De kat werd geadopteerd zodra hij werd gezien.";
+		expect( getClausesSplitOnStopwords( sentence, options1 )[ 0 ].getClauseText() ).toBe( "De kat werd geadopteerd" );
+		expect( getClausesSplitOnStopwords( sentence, options1 )[ 0 ].getAuxiliaries() ).toEqual( [ "werd" ] );
+		expect( getClausesSplitOnStopwords( sentence, options1 )[ 1 ].getClauseText() ).toBe( "zodra hij werd gezien." );
+		expect( getClausesSplitOnStopwords( sentence, options1 )[ 1 ].getAuxiliaries() ).toEqual( [ "werd" ] );
 		expect( getClausesSplitOnStopwords( sentence, options1 ).length ).toBe( 2 );
 	} );
 
-	it( "returns all the stop words as individual clause if the sentence contains only stop words", function() {
-		const sentence = "Omdat als hoewel.";
-		expect( getClausesSplitOnStopwords( sentence, options1 )[ 0 ].getClauseText() ).toBe( "Omdat" );
-		expect( getClausesSplitOnStopwords( sentence, options1 )[ 1 ].getClauseText() ).toBe( "als" );
-		expect( getClausesSplitOnStopwords( sentence, options1 )[ 2 ].getClauseText() ).toBe( "hoewel." );
-		expect( getClausesSplitOnStopwords( sentence, options1 ).length ).toBe( 3 );
+	it( "does not return a clause that doesn't have an auxiliary", function() {
+		const sentence = "De kat wordt geadopteerd zodra zij haar moeder niet nodig heeft";
+		expect( getClausesSplitOnStopwords( sentence, options1 )[ 0 ].getClauseText() ).toBe( "De kat wordt geadopteerd" );
+		expect( getClausesSplitOnStopwords( sentence, options1 )[ 0 ].getAuxiliaries() ).toEqual( [ "wordt" ] );
+		expect( getClausesSplitOnStopwords( sentence, options1 ).length ).toBe( 1 );
+	} );
+
+	it( "returns a clause that starts with a stopword", function() {
+		const sentence = "Als ik rijk wordt ga ik je iets kopen.";
+		expect( getClausesSplitOnStopwords( sentence, options1 )[ 0 ].getClauseText() ).toBe( "Als ik rijk wordt ga ik je iets kopen." );
+		expect( getClausesSplitOnStopwords( sentence, options1 )[ 0 ].getAuxiliaries() ).toEqual( [ "wordt" ] );
+		expect( getClausesSplitOnStopwords( sentence, options1 ).length ).toBe( 1 );
+	} );
+
+	it( "returns an empty array if there are no auxiliaries in any of the clauses", function() {
+		const sentence = "De zon schijnt.";
+		expect( getClausesSplitOnStopwords( sentence, options1 ) ).toEqual( [] );
 	} );
 
 	it( "returns the whole sentence when the auxiliary list is not available", function() {
