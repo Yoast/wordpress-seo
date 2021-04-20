@@ -58,14 +58,10 @@ describe( "a test for the Hungarian Researcher", function() {
 	} );
 
 	it( "splits Hungarian sentence into clauses", function() {
-		let sentence =  "Péter és Sára szeretnek aludni.";
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Péter" );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "és Sára szeretnek aludni." );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( false );
-
-		sentence = "Ki van plakátolva a képe.";
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Ki van plakátolva" );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( true );
+		const sentence =  "Az ajtó be van csukva és Mari szeretve van.";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "be van csukva" );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "és Mari szeretve van." );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( true );
 	} );
 
 	it( "checks if a Hungarian sentence is passive or not", function() {
