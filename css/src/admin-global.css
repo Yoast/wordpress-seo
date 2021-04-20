@@ -23,6 +23,10 @@
   max-width: 600px;
 }
 
+.yoast-measure.padded {
+	max-width: 632px;
+}
+
 /* Thickbox */
 #TB_window .wpseo_content_wrapper p {
   font-size: 14px;
@@ -436,6 +440,10 @@ td.column-wpseo-linked {
 
 .wpseo-admin-page .yoast-help-panel {
   max-width: 600px !important;
+}
+
+.copy-home-meta-description {
+	margin-top: 1em;
 }
 
 .copy-home-meta-description .yoast-help-panel {
