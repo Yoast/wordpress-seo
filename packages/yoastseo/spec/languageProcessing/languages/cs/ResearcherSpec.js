@@ -58,14 +58,10 @@ describe( "a test for the Czech Researcher", function() {
 	} );
 
 	it( "splits Czech sentence into clauses and checks their passiveness", function() {
-		let sentence =  "Zkuste to znovu albo to nechte tak.";
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Zkuste to znovu" );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "albo to nechte tak." );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( false );
-
-		sentence = "Stěny byly vyzdobeny včas.";
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Stěny byly vyzdobeny včas." );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( true );
+		const sentence =  "byla kočka adoptována nebo byla koupena?";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "byla kočka adoptována" );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "nebo byla koupena?" );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( true );
 	} );
 } );
 
