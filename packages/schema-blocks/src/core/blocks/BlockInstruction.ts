@@ -6,6 +6,7 @@ import { BlockValidation, BlockValidationResult, BlockPresence } from "../valida
 import Instruction, { InstructionOptions } from "../Instruction";
 import { attributeExists, attributeNotEmpty } from "../../functions/validators";
 import { maxBy } from "lodash";
+import logger from "../../functions/logger";
 
 export type BlockInstructionClass = {
 	new( id: number, options: InstructionOptions ): BlockInstruction;
@@ -81,7 +82,7 @@ export default abstract class BlockInstruction extends Instruction {
 
 		let presence = BlockPresence.Unknown;
 		if ( this.options ) {
-			presence = this.options.required ? BlockPresence.Required : BlockPresence.Recommended;
+			presence = this.getPresence( this.options );
 			const attributeValid = attributeExists( blockInstance, this.options.name as string ) &&
 								attributeNotEmpty( blockInstance, this.options.name as string );
 			if ( ! attributeValid ) {
@@ -89,6 +90,7 @@ export default abstract class BlockInstruction extends Instruction {
 			}
 		}
 
+		// Core blocks have their own validation
 		if ( blockInstance.name.startsWith( "core/" ) && ! blockInstance.isValid ) {
 			issues.push( new BlockValidationResult( blockInstance.clientId, this.constructor.name, BlockValidation.Invalid, presence ) );
 		}
@@ -105,5 +107,24 @@ export default abstract class BlockInstruction extends Instruction {
 		validation.issues = issues;
 
 		return validation;
+	}
+
+	/**
+	 * Converts the presence requirements of a particular element to a BlockPresence variable.
+	 * @param options The block's options.
+	 * @returns The requirements converted to BlockPresence.
+	 */
+	getPresence( options: InstructionOptions ) {
+		if ( ! options || options.required === "undefined" ) {
+			return BlockPresence.Unknown;
+		}
+
+		if ( options.required === true ) {
+			return BlockPresence.Required;
+		}
+
+		if ( options.required === false ) {
+			return BlockPresence.Recommended;
+		}
 	}
 }

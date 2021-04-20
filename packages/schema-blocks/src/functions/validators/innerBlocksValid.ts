@@ -23,7 +23,9 @@ import { getHumanReadableBlockName } from "../BlockHelper";
  *
  * @returns {BlockValidationResult[]} The names of blocks that should/could occur but don't, with reason 'MissingBlock'.
  */
-function findMissingBlocks( existingBlocks: BlockInstance[], wantedBlocks: RequiredBlock[] | RecommendedBlock[],
+function findMissingBlocks(
+	existingBlocks: BlockInstance[],
+	wantedBlocks: RequiredBlock[] | RecommendedBlock[],
 	blockPresence: BlockPresence ): BlockValidationResult[] {
 	const missingBlocks = wantedBlocks.filter( block => {
 		// If, in the existing blocks, there are not any blocks with the name of block, that block is missing.
@@ -45,8 +47,10 @@ function findMissingBlocks( existingBlocks: BlockInstance[], wantedBlocks: Requi
  *
  * @returns {BlockValidationResult[]} The names of blocks that occur more than once in the inner blocks with reason 'TooMany'.
  */
-function findRedundantBlocks( existingBlocks: BlockInstance[], allBlocks: RequiredBlock[] | RecommendedBlock[],
-							  blockPresence: BlockPresence ): BlockValidationResult[] {
+function findRedundantBlocks(
+	existingBlocks: BlockInstance[],
+	allBlocks: RequiredBlock[] | RecommendedBlock[],
+	blockPresence: BlockPresence ): BlockValidationResult[] {
 	const validationResults: BlockValidationResult[] = [];
 	const singletons = allBlocks.filter( block => block.option !== RequiredBlockOption.Multiple );
 

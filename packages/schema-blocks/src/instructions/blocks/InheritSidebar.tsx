@@ -1,11 +1,12 @@
 import { createElement, Fragment, ReactElement } from "@wordpress/element";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
+import { BlockEditProps, BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import { createBlockEditProps, getParentIdOfType } from "../../functions/gutenberg/block";
 import { getBlockByClientId } from "../../functions/BlockHelper";
 import logger from "../../functions/logger";
 import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
 import { InstructionOptions } from "../../core/Instruction";
+import { BlockValidationResult } from "../../core/validation";
 
 /**
  * Sidebar input instruction.
@@ -65,6 +66,17 @@ export default class InheritSidebar extends BlockInstruction {
 				},
 			},
 		};
+	}
+
+	/**
+	 * Checks if the instruction block is valid.
+	 *
+	 * @param blockInstance The attributes from the block.
+	 *
+	 * @returns {BlockValidationResult} The validation result.
+	 */
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		return BlockValidationResult.Valid( blockInstance, this.constructor.name );
 	}
 }
 

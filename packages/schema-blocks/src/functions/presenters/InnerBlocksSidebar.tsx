@@ -60,7 +60,7 @@ export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ): ReactEleme
 		warnings = createAnalysisMessages( validationResults );
 	}
 
-	return <Fragment key={ "innerblocks-sidebar-" + block.clientId }>
+	return <Fragment key={ "innerblocks-sidebar-" + props.currentBlock.clientId }>
 		<SidebarHeader />
 		<WarningList warnings={ warnings } />
 		<BlockSuggestions

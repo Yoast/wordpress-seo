@@ -4,7 +4,9 @@ import { RichText as WordPressRichText } from "@wordpress/block-editor";
 import BlockInstruction from "../../../core/blocks/BlockInstruction";
 import { RenderSaveProps, RenderEditProps } from "../../../core/blocks/BlockDefinition";
 import BlockLeaf from "../../../core/blocks/BlockLeaf";
-import { BlockConfiguration } from "@wordpress/blocks";
+import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
+import { BlockPresence, BlockValidationResult } from "../../../core/validation";
+import logger from "../../../functions/logger";
 
 export interface RichTextSaveProps extends WordPressRichText.ContentProps<keyof HTMLElementTagNameMap> {
 	"data-id": string;
@@ -74,6 +76,29 @@ export default abstract class RichTextBase extends BlockInstruction {
 				},
 			},
 		};
+	}
+
+	/**
+	 * Checks if the instruction block is valid.
+	 *
+	 * @param blockInstance The attributes from the block.
+	 *
+	 * @returns {BlockValidationResult} The validation result.
+	 */
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		let presence = BlockPresence.Unknown;
+		if ( this.options.required === true ) {
+			presence = BlockPresence.Required;
+		} else {
+			if ( this.options.required === false ) {
+				presence = BlockPresence.Recommended;
+			}
+		}
+
+		logger.debug( blockInstance.originalContent );
+		return blockInstance.originalContent && blockInstance.originalContent.length > 0
+			? BlockValidationResult.Valid( blockInstance, this.constructor.name, presence )
+			: BlockValidationResult.MissingBlock( this.constructor.name, presence );
 	}
 
 	/**

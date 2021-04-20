@@ -1,5 +1,7 @@
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps } from "../../core/blocks/BlockDefinition";
+import { BlockInstance } from "@wordpress/blocks";
+import { BlockValidationResult } from "../../core/validation";
 
 /**
  * ClassName instruction.
@@ -25,6 +27,17 @@ export default class ClassName extends BlockInstruction {
 	 */
 	save(): string {
 		return "yoast-inner-container";
+	}
+
+	/**
+	 * Checks if the instruction block is valid.
+	 *
+	 * @param blockInstance The attributes from the block.
+	 *
+	 * @returns {BlockValidationResult} The validation result.
+	 */
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		return BlockValidationResult.Valid( blockInstance, this.constructor.name );
 	}
 }
 

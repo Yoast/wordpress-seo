@@ -4,7 +4,7 @@ import { BlockValidation, BlockValidationResult } from "../../../src/core/valida
 import { BlockPresence } from "../../../src/core/validation/BlockValidationResult";
 import { getValidationResultForClientId } from "../../../src/functions/validators";
 
-let input: BlockValidationResult[] = [];
+const input: BlockValidationResult[] = [];
 
 const defaultTestInput = [
 	BlockValidationResult.Valid( { clientId: "validClientId" } as unknown as BlockInstance, "yoast/valid-block", BlockPresence.Required ),
@@ -21,16 +21,6 @@ const nestedValidationResult = {
 		} as BlockValidationResult,
 	],
 } as BlockValidationResult;
-
-jest.mock( "@wordpress/data", () => {
-	return {
-		select: jest.fn( ( store ) => {
-			getSchemaBlocksValidationResults: function() {
-				return input.map( item => )
-			}
-		} ),
-	};
-} );
 
 describe( "The getValidationResultForClientId function ", () => {
 	it( "returns null if no validation is found for the given clientId", () => {
@@ -52,8 +42,7 @@ describe( "The getValidationResultForClientId function ", () => {
 		const result = getValidationResultForClientId( "clientId does not occur in list" );
 
 		// Assert.
-		expect
-
+		expect;
 	} );
 
 	it( "returns the validationResult for the clientId if it is nested 1 level deep", () => {
