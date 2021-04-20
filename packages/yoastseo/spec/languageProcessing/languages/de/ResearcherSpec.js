@@ -58,12 +58,11 @@ describe( "a test for the German Researcher", function() {
 	} );
 
 	it( "splits German sentence into clauses and return the correct passiveness of the clauses", function() {
-		const sentence =  "Zwischen 1927 und 1933 hatte sie intensiven Kontakt zur Erzabtei Beuron.";
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Zwischen 1927" );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( false );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "und 1933 hatte sie" +
-			" intensiven Kontakt zur Erzabtei Beuron." );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( false );
+		const sentence =  "Die Katze wurde adoptiert, sobald sie gesehen wurde.";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Die Katze wurde adoptiert," );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( true );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "sobald sie gesehen wurde." );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( true );
 	} );
 
 	it( "calculates the Flesch reading score using the formula for German", function() {
