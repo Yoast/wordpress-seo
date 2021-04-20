@@ -146,8 +146,6 @@ describe( "AnalysisWebWorker", () => {
 			worker.register();
 
 			expect( scope.analysisWorker ).toBeDefined();
-			expect( scope.yoast ).toBeDefined();
-			expect( scope.yoast.analysis ).toBeDefined();
 		} );
 	} );
 
