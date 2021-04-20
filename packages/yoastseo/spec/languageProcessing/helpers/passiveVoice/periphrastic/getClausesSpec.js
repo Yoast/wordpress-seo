@@ -16,6 +16,7 @@ const options1 = {
 		directPrecedenceExceptionRegex: arrayToRegex( [ "se", "me", "te", "s'y" ] ),
 		elisionAuxiliaryExceptionRegex: arrayToRegex( [ "c'", "s'", "peut-" ], true ),
 	},
+	indices: [],
 };
 
 const options2 = {
@@ -26,6 +27,7 @@ const options2 = {
 		auxiliaryRegex: arrayToRegex( [ "am", "is", "are", "est", "es", "sont" ] ),
 		stopCharacterRegex: /([:,]|('ll)|('ve))(?=[ \n\r\t'"+\-»«‹›<>])/ig,
 	},
+	indices: [],
 };
 
 const options3 = {
@@ -39,12 +41,28 @@ const options3 = {
 	},
 };
 
+const options4 = {
+	Clause: Clause,
+	stopwords: [ "to", "which", "who", "whom", "that" ],
+	auxiliaries: [ "am", "is", "are", "est", "es", "sont" ],
+	ingExclusions: [ "king", "cling", "ring", "being", "thing", "something", "anything" ],
+	regexes: {
+		auxiliaryRegex: arrayToRegex( [ "am", "is", "are", "est", "es", "sont" ] ),
+		stopCharacterRegex: /([:,]|('ll)|('ve))(?=[ \n\r\t'"+\-»«‹›<>])/ig,
+		verbEndingInIngRegex: /\w+ing(?=$|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
+		followingAuxiliaryExceptionRegex: arrayToRegex( [ "le", "la", "les", "el" ] ),
+		directPrecedenceExceptionRegex: arrayToRegex( [ "se", "me", "te", "s'y" ] ),
+		elisionAuxiliaryExceptionRegex: arrayToRegex( [ "c'", "s'", "peut-" ], true ),
+	},
+	indices: [ { index: 23, match: "ing" } ],
+};
+
 describe( "splits sentences into clauses", function() {
 	it( "filters out clauses without auxiliary", function() {
 		const sentence = "The English are always throwing parties.";
-		expect( getClauses( sentence, options1 )[ 0 ].getClauseText() ).toBe( "are always" );
-		expect( getClauses( sentence, options1 )[ 0 ].isPassive() ).toBe( false );
-		expect( getClauses( sentence, options1 ).length ).toBe( 1 );
+		expect( getClauses( sentence, options4 )[ 0 ].getClauseText() ).toBe( "are always" );
+		expect( getClauses( sentence, options4 )[ 0 ].isPassive() ).toBe( false );
+		expect( getClauses( sentence, options4 ).length ).toBe( 1 );
 	} );
 	it( "returns empty array if no auxiliary present in the sentence", function() {
 		const sentence = "A comely lord.";
