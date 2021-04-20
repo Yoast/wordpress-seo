@@ -1,12 +1,10 @@
-import { createElement } from "@wordpress/element";
+import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import { RichText as WordPressRichText } from "@wordpress/block-editor";
-
+import { createElement } from "@wordpress/element";
 import BlockInstruction from "../../../core/blocks/BlockInstruction";
 import { RenderSaveProps, RenderEditProps } from "../../../core/blocks/BlockDefinition";
 import BlockLeaf from "../../../core/blocks/BlockLeaf";
-import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import { BlockPresence, BlockValidationResult } from "../../../core/validation";
-import logger from "../../../functions/logger";
 
 export interface RichTextSaveProps extends WordPressRichText.ContentProps<keyof HTMLElementTagNameMap> {
 	"data-id": string;
@@ -95,10 +93,17 @@ export default abstract class RichTextBase extends BlockInstruction {
 			}
 		}
 
-		logger.debug( blockInstance.originalContent );
-		return blockInstance.originalContent && blockInstance.originalContent.length > 0
-			? BlockValidationResult.Valid( blockInstance, this.constructor.name, presence )
-			: BlockValidationResult.MissingBlock( this.constructor.name, presence );
+		// Does this block have any HTML content?
+		if ( blockInstance.originalContent ) {
+			// Remove all characters from < up to and including > (i.e. strip the tags).
+			const innerText = blockInstance.originalContent.replace( /(<([^>]+)>)/ig, "" );
+
+			if ( innerText.length > 0 ) {
+				return BlockValidationResult.Valid( blockInstance, this.constructor.name, presence );
+			}
+		}
+
+		return BlockValidationResult.MissingBlock( this.constructor.name, presence );
 	}
 
 	/**
