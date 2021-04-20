@@ -10,11 +10,11 @@ describe( "splits Czech sentences into clauses", function() {
 		expect( getClauses( sentence ).length ).toBe( 1 );
 	} );
 	it( "returns all clauses from the sentence beginning to the stopword and from the stopword to the end of the sentence", function() {
-		const sentence = "Pustil práci aby se postaral o děti.";
-		expect( getClauses( sentence )[ 0 ].getClauseText() ).toBe( "Pustil práci" );
-		expect( getClauses( sentence )[ 0 ].getAuxiliaries() ).toEqual( [] );
-		expect( getClauses( sentence )[ 1 ].getClauseText() ).toBe( "aby se postaral o děti." );
-		expect( getClauses( sentence )[ 1 ].getAuxiliaries() ).toEqual( [] );
+		const sentence = "byla kočka adoptována nebo byla koupena?";
+		expect( getClauses( sentence )[ 0 ].getClauseText() ).toBe( "byla kočka adoptována" );
+		expect( getClauses( sentence )[ 0 ].getAuxiliaries() ).toEqual( [ "byla" ] );
+		expect( getClauses( sentence )[ 1 ].getClauseText() ).toBe( "nebo byla koupena?" );
+		expect( getClauses( sentence )[ 1 ].getAuxiliaries() ).toEqual( [ "byla" ] );
 		expect( getClauses( sentence ).length ).toBe( 2 );
 	} );
 } );
