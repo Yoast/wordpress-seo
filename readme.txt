@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.7
-Stable tag: 16.1
+Stable tag: 16.1.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -235,19 +235,25 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 16.2 =
+Release Date: April 28th, 2021
+
 Enhancements:
 
-* Enables/disables auto-updates for the `ACF Content Analysis for Yoast SEO` plugin when auto-updates for Yoast SEO are enabled/disabled.
-* Improves accessibility for the social sharing links in the post publish panel
-* Correctly reference the current webpage in breadcrumb schema output.
-* Changed the output of the `articleSection` and `keywords` attributes of the Article schema to an array instead of comma separated values.
-* Performance improvement: improve how we build the `Article` schema, saving a query on pageload.
-* Adds a filter that allows for showing the Yoast SEO metabox on non-public post types if these are accessible. Props to jondcampbell.
+* Enables/disables auto-updates for the ACF Content Analysis for Yoast SEO plugin when auto-updates for Yoast SEO are enabled/disabled.
+* Improves the accessibility of the social sharing links in the post publish panel.
+* Changes the output of the `articleSection` and `keywords` attributes of the Article schema to an array instead of comma-separated values.
+* Improves the performance by optimizing the way `Article` schema is built, saving a query on pageload.
 
 Bugfixes:
 
-* Fixes an unreleased bug in which the `og:image` tags for Facebook and Twitter didn't reflect the correct images.
-* Fixes a bug where saving posts with URLs without protocol would fail or trigger warnings.
+* Fixes a bug where saving posts containing URLs without protocol would fail or trigger warnings.
+* Fixes a bug where the current webpage would not always be referenced correctly in the breadcrumb schema output.
+* Fixes a bug where the primary term isn't saved at the right moment resulting in having an unexpected term for the breadcrumbs.
+* Fixes a bug where our add-ons would not automatically be updated if Yoast SEO was the first plugin for which the user ever enabled auto-updates.
+
+Other:
+
+* Adds the `'wpseo_enable_editor_features_' . $post_type` filter to allow users to show the Yoast SEO metabox on non-public post types if these are accessible. Props to [jondcampbell](https://github.com/jondcampbell).
 
 = 16.1.1 =
 Release Date: April 6th, 2021

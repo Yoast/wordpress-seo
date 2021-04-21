@@ -38,7 +38,7 @@ src
 ├── oauth               Contains an oauth client. @todo move to a separate lib or to /clients concept.
 ├── orm                 Contains a wrapper of Idiorm. @todo move to a separate lib or to /wrappers concept.
 ├── presentations       Presentations lazily and polymorphically generate data for presenters to output.
-├── presenters          Presenters output Presentations. In MVVM, our presenters resemble views, where presentations resemle view models.
+├── presenters          Presenters output Presentations. In MVVM, our presenters resemble views, where presentations resemble view models.
 │    ├── admin          Admin Presenters
 │    ├── debug          Debug marker Presenters
 │    ├── open-graph     Open Graph Presenters.
