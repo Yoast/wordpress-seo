@@ -261,6 +261,9 @@ script:
   - |
     if [[ "$PHPUNIT" == "1" && ${TRAVIS_PHP_VERSION:0:1} != "8" && $TRAVIS_PHP_VERSION != "nightly" ]]; then
       travis_fold start "PHP.integration-tests" && travis_time_start
+      echo "<?php return [];" >> src/generated/assets/plugin.php
+      echo "<?php return [];" >> src/generated/assets/externals.php
+      echo "<?php return [];" >> src/generated/assets/languages.php
       vendor/bin/phpunit -c phpunit-integration.xml.dist
       travis_time_finish && travis_fold end "PHP.integration-tests"
     fi;
