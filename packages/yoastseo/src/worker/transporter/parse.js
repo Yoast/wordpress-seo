@@ -5,17 +5,16 @@ import { mapValues } from "lodash-es";
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";
 import Paper from "../../values/Paper";
-import Sentence from "../../values/Sentence";
-import SentencePart from "../../values/SentencePart";
+import Sentence from "../../languageProcessing/values/Sentence";
+import Clause from "../../languageProcessing/values/Clause";
 import ProminentWord from "../../languageProcessing/values/ProminentWord";
 
 const PARSE_CLASSES = {
 	AssessmentResult,
 	Mark,
 	Paper,
-	Participle,
 	Sentence,
-	SentencePart,
+	Clause,
 	ProminentWord,
 };
 
