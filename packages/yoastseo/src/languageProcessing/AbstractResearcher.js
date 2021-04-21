@@ -15,7 +15,6 @@ import getKeywordDensity from "./researches/getKeywordDensity.js";
 import getLinks from "./researches/getLinks.js";
 import getLinkStatistics from "./researches/getLinkStatistics";
 import getParagraphLength from "./researches/getParagraphLength.js";
-import getPassiveVoice from "./researches/getPassiveVoice";
 import getProminentWordsForInsights from "./researches/getProminentWordsForInsights";
 import getProminentWordsForInternalLinking from "./researches/getProminentWordsForInternalLinking";
 import getSentenceBeginnings from "./researches/getSentenceBeginnings";
@@ -61,7 +60,6 @@ export default class AbstractResearcher {
 			getLinks,
 			getLinkStatistics,
 			getParagraphLength,
-			getPassiveVoice,
 			getProminentWordsForInsights,
 			getProminentWordsForInternalLinking,
 			getSentenceBeginnings,
