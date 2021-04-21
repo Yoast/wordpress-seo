@@ -5,8 +5,6 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Config\Researcher_Languages;
-
 /**
  * This class registers all the necessary styles and scripts.
  *
