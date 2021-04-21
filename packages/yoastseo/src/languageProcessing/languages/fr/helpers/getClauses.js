@@ -23,7 +23,7 @@ const options = {
 		directPrecedenceExceptionRegex: createRegexFromArray( reflexivePronouns ),
 		elisionAuxiliaryExceptionRegex: createRegexFromArray( elisionAuxiliaryExceptionWords, true ),
 	},
-	indices: [];
+	indices: [],
 };
 
 /**
@@ -44,7 +44,6 @@ const elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches ) {
 			} );
 		}
 	} );
-
 	return auxiliaryMatches;
 };
 
@@ -56,5 +55,6 @@ const elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches ) {
  * @returns {Array} The array with all clauses that have an auxiliary.
  */
 export default function getFrenchClauses( sentence ) {
+	options.indices = elisionAuxiliaryExceptionFilter( sentence, options );
 	return getClauses( sentence, options );
 }
