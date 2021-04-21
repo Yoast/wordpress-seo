@@ -25,8 +25,7 @@ jobs:
   fast_finish: true
   include:
     - php: 7.2
-      # Node version 10 is needed for the yoastseo package tests to pass.
-      env: PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=10
+      env: PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=lts/*
     - php: 7.3.24
       env: WP_VERSION=latest WP_MULTISITE=1 COVERAGE=1
     - php: 5.6
