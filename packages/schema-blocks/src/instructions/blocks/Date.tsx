@@ -30,13 +30,13 @@ export default class Date extends BlockInstruction {
 
 		const dateFormat = Date.getDateFormat();
 
-		const currentlySelectedDate = dateI18n( dateFormat, attributes[ this.options.name ] );
+		const currentlySelectedDate = dateI18n( dateFormat, attributes[ this.options.name ] as string, false );
 
 		const [ selectedDate, setSelectedDate ] = useState( currentlySelectedDate );
 
 		let currentValue = __( "Select a date", "yoast-schema-blocks" );
 		if ( attributes[ this.options.name ] ) {
-			currentValue = format( "Y-m-d", attributes[ this.options.name ] );
+			currentValue = format( "Y-m-d", attributes[ this.options.name ] as string );
 		}
 
 		/**
@@ -50,7 +50,7 @@ export default class Date extends BlockInstruction {
 			setAttributes( {
 				[ this.options.name ]: date,
 			} );
-			setSelectedDate( dateI18n( dateFormat, date ) );
+			setSelectedDate( dateI18n( dateFormat, date, false ) );
 		}, [ props, dateFormat, setSelectedDate ] );
 
 		/**
@@ -124,7 +124,7 @@ export default class Date extends BlockInstruction {
 
 		const dateFormat = Date.getDateFormat();
 
-		return <div><time dateTime={ date }>{ dateI18n( dateFormat, date ) }</time></div>;
+		return <div><time dateTime={ date }>{ dateI18n( dateFormat, date, false ) }</time></div>;
 	}
 
 	/**
