@@ -71,6 +71,7 @@
     "i18n-calypso": "^1.8.4",
     "jest": "^23.6.0",
     "jest-styled-components": "^7.0.3",
+    "lerna": "^4.0.0",
     "node-fetch": "^2.6.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
