@@ -22,7 +22,7 @@ interface Post {
 class Title extends Heading {
 	public options: {
 		tags: ( keyof HTMLElementTagNameMap )[] | Record<string, keyof HTMLElementTagNameMap>;
-		defaultTag: string;
+		defaultHeadingLevel: number;
 		name: string;
 		blockName: string;
 		class: string;
