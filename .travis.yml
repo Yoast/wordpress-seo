@@ -176,9 +176,6 @@ before_script:
   # Careful: The HTTPS version of the following URL is different, therefore we need to use HTTP.
   - |
     if [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" ]]; then
-      echo "<?php return [];" >> src/generated/assets/plugin.php
-      echo "<?php return [];" >> src/generated/assets/externals.php
-      echo "<?php return [];" >> src/generated/assets/languages.php
       if [[ "$WP_VERSION" == "latest" ]]; then
         curl -s http://api.wordpress.org/core/version-check/1.7/ > /tmp/wp-latest.json
         WP_VERSION=$(grep -o '"version":"[^"]*' /tmp/wp-latest.json | sed 's/"version":"//')
@@ -195,6 +192,10 @@ before_script:
       sed -i "s/yourpasswordhere//" wp-tests-config.php
       mysql -e "CREATE DATABASE wordpress_tests;" -uroot
       cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
+      mkdir src/generated/assets
+      echo "<?php return [];" >> src/generated/assets/plugin.php
+      echo "<?php return [];" >> src/generated/assets/externals.php
+      echo "<?php return [];" >> src/generated/assets/languages.php
     fi
   - phpenv rehash
   - |
