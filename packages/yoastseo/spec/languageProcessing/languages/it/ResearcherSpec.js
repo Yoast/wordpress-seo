@@ -18,7 +18,7 @@ describe( "a test for the Italian Researcher", function() {
 	} );
 
 	it( "returns true if the Italian Researcher has a specific research", function() {
-		expect( researcher.hasResearch( "getPassiveVoice" ) ).toBe( true );
+		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
 	} );
 
 	it( "returns the Italian function words filtered at the beginning", function() {
