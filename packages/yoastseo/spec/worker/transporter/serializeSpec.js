@@ -1,7 +1,6 @@
 import AssessmentResult from "../../../src/values/AssessmentResult";
 import Mark from "../../../src/values/Mark";
 import Paper from "../../../src/values/Paper";
-import Participle from "../../../src/values/Participle";
 import Sentence from "../../../src/values/Sentence";
 import SentencePart from "../../../src/values/SentencePart";
 import ProminentWord from "../../../src/languageProcessing/values/ProminentWord";
@@ -116,25 +115,6 @@ describe( "serialize", () => {
 			word: "combinations",
 			stem: "combination",
 		} );
-	} );
-
-	it( "serializes Participles", () => {
-		const thing = new Participle( "geschlossen", "Es wird geschlossen worden sein.",
-			{ auxiliaries: [ "wird", "worden" ], type: "irregular", language: "de" } );
-
-		const expected = {
-			_parseClass: "Participle",
-			attributes: {
-				auxiliaries: [ "wird", "worden" ],
-				language: "de",
-				type: "irregular",
-			},
-			determinesSentencePartIsPassive: false,
-			participle: "geschlossen",
-			sentencePart: "Es wird geschlossen worden sein.",
-		};
-
-		expect( serialize( thing ) ).toEqual( expected );
 	} );
 
 	it( "serializes Sentences", () => {
