@@ -32,7 +32,7 @@ const options = {
  */
 const getVerbsEndingInIngIndices = function( sentence ) {
 	// Matches the sentences with words ending in ing.
-	let matches = sentence.match( options.verbEndingInIngRegex ) || [];
+	let matches = sentence.match( options.regexes.verbEndingInIngRegex ) || [];
 	// Filters out words ending in -ing that aren't verbs.
 	matches = matches.filter( match => ! includes( options.ingExclusions, stripSpaces( match ) ) );
 	return getIndicesOfList( matches, sentence );
