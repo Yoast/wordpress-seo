@@ -23,7 +23,7 @@ import * as regexHelpers from "./helpers/morphology/regexHelpers";
 import * as exceptionListHelpers from "./helpers/morphology/exceptionListHelpers";
 import * as stemHelpers from "./helpers/morphology/stemHelpers";
 import areWordsInSentence from "./helpers/word/areWordsInSentence";
-
+import { stripFullTags as stripHTMLTags } from "./helpers/sanitize/stripHTMLTags";
 
 export {
 	AbstractResearcher,
@@ -52,4 +52,5 @@ export {
 	exceptionListHelpers,
 	stemHelpers,
 	areWordsInSentence,
+	stripHTMLTags,
 };

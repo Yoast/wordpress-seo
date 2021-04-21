@@ -7,44 +7,14 @@ import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.
 import * as assessments from "../scoring/assessments";
-import * as bundledPlugins from "../bundledPlugins";
-import * as helpers from "../helpers";
-import * as markers from "../markers";
-import * as interpreters from "../scoring/interpreters";
-import * as config from "../config";
-
-import Assessor from "../scoring/assessor";
-import Assessment from "../scoring/assessments/assessment";
 import SEOAssessor from "../scoring/seoAssessor";
 import ContentAssessor from "../scoring/contentAssessor";
 import TaxonomyAssessor from "../scoring/taxonomyAssessor";
-import Pluggable from "../pluggable";
-import SnippetPreview from "../snippetPreview/snippetPreview";
+
 import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
 import RelatedKeywordAssessor from "../scoring/relatedKeywordAssessor";
 import removeHtmlBlocks from "../languageProcessing/helpers/html/htmlParser";
-
-const YoastSEO = {
-	Assessor,
-	Assessment,
-	SEOAssessor,
-	ContentAssessor,
-	TaxonomyAssessor,
-	Pluggable,
-	SnippetPreview,
-	RelatedKeywordAssessor,
-
-	Paper,
-	AssessmentResult,
-
-	assessments,
-	bundledPlugins,
-	helpers,
-	markers,
-	interpreters,
-	config,
-};
 
 // Internal dependencies.
 import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";
@@ -226,8 +196,6 @@ export default class AnalysisWebWorker {
 			registerMessageHandler: this.registerMessageHandler,
 			refreshAssessment: this.refreshAssessment,
 		};
-		this._scope.yoast = this._scope.yoast || {};
-		this._scope.yoast.analysis = YoastSEO;
 	}
 
 	/**
