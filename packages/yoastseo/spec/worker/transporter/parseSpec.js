@@ -2,7 +2,6 @@ import AssessmentResult from "../../../src/values/AssessmentResult";
 import Mark from "../../../src/values/Mark";
 import Paper from "../../../src/values/Paper";
 import Sentence from "../../../src/languageProcessing/values/Sentence";
-import SentencePart from "../../../src/values/SentencePart";
 import ProminentWord from "../../../src/languageProcessing/values/ProminentWord";
 import parse from "../../../src/worker/transporter/parse";
 
