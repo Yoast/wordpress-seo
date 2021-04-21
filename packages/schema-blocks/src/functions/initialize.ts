@@ -6,6 +6,7 @@ import { processBlock, processSchema } from "./process";
 import filter from "./gutenberg/filter";
 import watch from "./gutenberg/watch";
 import logger, { LogLevel } from "./logger";
+import injectSidebar from "./gutenberg/inject-sidebar";
 
 /**
  * Removes all whitespace including line breaks from a string.
@@ -27,6 +28,16 @@ export function initialize( logLevel: LogLevel = LogLevel.ERROR ) {
 	logger.setLogLevel( logLevel );
 
 	initializeSchemaBlocksStore();
+
+	injectSidebar( [
+		"core/paragraph",
+		"core/image",
+		"core/heading",
+		"core/separator",
+		"yoast/warning-block",
+	], [
+		"yoast/job-posting",
+	] );
 
 	registerInternalBlocks();
 

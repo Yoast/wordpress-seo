@@ -30,6 +30,7 @@ export default class InheritSidebar extends BlockInstruction {
 		if ( this.options.parents ) {
 			parentIds = getParentIdOfType( props.clientId, this.options.parents );
 		}
+		const thisBlock = getBlockByClientId( props.clientId );
 
 		const elements: ReactElement[] = [];
 		if ( parentIds.length > 0 ) {
@@ -37,7 +38,7 @@ export default class InheritSidebar extends BlockInstruction {
 				const parentBlock = getBlockByClientId( parentId );
 				const parentBlockDefinition = getBlockDefinition( parentBlock.name );
 				if ( parentBlockDefinition ) {
-					logger.debug( this.options.name + " inherited sidebar from " + parentBlock.name + " definition" );
+					logger.debug( thisBlock.name + " inherited sidebar from " + parentBlock.name + " definition" );
 					const parentProps = createBlockEditProps( parentBlock );
 					elements.push( ...parentBlockDefinition.sidebarElements( parentProps ) );
 				}

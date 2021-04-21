@@ -5,9 +5,8 @@ import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import { BlockValidation, BlockValidationResult } from "../validation";
 import Instruction, { InstructionOptions } from "../Instruction";
 import { attributeExists, attributeNotEmpty } from "../../functions/validators";
-import validateMany from "../../functions/validators/validateMany";
-import logger from "../../functions/logger";
 import { BlockPresence } from "../validation/BlockValidationResult";
+import { maxBy } from "lodash";
 
 export type BlockInstructionClass = {
 	new( id: number, options: InstructionOptions ): BlockInstruction;
@@ -79,31 +78,31 @@ export default abstract class BlockInstruction extends Instruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Skipped, BlockPresence.Unknown );
+		const issues: BlockValidationResult[] = [];
 
-		if ( this.options && this.options.required === true ) {
+		if ( this.options ) {
+			const presence = this.options.required ? BlockPresence.Required : BlockPresence.Recommended;
 			const attributeValid = attributeExists( blockInstance, this.options.name as string ) &&
-						           attributeNotEmpty( blockInstance, this.options.name as string );
-			if ( attributeValid ) {
-				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name,
-					BlockValidation.Valid, BlockPresence.Unknown ) );
-			} else {
-				logger.warning( "block " + blockInstance.name + " has a required attributes " + this.options.name + " but it is missing or empty" );
-				validation.issues.push( new BlockValidationResult( blockInstance.clientId, this.options.name,
-					BlockValidation.MissingAttribute, BlockPresence.Unknown ) );
-				validation.result = BlockValidation.Invalid;
-			}
-		} else {
-			if ( blockInstance.name.startsWith( "core/" ) ) {
-				validation.result = blockInstance.isValid ? BlockValidation.Valid : BlockValidation.Invalid;
-				return validation;
+								attributeNotEmpty( blockInstance, this.options.name as string );
+			if ( ! attributeValid ) {
+				issues.push( BlockValidationResult.MissingAttribute( blockInstance, this.constructor.name, presence ) );
 			}
 		}
 
-		// Blocks with any invalid innerblock should be considered invalid themselves.
-		if ( validation.issues.length > 0 ) {
-			return validateMany( validation );
+		if ( blockInstance.name.startsWith( "core/" ) && ! blockInstance.isValid ) {
+			issues.push( new BlockValidationResult( blockInstance.clientId, this.constructor.name, BlockValidation.Invalid, BlockPresence.Unknown ) );
 		}
+
+		// No issues found? That means the block is valid.
+		if ( issues.length < 1 ) {
+			return BlockValidationResult.Valid( blockInstance, this.constructor.name );
+		}
+
+		// Make sure to report the worst case scenario as the final validation result.
+		const worstCase: BlockValidationResult = maxBy( issues, issue => issue.result );
+
+		const validation = new BlockValidationResult( blockInstance.clientId, this.constructor.name, worstCase.result, worstCase.blockPresence );
+		validation.issues = issues;
 
 		return validation;
 	}

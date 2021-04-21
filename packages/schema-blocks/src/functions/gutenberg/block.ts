@@ -1,5 +1,6 @@
 import { dispatch, select } from "@wordpress/data";
 import { BlockEditProps, BlockInstance } from "@wordpress/blocks";
+import { getBlockByClientId } from "../BlockHelper";
 
 /**
  * Returns a normalized block ID.
@@ -42,6 +43,21 @@ export function getBlockSchemaId( block: BlockInstance ): string {
  */
 export function getParentId( clientId: string ): string {
 	return select( "core/block-editor" ).getBlockRootClientId( clientId );
+}
+
+/**
+ * Gets a block's parent BlockInstance.
+ *
+ * @param clientId The clientId whose parent is desired.
+ * @returns The parent BlockInstance or null if none is found.
+ */
+export function getParent( clientId: string ): BlockInstance {
+	const parentId = getParentId( clientId );
+	if ( ! parentId ) {
+		return null;
+	}
+
+	return getBlockByClientId( parentId );
 }
 
 /**

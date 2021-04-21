@@ -66,7 +66,8 @@ export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ): ReactEleme
 		warnings = createAnalysisMessages( validationResults );
 	}
 
-	return <Fragment>
+	return <Fragment key={ "innerblocks-sidebar-" + block.clientId }>
+		<SidebarHeader />
 		<WarningList warnings={ warnings } />
 		<BlockSuggestions
 			title={ __( "Required Blocks", "yoast-schema-blocks" ) }
@@ -86,6 +87,32 @@ interface WarningListProps {
 }
 
 /**
+ * Renders a ReactElement containing the sidebar header.
+ *
+ * @returns A ReactElement containing the sidebar header.
+ */
+function SidebarHeader(): ReactElement {
+	const questionMarkIcon: JSX.Element =
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 0 20 18" fill="currentColor" height="15" width="22">
+			<a href="https://yoa.st/4dk" rel="noopener noreferrer" target="_blank">
+				<path
+					fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113
+				8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd"
+				/>
+			</a>
+		</svg>;
+
+	return (
+		<div className="yoast-block-sidebar-header">
+			<div className="yoast-block-sidebar-title">
+				{ __( "Blocks for Schema output", "yoast-schema-blocks" ) }
+				<span className="yoast-inline-icon">{ questionMarkIcon }</span>
+			</div>
+		</div>
+	);
+}
+
+/**
  * Renders a ReactElement containing the list of warnings.
  *
  * @param props The properties.
@@ -94,12 +121,14 @@ interface WarningListProps {
  */
 function WarningList( props: WarningListProps ): ReactElement {
 	return (
-		<div className="yoast-block-sidebar-warnings">
-			<div className="yoast-block-sidebar-title">{ __( "Analysis", "yoast-schema-blocks" ) }</div>
-			<ul className="yoast-block-sidebar-warnings">
-				{ ...props.warnings.map( warning => <Warning warning={ warning } key={ warning.text } /> ) }
-			</ul>
-		</div>
+		<Fragment>
+			<div className="yoast-block-sidebar-warnings">
+				<div className="yoast-block-sidebar-title">{ __( "Analysis", "yoast-schema-blocks" ) }</div>
+				<ul className="yoast-block-sidebar-warnings">
+					{ ...props.warnings.map( warning => <Warning warning={ warning } key={ warning.text } /> ) }
+				</ul>
+			</div>
+		</Fragment>
 	);
 }
 

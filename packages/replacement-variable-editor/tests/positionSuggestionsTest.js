@@ -115,8 +115,8 @@ describe( "positionSuggestions", () => {
 			};
 
 			it( "isActive: true and at least 1 suggestion", () => {
-				const state = {};
-				const props = { suggestions: [ "suggestion" ], open: true };
+				const state = { isActive: true };
+				const props = { suggestions: [ "suggestion" ] };
 				const actual = getAnimationStyles( state, props );
 
 				expect( actual ).toEqual( expected );

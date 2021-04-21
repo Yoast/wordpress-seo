@@ -1,7 +1,7 @@
 // External dependencies.
 import React from "react";
-import Editor from "@draft-js-plugins/editor";
-import createMentionPlugin from "@draft-js-plugins/mention";
+import Editor from "draft-js-plugins-editor";
+import createMentionPlugin from "draft-js-mention-plugin";
 import createSingleLinePlugin from "draft-js-single-line-plugin";
 import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
@@ -102,7 +102,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.state = {
 			editorState,
 			searchValue: "",
-			isSuggestionsOpen: false,
 			suggestions: this.mapReplacementVariablesToSuggestions( currentReplacementVariables ),
 		};
 
@@ -129,7 +128,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.setEditorRef = this.setEditorRef.bind( this );
 		this.handleCopyCutEvent = this.handleCopyCutEvent.bind( this );
 		this.debouncedA11ySpeak = debounce( a11ySpeak.bind( this ), 500 );
-		this.onSuggestionsOpenChange = this.onSuggestionsOpenChange.bind( this );
 	}
 
 	/**
@@ -354,17 +352,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	}
 
 	/**
-	 * Handles open and closing of the suggestions dropdown.
-	 *
-	 * @param {boolean} isOpen Whether the suggestions should be open.
-	 *
-	 * @returns {void}
-	 */
-	onSuggestionsOpenChange( isOpen ) {
-		this.setState( { isSuggestionsOpen: isOpen } );
-	}
-
-	/**
 	 * Triggers the Draft.js mention plugin suggestions autocomplete.
 	 *
 	 * It does this by inserting the trigger (%) into the editor, replacing the current selection.
@@ -521,8 +508,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					<MentionSuggestions
 						onSearchChange={ this.onSearchChange }
 						suggestions={ suggestions }
-						onOpenChange={ this.onSuggestionsOpenChange }
-						open={ this.state.isSuggestionsOpen }
 					/>
 				</ZIndexOverride>
 			</React.Fragment>

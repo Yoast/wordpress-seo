@@ -7,6 +7,7 @@ import {
 	BlockSaveProps,
 } from "@wordpress/blocks";
 import { InspectorControls, BlockIcon } from "@wordpress/block-editor";
+import { select } from "@wordpress/data";
 import BlockInstruction from "./BlockInstruction";
 import Definition from "../Definition";
 import BlockRootLeaf from "../../leaves/blocks/BlockRootLeaf";
@@ -48,7 +49,9 @@ export default class BlockDefinition extends Definition {
 	 */
 	edit( props: RenderEditProps ): ReactElement {
 		// Force the sidebar open.
-		openGeneralSidebar( "edit-post/block", true );
+		if ( select( "core/block-editor" ).isBlockSelected( props.clientId ) ) {
+			openGeneralSidebar( "edit-post/block", true );
+		}
 
 		const sidebarElements = this.sidebarElements( props );
 
@@ -125,7 +128,7 @@ export default class BlockDefinition extends Definition {
 	}
 
 	/**
-	 * Creates an block icon.
+	 * Creates a block icon.
 	 *
 	 * @param {MutableBlockConfiguration} configuration The block configuration.
 	 *

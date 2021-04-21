@@ -8,21 +8,27 @@ export enum BlockValidation {
 	/** This block was skipped during validation, on purpose. If you ever see this value, that's a bug.  */
 	Skipped = 102,
 
-	/** OK RESULTS (200+): Will give an orange bullet, but will not prevent Schema output.
+	/** OK RESULTS (200+): Will give an orange bullet, but will not prevent Schema output. */
 
-	 /** This block is not completely valid, but should not prevent the Schema to be output either. */
+	/** This block is not completely valid, but should not prevent the Schema to be output either. */
 	OK = 200,
+	/** This block has recommended attributes, but these attributes are missing or empty. */
+	MissingRecommendedAttribute = 201,
 	/** This block is defined to recommend a particular inner block, but that block doesn't exist. */
-	MissingRecommendedBlock = 201,
+	MissingRecommendedBlock = 202,
+	/** This block contains a Variationpicker to choose between subblocks, but no choice has been made yet for this recommended block. */
+	MissingRecommendedVariation = 203,
 
-	/** INVALID RESULTS (300+): Will prevent Schema output.
+	/** INVALID RESULTS (300+): Will prevent Schema output. */
 
 	/** This block (OR some of its innerblocks) have a problem. The particular problem must be specified in BlockValidationResult.issues */
 	Invalid = 300,
 	/** This block has required attributes, but these attributes are missing or empty. */
-	MissingAttribute = 301,
+	MissingRequiredAttribute = 301,
 	/** This block is defined to require a particular inner block, but that block doesn't exist. */
 	MissingRequiredBlock = 302,
+	/** This block contains a Variationpicker to choose between subblocks, but no choice has been made yet for this recommended block. */
+	MissingRequiredVariation = 303,
 	/** There may be only one of this type of block, but we found more than one. */
 	TooMany = 303,
 }
