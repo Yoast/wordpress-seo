@@ -84,29 +84,6 @@ const followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches, foll
 };
 
 /**
- * Filters auxiliaries preceded by an elided word (e.g., s') on the elisionAuxiliaryExceptionWords list.
- *
- * @param {string} text The text part in which to check.
- * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
- * @param {RegExp} elisionAuxiliaryExceptionRegex Regex to match the elisionAuxiliary exception.
- *
- * @returns {Array} The filtered list of auxiliary indices.
- */
-const elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches, elisionAuxiliaryExceptionRegex ) {
-	const elisionAuxiliaryExceptionMatches = getWordIndices( text, elisionAuxiliaryExceptionRegex );
-
-	forEach( auxiliaryMatches, function( auxiliaryMatch ) {
-		if ( includesIndex( elisionAuxiliaryExceptionMatches, auxiliaryMatch.index, false ) ) {
-			auxiliaryMatches = auxiliaryMatches.filter( function( auxiliaryObject ) {
-				return auxiliaryObject.index !== auxiliaryMatch.index;
-			} );
-		}
-	} );
-
-	return auxiliaryMatches;
-};
-
-/**
  * Gets the indices of sentence breakers (auxiliaries, stopwords and stop characters;
  * in English also active verbs) to determine clauses.
  * Indices are filtered because there could be duplicate matches, like "even though" and "though".
@@ -133,11 +110,6 @@ const getSentenceBreakers = function( sentence, options ) {
 	if ( typeof regexes.directPrecedenceExceptionRegex !== "undefined" ) {
 		// Filters auxiliaries matched in the sentence based on a precedence exception filter.
 		auxiliaryIndices = auxiliaryPrecedenceExceptionFilter( sentence, auxiliaryIndices, regexes.directPrecedenceExceptionRegex );
-	}
-
-	if ( typeof regexes.elisionAuxiliaryExceptionRegex !== "undefined" ) {
-		// Filters auxiliaries matched in the sentence based on an elision exception filter.
-		auxiliaryIndices = elisionAuxiliaryExceptionFilter( sentence, auxiliaryIndices, regexes.elisionAuxiliaryExceptionRegex );
 	}
 
 	let totalIndices = indicesFromOptions.concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
