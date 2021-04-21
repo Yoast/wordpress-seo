@@ -1,7 +1,6 @@
 import AssessmentResult from "../../../src/values/AssessmentResult";
 import Mark from "../../../src/values/Mark";
 import Paper from "../../../src/values/Paper";
-import Participle from "../../../src/values/Participle";
 import Sentence from "../../../src/values/Sentence";
 import SentencePart from "../../../src/values/SentencePart";
 import ProminentWord from "../../../src/languageProcessing/values/ProminentWord";
@@ -95,25 +94,6 @@ describe( "parse", () => {
 		const expected = new AssessmentResult();
 		expected.setScore( 666 );
 		expected.setText( "Good job!" );
-
-		expect( parse( serialized ) ).toEqual( expected );
-	} );
-
-	it( "parses serialized Participles", () => {
-		const serialized = {
-			_parseClass: "Participle",
-			attributes: {
-				auxiliaries: [ "wird", "worden" ],
-				language: "de",
-				type: "irregular",
-			},
-			determinesSentencePartIsPassive: false,
-			participle: "geschlossen",
-			sentencePart: "Es wird geschlossen worden sein.",
-		};
-
-		const expected = new Participle( "geschlossen", "Es wird geschlossen worden sein.",
-			{ auxiliaries: [ "wird", "worden" ], type: "irregular", language: "de" } );
 
 		expect( parse( serialized ) ).toEqual( expected );
 	} );
