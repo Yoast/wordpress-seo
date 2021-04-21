@@ -19,26 +19,26 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	 // For now the specs for Arabic and Hungarian are skipped. The shouldn't be skipped once Arabic and Hungarian passive voice are refactored.
-	xit( "returns active voice for morphological language", function() {
+	it( "returns active voice for morphological language", function() {
 		const paper = new Paper( "كتب الولد الخطاب.", { locale: "ar" } );
 		const researcher = new ArabicResearcher( paper );
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 0 );
 	} );
 
-	xit( "returns passive voice for morphological language", function() {
+	it( "returns passive voice for morphological language", function() {
 		// Passive: يُوازي.
 		const paper = new Paper( "غير أنه يتعين أن يُوازي ذلك معالجة المسائل العرضية.", { locale: "ar" } );
 		const researcher = new ArabicResearcher( paper );
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 1 );
 	} );
 
-	xit( "returns active voice for both morphological and periphrastic language", function() {
+	it( "returns active voice for both morphological and periphrastic language", function() {
 		const paper = new Paper( "Aranyos kis macska", { locale: "hu" } );
 		const researcher = new HungarianResearcher( paper );
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 0 );
 	} );
 
-	xit( "returns passive voice for both morphological and periphrastic language", function() {
+	it( "returns passive voice for both morphological and periphrastic language", function() {
 		// Passive: van plakátolva.
 		const paper = new Paper( "Ki van plakátolva a képe", { locale: "hu" } );
 		const researcher = new HungarianResearcher( paper );
