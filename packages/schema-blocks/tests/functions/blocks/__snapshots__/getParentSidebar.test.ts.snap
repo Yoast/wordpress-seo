@@ -1,9 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`The getParentSidebar function doesn't find parentIds for given parents 1`] = `null`;
+exports[`The getParentSidebar function doesn't find parentIds for given parents 1`] = `
+<div
+  className="components-panel__body is-opened"
+/>
+`;
 
-exports[`The getParentSidebar function receives finds a parent and retrieves its sidebar 1`] = `"1337"`;
+exports[`The getParentSidebar function receives finds a parent and retrieves its sidebar 1`] = `
+<div
+  className="components-panel__body is-opened"
+>
+  1337
+</div>
+`;
 
-exports[`The getParentSidebar function receives finds a parent without any block definition 1`] = `null`;
+exports[`The getParentSidebar function receives finds a parent without any block definition 1`] = `
+<div
+  className="components-panel__body is-opened"
+/>
+`;
 
-exports[`The getParentSidebar function receives the parents argument as null 1`] = `null`;
+exports[`The getParentSidebar function receives the parents argument as null 1`] = `
+<div
+  className="components-panel__body is-opened"
+/>
+`;
