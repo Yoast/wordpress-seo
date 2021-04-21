@@ -8,6 +8,7 @@ import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import storeBlockValidation from "./storeBlockValidation";
 import logger from "../logger";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
+import { isResultValidForSchema } from "../validators/validateResults";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -71,7 +72,7 @@ function generateSchemaForBlocks(
 		}
 
 		const validation = validations.find( v => v.clientId === block.clientId );
-		if ( validation && validation.result > BlockValidation.Valid ) {
+		if ( validation && ! isResultValidForSchema( validation.result ) ) {
 			dispatch( "core/block-editor" ).updateBlockAttributes( block.clientId, { "yoast-schema": null } );
 			continue;
 		}

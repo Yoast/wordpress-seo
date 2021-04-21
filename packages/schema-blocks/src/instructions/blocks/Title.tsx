@@ -67,8 +67,7 @@ class Title extends VariableTagRichText {
 			return new BlockValidationResult(
 				blockInstance.clientId,
 				blockInstance.name,
-				// 'Only' a warning, so the instruction is still valid.
-				BlockValidation.Valid,
+				BlockValidation.OK,
 				BlockPresence.Recommended,
 				sprintf(
 					/* Translators: %s expands to the block's name. */

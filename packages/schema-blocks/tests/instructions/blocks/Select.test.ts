@@ -1,6 +1,5 @@
 import * as renderer from "react-test-renderer";
 
-import { ReactElement } from "React";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 
 import Select from "../../../src/instructions/blocks/Select";
@@ -30,7 +29,7 @@ describe( "The Select instruction", () => {
 			const selectInstruction = new Select( 123, options );
 
 			const tree = renderer
-				.create( selectInstruction.save( props ) as ReactElement )
+				.create( selectInstruction.save( props ) as any )
 				.toJSON();
 
 			expect( tree ).toMatchSnapshot();
@@ -73,7 +72,7 @@ describe( "The Select instruction", () => {
 			const selectInstruction = new Select( 123, options );
 
 			const tree = renderer
-				.create( selectInstruction.edit( props ) as ReactElement )
+				.create( selectInstruction.edit( props ) as any )
 				.toJSON();
 
 			expect( tree ).toMatchSnapshot();
