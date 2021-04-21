@@ -129,7 +129,6 @@ const getSentenceBreakers = function( sentence, options ) {
 	if ( options.indices && options.indices.length > 0 ) {
 		indicesFromOptions = options.indices;
 	}
-	console.log( indicesFromOptions )
 
 	if ( typeof regexes.directPrecedenceExceptionRegex !== "undefined" ) {
 		// Filters auxiliaries matched in the sentence based on a precedence exception filter.
