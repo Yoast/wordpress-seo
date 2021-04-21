@@ -1,10 +1,9 @@
 import { BlockValidation, BlockValidationResult } from "./validation";
 import { BlockInstance } from "@wordpress/blocks";
-import { isArray, mergeWith } from "lodash";
+import { isArray, maxBy, mergeWith } from "lodash";
 import Instruction from "./Instruction";
 import Leaf from "./Leaf";
 import logger from "../functions/logger";
-import { BlockPresence } from "./validation/BlockValidationResult";
 
 export type DefinitionClass<T extends Definition> = {
 	new( separator: string, template?: string, instructions?: Record<string, Instruction>, tree?: Leaf ): T;
@@ -74,29 +73,30 @@ export default abstract class Definition {
 	 *
 	 * @param blockInstance The block to be validated.
 	 *
-	 * @returns {BlockValidationResult | null} The validation result for the given block.
+	 * @returns The validation result for the given block.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
 		if ( ! blockInstance ) {
 			return null;
 		}
 
-		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Unknown, BlockPresence.Unknown );
-
 		logger.startGroup( `Validation results: ${ blockInstance.name }` );
 
-		validation.issues = Object.values( this.instructions ).map( instruction => {
+		const issues = Object.values( this.instructions ).map( instruction => {
 			const issue = instruction.validate( blockInstance );
-			logger.debug( `${ instruction.options.name} => ${ BlockValidation[ issue.result ] }` );
+			logger.debug( `${ instruction.constructor.name } Instruction => ${ BlockValidation[ issue.result ] }` );
 			return issue;
 		} ).filter( issue => issue.result !== BlockValidation.Skipped );
 
 		logger.endGroup();
 
-		// In case of a block with just one innerblock, this prevents a duplicate, identical wrapper.
-		if ( validation.issues.length === 1 ) {
-			return validation.issues[ 0 ];
+		if ( issues.length < 1 ) {
+			return BlockValidationResult.Valid( blockInstance, blockInstance.name );
 		}
+
+		const worstCase: BlockValidationResult = maxBy( issues, issue => issue.result );
+		const validation = new BlockValidationResult( blockInstance.clientId, blockInstance.name, worstCase.result, worstCase.blockPresence );
+		validation.issues = issues;
 
 		return validation;
 	}

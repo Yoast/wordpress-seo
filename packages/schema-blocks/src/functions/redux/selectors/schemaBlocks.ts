@@ -1,4 +1,7 @@
 import { SchemaBlocksState, SchemaBlocksDefaultState } from "../SchemaBlocksState";
+import { BlockValidationResult } from "../../../core/validation";
+
+export type ClientIdValidation = Record<string, BlockValidationResult>;
 
 /**
  * The schema validation results.
@@ -7,6 +10,6 @@ import { SchemaBlocksState, SchemaBlocksDefaultState } from "../SchemaBlocksStat
  *
  * @returns {Record<string, BlockValidationResult>} The schema blocks validation results.
  */
-export function getSchemaBlocksValidationResults( state: SchemaBlocksState ): object {
+export function getSchemaBlocksValidationResults( state: SchemaBlocksState ): ClientIdValidation {
 	return state.validations || SchemaBlocksDefaultState.validations;
 }

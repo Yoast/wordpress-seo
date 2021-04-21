@@ -65,37 +65,65 @@ export class BlockValidationResult {
 	 *
 	 * @param blockInstance The block instance.
 	 * @param [name] Optional name.
+	 * @param [blockPresence] The block type.
 	 *
 	 * @constructor
 	 */
-	static MissingAttribute( blockInstance: BlockInstance, name?: string ) {
+	static MissingAttribute( blockInstance: BlockInstance, name?: string, blockPresence?: BlockPresence ) {
+		const blockValidation: BlockValidation = ( blockPresence === BlockPresence.Required )
+			? BlockValidation.MissingRequiredAttribute : BlockValidation.MissingRecommendedAttribute;
+
 		return new BlockValidationResult(
 			blockInstance.clientId,
 			name || blockInstance.name,
-			BlockValidation.MissingAttribute,
-			BlockPresence.Unknown,
+			blockValidation,
+			blockPresence || BlockPresence.Unknown,
 		);
 	}
 
 	/**
-	 * Named constructor for a 'missing block' validation result.
+	 * Named constructor for a 'missing recommended / required block' validation result.
 	 *
 	 * @param name The name of the missing block.
-	 * @param blockPresence The block type.
+	 * @param [blockPresence] The block presence.
 	 *
 	 * @constructor
 	 */
-	static MissingBlock( name: string, blockPresence: BlockPresence ) {
+	static MissingBlock( name: string, blockPresence?: BlockPresence ) {
+		if ( blockPresence === BlockPresence.Recommended ) {
+			return BlockValidationResult.MissingRecommendedBlock( name );
+		}
+
 		return new BlockValidationResult(
 			null,
 			name,
-			BlockValidation.MissingBlock,
-			blockPresence,
+			BlockValidation.MissingRequiredBlock,
+			blockPresence || BlockPresence.Unknown,
 			sprintf(
-				/* Translators: %1$s expands to the block name, %2$s expands to 'required' or 'recommended'. */
-				__( "The '%1$s' block is %2$s but missing.", "yoast-schema-blocks" ),
+				/* Translators: %1$s expands to the block name. */
+				__( "The `%1$s` block is required but missing.", "yoast-schema-blocks" ),
 				name,
-				blockPresence,
+			),
+		);
+	}
+
+	/**
+	 * Named constructor for a 'missing recommended block' validation result.
+	 *
+	 * @param name The name of the missing block.
+	 *
+	 * @constructor
+	 */
+	private static MissingRecommendedBlock( name: string ) {
+		return new BlockValidationResult(
+			null,
+			name,
+			BlockValidation.MissingRecommendedBlock,
+			BlockPresence.Recommended,
+			sprintf(
+				/* Translators: %1$s expands to the block name. */
+				__( "The `%1$s` block is recommended but missing.", "yoast-schema-blocks" ),
+				name,
 			),
 		);
 	}
@@ -105,15 +133,16 @@ export class BlockValidationResult {
 	 *
 	 * @param blockInstance The block instance.
 	 * @param [name] Optional name.
+	 * @param [blockPresence] Optional BlockPresence.
 	 *
 	 * @constructor
 	 */
-	static Valid( blockInstance: BlockInstance, name?: string ) {
+	static Valid( blockInstance: BlockInstance, name?: string, blockPresence? : BlockPresence ) {
 		return new BlockValidationResult(
 			blockInstance.clientId,
 			name || blockInstance.name,
 			BlockValidation.Valid,
-			BlockPresence.Unknown,
+			blockPresence || BlockPresence.Unknown,
 		);
 	}
 }

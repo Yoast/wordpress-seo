@@ -13,6 +13,7 @@ export * from "./inputs";
 export * from "./insights-card";
 export * from "./radiobutton";
 export * from "./select";
+export * from "./star-rating";
 export * from "./help-icon";
 export * from "./tables";
 export * from "./new-badge";

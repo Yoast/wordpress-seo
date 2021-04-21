@@ -4,6 +4,7 @@ import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import { getHumanReadableBlockName } from "../BlockHelper";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
+import { getAllDescendantIssues } from "../validators";
 
 type clientIdValidation = Record<string, BlockValidationResult>;
 
@@ -15,6 +16,7 @@ export type SidebarWarning = {
 	 * The warning message.
 	 */
 	text: string;
+
 	/**
 	 * Color of the warning.
 	 */
@@ -38,30 +40,17 @@ function getValidationResult( clientId: string ): BlockValidationResult | null {
 }
 
 /**
- * If some required blocks are missing and/or not filled in.
- *
- * @param issues The block validation issues to check.
- *
- * @return `true` if some required blocks are missing or not completed, `false` if not.
- */
-function someRequiredBlocksNotCompleted( issues: BlockValidationResult[] ) {
-	return issues.some( issue => issue.result === BlockValidation.MissingBlock && issue.blockPresence === BlockPresence.Required ||
-		issue.result === BlockValidation.MissingAttribute );
-}
-
-/**
  * Adds analysis conclusions to the footer.
  *
  * @param validation The validation result for the current block.
- * @param issues     The detected issues.
  *
  * @returns Any analysis conclusions that should be in the footer.
  */
-function getAnalysisConclusion( validation: BlockValidationResult, issues: BlockValidationResult[] ): SidebarWarning {
+function getAnalysisConclusion( validation: BlockValidationResult ): SidebarWarning {
 	let conclusionText = "";
 
-	// Show a red bullet when not all required blocks have been completed.
-	if ( someRequiredBlocksNotCompleted( issues ) ) {
+	// Show a red bullet when the block is invalid.
+	if ( validation.result >= BlockValidation.Invalid ) {
 		conclusionText = sprintf(
 			/* translators: %s expands to the schema block name. */
 			__( "Not all required blocks have been completed! No %s schema will be generated for your page.", "yoast-schema-blocks" ),
@@ -74,21 +63,6 @@ function getAnalysisConclusion( validation: BlockValidationResult, issues: Block
 	conclusionText = __( "Good job! All required blocks have been completed.", "yoast-schema-blocks" );
 
 	return { text: conclusionText, color: "green" };
-}
-
-/**
- * Gathers all validation issues recursively and flattens them into one list.
- *
- * @param validation The root validation result.
- *
- * @return All validation results.
- */
-function getAllDescendantIssues( validation: BlockValidationResult ): BlockValidationResult[] {
-	let results = [ validation ];
-	validation.issues.forEach( issue => {
-		results = results.concat( getAllDescendantIssues( issue ) );
-	} );
-	return results;
 }
 
 /**
@@ -138,7 +112,7 @@ export function createAnalysisMessages( validation: BlockValidationResult ): Sid
 	messages.push( ...getErrorMessages( issues ) );
 	messages.push( ...getWarningMessages( issues ) );
 
-	messages.push( getAnalysisConclusion( validation, issues ) );
+	messages.push( getAnalysisConclusion( validation ) );
 
 	return messages;
 }
