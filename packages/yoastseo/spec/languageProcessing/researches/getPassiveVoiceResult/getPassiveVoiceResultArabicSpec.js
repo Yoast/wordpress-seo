@@ -1,4 +1,4 @@
-import passiveVoice from "../../../../src/languageProcessing/researches/getPassiveVoice.js";
+import passiveVoice from "../../../../src/languageProcessing/researches/getPassiveVoiceResult.js";
 import Paper from "../../../../src/values/Paper.js";
 import Researcher from "../../../../src/languageProcessing/languages/ar/Researcher";
 
