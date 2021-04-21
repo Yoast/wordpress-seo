@@ -251,7 +251,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			'term-edit'        => [
 				self::PREFIX . 'classic-editor',
-				self::PREFIX . 'select2'
+				self::PREFIX . 'select2',
 			],
 		];
 
