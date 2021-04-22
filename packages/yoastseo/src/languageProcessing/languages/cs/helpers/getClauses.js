@@ -9,6 +9,7 @@ const options = {
 	Clause: CzechClause,
 	regexes: {
 		auxiliaryRegex: createRegexFromArray( auxiliaries ),
+		stopCharacterRegex: /([:,])(?=[ \n\r\t'"+\-»«‹›<>])/ig,
 		stopwordRegex: createRegexFromArray( stopwords ),
 	},
 };

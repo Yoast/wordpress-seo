@@ -38,4 +38,5 @@ export default [
 	"odkud",
 	"proč",
 	"kolik",
+	"nebo",
 ];
