@@ -17,7 +17,7 @@ describe( "a test for the French Researcher", function() {
 	} );
 
 	it( "returns true if the French Researcher has a specific research", function() {
-		expect( researcher.hasResearch( "getPassiveVoice" ) ).toBe( true );
+		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
 	} );
 
 	it( "returns French function words", function() {
