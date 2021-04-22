@@ -41,7 +41,7 @@ module.exports = function( grunt ) {
 			const targetFile = "admin/class-gutenberg-compatibility.php";
 
 			const gruntFlags = grunt.option.flags();
-			const noGitPush = -1 !== gruntFlags.indexOf( "--no-git-push" );
+			const noGitPush = gruntFlags.indexOf( "--no-git-push" ) !== -1;
 
 			const gutenbergInfo = await fetch( "https://api.wordpress.org/plugins/info/1.0/gutenberg.json" );
 			const gutenbergInfoJSON = await gutenbergInfo.json();
