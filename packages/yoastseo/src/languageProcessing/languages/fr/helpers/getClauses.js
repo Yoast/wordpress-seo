@@ -1,8 +1,10 @@
 import { languageProcessing } from "yoastseo";
 const { createRegexFromArray, getClauses } = languageProcessing;
+
 import Clause from "../values/Clause";
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 import stopwords from "../config/stopWords.js";
+
 const followingAuxiliaryExceptionWords = [ "le", "la", "les", "une", "l'un", "l'une" ];
 const reflexivePronouns = [ "se", "me", "te", "s'y", "m'y", "t'y", "nous nous", "vous vous" ];
 const elisionAuxiliaryExceptionWords = [ "c'", "s'", "peut-" ];
