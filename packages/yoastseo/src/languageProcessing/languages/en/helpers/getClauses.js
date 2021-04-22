@@ -20,7 +20,7 @@ const options = {
 		stopCharacterRegex: /([:,]|('ll)|('ve))(?=[ \n\r\t'"+\-»«‹›<>])/ig,
 		verbEndingInIngRegex: /\w+ing(?=$|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
 	},
-	indices: [],
+	stopWordIndices: [],
 };
 
 /**
@@ -46,6 +46,6 @@ const getVerbsEndingInIngIndices = function( sentence ) {
  * @returns {Array} The array with all clauses that have an auxiliary.
  */
 export default function getEnglishClauses( sentence ) {
-	options.indices = getVerbsEndingInIngIndices( sentence );
+	options.stopWordIndices = getVerbsEndingInIngIndices( sentence );
 	return getClauses( sentence, options );
 }
