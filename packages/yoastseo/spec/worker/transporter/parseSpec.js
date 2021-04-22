@@ -2,6 +2,7 @@ import AssessmentResult from "../../../src/values/AssessmentResult";
 import Mark from "../../../src/values/Mark";
 import Paper from "../../../src/values/Paper";
 import Sentence from "../../../src/languageProcessing/values/Sentence";
+import Clause from "../../../src/languageProcessing/values/Clause";
 import ProminentWord from "../../../src/languageProcessing/values/ProminentWord";
 import parse from "../../../src/worker/transporter/parse";
 
@@ -100,26 +101,26 @@ describe( "parse", () => {
 	it( "parses serialized Sentences", () => {
 		const serialized = {
 			_parseClass: "Sentence",
+			clauses: [],
 			isPassive: false,
-			locale: "en_US",
 			sentenceText: "This is a sample text.",
 		};
 
-		const expected = new Sentence( "This is a sample text.", "en_US" );
+		const expected = new Sentence( "This is a sample text." );
 
 		expect( parse( serialized ) ).toEqual( expected );
 	} );
 
-	it( "parses serialized SentenceParts", () => {
+	it( "parses serialized Clause", () => {
 		const serialized = {
-			_parseClass: "SentencePart",
+			_parseClass: "Clause",
 			auxiliaries: [ "wird" ],
 			isPassive: true,
-			locale: "de",
-			sentencePartText: "wird geschlossen",
+			clauseText: "wird geschlossen",
+			participles: [ "geschlossen" ],
 		};
 
-		const expected = new SentencePart( "wird geschlossen", [ "wird" ], "de" );
+		const expected = new Clause( "wird geschlossen", [ "wird" ] );
 		expected.setPassive( true );
 
 		expect( parse( serialized ) ).toEqual( expected );
