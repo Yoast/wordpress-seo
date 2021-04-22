@@ -63,7 +63,7 @@
 	margin-right: 24px;
 }
 
-.yoast-block-sidebar-title {
+.yoast-block-sidebar-title, .yoast-block-sidebar-input label {
 	font-weight: 600;
 	color: #303030;
 	padding: 10px 0 0 0;
