@@ -7,12 +7,13 @@ import {
 } from "@wordpress/blocks";
 import { InspectorControls, BlockIcon } from "@wordpress/block-editor";
 import { select } from "@wordpress/data";
+import { PanelBody } from "@wordpress/components";
+
 import BlockInstruction from "./BlockInstruction";
 import Definition from "../Definition";
 import BlockRootLeaf from "../../leaves/blocks/BlockRootLeaf";
 import parse from "../../functions/blocks/parse";
 import { registerBlockDefinition } from "./BlockDefinitionRepository";
-import { PanelBody } from "@wordpress/components";
 import logger from "../../functions/logger";
 import { openGeneralSidebar } from "../../functions/gutenberg/sidebar";
 import SidebarHeader from "../../functions/presenters/SidebarHeaderPresenter";
