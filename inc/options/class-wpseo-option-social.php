@@ -32,10 +32,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'myspace_url'           => '',
 		'og_default_image'      => '', // Text field.
 		'og_default_image_id'   => '',
-		'og_frontpage_title'    => '', // Text field.
-		'og_frontpage_desc'     => '', // Text field.
-		'og_frontpage_image'    => '', // Text field.
-		'og_frontpage_image_id' => '',
 		'opengraph'             => true,
 		'pinterest_url'         => '',
 		'pinterestverify'       => '',
@@ -123,15 +119,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		foreach ( $clean as $key => $value ) {
 			switch ( $key ) {
 				/* Text fields. */
-				case 'og_frontpage_desc':
-				case 'og_frontpage_title':
-					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
-					}
-					break;
-
 				case 'og_default_image_id':
-				case 'og_frontpage_image_id':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = (int) $dirty[ $key ];
 
@@ -148,7 +136,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 				case 'myspace_url':
 				case 'pinterest_url':
 				case 'og_default_image':
-				case 'og_frontpage_image':
 				case 'youtube_url':
 				case 'wikipedia_url':
 					$this->validate_url( $key, $dirty, $old, $clean );

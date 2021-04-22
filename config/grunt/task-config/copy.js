@@ -53,6 +53,15 @@ module.exports = {
 					return dest + src.replace( "wordpress-seo", "wordpress-seojs" );
 				},
 			},
+			{
+				expand: true,
+				cwd: "languages/",
+				src: [ "wordpress-seo-*.json" ],
+				dest: "languages/",
+				rename: ( dest, src ) => {
+					return dest + src.replace( "wordpress-seo", "yoast-schema-blocks" );
+				},
+			},
 		],
 	},
 	"makepot-wordpress-seo": {
@@ -81,7 +90,7 @@ module.exports = {
 	},
 	"makepot-yoast-js-schema-blocks": {
 		src: "gettext.pot",
-		dest: "<%= files.pot.yoastSchemaBocks %>",
+		dest: "<%= files.pot.yoastSchemaBlocks %>",
 	},
 
 	// The default de_CH is formal on WordPress.org, but that one is not translated enough for wordpress-seo.
@@ -105,7 +114,7 @@ module.exports = {
 				cwd: ".",
 				src: [
 					"admin/**",
-					"css/**/*.css",
+					"css/dist/**/*.css",
 					"css/main-sitemap.xsl",
 					"deprecated/**",
 					"frontend/**",
