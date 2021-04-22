@@ -2,6 +2,7 @@ import getClausesSplitOnStopwords
 	from "../../../../../../src/languageProcessing/helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/getClausesSplitOnStopWords.js";
 import arrayToRegex from "../../../../../../src/languageProcessing/helpers/regex/createRegexFromArray";
 import Clause from "../../../../../../src/languageProcessing/values/Clause";
+import getClauses from "../../../../../../src/languageProcessing/languages/cs/helpers/getClauses";
 
 const options1 = {
 	Clause: Clause,
@@ -49,6 +50,13 @@ describe( "splits sentences into parts", function() {
 		expect( getClausesSplitOnStopwords( sentence, options1 )[ 0 ].getClauseText() ).toBe( "Als ik rijk wordt ga ik je iets kopen." );
 		expect( getClausesSplitOnStopwords( sentence, options1 )[ 0 ].getAuxiliaries() ).toEqual( [ "wordt" ] );
 		expect( getClausesSplitOnStopwords( sentence, options1 ).length ).toBe( 1 );
+	} );
+
+	it( "splits sentence on stop character", function() {
+		const sentence = "Rostliny jsou vysazeny, léto je blízko.";
+		expect( getClauses( sentence )[ 0 ].getClauseText() ).toBe( "Rostliny jsou vysazeny" );
+		expect( getClauses( sentence )[ 1 ].getClauseText() ).toBe( "léto je blízko." );
+		expect( getClauses( sentence ).length ).toBe( 2 );
 	} );
 
 	it( "returns an empty array if there are no auxiliaries in any of the clauses", function() {
