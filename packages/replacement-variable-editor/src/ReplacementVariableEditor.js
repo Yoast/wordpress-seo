@@ -18,7 +18,7 @@ import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "./constants";
-import { SimulatedLabel } from "@yoast/components";
+import { NewBadge, SimulatedLabel } from "@yoast/components";
 
 /**
  * The replacement variable editor.
@@ -82,6 +82,7 @@ class ReplacementVariableEditor extends React.Component {
 			fieldId,
 			onMouseEnter,
 			onMouseLeave,
+			hasNewBadge,
 		} = this.props;
 
 		const InputContainer = this.InputContainer;
@@ -102,6 +103,7 @@ class ReplacementVariableEditor extends React.Component {
 					onClick={ onFocus }
 				>
 					{ label }
+					{ hasNewBadge && <NewBadge inLabel={ true } /> }
 				</SimulatedLabel>
 				{ addVariableButton }
 				<InputContainer
@@ -147,6 +149,7 @@ ReplacementVariableEditor.propTypes = {
 	fieldId: PropTypes.string,
 	onMouseEnter: PropTypes.func,
 	onMouseLeave: PropTypes.func,
+	hasNewBadge: PropTypes.bool,
 };
 
 ReplacementVariableEditor.defaultProps = {
@@ -163,6 +166,7 @@ ReplacementVariableEditor.defaultProps = {
 	editorRef: () => {},
 	onMouseEnter: () => {},
 	onMouseLeave: () => {},
+	hasNewBadge: false,
 };
 
 export default ReplacementVariableEditor;
