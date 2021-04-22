@@ -17,7 +17,7 @@ describe( "a test for the Dutch Researcher", function() {
 	} );
 
 	it( "returns true if the Dutch Researcher has a specific research", function() {
-		expect( researcher.hasResearch( "getPassiveVoice" ) ).toBe( true );
+		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
 	} );
 
 	it( "returns the Dutch function words", function() {

@@ -1,4 +1,4 @@
-import Sentence from "../../../src/languageProcessing/values/SentenceNew.js";
+import Sentence from "../../../src/languageProcessing/values/Sentence.js";
 import Clause from "../../../src/languageProcessing/values/Clause";
 
 describe( "constructor", () => {
