@@ -21,7 +21,7 @@ export class Heading extends RichTextBase {
 		class: string;
 		default: string;
 		placeholder: string;
-		keepPlaceholderOnFocus?: boolean;
+		keepPlaceholderOnFocus: boolean;
 		multiline: boolean;
 		label: string;
 		value: string;
@@ -117,8 +117,6 @@ export class Heading extends RichTextBase {
 			tagName: `h${ this.getHeadingLevel( props ) }` as keyof HTMLElementTagNameMap,
 			value: props.attributes[ this.options.name ] as string || this.options.value,
 			className: this.options.class,
-			placeholder: this.options.placeholder,
-			keepPlaceholderOnFocus: this.options.keepPlaceholderOnFocus,
 			"data-id": this.options.name,
 			key: i,
 		};

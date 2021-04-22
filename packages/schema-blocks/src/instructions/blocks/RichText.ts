@@ -29,8 +29,6 @@ export default class RichText extends RichTextBase {
 			tagName: this.options.tag,
 			value: props.attributes[ this.options.name ] as string,
 			className: this.options.class,
-			placeholder: this.options.placeholder,
-			keepPlaceholderOnFocus: this.options.keepPlaceholderOnFocus,
 			"data-id": this.options.name,
 			key: i,
 		};
