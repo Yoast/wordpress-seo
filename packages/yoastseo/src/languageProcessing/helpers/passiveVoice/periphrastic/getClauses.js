@@ -84,6 +84,29 @@ const followingAuxiliaryExceptionFilter = function( text, auxiliaryMatches, foll
 };
 
 /**
+ * Filters auxiliaries preceded by an elided word (e.g., s') on the elisionAuxiliaryExceptionWords list.
+ *
+ * @param {string} text The text part in which to check.
+ * @param {Array} auxiliaryMatches The auxiliary matches for which to check.
+ * @param {RegExp} elisionAuxiliaryExceptionRegex Regex to match the elisionAuxiliary exception.
+ *
+ * @returns {Array} The filtered list of auxiliary indices.
+ */
+const elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches, elisionAuxiliaryExceptionRegex ) {
+	const elisionAuxiliaryExceptionMatches = getWordIndices( text, elisionAuxiliaryExceptionRegex );
+
+	forEach( auxiliaryMatches, function( auxiliaryMatch ) {
+		if ( includesIndex( elisionAuxiliaryExceptionMatches, auxiliaryMatch.index, false ) ) {
+			auxiliaryMatches = auxiliaryMatches.filter( function( auxiliaryObject ) {
+				return auxiliaryObject.index !== auxiliaryMatch.index;
+			} );
+		}
+	} );
+
+	return auxiliaryMatches;
+};
+
+/**
  * Gets the indices of sentence breakers (auxiliaries, stopwords and stop characters;
  * in English also active verbs) to determine clauses.
  * Indices are filtered because there could be duplicate matches, like "even though" and "though".
@@ -98,13 +121,12 @@ const getSentenceBreakers = function( sentence, options ) {
 	sentence = sentence.toLocaleLowerCase();
 	const { regexes } = options;
 	let auxiliaryIndices = getIndicesOfList( options.auxiliaries, sentence );
-	const stopwordIndices = getIndicesOfList( options.stopwords, sentence );
 	const stopCharacterIndices = getStopCharacters( sentence, regexes.stopCharacterRegex );
+	let stopwordIndices = getIndicesOfList( options.stopwords, sentence );
 
-	// Check if there are already any indices in the options.
-	let indicesFromOptions = [];
-	if ( options.indices && options.indices.length > 0 ) {
-		indicesFromOptions = options.indices;
+	// Check in options if there are stopword indices created based on language-specific rules.
+	if ( options.stopWordIndices && options.stopWordIndices.length > 0 ) {
+		stopwordIndices = stopwordIndices.concat( options.stopWordIndices );
 	}
 
 	if ( typeof regexes.directPrecedenceExceptionRegex !== "undefined" ) {
@@ -112,7 +134,12 @@ const getSentenceBreakers = function( sentence, options ) {
 		auxiliaryIndices = auxiliaryPrecedenceExceptionFilter( sentence, auxiliaryIndices, regexes.directPrecedenceExceptionRegex );
 	}
 
-	let totalIndices = indicesFromOptions.concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
+	if ( typeof regexes.elisionAuxiliaryExceptionRegex !== "undefined" ) {
+		// Filters auxiliaries matched in the sentence based on a elision exception filter.
+		auxiliaryIndices = elisionAuxiliaryExceptionFilter( sentence, auxiliaryIndices, regexes.elisionAuxiliaryExceptionRegex );
+	}
+
+	let totalIndices = auxiliaryIndices.concat( stopwordIndices, stopCharacterIndices );
 
 	totalIndices = filterIndices( totalIndices );
 
@@ -127,8 +154,7 @@ const getSentenceBreakers = function( sentence, options ) {
  *
  * @returns {Array} All formatted matches from the sentence part.
  */
-const getAuxiliaryMatches = function(
-	sentencePart, regexes ) {
+const getAuxiliaryMatches = function( sentencePart, regexes ) {
 	const { auxiliaryRegex, directPrecedenceExceptionRegex, followingAuxiliaryExceptionRegex } = regexes;
 	let auxiliaryMatches = sentencePart.match( auxiliaryRegex ) || [];
 
