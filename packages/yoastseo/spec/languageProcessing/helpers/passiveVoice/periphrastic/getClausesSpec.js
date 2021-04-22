@@ -16,7 +16,7 @@ const options1 = {
 		directPrecedenceExceptionRegex: arrayToRegex( [ "se", "me", "te", "s'y" ] ),
 		elisionAuxiliaryExceptionRegex: arrayToRegex( [ "c'", "s'", "peut-" ], true ),
 	},
-	stopWordIndices: [],
+	otherStopWordIndices: [],
 };
 
 const options2 = {
@@ -27,7 +27,7 @@ const options2 = {
 		auxiliaryRegex: arrayToRegex( [ "am", "is", "are", "est", "es", "sont" ] ),
 		stopCharacterRegex: /([:,]|('ll)|('ve))(?=[ \n\r\t'"+\-»«‹›<>])/ig,
 	},
-	stopWordIndices: [],
+	otherStopWordIndices: [],
 };
 
 const options3 = {
@@ -54,7 +54,7 @@ const options4 = {
 		directPrecedenceExceptionRegex: arrayToRegex( [ "se", "me", "te", "s'y" ] ),
 		elisionAuxiliaryExceptionRegex: arrayToRegex( [ "c'", "s'", "peut-" ], true ),
 	},
-	stopWordIndices: [ { index: 23, match: "ing" } ],
+	otherStopWordIndices: [ { index: 23, match: "ing" } ],
 };
 
 describe( "splits sentences into clauses", function() {

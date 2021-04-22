@@ -124,9 +124,9 @@ const getSentenceBreakers = function( sentence, options ) {
 	const stopCharacterIndices = getStopCharacters( sentence, regexes.stopCharacterRegex );
 	let stopwordIndices = getIndicesOfList( options.stopwords, sentence );
 
-	// Check in options if there are stopword indices created based on language-specific rules.
-	if ( options.stopWordIndices && options.stopWordIndices.length > 0 ) {
-		stopwordIndices = stopwordIndices.concat( options.stopWordIndices );
+	// Check in options if there are other stopword indices created based on language-specific rules.
+	if ( options.otherStopWordIndices && options.otherStopWordIndices.length > 0 ) {
+		stopwordIndices = stopwordIndices.concat( options.otherStopWordIndices );
 	}
 
 	if ( typeof regexes.directPrecedenceExceptionRegex !== "undefined" ) {
