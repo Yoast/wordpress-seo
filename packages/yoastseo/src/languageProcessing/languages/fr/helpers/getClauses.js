@@ -19,7 +19,6 @@ const options = {
 		directPrecedenceExceptionRegex: createRegexFromArray( reflexivePronouns ),
 		elisionAuxiliaryExceptionRegex: createRegexFromArray( elisionAuxiliaryExceptionWords, true ),
 	},
-	indices: [],
 };
 
 /**
