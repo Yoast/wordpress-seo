@@ -43,7 +43,7 @@ describe( "The required blocks in the sidebar", () => {
 		const block = { innerBlocks: [] } as BlockInstance;
 		const requiredBlocks = [ "yoast/nonexisting" ];
 
-		const actual = BlockSuggestionsPresenter( { title: "Required blocks", block, suggestions: requiredBlocks } );
+		const actual = BlockSuggestionsPresenter( { title: "Required information", block, suggestions: requiredBlocks } );
 
 		expect( actual ).toBe( null );
 	} );
@@ -53,7 +53,7 @@ describe( "The required blocks in the sidebar", () => {
 		const requiredBlocks = [ "yoast/added-to-content"  ];
 
 		const tree = renderer
-			.create( BlockSuggestionsPresenter( { title: "Required blocks", block, suggestions: requiredBlocks } ) )
+			.create( BlockSuggestionsPresenter( { title: "Required information", block, suggestions: requiredBlocks } ) )
 			.toJSON();
 
 		expect( tree ).toMatchSnapshot();
@@ -64,7 +64,7 @@ describe( "The required blocks in the sidebar", () => {
 		const requiredBlocks = [ "yoast/non-added-to-content" ];
 
 		const tree = renderer
-			.create( BlockSuggestionsPresenter( { title: "Required blocks", block, suggestions: requiredBlocks } ) )
+			.create( BlockSuggestionsPresenter( { title: "Required information", block, suggestions: requiredBlocks } ) )
 			.toJSON();
 
 		expect( tree ).toMatchSnapshot();
@@ -74,7 +74,7 @@ describe( "The required blocks in the sidebar", () => {
 		const block = { innerBlocks: [], clientId: "1" } as BlockInstance;
 		const requiredBlocks = [ "yoast/non-added-to-content" ];
 
-		const tree = mount( BlockSuggestionsPresenter( { title: "Required blocks", block, suggestions: requiredBlocks } )  );
+		const tree = mount( BlockSuggestionsPresenter( { title: "Required information", block, suggestions: requiredBlocks } )  );
 
 		const addButton = tree.find( "button" ).first();
 

@@ -70,12 +70,12 @@ export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ): ReactEleme
 		<SidebarHeader />
 		<WarningList warnings={ warnings } />
 		<BlockSuggestions
-			title={ __( "Required Blocks", "yoast-schema-blocks" ) }
+			title={ __( "Required information", "yoast-schema-blocks" ) }
 			block={ block }
 			suggestions={ props.requiredBlocks }
 		/>
 		<BlockSuggestions
-			title={ __( "Recommended Blocks", "yoast-schema-blocks" ) }
+			title={ __( "Recommended information", "yoast-schema-blocks" ) }
 			block={ block }
 			suggestions={ props.recommendedBlocks }
 		/>
@@ -105,7 +105,7 @@ function SidebarHeader(): ReactElement {
 	return (
 		<div className="yoast-block-sidebar-header">
 			<div className="yoast-block-sidebar-title">
-				{ __( "Blocks for Schema output", "yoast-schema-blocks" ) }
+				{ __( "Information for Schema output", "yoast-schema-blocks" ) }
 				<span className="yoast-inline-icon">{ questionMarkIcon }</span>
 			</div>
 		</div>

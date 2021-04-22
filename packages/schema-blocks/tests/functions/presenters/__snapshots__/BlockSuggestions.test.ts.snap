@@ -5,7 +5,7 @@ Array [
   <div
     className="yoast-block-sidebar-title"
   >
-    Required blocks
+    Required information
   </div>,
   <ul
     className="yoast-block-suggestions"
@@ -30,7 +30,7 @@ Array [
   <div
     className="yoast-block-sidebar-title"
   >
-    Required blocks
+    Required information
   </div>,
   <ul
     className="yoast-block-suggestions"

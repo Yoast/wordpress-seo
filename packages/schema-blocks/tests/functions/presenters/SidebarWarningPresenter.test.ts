@@ -31,7 +31,7 @@ describe( "The SidebarWarningPresenter ", () => {
 			const result = createAnalysisMessages( testcase );
 
 			expect( result ).toEqual( [ {
-				text: "Good job! All required blocks have been completed.",
+				text: "Good job! All required information has been provided.",
 				color: "green",
 			} ] );
 		} );
@@ -42,7 +42,7 @@ describe( "The SidebarWarningPresenter ", () => {
 			const result = createAnalysisMessages( testcase );
 
 			expect( result ).toEqual( [ {
-				text: "Good job! All required blocks have been completed.",
+				text: "Good job! All required information has been provided.",
 				color: "green",
 			} ] );
 		} );
@@ -58,7 +58,7 @@ describe( "The SidebarWarningPresenter ", () => {
 			expect( result.length ).toEqual( 1 );
 			expect( result[ 0 ] ).toEqual(
 				{
-					text: "Not all required blocks have been completed! No mijnblock schema will be generated for your page.",
+					text: "Not all required information has been provided! No mijnblock schema will be generated for your page.",
 					color: "red",
 				},
 			);
@@ -77,7 +77,7 @@ describe( "The SidebarWarningPresenter ", () => {
 			} );
 			expect( result[ 1 ] ).toEqual(
 				{
-					text: "Not all required blocks have been completed! No mijnblock schema will be generated for your page.",
+					text: "Not all required information has been provided! No mijnblock schema will be generated for your page.",
 					color: "red",
 				},
 			);
@@ -105,7 +105,7 @@ describe( "The SidebarWarningPresenter ", () => {
 				color: "orange",
 			} );
 			expect( result[ 2 ] ).toEqual( {
-				text: "Good job! All required blocks have been completed.",
+				text: "Good job! All required information has been provided.",
 				color: "green",
 			} );
 		} );
@@ -128,7 +128,7 @@ describe( "The SidebarWarningPresenter ", () => {
 				color: "orange",
 			} );
 			expect( result[ 1 ] ).toEqual( {
-				text: "Good job! All required blocks have been completed.",
+				text: "Good job! All required information has been provided.",
 				color: "green",
 			} );
 		} );
@@ -141,7 +141,7 @@ describe( "The SidebarWarningPresenter ", () => {
 			const result = getWarnings( "1" );
 
 			expect( result ).toEqual( [ {
-				text: "Good job! All required blocks have been completed.",
+				text: "Good job! All required information has been provided.",
 				color: "green",
 			} ] );
 		} );
@@ -157,7 +157,7 @@ describe( "The SidebarWarningPresenter ", () => {
 			const result = getWarnings( "1" );
 
 			expect( result ).toEqual( [ {
-				text: "Good job! All required blocks have been completed.",
+				text: "Good job! All required information has been provided.",
 				color: "green",
 			} ] );
 		} );
@@ -175,7 +175,7 @@ describe( "The SidebarWarningPresenter ", () => {
 				color: "red",
 			} );
 			expect( result[ 1 ] ).toEqual( {
-				text: "Not all required blocks have been completed! No myblock schema will be generated for your page.",
+				text: "Not all required information has been provided! No myblock schema will be generated for your page.",
 				color: "red",
 			} );
 		} );
