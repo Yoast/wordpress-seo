@@ -8,7 +8,6 @@ import { __ } from "@wordpress/i18n";
 import { SvgIcon } from "@yoast/components";
 
 import BlockSuggestions from "./BlockSuggestionsPresenter";
-import SidebarHeader from "./SidebarHeaderPresenter";
 import { createAnalysisMessages, SidebarWarning } from "./SidebarWarningPresenter";
 import { ClientIdValidation, YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { BlockValidationResult } from "../../core/validation";
