@@ -72,7 +72,7 @@ const calculateFleschReadingResult = function( fleschReadingScore, scoresConfig,
 				"</a>",
 				fleschReadingScore,
 				feedback,
-				note,
+				note
 			),
 		};
 	}
@@ -96,7 +96,7 @@ const calculateFleschReadingResult = function( fleschReadingScore, scoresConfig,
 			feedback,
 			urlCallToAction,
 			note,
-			"</a>.",
+			"</a>."
 		),
 	};
 };

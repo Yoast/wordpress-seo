@@ -152,7 +152,7 @@ YoastReplaceVarPlugin.prototype.subscribeToGutenberg = function() {
 	const fetchedParents = { 0: "" };
 
 	let currentParent = null;
-	const wpData      = window.wp.data;
+	const wpData      = wp.data;
 	wpData.subscribe( () => {
 		const newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
 		if ( typeof newParent === "undefined" || currentParent === newParent ) {

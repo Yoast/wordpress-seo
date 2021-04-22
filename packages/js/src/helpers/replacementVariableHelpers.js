@@ -1,5 +1,3 @@
-/* global wp */
-
 /* External dependencies */
 import {
 	forEach,

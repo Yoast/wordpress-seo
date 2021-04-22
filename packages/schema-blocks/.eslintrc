@@ -16,6 +16,7 @@
     },
     "rules": {
         "new-cap": 0,
+        "react/jsx-no-bind": 1,
         "complexity": [
             2,
             10
