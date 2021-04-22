@@ -4,7 +4,7 @@ describe( "Test for matching Italian participles", function() {
 	it( "returns matched irregular participles.", function() {
 		const clauseText = "Venivano salvati dal bagnino.";
 		const foundParticiples = getParticiples( clauseText );
-		expect( foundParticiples).toEqual( [ "salvati" ] );
+		expect( foundParticiples ).toEqual( [ "salvati" ] );
 	} );
 
 	it( "returns an empty array when there is no participle or when the sentence is empty.", function() {
