@@ -33,15 +33,16 @@ class SettingsSnippetEditor extends React.Component {
 	 *                                                   be in.
 	 * @param {Function} props.onChange                  Called when the data
 	 *                                                   changes.
-	 * @param {Object} props.titleLengthProgress       The values for the title
+	 * @param {Object} props.titleLengthProgress         The values for the title
 	 *                                                   length assessment.
-	 * @param {Object} props.descriptionLengthProgress The values for the
+	 * @param {Object} props.descriptionLengthProgress   The values for the
 	 *                                                   description length
 	 *                                                   assessment.
 	 * @param {Function} props.mapDataToPreview          Function to map the editor
 	 *                                                   data to data for the preview.
 	 * @param {string} props.locale                      The locale of the page.
 	 * @param {bool}   props.hasPaperStyle               Whether or not it has paper style.
+	 * @param {bool}   props.hasNewBadge                 Optional. Whether or not it has a 'New' badge.
 	 *
 	 * @returns {void}
 	 */
@@ -123,6 +124,7 @@ class SettingsSnippetEditor extends React.Component {
 			hasPaperStyle,
 			fieldIds,
 			labels,
+			hasNewBadge,
 		} = this.props;
 
 		const { activeField, hoveredField } = this.state;
@@ -142,6 +144,7 @@ class SettingsSnippetEditor extends React.Component {
 					containerPadding={ hasPaperStyle ? "0 20px" : "0" }
 					fieldIds={ fieldIds }
 					labels={ labels }
+					hasNewBadge={ hasNewBadge }
 				/>
 			</ErrorBoundary>
 		);
@@ -166,6 +169,7 @@ SettingsSnippetEditor.propTypes = {
 		title: PropTypes.string,
 		description: PropTypes.string,
 	} ),
+	hasNewBadge: PropTypes.bool,
 };
 
 SettingsSnippetEditor.defaultProps = {
@@ -174,6 +178,7 @@ SettingsSnippetEditor.defaultProps = {
 	hasPaperStyle: true,
 	descriptionEditorFieldPlaceholder: null,
 	labels: {},
+	hasNewBadge: false,
 };
 
 export default SettingsSnippetEditor;
