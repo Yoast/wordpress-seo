@@ -73,14 +73,17 @@ function createClauseObjects( clauses, options ) {
  */
 function getClausesSplitOnStopWords( sentence, options ) {
 	const auxiliaryRegex = options.regexes.auxiliaryRegex;
-
 	// First check if there is an auxiliary in the sentence.
 	if ( sentence.match( auxiliaryRegex ) === null ) {
 		return [];
 	}
-
+	let clauses;
+	if ( typeof( options.regexes.stopCharacterRegex ) !== "undefined" ) {
+		clauses = sentence.split( options.regexes.stopCharacterRegex );
+	}
+	console.log( clauses );
 	const stopwords = sentence.match( options.regexes.stopwordRegex ) || [];
-	const clauses = splitOnStopWords( sentence, stopwords );
+	clauses = splitOnStopWords( sentence, stopwords );
 	return createClauseObjects( clauses, options );
 }
 
