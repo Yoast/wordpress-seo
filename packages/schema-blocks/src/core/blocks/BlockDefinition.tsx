@@ -15,6 +15,7 @@ import { registerBlockDefinition } from "./BlockDefinitionRepository";
 import { PanelBody } from "@wordpress/components";
 import logger from "../../functions/logger";
 import { openGeneralSidebar } from "../../functions/gutenberg/sidebar";
+import SidebarHeader from "../../functions/presenters/SidebarHeaderPresenter";
 
 export interface RenderEditProps extends BlockEditProps<Record<string, unknown>> {
 	clientId: string;
@@ -58,15 +59,14 @@ export default class BlockDefinition extends Definition {
 		const elements = this.tree.children.map( ( leaf, i ) => leaf.edit( props, i ) ).filter( e => e !== null );
 
 		if ( sidebarElements.length > 0 ) {
-			// Need to add `children` on the `props` as well, because of the type definition of `InspectorControls.Props`.
-			const sidebar = createElement( PanelBody, {
-				key: "sidebarPanelBody",
-				children: sidebarElements,
-			}, sidebarElements );
-			const sidebarContainer = createElement( InspectorControls, {
-				key: "sidebar",
-				children: [ sidebar ],
-			}, [ sidebar ] );
+			const sidebarContainer =
+				<InspectorControls key="sidebar-inspector-controls">
+					<PanelBody>
+						<SidebarHeader />
+						{ sidebarElements }
+					</PanelBody>;
+				</InspectorControls>;
+
 			elements.unshift( sidebarContainer );
 		}
 

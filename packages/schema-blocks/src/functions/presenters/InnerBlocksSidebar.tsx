@@ -68,7 +68,6 @@ export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ): ReactEleme
 	}
 
 	return <Fragment key={ "innerblocks-sidebar-" + block.clientId }>
-		<SidebarHeader />
 		<WarningList warnings={ warnings } />
 		<BlockSuggestions
 			title={ __( "Required information", "yoast-schema-blocks" ) }
