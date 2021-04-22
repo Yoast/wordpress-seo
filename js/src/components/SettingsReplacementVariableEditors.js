@@ -94,7 +94,7 @@ class SettingsReplacementVariableEditors extends Component {
 					hasPaperStyle={ reactReplacevarPaperStyle === "1" }
 					labels={ labels }
 					descriptionPlaceholder={ reactReplacevarDescriptionPlaceholder }
-					hasNewBadge={ reactReplacevarHasNewBadge === "1"}
+					hasNewBadge={ reactReplacevarHasNewBadge === "1" }
 				/>
 			);
 		} );
