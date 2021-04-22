@@ -33,7 +33,9 @@ export default function parse( thing ) {
 	const thingIsObject = isObject( thing );
 
 	if ( thingIsObject && thing._parseClass && PARSE_CLASSES[ thing._parseClass ] ) {
-		return PARSE_CLASSES[ thing._parseClass ].parse( thing );
+		return thing._parseClass === "Sentence" || thing._parseClass === "Clause"
+			? PARSE_CLASSES[ thing._parseClass ].prototype.parse( thing )
+			: PARSE_CLASSES[ thing._parseClass ].parse( thing );
 	}
 
 	if ( thingIsObject ) {
