@@ -83,7 +83,7 @@ export default class BlockDefinition extends Definition {
 	 *
 	 * @param props The props.
 	 *
-	 * @returns {ReactElement} The rendered block.
+	 * @returns The rendered block.
 	 */
 	save( props: RenderSaveProps ): ReactElement {
 		return this.tree.save( props );
@@ -117,7 +117,7 @@ export default class BlockDefinition extends Definition {
 	 *
 	 * @param props The properties of the block to create a sidebar for.
 	 *
-	 * @returns {ReactElement[]} The sidebar element to render.
+	 * @returns The sidebar element to render.
 	 */
 	sidebarElements( props: RenderEditProps ): ReactElement[] {
 		return Object.values( this.instructions )
@@ -130,9 +130,9 @@ export default class BlockDefinition extends Definition {
 	/**
 	 * Creates a block icon.
 	 *
-	 * @param {MutableBlockConfiguration} configuration The block configuration.
+	 * @param configuration The block configuration.
 	 *
-	 * @returns {ReactElement[]} The sidebar element to render.
+	 * @returns The sidebar element to render.
 	 */
 	private createBlockIcon( configuration: MutableBlockConfiguration ): ReactElement {
 		const icon = <span
