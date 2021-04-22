@@ -28,6 +28,7 @@ export default function SettingsEditorPortal( {
 	hasPaperStyle,
 	labels,
 	descriptionPlaceholder,
+	hasNewBadge,
 } ) {
 	return (
 		<Portal target={ target }>
@@ -39,6 +40,7 @@ export default function SettingsEditorPortal( {
 				hasPaperStyle={ hasPaperStyle }
 				labels={ labels }
 				descriptionPlaceholder={ descriptionPlaceholder }
+				hasNewBadge={ hasNewBadge }
 			/>
 		</Portal>
 	);
@@ -56,4 +58,9 @@ SettingsEditorPortal.propTypes = {
 		description: PropTypes.string,
 	} ),
 	descriptionPlaceholder: PropTypes.string,
+	hasNewBadge: PropTypes.bool,
+};
+
+SettingsEditorPortal.defaultProps = {
+	hasNewBadge: false,
 };

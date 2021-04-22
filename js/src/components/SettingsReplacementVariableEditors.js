@@ -70,6 +70,7 @@ class SettingsReplacementVariableEditors extends Component {
 				reactReplacevarLabelTitle,
 				reactReplacevarLabelDescription,
 				reactReplacevarDescriptionPlaceholder,
+				reactReplacevarHasNewBadge,
 			} = targetElement.dataset;
 
 			const filteredReplacementVariables = this.filterEditorSpecificReplaceVars(
@@ -93,6 +94,7 @@ class SettingsReplacementVariableEditors extends Component {
 					hasPaperStyle={ reactReplacevarPaperStyle === "1" }
 					labels={ labels }
 					descriptionPlaceholder={ reactReplacevarDescriptionPlaceholder }
+					hasNewBadge={ reactReplacevarHasNewBadge === "1" }
 				/>
 			);
 		} );
