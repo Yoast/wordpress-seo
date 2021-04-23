@@ -5,4 +5,12 @@ import { RequiredBlock } from "./RequiredBlock";
 import { RecommendedBlock } from "./RecommendedBlock";
 import { SuggestedBlockProperties } from "./SuggestedBlockProperties";
 
-export { BlockPresence, BlockValidation, BlockValidationResult, RequiredBlockOption, RequiredBlock, RecommendedBlock, SuggestedBlockProperties };
+export {
+	BlockPresence,
+	BlockValidation,
+	BlockValidationResult,
+	RecommendedBlock,
+	RequiredBlock,
+	RequiredBlockOption,
+	SuggestedBlockProperties,
+};
