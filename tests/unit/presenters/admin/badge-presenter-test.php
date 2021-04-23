@@ -35,6 +35,23 @@ class Badge_Presenter_Test extends TestCase {
 	public function test_construct() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
 
+		$test = new Badge_Presenter( 'test-id', 'http://example.com/' );
+
+		$this->assertSame( 'test-id', $this->getPropertyValue( $test, 'id' ) );
+		$this->assertSame( 'http://example.com/', $this->getPropertyValue( $test, 'link' ) );
+
+		$this->assertInstanceOf(
+			WPSEO_Admin_Asset_Manager::class,
+			$this->getPropertyValue( $test, 'asset_manager' )
+		);
+	}
+
+	/**
+	 * Test constructor with a group.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct_with_group() {
 		$test = new Badge_Presenter( 'test-id', 'http://example.com/', 'test-group' );
 
 		$this->assertSame( 'test-id', $this->getPropertyValue( $test, 'id' ) );
