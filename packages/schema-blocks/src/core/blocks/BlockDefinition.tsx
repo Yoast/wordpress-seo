@@ -8,6 +8,7 @@ import {
 import { InspectorControls, BlockIcon } from "@wordpress/block-editor";
 import { select } from "@wordpress/data";
 import { PanelBody } from "@wordpress/components";
+import { __ } from "@wordpress/i18n";
 
 import BlockInstruction from "./BlockInstruction";
 import Definition from "../Definition";
@@ -16,7 +17,7 @@ import parse from "../../functions/blocks/parse";
 import { registerBlockDefinition } from "./BlockDefinitionRepository";
 import logger from "../../functions/logger";
 import { openGeneralSidebar } from "../../functions/gutenberg/sidebar";
-import SidebarHeader from "../../functions/presenters/SidebarHeaderPresenter";
+import StringWithClickableQuestionMark from "../../functions/presenters/StringWithClickableQuestionMarkPresenter";
 
 export interface RenderEditProps extends BlockEditProps<Record<string, unknown>> {
 	clientId: string;
@@ -63,7 +64,10 @@ export default class BlockDefinition extends Definition {
 			const sidebarContainer =
 				<InspectorControls key="sidebar-inspector-controls">
 					<PanelBody>
-						<SidebarHeader />
+						<StringWithClickableQuestionMark
+							text={ __( "Information for Schema output", "yoast-schema-blocks" ) }
+							URL={ "https://yoa.st/4dk" }
+						/>
 						{ sidebarElements }
 					</PanelBody>
 				</InspectorControls>;
