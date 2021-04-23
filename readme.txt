@@ -237,6 +237,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 16.2 =
 Release Date: April 28th, 2021
 
+Say hi to Yoast SEO 16.2! This release focuses on improving stability and fixing several bugs. It also includes several enhancements. Read more about what’s new in Yoast SEO 16.2 in [our release post](https://yoa.st/release-16-2)!
+
 Enhancements:
 
 * Enables/disables auto-updates for the ACF Content Analysis for Yoast SEO plugin when auto-updates for Yoast SEO are enabled/disabled.
