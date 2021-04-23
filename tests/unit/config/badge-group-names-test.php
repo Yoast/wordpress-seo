@@ -17,6 +17,8 @@ class Badge_Group_Names_Test extends TestCase {
 
 	/** The group we're testing will no longer be considered new from this version onwards  */
 	const VERSION_NO_LONGER_NEW = '16.5';
+	/** The group we're testing will no longer be considered new from this RC version onwards  */
+	const VERSION_NO_LONGER_NEW_RC = '16.5-RC1';
 	/** The group we're testing will still be considered new on this version  */
 	const VERSION_STILL_NEW = '16.4';
 	/** The group we're testing is not considered new on this version  */
@@ -61,6 +63,20 @@ class Badge_Group_Names_Test extends TestCase {
 	 */
 	public function test_global_templates_group_is_eligible_for_new_badge() {
 		$expiry_version = self::VERSION_NO_LONGER_NEW;
+
+		self::assertFalse(
+			$this->instance->is_still_eligible_for_new_badge( self::TESTING_GROUP, $expiry_version ),
+			sprintf( 'Group should not be "new" on version %s', $expiry_version )
+		);
+	}
+
+	/**
+	 * Tests if the global templates group is no longer eligible for a "new" badge on the set RC version.
+	 *
+	 * @covers ::is_still_eligible_for_new_badge
+	 */
+	public function test_global_templates_group_is_eligible_for_new_badge_release_candidate() {
+		$expiry_version = self::VERSION_NO_LONGER_NEW_RC;
 
 		self::assertFalse(
 			$this->instance->is_still_eligible_for_new_badge( self::TESTING_GROUP, $expiry_version ),

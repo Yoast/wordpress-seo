@@ -33,6 +33,6 @@ class Badge_Group_Names {
 
 		$group_version = self::GROUP_NAMES[ $group ];
 
-		return (bool) version_compare( $group_version, $current_version, '>' );
+		return (bool) version_compare( $current_version, $group_version, '<=' );
 	}
 }
