@@ -255,6 +255,10 @@ class Front_End_Integration implements Integration_Interface {
 			return $presenters;
 		}
 
+		if ( $this->helpers->request->is_rest_request() ) {
+			return $presenters;
+		}
+
 		return \array_diff( $presenters, [ 'Yoast\\WP\\SEO\\Presenters\\Robots_Presenter' ] );
 	}
 
