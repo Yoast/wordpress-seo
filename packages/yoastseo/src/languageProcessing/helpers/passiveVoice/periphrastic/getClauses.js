@@ -8,29 +8,9 @@ import getWordIndices from "./getIndicesWithRegex.js";
 import includesIndex from "../../word/includesIndex";
 import followsIndex from "../../word/followsIndex";
 
-import { filter } from "lodash-es";
 import { isUndefined } from "lodash-es";
-import { includes } from "lodash-es";
 import { map } from "lodash-es";
 import { forEach } from "lodash-es";
-
-/**
- * Gets active verbs (ending in ing) to determine sentence breakers in English.
- *
- * @param {string} sentence The sentence to get the active verbs from.
- * @param {RegExp} regex Regex to find the sentences with verbs ending in -ing.
- * @param {string} exclusions List of -ing ending words that shouldn't match.
- *
- * @returns {Array} The array with valid matches.
- */
-const getVerbsEndingInIng = function( sentence, regex, exclusions ) {
-	// Matches the sentences with words ending in ing.
-	const matches = sentence.match( regex ) || [];
-	// Filters out words ending in -ing that aren't verbs.
-	return filter( matches, function( match ) {
-		return ! includes( exclusions, stripSpaces( match ) );
-	} );
-};
 
 /**
  * Gets stop characters to determine sentence breakers.
@@ -127,7 +107,7 @@ const elisionAuxiliaryExceptionFilter = function( text, auxiliaryMatches, elisio
 };
 
 /**
- * Gets the indexes of sentence breakers (auxiliaries, stopwords and stop characters;
+ * Gets the indices of sentence breakers (auxiliaries, stopwords and stop characters;
  * in English also active verbs) to determine clauses.
  * Indices are filtered because there could be duplicate matches, like "even though" and "though".
  * In addition, 'having' will be matched both as a -ing verb as well as an auxiliary.
@@ -141,10 +121,13 @@ const getSentenceBreakers = function( sentence, options ) {
 	sentence = sentence.toLocaleLowerCase();
 	const { regexes } = options;
 	let auxiliaryIndices = getIndicesOfList( options.auxiliaries, sentence );
-	const stopwordIndices = getIndicesOfList( options.stopwords, sentence );
 	const stopCharacterIndices = getStopCharacters( sentence, regexes.stopCharacterRegex );
+	let stopwordIndices = getIndicesOfList( options.stopwords, sentence );
 
-	let indices;
+	// Check in options if there are other stopword indices created based on language-specific rules.
+	if ( options.otherStopWordIndices && options.otherStopWordIndices.length > 0 ) {
+		stopwordIndices = stopwordIndices.concat( options.otherStopWordIndices );
+	}
 
 	if ( typeof regexes.directPrecedenceExceptionRegex !== "undefined" ) {
 		// Filters auxiliaries matched in the sentence based on a precedence exception filter.
@@ -156,17 +139,11 @@ const getSentenceBreakers = function( sentence, options ) {
 		auxiliaryIndices = elisionAuxiliaryExceptionFilter( sentence, auxiliaryIndices, regexes.elisionAuxiliaryExceptionRegex );
 	}
 
-	indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
+	let totalIndices = auxiliaryIndices.concat( stopwordIndices, stopCharacterIndices );
 
-	if ( typeof regexes.verbEndingInIngRegex !== "undefined" ) {
-		const ingVerbs = getVerbsEndingInIng( sentence, regexes.verbEndingInIngRegex, options.ingExclusions );
-		const ingVerbsIndices = getIndicesOfList( ingVerbs, sentence );
+	totalIndices = filterIndices( totalIndices );
 
-		indices = indices.concat( ingVerbsIndices );
-	}
-
-	indices = filterIndices( indices );
-	return sortIndices( indices );
+	return sortIndices( totalIndices );
 };
 
 /**
@@ -177,8 +154,7 @@ const getSentenceBreakers = function( sentence, options ) {
  *
  * @returns {Array} All formatted matches from the sentence part.
  */
-const getAuxiliaryMatches = function(
-	sentencePart, regexes ) {
+const getAuxiliaryMatches = function( sentencePart, regexes ) {
 	const { auxiliaryRegex, directPrecedenceExceptionRegex, followingAuxiliaryExceptionRegex } = regexes;
 	let auxiliaryMatches = sentencePart.match( auxiliaryRegex ) || [];
 

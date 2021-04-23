@@ -1,9 +1,9 @@
 import Clause from "./Clause";
 import ProminentWord from "./ProminentWord";
-import SentenceNew from "./SentenceNew";
+import Sentence from "./Sentence";
 
 export {
 	Clause,
 	ProminentWord,
-	SentenceNew,
+	Sentence,
 };
