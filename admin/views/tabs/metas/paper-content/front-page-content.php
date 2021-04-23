@@ -12,7 +12,7 @@
 
 use Yoast\WP\SEO\Presenters\Admin\Badge_Presenter;
 
-$frontpage_settings_badge = new Badge_Presenter( 'frontpage_settings' );
+$frontpage_settings_badge = new Badge_Presenter( 'frontpage_settings', '', 'global-templates' );
 
 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the present() method.
 echo '<div>' . $frontpage_settings_badge->present() . '</div>';
