@@ -5,6 +5,7 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderSaveProps, RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
 import SidebarBase, { SidebarBaseOptions } from "./abstract/SidebarBase";
+import StringWithClickableQuestionMark from "../../functions/presenters/StringWithClickableQuestionMarkPresenter";
 
 /**
  * SidebarInput instruction.
@@ -34,6 +35,11 @@ class SidebarInput extends SidebarBase {
 		}
 		if ( this.options.type ) {
 			attributes.type = this.options.type;
+		}
+
+		// If a help link was passed in the template, add the question mark icon with the link to the label.
+		if ( this.options.helpLink ) {
+			attributes.label = StringWithClickableQuestionMark( { text: attributes.label as string, URL: this.options.helpLink } );
 		}
 
 		return createElement( TextControl, attributes );

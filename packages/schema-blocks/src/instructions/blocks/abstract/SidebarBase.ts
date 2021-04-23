@@ -10,6 +10,7 @@ export type SidebarBaseOptions = {
 	className: string;
 	required?: boolean;
 	visible?: boolean;
+	helpLink?: string;
 }
 
 /**
