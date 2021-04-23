@@ -60,6 +60,7 @@ class WPSEO_Replacevar_Editor {
 				'label_title'             => '',
 				'label_description'       => '',
 				'description_placeholder' => '',
+				'has_new_badge'           => false,
 			]
 		);
 
