@@ -35,10 +35,11 @@ class Badge_Presenter_Test extends TestCase {
 	public function test_construct() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
 
-		$test = new Badge_Presenter( 'test-id', 'http://example.com/' );
+		$test = new Badge_Presenter( 'test-id', 'http://example.com/', 'test-group' );
 
 		$this->assertSame( 'test-id', $this->getPropertyValue( $test, 'id' ) );
 		$this->assertSame( 'http://example.com/', $this->getPropertyValue( $test, 'link' ) );
+		$this->assertSame( 'test-group', $this->getPropertyValue( $test, 'group' ) );
 
 		$this->assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,
@@ -74,6 +75,25 @@ class Badge_Presenter_Test extends TestCase {
 		$expected = '<span class="yoast-badge yoast-new-badge" id="test2-new-badge">New</span>';
 		Monkey\Functions\expect( 'esc_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'esc_html__' )->once()->andReturn( 'New' );
+
+		$this->assertEquals( $expected, (string) $test );
+	}
+
+	/**
+	 * Tests when the badge is in an expired group.
+	 *
+	 * @covers ::present
+	 */
+	public function test_badge_with_expired_group() {
+		$test = \Mockery::mock( Badge_Presenter::class )->makePartial();
+
+		$test->expects( 'is_group_still_new' )
+			->twice()
+			->andReturnFalse();
+
+		$test->__construct( 'test2', '', 'test-group' );
+
+		$expected = '';
 
 		$this->assertEquals( $expected, (string) $test );
 	}
