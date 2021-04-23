@@ -278,6 +278,10 @@ tr.yst_row.even {
   padding: 16px;
 }
 
+.wpseo_content_wrapper .paper.tab-block.has-paper-container-no-top-padding .paper-container {
+	padding-top: 0;
+}
+
 .wpseo_content_wrapper .paper.tab-block .paper-container:first-child {
   margin-top: 0;
 }
@@ -530,10 +534,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .wpseo-progressbar .ui-progressbar-value {
   height: 25px;
   background: #006691;
-}
-
-.archives-titles-metas-content {
-  padding-top: 1em;
 }
 
 /* Banners sidebar. */
@@ -897,12 +897,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
   vertical-align: top;
 }
 
-.yoast-settings-section {
-	margin: 40px 0;
-}
-
-.yoast-settings-section.yoast-settings-section--last {
-	margin-bottom: 0;
+.yoast-settings-section:not(:last-child) {
+	margin-bottom: 40px;
 }
 
 .yoast-settings-section .yoast-help-icon::before {

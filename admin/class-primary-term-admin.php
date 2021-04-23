@@ -20,7 +20,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 
-		add_action( 'save_post', [ $this, 'save_primary_terms' ] );
+		add_action( 'set_object_terms', [ $this, 'save_primary_terms' ], ( \PHP_INT_MAX - 1000 ) );
 	}
 
 	/**

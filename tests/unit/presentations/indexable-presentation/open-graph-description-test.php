@@ -42,6 +42,12 @@ class Open_Graph_Description_Test extends TestCase {
 	 */
 	public function test_generate_open_graph_description_with_meta_description() {
 		$this->indexable->description = 'Example of meta description';
+
+		$this->values_helper
+			->expects( 'get_open_graph_description' )
+			->with( $this->indexable->description, $this->indexable->object_type, $this->indexable->object_sub_type )
+			->andReturn( $this->indexable->description );
+
 		$this->assertEquals( 'Example of meta description', $this->instance->generate_open_graph_description() );
 	}
 }

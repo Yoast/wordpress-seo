@@ -19,6 +19,7 @@ $yform->toggle_switch(
 ?>
 
 <div id='author-archives-titles-metas-content' class='archives-titles-metas-content'>
+<div class="yoast-settings-section">
 
 <?php
 $author_archives_help = new WPSEO_Admin_Help_Panel(
@@ -63,6 +64,7 @@ $yform->index_switch(
 );
 
 ?>
+</div>
 </div>
 
 <?php

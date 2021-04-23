@@ -49,7 +49,7 @@ if ( get_option( 'show_on_front' ) === 'posts' && WPSEO_Options::get( 'opengraph
 				'editor_specific_replace_vars' => $editor_specific_replace_vars,
 			],
 			'title'       => $frontpage_settings_title,
-			'class'       => 'search-appearance',
+			'class'       => 'search-appearance has-paper-container-no-top-padding',
 		]
 	);
 
