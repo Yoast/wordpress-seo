@@ -50,6 +50,11 @@
 	color: #0073aa;
 }
 
+.wp-block .yoast-warning-block > .yoast-warning-block-message > a {
+	text-decoration: underline;
+	color: #0073aa;
+}
+
 .yoast-warning-block > div > button:not(:last-child) {
 	margin-right: 24px;
 }
@@ -120,4 +125,8 @@
 /* Hides the time picker from the datetime picker, we can't use the standalone date picker because it won't focus properly. */
 .yoast-block-date-picker .components-datetime__time > fieldset:last-child {
 	display: none;
+}
+
+.yoast-schema-blocks-icon svg {
+	fill:none;
 }
