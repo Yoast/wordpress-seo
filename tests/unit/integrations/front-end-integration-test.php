@@ -460,4 +460,35 @@ class Front_End_Integration_Test extends TestCase {
 			$this->instance->filter_robots_presenter( $presenters )
 		);
 	}
+
+	/**
+	 * Tests the filter robots presenter with having wp_robots attached to the wp_head action.
+	 *
+	 * @covers ::filter_robots_presenter
+	 */
+	public function test_rest_request_should_output_robots_presenter() {
+		Monkey\Functions\expect( 'wp_robots' )->never();
+
+		\add_action( 'wp_head', 'wp_robots' );
+
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnTrue();
+
+		$presenters = [
+			'Yoast\WP\SEO\Presenters\Title_Presenter',
+			'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+			'Yoast\WP\SEO\Presenters\Robots_Presenter',
+		];
+
+		static::assertEquals(
+			[
+				'Yoast\WP\SEO\Presenters\Title_Presenter',
+				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+				'Yoast\WP\SEO\Presenters\Robots_Presenter',
+			],
+			$this->instance->filter_robots_presenter( $presenters )
+		);
+	}
 }
