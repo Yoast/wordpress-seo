@@ -15,7 +15,7 @@ class Badge_Group_Names {
 	 * Constant describing when certain groups of new badges will no longer be shown.
 	 */
 	const GROUP_NAMES = [
-		self::GROUP_GLOBAL_TEMPLATES => '16.5',
+		self::GROUP_GLOBAL_TEMPLATES => '16.5-beta0',
 	];
 
 	/**
@@ -33,6 +33,6 @@ class Badge_Group_Names {
 
 		$group_version = self::GROUP_NAMES[ $group ];
 
-		return (bool) version_compare( $current_version, $group_version, '<=' );
+		return (bool) version_compare( $group_version, $current_version, '>' );
 	}
 }
