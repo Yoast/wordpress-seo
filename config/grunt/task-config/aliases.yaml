@@ -72,6 +72,7 @@
   - 'po2json'
   - 'i18n-clean-json'
   - 'clean:po-files'
+  - 'clean:schema-blocks-languages'
 
 clean:build-assets:
   - 'clean:build-assets-js'
