@@ -44,6 +44,27 @@ function splitOnStopWords( sentence, stopwords ) {
 }
 
 /**
+ *
+ * Splits sentences into clauses based on stopCharacter.
+ *
+ * @param {string}  sentence        The sentence to split.
+ * @param {regex}   stopCharacter   The stop characters regex.
+ *
+ * @returns {Array} The array with clauses.
+ */
+function splitOnStopCharacter( sentence, stopCharacter ) {
+	const clauses = sentence.split( stopCharacter );
+
+	// Strip space in the beginning of the clause, if any.
+	for ( let i = 0; i < clauses.length; i++ ) {
+		if ( clauses[ i ][ 0 ] === " " ) {
+			clauses[ i ] = clauses[ i ].substring( 1, clauses[ i ].length );
+		}
+	}
+	return clauses;
+}
+
+/**
  * Creates clauses based on split sentences.
 
  * @param {Array}   clauses   The array with clauses.
@@ -73,14 +94,21 @@ function createClauseObjects( clauses, options ) {
  */
 function getClausesSplitOnStopWords( sentence, options ) {
 	const auxiliaryRegex = options.regexes.auxiliaryRegex;
-
 	// First check if there is an auxiliary in the sentence.
 	if ( sentence.match( auxiliaryRegex ) === null ) {
 		return [];
 	}
 
+	let clauses;
 	const stopwords = sentence.match( options.regexes.stopwordRegex ) || [];
-	const clauses = splitOnStopWords( sentence, stopwords );
+	// Split sentences based on stop words
+	clauses = splitOnStopWords( sentence, stopwords );
+
+	// 	Split sentences based on stop characters, only if the regex is available and if the sentence is not yet split from the previous check
+	if ( typeof( options.regexes.stopCharacterRegex ) !== "undefined" && clauses.length === 1 ) {
+		clauses = splitOnStopCharacter( sentence, options.regexes.stopCharacterRegex );
+	}
+
 	return createClauseObjects( clauses, options );
 }
 

@@ -17,4 +17,12 @@ describe( "splits Czech sentences into clauses", function() {
 		expect( getClauses( sentence )[ 1 ].getAuxiliaries() ).toEqual( [ "byla" ] );
 		expect( getClauses( sentence ).length ).toBe( 2 );
 	} );
+	it( "splits sentence on stop character", function() {
+		const sentence = "Jídlo je hotové, stůl je připraven.";
+		expect( getClauses( sentence )[ 0 ].getClauseText() ).toBe( "Jídlo je hotové" );
+		expect( getClauses( sentence )[ 0 ].isPassive() ).toBe( false );
+		expect( getClauses( sentence )[ 1 ].getClauseText() ).toBe( "stůl je připraven." );
+		expect( getClauses( sentence )[ 1 ].isPassive() ).toBe( true );
+		expect( getClauses( sentence ).length ).toBe( 2 );
+	} );
 } );
