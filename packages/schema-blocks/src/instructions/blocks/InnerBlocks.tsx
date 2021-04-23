@@ -2,16 +2,16 @@ import { maxBy } from "lodash";
 import { ComponentType, ReactElement } from "react";
 import { createElement, Fragment } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
-import BlockAppender from "../../functions/presenters/BlockAppender";
 import { BlockInstance } from "@wordpress/blocks";
-import { BlockValidationResult } from "../../core/validation";
-import BlockInstruction from "../../core/blocks/BlockInstruction";
-import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
+
+import { BlockLeaf, ValidatingBlockInstruction } from "../../core/blocks";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
+import { BlockValidationResult } from "../../core/validation";
 import { getBlockByClientId } from "../../functions/BlockHelper";
-import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
-import BlockLeaf from "../../core/blocks/BlockLeaf";
+import BlockAppender from "../../functions/presenters/BlockAppender";
 import { InnerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebar";
+import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
+import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
 
 /**
  * Custom props for InnerBlocks.
@@ -26,7 +26,7 @@ interface InnerBlocksProps extends Omit<WordPressInnerBlocks.Props, "renderAppen
 /**
  * InnerBlocks instruction.
  */
-export default class InnerBlocks extends BlockInstruction {
+export default class InnerBlocks extends ValidatingBlockInstruction {
 	public options: InnerBlocksInstructionOptions;
 
 	/**
@@ -164,4 +164,4 @@ export default class InnerBlocks extends BlockInstruction {
 	}
 }
 
-BlockInstruction.register( "inner-blocks", InnerBlocks );
+ValidatingBlockInstruction.register( "inner-blocks", InnerBlocks );

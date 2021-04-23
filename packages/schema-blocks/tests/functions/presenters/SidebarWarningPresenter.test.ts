@@ -134,11 +134,11 @@ describe( "The SidebarWarningPresenter ", () => {
 		} );
 	} );
 
-	describe( "The getWarnings method ", () => {
+	describe( "The createAnalysisMessages method ", () => {
 		it( "creates a compliment for required valid blocks.", () => {
 			validations[ "1" ] = new BlockValidationResult( "1", "myBlock", BlockValidation.Valid, BlockPresence.Required );
 
-			const result = getWarnings( "1" );
+			const result = createAnalysisMessages( validations[ "1" ] );
 
 			expect( result ).toEqual( [ {
 				text: "Good job! All required blocks have been completed.",
@@ -154,7 +154,7 @@ describe( "The SidebarWarningPresenter ", () => {
 			testcase.issues.push( new BlockValidationResult( "4", "anotherinnerblock", BlockValidation.Unknown, BlockPresence.Required ) );
 			validations[ "1" ] = testcase;
 
-			const result = getWarnings( "1" );
+			const result = createAnalysisMessages( validations[ "1" ] );
 
 			expect( result ).toEqual( [ {
 				text: "Good job! All required blocks have been completed.",
@@ -167,7 +167,7 @@ describe( "The SidebarWarningPresenter ", () => {
 			testcase.issues.push( BlockValidationResult.MissingBlock( "innerblock1", BlockPresence.Required ) );
 			validations[ "1" ] = testcase;
 
-			const result = getWarnings( "1" );
+			const result = createAnalysisMessages( validations[ "1" ] );
 
 			expect( result.length ).toEqual( 2 );
 			expect( result[ 0 ] ).toEqual( {
@@ -182,7 +182,7 @@ describe( "The SidebarWarningPresenter ", () => {
 	} );
 
 	it( "creates no output when the validation results cannot be retrieved.", () => {
-		const result = getWarnings( "123" );
+		const result = createAnalysisMessages( validations[ "12345" ] );
 
 		expect( result ).toBeNull();
 	} );

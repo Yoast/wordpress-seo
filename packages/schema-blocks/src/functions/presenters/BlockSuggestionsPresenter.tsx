@@ -21,17 +21,17 @@ type BlockSuggestionDto = {
 	parentBlockClientId: string;
 }
 
-interface BlockSuggestionsProps {
+export type SuggestionDetails = BlockValidationResult & {
+	title: string;
+}
+
+export interface BlockSuggestionsProps {
 	heading: string;
 	parentClientId: string;
 	blockNames: string[];
 }
 
-export type SuggestionDetails = BlockValidationResult & {
-	title: string;
-}
-
-interface SuggestionDto extends BlockSuggestionsProps {
+export interface SuggestionsDto extends BlockSuggestionsProps {
 	suggestions: SuggestionDetails[];
 }
 
@@ -93,8 +93,8 @@ function BlockSuggestionAdded( { blockTitle, isValid }: BlockSuggestionAddedDto 
  * @param props The BlockValidationResults and the Blocks' titles.
  * @returns The appropriate Block Suggestion elements.
  */
-export function PureBlockSuggestionsPresenter( { heading, parentClientId, suggestions, blockNames }: SuggestionDto ): ReactElement {
-	if ( ! suggestions || suggestions.length < 1 ) {
+export function PureBlockSuggestionsPresenter( { heading, parentClientId, suggestions, blockNames }: SuggestionsDto ): ReactElement {
+	if ( ! suggestions || suggestions.length < 1 || ! blockNames || blockNames.length < 1 ) {
 		return null;
 	}
 
@@ -144,7 +144,7 @@ export function PureBlockSuggestionsPresenter( { heading, parentClientId, sugges
  *
  * @returns The props extended with suggestion data.
  */
-export default withSelect<Partial<SuggestionDto>, BlockSuggestionsProps, SuggestionDto>( ( select, props: BlockSuggestionsProps ) => {
+export default withSelect<Partial<SuggestionsDto>, BlockSuggestionsProps, SuggestionsDto>( ( select, props: BlockSuggestionsProps ) => {
 	const validations: BlockValidationResult[] =
 		select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getInnerblockValidations( props.parentClientId, props.blockNames );
 

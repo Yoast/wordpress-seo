@@ -1,7 +1,7 @@
 import * as renderer from "react-test-renderer";
 
 import { ReactElement } from "@wordpress/element";
-import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
+import { BlockConfiguration } from "@wordpress/blocks";
 
 import Select from "../../../src/instructions/blocks/Select";
 import { RenderSaveProps } from "../../../src/core/blocks/BlockDefinition";
@@ -77,68 +77,6 @@ describe( "The Select instruction", () => {
 				.toJSON();
 
 			expect( tree ).toMatchSnapshot();
-		} );
-	} );
-
-	describe( "the valid method", () => {
-		it( "returns true when the instruction is required and the value exists and is filled in.", () => {
-			const selectInstruction = new Select( 123, options );
-
-			const blockInstance: BlockInstance = {
-				name: "select-instruction",
-				clientId: "abcd-1234",
-				isValid: true,
-				innerBlocks: [],
-				attributes: {
-					cuisine: "tanzanian",
-				},
-			};
-
-			expect( selectInstruction.valid( blockInstance ) ).toEqual( true );
-		} );
-
-		it( "returns true when the instruction is not required and the value exists.", () => {
-			const selectInstruction = new Select( 123, options );
-
-			const blockInstance: BlockInstance = {
-				name: "select-instruction",
-				clientId: "abcd-1234",
-				isValid: true,
-				innerBlocks: [],
-				attributes: {
-					cuisine: "",
-				},
-			};
-
-			expect( selectInstruction.valid( blockInstance ) ).toEqual( true );
-		} );
-
-		it( "returns false when the instruction is not required and the value does not exist.", () => {
-			const selectInstruction = new Select( 123, options );
-
-			const blockInstance: BlockInstance = {
-				name: "select-instruction",
-				clientId: "abcd-1234",
-				isValid: true,
-				innerBlocks: [],
-				attributes: {},
-			};
-
-			expect( selectInstruction.valid( blockInstance ) ).toEqual( false );
-		} );
-
-		it( "returns false when the instruction is required and the value does not exist.", () => {
-			const selectInstruction = new Select( 123, options );
-
-			const blockInstance: BlockInstance = {
-				name: "select-instruction",
-				clientId: "abcd-1234",
-				isValid: true,
-				innerBlocks: [],
-				attributes: {},
-			};
-
-			expect( selectInstruction.valid( blockInstance ) ).toEqual( false );
 		} );
 	} );
 } );

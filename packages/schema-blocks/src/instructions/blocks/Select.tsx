@@ -1,15 +1,14 @@
 import { createElement, ReactElement, useCallback } from "@wordpress/element";
-import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
+import { BlockConfiguration } from "@wordpress/blocks";
 import { SelectControl } from "@wordpress/components";
 
-import BlockInstruction from "../../core/blocks/BlockInstruction";
+import { ValidatingBlockInstruction } from "../../core/blocks/";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
-import { attributeExists, attributeNotEmpty } from "../../functions/validators";
 
 /**
  * Select (a drop-down box) instruction.
  */
-export default class Select extends BlockInstruction {
+export default class Select extends ValidatingBlockInstruction {
 	public options: {
 		/**
 		 * The attribute name the value selected in the select control should be saved as.
@@ -127,22 +126,6 @@ export default class Select extends BlockInstruction {
 			},
 		};
 	}
-
-	/**
-	 * Checks if the instruction block is valid.
-	 *
-	 * @param blockInstance The attributes from the block.
-	 *
-	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
-	 */
-	valid( blockInstance: BlockInstance ): boolean {
-		if ( this.options.required === true ) {
-			return attributeExists( blockInstance, this.options.name as string ) &&
-				attributeNotEmpty( blockInstance, this.options.name as string );
-		}
-
-		return attributeExists( blockInstance, this.options.name as string );
-	}
 }
 
-BlockInstruction.register( "select", Select );
+ValidatingBlockInstruction.register( "select", Select );

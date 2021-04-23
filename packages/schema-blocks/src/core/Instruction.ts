@@ -100,6 +100,7 @@ export default abstract class Instruction {
 
 		if ( ! klass ) {
 			logger.error( "Invalid instruction: ", name );
+			return null;
 		}
 
 		return new klass( id, options );

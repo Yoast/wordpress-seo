@@ -2,7 +2,7 @@ import { mount } from "enzyme";
 import * as renderer from "react-test-renderer";
 import { createBlock } from "@wordpress/blocks";
 import { BlockValidation, BlockValidationResult, BlockPresence } from "../../../src/core/validation";
-import { PureBlockSuggestionsPresenter } from "../../../src/functions/presenters/BlockSuggestionsPresenter";
+import { PureBlockSuggestionsPresenter, SuggestionDetails, SuggestionsDto } from "../../../src/functions/presenters/BlockSuggestionsPresenter";
 import { insertBlock } from "../../../src/functions/innerBlocksHelper";
 
 jest.mock( "@wordpress/blocks", () => {
@@ -65,43 +65,96 @@ function createSuggestion( title: string, validation: BlockValidationResult ): S
 	return suggestion;
 }
 
-export type SuggestionDetails = BlockValidationResult & {
-	title: string;
-}
-
-type SuggestionDto = {
-	heading: string;
-	parentClientId: string;
-	suggestions: SuggestionDetails[];
-};
-
-
 describe( "The BlockSuggestionsPresenter class ", () => {
-	it( "displays a suggestion for missing required blocks", () => {
+	it( "displays an [ Add ] link for missing required blocks", () => {
 		// Arrange.
-		// eslint-disable-next-line max-len
-		const validation = new BlockValidationResult( null, "yoast/requiredBlock", BlockValidation.MissingRequiredBlock, BlockPresence.Required, null );
-		const suggestions: SuggestionDetails[] =
-		[
-			createSuggestion(
-				"yoast/requiredBlock",
-				validation,
-			),
-		];
-		const parentClientId = "parentClientId";
+		const suggestion: SuggestionsDto = {
+			heading: "Heading for Required Blocks",
+			parentClientId: "parentClientId",
+			suggestions: [
+				createSuggestion(
+					"This is a missing block",
+					new BlockValidationResult( null, "yoast/requiredBlock", BlockValidation.MissingRequiredBlock, BlockPresence.Required, null ),
+				),
+			],
+			blockNames: [ "yoast/requiredBlock" ],
+		};
 
 		// Act.
 		const tree = renderer
-			.create( PureBlockSuggestionsPresenter( { heading: "Required blocks", parentClientId, suggestions } as SuggestionDto ) )
+			.create( PureBlockSuggestionsPresenter( suggestion ) )
 			.toJSON();
 
 		// Assert.
 		expect( tree ).toMatchSnapshot();
 	} );
-} );
 
-describe( "The BlockSuggestionsPresenter class ", () => {
-	it( "displays a suggestion for missing recommended blocks", () => {
+	it( "displays only the block title for blocks that aren't completed", () => {
+		// Arrange.
+		const suggestion: SuggestionsDto = {
+			heading: "Heading for Required Blocks",
+			parentClientId: "parentClientId",
+			suggestions: [
+				createSuggestion(
+					"This is an invalid required block without checkmark or add link",
+					new BlockValidationResult( null, "yoast/requiredBlock", BlockValidation.MissingRequiredAttribute, BlockPresence.Required, null ),
+				),
+			],
+			blockNames: [ "yoast/requiredBlock" ],
+		};
+
+		// Act.
+		const tree = renderer
+			.create( PureBlockSuggestionsPresenter( suggestion ) )
+			.toJSON();
+
+		// Assert.
+		expect( tree ).toMatchSnapshot();
+	} );
+
+	it( "displays a checkmark for valid blocks", () => {
+		// Arrange.
+		const suggestion: SuggestionsDto = {
+			heading: "Heading for Required Blocks",
+			parentClientId: "parentClientId",
+			suggestions: [
+				createSuggestion(
+					"This is a valid required block with checkmark without add link",
+					new BlockValidationResult( null, "yoast/requiredBlock", BlockValidation.Valid, BlockPresence.Required, null ),
+				),
+			],
+			blockNames: [ "yoast/requiredBlock" ],
+		};
+
+		// Act.
+		const tree = renderer
+			.create( PureBlockSuggestionsPresenter( suggestion ) )
+			.toJSON();
+
+		// Assert.
+		expect( tree ).toMatchSnapshot();
+	} );
+
+	it( "displays no suggestions if no suggestions are provided", () => {
+		// Arrange.
+		// eslint-disable-next-line max-len
+		const suggestions: SuggestionsDto = {
+			heading: "Recommended blocks",
+			parentClientId: "parentClientId",
+			suggestions: [],
+			blockNames: [ "yoast/recommendedBlock" ],
+		};
+
+		// Act.
+		const tree = renderer
+			.create( PureBlockSuggestionsPresenter( suggestions ) )
+			.toJSON();
+
+		// Assert.
+		expect( tree ).toBeNull();
+	} );
+
+	it( "displays no suggestions if no blockNames are provided", () => {
 		// Arrange.
 		// eslint-disable-next-line max-len
 		const validation = new BlockValidationResult( null, "yoast/recommendedBlock", BlockValidation.MissingRecommendedBlock, BlockPresence.Required, null );
@@ -116,66 +169,25 @@ describe( "The BlockSuggestionsPresenter class ", () => {
 
 		// Act.
 		const tree = renderer
-			.create( PureBlockSuggestionsPresenter( { heading: "Recommended blocks", parentClientId, suggestions } as SuggestionDto ) )
+			.create( PureBlockSuggestionsPresenter( { heading: "Recommended blocks", parentClientId, suggestions } as SuggestionsDto ) )
 			.toJSON();
 
 		// Assert.
-		expect( tree ).toMatchSnapshot();
-	} );
-} );
-
-describe( "The required blocks section in the sidebar ", () => {
-	it( "shows no validation for an unknown block type.", () => {
-		const validation = new BlockValidationResult( null, "yoast/nonexisting", BlockValidation.Unknown, BlockPresence.Unknown, null );
-		const suggestions: SuggestionDetails[] =
-		[
-			createSuggestion(
-				"yoast/nonexisting",
-				validation,
-			),
-		];
-		const parentClientId = "parentClientId";
-
-		const actual = PureBlockSuggestionsPresenter( { heading: "Required blocks", parentClientId, suggestions } as SuggestionDto );
-
-		expect( actual ).toBe( null );
+		expect( tree ).toBeNull();
 	} );
 
-	it( "renders the required block as an added one", () => {
-		const parentClientId = "parentClientId";
-		const suggestions = [
-			createSuggestion( "yoast/added-to-content", BlockValidationResult.MissingBlock( "yoast/added-to-content", BlockPresence.Required ) ),
-		];
+	it( "should add the block when the [ Add ] button is clicked.", () => {
+		const suggestionsDto =  {
+			heading: "Required blocks",
+			parentClientId: "parentClientId",
+			suggestions: [
+				createSuggestion( "yoast/not-added-to-content",
+					BlockValidationResult.MissingBlock( "yoast/not-added-to-content", BlockPresence.Required ) ),
+			],
+			blockNames: [ "yoast/not-added-to-content" ],
+		} as SuggestionsDto;
 
-		const tree = renderer
-			.create( PureBlockSuggestionsPresenter( { heading: "Required blocks", parentClientId, suggestions } as SuggestionDto ) )
-			.toJSON();
-
-		expect( tree ).toMatchSnapshot();
-	} );
-
-	it( "renders the required block as a non-added one", () => {
-		const parentClientId = "parentClientId";
-		const suggestions = [
-			createSuggestion( "yoast/non-added-to-content",
-				BlockValidationResult.MissingBlock( "yoast/non-added-to-content", BlockPresence.Required ) ),
-		];
-
-		const tree = renderer
-			.create( PureBlockSuggestionsPresenter( { heading: "Required blocks", parentClientId, suggestions } ) )
-			.toJSON();
-
-		expect( tree ).toMatchSnapshot();
-	} );
-
-	it( "should call the function to add the block when the button is clicked.", () => {
-		const parentClientId = "parentClientId";
-		const suggestions = [
-			createSuggestion( "yoast/non-added-to-content",
-				BlockValidationResult.MissingBlock( "yoast/non-added-to-content", BlockPresence.Required ) ),
-		];
-
-		const tree = mount( PureBlockSuggestionsPresenter( { heading: "Required blocks", parentClientId, suggestions } )  );
+		const tree = mount( PureBlockSuggestionsPresenter( suggestionsDto ) );
 
 		const addButton = tree.find( "button" ).first();
 

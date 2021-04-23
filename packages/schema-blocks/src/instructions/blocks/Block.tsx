@@ -1,6 +1,5 @@
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
-import { BlockPresence, BlockValidationResult } from "../../core/validation";
+import { BlockConfiguration } from "@wordpress/blocks";
 
 /**
  * Block instruction.
@@ -31,17 +30,6 @@ class Block extends BlockInstruction {
 	 */
 	renderable(): boolean {
 		return false;
-	}
-
-	/**
-	 * Checks if the instruction block is valid.
-	 *
-	 * @param blockInstance The attributes from the block.
-	 *
-	 * @returns {BlockValidationResult} The validation result.
-	 */
-	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		return BlockValidationResult.Valid( blockInstance, this.constructor.name, BlockPresence.Required );
 	}
 }
 

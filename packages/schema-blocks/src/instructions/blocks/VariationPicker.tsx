@@ -1,10 +1,8 @@
-import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { useSelect } from "@wordpress/data";
-import { RenderEditProps } from "../../core/blocks/BlockDefinition";
-import BlockLeaf from "../../core/blocks/BlockLeaf";
 import { BlockInstance } from "@wordpress/blocks";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement } from "@wordpress/element";
+import { BlockLeaf, ValidatingBlockInstruction } from "../../core/blocks";
+import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { BlockPresence, BlockValidation, BlockValidationResult } from "../../core/validation";
 import VariationPickerPresenter from "../../functions/presenters/VariationPickerPresenter";
 import { getParent } from "../../functions/gutenberg/block";
@@ -23,7 +21,7 @@ function includesAVariation( blockInstance: BlockInstance ): boolean {
 /**
  * VariationPicker instruction.
  */
-class VariationPicker extends BlockInstruction {
+export class VariationPicker extends ValidatingBlockInstruction {
 	/**
 	 * Renders the variation picker if the block doesn't have any inner blocks.
 	 * Otherwise, renders null.
@@ -69,4 +67,4 @@ class VariationPicker extends BlockInstruction {
 	}
 }
 
-BlockInstruction.register( "variation-picker", VariationPicker );
+ValidatingBlockInstruction.register( "variation-picker", VariationPicker );
