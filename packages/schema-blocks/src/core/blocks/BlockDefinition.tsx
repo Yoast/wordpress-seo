@@ -65,7 +65,7 @@ export default class BlockDefinition extends Definition {
 					<PanelBody>
 						<SidebarHeader />
 						{ sidebarElements }
-					</PanelBody>;
+					</PanelBody>
 				</InspectorControls>;
 
 			elements.unshift( sidebarContainer );
