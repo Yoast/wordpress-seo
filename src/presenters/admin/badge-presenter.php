@@ -49,15 +49,17 @@ class Badge_Presenter extends Abstract_Presenter {
 	 * @param string $group Optional group which the badge belongs to.
 	 */
 	public function __construct( $id, $link = '', $group = '' ) {
-		$this->id   = $id;
-		$this->link = $link;
+		$this->id    = $id;
+		$this->link  = $link;
 		$this->group = $group;
 
 		if ( ! $this->asset_manager ) {
 			$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 		}
 
-		$this->asset_manager->enqueue_style( 'badge' );
+		if ( $this->is_group_still_new() ) {
+			$this->asset_manager->enqueue_style( 'badge' );
+		}
 	}
 
 	/**
@@ -67,7 +69,7 @@ class Badge_Presenter extends Abstract_Presenter {
 	 * @return string The styled New Badge.
 	 */
 	public function present() {
-		if( ! $this->is_group_still_new() ) {
+		if ( ! $this->is_group_still_new() ) {
 			return '';
 		}
 
@@ -93,12 +95,12 @@ class Badge_Presenter extends Abstract_Presenter {
 	 * @return bool True if still new.
 	 */
 	public function is_group_still_new() {
-		// If there's no group configured, the new badge is always active
-		if( ! $this->group ) {
+		// If there's no group configured, the new badge is always active.
+		if ( ! $this->group ) {
 			return true;
 		}
 
-		$badge_group_names  = new Badge_Group_Names();
+		$badge_group_names = new Badge_Group_Names();
 		return $badge_group_names->is_still_eligible_for_new_badge( $this->group );
 	}
 }
