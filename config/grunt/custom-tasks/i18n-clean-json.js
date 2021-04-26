@@ -81,6 +81,7 @@ module.exports = function( grunt ) {
 	function cleanJSONFiles() {
 		cleanJSON( "languages/yoast-seo-js.json", "languages/wordpress-seo-*.json", "wordpress-seo", "messages", "wordpress-seo" );
 		cleanJSON( "languages/yoast-components.json", "languages/yoast-components-*.json", "wordpress-seo", "messages", "yoast-components" );
+		cleanJSON( "languages/yoast-schema-blocks.json", "languages/yoast-schema-blocks-*.json", "wordpress-seo", "messages", "yoast-schema-blocks" );
 		cleanJSON( "languages/wordpress-seojs.json", "languages/wordpress-seojs-*.json", "wordpress-seo", "messages", "wordpress-seo" );
 	}
 

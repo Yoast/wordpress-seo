@@ -18,9 +18,9 @@ const SEMrushLimitReached = () => {
 			<p>
 				{
 					sprintf(
-						/* translators: %s : Expands to "SEMrush". */
+						/* translators: %s : Expands to "Semrush". */
 						__( "You've reached your request limit for today. Check back tomorrow or upgrade your plan over at %s.", "wordpress-seo" ),
-						"SEMrush"
+						"Semrush"
 					)
 				}
 			</p>
@@ -30,9 +30,9 @@ const SEMrushLimitReached = () => {
 			>
 				{
 					sprintf(
-						/* translators: %s : Expands to "SEMrush". */
+						/* translators: %s : Expands to "Semrush". */
 						__( "Upgrade your %s plan", "wordpress-seo" ),
-						"SEMrush"
+						"Semrush"
 					)
 				}
 				<span aria-hidden="true" className="yoast-button-upsell__caret" />

@@ -14,11 +14,11 @@ import isMarkerPaused from "./markerPauseStatus";
 import marksButtonStatus from "./markerButtons";
 import preferences from "./preferences";
 import primaryTaxonomies from "./primaryTaxonomies";
-import schemaBlocks from "./schemaBlocks";
 import schemaTab from "./schemaTab";
 import SEMrushModal from "./SEMrushModal";
 import SEMrushRequest from "./SEMrushRequest";
 import settings from "./settings";
+import shoppingData from "./shoppingData";
 import snippetEditor from "./snippetEditor";
 import twitterEditor from "./twitterEditor";
 import warning from "./warning";
@@ -40,11 +40,11 @@ export default {
 	marksButtonStatus,
 	preferences,
 	primaryTaxonomies,
-	schemaBlocks,
 	schemaTab,
 	SEMrushModal,
 	SEMrushRequest,
 	settings,
+	shoppingData,
 	snippetEditor,
 	twitterEditor,
 	warning,

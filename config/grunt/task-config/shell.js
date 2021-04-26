@@ -29,7 +29,7 @@ module.exports = function( grunt ) {
 				"languages/<%= pkg.plugin.textdomain %>-temp.pot",
 				"<%= files.pot.yoastseojs %>",
 				"<%= files.pot.yoastComponents %>",
-				"<%= files.pot.yoastSchemaBocks %>",
+				"<%= files.pot.yoastSchemaBlocks %>",
 			],
 			toFile: "languages/<%= pkg.plugin.textdomain %>.pot",
 			command: function() {

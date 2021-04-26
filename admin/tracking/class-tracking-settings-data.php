@@ -163,6 +163,8 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'enable_enhanced_slack_sharing',
 		'zapier_integration_active',
 		'zapier_api_key',
+		'enable_metabox_insights',
+		'enable_link_suggestions',
 	];
 
 	/**

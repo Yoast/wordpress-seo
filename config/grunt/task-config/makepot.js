@@ -15,6 +15,7 @@ module.exports = {
 				"premium/.*",
 				"<%= files.pot.php.yoastseojs %>",
 				"<%= files.pot.php.yoastComponents %>",
+				"<%= files.pot.php.yoastSchemaBlocks %>",
 				"<%= files.artifact %>",
 				"<%= files.artifactComposer %>",
 				".wordpress-svn",

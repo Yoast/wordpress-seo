@@ -4,6 +4,10 @@ module.exports = {
 		"<%= paths.languages %>*",
 		"!<%= paths.languages %>index.php",
 	],
+	"schema-blocks-languages": [
+		"<%= paths.languages %>yoast-schema-blocks*.json",
+		"<%= paths.languages %>yoast-schema-blocks*.php",
+	],
 	"after-po-download": [
 		"<%= paths.languages %><%= pkg.plugin.textdomain %>-*-{formal,informal,ao90}.{po,json}",
 	],
@@ -11,6 +15,7 @@ module.exports = {
 		"<%= paths.languages %>*.po",
 		"<%= paths.languages %>*.pot",
 		"<%= paths.languages %>yoast-components.json",
+		"<%= paths.languages %>yoast-schema-blocks.json",
 		"<%= paths.languages %>yoast-seo.json",
 		"<%= paths.languages %>yoastseojsfiles.txt",
 	],

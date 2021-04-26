@@ -96,6 +96,7 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 		// Set the first submenu title to the title of the first submenu page.
 		global $submenu;
 		if ( isset( $submenu[ $this->get_page_identifier() ] ) && $this->check_manage_capability() ) {
+			// phpcs:ignore WordPress.WP.GlobalVariablesOverride -- This is a deliberate action.
 			$submenu[ $this->get_page_identifier() ][0][0] = $submenu_pages[0][2];
 		}
 	}

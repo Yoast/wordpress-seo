@@ -134,6 +134,7 @@ class ImageSelectComponent extends Component {
 				selectImageButtonId={ this.props.selectImageButtonId }
 				replaceImageButtonId={ this.props.replaceImageButtonId }
 				removeImageButtonId={ this.props.removeImageButtonId }
+				hasNewBadge={ this.props.hasNewBadge }
 			/>
 		);
 	}
@@ -147,6 +148,7 @@ ImageSelectComponent.propTypes = {
 	selectImageButtonId: PropTypes.string,
 	replaceImageButtonId: PropTypes.string,
 	removeImageButtonId: PropTypes.string,
+	hasNewBadge: PropTypes.bool,
 };
 
 ImageSelectComponent.defaultProps = {
@@ -156,6 +158,7 @@ ImageSelectComponent.defaultProps = {
 	selectImageButtonId: "",
 	replaceImageButtonId: "",
 	removeImageButtonId: "",
+	hasNewBadge: false,
 };
 
 export default ImageSelectComponent;

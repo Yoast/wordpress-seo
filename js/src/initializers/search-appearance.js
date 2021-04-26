@@ -8,6 +8,7 @@ import UserSelectPortal from "../components/portals/UserSelectPortal";
 import SettingsReplacementVariableEditors from "../components/SettingsReplacementVariableEditors";
 import SchemaSettings from "../containers/SchemaSettings";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
+import { __ } from "@wordpress/i18n";
 
 /**
  * @summary Initializes the search appearance settings script.
@@ -19,6 +20,7 @@ export default function initSearchAppearance() {
 
 	const editorElements = document.querySelectorAll( "[data-react-replacevar-editor]" );
 	const singleFieldElements = document.querySelectorAll( "[data-react-replacevar-field]" );
+	const imagePortals = Array.from( document.querySelectorAll( "[data-react-image-portal]" ) );
 
 	const schemaSettingsElements = document.querySelectorAll( "[data-schema-settings]" );
 
@@ -50,7 +52,17 @@ export default function initSearchAppearance() {
 					link={ knowledgeGraphCompanyInfoMissing.URL }
 				/>
 				<ImageSelectPortal
-					label="Organization logo"
+					label={ __( "Social default image", "wordpress-seo" ) }
+					hasPreview={ true }
+					target="yoast-og-frontpage-image-select"
+					hiddenField="og_frontpage_image"
+					hiddenFieldImageId="og_frontpage_image_id"
+					selectImageButtonId="yoast-og-frontpage-image-select-button"
+					replaceImageButtonId="yoast-og-frontpage-image-replace-button"
+					removeImageButtonId="yoast-og-frontpage-image-remove-button"
+				/>
+				<ImageSelectPortal
+					label={ __( "Organization logo", "wordpress-seo" ) }
 					hasPreview={ true }
 					target="yoast-organization-image-select"
 					hiddenField="company_logo"
@@ -60,7 +72,7 @@ export default function initSearchAppearance() {
 					removeImageButtonId="yoast-organization-image-remove-button"
 				/>
 				<ImageSelectPortal
-					label="Person logo / avatar"
+					label={ __( "Person logo / avatar", "wordpress-seo" ) }
 					hasPreview={ true }
 					target="yoast-person-image-select"
 					hiddenField="person_logo"
@@ -69,6 +81,22 @@ export default function initSearchAppearance() {
 					replaceImageButtonId="yoast-person-image-replace-button"
 					removeImageButtonId="yoast-person-image-remove-button"
 				/>
+
+				{ imagePortals.map( ( portal ) => {
+					return ( <ImageSelectPortal
+						key={ portal.id }
+						label={ __( "Social default image", "wordpress-seo" ) }
+						hasPreview={ true }
+						target={ portal.id }
+						hiddenField={ portal.dataset.reactImagePortalTargetImage }
+						hiddenFieldImageId={ portal.dataset.reactImagePortalTargetImageId }
+						selectImageButtonId={ portal.id + "-select-button" }
+						replaceImageButtonId={ portal.id + "-replace-button" }
+						removeImageButtonId={ portal.id + "-remove-button" }
+						hasNewBadge={ true }
+					/> );
+				} ) }
+
 				{ showLocalSEOUpsell && (
 					<LocalSEOUpsellPortal
 						target="wpseo-local-seo-upsell"

@@ -142,8 +142,6 @@ abstract class WPSEO_Option {
 
 	/**
 	 * Add all the actions and filters for the option.
-	 *
-	 * @return \WPSEO_Option
 	 */
 	protected function __construct() {
 

@@ -118,12 +118,6 @@ class Breadcrumb_Test extends TestCase {
 			->once()
 			->andReturnArg( 0 );
 
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->with( 'Test post' )
-			->once()
-			->andReturnArg( 0 );
-
 		$actual = $this->instance->generate();
 
 		$expected = [
@@ -144,16 +138,13 @@ class Breadcrumb_Test extends TestCase {
 					'@type'    => 'ListItem',
 					'position' => 2,
 					'item'     => [
-						'@type' => 'WebPage',
-						'@id'   => 'https://basic.wordpress.test/test_post/',
-						'url'   => 'https://basic.wordpress.test/test_post/',
-						'name'  => 'Test post',
+						'@id'   => 'https://wordpress.example.com/canonical#webpage',
 					],
 				],
 			],
 		];
 
-		$this->assertEquals( $expected, $actual );
+		self::assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -178,12 +169,6 @@ class Breadcrumb_Test extends TestCase {
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
 		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnTrue();
 
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->with( 'Home' )
-			->once()
-			->andReturnArg( 0 );
-
 		$actual = $this->instance->generate();
 
 		$expected = [
@@ -194,16 +179,13 @@ class Breadcrumb_Test extends TestCase {
 					'@type'    => 'ListItem',
 					'position' => 1,
 					'item'     => [
-						'@type' => 'WebPage',
-						'@id'   => 'https://basic.wordpress.test/',
-						'url'   => 'https://basic.wordpress.test/',
-						'name'  => 'Home',
+						'@id'   => 'https://wordpress.example.com/canonical#webpage',
 					],
 				],
 			],
 		];
 
-		$this->assertEquals( $expected, $actual );
+		self::assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -233,12 +215,6 @@ class Breadcrumb_Test extends TestCase {
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
 		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnTrue();
 
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->with( 'Home' )
-			->once()
-			->andReturnArg( 0 );
-
 		$actual = $this->instance->generate();
 
 		$expected = [
@@ -249,16 +225,13 @@ class Breadcrumb_Test extends TestCase {
 					'@type'    => 'ListItem',
 					'position' => 1,
 					'item'     => [
-						'@type' => 'WebPage',
-						'@id'   => 'https://basic.wordpress.test/',
-						'url'   => 'https://basic.wordpress.test/',
-						'name'  => 'Home',
+						'@id'   => 'https://wordpress.example.com/canonical#webpage',
 					],
 				],
 			],
 		];
 
-		$this->assertEquals( $expected, $actual );
+		self::assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -290,12 +263,6 @@ class Breadcrumb_Test extends TestCase {
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
 		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnFalse();
 
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->with( 'Home' )
-			->once()
-			->andReturnArg( 0 );
-
 		$actual = $this->instance->generate();
 
 		$expected = [
@@ -306,16 +273,13 @@ class Breadcrumb_Test extends TestCase {
 					'@type'    => 'ListItem',
 					'position' => 1,
 					'item'     => [
-						'@type' => 'WebPage',
-						'@id'   => 'https://wordpress.example.com/',
-						'url'   => 'https://wordpress.example.com/',
-						'name'  => 'Home',
+						'@id'   => 'https://wordpress.example.com/canonical#webpage',
 					],
 				],
 			],
 		];
 
-		$this->assertEquals( $expected, $actual );
+		self::assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -392,12 +356,6 @@ class Breadcrumb_Test extends TestCase {
 			->once()
 			->andReturnArg( 0 );
 
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->with( 'Page title' )
-			->once()
-			->andReturnArg( 0 );
-
 		$expected = [
 			'@type'           => 'BreadcrumbList',
 			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
@@ -426,10 +384,7 @@ class Breadcrumb_Test extends TestCase {
 					'@type'    => 'ListItem',
 					'position' => 3,
 					'item'     => [
-						'@type' => 'WebPage',
-						'@id'   => 'https://wordpress.example.com/canonical',
-						'url'   => 'https://wordpress.example.com/canonical',
-						'name'  => 'Page title',
+						'@id' => 'https://wordpress.example.com/canonical#webpage',
 					],
 				],
 			],
@@ -437,7 +392,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$actual = $this->instance->generate();
 
-		$this->assertEquals( $expected, $actual );
+		self::assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -484,12 +439,6 @@ class Breadcrumb_Test extends TestCase {
 			->once()
 			->andReturnArg( 0 );
 
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->with( 'Page title' )
-			->once()
-			->andReturnArg( 0 );
-
 		$expected = [
 			'@type'           => 'BreadcrumbList',
 			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
@@ -518,10 +467,7 @@ class Breadcrumb_Test extends TestCase {
 					'@type'    => 'ListItem',
 					'position' => 3,
 					'item'     => [
-						'@type' => 'WebPage',
-						'@id'   => 'https://wordpress.example.com/canonical',
-						'url'   => 'https://wordpress.example.com/canonical',
-						'name'  => 'Page title',
+						'@id'   => 'https://wordpress.example.com/canonical#webpage',
 					],
 				],
 			],
@@ -529,7 +475,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$actual = $this->instance->generate();
 
-		$this->assertEquals( $expected, $actual );
+		self::assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -568,12 +514,6 @@ class Breadcrumb_Test extends TestCase {
 			->once()
 			->andReturnArg( 0 );
 
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->with( 'Test post' )
-			->once()
-			->andReturnArg( 0 );
-
 		$expected = [
 			'@type'           => 'BreadcrumbList',
 			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
@@ -592,11 +532,7 @@ class Breadcrumb_Test extends TestCase {
 					'@type'    => 'ListItem',
 					'position' => 2,
 					'item'     => [
-						'@type' => 'WebPage',
-						// Fall back to canonical for ID and URL properties.
-						'@id'   => 'https://wordpress.example.com/canonical',
-						'url'   => 'https://wordpress.example.com/canonical',
-						'name'  => 'Test post',
+						'@id'   => 'https://wordpress.example.com/canonical#webpage',
 					],
 				],
 			],
@@ -604,7 +540,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$actual = $this->instance->generate();
 
-		$this->assertEquals( $expected, $actual );
+		self::assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -637,8 +573,11 @@ class Breadcrumb_Test extends TestCase {
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
 		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnFalse();
 
-		$this->html->expects( 'smart_strip_tags' )->once()->with( 'Home' )->andReturn( 'Home' );
-		$this->html->expects( 'smart_strip_tags' )->twice()->with( 'Page title' )->andReturn( 'Page title' );
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->once()
+			->with( 'Home' )
+			->andReturn( 'Home' );
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
@@ -658,11 +597,7 @@ class Breadcrumb_Test extends TestCase {
 					'@type'    => 'ListItem',
 					'position' => 2,
 					'item'     => [
-						'@type' => 'WebPage',
-						// Fall back to canonical for ID and URL properties.
-						'@id'   => 'https://wordpress.example.com/post-title',
-						'url'   => 'https://wordpress.example.com/post-title',
-						'name'  => 'Page title',
+						'@id' => 'https://wordpress.example.com/canonical#webpage',
 					],
 				],
 			],
@@ -670,7 +605,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$actual = $this->instance->generate();
 
-		$this->assertEquals( $expected, $actual );
+		self::assertEquals( $expected, $actual );
 	}
 
 	/**
