@@ -5,6 +5,38 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.8.0 May 17th, 2021
+### Enhancements
+* Added `Heading` block instruction.
+* Adds a header to the sidebar with a link to a blog post about Yoast Structured Data blocks.
+* Improves the styling of the sidebar by removing the separators.
+* Injects the sidebar of the block into core blocks which are part of the block.
+* Watches the post title to continuously check whether it is not equal to the Job Posting title.
+* Replaces `OK` in the sidebar by green checkmarks.
+* Changes the color of the analysis messages from grey to black.
+* Refactors the `BlockValidation` enum to group valid, okay and invalid results into three categories.
+* Adds validation logic to the Variation picker instruction, to make it invalid until a variation is picked.
+* Simplified schema-blocks validation logic.
+* Adds a default tag attribute to the variable rich text instruction, allowing you to set a default tag.
+* Shows the variation picker again when a variation is removed.
+
+### Bugfixes
+* Fixes a bug where a variation picker would show a second, empty schema block analysis sidebar.
+* Fixes a bug where the styling of the sidebar of any warning blocks located inside of a schema block did not have appropriate padding.
+* Fixes a bug where the block inserter in the left sidebar crashes when hovering the yoast jobs block icon.
+* Fixes a bug where the sidebar of the warning block would not show the schema blocks sidebar elements.
+* Fixes the `VariationPickerPresenter: 'key' is not a prop` error that was shown in the browser console when a job posting block had been added.
+* Fixed the analysis conclusion message after recent changes in the block validation.
+* Fixes some key prop errors in some React components.
+* Fixes a bug where Schema output would still be generated if all the required blocks had been valid before, even if they were no longer valid now.
+* Fixes a bug where Schema output would be generated even when no variation had been picked for the Location block.
+* Fixes a bug where the schema block sidebar would not be correct after it had been added.
+* Fixes a bug where the schema analysis would be green even if some required blocks were not filled in.
+
+### Other
+* Removes a warning block when its removed block is re-added.
+* Fixes the styling of the block appender used in the `InnerBlocks` block instruction.
+
 ## 1.7.0 April 26th, 2021
 ### Enhancements
 * Adds an orange bullet to the `Analysis` in the side bar when a recommended block is removed.
