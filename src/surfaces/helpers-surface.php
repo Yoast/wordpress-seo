@@ -29,6 +29,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\Primary_Term_Helper   $primary_term
  * @property Helpers\Product_Helper        $product
  * @property Helpers\Redirect_Helper       $redirect
+ * @property Helpers\Request_Helper        $request
  * @property Helpers\Robots_Helper         $robots
  * @property Helpers\Site_Helper           $site
  * @property Helpers\String_Helper         $string

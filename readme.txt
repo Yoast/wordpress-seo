@@ -237,6 +237,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 16.2 =
 Release Date: April 28th, 2021
 
+Say hi to Yoast SEO 16.2! This release focuses on improving stability and fixing several bugs. It also includes several enhancements. Read more about what’s new in Yoast SEO 16.2 in [our release post](https://yoa.st/release-16-2)!
+
 Enhancements:
 
 * Enables/disables auto-updates for the ACF Content Analysis for Yoast SEO plugin when auto-updates for Yoast SEO are enabled/disabled.
@@ -248,6 +250,7 @@ Bugfixes:
 
 * Fixes a bug where saving posts containing URLs without protocol would fail or trigger warnings.
 * Fixes a bug where the current webpage would not always be referenced correctly in the breadcrumb schema output.
+* Fixes a bug where robots metadata were not returned when requesting metadata via our `get_head` REST route.
 * Fixes a bug where the primary term isn't saved at the right moment resulting in having an unexpected term for the breadcrumbs.
 * Fixes a bug where our add-ons would not automatically be updated if Yoast SEO was the first plugin for which the user ever enabled auto-updates.
 
