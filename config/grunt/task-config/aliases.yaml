@@ -53,6 +53,8 @@
   - 'copy:makepot-yoast-js-helpers'
   - 'shell:makepot-yoast-js-search-metadata-previews'
   - 'copy:makepot-yoast-js-search-metadata-previews'
+  - 'shell:makepot-yoast-js-schema-blocks'
+  - 'copy:makepot-yoast-js-schema-blocks'
   - 'shell:makepot-yoast-components-remaining'
   - 'shell:combine-pots-yoast-components'
   - 'shell:makepot-yoastseojs'
@@ -162,6 +164,21 @@ release:
   - 'update-version-trunk'
   - 'artifact'
   - 'wp_deploy:trunk'
+
+'update-changelog:file':
+  - get-latest-pr-texts
+  - update-changelog-with-latest-pr-texts
+
+'update-changelog:qa':
+  - get-latest-pr-texts
+  - download-qa-changelog
+  - build-qa-changelog
+
+'update-changelog:all':
+  - get-latest-pr-texts
+  - update-changelog-with-latest-pr-texts
+  - download-qa-changelog
+  - build-qa-changelog
 
 # Default task
 default:
