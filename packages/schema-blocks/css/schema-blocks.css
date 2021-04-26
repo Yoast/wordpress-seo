@@ -79,6 +79,14 @@
 	padding: 0 5px 0 15px;
 }
 
+.yoast-question-mark-icon {
+	color: rgb( 118, 118, 118 );
+}
+
+.yoast-question-mark-icon:hover {
+	color: rgb( 30, 140, 190 )
+}
+
 .yoast-inline-icon {
 	vertical-align: middle;
 }
