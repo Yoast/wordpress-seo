@@ -89,7 +89,6 @@ module.exports = function( grunt ) {
 				php: {
 					yoastseojs: "<%= paths.languages %>yoast-seo-js.php",
 					yoastComponents: "<%= paths.languages %>yoast-components.php",
-					yoastSchemaBlocks: "<%= paths.languages %>yoast-schema-blocks.php",
 					wordpressSeoJs: "<%= paths.languages %>wordpress-seojs.php",
 				},
 			},
