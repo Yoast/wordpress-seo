@@ -57,7 +57,7 @@ export const getImageFallback = state => {
  *
  * @returns {string} The authorName
  */
-export const getSiteUrl = () => ( window.wpseoScriptData.metabox.base_url || "" ).replace(
-	new RegExp( "https?\\:\\/\\/(.*)\\/.*" ),
-	"$1"
-);
+export const getSiteUrl = () => {
+	const url = new URL( window.wpseoScriptData.metabox.base_url );
+	return url.host;
+};
