@@ -727,6 +727,8 @@ export default class SnippetPreview extends PureComponent {
 	/**
 	 * Renders the product / shopping data, in mobile or desktop view, based on the mode.
 	 *
+	 * @param {object} PartContainer the PartContainer component that needs to be rendered within the snippet preview container.
+	 *
 	 * @returns {ReactElement} The rendered description.
 	 */
 	renderProductData( PartContainer ) {
