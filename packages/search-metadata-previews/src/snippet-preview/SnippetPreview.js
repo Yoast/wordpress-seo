@@ -727,9 +727,11 @@ export default class SnippetPreview extends PureComponent {
 	/**
 	 * Renders the product / shopping data, in mobile or desktop view, based on the mode.
 	 *
+	 * @param {object} PartContainer the PartContainer component that needs to be rendered within the snippet preview container.
+	 *
 	 * @returns {ReactElement} The rendered description.
 	 */
-	renderProductData() {
+	renderProductData( PartContainer ) {
 		const {	mode, shoppingData } = this.props;
 
 		if ( Object.values( shoppingData ).length === 0 ) {
@@ -738,17 +740,27 @@ export default class SnippetPreview extends PureComponent {
 
 		if ( mode === MODE_DESKTOP ) {
 			return (
-				<ProductDataDesktop
-					shoppingData={ shoppingData }
-				/>
+				<PartContainer className="yoast-shopping-data-preview--desktop">
+					<ScreenReaderText>
+						{ __( "Shopping data preview:", "yoast-components" ) }
+					</ScreenReaderText>
+					<ProductDataDesktop
+						shoppingData={ shoppingData }
+					/>
+				</PartContainer>
 			);
 		}
 
 		if ( mode === MODE_MOBILE ) {
 			return (
-				<ProductDataMobile
-					shoppingData={ shoppingData }
-				/>
+				<PartContainer className="yoast-shopping-data-preview--mobile">
+					<ScreenReaderText>
+						{ __( "Shopping data preview:", "yoast-components" ) }
+					</ScreenReaderText>
+					<ProductDataMobile
+						shoppingData={ shoppingData }
+					/>
+				</PartContainer>
 			);
 		}
 
@@ -816,24 +828,14 @@ export default class SnippetPreview extends PureComponent {
 						</SnippetTitle>
 						{ amp }
 					</PartContainer>
-					<PartContainer className="yoast-shopping-data-preview--desktop">
-						<ScreenReaderText>
-							{ __( "Shopping data preview:", "yoast-components" ) }
-						</ScreenReaderText>
-						{ isDesktopMode && this.renderProductData() }
-					</PartContainer>
+					{ isDesktopMode && this.renderProductData( PartContainer ) }
 					<PartContainer>
 						<ScreenReaderText>
 							{ __( "Meta description preview:", "yoast-components" ) }
 						</ScreenReaderText>
 						{ this.renderDescription() }
 					</PartContainer>
-					<PartContainer className="yoast-shopping-data-preview--mobile">
-						<ScreenReaderText>
-							{ __( "Shopping data preview:", "yoast-components" ) }
-						</ScreenReaderText>
-						{ ! isDesktopMode && this.renderProductData() }
-					</PartContainer>
+					{ ! isDesktopMode && this.renderProductData( PartContainer ) }
 				</Container>
 			</section>
 		);
