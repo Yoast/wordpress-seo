@@ -1,4 +1,4 @@
-import { createElement, ReactElement, useCallback } from "@wordpress/element";
+import { createElement, ReactElement, useCallback, Fragment } from "@wordpress/element";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import { SelectControl } from "@wordpress/components";
 
@@ -39,6 +39,10 @@ export default class Select extends BlockInstruction {
 		 * The default selected value.
 		 */
 		defaultValue?: string;
+		/**
+		 * The tagname to render the output as.
+		 */
+		tag?: string;
 	};
 
 	/**
@@ -52,11 +56,22 @@ export default class Select extends BlockInstruction {
 		const { label, name, hideLabelFromVision } = this.options;
 
 		const value = props.attributes[ name ] as string;
+		let TagName = "span";
+		if ( this.options.tag ) {
+			TagName = this.options.tag;
+		}
 
-		return <span data-id={ name } data-value={ value }>
-			{ ! hideLabelFromVision && <strong>{ label }:</strong> }
-			{ this.label( value ) + " " }
-		</span>;
+		return createElement(
+			TagName,
+			{
+				"data-id": name,
+				"data-value": value,
+			},
+			<Fragment>
+				{ ! hideLabelFromVision && <strong>{ label }:</strong> }
+				{ this.label( value ) + " " }
+			</Fragment>,
+		);
 	}
 
 	/**
