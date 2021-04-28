@@ -21,7 +21,7 @@ export class Heading extends RichTextBase {
 		class: string;
 		default: string;
 		placeholder: string;
-		keepPlaceholderOnFocus: boolean;
+		keepPlaceholderOnFocus?: boolean;
 		multiline: boolean;
 		label: string;
 		value: string;

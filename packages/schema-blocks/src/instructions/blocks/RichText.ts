@@ -13,7 +13,7 @@ export default class RichText extends RichTextBase {
 		default: string;
 		placeholder: string;
 		multiline: boolean | "li" | "p";
-		keepPlaceholderOnFocus: boolean;
+		keepPlaceholderOnFocus?: boolean;
 	};
 
 	/**

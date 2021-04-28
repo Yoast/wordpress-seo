@@ -22,7 +22,7 @@ export default abstract class RichTextBase extends BlockInstruction {
 		name: string;
 		default: string;
 		placeholder: string;
-		keepPlaceholderOnFocus: boolean;
+		keepPlaceholderOnFocus?: boolean;
 		required?: boolean;
 	};
 
