@@ -1,5 +1,5 @@
 import ClassName from "../../../src/instructions/blocks/ClassName";
-import { RenderEditProps } from "../../../src/core/blocks/BlockDefinition";
+import { RenderEditProps, RenderSaveProps } from "../../../src/core/blocks/BlockDefinition";
 
 describe( "The ClassName instruction", () => {
 	it( "can correctly render in the editor", () => {
@@ -18,7 +18,12 @@ describe( "The ClassName instruction", () => {
 
 	it( "can correctly render on the frontend", () => {
 		const className = new ClassName( 10, { name: "some_name" } );
+		const props: RenderSaveProps = {
+			attributes: {
+				className: "class-name",
+			},
+		};
 
-		expect( className.save() ).toEqual( "yoast-inner-container" );
+		expect( className.save( props  ) ).toEqual( "class-name yoast-inner-container" );
 	} );
 } );
