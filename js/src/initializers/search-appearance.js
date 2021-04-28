@@ -19,6 +19,7 @@ export default function initSearchAppearance() {
 
 	const editorElements = document.querySelectorAll( "[data-react-replacevar-editor]" );
 	const singleFieldElements = document.querySelectorAll( "[data-react-replacevar-field]" );
+	const imagePortals = Array.from( document.querySelectorAll( "[data-react-image-portal]" ) );
 
 	const schemaSettingsElements = document.querySelectorAll( "[data-schema-settings]" );
 
@@ -69,6 +70,21 @@ export default function initSearchAppearance() {
 					replaceImageButtonId="yoast-person-image-replace-button"
 					removeImageButtonId="yoast-person-image-remove-button"
 				/>
+
+				{ imagePortals.map( ( portal ) => {
+					return ( <ImageSelectPortal
+						key={ portal.id }
+						label="Social default image"
+						hasPreview={ true }
+						target={ portal.id }
+						hiddenField={ portal.dataset.reactImagePortalTargetImage }
+						hiddenFieldImageId={ portal.dataset.reactImagePortalTargetImageId }
+						selectImageButtonId={ portal.id + "-select-button" }
+						replaceImageButtonId={ portal.id + "-replace-button" }
+						removeImageButtonId={ portal.id + "-remove-button" }
+					/> );
+				} ) }
+
 				{ showLocalSEOUpsell && (
 					<LocalSEOUpsellPortal
 						target="wpseo-local-seo-upsell"

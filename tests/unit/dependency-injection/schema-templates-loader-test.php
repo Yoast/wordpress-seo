@@ -42,6 +42,8 @@ class Schema_Templates_Loader_Test extends TestCase {
 			$schema_directory . 'image.schema.php',
 			$schema_directory . 'ingredients.block.php',
 			$schema_directory . 'ingredients.schema.php',
+			$schema_directory . 'recipe-name.block.php',
+			$schema_directory . 'recipe-name.schema.php',
 			$schema_directory . 'recipe.block.php',
 			$schema_directory . 'recipe.schema.php',
 			$schema_directory . 'step.block.php',

@@ -101,6 +101,7 @@ class Force_Rewrite_Title implements Integration_Interface {
 			unset( $matches );
 		}
 
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride -- The query gets reset here with the original query.
 		$GLOBALS['wp_query'] = $old_wp_query;
 
 		echo $content;

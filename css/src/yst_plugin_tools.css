@@ -897,4 +897,16 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
   vertical-align: top;
 }
 
+.yoast-settings-section {
+	margin: 40px 0;
+}
+
+.yoast-settings-section.yoast-settings-section--last {
+	margin-bottom: 0;
+}
+
+.yoast-settings-section .yoast-help-icon::before {
+	margin-top: -3px;
+}
+
 /*# sourceMappingURL=yst_plugin_tools.css.map */

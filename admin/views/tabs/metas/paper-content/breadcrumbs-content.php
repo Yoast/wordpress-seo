@@ -45,16 +45,16 @@ if ( is_array( $post_types ) && $post_types !== [] ) {
 		$taxonomies = get_object_taxonomies( $pt->name, 'objects' );
 		if ( is_array( $taxonomies ) && $taxonomies !== [] ) {
 			$values = [ 0 => __( 'None', 'wordpress-seo' ) ];
-			foreach ( $taxonomies as $tax ) {
-				if ( ! $tax->public ) {
+			foreach ( $taxonomies as $yoast_seo_taxonomy ) {
+				if ( ! $yoast_seo_taxonomy->public ) {
 					continue;
 				}
 
-				$values[ $tax->name ] = $tax->labels->singular_name;
+				$values[ $yoast_seo_taxonomy->name ] = $yoast_seo_taxonomy->labels->singular_name;
 			}
 			$label = $pt->labels->name . ' (<code>' . $pt->name . '</code>)';
 			$yform->select( 'post_types-' . $pt->name . '-maintax', $label, $values );
-			unset( $values, $tax );
+			unset( $values, $yoast_seo_taxonomy );
 		}
 		unset( $taxonomies );
 	}
@@ -71,7 +71,7 @@ $taxonomies = get_taxonomies(
 
 if ( is_array( $taxonomies ) && $taxonomies !== [] ) {
 	echo '<h2>' . esc_html__( 'Content type archive to show in breadcrumbs for taxonomies', 'wordpress-seo' ) . '</h2>';
-	foreach ( $taxonomies as $tax ) {
+	foreach ( $taxonomies as $yoast_seo_taxonomy ) {
 		$values = [ 0 => __( 'None', 'wordpress-seo' ) ];
 		if ( get_option( 'show_on_front' ) === 'page' && get_option( 'page_for_posts' ) > 0 ) {
 			$values['post'] = __( 'Blog', 'wordpress-seo' );
@@ -85,9 +85,9 @@ if ( is_array( $taxonomies ) && $taxonomies !== [] ) {
 			}
 			unset( $pt );
 		}
-		$label = $tax->labels->singular_name . ' (<code>' . $tax->name . '</code>)';
-		$yform->select( 'taxonomy-' . $tax->name . '-ptparent', $label, $values );
-		unset( $values, $tax );
+		$label = $yoast_seo_taxonomy->labels->singular_name . ' (<code>' . $yoast_seo_taxonomy->name . '</code>)';
+		$yform->select( 'taxonomy-' . $yoast_seo_taxonomy->name . '-ptparent', $label, $values );
+		unset( $values, $yoast_seo_taxonomy );
 	}
 }
 unset( $taxonomies, $post_types );
