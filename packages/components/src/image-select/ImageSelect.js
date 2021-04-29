@@ -37,6 +37,7 @@ function ImageSelect( props ) {
 		>
 			<FieldGroup
 				label={ props.label }
+				hasNewBadge={ props.hasNewBadge }
 			>
 				{ props.hasPreview &&
 					<button className={ imageClassName } onClick={ props.onClick } type="button">
@@ -73,6 +74,7 @@ ImageSelect.propTypes = {
 	replaceImageButtonId: PropTypes.string,
 	removeImageButtonId: PropTypes.string,
 	warnings: PropTypes.arrayOf( PropTypes.string ),
+	hasNewBadge: PropTypes.bool,
 };
 
 ImageSelect.defaultProps = {
@@ -87,4 +89,5 @@ ImageSelect.defaultProps = {
 	replaceImageButtonId: "",
 	removeImageButtonId: "",
 	warnings: [],
+	hasNewBadge: false,
 };

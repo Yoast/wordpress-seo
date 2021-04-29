@@ -52,6 +52,17 @@ function mapBlocksRecursively<T>( blocks: BlockInstance[], callback: ( block: Bl
 }
 
 /**
+ * Gathers all the blocks, including inner blocks, in one array of blocks.
+ *
+ * @param blocks The list of blocks.
+ *
+ * @returns The list of all blocks.
+ */
+function getAllBlocks( blocks: BlockInstance[] ): BlockInstance[] {
+	return mapBlocksRecursively( blocks, block => block );
+}
+
+/**
  * Inserts a block to the inner block.
  *
  * @param {BlockInstance} block    The block to insert.
@@ -62,4 +73,4 @@ function insertBlock( block: BlockInstance, clientId: string, index?: number ): 
 	dispatch( "core/block-editor" ).insertBlock( block, index, clientId );
 }
 
-export { filterBlocksRecursively, getInnerblocksByName, mapBlocksRecursively, insertBlock };
+export { filterBlocksRecursively, getInnerblocksByName, mapBlocksRecursively, insertBlock, getAllBlocks };

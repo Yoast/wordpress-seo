@@ -1,6 +1,6 @@
 {
   "name": "@yoast/schema-blocks",
-  "version": "1.7.0-rc.0",
+  "version": "1.8.0-rc.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "license": "MIT",
@@ -15,7 +15,7 @@
     "@wordpress/element": "^2.9.0",
     "@wordpress/hooks": "^2.7.0",
     "@wordpress/i18n": "^3.9.0",
-    "@yoast/components": "^2.18.0-rc.0",
+    "@yoast/components": "^2.19.0-rc.0",
     "lodash": "^4.17.15",
     "tokenizr": "^1.5.2"
   },
@@ -56,8 +56,8 @@
     "react-dom": "^16.12.0"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch",
+    "build": "yarn tsc",
+    "watch": "yarn tsc --watch",
     "lint": "eslint \"src/**\"",
     "lint-fix": "eslint \"src/**\" --fix",
     "test": "jest",

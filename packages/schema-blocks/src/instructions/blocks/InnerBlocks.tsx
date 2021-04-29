@@ -129,6 +129,10 @@ export default class InnerBlocks extends ValidatingBlockInstruction {
 			recommendedBlockNames = this.options.recommendedBlocks.map( block => block.name );
 		}
 
+		if ( ! ( requiredBlockNames.length > 0 && recommendedBlockNames.length > 0 ) ) {
+			return null;
+		}
+
 		return (
 			<Fragment key="innerblocks-sidebar">
 				<InnerBlocksSidebar

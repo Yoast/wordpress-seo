@@ -4,22 +4,24 @@ import PropTypes from "prop-types";
 // Import the required CSS.
 import "./field-group.css";
 import HelpIcon, { helpIconDefaultProps, helpIconProps } from "../help-icon/HelpIcon";
+import NewBadge from "../new-badge/NewBadge";
 
 /**
  * FieldGroup component that can be used to wrap our form elements in.
  *
- * @param {string} htmlFor ID to which HTML element the label belongs.
- * @param {string} label Text displayed as label.
- * @param {string} linkTo Location to which the icon links.
- * @param {string} linkText Screen-reader text that is added to the link.
- * @param {string} description Optional: a description where the input element is used for.
- * @param {array} children Children that are rendered in the FieldGroup.
+ * @param {string} htmlFor          ID to which HTML element the label belongs.
+ * @param {string} label            Text displayed as label.
+ * @param {string} linkTo           Location to which the icon links.
+ * @param {string} linkText         Screen-reader text that is added to the link.
+ * @param {string} description      Optional: A description where the input element is used for.
+ * @param {array}  children         Children that are rendered in the FieldGroup.
  * @param {string} wrapperClassName Optional: A classname for the FieldGroup's outer div. Default is "yoast-field-group".
- * @param {string} titleClassName Optional: A classname for the FieldGroup's title div. Default is "yoast-field-group__title".
+ * @param {string} titleClassName   Optional: A classname for the FieldGroup's title div. Default is "yoast-field-group__title".
+ * @param {bool}   hasNewBadge      Optional: Whether the FieldGroup has a 'New' Badge.
  *
  * @returns {React.Component} A div with a label, icon and optional description that renders all children.
  */
-const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children, wrapperClassName, titleClassName } ) => {
+const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children, wrapperClassName, titleClassName, hasNewBadge } ) => {
 	const titleComponent = htmlFor
 		? <label htmlFor={ htmlFor }>{ label }</label>
 		: <b>{ label }</b>;
@@ -27,6 +29,7 @@ const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children, 
 		<div className={ wrapperClassName }>
 			{ label !== "" && <div className={ titleClassName }>
 				{ titleComponent }
+				{ hasNewBadge && <NewBadge inLabel={ true } /> }
 				{ linkTo !== "" && <HelpIcon
 					linkTo={ linkTo }
 					linkText={ linkText }

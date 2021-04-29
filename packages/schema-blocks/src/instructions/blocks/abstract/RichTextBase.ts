@@ -21,6 +21,7 @@ export default abstract class RichTextBase extends ValidatingBlockInstruction {
 		name: string;
 		default: string;
 		placeholder: string;
+		keepPlaceholderOnFocus?: boolean;
 		required?: boolean;
 	};
 
@@ -51,6 +52,7 @@ export default abstract class RichTextBase extends ValidatingBlockInstruction {
 		attributes.onChange = ( value ) => props.setAttributes( { [ this.options.name ]: value } );
 		if ( this.options.placeholder ) {
 			attributes.placeholder = this.options.placeholder;
+			attributes.keepPlaceholderOnFocus = this.options.keepPlaceholderOnFocus;
 		}
 
 		return createElement( WordPressRichText, attributes );
