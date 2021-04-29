@@ -139,9 +139,8 @@ export default function watch() {
 			}
 
 			const rootBlocks: BlockInstance[] = select( "core/block-editor" ).getBlocks();
-			const postTitle: string = select( "core/editor" ).getEditedPostAttribute( "title" );
 
-			if ( rootBlocks === previousRootBlocks && previousPostTitle === postTitle ) {
+			if ( rootBlocks === previousRootBlocks ) {
 				return;
 			}
 
@@ -155,7 +154,6 @@ export default function watch() {
 				generateSchemaForBlocks( rootBlocks, validations, previousRootBlocks );
 
 				previousRootBlocks = rootBlocks;
-				previousPostTitle = postTitle;
 			}
 			updatingSchema = false;
 		}, 250, { trailing: true } ),
