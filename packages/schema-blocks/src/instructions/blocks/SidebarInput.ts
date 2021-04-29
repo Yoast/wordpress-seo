@@ -26,7 +26,10 @@ class SidebarInput extends SidebarBase {
 			label: this.options.label,
 			value: props.attributes[ this.options.name ] as string,
 			className: this.options.className,
-			onChange: value => props.setAttributes( { [ this.options.name ]: this.options.type === "number" ? parseInt( value, 10 ) : value } ),
+			onChange: ( value ) => {
+				const newValue = this.options.type === "number" ? parseInt( value, 10 ) : value;
+				props.setAttributes( { [ this.options.name ]: newValue } );
+			},
 			key: i,
 		};
 
