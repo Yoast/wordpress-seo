@@ -1,30 +1,20 @@
 import { BlockInstance } from "@wordpress/blocks";
-import { select } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 
 import { Heading } from "./Heading";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { BlockPresence } from "../../core/validation/BlockValidationResult";
-import { attributeExists, attributeNotEmpty } from "../../functions/validators";
+import { BlockPresence } from "../../core/validation";
 
 /**
- * Interface for a WordPress post object.
- */
-interface Post {
-	title: string;
-}
-
-/**
- * Job title instruction.
- * Is invalid when its contents is the same as the post title.
+ * Title instruction. Is invalid when its content is empty.
  */
 class Title extends Heading {
 	public options: {
 		tags: ( keyof HTMLElementTagNameMap )[] | Record<string, keyof HTMLElementTagNameMap>;
 		defaultHeadingLevel: number;
 		name: string;
-		blockName: string;
+		fieldName: string;
 		class: string;
 		default: string;
 		placeholder: string;
@@ -36,49 +26,39 @@ class Title extends Heading {
 	};
 
 	/**
-	 * Whether the block is completed.
-	 *
-	 * E.g. whether the block's attribute in which the schema value is stored is filled in.
-	 *
-	 * @param blockInstance The block instance to check.
-	 *
-	 * @returns Whether the block is completed.
-	 */
-	private isCompleted( blockInstance: BlockInstance ): boolean {
-		return attributeExists( blockInstance, this.options.name ) && attributeNotEmpty( blockInstance, this.options.name );
-	}
-
-	/**
-	 * Checks if the instruction block is valid.
+	 * Checks if the instruction is valid.
 	 *
 	 * @param blockInstance The attributes from the block.
 	 *
 	 * @returns The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const blockTitle: string = blockInstance.attributes[ this.options.name ];
-		const postTitle: string = select( "core/editor" ).getEditedPostAttribute( "title" );
+		const title: string = blockInstance.attributes[ this.options.name ];
 
-		if ( ! this.isCompleted( blockInstance ) ) {
-			const presence = this.options.required === true ? BlockPresence.Required : BlockPresence.Recommended;
-			return BlockValidationResult.MissingAttribute( blockInstance, this.constructor.name, presence );
+		if ( title ) {
+			return BlockValidationResult.Valid( blockInstance );
 		}
 
-		if ( blockTitle.toLocaleLowerCase() === postTitle.toLocaleLowerCase() ) {
-			return new BlockValidationResult(
-				blockInstance.clientId,
-				blockInstance.name,
-				BlockValidation.OK,
-				BlockPresence.Recommended,
-				sprintf(
-					/* Translators: %s expands to the block's name. */
-					__( "Post title and %s are the same.", "yoast-schema-blocks" ),
-					this.options.blockName,
-				),
-			);
-		}
+		return new BlockValidationResult(
+			blockInstance.clientId,
+			blockInstance.name,
+			BlockValidation.MissingRequiredAttribute,
+			BlockPresence.Required,
+			sprintf(
+				/* Translators: %s expands to the label of the title field in the block sidebar. */
+				__( "%s has been left empty.", "yoast-schema-blocks" ),
+				this.options.fieldName,
+			),
+		);
+	}
 
-		return BlockValidationResult.Valid( blockInstance );
+	/**
+	 * Returns whether or not this instruction should be included in the tree.
+	 *
+	 * @returns Whether or not to render this instruction.
+	 */
+	renderable(): boolean {
+		return false;
 	}
 }
 
