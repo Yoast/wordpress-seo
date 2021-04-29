@@ -10,6 +10,13 @@ const ProductData = styled.span`
 	line-height: 1.7;
 `;
 
+const ProductAvailability = styled.span`
+	display: inline-block;
+	&:first-letter {
+		text-transform: uppercase;
+	}
+`;
+
 /**
  * Renders ProductData component.
  *
@@ -41,7 +48,7 @@ function ProductDataDesktop( props ) {
 				</Fragment>
 			}
 			{ shoppingData.availability &&
-				<span> · { shoppingData.availability }</span> }
+				<ProductAvailability>&nbsp;·&nbsp;{ shoppingData.availability }</ProductAvailability> }
 		</ProductData>
 	);
 }

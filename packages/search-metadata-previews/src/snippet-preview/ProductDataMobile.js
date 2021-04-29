@@ -24,6 +24,9 @@ const ProductDataCell25 = styled.div`
 
 const ProductDataInnerLower = styled.div`
 	color: #70757a;
+	&:first-letter {
+		text-transform: uppercase;
+	}
 `;
 
 /**
