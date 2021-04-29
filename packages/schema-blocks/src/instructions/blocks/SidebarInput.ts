@@ -36,6 +36,7 @@ class SidebarInput extends SidebarBase {
 		if ( this.options.help ) {
 			textControlProps.help = this.options.help;
 		}
+
 		if ( this.options.type ) {
 			textControlProps.type = this.options.type;
 		}
