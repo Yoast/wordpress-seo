@@ -66,7 +66,7 @@ const getIndicesByWordList = function( words, text ) {
  */
 const sortIndices = function( indices ) {
 	return indices.sort( function( a, b ) {
-		return ( a.index > b.index );
+		return ( a.index - b.index );
 	} );
 };
 
