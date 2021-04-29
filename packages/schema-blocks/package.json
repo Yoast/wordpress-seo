@@ -10,7 +10,7 @@
     "@wordpress/blocks": "^6.8.0",
     "@wordpress/components": "^8.4.0",
     "@wordpress/compose": "^3.11.0",
-    "@wordpress/data": "^4.14.0",
+    "@wordpress/data": "^4.27.2",
     "@wordpress/editor": "^9.12.2",
     "@wordpress/element": "^2.9.0",
     "@wordpress/hooks": "^2.7.0",
