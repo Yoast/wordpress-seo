@@ -239,25 +239,21 @@ Release Date: May 18th, 2021
 
 Enhancements:
 
-* Improves spacing between settings sections.
-* Moves the form for setting the Frontpage meta title and meta description from the Social -> Facebook tab, to Search Appearance -> Content Types.
-* Changes the form to the Replacevar Editor for a more coherent user-experience.
-* Add a filter for filtering `Person` Schema by the user's ID.
-* When metadata about a product is dispatched to the Wordpress SEO store, it should show up in the Google Preview.
+* Moves the Frontpage open graph title, description and image settings from the Social > Facebook tab, to the Search Appearance > Content Types tab.
+* Improves the UX of the snippet variables in those Frontpage settings input fields by making the UI consistent with variables in other places.
 
 Bugfixes:
 
-* Fixes a bug where we accidentally ship the `css/src` directory.
+* Fixes a bug where we would accidentally include unminified css files in the zip. This led to an unnecessary zip size increase.
 
 Other:
 
-* Replace all occurrences of 'SEMrush' by 'Semrush' to reflect Semrush's spelling change.
-* Deprecates the `wpseo_admin_page_meta_post_types` hook in favor of a new hook `Yoast\WP\SEO\admin_post_types_beforearchive`.
-* Deprecates the `wpseo_admin_page_meta_taxonomies` hook in favor of a new jook `Yoast\WP\SEO\admin_taxonomies_meta`.
-* Introduces a new `Yoast\WP\SEO\admin_post_types_beforearchive` hook.
-* Adds a new hook `Yoast\WP\SEO\admin_post_types_archive` at the end of the archive section of the custom post types in Search Appearance.
-* Improves the layout of the Search Appearance collapsibles.
 * Adds the `yoast_display_gutenberg_compat_notification` filter to allow disabling the Gutenberg compatibility notification.
+* Adds the `wpseo_schema_person_data` filter to enable the filtering of `Person` Schema by the user's ID.
+* Adds a new `Yoast\WP\SEO\admin_post_types_archive` hook at the end of the archive section of the custom post types in Search Appearance.
+* Deprecates the `wpseo_admin_page_meta_post_types` hook in favor of the new `Yoast\WP\SEO\admin_post_types_beforearchive` hook.
+* Deprecates the `wpseo_admin_page_meta_taxonomies` hook in favor of the new `Yoast\WP\SEO\admin_taxonomies_meta` hook.
+* Replaces all occurrences of 'SEMrush' by 'Semrush' to reflect Semrush's rebranding.
 
 = 16.2 =
 Release Date: April 28th, 2021
