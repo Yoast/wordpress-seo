@@ -19,9 +19,6 @@
   "jest": {
     "testURL": "http://localhost",
     "testRegex": ".*Test.js$",
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
     "transformIgnorePatterns": [
       "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
     ],
