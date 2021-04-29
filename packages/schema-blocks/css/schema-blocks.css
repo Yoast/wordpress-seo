@@ -67,10 +67,12 @@
 	font-weight: 600;
 	color: #303030;
 	padding: 10px 0 0 0;
+	margin-bottom: 0;
 }
 
 .yoast-block-string-with-clickable-question-mark {
 	width:100%;
+	margin-bottom: 14px;
 }
 
 .yoast-block-suggestions {
