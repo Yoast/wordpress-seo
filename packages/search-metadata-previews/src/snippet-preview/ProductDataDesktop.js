@@ -7,6 +7,7 @@ import { StarRating } from "@yoast/components";
 
 const ProductData = styled.span`
 	color: #70757a;
+	line-height: 1.7;
 `;
 
 /**

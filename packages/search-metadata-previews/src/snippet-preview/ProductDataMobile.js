@@ -8,6 +8,8 @@ import { StarRating } from "@yoast/components";
 
 const ProductData = styled.div`
 	display: flex;
+	margin-top: -16px;
+	line-height: 1.6;
 `;
 
 const ProductDataCell50 = styled.div`

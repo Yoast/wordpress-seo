@@ -828,14 +828,13 @@ export default class SnippetPreview extends PureComponent {
 						</SnippetTitle>
 						{ amp }
 					</PartContainer>
-					{ isDesktopMode && this.renderProductData( PartContainer ) }
 					<PartContainer>
 						<ScreenReaderText>
 							{ __( "Meta description preview:", "yoast-components" ) }
 						</ScreenReaderText>
 						{ this.renderDescription() }
 					</PartContainer>
-					{ ! isDesktopMode && this.renderProductData( PartContainer ) }
+					{ this.renderProductData( PartContainer ) }
 				</Container>
 			</section>
 		);
