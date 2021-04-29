@@ -22,7 +22,7 @@ class SidebarInput extends SidebarBase {
 	 * @returns The sidebar element.
 	 */
 	sidebar( props: BlockEditProps<Record<string, unknown>>, i: number ): JSX.Element {
-		const attributes: TextControl.Props = {
+		const textControlProps: TextControl.Props = {
 			label: this.options.label,
 			value: props.attributes[ this.options.name ] as string,
 			className: this.options.className,
@@ -31,18 +31,18 @@ class SidebarInput extends SidebarBase {
 		};
 
 		if ( this.options.help ) {
-			attributes.help = this.options.help;
+			textControlProps.help = this.options.help;
 		}
 		if ( this.options.type ) {
-			attributes.type = this.options.type;
+			textControlProps.type = this.options.type;
 		}
 
 		// If a help link was passed in the template, add the question mark icon with the link to the label.
 		if ( this.options.helpLink ) {
-			attributes.label = StringWithClickableQuestionMark( { text: attributes.label as string, URL: this.options.helpLink } );
+			textControlProps.label = StringWithClickableQuestionMark( { text: textControlProps.label as string, URL: this.options.helpLink } );
 		}
 
-		return createElement( TextControl, attributes );
+		return createElement( TextControl, textControlProps );
 	}
 
 	/**
