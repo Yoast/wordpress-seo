@@ -47,7 +47,9 @@
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
     "moduleNameMapper": {
-      "\\.css$": "<rootDir>/tests/CSSStub.js"
+      "\\.css$": "<rootDir>/tests/CSSStub.js",
+      "^lodash-es$": "lodash",
+      "^lodash-es/(.*)$": "lodash/$1"
     }
   },
   "publishConfig": {

@@ -29,7 +29,8 @@
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js",
     "moduleNameMapper": {
-      "\\.css$": "<rootDir>/jest/__mocks__/styleMock.js"
+      "\\.css$": "<rootDir>/jest/__mocks__/styleMock.js",
+      "^lodash-es$": "lodash"
     }
   },
   "publishConfig": {

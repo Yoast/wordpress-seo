@@ -24,6 +24,9 @@
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },
+    "moduleNameMapper": {
+      "^lodash-es$": "lodash"
+    },
     "transformIgnorePatterns": [
       "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
     ],
