@@ -46,7 +46,8 @@
     "testRegex": ".*Test.js$",
     "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js",
     "moduleNameMapper": {
-      "\\.css$": "<rootDir>/tools/jest/CSSStub.js"
+      "\\.css$": "<rootDir>/tools/jest/CSSStub.js",
+      "^lodash-es$": "lodash"
     },
     "snapshotSerializers": [
       "enzyme-to-json/serializer"

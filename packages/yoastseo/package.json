@@ -96,6 +96,10 @@
     "moduleDirectories": [
       "node_modules"
     ],
+    "moduleNameMapper": {
+      "^lodash-es$": "lodash",
+      "^lodash-es/(.*)$": "lodash/$1"
+    },
     "testPathIgnorePatterns": [
       "/spec/specHelpers/*",
       "/spec/fullTextTests/testTexts",
