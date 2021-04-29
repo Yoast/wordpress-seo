@@ -122,6 +122,7 @@ function processBlockInstruction( token: IToken<string>, tokens: IToken[], instr
 
 	if ( ! instruction ) {
 		logger.error( "Could not instantiate instuctionClass " + instructionClass.name );
+		return;
 	}
 
 	while ( tokens[ 0 ] && tokens[ 0 ].isA( "key" ) ) {
