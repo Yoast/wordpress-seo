@@ -19,6 +19,25 @@ class Badge_Group_Names {
 	];
 
 	/**
+	 * The current plugin version.
+	 *
+	 * @var string
+	 */
+	protected $version;
+
+	/**
+	 * Badge_Group_Names constructor.
+	 *
+	 * @param string $version Optional: the current plugin version.
+	 */
+	public function __construct( $version = null ) {
+		if ( ! $version ) {
+			$version = \WPSEO_VERSION;
+		}
+		$this->version = $version;
+	}
+
+	/**
 	 * Check whether a group of badges is still eligible for a "new" badge.
 	 *
 	 * @param string $group           One of the GROUP_* constants.
@@ -26,12 +45,16 @@ class Badge_Group_Names {
 	 *
 	 * @return bool
 	 */
-	public function is_still_eligible_for_new_badge( $group, $current_version = \WPSEO_VERSION ) {
-		if ( ! array_key_exists( $group, self::GROUP_NAMES ) ) {
+	public function is_still_eligible_for_new_badge( $group, $current_version = null ) {
+		if ( ! array_key_exists( $group, $this::GROUP_NAMES ) ) {
 			return false;
 		}
 
-		$group_version = self::GROUP_NAMES[ $group ];
+		$group_version = $this::GROUP_NAMES[ $group ];
+
+		if ( \is_null( $current_version ) ) {
+			$current_version = $this->version;
+		}
 
 		return (bool) version_compare( $group_version, $current_version, '>' );
 	}
