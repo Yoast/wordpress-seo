@@ -12,7 +12,6 @@ import { isResultValidForSchema } from "../validators/validateResults";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
-let previousPostTitle: string;
 
 /**
  * Returns whether or not a schema definition should be rendered.
