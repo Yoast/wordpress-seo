@@ -35,6 +35,15 @@ class Badge_Presenter extends Abstract_Presenter {
 	private $group;
 
 	/**
+	 * Optional object storing the group names and expiration versions.
+	 *
+	 * The group names set in Yoast SEO are used by default, but they can be overridden to use custom ones for an add-on.
+	 *
+	 * @var Badge_Group_Names
+	 */
+	private $badge_group_names;
+
+	/**
 	 * An instance of the WPSEO_Admin_Asset_Manager class.
 	 *
 	 * @var WPSEO_Admin_Asset_Manager
@@ -42,13 +51,14 @@ class Badge_Presenter extends Abstract_Presenter {
 	private $asset_manager;
 
 	/**
-	 * New_Badge_Presenter constructor.
+	 * Badge_Presenter constructor.
 	 *
-	 * @param string $id    Id of the badge.
-	 * @param string $link  Optional link of the badge.
-	 * @param string $group Optional group which the badge belongs to.
+	 * @param string            $id                Id of the badge.
+	 * @param string            $link              Optional link of the badge.
+	 * @param string            $group             Optional group which the badge belongs to.
+	 * @param Badge_Group_Names $badge_group_names Optional object storing the group names.
 	 */
-	public function __construct( $id, $link = '', $group = '' ) {
+	public function __construct( $id, $link = '', $group = '', $badge_group_names = null ) {
 		$this->id    = $id;
 		$this->link  = $link;
 		$this->group = $group;
@@ -56,6 +66,11 @@ class Badge_Presenter extends Abstract_Presenter {
 		if ( ! $this->asset_manager ) {
 			$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 		}
+
+		if ( ! $badge_group_names instanceof Badge_Group_Names ) {
+			$badge_group_names = new Badge_Group_Names();
+		}
+		$this->badge_group_names = $badge_group_names;
 
 		if ( $this->is_group_still_new() ) {
 			$this->asset_manager->enqueue_style( 'badge' );
@@ -100,7 +115,6 @@ class Badge_Presenter extends Abstract_Presenter {
 			return true;
 		}
 
-		$badge_group_names = new Badge_Group_Names();
-		return $badge_group_names->is_still_eligible_for_new_badge( $this->group );
+		return $this->badge_group_names->is_still_eligible_for_new_badge( $this->group );
 	}
 }
