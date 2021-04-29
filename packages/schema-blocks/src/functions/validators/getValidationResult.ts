@@ -11,10 +11,10 @@ type clientIdValidation = Record<string, BlockValidationResult>;
  *
  * @returns The validation results, or null if none were found.
  */
-export function getValidationResults(): BlockValidationResult[] | null {
+export function getValidationResults(): BlockValidationResult[] {
 	const validationResults: clientIdValidation = select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getSchemaBlocksValidationResults();
 	if ( ! validationResults ) {
-		return null;
+		return [];
 	}
 
 	const validations: BlockValidationResult[] = Object.values( validationResults );

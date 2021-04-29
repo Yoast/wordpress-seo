@@ -2,6 +2,7 @@ import { BlockInstance } from "@wordpress/blocks";
 import logger from "../functions/logger";
 import { BlockValidationResult, BlockValidation } from "./validation";
 import { BlockPresence } from "./validation/BlockValidationResult";
+
 export type InstructionPrimitive = string | number | boolean;
 export type InstructionValue = InstructionPrimitive | InstructionObject | InstructionArray;
 export type InstructionArray = readonly InstructionValue[];
@@ -74,11 +75,11 @@ export default abstract class Instruction {
 	 * @returns {void}
 	 */
 	static register<I extends typeof Instruction>( this: I, name: string, instruction: InstructionClass<I["prototype"]> ): void {
-		if ( typeof this.registeredInstructions === "undefined" ) {
-			this.registeredInstructions = {};
+		if ( typeof Instruction.registeredInstructions === "undefined" ) {
+			Instruction.registeredInstructions = {};
 		}
 
-		this.registeredInstructions[ name ] = instruction;
+		Instruction.registeredInstructions[ name ] = instruction;
 	}
 
 	/**
@@ -92,11 +93,11 @@ export default abstract class Instruction {
 	 * @returns The instruction instance.
 	 */
 	static create<I extends typeof Instruction>( this: I, name: string, id: number, options: InstructionOptions ): I["prototype"] {
-		if ( typeof this.registeredInstructions === "undefined" ) {
-			this.registeredInstructions = {};
+		if ( typeof Instruction.registeredInstructions === "undefined" ) {
+			Instruction.registeredInstructions = {};
 		}
 
-		const klass = this.registeredInstructions[ name ];
+		const klass = Instruction.registeredInstructions[ name ];
 
 		if ( ! klass ) {
 			logger.error( "Invalid instruction: ", name );

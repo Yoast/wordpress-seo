@@ -71,9 +71,26 @@ export class BlockValidationResult {
 	 */
 	static MissingAttribute( blockInstance: BlockInstance, name?: string, blockPresence?: BlockPresence ) {
 		let blockValidation: BlockValidation = BlockValidation.Unknown;
+		let message = "";
+
 		switch ( blockPresence ) {
-			case BlockPresence.Required : blockValidation = BlockValidation.MissingRequiredAttribute; break;
-			case BlockPresence.Recommended : blockValidation = BlockValidation.MissingRecommendedAttribute; break;
+			case BlockPresence.Required :
+				blockValidation = BlockValidation.MissingRequiredAttribute;
+				message = sprintf(
+					/* Translators: %1$s expands to the block name. */
+					__( "The `%1$s` attribute is required but missing.", "yoast-schema-blocks" ),
+					name,
+				);
+				break;
+
+			case BlockPresence.Recommended :
+				blockValidation = BlockValidation.MissingRecommendedAttribute;
+				sprintf(
+					/* Translators: %1$s expands to the block name. */
+					__( "The `%1$s` attribute is recommended but missing.", "yoast-schema-blocks" ),
+					name,
+				);
+				break;
 		}
 
 		return new BlockValidationResult(
@@ -81,6 +98,7 @@ export class BlockValidationResult {
 			name || blockInstance.name,
 			blockValidation,
 			blockPresence || BlockPresence.Unknown,
+			message,
 		);
 	}
 

@@ -85,6 +85,10 @@ function getWarningMessages( issues: BlockValidationResult[] ): SidebarWarning[]
  * @returns {SidebarWarning[]} The formatted warnings.
  */
 export function createAnalysisMessages( validation: BlockValidationResult ): SidebarWarning[] {
+	if ( ! validation ) {
+		return [];
+	}
+
 	const issues = getAllDescendantIssues( validation );
 
 	const messages = [];

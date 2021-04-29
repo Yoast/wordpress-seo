@@ -1,10 +1,11 @@
 import "../../matchMedia.mock";
 import { BlockInstance } from "@wordpress/blocks";
+import { select } from "@wordpress/data";
 import { BlockValidation, BlockValidationResult } from "../../../src/core/validation";
 import { BlockPresence } from "../../../src/core/validation/BlockValidationResult";
 import { getValidationResultForClientId } from "../../../src/functions/validators";
 
-const input: BlockValidationResult[] = [];
+let input: BlockValidationResult[] = [];
 
 const defaultTestInput = [
 	BlockValidationResult.Valid( { clientId: "validClientId" } as unknown as BlockInstance, "yoast/valid-block", BlockPresence.Required ),
@@ -22,10 +23,22 @@ const nestedValidationResult = {
 	],
 } as BlockValidationResult;
 
+
+jest.mock( "@wordpress/data", () => {
+	return {
+		select: jest.fn( () => {
+			return {
+				getSchemaBlocksValidationResults: jest.fn(),
+			};
+		} ),
+		dispatch: jest.fn( () => null ),
+	};
+} );
+
 describe( "The getValidationResultForClientId function ", () => {
 	it( "returns null if no validation is found for the given clientId", () => {
 		// Arrange.
-		const input = defaultTestInput;
+		input = defaultTestInput;
 
 		// Act.
 		const result = getValidationResultForClientId( "clientId does not occur in list", input );
@@ -36,18 +49,32 @@ describe( "The getValidationResultForClientId function ", () => {
 
 	it( "retrieves the validation results from the store if none are passed as argument.", () => {
 		// Arrange.
-		const input = null;
+		input = [];
 
 		// Act.
-		const result = getValidationResultForClientId( "clientId does not occur in list" );
+		const result = getValidationResultForClientId( "clientId does not occur in list", null );
 
 		// Assert.
-		expect;
+		expect( select ).toBeCalled();
+		expect( result ).toBeNull();
+	} );
+
+	it( "returns the validationResult for the clientId if it is at root level", () => {
+		// Arrange.
+		input = defaultTestInput;
+		input.push( nestedValidationResult );
+
+		// Act.
+		const validation = getValidationResultForClientId( "BlockWithNestedIssues", input );
+
+		// Assert.
+		expect( validation ).not.toBeNull();
+		expect( validation.result ).toBe( BlockValidation.Invalid );
 	} );
 
 	it( "returns the validationResult for the clientId if it is nested 1 level deep", () => {
 		// Arrange.
-		const input = defaultTestInput;
+		input = defaultTestInput;
 		input.push( nestedValidationResult );
 
 		// Act.
@@ -60,7 +87,7 @@ describe( "The getValidationResultForClientId function ", () => {
 
 	it( "returns the validationResult for the clientId if it is nested more than 1 level deep", () => {
 		// Arrange.
-		const input = defaultTestInput;
+		input = defaultTestInput;
 		input[ 0 ].issues.push( nestedValidationResult );
 
 		// Act.
@@ -71,29 +98,3 @@ describe( "The getValidationResultForClientId function ", () => {
 		expect( validation.result ).toBe( BlockValidation.MissingRequiredVariation );
 	} );
 } );
-
-/*
-
-Export function getValidationResultForClientId( clientId: string, validationResults?: BlockValidationResult[] ): BlockValidationResult {
-	if ( ! validationResults ) {
-		validationResults = getValidationResults();
-	}
-
-	for ( const validationResult of validationResults ) {
-		// When the validation result matches the client id, return it.
-		if ( validationResult.clientId === clientId ) {
-			return validationResult;
-		}
-
-		// Just keep driving down the tree calling until we have found the result.
-		if ( validationResult.issues.length > 0 ) {
-			const validation = getValidationResultForClientId( clientId, validationResult.issues );
-			if ( validation ) {
-				return validation;
-			}
-		}
-	}
-
-	// We haven't found the result down this tree.
-	return null;
-}*/

@@ -66,7 +66,9 @@ describe( "The SidebarWarningPresenter ", () => {
 
 		it( "creates warning messages for missing required blocks, with a footer message.", () => {
 			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Invalid, BlockPresence.Required );
-			testcase.issues.push( BlockValidationResult.MissingBlock( "missingblock", BlockPresence.Required ) );
+			const missing = BlockValidationResult.MissingBlock( "missingblock", BlockPresence.Required );
+			missing.message = "The `missingblock` block is required but missing.";
+			testcase.issues.push( missing );
 
 			const result = createAnalysisMessages( testcase );
 
@@ -83,8 +85,7 @@ describe( "The SidebarWarningPresenter ", () => {
 			);
 		} );
 
-		it( "creates a warning for missing recommended blocks, but when no required blocks are missing, " +
-			"the conclusion should still be green.", () => {
+		it( "creates a warning for missing recommended blocks, but when no blocks are required, but the conclusion should still be green.", () => {
 			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.MissingRecommendedBlock, BlockPresence.Recommended );
 			testcase.issues.push(
 				BlockValidationResult.MissingBlock( "missing recommended block", BlockPresence.Recommended ),
@@ -110,8 +111,7 @@ describe( "The SidebarWarningPresenter ", () => {
 			} );
 		} );
 
-		it( "creates a warning for missing recommended blocks, but when all required blocks are valid, " +
-			"the conclusion should still be green.", () => {
+		it( "creates a warning for missing recommended blocks, but when all required blocks are valid, the conclusion should still be green.", () => {
 			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.MissingRecommendedBlock, BlockPresence.Recommended );
 			testcase.issues.push(
 				BlockValidationResult.MissingBlock( "missing recommended block", BlockPresence.Recommended ),
@@ -179,11 +179,11 @@ describe( "The SidebarWarningPresenter ", () => {
 				color: "red",
 			} );
 		} );
-	} );
 
-	it( "creates no output when the validation results cannot be retrieved.", () => {
-		const result = createAnalysisMessages( validations[ "12345" ] );
+		it( "creates no output when the validation results cannot be retrieved.", () => {
+			const result = createAnalysisMessages( validations[ "12345" ] );
 
-		expect( result ).toBeNull();
+			expect( result ).toEqual( [] );
+		} );
 	} );
 } );
