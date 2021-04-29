@@ -11,6 +11,7 @@ export type SidebarBaseOptions = {
 	required?: boolean;
 	visible?: boolean;
 	helpLink?: string;
+	placeholder?: string;
 }
 
 /**
