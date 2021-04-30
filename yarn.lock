@@ -1621,10 +1621,10 @@
   resolved "https://registry.yarnpkg.com/@yoast/feature-flag/-/feature-flag-0.5.2.tgz#ef4cd8ddb959c5857c5d68639ab09ab75c381508"
   integrity sha512-erHel5POEyPpt1B2fToLm8caZPruiOxBRZvn7X9nWqwb0lIbxbOkDp/XQnm168bcvVEL95Dg9JMaPgQwO3rA9w==
 
-"@yoast/grunt-plugin-tasks@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-2.0.0.tgz#77c33c1b3fd8087075b611e49c4654b21e86ca15"
-  integrity sha512-RL2Rx0vJfITcKAYOQoMa8xa+AqBK9nW4N75ybkRMIxVcGjuHyeoWWiviy47BqLfketGWecJScVZBRg1spVBoaA==
+"@yoast/grunt-plugin-tasks@^2.1":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-2.1.0.tgz#255fd3d7ae434e55d54b3eea32ddf0426f7b38ea"
+  integrity sha512-vaUcMs24v9gT6OMq+x67J7prU2qg8iHqdgSaKMK4KveNGEiZbBiJ/rd8bCeDSDhRm38HZNG1MGPzXbuIDN9oUg==
   dependencies:
     "@yoast/browserslist-config" "^1.0.0"
     autoprefixer "^9.7.2"
@@ -7354,9 +7354,9 @@ grunt-git@^1.0.14:
   dependencies:
     flopmang "^1.0.0"
 
-"grunt-glotpress@https://github.com/Yoast/grunt-glotpress.git#master":
+"grunt-glotpress@git+https://github.com/Yoast/grunt-glotpress.git#master":
   version "0.3.0"
-  resolved "https://github.com/Yoast/grunt-glotpress.git#e6ccc69c2532d126f5d8a30397ffd012e55b6eec"
+  resolved "git+https://github.com/Yoast/grunt-glotpress.git#e6ccc69c2532d126f5d8a30397ffd012e55b6eec"
   dependencies:
     request "^2.88.0"
     request-promise-native "^1.0.7"
