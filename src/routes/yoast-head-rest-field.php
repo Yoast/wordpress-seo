@@ -24,6 +24,13 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	const YOAST_HEAD_FIELD_NAME = 'yoast_head';
 
 	/**
+	 * The name of the yoast head field.
+	 *
+	 * @var string
+	 */
+	const YOAST_JSON_HEAD_FIELD_NAME = 'yoast_json_head';
+
+	/**
 	 * The post type helper.
 	 *
 	 * @var Post_Type_Helper
@@ -89,7 +96,7 @@ class Yoast_Head_REST_Field implements Route_Interface {
 		$public_post_types = $this->post_type_helper->get_public_post_types();
 
 		foreach ( $public_post_types as $post_type ) {
-			\register_rest_field( $post_type, self::YOAST_HEAD_FIELD_NAME, [ 'get_callback' => [ $this, 'for_post' ] ] );
+			$this->register_rest_fields( $post_type, 'for_post' );
 		}
 
 		$public_taxonomies = $this->taxonomy_helper->get_public_taxonomies();
@@ -98,12 +105,11 @@ class Yoast_Head_REST_Field implements Route_Interface {
 			if ( $taxonomy === 'post_tag' ) {
 				$taxonomy = 'tag';
 			}
-			\register_rest_field( $taxonomy, self::YOAST_HEAD_FIELD_NAME, [ 'get_callback' => [ $this, 'for_term' ] ] );
+			$this->register_rest_fields( $taxonomy, 'for_term' );
 		}
 
-		\register_rest_field( 'user', self::YOAST_HEAD_FIELD_NAME, [ 'get_callback' => [ $this, 'for_author' ] ] );
-
-		\register_rest_field( 'type', self::YOAST_HEAD_FIELD_NAME, [ 'get_callback' => [ $this, 'for_post_type_archive' ] ] );
+		$this->register_rest_fields( 'user', 'for_author' );
+		$this->register_rest_fields( 'type', 'for_post_type_archive' );
 	}
 
 	/**
@@ -113,7 +119,7 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 *
 	 * @return string|null The head.
 	 */
-	public function for_post( $params ) {
+	public function for_post( $params, $field_name ) {
 		if ( ! isset( $params['id'] ) ) {
 			return null;
 		}
@@ -123,11 +129,7 @@ class Yoast_Head_REST_Field implements Route_Interface {
 		}
 		$obj = $this->head_action->for_post( $params['id'] );
 
-		if ( $obj->status === 404 ) {
-			return null;
-		}
-
-		return $obj->head;
+		return $this->render_object( $obj, $field_name );
 	}
 
 	/**
@@ -137,14 +139,10 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 *
 	 * @return string|null The head.
 	 */
-	public function for_term( $params ) {
+	public function for_term( $params, $field_name ) {
 		$obj = $this->head_action->for_term( $params['id'] );
 
-		if ( $obj->status === 404 ) {
-			return null;
-		}
-
-		return $obj->head;
+		return $this->render_object( $obj, $field_name );
 	}
 
 	/**
@@ -154,14 +152,10 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 *
 	 * @return string|null The head.
 	 */
-	public function for_author( $params ) {
+	public function for_author( $params, $field_name ) {
 		$obj = $this->head_action->for_author( $params['id'] );
 
-		if ( $obj->status === 404 ) {
-			return null;
-		}
-
-		return $obj->head;
+		return $this->render_object( $obj, $field_name );
 	}
 
 	/**
@@ -171,7 +165,7 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 *
 	 * @return string|null The head.
 	 */
-	public function for_post_type_archive( $params ) {
+	public function for_post_type_archive( $params, $field_name ) {
 		if ( $params['slug'] === 'post' ) {
 			$obj = $this->head_action->for_posts_page();
 		}
@@ -182,10 +176,23 @@ class Yoast_Head_REST_Field implements Route_Interface {
 			$obj = $this->head_action->for_post_type_archive( $params['slug'] );
 		}
 
+		return $this->render_object( $obj, $field_name );
+	}
+
+	protected function register_rest_fields( $object_type, $callback ) {
+		\register_rest_field( $object_type, self::YOAST_HEAD_FIELD_NAME, [ 'get_callback' => [ $this, $callback ] ] );
+		\register_rest_field( $object_type, self::YOAST_JSON_HEAD_FIELD_NAME, [ 'get_callback' => [ $this, $callback ] ] );
+	}
+
+	protected function render_object( $obj, $field_name ) {
 		if ( $obj->status === 404 ) {
 			return null;
 		}
 
-		return $obj->head;
+		if ( $field_name === self::YOAST_HEAD_FIELD_NAME ) {
+			return $obj->head;
+		}
+
+		return $obj->json_head;
 	}
 }

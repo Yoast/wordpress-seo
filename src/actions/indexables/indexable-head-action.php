@@ -9,6 +9,8 @@ use Yoast\WP\SEO\Surfaces\Meta_Surface;
  */
 class Indexable_Head_Action {
 
+	protected $cache;
+
 	/**
 	 * The meta surface.
 	 *
@@ -33,16 +35,23 @@ class Indexable_Head_Action {
 	 * @return object Object with head and status properties.
 	 */
 	public function for_url( $url ) {
-		$meta = $this->meta_surface->for_url( $url );
+		if ( ! isset( $this->cache['url'][ $url ] ) ) {
+			$meta = $this->meta_surface->for_url( $url );
 
-		if ( $meta === false ) {
-			return $this->for_404();
+			if ( $meta === false ) {
+				$value = $this->for_404();
+			}
+			else {
+				$value = (object) [
+					'head'   => $meta->get_head(),
+					'status' => 200,
+				];
+			}
+
+			$this->cache['url'][ $url ] = $value;
 		}
 
-		return (object) [
-			'head'   => $meta->get_head(),
-			'status' => 200,
-		];
+		return $this->cache['url'][ $url ];
 	}
 
 	/**
