@@ -7,12 +7,14 @@ namespace Yoast\WP\SEO\Presenters;
  */
 abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Presenter {
 
+	const NAME = 'unknown';
+
 	/**
 	 * The tag format including placeholders.
 	 *
 	 * @var string
 	 */
-	protected $tag_format = '';
+	protected $tag_format = '<meta name="%$2s" value="%$1s" />';
 
 	/**
 	 * The method of escaping to use.
@@ -30,7 +32,7 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 		$value = $this->get();
 
 		if ( \is_string( $value ) && $value !== '' ) {
-			return \sprintf( $this->tag_format, $this->escape( $value ) );
+			return \sprintf( $this->tag_format, $this->escape( $value ), self::NAME );
 		}
 
 		return '';

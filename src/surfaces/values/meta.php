@@ -112,6 +112,10 @@ class Meta {
 		$this->front_end    = $this->container->get( Front_End_Integration::class );
 	}
 
+	public function get_json_head() {
+		// Reuse get_head by turning it's parts into protected functions.
+	}
+
 	/**
 	 * Returns the output as would be presented in the head.
 	 *
@@ -128,7 +132,7 @@ class Meta {
 			$presenters = \array_filter( $presenters, $callback );
 		}
 
-		$output = '';
+		$output = $html ? '' : [];
 
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $this->context->presentation, $this->context );
@@ -137,9 +141,16 @@ class Meta {
 			$presenter->helpers      = $this->helpers;
 			$presenter->replace_vars = $this->replace_vars;
 
-			$presenter_output = $presenter->present();
-			if ( ! empty( $presenter_output ) ) {
-				$output .= $presenter_output . \PHP_EOL;
+			if ( $html ) {
+				$presenter_output = $presenter->present();
+				if ( ! empty( $presenter_output ) ) {
+					$output .= $presenter_output . \PHP_EOL;
+				}
+			}
+			else {
+				$key            = $presenter::NAME;
+				$value          = $presenter->get();
+				$output[ $key ] = $value;
 			}
 		}
 
