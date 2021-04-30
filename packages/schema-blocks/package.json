@@ -10,7 +10,7 @@
     "@wordpress/blocks": "^6.8.0",
     "@wordpress/components": "^8.4.0",
     "@wordpress/compose": "^3.11.0",
-    "@wordpress/data": "^4.14.0",
+    "@wordpress/data": "^4.26",
     "@wordpress/editor": "^9.12.2",
     "@wordpress/element": "^2.9.0",
     "@wordpress/hooks": "^2.7.0",
@@ -56,8 +56,8 @@
     "react-dom": "^16.12.0"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch",
+    "build": "yarn tsc",
+    "watch": "yarn tsc --watch",
     "lint": "eslint \"src/**\"",
     "lint-fix": "eslint \"src/**\" --fix",
     "test": "jest",
