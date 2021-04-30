@@ -31,6 +31,7 @@ class SettingsReplacementVariableEditor extends Component {
 			descriptionTarget,
 			labels,
 			descriptionPlaceholder,
+			hasNewBadge,
 		} = this.props;
 
 		const placeholder = descriptionPlaceholder || __( "Modify your meta description by editing it right here", "wordpress-seo" );
@@ -63,6 +64,7 @@ class SettingsReplacementVariableEditor extends Component {
 						description: descriptionTarget + "-snippet-editor",
 					} }
 					labels={ labels }
+					hasNewBadge={ hasNewBadge }
 				/>
 			</SnippetPreviewSection>
 		);
@@ -83,10 +85,12 @@ SettingsReplacementVariableEditor.propTypes = {
 		description: PropTypes.string,
 	} ),
 	descriptionPlaceholder: PropTypes.string,
+	hasNewBadge: PropTypes.bool,
 };
 
 SettingsReplacementVariableEditor.defaultProps = {
 	hasPaperStyle: true,
+	hasNewBadge: false,
 };
 
 export default linkHiddenFields( props => {

@@ -80,7 +80,6 @@ module.exports = function( grunt ) {
 				yoastJsConfigurationWizard: "<%= paths.languages %>yoast-js-configuration-wizard.pot",
 				yoastJsHelpers: "<%= paths.languages %>yoast-js-helpers.pot",
 				yoastJsSearchMetadataPreviews: "<%= paths.languages %>yoast-js-search-metadata-previews.pot",
-				yoastSchemaBlocks: "<%= paths.languages %>yoast-schema-blocks.pot",
 
 				yoastseojs: "<%= paths.languages %>yoast-seo-js.pot",
 				yoastComponents: "<%= paths.languages %>yoast-components.pot",
@@ -91,7 +90,6 @@ module.exports = function( grunt ) {
 				php: {
 					yoastseojs: "<%= paths.languages %>yoast-seo-js.php",
 					yoastComponents: "<%= paths.languages %>yoast-components.php",
-					yoastSchemaBlocks: "<%= paths.languages %>yoast-schema-blocks.php",
 					wordpressSeoJs: "<%= paths.languages %>wordpress-seojs.php",
 				},
 			},
@@ -140,6 +138,11 @@ module.exports = function( grunt ) {
 				gitpush: "grunt-git",
 				"update-version": "@yoast/grunt-plugin-tasks",
 				"set-version": "@yoast/grunt-plugin-tasks",
+				"update-changelog-with-latest-pr-texts": "@yoast/grunt-plugin-tasks",
+				"get-latest-pr-texts": "@yoast/grunt-plugin-tasks",
+				"update-changelog": "@yoast/grunt-plugin-tasks",
+				"build-qa-changelog": "@yoast/grunt-plugin-tasks",
+				"download-qa-changelog": "@yoast/grunt-plugin-tasks",
 				"register-prompt": "grunt-prompt",
 				"notify-slack": "notify-slack",
 			},
