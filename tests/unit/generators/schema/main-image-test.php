@@ -110,7 +110,6 @@ class Main_Image_Test extends TestCase {
 			->andReturn( $image_schema );
 
 		self::assertEquals( $image_schema, $this->instance->generate() );
-		self::assertTrue( $this->meta_tags_context->has_image );
 	}
 
 	/**
@@ -140,7 +139,6 @@ class Main_Image_Test extends TestCase {
 			->andReturn( $image_schema );
 
 		self::assertEquals( $image_schema, $this->instance->generate() );
-		self::assertTrue( $this->meta_tags_context->has_image );
 	}
 
 	/**
