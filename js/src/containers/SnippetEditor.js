@@ -79,6 +79,7 @@ export function mapSelectToProps( select ) {
 		getFocusKeyphrase,
 		getRecommendedReplaceVars,
 		getReplaceVars,
+		getShoppingData,
 		getSiteIconUrlFromSettings,
 		getSnippetEditorData,
 		getSnippetEditorMode,
@@ -105,6 +106,7 @@ export function mapSelectToProps( select ) {
 		mode: getSnippetEditorMode(),
 		recommendedReplacementVariables: getRecommendedReplaceVars(),
 		replacementVariables,
+		shoppingData: getShoppingData(),
 		wordsToHighlight: getSnippetEditorWordsToHighlight(),
 	};
 }
@@ -122,6 +124,7 @@ export function mapDispatchToProps( dispatch ) {
 		switchMode,
 		updateAnalysisData,
 	} = dispatch( "yoast-seo/editor" );
+	const coreEditorDispatch = dispatch( "core/editor" );
 
 	return {
 		onChange: ( key, value ) => {
@@ -131,6 +134,14 @@ export function mapDispatchToProps( dispatch ) {
 					break;
 				case "slug":
 					updateData( { slug: value } );
+
+					/*
+					 * Update the gutenberg store with the new slug, after updating our own store,
+					 * to make sure our store isn't updated twice.
+					 */
+					if ( coreEditorDispatch ) {
+						coreEditorDispatch.editPost( { slug: value } );
+					}
 					break;
 				default:
 					updateData( {

@@ -169,9 +169,9 @@ class SEMrushKeyphrasesTable extends Component {
 				<p style={ { marginBottom: 0 } }>
 					<GetMoreInsightsLink href={ url }>
 						{ sprintf(
-							/* translators: %s expands to SEMrush */
+							/* translators: %s expands to Semrush */
 							__( "Get more insights at %s", "wordpress-seo" ),
-							"SEMrush"
+							"Semrush"
 						) }
 					</GetMoreInsightsLink>
 				</p>

@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 $show_post_type_help = $view_utils->search_results_setting_help( $wpseo_post_type );
 $noindex_option_name = 'noindex-' . $wpseo_post_type->name;
 
+echo '<div class="yoast-settings-section">';
 
 $yform->index_switch(
 	$noindex_option_name,
@@ -29,6 +30,10 @@ $yform->show_hide_switch(
 	sprintf( esc_html__( 'Show SEO settings for %1$s', 'wordpress-seo' ), '<strong>' . $wpseo_post_type->labels->name . '</strong>' )
 );
 
+echo '</div>';
+
+echo '<div class="yoast-settings-section">';
+
 $editor = new WPSEO_Replacevar_Editor(
 	$yform,
 	[
@@ -40,6 +45,18 @@ $editor = new WPSEO_Replacevar_Editor(
 	]
 );
 $editor->render();
+
+echo '</div>';
+
+/**
+ * Allow adding custom fields to the admin meta page - Content Types tab.
+ *
+ * @param Yoast_Form $yform The Yoast_Form object.
+ * @param string     $name  The post type name.
+ */
+do_action( 'Yoast\WP\SEO\admin_post_types_meta', $yform, $wpseo_post_type->name );
+
+echo '<div class="yoast-settings-section">';
 
 // Schema settings.
 $article_helper             = new Article_Helper();
@@ -58,3 +75,5 @@ printf(
 	WPSEO_Options::get_default( 'wpseo_titles', $schema_page_type_option ),
 	WPSEO_Options::get_default( 'wpseo_titles', $schema_article_type_option )
 );
+
+echo '</div>';

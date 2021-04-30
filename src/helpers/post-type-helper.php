@@ -103,6 +103,17 @@ class Post_Type_Helper {
 	}
 
 	/**
+	 * Checks if the post type is excluded.
+	 *
+	 * @param string $post_type The post type to check.
+	 *
+	 * @return bool If the post type is exclude.
+	 */
+	public function is_excluded( $post_type ) {
+		return \in_array( $post_type, $this->get_excluded_post_types_for_indexables(), true );
+	}
+
+	/**
 	 * Checks if the post type with the given name has an archive page.
 	 *
 	 * @param WP_Post_Type|string $post_type The name of the post type to check.

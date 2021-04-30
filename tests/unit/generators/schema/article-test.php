@@ -113,7 +113,6 @@ class Article_Test extends TestCase {
 		$this->context_mock->main_image_url          = 'https://www.example.com/image.jpg';
 		$this->context_mock->canonical               = 'https://permalink';
 
-
 		$this->instance->context = $this->context_mock;
 		$this->instance->helpers = (object) [
 			'date'   => $this->date,
@@ -206,16 +205,7 @@ class Article_Test extends TestCase {
 	public function test_generate( $values_to_test, $expected_value, $message ) {
 		$this->context_mock->post->comment_status      = $values_to_test['post_comment_status'];
 		$this->context_mock->site_represents_reference = $values_to_test['site_represents_reference'];
-
-		Monkey\Functions\expect( 'get_comment_count' )
-			->once()
-			->with( 5 )
-			->andReturn( [ 'approved' => $values_to_test['approved_comments'] ] );
-
-		Monkey\Functions\expect( 'comments_open' )
-			->once()
-			->with( 5 )
-			->andReturn( $values_to_test['post_comment_status'] === 'open' );
+		$this->context_mock->post->comment_count       = $values_to_test['approved_comments'];
 
 		$this->id->expects( 'get_user_schema_id' )
 			->once()
@@ -250,14 +240,16 @@ class Article_Test extends TestCase {
 			->andReturn( 'post_tag' );
 
 		Monkey\Functions\expect( 'get_the_terms' )
-			->once()
 			->with( $this->context_mock->id, 'post_tag' )
-			->andReturn( $values_to_test['keywords'] );
-
-		Monkey\Functions\expect( 'wp_list_pluck' )
 			->once()
-			->with( \array_slice( $values_to_test['keywords'], 0, 2 ), 'name' )
-			->andReturn( [ 'Tag1', 'Tag2' ] );
+			->andReturn( $values_to_test['tags'] );
+
+		if ( $values_to_test['tags'] !== false && ! empty( $values_to_test['tags'] ) ) {
+			Monkey\Functions\expect( 'wp_list_pluck' )
+				->with( $values_to_test['tags'], 'name' )
+				->once()
+				->andReturn( $values_to_test['tag_names'] );
+		}
 
 		Monkey\Filters\expectApplied( 'wpseo_schema_article_sections_taxonomy' )
 			->once()
@@ -265,14 +257,16 @@ class Article_Test extends TestCase {
 			->andReturn( 'category' );
 
 		Monkey\Functions\expect( 'get_the_terms' )
-			->once()
 			->with( $this->context_mock->id, 'category' )
-			->andReturn( $values_to_test['sections'] );
-
-		Monkey\Functions\expect( 'wp_list_pluck' )
 			->once()
-			->with( \array_slice( $values_to_test['sections'], 0, 1 ), 'name' )
-			->andReturn( [ 'Category1' ] );
+			->andReturn( $values_to_test['categories'] );
+
+		if ( $values_to_test['categories'] !== false && ! empty( $values_to_test['categories'] ) ) {
+			Monkey\Functions\expect( 'wp_list_pluck' )
+				->with( $values_to_test['categories'], 'name' )
+				->once()
+				->andReturn( $values_to_test['category_names'] );
+		}
 
 		$this->language->expects( 'add_piece_language' )
 			->once()
@@ -288,6 +282,10 @@ class Article_Test extends TestCase {
 			->once()
 			->with( $this->context_mock->post->post_type, 'comments' )
 			->andReturn( $values_to_test['mock_value_post_type_supports'] );
+
+		Monkey\Functions\expect( '__' )
+			->with( 'Uncategorized', 'default' )
+			->andReturn( 'Uncategorized' );
 
 		$this->assertEquals( $expected_value, $this->instance->generate(), $message );
 	}
@@ -305,30 +303,10 @@ class Article_Test extends TestCase {
 					'mock_value_post_type_supports' => true, // Whether the post type supports a certain feature.
 					'post_comment_status'           => 'open',
 					'approved_comments'             => 7,
-					'keywords'                      => [
-						(object) [
-							'term_id' => 1,
-							'name'    => 'Tag1',
-						],
-						(object) [
-							'term_id' => 2,
-							'name'    => 'Tag2',
-						],
-						(object) [
-							'term_id' => 3,
-							'name'    => 'Uncategorized',
-						],
-					],
-					'sections'                      => [
-						(object) [
-							'term_id' => 1,
-							'name'    => 'Category1',
-						],
-						(object) [
-							'term_id' => 3,
-							'name'    => 'Uncategorized',
-						],
-					],
+					'tags'                          => [ (object) [ 'name' => 'Tag1' ], (object) [ 'name' => 'Tag2' ] ],
+					'tag_names'                     => [ 'Tag1', 'Tag2' ],
+					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
+					'category_names'                => [ 'Category1' ],
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -363,30 +341,10 @@ class Article_Test extends TestCase {
 					'mock_value_post_type_supports' => true,
 					'post_comment_status'           => 'open',
 					'approved_comments'             => 7,
-					'keywords'                      => [
-						(object) [
-							'term_id' => 1,
-							'name'    => 'Tag1',
-						],
-						(object) [
-							'term_id' => 2,
-							'name'    => 'Tag2',
-						],
-						(object) [
-							'term_id' => 3,
-							'name'    => 'Uncategorized',
-						],
-					],
-					'sections'                      => [
-						(object) [
-							'term_id' => 1,
-							'name'    => 'Category1',
-						],
-						(object) [
-							'term_id' => 3,
-							'name'    => 'Uncategorized',
-						],
-					],
+					'tags'                          => [ (object) [ 'name' => 'Tag1' ], (object) [ 'name' => 'Tag2' ] ],
+					'tag_names'                     => [ 'Tag1', 'Tag2' ],
+					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
+					'category_names'                => [ 'Category1' ],
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -422,30 +380,10 @@ class Article_Test extends TestCase {
 					'mock_value_post_type_supports' => false,
 					'post_comment_status'           => 'open',
 					'approved_comments'             => 7,
-					'keywords'                      => [
-						(object) [
-							'term_id' => 1,
-							'name'    => 'Tag1',
-						],
-						(object) [
-							'term_id' => 2,
-							'name'    => 'Tag2',
-						],
-						(object) [
-							'term_id' => 3,
-							'name'    => 'Uncategorized',
-						],
-					],
-					'sections'                      => [
-						(object) [
-							'term_id' => 1,
-							'name'    => 'Category1',
-						],
-						(object) [
-							'term_id' => 3,
-							'name'    => 'Uncategorized',
-						],
-					],
+					'tags'                          => [ (object) [ 'name' => 'Tag1' ], (object) [ 'name' => 'Tag2' ] ],
+					'tag_names'                     => [ 'Tag1', 'Tag2' ],
+					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
+					'category_names'                => [ 'Category1' ],
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -471,30 +409,10 @@ class Article_Test extends TestCase {
 					'mock_value_post_type_supports' => false,
 					'post_comment_status'           => 'closed',
 					'approved_comments'             => 7,
-					'keywords'                      => [
-						(object) [
-							'term_id' => 1,
-							'name'    => 'Tag1',
-						],
-						(object) [
-							'term_id' => 2,
-							'name'    => 'Tag2',
-						],
-						(object) [
-							'term_id' => 3,
-							'name'    => 'Uncategorized',
-						],
-					],
-					'sections'                      => [
-						(object) [
-							'term_id' => 1,
-							'name'    => 'Category1',
-						],
-						(object) [
-							'term_id' => 3,
-							'name'    => 'Uncategorized',
-						],
-					],
+					'tags'                          => [ (object) [ 'name' => 'Tag1' ], (object) [ 'name' => 'Tag2' ] ],
+					'tag_names'                     => [ 'Tag1', 'Tag2' ],
+					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
+					'category_names'                => [ 'Category1' ],
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -505,7 +423,6 @@ class Article_Test extends TestCase {
 					'headline'         => 'the-title',
 					'datePublished'    => '2345-12-12 12:12:12',
 					'dateModified'     => '2345-12-12 23:23:23',
-					'commentCount'     => 7,
 					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 					'keywords'         => [ 'Tag1', 'Tag2' ],
 					'articleSection'   => [ 'Category1' ],
@@ -520,30 +437,10 @@ class Article_Test extends TestCase {
 					'mock_value_post_type_supports' => false,
 					'post_comment_status'           => 'closed',
 					'approved_comments'             => 0,
-					'keywords'                      => [
-						(object) [
-							'term_id' => 1,
-							'name'    => 'Tag1',
-						],
-						(object) [
-							'term_id' => 2,
-							'name'    => 'Tag2',
-						],
-						(object) [
-							'term_id' => 3,
-							'name'    => 'Uncategorized',
-						],
-					],
-					'sections'                      => [
-						(object) [
-							'term_id' => 1,
-							'name'    => 'Category1',
-						],
-						(object) [
-							'term_id' => 3,
-							'name'    => 'Uncategorized',
-						],
-					],
+					'tags'                          => [ (object) [ 'name' => 'Tag1' ], (object) [ 'name' => 'Tag2' ] ],
+					'tag_names'                     => [ 'Tag1', 'Tag2' ],
+					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
+					'category_names'                => [ 'Category1' ],
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -562,136 +459,15 @@ class Article_Test extends TestCase {
 				],
 				'message'        => 'The comment status for the post is set to closed.',
 			],
-		];
-	}
-
-	/**
-	 * Tests the generate method when the terms are invalid (not an array, or an empty array).
-	 *
-	 * @param array   $values_to_test The values that need to vary in order to test all the paths.
-	 * @param boolean $expected_value The expected generated article schema.
-	 * @param string  $message        The message to show in case a test fails.
-	 *
-	 * @covers ::generate
-	 * @covers ::add_image
-	 * @covers ::add_keywords
-	 * @covers ::add_sections
-	 * @covers ::add_terms
-	 * @covers ::add_potential_action
-	 *
-	 * @dataProvider provider_for_generate_with_invalid_terms
-	 */
-	public function test_generate_with_invalid_terms( $values_to_test, $expected_value, $message ) {
-		$this->context_mock->post->comment_status      = $values_to_test['post_comment_status'];
-		$this->context_mock->site_represents_reference = $values_to_test['site_represents_reference'];
-
-		Monkey\Functions\expect( 'get_comment_count' )
-			->once()
-			->with( 5 )
-			->andReturn( [ 'approved' => $values_to_test['approved_comments'] ] );
-
-		Monkey\Functions\expect( 'comments_open' )
-			->once()
-			->with( 5 )
-			->andReturn( $values_to_test['post_comment_status'] === 'open' );
-
-		$this->id->expects( 'get_user_schema_id' )
-			->once()
-			->with( '3', $this->context_mock )
-			->andReturn( 'https://permalink#author-id-hash' );
-
-		$this->post->expects( 'get_post_title_with_fallback' )
-			->once()
-			->with( $this->context_mock->id )
-			->andReturn( 'the-title </script><script>alert(0)</script><script>' ); // Script is here to test script injection.
-
-		$this->html->expects( 'smart_strip_tags' )
-			->once()
-			->with( 'the-title </script><script>alert(0)</script><script>' )
-			->andReturn( 'the-title' );
-
-		$this->date
-			->expects( 'format' )
-			->once()
-			->with( '2345-12-12 12:12:12' )
-			->andReturn( '2345-12-12 12:12:12' );
-
-		$this->date
-			->expects( 'format' )
-			->once()
-			->with( '2345-12-12 23:23:23' )
-			->andReturn( '2345-12-12 23:23:23' );
-
-		Monkey\Filters\expectApplied( 'wpseo_schema_article_keywords_taxonomy' )
-			->once()
-			->with( 'post_tag' )
-			->andReturn( 'post_tag' );
-
-		Monkey\Functions\expect( 'get_the_terms' )
-			->once()
-			->with( $this->context_mock->id, 'post_tag' )
-			->andReturn( $values_to_test['keywords'] );
-
-		Monkey\Functions\expect( 'wp_list_pluck' )
-			->never();
-
-		Monkey\Filters\expectApplied( 'wpseo_schema_article_sections_taxonomy' )
-			->once()
-			->with( 'category' )
-			->andReturn( 'category' );
-
-		Monkey\Functions\expect( 'get_the_terms' )
-			->once()
-			->with( $this->context_mock->id, 'category' )
-			->andReturn( $values_to_test['sections'] );
-
-		Monkey\Functions\expect( 'wp_list_pluck' )
-			->once()
-			->with( \array_slice( $values_to_test['sections'], 0, 1 ), 'name' )
-			->andReturn( [ 'Category1' ] );
-
-		$this->language->expects( 'add_piece_language' )
-			->once()
-			->andReturnUsing(
-				function( $data ) {
-					$data['inLanguage'] = 'language';
-
-					return $data;
-				}
-			);
-
-		Monkey\Functions\expect( 'post_type_supports' )
-			->once()
-			->with( $this->context_mock->post->post_type, 'comments' )
-			->andReturn( $values_to_test['mock_value_post_type_supports'] );
-
-		$this->assertEquals( $expected_value, $this->instance->generate(), $message );
-	}
-
-	/**
-	 * Provides data to the generate_with_invalid_terms test.
-	 *
-	 * @return array The data to use.
-	 */
-	public function provider_for_generate_with_invalid_terms() {
-		return [
 			[
 				'values_to_test' => [
 					'site_represents_reference'     => false, // Whether the site represents a company/person.
 					'mock_value_post_type_supports' => true, // Whether the post type supports a certain feature.
 					'post_comment_status'           => 'open',
 					'approved_comments'             => 7,
-					'keywords'                      => 'terms_not_as_array',
-					'sections'                      => [
-						(object) [
-							'term_id' => 1,
-							'name'    => 'Category1',
-						],
-						(object) [
-							'term_id' => 3,
-							'name'    => 'Uncategorized',
-						],
-					],
+					'tags'                          => false,
+					'categories'                    => false,
+					'type'                          => 'Article',
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -704,7 +480,6 @@ class Article_Test extends TestCase {
 					'dateModified'     => '2345-12-12 23:23:23',
 					'commentCount'     => 7,
 					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
 					'potentialAction'  => [
 						[
@@ -717,7 +492,7 @@ class Article_Test extends TestCase {
 					],
 					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
 				],
-				'message'        => 'The terms are not an array.',
+				'message'        => 'There terms cannot be retrieved.',
 			],
 			[
 				'values_to_test' => [
@@ -725,17 +500,9 @@ class Article_Test extends TestCase {
 					'mock_value_post_type_supports' => true, // Whether the post type supports a certain feature.
 					'post_comment_status'           => 'open',
 					'approved_comments'             => 7,
-					'keywords'                      => [],
-					'sections'                      => [
-						(object) [
-							'term_id' => 1,
-							'name'    => 'Category1',
-						],
-						(object) [
-							'term_id' => 3,
-							'name'    => 'Uncategorized',
-						],
-					],
+					'tags'                          => [],
+					'categories'                    => [],
+					'type'                          => 'Article',
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -748,7 +515,6 @@ class Article_Test extends TestCase {
 					'dateModified'     => '2345-12-12 23:23:23',
 					'commentCount'     => 7,
 					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
 					'potentialAction'  => [
 						[

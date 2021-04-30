@@ -18,6 +18,7 @@ import {
  */
 export function mapSelectToProps( select ) {
 	const yoastStore = select( "yoast-seo/editor" );
+	const schemaBlocksStore = select( "yoast-seo/schema-blocks" );
 	const wpEditorStore = select( "core/editor" );
 
 	const checklist = [];
@@ -25,7 +26,7 @@ export function mapSelectToProps( select ) {
 	maybeAddFocusKeyphraseCheck( checklist, yoastStore );
 	maybeAddReadabilityCheck( checklist, yoastStore );
 	maybeAddSEOCheck( checklist, yoastStore );
-	maybeAddSchemaBlocksValidationCheck( checklist, yoastStore, wpEditorStore );
+	maybeAddSchemaBlocksValidationCheck( checklist, schemaBlocksStore, wpEditorStore );
 
 	return { checklist };
 }

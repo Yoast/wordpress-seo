@@ -20,6 +20,12 @@ describe( "SnippetEditor container", () => {
 							value: "Value",
 						},
 					] ),
+					getShoppingData: jest.fn().mockReturnValue( {
+						rating: 1,
+						reviewCount: 2,
+						avalability: "in stock",
+						price: "&euro; 123",
+					} ),
 					getSiteIconUrlFromSettings: jest.fn().mockReturnValue( "https://localhost.test/wp-content/uploads/2021/01/WordPress1.jpg" ),
 					getSnippetEditorData: jest.fn().mockReturnValue( {
 						title: "Title",
@@ -57,6 +63,12 @@ describe( "SnippetEditor container", () => {
 					value: "Value",
 				},
 			],
+			shoppingData: {
+				rating: 1,
+				reviewCount: 2,
+				avalability: "in stock",
+				price: "&euro; 123",
+			},
 			wordsToHighlight: [ "active" ],
 		};
 
@@ -66,32 +78,39 @@ describe( "SnippetEditor container", () => {
 	} );
 
 	it( "maps dispatch to props", () => {
-		const dispatchers = {
+		const yoastEditorDispatch = {
 			switchMode: jest.fn(),
 			updateData: jest.fn(),
 			updateAnalysisData: jest.fn(),
 		};
+		const coreEditorDispatch = {
+			editPost: jest.fn(),
+		};
 		const dispatch = jest.fn( name => {
-			if ( name === "yoast-seo/editor" ) {
-				return dispatchers;
+			switch ( name ) {
+				case "yoast-seo/editor":
+					return yoastEditorDispatch;
+				case "core/editor":
+					return coreEditorDispatch;
 			}
 		} );
 
 		const result = mapDispatchToProps( dispatch );
 
 		expect( typeof result.onChange ).toEqual( "function" );
-		expect( result.onChangeAnalysisData ).toBe( dispatchers.updateAnalysisData );
+		expect( result.onChangeAnalysisData ).toBe( yoastEditorDispatch.updateAnalysisData );
 
 		result.onChange( "mode", "mobile" );
-		expect( dispatchers.switchMode ).toHaveBeenCalledWith( "mobile" );
+		expect( yoastEditorDispatch.switchMode ).toHaveBeenCalledWith( "mobile" );
 
 		result.onChange( "slug", "snail" );
-		expect( dispatchers.updateData ).toHaveBeenCalledWith( { slug: "snail" } );
+		expect( yoastEditorDispatch.updateData ).toHaveBeenCalledWith( { slug: "snail" } );
+		expect( coreEditorDispatch.editPost ).toHaveBeenCalledWith( { slug: "snail" } );
 
 		result.onChange( "title", "Title" );
-		expect( dispatchers.updateData ).toHaveBeenCalledWith( { title: "Title" } );
+		expect( yoastEditorDispatch.updateData ).toHaveBeenCalledWith( { title: "Title" } );
 
 		result.onChangeAnalysisData( "data" );
-		expect( dispatchers.updateAnalysisData ).toHaveBeenCalledWith( "data" );
+		expect( yoastEditorDispatch.updateAnalysisData ).toHaveBeenCalledWith( "data" );
 	} );
 } );

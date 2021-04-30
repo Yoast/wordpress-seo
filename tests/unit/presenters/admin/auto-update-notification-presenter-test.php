@@ -40,6 +40,7 @@ class Auto_Update_Notification_Presenter_Test extends TestCase {
 	 * Tests returning the notification as an HTML string.
 	 *
 	 * @covers ::present
+	 * @covers ::get_message
 	 */
 	public function test_present() {
 		Monkey\Functions\expect( 'get_admin_url' )
@@ -53,5 +54,23 @@ class Auto_Update_Notification_Presenter_Test extends TestCase {
 		$expected = '<p>We see that you enabled automatic updates for WordPress. We recommend that you do this for Yoast SEO as well. This way we can guarantee that WordPress and Yoast SEO will continue to run smoothly together. <a href="http://basic.wordpress.test/wp-admin/plugins.php">Go to your plugins overview to enable auto-updates for Yoast SEO.</a></p>';
 
 		$this->assertSame( $expected, $this->instance->present() );
+	}
+
+	/**
+	 * Tests returning the multisite notification as an HTML string.
+	 *
+	 * @covers ::present
+	 * @covers ::get_message
+	 */
+	public function test_present_for_multisite() {
+		Monkey\Functions\stubs(
+			[
+				'is_multisite' => true,
+			]
+		);
+
+		$expected = '<p>We see that you enabled automatic updates for WordPress. We recommend that you do this for Yoast SEO as well. This way we can guarantee that WordPress and Yoast SEO will continue to run smoothly together. Please contact your network admin to enable auto-updates for Yoast SEO.</p>';
+
+		self::assertSame( $expected, $this->instance->present() );
 	}
 }

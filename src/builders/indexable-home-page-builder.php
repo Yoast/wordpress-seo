@@ -67,6 +67,10 @@ class Indexable_Home_Page_Builder {
 		$indexable->open_graph_image_id    = $this->options->get( 'og_frontpage_image_id' );
 		$indexable->open_graph_description = $this->options->get( 'og_frontpage_desc' );
 
+		// Reset the OG image source & meta.
+		$indexable->open_graph_image_source = null;
+		$indexable->open_graph_image_meta   = null;
+
 		// When the image or image id is set.
 		if ( $indexable->open_graph_image || $indexable->open_graph_image_id ) {
 			$indexable->open_graph_image_source = 'set-by-user';

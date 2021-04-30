@@ -67,11 +67,21 @@ class SettingsReplacementVariableEditors extends Component {
 				reactReplacevarPageTypeRecommended,
 				reactReplacevarPageTypeSpecific,
 				reactReplacevarPaperStyle,
+				reactReplacevarLabelTitle,
+				reactReplacevarLabelDescription,
+				reactReplacevarDescriptionPlaceholder,
+				reactReplacevarHasNewBadge,
 			} = targetElement.dataset;
+
 			const filteredReplacementVariables = this.filterEditorSpecificReplaceVars(
 				this.props.replacementVariables,
 				reactReplacevarPageTypeSpecific,
 			);
+
+			const labels = {
+				title: reactReplacevarLabelTitle,
+				description: reactReplacevarLabelDescription,
+			};
 
 			return (
 				<SettingsEditorPortal
@@ -82,6 +92,9 @@ class SettingsReplacementVariableEditors extends Component {
 					titleTarget={ reactReplacevarTitleFieldId }
 					descriptionTarget={ reactReplacevarMetadescFieldId }
 					hasPaperStyle={ reactReplacevarPaperStyle === "1" }
+					labels={ labels }
+					descriptionPlaceholder={ reactReplacevarDescriptionPlaceholder }
+					hasNewBadge={ reactReplacevarHasNewBadge === "1" }
 				/>
 			);
 		} );
