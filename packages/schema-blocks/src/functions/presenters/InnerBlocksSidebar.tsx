@@ -8,6 +8,7 @@ import { createAnalysisMessages, SidebarWarning } from "./SidebarWarningPresente
 import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import BlockSuggestions from "./BlockSuggestionsPresenter";
 import { BlockValidationResult } from "../../core/validation";
+import logger from "../logger";
 
 interface InnerBlocksSidebarProps {
 	currentBlock: BlockInstance;
@@ -44,11 +45,13 @@ export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ): ReactEleme
 
 	if ( validationResults ) {
 		warnings = createAnalysisMessages( validationResults );
+		logger.debug( "Warnings:", warnings );
 	}
 
 	return <Fragment key={ "innerblocks-sidebar-" + props.currentBlock.clientId }>
 		<SidebarHeader />
 		<WarningList warnings={ warnings } />
+		henk
 		<BlockSuggestions
 			heading={ __( "Required Blocks", "yoast-schema-blocks" ) }
 			parentClientId={ props.currentBlock.clientId }

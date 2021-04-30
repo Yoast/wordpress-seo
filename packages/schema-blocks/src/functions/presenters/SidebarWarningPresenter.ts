@@ -1,8 +1,8 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { BlockValidation, BlockValidationResult } from "../../core/validation";
+import { BlockValidation, BlockValidationResult, BlockPresence } from "../../core/validation";
 import { getHumanReadableBlockName } from "../BlockHelper";
-import { BlockPresence } from "../../core/validation/BlockValidationResult";
 import { getAllDescendantIssues } from "../validators";
+import logger from "../logger";
 
 /**
  * A warning message for in the sidebar schema analysis.
@@ -90,6 +90,7 @@ export function createAnalysisMessages( validation: BlockValidationResult ): Sid
 	}
 
 	const issues = getAllDescendantIssues( validation );
+	logger.debug( "Issues:", issues );
 
 	const messages = [];
 

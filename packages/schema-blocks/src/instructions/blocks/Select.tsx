@@ -1,14 +1,15 @@
 import { createElement, ReactElement, useCallback } from "@wordpress/element";
-import { BlockConfiguration } from "@wordpress/blocks";
+import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import { SelectControl } from "@wordpress/components";
-
-import { ValidatingBlockInstruction } from "../../core/blocks/";
+import { BlockInstruction } from "../../core/blocks/";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
+import { BlockValidationResult } from "../../core/validation";
+import { defaultValidate } from "../../functions/validators/defaultValidate";
 
 /**
  * Select (a drop-down box) instruction.
  */
-export default class Select extends ValidatingBlockInstruction {
+export default class Select extends BlockInstruction {
 	public options: {
 		/**
 		 * The attribute name the value selected in the select control should be saved as.
@@ -56,6 +57,17 @@ export default class Select extends ValidatingBlockInstruction {
 			{ ! hideLabelFromVision && <strong>{ label }:</strong> }
 			{ this.label( value ) + " " }
 		</span>;
+	}
+
+	/**
+	 * Checks if the instruction block is valid.
+	 *
+	 * @param blockInstance The attributes from the block.
+	 *
+	 * @returns {BlockValidationResult} The validation result.
+	 */
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		return defaultValidate( blockInstance, this );
 	}
 
 	/**
@@ -128,4 +140,4 @@ export default class Select extends ValidatingBlockInstruction {
 	}
 }
 
-ValidatingBlockInstruction.register( "select", Select );
+BlockInstruction.register( "select", Select );

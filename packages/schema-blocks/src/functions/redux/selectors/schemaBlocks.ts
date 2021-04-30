@@ -2,6 +2,7 @@ import { SchemaBlocksState, SchemaBlocksDefaultState } from "../SchemaBlocksStat
 import { BlockValidationResult } from "../../../core/validation";
 import { recursivelyFind } from "../../validators/recursivelyFind";
 import { flatMap } from "lodash";
+import logger from "../../logger";
 
 export type ClientIdValidation = Record<string, BlockValidationResult>;
 
@@ -24,6 +25,7 @@ export function getSchemaBlocksValidationResults( state: SchemaBlocksState ): Cl
  */
 export function getValidationResultForClientId( state: SchemaBlocksState, clientId: string ): BlockValidationResult {
 	const stored = getSchemaBlocksValidationResults( state );
+	logger.debug( "stored validations:", stored );
 	const validationResults = Object.values( stored );
 
 	return recursivelyFind( validationResults, ( result ) => result.clientId === clientId );

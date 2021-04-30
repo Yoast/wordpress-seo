@@ -1,7 +1,7 @@
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import { RichText as WordPressRichText } from "@wordpress/block-editor";
 import { createElement } from "@wordpress/element";
-import { BlockLeaf, ValidatingBlockInstruction } from "../../../core/blocks";
+import { BlockLeaf, BlockInstruction } from "../../../core/blocks";
 import { RenderSaveProps, RenderEditProps } from "../../../core/blocks/BlockDefinition";
 import { BlockPresence, BlockValidationResult } from "../../../core/validation";
 
@@ -16,7 +16,7 @@ export interface RichTextEditProps extends WordPressRichText.Props<keyof HTMLEle
 /**
  * RichTextBase instruction.
  */
-export default abstract class RichTextBase extends ValidatingBlockInstruction {
+export default abstract class RichTextBase extends BlockInstruction {
 	public options: {
 		name: string;
 		default: string;

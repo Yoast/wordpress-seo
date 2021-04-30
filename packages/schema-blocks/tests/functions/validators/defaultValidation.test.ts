@@ -1,14 +1,19 @@
 import { BlockInstance } from "@wordpress/blocks";
-import { BlockValidation } from "../../../src/core/validation";
-import { ValidatingBlockInstruction } from "../../../src/core/blocks/ValidatingBlockInstruction";
+import { BlockValidation, BlockValidationResult } from "../../../src/core/validation";
+import { BlockInstruction } from "../../../src/core/blocks";
+import { defaultValidate } from "../../../src/functions/validators/defaultValidate";
 
 /**
  * Test class, to be able to test the non-abstract BlockInstruction methods.
  */
-class TestBlockInstruction extends ValidatingBlockInstruction {
+class TestBlockInstruction extends BlockInstruction {
+	// eslint-disable-next-line require-jsdoc
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		return defaultValidate( blockInstance, this );
+	}
 }
 
-describe( "The ValidatingBlockInstruction class", () => {
+describe( "The BlockInstruction class", () => {
 	describe( "validate method", () => {
 		it( "considers a core block with no required attributes Valid, if Gutenberg seems to think so.", () => {
 			const blockInstruction = new TestBlockInstruction( 11, null );

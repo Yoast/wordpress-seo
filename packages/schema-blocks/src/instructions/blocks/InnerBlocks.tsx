@@ -3,8 +3,7 @@ import { ComponentType, ReactElement } from "react";
 import { createElement, Fragment } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance } from "@wordpress/blocks";
-
-import { BlockLeaf, ValidatingBlockInstruction } from "../../core/blocks";
+import { BlockInstruction, BlockLeaf } from "../../core/blocks";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { BlockValidationResult } from "../../core/validation";
 import { getBlockByClientId } from "../../functions/BlockHelper";
@@ -26,7 +25,7 @@ interface InnerBlocksProps extends Omit<WordPressInnerBlocks.Props, "renderAppen
 /**
  * InnerBlocks instruction.
  */
-export default class InnerBlocks extends ValidatingBlockInstruction {
+export default class InnerBlocks extends BlockInstruction {
 	public options: InnerBlocksInstructionOptions;
 
 	/**
@@ -129,7 +128,7 @@ export default class InnerBlocks extends ValidatingBlockInstruction {
 			recommendedBlockNames = this.options.recommendedBlocks.map( block => block.name );
 		}
 
-		if ( ! ( requiredBlockNames.length > 0 && recommendedBlockNames.length > 0 ) ) {
+		if ( requiredBlockNames.length < 1 && recommendedBlockNames.length < 1 ) {
 			return null;
 		}
 
@@ -168,4 +167,4 @@ export default class InnerBlocks extends ValidatingBlockInstruction {
 	}
 }
 
-ValidatingBlockInstruction.register( "inner-blocks", InnerBlocks );
+BlockInstruction.register( "inner-blocks", InnerBlocks );

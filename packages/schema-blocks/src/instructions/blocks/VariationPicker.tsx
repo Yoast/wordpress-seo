@@ -1,7 +1,7 @@
 import { useSelect } from "@wordpress/data";
 import { BlockInstance } from "@wordpress/blocks";
 import { createElement } from "@wordpress/element";
-import { BlockLeaf, ValidatingBlockInstruction } from "../../core/blocks";
+import { BlockLeaf, BlockInstruction } from "../../core/blocks";
 import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { BlockPresence, BlockValidation, BlockValidationResult } from "../../core/validation";
 import VariationPickerPresenter from "../../functions/presenters/VariationPickerPresenter";
@@ -21,7 +21,7 @@ function includesAVariation( blockInstance: BlockInstance ): boolean {
 /**
  * VariationPicker instruction.
  */
-export class VariationPicker extends ValidatingBlockInstruction {
+export class VariationPicker extends BlockInstruction {
 	/**
 	 * Renders the variation picker if the block doesn't have any inner blocks.
 	 * Otherwise, renders null.
@@ -67,4 +67,4 @@ export class VariationPicker extends ValidatingBlockInstruction {
 	}
 }
 
-ValidatingBlockInstruction.register( "variation-picker", VariationPicker );
+BlockInstruction.register( "variation-picker", VariationPicker );
