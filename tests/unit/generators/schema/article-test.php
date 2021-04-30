@@ -13,12 +13,11 @@ use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Generators\Schema\Article_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Article_Test
+ * Class Article_Test.
  *
  * @group generators
  * @group schema
@@ -32,56 +31,56 @@ class Article_Test extends TestCase {
 	 *
 	 * @var Mockery\MockInterface|Article_Helper
 	 */
-	private $article;
+	protected $article;
 
 	/**
 	 * The date helper.
 	 *
 	 * @var Mockery\MockInterface|Date_Helper
 	 */
-	private $date;
+	protected $date;
 
 	/**
 	 * The instance to test.
 	 *
 	 * @var Article
 	 */
-	private $instance;
+	protected $instance;
 
 	/**
 	 * The meta tags context object.
 	 *
 	 * @var Meta_Tags_Context_Mock
 	 */
-	private $context_mock;
+	protected $context_mock;
 
 	/**
 	 * The ID helper.
 	 *
 	 * @var Mockery\MockInterface|ID_Helper
 	 */
-	private $id;
+	protected $id;
 
 	/**
 	 * The HTML helper.
 	 *
 	 * @var Mockery\MockInterface|HTML_Helper
 	 */
-	private $html;
+	protected $html;
 
 	/**
 	 * The post helper.
 	 *
 	 * @var Mockery\MockInterface|Post_Helper
 	 */
-	private $post;
+	protected $post;
 
 	/**
 	 * The language helper.
 	 *
 	 * @var Mockery\MockInterface|Language_Helper
 	 */
-	private $language;
+	protected $language;
 
 	/**
 	 * Sets up the tests.
@@ -89,17 +88,30 @@ class Article_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->id                      = Mockery::mock( ID_Helper::class );
-		$this->article                 = Mockery::mock( Article_Helper::class );
-		$this->date                    = Mockery::mock( Date_Helper::class );
-		$this->html                    = Mockery::mock( HTML_Helper::class );
-		$this->post                    = Mockery::mock( Post_Helper::class );
-		$this->language                = Mockery::mock( Language_Helper::class );
-		$this->instance                = new Article();
+		$this->stubTranslationFunctions();
+
+		$this->id       = Mockery::mock( ID_Helper::class );
+		$this->article  = Mockery::mock( Article_Helper::class );
+		$this->date     = Mockery::mock( Date_Helper::class );
+		$this->html     = Mockery::mock( HTML_Helper::class );
+		$this->post     = Mockery::mock( Post_Helper::class );
+		$this->language = Mockery::mock( Language_Helper::class );
+
+		$this->instance = new Article();
+
 		$this->context_mock            = new Meta_Tags_Context_Mock();
 		$this->context_mock->indexable = new Indexable_Mock();
 		$this->context_mock->post      = new stdClass();
-		$this->context_mock->id        = 5;
+
+		$this->context_mock->id                      = 5;
+		$this->context_mock->post->post_author       = '3';
+		$this->context_mock->post->post_date_gmt     = '2345-12-12 12:12:12';
+		$this->context_mock->post->post_modified_gmt = '2345-12-12 23:23:23';
+		$this->context_mock->post->post_type         = 'my_awesome_post_type';
+		$this->context_mock->schema_article_type     = 'Article';
+		$this->context_mock->has_image               = true;
+		$this->context_mock->main_image_url          = 'https://www.example.com/image.jpg';
+		$this->context_mock->canonical               = 'https://permalink';
 
 		$this->instance->context = $this->context_mock;
 		$this->instance->helpers = (object) [
@@ -123,7 +135,6 @@ class Article_Test extends TestCase {
 		$this->context_mock->indexable->object_type     = 'post';
 		$this->context_mock->indexable->object_sub_type = 'article';
 		$this->context_mock->site_represents            = 'person';
-		$this->context_mock->canonical                  = 'https://permalink';
 
 		$this->article->expects( 'is_author_supported' )->with( 'article' )->andReturn( true );
 
@@ -186,23 +197,15 @@ class Article_Test extends TestCase {
 	 * @covers ::add_image
 	 * @covers ::add_keywords
 	 * @covers ::add_sections
-	 * @covers ::add_potential_action
 	 * @covers ::add_terms
+	 * @covers ::add_potential_action
 	 *
 	 * @dataProvider provider_for_generate
 	 */
 	public function test_generate( $values_to_test, $expected_value, $message ) {
-		$this->context_mock->id                        = '5';
-		$this->context_mock->canonical                 = 'https://permalink';
-		$this->context_mock->has_image                 = true;
-		$this->context_mock->post->post_author         = '3';
-		$this->context_mock->post->post_date_gmt       = '2345-12-12 12:12:12';
-		$this->context_mock->post->post_modified_gmt   = '2345-12-12 23:23:23';
-		$this->context_mock->post->post_type           = 'my_awesome_post_type';
 		$this->context_mock->post->comment_status      = $values_to_test['post_comment_status'];
-		$this->context_mock->post->comment_count       = $values_to_test['approved_comments'];
 		$this->context_mock->site_represents_reference = $values_to_test['site_represents_reference'];
-		$this->context_mock->schema_article_type       = $values_to_test['type'];
+		$this->context_mock->post->comment_count       = $values_to_test['approved_comments'];
 
 		$this->id->expects( 'get_user_schema_id' )
 			->once()
@@ -237,7 +240,7 @@ class Article_Test extends TestCase {
 			->andReturn( 'post_tag' );
 
 		Monkey\Functions\expect( 'get_the_terms' )
-			->with( '5', 'post_tag' )
+			->with( $this->context_mock->id, 'post_tag' )
 			->once()
 			->andReturn( $values_to_test['tags'] );
 
@@ -254,7 +257,7 @@ class Article_Test extends TestCase {
 			->andReturn( 'category' );
 
 		Monkey\Functions\expect( 'get_the_terms' )
-			->with( '5', 'category' )
+			->with( $this->context_mock->id, 'category' )
 			->once()
 			->andReturn( $values_to_test['categories'] );
 
@@ -304,7 +307,6 @@ class Article_Test extends TestCase {
 					'tag_names'                     => [ 'Tag1', 'Tag2' ],
 					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
 					'category_names'                => [ 'Category1' ],
-					'type'                          => 'Article',
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -329,6 +331,7 @@ class Article_Test extends TestCase {
 							],
 						],
 					],
+					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
 				],
 				'message'        => 'The site is not set to represent a company/person.',
 			],
@@ -342,7 +345,6 @@ class Article_Test extends TestCase {
 					'tag_names'                     => [ 'Tag1', 'Tag2' ],
 					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
 					'category_names'                => [ 'Category1' ],
-					'type'                          => 'Article',
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -368,6 +370,7 @@ class Article_Test extends TestCase {
 						],
 					],
 					'publisher'        => true,
+					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
 				],
 				'message'        => 'The site is set to represent a company/person.',
 			],
@@ -381,7 +384,6 @@ class Article_Test extends TestCase {
 					'tag_names'                     => [ 'Tag1', 'Tag2' ],
 					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
 					'category_names'                => [ 'Category1' ],
-					'type'                          => 'Article',
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -397,6 +399,7 @@ class Article_Test extends TestCase {
 					'keywords'         => [ 'Tag1', 'Tag2' ],
 					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
+					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
 				],
 				'message'        => 'The post type does not support comments.',
 			],
@@ -410,7 +413,6 @@ class Article_Test extends TestCase {
 					'tag_names'                     => [ 'Tag1', 'Tag2' ],
 					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
 					'category_names'                => [ 'Category1' ],
-					'type'                          => 'Article',
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -425,6 +427,7 @@ class Article_Test extends TestCase {
 					'keywords'         => [ 'Tag1', 'Tag2' ],
 					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
+					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
 				],
 				'message'        => 'The comment status for the post is set to closed.',
 			],
@@ -438,7 +441,6 @@ class Article_Test extends TestCase {
 					'tag_names'                     => [ 'Tag1', 'Tag2' ],
 					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
 					'category_names'                => [ 'Category1' ],
-					'type'                          => 'Article',
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -453,6 +455,7 @@ class Article_Test extends TestCase {
 					'keywords'         => [ 'Tag1', 'Tag2' ],
 					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
+					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
 				],
 				'message'        => 'The comment status for the post is set to closed.',
 			],
@@ -487,6 +490,7 @@ class Article_Test extends TestCase {
 							],
 						],
 					],
+					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
 				],
 				'message'        => 'There terms cannot be retrieved.',
 			],
@@ -521,8 +525,9 @@ class Article_Test extends TestCase {
 							],
 						],
 					],
+					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
 				],
-				'message'        => 'There terms are empty.',
+				'message'        => 'The terms are empty.',
 			],
 		];
 	}
