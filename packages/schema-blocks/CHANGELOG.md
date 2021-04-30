@@ -32,6 +32,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * Fixes a bug where Schema output would be generated even when no variation had been picked for the Location block.
 * Fixes a bug where the schema block sidebar would not be correct after it had been added.
 * Fixes a bug where the schema analysis would be green even if some required blocks were not filled in.
+* Fixes a bug where a placeholder attribute was output on the frontend for instance of the RichText block instruction.
 
 ### Other
 * Removes a warning block when its removed block is re-added.
