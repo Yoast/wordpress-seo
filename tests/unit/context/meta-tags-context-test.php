@@ -344,13 +344,39 @@ class Meta_Tags_Context_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the generate site represents with a company with name and an unsupported logo.
+	 *
+	 * @covers ::generate_site_represents
+	 */
+	public function test_generate_site_represents_company_with_name_and_unsupported_logo() {
+		$this->instance->company_name      = 'Company';
+		$this->instance->company_logo_id   = 12;
+		$this->instance->company_logo_meta = false;
+
+		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturn( 'company' );
+
+		$this->assertFalse( $this->instance->generate_site_represents() );
+	}
+
+	/**
 	 * Tests the generate site represents with a company with name and logo.
 	 *
 	 * @covers ::generate_site_represents
 	 */
 	public function test_generate_site_represents_company_with_name_and_logo() {
-		$this->instance->company_name    = 'Company';
-		$this->instance->company_logo_id = 12;
+		$this->instance->company_name      = 'Company';
+		$this->instance->company_logo_id   = 12;
+		$this->instance->company_logo_meta = [
+			'width'  => 640,
+			'height' => 480,
+			'url'    => 'https://basic.wordpress.test/wp-content/uploads/2021/04/WordPress4.jpg',
+			'path'   => '/var/www/html/wp-content/uploads/2021/04/WordPress4.jpg',
+			'size'   => 'full',
+			'id'     => 12,
+			'alt'    => 'Alt. Text',
+			'pixels' => 307200,
+			'type'   => 'image/jpeg',
+		];
 
 		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturn( 'company' );
 
