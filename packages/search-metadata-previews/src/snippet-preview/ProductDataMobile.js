@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
-import { round } from "lodash";
+import { round, capitalize } from "lodash";
 
 import { StarRating } from "@yoast/components";
 
@@ -24,9 +24,6 @@ const ProductDataCell25 = styled.div`
 
 const ProductDataInnerLower = styled.div`
 	color: #70757a;
-	&:first-letter {
-		text-transform: uppercase;
-	}
 `;
 
 /**
@@ -64,7 +61,7 @@ function ProductDataMobile( props ) {
 				<ProductDataCell25 className="yoast-shopping-data-preview__column">
 					<div className="yoast-shopping-data-preview__upper">{ __( "Availability", "yoast-components" ) }</div>
 					<ProductDataInnerLower className="yoast-shopping-data-preview__lower">
-						{ shoppingData.availability }
+						{ capitalize( shoppingData.availability ) }
 					</ProductDataInnerLower>
 				</ProductDataCell25>
 			}

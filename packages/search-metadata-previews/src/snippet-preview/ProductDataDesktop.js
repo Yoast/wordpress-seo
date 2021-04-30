@@ -2,19 +2,12 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
-import { round } from "lodash";
+import { round, capitalize } from "lodash";
 import { StarRating } from "@yoast/components";
 
 const ProductData = styled.span`
 	color: #70757a;
 	line-height: 1.7;
-`;
-
-const ProductAvailability = styled.span`
-	display: inline-block;
-	&:first-letter {
-		text-transform: uppercase;
-	}
 `;
 
 /**
@@ -44,11 +37,11 @@ function ProductDataDesktop( props ) {
 			}
 			{ shoppingData.price &&
 				<Fragment>
-					<span dangerouslySetInnerHTML={ { __html: shoppingData.price } } />‎
+					<span dangerouslySetInnerHTML={ { __html: shoppingData.price } } />
 				</Fragment>
 			}
 			{ shoppingData.availability &&
-				<ProductAvailability>&nbsp;·&nbsp;{ shoppingData.availability }</ProductAvailability> }
+				<span>{ ` · ${ capitalize( shoppingData.availability ) }` }</span> }
 		</ProductData>
 	);
 }
