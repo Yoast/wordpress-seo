@@ -140,6 +140,8 @@ module.exports = function( grunt ) {
 				"update-changelog-with-latest-pr-texts": "@yoast/grunt-plugin-tasks",
 				"get-latest-pr-texts": "@yoast/grunt-plugin-tasks",
 				"update-changelog": "@yoast/grunt-plugin-tasks",
+				"build-qa-changelog": "@yoast/grunt-plugin-tasks",
+				"download-qa-changelog": "@yoast/grunt-plugin-tasks",
 				"register-prompt": "grunt-prompt",
 				"notify-slack": "notify-slack",
 			},
