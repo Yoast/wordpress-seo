@@ -10,7 +10,24 @@ import { isEmpty } from "lodash";
  * @returns If the attribute is considered empty.
  */
 function attributeNotEmpty( blockInstance: BlockInstance, name: string ): boolean {
-	return ! isEmpty( blockInstance.attributes[ name ] as object );
+	let value: unknown = blockInstance.attributes[ name ];
+
+	if ( typeof value === "number" ) {
+		return true;
+	}
+
+	if ( typeof value === "string" ) {
+		/*
+		 * Google trims the whitespace from any strings
+		 * (source: Google's Rich Results test tool).
+		 *
+		 * Without trimming it here as well,
+		 * values only containing whitespace would be incorrectly considered
+		 * as valid.
+		 */
+		value = value.trim();
+	}
+	return ! isEmpty( value );
 }
 
 export default attributeNotEmpty;
