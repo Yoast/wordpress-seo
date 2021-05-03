@@ -28,7 +28,7 @@ class Badge_Presenter extends Abstract_Presenter {
 	/**
 	 * Optional group which the badge belongs to.
 	 *
-	 * Each group has a fixed period after which the the group will no longer be considered new and the badges will disappear.
+	 * Each group has a fixed period after which the group will no longer be considered new and the badges will disappear.
 	 *
 	 * @var string
 	 */

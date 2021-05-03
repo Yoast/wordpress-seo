@@ -43,7 +43,7 @@ class Badge_Group_Names {
 	 * @param string $group           One of the GROUP_* constants.
 	 * @param string $current_version The current version of the plugin that's being checked.
 	 *
-	 * @return bool
+	 * @return bool Whether a group of badges is still eligible for a "new" badge.
 	 */
 	public function is_still_eligible_for_new_badge( $group, $current_version = null ) {
 		if ( ! array_key_exists( $group, $this::GROUP_NAMES ) ) {
