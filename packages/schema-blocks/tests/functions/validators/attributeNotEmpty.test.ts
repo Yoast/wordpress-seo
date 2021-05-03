@@ -85,4 +85,32 @@ describe( "The attributeNotEmpty function", () => {
 
 		expect( attributeNotEmpty( blockInstance, "title" ) ).toEqual( false );
 	} );
+
+	it( "considers an attribute that has only replaced or empty HTML elements as a value to be empty.", () => {
+		const blockInstance: BlockInstance = {
+			clientId: "clientid",
+			name: "name",
+			innerBlocks: [],
+			isValid: true,
+			attributes: {
+				title: "<img src='./image.jpeg' alt='An alt text.'/><b></b><<img src='./ballon.jpeg' alt=''>",
+			},
+		};
+
+		expect( attributeNotEmpty( blockInstance, "title" ) ).toEqual( false );
+	} );
+
+	it( "considers an attribute that has some filled HTML elements as a value to not be empty.", () => {
+		const blockInstance: BlockInstance = {
+			clientId: "clientid",
+			name: "name",
+			innerBlocks: [],
+			isValid: true,
+			attributes: {
+				title: "<img src='./image.jpeg' alt='An alt text.'/><b>Filled in!</b><<img src='./ballon.jpeg' alt=''>",
+			},
+		};
+
+		expect( attributeNotEmpty( blockInstance, "title" ) ).toEqual( true );
+	} );
 } );

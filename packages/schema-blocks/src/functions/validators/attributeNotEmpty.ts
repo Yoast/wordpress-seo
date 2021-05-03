@@ -1,5 +1,6 @@
 import { BlockInstance } from "@wordpress/blocks";
 import { isEmpty } from "lodash";
+import { stripAllTags } from "../html";
 
 /**
  * Validates that an attribute is not empty.
@@ -18,14 +19,18 @@ function attributeNotEmpty( blockInstance: BlockInstance, name: string ): boolea
 
 	if ( typeof value === "string" ) {
 		/*
+		 * Strip all HTML tags from the string, so a value containing only empty
+		 * or replaced elements is considered empty.
+		 */
+		value = stripAllTags( value );
+		/*
 		 * Google trims the whitespace from any strings
 		 * (source: Google's Rich Results test tool).
 		 *
-		 * Without trimming it here as well,
-		 * values only containing whitespace would be incorrectly considered
-		 * as valid.
+		 * Without trimming it here as well, values only containing whitespace
+		 * would be incorrectly considered as valid.
 		 */
-		value = value.trim();
+		value = ( value as string ).trim();
 	}
 	return ! isEmpty( value );
 }

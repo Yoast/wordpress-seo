@@ -40,6 +40,17 @@ export function stripTags( html: string, allowedTags: string[] = [] ): string {
 }
 
 /**
+ * Strips all HTML tags from the string.
+ *
+ * @param html The HTML to remove the tags from.
+ *
+ * @returns The stripped HTML.
+ */
+export function stripAllTags( html: string ): string {
+	return html.replace( /(<([^>]+)>)/ig, "" );
+}
+
+/**
  * Splits nodes on a specific tag.
  *
  * @param nodes The nodes.
