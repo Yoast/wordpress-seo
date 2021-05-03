@@ -12,8 +12,6 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
  */
 class Schema_Blocks implements Integration_Interface {
 
-	use No_Conditionals;
-
 	/**
 	 * The registered templates.
 	 *
@@ -41,6 +39,17 @@ class Schema_Blocks implements Integration_Interface {
 	 * @var Short_Link_Helper
 	 */
 	protected $short_link_helper;
+
+	/**
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
+	 */
+	public static function get_conditionals() {
+		return [
+			Schema_Blocks_Conditional::class,
+		];
+	}
 
 	/**
 	 * Schema_Blocks constructor.
