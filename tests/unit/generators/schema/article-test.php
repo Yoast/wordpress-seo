@@ -112,6 +112,8 @@ class Article_Test extends TestCase {
 		$this->context_mock->has_image               = true;
 		$this->context_mock->main_image_url          = 'https://www.example.com/image.jpg';
 		$this->context_mock->canonical               = 'https://permalink';
+		$this->context_mock->post->post_content      = 'This is test content.';
+		$this->context_mock->post->post_title        = 'Test title';
 
 		$this->instance->context = $this->context_mock;
 		$this->instance->helpers = (object) [
@@ -307,6 +309,7 @@ class Article_Test extends TestCase {
 					'tag_names'                     => [ 'Tag1', 'Tag2' ],
 					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
 					'category_names'                => [ 'Category1' ],
+					'wordCount'                     => 6,
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -332,6 +335,7 @@ class Article_Test extends TestCase {
 						],
 					],
 					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
+					'wordCount'        => 6,
 				],
 				'message'        => 'The site is not set to represent a company/person.',
 			],
@@ -345,6 +349,7 @@ class Article_Test extends TestCase {
 					'tag_names'                     => [ 'Tag1', 'Tag2' ],
 					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
 					'category_names'                => [ 'Category1' ],
+					'wordCount'                     => 6,
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -371,6 +376,7 @@ class Article_Test extends TestCase {
 					],
 					'publisher'        => true,
 					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
+					'wordCount'        => 6,
 				],
 				'message'        => 'The site is set to represent a company/person.',
 			],
@@ -384,6 +390,7 @@ class Article_Test extends TestCase {
 					'tag_names'                     => [ 'Tag1', 'Tag2' ],
 					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
 					'category_names'                => [ 'Category1' ],
+					'wordCount'                     => 6,
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -400,6 +407,7 @@ class Article_Test extends TestCase {
 					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
 					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
+					'wordCount'        => 6,
 				],
 				'message'        => 'The post type does not support comments.',
 			],
@@ -413,6 +421,7 @@ class Article_Test extends TestCase {
 					'tag_names'                     => [ 'Tag1', 'Tag2' ],
 					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
 					'category_names'                => [ 'Category1' ],
+					'wordCount'                     => 6,
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -428,6 +437,7 @@ class Article_Test extends TestCase {
 					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
 					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
+					'wordCount'        => 6,
 				],
 				'message'        => 'The comment status for the post is set to closed.',
 			],
@@ -441,6 +451,7 @@ class Article_Test extends TestCase {
 					'tag_names'                     => [ 'Tag1', 'Tag2' ],
 					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
 					'category_names'                => [ 'Category1' ],
+					'wordCount'                     => 6,
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -456,6 +467,7 @@ class Article_Test extends TestCase {
 					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
 					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
+					'wordCount'        => 6,
 				],
 				'message'        => 'The comment status for the post is set to closed.',
 			],
@@ -468,6 +480,7 @@ class Article_Test extends TestCase {
 					'tags'                          => false,
 					'categories'                    => false,
 					'type'                          => 'Article',
+					'wordCount'                     => 6,
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -491,6 +504,7 @@ class Article_Test extends TestCase {
 						],
 					],
 					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
+					'wordCount'        => 6,
 				],
 				'message'        => 'There terms cannot be retrieved.',
 			],
@@ -503,6 +517,7 @@ class Article_Test extends TestCase {
 					'tags'                          => [],
 					'categories'                    => [],
 					'type'                          => 'Article',
+					'wordCount'                     => 6,
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -526,6 +541,7 @@ class Article_Test extends TestCase {
 						],
 					],
 					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
+					'wordCount'        => 6,
 				],
 				'message'        => 'The terms are empty.',
 			],
