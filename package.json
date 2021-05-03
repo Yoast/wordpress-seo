@@ -45,6 +45,7 @@
     "@slack/webhook": "^5.0.2",
     "@typescript-eslint/eslint-plugin": "^2.15.0",
     "@typescript-eslint/parser": "^2.15.0",
+    "@wordpress/babel-plugin-makepot": "^4.1.2",
     "@wordpress/dependency-extraction-webpack-plugin": "^3.1.0",
     "@wordpress/scripts": "^14.1.1",
     "@yoast/browserslist-config": "file:packages/browserslist-config",
