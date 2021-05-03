@@ -1,13 +1,14 @@
-import { BlockControls, RichText as WordPressRichText } from "@wordpress/block-editor";
-import { BlockConfiguration } from "@wordpress/blocks";
-import { createElement } from "@wordpress/element";
 import { Fragment } from "react";
+import { BlockControls, RichText as WordPressRichText } from "@wordpress/block-editor";
+import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
+import { createElement } from "@wordpress/element";
 
-import BlockInstruction from "../../core/blocks/BlockInstruction";
+import { BlockInstruction, BlockLeaf } from "../../core/blocks";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
+import { BlockValidationResult } from "../../core/validation";
 import RichTextBase, { RichTextEditProps, RichTextSaveProps } from "./abstract/RichTextBase";
-import BlockLeaf from "../../core/blocks/BlockLeaf";
 import HeadingLevelDropdown from "../../functions/presenters/HeadingLevelDropdown";
+import { defaultValidate } from "../../functions/validators/defaultValidate";
 
 
 /**
@@ -120,6 +121,17 @@ export class Heading extends RichTextBase {
 			"data-id": this.options.name,
 			key: i,
 		};
+	}
+
+	/**
+	 * Checks if the instruction block is valid.
+	 *
+	 * @param blockInstance The attributes from the block.
+	 *
+	 * @returns {BlockValidationResult} The validation result.
+	 */
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		return defaultValidate( blockInstance, this );
 	}
 }
 

@@ -21,10 +21,7 @@ export function isValidResult( source: BlockValidation ): boolean {
 export function isMissingResult( source: BlockValidation ): boolean {
 	return [
 		BlockValidation.MissingRecommendedBlock,
-		BlockValidation.MissingRecommendedVariation,
-
 		BlockValidation.MissingRequiredBlock,
-		BlockValidation.MissingRequiredVariation,
 	].includes( source );
 }
 
@@ -39,6 +36,8 @@ export function isEmptyResult( source: BlockValidation ): boolean {
 	return [
 		BlockValidation.MissingRecommendedAttribute,
 		BlockValidation.MissingRequiredAttribute,
+		BlockValidation.MissingRecommendedVariation,
+		BlockValidation.MissingRequiredVariation,
 	].includes( source );
 }
 

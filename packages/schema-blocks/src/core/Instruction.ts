@@ -75,11 +75,11 @@ export default abstract class Instruction {
 	 * @returns {void}
 	 */
 	static register<I extends typeof Instruction>( this: I, name: string, instruction: InstructionClass<I["prototype"]> ): void {
-		if ( typeof Instruction.registeredInstructions === "undefined" ) {
-			Instruction.registeredInstructions = {};
+		if ( typeof this.registeredInstructions === "undefined" ) {
+			this.registeredInstructions = {};
 		}
 
-		Instruction.registeredInstructions[ name ] = instruction;
+		this.registeredInstructions[ name ] = instruction;
 	}
 
 	/**
@@ -93,11 +93,11 @@ export default abstract class Instruction {
 	 * @returns The instruction instance.
 	 */
 	static create<I extends typeof Instruction>( this: I, name: string, id: number, options: InstructionOptions ): I["prototype"] {
-		if ( typeof Instruction.registeredInstructions === "undefined" ) {
-			Instruction.registeredInstructions = {};
+		if ( typeof this.registeredInstructions === "undefined" ) {
+			this.registeredInstructions = {};
 		}
 
-		const klass = Instruction.registeredInstructions[ name ];
+		const klass = this.registeredInstructions[ name ];
 
 		if ( ! klass ) {
 			logger.error( "Invalid instruction: ", name );

@@ -51,7 +51,6 @@ export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ): ReactEleme
 	return <Fragment key={ "innerblocks-sidebar-" + props.currentBlock.clientId }>
 		<SidebarHeader />
 		<WarningList warnings={ warnings } />
-		henk
 		<BlockSuggestions
 			heading={ __( "Required Blocks", "yoast-schema-blocks" ) }
 			parentClientId={ props.currentBlock.clientId }
@@ -108,7 +107,7 @@ function WarningList( props: WarningListProps ): ReactElement {
 			<div className="yoast-block-sidebar-warnings">
 				<div className="yoast-block-sidebar-title">{ __( "Analysis", "yoast-schema-blocks" ) }</div>
 				<ul className="yoast-block-sidebar-warnings">
-					{ ...props.warnings.map( warning => <Warning warning={ warning } key={ warning.text } /> ) }
+					{...props.warnings.map( warning => <Warning warning={ warning } key={ warning.text } /> )}
 				</ul>
 			</div>
 		</Fragment>

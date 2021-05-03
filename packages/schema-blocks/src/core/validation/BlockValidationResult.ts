@@ -53,7 +53,6 @@ export class BlockValidationResult {
 	constructor( clientId: string, name: string, result: BlockValidation, blockPresence: BlockPresence, message?: string ) {
 		this.name = name;
 		this.clientId = clientId;
-		this.name = name;
 		this.result = result;
 		this.blockPresence = blockPresence;
 		this.issues = [];

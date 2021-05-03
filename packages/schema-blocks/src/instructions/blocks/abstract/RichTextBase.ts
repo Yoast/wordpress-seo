@@ -1,9 +1,9 @@
-import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
+import { BlockConfiguration, BlockInstance, getBlockContent } from "@wordpress/blocks";
 import { RichText as WordPressRichText } from "@wordpress/block-editor";
 import { createElement } from "@wordpress/element";
 import { BlockLeaf, BlockInstruction } from "../../../core/blocks";
 import { RenderSaveProps, RenderEditProps } from "../../../core/blocks/BlockDefinition";
-import { BlockPresence, BlockValidationResult } from "../../../core/validation";
+import { BlockPresence, BlockValidation, BlockValidationResult } from "../../../core/validation";
 
 export interface RichTextSaveProps extends WordPressRichText.ContentProps<keyof HTMLElementTagNameMap> {
 	"data-id": string;
@@ -86,25 +86,26 @@ export default abstract class RichTextBase extends BlockInstruction {
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
 		let presence = BlockPresence.Unknown;
+		let validation = BlockValidation.Unknown;
 		if ( this.options.required === true ) {
 			presence = BlockPresence.Required;
+			validation = BlockValidation.MissingRequiredAttribute;
 		} else {
-			if ( this.options.required === false ) {
-				presence = BlockPresence.Recommended;
-			}
+			presence = BlockPresence.Recommended;
+			validation = BlockValidation.MissingRecommendedAttribute;
 		}
 
-		// Does this block have any HTML content?
-		if ( blockInstance.originalContent ) {
+		// Get the current editor content of this block from the store.
+		const content: string = getBlockContent( blockInstance ) || "";
+		if ( content ) {
 			// Remove all characters from < up to and including > (i.e. strip the tags).
-			const innerText = blockInstance.originalContent.replace( /(<([^>]+)>)/ig, "" );
-
-			if ( innerText.length > 0 ) {
-				return BlockValidationResult.Valid( blockInstance, this.constructor.name, presence );
+			const innerText = content.replace( /(<([^>]+)>)/ig, "" );
+			if ( innerText.trim().length > 0 ) {
+				return BlockValidationResult.Valid( blockInstance, this.options.name, presence );
 			}
 		}
 
-		return BlockValidationResult.MissingBlock( this.constructor.name, presence );
+		return new BlockValidationResult( blockInstance.clientId, this.options.name, validation, presence );
 	}
 
 	/**
