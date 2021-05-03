@@ -56,10 +56,16 @@ export default abstract class BlockInstruction extends Instruction {
 	/**
 	 * Returns the configuration of this instruction.
 	 *
-	 * @returns {Partial<BlockConfiguration>} The configuration.
+	 * @returns The block configuration.
 	 */
 	configuration(): Partial<BlockConfiguration> {
-		return {};
+		return {
+			attributes: {
+				[ this.options.name ]: {
+					required: this.options.required === true,
+				},
+			},
+		};
 	}
 
 	/**

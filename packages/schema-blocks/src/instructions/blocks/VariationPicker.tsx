@@ -6,6 +6,7 @@ import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { BlockPresence, BlockValidation, BlockValidationResult } from "../../core/validation";
 import VariationPickerPresenter from "../../functions/presenters/VariationPickerPresenter";
 import { getParent } from "../../functions/gutenberg/block";
+import { getPresence } from "../../functions/validators/getPresence";
 
 /**
  * Helper function to check whether the block instance includes a picked variation.
@@ -54,7 +55,7 @@ export class VariationPicker extends BlockInstruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const presence: BlockPresence = this.options.required ? BlockPresence.Required : BlockPresence.Recommended;
+		const presence = getPresence( this.options );
 		const parent = getParent( blockInstance.clientId );
 		const blockName = parent ? parent.name : this.constructor.name;
 

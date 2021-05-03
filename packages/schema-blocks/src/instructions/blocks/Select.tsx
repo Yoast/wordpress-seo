@@ -1,5 +1,5 @@
 import { createElement, ReactElement, useCallback } from "@wordpress/element";
-import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
+import { BlockInstance } from "@wordpress/blocks";
 import { SelectControl } from "@wordpress/components";
 import { BlockInstruction } from "../../core/blocks/";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
@@ -122,21 +122,6 @@ export default class Select extends BlockInstruction {
 			options={ options }
 			hideLabelFromVision={ hideLabelFromVision }
 		/>;
-	}
-
-	/**
-	 * Adds the select to the block configuration.
-	 *
-	 * @returns The block configuration.
-	 */
-	configuration(): Partial<BlockConfiguration> {
-		return {
-			attributes: {
-				[ this.options.name ]: {
-					required: this.options.required === true,
-				},
-			},
-		};
 	}
 }
 

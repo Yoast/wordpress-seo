@@ -4,6 +4,7 @@ import { createElement } from "@wordpress/element";
 import { BlockLeaf, BlockInstruction } from "../../../core/blocks";
 import { RenderSaveProps, RenderEditProps } from "../../../core/blocks/BlockDefinition";
 import { BlockPresence, BlockValidation, BlockValidationResult } from "../../../core/validation";
+import { getPresence } from "../../../functions/validators/getPresence";
 
 export interface RichTextSaveProps extends WordPressRichText.ContentProps<keyof HTMLElementTagNameMap> {
 	"data-id": string;
@@ -85,16 +86,7 @@ export default abstract class RichTextBase extends BlockInstruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		let presence = BlockPresence.Unknown;
-		let validation = BlockValidation.Unknown;
-		if ( this.options.required === true ) {
-			presence = BlockPresence.Required;
-			validation = BlockValidation.MissingRequiredAttribute;
-		} else {
-			presence = BlockPresence.Recommended;
-			validation = BlockValidation.MissingRecommendedAttribute;
-		}
-
+		const presence = getPresence( this.options );
 		// Get the current editor content of this block from the store.
 		const content: string = getBlockContent( blockInstance ) || "";
 		if ( content ) {
@@ -104,6 +96,10 @@ export default abstract class RichTextBase extends BlockInstruction {
 				return BlockValidationResult.Valid( blockInstance, this.options.name, presence );
 			}
 		}
+
+		const validation = ( presence === BlockPresence.Required )
+			? BlockValidation.MissingRequiredAttribute
+			: BlockValidation.MissingRecommendedAttribute;
 
 		return new BlockValidationResult( blockInstance.clientId, this.options.name, validation, presence );
 	}

@@ -26,6 +26,7 @@ export class Heading extends RichTextBase {
 		multiline: boolean;
 		label: string;
 		value: string;
+		required?: boolean;
 	};
 
 	/**
@@ -41,6 +42,7 @@ export class Heading extends RichTextBase {
 					source: "html",
 					"default": this.options.default,
 					selector: `[data-id=${this.options.name}]`,
+					required: this.options.required === true,
 				},
 				[ this.options.name + "_level" ]: {
 					type: "number",

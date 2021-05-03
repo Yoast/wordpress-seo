@@ -2,8 +2,8 @@ import { maxBy } from "lodash";
 import { BlockInstance } from "@wordpress/blocks";
 import { attributeExists, attributeNotEmpty } from ".";
 import { BlockValidationResult, BlockPresence, BlockValidation } from "../../core/validation";
-import { InstructionOptions } from "../../core/Instruction";
 import { BlockInstruction } from "../../core/blocks";
+import { getPresence } from "./getPresence";
 
 /**
  * Checks if the instruction block is valid.
@@ -43,25 +43,6 @@ function defaultValidate( blockInstance: BlockInstance, thisObj: BlockInstructio
 	validation.issues = issues;
 
 	return validation;
-}
-
-/**
- * Converts the presence requirements of a particular element to a BlockPresence variable.
- * @param options The block's options.
- * @returns The requirements converted to BlockPresence.
- */
-function getPresence( options: InstructionOptions ) {
-	if ( ! options || options.required === "undefined" ) {
-		return BlockPresence.Unknown;
-	}
-
-	if ( options.required === true ) {
-		return BlockPresence.Required;
-	}
-
-	if ( options.required === false ) {
-		return BlockPresence.Recommended;
-	}
 }
 
 export { defaultValidate };
