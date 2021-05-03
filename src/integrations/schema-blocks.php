@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 
@@ -41,7 +40,7 @@ class Schema_Blocks implements Integration_Interface {
 	protected $short_link_helper;
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
+	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array
 	 */
