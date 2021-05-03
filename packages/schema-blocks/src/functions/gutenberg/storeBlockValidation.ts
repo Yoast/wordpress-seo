@@ -20,6 +20,6 @@ export default function storeBlockValidation( validations: BlockValidationResult
 			store.addBlockValidation( blockValidation );
 		} );
 	} else {
-		logger.debug( "No Store! cannot store validations." );
+		logger.debug( "No Store! Cannot store validations." );
 	}
 }
