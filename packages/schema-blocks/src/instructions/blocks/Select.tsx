@@ -69,7 +69,7 @@ export default class Select extends BlockInstruction {
 
 		return <TagName data-id={ name } data-value={ value }>
 			{ ! hideLabelFromVision && <strong>{ label }:</strong> }
-			{ this.label( value ) + " " }
+			{ this.label( value ) }
 		</TagName>;
 	}
 
