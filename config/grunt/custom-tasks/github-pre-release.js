@@ -41,10 +41,11 @@ module.exports = function( grunt ) {
 
 			const pluginVersion = grunt.file.readJSON( "package.json" ).yoast.pluginVersion;
 
+			// For the first beta and RC, use the full changelog. For follow-up betas and RCs, only use the changes.
 			let initialContent = `Changes compared to ${grunt.config.get( "previousPluginVersion" )}:\n`;
-			// For the first RC use the full changelog, for follow-up RCs only use the changes.
-			if ( pluginVersion.substr( pluginVersion.length - 3 ) === "RC1" ) {
-				initialContent = `Changes in this RC (${pluginVersion}):\n`;
+
+			if ( pluginVersion.endsWith( "beta1" ) || pluginVersion.endsWith( "RC1" ) ) {
+				initialContent = `Changes in (${pluginVersion}):\n`;
 			}
 
 			// Open a text editor to get the changelog.

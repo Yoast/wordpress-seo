@@ -1,27 +1,24 @@
 /* global wpseoAdminL10n */
-/* External dependencies */
+import { withSelect } from "@wordpress/data";
 import { Component, Fragment } from "@wordpress/element";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
 import { YoastSeoIcon } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
-
-/* Internal dependencies */
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import getIndicatorForScore from "../../analysis/getIndicatorForScore";
+import Results from "../../containers/Results";
+import AnalysisUpsell from "../AnalysisUpsell";
+import { LocationConsumer } from "../contexts/location";
+import MetaboxCollapsible from "../MetaboxCollapsible";
+import { ModalContainer, ModalIcon } from "../modals/Container";
+import KeywordSynonyms from "../modals/KeywordSynonyms";
+import MultipleKeywords from "../modals/MultipleKeywords";
+import Modal from "../modals/SeoAnalysisModal";
 import ScoreIconPortal from "../portals/ScoreIconPortal";
 import SidebarCollapsible from "../SidebarCollapsible";
-import MetaboxCollapsible from "../MetaboxCollapsible";
-import Results from "../../containers/Results";
-import getIndicatorForScore from "../../analysis/getIndicatorForScore";
-import { getIconForScore } from "./mapResults";
-import KeywordSynonyms from "../modals/KeywordSynonyms";
-import Modal from "../modals/SeoAnalysisModal";
-import MultipleKeywords from "../modals/MultipleKeywords";
-import { LocationConsumer } from "../contexts/location";
-import AnalysisUpsell from "../AnalysisUpsell";
-import { ModalContainer, ModalIcon } from "../modals/Container";
 import SynonymSlot from "../slots/SynonymSlot";
+import { getIconForScore } from "./mapResults";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -277,31 +274,18 @@ SeoAnalysis.defaultProps = {
 	overallScore: null,
 };
 
-/**
- * Maps redux state to SeoAnalysis props.
- *
- * @param {Object} state The redux state.
- * @param {Object} ownProps The component's props.
- *
- * @returns {Object} Props that should be passed to SeoAnalysis.
- */
-function mapStateToProps( state, ownProps ) {
-	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
+export default withSelect( ( select, ownProps ) => {
+	const {
+		getFocusKeyphrase,
+		getMarksButtonStatus,
+		getResultsForKeyword,
+	} = select( "yoast-seo/editor" );
 
-	const keyword = state.focusKeyword;
+	const keyword = getFocusKeyphrase();
 
-	let results = [];
-	let overallScore = null;
-	if ( state.analysis.seo[ keyword ] ) {
-		results = state.analysis.seo[ keyword ].results;
-		overallScore = state.analysis.seo[ keyword ].overallScore;
-	}
 	return {
-		results,
-		marksButtonStatus,
+		...getResultsForKeyword( keyword ),
+		marksButtonStatus: ownProps.hideMarksButtons ? "disabled" : getMarksButtonStatus(),
 		keyword,
-		overallScore,
 	};
-}
-
-export default connect( mapStateToProps )( SeoAnalysis );
+} )( SeoAnalysis );

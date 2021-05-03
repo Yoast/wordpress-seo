@@ -103,9 +103,13 @@ class Organization_Test extends TestCase {
 	 * @param array $profiles_expected The social profiles expected output.
 	 */
 	public function test_generate( $profiles_input, $profiles_expected ) {
-		$this->context->site_url        = 'https://yoast.com/';
-		$this->context->company_name    = 'Yoast';
-		$this->context->company_logo_id = 1337;
+		$this->context->site_url                    = 'https://yoast.com/';
+		$this->context->company_name                = 'Yoast';
+		$this->instance->context->company_logo_meta = [
+			'height' => 100,
+			'width'  => 100,
+			'url'    => 'http://example.com/image.png',
+		];
 
 		$schema_id      = $this->context->site_url . Schema_IDs::ORGANIZATION_HASH;
 		$schema_logo_id = $this->context->site_url . Schema_IDs::ORGANIZATION_LOGO_HASH;
@@ -133,9 +137,9 @@ class Organization_Test extends TestCase {
 			->with( $profiles_expected )
 			->andReturn( $profiles_expected );
 
-		$this->image->expects( 'generate_from_attachment_id' )
+		$this->image->expects( 'generate_from_attachment_meta' )
 			->once()
-			->with( $schema_logo_id, $this->context->company_logo_id, $this->context->company_name )
+			->with( $schema_logo_id, $this->context->company_logo_meta, $this->context->company_name )
 			->andReturn( $logo );
 
 		$expected = [

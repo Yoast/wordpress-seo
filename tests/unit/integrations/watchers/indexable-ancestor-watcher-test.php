@@ -8,7 +8,9 @@ use wpdb;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Ancestor_Watcher;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -75,6 +77,13 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	protected $permalink_helper;
 
 	/**
+	 * The post type helper.
+	 *
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Post_Type_Helper
+	 */
+	protected $post_type_helper;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
@@ -85,13 +94,15 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$this->indexable_hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
 		$this->wpdb                           = Mockery::mock( wpdb::class );
 		$this->permalink_helper               = Mockery::mock( Permalink_Helper::class );
+		$this->post_type_helper               = Mockery::mock( Post_Type_Helper::class );
 
 		$this->instance = new Indexable_Ancestor_Watcher(
 			$this->indexable_repository,
 			$this->indexable_hierarchy_builder,
 			$this->indexable_hierarchy_repository,
 			$this->wpdb,
-			$this->permalink_helper
+			$this->permalink_helper,
+			$this->post_type_helper
 		);
 	}
 
@@ -166,7 +177,8 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertNotFalse( \has_action( 'wpseo_save_indexable', [ $this->instance, 'reset_children' ] ) );
+		self::assertNotFalse( \has_action( 'wpseo_save_indexable', [ $this->instance, 'reset_children' ] ) );
+		self::assertNotFalse( \has_action( 'set_object_terms', [ $this->instance, 'build_post_hierarchy' ] ) );
 	}
 
 	/**
@@ -368,6 +380,79 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$actual = $this->instance->get_children_for_term( 1, [ $indexable_1, $indexable_2, $indexable_3, $indexable_4 ] );
 
 		$this->assertSame( [ $indexable_term_1, $indexable_term_2, $additional_indexable_2 ], $actual );
+	}
+
+	/**
+	 * Tests building the post hierarchy.
+	 *
+	 * @covers ::build_post_hierarchy
+	 */
+	public function test_build_post_hierarchy() {
+		$indexable = Mockery::mock( Indexable::class );
+
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 123, 'post' )
+			->andReturn( $indexable );
+
+		$this->indexable_hierarchy_builder
+			->expects( 'build' )
+			->once()
+			->with( $indexable );
+
+		$this->post_type_helper
+			->expects( 'is_excluded' )
+			->with( 'post_type' )
+			->andReturn( false );
+
+		$this->instance->build_post_hierarchy( 123, 'post_type' );
+	}
+
+	/**
+	 * Tests that no post hierarchy is built when no indexable is found.
+	 *
+	 * @covers ::build_post_hierarchy
+	 */
+	public function test_build_post_hierarchy_not_an_indexable() {
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 123, 'post' )
+			->andReturn( false );
+
+		$this->indexable_hierarchy_builder
+			->expects( 'build' )
+			->never();
+
+		$this->post_type_helper
+			->expects( 'is_excluded' )
+			->with( 'post_type' )
+			->andReturn( false );
+
+		$this->instance->build_post_hierarchy( 123, 'post_type' );
+	}
+
+	/**
+	 * Tests that no post hierarchy is built when its post type is excluded.
+	 *
+	 * @covers ::build_post_hierarchy
+	 */
+	public function test_do_not_build_post_hierarchy_when_post_is_excluded() {
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->never();
+
+		$this->indexable_hierarchy_builder
+			->expects( 'build' )
+			->never();
+
+		$this->post_type_helper
+			->expects( 'is_excluded' )
+			->with( 'post_type' )
+			->andReturn( true );
+
+		$this->instance->build_post_hierarchy( 123, 'post_type' );
 	}
 
 	/**

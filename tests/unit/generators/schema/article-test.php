@@ -13,12 +13,11 @@ use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Generators\Schema\Article_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Article_Test
+ * Class Article_Test.
  *
  * @group generators
  * @group schema
@@ -32,56 +31,56 @@ class Article_Test extends TestCase {
 	 *
 	 * @var Mockery\MockInterface|Article_Helper
 	 */
-	private $article;
+	protected $article;
 
 	/**
 	 * The date helper.
 	 *
 	 * @var Mockery\MockInterface|Date_Helper
 	 */
-	private $date;
+	protected $date;
 
 	/**
 	 * The instance to test.
 	 *
 	 * @var Article
 	 */
-	private $instance;
+	protected $instance;
 
 	/**
 	 * The meta tags context object.
 	 *
 	 * @var Meta_Tags_Context_Mock
 	 */
-	private $context_mock;
+	protected $context_mock;
 
 	/**
 	 * The ID helper.
 	 *
 	 * @var Mockery\MockInterface|ID_Helper
 	 */
-	private $id;
+	protected $id;
 
 	/**
 	 * The HTML helper.
 	 *
 	 * @var Mockery\MockInterface|HTML_Helper
 	 */
-	private $html;
+	protected $html;
 
 	/**
 	 * The post helper.
 	 *
 	 * @var Mockery\MockInterface|Post_Helper
 	 */
-	private $post;
+	protected $post;
 
 	/**
 	 * The language helper.
 	 *
 	 * @var Mockery\MockInterface|Language_Helper
 	 */
-	private $language;
+	protected $language;
 
 	/**
 	 * Sets up the tests.
@@ -89,19 +88,32 @@ class Article_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->id                      = Mockery::mock( ID_Helper::class );
-		$this->article                 = Mockery::mock( Article_Helper::class );
-		$this->date                    = Mockery::mock( Date_Helper::class );
-		$this->html                    = Mockery::mock( HTML_Helper::class );
-		$this->post                    = Mockery::mock( Post_Helper::class );
-		$this->language                = Mockery::mock( Language_Helper::class );
-		$this->instance                = Mockery::mock( Article_Double::class )
-			->makePartial()
-			->shouldAllowMockingProtectedMethods();
+		$this->stubTranslationFunctions();
+
+		$this->id       = Mockery::mock( ID_Helper::class );
+		$this->article  = Mockery::mock( Article_Helper::class );
+		$this->date     = Mockery::mock( Date_Helper::class );
+		$this->html     = Mockery::mock( HTML_Helper::class );
+		$this->post     = Mockery::mock( Post_Helper::class );
+		$this->language = Mockery::mock( Language_Helper::class );
+
+		$this->instance = new Article();
+
 		$this->context_mock            = new Meta_Tags_Context_Mock();
 		$this->context_mock->indexable = new Indexable_Mock();
 		$this->context_mock->post      = new stdClass();
-		$this->context_mock->id        = 5;
+
+		$this->context_mock->id                      = 5;
+		$this->context_mock->post->post_author       = '3';
+		$this->context_mock->post->post_date_gmt     = '2345-12-12 12:12:12';
+		$this->context_mock->post->post_modified_gmt = '2345-12-12 23:23:23';
+		$this->context_mock->post->post_type         = 'my_awesome_post_type';
+		$this->context_mock->schema_article_type     = 'Article';
+		$this->context_mock->has_image               = true;
+		$this->context_mock->main_image_url          = 'https://www.example.com/image.jpg';
+		$this->context_mock->canonical               = 'https://permalink';
+		$this->context_mock->post->post_content      = 'This is test content.';
+		$this->context_mock->post->post_title        = 'Test title';
 
 		$this->instance->context = $this->context_mock;
 		$this->instance->helpers = (object) [
@@ -125,7 +137,6 @@ class Article_Test extends TestCase {
 		$this->context_mock->indexable->object_type     = 'post';
 		$this->context_mock->indexable->object_sub_type = 'article';
 		$this->context_mock->site_represents            = 'person';
-		$this->context_mock->canonical                  = 'https://permalink';
 
 		$this->article->expects( 'is_author_supported' )->with( 'article' )->andReturn( true );
 
@@ -188,32 +199,15 @@ class Article_Test extends TestCase {
 	 * @covers ::add_image
 	 * @covers ::add_keywords
 	 * @covers ::add_sections
+	 * @covers ::add_terms
 	 * @covers ::add_potential_action
 	 *
 	 * @dataProvider provider_for_generate
 	 */
 	public function test_generate( $values_to_test, $expected_value, $message ) {
-		Monkey\Functions\expect( 'get_comment_count' )
-			->once()
-			->with( 5 )
-			->andReturn( [ 'approved' => $values_to_test['approved_comments'] ] );
-
-		Monkey\Functions\expect( 'comments_open' )
-			->once()
-			->with( 5 )
-			->andReturn( $values_to_test['post_comment_status'] === 'open' );
-
-		$this->context_mock->canonical                 = 'https://permalink';
-		$this->context_mock->has_image                 = true;
-		$this->context_mock->post->post_author         = '3';
-		$this->context_mock->post->post_date_gmt       = '2345-12-12 12:12:12';
-		$this->context_mock->post->post_modified_gmt   = '2345-12-12 23:23:23';
-		$this->context_mock->post->post_type           = 'my_awesome_post_type';
-		$this->context_mock->post->post_content        = 'This is test content.';
-		$this->context_mock->post->post_title          = 'Test title';
 		$this->context_mock->post->comment_status      = $values_to_test['post_comment_status'];
 		$this->context_mock->site_represents_reference = $values_to_test['site_represents_reference'];
-		$this->context_mock->schema_article_type       = $values_to_test['data_for_add_sections']['@type'];
+		$this->context_mock->post->comment_count       = $values_to_test['approved_comments'];
 
 		$this->id->expects( 'get_user_schema_id' )
 			->once()
@@ -247,22 +241,34 @@ class Article_Test extends TestCase {
 			->with( 'post_tag' )
 			->andReturn( 'post_tag' );
 
-		$this->instance
-			->expects( 'add_terms' )
-			->with( $values_to_test['data_for_add_keywords'], 'keywords', 'post_tag' )
+		Monkey\Functions\expect( 'get_the_terms' )
+			->with( $this->context_mock->id, 'post_tag' )
 			->once()
-			->andReturn( $values_to_test['data_for_add_keywords'] += [ 'keywords' => 'Tag1,Tag2' ] );
+			->andReturn( $values_to_test['tags'] );
+
+		if ( $values_to_test['tags'] !== false && ! empty( $values_to_test['tags'] ) ) {
+			Monkey\Functions\expect( 'wp_list_pluck' )
+				->with( $values_to_test['tags'], 'name' )
+				->once()
+				->andReturn( $values_to_test['tag_names'] );
+		}
 
 		Monkey\Filters\expectApplied( 'wpseo_schema_article_sections_taxonomy' )
 			->once()
 			->with( 'category' )
 			->andReturn( 'category' );
 
-		$this->instance
-			->expects( 'add_terms' )
-			->with( $values_to_test['data_for_add_sections'], 'articleSection', 'category' )
+		Monkey\Functions\expect( 'get_the_terms' )
+			->with( $this->context_mock->id, 'category' )
 			->once()
-			->andReturn( $values_to_test['data_for_add_sections'] += [ 'articleSection' => 'Category1' ] );
+			->andReturn( $values_to_test['categories'] );
+
+		if ( $values_to_test['categories'] !== false && ! empty( $values_to_test['categories'] ) ) {
+			Monkey\Functions\expect( 'wp_list_pluck' )
+				->with( $values_to_test['categories'], 'name' )
+				->once()
+				->andReturn( $values_to_test['category_names'] );
+		}
 
 		$this->language->expects( 'add_piece_language' )
 			->once()
@@ -279,75 +285,11 @@ class Article_Test extends TestCase {
 			->with( $this->context_mock->post->post_type, 'comments' )
 			->andReturn( $values_to_test['mock_value_post_type_supports'] );
 
+		Monkey\Functions\expect( '__' )
+			->with( 'Uncategorized', 'default' )
+			->andReturn( 'Uncategorized' );
+
 		$this->assertEquals( $expected_value, $this->instance->generate(), $message );
-	}
-
-	/**
-	 * Tests adding terms to the data array when the terms are a non-empty array.
-	 *
-	 * @covers ::add_terms
-	 */
-	public function test_add_terms_happy_path() {
-		$this->stubTranslationFunctions();
-
-		$terms = [
-			(object) [ 'name' => 'Tag1' ],
-			(object) [ 'name' => 'Tag2' ],
-			(object) [ 'name' => 'Uncategorized' ],
-		];
-
-		Monkey\Functions\expect( 'get_the_terms' )
-			->once()
-			->with( $this->context_mock->id, 'post_tag' )
-			->andReturn( $terms );
-
-		Monkey\Functions\expect( 'wp_list_pluck' )
-			->once()
-			->with( \array_slice( $terms, 0, 2 ), 'name' )
-			->andReturn( [ 'Tag1', 'Tag2' ] );
-
-		$expected_value = [
-			'data1'    => 1,
-			'keywords' => 'Tag1,Tag2',
-		];
-
-		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag' ) );
-	}
-
-	/**
-	 * Tests adding terms to the data array when the terms are not an array.
-	 *
-	 * @covers ::add_terms
-	 */
-	public function test_add_terms_not_array() {
-		$terms = 'the_terms';
-
-		Monkey\Functions\expect( 'get_the_terms' )
-			->once()
-			->with( $this->context_mock->id, 'post_tag' )
-			->andReturn( $terms );
-
-		$expected_value = [ 'data1' => 1 ];
-
-		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag' ) );
-	}
-
-	/**
-	 * Tests adding terms to the data array when the terms are an empty array.
-	 *
-	 * @covers ::add_terms
-	 */
-	public function test_add_terms_empty_array() {
-		$terms = [];
-
-		Monkey\Functions\expect( 'get_the_terms' )
-			->once()
-			->with( $this->context_mock->id, 'post_tag' )
-			->andReturn( $terms );
-
-		$expected_value = [ 'data1' => 1 ];
-
-		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag' ) );
 	}
 
 	/**
@@ -363,33 +305,11 @@ class Article_Test extends TestCase {
 					'mock_value_post_type_supports' => true, // Whether the post type supports a certain feature.
 					'post_comment_status'           => 'open',
 					'approved_comments'             => 7,
-					'data_for_add_keywords'         => [
-						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
-						'headline'         => 'the-title',
-						'datePublished'    => '2345-12-12 12:12:12',
-						'dateModified'     => '2345-12-12 23:23:23',
-						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-						'wordCount'        => 6,
-					],
-					'data_for_add_sections'         => [
-						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
-						'headline'         => 'the-title',
-						'datePublished'    => '2345-12-12 12:12:12',
-						'dateModified'     => '2345-12-12 23:23:23',
-						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-						'keywords'         => 'Tag1,Tag2',
-						'wordCount'        => 6,
-					],
+					'tags'                          => [ (object) [ 'name' => 'Tag1' ], (object) [ 'name' => 'Tag2' ] ],
+					'tag_names'                     => [ 'Tag1', 'Tag2' ],
+					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
+					'category_names'                => [ 'Category1' ],
+					'wordCount'                     => 6,
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -402,8 +322,8 @@ class Article_Test extends TestCase {
 					'dateModified'     => '2345-12-12 23:23:23',
 					'commentCount'     => 7,
 					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-					'keywords'         => 'Tag1,Tag2',
-					'articleSection'   => 'Category1',
+					'keywords'         => [ 'Tag1', 'Tag2' ],
+					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
 					'potentialAction'  => [
 						[
@@ -414,6 +334,7 @@ class Article_Test extends TestCase {
 							],
 						],
 					],
+					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
 					'wordCount'        => 6,
 				],
 				'message'        => 'The site is not set to represent a company/person.',
@@ -424,35 +345,11 @@ class Article_Test extends TestCase {
 					'mock_value_post_type_supports' => true,
 					'post_comment_status'           => 'open',
 					'approved_comments'             => 7,
-					'data_for_add_keywords'         => [
-						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
-						'headline'         => 'the-title',
-						'datePublished'    => '2345-12-12 12:12:12',
-						'dateModified'     => '2345-12-12 23:23:23',
-						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-						'publisher'        => true,
-						'wordCount'        => 6,
-					],
-					'data_for_add_sections'         => [
-						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
-						'headline'         => 'the-title',
-						'datePublished'    => '2345-12-12 12:12:12',
-						'dateModified'     => '2345-12-12 23:23:23',
-						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-						'publisher'        => true,
-						'keywords'         => 'Tag1,Tag2',
-						'wordCount'        => 6,
-					],
+					'tags'                          => [ (object) [ 'name' => 'Tag1' ], (object) [ 'name' => 'Tag2' ] ],
+					'tag_names'                     => [ 'Tag1', 'Tag2' ],
+					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
+					'category_names'                => [ 'Category1' ],
+					'wordCount'                     => 6,
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -465,8 +362,8 @@ class Article_Test extends TestCase {
 					'dateModified'     => '2345-12-12 23:23:23',
 					'commentCount'     => 7,
 					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-					'keywords'         => 'Tag1,Tag2',
-					'articleSection'   => 'Category1',
+					'keywords'         => [ 'Tag1', 'Tag2' ],
+					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
 					'potentialAction'  => [
 						[
@@ -478,6 +375,7 @@ class Article_Test extends TestCase {
 						],
 					],
 					'publisher'        => true,
+					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
 					'wordCount'        => 6,
 				],
 				'message'        => 'The site is set to represent a company/person.',
@@ -488,33 +386,11 @@ class Article_Test extends TestCase {
 					'mock_value_post_type_supports' => false,
 					'post_comment_status'           => 'open',
 					'approved_comments'             => 7,
-					'data_for_add_keywords'         => [
-						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
-						'headline'         => 'the-title',
-						'datePublished'    => '2345-12-12 12:12:12',
-						'dateModified'     => '2345-12-12 23:23:23',
-						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-						'wordCount'        => 6,
-					],
-					'data_for_add_sections'         => [
-						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
-						'headline'         => 'the-title',
-						'datePublished'    => '2345-12-12 12:12:12',
-						'dateModified'     => '2345-12-12 23:23:23',
-						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-						'keywords'         => 'Tag1,Tag2',
-						'wordCount'        => 6,
-					],
+					'tags'                          => [ (object) [ 'name' => 'Tag1' ], (object) [ 'name' => 'Tag2' ] ],
+					'tag_names'                     => [ 'Tag1', 'Tag2' ],
+					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
+					'category_names'                => [ 'Category1' ],
+					'wordCount'                     => 6,
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -527,9 +403,10 @@ class Article_Test extends TestCase {
 					'dateModified'     => '2345-12-12 23:23:23',
 					'commentCount'     => 7,
 					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-					'keywords'         => 'Tag1,Tag2',
-					'articleSection'   => 'Category1',
+					'keywords'         => [ 'Tag1', 'Tag2' ],
+					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
+					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
 					'wordCount'        => 6,
 				],
 				'message'        => 'The post type does not support comments.',
@@ -540,33 +417,70 @@ class Article_Test extends TestCase {
 					'mock_value_post_type_supports' => false,
 					'post_comment_status'           => 'closed',
 					'approved_comments'             => 7,
-					'data_for_add_keywords'         => [
-						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
-						'headline'         => 'the-title',
-						'datePublished'    => '2345-12-12 12:12:12',
-						'dateModified'     => '2345-12-12 23:23:23',
-						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-						'wordCount'        => 6,
-					],
-					'data_for_add_sections'         => [
-						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
-						'headline'         => 'the-title',
-						'datePublished'    => '2345-12-12 12:12:12',
-						'dateModified'     => '2345-12-12 23:23:23',
-						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-						'keywords'         => 'Tag1,Tag2',
-						'wordCount'        => 6,
-					],
+					'tags'                          => [ (object) [ 'name' => 'Tag1' ], (object) [ 'name' => 'Tag2' ] ],
+					'tag_names'                     => [ 'Tag1', 'Tag2' ],
+					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
+					'category_names'                => [ 'Category1' ],
+					'wordCount'                     => 6,
+				],
+				'expected_value' => [
+					'@type'            => 'Article',
+					'@id'              => 'https://permalink#article',
+					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+					'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+					'image'            => [ '@id' => 'https://permalink#primaryimage' ],
+					'headline'         => 'the-title',
+					'datePublished'    => '2345-12-12 12:12:12',
+					'dateModified'     => '2345-12-12 23:23:23',
+					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+					'keywords'         => [ 'Tag1', 'Tag2' ],
+					'articleSection'   => [ 'Category1' ],
+					'inLanguage'       => 'language',
+					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
+					'wordCount'        => 6,
+				],
+				'message'        => 'The comment status for the post is set to closed.',
+			],
+			[
+				'values_to_test' => [
+					'site_represents_reference'     => false,
+					'mock_value_post_type_supports' => false,
+					'post_comment_status'           => 'closed',
+					'approved_comments'             => 0,
+					'tags'                          => [ (object) [ 'name' => 'Tag1' ], (object) [ 'name' => 'Tag2' ] ],
+					'tag_names'                     => [ 'Tag1', 'Tag2' ],
+					'categories'                    => [ (object) [ 'name' => 'Category1' ] ],
+					'category_names'                => [ 'Category1' ],
+					'wordCount'                     => 6,
+				],
+				'expected_value' => [
+					'@type'            => 'Article',
+					'@id'              => 'https://permalink#article',
+					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+					'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+					'image'            => [ '@id' => 'https://permalink#primaryimage' ],
+					'headline'         => 'the-title',
+					'datePublished'    => '2345-12-12 12:12:12',
+					'dateModified'     => '2345-12-12 23:23:23',
+					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+					'keywords'         => [ 'Tag1', 'Tag2' ],
+					'articleSection'   => [ 'Category1' ],
+					'inLanguage'       => 'language',
+					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
+					'wordCount'        => 6,
+				],
+				'message'        => 'The comment status for the post is set to closed.',
+			],
+			[
+				'values_to_test' => [
+					'site_represents_reference'     => false, // Whether the site represents a company/person.
+					'mock_value_post_type_supports' => true, // Whether the post type supports a certain feature.
+					'post_comment_status'           => 'open',
+					'approved_comments'             => 7,
+					'tags'                          => false,
+					'categories'                    => false,
+					'type'                          => 'Article',
+					'wordCount'                     => 6,
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -579,44 +493,31 @@ class Article_Test extends TestCase {
 					'dateModified'     => '2345-12-12 23:23:23',
 					'commentCount'     => 7,
 					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-					'keywords'         => 'Tag1,Tag2',
-					'articleSection'   => 'Category1',
 					'inLanguage'       => 'language',
+					'potentialAction'  => [
+						[
+							'@type'  => 'CommentAction',
+							'name'   => 'Comment',
+							'target' => [
+								'https://permalink#respond',
+							],
+						],
+					],
+					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
 					'wordCount'        => 6,
 				],
-				'message'        => 'The comment status for the post is set to closed.',
+				'message'        => 'There terms cannot be retrieved.',
 			],
 			[
 				'values_to_test' => [
-					'site_represents_reference'     => false,
-					'mock_value_post_type_supports' => false,
-					'post_comment_status'           => 'closed',
-					'approved_comments'             => 0,
-					'data_for_add_keywords'         => [
-						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
-						'headline'         => 'the-title',
-						'datePublished'    => '2345-12-12 12:12:12',
-						'dateModified'     => '2345-12-12 23:23:23',
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-						'wordCount'        => 6,
-					],
-					'data_for_add_sections'         => [
-						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
-						'headline'         => 'the-title',
-						'datePublished'    => '2345-12-12 12:12:12',
-						'dateModified'     => '2345-12-12 23:23:23',
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-						'keywords'         => 'Tag1,Tag2',
-						'wordCount'        => 6,
-					],
+					'site_represents_reference'     => false, // Whether the site represents a company/person.
+					'mock_value_post_type_supports' => true, // Whether the post type supports a certain feature.
+					'post_comment_status'           => 'open',
+					'approved_comments'             => 7,
+					'tags'                          => [],
+					'categories'                    => [],
+					'type'                          => 'Article',
+					'wordCount'                     => 6,
 				],
 				'expected_value' => [
 					'@type'            => 'Article',
@@ -627,13 +528,22 @@ class Article_Test extends TestCase {
 					'headline'         => 'the-title',
 					'datePublished'    => '2345-12-12 12:12:12',
 					'dateModified'     => '2345-12-12 23:23:23',
+					'commentCount'     => 7,
 					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-					'keywords'         => 'Tag1,Tag2',
-					'articleSection'   => 'Category1',
 					'inLanguage'       => 'language',
+					'potentialAction'  => [
+						[
+							'@type'  => 'CommentAction',
+							'name'   => 'Comment',
+							'target' => [
+								'https://permalink#respond',
+							],
+						],
+					],
+					'thumbnailUrl'     => 'https://www.example.com/image.jpg',
 					'wordCount'        => 6,
 				],
-				'message'        => 'The comment status for the post is set to closed.',
+				'message'        => 'The terms are empty.',
 			],
 		];
 	}

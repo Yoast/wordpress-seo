@@ -1,17 +1,8 @@
-import { connect } from "react-redux";
+import { withSelect } from "@wordpress/data";
 import { Warning } from "@yoast/components";
 
-/**
- * Maps the state to props for the containing component.
- *
- * @param {Object} state The full available redux state.
- *
- * @returns {Object} Props for the containing component.
- */
-function mapStateToProps( state ) {
-	return {
-		message: state.warning.message,
-	};
-}
+export default withSelect( select => {
+	const { getWarningMessage } = select( "yoast-seo/editor" );
 
-export default connect( mapStateToProps )( Warning );
+	return { message: getWarningMessage() };
+} )( Warning );

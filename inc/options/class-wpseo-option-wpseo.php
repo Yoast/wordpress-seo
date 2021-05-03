@@ -76,6 +76,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'zapier_integration_active'                => false,
 		'zapier_subscription'                      => [],
 		'zapier_api_key'                           => '',
+		'enable_metabox_insights'                  => true,
+		'enable_link_suggestions'                  => true,
 	];
 
 	/**
@@ -140,7 +142,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	/**
 	 * Add the actions and filters for the option.
 	 *
-	 * @return \WPSEO_Option_Wpseo
 	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
 	 *       is updated early on and if so, change the call to schedule these for a later action on add/update
 	 *       instead of running them straight away.

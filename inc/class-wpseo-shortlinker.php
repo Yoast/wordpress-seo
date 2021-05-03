@@ -124,8 +124,17 @@ class WPSEO_Shortlinker {
 			case ( $days < 30 ):
 				$cohort = '6-30';
 				break;
+			case ( $days < 91 ):
+				$cohort = '31-90';
+				break;
+			case ( $days < 181 ):
+				$cohort = '91-180';
+				break;
+			case ( $days < 366 ):
+				$cohort = '181-365';
+				break;
 			default:
-				$cohort = '30plus';
+				$cohort = '365plus';
 		}
 		return $cohort;
 	}

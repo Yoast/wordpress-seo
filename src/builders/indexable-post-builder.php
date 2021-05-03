@@ -175,7 +175,7 @@ class Indexable_Post_Builder {
 			return $this->is_public_attachment( $indexable );
 		}
 
-		if ( ! \in_array( $indexable->post_status, $this->is_public_post_status(), true ) ) {
+		if ( ! \in_array( $indexable->post_status, $this->post_helper->get_public_post_statuses(), true ) ) {
 			return false;
 		}
 
@@ -233,20 +233,6 @@ class Indexable_Post_Builder {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Retrieves the list of public posts statuses.
-	 *
-	 * @return array The public post statuses.
-	 */
-	protected function is_public_post_status() {
-		/**
-		 * Filter: 'wpseo_public_post_statuses' - List of public post statuses.
-		 *
-		 * @api array $post_statuses Post status list, defaults to array( 'publish' ).
-		 */
-		return \apply_filters( 'wpseo_public_post_statuses', [ 'publish' ] );
 	}
 
 	/**
@@ -405,6 +391,6 @@ class Indexable_Post_Builder {
 	 * @return bool `true` if the post should be excluded from building, `false` if not.
 	 */
 	protected function should_exclude_post( $post ) {
-		return \in_array( $post->post_type, $this->post_type_helper->get_excluded_post_types_for_indexables(), true );
+		return $this->post_type_helper->is_excluded( $post->post_type );
 	}
 }

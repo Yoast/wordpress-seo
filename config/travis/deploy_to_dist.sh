@@ -29,7 +29,7 @@ lastTag=$1
 branch="master"
 mainDir=$(pwd)
 
-if [[ $lastTag =~ ^feature/* || $lastTag =~ ^release/* || $lastTag == "trunk" ]]; then
+if [[ $lastTag =~ ^feature/* || $lastTag =~ ^release/* || $lastTag =~ ^hotfix/* || $lastTag == "trunk" ]]; then
   branch=$lastTag
 fi
 
@@ -54,7 +54,7 @@ cd ./artifact
 git add -A
 
 # If it's a feature, release or trunk branch.
-if [[ $lastTag =~ ^feature/* || $lastTag =~ ^release/* || $lastTag == "trunk" ]]; then
+if [[ $lastTag =~ ^feature/* || $lastTag =~ ^release/* || $lastTag =~ ^hotfix/* || $lastTag == "trunk" ]]; then
   git commit --allow-empty -m "${TRAVIS_COMMIT_MESSAGE}"
 else
   git commit -m "Release ${lastTag}"

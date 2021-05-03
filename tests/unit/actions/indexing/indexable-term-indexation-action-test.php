@@ -81,14 +81,13 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$limit_placeholder = '';
 		$expected_query    = "
 			SELECT COUNT(term_id)
-			FROM wp_term_taxonomy
-			WHERE term_id NOT IN (
-				SELECT object_id
-				FROM wp_yoast_indexable
-				WHERE object_type = 'term'
-				AND permalink_hash IS NOT NULL
-			)
-			AND taxonomy IN (%s)
+			FROM wp_term_taxonomy AS T
+			LEFT JOIN wp_yoast_indexable AS I
+				ON T.term_id = I.object_id
+				AND I.object_type = 'term'
+				AND I.permalink_hash IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND taxonomy IN (%s)
 			$limit_placeholder";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms' )->andReturnFalse();
@@ -141,17 +140,16 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_query
 	 */
 	public function test_index() {
-		$expected_query = '
+		$expected_query = "
 			SELECT term_id
-			FROM wp_term_taxonomy
-			WHERE term_id NOT IN (
-				SELECT object_id
-				FROM wp_yoast_indexable
-				WHERE object_type = \'term\'
-				AND permalink_hash IS NOT NULL
-			)
-			AND taxonomy IN (%s)
-			LIMIT %d';
+			FROM wp_term_taxonomy AS T
+			LEFT JOIN wp_yoast_indexable AS I
+				ON T.term_id = I.object_id
+				AND I.object_type = 'term'
+				AND I.permalink_hash IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND taxonomy IN (%s)
+			LIMIT %d";
 
 		Filters\expectApplied( 'wpseo_term_indexation_limit' )->andReturn( 25 );
 

@@ -16,6 +16,22 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Site_Helper_Test extends TestCase {
 
 	/**
+	 * The instance to test.
+	 *
+	 * @var Site_Helper
+	 */
+	protected $instance;
+
+	/**
+	 * Set up.
+	 */
+	public function set_up() {
+		parent::set_up();
+
+		$this->instance = new Site_Helper();
+	}
+
+	/**
 	 * Tests retrieval of the site name.
 	 *
 	 * @covers ::get_site_name
@@ -32,5 +48,21 @@ class Site_Helper_Test extends TestCase {
 		$site_helper = new Site_Helper();
 
 		$this->assertEquals( 'name', $site_helper->get_site_name() );
+	}
+
+	/**
+	 * Checks the result of is_multisite_and_switched.
+	 *
+	 * @covers ::is_multisite_and_switched
+	 */
+	public function test_is_multisite_and_switched() {
+		Monkey\Functions\stubs(
+			[
+				'is_multisite'   => true,
+				'ms_is_switched' => true,
+			]
+		);
+
+		self::assertTrue( $this->instance->is_multisite_and_switched() );
 	}
 }

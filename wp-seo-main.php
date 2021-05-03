@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '16.0-RC3' );
+define( 'WPSEO_VERSION', '16.3-beta2' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -35,8 +35,8 @@ define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 define( 'YOAST_SEO_PHP_REQUIRED', '5.6' );
-define( 'YOAST_SEO_WP_TESTED', '5.6' );
-define( 'YOAST_SEO_WP_REQUIRED', '5.4' );
+define( 'YOAST_SEO_WP_TESTED', '5.7' );
+define( 'YOAST_SEO_WP_REQUIRED', '5.6' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 	define( 'WPSEO_NAMESPACES', true );
@@ -183,8 +183,11 @@ function _wpseo_activate() {
 		delete_option( 'rewrite_rules' );
 	}
 	else {
-		$wpseo_rewrite = new WPSEO_Rewrite();
-		$wpseo_rewrite->schedule_flush();
+		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
+			// Constructor has side effects so this registers all hooks.
+			$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite();
+		}
+		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
 	// Reset tracking to be disabled by default.

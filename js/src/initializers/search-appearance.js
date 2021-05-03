@@ -1,24 +1,14 @@
 /* global wpseoScriptData */
-
-/* External dependencies */
-import { render, Fragment } from "@wordpress/element";
-import { forEach } from "lodash-es";
-import { Provider } from "react-redux";
-import { createStore, combineReducers } from "redux";
-
-/* Yoast dependencies */
-import SettingsReplacementVariableEditors from "../components/SettingsReplacementVariableEditors";
-import snippetEditorReducer from "../redux/reducers/snippetEditor";
-import configureEnhancers from "../redux/utils/configureEnhancers";
-import getDefaultReplacementVariables from "../values/defaultReplaceVariables";
-import { updateReplacementVariable } from "../redux/actions/snippetEditor";
-import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
+import { Fragment, render } from "@wordpress/element";
 import { ThemeProvider } from "styled-components";
-import UserSelectPortal from "../components/portals/UserSelectPortal";
 import CompanyInfoMissingPortal from "../components/portals/CompanyInfoMissingPortal";
-import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
-import SchemaSettings from "../containers/SchemaSettings";
 import ImageSelectPortal from "../components/portals/ImageSelectPortal";
+import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
+import UserSelectPortal from "../components/portals/UserSelectPortal";
+import SettingsReplacementVariableEditors from "../components/SettingsReplacementVariableEditors";
+import SchemaSettings from "../containers/SchemaSettings";
+import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
+import { __ } from "@wordpress/i18n";
 
 /**
  * @summary Initializes the search appearance settings script.
@@ -28,45 +18,14 @@ export default function initSearchAppearance() {
 	setYoastComponentsL10n();
 	setWordPressSeoL10n();
 
-	/**
-	 * Create a shared store for all snippet editors in the search appearance pages.
-	 *
-	 * @returns {Object} Redux store.
-	 */
-	function configureStore() {
-		const store = createStore(
-			combineReducers( {
-				snippetEditor: snippetEditorReducer,
-			} ),
-			{
-				snippetEditor: {
-					replacementVariables: getDefaultReplacementVariables(),
-					recommendedReplacementVariables: wpseoScriptData.analysis.plugins.replaceVars.recommended_replace_vars,
-				},
-			},
-			configureEnhancers()
-		);
-		forEach( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars, replacementVariable => {
-			const name = replacementVariable.name.replace( / /g, "_" );
-
-			store.dispatch( updateReplacementVariable(
-				name,
-				replacementVariable.value,
-				replacementVariable.label,
-			) );
-		} );
-		return store;
-	}
-
 	const editorElements = document.querySelectorAll( "[data-react-replacevar-editor]" );
 	const singleFieldElements = document.querySelectorAll( "[data-react-replacevar-field]" );
+	const imagePortals = Array.from( document.querySelectorAll( "[data-react-image-portal]" ) );
 
 	const schemaSettingsElements = document.querySelectorAll( "[data-schema-settings]" );
 
 	const element = document.createElement( "div" );
 	document.body.appendChild( element );
-
-	const store = configureStore();
 
 	const theme = {
 		isRtl: wpseoScriptData.searchAppearance.isRtl,
@@ -80,44 +39,74 @@ export default function initSearchAppearance() {
 	} = wpseoScriptData.searchAppearance;
 
 	render(
-		<Provider store={ store }>
-			<ThemeProvider theme={ theme }>
-				<Fragment>
-					<SettingsReplacementVariableEditors
-						singleFieldElements={ singleFieldElements }
-						editorElements={ editorElements }
-					/>
-					<UserSelectPortal target="wpseo-person-selector" />
-					<CompanyInfoMissingPortal
-						target="knowledge-graph-company-warning"
-						message={ knowledgeGraphCompanyInfoMissing.message }
-						link={ knowledgeGraphCompanyInfoMissing.URL }
-					/>
-					<ImageSelectPortal
-						label="Organization logo"
+		<ThemeProvider theme={ theme }>
+			<Fragment>
+				<SettingsReplacementVariableEditors
+					singleFieldElements={ singleFieldElements }
+					editorElements={ editorElements }
+				/>
+				<UserSelectPortal target="wpseo-person-selector" />
+				<CompanyInfoMissingPortal
+					target="knowledge-graph-company-warning"
+					message={ knowledgeGraphCompanyInfoMissing.message }
+					link={ knowledgeGraphCompanyInfoMissing.URL }
+				/>
+				<ImageSelectPortal
+					label={ __( "Social default image", "wordpress-seo" ) }
+					hasPreview={ true }
+					target="yoast-og-frontpage-image-select"
+					hiddenField="og_frontpage_image"
+					hiddenFieldImageId="og_frontpage_image_id"
+					selectImageButtonId="yoast-og-frontpage-image-select-button"
+					replaceImageButtonId="yoast-og-frontpage-image-replace-button"
+					removeImageButtonId="yoast-og-frontpage-image-remove-button"
+				/>
+				<ImageSelectPortal
+					label={ __( "Organization logo", "wordpress-seo" ) }
+					hasPreview={ true }
+					target="yoast-organization-image-select"
+					hiddenField="company_logo"
+					hiddenFieldImageId="company_logo_id"
+					selectImageButtonId="yoast-organization-image-select-button"
+					replaceImageButtonId="yoast-organization-image-replace-button"
+					removeImageButtonId="yoast-organization-image-remove-button"
+				/>
+				<ImageSelectPortal
+					label={ __( "Person logo / avatar", "wordpress-seo" ) }
+					hasPreview={ true }
+					target="yoast-person-image-select"
+					hiddenField="person_logo"
+					hiddenFieldImageId="person_logo_id"
+					selectImageButtonId="yoast-person-image-select-button"
+					replaceImageButtonId="yoast-person-image-replace-button"
+					removeImageButtonId="yoast-person-image-remove-button"
+				/>
+
+				{ imagePortals.map( ( portal ) => {
+					return ( <ImageSelectPortal
+						key={ portal.id }
+						label={ __( "Social default image", "wordpress-seo" ) }
 						hasPreview={ true }
-						target="yoast-organization-image-select"
-						hiddenField="company_logo"
-						hiddenFieldImageId="company_logo_id"
+						target={ portal.id }
+						hiddenField={ portal.dataset.reactImagePortalTargetImage }
+						hiddenFieldImageId={ portal.dataset.reactImagePortalTargetImageId }
+						selectImageButtonId={ portal.id + "-select-button" }
+						replaceImageButtonId={ portal.id + "-replace-button" }
+						removeImageButtonId={ portal.id + "-remove-button" }
+						hasNewBadge={ true }
+					/> );
+				} ) }
+
+				{ showLocalSEOUpsell && (
+					<LocalSEOUpsellPortal
+						target="wpseo-local-seo-upsell"
+						url={ localSEOUpsellURL }
+						backgroundUrl={ brushstrokeBackgroundURL }
 					/>
-					<ImageSelectPortal
-						label="Person logo / avatar"
-						hasPreview={ true }
-						target="yoast-person-image-select"
-						hiddenField="person_logo"
-						hiddenFieldImageId="person_logo_id"
-					/>
-					{ showLocalSEOUpsell && (
-						<LocalSEOUpsellPortal
-							target="wpseo-local-seo-upsell"
-							url={ localSEOUpsellURL }
-							backgroundUrl={ brushstrokeBackgroundURL }
-						/>
-					) }
-					<SchemaSettings targets={ schemaSettingsElements } />
-				</Fragment>
-			</ThemeProvider>
-		</Provider>,
-		element
+				) }
+				<SchemaSettings targets={ schemaSettingsElements } />
+			</Fragment>
+		</ThemeProvider>,
+		element,
 	);
 }

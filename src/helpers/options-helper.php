@@ -21,7 +21,6 @@ class Options_Helper {
 	 * @return mixed|null Returns value if found, $default if not.
 	 */
 	public function get( $key, $default = null ) {
-		WPSEO_Options::get_instance();
 		return WPSEO_Options::get( $key, $default );
 	}
 

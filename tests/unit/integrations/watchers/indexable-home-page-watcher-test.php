@@ -140,7 +140,7 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 			->with( $indexable_mock )
 			->andReturn( $indexable_mock );
 
-		$this->instance->check_option( [ 'og_frontpage_desc' => 'bar' ], [ 'og_frontpage_desc' => 'baz' ], 'wpseo_social' );
+		$this->instance->check_option( [ 'og_frontpage_desc' => 'bar' ], [ 'og_frontpage_desc' => 'baz' ], 'wpseo_titles' );
 	}
 
 	/**

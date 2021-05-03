@@ -131,6 +131,10 @@ class ImageSelectComponent extends Component {
 				imageId={ this.state.imageId }
 				onClick={ this.onClick }
 				onRemoveImageClick={ this.removeImage }
+				selectImageButtonId={ this.props.selectImageButtonId }
+				replaceImageButtonId={ this.props.replaceImageButtonId }
+				removeImageButtonId={ this.props.removeImageButtonId }
+				hasNewBadge={ this.props.hasNewBadge }
 			/>
 		);
 	}
@@ -141,12 +145,20 @@ ImageSelectComponent.propTypes = {
 	hiddenFieldImageId: PropTypes.string,
 	label: PropTypes.string,
 	hasPreview: PropTypes.bool,
+	selectImageButtonId: PropTypes.string,
+	replaceImageButtonId: PropTypes.string,
+	removeImageButtonId: PropTypes.string,
+	hasNewBadge: PropTypes.bool,
 };
 
 ImageSelectComponent.defaultProps = {
 	hiddenFieldImageId: "",
 	label: "",
 	hasPreview: true,
+	selectImageButtonId: "",
+	replaceImageButtonId: "",
+	removeImageButtonId: "",
+	hasNewBadge: false,
 };
 
 export default ImageSelectComponent;

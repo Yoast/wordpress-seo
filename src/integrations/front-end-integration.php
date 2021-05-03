@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Integrations;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter;
@@ -38,6 +39,13 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var Options_Helper
 	 */
 	protected $options;
+
+	/**
+	 * Represents the request helper.
+	 *
+	 * @var Request_Helper
+	 */
+	protected $request;
 
 	/**
 	 * The helpers surface.
@@ -179,6 +187,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer  The meta tags context memoizer.
 	 * @param ContainerInterface         $service_container The DI container.
 	 * @param Options_Helper             $options           The options helper.
+	 * @param Request_Helper             $request           The request helper.
 	 * @param Helpers_Surface            $helpers           The helpers surface.
 	 * @param WPSEO_Replace_Vars         $replace_vars      The replace vars helper.
 	 *
@@ -188,12 +197,14 @@ class Front_End_Integration implements Integration_Interface {
 		Meta_Tags_Context_Memoizer $context_memoizer,
 		ContainerInterface $service_container,
 		Options_Helper $options,
+		Request_Helper $request,
 		Helpers_Surface $helpers,
 		WPSEO_Replace_Vars $replace_vars
 	) {
 		$this->container        = $service_container;
 		$this->context_memoizer = $context_memoizer;
 		$this->options          = $options;
+		$this->request          = $request;
 		$this->helpers          = $helpers;
 		$this->replace_vars     = $replace_vars;
 	}
@@ -208,6 +219,9 @@ class Front_End_Integration implements Integration_Interface {
 		\add_action( 'wp_head', [ $this, 'call_wpseo_head' ], 1 );
 		// Filter the title for compatibility with other plugins and themes.
 		\add_filter( 'wp_title', [ $this, 'filter_title' ], 15 );
+
+		// Removes our robots presenter from the list when wp_robots is handling this.
+		\add_filter( 'wpseo_frontend_presenter_classes', [ $this, 'filter_robots_presenter' ] );
 
 		\add_action( 'wpseo_head', [ $this, 'present_head' ], -9999 );
 
@@ -237,6 +251,29 @@ class Front_End_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Filters our robots presenter, but only when wp_robots is attached to the wp_head action.
+	 *
+	 * @param array $presenters The presenters for current page.
+	 *
+	 * @return array The filtered presenters.
+	 */
+	public function filter_robots_presenter( $presenters ) {
+		if ( ! function_exists( 'wp_robots' ) ) {
+			return $presenters;
+		}
+
+		if ( ! \has_action( 'wp_head', 'wp_robots' ) ) {
+			return $presenters;
+		}
+
+		if ( $this->request->is_rest_request() ) {
+			return $presenters;
+		}
+
+		return \array_diff( $presenters, [ 'Yoast\\WP\\SEO\\Presenters\\Robots_Presenter' ] );
+	}
+
+	/**
 	 * Presents the head in the front-end. Resets wp_query if it's not the main query.
 	 *
 	 * @codeCoverageIgnore It just calls a WordPress function.
@@ -250,6 +287,7 @@ class Front_End_Integration implements Integration_Interface {
 
 		\do_action( 'wpseo_head' );
 
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Reason: we have to restore the query.
 		$GLOBALS['wp_query'] = $old_wp_query;
 	}
 

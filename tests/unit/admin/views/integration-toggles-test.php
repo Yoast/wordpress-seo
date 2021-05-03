@@ -22,7 +22,7 @@ class Yoast_Integration_Toggles_Test extends TestCase {
 	 */
 	public function test_integration_toggles() {
 		$expected_names = [
-			0 => 'SEMrush integration',
+			0 => 'Semrush integration',
 			1 => 'Ryte integration',
 		];
 
@@ -51,7 +51,7 @@ class Yoast_Integration_Toggles_Test extends TestCase {
 	public function test_toggle_sorting() {
 		$expected_names = [
 			0 => 'Dummy prio 5',
-			1 => 'SEMrush integration',
+			1 => 'Semrush integration',
 			2 => 'Ryte integration',
 			3 => 'Dummy prio 50',
 		];

@@ -56,11 +56,8 @@ class Article extends Abstract_Schema_Piece {
 			'wordCount'        => $this->word_count( $this->context->post->post_content, $this->context->post->post_title ),
 		];
 
-		// If the comments are open -or- there are comments approved, show the count.
-		$comments_open = \comments_open( $this->context->id );
-		$comment_count = \get_comment_count( $this->context->id );
-		if ( $comments_open || $comment_count['approved'] > 0 ) {
-			$data['commentCount'] = $comment_count['approved'];
+		if ( $this->context->post->comment_status === 'open' ) {
+			$data['commentCount'] = intval( $this->context->post->comment_count, 10 );
 		}
 
 		if ( $this->context->site_represents_reference ) {
@@ -141,7 +138,7 @@ class Article extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$data[ $key ] = \implode( ',', \wp_list_pluck( $terms, 'name' ) );
+		$data[ $key ] = \wp_list_pluck( $terms, 'name' );
 
 		return $data;
 	}
@@ -154,10 +151,11 @@ class Article extends Abstract_Schema_Piece {
 	 * @return array $data The Article data.
 	 */
 	private function add_image( $data ) {
-		if ( $this->context->has_image ) {
-			$data['image'] = [
+		if ( $this->context->main_image_url !== null ) {
+			$data['image']        = [
 				'@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH,
 			];
+			$data['thumbnailUrl'] = $this->context->main_image_url;
 		}
 
 		return $data;

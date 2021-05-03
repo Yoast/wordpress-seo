@@ -1,64 +1,9 @@
 import { mapSelectToProps, mapDispatchToProps } from "../../src/containers/PrePublish";
+import { mockSelectors } from "./mockSelectors";
 
 describe( "The PrePublish container", () => {
 	it( "maps the select function to props", () => {
-		const getResultsForFocusKeyword = jest.fn().mockReturnValue( {
-			overallScore: 60,
-		} );
-
-		const getReadabilityResults = jest.fn().mockReturnValue( {
-			overallScore: 100,
-		} );
-
-		const getPreferences = jest.fn().mockReturnValue( {
-			isKeywordAnalysisActive: true,
-			isContentAnalysisActive: true,
-		} );
-
-		const getSchemaBlocksValidationResults = jest.fn().mockReturnValue( {
-			"1234-abcde": {
-				result: 1,
-			},
-		} );
-
-		const getFocusKeyphrase = jest.fn().mockReturnValue( null );
-
-		const yoastSEOSelectors = {
-			getFocusKeyphrase,
-			getResultsForFocusKeyword,
-			getReadabilityResults,
-			getPreferences,
-			getSchemaBlocksValidationResults,
-		};
-
-		const getBlocks = jest.fn().mockReturnValue( [
-			{
-				name: "yoast/recipe",
-				clientId: "0890e6b3-235b-4b71-9d27-c0c9fd980137",
-				attributes: {
-					"yoast-schema": {},
-				},
-			},
-			{
-				name: "core/paragraph",
-				clientId: "0890e6b3-235b-4b71-9d27-c0c9fd980137",
-				attributes: {
-					content: "A paragraph",
-				},
-			},
-		] );
-
-		const coreEditorSelectors = {
-			getBlocks,
-		};
-
-		const select = jest.fn( name => {
-			if ( name === "yoast-seo/editor" ) {
-				return yoastSEOSelectors;
-			} else if ( name === "core/editor" ) {
-				return coreEditorSelectors;
-			}
-		} );
+		const select = mockSelectors( name );
 
 		const props = mapSelectToProps( select );
 

@@ -62,6 +62,10 @@ class WebPage extends Abstract_Schema_Piece {
 			];
 		}
 
+		if ( ! empty( $this->context->main_entity_of_page ) ) {
+			$data['mainEntity'] = $this->context->main_entity_of_page;
+		}
+
 		$data = $this->helpers->schema->language->add_piece_language( $data );
 		$data = $this->add_potential_action( $data );
 

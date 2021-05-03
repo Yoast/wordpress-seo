@@ -5,12 +5,14 @@ import TopLevelProviders from "../TopLevelProviders";
 /**
  * Renders the metabox portal.
  *
+ * @param {Object} props The props.
+ * @param {Object} props.theme The theme.
+ *
  * @returns {null|wp.Element} The element.
  */
-export default function MetaboxSlot( { store, theme } ) {
+export default function MetaboxSlot( { theme } ) {
 	return (
 		<TopLevelProviders
-			store={ store }
 			theme={ theme }
 			location={ "metabox" }
 		>
