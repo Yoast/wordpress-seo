@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
-import { round } from "lodash";
+import { round, capitalize } from "lodash";
 import { StarRating } from "@yoast/components";
 
 const ProductData = styled.span`
@@ -37,11 +37,11 @@ function ProductDataDesktop( props ) {
 			}
 			{ shoppingData.price &&
 				<Fragment>
-					<span dangerouslySetInnerHTML={ { __html: shoppingData.price } } />‎
+					<span dangerouslySetInnerHTML={ { __html: shoppingData.price } } />
 				</Fragment>
 			}
 			{ shoppingData.availability &&
-				<span> · { shoppingData.availability }</span> }
+				<span>{ ` · ${ capitalize( shoppingData.availability ) }` }</span> }
 		</ProductData>
 	);
 }
