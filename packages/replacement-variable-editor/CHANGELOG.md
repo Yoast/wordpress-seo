@@ -5,10 +5,6 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 1.17.0 May 17th, 2021
-### Bugfixes
-* Fixes a bug where the cursor could become trapped in some of our input fields when using keyboard navigation.
-
 ## 1.16.0 April 26th, 2021
 ### Enhancements
 * Adds possibility to pass alternative labels for the SEO title and Meta description fields in the SettingsSnippetEditor.
