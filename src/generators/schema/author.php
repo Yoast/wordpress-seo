@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Generators\Schema;
 
 use Yoast\WP\SEO\Config\Schema_IDs;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Returns schema Author data.
  */
 class Author extends Person {
-
 	/**
 	 * Determine whether we should return Person schema.
 	 *
@@ -53,6 +53,13 @@ class Author extends Person {
 			$data['mainEntityOfPage'] = [
 				'@id' => $this->context->canonical . Schema_IDs::WEBPAGE_HASH,
 			];
+		}
+
+		// If this is a post and the author archives are enabled, set the author archive url as the author url.
+		if ( $this->context->indexable->object_type === 'post' ) {
+			if ( YoastSEO()->helpers->options->get( 'disable-author' ) !== true ) {
+				$data['url'] = YoastSEO()->helpers->user->get_the_author_posts_url( $user_id );
+			}
 		}
 
 		return $data;
