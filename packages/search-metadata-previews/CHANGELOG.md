@@ -5,7 +5,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ## 2.19.0 May 17th, 2021
 ### Enhancements
-* When product data like rating, number of reviews, price or availability is provided, it is now shown in the Google Preview. 
+* When product data like rating, number of reviews, price or availability is provided, it is now shown in the Google Preview.
 
 ## 2.13.0 October 26th, 2020
 ### Enhancements
