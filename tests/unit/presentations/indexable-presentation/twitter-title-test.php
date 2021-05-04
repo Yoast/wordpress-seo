@@ -34,7 +34,7 @@ class Twitter_Title_Test extends TestCase {
 	public function test_generate_twitter_title_with_set_twitter_title() {
 		$this->indexable->twitter_title = 'Twitter title';
 
-		$this->assertEquals( 'Twitter title', $this->instance->generate_twitter_title() );
+		$this->assertSame( 'Twitter title', $this->instance->generate_twitter_title() );
 	}
 
 	/**
@@ -46,7 +46,7 @@ class Twitter_Title_Test extends TestCase {
 		$this->context->open_graph_enabled = true;
 		$this->indexable->open_graph_title = 'Open Graph title';
 
-		$this->assertEquals( '', $this->instance->generate_twitter_title() );
+		$this->assertSame( '', $this->instance->generate_twitter_title() );
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Twitter_Title_Test extends TestCase {
 		$this->instance->open_graph_title  = 'Open Graph title';
 		$this->indexable->title            = 'SEO title';
 
-		$this->assertEquals( 'SEO title', $this->instance->generate_twitter_title() );
+		$this->assertSame( 'SEO title', $this->instance->generate_twitter_title() );
 	}
 
 	/**
@@ -72,7 +72,7 @@ class Twitter_Title_Test extends TestCase {
 		$this->instance->open_graph_title  = null;
 		$this->indexable->title            = 'SEO title';
 
-		$this->assertEquals( 'SEO title', $this->instance->generate_twitter_title() );
+		$this->assertSame( 'SEO title', $this->instance->generate_twitter_title() );
 	}
 
 	/**
@@ -84,7 +84,7 @@ class Twitter_Title_Test extends TestCase {
 		$this->indexable->title           = 'SEO title';
 		$this->instance->open_graph_title = '';
 
-		$this->assertEquals( 'SEO title', $this->instance->generate_twitter_title() );
+		$this->assertSame( 'SEO title', $this->instance->generate_twitter_title() );
 	}
 
 	/**
@@ -95,8 +95,8 @@ class Twitter_Title_Test extends TestCase {
 	public function test_generate_twitter_title_with_empty_return_value() {
 		$this->values_helper
 			->expects( 'get_open_graph_title' )
-			->with( $this->indexable->title, $this->indexable->object_type, $this->indexable->object_sub_type )
-			->andReturn( $this->indexable->title );
+			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
+			->andReturn( '' );
 
 		$this->assertEmpty( $this->instance->generate_twitter_title() );
 	}
