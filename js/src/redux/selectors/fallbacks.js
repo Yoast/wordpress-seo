@@ -68,4 +68,11 @@ export const getImageFallback = state => {
  *
  * @returns {string} The authorName
  */
-export const getSiteUrl = state => ( state.analysisData.snippet.url || "" ).split( "/" )[ 0 ];
+export const getSiteUrl = () => {
+	let url = get( window, "wpseoScriptData.metabox.base_url", "" );
+	if ( url === "" ) {
+		return "";
+	}
+	url = new URL( url );
+	return url.host;
+};
