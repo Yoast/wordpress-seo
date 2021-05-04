@@ -47,7 +47,7 @@ export function stripTags( html: string, allowedTags: string[] = [] ): string {
  * @returns The stripped HTML.
  */
 export function stripAllTags( html: string ): string {
-	return html.replace( /(<([^>]+)>)/ig, "" );
+	return html.replace( /(<([^>]+)>)/g, "" );
 }
 
 /**
