@@ -101,17 +101,12 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	 * @return string The Open Graph description.
 	 */
 	public function generate_open_graph_description() {
-		if ( $this->model->open_graph_description ) {
-			return $this->model->open_graph_description;
+		$open_graph_description = parent::generate_open_graph_description();
+		if ( $open_graph_description ) {
+			return $open_graph_description;
 		}
 
-		$open_graph_description = $this->meta_description;
-
-		if ( empty( $open_graph_description ) ) {
-			$open_graph_description = $this->taxonomy->get_term_description( $this->model->object_id );
-		}
-
-		return $this->values_helper->get_open_graph_description( $open_graph_description, $this->model->object_type, $this->model->object_sub_type );
+		return $this->taxonomy->get_term_description( $this->model->object_id );
 	}
 
 	/**
