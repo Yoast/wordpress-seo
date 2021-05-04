@@ -32,8 +32,26 @@ class Open_Graph_Title_Test extends TestCase {
 	 */
 	public function test_generate_open_graph_title_when_open_graph_title_is_set() {
 		$this->indexable->open_graph_title = 'Example of Open Graph title';
+		$this->indexable->title            = 'Example of SEO title';
 
-		$this->assertEquals( 'Example of Open Graph title', $this->instance->generate_open_graph_title() );
+		$this->assertSame( 'Example of Open Graph title', $this->instance->generate_open_graph_title() );
+	}
+
+	/**
+	 * Tests the situation where the Open Graph title is not set and the value from the helper is used.
+	 *
+	 * @covers ::generate_open_graph_title
+	 */
+	public function test_generate_open_graph_title_from_helper() {
+		$title_from_helper      = 'Example of title from the helper';
+		$this->indexable->title = 'Example of SEO title';
+
+		$this->values_helper
+			->expects( 'get_open_graph_title' )
+			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
+			->andReturn( $title_from_helper );
+
+		$this->assertSame( 'Example of title from the helper', $this->instance->generate_open_graph_title() );
 	}
 
 	/**
@@ -46,9 +64,9 @@ class Open_Graph_Title_Test extends TestCase {
 
 		$this->values_helper
 			->expects( 'get_open_graph_title' )
-			->with( $this->indexable->title, $this->indexable->object_type, $this->indexable->object_sub_type )
-			->andReturn( $this->indexable->title );
+			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
+			->andReturn( '' );
 
-		$this->assertEquals( 'Example of SEO title', $this->instance->generate_open_graph_title() );
+		$this->assertSame( 'Example of SEO title', $this->instance->generate_open_graph_title() );
 	}
 }

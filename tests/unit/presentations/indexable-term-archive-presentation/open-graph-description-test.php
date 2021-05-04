@@ -34,7 +34,30 @@ class Open_Graph_Description_Test extends TestCase {
 	public function test_with_set_open_graph_description() {
 		$this->indexable->open_graph_description = 'Open Graph description';
 
-		$this->assertEquals( 'Open Graph description', $this->instance->generate_open_graph_description() );
+		$this->assertSame( 'Open Graph description', $this->instance->generate_open_graph_description() );
+	}
+
+	/**
+	 * Tests the situation where the description from template is given.
+	 *
+	 * @covers ::generate_open_graph_description
+	 */
+	public function test_with_description_from_template() {
+		$this->indexable->open_graph_description = '';
+		$description_from_template               = 'Description from template';
+		$this->instance->meta_description        = 'Meta description';
+
+		$this->taxonomy
+			->expects( 'get_term_description' )
+			->with( $this->indexable->object_id )
+			->never();
+
+		$this->values_helper
+			->expects( 'get_open_graph_description' )
+			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
+			->andReturn( $description_from_template );
+
+		$this->assertSame( 'Description from template', $this->instance->generate_open_graph_description() );
 	}
 
 	/**
@@ -48,10 +71,10 @@ class Open_Graph_Description_Test extends TestCase {
 
 		$this->values_helper
 			->expects( 'get_open_graph_description' )
-			->with( $this->instance->meta_description, $this->indexable->object_type, $this->indexable->object_sub_type )
-			->andReturn( $this->instance->meta_description );
+			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
+			->andReturn( '' );
 
-		$this->assertEquals( 'Meta description', $this->instance->generate_open_graph_description() );
+		$this->assertSame( 'Meta description', $this->instance->generate_open_graph_description() );
 	}
 
 	/**
@@ -64,37 +87,16 @@ class Open_Graph_Description_Test extends TestCase {
 		$this->instance->meta_description        = '';
 		$term_description                        = 'Term description';
 
-		$this->taxonomy
-			->expects( 'get_term_description' )
-			->with( $this->indexable->object_id )
-			->andReturn( $term_description );
-
 		$this->values_helper
 			->expects( 'get_open_graph_description' )
-			->with( $term_description, $this->indexable->object_type, $this->indexable->object_sub_type )
-			->andReturn( $term_description );
-
-		$this->assertEquals( 'Term description', $this->instance->generate_open_graph_description() );
-	}
-
-	/**
-	 * Tests the situation where the description from template is given.
-	 *
-	 * @covers ::generate_open_graph_description
-	 */
-	public function test_with_description_from_template() {
-		$this->indexable->open_graph_description = '';
-		$this->instance->meta_description        = '';
-		$this->taxonomy
-			->expects( 'get_term_description' )
-			->with( $this->indexable->object_id )
-			->once()
+			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
 			->andReturn( '' );
 
-		$this->values_helper
-			->expects( 'get_open_graph_description' )
-			->andReturn( 'Description from template' );
+		$this->taxonomy
+			->expects( 'get_term_description' )
+			->with( $this->indexable->object_id )
+			->andReturn( $term_description );
 
-		$this->assertEquals( 'Description from template', $this->instance->generate_open_graph_description() );
+		$this->assertSame( 'Term description', $this->instance->generate_open_graph_description() );
 	}
 }
