@@ -239,14 +239,20 @@ Release Date: May 18th, 2021
 
 Enhancements:
 
+* Adds the table of contents accessibility feature to the article schema with a fallback to the webpage schema, when using the Yoast table of contents block.
+* Allows adding multiple FAQ blocks to a post or page.
+* Adds url property to author schema on a post when author archives are enabled.
 * Improves spacing between settings sections.
 * Moves the form for setting the Frontpage meta title and meta description from the Social -> Facebook tab, to Search Appearance -> Content Types.
 * Changes the form to the Replacevar Editor for a more coherent user-experience.
 * Add a filter for filtering `Person` Schema by the user's ID.
 * When metadata about a product is dispatched to the Wordpress SEO store, it should show up in the Google Preview.
+* Adds the `wordCount` attribute to our `Article` schema.
+* Adds a `thumbnailUrl` attribute to `Article` Schema pieces.
 
 Bugfixes:
 
+* Fixes a bug where a malformed Organization piece is added to the Schema if the company logo is an unsupported image.
 * Fixes a bug where we accidentally ship the `css/src` directory.
 
 Other:

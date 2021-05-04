@@ -7,6 +7,7 @@ use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
@@ -31,17 +32,27 @@ class Replace_Vars_Helper {
 	protected $id_helper;
 
 	/**
+	 * The date helper.
+	 *
+	 * @var Date_Helper
+	 */
+	protected $date_helper;
+
+	/**
 	 * Replace_Vars_Helper constructor.
 	 *
 	 * @param WPSEO_Replace_Vars $replace_vars The replace vars.
 	 * @param ID_Helper          $id_helper    The Schema ID helper.
+	 * @param Date_Helper        $date_helper  The date helper.
 	 */
 	public function __construct(
 		WPSEO_Replace_Vars $replace_vars,
-		ID_Helper $id_helper
+		ID_Helper $id_helper,
+		Date_Helper $date_helper
 	) {
 		$this->replace_vars = $replace_vars;
 		$this->id_helper    = $id_helper;
+		$this->date_helper  = $date_helper;
 	}
 
 	/**
@@ -86,7 +97,7 @@ class Replace_Vars_Helper {
 
 		if ( $context->post ) {
 			// Post does not always exist, e.g. on term pages.
-			$replace_vars['post_date'] = $context->post->post_date;
+			$replace_vars['post_date'] = $this->date_helper->format( $context->post->post_date, \DATE_ATOM );
 		}
 
 		foreach ( $replace_vars as $var => $value ) {

@@ -53,6 +53,7 @@ class Article extends Abstract_Schema_Piece {
 			'datePublished'    => $this->helpers->date->format( $this->context->post->post_date_gmt ),
 			'dateModified'     => $this->helpers->date->format( $this->context->post->post_modified_gmt ),
 			'mainEntityOfPage' => [ '@id' => $this->context->canonical . Schema_IDs::WEBPAGE_HASH ],
+			'wordCount'        => $this->word_count( $this->context->post->post_content, $this->context->post->post_title ),
 		];
 
 		if ( $this->context->post->comment_status === 'open' ) {
@@ -150,10 +151,11 @@ class Article extends Abstract_Schema_Piece {
 	 * @return array $data The Article data.
 	 */
 	private function add_image( $data ) {
-		if ( $this->context->has_image ) {
-			$data['image'] = [
+		if ( $this->context->main_image_url !== null ) {
+			$data['image']        = [
 				'@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH,
 			];
+			$data['thumbnailUrl'] = $this->context->main_image_url;
 		}
 
 		return $data;
@@ -181,5 +183,26 @@ class Article extends Abstract_Schema_Piece {
 		];
 
 		return $data;
+	}
+
+	/**
+	 * Does a simple word count but tries to be relatively smart about it.
+	 *
+	 * @param string $post_content The post content.
+	 * @param string $post_title   The post title.
+	 *
+	 * @return int The number of words in the content.
+	 */
+	private function word_count( $post_content, $post_title = '' ) {
+		// Add the title to our word count.
+		$post_content = $post_title . ' ' . $post_content;
+
+		// Strip pre/code blocks and their content.
+		$post_content = \preg_replace( '@<(pre|code)[^>]*?>.*?</\\1>@si', '', $post_content );
+
+		// Strips all other tags.
+		$post_content = \wp_strip_all_tags( $post_content );
+
+		return \str_word_count( $post_content, 0 );
 	}
 }
