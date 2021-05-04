@@ -366,7 +366,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 				 * Do not use a company without a logo.
 				 * The logic check is on `< 1` instead of `false` due to how `get_attachment_id_from_settings` works.
 				 */
-				if ( $this->company_logo_id < 1 ) {
+				if ( $this->company_logo_id < 1 || ! $this->company_logo_meta ) {
 					return false;
 				}
 
