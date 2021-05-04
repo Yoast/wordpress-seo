@@ -93,7 +93,7 @@ describe( "The attributeNotEmpty function", () => {
 			innerBlocks: [],
 			isValid: true,
 			attributes: {
-				title: "<img src='./image.jpeg' alt='An alt text.'/><b></b><<img src='./ballon.jpeg' alt=''>",
+				title: "<img src='./image.jpeg' alt='An alt text.'/><b></b><img src='./ballon.jpeg' alt=''>",
 			},
 		};
 
@@ -107,7 +107,7 @@ describe( "The attributeNotEmpty function", () => {
 			innerBlocks: [],
 			isValid: true,
 			attributes: {
-				title: "<img src='./image.jpeg' alt='An alt text.'/><b>Filled in!</b><<img src='./ballon.jpeg' alt=''>",
+				title: "<img src='./image.jpeg' alt='An alt text.'/><b>Filled in!</b><img src='./ballon.jpeg' alt=''>",
 			},
 		};
 
