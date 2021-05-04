@@ -34,7 +34,7 @@ class Twitter_Description_Test extends TestCase {
 	public function test_with_set_twitter_description() {
 		$this->indexable->twitter_description = 'Twitter description';
 
-		$this->assertEquals( 'Twitter description', $this->instance->generate_twitter_description() );
+		$this->assertSame( 'Twitter description', $this->instance->generate_twitter_description() );
 	}
 
 	/**
@@ -46,7 +46,7 @@ class Twitter_Description_Test extends TestCase {
 		$this->context->open_graph_enabled       = true;
 		$this->indexable->open_graph_description = 'Open Graph description';
 
-		$this->assertEquals( '', $this->instance->generate_twitter_description() );
+		$this->assertSame( '', $this->instance->generate_twitter_description() );
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Twitter_Description_Test extends TestCase {
 		$this->instance->open_graph_description = '';
 		$this->indexable->description           = 'SEO description';
 
-		$this->assertEquals( 'SEO description', $this->instance->generate_twitter_description() );
+		$this->assertSame( 'SEO description', $this->instance->generate_twitter_description() );
 	}
 
 	/**
@@ -73,10 +73,10 @@ class Twitter_Description_Test extends TestCase {
 
 		$this->values_helper
 			->expects( 'get_open_graph_description' )
-			->with( $this->indexable->description, $this->indexable->object_type, $this->indexable->object_sub_type )
-			->andReturn( $this->indexable->description );
+			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
+			->andReturn( '' );
 
-		$this->assertEquals( 'SEO description', $this->instance->generate_twitter_description() );
+		$this->assertSame( 'SEO description', $this->instance->generate_twitter_description() );
 	}
 
 	/**
@@ -88,7 +88,7 @@ class Twitter_Description_Test extends TestCase {
 		$this->indexable->description           = 'Meta description';
 		$this->instance->open_graph_description = '';
 
-		$this->assertEquals( 'Meta description', $this->instance->generate_twitter_description() );
+		$this->assertSame( 'Meta description', $this->instance->generate_twitter_description() );
 	}
 
 	/**
