@@ -52,7 +52,7 @@ class Schema_Generator_Test extends TestCase {
 	/**
 	 * The schema id helper.
 	 *
-	 * @var ID_Helper|Mockery\MockInterface|ID_Helper
+	 * @var ID_Helper|Mockery\MockInterface
 	 */
 	protected $id;
 
