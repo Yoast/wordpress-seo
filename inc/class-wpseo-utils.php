@@ -17,7 +17,7 @@ class WPSEO_Utils {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @var bool $has_filters
+	 * @var bool
 	 */
 	public static $has_filters;
 

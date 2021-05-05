@@ -37,7 +37,7 @@ class Model implements JsonSerializable {
 	 * @example Model::$auto_prefix_models = 'MyProject_MyModels_'; //PEAR
 	 * @example Model::$auto_prefix_models = '\MyProject\MyModels\'; //Namespaces
 	 *
-	 * @var string $auto_prefix_models
+	 * @var string
 	 */
 	public static $auto_prefix_models = '\Yoast\WP\SEO\Models\\';
 
@@ -48,14 +48,14 @@ class Model implements JsonSerializable {
 	 * @example Model::$short_table_names = true;
 	 * @example Model::$short_table_names = false; // default
 	 *
-	 * @var bool $short_table_names
+	 * @var bool
 	 */
 	public static $short_table_names = false;
 
 	/**
 	 * The ORM instance used by this model instance to communicate with the database.
 	 *
-	 * @var ORM $orm
+	 * @var ORM
 	 */
 	public $orm;
 

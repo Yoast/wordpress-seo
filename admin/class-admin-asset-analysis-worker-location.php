@@ -13,14 +13,14 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 	/**
 	 * Holds the asset's location.
 	 *
-	 * @var WPSEO_Admin_Asset_Location $asset_location.
+	 * @var WPSEO_Admin_Asset_Location
 	 */
 	private $asset_location;
 
 	/**
 	 * Holds the asset itself.
 	 *
-	 * @var WPSEO_Admin_Asset $asset.
+	 * @var WPSEO_Admin_Asset
 	 */
 	private $asset;
 
