@@ -47,7 +47,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Sitemap_Cache_Data::is_usable
 	 */
 	public function test_set_sitemap_not_string() {
-		$sitemap         = new StdClass();
+		$sitemap         = new stdClass();
 		$sitemap->doesnt = 'matter';
 
 		$this->subject->set_sitemap( $sitemap );
