@@ -926,7 +926,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns post in metabox context.
 	 *
-	 * @returns WP_Post|array
+	 * @return WP_Post|array
 	 */
 	protected function get_metabox_post() {
 		if ( $this->post !== null ) {

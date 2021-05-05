@@ -32,7 +32,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	 *
 	 * In this case: only when on an admin page.
 	 *
-	 * @returns array The conditionals.
+	 * @return array The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
