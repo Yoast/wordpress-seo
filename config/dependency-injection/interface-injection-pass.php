@@ -104,7 +104,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 		$constructor_arguments = $class_constructor->getParameters();
 		$splat_argument        = \end( $constructor_arguments );
 
-		// isVariadic means "is it a 'splat' argument".
+		// The isVariadic check means "is it a 'splat' argument".
 		if ( ! $splat_argument || ! $splat_argument->isVariadic() ) {
 			return null;
 		}

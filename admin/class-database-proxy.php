@@ -93,7 +93,7 @@ class WPSEO_Database_Proxy {
 	 *
 	 * @param array $data         Data to update on the table.
 	 * @param array $where        Where condition as key => value array.
-	 * @param null  $format       Optional. data prepare format.
+	 * @param null  $format       Optional. Data prepare format.
 	 * @param null  $where_format Optional. Where prepare format.
 	 *
 	 * @return false|int False when the update request is invalid, int on number of rows changed.
