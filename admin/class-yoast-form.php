@@ -855,7 +855,7 @@ class Yoast_Form {
 			'on'  => __( 'No', 'wordpress-seo' ),
 		];
 
-		$is_disabled = ( isset( $attr['disabled'] ) && $attr['disabled'] ) ? true : false;
+		$is_disabled = ( isset( $attr['disabled'] ) && $attr['disabled'] );
 
 		$this->toggle_switch(
 			$var,
@@ -895,7 +895,7 @@ class Yoast_Form {
 			$off_key => __( 'Hide', 'wordpress-seo' ),
 		];
 
-		$is_disabled = ( isset( $attr['disabled'] ) && $attr['disabled'] ) ? true : false;
+		$is_disabled = ( isset( $attr['disabled'] ) && $attr['disabled'] );
 
 		$this->toggle_switch(
 			$var,

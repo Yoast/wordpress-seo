@@ -273,7 +273,7 @@ class WPSEO_Replace_Vars {
 				$replacement = $this->retrieve_ct_desc_custom_tax_name( $var );
 			}
 			elseif ( strpos( $var, 'ct_' ) === 0 ) {
-				$single      = ( isset( $matches[2][ $k ] ) && $matches[2][ $k ] !== '' ) ? true : false;
+				$single      = ( isset( $matches[2][ $k ] ) && $matches[2][ $k ] !== '' );
 				$replacement = $this->retrieve_ct_custom_tax_name( $var, $single );
 			} // Deal with non-variable variable names.
 			elseif ( method_exists( $this, 'retrieve_' . $var ) ) {
