@@ -61,14 +61,6 @@ class WPSEO_Utils {
 
 		$software = sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) );
 
-		if ( stripos( $software, 'apache' ) !== false ) {
-			$abool = true;
-		}
-		elseif ( stripos( $software, 'litespeed' ) !== false ) {
-			$abool = true;
-		}
-		else $abool = false;
-
 		return stripos( $software, 'apache' ) !== false || stripos( $software, 'litespeed' ) !== false;
 	}
 
