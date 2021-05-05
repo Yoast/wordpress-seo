@@ -95,7 +95,6 @@ class Twitter_Title_Test extends TestCase {
 	public function test_generate_twitter_title_with_empty_return_value() {
 		$this->values_helper
 			->expects( 'get_open_graph_title' )
-			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
 			->andReturn( '' );
 
 		$this->assertEmpty( $this->instance->generate_twitter_title() );

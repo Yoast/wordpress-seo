@@ -48,7 +48,6 @@ class Open_Graph_Title_Test extends TestCase {
 
 		$this->values_helper
 			->expects( 'get_open_graph_title' )
-			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
 			->andReturn( $title_from_helper );
 
 		$this->assertSame( 'Example of title from the helper', $this->instance->generate_open_graph_title() );
@@ -64,7 +63,6 @@ class Open_Graph_Title_Test extends TestCase {
 
 		$this->values_helper
 			->expects( 'get_open_graph_title' )
-			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
 			->andReturn( '' );
 
 		$this->assertSame( 'Example of SEO title', $this->instance->generate_open_graph_title() );

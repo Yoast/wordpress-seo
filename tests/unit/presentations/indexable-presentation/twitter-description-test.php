@@ -73,7 +73,6 @@ class Twitter_Description_Test extends TestCase {
 
 		$this->values_helper
 			->expects( 'get_open_graph_description' )
-			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
 			->andReturn( '' );
 
 		$this->assertSame( 'SEO description', $this->instance->generate_twitter_description() );
@@ -99,7 +98,6 @@ class Twitter_Description_Test extends TestCase {
 	public function test_with_empty_return_value() {
 		$this->values_helper
 			->expects( 'get_open_graph_description' )
-			->with( $this->indexable->description, $this->indexable->object_type, $this->indexable->object_sub_type )
 			->andReturn( $this->indexable->description );
 
 		$this->assertEmpty( $this->instance->generate_twitter_description() );

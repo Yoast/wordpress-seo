@@ -52,6 +52,7 @@ class Open_Graph_Description_Test extends TestCase {
 	 * @covers ::generate_open_graph_description
 	 */
 	public function test_with_helper_fallback() {
+		$this->indexable->object_type     = 'post';
 		$this->indexable->object_sub_type = 'post';
 		$description_from_helper          = 'Description from helper';
 		$this->instance->meta_description = 'Meta description';
@@ -70,6 +71,8 @@ class Open_Graph_Description_Test extends TestCase {
 	 * @covers ::generate_open_graph_description
 	 */
 	public function test_with_meta_description() {
+		$this->indexable->object_type            = 'post';
+		$this->indexable->object_sub_type        = 'post';
 		$this->indexable->open_graph_description = '';
 		$description_from_helper                 = '';
 		$this->instance->meta_description        = 'Meta description';
@@ -88,6 +91,7 @@ class Open_Graph_Description_Test extends TestCase {
 	 * @covers ::generate_open_graph_description
 	 */
 	public function test_with_excerpt_fallback() {
+		$this->indexable->object_type     = 'post';
 		$this->indexable->object_sub_type = 'post';
 		$description_from_helper          = '';
 		$this->instance->meta_description = '';

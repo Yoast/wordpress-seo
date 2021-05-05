@@ -61,7 +61,6 @@ class Open_Graph_Description_Test extends TestCase {
 
 		$this->values_helper
 			->expects( 'get_open_graph_description' )
-			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
 			->andReturn( '' );
 
 		$this->assertSame( 'Example of meta description', $this->instance->generate_open_graph_description() );
