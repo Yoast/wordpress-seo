@@ -69,7 +69,7 @@ class WPSEO_Utils {
 		}
 		else $abool = false;
 
-		return $abool;
+		return stripos( $software, 'apache' ) !== false || stripos( $software, 'litespeed' ) !== false;
 	}
 
 	/**
