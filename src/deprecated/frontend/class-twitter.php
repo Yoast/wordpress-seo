@@ -54,7 +54,7 @@ class WPSEO_Twitter {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @return object
+	 * @return object|null
 	 */
 	public static function get_instance() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );

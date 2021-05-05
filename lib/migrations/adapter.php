@@ -319,7 +319,7 @@ class Adapter {
 	 *
 	 * @param string $query The query to run.
 	 *
-	 * @return array An associative array of the result.
+	 * @return array|false An associative array of the result.
 	 */
 	public function select_one( $query ) {
 		global $wpdb;
@@ -378,7 +378,7 @@ class Adapter {
 	 * @param string $table_name The table name.
 	 * @param array  $options    The options.
 	 *
-	 * @return bool|Table
+	 * @return Table
 	 */
 	public function create_table( $table_name, $options = [] ) {
 		return new Table( $this, $table_name, $options );
@@ -527,7 +527,7 @@ class Adapter {
 	 * @param string $table  The table name.
 	 * @param string $column The column name.
 	 *
-	 * @return array
+	 * @return array|null
 	 */
 	public function column_info( $table, $column ) {
 		if ( empty( $table ) || empty( $column ) ) {

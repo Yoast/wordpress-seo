@@ -117,7 +117,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	/**
 	 * Fetches the data from Ryte.
 	 *
-	 * @return bool Whether the request ran.
+	 * @return bool|null Whether the request ran.
 	 */
 	public function fetch_from_ryte() {
 		// Don't do anything when the WordPress environment type isn't "production".

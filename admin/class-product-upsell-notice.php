@@ -176,7 +176,7 @@ class WPSEO_Product_Upsell_Notice {
 	/**
 	 * Dismisses the notice.
 	 *
-	 * @return string
+	 * @return bool
 	 */
 	protected function is_notice_dismissed() {
 		return get_user_meta( get_current_user_id(), self::USER_META_DISMISSED, true ) === '1';
@@ -192,7 +192,7 @@ class WPSEO_Product_Upsell_Notice {
 	/**
 	 * Returns the set options.
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	protected function get_options() {
 		return get_option( self::OPTION_NAME );

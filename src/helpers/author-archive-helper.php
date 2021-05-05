@@ -28,7 +28,7 @@ class Author_Archive_Helper {
 	 *
 	 * @param int $author_id The author ID.
 	 *
-	 * @return bool Whether the author has at least one public post.
+	 * @return bool|null Whether the author has at least one public post.
 	 */
 	public function author_has_public_posts( $author_id ) {
 		// First check if the author has at least one public post.

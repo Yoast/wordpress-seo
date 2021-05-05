@@ -494,7 +494,7 @@ class Model implements JsonSerializable {
 	 *
 	 * @param string $property The property to get.
 	 *
-	 * @return null|string The value of the property
+	 * @return mixed The value of the property
 	 */
 	public function __get( $property ) {
 		$value = $this->orm->get( $property );

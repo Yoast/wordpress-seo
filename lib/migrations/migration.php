@@ -49,7 +49,7 @@ abstract class Migration {
 	 *
 	 * @param Adapter $adapter The adapter to set.
 	 *
-	 * @return $this
+	 * @return $this|null
 	 */
 	public function set_adapter( $adapter ) {
 		if ( ! $adapter instanceof Adapter ) {

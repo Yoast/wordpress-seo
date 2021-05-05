@@ -705,7 +705,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * Generates the estimated reading time.
 	 *
-	 * @return int The estimated reading time.
+	 * @return int|null The estimated reading time.
 	 *
 	 * @codeCoverageIgnore Wrapper method.
 	 */
