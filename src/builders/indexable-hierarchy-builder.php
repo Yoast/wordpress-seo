@@ -155,7 +155,8 @@ class Indexable_Hierarchy_Builder {
 		}
 		$depth = \count( $indexable->ancestors );
 		foreach ( $indexable->ancestors as $ancestor ) {
-			$this->indexable_hierarchy_repository->add_ancestor( $indexable->id, $ancestor->id, $depth-- );
+			$this->indexable_hierarchy_repository->add_ancestor( $indexable->id, $ancestor->id, $depth );
+			--$depth;
 		}
 	}
 
