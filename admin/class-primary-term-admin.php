@@ -26,7 +26,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	/**
 	 * Gets the current post ID.
 	 *
-	 * @return integer The post ID.
+	 * @return int The post ID.
 	 */
 	protected function get_current_id() {
 		$post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );

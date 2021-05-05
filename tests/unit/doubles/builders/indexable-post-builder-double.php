@@ -69,8 +69,8 @@ class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
 	/**
 	 * Retrieves the permalink for a post with the given post type and ID.
 	 *
-	 * @param string  $post_type The post type.
-	 * @param integer $post_id   The post ID.
+	 * @param string $post_type The post type.
+	 * @param int    $post_id   The post ID.
 	 *
 	 * @return false|string|WP_Error The permalink.
 	 */

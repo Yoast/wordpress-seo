@@ -341,7 +341,7 @@ class Meta_Surface {
 	 *
 	 * @param string $url The url.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function is_date_archive_url( $url ) {
 		$path = \wp_parse_url( $url, \PHP_URL_PATH );

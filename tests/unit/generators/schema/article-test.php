@@ -191,9 +191,9 @@ class Article_Test extends TestCase {
 	/**
 	 * Tests the generate method.
 	 *
-	 * @param array   $values_to_test The values that need to vary in order to test all the paths.
-	 * @param boolean $expected_value The expected generated article schema.
-	 * @param string  $message        The message to show in case a test fails.
+	 * @param array  $values_to_test The values that need to vary in order to test all the paths.
+	 * @param bool   $expected_value The expected generated article schema.
+	 * @param string $message        The message to show in case a test fails.
 	 *
 	 * @covers ::generate
 	 * @covers ::add_image

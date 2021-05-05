@@ -340,7 +340,7 @@ class Indexable_Hierarchy_Builder {
 	 * @param int       $indexable_id The indexable id we're adding ancestors for.
 	 * @param int[]     $parents      The indexable ids of the parents already added.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	private function is_invalid_ancestor( $ancestor, $indexable_id, $parents ) {
 		// If the ancestor is not an Indexable, it is invalid by default.

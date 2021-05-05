@@ -894,7 +894,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Parse the field where the existing meta-data value is displayed.
 	 *
-	 * @param integer    $record_id  Record ID.
+	 * @param int        $record_id  Record ID.
 	 * @param string     $attributes HTML attributes.
 	 * @param bool|array $values     Optional values data array.
 	 *

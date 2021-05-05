@@ -32,7 +32,7 @@ class Alert_Dismissal_Action {
 	 *
 	 * @param string $alert_identifier Alert identifier.
 	 *
-	 * @return boolean Whether the dismiss was successful or not.
+	 * @return bool Whether the dismiss was successful or not.
 	 */
 	public function dismiss( $alert_identifier ) {
 		$user_id = $this->user->get_current_user_id();
@@ -66,7 +66,7 @@ class Alert_Dismissal_Action {
 	 *
 	 * @param string $alert_identifier Alert identifier.
 	 *
-	 * @return boolean Whether the reset was successful or not.
+	 * @return bool Whether the reset was successful or not.
 	 */
 	public function reset( $alert_identifier ) {
 		$user_id = $this->user->get_current_user_id();
