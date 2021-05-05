@@ -21,8 +21,8 @@ class WPSEO_Extension_Manager {
 	 * @deprecated 15.4
 	 * @codeCoverageIgnore
 	 *
-	 * @param string          $extension_name The extension name.
-	 * @param WPSEO_Extension $extension      The extension value object.
+	 * @param string               $extension_name The extension name.
+	 * @param WPSEO_Extension|null $extension      The extension value object.
 	 *
 	 * @return void
 	 */

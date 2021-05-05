@@ -169,7 +169,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns all the taxonomies for which the primary term selection is enabled.
 	 *
-	 * @param int $post_id Default current post ID.
+	 * @param int|null $post_id Default current post ID.
 	 * @return array
 	 */
 	protected function get_primary_term_taxonomies( $post_id = null ) {

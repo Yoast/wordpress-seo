@@ -909,8 +909,8 @@ class Yoast_Form {
 	/**
 	 * Retrieves the value for the form field.
 	 *
-	 * @param string $field_name    The field name to retrieve the value for.
-	 * @param string $default_value The default value, when field has no value.
+	 * @param string      $field_name    The field name to retrieve the value for.
+	 * @param string|null $default_value The default value, when field has no value.
 	 *
 	 * @return mixed|null The retrieved value.
 	 */

@@ -113,10 +113,10 @@ class WPSEO_Database_Proxy {
 	 *
 	 * Performs an insert into and if key is duplicate it will update the existing record.
 	 *
-	 * @param array $data         Data to update on the table.
-	 * @param array $where        Unused. Where condition as key => value array.
-	 * @param null  $format       Optional. Data prepare format.
-	 * @param null  $where_format Deprecated. Where prepare format.
+	 * @param array      $data         Data to update on the table.
+	 * @param array|null $where        Unused. Where condition as key => value array.
+	 * @param null       $format       Optional. Data prepare format.
+	 * @param null       $where_format Deprecated. Where prepare format.
 	 *
 	 * @return false|int False when the upsert request is invalid, int on number of rows changed.
 	 */

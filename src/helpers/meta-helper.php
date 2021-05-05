@@ -39,10 +39,10 @@ class Meta_Helper {
 	/**
 	 * Retrieve a taxonomy term's meta value(s).
 	 *
-	 * @param mixed  $term     Term to get the meta value for
-	 *                         either (string) term name, (int) term id or (object) term.
-	 * @param string $taxonomy Name of the taxonomy to which the term is attached.
-	 * @param string $meta     Optional. Meta value to get (without prefix).
+	 * @param mixed       $term     Term to get the meta value for
+	 *                              either (string) term name, (int) term id or (object) term.
+	 * @param string      $taxonomy Name of the taxonomy to which the term is attached.
+	 * @param string|null $meta     Optional. Meta value to get (without prefix).
 	 *
 	 * @return mixed|bool Value for the $meta if one is given, might be the default.
 	 *                    If no meta is given, an array of all the meta data for the term.

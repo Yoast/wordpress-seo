@@ -109,7 +109,7 @@ class Url_Helper {
 	/**
 	 * Parse the home URL setting to find the base URL for relative URLs.
 	 *
-	 * @param string $path Optional path string.
+	 * @param string|null $path Optional path string.
 	 *
 	 * @return string
 	 */
@@ -129,9 +129,9 @@ class Url_Helper {
 	/**
 	 * Returns the link type.
 	 *
-	 * @param array $url      The URL, as parsed by wp_parse_url.
-	 * @param array $home_url Optional. The home URL, as parsed by wp_parse_url. Used to avoid reparsing the home_url.
-	 * @param bool  $is_image Whether or not the link is an image.
+	 * @param array      $url      The URL, as parsed by wp_parse_url.
+	 * @param array|null $home_url Optional. The home URL, as parsed by wp_parse_url. Used to avoid reparsing the home_url.
+	 * @param bool       $is_image Whether or not the link is an image.
 	 *
 	 * @return string The link type.
 	 */

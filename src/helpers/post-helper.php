@@ -75,7 +75,7 @@ class Post_Helper {
 	/**
 	 * Retrieves the post type of the current post.
 	 *
-	 * @param WP_Post $post The post.
+	 * @param WP_Post|null $post The post.
 	 *
 	 * @codeCoverageIgnore It only wraps a WordPress function.
 	 *

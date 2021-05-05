@@ -71,8 +71,8 @@ abstract class Migration {
 	/**
 	 * Creates a database.
 	 *
-	 * @param string $name    The name of the database.
-	 * @param array  $options The options.
+	 * @param string     $name    The name of the database.
+	 * @param array|null $options The options.
 	 *
 	 * @return bool
 	 */
