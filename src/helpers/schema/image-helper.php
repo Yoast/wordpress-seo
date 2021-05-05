@@ -113,7 +113,7 @@ class Image_Helper {
 	 * @param string $url       The image URL.
 	 * @param string $caption   A caption, if set.
 	 *
-	 * @return array $data Schema ImageObject array.
+	 * @return array Schema ImageObject array.
 	 */
 	public function simple_image_object( $schema_id, $url, $caption = '' ) {
 		$data = $this->generate_object( $schema_id );

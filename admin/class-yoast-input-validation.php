@@ -46,7 +46,7 @@ class Yoast_Input_Validation {
 	 *
 	 * @param string $admin_title The page title, with extra context added.
 	 *
-	 * @return string $admin_title The modified or original admin title.
+	 * @return string The modified or original admin title.
 	 */
 	public static function add_yoast_admin_document_title_errors( $admin_title ) {
 		$errors      = get_settings_errors();

@@ -46,7 +46,7 @@ class Rel_Prev_Presenter extends Abstract_Indexable_Tag_Presenter {
 	/**
 	 * Run the rel prev content through the `wpseo_adjacent_rel_url` filter.
 	 *
-	 * @return string $rel_prev The filtered adjacent link.
+	 * @return string The filtered adjacent link.
 	 */
 	public function get() {
 		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {

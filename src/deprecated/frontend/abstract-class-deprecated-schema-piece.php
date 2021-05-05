@@ -98,7 +98,7 @@ abstract class WPSEO_Deprecated_Graph_Piece implements WPSEO_Graph_Piece {
 	 * @codeCoverageIgnore
 	 * @deprecated 14.0
 	 *
-	 * @return array $data Article data.
+	 * @return array Article data.
 	 */
 	public function generate() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', $this->stable_class_name . '::generate' );

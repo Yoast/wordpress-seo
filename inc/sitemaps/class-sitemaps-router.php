@@ -41,7 +41,7 @@ class WPSEO_Sitemaps_Router {
 	 *
 	 * @param string $redirect The redirect URL currently determined.
 	 *
-	 * @return bool|string $redirect
+	 * @return bool|string
 	 */
 	public function redirect_canonical( $redirect ) {
 

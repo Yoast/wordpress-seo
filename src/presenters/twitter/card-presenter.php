@@ -20,7 +20,7 @@ class Card_Presenter extends Abstract_Indexable_Tag_Presenter {
 	/**
 	 * Runs the card type through the `wpseo_twitter_card_type` filter.
 	 *
-	 * @return string $card_type The filtered card type.
+	 * @return string The filtered card type.
 	 */
 	public function get() {
 		/**

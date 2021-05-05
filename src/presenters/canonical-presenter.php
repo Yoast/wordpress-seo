@@ -26,7 +26,7 @@ class Canonical_Presenter extends Abstract_Indexable_Tag_Presenter {
 	/**
 	 * Run the canonical content through the `wpseo_canonical` filter.
 	 *
-	 * @return string $canonical The filtered canonical.
+	 * @return string The filtered canonical.
 	 */
 	public function get() {
 		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
