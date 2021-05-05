@@ -28,6 +28,8 @@ class Indexable_Author_Watcher implements Integration_Interface {
 
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];

@@ -85,6 +85,8 @@ class WPSEO_Product_Upsell_Notice {
 
 	/**
 	 * Checks if the options has a first activated on date value.
+	 *
+	 * @return bool
 	 */
 	protected function has_first_activated_on() {
 		return $this->options['first_activated_on'] !== false;

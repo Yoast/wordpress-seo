@@ -275,6 +275,8 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Pass some variables to js for replacing variables.
+	 *
+	 * @return array
 	 */
 	public function localize_replace_vars_script() {
 		return [

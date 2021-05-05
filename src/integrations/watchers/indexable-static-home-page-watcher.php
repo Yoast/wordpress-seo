@@ -22,6 +22,8 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];

@@ -95,6 +95,8 @@ class Index_Command implements Command_Interface {
 
 	/**
 	 * Gets the namespace.
+	 *
+	 * @return string
 	 */
 	public static function get_namespace() {
 		return Main::WP_CLI_NAMESPACE;

@@ -106,6 +106,8 @@ class Open_Graph_OEmbed_Test extends TestCase {
 
 	/**
 	 * Returns the data to test with.
+	 *
+	 * @return array
 	 */
 	public function set_oembed_data() {
 		return [

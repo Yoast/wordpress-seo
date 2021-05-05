@@ -521,6 +521,8 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * Returns the main schema id.
 	 *
 	 * The main schema id.
+	 *
+	 * @return string
 	 */
 	public function generate_main_schema_id() {
 		return $this->canonical . Schema_IDs::WEBPAGE_HASH;
