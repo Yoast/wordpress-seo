@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Admin\Views;
 
 use Brain\Monkey\Filters;
-use Brain\Monkey\Functions;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Feature_Toggle;
 use Yoast_Integration_Toggles;
