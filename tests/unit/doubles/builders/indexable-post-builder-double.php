@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Builders;
 
+use WP_Error;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 use Yoast\WP\SEO\Models\Indexable;
 
@@ -71,7 +72,7 @@ class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
 	 * @param string  $post_type The post type.
 	 * @param integer $post_id   The post ID.
 	 *
-	 * @return false|string|\WP_Error The permalink.
+	 * @return false|string|WP_Error The permalink.
 	 */
 	public function get_permalink( $post_type, $post_id ) {
 		return parent::get_permalink( $post_type, $post_id );

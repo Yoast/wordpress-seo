@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 
+use Exception;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionNamedType;
@@ -62,7 +63,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 					++$argument_index;
 				}
 			}
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
 			\var_dump( $e );
 		}

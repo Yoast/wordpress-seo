@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
+use Exception;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
@@ -481,7 +482,7 @@ class Indexing_Route_Test extends TestCase {
 	 * @covers ::run_indexation_action
 	 */
 	public function test_index_general_when_error_occurs() {
-		$this->general_indexation_action->expects( 'index' )->andThrow( new \Exception( 'An exception during indexing' ) );
+		$this->general_indexation_action->expects( 'index' )->andThrow( new Exception( 'An exception during indexing' ) );
 
 		$this->indexing_helper->expects( 'indexing_failed' )->withNoArgs();
 

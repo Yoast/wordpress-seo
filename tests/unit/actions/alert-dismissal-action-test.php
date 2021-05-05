@@ -28,7 +28,7 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	/**
 	 * Holds the user helper.
 	 *
-	 * @var Mockery\MockInterface|\Yoast\WP\SEO\Helpers\User_Helper
+	 * @var Mockery\MockInterface|User_Helper
 	 */
 	protected $user;
 

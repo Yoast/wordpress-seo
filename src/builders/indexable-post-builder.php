@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Builders;
 
 use WP_Error;
+use WP_Post;
 use WPSEO_Meta;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Post_Helper;
@@ -387,7 +388,7 @@ class Indexable_Post_Builder {
 	/**
 	 * Checks whether an indexable should be built for this post.
 	 *
-	 * @param \WP_Post $post The post for which an indexable should be built.
+	 * @param WP_Post $post The post for which an indexable should be built.
 	 *
 	 * @return bool `true` if the post should be excluded from building, `false` if not.
 	 */
