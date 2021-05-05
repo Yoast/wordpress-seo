@@ -183,7 +183,7 @@ class Elementor implements Integration_Interface {
 	 * Register a panel tab slug, in order to allow adding controls to this tab.
 	 */
 	public function add_yoast_panel_tab() {
-		Controls_Manager::add_tab( $this::YOAST_TAB, __( 'Yoast SEO', 'wordpress-seo' ) );
+		Controls_Manager::add_tab( $this::YOAST_TAB, \__( 'Yoast SEO', 'wordpress-seo' ) );
 	}
 
 	/**
@@ -201,7 +201,7 @@ class Elementor implements Integration_Interface {
 		$document->start_controls_section(
 			'yoast_temporary_section',
 			[
-				'label' => __( 'Yoast SEO', 'wordpress-seo' ),
+				'label' => \__( 'Yoast SEO', 'wordpress-seo' ),
 				'tab'   => self::YOAST_TAB,
 			]
 		);
@@ -398,7 +398,7 @@ class Elementor implements Integration_Interface {
 
 		$plugins_script_data = [
 			'replaceVars' => [
-				'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
+				'no_parent_text'           => \__( '(no parent)', 'wordpress-seo' ),
 				'replace_vars'             => $this->get_replace_vars(),
 				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 				'scope'                    => $this->determine_scope(),
@@ -418,11 +418,11 @@ class Elementor implements Integration_Interface {
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
-		$alert_dismissal_action = YoastSEO()->classes->get( Alert_Dismissal_Action::class );
+		$alert_dismissal_action = \YoastSEO()->classes->get( Alert_Dismissal_Action::class );
 		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
 
 		$script_data = [
-			'media'             => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
+			'media'             => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'           => $this->get_metabox_script_data(),
 			'userLanguageCode'  => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'            => true,
@@ -440,7 +440,7 @@ class Elementor implements Integration_Interface {
 			$this->asset_manager->enqueue_style( 'featured-image' );
 
 			$script_data['featuredImage'] = [
-				'featured_image_notice' => __( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
+				'featured_image_notice' => \__( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
 			];
 		}
 
@@ -454,7 +454,7 @@ class Elementor implements Integration_Interface {
 	 */
 	protected function render_hidden_fields() {
 		// Wrap in a form with an action and post_id for the submit.
-		printf(
+		\printf(
 			'<form id="yoast-form" method="post" action="%1$s"><input type="hidden" name="action" value="wpseo_elementor_save" /><input type="hidden" id="post_ID" name="post_id" value="%2$s" />',
 			\esc_url( \admin_url( 'admin-ajax.php' ) ),
 			\esc_attr( $this->get_metabox_post()->ID )
@@ -477,14 +477,14 @@ class Elementor implements Integration_Interface {
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
 
-		printf(
+		\printf(
 			'<input type="hidden" id="%1$s" name="%1$s" value="%2$s" />',
 			\esc_attr( WPSEO_Meta::$form_prefix . 'slug' ),
 			\esc_attr( $this->get_metabox_post()->post_name )
 		);
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in the filter.
-		echo apply_filters( 'wpseo_elementor_hidden_fields', '' );
+		echo \apply_filters( 'wpseo_elementor_hidden_fields', '' );
 
 		echo '</form>';
 	}
@@ -537,7 +537,7 @@ class Elementor implements Integration_Interface {
 		$values = $post_formatter->get_values();
 
 		/** This filter is documented in admin/filters/class-cornerstone-filter.php. */
-		$post_types = \apply_filters( 'wpseo_cornerstone_post_types', YoastSEO()->helpers->post_type->get_accessible_post_types() );
+		$post_types = \apply_filters( 'wpseo_cornerstone_post_types', \YoastSEO()->helpers->post_type->get_accessible_post_types() );
 		if ( $values['cornerstoneActive'] && ! \in_array( $this->get_metabox_post()->post_type, $post_types, true ) ) {
 			$values['cornerstoneActive'] = false;
 		}
@@ -622,7 +622,7 @@ class Elementor implements Integration_Interface {
 
 		foreach ( $taxonomies as $taxonomy_name => $taxonomy ) {
 
-			if ( is_string( $taxonomy ) ) { // If attachment, see https://core.trac.wordpress.org/ticket/37368 .
+			if ( \is_string( $taxonomy ) ) { // If attachment, see https://core.trac.wordpress.org/ticket/37368 .
 				$taxonomy_name = $taxonomy;
 				$taxonomy      = \get_taxonomy( $taxonomy_name );
 			}

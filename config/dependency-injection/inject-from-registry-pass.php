@@ -40,7 +40,7 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 		$constructor  = $this->getConstructor( $value, false );
 
 		if ( $constructor ) {
-			array_unshift( $method_calls, [ $constructor, $value->getArguments() ] );
+			\array_unshift( $method_calls, [ $constructor, $value->getArguments() ] );
 		}
 
 		foreach ( $method_calls as $method_call ) {

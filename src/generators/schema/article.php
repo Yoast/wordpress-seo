@@ -57,7 +57,7 @@ class Article extends Abstract_Schema_Piece {
 		];
 
 		if ( $this->context->post->comment_status === 'open' ) {
-			$data['commentCount'] = intval( $this->context->post->comment_count, 10 );
+			$data['commentCount'] = \intval( $this->context->post->comment_count, 10 );
 		}
 
 		if ( $this->context->site_represents_reference ) {

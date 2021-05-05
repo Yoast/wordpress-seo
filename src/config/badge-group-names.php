@@ -47,7 +47,7 @@ class Badge_Group_Names {
 	 * @return bool Whether a group of badges is still eligible for a "new" badge.
 	 */
 	public function is_still_eligible_for_new_badge( $group, $current_version = null ) {
-		if ( ! array_key_exists( $group, $this::GROUP_NAMES ) ) {
+		if ( ! \array_key_exists( $group, $this::GROUP_NAMES ) ) {
 			return false;
 		}
 
@@ -57,6 +57,6 @@ class Badge_Group_Names {
 			$current_version = $this->version;
 		}
 
-		return (bool) version_compare( $group_version, $current_version, '>' );
+		return (bool) \version_compare( $group_version, $current_version, '>' );
 	}
 }

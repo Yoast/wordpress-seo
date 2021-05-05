@@ -146,7 +146,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 */
 	private function is_broken( $breadcrumb ) {
 		// A breadcrumb is broken if it is not an array.
-		if ( ! is_array( $breadcrumb ) ) {
+		if ( ! \is_array( $breadcrumb ) ) {
 			return true;
 		}
 

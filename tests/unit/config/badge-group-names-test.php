@@ -70,7 +70,7 @@ class Badge_Group_Names_Test extends TestCase {
 
 		self::assertFalse(
 			$this->instance->is_still_eligible_for_new_badge( self::TESTING_GROUP, $expiry_version ),
-			sprintf( 'Group should not be "new" on version %s', $expiry_version )
+			\sprintf( 'Group should not be "new" on version %s', $expiry_version )
 		);
 	}
 
@@ -84,7 +84,7 @@ class Badge_Group_Names_Test extends TestCase {
 
 		self::assertFalse(
 			$this->instance->is_still_eligible_for_new_badge( self::TESTING_GROUP, $expiry_version ),
-			sprintf( 'Group should not be "new" on version %s', $expiry_version )
+			\sprintf( 'Group should not be "new" on version %s', $expiry_version )
 		);
 	}
 
@@ -98,7 +98,7 @@ class Badge_Group_Names_Test extends TestCase {
 
 		self::assertFalse(
 			$this->instance->is_still_eligible_for_new_badge( self::TESTING_GROUP, $expiry_version ),
-			sprintf( 'Group should not be "new" on version %s', $expiry_version )
+			\sprintf( 'Group should not be "new" on version %s', $expiry_version )
 		);
 	}
 
@@ -112,7 +112,7 @@ class Badge_Group_Names_Test extends TestCase {
 
 		self::assertFalse(
 			$this->instance->is_still_eligible_for_new_badge( self::TESTING_GROUP, $expiry_version ),
-			sprintf( 'Group should not be "new" on version %s', $expiry_version )
+			\sprintf( 'Group should not be "new" on version %s', $expiry_version )
 		);
 	}
 
@@ -126,7 +126,7 @@ class Badge_Group_Names_Test extends TestCase {
 
 		self::assertTrue(
 			$this->instance->is_still_eligible_for_new_badge( self::TESTING_GROUP, $expiry_version ),
-			sprintf( 'Group should be "new" on version %s', $expiry_version )
+			\sprintf( 'Group should be "new" on version %s', $expiry_version )
 		);
 	}
 }

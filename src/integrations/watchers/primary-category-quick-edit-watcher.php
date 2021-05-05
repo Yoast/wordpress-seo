@@ -92,7 +92,7 @@ class Primary_Category_Quick_Edit_Watcher implements Integration_Interface {
 		}
 
 		// The primary category isn't removed.
-		if ( in_array( (string) $primary_category, $tt_ids, true ) ) {
+		if ( \in_array( (string) $primary_category, $tt_ids, true ) ) {
 			return;
 		}
 

@@ -66,16 +66,16 @@ class WP_Robots_Integration implements Integration_Interface {
 	 * @return array The robots data.
 	 */
 	public function add_robots( $robots ) {
-		if ( ! is_array( $robots ) ) {
+		if ( ! \is_array( $robots ) ) {
 			return $this->get_robots_value();
 		}
 
-		$merged_robots   = array_merge( $robots, $this->get_robots_value() );
+		$merged_robots   = \array_merge( $robots, $this->get_robots_value() );
 		$filtered_robots = $this->filter_robots_no_index( $merged_robots );
 		$sorted_robots   = $this->sort_robots( $filtered_robots );
 
 		// Filter all falsy-null robot values.
-		return array_filter( $sorted_robots );
+		return \array_filter( $sorted_robots );
 	}
 
 	/**
@@ -122,7 +122,7 @@ class WP_Robots_Integration implements Integration_Interface {
 			}
 
 			// When index => noindex, we want a separate noindex as entry in array.
-			if ( strpos( $value, 'no' ) === 0 ) {
+			if ( \strpos( $value, 'no' ) === 0 ) {
 				$robots[ $key ]   = false;
 				$robots[ $value ] = true;
 

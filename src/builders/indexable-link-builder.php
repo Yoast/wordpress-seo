@@ -280,7 +280,7 @@ class Indexable_Link_Builder {
 			$permalink = $this->get_permalink( $url, $home_url );
 			if ( $this->url_helper->is_relative( $permalink ) ) {
 				// Make sure we're checking against the absolute URL, and add a trailing slash if the site has a trailing slash in its permalink settings.
-				$permalink = $this->url_helper->ensure_absolute_url( user_trailingslashit( $permalink ) );
+				$permalink = $this->url_helper->ensure_absolute_url( \user_trailingslashit( $permalink ) );
 			}
 			$target = $this->indexable_repository->find_by_permalink( $permalink );
 

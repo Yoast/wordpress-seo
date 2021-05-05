@@ -46,9 +46,9 @@ class Elementor_Activated_Conditional_Test extends TestCase {
 	 * @covers ::is_met
 	 */
 	public function test_is_met() {
-		if ( ! defined( 'ELEMENTOR__FILE__' ) ) {
+		if ( ! \defined( 'ELEMENTOR__FILE__' ) ) {
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Third party constant used in a test.
-			define( 'ELEMENTOR__FILE__', '/path/to/elementor/plugin_file.php' );
+			\define( 'ELEMENTOR__FILE__', '/path/to/elementor/plugin_file.php' );
 		}
 
 		self::assertTrue( $this->instance->is_met() );

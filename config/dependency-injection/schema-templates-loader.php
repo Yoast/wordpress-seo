@@ -14,18 +14,18 @@ class Schema_Templates_Loader {
 	 */
 	public function get_templates() {
 		// When we have minimal PHP 7.0 support, we can replace the nested dirname call by using the levels argument.
-		$root_directory = dirname( dirname( __DIR__ ) );
-		$templates      = glob( $root_directory . '/src/schema-templates/*.php' );
+		$root_directory = \dirname( \dirname( __DIR__ ) );
+		$templates      = \glob( $root_directory . '/src/schema-templates/*.php' );
 		if ( ! $templates ) {
 			$templates = [];
 		}
 
 		foreach ( $templates as $index => $template ) {
 			// Replace the root path based on current path from the template.
-			$template = str_replace( $root_directory, '', $template );
+			$template = \str_replace( $root_directory, '', $template );
 
 			// Removes the slashes in the beginning and the end.
-			$template = trim( $template, '/' );
+			$template = \trim( $template, '/' );
 
 			$templates[ $index ] = $template;
 		}
