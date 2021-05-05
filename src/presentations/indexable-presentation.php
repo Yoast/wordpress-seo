@@ -712,7 +712,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	public function generate_estimated_reading_time_minutes() {
 		if ( $this->model->estimated_reading_time_minutes !== null ) {
 			return $this->model->estimated_reading_time_minutes;
-		};
+		}
 
 		if ( $this->context->post === null ) {
 			return null;
