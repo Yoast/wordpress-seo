@@ -3,9 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Conditionals\Third_Party;
 
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
-
 
 /**
  * Class Elementor_Activated_Conditional_Test.

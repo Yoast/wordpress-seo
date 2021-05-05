@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Models\Indexable;
  * Formats the homepage meta to indexable format.
  */
 class Indexable_Home_Page_Builder {
+
 	use Indexable_Social_Image_Trait;
 
 	/**

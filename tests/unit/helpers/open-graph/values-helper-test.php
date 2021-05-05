@@ -3,10 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers\Open_Graph;
 
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-
 use Brain\Monkey;
 use Mockery;
-
 use Yoast\WP\SEO\Helpers\Open_Graph\Values_Helper;
 
 /**

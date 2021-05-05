@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * Formats the post meta to indexable format.
  */
 class Indexable_Post_Builder {
+
 	use Indexable_Social_Image_Trait;
 
 	/**

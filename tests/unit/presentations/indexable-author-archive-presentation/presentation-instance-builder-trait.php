@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * Trait Presentation_Instance_Builder
  */
 trait Presentation_Instance_Builder {
+
 	use Presentation_Instance_Dependencies;
 
 	/**

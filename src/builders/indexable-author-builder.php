@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Models\Indexable;
  * Formats the author meta to indexable format.
  */
 class Indexable_Author_Builder {
+
 	use Indexable_Social_Image_Trait;
 
 	/**

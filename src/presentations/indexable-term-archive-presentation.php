@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * @property WP_Term $source
  */
 class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
+
 	use Archive_Adjacent;
 
 	/**

@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
  * Presentation object for indexables.
  */
 class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
+
 	use Archive_Adjacent;
 
 	/**

@@ -145,7 +145,7 @@ class Schema_Blocks implements Integration_Interface {
 			if ( ! \file_exists( $template ) ) {
 				continue;
 			}
-			$type = ( \substr( $template, - 10 ) === '.block.php' ) ? 'block' : 'schema';
+			$type = ( \substr( $template, -10 ) === '.block.php' ) ? 'block' : 'schema';
 			echo '<script type="text/' . \esc_html( $type ) . '-template">';
 			include $template;
 			echo '</script>';
