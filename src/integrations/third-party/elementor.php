@@ -235,7 +235,7 @@ class Elementor implements Integration_Interface {
 	public function save_postdata() {
 		global $post;
 
-		$post_id = \filter_input( INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT );
+		$post_id = \filter_input( \INPUT_POST, 'post_id', \FILTER_SANITIZE_NUMBER_INT );
 
 		if ( ! \current_user_can( 'manage_options' ) ) {
 			\wp_send_json_error( 'Unauthorized', 401 );
@@ -318,7 +318,7 @@ class Elementor implements Integration_Interface {
 		}
 
 		// Saving the WP post to save the slug.
-		$slug = \filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'slug', FILTER_SANITIZE_STRING );
+		$slug = \filter_input( \INPUT_POST, WPSEO_Meta::$form_prefix . 'slug', \FILTER_SANITIZE_STRING );
 		if ( $post->post_name !== $slug ) {
 			$post_array              = $post->to_array();
 			$post_array['post_name'] = $slug;
@@ -369,7 +369,7 @@ class Elementor implements Integration_Interface {
 	public function enqueue() {
 		$post_id = \get_queried_object_id();
 		if ( empty( $post_id ) ) {
-			$post_id = \sanitize_text_field( \filter_input( INPUT_GET, 'post' ) );
+			$post_id = \sanitize_text_field( \filter_input( \INPUT_GET, 'post' ) );
 		}
 
 		if ( $post_id !== 0 ) {
@@ -393,8 +393,8 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->localize_script( 'elementor', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 		$this->asset_manager->localize_script( 'elementor', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
-		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $this->asset_manager->flatten_version( WPSEO_VERSION ) );
-		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $this->asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
+		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $this->asset_manager->flatten_version( \WPSEO_VERSION ) );
+		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $this->asset_manager->flatten_version( \WPSEO_VERSION ), 'used-keywords-assessment' );
 
 		$plugins_script_data = [
 			'replaceVars' => [
@@ -499,7 +499,7 @@ class Elementor implements Integration_Interface {
 			return $this->post;
 		}
 
-		$post = \filter_input( INPUT_GET, 'post' );
+		$post = \filter_input( \INPUT_GET, 'post' );
 		if ( ! empty( $post ) ) {
 			$post_id = (int) WPSEO_Utils::validate_int( $post );
 
