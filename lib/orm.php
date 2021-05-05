@@ -2220,6 +2220,7 @@ class ORM implements \ArrayAccess {
 	 * @return string The where part of the query.
 	 */
 	public function add_id_column_conditions() {
+		$query   = [];
 		$query[] = 'WHERE';
 		$keys    = \is_array( $this->get_id_column_name() ) ? $this->get_id_column_name() : [ $this->get_id_column_name() ];
 		$first   = true;
