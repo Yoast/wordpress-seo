@@ -2,10 +2,10 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
-use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Brain\Monkey;
+use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
 use Yoast\WP\SEO\Integrations\Third_Party\Elementor_Exclude_Post_Types;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Elementor_Exclude_Post_Types_Test.

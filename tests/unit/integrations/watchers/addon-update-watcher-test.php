@@ -2,10 +2,10 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Brain\Monkey;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Addon_Update_Watcher_Test.
