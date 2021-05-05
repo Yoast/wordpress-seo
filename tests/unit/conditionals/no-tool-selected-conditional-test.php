@@ -18,7 +18,7 @@ class No_Tool_Selected_Conditional_Test extends TestCase {
 	/**
 	 * Holds the conditional that checks whether no specific tool is selected.
 	 *
-	 * @var No_Tool_Selected_Conditional()
+	 * @var No_Tool_Selected_Conditional
 	 */
 	private $instance;
 

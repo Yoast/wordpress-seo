@@ -20,7 +20,7 @@ class Url_Helper_Test extends TestCase {
 	/**
 	 * The instance to test.
 	 *
-	 * @var Url_Helper|Mockery::mock
+	 * @var Url_Helper|Mockery
 	 */
 	private $instance;
 
