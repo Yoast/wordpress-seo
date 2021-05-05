@@ -8,7 +8,7 @@
 /**
  * Sitemap Cache Data object, manages sitemap data stored in cache.
  */
-class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Serializable {
+class WPSEO_Sitemap_Cache_Data implements Serializable, WPSEO_Sitemap_Cache_Data_Interface {
 
 	/**
 	 * Sitemap XML data.
