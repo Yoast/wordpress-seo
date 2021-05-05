@@ -329,7 +329,7 @@ class Front_End_Integration implements Integration_Interface {
 	public function get_presenters( $page_type ) {
 		$needed_presenters = $this->get_needed_presenters( $page_type );
 
-		$callback   = function( $presenter ) {
+		$callback   = static function( $presenter ) {
 			if ( ! \class_exists( $presenter ) ) {
 				return null;
 			}
@@ -348,7 +348,7 @@ class Front_End_Integration implements Integration_Interface {
 			$presenter_instances = $presenters;
 		}
 
-		$is_presenter_callback = function ( $presenter_instance ) {
+		$is_presenter_callback = static function ( $presenter_instance ) {
 			return $presenter_instance instanceof Abstract_Indexable_Presenter;
 		};
 		$presenter_instances   = \array_filter( $presenter_instances, $is_presenter_callback );
@@ -375,7 +375,7 @@ class Front_End_Integration implements Integration_Interface {
 			$presenters = \array_diff( $presenters, [ 'Title' ] );
 		}
 
-		$callback   = function ( $presenter ) {
+		$callback   = static function ( $presenter ) {
 			return "Yoast\WP\SEO\Presenters\\{$presenter}_Presenter";
 		};
 		$presenters = \array_map( $callback, $presenters );

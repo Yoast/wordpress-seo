@@ -42,7 +42,7 @@ class Option_Social_Test extends TestCase {
 	public function test_validate_option_with_valid_data( $expected, $dirty, $clean, $old ) {
 		Monkey\Functions\stubs(
 			[
-				'wp_parse_url' => function ( $url ) {
+				'wp_parse_url' => static function ( $url ) {
 					return \parse_url( $url );
 				},
 			]
@@ -74,7 +74,7 @@ class Option_Social_Test extends TestCase {
 
 		Monkey\Functions\stubs(
 			[
-				'wp_parse_url' => function ( $url ) {
+				'wp_parse_url' => static function ( $url ) {
 					return \parse_url( $url );
 				},
 			]

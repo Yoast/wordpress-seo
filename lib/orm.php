@@ -275,7 +275,7 @@ class ORM implements \ArrayAccess {
 
 		$parameters = \array_filter(
 			$parameters,
-			function( $parameter ) {
+			static function( $parameter ) {
 				return $parameter !== null;
 			}
 		);

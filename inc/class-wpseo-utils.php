@@ -251,7 +251,7 @@ class WPSEO_Utils {
 		if ( strpos( $url, '%' ) !== false ) {
 			$url = preg_replace_callback(
 				'`%[a-fA-F0-9]{2}`',
-				function( $octects ) {
+				static function( $octects ) {
 					return strtolower( $octects[0] );
 				},
 				$url
