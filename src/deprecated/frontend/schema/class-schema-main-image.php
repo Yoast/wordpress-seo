@@ -58,7 +58,7 @@ class WPSEO_Schema_MainImage extends WPSEO_Deprecated_Graph_Piece {
 	protected function generate_image_schema_from_attachment_id( $image_id ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'YoastSEO()->helpers->schema->image->generate_from_attachment_id' );
 
-		return $this->helpers->schema->image->generate_from_attachment_id( $image_id, \get_post_thumbnail_id() );
+		return $this->helpers->schema->image->generate_from_attachment_id( $image_id, get_post_thumbnail_id() );
 	}
 
 	/**
