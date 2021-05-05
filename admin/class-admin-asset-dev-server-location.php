@@ -46,7 +46,7 @@ final class WPSEO_Admin_Asset_Dev_Server_Location implements WPSEO_Admin_Asset_L
 	 * @return string The URL of the asset.
 	 */
 	public function get_url( WPSEO_Admin_Asset $asset, $type ) {
-		if ( WPSEO_Admin_Asset::TYPE_CSS === $type ) {
+		if ( $type === WPSEO_Admin_Asset::TYPE_CSS ) {
 			return $this->get_default_url( $asset, $type );
 		}
 

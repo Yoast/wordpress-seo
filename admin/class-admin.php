@@ -218,7 +218,7 @@ class WPSEO_Admin {
 	 * @return array $links
 	 */
 	public function add_action_link( $links, $file ) {
-		if ( WPSEO_BASENAME === $file && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+		if ( $file === WPSEO_BASENAME && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
 			if ( is_network_admin() ) {
 				$settings_url = network_admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER );
 			}
