@@ -52,11 +52,13 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 
 		if ( $this->post instanceof WP_Post ) {
 			$values_to_set = [
-				'keyword_usage'       => $this->get_focus_keyword_usage(),
-				'title_template'      => $this->get_title_template(),
-				'metadesc_template'   => $this->get_metadesc_template(),
-				'metaDescriptionDate' => $this->get_metadesc_date(),
-				'first_content_image' => $this->get_image_url(),
+				'keyword_usage'               => $this->get_focus_keyword_usage(),
+				'title_template'              => $this->get_title_template(),
+				'metadesc_template'           => $this->get_metadesc_template(),
+				'metaDescriptionDate'         => $this->get_metadesc_date(),
+				'first_content_image'         => $this->get_image_url(),
+				'social_title_template'       => $this->get_social_title_template(),
+				'social_description_template' => $this->get_social_description_template(),
 			];
 
 			$values = ( $values_to_set + $values );
@@ -181,7 +183,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		$title = $this->get_template( 'title' );
 
 		if ( $title === '' ) {
-			return '%%title%% %%sep%% %%sitename%%';
+			return '%%title%% %%page%% %%sep%% %%sitename%%';
 		}
 
 		return $title;
@@ -190,10 +192,34 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Retrieves the metadesc template.
 	 *
-	 * @return string
+	 * @return string The metadesc template.
 	 */
 	private function get_metadesc_template() {
 		return $this->get_template( 'metadesc' );
+	}
+
+	/**
+	 * Retrieves the social title template.
+	 *
+	 * @return string The social title template.
+	 */
+	private function get_social_title_template() {
+		$title = $this->get_template( 'social-title' );
+
+		if ( $title === '' ) {
+			return '%%title%% %%page%% %%sep%% %%sitename%%';
+		}
+
+		return $title;
+	}
+
+	/**
+	 * Retrieves the social description template.
+	 *
+	 * @return string The social description template.
+	 */
+	private function get_social_description_template() {
+		return $this->get_template( 'social-description' );
 	}
 
 	/**

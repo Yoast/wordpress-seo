@@ -53,15 +53,17 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus keyphrase doubles.
 		if ( is_object( $this->term ) && property_exists( $this->term, 'taxonomy' ) ) {
 			$values = [
-				'search_url'               => $this->search_url(),
-				'post_edit_url'            => $this->edit_url(),
-				'base_url'                 => $this->base_url_for_js(),
-				'taxonomy'                 => $this->term->taxonomy,
-				'keyword_usage'            => $this->get_focus_keyword_usage(),
-				'title_template'           => $this->get_title_template(),
-				'metadesc_template'        => $this->get_metadesc_template(),
-				'first_content_image'      => $this->get_image_url(),
-				'semrushIntegrationActive' => 0,
+				'search_url'                  => $this->search_url(),
+				'post_edit_url'               => $this->edit_url(),
+				'base_url'                    => $this->base_url_for_js(),
+				'taxonomy'                    => $this->term->taxonomy,
+				'keyword_usage'               => $this->get_focus_keyword_usage(),
+				'title_template'              => $this->get_title_template(),
+				'metadesc_template'           => $this->get_metadesc_template(),
+				'first_content_image'         => $this->get_image_url(),
+				'semrushIntegrationActive'    => 0,
+				'social_title_template'       => $this->get_social_title_template(),
+				'social_description_template' => $this->get_social_description_template(),
 			];
 		}
 
@@ -132,7 +134,9 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		$title = $this->get_template( 'title' );
 
 		if ( $title === '' ) {
-			return '%%title%% %%sep%% %%sitename%%';
+			/* translators: %s expands to the variable used for term title. */
+			$archives = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
+			return $archives . ' %%page%% %%sep%% %%sitename%%';
 		}
 
 		return $title;
@@ -141,10 +145,36 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Retrieves the metadesc template.
 	 *
-	 * @return string
+	 * @return string The metadesc template.
 	 */
 	private function get_metadesc_template() {
 		return $this->get_template( 'metadesc' );
+	}
+
+	/**
+	 * Retrieves the social title template.
+	 *
+	 * @return string The social title template.
+	 */
+	private function get_social_title_template() {
+		$title = $this->get_template( 'social-title' );
+
+		if ( $title === '' ) {
+			/* translators: %s expands to the variable used for term title. */
+			$archives = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
+			return $archives . ' %%page%% %%sep%% %%sitename%%';
+		}
+
+		return $title;
+	}
+
+	/**
+	 * Retrieves the social description template.
+	 *
+	 * @return string The social description template.
+	 */
+	private function get_social_description_template() {
+		return $this->get_template( 'social-description' );
 	}
 
 	/**
