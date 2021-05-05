@@ -230,7 +230,7 @@ class Table {
 			$c        = $this->columns[ $i ];
 			$fields[] = $c->__toString();
 		}
-		return \join( ",\n", $fields );
+		return \implode( ",\n", $fields );
 	}
 
 	/**
