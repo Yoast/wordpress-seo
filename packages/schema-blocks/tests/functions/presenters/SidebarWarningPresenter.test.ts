@@ -3,20 +3,6 @@ import { createAnalysisMessages } from "../../../src/functions/presenters/Sideba
 import { BlockPresence } from "../../../src/core/validation/BlockValidationResult";
 import { BlockInstance } from "@wordpress/blocks";
 
-const validations: Record<string, BlockValidationResult> = {};
-
-jest.mock( "@wordpress/data", () => {
-	return {
-		select: jest.fn( () => {
-			return {
-				getSchemaBlocksValidationResults: jest.fn( () => {
-					return validations;
-				} ),
-			};
-		} ),
-	};
-} );
-
 jest.mock( "../../../src/functions/BlockHelper", () => {
 	return {
 		getHumanReadableBlockName: jest.fn( name => name ),
@@ -136,9 +122,9 @@ describe( "The SidebarWarningPresenter ", () => {
 
 	describe( "The createAnalysisMessages method ", () => {
 		it( "creates a compliment for required valid blocks.", () => {
-			validations[ "1" ] = new BlockValidationResult( "1", "myBlock", BlockValidation.Valid, BlockPresence.Required );
+			const validation = new BlockValidationResult( "1", "myBlock", BlockValidation.Valid, BlockPresence.Required );
 
-			const result = createAnalysisMessages( validations[ "1" ] );
+			const result = createAnalysisMessages( validation );
 
 			expect( result ).toEqual( [ {
 				text: "Good job! All required blocks have been completed.",
@@ -152,9 +138,8 @@ describe( "The SidebarWarningPresenter ", () => {
 			testcase.issues.push( new BlockValidationResult( "2", "innerblock1", BlockValidation.Skipped, BlockPresence.Required ) );
 			testcase.issues.push( new BlockValidationResult( "3", "anotherinnerblock", BlockValidation.TooMany, BlockPresence.Required ) );
 			testcase.issues.push( new BlockValidationResult( "4", "anotherinnerblock", BlockValidation.Unknown, BlockPresence.Required ) );
-			validations[ "1" ] = testcase;
 
-			const result = createAnalysisMessages( validations[ "1" ] );
+			const result = createAnalysisMessages( testcase );
 
 			expect( result ).toEqual( [ {
 				text: "Good job! All required blocks have been completed.",
@@ -165,9 +150,8 @@ describe( "The SidebarWarningPresenter ", () => {
 		it( "creates a warning for a required block with validation problems.", () => {
 			const testcase = new BlockValidationResult( "1", "myBlock", BlockValidation.Invalid, BlockPresence.Required );
 			testcase.issues.push( BlockValidationResult.MissingBlock( "innerblock1", BlockPresence.Required ) );
-			validations[ "1" ] = testcase;
 
-			const result = createAnalysisMessages( validations[ "1" ] );
+			const result = createAnalysisMessages( testcase );
 
 			expect( result.length ).toEqual( 2 );
 			expect( result[ 0 ] ).toEqual( {
@@ -181,7 +165,7 @@ describe( "The SidebarWarningPresenter ", () => {
 		} );
 
 		it( "creates no output when the validation results cannot be retrieved.", () => {
-			const result = createAnalysisMessages( validations[ "12345" ] );
+			const result = createAnalysisMessages( null );
 
 			expect( result ).toEqual( [] );
 		} );

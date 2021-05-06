@@ -10,12 +10,12 @@ import { isEmptyResult, isMissingResult, isValidResult } from "../validators/val
 import { BlockValidationResult } from "../../core/validation";
 import logger from "../logger";
 
-type BlockSuggestionAddedDto = {
+type BlockSuggestionAddedProps = {
 	blockTitle: string;
 	isValid: boolean;
 }
 
-type BlockSuggestionDto = {
+type BlockSuggestionProps = {
 	suggestedBlockTitle: string;
 	suggestedBlockName: string;
 	parentBlockClientId: string;
@@ -31,7 +31,7 @@ export interface BlockSuggestionsProps {
 	blockNames: string[];
 }
 
-export interface SuggestionsDto extends BlockSuggestionsProps {
+export interface SuggestionsProps extends BlockSuggestionsProps {
 	suggestions: SuggestionDetails[];
 }
 
@@ -44,7 +44,7 @@ export interface SuggestionsDto extends BlockSuggestionsProps {
  *
  * @returns The rendered block suggestion.
  */
-function BlockSuggestion( { suggestedBlockTitle, suggestedBlockName, parentBlockClientId }: BlockSuggestionDto ): ReactElement {
+function BlockSuggestion( { suggestedBlockTitle, suggestedBlockName, parentBlockClientId }: BlockSuggestionProps ): ReactElement {
 	/**
 	 * Onclick handler for the remove block.
 	 */
@@ -68,7 +68,7 @@ function BlockSuggestion( { suggestedBlockTitle, suggestedBlockName, parentBlock
  *
  * @returns The rendered element.
  */
-function BlockSuggestionAdded( { blockTitle, isValid }: BlockSuggestionAddedDto ): ReactElement {
+function BlockSuggestionAdded( { blockTitle, isValid }: BlockSuggestionAddedProps ): ReactElement {
 	const heroIconCheck = <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-2 3 18 16" stroke="currentColor" height="12" width="22">
 		<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2.5 } d="M5 13l4 4L19 7" />
 	</svg>;
@@ -91,7 +91,7 @@ function BlockSuggestionAdded( { blockTitle, isValid }: BlockSuggestionAddedDto 
  * @param props The BlockValidationResults and the Blocks' titles.
  * @returns The appropriate Block Suggestion elements.
  */
-export function PureBlockSuggestionsPresenter( { heading, parentClientId, suggestions, blockNames }: SuggestionsDto ): ReactElement {
+export function PureBlockSuggestionsPresenter( { heading, parentClientId, suggestions, blockNames }: SuggestionsProps ): ReactElement {
 	if ( ! suggestions || suggestions.length < 1 || ! blockNames || blockNames.length < 1 ) {
 		return null;
 	}
@@ -142,11 +142,11 @@ export function PureBlockSuggestionsPresenter( { heading, parentClientId, sugges
  *
  * @returns The props extended with suggestion data.
  */
-export default withSelect<Partial<SuggestionsDto>, BlockSuggestionsProps, SuggestionsDto>( ( select, props: BlockSuggestionsProps ) => {
+export default withSelect<Partial<SuggestionsProps>, BlockSuggestionsProps, SuggestionsProps>( ( select, props: BlockSuggestionsProps ) => {
 	const validations: BlockValidationResult[] =
 		select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getInnerblockValidations( props.parentClientId, props.blockNames );
 
-	const suggestionDetails = validations.map( validation =>  {
+	const suggestionDetails = validations.map( validation => {
 		const type = select( "core/blocks" ).getBlockType( validation.name );
 		return {
 			title: get( type, "title", "" ),

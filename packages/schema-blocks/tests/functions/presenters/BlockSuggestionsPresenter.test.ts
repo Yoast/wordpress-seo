@@ -2,7 +2,7 @@ import { mount } from "enzyme";
 import * as renderer from "react-test-renderer";
 import { createBlock } from "@wordpress/blocks";
 import { BlockValidation, BlockValidationResult, BlockPresence } from "../../../src/core/validation";
-import { PureBlockSuggestionsPresenter, SuggestionDetails, SuggestionsDto } from "../../../src/functions/presenters/BlockSuggestionsPresenter";
+import { PureBlockSuggestionsPresenter, SuggestionDetails, SuggestionsProps } from "../../../src/functions/presenters/BlockSuggestionsPresenter";
 import { insertBlock } from "../../../src/functions/innerBlocksHelper";
 
 jest.mock( "@wordpress/blocks", () => {
@@ -68,7 +68,7 @@ function createSuggestion( title: string, validation: BlockValidationResult ): S
 describe( "The BlockSuggestionsPresenter class ", () => {
 	it( "displays an [ Add ] link for missing required blocks", () => {
 		// Arrange.
-		const suggestion: SuggestionsDto = {
+		const suggestion: SuggestionsProps = {
 			heading: "Heading for Required Blocks",
 			parentClientId: "parentClientId",
 			suggestions: [
@@ -91,7 +91,7 @@ describe( "The BlockSuggestionsPresenter class ", () => {
 
 	it( "displays only the block title for blocks that aren't completed", () => {
 		// Arrange.
-		const suggestion: SuggestionsDto = {
+		const suggestion: SuggestionsProps = {
 			heading: "Heading for Required Blocks",
 			parentClientId: "parentClientId",
 			suggestions: [
@@ -114,7 +114,7 @@ describe( "The BlockSuggestionsPresenter class ", () => {
 
 	it( "displays a checkmark for valid blocks", () => {
 		// Arrange.
-		const suggestion: SuggestionsDto = {
+		const suggestion: SuggestionsProps = {
 			heading: "Heading for Required Blocks",
 			parentClientId: "parentClientId",
 			suggestions: [
@@ -138,7 +138,7 @@ describe( "The BlockSuggestionsPresenter class ", () => {
 	it( "displays no suggestions if no suggestions are provided", () => {
 		// Arrange.
 		// eslint-disable-next-line max-len
-		const suggestions: SuggestionsDto = {
+		const suggestions: SuggestionsProps = {
 			heading: "Recommended blocks",
 			parentClientId: "parentClientId",
 			suggestions: [],
@@ -169,7 +169,7 @@ describe( "The BlockSuggestionsPresenter class ", () => {
 
 		// Act.
 		const tree = renderer
-			.create( PureBlockSuggestionsPresenter( { heading: "Recommended blocks", parentClientId, suggestions } as SuggestionsDto ) )
+			.create( PureBlockSuggestionsPresenter( { heading: "Recommended blocks", parentClientId, suggestions } as SuggestionsProps ) )
 			.toJSON();
 
 		// Assert.
@@ -177,7 +177,7 @@ describe( "The BlockSuggestionsPresenter class ", () => {
 	} );
 
 	it( "should add the block when the [ Add ] button is clicked.", () => {
-		const suggestionsDto =  {
+		const suggestionsProps =  {
 			heading: "Required blocks",
 			parentClientId: "parentClientId",
 			suggestions: [
@@ -185,9 +185,9 @@ describe( "The BlockSuggestionsPresenter class ", () => {
 					BlockValidationResult.MissingBlock( "yoast/not-added-to-content", BlockPresence.Required ) ),
 			],
 			blockNames: [ "yoast/not-added-to-content" ],
-		} as SuggestionsDto;
+		} as SuggestionsProps;
 
-		const tree = mount( PureBlockSuggestionsPresenter( suggestionsDto ) );
+		const tree = mount( PureBlockSuggestionsPresenter( suggestionsProps ) );
 
 		const addButton = tree.find( "button" ).first();
 
