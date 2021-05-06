@@ -88,10 +88,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		'stripcategorybase'                => false,
 
-		'og_frontpage_title'               => '', // Text field.
-		'og_frontpage_desc'                => '', // Text field.
-		'og_frontpage_image'               => '', // Text field.
-		'og_frontpage_image_id'            => 0,
+		'open_graph_frontpage_title'       => '', // Text field.
+		'open_graph_frontpage_desc'        => '', // Text field.
+		'open_graph_frontpage_image'       => '', // Text field.
+		'open_graph_frontpage_image_id'    => 0,
 
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
@@ -431,7 +431,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 */
 				case 'company_logo':
 				case 'person_logo':
-				case 'og_frontpage_image':
+				case 'open_graph_frontpage_image':
 					// When a logo changes, we need to ditch the caches we have for it.
 					unset( $clean[ $switch_key . '_id' ] );
 					unset( $clean[ $switch_key . '_meta' ] );
@@ -461,15 +461,15 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'social-description-ptarchive-' . $pt->name
 				 *  'social-description-tax-' . $tax->name
 				 *  'social-description-author-wpseo', 'social-description-archive-wpseo'
-				 *  'og_frontpage_desc', 'og_frontpage_title'
+				 *  'open_graph_frontpage_desc', 'open_graph_frontpage_title'
 				 */
 				case 'metadesc-':
 				case 'bctitle-ptarchive-':
 				case 'company_name':
 				case 'person_name':
 				case 'social-description-':
-				case 'og_frontpage_desc':
-				case 'og_frontpage_title':
+				case 'open_graph_frontpage_desc':
+				case 'open_graph_frontpage_title':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 					}
@@ -566,7 +566,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				/*
 				 * Covers:
 				 *  'company_or_person_user_id'
-				 *  'company_logo_id', 'person_logo_id', 'og_frontpage_image_id'
+				 *  'company_logo_id', 'person_logo_id', 'open_graph_frontpage_image_id'
 				 *  'social-image-id-' . $pt->name
 				 *  'social-image-id-ptarchive-' . $pt->name
 				 *  'social-image-id-tax-' . $tax->name
@@ -576,7 +576,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'company_logo_id':
 				case 'person_logo_id':
 				case 'social-image-id-':
-				case 'og_frontpage_image_id':
+				case 'open_graph_frontpage_image_id':
 					if ( isset( $dirty[ $key ] ) ) {
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 						if ( $int !== false && $int >= 0 ) {
