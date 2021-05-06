@@ -821,9 +821,8 @@ class WPSEO_Admin_Asset_Manager {
 				'name'   => 'addon-installation',
 				'src'    => 'addon-installation-' . $flat_version,
 				'deps'   => [
-					// 'wp-data',
+					'wp-i18n',
 					'wp-element',
-					'wp-api-fetch',
 					self::PREFIX . 'components',
 				],
 				'footer' => true,
