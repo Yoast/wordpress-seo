@@ -82,6 +82,8 @@ class Force_Rewrite_Title implements Integration_Interface {
 	/**
 	 * Used in the force rewrite functionality this retrieves the output, replaces the title with the proper SEO
 	 * title and then flushes the output.
+	 *
+	 * @return bool
 	 */
 	public function flush_cache() {
 		if ( $this->ob_started !== true ) {

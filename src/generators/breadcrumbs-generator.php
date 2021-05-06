@@ -355,7 +355,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 * @param array     $crumbs            The array of breadcrumbs.
 	 * @param Indexable $current_indexable The current indexable.
 	 *
-	 * @returns array The breadcrumbs.
+	 * @return array The breadcrumbs.
 	 */
 	protected function add_paged_crumb( array $crumbs, $current_indexable ) {
 		$is_simple_page = $this->current_page_helper->is_simple_page();

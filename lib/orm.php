@@ -1829,6 +1829,8 @@ class ORM implements \ArrayAccess {
 
 	/**
 	 * Builds ORDER BY.
+	 *
+	 * @return string
 	 */
 	protected function build_order_by() {
 		if ( \count( $this->order_by ) === 0 ) {
@@ -1840,6 +1842,8 @@ class ORM implements \ArrayAccess {
 
 	/**
 	 * Builds LIMIT.
+	 *
+	 * @return string
 	 */
 	protected function build_limit() {
 		if ( ! \is_null( $this->limit ) ) {
@@ -1851,6 +1855,8 @@ class ORM implements \ArrayAccess {
 
 	/**
 	 * Builds OFFSET.
+	 *
+	 * @return string
 	 */
 	protected function build_offset() {
 		if ( ! \is_null( $this->offset ) ) {

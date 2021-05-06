@@ -81,7 +81,7 @@ class WP_Robots_Integration implements Integration_Interface {
 	/**
 	 * Retrieves the robots key-value pairs.
 	 *
-	 * @returns array The robots key-value pairs.
+	 * @return array The robots key-value pairs.
 	 */
 	protected function get_robots_value() {
 		global $wp_query;

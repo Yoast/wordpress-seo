@@ -94,6 +94,8 @@ class Indexing_Controls implements Integration_Interface {
 	 * Sets the x-robots-tag to noindex follow.
 	 *
 	 * @codeCoverageIgnore Too difficult to test.
+	 *
+	 * @return bool
 	 */
 	protected function set_robots_header() {
 		if ( \headers_sent() === false ) {

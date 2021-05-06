@@ -135,6 +135,8 @@ class HelpScout_Beacon implements Integration_Interface {
 
 	/**
 	 * Checks if the current page is a page containing the beacon.
+	 *
+	 * @return bool
 	 */
 	private function is_beacon_page() {
 		$return = false;

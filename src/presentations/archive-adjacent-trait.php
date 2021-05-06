@@ -31,6 +31,8 @@ trait Archive_Adjacent {
 
 	/**
 	 * Generates the rel prev.
+	 *
+	 * @return string
 	 */
 	public function generate_rel_prev() {
 		if ( $this->pagination->is_rel_adjacent_disabled() ) {
@@ -52,6 +54,8 @@ trait Archive_Adjacent {
 
 	/**
 	 * Generates the rel next.
+	 *
+	 * @return string
 	 */
 	public function generate_rel_next() {
 		if ( $this->pagination->is_rel_adjacent_disabled() ) {

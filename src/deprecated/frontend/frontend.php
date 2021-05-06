@@ -62,6 +62,8 @@ class WPSEO_Frontend {
 	 *
 	 * @param string $method    The called method.
 	 * @param array  $arguments The given arguments.
+	 *
+	 * @return mixed
 	 */
 	public function __call( $method, $arguments ) {
 		_deprecated_function( $method, 'WPSEO 14.0' );

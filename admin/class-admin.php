@@ -349,7 +349,7 @@ class WPSEO_Admin {
 	/**
 	 * Whether we are on the admin dashboard page.
 	 *
-	 * @returns bool
+	 * @return bool
 	 */
 	protected function on_dashboard_page() {
 		return $GLOBALS['pagenow'] === 'index.php';
