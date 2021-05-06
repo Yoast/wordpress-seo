@@ -29,7 +29,7 @@ class WPSEO_Frontend_Primary_Category implements WPSEO_WordPress_Integration {
 	 * @codeCoverageIgnore
 	 * @deprecated 14.0
 	 *
-	 * @return array|null|object|WP_Error The category we want to use for the post link.
+	 * @return array|object|WP_Error|null The category we want to use for the post link.
 	 */
 	public function post_link_category( $category, $categories = null, $post = null ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );

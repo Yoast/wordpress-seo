@@ -549,7 +549,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Gets the main image ID.
 	 *
-	 * @return int|null|false The main image ID.
+	 * @return int|false|null The main image ID.
 	 */
 	public function generate_main_image_id() {
 		if ( ! \has_post_thumbnail( $this->id ) ) {

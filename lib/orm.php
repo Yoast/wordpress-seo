@@ -372,7 +372,7 @@ class ORM implements \ArrayAccess {
 	 * instance of the ORM class, or false if no rows were returned. As a shortcut, you may supply an ID as a parameter
 	 * to this method. This will perform a primary key lookup on the table.
 	 *
-	 * @param null|int $id An (optional) ID.
+	 * @param int|null $id An (optional) ID.
 	 *
 	 * @return bool|Model
 	 */
@@ -609,7 +609,7 @@ class ORM implements \ArrayAccess {
 	 * Adds an unquoted expression to the set of columns returned by the SELECT query. Internal method.
 	 *
 	 * @param string      $expr  The expression.
-	 * @param null|string $alias The alias to return the expression as. Defaults to null.
+	 * @param string|null $alias The alias to return the expression as. Defaults to null.
 	 *
 	 * @return ORM
 	 */
@@ -649,7 +649,7 @@ class ORM implements \ArrayAccess {
 	 * Adds a column to the list of columns returned by the SELECT query.
 	 *
 	 * @param string      $column The column. Defaults to '*'.
-	 * @param null|string $alias  The alias to return the column as. Defaults to null.
+	 * @param string|null $alias  The alias to return the column as. Defaults to null.
 	 *
 	 * @return ORM
 	 */
@@ -663,7 +663,7 @@ class ORM implements \ArrayAccess {
 	 * Adds an unquoted expression to the list of columns returned by the SELECT query.
 	 *
 	 * @param string      $expr  The expression.
-	 * @param null|string $alias The alias to return the column as. Defaults to null.
+	 * @param string|null $alias The alias to return the column as. Defaults to null.
 	 *
 	 * @return ORM
 	 */

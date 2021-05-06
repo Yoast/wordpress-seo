@@ -159,7 +159,7 @@ class WPSEO_Database_Proxy {
 	 * Deletes a record from the database.
 	 *
 	 * @param array      $where  Where clauses for the query.
-	 * @param null|array $format Formats for the data.
+	 * @param array|null $format Formats for the data.
 	 *
 	 * @return false|int
 	 */
@@ -178,7 +178,7 @@ class WPSEO_Database_Proxy {
 	 *
 	 * @param string $query The query to execute.
 	 *
-	 * @return array|null|object The resultset
+	 * @return array|object|null The resultset
 	 */
 	public function get_results( $query ) {
 		$this->pre_execution();

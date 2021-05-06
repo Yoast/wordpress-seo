@@ -216,7 +216,7 @@ class Yoast_Notifications {
 	/**
 	 * Extract the Yoast Notification from the AJAX request.
 	 *
-	 * @return null|Yoast_Notification
+	 * @return Yoast_Notification|null
 	 */
 	private function get_notification_from_ajax_request() {
 
