@@ -1,4 +1,4 @@
-/* global wpseoPluginInstallationL10n */
+/* global wpseoAddonInstallationL10n */
 
 import { render } from "@wordpress/element";
 import AddonInstallation from "./components/AddonInstallation";
@@ -8,6 +8,6 @@ element.setAttribute( "id", "wpseo-app-element" );
 document.getElementById( "extensions" ).append( element );
 
 render(
-	<AddonInstallation nonce={ wpseoPluginInstallationL10n.nonce } addons={ wpseoPluginInstallationL10n.addons } />,
+	<AddonInstallation nonce={ wpseoAddonInstallationL10n.nonce } addons={ wpseoAddonInstallationL10n.addons } />,
 	element
 );
