@@ -35,7 +35,7 @@ class Title extends Heading {
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
 		const title: string = blockInstance.attributes[ this.options.name ];
 
-		if ( title ) {
+		if ( title && ( title as string ).trim() ) {
 			return BlockValidationResult.Valid( blockInstance );
 		}
 
