@@ -36,9 +36,9 @@ class Primary_Category implements Integration_Interface {
 	/**
 	 * Filters post_link_category to change the category to the chosen category by the user.
 	 *
-	 * @param stdClass $category   The category that is now used for the post link.
-	 * @param array    $categories This parameter is not used.
-	 * @param WP_Post  $post       The post in question.
+	 * @param stdClass     $category   The category that is now used for the post link.
+	 * @param array|null   $categories This parameter is not used.
+	 * @param WP_Post|null $post       The post in question.
 	 *
 	 * @return array|object|WP_Error|null The category we want to use for the post link.
 	 */

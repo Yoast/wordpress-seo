@@ -170,8 +170,8 @@ class WooCommerce implements Integration_Interface {
 	/**
 	 * Handles the title.
 	 *
-	 * @param string                 $title        The title.
-	 * @param Indexable_Presentation $presentation The indexable presentation.
+	 * @param string                      $title        The title.
+	 * @param Indexable_Presentation|null $presentation The indexable presentation.
 	 *
 	 * @return string The title to use.
 	 */
@@ -206,8 +206,8 @@ class WooCommerce implements Integration_Interface {
 	/**
 	 * Handles the meta description.
 	 *
-	 * @param string                 $description  The title.
-	 * @param Indexable_Presentation $presentation The indexable presentation.
+	 * @param string                      $description  The title.
+	 * @param Indexable_Presentation|null $presentation The indexable presentation.
 	 *
 	 * @return string The description to use.
 	 */

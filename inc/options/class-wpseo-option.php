@@ -736,8 +736,8 @@ abstract class WPSEO_Option {
 	 * @uses WPSEO_Option::get_original_option()
 	 * @uses WPSEO_Option::import()
 	 *
-	 * @param string $current_version Optional. Version from which to upgrade, if not set,
-	 *                                version specific upgrades will be disregarded.
+	 * @param string|null $current_version Optional. Version from which to upgrade, if not set,
+	 *                                     version specific upgrades will be disregarded.
 	 *
 	 * @return void
 	 */
@@ -760,12 +760,12 @@ abstract class WPSEO_Option {
 	 *    once the admin has dismissed the message (add ajax function)
 	 * Important: all validation routines which add_settings_errors would need to be changed for this to work
 	 *
-	 * @param array  $option_value          Option value to be imported.
-	 * @param string $current_version       Optional. Version from which to upgrade, if not set,
-	 *                                      version specific upgrades will be disregarded.
-	 * @param array  $all_old_option_values Optional. Only used when importing old options to
-	 *                                      have access to the real old values, in contrast to
-	 *                                      the saved ones.
+	 * @param array       $option_value          Option value to be imported.
+	 * @param string|null $current_version       Optional. Version from which to upgrade, if not set,
+	 *                                           version specific upgrades will be disregarded.
+	 * @param array|null  $all_old_option_values Optional. Only used when importing old options to
+	 *                                           have access to the real old values, in contrast to
+	 *                                           the saved ones.
 	 *
 	 * @return void
 	 */
@@ -825,8 +825,8 @@ abstract class WPSEO_Option {
 	 * @todo [JRF] - shouldn't this be a straight array merge ? at the end of the day, the validation
 	 * removes any invalid keys on save.
 	 *
-	 * @param array $options Optional. Current options. If not set, the option defaults
-	 *                       for the $option_key will be returned.
+	 * @param array|null $options Optional. Current options. If not set, the option defaults
+	 *                            for the $option_key will be returned.
 	 *
 	 * @return array Combined and filtered options array.
 	 */

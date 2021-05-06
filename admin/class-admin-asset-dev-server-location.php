@@ -27,7 +27,7 @@ final class WPSEO_Admin_Asset_Dev_Server_Location implements WPSEO_Admin_Asset_L
 	/**
 	 * Class constructor.
 	 *
-	 * @param string $url Where the dev server is located.
+	 * @param string|null $url Where the dev server is located.
 	 */
 	public function __construct( $url = null ) {
 		if ( $url === null ) {

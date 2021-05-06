@@ -122,8 +122,8 @@ class Index_Command implements Command_Interface {
 	 *
 	 * @when after_wp_load
 	 *
-	 * @param array $args       The arguments.
-	 * @param array $assoc_args The associative arguments.
+	 * @param array|null $args       The arguments.
+	 * @param array|null $assoc_args The associative arguments.
 	 *
 	 * @return void
 	 */

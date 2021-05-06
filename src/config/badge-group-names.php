@@ -29,7 +29,7 @@ class Badge_Group_Names {
 	/**
 	 * Badge_Group_Names constructor.
 	 *
-	 * @param string $version Optional: the current plugin version.
+	 * @param string|null $version Optional: the current plugin version.
 	 */
 	public function __construct( $version = null ) {
 		if ( ! $version ) {
@@ -41,8 +41,8 @@ class Badge_Group_Names {
 	/**
 	 * Check whether a group of badges is still eligible for a "new" badge.
 	 *
-	 * @param string $group           One of the GROUP_* constants.
-	 * @param string $current_version The current version of the plugin that's being checked.
+	 * @param string      $group           One of the GROUP_* constants.
+	 * @param string|null $current_version The current version of the plugin that's being checked.
 	 *
 	 * @return bool Whether a group of badges is still eligible for a "new" badge.
 	 */

@@ -237,7 +237,7 @@ class WPSEO_Taxonomy_Columns {
 	 *
 	 * @since 7.0
 	 *
-	 * @param string $taxonomy Optional. The taxonomy to test, defaults to the current taxonomy.
+	 * @param string|null $taxonomy Optional. The taxonomy to test, defaults to the current taxonomy.
 	 *
 	 * @return bool Whether or not the meta box (and associated columns etc) should be hidden.
 	 */

@@ -22,9 +22,9 @@ class WPSEO_Frontend_Primary_Category implements WPSEO_WordPress_Integration {
 	/**
 	 * Filters post_link_category to change the category to the chosen category by the user.
 	 *
-	 * @param stdClass $category   The category that is now used for the post link.
-	 * @param array    $categories This parameter is not used.
-	 * @param WP_Post  $post       The post in question.
+	 * @param stdClass     $category   The category that is now used for the post link.
+	 * @param array|null   $categories This parameter is not used.
+	 * @param WP_Post|null $post       The post in question.
 	 *
 	 * @codeCoverageIgnore
 	 * @deprecated 14.0

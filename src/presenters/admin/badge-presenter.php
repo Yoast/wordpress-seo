@@ -53,10 +53,10 @@ class Badge_Presenter extends Abstract_Presenter {
 	/**
 	 * Badge_Presenter constructor.
 	 *
-	 * @param string            $id                Id of the badge.
-	 * @param string            $link              Optional link of the badge.
-	 * @param string            $group             Optional group which the badge belongs to.
-	 * @param Badge_Group_Names $badge_group_names Optional object storing the group names.
+	 * @param string                 $id                Id of the badge.
+	 * @param string                 $link              Optional link of the badge.
+	 * @param string                 $group             Optional group which the badge belongs to.
+	 * @param Badge_Group_Names|null $badge_group_names Optional object storing the group names.
 	 */
 	public function __construct( $id, $link = '', $group = '', $badge_group_names = null ) {
 		$this->id    = $id;

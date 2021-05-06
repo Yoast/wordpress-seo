@@ -36,10 +36,10 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Creates a submenu formatted array.
 	 *
-	 * @param string     $page_title Page title to use.
-	 * @param string     $page_slug  Page slug to use.
-	 * @param callable   $callback   Optional. Callback which handles the page request.
-	 * @param callable[] $hook       Optional. Hook to trigger when the page is registered.
+	 * @param string          $page_title Page title to use.
+	 * @param string          $page_slug  Page slug to use.
+	 * @param callable|null   $callback   Optional. Callback which handles the page request.
+	 * @param callable[]|null $hook       Optional. Hook to trigger when the page is registered.
 	 *
 	 * @return array Formatted submenu.
 	 */

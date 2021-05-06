@@ -26,7 +26,7 @@ class WPSEO_Schema_Article extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * WPSEO_Schema_Article constructor.
 	 *
-	 * @param array $context The context. No longer used but present for BC.
+	 * @param array|null $context The context. No longer used but present for BC.
 	 *
 	 * @codeCoverageIgnore
 	 * @deprecated 14.0
@@ -43,7 +43,7 @@ class WPSEO_Schema_Article extends WPSEO_Deprecated_Graph_Piece {
 	 * @codeCoverageIgnore
 	 * @deprecated 14.0
 	 *
-	 * @param string $post_type Post type to check.
+	 * @param string|null $post_type Post type to check.
 	 *
 	 * @return bool True if it has article schema, false if not.
 	 */

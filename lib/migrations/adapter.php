@@ -176,9 +176,9 @@ class Adapter {
 	/**
 	 * Return the SQL definition of a column.
 	 *
-	 * @param string $column_name The column name.
-	 * @param string $type        The type of the column.
-	 * @param array  $options     Column options.
+	 * @param string     $column_name The column name.
+	 * @param string     $type        The type of the column.
+	 * @param array|null $options     Column options.
 	 *
 	 * @return string
 	 */
