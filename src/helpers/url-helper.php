@@ -143,7 +143,7 @@ class Url_Helper {
 		}
 
 		// If there is a scheme but it's not http(s) then the link is always external.
-		if ( array_key_exists( 'scheme', $url ) && ! \in_array( $url['scheme'], [ 'http', 'https' ], true ) ) {
+		if ( \array_key_exists( 'scheme', $url ) && ! \in_array( $url['scheme'], [ 'http', 'https' ], true ) ) {
 			return ( $is_image ) ? SEO_Links::TYPE_EXTERNAL_IMAGE : SEO_Links::TYPE_EXTERNAL;
 		}
 

@@ -295,7 +295,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 		$merged = [];
 
 		foreach ( $array as $value ) {
-			if ( is_array( $value ) ) {
+			if ( \is_array( $value ) ) {
 				$merged[] = $this->array_values_recursively( $value );
 			}
 			else {

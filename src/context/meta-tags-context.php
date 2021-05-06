@@ -590,7 +590,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @deprecated 15.8
 	 */
 	public function generate_breadcrumbs_enabled() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.8' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.8' );
 		$breadcrumbs_enabled = \current_theme_supports( 'yoast-seo-breadcrumbs' );
 		if ( ! $breadcrumbs_enabled ) {
 			$breadcrumbs_enabled = $this->options->get( 'breadcrumbs-enable', false );

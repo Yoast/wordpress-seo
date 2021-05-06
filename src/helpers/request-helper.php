@@ -13,6 +13,6 @@ class Request_Helper {
 	 * @return boolean True when the current request is a REST request.
 	 */
 	public function is_rest_request() {
-		return defined( 'REST_REQUEST' ) && REST_REQUEST === true;
+		return \defined( 'REST_REQUEST' ) && REST_REQUEST === true;
 	}
 }

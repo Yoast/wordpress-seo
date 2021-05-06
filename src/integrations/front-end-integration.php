@@ -258,7 +258,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return array The filtered presenters.
 	 */
 	public function filter_robots_presenter( $presenters ) {
-		if ( ! function_exists( 'wp_robots' ) ) {
+		if ( ! \function_exists( 'wp_robots' ) ) {
 			return $presenters;
 		}
 

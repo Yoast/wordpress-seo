@@ -143,7 +143,7 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 		$this->notification_center_mock->expects( 'add_notification' )->once()->withArgs(
 			static function ( $arg ) {
 				// Verify that the added notification is a Yoast_Notification object and has the correct id.
-				if ( is_a( $arg, 'Yoast_Notification' ) && $arg->get_id() === 'wpseo-outdated-gutenberg-plugin' ) {
+				if ( \is_a( $arg, 'Yoast_Notification' ) && $arg->get_id() === 'wpseo-outdated-gutenberg-plugin' ) {
 					return true;
 				}
 				return false;

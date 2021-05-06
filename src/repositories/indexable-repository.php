@@ -223,7 +223,7 @@ class Indexable_Repository {
 	 * @return bool|Indexable Instance of indexable.
 	 */
 	public function find_for_home_page( $auto_create = true ) {
-		$indexable = wp_cache_get( 'home-page', 'yoast-seo-indexables' );
+		$indexable = \wp_cache_get( 'home-page', 'yoast-seo-indexables' );
 		if ( ! $indexable ) {
 			/**
 			 * Indexable instance.
@@ -238,7 +238,7 @@ class Indexable_Repository {
 
 			$indexable = $this->ensure_permalink( $indexable );
 
-			wp_cache_set( 'home-page', $indexable, 'yoast-seo-indexables', ( 5 * MINUTE_IN_SECONDS ) );
+			\wp_cache_set( 'home-page', $indexable, 'yoast-seo-indexables', ( 5 * MINUTE_IN_SECONDS ) );
 		}
 
 		return $indexable;

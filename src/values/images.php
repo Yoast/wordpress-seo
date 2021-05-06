@@ -75,7 +75,7 @@ class Images {
 	 * @return void
 	 */
 	public function add_image_by_meta( $image_meta ) {
-		$this->add_image( (array) json_decode( $image_meta ) );
+		$this->add_image( (array) \json_decode( $image_meta ) );
 	}
 
 	/**
