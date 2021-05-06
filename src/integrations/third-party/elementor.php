@@ -31,6 +31,11 @@ use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
 class Elementor implements Integration_Interface {
 
 	/**
+	 * The identifier for the elementor tab.
+	 */
+	const YOAST_TAB = 'yoast-tab';
+
+	/**
 	 * Represents the post.
 	 *
 	 * @var WP_Post|null
@@ -92,11 +97,6 @@ class Elementor implements Integration_Interface {
 	 * @var Estimated_Reading_Time_Conditional
 	 */
 	protected $estimated_reading_time_conditional;
-
-	/**
-	 * The identifier for the elementor tab.
-	 */
-	const YOAST_TAB = 'yoast-tab';
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.

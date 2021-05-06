@@ -17,6 +17,13 @@ use Yoast_Notification_Center;
 class WPML_WPSEO_Notification implements Integration_Interface {
 
 	/**
+	 * The notification ID.
+	 *
+	 * @internal
+	 */
+	const NOTIFICATION_ID = 'wpml-wpseo-not-installed';
+
+	/**
 	 * The short link helper.
 	 *
 	 * @var Short_Link_Helper
@@ -36,13 +43,6 @@ class WPML_WPSEO_Notification implements Integration_Interface {
 	 * @var WPML_WPSEO_Conditional
 	 */
 	protected $wpml_wpseo_conditional;
-
-	/**
-	 * The notification ID.
-	 *
-	 * @internal
-	 */
-	const NOTIFICATION_ID = 'wpml-wpseo-not-installed';
 
 	/**
 	 * WPML WPSEO notification constructor.
