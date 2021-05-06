@@ -31,10 +31,10 @@ class Unit_Test_Generator {
 	 *
 	 * @param string $fully_qualified_class_name The fully qualified class name of the class to generate a unit test for.
 	 *
+	 * @return string The path to the generated unit test.
+	 *
 	 * @throws ReflectionException If the class for which to generate a unit test does not exist.
 	 * @throws RuntimeException    If there is already a unit test.
-	 *
-	 * @return string The path to the generated unit test.
 	 */
 	public function generate( $fully_qualified_class_name ) {
 		try {

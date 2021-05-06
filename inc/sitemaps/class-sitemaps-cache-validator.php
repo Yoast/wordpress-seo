@@ -278,9 +278,9 @@ class WPSEO_Sitemaps_Cache_Validator {
 	/**
 	 * Encode to base61 format.
 	 *
-	 * @since 3.2
-	 *
 	 * This is base64 (numeric + alpha + alpha upper case) without the 0.
+	 *
+	 * @since 3.2
 	 *
 	 * @param int $base10 The number that has to be converted to base 61.
 	 *

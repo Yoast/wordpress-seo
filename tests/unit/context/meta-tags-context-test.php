@@ -138,13 +138,12 @@ class Meta_Tags_Context_Test extends TestCase {
 	/**
 	 * Tests the generation of the schema page type.
 	 *
+	 * @dataProvider generate_schema_page_type_provider
+	 * @covers       ::generate_schema_page_type
+	 *
 	 * @param array        $indexable The indexable data.
 	 * @param string|array $expected  The expected value.
 	 * @param string       $message   Message to show when test fails.
-	 *
-	 * @dataProvider generate_schema_page_type_provider
-	 *
-	 * @covers ::generate_schema_page_type
 	 */
 	public function test_generate_schema_page_type( array $indexable, $expected, $message ) {
 		$this->instance->indexable = (object) $indexable;

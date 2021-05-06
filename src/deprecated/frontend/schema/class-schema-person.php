@@ -11,9 +11,8 @@ use Yoast\WP\SEO\Generators\Schema\Person;
 /**
  * Returns schema Person data.
  *
+ * @since      10.2
  * @deprecated 14.0
- *
- * @since 10.2
  */
 class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 
@@ -45,10 +44,10 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * WPSEO_Schema_Person constructor.
 	 *
-	 * @param null $context The context. No longer used but present for BC.
-	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
+	 *
+	 * @param null $context The context. No longer used but present for BC.
 	 */
 	public function __construct( $context = null ) {
 		parent::__construct( Person::class );
@@ -57,8 +56,8 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Determines a User ID for the Person data.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool|int User ID or false upon return.
 	 */
@@ -71,8 +70,8 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Retrieve a list of social profile URLs for Person.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id User ID.
 	 *
@@ -115,8 +114,8 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Builds our array of Schema Person data for a given user ID.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id The user ID to use.
 	 *
@@ -131,8 +130,8 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Returns an ImageObject for the persons avatar.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param array   $data      The Person schema.
 	 * @param WP_User $user_data User data.
@@ -148,8 +147,8 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Returns an author's social site URL.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $social_site The social site to retrieve the URL for.
 	 * @param mixed  $user_id     The user ID to use function outside of the loop.

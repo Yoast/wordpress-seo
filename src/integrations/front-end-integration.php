@@ -184,14 +184,14 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Front_End_Integration constructor.
 	 *
+	 * @codeCoverageIgnore It sets dependencies.
+	 *
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer  The meta tags context memoizer.
 	 * @param ContainerInterface         $service_container The DI container.
 	 * @param Options_Helper             $options           The options helper.
 	 * @param Request_Helper             $request           The request helper.
 	 * @param Helpers_Surface            $helpers           The helpers surface.
 	 * @param WPSEO_Replace_Vars         $replace_vars      The replace vars helper.
-	 *
-	 * @codeCoverageIgnore It sets dependencies.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $context_memoizer,

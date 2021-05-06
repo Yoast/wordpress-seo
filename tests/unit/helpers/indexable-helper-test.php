@@ -94,14 +94,14 @@ class Indexable_Helper_Test extends TestCase {
 	/**
 	 * Tests the get_page_type_for_indexable_provider function.
 	 *
+	 * @dataProvider get_page_type_for_indexable_provider
+	 * @covers       ::get_page_type_for_indexable
+	 *
 	 * @param int    $object_type        The object type.
 	 * @param int    $object_sub_type    The object sub type.
 	 * @param bool   $is_front_page      Whether or not the indexable is the front page.
 	 * @param bool   $is_posts_page      Whether or not the indexable is the posts page.
 	 * @param string $expected_page_type The expected page type.
-	 *
-	 * @covers ::get_page_type_for_indexable
-	 * @dataProvider get_page_type_for_indexable_provider
 	 */
 	public function test_get_page_type_for_indexable( $object_type, $object_sub_type, $is_front_page, $is_posts_page, $expected_page_type ) {
 		if ( $object_type === 'post' ) {
@@ -148,11 +148,11 @@ class Indexable_Helper_Test extends TestCase {
 	/**
 	 * Tests should_index_indexables method.
 	 *
+	 * @dataProvider should_index_for_production_environment_provider
+	 * @covers       ::should_index_indexables
+	 *
 	 * @param string $wp_environment  The WordPress environment to test for.
 	 * @param bool   $expected_result Either true or false.
-	 *
-	 * @covers ::should_index_indexables
-	 * @dataProvider should_index_for_production_environment_provider
 	 */
 	public function test_should_index_for_production_environment(
 		$wp_environment, $expected_result

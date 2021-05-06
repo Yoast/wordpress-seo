@@ -19,10 +19,10 @@ class Meta_Helper {
 	 *            the results for get_post_meta(), get_post_custom() and the likes. That
 	 *            would have been the preferred solution.}}
 	 *
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
+	 *
 	 * @param string $key    Internal key of the value to get (without prefix).
 	 * @param int    $postid Post ID of the post to get the value for.
-	 *
-	 * @codeCoverageIgnore We have to write test when this method contains own code.
 	 *
 	 * @return string All 'normal' values returned from get_post_meta() are strings.
 	 *                Objects and arrays are possible, but not used by this plugin

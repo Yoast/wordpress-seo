@@ -29,14 +29,13 @@ class Option_Social_Test extends TestCase {
 	/**
 	 * Tests validate_option with valid data.
 	 *
+	 * @dataProvider validate_option_valid_data_provider
+	 * @covers       WPSEO_Option_Social::validate_option
+	 *
 	 * @param string $expected The expected value.
 	 * @param array  $dirty    New value for the option.
 	 * @param array  $clean    Clean value for the option, normally the defaults.
 	 * @param array  $old      Old value of the option.
-	 *
-	 * @dataProvider validate_option_valid_data_provider
-	 *
-	 * @covers WPSEO_Option_Social::validate_option
 	 */
 	public function test_validate_option_with_valid_data( $expected, $dirty, $clean, $old ) {
 		Monkey\Functions\stubs(
@@ -58,15 +57,14 @@ class Option_Social_Test extends TestCase {
 	/**
 	 * Tests validate_option with invalid data.
 	 *
+	 * @dataProvider validate_option_invalid_data_provider
+	 * @covers       WPSEO_Option_Social::validate_option
+	 *
 	 * @param string $expected  The expected value.
 	 * @param array  $dirty     New value for the option.
 	 * @param array  $clean     Clean value for the option, normally the defaults.
 	 * @param array  $old       Old value of the option.
 	 * @param string $slug_name The option key.
-	 *
-	 * @dataProvider validate_option_invalid_data_provider
-	 *
-	 * @covers WPSEO_Option_Social::validate_option
 	 */
 	public function test_validate_option_with_invalid_data( $expected, $dirty, $clean, $old, $slug_name ) {
 		$message = "<strong>{$dirty[ $slug_name ]}</strong> does not seem to be a valid url. Please correct.";

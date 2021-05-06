@@ -174,8 +174,9 @@ class Table {
 	 *
 	 * @param bool $wants_sql Whether or not to return SQL or execute the query. Defaults to false.
 	 *
-	 * @throws Exception If the table definition has not been intialized.
 	 * @return bool|string
+	 *
+	 * @throws Exception If the table definition has not been intialized.
 	 */
 	public function finish( $wants_sql = false ) {
 		if ( ! $this->initialized ) {

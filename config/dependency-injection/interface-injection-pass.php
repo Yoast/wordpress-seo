@@ -72,14 +72,14 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 	/**
 	 * Analyses a class definition and looks for a constructor with a typed variadic argument
 	 *
+	 * @example If we had a class Fruit_Basket with this constructor:
+	 * __construct(Fruit ...$all_our_fruit), then this method would find it.
+	 *
 	 * @param Definition $definition The class definition we are inspecting.
 	 *
 	 * @return Constructor_Details|null
 	 *
 	 * @throws ReflectionException If the reflection class couldn't be found.
-	 *
-	 * @example If we had a class Fruit_Basket with this constructor:
-	 * __construct(Fruit ...$all_our_fruit), then this method would find it.
 	 */
 	private function get_variadic_constructor( $definition ) {
 		// Limit the processing to classes from our project.

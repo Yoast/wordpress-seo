@@ -585,11 +585,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Generates whether or not breadcrumbs are enabled.
 	 *
+	 * @deprecated 15.8
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool Whether or not breadcrumbs are enabled.
-	 *
-	 * @deprecated 15.8
 	 */
 	public function generate_breadcrumbs_enabled() {
 		\_deprecated_function( __METHOD__, 'WPSEO 15.8' );
