@@ -30,29 +30,43 @@ class WPSEO_Addon_Installation implements Integration_Interface {
 	 * Enqueues scripts.
 	 */
 	public function enqueue_scripts() {
-		if ( 'wpseo_licenses' !== filter_input( INPUT_GET, 'page' ) ) {
+		// Only show the dialog on the "premium" / extensions page.
+		if ( filter_input( INPUT_GET, 'page' ) !== 'wpseo_licenses' ) {
 			return;
 		}
 
+		// Only show the dialog when we explicitly want to see it.
+		if ( filter_input( INPUT_GET, 'install' ) === 'true' ) {
+			$this->show_modal();
+		}
+
+		if ( filter_input( INPUT_GET, 'action' ) === 'install' ) {
+			$this->install_and_activate_addons();
+		}
+	}
+
+	public function install_and_activate_addons() {
+
+	}
+
+	public function show_modal() {
 		$addon_manager = new \WPSEO_Addon_Manager();
 		$licensed_addons = $addon_manager->get_myyoast_site_information()->subscriptions;
 
-		$addon_slugs = array_map(
-			function( $addon ) {
-				return $addon->product->slug;
+		$connected_addons = array_reduce(
+			$licensed_addons,
+			function( $accumulator, $addon ) {
+				$accumulator[ $addon->product->slug ] = $addon->product->name;
+				return $accumulator;
 			},
-			$licensed_addons
+			[],
 		);
-
-		// Unknown addon, let's just bail.
-		if ( ! in_array( filter_input( INPUT_GET, 'install-addon' ), $addon_slugs, true ) ) {
-			return;
-		}
 
 		\wp_localize_script(
 			\WPSEO_Admin_Asset_Manager::PREFIX . 'addon-installation',
 			'wpseoAddonInstallationL10n',
 			array(
+				'addons' => $connected_addons,
 				'nonce' => \wp_create_nonce( self::INSTALLATION_NONCE_ACTION )
 			)
 		);

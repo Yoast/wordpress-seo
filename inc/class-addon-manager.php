@@ -644,6 +644,11 @@ class WPSEO_Addon_Manager {
 		return $this->get_myyoast_site_information();
 	}
 
+	/**
+	 * Retrieves information from MyYoast about which addons are connected to the current site.
+	 *
+	 * @return stdClass The list of addons activated for this site.
+	 */
 	public function get_myyoast_site_information() {
 		if ( $this->site_information === null ) {
 			$this->site_information = $this->get_site_information_transient();
