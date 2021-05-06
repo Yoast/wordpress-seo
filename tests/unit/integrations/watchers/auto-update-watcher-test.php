@@ -2,12 +2,12 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Integrations\Watchers\Auto_Update_Watcher;
-use Yoast_Notification_Center;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
+use Yoast\WP\SEO\Integrations\Watchers\Auto_Update_Watcher;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Notification_Center;
 
 /**
  * Class Auto_Update_Watcher_Test.
