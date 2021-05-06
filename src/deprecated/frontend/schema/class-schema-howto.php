@@ -10,9 +10,8 @@ use Yoast\WP\SEO\Generators\Schema\HowTo;
 /**
  * Returns schema FAQ data.
  *
+ * @since      11.5
  * @deprecated 14.0
- *
- * @since 11.5
  */
 class WPSEO_Schema_HowTo extends WPSEO_Deprecated_Graph_Piece {
 
@@ -26,10 +25,10 @@ class WPSEO_Schema_HowTo extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * WPSEO_Schema_FAQ constructor.
 	 *
-	 * @param null $context The context. No longer used but present for BC.
-	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
+	 *
+	 * @param null $context The context. No longer used but present for BC.
 	 */
 	public function __construct( $context = null ) {
 		parent::__construct( HowTo::class );
@@ -38,8 +37,8 @@ class WPSEO_Schema_HowTo extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Renders the How-To block into our graph.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param array $graph Our Schema data.
 	 * @param array $block The How-To block content.
@@ -168,8 +167,8 @@ class WPSEO_Schema_HowTo extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Determines whether we're part of an article or a webpage.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return string A reference URL.
 	 */
@@ -211,8 +210,8 @@ class WPSEO_Schema_HowTo extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Generates the image schema from the attachment $url.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $url Attachment url.
 	 *

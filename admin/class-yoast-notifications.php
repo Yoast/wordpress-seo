@@ -133,10 +133,10 @@ class Yoast_Notifications {
 	 * Deprecated: Handle ajax request to restore a notification.
 	 * Renamed to ajax_restore_notification
 	 *
-	 * @return void
 	 * @deprecated 14.0
-	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	public function ajax_restore_alert() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -274,10 +274,10 @@ class Yoast_Notifications {
 	 * Deprecated: Get the number of active notifications.
 	 * Renamed to get_active_notification_count
 	 *
-	 * @return int
 	 * @deprecated 14.0
-	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @return int
 	 */
 	public function get_active_alert_count() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -297,11 +297,11 @@ class Yoast_Notifications {
 	/**
 	 * Deprecated: Filter out any non-errors. Renamed to filter_error_notifications
 	 *
+	 * @deprecated 14.0
+	 * @codeCoverageIgnore
+	 *
 	 * @param Yoast_Notification $notification Notification to test.
 	 * @return bool
-	 * @deprecated 14.0
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function filter_error_alerts( Yoast_Notification $notification ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -323,11 +323,11 @@ class Yoast_Notifications {
 	/**
 	 * Deprecated: Filter out any non-warnings. Renamed to filter_warning_notifications
 	 *
+	 * @deprecated 14.0
+	 * @codeCoverageIgnore
+	 *
 	 * @param Yoast_Notification $notification Notification to test.
 	 * @return bool
-	 * @deprecated 14.0
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function filter_warning_alerts( Yoast_Notification $notification ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -349,11 +349,11 @@ class Yoast_Notifications {
 	/**
 	 * Deprecated: Filter out any dismissed notifications. Renamed to filter_dismissed_alerts.
 	 *
+	 * @deprecated 14.0
+	 * @codeCoverageIgnore
+	 *
 	 * @param Yoast_Notification $notification Notification to test.
 	 * @return bool
-	 * @deprecated 14.0
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function filter_dismissed_alerts( Yoast_Notification $notification ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );

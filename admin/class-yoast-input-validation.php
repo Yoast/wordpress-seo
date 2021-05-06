@@ -95,10 +95,10 @@ class Yoast_Input_Validation {
 	/**
 	 * Sets the error descriptions.
 	 *
+	 * @since 12.1
+	 *
 	 * @param array $descriptions An associative array of error descriptions.
 	 *                            For each entry, the key must be the setting variable.
-	 *
-	 * @since 12.1
 	 */
 	public static function set_error_descriptions( $descriptions = [] ) {
 		$defaults = [

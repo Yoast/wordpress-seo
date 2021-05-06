@@ -239,13 +239,13 @@ class ORM implements \ArrayAccess {
 	 * Useful for queries that can't be accomplished through Idiorm,
 	 * particularly those using engine-specific features.
 	 *
+	 * @example raw_execute('INSERT OR REPLACE INTO `widget` (`id`, `name`) SELECT `id`, `name` FROM `other_table`')
+	 * @example raw_execute('SELECT `name`, AVG(`order`) FROM `customer` GROUP BY `name` HAVING AVG(`order`) > 10')
+	 *
 	 * @param string $query      The raw SQL query.
 	 * @param array  $parameters Optional bound parameters.
 	 *
 	 * @return bool Success.
-	 * @example raw_execute('INSERT OR REPLACE INTO `widget` (`id`, `name`) SELECT `id`, `name` FROM `other_table`')
-	 *
-	 * @example raw_execute('SELECT `name`, AVG(`order`) FROM `customer` GROUP BY `name` HAVING AVG(`order`) > 10')
 	 */
 	public static function raw_execute( $query, $parameters = [] ) {
 		return self::execute( $query, $parameters );
@@ -631,10 +631,10 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Counts the number of columns that belong to the primary key and their value is null.
 	 *
+	 * @return int The amount of null columns.
+	 *
 	 * @throws \Exception Primary key ID contains null value(s).
 	 * @throws \Exception Primary key ID missing from row or is null.
-	 *
-	 * @return int The amount of null columns.
 	 */
 	public function count_null_id_columns() {
 		if ( \is_array( $this->get_id_column_name() ) ) {
@@ -679,11 +679,11 @@ class ORM implements \ArrayAccess {
 	 * Note that the alias must not be numeric - if you want a numeric alias then prepend it with some alpha chars. eg.
 	 * a1.
 	 *
-	 * @return ORM
 	 * @example select_many(array('column', 'column2', 'column3'), 'column4', 'column5');
 	 * @example select_many(array('alias' => 'column', 'column2', 'alias2' => 'column3'), 'column4', 'column5');
-	 *
 	 * @example select_many('column', 'column2', 'column3');
+	 *
+	 * @return ORM
 	 */
 	public function select_many() {
 		$columns = \func_get_args();
@@ -707,11 +707,11 @@ class ORM implements \ArrayAccess {
 	 * Note that the alias must not be numeric - if you want a numeric alias then prepend it with some alpha chars. eg.
 	 * a1
 	 *
-	 * @return ORM
 	 * @example select_many_expr(array('alias' => 'column', 'column2', 'alias2' => 'column3'), 'column4', 'column5')
 	 * @example select_many_expr('column', 'column2', 'column3')
-	 *
 	 * @example select_many_expr(array('column', 'column2', 'column3'), 'column4', 'column5')
+	 *
+	 * @return ORM
 	 */
 	public function select_many_expr() {
 		$columns = \func_get_args();
@@ -2039,10 +2039,10 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @param bool $disallow_null Whether to allow null IDs.
 	 *
+	 * @return array|mixed|null
+	 *
 	 * @throws \Exception Primary key ID contains null value(s).
 	 * @throws \Exception Primary key ID missing from row or is null.
-	 *
-	 * @return array|mixed|null
 	 */
 	public function id( $disallow_null = false ) {
 		$id = $this->get( $this->get_id_column_name() );
@@ -2146,10 +2146,10 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Saves any fields which have been modified on this object to the database.
 	 *
+	 * @return bool True on success.
+	 *
 	 * @throws \Exception Primary key ID contains null value(s).
 	 * @throws \Exception Primary key ID missing from row or is null.
-	 *
-	 * @return bool True on success.
 	 */
 	public function save() {
 		global $wpdb;
@@ -2285,10 +2285,10 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Deletes this record from the database.
 	 *
+	 * @return string The delete query.
+	 *
 	 * @throws \Exception Primary key ID contains null value(s).
 	 * @throws \Exception Primary key ID missing from row or is null.
-	 *
-	 * @return string The delete query.
 	 */
 	public function delete() {
 		$query = [ 'DELETE FROM', $this->quote_identifier( $this->table_name ), $this->add_id_column_conditions() ];

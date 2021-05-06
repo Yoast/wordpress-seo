@@ -22,9 +22,9 @@ class Container_Compiler {
 	 * @param string $class_map_path           The path of the class map.
 	 * @param string $namespace                The namespace the generated container should be in.
 	 *
-	 * @throws Exception If compiling the container fails.
-	 *
 	 * @return void
+	 *
+	 * @throws Exception If compiling the container fails.
 	 */
 	public static function compile(
 		$debug,

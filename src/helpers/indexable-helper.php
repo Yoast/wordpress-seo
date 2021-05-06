@@ -58,9 +58,9 @@ class Indexable_Helper {
 	/**
 	 * Sets the indexable repository. Done to avoid circular dependencies.
 	 *
-	 * @param Indexable_Repository $repository The indexable repository.
-	 *
 	 * @required
+	 *
+	 * @param Indexable_Repository $repository The indexable repository.
 	 */
 	public function set_indexable_repository( Indexable_Repository $repository ) {
 		$this->repository = $repository;

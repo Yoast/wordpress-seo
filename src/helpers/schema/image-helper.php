@@ -33,11 +33,11 @@ class Image_Helper {
 	/**
 	 * Image_Helper constructor.
 	 *
+	 * @codeCoverageIgnore It handles dependencies.
+	 *
 	 * @param HTML_Helper       $html     The HTML helper.
 	 * @param Language_Helper   $language The language helper.
 	 * @param Main_Image_Helper $image    The 'main' image helper.
-	 *
-	 * @codeCoverageIgnore It handles dependencies.
 	 */
 	public function __construct( HTML_Helper $html, Language_Helper $language, Main_Image_Helper $image ) {
 		$this->html     = $html;

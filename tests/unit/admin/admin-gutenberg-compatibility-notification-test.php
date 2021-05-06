@@ -68,13 +68,12 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 	/**
 	 * Tests the conditions that remove the Gutenberg notification.
 	 *
+	 * @dataProvider data_provider_manage_notification_remove_notification
+	 * @covers       WPSEO_Admin_Gutenberg_Compatibility_Notification::manage_notification
+	 *
 	 * @param bool $installed        The return value of WPSEO_Gutenberg_Compatibility::is_installed.
 	 * @param bool $fully_compatible The return value of WPSEO_Gutenberg_Compatibility::is_fully_compatible.
 	 * @param bool $filter_value     The return value of the 'yoast_display_gutenberg_compat_notification' filter.
-	 *
-	 * @covers WPSEO_Admin_Gutenberg_Compatibility_Notification::manage_notification
-	 *
-	 * @dataProvider data_provider_manage_notification_remove_notification
 	 */
 	public function test_manage_notification_remove_notification( $installed, $fully_compatible, $filter_value ) {
 

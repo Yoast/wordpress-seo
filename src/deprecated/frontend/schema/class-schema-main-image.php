@@ -10,20 +10,19 @@ use Yoast\WP\SEO\Generators\Schema\Main_Image;
 /**
  * Returns ImageObject schema data.
  *
- * @codeCoverageIgnore
+ * @since      11.5
  * @deprecated 14.0
- *
- * @since 11.5
+ * @codeCoverageIgnore
  */
 class WPSEO_Schema_MainImage extends WPSEO_Deprecated_Graph_Piece {
 
 	/**
 	 * WPSEO_Schema_WebPage constructor.
 	 *
-	 * @param null $context The context. No longer used but present for BC.
-	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
+	 *
+	 * @param null $context The context. No longer used but present for BC.
 	 */
 	public function __construct( $context = null ) {
 		parent::__construct( Main_Image::class );
@@ -32,8 +31,8 @@ class WPSEO_Schema_MainImage extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Gets the post's first usable content image. Null if none is available.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $post_id The post id.
 	 *
@@ -48,8 +47,8 @@ class WPSEO_Schema_MainImage extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Generates image schema from the attachment id.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $image_id The image schema id.
 	 *
@@ -64,8 +63,8 @@ class WPSEO_Schema_MainImage extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Generates image schema from the url.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $image_id  The image schema id.
 	 * @param string $image_url The image URL.

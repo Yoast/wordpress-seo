@@ -8,9 +8,8 @@
 /**
  * Constants used for @id variables.
  *
+ * @since      10.2
  * @deprecated 14.0
- *
- * @since 10.2
  */
 class WPSEO_Schema_IDs {
 

@@ -31,10 +31,10 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * Indexable_Author_Archive_Presentation constructor.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param Post_Type_Helper      $post_type      The post type helper.
 	 * @param Author_Archive_Helper $author_archive The author archive helper.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function __construct( Post_Type_Helper $post_type, Author_Archive_Helper $author_archive ) {
 		$this->post_type      = $post_type;

@@ -10,19 +10,18 @@ use Yoast\WP\SEO\Generators\Schema\FAQ;
 /**
  * Returns schema FAQ data.
  *
+ * @since      11.3
  * @deprecated 14.0
- *
- * @since 11.3
  */
 class WPSEO_Schema_FAQ extends WPSEO_Deprecated_Graph_Piece {
 
 	/**
 	 * WPSEO_Schema_FAQ constructor.
 	 *
-	 * @param null $context The context. No longer used but present for BC.
-	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
+	 *
+	 * @param null $context The context. No longer used but present for BC.
 	 */
 	public function __construct( $context = null ) {
 		parent::__construct( FAQ::class );
@@ -31,8 +30,8 @@ class WPSEO_Schema_FAQ extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * If this fires, we know there's an FAQ block ont he page, so filter the page type.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param array $blocks The blocks of this type on the current page.
 	 */
@@ -43,8 +42,8 @@ class WPSEO_Schema_FAQ extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Change the page type to an array if it isn't one, include FAQPage.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param array|string $page_type The page type.
 	 *
@@ -64,8 +63,8 @@ class WPSEO_Schema_FAQ extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Add the Questions in our FAQ blocks as separate pieces to the graph.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param array                 $graph   Schema data for the current page.
 	 * @param WP_Block_Parser_Block $block   The block data array.

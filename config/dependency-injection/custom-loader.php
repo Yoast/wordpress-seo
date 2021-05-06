@@ -70,9 +70,9 @@ class Custom_Loader extends PhpFileLoader {
 	 * @param string      $resource  The directory to look for classes, glob-patterns allowed.
 	 * @param string|null $exclude   A globed path of files to exclude.
 	 *
-	 * @throws InvalidArgumentException If invalid arguments are supplied.
-	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException If invalid arguments are supplied.
 	 */
 	public function registerClasses( Definition $prototype, $namespace, $resource, $exclude = null ) {
 		if ( \substr( $namespace, -1 ) !== '\\' ) {
@@ -121,9 +121,9 @@ class Custom_Loader extends PhpFileLoader {
 	 * @param string $pattern   The directory to look for classes, glob-patterns allowed.
 	 * @param string $exclude   A globed path of files to exclude.
 	 *
-	 * @throws InvalidArgumentException If invalid arguments were supplied.
-	 *
 	 * @return array The found classes.
+	 *
+	 * @throws InvalidArgumentException If invalid arguments were supplied.
 	 */
 	private function findClasses( $namespace, $pattern, $exclude ) {
 		$parameter_bag = $this->container->getParameterBag();
