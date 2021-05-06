@@ -81,7 +81,7 @@ function BlockSuggestionAdded( { blockTitle, isValid }: BlockSuggestionAddedDto 
 	return (
 		<li className="yoast-block-suggestion yoast-block-suggestion--added" key={ "BlockSuggestionAdded" + blockTitle }>
 			{ blockTitle }
-			{ checkmark }
+			{ isValid ? checkmark : null }
 		</li>
 	);
 }
