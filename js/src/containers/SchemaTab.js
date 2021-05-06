@@ -95,12 +95,19 @@ export default compose( [
 			getDefaultArticleType,
 		} = select( "yoast-seo/editor" );
 
+		const {
+			getRequiredBlockNames,
+			getRecommendedBlockNames,
+		} = select( "yoast-seo/schema-blocks" );
+
 		return {
 			displayFooter: getPreferences().displaySchemaSettingsFooter,
 			schemaPageTypeSelected: getPageType(),
 			schemaArticleTypeSelected: getArticleType(),
 			defaultArticleType: getDefaultArticleType(),
 			defaultPageType: getDefaultPageType(),
+			requiredBlockNames: getRequiredBlockNames(),
+			recommendedBlockNames: getRecommendedBlockNames(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
