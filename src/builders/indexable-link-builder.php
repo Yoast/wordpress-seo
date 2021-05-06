@@ -324,7 +324,7 @@ class Indexable_Link_Builder {
 	 * @param SEO_Links $link        The link.
 	 * @param array     $current_url The url of the page the link is on, as parsed by wp_parse_url.
 	 *
-	 * @return bool. Whether or not the link should be filtered.
+	 * @return bool Whether or not the link should be filtered.
 	 */
 	protected function filter_link( SEO_Links $link, $current_url ) {
 		$url = $link->parsed_url;

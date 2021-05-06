@@ -19,7 +19,7 @@ class Custom_Loader extends PhpFileLoader {
 	/**
 	 * The class map path.
 	 *
-	 * @var string;
+	 * @var string
 	 */
 	private $class_map_path;
 

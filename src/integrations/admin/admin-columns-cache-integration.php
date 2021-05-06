@@ -117,7 +117,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	 *
 	 * @param int $post_id The post ID.
 	 *
-	 * @return Indexable|false. The indexable. False if none could be found.
+	 * @return Indexable|false The indexable. False if none could be found.
 	 */
 	public function get_indexable( $post_id ) {
 		if ( ! \array_key_exists( $post_id, $this->indexable_cache ) ) {

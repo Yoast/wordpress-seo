@@ -47,14 +47,14 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	/**
 	 * The URL helper.
 	 *
-	 * @var Url_Helper;
+	 * @var Url_Helper
 	 */
 	private $url_helper;
 
 	/**
 	 * The pagination helper.
 	 *
-	 * @var Pagination_Helper;
+	 * @var Pagination_Helper
 	 */
 	private $pagination_helper;
 
