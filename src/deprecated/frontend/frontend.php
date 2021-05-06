@@ -269,6 +269,6 @@ class WPSEO_Frontend {
 	private function get_current_page_presentation() {
 		$context = $this->context_memoizer->for_current_page();
 		/** This filter is documented in src/integrations/front-end-integration.php */
-		return \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
+		return apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
 	}
 }
