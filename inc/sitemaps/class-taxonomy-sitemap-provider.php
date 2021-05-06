@@ -73,6 +73,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$taxonomies     = array_intersect_key( $taxonomies, array_flip( $taxonomy_names ) );
 
 		// Retrieve all the taxonomies and their terms so we can do a proper count on them.
+
 		/**
 		 * Filter the setting of excluding empty terms from the XML sitemap.
 		 *

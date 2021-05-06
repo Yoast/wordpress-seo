@@ -275,11 +275,13 @@ class WPSEO_Replace_Vars {
 			elseif ( strpos( $var, 'ct_' ) === 0 ) {
 				$single      = ( isset( $matches[2][ $k ] ) && $matches[2][ $k ] !== '' );
 				$replacement = $this->retrieve_ct_custom_tax_name( $var, $single );
-			} // Deal with non-variable variable names.
+			}
+			// Deal with non-variable variable names.
 			elseif ( method_exists( $this, 'retrieve_' . $var ) ) {
 				$method_name = 'retrieve_' . $var;
 				$replacement = $this->$method_name();
-			} // Deal with externally defined variable names.
+			}
+			// Deal with externally defined variable names.
 			elseif ( isset( self::$external_replacements[ $var ] ) && ! is_null( self::$external_replacements[ $var ] ) ) {
 				$replacement = call_user_func( self::$external_replacements[ $var ], $var, $this->args );
 			}

@@ -43,7 +43,6 @@ class WPSEO_Utils {
 		 *
 		 * @api bool $allowed Whether file editing is allowed.
 		 */
-
 		return apply_filters( 'wpseo_allow_system_file_edit', $allowed );
 	}
 
