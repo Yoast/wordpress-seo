@@ -52,7 +52,7 @@ class Date_Helper {
 	 *
 	 * @return string The formatted date.
 	 */
-	public function format_timestamp( $timestamp, $format = DATE_W3C ) {
+	public function format_timestamp( $timestamp, $format = \DATE_W3C ) {
 		$immutable_date = \date_create_immutable_from_format( 'U', $timestamp, new DateTimeZone( 'UTC' ) );
 
 		if ( ! $immutable_date ) {
@@ -70,7 +70,7 @@ class Date_Helper {
 	 *
 	 * @return string The formatted and translated date.
 	 */
-	public function format_translated( $date, $format = DATE_W3C ) {
+	public function format_translated( $date, $format = \DATE_W3C ) {
 		return \date_i18n( $format, $this->format( $date, 'U' ) );
 	}
 

@@ -151,7 +151,7 @@ class Unit_Test_Generator {
 			$groups
 		);
 
-		return \implode( PHP_EOL, $groups );
+		return \implode( \PHP_EOL, $groups );
 	}
 
 	/**
@@ -247,7 +247,7 @@ TPL;
 			$constructor_arguments
 		);
 
-		return \implode( PHP_EOL, $statements );
+		return \implode( \PHP_EOL, $statements );
 	}
 
 	/**
@@ -265,7 +265,7 @@ TPL;
 			$constructor_arguments
 		);
 
-		return \implode( PHP_EOL . PHP_EOL, $statements );
+		return \implode( \PHP_EOL . \PHP_EOL, $statements );
 	}
 
 	/**
@@ -303,7 +303,7 @@ TPL;
 			$constructor_arguments
 		);
 
-		return \implode( PHP_EOL . "\t\t", $statements );
+		return \implode( \PHP_EOL . "\t\t", $statements );
 	}
 
 	/**
@@ -321,6 +321,6 @@ TPL;
 			$constructor_arguments
 		);
 
-		return \implode( ',' . PHP_EOL . "\t\t\t", $statements );
+		return \implode( ',' . \PHP_EOL . "\t\t\t", $statements );
 	}
 }
