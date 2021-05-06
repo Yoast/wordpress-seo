@@ -90,7 +90,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	/**
 	 * Returns a text explaining this filter.
 	 *
-	 * @return string The explanation.
+	 * @return string|null The explanation.
 	 */
 	protected function get_explanation() {
 		$post_type_object = get_post_type_object( $this->get_current_post_type() );

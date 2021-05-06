@@ -39,7 +39,7 @@ class WPSEO_Link_Table_Accessible_Notifier {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return Yoast_Notification The notification.
+	 * @return Yoast_Notification|null The notification.
 	 */
 	protected function get_notification() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.1' );

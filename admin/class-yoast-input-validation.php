@@ -192,7 +192,7 @@ class Yoast_Input_Validation {
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 *
-	 * @return string The error description.
+	 * @return string|null The error description.
 	 */
 	public static function get_error_description( $error_code ) {
 		if ( ! isset( self::$error_descriptions[ $error_code ] ) ) {

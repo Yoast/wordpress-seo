@@ -665,11 +665,11 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Retrieve the notifications from storage.
+	 * Retrieve the notifications from storage and fill the relevant property.
 	 *
 	 * @param int $user_id The ID of the user to retrieve notifications for.
 	 *
-	 * @return array|void Yoast_Notification[] Notifications.
+	 * @return void
 	 */
 	private function retrieve_notifications_from_storage( $user_id ) {
 

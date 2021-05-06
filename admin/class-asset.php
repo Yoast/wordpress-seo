@@ -207,7 +207,7 @@ class WPSEO_Admin_Asset {
 	/**
 	 * Returns the asset version.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function get_version() {
 		if ( ! empty( $this->version ) ) {
