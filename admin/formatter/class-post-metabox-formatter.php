@@ -54,6 +54,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 			$values_to_set = [
 				'keyword_usage'               => $this->get_focus_keyword_usage(),
 				'title_template'              => $this->get_title_template(),
+				'title_template_no_fallback'  => $this->get_title_template( false ),
 				'metadesc_template'           => $this->get_metadesc_template(),
 				'metaDescriptionDate'         => $this->get_metadesc_date(),
 				'first_content_image'         => $this->get_image_url(),
@@ -177,12 +178,14 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Retrieves the title template.
 	 *
+	 * @param bool $fallback Whether to return the hardcoded fallback if the template value is empty.
+	 *
 	 * @return string The title template.
 	 */
-	private function get_title_template() {
+	private function get_title_template( $fallback = true ) {
 		$title = $this->get_template( 'title' );
 
-		if ( $title === '' ) {
+		if ( $title === '' && $fallback === true ) {
 			return '%%title%% %%page%% %%sep%% %%sitename%%';
 		}
 
@@ -204,13 +207,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string The social title template.
 	 */
 	private function get_social_title_template() {
-		$title = $this->get_template( 'social-title' );
-
-		if ( $title === '' ) {
-			return '%%title%% %%page%% %%sep%% %%sitename%%';
-		}
-
-		return $title;
+		return $this->get_template( 'social-title' );
 	}
 
 	/**

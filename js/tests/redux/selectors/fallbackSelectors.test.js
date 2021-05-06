@@ -1,4 +1,4 @@
-import { getDescriptionFallback, getTitleFallback, getImageFallback } from "../../../src/redux/selectors/fallbacks";
+import { getDescriptionFallback, getImageFallback } from "../../../src/redux/selectors/fallbacks";
 
 // This mimics parts of the yoast-seo/editor store.
 const testState = {
@@ -43,16 +43,6 @@ afterEach(
 	  windowSpy.mockRestore();
 	}
 );
-
-describe( getTitleFallback, () => {
-	it( "returns the snippit title as a fallback", () => {
-		const actual = getTitleFallback( testState );
-
-		const expected = "Hello World!";
-
-		expect( actual ).toEqual( expected );
-	} );
-} );
 
 describe( getDescriptionFallback, () => {
 	it( "returns the snippit description as a fallback", () => {

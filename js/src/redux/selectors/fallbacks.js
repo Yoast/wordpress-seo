@@ -2,18 +2,6 @@ import { get } from "lodash";
 import { applyFilters } from "@wordpress/hooks";
 
 /**
- * Gets the fallback title that is equal to the site title.
- *
- * This is stored in:
- * state.snippetEditor.replacementVariables's value where the name is title.
- *
- * @param {Object} state The state object.
- *
- * @returns {string} The fallback title.
- */
-export const getTitleFallback = state => get( state, "analysisData.snippet.title", "" );
-
-/**
  * Gets the fallback description from: state.analysisData.snippet.description.
  *
  * @param {Object} state The state object.
@@ -62,11 +50,9 @@ export const getImageFallback = state => {
 };
 
 /**
- * Gets the site base URL from the analysisdata state. Then cuts it after the first "/".
+ * Gets the site base URL. Then cuts it after the first "/".
  *
- * @param {Object} state The state object.
- *
- * @returns {string} The authorName
+ * @returns {string} The authorName.
  */
 export const getSiteUrl = () => {
 	let url = get( window, "wpseoScriptData.metabox.base_url", "" );
@@ -76,3 +62,17 @@ export const getSiteUrl = () => {
 	url = new URL( url );
 	return url.host;
 };
+
+/**
+ * Gets the SEO title template without fallback value.
+ *
+ * @returns {string} The SEO title template.
+ */
+export const getSeoTitleTemplate = () => get( window, "wpseoScriptData.metabox.title_template_no_fallback", "" );
+
+/**
+ * Gets the social title template.
+ *
+ * @returns {string} The social title template.
+ */
+export const getSocialTitleTemplate = () => get( window, "wpseoScriptData.metabox.social_title_template", "" );
