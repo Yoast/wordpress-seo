@@ -43,7 +43,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Current post/page/cpt information.
 	 *
-	 * @var object
+	 * @var stdClass
 	 */
 	protected $args;
 

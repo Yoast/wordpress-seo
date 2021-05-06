@@ -133,7 +133,7 @@ abstract class WPSEO_Option {
 	/**
 	 * Instance of this class.
 	 *
-	 * @var object
+	 * @var WPSEO_Option
 	 */
 	protected static $instance;
 

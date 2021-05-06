@@ -17,7 +17,7 @@ class WPSEO_Twitter {
 	/**
 	 * Instance of this class.
 	 *
-	 * @var object
+	 * @var WPSEO_Twitter
 	 */
 	public static $instance;
 
