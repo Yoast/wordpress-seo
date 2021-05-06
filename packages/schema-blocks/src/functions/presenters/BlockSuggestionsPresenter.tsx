@@ -73,11 +73,9 @@ function BlockSuggestionAdded( { blockTitle, isValid }: BlockSuggestionAddedDto 
 		<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2.5 } d="M5 13l4 4L19 7" />
 	</svg>;
 
-	let checkmark: JSX.Element;
+	let checkmark: JSX.Element = null;
 	if ( isValid ) {
 		checkmark = ( <span className="yoast-block-suggestion-checkmark">{ heroIconCheck }</span> );
-	} else {
-		checkmark = null;
 	}
 
 	return (
