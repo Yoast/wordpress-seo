@@ -210,8 +210,6 @@ class WPSEO_Admin {
 	/**
 	 * Adds links to Premium Support and FAQ under the plugin in the plugin overview page.
 	 *
-	 * @staticvar string $this_plugin Holds the directory & filename for the plugin.
-	 *
 	 * @param array  $links Array of links for the plugins, adapted when the current plugin is found.
 	 * @param string $file  The filename for the current plugin, which the filter loops through.
 	 *

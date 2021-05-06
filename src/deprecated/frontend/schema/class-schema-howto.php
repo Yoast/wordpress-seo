@@ -217,8 +217,6 @@ class WPSEO_Schema_HowTo extends WPSEO_Deprecated_Graph_Piece {
 	 * @param string $url Attachment url.
 	 *
 	 * @return array Image schema.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	protected function get_image_schema( $url ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo::get_image_schema' );
