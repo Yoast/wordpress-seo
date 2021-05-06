@@ -1,22 +1,15 @@
-// /* global wpseoPluginInstallationL10n */
-
 // External dependencies.
 import { useState } from "@wordpress/element";
 import PropTypes from "prop-types";
-import { Modal, Button } from "@yoast/components";
+import { Button, Modal } from "@yoast/components";
 import { __, sprintf } from "@wordpress/i18n";
 import styled from "styled-components";
 
 // Internal dependencies.
-
-const CloseButton = styled.a`
-	float: right;
-	cursor: pointer;
-`;
-
 const ButtonPlacement = styled.div`
 	display: flex;
-	align-items: right;
+	justify-content: flex-end;
+	gap: 8px;
 `;
 
 /**
@@ -54,11 +47,11 @@ const AddonInstallation = props => {
 	 */
 	function renderCloseButton() {
 		return (
-			<CloseButton
+			<Button
 				onClick={ closeModal }
 			>
-				{ __( "Close this modal", "wordpress-seo" ) }
-			</CloseButton>
+				{ __( "Cancel", "wordpress-seo" ) }
+			</Button>
 		);
 	}
 
@@ -77,25 +70,24 @@ const AddonInstallation = props => {
 		);
 	}
 
+	const heading = sprintf(
+		/* translators: %s expands to Yoast */
+		__( "%s addon installation", "wordpress-seo" ),
+		"Yoast",
+	);
+
 	return (
 		<Modal
 			appElement={ document.getElementById( "wpseo-app-element" ) }
 			onClose={ closeModal }
 			isOpen={ modalIsOpen }
-			closeIconButton={ __( "Close", "wordpress-seo" ) }
+			heading={ heading }
 		>
-			<h2>
-				{ sprintf(
-					/* translators: %s expands to Yoast */
-					__( "%s addon installation", "wordpress-seo" ),
-					"Yoast",
-				) }
-			</h2>
 			<p>
 				{ sprintf(
 					/* translators: %s expands to Yoast SEO Premium */
-					__( "Please confirm below that you would like to install %s on this site", "wordpress-seo" ),
-					props.addons.join( ", " ),
+					__( "Please confirm below that you would like to install %s on this site.", "wordpress-seo" ),
+					Object.values( props.addons ).join( ", " ),
 				) }
 			</p>
 			<ButtonPlacement>
