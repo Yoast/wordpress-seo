@@ -82,7 +82,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Holds the site information data.
 	 *
-	 * @var object
+	 * @var stdClass
 	 */
 	private $site_information;
 

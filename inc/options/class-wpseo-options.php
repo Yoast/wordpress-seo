@@ -49,7 +49,7 @@ class WPSEO_Options {
 	/**
 	 * Instance of this class.
 	 *
-	 * @var object
+	 * @var WPSEO_Options
 	 */
 	protected static $instance;
 
