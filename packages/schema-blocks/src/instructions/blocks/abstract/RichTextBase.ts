@@ -1,4 +1,4 @@
-import { BlockConfiguration, BlockInstance, getBlockContent } from "@wordpress/blocks";
+import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import { RichText as WordPressRichText } from "@wordpress/block-editor";
 import { createElement } from "@wordpress/element";
 import { BlockLeaf, BlockInstruction } from "../../../core/blocks";
@@ -88,13 +88,9 @@ export default abstract class RichTextBase extends BlockInstruction {
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
 		const presence = getPresence( this.options );
 		// Get the current editor content of this block from the store.
-		const content: string = getBlockContent( blockInstance ) || "";
-		if ( content ) {
-			// Remove all characters from < up to and including > (i.e. strip the tags).
-			const innerText = content.replace( /(<([^>]+)>)/ig, "" );
-			if ( innerText.trim().length > 0 ) {
-				return BlockValidationResult.Valid( blockInstance, this.options.name, presence );
-			}
+		const content: string = blockInstance.attributes[ this.options.name ];
+		if ( content && content.trim().length > 0 ) {
+			return BlockValidationResult.Valid( blockInstance, this.options.name, presence );
 		}
 
 		const validation = ( presence === BlockPresence.Required )
