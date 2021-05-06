@@ -208,7 +208,7 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 		];
 
-		$callback = function ( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 
@@ -234,7 +234,7 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
-		$callback = function ( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, $this->instance->get_presenters( 'Error_Page' ) );
@@ -281,7 +281,7 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'enable_enhanced_slack_sharing' )
 			->andReturnTrue();
 
-		$callback = function ( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Term_Archive' ) ) );
@@ -336,7 +336,7 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
-		$callback = function ( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$actual   = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
@@ -378,7 +378,7 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
-		$callback = function ( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );

@@ -59,7 +59,7 @@ class Canonical_Test extends TestCase {
 			->expects( 'ensure_absolute_url' )
 			->once()
 			->andReturnUsing(
-				function ( $val ) {
+				static function ( $val ) {
 					return $val;
 				}
 			);
@@ -97,7 +97,7 @@ class Canonical_Test extends TestCase {
 			->expects( 'ensure_absolute_url' )
 			->once()
 			->andReturnUsing(
-				function ( $val ) {
+				static function ( $val ) {
 					return $val;
 				}
 			);
@@ -134,7 +134,7 @@ class Canonical_Test extends TestCase {
 			->expects( 'ensure_absolute_url' )
 			->once()
 			->andReturnUsing(
-				function ( $val ) {
+				static function ( $val ) {
 					return $val;
 				}
 			);
@@ -178,7 +178,7 @@ class Canonical_Test extends TestCase {
 			->expects( 'ensure_absolute_url' )
 			->once()
 			->andReturnUsing(
-				function ( $val ) {
+				static function ( $val ) {
 					return $val;
 				}
 			);

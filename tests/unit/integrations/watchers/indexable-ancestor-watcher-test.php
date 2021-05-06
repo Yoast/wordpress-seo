@@ -333,9 +333,9 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$term_id = 1;
 
 		Functions\expect( 'wp_list_pluck' )->andReturnUsing(
-			function ( $array, $prop ) {
+			static function ( $array, $prop ) {
 				return \array_map(
-					function ( $e ) use ( $prop ) {
+					static function ( $e ) use ( $prop ) {
 						return $e->{$prop};
 					},
 					$array

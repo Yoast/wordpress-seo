@@ -273,7 +273,7 @@ class Article_Test extends TestCase {
 		$this->language->expects( 'add_piece_language' )
 			->once()
 			->andReturnUsing(
-				function( $data ) {
+				static function( $data ) {
 					$data['inLanguage'] = 'language';
 
 					return $data;

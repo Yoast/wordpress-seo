@@ -176,7 +176,7 @@ class WP_Robots_Integration implements Integration_Interface {
 	protected function sort_robots( $robots ) {
 		\uksort(
 			$robots,
-			function ( $a, $b ) {
+			static function ( $a, $b ) {
 				$order = [
 					'index'             => 0,
 					'noindex'           => 1,

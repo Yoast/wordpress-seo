@@ -83,7 +83,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	public function test_word_form_recognition_is_active() {
 		add_filter(
 			'locale',
-			function() {
+			static function() {
 				return 'en_US';
 			}
 		);
@@ -111,7 +111,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	public function test_word_form_recognition_is_not_active() {
 		add_filter(
 			'locale',
-			function() {
+			static function() {
 				return 'af_ZA';
 			}
 		);

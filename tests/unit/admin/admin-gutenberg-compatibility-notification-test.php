@@ -130,7 +130,7 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'__'                  => null,
-				'wp_get_current_user' => function() {
+				'wp_get_current_user' => static function() {
 					return null;
 				},
 			]
@@ -141,7 +141,7 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 		$this->gutenberg_compatibility_mock->allows()->is_fully_compatible()->andReturns( false );
 
 		$this->notification_center_mock->expects( 'add_notification' )->once()->withArgs(
-			function ( $arg ) {
+			static function ( $arg ) {
 				// Verify that the added notification is a Yoast_Notification object and has the correct id.
 				if ( is_a( $arg, 'Yoast_Notification' ) && $arg->get_id() === 'wpseo-outdated-gutenberg-plugin' ) {
 					return true;

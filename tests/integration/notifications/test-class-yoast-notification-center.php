@@ -944,7 +944,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 			->with( $this->isType( 'string' ) )
 			->willReturn(
 				$this->returnCallback(
-					function( $argument ) use ( $caps ) {
+					static function( $argument ) use ( $caps ) {
 						return isset( $caps[ $argument ] ) ? $caps[ $argument ] : false;
 					}
 				)

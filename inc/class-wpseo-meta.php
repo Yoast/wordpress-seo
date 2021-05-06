@@ -1011,7 +1011,7 @@ class WPSEO_Meta {
 			->limit( 2 )
 			->find_array();
 
-		$callback = function ( $row ) {
+		$callback = static function ( $row ) {
 			return (int) $row['object_id'];
 		};
 		$post_ids = array_map( $callback, $post_ids );
