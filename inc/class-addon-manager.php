@@ -109,6 +109,15 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Provides a list of addon filenames.
+	 *
+	 * @return string[] List of addon filenames with their slugs.
+	 */
+	public function get_addon_filenames() {
+		return self::$addons;
+	}
+
+	/**
 	 * Retrieves the subscription for the given slug.
 	 *
 	 * @param string $slug The plugin slug to retrieve.

@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
+use Yoast\WP\SEO\Actions\Addon_Installation\Addon_Activate_Action;
+use Yoast\WP\SEO\Actions\Addon_Installation\Addon_Install_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -17,6 +19,7 @@ class Addon_Installation implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+		add_action( 'wpseo_install_and_activate_addons', [ $this, 'install_and_activate_addons' ] );
 	}
 
 	/**
@@ -39,10 +42,6 @@ class Addon_Installation implements Integration_Interface {
 		if ( filter_input( INPUT_GET, 'install' ) === 'true' ) {
 			$this->show_modal();
 		}
-
-		if ( filter_input( INPUT_GET, 'action' ) === 'install' ) {
-			$this->install_and_activate_addons();
-		}
 	}
 
 	/**
@@ -51,7 +50,23 @@ class Addon_Installation implements Integration_Interface {
 	 * @returns void
 	 */
 	public function install_and_activate_addons() {
-		// Todo: To be created.
+		if ( filter_input( INPUT_GET, 'action' ) !== 'install' ) {
+			return;
+		}
+
+		// todo: add nonce check.
+
+		$addon_manager   = new \WPSEO_Addon_Manager();
+		$licensed_addons = $addon_manager->get_myyoast_site_information()->subscriptions;
+
+		$install_action = new Addon_Install_Action( $addon_manager );
+		$active_action  = new Addon_Activate_Action( $addon_manager );
+
+		foreach ( $licensed_addons as $addon ) {
+			if ( $install_action->install_addon( $addon->product->slug, $addon->product->download ) ) {
+				$active_action->activate_addon( $addon->product->slug, $addon->product->name );
+			}
+		}
 	}
 
 	/**

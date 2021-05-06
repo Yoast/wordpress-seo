@@ -95,6 +95,8 @@ $new_tab_message         = sprintf(
 	esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' )
 );
 
+do_action( 'wpseo_install_and_activate_addons' );
+
 ?>
 
 <div class="wrap yoast wpseo_table_page">
