@@ -112,7 +112,7 @@ class WPSEO_Sitemaps_Cache {
 	 * @param string $type Sitemap type.
 	 * @param int    $page Page number to retrieve.
 	 *
-	 * @return null|WPSEO_Sitemap_Cache_Data Null on no cache found otherwise object containing sitemap and meta data.
+	 * @return WPSEO_Sitemap_Cache_Data|null Null on no cache found otherwise object containing sitemap and meta data.
 	 */
 	public function get_sitemap_data( $type, $page ) {
 

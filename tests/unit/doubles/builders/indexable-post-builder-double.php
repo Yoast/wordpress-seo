@@ -84,7 +84,7 @@ class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
 	 * @param string $keyword The focus keyword that is set.
 	 * @param int    $score   The score saved on the meta data.
 	 *
-	 * @return null|int Score to use.
+	 * @return int|null Score to use.
 	 */
 	public function get_keyword_score( $keyword, $score ) {
 		return parent::get_keyword_score( $keyword, $score );

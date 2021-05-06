@@ -135,7 +135,7 @@ class Yoast_Notification {
 	/**
 	 * Retrieve nonce identifier.
 	 *
-	 * @return null|string Nonce for this Notification.
+	 * @return string|null Nonce for this Notification.
 	 */
 	public function get_nonce() {
 		if ( $this->options['id'] && empty( $this->options['nonce'] ) ) {

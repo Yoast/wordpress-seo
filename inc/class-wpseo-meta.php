@@ -563,7 +563,7 @@ class WPSEO_Meta {
 	 * @param string $meta_value New meta value.
 	 * @param string $prev_value The old meta value.
 	 *
-	 * @return null|bool True = stop saving, null = continue saving.
+	 * @return bool|null True = stop saving, null = continue saving.
 	 */
 	public static function remove_meta_if_default( $check, $object_id, $meta_key, $meta_value, $prev_value = '' ) {
 		/* If it's one of our meta fields, check against default. */
@@ -589,7 +589,7 @@ class WPSEO_Meta {
 	 * @param string $meta_key   The full meta key (including prefix).
 	 * @param string $meta_value New meta value.
 	 *
-	 * @return null|bool True = stop saving, null = continue saving.
+	 * @return bool|null True = stop saving, null = continue saving.
 	 */
 	public static function dont_save_meta_if_default( $check, $object_id, $meta_key, $meta_value ) {
 		/* If it's one of our meta fields, check against default. */

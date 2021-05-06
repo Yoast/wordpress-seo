@@ -40,7 +40,7 @@ class WPSEO_Config_Field_Multiple_Authors extends WPSEO_Config_Field_Choice {
 	/**
 	 * Get the data from the stored options.
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	public function get_data() {
 

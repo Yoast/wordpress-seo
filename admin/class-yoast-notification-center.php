@@ -124,7 +124,7 @@ class Yoast_Notification_Center {
 	 * Check if the user has dismissed a notification.
 	 *
 	 * @param Yoast_Notification $notification The notification to check for dismissal.
-	 * @param null|int           $user_id      User ID to check on.
+	 * @param int|null           $user_id      User ID to check on.
 	 *
 	 * @return bool
 	 */
@@ -329,7 +329,7 @@ class Yoast_Notification_Center {
 	 * @param string $notification_id The ID of the notification to search for.
 	 * @param int    $user_id         The ID of the user.
 	 *
-	 * @return null|Yoast_Notification
+	 * @return Yoast_Notification|null
 	 */
 	public function get_notification_by_id( $notification_id, $user_id = null ) {
 		$user_id = self::get_user_id( $user_id );

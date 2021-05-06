@@ -112,7 +112,7 @@ class Indexable_Helper {
 	 * Resets the permalinks of the indexables.
 	 *
 	 * @param string      $type    The type of the indexable.
-	 * @param null|string $subtype The subtype. Can be null.
+	 * @param string|null $subtype The subtype. Can be null.
 	 * @param string      $reason  The reason that the permalink has been changed.
 	 */
 	public function reset_permalink_indexables( $type = null, $subtype = null, $reason = Indexing_Reasons::REASON_PERMALINK_SETTINGS ) {

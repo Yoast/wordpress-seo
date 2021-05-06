@@ -40,7 +40,7 @@ class Primary_Category implements Integration_Interface {
 	 * @param array    $categories This parameter is not used.
 	 * @param WP_Post  $post       The post in question.
 	 *
-	 * @return array|null|object|WP_Error The category we want to use for the post link.
+	 * @return array|object|WP_Error|null The category we want to use for the post link.
 	 */
 	public function post_link_category( $category, $categories = null, $post = null ) {
 		$post = \get_post( $post );

@@ -29,7 +29,7 @@ class WPSEO_OpenGraph_Image extends Images {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @param null|string     $image     Optional. The Image to use.
+	 * @param string|null     $image     Optional. The Image to use.
 	 * @param WPSEO_OpenGraph $opengraph Optional. The OpenGraph object.
 	 */
 	public function __construct( $image = null, WPSEO_OpenGraph $opengraph = null ) {

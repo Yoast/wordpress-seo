@@ -971,7 +971,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the post/page/cpt author's users description for use as a replacement string.
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	private function retrieve_user_description() {
 		$replacement = null;

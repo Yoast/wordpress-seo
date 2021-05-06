@@ -85,7 +85,7 @@ abstract class Abstract_Main {
 	 *
 	 * @throws Exception If something goes wrong generating the DI container.
 	 *
-	 * @return null|ContainerInterface The DI container.
+	 * @return ContainerInterface|null The DI container.
 	 */
 	abstract protected function get_container();
 

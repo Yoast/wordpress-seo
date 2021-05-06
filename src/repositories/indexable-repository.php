@@ -514,7 +514,7 @@ class Indexable_Repository {
 	 * Resets the permalinks of the passed object type and subtype.
 	 *
 	 * @param string      $type    The type of the indexable. Can be null.
-	 * @param null|string $subtype The subtype. Can be null.
+	 * @param string|null $subtype The subtype. Can be null.
 	 *
 	 * @return int|bool The number of permalinks changed if the query was succesful. False otherwise.
 	 */
