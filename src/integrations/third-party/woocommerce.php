@@ -278,7 +278,7 @@ class WooCommerce implements Integration_Interface {
 	 */
 	protected function get_shop_page_id() {
 		if ( ! \function_exists( 'wc_get_page_id' ) ) {
-			return - 1;
+			return -1;
 		}
 
 		return \wc_get_page_id( 'shop' );

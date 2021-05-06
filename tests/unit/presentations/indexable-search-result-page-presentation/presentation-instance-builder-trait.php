@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Tests\Unit\Presentations\Presentation_Instance_Dependencies;
  * Trait Presentation_Instance_Builder
  */
 trait Presentation_Instance_Builder {
+
 	use Presentation_Instance_Dependencies;
 
 	/**

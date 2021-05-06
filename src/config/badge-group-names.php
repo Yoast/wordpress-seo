@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Config;
  * to be "new".
  */
 class Badge_Group_Names {
+
 	const GROUP_GLOBAL_TEMPLATES = 'global-templates';
 
 	/**

@@ -13,6 +13,7 @@
  * @since 10.2
  */
 class WPSEO_Schema_IDs {
+
 	/**
 	 * Hash used for the Author `@id`.
 	 */

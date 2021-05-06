@@ -8,11 +8,8 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Helpers\Schema\Replace_Vars_Helper_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-
 use Mockery;
-
 use Yoast\WP\SEO\Helpers\Schema\Replace_Vars_Helper;
-
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
