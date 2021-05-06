@@ -596,7 +596,7 @@ class Adapter {
 			( $unique === true ) ? 'UNIQUE ' : '',
 			$this->identifier( $index_name ),
 			$this->identifier( $table_name ),
-			\join( ', ', $cols )
+			\implode( ', ', $cols )
 		);
 
 		return $this->execute_ddl( $sql );
@@ -947,7 +947,7 @@ class Adapter {
 		$name = \preg_replace( '/\\_{2,}/', '_', $name );
 		// If the column parameter is an array then the user wants to create a multi-column index.
 		if ( \is_array( $column_name ) ) {
-			$column_str = \join( '_and_', $column_name );
+			$column_str = \implode( '_and_', $column_name );
 		}
 		else {
 			$column_str = $column_name;
