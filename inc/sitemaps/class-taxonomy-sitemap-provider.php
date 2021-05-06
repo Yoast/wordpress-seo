@@ -31,7 +31,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/**
 		 * Filter - Allows excluding images from the XML sitemap.
 		 *
-		 * @param bool unsigned True to include, false to exclude.
+		 * @param bool $include True to include, false to exclude.
 		 */
 		$this->include_images = apply_filters( 'wpseo_xml_sitemap_include_images', true );
 	}
