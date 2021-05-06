@@ -70,7 +70,7 @@ class Web_Stories implements Integration_Interface {
 		$screen = \get_current_screen();
 
 		if ( $screen instanceof WP_Screen
-			&& Google_Web_Stories\Story_Post_Type::POST_TYPE_SLUG === $screen->post_type
+			&& $screen->post_type === Google_Web_Stories\Story_Post_Type::POST_TYPE_SLUG
 			&& $screen->base !== 'edit'
 		) {
 			\wp_dequeue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit' );
@@ -123,7 +123,7 @@ class Web_Stories implements Integration_Interface {
 	 * @return string|string[] Article type.
 	 */
 	public function filter_schema_article_type( $type, $indexable ) {
-		if ( Google_Web_Stories\Story_Post_Type::POST_TYPE_SLUG !== $indexable->object_sub_type ) {
+		if ( $indexable->object_sub_type !== Google_Web_Stories\Story_Post_Type::POST_TYPE_SLUG ) {
 			return $type;
 		}
 

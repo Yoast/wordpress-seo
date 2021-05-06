@@ -80,7 +80,7 @@ class Yoast_Notifications {
 	private function add_hooks() {
 
 		$page = filter_input( INPUT_GET, 'page' );
-		if ( self::ADMIN_PAGE === $page ) {
+		if ( $page === self::ADMIN_PAGE ) {
 			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		}
 
