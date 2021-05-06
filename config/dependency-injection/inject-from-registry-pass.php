@@ -107,7 +107,7 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 	/**
 	 * Adds a proxied definition to the container.
 	 *
-	 * @param string $type                 The type to add a definition for.
+	 * @param string $type The type to add a definition for.
 	 *
 	 * @return void
 	 */

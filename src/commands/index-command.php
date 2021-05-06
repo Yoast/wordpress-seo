@@ -64,18 +64,18 @@ class Index_Command implements Command_Interface {
 	/**
 	 * Generate_Indexables_Command constructor.
 	 *
-	 * @param Indexable_Post_Indexation_Action              $post_indexation_action                The post indexation
-	 *                                                                                             action.
-	 * @param Indexable_Term_Indexation_Action              $term_indexation_action                The term indexation
-	 *                                                                                             action.
-	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation_action   The post type archive
-	 *                                                                                             indexation action.
-	 * @param Indexable_General_Indexation_Action           $general_indexation_action             The general indexation
-	 *                                                                                             action.
-	 * @param Indexable_Indexing_Complete_Action            $complete_indexation_action            The complete indexation
-	 *                                                                                             action.
-	 * @param Indexing_Prepare_Action                       $prepare_indexing_action               The prepare indexing
-	 *                                                                                             action.
+	 * @param Indexable_Post_Indexation_Action              $post_indexation_action              The post indexation
+	 *                                                                                           action.
+	 * @param Indexable_Term_Indexation_Action              $term_indexation_action              The term indexation
+	 *                                                                                           action.
+	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation_action The post type archive
+	 *                                                                                           indexation action.
+	 * @param Indexable_General_Indexation_Action           $general_indexation_action           The general indexation
+	 *                                                                                           action.
+	 * @param Indexable_Indexing_Complete_Action            $complete_indexation_action          The complete indexation
+	 *                                                                                           action.
+	 * @param Indexing_Prepare_Action                       $prepare_indexing_action             The prepare indexing
+	 *                                                                                           action.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation_action,

@@ -16,7 +16,7 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Double extends WPSEO_Admi
 	 * Sets the dependency instances.
 	 *
 	 * @param WPSEO_Gutenberg_Compatibility $compatibility_checker The WPSEO_Gutenberg_Compatibility object.
-	 * @param Yoast_Notification_Center     $notification_center    The Yoast_Notification_Center object.
+	 * @param Yoast_Notification_Center     $notification_center   The Yoast_Notification_Center object.
 	 */
 	public function set_dependencies( $compatibility_checker, $notification_center ) {
 		$this->compatibility_checker = $compatibility_checker;
