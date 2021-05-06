@@ -31,7 +31,8 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * Indexable_Author_Archive_Presentation constructor.
 	 *
-	 * @param Post_Type_Helper $post_type The post type helper.
+	 * @param Post_Type_Helper      $post_type      The post type helper.
+	 * @param Author_Archive_Helper $author_archive The author archive helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
