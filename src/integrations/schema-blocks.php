@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Admin_Asset_Yoast_Components_L10n;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 
@@ -156,7 +157,7 @@ class Schema_Blocks implements Integration_Interface {
 	 * Loads the translations and localizes the schema-blocks script file.
 	 */
 	public function load_translations() {
-		$yoast_components_l10n = new \WPSEO_Admin_Asset_Yoast_Components_L10n();
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 		$yoast_components_l10n->localize_script( 'schema-blocks' );
 	}
 }

@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Composer;
 
+use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
 
@@ -37,7 +38,7 @@ class Unit_Test_Generator {
 	 */
 	public function generate( $fully_qualified_class_name ) {
 		try {
-			$reflector = new \ReflectionClass( $fully_qualified_class_name );
+			$reflector = new ReflectionClass( $fully_qualified_class_name );
 		} catch ( ReflectionException $exception ) {
 			throw $exception;
 		}

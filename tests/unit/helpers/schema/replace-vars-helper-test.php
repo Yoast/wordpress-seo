@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers\Schema;
 
+use WP_Post;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
@@ -87,7 +88,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->author_id = 'author_id';
 
-		$post            = Mockery::mock( \WP_Post::class );
+		$post            = Mockery::mock( WP_Post::class );
 		$post->post_date = '2020-10-11 13:00:00';
 
 		$meta_tags_context                 = Mockery::mock( Meta_Tags_Context_Mock::class );
@@ -135,7 +136,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->author_id = 'author_id';
 
-		$post            = Mockery::mock( \WP_Post::class );
+		$post            = Mockery::mock( WP_Post::class );
 		$post->post_date = '2020-10-11 13:00:00';
 
 		$meta_tags_context                 = Mockery::mock( Meta_Tags_Context_Mock::class );

@@ -3,12 +3,14 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Admin;
 
+use WPSEO_Admin_Gutenberg_Compatibility_Notification;
+
 /**
  * Test helper class.
  *
  * Class WPSEO_Gutenberg_Compatibility_Double.
  */
-class WPSEO_Admin_Gutenberg_Compatibility_Notification_Double extends \WPSEO_Admin_Gutenberg_Compatibility_Notification {
+class WPSEO_Admin_Gutenberg_Compatibility_Notification_Double extends WPSEO_Admin_Gutenberg_Compatibility_Notification {
 
 	/**
 	 * Sets the dependency instances.

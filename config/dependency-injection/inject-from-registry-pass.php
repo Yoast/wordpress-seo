@@ -69,7 +69,7 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 	private function process_method_call( $method_call, Definition $definition ) {
 		list( $method, $arguments ) = $method_call;
 
-		if ( $method instanceof \ReflectionFunctionAbstract ) {
+		if ( $method instanceof ReflectionFunctionAbstract ) {
 			$reflection_method = $method;
 		}
 		else {
