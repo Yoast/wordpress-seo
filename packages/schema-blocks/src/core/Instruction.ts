@@ -101,7 +101,7 @@ export default abstract class Instruction {
 
 		if ( ! klass ) {
 			logger.error( "Invalid instruction: ", name );
-			throw new Error( "Invalid block instruction type: "+ name );
+			throw new Error( "Invalid block instruction type: " + name );
 		}
 
 		return new klass( id, options );
