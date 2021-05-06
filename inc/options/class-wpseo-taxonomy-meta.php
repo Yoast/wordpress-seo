@@ -127,60 +127,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	}
 
 	/**
-	 * Helper method - Combines a fixed array of default values with an options array
-	 * while filtering out any keys which are not in the defaults array.
-	 *
-	 * @param string $option_key Option name of the option we're doing the merge for.
-	 * @param array  $options    Optional. Current options. If not set, the option defaults
-	 *                           for the $option_key will be returned.
-	 *
-	 * @return array Combined and filtered options array.
-	 */
-
-	/*
-	Public function array_filter_merge( $option_key, $options = null ) {
-
-			$defaults = $this->get_defaults( $option_key );
-
-			if ( ! isset( $options ) || $options === false ) {
-				return $defaults;
-			}
-
-			/ *
-			{@internal Adding the defaults to all taxonomy terms each time the option is retrieved
-			will be quite inefficient if there are a lot of taxonomy terms.
-			As long as taxonomy_meta is only retrieved via methods in this class, we shouldn't need this.}}
-
-			$options  = (array) $options;
-			$filtered = array();
-
-			if ( $options !== array() ) {
-				foreach ( $options as $taxonomy => $terms ) {
-					if ( is_array( $terms ) && $terms !== array() ) {
-						foreach ( $terms as $id => $term_meta ) {
-							foreach ( self::$defaults_per_term as $name => $default ) {
-								if ( isset( $options[ $taxonomy ][ $id ][ $name ] ) ) {
-									$filtered[ $taxonomy ][ $id ][ $name ] = $options[ $taxonomy ][ $id ][ $name ];
-								}
-								else {
-									$filtered[ $name ] = $default;
-								}
-							}
-						}
-					}
-				}
-				unset( $taxonomy, $terms, $id, $term_meta, $name, $default );
-			}
-			// end of may be remove.
-
-			return $filtered;
-			* /
-
-			return (array) $options;
-		}
-	*/
-
-	/**
 	 * Validate the option.
 	 *
 	 * @param array $dirty New value for the option.
