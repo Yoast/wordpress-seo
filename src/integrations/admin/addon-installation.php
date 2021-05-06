@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 /**
  * Represents the Addon installation feature.
  */
-class WPSEO_Addon_Installation implements Integration_Interface {
+class Addon_Installation implements Integration_Interface {
 
 	const INSTALLATION_NONCE_ACTION = 'addon-installation';
 
@@ -60,6 +60,25 @@ class WPSEO_Addon_Installation implements Integration_Interface {
 	 * @returns void
 	 */
 	public function show_modal() {
+		\wp_localize_script(
+			\WPSEO_Admin_Asset_Manager::PREFIX . 'addon-installation',
+			'wpseoAddonInstallationL10n',
+			[
+				'addons' => $this->get_connected_addons(),
+				'nonce'  => \wp_create_nonce( self::INSTALLATION_NONCE_ACTION ),
+			]
+		);
+
+		$asset_manager = new \WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_script( 'addon-installation' );
+	}
+
+	/**
+	 * Retrieves a list of connected addons for the site in MyYoast.
+	 *
+	 * @return array List of connected addons with slug as key and name as value.
+	 */
+	public function get_connected_addons() {
 		$addon_manager   = new \WPSEO_Addon_Manager();
 		$licensed_addons = $addon_manager->get_myyoast_site_information()->subscriptions;
 
@@ -73,16 +92,6 @@ class WPSEO_Addon_Installation implements Integration_Interface {
 			[]
 		);
 
-		\wp_localize_script(
-			\WPSEO_Admin_Asset_Manager::PREFIX . 'addon-installation',
-			'wpseoAddonInstallationL10n',
-			[
-				'addons' => $connected_addons,
-				'nonce'  => \wp_create_nonce( self::INSTALLATION_NONCE_ACTION ),
-			]
-		);
-
-		$asset_manager = new \WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_script( 'addon-installation' );
+		return $connected_addons;
 	}
 }
