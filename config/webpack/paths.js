@@ -29,6 +29,7 @@ const entry = {
 	settings: "./settings.js",
 	"structured-data-blocks": "./structured-data-blocks.js",
 	"term-edit": "./term-edit.js",
+	"addon-installation": "./addon-installation.js",
 };
 
 /**
