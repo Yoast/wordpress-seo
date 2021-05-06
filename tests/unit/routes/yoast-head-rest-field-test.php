@@ -205,8 +205,6 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * Tests adding the yoast_head property for the posts page.
 	 *
 	 * @covers ::for_post_type_archive
-	 *
-	 * @dataProvider method_provider
 	 */
 	public function test_adding_yoast_head_to_posts_page() {
 		$this->head_action
@@ -226,8 +224,6 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * Tests adding the yoast_head property for the posts page.
 	 *
 	 * @covers ::for_post_type_archive
-	 *
-	 * @dataProvider method_provider
 	 */
 	public function test_adding_yoast_head_to_post_type_without_archive() {
 		$this->post_type_helper->expects( 'has_archive' )->with( 'no-archive' )->andReturnFalse();
@@ -276,8 +272,6 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * Tests adding the yoast_head property for the posts page.
 	 *
 	 * @covers ::for_post_type_archive
-	 *
-	 * @dataProvider method_provider
 	 */
 	public function test_adding_yoast_head_to_posts_page_with_404() {
 		$this->head_action
