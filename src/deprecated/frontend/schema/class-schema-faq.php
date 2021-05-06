@@ -48,7 +48,7 @@ class WPSEO_Schema_FAQ extends WPSEO_Deprecated_Graph_Piece {
 	 *
 	 * @param array|string $page_type The page type.
 	 *
-	 * @return array $page_type The page type that's now an array.
+	 * @return array The page type that's now an array.
 	 */
 	public function change_schema_page_type( $page_type ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -71,7 +71,7 @@ class WPSEO_Schema_FAQ extends WPSEO_Deprecated_Graph_Piece {
 	 * @param WP_Block_Parser_Block $block   The block data array.
 	 * @param WPSEO_Schema_Context  $context A value object with context variables.
 	 *
-	 * @return array $data Our Schema graph.
+	 * @return array Our Schema graph.
 	 */
 	public function render_schema_questions( $graph, $block, $context ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );

@@ -18,7 +18,7 @@ if ( ! interface_exists( 'WPSEO_Graph_Piece' ) ) {
 		/**
 		 * Add your piece of the graph.
 		 *
-		 * @return array|bool $graph A graph piece on success, false on failure.
+		 * @return array|bool A graph piece on success, false on failure.
 		 */
 		public function generate();
 

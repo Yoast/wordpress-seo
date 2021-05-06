@@ -76,7 +76,7 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	 *
 	 * @param int $user_id User ID.
 	 *
-	 * @return string[] $output A list of social profiles.
+	 * @return string[] A list of social profiles.
 	 */
 	protected function get_social_profiles( $user_id ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Person::get_social_profiles' );
@@ -137,7 +137,7 @@ class WPSEO_Schema_Person extends WPSEO_Deprecated_Graph_Piece {
 	 * @param array   $data      The Person schema.
 	 * @param WP_User $user_data User data.
 	 *
-	 * @return array $data The Person schema.
+	 * @return array The Person schema.
 	 */
 	protected function add_image( $data, $user_data ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Person::add_image' );

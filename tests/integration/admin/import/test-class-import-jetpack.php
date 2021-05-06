@@ -134,7 +134,7 @@ class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Sets up a test post.
 	 *
-	 * @return int $post_id ID for the post created.
+	 * @return int ID for the post created.
 	 */
 	private function setup_post() {
 		$post_id = $this->factory()->post->create();

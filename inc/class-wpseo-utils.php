@@ -17,7 +17,7 @@ class WPSEO_Utils {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @var bool $has_filters
+	 * @var bool
 	 */
 	public static $has_filters;
 
@@ -1166,7 +1166,7 @@ class WPSEO_Utils {
 	 * @deprecated 15.0
 	 * @codeCoverageIgnore
 	 *
-	 * @return array $roles
+	 * @return array
 	 */
 	public static function get_roles() {
 		_deprecated_function( __METHOD__, '15.0', 'wp_roles()->get_names()' );
@@ -1222,7 +1222,7 @@ class WPSEO_Utils {
 	 *
 	 * @param string $text Input string that might contain shortcodes.
 	 *
-	 * @return string $text String without shortcodes.
+	 * @return string String without shortcodes.
 	 */
 	public static function strip_shortcode( $text ) {
 		_deprecated_function( __METHOD__, 'WPSEO 15.2' );

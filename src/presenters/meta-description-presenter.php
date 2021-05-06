@@ -45,7 +45,7 @@ class Meta_Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 	/**
 	 * Run the meta description content through replace vars, the `wpseo_metadesc` filter and sanitization.
 	 *
-	 * @return string $meta_description The filtered meta description.
+	 * @return string The filtered meta description.
 	 */
 	public function get() {
 		$meta_description = $this->replace_vars( $this->presentation->meta_description );

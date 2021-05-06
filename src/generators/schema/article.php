@@ -41,7 +41,7 @@ class Article extends Abstract_Schema_Piece {
 	/**
 	 * Returns Article data.
 	 *
-	 * @return array $data Article data.
+	 * @return array Article data.
 	 */
 	public function generate() {
 		$data = [
@@ -81,7 +81,7 @@ class Article extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data Article data.
 	 *
-	 * @return array $data Article data.
+	 * @return array Article data.
 	 */
 	private function add_keywords( $data ) {
 		/**
@@ -99,7 +99,7 @@ class Article extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data Article data.
 	 *
-	 * @return array $data Article data.
+	 * @return array Article data.
 	 */
 	private function add_sections( $data ) {
 		/**
@@ -119,7 +119,7 @@ class Article extends Abstract_Schema_Piece {
 	 * @param string $key      The key in data to save the terms in.
 	 * @param string $taxonomy The taxonomy to retrieve the terms from.
 	 *
-	 * @return mixed array $data Article data.
+	 * @return mixed Article data.
 	 */
 	protected function add_terms( $data, $key, $taxonomy ) {
 		$terms = \get_the_terms( $this->context->id, $taxonomy );
@@ -148,7 +148,7 @@ class Article extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data The Article data.
 	 *
-	 * @return array $data The Article data.
+	 * @return array The Article data.
 	 */
 	private function add_image( $data ) {
 		if ( $this->context->main_image_url !== null ) {
@@ -166,7 +166,7 @@ class Article extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data The Article data.
 	 *
-	 * @return array $data The Article data with the potential action added.
+	 * @return array The Article data with the potential action added.
 	 */
 	private function add_potential_action( $data ) {
 		/**

@@ -208,7 +208,7 @@ class Indexing_Helper {
 	/**
 	 * Gets the start time when the indexing process has started but not completed.
 	 *
-	 * @return int|bool $start_time The start time when the indexing process has started but not completed, false otherwise.
+	 * @return int|bool The start time when the indexing process has started but not completed, false otherwise.
 	 */
 	public function get_started() {
 		return $this->options_helper->get( 'indexing_started' );

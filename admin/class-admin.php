@@ -215,7 +215,7 @@ class WPSEO_Admin {
 	 * @param array  $links Array of links for the plugins, adapted when the current plugin is found.
 	 * @param string $file  The filename for the current plugin, which the filter loops through.
 	 *
-	 * @return array $links
+	 * @return array
 	 */
 	public function add_action_link( $links, $file ) {
 		if ( $file === WPSEO_BASENAME && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
@@ -288,7 +288,7 @@ class WPSEO_Admin {
 	 *
 	 * @param array $contactmethods Currently set contactmethods.
 	 *
-	 * @return array $contactmethods with added contactmethods.
+	 * @return array Contactmethods with added contactmethods.
 	 */
 	public function update_contactmethods( $contactmethods ) {
 		$contactmethods['facebook']   = __( 'Facebook profile URL', 'wordpress-seo' );

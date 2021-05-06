@@ -20,7 +20,7 @@ class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 	/**
 	 * Run the title content through replace vars, the `wpseo_opengraph_title` filter and sanitization.
 	 *
-	 * @return string $title The filtered title.
+	 * @return string The filtered title.
 	 */
 	public function get() {
 		$title = $this->replace_vars( $this->presentation->open_graph_title );

@@ -73,7 +73,7 @@ class WPSEO_Meta {
 	 *   in the relevant child classes (WPSEO_Metabox and WPSEO_Social_admin) as they are only needed there.
 	 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!}}
 	 *
-	 * @var array $meta_fields
+	 * @var array
 	 *            Array format:
 	 *                (required)       'type'          => (string) field type. i.e. text / textarea / checkbox /
 	 *                                                    radio / select / multiselect / upload etc.

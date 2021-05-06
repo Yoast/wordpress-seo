@@ -20,7 +20,7 @@ class Type_Presenter extends Abstract_Indexable_Tag_Presenter {
 	/**
 	 * Run the opengraph type content through the `wpseo_opengraph_type` filter.
 	 *
-	 * @return string $type The filtered type.
+	 * @return string The filtered type.
 	 */
 	public function get() {
 		/**

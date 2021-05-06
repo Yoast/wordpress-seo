@@ -13,7 +13,7 @@ class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
 	/**
 	 * The current post type.
 	 *
-	 * @var $current_post_type
+	 * @var string
 	 */
 	private $current_post_type;
 

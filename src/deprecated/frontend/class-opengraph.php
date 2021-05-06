@@ -102,7 +102,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @param bool $echo Whether to echo or return the description.
 	 *
-	 * @return string $ogdesc
+	 * @return string
 	 */
 	public function description( $echo = true ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -152,7 +152,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @param boolean $echo Whether to echo or return the type.
 	 *
-	 * @return string $type
+	 * @return string
 	 */
 	public function type( $echo = true ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -173,7 +173,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @param bool $echo Whether to echo or return the locale.
 	 *
-	 * @return string $locale
+	 * @return string
 	 */
 	public function locale( $echo = true ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -189,7 +189,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @param array $meta_tags The array to fix.
 	 *
-	 * @return array $meta_tags
+	 * @return array
 	 */
 	public function facebook_filter( $meta_tags ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
