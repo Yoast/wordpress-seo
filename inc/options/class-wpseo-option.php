@@ -439,6 +439,7 @@ abstract class WPSEO_Option {
 			$url = 'https://graph.facebook.com/' . $dirty[ $key ];
 
 			$response = wp_remote_get( $url );
+
 			/**
 			 * Filter: 'validate_facebook_app_id_api_response_code' - Allows to filter the Faceboook API response code.
 			 *
@@ -447,6 +448,7 @@ abstract class WPSEO_Option {
 			 * @api int $response_code The Facebook API response header code.
 			 */
 			$response_code = apply_filters_deprecated( 'validate_facebook_app_id_api_response_code', wp_remote_retrieve_response_code( $response ), 'WPSEO 15.5' );
+
 			/**
 			 * Filter: 'validate_facebook_app_id_api_response_body' - Allows to filter the Faceboook API response body.
 			 *

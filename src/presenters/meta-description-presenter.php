@@ -49,6 +49,7 @@ class Meta_Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 */
 	public function get() {
 		$meta_description = $this->replace_vars( $this->presentation->meta_description );
+
 		/**
 		 * Filter: 'wpseo_metadesc' - Allow changing the Yoast SEO meta description sentence.
 		 *

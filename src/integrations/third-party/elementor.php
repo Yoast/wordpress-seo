@@ -228,9 +228,11 @@ class Elementor implements Integration_Interface {
 	/**
 	 * Saves the WP SEO metadata for posts.
 	 *
+	 * Outputs JSON via wp_send_json then stops code execution.
+	 *
 	 * {@internal $_POST parameters are validated via sanitize_post_meta().}}
 	 *
-	 * @return void Outputs JSON via wp_send_json then stops code execution.
+	 * @return void
 	 */
 	public function save_postdata() {
 		global $post;

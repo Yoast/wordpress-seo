@@ -55,7 +55,7 @@ class WPSEO_Upgrade {
 			'9.0-RC0'    => 'upgrade_90',
 			'10.0-RC0'   => 'upgrade_100',
 			'11.1-RC0'   => 'upgrade_111',
-			/** Reset notifications because we removed the AMP Glue plugin notification */
+			// Reset notifications because we removed the AMP Glue plugin notification.
 			'12.1-RC0'   => 'clean_all_notifications',
 			'12.3-RC0'   => 'upgrade_123',
 			'12.4-RC0'   => 'upgrade_124',

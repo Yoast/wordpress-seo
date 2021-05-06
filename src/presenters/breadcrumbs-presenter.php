@@ -166,7 +166,6 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @api string $link_output The output string.
 		 */
-
 		return \apply_filters( 'wpseo_breadcrumb_single_link', $link, $breadcrumb );
 	}
 

@@ -212,6 +212,7 @@ function _wpseo_activate() {
 
 	do_action( 'wpseo_activate' );
 }
+
 /**
  * On deactivation, flush the rewrite rules so XML sitemaps stop working.
  */
@@ -460,6 +461,7 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 
 	// Initializes the Yoast indexables for the first time.
 	YoastSEO();
+
 	/**
 	 * Action called when the Yoast SEO plugin file has loaded.
 	 */

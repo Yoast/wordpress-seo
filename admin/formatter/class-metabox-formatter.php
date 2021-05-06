@@ -252,7 +252,7 @@ class WPSEO_Metabox_Formatter {
 		try {
 			$semrush_client = YoastSEO()->classes->get( SEMrush_Client::class );
 		} catch ( Empty_Property_Exception $e ) {
-			// return false if token is malformed (empty property).
+			// Return false if token is malformed (empty property).
 			return false;
 		}
 

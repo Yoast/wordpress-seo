@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 
 // phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
+
 /**
  * Class Primary_Category_Quick_Edit_Watcher
  */

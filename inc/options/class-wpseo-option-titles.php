@@ -93,7 +93,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'og_frontpage_image'               => '', // Text field.
 		'og_frontpage_image_id'            => 0,
 
-		/**
+		/*
 		 * Uses enrich_defaults to add more along the lines of:
 		 * - 'title-' . $pt->name                => ''; // Text field.
 		 * - 'metadesc-' . $pt->name             => ''; // Text field.
