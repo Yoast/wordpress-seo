@@ -118,7 +118,7 @@ class Schema_Generator implements Generator_Interface {
 	 * Generates the schema graph.
 	 *
 	 * @param array             $graph_piece_generators The schema graph pieces to generate.
-	 * @param Meta_Tags_Context $context            The meta tags context to use.
+	 * @param Meta_Tags_Context $context                The meta tags context to use.
 	 *
 	 * @return array The generated schema graph.
 	 */

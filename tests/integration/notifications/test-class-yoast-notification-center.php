@@ -927,8 +927,8 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Creates a mock WordPress user.
 	 *
-	 * @param int   $user_id   The ID of the user.
-	 * @param array $caps A map, mapping capabilities to `true` (user has capability) or `false` ( user has not).
+	 * @param int   $user_id The ID of the user.
+	 * @param array $caps    A map, mapping capabilities to `true` (user has capability) or `false` ( user has not).
 	 *
 	 * @return PHPUnit_Framework_MockObject_Invocation_Object | WP_User
 	 */
