@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Dependency_Injection;
+namespace Yoast\WP\SEO\Tests\Unit\Dependency_Injection;
 
 use Yoast\WP\SEO\Dependency_Injection\Schema_Templates_Loader;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
