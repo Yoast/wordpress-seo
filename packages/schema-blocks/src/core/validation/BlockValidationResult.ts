@@ -84,7 +84,7 @@ export class BlockValidationResult {
 
 			case BlockPresence.Recommended :
 				blockValidation = BlockValidation.MissingRecommendedAttribute;
-				sprintf(
+				message = sprintf(
 					/* Translators: %1$s expands to the block name. */
 					__( "The `%1$s` attribute is recommended but missing.", "yoast-schema-blocks" ),
 					name,
