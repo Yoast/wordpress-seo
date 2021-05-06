@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Generators\Schema;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Generators\Schema\Main_Image;

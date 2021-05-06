@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Presenters\Debug;
 
-use WPSEO_Utils;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 
 /**
