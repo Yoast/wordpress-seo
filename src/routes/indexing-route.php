@@ -401,7 +401,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	/**
 	 * Whether or not the current user is allowed to index.
 	 *
-	 * @return boolean Whether or not the current user is allowed to index.
+	 * @return bool Whether or not the current user is allowed to index.
 	 */
 	public function can_index() {
 		return \current_user_can( 'edit_posts' );

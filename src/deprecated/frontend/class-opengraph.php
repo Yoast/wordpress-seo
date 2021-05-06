@@ -43,7 +43,7 @@ class WPSEO_OpenGraph {
 	 * @param string $property Property attribute value.
 	 * @param string $content  Content attribute value.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function og_tag( $property, $content ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -68,7 +68,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @link https://ogp.me/#type_article
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function url() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -86,7 +86,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @param bool $echo Whether or not to echo the output.
 	 *
-	 * @return string|boolean
+	 * @return string|bool
 	 */
 	public function og_title( $echo = true ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -119,7 +119,7 @@ class WPSEO_OpenGraph {
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 	 * @link https://ogp.me/#type_article
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function article_author_facebook() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -136,7 +136,7 @@ class WPSEO_OpenGraph {
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 	 * @link https://ogp.me/#type_article
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function website_facebook() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -150,7 +150,7 @@ class WPSEO_OpenGraph {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @param boolean $echo Whether to echo or return the type.
+	 * @param bool $echo Whether to echo or return the type.
 	 *
 	 * @return string
 	 */
@@ -217,7 +217,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @link https://ogp.me/#type_article
 	 *
-	 * @return boolean;
+	 * @return bool ;
 	 */
 	public function publish_date() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -259,7 +259,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @link https://ogp.me/#type_article
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function tags() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
@@ -275,7 +275,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @link https://ogp.me/#type_article
 	 *
-	 * @return boolean;
+	 * @return bool ;
 	 */
 	public function category() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );

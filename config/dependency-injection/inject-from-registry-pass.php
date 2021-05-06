@@ -21,8 +21,8 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 	/**
 	 * Creates definitions for classes being injected from the container registry.
 	 *
-	 * @param mixed   $value   The value being processed.
-	 * @param boolean $is_root Whether or not the value is the root.
+	 * @param mixed $value   The value being processed.
+	 * @param bool  $is_root Whether or not the value is the root.
 	 *
 	 * @return mixed The processed value.
 	 *

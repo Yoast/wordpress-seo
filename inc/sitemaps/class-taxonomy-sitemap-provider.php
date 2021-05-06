@@ -41,7 +41,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 *
 	 * @param string $type Type string to check for.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function handles_type( $type ) {
 
@@ -76,8 +76,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/**
 		 * Filter the setting of excluding empty terms from the XML sitemap.
 		 *
-		 * @param boolean $exclude        Defaults to true.
-		 * @param array   $taxonomy_names Array of names for the taxonomies being processed.
+		 * @param bool  $exclude        Defaults to true.
+		 * @param array $taxonomy_names Array of names for the taxonomies being processed.
 		 */
 		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy_names );
 
@@ -87,8 +87,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			/**
 			 * Filter the setting of excluding empty terms from the XML sitemap for a specific taxonomy.
 			 *
-			 * @param boolean $exclude       Defaults to the sitewide setting.
-			 * @param string  $taxonomy_name The name of the taxonomy being processed.
+			 * @param bool   $exclude       Defaults to the sitewide setting.
+			 * @param string $taxonomy_name The name of the taxonomy being processed.
 			 */
 			$hide_empty_tax = apply_filters( 'wpseo_sitemap_exclude_empty_terms_taxonomy', $hide_empty, $taxonomy_name );
 
@@ -296,8 +296,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/**
 		 * Filter to exclude the taxonomy from the XML sitemap.
 		 *
-		 * @param boolean $exclude       Defaults to false.
-		 * @param string  $taxonomy_name Name of the taxonomy to exclude..
+		 * @param bool   $exclude       Defaults to false.
+		 * @param string $taxonomy_name Name of the taxonomy to exclude..
 		 */
 		if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy_name ) ) {
 			return false;

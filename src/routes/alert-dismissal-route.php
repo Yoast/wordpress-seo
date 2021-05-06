@@ -96,7 +96,7 @@ class Alert_Dismissal_Route implements Route_Interface {
 	/**
 	 * Whether or not the current user is allowed to dismiss alerts.
 	 *
-	 * @return boolean Whether or not the current user is allowed to dismiss alerts.
+	 * @return bool Whether or not the current user is allowed to dismiss alerts.
 	 */
 	public function can_dismiss() {
 		return \current_user_can( 'edit_posts' );

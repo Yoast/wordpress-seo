@@ -186,9 +186,9 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_breadcrumbs
 	 * @covers ::add_potential_action
 	 *
-	 * @param array   $values_to_test The values that need to vary in order to test all the paths.
-	 * @param boolean $expected       The expected generated webpage schema.
-	 * @param string  $message        The message to show in case a test fails.
+	 * @param array  $values_to_test The values that need to vary in order to test all the paths.
+	 * @param bool   $expected       The expected generated webpage schema.
+	 * @param string $message        The message to show in case a test fails.
 	 *
 	 * @dataProvider provider_for_generate
 	 */

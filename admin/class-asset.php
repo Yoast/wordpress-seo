@@ -229,7 +229,7 @@ class WPSEO_Admin_Asset {
 	/**
 	 * Returns whether a script asset should be loaded in the footer of the page.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function is_in_footer() {
 		return $this->in_footer;
@@ -238,7 +238,7 @@ class WPSEO_Admin_Asset {
 	/**
 	 * Returns whether this CSS has a RTL counterpart.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function has_rtl() {
 		return $this->rtl;

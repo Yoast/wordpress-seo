@@ -205,7 +205,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	/**
 	 * Checks if WordFence protects the site against 'fake' Google crawlers.
 	 *
-	 * @return boolean True if WordFence protects the site.
+	 * @return bool True if WordFence protects the site.
 	 */
 	private function wordfence_protection_enabled() {
 		if ( ! class_exists( 'wfConfig' ) ) {

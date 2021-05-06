@@ -79,9 +79,9 @@ class WPSEO_Taxonomy_Columns {
 	/**
 	 * Parses the column.
 	 *
-	 * @param string  $content     The current content of the column.
-	 * @param string  $column_name The name of the column.
-	 * @param integer $term_id     ID of requested taxonomy.
+	 * @param string $content     The current content of the column.
+	 * @param string $column_name The name of the column.
+	 * @param int    $term_id     ID of requested taxonomy.
 	 *
 	 * @return string
 	 */
@@ -123,7 +123,7 @@ class WPSEO_Taxonomy_Columns {
 	/**
 	 * Parses the value for the score column.
 	 *
-	 * @param integer $term_id ID of requested term.
+	 * @param int $term_id ID of requested term.
 	 *
 	 * @return string
 	 */

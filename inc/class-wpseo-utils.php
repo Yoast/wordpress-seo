@@ -1434,7 +1434,7 @@ SVG;
 	 *
 	 * @since 1.8.0
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function grant_access() {
 		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
