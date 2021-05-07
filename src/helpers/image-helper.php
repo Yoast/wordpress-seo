@@ -332,7 +332,9 @@ class Image_Helper {
 				// There is not an option to put a URL in an image field in the settings anymore, only to upload it through the media manager.
 				// This means an attachment always exists, so doing this is only needed once.
 				$image_meta = $this->get_best_attachment_variation( $image_id );
-				$this->options->set( $setting . '_meta', $image_meta );
+				if ( $image_meta ) {
+					$this->options->set( $setting . '_meta', $image_meta );
+				}
 			}
 		}
 
