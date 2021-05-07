@@ -251,6 +251,8 @@ Bugfixes:
 
 * Fixes a bug where a malformed `Organization` piece was added to the Schema output if the company logo was an unsupported image.
 * Fixes a bug where we would accidentally include unminified CSS files in the zip. This led to an unnecessary zip size increase.
+* Fixes a bug where the complete options array could be re-saved in the database at each frontend request.
+* Fixes a bug where a malformed Organization piece is added to the Schema if the company logo is an unsupported image.
 
 Other:
 
