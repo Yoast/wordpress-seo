@@ -49,7 +49,7 @@ $yform->light_switch( 'opengraph', \__( 'Add Open Graph meta data', 'wordpress-s
 
 	$yform->hidden( 'og_default_image', 'og_default_image' );
 	$yform->hidden( 'og_default_image_id', 'og_default_image_id' );
-?>
+	?>
 	<p>
 		<?php \esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>
 	</p>

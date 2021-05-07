@@ -1155,9 +1155,9 @@ class WPSEO_Upgrade {
 
 		$copied_options = [];
 		$options        = [
-			'og_frontpage_title' => 'open_graph_frontpage_title',
-			'og_frontpage_desc' => 'open_graph_frontpage_desc',
-			'og_frontpage_image' => 'open_graph_frontpage_image',
+			'og_frontpage_title'    => 'open_graph_frontpage_title',
+			'og_frontpage_desc'     => 'open_graph_frontpage_desc',
+			'og_frontpage_image'    => 'open_graph_frontpage_image',
 			'og_frontpage_image_id' => 'open_graph_frontpage_image_id',
 		];
 

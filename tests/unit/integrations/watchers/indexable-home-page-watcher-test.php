@@ -19,6 +19,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Home_Page_Watcher
  * @covers \Yoast\WP\SEO\Integrations\Watchers\Indexable_Home_Page_Watcher
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 5 words is fine.
  */
 class Indexable_Home_Page_Watcher_Test extends TestCase {
 
