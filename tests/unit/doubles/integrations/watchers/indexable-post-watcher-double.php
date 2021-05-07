@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Integrations\Watchers;
 
+use WP_Post;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
 use Yoast\WP\SEO\Models\Indexable;
 
@@ -22,7 +23,7 @@ class Indexable_Post_Watcher_Double extends Indexable_Post_Watcher {
 	/**
 	 * Updates the relations on post save or post status change.
 	 *
-	 * @param \WP_Post $post The post that has been updated.
+	 * @param WP_Post $post The post that has been updated.
 	 */
 	public function update_relations( $post ) {
 		parent::update_relations( $post );
@@ -31,7 +32,7 @@ class Indexable_Post_Watcher_Double extends Indexable_Post_Watcher {
 	/**
 	 * Retrieves the related indexables for given post.
 	 *
-	 * @param \WP_Post $post The post to get the indexables for.
+	 * @param WP_Post $post The post to get the indexables for.
 	 *
 	 * @return Indexable[] The indexables.
 	 */

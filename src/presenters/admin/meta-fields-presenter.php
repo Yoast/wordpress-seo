@@ -14,11 +14,15 @@ use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 class Meta_Fields_Presenter extends Abstract_Presenter {
 
 	/**
-	 * @var array The meta fields for which we are going to output hidden input.
+	 * The meta fields for which we are going to output hidden input.
+	 *
+	 * @var array
 	 */
 	private $meta_fields;
 
 	/**
+	 * The metabox post.
+	 *
 	 * @var WP_Post The metabox post.
 	 */
 	private $post;

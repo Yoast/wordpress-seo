@@ -636,7 +636,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 *
 	 * @param string $orderby The column by which we want to order.
 	 *
-	 * @return string $orderby
+	 * @return string
 	 */
 	protected function sanitize_orderby( $orderby ) {
 		$valid_column_names = [
@@ -658,7 +658,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 *
 	 * @param string $order Whether we want to sort ascending or descending.
 	 *
-	 * @return string $order SQL order string (ASC, DESC).
+	 * @return string SQL order string (ASC, DESC).
 	 */
 	protected function sanitize_order( $order ) {
 		if ( in_array( strtoupper( $order ), [ 'ASC', 'DESC' ], true ) ) {
@@ -894,7 +894,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Parse the field where the existing meta-data value is displayed.
 	 *
-	 * @param integer    $record_id  Record ID.
+	 * @param int        $record_id  Record ID.
 	 * @param string     $attributes HTML attributes.
 	 * @param bool|array $values     Optional values data array.
 	 *

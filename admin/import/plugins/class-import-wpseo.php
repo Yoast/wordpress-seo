@@ -174,7 +174,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	/**
 	 * Gets the wpSEO robot value and map this to Yoast SEO values.
 	 *
-	 * @param integer $post_id The post id of the current post.
+	 * @param int $post_id The post id of the current post.
 	 *
 	 * @return void
 	 */

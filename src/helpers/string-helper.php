@@ -37,7 +37,7 @@ class String_Helper {
 	 *
 	 * @param string $text Input string that might contain shortcodes.
 	 *
-	 * @return string $text String without shortcodes.
+	 * @return string String without shortcodes.
 	 */
 	public function strip_shortcode( $text ) {
 		return \preg_replace( '`\[[^\]]+\]`s', '', \strip_shortcodes( $text ) );

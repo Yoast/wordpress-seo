@@ -130,8 +130,8 @@ class WPSEO_Sitemaps_Renderer {
 	/**
 	 * Produce final XML output with debug information.
 	 *
-	 * @param string  $sitemap   Sitemap XML.
-	 * @param boolean $transient Transient cache flag.
+	 * @param string $sitemap   Sitemap XML.
+	 * @param bool   $transient Transient cache flag.
 	 *
 	 * @return string
 	 */

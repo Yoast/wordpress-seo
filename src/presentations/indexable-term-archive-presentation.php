@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * @property WP_Term $source
  */
 class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
+
 	use Archive_Adjacent;
 
 	/**
@@ -33,10 +34,10 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param WP_Query_Wrapper $wp_query_wrapper The wp query wrapper.
 	 * @param Taxonomy_Helper  $taxonomy         The Taxonomy helper.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		WP_Query_Wrapper $wp_query_wrapper,

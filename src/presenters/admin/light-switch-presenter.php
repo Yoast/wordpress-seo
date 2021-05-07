@@ -116,7 +116,7 @@ class Light_Switch_Presenter extends Abstract_Presenter {
 	 */
 	public function present() {
 		if ( empty( $this->buttons ) ) {
-			$this->buttons = [ __( 'Disabled', 'wordpress-seo' ), __( 'Enabled', 'wordpress-seo' ) ];
+			$this->buttons = [ \__( 'Disabled', 'wordpress-seo' ), \__( 'Enabled', 'wordpress-seo' ) ];
 		}
 
 		list( $off_button, $on_button ) = $this->buttons;
@@ -131,7 +131,7 @@ class Light_Switch_Presenter extends Abstract_Presenter {
 		$strong_class = ( $this->strong ) ? ' switch-light-visual-label__strong' : '';
 
 		$output  = '<div class="switch-container' . $help_class . '">';
-		$output .= sprintf(
+		$output .= \sprintf(
 			'<span class="switch-light-visual-label%1$s" id="%2$s">%3$s</span>%4$s',
 			$strong_class, // phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $strong_class output is hardcoded.
 			\esc_attr( $this->var . '-label' ),
@@ -139,7 +139,7 @@ class Light_Switch_Presenter extends Abstract_Presenter {
 			$this->help // phpcs:ignore WordPress.Security.EscapeOutput -- Reason: The help contains HTML.
 		);
 		$output .= '<label class="' . $class . '"><b class="switch-yoast-seo-jaws-a11y">&nbsp;</b>';
-		$output .= sprintf(
+		$output .= \sprintf(
 			'<input type="checkbox" aria-labelledby="%1$s" id="%2$s" name="%3$s" value="on"%4$s%5$s/>',
 			\esc_attr( $this->var . '-label' ),
 			\esc_attr( $this->var ),

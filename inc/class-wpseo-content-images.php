@@ -13,8 +13,8 @@ class WPSEO_Content_Images {
 	/**
 	 * Retrieves images from the post content.
 	 *
-	 * @param int      $post_id The post ID.
-	 * @param \WP_Post $post    The post object.
+	 * @param int           $post_id The post ID.
+	 * @param \WP_Post|null $post    The post object.
 	 *
 	 * @return array An array of images found in this post.
 	 */

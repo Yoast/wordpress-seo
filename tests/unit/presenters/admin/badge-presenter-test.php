@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
 use Brain\Monkey;
+use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Presenters\Admin\Badge_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -47,6 +48,24 @@ class Badge_Presenter_Test extends TestCase {
 	}
 
 	/**
+	 * Test constructor with a group.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct_with_group() {
+		$test = new Badge_Presenter( 'test-id', 'http://example.com/', 'test-group' );
+
+		$this->assertSame( 'test-id', $this->getPropertyValue( $test, 'id' ) );
+		$this->assertSame( 'http://example.com/', $this->getPropertyValue( $test, 'link' ) );
+		$this->assertSame( 'test-group', $this->getPropertyValue( $test, 'group' ) );
+
+		$this->assertInstanceOf(
+			WPSEO_Admin_Asset_Manager::class,
+			$this->getPropertyValue( $test, 'asset_manager' )
+		);
+	}
+
+	/**
 	 * Tests when the badge is initialized with a link.
 	 *
 	 * @covers ::present
@@ -74,6 +93,25 @@ class Badge_Presenter_Test extends TestCase {
 		$expected = '<span class="yoast-badge yoast-new-badge" id="test2-new-badge">New</span>';
 		Monkey\Functions\expect( 'esc_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'esc_html__' )->once()->andReturn( 'New' );
+
+		$this->assertEquals( $expected, (string) $test );
+	}
+
+	/**
+	 * Tests when the badge is in an expired group.
+	 *
+	 * @covers ::present
+	 */
+	public function test_badge_with_expired_group() {
+		$test = Mockery::mock( Badge_Presenter::class )->makePartial();
+
+		$test->expects( 'is_group_still_new' )
+			->twice()
+			->andReturnFalse();
+
+		$test->__construct( 'test2', '', 'test-group' );
+
+		$expected = '';
 
 		$this->assertEquals( $expected, (string) $test );
 	}

@@ -268,6 +268,8 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Pass some variables to js for replacing variables.
+	 *
+	 * @return array
 	 */
 	public function localize_replace_vars_script() {
 		return [
@@ -407,7 +409,7 @@ class WPSEO_Taxonomy {
 	 * Needs a hook that runs before the description field. Prior to WP version 4.5 we need to use edit_form as
 	 * term_edit_form_top was introduced in WP 4.5. This can be removed after <4.5 is no longer supported.
 	 *
-	 * @return {void}
+	 * @return void
 	 */
 	private function insert_description_field_editor() {
 		if ( version_compare( $GLOBALS['wp_version'], '4.5', '<' ) ) {

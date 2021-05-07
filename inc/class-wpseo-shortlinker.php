@@ -142,7 +142,7 @@ class WPSEO_Shortlinker {
 	/**
 	 * Gets the user's language.
 	 *
-	 * @return string The user's language.
+	 * @return string|false The user's language or `false` when it couldn't be retrieved.
 	 */
 	private function get_user_language() {
 		if ( function_exists( 'get_user_locale' ) ) {

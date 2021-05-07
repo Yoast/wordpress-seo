@@ -20,7 +20,7 @@ final class Locale_Presenter extends Abstract_Indexable_Tag_Presenter {
 	/**
 	 * Run the locale through the `wpseo_og_locale` filter.
 	 *
-	 * @return string $locale The filtered locale.
+	 * @return string The filtered locale.
 	 */
 	public function get() {
 		/**

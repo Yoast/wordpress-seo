@@ -68,13 +68,12 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 	/**
 	 * Tests the conditions that remove the Gutenberg notification.
 	 *
+	 * @dataProvider data_provider_manage_notification_remove_notification
+	 * @covers       WPSEO_Admin_Gutenberg_Compatibility_Notification::manage_notification
+	 *
 	 * @param bool $installed        The return value of WPSEO_Gutenberg_Compatibility::is_installed.
 	 * @param bool $fully_compatible The return value of WPSEO_Gutenberg_Compatibility::is_fully_compatible.
 	 * @param bool $filter_value     The return value of the 'yoast_display_gutenberg_compat_notification' filter.
-	 *
-	 * @covers WPSEO_Admin_Gutenberg_Compatibility_Notification::manage_notification
-	 *
-	 * @dataProvider data_provider_manage_notification_remove_notification
 	 */
 	public function test_manage_notification_remove_notification( $installed, $fully_compatible, $filter_value ) {
 
@@ -130,7 +129,7 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'__'                  => null,
-				'wp_get_current_user' => function() {
+				'wp_get_current_user' => static function() {
 					return null;
 				},
 			]
@@ -141,9 +140,9 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 		$this->gutenberg_compatibility_mock->allows()->is_fully_compatible()->andReturns( false );
 
 		$this->notification_center_mock->expects( 'add_notification' )->once()->withArgs(
-			function ( $arg ) {
+			static function ( $arg ) {
 				// Verify that the added notification is a Yoast_Notification object and has the correct id.
-				if ( is_a( $arg, 'Yoast_Notification' ) && $arg->get_id() === 'wpseo-outdated-gutenberg-plugin' ) {
+				if ( \is_a( $arg, 'Yoast_Notification' ) && $arg->get_id() === 'wpseo-outdated-gutenberg-plugin' ) {
 					return true;
 				}
 				return false;

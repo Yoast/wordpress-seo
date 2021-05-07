@@ -66,9 +66,9 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Runs this initializer.
 	 *
-	 * @throws Exception When a migration errored.
-	 *
 	 * @return void
+	 *
+	 * @throws Exception When a migration errored.
 	 */
 	public function initialize() {
 		$this->run_free_migrations();
@@ -79,9 +79,9 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Runs the free migrations.
 	 *
-	 * @throws Exception When a migration errored.
-	 *
 	 * @return void
+	 *
+	 * @throws Exception When a migration errored.
 	 */
 	public function run_free_migrations() {
 		$this->run_migrations( 'free' );

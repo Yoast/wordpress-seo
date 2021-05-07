@@ -144,7 +144,7 @@ class WPSEO_Admin_Init {
 	/**
 	 * Gets the latest released major WordPress version from the WordPress stable-check api.
 	 *
-	 * @return float The latest released major WordPress version. 0 The stable-check api doesn't respond.
+	 * @return float|int The latest released major WordPress version. 0 when the stable-check API doesn't respond.
 	 */
 	private function get_latest_major_wordpress_version() {
 		$core_updates = get_core_updates( [ 'dismissed' => true ] );

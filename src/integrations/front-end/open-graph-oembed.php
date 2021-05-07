@@ -69,11 +69,12 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	 * address the concern where some social channels/subscribed use oEmebed data over Open Graph data
 	 * if both are present.
 	 *
+	 * @link https://developer.wordpress.org/reference/hooks/oembed_response_data/ for hook info.
+	 *
 	 * @param array   $data The oEmbed data.
 	 * @param WP_Post $post The current Post object.
 	 *
-	 * @return array $filter_data - An array of oEmbed data with modified values where appropriate.
-	 * @link https://developer.wordpress.org/reference/hooks/oembed_response_data/ for hook info.
+	 * @return array An array of oEmbed data with modified values where appropriate.
 	 */
 	public function set_oembed_data( $data, $post ) {
 		// Data to be returned.

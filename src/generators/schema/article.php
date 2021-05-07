@@ -41,7 +41,7 @@ class Article extends Abstract_Schema_Piece {
 	/**
 	 * Returns Article data.
 	 *
-	 * @return array $data Article data.
+	 * @return array Article data.
 	 */
 	public function generate() {
 		$data = [
@@ -53,10 +53,11 @@ class Article extends Abstract_Schema_Piece {
 			'datePublished'    => $this->helpers->date->format( $this->context->post->post_date_gmt ),
 			'dateModified'     => $this->helpers->date->format( $this->context->post->post_modified_gmt ),
 			'mainEntityOfPage' => [ '@id' => $this->context->canonical . Schema_IDs::WEBPAGE_HASH ],
+			'wordCount'        => $this->word_count( $this->context->post->post_content, $this->context->post->post_title ),
 		];
 
 		if ( $this->context->post->comment_status === 'open' ) {
-			$data['commentCount'] = intval( $this->context->post->comment_count, 10 );
+			$data['commentCount'] = \intval( $this->context->post->comment_count, 10 );
 		}
 
 		if ( $this->context->site_represents_reference ) {
@@ -80,7 +81,7 @@ class Article extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data Article data.
 	 *
-	 * @return array $data Article data.
+	 * @return array Article data.
 	 */
 	private function add_keywords( $data ) {
 		/**
@@ -98,7 +99,7 @@ class Article extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data Article data.
 	 *
-	 * @return array $data Article data.
+	 * @return array Article data.
 	 */
 	private function add_sections( $data ) {
 		/**
@@ -118,7 +119,7 @@ class Article extends Abstract_Schema_Piece {
 	 * @param string $key      The key in data to save the terms in.
 	 * @param string $taxonomy The taxonomy to retrieve the terms from.
 	 *
-	 * @return mixed array $data Article data.
+	 * @return mixed Article data.
 	 */
 	protected function add_terms( $data, $key, $taxonomy ) {
 		$terms = \get_the_terms( $this->context->id, $taxonomy );
@@ -127,7 +128,7 @@ class Article extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$callback = function( $term ) {
+		$callback = static function( $term ) {
 			// We are using the WordPress internal translation.
 			return $term->name !== \__( 'Uncategorized', 'default' );
 		};
@@ -147,13 +148,14 @@ class Article extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data The Article data.
 	 *
-	 * @return array $data The Article data.
+	 * @return array The Article data.
 	 */
 	private function add_image( $data ) {
-		if ( $this->context->has_image ) {
-			$data['image'] = [
+		if ( $this->context->main_image_url !== null ) {
+			$data['image']        = [
 				'@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH,
 			];
+			$data['thumbnailUrl'] = $this->context->main_image_url;
 		}
 
 		return $data;
@@ -164,7 +166,7 @@ class Article extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data The Article data.
 	 *
-	 * @return array $data The Article data with the potential action added.
+	 * @return array The Article data with the potential action added.
 	 */
 	private function add_potential_action( $data ) {
 		/**
@@ -181,5 +183,26 @@ class Article extends Abstract_Schema_Piece {
 		];
 
 		return $data;
+	}
+
+	/**
+	 * Does a simple word count but tries to be relatively smart about it.
+	 *
+	 * @param string $post_content The post content.
+	 * @param string $post_title   The post title.
+	 *
+	 * @return int The number of words in the content.
+	 */
+	private function word_count( $post_content, $post_title = '' ) {
+		// Add the title to our word count.
+		$post_content = $post_title . ' ' . $post_content;
+
+		// Strip pre/code blocks and their content.
+		$post_content = \preg_replace( '@<(pre|code)[^>]*?>.*?</\\1>@si', '', $post_content );
+
+		// Strips all other tags.
+		$post_content = \wp_strip_all_tags( $post_content );
+
+		return \str_word_count( $post_content, 0 );
 	}
 }

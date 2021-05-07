@@ -117,7 +117,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data The WebPage data.
 	 *
-	 * @return array $data The WebPage data with the potential action added.
+	 * @return array The WebPage data with the potential action added.
 	 */
 	private function add_potential_action( $data ) {
 		/**

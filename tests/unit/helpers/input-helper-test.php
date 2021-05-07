@@ -36,6 +36,6 @@ class Input_Helper_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_filter() {
-		$this->assertNull( $this->instance->filter( INPUT_POST, 'bogus', FILTER_SANITIZE_STRING ) );
+		$this->assertNull( $this->instance->filter( \INPUT_POST, 'bogus', \FILTER_SANITIZE_STRING ) );
 	}
 }

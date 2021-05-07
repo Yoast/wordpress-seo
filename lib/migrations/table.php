@@ -172,10 +172,11 @@ class Table {
 	/**
 	 * Table definition
 	 *
-	 * @param boolean $wants_sql Whether or not to return SQL or execute the query. Defaults to false.
+	 * @param bool $wants_sql Whether or not to return SQL or execute the query. Defaults to false.
+	 *
+	 * @return bool|string
 	 *
 	 * @throws Exception If the table definition has not been intialized.
-	 * @return boolean | string
 	 */
 	public function finish( $wants_sql = false ) {
 		if ( ! $this->initialized ) {
@@ -230,7 +231,7 @@ class Table {
 			$c        = $this->columns[ $i ];
 			$fields[] = $c->__toString();
 		}
-		return \join( ",\n", $fields );
+		return \implode( ",\n", $fields );
 	}
 
 	/**

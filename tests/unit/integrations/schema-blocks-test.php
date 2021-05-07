@@ -98,7 +98,7 @@ class Schema_Blocks_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		static::assertSame( [], Schema_Blocks::get_conditionals() );
+		static::assertEquals( [ Schema_Blocks_Conditional::class ], Schema_Blocks::get_conditionals() );
 	}
 
 	/**
@@ -122,7 +122,7 @@ class Schema_Blocks_Test extends TestCase {
 		$this->instance->register_template( 'template.php' );
 
 		static::assertEquals(
-			[ WPSEO_PATH . '/template.php' ],
+			[ \WPSEO_PATH . '/template.php' ],
 			self::getPropertyValue( $this->instance, 'templates' )
 		);
 	}
@@ -232,7 +232,7 @@ class Schema_Blocks_Test extends TestCase {
 		$this->instance->register_template( 'src/schema-templates/recipe.block.php' );
 
 		Monkey\Filters\expectApplied( 'wpseo_load_schema_templates' )
-			->andReturn( [ WPSEO_PATH . '/src/schema-templates/recipe.block.php' ] );
+			->andReturn( [ \WPSEO_PATH . '/src/schema-templates/recipe.block.php' ] );
 
 		$this->instance->output();
 
@@ -277,7 +277,7 @@ class Schema_Blocks_Test extends TestCase {
 
 		// First add a template.
 		Monkey\Filters\expectApplied( 'wpseo_load_schema_templates' )
-			->andReturn( [ WPSEO_PATH . '/src/schema-templates/recipe.block.php' ] );
+			->andReturn( [ \WPSEO_PATH . '/src/schema-templates/recipe.block.php' ] );
 
 		$this->instance->output();
 
@@ -326,7 +326,7 @@ class Schema_Blocks_Test extends TestCase {
 			->expects( 'is_met' )
 			->andReturnTrue();
 
-		$this->instance->register_template( WPSEO_PATH . '/src/schema-templates/nonexisting.block.php' );
+		$this->instance->register_template( \WPSEO_PATH . '/src/schema-templates/nonexisting.block.php' );
 
 		$this->instance->output();
 

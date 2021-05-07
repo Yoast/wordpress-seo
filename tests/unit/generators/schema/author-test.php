@@ -8,8 +8,10 @@ use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Generators\Schema\Author_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -45,6 +47,20 @@ class Author_Test extends TestCase {
 	 * @var Image_Helper
 	 */
 	private $image;
+
+	/**
+	 * Holds the options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options;
+
+	/**
+	 * Holds the user helper.
+	 *
+	 * @var User_Helper
+	 */
+	private $user;
 
 	/**
 	 * Holds the Schema image helper.
@@ -91,6 +107,7 @@ class Author_Test extends TestCase {
 			'url'     => 'http://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g',
 			'caption' => 'Ad Minnie',
 		],
+		'url'    => 'http://basic.wordpress.test/author/admin/',
 		'sameAs' => [
 			'https://piet.blog/',
 			'https://facebook.example.org/admin',
@@ -107,9 +124,12 @@ class Author_Test extends TestCase {
 
 		$this->article      = Mockery::mock( Article_Helper::class );
 		$this->image        = Mockery::mock( Image_Helper::class );
+		$this->options      = Mockery::mock( Options_Helper::class );
+		$this->user         = Mockery::mock( User_Helper::class );
 		$this->schema_image = Mockery::mock( Schema\Image_Helper::class );
 		$this->html         = Mockery::mock( Schema\HTML_Helper::class );
 		$this->id           = Mockery::mock( Schema\ID_Helper::class );
+
 
 		$this->meta_tags_context = new Meta_Tags_Context_Mock();
 
@@ -119,8 +139,10 @@ class Author_Test extends TestCase {
 
 		$this->instance->context = $this->meta_tags_context;
 		$this->instance->helpers = (object) [
-			'image'  => $this->image,
-			'schema' => (object) [
+			'image'   => $this->image,
+			'options' => $this->options,
+			'user'    => $this->user,
+			'schema'  => (object) [
 				'article' => $this->article,
 				'id'      => $this->id,
 				'image'   => $this->schema_image,
@@ -164,7 +186,7 @@ class Author_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the author gets a 'mainEntityOfPage' property pointing to the webpage Schema piece on the same page.
+	 * Tests that the author schema is correct on a post.
 	 *
 	 * @covers ::generate
 	 * @covers ::determine_user_id
@@ -179,6 +201,16 @@ class Author_Test extends TestCase {
 			->with( $user_id )
 			->andReturn( $this->person_data );
 
+		$this->options->expects( 'get' )
+			->once()
+			->with( 'disable-author' )
+			->andReturnFalse();
+
+		$this->user->expects( 'get_the_author_posts_url' )
+			->once()
+			->with( $user_id )
+			->andReturn( 'http://basic.wordpress.test/author/admin/' );
+
 		// Set up the context with values.
 		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
@@ -188,8 +220,6 @@ class Author_Test extends TestCase {
 			'object_type' => 'post',
 			'object_id'   => 1234,
 		];
-
-		$this->meta_tags_context->canonical = 'http://basic.wordpress.test/author/admin/';
 
 		Filters\expectApplied( 'wpseo_schema_person_user_id' );
 
@@ -232,8 +262,6 @@ class Author_Test extends TestCase {
 
 		$this->meta_tags_context->site_user_id = 897;
 
-		$this->meta_tags_context->canonical = 'http://basic.wordpress.test/author/admin/';
-
 		// WordPress function mocks.
 		Functions\expect( 'get_userdata' )
 			->with( $this->instance->context->indexable->object_id )
@@ -257,12 +285,12 @@ class Author_Test extends TestCase {
 		);
 
 		// Helper mocks.
-		$this->instance->helpers->schema->id
+		$this->id
 			->expects( 'get_user_schema_id' )
 			->with( $user_id, $this->instance->context )
 			->andReturn( $this->person_data['@id'] );
 
-		$this->instance->helpers->schema->html
+		$this->html
 			->expects( 'smart_strip_tags' )
 			->andReturnArg( 0 );
 
@@ -272,10 +300,20 @@ class Author_Test extends TestCase {
 			->twice()
 			->andReturn( true );
 
-		$this->instance->helpers->schema->image
+		$this->schema_image
 			->expects( 'simple_image_object' )
 			->with( Schema_IDs::PERSON_LOGO_HASH, $this->person_data['image']['url'], $user_data->display_name )
 			->andReturn( $this->person_data['image'] );
+
+		$this->options->expects( 'get' )
+			->once()
+			->with( 'disable-author' )
+			->andReturnFalse();
+
+		$this->user->expects( 'get_the_author_posts_url' )
+			->once()
+			->with( $user_id )
+			->andReturn( 'http://basic.wordpress.test/author/admin/' );
 
 		Filters\expectApplied( 'wpseo_schema_person_user_id' );
 
@@ -383,17 +421,17 @@ class Author_Test extends TestCase {
 	 * @param object $user_data The user data object.
 	 */
 	private function set_helpers_expectations( $user_data ) {
-		$this->instance->helpers->schema->id
+		$this->id
 			->expects( 'get_user_schema_id' )
 			->with( $this->instance->context->indexable->object_id, $this->instance->context )
 			->andReturn( 'user_schema_id' );
 
-		$this->instance->helpers->schema->html
+		$this->html
 			->expects( 'smart_strip_tags' )
 			->with( $user_data->display_name )
 			->andReturn( $user_data->display_name );
 
-		$this->instance->helpers->schema->image
+		$this->schema_image
 			->expects( 'generate_from_attachment_meta' )
 			->with(
 				$this->instance->context->site_url . Schema_IDs::PERSON_LOGO_HASH,

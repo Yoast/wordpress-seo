@@ -87,6 +87,8 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Checks if the current page is a page containing the beacon.
+	 *
+	 * @return bool
 	 */
 	private function is_beacon_page() {
 		return in_array( $this->get_current_page(), $this->pages, true );

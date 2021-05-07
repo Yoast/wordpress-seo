@@ -38,7 +38,7 @@ class Container_Registry {
 	 * @param string $id                The ID of the service.
 	 * @param int    $invalid_behaviour The behaviour when the service could not be found.
 	 *
-	 * @return object The service.
+	 * @return object|null The service.
 	 *
 	 * @throws ServiceCircularReferenceException When a circular reference is detected.
 	 * @throws ServiceNotFoundException          When the service is not defined.

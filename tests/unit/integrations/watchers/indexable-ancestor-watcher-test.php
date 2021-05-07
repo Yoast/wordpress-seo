@@ -333,9 +333,9 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$term_id = 1;
 
 		Functions\expect( 'wp_list_pluck' )->andReturnUsing(
-			function ( $array, $prop ) {
+			static function ( $array, $prop ) {
 				return \array_map(
-					function ( $e ) use ( $prop ) {
+					static function ( $e ) use ( $prop ) {
 						return $e->{$prop};
 					},
 					$array
@@ -458,7 +458,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	/**
 	 * Sets the expectations for the get_object_ids_for term method.
 	 *
-	 * @param integer ...$object_ids The object ids.
+	 * @param int ...$object_ids The object ids.
 	 */
 	private function set_expectations_for_get_object_ids_for_term( ...$object_ids ) {
 		$this->wpdb->term_taxonomy      = 'wp_term_taxonomy';

@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 
 // phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
+
 /**
  * Class Primary_Category_Quick_Edit_Watcher
  */
@@ -66,10 +67,10 @@ class Primary_Category_Quick_Edit_Watcher implements Integration_Interface {
 	/**
 	 * Validates if the current primary category is still present. If not just remove the post meta for it.
 	 *
-	 * @param int    $object_id  Object ID.
-	 * @param array  $terms      Unused. An array of object terms.
-	 * @param array  $tt_ids     An array of term taxonomy IDs.
-	 * @param string $taxonomy   Taxonomy slug.
+	 * @param int    $object_id Object ID.
+	 * @param array  $terms     Unused. An array of object terms.
+	 * @param array  $tt_ids    An array of term taxonomy IDs.
+	 * @param string $taxonomy  Taxonomy slug.
 	 */
 	public function validate_primary_category( $object_id, $terms, $tt_ids, $taxonomy ) {
 		$post = \get_post( $object_id );
@@ -92,7 +93,7 @@ class Primary_Category_Quick_Edit_Watcher implements Integration_Interface {
 		}
 
 		// The primary category isn't removed.
-		if ( in_array( (string) $primary_category, $tt_ids, true ) ) {
+		if ( \in_array( (string) $primary_category, $tt_ids, true ) ) {
 			return;
 		}
 

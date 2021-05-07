@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Config;
 
+use Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
 use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Token_Exception;
@@ -96,7 +97,7 @@ class SEMrush_Client {
 			$token = SEMrush_Token::from_response( $response );
 
 			return $this->store_token( $token );
-		} catch ( \Exception $exception ) {
+		} catch ( Exception $exception ) {
 			throw new Authentication_Failed_Exception( $exception );
 		}
 	}
@@ -261,7 +262,7 @@ class SEMrush_Client {
 			$token = SEMrush_Token::from_response( $new_tokens );
 
 			return $this->store_token( $token );
-		} catch ( \Exception $exception ) {
+		} catch ( Exception $exception ) {
 			throw new Authentication_Failed_Exception( $exception );
 		}
 	}

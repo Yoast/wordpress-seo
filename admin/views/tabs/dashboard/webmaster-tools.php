@@ -42,6 +42,7 @@ echo '<p class="desc label">';
 printf(
 	/* translators: %1$s expands to a link start tag to the Baidu Webmaster Tools site add page, %2$s is the link closing tag. */
 	esc_html__( 'Get your Baidu verification code in %1$sBaidu Webmaster Tools%2$s.', 'wordpress-seo' ),
+
 	/*
 	 * Get the Baidu Webmaster Tools site add link from this 3rd party article.
 	 * {@link http://www.dragonmetrics.com/how-to-optimize-your-site-with-baidu-webmaster-tools/}

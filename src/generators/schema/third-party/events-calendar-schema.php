@@ -52,7 +52,7 @@ class Events_Calendar_Schema extends Abstract_Schema_Piece {
 	 * Partially lifted from the 'Tribe__JSON_LD__Abstract' class.
 	 *
 	 * @see https://docs.theeventscalendar.com/reference/classes/tribe__json_ld__abstract/
-	 * @return array $graph Event Schema markup
+	 * @return array Event Schema markup
 	 */
 	public function generate() {
 		$posts = [];

@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Models\Indexable;
  * Class Indexable_Social_Image_Trait_Double.
  */
 trait Indexable_Social_Image_Trait_Double {
+
 	use Indexable_Social_Image_Trait;
 
 	/**

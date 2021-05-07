@@ -191,7 +191,7 @@ class SEMrush_Route implements Route_Interface {
 	 *
 	 * @param string $code The code to check.
 	 *
-	 * @return boolean Whether or not the code is valid.
+	 * @return bool Whether or not the code is valid.
 	 */
 	public function has_valid_code( $code ) {
 		return $code !== '';
@@ -202,7 +202,7 @@ class SEMrush_Route implements Route_Interface {
 	 *
 	 * @param string $keyphrase The keyphrase to check.
 	 *
-	 * @return boolean Whether or not the keyphrase is valid.
+	 * @return bool Whether or not the keyphrase is valid.
 	 */
 	public function has_valid_keyphrase( $keyphrase ) {
 		return \trim( $keyphrase ) !== '';

@@ -238,7 +238,7 @@ class Actions {
 	private static function filter_files( $files, $extension ) {
 		return \array_filter(
 			$files,
-			function( $file ) use ( $extension ) {
+			static function( $file ) use ( $extension ) {
 				return \substr( $file, ( 0 - \strlen( $extension ) ) ) === $extension;
 			}
 		);
@@ -454,7 +454,7 @@ TPL;
 	 * @param string $line  Line to output.
 	 * @param string $color Color to give the line.
 	 *
-	 * @returns void
+	 * @return void
 	 */
 	private static function color_line( $line, $color ) {
 		echo $color . $line . "\e[0m\n";
@@ -466,7 +466,7 @@ TPL;
 	 * @param string $line    Line to output.
 	 * @param bool   $success Success status.
 	 *
-	 * @returns void
+	 * @return void
 	 */
 	private static function color_line_success( $line, $success ) {
 		self::color_line( $line, ( $success ) ? "\e[32m" : "\e[31m" );
@@ -498,7 +498,7 @@ TPL;
 		$generator = new Unit_Test_Generator();
 		try {
 			$path = $generator->generate( $fqn );
-			printf( 'Unit test generated at \'%s\'' . "\n", $path );
+			\printf( 'Unit test generated at \'%s\'' . "\n", $path );
 		}
 		catch ( Exception $exception ) {
 			throw $exception;

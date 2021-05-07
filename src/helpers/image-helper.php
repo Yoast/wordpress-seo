@@ -236,10 +236,10 @@ class Image_Helper {
 	/**
 	 * Find the right version of an image based on size.
 	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 *
 	 * @param int    $attachment_id Attachment ID.
 	 * @param string $size          Size name.
-	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @return array|false Returns an array with image data on success, false on failure.
 	 */
@@ -250,9 +250,9 @@ class Image_Helper {
 	/**
 	 * Retrieves the best attachment variation for the given attachment.
 	 *
-	 * @param int $attachment_id The attachment id.
-	 *
 	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 *
+	 * @param int $attachment_id The attachment id.
 	 *
 	 * @return bool|string The attachment url or false when no variations found.
 	 */
@@ -307,9 +307,9 @@ class Image_Helper {
 	 * Due to self::get_attachment_by_url returning 0 instead of false.
 	 * 0 is also a possibility when no ID is available.
 	 *
-	 * @param string $setting The setting the image is stored in.
-	 *
 	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 *
+	 * @param string $setting The setting the image is stored in.
 	 *
 	 * @return int|bool The attachment id, or false or 0 if no ID is available.
 	 */
@@ -332,7 +332,9 @@ class Image_Helper {
 				// There is not an option to put a URL in an image field in the settings anymore, only to upload it through the media manager.
 				// This means an attachment always exists, so doing this is only needed once.
 				$image_meta = $this->get_best_attachment_variation( $image_id );
-				$this->options->set( $setting . '_meta', $image_meta );
+				if ( $image_meta ) {
+					$this->options->set( $setting . '_meta', $image_meta );
+				}
 			}
 		}
 
@@ -342,9 +344,9 @@ class Image_Helper {
 	/**
 	 * Retrieves the first usable content image for a post.
 	 *
-	 * @param int $post_id The post id to extract the images from.
-	 *
 	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 *
+	 * @param int $post_id The post id to extract the images from.
 	 *
 	 * @return string|null
 	 */

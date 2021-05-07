@@ -22,12 +22,12 @@ $yform->light_switch( 'opengraph', \__( 'Add Open Graph meta data', 'wordpress-s
 ?>
 	<p>
 		<?php
-			\esc_html_e( 'Enable this feature if you want Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.', 'wordpress-seo' );
+		\esc_html_e( 'Enable this feature if you want Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.', 'wordpress-seo' );
 		?>
 	</p>
 
 <div id="wpseo-opengraph-settings" style="display: none;">
-<?php
+	<?php
 	$frontpage_settings_message = sprintf(
 		/* translators: 1: link open tag; 2: link close tag. */
 		\esc_html__( 'The frontpage settings have been moved to the %1$sSearch Appearance section%2$s.', 'wordpress-seo' ),
@@ -44,7 +44,7 @@ $yform->light_switch( 'opengraph', \__( 'Add Open Graph meta data', 'wordpress-s
 
 	$yform->hidden( 'og_default_image', 'og_default_image' );
 	$yform->hidden( 'og_default_image_id', 'og_default_image_id' );
-?>
+	?>
 	<p>
 		<?php \esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>
 	</p>

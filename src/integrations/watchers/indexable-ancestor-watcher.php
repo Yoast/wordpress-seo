@@ -150,7 +150,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		// Removes the objects that are already present in the children.
 		$existing_post_indexables = \array_filter(
 			$child_indexables,
-			function( $indexable ) {
+			static function( $indexable ) {
 				return $indexable->object_type === 'post';
 			}
 		);
@@ -214,7 +214,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 * @return array List with object ids for the term.
 	 */
 	protected function get_object_ids_for_term( $term_id, $child_indexables ) {
-		$filter_terms = function( $child ) {
+		$filter_terms = static function( $child ) {
 			return $child->object_type === 'term';
 		};
 

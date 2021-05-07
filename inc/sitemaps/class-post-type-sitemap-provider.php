@@ -42,7 +42,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/**
 		 * Filter - Allows excluding images from the XML sitemap.
 		 *
-		 * @param bool unsigned True to include, false to exclude.
+		 * @param bool $include True to include, false to exclude.
 		 */
 		$this->include_images = apply_filters( 'wpseo_xml_sitemap_include_images', true );
 	}
@@ -78,7 +78,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 *
 	 * @param string $type Type string to check for.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function handles_type( $type ) {
 
@@ -159,9 +159,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @param int    $max_entries  Entries per sitemap.
 	 * @param int    $current_page Current page of the sitemap.
 	 *
-	 * @throws OutOfBoundsException When an invalid page is requested.
-	 *
 	 * @return array
+	 *
+	 * @throws OutOfBoundsException When an invalid page is requested.
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 
