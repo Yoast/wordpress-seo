@@ -53,6 +53,7 @@ export default compose( [
 			getSiteUrl,
 			getAuthorName,
 			getSeoTitleTemplate,
+			getSeoTitleTemplateNoFallback,
 			getSocialTitleTemplate,
 		} = select( "yoast-seo/editor" );
 
@@ -78,7 +79,11 @@ export default compose( [
 			description: getFacebookDescription(),
 			descriptionPreviewFallback: getDescriptionFallback() || descriptionInputPlaceholder,
 			title: getFacebookTitle(),
-			titlePreviewFallback: getSocialTitleTemplate() || getSeoTitle() || getSeoTitleTemplate() || titleInputPlaceholder,
+			titlePreviewFallback: getSocialTitleTemplate() ||
+				getSeoTitle() ||
+				getSeoTitleTemplateNoFallback() ||
+				getSeoTitleTemplate() ||
+				titleInputPlaceholder,
 			imageWarnings: getFacebookWarnings(),
 			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),

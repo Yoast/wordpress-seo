@@ -64,11 +64,18 @@ export const getSiteUrl = () => {
 };
 
 /**
+ * Gets the SEO title template with the fallback value.
+ *
+ * @returns {string} The SEO title template with the fallback value.
+ */
+export const getSeoTitleTemplate = () => get( window, "wpseoScriptData.metabox.title_template", "" );
+
+/**
  * Gets the SEO title template without fallback value.
  *
- * @returns {string} The SEO title template.
+ * @returns {string} The SEO title template without fallback value.
  */
-export const getSeoTitleTemplate = () => get( window, "wpseoScriptData.metabox.title_template_no_fallback", "" );
+export const getSeoTitleTemplateNoFallback = () => get( window, "wpseoScriptData.metabox.title_template_no_fallback", "" );
 
 /**
  * Gets the social title template.
