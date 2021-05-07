@@ -315,6 +315,7 @@ class Front_End_Integration implements Integration_Interface {
 
 			$output = $presenter->present();
 			if ( ! empty( $output ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput -- Presenters are responsible for correctly escaping their output.
 				echo "\t" . $output . \PHP_EOL;
 			}
 		}
