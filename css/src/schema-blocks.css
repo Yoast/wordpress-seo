@@ -1,1 +1,26 @@
 @import '@yoast/schema-blocks/css/schema-blocks.css';
+
+.yoast-schema-flex {
+	display: flex;
+}
+
+.yoast-schema-select select.components-select-control__input {
+	height: 100%;
+	padding: 6px 33px 6px 8px;
+}
+
+.yoast-schema-select div.components-input-control__backdrop,
+.components-text-control__input {
+	border: #CCCCCC 1px solid;
+	border-radius: 0;
+}
+
+.wp-block-yoast-cooking-time .yoast-schema-flex {
+	align-items: baseline;
+	overflow: visible;
+}
+
+.wp-block-yoast-cooking-time .yoast-schema-flex * {
+	margin-top: 0;
+    white-space: pre;
+}
