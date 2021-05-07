@@ -503,7 +503,7 @@ textarea.wpseo-new-metadesc {
 
 /* Yoast SEO credits page. */
 body.toplevel_page_wpseo_dashboard .wp-badge {
-  background: transparent url(../../images/Yoast_SEO_Icon.svg) no-repeat 50% 10px;
+  background: transparent url(../../packages/js/images/Yoast_SEO_Icon.svg) no-repeat 50% 10px;
   background-size: 140px 140px;
   box-shadow: none;
 }
