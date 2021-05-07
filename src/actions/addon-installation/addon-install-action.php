@@ -2,6 +2,10 @@
 
 namespace Yoast\WP\SEO\Actions\Addon_Installation;
 
+use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Already_Installed_Exception;
+use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Installation_Error_Exception;
+use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Install_Plugins;
+
 /**
  * Represents the endpoint for downloading and installing a zip-file from MyYoast.
  */
@@ -24,35 +28,31 @@ class Addon_Install_Action {
 	}
 
 	/**
-	 * Determines whether or not data can be retrieved for the registered endpoints.
-	 *
-	 * @codeCoverageIgnore Only contains a WordPress function.
-	 *
-	 * @return bool Whether or not data can be retrieved.
-	 */
-	public function can_install_plugins() {
-		return current_user_can( 'install_plugins' );
-	}
-
-	/**
 	 * Installs the plugin based on the given slug.
 	 *
 	 * @param string $plugin_slug  The plugin slug to install.
 	 * @param string $download_url The plugin download URL.
 	 *
 	 * @return bool True when install is successful.
+	 *
+	 * @throws Addon_Already_Installed_Exception  When the addon is already installed.
+	 * @throws Addon_Installation_Error_Exception When the installation encounters an error.
+	 * @throws User_Cannot_Install_Plugins        When the user does not have the permissions to install plugins.
 	 */
 	public function install_addon( $plugin_slug, $download_url ) {
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			throw new User_Cannot_Install_Plugins( $plugin_slug );
+		}
+
 		if ( $this->is_installed( $plugin_slug ) ) {
-			return true;
+			throw new Addon_Already_Installed_Exception( $plugin_slug );
 		}
 
 		$this->load_wordpress_classes();
 
 		$install_result = $this->install( $download_url );
 		if ( is_wp_error( $install_result ) ) {
-			// todo: Throw exception.
-			return false;
+			throw new Addon_Installation_Error_Exception( $install_result->get_error_message() );
 		}
 
 		return $install_result;
@@ -95,28 +95,7 @@ class Addon_Install_Action {
 	 * @return bool True when plugin is installed.
 	 */
 	protected function is_installed( $plugin_slug ) {
-		return $this->get_plugin_file( $plugin_slug ) !== false;
-	}
-
-	/**
-	 * Finds the plugin file.
-	 *
-	 * @param string $plugin_slug The plugin slug to search.
-	 *
-	 * @return boolean|string Plugin file when installed, False when plugin isn't installed.
-	 **/
-	protected function get_plugin_file( $plugin_slug ) {
-		$plugins            = get_plugins();
-		$plugin_files       = array_keys( $plugins );
-		$target_plugin_file = array_search( $plugin_slug, $this->addon_manager->get_addon_filenames(), true );
-
-		foreach ( $plugin_files as $plugin_file ) {
-			if ( strpos( $plugin_file, $target_plugin_file ) !== false ) {
-				return $plugin_file;
-			}
-		}
-
-		return false;
+		return $this->addon_manager->get_plugin_file( $plugin_slug ) !== false;
 	}
 
 	/**
@@ -126,7 +105,7 @@ class Addon_Install_Action {
 	 *
 	 * @codeCoverageIgnore Contains WordPress specific logic.
 	 *
-	 * @return bool|WP_Error True when success, WP_Error when something went wrong.
+	 * @return bool|\WP_Error True when success, WP_Error when something went wrong.
 	 */
 	protected function install( $plugin_download ) {
 		$plugin_upgrader = new \Plugin_Upgrader();

@@ -118,6 +118,27 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Finds the plugin file.
+	 *
+	 * @param string $plugin_slug The plugin slug to search.
+	 *
+	 * @return boolean|string Plugin file when installed, False when plugin isn't installed.
+	 **/
+	public function get_plugin_file( $plugin_slug ) {
+		$plugins            = get_plugins();
+		$plugin_files       = array_keys( $plugins );
+		$target_plugin_file = array_search( $plugin_slug, $this->get_addon_filenames(), true );
+
+		foreach ( $plugin_files as $plugin_file ) {
+			if ( strpos( $plugin_file, $target_plugin_file ) !== false ) {
+				return $plugin_file;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Retrieves the subscription for the given slug.
 	 *
 	 * @param string $slug The plugin slug to retrieve.
@@ -556,6 +577,18 @@ class WPSEO_Addon_Manager {
 	protected function set_site_information_transient( $site_information ) {
 		set_transient( self::SITE_INFORMATION_TRANSIENT, $site_information, DAY_IN_SECONDS );
 		set_transient( self::SITE_INFORMATION_TRANSIENT_QUICK, $site_information, 60 );
+	}
+
+	/**
+	 * Removes the site information transients.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function remove_site_information_transients() {
+		delete_transient( self::SITE_INFORMATION_TRANSIENT );
+		delete_transient( self::SITE_INFORMATION_TRANSIENT_QUICK );
 	}
 
 	/**
