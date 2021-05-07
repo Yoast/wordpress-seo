@@ -140,7 +140,7 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 			->with( $indexable_mock )
 			->andReturn( $indexable_mock );
 
-		$this->instance->check_option( [ 'og_frontpage_desc' => 'bar' ], [ 'og_frontpage_desc' => 'baz' ], 'wpseo_titles' );
+		$this->instance->check_option( [ 'open_graph_frontpage_desc' => 'bar' ], [ 'open_graph_frontpage_desc' => 'baz' ], 'wpseo_titles' );
 	}
 
 	/**
@@ -152,7 +152,7 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 	 */
 	public function test_update_other_option() {
 		// No assertions made so this will fail if any method is called on our mocks.
-		$this->instance->check_option( [ 'og_frontpage_desc' => 'bar' ], [ 'og_frontpage_desc' => 'baz' ], 'wpseo_something' );
+		$this->instance->check_option( [ 'open_graph_frontpage_desc' => 'bar' ], [ 'open_graph_frontpage_desc' => 'baz' ], 'wpseo_something' );
 	}
 
 	/**
