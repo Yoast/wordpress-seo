@@ -8,10 +8,15 @@ import { BlockValidationResult } from "../../core/validation";
  * @return all validation results.
  */
 function getAllDescendantIssues( validation: BlockValidationResult ): BlockValidationResult[] {
+	if ( ! validation ) {
+		return [];
+	}
+
 	let results = [ validation ];
 	validation.issues.forEach( issue => {
 		results = results.concat( getAllDescendantIssues( issue ) );
 	} );
+
 	return results;
 }
 

@@ -44,6 +44,7 @@ jest.mock( "@wordpress/data", () => ( {
 	dispatch: jest.fn( () => ( {
 		insertBlock: jest.fn(),
 	} ) ),
+	withSelect: jest.fn( () => jest.fn() ),
 } ) );
 
 jest.mock( "@wordpress/components", () => {

@@ -7,6 +7,7 @@ import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
 import { attributeExists, attributeNotEmpty } from "../../functions/validators";
+import { getPresence } from "../../functions/validators/getPresence";
 
 /**
  * Interface for a WordPress post object.
@@ -60,7 +61,7 @@ class Title extends Heading {
 		const postTitle: string = select( "core/editor" ).getEditedPostAttribute( "title" );
 
 		if ( ! this.isCompleted( blockInstance ) ) {
-			const presence = this.options.required === true ? BlockPresence.Required : BlockPresence.Recommended;
+			const presence = getPresence( this.options );
 			return BlockValidationResult.MissingAttribute( blockInstance, this.constructor.name, presence );
 		}
 

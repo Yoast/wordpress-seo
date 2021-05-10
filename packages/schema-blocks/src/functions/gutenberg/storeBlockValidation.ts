@@ -12,8 +12,6 @@ export default function storeBlockValidation( validations: BlockValidationResult
 		return;
 	}
 
-	logger.debug( "Updating the store with the validation results." );
-
 	const store = dispatch( YOAST_SCHEMA_BLOCKS_STORE_NAME );
 	if ( store ) {
 		store.resetBlockValidation();
@@ -22,6 +20,6 @@ export default function storeBlockValidation( validations: BlockValidationResult
 			store.addBlockValidation( blockValidation );
 		} );
 	} else {
-		logger.debug( "No Store!" );
+		logger.debug( "No Store! Cannot store validations." );
 	}
 }

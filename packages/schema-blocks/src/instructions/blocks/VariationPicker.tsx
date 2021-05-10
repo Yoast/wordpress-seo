@@ -1,13 +1,12 @@
-import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { useSelect } from "@wordpress/data";
-import { RenderEditProps } from "../../core/blocks/BlockDefinition";
-import BlockLeaf from "../../core/blocks/BlockLeaf";
 import { BlockInstance } from "@wordpress/blocks";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement } from "@wordpress/element";
+import { BlockLeaf, BlockInstruction } from "../../core/blocks";
+import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { BlockPresence, BlockValidation, BlockValidationResult } from "../../core/validation";
 import VariationPickerPresenter from "../../functions/presenters/VariationPickerPresenter";
 import { getParent } from "../../functions/gutenberg/block";
+import { getPresence } from "../../functions/validators/getPresence";
 
 /**
  * Helper function to check whether the block instance includes a picked variation.
@@ -23,7 +22,7 @@ function includesAVariation( blockInstance: BlockInstance ): boolean {
 /**
  * VariationPicker instruction.
  */
-class VariationPicker extends BlockInstruction {
+export class VariationPicker extends BlockInstruction {
 	/**
 	 * Renders the variation picker if the block doesn't have any inner blocks.
 	 * Otherwise, renders null.
@@ -56,7 +55,7 @@ class VariationPicker extends BlockInstruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const presence: BlockPresence = this.options.required ? BlockPresence.Required : BlockPresence.Recommended;
+		const presence = getPresence( this.options );
 		const parent = getParent( blockInstance.clientId );
 		const blockName = parent ? parent.name : this.constructor.name;
 

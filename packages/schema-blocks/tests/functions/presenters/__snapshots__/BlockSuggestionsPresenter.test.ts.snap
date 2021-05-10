@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The BlockSuggestionsPresenter class  displays a checkmark for valid blocks 1`] = `
+<div
+  className="components-panel__body is-opened"
+>
+  <div
+    className="yoast-block-sidebar-title"
+  >
+    Heading for Required Blocks
+  </div>
+  <ul
+    className="yoast-block-suggestions"
+  >
+    <li
+      className="yoast-block-suggestion yoast-block-suggestion--added"
+    >
+      This is a valid required block with checkmark without add link
+      <span
+        className="yoast-block-suggestion-checkmark"
+      >
+        <svg
+          fill="none"
+          height="12"
+          stroke="currentColor"
+          viewBox="-2 3 18 16"
+          width="22"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5 13l4 4L19 7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2.5}
+          />
+        </svg>
+      </span>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`The BlockSuggestionsPresenter class  displays an [ Add ] link for missing required blocks 1`] = `
+<div
+  className="components-panel__body is-opened"
+>
+  <div
+    className="yoast-block-sidebar-title"
+  >
+    Heading for Required Blocks
+  </div>
+  <ul
+    className="yoast-block-suggestions"
+  >
+    <li
+      className="yoast-block-suggestion"
+    >
+      This is a missing block
+      <button
+        className="yoast-block-suggestion-button"
+        onClick={[Function]}
+      >
+         Add 
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`The BlockSuggestionsPresenter class  displays only the block title for blocks that aren't completed 1`] = `
+<div
+  className="components-panel__body is-opened"
+>
+  <div
+    className="yoast-block-sidebar-title"
+  >
+    Heading for Required Blocks
+  </div>
+  <ul
+    className="yoast-block-suggestions"
+  >
+    <li
+      className="yoast-block-suggestion yoast-block-suggestion--added"
+    >
+      This is an invalid required block without checkmark or add link
+    </li>
+  </ul>
+</div>
+`;
