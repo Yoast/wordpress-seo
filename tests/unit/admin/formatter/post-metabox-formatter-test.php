@@ -45,21 +45,17 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	}
 
 	/**
-	 * Get the image URL when a featured image is set, and there is no image in the content.
+	 * Get the image URL when there is one image in the content.
 	 *
 	 * @covers ::get_image_url
 	 */
-	public function test_get_image_url_featured_image_set_content_has_no_image() {
-		$expected = 'https://example.com/media/featured_image.jpg';
+	public function test_get_image_url_content_has_one_image() {
+		$expected = 'https://example.com/media/content_image.jpg';
 
-		Monkey\Functions\expect( 'has_post_thumbnail' )
-			->andReturn( true );
-		Monkey\Functions\expect( 'get_post_thumbnail_id' )
-			->once()
-			->andReturn( 123 );
-		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
-			->once()
-			->andReturn( [ 'https://example.com/media/featured_image.jpg' ] );
+		$this->mock_post->post_content = 'Post <img src="https://example.com/media/content_image.jpg"/> content.';
+
+		Monkey\Functions\expect( 'get_post' )
+			->andReturn( $this->mock_post );
 
 		$url = $this->instance->get_image_url();
 
@@ -67,17 +63,15 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	}
 
 	/**
-	 * Get the image URL when no featured image is set, and there are images in the content.
+	 * Get the image URL when there are multiple images in the content.
 	 *
 	 * @covers ::get_image_url
 	 */
-	public function test_get_image_url_no_featured_image_set_content_has_multiple_images() {
+	public function test_get_image_url_content_has_multiple_images() {
 		$expected = 'https://example.com/media/content_image.jpg';
 
 		$this->mock_post->post_content = '<img src="https://example.com/media/content_image.jpg"/><img src="https://example.com/media/content_image_2.jpg"/>';
 
-		Monkey\Functions\expect( 'has_post_thumbnail' )
-			->andReturn( false );
 		Monkey\Functions\expect( 'get_post' )
 			->andReturn( $this->mock_post );
 
@@ -87,41 +81,13 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	}
 
 	/**
-	 * Get the image URL when a featured image is set, and there is an image in the content.
+	 * Get the image URL when there is no image in the content.
 	 *
 	 * @covers ::get_image_url
 	 */
-	public function test_get_image_url_featured_image_set_content_has_an_image() {
-		$expected = 'https://example.com/media/featured_image.jpg';
-
-		$this->mock_post->post_content = '<img src="https://example.com/media/content_image.jpg"/><img src="https://example.com/media/content_image_2.jpg"/>';
-
-		Monkey\Functions\expect( 'has_post_thumbnail' )
-			->andReturn( true );
-		Monkey\Functions\expect( 'get_post_thumbnail_id' )
-			->once()
-			->andReturn( 123 );
-		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
-			->once()
-			->andReturn( [ 'https://example.com/media/featured_image.jpg' ] );
-		Monkey\Functions\expect( 'get_post' )
-			->andReturn( $this->mock_post );
-
-		$url = $this->instance->get_image_url();
-
-		$this->assertEquals( $expected, $url );
-	}
-
-	/**
-	 * Get the image URL when no featured image is set, and there is no image in the content.
-	 *
-	 * @covers ::get_image_url
-	 */
-	public function test_get_image_url_no_featured_image_set_content_has_no_image() {
+	public function test_get_image_url_content_has_no_image() {
 		$expected = null;
 
-		Monkey\Functions\expect( 'has_post_thumbnail' )
-			->andReturn( false );
 		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
 			->never();
 		Monkey\Functions\expect( 'get_post' )
