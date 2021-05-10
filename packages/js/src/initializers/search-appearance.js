@@ -55,8 +55,8 @@ export default function initSearchAppearance() {
 					label={ __( "Social default image", "wordpress-seo" ) }
 					hasPreview={ true }
 					target="yoast-og-frontpage-image-select"
-					hiddenField="og_frontpage_image"
-					hiddenFieldImageId="og_frontpage_image_id"
+					hiddenField="open_graph_frontpage_image"
+					hiddenFieldImageId="open_graph_frontpage_image_id"
 					selectImageButtonId="yoast-og-frontpage-image-select-button"
 					replaceImageButtonId="yoast-og-frontpage-image-replace-button"
 					removeImageButtonId="yoast-og-frontpage-image-remove-button"
