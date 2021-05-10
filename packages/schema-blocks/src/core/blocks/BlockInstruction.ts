@@ -1,17 +1,9 @@
 import BlockLeaf from "./BlockLeaf";
-import { RenderEditProps, RenderSaveProps } from "./BlockDefinition";
 import { ReactElement } from "@wordpress/element";
+import { RenderEditProps, RenderSaveProps } from "./BlockDefinition";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
-import { BlockValidation, BlockValidationResult } from "../validation";
-import Instruction, { InstructionOptions } from "../Instruction";
-import { attributeExists, attributeNotEmpty } from "../../functions/validators";
-import { BlockPresence } from "../validation/BlockValidationResult";
-import { maxBy } from "lodash";
-
-export type BlockInstructionClass = {
-	new( id: number, options: InstructionOptions ): BlockInstruction;
-	options: InstructionOptions;
-};
+import { BlockValidation, BlockValidationResult, BlockPresence } from "../validation";
+import Instruction from "../Instruction";
 
 /**
  * BlockInstruction class.
@@ -64,10 +56,16 @@ export default abstract class BlockInstruction extends Instruction {
 	/**
 	 * Returns the configuration of this instruction.
 	 *
-	 * @returns {Partial<BlockConfiguration>} The configuration.
+	 * @returns The block configuration.
 	 */
 	configuration(): Partial<BlockConfiguration> {
-		return {};
+		return {
+			attributes: {
+				[ this.options.name ]: {
+					required: this.options.required === true,
+				},
+			},
+		};
 	}
 
 	/**
@@ -78,32 +76,6 @@ export default abstract class BlockInstruction extends Instruction {
 	 * @returns {BlockValidationResult} The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const issues: BlockValidationResult[] = [];
-
-		if ( this.options ) {
-			const presence = this.options.required ? BlockPresence.Required : BlockPresence.Recommended;
-			const attributeValid = attributeExists( blockInstance, this.options.name as string ) &&
-								attributeNotEmpty( blockInstance, this.options.name as string );
-			if ( ! attributeValid ) {
-				issues.push( BlockValidationResult.MissingAttribute( blockInstance, this.constructor.name, presence ) );
-			}
-		}
-
-		if ( blockInstance.name.startsWith( "core/" ) && ! blockInstance.isValid ) {
-			issues.push( new BlockValidationResult( blockInstance.clientId, this.constructor.name, BlockValidation.Invalid, BlockPresence.Unknown ) );
-		}
-
-		// No issues found? That means the block is valid.
-		if ( issues.length < 1 ) {
-			return BlockValidationResult.Valid( blockInstance, this.constructor.name );
-		}
-
-		// Make sure to report the worst case scenario as the final validation result.
-		const worstCase: BlockValidationResult = maxBy( issues, issue => issue.result );
-
-		const validation = new BlockValidationResult( blockInstance.clientId, this.constructor.name, worstCase.result, worstCase.blockPresence );
-		validation.issues = issues;
-
-		return validation;
+		return new BlockValidationResult( blockInstance.clientId, this.constructor.name, BlockValidation.Unknown, BlockPresence.Unknown );
 	}
 }

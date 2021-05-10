@@ -2,6 +2,7 @@ import { BlockInstance } from "@wordpress/blocks";
 import logger from "../functions/logger";
 import { BlockValidationResult, BlockValidation } from "./validation";
 import { BlockPresence } from "./validation/BlockValidationResult";
+
 export type InstructionPrimitive = string | number | boolean;
 export type InstructionValue = InstructionPrimitive | InstructionObject | InstructionArray;
 export type InstructionArray = readonly InstructionValue[];
@@ -100,6 +101,7 @@ export default abstract class Instruction {
 
 		if ( ! klass ) {
 			logger.error( "Invalid instruction: ", name );
+			throw new Error( "Invalid block instruction type: " + name );
 		}
 
 		return new klass( id, options );

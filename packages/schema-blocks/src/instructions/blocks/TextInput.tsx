@@ -1,10 +1,9 @@
+import { useCallback } from "react";
 import { TextControl } from "@wordpress/components";
 import { createElement } from "@wordpress/element";
-
+import { BlockConfiguration } from "@wordpress/blocks";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
-import { useCallback } from "react";
-import { BlockConfiguration } from "@wordpress/blocks";
 
 /**
  * The text input instruction.
