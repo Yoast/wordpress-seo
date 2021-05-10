@@ -32,14 +32,14 @@ function getAnalysisConclusion( validation: BlockValidationResult ): SidebarWarn
 	if ( validation.result >= BlockValidation.Invalid ) {
 		conclusionText = sprintf(
 			/* translators: %s expands to the schema block name. */
-			__( "Not all required blocks have been completed! No %s schema will be generated for your page.", "yoast-schema-blocks" ),
+			__( "Not all required information has been provided! No %s schema will be generated for your page.", "yoast-schema-blocks" ),
 			sanitizeParentName( getHumanReadableBlockName( validation.name ) ),
 		);
 
 		return { text: conclusionText, color: "red" };
 	}
 
-	conclusionText = __( "Good job! All required blocks have been completed.", "yoast-schema-blocks" );
+	conclusionText = __( "Good job! All required information has been provided.", "yoast-schema-blocks" );
 
 	return { text: conclusionText, color: "green" };
 }
