@@ -17,7 +17,7 @@ import parse from "../../functions/blocks/parse";
 import { registerBlockDefinition } from "./BlockDefinitionRepository";
 import logger from "../../functions/logger";
 import { openGeneralSidebar } from "../../functions/gutenberg/sidebar";
-import StringWithClickableQuestionMark from "../../functions/presenters/StringWithClickableQuestionMarkPresenter";
+import LabelWithHelpLink from "../../functions/presenters/LabelWithHelpLinkPresenter";
 
 export interface RenderEditProps extends BlockEditProps<Record<string, unknown>> {
 	clientId: string;
@@ -64,7 +64,7 @@ export default class BlockDefinition extends Definition {
 			const sidebarContainer =
 				<InspectorControls key="sidebar-inspector-controls">
 					<PanelBody>
-						<StringWithClickableQuestionMark
+						<LabelWithHelpLink
 							text={ __( "Information for Schema output", "yoast-schema-blocks" ) }
 							URL={ "https://yoa.st/4dk" }
 						/>

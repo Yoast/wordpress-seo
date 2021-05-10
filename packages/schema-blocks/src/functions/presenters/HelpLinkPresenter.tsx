@@ -1,6 +1,6 @@
 import { createElement } from "@wordpress/element";
 
-interface QuestionMarkLinkProps {
+interface HelpLinkProps {
 	URL: string;
 }
 
@@ -11,7 +11,7 @@ interface QuestionMarkLinkProps {
  *
  * @returns A ReactElement containing the question mark icon with a link.
  */
-export function QuestionMarkLink( props: QuestionMarkLinkProps ): JSX.Element {
+export function HelpLink( props: HelpLinkProps ): JSX.Element {
 	return (
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 0 20 18" fill="currentColor" height="15" width="22">
 			<a className="yoast-question-mark-icon" href={ props.URL } rel="noopener noreferrer" target="_blank">
