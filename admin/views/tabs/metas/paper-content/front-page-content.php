@@ -21,14 +21,14 @@ echo '<p>' . esc_html__( 'These are the title, description and image used in the
 
 echo '<div id="yoast-og-frontpage-image-select"></div>';
 
-$yform->hidden( 'og_frontpage_image', 'og_frontpage_image' );
-$yform->hidden( 'og_frontpage_image_id', 'og_frontpage_image_id' );
+$yform->hidden( 'open_graph_frontpage_image', 'open_graph_frontpage_image' );
+$yform->hidden( 'open_graph_frontpage_image_id', 'open_graph_frontpage_image_id' );
 
 $editor = new WPSEO_Replacevar_Editor(
 	$yform,
 	[
-		'title'                   => 'og_frontpage_title',
-		'description'             => 'og_frontpage_desc',
+		'title'                   => 'open_graph_frontpage_title',
+		'description'             => 'open_graph_frontpage_desc',
 		'page_type_recommended'   => 'homepage',
 		'page_type_specific'      => 'page',
 		'paper_style'             => false,
