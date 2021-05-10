@@ -55,8 +55,9 @@ class Supported_Features_Route_Test extends TestCase {
 				'yoast/v1',
 				'/supported-features',
 				[
-					'methods'  => 'GET',
-					'callback' => [ $this, 'get_supported_features' ],
+					'methods'             => 'GET',
+					'callback'            => [ $this, 'get_supported_features' ],
+					'permission_callback' => '__return_true',
 				]
 			)
 			->once();
@@ -83,4 +84,3 @@ class Supported_Features_Route_Test extends TestCase {
 		$this->assertEquals( $expected, $actual );
 	}
 }
-

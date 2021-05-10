@@ -36,8 +36,9 @@ class Supported_Features_Route implements Route_Interface {
 	 */
 	public function register_routes() {
 		$supported_features_route = [
-			'methods'  => 'GET',
-			'callback' => [ $this, 'get_supported_features' ],
+			'methods'             => 'GET',
+			'callback'            => [ $this, 'get_supported_features' ],
+			'permission_callback' => '__return_true',
 		];
 
 		\register_rest_route( Main::API_V1_NAMESPACE, self::SUPPORTED_FEATURES_ROUTE, $supported_features_route );
