@@ -3,6 +3,8 @@
 namespace Yoast\WP\SEO\Integrations\Admin\Addon_Installation;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Addon_Installation_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Licenses_Page_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -18,10 +20,21 @@ class Dialog_Integration implements Integration_Interface {
 	protected $addon_manager;
 
 	/**
+	 * The addons.
+	 *
+	 * @var array
+	 */
+	protected $owned_addons;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
+		return [
+			Admin_Conditional::class,
+			Licenses_Page_Conditional::class,
+			Addon_Installation_Conditional::class
+		];
 	}
 
 	/**
@@ -37,23 +50,34 @@ class Dialog_Integration implements Integration_Interface {
 	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+		add_action( 'admin_init', [ $this, 'start_addon_installation' ] );
 	}
 
-	/**
-	 * Enqueues scripts.
-	 */
-	public function enqueue_scripts() {
-		// Only show the dialog on the "premium" / extensions page.
-		if ( filter_input( INPUT_GET, 'page' ) !== 'wpseo_licenses' ) {
+	public function start_addon_installation() {
+		// Only show the dialog when we explicitly want to see it.
+		if ( filter_input( INPUT_GET, 'install' ) !== 'true' ) {
 			return;
 		}
 
-		// Only show the dialog when we explicitly want to see it.
-		if ( filter_input( INPUT_GET, 'install' ) === 'true' ) {
-			$this->bust_myyoast_addon_information_cache();
-			$this->show_modal();
+		$this->bust_myyoast_addon_information_cache();
+		$this->owned_addons = $this->get_owned_addons();
+
+		if ( count( $this->owned_addons ) > 0 ) {
+			add_action( 'admin_enqueue_scripts', [ $this, 'show_modal' ] );
+		} else {
+			add_action( 'admin_notices', [ $this, 'throw_no_owned_addons_warning' ] );
 		}
+	}
+
+	/**
+	 * Throws a no owned addons warning.
+	 *
+	 * @returns void
+	 */
+	public function throw_no_owned_addons_warning() {
+		echo '<div class="notice notice-warning"><p>' .
+			esc_html__( 'No addons have been installed. You don\'t seem to own any active subscriptions.', 'wordpress-seo' ) .
+		'</p></div>';
 	}
 
 	/**
@@ -66,7 +90,7 @@ class Dialog_Integration implements Integration_Interface {
 			\WPSEO_Admin_Asset_Manager::PREFIX . 'addon-installation',
 			'wpseoAddonInstallationL10n',
 			[
-				'addons' => $this->get_connected_addons(),
+				'addons' => $this->owned_addons,
 				'nonce'  => \wp_create_nonce( 'wpseo_addon_installation' ),
 			]
 		);
@@ -76,18 +100,18 @@ class Dialog_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Retrieves a list of connected addons for the site in MyYoast.
+	 * Retrieves a list of owned addons for the site in MyYoast.
 	 *
-	 * @return array List of connected addons with slug as key and name as value.
+	 * @return array List of owned addons with slug as key and name as value.
 	 */
-	protected function get_connected_addons() {
-		$connected_addons = [];
+	protected function get_owned_addons() {
+		$owned_addons = [];
 
 		foreach ( $this->addon_manager->get_myyoast_site_information()->subscriptions as $addon ) {
-			$connected_addons[ $addon->product->slug ] = $addon->product->name;
+			$owned_addons[ $addon->product->slug ] = $addon->product->name;
 		}
 
-		return $connected_addons;
+		return $owned_addons;
 	}
 
 	/**
@@ -95,7 +119,7 @@ class Dialog_Integration implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	private function bust_myyoast_addon_information_cache() {
+	protected function bust_myyoast_addon_information_cache() {
 		$this->addon_manager->remove_site_information_transients();
 	}
 }
