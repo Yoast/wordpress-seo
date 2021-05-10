@@ -1,13 +1,7 @@
-import { getDescriptionFallback, getImageFallback } from "../../../src/redux/selectors/fallbacks";
+import { getImageFallback } from "../../../src/redux/selectors/fallbacks";
 
 // This mimics parts of the yoast-seo/editor store.
 const testState = {
-	analysisData: {
-		snippet: {
-			title: "Hello World!",
-			description: "I describe something?",
-		},
-	},
 	settings: {
 		socialPreviews: {
 			sitewideImage: "site-wide.png",
@@ -43,16 +37,6 @@ afterEach(
 	  windowSpy.mockRestore();
 	}
 );
-
-describe( getDescriptionFallback, () => {
-	it( "returns the snippit description as a fallback", () => {
-		const actual = getDescriptionFallback( testState );
-
-		const expected = "I describe something?";
-
-		expect( actual ).toEqual( expected );
-	} );
-} );
 
 describe( getImageFallback, () => {
 	it( "returns the featured image if it's set", () => {

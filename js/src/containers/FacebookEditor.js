@@ -42,7 +42,7 @@ export default compose( [
 	withSelect( select => {
 		const {
 			getFacebookDescription,
-			getDescriptionFallback,
+			getDescription,
 			getFacebookTitle,
 			getSeoTitle,
 			getFacebookImageUrl,
@@ -81,7 +81,7 @@ export default compose( [
 			replacementVariables: getReplaceVars(),
 			description: getFacebookDescription(),
 			descriptionPreviewFallback: getSocialDescriptionTemplate() ||
-				getDescriptionFallback() ||
+				getDescription() ||
 				getSeoDescriptionTemplate() ||
 				getReplacedExcerpt() ||
 				descriptionInputPlaceholder,

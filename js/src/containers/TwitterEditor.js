@@ -48,7 +48,7 @@ export default compose( [
 			getFacebookImageUrl,
 			getFacebookTitle,
 			getFacebookDescription,
-			getDescriptionFallback,
+			getDescription,
 			getSeoTitle,
 			getTwitterWarnings,
 			getTwitterImageType,
@@ -87,7 +87,7 @@ export default compose( [
 			description: getTwitterDescription(),
 			descriptionPreviewFallback: getSocialDescriptionTemplate() ||
 				getFacebookDescription() ||
-				getDescriptionFallback() ||
+				getDescription() ||
 				getSeoDescriptionTemplate() ||
 				getReplacedExcerpt() ||
 				descriptionInputPlaceholder,

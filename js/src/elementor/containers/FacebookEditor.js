@@ -59,7 +59,7 @@ export default compose( [
 	withSelect( select => {
 		const {
 			getFacebookDescription,
-			getDescriptionFallback,
+			getDescription,
 			getFacebookTitle,
 			getSeoTitle,
 			getFacebookImageUrl,
@@ -90,7 +90,7 @@ export default compose( [
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			replacementVariables: getCurrentReplacementVariablesForEditor(),
 			description: getFacebookDescription(),
-			descriptionPreviewFallback: getDescriptionFallback() || descriptionInputPlaceholder,
+			descriptionPreviewFallback: getDescription() || descriptionInputPlaceholder,
 			title: getFacebookTitle(),
 			titlePreviewFallback: getSeoTitle() || titleInputPlaceholder,
 			imageWarnings: getFacebookWarnings(),

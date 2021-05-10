@@ -2,15 +2,6 @@ import { get } from "lodash";
 import { applyFilters } from "@wordpress/hooks";
 
 /**
- * Gets the fallback description from: state.analysisData.snippet.description.
- *
- * @param {Object} state The state object.
- *
- * @returns {string} The fallback description.
- */
-export const getDescriptionFallback = state => get( state, "analysisData.snippet.description", "" );
-
-/**
  * Gets the first image from the content in Gutenberg.
  *
  * @param {Object} state The state object.
