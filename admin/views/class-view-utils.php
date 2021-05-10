@@ -161,7 +161,7 @@ class Yoast_View_Utils {
 			);
 		}
 
-		if( get_option( 'show_on_front' ) === 'posts' ) {
+		if ( get_option( 'show_on_front' ) === 'posts' ) {
 			if ( ! $social_feature_enabled ) {
 				return sprintf(
 					/* translators: 1: link open tag; 2: link close tag. */
