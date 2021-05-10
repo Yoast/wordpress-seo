@@ -5,6 +5,7 @@ import { Heading } from "./Heading";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { BlockPresence } from "../../core/validation";
+import { attributeExists, attributeNotEmpty } from "../../functions/validators";
 
 /**
  * Title instruction. Is invalid when its content is empty.
@@ -26,6 +27,18 @@ class Title extends Heading {
 	};
 
 	/**
+	 * Checks whether the title has been completed,
+	 * e.g. whether it is not empty.
+	 *
+	 * @param blockInstance The block instance to check.
+	 *
+	 * @returns Whether the title is complete for the given block instance.
+	 */
+	private isCompleted( blockInstance: BlockInstance ) {
+		return attributeExists( blockInstance, this.options.name ) && attributeNotEmpty( blockInstance, this.options.name );
+	}
+
+	/**
 	 * Checks if the instruction is valid.
 	 *
 	 * @param blockInstance The attributes from the block.
@@ -33,9 +46,7 @@ class Title extends Heading {
 	 * @returns The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const title: string = blockInstance.attributes[ this.options.name ];
-
-		if ( title && ( title as string ).trim() ) {
+		if ( this.isCompleted( blockInstance ) ) {
 			return BlockValidationResult.Valid( blockInstance );
 		}
 
