@@ -76,7 +76,6 @@ const AddonInstallation = props => {
 		"Yoast",
 	);
 
-	// Todo: make P & buttons conditional; if there are no addons provided, show a different message.
 	return (
 		<Modal
 			appElement={ document.getElementById( "wpseo-app-element" ) }
