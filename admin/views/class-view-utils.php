@@ -80,9 +80,9 @@ class Yoast_View_Utils {
 			return '';
 		}
 
-		$message = $this->generate_opengraph_free_disabled_alert( $type );
+		$message = $this->generate_opengraph_disabled_free_alert( $type );
 		if ( YoastSEO()->helpers->product->is_premium() ) {
-			$message = $this->generate_opengraph_premium_disabled_alert( $type );
+			$message = $this->generate_opengraph_disabled_premium_alert( $type );
 		}
 
 		if ( empty( $message ) ) {
@@ -104,7 +104,7 @@ class Yoast_View_Utils {
 	 *
 	 * @return string The alert. Returns an empty string if the setting is enabled.
 	 */
-	public function generate_opengraph_free_disabled_alert( $type ) {
+	public function generate_opengraph_disabled_free_alert( $type ) {
 		if ( $type === '' && get_option( 'show_on_front' ) === 'posts' ) {
 			return sprintf(
 				/* translators: 1: link open tag; 2: link close tag. */
@@ -127,8 +127,14 @@ class Yoast_View_Utils {
 	 *
 	 * @return string The alert. Returns an empty string if the setting is enabled.
 	 */
-	private function generate_opengraph_premium_disabled_alert( $type ) {
+	private function generate_opengraph_disabled_premium_alert( $type ) {
+		$social_feature_enabled = defined( 'YOAST_SEO_SOCIAL_TEMPLATES' ) && YOAST_SEO_SOCIAL_TEMPLATES === true;
+
 		if ( $type === 'taxonomies' ) {
+			if ( ! $social_feature_enabled ) {
+				return '';
+			}
+
 			return sprintf(
 				/* translators: 1: link open tag; 2: link close tag. */
 				\esc_html__(
@@ -141,6 +147,9 @@ class Yoast_View_Utils {
 		}
 
 		if ( $type === 'archives' ) {
+			if ( ! $social_feature_enabled ) {
+				return '';
+			}
 			return sprintf(
 				/* translators: 1: link open tag; 2: link close tag. */
 				\esc_html__(
@@ -153,6 +162,18 @@ class Yoast_View_Utils {
 		}
 
 		if( get_option( 'show_on_front' ) === 'posts' ) {
+			if ( ! $social_feature_enabled ) {
+				return sprintf(
+					/* translators: 1: link open tag; 2: link close tag. */
+					\esc_html__(
+						'The frontpage settings are hidden. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
+						'wordpress-seo'
+					),
+					'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
+					'</a>'
+				);
+			}
+
 			return sprintf(
 				/* translators: 1: link open tag; 2: link close tag. */
 				\esc_html__(
@@ -164,15 +185,18 @@ class Yoast_View_Utils {
 			);
 		}
 
+		if ( $social_feature_enabled ) {
+			return sprintf(
+				/* translators: 1: link open tag; 2: link close tag. */
+				\esc_html__(
+					'The social appearance settings for content types require Open Graph metadata (which is currently disabled). You can enable this on the %1$sFacebook tab of the Social section%2$s.',
+					'wordpress-seo'
+				),
+				'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
+				'</a>'
+			);
+		}
 
-		return sprintf(
-			/* translators: 1: link open tag; 2: link close tag. */
-			\esc_html__(
-				'The social appearance settings for content types require Open Graph metadata (which is currently disabled). You can enable this on the %1$sFacebook tab of the Social section%2$s.',
-				'wordpress-seo'
-			),
-			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
-			'</a>'
-		);
+		return '';
 	}
 }
