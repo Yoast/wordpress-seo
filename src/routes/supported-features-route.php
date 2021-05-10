@@ -6,6 +6,9 @@ use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\Addon_Installation_Conditional;
 use Yoast\WP\SEO\Main;
 
+/**
+ * Supported_Features_Route class.
+ */
 class Supported_Features_Route implements Route_Interface {
 
 	/**
@@ -14,7 +17,6 @@ class Supported_Features_Route implements Route_Interface {
 	 * @var string
 	 */
 	const SUPPORTED_FEATURES_ROUTE = '/supported-features';
-
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
