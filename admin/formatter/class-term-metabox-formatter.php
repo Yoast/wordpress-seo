@@ -65,6 +65,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'semrushIntegrationActive'    => 0,
 				'social_title_template'       => $this->get_social_title_template(),
 				'social_description_template' => $this->get_social_description_template(),
+				'social_image_template'       => $this->get_social_image_template(),
 			];
 		}
 
@@ -170,6 +171,15 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	private function get_social_description_template() {
 		return $this->get_template( 'social-description' );
+	}
+
+	/**
+	 * Retrieves the social image template.
+	 *
+	 * @return string The social description template.
+	 */
+	private function get_social_image_template() {
+		return $this->get_template( 'social-image-url-tax' );
 	}
 
 	/**

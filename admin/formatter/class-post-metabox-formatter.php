@@ -60,6 +60,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'first_content_image'         => $this->get_image_url(),
 				'social_title_template'       => $this->get_social_title_template(),
 				'social_description_template' => $this->get_social_description_template(),
+				'social_image_template'       => $this->get_social_image_template(),
 			];
 
 			$values = ( $values_to_set + $values );
@@ -217,6 +218,15 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	private function get_social_description_template() {
 		return $this->get_template( 'social-description' );
+	}
+
+	/**
+	 * Retrieves the social image template.
+	 *
+	 * @return string The social description template.
+	 */
+	private function get_social_image_template() {
+		return $this->get_template( 'social-image-url' );
 	}
 
 	/**

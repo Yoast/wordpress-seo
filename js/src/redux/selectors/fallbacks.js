@@ -35,7 +35,8 @@ export const getImageFallback = state => {
 	const fallbacks = [
 		{ featuredImage: get( state, "snippetEditor.data.snippetPreviewImageURL", "" ) },
 		{ contentImage: get( state, "settings.socialPreviews.contentImage", "" ) },
-		{ siteWideImage: get( window.wpseoScriptData, "metabox.showSocial.facebook" ) && get( state, "settings.socialPreviews.sitewideImage", "" ) },
+		{ socialImage: get( window, "wpseoScriptData.metabox.social_image_template", "" ) },
+		{ siteWideImage: get( window, "wpseoScriptData.metabox.showSocial.facebook" ) && get( state, "settings.socialPreviews.sitewideImage", "" ) },
 	];
 
 	applyFilters( "yoast.socials.imageFallback", fallbacks );
