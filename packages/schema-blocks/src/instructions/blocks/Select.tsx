@@ -56,7 +56,7 @@ export default class Select extends BlockInstruction {
 
 		return <span data-id={ name } data-value={ value }>
 			{ ! hideLabelFromVision && <strong>{ label }:</strong> }
-			{ this.label( value ) + " " }
+			{ this.label( value ) }
 		</span>;
 	}
 

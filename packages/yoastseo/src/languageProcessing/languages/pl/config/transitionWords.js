@@ -14,7 +14,7 @@ export const multipleWords = [ "a konkretnie", "a propos", "aby wrocić do rzecz
 	"bądź co bądź", "bez wątpienia", "bez względu", "biorąc pod uwagę", "choćby", "chodzi o to", "chyba że", "co do",
 	"co gorsza", "co prawda", "co się tyczy", "co ważniejsze", "co więcej", "dzięki czemu", "dzięki któremu", "dzięki której",
 	"dzięki którym", "dzięki temu", "faktem jest że", "inaczej mówiąc", "innymi słowy", "jak dotąd", "jak już mówiłam",
-	"jak już mówiłem", "jak już wspomniano", "jak widać", "jako przykład", "jednym słowem", "jeśli chodzi o", "jeżeli chodzi o",
+	"jak już mówiłem", "jak już wspomniano", "jak widać", "jak wiemy", "jako przykład", "jednym słowem", "jeśli chodzi o", "jeżeli chodzi o",
 	"konkretnie to", "krótko mówiąc", "łącznie z", "mając to na uwadzę", "mam na myśli", "mamy na myśli",
 	"mówiąc w skrócie", "na celu", "na dłuższą metę", "na dodatek", "na koniec", "na końcu", "na przykład", "na skutek",
 	"na wstęp", "na wypadek gdyby", "na zakończenie", "nade wszystko", "należy pamiętać", "nawiasem mówiąc",

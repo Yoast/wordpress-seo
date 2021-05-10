@@ -1,10 +1,11 @@
 import { BlockEditProps } from "@wordpress/blocks";
-import { createElement, Fragment } from "@wordpress/element";
+import { createElement } from "@wordpress/element";
 import { ReactElement } from "react";
 import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
 import { getBlockByClientId } from "../BlockHelper";
 import { createBlockEditProps, getParentIdOfType } from "../gutenberg/block";
 import logger from "../logger";
+import { PanelBody } from "@wordpress/components";
 
 /**
  * Gets the sidebar from the parent of a blocks.
@@ -33,5 +34,5 @@ export default function getParentSidebar( props: BlockEditProps<unknown>, parent
 		} );
 	}
 
-	return <Fragment>{ ...elements }</Fragment>;
+	return <PanelBody>{ ...elements }</PanelBody>;
 }
