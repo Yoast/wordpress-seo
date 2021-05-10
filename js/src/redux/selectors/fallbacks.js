@@ -83,3 +83,37 @@ export const getSeoTitleTemplateNoFallback = () => get( window, "wpseoScriptData
  * @returns {string} The social title template.
  */
 export const getSocialTitleTemplate = () => get( window, "wpseoScriptData.metabox.social_title_template", "" );
+
+/**
+ * Gets the SEO description template.
+ *
+ * @returns {string} The SEO description template.
+ */
+export const getSeoDescriptionTemplate = () => get( window, "wpseoScriptData.metabox.metadesc_template", "" );
+
+/**
+ * Gets the social description template.
+ *
+ * @returns {string} The social description template.
+ */
+export const getSocialDescriptionTemplate = () => get( window, "wpseoScriptData.metabox.social_description_template", "" );
+
+/**
+ * Gets the excerpt replacement variable replaced value.
+ *
+ * @param {Object} state The state object.
+ *
+ * @returns {string} The excerpt replaced value.
+ */
+export const getReplacedExcerpt = ( state ) => {
+	let replacedExcerpt = "";
+
+	get( state, "snippetEditor.replacementVariables", [] ).forEach( ( replacementVariable ) => {
+		// The "excerpt" replacement variable works for both posts and terms.
+		if ( replacementVariable.name === "excerpt" ) {
+			replacedExcerpt = replacementVariable.value;
+		}
+	} );
+
+	return replacedExcerpt;
+};

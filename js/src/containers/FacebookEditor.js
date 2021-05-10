@@ -55,6 +55,9 @@ export default compose( [
 			getSeoTitleTemplate,
 			getSeoTitleTemplateNoFallback,
 			getSocialTitleTemplate,
+			getSeoDescriptionTemplate,
+			getSocialDescriptionTemplate,
+			getReplacedExcerpt,
 		} = select( "yoast-seo/editor" );
 
 		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
@@ -77,7 +80,11 @@ export default compose( [
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			replacementVariables: getReplaceVars(),
 			description: getFacebookDescription(),
-			descriptionPreviewFallback: getDescriptionFallback() || descriptionInputPlaceholder,
+			descriptionPreviewFallback: getSocialDescriptionTemplate() ||
+				getDescriptionFallback() ||
+				getSeoDescriptionTemplate() ||
+				getReplacedExcerpt() ||
+				descriptionInputPlaceholder,
 			title: getFacebookTitle(),
 			titlePreviewFallback: getSocialTitleTemplate() ||
 				getSeoTitle() ||
