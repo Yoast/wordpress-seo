@@ -5,6 +5,8 @@ namespace Yoast\WP\SEO\Integrations\Admin\Addon_Installation;
 use Yoast\WP\SEO\Actions\Addon_Installation\Addon_Activate_Action;
 use Yoast\WP\SEO\Actions\Addon_Installation\Addon_Install_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Addon_Installation_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Licenses_Page_Conditional;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Activation_Error_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Already_Installed_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Installation_Error_Exception;
@@ -42,7 +44,11 @@ class Installation_Integration implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
+		return [
+			Admin_Conditional::class,
+			Licenses_Page_Conditional::class,
+			Addon_Installation_Conditional::class
+		];
 	}
 
 	/**
@@ -108,10 +114,11 @@ class Installation_Integration implements Integration_Interface {
 			echo '</p>';
 		}
 
+		/* translators: %1$s expands the admin wpseo_licenses page, %2$s expands to Yoast SEO Premium */
 		printf(
-			'<a href="%s">%s</a>',
+			__( '<a href="%1$s">Continue to %2$s</a>', 'wordpress-seo' ),
 			esc_url( admin_url( 'admin.php?page=wpseo_licenses' ) ),
-			esc_html__( 'Return to the premium page.', 'wordpress-seo' )
+			'Yoast SEO Premium',
 		);
 
 		echo '</div>';
