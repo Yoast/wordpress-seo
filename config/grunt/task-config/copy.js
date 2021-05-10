@@ -106,6 +106,7 @@ module.exports = {
 					"deprecated/**",
 					"frontend/**",
 					"images/**",
+					"packages/js/images/**",
 					"inc/**",
 					"<%= paths.jsDist %>/**/*.js",
 					"languages/**",
