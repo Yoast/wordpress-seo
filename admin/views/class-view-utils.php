@@ -76,22 +76,60 @@ class Yoast_View_Utils {
 	public function generate_opengraph_disabled_alert( $type = '' ) {
 		$is_enabled = WPSEO_Options::get( 'opengraph', true );
 
-		if ( $is_enabled || ! YoastSEO()->helpers->product->is_premium() ) {
+		if ( $is_enabled ) {
 			return '';
 		}
 
-		$message = sprintf(
-			/* translators: 1: link open tag; 2: link close tag. */
-			\esc_html__(
-				'The frontpage settings and the social image, social title and social description are hidden for all content types. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
-				'wordpress-seo'
-			),
-			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
-			'</a>'
-		);
+		$message = $this->generate_opengraph_free_disabled_alert( $type );
+		if ( YoastSEO()->helpers->product->is_premium() ) {
+			$message = $this->generate_opengraph_premium_disabled_alert( $type );
+		}
 
+		if ( empty( $message ) ) {
+			return '';
+		}
+
+		$alert = new Alert_Presenter( $message, 'info' );
+
+		return sprintf(
+			'<div class="yoast-measure padded">%s</div>',
+			$alert->present()
+		);
+	}
+
+	/**
+	 * Generates the OpenGraph disabled alert for Free users.
+	 *
+	 * @param string $type The type of message. Can be altered to taxonomies or archives. Empty string by default.
+	 *
+	 * @return string The alert. Returns an empty string if the setting is enabled.
+	 */
+	public function generate_opengraph_free_disabled_alert( $type ) {
+		if ( $type === '' ) {
+			return sprintf(
+				/* translators: 1: link open tag; 2: link close tag. */
+				\esc_html__(
+					'The frontpage settings are hidden. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
+					'wordpress-seo'
+				),
+				'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
+				'</a>'
+			);
+		}
+
+		return '';
+	}
+
+	/**
+	 * Generates the OpenGraph disabled alert for Premium users.
+	 *
+	 * @param string $type The type of message. Can be altered to taxonomies or archives. Empty string by default.
+	 *
+	 * @return string The alert. Returns an empty string if the setting is enabled.
+	 */
+	private function generate_opengraph_premium_disabled_alert( $type ) {
 		if ( $type === 'taxonomies' ) {
-			$message = sprintf(
+			return sprintf(
 				/* translators: 1: link open tag; 2: link close tag. */
 				\esc_html__(
 					'The social image, social title and social description are hidden for all taxonomies. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
@@ -103,7 +141,7 @@ class Yoast_View_Utils {
 		}
 
 		if ( $type === 'archives' ) {
-			$message = sprintf(
+			return sprintf(
 				/* translators: 1: link open tag; 2: link close tag. */
 				\esc_html__(
 					'The social image, social title and social description are hidden for all archives. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
@@ -114,11 +152,14 @@ class Yoast_View_Utils {
 			);
 		}
 
-		$alert = new Alert_Presenter( $message, 'info' );
-
 		return sprintf(
-			'<div class="yoast-measure padded">%s</div>',
-			$alert->present()
+			/* translators: 1: link open tag; 2: link close tag. */
+			\esc_html__(
+				'The frontpage settings and the social image, social title and social description are hidden for all content types. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
+				'wordpress-seo'
+			),
+			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
+			'</a>'
 		);
 	}
 }
