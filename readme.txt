@@ -246,6 +246,12 @@ Enhancements:
 * Allows adding multiple FAQ blocks to a post or page.
 * Moves the Frontpage open graph title, description and image settings from the Social > Facebook tab, to the Search Appearance > Content Types tab.
 * Improves the UX of the snippet variables in those Frontpage settings input fields by making the UI consistent with variables in other places.
+* Adds url property to author schema on a post when author archives are enabled.
+* Improves spacing between settings sections.
+* Moves the form for setting the Frontpage meta title and meta description from the Social -> Facebook tab, to Search Appearance -> Content Types.
+* Changes the form to the Replacevar Editor for a more coherent user-experience.
+* Add a filter for filtering `Person` Schema by the user's ID.
+* When metadata about a product is dispatched to the Wordpress SEO store, it should show up in the Google Preview.
 
 Bugfixes:
 
@@ -253,6 +259,7 @@ Bugfixes:
 * Fixes a bug where we would accidentally include unminified CSS files in the zip. This led to an unnecessary zip size increase.
 * Fixes a bug where the complete options array could be re-saved in the database at each frontend request.
 * Fixes a bug where a malformed Organization piece is added to the Schema if the company logo is an unsupported image.
+* Fixes a bug where we accidentally ship the `css/src` directory.
 
 Other:
 
@@ -262,6 +269,12 @@ Other:
 * Deprecates the `wpseo_admin_page_meta_post_types` action in favor of the new `Yoast\WP\SEO\admin_post_types_beforearchive` action.
 * Deprecates the `wpseo_admin_page_meta_taxonomies` action in favor of the new `Yoast\WP\SEO\admin_taxonomies_meta` action.
 * Replaces all occurrences of 'SEMrush' by 'Semrush' to reflect Semrush's rebranding.
+* Replace all occurrences of 'SEMrush' by 'Semrush' to reflect Semrush's spelling change.
+* Deprecates the `wpseo_admin_page_meta_post_types` hook in favor of a new hook `Yoast\WP\SEO\admin_post_types_beforearchive`.
+* Deprecates the `wpseo_admin_page_meta_taxonomies` hook in favor of a new jook `Yoast\WP\SEO\admin_taxonomies_meta`.
+* Introduces a new `Yoast\WP\SEO\admin_post_types_beforearchive` hook.
+* Adds a new hook `Yoast\WP\SEO\admin_post_types_archive` at the end of the archive section of the custom post types in Search Appearance.
+* Improves the layout of the Search Appearance collapsibles.
 
 = 16.2 =
 Release Date: April 28th, 2021
