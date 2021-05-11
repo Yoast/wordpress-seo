@@ -43,3 +43,31 @@ export function getValidationsForBlockNames( state: SchemaBlocksState, blockName
 	return Object.values( validations ).filter( validation => blockNames.includes( validation.name ) );
 }
 
+/**
+ * Returns a list of required blocks.
+ *
+ * @returns The list of required blocks.
+ */
+export function getRequiredBlockNames(): string[] {
+	return [
+		"yoast/job-description",
+		"yoast/job-location",
+	];
+}
+
+/**
+ * Returns a list of recommended blocks.
+ *
+ * @returns The list of recommended blocks.
+ */
+export function getRecommendedBlockNames(): string[] {
+	return [
+		"yoast/job-expiration",
+		"yoast/job-employment-type",
+		"yoast/job-salary",
+		"yoast/job-requirements",
+		"yoast/job-benefits",
+		"yoast/job-apply-button",
+	];
+}
+
