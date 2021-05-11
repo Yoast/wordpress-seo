@@ -1,11 +1,17 @@
 import { ReactElement } from "react";
 import { createElement, useCallback } from "@wordpress/element";
-import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
+import { BlockInstance } from "@wordpress/blocks";
 import { SelectControl } from "@wordpress/components";
-
-import BlockInstruction from "../../core/blocks/BlockInstruction";
+import { BlockInstruction } from "../../core/blocks/";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
-import { attributeExists, attributeNotEmpty } from "../../functions/validators";
+import { BlockValidationResult } from "../../core/validation";
+import { defaultValidate } from "../../functions/validators/defaultValidate";
+
+/**
+ * A name of a standard HTML element.
+ * E.g. "span" or "div".
+ */
+type IntrinsicElement = keyof JSX.IntrinsicElements;
 
 /**
  * Select (a drop-down box) instruction.
@@ -40,6 +46,10 @@ export default class Select extends BlockInstruction {
 		 * The default selected value.
 		 */
 		defaultValue?: string;
+		/**
+		 * The tagname to render the output as.
+		 */
+		tag?: IntrinsicElement;
 	};
 
 	/**
@@ -53,11 +63,26 @@ export default class Select extends BlockInstruction {
 		const { label, name, hideLabelFromVision } = this.options;
 
 		const value = props.attributes[ name ] as string;
+		let TagName: IntrinsicElement = "span";
+		if ( this.options.tag ) {
+			TagName = this.options.tag;
+		}
 
-		return <span data-id={ name } data-value={ value }>
+		return <TagName data-id={ name } data-value={ value }>
 			{ ! hideLabelFromVision && <strong>{ label }:</strong> }
 			{ this.label( value ) }
-		</span>;
+		</TagName>;
+	}
+
+	/**
+	 * Checks if the instruction block is valid.
+	 *
+	 * @param blockInstance The attributes from the block.
+	 *
+	 * @returns {BlockValidationResult} The validation result.
+	 */
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		return defaultValidate( blockInstance, this );
 	}
 
 	/**
@@ -112,37 +137,6 @@ export default class Select extends BlockInstruction {
 			options={ options }
 			hideLabelFromVision={ hideLabelFromVision }
 		/>;
-	}
-
-	/**
-	 * Adds the select to the block configuration.
-	 *
-	 * @returns The block configuration.
-	 */
-	configuration(): Partial<BlockConfiguration> {
-		return {
-			attributes: {
-				[ this.options.name ]: {
-					required: this.options.required === true,
-				},
-			},
-		};
-	}
-
-	/**
-	 * Checks if the instruction block is valid.
-	 *
-	 * @param blockInstance The attributes from the block.
-	 *
-	 * @returns `true` if the instruction block is valid, `false` if the block contains errors.
-	 */
-	valid( blockInstance: BlockInstance ): boolean {
-		if ( this.options.required === true ) {
-			return attributeExists( blockInstance, this.options.name as string ) &&
-				attributeNotEmpty( blockInstance, this.options.name as string );
-		}
-
-		return attributeExists( blockInstance, this.options.name as string );
 	}
 }
 

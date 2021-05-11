@@ -1,21 +1,7 @@
 import { BlockValidation, BlockValidationResult } from "../../../src/core/validation";
-import getWarnings, { createAnalysisMessages } from "../../../src/functions/presenters/SidebarWarningPresenter";
+import { createAnalysisMessages } from "../../../src/functions/presenters/SidebarWarningPresenter";
 import { BlockPresence } from "../../../src/core/validation/BlockValidationResult";
 import { BlockInstance } from "@wordpress/blocks";
-
-const validations: Record<string, BlockValidationResult> = {};
-
-jest.mock( "@wordpress/data", () => {
-	return {
-		select: jest.fn( () => {
-			return {
-				getSchemaBlocksValidationResults: jest.fn( () => {
-					return validations;
-				} ),
-			};
-		} ),
-	};
-} );
 
 jest.mock( "../../../src/functions/BlockHelper", () => {
 	return {
@@ -31,7 +17,7 @@ describe( "The SidebarWarningPresenter ", () => {
 			const result = createAnalysisMessages( testcase );
 
 			expect( result ).toEqual( [ {
-				text: "Good job! All required blocks have been completed.",
+				text: "Good job! All required information has been provided.",
 				color: "green",
 			} ] );
 		} );
@@ -42,7 +28,7 @@ describe( "The SidebarWarningPresenter ", () => {
 			const result = createAnalysisMessages( testcase );
 
 			expect( result ).toEqual( [ {
-				text: "Good job! All required blocks have been completed.",
+				text: "Good job! All required information has been provided.",
 				color: "green",
 			} ] );
 		} );
@@ -58,7 +44,7 @@ describe( "The SidebarWarningPresenter ", () => {
 			expect( result.length ).toEqual( 1 );
 			expect( result[ 0 ] ).toEqual(
 				{
-					text: "Not all required blocks have been completed! No mijnblock schema will be generated for your page.",
+					text: "Not all required information has been provided! No mijnblock schema will be generated for your page.",
 					color: "red",
 				},
 			);
@@ -66,7 +52,9 @@ describe( "The SidebarWarningPresenter ", () => {
 
 		it( "creates warning messages for missing required blocks, with a footer message.", () => {
 			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.Invalid, BlockPresence.Required );
-			testcase.issues.push( BlockValidationResult.MissingBlock( "missingblock", BlockPresence.Required ) );
+			const missing = BlockValidationResult.MissingBlock( "missingblock", BlockPresence.Required );
+			missing.message = "The `missingblock` block is required but missing.";
+			testcase.issues.push( missing );
 
 			const result = createAnalysisMessages( testcase );
 
@@ -77,14 +65,13 @@ describe( "The SidebarWarningPresenter ", () => {
 			} );
 			expect( result[ 1 ] ).toEqual(
 				{
-					text: "Not all required blocks have been completed! No mijnblock schema will be generated for your page.",
+					text: "Not all required information has been provided! No mijnblock schema will be generated for your page.",
 					color: "red",
 				},
 			);
 		} );
 
-		it( "creates a warning for missing recommended blocks, but when no required blocks are missing, " +
-			"the conclusion should still be green.", () => {
+		it( "creates a warning for missing recommended blocks, but when no blocks are required, but the conclusion should still be green.", () => {
 			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.MissingRecommendedBlock, BlockPresence.Recommended );
 			testcase.issues.push(
 				BlockValidationResult.MissingBlock( "missing recommended block", BlockPresence.Recommended ),
@@ -105,13 +92,12 @@ describe( "The SidebarWarningPresenter ", () => {
 				color: "orange",
 			} );
 			expect( result[ 2 ] ).toEqual( {
-				text: "Good job! All required blocks have been completed.",
+				text: "Good job! All required information has been provided.",
 				color: "green",
 			} );
 		} );
 
-		it( "creates a warning for missing recommended blocks, but when all required blocks are valid, " +
-			"the conclusion should still be green.", () => {
+		it( "creates a warning for missing recommended blocks, but when all required blocks are valid, the conclusion should still be green.", () => {
 			const testcase = new BlockValidationResult( "1", "mijnblock", BlockValidation.MissingRecommendedBlock, BlockPresence.Recommended );
 			testcase.issues.push(
 				BlockValidationResult.MissingBlock( "missing recommended block", BlockPresence.Recommended ),
@@ -128,20 +114,20 @@ describe( "The SidebarWarningPresenter ", () => {
 				color: "orange",
 			} );
 			expect( result[ 1 ] ).toEqual( {
-				text: "Good job! All required blocks have been completed.",
+				text: "Good job! All required information has been provided.",
 				color: "green",
 			} );
 		} );
 	} );
 
-	describe( "The getWarnings method ", () => {
+	describe( "The createAnalysisMessages method ", () => {
 		it( "creates a compliment for required valid blocks.", () => {
-			validations[ "1" ] = new BlockValidationResult( "1", "myBlock", BlockValidation.Valid, BlockPresence.Required );
+			const validation = new BlockValidationResult( "1", "myBlock", BlockValidation.Valid, BlockPresence.Required );
 
-			const result = getWarnings( "1" );
+			const result = createAnalysisMessages( validation );
 
 			expect( result ).toEqual( [ {
-				text: "Good job! All required blocks have been completed.",
+				text: "Good job! All required information has been provided.",
 				color: "green",
 			} ] );
 		} );
@@ -152,12 +138,11 @@ describe( "The SidebarWarningPresenter ", () => {
 			testcase.issues.push( new BlockValidationResult( "2", "innerblock1", BlockValidation.Skipped, BlockPresence.Required ) );
 			testcase.issues.push( new BlockValidationResult( "3", "anotherinnerblock", BlockValidation.TooMany, BlockPresence.Required ) );
 			testcase.issues.push( new BlockValidationResult( "4", "anotherinnerblock", BlockValidation.Unknown, BlockPresence.Required ) );
-			validations[ "1" ] = testcase;
 
-			const result = getWarnings( "1" );
+			const result = createAnalysisMessages( testcase );
 
 			expect( result ).toEqual( [ {
-				text: "Good job! All required blocks have been completed.",
+				text: "Good job! All required information has been provided.",
 				color: "green",
 			} ] );
 		} );
@@ -165,9 +150,8 @@ describe( "The SidebarWarningPresenter ", () => {
 		it( "creates a warning for a required block with validation problems.", () => {
 			const testcase = new BlockValidationResult( "1", "myBlock", BlockValidation.Invalid, BlockPresence.Required );
 			testcase.issues.push( BlockValidationResult.MissingBlock( "innerblock1", BlockPresence.Required ) );
-			validations[ "1" ] = testcase;
 
-			const result = getWarnings( "1" );
+			const result = createAnalysisMessages( testcase );
 
 			expect( result.length ).toEqual( 2 );
 			expect( result[ 0 ] ).toEqual( {
@@ -175,15 +159,15 @@ describe( "The SidebarWarningPresenter ", () => {
 				color: "red",
 			} );
 			expect( result[ 1 ] ).toEqual( {
-				text: "Not all required blocks have been completed! No myblock schema will be generated for your page.",
+				text: "Not all required information has been provided! No myblock schema will be generated for your page.",
 				color: "red",
 			} );
 		} );
-	} );
 
-	it( "creates no output when the validation results cannot be retrieved.", () => {
-		const result = getWarnings( "123" );
+		it( "creates no output when the validation results cannot be retrieved.", () => {
+			const result = createAnalysisMessages( null );
 
-		expect( result ).toBeNull();
+			expect( result ).toEqual( [] );
+		} );
 	} );
 } );

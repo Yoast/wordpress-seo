@@ -11,6 +11,7 @@ import Instruction, {
 } from "../core/Instruction";
 import SchemaDefinition from "../core/schema/SchemaDefinition";
 import SchemaInstruction from "../core/schema/SchemaInstruction";
+import logger from "./logger";
 import { generateUniqueSeparator } from "./separator";
 import tokenize from "./tokenize";
 
@@ -118,6 +119,11 @@ function processToken( currentToken: Token, tokens: Token[] ): InstructionValue 
 function processBlockInstruction( token: Token, tokens: Token[], instructionClass: typeof Instruction, separator: string ) {
 	const defaultOptions = { name: token.value };
 	const instruction = instructionClass.create( token.value, generateNextId( separator ), defaultOptions );
+
+	if ( ! instruction ) {
+		logger.error( "Could not instantiate instuctionClass " + instructionClass.name );
+		return;
+	}
 
 	while ( tokens[ 0 ] && tokens[ 0 ].isA( "key" ) ) {
 		const key = camelCase( ( tokens.shift() as Token ).value );
