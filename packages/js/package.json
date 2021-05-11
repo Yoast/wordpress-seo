@@ -40,7 +40,7 @@
     "@yoast/helpers": "^0.16.0",
     "@yoast/replacement-variable-editor": "^1.16.0-rc.0",
     "@yoast/schema-blocks": "^1.7.0-rc.0",
-    "@yoast/search-metadata-previews": "^2.23.0-rc.0",
+    "@yoast/search-metadata-previews": "^2.24.0-rc.1",
     "@yoast/social-metadata-forms": "^1.16.0-rc.0",
     "@yoast/style-guide": "^0.13.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
@@ -63,7 +63,7 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^5.2.1",
-    "yoast-components": "^5.23.0-rc.0",
+    "yoast-components": "^5.24.0-rc.1",
     "yoastseo": "^1.91.0"
   },
   "devDependencies": {
