@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { useSelect } from "@wordpress/data";
-import { createElement, Fragment } from "@wordpress/element";
+import { createElement, Fragment, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { SvgIcon } from "@yoast/components";
 
@@ -10,6 +10,7 @@ import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { BlockValidationResult } from "../../core/validation";
 import logger from "../logger";
 import LabelWithHelpLink from "./LabelWithHelpLinkPresenter";
+import { TextControl } from "@wordpress/components";
 
 interface SchemaAnalysisProps {
 	recommendedBlocks: string[];
@@ -48,11 +49,23 @@ export function SchemaAnalysis( props: SchemaAnalysisProps ): ReactElement {
 		logger.debug( "Warnings:", warnings );
 	}
 
+	const [ jobTitle, setJobTitle ] = useState( "" );
+
+	/**
+	 * Changes the job title.
+	 *
+	 * @param text The new job title.
+	 */
+	const onChange = ( text: string ) => {
+		setJobTitle( text );
+	};
+
 	return <div key={ "schema-analysis" } className={ "yoast-schema-analysis" }>
 		<LabelWithHelpLink
 			text={ __( "Information for Job posting schema", "yoast-schema-blocks" ) }
 			URL={ "https://yoa.st/4dk" }
 		/>
+		<TextControl onChange={ onChange } value={ jobTitle } label={ "Job title" } />
 		<WarningList warnings={ warnings } />
 		<BlockSuggestions
 			heading={ __( "Required information", "yoast-schema-blocks" ) }
