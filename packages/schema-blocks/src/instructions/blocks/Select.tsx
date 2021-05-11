@@ -7,6 +7,12 @@ import { BlockValidationResult } from "../../core/validation";
 import { defaultValidate } from "../../functions/validators/defaultValidate";
 
 /**
+ * A name of a standard HTML element.
+ * E.g. "span" or "div".
+ */
+type IntrinsicElement = keyof JSX.IntrinsicElements;
+
+/**
  * Select (a drop-down box) instruction.
  */
 export default class Select extends BlockInstruction {
@@ -39,6 +45,10 @@ export default class Select extends BlockInstruction {
 		 * The default selected value.
 		 */
 		defaultValue?: string;
+		/**
+		 * The tagname to render the output as.
+		 */
+		tag?: IntrinsicElement;
 	};
 
 	/**
@@ -52,11 +62,15 @@ export default class Select extends BlockInstruction {
 		const { label, name, hideLabelFromVision } = this.options;
 
 		const value = props.attributes[ name ] as string;
+		let TagName: IntrinsicElement = "span";
+		if ( this.options.tag ) {
+			TagName = this.options.tag;
+		}
 
-		return <span data-id={ name } data-value={ value }>
+		return <TagName data-id={ name } data-value={ value }>
 			{ ! hideLabelFromVision && <strong>{ label }:</strong> }
 			{ this.label( value ) }
-		</span>;
+		</TagName>;
 	}
 
 	/**

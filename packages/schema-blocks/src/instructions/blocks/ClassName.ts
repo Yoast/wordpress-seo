@@ -1,5 +1,5 @@
 import BlockInstruction from "../../core/blocks/BlockInstruction";
-import { RenderEditProps } from "../../core/blocks/BlockDefinition";
+import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 
 /**
  * ClassName instruction.
@@ -21,10 +21,17 @@ export default class ClassName extends BlockInstruction {
 	 * on the frontend, so the Twenty Twenty One
 	 * theme works correctly.
 	 *
-	 * @returns "yoast-inner-container"
+	 * @param props The saved props.
+	 *
+	 * @returns The current set classname with the "yoast-inner-container"
 	 */
-	save(): string {
-		return "yoast-inner-container";
+	save( props: RenderSaveProps ): string {
+		let className = "yoast-inner-container";
+		if ( props.attributes.className ) {
+			className = `${ props.attributes.className } ${ className }`;
+		}
+
+		return className;
 	}
 }
 
