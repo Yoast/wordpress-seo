@@ -97,10 +97,10 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$this->options_mock = Mockery::mock( Options_Helper::class );
 		$this->options_mock->expects( 'get' )->with( 'title-home-wpseo' )->andReturn( 'home_title' );
 		$this->options_mock->expects( 'get' )->with( 'breadcrumbs-home' )->andReturn( 'home_breadcrumb_title' );
-		$this->options_mock->expects( 'get' )->with( 'open_graph_frontpage_title' )->andReturn( 'home_og_title' );
-		$this->options_mock->expects( 'get' )->with( 'open_graph_frontpage_desc' )->andReturn( 'home_og_description' );
-		$this->options_mock->expects( 'get' )->with( 'open_graph_frontpage_image' )->andReturn( 'home_og_image' );
-		$this->options_mock->expects( 'get' )->with( 'open_graph_frontpage_image_id' )->andReturn( 1337 );
+		$this->options_mock->expects( 'get' )->with( 'og_frontpage_title' )->andReturn( 'home_og_title' );
+		$this->options_mock->expects( 'get' )->with( 'og_frontpage_desc' )->andReturn( 'home_og_description' );
+		$this->options_mock->expects( 'get' )->with( 'og_frontpage_image' )->andReturn( 'home_og_image' );
+		$this->options_mock->expects( 'get' )->with( 'og_frontpage_image_id' )->andReturn( 1337 );
 
 		// Setup the Indexable mock and its ORM layer.
 		$this->indexable_mock      = Mockery::mock( Indexable::class );

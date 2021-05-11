@@ -121,7 +121,7 @@ export default function initAdmin( jQuery ) {
 	 */
 	function wpseoCopyHomeMeta() {
 		jQuery( "#copy-home-meta-description" ).on( "click", function() {
-			jQuery( "#open_graph_frontpage_desc" ).val( jQuery( "#meta_description" ).val() );
+			jQuery( "#og_frontpage_desc" ).val( jQuery( "#meta_description" ).val() );
 		} );
 	}
 
