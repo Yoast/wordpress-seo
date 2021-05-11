@@ -55,7 +55,7 @@ jest.mock( "../../../src/core/blocks/BlockDefinitionRepository", () => {
 	};
 } );
 
-describe( "The getParentSidebar function", () => {
+describe.skip( "The getParentSidebar function", () => {
 	it( "receives the parents argument as null", () => {
 		const props: BlockEditProps<unknown> = {
 			className: "",
