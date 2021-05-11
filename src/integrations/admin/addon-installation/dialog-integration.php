@@ -55,7 +55,7 @@ class Dialog_Integration implements Integration_Interface {
 
 	public function start_addon_installation() {
 		// Only show the dialog when we explicitly want to see it.
-		if ( filter_input( INPUT_GET, 'install' ) !== 'true' ) {
+		if ( $_GET['install'] !== 'true') {
 			return;
 		}
 
