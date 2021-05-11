@@ -125,9 +125,13 @@ class WPSEO_Addon_Manager {
 	 * @return boolean|string Plugin file when installed, False when plugin isn't installed.
 	 **/
 	public function get_plugin_file( $plugin_slug ) {
-		$plugins            = get_plugins();
+		$plugins            = $this->get_plugins();
 		$plugin_files       = array_keys( $plugins );
 		$target_plugin_file = array_search( $plugin_slug, $this->get_addon_filenames(), true );
+
+		if ( ! $target_plugin_file ) {
+			return false;
+		}
 
 		foreach ( $plugin_files as $plugin_file ) {
 			if ( strpos( $plugin_file, $target_plugin_file ) !== false ) {
@@ -209,6 +213,32 @@ class WPSEO_Addon_Manager {
 		}
 
 		return $this->convert_subscription_to_plugin( $subscription );
+	}
+
+	/**
+	 * Retrieves information from MyYoast about which addons are connected to the current site.
+	 *
+	 * @return stdClass The list of addons activated for this site.
+	 */
+	 public function get_myyoast_site_information() {
+		if ( $this->site_information === null ) {
+			$this->site_information = $this->get_site_information_transient();
+		}
+
+		if ( $this->site_information ) {
+			return $this->site_information;
+		}
+
+		$this->site_information = $this->request_current_sites();
+		if ( $this->site_information ) {
+			$this->site_information = $this->map_site_information( $this->site_information );
+
+			$this->set_site_information_transient( $this->site_information );
+
+			return $this->site_information;
+		}
+
+		return $this->get_site_information_default();
 	}
 
 	/**
@@ -325,6 +355,18 @@ class WPSEO_Addon_Manager {
 
 			$notification_center->remove_notification( $notification );
 		}
+	}
+
+	/**
+	 * Removes the site information transients.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	 public function remove_site_information_transients() {
+		delete_transient( self::SITE_INFORMATION_TRANSIENT );
+		delete_transient( self::SITE_INFORMATION_TRANSIENT_QUICK );
 	}
 
 	/**
@@ -580,18 +622,6 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
-	 * Removes the site information transients.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function remove_site_information_transients() {
-		delete_transient( self::SITE_INFORMATION_TRANSIENT );
-		delete_transient( self::SITE_INFORMATION_TRANSIENT_QUICK );
-	}
-
-	/**
 	 * Retrieves all installed WordPress plugins.
 	 *
 	 * @codeCoverageIgnore
@@ -684,32 +714,6 @@ class WPSEO_Addon_Manager {
 		}
 
 		return $this->get_myyoast_site_information();
-	}
-
-	/**
-	 * Retrieves information from MyYoast about which addons are connected to the current site.
-	 *
-	 * @return stdClass The list of addons activated for this site.
-	 */
-	public function get_myyoast_site_information() {
-		if ( $this->site_information === null ) {
-			$this->site_information = $this->get_site_information_transient();
-		}
-
-		if ( $this->site_information ) {
-			return $this->site_information;
-		}
-
-		$this->site_information = $this->request_current_sites();
-		if ( $this->site_information ) {
-			$this->site_information = $this->map_site_information( $this->site_information );
-
-			$this->set_site_information_transient( $this->site_information );
-
-			return $this->site_information;
-		}
-
-		return $this->get_site_information_default();
 	}
 
 	/**
