@@ -45,8 +45,6 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 					continue;
 				}
 
-				echo 'Found' . $definition_class->target_class_name;
-
 				// Find all subclasses of the requested type in our DI definition.
 				$subclasses_of_splat_type = $this->get_registered_subclasses_of( $definitions, $definition_class );
 
