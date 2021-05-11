@@ -1,5 +1,4 @@
 import { ReactElement } from "react";
-import { BlockInstance } from "@wordpress/blocks";
 import { useSelect } from "@wordpress/data";
 import { createElement, Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -12,7 +11,6 @@ import { BlockValidationResult } from "../../core/validation";
 import logger from "../logger";
 
 interface SchemaAnalysisProps {
-	currentBlock: BlockInstance;
 	recommendedBlocks: string[];
 	requiredBlocks: string[];
 }
