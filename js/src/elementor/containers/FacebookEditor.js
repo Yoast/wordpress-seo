@@ -55,6 +55,7 @@ const openMedia = () => {
 	return getMedia().open();
 };
 
+/* eslint-disable complexity */
 export default compose( [
 	withSelect( select => {
 		const {
@@ -68,6 +69,12 @@ export default compose( [
 			getRecommendedReplaceVars,
 			getSiteUrl,
 			getAuthorName,
+			getSeoTitleTemplate,
+			getSeoTitleTemplateNoFallback,
+			getSocialTitleTemplate,
+			getSeoDescriptionTemplate,
+			getSocialDescriptionTemplate,
+			getEditorDataExcerptWithFallback,
 		} = select( "yoast-seo/editor" );
 
 		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
@@ -90,9 +97,17 @@ export default compose( [
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			replacementVariables: getCurrentReplacementVariablesForEditor(),
 			description: getFacebookDescription(),
-			descriptionPreviewFallback: getDescription() || descriptionInputPlaceholder,
+			descriptionPreviewFallback: getSocialDescriptionTemplate() ||
+				getDescription() ||
+				getSeoDescriptionTemplate() ||
+				getEditorDataExcerptWithFallback() ||
+				descriptionInputPlaceholder,
 			title: getFacebookTitle(),
-			titlePreviewFallback: getSeoTitle() || titleInputPlaceholder,
+			titlePreviewFallback: getSocialTitleTemplate() ||
+				getSeoTitle() ||
+				getSeoTitleTemplateNoFallback() ||
+				getSeoTitleTemplate() ||
+				titleInputPlaceholder,
 			imageWarnings: getFacebookWarnings(),
 			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
@@ -121,3 +136,4 @@ export default compose( [
 
 	withLocation(),
 ] )( FacebookWrapper );
+/* eslint-enable complexity */
