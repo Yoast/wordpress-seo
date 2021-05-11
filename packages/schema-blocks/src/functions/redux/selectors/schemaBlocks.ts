@@ -1,7 +1,6 @@
 import { SchemaBlocksState, SchemaBlocksDefaultState } from "../SchemaBlocksState";
 import { BlockValidationResult } from "../../../core/validation";
 import { recursivelyFind } from "../../validators/recursivelyFind";
-import { flatMap } from "lodash";
 import logger from "../../logger";
 
 export type ClientIdValidation = Record<string, BlockValidationResult>;
@@ -32,18 +31,15 @@ export function getValidationResultForClientId( state: SchemaBlocksState, client
 }
 
 /**
- * Finds all validation results for innerblocks that match the names of given blocks.
+ * Finds all validation results that match the names of given blocks.
+ *
  * @param state      The entire Schema Blocks state.
- * @param clientId   The clientId of the parent block containing the Innerblocks, e.g. the job posting id.
- * @param blockNames the set of blocknames you're looking for.
- * @returns The innerblock's validation.
+ * @param blockNames The set of blocknames you're looking for.
+ *
+ * @returns The validation results for the list of given blocks.
  */
-export function getInnerblockValidations( state: SchemaBlocksState, clientId: string, blockNames?: string[] ): BlockValidationResult[] {
-	const validation = getValidationResultForClientId( state, clientId );
-	if ( ! validation || validation.issues.length <= 0 ) {
-		return [];
-	}
-
-	return flatMap( validation.issues, issue => issue.issues.filter( ( result ) => blockNames.includes( result.name ) ) );
+export function getValidationsForBlockNames( state: SchemaBlocksState, blockNames?: string[] ): BlockValidationResult[] {
+	const validations = getSchemaBlocksValidationResults( state );
+	return Object.values( validations ).filter( validation => blockNames.includes( validation.name ) );
 }
 

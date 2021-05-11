@@ -40,7 +40,7 @@ function useValidationResults( clientId: string ): BlockValidationResult {
  * @constructor
  */
 export function SchemaAnalysis( props: SchemaAnalysisProps ): ReactElement {
-	const validationResults = useValidationResults( props.currentBlock.clientId );
+	const validationResults = useValidationResults( null );
 
 	let warnings: SidebarWarning[] = [];
 
@@ -49,16 +49,14 @@ export function SchemaAnalysis( props: SchemaAnalysisProps ): ReactElement {
 		logger.debug( "Warnings:", warnings );
 	}
 
-	return <Fragment key={ "schema-analysis-" + props.currentBlock.clientId }>
+	return <Fragment key={ "schema-analysis" }>
 		<WarningList warnings={ warnings } />
 		<BlockSuggestions
 			heading={ __( "Required information", "yoast-schema-blocks" ) }
-			parentClientId={ props.currentBlock.clientId }
 			blockNames={ props.requiredBlocks }
 		/>
 		<BlockSuggestions
 			heading={ __( "Recommended information", "yoast-schema-blocks" ) }
-			parentClientId={ props.currentBlock.clientId }
 			blockNames={ props.recommendedBlocks }
 		/>
 	</Fragment>;
