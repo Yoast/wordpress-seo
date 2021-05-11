@@ -8,7 +8,7 @@ import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinit
 import { BlockValidationResult } from "../../core/validation";
 import { getBlockByClientId } from "../../functions/BlockHelper";
 import BlockAppender from "../../functions/presenters/BlockAppender";
-import { InnerBlocksSidebar } from "../../functions/presenters/InnerBlocksSidebar";
+import { SchemaAnalysis } from "../../functions/presenters/SchemaAnalysis";
 import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
 
@@ -134,7 +134,7 @@ export default class InnerBlocks extends BlockInstruction {
 
 		return (
 			<Fragment key="innerblocks-sidebar">
-				<InnerBlocksSidebar
+				<SchemaAnalysis
 					currentBlock={ currentBlock }
 					requiredBlocks={ requiredBlockNames }
 					recommendedBlocks={ recommendedBlockNames }

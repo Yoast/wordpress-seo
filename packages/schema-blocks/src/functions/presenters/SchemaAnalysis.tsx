@@ -11,7 +11,7 @@ import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { BlockValidationResult } from "../../core/validation";
 import logger from "../logger";
 
-interface InnerBlocksSidebarProps {
+interface SchemaAnalysisProps {
 	currentBlock: BlockInstance;
 	recommendedBlocks: string[];
 	requiredBlocks: string[];
@@ -31,15 +31,15 @@ function useValidationResults( clientId: string ): BlockValidationResult {
 }
 
 /**
- * Inner blocks sidebar component.
+ * Schema analysis component.
  *
  * @param props The properties.
  *
- * @returns The inner blocks sidebar component.
+ * @returns The schema analysis component.
  *
  * @constructor
  */
-export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ): ReactElement {
+export function SchemaAnalysis( props: SchemaAnalysisProps ): ReactElement {
 	const validationResults = useValidationResults( props.currentBlock.clientId );
 
 	let warnings: SidebarWarning[] = [];
@@ -49,7 +49,7 @@ export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ): ReactEleme
 		logger.debug( "Warnings:", warnings );
 	}
 
-	return <Fragment key={ "innerblocks-sidebar-" + props.currentBlock.clientId }>
+	return <Fragment key={ "schema-analysis-" + props.currentBlock.clientId }>
 		<WarningList warnings={ warnings } />
 		<BlockSuggestions
 			heading={ __( "Required information", "yoast-schema-blocks" ) }
