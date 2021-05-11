@@ -99,9 +99,7 @@ class Installation_Integration implements Integration_Interface {
 		foreach ( $licensed_addons as $addon ) {
 			printf( '<p><strong>%s</strong></p>', esc_html( $addon->product->name ) );
 
-			list( $installed, $installation_output ) = $this->install_addon( $addon->product->slug, $addon->product->download );
-
-			$output = $installation_output;
+			list( $installed, $output ) = $this->install_addon( $addon->product->slug, $addon->product->download );
 
 			if ( $installed ) {
 				$activation_output = $this->activate_addon( $addon->product->slug );
