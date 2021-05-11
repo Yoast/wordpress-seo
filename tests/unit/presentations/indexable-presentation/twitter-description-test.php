@@ -71,11 +71,6 @@ class Twitter_Description_Test extends TestCase {
 		$this->context->open_graph_enabled = false;
 		$this->indexable->description      = 'SEO description';
 
-		$this->values_helper
-			->expects( 'get_open_graph_description' )
-			->with( $this->indexable->description, $this->indexable->object_type, $this->indexable->object_sub_type )
-			->andReturn( $this->indexable->description );
-
 		$this->assertEquals( 'SEO description', $this->instance->generate_twitter_description() );
 	}
 
@@ -97,11 +92,6 @@ class Twitter_Description_Test extends TestCase {
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_with_empty_return_value() {
-		$this->values_helper
-			->expects( 'get_open_graph_description' )
-			->with( $this->indexable->description, $this->indexable->object_type, $this->indexable->object_sub_type )
-			->andReturn( $this->indexable->description );
-
 		$this->assertEmpty( $this->instance->generate_twitter_description() );
 	}
 }

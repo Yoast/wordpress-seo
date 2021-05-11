@@ -43,12 +43,6 @@ class Open_Graph_Title_Test extends TestCase {
 	 */
 	public function test_generate_open_graph_title_with_seo_title() {
 		$this->indexable->title = 'Example of SEO title';
-
-		$this->values_helper
-			->expects( 'get_open_graph_title' )
-			->with( $this->indexable->title, $this->indexable->object_type, $this->indexable->object_sub_type )
-			->andReturn( $this->indexable->title );
-
 		$this->assertEquals( 'Example of SEO title', $this->instance->generate_open_graph_title() );
 	}
 }
