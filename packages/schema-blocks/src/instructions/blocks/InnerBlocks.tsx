@@ -1,14 +1,12 @@
 import { maxBy } from "lodash";
 import { ComponentType, ReactElement } from "react";
-import { createElement, Fragment } from "@wordpress/element";
+import { createElement } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 import { BlockInstance } from "@wordpress/blocks";
 import { BlockInstruction, BlockLeaf } from "../../core/blocks";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { BlockValidationResult } from "../../core/validation";
-import { getBlockByClientId } from "../../functions/BlockHelper";
 import BlockAppender from "../../functions/presenters/BlockAppender";
-import { SchemaAnalysis } from "../../functions/presenters/SchemaAnalysis";
 import validateInnerBlocks from "../../functions/validators/innerBlocksValid";
 import { InnerBlocksInstructionOptions } from "./InnerBlocksInstructionOptions";
 
@@ -103,44 +101,6 @@ export default class InnerBlocks extends BlockInstruction {
 		properties.allowedBlocks = properties.allowedBlocks
 			.concat( this.options.requiredBlocks.map( block => block.name ) )
 			.concat( this.options.recommendedBlocks.map( block => block.name ) );
-	}
-
-	/**
-	 * Renders the sidebar.
-	 *
-	 * @param props The props.
-	 *
-	 * @returns The sidebar element to render.
-	 */
-	sidebar( props: RenderEditProps ): ReactElement {
-		const currentBlock = getBlockByClientId( props.clientId );
-		if ( ! currentBlock ) {
-			return null;
-		}
-
-		let requiredBlockNames: string[] = [];
-		if ( this.options.requiredBlocks ) {
-			requiredBlockNames = this.options.requiredBlocks.map( block => block.name );
-		}
-
-		let recommendedBlockNames: string[] = [];
-		if ( this.options.recommendedBlocks ) {
-			recommendedBlockNames = this.options.recommendedBlocks.map( block => block.name );
-		}
-
-		if ( requiredBlockNames.length < 1 && recommendedBlockNames.length < 1 ) {
-			return null;
-		}
-
-		return (
-			<Fragment key="innerblocks-sidebar">
-				<SchemaAnalysis
-					currentBlock={ currentBlock }
-					requiredBlocks={ requiredBlockNames }
-					recommendedBlocks={ recommendedBlockNames }
-				/>
-			</Fragment>
-		);
 	}
 
 	/**
