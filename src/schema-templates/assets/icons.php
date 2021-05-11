@@ -1,4 +1,5 @@
 <?php
+
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 // phpcs:disable Yoast.NamingConventions.NamespaceName.Invalid
 namespace Yoast\WP\SEO\Schema_Templates\Assets;
@@ -28,14 +29,14 @@ class Icons {
 	/**
 	 * The Heroicons academic cap svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_academic_cap( $size = self::SIZE_DEFAULT ) {
 		return self::svg(
-			"<path fill='#fff' d='M12 14l9-5-9-5-9 5 9 5z' />" .
-			"<path fill='#fff' d='M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z' />" .
-			"<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222' />",
+			"<path fill='#fff' d='M12 14l9-5-9-5-9 5 9 5z' />"
+			. "<path fill='#fff' d='M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z' />"
+			. "<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222' />",
 			$size
 		);
 	}
@@ -43,7 +44,7 @@ class Icons {
 	/**
 	 * The Heroicons annotation svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_annotation( $size = self::SIZE_DEFAULT ) {
@@ -56,7 +57,7 @@ class Icons {
 	/**
 	 * The Heroicons ban svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_ban( $size = self::SIZE_DEFAULT ) {
@@ -69,7 +70,7 @@ class Icons {
 	/**
 	 * The Heroicons briefcase svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_briefcase( $size = self::SIZE_DEFAULT ) {
@@ -82,7 +83,7 @@ class Icons {
 	/**
 	 * The Heroicons calendar svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_calendar( $size = self::SIZE_DEFAULT ) {
@@ -95,7 +96,7 @@ class Icons {
 	/**
 	 * The Heroicons clipboard check svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_clipboard_check( $size = self::SIZE_DEFAULT ) {
@@ -108,7 +109,7 @@ class Icons {
 	/**
 	 * The Heroicons clipboard copy svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_clipboard_copy( $size = self::SIZE_DEFAULT ) {
@@ -121,7 +122,7 @@ class Icons {
 	/**
 	 * The Heroicons clipboard list svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_clipboard_list( $size = self::SIZE_DEFAULT ) {
@@ -134,7 +135,7 @@ class Icons {
 	/**
 	 * The Heroicons clock svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_clock( $size = self::SIZE_DEFAULT ) {
@@ -147,7 +148,7 @@ class Icons {
 	/**
 	 * The Heroicons currency dollar svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_currency_dollar( $size = self::SIZE_DEFAULT ) {
@@ -160,7 +161,7 @@ class Icons {
 	/**
 	 * The Heroicons cursor_click svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_cursor_click( $size = self::SIZE_DEFAULT ) {
@@ -173,7 +174,7 @@ class Icons {
 	/**
 	 * The Heroicons document text svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_document_text( $size = self::SIZE_DEFAULT ) {
@@ -186,7 +187,7 @@ class Icons {
 	/**
 	 * The Heroicons globe svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_globe( $size = self::SIZE_DEFAULT ) {
@@ -199,7 +200,7 @@ class Icons {
 	/**
 	 * The Heroicons identification svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_identification( $size = self::SIZE_DEFAULT ) {
@@ -212,13 +213,13 @@ class Icons {
 	/**
 	 * The Heroicons location marker svg icon
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_location_marker( $size = self::SIZE_DEFAULT ) {
 		return self::svg(
-			"<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z' />" .
-			"<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 11a3 3 0 11-6 0 3 3 0 016 0z' />",
+			"<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z' />"
+			. "<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 11a3 3 0 11-6 0 3 3 0 016 0z' />",
 			$size
 		);
 	}
@@ -226,7 +227,7 @@ class Icons {
 	/**
 	 * The Heroicons office building svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_office_building( $size = self::SIZE_DEFAULT ) {
@@ -239,7 +240,7 @@ class Icons {
 	/**
 	 * The Heroicons photograph svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_photograph( $size = self::SIZE_DEFAULT ) {
@@ -252,7 +253,7 @@ class Icons {
 	/**
 	 * The Heroicons switch horizontal svg icon.
 	 *
-	 * @param integer $size The Height and Width of the SVG icon.
+	 * @param int $size The Height and Width of the SVG icon.
 	 * @return string
 	 */
 	public static function heroicons_switch_horizontal( $size = self::SIZE_DEFAULT ) {
@@ -263,10 +264,24 @@ class Icons {
 	}
 
 	/**
+	 * The Heroicons grid svg icon.
+	 *
+	 * @param int $size The Height and Width of the SVG icon.
+	 *
+	 * @return string The generated icon.
+	 */
+	public static function heroicons_grid( $size = self::SIZE_DEFAULT ) {
+		return self::svg(
+			"<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z' />",
+			$size
+		);
+	}
+
+	/**
 	 * Generates the SVG based on given path.
 	 *
-	 * @param string  $path     The path to generate svg for.
-	 * @param integer $svg_size The Height and Width of the SVG icon.
+	 * @param string $path     The path to generate svg for.
+	 * @param int    $svg_size The Height and Width of the SVG icon.
 	 *
 	 * @return string The generated icon svg.
 	 */
