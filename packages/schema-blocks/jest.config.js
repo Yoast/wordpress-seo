@@ -9,6 +9,5 @@ module.exports = {
 	testURL: "http://localhost",
 	transform: {
 		"^.+\\.(t|j)sx?$": [ "ts-jest", "babel-jest" ],
-		"^.+\\.tsx?$": "ts-jest",
 	},
 };

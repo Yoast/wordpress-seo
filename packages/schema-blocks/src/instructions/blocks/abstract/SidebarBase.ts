@@ -10,35 +10,15 @@ export type SidebarBaseOptions = {
 	className: string;
 	required?: boolean;
 	visible?: boolean;
+	helpLink?: string;
+	placeholder?: string;
 }
 
 /**
- * Sidebar input instruction
+ * SidebarBase instruction.
  */
 export default abstract class SidebarBase extends BlockInstruction {
 	public options: SidebarBaseOptions;
-
-	/**
-	 * Renders the value of a sidebar input.
-	 *
-	 * @param props The render props.
-	 *
-	 * @returns The value of the sidebar input.
-	 */
-	save( props: RenderSaveProps ): JSX.Element | string {
-		return this.value( props );
-	}
-
-	/**
-	 * Renders the value of a sidebar input.
-	 *
-	 * @param props The render props.
-	 *
-	 * @returns The value of the sidebar input.
-	 */
-	edit( props: RenderEditProps ): JSX.Element | string {
-		return this.value( props );
-	}
 
 	/**
 	 * Returns whether or not this instruction should be included in the tree.

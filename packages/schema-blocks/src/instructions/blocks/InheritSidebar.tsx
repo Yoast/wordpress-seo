@@ -8,7 +8,7 @@ import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository"
 import { InstructionOptions } from "../../core/Instruction";
 
 /**
- * Sidebar input instruction.
+ * InheritSidebar instruction.
  */
 export default class InheritSidebar extends BlockInstruction {
 	public options: InstructionOptions & {

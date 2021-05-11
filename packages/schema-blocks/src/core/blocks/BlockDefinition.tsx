@@ -7,14 +7,17 @@ import {
 } from "@wordpress/blocks";
 import { InspectorControls, BlockIcon } from "@wordpress/block-editor";
 import { select } from "@wordpress/data";
+import { PanelBody } from "@wordpress/components";
+import { __ } from "@wordpress/i18n";
+
 import BlockInstruction from "./BlockInstruction";
 import Definition from "../Definition";
 import BlockRootLeaf from "../../leaves/blocks/BlockRootLeaf";
 import parse from "../../functions/blocks/parse";
 import { registerBlockDefinition } from "./BlockDefinitionRepository";
-import { PanelBody } from "@wordpress/components";
 import logger from "../../functions/logger";
 import { openGeneralSidebar } from "../../functions/gutenberg/sidebar";
+import LabelWithHelpLink from "../../functions/presenters/LabelWithHelpLinkPresenter";
 
 export interface RenderEditProps extends BlockEditProps<Record<string, unknown>> {
 	clientId: string;
@@ -58,15 +61,17 @@ export default class BlockDefinition extends Definition {
 		const elements = this.tree.children.map( ( leaf, i ) => leaf.edit( props, i ) ).filter( e => e !== null );
 
 		if ( sidebarElements.length > 0 ) {
-			// Need to add `children` on the `props` as well, because of the type definition of `InspectorControls.Props`.
-			const sidebar = createElement( PanelBody, {
-				key: "sidebarPanelBody",
-				children: sidebarElements,
-			}, sidebarElements );
-			const sidebarContainer = createElement( InspectorControls, {
-				key: "sidebar",
-				children: [ sidebar ],
-			}, [ sidebar ] );
+			const sidebarContainer =
+				<InspectorControls key="sidebar-inspector-controls">
+					<PanelBody>
+						<LabelWithHelpLink
+							text={ __( "Information for Schema output", "yoast-schema-blocks" ) }
+							URL={ "https://yoa.st/4dk" }
+						/>
+						{ sidebarElements }
+					</PanelBody>
+				</InspectorControls>;
+
 			elements.unshift( sidebarContainer );
 		}
 
@@ -82,7 +87,7 @@ export default class BlockDefinition extends Definition {
 	 *
 	 * @param props The props.
 	 *
-	 * @returns {ReactElement} The rendered block.
+	 * @returns The rendered block.
 	 */
 	save( props: RenderSaveProps ): ReactElement {
 		return this.tree.save( props );
@@ -116,7 +121,7 @@ export default class BlockDefinition extends Definition {
 	 *
 	 * @param props The properties of the block to create a sidebar for.
 	 *
-	 * @returns {ReactElement[]} The sidebar element to render.
+	 * @returns The sidebar element to render.
 	 */
 	sidebarElements( props: RenderEditProps ): ReactElement[] {
 		return Object.values( this.instructions )
@@ -129,9 +134,9 @@ export default class BlockDefinition extends Definition {
 	/**
 	 * Creates a block icon.
 	 *
-	 * @param {MutableBlockConfiguration} configuration The block configuration.
+	 * @param configuration The block configuration.
 	 *
-	 * @returns {ReactElement[]} The sidebar element to render.
+	 * @returns The sidebar element to render.
 	 */
 	private createBlockIcon( configuration: MutableBlockConfiguration ): ReactElement {
 		const icon = <span

@@ -1,14 +1,14 @@
-// External imports.
-import { BlockConfiguration } from "@wordpress/blocks";
+import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import { DateTimePicker, Dropdown } from "@wordpress/components";
 import { createElement, useState } from "@wordpress/element";
 import { __experimentalGetSettings, dateI18n, format } from "@wordpress/date";
 import { __ } from "@wordpress/i18n";
-
-// Internal imports.
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import { useCallback } from "react";
+import { BlockValidationResult } from "../..";
+import { getPresence } from "../../functions/validators/getPresence";
+import { BlockPresence, BlockValidation } from "../../core/validation";
 
 /**
  * Adds a date picker to the schema block.
@@ -16,6 +16,7 @@ import { useCallback } from "react";
 export default class Date extends BlockInstruction {
 	options: {
 		name: string;
+		required?: boolean;
 	};
 
 	/**
@@ -141,6 +142,31 @@ export default class Date extends BlockInstruction {
 				},
 			},
 		};
+	}
+
+	/**
+	 * Checks if the instruction block is valid.
+	 *
+	 * @param blockInstance The attributes from the block.
+	 *
+	 * @returns {BlockValidationResult} The validation result.
+	 */
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		const date = blockInstance.attributes[ this.options.name ] as string;
+		const presence = getPresence( this.options );
+
+		let validation = BlockValidation.Unknown;
+		if ( date && date.trim().length > 0 ) {
+			validation = BlockValidation.Valid;
+		} else {
+			if ( presence === BlockPresence.Required ) {
+				validation = BlockValidation.MissingRequiredAttribute;
+			} else {
+				validation = BlockValidation.MissingRecommendedAttribute;
+			}
+		}
+
+		return new BlockValidationResult( blockInstance.clientId, this.constructor.name, validation, presence );
 	}
 }
 

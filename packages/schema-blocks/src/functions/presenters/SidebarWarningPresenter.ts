@@ -1,12 +1,7 @@
-import { select } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
-import { BlockValidation, BlockValidationResult } from "../../core/validation";
+import { BlockValidation, BlockValidationResult, BlockPresence } from "../../core/validation";
 import { getHumanReadableBlockName } from "../BlockHelper";
-import { BlockPresence } from "../../core/validation/BlockValidationResult";
 import { getAllDescendantIssues } from "../validators";
-
-type clientIdValidation = Record<string, BlockValidationResult>;
 
 /**
  * A warning message for in the sidebar schema analysis.
@@ -24,22 +19,6 @@ export type SidebarWarning = {
 }
 
 /**
- * Gets the validation results from the store for a block instance with the given clientId.
- *
- * @param clientId The clientId to request validation results for.
- *
- * @returns {BlockValidationResult} The validation results, or null if none were found.
- */
-function getValidationResult( clientId: string ): BlockValidationResult | null {
-	const validationResults: clientIdValidation = select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getSchemaBlocksValidationResults();
-	if ( ! validationResults ) {
-		return null;
-	}
-
-	return validationResults[ clientId ];
-}
-
-/**
  * Adds analysis conclusions to the footer.
  *
  * @param validation The validation result for the current block.
@@ -53,14 +32,14 @@ function getAnalysisConclusion( validation: BlockValidationResult ): SidebarWarn
 	if ( validation.result >= BlockValidation.Invalid ) {
 		conclusionText = sprintf(
 			/* translators: %s expands to the schema block name. */
-			__( "Not all required blocks have been completed! No %s schema will be generated for your page.", "yoast-schema-blocks" ),
+			__( "Not all required information has been provided! No %s schema will be generated for your page.", "yoast-schema-blocks" ),
 			sanitizeParentName( getHumanReadableBlockName( validation.name ) ),
 		);
 
 		return { text: conclusionText, color: "red" };
 	}
 
-	conclusionText = __( "Good job! All required blocks have been completed.", "yoast-schema-blocks" );
+	conclusionText = __( "Good job! All required information has been provided.", "yoast-schema-blocks" );
 
 	return { text: conclusionText, color: "green" };
 }
@@ -105,8 +84,11 @@ function getWarningMessages( issues: BlockValidationResult[] ): SidebarWarning[]
  * @returns {SidebarWarning[]} The formatted warnings.
  */
 export function createAnalysisMessages( validation: BlockValidationResult ): SidebarWarning[] {
-	const issues = getAllDescendantIssues( validation );
+	if ( ! validation ) {
+		return [];
+	}
 
+	const issues = getAllDescendantIssues( validation );
 	const messages = [];
 
 	messages.push( ...getErrorMessages( issues ) );
@@ -130,20 +112,4 @@ export function sanitizeParentName( parent: string ): string {
 	}
 
 	return parent.toLowerCase();
-}
-
-/**
- * Converts the validation results for a block instance with the given clientId to a presentable text.
- *
- * @param clientId The clientId to request validation results for.
- *
- * @returns {string} The presentable warning message, or null if no warnings are found.
- */
-export default function getWarnings( clientId: string ): SidebarWarning[] {
-	const validation: BlockValidationResult = getValidationResult( clientId );
-	if ( ! validation ) {
-		return null;
-	}
-
-	return createAnalysisMessages( validation );
 }

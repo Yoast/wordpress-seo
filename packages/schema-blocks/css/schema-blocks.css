@@ -63,20 +63,29 @@
 	margin-right: 24px;
 }
 
-.yoast-block-sidebar-title {
+.yoast-block-sidebar-title, .yoast-block-sidebar-input label {
 	font-weight: 600;
 	color: #303030;
-	padding: 10px 0 0 0;
+	margin-bottom: 0;
+	padding-top: 10px;
 }
 
-.yoast-block-sidebar-header {
+.yoast-block-label-with-help-link {
 	width:100%;
-	margin-bottom: 14px;
+	margin-bottom: 3px;
 }
 
 .yoast-block-suggestions {
 	width:100%;
 	padding: 0 5px 0 15px;
+}
+
+.yoast-question-mark-icon {
+	color: rgb( 118, 118, 118 );
+}
+
+.yoast-question-mark-icon:hover {
+	color: rgb( 30, 140, 190 )
 }
 
 .yoast-inline-icon {

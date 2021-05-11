@@ -1,47 +1,75 @@
 import { BlockValidation } from "../../core/validation";
 
 /**
- * Determines if a specific validation result is valid.
+ * Determines if a specific validation source is valid.
  *
- * @param result The source value.
+ * @param source The source value.
  *
- * @returns Whether the result is valid.
+ * @returns Whether the source is valid.
 */
-function isValidResult( result: BlockValidation ): boolean {
-	return result < 200;
+export function isValidResult( source: BlockValidation ): boolean {
+	return source < 200;
 }
 
 /**
- * Determines if the result should lead to Schema output.
+ * Determines if a specific validation indicates if an element is missing.
  *
- * @param result The source value.
+ * @param source The validation to check.
  *
- * @returns Whether the result should lead to Schema output.
+ * @returns Wether the validation found a missing element.
  */
-function isResultValidForSchema( result: BlockValidation ): boolean {
-	return result < 300;
+export function isMissingResult( source: BlockValidation ): boolean {
+	return [
+		BlockValidation.MissingRecommendedBlock,
+		BlockValidation.MissingRequiredBlock,
+	].includes( source );
 }
 
 /**
- * Determines if the result is OK (in other words, would lead to an orange bullet).
+ * Determines if a specific validation indicates if an element is present, but empty.
  *
- * @param result The source value.
+ * @param source The validation to check.
  *
- * @returns Whether the result is OK.
+ * @returns Wether the validation found an empty element.
  */
-function isOkResult( result: BlockValidation ): boolean {
-	return result >= 200 && result < 300;
+export function isEmptyResult( source: BlockValidation ): boolean {
+	return [
+		BlockValidation.MissingRecommendedAttribute,
+		BlockValidation.MissingRequiredAttribute,
+		BlockValidation.MissingRecommendedVariation,
+		BlockValidation.MissingRequiredVariation,
+	].includes( source );
 }
 
 /**
- * Determines if the result is invalid.
+ * Determines if the source should lead to Schema output.
  *
- * @param result The source value.
+ * @param source The source value.
  *
- * @returns Whether the result is invalid.
+ * @returns Whether the source should lead to Schema output.
  */
-function isInvalidResult( result: BlockValidation ): boolean {
-	return result >= 300;
+export function isResultValidForSchema( source: BlockValidation ): boolean {
+	return source < 300;
 }
 
-export { isValidResult, isResultValidForSchema, isOkResult, isInvalidResult };
+/**
+ * Determines if the source is OK (in other words, would lead to an orange bullet).
+ *
+ * @param source The source value.
+ *
+ * @returns Whether the source is OK.
+ */
+export function isOkResult( source: BlockValidation ): boolean {
+	return source >= 200 && source < 300;
+}
+
+/**
+ * Determines if the source is invalid.
+ *
+ * @param source The source value.
+ *
+ * @returns Whether the source is invalid.
+ */
+export function isInvalidResult( source: BlockValidation ): boolean {
+	return source >= 300;
+}

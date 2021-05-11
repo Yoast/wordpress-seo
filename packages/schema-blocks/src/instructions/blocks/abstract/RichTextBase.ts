@@ -1,10 +1,10 @@
-import { createElement } from "@wordpress/element";
+import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
 import { RichText as WordPressRichText } from "@wordpress/block-editor";
-
-import BlockInstruction from "../../../core/blocks/BlockInstruction";
+import { createElement } from "@wordpress/element";
+import { BlockLeaf, BlockInstruction } from "../../../core/blocks";
 import { RenderSaveProps, RenderEditProps } from "../../../core/blocks/BlockDefinition";
-import BlockLeaf from "../../../core/blocks/BlockLeaf";
-import { BlockConfiguration } from "@wordpress/blocks";
+import { BlockPresence, BlockValidation, BlockValidationResult } from "../../../core/validation";
+import { getPresence } from "../../../functions/validators/getPresence";
 
 export interface RichTextSaveProps extends WordPressRichText.ContentProps<keyof HTMLElementTagNameMap> {
 	"data-id": string;
@@ -76,6 +76,28 @@ export default abstract class RichTextBase extends BlockInstruction {
 				},
 			},
 		};
+	}
+
+	/**
+	 * Checks if the instruction block is valid.
+	 *
+	 * @param blockInstance The attributes from the block.
+	 *
+	 * @returns {BlockValidationResult} The validation result.
+	 */
+	validate( blockInstance: BlockInstance ): BlockValidationResult {
+		const presence = getPresence( this.options );
+		// Get the current editor content of this block from the store.
+		const content: string = blockInstance.attributes[ this.options.name ];
+		if ( content && content.trim().length > 0 ) {
+			return BlockValidationResult.Valid( blockInstance, this.options.name, presence );
+		}
+
+		const validation = ( presence === BlockPresence.Required )
+			? BlockValidation.MissingRequiredAttribute
+			: BlockValidation.MissingRecommendedAttribute;
+
+		return new BlockValidationResult( blockInstance.clientId, this.options.name, validation, presence );
 	}
 
 	/**
