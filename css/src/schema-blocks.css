@@ -1,7 +1,9 @@
 @import '@yoast/schema-blocks/css/schema-blocks.css';
 
+/* General styling for all blocks (including premium) */
 .yoast-schema-flex {
 	display: flex;
+	line-height: 1.25;
 }
 
 .yoast-schema-select select.components-select-control__input {
@@ -10,11 +12,12 @@
 }
 
 .yoast-schema-select div.components-input-control__backdrop,
-.components-text-control__input {
+.yoast-schema-flex .components-text-control__input {
 	border: #CCCCCC 1px solid;
 	border-radius: 0;
 }
 
+/* Cooking time block */
 .wp-block-yoast-cooking-time .yoast-schema-flex {
 	align-items: baseline;
 	overflow: visible;
