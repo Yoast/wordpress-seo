@@ -52,13 +52,15 @@ class FAQ extends Abstract_Schema_Piece {
 	public function generate() {
 		$graph = [];
 
-		foreach ( $this->context->blocks['yoast/faq-block'] as $block ) {
-			foreach ( $block['attrs']['questions'] as $index => $question ) {
-				if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
-					continue;
-				}
-				$graph[] = $this->generate_question_block( $question, ( $index + 1 ) );
+		$questions = [];
+		foreach ( $this->context->blocks['yoast/faq-block'] as $index => $block ) {
+			$questions = array_merge( $questions, $block['attrs']['questions'] );
+		}
+		foreach ( $questions as $index => $question ) {
+			if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
+				continue;
 			}
+			$graph[] = $this->generate_question_block( $question, ( $index + 1 ) );
 		}
 
 		return $graph;
