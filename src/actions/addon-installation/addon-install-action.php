@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Actions\Addon_Installation;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Already_Installed_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Installation_Error_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Install_Plugins;
+use Yoast\WP\SEO\Helpers\Require_File_Helper;
 
 /**
  * Represents the endpoint for downloading and installing a zip-file from MyYoast.
@@ -19,12 +20,24 @@ class Addon_Install_Action {
 	protected $addon_manager;
 
 	/**
+	 * The require file helper.
+	 *
+	 * @var Require_File_Helper
+	 */
+	protected $require_file_helper;
+
+	/**
 	 * Addon_Activate_Action constructor.
 	 *
 	 * @param \WPSEO_Addon_Manager $addon_manager The addon manager.
+	 * @param Require_File_Helper $require_file_helper A helper that can require files.
 	 */
-	public function __construct( \WPSEO_Addon_Manager $addon_manager ) {
-		$this->addon_manager = $addon_manager;
+	public function __construct(
+		\WPSEO_Addon_Manager $addon_manager,
+		Require_File_Helper $require_file_helper
+	) {
+		$this->addon_manager       = $addon_manager;
+		$this->require_file_helper = $require_file_helper;
 	}
 
 	/**
@@ -67,23 +80,23 @@ class Addon_Install_Action {
 	 */
 	protected function load_wordpress_classes() {
 		if ( ! class_exists( 'WP_Upgrader' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+			$this->require_file_helper->require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 		}
 
 		if ( ! class_exists( 'Plugin_Upgrader' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php';
+			$this->require_file_helper->require_once( ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php' );
 		}
 
 		if ( ! class_exists( 'WP_Upgrader_Skin' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader-skin.php';
+			$this->require_file_helper->require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader-skin.php' );
 		}
 
 		if ( ! function_exists( 'get_plugin_data' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			$this->require_file_helper->require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		}
 
 		if ( ! function_exists( 'request_filesystem_credentials' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
+			$this->require_file_helper->require_once( ABSPATH . 'wp-admin/includes/file.php' );
 		}
 	}
 

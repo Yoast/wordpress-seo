@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Actions\Addon_Installation;
 
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Activation_Error_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Activate_Plugins_Exception;
+use Yoast\WP\SEO\Helpers\Require_File_Helper;
 
 /**
  * Represents the endpoint for activating a specific Yoast Plugin on WordPress.
@@ -18,12 +19,24 @@ class Addon_Activate_Action {
 	protected $addon_manager;
 
 	/**
+	 * The require file helper.
+	 *
+	 * @var Require_File_Helper
+	 */
+	protected $require_file_helper;
+
+
+	/**
 	 * Addon_Activate_Action constructor.
 	 *
 	 * @param \WPSEO_Addon_Manager $addon_manager The addon manager.
 	 */
-	public function __construct( \WPSEO_Addon_Manager $addon_manager ) {
-		$this->addon_manager = $addon_manager;
+	public function __construct(
+		\WPSEO_Addon_Manager $addon_manager,
+		Require_File_Helper $require_file_helper
+	) {
+		$this->addon_manager       = $addon_manager;
+		$this->require_file_helper = $require_file_helper;
 	}
 
 	/**
@@ -66,7 +79,7 @@ class Addon_Activate_Action {
 	 */
 	protected function load_wordpress_classes() {
 		if ( ! function_exists( 'get_plugins' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			$this->require_file_helper->require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		}
 	}
 }
