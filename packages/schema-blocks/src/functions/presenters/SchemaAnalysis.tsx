@@ -9,6 +9,7 @@ import { createAnalysisMessages, SidebarWarning } from "./SidebarWarningPresente
 import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { BlockValidationResult } from "../../core/validation";
 import logger from "../logger";
+import LabelWithHelpLink from "./LabelWithHelpLinkPresenter";
 
 interface SchemaAnalysisProps {
 	recommendedBlocks: string[];
@@ -47,7 +48,11 @@ export function SchemaAnalysis( props: SchemaAnalysisProps ): ReactElement {
 		logger.debug( "Warnings:", warnings );
 	}
 
-	return <Fragment key={ "schema-analysis" }>
+	return <div key={ "schema-analysis" } className={ "yoast-schema-analysis" }>
+		<LabelWithHelpLink
+			text={ __( "Information for Job posting schema", "yoast-schema-blocks" ) }
+			URL={ "https://yoa.st/4dk" }
+		/>
 		<WarningList warnings={ warnings } />
 		<BlockSuggestions
 			heading={ __( "Required information", "yoast-schema-blocks" ) }
@@ -57,7 +62,7 @@ export function SchemaAnalysis( props: SchemaAnalysisProps ): ReactElement {
 			heading={ __( "Recommended information", "yoast-schema-blocks" ) }
 			blockNames={ props.recommendedBlocks }
 		/>
-	</Fragment>;
+	</div>;
 }
 
 interface WarningListProps {
@@ -77,7 +82,7 @@ function WarningList( props: WarningListProps ): ReactElement {
 			<div className="yoast-block-sidebar-warnings">
 				<div className="yoast-block-sidebar-title">{ __( "Analysis", "yoast-schema-blocks" ) }</div>
 				<ul className="yoast-block-sidebar-warnings">
-					{...props.warnings.map( warning => <Warning warning={ warning } key={ warning.text } /> )}
+					{ ...props.warnings.map( warning => <Warning warning={ warning } key={ warning.text } /> ) }
 				</ul>
 			</div>
 		</Fragment>
