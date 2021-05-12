@@ -52,17 +52,6 @@ export default function initSearchAppearance() {
 					link={ knowledgeGraphCompanyInfoMissing.URL }
 				/>
 				<ImageSelectPortal
-					label={ __( "Social image", "wordpress-seo" ) }
-					hasPreview={ true }
-					target="yoast-og-frontpage-image-select"
-					hiddenField="open_graph_frontpage_image"
-					hiddenFieldImageId="open_graph_frontpage_image_id"
-					selectImageButtonId="yoast-og-frontpage-image-select-button"
-					replaceImageButtonId="yoast-og-frontpage-image-replace-button"
-					removeImageButtonId="yoast-og-frontpage-image-remove-button"
-					hasNewBadge="1"
-				/>
-				<ImageSelectPortal
 					label={ __( "Organization logo", "wordpress-seo" ) }
 					hasPreview={ true }
 					target="yoast-organization-image-select"
@@ -86,7 +75,7 @@ export default function initSearchAppearance() {
 				{ imagePortals.map( ( portal ) => {
 					return ( <ImageSelectPortal
 						key={ portal.id }
-						label={ __( "Social default image", "wordpress-seo" ) }
+						label={ portal.dataset.reactImagePortalLabel || __( "Social default image", "wordpress-seo" ) }
 						hasPreview={ true }
 						target={ portal.id }
 						hiddenField={ portal.dataset.reactImagePortalTargetImage }
