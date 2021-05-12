@@ -116,7 +116,7 @@ class Installation_Integration implements Integration_Interface {
 		printf(
 			__( '<a href="%1$s">Continue to %2$s</a>', 'wordpress-seo' ),
 			esc_url( admin_url( 'admin.php?page=wpseo_licenses' ) ),
-			'Yoast SEO Premium',
+			'Yoast SEO Premium'
 		);
 
 		echo '</div>';
