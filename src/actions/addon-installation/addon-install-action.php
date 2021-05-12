@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Actions\Addon_Installation;
 
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Already_Installed_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Installation_Error_Exception;
-use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Install_Plugins;
+use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Install_Plugins_Exception;
 use Yoast\WP\SEO\Helpers\Require_File_Helper;
 
 /**
@@ -50,11 +50,11 @@ class Addon_Install_Action {
 	 *
 	 * @throws Addon_Already_Installed_Exception  When the addon is already installed.
 	 * @throws Addon_Installation_Error_Exception When the installation encounters an error.
-	 * @throws User_Cannot_Install_Plugins        When the user does not have the permissions to install plugins.
+	 * @throws User_Cannot_Install_Plugins_Exception        When the user does not have the permissions to install plugins.
 	 */
 	public function install_addon( $plugin_slug, $download_url ) {
 		if ( ! current_user_can( 'install_plugins' ) ) {
-			throw new User_Cannot_Install_Plugins( $plugin_slug );
+			throw new User_Cannot_Install_Plugins_Exception( $plugin_slug );
 		}
 
 		if ( $this->is_installed( $plugin_slug ) ) {

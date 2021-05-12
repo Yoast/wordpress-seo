@@ -6,7 +6,7 @@ use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Actions\Addon_Installation\Addon_Install_Action;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Install_Plugins;
+use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Install_Plugins_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Already_Installed_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Installation_Error_Exception;
 use Yoast\WP\SEO\Helpers\Require_File_Helper;
@@ -52,7 +52,7 @@ class Addon_Install_Action_Test extends TestCase {
 			->with( 'install_plugins' )
 			->andReturn( false );
 
-		$this->expectException( User_Cannot_Install_Plugins::class );
+		$this->expectException( User_Cannot_Install_Plugins_Exception::class );
 
 		$this->instance->install_addon( 'plugin_slug', 'download.test' );
 	}

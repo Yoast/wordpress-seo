@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Activation_Error_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Already_Installed_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Installation_Error_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Activate_Plugins_Exception;
-use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Install_Plugins;
+use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Install_Plugins_Exception;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -171,7 +171,7 @@ class Installation_Integration implements Integration_Interface {
 			$output[] = __( 'Addon installed.', 'wordpress-seo' );
 
 			$installed = true;
-		} catch ( User_Cannot_Install_Plugins $exception ) {
+		} catch ( User_Cannot_Install_Plugins_Exception $exception ) {
 			$output[] = __( 'You are not allowed to install plugins.', 'wordpress-seo' );
 		} catch ( Addon_Installation_Error_Exception $exception ) {
 			$output[] = sprintf(
