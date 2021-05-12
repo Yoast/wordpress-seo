@@ -113,10 +113,11 @@ class Installation_Integration implements Integration_Interface {
 		}
 
 		printf(
-			/* translators: %1$s expands the admin wpseo_licenses page, %2$s expands to Yoast SEO Premium */
-			esc_html__( '<a href="%1$s">Continue to %2$s</a>', 'wordpress-seo' ),
-			esc_url( admin_url( 'admin.php?page=wpseo_licenses' ) ),
-			'Yoast SEO Premium'
+			/* translators: %1$s expands to an anchor tag to the admin premium page, %2$s expands to Yoast SEO Premium, %3$s expands to a closing anchor tag */
+			esc_html__( '%1$s Continue to %2$s%3$s', 'wordpress-seo' ),
+			'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_licenses' ) ) . '">',
+			'Yoast SEO Premium',
+			'</a>'
 		);
 
 		echo '</div>';
