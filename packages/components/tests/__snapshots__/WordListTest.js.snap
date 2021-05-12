@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WordList renders correctly without items 1`] = `
+<div
+  className=""
+>
+  <p>
+    <strong>
+      Wordlist
+    </strong>
+  </p>
+  
+  <ol
+    className="__list"
+  />
+  
+</div>
+`;
+
+exports[`WordList renders wordlist as list items 1`] = `
+<div
+  className=""
+>
+  <p>
+    <strong>
+      Wordlist
+    </strong>
+  </p>
+  
+  <ol
+    className="__list"
+  >
+    <li
+      className="__item"
+    >
+      word1
+    </li>
+    <li
+      className="__item"
+    >
+      word2
+    </li>
+    <li
+      className="__item"
+    >
+      word3
+    </li>
+  </ol>
+  
+</div>
+`;

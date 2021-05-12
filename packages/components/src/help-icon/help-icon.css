@@ -1,0 +1,14 @@
+.yoast-help {
+    margin-left: 4px;
+}
+
+.yoast-help__icon svg {
+    width: 12px;
+    height: 12px;
+    fill: var(--yoast-color-inactive-text);
+    transition: var(--yoast-transition-default);
+}
+
+.yoast-help:hover svg {
+    fill: var(--yoast-color-link);
+}
