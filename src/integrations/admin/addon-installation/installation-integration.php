@@ -41,6 +41,13 @@ class Installation_Integration implements Integration_Interface {
 	protected $addon_manager;
 
 	/**
+	 * Whether all addons are activated.
+	 *
+	 * @var boolean
+	 */
+	protected $addons_activated = true;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -112,10 +119,12 @@ class Installation_Integration implements Integration_Interface {
 			echo '</p>';
 		}
 
+		$activation_success_url = ( $this->addons_activated ) ? '&activation_success=true' : '';
+
 		printf(
 			/* translators: %1$s expands to an anchor tag to the admin premium page, %2$s expands to Yoast SEO Premium, %3$s expands to a closing anchor tag */
 			esc_html__( '%1$s Continue to %2$s%3$s', 'wordpress-seo' ),
-			'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_licenses' ) ) . '">',
+			'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_licenses' . $activation_success_url ) ) . '">',
 			'Yoast SEO Premium',
 			'</a>'
 		);
@@ -141,13 +150,15 @@ class Installation_Integration implements Integration_Interface {
 			// Translators: %s expands to the name of the addon.
 			$output[] = __( 'Addon activated.', 'wordpress-seo' );
 		} catch ( User_Cannot_Activate_Plugins_Exception $exception ) {
-			$output[] = __( 'You are not allowed to activate plugins.', 'wordpress-seo' );
+			$output[]         = __( 'You are not allowed to activate plugins.', 'wordpress-seo' );
+			$addons_activated = false;
 		} catch ( Addon_Activation_Error_Exception $exception ) {
 			$output[] = sprintf(
 			// Translators:%s expands to the error message.
 				__( 'Addon activation failed because of an error: %s.', 'wordpress-seo' ),
 				$exception->getMessage()
 			);
+			$addons_activated = false;
 		}
 
 		return $output;

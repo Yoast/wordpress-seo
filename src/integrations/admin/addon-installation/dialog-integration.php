@@ -51,6 +51,7 @@ class Dialog_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		add_action( 'admin_init', [ $this, 'start_addon_installation' ] );
+		add_action( 'admin_init', [ $this, 'check_addons_installed' ] );
 	}
 
 	public function start_addon_installation() {
@@ -72,6 +73,19 @@ class Dialog_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Checks if all addons are installed (`activation_success` is present in the URL). If so, display a success message.
+	 *
+	 * @return void
+	 */
+	public function check_addons_installed() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: This is not a form.
+		if ( ! isset( $_GET['activation_success'] ) || $_GET['activation_success'] !== 'true' ) {
+			return;
+		}
+			add_action( 'admin_notices', [ $this, 'generate_succes_box' ] );
+	}
+
+	/**
 	 * Throws a no owned addons warning.
 	 *
 	 * @returns void
@@ -79,6 +93,17 @@ class Dialog_Integration implements Integration_Interface {
 	public function throw_no_owned_addons_warning() {
 		echo '<div class="notice notice-warning"><p>' .
 			esc_html__( 'No addons have been installed. You don\'t seem to own any active subscriptions.', 'wordpress-seo' ) .
+		'</p></div>';
+	}
+
+	/**
+	 * Displays succes message.
+	 *
+	 * @returns void
+	 */
+	public function generate_succes_box() {
+		echo '<div class="notice notice-success"><p>' .
+			esc_html__( 'Installation succesful! We hope you enjoy Yoast SEO premium. Our support team can be reached 24/7 if you have questions.', 'wordpress-seo' ) .
 		'</p></div>';
 	}
 
