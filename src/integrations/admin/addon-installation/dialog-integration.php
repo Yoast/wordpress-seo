@@ -56,7 +56,7 @@ class Dialog_Integration implements Integration_Interface {
 	public function start_addon_installation() {
 		// Only show the dialog when we explicitly want to see it.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: This is not a form.
-		if ( isset( $_GET['install'] ) && $_GET['install'] !== 'true' ) {
+		if ( ! isset( $_GET['install'] ) || $_GET['install'] !== 'true' ) {
 			return;
 		}
 
