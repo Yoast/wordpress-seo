@@ -1,7 +1,7 @@
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
 import { useEffect } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import SchemaTab from "../components/SchemaTab";
 import SchemaFields from "../helpers/fields/SchemaFields";
