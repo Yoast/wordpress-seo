@@ -18,16 +18,15 @@ interface SchemaAnalysisProps {
 }
 
 /**
- * Retrieves the validation results for the block with the given client ID from the Redux store.
- *
- * @param clientId The client ID of the block to retrieve the validation results for.
+ * Retrieves the validation results from the Redux store.
  *
  * @returns The validation results.
  */
-function useValidationResults( clientId: string ): BlockValidationResult {
+function useValidationResults(): BlockValidationResult[] {
 	return useSelect( select => {
-		return select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getValidationResultForClientId( clientId );
-	}, [ clientId ] );
+		const allBlockNames = select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getBlockNames();
+		return select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getValidationsForBlockNames( allBlockNames );
+	}, [] );
 }
 
 /**
@@ -40,7 +39,7 @@ function useValidationResults( clientId: string ): BlockValidationResult {
  * @constructor
  */
 export function SchemaAnalysis( props: SchemaAnalysisProps ): ReactElement {
-	const validationResults = useValidationResults( null );
+	const validationResults = useValidationResults();
 
 	let warnings: SidebarWarning[] = [];
 

@@ -36,6 +36,7 @@ jest.mock( "../../../src/functions/BlockHelper", () => {
 				heading: "The required block",
 			};
 		} ),
+		getHumanReadableBlockName: jest.fn( ( name: string ) => name ),
 	};
 } );
 

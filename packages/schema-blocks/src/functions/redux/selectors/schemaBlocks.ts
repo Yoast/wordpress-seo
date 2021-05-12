@@ -71,3 +71,12 @@ export function getRecommendedBlockNames(): string[] {
 	];
 }
 
+/**
+ * Returns a list of all required and recommended blocks.
+ *
+ * @returns The list of required and recommended blocks.
+ */
+export function getBlockNames(): string[] {
+	return [ ...getRecommendedBlockNames(), ... getRequiredBlockNames() ];
+}
+
