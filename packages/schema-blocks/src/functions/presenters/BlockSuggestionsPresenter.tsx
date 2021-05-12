@@ -91,7 +91,7 @@ export function PureBlockSuggestionsPresenter( { heading, suggestions, blockName
 	}
 
 	return (
-		<PanelBody key={ heading }>
+		<div>
 			<div className="yoast-block-sidebar-title">{ heading }</div>
 			<ul className="yoast-block-suggestions">
 				{
@@ -124,7 +124,7 @@ export function PureBlockSuggestionsPresenter( { heading, suggestions, blockName
 					}, this )
 				}
 			</ul>
-		</PanelBody>
+		</div>
 	);
 }
 
