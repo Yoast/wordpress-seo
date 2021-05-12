@@ -7,28 +7,12 @@
  * @uses    Yoast_Form $yform Form object.
  */
 
-$knowledge_graph_help = new WPSEO_Admin_Help_Panel(
-	'search-appearance-knowledge-graph',
-	__( 'Learn more about the knowledge graph setting', 'wordpress-seo' ),
-	sprintf(
-		/* translators: %1$s opens the link to the Yoast.com article about Google's Knowledge Graph, %2$s closes the link, */
-		__( 'This data is shown as metadata in your site. It is intended to appear in %1$sGoogle\'s Knowledge Graph%2$s. You can be either an organization, or a person.', 'wordpress-seo' ),
-		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1-p' ) ) . '" target="_blank" rel="noopener noreferrer">',
-		'</a>'
-	),
-	'has-wrapper'
+echo sprintf(
+	/* translators: %1$s opens the link to the Yoast.com article about Google's Knowledge Graph, %2$s closes the link, */
+	__( 'This data is shown as metadata in your site. It is intended to appear in %1$sGoogle\'s Knowledge Graph%2$s. You can be either an organization, or a person.', 'wordpress-seo' ),
+	'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1-p' ) ) . '" target="_blank" rel="noopener noreferrer">',
+	'</a>'
 );
-?>
-
-<h2 class="help-button-inline">
-	<?php
-	// phpcs:ignore WordPress.Security.EscapeOutput -- get_button_html() output is properly escaped.
-	echo esc_html__( 'Knowledge Graph & Schema.org', 'wordpress-seo' ) . $knowledge_graph_help->get_button_html();
-	?>
-</h2>
-<?php
-// phpcs:ignore WordPress.Security.EscapeOutput -- get_panel_html() output is properly escaped.
-echo $knowledge_graph_help->get_panel_html();
 
 /**
  * Filter: 'wpseo_knowledge_graph_setting_msg' - Allows adding a message above these settings.
