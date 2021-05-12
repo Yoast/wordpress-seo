@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The BlockSuggestionsPresenter class  displays a checkmark for valid blocks 1`] = `
-<div
-  className="components-panel__body is-opened"
->
+<div>
   <div
     className="yoast-block-sidebar-title"
   >
@@ -41,9 +39,7 @@ exports[`The BlockSuggestionsPresenter class  displays a checkmark for valid blo
 `;
 
 exports[`The BlockSuggestionsPresenter class  displays an [ Add ] link for missing required blocks 1`] = `
-<div
-  className="components-panel__body is-opened"
->
+<div>
   <div
     className="yoast-block-sidebar-title"
   >
@@ -68,9 +64,7 @@ exports[`The BlockSuggestionsPresenter class  displays an [ Add ] link for missi
 `;
 
 exports[`The BlockSuggestionsPresenter class  displays only the block title for blocks that aren't completed 1`] = `
-<div
-  className="components-panel__body is-opened"
->
+<div>
   <div
     className="yoast-block-sidebar-title"
   >

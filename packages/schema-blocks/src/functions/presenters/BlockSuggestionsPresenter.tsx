@@ -2,7 +2,6 @@ import { get } from "lodash";
 import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { ReactElement } from "react";
 import { createBlock } from "@wordpress/blocks";
-import { PanelBody } from "@wordpress/components";
 import { withSelect } from "@wordpress/data";
 import { createElement } from "@wordpress/element";
 import { insertBlock } from "../innerBlocksHelper";
