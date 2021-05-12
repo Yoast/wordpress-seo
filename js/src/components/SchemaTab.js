@@ -80,13 +80,11 @@ const Content = ( props ) => {
 
 	return (
 		<Fragment>
+			<p>
+				{ props.helpTextDescription + " " }
+				<a href={ props.helpTextLink }>{ __( "Read more about Schema.", "wordpress-seo" ) }</a>
+			</p>
 			<SchemaAnalysis requiredBlocks={ props.requiredBlockNames } recommendedBlocks={ props.recommendedBlockNames } />
-			<FieldGroup
-				label={ props.helpTextTitle }
-				linkTo={ props.helpTextLink }
-				linkText={ __( "Learn more about structured data with Schema.org", "wordpress-seo" ) }
-				description={ props.helpTextDescription }
-			/>
 			<FieldGroup
 				label={ __( "What type of page or content is this?", "wordpress-seo" ) }
 				linkTo={ props.additionalHelpTextLink }
