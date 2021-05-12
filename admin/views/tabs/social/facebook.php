@@ -30,8 +30,8 @@ $yform->light_switch( 'opengraph', \__( 'Add Open Graph meta data', 'wordpress-s
 	<?php
 	$frontpage_settings_message = sprintf(
 		/* translators: 1: link open tag; 2: link close tag. */
-		\esc_html__( 'The frontpage settings have been moved to the %1$sSearch Appearance section%2$s.', 'wordpress-seo' ),
-		'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_titles#top#post-types' ) ) . '">',
+		\esc_html__( 'The homepage settings have been moved to the %1$s‘Search appearance’ settings under the ‘General’ tab%2$s.', 'wordpress-seo' ),
+		'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_titles#top#general' ) ) . '">',
 		'</a>'
 	);
 
