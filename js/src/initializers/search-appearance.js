@@ -52,7 +52,7 @@ export default function initSearchAppearance() {
 					link={ knowledgeGraphCompanyInfoMissing.URL }
 				/>
 				<ImageSelectPortal
-					label={ __( "Social default image", "wordpress-seo" ) }
+					label={ __( "Social image", "wordpress-seo" ) }
 					hasPreview={ true }
 					target="yoast-og-frontpage-image-select"
 					hiddenField="open_graph_frontpage_image"
@@ -60,6 +60,7 @@ export default function initSearchAppearance() {
 					selectImageButtonId="yoast-og-frontpage-image-select-button"
 					replaceImageButtonId="yoast-og-frontpage-image-replace-button"
 					removeImageButtonId="yoast-og-frontpage-image-remove-button"
+					hasNewBadge="1"
 				/>
 				<ImageSelectPortal
 					label={ __( "Organization logo", "wordpress-seo" ) }

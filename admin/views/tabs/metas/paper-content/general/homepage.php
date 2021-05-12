@@ -8,6 +8,8 @@
  */
 
 if ( get_option( 'show_on_front' ) === 'posts' ) {
+	echo '<div class="yoast-settings-section">';
+
 	echo __( 'This is what shows in the search results when people find your homepage. This means this is probably what they see when they search for your brand name.', 'wordpress-seo' );
 
 	$editor = new WPSEO_Replacevar_Editor(
@@ -21,6 +23,9 @@ if ( get_option( 'show_on_front' ) === 'posts' ) {
 		]
 	);
 	$editor->render();
+	echo '</div>';
+
+	require __DIR__ . '/../front-page-content.php';
 } else {
 	$wpseo_page_on_front  = get_option( 'page_on_front' );
 	$wpseo_page_for_posts = get_option( 'page_for_posts' );
