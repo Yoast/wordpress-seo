@@ -20,7 +20,7 @@ export const getContentImage = state => {
  *
  * @param {Object} state The state object.
  *
- * @returns {string} The sidewide image url.
+ * @returns {string} The fallback image url.
  */
 export const getImageFallback = state => {
 	const fallbacks = [
@@ -30,6 +30,11 @@ export const getImageFallback = state => {
 		{ siteWideImage: get( window, "wpseoScriptData.metabox.showSocial.facebook" ) && get( state, "settings.socialPreviews.sitewideImage", "" ) },
 	];
 
+	/*
+	 * This filter is also applied to the `getEditorDataImageFallback` selector
+	 * for the Elementor editor. It's then used in Yoast SEO WooCommerce, to add
+	 * the first product gallery image to the fallback, before the `siteWideImage`.
+	 */
 	applyFilters( "yoast.socials.imageFallback", fallbacks );
 
 	for ( const fallback of fallbacks ) {

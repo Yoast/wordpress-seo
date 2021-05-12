@@ -64,7 +64,7 @@ export default compose( [
 			getFacebookTitle,
 			getSeoTitle,
 			getFacebookImageUrl,
-			getImageFallback,
+			getEditorDataImageFallback,
 			getFacebookWarnings,
 			getRecommendedReplaceVars,
 			getSiteUrl,
@@ -93,7 +93,7 @@ export default compose( [
 
 		return {
 			imageUrl: getFacebookImageUrl(),
-			imageFallbackUrl: getImageFallback(),
+			imageFallbackUrl: getEditorDataImageFallback(),
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			replacementVariables: getCurrentReplacementVariablesForEditor(),
 			description: getFacebookDescription(),

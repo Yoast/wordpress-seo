@@ -69,7 +69,7 @@ export default compose( [
 			getSeoTitle,
 			getTwitterWarnings,
 			getTwitterImageType,
-			getImageFallback,
+			getEditorDataImageFallback,
 			getRecommendedReplaceVars,
 			getSiteUrl,
 			getAuthorName,
@@ -97,7 +97,7 @@ export default compose( [
 
 		return {
 			imageUrl: getTwitterImageUrl(),
-			imageFallbackUrl: getFacebookImageUrl() || getImageFallback(),
+			imageFallbackUrl: getFacebookImageUrl() || getEditorDataImageFallback(),
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			replacementVariables: getCurrentReplacementVariablesForEditor(),
 			description: getTwitterDescription(),
