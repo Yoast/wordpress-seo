@@ -1,3 +1,4 @@
+import "../../matchMedia.mock";
 import { BlockEditProps, BlockInstance } from "@wordpress/blocks";
 import * as renderer from "react-test-renderer";
 import getParentSidebar from "../../../src/functions/blocks/getParentSidebar";
@@ -55,7 +56,7 @@ jest.mock( "../../../src/core/blocks/BlockDefinitionRepository", () => {
 	};
 } );
 
-describe.skip( "The getParentSidebar function", () => {
+describe( "The getParentSidebar function", () => {
 	it( "receives the parents argument as null", () => {
 		const props: BlockEditProps<unknown> = {
 			className: "",
