@@ -180,16 +180,16 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 */
 	public function generate_open_graph_description() {
 		if ( $this->model->open_graph_description ) {
-			return $this->model->open_graph_description;
+			$open_graph_description = $this->model->open_graph_description;
 		}
 
-		$open_graph_description = $this->meta_description;
+		if ( empty( $open_graph_description ) ) {
+			$open_graph_description = $this->meta_description;
+		}
 
 		if ( empty( $open_graph_description ) ) {
 			$open_graph_description = $this->post->get_the_excerpt( $this->model->object_id );
 		}
-
-		$open_graph_description = $this->values_helper->get_open_graph_description( $open_graph_description, $this->model->object_type, $this->model->object_sub_type );
 
 		return $this->post->strip_shortcodes( $open_graph_description );
 	}
