@@ -47,7 +47,7 @@ class Installation_Integration implements Integration_Interface {
 		return [
 			Admin_Conditional::class,
 			Licenses_Page_Conditional::class,
-			Addon_Installation_Conditional::class
+			Addon_Installation_Conditional::class,
 		];
 	}
 
@@ -112,11 +112,11 @@ class Installation_Integration implements Integration_Interface {
 			echo '</p>';
 		}
 
-		/* translators: %1$s expands the admin wpseo_licenses page, %2$s expands to Yoast SEO Premium */
 		printf(
-			__( '<a href="%1$s">Continue to %2$s</a>', 'wordpress-seo' ),
+			/* translators: %1$s expands the admin wpseo_licenses page, %2$s expands to Yoast SEO Premium */
+			esc_html__( '<a href="%1$s">Continue to %2$s</a>', 'wordpress-seo' ),
 			esc_url( admin_url( 'admin.php?page=wpseo_licenses' ) ),
-			'Yoast SEO Premium',
+			'Yoast SEO Premium'
 		);
 
 		echo '</div>';

@@ -300,6 +300,8 @@ class Addon_Manager_Test extends TestCase {
 
 	/**
 	 * Tests the lookup of a plugin slug to a plugin file.
+	 *
+	 * @covers ::get_plugin_file
 	 */
 	public function test_get_plugin_file() {
 		$this->instance
@@ -320,8 +322,10 @@ class Addon_Manager_Test extends TestCase {
 
 	/**
 	 * Tests the lookup of a plugin slug to a plugin file.
+	 *
+	 * @covers ::get_plugin_file
 	 */
-	 public function test_get_plugin_file_nonexistent_plugin() {
+	public function test_get_plugin_file_nonexistent_plugin() {
 		$this->instance
 			->expects( 'get_plugins' )
 			->once()

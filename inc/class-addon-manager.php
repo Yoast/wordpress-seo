@@ -220,7 +220,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @return stdClass The list of addons activated for this site.
 	 */
-	 public function get_myyoast_site_information() {
+	public function get_myyoast_site_information() {
 		if ( $this->site_information === null ) {
 			$this->site_information = $this->get_site_information_transient();
 		}
@@ -364,7 +364,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @return void
 	 */
-	 public function remove_site_information_transients() {
+	public function remove_site_information_transients() {
 		delete_transient( self::SITE_INFORMATION_TRANSIENT );
 		delete_transient( self::SITE_INFORMATION_TRANSIENT_QUICK );
 	}

@@ -25,11 +25,11 @@ class Addon_Activate_Action {
 	 */
 	protected $require_file_helper;
 
-
 	/**
 	 * Addon_Activate_Action constructor.
 	 *
-	 * @param \WPSEO_Addon_Manager $addon_manager The addon manager.
+	 * @param \WPSEO_Addon_Manager $addon_manager       The addon manager.
+	 * @param Require_File_Helper  $require_file_helper A file helper.
 	 */
 	public function __construct(
 		\WPSEO_Addon_Manager $addon_manager,
@@ -79,7 +79,7 @@ class Addon_Activate_Action {
 	 */
 	protected function load_wordpress_classes() {
 		if ( ! function_exists( 'get_plugins' ) ) {
-			$this->require_file_helper->require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+			$this->require_file_helper->require_file_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		}
 	}
 }

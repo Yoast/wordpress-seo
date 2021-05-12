@@ -90,27 +90,27 @@ class Addon_Install_Action_Test extends TestCase {
 			->andReturn( false );
 
 		$this->require_file_helper
-			->expects( 'require_once' )
+			->expects( 'require_file_once' )
 			->once()
 			->with( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
 		$this->require_file_helper
-			->expects( 'require_once' )
+			->expects( 'require_file_once' )
 			->never()
 			->with( ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php' );
 
 		$this->require_file_helper
-			->expects( 'require_once' )
+			->expects( 'require_file_once' )
 			->once()
 			->with( ABSPATH . 'wp-admin/includes/class-wp-upgrader-skin.php' );
 
 		$this->require_file_helper
-			->expects( 'require_once' )
+			->expects( 'require_file_once' )
 			->once()
 			->with( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 		$this->require_file_helper
-			->expects( 'require_once' )
+			->expects( 'require_file_once' )
 			->once()
 			->with( ABSPATH . 'wp-admin/includes/file.php' );
 
@@ -147,27 +147,27 @@ class Addon_Install_Action_Test extends TestCase {
 			->andReturn( false );
 
 		$this->require_file_helper
-			->expects( 'require_once' )
+			->expects( 'require_file_once' )
 			->once()
 			->with( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
 		$this->require_file_helper
-			->expects( 'require_once' )
+			->expects( 'require_file_once' )
 			->never()
 			->with( ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php' );
 
 		$this->require_file_helper
-			->expects( 'require_once' )
+			->expects( 'require_file_once' )
 			->once()
 			->with( ABSPATH . 'wp-admin/includes/class-wp-upgrader-skin.php' );
 
 		$this->require_file_helper
-			->expects( 'require_once' )
+			->expects( 'require_file_once' )
 			->once()
 			->with( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 		$this->require_file_helper
-			->expects( 'require_once' )
+			->expects( 'require_file_once' )
 			->once()
 			->with( ABSPATH . 'wp-admin/includes/file.php' );
 

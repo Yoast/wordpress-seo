@@ -29,8 +29,8 @@ class Addon_Install_Action {
 	/**
 	 * Addon_Activate_Action constructor.
 	 *
-	 * @param \WPSEO_Addon_Manager $addon_manager The addon manager.
-	 * @param Require_File_Helper $require_file_helper A helper that can require files.
+	 * @param \WPSEO_Addon_Manager $addon_manager       The addon manager.
+	 * @param Require_File_Helper  $require_file_helper A helper that can require files.
 	 */
 	public function __construct(
 		\WPSEO_Addon_Manager $addon_manager,
@@ -80,23 +80,23 @@ class Addon_Install_Action {
 	 */
 	protected function load_wordpress_classes() {
 		if ( ! class_exists( 'WP_Upgrader' ) ) {
-			$this->require_file_helper->require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+			$this->require_file_helper->require_file_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 		}
 
 		if ( ! class_exists( 'Plugin_Upgrader' ) ) {
-			$this->require_file_helper->require_once( ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php' );
+			$this->require_file_helper->require_file_once( ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php' );
 		}
 
 		if ( ! class_exists( 'WP_Upgrader_Skin' ) ) {
-			$this->require_file_helper->require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader-skin.php' );
+			$this->require_file_helper->require_file_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader-skin.php' );
 		}
 
 		if ( ! function_exists( 'get_plugin_data' ) ) {
-			$this->require_file_helper->require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+			$this->require_file_helper->require_file_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		}
 
 		if ( ! function_exists( 'request_filesystem_credentials' ) ) {
-			$this->require_file_helper->require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			$this->require_file_helper->require_file_once( ABSPATH . 'wp-admin/includes/file.php' );
 		}
 	}
 

@@ -33,7 +33,7 @@ class Dialog_Integration implements Integration_Interface {
 		return [
 			Admin_Conditional::class,
 			Licenses_Page_Conditional::class,
-			Addon_Installation_Conditional::class
+			Addon_Installation_Conditional::class,
 		];
 	}
 
@@ -55,7 +55,8 @@ class Dialog_Integration implements Integration_Interface {
 
 	public function start_addon_installation() {
 		// Only show the dialog when we explicitly want to see it.
-		if ( $_GET['install'] !== 'true') {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: This is not a form.
+		if ( isset( $_GET['install'] ) && $_GET['install'] !== 'true' ) {
 			return;
 		}
 
@@ -64,7 +65,8 @@ class Dialog_Integration implements Integration_Interface {
 
 		if ( count( $this->owned_addons ) > 0 ) {
 			add_action( 'admin_enqueue_scripts', [ $this, 'show_modal' ] );
-		} else {
+		}
+		else {
 			add_action( 'admin_notices', [ $this, 'throw_no_owned_addons_warning' ] );
 		}
 	}

@@ -12,7 +12,7 @@ class Require_File_Helper {
 	 *
 	 * @param string $path The path to the required file.
 	 */
-	public function require_once( $path ) {
-		require_once( $path );
+	public function require_file_once( $path ) {
+		require_once $path;
 	}
 }

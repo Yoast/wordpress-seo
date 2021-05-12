@@ -36,7 +36,7 @@ class Dialog_Integration_Test extends TestCase {
 
 		$this->instance->register_hooks();
 
-		$this->assertSame( 10,  has_action( 'admin_init', [ $this->instance, 'start_addon_installation' ] ) );
+		$this->assertSame( 10, has_action( 'admin_init', [ $this->instance, 'start_addon_installation' ] ) );
 	}
 
 	public function test_start_addon_installation_returns_when_install_url_parameter_is_false() {
@@ -54,7 +54,7 @@ class Dialog_Integration_Test extends TestCase {
 		$_GET['install'] = 'true';
 
 		$owned_subscriptions = (object) [
-			'subscriptions' => []
+			'subscriptions' => [],
 		];
 
 		$this->wpseo_addon_manager
@@ -69,7 +69,7 @@ class Dialog_Integration_Test extends TestCase {
 
 		$this->instance->start_addon_installation();
 
-		$this->assertSame( 10,  has_action( 'admin_notices', [ $this->instance, 'throw_no_owned_addons_warning' ] ) );
+		$this->assertSame( 10, has_action( 'admin_notices', [ $this->instance, 'throw_no_owned_addons_warning' ] ) );
 		$this->assertFalse( has_action( 'admin_enqueue_scripts' ) );
 	}
 
@@ -82,10 +82,10 @@ class Dialog_Integration_Test extends TestCase {
 				(object) [
 					'product' => (object) [
 						'slug' => 'Premium_slug',
-						'name' => 'Premium_name'
-					]
-				]
-			]
+						'name' => 'Premium_name',
+					],
+				],
+			],
 		];
 
 		$this->wpseo_addon_manager
@@ -100,7 +100,7 @@ class Dialog_Integration_Test extends TestCase {
 
 		$this->instance->start_addon_installation();
 
-		$this->assertSame( 10,  has_action( 'admin_enqueue_scripts', [ $this->instance, 'show_modal' ] ) );
+		$this->assertSame( 10, has_action( 'admin_enqueue_scripts', [ $this->instance, 'show_modal' ] ) );
 		$this->assertFalse( has_action( 'admin_notices' ) );
 	}
 }
