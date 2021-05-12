@@ -4,7 +4,7 @@
  *
  * @package WPSEO\Admin\Views\General
  *
- * @uses Yoast_Form $yform Form object.
+ * @uses    Yoast_Form $yform Form object.
  */
 
 $title_separator_help = new WPSEO_Admin_Help_Panel(
@@ -14,18 +14,18 @@ $title_separator_help = new WPSEO_Admin_Help_Panel(
 	'has-wrapper'
 );
 ?>
-<div class="tab-block">
-	<h2 class="help-button-inline">
-		<?php
-		// phpcs:ignore WordPress.Security.EscapeOutput -- get_button_html() output is properly escaped.
-		echo esc_html__( 'Title Separator', 'wordpress-seo' ) . $title_separator_help->get_button_html();
-		?>
-	</h2>
+<h2 class="help-button-inline">
 	<?php
-	// phpcs:ignore WordPress.Security.EscapeOutput -- get_panel_html() output is properly escaped.
-	echo $title_separator_help->get_panel_html();
-	$legend      = __( 'Title separator symbol', 'wordpress-seo' );
-	$legend_attr = [ 'class' => 'radiogroup screen-reader-text' ];
-	$yform->radio( 'separator', WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(), $legend, $legend_attr );
+	// phpcs:ignore WordPress.Security.EscapeOutput -- get_button_html() output is properly escaped.
+	echo esc_html__( 'Title Separator', 'wordpress-seo' ) . $title_separator_help->get_button_html();
 	?>
-</div>
+</h2>
+<?php
+// phpcs:ignore WordPress.Security.EscapeOutput -- get_panel_html() output is properly escaped.
+echo $title_separator_help->get_panel_html();
+$legend      = __( 'Title separator symbol', 'wordpress-seo' );
+$legend_attr = [ 'class' => 'radiogroup screen-reader-text' ];
+$yform->radio( 'separator', WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(), $legend, $legend_attr );
+
+require __DIR__ . '/force-rewrite-title.php';
+
