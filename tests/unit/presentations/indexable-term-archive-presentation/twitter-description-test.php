@@ -47,6 +47,10 @@ class Twitter_Description_Test extends TestCase {
 		$this->instance->meta_description     = '';
 		$this->context->open_graph_enabled    = true;
 
+		$this->values_helper
+			->expects( 'get_open_graph_description' )
+			->andReturn( '' );
+
 		$this->instance
 			->expects( 'generate_open_graph_description' )
 			->once()
@@ -70,6 +74,10 @@ class Twitter_Description_Test extends TestCase {
 		$this->indexable->twitter_description = '';
 		$this->instance->meta_description     = '';
 		$this->context->open_graph_enabled    = true;
+
+		$this->values_helper
+			->expects( 'get_open_graph_description' )
+			->andReturn( '' );
 
 		$this->instance
 			->expects( 'generate_open_graph_description' )

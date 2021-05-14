@@ -38,6 +38,22 @@ class Twitter_Description_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the situation where no Twitter description is set, the Values Helper provides a description, and Open Graph is enabled.
+	 *
+	 * @covers ::generate_twitter_description
+	 */
+	public function test_generate_twitter_description_with_description_from_values_helper_and_open_graph_enabled() {
+		$this->context->open_graph_enabled = true;
+		$description_from_helper           = 'Description from helper';
+
+		$this->values_helper
+			->expects( 'get_open_graph_description' )
+			->andReturn( $description_from_helper );
+
+		$this->assertSame( 'Description from helper', $this->instance->generate_twitter_description() );
+	}
+
+	/**
 	 * Tests the situation where no Twitter description is set, the Open Graph description is set, and Open Graph is enabled.
 	 *
 	 * @covers ::generate_twitter_description
@@ -45,6 +61,10 @@ class Twitter_Description_Test extends TestCase {
 	public function test_generate_twitter_description_with_set_open_graph_description_and_open_graph_enabled() {
 		$this->context->open_graph_enabled       = true;
 		$this->indexable->open_graph_description = 'Open Graph description';
+
+		$this->values_helper
+			->expects( 'get_open_graph_description' )
+			->andReturn( '' );
 
 		$this->assertSame( '', $this->instance->generate_twitter_description() );
 	}
@@ -58,6 +78,10 @@ class Twitter_Description_Test extends TestCase {
 		$this->context->open_graph_enabled      = true;
 		$this->instance->open_graph_description = '';
 		$this->indexable->description           = 'SEO description';
+
+		$this->values_helper
+			->expects( 'get_open_graph_description' )
+			->andReturn( '' );
 
 		$this->assertSame( 'SEO description', $this->instance->generate_twitter_description() );
 	}
@@ -87,18 +111,25 @@ class Twitter_Description_Test extends TestCase {
 		$this->indexable->description           = 'Meta description';
 		$this->instance->open_graph_description = '';
 
+		$this->values_helper
+			->expects( 'get_open_graph_description' )
+			->andReturn( '' );
+
 		$this->assertSame( 'Meta description', $this->instance->generate_twitter_description() );
 	}
 
 	/**
 	 * Tests the situation where an empty value is returned.
 	 *
+	 * The helper is called twice: the first time from the Twitter method, the second time from the Open Graph method.
+	 *
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_with_empty_return_value() {
 		$this->values_helper
 			->expects( 'get_open_graph_description' )
-			->andReturn( $this->indexable->description );
+			->twice()
+			->andReturn( '' );
 
 		$this->assertEmpty( $this->instance->generate_twitter_description() );
 	}

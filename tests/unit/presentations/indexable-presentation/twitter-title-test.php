@@ -38,6 +38,22 @@ class Twitter_Title_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the situation where no Twitter title is set, the Values Helper provides a title, and Open Graph is enabled.
+	 *
+	 * @covers ::generate_twitter_title
+	 */
+	public function test_generate_twitter_title_with_title_from_values_helper_and_open_graph_enabled() {
+		$this->context->open_graph_enabled = true;
+		$title_from_helper                 = 'Example of title from the helper';
+
+		$this->values_helper
+			->expects( 'get_open_graph_title' )
+			->andReturn( $title_from_helper );
+
+		$this->assertSame( 'Example of title from the helper', $this->instance->generate_twitter_title() );
+	}
+
+	/**
 	 * Tests the situation where no Twitter title is set, the Open Graph title is set, and Open Graph is enabled.
 	 *
 	 * @covers ::generate_twitter_title
@@ -45,6 +61,10 @@ class Twitter_Title_Test extends TestCase {
 	public function test_generate_twitter_title_with_set_open_graph_title_and_open_graph_enabled() {
 		$this->context->open_graph_enabled = true;
 		$this->indexable->open_graph_title = 'Open Graph title';
+
+		$this->values_helper
+			->expects( 'get_open_graph_title' )
+			->andReturn( '' );
 
 		$this->assertSame( '', $this->instance->generate_twitter_title() );
 	}
@@ -72,6 +92,10 @@ class Twitter_Title_Test extends TestCase {
 		$this->instance->open_graph_title  = null;
 		$this->indexable->title            = 'SEO title';
 
+		$this->values_helper
+			->expects( 'get_open_graph_title' )
+			->andReturn( '' );
+
 		$this->assertSame( 'SEO title', $this->instance->generate_twitter_title() );
 	}
 
@@ -84,17 +108,24 @@ class Twitter_Title_Test extends TestCase {
 		$this->indexable->title           = 'SEO title';
 		$this->instance->open_graph_title = '';
 
+		$this->values_helper
+			->expects( 'get_open_graph_title' )
+			->andReturn( '' );
+
 		$this->assertSame( 'SEO title', $this->instance->generate_twitter_title() );
 	}
 
 	/**
 	 * Tests the situation where an empty value is returned.
 	 *
+	 * The helper is called twice: the first time from the Twitter method, the second time from the Open Graph method.
+	 *
 	 * @covers ::generate_twitter_title
 	 */
 	public function test_generate_twitter_title_with_empty_return_value() {
 		$this->values_helper
 			->expects( 'get_open_graph_title' )
+			->twice()
 			->andReturn( '' );
 
 		$this->assertEmpty( $this->instance->generate_twitter_title() );
