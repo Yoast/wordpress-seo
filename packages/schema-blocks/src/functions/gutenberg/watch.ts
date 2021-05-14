@@ -105,7 +105,7 @@ function clearSchemaForBlocks( block: BlockInstance ) {
 *
 * @param blocks The block instances to validate.
 *
-* @returns {BlockValidationResult[]} Validation results for each (inner)block of the given blocks.
+* @returns Validation results for each (inner)block of the given blocks.
 */
 export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
 	const validations: BlockValidationResult[] = [];

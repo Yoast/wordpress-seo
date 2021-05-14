@@ -10,7 +10,7 @@ export type ClientIdValidation = Record<string, BlockValidationResult>;
  *
  * @param {object} state The current state.
  *
- * @returns {Record<string, BlockValidationResult>} The schema blocks validation results.
+ * @returns The schema blocks validation results.
  */
 export function getSchemaBlocksValidationResults( state: SchemaBlocksState ): ClientIdValidation {
 	return state.validations || SchemaBlocksDefaultState.validations;
@@ -18,8 +18,10 @@ export function getSchemaBlocksValidationResults( state: SchemaBlocksState ): Cl
 
 /**
  * Recursively traverses a BlockValidationResult's issues to finds the validation results for a specific clientId.
- * @param state    The entire Schema Blocks state.
- * @param clientId The ClientId of the block you want validation results for.
+ *
+ * @param state The entire Schema Blocks state.
+ * @param clientId The clientId of the block you want validation results for.
+ *
  * @returns The BlockValidationResult matching the clientId or null if none were found.
  */
 export function getValidationResultForClientId( state: SchemaBlocksState, clientId: string ): BlockValidationResult {

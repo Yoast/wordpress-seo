@@ -30,7 +30,7 @@ function useValidationResults(): BlockValidationResult[] {
 }
 
 /**
- * Schema analysis component.
+ * The schema analysis component.
  *
  * @param props The properties.
  *
@@ -61,7 +61,7 @@ export function SchemaAnalysis( props: SchemaAnalysisProps ): ReactElement {
 
 	return <div key={ "schema-analysis" } className={ "yoast-schema-analysis" }>
 		<LabelWithHelpLink
-			text={ __( "JobPosting schema", "yoast-schema-blocks" ) }
+			text={ __( "Job Posting schema", "yoast-schema-blocks" ) }
 			URL={ "https://yoa.st/4dk" }
 		/>
 		<TextControl onChange={ onChange } value={ jobTitle } label={ "Job title" } />
