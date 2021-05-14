@@ -49,6 +49,7 @@ const AddonInstallation = props => {
 		return (
 			<Button
 				onClick={ closeModal }
+				id="close-addon-installation-dialog"
 			>
 				{ __( "Cancel", "wordpress-seo" ) }
 			</Button>
@@ -64,6 +65,7 @@ const AddonInstallation = props => {
 		return (
 			<Button
 				onClick={ startInstallation }
+				id="continue-addon-installation-dialog"
 			>
 				{ __( "Install and activate addons", "wordpress-seo" ) }
 			</Button>
@@ -73,7 +75,7 @@ const AddonInstallation = props => {
 	const heading = sprintf(
 		/* translators: %s expands to Yoast */
 		__( "%s addon installation", "wordpress-seo" ),
-		"Yoast",
+		"Yoast"
 	);
 
 	let installationTitle = __( "the following addons", "wordpress-seo" );
@@ -104,7 +106,7 @@ const AddonInstallation = props => {
 				{ sprintf(
 					/* translators: %s expands to Yoast SEO Premium */
 					__( "Please confirm below that you would like to install %s on this site.", "wordpress-seo" ),
-					installationTitle,
+					installationTitle
 				) }
 			</p>
 			{ list }
