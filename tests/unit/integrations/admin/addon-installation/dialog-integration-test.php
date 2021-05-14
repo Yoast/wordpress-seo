@@ -6,6 +6,11 @@ use Mockery;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Integrations\Admin\Addon_Installation\Dialog_Integration;
 
+/**
+ * Class Dialog_Integration_Test
+ *
+ * @covers \Yoast\WP\SEO\Integrations\Admin\Addon_Installation\Dialog_Integration
+ */
 class Dialog_Integration_Test extends TestCase {
 
 	/**
@@ -32,6 +37,9 @@ class Dialog_Integration_Test extends TestCase {
 		$this->instance            = new Dialog_Integration( $this->wpseo_addon_manager );
 	}
 
+	/**
+	 * Tests the register hooks method.
+	 */
 	public function test_register_hooks() {
 
 		$this->instance->register_hooks();
@@ -39,6 +47,9 @@ class Dialog_Integration_Test extends TestCase {
 		$this->assertSame( 10, has_action( 'admin_init', [ $this->instance, 'start_addon_installation' ] ) );
 	}
 
+	/**
+	 * Tests if the install argument is not provided the dialog is not shown.
+	 */
 	public function test_start_addon_installation_returns_when_install_url_parameter_is_false() {
 
 		$_GET['install'] = 'false';
@@ -49,6 +60,9 @@ class Dialog_Integration_Test extends TestCase {
 		$this->assertFalse( has_action( 'admin_notices', [ $this->instance, 'throw_no_owned_addons_warning' ] ) );
 	}
 
+	/**
+	 * Tests if there are no subscriptions, the dialog is not shown.
+	 */
 	public function test_start_addon_installation_when_no_owned_subscriptions() {
 
 		$_GET['install'] = 'true';
@@ -73,7 +87,10 @@ class Dialog_Integration_Test extends TestCase {
 		$this->assertFalse( has_action( 'admin_enqueue_scripts' ) );
 	}
 
-	public function test_start_addon_installation() {
+	/**
+	 * Tests that the addon installation fetches the latest data from MyYoast.
+	 */
+	public function test_start_addon_installation_bust_myyoast_cache_and_fetches_info() {
 
 		$_GET['install'] = 'true';
 

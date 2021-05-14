@@ -11,6 +11,11 @@ use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Already_Installed_Exception
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Installation_Error_Exception;
 use Yoast\WP\SEO\Helpers\Require_File_Helper;
 
+/**
+ * Class Addon_Install_Action_Test
+ *
+ * @covers \Yoast\WP\SEO\Actions\Addon_Installation\Addon_Install_Action
+ */
 class Addon_Install_Action_Test extends TestCase {
 
 	/**
@@ -45,6 +50,9 @@ class Addon_Install_Action_Test extends TestCase {
 		$this->instance            = new Addon_Install_Action( $this->wpseo_addon_manager, $this->require_file_helper );
 	}
 
+	/**
+	 * Tests if the users has installation permissions.
+	 */
 	public function test_install_addon_user_has_no_install_permissions() {
 
 		Monkey\Functions\expect( 'current_user_can' )
@@ -57,6 +65,9 @@ class Addon_Install_Action_Test extends TestCase {
 		$this->instance->install_addon( 'plugin_slug', 'download.test' );
 	}
 
+	/**
+	 * Tests if the addon is already installed.
+	 */
 	public function test_install_addon_is_already_installed() {
 
 		Monkey\Functions\expect( 'current_user_can' )
@@ -76,6 +87,9 @@ class Addon_Install_Action_Test extends TestCase {
 		$this->instance->install_addon( 'plugin_slug', 'download.test' );
 	}
 
+	/**
+	 * Tests of the install addon throws an exception on error.
+	 */
 	public function test_install_addon_thows_when_install_fails() {
 
 		Monkey\Functions\expect( 'current_user_can' )
@@ -133,6 +147,9 @@ class Addon_Install_Action_Test extends TestCase {
 		$this->instance->install_addon( 'plugin_slug', 'download.test' );
 	}
 
+	/**
+	 * Tests the install addon happy path.
+	 */
 	public function test_install_addon() {
 
 		Monkey\Functions\expect( 'current_user_can' )
