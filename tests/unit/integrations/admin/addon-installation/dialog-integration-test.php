@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Discussed in Tech Council, a better solution is being worked on.
+
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin\Addon_Installation;
 
 use Mockery;
