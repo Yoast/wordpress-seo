@@ -3,6 +3,7 @@ import { useSelect } from "@wordpress/data";
 import { createElement, Fragment, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { SvgIcon } from "@yoast/components";
+import { TextControl } from "@wordpress/components";
 
 import BlockSuggestions from "./BlockSuggestionsPresenter";
 import { createAnalysisMessages, SidebarWarning } from "./SidebarWarningPresenter";
@@ -10,7 +11,6 @@ import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { BlockValidationResult } from "../../core/validation";
 import logger from "../logger";
 import LabelWithHelpLink from "./LabelWithHelpLinkPresenter";
-import { TextControl } from "@wordpress/components";
 
 interface SchemaAnalysisProps {
 	recommendedBlocks: string[];

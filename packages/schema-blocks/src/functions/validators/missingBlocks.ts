@@ -1,7 +1,7 @@
 import { BlockInstance } from "@wordpress/blocks";
+import { select } from "@wordpress/data";
 import { BlockPresence, BlockValidationResult } from "../../core/validation";
 import { mapBlocksRecursively } from "../innerBlocksHelper";
-import { select } from "@wordpress/data";
 import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 
 /**
