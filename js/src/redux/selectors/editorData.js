@@ -75,7 +75,8 @@ export const getEditorDataImageFallback = state => {
 	/*
 	 * This filter is also applied to the `getImageFallback` selector for the
 	 * Classic and Block editors. It's then used in Yoast SEO WooCommerce, to add
-	 * the first product gallery image to the fallback, before the `siteWideImage`.
+	 * the first product gallery image to the fallback, before the `socialImage`
+	 * or before the `siteWideImage`.
 	 */
 	applyFilters( "yoast.socials.imageFallback", fallbacks );
 

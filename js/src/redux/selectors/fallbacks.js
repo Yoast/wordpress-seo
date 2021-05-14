@@ -33,7 +33,8 @@ export const getImageFallback = state => {
 	/*
 	 * This filter is also applied to the `getEditorDataImageFallback` selector
 	 * for the Elementor editor. It's then used in Yoast SEO WooCommerce, to add
-	 * the first product gallery image to the fallback, before the `siteWideImage`.
+	 * the first product gallery image to the fallback, before the `socialImage`
+	 * or before the `siteWideImage`.
 	 */
 	applyFilters( "yoast.socials.imageFallback", fallbacks );
 
@@ -49,7 +50,7 @@ export const getImageFallback = state => {
 /**
  * Gets the site base URL. Then cuts it after the first "/".
  *
- * @returns {string} The authorName.
+ * @returns {string} The site base URL.
  */
 export const getSiteUrl = () => {
 	let url = get( window, "wpseoScriptData.metabox.base_url", "" );
