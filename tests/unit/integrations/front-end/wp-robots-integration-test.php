@@ -198,7 +198,6 @@ class WP_Robots_Integration_Test extends TestCase {
 		);
 	}
 
-
 	/**
 	 * Tests the add robots with having the robots input being overwritten by our data.
 	 *
