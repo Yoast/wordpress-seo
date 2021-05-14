@@ -36,6 +36,7 @@ jest.mock( "../../../src/functions/BlockHelper", () => {
 				heading: "The required block",
 			};
 		} ),
+		getHumanReadableBlockName: jest.fn( ( name: string ) => name ),
 	};
 } );
 
@@ -70,7 +71,6 @@ describe( "The BlockSuggestionsPresenter class ", () => {
 		// Arrange.
 		const suggestion: SuggestionsProps = {
 			heading: "Heading for Required Blocks",
-			parentClientId: "parentClientId",
 			suggestions: [
 				createSuggestion(
 					"This is a missing block",
@@ -93,7 +93,6 @@ describe( "The BlockSuggestionsPresenter class ", () => {
 		// Arrange.
 		const suggestion: SuggestionsProps = {
 			heading: "Heading for Required Blocks",
-			parentClientId: "parentClientId",
 			suggestions: [
 				createSuggestion(
 					"This is an invalid required block without checkmark or add link",
@@ -116,7 +115,6 @@ describe( "The BlockSuggestionsPresenter class ", () => {
 		// Arrange.
 		const suggestion: SuggestionsProps = {
 			heading: "Heading for Required Blocks",
-			parentClientId: "parentClientId",
 			suggestions: [
 				createSuggestion(
 					"This is a valid required block with checkmark without add link",
@@ -140,7 +138,6 @@ describe( "The BlockSuggestionsPresenter class ", () => {
 		// eslint-disable-next-line max-len
 		const suggestions: SuggestionsProps = {
 			heading: "Recommended blocks",
-			parentClientId: "parentClientId",
 			suggestions: [],
 			blockNames: [ "yoast/recommendedBlock" ],
 		};
@@ -165,11 +162,10 @@ describe( "The BlockSuggestionsPresenter class ", () => {
 				validation,
 			),
 		];
-		const parentClientId = "parentClientId";
 
 		// Act.
 		const tree = renderer
-			.create( PureBlockSuggestionsPresenter( { heading: "Recommended blocks", parentClientId, suggestions } as SuggestionsProps ) )
+			.create( PureBlockSuggestionsPresenter( { heading: "Recommended blocks", suggestions } as SuggestionsProps ) )
 			.toJSON();
 
 		// Assert.
@@ -179,7 +175,6 @@ describe( "The BlockSuggestionsPresenter class ", () => {
 	it( "should add the block when the [ Add ] button is clicked.", () => {
 		const suggestionsProps =  {
 			heading: "Required blocks",
-			parentClientId: "parentClientId",
 			suggestions: [
 				createSuggestion( "yoast/not-added-to-content",
 					BlockValidationResult.MissingBlock( "yoast/not-added-to-content", BlockPresence.Required ) ),
