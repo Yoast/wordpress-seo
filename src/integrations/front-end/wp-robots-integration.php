@@ -71,7 +71,7 @@ class WP_Robots_Integration implements Integration_Interface {
 		}
 
 		$merged_robots   = array_merge( $robots, $this->get_robots_value() );
-		$filtered_robots = $this->filter_robots_noindex_nofollow( $merged_robots );
+		$filtered_robots = $this->enforce_robots_congruence( $merged_robots );
 		$sorted_robots   = $this->sort_robots( $filtered_robots );
 
 		// Filter all falsy-null robot values.
@@ -147,11 +147,19 @@ class WP_Robots_Integration implements Integration_Interface {
 	 *
 	 * @return array The filtered robots.
 	 */
-	protected function filter_robots_noindex_nofollow( $robots ) {
+	protected function enforce_robots_congruence( $robots ) {
 		if ( isset( $robots['nofollow'] ) ) {
 			$robots['follow'] = null;
 		}
-
+		if ( isset( $robots['noarchive'] ) ) {
+			$robots['archive'] = null;
+		}
+		if ( isset( $robots['noimageindex'] ) ) {
+			$robots['imageindex'] = null;
+		}
+		if ( isset( $robots['nosnippet'] ) ) {
+			$robots['snippet'] = null;
+		}
 		if ( isset( $robots['noindex'] ) ) {
 			$robots['index']             = null;
 			$robots['imageindex']        = null;
