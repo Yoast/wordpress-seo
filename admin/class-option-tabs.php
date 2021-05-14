@@ -71,7 +71,7 @@ class WPSEO_Option_Tabs {
 	/**
 	 * Get active tab.
 	 *
-	 * @return null|WPSEO_Option_Tab Get the active tab.
+	 * @return WPSEO_Option_Tab|null Get the active tab.
 	 */
 	public function get_active_tab() {
 		if ( empty( $this->active_tab ) ) {

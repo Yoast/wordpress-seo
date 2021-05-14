@@ -96,8 +96,8 @@ class WPSEO_Export {
 	/**
 	 * Writes a line to the export.
 	 *
-	 * @param string  $line          Line string.
-	 * @param boolean $newline_first Boolean flag whether to prepend with new line.
+	 * @param string $line          Line string.
+	 * @param bool   $newline_first Boolean flag whether to prepend with new line.
 	 */
 	private function write_line( $line, $newline_first = false ) {
 		if ( $newline_first ) {

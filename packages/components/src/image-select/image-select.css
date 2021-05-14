@@ -1,0 +1,43 @@
+.yoast-image-select__preview {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	width: 300px;
+	max-width: 100%;
+	height: 200px;
+	border: 1px solid rgba(0,0,0,0.2);
+	background-color: transparent;
+	padding: 0;
+}
+
+.yoast-image-select__preview--no-preview {
+	background: var(--yoast-color-inactive-grey-light) var(--yoast-svg-icon-image) no-repeat center center /64px 64px;
+}
+
+.yoast-image-select__preview .yoast-image-select__preview--image {
+	max-width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.yoast-image-select .yoast-field-group__inputfield {
+	margin-bottom: 1em;
+}
+
+.yoast-image-select .yoast-button {
+	margin-right: 1.5em;
+}
+
+.yoast-image-select {
+	margin-top: 1.7em;
+	margin-bottom: 1.7em;
+}
+
+.yoast-image-select .yoast-image-select-buttons button {
+	margin-top: 1em;
+}
+
+#organization-image-select .yoast-image-select {
+	margin-top: 0;
+}

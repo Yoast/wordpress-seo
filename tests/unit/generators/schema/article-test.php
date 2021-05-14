@@ -191,10 +191,6 @@ class Article_Test extends TestCase {
 	/**
 	 * Tests the generate method.
 	 *
-	 * @param array   $values_to_test The values that need to vary in order to test all the paths.
-	 * @param boolean $expected_value The expected generated article schema.
-	 * @param string  $message        The message to show in case a test fails.
-	 *
 	 * @covers ::generate
 	 * @covers ::add_image
 	 * @covers ::add_keywords
@@ -203,6 +199,10 @@ class Article_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 *
 	 * @dataProvider provider_for_generate
+	 *
+	 * @param array  $values_to_test The values that need to vary in order to test all the paths.
+	 * @param bool   $expected_value The expected generated article schema.
+	 * @param string $message        The message to show in case a test fails.
 	 */
 	public function test_generate( $values_to_test, $expected_value, $message ) {
 		$this->context_mock->post->comment_status      = $values_to_test['post_comment_status'];
@@ -273,7 +273,7 @@ class Article_Test extends TestCase {
 		$this->language->expects( 'add_piece_language' )
 			->once()
 			->andReturnUsing(
-				function( $data ) {
+				static function( $data ) {
 					$data['inLanguage'] = 'language';
 
 					return $data;

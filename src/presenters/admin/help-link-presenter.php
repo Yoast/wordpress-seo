@@ -75,7 +75,7 @@ class Help_Link_Presenter extends Abstract_Presenter {
 			$new_tab_message        = ' ' . \__( '(Opens in a new browser tab)', 'wordpress-seo' );
 		}
 
-		return sprintf(
+		return \sprintf(
 			'<a href="%1$s"%2$s class="yoast_help yoast-help-link dashicons"><span class="yoast-help-icon" aria-hidden="true"></span><span class="screen-reader-text">%3$s</span></a>',
 			\esc_url( $this->link ),
 			$target_blank_attribute,

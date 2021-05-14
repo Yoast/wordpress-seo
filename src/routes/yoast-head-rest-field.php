@@ -111,7 +111,7 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 *
 	 * @param array $params The rest request params.
 	 *
-	 * @return string The head.
+	 * @return string|null The head.
 	 */
 	public function for_post( $params ) {
 		if ( ! isset( $params['id'] ) ) {
@@ -135,7 +135,7 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 *
 	 * @param array $params The rest request params.
 	 *
-	 * @return string The head.
+	 * @return string|null The head.
 	 */
 	public function for_term( $params ) {
 		$obj = $this->head_action->for_term( $params['id'] );
@@ -152,7 +152,7 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 *
 	 * @param array $params The rest request params.
 	 *
-	 * @return string The head.
+	 * @return string|null The head.
 	 */
 	public function for_author( $params ) {
 		$obj = $this->head_action->for_author( $params['id'] );
@@ -169,7 +169,7 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 *
 	 * @param array $params The rest request params.
 	 *
-	 * @return string The head.
+	 * @return string|null The head.
 	 */
 	public function for_post_type_archive( $params ) {
 		if ( $params['slug'] === 'post' ) {

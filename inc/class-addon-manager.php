@@ -82,7 +82,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Holds the site information data.
 	 *
-	 * @var object
+	 * @var stdClass
 	 */
 	private $site_information;
 
@@ -668,7 +668,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @param object $site_information Site information as received from the API.
 	 *
-	 * @return object Mapped site information.
+	 * @return stdClass Mapped site information.
 	 */
 	protected function map_site_information( $site_information ) {
 		return (object) [
@@ -682,7 +682,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @param object $subscription Subscription information as received from the API.
 	 *
-	 * @return object Mapped subscription.
+	 * @return stdClass Mapped subscription.
 	 */
 	protected function map_subscription( $subscription ) {
 		// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Not our properties.

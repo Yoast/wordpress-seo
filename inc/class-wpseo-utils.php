@@ -17,7 +17,7 @@ class WPSEO_Utils {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @var bool $has_filters
+	 * @var bool
 	 */
 	public static $has_filters;
 
@@ -43,7 +43,6 @@ class WPSEO_Utils {
 		 *
 		 * @api bool $allowed Whether file editing is allowed.
 		 */
-
 		return apply_filters( 'wpseo_allow_system_file_edit', $allowed );
 	}
 
@@ -138,8 +137,6 @@ class WPSEO_Utils {
 	/**
 	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way.
 	 *
-	 * @link https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original.
-	 *
 	 * Sanitize a string from user input or from the db.
 	 *
 	 * - Check for invalid UTF-8;
@@ -147,6 +144,8 @@ class WPSEO_Utils {
 	 * - Strip all tags;
 	 * - Remove line breaks, tabs and extra white space;
 	 * - Strip octets - BUT DO NOT REMOVE (part of) VARIABLES WHICH WILL BE REPLACED.
+	 *
+	 * @link https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original.
 	 *
 	 * @since 1.8.0
 	 *
@@ -251,7 +250,7 @@ class WPSEO_Utils {
 		if ( strpos( $url, '%' ) !== false ) {
 			$url = preg_replace_callback(
 				'`%[a-fA-F0-9]{2}`',
-				function( $octects ) {
+				static function( $octects ) {
 					return strtolower( $octects[0] );
 				},
 				$url
@@ -453,10 +452,10 @@ class WPSEO_Utils {
 	/**
 	 * Do simple reliable math calculations without the risk of wrong results.
 	 *
+	 * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results.
+	 *
 	 * @link http://floating-point-gui.de/
 	 * @link http://php.net/language.types.float.php See the big red warning.
-	 *
-	 * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results.
 	 *
 	 * @since 1.5.0
 	 * @since 1.8.0 Moved from stand-alone function to this class.
@@ -947,9 +946,9 @@ class WPSEO_Utils {
 	 * In case WPML is installed, returns the original home_url and not the WPML version.
 	 * In case of a multisite setup we return the network_home_url.
 	 *
-	 * @return string The home url.
-	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @return string The home url.
 	 */
 	public static function get_home_url() {
 
@@ -994,8 +993,9 @@ class WPSEO_Utils {
 	/**
 	 * Extends the allowed post tags with accessibility-related attributes.
 	 *
-	 * @param array $allowed_post_tags The allowed post tags.
 	 * @codeCoverageIgnore
+	 *
+	 * @param array $allowed_post_tags The allowed post tags.
 	 *
 	 * @return array The allowed tags including post tags, input tags and select tags.
 	 */
@@ -1036,8 +1036,9 @@ class WPSEO_Utils {
 	/**
 	 * Extends the allowed post tags with input, select and option tags.
 	 *
-	 * @param array $allowed_post_tags The allowed post tags.
 	 * @codeCoverageIgnore
+	 *
+	 * @param array $allowed_post_tags The allowed post tags.
 	 *
 	 * @return array The allowed tags including post tags, input tags, select tags and option tags.
 	 */
@@ -1162,11 +1163,11 @@ class WPSEO_Utils {
 	/**
 	 * List all the available user roles.
 	 *
-	 * @since 1.8.0
+	 * @since      1.8.0
 	 * @deprecated 15.0
 	 * @codeCoverageIgnore
 	 *
-	 * @return array $roles
+	 * @return array
 	 */
 	public static function get_roles() {
 		_deprecated_function( __METHOD__, '15.0', 'wp_roles()->get_names()' );
@@ -1180,11 +1181,10 @@ class WPSEO_Utils {
 	/**
 	 * Checks if the current installation supports MyYoast access tokens.
 	 *
+	 * @deprecated 15.0
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool True if access_tokens are supported.
-	 *
-	 * @deprecated 15.0
 	 */
 	public static function has_access_token_support() {
 		_deprecated_function( __METHOD__, 'WPSEO 15.0' );
@@ -1196,10 +1196,9 @@ class WPSEO_Utils {
 	 *
 	 * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
 	 *
+	 * @since      1.8.0
 	 * @deprecated 15.2
 	 * @codeCoverageIgnore
-	 *
-	 * @since 1.8.0
 	 *
 	 * @param string $string String input to standardize.
 	 *
@@ -1215,14 +1214,13 @@ class WPSEO_Utils {
 	 * First strip out registered and enclosing shortcodes using native WordPress strip_shortcodes function.
 	 * Then strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
 	 *
+	 * @since      1.8.0
 	 * @deprecated 15.2
 	 * @codeCoverageIgnore
 	 *
-	 * @since 1.8.0
-	 *
 	 * @param string $text Input string that might contain shortcodes.
 	 *
-	 * @return string $text String without shortcodes.
+	 * @return string String without shortcodes.
 	 */
 	public static function strip_shortcode( $text ) {
 		_deprecated_function( __METHOD__, 'WPSEO 15.2' );
@@ -1233,10 +1231,9 @@ class WPSEO_Utils {
 	/**
 	 * Retrieves the title separator.
 	 *
+	 * @since      3.0.0
 	 * @deprecated 15.2
 	 * @codeCoverageIgnore
-	 *
-	 * @since 3.0.0
 	 *
 	 * @return string
 	 */
@@ -1249,10 +1246,9 @@ class WPSEO_Utils {
 	/**
 	 * Flush W3TC cache after successful update/add of taxonomy meta option.
 	 *
+	 * @since      1.8.0
 	 * @deprecated 15.3
 	 * @codeCoverageIgnore
-	 *
-	 * @since 1.8.0
 	 */
 	public static function flush_w3tc_cache() {
 		_deprecated_function( __METHOD__, 'WPSEO 15.3' );
@@ -1380,10 +1376,9 @@ SVG;
 	/**
 	 * Gets the plugin name from file.
 	 *
+	 * @since      2.3.3
 	 * @deprecated 15.5
 	 * @codeCoverageIgnore
-	 *
-	 * @since 2.3.3
 	 *
 	 * @param string $plugin Plugin path relative to plugins directory.
 	 *
@@ -1404,10 +1399,9 @@ SVG;
 	/**
 	 * Returns a base64 URL for the svg for use in the menu.
 	 *
+	 * @since      3.3.0
 	 * @deprecated 15.5
 	 * @codeCoverageIgnore
-	 *
-	 * @since 3.3.0
 	 *
 	 * @param bool $base64 Whether or not to return base64'd output.
 	 *
@@ -1429,12 +1423,11 @@ SVG;
 	/**
 	 * Checks whether the current user is allowed to access the configuration.
 	 *
+	 * @since      1.8.0
 	 * @deprecated 15.5
 	 * @codeCoverageIgnore
 	 *
-	 * @since 1.8.0
-	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function grant_access() {
 		_deprecated_function( __METHOD__, 'WPSEO 15.5' );

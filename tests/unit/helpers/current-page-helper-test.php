@@ -593,7 +593,7 @@ class Current_Page_Helper_Test extends TestCase {
 		Monkey\Functions\expect( 'get_option' )
 			->twice()
 			->andReturnUsing(
-				function ( $option ) {
+				static function ( $option ) {
 					if ( $option === 'show_on_front' ) {
 						return 'page';
 					}

@@ -25,9 +25,9 @@ jobs:
   fast_finish: true
   include:
     - php: 7.2
-      env: CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=lts/* AUTO_CHECKOUT_MONOREPO_BRANCH=1
+      env: PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=lts/*
     - php: 7.4
-      name: 'PHP 7.4: Check CS'
+      name: "PHP 7.4: Check CS"
       before_install: skip
       before_script: skip
       install:
@@ -78,12 +78,6 @@ jobs:
       install:
         - yarn global add grunt-cli
         - yarn install
-        - |
-          if [[ ( $TRAVIS_BRANCH =~ ^feature\/* || $TRAVIS_BRANCH =~ ^release\/* || $TRAVIS_BRANCH =~ ^hotfix\/* || $TRAVIS_BRANCH = "trunk" ) && "$TRAVIS_EVENT_TYPE" = "push" ]]; then
-            git clone https://github.com/yoast/javascript /tmp/javascript
-            echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
-            AUTO_CHECKOUT_MONOREPO_BRANCH=1 yarn link-monorepo
-          fi
       before_script: skip
       script:
         - |
@@ -133,6 +127,7 @@ before_install:
       nvm install $TRAVIS_NODE_VERSION
       curl -o- -L https://yarnpkg.com/install.sh | bash
       export PATH=$HOME/.yarn/bin:$PATH
+      echo -e "machine github.com\n  login $CI_GITHUB_USER_TOKEN" > ~/.netrc
     fi
 
 install:
@@ -193,20 +188,10 @@ before_script:
       sed -i "s/yourpasswordhere//" wp-tests-config.php
       mysql -e "CREATE DATABASE wordpress_tests;" -uroot
       cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
-    fi
-  - |
-    if [[ "$CHECKJS" == "1" ]]; then
-      git fetch --tags
-      PLUGIN_TAGS=$(git tag --points-at $TRAVIS_COMMIT)
-      if [[ -z "$PLUGIN_TAGS" ]]; then
-        git clone https://github.com/yoast/javascript /tmp/javascript
-        echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
-        if [[ ( $TRAVIS_BRANCH =~ ^feature\/* || $TRAVIS_BRANCH =~ ^release\/* || $TRAVIS_BRANCH =~ ^hotfix\/* || $TRAVIS_BRANCH = "trunk" ) && $TRAVIS_EVENT_TYPE = "pull_request" ]]; then
-          AUTO_CHECKOUT_MONOREPO_BRANCH=1 yarn link-monorepo
-        else
-          yarn link-monorepo
-        fi
-      fi
+      mkdir src/generated/assets
+      echo "<?php return [ 'post-edit-' . ( new WPSEO_Admin_Asset_Manager() )->flatten_version( WPSEO_VERSION ) . '.js' => [ 'dependencies' => [] ] ];" >> src/generated/assets/plugin.php
+      echo "<?php return [];" >> src/generated/assets/externals.php
+      echo "<?php return [];" >> src/generated/assets/languages.php
     fi
   - phpenv rehash
   - |
@@ -240,7 +225,7 @@ script:
   - |
     if [[ "$CHECKJS" == "1" ]]; then
       travis_fold start "JavaScript.check" && travis_time_start
-      grunt check:js
+      yarn lint
       travis_time_finish && travis_fold end "JavaScript.check"
     fi
   # JavaScript tests

@@ -141,7 +141,7 @@ class Meta_Surface {
 	/**
 	 * Returns the meta tags context for a post type archive.
 	 *
-	 * @param string $post_type Optional. The post type to get the archive meta for. Defaults to the current post type.
+	 * @param string|null $post_type Optional. The post type to get the archive meta for. Defaults to the current post type.
 	 *
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
@@ -266,8 +266,8 @@ class Meta_Surface {
 	/**
 	 * Returns the meta for an indexable.
 	 *
-	 * @param Indexable $indexable The indexable.
-	 * @param string    $page_type Optional. The page type if already known.
+	 * @param Indexable   $indexable The indexable.
+	 * @param string|null $page_type Optional. The page type if already known.
 	 *
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
@@ -283,7 +283,7 @@ class Meta_Surface {
 	 * Returns the meta for an indexable.
 	 *
 	 * @param Indexable[] $indexables The indexables.
-	 * @param string      $page_type  Optional. The page type if already known.
+	 * @param string|null $page_type  Optional. The page type if already known.
 	 *
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
@@ -341,7 +341,7 @@ class Meta_Surface {
 	 *
 	 * @param string $url The url.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function is_date_archive_url( $url ) {
 		$path = \wp_parse_url( $url, \PHP_URL_PATH );

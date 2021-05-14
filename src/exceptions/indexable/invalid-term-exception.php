@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Yoast\WP\SEO\Exceptions\Indexable;
 
 /**

@@ -62,6 +62,8 @@ class WPSEO_Frontend {
 	 *
 	 * @param string $method    The called method.
 	 * @param array  $arguments The given arguments.
+	 *
+	 * @return mixed
 	 */
 	public function __call( $method, $arguments ) {
 		_deprecated_function( $method, 'WPSEO 14.0' );
@@ -269,6 +271,6 @@ class WPSEO_Frontend {
 	private function get_current_page_presentation() {
 		$context = $this->context_memoizer->for_current_page();
 		/** This filter is documented in src/integrations/front-end-integration.php */
-		return \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
+		return apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
 	}
 }

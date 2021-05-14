@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
 use Brain\Monkey;
+use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Presenters\Admin\Badge_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -102,7 +103,7 @@ class Badge_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_badge_with_expired_group() {
-		$test = \Mockery::mock( Badge_Presenter::class )->makePartial();
+		$test = Mockery::mock( Badge_Presenter::class )->makePartial();
 
 		$test->expects( 'is_group_still_new' )
 			->twice()

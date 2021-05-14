@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
-use Yoast\WP\SEO\Helpers\Open_Graph\Values_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
@@ -73,13 +72,6 @@ trait Presentation_Instance_Dependencies {
 	protected $permalink_helper;
 
 	/**
-	 * Holds the values helper.
-	 *
-	 * @var Values_Helper|Mockery\MockInterface
-	 */
-	protected $values_helper;
-
-	/**
 	 * Holds the opengraph image helper.
 	 *
 	 * @var Open_Graph_Image_Helper|Mockery\MockInterface
@@ -127,7 +119,6 @@ trait Presentation_Instance_Dependencies {
 		$this->user             = Mockery::mock( User_Helper::class );
 		$this->indexable_helper = Mockery::mock( Indexable_Helper::class );
 		$this->permalink_helper = Mockery::mock( Permalink_Helper::class );
-		$this->values_helper    = Mockery::mock( Values_Helper::class );
 		$this->open_graph_image = Mockery::mock( Open_Graph_Image_Helper::class );
 		$this->twitter          = Mockery::mock( Twitter_Image_Helper::class );
 
@@ -138,8 +129,7 @@ trait Presentation_Instance_Dependencies {
 			$this->url,
 			$this->user,
 			$this->indexable_helper,
-			$this->permalink_helper,
-			$this->values_helper
+			$this->permalink_helper
 		);
 
 		$this->open_graph_image_generator = Mockery::mock(

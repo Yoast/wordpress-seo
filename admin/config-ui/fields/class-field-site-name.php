@@ -37,7 +37,7 @@ class WPSEO_Config_Field_Site_Name extends WPSEO_Config_Field {
 	/**
 	 * Get the data from the stored options.
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	public function get_data() {
 		if ( WPSEO_Options::get( 'website_name', false ) ) {

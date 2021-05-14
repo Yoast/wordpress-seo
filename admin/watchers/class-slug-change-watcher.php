@@ -52,7 +52,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	/**
 	 * Shows an message when a post is about to get trashed.
 	 *
-	 * @param integer $post_id The current post ID.
+	 * @param int $post_id The current post ID.
 	 *
 	 * @return void
 	 */
@@ -71,7 +71,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	/**
 	 * Shows an message when a post is about to get trashed.
 	 *
-	 * @param integer $post_id The current post ID.
+	 * @param int $post_id The current post ID.
 	 *
 	 * @return void
 	 */
@@ -90,7 +90,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	/**
 	 * Shows a message when a term is about to get deleted.
 	 *
-	 * @param integer $term_id The term ID that will be deleted.
+	 * @param int $term_id The term ID that will be deleted.
 	 *
 	 * @return void
 	 */

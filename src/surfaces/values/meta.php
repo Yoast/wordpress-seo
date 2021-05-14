@@ -121,7 +121,7 @@ class Meta {
 		$presenters = $this->front_end->get_presenters( $this->context->page_type );
 
 		if ( $this->context->page_type === 'Date_Archive' ) {
-			$callback   = function ( $presenter ) {
+			$callback   = static function ( $presenter ) {
 				return ! \is_a( $presenter, Rel_Next_Presenter::class )
 					&& ! \is_a( $presenter, Rel_Prev_Presenter::class );
 			};

@@ -10,6 +10,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * Surface for the indexables.
  *
+ * @property Helpers\Asset_Helper          $asset
  * @property Helpers\Author_Archive_Helper $author_archive
  * @property Helpers\Blocks_Helper         $blocks
  * @property Helpers\Current_Page_Helper   $current_page

@@ -17,7 +17,7 @@ class Yoast_Form {
 	/**
 	 * Instance of this class
 	 *
-	 * @var object
+	 * @var Yoast_Form
 	 * @since 2.0
 	 */
 	public static $instance;
@@ -285,9 +285,9 @@ class Yoast_Form {
 	 *
 	 * @since 12.8
 	 *
-	 * @param string $variable    The variables within the option to create the checkbox list for.
-	 * @param string $labels      The labels to show for the variable.
-	 * @param array  $attr        Extra attributes to add to the checkbox list.
+	 * @param string $variable The variables within the option to create the checkbox list for.
+	 * @param string $labels   The labels to show for the variable.
+	 * @param array  $attr     Extra attributes to add to the checkbox list.
 	 */
 	public function checkbox_list( $variable, $labels, $attr = [] ) {
 		$defaults = [
@@ -855,7 +855,7 @@ class Yoast_Form {
 			'on'  => __( 'No', 'wordpress-seo' ),
 		];
 
-		$is_disabled = ( isset( $attr['disabled'] ) && $attr['disabled'] ) ? true : false;
+		$is_disabled = ( isset( $attr['disabled'] ) && $attr['disabled'] );
 
 		$this->toggle_switch(
 			$var,
@@ -895,7 +895,7 @@ class Yoast_Form {
 			$off_key => __( 'Hide', 'wordpress-seo' ),
 		];
 
-		$is_disabled = ( isset( $attr['disabled'] ) && $attr['disabled'] ) ? true : false;
+		$is_disabled = ( isset( $attr['disabled'] ) && $attr['disabled'] );
 
 		$this->toggle_switch(
 			$var,
@@ -909,8 +909,8 @@ class Yoast_Form {
 	/**
 	 * Retrieves the value for the form field.
 	 *
-	 * @param string $field_name    The field name to retrieve the value for.
-	 * @param string $default_value The default value, when field has no value.
+	 * @param string      $field_name    The field name to retrieve the value for.
+	 * @param string|null $default_value The default value, when field has no value.
 	 *
 	 * @return mixed|null The retrieved value.
 	 */
@@ -970,7 +970,7 @@ class Yoast_Form {
 	 *
 	 * @param string $feature_setting The feature setting.
 	 *
-	 * @return boolean True if we are dealing with the Usage tracking feature on a multisite subsite.
+	 * @return bool True if we are dealing with the Usage tracking feature on a multisite subsite.
 	 */
 	protected function is_tracking_on_subsite( $feature_setting ) {
 		return ( $feature_setting === 'tracking' && ! is_network_admin() && ! is_main_site() );

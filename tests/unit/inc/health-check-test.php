@@ -126,7 +126,7 @@ class Health_Check_Test extends TestCase {
 					'color' => 'green',
 				],
 				'description' => '',
-				'actions'     => '<p class="yoast-site-health__signature"><img src="images/Yoast_SEO_Icon.svg" alt="" height="20" width="20" class="yoast-site-health__signature-icon">This was reported by the Yoast SEO plugin</p>',
+				'actions'     => '<p class="yoast-site-health__signature"><img src="packages/js/images/Yoast_SEO_Icon.svg" alt="" height="20" width="20" class="yoast-site-health__signature-icon">This was reported by the Yoast SEO plugin</p>',
 				'test'        => '',
 			],
 			$this->instance->get_test_result()

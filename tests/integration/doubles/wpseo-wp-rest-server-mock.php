@@ -5,7 +5,7 @@
  * @package WPSEO\Tests\Doubles
  */
 
-if ( class_exists( 'WP_REST_Server' ) ) :
+if ( class_exists( 'WP_REST_Server' ) ) {
 	/**
 	 * Class WPSEO_WP_REST_Server_Mock.
 	 */
@@ -20,4 +20,4 @@ if ( class_exists( 'WP_REST_Server' ) ) :
 			return $this->endpoints;
 		}
 	}
-endif;
+}
