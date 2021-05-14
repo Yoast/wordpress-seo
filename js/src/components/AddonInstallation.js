@@ -76,20 +76,38 @@ const AddonInstallation = props => {
 		"Yoast",
 	);
 
+	let installationTitle = __( "the following addons", "wordpress-seo" );
+	let list;
+
+	if ( props.addons.length === 1 ) {
+		installationTitle = props.addons[ 0 ];
+	}
+
+	// Create a list of addons if there are more than one.
+	if ( props.addons.length !== 1 ) {
+		list = <ul className="ul-disc">
+			{
+				props.addons.map( ( addon, index ) => <li key={ "addon-" + index }>{ addon }</li> )
+			}
+		</ul>;
+	}
+
 	return (
 		<Modal
 			appElement={ document.getElementById( "wpseo-app-element" ) }
 			onClose={ closeModal }
 			isOpen={ modalIsOpen }
 			heading={ heading }
+			modalAriaLabel={ __( "Addon installation", "wordpress-seo" ) }
 		>
 			<p>
 				{ sprintf(
 					/* translators: %s expands to Yoast SEO Premium */
 					__( "Please confirm below that you would like to install %s on this site.", "wordpress-seo" ),
-					Object.values( props.addons ).join( ", " ),
+					installationTitle,
 				) }
 			</p>
+			{ list }
 			<ButtonPlacement>
 				{ renderCloseButton() }
 				{ renderInstallButton() }

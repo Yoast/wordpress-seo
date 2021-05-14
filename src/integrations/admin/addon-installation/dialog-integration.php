@@ -53,6 +53,11 @@ class Dialog_Integration implements Integration_Interface {
 		add_action( 'admin_init', [ $this, 'start_addon_installation' ] );
 	}
 
+	/**
+	 * Starts the addon installation flow.
+	 *
+	 * @returns void
+	 */
 	public function start_addon_installation() {
 		// Only show the dialog when we explicitly want to see it.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: This is not a form.
@@ -110,7 +115,7 @@ class Dialog_Integration implements Integration_Interface {
 		$owned_addons = [];
 
 		foreach ( $this->addon_manager->get_myyoast_site_information()->subscriptions as $addon ) {
-			$owned_addons[ $addon->product->slug ] = $addon->product->name;
+			$owned_addons[] = $addon->product->name;
 		}
 
 		return $owned_addons;
