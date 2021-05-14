@@ -72,7 +72,7 @@ class Addon_Activate_Action_Test extends TestCase {
 			->with( 'plugin_slug' )
 			->andReturn( true );
 
-		$actual = $this->instance->activate_addon( 'plugin_slug', 'download.test' );
+		$actual = $this->instance->activate_addon( 'plugin_slug' );
 
 		$this->assertTrue( $actual );
 	}
@@ -117,7 +117,7 @@ class Addon_Activate_Action_Test extends TestCase {
 
 		$this->expectException( Addon_Activation_Error_Exception::class );
 
-		$this->instance->activate_addon( 'plugin_slug', 'download.test' );
+		$this->instance->activate_addon( 'plugin_slug' );
 	}
 
 	/**
@@ -152,7 +152,7 @@ class Addon_Activate_Action_Test extends TestCase {
 			->with( 'plugin_file' )
 			->andReturn( true );
 
-			$actual = $this->instance->activate_addon( 'plugin_slug', 'download.test' );
+			$actual = $this->instance->activate_addon( 'plugin_slug' );
 
 			$this->assertTrue( $actual );
 	}
