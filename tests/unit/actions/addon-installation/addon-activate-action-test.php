@@ -32,6 +32,13 @@ class Addon_Activate_Action_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * The require file helper.
+	 *
+	 * @var Mockery\MockInterface|Require_File_Helper
+	 */
+	protected $require_file_helper;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
