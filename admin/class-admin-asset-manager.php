@@ -251,9 +251,6 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'classic-editor',
 				self::PREFIX . 'select2',
 			],
-			'addon-installation' => [
-				self::PREFIX . 'components-new-package',
-			],
 		];
 
 		$plugin_scripts   = $this->load_generated_asset_file(
