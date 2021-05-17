@@ -21,15 +21,6 @@ class Supported_Features_Route implements Route_Interface {
 	const SUPPORTED_FEATURES_ROUTE = '/supported-features';
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
-	 *
-	 * @return array
-	 */
-	public static function get_conditionals() {
-		return [];
-	}
-
-	/**
 	 * Registers routes with WordPress.
 	 *
 	 * @return void
