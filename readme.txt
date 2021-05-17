@@ -251,6 +251,9 @@ Bugfixes:
 * Fixes a bug where a malformed `Organization` piece would be added to the Schema output if the company logo was an unsupported image.
 * Fixes a bug where we would accidentally include unminified CSS files in the zip. This led to an unnecessary zip size increase.
 * Fixes a bug where the complete options array could be re-saved in the database at each frontend request.
+* Fixes a bug where both `noindex` and `index` values could be added to the `robots` meta tag on the WordPress login screen.
+* Fixes a rare bug where the name property would be missing in the breadcrumb schema due to plugin conflicts.
+
 
 Other:
 
