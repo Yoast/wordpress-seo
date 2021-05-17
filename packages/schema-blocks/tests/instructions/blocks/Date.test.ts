@@ -10,7 +10,7 @@ jest.mock( "@wordpress/date", () => ( {
 	__experimentalGetSettings: jest.fn(),
 	dateI18n: jest.fn(),
 } ) );
-jest.mock( "../../../src/instructions/blocks/InnerBlocks", () => ( {} ) );
+jest.mock( "../../../src/functions/presenters/SchemaAnalysis", () => ( {} ) );
 
 const mockedGetSettings = mocked( __experimentalGetSettings, false );
 const mockedDateI18n = mocked( dateI18n, false );

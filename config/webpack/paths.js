@@ -6,6 +6,7 @@ const cssDistPath = path.resolve( "css", "dist" );
 
 // Output filename: Entry file (relative to jsSrcPath)
 const entry = {
+	"addon-installation": "./packages/js/src/addon-installation.js",
 	"admin-global": "./packages/js/src/admin-global.js",
 	"analysis-worker": "./packages/js/src/analysis-worker.js",
 	"api-client": "./packages/js/src/api-client.js",
@@ -18,7 +19,7 @@ const entry = {
 	"dynamic-blocks": "./packages/js/src/dynamic-blocks.js",
 	"edit-page": "./packages/js/src/edit-page.js",
 	"editor-modules": "./packages/js/src/editor-modules.js",
-	"elementor": "./packages/js/src/elementor.js",
+	elementor: "./packages/js/src/elementor.js",
 	"filter-explanation": "./packages/js/src/filter-explanation.js",
 	"help-scout-beacon": "./packages/js/src/help-scout-beacon.js",
 	indexation: "./packages/js/src/indexation.js",

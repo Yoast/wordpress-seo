@@ -1,46 +1,45 @@
 import { ReactElement } from "react";
-import { BlockInstance } from "@wordpress/blocks";
 import { useSelect } from "@wordpress/data";
-import { createElement, Fragment } from "@wordpress/element";
+import { createElement, Fragment, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { SvgIcon } from "@yoast/components";
+import { TextControl } from "@wordpress/components";
 
 import BlockSuggestions from "./BlockSuggestionsPresenter";
 import { createAnalysisMessages, SidebarWarning } from "./SidebarWarningPresenter";
 import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { BlockValidationResult } from "../../core/validation";
 import logger from "../logger";
+import LabelWithHelpLink from "./LabelWithHelpLinkPresenter";
 
-interface InnerBlocksSidebarProps {
-	currentBlock: BlockInstance;
+interface SchemaAnalysisProps {
 	recommendedBlocks: string[];
 	requiredBlocks: string[];
 }
 
 /**
- * Retrieves the validation results for the block with the given client ID from the Redux store.
- *
- * @param clientId The client ID of the block to retrieve the validation results for.
+ * Retrieves the validation results from the Redux store.
  *
  * @returns The validation results.
  */
-function useValidationResults( clientId: string ): BlockValidationResult {
+function useValidationResults(): BlockValidationResult[] {
 	return useSelect( select => {
-		return select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getValidationResultForClientId( clientId );
-	}, [ clientId ] );
+		const allBlockNames = select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getBlockNames();
+		return select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getValidationsForBlockNames( allBlockNames );
+	}, [] );
 }
 
 /**
- * Inner blocks sidebar component.
+ * The schema analysis component.
  *
  * @param props The properties.
  *
- * @returns The inner blocks sidebar component.
+ * @returns The schema analysis component.
  *
  * @constructor
  */
-export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ): ReactElement {
-	const validationResults = useValidationResults( props.currentBlock.clientId );
+export function SchemaAnalysis( props: SchemaAnalysisProps ): ReactElement {
+	const validationResults = useValidationResults();
 
 	let warnings: SidebarWarning[] = [];
 
@@ -49,19 +48,33 @@ export function InnerBlocksSidebar( props: InnerBlocksSidebarProps ): ReactEleme
 		logger.debug( "Warnings:", warnings );
 	}
 
-	return <Fragment key={ "innerblocks-sidebar-" + props.currentBlock.clientId }>
+	const [ jobTitle, setJobTitle ] = useState( "" );
+
+	/**
+	 * Changes the job title.
+	 *
+	 * @param text The new job title.
+	 */
+	const onChange = ( text: string ) => {
+		setJobTitle( text );
+	};
+
+	return <div key={ "schema-analysis" } className={ "yoast-schema-analysis" }>
+		<LabelWithHelpLink
+			text={ __( "Job Posting schema", "yoast-schema-blocks" ) }
+			URL={ "https://yoa.st/4dk" }
+		/>
+		<TextControl onChange={ onChange } value={ jobTitle } label={ "Job title" } />
 		<WarningList warnings={ warnings } />
 		<BlockSuggestions
 			heading={ __( "Required information", "yoast-schema-blocks" ) }
-			parentClientId={ props.currentBlock.clientId }
 			blockNames={ props.requiredBlocks }
 		/>
 		<BlockSuggestions
 			heading={ __( "Recommended information", "yoast-schema-blocks" ) }
-			parentClientId={ props.currentBlock.clientId }
 			blockNames={ props.recommendedBlocks }
 		/>
-	</Fragment>;
+	</div>;
 }
 
 interface WarningListProps {
@@ -81,7 +94,7 @@ function WarningList( props: WarningListProps ): ReactElement {
 			<div className="yoast-block-sidebar-warnings">
 				<div className="yoast-block-sidebar-title">{ __( "Analysis", "yoast-schema-blocks" ) }</div>
 				<ul className="yoast-block-sidebar-warnings">
-					{...props.warnings.map( warning => <Warning warning={ warning } key={ warning.text } /> )}
+					{ ...props.warnings.map( warning => <Warning warning={ warning } key={ warning.text } /> ) }
 				</ul>
 			</div>
 		</Fragment>

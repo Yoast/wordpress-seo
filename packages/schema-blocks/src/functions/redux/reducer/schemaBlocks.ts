@@ -4,10 +4,10 @@ import { SchemaBlocksState, SchemaBlocksDefaultState } from "../SchemaBlocksStat
 /**
  * A reducer for the Schema blocks.
  *
- * @param {SchemaBlocksState} state    The current state of the object.
- * @param {SetBlockValidation} command The received command.
+ * @param state    The current state of the object.
+ * @param command The received command.
  *
- * @returns {SchemaBlocksState} The state.
+ * @returns The state.
  */
 export function schemaBlocksReducer( state: SchemaBlocksState = SchemaBlocksDefaultState, command: SchemaBlocksStoreCommand ): SchemaBlocksState {
 	switch ( command.type ) {
@@ -19,7 +19,7 @@ export function schemaBlocksReducer( state: SchemaBlocksState = SchemaBlocksDefa
 			const validation = command.validation;
 
 			newState.validations = newState.validations || {};
-			newState.validations[ validation.clientId ] = validation;
+			newState.validations[ validation.name ] = validation;
 
 			return newState;
 		}

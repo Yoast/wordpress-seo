@@ -279,6 +279,70 @@ class Addon_Manager_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the retrieval of addons and their filenames.
+	 *
+	 * @covers ::get_addon_filenames
+	 */
+	public function test_get_addon_filenames() {
+		$actual = $this->instance->get_addon_filenames();
+
+		$this->assertSame(
+			[
+				'wp-seo-premium.php'    => 'yoast-seo-wordpress-premium',
+				'wpseo-news.php'        => 'yoast-seo-news',
+				'video-seo.php'         => 'yoast-seo-video',
+				'wpseo-woocommerce.php' => 'yoast-seo-woocommerce',
+				'local-seo.php'         => 'yoast-seo-local',
+			],
+			$actual
+		);
+	}
+
+	/**
+	 * Tests the lookup of a plugin slug to a plugin file.
+	 *
+	 * @covers ::get_plugin_file
+	 */
+	public function test_get_plugin_file() {
+		$this->instance
+			->expects( 'get_plugins' )
+			->once()
+			->andReturn(
+				[
+					'wp-seo-premium.php'         => [ 'Version' => '10.0' ],
+					'no-yoast-seo-extension-php' => [ 'Version' => '10.0' ],
+					'wpseo-news.php'             => [ 'Version' => '9.5' ],
+				]
+			);
+
+		$actual = $this->instance->get_plugin_file( 'yoast-seo-news' );
+
+		$this->assertSame( 'wpseo-news.php', $actual );
+	}
+
+	/**
+	 * Tests the lookup of a plugin slug to a plugin file.
+	 *
+	 * @covers ::get_plugin_file
+	 */
+	public function test_get_plugin_file_nonexistent_plugin() {
+		$this->instance
+			->expects( 'get_plugins' )
+			->once()
+			->andReturn(
+				[
+					'wp-seo-premium.php'         => [ 'Version' => '10.0' ],
+					'no-yoast-seo-extension-php' => [ 'Version' => '10.0' ],
+					'wpseo-news.php'             => [ 'Version' => '9.5' ],
+				]
+			);
+
+		$actual = $this->instance->get_plugin_file( 'some-other-plugin-slug' );
+
+		$this->assertFalse( $actual );
+	}
+
+	/**
 	 * Tests the retrieval of installed addon versions.
 	 *
 	 * @covers ::get_installed_addons_versions

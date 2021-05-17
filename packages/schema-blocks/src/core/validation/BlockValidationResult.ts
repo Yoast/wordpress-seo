@@ -1,6 +1,7 @@
 import { BlockValidation } from ".";
 import { BlockInstance } from "@wordpress/blocks";
 import { __, sprintf } from "@wordpress/i18n";
+import { getHumanReadableBlockName } from "../../functions/BlockHelper";
 
 export enum BlockPresence {
 	Required = "required",
@@ -78,7 +79,7 @@ export class BlockValidationResult {
 				message = sprintf(
 					/* Translators: %1$s expands to the block name. */
 					__( "The `%1$s` attribute is required but missing.", "yoast-schema-blocks" ),
-					name,
+					getHumanReadableBlockName( name ),
 				);
 				break;
 
@@ -87,7 +88,7 @@ export class BlockValidationResult {
 				message = sprintf(
 					/* Translators: %1$s expands to the block name. */
 					__( "The `%1$s` attribute is recommended but missing.", "yoast-schema-blocks" ),
-					name,
+					getHumanReadableBlockName( name ),
 				);
 				break;
 		}
@@ -122,7 +123,7 @@ export class BlockValidationResult {
 			sprintf(
 				/* Translators: %1$s expands to the block name. */
 				__( "The `%1$s` block is required but missing.", "yoast-schema-blocks" ),
-				name,
+				getHumanReadableBlockName( name ),
 			),
 		);
 	}
@@ -144,7 +145,7 @@ export class BlockValidationResult {
 			sprintf(
 				/* Translators: %1$s expands to the block name. */
 				__( "The `%1$s` block is recommended but missing.", "yoast-schema-blocks" ),
-				name,
+				getHumanReadableBlockName( name ),
 			),
 		);
 	}

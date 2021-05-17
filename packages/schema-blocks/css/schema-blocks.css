@@ -153,3 +153,7 @@
 .yoast-schema-blocks-icon svg {
 	fill:none;
 }
+
+.yoast-schema-analysis {
+	margin-bottom: 24px;
+}
