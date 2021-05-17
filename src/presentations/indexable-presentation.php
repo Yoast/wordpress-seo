@@ -430,10 +430,19 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_open_graph_title() {
 		if ( $this->model->open_graph_title ) {
-			return $this->model->open_graph_title;
+			$open_graph_title = $this->model->open_graph_title;
 		}
 
-		return $this->values_helper->get_open_graph_title( $this->title, $this->model->object_type, $this->model->object_sub_type );
+		if ( empty( $open_graph_title ) ) {
+			// The helper applies a filter, but we don't have a default value at this stage so we pass an empty string.
+			$open_graph_title = $this->values_helper->get_open_graph_title( '', $this->model->object_type, $this->model->object_sub_type );
+		}
+
+		if ( empty( $open_graph_title ) ) {
+			$open_graph_title = $this->title;
+		}
+
+		return $open_graph_title;
 	}
 
 	/**
@@ -443,10 +452,19 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_open_graph_description() {
 		if ( $this->model->open_graph_description ) {
-			return $this->model->open_graph_description;
+			$open_graph_description = $this->model->open_graph_description;
 		}
 
-		return $this->values_helper->get_open_graph_description( $this->meta_description, $this->model->object_type, $this->model->object_sub_type );
+		if ( empty( $open_graph_description ) ) {
+			// The helper applies a filter, but we don't have a default value at this stage so we pass an empty string.
+			$open_graph_description = $this->values_helper->get_open_graph_description( '', $this->model->object_type, $this->model->object_sub_type );
+		}
+
+		if ( empty( $open_graph_description ) ) {
+			$open_graph_description = $this->meta_description;
+		}
+
+		return $open_graph_description;
 	}
 
 	/**
@@ -586,6 +604,13 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_title;
 		}
 
+		if ( $this->context->open_graph_enabled === true ) {
+			$open_graph_title = $this->values_helper->get_open_graph_title( '', $this->model->object_type, $this->model->object_sub_type );
+			if ( ! empty( $open_graph_title ) ) {
+				return $open_graph_title;
+			}
+		}
+
 		if ( $this->open_graph_title && $this->context->open_graph_enabled === true ) {
 			return '';
 		}
@@ -605,6 +630,13 @@ class Indexable_Presentation extends Abstract_Presentation {
 	public function generate_twitter_description() {
 		if ( $this->model->twitter_description ) {
 			return $this->model->twitter_description;
+		}
+
+		if ( $this->context->open_graph_enabled === true ) {
+			$open_graph_description = $this->values_helper->get_open_graph_description( '', $this->model->object_type, $this->model->object_sub_type );
+			if ( ! empty( $open_graph_description ) ) {
+				return $open_graph_description;
+			}
 		}
 
 		if ( $this->open_graph_description && $this->context->open_graph_enabled === true ) {
@@ -630,6 +662,13 @@ class Indexable_Presentation extends Abstract_Presentation {
 		// When there is an image set by the user.
 		if ( $image && $this->context->indexable->twitter_image_source === 'set-by-user' ) {
 			return $image['url'];
+		}
+
+		if ( $this->context->open_graph_enabled === true ) {
+			$open_graph_image = $this->values_helper->get_open_graph_image( '', $this->model->object_type, $this->model->object_sub_type );
+			if ( ! empty( $open_graph_image ) ) {
+				return $open_graph_image;
+			}
 		}
 
 		// When there isn't a set image or there is a Open Graph image set.

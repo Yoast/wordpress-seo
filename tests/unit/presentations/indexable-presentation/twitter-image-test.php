@@ -71,6 +71,10 @@ class Twitter_Image_Test extends TestCase {
 			->with( $this->context )
 			->andReturn( $image_generate );
 
+		$this->values_helper
+			->expects( 'get_open_graph_image' )
+			->andReturn( '' );
+
 		$this->instance
 			->expects( 'generate_open_graph_images' )
 			->once()
