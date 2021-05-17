@@ -235,20 +235,20 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 16.3 =
+Out now: Yoast SEO 16.3! This release helps you with one of the key aspects of modern SEO: Structured data. Yoast SEO 16.3 comes with a lot of enhancements for the Schema.org implementation. Enjoy! Read more about what’s new in Yoast SEO 16.3 in [our release post](https://yoa.st/release-16-3)!
+
 Release Date: May 18th, 2021
 
 Enhancements:
 
 * Adds the Table of Contents accessibility feature to the `Article` Schema with a fallback to the `WebPage` Schema, when using the Yoast Table of Contents block.
 * Adds the `url` property to the `Author` Schema on a post when author archives are enabled.
-* Adds the `wordCount` attribute to our `Article` schema.
-* Adds a `thumbnailUrl` attribute to `Article` Schema pieces.
+* Adds the `wordCount` and `thumbnailUrl` attributes to `Article` schema pieces.
 * Allows adding multiple FAQ blocks to a post or page.
-* When metadata about a product is dispatched to the Wordpress SEO store, it should show up in the Google Preview.
 
 Bugfixes:
 
-* Fixes a bug where a malformed `Organization` piece was added to the Schema output if the company logo was an unsupported image.
+* Fixes a bug where a malformed `Organization` piece would be added to the Schema output if the company logo was an unsupported image.
 * Fixes a bug where we would accidentally include unminified CSS files in the zip. This led to an unnecessary zip size increase.
 * Fixes a bug where the complete options array could be re-saved in the database at each frontend request.
 
