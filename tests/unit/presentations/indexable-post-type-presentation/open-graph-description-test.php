@@ -24,6 +24,16 @@ class Open_Graph_Description_Test extends TestCase {
 
 		$this->set_instance();
 		$this->indexable->object_id = 1;
+
+		$this->post
+			->expects( 'strip_shortcodes' )
+			->withAnyArgs()
+			->once()
+			->andReturnUsing(
+				function( $string ) {
+					return $string;
+				}
+			);
 	}
 
 	/**
@@ -38,23 +48,40 @@ class Open_Graph_Description_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the meta_description is used.
+	 * Tests the situation where the value from the helper is used.
+	 *
+	 * @covers ::generate_open_graph_description
+	 */
+	public function test_with_helper_fallback() {
+		$this->indexable->object_type     = 'post';
+		$this->indexable->object_sub_type = 'post';
+		$description_from_helper          = 'Description from helper';
+		$this->instance->meta_description = 'Meta description';
+
+		$this->values_helper
+			->expects( 'get_open_graph_description' )
+			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
+			->andReturn( $description_from_helper );
+
+		$this->assertSame( 'Description from helper', $this->instance->generate_open_graph_description() );
+	}
+
+	/**
+	 * Tests the situation where the fallback to meta_description is used.
 	 *
 	 * @covers ::generate_open_graph_description
 	 */
 	public function test_with_meta_description() {
+		$this->indexable->object_type            = 'post';
+		$this->indexable->object_sub_type        = 'post';
 		$this->indexable->open_graph_description = '';
+		$description_from_helper                 = '';
 		$this->instance->meta_description        = 'Meta description';
 
 		$this->values_helper
 			->expects( 'get_open_graph_description' )
-			->with( $this->instance->meta_description, $this->indexable->object_type, $this->indexable->object_sub_type )
-			->andReturn( $this->instance->meta_description );
-
-		$this->post
-			->expects( 'strip_shortcodes' )
-			->with( $this->instance->meta_description )
-			->andReturn( $this->instance->meta_description );
+			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
+			->andReturn( $description_from_helper );
 
 		$this->assertSame( 'Meta description', $this->instance->generate_open_graph_description() );
 	}
@@ -65,9 +92,16 @@ class Open_Graph_Description_Test extends TestCase {
 	 * @covers ::generate_open_graph_description
 	 */
 	public function test_with_excerpt_fallback() {
+		$this->indexable->object_type     = 'post';
 		$this->indexable->object_sub_type = 'post';
+		$description_from_helper          = '';
 		$this->instance->meta_description = '';
 		$excerpt_description              = 'Excerpt description';
+
+		$this->values_helper
+			->expects( 'get_open_graph_description' )
+			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
+			->andReturn( $description_from_helper );
 
 		$this->post
 			->expects( 'get_the_excerpt' )
@@ -75,39 +109,6 @@ class Open_Graph_Description_Test extends TestCase {
 			->once()
 			->andReturn( $excerpt_description );
 
-		$this->values_helper
-			->expects( 'get_open_graph_description' )
-			->with( $excerpt_description, $this->indexable->object_type, $this->indexable->object_sub_type )
-			->andReturn( $excerpt_description );
-
-		$this->post
-			->expects( 'strip_shortcodes' )
-			->with( $excerpt_description )
-			->andReturn( $excerpt_description );
-
 		$this->assertSame( 'Excerpt description', $this->instance->generate_open_graph_description() );
-	}
-
-	/**
-	 * Tests the situation where the value from the helper is used.
-	 *
-	 * @covers ::generate_open_graph_description
-	 */
-	public function test_with_helper_fallback() {
-		$this->indexable->object_sub_type = 'post';
-		$this->instance->meta_description = 'Meta description';
-		$description_from_helper          = 'Description from helper';
-
-		$this->values_helper
-			->expects( 'get_open_graph_description' )
-			->with( $this->instance->meta_description, $this->indexable->object_type, $this->indexable->object_sub_type )
-			->andReturn( $description_from_helper );
-
-		$this->post
-			->expects( 'strip_shortcodes' )
-			->with( $description_from_helper )
-			->andReturn( $description_from_helper );
-
-		$this->assertSame( 'Description from helper', $this->instance->generate_open_graph_description() );
 	}
 }
