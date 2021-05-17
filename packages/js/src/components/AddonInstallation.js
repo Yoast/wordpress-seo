@@ -70,14 +70,14 @@ const AddonInstallation = props => {
 				id="continue-addon-installation-dialog"
 				className="yoast-button--primary"
 			>
-				{ __( "Install and activate addons", "wordpress-seo" ) }
+				{ __( "Install and activate", "wordpress-seo" ) }
 			</Button>
 		);
 	}
 
 	const heading = sprintf(
 		/* translators: %s expands to Yoast */
-		__( "%s addon installation", "wordpress-seo" ),
+		__( "%s SEO installation", "wordpress-seo" ),
 		"Yoast"
 	);
 
