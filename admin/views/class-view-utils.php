@@ -85,11 +85,11 @@ class Yoast_View_Utils {
 			if ( $type === '' ) {
 				$message = sprintf(
 					/* translators: 1: link open tag; 2: link close tag. */
-					\esc_html__(
+					esc_html__(
 						'The social appearance settings for content types require Open Graph metadata (which is currently disabled). You can enable this in the %1$s‘Social’ settings under the ‘Facebook’ tab%2$s.',
 						'wordpress-seo'
 					),
-					'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
+					'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
 					'</a>'
 				);
 			}
@@ -97,11 +97,11 @@ class Yoast_View_Utils {
 			if ( $type === 'taxonomies' ) {
 				$message = sprintf(
 					/* translators: 1: link open tag; 2: link close tag. */
-					\esc_html__(
+					esc_html__(
 						'The social image, social title and social description are hidden for all taxonomies. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
 						'wordpress-seo'
 					),
-					'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
+					'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
 					'</a>'
 				);
 			}
@@ -109,11 +109,11 @@ class Yoast_View_Utils {
 			if ( $type === 'archives' ) {
 				$message = sprintf(
 					/* translators: 1: link open tag; 2: link close tag. */
-					\esc_html__(
+					esc_html__(
 						'The social image, social title and social description are hidden for all archives. If you want to show these settings, please enable the ‘Open Graph meta data’ setting on the %1$sFacebook tab of the Social section%2$s.',
 						'wordpress-seo'
 					),
-					'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
+					'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
 					'</a>'
 				);
 			}
@@ -142,11 +142,11 @@ class Yoast_View_Utils {
 		if( $type === 'homepage' ) {
 			return sprintf(
 				/* translators: 1: link open tag; 2: link close tag. */
-				\esc_html__(
+				esc_html__(
 					'The social appearance settings for your homepage require Open Graph metatdata (which is currently disabled). You can enable this in the %1$s‘Social’ settings under the ‘Facebook’ tab%2$s.',
 					'wordpress-seo'
 				),
-				'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
+				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
 				'</a>'
 			);
 		}

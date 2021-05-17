@@ -11,7 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$wpseo_title_separator_title     = \esc_html__( 'Title Separator', 'wordpress-seo' );
+$wpseo_title_separator_title     = esc_html__( 'Title Separator', 'wordpress-seo' );
 $wpseo_title_separator_presenter = new WPSEO_Paper_Presenter(
 	$wpseo_title_separator_title,
 	__DIR__ . '/paper-content/general/title-separator.php',
@@ -26,9 +26,9 @@ $wpseo_title_separator_presenter = new WPSEO_Paper_Presenter(
 echo $wpseo_title_separator_presenter->get_output();
 
 if ( get_option( 'show_on_front' ) === 'posts' ) {
-	$wpseo_homepage_title = \esc_html__( 'Homepage', 'wordpress-seo' );
+	$wpseo_homepage_title = esc_html__( 'Homepage', 'wordpress-seo' );
 } else {
-	$wpseo_homepage_title = \esc_html__( 'Homepage &amp; Posts page', 'wordpress-seo' );
+	$wpseo_homepage_title = esc_html__( 'Homepage &amp; Posts page', 'wordpress-seo' );
 }
 
 $wpseo_homepage_presenter = new WPSEO_Paper_Presenter(
