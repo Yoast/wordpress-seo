@@ -37,7 +37,7 @@ else {
 				data-react-image-portal-has-new-badge="%5$s"
 			></div>',
 		'yoast-og-frontpage-image-select',
-		__( 'Social image', 'wordpress-seo' ),
+		esc_html__( 'Social image', 'wordpress-seo' ),
 		'open_graph_frontpage_image',
 		'open_graph_frontpage_image_id',
 		$show_new_badge

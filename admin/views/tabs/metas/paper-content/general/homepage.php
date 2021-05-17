@@ -10,7 +10,7 @@
 if ( get_option( 'show_on_front' ) === 'posts' ) {
 	echo '<div class="yoast-settings-section">';
 
-	echo __( 'This is what shows in the search results when people find your homepage. This means this is probably what they see when they search for your brand name.', 'wordpress-seo' );
+	echo esc_html__( 'This is what shows in the search results when people find your homepage. This means this is probably what they see when they search for your brand name.', 'wordpress-seo' );
 
 	$editor = new WPSEO_Replacevar_Editor(
 		$yform,
