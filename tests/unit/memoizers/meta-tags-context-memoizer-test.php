@@ -161,6 +161,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 			->withNoArgs()
 			->andReturn( 'the_page_type' );
 
+		Monkey\Functions\expect( 'wp_reset_query' )->once();
+
 		$this->mock_get();
 
 		$this->assertEquals( $this->meta_tags_context_mock, $this->instance->for_current_page() );
@@ -267,6 +269,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 			->once()
 			->andReturn( 'the_page_type' );
 
+		Monkey\Functions\expect( 'wp_reset_query' )->once();
+
 		$this->mock_get();
 
 		$this->instance->for_current_page();
@@ -292,6 +296,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 			->once()
 			->andReturn( 'the_page_type' );
 
+		Monkey\Functions\expect( 'wp_reset_query' )->once();
+
 		$this->mock_get();
 
 		$this->instance->for_current_page();
@@ -316,6 +322,8 @@ class Meta_Tags_Context_Memoizer_Test extends TestCase {
 			->expects( 'get_page_type' )
 			->once()
 			->andReturn( 'the_page_type' );
+
+		Monkey\Functions\expect( 'wp_reset_query' )->once();
 
 		$this->mock_get();
 
