@@ -8,7 +8,7 @@ import {
 	ToolbarGroup,
 } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import { createElement } from "react";
+import { createElement, useCallback } from "react";
 
 import HeadingLevelIcon from "./HeadingLevelIcon";
 
@@ -22,11 +22,6 @@ const POPOVER_PROPS = {
 interface HeadingLevelDropdownProps {
 	selectedLevel: number;
 	onChange: ( targetLevel: number ) => void;
-}
-
-interface RenderToggleProps {
-	onToggle: () => void;
-	isOpen: boolean;
 }
 
 /**
@@ -45,19 +40,19 @@ export default function HeadingLevelDropdown( { selectedLevel, onChange }: Headi
 	 *
 	 * @returns The rendered toggle.
 	 */
-	const renderToggle = ( { onToggle, isOpen }: RenderToggleProps ): JSX.Element => {
+	const renderToggle = useCallback( ( { onToggle, isOpen } ): JSX.Element => {
 		/**
 		 * Opens the heading dropdown when pressing the down arrow key.
 		 *
 		 * @param event The keyboard event.
 		 */
-		const openOnArrowDown = ( event: KeyboardEvent ) => {
+		const openOnArrowDown = useCallback( ( event: KeyboardEvent ) => {
 			if ( ! isOpen && event.key === "ArrowDown" ) {
 				event.preventDefault();
 				event.stopPropagation();
 				onToggle();
 			}
-		};
+		}, [ onToggle ] );
 
 		return (
 			<ToolbarButton
@@ -73,14 +68,14 @@ export default function HeadingLevelDropdown( { selectedLevel, onChange }: Headi
 				title={ __( "Change heading level", "yoast-schema-blocks" ) }
 			/>
 		);
-	};
+	}, [] );
 
 	/**
 	 * Renders the content of the heading dropdown.
 	 *
 	 * @returns The rendered content.
 	 */
-	const renderContent = (): JSX.Element => (
+	const renderContent = useCallback( (): JSX.Element => (
 		<Toolbar
 			className="block-library-heading-level-toolbar"
 			label={ __( "Change heading level", "yoast-schema-blocks" ) }
@@ -111,7 +106,7 @@ export default function HeadingLevelDropdown( { selectedLevel, onChange }: Headi
 				} ) }
 			/>
 		</Toolbar>
-	);
+	), [] );
 
 	return (
 		<Dropdown
