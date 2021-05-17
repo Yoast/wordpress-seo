@@ -1,14 +1,14 @@
 import { debounce, isEqual } from "lodash";
-import { subscribe, select, dispatch } from "@wordpress/data";
+import { dispatch, select, subscribe } from "@wordpress/data";
 import SchemaDefinition, { schemaDefinitions } from "../../core/schema/SchemaDefinition";
 import { BlockInstance } from "@wordpress/blocks";
 import warningWatcher from "./watchers/warningWatcher";
 import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
-import { BlockValidation, BlockValidationResult } from "../../core/validation";
+import { BlockPresence, BlockValidation, BlockValidationResult } from "../../core/validation";
 import storeBlockValidation from "./storeBlockValidation";
 import logger from "../logger";
-import { BlockPresence } from "../../core/validation/BlockValidationResult";
 import { isResultValidForSchema } from "../validators/validateResults";
+import { missingBlocks } from "../validators/missingBlocks";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -105,7 +105,7 @@ function clearSchemaForBlocks( block: BlockInstance ) {
 *
 * @param blocks The block instances to validate.
 *
-* @returns {BlockValidationResult[]} Validation results for each (inner)block of the given blocks.
+* @returns Validation results for each (inner)block of the given blocks.
 */
 export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
 	const validations: BlockValidationResult[] = [];
@@ -145,7 +145,14 @@ export default function watch() {
 
 			updatingSchema = true;
 			{
-				const validations: BlockValidationResult[] = validateBlocks( rootBlocks );
+				const validationsForExistingBlocks = validateBlocks( rootBlocks );
+				const validationsForMissingBlocks = missingBlocks( rootBlocks );
+
+				const validations = [
+					...validationsForExistingBlocks,
+					...validationsForMissingBlocks,
+				];
+
 				storeBlockValidation( validations );
 
 				warningWatcher( rootBlocks, previousRootBlocks );
