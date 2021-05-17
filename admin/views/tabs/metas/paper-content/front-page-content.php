@@ -15,10 +15,11 @@ use Yoast\WP\SEO\Config\Badge_Group_Names;
 $view_utils               = new Yoast_View_Utils();
 $opengraph_disabled_alert = $view_utils->generate_opengraph_disabled_alert( 'homepage' );
 
-if( ! empty( $opengraph_disabled_alert ) ) {
+if ( ! empty( $opengraph_disabled_alert ) ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the generate_opengraph_disabled_alert() method.
 	echo $opengraph_disabled_alert;
-} else {
+}
+else {
 	$badge_group_names = new Badge_Group_Names();
 	$show_new_badge    = $badge_group_names->is_still_eligible_for_new_badge( 'global-templates' );
 

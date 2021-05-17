@@ -26,10 +26,11 @@ if ( get_option( 'show_on_front' ) === 'posts' ) {
 	echo '</div>';
 
 	require __DIR__ . '/../front-page-content.php';
-} else {
+}
+else {
 	$wpseo_page_on_front  = get_option( 'page_on_front' );
 	$wpseo_page_for_posts = get_option( 'page_for_posts' );
-	if( empty( $wpseo_page_on_front ) ) {
+	if ( empty( $wpseo_page_on_front ) ) {
 		$wpseo_page_on_front = $wpseo_page_for_posts;
 	}
 

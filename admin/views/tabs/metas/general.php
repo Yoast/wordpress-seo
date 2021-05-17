@@ -20,14 +20,15 @@ $wpseo_title_separator_presenter = new WPSEO_Paper_Presenter(
 		'expanded'    => true,
 		'paper_id'    => 'settings-general-title-separator',
 		'title'       => $wpseo_title_separator_title,
-		'class'       => 'search-appearance'
+		'class'       => 'search-appearance',
 	]
 );
 echo $wpseo_title_separator_presenter->get_output();
 
 if ( get_option( 'show_on_front' ) === 'posts' ) {
 	$wpseo_homepage_title = esc_html__( 'Homepage', 'wordpress-seo' );
-} else {
+}
+else {
 	$wpseo_homepage_title = esc_html__( 'Homepage &amp; Posts page', 'wordpress-seo' );
 }
 
@@ -39,7 +40,7 @@ $wpseo_homepage_presenter = new WPSEO_Paper_Presenter(
 		'expanded'    => true,
 		'paper_id'    => 'settings-general-homepage',
 		'title'       => $wpseo_homepage_title,
-		'class'       => 'search-appearance'
+		'class'       => 'search-appearance',
 	]
 );
 echo $wpseo_homepage_presenter->get_output();
@@ -53,7 +54,7 @@ $wpseo_knowledge_graph_presenter = new WPSEO_Paper_Presenter(
 		'expanded'    => true,
 		'paper_id'    => 'settings-general-knowledge-graph',
 		'title'       => $wpseo_knowledge_graph_title,
-		'class'       => 'search-appearance'
+		'class'       => 'search-appearance',
 	]
 );
 echo $wpseo_knowledge_graph_presenter->get_output();

@@ -139,7 +139,7 @@ class Yoast_View_Utils {
 	 * @return string The alert. Returns an empty string if the setting is enabled.
 	 */
 	private function generate_opengraph_disabled_free_alert( $type ) {
-		if( $type === 'homepage' ) {
+		if ( $type === 'homepage' ) {
 			return sprintf(
 				/* translators: 1: link open tag; 2: link close tag. */
 				esc_html__(
