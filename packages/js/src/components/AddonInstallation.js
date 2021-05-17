@@ -68,6 +68,7 @@ const AddonInstallation = props => {
 			<Button
 				onClick={ startInstallation }
 				id="continue-addon-installation-dialog"
+				className="yoast-button--primary"
 			>
 				{ __( "Install and activate addons", "wordpress-seo" ) }
 			</Button>
@@ -105,6 +106,7 @@ const AddonInstallation = props => {
 			title={ heading }
 			onRequestClose={ closeModal }
 			icon={ <YoastIcon /> }
+			isDismissible={ false }
 		>
 			<p>
 				{ sprintf(
