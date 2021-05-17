@@ -1,9 +1,11 @@
 // External dependencies.
 import { useState } from "@wordpress/element";
 import PropTypes from "prop-types";
-import { Button, Modal } from "@yoast/components";
+import { Button } from "@yoast/components";
 import { __, sprintf } from "@wordpress/i18n";
 import styled from "styled-components";
+import Modal from "./modals/Modal";
+import { ReactComponent as YoastIcon } from "../../images/Yoast_icon_kader.svg";
 
 // Internal dependencies.
 const ButtonPlacement = styled.div`
@@ -94,13 +96,15 @@ const AddonInstallation = props => {
 		</ul>;
 	}
 
+	if ( ! modalIsOpen ) {
+		return null;
+	}
+
 	return (
 		<Modal
-			appElement={ document.getElementById( "wpseo-app-element" ) }
-			onClose={ closeModal }
-			isOpen={ modalIsOpen }
-			heading={ heading }
-			modalAriaLabel={ __( "Addon installation", "wordpress-seo" ) }
+			title={ heading }
+			onRequestClose={ closeModal }
+			icon={ <YoastIcon /> }
 		>
 			<p>
 				{ sprintf(
