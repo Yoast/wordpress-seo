@@ -18,7 +18,7 @@ export const LOAD_TWITTER_PREVIEW = "LOAD_TWITTER_PREVIEW";
  * @returns {Object} The action object.
  */
 export const setTwitterPreviewTitle = ( title ) => {
-	if ( title === select( "yoast-seo/editor" ).getSocialTitleTemplate() ) {
+	if ( title.trim() === select( "yoast-seo/editor" ).getSocialTitleTemplate().trim() ) {
 		TwitterFields.title = "";
 	} else {
 		TwitterFields.title = title;
@@ -35,7 +35,7 @@ export const setTwitterPreviewTitle = ( title ) => {
  * @returns {Object} The action object.
  */
 export const setTwitterPreviewDescription = ( description ) => {
-	if ( description === select( "yoast-seo/editor" ).getSocialDescriptionTemplate() ) {
+	if ( description.trim() === select( "yoast-seo/editor" ).getSocialDescriptionTemplate().trim() ) {
 		TwitterFields.description = "";
 	} else {
 		TwitterFields.description = description;

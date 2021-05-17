@@ -19,7 +19,7 @@ export const LOAD_FACEBOOK_PREVIEW = "LOAD_FACEBOOK_PREVIEW";
  * @returns {object} The action object.
  */
 export const setFacebookPreviewTitle = ( title ) => {
-	if ( title === select( "yoast-seo/editor" ).getSocialTitleTemplate() ) {
+	if ( title.trim() === select( "yoast-seo/editor" ).getSocialTitleTemplate().trim() ) {
 		FacebookFields.title = "";
 	} else {
 		FacebookFields.title = title;
@@ -36,7 +36,7 @@ export const setFacebookPreviewTitle = ( title ) => {
  * @returns {object} The action object.
  */
 export const setFacebookPreviewDescription = ( description ) => {
-	if ( description === select( "yoast-seo/editor" ).getSocialDescriptionTemplate() ) {
+	if ( description.trim() === select( "yoast-seo/editor" ).getSocialDescriptionTemplate().trim() ) {
 		FacebookFields.description = "";
 	} else {
 		FacebookFields.description = description;
