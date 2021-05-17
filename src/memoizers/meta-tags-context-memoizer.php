@@ -86,9 +86,20 @@ class Meta_Tags_Context_Memoizer {
 	 */
 	public function for_current_page() {
 		if ( ! isset( $this->cache['current_page'] ) ) {
+			// First reset the query to ensure we actually have the current page.
+			global $wp_query;
+
+			$old_wp_query = $wp_query;
+			// phpcs:ignore WordPress.WP.DiscouragedFunctions.wp_reset_query_wp_reset_query -- Reason: The recommended function, wp_reset_postdata, doesn't reset wp_query.
+			\wp_reset_query();
+
 			$indexable                   = $this->repository->for_current_page();
 			$page_type                   = $this->current_page->get_page_type();
 			$this->cache['current_page'] = $this->get( $indexable, $page_type );
+
+			// Restore the previous query.
+			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Reason: we have to restore the query.
+			$GLOBALS['wp_query'] = $old_wp_query;
 		}
 
 		return $this->cache['current_page'];
