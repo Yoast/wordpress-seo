@@ -7,6 +7,12 @@ import { getValidationResultForClientId } from "../../../src/functions/validator
 
 let input: BlockValidationResult[] = [];
 
+jest.mock( "../../../src/functions/BlockHelper", () => {
+	return {
+		getHumanReadableBlockName: jest.fn( ( name: string ) => name ),
+	};
+} );
+
 const defaultTestInput = [
 	BlockValidationResult.Valid( { clientId: "validClientId" } as unknown as BlockInstance, "yoast/valid-block", BlockPresence.Required ),
 	BlockValidationResult.MissingBlock( "yoast/missing-block", BlockPresence.Required ),

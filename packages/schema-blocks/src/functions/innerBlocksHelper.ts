@@ -69,7 +69,7 @@ function getAllBlocks( blocks: BlockInstance[] ): BlockInstance[] {
  * @param {string}        clientId Id of the element to insert the block to.
  * @param {number}        index    The location of the block.
  */
-function insertBlock( block: BlockInstance, clientId: string, index?: number ): void {
+function insertBlock( block: BlockInstance, clientId?: string, index?: number ): void {
 	dispatch( "core/block-editor" ).insertBlock( block, index, clientId );
 }
 

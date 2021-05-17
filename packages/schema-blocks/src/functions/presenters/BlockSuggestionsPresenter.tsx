@@ -2,7 +2,6 @@ import { get } from "lodash";
 import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { ReactElement } from "react";
 import { createBlock } from "@wordpress/blocks";
-import { PanelBody } from "@wordpress/components";
 import { withSelect } from "@wordpress/data";
 import { createElement } from "@wordpress/element";
 import { insertBlock } from "../innerBlocksHelper";
@@ -18,7 +17,6 @@ type BlockSuggestionAddedProps = {
 type BlockSuggestionProps = {
 	suggestedBlockTitle: string;
 	suggestedBlockName: string;
-	parentBlockClientId: string;
 }
 
 export type SuggestionDetails = BlockValidationResult & {
@@ -27,7 +25,6 @@ export type SuggestionDetails = BlockValidationResult & {
 
 export interface BlockSuggestionsProps {
 	heading: string;
-	parentClientId: string;
 	blockNames: string[];
 }
 
@@ -40,17 +37,16 @@ export interface SuggestionsProps extends BlockSuggestionsProps {
  *
  * @param blockTitle          The title to show.
  * @param suggestedBlockName  The name of the block to add.
- * @param parentBlockClientId The clientId of the target to add the block to.
  *
  * @returns The rendered block suggestion.
  */
-function BlockSuggestion( { suggestedBlockTitle, suggestedBlockName, parentBlockClientId }: BlockSuggestionProps ): ReactElement {
+function BlockSuggestion( { suggestedBlockTitle, suggestedBlockName }: BlockSuggestionProps ): ReactElement {
 	/**
 	 * Onclick handler for the remove block.
 	 */
 	const addBlockClick = () => {
 		const blockToAdd = createBlock( suggestedBlockName );
-		insertBlock( blockToAdd, parentBlockClientId );
+		insertBlock( blockToAdd );
 	};
 	return (
 		<li className="yoast-block-suggestion" key={ suggestedBlockTitle }>
@@ -89,13 +85,13 @@ function BlockSuggestionAdded( { blockTitle, isValid }: BlockSuggestionAddedProp
  * @param props The BlockValidationResults and the Blocks' titles.
  * @returns The appropriate Block Suggestion elements.
  */
-export function PureBlockSuggestionsPresenter( { heading, parentClientId, suggestions, blockNames }: SuggestionsProps ): ReactElement {
+export function PureBlockSuggestionsPresenter( { heading, suggestions, blockNames }: SuggestionsProps ): ReactElement {
 	if ( ! suggestions || suggestions.length < 1 || ! blockNames || blockNames.length < 1 ) {
 		return null;
 	}
 
 	return (
-		<PanelBody key={ heading + parentClientId }>
+		<div>
 			<div className="yoast-block-sidebar-title">{ heading }</div>
 			<ul className="yoast-block-suggestions">
 				{
@@ -121,7 +117,6 @@ export function PureBlockSuggestionsPresenter( { heading, parentClientId, sugges
 								key={ index }
 								suggestedBlockTitle={ suggestion.title }
 								suggestedBlockName={ suggestion.name }
-								parentBlockClientId={ parentClientId }
 							/>;
 						}
 
@@ -129,20 +124,20 @@ export function PureBlockSuggestionsPresenter( { heading, parentClientId, sugges
 					}, this )
 				}
 			</ul>
-		</PanelBody>
+		</div>
 	);
 }
 
 /**
- * Appends metadata to validation results retreived from the store.
+ * Appends metadata to validation results retrieved from the store.
  *
- * @param props The props containing the parent clientId and blocknames we're interested in.
+ * @param props The props containing the blockNames we're interested in.
  *
  * @returns The props extended with suggestion data.
  */
 export default withSelect<Partial<SuggestionsProps>, BlockSuggestionsProps, SuggestionsProps>( ( select, props: BlockSuggestionsProps ) => {
 	const validations: BlockValidationResult[] =
-		select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getInnerblockValidations( props.parentClientId, props.blockNames );
+		select( YOAST_SCHEMA_BLOCKS_STORE_NAME ).getValidationsForBlockNames( props.blockNames );
 
 	const suggestionDetails = validations.map( validation => {
 		const type = select( "core/blocks" ).getBlockType( validation.name );

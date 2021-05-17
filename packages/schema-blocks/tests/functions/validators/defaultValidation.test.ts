@@ -3,6 +3,12 @@ import { BlockValidation, BlockValidationResult } from "../../../src/core/valida
 import { BlockInstruction } from "../../../src/core/blocks";
 import { defaultValidate } from "../../../src/functions/validators/defaultValidate";
 
+jest.mock( "../../../src/functions/BlockHelper", () => {
+	return {
+		getHumanReadableBlockName: jest.fn( ( name: string ) => name ),
+	};
+} );
+
 /**
  * Test class, to be able to test the non-abstract BlockInstruction methods.
  */

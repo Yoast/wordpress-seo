@@ -12,6 +12,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+do_action( 'wpseo_install_and_activate_addons' );
+
 $premium_extension = [
 	'buyUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/zz' ),
 	'infoUrl'  => WPSEO_Shortlinker::get( 'https://yoa.st/zy' ),
