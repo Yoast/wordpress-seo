@@ -10,7 +10,11 @@ use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Activation_Error_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Activate_Plugins_Exception;
 use Yoast\WP\SEO\Helpers\Require_File_Helper;
 
-
+/**
+ * Class Addon_Activate_Action_Test
+ *
+ * @covers \Yoast\WP\SEO\Actions\Addon_Installation\Addon_Activate_Action
+ */
 class Addon_Activate_Action_Test extends TestCase {
 
 	/**
@@ -28,6 +32,13 @@ class Addon_Activate_Action_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * The require file helper.
+	 *
+	 * @var Mockery\MockInterface|Require_File_Helper
+	 */
+	protected $require_file_helper;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
@@ -38,8 +49,10 @@ class Addon_Activate_Action_Test extends TestCase {
 		$this->instance            = new Addon_Activate_Action( $this->wpseo_addon_manager, $this->require_file_helper );
 	}
 
+	/**
+	 * Tests if the user as addon activation permissions.
+	 */
 	public function test_activate_addon_user_has_no_activate_permissions() {
-
 		Monkey\Functions\expect( 'current_user_can' )
 			->once()
 			->with( 'activate_plugins' )
@@ -50,6 +63,9 @@ class Addon_Activate_Action_Test extends TestCase {
 		$this->instance->activate_addon( 'plugin_slug' );
 	}
 
+	/**
+	 * Tests if an activated addon can be activated "again".
+	 */
 	public function test_activate_addon_is_already_installed() {
 
 		Monkey\Functions\expect( 'current_user_can' )
@@ -63,11 +79,14 @@ class Addon_Activate_Action_Test extends TestCase {
 			->with( 'plugin_slug' )
 			->andReturn( true );
 
-		$actual = $this->instance->activate_addon( 'plugin_slug', 'download.test' );
+		$actual = $this->instance->activate_addon( 'plugin_slug' );
 
 		$this->assertTrue( $actual );
 	}
 
+	/**
+	 * Tests if an exception is thrown on activation error.
+	 */
 	public function test_activate_addon_activation_result_is_null() {
 
 		Monkey\Functions\expect( 'current_user_can' )
@@ -105,9 +124,12 @@ class Addon_Activate_Action_Test extends TestCase {
 
 		$this->expectException( Addon_Activation_Error_Exception::class );
 
-		$this->instance->activate_addon( 'plugin_slug', 'download.test' );
+		$this->instance->activate_addon( 'plugin_slug' );
 	}
 
+	/**
+	 * Tests the addon activation happy path.
+	 */
 	public function test_activate_addon() {
 
 		Monkey\Functions\expect( 'current_user_can' )
@@ -137,7 +159,7 @@ class Addon_Activate_Action_Test extends TestCase {
 			->with( 'plugin_file' )
 			->andReturn( true );
 
-			$actual = $this->instance->activate_addon( 'plugin_slug', 'download.test' );
+			$actual = $this->instance->activate_addon( 'plugin_slug' );
 
 			$this->assertTrue( $actual );
 	}

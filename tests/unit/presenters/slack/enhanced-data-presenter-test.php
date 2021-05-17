@@ -70,10 +70,10 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 		);
 
 		$this->assertEquals(
-			"<meta name=\"twitter:label1\" content=\"Written by\">\n"
-			. "\t<meta name=\"twitter:data1\" content=\"Agatha Christie\">\n"
-			. "\t<meta name=\"twitter:label2\" content=\"Est. reading time\">\n"
-			. "\t<meta name=\"twitter:data2\" content=\"40 minutes\">",
+			"<meta name=\"twitter:label1\" content=\"Written by\" />\n"
+			. "\t<meta name=\"twitter:data1\" content=\"Agatha Christie\" />\n"
+			. "\t<meta name=\"twitter:label2\" content=\"Est. reading time\" />\n"
+			. "\t<meta name=\"twitter:data2\" content=\"40 minutes\" />",
 			$this->instance->present()
 		);
 	}

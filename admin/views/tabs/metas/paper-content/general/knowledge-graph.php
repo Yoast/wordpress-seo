@@ -30,6 +30,7 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 	<?php
 	// phpcs:ignore WordPress.Security.EscapeOutput -- get_panel_html() output is properly escaped.
 	echo $knowledge_graph_help->get_panel_html();
+
 	/**
 	 * Filter: 'wpseo_knowledge_graph_setting_msg' - Allows adding a message above these settings.
 	 *

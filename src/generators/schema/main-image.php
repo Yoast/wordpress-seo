@@ -24,7 +24,7 @@ class Main_Image extends Abstract_Schema_Piece {
 	 * This can be either a social image (Open Graph or Twitter), the featured image,
 	 * or fall back to the first image in the content of the page.
 	 *
-	 * @return false|array $data Image Schema.
+	 * @return false|array Image Schema.
 	 */
 	public function generate() {
 		$image_id = $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH;

@@ -254,7 +254,7 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @param bool $pre_existing_yoast_data Whether or not to insert pre-existing Yoast SEO data.
 	 *
-	 * @return int $post_id ID for the post created.
+	 * @return int ID for the post created.
 	 */
 	private function setup_post( $pre_existing_yoast_data = false ) {
 		$this->create_table();

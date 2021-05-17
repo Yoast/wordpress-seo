@@ -87,6 +87,8 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Helper function to set plugin url to a different domain.
+	 *
+	 * @return string
 	 */
 	public function change_plugin_url() {
 		return 'http://test.com/wp-content/plugins';

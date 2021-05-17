@@ -25,7 +25,7 @@ class Primary_Term_Watcher_Test extends TestCase {
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var Mockery\MockInterface|Primary_Term_Watcher|Primary_Term_Watcher
+	 * @var Mockery\MockInterface|Primary_Term_Watcher
 	 */
 	private $instance;
 

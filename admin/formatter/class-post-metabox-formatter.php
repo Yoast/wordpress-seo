@@ -199,7 +199,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Retrieves a template.
 	 *
-	 * @param String $template_option_name The name of the option in which the template you want to get is saved.
+	 * @param string $template_option_name The name of the option in which the template you want to get is saved.
 	 *
 	 * @return string
 	 */

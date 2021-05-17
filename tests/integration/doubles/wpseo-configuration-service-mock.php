@@ -15,7 +15,7 @@ class WPSEO_Configuration_Service_Mock extends WPSEO_Configuration_Service {
 	 *
 	 * @param string $item Property to get.
 	 *
-	 * @return null|mixed
+	 * @return mixed|null
 	 */
 	public function get( $item ) {
 		if ( isset( $this->{$item} ) ) {

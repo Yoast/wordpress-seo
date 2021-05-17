@@ -235,35 +235,33 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 16.3 =
+Out now: Yoast SEO 16.3! This release helps you with one of the key aspects of modern SEO: Structured data. Yoast SEO 16.3 comes with a lot of enhancements for the Schema.org implementation. Enjoy! Read more about what’s new in Yoast SEO 16.3 in [our release post](https://yoa.st/release-16-3)!
+
 Release Date: May 18th, 2021
 
 Enhancements:
 
-* Adds the table of contents accessibility feature to the article schema with a fallback to the webpage schema, when using the Yoast table of contents block.
+* Adds the Table of Contents accessibility feature to the `Article` Schema with a fallback to the `WebPage` Schema, when using the Yoast Table of Contents block.
+* Adds the `url` property to the `Author` Schema on a post when author archives are enabled.
+* Adds the `wordCount` and `thumbnailUrl` attributes to `Article` schema pieces.
 * Allows adding multiple FAQ blocks to a post or page.
-* Adds url property to author schema on a post when author archives are enabled.
-* Improves spacing between settings sections.
-* Moves the form for setting the Frontpage meta title and meta description from the Social -> Facebook tab, to Search Appearance -> Content Types.
-* Changes the form to the Replacevar Editor for a more coherent user-experience.
-* Add a filter for filtering `Person` Schema by the user's ID.
-* When metadata about a product is dispatched to the Wordpress SEO store, it should show up in the Google Preview.
-* Adds the `wordCount` attribute to our `Article` schema.
-* Adds a `thumbnailUrl` attribute to `Article` Schema pieces.
 
 Bugfixes:
 
-* Fixes a bug where a malformed Organization piece is added to the Schema if the company logo is an unsupported image.
-* Fixes a bug where we accidentally ship the `css/src` directory.
+* Fixes a bug where a malformed `Organization` piece would be added to the Schema output if the company logo was an unsupported image.
+* Fixes a bug where we would accidentally include unminified CSS files in the zip. This led to an unnecessary zip size increase.
+* Fixes a bug where the complete options array could be re-saved in the database at each frontend request.
 
 Other:
 
-* Replace all occurrences of 'SEMrush' by 'Semrush' to reflect Semrush's spelling change.
-* Deprecates the `wpseo_admin_page_meta_post_types` hook in favor of a new hook `Yoast\WP\SEO\admin_post_types_beforearchive`.
-* Deprecates the `wpseo_admin_page_meta_taxonomies` hook in favor of a new jook `Yoast\WP\SEO\admin_taxonomies_meta`.
-* Introduces a new `Yoast\WP\SEO\admin_post_types_beforearchive` hook.
-* Adds a new hook `Yoast\WP\SEO\admin_post_types_archive` at the end of the archive section of the custom post types in Search Appearance.
-* Improves the layout of the Search Appearance collapsibles.
 * Adds the `yoast_display_gutenberg_compat_notification` filter to allow disabling the Gutenberg compatibility notification.
+* Adds the `wpseo_schema_person_data` filter to enable the filtering of `Person` Schema by the user's ID.
+* Adds the `Yoast\WP\SEO\admin_post_types_archive` action at the end of the archive section of the custom post types in Search Appearance.
+* Deprecates the `wpseo_admin_page_meta_post_types` action in favor of the new `Yoast\WP\SEO\admin_post_types_beforearchive` action.
+* Deprecates the `wpseo_admin_page_meta_taxonomies` action in favor of the new `Yoast\WP\SEO\admin_taxonomies_meta` action.
+* Improves the layout of the Search Appearance collapsibles.
+* Improves spacing between settings sections in the Search Appearance page.
+* Replaces all occurrences of 'SEMrush' by 'Semrush' to reflect Semrush's rebranding.
 
 = 16.2 =
 Release Date: April 28th, 2021

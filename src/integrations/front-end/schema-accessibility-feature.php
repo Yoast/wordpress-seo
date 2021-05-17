@@ -46,7 +46,7 @@ class Schema_Accessibility_Feature implements Integration_Interface {
 	 */
 	public function maybe_add_accessibility_feature( $piece, $context, $the_generator, $generators ) {
 		foreach ( $generators as $generator ) {
-			if ( is_a( $generator, Article::class ) && $generator->is_needed() ) {
+			if ( \is_a( $generator, Article::class ) && $generator->is_needed() ) {
 				return $piece;
 			}
 		}

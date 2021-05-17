@@ -61,7 +61,7 @@
   content: "";
   width: 40px;
   height: 40px;
-  background-image: url("../../images/Yoast_SEO_Icon.svg");
+  background-image: url("../../packages/js/images/Yoast_SEO_Icon.svg");
   margin: 25px auto;
   -webkit-animation: rotate 2s infinite linear;
   animation: rotate 2s infinite linear;

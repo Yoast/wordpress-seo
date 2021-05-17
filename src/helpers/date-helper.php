@@ -2,6 +2,10 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use DateTime;
+use DateTimeZone;
+use Exception;
+
 /**
  * A helper object for dates.
  */
@@ -31,7 +35,7 @@ class Date_Helper {
 	 * @return string The formatted date.
 	 */
 	public function format( $date, $format = \DATE_W3C ) {
-		$immutable_date = \date_create_immutable_from_format( 'Y-m-d H:i:s', $date, new \DateTimeZone( 'UTC' ) );
+		$immutable_date = \date_create_immutable_from_format( 'Y-m-d H:i:s', $date, new DateTimeZone( 'UTC' ) );
 
 		if ( ! $immutable_date ) {
 			return $date;
@@ -48,8 +52,8 @@ class Date_Helper {
 	 *
 	 * @return string The formatted date.
 	 */
-	public function format_timestamp( $timestamp, $format = DATE_W3C ) {
-		$immutable_date = \date_create_immutable_from_format( 'U', $timestamp, new \DateTimeZone( 'UTC' ) );
+	public function format_timestamp( $timestamp, $format = \DATE_W3C ) {
+		$immutable_date = \date_create_immutable_from_format( 'U', $timestamp, new DateTimeZone( 'UTC' ) );
 
 		if ( ! $immutable_date ) {
 			return $timestamp;
@@ -66,7 +70,7 @@ class Date_Helper {
 	 *
 	 * @return string The formatted and translated date.
 	 */
-	public function format_translated( $date, $format = DATE_W3C ) {
+	public function format_translated( $date, $format = \DATE_W3C ) {
 		return \date_i18n( $format, $this->format( $date, 'U' ) );
 	}
 
@@ -92,8 +96,8 @@ class Date_Helper {
 		}
 
 		try {
-			return new \DateTime( $datetime ) !== false;
-		} catch ( \Exception $exception ) {
+			return new DateTime( $datetime ) !== false;
+		} catch ( Exception $exception ) {
 			return false;
 		}
 	}

@@ -10,7 +10,7 @@ class Web_Stories_Conditional implements Conditional {
 	/**
 	 * Returns `true` when the Web Stories plugins is installed and active.
 	 *
-	 * @returns boolean `true` when the Web Stories plugins is installed and active.
+	 * @return bool `true` when the Web Stories plugins is installed and active.
 	 */
 	public function is_met() {
 		return \function_exists( '\Google\Web_Stories\get_plugin_instance' );

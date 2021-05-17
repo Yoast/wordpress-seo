@@ -1,0 +1,25 @@
+/* loading dialog */
+
+.YoastSEO_msg .right,
+.YoastSEO_msg .left{
+	display: none;
+}
+
+@keyframes animatedBackground {
+	from { background-position: 0 0; }
+	to { background-position: 100% 0; }
+}
+
+.YoastSEO_msg .bufferbar {
+	display: block;
+	width: 100%;
+	height: 12px;
+	/*multiple background definitions for the sake of browsercompatibility*/
+
+	background-image: linear-gradient(to left, #ffffff, #0063ff, #ffffff,#0063ff );
+	background-size: 300% 100%;
+	background-position: 0px 0px;
+	margin: 10px 0 10px 0;
+	border: 1px solid #dfdfdf;
+	animation: animatedBackground 5s linear infinite;
+}

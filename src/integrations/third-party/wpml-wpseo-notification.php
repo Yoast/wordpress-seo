@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use Yoast\WP\SEO\Conditionals\Third_Party\WPML_WPSEO_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\WPML_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\WPML_WPSEO_Conditional;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Notification;
@@ -15,6 +15,13 @@ use Yoast_Notification_Center;
  * is not.
  */
 class WPML_WPSEO_Notification implements Integration_Interface {
+
+	/**
+	 * The notification ID.
+	 *
+	 * @internal
+	 */
+	const NOTIFICATION_ID = 'wpml-wpseo-not-installed';
 
 	/**
 	 * The short link helper.
@@ -36,13 +43,6 @@ class WPML_WPSEO_Notification implements Integration_Interface {
 	 * @var WPML_WPSEO_Conditional
 	 */
 	protected $wpml_wpseo_conditional;
-
-	/**
-	 * The notification ID.
-	 *
-	 * @internal
-	 */
-	const NOTIFICATION_ID = 'wpml-wpseo-not-installed';
 
 	/**
 	 * WPML WPSEO notification constructor.
@@ -107,7 +107,7 @@ class WPML_WPSEO_Notification implements Integration_Interface {
 		return new Yoast_Notification(
 			\sprintf(
 				/* translators: %1$s expands to an opening anchor tag, %2$s expands to an closing anchor tag. */
-				__( 'We notice that you have installed WPML. To make sure your canonical URLs are set correctly, %1$sinstall and activate the Yoast SEO Multilingual add-on%2$s as well!', 'wordpress-seo' ),
+				\__( 'We notice that you have installed WPML. To make sure your canonical URLs are set correctly, %1$sinstall and activate the Yoast SEO Multilingual add-on%2$s as well!', 'wordpress-seo' ),
 				'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/wpml-yoast-seo' ) ) . '" target="_blank">',
 				'</a>'
 			),

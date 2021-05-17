@@ -46,7 +46,7 @@ class Yoast_Input_Validation {
 	 *
 	 * @param string $admin_title The page title, with extra context added.
 	 *
-	 * @return string $admin_title The modified or original admin title.
+	 * @return string The modified or original admin title.
 	 */
 	public static function add_yoast_admin_document_title_errors( $admin_title ) {
 		$errors      = get_settings_errors();
@@ -95,10 +95,10 @@ class Yoast_Input_Validation {
 	/**
 	 * Sets the error descriptions.
 	 *
+	 * @since 12.1
+	 *
 	 * @param array $descriptions An associative array of error descriptions.
 	 *                            For each entry, the key must be the setting variable.
-	 *
-	 * @since 12.1
 	 */
 	public static function set_error_descriptions( $descriptions = [] ) {
 		$defaults = [
@@ -192,7 +192,7 @@ class Yoast_Input_Validation {
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 *
-	 * @return string The error description.
+	 * @return string|null The error description.
 	 */
 	public static function get_error_description( $error_code ) {
 		if ( ! isset( self::$error_descriptions[ $error_code ] ) ) {

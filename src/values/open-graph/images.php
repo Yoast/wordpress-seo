@@ -20,7 +20,7 @@ class Images extends Base_Images {
 	/**
 	 * Sets the helpers.
 	 *
-	 *  @required
+	 * @required
 	 *
 	 * @codeCoverageIgnore - Is handled by DI-container.
 	 *

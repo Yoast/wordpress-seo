@@ -21,6 +21,7 @@ class Licenses_Page_Conditional implements Conditional {
 			return false;
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification -- This is not a form.
 		if ( isset( $_GET['page'] ) && $_GET['page'] === 'wpseo_licenses' ) {
 			return true;
 		}

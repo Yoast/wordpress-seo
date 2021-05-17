@@ -20,39 +20,39 @@ class WPSEO_Premium_Popup {
 	/**
 	 * The heading level of the title of the popup.
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $heading_level = '';
 
 	/**
 	 * The title of the popup.
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $title = '';
 
 	/**
 	 * The content of the popup.
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $content = '';
 
 	/**
 	 * The URL for where the button should link to.
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $url = '';
 
 	/**
 	 * Wpseo_Premium_Popup constructor.
 	 *
-	 * @param String $identifier    An unique identifier for the popup.
-	 * @param String $heading_level The heading level for the title of the popup.
-	 * @param String $title         The title of the popup.
-	 * @param String $content       The content of the popup.
-	 * @param String $url           The URL for where the button should link to.
+	 * @param string $identifier    An unique identifier for the popup.
+	 * @param string $heading_level The heading level for the title of the popup.
+	 * @param string $title         The title of the popup.
+	 * @param string $content       The content of the popup.
+	 * @param string $url           The URL for where the button should link to.
 	 */
 	public function __construct( $identifier, $heading_level, $title, $content, $url ) {
 		$this->identifier    = $identifier;
@@ -89,7 +89,7 @@ class WPSEO_Premium_Popup {
 
 		$popup = <<<EO_POPUP
 <div id="wpseo-{$this->identifier}-popup" class="wpseo-premium-popup wp-clearfix$classes">
-	<img class="alignright wpseo-premium-popup-icon" src="{$assets_uri}images/Yoast_SEO_Icon.svg" width="150" height="150" alt="Yoast SEO"/>
+	<img class="alignright wpseo-premium-popup-icon" src="{$assets_uri}packages/js/images/Yoast_SEO_Icon.svg" width="150" height="150" alt="Yoast SEO"/>
 	<{$this->heading_level} id="wpseo-contact-support-popup-title" class="wpseo-premium-popup-title">{$this->title}</{$this->heading_level}>
 	{$this->content}
 	<a id="wpseo-{$this->identifier}-popup-button" class="yoast-button-upsell" href="{$this->url}" target="_blank">

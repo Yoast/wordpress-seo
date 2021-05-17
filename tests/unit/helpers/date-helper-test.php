@@ -35,13 +35,12 @@ class Date_Helper_Test extends TestCase {
 	 * Tests the formatting of the date.
 	 *
 	 * @dataProvider format_provider
+	 * @covers       ::format
 	 *
 	 * @param string $date     The date to format.
 	 * @param string $format   The format.
 	 * @param string $expected The expected value.
 	 * @param string $message  Message to show when test fails.
-	 *
-	 * @covers ::format
 	 */
 	public function test_format( $date, $format, $expected, $message ) {
 		static::assertEquals( $expected, $this->instance->format( $date, $format ), $message );
@@ -109,13 +108,12 @@ class Date_Helper_Test extends TestCase {
 	 * Tests formatting of a timestamp.
 	 *
 	 * @dataProvider format_timestamp_provider
+	 * @covers       ::format_timestamp
 	 *
 	 * @param string $timestamp The timestamp to format.
 	 * @param string $format    The format.
 	 * @param string $expected  The expected value.
 	 * @param string $message   Message to show when test fails.
-	 *
-	 * @covers ::format_timestamp
 	 */
 	public function test_format_timestamp( $timestamp, $format, $expected, $message ) {
 		static::assertEquals( $expected, $this->instance->format_timestamp( $timestamp, $format ), $message );

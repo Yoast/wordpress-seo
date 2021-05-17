@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Config;
  * to be "new".
  */
 class Badge_Group_Names {
+
 	const GROUP_GLOBAL_TEMPLATES = 'global-templates';
 
 	/**
@@ -28,7 +29,7 @@ class Badge_Group_Names {
 	/**
 	 * Badge_Group_Names constructor.
 	 *
-	 * @param string $version Optional: the current plugin version.
+	 * @param string|null $version Optional: the current plugin version.
 	 */
 	public function __construct( $version = null ) {
 		if ( ! $version ) {
@@ -40,13 +41,13 @@ class Badge_Group_Names {
 	/**
 	 * Check whether a group of badges is still eligible for a "new" badge.
 	 *
-	 * @param string $group           One of the GROUP_* constants.
-	 * @param string $current_version The current version of the plugin that's being checked.
+	 * @param string      $group           One of the GROUP_* constants.
+	 * @param string|null $current_version The current version of the plugin that's being checked.
 	 *
 	 * @return bool Whether a group of badges is still eligible for a "new" badge.
 	 */
 	public function is_still_eligible_for_new_badge( $group, $current_version = null ) {
-		if ( ! array_key_exists( $group, $this::GROUP_NAMES ) ) {
+		if ( ! \array_key_exists( $group, $this::GROUP_NAMES ) ) {
 			return false;
 		}
 
@@ -56,6 +57,6 @@ class Badge_Group_Names {
 			$current_version = $this->version;
 		}
 
-		return (bool) version_compare( $group_version, $current_version, '>' );
+		return (bool) \version_compare( $group_version, $current_version, '>' );
 	}
 }

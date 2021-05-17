@@ -127,60 +127,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	}
 
 	/**
-	 * Helper method - Combines a fixed array of default values with an options array
-	 * while filtering out any keys which are not in the defaults array.
-	 *
-	 * @param string $option_key Option name of the option we're doing the merge for.
-	 * @param array  $options    Optional. Current options. If not set, the option defaults
-	 *                           for the $option_key will be returned.
-	 *
-	 * @return array Combined and filtered options array.
-	 */
-
-	/*
-	Public function array_filter_merge( $option_key, $options = null ) {
-
-			$defaults = $this->get_defaults( $option_key );
-
-			if ( ! isset( $options ) || $options === false ) {
-				return $defaults;
-			}
-
-			/ *
-			{@internal Adding the defaults to all taxonomy terms each time the option is retrieved
-			will be quite inefficient if there are a lot of taxonomy terms.
-			As long as taxonomy_meta is only retrieved via methods in this class, we shouldn't need this.}}
-
-			$options  = (array) $options;
-			$filtered = array();
-
-			if ( $options !== array() ) {
-				foreach ( $options as $taxonomy => $terms ) {
-					if ( is_array( $terms ) && $terms !== array() ) {
-						foreach ( $terms as $id => $term_meta ) {
-							foreach ( self::$defaults_per_term as $name => $default ) {
-								if ( isset( $options[ $taxonomy ][ $id ][ $name ] ) ) {
-									$filtered[ $taxonomy ][ $id ][ $name ] = $options[ $taxonomy ][ $id ][ $name ];
-								}
-								else {
-									$filtered[ $name ] = $default;
-								}
-							}
-						}
-					}
-				}
-				unset( $taxonomy, $terms, $id, $term_meta, $name, $default );
-			}
-			// end of may be remove.
-
-			return $filtered;
-			* /
-
-			return (array) $options;
-		}
-	*/
-
-	/**
 	 * Validate the option.
 	 *
 	 * @param array $dirty New value for the option.
@@ -356,12 +302,12 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * - Convert old option values to new
 	 * - Fixes strings which were escaped (should have been sanitized - escaping is for output)
 	 *
-	 * @param array  $option_value          Old (not merged with defaults or filtered) option value to
-	 *                                      clean according to the rules for this option.
-	 * @param string $current_version       Optional. Version from which to upgrade, if not set,
-	 *                                      version specific upgrades will be disregarded.
-	 * @param array  $all_old_option_values Optional. Only used when importing old options to have
-	 *                                      access to the real old values, in contrast to the saved ones.
+	 * @param array       $option_value          Old (not merged with defaults or filtered) option value to
+	 *                                           clean according to the rules for this option.
+	 * @param string|null $current_version       Optional. Version from which to upgrade, if not set,
+	 *                                           version specific upgrades will be disregarded.
+	 * @param array|null  $all_old_option_values Optional. Only used when importing old options to have
+	 *                                           access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return array Cleaned option.
 	 */
@@ -427,10 +373,10 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	/**
 	 * Retrieve a taxonomy term's meta value(s).
 	 *
-	 * @param mixed  $term     Term to get the meta value for
-	 *                         either (string) term name, (int) term id or (object) term.
-	 * @param string $taxonomy Name of the taxonomy to which the term is attached.
-	 * @param string $meta     Optional. Meta value to get (without prefix).
+	 * @param mixed       $term     Term to get the meta value for
+	 *                              either (string) term name, (int) term id or (object) term.
+	 * @param string      $taxonomy Name of the taxonomy to which the term is attached.
+	 * @param string|null $meta     Optional. Meta value to get (without prefix).
 	 *
 	 * @return mixed|bool Value for the $meta if one is given, might be the default.
 	 *                    If no meta is given, an array of all the meta data for the term.

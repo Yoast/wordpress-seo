@@ -116,7 +116,7 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->once()
 			->withArgs(
-				function( $timestamp, $function_name ) use ( $start ) {
+				static function( $timestamp, $function_name ) use ( $start ) {
 					if ( $function_name === 'wpseo_ping_search_engines' ) {
 						return ( $timestamp < $start + 600 );
 					}

@@ -95,13 +95,12 @@ final class Capabilities_Utils_Test extends TestCase {
 	/**
 	 * Tests the retrieving of the roles without having the capability.
 	 *
+	 * @dataProvider get_applicable_roles_provider
+	 * @covers       ::get_applicable_roles
+	 *
 	 * @param object|null $role     The role data that is returned.
 	 * @param array       $expected The expected value.
 	 * @param string      $message  The message to show when test fails.
-	 *
-	 * @dataProvider get_applicable_roles_provider
-	 *
-	 * @covers ::get_applicable_roles
 	 */
 	public function test_get_applicable_roles( $role, $expected, $message ) {
 		$this->roles

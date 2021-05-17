@@ -1,289 +1,71 @@
-const CaseSensitivePathsPlugin = require( "case-sensitive-paths-webpack-plugin" );
-const path = require( "path" );
-const mapValues = require( "lodash/mapValues" );
-const isString = require( "lodash/isString" );
+// External dependencies
+const { existsSync, readdirSync } = require( "fs" );
+const { join } = require( "path" );
 
-const paths = require( "./paths" );
-const BundleAnalyzerPlugin = require( "webpack-bundle-analyzer" ).BundleAnalyzerPlugin;
-const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
+// Variables
+const root = join( __dirname, "../../" );
 
-const { externals, yoastExternals, wordpressExternals } = require( './externals' );
-const { YOAST_PACKAGE_NAMESPACE } = require( './externals' );
+// Internal dependencies
+const paths       = require( "./paths" );
+const packageJson = require( root + "package.json" );
+const baseConfig  = require( "./webpack.config.base" );
+const {
+	yoastPackages,
+	yoastExternals,
+} = require( "./externals" );
 
-const root = path.join( __dirname, "../../" );
-const mainEntry = mapValues( paths.entry, entry => {
-	if ( ! isString( entry ) ) {
-		return entry;
-	}
+const languages = readdirSync( root + "node_modules/yoastseo/src/languageProcessing/languages" );
+const pluginVersion = packageJson.yoast.pluginVersion;
+const pluginVersionSlug = paths.flattenVersionForFile( pluginVersion );
+const outputFilename = "[name]-" + pluginVersionSlug + ".js";
 
-	return "./" + path.join( "js/src/", entry );
-} );
-
-const defaultAllowedHosts = [
-	"local.wordpress.test",
-	"one.wordpress.test",
-	"two.wordpress.test",
-	"build.wordpress-develop.test",
-	"src.wordpress-develop.test",
-	"basic.wordpress.test",
-];
-
-let bundleAnalyzerPort = 8888;
-
-/**
- * Creates a new bundle analyzer on a unique port number.
- *
- * @returns {BundleAnalyzerPlugin} bundle analyzer.
- */
-function createBundleAnalyzer() {
-	return new BundleAnalyzerPlugin( {
-		analyzerPort: bundleAnalyzerPort++,
-		statsOptions: {
-			excludeModules: ( module ) => {
-				module = module + "";
-
-				let exclude = false;
-
-				// The webpack dev server requires these, so exclude them:
-				[
-					"sockjs-client/dist",
-					"html-entities/lib",
-					"url/url.js",
-					"loglevel/lib",
-					"punycode/punycode.js",
-					"localhost:8080",
-					"ansi-html",
-					"events/events.js",
-					"querystring-es3",
-					"client/overlay.js",
-				].forEach( ( dep ) => {
-					if ( module.includes( dep ) ) {
-						exclude = true;
-					}
-				} );
-
-				return exclude;
-			},
-		},
-	} );
-}
-
-/**
- * Adds a bundle analyzer to a list of webpack plugins.
- *
- * @param {Array} plugins Current list of plugins.
- * @returns {Array} List of plugins including the webpack bundle analyzer.
- */
-function addBundleAnalyzer( plugins ) {
-	if ( process.env.BUNDLE_ANALYZER ) {
-		return [ ...plugins, createBundleAnalyzer() ];
-	}
-
-	return plugins;
-}
-
-module.exports = function( env ) {
-	if ( ! env ) {
-		env = {};
-	}
-	if ( ! env.environment ) {
-		env.environment = process.env.NODE_ENV || "production";
-	}
-	if ( ! env.pluginVersion ) {
-		// eslint-disable-next-line global-require
-		env.pluginVersion = require( root + "package.json" ).yoast.pluginVersion;
-	}
-
-	const pluginVersionSlug = paths.flattenVersionForFile( env.pluginVersion );
-
-	// Allowed hosts is space separated string. Example usage: ALLOWED_HOSTS="first.allowed.host second.allowed.host"
-	let allowedHosts = ( process.env.ALLOWED_HOSTS || "" ).split( " " );
-	// The above will result in an array with an empty string if the environment variable is not set, which is undesired.
-	allowedHosts = allowedHosts.filter( el => el );
-	// Prepend the default allowed hosts.
-	allowedHosts = defaultAllowedHosts.concat( allowedHosts );
-
-	const outputFilename = "[name]-" + pluginVersionSlug + ".js";
-
-	const plugins = [
-		new CaseSensitivePathsPlugin(),
-		new MiniCssExtractPlugin(
-			{
-				filename: "css/dist/monorepo-" + pluginVersionSlug + ".css",
-			}
-		),
-	];
-
-	const base = {
-		mode: env.environment,
-		watch: env.watch,
-		devtool: env.environment === "development" ? "cheap-module-eval-source-map" : false,
-		context: root,
-		output: {
-			path: paths.jsDist,
-			filename: outputFilename,
-			jsonpFunction: "yoastWebpackJsonp",
-		},
-		resolve: {
-			extensions: [ ".json", ".js", ".jsx" ],
-			symlinks: false,
-		},
-		module: {
-			rules: [
-				{
-					test: /.jsx?$/,
-					exclude: /node_modules[/\\](?!(yoast-components|gutenberg|yoastseo|@wordpress|@yoast|parse5)[/\\]).*/,
-					use: [
-						{
-							loader: "babel-loader",
-							options: {
-								cacheDirectory: true,
-								env: {
-									development: {
-										plugins: [
-											"babel-plugin-styled-components",
-										],
-									},
-								},
-							},
-						},
-					],
-				},
-				{
-					test: /.svg$/,
-					use: [
-						{
-							loader: "svg-react-loader",
-						},
-					],
-				},
-				{
-					test: /\.css$/,
-					use: [
-						MiniCssExtractPlugin.loader,
-						"css-loader",
-					],
-				},
-			],
-		},
-		externals,
-		optimization: {
-			runtimeChunk: {
-				name: "commons",
-			},
-		},
-	};
-
-	const config = [
+module.exports = [
+	baseConfig(
 		{
-			...base,
-			entry: {
-				...mainEntry,
-				"styled-components": "./js/src/externals/styled-components.js",
-				redux: "./js/src/externals/redux.js",
-				jed: "./js/src/externals/jed.js",
-				"draft-js": "./js/src/externals/draft-js.js",
-			},
-			externals: {
-				...externals,
-				...yoastExternals,
-				...wordpressExternals,
-			},
-			plugins: addBundleAnalyzer( [
-				...plugins,
-			] ),
-		},
-
-		// Config for files that should not use any externals at all.
-		{
-			...base,
-			output: {
-				path: paths.jsDist,
-				filename: "[name]-" + pluginVersionSlug + ".js",
-				jsonpFunction: "yoastWebpackJsonp",
-			},
-			entry: {
-				"babel-polyfill": "./js/src/externals/babel-polyfill.js",
-			},
-			plugins: addBundleAnalyzer( plugins ),
-			optimization: {
-				runtimeChunk: false,
-			},
-		},
-		// Config for the analysis web worker.
-		{
-			...base,
-			externals: {},
+			entry: paths.entry,
 			output: {
 				path: paths.jsDist,
 				filename: outputFilename,
-				jsonpFunction: "yoastWebpackJsonp",
 			},
-			entry: {
-				"analysis-worker": "./js/src/analysis-worker.js",
-				analysis: "./js/src/externals/analysis.js",
-			},
-			plugins: addBundleAnalyzer( plugins ),
-			optimization: {
-				runtimeChunk: false,
-			},
-		},
-		// Config for files that should only use externals available in the web worker context.
+			combinedOutputFile: root + "src/generated/assets/plugin.php",
+			cssExtractFileName: root + "../../css/dist/plugin-" + pluginVersionSlug + ".css",
+		}
+	),
+	baseConfig(
 		{
-			...base,
-			externals: { yoastseo: "yoast.analysis" },
-			entry: {
-				"used-keywords-assessment": "./js/src/used-keywords-assessment.js",
-			},
-			plugins: addBundleAnalyzer( plugins ),
-			optimization: {
-				runtimeChunk: false,
-			},
-		},
-	];
-
-	/**
-	 * Add the Yoast Externals to the config.
-	 *
-	 * These all need to have all -other- externals configured, but not their self.
-	 */
-	for (const [key, value] of Object.entries(yoastExternals)) {
-		const yoastExternalsExcludingCurrent = Object.assign({}, yoastExternals);
-		// Remove the current external to avoid self-reference.
-		delete yoastExternalsExcludingCurrent[key];
-
-		const packageName = key.replace( YOAST_PACKAGE_NAMESPACE, '' );
-
-		config.push({
-			...base,
-			entry: {
-				[packageName]: "./js/src/externals/yoast/" + packageName + ".js",
-			},
+			entry: yoastPackages.reduce( ( memo, packageName ) => {
+				if ( existsSync( "./packages/" + packageName ) ) {
+					memo[ yoastExternals[ packageName ] ] = "./packages/" + packageName;
+					return memo;
+				}
+				memo[ yoastExternals[ packageName ] ] = "./node_modules/" + packageName;
+				return memo;
+			}, {} ),
 			output: {
-				path: path.resolve(),
-				filename: "js/dist/yoast/[name]-" + pluginVersionSlug + ".js",
-				jsonpFunction: "yoastWebpackJsonp",
+				path: paths.jsDist + "/externals",
+				filename: outputFilename,
+				library: [ "yoast", "[name]" ],
+				libraryTarget: "window",
 			},
-			externals: {
-				...externals,
-				...yoastExternalsExcludingCurrent,
-				...wordpressExternals,
+			combinedOutputFile: root + "src/generated/assets/externals.php",
+			cssExtractFileName: "../../../css/dist/monorepo-" + pluginVersionSlug + ".css",
+		}
+	),
+	baseConfig(
+		{
+			entry: languages.reduce( ( memo, language ) => {
+				const name = ( language === "_default" ) ? "default" : language;
+				memo[ name ] = "./node_modules/yoastseo/src/languageProcessing/languages/" + language + "/Researcher";
+				return memo;
+			}, {} ),
+			output: {
+				path: paths.jsDist + "/languages",
+				filename: outputFilename,
+				library: [ "yoast", "Researcher" ],
+				libraryTarget: "window",
 			},
-			plugins: addBundleAnalyzer([
-				...plugins,
-			]),
-			optimization: {
-				runtimeChunk: false,
-			},
-		});
-	}
-
-	if ( env.environment === "development" ) {
-		config[ 0 ].devServer = {
-			publicPath: "/",
-			allowedHosts,
-		};
-	}
-
-	return config;
-};
+			combinedOutputFile: root + "src/generated/assets/languages.php",
+			cssExtractFileName: "../../../css/dist/languages-" + pluginVersionSlug + ".css",
+		}
+	),
+];

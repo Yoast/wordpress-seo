@@ -11,7 +11,6 @@ use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
-use Yoast\WP\SEO\Helpers\Open_Graph\Values_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
@@ -153,13 +152,6 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $permalink_helper;
 
 	/**
-	 * The values helper.
-	 *
-	 * @var Values_Helper
-	 */
-	protected $values_helper;
-
-	/**
 	 * Sets the generator dependencies.
 	 *
 	 * @required
@@ -196,7 +188,6 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @param User_Helper         $user         The user helper.
 	 * @param Indexable_Helper    $indexable    The indexable helper.
 	 * @param Permalink_Helper    $permalink    The permalink helper.
-	 * @param Values_Helper       $values       The values helper.
 	 */
 	public function set_helpers(
 		Image_Helper $image,
@@ -205,8 +196,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 		Url_Helper $url,
 		User_Helper $user,
 		Indexable_Helper $indexable,
-		Permalink_Helper $permalink,
-		Values_Helper $values
+		Permalink_Helper $permalink
 	) {
 		$this->image            = $image;
 		$this->options          = $options;
@@ -215,7 +205,6 @@ class Indexable_Presentation extends Abstract_Presentation {
 		$this->user             = $user;
 		$this->indexable_helper = $indexable;
 		$this->permalink_helper = $permalink;
-		$this->values_helper    = $values;
 	}
 
 	/**
@@ -433,7 +422,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->open_graph_title;
 		}
 
-		return $this->values_helper->get_open_graph_title( $this->title, $this->model->object_type, $this->model->object_sub_type );
+		return $this->title;
 	}
 
 	/**
@@ -446,7 +435,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->open_graph_description;
 		}
 
-		return $this->values_helper->get_open_graph_description( $this->meta_description, $this->model->object_type, $this->model->object_sub_type );
+		return $this->meta_description;
 	}
 
 	/**
@@ -460,32 +449,6 @@ class Indexable_Presentation extends Abstract_Presentation {
 		}
 
 		return $this->open_graph_image_generator->generate( $this->context );
-	}
-
-	/**
-	 * Generates the open graph image ID.
-	 *
-	 * @return string The open graph image ID.
-	 */
-	public function generate_open_graph_image_id() {
-		if ( $this->model->open_graph_image_id ) {
-			return $this->model->open_graph_image_id;
-		}
-
-		return $this->values_helper->get_open_graph_image_id( 0, $this->model->object_type, $this->model->object_sub_type );
-	}
-
-	/**
-	 * Generates the open graph image URL.
-	 *
-	 * @return string The open graph image URL.
-	 */
-	public function generate_open_graph_image() {
-		if ( $this->model->open_graph_image ) {
-			return $this->model->open_graph_image;
-		}
-
-		return $this->values_helper->get_open_graph_image( '', $this->model->object_type, $this->model->object_sub_type );
 	}
 
 	/**
@@ -705,14 +668,14 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * Generates the estimated reading time.
 	 *
-	 * @return integer The estimated reading time.
+	 * @return int|null The estimated reading time.
 	 *
 	 * @codeCoverageIgnore Wrapper method.
 	 */
 	public function generate_estimated_reading_time_minutes() {
 		if ( $this->model->estimated_reading_time_minutes !== null ) {
 			return $this->model->estimated_reading_time_minutes;
-		};
+		}
 
 		if ( $this->context->post === null ) {
 			return null;

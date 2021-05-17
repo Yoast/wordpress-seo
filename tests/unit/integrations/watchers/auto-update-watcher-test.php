@@ -2,15 +2,12 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-
 use Brain\Monkey;
 use Mockery;
-
-use Yoast\WP\SEO\Integrations\Watchers\Auto_Update_Watcher;
-
-use Yoast_Notification_Center;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
+use Yoast\WP\SEO\Integrations\Watchers\Auto_Update_Watcher;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Notification_Center;
 
 /**
  * Class Auto_Update_Watcher_Test.
@@ -91,15 +88,15 @@ class Auto_Update_Watcher_Test extends TestCase {
 	 * Tests handling the notification when toggling the Core auto-updates setting,
 	 * in various combinations where the notification should not be shown.
 	 *
-	 * @dataProvider provider_toggle_core_no_notification
-	 *
-	 * @param string $core_updates_enabled   The value of the Core auto-updates toggle.
-	 * @param array  $plugins_to_auto_update The plugins for which auto-updates are enabled.
-	 *
 	 * @covers ::auto_update_notification_even_if_dismissed
 	 * @covers ::should_show_notification
 	 * @covers ::yoast_auto_updates_enabled
 	 * @covers ::save_dismissal_status
+	 *
+	 * @dataProvider provider_toggle_core_no_notification
+	 *
+	 * @param string $core_updates_enabled   The value of the Core auto-updates toggle.
+	 * @param array  $plugins_to_auto_update The plugins for which auto-updates are enabled.
 	 */
 	public function test_toggle_core_auto_updates_no_notification( $core_updates_enabled, $plugins_to_auto_update ) {
 		Monkey\Functions\expect( 'get_site_option' )

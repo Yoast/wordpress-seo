@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Discussed in Tech Council, a better solution is being worked on.
+
 namespace Yoast\WP\SEO\Integrations\Admin\Addon_Installation;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
@@ -54,6 +56,11 @@ class Dialog_Integration implements Integration_Interface {
 		add_action( 'admin_init', [ $this, 'check_addons_installed' ] );
 	}
 
+	/**
+	 * Starts the addon installation flow.
+	 *
+	 * @returns void
+	 */
 	public function start_addon_installation() {
 		// Only show the dialog when we explicitly want to see it.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: This is not a form.
@@ -135,7 +142,7 @@ class Dialog_Integration implements Integration_Interface {
 		$owned_addons = [];
 
 		foreach ( $this->addon_manager->get_myyoast_site_information()->subscriptions as $addon ) {
-			$owned_addons[ $addon->product->slug ] = $addon->product->name;
+			$owned_addons[] = $addon->product->name;
 		}
 
 		return $owned_addons;

@@ -105,7 +105,7 @@ class WPSEO_Ryte_Option {
 	/**
 	 * Saving the last fetch timestamp to the options.
 	 *
-	 * @param integer $timestamp Timestamp with the new value.
+	 * @param int $timestamp Timestamp with the new value.
 	 */
 	public function set_last_fetch( $timestamp ) {
 		$this->ryte_option[ self::LAST_FETCH ] = $timestamp;
