@@ -93,8 +93,14 @@ class Meta_Tags_Context_Memoizer {
 			// phpcs:ignore WordPress.WP.DiscouragedFunctions.wp_reset_query_wp_reset_query -- Reason: The recommended function, wp_reset_postdata, doesn't reset wp_query.
 			\wp_reset_query();
 
-			$indexable                   = $this->repository->for_current_page();
-			$page_type                   = $this->current_page->get_page_type();
+			$indexable = $this->repository->for_current_page();
+			$page_type = $this->current_page->get_page_type();
+
+			if ( $page_type === 'Fallback' ) {
+				// Do not cache the context if it's a fallback page.
+				// The likely cause for this is that this function was called before the query was loaded.
+				return $this->get( $indexable, $page_type );
+			}
 			$this->cache['current_page'] = $this->get( $indexable, $page_type );
 
 			// Restore the previous query.
