@@ -85,7 +85,9 @@ class Dialog_Integration implements Integration_Interface {
 	 */
 	public function throw_no_owned_addons_warning() {
 		echo '<div class="notice notice-warning"><p>' .
-			esc_html__( 'No addons have been installed. You don\'t seem to own any active subscriptions.', 'wordpress-seo' ) .
+		     /* translators: %1$s expands to Yoast SEO */
+		     sprintf( esc_html__( 'No %1$s plugins have been installed. You don\'t seem to own any active subscriptions.', 'wordpress-seo' ),
+				"Yoast SEO"  ) .
 		'</p></div>';
 	}
 
