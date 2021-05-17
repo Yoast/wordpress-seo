@@ -301,18 +301,16 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					$enriched_defaults[ 'social-image-id-' . $pt->name ]    = 0; // Hidden input field.
 				}
 
+				// Custom post types that have archives.
 				if ( ! $pt->_builtin && WPSEO_Post_Type::has_archive( $pt ) ) {
-					$enriched_defaults[ 'title-ptarchive-' . $pt->name ]    = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
-					$enriched_defaults[ 'metadesc-ptarchive-' . $pt->name ] = ''; // Text area.
-					$enriched_defaults[ 'bctitle-ptarchive-' . $pt->name ]  = ''; // Text field.
-					$enriched_defaults[ 'noindex-ptarchive-' . $pt->name ]  = false;
-
-					if ( $pt->name !== 'attachment' ) {
-						$enriched_defaults[ 'social-title-ptarchive-' . $pt->name ]       = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
-						$enriched_defaults[ 'social-description-ptarchive-' . $pt->name ] = ''; // Text area.
-						$enriched_defaults[ 'social-image-url-ptarchive-' . $pt->name ]   = ''; // Hidden input field.
-						$enriched_defaults[ 'social-image-id-ptarchive-' . $pt->name ]    = 0; // Hidden input field.
-					}
+					$enriched_defaults[ 'title-ptarchive-' . $pt->name ]              = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
+					$enriched_defaults[ 'metadesc-ptarchive-' . $pt->name ]           = ''; // Text area.
+					$enriched_defaults[ 'bctitle-ptarchive-' . $pt->name ]            = ''; // Text field.
+					$enriched_defaults[ 'noindex-ptarchive-' . $pt->name ]            = false;
+					$enriched_defaults[ 'social-title-ptarchive-' . $pt->name ]       = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
+					$enriched_defaults[ 'social-description-ptarchive-' . $pt->name ] = ''; // Text area.
+					$enriched_defaults[ 'social-image-url-ptarchive-' . $pt->name ]   = ''; // Hidden input field.
+					$enriched_defaults[ 'social-image-id-ptarchive-' . $pt->name ]    = 0; // Hidden input field.
 				}
 			}
 		}
