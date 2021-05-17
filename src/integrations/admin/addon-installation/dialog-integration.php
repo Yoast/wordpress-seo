@@ -5,7 +5,6 @@
 namespace Yoast\WP\SEO\Integrations\Admin\Addon_Installation;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Addon_Installation_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin\Licenses_Page_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -35,7 +34,6 @@ class Dialog_Integration implements Integration_Interface {
 		return [
 			Admin_Conditional::class,
 			Licenses_Page_Conditional::class,
-			Addon_Installation_Conditional::class,
 		];
 	}
 
