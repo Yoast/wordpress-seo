@@ -242,6 +242,8 @@ Enhancements:
 * Makes all twitter meta tags self-closing.
 * Changes the notification in the adminbar to closer match the sidebar.
 * Adds Czech to supported languages.
+* Adds the missing Polish transition word `jak wiemy` (props to @jarekherisz).
+* Improves the accuracy of passive voice detection in Portuguese.
 
 Bugfixes:
 
