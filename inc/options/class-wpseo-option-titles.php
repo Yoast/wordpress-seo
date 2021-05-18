@@ -88,7 +88,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		'stripcategorybase'                => false,
 
-		'open_graph_frontpage_title'       => '', // Text field.
+		'open_graph_frontpage_title'       => '%%sitename%%', // Text field.
 		'open_graph_frontpage_desc'        => '', // Text field.
 		'open_graph_frontpage_image'       => '', // Text field.
 		'open_graph_frontpage_image_id'    => 0,
