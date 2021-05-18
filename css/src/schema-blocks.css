@@ -16,14 +16,3 @@
 	border: #CCCCCC 1px solid;
 	border-radius: 0;
 }
-
-/* Cooking time block */
-.wp-block-yoast-cooking-time .yoast-schema-flex {
-	align-items: baseline;
-	overflow: visible;
-}
-
-.wp-block-yoast-cooking-time .yoast-schema-flex * {
-	margin-top: 0;
-    white-space: pre;
-}
