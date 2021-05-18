@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WP_Post;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
@@ -230,7 +231,7 @@ class Current_Page_Helper {
 
 		$page_for_posts = (int) \get_option( 'page_for_posts' );
 
-		return ( $page_for_posts > 0 && $page_for_posts === $wp_query->get_queried_object_id() );
+		return ( $page_for_posts > 0 && $wp_query->is_page( $page_for_posts ) );
 	}
 
 	/**
