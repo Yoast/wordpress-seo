@@ -1,8 +1,6 @@
 import "../../../matchMedia.mock";
-
 import { BlockInstance, createBlock } from "@wordpress/blocks";
 import { dispatch } from "@wordpress/data";
-
 import warningWatcher from "../../../../src/functions/gutenberg/watchers/warningWatcher";
 import InnerBlocks from "../../../../src/instructions/blocks/InnerBlocks";
 import { getBlockDefinition } from "../../../../src/core/blocks/BlockDefinitionRepository";

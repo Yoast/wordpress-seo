@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The BlockAppender renders correctly 1`] = `
+<div
+  className="wp-block block-editor-default-block-appender"
+  data-root-client-id="1234-abcd"
+>
+  <p
+    className="block-editor-default-block-appender__content yoast-schema-block-appender__content"
+  >
+    Add a block to your job posting...
+  </p>
+  BlockInserter
+</div>
+`;

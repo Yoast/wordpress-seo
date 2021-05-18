@@ -21,6 +21,8 @@ const {
 
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
+import ProductDataDesktop from "./ProductDataDesktop";
+import ProductDataMobile from "./ProductDataMobile";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
 
 /*
@@ -723,6 +725,49 @@ export default class SnippetPreview extends PureComponent {
 	}
 
 	/**
+	 * Renders the product / shopping data, in mobile or desktop view, based on the mode.
+	 *
+	 * @param {object} PartContainer the PartContainer component that needs to be rendered within the snippet preview container.
+	 *
+	 * @returns {ReactElement} The rendered description.
+	 */
+	renderProductData( PartContainer ) {
+		const {	mode, shoppingData } = this.props;
+
+		if ( Object.values( shoppingData ).length === 0 ) {
+			return null;
+		}
+
+		if ( mode === MODE_DESKTOP ) {
+			return (
+				<PartContainer className="yoast-shopping-data-preview--desktop">
+					<ScreenReaderText>
+						{ __( "Shopping data preview:", "yoast-components" ) }
+					</ScreenReaderText>
+					<ProductDataDesktop
+						shoppingData={ shoppingData }
+					/>
+				</PartContainer>
+			);
+		}
+
+		if ( mode === MODE_MOBILE ) {
+			return (
+				<PartContainer className="yoast-shopping-data-preview--mobile">
+					<ScreenReaderText>
+						{ __( "Shopping data preview:", "yoast-components" ) }
+					</ScreenReaderText>
+					<ProductDataMobile
+						shoppingData={ shoppingData }
+					/>
+				</PartContainer>
+			);
+		}
+
+		return null;
+	}
+
+	/**
 	 * Renders the snippet preview.
 	 *
 	 * @returns {ReactElement} The rendered snippet preview.
@@ -785,10 +830,11 @@ export default class SnippetPreview extends PureComponent {
 					</PartContainer>
 					<PartContainer>
 						<ScreenReaderText>
-							{ __( "Meta description preview", "yoast-components" ) + ":" }
+							{ __( "Meta description preview:", "yoast-components" ) }
 						</ScreenReaderText>
 						{ this.renderDescription() }
 					</PartContainer>
+					{ this.renderProductData( PartContainer ) }
 				</Container>
 			</section>
 		);
@@ -837,6 +883,7 @@ SnippetPreview.propTypes = {
 	isAmp: PropTypes.bool,
 	faviconSrc: PropTypes.string,
 	mobileImageSrc: PropTypes.string,
+	shoppingData: PropTypes.object,
 
 	onMouseUp: PropTypes.func.isRequired,
 	onHover: PropTypes.func,
@@ -856,6 +903,7 @@ SnippetPreview.defaultProps = {
 	isAmp: false,
 	faviconSrc: "",
 	mobileImageSrc: "",
+	shoppingData: {},
 
 	onHover: () => {},
 	onMouseEnter: () => {},

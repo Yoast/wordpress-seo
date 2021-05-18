@@ -67,7 +67,7 @@ const createBlockValidationResultTestArrangement = [
 	{ name: "missingrequiredblock", reason: BlockValidation.MissingRequiredBlock },
 	{ name: "missingrecommendedblock", reason: BlockValidation.MissingRecommendedBlock },
 	{ name: "redundantblock", reason: BlockValidation.TooMany },
-	{ name: "missingattributeblock", reason: BlockValidation.MissingAttribute },
+	{ name: "missingattributeblock", reason: BlockValidation.MissingRequiredAttribute },
 	{ name: "validblock", reason: BlockValidation.Valid },
 	{ name: "invalidblock", reason: BlockValidation.Invalid },
 	{ name: "unknown", reason: BlockValidation.Unknown },
@@ -251,7 +251,7 @@ describe( "The findSelfInvalidatedBlocks function", () => {
 		} as BlockInstance;
 
 		mockDefinition( "validBlock1", "validBlock", BlockValidation.Valid );
-		mockDefinition( "missingattributeblock1", "missingattributeblock", BlockValidation.MissingAttribute );
+		mockDefinition( "missingattributeblock1", "missingattributeblock", BlockValidation.MissingRequiredAttribute );
 
 		// Act.
 		const result: BlockValidationResult[] = innerBlocksValid.validateInnerblockTree( testBlock );
@@ -266,7 +266,7 @@ describe( "The findSelfInvalidatedBlocks function", () => {
 		const missingattributeblock = result.find( x => x.clientId === "missingattributeblock1" );
 		expect( missingattributeblock.name ).toEqual( "missingattributeblock" );
 		expect( missingattributeblock.result ).toEqual( BlockValidation.Invalid );
-		expect( missingattributeblock.issues[ 0 ].result ).toEqual( BlockValidation.MissingAttribute );
+		expect( missingattributeblock.issues[ 0 ].result ).toEqual( BlockValidation.MissingRequiredAttribute );
 	} );
 } );
 
@@ -395,7 +395,7 @@ describe( "the getInvalidInnerBlocks function", () => {
 		const result: BlockValidationResult[] = innerBlocksValid.default( testBlock, requiredBlocks );
 
 		// Assert.
-		expect( result.length ).toEqual( 4 );
+		expect( result.length ).toEqual( 6 );
 
 		// Be able to find missing blocks.
 		const missingBlock = result.filter( b => b.name === "missingBlock" && b.result === BlockValidation.MissingRequiredBlock );
@@ -403,7 +403,7 @@ describe( "the getInvalidInnerBlocks function", () => {
 		expect( missingBlock[ 0 ].name ).toEqual( "missingBlock" );
 		expect( missingBlock[ 0 ].result ).toEqual( BlockValidation.MissingRequiredBlock );
 
-		// Be able to find too many instances of singleton blocks.
+		// Validation must be able to find too many instances of singleton blocks.
 		const redundantBlocks: BlockValidationResult[] = result.filter( b => b.name === "redundantBlock" && b.result === BlockValidation.TooMany );
 		expect( redundantBlocks.length ).toEqual( 2 );
 		expect( redundantBlocks.findIndex( x => x.clientId === "redundantBlock1" ) ).toBeGreaterThanOrEqual( 0 );
@@ -411,11 +411,11 @@ describe( "the getInvalidInnerBlocks function", () => {
 		expect( redundantBlocks.every( x => x.result === BlockValidation.TooMany ) ).toBe( true );
 		expect( redundantBlocks.every( x => x.name === "redundantBlock" ) ).toBe( true );
 
-		// Blocks may be valid internally but they have a problem in the innerblock so they are not valid.
+		// Validation must be able to find blocks that follow their own rules, but not the rules imposed by the innerblock.
 		const validRedundantBlocks = result.filter( b => b.name === "redundantBlock" && b.result === BlockValidation.Valid );
-		expect( validRedundantBlocks.length ).toEqual( 0 );
+		expect( validRedundantBlocks.length ).toEqual( 2 );
 
-		// Be able to find a nested valid block inside an invalid block but still determine it is valid
+		// Validation must be able to find a valid nested block inside an invalid block, but still determine that the nested block is valid.
 		const existingBlock = result.filter( b => b.name === "existingBlock" && b.result === BlockValidation.Valid );
 		expect( existingBlock.length ).toEqual( 1 );
 		expect( existingBlock[ 0 ].name ).toEqual( "existingBlock" );

@@ -1,6 +1,6 @@
 import { __ } from "@wordpress/i18n";
 
-import { Alert, CourseDetails, FullHeightCard, Warning } from "@yoast/components";
+import { Alert, CourseDetails, FullHeightCard, StarRating, Warning } from "@yoast/components";
 import { getCourseFeed, getDirectionalStyle, makeOutboundLink } from "@yoast/helpers";
 import React from "react";
 import styled from "styled-components";
@@ -138,6 +138,12 @@ export default class ComponentsExample extends React.Component {
 		</Alert>;
 	}
 
+	updateStars( event ) {
+		this.setState({
+			input: event.target.value
+		} );
+	}
+
 	/**
 	 * Renders all the Component examples.
 	 *
@@ -171,6 +177,9 @@ export default class ComponentsExample extends React.Component {
 							<p key="2">This spans to multiple lines.</p>,
 						] }
 					/>
+					<h2>Star rating</h2>
+					<i>Accepts a rating from 0-5 and colors the stars yellow accordingly</i>
+					<StarRating rating={ 3.5 } />
 					<h2>Outbound links</h2>
 					<p>
 						<NonYoastLink href="http://www.example.org">example.org</NonYoastLink>

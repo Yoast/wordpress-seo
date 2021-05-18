@@ -1,10 +1,9 @@
 import { ReactElement } from "react";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
-import { createElement } from "@wordpress/element";
-import { getInnerblocksByName, insertBlock } from "../functions/innerBlocksHelper";
-import { getBlockType } from "../functions/BlockHelper";
-import { PanelBody } from "@wordpress/components";
-import { SuggestedBlockProperties } from "../core/validation/SuggestedBlockProperties";
+import { createElement, Fragment } from "@wordpress/element";
+
+import { getBlockType } from "../BlockHelper";
+import { getInnerblocksByName, insertBlock } from "../innerBlocksHelper";
 
 type BlockSuggestionAddedDto = {
 	blockTitle: string;
@@ -14,6 +13,12 @@ type BlockSuggestionDto = {
 	blockTitle: string;
 	blockName: string;
 	blockClientId: string;
+}
+
+interface BlockSuggestionsProps {
+	title: string;
+	block: BlockInstance;
+	suggestions: string[];
 }
 
 /**
@@ -43,34 +48,39 @@ function BlockSuggestion( { blockTitle, blockName, blockClientId }: BlockSuggest
 }
 
 /**
- * Renders a block suggestion that is already added
+ * Renders a block suggestion that has already been added.
  *
  * @param {string} blockTitle The block title.
  *
  * @returns {ReactElement} The rendered element.
  */
 function BlockSuggestionAdded( { blockTitle }: BlockSuggestionAddedDto ): ReactElement {
+	const heroIconCheck: JSX.Element =
+		<svg
+			xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-2 3 18 16" stroke="currentColor"
+			height="12" width="22"
+		>
+			<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2.5 } d="M5 13l4 4L19 7" />
+		</svg>;
+
 	return (
 		<li className="yoast-block-suggestion yoast-block-suggestion--added" key={ "BlockSuggestionAdded" + blockTitle }>
 			{ blockTitle }
-			<span className="yoast-block-suggestion-checkmark"> OK </span>
+			<span className="yoast-block-suggestion-checkmark">{ heroIconCheck }</span>
 		</li>
 	);
 }
 
 /**
- * Renders a sidebar panel with the required/recommended block names and a button to add a missing block.
+ * Renders a list of suggested blocks.
  *
- * @param {string} sidebarTitle                        The title of the sidebar section.
- * @param {BlockInstance} block                        The block to render the suggestions for.
- * @param {SuggestedBlockProperties[]} suggestedBlocks The required/recommended blocks.
+ * @param props The props.
  *
- * @returns {ReactElement} The rendered sidebar section with block suggestions.
+ * @returns The block suggestions element.
  */
-export default function RequiredBlocks( sidebarTitle: string, block: BlockInstance, suggestedBlocks: SuggestedBlockProperties[] ): ReactElement {
-	const suggestedBlockNames = suggestedBlocks
-		.filter( suggestedBlock => typeof getBlockType( suggestedBlock.name ) !== "undefined" )
-		.map( suggestedBlock => suggestedBlock.name );
+export default function BlockSuggestionsPresenter( { title, block, suggestions }: BlockSuggestionsProps ) {
+	const suggestedBlockNames = suggestions
+		.filter( suggestedBlock => typeof getBlockType( suggestedBlock ) !== "undefined" );
 
 	// When there are no suggestions, just return.
 	if ( suggestedBlockNames.length === 0 ) {
@@ -81,8 +91,8 @@ export default function RequiredBlocks( sidebarTitle: string, block: BlockInstan
 	const presentBlockNames = findPresentBlocks.map( presentBlock => presentBlock.name );
 
 	return (
-		<PanelBody key={ sidebarTitle + block.clientId }>
-			<div className="yoast-block-sidebar-title">{ sidebarTitle }</div>
+		<Fragment key={ title + block.clientId }>
+			<div className="yoast-block-sidebar-title">{ title }</div>
 			<ul className="yoast-block-suggestions">
 				{
 					suggestedBlockNames.map( ( blockName: string, index: number ) => {
@@ -101,6 +111,6 @@ export default function RequiredBlocks( sidebarTitle: string, block: BlockInstan
 					} )
 				}
 			</ul>
-		</PanelBody>
+		</Fragment>
 	);
 }

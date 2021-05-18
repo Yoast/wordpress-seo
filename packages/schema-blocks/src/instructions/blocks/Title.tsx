@@ -2,7 +2,7 @@ import { BlockInstance } from "@wordpress/blocks";
 import { select } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 
-import { VariableTagRichText } from "./VariableTagRichText";
+import { Heading } from "./Heading";
 import { BlockValidation, BlockValidationResult } from "../../core/validation";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { BlockPresence } from "../../core/validation/BlockValidationResult";
@@ -19,9 +19,10 @@ interface Post {
  * Job title instruction.
  * Is invalid when its contents is the same as the post title.
  */
-class Title extends VariableTagRichText {
+class Title extends Heading {
 	public options: {
 		tags: ( keyof HTMLElementTagNameMap )[] | Record<string, keyof HTMLElementTagNameMap>;
+		defaultHeadingLevel: number;
 		name: string;
 		blockName: string;
 		class: string;
@@ -31,6 +32,7 @@ class Title extends VariableTagRichText {
 		multiline: boolean;
 		label: string;
 		value: string;
+		required?: boolean;
 	};
 
 	/**
@@ -43,7 +45,7 @@ class Title extends VariableTagRichText {
 	 * @returns Whether the block is completed.
 	 */
 	private isCompleted( blockInstance: BlockInstance ): boolean {
-		return attributeNotEmpty( blockInstance, this.options.name ) && attributeExists( blockInstance, this.options.name );
+		return attributeExists( blockInstance, this.options.name ) && attributeNotEmpty( blockInstance, this.options.name );
 	}
 
 	/**
@@ -54,21 +56,19 @@ class Title extends VariableTagRichText {
 	 * @returns The validation result.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		const post: Post = select( "core/editor" ).getCurrentPost();
-
 		const blockTitle: string = blockInstance.attributes[ this.options.name ];
-		const postTitle: string = post.title;
+		const postTitle: string = select( "core/editor" ).getEditedPostAttribute( "title" );
 
 		if ( ! this.isCompleted( blockInstance ) ) {
-			return BlockValidationResult.MissingAttribute( blockInstance, this.options.name );
+			const presence = this.options.required === true ? BlockPresence.Required : BlockPresence.Recommended;
+			return BlockValidationResult.MissingAttribute( blockInstance, this.constructor.name, presence );
 		}
 
 		if ( blockTitle.toLocaleLowerCase() === postTitle.toLocaleLowerCase() ) {
 			return new BlockValidationResult(
 				blockInstance.clientId,
 				blockInstance.name,
-				// 'Only' a warning, so the instruction is still valid.
-				BlockValidation.Valid,
+				BlockValidation.OK,
 				BlockPresence.Recommended,
 				sprintf(
 					/* Translators: %s expands to the block's name. */
