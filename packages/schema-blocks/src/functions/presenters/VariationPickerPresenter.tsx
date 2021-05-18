@@ -5,7 +5,7 @@ import { __experimentalBlockVariationPicker as ExperimentalBlockVariationPicker,
 import { BlockInstance, createBlock } from "@wordpress/blocks";
 import { get, map } from "lodash";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { createElement } from "@wordpress/element";
+import { createElement, useCallback } from "@wordpress/element";
 import { VariationInterface } from "../../instructions/blocks/Variation";
 import { RenderEditProps } from "../..";
 
@@ -35,7 +35,7 @@ function createBlocksFromInnerBlocksTemplate( innerBlocksTemplate: BlockInstance
  *
  * @returns {ReactElement} The component.
  */
-export default function VariationPickerPresenter( { clientId, name, setAttributes }: RenderEditProps ) {
+export default function VariationPickerPresenter( { clientId, name, setAttributes }: RenderEditProps ): React.ReactElement {
 	const { blockType, defaultVariation, variations } = useSelect(
 		select => {
 			const {
@@ -65,7 +65,7 @@ export default function VariationPickerPresenter( { clientId, name, setAttribute
 	 *
 	 * @param nextVariation The variation that is selected by the user.
 	 */
-	const onSelect = ( nextVariation = defaultVariation ) => {
+	const onSelect = useCallback( ( nextVariation = defaultVariation ) => {
 		if ( nextVariation.attributes ) {
 			setAttributes( nextVariation.attributes );
 		}
@@ -79,7 +79,7 @@ export default function VariationPickerPresenter( { clientId, name, setAttribute
 				true,
 			);
 		}
-	};
+	}, null );
 
 	return (
 		<div { ...blockProps }>

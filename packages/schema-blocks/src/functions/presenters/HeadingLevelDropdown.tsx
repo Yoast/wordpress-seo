@@ -31,7 +31,7 @@ interface HeadingLevelDropdownProps {
  *
  * @return The toolbar.
  */
-export default function HeadingLevelDropdown( { selectedLevel, onChange }: HeadingLevelDropdownProps ) {
+export default function HeadingLevelDropdown( { selectedLevel, onChange }: HeadingLevelDropdownProps ): React.ReactElement {
 	/**
 	 * Renders the toggle element.
 	 *

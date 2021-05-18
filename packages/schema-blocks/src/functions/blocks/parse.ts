@@ -33,6 +33,7 @@ function parseText( text: string, { separator, instructions }: BlockDefinition )
  * @returns The nodes parsed as leaves.
  */
 function parseNodes( nodes: NodeListOf<ChildNode>, definition: BlockDefinition ): BlockLeaf[] {
+	// eslint-disable-next-line no-use-before-define
 	const parsed = flatMap( nodes, node => parseNode( node, definition ) );
 	if ( parsed.length === 0 ) {
 		return null;

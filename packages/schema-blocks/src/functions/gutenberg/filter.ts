@@ -6,7 +6,7 @@ import logger from "../logger";
 /**
  * Filters in schema attributes for blocks.
  */
-export default function filter() {
+export default function filter(): void {
 	addFilter(
 		"blocks.registerBlockType",
 		"wordpress-seo/schema-blocks/schema-attribute",

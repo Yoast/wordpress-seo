@@ -33,7 +33,7 @@ export class VariationPicker extends BlockInstruction {
 	 *
 	 * @returns The variation picker or null.
 	 */
-	edit( props: RenderEditProps, leaf: BlockLeaf, index: number ) {
+	edit( props: RenderEditProps, leaf: BlockLeaf, index: number ): React.ReactElement {
 		const { innerBlocks } = useSelect(
 			select => select( "core/block-editor" ).getBlock( props.clientId ),
 			[ props.clientId ],
