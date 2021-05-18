@@ -101,7 +101,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 		$crumb = [
 			'@type'    => 'ListItem',
 			'position' => ( $index + 1 ),
-			'item'     => []
+			'item'     => [],
 		];
 
 		if ( ! isset( $breadcrumb['url'] ) && isset( $breadcrumb['@id'] ) ) {

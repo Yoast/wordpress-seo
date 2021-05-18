@@ -26,13 +26,20 @@ class Organization extends Abstract_Schema_Piece {
 	public function generate() {
 		$logo_schema_id = $this->context->site_url . Schema_IDs::ORGANIZATION_LOGO_HASH;
 
+		if ( $this->context->company_logo_meta ) {
+			$logo = $this->helpers->schema->image->generate_from_attachment_meta( $logo_schema_id, $this->context->company_logo_meta, $this->context->company_name );
+		}
+		else {
+			$logo = $this->helpers->schema->image->generate_from_attachment_id( $logo_schema_id, $this->context->company_logo_id, $this->context->company_name );
+		}
+
 		return [
 			'@type'  => 'Organization',
 			'@id'    => $this->context->site_url . Schema_IDs::ORGANIZATION_HASH,
 			'name'   => $this->helpers->schema->html->smart_strip_tags( $this->context->company_name ),
 			'url'    => $this->context->site_url,
 			'sameAs' => $this->fetch_social_profiles(),
-			'logo'   => $this->helpers->schema->image->generate_from_attachment_meta( $logo_schema_id, $this->context->company_logo_meta, $this->context->company_name ),
+			'logo'   => $logo,
 			'image'  => [ '@id' => $logo_schema_id ],
 		];
 	}

@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers\Schema;
 
+use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Helpers\Schema\Replace_Vars_Helper_Double;
@@ -48,6 +49,13 @@ class Replace_Vars_Helper_Test extends TestCase {
 	protected $id_helper;
 
 	/**
+	 * Date_Helper mock.
+	 *
+	 * @var Mockery\MockInterface|Date_Helper
+	 */
+	protected $date_helper;
+
+	/**
 	 * The instance under test.
 	 *
 	 * @var Replace_Vars_Helper
@@ -62,10 +70,12 @@ class Replace_Vars_Helper_Test extends TestCase {
 
 		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
 		$this->id_helper    = Mockery::mock( ID_Helper::class );
+		$this->date_helper  = Mockery::mock( Date_Helper::class );
 
 		$this->instance = new Replace_Vars_Helper(
 			$this->replace_vars,
-			$this->id_helper
+			$this->id_helper,
+			$this->date_helper
 		);
 	}
 
@@ -94,6 +104,11 @@ class Replace_Vars_Helper_Test extends TestCase {
 			->expects( 'get_user_schema_id' )
 			->andReturn( 'https://basic.wordpress.test#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21' );
 
+		$this->date_helper
+			->expects( 'format' )
+			->with( '2020-10-11 13:00:00', \DATE_ATOM )
+			->andReturn( '2020-10-11T13:00:00+00:00' );
+
 		$this->replace_vars
 			->expects( 'safe_register_replacement' )
 			->times( 8 );
@@ -116,7 +131,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 			'primary_image_id' => 'https://basic.wordpress.test/schema-templates#primaryimage',
 			'webpage_id'       => 'https://basic.wordpress.test/schema-templates#webpage',
 			'website_id'       => 'https://basic.wordpress.test#website',
-			'post_date'        => '2020-10-11 13:00:00',
+			'post_date'        => '2020-10-11T13:00:00+00:00',
 			'organization_id'  => 'https://basic.wordpress.test#organization',
 		];
 
@@ -137,12 +152,18 @@ class Replace_Vars_Helper_Test extends TestCase {
 			->expects( 'get_user_schema_id' )
 			->andReturn( 'https://basic.wordpress.test#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21' );
 
+		$this->date_helper
+			->expects( 'format' )
+			->with( '2020-10-11 13:00:00', \DATE_ATOM )
+			->andReturn( '2020-10-11T13:00:00+00:00' );
+
 		// Partial mock, to be able to spy on the `register_replacement` method.
 		$instance = Mockery::mock(
 			Replace_Vars_Helper::class,
 			[
 				$this->replace_vars,
 				$this->id_helper,
+				$this->date_helper,
 			]
 		)
 			->shouldAllowMockingProtectedMethods()
@@ -195,6 +216,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 			[
 				$this->replace_vars,
 				$this->id_helper,
+				$this->date_helper,
 			]
 		)
 			->shouldAllowMockingProtectedMethods()
@@ -256,7 +278,8 @@ class Replace_Vars_Helper_Test extends TestCase {
 	public function test_get_identity_function() {
 		$instance = new Replace_Vars_Helper_Double(
 			$this->replace_vars,
-			$this->id_helper
+			$this->id_helper,
+			$this->date_helper
 		);
 		$value    = 'a_value';
 		$closure  = $instance->get_identity_function( $value );

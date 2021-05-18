@@ -47,7 +47,7 @@ function loadHelpScoutSessionData( sessionData ) {
 		sessionData = JSON.parse( sessionData );
 		if ( typeof sessionData.name !== "undefined" && typeof sessionData.email !== "undefined" ) {
 			// eslint-disable-next-line new-cap
-			window.Beacon( "identify", {
+			window.Beacon( "prefill", {
 				name: sessionData.name,
 				email: sessionData.email,
 			} );

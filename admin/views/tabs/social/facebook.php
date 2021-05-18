@@ -13,14 +13,14 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-echo '<h2>' . esc_html__( 'Facebook settings', 'wordpress-seo' ) . '</h2>';
+echo '<h2>' . \esc_html__( 'Facebook settings', 'wordpress-seo' ) . '</h2>';
 
-$yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) );
+$yform->light_switch( 'opengraph', \__( 'Add Open Graph meta data', 'wordpress-seo' ) );
 
 ?>
 	<p>
 		<?php
-			esc_html_e( 'Enable this feature if you want Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.', 'wordpress-seo' );
+			\esc_html_e( 'Enable this feature if you want Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.', 'wordpress-seo' );
 		?>
 	</p>
 
@@ -84,10 +84,10 @@ $yform->hidden( 'og_default_image_id', 'og_default_image_id' );
 
 ?>
 	<p>
-		<?php esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>
+		<?php \esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>
 	</p>
 	<div id="yoast-og-default-image-select"></div>
 </div>
 <?php
 
-do_action( 'wpseo_admin_opengraph_section' );
+\do_action( 'wpseo_admin_opengraph_section' );

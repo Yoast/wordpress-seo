@@ -38,14 +38,14 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'title-search-wpseo'               => '', // Text field.
 		'title-404-wpseo'                  => '', // Text field.
 
-		'social-title-author-wpseo'        => '%%title%%', // Text field.
-		'social-title-archive-wpseo'       => '%%title%%', // Text field.
-		'social-description-author-wpseo'  => '%%excerpt%%', // Text area.
-		'social-description-archive-wpseo' => '%%excerpt%%', // Text area.
+		'social-title-author-wpseo'        => '', // Text field.
+		'social-title-archive-wpseo'       => '%%date%% %%page%% %%sep%% %%sitename%%', // Text field.
+		'social-description-author-wpseo'  => '', // Text area.
+		'social-description-archive-wpseo' => '', // Text area.
 		'social-image-url-author-wpseo'    => '', // Hidden input field.
 		'social-image-url-archive-wpseo'   => '', // Hidden input field.
-		'social-image-id-author-wpseo'     => '', // Hidden input field.
-		'social-image-id-archive-wpseo'    => '', // Hidden input field.
+		'social-image-id-author-wpseo'     => 0, // Hidden input field.
+		'social-image-id-archive-wpseo'    => 0, // Hidden input field.
 
 		'metadesc-home-wpseo'              => '', // Text area.
 		'metadesc-author-wpseo'            => '', // Text area.
@@ -87,6 +87,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'company_or_person_user_id'        => false,
 
 		'stripcategorybase'                => false,
+
+		'open_graph_frontpage_title'       => '', // Text field.
+		'open_graph_frontpage_desc'        => '', // Text field.
+		'open_graph_frontpage_image'       => '', // Text field.
+		'open_graph_frontpage_image_id'    => 0,
 
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
@@ -240,6 +245,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	public function translate_defaults() {
 		/* translators: 1: Author name; 2: Site name. */
 		$this->defaults['title-author-wpseo'] = sprintf( __( '%1$s, Author at %2$s', 'wordpress-seo' ), '%%name%%', '%%sitename%%' ) . ' %%page%% ';
+		/* translators: 1: Author name, 2: Site name. */
+		$this->defaults['social-title-author-wpseo'] = sprintf( __( '%1$s, Author at %2$s', 'wordpress-seo' ), '%%name%%', '%%sitename%%' ) . ' %%page%% ';
 		/* translators: %s expands to the search phrase. */
 		$this->defaults['title-search-wpseo'] = sprintf( __( 'You searched for %s', 'wordpress-seo' ), '%%searchphrase%%' ) . ' %%page%% %%sep%% %%sitename%%';
 		$this->defaults['title-404-wpseo']    = __( 'Page not found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%';
@@ -286,20 +293,20 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$enriched_defaults[ 'post_types-' . $pt->name . '-maintax' ] = 0; // Select box.
 				$enriched_defaults[ 'schema-page-type-' . $pt->name ]        = 'WebPage';
 				$enriched_defaults[ 'schema-article-type-' . $pt->name ]     = ( YoastSEO()->helpers->schema->article->is_article_post_type( $pt->name ) ) ? 'Article' : 'None';
-				$enriched_defaults[ 'social-title-' . $pt->name ]            = '%%title%%'; // Text field.
-				$enriched_defaults[ 'social-description-' . $pt->name ]      = '%%excerpt%%'; // Text area.
+				$enriched_defaults[ 'social-title-' . $pt->name ]            = '%%title%% %%page%% %%sep%% %%sitename%%'; // Text field.
+				$enriched_defaults[ 'social-description-' . $pt->name ]      = ''; // Text area.
 				$enriched_defaults[ 'social-image-url-' . $pt->name ]        = ''; // Hidden input field.
-				$enriched_defaults[ 'social-image-id-' . $pt->name ]         = ''; // Hidden input field.
+				$enriched_defaults[ 'social-image-id-' . $pt->name ]         = 0; // Hidden input field.
 
 				if ( ! $pt->_builtin && WPSEO_Post_Type::has_archive( $pt ) ) {
 					$enriched_defaults[ 'title-ptarchive-' . $pt->name ]              = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
 					$enriched_defaults[ 'metadesc-ptarchive-' . $pt->name ]           = ''; // Text area.
 					$enriched_defaults[ 'bctitle-ptarchive-' . $pt->name ]            = ''; // Text field.
 					$enriched_defaults[ 'noindex-ptarchive-' . $pt->name ]            = false;
-					$enriched_defaults[ 'social-title-ptarchive-' . $pt->name ]       = '%%title%%'; // Text field.
-					$enriched_defaults[ 'social-description-ptarchive-' . $pt->name ] = '%%excerpt%%'; // Text area.
+					$enriched_defaults[ 'social-title-ptarchive-' . $pt->name ]       = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
+					$enriched_defaults[ 'social-description-ptarchive-' . $pt->name ] = ''; // Text area.
 					$enriched_defaults[ 'social-image-url-ptarchive-' . $pt->name ]   = ''; // Hidden input field.
-					$enriched_defaults[ 'social-image-id-ptarchive-' . $pt->name ]    = ''; // Hidden input field.
+					$enriched_defaults[ 'social-image-id-ptarchive-' . $pt->name ]    = 0; // Hidden input field.
 				}
 			}
 		}
@@ -317,10 +324,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				$enriched_defaults[ 'noindex-tax-' . $tax->name ] = ( $tax->name === 'post_format' );
 
-				$enriched_defaults[ 'social-title-tax-' . $tax->name ]       = '%%title%%'; // Text field.
-				$enriched_defaults[ 'social-description-tax-' . $tax->name ] = '%%excerpt%%'; // Text area.
+				$enriched_defaults[ 'social-title-tax-' . $tax->name ]       = $archives . ' %%page%% %%sep%% %%sitename%%'; // Text field.
+				$enriched_defaults[ 'social-description-tax-' . $tax->name ] = ''; // Text area.
 				$enriched_defaults[ 'social-image-url-tax-' . $tax->name ]   = ''; // Hidden input field.
-				$enriched_defaults[ 'social-image-id-tax-' . $tax->name ]    = ''; // Hidden input field.
+				$enriched_defaults[ 'social-image-id-tax-' . $tax->name ]    = 0; // Hidden input field.
 
 				if ( ! $tax->_builtin ) {
 					$enriched_defaults[ 'taxonomy-' . $tax->name . '-ptparent' ] = 0; // Select box;.
@@ -424,6 +431,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 */
 				case 'company_logo':
 				case 'person_logo':
+				case 'open_graph_frontpage_image':
 					// When a logo changes, we need to ditch the caches we have for it.
 					unset( $clean[ $switch_key . '_id' ] );
 					unset( $clean[ $switch_key . '_meta' ] );
@@ -453,12 +461,15 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'social-description-ptarchive-' . $pt->name
 				 *  'social-description-tax-' . $tax->name
 				 *  'social-description-author-wpseo', 'social-description-archive-wpseo'
+				 *  'open_graph_frontpage_desc', 'open_graph_frontpage_title'
 				 */
 				case 'metadesc-':
 				case 'bctitle-ptarchive-':
 				case 'company_name':
 				case 'person_name':
 				case 'social-description-':
+				case 'open_graph_frontpage_desc':
+				case 'open_graph_frontpage_title':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 					}
@@ -555,7 +566,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				/*
 				 * Covers:
 				 *  'company_or_person_user_id'
-				 *  'company_logo_id', 'person_logo_id'
+				 *  'company_logo_id', 'person_logo_id', 'open_graph_frontpage_image_id'
 				 *  'social-image-id-' . $pt->name
 				 *  'social-image-id-ptarchive-' . $pt->name
 				 *  'social-image-id-tax-' . $tax->name
@@ -565,6 +576,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'company_logo_id':
 				case 'person_logo_id':
 				case 'social-image-id-':
+				case 'open_graph_frontpage_image_id':
 					if ( isset( $dirty[ $key ] ) ) {
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 						if ( $int !== false && $int >= 0 ) {

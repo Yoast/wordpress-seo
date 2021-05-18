@@ -23,6 +23,10 @@
   max-width: 600px;
 }
 
+.yoast-measure.padded {
+	max-width: 632px;
+}
+
 /* Thickbox */
 #TB_window .wpseo_content_wrapper p {
   font-size: 14px;

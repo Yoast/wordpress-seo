@@ -14,10 +14,10 @@ const SEMrushLoading = () => {
 		<p className="yoast-related-keyphrases-modal__loading-message">
 			{
 				sprintf(
-					/* translators: %1$s expands to "Yoast SEO", %2$s expands to "SEMrush". */
+					/* translators: %1$s expands to "Yoast SEO", %2$s expands to "Semrush". */
 					__( "Please wait while %1$s connects to %2$s to get related keyphrases...", "wordpress-seo" ),
 					"Yoast SEO",
-					"SEMrush"
+					"Semrush"
 				)
 			}
 			&nbsp;

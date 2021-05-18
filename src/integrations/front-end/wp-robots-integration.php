@@ -39,7 +39,11 @@ class WP_Robots_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_filter( 'wp_robots', [ $this, 'add_robots' ], PHP_INT_MAX );
+		/**
+		 * Allow control of the `wp_robots` filter by prioritizing our hook 10 less than max.
+		 * Use the `wpseo_robots` filter to filter the Yoast robots output, instead of WordPress core.
+		 */
+		\add_filter( 'wp_robots', [ $this, 'add_robots' ], ( PHP_INT_MAX - 10 ) );
 	}
 
 	/**
@@ -67,7 +71,7 @@ class WP_Robots_Integration implements Integration_Interface {
 		}
 
 		$merged_robots   = array_merge( $robots, $this->get_robots_value() );
-		$filtered_robots = $this->filter_robots_no_index( $merged_robots );
+		$filtered_robots = $this->enforce_robots_congruence( $merged_robots );
 		$sorted_robots   = $this->sort_robots( $filtered_robots );
 
 		// Filter all falsy-null robot values.
@@ -80,20 +84,10 @@ class WP_Robots_Integration implements Integration_Interface {
 	 * @returns array The robots key-value pairs.
 	 */
 	protected function get_robots_value() {
-		global $wp_query;
-
-		$old_wp_query = $wp_query;
-		// phpcs:ignore WordPress.WP.DiscouragedFunctions.wp_reset_query_wp_reset_query -- Reason: The recommended function, wp_reset_postdata, doesn't reset wp_query.
-		\wp_reset_query();
-
 		$context = $this->context_memoizer->for_current_page();
-
-		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Reason: we have to restore the query.
-		$GLOBALS['wp_query'] = $old_wp_query;
 
 		$robots_presenter               = new Robots_Presenter();
 		$robots_presenter->presentation = $context->presentation;
-
 		return $this->format_robots( $robots_presenter->get() );
 	}
 
@@ -135,7 +129,7 @@ class WP_Robots_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Filters robots value when page is set noindex.
+	 * Ensures all other possible robots values are congruent with nofollow and or noindex.
 	 *
 	 * WordPress might add some robot values again.
 	 * When the page is set to noindex we want to filter out these values.
@@ -144,20 +138,31 @@ class WP_Robots_Integration implements Integration_Interface {
 	 *
 	 * @return array The filtered robots.
 	 */
-	protected function filter_robots_no_index( $robots ) {
-		if ( ! isset( $robots['noindex'] ) ) {
-			return $robots;
+	protected function enforce_robots_congruence( $robots ) {
+		if ( isset( $robots['nofollow'] ) ) {
+			$robots['follow'] = null;
 		}
-
-		$robots['imageindex']        = null;
-		$robots['noimageindex']      = null;
-		$robots['archive']           = null;
-		$robots['noarchive']         = null;
-		$robots['snippet']           = null;
-		$robots['nosnippet']         = null;
-		$robots['max-snippet']       = null;
-		$robots['max-image-preview'] = null;
-		$robots['max-video-preview'] = null;
+		if ( isset( $robots['noarchive'] ) ) {
+			$robots['archive'] = null;
+		}
+		if ( isset( $robots['noimageindex'] ) ) {
+			$robots['imageindex'] = null;
+		}
+		if ( isset( $robots['nosnippet'] ) ) {
+			$robots['snippet'] = null;
+		}
+		if ( isset( $robots['noindex'] ) ) {
+			$robots['index']             = null;
+			$robots['imageindex']        = null;
+			$robots['noimageindex']      = null;
+			$robots['archive']           = null;
+			$robots['noarchive']         = null;
+			$robots['snippet']           = null;
+			$robots['nosnippet']         = null;
+			$robots['max-snippet']       = null;
+			$robots['max-image-preview'] = null;
+			$robots['max-video-preview'] = null;
+		}
 
 		return $robots;
 	}

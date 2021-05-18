@@ -55,6 +55,13 @@ class Author extends Person {
 			];
 		}
 
+		// If this is a post and the author archives are enabled, set the author archive url as the author url.
+		if ( $this->context->indexable->object_type === 'post' ) {
+			if ( $this->helpers->options->get( 'disable-author' ) !== true ) {
+				$data['url'] = $this->helpers->user->get_the_author_posts_url( $user_id );
+			}
+		}
+
 		return $data;
 	}
 
