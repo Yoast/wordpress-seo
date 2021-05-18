@@ -3,7 +3,7 @@ import {
 	Dropdown,
 	Toolbar,
 	ToolbarButton,
-	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore -- Is exported in Gutenberg.
 	ToolbarGroup,
 } from "@wordpress/components";
@@ -59,7 +59,7 @@ export default function HeadingLevelDropdown( { selectedLevel, onChange }: Headi
 				aria-expanded={ isOpen }
 				aria-haspopup="true"
 				icon={ <HeadingLevelIcon level={ selectedLevel } /> as unknown as Dashicon.Icon }
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore -- Attribute is available.
 				label={ __( "Change heading level", "yoast-schema-blocks" ) }
 				onClick={ onToggle }
@@ -110,7 +110,7 @@ export default function HeadingLevelDropdown( { selectedLevel, onChange }: Headi
 
 	return (
 		<Dropdown
-			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore -- Attribute is available.
 			popoverProps={ POPOVER_PROPS }
 			renderToggle={ renderToggle }

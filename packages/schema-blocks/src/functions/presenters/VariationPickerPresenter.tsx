@@ -1,5 +1,5 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore -- __experimentalBlockVariationPicker is defined in the package, though no type info is available.
 import { __experimentalBlockVariationPicker as ExperimentalBlockVariationPicker, useBlockProps } from "@wordpress/block-editor";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
@@ -39,11 +39,11 @@ export default function VariationPickerPresenter( { clientId, name, setAttribute
 	const { blockType, defaultVariation, variations } = useSelect(
 		select => {
 			const {
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore -- getBlockVariations is defined in the package, though no type info is available.
 				getBlockVariations,
 				getBlockType,
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore -- getDefaultBlockVariation is defined in the package, though no type info is available.
 				getDefaultBlockVariation,
 			} = select( "core/blocks" );
