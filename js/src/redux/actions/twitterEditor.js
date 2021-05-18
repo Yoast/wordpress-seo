@@ -1,3 +1,7 @@
+/* External dependencies */
+import { select } from "@wordpress/data";
+
+/* Internal dependencies */
 import TwitterFields from "../../helpers/fields/TwitterFields";
 
 export const SET_TWITTER_TITLE = "SET_TWITTER_TITLE";
@@ -14,7 +18,12 @@ export const LOAD_TWITTER_PREVIEW = "LOAD_TWITTER_PREVIEW";
  * @returns {Object} The action object.
  */
 export const setTwitterPreviewTitle = ( title ) => {
-	TwitterFields.title = title;
+	if ( title.trim() === select( "yoast-seo/editor" ).getSocialTitleTemplate().trim() ) {
+		TwitterFields.title = "";
+	} else {
+		TwitterFields.title = title;
+	}
+
 	return { type: SET_TWITTER_TITLE, title };
 };
 
@@ -26,7 +35,12 @@ export const setTwitterPreviewTitle = ( title ) => {
  * @returns {Object} The action object.
  */
 export const setTwitterPreviewDescription = ( description ) => {
-	TwitterFields.description = description;
+	if ( description.trim() === select( "yoast-seo/editor" ).getSocialDescriptionTemplate().trim() ) {
+		TwitterFields.description = "";
+	} else {
+		TwitterFields.description = description;
+	}
+
 	return { type: SET_TWITTER_DESCRIPTION, description };
 };
 
@@ -60,11 +74,16 @@ export const clearTwitterPreviewImage = () => {
  * @returns {object} The action object.
  */
 export const loadTwitterPreviewData = () => {
+	const {
+		getSocialDescriptionTemplate,
+		getSocialTitleTemplate,
+	} = select( "yoast-seo/editor" );
+
 	return {
 		type: LOAD_TWITTER_PREVIEW,
 		imageId: TwitterFields.imageId,
 		imageUrl: TwitterFields.imageUrl,
-		description: TwitterFields.description,
-		title: TwitterFields.title,
+		description: TwitterFields.description || getSocialDescriptionTemplate(),
+		title: TwitterFields.title || getSocialTitleTemplate(),
 	};
 };
