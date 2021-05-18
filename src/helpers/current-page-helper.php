@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WP_Post;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
@@ -228,9 +229,10 @@ class Current_Page_Helper {
 	public function is_static_posts_page() {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
-		$page_for_posts = (int) \get_option( 'page_for_posts' );
-
-		return ( $page_for_posts > 0 && $wp_query->is_page( $page_for_posts ) );
+		return (
+			$wp_query->is_posts_page &&
+			\is_a( $wp_query->get_queried_object(), WP_Post::class )
+		);
 	}
 
 	/**

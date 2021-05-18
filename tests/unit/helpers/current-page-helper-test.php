@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
+use WP_Post;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
@@ -58,7 +59,7 @@ class Current_Page_Helper_Test extends TestCase {
 	 * @covers ::get_non_cached_date_archive_permalink
 	 */
 	public function test_get_non_cached_date_archive_permalink_day() {
-		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query = Mockery::mock( WP_Query::class );
 		$wp_query->expects( 'is_day' )->once()->andReturnTrue();
 		$wp_query->expects( 'is_month' )->once()->andReturnFalse();
 		$wp_query->expects( 'is_year' )->once()->andReturnFalse();
@@ -84,7 +85,7 @@ class Current_Page_Helper_Test extends TestCase {
 	 * @covers ::get_non_cached_date_archive_permalink
 	 */
 	public function test_get_non_cached_date_archive_permalink_month() {
-		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query = Mockery::mock( WP_Query::class );
 		$wp_query->expects( 'is_day' )->once()->andReturnFalse();
 		$wp_query->expects( 'is_month' )->once()->andReturnTrue();
 		$wp_query->expects( 'is_year' )->once()->andReturnFalse();
@@ -109,7 +110,7 @@ class Current_Page_Helper_Test extends TestCase {
 	 * @covers ::get_non_cached_date_archive_permalink
 	 */
 	public function test_get_non_cached_date_archive_permalink_year() {
-		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query = Mockery::mock( WP_Query::class );
 		$wp_query->expects( 'is_day' )->once()->andReturnFalse();
 		$wp_query->expects( 'is_month' )->once()->andReturnFalse();
 		$wp_query->expects( 'is_year' )->once()->andReturnTrue();
@@ -133,7 +134,7 @@ class Current_Page_Helper_Test extends TestCase {
 	 * @covers ::get_non_cached_date_archive_permalink
 	 */
 	public function test_get_non_cached_date_archive_permalink_fallback() {
-		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query = Mockery::mock( WP_Query::class );
 		$wp_query->expects( 'is_day' )->once()->andReturnFalse();
 		$wp_query->expects( 'is_month' )->once()->andReturnFalse();
 		$wp_query->expects( 'is_year' )->once()->andReturnFalse();
@@ -425,76 +426,64 @@ class Current_Page_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that is_static_posts_page returns false if the page_for_posts option is "0".
+	 * Tests that is_static_posts_page returns false if the query is not for the posts page.
 	 *
 	 * @covers ::is_static_posts_page
 	 */
 	public function test_is_static_posts_page_invalid_page_for_posts() {
-		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query = Mockery::mock( WP_Query::class );
 
 		$this->wp_query_wrapper
 			->expects( 'get_main_query' )
 			->once()
 			->andReturn( $wp_query );
 
-		Monkey\Functions\expect( 'get_option' )
-			->with( 'page_for_posts' )
+		$wp_query->is_posts_page = true;
+		$wp_query
+			->expects( 'get_queried_object' )
 			->once()
-			->andReturn( '0' );
+			->andReturn( null );
 
 		$this->assertFalse( $this->instance->is_static_posts_page() );
 	}
 
 	/**
-	 * Tests that is_static_posts_page returns true if the page_for_posts option is the same as the
-	 * queried object id.
+	 * Tests that is_static_posts_page returns true if the query is for the posts page
+	 * and the queried object is a WP_Post.
 	 *
 	 * @covers ::is_static_posts_page
 	 */
-	public function test_is_static_posts_page_same_object_id() {
-		$wp_query = Mockery::mock( 'WP_Query' );
-		$wp_query
-			->expects( 'is_page' )
-			->once()
-			->with( 1 )
-			->andReturn( true );
+	public function test_is_static_posts_page_posts_page_and_post() {
+		$wp_query = Mockery::mock( WP_Query::class );
 
 		$this->wp_query_wrapper
 			->expects( 'get_main_query' )
 			->once()
 			->andReturn( $wp_query );
 
-		Monkey\Functions\expect( 'get_option' )
-			->with( 'page_for_posts' )
+		$wp_query->is_posts_page = true;
+		$wp_query
+			->expects( 'get_queried_object' )
 			->once()
-			->andReturn( '1' );
+			->andReturn( Mockery::mock( WP_Post::class ) );
 
 		$this->assertTrue( $this->instance->is_static_posts_page() );
 	}
 
 	/**
-	 * Tests that is_static_posts_page returns true if the page_for_posts option is different than
-	 * the queried object id.
+	 * Tests that is_static_posts_page returns false if the query is not for the posts page.
 	 *
 	 * @covers ::is_static_posts_page
 	 */
-	public function test_is_static_posts_page_different_object_id() {
-		$wp_query = Mockery::mock( 'WP_Query' );
-		$wp_query
-			->expects( 'is_page' )
-			->once()
-			->with( 1 )
-			->andReturn( false );
+	public function test_is_static_posts_page_not_posts_page() {
+		$wp_query = Mockery::mock( WP_Query::class );
 
 		$this->wp_query_wrapper
 			->expects( 'get_main_query' )
 			->once()
 			->andReturn( $wp_query );
 
-		Monkey\Functions\expect( 'get_option' )
-			->with( 'page_for_posts' )
-			->once()
-			->andReturn( '1' );
+		$wp_query->is_posts_page = false;
 
 		$this->assertFalse( $this->instance->is_static_posts_page() );
 	}
