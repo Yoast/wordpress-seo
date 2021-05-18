@@ -291,11 +291,15 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$enriched_defaults[ 'post_types-' . $pt->name . '-maintax' ] = 0; // Select box.
 				$enriched_defaults[ 'schema-page-type-' . $pt->name ]        = 'WebPage';
 				$enriched_defaults[ 'schema-article-type-' . $pt->name ]     = ( YoastSEO()->helpers->schema->article->is_article_post_type( $pt->name ) ) ? 'Article' : 'None';
-				$enriched_defaults[ 'social-title-' . $pt->name ]            = '%%title%%'; // Text field.
-				$enriched_defaults[ 'social-description-' . $pt->name ]      = ''; // Text area.
-				$enriched_defaults[ 'social-image-url-' . $pt->name ]        = ''; // Hidden input field.
-				$enriched_defaults[ 'social-image-id-' . $pt->name ]         = 0; // Hidden input field.
 
+				if ( $pt->name !== 'attachment' ) {
+					$enriched_defaults[ 'social-title-' . $pt->name ]       = '%%title%%'; // Text field.
+					$enriched_defaults[ 'social-description-' . $pt->name ] = ''; // Text area.
+					$enriched_defaults[ 'social-image-url-' . $pt->name ]   = ''; // Hidden input field.
+					$enriched_defaults[ 'social-image-id-' . $pt->name ]    = 0; // Hidden input field.
+				}
+
+				// Custom post types that have archives.
 				if ( ! $pt->_builtin && WPSEO_Post_Type::has_archive( $pt ) ) {
 					$enriched_defaults[ 'title-ptarchive-' . $pt->name ]              = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
 					$enriched_defaults[ 'metadesc-ptarchive-' . $pt->name ]           = ''; // Text area.
