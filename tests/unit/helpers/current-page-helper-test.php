@@ -461,11 +461,14 @@ class Current_Page_Helper_Test extends TestCase {
 			->once()
 			->andReturn( $wp_query );
 
+		$post_mock            = Mockery::mock( WP_Post::class );
+		$post_mock->post_type = 'page';
+
 		$wp_query->is_posts_page = true;
 		$wp_query
 			->expects( 'get_queried_object' )
 			->once()
-			->andReturn( Mockery::mock( WP_Post::class ) );
+			->andReturn( $post_mock );
 
 		$this->assertTrue( $this->instance->is_static_posts_page() );
 	}
@@ -484,6 +487,10 @@ class Current_Page_Helper_Test extends TestCase {
 			->andReturn( $wp_query );
 
 		$wp_query->is_posts_page = false;
+		$wp_query
+			->expects( 'get_queried_object' )
+			->once()
+			->andReturn( null );
 
 		$this->assertFalse( $this->instance->is_static_posts_page() );
 	}

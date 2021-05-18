@@ -227,11 +227,13 @@ class Current_Page_Helper {
 	 * @return bool Whether or not the current page is a static posts page.
 	 */
 	public function is_static_posts_page() {
-		$wp_query = $this->wp_query_wrapper->get_main_query();
+		$wp_query       = $this->wp_query_wrapper->get_main_query();
+		$queried_object = $wp_query->get_queried_object();
 
 		return (
 			$wp_query->is_posts_page &&
-			\is_a( $wp_query->get_queried_object(), WP_Post::class )
+			\is_a( $queried_object, WP_Post::class ) &&
+			$queried_object->post_type === 'page'
 		);
 	}
 
