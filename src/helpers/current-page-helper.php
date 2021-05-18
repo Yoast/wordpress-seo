@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use WP_Post;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
