@@ -119,7 +119,6 @@
     "@yoast/schema-blocks": "^1.8.0",
     "@yoast/search-metadata-previews": "^2.24.0",
     "@yoast/social-metadata-forms": "^1.17.0",
-    "@yoast/social-metadata-previews": "^1.17.0",
     "@yoast/style-guide": "^0.13.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
