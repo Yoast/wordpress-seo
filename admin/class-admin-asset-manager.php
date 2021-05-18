@@ -567,6 +567,9 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'extensions',
 				'src'  => 'yoast-extensions-' . $flat_version,
+				'deps' => [
+					'wp-components',
+				],
 			],
 			[
 				'name' => 'filter-explanation',
