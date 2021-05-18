@@ -29,7 +29,7 @@ class WPSEO_Config_Component_Mailchimp_Signup implements WPSEO_Config_Component 
 	/**
 	 * Gets the field.
 	 *
-	 * @return WPSEO_Config_Field
+	 * @return WPSEO_Config_Field_Mailchimp_Signup
 	 */
 	public function get_field() {
 		return new WPSEO_Config_Field_Mailchimp_Signup();

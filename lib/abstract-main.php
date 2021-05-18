@@ -54,9 +54,9 @@ abstract class Abstract_Main {
 	 *
 	 * @param string $property The property to retrieve.
 	 *
-	 * @throws Exception When the property doesn't exist.
-	 *
 	 * @return string The value of the property.
+	 *
+	 * @throws Exception When the property doesn't exist.
 	 */
 	public function __get( $property ) {
 		$surfaces = $this->get_surfaces();
@@ -83,9 +83,9 @@ abstract class Abstract_Main {
 	/**
 	 * Loads the DI container.
 	 *
-	 * @throws Exception If something goes wrong generating the DI container.
+	 * @return ContainerInterface|null The DI container.
 	 *
-	 * @return null|ContainerInterface The DI container.
+	 * @throws Exception If something goes wrong generating the DI container.
 	 */
 	abstract protected function get_container();
 

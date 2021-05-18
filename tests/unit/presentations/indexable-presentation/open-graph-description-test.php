@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group open-graph
  */
 class Open_Graph_Description_Test extends TestCase {
+
 	use Presentation_Instance_Builder;
 
 	/**
@@ -32,7 +33,23 @@ class Open_Graph_Description_Test extends TestCase {
 	public function test_generate_open_graph_description_when_open_graph_description_is_given() {
 		$this->indexable->open_graph_description = 'Example of Open Graph description';
 
-		$this->assertEquals( 'Example of Open Graph description', $this->instance->generate_open_graph_description() );
+		$this->assertSame( 'Example of Open Graph description', $this->instance->generate_open_graph_description() );
+	}
+
+	/**
+	 * Tests the situation where the value from the helper is used.
+	 *
+	 * @covers ::generate_open_graph_description
+	 */
+	public function test_with_helper_fallback() {
+		$description_from_helper          = 'Description from helper';
+		$this->instance->meta_description = 'Meta description';
+
+		$this->values_helper
+			->expects( 'get_open_graph_description' )
+			->andReturn( $description_from_helper );
+
+		$this->assertSame( 'Description from helper', $this->instance->generate_open_graph_description() );
 	}
 
 	/**
@@ -45,9 +62,8 @@ class Open_Graph_Description_Test extends TestCase {
 
 		$this->values_helper
 			->expects( 'get_open_graph_description' )
-			->with( $this->indexable->description, $this->indexable->object_type, $this->indexable->object_sub_type )
-			->andReturn( $this->indexable->description );
+			->andReturn( '' );
 
-		$this->assertEquals( 'Example of meta description', $this->instance->generate_open_graph_description() );
+		$this->assertSame( 'Example of meta description', $this->instance->generate_open_graph_description() );
 	}
 }

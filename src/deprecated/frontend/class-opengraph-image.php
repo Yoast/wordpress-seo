@@ -29,8 +29,8 @@ class WPSEO_OpenGraph_Image extends Images {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @param null|string     $image     Optional. The Image to use.
-	 * @param WPSEO_OpenGraph $opengraph Optional. The OpenGraph object.
+	 * @param string|null          $image     Optional. The Image to use.
+	 * @param WPSEO_OpenGraph|null $opengraph Optional. The OpenGraph object.
 	 */
 	public function __construct( $image = null, WPSEO_OpenGraph $opengraph = null ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );

@@ -38,8 +38,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'title-search-wpseo'               => '', // Text field.
 		'title-404-wpseo'                  => '', // Text field.
 
-		'social-title-author-wpseo'        => '', // Text field.
-		'social-title-archive-wpseo'       => '%%date%% %%page%% %%sep%% %%sitename%%', // Text field.
+		'social-title-author-wpseo'        => '%%name%%', // Text field.
+		'social-title-archive-wpseo'       => '%%date%%', // Text field.
 		'social-description-author-wpseo'  => '', // Text area.
 		'social-description-archive-wpseo' => '', // Text area.
 		'social-image-url-author-wpseo'    => '', // Hidden input field.
@@ -88,12 +88,12 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		'stripcategorybase'                => false,
 
-		'og_frontpage_title'               => '', // Text field.
-		'og_frontpage_desc'                => '', // Text field.
-		'og_frontpage_image'               => '', // Text field.
-		'og_frontpage_image_id'            => 0,
+		'open_graph_frontpage_title'       => '', // Text field.
+		'open_graph_frontpage_desc'        => '', // Text field.
+		'open_graph_frontpage_image'       => '', // Text field.
+		'open_graph_frontpage_image_id'    => 0,
 
-		/**
+		/*
 		 * Uses enrich_defaults to add more along the lines of:
 		 * - 'title-' . $pt->name                => ''; // Text field.
 		 * - 'metadesc-' . $pt->name             => ''; // Text field.
@@ -245,8 +245,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	public function translate_defaults() {
 		/* translators: 1: Author name; 2: Site name. */
 		$this->defaults['title-author-wpseo'] = sprintf( __( '%1$s, Author at %2$s', 'wordpress-seo' ), '%%name%%', '%%sitename%%' ) . ' %%page%% ';
-		/* translators: 1: Author name, 2: Site name. */
-		$this->defaults['social-title-author-wpseo'] = sprintf( __( '%1$s, Author at %2$s', 'wordpress-seo' ), '%%name%%', '%%sitename%%' ) . ' %%page%% ';
 		/* translators: %s expands to the search phrase. */
 		$this->defaults['title-search-wpseo'] = sprintf( __( 'You searched for %s', 'wordpress-seo' ), '%%searchphrase%%' ) . ' %%page%% %%sep%% %%sitename%%';
 		$this->defaults['title-404-wpseo']    = __( 'Page not found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%';
@@ -293,17 +291,21 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$enriched_defaults[ 'post_types-' . $pt->name . '-maintax' ] = 0; // Select box.
 				$enriched_defaults[ 'schema-page-type-' . $pt->name ]        = 'WebPage';
 				$enriched_defaults[ 'schema-article-type-' . $pt->name ]     = ( YoastSEO()->helpers->schema->article->is_article_post_type( $pt->name ) ) ? 'Article' : 'None';
-				$enriched_defaults[ 'social-title-' . $pt->name ]            = '%%title%% %%page%% %%sep%% %%sitename%%'; // Text field.
-				$enriched_defaults[ 'social-description-' . $pt->name ]      = ''; // Text area.
-				$enriched_defaults[ 'social-image-url-' . $pt->name ]        = ''; // Hidden input field.
-				$enriched_defaults[ 'social-image-id-' . $pt->name ]         = 0; // Hidden input field.
 
+				if ( $pt->name !== 'attachment' ) {
+					$enriched_defaults[ 'social-title-' . $pt->name ]       = '%%title%%'; // Text field.
+					$enriched_defaults[ 'social-description-' . $pt->name ] = ''; // Text area.
+					$enriched_defaults[ 'social-image-url-' . $pt->name ]   = ''; // Hidden input field.
+					$enriched_defaults[ 'social-image-id-' . $pt->name ]    = 0; // Hidden input field.
+				}
+
+				// Custom post types that have archives.
 				if ( ! $pt->_builtin && WPSEO_Post_Type::has_archive( $pt ) ) {
 					$enriched_defaults[ 'title-ptarchive-' . $pt->name ]              = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
 					$enriched_defaults[ 'metadesc-ptarchive-' . $pt->name ]           = ''; // Text area.
 					$enriched_defaults[ 'bctitle-ptarchive-' . $pt->name ]            = ''; // Text field.
 					$enriched_defaults[ 'noindex-ptarchive-' . $pt->name ]            = false;
-					$enriched_defaults[ 'social-title-ptarchive-' . $pt->name ]       = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
+					$enriched_defaults[ 'social-title-ptarchive-' . $pt->name ]       = $archive; // Text field.
 					$enriched_defaults[ 'social-description-ptarchive-' . $pt->name ] = ''; // Text area.
 					$enriched_defaults[ 'social-image-url-ptarchive-' . $pt->name ]   = ''; // Hidden input field.
 					$enriched_defaults[ 'social-image-id-ptarchive-' . $pt->name ]    = 0; // Hidden input field.
@@ -324,7 +326,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				$enriched_defaults[ 'noindex-tax-' . $tax->name ] = ( $tax->name === 'post_format' );
 
-				$enriched_defaults[ 'social-title-tax-' . $tax->name ]       = $archives . ' %%page%% %%sep%% %%sitename%%'; // Text field.
+				$enriched_defaults[ 'social-title-tax-' . $tax->name ]       = $archives; // Text field.
 				$enriched_defaults[ 'social-description-tax-' . $tax->name ] = ''; // Text area.
 				$enriched_defaults[ 'social-image-url-tax-' . $tax->name ]   = ''; // Hidden input field.
 				$enriched_defaults[ 'social-image-id-tax-' . $tax->name ]    = 0; // Hidden input field.
@@ -431,7 +433,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 */
 				case 'company_logo':
 				case 'person_logo':
-				case 'og_frontpage_image':
+				case 'open_graph_frontpage_image':
 					// When a logo changes, we need to ditch the caches we have for it.
 					unset( $clean[ $switch_key . '_id' ] );
 					unset( $clean[ $switch_key . '_meta' ] );
@@ -461,15 +463,15 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'social-description-ptarchive-' . $pt->name
 				 *  'social-description-tax-' . $tax->name
 				 *  'social-description-author-wpseo', 'social-description-archive-wpseo'
-				 *  'og_frontpage_desc', 'og_frontpage_title'
+				 *  'open_graph_frontpage_desc', 'open_graph_frontpage_title'
 				 */
 				case 'metadesc-':
 				case 'bctitle-ptarchive-':
 				case 'company_name':
 				case 'person_name':
 				case 'social-description-':
-				case 'og_frontpage_desc':
-				case 'og_frontpage_title':
+				case 'open_graph_frontpage_desc':
+				case 'open_graph_frontpage_title':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 					}
@@ -566,7 +568,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				/*
 				 * Covers:
 				 *  'company_or_person_user_id'
-				 *  'company_logo_id', 'person_logo_id', 'og_frontpage_image_id'
+				 *  'company_logo_id', 'person_logo_id', 'open_graph_frontpage_image_id'
 				 *  'social-image-id-' . $pt->name
 				 *  'social-image-id-ptarchive-' . $pt->name
 				 *  'social-image-id-tax-' . $tax->name
@@ -576,7 +578,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'company_logo_id':
 				case 'person_logo_id':
 				case 'social-image-id-':
-				case 'og_frontpage_image_id':
+				case 'open_graph_frontpage_image_id':
 					if ( isset( $dirty[ $key ] ) ) {
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 						if ( $int !== false && $int >= 0 ) {
@@ -700,12 +702,12 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	/**
 	 * Clean a given option value.
 	 *
-	 * @param array  $option_value          Old (not merged with defaults or filtered) option value to
-	 *                                      clean according to the rules for this option.
-	 * @param string $current_version       Optional. Version from which to upgrade, if not set,
-	 *                                      version specific upgrades will be disregarded.
-	 * @param array  $all_old_option_values Optional. Only used when importing old options to have
-	 *                                      access to the real old values, in contrast to the saved ones.
+	 * @param array       $option_value          Old (not merged with defaults or filtered) option value to
+	 *                                           clean according to the rules for this option.
+	 * @param string|null $current_version       Optional. Version from which to upgrade, if not set,
+	 *                                           version specific upgrades will be disregarded.
+	 * @param array|null  $all_old_option_values Optional. Only used when importing old options to have
+	 *                                           access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return array Cleaned option.
 	 */

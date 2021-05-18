@@ -123,7 +123,7 @@ class Yoast_Notification {
 	 *
 	 * Returns the id of the current user if not user has been sent.
 	 *
-	 * @return integer The user id
+	 * @return int The user id
 	 */
 	public function get_user_id() {
 		if ( $this->get_user() !== null ) {
@@ -135,7 +135,7 @@ class Yoast_Notification {
 	/**
 	 * Retrieve nonce identifier.
 	 *
-	 * @return null|string Nonce for this Notification.
+	 * @return string|null Nonce for this Notification.
 	 */
 	public function get_nonce() {
 		if ( $this->options['id'] && empty( $this->options['nonce'] ) ) {

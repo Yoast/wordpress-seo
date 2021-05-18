@@ -210,15 +210,13 @@ class WPSEO_Admin {
 	/**
 	 * Adds links to Premium Support and FAQ under the plugin in the plugin overview page.
 	 *
-	 * @staticvar string $this_plugin Holds the directory & filename for the plugin.
-	 *
 	 * @param array  $links Array of links for the plugins, adapted when the current plugin is found.
 	 * @param string $file  The filename for the current plugin, which the filter loops through.
 	 *
-	 * @return array $links
+	 * @return array
 	 */
 	public function add_action_link( $links, $file ) {
-		if ( WPSEO_BASENAME === $file && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+		if ( $file === WPSEO_BASENAME && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
 			if ( is_network_admin() ) {
 				$settings_url = network_admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER );
 			}
@@ -288,7 +286,7 @@ class WPSEO_Admin {
 	 *
 	 * @param array $contactmethods Currently set contactmethods.
 	 *
-	 * @return array $contactmethods with added contactmethods.
+	 * @return array Contactmethods with added contactmethods.
 	 */
 	public function update_contactmethods( $contactmethods ) {
 		$contactmethods['facebook']   = __( 'Facebook profile URL', 'wordpress-seo' );
@@ -349,7 +347,7 @@ class WPSEO_Admin {
 	/**
 	 * Whether we are on the admin dashboard page.
 	 *
-	 * @returns bool
+	 * @return bool
 	 */
 	protected function on_dashboard_page() {
 		return $GLOBALS['pagenow'] === 'index.php';

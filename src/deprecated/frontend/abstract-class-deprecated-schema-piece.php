@@ -57,10 +57,10 @@ abstract class WPSEO_Deprecated_Graph_Piece implements WPSEO_Graph_Piece {
 	/**
 	 * WPSEO_Schema_Article constructor.
 	 *
-	 * @param string $class_name The class name.
-	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $class_name The class name.
 	 */
 	public function __construct( $class_name ) {
 		$this->stable_class_name = $class_name;
@@ -81,8 +81,8 @@ abstract class WPSEO_Deprecated_Graph_Piece implements WPSEO_Graph_Piece {
 	/**
 	 * Determines whether or not a piece should be added to the graph.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */
@@ -95,10 +95,10 @@ abstract class WPSEO_Deprecated_Graph_Piece implements WPSEO_Graph_Piece {
 	/**
 	 * Returns Article data.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
-	 * @return array $data Article data.
+	 * @return array Article data.
 	 */
 	public function generate() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', $this->stable_class_name . '::generate' );

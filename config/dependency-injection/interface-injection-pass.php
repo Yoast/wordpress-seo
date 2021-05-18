@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 
+use Exception;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionNamedType;
@@ -62,7 +63,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 					++$argument_index;
 				}
 			}
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
 			\var_dump( $e );
 		}
@@ -71,14 +72,14 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 	/**
 	 * Analyses a class definition and looks for a constructor with a typed variadic argument
 	 *
+	 * @example If we had a class Fruit_Basket with this constructor:
+	 * __construct(Fruit ...$all_our_fruit), then this method would find it.
+	 *
 	 * @param Definition $definition The class definition we are inspecting.
 	 *
 	 * @return Constructor_Details|null
 	 *
 	 * @throws ReflectionException If the reflection class couldn't be found.
-	 *
-	 * @example If we had a class Fruit_Basket with this constructor:
-	 * __construct(Fruit ...$all_our_fruit), then this method would find it.
 	 */
 	private function get_variadic_constructor( $definition ) {
 		// Limit the processing to classes from our project.
@@ -103,7 +104,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 		$constructor_arguments = $class_constructor->getParameters();
 		$splat_argument        = \end( $constructor_arguments );
 
-		// isVariadic means "is it a 'splat' argument".
+		// The isVariadic check means "is it a 'splat' argument".
 		if ( ! $splat_argument || ! $splat_argument->isVariadic() ) {
 			return null;
 		}
@@ -136,7 +137,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 	private function get_registered_subclasses_of( $all_definitions, Constructor_Details $definition_class ) {
 		return \array_filter(
 			$all_definitions,
-			function( $other_definition ) use ( $definition_class ) {
+			static function( $other_definition ) use ( $definition_class ) {
 				$other_class = $other_definition->getClass();
 				if ( $other_class === $definition_class->target_class_name ) {
 					// Never inject itself to itself.

@@ -24,8 +24,6 @@ class WPSEO_Post_Type_Archive_Notification_Handler extends WPSEO_Dismissible_Not
 	 *
 	 * @deprecated 14.1
 	 * @codeCoverageIgnore
-	 *
-	 * @return void
 	 */
 	public function __construct() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.1' );
@@ -37,7 +35,7 @@ class WPSEO_Post_Type_Archive_Notification_Handler extends WPSEO_Dismissible_Not
 	 * @deprecated 14.1
 	 * @codeCoverageIgnore
 	 *
-	 * @return Yoast_Notification The notification for the notification center.
+	 * @return Yoast_Notification|null The notification for the notification center.
 	 */
 	protected function get_notification() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.1' );

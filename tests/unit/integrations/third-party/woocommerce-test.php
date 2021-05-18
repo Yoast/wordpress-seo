@@ -206,14 +206,14 @@ class WooCommerce_Test extends TestCase {
 	public function test_get_page_id_when_woocommerce_function_does_not_exist() {
 		// Sets the stubs.
 		Monkey\Functions\expect( 'wc_get_page_id' )
-			->andReturn( - 1 );
+			->andReturn( -1 );
 
 		$this->instance
 			->expects( 'is_shop_page' )
 			->once()
 			->andReturnTrue();
 
-		$this->assertEquals( - 1, $this->instance->get_page_id( 1337 ) );
+		$this->assertEquals( -1, $this->instance->get_page_id( 1337 ) );
 	}
 
 	/**
@@ -345,7 +345,7 @@ class WooCommerce_Test extends TestCase {
 					'is_shop'        => true,
 					'is_search'      => false,
 					'is_archive'     => true,
-					'wc_get_page_id' => - 1,
+					'wc_get_page_id' => -1,
 				],
 			],
 			'with_no_product_template'   => [

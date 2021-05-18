@@ -20,7 +20,7 @@ class Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 	/**
 	 * Run the Open Graph description through replace vars and the `wpseo_opengraph_desc` filter.
 	 *
-	 * @return string $description The filtered description.
+	 * @return string The filtered description.
 	 */
 	public function get() {
 		/**

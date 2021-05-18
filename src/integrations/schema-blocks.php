@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Admin_Asset_Yoast_Components_L10n;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 
@@ -137,7 +138,7 @@ class Schema_Blocks implements Integration_Interface {
 		 * @param array $templates The templates to filter.
 		 */
 		$templates = \apply_filters( 'wpseo_load_schema_templates', $templates );
-		if ( ! is_array( $templates ) || empty( $templates ) ) {
+		if ( ! \is_array( $templates ) || empty( $templates ) ) {
 			return;
 		}
 
@@ -145,7 +146,7 @@ class Schema_Blocks implements Integration_Interface {
 			if ( ! \file_exists( $template ) ) {
 				continue;
 			}
-			$type = ( \substr( $template, - 10 ) === '.block.php' ) ? 'block' : 'schema';
+			$type = ( \substr( $template, -10 ) === '.block.php' ) ? 'block' : 'schema';
 			echo '<script type="text/' . \esc_html( $type ) . '-template">';
 			include $template;
 			echo '</script>';
@@ -156,7 +157,7 @@ class Schema_Blocks implements Integration_Interface {
 	 * Loads the translations and localizes the schema-blocks script file.
 	 */
 	public function load_translations() {
-		$yoast_components_l10n = new \WPSEO_Admin_Asset_Yoast_Components_L10n();
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 		$yoast_components_l10n->localize_script( 'schema-blocks' );
 	}
 }

@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Routes;
 
+use Exception;
 use WP_Error;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
@@ -400,7 +401,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	/**
 	 * Whether or not the current user is allowed to index.
 	 *
-	 * @return boolean Whether or not the current user is allowed to index.
+	 * @return bool Whether or not the current user is allowed to index.
 	 */
 	public function can_index() {
 		return \current_user_can( 'edit_posts' );
@@ -417,7 +418,7 @@ class Indexing_Route extends Abstract_Indexation_Route {
 	protected function run_indexation_action( Indexation_Action_Interface $indexation_action, $url ) {
 		try {
 			return parent::run_indexation_action( $indexation_action, $url );
-		} catch ( \Exception $exception ) {
+		} catch ( Exception $exception ) {
 			$this->indexing_helper->indexing_failed();
 
 			return new WP_Error( 'wpseo_error_indexing', $exception->getMessage() );

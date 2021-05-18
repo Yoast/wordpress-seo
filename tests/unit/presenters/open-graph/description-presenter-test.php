@@ -61,7 +61,7 @@ class Description_Presenter_Test extends TestCase {
 			->expects( 'replace' )
 			->once()
 			->andReturnUsing(
-				function ( $string ) {
+				static function ( $string ) {
 					return $string;
 				}
 			);

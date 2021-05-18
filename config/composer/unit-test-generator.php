@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Composer;
 
+use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
 
@@ -30,14 +31,14 @@ class Unit_Test_Generator {
 	 *
 	 * @param string $fully_qualified_class_name The fully qualified class name of the class to generate a unit test for.
 	 *
+	 * @return string The path to the generated unit test.
+	 *
 	 * @throws ReflectionException If the class for which to generate a unit test does not exist.
 	 * @throws RuntimeException    If there is already a unit test.
-	 *
-	 * @return string The path to the generated unit test.
 	 */
 	public function generate( $fully_qualified_class_name ) {
 		try {
-			$reflector = new \ReflectionClass( $fully_qualified_class_name );
+			$reflector = new ReflectionClass( $fully_qualified_class_name );
 		} catch ( ReflectionException $exception ) {
 			throw $exception;
 		}
@@ -150,7 +151,7 @@ class Unit_Test_Generator {
 			$groups
 		);
 
-		return \implode( PHP_EOL, $groups );
+		return \implode( \PHP_EOL, $groups );
 	}
 
 	/**
@@ -246,7 +247,7 @@ TPL;
 			$constructor_arguments
 		);
 
-		return \implode( PHP_EOL, $statements );
+		return \implode( \PHP_EOL, $statements );
 	}
 
 	/**
@@ -264,7 +265,7 @@ TPL;
 			$constructor_arguments
 		);
 
-		return \implode( PHP_EOL . PHP_EOL, $statements );
+		return \implode( \PHP_EOL . \PHP_EOL, $statements );
 	}
 
 	/**
@@ -302,7 +303,7 @@ TPL;
 			$constructor_arguments
 		);
 
-		return \implode( PHP_EOL . "\t\t", $statements );
+		return \implode( \PHP_EOL . "\t\t", $statements );
 	}
 
 	/**
@@ -320,6 +321,6 @@ TPL;
 			$constructor_arguments
 		);
 
-		return \implode( ',' . PHP_EOL . "\t\t\t", $statements );
+		return \implode( ',' . \PHP_EOL . "\t\t\t", $statements );
 	}
 }

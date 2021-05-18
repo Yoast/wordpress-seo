@@ -284,7 +284,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @param array $post_types The post types for which to return indexables.
 	 */
 	private function set_expectations_for_repository( $post_types ) {
-		$callback = function( $post_type ) {
+		$callback = static function( $post_type ) {
 			return [ 'object_sub_type' => $post_type ];
 		};
 		$results  = \array_map( $callback, $post_types );

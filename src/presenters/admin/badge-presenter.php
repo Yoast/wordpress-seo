@@ -53,10 +53,10 @@ class Badge_Presenter extends Abstract_Presenter {
 	/**
 	 * Badge_Presenter constructor.
 	 *
-	 * @param string            $id                Id of the badge.
-	 * @param string            $link              Optional link of the badge.
-	 * @param string            $group             Optional group which the badge belongs to.
-	 * @param Badge_Group_Names $badge_group_names Optional object storing the group names.
+	 * @param string                 $id                Id of the badge.
+	 * @param string                 $link              Optional link of the badge.
+	 * @param string                 $group             Optional group which the badge belongs to.
+	 * @param Badge_Group_Names|null $badge_group_names Optional object storing the group names.
 	 */
 	public function __construct( $id, $link = '', $group = '', $badge_group_names = null ) {
 		$this->id    = $id;
@@ -89,7 +89,7 @@ class Badge_Presenter extends Abstract_Presenter {
 		}
 
 		if ( $this->link !== '' ) {
-			return sprintf(
+			return \sprintf(
 				'<a class="yoast-badge yoast-badge__is-link yoast-new-badge" id="%1$s-new-badge" href="%2$s">%3$s</a>',
 				\esc_attr( $this->id ),
 				\esc_url( $this->link ),
@@ -97,7 +97,7 @@ class Badge_Presenter extends Abstract_Presenter {
 			);
 		}
 
-		return sprintf(
+		return \sprintf(
 			'<span class="yoast-badge yoast-new-badge" id="%1$s-new-badge">%2$s</span>',
 			\esc_attr( $this->id ),
 			\esc_html__( 'New', 'wordpress-seo' )

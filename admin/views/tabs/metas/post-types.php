@@ -33,30 +33,6 @@ $opengraph_disabled_alert     = $view_utils->generate_opengraph_disabled_alert()
 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the generate_opengraph_disabled_alert() method.
 echo $opengraph_disabled_alert;
 
-if ( get_option( 'show_on_front' ) === 'posts' && WPSEO_Options::get( 'opengraph', true ) ) {
-	$frontpage_settings_title = \esc_html__( 'Frontpage', 'wordpress-seo' );
-
-	$wpseo_front_page_presenter = new WPSEO_Paper_Presenter(
-		$frontpage_settings_title,
-		__DIR__ . '/paper-content/front-page-content.php',
-		[
-			'collapsible' => true,
-			'expanded'    => true,
-			'paper_id'    => 'settings-front-page',
-			'view_data'   => [
-				'view_utils'                   => $view_utils,
-				'recommended_replace_vars'     => $recommended_replace_vars,
-				'editor_specific_replace_vars' => $editor_specific_replace_vars,
-			],
-			'title'       => $frontpage_settings_title,
-			'class'       => 'search-appearance has-paper-container-no-top-padding',
-		]
-	);
-
-	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from get_output() is considered safe.
-	echo $wpseo_front_page_presenter->get_output();
-}
-
 if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
 	foreach ( array_values( $wpseo_post_types ) as $wpseo_post_type_index => $yoast_seo_post_type ) {
 		$wpseo_post_type_presenter = new WPSEO_Paper_Presenter(

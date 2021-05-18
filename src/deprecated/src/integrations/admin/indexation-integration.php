@@ -29,6 +29,8 @@ class Indexation_Integration implements Integration_Interface {
 	 *
 	 * @deprecated 15.1
 	 * @codeCoverageIgnore
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
@@ -43,6 +45,9 @@ class Indexation_Integration implements Integration_Interface {
 	/**
 	 * Indexation_Integration constructor.
 	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
+	 *
 	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexation action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexation action.
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The archive indexation action.
@@ -52,9 +57,6 @@ class Indexation_Integration implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
 	 * @param Yoast_Tools_Page_Conditional                  $yoast_tools_page_conditional The Yoast tools page conditional.
 	 * @param Indexable_Helper                              $indexable_helper             The indexable helper.
-	 *
-	 * @deprecated 15.1
-	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,

@@ -221,7 +221,7 @@ class WPSEO_Metabox_Formatter {
 	 * Checks if Jetpack's markdown module is enabled.
 	 * Can be extended to work with other plugins that parse markdown in the content.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	private function is_markdown_enabled() {
 		$is_markdown = false;
@@ -246,13 +246,13 @@ class WPSEO_Metabox_Formatter {
 	/**
 	 * Checks if the user is logged in to SEMrush.
 	 *
-	 * @return boolean The SEMrush login status.
+	 * @return bool The SEMrush login status.
 	 */
 	private function get_semrush_login_status() {
 		try {
 			$semrush_client = YoastSEO()->classes->get( SEMrush_Client::class );
 		} catch ( Empty_Property_Exception $e ) {
-			// return false if token is malformed (empty property).
+			// Return false if token is malformed (empty property).
 			return false;
 		}
 

@@ -48,7 +48,7 @@ class Website extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data The website data array.
 	 *
-	 * @return array $data
+	 * @return array
 	 */
 	private function add_alternate_name( $data ) {
 		$alternate_name = $this->helpers->options->get( 'alternate_website_name', '' );
@@ -66,7 +66,7 @@ class Website extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data The website data array.
 	 *
-	 * @return array $data
+	 * @return array
 	 */
 	private function internal_search_section( $data ) {
 		/**

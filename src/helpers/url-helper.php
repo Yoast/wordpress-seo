@@ -55,9 +55,9 @@ class Url_Helper {
 	/**
 	 * Gets the path from the passed URL.
 	 *
-	 * @param string $url The URL to get the path from.
-	 *
 	 * @codeCoverageIgnore It only wraps a WordPress function.
+	 *
+	 * @param string $url The URL to get the path from.
 	 *
 	 * @return string The path of the URL. Returns an empty string if URL parsing fails.
 	 */
@@ -109,7 +109,7 @@ class Url_Helper {
 	/**
 	 * Parse the home URL setting to find the base URL for relative URLs.
 	 *
-	 * @param string $path Optional path string.
+	 * @param string|null $path Optional path string.
 	 *
 	 * @return string
 	 */
@@ -129,9 +129,9 @@ class Url_Helper {
 	/**
 	 * Returns the link type.
 	 *
-	 * @param array $url      The URL, as parsed by wp_parse_url.
-	 * @param array $home_url Optional. The home URL, as parsed by wp_parse_url. Used to avoid reparsing the home_url.
-	 * @param bool  $is_image Whether or not the link is an image.
+	 * @param array      $url      The URL, as parsed by wp_parse_url.
+	 * @param array|null $home_url Optional. The home URL, as parsed by wp_parse_url. Used to avoid reparsing the home_url.
+	 * @param bool       $is_image Whether or not the link is an image.
 	 *
 	 * @return string The link type.
 	 */
@@ -143,7 +143,7 @@ class Url_Helper {
 		}
 
 		// If there is a scheme but it's not http(s) then the link is always external.
-		if ( array_key_exists( 'scheme', $url ) && ! \in_array( $url['scheme'], [ 'http', 'https' ], true ) ) {
+		if ( \array_key_exists( 'scheme', $url ) && ! \in_array( $url['scheme'], [ 'http', 'https' ], true ) ) {
 			return ( $is_image ) ? SEO_Links::TYPE_EXTERNAL_IMAGE : SEO_Links::TYPE_EXTERNAL;
 		}
 

@@ -187,11 +187,10 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * Tests that get_recommended_replacevars works for the settings.
 	 *
 	 * @dataProvider get_recommended_replacevars_provider
+	 * @covers       WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars_for
 	 *
 	 * @param string $page_type The page type to get the recommended replacement variables for.
 	 * @param array  $expected  The expected recommended replacement variables.
-	 *
-	 * @covers WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars_for
 	 */
 	public function test_get_recommended_replacevars( $page_type, $expected ) {
 		$this->assertEquals( $expected, $this->class_instance->get_recommended_replacevars_for( $page_type ) );
