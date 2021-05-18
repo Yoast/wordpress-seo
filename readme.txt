@@ -235,9 +235,9 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 16.3 =
-Out now: Yoast SEO 16.3! This release helps you with one of the key aspects of modern SEO: Structured data. Yoast SEO 16.3 comes with a lot of enhancements for the Schema.org implementation. Enjoy! Read more about what’s new in Yoast SEO 16.3 in [our release post](https://yoa.st/release-16-3)!
-
 Release Date: May 18th, 2021
+
+Out now: Yoast SEO 16.3! This release helps you with one of the key aspects of modern SEO: Structured data. Yoast SEO 16.3 comes with a lot of enhancements for the Schema.org implementation. Enjoy! Read more about what’s new in Yoast SEO 16.3 in [our release post](https://yoa.st/release-16-3)!
 
 Enhancements:
 
@@ -252,8 +252,7 @@ Bugfixes:
 * Fixes a bug where we would accidentally include unminified CSS files in the zip. This led to an unnecessary zip size increase.
 * Fixes a bug where the complete options array could be re-saved in the database at each frontend request.
 * Fixes a bug where both `noindex` and `index` values could be added to the `robots` meta tag on the WordPress login screen.
-* Fixes a rare bug where the name property would be missing in the breadcrumb schema due to plugin conflicts.
-
+* Fixes a rare bug where the name property could be missing in the breadcrumb Schema due to plugin conflicts.
 
 Other:
 
