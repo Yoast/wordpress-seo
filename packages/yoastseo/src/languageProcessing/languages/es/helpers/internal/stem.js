@@ -154,11 +154,11 @@ const checkWordInFullFormExceptions = function( word, exceptions ) {
 /**
  * The function considers if the input word can be an adverb in -mente and if so stems it.
  *
- * @param   {string}   word                        The word to stem.
- * @param   {string}   r1Text                      The R1 region of the word to stem.
- * @param   {Object}   menteStemming               An object containing information about how to stem mente-adverbs.
- * @param   {string[]} menteStemming.notMente      An array of words that look like mente-adverbs but are not.
- * @param   {Array}    menteStemming.menteToStem   An array of pairs of regexes to match.
+ * @param   {string}   word                             The word to stem.
+ * @param   {string}   r1Text                           The R1 region of the word to stem.
+ * @param   {Object}   menteStemming                    An object containing information about how to stem mente-adverbs.
+ * @param   {string[]} menteStemming.notMenteAdverbs    An array of words that look like mente-adverbs but are not.
+ * @param   {Array}    menteStemming.menteToStem        An array of pairs of regexes to match.
  *
  * @returns {string}   A stemmed adverb or the input word, if it is not an adverb.
  */
