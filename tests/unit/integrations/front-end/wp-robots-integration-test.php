@@ -98,8 +98,6 @@ class WP_Robots_Integration_Test extends TestCase {
 			],
 		];
 
-		Monkey\Functions\expect( 'wp_reset_query' )->once();
-
 		$this->context_memoizer
 			->expects( 'for_current_page' )
 			->once()
@@ -133,8 +131,6 @@ class WP_Robots_Integration_Test extends TestCase {
 				],
 			],
 		];
-
-		Monkey\Functions\expect( 'wp_reset_query' )->once();
 
 		$this->context_memoizer
 			->expects( 'for_current_page' )
@@ -177,8 +173,6 @@ class WP_Robots_Integration_Test extends TestCase {
 			],
 		];
 
-		Monkey\Functions\expect( 'wp_reset_query' )->once();
-
 		$this->context_memoizer
 			->expects( 'for_current_page' )
 			->once()
@@ -218,8 +212,6 @@ class WP_Robots_Integration_Test extends TestCase {
 				],
 			],
 		];
-
-		Monkey\Functions\expect( 'wp_reset_query' )->once();
 
 		$this->context_memoizer
 			->expects( 'for_current_page' )

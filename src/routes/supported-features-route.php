@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Routes;
 
 use WP_REST_Response;
-use Yoast\WP\SEO\Conditionals\Addon_Installation_Conditional;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 
 /**
@@ -11,23 +11,14 @@ use Yoast\WP\SEO\Main;
  */
 class Supported_Features_Route implements Route_Interface {
 
+	use No_Conditionals;
+
 	/**
 	 * Represents the supported features route.
 	 *
 	 * @var string
 	 */
 	const SUPPORTED_FEATURES_ROUTE = '/supported-features';
-
-	/**
-	 * Returns the conditionals based in which this loadable should be active.
-	 *
-	 * @return array
-	 */
-	public static function get_conditionals() {
-		return [
-			Addon_Installation_Conditional::class,
-		];
-	}
 
 	/**
 	 * Registers routes with WordPress.

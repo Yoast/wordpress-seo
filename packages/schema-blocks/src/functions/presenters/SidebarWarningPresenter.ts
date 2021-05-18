@@ -1,7 +1,5 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { BlockValidation, BlockValidationResult, BlockPresence } from "../../core/validation";
-import { getHumanReadableBlockName } from "../BlockHelper";
-import { getAllDescendantIssues } from "../validators";
 
 /**
  * A warning message for in the sidebar schema analysis.
@@ -19,21 +17,21 @@ export type SidebarWarning = {
 }
 
 /**
- * Adds analysis conclusions to the footer.
+ * Calculates an analysis conclusion.
  *
- * @param validation The validation result for the current block.
+ * @param issues The validation results on which to base the conclusion.
  *
  * @returns Any analysis conclusions that should be in the footer.
  */
-function getAnalysisConclusion( validation: BlockValidationResult ): SidebarWarning {
+function getAnalysisConclusion( issues: BlockValidationResult[] ): SidebarWarning {
 	let conclusionText = "";
 
 	// Show a red bullet when the block is invalid.
-	if ( validation.result >= BlockValidation.Invalid ) {
+	if ( issues.some( issue => issue.result >= BlockValidation.Invalid ) ) {
 		conclusionText = sprintf(
 			/* translators: %s expands to the schema block name. */
 			__( "Not all required information has been provided! No %s schema will be generated for your page.", "yoast-schema-blocks" ),
-			sanitizeParentName( getHumanReadableBlockName( validation.name ) ),
+			"Job posting",
 		);
 
 		return { text: conclusionText, color: "red" };
@@ -77,26 +75,22 @@ function getWarningMessages( issues: BlockValidationResult[] ): SidebarWarning[]
 }
 
 /**
- * Creates an array of warning messages from a block validation result.
+ * Creates an array of warning messages from a list block validation results.
  *
- * @param validation The block being validated.
+ * @param issues The block validation results.
  *
  * @returns {SidebarWarning[]} The formatted warnings.
  */
-export function createAnalysisMessages( validation: BlockValidationResult ): SidebarWarning[] {
-	if ( ! validation ) {
+export function createAnalysisMessages( issues: BlockValidationResult[] ): SidebarWarning[] {
+	if ( ! issues ) {
 		return [];
 	}
 
-	const issues = getAllDescendantIssues( validation );
-	const messages = [];
-
-	messages.push( ...getErrorMessages( issues ) );
-	messages.push( ...getWarningMessages( issues ) );
-
-	messages.push( getAnalysisConclusion( validation ) );
-
-	return messages;
+	return [
+		...getErrorMessages( issues ),
+		...getWarningMessages( issues ),
+		getAnalysisConclusion( issues ),
+	];
 }
 
 /**
