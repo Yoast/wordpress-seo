@@ -454,9 +454,10 @@ class Current_Page_Helper_Test extends TestCase {
 	public function test_is_static_posts_page_same_object_id() {
 		$wp_query = Mockery::mock( 'WP_Query' );
 		$wp_query
-			->expects( 'get_queried_object_id' )
+			->expects( 'is_page' )
 			->once()
-			->andReturn( 1 );
+			->with( 1 )
+			->andReturn( true );
 
 		$this->wp_query_wrapper
 			->expects( 'get_main_query' )
@@ -480,9 +481,10 @@ class Current_Page_Helper_Test extends TestCase {
 	public function test_is_static_posts_page_different_object_id() {
 		$wp_query = Mockery::mock( 'WP_Query' );
 		$wp_query
-			->expects( 'get_queried_object_id' )
+			->expects( 'is_page' )
 			->once()
-			->andReturn( 2 );
+			->with( 1 )
+			->andReturn( false );
 
 		$this->wp_query_wrapper
 			->expects( 'get_main_query' )
