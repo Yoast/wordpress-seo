@@ -98,8 +98,6 @@ class WP_Robots_Integration_Test extends TestCase {
 			],
 		];
 
-		Monkey\Functions\expect( 'wp_reset_query' )->once();
-
 		$this->context_memoizer
 			->expects( 'for_current_page' )
 			->once()
@@ -120,7 +118,7 @@ class WP_Robots_Integration_Test extends TestCase {
 	 * @covers ::add_robots
 	 * @covers ::get_robots_value
 	 * @covers ::format_robots
-	 * @covers ::filter_robots_no_index
+	 * @covers ::enforce_robots_congruence
 	 */
 	public function test_add_robots() {
 		$context = (object) [
@@ -133,8 +131,6 @@ class WP_Robots_Integration_Test extends TestCase {
 				],
 			],
 		];
-
-		Monkey\Functions\expect( 'wp_reset_query' )->once();
 
 		$this->context_memoizer
 			->expects( 'for_current_page' )
@@ -163,7 +159,7 @@ class WP_Robots_Integration_Test extends TestCase {
 	 * @covers ::add_robots
 	 * @covers ::get_robots_value
 	 * @covers ::format_robots
-	 * @covers ::filter_robots_no_index
+	 * @covers ::enforce_robots_congruence
 	 */
 	public function test_add_robots_with_noindex_set() {
 		$context = (object) [
@@ -176,8 +172,6 @@ class WP_Robots_Integration_Test extends TestCase {
 				],
 			],
 		];
-
-		Monkey\Functions\expect( 'wp_reset_query' )->once();
 
 		$this->context_memoizer
 			->expects( 'for_current_page' )
@@ -193,6 +187,52 @@ class WP_Robots_Integration_Test extends TestCase {
 				[
 					'index'  => true,
 					'follow' => true,
+				]
+			)
+		);
+	}
+
+	/**
+	 * Tests the add robots with having the robots input being overwritten by our data.
+	 *
+	 * @covers ::add_robots
+	 * @covers ::get_robots_value
+	 * @covers ::format_robots
+	 * @covers ::enforce_robots_congruence
+	 */
+	public function test_enforce_robots_congruence() {
+		$context = (object) [
+			'presentation' => (object) [
+				'robots' => [
+					'follow'     => 'nofollow',
+					'imageindex' => 'noimageindex',
+					'archive'    => 'noarchive',
+					'snippet'    => 'nosnippet',
+					'index'      => 'index',
+				],
+			],
+		];
+
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $context );
+
+		static::assertEquals(
+			[
+				'index'        => true,
+				'nofollow'     => true,
+				'noarchive'    => true,
+				'noimageindex' => true,
+				'nosnippet'    => true,
+			],
+			$this->instance->add_robots(
+				[
+					'index'      => true,
+					'follow'     => true,
+					'archive'    => true,
+					'imageindex' => true,
+					'snippet'    => true,
 				]
 			)
 		);

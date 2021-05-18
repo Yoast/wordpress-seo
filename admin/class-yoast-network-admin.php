@@ -189,7 +189,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 	 */
 	public function enqueue_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_script( 'network-admin-script' );
+		$asset_manager->enqueue_script( 'network-admin' );
 
 		$translations = [
 			/* translators: %s: success message */
@@ -198,7 +198,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 			'error_prefix'   => __( 'Error: %s', 'wordpress-seo' ),
 		];
 		$asset_manager->localize_script(
-			'network-admin-script',
+			'network-admin',
 			'wpseoNetworkAdminGlobalL10n',
 			$translations
 		);

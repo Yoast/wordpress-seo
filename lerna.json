@@ -1,0 +1,9 @@
+{
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "version": "independent",
+  "includeMergedTags": true,
+  "ignoreChanges": [
+    "packages/js/**"
+  ]
+}

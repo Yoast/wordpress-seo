@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImageSelect ImageSelects match the snapshot 1`] = `
+<div
+  className="yoast-image-select"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <div
+    className="yoast-field-group"
+  >
+    <div
+      className="yoast-field-group__title"
+    >
+      <b>
+        Organization
+      </b>
+    </div>
+    <button
+      className="yoast-image-select__preview yoast-image-select__preview--no-preview"
+      onClick={[Function]}
+      type="button"
+    />
+    <div
+      className="yoast-image-select-buttons"
+    >
+      <button
+        className="yoast-button yoast-button--secondary"
+        id=""
+        onClick={[Function]}
+        type="button"
+      >
+        Select image
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ImageSelect ImageSelects match the snapshot 2`] = `
+<div
+  className="yoast-image-select"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <div
+    className="yoast-field-group"
+  >
+    <div
+      className="yoast-field-group__title"
+    >
+      <b>
+        Another organization
+      </b>
+    </div>
+    <button
+      className="yoast-image-select__preview"
+      onClick={[Function]}
+      type="button"
+    >
+      <img
+        alt=""
+        className="yoast-image-select__preview--image"
+        src="http://placekitten.com/300/300"
+      />
+    </button>
+    <div
+      className="yoast-image-select-buttons"
+    >
+      <button
+        className="yoast-button yoast-button--secondary"
+        id=""
+        onClick={[Function]}
+        type="button"
+      >
+        Replace image
+      </button>
+      <button
+        className="yoast-remove"
+        id=""
+        onClick={[Function]}
+        type="button"
+      >
+        Remove image
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ImageSelect ImageSelects match the snapshot 3`] = `
+<div
+  className="yoast-image-select"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <div
+    className="yoast-field-group"
+  >
+    <div
+      className="yoast-field-group__title"
+    >
+      <b>
+        Yet another organization
+      </b>
+    </div>
+    <div
+      className="yoast-image-select-buttons"
+    >
+      <button
+        className="yoast-button yoast-button--secondary"
+        id=""
+        onClick={[Function]}
+        type="button"
+      >
+        Select image
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ImageSelect ImageSelects match the snapshot 4`] = `
+<div
+  className="yoast-image-select"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <div
+    className="yoast-field-group"
+  >
+    <div
+      className="yoast-field-group__title"
+    >
+      <b>
+        Not another organization
+      </b>
+    </div>
+    <div
+      className="yoast-image-select-buttons"
+    >
+      <button
+        className="yoast-button yoast-button--secondary"
+        id=""
+        onClick={[Function]}
+        type="button"
+      >
+        Replace image
+      </button>
+      <button
+        className="yoast-remove"
+        id=""
+        onClick={[Function]}
+        type="button"
+      >
+        Remove image
+      </button>
+    </div>
+  </div>
+</div>
+`;

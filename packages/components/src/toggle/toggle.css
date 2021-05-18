@@ -1,0 +1,165 @@
+.yoast-feature {
+	max-width: 600px;
+	margin-right: 150px;
+}
+
+.yoast-toggle__item {
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 16px;
+	border-bottom: 1px solid var(--yoast-color-border);
+	margin-bottom: 16px;
+}
+
+.yoast-toggle__item-disabled {
+	position: relative;
+}
+
+.yoast-toggle__item-disabled .yoast-button.yoast-button--buy {
+	position: absolute;
+	left: 100%;
+	margin-left: 32px;
+	white-space: nowrap;
+}
+
+.yoast-toggle__item-disabled .yoast-toggle__item-title,
+.yoast-toggle__item-disabled .yoast-toggle {
+	opacity: .5;
+}
+
+.yoast-toggle__item-title {
+	display: flex;
+	font-weight: bold;
+	align-items: center;
+}
+
+input[type=checkbox].yoast-toggle__checkbox {
+	height: 23px;
+	overflow: hidden;
+	position: absolute;
+	margin-left:8px;
+	width: 34px;
+	z-index: 1;
+	box-shadow: none;
+	border: 0;
+	background-color: transparent;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+input[type=checkbox].yoast-toggle__checkbox:checked::before {
+	content: none;
+}
+
+.yoast-toggle__switch {
+	display: inline-block;
+	position: relative;
+	background-color: var(--yoast-color-inactive-grey);
+	width: 34px;
+	height: 14px;
+	border-radius: 8px;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+.yoast-toggle__checkbox:focus ~ .yoast-toggle__switch::before {
+	box-shadow: var(--yoast-color-focus);
+}
+
+.yoast-toggle__switch::before {
+	content: '';
+	position: absolute;
+	top: -3px;
+	left: 0;
+	background-color: var(--yoast-color-inactive-grey-light);
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.40);
+	border: solid 0.5px rgba(0, 0, 0, 0.1);
+	box-sizing: border-box;
+}
+
+.yoast-toggle,
+.yoast-toggle--inverse {
+	position: relative;
+	display: grid;
+	grid-template: 1fr / repeat(3, auto);
+	align-items: center;
+}
+
+.yoast-toggle > *,
+.yoast-toggle--inverse > * {
+	grid-row: 1;
+}
+
+.yoast-toggle--inactive,
+.yoast-toggle--inverse .yoast-toggle--active {
+	grid-column: 1;
+}
+
+.yoast-toggle__checkbox {
+	grid-column: 2;
+}
+
+.yoast-toggle__switch {
+	grid-column: 2;
+}
+
+.yoast-toggle--active,
+.yoast-toggle--inverse .yoast-toggle--inactive{
+	grid-column: 3;
+}
+
+.yoast-toggle .yoast-toggle__checkbox:checked ~ .yoast-toggle__switch,
+.yoast-toggle--inverse .yoast-toggle__checkbox:not(:checked) ~ .yoast-toggle__switch {
+	background-color: var(--yoast-color-active-light);
+}
+
+.yoast-toggle .yoast-toggle__checkbox:checked ~ .yoast-toggle__switch::before,
+.yoast-toggle--inverse .yoast-toggle__checkbox:not(:checked) ~ .yoast-toggle__switch::before{
+	background-color: var(--yoast-color-active);
+	right: 0;
+	left: initial;
+}
+
+.yoast-toggle--inverse .yoast-toggle__checkbox:checked ~ .yoast-toggle__switch::before {
+	right: initial;
+	left: 0;
+}
+
+.yoast-toggle .yoast-toggle__checkbox ~ .yoast-toggle--inactive,
+.yoast-toggle--inverse .yoast-toggle__checkbox ~ .yoast-toggle--inactive {
+	color: var(--yoast-color-default-darker);
+}
+
+.yoast-toggle .yoast-toggle__checkbox ~ .yoast-toggle--active,
+.yoast-toggle--inverse .yoast-toggle__checkbox ~ .yoast-toggle--active {
+	color: var(--yoast-color-inactive-text);
+}
+
+.yoast-toggle .yoast-toggle__checkbox:checked ~ .yoast-toggle--inactive,
+.yoast-toggle--inverse .yoast-toggle__checkbox:checked ~ .yoast-toggle--inactive {
+	color: var(--yoast-color-inactive-text);
+}
+
+.yoast-toggle .yoast-toggle__checkbox:checked ~ .yoast-toggle--active,
+.yoast-toggle--inverse .yoast-toggle__checkbox:checked ~ .yoast-toggle--active {
+	color: var(--yoast-color-default-darker);
+}
+
+@media(max-width: 400px) {
+	.yoast-feature {
+		margin-right: 0;
+	}
+
+	.yoast-toggle__item-disabled {
+		flex-wrap: wrap;
+	}
+
+	.yoast-toggle__item-disabled .yoast-button.yoast-button--buy {
+		position: initial;
+		margin-left: 0;
+		margin-top: 8px;
+	}
+}
