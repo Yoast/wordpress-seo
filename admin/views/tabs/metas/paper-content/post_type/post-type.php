@@ -27,7 +27,7 @@ $yform->index_switch(
 $yform->show_hide_switch(
 	'display-metabox-pt-' . $wpseo_post_type->name,
 	/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
-	sprintf( esc_html__( 'Show SEO settings for %1$s', 'wordpress-seo' ), '<strong>' . $wpseo_post_type->labels->name . '</strong>' )
+	sprintf( esc_html__( 'Show SEO settings for %1$s', 'wordpress-seo' ), $wpseo_post_type->labels->name )
 );
 
 echo '</div>';
