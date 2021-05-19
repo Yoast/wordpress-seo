@@ -122,4 +122,28 @@ class Dialog_Integration_Test extends TestCase {
 		$this->assertSame( 10, has_action( 'admin_enqueue_scripts', [ $this->instance, 'show_modal' ] ) );
 		$this->assertFalse( has_action( 'admin_notices' ) );
 	}
+
+	/**
+	 * Tests if the install argument is not provided the dialog is not shown.
+	 */
+	public function test_check_addons_installed_returns_when_activation_success_url_parameter_is_false() {
+
+		$_GET['activation_success'] = 'false';
+
+		$this->instance->check_addons_installed();
+
+		$this->assertFalse( has_action( 'admin_enqueue_scripts', [ $this->instance, 'generate_success_box' ] ) );
+	}
+
+	/**
+	 * Tests if the install argument is not provided the dialog is not shown.
+	 */
+	public function test_check_addons_installed_registers_action_when_activation_success_url_parameter_is_true() {
+
+		$_GET['activation_success'] = 'true';
+
+		$this->instance->check_addons_installed();
+
+		$this->assertNotFalse( has_action( 'admin_enqueue_scripts', [ $this->instance, 'generate_success_box' ] ) );
+	}
 }

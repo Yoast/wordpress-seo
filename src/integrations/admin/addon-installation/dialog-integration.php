@@ -4,6 +4,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin\Addon_Installation;
 
+use WPSEO_Admin_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin\Licenses_Page_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -87,7 +88,7 @@ class Dialog_Integration implements Integration_Interface {
 		if ( ! isset( $_GET['activation_success'] ) || $_GET['activation_success'] !== 'true' ) {
 			return;
 		}
-			add_action( 'admin_notices', [ $this, 'generate_succes_box' ] );
+			add_action( 'admin_enqueue_scripts', [ $this, 'generate_success_box' ] );
 	}
 
 	/**
@@ -109,14 +110,19 @@ class Dialog_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Displays succes message.
+	 * Displays success message.
 	 *
 	 * @returns void
 	 */
-	public function generate_succes_box() {
-		echo '<div class="notice notice-success"><p>' .
-			esc_html__( 'Installation succesful! We hope you enjoy Yoast SEO premium. Our support team can be reached 24/7 if you have questions.', 'wordpress-seo' ) .
-		'</p></div>';
+	public function generate_success_box() {
+		\wp_localize_script(
+			\WPSEO_Admin_Asset_Manager::PREFIX . 'addon-installation-successful',
+			'wpseoAddonInstallationL10n',
+			[]
+		);
+
+		$asset_manager = new \WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_script( 'addon-installation-successful' );
 	}
 
 	/**

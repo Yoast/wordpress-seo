@@ -7,6 +7,7 @@ const cssDistPath = path.resolve( "css", "dist" );
 // Output filename: Entry file (relative to jsSrcPath)
 const entry = {
 	"addon-installation": "./packages/js/src/addon-installation.js",
+	"addon-installation-successful": "./packages/js/src/addon-installation-successful.js",
 	"admin-global": "./packages/js/src/admin-global.js",
 	"analysis-worker": "./packages/js/src/analysis-worker.js",
 	"api-client": "./packages/js/src/api-client.js",
