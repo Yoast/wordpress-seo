@@ -5,7 +5,6 @@
 namespace Yoast\WP\SEO\Integrations\Admin\Addon_Installation;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Addon_Installation_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin\Licenses_Page_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -35,7 +34,6 @@ class Dialog_Integration implements Integration_Interface {
 		return [
 			Admin_Conditional::class,
 			Licenses_Page_Conditional::class,
-			Addon_Installation_Conditional::class,
 		];
 	}
 
@@ -85,8 +83,15 @@ class Dialog_Integration implements Integration_Interface {
 	 */
 	public function throw_no_owned_addons_warning() {
 		echo '<div class="notice notice-warning"><p>' .
-			esc_html__( 'No addons have been installed. You don\'t seem to own any active subscriptions.', 'wordpress-seo' ) .
-		'</p></div>';
+			sprintf(
+				/* translators: %1$s expands to Yoast SEO */
+				esc_html__(
+					'No %1$s plugins have been installed. You don\'t seem to own any active subscriptions.',
+					'wordpress-seo'
+				),
+				'Yoast SEO'
+			) .
+			'</p></div>';
 	}
 
 	/**
