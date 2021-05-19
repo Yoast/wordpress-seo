@@ -33,7 +33,7 @@ export default class Duration extends BlockInstruction {
 		const value = props.attributes.value as number || 0;
 
 		/* translators: %d will be replaced with the number of minutes. */
-		return <p className={ props.className }>{ sprintf( __( "%d minutes", "yoast-schema-block" ), value ) }</p>;
+		return <p className={ props.className }>{ sprintf( __( "%d minutes", "yoast-schema-blocks" ), value ) }</p>;
 	}
 
 	/**
@@ -59,12 +59,12 @@ export default class Duration extends BlockInstruction {
 				<TextControl
 					type="number"
 					placeholder="#"
-					aria-label={ __( "Cooking time", "yoast-schema-block" ) }
+					aria-label={ __( "Cooking time", "yoast-schema-blocks" ) }
 					className="minutes-input"
 					onChange={ onChange }
 					value={ props.attributes.value as number || "" }
 				/>
-				<p> { __( "minutes", "yoast-schema-block" ) }</p>
+				<p> { __( "minutes", "yoast-schema-blocks" ) }</p>
 			</div>
 		);
 	}
