@@ -852,8 +852,8 @@ class Yoast_Form {
 		$attr     = wp_parse_args( $attr, $defaults );
 
 		$index_switch_values = [
-			'off' => __( 'Yes', 'wordpress-seo' ),
-			'on'  => __( 'No', 'wordpress-seo' ),
+			'off' => __( 'On', 'wordpress-seo' ),
+			'on'  => __( 'Off', 'wordpress-seo' ),
 		];
 
 		$is_disabled = ( isset( $attr['disabled'] ) && $attr['disabled'] );
@@ -892,8 +892,8 @@ class Yoast_Form {
 		$off_key = ( $inverse_keys ) ? 'on' : 'off';
 
 		$show_hide_switch = [
-			$on_key  => __( 'Show', 'wordpress-seo' ),
-			$off_key => __( 'Hide', 'wordpress-seo' ),
+			$on_key  => __( 'On', 'wordpress-seo' ),
+			$off_key => __( 'Off', 'wordpress-seo' ),
 		];
 
 		$is_disabled = ( isset( $attr['disabled'] ) && $attr['disabled'] );
