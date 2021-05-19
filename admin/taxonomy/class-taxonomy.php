@@ -136,9 +136,6 @@ class WPSEO_Taxonomy {
 			$asset_manager->enqueue_style( 'scoring' );
 			$asset_manager->enqueue_script( 'term-edit' );
 
-			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-			$yoast_components_l10n->localize_script( 'term-edit' );
-
 			/**
 			 * Remove the emoji script as it is incompatible with both React and any
 			 * contenteditable fields.

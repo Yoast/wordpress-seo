@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { isUndefined } from "lodash-es";
 
 import MissingArgument from "../errors/missingArgument";
@@ -69,19 +70,18 @@ PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords ) {
  *
  * @param {object} previouslyUsedKeywords The result of the previously used keywords research
  * @param {Paper} paper The paper object to research.
- * @param {Jed} i18n The i18n object.
  * @returns {object} the scoreobject with text and score.
  */
-PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywords, paper, i18n ) {
+PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywords, paper ) {
 	var count = previouslyUsedKeywords.count;
 	var id = previouslyUsedKeywords.id;
 	if ( count === 0 ) {
 		return {
-			text: i18n.sprintf(
+			text: sprintf(
 				/* Translators:
 				%1$s expands to a link to an article on yoast.com,
 				%2$s expands to an anchor tag. */
-				i18n.dgettext( "js-text-analysis", "%1$sPreviously used keyphrase%2$s: You've not used this keyphrase before, very good." ),
+				__( "%1$sPreviously used keyphrase%2$s: You've not used this keyphrase before, very good.", "wordpress-seo" ),
 				this.urlTitle,
 				"</a>"
 			),
@@ -91,36 +91,44 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 	if ( count === 1 ) {
 		var url = "<a href='" + this.postUrl.replace( "{id}", id ) + "' target='_blank'>";
 		return {
+			/* eslint-disable max-len */
 			/* Translators: %1$s and %2$s expand to an admin link where the keyword is already used. %3$s and %4$s
 			expand to links on yoast.com, %4$s expands to the anchor end tag. */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%3$sPreviously used keyphrase%5$s: " +
-				"You've used this keyphrase %1$sonce before%2$s. " +
-				"%4$sDo not use your keyphrase more than once%5$s." ),
-			url,
-			"</a>",
-			this.urlTitle,
-			this.urlCallToAction,
-			"</a>"
+			text: sprintf(
+				__(
+					"%3$sPreviously used keyphrase%5$s: You've used this keyphrase %1$sonce before%2$s. %4$sDo not use your keyphrase more than once%5$s.",
+					"wordpress-seo"
+				),
+				url,
+				"</a>",
+				this.urlTitle,
+				this.urlCallToAction,
+				"</a>"
 			),
+			/* eslint-enable max-len */
 			score: 6,
 		};
 	}
 	if ( count > 1 ) {
 		url = "<a href='" + this.searchUrl.replace( "{keyword}", encodeURIComponent( paper.getKeyword() ) ) + "' target='_blank'>";
 		return {
+			/* eslint-disable max-len */
 			/* Translators: %1$s and $3$s expand to the admin search page for the keyword, %2$d expands to the number
 			of times this keyword has been used before, %4$s and %5$s expand to links to yoast.com, %6$s expands to
 			the anchor end tag */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%4$sPreviously used keyphrase%6$s: " +
-				"You've used this keyphrase %1$s%2$d times before%3$s. " +
-				"%5$sDo not use your keyphrase more than once%6$s." ),
-			url,
-			count,
-			"</a>",
-			this.urlTitle,
-			this.urlCallToAction,
-			"</a>"
+			text: sprintf(
+				__(
+					"%4$sPreviously used keyphrase%6$s: You've used this keyphrase %1$s%2$d times before%3$s. %5$sDo not use your keyphrase more than once%6$s.",
+					"wordpress-seo"
+				),
+				url,
+				count,
+				"</a>",
+				this.urlTitle,
+				this.urlCallToAction,
+				"</a>"
 			),
+			/* eslint-enable max-len */
 			score: 1,
 		};
 	}

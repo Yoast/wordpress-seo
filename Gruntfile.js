@@ -68,31 +68,6 @@ module.exports = function( grunt ) {
 				"wp-seo-main.php",
 				"wp-seo.php",
 			],
-			pot: {
-
-				/*
-				 * Yoast JS are the @yoast JavaScript packages.
-				 * They (currently) have the `yoast-components` textdomain.
-				 * They get combined with the `yoastComponents` translations to one yoast-components.pot file.
-				 */
-				yoastJsAnalysisReport: "<%= paths.languages %>yoast-js-analysis-report.pot",
-				yoastJsComponents: "<%= paths.languages %>yoast-js-components.pot",
-				yoastJsConfigurationWizard: "<%= paths.languages %>yoast-js-configuration-wizard.pot",
-				yoastJsHelpers: "<%= paths.languages %>yoast-js-helpers.pot",
-				yoastJsSearchMetadataPreviews: "<%= paths.languages %>yoast-js-search-metadata-previews.pot",
-
-				yoastseojs: "<%= paths.languages %>yoast-seo-js.pot",
-				yoastComponents: "<%= paths.languages %>yoast-components.pot",
-				yoastComponentsConfigurationWizard: "<%= paths.languages %>yoast-components1.pot",
-				yoastComponentsRemaining: "gettext.pot",
-				wordpressSeoJs: "<%= paths.languages %>wordpress-seojs.pot",
-
-				php: {
-					yoastseojs: "<%= paths.languages %>yoast-seo-js.php",
-					yoastComponents: "<%= paths.languages %>yoast-components.php",
-					wordpressSeoJs: "<%= paths.languages %>wordpress-seojs.php",
-				},
-			},
 			artifact: "artifact",
 			artifactComposer: "artifact-composer",
 			phptests: "tests/**/*.php",

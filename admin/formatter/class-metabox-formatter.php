@@ -66,7 +66,6 @@ class WPSEO_Metabox_Formatter {
 			'removeKeyword'               => __( 'Remove keyphrase', 'wordpress-seo' ),
 			'contentLocale'               => get_locale(),
 			'userLocale'                  => \get_user_locale(),
-			'translations'                => $this->get_translations(),
 			'keyword_usage'               => [],
 			'title_template'              => '',
 			'metadesc_template'           => '',
@@ -195,26 +194,6 @@ class WPSEO_Metabox_Formatter {
 			'content-analysis.disabledButton'                => __( 'Marks are disabled in current view', 'wordpress-seo' ),
 			'a11yNotice.opensInNewTab'                       => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
 		];
-	}
-
-	/**
-	 * Returns Jed compatible YoastSEO.js translations.
-	 *
-	 * @return array
-	 */
-	private function get_translations() {
-		$locale = \get_user_locale();
-
-		$file = WPSEO_PATH . 'languages/wordpress-seo-' . $locale . '.json';
-		if ( file_exists( $file ) ) {
-			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Retrieving a local file.
-			$file = file_get_contents( $file );
-			if ( is_string( $file ) && $file !== '' ) {
-				return json_decode( $file, true );
-			}
-		}
-
-		return [];
 	}
 
 	/**

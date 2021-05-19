@@ -7,7 +7,6 @@ import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
 import UserSelectPortal from "../components/portals/UserSelectPortal";
 import SettingsReplacementVariableEditors from "../components/SettingsReplacementVariableEditors";
 import SchemaSettings from "../containers/SchemaSettings";
-import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
 import { __ } from "@wordpress/i18n";
 
 /**
@@ -15,9 +14,6 @@ import { __ } from "@wordpress/i18n";
  * @returns {void}
  */
 export default function initSearchAppearance() {
-	setYoastComponentsL10n();
-	setWordPressSeoL10n();
-
 	const editorElements = document.querySelectorAll( "[data-react-replacevar-editor]" );
 	const singleFieldElements = document.querySelectorAll( "[data-react-replacevar-field]" );
 	const imagePortals = Array.from( document.querySelectorAll( "[data-react-image-portal]" ) );

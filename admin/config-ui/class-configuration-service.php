@@ -46,13 +46,6 @@ class WPSEO_Configuration_Service {
 	protected $adapter;
 
 	/**
-	 * Class handling the onboarding wizard endpoint.
-	 *
-	 * @var WPSEO_Configuration_Translations
-	 */
-	protected $translations;
-
-	/**
 	 * Hook into the REST API and switch language.
 	 */
 	public function initialize() {
@@ -69,7 +62,6 @@ class WPSEO_Configuration_Service {
 		$this->set_components( new WPSEO_Configuration_Components() );
 		$this->set_endpoint( new WPSEO_Configuration_Endpoint() );
 		$this->set_structure( new WPSEO_Configuration_Structure() );
-		$this->set_translations( new WPSEO_Configuration_Translations( \get_user_locale() ) );
 	}
 
 	/**
@@ -119,24 +111,9 @@ class WPSEO_Configuration_Service {
 	}
 
 	/**
-	 * Sets the translations object.
-	 *
-	 * @param WPSEO_Configuration_Translations $translations The translations object.
-	 */
-	public function set_translations( WPSEO_Configuration_Translations $translations ) {
-		$this->translations = $translations;
-	}
-
-	/**
 	 * Populate the configuration.
 	 */
 	protected function populate_configuration() {
-		// Switch to the user locale with fallback to the site locale.
-		switch_to_locale( \get_user_locale() );
-
-		// Make sure we have our translations available.
-		wpseo_load_textdomain();
-
 		$this->structure->initialize();
 
 		$this->storage->set_adapter( $this->adapter );
@@ -144,9 +121,6 @@ class WPSEO_Configuration_Service {
 
 		$this->components->initialize();
 		$this->components->set_storage( $this->storage );
-
-		// @todo: check if this is really needed, since the switch happens only in the API.
-		restore_current_locale();
 	}
 
 	/**
@@ -158,12 +132,10 @@ class WPSEO_Configuration_Service {
 		$this->populate_configuration();
 		$fields       = $this->storage->retrieve();
 		$steps        = $this->structure->retrieve();
-		$translations = $this->translations->retrieve();
 
 		return [
-			'fields'       => $fields,
-			'steps'        => $steps,
-			'translations' => $translations,
+			'fields' => $fields,
+			'steps'  => $steps,
 		];
 	}
 

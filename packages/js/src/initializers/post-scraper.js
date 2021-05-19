@@ -47,15 +47,11 @@ import initializeUsedKeywords from "./used-keywords-assessment";
 import { setFocusKeyword } from "../redux/actions/focusKeyword";
 import { setMarkerStatus } from "../redux/actions/markerButtons";
 import { updateData } from "../redux/actions/snippetEditor";
-import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
 import { setCornerstoneContent } from "../redux/actions/cornerstoneContent";
 import { refreshSnippetEditor } from "../redux/actions/snippetEditor.js";
 
 // Helper dependencies.
 import isBlockEditor from "../helpers/isBlockEditor";
-
-setYoastComponentsL10n();
-setWordPressSeoL10n();
 
 // Plugin class prototypes (not the instances) are being used by other plugins from the window.
 window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;

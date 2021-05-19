@@ -47,9 +47,6 @@ class App extends React.Component {
 		this.polishStemmerPerformanceAnalysis = this.polishStemmerPerformanceAnalysis.bind( this );
 
 		this.initialize();
-
-		// Prevent yoast-component i18n console error by initializing as an empty domain.
-		setLocaleData( { "": {} }, "yoast-components" );
 	}
 
 	/**

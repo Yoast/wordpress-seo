@@ -208,7 +208,7 @@ export default class ComponentsExample extends React.Component {
 									className={ "CourseCard" }
 									id={ course.id }
 									header={ this.getHeaderData( course ) }
-									banner={ course.isFree === "true" ? { text: __( "Free", "yoast-components" ) } : null }
+									banner={ course.isFree === "true" ? { text: __( "Free", "wordpress-seo" ) } : null }
 								>
 									<CourseDetails
 										description={ course.content }

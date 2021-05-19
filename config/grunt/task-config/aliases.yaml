@@ -1,177 +1,136 @@
 # Grunt aliases
 ---
-'build':
-  - 'build:js'
-  - 'build:css'
-  - 'build:images'
-  - 'build:i18n'
+"build":
+  - "build:js"
+  - "build:css"
+  - "build:images"
 
-'build-watch':
-  - 'shell:composer-install'
-  - 'build:js'
-  - 'build:css'
-  - 'watch'
+"build-watch":
+  - "shell:composer-install"
+  - "build:js"
+  - "build:css"
+  - "watch"
 
 # Grunt command to only build CSS and JS
-'build:dev':
-  - 'build:js'
-  - 'build:css'
+"build:dev":
+  - "build:js"
+  - "build:css"
 
 # Build JavaScript from assets to production
-'build:js':
-  - 'clean:build-assets-js'
-  - 'shell:install-schema-blocks'
-  - 'copy:js-dependencies'
-  - 'shell:webpack'
+"build:js":
+  - "clean:build-assets-js"
+  - "shell:install-schema-blocks"
+  - "copy:js-dependencies"
+  - "shell:webpack"
 
 # Build CSS for development
-'build:css':
-  - 'clean:build-assets-css'
-  - 'copy:css-dependencies'
-  - 'copy:css-files'
-  - 'postcss:build'
-  - 'rtlcss:build'
-
-# Build internationalisation features
-'build:i18n':
-  - 'clean:language-files'
-  - 'build:i18n:potFiles'
-  - 'build:i18n:translations'
-# Create the relevant POT files
-'build:i18n:potFiles':
-  - 'makepot'
-  - 'shell:makepot-yoast-components-configuration-wizard'
-  - 'shell:makepot-wordpress-seo'
-  - 'copy:makepot-wordpress-seo'
-  - 'shell:makepot-yoast-js-analysis-report'
-  - 'copy:makepot-yoast-js-analysis-report'
-  - 'shell:makepot-yoast-js-components'
-  - 'copy:makepot-yoast-js-components'
-  - 'shell:makepot-yoast-js-configuration-wizard'
-  - 'copy:makepot-yoast-js-configuration-wizard'
-  - 'shell:makepot-yoast-js-helpers'
-  - 'copy:makepot-yoast-js-helpers'
-  - 'shell:makepot-yoast-js-search-metadata-previews'
-  - 'copy:makepot-yoast-js-search-metadata-previews'
-  - 'shell:makepot-yoast-components-remaining'
-  - 'shell:combine-pots-yoast-components'
-  - 'shell:makepot-yoastseojs'
-  - 'convert-pot-to-wp'
-  - 'shell:combine-pot-files'
-# Download and build the latest translations
-'build:i18n:translations':
-  - 'glotpress_download'
-
-  # Custom tasks required because of WordPress.org
-  - 'copy:de_CH-informal'
-  - 'clean:after-po-download'
-
-  - 'copy:json-translations'
-  - 'po2json'
-  - 'i18n-clean-json'
-  - 'clean:po-files'
+"build:css":
+  - "clean:build-assets-css"
+  - "copy:css-dependencies"
+  - "copy:css-files"
+  - "postcss:build"
+  - "rtlcss:build"
 
 clean:build-assets:
-  - 'clean:build-assets-js'
-  - 'clean:build-assets-css'
+  - "clean:build-assets-js"
+  - "clean:build-assets-css"
 
 # Update all versions except the stable tag
-'update-version-trunk':
-  - 'update-version:pluginFile'
-  - 'update-version:initializer'
+"update-version-trunk":
+  - "update-version:pluginFile"
+  - "update-version:initializer"
 
-'artifact':
-  - 'shell:composer-install'
-  - 'shell:compile-dependency-injection-container'
-  - 'shell:remove-dependency-injection-meta'
-  - 'shell:composer-install-production'
+"artifact":
+  - "shell:composer-install"
+  - "shell:compile-dependency-injection-container"
+  - "shell:remove-dependency-injection-meta"
+  - "shell:composer-install-production"
   # Build like we normally would
-  - 'release'
+  - "release"
   # Remove build folder
-  - 'clean:artifact'
+  - "clean:artifact"
   # Copy only the relevant files to the folder
-  - 'copy:artifact'
+  - "copy:artifact"
   # Create a zip file
-  - 'compress:artifact'
+  - "compress:artifact"
 
 # Get the project ready for beta
-'create-beta':
-  - 'ensure-monorepo-is-unlinked'
-  - 'ensure-clean-branch'
-  - 'ensure-pre-release-branch'
-  - 'update-readme'
-  - 'bump-beta-version'
-  - 'sync-gutenberg-version'
-  - 'artifact'
-  - 'github-pre-release'
-  - 'notify-slack:beta'
-  - 'sync-readme-stable-tag'
-  - 'check-deploy-allowed'
-  - 'wp_deploy:trunk'
-  - 'shell:readme-reset-txt'
-  - 'verify-zip-size'
-  - 'celebrate'
+"create-beta":
+  - "ensure-monorepo-is-unlinked"
+  - "ensure-clean-branch"
+  - "ensure-pre-release-branch"
+  - "update-readme"
+  - "bump-beta-version"
+  - "sync-gutenberg-version"
+  - "artifact"
+  - "github-pre-release"
+  - "notify-slack:beta"
+  - "sync-readme-stable-tag"
+  - "check-deploy-allowed"
+  - "wp_deploy:trunk"
+  - "shell:readme-reset-txt"
+  - "verify-zip-size"
+  - "celebrate"
 
 # Get the project ready for release-candidate
-'create-rc':
-  - 'ensure-clean-branch'
-  - 'ensure-pre-release-branch'
-  - 'update-readme'
-  - 'bump-rc-version'
-  - 'sync-gutenberg-version'
-  - 'artifact'
-  - 'github-pre-release'
-  - 'notify-slack:rc'
-  - 'sync-readme-stable-tag'
-  - 'check-deploy-allowed'
-  - 'wp_deploy:trunk'
-  - 'shell:readme-reset-txt'
-  - 'verify-zip-size'
-  - 'celebrate'
+"create-rc":
+  - "ensure-clean-branch"
+  - "ensure-pre-release-branch"
+  - "update-readme"
+  - "bump-rc-version"
+  - "sync-gutenberg-version"
+  - "artifact"
+  - "github-pre-release"
+  - "notify-slack:rc"
+  - "sync-readme-stable-tag"
+  - "check-deploy-allowed"
+  - "wp_deploy:trunk"
+  - "shell:readme-reset-txt"
+  - "verify-zip-size"
+  - "celebrate"
 
-'ensure-clean-branch':
-  - 'shell:check-for-uncommitted-changes'
+"ensure-clean-branch":
+  - "shell:check-for-uncommitted-changes"
 
 # Get the project ready for release
 release:
-  - 'clean:build-assets'
-  - 'build:images'
-  - 'release:js'
-  - 'release:css'
-  - 'build:i18n'
-'release:js':
-  - 'shell:install-schema-blocks'
-  - 'copy:js-dependencies'
-  - 'shell:webpack-prod'
+  - "clean:build-assets"
+  - "build:images"
+  - "release:js"
+  - "release:css"
+"release:js":
+  - "shell:install-schema-blocks"
+  - "copy:js-dependencies"
+  - "shell:webpack-prod"
 
 # Build CSS for production
-'release:css':
-  - 'clean:build-assets-css'
-  - 'copy:css-dependencies'
-  - 'copy:css-files'
-  - 'postcss:release'
-  - 'rtlcss:build'
+"release:css":
+  - "clean:build-assets-css"
+  - "copy:css-dependencies"
+  - "copy:css-files"
+  - "postcss:release"
+  - "rtlcss:build"
 
-'deploy:master':
-  - 'update-version'
-  - 'artifact'
-  - 'wp_deploy:master'
+"deploy:master":
+  - "update-version"
+  - "artifact"
+  - "wp_deploy:master"
 
-'deploy:trunk':
-  - 'update-version-trunk'
-  - 'artifact'
-  - 'wp_deploy:trunk'
+"deploy:trunk":
+  - "update-version-trunk"
+  - "artifact"
+  - "wp_deploy:trunk"
 
-'update-changelog:file':
+"update-changelog:file":
   - get-latest-pr-texts
   - update-changelog-with-latest-pr-texts
 
-'update-changelog:qa':
+"update-changelog:qa":
   - get-latest-pr-texts
   - download-qa-changelog
   - build-qa-changelog
 
-'update-changelog:all':
+"update-changelog:all":
   - get-latest-pr-texts
   - update-changelog-with-latest-pr-texts
   - download-qa-changelog
@@ -179,4 +138,4 @@ release:
 
 # Default task
 default:
-  - 'build'
+  - "build"

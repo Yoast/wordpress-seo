@@ -29,8 +29,8 @@ const ImageSelectButtons = ( props ) => {
 			>
 				{
 					imageSelected
-						? __( "Replace image", "yoast-components" )
-						: __( "Select image", "yoast-components" )
+						? __( "Replace image", "wordpress-seo" )
+						: __( "Select image", "wordpress-seo" )
 				}
 			</Button>
 			{
@@ -39,7 +39,7 @@ const ImageSelectButtons = ( props ) => {
 					id={ removeImageButtonId }
 					onClick={ onRemoveImageClick }
 				>
-					{ __( "Remove image", "yoast-components" ) }
+					{ __( "Remove image", "wordpress-seo" ) }
 				</Button>
 			}
 		</div>

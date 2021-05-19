@@ -143,7 +143,6 @@ class WPSEO_Configuration_Service_Test extends TestCase {
 		$this->configuration_service->set_options_adapter( $adapter );
 		$this->configuration_service->set_structure( $structure );
 		$this->configuration_service->set_components( new WPSEO_Configuration_Components() );
-		$this->configuration_service->set_translations( new WPSEO_Configuration_Translations( 'en_US' ) );
 
 		$result = $this->configuration_service->get_configuration();
 
@@ -153,7 +152,6 @@ class WPSEO_Configuration_Service_Test extends TestCase {
 			[
 				'fields'       => [],
 				'steps'        => [],
-				'translations' => [],
 			],
 			$result
 		);

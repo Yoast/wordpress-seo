@@ -3,8 +3,6 @@
 import { Component, render } from "@wordpress/element";
 import ConfigurationWizard, { MessageBox } from "@yoast/configuration-wizard";
 import jQuery from "jquery";
-import { isUndefined } from "lodash-es";
-import { setTranslations } from "yoast-components";
 import { makeOutboundLink } from "@yoast/helpers";
 
 // Internal dependencies.
@@ -15,7 +13,6 @@ import FinalStep from "./components/FinalStep";
 import WordPressUserSelectorOnboardingWizard from "./components/WordPressUserSelectorOnboardingWizard";
 import CompanyInfoMissingOnboardingWizard from "./components/CompanyInfoMissingOnboardingWizard";
 import { ReactComponent as YoastIcon } from "../images/Yoast_SEO_Icon.svg";
-import { setYoastComponentsL10n } from "./helpers/i18n";
 
 const PluginConflictLink = makeOutboundLink();
 
@@ -63,10 +60,6 @@ class App extends Component {
 	setConfig( response ) {
 		const config = response;
 		const endpoint = this.getEndpoint();
-
-		if ( ! isUndefined( config.translations ) ) {
-			setTranslations( config.translations );
-		}
 
 		Object.assign( config, {
 			finishUrl: yoastWizardConfig.finishUrl,
@@ -151,7 +144,5 @@ class App extends Component {
 		);
 	}
 }
-
-setYoastComponentsL10n();
 
 render( <App />, document.getElementById( "wizard" ) );

@@ -1,21 +1,26 @@
 /* global wp */
 import { Component, createRef } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
-import { localize } from "yoast-components";
 
 /**
  * @summary Media upload component.
  */
 class MediaUpload extends Component {
+	/**
+	 * Creates a MediaUpload component.
+	 *
+	 * @param {Object} props The props.
+	 */
 	constructor( props ) {
 		super( props );
 
 		this.state = {
 			currentUpload: props.value,
 			mediaUpload: wp.media( {
-				title: this.props.translate( "Choose an image" ),
-				button: { text: this.props.translate( "Choose an image" ) },
+				title: __( "Choose an image", "wordpress-seo" ),
+				button: { text: __( "Choose an image", "wordpress-seo" ) },
 				multiple: false,
 				library: {
 					type: "image",
@@ -25,6 +30,8 @@ class MediaUpload extends Component {
 
 		this.state.mediaUpload.on( "select", this.selectUpload.bind( this ) );
 		this.chooseButton = createRef();
+		this.chooseUpload = this.chooseUpload.bind( this );
+		this.removeUpload = this.removeUpload.bind( this );
 	}
 
 	/**
@@ -97,8 +104,8 @@ class MediaUpload extends Component {
 
 		return (
 			<RaisedButton
-				label={ this.props.translate( "Remove the image" ) }
-				onClick={ this.removeUpload.bind( this ) }
+				label={ __( "Remove the image", "wordpress-seo" ) }
+				onClick={ this.removeUpload }
 				className="yoast-wizard-image-upload-container-buttons__remove"
 				type="button"
 			/>
@@ -119,7 +126,7 @@ class MediaUpload extends Component {
 			<img
 				className="yoast-wizard-image-upload-container__image"
 				src={ this.state.currentUpload }
-				alt={ this.props.translate( "image preview" ) }
+				alt={ __( "image preview", "wordpress-seo" ) }
 			/>
 		);
 	}
@@ -138,8 +145,8 @@ class MediaUpload extends Component {
 				{ this.renderImage() }
 				<div className="yoast-wizard-image-upload-container-buttons">
 					<RaisedButton
-						label={ this.props.translate( "Choose an image" ) }
-						onClick={ this.chooseUpload.bind( this ) }
+						label={ __( "Choose an image", "wordpress-seo" ) }
+						onClick={ this.chooseUpload }
 						type="button"
 						className="yoast-wizard-image-upload-container-buttons__choose"
 						ref={ this.chooseButton }
@@ -171,7 +178,6 @@ class MediaUpload extends Component {
  * Adds validation for the properties.
  */
 MediaUpload.propTypes = {
-	translate: PropTypes.func.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.any,
 	onChange: PropTypes.func,
@@ -180,4 +186,4 @@ MediaUpload.propTypes = {
 	} ),
 };
 
-export default localize( MediaUpload );
+export default MediaUpload;

@@ -39,13 +39,9 @@ import handleWorkerError from "../analysis/handleWorkerError";
 
 // Redux dependencies.
 import { refreshSnippetEditor, updateData } from "../redux/actions/snippetEditor";
-import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
 import { setFocusKeyword } from "../redux/actions/focusKeyword";
 import { setCornerstoneContent } from "../redux/actions/cornerstoneContent";
 import initializeUsedKeywords from "./used-keywords-assessment";
-
-setYoastComponentsL10n();
-setWordPressSeoL10n();
 
 window.yoastHideMarkers = true;
 
@@ -295,11 +291,6 @@ export default function initTermScraper( $, store, editorData ) {
 				store.dispatch( setReadabilityResults( results ) );
 				store.dispatch( refreshSnippetEditor() );
 			};
-		}
-
-		translations = getTranslations();
-		if ( ! isUndefined( translations ) && ! isUndefined( translations.domain ) ) {
-			args.translations = translations;
 		}
 
 		app = new App( args );

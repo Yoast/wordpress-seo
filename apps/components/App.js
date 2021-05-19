@@ -1,6 +1,5 @@
 import React from "react";
 import styled, { ThemeProvider } from "styled-components";
-import { setLocaleData } from "@wordpress/i18n";
 
 import ButtonsWrapper from "./ButtonsWrapper";
 import ButtonsOldWrapper from "./ButtonsOldWrapper";
@@ -24,9 +23,6 @@ import SocialPreviewFormWrapper from "./SocialPreviewFormWrapper";
 import SocialPreviewEditorWrapper from "./SocialPreviewEditorWrapper";
 import InputsWrapper from "./InputsWrapper";
 import ImageSelectWrapper from "./ImageSelectWrapper";
-
-// Setup empty translations to prevent Jed error.
-setLocaleData( { "": {} }, "yoast-components" );
 
 const components = [
 	{

@@ -1,8 +1,8 @@
 import { Component } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
 import IconMailOutline from "material-ui/svg-icons/communication/mail-outline";
-import { localize } from "yoast-components";
 import { LoadingIndicator } from "@yoast/configuration-wizard";
 import { sendRequest } from "@yoast/helpers";
 
@@ -116,7 +116,7 @@ class MailchimpSignup extends Component {
 					} );
 				} )
 			.catch( ( response ) => {
-				console.error( this.props.translate( "MailChimp signup failed:" ), response );
+				console.error( __( "MailChimp signup failed:", "wordpress-seo" ), response );
 			} );
 	}
 
@@ -213,7 +213,7 @@ class MailchimpSignup extends Component {
 		/>;
 		const button = <RaisedButton
 			primary={ true }
-			label={ this.props.translate( "Sign Up!" ) }
+			label={ __( "Sign Up!", "wordpress-seo" ) }
 			onClick={ this.signup.bind( this ) }
 			icon={ <IconMailOutline color="#ffffff" viewBox="0 0 28 28" /> }
 		/>;
@@ -232,7 +232,7 @@ class MailchimpSignup extends Component {
 								htmlFor="mailchimpEmail"
 								className="yoast-wizard-text-input-label"
 							>
-								{ this.props.translate( "Email" ) }
+								{ __( "Email", "wordpress-seo" ) }
 							</label>
 							{ input }
 						</div>
@@ -286,7 +286,6 @@ class MailchimpSignup extends Component {
 }
 
 MailchimpSignup.propTypes = {
-	translate: PropTypes.func.isRequired,
 	title: PropTypes.string,
 	component: PropTypes.string,
 	name: PropTypes.string.isRequired,
@@ -311,4 +310,4 @@ MailchimpSignup.defaultProps = {
 	},
 };
 
-export default localize( MailchimpSignup );
+export default MailchimpSignup;

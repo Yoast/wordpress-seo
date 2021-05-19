@@ -90,7 +90,7 @@ class ReplacementVariableEditor extends React.Component {
 		const addVariableButton = <TriggerReplacementVariableSuggestionsButton
 			onClick={ this.triggerReplacementVariableSuggestions }
 		>
-			{ __( "Insert variable", "yoast-components" ) }
+			{ __( "Insert variable", "wordpress-seo" ) }
 		</TriggerReplacementVariableSuggestionsButton>;
 
 		return (
