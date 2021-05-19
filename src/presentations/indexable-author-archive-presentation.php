@@ -152,6 +152,19 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the open graph images.
+	 *
+	 * @return array The open graph images.
+	 */
+	public function generate_open_graph_images() {
+		if ( $this->context->open_graph_enabled === false ) {
+			return [];
+		}
+
+		return $this->open_graph_image_generator->generate_for_author_archive( $this->context );
+	}
+
+	/**
 	 * Generates the source.
 	 *
 	 * @return array The source.

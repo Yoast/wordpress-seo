@@ -15,16 +15,6 @@ export default function initSocialSettings() {
 			<ImageSelectPortal
 				label={ __( "Image", "wordpress-seo" ) }
 				hasPreview={ true }
-				target="yoast-og-frontpage-image-select"
-				hiddenField="og_frontpage_image"
-				hiddenFieldImageId="og_frontpage_image_id"
-				selectImageButtonId="yoast-og-frontpage-image-select-button"
-				replaceImageButtonId="yoast-og-frontpage-image-replace-button"
-				removeImageButtonId="yoast-og-frontpage-image-remove-button"
-			/>
-			<ImageSelectPortal
-				label={ __( "Image", "wordpress-seo" ) }
-				hasPreview={ true }
 				target="yoast-og-default-image-select"
 				hiddenField="og_default_image"
 				hiddenFieldImageId="og_default_image_id"
