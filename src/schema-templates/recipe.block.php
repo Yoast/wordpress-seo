@@ -11,6 +11,7 @@ $yoast_seo_block_title = sprintf( __( '%1$s Recipe', 'wordpress-seo' ), 'Yoast' 
 $yoast_seo_block_template = [
 	[ 'yoast/recipe-name' ],
 	[ 'core/image' ],
+	[ 'yoast/recipe-description' ],
 	[ 'yoast/ingredients' ],
 	[ 'yoast/steps' ],
 ];
@@ -23,7 +24,7 @@ $yoast_seo_required_blocks = [
 ];
 
 $yoast_seo_recommended_blocks = [
-	[ 'name' => 'core/paragraph' ],
+	[ 'name' => 'yoast/recipe-description' ],
 ];
 
 // phpcs:disable WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe.
