@@ -26,7 +26,6 @@ else {
 	echo '<div class="yoast-settings-section">';
 	echo '<p>' . esc_html__( 'These are the image, title and description used when a link to your homepage is shared on social media.', 'wordpress-seo' ) . '</p>';
 
-	echo '<div id="yoast-og-frontpage-image-select"></div>';
 	printf(
 		'<div
 				id="%1$s"
