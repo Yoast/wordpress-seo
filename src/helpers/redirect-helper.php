@@ -16,6 +16,7 @@ class Redirect_Helper {
 	 * @param int    $status   The status code to use.
 	 */
 	public function do_unsafe_redirect( $location, $status = 302 ) {
+		// phpcs:ignore WordPress.Security.SafeRedirect -- intentional, function has been renamed to make unsafe more clear.
 		\wp_redirect( $location, $status, 'Yoast SEO' );
 		exit;
 	}
