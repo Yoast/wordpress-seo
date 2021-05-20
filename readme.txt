@@ -243,8 +243,8 @@ Enhancements:
 * Improves keyphrase recognition in Czech by filtering out function words such as `dvou`, `tvému`, `nějaký`.
 * Improves the accuracy of passive voice detection in Portuguese.
 * Adds the missing Polish transition word `jak wiemy` (props to @jarekherisz).
-* Makes all twitter meta tags self-closing.
-* Makes the notification counter in the admin bar a closer match to the counter the sidebar.
+* Makes all twitter meta tags self-closing, for consistencies' sake and to allow pages to pass validation in some tools.
+* Improves the UX consistency between the notification counter in the admin bar and in the sidebar.
 
 = 16.3 =
 Release Date: May 18th, 2021
