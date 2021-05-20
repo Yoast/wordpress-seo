@@ -9,7 +9,7 @@ import interpolateComponents from "interpolate-components";
  */
 const AddonInstallationSuccessful = () => {
 	let text = sprintf(
-		/* translators: %s expands to Yoast */
+		/* translators: %1$s expands to Yoast, %2$s to a 'link' open tag, %2$s to a 'link' close tag. */
 		__( "Installation successful! We hope you'll enjoy %1$s SEO Premium." +
 			"You can get started by running through %2$sour configuration wizard.%3$s", "wordpress-seo" ),
 		"Yoast",
