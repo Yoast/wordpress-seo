@@ -157,3 +157,21 @@
 .yoast-schema-analysis {
 	margin-bottom: 24px;
 }
+
+/* Duration instruction */
+.yoast-schema-flex.yoast-schema-duration {
+	align-items: baseline;
+	overflow: visible;
+}
+
+.yoast-schema-flex.yoast-schema-duration p {
+	margin-top: 0;
+    white-space: pre;
+}
+
+.yoast-schema-duration .minutes-input {
+	display: inline-block;
+	max-width: 100px;
+	min-width: 40px;
+}
+
