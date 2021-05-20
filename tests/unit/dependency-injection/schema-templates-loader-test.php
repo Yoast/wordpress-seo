@@ -39,6 +39,8 @@ class Schema_Templates_Loader_Test extends TestCase {
 		$schema_directory = 'src/schema-templates/';
 
 		$expected_schema_blocks = [
+			$schema_directory . 'cooking-time.block.php',
+			$schema_directory . 'cooking-time.schema.php',
 			$schema_directory . 'image.schema.php',
 			$schema_directory . 'ingredients.block.php',
 			$schema_directory . 'ingredients.schema.php',
