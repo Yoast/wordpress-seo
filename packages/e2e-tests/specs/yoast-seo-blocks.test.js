@@ -31,4 +31,12 @@ describe( "Yoast SEO blocks", () => {
 		).not.toBeNull();
 	} );
 
+	it( "shows correctly Yoast How-to block", async () => {
+		await createNewPost( { title } );
+		await insertBlock( "Yoast How-to" );
+		expect( 
+			await page.$( '[data-type="yoast/how-to-block"]' ) 
+		).not.toBeNull();
+	} );
+
 } );
