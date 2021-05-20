@@ -108,7 +108,7 @@ class Redirects implements Integration_Interface {
 			return;
 		}
 
-		$this->redirect->do_unsafe_redirect( $redirect, 301 );
+		$this->redirect->do_safe_redirect( $redirect, 301 );
 	}
 
 	/**
