@@ -106,6 +106,7 @@ class Force_Rewrite_Title implements Integration_Interface {
 		// phpcs:ignore WordPress.WP.GlobalVariablesOverride -- The query gets reset here with the original query.
 		$GLOBALS['wp_query'] = $old_wp_query;
 
+		// phpcs:ignore WordPress.Security.EscapeOutput -- The output should already have been escaped, we are only filtering it.
 		echo $content;
 
 		return true;
