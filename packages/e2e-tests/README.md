@@ -34,4 +34,4 @@ If you want to run in non-headless mode, uncomment the ` // headless: false,` li
 ## Slow Motion
 
 If you want to slows down Puppeteer operations by a specified amount of milliseconds,
-uncomment the ` // slowMo: 30,` line in `jest.puppeteer.config.js`, and edit the `slowMo` value.
+uncomment the ` // slowMo: 100,` line in `jest.puppeteer.config.js`, and edit the `slowMo` value.
