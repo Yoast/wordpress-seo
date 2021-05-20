@@ -27,11 +27,9 @@ Make sure Docker is running on your machine and run `wp-env start` to launch the
 
 ## Configuration
 
-### Headless mode
+A configuration example is present in the [jest-puppeteer.config.js.example](jest-puppeteer.config.js.example) file.
 
-The default configuration of the packages runs the test in headless mode.
-If you want to run in non-headless mode, uncomment the ` // headless: false,` line in `jest.puppeteer.config.js`.
-## Slow Motion
+The default configuration of the packages runs the test in headless mode. If you want to run the tests in headless mode, rename the `jest-puppeteer.config.js.example` file to `jest-puppeteer.config.js`
 
-If you want to slows down Puppeteer operations by a specified amount of milliseconds,
-uncomment the ` // slowMo: 100,` line in `jest.puppeteer.config.js`, and edit the `slowMo` value.
+**Slow Motion** slows down Puppeteer operations by a specified amount of milliseconds.
+Comment the `slowMo: 100,` line in `jest.puppeteer.config.js` to disable it. You can also edit the `slowMo` value to change its behaviour.
