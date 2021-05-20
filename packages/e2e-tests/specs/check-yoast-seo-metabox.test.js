@@ -11,7 +11,7 @@ describe( "Yoast SEO plugin metabox", () => {
 		await createNewPost();
 		await page.waitForSelector( ".postbox.yoast.wpseo-metabox" );
 		const yoastSeoMetabox = await page.$x(
-		`//*[contains(@class, "postbox yoast wpseo-metabox")]`
+		`//*[contains( @class, "postbox yoast wpseo-metabox" )]`
 		);
 		expect( yoastSeoMetabox.length ).toBe( 1 );
 	} );
