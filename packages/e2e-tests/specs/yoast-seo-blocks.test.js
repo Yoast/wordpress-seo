@@ -5,7 +5,6 @@ import {
 	createNewPost,
 	trashAllPosts,
 	insertBlock,
-	getEditedPostContent
 } from "@wordpress/e2e-test-utils";
 
 describe( "Yoast SEO blocks", () => {
