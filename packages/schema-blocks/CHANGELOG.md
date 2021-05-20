@@ -5,6 +5,22 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.9.0 June 1st, 2021
+### Enhancements:
+* Provides a way to set the `tagName` that is used to render the value in the select instruction.
+* Removes the `div` as wrapping element of the value that is set in the date instruction.
+* Removes the Job Title block in favor of an input field in the Job Posting sidebar.
+* Changes `'blocks'` to `'information'` in the sidebar.
+
+### Bugfixes:
+* Fixes a bug where an attribute that only contains whitespace or empty or replaced HTML elements was considered valid.
+* Fixes a bug where an attribute containing a number value was considered invalid.
+* Removes an unwanted trailing space in the output of the `Select` block instruction.
+* Shows the ok only when the added block suggestion hasn't any validation issues.
+
+### Other:
+* Makes the Schema analysis work with the inner blocks now being placed directly within a post, instead of within an overarching Schema block.
+
 ## 1.8.0 May 17th, 2021
 ### Enhancements
 * Added `Heading` block instruction.
