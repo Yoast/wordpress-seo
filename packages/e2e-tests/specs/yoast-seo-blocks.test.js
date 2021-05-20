@@ -17,7 +17,6 @@ describe( "Yoast SEO blocks", () => {
 
 	it( "shows correctly Yoast SEO FAQ block", async () => {
 		await createNewPost( { title } );
-
 		await insertBlock( "Yoast FAQ" );
 		expect( 
 			await page.$( '[data-type="yoast/faq-block"]' ) 
@@ -26,19 +25,9 @@ describe( "Yoast SEO blocks", () => {
 
 	it( "shows correctly Yoast Breadcrumbs block", async () => {
 		await createNewPost( { title } );
-
 		await insertBlock( "Yoast Breadcrumbs" );
 		expect( 
 			await page.$( '[data-type="yoast-seo/breadcrumbs"]' ) 
-		).not.toBeNull();
-	} );
-
-	it( "shows correctly Yoast How-to block", async () => {
-		await createNewPost( { title } );
-
-		await insertBlock( "Yoast How-to" );
-		expect( 
-			await page.$( '[data-type="yoast/how-to-block"]' ) 
 		).not.toBeNull();
 	} );
 
