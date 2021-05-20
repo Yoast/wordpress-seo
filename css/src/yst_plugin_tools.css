@@ -340,6 +340,10 @@ tr.yst_row.even {
   margin: 1em 0 0.5em 0;
 }
 
+.wpseo_content_wrapper h3.h2 {
+	font-size: 1.3em;
+}
+
 .wpseo_content_wrapper p,
 .wpseo_content_wrapper li {
   max-width: 600px;
@@ -903,6 +907,10 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 .yoast-settings-section .yoast-field-group__title .yoast_help.yoast-help-link {
     margin: -6px 0 0 2px;
+}
+
+#yoast-og-default-image-select .yoast-field-group__title {
+	display: none;
 }
 
 /*# sourceMappingURL=yst_plugin_tools.css.map */

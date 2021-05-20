@@ -45,7 +45,7 @@ $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-se
 	$yform->hidden( 'og_frontpage_image', 'og_frontpage_image' );
 	$yform->hidden( 'og_frontpage_image_id', 'og_frontpage_image_id' );
 
-	echo '<h2>' . esc_html__( 'Default settings', 'wordpress-seo' ) . '</h2>';
+	echo '<h3>' . esc_html__( 'Default image', 'wordpress-seo' ) . '</h3>';
 
 	$yform->hidden( 'og_default_image', 'og_default_image' );
 	$yform->hidden( 'og_default_image_id', 'og_default_image_id' );

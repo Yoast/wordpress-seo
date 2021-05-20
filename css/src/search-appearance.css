@@ -39,6 +39,10 @@
 	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
+.collapsible-header .toggleable-container-trigger code {
+	font-weight: 300;
+}
+
 .draftJsMentionPlugin__mention__29BEd, .draftJsMentionPlugin__mention__29BEd:visited {
   color: #575f67;
   cursor: pointer;
