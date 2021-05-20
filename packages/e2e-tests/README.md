@@ -7,7 +7,7 @@ e2e-tests implementation for Yoast SEO plugin.
 ### Installation
 
 1. Start by cloning this repository: `git clone https://github.com/Yoast/wordpress-seo.git`.
-2. Checkout the e2e-tests branch by doing `git checkout feature/e2e-tests`
+2. Checkout the e2e-tests branch by doing `git checkout try/e2e-tests-package`
 3. Then move to the repository folder `cd wordpress-seo`.
 4. To install all the necessary dependencies, run the following commands:
 
