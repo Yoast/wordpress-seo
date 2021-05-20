@@ -7,8 +7,7 @@ const greyPlaceholderColor = "#707070";
 
 export const TitleInputContainer = styled( VariableEditorInputContainer )`
 	.public-DraftStyleDefault-block {
-		// Don't use properties that trigger hasLayout in IE11.
-		line-height: 24px;
+		line-height: 1.85714285; // 26px based on 14px font-size
 	}
 
 	.public-DraftEditorPlaceholder-root {
@@ -22,8 +21,8 @@ export const TitleInputContainer = styled( VariableEditorInputContainer )`
 
 export const DescriptionInputContainer = styled( VariableEditorInputContainer )`
 	min-height: 72px;
-	padding: 2px 6px;
-	line-height: 24px;
+	padding: 4px 5px;
+	line-height: 1.85714285; // 26px based on 14px font-size
 
 	.public-DraftEditorPlaceholder-root {
 		color: ${greyPlaceholderColor};
