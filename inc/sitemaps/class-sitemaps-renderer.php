@@ -135,7 +135,7 @@ class WPSEO_Sitemaps_Renderer {
 	 *
 	 * @return string
 	 */
-	public function get_output( $sitemap, $transient ) {
+	public function get_output( $sitemap ) {
 
 		$output = '<?xml version="1.0" encoding="' . esc_attr( $this->output_charset ) . '"?>';
 
