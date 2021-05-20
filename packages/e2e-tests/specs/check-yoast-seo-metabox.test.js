@@ -6,6 +6,7 @@ import {
 } from "@wordpress/e2e-test-utils";
 
 describe( "Yoast SEO plugin metabox", () => {
+
 	it( "should contains the Yoast SEO plugin metabox", async () => {
 		await createNewPost();
 		await page.waitForSelector( ".postbox.yoast.wpseo-metabox" );
@@ -14,4 +15,5 @@ describe( "Yoast SEO plugin metabox", () => {
 		);
 		expect( yoastSeoMetabox.length ).toBe( 1 );
 	} );
+
 } );
