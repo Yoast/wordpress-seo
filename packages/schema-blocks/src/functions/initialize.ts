@@ -1,12 +1,13 @@
 import "../instructions";
 import { registerBlockType } from "@wordpress/blocks";
-import { initializeSchemaBlocksStore } from "../functions/redux";
+import { initializeSchemaBlocksStore } from "./redux";
 import { WarningBlock } from "../blocks/warning-block/configuration";
 import { processBlock, processSchema } from "./process";
 import filter from "./gutenberg/filter";
 import watch from "./gutenberg/watch";
 import logger, { LogLevel } from "./logger";
 import injectSidebar from "./gutenberg/inject-sidebar";
+import extractDependencies from "./extractDependencies";
 
 /**
  * Removes all whitespace including line breaks from a string.
@@ -45,6 +46,7 @@ export function initialize( logLevel: LogLevel = LogLevel.ERROR ) {
 		try {
 			const template = removeWhitespace( this.innerHTML );
 			const definition = processSchema( template );
+			extractDependencies( definition );
 			definition.register();
 		} catch ( e ) {
 			logger.error( "Failed to parse schema-template", e, this );

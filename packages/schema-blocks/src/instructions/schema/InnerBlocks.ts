@@ -3,15 +3,17 @@ import { select } from "@wordpress/data";
 import SchemaInstruction from "../../core/schema/SchemaInstruction";
 import { schemaDefinitions, SchemaValue } from "../../core/schema/SchemaDefinition";
 import { BlockInstance } from "@wordpress/blocks";
+import { BlockPresence } from "../../core/validation";
 
 /**
  * InnerBlocks instruction.
  */
-class InnerBlocks extends SchemaInstruction {
+export default class InnerBlocks extends SchemaInstruction {
 	public options: {
 		name: string;
 		allowedBlocks?: string[];
 		onlyFirst?: boolean;
+		presence?: BlockPresence;
 	}
 
 	/**
