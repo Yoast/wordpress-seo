@@ -10,6 +10,7 @@ $yoast_seo_block_title = \sprintf( \__( '%1$s Recipe', 'wordpress-seo' ), 'Yoast
 
 $yoast_seo_block_template = [
 	[ 'yoast/recipe-name' ],
+	[ 'yoast/cooking-time' ],
 	[ 'core/image' ],
 	[ 'yoast/recipe-description' ],
 	[ 'yoast/ingredients' ],
