@@ -245,6 +245,12 @@ Enhancements:
 * Adds the missing Polish transition word `jak wiemy` (props to @jarekherisz).
 * Makes all twitter meta tags self-closing, for consistencies' sake and to allow pages to pass validation in some tools.
 * Improves the UX consistency between the notification counter in the admin bar and in the sidebar.
+* Makes the notification counter in the admin bar a closer match to the counter the sidebar.
+* Makes all twitter meta tags self-closing.
+
+Bugfixes:
+
+* Changes the function to retrieve the locale for language researcher from `get_user_locale()` to `get_locale()`
 
 = 16.3 =
 Release Date: May 18th, 2021
