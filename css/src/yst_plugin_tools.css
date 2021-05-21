@@ -193,7 +193,7 @@ tr.yst_row.even {
 }
 
 .wpseo_content_wrapper #separator {
-  margin: 1.5em 0 0.5em;
+  margin: 1em 0 0;
 }
 
 .wpseo_content_wrapper #separator input.radio {
@@ -207,7 +207,7 @@ tr.yst_row.even {
 .wpseo_content_wrapper #separator input.radio + label {
   float: left;
   width: 30px !important;
-  margin: 0 5px 0.5em 0 !important;
+  margin: 0.5em 5px 0 0 !important;
   padding: 9px 6px;
   border: 1px solid #ccc;
   /* Don't change: these mimic Google's font and font size for titles */

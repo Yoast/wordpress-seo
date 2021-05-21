@@ -43,6 +43,11 @@
 	font-weight: 300;
 }
 
+#yoast-organization-image-select .yoast-image-select,
+#yoast-organization-image-select .yoast-field-group {
+	margin-bottom: 0;
+}
+
 .draftJsMentionPlugin__mention__29BEd, .draftJsMentionPlugin__mention__29BEd:visited {
   color: #575f67;
   cursor: pointer;
