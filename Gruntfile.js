@@ -41,6 +41,7 @@ module.exports = function( grunt ) {
 			svnCheckoutDir: ".wordpress-svn",
 			assets: "svn-assets",
 			vendor: "vendor/",
+			vendorPrefixed: "vendor_prefixed/",
 		},
 		files: {
 			css: [
