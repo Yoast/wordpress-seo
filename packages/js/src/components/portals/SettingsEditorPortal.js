@@ -69,9 +69,6 @@ SettingsEditorPortal.propTypes = {
 };
 
 SettingsEditorPortal.defaultProps = {
-	replacementVariables: [],
-	recommendedReplacementVariables: {},
-	hasPaperStyle: true,
 	hasNewBadge: false,
 	isDisabled: false,
 };
