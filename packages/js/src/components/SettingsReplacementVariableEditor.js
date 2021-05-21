@@ -32,6 +32,7 @@ class SettingsReplacementVariableEditor extends Component {
 			labels,
 			descriptionPlaceholder,
 			hasNewBadge,
+			isDisabled,
 		} = this.props;
 
 		const placeholder = descriptionPlaceholder || __( "Modify your meta description by editing it right here", "wordpress-seo" );
@@ -65,6 +66,7 @@ class SettingsReplacementVariableEditor extends Component {
 					} }
 					labels={ labels }
 					hasNewBadge={ hasNewBadge }
+					isDisabled={ isDisabled }
 				/>
 			</SnippetPreviewSection>
 		);
@@ -86,11 +88,13 @@ SettingsReplacementVariableEditor.propTypes = {
 	} ),
 	descriptionPlaceholder: PropTypes.string,
 	hasNewBadge: PropTypes.bool,
+	isDisabled: PropTypes.bool,
 };
 
 SettingsReplacementVariableEditor.defaultProps = {
 	hasPaperStyle: true,
 	hasNewBadge: false,
+	isDisabled: false,
 };
 
 export default linkHiddenFields( props => {

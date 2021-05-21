@@ -27,6 +27,7 @@ function ImageSelect( props ) {
 		selectImageButtonId: props.selectImageButtonId,
 		replaceImageButtonId: props.replaceImageButtonId,
 		removeImageButtonId: props.removeImageButtonId,
+		isDisabled: props.isDisabled,
 	};
 
 	return (
@@ -40,7 +41,12 @@ function ImageSelect( props ) {
 				hasNewBadge={ props.hasNewBadge }
 			>
 				{ props.hasPreview &&
-					<button className={ imageClassName } onClick={ props.onClick } type="button">
+					<button
+						className={ imageClassName }
+						onClick={ props.onClick }
+						type="button"
+						disabled={ props.isDisabled }
+					>
 						{ previewImageUrl !== "" &&
 							<img src={ previewImageUrl } alt={ props.imageAltText } className="yoast-image-select__preview--image" />
 						}
@@ -75,6 +81,7 @@ ImageSelect.propTypes = {
 	removeImageButtonId: PropTypes.string,
 	warnings: PropTypes.arrayOf( PropTypes.string ),
 	hasNewBadge: PropTypes.bool,
+	isDisabled: PropTypes.bool,
 };
 
 ImageSelect.defaultProps = {
@@ -90,4 +97,5 @@ ImageSelect.defaultProps = {
 	removeImageButtonId: "",
 	warnings: [],
 	hasNewBadge: false,
+	isDisabled: false,
 };

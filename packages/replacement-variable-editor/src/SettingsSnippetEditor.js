@@ -125,6 +125,7 @@ class SettingsSnippetEditor extends React.Component {
 			fieldIds,
 			labels,
 			hasNewBadge,
+			isDisabled,
 		} = this.props;
 
 		const { activeField, hoveredField } = this.state;
@@ -145,6 +146,7 @@ class SettingsSnippetEditor extends React.Component {
 					fieldIds={ fieldIds }
 					labels={ labels }
 					hasNewBadge={ hasNewBadge }
+					isDisabled={ isDisabled }
 				/>
 			</ErrorBoundary>
 		);
@@ -170,6 +172,7 @@ SettingsSnippetEditor.propTypes = {
 		description: PropTypes.string,
 	} ),
 	hasNewBadge: PropTypes.bool,
+	isDisabled: PropTypes.bool,
 };
 
 SettingsSnippetEditor.defaultProps = {
@@ -179,6 +182,7 @@ SettingsSnippetEditor.defaultProps = {
 	descriptionEditorFieldPlaceholder: null,
 	labels: {},
 	hasNewBadge: false,
+	isDisabled: false,
 };
 
 export default SettingsSnippetEditor;
