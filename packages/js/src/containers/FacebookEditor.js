@@ -38,6 +38,7 @@ const selectMedia = () => {
 	openMedia( imageCallback );
 };
 
+/* eslint-disable complexity */
 export default compose( [
 	withSelect( select => {
 		const {
@@ -119,3 +120,4 @@ export default compose( [
 
 	withLocation(),
 ] )( FacebookWrapper );
+/* eslint-enable complexity */
