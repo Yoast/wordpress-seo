@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { useSelect } from "@wordpress/data";
-import { createElement, Fragment, useState } from "@wordpress/element";
+import { createElement, Fragment, useState, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { SvgIcon } from "@yoast/components";
 import { TextControl } from "@wordpress/components";
@@ -55,9 +55,9 @@ export function SchemaAnalysis( props: SchemaAnalysisProps ): ReactElement {
 	 *
 	 * @param text The new job title.
 	 */
-	const onChange = ( text: string ) => {
+	const onChange = useCallback( ( text: string ) => {
 		setJobTitle( text );
-	};
+	}, [ jobTitle ] );
 
 	return <div key={ "schema-analysis" } className={ "yoast-schema-analysis" }>
 		<LabelWithHelpLink
