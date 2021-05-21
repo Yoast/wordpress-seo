@@ -105,7 +105,7 @@ $new_tab_message         = sprintf(
 
 	<div id="extensions">
 		<section class="yoast-seo-premium-extension">
-			<h2>
+			<h2 id="yoast-heading-extensions">
 				<?php
 				printf(
 					/* translators: 1: expands to Yoast SEO Premium */

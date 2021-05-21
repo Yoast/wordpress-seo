@@ -4,7 +4,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin\Addon_Installation;
 
-use WPSEO_Admin_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin\Licenses_Page_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -52,7 +51,6 @@ class Dialog_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		add_action( 'admin_init', [ $this, 'start_addon_installation' ] );
-		add_action( 'admin_init', [ $this, 'check_addons_installed' ] );
 	}
 
 	/**
@@ -79,19 +77,6 @@ class Dialog_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Checks if all addons are installed (`activation_success` is present in the URL). If so, display a success message.
-	 *
-	 * @return void
-	 */
-	public function check_addons_installed() {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: This is not a form.
-		if ( ! isset( $_GET['activation_success'] ) || $_GET['activation_success'] !== 'true' ) {
-			return;
-		}
-			add_action( 'admin_enqueue_scripts', [ $this, 'generate_success_box' ] );
-	}
-
-	/**
 	 * Throws a no owned addons warning.
 	 *
 	 * @returns void
@@ -107,22 +92,6 @@ class Dialog_Integration implements Integration_Interface {
 				'Yoast SEO'
 			) .
 			'</p></div>';
-	}
-
-	/**
-	 * Displays success message.
-	 *
-	 * @returns void
-	 */
-	public function generate_success_box() {
-		\wp_localize_script(
-			\WPSEO_Admin_Asset_Manager::PREFIX . 'addon-installation-successful',
-			'wpseoAddonInstallationL10n',
-			[]
-		);
-
-		$asset_manager = new \WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_script( 'addon-installation-successful' );
 	}
 
 	/**
