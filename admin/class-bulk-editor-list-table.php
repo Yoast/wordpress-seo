@@ -274,8 +274,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$total_posts = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT COUNT(ID) FROM {$subquery}
-					WHERE post_status IN (" . implode( ', ', array_fill( 0, count( $states ), '%s' ) ) . ')
-				',
+					WHERE post_status IN ('" . implode( "', '", array_fill( 0, count( $states ), '%s' ) ) . "')
+				",
 				$states
 			)
 		);
@@ -376,9 +376,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				$post_types = $wpdb->get_results(
 					$wpdb->prepare(
 						"SELECT DISTINCT post_type FROM {$subquery}
-							WHERE post_status IN (" . implode( ', ', array_fill( 0, count( $states ), '%s' ) ) . ')
+							WHERE post_status IN ('" . implode( "', '", array_fill( 0, count( $states ), '%s' ) ) . "')
 							ORDER BY post_type ASC
-						',
+						",
 						$states
 					)
 				);
@@ -524,24 +524,17 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * Counting total items.
 	 *
 	 * @param string $subquery         SQL FROM part.
-	 * @param array  $all_states       SQL IN part.
+	 * @param string $all_states       SQL IN part.
 	 * @param string $post_type_clause SQL post type part.
 	 *
 	 * @return mixed
 	 */
 	protected function count_items( $subquery, $all_states, $post_type_clause ) {
 		global $wpdb;
-		$total_items = $wpdb->get_var(
-			$wpdb->prepare(
-				'SELECT COUNT(ID)
-					FROM ' . $subquery . '
-					WHERE post_status IN (' . implode( ', ', array_fill( 0, count( $all_states ), '%s' ) ) . ') ' .
-					$post_type_clause,
-				$all_states
-			)
-		);
 
-		return $total_items;
+		return $wpdb->get_var(
+			'SELECT COUNT(ID) FROM ' . $subquery . ' WHERE post_status IN (' . $all_states . ') ' . $post_type_clause
+		);
 	}
 
 	/**
@@ -688,9 +681,11 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Getting all the states.
 	 *
-	 * @return array
+	 * @return string
 	 */
 	protected function get_all_states() {
+		global $wpdb;
+
 		$states          = get_post_stati( [ 'show_in_admin_all_list' => true ] );
 		$states['trash'] = 'trash';
 
@@ -705,7 +700,10 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			}
 		}
 
-		return $all_states;
+		return $wpdb->prepare(
+			"'" . implode( "', '", array_fill( 0, count( $states ), '%s' ) ) . "'",
+			$states
+		);
 	}
 
 	/**
@@ -934,7 +932,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Getting all post_ids from to $this->items.
 	 *
-	 * @return string
+	 * @return array
 	 */
 	protected function get_post_ids() {
 		$needed_ids = [];
@@ -962,14 +960,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$where .= $wpdb->prepare( ' AND meta_key = %s', WPSEO_Meta::$meta_prefix . $this->target_db_field );
 
-		$meta_data = $wpdb->get_results(
-			"SELECT *
-				FROM {$wpdb->postmeta}
-				WHERE {$where}
-			"
-		);
-
-		return $meta_data;
+		return $wpdb->get_results( "SELECT * FROM {$wpdb->postmeta} WHERE {$where}" );
 	}
 
 	/**
