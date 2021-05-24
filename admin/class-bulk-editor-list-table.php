@@ -524,7 +524,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * Counting total items.
 	 *
 	 * @param string $subquery         SQL FROM part.
-	 * @param string $all_states       SQL IN part.
+	 * @param array  $all_states       SQL IN part.
 	 * @param string $post_type_clause SQL post type part.
 	 *
 	 * @return mixed
@@ -532,11 +532,13 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected function count_items( $subquery, $all_states, $post_type_clause ) {
 		global $wpdb;
 		$total_items = $wpdb->get_var(
-			"
-					SELECT COUNT(ID)
-					FROM {$subquery}
-					WHERE post_status IN ({$all_states}) $post_type_clause
-				"
+			$wpdb->prepare(
+				'SELECT COUNT(ID)
+					FROM ' . $subquery . '
+					WHERE post_status IN (' . implode( ', ', array_fill( 0, count( $all_states ), '%s' ) ) . ') ' .
+					$post_type_clause,
+				$all_states
+			)
 		);
 
 		return $total_items;
@@ -686,7 +688,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Getting all the states.
 	 *
-	 * @return string
+	 * @return array
 	 */
 	protected function get_all_states() {
 		$states          = get_post_stati( [ 'show_in_admin_all_list' => true ] );
@@ -702,9 +704,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				unset( $states['trash'] );
 			}
 		}
-
-		$states     = esc_sql( $states );
-		$all_states = "'" . implode( "', '", $states ) . "'";
 
 		return $all_states;
 	}
