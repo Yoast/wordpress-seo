@@ -50,7 +50,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 			global $wpdb;
 
 			$where .= $wpdb->prepare(
-				" AND {$wpdb->posts} ID IN( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = '1' ) ",
+				" AND {$wpdb->posts}.ID IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = '1' ) ",
 				WPSEO_Meta::$meta_prefix . self::META_NAME
 			);
 		}

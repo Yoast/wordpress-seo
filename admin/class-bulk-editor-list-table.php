@@ -532,8 +532,11 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected function count_items( $subquery, $all_states, $post_type_clause ) {
 		global $wpdb;
 
-		return $wpdb->get_var(
-			'SELECT COUNT(ID) FROM ' . $subquery . ' WHERE post_status IN (' . $all_states . ') ' . $post_type_clause
+		return (int) $wpdb->get_var(
+			"SELECT COUNT(ID) FROM {$subquery}
+				WHERE post_status IN ({$all_states})
+					{$post_type_clause}
+			"
 		);
 	}
 
