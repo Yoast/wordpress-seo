@@ -268,8 +268,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$status_links = [];
 
-		$states     = get_post_stati( [ 'show_in_admin_all_list' => true ] );
-
+		$states   = get_post_stati( [ 'show_in_admin_all_list' => true ] );
 		$subquery = $this->get_base_subquery();
 
 		$total_posts = $wpdb->get_var(
