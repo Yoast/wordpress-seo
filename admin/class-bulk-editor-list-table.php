@@ -955,16 +955,18 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected function get_meta_data_result( array $post_ids ) {
 		global $wpdb;
 
+		$where = $wpdb->prepare(
+			'post_id IN (' . implode( ', ', array_fill( 0, count( $post_ids ), '%d' ) ) . ')',
+			$post_ids
+		);
+
+		$where .= $wpdb->prepare( ' AND meta_key = %s', WPSEO_Meta::$meta_prefix . $this->target_db_field );
+
 		$meta_data = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT *
-					FROM {$wpdb->postmeta}
-					WHERE post_id IN(" . implode( ', ', array_fill( 0, count( $post_ids ), '%s' ) ) . ')
-					AND meta_key = %s
-				',
-				$post_ids,
-				WPSEO_Meta::$meta_prefix . $this->target_db_field
-			)
+			"SELECT *
+				FROM {$wpdb->postmeta}
+				WHERE {$where}
+			"
 		);
 
 		return $meta_data;
