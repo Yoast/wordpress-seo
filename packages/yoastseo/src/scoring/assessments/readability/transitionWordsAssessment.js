@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { map } from "lodash-es";
 
 import formatNumber from "../../../helpers/formatNumber";
@@ -51,11 +52,10 @@ const calculateScoreFromPercentage = function( percentage ) {
  *
  * @param {object} transitionWordSentences  The object containing the total number of sentences and the number of sentences containing
  *                                          a transition word.
- * @param {object} i18n                     The object used for translations.
  *
  * @returns {object} Object containing score and text.
  */
-const calculateTransitionWordResult = function( transitionWordSentences, i18n ) {
+const calculateTransitionWordResult = function( transitionWordSentences ) {
 	const percentage = calculateTransitionWordPercentage( transitionWordSentences );
 	const score = calculateScoreFromPercentage( percentage );
 	const hasMarks   = ( percentage > 0 );
@@ -66,10 +66,11 @@ const calculateTransitionWordResult = function( transitionWordSentences, i18n ) 
 		return {
 			score: formatNumber( score ),
 			hasMarks: hasMarks,
-			text: i18n.sprintf(
+			text: sprintf(
 				/* Translators: %1$s and %3$s expand to a link to yoast.com, %2$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis",
-					"%1$sTransition words%2$s: None of the sentences contain transition words. %3$sUse some%2$s."
+				__(
+					"%1$sTransition words%2$s: None of the sentences contain transition words. %3$sUse some%2$s.",
+					"wordpress-seo"
 				),
 				urlTitle,
 				"</a>",
@@ -81,11 +82,12 @@ const calculateTransitionWordResult = function( transitionWordSentences, i18n ) 
 		return {
 			score: formatNumber( score ),
 			hasMarks: hasMarks,
-			text: i18n.sprintf(
+			text: sprintf(
 				/* Translators: %1$s and %4$s expand to a link to yoast.com, %2$s expands to the anchor end tag,
 				%3$s expands to the percentage of sentences containing transition words */
-				i18n.dgettext( "js-text-analysis",
-					"%1$sTransition words%2$s: Only %3$s of the sentences contain transition words, which is not enough. %4$sUse more of them%2$s."
+				__(
+					"%1$sTransition words%2$s: Only %3$s of the sentences contain transition words, which is not enough. %4$sUse more of them%2$s.",
+					"wordpress-seo"
 				),
 				urlTitle,
 				"</a>",
@@ -97,10 +99,11 @@ const calculateTransitionWordResult = function( transitionWordSentences, i18n ) 
 	return {
 		score: formatNumber( score ),
 		hasMarks: hasMarks,
-		text: i18n.sprintf(
+		text: sprintf(
 			/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
-			i18n.dgettext( "js-text-analysis",
-				"%1$sTransition words%2$s: Well done!"
+			__(
+				"%1$sTransition words%2$s: Well done!",
+				"wordpress-seo"
 			),
 			urlTitle,
 			"</a>" ),
@@ -112,13 +115,12 @@ const calculateTransitionWordResult = function( transitionWordSentences, i18n ) 
  *
  * @param {object} paper        The paper to use for the assessment.
  * @param {object} researcher   The researcher used for calling research.
- * @param {object} i18n         The object used for translations.
  *
  * @returns {object} The Assessment result.
  */
-const transitionWordsAssessment = function( paper, researcher, i18n ) {
+const transitionWordsAssessment = function( paper, researcher ) {
 	const transitionWordSentences = researcher.getResearch( "findTransitionWords" );
-	const transitionWordResult = calculateTransitionWordResult( transitionWordSentences, i18n );
+	const transitionWordResult = calculateTransitionWordResult( transitionWordSentences );
 	const assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( transitionWordResult.score );

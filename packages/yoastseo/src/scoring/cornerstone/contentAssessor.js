@@ -19,14 +19,13 @@ import textPresence from "../assessments/readability/textPresenceAssessment.js";
 /**
  * Creates the Assessor
  *
- * @param {object} i18n The i18n object used for translations.
  * @param {Object} options The options for this assessor.
  * @param {Object} options.marker The marker to pass the list of marks to.
  *
  * @constructor
  */
-const CornerStoneContentAssessor = function( i18n, options = {} ) {
-	Assessor.call( this, i18n, options );
+const CornerStoneContentAssessor = function( options = {} ) {
+	Assessor.call( this, options );
 	this.type = "CornerstoneContentAssessor";
 
 	this._assessments = [

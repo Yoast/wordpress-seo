@@ -1,3 +1,4 @@
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { filter, flatten, map, partition, sortBy } from "lodash-es";
 
 import marker from "../../../markers/addMark";
@@ -35,11 +36,10 @@ const groupSentenceBeginnings = function( sentenceBeginnings ) {
  * Calculates the score based on sentence beginnings.
  *
  * @param {object} groupedSentenceBeginnings    The object with grouped sentence beginnings.
- * @param {object} i18n                         The object used for translations.
  *
  * @returns {{score: number, text: string, hasMarks: boolean}} result object with score and text.
  */
-const calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i18n ) {
+const calculateSentenceBeginningsResult = function( groupedSentenceBeginnings ) {
 	const urlTitle = createAnchorOpeningTag( "https://yoa.st/35f" );
 	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35g" );
 
@@ -47,16 +47,17 @@ const calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i
 		return {
 			score: 3,
 			hasMarks: true,
-			text: i18n.sprintf(
+			text: sprintf(
 				/* Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
 				%3$d expands to the number of consecutive sentences starting with the same word,
 				%4$d expands to the number of instances where 3 or more consecutive sentences start with the same word. */
-				i18n.dngettext(
-					"js-text-analysis",
+				_n(
 					"%1$sConsecutive sentences%2$s: The text contains %3$d consecutive sentences starting with the same word." +
-					" %5$sTry to mix things up%2$s!", "%1$sConsecutive sentences%2$s: The text contains %4$d instances where" +
+					" %5$sTry to mix things up%2$s!",
+					"%1$sConsecutive sentences%2$s: The text contains %4$d instances where" +
 					" %3$d or more consecutive sentences start with the same word. %5$sTry to mix things up%2$s!",
-					groupedSentenceBeginnings.total
+					groupedSentenceBeginnings.total,
+					"wordpress-seo"
 				),
 				urlTitle,
 				"</a>",
@@ -69,10 +70,12 @@ const calculateSentenceBeginningsResult = function( groupedSentenceBeginnings, i
 	return {
 		score: 9,
 		hasMarks: false,
-		text: i18n.sprintf(
+		text: sprintf(
 			/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-			i18n.dgettext( "js-text-analysis",
-				"%1$sConsecutive sentences%2$s: There is enough variety in your sentences. That's great!" ),
+			__(
+				"%1$sConsecutive sentences%2$s: There is enough variety in your sentences. That's great!",
+				"wordpress-seo"
+			),
 			urlTitle,
 			"</a>"
 		),
@@ -112,14 +115,13 @@ const sentenceBeginningMarker = function( paper, researcher ) {
  *
  * @param {object} paper        The paper to use for the assessment.
  * @param {object} researcher   The researcher used for calling research.
- * @param {object} i18n         The object used for translations.
  *
  * @returns {object} The Assessment result
  */
-const sentenceBeginningsAssessment = function( paper, researcher, i18n ) {
+const sentenceBeginningsAssessment = function( paper, researcher ) {
 	const sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
 	const groupedSentenceBeginnings = groupSentenceBeginnings( sentenceBeginnings );
-	const sentenceBeginningsResult = calculateSentenceBeginningsResult( groupedSentenceBeginnings, i18n );
+	const sentenceBeginningsResult = calculateSentenceBeginningsResult( groupedSentenceBeginnings );
 	const assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( sentenceBeginningsResult.score );

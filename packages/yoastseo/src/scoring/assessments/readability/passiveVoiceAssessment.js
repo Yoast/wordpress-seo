@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { map } from "lodash-es";
 
 import formatNumber from "../../../helpers/formatNumber";
@@ -12,11 +13,10 @@ import Mark from "../../../values/Mark";
  * Calculates the result based on the number of sentences and passives.
  *
  * @param {object} passiveVoice     The object containing the number of sentences and passives.
- * @param {object} i18n             The object used for translations.
  *
  * @returns {{score: number, text}} resultobject with score and text.
  */
-const calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
+const calculatePassiveVoiceResult = function( passiveVoice ) {
 	let score;
 	let percentage = 0;
 	const recommendedValue = 10;
@@ -49,11 +49,9 @@ const calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 		return {
 			score: score,
 			hasMarks: hasMarks,
-			text: i18n.sprintf(
+			text: sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
-				i18n.dgettext(
-					"js-text-analysis",
-					"%1$sPassive voice%2$s: You're using enough active voice. That's great!" ),
+				__( "%1$sPassive voice%2$s: You're using enough active voice. That's great!", "wordpress-seo" ),
 				urlTitle,
 				"</a>"
 			),
@@ -62,13 +60,13 @@ const calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
 	return {
 		score: score,
 		hasMarks: hasMarks,
-		text: i18n.sprintf(
+		text: sprintf(
 			/* Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
 			%3$s expands to the percentage of sentences in passive voice, %4$s expands to the recommended value. */
-			i18n.dgettext(
-				"js-text-analysis",
+			__(
 				"%1$sPassive voice%2$s: %3$s of the sentences contain passive voice, which is more than the recommended maximum of %4$s. " +
-				"%5$sTry to use their active counterparts%2$s."
+				"%5$sTry to use their active counterparts%2$s.",
+				"wordpress-seo"
 
 			),
 			urlTitle,
@@ -105,14 +103,13 @@ const passiveVoiceMarker = function( paper, researcher ) {
  *
  * @param {object} paper        The paper to use for the assessment.
  * @param {object} researcher   The researcher used for calling research.
- * @param {object} i18n         The object used for translations.
  *
  * @returns {object} the Assessmentresult
  */
-const passiveVoiceAssessment = function( paper, researcher, i18n ) {
+const passiveVoiceAssessment = function( paper, researcher ) {
 	const passiveVoice = researcher.getResearch( "getPassiveVoice" );
 
-	const passiveVoiceResult = calculatePassiveVoiceResult( passiveVoice, i18n );
+	const passiveVoiceResult = calculatePassiveVoiceResult( passiveVoice );
 
 	const assessmentResult = new AssessmentResult();
 
