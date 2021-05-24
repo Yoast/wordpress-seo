@@ -378,11 +378,10 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				$subquery = $this->get_base_subquery();
 
 				$post_types = $wpdb->get_results(
+					"SELECT DISTINCT post_type FROM {$subquery}
+						WHERE post_status IN ({$all_states})
+						ORDER BY post_type ASC
 					"
-							SELECT DISTINCT post_type FROM {$subquery}
-							WHERE post_status IN ({$all_states})
-							ORDER BY 'post_type' ASC
-						"
 				);
 
 				$post_type_filter = filter_input( INPUT_GET, 'post_type_filter' );
@@ -945,8 +944,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			$needed_ids[] = $item->ID;
 		}
 
-		$post_ids = "'" . implode( "', '", $needed_ids ) . "'";
-
 		return $post_ids;
 	}
 
@@ -957,15 +954,19 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 *
 	 * @return mixed
 	 */
-	protected function get_meta_data_result( $post_ids ) {
+	protected function get_meta_data_result( array $post_ids ) {
 		global $wpdb;
 
 		$meta_data = $wpdb->get_results(
-			"
-				 	SELECT *
-				 	FROM {$wpdb->postmeta}
-				 	WHERE post_id IN({$post_ids}) AND meta_key = '" . WPSEO_Meta::$meta_prefix . $this->target_db_field . "'
-				"
+			$wpdb->prepare(
+				"SELECT *
+					FROM {$wpdb->postmeta}
+					WHERE post_id IN(" . implode( ', ', array_fill( 0, count( $post_ids ), '%d' ) ) . ")
+					AND meta_key = %s
+				",
+				$post_ids,
+				WPSEO_Meta::$meta_prefix . $this->target_db_field
+			)
 		);
 
 		return $meta_data;
