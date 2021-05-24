@@ -269,18 +269,17 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$status_links = [];
 
 		$states     = get_post_stati( [ 'show_in_admin_all_list' => true ] );
-		$states     = esc_sql( $states );
-		$all_states = "'" . implode( "', '", $states ) . "'";
 
 		$subquery = $this->get_base_subquery();
 
 		$total_posts = $wpdb->get_var(
-			"
-					SELECT COUNT(ID) FROM {$subquery}
-					WHERE post_status IN ({$all_states})
-				"
+			$wpdb->prepare(
+				"SELECT COUNT(ID) FROM {$subquery}
+					WHERE post_status IN (" . implode( ', ', array_fill( 0, count( $states ), '%s' ) ) . ")
+				",
+				$states
+			)
 		);
-
 
 		$post_status             = filter_input( INPUT_GET, 'post_status' );
 		$current_link_attributes = empty( $post_status ) ? ' class="current" aria-current="page"' : '';
@@ -951,7 +950,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Getting the meta_data from database.
 	 *
-	 * @param arrray $post_ids Post IDs for SQL IN part.
+	 * @param array $post_ids Post IDs for SQL IN part.
 	 *
 	 * @return mixed
 	 */
