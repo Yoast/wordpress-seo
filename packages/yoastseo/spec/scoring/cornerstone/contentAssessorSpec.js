@@ -6,9 +6,6 @@ import DutchResearcher from "../../../src/languageProcessing/languages/nl/Resear
 import ContentAssessor from "../../../src/scoring/cornerstone/contentAssessor";
 import AssessmentResult from "../../../src/values/AssessmentResult";
 import Paper from "../../../src/values/Paper";
-import Factory from "../../specHelpers/factory";
-
-const i18n = Factory.buildJed();
 
 describe( "A content assessor", function() {
 	describe( "calculatePenaltyPoints", function() {
@@ -16,7 +13,7 @@ describe( "A content assessor", function() {
 		let results;
 		const paper = new Paper();
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
+			contentAssessor = new ContentAssessor( new EnglishResearcher( paper ) );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -104,7 +101,7 @@ describe( "A content assessor", function() {
 		let points, results, contentAssessor;
 
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n );
+			contentAssessor = new ContentAssessor();
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -158,7 +155,7 @@ describe( "A content assessor", function() {
 		let points, results, contentAssessor;
 
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, { researcher: new DutchResearcher() } );
+			contentAssessor = new ContentAssessor( { researcher: new DutchResearcher() } );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -195,7 +192,7 @@ describe( "A content assessor", function() {
 	describe( "Checks the applicable assessments", function() {
 		const paper = new Paper( "test" );
 		it( "Should have 8 available assessments for a fully supported language", function() {
-			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
+			const contentAssessor = new ContentAssessor( new EnglishResearcher( paper ) );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
@@ -206,7 +203,7 @@ describe( "A content assessor", function() {
 		} );
 
 		it( "Should have 4 available assessments for a basic supported language", function() {
-			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
+			const contentAssessor = new ContentAssessor( new DefaultResearcher( paper ) );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
@@ -218,7 +215,7 @@ describe( "A content assessor", function() {
 	} );
 
 	describe( "has configuration overrides", () => {
-		const assessor = new ContentAssessor( i18n );
+		const assessor = new ContentAssessor();
 
 		test( "SubheadingsDistributionTooLong", () => {
 			const assessment = assessor.getAssessment( "subheadingsTooLong" );

@@ -3,7 +3,6 @@ import SentenceLengthInTextAssessment from "../../../../src/scoring/assessments/
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
-const i18n = Factory.buildJed();
 import spanishConfig from "../../../../src/languageProcessing/languages/es/config/sentenceLength";
 import polishConfig from "../../../../src/languageProcessing/languages/pl/config/sentenceLength";
 import hebrewConfig from "../../../../src/languageProcessing/languages/he/config/sentenceLength";
@@ -25,7 +24,7 @@ describe( "An assessment for sentence length", function() {
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -38,7 +37,7 @@ describe( "An assessment for sentence length", function() {
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 30 },
 			{ sentence: "", sentenceLength: 1 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -52,7 +51,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 30 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -69,7 +68,7 @@ describe( "An assessment for sentence length", function() {
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -90,7 +89,7 @@ describe( "An assessment for sentence length", function() {
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -104,7 +103,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 16 },
-		], false, false, russianConfig ), i18n );
+		], false, false, russianConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -125,7 +124,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 26 },
-		], false, false, italianConfig ), i18n );
+		], false, false, italianConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -139,7 +138,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 24 },
-		], false, false, italianConfig ), i18n );
+		], false, false, italianConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -151,7 +150,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 26 },
-		], false, false, spanishConfig ), i18n );
+		], false, false, spanishConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -165,7 +164,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 24 },
-		], false, false, spanishConfig ), i18n );
+		], false, false, spanishConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -177,7 +176,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 26 },
-		], false, false, catalanConfig ), i18n );
+		], false, false, catalanConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -191,7 +190,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 24 },
-		], false, false, catalanConfig ), i18n );
+		], false, false, catalanConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -203,7 +202,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 19 },
-		], false, false, polishConfig.regularConfig ), i18n );
+		], false, false, polishConfig.regularConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -215,7 +214,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 21 },
-		], false, false, polishConfig.regularConfig ), i18n );
+		], false, false, polishConfig.regularConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -238,7 +237,7 @@ describe( "An assessment for sentence length", function() {
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-		], false, false, polishConfig.regularConfig ), i18n );
+		], false, false, polishConfig.regularConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -253,7 +252,7 @@ describe( "An assessment for sentence length", function() {
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-		], false, false, polishConfig.regularConfig ), i18n );
+		], false, false, polishConfig.regularConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -286,7 +285,7 @@ describe( "An assessment for sentence length", function() {
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-		], false, false, polishConfig.regularConfig ), i18n );
+		], false, false, polishConfig.regularConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -300,7 +299,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 26 },
-		], false, false, portugueseConfig ), i18n );
+		], false, false, portugueseConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -314,7 +313,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 24 },
-		], false, false, portugueseConfig ), i18n );
+		], false, false, portugueseConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -329,7 +328,7 @@ describe( "An assessment for sentence length", function() {
 			{ sentence: "", sentenceLength: 20 },
 			{ sentence: "", sentenceLength: 27 },
 			{ sentence: "", sentenceLength: 24 },
-		], false, false, portugueseConfig ), i18n );
+		], false, false, portugueseConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -341,7 +340,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 16 },
-		], false, false, hebrewConfig ), i18n );
+		], false, false, hebrewConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -358,7 +357,7 @@ describe( "An assessment for sentence length", function() {
 			{ sentence: "", sentenceLength: 15 },
 			{ sentence: "", sentenceLength: 15 },
 			{ sentence: "", sentenceLength: 15 },
-		], false, false, hebrewConfig ), i18n );
+		], false, false, hebrewConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -370,7 +369,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 14 },
-		], false, false, hebrewConfig ), i18n );
+		], false, false, hebrewConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -382,7 +381,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 14 },
-		], false, false, turkishConfig ), i18n );
+		], false, false, turkishConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -397,7 +396,7 @@ describe( "An assessment for sentence length", function() {
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-		], false, false, turkishConfig ), i18n );
+		], false, false, turkishConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -411,7 +410,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 14 },
-		], false, false, turkishConfig ), i18n );
+		], false, false, turkishConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -423,7 +422,7 @@ describe( "An assessment for sentence length", function() {
 		const mockPaper = new Paper( "text", { locale: "hu_HU" } );
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 21 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -438,7 +437,7 @@ describe( "An assessment for sentence length", function() {
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 21 },
 			{ sentence: "", sentenceLength: 13 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -455,7 +454,7 @@ describe( "An assessment for sentence length", function() {
 			{ sentence: "", sentenceLength: 20 },
 			{ sentence: "", sentenceLength: 20 },
 			{ sentence: "", sentenceLength: 20 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -468,7 +467,7 @@ describe( "An assessment for sentence length", function() {
 
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 19 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -528,7 +527,7 @@ describe( "An assessment for sentence length for cornerstone content", function(
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment( true ).getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 19 },
-		], false, false, polishConfig.cornerstoneConfig ), i18n );
+		], false, false, polishConfig.cornerstoneConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -540,7 +539,7 @@ describe( "An assessment for sentence length for cornerstone content", function(
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment( true ).getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 21 },
-		], false, false, polishConfig.cornerstoneConfig ), i18n );
+		], false, false, polishConfig.cornerstoneConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -557,7 +556,7 @@ describe( "An assessment for sentence length for cornerstone content", function(
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-		], false, false, polishConfig.cornerstoneConfig ), i18n );
+		], false, false, polishConfig.cornerstoneConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -590,7 +589,7 @@ describe( "An assessment for sentence length for cornerstone content", function(
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-		], false, false, polishConfig.cornerstoneConfig ), i18n );
+		], false, false, polishConfig.cornerstoneConfig ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -607,7 +606,7 @@ describe( "An assessment for sentence length for cornerstone content", function(
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 6 );

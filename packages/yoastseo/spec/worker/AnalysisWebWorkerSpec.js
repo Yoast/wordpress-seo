@@ -19,7 +19,6 @@ import { StructuredNode } from "../../src/parsedPaper/structure/tree";
 import testTexts from "../fullTextTests/testTexts";
 
 // Test helpers
-import Factory from "../specHelpers/factory.js";
 import TestResearch from "../specHelpers/tree/TestResearch";
 import getMorphologyData from "../specHelpers/getMorphologyData";
 import TestAssessment from "../specHelpers/tree/TestAssessment";
@@ -271,9 +270,6 @@ describe( "AnalysisWebWorker", () => {
 						},
 					},
 				} ) );
-
-				expect( worker._i18n ).toBeDefined();
-				expect( worker._i18n.gettext( "test" ) ).toBe( "1234" );
 			} );
 
 			test( "sets the locale", () => {
@@ -1512,10 +1508,8 @@ describe( "AnalysisWebWorker", () => {
 			scope = createScope();
 			worker = new AnalysisWebWorker( scope, researcher );
 
-			const i18n = Factory.buildJed();
-
 			// Build the different kinds of assessors and aggregator to use.
-			assessor = new SEOAssessor( i18n, { marker: {} } );
+			assessor = new SEOAssessor( { marker: {} } );
 			treeAssessor = worker.createSEOTreeAssessor( {} );
 			scoreAggregator = new SEOScoreAggregator();
 
