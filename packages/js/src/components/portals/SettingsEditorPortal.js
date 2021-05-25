@@ -16,6 +16,10 @@ import Portal from "./Portal";
  * @param {string} titleTarget The ID of the title field.
  * @param {string} descriptionTarget The id of the description field.
  * @param {boolean} hasPaperStyle Whether the editor should be styled as a paper.
+ * @param {object} labels The labels for the editor fields.
+ * @param {string} descriptionPlaceholder the placeholder for the description field.
+ * @param {bool} hasNewBadge Whether the editor should have a 'New' badge.
+ * @param {bool} isDisabled Whether the editor should be disabled.
  *
  * @returns {null|wp.Element} The element.
  */
@@ -29,6 +33,7 @@ export default function SettingsEditorPortal( {
 	labels,
 	descriptionPlaceholder,
 	hasNewBadge,
+	isDisabled,
 } ) {
 	return (
 		<Portal target={ target }>
@@ -41,6 +46,7 @@ export default function SettingsEditorPortal( {
 				labels={ labels }
 				descriptionPlaceholder={ descriptionPlaceholder }
 				hasNewBadge={ hasNewBadge }
+				isDisabled={ isDisabled }
 			/>
 		</Portal>
 	);
@@ -59,8 +65,10 @@ SettingsEditorPortal.propTypes = {
 	} ),
 	descriptionPlaceholder: PropTypes.string,
 	hasNewBadge: PropTypes.bool,
+	isDisabled: PropTypes.bool,
 };
 
 SettingsEditorPortal.defaultProps = {
 	hasNewBadge: false,
+	isDisabled: false,
 };

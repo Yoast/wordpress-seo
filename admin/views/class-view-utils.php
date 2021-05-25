@@ -80,10 +80,7 @@ class Yoast_View_Utils {
 			return '';
 		}
 
-		$message = $this->generate_opengraph_disabled_free_alert( $type );
-		if ( YoastSEO()->helpers->product->is_premium() ) {
-			$message = $this->generate_opengraph_disabled_premium_alert( $type );
-		}
+		$message = $this->generate_opengraph_disabled_alert_text( $type );
 
 		if ( empty( $message ) ) {
 			return '';
@@ -98,13 +95,13 @@ class Yoast_View_Utils {
 	}
 
 	/**
-	 * Generates the OpenGraph disabled alert for Free users.
+	 * Generates the OpenGraph disabled alert text.
 	 *
 	 * @param string $type The type of message. Can be altered to homepage, taxonomies or archives. Empty string by default.
 	 *
 	 * @return string The alert. Returns an empty string if the setting is enabled.
 	 */
-	private function generate_opengraph_disabled_free_alert( $type ) {
+	private function generate_opengraph_disabled_alert_text( $type ) {
 		if ( $type === 'homepage' ) {
 			return sprintf(
 				/* translators: 1: link open tag; 2: link close tag. */
@@ -117,31 +114,7 @@ class Yoast_View_Utils {
 			);
 		}
 
-		return '';
-	}
-
-	/**
-	 * Generates the OpenGraph disabled alert for Premium users.
-	 *
-	 * @param string $type The type of message. Can be altered to homepage, taxonomies or archives. Empty string by default.
-	 *
-	 * @return string The alert. Returns an empty string if the setting is enabled.
-	 */
-	private function generate_opengraph_disabled_premium_alert( $type ) {
-		if ( $type === 'homepage' ) {
-			return sprintf(
-				/* translators: 1: link open tag; 2: link close tag. */
-				esc_html__(
-					'The social appearance settings for your homepage require Open Graph metadata (which is currently disabled). You can enable this in the %1$s‘Social’ settings under the ‘Facebook’ tab%2$s.',
-					'wordpress-seo'
-				),
-				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_social#top#facebook' ) ) . '">',
-				'</a>'
-			);
-		}
-
-		$is_social_templates_enabled = defined( 'YOAST_SEO_SOCIAL_TEMPLATES' ) && YOAST_SEO_SOCIAL_TEMPLATES === true;
-		if ( ! $is_social_templates_enabled ) {
+		if ( ! YoastSEO()->helpers->product->is_premium() ) {
 			return '';
 		}
 

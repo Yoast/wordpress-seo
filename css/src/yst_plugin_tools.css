@@ -913,4 +913,26 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	display: none;
 }
 
+.yoast-settings-section.yoast-settings-section-disabled {
+  position: relative;
+  padding: 0 16px 16px;
+  border: solid 1px #cccccc;
+}
+
+.yoast-settings-section.yoast-settings-section-disabled > * {
+  opacity: 0.5;
+}
+
+.yoast-settings-section.yoast-settings-section-disabled .yoast-settings-section-upsell {
+  opacity: 1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /*# sourceMappingURL=yst_plugin_tools.css.map */
