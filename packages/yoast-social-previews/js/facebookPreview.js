@@ -1,10 +1,9 @@
 /* jshint browser: true */
 
+var { __, sprintf } = require( "@wordpress/element" );
 var isElement = require( "lodash/lang/isElement" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
-
-var Jed = require( "jed" );
 
 var imageDisplayMode = require( "./helpers/imageDisplayMode" );
 var renderDescription = require( "./helpers/renderDescription" );
@@ -99,10 +98,6 @@ var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
  * @param {Object}         opts.callbacks                     - Functions that are called on specific instances.
  * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the social preview is updated.
  *
- * @param {Object}         i18n                               - The i18n object.
- *
- * @property {Object}      i18n                               - The translation object.
- *
  * @property {HTMLElement} targetElement                      - The target element that contains this snippet editor.
  *
  * @property {Object}      element                            - The elements for this snippet editor.
@@ -129,14 +124,12 @@ var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
  *
  * @constructor
  */
-var FacebookPreview = function( opts, i18n ) {
-	this.i18n = i18n || this.constructI18n();
-
+var FacebookPreview = function( opts ) {
 	facebookDefaults.placeholder = {
-		title: this.i18n.dgettext( "yoast-social-previews", "This is an example title - edit by clicking here" ),
-		description: this.i18n.sprintf(
+		title: __( "This is an example title - edit by clicking here", "wordpress-seo" ),
+		description: sprintf(
 			/** translators: %1$s expands to facebook */
-			this.i18n.dgettext( "yoast-social-previews", "Modify your %1$s description by editing it right here" ),
+			__( "Modify your %1$s description by editing it right here", "wordpress-seo" ),
 			"facebook"
 		),
 		imageUrl: "",
@@ -154,32 +147,6 @@ var FacebookPreview = function( opts, i18n ) {
 
 	this._currentFocus = null;
 	this._currentHover = null;
-};
-
-/**
- * Initializes i18n object based on passed configuration
- *
- * @param {Object} translations - The values to translate.
- *
- * @returns {Jed} - The Jed translation object.
- */
-FacebookPreview.prototype.constructI18n = function( translations ) {
-	var defaultTranslations = {
-		domain: "yoast-social-previews",
-		/* eslint-disable camelcase */
-		locale_data: {
-		/* eslint-enable camelcase */
-			"yoast-social-previews": {
-				"": {},
-			},
-		},
-	};
-
-	translations = translations || {};
-
-	defaultsDeep( translations, defaultTranslations );
-
-	return new Jed( translations );
 };
 
 /**
@@ -211,11 +178,11 @@ FacebookPreview.prototype.renderTemplate = function() {
 		placeholder: this.opts.placeholder,
 		i18n: {
 			/** translators: %1$s expands to facebook */
-			edit: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Edit %1$s preview" ), "facebook" ),
+			edit: sprintf( __( "Edit %1$s preview", "wordpress-seo" ), "facebook" ),
 			/** translators: %1$s expands to facebook */
-			snippetPreview: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s preview" ), "facebook" ),
+			snippetPreview: sprintf( __( "%1$s preview", "wordpress-seo" ), "facebook" ),
 			/** translators: %1$s expands to facebook */
-			snippetEditor: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s editor" ), "facebook" ),
+			snippetEditor: sprintf( __( "%1$s editor", "wordpress-seo" ), "facebook" ),
 		},
 	} );
 
@@ -272,7 +239,7 @@ FacebookPreview.prototype.getFields = function() {
 			value: this.data.title,
 			placeholder: this.opts.placeholder.title,
 			/** translators: %1$s expands to facebook */
-			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s title" ), "facebook" ),
+			title: sprintf( __( "%1$s title", "wordpress-seo" ), "facebook" ),
 			labelClassName: "snippet-editor__label",
 		} ),
 		description: new TextArea( {
@@ -281,7 +248,7 @@ FacebookPreview.prototype.getFields = function() {
 			value: this.data.description,
 			placeholder: this.opts.placeholder.description,
 			/** translators: %1$s expands to facebook */
-			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s description" ), "facebook" ),
+			title: sprintf( __( "%1$s description", "wordpress-seo" ), "facebook" ),
 			labelClassName: "snippet-editor__label",
 		} ),
 		imageUrl: new TextField( {
@@ -290,7 +257,7 @@ FacebookPreview.prototype.getFields = function() {
 			value: this.data.imageUrl,
 			placeholder: this.opts.placeholder.imageUrl,
 			/** translators: %1$s expands to facebook */
-			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s image" ), "facebook" ),
+			title: sprintf( __( "%1$s image", "wordpress-seo" ), "facebook" ),
 			labelClassName: "snippet-editor__label",
 		} ),
 	};
@@ -311,9 +278,9 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.title,
 				defaultValue: this.opts.defaultValue.title,
 				placeholder: this.opts.placeholder.title,
-				fallback: this.i18n.sprintf(
+				fallback: sprintf(
 					/** translators: %1$s expands to facebook */
-					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s title by editing the snippet below." ),
+					__( "Please provide a %1$s title by editing the snippet below.", "wordpress-seo" ),
 					"facebook"
 				),
 			},
@@ -325,9 +292,9 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.description,
 				defaultValue: this.opts.defaultValue.description,
 				placeholder: this.opts.placeholder.description,
-				fallback: this.i18n.sprintf(
+				fallback: sprintf(
 					/** translators: %1$s expands to facebook */
-					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s description by editing the snippet below." ),
+					__( "Please provide a %1$s description by editing the snippet below.", "wordpress-seo" ),
 					"facebook"
 				),
 			},
@@ -454,7 +421,7 @@ FacebookPreview.prototype.noUrlSet = function() {
 
 	imagePlaceholder(
 		this.getImageContainer(),
-		this.i18n.dgettext( "yoast-social-previews", "Please select an image by clicking here" ),
+		__( "Please select an image by clicking here", "wordpress-seo" ),
 		false,
 		"facebook"
 	);
@@ -472,17 +439,20 @@ FacebookPreview.prototype.imageTooSmall = function() {
 	this.removeImageClasses();
 
 	if ( this.data.imageUrl === "" ) {
-		message = this.i18n.sprintf(
+		/* eslint-disable max-len */
+		message = sprintf(
 			/* translators: %1$s expands to facebook */
-			this.i18n.dgettext( "yoast-social-previews", "We are unable to detect an image " +
-				"in your post that is large enough to be displayed on facebook. We advise you " +
-				"to select a %1$s image that fits the recommended image size." ),
+			__(
+				"We are unable to detect an image in your post that is large enough to be displayed on facebook. We advise you to select a %1$s image that fits the recommended image size.",
+				"wordpress-seo"
+			),
 			"facebook"
 		);
+		/* eslint-enable max-len */
 	} else {
-		message = this.i18n.sprintf(
+		message = sprintf(
 			/* translators: %1$s expands to facebook */
-			this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for %1$s" ),
+			__( "The image you selected is too small for %1$s", "wordpress-seo" ),
 			"facebook"
 		);
 	}
@@ -507,7 +477,7 @@ FacebookPreview.prototype.imageError = function() {
 
 	imagePlaceholder(
 		this.getImageContainer(),
-		this.i18n.dgettext( "yoast-social-previews", "The given image url cannot be loaded" ),
+		__( "The given image url cannot be loaded", "wordpress-seo" ),
 		true,
 		"facebook"
 	);
@@ -722,7 +692,7 @@ FacebookPreview.prototype.setAuthor = function( authorName ) {
 		authorHtml = facebookAuthorTemplate(
 			{
 				authorName: authorName,
-				authorBy: this.i18n.dgettext( "yoast-social-previews", "By" ),
+				authorBy: __( "By", "wordpress-seo" ),
 			}
 		);
 	}

@@ -17,7 +17,7 @@
   "license": "GPL-3.0",
   "private": false,
   "dependencies": {
-    "@wordpress/i18n": "^1.2.3",
+    "@wordpress/i18n": "^4.1.0",
     "prop-types": "^15.7.2",
     "styled-components": "^5.2.1",
     "whatwg-fetch": "1.1.1",

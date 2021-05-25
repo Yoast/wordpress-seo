@@ -5,7 +5,7 @@
 	"dependencies": {
 		"@babel/core": "7.7.4",
 		"@svgr/webpack": "4.3.3",
-		"@wordpress/i18n": "^3.1.1",
+		"@wordpress/i18n": "^4.1.0",
 		"@yoast/analysis-report": "^1.21.0",
 		"@yoast/components": "^2.19.0",
 		"@yoast/style-guide": "^0.13.0",
@@ -33,7 +33,6 @@
 		"html-loader": "^0.5.5",
 		"html-webpack-plugin": "4.0.0-alpha.2",
 		"identity-obj-proxy": "3.0.0",
-		"jed": "^1.1.1",
 		"jest": "24.9.0",
 		"jest-pnp-resolver": "1.2.1",
 		"jest-resolve": "24.9.0",

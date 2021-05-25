@@ -37,7 +37,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@wordpress/i18n": "^1.1.0",
+    "@wordpress/i18n": "^4.1.0",
     "@yoast/replacement-variable-editor": "^1.17.0",
     "@yoast/social-metadata-forms": "^1.17.0",
     "@yoast/style-guide": "^0.13.0",

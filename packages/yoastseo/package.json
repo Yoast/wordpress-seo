@@ -63,10 +63,10 @@
   },
   "dependencies": {
     "@wordpress/autop": "^2.0.2",
+    "@wordpress/i18n": "^4.1.0",
     "@yoast/feature-flag": "^0.5.2",
     "error-polyfill": "^0.1.2",
     "htmlparser2": "^3.9.2",
-    "jed": "^1.1.0",
     "lodash-es": "^4.17.10",
     "loglevel": "^1.6.1",
     "parse5": "^5.1.0",

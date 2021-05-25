@@ -1,10 +1,8 @@
 /* jshint browser: true */
-
+var { __, sprintf } = require( "wordpress/i18n" );
 var isElement = require( "lodash/lang/isElement" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
-
-var Jed = require( "jed" );
 
 var renderDescription = require( "./helpers/renderDescription" );
 var imagePlaceholder = require( "./element/imagePlaceholder" );
@@ -92,10 +90,6 @@ var TWITTER_IMAGE_THRESHOLD_HEIGHT = 150;
  * @param {Object}         opts.callbacks                     - Functions that are called on specific instances.
  * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the social preview is updated.
  *
- * @param {Object}         i18n                               - The i18n object.
- *
- * @property {Object}      i18n                               - The translation object.
- *
  * @property {HTMLElement} targetElement                      - The target element that contains this snippet editor.
  *
  * @property {Object}      element                            - The elements for this snippet editor.
@@ -122,14 +116,12 @@ var TWITTER_IMAGE_THRESHOLD_HEIGHT = 150;
  *
  * @constructor
  */
-var TwitterPreview = function( opts, i18n ) {
-	this.i18n = i18n || this.constructI18n();
-
+var TwitterPreview = function( opts ) {
 	twitterDefaults.placeholder = {
-		title: this.i18n.dgettext( "yoast-social-previews", "This is an example title - edit by clicking here" ),
-		description: this.i18n.sprintf(
+		title: __( "This is an example title - edit by clicking here", "wordpress-seo" ),
+		description: sprintf(
 			/** translators: %1$s expands to twitter */
-			this.i18n.dgettext( "yoast-social-previews", "Modify your %1$s description by editing it right here" ),
+			__( "Modify your %1$s description by editing it right here", "wordpress-seo" ),
 			"twitter"
 		),
 		imageUrl: "",
@@ -142,37 +134,10 @@ var TwitterPreview = function( opts, i18n ) {
 	}
 
 	this.data = opts.data;
-	this.i18n = i18n || this.constructI18n();
 	this.opts = opts;
 
 	this._currentFocus = null;
 	this._currentHover = null;
-};
-
-/**
- * Initializes i18n object based on passed configuration.
- *
- * @param {Object} translations - The values to translate.
- *
- * @returns {Jed} - The Jed translation object.
- */
-TwitterPreview.prototype.constructI18n = function( translations ) {
-	var defaultTranslations = {
-		domain: "yoast-social-previews",
-		/* eslint-disable camelcase */
-		locale_data: {
-		/* eslint-enable camelcase */
-			"yoast-social-previews": {
-				"": {},
-			},
-		},
-	};
-
-	translations = translations || {};
-
-	defaultsDeep( translations, defaultTranslations );
-
-	return new Jed( translations );
 };
 
 /**
@@ -204,11 +169,11 @@ TwitterPreview.prototype.renderTemplate = function() {
 		placeholder: this.opts.placeholder,
 		i18n: {
 			/** translators: %1$s expands to twitter */
-			edit: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Edit %1$s preview" ), "twitter" ),
+			edit: sprintf( __( "Edit %1$s preview", "wordpress-seo" ), "twitter" ),
 			/** translators: %1$s expands to twitter */
-			snippetPreview: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s preview" ), "twitter" ),
+			snippetPreview: sprintf( __( "%1$s preview", "wordpress-seo" ), "twitter" ),
 			/** translators: %1$s expands to twitter */
-			snippetEditor: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s editor" ), "twitter" ),
+			snippetEditor: sprintf( __( "%1$s editor", "wordpress-seo" ), "twitter" ),
 		},
 	} );
 
@@ -264,9 +229,9 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-title",
 			value: this.data.title,
 			placeholder: this.opts.placeholder.title,
-			title: this.i18n.sprintf(
+			title: sprintf(
 				/** translators: %1$s expands to twitter */
-				this.i18n.dgettext( "yoast-social-previews", "%1$s title" ),
+				__( "%1$s title", "wordpress-seo" ),
 				"twitter"
 			),
 			labelClassName: "snippet-editor__label",
@@ -276,9 +241,9 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-description",
 			value: this.data.description,
 			placeholder: this.opts.placeholder.description,
-			title: this.i18n.sprintf(
+			title: sprintf(
 				/** translators: %1$s expands to twitter */
-				this.i18n.dgettext( "yoast-social-previews", "%1$s description" ),
+				__( "%1$s description", "wordpress-seo" ),
 				"twitter"
 			),
 			labelClassName: "snippet-editor__label",
@@ -288,9 +253,9 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-imageUrl",
 			value: this.data.imageUrl,
 			placeholder: this.opts.placeholder.imageUrl,
-			title: this.i18n.sprintf(
+			title: sprintf(
 				/** translators: %1$s expands to twitter */
-				this.i18n.dgettext( "yoast-social-previews", "%1$s image" ),
+				__( "%1$s image", "wordpress-seo" ),
 				"twitter"
 			),
 			labelClassName: "snippet-editor__label",
@@ -313,9 +278,9 @@ TwitterPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.title,
 				defaultValue: this.opts.defaultValue.title,
 				placeholder: this.opts.placeholder.title,
-				fallback: this.i18n.sprintf(
+				fallback: sprintf(
 					/** translators: %1$s expands to twitter */
-					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s title by editing the snippet below." ),
+					__( "Please provide a %1$s title by editing the snippet below.", "wordpress-seo" ),
 					"twitter"
 				),
 			},
@@ -327,9 +292,9 @@ TwitterPreview.prototype.getFieldElements = function() {
 				 currentValue: this.data.description,
 				 defaultValue: this.opts.defaultValue.description,
 				 placeholder: this.opts.placeholder.description,
-				 fallback: this.i18n.sprintf(
+				 fallback: sprintf(
 					 /** translators: %1$s expands to twitter */
-					 this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s description by editing the snippet below." ),
+					 __( "Please provide a %1$s description by editing the snippet below.", "wordpress-seo" ),
 					 "twitter"
 				 ),
 			 },

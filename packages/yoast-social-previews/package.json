@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/Yoast/yoast-social-previews#readme",
   "dependencies": {
-    "jed": "^1.1.0",
+    "@wordpress/i18n": "^4.1.0",
     "lodash": "^3.10.1",
     "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#master"
   },
