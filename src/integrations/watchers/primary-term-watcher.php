@@ -83,8 +83,8 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 * This is the place to register hooks and filters.
 	 */
 	public function register_hooks() {
-		\add_action( 'set_object_terms', [ $this, 'build_primary_terms' ], ( \PHP_INT_MAX - 500 ) );
-		\add_action( 'set_object_terms', [ $this, 'save_primary_terms' ], ( \PHP_INT_MAX - 1000 ) );
+		\add_action( 'save_post', [ $this, 'save_primary_terms' ], ( \PHP_INT_MAX - 1000 ) );
+		\add_action( 'save_post', [ $this, 'build_primary_terms' ], ( \PHP_INT_MAX - 500 ) );
 		\add_action( 'delete_post', [ $this, 'delete_primary_terms' ] );
 	}
 

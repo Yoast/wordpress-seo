@@ -92,7 +92,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_save_indexable', [ $this, 'reset_children' ], \PHP_INT_MAX, 2 );
-		\add_action( 'set_object_terms', [ $this, 'build_post_hierarchy' ], \PHP_INT_MAX, 2 );
+		\add_action( 'save_post', [ $this, 'build_post_hierarchy' ], \PHP_INT_MAX, 2 );
 	}
 
 	/**
