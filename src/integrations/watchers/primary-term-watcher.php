@@ -89,25 +89,6 @@ class Primary_Term_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Deletes primary terms for a post.
-	 *
-	 * @param int $post_id The post to delete the terms of.
-	 *
-	 * @return void
-	 */
-	public function delete_primary_terms( $post_id ) {
-		foreach ( $this->primary_term->get_primary_term_taxonomies( $post_id ) as $taxonomy ) {
-			$primary_term = $this->repository->find_by_post_id_and_taxonomy( $post_id, $taxonomy->name, false );
-
-			if ( ! $primary_term ) {
-				continue;
-			}
-
-			$primary_term->delete();
-		}
-	}
-
-	/**
 	 * Saves all selected primary terms.
 	 *
 	 * @param int $post_id Post ID to save primary terms for.
@@ -122,6 +103,22 @@ class Primary_Term_Watcher implements Integration_Interface {
 
 		foreach ( $taxonomies as $taxonomy ) {
 			$this->save_primary_term( $post_id, $taxonomy );
+		}
+	}
+
+	/**
+	 * Saves the primary term for a specific taxonomy.
+	 *
+	 * @param int      $post_id  Post ID to save primary term for.
+	 * @param \WP_Term $taxonomy Taxonomy to save primary term for.
+	 */
+	protected function save_primary_term( $post_id, $taxonomy ) {
+		$primary_term = filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term', FILTER_SANITIZE_NUMBER_INT );
+
+		// We accept an empty string here because we need to save that if no terms are selected.
+		if ( $primary_term && check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce' ) !== null ) {
+			$primary_term_object = new WPSEO_Primary_Term( $taxonomy->name, $post_id );
+			$primary_term_object->set_primary_term( $primary_term );
 		}
 	}
 
@@ -142,18 +139,21 @@ class Primary_Term_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Saves the primary term for a specific taxonomy.
+	 * Deletes primary terms for a post.
 	 *
-	 * @param int      $post_id  Post ID to save primary term for.
-	 * @param \WP_Term $taxonomy Taxonomy to save primary term for.
+	 * @param int $post_id The post to delete the terms of.
+	 *
+	 * @return void
 	 */
-	protected function save_primary_term( $post_id, $taxonomy ) {
-		$primary_term = filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term', FILTER_SANITIZE_NUMBER_INT );
+	public function delete_primary_terms( $post_id ) {
+		foreach ( $this->primary_term->get_primary_term_taxonomies( $post_id ) as $taxonomy ) {
+			$primary_term = $this->repository->find_by_post_id_and_taxonomy( $post_id, $taxonomy->name, false );
 
-		// We accept an empty string here because we need to save that if no terms are selected.
-		if ( $primary_term && check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce' ) !== null ) {
-			$primary_term_object = new WPSEO_Primary_Term( $taxonomy->name, $post_id );
-			$primary_term_object->set_primary_term( $primary_term );
+			if ( ! $primary_term ) {
+				continue;
+			}
+
+			$primary_term->delete();
 		}
 	}
 }
