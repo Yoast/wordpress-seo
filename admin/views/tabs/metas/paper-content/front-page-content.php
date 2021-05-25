@@ -30,13 +30,11 @@ else {
 		'<div
 				id="%1$s"
 				data-react-image-portal
-				data-react-image-portal-label="%2$s"
-				data-react-image-portal-target-image="%3$s"
-				data-react-image-portal-target-image-id="%4$s"
-				data-react-image-portal-has-new-badge="%5$s"
+				data-react-image-portal-target-image="%2$s"
+				data-react-image-portal-target-image-id="%3$s"
+				data-react-image-portal-has-new-badge="%4$s"
 			></div>',
 		'yoast-og-frontpage-image-select',
-		esc_html__( 'Social image', 'wordpress-seo' ),
 		'open_graph_frontpage_image',
 		'open_graph_frontpage_image_id',
 		$show_new_badge
