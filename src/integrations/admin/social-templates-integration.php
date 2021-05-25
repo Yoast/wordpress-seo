@@ -5,15 +5,14 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use WP_Taxonomy;
 use WPSEO_Admin_Editor_Specific_Replace_Vars;
 use WPSEO_Admin_Recommended_Replace_Vars;
+use WPSEO_Admin_Utils;
 use WPSEO_Replacevar_Editor;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
 use Yoast\WP\SEO\Config\Badge_Group_Names;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Form;
-use function esc_html__;
-use function esc_url;
-use function YoastSEO;
+
 
 /**
  * Class Social_Templates_Integration.
@@ -203,12 +202,12 @@ class Social_Templates_Integration implements Integration_Interface {
 		if ( ! $is_premium ) {
 			echo '<div class="yoast-settings-section-upsell">';
 
-			echo '<a class="yoast-button-upsell" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/4e0' ) ) . '" target="_blank">'
-			. esc_html__( 'Unlock with Premium', 'wordpress-seo' )
-			. '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
+			echo '<a class="yoast-button-upsell" href="' . \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/4e0' ) ) . '" target="_blank">'
+			. \esc_html__( 'Unlock with Premium', 'wordpress-seo' )
+			// phpcs:ignore WordPress.Security.EscapeOutput -- Already escapes correctly.
+			. WPSEO_Admin_Utils::get_new_tab_message()
 			. '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>'
 			. '</a>';
-
 			echo '</div>';
 		}
 
