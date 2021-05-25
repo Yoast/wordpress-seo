@@ -310,10 +310,11 @@ export class Indexation extends Component {
 	 * @returns {JSX.Element} The error alert.
 	 */
 	renderErrorAlert() {
+		/* eslint-disable max-len */
 		return <Alert type={ "error" }>
-			{ __( "Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
-				  "Please click the button again to re-start the process.", "wordpress-seo" ) }
+			{ __( "Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. Please click the button again to re-start the process.", "wordpress-seo" ) }
 		</Alert>;
+		/* eslint-enable max-len */
 	}
 
 	/**

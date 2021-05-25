@@ -15,3 +15,4 @@ import "./TextInput";
 import "./Title";
 import "./Variation";
 import "./VariationPicker";
+import "./Duration";

@@ -471,8 +471,8 @@ export default class SnippetPreview extends PureComponent {
 	 */
 	getDescription() {
 		if ( ! this.props.description ) {
-			return __( "Please provide a meta description by editing the snippet below. If you don’t, Google will " +
-				"try to find a relevant part of your post to show in the search results.", "wordpress-seo" );
+			// eslint-disable-next-line max-len
+			return __( "Please provide a meta description by editing the snippet below. If you don’t, Google will try to find a relevant part of your post to show in the search results.", "wordpress-seo" );
 		}
 
 		return truncate( this.props.description, {

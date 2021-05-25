@@ -384,7 +384,10 @@ PostDataCollector.prototype.saveScores = function( score, keyword ) {
 
 	if ( "" === keyword ) {
 		indicator.className = "na";
-		indicator.screenReaderText = __( "Enter a focus keyphrase to calculate the SEO score", "wordpress-seo" );
+		indicator.screenReaderText = __(
+			"Enter a focus keyphrase to calculate the SEO score",
+			"wordpress-seo"
+		);
 	}
 
 	updateTrafficLight( indicator );

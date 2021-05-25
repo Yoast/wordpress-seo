@@ -18,7 +18,7 @@ function getBlockByClientId( clientId: string ): BlockInstance {
  *
  * @param {string} clientId The client id of the block to remove.
  */
-function removeBlock( clientId: string ) {
+function removeBlock( clientId: string ): void {
 	dispatch( "core/block-editor" ).removeBlock( clientId );
 }
 

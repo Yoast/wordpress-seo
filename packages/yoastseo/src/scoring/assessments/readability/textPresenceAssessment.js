@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { stripFullTags as stripHTMLTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
@@ -7,11 +8,10 @@ import AssessmentResult from "../../../values/AssessmentResult";
  *
  * @param {Paper}       paper       The paper to assess.
  * @param {Researcher}  researcher  The researcher.
- * @param {Jed}         i18n        The translations object.
  *
  * @returns {AssessmentResult} The result of this assessment.
  */
-function textPresenceAssessment( paper, researcher, i18n ) {
+function textPresenceAssessment( paper, researcher ) {
 	const text = stripHTMLTags( paper.getText() );
 	const urlTitle = createAnchorOpeningTag( "https://yoa.st/35h" );
 	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35i" );
@@ -19,11 +19,13 @@ function textPresenceAssessment( paper, researcher, i18n ) {
 	if ( text.length < 50 ) {
 		const result = new AssessmentResult();
 
-		result.setText( i18n.sprintf(
+		result.setText( sprintf(
 			/* Translators: %1$s and %3$s expand to links to articles on Yoast.com,
 			%2$s expands to the anchor end tag*/
-			i18n.dgettext( "js-text-analysis",
-				"%1$sNot enough content%2$s: %3$sPlease add some content to enable a good analysis%2$s." ),
+			__(
+				"%1$sNot enough content%2$s: %3$sPlease add some content to enable a good analysis%2$s.",
+				"wordpress-seo"
+			),
 			urlTitle,
 			"</a>",
 			urlCallToAction ) );

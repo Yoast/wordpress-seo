@@ -63,7 +63,10 @@ const calculateParagraphLengthResult = function( paragraphsLength, tooLongParagr
 
 			text: sprintf(
 				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				__( "%1$sParagraph length%2$s: None of the paragraphs are too long. Great job!", "wordpress-seo" ),
+				__(
+					"%1$sParagraph length%2$s: None of the paragraphs are too long. Great job!",
+					"wordpress-seo"
+				),
 				urlTitle,
 				"</a>"
 			),

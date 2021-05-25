@@ -7,7 +7,7 @@ import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
  * Updates the store with information about whether a block is valid or why it isn't.
  * @param validations The blocks' validation results.
  */
-export default function storeBlockValidation( validations: BlockValidationResult[] ) {
+export default function storeBlockValidation( validations: BlockValidationResult[] ): void {
 	if ( validations.length < 1 ) {
 		return;
 	}

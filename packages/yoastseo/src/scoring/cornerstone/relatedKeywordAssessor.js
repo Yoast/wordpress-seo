@@ -12,14 +12,13 @@ import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphras
 /**
  * Creates the Assessor
  *
- * @param {object} i18n The i18n object used for translations.
  * @param {Object} options The options for this assessor.
  * @param {Object} options.marker The marker to pass the list of marks to.
  *
  * @constructor
  */
-const relatedKeywordAssessor = function( i18n, options ) {
-	Assessor.call( this, i18n, options );
+const relatedKeywordAssessor = function( options ) {
+	Assessor.call( this, options );
 
 	this._assessments = [
 		new IntroductionKeyword(),

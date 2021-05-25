@@ -2,12 +2,9 @@ import EnglishResearcher from "../../src/languageProcessing/languages/en/Researc
 import DefaultResearcher from "../../src/languageProcessing/languages/_default/Researcher";
 import ContentAssessor from "../../src/scoring/contentAssessor.js";
 import AssessmentResult from "../../src/values/AssessmentResult.js";
-import Factory from "../specHelpers/factory.js";
 import Paper from "../../src/values/Paper.js";
 
 import { forEach } from "lodash-es";
-
-const i18n = Factory.buildJed();
 
 describe( "A content assessor", function() {
 	describe( "calculatePenaltyPoints", function() {
@@ -15,7 +12,7 @@ describe( "A content assessor", function() {
 		let results;
 		const paper = new Paper();
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
+			contentAssessor = new ContentAssessor( new EnglishResearcher( paper ) );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -101,7 +98,7 @@ describe( "A content assessor", function() {
 		let points, results, contentAssessor;
 
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher() );
+			contentAssessor = new ContentAssessor( new EnglishResearcher() );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -155,7 +152,7 @@ describe( "A content assessor", function() {
 		let points, results, contentAssessor;
 
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher() );
+			contentAssessor = new ContentAssessor( new EnglishResearcher() );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -192,7 +189,7 @@ describe( "A content assessor", function() {
 	describe( "Checks the applicable assessments", function() {
 		it( "Should have 8 available assessments for a fully supported language", function() {
 			const paper = new Paper( "test", { locale: "en_US" } );
-			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
+			const contentAssessor = new ContentAssessor( new EnglishResearcher( paper ) );
 
 			contentAssessor.getPaper = function() {
 				return paper;
@@ -204,7 +201,7 @@ describe( "A content assessor", function() {
 
 		it( "Should have 4 available assessments for a basic supported language", function() {
 			const paper = new Paper( "test", { locale: "xx_XX" } );
-			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
+			const contentAssessor = new ContentAssessor( new DefaultResearcher( paper ) );
 
 			contentAssessor.getPaper = function() {
 				return paper;

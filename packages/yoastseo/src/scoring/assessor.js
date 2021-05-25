@@ -1,11 +1,13 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { isUndefined } from "lodash-es";
-import { isFunction } from "lodash-es";
-import { forEach } from "lodash-es";
-import { filter } from "lodash-es";
-import { map } from "lodash-es";
-import { findIndex } from "lodash-es";
-import { find } from "lodash-es";
+import {
+	isUndefined,
+	isFunction,
+	forEach,
+	filter,
+	map,
+	findIndex,
+	find,
+} from "lodash-es";
 
 import MissingArgument from "../errors/missingArgument";
 import removeDuplicateMarks from "../markers/removeDuplicateMarks";

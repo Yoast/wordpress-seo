@@ -72,7 +72,10 @@ const calculateSentenceBeginningsResult = function( groupedSentenceBeginnings ) 
 		hasMarks: false,
 		text: sprintf(
 			/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-			__( "%1$sConsecutive sentences%2$s: There is enough variety in your sentences. That's great!", "wordpress-seo" ),
+			__(
+				"%1$sConsecutive sentences%2$s: There is enough variety in your sentences. That's great!",
+				"wordpress-seo"
+			),
 			urlTitle,
 			"</a>"
 		),

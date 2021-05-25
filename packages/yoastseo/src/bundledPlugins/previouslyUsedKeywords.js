@@ -161,12 +161,11 @@ PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function( paper
  *
  * @param {Paper} paper The Paper object to assess.
  * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
  * @returns {AssessmentResult} The assessment result of the assessment
  */
-PreviouslyUsedKeyword.prototype.assess = function( paper, researcher, i18n ) {
+PreviouslyUsedKeyword.prototype.assess = function( paper, researcher ) {
 	var previouslyUsedKeywords = this.researchPreviouslyUsedKeywords( paper );
-	var previouslyUsedKeywordsResult = this.scoreAssessment( previouslyUsedKeywords, paper, i18n );
+	var previouslyUsedKeywordsResult = this.scoreAssessment( previouslyUsedKeywords, paper );
 
 	var assessmentResult =  new AssessmentResult();
 	assessmentResult.setScore( previouslyUsedKeywordsResult.score );

@@ -1,5 +1,4 @@
 import { __, sprintf } from "@wordpress/i18n";
-
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**

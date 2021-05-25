@@ -80,15 +80,18 @@ class WordPressUserSelectorSearchAppearance extends Component {
 			return null;
 		}
 
+		/* eslint-disable max-len */
 		// translators: %1$s expands to the user's name, %2$s expands to an opening anchor tag, %3$s expands to a closing anchor tag.
 		const message = sprintf(
-			__( "You have selected the user %1$s as the person this site represents. " +
-				"Their user profile information will now be used in search results. " +
-				"%2$sUpdate their profile to make sure the information is correct.%3$s", "wordpress-seo" ),
+			__(
+				"You have selected the user %1$s as the person this site represents. Their user profile information will now be used in search results. %2$sUpdate their profile to make sure the information is correct.%3$s",
+				"wordpress-seo"
+			),
 			`{{strong}}${ this.state.name }{{/strong}}`,
 			"{{authorEditLink}}",
 			"{{/authorEditLink}}"
 		);
+		/* eslint-enable max-len */
 
 		return interpolateComponents( {
 			mixedString: message,

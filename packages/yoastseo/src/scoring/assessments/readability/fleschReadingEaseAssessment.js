@@ -107,11 +107,10 @@ const calculateFleschReadingResult = function( fleschReadingScore, scoresConfig 
  *
  * @param {Paper}       paper       The paper to run this assessment on.
  * @param {Researcher}  researcher  The researcher used for the assessment.
- * @param {Object}      i18n        The i18n-object used for parsing translations.
  *
  * @returns {Object} An assessmentResult with the score and formatted text.
  */
-const getFleschReadingResult = function( paper, researcher, i18n ) {
+const getFleschReadingResult = function( paper, researcher ) {
 	const fleschReadingScore = researcher.getResearch( "getFleschReadingScore" );
 	const languageSpecificConfig = researcher.getConfig( "fleschReadingEaseScores" );
 	const defaultConfig = {
@@ -136,7 +135,7 @@ const getFleschReadingResult = function( paper, researcher, i18n ) {
 	};
 	const config = languageSpecificConfig ? languageSpecificConfig : defaultConfig;
 
-	const fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, config, i18n );
+	const fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, config );
 
 	const assessmentResult =  new AssessmentResult();
 
