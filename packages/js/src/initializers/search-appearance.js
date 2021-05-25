@@ -75,7 +75,7 @@ export default function initSearchAppearance() {
 				{ imagePortals.map( ( portal ) => {
 					return ( <ImageSelectPortal
 						key={ portal.id }
-						label={ portal.dataset.reactImagePortalLabel || __( "Social default image", "wordpress-seo" ) }
+						label={ portal.dataset.reactImagePortalLabel || __( "Social image", "wordpress-seo" ) }
 						hasPreview={ true }
 						target={ portal.id }
 						hiddenField={ portal.dataset.reactImagePortalTargetImage }

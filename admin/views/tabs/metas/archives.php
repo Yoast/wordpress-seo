@@ -16,17 +16,17 @@ require __DIR__ . '/archives/help.php';
 
 $wpseo_archives = [
 	[
-		'title'     => esc_html__( 'Author archives settings', 'wordpress-seo' ),
+		'title'     => esc_html__( 'Author archives', 'wordpress-seo' ),
 		'view_file' => 'paper-content/author-archive-settings.php',
 		'paper_id'  => 'settings-author-archives',
 	],
 	[
-		'title'     => esc_html__( 'Date archives settings', 'wordpress-seo' ),
+		'title'     => esc_html__( 'Date archives', 'wordpress-seo' ),
 		'view_file' => 'paper-content/date-archives-settings.php',
 		'paper_id'  => 'settings-date-archives',
 	],
 	[
-		'title'     => esc_html__( 'Special Pages', 'wordpress-seo' ),
+		'title'     => esc_html__( 'Special pages', 'wordpress-seo' ),
 		'view_file' => 'paper-content/special-pages.php',
 		'paper_id'  => 'settings-special-pages',
 	],
