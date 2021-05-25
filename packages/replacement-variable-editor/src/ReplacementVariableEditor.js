@@ -83,12 +83,14 @@ class ReplacementVariableEditor extends React.Component {
 			onMouseEnter,
 			onMouseLeave,
 			hasNewBadge,
+			isDisabled,
 		} = this.props;
 
 		const InputContainer = this.InputContainer;
 
 		const addVariableButton = <TriggerReplacementVariableSuggestionsButton
 			onClick={ this.triggerReplacementVariableSuggestions }
+			disabled={ isDisabled }
 		>
 			{ __( "Insert variable", "yoast-components" ) }
 		</TriggerReplacementVariableSuggestionsButton>;
@@ -108,7 +110,7 @@ class ReplacementVariableEditor extends React.Component {
 				{ addVariableButton }
 				<InputContainer
 					onClick={ onFocus }
-					isActive={ isActive }
+					isActive={ isActive && ! isDisabled }
 					isHovered={ isHovered }
 				>
 					<ReplacementVariableEditorStandalone
@@ -125,6 +127,7 @@ class ReplacementVariableEditor extends React.Component {
 							editorRef( ref );
 						} }
 						ariaLabelledBy={ this.uniqueId }
+						isDisabled={ isDisabled }
 					/>
 				</InputContainer>
 			</FormSection>
@@ -150,6 +153,7 @@ ReplacementVariableEditor.propTypes = {
 	onMouseEnter: PropTypes.func,
 	onMouseLeave: PropTypes.func,
 	hasNewBadge: PropTypes.bool,
+	isDisabled: PropTypes.bool,
 };
 
 ReplacementVariableEditor.defaultProps = {
@@ -167,6 +171,7 @@ ReplacementVariableEditor.defaultProps = {
 	onMouseEnter: () => {},
 	onMouseLeave: () => {},
 	hasNewBadge: false,
+	isDisabled: false,
 };
 
 export default ReplacementVariableEditor;

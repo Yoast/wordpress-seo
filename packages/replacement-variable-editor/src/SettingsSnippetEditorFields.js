@@ -127,6 +127,7 @@ class SettingsSnippetEditorFields extends React.Component {
 			fieldIds,
 			labels,
 			hasNewBadge,
+			isDisabled,
 		} = this.props;
 
 		return (
@@ -147,6 +148,7 @@ class SettingsSnippetEditorFields extends React.Component {
 					onChange={ content => onChange( "title", content ) }
 					fieldId={ fieldIds.title }
 					hasNewBadge={ hasNewBadge }
+					isDisabled={ isDisabled }
 				/>
 				<ReplacementVariableEditor
 					type="description"
@@ -163,6 +165,7 @@ class SettingsSnippetEditorFields extends React.Component {
 					onChange={ content => onChange( "description", content ) }
 					fieldId={ fieldIds.description }
 					hasNewBadge={ hasNewBadge }
+					isDisabled={ isDisabled }
 				/>
 			</StyledEditor>
 		);
@@ -192,6 +195,7 @@ SettingsSnippetEditorFields.propTypes = {
 		description: PropTypes.string,
 	} ),
 	hasNewBadge: PropTypes.bool,
+	isDisabled: PropTypes.bool,
 };
 
 SettingsSnippetEditorFields.defaultProps = {
@@ -202,6 +206,7 @@ SettingsSnippetEditorFields.defaultProps = {
 	descriptionEditorFieldPlaceholder: null,
 	labels: {},
 	hasNewBadge: false,
+	isDisabled: false,
 };
 
 export default SettingsSnippetEditorFields;

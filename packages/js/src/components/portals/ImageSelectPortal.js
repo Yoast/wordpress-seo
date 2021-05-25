@@ -14,6 +14,7 @@ import Portal from "./Portal";
  * @param {string} replaceImageButtonId The ID for the image replace button.
  * @param {string} removeImageButtonId  The ID for the image remove button.
  * @param {bool}   hasNewBadge          Optional. Whether the ImageSelectComponent has a 'New' badge.
+ * @param {bool}   isDisabled           Optional. Whether the ImageSelectComponent is disabled.
  *
  * @returns {null|wp.Element} The element.
  * @constructor
@@ -28,6 +29,7 @@ export default function ImageSelectPortal(
 		replaceImageButtonId,
 		removeImageButtonId,
 		hasNewBadge,
+		isDisabled,
 	} ) {
 	return (
 		<Portal target={ target }>
@@ -40,6 +42,7 @@ export default function ImageSelectPortal(
 				replaceImageButtonId={ replaceImageButtonId }
 				removeImageButtonId={ removeImageButtonId }
 				hasNewBadge={ hasNewBadge }
+				isDisabled={ isDisabled }
 			/>
 		</Portal>
 	);
@@ -55,6 +58,7 @@ ImageSelectPortal.propTypes = {
 	replaceImageButtonId: PropTypes.string,
 	removeImageButtonId: PropTypes.string,
 	hasNewBadge: PropTypes.bool,
+	isDisabled: PropTypes.bool,
 };
 
 ImageSelectPortal.defaultProps = {
@@ -63,4 +67,5 @@ ImageSelectPortal.defaultProps = {
 	replaceImageButtonId: "",
 	removeImageButtonId: "",
 	hasNewBadge: false,
+	isDisabled: false,
 };
