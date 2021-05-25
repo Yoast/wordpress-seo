@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
+use WPSEO_Meta;
+use WPSEO_Primary_Term;
 use Yoast\WP\SEO\Builders\Primary_Term_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
@@ -81,7 +83,8 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 * This is the place to register hooks and filters.
 	 */
 	public function register_hooks() {
-		\add_action( 'set_object_terms', [ $this, 'save_primary_terms' ], ( \PHP_INT_MAX - 500 ) );
+		\add_action( 'set_object_terms', [ $this, 'build_primary_terms' ], ( \PHP_INT_MAX - 500 ) );
+		\add_action( 'set_object_terms', [ $this, 'save_primary_terms' ], ( \PHP_INT_MAX - 1000 ) );
 		\add_action( 'delete_post', [ $this, 'delete_primary_terms' ] );
 	}
 
@@ -105,18 +108,52 @@ class Primary_Term_Watcher implements Integration_Interface {
 	}
 
 	/**
+	 * Saves all selected primary terms.
+	 *
+	 * @param int $post_id Post ID to save primary terms for.
+	 */
+	public function save_primary_terms( $post_id ) {
+		// Bail if this is a multisite installation and the site has been switched.
+		if ( is_multisite() && ms_is_switched() ) {
+			return;
+		}
+
+		$taxonomies = $this->primary_term->get_primary_term_taxonomies( $post_id );
+
+		foreach ( $taxonomies as $taxonomy ) {
+			$this->save_primary_term( $post_id, $taxonomy );
+		}
+	}
+
+	/**
 	 * Saves the primary terms for a post.
 	 *
 	 * @param int $post_id Post ID to save the primary terms for.
 	 *
 	 * @return void
 	 */
-	public function save_primary_terms( $post_id ) {
+	public function build_primary_terms( $post_id ) {
 		// Bail if this is a multisite installation and the site has been switched.
 		if ( $this->site->is_multisite_and_switched() ) {
 			return;
 		}
 
 		$this->primary_term_builder->build( $post_id );
+	}
+
+	/**
+	 * Saves the primary term for a specific taxonomy.
+	 *
+	 * @param int      $post_id  Post ID to save primary term for.
+	 * @param \WP_Term $taxonomy Taxonomy to save primary term for.
+	 */
+	protected function save_primary_term( $post_id, $taxonomy ) {
+		$primary_term = filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term', FILTER_SANITIZE_NUMBER_INT );
+
+		// We accept an empty string here because we need to save that if no terms are selected.
+		if ( $primary_term && check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce' ) !== null ) {
+			$primary_term_object = new WPSEO_Primary_Term( $taxonomy->name, $post_id );
+			$primary_term_object->set_primary_term( $primary_term );
+		}
 	}
 }
