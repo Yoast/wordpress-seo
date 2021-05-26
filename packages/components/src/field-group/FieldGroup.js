@@ -23,7 +23,18 @@ import PremiumBadge from "../premium-badge/PremiumBadge";
  *
  * @returns {React.Component} A div with a label, icon and optional description that renders all children.
  */
-const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children, wrapperClassName, titleClassName, hasNewBadge, hasPremiumBadge } ) => {
+const FieldGroup = ( {
+	htmlFor,
+	label,
+	linkTo,
+	linkText,
+	description,
+	children,
+	wrapperClassName,
+	titleClassName,
+	hasNewBadge,
+	hasPremiumBadge,
+} ) => {
 	const titleComponent = htmlFor
 		? <label htmlFor={ htmlFor }>{ label }</label>
 		: <b>{ label }</b>;
