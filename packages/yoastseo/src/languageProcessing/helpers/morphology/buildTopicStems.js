@@ -150,4 +150,5 @@ export {
 	collectStems,
 	TopicPhrase,
 	StemOriginalPair,
+	primeLanguageSpecificData,
 };
