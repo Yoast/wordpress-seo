@@ -140,9 +140,9 @@ const primeLanguageSpecificData = memoize( ( stemmer, functionWords ) => {
  * @returns {Object} Object with an array of stems of words in the keyphrase and an array of arrays of stems of words in the synonyms.
  */
 function collectStems( keyphrase, synonyms, stemmer, functionWords ) {
-	const collectStemsWithMorphologyData = primeLanguageSpecificData( stemmer, functionWords );
+	const collectStemsWithLanguageSpecificData = primeLanguageSpecificData( stemmer, functionWords );
 
-	return collectStemsWithMorphologyData( keyphrase, synonyms );
+	return collectStemsWithLanguageSpecificData( keyphrase, synonyms );
 }
 
 export {
