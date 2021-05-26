@@ -168,6 +168,7 @@ class Primary_Term_Watcher_Test extends TestCase {
 	 * Tests the saving of the primary terms.
 	 *
 	 * @covers ::save_primary_terms
+	 * @covers ::save_primary_term
 	 */
 	public function test_save_primary_terms() {
 		$post_id = 2;
