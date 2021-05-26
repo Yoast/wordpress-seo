@@ -100,8 +100,8 @@ class Primary_Term_Watcher_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertNotFalse( Monkey\Actions\has( 'set_object_terms', [ $this->instance, 'save_primary_terms' ] ) );
-		$this->assertNotFalse( Monkey\Actions\has( 'delete_post', [ $this->instance, 'delete_primary_terms' ] ) );
+		self::assertNotFalse( Monkey\Actions\has( 'save_post', [ $this->instance, 'save_primary_terms' ] ) );
+		self::assertNotFalse( Monkey\Actions\has( 'delete_post', [ $this->instance, 'delete_primary_terms' ] ) );
 	}
 
 	/**
@@ -170,14 +170,22 @@ class Primary_Term_Watcher_Test extends TestCase {
 	 * @covers ::save_primary_terms
 	 */
 	public function test_save_primary_terms() {
+		$post_id = 2;
+
 		$this->site
 			->expects( 'is_multisite_and_switched' )
 			->andReturnFalse();
 
+		$this->primary_term
+			->expects( 'get_primary_term_taxonomies' )
+			->once()
+			->with( $post_id )
+			->andReturn( [ (object) [ 'name' => 'category' ] ] );
+
 		$this->primary_term_builder
 			->expects( 'build' )
-			->with( 2 );
+			->with( $post_id );
 
-		$this->instance->save_primary_terms( 2 );
+		$this->instance->save_primary_terms( $post_id );
 	}
 }
