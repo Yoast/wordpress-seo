@@ -11,7 +11,7 @@ import getParentSidebar from "../blocks/getParentSidebar";
  * @param blockNames The block names to inject the sidebar into.
  * @param parents    The parent names to inject the sidebar from.
  */
-export default function injectSidebar( blockNames: string[], parents: string[] ) {
+export default function injectSidebar( blockNames: string[], parents: string[] ): void {
 	addFilter(
 		"blocks.registerBlockType",
 		"yoast/wordpress-seo/injectSidebar",

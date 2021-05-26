@@ -88,7 +88,7 @@ describe( "The warning watcher", () => {
 			} as BlockInstance,
 		];
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore -- This is mocked function, the original function does not have this method so TS complains.
 		getBlockDefinition.mockReturnValueOnce( {
 			instructions: {
@@ -147,7 +147,7 @@ describe( "The warning watcher", () => {
 			} as BlockInstance,
 		];
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore 2339 -- This is a mocked function, the original class does not have this method, so TS complains.
 		getBlockDefinition.mockReturnValue( {
 			instructions: {
@@ -227,7 +227,7 @@ describe( "The warning watcher", () => {
 			} as BlockInstance,
 		];
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore -- This is mocked function, the original function does not have this method so TS complains.
 		getBlockDefinition.mockReturnValue( null );
 

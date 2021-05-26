@@ -3,12 +3,12 @@ import {
 	Dropdown,
 	Toolbar,
 	ToolbarButton,
-	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore -- Is exported in Gutenberg.
 	ToolbarGroup,
 } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import { createElement } from "react";
+import { createElement, useCallback } from "react";
 
 import HeadingLevelIcon from "./HeadingLevelIcon";
 
@@ -24,11 +24,6 @@ interface HeadingLevelDropdownProps {
 	onChange: ( targetLevel: number ) => void;
 }
 
-interface RenderToggleProps {
-	onToggle: () => void;
-	isOpen: boolean;
-}
-
 /**
  * Dropdown for selecting a heading level (1 through 6).
  *
@@ -36,7 +31,7 @@ interface RenderToggleProps {
  *
  * @return The toolbar.
  */
-export default function HeadingLevelDropdown( { selectedLevel, onChange }: HeadingLevelDropdownProps ) {
+export default function HeadingLevelDropdown( { selectedLevel, onChange }: HeadingLevelDropdownProps ): React.ReactElement {
 	/**
 	 * Renders the toggle element.
 	 *
@@ -45,26 +40,26 @@ export default function HeadingLevelDropdown( { selectedLevel, onChange }: Headi
 	 *
 	 * @returns The rendered toggle.
 	 */
-	const renderToggle = ( { onToggle, isOpen }: RenderToggleProps ): JSX.Element => {
+	const renderToggle = useCallback( ( { onToggle, isOpen } ): JSX.Element => {
 		/**
 		 * Opens the heading dropdown when pressing the down arrow key.
 		 *
 		 * @param event The keyboard event.
 		 */
-		const openOnArrowDown = ( event: KeyboardEvent ) => {
+		const openOnArrowDown = useCallback( ( event: KeyboardEvent ) => {
 			if ( ! isOpen && event.key === "ArrowDown" ) {
 				event.preventDefault();
 				event.stopPropagation();
 				onToggle();
 			}
-		};
+		}, [ onToggle ] );
 
 		return (
 			<ToolbarButton
 				aria-expanded={ isOpen }
 				aria-haspopup="true"
 				icon={ <HeadingLevelIcon level={ selectedLevel } /> as unknown as Dashicon.Icon }
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore -- Attribute is available.
 				label={ __( "Change heading level", "yoast-schema-blocks" ) }
 				onClick={ onToggle }
@@ -73,14 +68,14 @@ export default function HeadingLevelDropdown( { selectedLevel, onChange }: Headi
 				title={ __( "Change heading level", "yoast-schema-blocks" ) }
 			/>
 		);
-	};
+	}, [] );
 
 	/**
 	 * Renders the content of the heading dropdown.
 	 *
 	 * @returns The rendered content.
 	 */
-	const renderContent = (): JSX.Element => (
+	const renderContent = useCallback( (): JSX.Element => (
 		<Toolbar
 			className="block-library-heading-level-toolbar"
 			label={ __( "Change heading level", "yoast-schema-blocks" ) }
@@ -111,11 +106,11 @@ export default function HeadingLevelDropdown( { selectedLevel, onChange }: Headi
 				} ) }
 			/>
 		</Toolbar>
-	);
+	), [] );
 
 	return (
 		<Dropdown
-			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore -- Attribute is available.
 			popoverProps={ POPOVER_PROPS }
 			renderToggle={ renderToggle }

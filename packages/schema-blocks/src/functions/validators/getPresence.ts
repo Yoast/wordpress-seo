@@ -6,7 +6,7 @@ import { InstructionOptions } from "../../core/Instruction";
  * @param options The block's options.
  * @returns The requirements converted to BlockPresence.
  */
-export function getPresence( options: InstructionOptions ) {
+export function getPresence( options: InstructionOptions ): BlockPresence {
 	if ( ! options || options.required === "undefined" ) {
 		return BlockPresence.Unknown;
 	}

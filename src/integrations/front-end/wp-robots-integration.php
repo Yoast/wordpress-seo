@@ -84,16 +84,7 @@ class WP_Robots_Integration implements Integration_Interface {
 	 * @return array The robots key-value pairs.
 	 */
 	protected function get_robots_value() {
-		global $wp_query;
-
-		$old_wp_query = $wp_query;
-		// phpcs:ignore WordPress.WP.DiscouragedFunctions.wp_reset_query_wp_reset_query -- Reason: The recommended function, wp_reset_postdata, doesn't reset wp_query.
-		\wp_reset_query();
-
 		$context = $this->context_memoizer->for_current_page();
-
-		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Reason: we have to restore the query.
-		$GLOBALS['wp_query'] = $old_wp_query;
 
 		$robots_presenter               = new Robots_Presenter();
 		$robots_presenter->presentation = $context->presentation;
@@ -156,6 +147,11 @@ class WP_Robots_Integration implements Integration_Interface {
 		}
 		if ( isset( $robots['noimageindex'] ) ) {
 			$robots['imageindex'] = null;
+
+			// max-image-preview should be to none when noimageindex is present.
+			if ( isset( $robots['max-image-preview'] ) ) {
+				$robots['max-image-preview'] = 'none';
+			}
 		}
 		if ( isset( $robots['nosnippet'] ) ) {
 			$robots['snippet'] = null;
