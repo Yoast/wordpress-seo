@@ -18,31 +18,23 @@ class SettingsSnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
 	 *
-	 * @param {Object} props                             The props for the snippet
-	 *                                                   editor.
-	 * @param {Object} props.replacementVariables        The replacement variables
-	 *                                                   for this editor.
-	 * @param {Object} props.data                        The initial editor data.
-	 * @param {string} props.keyword                     The focus keyword.
-	 * @param {string} props.data.title                  The initial title.
-	 * @param {string} props.data.slug                   The initial slug.
-	 * @param {string} props.data.description            The initial description.
-	 * @param {string} props.baseUrl                     The base URL to use for the
-	 *                                                   preview.
-	 * @param {string} props.mode                        The mode the editor should
-	 *                                                   be in.
-	 * @param {Function} props.onChange                  Called when the data
-	 *                                                   changes.
-	 * @param {Object} props.titleLengthProgress         The values for the title
-	 *                                                   length assessment.
-	 * @param {Object} props.descriptionLengthProgress   The values for the
-	 *                                                   description length
-	 *                                                   assessment.
-	 * @param {Function} props.mapDataToPreview          Function to map the editor
-	 *                                                   data to data for the preview.
-	 * @param {string} props.locale                      The locale of the page.
-	 * @param {bool}   props.hasPaperStyle               Whether or not it has paper style.
-	 * @param {bool}   props.hasNewBadge                 Optional. Whether or not it has a 'New' badge.
+	 * @param {Object}   props                           The props for the snippet editor.
+	 * @param {Object}   props.replacementVariables      The replacement variables for this editor.
+	 * @param {Object}   props.data                      The initial editor data.
+	 * @param {string}   props.keyword                   The focus keyword.
+	 * @param {string}   props.data.title                The initial title.
+	 * @param {string}   props.data.slug                 The initial slug.
+	 * @param {string}   props.data.description          The initial description.
+	 * @param {string}   props.baseUrl                   The base URL to use for the preview.
+	 * @param {string}   props.mode                      The mode the editor should be in.
+	 * @param {Function} props.onChange                  Called when the data changes.
+	 * @param {Object}   props.titleLengthProgress       The values for the title length assessment.
+	 * @param {Object}   props.descriptionLengthProgress The values for the description length assessment.
+	 * @param {Function} props.mapDataToPreview          Function to map the editor data to data for the preview.
+	 * @param {string}   props.locale                    The locale of the page.
+	 * @param {bool}     props.hasPaperStyle             Whether or not it has paper style.
+	 * @param {bool}     props.hasNewBadge               Optional. Whether or not it has a 'New' badge.
+	 * @param {bool}     props.hasPremiumBadge           Optional. Whether or not it has a 'Premium' badge.
 	 *
 	 * @returns {void}
 	 */
@@ -126,6 +118,7 @@ class SettingsSnippetEditor extends React.Component {
 			labels,
 			hasNewBadge,
 			isDisabled,
+			hasPremiumBadge,
 		} = this.props;
 
 		const { activeField, hoveredField } = this.state;
@@ -147,6 +140,7 @@ class SettingsSnippetEditor extends React.Component {
 					labels={ labels }
 					hasNewBadge={ hasNewBadge }
 					isDisabled={ isDisabled }
+					hasPremiumBadge={ hasPremiumBadge }
 				/>
 			</ErrorBoundary>
 		);
@@ -173,6 +167,7 @@ SettingsSnippetEditor.propTypes = {
 	} ),
 	hasNewBadge: PropTypes.bool,
 	isDisabled: PropTypes.bool,
+	hasPremiumBadge: PropTypes.bool,
 };
 
 SettingsSnippetEditor.defaultProps = {
@@ -183,6 +178,7 @@ SettingsSnippetEditor.defaultProps = {
 	labels: {},
 	hasNewBadge: false,
 	isDisabled: false,
+	hasPremiumBadge: false,
 };
 
 export default SettingsSnippetEditor;

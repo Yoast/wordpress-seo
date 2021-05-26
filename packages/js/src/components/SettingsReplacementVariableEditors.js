@@ -72,6 +72,7 @@ class SettingsReplacementVariableEditors extends Component {
 				reactReplacevarDescriptionPlaceholder,
 				reactReplacevarHasNewBadge,
 				reactReplacevarIsDisabled,
+				reactReplacevarHasPremiumBadge,
 			} = targetElement.dataset;
 
 			const filteredReplacementVariables = this.filterEditorSpecificReplaceVars(
@@ -97,6 +98,7 @@ class SettingsReplacementVariableEditors extends Component {
 					descriptionPlaceholder={ reactReplacevarDescriptionPlaceholder }
 					hasNewBadge={ reactReplacevarHasNewBadge === "1" }
 					isDisabled={ reactReplacevarIsDisabled === "1" }
+					hasPremiumBadge={ reactReplacevarHasPremiumBadge === "1" }
 				/>
 			);
 		} );
