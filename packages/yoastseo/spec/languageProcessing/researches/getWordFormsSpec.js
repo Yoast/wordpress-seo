@@ -7,6 +7,7 @@ import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Rese
 import FarsiResearcher from "../../../src/languageProcessing/languages/fa/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import getWordForms from "../../../src/languageProcessing/researches/getWordForms";
+import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
 import Paper from "../../../src/values/Paper";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 const morphologyDataEN = getMorphologyData( "en" );
@@ -266,6 +267,7 @@ describe( "A test for getting word forms from the text, based on the stems of a 
 		};
 		const testPaper = new Paper( testText, attributes );
 		const researcher = new ItalianResearcher( testPaper );
+		primeLanguageSpecificData.cache.clear();
 
 		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
@@ -283,6 +285,7 @@ describe( "A test for getting word forms from the text, based on the stems of a 
 		};
 		const testPaper = new Paper( "Hund och katt. Hundar och katter.", attributes );
 		const researcher = new SwedishResearcher( testPaper );
+		primeLanguageSpecificData.cache.clear();
 
 		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
@@ -300,6 +303,7 @@ describe( "A test for getting word forms from the text, based on the stems of a 
 		};
 		const testPaper = new Paper( "", attributes );
 		const researcher = new DefaultResearcher( testPaper );
+		primeLanguageSpecificData.cache.clear();
 
 		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
