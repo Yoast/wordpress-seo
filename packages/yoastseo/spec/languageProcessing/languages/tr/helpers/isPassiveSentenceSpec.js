@@ -11,8 +11,8 @@ describe( "a test for detecting passive voice in sentences", function() {
 		expect( isPassiveSentence( "O, dün buralarda görüldü." ) ).toBe( true );
 		// Passive: gönderilecek.
 		expect( isPassiveSentence( "Çocuk  yurtdışına gönderilecek." ) ).toBe( true );
-		// Passive: alındı.
-		expect( isPassiveSentence( "O sandalyeler satın alındı." ) ).toBe( true );
+		// Passive: edildi.
+		expect( isPassiveSentence( "Kıza teşekkür edildi." ) ).toBe( true );
 		// Passive: temizlendi.
 		expect( isPassiveSentence( "Camlar dün temizlendi." ) ).toBe( true );
 	} );
@@ -22,6 +22,8 @@ describe( "a test for detecting passive voice in sentences", function() {
 		expect( isPassiveSentence( "Aslında sanırım bu sayede daha az hapis cezasıyla sonuçlanır" ) ).toBe( false );
 		// Non passive: kullanmak.
 		expect( isPassiveSentence( "Sanırım konuştuğumuz aracı kullanmak için hazırım" ) ).toBe( false );
+		// Non passive: alındı.
+		expect( isPassiveSentence( "O sandalyeler satın alındı." ) ).toBe( false );
 	} );
 
 	it( "does not return passive voice if the word is found in the non-passive stems exception list", function() {
