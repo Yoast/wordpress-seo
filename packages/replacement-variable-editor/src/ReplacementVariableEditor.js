@@ -32,7 +32,7 @@ class ReplacementVariableEditor extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.uniqueId = uniqueId();
+		this.uniqueId = uniqueId( "replacement-variable-editor-field-" );
 
 		switch ( props.type ) {
 			case "description":
@@ -106,9 +106,9 @@ class ReplacementVariableEditor extends React.Component {
 					onClick={ onFocus }
 				>
 					{ label }
-					{ hasPremiumBadge && <PremiumBadge inLabel={ true } /> }
-					{ hasNewBadge && <NewBadge inLabel={ true } /> }
 				</SimulatedLabel>
+				{ hasPremiumBadge && <PremiumBadge inLabel={ true } /> }
+				{ hasNewBadge && <NewBadge inLabel={ true } /> }
 				{ addVariableButton }
 				<InputContainer
 					onClick={ onFocus }

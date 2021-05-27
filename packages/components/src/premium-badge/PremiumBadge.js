@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 /**
  * Function for the PremiumBadge component.
  *
- * @param {bool} inLabel Whether the PremiumBadge is within a Label.
+ * @param {bool} inLabel Whether the PremiumBadge is displayed close to a Label.
  *
  * @returns {React.Component} The PremiumBadge.
  */
