@@ -18,7 +18,7 @@ import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "./constants";
-import { NewBadge, SimulatedLabel } from "@yoast/components";
+import { NewBadge, SimulatedLabel, PremiumBadge } from "@yoast/components";
 
 /**
  * The replacement variable editor.
@@ -32,7 +32,7 @@ class ReplacementVariableEditor extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.uniqueId = uniqueId();
+		this.uniqueId = uniqueId( "replacement-variable-editor-field-" );
 
 		switch ( props.type ) {
 			case "description":
@@ -84,6 +84,7 @@ class ReplacementVariableEditor extends React.Component {
 			onMouseLeave,
 			hasNewBadge,
 			isDisabled,
+			hasPremiumBadge,
 		} = this.props;
 
 		const InputContainer = this.InputContainer;
@@ -105,8 +106,9 @@ class ReplacementVariableEditor extends React.Component {
 					onClick={ onFocus }
 				>
 					{ label }
-					{ hasNewBadge && <NewBadge inLabel={ true } /> }
 				</SimulatedLabel>
+				{ hasPremiumBadge && <PremiumBadge inLabel={ true } /> }
+				{ hasNewBadge && <NewBadge inLabel={ true } /> }
 				{ addVariableButton }
 				<InputContainer
 					onClick={ onFocus }
@@ -154,6 +156,7 @@ ReplacementVariableEditor.propTypes = {
 	onMouseLeave: PropTypes.func,
 	hasNewBadge: PropTypes.bool,
 	isDisabled: PropTypes.bool,
+	hasPremiumBadge: PropTypes.bool,
 };
 
 ReplacementVariableEditor.defaultProps = {
@@ -172,6 +175,7 @@ ReplacementVariableEditor.defaultProps = {
 	onMouseLeave: () => {},
 	hasNewBadge: false,
 	isDisabled: false,
+	hasPremiumBadge: false,
 };
 
 export default ReplacementVariableEditor;

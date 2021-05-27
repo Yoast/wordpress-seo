@@ -174,12 +174,14 @@ class Social_Templates_Integration implements Integration_Interface {
 				data-react-image-portal-target-image-id="%3$s"
 				data-react-image-portal-has-new-badge="%4$s"
 				data-react-image-portal-is-disabled="%5$s"
+				data-react-image-portal-has-premium-badge="%6$s"
 			></div>',
 			\esc_attr( 'yoast-social-' . $identifier . '-image-select' ),
 			\esc_attr( $image_url_field_id ),
 			\esc_attr( $image_id_field_id ),
 			\esc_attr( $is_premium && $badge_group_names->is_still_eligible_for_new_badge( $this->group ) ),
-			\esc_attr( ! $is_premium )
+			\esc_attr( ! $is_premium ),
+			\esc_attr( $is_premium )
 		);
 
 		$editor = new WPSEO_Replacevar_Editor(
@@ -195,6 +197,7 @@ class Social_Templates_Integration implements Integration_Interface {
 				'description_placeholder' => \__( 'Modify your social description by editing it right here.', 'wordpress-seo' ),
 				'has_new_badge'           => $is_premium && $badge_group_names->is_still_eligible_for_new_badge( $this->group ),
 				'is_disabled'             => ! $is_premium,
+				'has_premium_badge'       => $is_premium,
 			]
 		);
 		$editor->render();
