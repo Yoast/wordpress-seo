@@ -176,7 +176,7 @@ class Primary_Category_Quick_Edit_Watcher implements Integration_Interface {
 	 *
 	 * @param \WP_Post $post The post.
 	 */
-	protected function build_post_hierarchy( $post ) {
+	public function build_post_hierarchy( $post ) {
 		if ( $this->post_type_helper->is_excluded( $post->post_type ) ) {
 			return;
 		}
