@@ -11,6 +11,10 @@ e2e-tests implementation for Yoast SEO plugin.
 3. Checkout the e2e-tests branch by doing `git checkout try/e2e-tests-package`.
 4. To install all the necessary dependencies, run the following commands:
 
+> There are some conflicts that could happen with Puppeteer and newer versions of Node.
+> Before running the following commands, please make sure your Node version is set to 12.
+> This can be done through [nvm](https://github.com/nvm-sh/nvm), with the command `nvm use 12`.
+
 ```
 composer install
 yarn
@@ -19,7 +23,7 @@ grunt build
 
 5. Now you can start a WordPress local environment using [@wordpress/env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/).
 
-	Make sure Docker is running on your machine and run `wp-env start` to launch the enviromnment.
+Make sure Docker is running on your machine and run `wp-env start` to launch the enviromnment.
 
 6. Move to the package folder by doing `cd packages/e2e-tests`.
 
