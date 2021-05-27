@@ -37,7 +37,7 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 *
 	 * @var Primary_Term_Helper
 	 */
-	private $primary_term;
+	protected $primary_term;
 
 	/**
 	 * The primary term builder.
