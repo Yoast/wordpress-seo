@@ -19,7 +19,7 @@ grunt build
 
 5. Now you can start a WordPress local environment using [@wordpress/env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/).
 
-Make sure Docker is running on your machine and run `wp-env start` to launch the enviromnment.
+	Make sure Docker is running on your machine and run `wp-env start` to launch the enviromnment.
 
 6. Move to the package folder by doing `cd packages/e2e-tests`.
 
