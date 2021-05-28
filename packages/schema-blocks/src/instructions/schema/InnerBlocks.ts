@@ -7,7 +7,7 @@ import { BlockInstance } from "@wordpress/blocks";
 /**
  * InnerBlocks instruction.
  */
-export default class InnerBlocks extends SchemaInstruction {
+class InnerBlocks extends SchemaInstruction {
 	public options: {
 		name: string;
 		allowedBlocks?: string[];
