@@ -37,7 +37,7 @@ else {
 		'yoast-og-frontpage-image-select',
 		'open_graph_frontpage_image',
 		'open_graph_frontpage_image_id',
-		$show_new_badge
+		esc_attr( $show_new_badge )
 	);
 
 	$yform->hidden( 'open_graph_frontpage_image', 'open_graph_frontpage_image' );

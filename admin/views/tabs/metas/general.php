@@ -23,6 +23,7 @@ $wpseo_title_separator_presenter = new WPSEO_Paper_Presenter(
 		'class'       => 'search-appearance',
 	]
 );
+// phpcs:ignore WordPress.Security.EscapeOutput -- output contains HTML and we assume it's properly escape on object creation.
 echo $wpseo_title_separator_presenter->get_output();
 
 if ( get_option( 'show_on_front' ) === 'posts' ) {
@@ -43,6 +44,7 @@ $wpseo_homepage_presenter = new WPSEO_Paper_Presenter(
 		'class'       => 'search-appearance',
 	]
 );
+// phpcs:ignore WordPress.Security.EscapeOutput -- output contains HTML and we assume it's properly escape on object creation.
 echo $wpseo_homepage_presenter->get_output();
 
 $wpseo_knowledge_graph_title     = esc_html__( 'Knowledge Graph & Schema.org', 'wordpress-seo' );
@@ -57,4 +59,5 @@ $wpseo_knowledge_graph_presenter = new WPSEO_Paper_Presenter(
 		'class'       => 'search-appearance',
 	]
 );
+// phpcs:ignore WordPress.Security.EscapeOutput -- output contains HTML and we assume it's properly escape on object creation.
 echo $wpseo_knowledge_graph_presenter->get_output();
