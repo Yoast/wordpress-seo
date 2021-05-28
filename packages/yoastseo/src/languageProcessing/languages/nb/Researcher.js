@@ -27,20 +27,20 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getFleschReadingScore;
 
 		// Enable the other Norwegian readability features
-		enableFeatures( [ 'NORWEGIAN_READABILITY' ] );
+		//enableFeatures( [ 'NORWEGIAN_READABILITY' ] );
 
-		if ( isFeatureEnabled( 'NORWEGIAN_READABILITY' ) ) {
+		if ( isFeatureEnabled("norwegian-readability" ) ) {
 			Object.assign( this.config, {
 				passiveConstructionType: "morphologicalAndPeriphrastic",
-				transitionWords,
-				twoPartTransitionWords,
-				firstWordExceptions,
+				transitionWords: ["of"],
+				twoPartTransitionWords: [["of", "and"]],
+				firstWordExceptions: ["the"],
 			} );
-			Object.assign( this.helpers, {
+		/*	Object.assign( this.helpers, {
 				getSentenceParts,
 				isPassiveSentencePart,
 				isPassiveSentence,
-			} );
+			} );*/
 		} else {
 			// Delete the researches for other readability assessments when the feature is not enabled.
 			delete this.defaultResearches.findTransitionWords;
