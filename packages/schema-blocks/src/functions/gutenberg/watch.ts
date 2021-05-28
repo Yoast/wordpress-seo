@@ -9,7 +9,7 @@ import storeBlockValidation from "./storeBlockValidation";
 import logger from "../logger";
 import { isResultValidForSchema } from "../validators/validateResults";
 import { missingBlocks } from "../validators/missingBlocks";
-import { DependencyMap } from "../extractDependencies";
+import Schema from "../../instructions/schema/Schema";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -88,6 +88,11 @@ function generateSchemaForBlocks(
 		}
 
 		const definition = schemaDefinitions[ block.name ];
+
+		if ( definition ) {
+			logger.debug( `${ block.name } has the following Schema definition`, definition );
+		}
+
 		if ( shouldRenderSchema( definition, parentHasSchema ) ) {
 			renderSchema( block, definition );
 			if ( Array.isArray( block.innerBlocks ) ) {
@@ -128,37 +133,26 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 	return validations;
 }
 
-function determineSchemaRoot( rootBlocks: BlockInstance[], dependencyMap: DependencyMap ) {
-	let counts: Record<string, number> = {};
+function determineSchemaRoot( rootBlocks: BlockInstance[] ) {
+	for( const block of rootBlocks ) {
+		const definition = schemaDefinitions[ block.name ];
 
-	rootBlocks.forEach( block => {
-		const dependencies = dependencyMap.map[ block.name ];
-		if ( dependencies ) {
-			dependencies.requiredFor.forEach( dependency => {
-				if ( counts[ dependency ] ) {
-					counts[ dependency ] += 1;
-				} else {
-					counts[ dependency ] = 1;
-				}
-			} );
-			dependencies.recommendedFor.forEach( dependency => {
-				if ( counts[ dependency ] ) {
-					counts[ dependency ] += 1;
-				} else {
-					counts[ dependency ] = 1;
-				}
-			} );
+		if ( definition ) {
+			const instructions = Object.values( definition.instructions );
+			const schemaInstruction: Schema = instructions.find( instruction => instruction instanceof Schema );
+
+			const { requiredFor, recommendedFor, name } = schemaInstruction.options;
+
+			logger.debug( `${ name } is required for ${ requiredFor }` );
+			logger.debug( `${ name } is recommended for ${ recommendedFor }` );
 		}
-	} );
-	return counts;
+	}
 }
 
 /**
  * Watches Gutenberg for relevant changes.
- *
- * @param dependencyMap A map of the dependencies between the registered block / Schema definitions.
  */
-export default function watch( dependencyMap: DependencyMap ): void {
+export default function watch(): void {
 	subscribe(
 		debounce( () => {
 			if ( updatingSchema ) {
@@ -171,9 +165,7 @@ export default function watch( dependencyMap: DependencyMap ): void {
 				return;
 			}
 
-			let counts = determineSchemaRoot( rootBlocks, dependencyMap );
-
-			logger.debug( "counts", counts );
+			determineSchemaRoot( rootBlocks );
 
 			updatingSchema = true;
 			{
