@@ -8,6 +8,10 @@ import { localize } from "yoast-components";
  * @summary Media upload component.
  */
 class MediaUpload extends Component {
+	/**
+	 * The constructor.
+	 * @param {object} props The props.
+	 */
 	constructor( props ) {
 		super( props );
 
