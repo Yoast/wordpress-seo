@@ -14,8 +14,9 @@ import Alert from "../Alert";
 function ImageSelect( props ) {
 	const imageSelected = props.imageUrl !== "";
 	const previewImageUrl = props.imageUrl || props.defaultImageUrl || "";
+	const showWarnings = props.warnings.length > 0 && imageSelected;
 
-	let imageClassName = "yoast-image-select__preview";
+	let imageClassName = showWarnings ? "yoast-image-select__preview yoast-image-select__preview-has-warnings" : "yoast-image-select__preview";
 	if ( previewImageUrl === "" ) {
 		imageClassName = "yoast-image-select__preview yoast-image-select__preview--no-preview";
 	}
@@ -54,7 +55,7 @@ function ImageSelect( props ) {
 					</button>
 				}
 				{
-					props.warnings.length > 0 && imageSelected &&
+					showWarnings &&
 					props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
 						{ warning }
 					</Alert> )
