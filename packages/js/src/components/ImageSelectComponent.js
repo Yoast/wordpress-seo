@@ -161,7 +161,6 @@ class ImageSelectComponent extends Component {
 				isDisabled={ this.props.isDisabled }
 				hasPremiumBadge={ this.props.hasPremiumBadge }
 				warnings={ this.state.warnings }
-				hasImageValidation={ this.props.hasImageValidation }
 			/>
 		);
 	}
