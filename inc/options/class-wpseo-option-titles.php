@@ -405,11 +405,13 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'social-title-ptarchive-' . $pt->name
 				 *  'social-title-tax-' . $tax->name
 				 *  'social-title-author-wpseo', 'social-title-archive-wpseo'
+				 *  'open_graph_frontpage_title'
 				 */
 				case 'website_name':
 				case 'alternate_website_name':
 				case 'title-':
 				case 'social-title-':
+				case 'open_graph_frontpage_title':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 					}
@@ -463,7 +465,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'social-description-ptarchive-' . $pt->name
 				 *  'social-description-tax-' . $tax->name
 				 *  'social-description-author-wpseo', 'social-description-archive-wpseo'
-				 *  'open_graph_frontpage_desc', 'open_graph_frontpage_title'
+				 *  'open_graph_frontpage_desc'
 				 */
 				case 'metadesc-':
 				case 'bctitle-ptarchive-':
@@ -471,7 +473,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'person_name':
 				case 'social-description-':
 				case 'open_graph_frontpage_desc':
-				case 'open_graph_frontpage_title':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 					}
