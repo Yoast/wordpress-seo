@@ -119,8 +119,6 @@ export function PureBlockSuggestionsPresenter( { heading, suggestions, blockName
 								suggestedBlockName={ suggestion.name }
 							/>;
 						}
-
-						logger.debug( "No use case for block ", blockName );
 					}, this )
 				}
 			</ul>
