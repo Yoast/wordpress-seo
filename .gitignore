@@ -56,6 +56,7 @@ temp/
 .Trashes
 .env
 .svn
+.tmp
 
 ############
 ## Composer
@@ -74,23 +75,32 @@ test.sh
 /artifact.zip
 /artifact-composer/
 /coverage
+/packages/**/coverage
 /gettext.pot
 /.wordpress-svn
 /webpack-stats.json
 # Legacy, can be removed in the future.
 .recalibration.yaml
 /src/generated/
+/premium/src/generated/
 
 ############
 # Dist files
 ############
 /languages/
-/js/dist/*
 /js/vendor/*
+/js/dist/*
 /css/dist/*
+/packages/*/dist
+yarn-error.log
+coverage
+dependencies.json
+dependencies.md
+.vscode
+.idea/
+.DS_Store
 
-##############
-# JS Mono Repo
-##############
-/javascript/
-.yoast
+############
+# Temp files
+############
+/.tmp

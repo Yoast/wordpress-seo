@@ -20,7 +20,7 @@ class Migration_Error_Integration implements Integration_Interface {
 	protected $migration_status;
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -36,7 +36,7 @@ class Migration_Error_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
 		if ( $this->migration_status->get_error( 'free' ) === false ) {
@@ -52,6 +52,7 @@ class Migration_Error_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_migration_error() {
+		// phpcs:ignore WordPress.Security.EscapeOutput -- The Migration_Error_Presenter already escapes it's output.
 		echo new Migration_Error_Presenter( $this->migration_status->get_error( 'free' ) );
 	}
 }

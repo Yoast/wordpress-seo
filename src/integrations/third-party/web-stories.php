@@ -74,7 +74,7 @@ class Web_Stories implements Integration_Interface {
 	/**
 	 * Filters the meta description for stories.
 	 *
-	 * @param string                 $description The description sentence.
+	 * @param string                 $description  The description sentence.
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 * @return string The description sentence.
 	 */
@@ -94,7 +94,7 @@ class Web_Stories implements Integration_Interface {
 	 * @return string|string[] Article type.
 	 */
 	public function filter_schema_article_type( $type, $indexable ) {
-		if ( Google_Web_Stories\Story_Post_Type::POST_TYPE_SLUG !== $indexable->object_sub_type ) {
+		if ( $indexable->object_sub_type !== Google_Web_Stories\Story_Post_Type::POST_TYPE_SLUG ) {
 			return $type;
 		}
 

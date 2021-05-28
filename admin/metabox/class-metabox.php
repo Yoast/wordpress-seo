@@ -5,8 +5,8 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
 use Yoast\WP\SEO\Helpers\Input_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Meta_Fields_Presenter;
@@ -823,7 +823,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( self::is_post_overview( $pagenow ) ) {
 			$asset_manager->enqueue_style( 'edit-page' );
-			$asset_manager->enqueue_script( 'edit-page-script' );
+			$asset_manager->enqueue_script( 'edit-page' );
 
 			return;
 		}
@@ -868,9 +868,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->localize_script( $post_edit_handle, 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 		$asset_manager->localize_script( $post_edit_handle, 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
-		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
-		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
-
 		$plugins_script_data = [
 			'replaceVars' => [
 				'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
@@ -886,12 +883,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		];
 
 		$worker_script_data = [
-			'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
-			'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
+			'url'                     => YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-analysis-worker' ),
+			'dependencies'            => YoastSEO()->helpers->asset->get_dependency_urls_by_handle( 'yoast-seo-analysis-worker' ),
+			'keywords_assessment_url' => YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-used-keywords-assessment' ),
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 			// We need to make the feature flags separately available inside of the analysis web worker.
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
+
+		$alert_dismissal_action = YoastSEO()->classes->get( \Yoast\WP\SEO\Actions\Alert_Dismissal_Action::class );
+		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
 
 		$script_data = [
 			// @todo replace this translation with JavaScript translations.
@@ -905,6 +906,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'worker'                      => $worker_script_data,
 				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
 			],
+			'dismissedAlerts'  => $dismissed_alerts,
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
@@ -917,12 +919,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$asset_manager->localize_script( $post_edit_handle, 'wpseoScriptData', $script_data );
+		$asset_manager->enqueue_user_language_script();
 	}
 
 	/**
 	 * Returns post in metabox context.
 	 *
-	 * @returns WP_Post|array
+	 * @return WP_Post|array
 	 */
 	protected function get_metabox_post() {
 		if ( $this->post !== null ) {
@@ -1110,37 +1113,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string The product title.
 	 */
 	protected function get_product_title() {
-		$product_title = 'Yoast SEO';
-
-		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
-			$product_title .= ' Premium';
-		}
-
-		return $product_title;
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Outputs a tab in the Yoast SEO Metabox.
-	 *
-	 * @deprecated         12.2
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $id      CSS ID of the tab.
-	 * @param string $heading Heading for the tab.
-	 * @param string $content Content of the tab. This content should be escaped.
-	 */
-	public function do_tab( $id, $heading, $content ) {
-		_deprecated_function( __METHOD__, '12.2' );
-
-		?>
-		<div id="<?php echo esc_attr( 'wpseo_' . $id ); ?>" class="wpseotab wpseo-form <?php echo esc_attr( $id ); ?>">
-			<?php
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: deprecated function.
-			echo $content;
-			?>
-		</div>
-		<?php
+		return YoastSEO()->helpers->product->get_product_name();
 	}
 }

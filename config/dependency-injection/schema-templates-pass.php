@@ -33,6 +33,10 @@ class Schema_Templates_Pass implements CompilerPassInterface {
 	 * @param ContainerBuilder $container DI Container.
 	 */
 	public function process( ContainerBuilder $container ) {
+		if ( ! $container->hasDefinition( Schema_Blocks::class ) ) {
+			return;
+		}
+
 		$schema_blocks_definition = $container->getDefinition( Schema_Blocks::class );
 
 		foreach ( $this->schema_templates_loader->get_templates() as $template ) {

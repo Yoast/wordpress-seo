@@ -64,6 +64,11 @@ class Language_Utils_Test extends TestCase {
 		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
 
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
 		$shortlinker = new Shortlinker_Double();
 
 		Monkey\Functions\expect( 'add_query_arg' )

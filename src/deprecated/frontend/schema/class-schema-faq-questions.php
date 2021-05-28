@@ -8,9 +8,8 @@
 /**
  * Returns a question object for each question in an FAQ block.
  *
+ * @since      11.1
  * @deprecated 14.0
- *
- * @since 11.1
  */
 class WPSEO_Schema_FAQ_Questions {
 
@@ -25,8 +24,8 @@ class WPSEO_Schema_FAQ_Questions {
 	/**
 	 * WPSEO_Schema_FAQ_Questions constructor.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param array                 $data    Our schema graph.
 	 * @param WP_Block_Parser_Block $block   The FAQ block of this type.
@@ -40,8 +39,8 @@ class WPSEO_Schema_FAQ_Questions {
 	/**
 	 * Find an image based on its URL and generate a Schema object for it.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The Schema with Questions added.
 	 */
@@ -54,8 +53,8 @@ class WPSEO_Schema_FAQ_Questions {
 	/**
 	 * Generate a Question piece.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param array $question The question to generate schema for.
 	 *

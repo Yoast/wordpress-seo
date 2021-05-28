@@ -58,8 +58,8 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 		for ( $i = 0; $i < 10000; $i++ ) {
 			$post_content .= 'yoast ';
 		}
-		$this->presentation->source->post_content = $post_content;
-		$this->presentation->source->post_author  = '123';
+		$this->presentation->source->post_content           = $post_content;
+		$this->presentation->source->post_author            = '123';
 		$this->presentation->estimated_reading_time_minutes = 40;
 
 		Functions\stubs(
@@ -70,10 +70,10 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 		);
 
 		$this->assertEquals(
-			"<meta name=\"twitter:label1\" content=\"Written by\">\n"
-			. "\t<meta name=\"twitter:data1\" content=\"Agatha Christie\">\n"
-			. "\t<meta name=\"twitter:label2\" content=\"Est. reading time\">\n"
-			. "\t<meta name=\"twitter:data2\" content=\"40 minutes\">",
+			"<meta name=\"twitter:label1\" content=\"Written by\" />\n"
+			. "\t<meta name=\"twitter:data1\" content=\"Agatha Christie\" />\n"
+			. "\t<meta name=\"twitter:label2\" content=\"Est. reading time\" />\n"
+			. "\t<meta name=\"twitter:data2\" content=\"40 minutes\" />",
 			$this->instance->present()
 		);
 	}

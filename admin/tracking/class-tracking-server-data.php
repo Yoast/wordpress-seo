@@ -30,7 +30,7 @@ class WPSEO_Tracking_Server_Data implements WPSEO_Collection {
 		$server_data = [];
 
 		// Validate if the server address is a valid IP-address.
-		$ipaddress = filter_input( INPUT_SERVER, 'SERVER_ADDR', FILTER_VALIDATE_IP );
+		$ipaddress = isset( $_SERVER['SERVER_ADDR'] ) ? filter_var( wp_unslash( $_SERVER['SERVER_ADDR'] ), FILTER_VALIDATE_IP ) : '';
 		if ( $ipaddress ) {
 			$server_data['ip']       = $ipaddress;
 			$server_data['Hostname'] = gethostbyaddr( $ipaddress );

@@ -16,11 +16,11 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * Meta value object.
  *
  * @property array       $breadcrumbs                       The breadcrumbs array for the current page.
- * @property bool        $breadcrumbs_enabled               Whether breadcrumbs are enabled or not.
  * @property string      $canonical                         The canonical URL for the current page.
  * @property string      $company_name                      The company name from the Knowledge graph settings.
  * @property int         $company_logo_id                   The attachment ID for the company logo.
  * @property string      $description                       The meta description for the current page, if set.
+ * @property int         $estimated_reading_time_minutes    The estimated reading time in minutes for posts.
  * @property string      $main_schema_id                    Schema ID that points to the main Schema thing on the page, usually the webpage or article Schema piece.
  * @property string      $meta_description                  The meta description for the current page, if set.
  * @property string      $open_graph_article_author         The article:author value.
@@ -121,7 +121,7 @@ class Meta {
 		$presenters = $this->front_end->get_presenters( $this->context->page_type );
 
 		if ( $this->context->page_type === 'Date_Archive' ) {
-			$callback   = function ( $presenter ) {
+			$callback   = static function ( $presenter ) {
 				return ! \is_a( $presenter, Rel_Next_Presenter::class )
 					&& ! \is_a( $presenter, Rel_Prev_Presenter::class );
 			};

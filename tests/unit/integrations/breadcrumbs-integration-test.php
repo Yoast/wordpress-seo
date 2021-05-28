@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Mockery;
 use WPSEO_Replace_Vars;
-use Yoast\WP\SEO\Conditionals\Breadcrumbs_Enabled_Conditional;
 use Yoast\WP\SEO\Integrations\Breadcrumbs_Integration;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
@@ -62,7 +61,7 @@ class Breadcrumbs_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		$this->assertEquals( [ Breadcrumbs_Enabled_Conditional::class ], Breadcrumbs_Integration::get_conditionals() );
+		$this->assertEquals( [], Breadcrumbs_Integration::get_conditionals() );
 	}
 
 	/**

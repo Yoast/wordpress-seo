@@ -25,27 +25,27 @@ echo '<p>';
 esc_html_e( 'The settings on this page allow you to specify what the default search appearance should be for any type of content you have. You can choose which content types appear in search results and what their default description should be.', 'wordpress-seo' );
 echo '</p>';
 
-if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
-	$view_utils                   = new Yoast_View_Utils();
-	$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
-	$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+$view_utils                   = new Yoast_View_Utils();
+$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 
-	foreach ( array_values( $wpseo_post_types ) as $wpseo_post_type_index => $post_type ) {
+if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
+	foreach ( array_values( $wpseo_post_types ) as $wpseo_post_type_index => $yoast_seo_post_type ) {
 		$wpseo_post_type_presenter = new WPSEO_Paper_Presenter(
-			$post_type->labels->name,
+			$yoast_seo_post_type->labels->name,
 			__DIR__ . '/paper-content/post-type-content.php',
 			[
 				'collapsible' => true,
 				'expanded'    => ( $wpseo_post_type_index === 0 ),
-				'paper_id'    => 'settings-' . $post_type->name,
+				'paper_id'    => 'settings-' . $yoast_seo_post_type->name,
 				'view_data'   => [
-					'wpseo_post_type'              => $post_type,
+					'wpseo_post_type'              => $yoast_seo_post_type,
 					'view_utils'                   => $view_utils,
 					'recommended_replace_vars'     => $recommended_replace_vars,
 					'editor_specific_replace_vars' => $editor_specific_replace_vars,
 				],
-				'title'       => $post_type->labels->name,
-				'title_after' => ' (<code>' . esc_html( $post_type->name ) . '</code>)',
+				'title'       => $yoast_seo_post_type->labels->name,
+				'title_after' => ' (<code>' . esc_html( $yoast_seo_post_type->name ) . '</code>)',
 				'class'       => 'search-appearance',
 			]
 		);

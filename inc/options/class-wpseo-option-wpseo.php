@@ -76,6 +76,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'zapier_integration_active'                => false,
 		'zapier_subscription'                      => [],
 		'zapier_api_key'                           => '',
+		'enable_metabox_insights'                  => true,
+		'enable_link_suggestions'                  => true,
 	];
 
 	/**
@@ -140,7 +142,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	/**
 	 * Add the actions and filters for the option.
 	 *
-	 * @return \WPSEO_Option_Wpseo
 	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
 	 *       is updated early on and if so, change the call to schedule these for a later action on add/update
 	 *       instead of running them straight away.
@@ -447,12 +448,12 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	/**
 	 * Clean a given option value.
 	 *
-	 * @param array  $option_value          Old (not merged with defaults or filtered) option value to
-	 *                                      clean according to the rules for this option.
-	 * @param string $current_version       Optional. Version from which to upgrade, if not set,
-	 *                                      version specific upgrades will be disregarded.
-	 * @param array  $all_old_option_values Optional. Only used when importing old options to have
-	 *                                      access to the real old values, in contrast to the saved ones.
+	 * @param array       $option_value          Old (not merged with defaults or filtered) option value to
+	 *                                           clean according to the rules for this option.
+	 * @param string|null $current_version       Optional. Version from which to upgrade, if not set,
+	 *                                           version specific upgrades will be disregarded.
+	 * @param array|null  $all_old_option_values Optional. Only used when importing old options to have
+	 *                                           access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return array Cleaned option.
 	 */

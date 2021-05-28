@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;

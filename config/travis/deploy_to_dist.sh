@@ -29,7 +29,7 @@ lastTag=$1
 branch="master"
 mainDir=$(pwd)
 
-if [[ $lastTag =~ ^feature/* || $lastTag =~ ^release/* || $lastTag == "trunk" ]]; then
+if [[ $lastTag =~ ^feature/* || $lastTag =~ ^release/* || $lastTag =~ ^hotfix/* || $lastTag == "trunk" ]]; then
   branch=$lastTag
 fi
 
@@ -41,16 +41,20 @@ git checkout $branch 2>/dev/null || git checkout -b $branch
 cd ..
 
 # Copy the git folder with the entire history.
-cp -r ./dist-repo/.git ./artifact-composer
+cp -r ./dist-repo/.git ./artifact
+cp composer.json ./artifact
+
+# Remove the vendor directory from the artifact, composer will generate it's own autoload.
+rm -rf ./artifact/vendor
 
 # Navigate to the to be committed folder.
-cd ./artifact-composer
+cd ./artifact
 
 # Commit the files.
 git add -A
 
 # If it's a feature, release or trunk branch.
-if [[ $lastTag =~ ^feature/* || $lastTag =~ ^release/* || $lastTag == "trunk" ]]; then
+if [[ $lastTag =~ ^feature/* || $lastTag =~ ^release/* || $lastTag =~ ^hotfix/* || $lastTag == "trunk" ]]; then
   git commit --allow-empty -m "${TRAVIS_COMMIT_MESSAGE}"
 else
   git commit -m "Release ${lastTag}"

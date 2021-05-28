@@ -3,14 +3,15 @@
 namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
+use Exception;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Complete_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
@@ -72,11 +73,11 @@ class Indexing_Route_Test extends TestCase {
 	protected $indexing_complete_action;
 
 	/**
-	 * Represents the prepare indexation action.
+	 * Represents the prepare indexing action.
 	 *
-	 * @var Mockery\MockInterface|Indexable_Prepare_Indexation_Action
+	 * @var Mockery\MockInterface|Indexing_Prepare_Action
 	 */
-	protected $prepare_indexation_action;
+	protected $prepare_indexing_action;
 
 	/**
 	 * Represents the prepare indexation action.
@@ -125,7 +126,7 @@ class Indexing_Route_Test extends TestCase {
 		$this->general_indexation_action           = Mockery::mock( Indexable_General_Indexation_Action::class );
 		$this->indexable_indexing_complete_action  = Mockery::mock( Indexable_Indexing_Complete_Action::class );
 		$this->indexing_complete_action            = Mockery::mock( Indexing_Complete_Action::class );
-		$this->prepare_indexation_action           = Mockery::mock( Indexable_Prepare_Indexation_Action::class );
+		$this->prepare_indexing_action             = Mockery::mock( Indexing_Prepare_Action::class );
 		$this->post_link_indexing_action           = Mockery::mock( Post_Link_Indexing_Action::class );
 		$this->term_link_indexing_action           = Mockery::mock( Term_Link_Indexing_Action::class );
 		$this->options_helper                      = Mockery::mock( Options_Helper::class );
@@ -140,7 +141,7 @@ class Indexing_Route_Test extends TestCase {
 			$this->general_indexation_action,
 			$this->indexable_indexing_complete_action,
 			$this->indexing_complete_action,
-			$this->prepare_indexation_action,
+			$this->prepare_indexing_action,
 			$this->post_link_indexing_action,
 			$this->term_link_indexing_action,
 			$this->options_helper,
@@ -179,8 +180,8 @@ class Indexing_Route_Test extends TestCase {
 			$this->getPropertyValue( $this->instance, 'indexing_complete_action' )
 		);
 		$this->assertInstanceOf(
-			Indexable_Prepare_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'prepare_indexation_action' )
+			Indexing_Prepare_Action::class,
+			$this->getPropertyValue( $this->instance, 'prepare_indexing_action' )
 		);
 		$this->assertInstanceOf(
 			Post_Link_Indexing_Action::class,
@@ -481,7 +482,7 @@ class Indexing_Route_Test extends TestCase {
 	 * @covers ::run_indexation_action
 	 */
 	public function test_index_general_when_error_occurs() {
-		$this->general_indexation_action->expects( 'index' )->andThrow( new \Exception( 'An exception during indexing' ) );
+		$this->general_indexation_action->expects( 'index' )->andThrow( new Exception( 'An exception during indexing' ) );
 
 		$this->indexing_helper->expects( 'indexing_failed' )->withNoArgs();
 

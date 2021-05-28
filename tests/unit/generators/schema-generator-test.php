@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Replace_Vars_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
@@ -51,7 +52,7 @@ class Schema_Generator_Test extends TestCase {
 	/**
 	 * The schema id helper.
 	 *
-	 * @var ID_Helper|Mockery\MockInterface|ID_Helper
+	 * @var ID_Helper|Mockery\MockInterface
 	 */
 	protected $id;
 
@@ -86,9 +87,9 @@ class Schema_Generator_Test extends TestCase {
 	/**
 	 * Represents the replace vars.
 	 *
-	 * @var Mockery\Mock|WPSEO_Replace_Vars
+	 * @var Mockery\Mock|Replace_Vars_Helper
 	 */
-	protected $replace_vars;
+	protected $replace_vars_helper;
 
 	/**
 	 * Sets up the test.
@@ -111,11 +112,11 @@ class Schema_Generator_Test extends TestCase {
 			'language' => Mockery::mock( Language_Helper::class )->makePartial(),
 		];
 
-		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
+		$this->replace_vars_helper = Mockery::mock( Replace_Vars_Helper::class );
 
 		$this->instance = Mockery::mock(
 			Schema_Generator::class,
-			[ $helpers, $this->replace_vars ]
+			[ $helpers, $this->replace_vars_helper ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
 		$this->context = Mockery::mock(
@@ -155,9 +156,17 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->shouldReceive( 'is_prototype' )->andReturnFalse();
 		$this->context->shouldReceive( 'generate_schema_page_type' )->andReturn( 'WebPage' );
 
-		$this->context->indexable            = Mockery::mock( Indexable_Mock::class );
-		$this->context->presentation         = Mockery::mock( Indexable_Presentation::class );
-		$this->context->presentation->source = Mockery::mock();
+		$this->context->indexable                 = Mockery::mock( Indexable_Mock::class );
+		$this->context->presentation              = Mockery::mock( Indexable_Presentation::class );
+		$this->context->presentation->source      = Mockery::mock();
+		$this->context->presentation->breadcrumbs = [
+			'item' => [
+				'@type' => 'WebPage',
+				'@id'   => 'https://example.com/the-post/#breadcrumb',
+				'url'   => 'https://example.com/the-post/#breadcrumb',
+				'name'  => 'The post',
+			],
+		];
 	}
 
 	/**
@@ -171,6 +180,10 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'get_graph_pieces' )
 			->once()
 			->andReturn( [] );
+
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
 
 		$expected = [
 			'@context' => 'https://schema.org',
@@ -189,6 +202,7 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_no_blocks() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
+		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
 		Monkey\Functions\expect( 'is_single' )
 			->once()
@@ -196,13 +210,12 @@ class Schema_Generator_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->andReturnTrue();
-
-		$this->current_page
 			->expects( 'is_front_page' )
 			->andReturnTrue();
+
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
 
 		$this->context->blocks = [];
 
@@ -234,6 +247,7 @@ class Schema_Generator_Test extends TestCase {
 							'@id' => '#website',
 						],
 						'inLanguage'      => 'English',
+						'breadcrumb'      => [ '@id' => '#breadcrumb' ],
 						'potentialAction' => [
 							[
 								'@type'  => 'ReadAction',
@@ -258,6 +272,7 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_blocks() {
 		$this->stubEscapeFunctions();
+		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
@@ -270,11 +285,6 @@ class Schema_Generator_Test extends TestCase {
 			->andReturnTrue();
 
 		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->andReturnTrue();
-
-		$this->current_page
 			->expects( 'is_front_page' )
 			->andReturnTrue();
 
@@ -282,6 +292,10 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'smart_strip_tags' )
 			->times( 3 )
 			->andReturnArg( 0 );
+
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
 
 		Monkey\Actions\expectDone( 'wpseo_pre_schema_block_type_yoast/faq-block' )
 			->with( $this->context->blocks['yoast/faq-block'], $this->context );
@@ -308,6 +322,10 @@ class Schema_Generator_Test extends TestCase {
 			->once()
 			->andReturn( [] );
 
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
+
 		$yoast_schema = [
 			'@id'              => 'http://example.com/#/schema/yoast-recipe',
 			'@type'            => 'Recipe',
@@ -316,6 +334,22 @@ class Schema_Generator_Test extends TestCase {
 			],
 			'mainEntityOfPage' => [
 				'@id' => '%%main_schema_id%%',
+			],
+			'name'             => 'Recipe',
+			'recipeIngredient' => [
+				'Ingredient One',
+				'Ingredient Two',
+			],
+		];
+
+		$yoast_schema_replaced = [
+			'@id'              => 'http://example.com/#/schema/yoast-recipe',
+			'@type'            => 'Recipe',
+			'author'           => [
+				'@id' => '#author-1337',
+			],
+			'mainEntityOfPage' => [
+				'@id' => '#main',
 			],
 			'name'             => 'Recipe',
 			'recipeIngredient' => [
@@ -335,38 +369,10 @@ class Schema_Generator_Test extends TestCase {
 			],
 		];
 
-		$this->replace_vars
+		$this->replace_vars_helper
 			->expects( 'replace' )
-			->with( 'http://example.com/#/schema/yoast-recipe', $this->context->presentation->source )
-			->andReturnArg( 0 );
-
-		$this->replace_vars
-			->expects( 'replace' )
-			->with( 'Recipe', $this->context->presentation->source )
-			->twice()
-			->andReturnArg( 0 );
-
-		$this->replace_vars
-			->expects( 'replace' )
-			->with( 'Ingredient One', $this->context->presentation->source )
-			->andReturnArg( 0 );
-
-		$this->replace_vars
-			->expects( 'replace' )
-			->with( 'Ingredient Two', $this->context->presentation->source )
-			->andReturnArg( 0 );
-
-		$this->replace_vars
-			->expects( 'replace' )
-			->with( '%%author_id%%', $this->context->presentation->source )
-			->once()
-			->andReturn( '#author-1337' );
-
-		$this->replace_vars
-			->expects( 'replace' )
-			->with( '%%main_schema_id%%', $this->context->presentation->source )
-			->once()
-			->andReturn( '#main' );
+			->with( $yoast_schema, $this->context->presentation )
+			->andReturn( $yoast_schema_replaced );
 
 		$expected = [
 			'@context' => 'https://schema.org',
@@ -409,6 +415,10 @@ class Schema_Generator_Test extends TestCase {
 			->with( $this->context )
 			->andReturn( [ $piece ] );
 
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
+
 		Monkey\Actions\expectDone( 'wpseo_pre_schema_block_type_yoast/faq-block' )
 			->with( $this->context->blocks['yoast/faq-block'], $this->context );
 
@@ -427,6 +437,7 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_block_not_having_generated_output() {
 		$this->stubEscapeFunctions();
+		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
 		Monkey\Functions\expect( 'is_single' )
 			->once()
@@ -439,11 +450,6 @@ class Schema_Generator_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->andReturnTrue();
-
-		$this->current_page
 			->expects( 'is_front_page' )
 			->andReturnTrue();
 
@@ -451,6 +457,10 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'smart_strip_tags' )
 			->times( 3 )
 			->andReturnArg( 0 );
+
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
 
 		$this->assertEquals(
 			$this->get_expected_schema(),
@@ -468,6 +478,7 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_validate_type_singular_array() {
 		$this->context->blocks = [];
+		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
 		Monkey\Functions\expect( 'is_single' )
 			->once()
@@ -480,13 +491,12 @@ class Schema_Generator_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->andReturnTrue();
-
-		$this->current_page
 			->expects( 'is_front_page' )
 			->andReturnTrue();
+
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
 
 		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
 			->once()
@@ -538,6 +548,7 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_validate_type_unique_array() {
 		$this->context->blocks = [];
+		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
 		Monkey\Functions\expect( 'is_single' )
 			->once()
@@ -550,13 +561,12 @@ class Schema_Generator_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->andReturnTrue();
-
-		$this->current_page
 			->expects( 'is_front_page' )
 			->andReturnTrue();
+
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
 
 		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
 			->once()
@@ -616,13 +626,12 @@ class Schema_Generator_Test extends TestCase {
 			->andReturnTrue();
 
 		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->andReturnFalse();
-
-		$this->current_page
 			->expects( 'is_front_page' )
 			->andReturnFalse();
+
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
 
 		$filtered_webpage_schema = [
 			'@type'      => 'WebPage',
@@ -734,14 +743,8 @@ class Schema_Generator_Test extends TestCase {
 							],
 						],
 					],
-				],
-				[
-					'@type'            => 'ItemList',
-					'mainEntityOfPage' => [
-						'@id' => null,
-					],
-					'numberOfItems'    => 1,
-					'itemListElement'  => [
+					'breadcrumb'      => [ '@id' => '#breadcrumb' ],
+					'mainEntity'      => [
 						[
 							'@id' => '#id-1',
 						],

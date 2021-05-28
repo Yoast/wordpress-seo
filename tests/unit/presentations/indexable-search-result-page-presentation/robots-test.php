@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Search_Result_Page_Presentation
  */
 class Robots_Test extends TestCase {
+
 	use Presentation_Instance_Builder;
 
 	/**

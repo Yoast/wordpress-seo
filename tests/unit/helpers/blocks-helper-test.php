@@ -32,7 +32,7 @@ class Blocks_Helper_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * Set up a new instance of the class under test.
 	 */
 	protected function set_up() {
 		parent::set_up();

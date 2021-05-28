@@ -55,7 +55,7 @@ class WPSEO_Upgrade {
 			'9.0-RC0'    => 'upgrade_90',
 			'10.0-RC0'   => 'upgrade_100',
 			'11.1-RC0'   => 'upgrade_111',
-			/** Reset notifications because we removed the AMP Glue plugin notification */
+			// Reset notifications because we removed the AMP Glue plugin notification.
 			'12.1-RC0'   => 'clean_all_notifications',
 			'12.3-RC0'   => 'upgrade_123',
 			'12.4-RC0'   => 'upgrade_124',
@@ -69,6 +69,9 @@ class WPSEO_Upgrade {
 			'15.1-RC0'   => 'upgrade_151',
 			'15.3-RC0'   => 'upgrade_153',
 			'15.5-RC0'   => 'upgrade_155',
+			'15.7-RC0'   => 'upgrade_157',
+			'15.9.1-RC0' => 'upgrade_1591',
+			'16.2-RC0'   => 'upgrade_162',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -125,7 +128,7 @@ class WPSEO_Upgrade {
 	/**
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
 	 *
-	 * @param string $previous_version The previous version.
+	 * @param string|null $previous_version The previous version.
 	 *
 	 * @return void
 	 */
@@ -787,6 +790,33 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 15.7 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_157() {
+		add_action( 'init', [ $this, 'remove_plugin_updated_notification_for_157' ] );
+	}
+
+	/**
+	 * Performs the 15.9.1 upgrade routine.
+	 */
+	private function upgrade_1591() {
+		$enabled_auto_updates = \get_option( 'auto_update_plugins' );
+		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', [], $enabled_auto_updates );
+	}
+
+	/**
+	 * Performs the 16.2 upgrade routine.
+	 */
+	private function upgrade_162() {
+		$enabled_auto_updates = \get_site_option( 'auto_update_plugins' );
+		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', $enabled_auto_updates, [] );
+	}
+
+	/**
 	 * Sets the home_url option for the 15.1 upgrade routine.
 	 *
 	 * @return void
@@ -890,6 +920,15 @@ class WPSEO_Upgrade {
 	 */
 	public function remove_acf_notification_for_142() {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-suggested-plugin-yoast-acf-analysis' );
+	}
+
+	/**
+	 * Removes the wpseo-plugin-updated notification from the Notification center for the 15.7 upgrade.
+	 *
+	 * @return void
+	 */
+	public function remove_plugin_updated_notification_for_157() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-plugin-updated' );
 	}
 
 	/**

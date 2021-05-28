@@ -16,7 +16,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class HTML_Helper_Test extends TestCase {
 
 	/**
-	 * @var HTML_Helper_Test
+	 * Class instance to use for the test.
+	 *
+	 * @var HTML_Helper
 	 */
 	private $instance;
 

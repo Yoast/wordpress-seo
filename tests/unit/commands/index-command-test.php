@@ -8,8 +8,8 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Commands\Index_Command;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -62,9 +62,9 @@ class Index_Command_Test extends TestCase {
 	/**
 	 * The prepare indexation action.
 	 *
-	 * @var Indexable_Prepare_Indexation_Action
+	 * @var Indexing_Prepare_Action
 	 */
-	private $prepare_indexation_action;
+	private $prepare_indexing_action;
 
 	/**
 	 * The instance
@@ -84,7 +84,7 @@ class Index_Command_Test extends TestCase {
 		$this->post_type_archive_indexation_action = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
 		$this->general_indexation_action           = Mockery::mock( Indexable_General_Indexation_Action::class );
 		$this->complete_indexation_action          = Mockery::mock( Indexable_Indexing_Complete_Action::class );
-		$this->prepare_indexation_action           = Mockery::mock( Indexable_Prepare_Indexation_Action::class );
+		$this->prepare_indexing_action             = Mockery::mock( Indexing_Prepare_Action::class );
 
 		$this->instance = new Index_Command(
 			$this->post_indexation_action,
@@ -92,7 +92,7 @@ class Index_Command_Test extends TestCase {
 			$this->post_type_archive_indexation_action,
 			$this->general_indexation_action,
 			$this->complete_indexation_action,
-			$this->prepare_indexation_action
+			$this->prepare_indexing_action
 		);
 	}
 
@@ -102,21 +102,25 @@ class Index_Command_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			Indexable_Post_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'post_indexation_action' )
+			self::getPropertyValue( $this->instance, 'post_indexation_action' )
 		);
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			Indexable_Term_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'term_indexation_action' )
+			self::getPropertyValue( $this->instance, 'term_indexation_action' )
 		);
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			Indexable_Post_Type_Archive_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'post_type_archive_indexation_action' )
+			self::getPropertyValue( $this->instance, 'post_type_archive_indexation_action' )
 		);
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			Indexable_General_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'general_indexation_action' )
+			self::getPropertyValue( $this->instance, 'general_indexation_action' )
+		);
+		self::assertInstanceOf(
+			Indexing_Prepare_Action::class,
+			self::getPropertyValue( $this->instance, 'prepare_indexing_action' )
 		);
 	}
 
@@ -142,7 +146,7 @@ class Index_Command_Test extends TestCase {
 				->andReturn( \array_fill( 0, 25, true ), \array_fill( 0, 5, true ) );
 		}
 
-		$this->prepare_indexation_action->expects( 'prepare' )->once();
+		$this->prepare_indexing_action->expects( 'prepare' )->once();
 
 		$this->complete_indexation_action->expects( 'complete' )->once();
 
@@ -183,7 +187,7 @@ class Index_Command_Test extends TestCase {
 
 		$this->complete_indexation_action->expects( 'complete' )->once();
 
-		$this->prepare_indexation_action->expects( 'prepare' )->once();
+		$this->prepare_indexing_action->expects( 'prepare' )->once();
 
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
 		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
@@ -286,7 +290,7 @@ class Index_Command_Test extends TestCase {
 
 		// Expect the complete and prepare actions twice: once for each site in the multisite.
 		$this->complete_indexation_action->expects( 'complete' )->twice();
-		$this->prepare_indexation_action->expects( 'prepare' )->twice();
+		$this->prepare_indexing_action->expects( 'prepare' )->twice();
 
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
 		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )

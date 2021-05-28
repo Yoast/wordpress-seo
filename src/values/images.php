@@ -68,6 +68,17 @@ class Images {
 	}
 
 	/**
+	 * Adds an image to the list by image ID.
+	 *
+	 * @param string $image_meta JSON encoded image meta.
+	 *
+	 * @return void
+	 */
+	public function add_image_by_meta( $image_meta ) {
+		$this->add_image( (array) \json_decode( $image_meta ) );
+	}
+
+	/**
 	 * Return the images array.
 	 *
 	 * @return array The images.
@@ -90,7 +101,7 @@ class Images {
 	 *
 	 * @param string $url The given URL.
 	 *
-	 * @return null|number Returns the found image ID if it exists. Otherwise -1.
+	 * @return number|null Returns the found image ID if it exists. Otherwise -1.
 	 *                     If the URL is empty we return null.
 	 */
 	public function add_image_by_url( $url ) {

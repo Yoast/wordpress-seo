@@ -23,7 +23,7 @@ class Abstract_Presentation_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	protected function set_up() {
 		parent::set_up();

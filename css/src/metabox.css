@@ -107,6 +107,7 @@ ul.wpseo-metabox-tabs li.active {
 }
 
 .wpseo-metabox-menu {
+  max-width: 600px;
   padding: 0;
   background-color: #fff;
 }
@@ -698,20 +699,19 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 ul.yoast-seo-social-share-buttons li {
 	display: inline-block;
-	margin-right: 8px;
-	width: 32px;
-	height: 32px;
+	margin-right: 16px;
 }
 
 ul.yoast-seo-social-share-buttons svg {
 	width: 32px;
 	height: 32px;
+	margin-bottom: 8px;
 }
 
 ul.yoast-seo-social-share-buttons a {
-	width: 32px;
-	height: 32px;
-	display: inline-block;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 div.interface-pinned-items button.components-button[aria-label="Yoast SEO"] > svg,
@@ -786,6 +786,13 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 }
 .yoast.components-panel__body.is-opened .yoast-chevron {
 	mask-image: var(--yoast-svg-icon-chevron-up);
+}
+
+/* FormTokenField ("gutenberg tag selectors") used inside the .yoast metabox will be Yoast purple. */
+.yoast .components-form-token-field__token-text,
+.yoast .components-form-token-field__remove-token.components-button {
+	background-color: var(--yoast-color-primary);
+	color: var(--yoast-color-white);
 }
 
 /*# sourceMappingURL=metabox.css.map */

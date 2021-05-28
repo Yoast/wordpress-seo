@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Author_Archive_Presentation;
 
 use Mockery;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Author_Archive_Presentation;
@@ -14,6 +15,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * Trait Presentation_Instance_Builder
  */
 trait Presentation_Instance_Builder {
+
 	use Presentation_Instance_Dependencies;
 
 	/**
@@ -57,10 +59,11 @@ trait Presentation_Instance_Builder {
 	protected function set_instance() {
 		$this->indexable = new Indexable_Mock();
 
-		$this->post_type  = Mockery::mock( Post_Type_Helper::class );
-		$this->pagination = Mockery::mock( Pagination_Helper::class );
+		$this->post_type      = Mockery::mock( Post_Type_Helper::class );
+		$this->author_archive = Mockery::mock( Author_Archive_Helper::class );
+		$this->pagination     = Mockery::mock( Pagination_Helper::class );
 
-		$instance = new Indexable_Author_Archive_Presentation( $this->post_type );
+		$instance = new Indexable_Author_Archive_Presentation( $this->post_type, $this->author_archive );
 
 		$this->instance = $instance->of( [ 'model' => $this->indexable ] );
 

@@ -136,7 +136,7 @@ class HowTo_Test extends TestCase {
 	];
 
 	/**
-	 * @inheritDoc
+	 * Setup the test.
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -166,7 +166,7 @@ class HowTo_Test extends TestCase {
 		$this->language
 			->shouldReceive( 'add_piece_language' )
 			->andReturnUsing(
-				function( $data ) {
+				static function( $data ) {
 					$data['inLanguage'] = 'language';
 
 					return $data;

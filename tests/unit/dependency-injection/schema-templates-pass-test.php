@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Dependency_Injection;
+namespace Yoast\WP\SEO\Tests\Unit\Dependency_Injection;
 
 use Mockery;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -59,6 +59,12 @@ class Schema_Templates_Pass_Test extends TestCase {
 		$schema_blocks_definition = Mockery::mock();
 
 		$this->container_builder
+			->expects( 'hasDefinition' )
+			->once()
+			->with( Schema_Blocks::class )
+			->andReturn( true );
+
+		$this->container_builder
 			->expects( 'getDefinition' )
 			->once()
 			->with( Schema_Blocks::class )
@@ -76,6 +82,21 @@ class Schema_Templates_Pass_Test extends TestCase {
 			->expects( 'addMethodCall' )
 			->once()
 			->with( 'register_template', [ 'src/schema-templates/address.block.php' ] );
+
+		$this->instance->process( $this->container_builder );
+	}
+
+	/**
+	 * Tests the processing of the templates.
+	 *
+	 * @covers ::process
+	 */
+	public function test_process_without_definition() {
+		$this->container_builder
+			->expects( 'hasDefinition' )
+			->once()
+			->with( Schema_Blocks::class )
+			->andReturn( false );
 
 		$this->instance->process( $this->container_builder );
 	}

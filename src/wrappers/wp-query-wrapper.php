@@ -33,6 +33,7 @@ class WP_Query_Wrapper {
 	 * @param WP_Query $wp_query The WP Query.
 	 */
 	public function set_query( WP_Query $wp_query ) {
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride -- This is a deliberate action.
 		$GLOBALS['wp_query'] = $wp_query;
 	}
 

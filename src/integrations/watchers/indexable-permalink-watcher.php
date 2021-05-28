@@ -46,7 +46,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	protected $indexable_helper;
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
+	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array
 	 */
@@ -280,7 +280,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 *
 	 * @param string      $type    The type of the indexable.
-	 * @param null|string $subtype The subtype. Can be null.
+	 * @param string|null $subtype The subtype. Can be null.
 	 * @param string      $reason  The reason that the permalink has been changed.
 	 */
 	public function reset_permalink_indexables( $type, $subtype = null, $reason = Indexing_Reasons::REASON_PERMALINK_SETTINGS ) {

@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Author_Archive_Presentation
  */
 class Robots_Test extends TestCase {
+
 	use Presentation_Instance_Builder;
 
 	/**
@@ -74,7 +75,7 @@ class Robots_Test extends TestCase {
 	public function test_generate_robots_global_dont_index_without_posts() {
 		$this->mock_global_author_option();
 		$this->setup_get_userdata( (object) [ 'ID' => 1 ] );
-		$this->mock_get_public_post_types();
+		$this->mock_get_author_archive_post_types();
 		$this->mock_global_author_posts_count_option( true );
 
 		$actual   = $this->instance->generate_robots();
@@ -94,7 +95,7 @@ class Robots_Test extends TestCase {
 	public function test_generate_robots_global_dont_index_without_posts_with_posts() {
 		$this->mock_global_author_option();
 		$this->setup_get_userdata( (object) [ 'ID' => 1 ] );
-		$this->mock_get_public_post_types();
+		$this->mock_get_author_archive_post_types();
 		$this->mock_global_author_posts_count_option( true, 16 );
 		$this->mock_author_no_index_option();
 
@@ -118,7 +119,7 @@ class Robots_Test extends TestCase {
 	public function test_generate_robots_user_dont_index() {
 		$this->mock_global_author_option();
 		$this->setup_get_userdata( (object) [ 'ID' => 1 ] );
-		$this->mock_get_public_post_types();
+		$this->mock_get_author_archive_post_types();
 		$this->mock_global_author_posts_count_option();
 		$this->mock_author_no_index_option( 'on' );
 
@@ -147,9 +148,9 @@ class Robots_Test extends TestCase {
 	/**
 	 * Mocks Post_Type_Helper's `get_public_post_types`.
 	 */
-	private function mock_get_public_post_types() {
-		$this->post_type
-			->expects( 'get_public_post_types' )
+	private function mock_get_author_archive_post_types() {
+		$this->author_archive
+			->expects( 'get_author_archive_post_types' )
 			->withAnyArgs()
 			->once()
 			->andReturn( [ 'post' ] );

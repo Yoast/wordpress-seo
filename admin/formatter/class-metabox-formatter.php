@@ -76,7 +76,7 @@ class WPSEO_Metabox_Formatter {
 			'semrushIntegrationActive'    => WPSEO_Options::get( 'semrush_integration_active', true ) ? 1 : 0,
 			'intl'                        => $this->get_content_analysis_component_translations(),
 			'isRtl'                       => is_rtl(),
-			'isPremium'                   => WPSEO_Utils::is_yoast_seo_premium(),
+			'isPremium'                   => YoastSEO()->helpers->product->is_premium(),
 			'wordFormRecognitionActive'   => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
 			'siteIconUrl'                 => get_site_icon_url(),
 			'countryCode'                 => WPSEO_Options::get( 'semrush_country_code', false ),
@@ -205,7 +205,7 @@ class WPSEO_Metabox_Formatter {
 	private function get_translations() {
 		$locale = \get_user_locale();
 
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . $locale . '.json';
+		$file = WPSEO_PATH . 'languages/wordpress-seo-' . $locale . '.json';
 		if ( file_exists( $file ) ) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Retrieving a local file.
 			$file = file_get_contents( $file );
@@ -221,7 +221,7 @@ class WPSEO_Metabox_Formatter {
 	 * Checks if Jetpack's markdown module is enabled.
 	 * Can be extended to work with other plugins that parse markdown in the content.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	private function is_markdown_enabled() {
 		$is_markdown = false;
@@ -246,13 +246,13 @@ class WPSEO_Metabox_Formatter {
 	/**
 	 * Checks if the user is logged in to SEMrush.
 	 *
-	 * @return boolean The SEMrush login status.
+	 * @return bool The SEMrush login status.
 	 */
 	private function get_semrush_login_status() {
 		try {
 			$semrush_client = YoastSEO()->classes->get( SEMrush_Client::class );
 		} catch ( Empty_Property_Exception $e ) {
-			// return false if token is malformed (empty property).
+			// Return false if token is malformed (empty property).
 			return false;
 		}
 

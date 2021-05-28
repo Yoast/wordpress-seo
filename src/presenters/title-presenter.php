@@ -32,7 +32,7 @@ class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 		// This ensures backwards compatibility with other plugins using this filter as well.
 		\add_filter( 'pre_get_document_title', [ $this, 'get_title' ], 15 );
 		$title = \wp_get_document_title();
-		\remove_filter( 'pre_get_document_title', [ $this, 'get_title' ] );
+		\remove_filter( 'pre_get_document_title', [ $this, 'get_title' ], 15 );
 		return $title;
 	}
 
@@ -43,6 +43,7 @@ class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 */
 	public function get_title() {
 		$title = $this->replace_vars( $this->presentation->title );
+
 		/**
 		 * Filter: 'wpseo_title' - Allow changing the Yoast SEO generated title.
 		 *

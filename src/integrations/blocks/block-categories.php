@@ -10,14 +10,14 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Internal_Linking_Category implements Integration_Interface {
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
 		return [];
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
 		\add_filter( 'block_categories', [ $this, 'add_block_categories' ] );

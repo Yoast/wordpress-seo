@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Actions\Indexing;
 
-use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
-
 /**
  * Action for preparing the indexing routine.
  *

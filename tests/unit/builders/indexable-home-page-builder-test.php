@@ -23,6 +23,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Author_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 5 words is fine.
  */
 class Indexable_Home_Page_Builder_Test extends TestCase {
 
@@ -115,6 +117,8 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'set-by-user' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', 1337 );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_description', 'home_og_description' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', null );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
 
 		// Mock offsetExists.
 		$this->indexable_mock->orm->expects( 'offsetExists' )->with( 'description' )->andReturn( true );

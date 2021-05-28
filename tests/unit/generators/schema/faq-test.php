@@ -41,7 +41,7 @@ class FAQ_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * Setup the test.
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -113,17 +113,6 @@ class FAQ_Test extends TestCase {
 			->andReturnUsing( [ $this, 'set_language' ] );
 
 		$expected = [
-			[
-				'@type'            => 'ItemList',
-				'mainEntityOfPage' => [
-					'@id' => 'https://example.org/page/',
-				],
-				'numberOfItems'    => 2,
-				'itemListElement'  => [
-					[ '@id' => 'https://example.org/page/#id-1' ],
-					[ '@id' => 'https://example.org/page/#id-2' ],
-				],
-			],
 			[
 				'@id'            => 'https://example.org/page/#id-1',
 				'@type'          => 'Question',
@@ -213,16 +202,6 @@ class FAQ_Test extends TestCase {
 
 		$expected = [
 			[
-				'@type'            => 'ItemList',
-				'mainEntityOfPage' => [
-					'@id' => 'https://example.org/page/',
-				],
-				'numberOfItems'    => 1,
-				'itemListElement'  => [
-					[ '@id' => 'https://example.org/page/#id-1' ],
-				],
-			],
-			[
 				'@id'            => 'https://example.org/page/#id-1',
 				'@type'          => 'Question',
 				'position'       => 1,
@@ -265,6 +244,8 @@ class FAQ_Test extends TestCase {
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed() {
+		$this->stubEscapeFunctions();
+
 		$blocks = [
 			'yoast/faq-block' => [
 				[

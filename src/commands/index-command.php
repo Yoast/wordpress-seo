@@ -9,9 +9,9 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
+use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Main;
 
 /**
@@ -55,11 +55,11 @@ class Index_Command implements Command_Interface {
 	private $complete_indexation_action;
 
 	/**
-	 * The prepare indexation action.
+	 * The indexing prepare action.
 	 *
-	 * @var Indexable_Prepare_Indexation_Action
+	 * @var Indexing_Prepare_Action
 	 */
-	private $prepare_indexation_action;
+	private $prepare_indexing_action;
 
 	/**
 	 * Generate_Indexables_Command constructor.
@@ -73,8 +73,8 @@ class Index_Command implements Command_Interface {
 	 * @param Indexable_General_Indexation_Action           $general_indexation_action           The general indexation
 	 *                                                                                           action.
 	 * @param Indexable_Indexing_Complete_Action            $complete_indexation_action          The complete indexation
-	 *                                                                                             action.
-	 * @param Indexable_Prepare_Indexation_Action           $prepare_indexation_action           The prepare indexation
+	 *                                                                                           action.
+	 * @param Indexing_Prepare_Action                       $prepare_indexing_action             The prepare indexing
 	 *                                                                                           action.
 	 */
 	public function __construct(
@@ -83,18 +83,20 @@ class Index_Command implements Command_Interface {
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation_action,
 		Indexable_General_Indexation_Action $general_indexation_action,
 		Indexable_Indexing_Complete_Action $complete_indexation_action,
-		Indexable_Prepare_Indexation_Action $prepare_indexation_action
+		Indexing_Prepare_Action $prepare_indexing_action
 	) {
 		$this->post_indexation_action              = $post_indexation_action;
 		$this->term_indexation_action              = $term_indexation_action;
 		$this->post_type_archive_indexation_action = $post_type_archive_indexation_action;
 		$this->general_indexation_action           = $general_indexation_action;
 		$this->complete_indexation_action          = $complete_indexation_action;
-		$this->prepare_indexation_action           = $prepare_indexation_action;
+		$this->prepare_indexing_action             = $prepare_indexing_action;
 	}
 
 	/**
 	 * Gets the namespace.
+	 *
+	 * @return string
 	 */
 	public static function get_namespace() {
 		return Main::WP_CLI_NAMESPACE;
@@ -120,8 +122,8 @@ class Index_Command implements Command_Interface {
 	 *
 	 * @when after_wp_load
 	 *
-	 * @param array $args       The arguments.
-	 * @param array $assoc_args The associative arguments.
+	 * @param array|null $args       The arguments.
+	 * @param array|null $assoc_args The associative arguments.
 	 *
 	 * @return void
 	 */
@@ -180,7 +182,7 @@ class Index_Command implements Command_Interface {
 			'general objects'    => $this->general_indexation_action,
 		];
 
-		$this->prepare_indexation_action->prepare();
+		$this->prepare_indexing_action->prepare();
 
 		foreach ( $indexation_actions as $name => $indexation_action ) {
 			$this->run_indexation_action( $name, $indexation_action );

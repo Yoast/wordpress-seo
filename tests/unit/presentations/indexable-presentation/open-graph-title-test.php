@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group open-graph-title
  */
 class Open_Graph_Title_Test extends TestCase {
+
 	use Presentation_Instance_Builder;
 
 	/**

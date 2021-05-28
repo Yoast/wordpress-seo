@@ -49,6 +49,7 @@ use Yoast\WP\SEO\Models\Indexable;
  * @property string $twitter_site
  * @property array  $source
  * @property array  $breadcrumbs
+ * @property int    $estimated_reading_time_minutes
  */
 class Indexable_Presentation extends Abstract_Presentation {
 
@@ -186,7 +187,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @param Url_Helper          $url          The URL helper.
 	 * @param User_Helper         $user         The user helper.
 	 * @param Indexable_Helper    $indexable    The indexable helper.
-	 * @param Permalink_Helper    $permalink    The permalin helper.
+	 * @param Permalink_Helper    $permalink    The permalink helper.
 	 */
 	public function set_helpers(
 		Image_Helper $image,
@@ -667,12 +668,23 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * Generates the estimated reading time.
 	 *
-	 * @return integer The estimated reading time.
+	 * @return int|null The estimated reading time.
 	 *
 	 * @codeCoverageIgnore Wrapper method.
 	 */
 	public function generate_estimated_reading_time_minutes() {
-		return $this->model->estimated_reading_time_minutes;
+		if ( $this->model->estimated_reading_time_minutes !== null ) {
+			return $this->model->estimated_reading_time_minutes;
+		}
+
+		if ( $this->context->post === null ) {
+			return null;
+		}
+
+		// 200 is the approximate estimated words per minute across languages.
+		$words_per_minute = 200;
+		$words            = \str_word_count( \wp_strip_all_tags( $this->context->post->post_content ) );
+		return (int) \round( $words / $words_per_minute );
 	}
 
 	/**

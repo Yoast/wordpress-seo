@@ -18,11 +18,15 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Health_Check_Ryte_Test extends TestCase {
 
 	/**
+	 * Holds the ryte_option variable.
+	 *
 	 * @var Mockery\Mock|WPSEO_Ryte_Option
 	 */
 	private $ryte_option;
 
 	/**
+	 * Holds the health_check variable.
+	 *
 	 * @var Mockery\Mock|WPSEO_Health_Check_Ryte
 	 */
 	private $health_check;
@@ -172,6 +176,11 @@ class Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
 		$this->health_check->run();
 
 		$this->assertEquals(
@@ -214,6 +223,11 @@ class Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_remote_retrieve_response_message' )->andReturn( '' );
 		Monkey\Functions\expect( 'wp_enqueue_style' )->andReturn( '' );
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
+
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
 
 		$this->health_check->run();
 		$this->assertEquals(
@@ -289,6 +303,11 @@ class Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
 		$this->health_check->run();
 		$this->assertEquals(
 			'An error occurred while checking whether your site can be found by search engines',
@@ -300,7 +319,7 @@ class Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Mocks that the blog is public, Ryte is enabled and development mode is not on (or Yoast development mode is on).
 	 *
-	 * @throws Monkey\Expectation\Exception\ExpectationArgsRequired
+	 * @throws Monkey\Expectation\Exception\ExpectationArgsRequired When args missing / wrong.
 	 */
 	private function ryte_enabled_and_blog_public() {
 		$this->stubTranslationFunctions();

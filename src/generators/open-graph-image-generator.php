@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Generators;
 
 use Error;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
-use Yoast\WP\SEO\Generators\Generator_Interface;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -118,6 +117,11 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 	 * @param Images    $image_container The image container.
 	 */
 	protected function add_from_indexable( Indexable $indexable, Images $image_container ) {
+		if ( $indexable->open_graph_image_meta ) {
+			$image_container->add_image_by_meta( $indexable->open_graph_image_meta );
+			return;
+		}
+
 		if ( $indexable->open_graph_image_id ) {
 			$image_container->add_image_by_id( $indexable->open_graph_image_id );
 			return;

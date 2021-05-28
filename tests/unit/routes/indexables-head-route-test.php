@@ -34,7 +34,7 @@ class Indexables_Head_Route_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	protected function set_up() {
 		parent::set_up();

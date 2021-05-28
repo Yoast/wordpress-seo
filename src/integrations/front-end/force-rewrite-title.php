@@ -82,6 +82,8 @@ class Force_Rewrite_Title implements Integration_Interface {
 	/**
 	 * Used in the force rewrite functionality this retrieves the output, replaces the title with the proper SEO
 	 * title and then flushes the output.
+	 *
+	 * @return bool
 	 */
 	public function flush_cache() {
 		if ( $this->ob_started !== true ) {
@@ -101,8 +103,10 @@ class Force_Rewrite_Title implements Integration_Interface {
 			unset( $matches );
 		}
 
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride -- The query gets reset here with the original query.
 		$GLOBALS['wp_query'] = $old_wp_query;
 
+		// phpcs:ignore WordPress.Security.EscapeOutput -- The output should already have been escaped, we are only filtering it.
 		echo $content;
 
 		return true;

@@ -88,10 +88,7 @@ class WPSEO_Taxonomy {
 	 * @return void
 	 */
 	private function show_internet_explorer_notice() {
-		$product_title = 'Yoast SEO';
-		if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
-			$product_title .= ' Premium';
-		}
+		$product_title = YoastSEO()->helpers->product->get_product_name();
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $product_title is hardcoded.
 		printf( '<div id="wpseo_meta" class="postbox yoast wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
@@ -142,9 +139,6 @@ class WPSEO_Taxonomy {
 			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 			$yoast_components_l10n->localize_script( 'term-edit' );
 
-			$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
-			$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
-
 			/**
 			 * Remove the emoji script as it is incompatible with both React and any
 			 * contenteditable fields.
@@ -165,14 +159,9 @@ class WPSEO_Taxonomy {
 						],
 					],
 					'worker'  => [
-						'url'                     => $analysis_worker_location->get_url(
-							$analysis_worker_location->get_asset(),
-							WPSEO_Admin_Asset::TYPE_JS
-						),
-						'keywords_assessment_url' => $used_keywords_assessment_location->get_url(
-							$used_keywords_assessment_location->get_asset(),
-							WPSEO_Admin_Asset::TYPE_JS
-						),
+						'url'                     => YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-analysis-worker' ),
+						'dependencies'            => YoastSEO()->helpers->asset->get_dependency_urls_by_handle( 'yoast-seo-analysis-worker' ),
+						'keywords_assessment_url' => YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-used-keywords-assessment' ),
 						'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 					],
 				],
@@ -185,10 +174,11 @@ class WPSEO_Taxonomy {
 				'isTerm'           => true,
 			];
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
+			$asset_manager->enqueue_user_language_script();
 		}
 
 		if ( self::is_term_overview( $pagenow ) ) {
-			$asset_manager->enqueue_script( 'edit-page-script' );
+			$asset_manager->enqueue_script( 'edit-page' );
 		}
 	}
 
@@ -278,6 +268,8 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Pass some variables to js for replacing variables.
+	 *
+	 * @return array
 	 */
 	public function localize_replace_vars_script() {
 		return [
@@ -417,7 +409,7 @@ class WPSEO_Taxonomy {
 	 * Needs a hook that runs before the description field. Prior to WP version 4.5 we need to use edit_form as
 	 * term_edit_form_top was introduced in WP 4.5. This can be removed after <4.5 is no longer supported.
 	 *
-	 * @return {void}
+	 * @return void
 	 */
 	private function insert_description_field_editor() {
 		if ( version_compare( $GLOBALS['wp_version'], '4.5', '<' ) ) {

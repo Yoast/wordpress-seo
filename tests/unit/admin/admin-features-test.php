@@ -8,6 +8,7 @@ use WP_User;
 use WPSEO_Admin;
 use WPSEO_Primary_Term_Admin;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Shortlinker_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -55,8 +56,12 @@ class Admin_Features_Test extends TestCase {
 		$current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$current_page_helper->expects( 'is_yoast_seo_page' )->twice()->andReturn( true );
 
+		$product_helper = Mockery::mock( Product_Helper::class );
+		$product_helper->expects( 'is_premium' )->times( 5 )->andReturn( false );
+
 		$helper_surface               = Mockery::mock( Helpers_Surface::class );
 		$helper_surface->current_page = $current_page_helper;
+		$helper_surface->product      = $product_helper;
 
 		Monkey\Functions\expect( 'YoastSEO' )
 			->andReturn( (object) [ 'helpers' => $helper_surface ] );

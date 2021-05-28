@@ -131,7 +131,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		$keyword = WPSEO_Meta::get_value( 'focuskw', $this->post->ID );
 		$usage   = [ $keyword => $this->get_keyword_usage_for_current_post( $keyword ) ];
 
-		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+		if ( YoastSEO()->helpers->product->is_premium() ) {
 			return $this->get_premium_keywords( $usage );
 		}
 
@@ -199,7 +199,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Retrieves a template.
 	 *
-	 * @param String $template_option_name The name of the option in which the template you want to get is saved.
+	 * @param string $template_option_name The name of the option in which the template you want to get is saved.
 	 *
 	 * @return string
 	 */

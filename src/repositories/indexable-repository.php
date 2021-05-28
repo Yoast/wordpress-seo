@@ -223,18 +223,25 @@ class Indexable_Repository {
 	 * @return bool|Indexable Instance of indexable.
 	 */
 	public function find_for_home_page( $auto_create = true ) {
-		/**
-		 * Indexable instance.
-		 *
-		 * @var Indexable $indexable
-		 */
-		$indexable = $this->query()->where( 'object_type', 'home-page' )->find_one();
+		$indexable = \wp_cache_get( 'home-page', 'yoast-seo-indexables' );
+		if ( ! $indexable ) {
+			/**
+			 * Indexable instance.
+			 *
+			 * @var Indexable $indexable
+			 */
+			$indexable = $this->query()->where( 'object_type', 'home-page' )->find_one();
 
-		if ( $auto_create && ! $indexable ) {
-			$indexable = $this->builder->build_for_home_page();
+			if ( $auto_create && ! $indexable ) {
+				$indexable = $this->builder->build_for_home_page();
+			}
+
+			$indexable = $this->ensure_permalink( $indexable );
+
+			\wp_cache_set( 'home-page', $indexable, 'yoast-seo-indexables', ( 5 * \MINUTE_IN_SECONDS ) );
 		}
 
-		return $this->ensure_permalink( $indexable );
+		return $indexable;
 	}
 
 	/**
@@ -506,8 +513,8 @@ class Indexable_Repository {
 	/**
 	 * Resets the permalinks of the passed object type and subtype.
 	 *
-	 * @param string      $type    The type of the indexable. Can be null.
-	 * @param null|string $subtype The subtype. Can be null.
+	 * @param string|null $type    The type of the indexable. Can be null.
+	 * @param string|null $subtype The subtype. Can be null.
 	 *
 	 * @return int|bool The number of permalinks changed if the query was succesful. False otherwise.
 	 */

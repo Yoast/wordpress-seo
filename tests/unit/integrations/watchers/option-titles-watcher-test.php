@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Option_Titles_Watcher
- * @covers ::<!public>
+ * @covers \Yoast\WP\SEO\Integrations\Watchers\Option_Titles_Watcher
  */
 class Option_Titles_Watcher_Test extends TestCase {
 
@@ -27,7 +27,7 @@ class Option_Titles_Watcher_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the test fixtures.
 	 */
 	protected function set_up() {
 		parent::set_up();

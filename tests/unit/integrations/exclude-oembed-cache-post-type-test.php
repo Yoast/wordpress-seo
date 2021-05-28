@@ -2,13 +2,10 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-
 use Brain\Monkey;
-use Mockery;
-
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Exclude_Oembed_Cache_Post_Type;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Exclude_Oembed_Cache_Post_Type_Test.

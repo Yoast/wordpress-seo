@@ -85,6 +85,8 @@ class WPSEO_Product_Upsell_Notice {
 
 	/**
 	 * Checks if the options has a first activated on date value.
+	 *
+	 * @return bool
 	 */
 	protected function has_first_activated_on() {
 		return $this->options['first_activated_on'] !== false;
@@ -121,8 +123,7 @@ class WPSEO_Product_Upsell_Notice {
 	 * @return string
 	 */
 	protected function get_premium_upsell_section() {
-		$features = new WPSEO_Features();
-		if ( $features->is_free() ) {
+		if ( ! YoastSEO()->helpers->product->is_premium() ) {
 			return sprintf(
 				/* translators: %1$s expands anchor to premium plugin page, %2$s expands to </a> */
 				__( 'By the way, did you know we also have a %1$sPremium plugin%2$s? It offers advanced features, like a redirect manager and support for multiple keyphrases. It also comes with 24/7 personal support.', 'wordpress-seo' ),
@@ -149,7 +150,7 @@ class WPSEO_Product_Upsell_Notice {
 		) . "\n\n";
 
 		$message .= sprintf(
-			/* translators: %1$s is a link start tag to the bugreport guidelines on the Yoast knowledge base, %2$s is the link closing tag. */
+			/* translators: %1$s is a link start tag to the bugreport guidelines on the Yoast help center, %2$s is the link closing tag. */
 			__( 'If you are experiencing issues, %1$splease file a bug report%2$s and we\'ll do our best to help you out.', 'wordpress-seo' ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/bugreport' ) . '">',
 			'</a>'
@@ -175,7 +176,7 @@ class WPSEO_Product_Upsell_Notice {
 	/**
 	 * Dismisses the notice.
 	 *
-	 * @return string
+	 * @return bool
 	 */
 	protected function is_notice_dismissed() {
 		return get_user_meta( get_current_user_id(), self::USER_META_DISMISSED, true ) === '1';
@@ -191,7 +192,7 @@ class WPSEO_Product_Upsell_Notice {
 	/**
 	 * Returns the set options.
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	protected function get_options() {
 		return get_option( self::OPTION_NAME );

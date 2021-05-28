@@ -402,11 +402,11 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the determine_seo_filters with a dataset.
 	 *
-	 * @param string $filter   SEO filter.
-	 * @param array  $expected The resulting SEO score filter.
-	 *
 	 * @dataProvider determine_seo_filters_dataprovider
 	 * @covers       WPSEO_Meta_Columns::determine_seo_filters
+	 *
+	 * @param string $filter   SEO filter.
+	 * @param array  $expected The resulting SEO score filter.
 	 */
 	public function test_determine_seo_filters( $filter, $expected ) {
 		$result = self::$class_instance->determine_seo_filters( $filter );
@@ -417,11 +417,11 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the determine_readability_filters with a dataset.
 	 *
-	 * @param string $filter   The Readability filter to use to determine what further filter to apply.
-	 * @param array  $expected The Readability score filter.
-	 *
 	 * @dataProvider determine_readability_filters_dataprovider
 	 * @covers       WPSEO_Meta_Columns::determine_readability_filters
+	 *
+	 * @param string $filter   The Readability filter to use to determine what further filter to apply.
+	 * @param array  $expected The Readability score filter.
 	 */
 	public function test_determine_readability_filters( $filter, $expected ) {
 		$result = self::$class_instance->determine_readability_filters( $filter );
@@ -432,12 +432,12 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the build_filter_query with a dataset.
 	 *
+	 * @dataProvider build_filter_query_dataprovider
+	 * @covers       WPSEO_Meta_Columns::build_filter_query
+	 *
 	 * @param array $vars     Array containing the variables that will be used in the meta query.
 	 * @param array $filters  Array containing the filters that we need to apply in the meta query.
 	 * @param array $expected Array containing the complete filter query.
-	 *
-	 * @dataProvider build_filter_query_dataprovider
-	 * @covers       WPSEO_Meta_Columns::build_filter_query
 	 */
 	public function test_build_filter_query( $vars, $filters, $expected ) {
 		$result = self::$class_instance->build_filter_query( $vars, $filters );

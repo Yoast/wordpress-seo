@@ -45,12 +45,12 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param Post_Type_Helper  $post_type  The post type helper.
 	 * @param Date_Helper       $date       The date helper.
 	 * @param Pagination_Helper $pagination The pagination helper.
 	 * @param Post_Helper       $post       The post helper.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		Post_Type_Helper $post_type,
@@ -401,12 +401,12 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * Wraps the get_paginated_url pagination helper method.
 	 *
+	 * @codeCoverageIgnore A wrapper method.
+	 *
 	 * @param string $url  The un-paginated URL of the current archive.
 	 * @param string $page The page number to add on to $url for the $link tag.
 	 *
 	 * @return string The paginated URL.
-	 *
-	 * @codeCoverageIgnore A wrapper method.
 	 */
 	protected function get_paginated_url( $url, $page ) {
 		return $this->pagination->get_paginated_url( $url, $page, false );

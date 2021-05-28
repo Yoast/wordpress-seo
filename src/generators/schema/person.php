@@ -90,7 +90,7 @@ class Person extends Abstract_Schema_Piece {
 	 * @param array $same_as_urls Array of SameAs URLs.
 	 * @param int   $user_id      User ID.
 	 *
-	 * @return string[] $same_as_urls A list of SameAs URLs.
+	 * @return string[] A list of SameAs URLs.
 	 */
 	protected function get_social_profiles( $same_as_urls, $user_id ) {
 		/**
@@ -151,6 +151,14 @@ class Person extends Abstract_Schema_Piece {
 
 		$data = $this->add_same_as_urls( $data, $user_data, $user_id );
 
+		/**
+		 * Filter: 'wpseo_schema_person_data' - Allows filtering of schema data per user.
+		 *
+		 * @param array $data    The schema data we have for this person.
+		 * @param int   $user_id The current user we're collecting schema data for.
+		 */
+		$data = \apply_filters( 'wpseo_schema_person_data', $data, $user_id );
+
 		return $data;
 	}
 
@@ -160,7 +168,7 @@ class Person extends Abstract_Schema_Piece {
 	 * @param array   $data      The Person schema.
 	 * @param WP_User $user_data User data.
 	 *
-	 * @return array $data The Person schema.
+	 * @return array The Person schema.
 	 */
 	protected function add_image( $data, $user_data ) {
 		$schema_id = $this->context->site_url . Schema_IDs::PERSON_LOGO_HASH;
@@ -189,10 +197,8 @@ class Person extends Abstract_Schema_Piece {
 		if ( $this->context->site_represents !== 'person' ) {
 			return $data;
 		}
-		$person_logo_id = $this->helpers->image->get_attachment_id_from_settings( 'person_logo' );
-
-		if ( $person_logo_id ) {
-			$data['image'] = $this->helpers->schema->image->generate_from_attachment_id( $schema_id, $person_logo_id, $data['name'] );
+		if ( \is_array( $this->context->person_logo_meta ) ) {
+			$data['image'] = $this->helpers->schema->image->generate_from_attachment_meta( $schema_id, $this->context->person_logo_meta, $data['name'] );
 		}
 
 		return $data;

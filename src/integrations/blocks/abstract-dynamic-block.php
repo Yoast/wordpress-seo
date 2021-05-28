@@ -10,31 +10,37 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 abstract class Dynamic_Block implements Integration_Interface {
 
 	/**
-	 * @var string the name of the block.
+	 * The name of the block.
+	 *
+	 * @var string
 	 */
 	protected $block_name;
 
 	/**
-	 * @var string the editor script for the block.
+	 * The editor script for the block.
+	 *
+	 * @var string
 	 */
 	protected $script;
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
 		return [];
 	}
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
-		\add_action( 'init', [ $this, 'register_block' ] );
+		\add_action( 'init', [ $this, 'register_block' ], 11 );
 	}
 
 	/**
 	 * Registers the block.
+	 *
+	 * @return void
 	 */
 	public function register_block() {
 		\register_block_type(

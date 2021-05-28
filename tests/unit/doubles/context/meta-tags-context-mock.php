@@ -94,13 +94,6 @@ class Meta_Tags_Context_Mock extends Meta_Tags_Context {
 	public $site_represents_reference;
 
 	/**
-	 * Represents the enabled state of the breadcrumbs.
-	 *
-	 * @var bool
-	 */
-	public $breadcrumbs_enabled;
-
-	/**
 	 * Represents the page type in schema output.
 	 *
 	 * @var string|string[]
@@ -127,6 +120,20 @@ class Meta_Tags_Context_Mock extends Meta_Tags_Context {
 	 * @var bool
 	 */
 	public $open_graph_enabled = true;
+
+	/**
+	 * Represents the meta image ID.
+	 *
+	 * @var int
+	 */
+	public $main_image_id;
+
+	/**
+	 * Represents the meta image URL.
+	 *
+	 * @var string
+	 */
+	public $main_image_url;
 
 	/**
 	 * Meta_Tags_Context constructor.

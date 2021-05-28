@@ -15,7 +15,7 @@ class WPSEO_Language_Utils {
 	/**
 	 * Returns the language part of a given locale, defaults to english when the $locale is empty.
 	 *
-	 * @param string $locale The locale to get the language of.
+	 * @param string|null $locale The locale to get the language of.
 	 *
 	 * @return string The language part of the locale.
 	 */
@@ -44,7 +44,7 @@ class WPSEO_Language_Utils {
 	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
 	 * of WordPress get_user_locale() that already fallbacks to the site's locale.
 	 *
-	 * @deprecated 15.5
+	 * @deprecated 15.6
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The locale.

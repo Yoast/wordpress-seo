@@ -15,18 +15,17 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Primary_Term_Watcher_Test.
  *
- * @group   integrations
- * @group   watchers
+ * @group integrations
+ * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Primary_Term_Watcher
- * @covers ::<!public>
  */
 class Primary_Term_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var Mockery\MockInterface|Primary_Term_Watcher|Primary_Term_Watcher
+	 * @var Mockery\MockInterface|Primary_Term_Watcher
 	 */
 	private $instance;
 
@@ -59,7 +58,7 @@ class Primary_Term_Watcher_Test extends TestCase {
 	private $primary_term_builder;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the tests.
 	 */
 	protected function set_up() {
 		parent::set_up();
@@ -101,8 +100,8 @@ class Primary_Term_Watcher_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertNotFalse( Monkey\Actions\has( 'save_post', [ $this->instance, 'save_primary_terms' ] ) );
-		$this->assertNotFalse( Monkey\Actions\has( 'delete_post', [ $this->instance, 'delete_primary_terms' ] ) );
+		self::assertNotFalse( Monkey\Actions\has( 'save_post', [ $this->instance, 'save_primary_terms' ] ) );
+		self::assertNotFalse( Monkey\Actions\has( 'delete_post', [ $this->instance, 'delete_primary_terms' ] ) );
 	}
 
 	/**
@@ -169,16 +168,25 @@ class Primary_Term_Watcher_Test extends TestCase {
 	 * Tests the saving of the primary terms.
 	 *
 	 * @covers ::save_primary_terms
+	 * @covers ::save_primary_term
 	 */
 	public function test_save_primary_terms() {
+		$post_id = 2;
+
 		$this->site
 			->expects( 'is_multisite_and_switched' )
 			->andReturnFalse();
 
+		$this->primary_term
+			->expects( 'get_primary_term_taxonomies' )
+			->once()
+			->with( $post_id )
+			->andReturn( [ (object) [ 'name' => 'category' ] ] );
+
 		$this->primary_term_builder
 			->expects( 'build' )
-			->with( 2 );
+			->with( $post_id );
 
-		$this->instance->save_primary_terms( 2 );
+		$this->instance->save_primary_terms( $post_id );
 	}
 }

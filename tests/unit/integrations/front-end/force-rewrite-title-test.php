@@ -14,7 +14,6 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * Class Force_Rewrite_Title_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Force_Rewrite_Title
- * @covers ::<!public>
  *
  * @group integrations
  * @group front-end

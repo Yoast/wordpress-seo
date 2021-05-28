@@ -5,6 +5,8 @@
  * @package WPSEO\Admin\Notifications
  */
 
+use Yoast\WP\SEO\Presenters\Abstract_Presenter;
+
 /**
  * Handles notifications storage and display.
  */
@@ -122,7 +124,7 @@ class Yoast_Notification_Center {
 	 * Check if the user has dismissed a notification.
 	 *
 	 * @param Yoast_Notification $notification The notification to check for dismissal.
-	 * @param null|int           $user_id      User ID to check on.
+	 * @param int|null           $user_id      User ID to check on.
 	 *
 	 * @return bool
 	 */
@@ -147,8 +149,8 @@ class Yoast_Notification_Center {
 	/**
 	 * Checks if the notification is being dismissed.
 	 *
-	 * @param string|Yoast_Notification $notification Notification to check dismissal of.
-	 * @param string                    $meta_value   Value to set the meta value to if dismissed.
+	 * @param Yoast_Notification $notification Notification to check dismissal of.
+	 * @param string             $meta_value   Value to set the meta value to if dismissed.
 	 *
 	 * @return bool True if dismissed.
 	 */
@@ -164,9 +166,8 @@ class Yoast_Notification_Center {
 			return true;
 		}
 
-		$dismissal_key     = $notification->get_dismissal_key();
-		$notification_id   = $notification->get_id();
-		$notification_json = $notification->get_json();
+		$dismissal_key   = $notification->get_dismissal_key();
+		$notification_id = $notification->get_id();
 
 		$is_dismissing = ( $dismissal_key === self::get_user_input( 'notification' ) );
 		if ( ! $is_dismissing ) {
@@ -185,13 +186,6 @@ class Yoast_Notification_Center {
 		$user_nonce = self::get_user_input( 'nonce' );
 		if ( wp_verify_nonce( $user_nonce, $notification_id ) === false ) {
 			return false;
-		}
-
-		if ( ! empty( $notification_json ) ) {
-			$notification_data = json_decode( $notification_json );
-			if ( ! is_null( $notification_data ) && isset( $notification_data->dismiss_value ) ) {
-				$meta_value = $notification_data->dismiss_value;
-			}
 		}
 
 		return self::dismiss_notification( $notification, $meta_value );
@@ -332,10 +326,10 @@ class Yoast_Notification_Center {
 	/**
 	 * Get the notification by ID and user ID.
 	 *
-	 * @param string $notification_id The ID of the notification to search for.
-	 * @param int    $user_id         The ID of the user.
+	 * @param string   $notification_id The ID of the notification to search for.
+	 * @param int|null $user_id         The ID of the user.
 	 *
-	 * @return null|Yoast_Notification
+	 * @return Yoast_Notification|null
 	 */
 	public function get_notification_by_id( $notification_id, $user_id = null ) {
 		$user_id = self::get_user_id( $user_id );
@@ -661,9 +655,9 @@ class Yoast_Notification_Center {
 	private static function get_user_input( $key ) {
 
 		$filter_input_type = INPUT_GET;
-		$request_method    = filter_input( INPUT_SERVER, 'REQUEST_METHOD' );
+		$request_method    = isset( $_SERVER['REQUEST_METHOD'] ) ? filter_var( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : '';
 
-		if ( isset( $_SERVER['REQUEST_METHOD'] ) && strtoupper( $request_method ) === 'POST' ) {
+		if ( strtoupper( $request_method ) === 'POST' ) {
 			$filter_input_type = INPUT_POST;
 		}
 
@@ -671,11 +665,11 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Retrieve the notifications from storage.
+	 * Retrieve the notifications from storage and fill the relevant property.
 	 *
 	 * @param int $user_id The ID of the user to retrieve notifications for.
 	 *
-	 * @return array|void Yoast_Notification[] Notifications.
+	 * @return void
 	 */
 	private function retrieve_notifications_from_storage( $user_id ) {
 
@@ -741,9 +735,9 @@ class Yoast_Notification_Center {
 	/**
 	 * Filter out non-persistent notifications.
 	 *
-	 * @param Yoast_Notification $notification Notification to test for persistent.
-	 *
 	 * @since 3.2
+	 *
+	 * @param Yoast_Notification $notification Notification to test for persistent.
 	 *
 	 * @return bool
 	 */
@@ -767,9 +761,9 @@ class Yoast_Notification_Center {
 	/**
 	 * Convert Notification to array representation.
 	 *
-	 * @param Yoast_Notification $notification Notification to convert.
-	 *
 	 * @since 3.2
+	 *
+	 * @param Yoast_Notification $notification Notification to convert.
 	 *
 	 * @return array
 	 */
@@ -795,6 +789,13 @@ class Yoast_Notification_Center {
 
 		if ( isset( $notification_data['options']['nonce'] ) ) {
 			unset( $notification_data['options']['nonce'] );
+		}
+
+		if (
+			isset( $notification_data['message'] ) &&
+			\is_subclass_of( $notification_data['message'], Abstract_Presenter::class, false )
+		) {
+			$notification_data['message'] = $notification_data['message']->present();
 		}
 
 		return new Yoast_Notification(

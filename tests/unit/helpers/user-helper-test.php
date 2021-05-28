@@ -32,6 +32,22 @@ class User_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that get_meta calls the global get_user_meta.
+	 *
+	 * And returns the return value of it.
+	 *
+	 * @covers ::get_meta
+	 */
+	public function test_get_meta() {
+		Functions\expect( 'get_user_meta' )
+			->with( 1, 'key', true )
+			->once()
+			->andReturn( 'value' );
+
+		$this->assertSame( 'value', $this->instance->get_meta( 1, 'key', true ) );
+	}
+
+	/**
 	 * Tests that `count_posts` converts a string to an integer.
 	 *
 	 * @covers ::count_posts
@@ -44,6 +60,69 @@ class User_Helper_Test extends TestCase {
 
 		$actual = $this->instance->count_posts( 1, 'post' );
 
-		$this->assertEquals( 0, $actual );
+		$this->assertSame( 0, $actual );
+	}
+
+	/**
+	 * Tests that get_the_author_meta calls the global get_the_author_meta.
+	 *
+	 * And returns the return value of it.
+	 *
+	 * @covers ::get_the_author_meta
+	 */
+	public function test_get_the_author_meta() {
+		Functions\expect( 'get_the_author_meta' )
+			->with( 'field', 1 )
+			->once()
+			->andReturn( 'author meta' );
+
+		$this->assertSame( 'author meta', $this->instance->get_the_author_meta( 'field', 1 ) );
+	}
+
+	/**
+	 * Tests that get_current_user_id calls the global get_current_user_id.
+	 *
+	 * And returns the return value of it.
+	 *
+	 * @covers ::get_current_user_id
+	 */
+	public function test_get_current_user_id() {
+		Functions\expect( 'get_current_user_id' )
+			->once()
+			->andReturn( 1 );
+
+		$this->assertSame( 1, $this->instance->get_current_user_id() );
+	}
+
+	/**
+	 * Tests that update_meta calls the global update_user_meta.
+	 *
+	 * And returns the return value of it.
+	 *
+	 * @covers ::update_meta
+	 */
+	public function test_update_meta() {
+		Functions\expect( 'update_user_meta' )
+			->with( 1, 'key', 'value', 'previous' )
+			->once()
+			->andReturn( true );
+
+		$this->assertTrue( $this->instance->update_meta( 1, 'key', 'value', 'previous' ) );
+	}
+
+	/**
+	 * Tests that delete_meta calls the global delete_user_meta.
+	 *
+	 * And returns the return value of it.
+	 *
+	 * @covers ::delete_meta
+	 */
+	public function test_delete_meta() {
+		Functions\expect( 'delete_user_meta' )
+			->with( 1, 'key', 'value' )
+			->once()
+			->andReturn( true );
+
+		$this->assertTrue( $this->instance->delete_meta( 1, 'key', 'value' ) );
 	}
 }

@@ -20,40 +20,49 @@ class FAQ extends Abstract_Schema_Piece {
 		if ( ! \is_array( $this->context->schema_page_type ) ) {
 			$this->context->schema_page_type = [ $this->context->schema_page_type ];
 		}
-		$this->context->schema_page_type[] = 'FAQPage';
+		$this->context->schema_page_type[]  = 'FAQPage';
+		$this->context->main_entity_of_page = $this->generate_ids();
 
 		return true;
 	}
 
 	/**
-	 * Render a list of questions, referencing them by ID.
+	 * Generate the IDs so we can link to them in the main entity.
 	 *
-	 * @return array $data Our Schema graph.
+	 * @return array
 	 */
-	public function generate() {
-		$ids             = [];
-		$graph           = [];
-		$number_of_items = 0;
-
+	private function generate_ids() {
+		$ids = [];
 		foreach ( $this->context->blocks['yoast/faq-block'] as $block ) {
 			foreach ( $block['attrs']['questions'] as $index => $question ) {
 				if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
 					continue;
 				}
 				$ids[] = [ '@id' => $this->context->canonical . '#' . \esc_attr( $question['id'] ) ];
-				// Index + 1 below so we start at 1 and count from there.
-				$graph[] = $this->generate_question_block( $question, ( $index + 1 ) );
-				++$number_of_items;
 			}
 		}
 
-		$extra_graph_entries = [
-			'@type'            => 'ItemList',
-			'mainEntityOfPage' => [ '@id' => $this->context->main_schema_id ],
-			'numberOfItems'    => $number_of_items,
-			'itemListElement'  => $ids,
-		];
-		\array_unshift( $graph, $extra_graph_entries );
+		return $ids;
+	}
+
+	/**
+	 * Render a list of questions, referencing them by ID.
+	 *
+	 * @return array Our Schema graph.
+	 */
+	public function generate() {
+		$graph = [];
+
+		$questions = [];
+		foreach ( $this->context->blocks['yoast/faq-block'] as $index => $block ) {
+			$questions = array_merge( $questions, $block['attrs']['questions'] );
+		}
+		foreach ( $questions as $index => $question ) {
+			if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
+				continue;
+			}
+			$graph[] = $this->generate_question_block( $question, ( $index + 1 ) );
+		}
 
 		return $graph;
 	}

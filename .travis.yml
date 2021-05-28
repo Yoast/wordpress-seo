@@ -25,11 +25,21 @@ jobs:
   fast_finish: true
   include:
     - php: 7.2
-      env: PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=lts/* AUTO_CHECKOUT_MONOREPO_BRANCH=1
+      env: PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=lts/*
+    - php: 7.4
+      name: "PHP 7.4: Check CS"
+      before_install: skip
+      before_script: skip
+      install:
+        - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
+        - travis_retry composer install --no-interaction
+      script:
+        - composer check-cs-threshold
+      after_script: skip
     - php: 7.3.24
       env: WP_VERSION=latest WP_MULTISITE=1 COVERAGE=1
     - php: 5.6
-      env: WP_VERSION=5.5 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
+      env: WP_VERSION=5.6 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
       # Use 'trusty' to test against MySQL 5.6, 'xenial' contains 5.7 by default.
       dist: trusty
     - php: 7.3
@@ -67,12 +77,6 @@ jobs:
       php: 7.2
       install:
         - yarn global add grunt-cli
-        - |
-          if [[ ( $TRAVIS_BRANCH =~ ^feature\/* || $TRAVIS_BRANCH =~ ^release\/* || $TRAVIS_BRANCH = "trunk" ) && "$TRAVIS_EVENT_TYPE" = "push" ]]; then
-            git clone https://github.com/yoast/javascript /tmp/javascript
-            echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
-            AUTO_CHECKOUT_MONOREPO_BRANCH=1 yarn link-monorepo
-          fi
         - yarn install
       before_script: skip
       script:
@@ -82,8 +86,7 @@ jobs:
             grunt update-version
           fi
         - grunt artifact
-        - grunt composer-artifact
-      if: ( tag IS present OR branch =~ /^feature\// OR branch =~ /^release\// OR branch = trunk ) AND type != pull_request
+      if: ( tag IS present OR branch =~ /^feature\// OR branch =~ /^release\// OR branch =~ /^hotfix\// OR branch = trunk ) AND type != pull_request
       before_install:
         - nvm install lts/*
         - curl -o- -L https://yarnpkg.com/install.sh | bash
@@ -118,13 +121,13 @@ cache:
 before_install:
   - export SECURITYCHECK_DIR=/tmp/security-checker
   - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
-  - if [[ -d "premium" ]]; then IS_PREMIUM=1; fi
   - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
   - |
     if [[ "$CHECKJS" == "1" ]]; then
       nvm install $TRAVIS_NODE_VERSION
       curl -o- -L https://yarnpkg.com/install.sh | bash
       export PATH=$HOME/.yarn/bin:$PATH
+      echo -e "machine github.com\n  login $CI_GITHUB_USER_TOKEN" > ~/.netrc
     fi
 
 install:
@@ -147,25 +150,12 @@ install:
     fi
   - |
     if [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
-      if [[ "$IS_PREMIUM" == "1" ]]; then
-        cd premium
-        travis_retry composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
-        cd -
-      else
-        travis_retry composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
-      fi
-    elif [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$PHPCS" == "1" || "$PHPLINT" == "1" ]]; then
+      travis_retry composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
+    elif [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$PHPLINT" == "1" ]]; then
       # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
       travis_retry composer update
       travis_retry composer install --no-interaction
       composer du
-      if [[ "$IS_PREMIUM" == "1" ]]; then
-        if [[ "$PHPCS" == "1" || "$PHPLINT" == "1" ]]; then
-          cd premium
-          travis_retry composer install --no-interaction
-          cd -
-        fi
-      fi
     elif [[ "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
       travis_retry composer update
       travis_retry composer install --no-dev --no-interaction
@@ -176,7 +166,7 @@ install:
       yarn global add grunt-cli
       yarn install
     fi
-  - if [[ "$SECURITY" == "1" ]]; then wget -P $SECURITYCHECK_DIR https://get.sensiolabs.org/security-checker.phar && chmod +x $SECURITYCHECK_DIR/security-checker.phar;fi
+  - if [[ "$SECURITY" == "1" ]]; then wget -P $SECURITYCHECK_DIR https://github.com/fabpot/local-php-security-checker/releases/download/v1.0.0/local-php-security-checker_1.0.0_linux_amd64 && chmod +x $SECURITYCHECK_DIR/local-php-security-checker_1.0.0_linux_amd64;fi
 
 before_script:
   # Careful: The HTTPS version of the following URL is different, therefore we need to use HTTP.
@@ -198,20 +188,10 @@ before_script:
       sed -i "s/yourpasswordhere//" wp-tests-config.php
       mysql -e "CREATE DATABASE wordpress_tests;" -uroot
       cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
-    fi
-  - |
-    if [[ "$CHECKJS" == "1" ]]; then
-      git fetch --tags
-      PLUGIN_TAGS=$(git tag --points-at $TRAVIS_COMMIT)
-      if [[ -z "$PLUGIN_TAGS" ]]; then
-        git clone https://github.com/yoast/javascript /tmp/javascript
-        echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
-        if [[ ( $TRAVIS_BRANCH =~ ^feature\/* || $TRAVIS_BRANCH =~ ^release\/* || $TRAVIS_BRANCH = "trunk" ) && $TRAVIS_EVENT_TYPE = "pull_request" ]]; then
-          AUTO_CHECKOUT_MONOREPO_BRANCH=1 yarn link-monorepo
-        else
-          yarn link-monorepo
-        fi
-      fi
+      mkdir src/generated/assets
+      echo "<?php return [ 'post-edit-' . ( new WPSEO_Admin_Asset_Manager() )->flatten_version( WPSEO_VERSION ) . '.js' => [ 'dependencies' => [] ] ];" >> src/generated/assets/plugin.php
+      echo "<?php return [];" >> src/generated/assets/externals.php
+      echo "<?php return [];" >> src/generated/assets/languages.php
     fi
   - phpenv rehash
   - |
@@ -245,7 +225,7 @@ script:
   - |
     if [[ "$CHECKJS" == "1" ]]; then
       travis_fold start "JavaScript.check" && travis_time_start
-      grunt check:js
+      yarn lint
       travis_time_finish && travis_fold end "JavaScript.check"
     fi
   # JavaScript tests
@@ -259,23 +239,8 @@ script:
   - |
     if [[ "$PHPLINT" == "1" ]]; then
       travis_fold start "PHP.check" && travis_time_start
-      if [[ "$IS_PREMIUM" == "1" ]]; then
-        cd premium && composer lint && cd -
-      else
-        composer lint
-      fi
+      composer lint
       travis_time_finish && travis_fold end "PHP.check"
-    fi
-  # PHP CS
-  - |
-    if [[ "$PHPCS" == "1" ]]; then
-      travis_fold start "PHP.code-style" && travis_time_start
-      if [[ "$IS_PREMIUM" == "1" ]]; then
-        cd premium && composer check-cs && cd -
-      else
-        composer check-cs-threshold
-      fi
-      travis_time_finish && travis_fold end "PHP.code-style"
     fi
   # PHP Unit
   - |
@@ -322,7 +287,7 @@ script:
   - if [[ $TRAVIS_PHP_VERSION == "5.6" || $TRAVIS_PHP_VERSION == "7.4" ]]; then composer validate --no-check-all; fi
 
   # Check for known security vulnerabilities in the currently locked-in dependencies.
-  - if [[ "$SECURITY" == "1" ]]; then php $SECURITYCHECK_DIR/security-checker.phar -n security:check $(pwd)/composer.lock;fi
+  - if [[ "$SECURITY" == "1" ]]; then $SECURITYCHECK_DIR/local-php-security-checker_1.0.0_linux_amd64 --path=$(pwd)/composer.lock;fi
 
 after_script:
   - |

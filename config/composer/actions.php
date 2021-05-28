@@ -121,7 +121,13 @@ class Actions {
 		$io->write( 'Compiling the dependency injection container...' );
 
 		// Pas true as debug to force a recheck of the container.
-		Container_Compiler::compile( true );
+		Container_Compiler::compile(
+			true,
+			__DIR__ . '/../../src/generated/container.php',
+			__DIR__ . '/../dependency-injection/services.php',
+			__DIR__ . '/../../vendor/composer/autoload_classmap.php',
+			'Yoast\WP\SEO\Generated'
+		);
 
 		$io->write( 'The dependency injection container has been compiled.' );
 	}
@@ -232,7 +238,7 @@ class Actions {
 	private static function filter_files( $files, $extension ) {
 		return \array_filter(
 			$files,
-			function( $file ) use ( $extension ) {
+			static function( $file ) use ( $extension ) {
 				return \substr( $file, ( 0 - \strlen( $extension ) ) ) === $extension;
 			}
 		);
@@ -448,7 +454,7 @@ TPL;
 	 * @param string $line  Line to output.
 	 * @param string $color Color to give the line.
 	 *
-	 * @returns void
+	 * @return void
 	 */
 	private static function color_line( $line, $color ) {
 		echo $color . $line . "\e[0m\n";
@@ -460,7 +466,7 @@ TPL;
 	 * @param string $line    Line to output.
 	 * @param bool   $success Success status.
 	 *
-	 * @returns void
+	 * @return void
 	 */
 	private static function color_line_success( $line, $success ) {
 		self::color_line( $line, ( $success ) ? "\e[32m" : "\e[31m" );
@@ -492,7 +498,7 @@ TPL;
 		$generator = new Unit_Test_Generator();
 		try {
 			$path = $generator->generate( $fqn );
-			printf( 'Unit test generated at \'%s\'' . "\n", $path );
+			\printf( 'Unit test generated at \'%s\'' . "\n", $path );
 		}
 		catch ( Exception $exception ) {
 			throw $exception;

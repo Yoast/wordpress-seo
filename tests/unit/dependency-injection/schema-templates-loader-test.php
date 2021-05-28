@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Dependency_Injection;
+namespace Yoast\WP\SEO\Tests\Unit\Dependency_Injection;
 
 use Yoast\WP\SEO\Dependency_Injection\Schema_Templates_Loader;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -36,14 +36,18 @@ class Schema_Templates_Loader_Test extends TestCase {
 	 * @covers ::get_templates
 	 */
 	public function test_get_templates() {
-		$schema_directory = dirname( WPSEO_FILE ) . '/src/schema-templates/';
+		$schema_directory = 'src/schema-templates/';
 
 		$expected_schema_blocks = [
-			$schema_directory . 'address.block.php',
-			$schema_directory . 'address.schema.php',
+			$schema_directory . 'cooking-time.block.php',
+			$schema_directory . 'cooking-time.schema.php',
 			$schema_directory . 'image.schema.php',
 			$schema_directory . 'ingredients.block.php',
 			$schema_directory . 'ingredients.schema.php',
+			$schema_directory . 'recipe-description.block.php',
+			$schema_directory . 'recipe-description.schema.php',
+			$schema_directory . 'recipe-name.block.php',
+			$schema_directory . 'recipe-name.schema.php',
 			$schema_directory . 'recipe.block.php',
 			$schema_directory . 'recipe.schema.php',
 			$schema_directory . 'step.block.php',

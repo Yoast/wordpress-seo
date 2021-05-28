@@ -82,7 +82,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Holds the site information data.
 	 *
-	 * @var object
+	 * @var stdClass
 	 */
 	private $site_information;
 
@@ -106,6 +106,40 @@ class WPSEO_Addon_Manager {
 	 */
 	public function get_subscriptions() {
 		return $this->get_site_information()->subscriptions;
+	}
+
+	/**
+	 * Provides a list of addon filenames.
+	 *
+	 * @return string[] List of addon filenames with their slugs.
+	 */
+	public function get_addon_filenames() {
+		return self::$addons;
+	}
+
+	/**
+	 * Finds the plugin file.
+	 *
+	 * @param string $plugin_slug The plugin slug to search.
+	 *
+	 * @return boolean|string Plugin file when installed, False when plugin isn't installed.
+	 **/
+	public function get_plugin_file( $plugin_slug ) {
+		$plugins            = $this->get_plugins();
+		$plugin_files       = array_keys( $plugins );
+		$target_plugin_file = array_search( $plugin_slug, $this->get_addon_filenames(), true );
+
+		if ( ! $target_plugin_file ) {
+			return false;
+		}
+
+		foreach ( $plugin_files as $plugin_file ) {
+			if ( strpos( $plugin_file, $target_plugin_file ) !== false ) {
+				return $plugin_file;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -182,6 +216,32 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Retrieves information from MyYoast about which addons are connected to the current site.
+	 *
+	 * @return stdClass The list of addons activated for this site.
+	 */
+	public function get_myyoast_site_information() {
+		if ( $this->site_information === null ) {
+			$this->site_information = $this->get_site_information_transient();
+		}
+
+		if ( $this->site_information ) {
+			return $this->site_information;
+		}
+
+		$this->site_information = $this->request_current_sites();
+		if ( $this->site_information ) {
+			$this->site_information = $this->map_site_information( $this->site_information );
+
+			$this->set_site_information_transient( $this->site_information );
+
+			return $this->site_information;
+		}
+
+		return $this->get_site_information_default();
+	}
+
+	/**
 	 * Checks if the subscription for the given slug is valid.
 	 *
 	 * @param string $slug The plugin slug to retrieve.
@@ -221,6 +281,10 @@ class WPSEO_Addon_Manager {
 
 			if ( version_compare( $installed_plugin['Version'], $subscription->product->version, '<' ) ) {
 				$data->response[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
+			}
+			else {
+				// Still convert subscription when no updates is available.
+				$data->no_update[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
 			}
 		}
 
@@ -294,6 +358,18 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Removes the site information transients.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function remove_site_information_transients() {
+		delete_transient( self::SITE_INFORMATION_TRANSIENT );
+		delete_transient( self::SITE_INFORMATION_TRANSIENT_QUICK );
+	}
+
+	/**
 	 * Creates an instance of Yoast_Notification.
 	 *
 	 * @param string $product_name The product to create the notification for.
@@ -342,25 +418,26 @@ class WPSEO_Addon_Manager {
 		$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
 
 		return (object) [
-			'new_version'   => $subscription->product->version,
-			'name'          => $subscription->product->name,
-			'slug'          => $subscription->product->slug,
-			'url'           => $subscription->product->store_url,
-			'last_update'   => $subscription->product->last_updated,
-			'homepage'      => $subscription->product->store_url,
-			'download_link' => $subscription->product->download,
-			'package'       => $subscription->product->download,
-			'sections'      => [
+			'new_version'      => $subscription->product->version,
+			'name'             => $subscription->product->name,
+			'slug'             => $subscription->product->slug,
+			'url'              => $subscription->product->store_url,
+			'last_update'      => $subscription->product->last_updated,
+			'homepage'         => $subscription->product->store_url,
+			'download_link'    => $subscription->product->download,
+			'package'          => $subscription->product->download,
+			'sections'         => [
 				'changelog' => $changelog,
 				'support'   => $this->get_support_section(),
 			],
-			'icons'         => [
+			'icons'            => [
 				'2x' => $this->get_icon( $subscription->product->slug ),
 			],
-			'banners'       => $this->get_banners( $subscription->product->slug ),
-			'tested'        => YOAST_SEO_WP_TESTED,
-			'requires'      => YOAST_SEO_WP_REQUIRED,
-			'requires_php'  => YOAST_SEO_PHP_REQUIRED,
+			'update_supported' => true,
+			'banners'          => $this->get_banners( $subscription->product->slug ),
+			'tested'           => YOAST_SEO_WP_TESTED,
+			'requires'         => YOAST_SEO_WP_REQUIRED,
+			'requires_php'     => YOAST_SEO_PHP_REQUIRED,
 		];
 	}
 
@@ -445,7 +522,7 @@ class WPSEO_Addon_Manager {
 		$addons = self::$addons;
 
 		// Yoast SEO Free isn't an addon, but we needed it in Premium to fetch translations.
-		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+		if ( YoastSEO()->helpers->product->is_premium() ) {
 			$addons['wp-seo.php'] = self::FREE_SLUG;
 		}
 
@@ -591,7 +668,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @param object $site_information Site information as received from the API.
 	 *
-	 * @return object Mapped site information.
+	 * @return stdClass Mapped site information.
 	 */
 	protected function map_site_information( $site_information ) {
 		return (object) [
@@ -605,7 +682,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @param object $subscription Subscription information as received from the API.
 	 *
-	 * @return object Mapped subscription.
+	 * @return stdClass Mapped subscription.
 	 */
 	protected function map_subscription( $subscription ) {
 		// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Not our properties.
@@ -636,24 +713,7 @@ class WPSEO_Addon_Manager {
 			return $this->get_site_information_default();
 		}
 
-		if ( $this->site_information === null ) {
-			$this->site_information = $this->get_site_information_transient();
-		}
-
-		if ( $this->site_information ) {
-			return $this->site_information;
-		}
-
-		$this->site_information = $this->request_current_sites();
-		if ( $this->site_information ) {
-			$this->site_information = $this->map_site_information( $this->site_information );
-
-			$this->set_site_information_transient( $this->site_information );
-
-			return $this->site_information;
-		}
-
-		return $this->get_site_information_default();
+		return $this->get_myyoast_site_information();
 	}
 
 	/**

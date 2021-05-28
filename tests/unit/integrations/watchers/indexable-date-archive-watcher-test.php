@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Date_Archive_Watcher
- * @covers ::<!public>
+ * @covers \Yoast\WP\SEO\Integrations\Watchers\Indexable_Date_Archive_Watcher
  */
 class Indexable_Date_Archive_Watcher_Test extends TestCase {
 
@@ -37,12 +37,14 @@ class Indexable_Date_Archive_Watcher_Test extends TestCase {
 	private $builder;
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Indexable_Date_Archive_Watcher
 	 */
 	private $instance;
 
 	/**
-	 * @inheritDoc
+	 * Sets up the test fixtures.
 	 */
 	protected function set_up() {
 		parent::set_up();

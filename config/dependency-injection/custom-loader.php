@@ -17,11 +17,27 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 class Custom_Loader extends PhpFileLoader {
 
 	/**
+	 * The class map path.
+	 *
+	 * @var string
+	 */
+	private $class_map_path;
+
+	/**
+	 * The class map.
+	 *
+	 * @var array
+	 */
+	private $class_map;
+
+	/**
 	 * Custom_Loader constructor.
 	 *
-	 * @param ContainerBuilder $container The ContainerBuilder to load classes for.
+	 * @param ContainerBuilder $container      The ContainerBuilder to load classes for.
+	 * @param string           $class_map_path The class map path.
 	 */
-	public function __construct( ContainerBuilder $container ) {
+	public function __construct( ContainerBuilder $container, $class_map_path ) {
+		$this->class_map_path = $class_map_path;
 		parent::__construct( $container, new FileLocator( __DIR__ . '/../..' ) );
 	}
 
@@ -33,16 +49,14 @@ class Custom_Loader extends PhpFileLoader {
 	 * @return bool|string The classname.
 	 */
 	private function getClassFromClassMap( $path ) {
-		static $class_map;
-
-		if ( ! $class_map ) {
-			$class_map = require __DIR__ . '/../../vendor/composer/autoload_classmap.php';
-			$class_map = \array_map( [ $this, 'normalize_slashes' ], $class_map );
-			$class_map = \array_flip( $class_map );
+		if ( ! $this->class_map ) {
+			$this->class_map = require $this->class_map_path;
+			$this->class_map = \array_map( [ $this, 'normalize_slashes' ], $this->class_map );
+			$this->class_map = \array_flip( $this->class_map );
 		}
 
-		if ( isset( $class_map[ $path ] ) ) {
-			return $class_map[ $path ];
+		if ( isset( $this->class_map[ $path ] ) ) {
+			return $this->class_map[ $path ];
 		}
 
 		return false;
@@ -51,14 +65,14 @@ class Custom_Loader extends PhpFileLoader {
 	/**
 	 * Registers a set of classes as services using PSR-4 for discovery.
 	 *
-	 * @param Definition $prototype A definition to use as template.
-	 * @param string     $namespace The namespace prefix of classes in the scanned directory.
-	 * @param string     $resource  The directory to look for classes, glob-patterns allowed.
-	 * @param string     $exclude   A globed path of files to exclude.
-	 *
-	 * @throws InvalidArgumentException If invalid arguments are supplied.
+	 * @param Definition  $prototype A definition to use as template.
+	 * @param string      $namespace The namespace prefix of classes in the scanned directory.
+	 * @param string      $resource  The directory to look for classes, glob-patterns allowed.
+	 * @param string|null $exclude   A globed path of files to exclude.
 	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException If invalid arguments are supplied.
 	 */
 	public function registerClasses( Definition $prototype, $namespace, $resource, $exclude = null ) {
 		if ( \substr( $namespace, -1 ) !== '\\' ) {
@@ -107,9 +121,9 @@ class Custom_Loader extends PhpFileLoader {
 	 * @param string $pattern   The directory to look for classes, glob-patterns allowed.
 	 * @param string $exclude   A globed path of files to exclude.
 	 *
-	 * @throws InvalidArgumentException If invalid arguments were supplied.
-	 *
 	 * @return array The found classes.
+	 *
+	 * @throws InvalidArgumentException If invalid arguments were supplied.
 	 */
 	private function findClasses( $namespace, $pattern, $exclude ) {
 		$parameter_bag = $this->container->getParameterBag();

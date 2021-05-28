@@ -35,7 +35,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	protected $builder;
 
 	/**
-	 * @inheritDoc
+	 * {@inheritDoc}
 	 */
 	protected function set_up() {
 		parent::set_up();

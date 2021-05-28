@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\WordPress;
 use wpdb;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Replace_Vars;
+use WPSEO_Addon_Manager;
 
 /**
  * Wrapper class for WordPress globals.
@@ -40,5 +41,14 @@ class Wrapper {
 	 */
 	public static function get_admin_asset_manager() {
 		return new WPSEO_Admin_Asset_Manager();
+	}
+
+	/**
+	 * Factory function for the addon manager.
+	 *
+	 * @return WPSEO_Addon_Manager The addon manager.
+	 */
+	public static function get_addon_manager() {
+		return new WPSEO_Addon_Manager();
 	}
 }
