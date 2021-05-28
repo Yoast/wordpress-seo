@@ -103,7 +103,9 @@ class ImageSelectComponent extends Component {
 		 * @returns {void}
 		 */
 		const imageCallback = ( image ) => {
-			this.setWarnings( validateFacebookImage( image ) );
+			if ( this.props.hasImageValidation ) {
+				this.setWarnings( validateFacebookImage( image ) );
+			}
 
 			this.setMyImageUrl( image.url );
 			if ( this.hiddenFieldImageId !== null ) {
