@@ -21,6 +21,7 @@ export default function initSocialSettings() {
 				selectImageButtonId="yoast-og-default-image-select-button"
 				replaceImageButtonId="yoast-og-default-image-replace-button"
 				removeImageButtonId="yoast-og-default-image-remove-button"
+				hasImageValidation={ true }
 			/>
 		</Fragment>,
 		element

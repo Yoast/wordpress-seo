@@ -53,7 +53,7 @@ $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-se
 	<p>
 		<?php esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>
 	</p>
-	<div id="yoast-og-default-image-select"></div>
+	<div id="yoast-og-default-image-select" class="yoast-measure"></div>
 </div>
 <?php
 
