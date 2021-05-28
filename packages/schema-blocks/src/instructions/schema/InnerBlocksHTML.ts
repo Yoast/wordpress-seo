@@ -7,7 +7,7 @@ import { BlockInstance } from "@wordpress/blocks";
 /**
  * InnerBlocksHTML instruction.
  */
-export class InnerBlocksHTML extends SchemaInstruction {
+class InnerBlocksHTML extends SchemaInstruction {
 	public options: {
 		name: string;
 		blocks?: Record<string, string>;
