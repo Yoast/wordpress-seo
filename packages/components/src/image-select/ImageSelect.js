@@ -55,10 +55,13 @@ function ImageSelect( props ) {
 					</button>
 				}
 				{
-					showWarnings &&
-					props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
-						{ warning }
-					</Alert> )
+					showWarnings && <div role="alert">
+						{
+							props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
+								{ warning }
+							</Alert> )
+						}
+					</div>
 				}
 				<ImageSelectButtons { ...imageSelectButtonsProps } />
 			</FieldGroup>
