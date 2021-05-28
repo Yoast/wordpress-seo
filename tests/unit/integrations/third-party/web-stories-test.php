@@ -79,56 +79,7 @@ class Web_Stories_Test extends TestCase {
 		$this->assertNotFalse( \has_action( 'web_stories_story_head', [ $this->front_end, 'call_wpseo_head' ] ), 'The wpseo head action is registered.' );
 		$this->assertNotFalse( \has_filter( 'wpseo_schema_article_post_types', [ $this->instance, 'filter_schema_article_post_types' ] ), 'The filter schema article post types function is registered.' );
 		$this->assertNotFalse( \has_filter( 'wpseo_schema_article_type', [ $this->instance, 'filter_schema_article_type' ] ), 'The filter schema article type function is registered.' );
-		$this->assertNotFalse( \has_action( 'admin_enqueue_scripts', [ $this->instance, 'dequeue_admin_assets' ] ), 'The admin_enqueue_scripts action is registered.' );
 		$this->assertNotFalse( \has_filter( 'wpseo_metadesc', [ $this->instance, 'filter_meta_description' ] ), 'The metadesc action is registered.' );
-	}
-
-	/**
-	 * Tests dequeue admin assets
-	 *
-	 * @covers ::dequeue_admin_assets
-	 */
-	public function test_dequeue_admin_assets() {
-		$current_screen            = Mockery::mock( '\WP_Screen' );
-		$current_screen->base      = 'foo';
-		$current_screen->post_type = 'bar';
-
-		Monkey\Functions\expect( '\get_current_screen' )
-			->once()
-			->andReturn( $current_screen );
-
-		Mockery::namedMock( '\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
-
-		Monkey\Functions\expect( '\wp_dequeue_script' )
-			->never();
-		Monkey\Functions\expect( '\wp_dequeue_style' )
-			->never();
-
-		$this->instance->dequeue_admin_assets();
-	}
-
-	/**
-	 * Tests dequeue admin assets
-	 *
-	 * @covers ::dequeue_admin_assets
-	 */
-	public function test_dequeue_admin_assets_with_screen() {
-		$current_screen            = Mockery::mock( '\WP_Screen' );
-		$current_screen->base      = 'post';
-		$current_screen->post_type = 'web-story';
-
-		Monkey\Functions\expect( '\get_current_screen' )
-			->once()
-			->andReturn( $current_screen );
-
-		Mockery::namedMock( '\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
-
-		Monkey\Functions\expect( '\wp_dequeue_script' )
-			->times( 4 );
-		Monkey\Functions\expect( '\wp_dequeue_style' )
-			->times( 8 );
-
-		$this->instance->dequeue_admin_assets();
 	}
 
 	/**
