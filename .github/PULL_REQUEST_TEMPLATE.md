@@ -11,6 +11,7 @@ What do we want to achieve with this PR? Why did we write this code?
 Attach one of the following labels to the PR: `changelog: bugfix`, `changelog: enhancement`, `changelog: other`, `changelog: non-user-facing`.
 If the changelog item is a bugfix, please use the following sentence structure: Fixes a bug where ... would ... (when ...).
 If the changelog item is meant for the changelog of another repo, start you changelog item with the repo name between square brackets, for example: * [wordpress-seo-premium] Fixes a bug where ....
+If the changelog items is meant for the changelog of a javascript package, specify between square brackets in which package changelog the item should be included, for example: * [@yoast/components] Fixes a bug where ....
 If the same changelog item is applicable to multiple changelogs/repos, add a separate changelog item for all of them.
 -->
 This PR can be summarized in the following changelog entry:

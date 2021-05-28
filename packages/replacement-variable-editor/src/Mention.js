@@ -2,6 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 
 // Yoast dependencies.
 import { colors } from "@yoast/style-guide";
@@ -29,7 +30,7 @@ const StyledMention = styled.span`
  */
 export const Mention = ( { children, className } ) => {
 	return <StyledMention
-		className={ className }
+		className={ classNames( "yst-replacevar__mention", className ) }
 		spellCheck={ false }
 	>
 		{ children }

@@ -4,6 +4,7 @@ import { BlockInstance } from "@wordpress/blocks";
 import { BlockValidation, BlockValidationResult } from "../validation";
 import { BlockPresence } from "../validation/BlockValidationResult";
 
+// eslint-disable-next-line no-use-before-define
 export type SchemaInstructionClass = { new( id: number, options: InstructionOptions ): SchemaInstruction };
 
 /**

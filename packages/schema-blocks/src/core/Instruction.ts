@@ -4,15 +4,17 @@ import { BlockValidationResult, BlockValidation } from "./validation";
 import { BlockPresence } from "./validation/BlockValidationResult";
 
 export type InstructionPrimitive = string | number | boolean;
+// eslint-disable-next-line no-use-before-define
 export type InstructionValue = InstructionPrimitive | InstructionObject | InstructionArray;
 export type InstructionArray = readonly InstructionValue[];
 export interface InstructionObject { [member: string]: InstructionValue }
-export interface InstructionClass<T extends Instruction> {
-	new( id: number, options: InstructionOptions ): T;
-}
 export type InstructionOptions = InstructionObject & {
 	name: string;
 };
+// eslint-disable-next-line no-use-before-define
+export interface InstructionClass<T extends Instruction> {
+	new( id: number, options: InstructionOptions ): T;
+}
 
 /**
  * Abstract instruction class.
