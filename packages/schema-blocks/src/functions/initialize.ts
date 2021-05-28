@@ -7,7 +7,7 @@ import filter from "./gutenberg/filter";
 import watch from "./gutenberg/watch";
 import logger, { LogLevel } from "./logger";
 import injectSidebar from "./gutenberg/inject-sidebar";
-import extractDependencies from "./extractDependencies";
+import extractDependencies, { DependencyMap } from "./extractDependencies";
 
 /**
  * Removes all whitespace including line breaks from a string.
@@ -42,16 +42,20 @@ export function initialize( logLevel: LogLevel = LogLevel.ERROR ): void {
 
 	registerInternalBlocks();
 
+	const dependencyMap = new DependencyMap();
+
 	jQuery( 'script[type="text/schema-template"]' ).each( function() {
 		try {
 			const template = removeWhitespace( this.innerHTML );
 			const definition = processSchema( template );
-			extractDependencies( definition );
+			extractDependencies( definition, dependencyMap );
 			definition.register();
 		} catch ( e ) {
 			logger.error( "Failed to parse schema-template", e, this );
 		}
 	} );
+
+	logger.debug( "Dependencies", dependencyMap );
 
 	// Filter in our schema definitions with Gutenberg.
 	filter();
@@ -67,7 +71,7 @@ export function initialize( logLevel: LogLevel = LogLevel.ERROR ): void {
 	} );
 
 	// Watch Gutenberg for block changes that require schema updates.
-	watch();
+	watch( dependencyMap );
 }
 
 /**

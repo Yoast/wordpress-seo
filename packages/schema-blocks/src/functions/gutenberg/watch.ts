@@ -9,6 +9,7 @@ import storeBlockValidation from "./storeBlockValidation";
 import logger from "../logger";
 import { isResultValidForSchema } from "../validators/validateResults";
 import { missingBlocks } from "../validators/missingBlocks";
+import { DependencyMap } from "../extractDependencies";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -101,12 +102,12 @@ function generateSchemaForBlocks(
 }
 
 /**
-* Validates blocks recursively.
-*
-* @param blocks The block instances to validate.
-*
-* @returns Validation results for each (inner)block of the given blocks.
-*/
+ * Validates blocks recursively.
+ *
+ * @param blocks The block instances to validate.
+ *
+ * @returns Validation results for each (inner)block of the given blocks.
+ */
 export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
 	const validations: BlockValidationResult[] = [];
 	blocks.forEach( block => {
@@ -127,10 +128,37 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 	return validations;
 }
 
+function determineSchemaRoot( rootBlocks: BlockInstance[], dependencyMap: DependencyMap ) {
+	let counts: Record<string, number> = {};
+
+	rootBlocks.forEach( block => {
+		const dependencies = dependencyMap.map[ block.name ];
+		if ( dependencies ) {
+			dependencies.requiredFor.forEach( dependency => {
+				if ( counts[ dependency ] ) {
+					counts[ dependency ] += 1;
+				} else {
+					counts[ dependency ] = 1;
+				}
+			} );
+			dependencies.recommendedFor.forEach( dependency => {
+				if ( counts[ dependency ] ) {
+					counts[ dependency ] += 1;
+				} else {
+					counts[ dependency ] = 1;
+				}
+			} );
+		}
+	} );
+	return counts;
+}
+
 /**
  * Watches Gutenberg for relevant changes.
+ *
+ * @param dependencyMap A map of the dependencies between the registered block / Schema definitions.
  */
-export default function watch(): void {
+export default function watch( dependencyMap: DependencyMap ): void {
 	subscribe(
 		debounce( () => {
 			if ( updatingSchema ) {
@@ -142,6 +170,10 @@ export default function watch(): void {
 			if ( rootBlocks === previousRootBlocks ) {
 				return;
 			}
+
+			let counts = determineSchemaRoot( rootBlocks, dependencyMap );
+
+			logger.debug( "counts", counts );
 
 			updatingSchema = true;
 			{
