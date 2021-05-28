@@ -3,7 +3,6 @@ import { SchemaValue } from "../../core/schema/SchemaDefinition";
 import { stripTags } from "../../functions/html";
 import { getInnerBlocksAttributes } from "../../functions/blocks";
 import { BlockInstance } from "@wordpress/blocks";
-import { BlockPresence } from "../../core/validation";
 
 /**
  * InnerBlocksHTML instruction.
@@ -12,7 +11,6 @@ export class InnerBlocksHTML extends SchemaInstruction {
 	public options: {
 		name: string;
 		blocks?: Record<string, string>;
-		presence?: BlockPresence;
 		allowedTags?: string[];
 		onlyFirst?: boolean;
 		skipFirst?: boolean;
