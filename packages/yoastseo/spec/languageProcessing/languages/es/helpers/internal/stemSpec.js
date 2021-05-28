@@ -415,6 +415,9 @@ const wordsToStem = [
 	[ "lizándose", "liz" ],
 	// Word ending in -e preceded bu -gu (the word below is made-up)
 	[ "persigue", "persegu" ],
+	// Words that looks like it ends in a valid -mente suffix but do not
+	[ "demente", "dement" ],
+	[ "clemente", "clement" ],
 ];
 
 const paradigms = [
@@ -437,7 +440,6 @@ const paradigms = [
 	{ stem: "puert", forms: [ "puertecito", "puertecitos", "puertito", "puertitos" ] },
 	{ stem: "beb", forms: [ "bebita", "bebitas", "bebecita", "bebecitas", "bebecito" ] },
 	{ stem: "lunch", forms: [ "lonchecito", "lonchito", "lunchito" ] },
-
 ];
 
 

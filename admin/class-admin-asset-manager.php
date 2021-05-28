@@ -229,11 +229,13 @@ class WPSEO_Admin_Asset_Manager {
 			'analysis-worker'    => [ self::PREFIX . 'analysis-package' ],
 			'api-client'         => [ 'wp-api' ],
 			'dashboard-widget'   => [ self::PREFIX . 'api-client' ],
+			'elementor'          => [ self::PREFIX . 'api-client' ],
 			'indexation'         => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
 			],
 			'post-edit'          => [
+				self::PREFIX . 'api-client',
 				self::PREFIX . 'block-editor',
 				self::PREFIX . 'select2',
 			],
@@ -248,6 +250,7 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'select2',
 			],
 			'term-edit'          => [
+				self::PREFIX . 'api-client',
 				self::PREFIX . 'classic-editor',
 				self::PREFIX . 'select2',
 			],

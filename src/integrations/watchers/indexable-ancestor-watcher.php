@@ -92,7 +92,6 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_save_indexable', [ $this, 'reset_children' ], \PHP_INT_MAX, 2 );
-		\add_action( 'set_object_terms', [ $this, 'build_post_hierarchy' ], \PHP_INT_MAX, 2 );
 	}
 
 	/**
@@ -178,19 +177,15 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	/**
 	 * Builds the hierarchy for a post.
 	 *
+	 * @deprecated 16.4
+	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param int $object_id The post id.
 	 * @param int $post_type The post type.
 	 */
 	public function build_post_hierarchy( $object_id, $post_type ) {
-		if ( $this->post_type_helper->is_excluded( $post_type ) ) {
-			return;
-		}
-
-		$indexable = $this->indexable_repository->find_by_id_and_type( $object_id, 'post' );
-
-		if ( $indexable instanceof Indexable ) {
-			$this->indexable_hierarchy_builder->build( $indexable );
-		}
+		_deprecated_function( __METHOD__, '16.4', 'Primary_Category_Quick_Edit_Watcher::build_post_hierarchy' );
 	}
 
 	/**

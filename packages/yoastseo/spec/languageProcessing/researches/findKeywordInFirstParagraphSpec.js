@@ -1,3 +1,4 @@
+import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
 import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
@@ -200,6 +201,8 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 		);
 		const researcher = new FrenchResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyDataFR );
+		primeLanguageSpecificData.cache.clear();
+
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
@@ -216,6 +219,8 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 		);
 		const researcher = new FrenchResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyDataFR );
+		primeLanguageSpecificData.cache.clear();
+
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: true,
@@ -232,6 +237,8 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 		);
 		const researcher = new FrenchResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyDataFR );
+		primeLanguageSpecificData.cache.clear();
+
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
@@ -251,6 +258,8 @@ describe( "checks for the content words from a synonym phrase in the first parag
 		);
 		const researcher = new FrenchResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyDataFR );
+		primeLanguageSpecificData.cache.clear();
+
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,
@@ -268,6 +277,8 @@ describe( "checks for the content words from a synonym phrase in the first parag
 		);
 		const researcher = new FrenchResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyDataFR );
+		primeLanguageSpecificData.cache.clear();
+
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: true,
@@ -285,6 +296,8 @@ describe( "checks for the content words from a synonym phrase in the first parag
 		);
 		const researcher = new FrenchResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyDataFR );
+		primeLanguageSpecificData.cache.clear();
+
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,
