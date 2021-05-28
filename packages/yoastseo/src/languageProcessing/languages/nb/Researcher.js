@@ -1,10 +1,6 @@
 import { languageProcessing } from "yoastseo";
 const { AbstractResearcher } = languageProcessing;
-import { enableFeatures, isFeatureEnabled } from "@yoast/feature-flag";
-import firstWordExceptions from "../en/config/firstWordExceptions";
-import getSentenceParts from "../hu/helpers/getSentenceParts";
-import isPassiveSentence from "../hu/helpers/isPassiveSentence";
-import isPassiveSentencePart from "../hu/helpers/isPassiveSentencePart";
+import { enableFeatures, isFeatureEnabled, enabledFeatures } from "@yoast/feature-flag";
 
 // All config
 import functionWords from "./config/functionWords";
@@ -33,10 +29,9 @@ export default class Researcher extends AbstractResearcher {
 		// Enable the other Norwegian readability features
 		enableFeatures( [ 'NORWEGIAN_READABILITY' ] );
 
-		// Delete the transition words, passive voice and getSentenceBeginning researches if the Norwegian readability is not enabled
 		if ( isFeatureEnabled( 'NORWEGIAN_READABILITY' ) ) {
 			Object.assign( this.config, {
-				passiveConstructionType,
+				passiveConstructionType: "morphologicalAndPeriphrastic",
 				transitionWords,
 				twoPartTransitionWords,
 				firstWordExceptions,
@@ -47,6 +42,7 @@ export default class Researcher extends AbstractResearcher {
 				isPassiveSentence,
 			} );
 		} else {
+			// Delete the researches for other readability assessments when the feature is not enabled.
 			delete this.defaultResearches.findTransitionWords;
 			delete this.defaultResearches.getPassiveVoice;
 			delete this.defaultResearches.getSentenceBeginnings;
