@@ -659,24 +659,22 @@ class Indexable_Presentation extends Abstract_Presentation {
 		$images = $this->twitter_image_generator->generate( $this->context );
 		$image  = \reset( $images );
 
-		// When there is an image set by the user.
+		// Use a user-defined Twitter image, if present.
 		if ( $image && $this->context->indexable->twitter_image_source === 'set-by-user' ) {
 			return $image['url'];
 		}
 
-		if ( $this->context->open_graph_enabled === true ) {
-			$open_graph_image = $this->values_helper->get_open_graph_image( '', $this->model->object_type, $this->model->object_sub_type );
-			if ( ! empty( $open_graph_image ) ) {
-				return $open_graph_image;
-			}
-		}
-
-		// When there isn't a set image or there is a Open Graph image set.
-		if ( empty( $image ) || ( $this->context->open_graph_enabled === true && $this->open_graph_images ) ) {
+		// Let the Open Graph tags, if enabled, handle the rest of the fallback hierarchy.
+		if ( $this->context->open_graph_enabled === true && $this->open_graph_images ) {
 			return '';
 		}
 
-		return $image['url'];
+		// Set a Twitter tag with the featured image, or a prominent image from the content, if present.
+		if ( $image ) {
+			return $image['url'];
+		}
+
+		return '';
 	}
 
 	/**
