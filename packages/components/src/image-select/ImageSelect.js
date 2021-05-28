@@ -39,6 +39,7 @@ function ImageSelect( props ) {
 			<FieldGroup
 				label={ props.label }
 				hasNewBadge={ props.hasNewBadge }
+				hasPremiumBadge={ props.hasPremiumBadge }
 			>
 				{ props.hasPreview &&
 					<button
@@ -82,6 +83,7 @@ ImageSelect.propTypes = {
 	warnings: PropTypes.arrayOf( PropTypes.string ),
 	hasNewBadge: PropTypes.bool,
 	isDisabled: PropTypes.bool,
+	hasPremiumBadge: PropTypes.bool,
 };
 
 ImageSelect.defaultProps = {
@@ -98,4 +100,5 @@ ImageSelect.defaultProps = {
 	warnings: [],
 	hasNewBadge: false,
 	isDisabled: false,
+	hasPremiumBadge: false,
 };

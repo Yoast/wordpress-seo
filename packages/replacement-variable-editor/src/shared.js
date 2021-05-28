@@ -41,7 +41,6 @@ export const FormSection = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	justify-content: space-between;
 	margin: 16px 0 0 0;
 `;
 
@@ -65,6 +64,7 @@ export const TriggerReplacementVariableSuggestionsButton = styled( StandardButto
 	font-size: 13px;
 	width: 103px;
 	height: 28px;
+	margin-left: auto;
 	& svg {
 		${ getDirectionalStyle( "margin-right", "margin-left" ) }: 7px;
 		fill: ${ colors.$color_grey_dark };

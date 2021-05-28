@@ -85,6 +85,7 @@ export default function initSearchAppearance() {
 						removeImageButtonId={ portal.id + "-remove-button" }
 						hasNewBadge={ portal.dataset.reactImagePortalHasNewBadge === "1" }
 						isDisabled={ portal.dataset.reactImagePortalIsDisabled === "1" }
+						hasPremiumBadge={ portal.dataset.reactImagePortalHasPremiumBadge === "1" }
 					/> );
 				} ) }
 

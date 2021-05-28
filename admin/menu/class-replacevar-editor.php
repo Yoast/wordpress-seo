@@ -30,6 +30,7 @@ class WPSEO_Replacevar_Editor {
 	 *      @type string $label_description       Optional. The label to use for the description field.
 	 *      @type string $description_placeholder Optional. The placeholder text to use for the description field.
 	 *      @type bool   $has_new_badge           Optional. Whether to show the "New" badge.
+	 *      @type bool   $has_premium_badge       Optional. Whether to show the "Premium" badge.
 	 * }
 	 */
 	private $arguments;
@@ -50,6 +51,7 @@ class WPSEO_Replacevar_Editor {
 	 *      @type string $label_description       Optional. The label to use for the description field.
 	 *      @type string $description_placeholder Optional. The placeholder text to use for the description field.
 	 *      @type bool   $has_new_badge           Optional. Whether to show the "New" badge.
+	 *      @type bool   $has_premium_badge       Optional. Whether to show the "Premium" badge.
 	 * }
 	 */
 	public function __construct( Yoast_Form $yform, $arguments ) {
@@ -61,7 +63,8 @@ class WPSEO_Replacevar_Editor {
 				'label_description'       => '',
 				'description_placeholder' => '',
 				'has_new_badge'           => false,
-				'is_disabled'             => false
+				'is_disabled'             => false,
+				'has_premium_badge'       => false,
 			]
 		);
 
@@ -79,6 +82,7 @@ class WPSEO_Replacevar_Editor {
 			'description_placeholder' => (string) $arguments['description_placeholder'],
 			'has_new_badge'           => (bool) $arguments['has_new_badge'],
 			'is_disabled'             => (bool) $arguments['is_disabled'],
+			'has_premium_badge'       => (bool) $arguments['has_premium_badge'],
 		];
 	}
 
@@ -105,7 +109,9 @@ class WPSEO_Replacevar_Editor {
 				data-react-replacevar-label-description="%7$s"
 				data-react-replacevar-description-placeholder="%8$s"
 				data-react-replacevar-has-new-badge="%9$s"
-				data-react-replacevar-is-disabled="%10$s"></div>',
+				data-react-replacevar-is-disabled="%10$s"
+				data-react-replacevar-has-premium-badge="%11$s"
+			></div>',
 			esc_attr( $this->arguments['title'] ),
 			esc_attr( $this->arguments['description'] ),
 			esc_attr( $this->arguments['page_type_recommended'] ),
@@ -115,7 +121,8 @@ class WPSEO_Replacevar_Editor {
 			esc_attr( $this->arguments['label_description'] ),
 			esc_attr( $this->arguments['description_placeholder'] ),
 			esc_attr( $this->arguments['has_new_badge'] ),
-			esc_attr( $this->arguments['is_disabled'] )
+			esc_attr( $this->arguments['is_disabled'] ),
+			esc_attr( $this->arguments['has_premium_badge'] )
 		);
 	}
 
