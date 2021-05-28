@@ -1,6 +1,5 @@
-/* eslint-disable max-statements, require-jsdoc, complexity */
-// The function will be further adjected anyways, so it makes no sense to randomly split it in smaller functions now.
-// The orginal stemmer is available at https://github.com/dmarman/lorca/blob/master/src/stemmer.js.
+/* eslint-disable max-statements, complexity */
+// The original stemmer is available at https://github.com/dmarman/lorca/blob/master/src/stemmer.js.
 import { languageProcessing } from "yoastseo";
 const {
 	buildFormRule,
@@ -22,13 +21,28 @@ const {
  * all copies or substantial portions of the Software.
  */
 
-
-const isVowel = function( c ) {
+/**
+ * Checks if the input character is a Spanish vowel.
+ *
+ * @param {string} letter The character to be checked.
+ *
+ * @returns {boolean} Whether the input character is a Spanish vowel.
+ */
+const isVowel = function( letter ) {
 	const regex = /[aeiouáéíóú]/gi;
 
-	return regex.test( c );
+	return regex.test( letter );
 };
 
+/**
+ * Checks what the position number of the next vowel is. The function starts searching starting from a position specified
+ * in the start parameter.
+ *
+ * @param {string} word         The word to be analyzed.
+ * @param {int}    [start=0]    The first position in the word to start checking from.
+ *
+ * @returns {int} The position at which the next vowel occurs.
+ */
 const nextVowelPosition = function( word, start ) {
 	const length = word.length;
 
@@ -41,6 +55,15 @@ const nextVowelPosition = function( word, start ) {
 	return length;
 };
 
+/**
+ * Checks what the position number of the next consonant is. The function starts searching starting from a position specified
+ * in the start parameter.
+ *
+ * @param {string} word         The word to be analyzed.
+ * @param {int}    [start=0]    The first position in the word to start checking from.
+ *
+ * @returns {int} The position at which the next consonant occurs.
+ */
 const nextConsonantPosition = function( word, start ) {
 	const length = word.length;
 
@@ -53,6 +76,13 @@ const nextConsonantPosition = function( word, start ) {
 	return length;
 };
 
+/**
+ * Replaces accented vowels with non-accented vowels in the input string.
+ *
+ * @param {string}   word     The word to be de-accentified.
+ *
+ * @returns {string} The de-accentified input word.
+ */
 const removeAccent = function( word ) {
 	const accentedVowels = [ "á", "é", "í", "ó", "ú" ];
 	const vowels = [ "a", "e", "i", "o", "u" ];
@@ -64,12 +94,44 @@ const removeAccent = function( word ) {
 	return word;
 };
 
+/**
+ * Checks whether the input word ends with the input suffix.
+ *
+ * @param {string} word   The word to be analyzed.
+ * @param {string} suffix The suffix to check for.
+ *
+ * @returns {boolean} Whether the word ends with the suffix provided.
+ */
 const endsIn = function( word, suffix ) {
 	if ( word.length < suffix.length ) {
 		return false;
 	}
 
 	return ( word.slice( -suffix.length ) === suffix );
+};
+
+/**
+ * Checks whether the input word ends with one of the input suffixes and returns the longest suffix matched.
+ *
+ * @param {string}   word     The word to be analyzed.
+ * @param {string[]} suffixes The suffix to check for.
+ *
+ * @returns {string} The longest suffix matched in the word from the input list of suffixes.
+ */
+const endsInArr = function( word, suffixes ) {
+	const matches = [];
+	for ( const i in suffixes ) {
+		if ( endsIn( word, suffixes[ i ] ) ) {
+			matches.push( suffixes[ i ] );
+		}
+	}
+	const longest = matches.sort( function( a, b ) {
+		return b.length - a.length;
+	} )[ 0 ];
+	if ( longest ) {
+		return longest;
+	}
+	return "";
 };
 
 /**
@@ -91,18 +153,20 @@ const checkWordInFullFormExceptions = function( word, exceptions ) {
 
 /**
  * The function considers if the input word can be an adverb in -mente and if so stems it.
- * @param   {string}   word                                      The word to stem.
- * @param   {string}   r1Text                                    The R1 region of the word to stem.
- * @param   {Object}   menteStemming                      An object containing information about how to stem mente-adverbs.
- * @param   {string[]} menteStemming.notMente      An array of words that look like mente-adverbs but are not.
- * @param   {Array}    menteStemming.menteToStem    An array of pairs of regexes to match.
+ *
+ * @param   {string}   word                             The word to stem.
+ * @param   {string}   r1Text                           The R1 region of the word to stem.
+ * @param   {Object}   menteStemming                    An object containing information about how to stem mente-adverbs.
+ * @param   {string[]} menteStemming.notMenteAdverbs    An array of words that look like mente-adverbs but are not.
+ * @param   {Array}    menteStemming.menteToStem        An array of pairs of regexes to match.
+ *
  * @returns {string}   A stemmed adverb or the input word, if it is not an adverb.
  */
 const tryStemAsMente = function( word, r1Text, menteStemming ) {
 	const suffix = endsIn( r1Text, "mente" );
 
 	// Immediately return the input word if no mente suffix is found or the word is in the stopList.
-	if ( suffix === "" || menteStemming.notMenteAdverbs.includes( word ) ) {
+	if ( ! suffix || menteStemming.notMenteAdverbs.includes( word ) ) {
 		return word;
 	}
 
@@ -111,12 +175,14 @@ const tryStemAsMente = function( word, r1Text, menteStemming ) {
 
 /**
  * The function considers if the input word can be a superlative and if so stems it.
+ *
  * @param   {string}   word                                      The word to stem.
  * @param   {string}   r1Text                                    The R1 region of the word to stem.
  * @param   {Object}   superlativesStemming                      An object containing information about how to stem superlatives.
  * @param   {string[]} superlativesStemming.superlativeSuffixes  An array of suffixes possible in superlatives.
  * @param   {string[]} superlativesStemming.notSuperlatives      An array of words that look like superlatives but are not.
  * @param   {Array}    superlativesStemming.superlativeToStem    An array of pairs of regexes to match.
+ *
  * @returns {string}   A stemmed superlative or the input word, if it is not a superlative.
  */
 const tryStemAsSuperlative = function( word, r1Text, superlativesStemming ) {
@@ -246,40 +312,22 @@ const stemVerbSuffixes = function( word, wordAfter1, rvText, rv ) {
 };
 
 /**
- * Stems Spanish words.
+ * Determines the R1, R2 and RV of the word.
  *
- * @param {string} word            The word to stem.
- * @param {Object} morphologyData  The Spanish morphology data.
+ * @param {string} word		The word checked.
  *
- * @returns {string} The stemmed word.
+ * @returns {number[]} The array of R1, R2, and RV.
  */
-export default function stem( word, morphologyData ) {
-	word.toLowerCase();
-
-	const ifException = checkWordInFullFormExceptions( word, morphologyData.exceptionStemsWithFullForms );
-	if ( ifException ) {
-		return ifException;
-	}
-
-	const nonPluralsOnS = morphologyData.wordsThatLookLikeButAreNot.nonPluralsOnS;
-	if ( nonPluralsOnS.includes( word ) ) {
-		return removeAccent( word );
-	}
-
-	const length = word.length;
-	if ( length < 2 ) {
-		return removeAccent( word );
-	}
-
-	let r1 = length;
-	let r2 = length;
-	let rv = length;
+const determineWordRegion = function( word ) {
+	let r1 = word.length;
+	let r2 = word.length;
+	let rv = word.length;
 
 	/**
 	 * R1 is the region after the first non-vowel following a vowel, or is the null region at the end of the word if
 	 * there is no such non-vowel.
 	 */
-	for ( let i = 0; i < ( length - 1 ) && r1 === length; i++ ) {
+	for ( let i = 0; i < ( word.length - 1 ) && r1 === word.length; i++ ) {
 		if ( isVowel( word[ i ] ) && ! isVowel( word[ i + 1 ] ) ) {
 			r1 = i + 2;
 		}
@@ -289,13 +337,13 @@ export default function stem( word, morphologyData ) {
 	 * R2 is the region after the first non-vowel following a vowel in R1, or is the null region at the end of the
 	 * word if there is no such non-vowel.
 	 */
-	for ( let i = r1; i < ( length - 1 ) && r2 === length; i++ ) {
+	for ( let i = r1; i < ( word.length - 1 ) && r2 === word.length; i++ ) {
 		if ( isVowel( word[ i ] ) && ! isVowel( word[ i + 1 ] ) ) {
 			r2 = i + 2;
 		}
 	}
 
-	if ( length > 3 ) {
+	if ( word.length > 3 ) {
 		if ( ! isVowel( word[ 1 ] ) ) {
 			rv = nextVowelPosition( word, 2 ) + 1;
 		} else if ( isVowel( word[ 0 ] ) && isVowel( word[ 1 ] ) ) {
@@ -304,13 +352,19 @@ export default function stem( word, morphologyData ) {
 			rv = 3;
 		}
 	}
+	return [ r1, r2, rv ];
+};
 
-	let r1Text = word.slice( r1 );
-	let r2Text = word.slice( r2 );
-	let rvText = word.slice( rv );
-	const originalWord = word;
-
-	// Step 0: Attached pronoun
+/**
+ * Stems enclitic pronouns.
+ *
+ * @param {string}  word            The word checked.
+ * @param {string}  rvText	        The text of RV.
+ * @param {Object}  morphologyData  The Spanish morphology data.
+ *
+ * @returns {string} The word without the enclitic pronoun (if applicable).
+ */
+const stemEncliticPronouns = function( word, rvText, morphologyData ) {
 	const pronounSuffix = [ "me", "se", "sela", "selo", "selas", "selos", "la", "le", "lo", "las", "les", "los", "nos" ];
 	const pronounSuffixPre1 = [ "iéndo", "ándo", "ár", "ér", "ír" ];
 	const pronounSuffixPre2 = [ "iendo", "ando", "ar", "er", "ir" ];
@@ -330,15 +384,18 @@ export default function stem( word, morphologyData ) {
 			word = removeAccent( word.slice( 0, -suffix.length ) );
 		}
 	}
+	return word;
+};
 
-	if ( word !== originalWord ) {
-		r1Text = word.slice( r1 );
-		r2Text = word.slice( r2 );
-		rvText = word.slice( rv );
-	}
-
-	const wordAfter0 = word;
-
+/**
+ * Stems derivational suffixes such as "anza", "anzas", "ico", "ica", "icos", "icas" etc. E.g. esperanza -> esper
+ *
+ * @param {string} word		The word checked.
+ * @param {string} r2Text	The text of the R2.
+ *
+ * @returns {string} The word with removed derivational suffix.
+ */
+const stemDerivationalForms = function( word, r2Text ) {
 	const suf1 = findMatchingEndingInArray( r2Text, [ "anza", "anzas", "ico", "ica", "icos", "icas", "ismo", "ismos",
 		"able", "ables", "ible", "ibles", "ista", "istas", "oso", "osa",
 		"osos", "osas", "amiento", "amientos", "imiento", "imientos" ] );
@@ -366,6 +423,84 @@ export default function stem( word, morphologyData ) {
 	} else if ( suf10 !== "" ) {
 		word = word.slice( 0, -suf10.length );
 	}
+	return word;
+};
+
+/**
+ * Stems suffixes "os", "a", "o", "á", "í", "ó", "e", and "é" in RV. e.g. regla -> regl
+ *
+ * @param {string} word					The word checked.
+ * @param {string} rvText				The text of RV.
+ * @param {number} rv                  	The start position of the RV.
+ * @returns {string} The word with removed suffix.
+ */
+const stemGenericSuffix = function( word, rvText, rv ) {
+	const suf13 = endsInArr( rvText, [ "os", "a", "o", "á", "í", "ó" ] );
+	if ( suf13 !== "" ) {
+		word = word.slice( 0, -suf13.length );
+	} else if ( ( endsInArr( rvText, [ "e", "é" ] ) ) !== "" ) {
+		word = word.slice( 0, -1 );
+		rvText = word.slice( rv );
+		if ( endsIn( rvText, "u" ) && endsIn( word, "gu" ) ) {
+			word = word.slice( 0, -1 );
+		}
+	}
+	return word;
+};
+
+/**
+ * Stems Spanish words.
+ *
+ * @param {string} word            The word to stem.
+ * @param {Object} morphologyData  The Spanish morphology data.
+ *
+ * @returns {string} The stemmed word.
+ */
+export default function stem( word, morphologyData ) {
+	word.toLowerCase();
+
+	const ifException = checkWordInFullFormExceptions( word, morphologyData.exceptionStemsWithFullForms );
+	if ( ifException ) {
+		return ifException;
+	}
+
+	const nonPluralsOnS = morphologyData.wordsThatLookLikeButAreNot.nonPluralsOnS;
+	if ( nonPluralsOnS.includes( word ) ) {
+		return removeAccent( word );
+	}
+
+	const length = word.length;
+	if ( length < 2 ) {
+		return removeAccent( word );
+	}
+
+	// Determine the r1, r2 and rv of the word
+	const [ r1, r2, rv ] = determineWordRegion( word );
+
+	let r1Text = word.slice( r1 );
+	let r2Text = word.slice( r2 );
+	let rvText = word.slice( rv );
+	const originalWord = word;
+
+	/*
+	 * Step 0:
+	 * Stem enclitic pronouns.
+	 */
+	word = stemEncliticPronouns( word, rvText, morphologyData );
+
+	if ( word !== originalWord ) {
+		r1Text = word.slice( r1 );
+		r2Text = word.slice( r2 );
+		rvText = word.slice( rv );
+	}
+
+	// The word after removing enclitic pronouns.
+	const wordAfter0 = word;
+	/*
+	 * Step 1:
+	 * If the word ends in derivational suffixes such as "anza", "anzas", "ico", "ica", "icos", "icas" etc. the suffix will be stemmed here.
+	 */
+	word = stemDerivationalForms( word, r2Text );
 
 	// Check if the word is an adverb in -mente. Stem it as a adverb if so, and immediately return the result.
 	const ifMente = tryStemAsMente( word, r1Text, morphologyData.menteStemming );
@@ -385,16 +520,20 @@ export default function stem( word, morphologyData ) {
 		return removeAccent( ifDiminutive );
 	}
 
+	// Adjust RV text if the word has been changed after derivational suffixes have been removed.
 	if ( word !== wordAfter0 ) {
 		rvText = word.slice( rv );
 	}
 
+	// The word after removing derivational suffixes.
 	const wordAfter1 = word;
-
-
-	// Step 2a and 2b stem verb suffixes.
+	/*
+	* Step 2a and 2b:
+	* Stem verb suffixes.
+	*/
 	const notVerbForms = morphologyData.wordsThatLookLikeButAreNot.notVerbForms;
 
+	// Stem verbal suffixes if no derivational suffix was detected and removed.
 	if ( wordAfter0 === wordAfter1 ) {
 		// If the word ends in -s, it is removed before checking the non-verbs list, as the list does not include plural forms.
 		let wordWithoutS = word;
@@ -414,18 +553,17 @@ export default function stem( word, morphologyData ) {
 		}
 	}
 
+	// Adjust RV text after derivational suffixes have been removed.
 	rvText = word.slice( rv );
 
-	const suf13 = findMatchingEndingInArray( rvText, [ "os", "a", "o", "á", "í", "ó" ] );
-	if ( suf13 !== "" ) {
-		word = word.slice( 0, -suf13.length );
-	} else if ( ( findMatchingEndingInArray( rvText, [ "e", "é" ] ) ) !== "" ) {
-		word = word.slice( 0, -1 );
-		rvText = word.slice( rv );
-		if ( endsIn( rvText, "u" ) && endsIn( word, "gu" ) ) {
-			word = word.slice( 0, -1 );
-		}
-	}
+	/*
+	 * Step 4:
+	 * Stem generic suffixes;
+	 * If the word ends in "os", "a", "o", "á", "í", "ó", "e", "é", the suffix will be removed here.
+	 */
+	word = stemGenericSuffix( word, rvText, rv );
+
+	// Check if the stemmed word is on the list of words with multiple stems. If so, return the canonical stem.
 
 	const canonicalStem = canonicalizeStem( word, morphologyData.stemsThatBelongToOneWord );
 	if ( canonicalStem ) {

@@ -53,6 +53,15 @@ function renderSchema( block: BlockInstance, definition: SchemaDefinition ) {
 }
 
 /**
+ * Removes any existing Schema output for a given block instance.
+ *
+ * @param block The block instance to clear schema for.
+ */
+function clearSchemaForBlocks( block: BlockInstance ) {
+	dispatch( "core/block-editor" ).updateBlockAttributes( block.clientId, { "yoast-schema": null } );
+}
+
+/**
  * Generates schema for blocks.
  *
  * @param blocks          The blocks.
@@ -92,15 +101,6 @@ function generateSchemaForBlocks(
 }
 
 /**
- * Removes any existing Schema output for a given block instance.
- *
- * @param block The block instance to clear schema for.
- */
-function clearSchemaForBlocks( block: BlockInstance ) {
-	dispatch( "core/block-editor" ).updateBlockAttributes( block.clientId, { "yoast-schema": null } );
-}
-
-/**
 * Validates blocks recursively.
 *
 * @param blocks The block instances to validate.
@@ -130,7 +130,7 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 /**
  * Watches Gutenberg for relevant changes.
  */
-export default function watch() {
+export default function watch(): void {
 	subscribe(
 		debounce( () => {
 			if ( updatingSchema ) {

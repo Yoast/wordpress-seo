@@ -90,6 +90,7 @@ class ReplacementVariableEditor extends React.Component {
 		const InputContainer = this.InputContainer;
 
 		const addVariableButton = <TriggerReplacementVariableSuggestionsButton
+			className="yst-replacevar__button-insert"
 			onClick={ this.triggerReplacementVariableSuggestions }
 			disabled={ isDisabled }
 		>
@@ -98,10 +99,12 @@ class ReplacementVariableEditor extends React.Component {
 
 		return (
 			<FormSection
+				className="yst-replacevar"
 				onMouseEnter={ onMouseEnter }
 				onMouseLeave={ onMouseLeave }
 			>
 				<SimulatedLabel
+					className="yst-replacevar__label"
 					id={ this.uniqueId }
 					onClick={ onFocus }
 				>
@@ -111,6 +114,7 @@ class ReplacementVariableEditor extends React.Component {
 				{ hasNewBadge && <NewBadge inLabel={ true } /> }
 				{ addVariableButton }
 				<InputContainer
+					className="yst-replacevar__editor"
 					onClick={ onFocus }
 					isActive={ isActive && ! isDisabled }
 					isHovered={ isHovered }

@@ -24,7 +24,7 @@ function removeWhitespace( text: string ): string {
  *
  * @param logLevel The required minimum severity for a log message to appear in logs.
  */
-export function initialize( logLevel: LogLevel = LogLevel.ERROR ) {
+export function initialize( logLevel: LogLevel = LogLevel.ERROR ): void {
 	logger.setLogLevel( logLevel );
 
 	initializeSchemaBlocksStore();
