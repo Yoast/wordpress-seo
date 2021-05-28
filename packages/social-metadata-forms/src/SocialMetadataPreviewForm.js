@@ -199,6 +199,7 @@ class SocialMetadataPreviewForm extends Component {
 					selectImageButtonId={ join( [ lowerCaseSocialMediumName, "select-button", idSuffix ] ) }
 					replaceImageButtonId={ join( [ lowerCaseSocialMediumName, "replace-button", idSuffix ] ) }
 					removeImageButtonId={ join( [ lowerCaseSocialMediumName, "remove-button", idSuffix ] ) }
+					hasImageValidation={ true }
 				/>
 				<ReplacementVariableEditor
 					onChange={ onTitleChange }

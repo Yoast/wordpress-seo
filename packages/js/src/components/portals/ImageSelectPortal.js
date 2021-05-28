@@ -16,6 +16,7 @@ import Portal from "./Portal";
  * @param {bool}   hasNewBadge          Optional. Whether the ImageSelectComponent has a 'New' badge.
  * @param {bool}   isDisabled           Optional. Whether the ImageSelectComponent is disabled.
  * @param {bool}   hasPremiumBadge      Optional. Whether the ImageSelectComponent has a 'Premium' badge.
+ * @param {bool}   hasImageValidation   Optional. Whether the uploaded image uses validation.
  *
  * @returns {null|wp.Element} The element.
  * @constructor
@@ -32,6 +33,7 @@ export default function ImageSelectPortal(
 		hasNewBadge,
 		isDisabled,
 		hasPremiumBadge,
+		hasImageValidation,
 	} ) {
 	return (
 		<Portal target={ target }>
@@ -46,6 +48,7 @@ export default function ImageSelectPortal(
 				hasNewBadge={ hasNewBadge }
 				isDisabled={ isDisabled }
 				hasPremiumBadge={ hasPremiumBadge }
+				hasImageValidation={ hasImageValidation }
 			/>
 		</Portal>
 	);
@@ -63,6 +66,7 @@ ImageSelectPortal.propTypes = {
 	hasNewBadge: PropTypes.bool,
 	isDisabled: PropTypes.bool,
 	hasPremiumBadge: PropTypes.bool,
+	hasImageValidation: PropTypes.bool,
 };
 
 ImageSelectPortal.defaultProps = {
@@ -73,4 +77,5 @@ ImageSelectPortal.defaultProps = {
 	hasNewBadge: false,
 	isDisabled: false,
 	hasPremiumBadge: false,
+	hasImageValidation: false,
 };

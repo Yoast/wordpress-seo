@@ -54,7 +54,7 @@ function ImageSelect( props ) {
 					</button>
 				}
 				{
-					props.warnings.length > 0 && imageSelected &&
+					props.hasImageValidation && props.warnings.length > 0 && imageSelected &&
 					props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
 						{ warning }
 					</Alert> )
@@ -84,6 +84,7 @@ ImageSelect.propTypes = {
 	hasNewBadge: PropTypes.bool,
 	isDisabled: PropTypes.bool,
 	hasPremiumBadge: PropTypes.bool,
+	hasImageValidation: PropTypes.bool,
 };
 
 ImageSelect.defaultProps = {
@@ -101,4 +102,5 @@ ImageSelect.defaultProps = {
 	hasNewBadge: false,
 	isDisabled: false,
 	hasPremiumBadge: false,
+	hasImageValidation: false,
 };
