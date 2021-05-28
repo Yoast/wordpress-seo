@@ -18,7 +18,7 @@ e2e-tests implementation for Yoast SEO plugin.
 ```
 composer install
 yarn
-grunt build
+grunt build:dev
 ```
 
 5. Now you can start a WordPress local environment using [@wordpress/env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/).
