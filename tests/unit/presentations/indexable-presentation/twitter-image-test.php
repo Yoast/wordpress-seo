@@ -72,7 +72,7 @@ class Twitter_Image_Test extends TestCase {
 			->andReturn( $image_generate );
 
 		$this->values_helper
-			->expects( 'get_open_graph_image' )
+			->allows( 'get_open_graph_image' )
 			->andReturn( '' );
 
 		$this->instance
@@ -102,11 +102,11 @@ class Twitter_Image_Test extends TestCase {
 			[
 				'image_source'    => 'featured-image',
 				'generated_image' => [
-					'twitter_image.jpg' => [
-						'url' => 'twitter_image.jpg',
+					'featured_image.jpg' => [
+						'url' => 'featured_image.jpg',
 					],
 				],
-				'expected'        => 'twitter_image.jpg',
+				'expected'        => 'featured_image.jpg',
 			],
 			[
 				'image_source'    => 'featured-image',
