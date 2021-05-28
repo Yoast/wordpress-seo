@@ -243,8 +243,17 @@ Enhancements:
 * Improves keyphrase recognition in Czech by filtering out function words such as `dvou`, `tvému`, `nějaký`.
 * Improves the accuracy of passive voice detection in Portuguese.
 * Adds the missing Polish transition word `jak wiemy` (props to @jarekherisz).
-* Makes all twitter meta tags self-closing, for consistencies' sake and to allow pages to pass validation in some tools.
+* Makes all twitter meta tags self-closing, for the sake of consistency and to allow pages to pass validation in some tools.
 * Improves the UX consistency between the notification counter in the admin bar and in the sidebar.
+* Makes the notification counter in the admin bar a closer match to the counter the sidebar.
+
+Bugfixes:
+
+* Fixes a bug where new feature notification couldn't be dismissed.
+* Fixes a bug where the primary term for custom post types was not always properly set for posts edited in the Gutenberg editor. 
+* Adds a missing space to the feedback text in he keyphrase in introduction assessment.
+* Changes the function to retrieve the locale for language researcher from `get_user_locale()` to `get_locale()`
+* Fixes a bug where the schema output could be incorrect on terms with the same ID as the static posts page.
 
 = 16.3 =
 Release Date: May 18th, 2021

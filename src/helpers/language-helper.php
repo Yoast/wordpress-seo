@@ -44,7 +44,7 @@ class Language_Helper {
 	 * @return string The language to use to select a researcher.
 	 */
 	public function get_researcher_language() {
-		$researcher_language = WPSEO_Language_Utils::get_language( \get_user_locale() );
+		$researcher_language = WPSEO_Language_Utils::get_language( get_locale() );
 		if ( ! \in_array( $researcher_language, Researcher_Languages::SUPPORTED_LANGUAGES, true ) ) {
 			$researcher_language = 'default';
 		}
