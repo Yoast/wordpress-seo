@@ -17,7 +17,7 @@ export interface BlockAppenderProps {
  *
  * @constructor
  */
-export default function BlockAppender( { clientId, label }: BlockAppenderProps ) {
+export default function BlockAppender( { clientId, label }: BlockAppenderProps ): React.ReactElement {
 	return (
 		<div
 			data-root-client-id={ clientId }

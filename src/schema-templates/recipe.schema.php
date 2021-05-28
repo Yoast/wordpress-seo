@@ -11,7 +11,7 @@
 	"author": {
 		"@id": "%%author_id%%"
 	},
-	"description": {{inner-blocks-html blocks={ "core/paragraph": "content" } null-when-empty=true allowed-tags=[ "h1","h2","h3","h4","h5","h6","br","a","p","b","strong","i","em" ] }},
+	"description": {{inner-blocks-html blocks={ "yoast/recipe-description": "description" } null-when-empty=true allowed-tags=[ "h1","h2","h3","h4","h5","h6","br","a","p","b","strong","i","em" ] }},
 	"cookTime": {{inner-blocks allowed-blocks=[ "yoast/cooking-time" ] only-first=true }},
 	"prepTime": {{attribute name="prep-time" }},
 	"recipeInstructions": {{inner-blocks allowed-blocks=[ "yoast/steps" ] only-first=true }},

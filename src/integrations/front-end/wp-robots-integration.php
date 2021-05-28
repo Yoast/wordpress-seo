@@ -147,6 +147,11 @@ class WP_Robots_Integration implements Integration_Interface {
 		}
 		if ( isset( $robots['noimageindex'] ) ) {
 			$robots['imageindex'] = null;
+
+			// max-image-preview should be to none when noimageindex is present.
+			if ( isset( $robots['max-image-preview'] ) ) {
+				$robots['max-image-preview'] = 'none';
+			}
 		}
 		if ( isset( $robots['nosnippet'] ) ) {
 			$robots['snippet'] = null;

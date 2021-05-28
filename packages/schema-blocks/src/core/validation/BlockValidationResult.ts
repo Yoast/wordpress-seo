@@ -69,7 +69,7 @@ export class BlockValidationResult {
 	 *
 	 * @constructor
 	 */
-	static MissingAttribute( blockInstance: BlockInstance, name?: string, blockPresence?: BlockPresence ) {
+	static MissingAttribute( blockInstance: BlockInstance, name?: string, blockPresence?: BlockPresence ): BlockValidationResult {
 		let blockValidation: BlockValidation = BlockValidation.Unknown;
 		let message = "";
 
@@ -110,7 +110,7 @@ export class BlockValidationResult {
 	 *
 	 * @constructor
 	 */
-	static MissingBlock( name: string, blockPresence?: BlockPresence ) {
+	static MissingBlock( name: string, blockPresence?: BlockPresence ): BlockValidationResult {
 		if ( blockPresence === BlockPresence.Recommended ) {
 			return BlockValidationResult.MissingRecommendedBlock( name, blockPresence === BlockPresence.Recommended );
 		}
@@ -159,7 +159,7 @@ export class BlockValidationResult {
 	 *
 	 * @constructor
 	 */
-	static Valid( blockInstance: BlockInstance, name?: string, blockPresence? : BlockPresence ) {
+	static Valid( blockInstance: BlockInstance, name?: string, blockPresence? : BlockPresence ): BlockValidationResult {
 		return new BlockValidationResult(
 			blockInstance.clientId,
 			name || blockInstance.name,
