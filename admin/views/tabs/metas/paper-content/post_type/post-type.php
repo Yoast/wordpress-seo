@@ -68,12 +68,12 @@ if ( $wpseo_post_type->name !== 'page' && $article_helper->is_author_supported( 
 }
 printf(
 	'<div class="yoast-schema-settings-container" data-schema-settings data-schema-settings-post-type="%1$s" data-schema-settings-post-type-name="%2$s" data-schema-settings-page-type-field-id="%3$s" data-schema-settings-article-type-field-id="%4$s" data-schema-settings-page-type-default="%5$s" data-schema-settings-article-type-default="%6$s"></div>',
-	$wpseo_post_type->name,
-	$wpseo_post_type->labels->name,
-	'hidden_' . $schema_page_type_option,
-	'hidden_' . $schema_article_type_option,
-	WPSEO_Options::get_default( 'wpseo_titles', $schema_page_type_option ),
-	WPSEO_Options::get_default( 'wpseo_titles', $schema_article_type_option )
+	esc_attr( $wpseo_post_type->name ),
+	esc_attr( $wpseo_post_type->labels->name ),
+	esc_attr( 'hidden_' . $schema_page_type_option ),
+	esc_attr( 'hidden_' . $schema_article_type_option ),
+	esc_attr( WPSEO_Options::get_default( 'wpseo_titles', $schema_page_type_option ) ),
+	esc_attr( WPSEO_Options::get_default( 'wpseo_titles', $schema_article_type_option ) )
 );
 
 echo '</div>';
