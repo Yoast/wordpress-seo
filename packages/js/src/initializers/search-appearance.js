@@ -86,6 +86,7 @@ export default function initSearchAppearance() {
 						hasNewBadge={ portal.dataset.reactImagePortalHasNewBadge === "1" }
 						isDisabled={ portal.dataset.reactImagePortalIsDisabled === "1" }
 						hasPremiumBadge={ portal.dataset.reactImagePortalHasPremiumBadge === "1" }
+						hasImageValidation={ portal.dataset.reactImagePortalHasImageValidation === "1" }
 					/> );
 				} ) }
 
