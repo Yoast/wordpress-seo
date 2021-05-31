@@ -3,29 +3,54 @@ import getParticiples from "../../../../../../src/languageProcessing/languages/n
 describe( "Test for matching Dutch participles", function() {
 	it( "returns matched regular participles.", function() {
 		let sentence = "De kat werd geadopteerd door de aardige mensen.";
-		let foundParticiples = getParticiples( sentence );
-		expect( foundParticiples ).toEqual( [ "geadopteerd" ] );
+		let auxiliaries = [ "werd" ];
+		let foundParticiples = getParticiples( sentence, auxiliaries, );
+		expect( foundParticiples[ 0 ].getParticiple() ).toEqual( "geadopteerd" );
+		expect( foundParticiples[ 0 ].getType() ).toEqual( "regular" );
+		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "De kat werd geadopteerd door de aardige mensen." );
+		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "werd" ] );
+		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "nl" );
+		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 
 		// A participle with a separable prefix.
 		sentence = "De boeken werden teruggegeven.";
-		foundParticiples = getParticiples( sentence );
-		expect( foundParticiples ).toEqual( [ "teruggegeven" ] );
+		auxiliaries = [ "werden" ];
+		foundParticiples = getParticiples( sentence, auxiliaries );
+		expect( foundParticiples[ 0 ].getParticiple() ).toEqual( "teruggegeven" );
+		expect( foundParticiples[ 0 ].getType() ).toEqual( "regular" );
+		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "De boeken werden teruggegeven." );
+		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "werden" ] );
+		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "nl" );
+		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	} );
 
 	it( "returns matched irregular participles.", function() {
 		let sentence = "De snacks werden door de kat gegeten.";
-		let foundParticiples = getParticiples( sentence );
-		expect( foundParticiples ).toEqual( [ "gegeten" ] );
+		let auxiliaries = [ "werden" ];
+		let foundParticiples = getParticiples( sentence, auxiliaries, );
+		expect( foundParticiples[ 0 ].getParticiple() ).toEqual( "gegeten" );
+		expect( foundParticiples[ 0 ].getType() ).toEqual( "irregular" );
+		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "De snacks werden door de kat gegeten." );
+		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "werden" ] );
+		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "nl" );
+		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 
 		// A participle with a separable prefix.
 		sentence = "De draden werden aaneengedraaid.";
-		foundParticiples = getParticiples( sentence );
-		expect( foundParticiples ).toEqual( [ "aaneengedraaid" ] );
+		auxiliaries = [ "werden" ];
+		foundParticiples = getParticiples( sentence, auxiliaries );
+		expect( foundParticiples[ 0 ].getParticiple() ).toEqual( "aaneengedraaid" );
+		expect( foundParticiples[ 0 ].getType() ).toEqual( "irregular" );
+		expect( foundParticiples[ 0 ].getSentencePart() ).toEqual( "De draden werden aaneengedraaid." );
+		expect( foundParticiples[ 0 ].getAuxiliaries() ).toEqual( [ "werden" ] );
+		expect( foundParticiples[ 0 ].getLanguage() ).toEqual( "nl" );
+		expect( foundParticiples[ 0 ].determinesSentencePartIsPassive() ).toEqual( true );
 	} );
 
 	it( "returns an empty array when there is no participle or the sentence is empty", function() {
 		const sentence = "De kat is erg blij in haar nieuwe huis.";
-		expect( getParticiples( sentence ) ).toEqual( [] );
-		expect( getParticiples( "" ) ).toEqual( [] );
+		const auxiliaries = [ "werd", "werden" ];
+		expect( getParticiples( sentence, auxiliaries ) ).toEqual( [] );
+		expect( getParticiples( "", auxiliaries ) ).toEqual( [] );
 	} );
 } );

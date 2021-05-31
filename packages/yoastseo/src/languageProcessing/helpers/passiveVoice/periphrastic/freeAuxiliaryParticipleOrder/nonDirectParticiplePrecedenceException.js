@@ -8,20 +8,20 @@ import { getIndicesByWordListSorted } from "../../../word/indices.js";
 /**
  * Checks whether there are any exception words in between the auxiliary and participle. If there are, it doesn't return a passive.
  *
- * @param {string} clause 											The clause that contains the participle.
- * @param {string} participle 										The participle in the clause.
- * @param {string[]} auxiliaries 									One or more auxiliaries in the clause.
+ * @param {string} sentencePart 									The sentence part that contains the participle.
+ * @param {string} participle 										The participle in the sentence part.
+ * @param {string[]} auxiliaries 										One or more auxiliaries in the sentence part.
  * @param {string[]} cannotBeBetweenPassiveAuxiliaryAndParticiple 	The list of words that cannot be between the auxiliary and participle.
  *
  * @returns {boolean} Returns true if a word from the 'cannot be between passive auxiliary and participle' exception list
  * appears anywhere in between the last (closest to participle) auxiliary and the participle.
  */
-export default function( clause, participle, auxiliaries, cannotBeBetweenPassiveAuxiliaryAndParticiple ) {
+export default function( sentencePart, participle, auxiliaries, cannotBeBetweenPassiveAuxiliaryAndParticiple ) {
 	const auxiliariesUnique = uniq( auxiliaries );
 
-	const auxiliaryIndices = getIndicesByWordListSorted( auxiliariesUnique, clause );
+	const auxiliaryIndices = getIndicesByWordListSorted( auxiliariesUnique, sentencePart );
 
-	const participleIndex = clause.indexOf( participle );
+	const participleIndex = sentencePart.indexOf( participle );
 	const nonDirectParticiplePrecendenceExceptionRegex = arrayToRegex( cannotBeBetweenPassiveAuxiliaryAndParticiple );
 
 	// This exception is only applicable for passive constructions in which the auxiliary precedes the participle.
@@ -35,7 +35,7 @@ export default function( clause, participle, auxiliaries, cannotBeBetweenPassive
 	// We pick the auxiliary closest to the participle, since that is most likely the one belonging to the participle.
 	const participleAuxiliary = matches[ matches.length - 1 ];
 
-	const precedenceExceptionIndices = getWordIndices( clause, nonDirectParticiplePrecendenceExceptionRegex );
+	const precedenceExceptionIndices = getWordIndices( sentencePart, nonDirectParticiplePrecendenceExceptionRegex );
 
 	// Check whether there are any precendence words between the auxiliary and the participle.
 	const remainingPrecedenceExceptionIndices = precedenceExceptionIndices.filter( precedenceExceptionIndex =>

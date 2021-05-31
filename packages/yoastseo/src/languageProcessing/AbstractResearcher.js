@@ -15,6 +15,7 @@ import getKeywordDensity from "./researches/getKeywordDensity.js";
 import getLinks from "./researches/getLinks.js";
 import getLinkStatistics from "./researches/getLinkStatistics";
 import getParagraphLength from "./researches/getParagraphLength.js";
+import getPassiveVoice from "./researches/getPassiveVoice";
 import getProminentWordsForInsights from "./researches/getProminentWordsForInsights";
 import getProminentWordsForInternalLinking from "./researches/getProminentWordsForInternalLinking";
 import getSentenceBeginnings from "./researches/getSentenceBeginnings";
@@ -33,7 +34,6 @@ import pageTitleWidth from "./researches/pageTitleWidth.js";
 import readingTime from "./researches/readingTime";
 import sentences from "./researches/sentences";
 import wordCountInText from "./researches/wordCountInText.js";
-import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
 
 /**
  * The researches contains all the researches
@@ -60,6 +60,7 @@ export default class AbstractResearcher {
 			getLinks,
 			getLinkStatistics,
 			getParagraphLength,
+			getPassiveVoice,
 			getProminentWordsForInsights,
 			getProminentWordsForInternalLinking,
 			getSentenceBeginnings,
@@ -78,7 +79,6 @@ export default class AbstractResearcher {
 			readingTime,
 			sentences,
 			wordCountInText,
-			getPassiveVoiceResult,
 		};
 
 		this._data = {};

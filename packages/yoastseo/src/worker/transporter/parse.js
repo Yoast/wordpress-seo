@@ -5,16 +5,18 @@ import { mapValues } from "lodash-es";
 import AssessmentResult from "../../values/AssessmentResult";
 import Mark from "../../values/Mark";
 import Paper from "../../values/Paper";
-import Sentence from "../../languageProcessing/values/Sentence";
-import Clause from "../../languageProcessing/values/Clause";
-import ProminentWord from "../../languageProcessing/values/ProminentWord";
+import Participle from "../../values/Participle";
+import Sentence from "../../values/Sentence";
+import SentencePart from "../../values/SentencePart";
+import ProminentWord from "../../values/ProminentWord";
 
 const PARSE_CLASSES = {
 	AssessmentResult,
 	Mark,
 	Paper,
+	Participle,
 	Sentence,
-	Clause,
+	SentencePart,
 	ProminentWord,
 };
 
@@ -33,9 +35,7 @@ export default function parse( thing ) {
 	const thingIsObject = isObject( thing );
 
 	if ( thingIsObject && thing._parseClass && PARSE_CLASSES[ thing._parseClass ] ) {
-		return thing._parseClass === "Sentence" || thing._parseClass === "Clause"
-			? PARSE_CLASSES[ thing._parseClass ].prototype.parse( thing )
-			: PARSE_CLASSES[ thing._parseClass ].parse( thing );
+		return PARSE_CLASSES[ thing._parseClass ].parse( thing );
 	}
 
 	if ( thingIsObject ) {

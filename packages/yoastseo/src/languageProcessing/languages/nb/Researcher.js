@@ -20,7 +20,7 @@ export default class Researcher extends AbstractResearcher {
 		super( paper );
 
 		delete this.defaultResearches.getFleschReadingScore;
-		delete this.defaultResearches.getPassiveVoiceResult;
+		delete this.defaultResearches.getPassiveVoice;
 		delete this.defaultResearches.getSentenceBeginnings;
 		delete this.defaultResearches.findTransitionWords;
 

@@ -3,21 +3,24 @@ import { languageProcessing } from "yoastseo";
 const { getWords } = languageProcessing;
 
 import participles from "../../config/internal/passiveVoiceParticiples";
+import ItalianParticiple from "../../values/ItalianParticiple";
 
 /**
- * Creates a participle list for the participles found in a clause.
+ * Creates participle objects for the participles found in a sentence part.
  *
- * @param {string} clauseText The clause to find participles in.
+ * @param {string} sentencePartText The sentence part to find participles in.
+ * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
  *
- * @returns {Array} The list with participles.
+ * @returns {Array} The list with participle objects.
  */
-export default function getParticiples( clauseText ) {
-	const words = getWords( clauseText );
+export default function getParticiples( sentencePartText, auxiliaries ) {
+	const words = getWords( sentencePartText );
 	const foundParticiples = [];
 
 	forEach( words, function( word ) {
 		if ( includes( participles, word ) ) {
-			foundParticiples.push( word );
+			foundParticiples.push( new ItalianParticiple( word, sentencePartText,
+				{ auxiliaries: auxiliaries, type: "irregular", language: "it" } ) );
 		}
 	} );
 	return foundParticiples;

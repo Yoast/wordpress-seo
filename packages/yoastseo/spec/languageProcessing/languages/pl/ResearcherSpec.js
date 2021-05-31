@@ -18,7 +18,7 @@ describe( "a test for the Polish Researcher", function() {
 	} );
 
 	it( "returns true if the Polish Researcher has a specific research", function() {
-		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
+		expect( researcher.hasResearch( "getPassiveVoice" ) ).toBe( true );
 	} );
 
 	it( "returns false if the default research is deleted in Polish Researcher", function() {
@@ -70,11 +70,14 @@ describe( "a test for the Polish Researcher", function() {
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "kotek" ) ).toEqual( "kot" );
 	} );
 
-	it( "splits Polish sentence into clauses and checks if the clauses are passive", function() {
-		const sentence =  "Ten kot jest szczęśliwy, ponieważ jest kochany.";
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Ten kot jest szczęśliwy," );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "ponieważ jest kochany." );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toEqual( false );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toEqual( true );
+	it( "splits Polish sentence into parts", function() {
+		const sentence =  "Pojechałam na wakacje żeby odpocząć.";
+		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 0 ].getSentencePartText() ).toBe( "Pojechałam na wakacje" );
+		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 1 ].getSentencePartText() ).toBe( "żeby odpocząć." );
+	} );
+
+	it( "checks if a Polish sentence is passive or not", function() {
+		expect( researcher.getHelper( "isPassiveSentencePart" )( "Koty są kochane.", [ "są" ] ) ).toEqual( true );
+		expect( researcher.getHelper( "isPassiveSentencePart" )( "Dziewczyna bardzo kocha swojego kota.", [] ) ).toEqual( false );
 	} );
 } );

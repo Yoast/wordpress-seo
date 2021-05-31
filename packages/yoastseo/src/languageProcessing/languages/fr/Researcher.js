@@ -10,8 +10,9 @@ import twoPartTransitionWords from "./config/twoPartTransitionWords";
 import syllables from "./config/syllables.json";
 
 // All helpers
-import getClauses from "./helpers/getClauses";
+import getSentenceParts from "./helpers/getSentenceParts";
 import getStemmer from "./helpers/getStemmer";
+import isPassiveSentencePart from "./helpers/isPassiveSentencePart";
 import fleschReadingScore from "./helpers/calculateFleschReadingScore";
 
 /**
@@ -38,8 +39,9 @@ export default class Researcher extends AbstractResearcher {
 		} );
 
 		Object.assign( this.helpers, {
-			getClauses,
+			getSentenceParts,
 			getStemmer,
+			isPassiveSentencePart,
 			fleschReadingScore,
 		} );
 	}

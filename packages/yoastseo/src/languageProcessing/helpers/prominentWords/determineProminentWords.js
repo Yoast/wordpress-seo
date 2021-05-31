@@ -3,7 +3,7 @@ import { uniq } from "lodash-es";
 
 import getWords from "../word/getWords";
 import { normalizeSingle } from "../sanitize/quotes";
-import ProminentWord from "../../values/ProminentWord";
+import ProminentWord from "../../../values/ProminentWord";
 
 const specialCharacters = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%$|~=+§`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\s]/g;
 

@@ -348,10 +348,10 @@ const adjectivesVerbs = [
 ];
 
 /*
-The following words are nouns ending in -é or -ée.
-These words need to be checked with -s suffixes.
+The following words are nouns ending in -é or -ée and starting with a vowel.
+These words need to be checked with -s suffixes and l' and d' prefixes.
  */
-const nouns = [
+const nounsStartingWithVowel = [
 	"à-côté",
 	"abbé",
 	"absurdité",
@@ -639,6 +639,13 @@ const nouns = [
 	"orée",
 	"orphée",
 	"urée",
+];
+
+/*
+The following words are nouns ending in -é or -ée and starting with a consonant.
+These words need to be checked with -s suffixes.
+*/
+const nounsStartingWithConsonant = [
 	"banalité",
 	"bas-côté",
 	"beaupré",
@@ -1499,12 +1506,14 @@ const others = [
 	"olé",
 	"ollé",
 	"sacrédié",
+	"d'emblée",
 	"quasi-instantanée",
 ];
 
 export {
 	adjectivesVerbs,
-	nouns,
+	nounsStartingWithVowel,
+	nounsStartingWithConsonant,
 	others,
 };
 
