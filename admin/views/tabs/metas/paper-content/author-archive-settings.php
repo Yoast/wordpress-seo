@@ -10,8 +10,8 @@
 $yform->toggle_switch(
 	'disable-author',
 	[
-		'off' => __( 'Enabled', 'wordpress-seo' ),
-		'on'  => __( 'Disabled', 'wordpress-seo' ),
+		'off' => __( 'On', 'wordpress-seo' ),
+		'on'  => __( 'Off', 'wordpress-seo' ),
 	],
 	__( 'Author archives', 'wordpress-seo' )
 );

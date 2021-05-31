@@ -21,22 +21,17 @@ class SettingsSnippetEditorFields extends React.Component {
 	/**
 	 * Constructs the snippet editor fields.
 	 *
-	 * @param {Object}   props                             The props for the editor
-	 *                                                     fields.
-	 * @param {Object}   props.replacementVariables        The replacement variables
-	 *                                                     for this editor.
-	 * @param {Object}   props.data                        The initial editor data.
-	 * @param {string}   props.data.title                  The initial title.
-	 * @param {string}   props.data.description            The initial description.
-	 * @param {Function} props.onChange                    Called when the data
-	 *                                                     changes.
-	 * @param {Function} props.onFocus                     Called when a field is
-	 *                                                     focused.
-	 * @param {string}   props.activeField                 The field that is
-	 *                                                     currently active.
-	 * @param {string}   props.hoveredField                The field that is
-	 *                                                     currently hovered.
-	 * @param {bool}     props.hasNewBadge                 Optional. Whether or not it has a 'New' badge.
+	 * @param {Object}   props                      The props for the editor fields.
+	 * @param {Object}   props.replacementVariables The replacement variables for this editor.
+	 * @param {Object}   props.data                 The initial editor data.
+	 * @param {string}   props.data.title           The initial title.
+	 * @param {string}   props.data.description     The initial description.
+	 * @param {Function} props.onChange             Called when the data changes.
+	 * @param {Function} props.onFocus              Called when a field is focused.
+	 * @param {string}   props.activeField          The field that is currently active.
+	 * @param {string}   props.hoveredField         The field that is currently hovered.
+	 * @param {bool}     props.hasNewBadge          Optional. Whether or not it has a 'New' badge.
+	 * @param {bool}     props.hasPremiumBadge      Optional. Whether or not it has a 'Premium' badge.
 	 *
 	 * @returns {void}
 	 */
@@ -127,6 +122,8 @@ class SettingsSnippetEditorFields extends React.Component {
 			fieldIds,
 			labels,
 			hasNewBadge,
+			isDisabled,
+			hasPremiumBadge,
 		} = this.props;
 
 		return (
@@ -147,6 +144,8 @@ class SettingsSnippetEditorFields extends React.Component {
 					onChange={ content => onChange( "title", content ) }
 					fieldId={ fieldIds.title }
 					hasNewBadge={ hasNewBadge }
+					isDisabled={ isDisabled }
+					hasPremiumBadge={ hasPremiumBadge }
 				/>
 				<ReplacementVariableEditor
 					type="description"
@@ -163,6 +162,8 @@ class SettingsSnippetEditorFields extends React.Component {
 					onChange={ content => onChange( "description", content ) }
 					fieldId={ fieldIds.description }
 					hasNewBadge={ hasNewBadge }
+					isDisabled={ isDisabled }
+					hasPremiumBadge={ hasPremiumBadge }
 				/>
 			</StyledEditor>
 		);
@@ -192,6 +193,8 @@ SettingsSnippetEditorFields.propTypes = {
 		description: PropTypes.string,
 	} ),
 	hasNewBadge: PropTypes.bool,
+	isDisabled: PropTypes.bool,
+	hasPremiumBadge: PropTypes.bool,
 };
 
 SettingsSnippetEditorFields.defaultProps = {
@@ -202,6 +205,8 @@ SettingsSnippetEditorFields.defaultProps = {
 	descriptionEditorFieldPlaceholder: null,
 	labels: {},
 	hasNewBadge: false,
+	isDisabled: false,
+	hasPremiumBadge: false,
 };
 
 export default SettingsSnippetEditorFields;

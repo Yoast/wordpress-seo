@@ -327,6 +327,7 @@ class Yoast_Form {
 	 * @param bool   $reverse Reverse order of buttons (default true).
 	 * @param string $help    Inline Help that will be printed out before the toggle.
 	 * @param bool   $strong  Whether the visual label is displayed in strong text. Default is false.
+	 *                        Starting from Yoast SEO 16.5, the visual label is forced to bold via CSS.
 	 * @param array  $attr    Extra attributes to add to the light switch.
 	 */
 	public function light_switch( $var, $label, $buttons = [], $reverse = true, $help = '', $strong = false, $attr = [] ) {
@@ -851,8 +852,8 @@ class Yoast_Form {
 		$attr     = wp_parse_args( $attr, $defaults );
 
 		$index_switch_values = [
-			'off' => __( 'Yes', 'wordpress-seo' ),
-			'on'  => __( 'No', 'wordpress-seo' ),
+			'off' => __( 'On', 'wordpress-seo' ),
+			'on'  => __( 'Off', 'wordpress-seo' ),
 		];
 
 		$is_disabled = ( isset( $attr['disabled'] ) && $attr['disabled'] );
@@ -863,7 +864,7 @@ class Yoast_Form {
 			sprintf(
 				/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
 				esc_html__( 'Show %s in search results?', 'wordpress-seo' ),
-				'<strong>' . esc_html( $label ) . '</strong>'
+				esc_html( $label )
 			),
 			$help,
 			[ 'disabled' => $is_disabled ]
@@ -891,8 +892,8 @@ class Yoast_Form {
 		$off_key = ( $inverse_keys ) ? 'on' : 'off';
 
 		$show_hide_switch = [
-			$on_key  => __( 'Show', 'wordpress-seo' ),
-			$off_key => __( 'Hide', 'wordpress-seo' ),
+			$on_key  => __( 'On', 'wordpress-seo' ),
+			$off_key => __( 'Off', 'wordpress-seo' ),
 		];
 
 		$is_disabled = ( isset( $attr['disabled'] ) && $attr['disabled'] );
