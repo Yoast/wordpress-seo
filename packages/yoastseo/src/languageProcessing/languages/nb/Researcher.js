@@ -19,10 +19,8 @@ export default class Researcher extends AbstractResearcher {
 	constructor( paper ) {
 		super( paper );
 
+		// Delete Flesch Reading Ease research since Norwegian doesn't have the support for it
 		delete this.defaultResearches.getFleschReadingScore;
-		delete this.defaultResearches.getPassiveVoice;
-		delete this.defaultResearches.getSentenceBeginnings;
-		delete this.defaultResearches.findTransitionWords;
 
 		Object.assign( this.config, {
 			language: "nb",
