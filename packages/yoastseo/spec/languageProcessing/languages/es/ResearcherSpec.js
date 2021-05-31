@@ -18,7 +18,7 @@ describe( "a test for the Spanish Researcher", function() {
 	} );
 
 	it( "returns true if the English Researcher has a specific research", function() {
-		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
+		expect( researcher.hasResearch( "getPassiveVoice" ) ).toBe( true );
 	} );
 
 	it( "returns the Spanish function words", function() {
@@ -62,10 +62,14 @@ describe( "a test for the Spanish Researcher", function() {
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "gatos" ) ).toEqual( "gat" );
 	} );
 
-	it( "splits Spanish sentence into clauses and checks if the clauses are passive or not", function() {
+	it( "splits Spanish sentence into parts", function() {
 		const sentence = "Ellos eran tres amigos cuando los conocí.";
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "eran tres amigos" );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( false );
+		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 0 ].getSentencePartText() ).toBe( "eran tres amigos" );
+	} );
+
+	it( "checks if a Spanish sentence is passive or not", function() {
+		expect( researcher.getHelper( "isPassiveSentencePart" )( "Una manzana será comida por mí.", [ "será" ] ) ).toEqual( true );
+		expect( researcher.getHelper( "isPassiveSentencePart" )( "Yo comeré una manzana.", [] ) ).toEqual( false );
 	} );
 
 	it( "calculates the Flesch reading score using the formula for Spanish", function() {

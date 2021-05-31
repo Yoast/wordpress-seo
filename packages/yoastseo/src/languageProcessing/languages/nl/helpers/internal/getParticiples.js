@@ -1,22 +1,37 @@
-import { includes } from "lodash-es";
+import { forEach, includes } from "lodash-es";
 import { languageProcessing } from "yoastseo";
 const { getWords, matchRegularParticiples } = languageProcessing;
 
 import irregularParticiples from "../../config/internal/passiveVoiceIrregulars";
+import DutchParticiple from "../../values/DutchParticiple";
 
 /**
- * Creates an array of participle for the participles found in a clause.
+ * Creates participle objects for the participles found in a sentence part.
  *
- * @param {string} clauseText The clause text to find participles in.
- *
- * @returns {Array} The list with participle.
+ * @param {string} sentencePartText The sentence part to find participles in.
+ * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
+ * @returns {Array} The list with participle objects.
  */
-export default function getParticiples( clauseText ) {
-	const words = getWords( clauseText );
-	const regexes = [
-		/^(ge|be|ont|ver|her|er)\S+([dt])($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
-		/^(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+([dtn])($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
-	];
+export default function getParticiples( sentencePartText, auxiliaries ) {
+	const words = getWords( sentencePartText );
+	const foundParticiples = [];
 
-	return words.filter( word => matchRegularParticiples( word, regexes ).length !== 0 || includes( irregularParticiples, word ) );
+	forEach( words, function( word ) {
+		let type = "";
+		const regexes = [
+			/^(ge|be|ont|ver|her|er)\S+([dt])($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
+			/^(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+([dtn])($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
+		];
+		if ( matchRegularParticiples( word, regexes ).length !== 0 ) {
+			type = "regular";
+		}
+		if ( includes( irregularParticiples, word ) ) {
+			type = "irregular";
+		}
+		if ( type !== "" ) {
+			foundParticiples.push( new DutchParticiple( word, sentencePartText,
+				{ auxiliaries: auxiliaries, type: type, language: "nl" } ) );
+		}
+	} );
+	return foundParticiples;
 }

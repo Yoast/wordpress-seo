@@ -57,11 +57,15 @@ describe( "a test for the Czech Researcher", function() {
 		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "periphrastic" );
 	} );
 
-	it( "splits Czech sentence into clauses and checks their passiveness", function() {
-		const sentence =  "byla kočka adoptována nebo byla koupena?";
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "byla kočka adoptována" );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "nebo byla koupena?" );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( true );
+	it( "splits Czech sentence into parts", function() {
+		const sentence =  "Zkuste to znovu albo to nechte tak.";
+		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 0 ].getSentencePartText() ).toBe( "Zkuste to znovu" );
+		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 1 ].getSentencePartText() ).toBe( "albo to nechte tak." );
+	} );
+
+	it( "checks if a Czech sentence part is passive or not", function() {
+		expect( researcher.getHelper( "isPassiveSentencePart" )( "Stěny byly vyzdobeny včas.", [ "byly" ] ) ).toEqual( true );
+		expect( researcher.getHelper( "isPassiveSentencePart" )( "Lékaři doporučili lék.", [] ) ).toEqual( false );
 	} );
 } );
 

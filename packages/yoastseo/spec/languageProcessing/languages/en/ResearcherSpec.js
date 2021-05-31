@@ -17,7 +17,7 @@ describe( "a test for the English Researcher", function() {
 	} );
 
 	it( "returns true if the English Researcher has a specific research", function() {
-		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
+		expect( researcher.hasResearch( "getPassiveVoice" ) ).toBe( true );
 	} );
 
 	it( "returns the English function words", function() {
@@ -57,15 +57,15 @@ describe( "a test for the English Researcher", function() {
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "cats" ) ).toEqual( "cat" );
 	} );
 
-	it( "splits English sentence into clauses and checks if the clauses are passive or not.", function() {
-		let sentence =  "The English are still having a party.";
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "are still" );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "having a party." );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( false );
+	it( "splits English sentence into parts", function() {
+		const sentence =  "The English are still having a party.";
+		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 0 ].getSentencePartText() ).toBe( "are still" );
+		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 1 ].getSentencePartText() ).toBe( "having a party." );
+	} );
 
-		sentence = "The cats are adored.";
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "are adored." );
-		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( true );
+	it( "checks if a English sentence is passive or not", function() {
+		expect( researcher.getHelper( "isPassiveSentencePart" )( "The cats are vaccinated.", [ "are" ] ) ).toEqual( true );
+		expect( researcher.getHelper( "isPassiveSentencePart" )( "The girl loves her cat.", [] ) ).toEqual( false );
 	} );
 
 	it( "calculates the Flesch reading score using the formula for English", function() {

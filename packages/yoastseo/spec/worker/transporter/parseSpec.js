@@ -1,9 +1,10 @@
 import AssessmentResult from "../../../src/values/AssessmentResult";
 import Mark from "../../../src/values/Mark";
 import Paper from "../../../src/values/Paper";
-import Sentence from "../../../src/languageProcessing/values/Sentence";
-import Clause from "../../../src/languageProcessing/values/Clause";
-import ProminentWord from "../../../src/languageProcessing/values/ProminentWord";
+import Participle from "../../../src/values/Participle";
+import Sentence from "../../../src/values/Sentence";
+import SentencePart from "../../../src/values/SentencePart";
+import ProminentWord from "../../../src/values/ProminentWord";
 import parse from "../../../src/worker/transporter/parse";
 
 describe( "parse", () => {
@@ -98,29 +99,48 @@ describe( "parse", () => {
 		expect( parse( serialized ) ).toEqual( expected );
 	} );
 
-	it( "parses serialized Sentences", () => {
+	it( "parses serialized Participles", () => {
 		const serialized = {
-			_parseClass: "Sentence",
-			clauses: [],
-			isPassive: false,
-			sentenceText: "This is a sample text.",
+			_parseClass: "Participle",
+			attributes: {
+				auxiliaries: [ "wird", "worden" ],
+				language: "de",
+				type: "irregular",
+			},
+			determinesSentencePartIsPassive: false,
+			participle: "geschlossen",
+			sentencePart: "Es wird geschlossen worden sein.",
 		};
 
-		const expected = new Sentence( "This is a sample text." );
+		const expected = new Participle( "geschlossen", "Es wird geschlossen worden sein.",
+			{ auxiliaries: [ "wird", "worden" ], type: "irregular", language: "de" } );
 
 		expect( parse( serialized ) ).toEqual( expected );
 	} );
 
-	it( "parses serialized Clause", () => {
+	it( "parses serialized Sentences", () => {
 		const serialized = {
-			_parseClass: "Clause",
-			auxiliaries: [ "wird" ],
-			isPassive: true,
-			clauseText: "wird geschlossen",
-			participles: [ "geschlossen" ],
+			_parseClass: "Sentence",
+			isPassive: false,
+			locale: "en_US",
+			sentenceText: "This is a sample text.",
 		};
 
-		const expected = new Clause( "wird geschlossen", [ "wird" ] );
+		const expected = new Sentence( "This is a sample text.", "en_US" );
+
+		expect( parse( serialized ) ).toEqual( expected );
+	} );
+
+	it( "parses serialized SentenceParts", () => {
+		const serialized = {
+			_parseClass: "SentencePart",
+			auxiliaries: [ "wird" ],
+			isPassive: true,
+			locale: "de",
+			sentencePartText: "wird geschlossen",
+		};
+
+		const expected = new SentencePart( "wird geschlossen", [ "wird" ], "de" );
 		expected.setPassive( true );
 
 		expect( parse( serialized ) ).toEqual( expected );

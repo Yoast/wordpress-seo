@@ -1,24 +1,32 @@
 import { forEach, includes } from "lodash-es";
 import { languageProcessing } from "yoastseo";
-const { matchRegularParticiples, getWords } = languageProcessing;
+const { getWords, matchRegularParticiples } = languageProcessing;
 
 import irregularParticiples from "../../config/internal/passiveVoiceIrregulars";
+import EnglishParticiple from "../../values/EnglishParticiple";
 
 /**
- * Creates participle array for the participles found in a clause.
+ * Creates participle objects for the participles found in a sentence part.
  *
- * @param {string} clauseText The clause to find participles in
- *
- * @returns {Array} The list with participles.
+ * @param {string} sentencePartText The sentence part to find participles in.
+ * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
+ * @returns {Array} The list with participle objects.
  */
-export default function getParticiples( clauseText ) {
-	const words = getWords( clauseText );
+export default function getParticiples( sentencePartText, auxiliaries ) {
+	const words = getWords( sentencePartText );
 	const foundParticiples = [];
 
 	forEach( words, function( word ) {
-		const regex = [ /\w+ed($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig ];
-		if ( matchRegularParticiples( word, regex ).length !== 0 || includes( irregularParticiples, word ) ) {
-			foundParticiples.push( word );
+		let type = "";
+		if ( matchRegularParticiples( word, [ /\w+ed($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig ] ).length !== 0 ) {
+			type = "regular";
+		}
+		if ( includes( irregularParticiples, word ) ) {
+			type = "irregular";
+		}
+		if ( type !== "" ) {
+			foundParticiples.push( new EnglishParticiple( word, sentencePartText,
+				{ auxiliaries: auxiliaries, type: type, language: "en" } ) );
 		}
 	} );
 	return foundParticiples;

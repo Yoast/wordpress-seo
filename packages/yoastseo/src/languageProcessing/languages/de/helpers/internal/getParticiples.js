@@ -5,6 +5,7 @@ const { getWords } = languageProcessing;
 import regexFunctionFactory from "../../config/internal/passiveVoiceRegex.js";
 const regexFunction = regexFunctionFactory();
 import irregularParticiples from "../../config/internal/passiveVoiceIrregulars.js";
+import GermanParticiple from "../../values/GermanParticiple.js";
 
 const verbsBeginningWithErVerEntBeZerHerUber = regexFunction.verbsBeginningWithErVerEntBeZerHerUber;
 const verbsBeginningWithGe = regexFunction.verbsBeginningWithGe;
@@ -13,26 +14,54 @@ const verbsWithErVerEntBeZerHerUberInMiddle = regexFunction.verbsWithErVerEntBeZ
 const verbsEndingWithIert = regexFunction.verbsEndingWithIert;
 
 /**
- * Creates German participles array for the participles found in a clause.
+ * Creates GermanParticiple Objects for the participles found in a sentence.
  *
- * @param {string} clauseText The clause to finds participles in.
+ * @param {string} sentencePartText The sentence to finds participles in.
+ * @param {Array} auxiliaries The list of auxiliaries from the sentence part.
  *
- * @returns {Array} The array with the German participles found.
+ * @returns {Array} The array with GermanParticiple Objects.
  */
-export default function( clauseText ) {
-	const words = getWords( clauseText );
+export default function( sentencePartText, auxiliaries ) {
+	const words = getWords( sentencePartText );
 
 	const foundParticiples = [];
 
 	forEach( words, function( word ) {
-		if ( verbsBeginningWithGe( word ).length !== 0 ||
-			verbsWithGeInMiddle( word ).length !== 0 ||
-			verbsBeginningWithErVerEntBeZerHerUber( word ).length !== 0 ||
-			verbsWithErVerEntBeZerHerUberInMiddle( word ).length !== 0 ||
-			verbsEndingWithIert( word ).length !== 0 ||
-			irregularParticiples.includes( word )
-		) {
-			foundParticiples.push( word );
+		if ( verbsBeginningWithGe( word ).length !== 0 ) {
+			foundParticiples.push(
+				new GermanParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "ge at beginning", language: "de" } )
+			);
+			return;
+		}
+		if ( verbsWithGeInMiddle( word ).length !== 0 ) {
+			foundParticiples.push(
+				new GermanParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "ge in the middle", language: "de" } )
+			);
+			return;
+		}
+		if ( verbsBeginningWithErVerEntBeZerHerUber( word ).length !== 0 ) {
+			foundParticiples.push(
+				new GermanParticiple( word, sentencePartText,
+					{ auxiliaries: auxiliaries, type: "er/ver/ent/be/zer/her at beginning", language: "de" } )
+			);
+			return;
+		}
+		if ( verbsWithErVerEntBeZerHerUberInMiddle( word ).length !== 0 ) {
+			foundParticiples.push(
+				new GermanParticiple( word, sentencePartText,
+					{ auxiliaries: auxiliaries, type: "er/ver/ent/be/zer/her in the middle", language: "de" } )
+			);
+			return;
+		}
+		if ( verbsEndingWithIert( word ).length !== 0 ) {
+			foundParticiples.push(
+				new GermanParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "iert at the end", language: "de" } )
+			);
+		}
+		if ( irregularParticiples.includes( word ) ) {
+			foundParticiples.push(
+				new GermanParticiple( word, sentencePartText, { auxiliaries: auxiliaries, type: "irregular", language: "de" } )
+			);
 		}
 	} );
 	return foundParticiples;

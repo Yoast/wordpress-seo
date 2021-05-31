@@ -24,7 +24,7 @@ export default class Researcher extends AbstractResearcher {
 		// Deletes researches that are currently not available in Catalan.
 		// When the research is available, this line should be removed.
 		delete this.defaultResearches.getFleschReadingScore;
-		delete this.defaultResearches.getPassiveVoiceResult;
+		delete this.defaultResearches.getPassiveVoice;
 		delete this.defaultResearches.getSentenceBeginnings;
 		delete this.defaultResearches.functionWordsInKeyphrase;
 

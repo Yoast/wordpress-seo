@@ -6,22 +6,23 @@ import stripSpaces from "./helpers/sanitize/stripSpaces";
 import baseStemmer from "./helpers/morphology/baseStemmer";
 import getWords from "./helpers/word/getWords";
 import AbstractResearcher from "./AbstractResearcher";
+import splitSentence from "./helpers/passiveVoice/periphrastic/getSentencePartsSplitOnStopwords";
+import getPeriphrasticSentenceParts from "./helpers/passiveVoice/periphrastic/getSentenceParts";
+import determineSentencePartIsPassive from "./helpers/passiveVoice/periphrastic/determineSentencePartIsPassive";
 import flattenSortLength from "./helpers/morphology/flattenSortLength";
 import indices from "./helpers/word/indices";
 import buildFormRule from "./helpers/morphology/buildFormRule";
 import createRulesFromArrays, { createSingleRuleFromArray } from "./helpers/morphology/createRulesFromArrays";
 import matchRegularParticiples from "./helpers/passiveVoice/periphrastic/matchRegularParticiples";
-import directPrecedenceException from "./helpers/passiveVoice/periphrastic/directPrecedenceException";
-import precedenceException from "./helpers/passiveVoice/periphrastic/precedenceException";
+import checkException from "./helpers/passiveVoice/periphrastic/checkException.js";
+import directPrecedenceException from "./helpers/passiveVoice/directPrecedenceException";
+import precedenceException from "./helpers/passiveVoice/precedenceException";
 import nonDirectPrecedenceException from "./helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/nonDirectParticiplePrecedenceException";
 import findMatchingEndingInArray from "./helpers/morphology/findMatchingEndingInArray";
 import * as regexHelpers from "./helpers/morphology/regexHelpers";
 import * as exceptionListHelpers from "./helpers/morphology/exceptionListHelpers";
 import * as stemHelpers from "./helpers/morphology/stemHelpers";
-import * as values from "./values";
 import areWordsInSentence from "./helpers/word/areWordsInSentence";
-import getClauses from "./helpers/passiveVoice/periphrastic/getClauses";
-import getClausesSplitOnStopWords from "./helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/getClausesSplitOnStopWords";
 import { stripFullTags as stripHTMLTags } from "./helpers/sanitize/stripHTMLTags";
 
 export {
@@ -33,12 +34,16 @@ export {
 	stripSpaces,
 	baseStemmer,
 	getWords,
+	splitSentence,
+	getPeriphrasticSentenceParts,
+	determineSentencePartIsPassive,
 	flattenSortLength,
 	indices,
 	buildFormRule,
 	createRulesFromArrays,
 	createSingleRuleFromArray,
 	matchRegularParticiples,
+	checkException,
 	directPrecedenceException,
 	precedenceException,
 	nonDirectPrecedenceException,
@@ -47,8 +52,5 @@ export {
 	exceptionListHelpers,
 	stemHelpers,
 	areWordsInSentence,
-	getClauses,
-	getClausesSplitOnStopWords,
-	values,
 	stripHTMLTags,
 };

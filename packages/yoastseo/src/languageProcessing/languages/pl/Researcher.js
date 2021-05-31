@@ -10,8 +10,10 @@ import twoPartTransitionWords from "./config/twoPartTransitionWords";
 import sentenceLength from "./config/sentenceLength";
 
 // All helpers
-import getClauses from "./helpers/getClauses";
+import getSentenceParts from "./helpers/getSentenceParts";
 import getStemmer from "./helpers/getStemmer";
+import isPassiveSentencePart from "./helpers/isPassiveSentencePart";
+
 
 /**
  * The researches contains all the researches
@@ -41,8 +43,9 @@ export default class Researcher extends AbstractResearcher {
 		} );
 
 		Object.assign( this.helpers, {
-			getClauses,
+			getSentenceParts,
 			getStemmer,
+			isPassiveSentencePart,
 		} );
 	}
 }

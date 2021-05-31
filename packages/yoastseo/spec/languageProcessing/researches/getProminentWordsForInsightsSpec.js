@@ -2,7 +2,7 @@ import getProminentWordsForInsights from "../../../src/languageProcessing/resear
 import Paper from "../../../src/values/Paper";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
 import CatalanResearcher from "../../../src/languageProcessing/languages/ca/Researcher";
-import ProminentWord from "../../../src/languageProcessing/values/ProminentWord";
+import ProminentWord from "../../../src/values/ProminentWord";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 
