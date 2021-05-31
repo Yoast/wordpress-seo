@@ -48,7 +48,7 @@ export default class Duration extends BlockInstruction {
 			( value = 0 ) => {
 				props.setAttributes( {
 					value,
-					iso8601Duration: moment.duration( value, "minutes" ).toISOString(),
+					[ `${ this.options.name }-iso8601-duration` ]: moment.duration( value, "minutes" ).toISOString(),
 				} );
 			},
 			[ props.attributes.value ],
@@ -80,7 +80,7 @@ export default class Duration extends BlockInstruction {
 				value: {
 					type: "number",
 				},
-				iso8601Duration: {
+				[ `${ this.options.name }-iso8601-duration` ]: {
 					type: "string",
 				},
 			},
