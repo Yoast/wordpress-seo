@@ -29,7 +29,7 @@ class Feature_Flag_Integration implements Integration_Interface {
 	 * Feature_Flag_Integration constructor.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager    The admin asset manager.
-	 * @param Feature_Flag_Conditional ...$feature_flags All of the known feature flag conditionals.
+	 * @param Feature_Flag_Conditional  ...$feature_flags All of the known feature flag conditionals.
 	 */
 	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager, Feature_Flag_Conditional ...$feature_flags ) {
 		$this->feature_flags = $feature_flags;
