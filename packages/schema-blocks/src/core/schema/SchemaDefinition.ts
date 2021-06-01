@@ -70,4 +70,9 @@ export default class SchemaDefinition extends Definition {
 
 		return configuration.separateInGraph === true;
 	}
+
+	getSchemaInstruction(): Schema {
+		const instructions = Object.values( definition.instructions );
+		const schemaInstruction: Schema = instructions.find( instruction => instruction instanceof Schema );
+	}
 }

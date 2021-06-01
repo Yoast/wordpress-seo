@@ -127,6 +127,12 @@ export default class BlockDefinition extends Definition {
 			.filter( e => e !== null );
 	}
 
+	isRelevantFor( rootBlock: SchemaDefinition ): boolean {
+		return this.requiredFor.includes( rootBlock.name ) ||
+			this.recommendedFor.includes( rootBlock.name ) ||
+			this.optionalFor.includes( rootBlock.name );
+	}
+
 	/**
 	 * Creates a block icon.
 	 *
