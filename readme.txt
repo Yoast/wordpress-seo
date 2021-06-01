@@ -242,21 +242,18 @@ Enhancements:
 * Moves the settings for the Front Page from the Social -> Facebook tab, to Search Appearance -> General.
 * Updates the same settings form to the same editor used by the other forms in Search Appearance, for a more coherent user experience.
 * Introduces a notice to be displayed in Search Appearance > General in place of the Social settings for the Homepage when Open Graph is disabled.
-* Improves the organisation of the Search Appearance -> General tab, with distinct collapsibles for the Title Separator, the Homepage settings and the Schema.org settings.
+* Improves the organization of the Search Appearance > General tab, with distinct collapsibles for the Title Separator, the Homepage settings and the Schema.org settings.
 * Adds image validation warnings to the Homepage social image and the Default social image.
 * Improves headings and toggle labels readability and clarity in the Search Appearance settings.
 * Improves spacing between groups of related settings in the Search Appearance.
-* Optimizes license checks made by premium addons.
+* Optimizes license checks made by Premium add-ons.
 * Improves passive voice recognition for Turkish.
-* Improves the stemming of words that look like ending in suffix -mente, e.g. "clemente" was incorrectly stemmed to "cl", now it's stemmed to "clement".
-* Improves code quality of the Spanish stemmer and changes the way we stem words ending in -mente.
-* Added diacritics to the list of full form non-passive exceptions for Turkish, adds more non-passive exception words to the list.
+* Improves the truncation of the `primary_focus_keyword` field to handle multibyte characters. Props to [@rickhurst](https://github.com/rickhurst).
+* Integrates the Yoast SEO meta box in the Web Stories WordPress editor. [Props to swissspidy](https://github.com/swissspidy).
 
 Bugfixes:
 
-* Fixes a bug where `max-image-preview:large` would still be output when a post is set `noimage`.
-* Improved the truncation of the `primary_focus_keyword` field to handle multibyte characters.
-* Integrate Yoast SEO meta box in the Web Stories WordPress editor
+* Fixes a bug where `max-image-preview:large` would still be output when a post is set to `noimage`.
 
 = 16.4 =
 Release Date: June 1st, 2021
