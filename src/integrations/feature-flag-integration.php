@@ -58,13 +58,45 @@ class Feature_Flag_Integration implements Integration_Interface {
 	 * Gather all the feature flags and inject them into the JavaScript.
 	 */
 	public function add_feature_flags() {
+		$enabled_features = $this->get_enabled_features();
+		$enabled_features = $this->filter_enabled_features( $enabled_features );
+		$this->asset_manager->localize_script( 'feature-flag-package', 'wpseoFeatureFlags', $enabled_features );
+	}
+
+	/**
+	 * Returns an array of all enabled feature flags.
+	 *
+	 * @return string[] The array of enabled features.
+	 */
+	public function get_enabled_features() {
 		$enabled_features = [];
 		foreach ( $this->feature_flags as $feature_flag ) {
 			if ( $feature_flag->is_met() ) {
 				$enabled_features[] = $feature_flag->get_feature_flag();
 			}
 		}
+		return $enabled_features;
+	}
 
-		$this->asset_manager->localize_script( 'feature-flag-package', 'wpseoFeatureFlags', $enabled_features );
+	/**
+	 * Runs the list of enabled feature flags through a filter.
+	 *
+	 * @param string[] $enabled_features The list of currently enabled feature flags.
+	 *
+	 * @return string[] The (possibly adapted) list of enabled features.
+	 */
+	protected function filter_enabled_features( $enabled_features ) {
+		/**
+		 * Filters the list of currently enabled feature flags.
+		 *
+		 * @param string[] $enabled_features The current list of enabled feature flags.
+		 */
+		$filtered_enabled_features = apply_filters( 'wpseo_enable_feature', $enabled_features );
+
+		if ( ! is_array( $filtered_enabled_features ) || empty( $filtered_enabled_features ) ) {
+			$filtered_enabled_features = $enabled_features;
+		}
+
+		return $filtered_enabled_features;
 	}
 }

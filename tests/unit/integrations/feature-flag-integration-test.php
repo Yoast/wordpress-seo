@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
+use Brain\Monkey;
 use Mockery;
 
 use WPSEO_Admin_Asset_Manager;
@@ -81,6 +82,8 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * Tests the 'happy path' of the add_feature_flags method.
 	 *
 	 * @covers ::add_feature_flags
+	 * @covers ::get_enabled_features
+	 * @covers ::filter_enabled_features
 	 */
 	public function test_add_feature_flags() {
 		$expected_enabled_feature_flags = [ 'SCHEMA_BLOCKS' ];
@@ -100,6 +103,11 @@ class Feature_Flag_Integration_Test extends TestCase {
 			->expects( 'is_met' )
 			->andReturn( true );
 
+		// We expect the filter to be called.
+		Monkey\Filters\expectApplied( 'wpseo_enable_feature' )
+			->with( $expected_enabled_feature_flags )
+			->andReturn( $expected_enabled_feature_flags );
+
 		$this->instance = new Feature_Flag_Integration( $this->asset_manager, $schema_blocks_conditional );
 
 		$this->instance->add_feature_flags();
@@ -109,13 +117,15 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * Tests the add_feature_flags method when a feature flag is not met.
 	 *
 	 * @covers ::add_feature_flags
+	 * @covers ::get_enabled_features
+	 * @covers ::filter_enabled_features
 	 */
 	public function test_add_feature_flags_not_met() {
-		$expected_feature_flag_object = [ 'FEATURE_1' ];
+		$expected_enabled_feature_flags = [ 'FEATURE_1' ];
 
 		$this->asset_manager
 			->expects( 'localize_script' )
-			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_feature_flag_object );
+			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag to be set.
 		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
@@ -135,6 +145,54 @@ class Feature_Flag_Integration_Test extends TestCase {
 			->expects( 'is_met' )
 			->andReturn( false );
 
+		// We expect the filter to be called.
+		Monkey\Filters\expectApplied( 'wpseo_enable_feature' )
+			->with( $expected_enabled_feature_flags )
+			->andReturn( $expected_enabled_feature_flags );
+
+		$this->instance = new Feature_Flag_Integration( $this->asset_manager, $feature_flag_1, $feature_flag_2 );
+
+		$this->instance->add_feature_flags();
+	}
+
+	/**
+	 * Tests the add_feature_flags method when a feature flag is not met.
+	 *
+	 * @covers ::add_feature_flags
+	 * @covers ::get_enabled_features
+	 * @covers ::filter_enabled_features
+	 */
+	public function test_add_feature_flags_filter() {
+		$currently_enabled_feature_flags = [ 'FEATURE_1' ];
+		$expected_enabled_feature_flags  = [ 'FEATURE_1', 'FEATURE_2' ];
+
+		$this->asset_manager
+			->expects( 'localize_script' )
+			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
+
+		// Mock a feature flag to be set.
+		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
+
+		$feature_flag_1
+			->expects( 'get_feature_flag' )
+			->andReturn( 'FEATURE_1' );
+
+		$feature_flag_1
+			->expects( 'is_met' )
+			->andReturn( true );
+
+		// Mock a feature flag to NOT be set.
+		$feature_flag_2 = \Mockery::mock( Feature_Flag_Conditional::class );
+
+		$feature_flag_2
+			->expects( 'is_met' )
+			->andReturn( false );
+
+		// We expect the filter to be called.
+		Monkey\Filters\expectApplied( 'wpseo_enable_feature' )
+			->with( $currently_enabled_feature_flags )
+			->andReturn( $expected_enabled_feature_flags );
+
 		$this->instance = new Feature_Flag_Integration( $this->asset_manager, $feature_flag_1, $feature_flag_2 );
 
 		$this->instance->add_feature_flags();
@@ -144,13 +202,20 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * Tests the add_feature_flags method when no feature flags are available.
 	 *
 	 * @covers ::add_feature_flags
+	 * @covers ::get_enabled_features
+	 * @covers ::filter_enabled_features
 	 */
 	public function test_add_feature_flags_non_available() {
-		$expected_feature_flag_object = [];
+		$expected_enabled_feature_flags = [];
 
 		$this->asset_manager
 			->expects( 'localize_script' )
-			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_feature_flag_object );
+			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
+
+		// We expect the filter to be called.
+		Monkey\Filters\expectApplied( 'wpseo_enable_feature' )
+			->with( $expected_enabled_feature_flags )
+			->andReturn( $expected_enabled_feature_flags );
 
 		$this->instance = new Feature_Flag_Integration( $this->asset_manager );
 
