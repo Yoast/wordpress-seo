@@ -277,6 +277,7 @@
 		padding-right: 16px;
 		line-height: 2;
 		vertical-align: middle;
+		font-weight: 600;
 	}
 
 	.fieldset-switch-toggle .disabled-note {
@@ -291,7 +292,7 @@
 	}
 
 	.switch-container__has-help .yoast_help.yoast-help-button {
-		margin: 8px 0 0 4px;
+		margin: 8px 0 0 2px;
 	}
 
 	.switch-toggle.switch-yoast-seo,
@@ -433,6 +434,7 @@
 		margin: 8px 0;
 		font-weight: 400;
 		line-height: 2;
+		font-weight: 600;
 	}
 
 	.switch-light-visual-label__strong {

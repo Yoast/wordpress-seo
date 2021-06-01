@@ -1,4 +1,9 @@
+/* External dependencies */
+import { select } from "@wordpress/data";
+
+/* Internal dependencies */
 import FacebookFields from "../../helpers/fields/FacebookFields";
+
 
 export const SET_FACEBOOK_TITLE = "SET_FACEBOOK_TITLE";
 export const SET_FACEBOOK_DESCRIPTION = "SET_FACEBOOK_DESCRIPTION";
@@ -14,7 +19,12 @@ export const LOAD_FACEBOOK_PREVIEW = "LOAD_FACEBOOK_PREVIEW";
  * @returns {object} The action object.
  */
 export const setFacebookPreviewTitle = ( title ) => {
-	FacebookFields.title = title;
+	if ( title.trim() === select( "yoast-seo/editor" ).getSocialTitleTemplate().trim() ) {
+		FacebookFields.title = "";
+	} else {
+		FacebookFields.title = title;
+	}
+
 	return { type: SET_FACEBOOK_TITLE, title };
 };
 
@@ -26,7 +36,12 @@ export const setFacebookPreviewTitle = ( title ) => {
  * @returns {object} The action object.
  */
 export const setFacebookPreviewDescription = ( description ) => {
-	FacebookFields.description = description;
+	if ( description.trim() === select( "yoast-seo/editor" ).getSocialDescriptionTemplate().trim() ) {
+		FacebookFields.description = "";
+	} else {
+		FacebookFields.description = description;
+	}
+
 	return { type: SET_FACEBOOK_DESCRIPTION, description };
 };
 
@@ -60,11 +75,16 @@ export const clearFacebookPreviewImage = () => {
  * @returns {object} The action object.
  */
 export const loadFacebookPreviewData = () => {
+	const {
+		getSocialDescriptionTemplate,
+		getSocialTitleTemplate,
+	} = select( "yoast-seo/editor" );
+
 	return {
 		type: LOAD_FACEBOOK_PREVIEW,
 		imageId: FacebookFields.imageId,
 		imageUrl: FacebookFields.imageUrl,
-		description: FacebookFields.description,
-		title: FacebookFields.title,
+		description: FacebookFields.description || getSocialDescriptionTemplate(),
+		title: FacebookFields.title || getSocialTitleTemplate(),
 	};
 };

@@ -17,7 +17,7 @@ class SettingsReplacementVariableEditors extends Component {
 	/**
 	 * Constructs the SettingsReplacementVariableEditors
 	 *
-	 * @param {Obj} props The props.
+	 * @param {object} props The props.
 	 */
 	constructor( props ) {
 		super( props );
@@ -71,6 +71,8 @@ class SettingsReplacementVariableEditors extends Component {
 				reactReplacevarLabelDescription,
 				reactReplacevarDescriptionPlaceholder,
 				reactReplacevarHasNewBadge,
+				reactReplacevarIsDisabled,
+				reactReplacevarHasPremiumBadge,
 			} = targetElement.dataset;
 
 			const filteredReplacementVariables = this.filterEditorSpecificReplaceVars(
@@ -95,6 +97,8 @@ class SettingsReplacementVariableEditors extends Component {
 					labels={ labels }
 					descriptionPlaceholder={ reactReplacevarDescriptionPlaceholder }
 					hasNewBadge={ reactReplacevarHasNewBadge === "1" }
+					isDisabled={ reactReplacevarIsDisabled === "1" }
+					hasPremiumBadge={ reactReplacevarHasPremiumBadge === "1" }
 				/>
 			);
 		} );

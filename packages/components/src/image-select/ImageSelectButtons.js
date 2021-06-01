@@ -18,6 +18,7 @@ const ImageSelectButtons = ( props ) => {
 		selectImageButtonId,
 		replaceImageButtonId,
 		removeImageButtonId,
+		isDisabled,
 	 } = props;
 
 	return (
@@ -26,6 +27,7 @@ const ImageSelectButtons = ( props ) => {
 				variant="secondary"
 				id={ imageSelected ? replaceImageButtonId : selectImageButtonId }
 				onClick={ onClick }
+				disabled={ isDisabled }
 			>
 				{
 					imageSelected
@@ -38,6 +40,7 @@ const ImageSelectButtons = ( props ) => {
 					variant="remove"
 					id={ removeImageButtonId }
 					onClick={ onRemoveImageClick }
+					disabled={ isDisabled }
 				>
 					{ __( "Remove image", "yoast-components" ) }
 				</Button>
@@ -55,6 +58,7 @@ ImageSelectButtons.propTypes = {
 	selectImageButtonId: PropTypes.string,
 	replaceImageButtonId: PropTypes.string,
 	removeImageButtonId: PropTypes.string,
+	isDisabled: PropTypes.bool,
 };
 
 ImageSelectButtons.defaultProps = {
@@ -64,4 +68,5 @@ ImageSelectButtons.defaultProps = {
 	selectImageButtonId: "",
 	replaceImageButtonId: "",
 	removeImageButtonId: "",
+	isDisabled: false,
 };
