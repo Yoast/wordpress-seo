@@ -1,0 +1,58 @@
+{
+  "name": "@yoast/search-metadata-previews",
+  "version": "2.24.0",
+  "private": false,
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/search-metadata-previews"
+  },
+  "author": "Team Yoast",
+  "license": "GPL-3.0",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint . --max-warnings=31",
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc"
+  },
+  "dependencies": {
+    "@wordpress/a11y": "^1.0.7",
+    "@wordpress/i18n": "^1.1.0",
+    "@yoast/components": "^2.19.0",
+    "@yoast/helpers": "^0.16.0",
+    "@yoast/replacement-variable-editor": "^1.17.0",
+    "@yoast/style-guide": "^0.13.0",
+    "interpolate-components": "^1.1.1",
+    "lodash": "^4.17.11",
+    "prop-types": "^15.6.0",
+    "react-transition-group": "^2.7.1",
+    "styled-components": "^5.2.1",
+    "yoastseo": "^1.91.0"
+  },
+  "devDependencies": {
+    "@yoast/browserslist-config": "^1.2.2",
+    "browserslist": "^4.7.3"
+  },
+  "jest": {
+    "testURL": "http://localhost",
+    "testRegex": ".*Test.js$",
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/tests/CSSStub.js",
+      "^lodash-es$": "lodash",
+      "^lodash-es/(.*)$": "lodash/$1"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

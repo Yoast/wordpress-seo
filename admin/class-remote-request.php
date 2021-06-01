@@ -102,7 +102,7 @@ class WPSEO_Remote_Request {
 	/**
 	 * Returns the value of the response error.
 	 *
-	 * @return null|WP_Error The response error.
+	 * @return WP_Error|null The response error.
 	 */
 	public function get_response_error() {
 		return $this->response_error;

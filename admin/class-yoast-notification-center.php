@@ -124,7 +124,7 @@ class Yoast_Notification_Center {
 	 * Check if the user has dismissed a notification.
 	 *
 	 * @param Yoast_Notification $notification The notification to check for dismissal.
-	 * @param null|int           $user_id      User ID to check on.
+	 * @param int|null           $user_id      User ID to check on.
 	 *
 	 * @return bool
 	 */
@@ -149,8 +149,8 @@ class Yoast_Notification_Center {
 	/**
 	 * Checks if the notification is being dismissed.
 	 *
-	 * @param string|Yoast_Notification $notification Notification to check dismissal of.
-	 * @param string                    $meta_value   Value to set the meta value to if dismissed.
+	 * @param Yoast_Notification $notification Notification to check dismissal of.
+	 * @param string             $meta_value   Value to set the meta value to if dismissed.
 	 *
 	 * @return bool True if dismissed.
 	 */
@@ -326,10 +326,10 @@ class Yoast_Notification_Center {
 	/**
 	 * Get the notification by ID and user ID.
 	 *
-	 * @param string $notification_id The ID of the notification to search for.
-	 * @param int    $user_id         The ID of the user.
+	 * @param string   $notification_id The ID of the notification to search for.
+	 * @param int|null $user_id         The ID of the user.
 	 *
-	 * @return null|Yoast_Notification
+	 * @return Yoast_Notification|null
 	 */
 	public function get_notification_by_id( $notification_id, $user_id = null ) {
 		$user_id = self::get_user_id( $user_id );
@@ -665,11 +665,11 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Retrieve the notifications from storage.
+	 * Retrieve the notifications from storage and fill the relevant property.
 	 *
 	 * @param int $user_id The ID of the user to retrieve notifications for.
 	 *
-	 * @return array|void Yoast_Notification[] Notifications.
+	 * @return void
 	 */
 	private function retrieve_notifications_from_storage( $user_id ) {
 
@@ -735,9 +735,9 @@ class Yoast_Notification_Center {
 	/**
 	 * Filter out non-persistent notifications.
 	 *
-	 * @param Yoast_Notification $notification Notification to test for persistent.
-	 *
 	 * @since 3.2
+	 *
+	 * @param Yoast_Notification $notification Notification to test for persistent.
 	 *
 	 * @return bool
 	 */
@@ -761,9 +761,9 @@ class Yoast_Notification_Center {
 	/**
 	 * Convert Notification to array representation.
 	 *
-	 * @param Yoast_Notification $notification Notification to convert.
-	 *
 	 * @since 3.2
+	 *
+	 * @param Yoast_Notification $notification Notification to convert.
 	 *
 	 * @return array
 	 */

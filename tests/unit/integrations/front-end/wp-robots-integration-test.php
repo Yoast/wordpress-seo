@@ -64,7 +64,7 @@ class WP_Robots_Integration_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		static::assertNotFalse( has_filter( 'wp_robots', [ $this->instance, 'add_robots' ] ) );
+		static::assertNotFalse( \has_filter( 'wp_robots', [ $this->instance, 'add_robots' ] ) );
 	}
 
 	/**

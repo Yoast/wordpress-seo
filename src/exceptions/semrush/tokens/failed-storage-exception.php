@@ -2,10 +2,12 @@
 
 namespace Yoast\WP\SEO\Exceptions\SEMrush\Tokens;
 
+use Exception;
+
 /**
  * Class Failed_Storage_Exception
  */
-class Failed_Storage_Exception extends \Exception {
+class Failed_Storage_Exception extends Exception {
 
 	const DEFAULT_MESSAGE = 'Token storing failed. Please try again.';
 

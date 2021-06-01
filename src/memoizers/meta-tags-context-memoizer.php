@@ -99,7 +99,13 @@ class Meta_Tags_Context_Memoizer {
 			if ( $page_type === 'Fallback' ) {
 				// Do not cache the context if it's a fallback page.
 				// The likely cause for this is that this function was called before the query was loaded.
-				return $this->get( $indexable, $page_type );
+				$context = $this->get( $indexable, $page_type );
+
+				// Restore the previous query.
+				// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Reason: we have to restore the query.
+				$GLOBALS['wp_query'] = $old_wp_query;
+
+				return $context;
 			}
 			$this->cache['current_page'] = $this->get( $indexable, $page_type );
 
@@ -149,7 +155,7 @@ class Meta_Tags_Context_Memoizer {
 	/**
 	 * Clears the memoization of either a specific indexable or all indexables.
 	 *
-	 * @param Indexable|int|string $indexable Optional. The indexable or indexable id to clear the memoization of.
+	 * @param Indexable|int|string|null $indexable Optional. The indexable or indexable id to clear the memoization of.
 	 */
 	public function clear( $indexable = null ) {
 		if ( $indexable instanceof Indexable ) {

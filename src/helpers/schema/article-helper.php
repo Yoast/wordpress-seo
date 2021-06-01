@@ -10,7 +10,7 @@ class Article_Helper {
 	/**
 	 * Determines whether a given post type should have Article schema.
 	 *
-	 * @param string $post_type Post type to check.
+	 * @param string|null $post_type Post type to check.
 	 *
 	 * @return bool True if it has Article schema, false if not.
 	 */

@@ -19,14 +19,12 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		add_action( 'admin_footer', [ $this, 'wp_footer' ], 10 );
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-
-		add_action( 'set_object_terms', [ $this, 'save_primary_terms' ], ( \PHP_INT_MAX - 1000 ) );
 	}
 
 	/**
 	 * Gets the current post ID.
 	 *
-	 * @return integer The post ID.
+	 * @return int The post ID.
 	 */
 	protected function get_current_id() {
 		$post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
@@ -136,24 +134,6 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Saves all selected primary terms.
-	 *
-	 * @param int $post_id Post ID to save primary terms for.
-	 */
-	public function save_primary_terms( $post_id ) {
-		// Bail if this is a multisite installation and the site has been switched.
-		if ( is_multisite() && ms_is_switched() ) {
-			return;
-		}
-
-		$taxonomies = $this->get_primary_term_taxonomies( $post_id );
-
-		foreach ( $taxonomies as $taxonomy ) {
-			$this->save_primary_term( $post_id, $taxonomy );
-		}
-	}
-
-	/**
 	 * Gets the id of the primary term.
 	 *
 	 * @param string $taxonomy_name Taxonomy name for the term.
@@ -169,7 +149,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns all the taxonomies for which the primary term selection is enabled.
 	 *
-	 * @param int $post_id Default current post ID.
+	 * @param int|null $post_id Default current post ID.
 	 * @return array
 	 */
 	protected function get_primary_term_taxonomies( $post_id = null ) {
@@ -194,22 +174,6 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 */
 	protected function include_js_templates() {
 		include_once WPSEO_PATH . 'admin/views/js-templates-primary-term.php';
-	}
-
-	/**
-	 * Saves the primary term for a specific taxonomy.
-	 *
-	 * @param int     $post_id  Post ID to save primary term for.
-	 * @param WP_Term $taxonomy Taxonomy to save primary term for.
-	 */
-	protected function save_primary_term( $post_id, $taxonomy ) {
-		$primary_term = filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term', FILTER_SANITIZE_NUMBER_INT );
-
-		// We accept an empty string here because we need to save that if no terms are selected.
-		if ( $primary_term && check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce' ) !== null ) {
-			$primary_term_object = new WPSEO_Primary_Term( $taxonomy->name, $post_id );
-			$primary_term_object->set_primary_term( $primary_term );
-		}
 	}
 
 	/**

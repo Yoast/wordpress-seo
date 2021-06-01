@@ -123,7 +123,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	public function test_register_script() {
 		$asset_args = [
 			'name'      => 'handle',
-			'src'       => 'src',
+			'src'       => 'src.js',
 			'deps'      => [ 'deps' ],
 			'version'   => 'version',
 			'in_footer' => 'in_footer',

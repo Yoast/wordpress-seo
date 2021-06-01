@@ -57,7 +57,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * Sets the asset manager to use.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager Optional. Asset manager to use.
+	 * @param WPSEO_Admin_Asset_Manager|null $asset_manager Optional. Asset manager to use.
 	 */
 	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager = null ) {
 		if ( ! $asset_manager ) {

@@ -16,15 +16,15 @@ class Container_Compiler {
 	/**
 	 * Compiles the dependency injection container.
 	 *
-	 * @param boolean $debug                    If false the container will only be re-compiled if it does not yet already exist.
-	 * @param string  $generated_container_path The path the generated container should be written to.
-	 * @param string  $services_path            The path of the services.php.
-	 * @param string  $class_map_path           The path of the class map.
-	 * @param string  $namespace                The namespace the generated container should be in.
-	 *
-	 * @throws Exception If compiling the container fails.
+	 * @param bool   $debug                    If false the container will only be re-compiled if it does not yet already exist.
+	 * @param string $generated_container_path The path the generated container should be written to.
+	 * @param string $services_path            The path of the services.php.
+	 * @param string $class_map_path           The path of the class map.
+	 * @param string $namespace                The namespace the generated container should be in.
 	 *
 	 * @return void
+	 *
+	 * @throws Exception If compiling the container fails.
 	 */
 	public static function compile(
 		$debug,

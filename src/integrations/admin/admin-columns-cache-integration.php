@@ -32,7 +32,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	 *
 	 * In this case: only when on an admin page.
 	 *
-	 * @returns array The conditionals.
+	 * @return array The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -117,7 +117,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	 *
 	 * @param int $post_id The post ID.
 	 *
-	 * @return Indexable|false. The indexable. False if none could be found.
+	 * @return Indexable|false The indexable. False if none could be found.
 	 */
 	public function get_indexable( $post_id ) {
 		if ( ! \array_key_exists( $post_id, $this->indexable_cache ) ) {

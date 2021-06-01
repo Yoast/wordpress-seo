@@ -30,7 +30,7 @@
 		"humbug/php-scoper": "^0.13.4",
 		"league/oauth2-client": "2.4.1",
 		"php-parallel-lint/php-console-highlighter": "^0.5",
-		"php-parallel-lint/php-parallel-lint": "^1.2.0",
+		"php-parallel-lint/php-parallel-lint": "^1.3.0",
 		"phpunit/phpunit": "^5.7",
 		"psr/container": "1.0.0",
 		"psr/log": "^1.0",
@@ -80,8 +80,8 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=320",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=225",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=315",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=224",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs-summary": [

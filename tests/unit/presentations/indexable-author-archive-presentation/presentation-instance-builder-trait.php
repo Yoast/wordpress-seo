@@ -3,9 +3,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Author_Archive_Presentation;
 
 use Mockery;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Author_Archive_Presentation;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\Presentations\Presentation_Instance_Dependencies;
@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * Trait Presentation_Instance_Builder
  */
 trait Presentation_Instance_Builder {
+
 	use Presentation_Instance_Dependencies;
 
 	/**

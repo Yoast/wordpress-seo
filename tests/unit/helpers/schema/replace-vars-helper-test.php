@@ -2,20 +2,18 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers\Schema;
 
+use Mockery;
+use WP_Post;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Replace_Vars_Helper;
+use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Helpers\Schema\Replace_Vars_Helper_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-
-use Mockery;
-
-use Yoast\WP\SEO\Helpers\Schema\Replace_Vars_Helper;
-
-use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
-use WPSEO_Replace_Vars;
-use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 
 /**
  * Class Replace_Vars_Helper_Test.
@@ -90,7 +88,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->author_id = 'author_id';
 
-		$post            = Mockery::mock( \WP_Post::class );
+		$post            = Mockery::mock( WP_Post::class );
 		$post->post_date = '2020-10-11 13:00:00';
 
 		$meta_tags_context                 = Mockery::mock( Meta_Tags_Context_Mock::class );
@@ -138,7 +136,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->author_id = 'author_id';
 
-		$post            = Mockery::mock( \WP_Post::class );
+		$post            = Mockery::mock( WP_Post::class );
 		$post->post_date = '2020-10-11 13:00:00';
 
 		$meta_tags_context                 = Mockery::mock( Meta_Tags_Context_Mock::class );
@@ -297,7 +295,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 		$merged = [];
 
 		foreach ( $array as $value ) {
-			if ( is_array( $value ) ) {
+			if ( \is_array( $value ) ) {
 				$merged[] = $this->array_values_recursively( $value );
 			}
 			else {

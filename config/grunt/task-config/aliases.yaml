@@ -22,7 +22,7 @@
   - 'clean:build-assets-js'
   - 'shell:install-schema-blocks'
   - 'copy:js-dependencies'
-  - 'webpack:buildDev'
+  - 'shell:webpack'
 
 # Build CSS for development
 'build:css':
@@ -114,7 +114,6 @@ clean:build-assets:
 
 # Get the project ready for release-candidate
 'create-rc':
-  - 'ensure-monorepo-is-unlinked'
   - 'ensure-clean-branch'
   - 'ensure-pre-release-branch'
   - 'update-readme'
@@ -143,7 +142,7 @@ release:
 'release:js':
   - 'shell:install-schema-blocks'
   - 'copy:js-dependencies'
-  - 'webpack:buildProd'
+  - 'shell:webpack-prod'
 
 # Build CSS for production
 'release:css':

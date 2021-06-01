@@ -1,0 +1,166 @@
+<a name='top'></a>hreflang tags are a technical solution for sites that have similar content in multiple languages. A site owner wants search engines to point people to the most \"fitting\" language. Say a user is Dutch, the page that ranks is English, but there's also a Dutch version. You would want Google to show the Dutch page in the search results for that user. This is the type of problem hreflang was designed to solve.
+
+In this (<em>very</em> long) article we'll discuss:
+<ul>
+	<li>What <a href='#hreflang-meant-for'>hreflang is for</a>.</li>
+	<li>What the <a href='#hreflang-seo-benefit'>SEO benefit of hreflang</a> is.</li>
+	<li><a href='#what-is-hreflang'>What hreflang <em>is</em></a><em>.</em></li>
+	<li><a href='#what-hreflang-accomplishes'>What hreflang accomplishes</a>.</li>
+	<li>Whether or not <a href='#should-you-use-hreflang'>you should use hreflang</a>.</li>
+	<li>Which <a href='#hreflang-architecture'>architectural decisions</a> you should make.</li>
+	<li>The <a href='#hreflang-technical-basics'>basic technical ideas about hreflang</a> you should know.</li>
+	<li><a href='#hreflang-implementation-choices'>Implementation decisions</a>  you should make.</li>
+	<li>Which <a href='#hreflang-technical-2'>other technical things</a> we need to account for, like:
+		<ul>
+			<li><a href='#x-default'></a></li>
+			<li><a href='#hreflang-canonical'>how  and hreflang</a> work together.</li>
+		</ul>
+	</li>
+	<li>Which <a href='#hreflang-tools'>tools</a> to use when developing and testing your  implementation.</li>
+	<li>How to <a href='#hreflang-process'>keep your implementation working</a> once you've set it up.</li>
+</ul>
+hreflang tags are among the hardest specs I've ever seen come out of a search engine. Doing it right is tough and takes time. This guide will try and prevent you from falling into common traps. Be sure to read it thoroughly if you're embarking on an hreflang project.<section class='alignright extra show-off'><p><a class='link--naked link--cta' href='https://yoast.com/academy/course/technical-seo-1-training/'>Become a technical SEO expert with our Technical SEO 1 training! »</a></p><a class='hide-on-mobile ' href='https://yoast.com/academy/course/technical-seo-1-training/'><img src='https://cdn.yoast.com/app/uploads/2017/02/Technical_SEO_1_banner.png' alt='Technical SEO 1 training'></img></a><div class='plugin-buy-button'><a href='https://yoast.com/eu/cart/?add-to-cart=24' class='button default' rel='nofollow'><span class='woocommerce-Price-amount amount'><span class='woocommerce-Price-currencySymbol'>€</span>199</span> - Buy now »</a></div><a href='https://yoast.com/academy/course/technical-seo-1-training/' class='button dimmed flat'><i class='fa fa-info-circle' aria-hidden='true'></i> Info</a></section>
+<h2 id='hreflang-meant-for'>What are hreflang tags meant for?</h2>
+<strong>hreflang tags</strong> are a method to mark up pages that are similar in meaning but aimed at different languages and/or regions. You can use this for three types of variations:
+<ul>
+	<li>Content with regional variations like  and .</li>
+	<li>Content in different languages like ,  and .</li>
+	<li>A combination of different languages and regional variations.</li>
+</ul>
+You can use hreflang tags to target different markets that use the same language. This is a fairly common use case. Using hreflang tags you can differentiate between the US and the UK, or between Germany and Austria.
+
+<img class='alignnone size-full wp-image-680677' src='https://yoast.com/app/uploads/2016/04/9_Use_Hreflang_FI-1.png' alt='9_Use_Hreflang_FI (1)' width='1200' height='628'></img>
+<h2 id='hreflang-seo-benefit'>What's the SEO benefit of hreflang?</h2>
+So why are we even talking about hreflang? What is the SEO benefit? There are two main reasons, from an SEO point of view, why you should implement it.
+
+First and foremost, if you have a version of a page that you have optimized for the users language and location, you want them to land on that page. Having the right language and location dependent information improves their user experience and thus leads to fewer people bouncing back to the search results. Fewer people bouncing back to the search results leads to higher rankings.
+
+The second reason is that hreflang prevents a <a href='https://yoast.com/duplicate-content/' target='_blank' rel='noopener'>duplicate content problem</a>. You might have the same content in English on different URLs aimed at the UK, the US and Australia. The difference on these pages might be as small as a change in prices and currency. Google might not understand on its own what you're trying to do and see it as duplicate content. With hreflang you make it very clear to the search engine that it's (almost) the same content, just optimized for different people.
+<h2 id='what-is-hreflang'>What <em>is</em> hreflang?</h2>
+hreflang is code, which you can show to search engines in three different ways, more on that below. With this code you specify all the different URLs on your site(s) that have the same content. These URLs can have the same content in a different language, or the same language but targeted at a different region.
+<h2 id='#what-hreflang-accomplishes'>What does hreflang accomplish?</h2>
+<section class='alignright extra' id=''><h4><i class='fa fa-question-circle'></i> Who supports hreflang?</h4><p>hreflang is supported by Google and Yandex. Bing doesn't have an equivalent, but does support <a href='https://blogs.bing.com/webmaster/2011/03/01/how-to-tell-bing-your-websites-country-and-language/' target='_blank' rel='noopener'>language meta tags</a>.</p>
+</section>
+
+In a complete hreflang implementation, every URL specifies which other variations are available. When a user searches, Google goes through the following process:
+<ol>
+	<li>it determines that it wants to rank a URL;</li>
+	<li>it checks whether that URL has hreflang annotations;</li>
+	<li>it presents the searcher with the results with the most appropriate URL for that user.</li>
+</ol>
+The users current location <em>and</em> his language settings determine the most appropriate URL. A user can have multiple languages in his browser's settings. I, for instance, have Dutch, English and German in there. The order in which these languages appear in my settings determines the most appropriate language.
+<h2 id='should-you-use-hreflang'>Should you use hreflang?</h2>
+<section class='alignright extra' id=''><h4><i class='fa fa-info-circle'></i> Tip: homepage first!</h4><p>If you're not sure on whether you want to implement hreflang on your entire site, start with your homepage! People searching for your brand will get the right page. This is a lot easier to implement and it will \"catch\" a large part of your traffic.</p>
+</section>
+
+Based on what we've learned on what hreflang is and how it works, we can determine if you should use it. You should use it if:
+<ul>
+	<li>you have the same content in multiple languages;</li>
+	<li>you have content aimed at different geographic regions, but in the same language.</li>
+</ul>
+Whether the content you have resides on one domain or multiple domains does not matter. You can link variations within the same domain but can also link between domains.<img class='noborder alignnone wp-image-676677 size-full' src='https://yoast.com/app/uploads/2016/03/Hreflang_mistakes_FI.png' alt='hreflang: the ultimate guide' width='1200' height='628'></img>
+<h2 id='hreflang-architecture'>Architectural implementation choices</h2>
+One thing is very important when implementing hreflang: don't be too specific! Let's say you have three types of pages:
+<ul>
+	<li>German</li>
+	<li>German, specifically aimed at Austria</li>
+	<li>German, specifically aimed at Switzerland</li>
+</ul>
+You could choose to implement them using three hreflang attributes like this:
+<ul>
+	<li> targeting German speakers in Germany</li>
+	<li> targeting German speakers in Austria</li>
+	<li> targeting German speakers in Switzerland</li>
+</ul>
+However, which of these three results should Google show to someone searching in German in Belgium? The first page would probably be the best. To make sure that every German searching user who does not match either  or  gets that one, change that hreflang attribute to just . Specifying <em>just</em> the language is in many cases a smart thing to do.
+
+It's good to know that when you create sets of links like this, the most specific one wins. The order in which the search engines sees the links doesn't matter, it'll always try to match from most specific to least specific.
+<h2 id='hreflang-technical-basics'>Technical implementation basics</h2>
+Regardless of which type of implementation you choose (more on that below), there are three basic rules.
+<h3>1. Valid hreflang attributes</h3>
+The hreflang attribute needs to contain a value that consists of the language, optionally combined with a region. The language attribute needs to be in <a href='http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes'>ISO 639-1 format</a> (a two letter code).
+
+<section class='alignright extra' id=''><h4><i class='fa fa-exclamation-circle'></i> Wrong region codes</h4><p>Google can deal with some of the common mistakes with region codes, although you shouldn't take any chances. For instance, it can deal with  just as well as with the \"right\" . However,  does <em>not</em> work, as  doesn't define a country.</p>
+</section>
+
+The region is optional and should be in ISO 3166-1 Alpha 2 format, more specifically, it should be an officially assigned element. This means you need to use <a href='https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements' target='_blank' rel='noopener'>this list</a> for verification. This is where things often go wrong: using the wrong region code is a very common problem. Use the linked lists on Wikipedia to verify that you're using the right region and language codes.
+<h3>2. Return links</h3>
+The second basic rule is about return links. Regardless of your type of implementation, each URL needs return links to every other URL, note that it should point at the canonical versions, <a href='#hreflang-canonical'>more on that below</a>. The more languages you have the more you might be tempted to limit those return links: don't. If you have 80 languages, you'll have hreflang links for 80 URLs. There's no getting around that. <section class='alignright extra show-off'><p><a class='link--naked link--cta' href='https://yoast.com/wordpress/plugins/complete-seo/'>Optimize your site to the max: get all our SEO plugins and extensions at once! Get our <span>Yoast Complete SEO bundle</span> and save money! »</a></p><a class='hide-on-mobile ' href='https://yoast.com/wordpress/plugins/complete-seo/'><img src='https://cdn.yoast.com/app/uploads/2013/08/Yoast_Complete_SEO_pack_Banner.png' alt='Yoast Complete SEO pack'></img></a><div class='plugin-buy-button'><a href='https://yoast.com/eu/cart/?add-to-cart=39' class='button default' rel='nofollow'><span class='woocommerce-Price-amount amount'><span class='woocommerce-Price-currencySymbol'>€</span>289</span> - Buy now »</a></div><a href='https://yoast.com/wordpress/plugins/complete-seo/' class='button dimmed flat'><i class='fa fa-info-circle' aria-hidden='true'></i> Info</a></section><span style='font-weight: 400;'>
+</span>
+<h3>3. hreflang link to self</h3>
+The third and final basic rule is about self-links. Just like those return links might feel weird at some point, the hreflang link to the current page feels weird for some developers. It's required though and not having it will mean your implementation will not work.
+<h2 id='hreflang-implementation-choices'>Technical implementation choices</h2>
+There are three ways to implement hreflang: using link elements in the , using HTTP headers or using an XML sitemap. Each has its uses, so we'll discuss them and explain why you should choose any of these.
+<h3>1. HTML hreflang link elements in your <head></h3>
+The first method to implement hreflang we'll discuss is HTML hreflang link elements. To implement hreflang using header link elements, you add code like this to the  section of every page:
+
+As every variation needs to link to every other variation, these implementations can become quite big and lead to performance issues. If you have 20 languages, choosing HTML link elements would mean adding 20 link elements as shown above to every page. This means adding 1.5KB on every page load, that no user will ever use, but will have to download. On top of that, your CMS will have to do several database calls to generate all these links. This markup is purely meant for search engines. That's why I would not recommend this for larger sites, as it adds far too much, unneeded, overhead.
+<h3>2. hreflang HTTP headers</h3>
+The second method of implementing hreflang is through HTTP headers. HTTP headers are the solution for all your PDFs and other non-HTML content you might want to optimize. Link elements work nicely for HTML documents, but not for other types of content as you can't include them. That's where HTTP headers come in. They should look like this:
+
+The problem with having a lot of HTTP headers is similar to the problem with link elements in your <head>: it adds a lot of overhead to every request.
+	<h3>3. An XML sitemap hreflang implementation</h3>
+	The third option to implement hreflang is using XML sitemap markup. It uses the xhtml:link attribute in XML sitemaps to add the annotation to every URL. It works very much in the same way as you would in a page's <head> with <link> elements. If you thought link elements were verbose, the XML sitemap implementation is even worse. This is the markup needed for just one URL with two other languages:
+
+		You can see it has a self-referencing URL as the third URL, specifying the specific URL is meant for , and it specifies two other languages. Now, both other URLs would need to be in the sitemap too, looking like this:
+		<span style='color: #ff0000;'></span><span style='color: #ff0000;'></span>
+		As you can see, basically we're only changing the URLs within the  element, as everything else needs to be the same. This way, each URL has a self-referencing hreflang attribute, and return links to the appropriate other URLs.
+
+		XML sitemap markup like this is very verbose: a lot of output is needed to do this for a lot of URLs. The benefit of an XML sitemap implementation is simple: your normal users won't be bothered with this markup. This has the benefit of not adding extra page weight and it doesn't require a lot of database calls on page load to generate this markup.
+
+		Another benefit of adding hreflang through the XML sitemap is that it's usually a lot easier to change an XML sitemap than to change all the pages on a site. No need to go through large approval processes and maybe you can even get direct access to the XML sitemap file.
+		<h2 id='hreflang-technical-2'>Other technical aspects of an hreflang implementation</h2>
+		We're going to assume that you've decided which type of technical implementation you're going to choose. There are a couple of other technical specificities you should know about before you start implementing hreflang.
+		<h3 id='x-default'>hreflang x-default</h3>
+		There is a special hreflang attribute value that's called . The  value specifies where a user should be sent if none of the languages you've specified in your other hreflang links match their browser settings. In a link element it looks like this:
+
+		When it <a href='https://webmasters.googleblog.com/2013/04/x-default-hreflang-for-international-pages.html' target='_blank' rel='noopener'>was introduced</a>, it was explained as being for \"international landing pages\", ie pages where you redirect users based on their location. However, it can basically be described as the final \"catch-all\" of all the hreflang statements. If the users location and language didn't match anything else, that's where they will be sent.
+
+		In the German example we <a href='#hreflang-architecture'>mentioned above</a>, a user searching in English still wouldn't have a \"fitting\" URL. That's one of the cases where  comes into play. You'd add a fourth link to the markup, and end up with these 4:
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		In this case, the  link would point to the <em>same</em> URL as the  one. We would not encourage you to remove the  link though, even though technically that would create exactly the same result. In the long run it's usually better to have both as it specifies what language that de page is in and makes the code easier to read.
+		<h3 id='hreflang-canonical'>hreflang and rel=canonical</h3>
+		<section class='alignright extra' id=''><h4><i class='fa fa-question-circle'></i> rel=\"canonical\"</h4><p>If you don't know what  is, read <a href='https://yoast.com/rel-canonical/'>this article</a>!</p>
+		</section>
+
+		markup and  can and should be used together. Every language should have a  link pointing to itself. In the first example, this would look like this, assuming that we're on the example.com homepage:
+
+		If we were on the  page, not all that much would change other than the canonical:
+		<span style='color: #ff0000;'></span>
+		Don't make the mistake of setting the canonical on the  page to , as this breaks the implementation. It's very important that the hreflang links point to the canonical version of each URL. These systems should work hand in hand!
+		<h2 id='hreflang-tools'>Useful tools when implementing hreflang</h2>
+		If you've come this far, you'll probably be thinking \"wow this is hard\", I know I thought that while learning about the topic. Luckily, there are quite a few tools available for people who dare to start implementing hreflang.
+		<h3>hreflang tag generator</h3>
+		<section class='alignright extra' id=''><p><a href='http://www.aleydasolis.com/en/international-seo-tools/hreflang-tags-generator/' target='_blank' rel='attachment wp-att-675728 noopener'><img class='alignnone size-large wp-image-675728' src='https://yoast.com/app/uploads/2016/03/Hreflang-Tag-Generator-Tool-by-aleyda-600x265.png' alt='hreflang tag generator tool by Aleyda' width='600' height='265'></img></a></p>
+		</section>
+
+		Aleyda Solis, who has written quite a lot about this topic too, has created a very useful <a href='http://www.aleydasolis.com/en/international-seo-tools/hreflang-tags-generator/' target='_blank' rel='noopener'>hreflang tag generator</a> that helps you generate link elements. Even when you're not choosing for a link element implementation, this can be useful to create some example code.
+		<h3>hreflang XML sitemap generator</h3>
+		The Media Flow have created an hreflang <a href='https://erudite.agency/hreflang-tool/' target='_blank' rel='noopener'>hreflang XML sitemap generator</a>. You can feed it a CSV with URLs per language and it creates an XML sitemap. A very good first step when you decide to go this route.
+
+		The CSV file you feed this XML sitemap generator needs columns for every language. If you want to add an  URL to it as well, just create a column called .
+		<h3>hreflang tag validator</h3>
+		<section class='alignright extra' id=''><p><a href='http://flang.dejanseo.com.au/' target='_blank' rel='noopener'><img class='alignnone size-large wp-image-675748' src='https://yoast.com/app/uploads/2016/03/flang-hreflang-validator-tool-600x208.png' alt='flang - hreflang validator tool by Dejan SEO' width='600' height='208'></img></a></p>
+		</section>
+
+		Once you've added markup to your pages, you'll want to validate that markup. If you choose to go the link element in the <head> route, you're in luck, as there are a few validator tools out there. The best one we could find is <a href='http://flang.dejanseo.com.au/' target='_blank' rel='noopener'>flang, by DejanSEO</a>.
+
+			Unfortunately, we haven't found a validator for XML sitemaps yet.
+			<h2 id='hreflang-process'>Keeping hreflang alive: process</h2>
+			Once you've created a working hreflang setup, you need to set up processes. It's probably also a good idea to regularly audit your implementation to make sure it's still set up correctly.
+
+			Make sure that people in your company who deal with content on your site know about hreflang. This makes sure they won't do things that break your implementation. Two things are very important:
+			<ol>
+				<li>When a page is deleted, check whether its counterparts are updated.</li>
+				<li>When a page is redirected, change the hreflang URLs on its counterparts.</li>
+			</ol>
+			If you do that and audit regularly, you shouldn't run into many issues.
+			<h2>Conclusion</h2>
+			Setting up hreflang is a cumbersome process. It's a tough standard with a lot of specific things you should know and deal with. This guide will be updated as new things are introduced around this specification and best practices evolve, so check back when you're working on your implementation again!
+
+			<p class='readmore'><a title='rel=canonical: what is it and how (not) to use it' data-prefix='Read more' href='https://yoast.com/rel-canonical/'>Read more: ‘rel=canonical: what is it and how (not) to use it’ »</a></p><img width='266' height='139' src='https://cdn.yoast.com/app/uploads/2016/04/9_Use_Hreflang_FI-1.png' class='attachment-266x266 size-266x266' alt='' srcset='https://cdn.yoast.com/app/uploads/2016/04/9_Use_Hreflang_FI-1.png 1200w, https://cdn.yoast.com/app/uploads/2016/04/9_Use_Hreflang_FI-1-250x131.png 250w, https://cdn.yoast.com/app/uploads/2016/04/9_Use_Hreflang_FI-1-768x402.png 768w, https://cdn.yoast.com/app/uploads/2016/04/9_Use_Hreflang_FI-1-600x314.png 600w' sizes='(max-width: 266px) 100vw, 266px'></img>

@@ -79,9 +79,9 @@ class WPSEO_Taxonomy_Columns {
 	/**
 	 * Parses the column.
 	 *
-	 * @param string  $content     The current content of the column.
-	 * @param string  $column_name The name of the column.
-	 * @param integer $term_id     ID of requested taxonomy.
+	 * @param string $content     The current content of the column.
+	 * @param string $column_name The name of the column.
+	 * @param int    $term_id     ID of requested taxonomy.
 	 *
 	 * @return string
 	 */
@@ -123,7 +123,7 @@ class WPSEO_Taxonomy_Columns {
 	/**
 	 * Parses the value for the score column.
 	 *
-	 * @param integer $term_id ID of requested term.
+	 * @param int $term_id ID of requested term.
 	 *
 	 * @return string
 	 */
@@ -237,7 +237,7 @@ class WPSEO_Taxonomy_Columns {
 	 *
 	 * @since 7.0
 	 *
-	 * @param string $taxonomy Optional. The taxonomy to test, defaults to the current taxonomy.
+	 * @param string|null $taxonomy Optional. The taxonomy to test, defaults to the current taxonomy.
 	 *
 	 * @return bool Whether or not the meta box (and associated columns etc) should be hidden.
 	 */

@@ -16,7 +16,7 @@ class Input_Helper {
 	 *
 	 * @return string The result of the get input.
 	 */
-	public function filter( $input_type, $search_string, $filter = FILTER_DEFAULT ) {
+	public function filter( $input_type, $search_string, $filter = \FILTER_DEFAULT ) {
 		return \filter_input( $input_type, $search_string, $filter );
 	}
 }

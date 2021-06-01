@@ -4,12 +4,13 @@ namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
 use Yoast\WP\SEO\Helpers\Input_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 // phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
+
 /**
  * Class Estimated_Reading_Time_Conditional.
  *
@@ -54,7 +55,7 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 		// We are saving in Elementor with Ajax.
 		$this->input_helper
 			->expects( 'filter' )
-			->with( INPUT_POST, 'action', FILTER_SANITIZE_STRING )
+			->with( \INPUT_POST, 'action', \FILTER_SANITIZE_STRING )
 			->andReturn( 'wpseo_elementor_save' );
 
 		$this->assertEquals( true, $this->instance->is_met() );
@@ -72,7 +73,7 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 		// The Ajax action is not for saving Elementor.
 		$this->input_helper
 			->expects( 'filter' )
-			->with( INPUT_POST, 'action', FILTER_SANITIZE_STRING )
+			->with( \INPUT_POST, 'action', \FILTER_SANITIZE_STRING )
 			->andReturn( 'some_other_value' );
 
 		// We are not on a post according to the post conditional.
@@ -102,7 +103,7 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 		// Returns the post id.
 		$this->input_helper
 			->expects( 'filter' )
-			->with( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT )
+			->with( \INPUT_GET, 'post', \FILTER_SANITIZE_NUMBER_INT )
 			->andReturn( '1' );
 
 		// Returns the attachment post type.
@@ -131,7 +132,7 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 		// Returns the post id.
 		$this->input_helper
 			->expects( 'filter' )
-			->with( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT )
+			->with( \INPUT_GET, 'post', \FILTER_SANITIZE_NUMBER_INT )
 			->andReturn( '1' );
 
 		// Returns post type.

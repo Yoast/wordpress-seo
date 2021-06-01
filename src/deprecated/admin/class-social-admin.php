@@ -46,7 +46,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return WPSEO_Metabox_Collapsibles_Sections
+	 * @return WPSEO_Metabox_Collapsibles_Sections|null
 	 */
 	public function get_meta_section() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.6' );

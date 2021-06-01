@@ -2,12 +2,10 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-
 use Brain\Monkey;
-
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Addon_Update_Watcher_Test.
@@ -342,9 +340,9 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::replace_auto_update_toggles_of_addons
 	 *
-	 * @param string $plugin The plugin string to test.
-	 *
 	 * @dataProvider plugin_provider
+	 *
+	 * @param string $plugin The plugin string to test.
 	 */
 	public function test_replace_auto_update_toggles_from_addons_with_enabled_text( $plugin ) {
 		$old_html = 'old_html';
@@ -369,9 +367,9 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 * @covers ::replace_auto_update_toggles_of_addons
 	 * @covers ::are_auto_updates_enabled
 	 *
-	 * @param string $plugin The plugin string to test.
-	 *
 	 * @dataProvider plugin_provider
+	 *
+	 * @param string $plugin The plugin string to test.
 	 */
 	public function test_replace_auto_update_toggles_from_addons_with_disabled_text( $plugin ) {
 		$old_html = 'old_html';
@@ -396,9 +394,9 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 * @covers ::replace_auto_update_toggles_of_addons
 	 * @covers ::are_auto_updates_enabled
 	 *
-	 * @param string $plugin The plugin string to test.
-	 *
 	 * @dataProvider plugin_provider
+	 *
+	 * @param string $plugin The plugin string to test.
 	 */
 	public function test_replace_auto_update_toggles_from_addons_when_enabled_plugins_false( $plugin ) {
 		$old_html = 'old_html';
@@ -423,9 +421,9 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 * @covers ::replace_auto_update_toggles_of_addons
 	 * @covers ::are_auto_updates_enabled
 	 *
-	 * @param string $plugin The plugin string to test.
-	 *
 	 * @dataProvider plugin_provider
+	 *
+	 * @param string $plugin The plugin string to test.
 	 */
 	public function test_replace_auto_update_toggles_from_addons_when_enabled_plugins_not_an_array( $plugin ) {
 		$old_html = 'old_html';

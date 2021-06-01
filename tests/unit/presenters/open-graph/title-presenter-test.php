@@ -73,7 +73,7 @@ class Title_Presenter_Test extends TestCase {
 			->withAnyArgs()
 			->once()
 			->andReturnUsing(
-				function( $string ) {
+				static function( $string ) {
 					return $string;
 				}
 			);
@@ -90,7 +90,7 @@ class Title_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->andReturnUsing(
-				function ( $str ) {
+				static function ( $str ) {
 					return $str;
 				}
 			);
@@ -112,7 +112,7 @@ class Title_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->andReturnUsing(
-				function ( $str ) {
+				static function ( $str ) {
 					return $str;
 				}
 			);
@@ -134,7 +134,7 @@ class Title_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->andReturnUsing(
-				function ( $str ) {
+				static function ( $str ) {
 					return $str;
 				}
 			);

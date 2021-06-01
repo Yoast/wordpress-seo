@@ -178,7 +178,7 @@ class WPSEO_Configuration_Options_Adapter {
 	 *
 	 * @param string $class_name Class to get the type of.
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	protected function get_option_type( $class_name ) {
 		if ( ! isset( $this->lookup[ $class_name ] ) ) {
@@ -193,7 +193,7 @@ class WPSEO_Configuration_Options_Adapter {
 	 *
 	 * @param string $class_name Class to get the option of.
 	 *
-	 * @return null|string|array
+	 * @return string|array|null
 	 */
 	protected function get_option( $class_name ) {
 		if ( ! isset( $this->lookup[ $class_name ] ) ) {

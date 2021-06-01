@@ -521,6 +521,8 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * Returns the main schema id.
 	 *
 	 * The main schema id.
+	 *
+	 * @return string
 	 */
 	public function generate_main_schema_id() {
 		return $this->canonical . Schema_IDs::WEBPAGE_HASH;
@@ -547,7 +549,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Gets the main image ID.
 	 *
-	 * @return int|null|false The main image ID.
+	 * @return int|false|null The main image ID.
 	 */
 	public function generate_main_image_id() {
 		if ( ! \has_post_thumbnail( $this->id ) ) {
@@ -583,14 +585,13 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Generates whether or not breadcrumbs are enabled.
 	 *
+	 * @deprecated 15.8
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool Whether or not breadcrumbs are enabled.
-	 *
-	 * @deprecated 15.8
 	 */
 	public function generate_breadcrumbs_enabled() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.8' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.8' );
 		$breadcrumbs_enabled = \current_theme_supports( 'yoast-seo-breadcrumbs' );
 		if ( ! $breadcrumbs_enabled ) {
 			$breadcrumbs_enabled = $this->options->get( 'breadcrumbs-enable', false );

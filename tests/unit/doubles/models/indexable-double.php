@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Models;
 
 use Mockery\MockInterface;
-use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Models\Indexable as Indexable_Model;
 use Yoast\WP\SEO\Models\Indexable_Extension;
 
@@ -15,7 +14,7 @@ class Indexable_Double extends Indexable_Model {
 	/**
 	 * Holds the return value for has_one. Making it possible to mock that.
 	 *
-	 * @var null|MockInterface
+	 * @var MockInterface|null
 	 */
 	public $mock_has_one = null;
 
@@ -41,10 +40,10 @@ class Indexable_Double extends Indexable_Model {
 	 * key is on the associated table.
 	 *
 	 * @param string      $associated_class_name                    The associated class name.
-	 * @param null|string $foreign_key_name                         The foreign key name in the associated table.
-	 * @param null|string $foreign_key_name_in_current_models_table The foreign key in the current models table.
+	 * @param string|null $foreign_key_name                         The foreign key name in the associated table.
+	 * @param string|null $foreign_key_name_in_current_models_table The foreign key in the current models table.
 	 *
-	 * @return null|MockInterface
+	 * @return MockInterface|null
 	 */
 	public function has_one( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null ) {
 		return $this->mock_has_one;

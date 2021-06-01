@@ -85,7 +85,7 @@ class WPSEO_Image_Utils {
 	 * @param array $image         Image array with URL and metadata.
 	 * @param int   $attachment_id Attachment ID.
 	 *
-	 * @return false|array $image {
+	 * @return false|array {
 	 *     Array of image data
 	 *
 	 *     @type string $alt      Image's alt text.
@@ -351,7 +351,7 @@ class WPSEO_Image_Utils {
 	/**
 	 * Retrieve the internal WP image file sizes.
 	 *
-	 * @return array $image_sizes An array of image sizes.
+	 * @return array An array of image sizes.
 	 */
 	public static function get_sizes() {
 		/**
@@ -398,7 +398,7 @@ class WPSEO_Image_Utils {
 	/**
 	 * Gets the post's first usable content image. Null if none is available.
 	 *
-	 * @param int $post_id The post id.
+	 * @param int|null $post_id The post id.
 	 *
 	 * @return string|null The image URL.
 	 */

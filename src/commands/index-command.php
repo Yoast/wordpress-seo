@@ -64,18 +64,18 @@ class Index_Command implements Command_Interface {
 	/**
 	 * Generate_Indexables_Command constructor.
 	 *
-	 * @param Indexable_Post_Indexation_Action              $post_indexation_action                The post indexation
-	 *                                                                                             action.
-	 * @param Indexable_Term_Indexation_Action              $term_indexation_action                The term indexation
-	 *                                                                                             action.
-	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation_action   The post type archive
-	 *                                                                                             indexation action.
-	 * @param Indexable_General_Indexation_Action           $general_indexation_action             The general indexation
-	 *                                                                                             action.
-	 * @param Indexable_Indexing_Complete_Action            $complete_indexation_action            The complete indexation
-	 *                                                                                             action.
-	 * @param Indexing_Prepare_Action                       $prepare_indexing_action               The prepare indexing
-	 *                                                                                             action.
+	 * @param Indexable_Post_Indexation_Action              $post_indexation_action              The post indexation
+	 *                                                                                           action.
+	 * @param Indexable_Term_Indexation_Action              $term_indexation_action              The term indexation
+	 *                                                                                           action.
+	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation_action The post type archive
+	 *                                                                                           indexation action.
+	 * @param Indexable_General_Indexation_Action           $general_indexation_action           The general indexation
+	 *                                                                                           action.
+	 * @param Indexable_Indexing_Complete_Action            $complete_indexation_action          The complete indexation
+	 *                                                                                           action.
+	 * @param Indexing_Prepare_Action                       $prepare_indexing_action             The prepare indexing
+	 *                                                                                           action.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation_action,
@@ -95,6 +95,8 @@ class Index_Command implements Command_Interface {
 
 	/**
 	 * Gets the namespace.
+	 *
+	 * @return string
 	 */
 	public static function get_namespace() {
 		return Main::WP_CLI_NAMESPACE;
@@ -120,8 +122,8 @@ class Index_Command implements Command_Interface {
 	 *
 	 * @when after_wp_load
 	 *
-	 * @param array $args       The arguments.
-	 * @param array $assoc_args The associative arguments.
+	 * @param array|null $args       The arguments.
+	 * @param array|null $assoc_args The associative arguments.
 	 *
 	 * @return void
 	 */

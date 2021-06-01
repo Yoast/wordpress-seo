@@ -34,10 +34,10 @@ class WPSEO_Paper_Presenter {
 	/**
 	 * WPSEO_presenter_paper constructor.
 	 *
-	 * @param string $title     The title of the paper.
-	 * @param string $view_file Optional. The path to the view file. Use the content setting if you do not wish to use
-	 *                          a view file.
-	 * @param array  $settings  Optional. Settings for the paper.
+	 * @param string      $title     The title of the paper.
+	 * @param string|null $view_file Optional. The path to the view file. Use the content setting
+	 *                               if do not wish to use a view file.
+	 * @param array       $settings  Optional. Settings for the paper.
 	 */
 	public function __construct( $title, $view_file = null, array $settings = [] ) {
 		$defaults = [

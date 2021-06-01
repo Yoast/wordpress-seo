@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Models\Indexable;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 4 words is fine.
  */
 class Indexable_Home_Page_Builder {
+
 	use Indexable_Social_Image_Trait;
 
 	/**

@@ -590,7 +590,7 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Determines whether the given post ID uses the default indexing settings.
 	 *
-	 * @param integer $post_id The post ID to check.
+	 * @param int $post_id The post ID to check.
 	 *
 	 * @return bool Whether or not the default indexing is being used for the post.
 	 */
@@ -626,7 +626,7 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Parses the score column.
 	 *
-	 * @param integer $post_id The ID of the post for which to show the score.
+	 * @param int $post_id The ID of the post for which to show the score.
 	 *
 	 * @return string The HTML for the SEO score indicator.
 	 */
@@ -697,7 +697,7 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @since 7.0
 	 *
-	 * @param string $post_type Optional. The post type to test, defaults to the current post post_type.
+	 * @param string|null $post_type Optional. The post type to test, defaults to the current post post_type.
 	 *
 	 * @return bool Whether or not the meta box (and associated columns etc) should be hidden.
 	 */

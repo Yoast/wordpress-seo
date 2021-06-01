@@ -15,7 +15,7 @@ class WPSEO_Language_Utils {
 	/**
 	 * Returns the language part of a given locale, defaults to english when the $locale is empty.
 	 *
-	 * @param string $locale The locale to get the language of.
+	 * @param string|null $locale The locale to get the language of.
 	 *
 	 * @return string The language part of the locale.
 	 */

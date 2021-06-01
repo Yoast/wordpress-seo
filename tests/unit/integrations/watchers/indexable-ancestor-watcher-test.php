@@ -178,7 +178,6 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		self::assertNotFalse( \has_action( 'wpseo_save_indexable', [ $this->instance, 'reset_children' ] ) );
-		self::assertNotFalse( \has_action( 'set_object_terms', [ $this->instance, 'build_post_hierarchy' ] ) );
 	}
 
 	/**
@@ -333,9 +332,9 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$term_id = 1;
 
 		Functions\expect( 'wp_list_pluck' )->andReturnUsing(
-			function ( $array, $prop ) {
+			static function ( $array, $prop ) {
 				return \array_map(
-					function ( $e ) use ( $prop ) {
+					static function ( $e ) use ( $prop ) {
 						return $e->{$prop};
 					},
 					$array
@@ -383,82 +382,9 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests building the post hierarchy.
-	 *
-	 * @covers ::build_post_hierarchy
-	 */
-	public function test_build_post_hierarchy() {
-		$indexable = Mockery::mock( Indexable::class );
-
-		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 123, 'post' )
-			->andReturn( $indexable );
-
-		$this->indexable_hierarchy_builder
-			->expects( 'build' )
-			->once()
-			->with( $indexable );
-
-		$this->post_type_helper
-			->expects( 'is_excluded' )
-			->with( 'post_type' )
-			->andReturn( false );
-
-		$this->instance->build_post_hierarchy( 123, 'post_type' );
-	}
-
-	/**
-	 * Tests that no post hierarchy is built when no indexable is found.
-	 *
-	 * @covers ::build_post_hierarchy
-	 */
-	public function test_build_post_hierarchy_not_an_indexable() {
-		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 123, 'post' )
-			->andReturn( false );
-
-		$this->indexable_hierarchy_builder
-			->expects( 'build' )
-			->never();
-
-		$this->post_type_helper
-			->expects( 'is_excluded' )
-			->with( 'post_type' )
-			->andReturn( false );
-
-		$this->instance->build_post_hierarchy( 123, 'post_type' );
-	}
-
-	/**
-	 * Tests that no post hierarchy is built when its post type is excluded.
-	 *
-	 * @covers ::build_post_hierarchy
-	 */
-	public function test_do_not_build_post_hierarchy_when_post_is_excluded() {
-		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
-			->never();
-
-		$this->indexable_hierarchy_builder
-			->expects( 'build' )
-			->never();
-
-		$this->post_type_helper
-			->expects( 'is_excluded' )
-			->with( 'post_type' )
-			->andReturn( true );
-
-		$this->instance->build_post_hierarchy( 123, 'post_type' );
-	}
-
-	/**
 	 * Sets the expectations for the get_object_ids_for term method.
 	 *
-	 * @param integer ...$object_ids The object ids.
+	 * @param int ...$object_ids The object ids.
 	 */
 	private function set_expectations_for_get_object_ids_for_term( ...$object_ids ) {
 		$this->wpdb->term_taxonomy      = 'wp_term_taxonomy';
