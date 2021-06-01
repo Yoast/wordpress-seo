@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Conditionals\Addon_Installation_Conditional;
 use Yoast\WP\SEO\Routes\Supported_Features_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -38,7 +39,7 @@ class Supported_Features_Route_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[],
+			[ Addon_Installation_Conditional::class ],
 			Supported_Features_Route::get_conditionals()
 		);
 	}

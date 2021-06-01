@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.7
-Stable tag: 16.3
+Stable tag: 16.4
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -42,7 +42,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 
 * **SEO analysis**: an invaluable tool while writing SEO-friendly content with the right (focus) keyphrases in mind.
 * **Readability analysis**: ensures that humans and search engines can read and understand your content.
-* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian and Turkish.
+* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian, Turkish and Czech.
 * **A Google preview**, which shows what your listings will look like in the search results. Even on mobile devices!
 * **Innovative Schema blocks** for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results. Plus a breadcrumbs block to guide your users.
 * **[Premium] Internal linking blocks** to easily improve the structure of your content. Easily add a **table of contents block**, a **related links block**, a **subpages** block, or **siblings block**! Plus, we’ll keep adding these easy-to-add blocks to improve your site structure.
@@ -237,6 +237,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 16.4 =
 Release Date: June 1st, 2021
 
+Meet Yoast SEO 16.4: This brand-new version of Yoast SEO comes with a rewritten language analysis, plus a newly supported language: Czech. People who write in this language can now fully use our tools to improve their content. We hope you enjoy this update! Read more about what’s new in Yoast SEO 16.4 in [our release post](https://yoa.st/release-16-4)!
+
 Enhancements:
 
 * Completes the readability analysis for Czech by adding the transition words, sentence beginnings and passive voice assessments.
@@ -251,9 +253,11 @@ Bugfixes:
 
 * Fixes a bug where new feature notification couldn't be dismissed.
 * Fixes a bug where the primary term for custom post types was not always properly set for posts edited in the Gutenberg editor. 
-* Adds a missing space to the feedback text in he keyphrase in introduction assessment.
-* Changes the function to retrieve the locale for language researcher from `get_user_locale()` to `get_locale()`
 * Fixes a bug where the schema output could be incorrect on terms with the same ID as the static posts page.
+
+Other:
+
+* Adds a missing space to the feedback text in the keyphrase in introduction assessment.
 
 = 16.3 =
 Release Date: May 18th, 2021
