@@ -866,7 +866,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
 		$asset_manager->localize_script( $post_edit_handle, 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
-		$asset_manager->localize_script( $post_edit_handle, 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
 		$plugins_script_data = [
 			'replaceVars' => [
