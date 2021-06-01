@@ -2,6 +2,7 @@ import { createPortal, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { FieldGroup, Select } from "@yoast/components";
 import { join } from "@yoast/helpers";
+import { SchemaAnalysis } from "@yoast/schema-blocks";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -79,12 +80,11 @@ const Content = ( props ) => {
 
 	return (
 		<Fragment>
-			<FieldGroup
-				label={ props.helpTextTitle }
-				linkTo={ props.helpTextLink }
-				linkText={ __( "Learn more about structured data with Schema.org", "wordpress-seo" ) }
-				description={ props.helpTextDescription }
-			/>
+			<p>
+				{ props.helpTextDescription + " " }
+				<a href={ props.helpTextLink }>{ __( "Read more about Schema.", "wordpress-seo" ) }</a>
+			</p>
+			<SchemaAnalysis requiredBlocks={ props.requiredBlockNames } recommendedBlocks={ props.recommendedBlockNames } />
 			<FieldGroup
 				label={ __( "What type of page or content is this?", "wordpress-seo" ) }
 				linkTo={ props.additionalHelpTextLink }
@@ -126,6 +126,8 @@ Content.propTypes = {
 	defaultPageType: PropTypes.string.isRequired,
 	defaultArticleType: PropTypes.string.isRequired,
 	location: PropTypes.string.isRequired,
+	requiredBlockNames: PropTypes.array.isRequired,
+	recommendedBlockNames: PropTypes.array.isRequired,
 };
 
 Content.defaultProps = {
@@ -172,6 +174,8 @@ SchemaTab.propTypes = {
 	loadSchemaArticleData: PropTypes.func.isRequired,
 	loadSchemaPageData: PropTypes.func.isRequired,
 	location: PropTypes.string.isRequired,
+	requiredBlockNames: PropTypes.array.isRequired,
+	recommendedBlockNames: PropTypes.array.isRequired,
 };
 
 SchemaTab.defaultProps = {
