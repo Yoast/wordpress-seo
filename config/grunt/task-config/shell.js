@@ -140,7 +140,7 @@ module.exports = function( grunt ) {
 		},
 
 		webpack: {
-			command: "NODE_ENV=development yarn run wp-scripts build --config config/webpack/webpack.config.js",
+			command: "cross-env NODE_ENV=development yarn run wp-scripts build --config config/webpack/webpack.config.js",
 		},
 
 		"webpack-prod": {
