@@ -49,7 +49,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 
 		$this->stubEscapeFunctions();
 
-		$this->asset_manager = \Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->asset_manager             = \Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->feature_flag_conditionals = [
 			\Mockery::mock( Schema_Blocks_Conditional::class ),
 		];
@@ -83,13 +83,11 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * @covers ::add_feature_flags
 	 */
 	public function test_add_feature_flags() {
-		$expected_feature_flag_object = [
-			'SCHEMA_BLOCKS' => true,
-		];
+		$expected_enabled_feature_flags = [ 'SCHEMA_BLOCKS' ];
 
 		$this->asset_manager
 			->expects( 'localize_script' )
-			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_feature_flag_object );
+			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag, in this case the Schema_Blocks_Conditional, to be set.
 		$schema_blocks_conditional = \Mockery::mock( Schema_Blocks_Conditional::class );
@@ -113,10 +111,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 	 * @covers ::add_feature_flags
 	 */
 	public function test_add_feature_flags_not_met() {
-		$expected_feature_flag_object = [
-			'FEATURE_1' => true,
-			'FEATURE_2' => false,
-		];
+		$expected_feature_flag_object = [ 'FEATURE_1' ];
 
 		$this->asset_manager
 			->expects( 'localize_script' )
@@ -135,10 +130,6 @@ class Feature_Flag_Integration_Test extends TestCase {
 
 		// Mock a feature flag to NOT be set.
 		$feature_flag_2 = \Mockery::mock( Feature_Flag_Conditional::class );
-
-		$feature_flag_2
-			->expects( 'get_feature_flag' )
-			->andReturn( 'FEATURE_2' );
 
 		$feature_flag_2
 			->expects( 'is_met' )

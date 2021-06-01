@@ -58,11 +58,13 @@ class Feature_Flag_Integration implements Integration_Interface {
 	 * Gather all the feature flags and inject them into the JavaScript.
 	 */
 	public function add_feature_flags() {
-		$feature_flag_object = [];
+		$enabled_features = [];
 		foreach ( $this->feature_flags as $feature_flag ) {
-			$feature_flag_object[ $feature_flag->get_feature_flag() ] = $feature_flag->is_met();
+			if ( $feature_flag->is_met() ) {
+				$enabled_features[] = $feature_flag->get_feature_flag();
+			}
 		}
 
-		$this->asset_manager->localize_script( 'feature-flag-package', 'wpseoFeatureFlags', $feature_flag_object );
+		$this->asset_manager->localize_script( 'feature-flag-package', 'wpseoFeatureFlags', $enabled_features );
 	}
 }
