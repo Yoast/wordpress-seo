@@ -248,8 +248,8 @@ Enhancements:
 * Improves spacing between groups of related settings in the Search Appearance.
 * Optimizes license checks made by Premium add-ons.
 * Improves passive voice recognition for Turkish.
-* Improves the truncation of the `primary_focus_keyword` field to handle multibyte characters. Props to [@rickhurst](https://github.com/rickhurst).
-* Integrates the Yoast SEO meta box in the Web Stories WordPress editor. [Props to swissspidy](https://github.com/swissspidy).
+* Improves the truncation of the `primary_focus_keyword` field to handle multibyte characters. Props to [rickhurst](https://github.com/rickhurst).
+* Integrates the Yoast SEO meta box in the Web Stories WordPress editor. Props to [swissspidy](https://github.com/swissspidy).
 
 Bugfixes:
 
