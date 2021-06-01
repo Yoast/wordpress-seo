@@ -887,8 +887,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'dependencies'            => YoastSEO()->helpers->asset->get_dependency_urls_by_handle( 'yoast-seo-analysis-worker' ),
 			'keywords_assessment_url' => YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-used-keywords-assessment' ),
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
-			// We need to make the feature flags separately available inside of the analysis web worker.
-			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
 
 		$alert_dismissal_action = YoastSEO()->classes->get( \Yoast\WP\SEO\Actions\Alert_Dismissal_Action::class );
