@@ -9,6 +9,7 @@ import storeBlockValidation from "./storeBlockValidation";
 import logger from "../logger";
 import { isResultValidForSchema } from "../validators/validateResults";
 import { missingBlocks } from "../validators/missingBlocks";
+import Schema from "../../instructions/schema/Schema";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -87,6 +88,11 @@ function generateSchemaForBlocks(
 		}
 
 		const definition = schemaDefinitions[ block.name ];
+
+		if ( definition ) {
+			logger.debug( `${ block.name } has the following Schema definition`, definition );
+		}
+
 		if ( shouldRenderSchema( definition, parentHasSchema ) ) {
 			renderSchema( block, definition );
 			if ( Array.isArray( block.innerBlocks ) ) {
@@ -101,12 +107,12 @@ function generateSchemaForBlocks(
 }
 
 /**
-* Validates blocks recursively.
-*
-* @param blocks The block instances to validate.
-*
-* @returns Validation results for each (inner)block of the given blocks.
-*/
+ * Validates blocks recursively.
+ *
+ * @param blocks The block instances to validate.
+ *
+ * @returns Validation results for each (inner)block of the given blocks.
+ */
 export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
 	const validations: BlockValidationResult[] = [];
 	blocks.forEach( block => {
@@ -128,6 +134,47 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 }
 
 /**
+ * Finds the first schema root that matches more than one block on the page.
+ *
+ * @param rootBlocks The Blocks
+ * @returns The name of the schema root, if any
+ */
+function determineSchemaRoot( rootBlocks: BlockInstance[] ) : string {
+	const rootCandidates: string[] = [];
+	for ( const block of rootBlocks ) {
+		const definition = schemaDefinitions[ block.name ];
+
+		if ( definition ) {
+			const instructions = Object.values( definition.instructions );
+			const schemaInstruction: Schema = instructions.find( instruction => instruction instanceof Schema );
+
+			const { requiredFor, recommendedFor, name } = schemaInstruction.options;
+
+			logger.debug( `${ name } is required for ${ requiredFor }` );
+			logger.debug( `${ name } is recommended for ${ recommendedFor }` );
+
+			if ( requiredFor ) {
+				const roots = requiredFor.filter( possibleRoot => rootCandidates.includes( possibleRoot ) );
+				if ( roots ) {
+					return roots[ 0 ];
+				}
+			}
+
+			if ( recommendedFor ) {
+				const roots = recommendedFor.filter( possibleRoot => rootCandidates.includes( possibleRoot ) );
+				if ( roots ) {
+					return roots[ 0 ];
+				}
+			}
+
+			rootCandidates.push( ...requiredFor );
+			rootCandidates.push( ...recommendedFor );
+		}
+	}
+	return "";
+}
+
+/**
  * Watches Gutenberg for relevant changes.
  */
 export default function watch(): void {
@@ -142,6 +189,8 @@ export default function watch(): void {
 			if ( rootBlocks === previousRootBlocks ) {
 				return;
 			}
+
+			determineSchemaRoot( rootBlocks );
 
 			updatingSchema = true;
 			{
