@@ -247,7 +247,6 @@ Enhancements:
 * Adds the missing Polish transition word `jak wiemy` (props to @jarekherisz).
 * Makes all twitter meta tags self-closing, for the sake of consistency and to allow pages to pass validation in some tools.
 * Improves the UX consistency between the notification counter in the admin bar and in the sidebar.
-* Makes the notification counter in the admin bar a closer match to the counter the sidebar.
 
 Bugfixes:
 
