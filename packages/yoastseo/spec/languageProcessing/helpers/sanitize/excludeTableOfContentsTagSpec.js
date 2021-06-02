@@ -1,7 +1,7 @@
 import excludeTableOfContentsTag from "../../../../src/languageProcessing/helpers/sanitize/excludeTableOfContentsTag.js";
 
-describe( "Strips the HTML tags from a string.", function() {
-	it( "returns a string without HTML tags", function() {
+describe( "Strips the table of contents from the text.", function() {
+	it( "returns a text without the table of contents", function() {
 		const text = "<p><\/p> <div class='wp-block-yoast-seo-table-of-contents yoast-table-of-contents'> <h2>Table of contents<\/h2> " +
 			"<a href='#h-food-that-are-raw' data-level='2'>Food that are raw<\/a> <a href='#h-food-from-fresh-meat'" +
 			" data-level='3'>Food from fresh meat<\/a> <a href='#h-food-that-contains-vegetables' " +
