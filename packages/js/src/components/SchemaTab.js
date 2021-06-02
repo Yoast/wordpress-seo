@@ -7,6 +7,7 @@ import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { schemaTypeOptionsPropType } from "./SchemaSettings";
+import { isFeatureEnabled } from "@yoast/feature-flag";
 
 const SchemaContainer = styled.div`
 	padding: 16px;
@@ -68,6 +69,47 @@ const footerWithLink = ( postTypeName ) => interpolateComponents(
 );
 
 /**
+ * The 'normal' header for the Schema tab, for when the Schema blocks have not been enabled.
+ *
+ * @param {Object} props The props.
+ *
+ * @returns {JSX.Element} The header.
+ */
+const Header = ( props ) => {
+	return <FieldGroup
+		label={ props.helpTextTitle }
+		linkTo={ props.helpTextLink }
+		linkText={ __( "Learn more about structured data with Schema.org", "wordpress-seo" ) }
+		description={ props.helpTextDescription }
+	/>;
+};
+
+Header.propTypes = {
+	helpTextTitle: PropTypes.string.isRequired,
+	helpTextLink: PropTypes.string.isRequired,
+	helpTextDescription: PropTypes.string.isRequired,
+};
+
+/**
+ * The header for the Schema tab, for when the Schema blocks have been enabled.
+ *
+ * @param {Object} props The props.
+ *
+ * @returns {JSX.Element} The header.
+ */
+const SchemaBlocksHeader = ( props ) => {
+	return <p>
+		{ props.helpTextDescription + " " }
+		<a href={ props.helpTextLink }>{ __( "Read more about Schema.", "wordpress-seo" ) }</a>
+	</p>;
+};
+
+SchemaBlocksHeader.propTypes = {
+	helpTextDescription: PropTypes.string.isRequired,
+	helpTextLink: PropTypes.string.isRequired,
+};
+
+/**
  * Returns the content of the schema tab.
  *
  * @param {object} props Component props.
@@ -78,13 +120,16 @@ const Content = ( props ) => {
 	const schemaPageTypeOptions = getSchemaTypeOptions( props.pageTypeOptions, props.defaultPageType, props.postTypeName );
 	const schemaArticleTypeOptions = getSchemaTypeOptions( props.articleTypeOptions, props.defaultArticleType, props.postTypeName );
 
+	const schemaBlocksEnabled = isFeatureEnabled( "SCHEMA_BLOCKS" );
+
 	return (
 		<Fragment>
-			<p>
-				{ props.helpTextDescription + " " }
-				<a href={ props.helpTextLink }>{ __( "Read more about Schema.", "wordpress-seo" ) }</a>
-			</p>
-			<SchemaAnalysis requiredBlocks={ props.requiredBlockNames } recommendedBlocks={ props.recommendedBlockNames } />
+			{ schemaBlocksEnabled ? <SchemaBlocksHeader { ...props } /> : <Header { ...props } /> }
+			{ schemaBlocksEnabled && <SchemaAnalysis
+				requiredBlocks={ props.requiredBlockNames }
+				recommendedBlocks={ props.recommendedBlockNames }
+			/>
+			}
 			<FieldGroup
 				label={ __( "What type of page or content is this?", "wordpress-seo" ) }
 				linkTo={ props.additionalHelpTextLink }

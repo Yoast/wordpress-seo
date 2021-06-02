@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import SchemaTab from "../components/SchemaTab";
 import SchemaFields from "../helpers/fields/SchemaFields";
 import withLocation from "../helpers/withLocation";
+import { isFeatureEnabled } from "@yoast/feature-flag";
 
 /**
  * Function to get props based on the location.
@@ -95,10 +96,18 @@ export default compose( [
 			getDefaultArticleType,
 		} = select( "yoast-seo/editor" );
 
-		const {
-			getRequiredBlockNames,
-			getRecommendedBlockNames,
-		} = select( "yoast-seo/schema-blocks" );
+		let requiredBlockNames = [];
+		let recommendedBlockNames = [];
+
+		if ( isFeatureEnabled( "SCHEMA_BLOCKS" ) ) {
+			const {
+				getRequiredBlockNames,
+				getRecommendedBlockNames,
+			} = select( "yoast-seo/schema-blocks" );
+
+			requiredBlockNames = getRequiredBlockNames();
+			recommendedBlockNames = getRecommendedBlockNames();
+		}
 
 		return {
 			displayFooter: getPreferences().displaySchemaSettingsFooter,
@@ -106,8 +115,8 @@ export default compose( [
 			schemaArticleTypeSelected: getArticleType(),
 			defaultArticleType: getDefaultArticleType(),
 			defaultPageType: getDefaultPageType(),
-			requiredBlockNames: getRequiredBlockNames(),
-			recommendedBlockNames: getRecommendedBlockNames(),
+			requiredBlockNames,
+			recommendedBlockNames,
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
