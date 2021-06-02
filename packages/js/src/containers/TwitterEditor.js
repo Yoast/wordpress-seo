@@ -48,8 +48,8 @@ export default compose( [
 			getFacebookImageUrl,
 			getFacebookTitle,
 			getFacebookDescription,
-			getDescriptionFallback,
-			getTitleFallback,
+			getDescription,
+			getSeoTitle,
 			getTwitterWarnings,
 			getTwitterImageType,
 			getImageFallback,
@@ -57,6 +57,12 @@ export default compose( [
 			getReplaceVars,
 			getSiteUrl,
 			getAuthorName,
+			getSeoTitleTemplate,
+			getSeoTitleTemplateNoFallback,
+			getSocialTitleTemplate,
+			getSeoDescriptionTemplate,
+			getSocialDescriptionTemplate,
+			getReplacedExcerpt,
 		} = select( "yoast-seo/editor" );
 
 		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
@@ -79,9 +85,19 @@ export default compose( [
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			replacementVariables: getReplaceVars(),
 			description: getTwitterDescription(),
-			descriptionPreviewFallback: getFacebookDescription() || getDescriptionFallback() || descriptionInputPlaceholder,
+			descriptionPreviewFallback: getSocialDescriptionTemplate() ||
+				getFacebookDescription() ||
+				getDescription() ||
+				getSeoDescriptionTemplate() ||
+				getReplacedExcerpt() ||
+				descriptionInputPlaceholder,
 			title: getTwitterTitle(),
-			titlePreviewFallback: getFacebookTitle() || getTitleFallback() || titleInputPlaceholder,
+			titlePreviewFallback: getSocialTitleTemplate() ||
+				getFacebookTitle() ||
+				getSeoTitle() ||
+				getSeoTitleTemplateNoFallback() ||
+				getSeoTitleTemplate() ||
+				titleInputPlaceholder,
 			imageWarnings: getTwitterWarnings(),
 			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
