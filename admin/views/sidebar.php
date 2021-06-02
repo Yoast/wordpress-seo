@@ -7,7 +7,7 @@
 
 $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
-
+$wpseo_page           = filter_input( INPUT_GET, 'page' );
 ?>
 <div class="wpseo_content_cell" id="sidebar-container">
 	<div id="sidebar" class="yoast-sidebar">
@@ -40,7 +40,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			</ul>
 
 			<a id="wpseo-premium-button" class="yoast-button-upsell"
-				href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jj' ); ?>" target="_blank">
+				href="<?php echo esc_url( add_query_arg( [ 'screen' => $wpseo_page ], WPSEO_Shortlinker::get( 'https://yoa.st/jj' ) ) ); ?>" target="_blank">
 				<?php
 				/* translators: %s expands to Yoast SEO Premium */
 				printf( esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
@@ -58,7 +58,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			</h2>
 			<p>
 				<?php
-				$url = WPSEO_Shortlinker::get( 'https://yoa.st/3t6' );
+				$url = add_query_arg( [ 'screen' => $wpseo_page ], WPSEO_Shortlinker::get( 'https://yoa.st/3t6' ) );
 
 				/* translators: %1$s expands to Yoast SEO academy, which is a clickable link. */
 				printf( esc_html__( 'Want to learn SEO from Team Yoast? Check out our %1$s!', 'wordpress-seo' ), '<a href="' . esc_url( $url ) . '"><strong>Yoast SEO academy</strong></a>' );
@@ -67,7 +67,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 				?>
 			</p>
 			<p>
-				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/3t6' ); ?>" target="_blank">
+				<a href="<?php echo esc_url( $url ); ?>" target="_blank">
 					<?php
 					/* translators: %1$s expands to Yoast SEO academy */
 					printf( esc_html__( 'Check out %1$s', 'wordpress-seo' ), 'Yoast SEO academy' );
