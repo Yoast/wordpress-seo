@@ -24,3 +24,8 @@
 .yoast-job-block__salary .wp-block-yoast-job-salary-range input[type=number] {
 	-moz-appearance: textfield;
 }
+
+.editor-styles-wrapper .wp-block-yoast-job-salary [data-block] {
+	margin-top: 0;
+	margin-bottom: 0;
+}
