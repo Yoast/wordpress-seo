@@ -16,3 +16,11 @@
 	border: #CCCCCC 1px solid;
 	border-radius: 0;
 }
+
+.yoast-job-block__salary .wp-block-yoast-job-salary-range {
+	max-width: 25%;
+}
+
+.yoast-job-block__salary .wp-block-yoast-job-salary-range input[type=number] {
+	-moz-appearance: textfield;
+}
