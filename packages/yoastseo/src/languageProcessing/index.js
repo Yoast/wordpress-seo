@@ -22,7 +22,6 @@ import * as values from "./values";
 import areWordsInSentence from "./helpers/word/areWordsInSentence";
 import getClauses from "./helpers/passiveVoice/periphrastic/getClauses";
 import getClausesSplitOnStopWords from "./helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/getClausesSplitOnStopWords";
-import { stripFullTags as stripHTMLTags } from "./helpers/sanitize/stripHTMLTags";
 
 export {
 	AbstractResearcher,
@@ -47,8 +46,7 @@ export {
 	exceptionListHelpers,
 	stemHelpers,
 	areWordsInSentence,
+	values,
 	getClauses,
 	getClausesSplitOnStopWords,
-	values,
-	stripHTMLTags,
 };

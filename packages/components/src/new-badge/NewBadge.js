@@ -5,7 +5,7 @@ import { __ } from "@wordpress/i18n";
 /**
  * Function for the NewBadge component.
  *
- * @param {bool} inLabel Whether the NewBadge is within a Label.
+ * @param {bool} inLabel Whether the NewBadge is displayed close to a Label.
  *
  * @returns {React.Component} The NewBadge.
  */

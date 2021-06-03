@@ -3,8 +3,8 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.90.0 June 1st, 2021
-### Enhancements:
+## 1.92.0
+### Enhancements
 * Adds `jak wiemy` to the list of Polish transition words.
 * Adds Czech stemmer.
 * Implements the passive voice assessment for Czech.
@@ -12,7 +12,9 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds the sentence beginnings assessment for Czech.
 * Adds the transition words list for Czech and improves the list of function words with the most common irregular comparatives.
 * Changes the recommended maximum result of `portuguesePaper2` in `fullTextTests` folder and deletes a word that is also a preposition from participle list.
-
+* Adds diacritics to the list of full form non-passive exceptions for Turkish.
+* Adds more non-passive exception words to the list of full form non-passive exceptions for Turkish.
+* Improves code quality of the Spanish stemmer and changes the way we stem words ending in `-mente`.
 
 ## 1.89.0 January 25th, 2021
 ### Enhancements
