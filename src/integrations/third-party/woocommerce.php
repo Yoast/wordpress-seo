@@ -322,7 +322,7 @@ class WooCommerce implements Integration_Interface {
 			return null;
 		}
 
-		$current_page = max( 1, $this->pagination_helper->get_current_archive_page_number() );
+		$current_page = \max( 1, $this->pagination_helper->get_current_archive_page_number() );
 
 		if ( $rel === 'curr' && $current_page === 1 ) {
 			return $permalink;
