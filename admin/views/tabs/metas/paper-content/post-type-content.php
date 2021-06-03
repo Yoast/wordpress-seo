@@ -73,6 +73,12 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 
 	echo '</div>';
 
+	if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
+		/* translators: %s is the plural version of the post type's name. */
+		echo '<h4>' . esc_html( sprintf( __( 'Breadcrumb settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h4>';
+		$yform->textinput( 'bctitle-ptarchive-' . $wpseo_post_type->name, __( 'Breadcrumbs title', 'wordpress-seo' ) );
+	}
+
 	/**
 	 * Allow adding custom fields to the admin meta page at the end of the archive settings for a post type - Content Types tab.
 	 *
@@ -80,12 +86,6 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	 * @param string     $name  The post type name.
 	 */
 	do_action( 'Yoast\WP\SEO\admin_post_types_archive', $yform, $wpseo_post_type->name );
-
-	if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
-		/* translators: %s is the plural version of the post type's name. */
-		echo '<h4>' . esc_html( sprintf( __( 'Breadcrumb settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h4>';
-		$yform->textinput( 'bctitle-ptarchive-' . $wpseo_post_type->name, __( 'Breadcrumbs title', 'wordpress-seo' ) );
-	}
 }
 
 /**
