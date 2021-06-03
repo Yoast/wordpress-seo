@@ -11,6 +11,23 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+if ( ! current_theme_supports( 'title-tag' ) ) {
+	$wpseo_rewrite_titles_title     = esc_html__( 'Rewrite titles', 'wordpress-seo' );
+	$wpseo_rewrite_titles_presenter = new WPSEO_Paper_Presenter(
+		$wpseo_rewrite_titles_title,
+		__DIR__ . '/paper-content/general/force-rewrite-title.php',
+		[
+			'collapsible' => true,
+			'expanded'    => true,
+			'paper_id'    => 'settings-general-rewrite-titles',
+			'title'       => $wpseo_rewrite_titles_title,
+			'class'       => 'search-appearance',
+		]
+	);
+}
+// phpcs:ignore WordPress.Security.EscapeOutput -- output contains HTML and we assume it's properly escape on object creation.
+echo $wpseo_rewrite_titles_presenter->get_output();
+
 $wpseo_title_separator_title     = esc_html__( 'Title Separator', 'wordpress-seo' );
 $wpseo_title_separator_presenter = new WPSEO_Paper_Presenter(
 	$wpseo_title_separator_title,
