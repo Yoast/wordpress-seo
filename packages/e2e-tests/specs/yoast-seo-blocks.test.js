@@ -36,9 +36,6 @@ describe( "Yoast SEO blocks", () => {
 	it( "shows correctly Yoast How-to block", async () => {
 		await createNewPost();
 		await insertBlock( "Yoast How-to" );
-		expect( 
-			await page.$x( '[data-type="yoast/how-to-block"]' ) 
-		).toBe( 423 );
 		const yoastSeoHowToBlock = await page.$x(
 			`//div[contains( @data-type, "yoast-seo/how-to-block" )]`
 		);
