@@ -31,6 +31,8 @@ jobs:
       before_install: skip
       before_script: skip
       install:
+      #force old version of composer until the --no-scripts flag in 21.0 is fixed
+        - composer self-update 2.0.14
         - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
         - travis_retry composer install --no-interaction
       script:
