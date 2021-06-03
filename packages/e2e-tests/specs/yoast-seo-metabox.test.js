@@ -15,38 +15,21 @@ describe( "Yoast SEO plugin metabox", () => {
 		await createNewPost();
 
 		await page.waitForSelector( ".postbox.yoast.wpseo-metabox" );
-		expect(
-			`//div[contains( @class, "postbox yoast wpseo-metabox" )]`
-		).not.toBeNull();
+		const yoastSeoMetabox = await page.$x(
+			`//div[contains( @class, "wpseo-metabox" )][contains( .//h2, "Yoast SEO" )]`
+		);
+		expect( yoastSeoMetabox.length ).toBe( 1 );
 	} );
 
 	it( "shows correctly the Yoast SEO metabox should be present when editing a page", async () => {
 		await trashAllPosts( "page" );
-		await createNewPost( { postType: "page" } );
+   		await createNewPost( { postType: "page" } );
 
 		await page.waitForSelector( ".postbox.yoast.wpseo-metabox" );
-		expect(
-			`//div[contains( @class, "postbox yoast wpseo-metabox" )]`
-		).not.toBeNull();
-	} );
-
-/* 	it( "shows correctly the Yoast SEO metabox should be present when editing a post category page", async () => {
-		const postCategoryQuery = addQueryArgs( '', {
-			taxonomy: 'category',
-		} );
-
-		await visitAdminPage( 'edit-tags.php', postCategoryQuery );
-		await page.waitForSelector( '#the-list tr' );
-		
-		const [ uncathe ] = await page.$x(
-			`//a[contains( @class, "row-title" )][contains( text(), "${ categoryTitle }" )]`
+		const yoastSeoMetabox = await page.$x(
+			`//div[contains( @class, "wpseo-metabox" )][contains( .//h2, "Yoast SEO" )]`
 		);
-		await editLink.click();
-
-		await page.waitForSelector( ".postbox.yoast.wpseo-taxonomy-metabox-postbox" );
-		expect(
-			`//div[contains( @class, "postbox yoast wpseo-taxonomy-metabox-postbox" )]`
-		).not.toBeNull();
-	} ); */
+		expect( yoastSeoMetabox.length ).toBe( 1 );
+	} );
 
 } );
