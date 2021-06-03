@@ -53,7 +53,7 @@ class SEO_Links extends Model {
 	/**
 	 * Holds the parsed URL. May not be set.
 	 *
-	 * @var array.
+	 * @var array
 	 */
 	public $parsed_url;
 

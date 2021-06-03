@@ -62,6 +62,10 @@ class WebPage extends Abstract_Schema_Piece {
 			];
 		}
 
+		if ( ! empty( $this->context->main_entity_of_page ) ) {
+			$data['mainEntity'] = $this->context->main_entity_of_page;
+		}
+
 		$data = $this->helpers->schema->language->add_piece_language( $data );
 		$data = $this->add_potential_action( $data );
 
@@ -113,7 +117,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 *
 	 * @param array $data The WebPage data.
 	 *
-	 * @return array $data The WebPage data with the potential action added.
+	 * @return array The WebPage data with the potential action added.
 	 */
 	private function add_potential_action( $data ) {
 		/**

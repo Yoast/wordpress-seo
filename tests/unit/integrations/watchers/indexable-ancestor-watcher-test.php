@@ -8,7 +8,9 @@ use wpdb;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Ancestor_Watcher;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -75,6 +77,13 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	protected $permalink_helper;
 
 	/**
+	 * The post type helper.
+	 *
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Post_Type_Helper
+	 */
+	protected $post_type_helper;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
@@ -85,13 +94,15 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$this->indexable_hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
 		$this->wpdb                           = Mockery::mock( wpdb::class );
 		$this->permalink_helper               = Mockery::mock( Permalink_Helper::class );
+		$this->post_type_helper               = Mockery::mock( Post_Type_Helper::class );
 
 		$this->instance = new Indexable_Ancestor_Watcher(
 			$this->indexable_repository,
 			$this->indexable_hierarchy_builder,
 			$this->indexable_hierarchy_repository,
 			$this->wpdb,
-			$this->permalink_helper
+			$this->permalink_helper,
+			$this->post_type_helper
 		);
 	}
 
@@ -166,7 +177,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertNotFalse( \has_action( 'wpseo_save_indexable', [ $this->instance, 'reset_children' ] ) );
+		self::assertNotFalse( \has_action( 'wpseo_save_indexable', [ $this->instance, 'reset_children' ] ) );
 	}
 
 	/**
@@ -321,9 +332,9 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$term_id = 1;
 
 		Functions\expect( 'wp_list_pluck' )->andReturnUsing(
-			function ( $array, $prop ) {
+			static function ( $array, $prop ) {
 				return \array_map(
-					function ( $e ) use ( $prop ) {
+					static function ( $e ) use ( $prop ) {
 						return $e->{$prop};
 					},
 					$array
@@ -373,7 +384,7 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 	/**
 	 * Sets the expectations for the get_object_ids_for term method.
 	 *
-	 * @param integer ...$object_ids The object ids.
+	 * @param int ...$object_ids The object ids.
 	 */
 	private function set_expectations_for_get_object_ids_for_term( ...$object_ids ) {
 		$this->wpdb->term_taxonomy      = 'wp_term_taxonomy';

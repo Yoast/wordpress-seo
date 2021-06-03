@@ -24,24 +24,31 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  *
  * Class that contains all relevant data for rendering the meta tags.
  *
- * @property string      $canonical
- * @property string      $title
- * @property string      $description
- * @property string      $id
- * @property string      $site_name
- * @property string      $wordpress_site_name
- * @property string      $site_url
- * @property string      $company_name
- * @property int         $company_logo_id
- * @property int         $site_user_id
- * @property string      $site_represents
- * @property array|false $site_represents_reference
- * @property string      schema_page_type
- * @property string      $main_schema_id
- * @property bool        $open_graph_enabled
- * @property string      $open_graph_publisher
- * @property string      $twitter_card
- * @property string      $page_type
+ * @property string       $canonical
+ * @property string       $title
+ * @property string       $description
+ * @property string       $id
+ * @property string       $site_name
+ * @property string       $wordpress_site_name
+ * @property string       $site_url
+ * @property string       $company_name
+ * @property int          $company_logo_id
+ * @property array        $company_logo_meta
+ * @property int          $person_logo_id
+ * @property array        $person_logo_meta
+ * @property int          $site_user_id
+ * @property string       $site_represents
+ * @property array|false  $site_represents_reference
+ * @property string       schema_page_type
+ * @property string       $main_schema_id
+ * @property string|array $main_entity_of_page
+ * @property bool         $open_graph_enabled
+ * @property string       $open_graph_publisher
+ * @property string       $twitter_card
+ * @property string       $page_type
+ * @property bool         $has_image
+ * @property int          $main_image_id
+ * @property string       $main_image_url
  */
 class Meta_Tags_Context extends Abstract_Presentation {
 
@@ -72,13 +79,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @var Indexable_Presentation
 	 */
 	public $presentation;
-
-	/**
-	 * Whether or not the indexable has an image.
-	 *
-	 * @var bool
-	 */
-	public $has_image = false;
 
 	/**
 	 * The options helper.
@@ -277,6 +277,38 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	}
 
 	/**
+	 * Generates the person logo id.
+	 *
+	 * @return int|bool The company logo id.
+	 */
+	public function generate_person_logo_id() {
+		$person_logo_id = $this->image->get_attachment_id_from_settings( 'person_logo' );
+
+		/**
+		 * Filter: 'wpseo_schema_person_logo_id' - Allows filtering person logo id.
+		 *
+		 * @api integer $person_logo_id.
+		 */
+		return \apply_filters( 'wpseo_schema_person_logo_id', $person_logo_id );
+	}
+
+	/**
+	 * Retrieve the person logo meta.
+	 *
+	 * @return array|bool
+	 */
+	public function generate_person_logo_meta() {
+		$person_logo_meta = $this->image->get_attachment_meta_from_settings( 'person_logo' );
+
+		/**
+		 * Filter: 'wpseo_schema_person_logo_meta' - Allows filtering person logo meta.
+		 *
+		 * @api string $person_logo_meta.
+		 */
+		return \apply_filters( 'wpseo_schema_person_logo_meta', $person_logo_meta );
+	}
+
+	/**
 	 * Generates the company logo id.
 	 *
 	 * @return int|bool The company logo id.
@@ -285,11 +317,27 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		$company_logo_id = $this->image->get_attachment_id_from_settings( 'company_logo' );
 
 		/**
-		 * Filter: 'wpseo_schema_company_logo_id' - Allows filtering company logo id
+		 * Filter: 'wpseo_schema_company_logo_id' - Allows filtering company logo id.
 		 *
 		 * @api integer $company_logo_id.
 		 */
 		return \apply_filters( 'wpseo_schema_company_logo_id', $company_logo_id );
+	}
+
+	/**
+	 * Retrieve the company logo meta.
+	 *
+	 * @return array|bool
+	 */
+	public function generate_company_logo_meta() {
+		$company_logo_meta = $this->image->get_attachment_meta_from_settings( 'company_logo' );
+
+		/**
+		 * Filter: 'wpseo_schema_company_logo_meta' - Allows filtering company logo meta.
+		 *
+		 * @api string $company_logo_meta.
+		 */
+		return \apply_filters( 'wpseo_schema_company_logo_meta', $company_logo_meta );
 	}
 
 	/**
@@ -473,9 +521,51 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * Returns the main schema id.
 	 *
 	 * The main schema id.
+	 *
+	 * @return string
 	 */
 	public function generate_main_schema_id() {
 		return $this->canonical . Schema_IDs::WEBPAGE_HASH;
+	}
+
+	/**
+	 * Retrieves the main image URL. This is the featured image by default.
+	 *
+	 * @return string|null The main image URL.
+	 */
+	public function generate_main_image_url() {
+		if ( $this->main_image_id !== null ) {
+			return $this->image->get_attachment_image_url( $this->main_image_id, 'full' );
+		}
+
+		$url = $this->image->get_post_content_image( $this->id );
+		if ( $url === '' ) {
+			return null;
+		}
+
+		return $url;
+	}
+
+	/**
+	 * Gets the main image ID.
+	 *
+	 * @return int|false|null The main image ID.
+	 */
+	public function generate_main_image_id() {
+		if ( ! \has_post_thumbnail( $this->id ) ) {
+			return null;
+		}
+
+		return \get_post_thumbnail_id( $this->id );
+	}
+
+	/**
+	 * Determines whether the current indexable has an image.
+	 *
+	 * @return bool Whether the current indexable has an image.
+	 */
+	public function generate_has_image() {
+		return $this->main_image_url !== null;
 	}
 
 	/**
@@ -495,14 +585,13 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Generates whether or not breadcrumbs are enabled.
 	 *
+	 * @deprecated 15.8
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool Whether or not breadcrumbs are enabled.
-	 *
-	 * @deprecated 15.8
 	 */
 	public function generate_breadcrumbs_enabled() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.8' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.8' );
 		$breadcrumbs_enabled = \current_theme_supports( 'yoast-seo-breadcrumbs' );
 		if ( ! $breadcrumbs_enabled ) {
 			$breadcrumbs_enabled = $this->options->get( 'breadcrumbs-enable', false );

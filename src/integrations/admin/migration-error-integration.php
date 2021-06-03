@@ -52,6 +52,7 @@ class Migration_Error_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_migration_error() {
+		// phpcs:ignore WordPress.Security.EscapeOutput -- The Migration_Error_Presenter already escapes it's output.
 		echo new Migration_Error_Presenter( $this->migration_status->get_error( 'free' ) );
 	}
 }

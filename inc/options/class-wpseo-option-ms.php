@@ -229,24 +229,4 @@ class WPSEO_Option_MS extends WPSEO_Option {
 
 		return $clean;
 	}
-
-	/**
-	 * Clean a given option value.
-	 *
-	 * @param array  $option_value          Old (not merged with defaults or filtered) option value to
-	 *                                      clean according to the rules for this option.
-	 * @param string $current_version       (optional) Version from which to upgrade, if not set,
-	 *                                      version specific upgrades will be disregarded.
-	 * @param array  $all_old_option_values (optional) Only used when importing old options to have
-	 *                                      access to the real old values, in contrast to the saved ones.
-	 *
-	 * @return array Cleaned option.
-	 */
-
-	/*
-	Protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
-
-		return $option_value;
-	}
-	*/
 }

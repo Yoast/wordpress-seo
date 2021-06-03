@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Actions;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -28,7 +28,7 @@ class Alert_Dismissal_Action_Test extends TestCase {
 	/**
 	 * Holds the user helper.
 	 *
-	 * @var Mockery\MockInterface|\Yoast\WP\SEO\Helpers\User_Helper
+	 * @var Mockery\MockInterface|User_Helper
 	 */
 	protected $user;
 
@@ -746,6 +746,87 @@ class Alert_Dismissal_Action_Test extends TestCase {
 			->andReturn( '' );
 
 		$this->assertFalse( $this->instance->is_dismissed( 'test' ) );
+	}
+
+	/**
+	 * Tests that all dismissed returns an array with the alertkey(s) begin true for the (valid) user_id.
+	 *
+	 * @covers ::all_dismissed
+	 * @covers ::get_dismissed_alerts
+	 */
+	public function test_all_dismissed() {
+		$this->user
+			->expects( 'get_current_user_id' )
+			->once()
+			->andReturn( 1 );
+
+		$this->user
+			->expects( 'get_meta' )
+			->with( 1, Alert_Dismissal_Action::USER_META_KEY, true )
+			->once()
+			->andReturn( [ 'testalert1' => true ] );
+
+		$this->assertEquals( [ 'testalert1' => true ], $this->instance->all_dismissed() );
+	}
+
+	/**
+	 * Tests that all dismissed returns false when there is no current user.
+	 *
+	 * @covers ::all_dismissed
+	 */
+	public function test_all_dismissed_no_current_user() {
+		$this->user
+			->expects( 'get_current_user_id' )
+			->once()
+			->andReturn( 0 );
+
+		$this->user
+			->expects( 'get_meta' )
+			->never();
+
+		$this->assertFalse( $this->instance->all_dismissed() );
+	}
+
+	/**
+	 * Tests that all dismissed returns false when get_dismissed_alerts returns false.
+	 *
+	 * @covers ::all_dismissed
+	 * @covers ::get_dismissed_alerts
+	 */
+	public function test_all_dismissed_get_dismissed_false() {
+		$this->user
+			->expects( 'get_current_user_id' )
+			->once()
+			->andReturn( 1 );
+
+		$this->user
+			->expects( 'get_meta' )
+			->with( 1, Alert_Dismissal_Action::USER_META_KEY, true )
+			->once()
+			->andReturn( false );
+
+		$this->assertFalse( $this->instance->all_dismissed() );
+	}
+
+	/**
+	 * Tests that all dismissed returns an empty array when get_dismissed_alerts returns an empty array.
+	 *
+	 * @covers ::all_dismissed
+	 * @covers ::get_dismissed_alerts
+	 */
+	public function test_all_dismissed_no_dismissed_alerts() {
+		$this->user
+			->expects( 'get_current_user_id' )
+			->once()
+			->andReturn( 1 );
+
+		$this->user
+			->expects( 'get_meta' )
+			->with( 1, Alert_Dismissal_Action::USER_META_KEY, true )
+			->once()
+			->andReturn( [] );
+
+		$this->assertEquals( [], $this->instance->all_dismissed() );
 	}
 
 	/**

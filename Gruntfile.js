@@ -34,7 +34,8 @@ module.exports = function( grunt ) {
 			css: "css/dist/",
 			grunt: "config/grunt/",
 			images: "images/",
-			js: "js/src/",
+			js: "packages/js/src/",
+			jsDist: "js/dist/",
 			languages: "languages/",
 			logs: "logs/",
 			svnCheckoutDir: ".wordpress-svn",
@@ -49,10 +50,10 @@ module.exports = function( grunt ) {
 				"css/dist/*.css.map",
 			],
 			js: [
-				"js/src/**/*.js",
+				"packages/js/src/**/*.js",
 			],
 			jsTests: [
-				"js/tests/**/*.js",
+				"packages/js/tests/**/*.js",
 			],
 			php: [
 				"*.php",
@@ -79,7 +80,6 @@ module.exports = function( grunt ) {
 				yoastJsConfigurationWizard: "<%= paths.languages %>yoast-js-configuration-wizard.pot",
 				yoastJsHelpers: "<%= paths.languages %>yoast-js-helpers.pot",
 				yoastJsSearchMetadataPreviews: "<%= paths.languages %>yoast-js-search-metadata-previews.pot",
-				yoastSchemaBocks: "<%= paths.languages %>yoast-schema-blocks.pot",
 
 				yoastseojs: "<%= paths.languages %>yoast-seo-js.pot",
 				yoastComponents: "<%= paths.languages %>yoast-components.pot",
@@ -138,6 +138,11 @@ module.exports = function( grunt ) {
 				gitpush: "grunt-git",
 				"update-version": "@yoast/grunt-plugin-tasks",
 				"set-version": "@yoast/grunt-plugin-tasks",
+				"update-changelog-with-latest-pr-texts": "@yoast/grunt-plugin-tasks",
+				"get-latest-pr-texts": "@yoast/grunt-plugin-tasks",
+				"update-changelog": "@yoast/grunt-plugin-tasks",
+				"build-qa-changelog": "@yoast/grunt-plugin-tasks",
+				"download-qa-changelog": "@yoast/grunt-plugin-tasks",
 				"register-prompt": "grunt-prompt",
 				"notify-slack": "notify-slack",
 			},

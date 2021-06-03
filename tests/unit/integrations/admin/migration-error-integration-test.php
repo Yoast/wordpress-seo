@@ -114,6 +114,11 @@ class Migration_Error_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'add_query_arg' )
 			->andReturn( 'https://yoa.st/3-6' );
 
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
 		$expected  = '<div class="notice notice-error">';
 		$expected .= '<p>Yoast SEO had problems creating the database tables needed to speed up your site.</p>';
 		$expected .= '<p>Please read <a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/3-6' ) . '">this help article</a> to find out how to resolve this problem.</p>';

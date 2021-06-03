@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Dependency_Injection;
+namespace Yoast\WP\SEO\Tests\Unit\Dependency_Injection;
 
 use Yoast\WP\SEO\Dependency_Injection\Schema_Templates_Loader;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -39,9 +39,15 @@ class Schema_Templates_Loader_Test extends TestCase {
 		$schema_directory = 'src/schema-templates/';
 
 		$expected_schema_blocks = [
+			$schema_directory . 'cooking-time.block.php',
+			$schema_directory . 'cooking-time.schema.php',
 			$schema_directory . 'image.schema.php',
 			$schema_directory . 'ingredients.block.php',
 			$schema_directory . 'ingredients.schema.php',
+			$schema_directory . 'recipe-description.block.php',
+			$schema_directory . 'recipe-description.schema.php',
+			$schema_directory . 'recipe-name.block.php',
+			$schema_directory . 'recipe-name.schema.php',
 			$schema_directory . 'recipe.block.php',
 			$schema_directory . 'recipe.schema.php',
 			$schema_directory . 'step.block.php',

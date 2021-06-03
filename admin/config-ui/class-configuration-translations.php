@@ -50,7 +50,7 @@ class WPSEO_Configuration_Translations {
 	 */
 	protected function get_translations_from_file() {
 
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/yoast-components-' . $this->locale . '.json';
+		$file = WPSEO_PATH . 'languages/yoast-components-' . $this->locale . '.json';
 		if ( file_exists( $file ) ) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Retrieving a local file.
 			$file = file_get_contents( $file );

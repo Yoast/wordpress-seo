@@ -52,6 +52,7 @@ class WPSEO_Admin {
 		}
 
 		add_filter( 'plugin_action_links_' . WPSEO_BASENAME, [ $this, 'add_action_link' ], 10, 2 );
+		add_filter( 'network_admin_plugin_action_links_' . WPSEO_BASENAME, [ $this, 'add_action_link' ], 10, 2 );
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'config_page_scripts' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_global_style' ] );
@@ -209,16 +210,20 @@ class WPSEO_Admin {
 	/**
 	 * Adds links to Premium Support and FAQ under the plugin in the plugin overview page.
 	 *
-	 * @staticvar string $this_plugin Holds the directory & filename for the plugin.
-	 *
 	 * @param array  $links Array of links for the plugins, adapted when the current plugin is found.
 	 * @param string $file  The filename for the current plugin, which the filter loops through.
 	 *
-	 * @return array $links
+	 * @return array
 	 */
 	public function add_action_link( $links, $file ) {
-		if ( WPSEO_BASENAME === $file && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
-			$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER ) ) . '">' . __( 'Settings', 'wordpress-seo' ) . '</a>';
+		if ( $file === WPSEO_BASENAME && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
+			if ( is_network_admin() ) {
+				$settings_url = network_admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER );
+			}
+			else {
+				$settings_url = admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER );
+			}
+			$settings_link = '<a href="' . esc_url( $settings_url ) . '">' . __( 'Settings', 'wordpress-seo' ) . '</a>';
 			array_unshift( $links, $settings_link );
 		}
 
@@ -227,7 +232,18 @@ class WPSEO_Admin {
 		array_unshift( $links, $faq_link );
 
 		$addon_manager = new WPSEO_Addon_Manager();
-		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+		if ( YoastSEO()->helpers->product->is_premium() ) {
+
+			// Remove Free 'deactivate' link if Premium is active as well. We don't want users to deactivate Free when Premium is active.
+			unset( $links['deactivate'] );
+			$no_deactivation_explanation = '<span style="color: #32373c">' . sprintf(
+				/* translators: %s expands to Yoast SEO Premium. */
+				__( 'Required by %s', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			) . '</span>';
+
+			array_unshift( $links, $no_deactivation_explanation );
+
 			if ( $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
 				return $links;
 			}
@@ -251,8 +267,8 @@ class WPSEO_Admin {
 	 */
 	public function config_page_scripts() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_script( 'admin-global-script' );
-		$asset_manager->localize_script( 'admin-global-script', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
+		$asset_manager->enqueue_script( 'admin-global' );
+		$asset_manager->localize_script( 'admin-global', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
 	}
 
 	/**
@@ -270,7 +286,7 @@ class WPSEO_Admin {
 	 *
 	 * @param array $contactmethods Currently set contactmethods.
 	 *
-	 * @return array $contactmethods with added contactmethods.
+	 * @return array Contactmethods with added contactmethods.
 	 */
 	public function update_contactmethods( $contactmethods ) {
 		$contactmethods['facebook']   = __( 'Facebook profile URL', 'wordpress-seo' );
@@ -331,7 +347,7 @@ class WPSEO_Admin {
 	/**
 	 * Whether we are on the admin dashboard page.
 	 *
-	 * @returns bool
+	 * @return bool
 	 */
 	protected function on_dashboard_page() {
 		return $GLOBALS['pagenow'] === 'index.php';

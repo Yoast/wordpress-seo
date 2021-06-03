@@ -20,7 +20,7 @@ class Site_Name_Presenter extends Abstract_Indexable_Tag_Presenter {
 	/**
 	 * Runs the site name through the `wpseo_opengraph_site_name` filter.
 	 *
-	 * @return string $site_name The filtered site_name.
+	 * @return string The filtered site_name.
 	 */
 	public function get() {
 		/**

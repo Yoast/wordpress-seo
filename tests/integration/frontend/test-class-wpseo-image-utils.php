@@ -77,10 +77,10 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers \WPSEO_Image_Utils::get_data
 	 *
-	 * @param mixed   $image         The image data.
-	 * @param mixed   $expected      Expected value.
-	 * @param integer $attachment_id The attachment id.
-	 * @param string  $message       Message to show when test fails.
+	 * @param mixed  $image         The image data.
+	 * @param mixed  $expected      Expected value.
+	 * @param int    $attachment_id The attachment id.
+	 * @param string $message       Message to show when test fails.
 	 */
 	public function test_get_data( $image, $expected, $attachment_id, $message ) {
 		$this->assertEquals(
@@ -97,10 +97,10 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers \WPSEO_Image_Utils::filter_usable_dimensions
 	 *
-	 * @param int     $width       Width of the image.
-	 * @param int     $height      Height of the image.
-	 * @param boolean $is_usable   If these dimensions are usable or not.
-	 * @param string  $description Description for the data being tested.
+	 * @param int    $width       Width of the image.
+	 * @param int    $height      Height of the image.
+	 * @param bool   $is_usable   If these dimensions are usable or not.
+	 * @param string $description Description for the data being tested.
 	 */
 	public function test_get_usable_dimensions( $width, $height, $is_usable, $description = '' ) {
 		$expected = [];

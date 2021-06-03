@@ -53,15 +53,19 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus keyphrase doubles.
 		if ( is_object( $this->term ) && property_exists( $this->term, 'taxonomy' ) ) {
 			$values = [
-				'search_url'               => $this->search_url(),
-				'post_edit_url'            => $this->edit_url(),
-				'base_url'                 => $this->base_url_for_js(),
-				'taxonomy'                 => $this->term->taxonomy,
-				'keyword_usage'            => $this->get_focus_keyword_usage(),
-				'title_template'           => $this->get_title_template(),
-				'metadesc_template'        => $this->get_metadesc_template(),
-				'first_content_image'      => $this->get_image_url(),
-				'semrushIntegrationActive' => 0,
+				'search_url'                  => $this->search_url(),
+				'post_edit_url'               => $this->edit_url(),
+				'base_url'                    => $this->base_url_for_js(),
+				'taxonomy'                    => $this->term->taxonomy,
+				'keyword_usage'               => $this->get_focus_keyword_usage(),
+				'title_template'              => $this->get_title_template(),
+				'title_template_no_fallback'  => $this->get_title_template( false ),
+				'metadesc_template'           => $this->get_metadesc_template(),
+				'first_content_image'         => $this->get_image_url(),
+				'semrushIntegrationActive'    => 0,
+				'social_title_template'       => $this->get_social_title_template(),
+				'social_description_template' => $this->get_social_description_template(),
+				'social_image_template'       => $this->get_social_image_template(),
 			];
 		}
 
@@ -126,13 +130,17 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Retrieves the title template.
 	 *
+	 * @param bool $fallback Whether to return the hardcoded fallback if the template value is empty.
+	 *
 	 * @return string The title template.
 	 */
-	private function get_title_template() {
+	private function get_title_template( $fallback = true ) {
 		$title = $this->get_template( 'title' );
 
-		if ( $title === '' ) {
-			return '%%title%% %%sep%% %%sitename%%';
+		if ( $title === '' && $fallback === true ) {
+			/* translators: %s expands to the variable used for term title. */
+			$archives = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
+			return $archives . ' %%page%% %%sep%% %%sitename%%';
 		}
 
 		return $title;
@@ -141,16 +149,43 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Retrieves the metadesc template.
 	 *
-	 * @return string
+	 * @return string The metadesc template.
 	 */
 	private function get_metadesc_template() {
 		return $this->get_template( 'metadesc' );
 	}
 
 	/**
+	 * Retrieves the social title template.
+	 *
+	 * @return string The social title template.
+	 */
+	private function get_social_title_template() {
+		return $this->get_template( 'social-title' );
+	}
+
+	/**
+	 * Retrieves the social description template.
+	 *
+	 * @return string The social description template.
+	 */
+	private function get_social_description_template() {
+		return $this->get_template( 'social-description' );
+	}
+
+	/**
+	 * Retrieves the social image template.
+	 *
+	 * @return string The social description template.
+	 */
+	private function get_social_image_template() {
+		return $this->get_template( 'social-image-url' );
+	}
+
+	/**
 	 * Retrieves a template.
 	 *
-	 * @param String $template_option_name The name of the option in which the template you want to get is saved.
+	 * @param string $template_option_name The name of the option in which the template you want to get is saved.
 	 *
 	 * @return string
 	 */

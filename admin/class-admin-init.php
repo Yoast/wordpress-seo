@@ -144,7 +144,7 @@ class WPSEO_Admin_Init {
 	/**
 	 * Gets the latest released major WordPress version from the WordPress stable-check api.
 	 *
-	 * @return float The latest released major WordPress version. 0 The stable-check api doesn't respond.
+	 * @return float|int The latest released major WordPress version. 0 when the stable-check API doesn't respond.
 	 */
 	private function get_latest_major_wordpress_version() {
 		$core_updates = get_core_updates( [ 'dismissed' => true ] );
@@ -253,7 +253,7 @@ class WPSEO_Admin_Init {
 	 * @return void
 	 */
 	private function register_premium_upsell_admin_block() {
-		if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
+		if ( ! YoastSEO()->helpers->product->is_premium() ) {
 			$upsell_block = new WPSEO_Premium_Upsell_Admin_Block( 'wpseo_admin_promo_footer' );
 			$upsell_block->register_hooks();
 		}

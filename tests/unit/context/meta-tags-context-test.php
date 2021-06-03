@@ -30,7 +30,7 @@ class Meta_Tags_Context_Test extends TestCase {
 	/**
 	 * The options helper.
 	 *
-	 * @var Options_Helper
+	 * @var Options_Helper|\Mockery\Mock
 	 */
 	private $options;
 
@@ -138,13 +138,12 @@ class Meta_Tags_Context_Test extends TestCase {
 	/**
 	 * Tests the generation of the schema page type.
 	 *
+	 * @dataProvider generate_schema_page_type_provider
+	 * @covers       ::generate_schema_page_type
+	 *
 	 * @param array        $indexable The indexable data.
 	 * @param string|array $expected  The expected value.
 	 * @param string       $message   Message to show when test fails.
-	 *
-	 * @dataProvider generate_schema_page_type_provider
-	 *
-	 * @covers ::generate_schema_page_type
 	 */
 	public function test_generate_schema_page_type( array $indexable, $expected, $message ) {
 		$this->instance->indexable = (object) $indexable;
@@ -349,8 +348,19 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * @covers ::generate_site_represents
 	 */
 	public function test_generate_site_represents_company_with_name_and_logo() {
-		$this->instance->company_name    = 'Company';
-		$this->instance->company_logo_id = 12;
+		$this->instance->company_name      = 'Company';
+		$this->instance->company_logo_id   = 12;
+		$this->instance->company_logo_meta = [
+			'width'  => 640,
+			'height' => 480,
+			'url'    => 'https://basic.wordpress.test/wp-content/uploads/2021/04/WordPress4.jpg',
+			'path'   => '/var/www/html/wp-content/uploads/2021/04/WordPress4.jpg',
+			'size'   => 'full',
+			'id'     => 12,
+			'alt'    => 'Alt. Text',
+			'pixels' => 307200,
+			'type'   => 'image/jpeg',
+		];
 
 		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturn( 'company' );
 

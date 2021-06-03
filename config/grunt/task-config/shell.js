@@ -29,7 +29,6 @@ module.exports = function( grunt ) {
 				"languages/<%= pkg.plugin.textdomain %>-temp.pot",
 				"<%= files.pot.yoastseojs %>",
 				"<%= files.pot.yoastComponents %>",
-				"<%= files.pot.yoastSchemaBocks %>",
 			],
 			toFile: "languages/<%= pkg.plugin.textdomain %>.pot",
 			command: function() {
@@ -86,9 +85,6 @@ module.exports = function( grunt ) {
 		"makepot-yoast-js-search-metadata-previews": {
 			command: "yarn i18n-yoast-js-search-metadata-previews",
 		},
-		"makepot-yoast-js-schema-blocks": {
-			command: "yarn i18n-yoast-js-schema-blocks",
-		},
 
 		"makepot-yoast-components-configuration-wizard": {
 			fromFiles: [
@@ -143,15 +139,24 @@ module.exports = function( grunt ) {
 			},
 		},
 
-		"composer-install-production": {
-			command: "composer install --prefer-dist --optimize-autoloader --no-dev --no-scripts",
+		webpack: {
+			command: "cross-env NODE_ENV=development yarn run wp-scripts build --config config/webpack/webpack.config.js",
 		},
 
-		"remove-prefixed-sources": {
-			command: "composer remove " +
-				"league/oauth2-client pimple/pimple psr/log " +
-				"symfony/dependency-injection " +
-				"--update-no-dev --optimize-autoloader --no-scripts",
+		"webpack-prod": {
+			command: "yarn run wp-scripts build --config config/webpack/webpack.config.js",
+		},
+
+		"webpack-watch": {
+			command: "yarn run wp-scripts start --config config/webpack/webpack.config.js",
+		},
+
+		"composer install": {
+			command: "composer install",
+		},
+
+		"composer-install-production": {
+			command: "composer install --prefer-dist --optimize-autoloader --no-dev --no-scripts",
 		},
 
 		"composer-install": {
@@ -162,34 +167,12 @@ module.exports = function( grunt ) {
 			command: "composer update yoast/license-manager yoast/i18n-module",
 		},
 
-		"composer-reset-config": {
-			command: "git checkout composer.json",
-			options: {
-				failOnError: false,
-			},
-		},
-
-		"composer-reset-lock": {
-			command: "git checkout composer.lock",
-			options: {
-				failOnError: false,
-			},
-		},
-
-		"production-prefix-dependencies": {
-			command: "composer install",
-		},
-
 		"compile-dependency-injection-container": {
 			command: "composer compile-di",
 		},
 
 		"remove-dependency-injection-meta": {
 			command: "rm ./src/generated/container.php.meta",
-		},
-
-		"remove-vendor-prefixed-uses": {
-			command: "composer remove-vendor-prefixed-uses",
 		},
 
 		"php-lint": {
@@ -209,10 +192,7 @@ module.exports = function( grunt ) {
 		},
 
 		"install-schema-blocks": {
-			// If a src directory exists in the schema-blocks but not dist directory then it needs to be built.
-			command: "if [ -d node_modules/@yoast/schema-blocks/src ] && [ ! -d node_modules/@yoast/schema-blocks/dist ]; then " +
-					 "cd node_modules/@yoast/schema-blocks && yarn install && yarn build; " +
-					 "fi",
+			command: "cd packages/schema-blocks && yarn build && cd ../..",
 		},
 
 		"check-for-uncommitted-changes": {

@@ -9,7 +9,7 @@
 Yoast_Form::get_instance()->admin_header( false, 'wpseo-gsc', false, 'yoast_wpseo_gsc_options' );
 
 // GSC Error notification.
-$gsc_url     = 'https://search.google.com/search-console/index';
+$gsc_url                 = 'https://search.google.com/search-console/index';
 $gsc_post_url            = 'https://yoa.st/google-search-console-deprecated';
 $gsc_style_alert         = '
 	display: flex;

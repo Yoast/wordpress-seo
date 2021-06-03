@@ -43,6 +43,7 @@ class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 */
 	public function get_title() {
 		$title = $this->replace_vars( $this->presentation->title );
+
 		/**
 		 * Filter: 'wpseo_title' - Allow changing the Yoast SEO generated title.
 		 *

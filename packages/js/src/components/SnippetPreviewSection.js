@@ -1,0 +1,57 @@
+// External dependencies.
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import { StyledSection, StyledHeading, StyledSectionBase } from "@yoast/components";
+import { getDirectionalStyle as getRtlStyle } from "@yoast/helpers";
+
+const Section = styled( StyledSection )`
+	&${ StyledSectionBase } {
+		padding: 0;
+
+		& ${ StyledHeading } {
+			${ getRtlStyle( "padding-left", "padding-right" ) }: 20px;
+			margin-left: ${ getRtlStyle( "0", "20px" ) };
+		}
+	}
+`;
+
+/**
+ * Creates the Snippet Preview Section.
+ *
+ * @param {Object}         props               The component props.
+ * @param {wp.Element}     props.children      The component's children.
+ * @param {string}         props.title         The heading title.
+ * @param {string}         props.icon          The heading icon.
+ * @param {bool}           props.hasPaperStyle Whether the section should have a paper style.
+ *
+ * @returns {wp.Element} Snippet Preview Section.
+ */
+const SnippetPreviewSection = ( { children, title, icon, hasPaperStyle, shoppingData } ) => {
+	return (
+		<Section
+			headingLevel={ 3 }
+			headingText={ title }
+			headingIcon={ icon }
+			headingIconColor="#555"
+			hasPaperStyle={ hasPaperStyle }
+			shoppingData={ shoppingData }
+		>
+			{ children }
+		</Section>
+	);
+};
+
+SnippetPreviewSection.propTypes = {
+	children: PropTypes.element,
+	title: PropTypes.string,
+	icon: PropTypes.string,
+	hasPaperStyle: PropTypes.bool,
+	shoppingData: PropTypes.object,
+};
+
+SnippetPreviewSection.defaultProps = {
+	hasPaperStyle: true,
+	shoppingData: null,
+};
+
+export default SnippetPreviewSection;

@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
 use Brain\Monkey;
-
 use Yoast\WP\SEO\Conditionals\Third_Party\WPML_WPSEO_Conditional;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

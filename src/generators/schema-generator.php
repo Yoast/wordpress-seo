@@ -117,15 +117,15 @@ class Schema_Generator implements Generator_Interface {
 	/**
 	 * Generates the schema graph.
 	 *
-	 * @param array             $pieces_to_generate The schema graph pieces to generate.
-	 * @param Meta_Tags_Context $context            The meta tags context to use.
+	 * @param array             $graph_piece_generators The schema graph pieces to generate.
+	 * @param Meta_Tags_Context $context                The meta tags context to use.
 	 *
 	 * @return array The generated schema graph.
 	 */
-	protected function generate_graph( $pieces_to_generate, $context ) {
+	protected function generate_graph( $graph_piece_generators, $context ) {
 		$graph = [];
-		foreach ( $pieces_to_generate as $identifier => $piece ) {
-			$graph_pieces = $piece->generate();
+		foreach ( $graph_piece_generators as $identifier => $graph_piece_generator ) {
+			$graph_pieces = $graph_piece_generator->generate();
 			// If only a single graph piece was returned.
 			if ( $graph_pieces !== false && \array_key_exists( '@type', $graph_pieces ) ) {
 				$graph_pieces = [ $graph_pieces ];
@@ -142,8 +142,10 @@ class Schema_Generator implements Generator_Interface {
 				 * @api array $graph_piece The graph piece to filter.
 				 *
 				 * @param Meta_Tags_Context $context A value object with context variables.
+				 * @param Abstract_Schema_Piece $graph_piece_generator A value object with context variables.
+				 * @param Abstract_Schema_Piece[] $graph_piece_generators A value object with context variables.
 				 */
-				$graph_piece = \apply_filters( 'wpseo_schema_' . $identifier, $graph_piece, $context );
+				$graph_piece = \apply_filters( 'wpseo_schema_' . $identifier, $graph_piece, $context, $graph_piece_generator, $graph_piece_generators );
 				$graph_piece = $this->type_filter( $graph_piece, $identifier, $context );
 				$graph_piece = $this->validate_type( $graph_piece );
 

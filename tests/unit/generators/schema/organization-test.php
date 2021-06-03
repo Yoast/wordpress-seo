@@ -103,9 +103,13 @@ class Organization_Test extends TestCase {
 	 * @param array $profiles_expected The social profiles expected output.
 	 */
 	public function test_generate( $profiles_input, $profiles_expected ) {
-		$this->context->site_url        = 'https://yoast.com/';
-		$this->context->company_name    = 'Yoast';
-		$this->context->company_logo_id = 1337;
+		$this->context->site_url                    = 'https://yoast.com/';
+		$this->context->company_name                = 'Yoast';
+		$this->instance->context->company_logo_meta = [
+			'height' => 100,
+			'width'  => 100,
+			'url'    => 'http://example.com/image.png',
+		];
 
 		$schema_id      = $this->context->site_url . Schema_IDs::ORGANIZATION_HASH;
 		$schema_logo_id = $this->context->site_url . Schema_IDs::ORGANIZATION_LOGO_HASH;
@@ -132,6 +136,68 @@ class Organization_Test extends TestCase {
 			->once()
 			->with( $profiles_expected )
 			->andReturn( $profiles_expected );
+
+		$this->image->expects( 'generate_from_attachment_meta' )
+			->once()
+			->with( $schema_logo_id, $this->context->company_logo_meta, $this->context->company_name )
+			->andReturn( $logo );
+
+		$expected = [
+			'@type'  => 'Organization',
+			'@id'    => $schema_id,
+			'name'   => $this->context->company_name,
+			'url'    => $this->context->site_url,
+			'sameAs' => $profiles_expected,
+			'logo'   => $logo,
+			'image'  => [ '@id' => $schema_logo_id ],
+		];
+
+		$this->assertEquals( $expected, $this->instance->generate() );
+	}
+
+	/**
+	 * Tests the generated schema is as expected when the logo has no meta.
+	 *
+	 * @dataProvider generate_provider
+	 * @covers       ::generate
+	 *
+	 * @param array $profiles_input    The social profiles input for the options.
+	 * @param array $profiles_expected The social profiles expected output.
+	 */
+	public function test_generate_without_logo_meta( $profiles_input, $profiles_expected ) {
+		$this->context->site_url                    = 'https://yoast.com/';
+		$this->context->company_name                = 'Yoast';
+		$this->instance->context->company_logo_meta = false;
+		$this->instance->context->company_logo_id   = 12;
+
+		$schema_id      = $this->context->site_url . Schema_IDs::ORGANIZATION_HASH;
+		$schema_logo_id = $this->context->site_url . Schema_IDs::ORGANIZATION_LOGO_HASH;
+
+		$logo = [
+			'@type' => 'ImageObject',
+			'@id'   => $schema_logo_id,
+			'url'   => 'https://yoast.com/logo.jpg',
+		];
+
+		$this->html->expects( 'smart_strip_tags' )
+			->once()
+			->with( $this->context->company_name )
+			->andReturn( $this->context->company_name );
+
+		// For the private `fetch_social_profiles` method.
+		foreach ( $profiles_input as $profile_type => $profile_value ) {
+			$this->options->expects( 'get' )
+				->once()
+				->with( $profile_type, '' )
+				->andReturn( $profile_value );
+		}
+		Filters\expectApplied( 'wpseo_schema_organization_social_profiles' )
+			->once()
+			->with( $profiles_expected )
+			->andReturn( $profiles_expected );
+
+		$this->image->expects( 'generate_from_attachment_meta' )
+			->never();
 
 		$this->image->expects( 'generate_from_attachment_id' )
 			->once()

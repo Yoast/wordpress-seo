@@ -94,13 +94,16 @@ class Indexable_Link_Builder {
 	 * @return SEO_Links[] The created SEO links.
 	 */
 	public function build( $indexable, $content ) {
+		global $post;
 		if ( $indexable->object_type === 'post' ) {
-			$post = $this->post_helper->get_post( $indexable->object_id );
+			$post_backup = $post;
 			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.
-			$GLOBALS['post'] = $post;
+			$post = $this->post_helper->get_post( $indexable->object_id );
 			\setup_postdata( $post );
 			$content = \apply_filters( 'the_content', $content );
 			\wp_reset_postdata();
+			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.
+			$post = $post_backup;
 		}
 
 		$content = \str_replace( ']]>', ']]&gt;', $content );
@@ -277,7 +280,7 @@ class Indexable_Link_Builder {
 			$permalink = $this->get_permalink( $url, $home_url );
 			if ( $this->url_helper->is_relative( $permalink ) ) {
 				// Make sure we're checking against the absolute URL, and add a trailing slash if the site has a trailing slash in its permalink settings.
-				$permalink = $this->url_helper->ensure_absolute_url( user_trailingslashit( $permalink ) );
+				$permalink = $this->url_helper->ensure_absolute_url( \user_trailingslashit( $permalink ) );
 			}
 			$target = $this->indexable_repository->find_by_permalink( $permalink );
 
@@ -321,7 +324,7 @@ class Indexable_Link_Builder {
 	 * @param SEO_Links $link        The link.
 	 * @param array     $current_url The url of the page the link is on, as parsed by wp_parse_url.
 	 *
-	 * @return bool. Whether or not the link should be filtered.
+	 * @return bool Whether or not the link should be filtered.
 	 */
 	protected function filter_link( SEO_Links $link, $current_url ) {
 		$url = $link->parsed_url;

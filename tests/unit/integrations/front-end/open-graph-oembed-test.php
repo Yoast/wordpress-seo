@@ -87,10 +87,10 @@ class Open_Graph_OEmbed_Test extends TestCase {
 	 * @covers ::set_description
 	 * @covers ::set_image
 	 *
+	 * @dataProvider set_oembed_data
+	 *
 	 * @param array $expected  The expected value.
 	 * @param array $meta_data The meta data to use.
-	 *
-	 * @dataProvider set_oembed_data
 	 */
 	public function test_set_oembed_data_with_no_data_set( $expected, $meta_data ) {
 		$post = (object) [ 'ID' => 1337 ];
@@ -106,6 +106,8 @@ class Open_Graph_OEmbed_Test extends TestCase {
 
 	/**
 	 * Returns the data to test with.
+	 *
+	 * @return array
 	 */
 	public function set_oembed_data() {
 		return [

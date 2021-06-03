@@ -35,6 +35,6 @@ class Product_Helper {
 	 * @return bool True when is premium.
 	 */
 	public function is_premium() {
-		return \defined( 'WPSEO_PREMIUM_PLUGIN_FILE' );
+		return \defined( 'WPSEO_PREMIUM_FILE' );
 	}
 }

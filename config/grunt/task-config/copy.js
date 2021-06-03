@@ -6,7 +6,7 @@ module.exports = {
 				expand: true,
 				cwd: "node_modules/select2/dist/js/",
 				src: [ "select2.full.min.js", "i18n/*", "!i18n/build.txt" ],
-				dest: "js/dist/select2/",
+				dest: "<%= paths.jsDist %>select2/",
 			},
 		],
 	},
@@ -79,10 +79,6 @@ module.exports = {
 		src: "gettext.pot",
 		dest: "<%= files.pot.yoastJsSearchMetadataPreviews %>",
 	},
-	"makepot-yoast-js-schema-blocks": {
-		src: "gettext.pot",
-		dest: "<%= files.pot.yoastSchemaBocks %>",
-	},
 
 	// The default de_CH is formal on WordPress.org, but that one is not translated enough for wordpress-seo.
 	// So we need to copy the `-informal` so we have a good translation.
@@ -105,14 +101,14 @@ module.exports = {
 				cwd: ".",
 				src: [
 					"admin/**",
-					"css/**/*.css",
+					"css/dist/**/*.css",
 					"css/main-sitemap.xsl",
 					"deprecated/**",
 					"frontend/**",
 					"images/**",
+					"packages/js/images/**",
 					"inc/**",
-					"js/vendor/**/*.js",
-					"js/dist/**/*.js",
+					"<%= paths.jsDist %>/**/*.js",
 					"languages/**",
 					"src/**",
 					"lib/**",
@@ -136,29 +132,5 @@ module.exports = {
 				dest: "<%= files.artifact %>",
 			},
 		],
-	},
-	"composer-artifact": {
-		files: [ {
-			expand: true,
-			cwd: "<%= files.artifact %>",
-			src: [
-				"**/*",
-				"!vendor_prefixed/**",
-			],
-			dest: "<%= files.artifactComposer %>",
-		} ],
-	},
-	"composer-files": {
-		files: [ {
-			expand: true,
-			cwd: ".",
-			src: [
-				"composer.lock",
-				"composer.json",
-			],
-			dest: "<%= files.artifactComposer %>",
-		} ],
-		"composer.lock": [ "<%= files.artifact %>/composer.lock" ],
-		"composer.json": [ "<%= files.artifact %>/composer.json" ],
 	},
 };

@@ -66,7 +66,7 @@ class WPSEO_Keyword_Synonyms_Modal {
 		$translations = $this->get_translations();
 
 		return [
-			'locale' => \get_user_locale(),
+			'locale' => get_user_locale(),
 			'intl'   => $translations,
 		];
 	}

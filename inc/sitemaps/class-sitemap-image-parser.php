@@ -327,11 +327,11 @@ class WPSEO_Sitemap_Image_Parser {
 		 * Filter image data to be included in XML sitemap for the post.
 		 *
 		 * @param array  $image {
-		 *                      Array of image data.
+		 *     Array of image data.
 		 *
-		 * @type string  $src   Image URL.
-		 * @type string  $title Image title attribute (optional).
-		 * @type string  $alt   Image alt attribute (optional).
+		 *     @type string  $src   Image URL.
+		 *     @type string  $title Image title attribute (optional).
+		 *     @type string  $alt   Image alt attribute (optional).
 		 * }
 		 *
 		 * @param object $post  Post object.

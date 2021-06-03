@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Builders;
 
 use WP_Error;
+use WP_Post;
 use WPSEO_Meta;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Post_Helper;
@@ -16,6 +17,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * Formats the post meta to indexable format.
  */
 class Indexable_Post_Builder {
+
 	use Indexable_Social_Image_Trait;
 
 	/**
@@ -141,8 +143,8 @@ class Indexable_Post_Builder {
 	/**
 	 * Retrieves the permalink for a post with the given post type and ID.
 	 *
-	 * @param string  $post_type The post type.
-	 * @param integer $post_id   The post ID.
+	 * @param string $post_type The post type.
+	 * @param int    $post_id   The post ID.
 	 *
 	 * @return false|string|WP_Error The permalink.
 	 */
@@ -175,7 +177,7 @@ class Indexable_Post_Builder {
 			return $this->is_public_attachment( $indexable );
 		}
 
-		if ( ! \in_array( $indexable->post_status, $this->is_public_post_status(), true ) ) {
+		if ( ! \in_array( $indexable->post_status, $this->post_helper->get_public_post_statuses(), true ) ) {
 			return false;
 		}
 
@@ -236,20 +238,6 @@ class Indexable_Post_Builder {
 	}
 
 	/**
-	 * Retrieves the list of public posts statuses.
-	 *
-	 * @return array The public post statuses.
-	 */
-	protected function is_public_post_status() {
-		/**
-		 * Filter: 'wpseo_public_post_statuses' - List of public post statuses.
-		 *
-		 * @api array $post_statuses Post status list, defaults to array( 'publish' ).
-		 */
-		return \apply_filters( 'wpseo_public_post_statuses', [ 'publish' ] );
-	}
-
-	/**
 	 * Converts the meta robots noindex value to the indexable value.
 	 *
 	 * @param int $value Meta value to convert.
@@ -284,7 +272,7 @@ class Indexable_Post_Builder {
 	 * @param string $keyword The focus keyword that is set.
 	 * @param int    $score   The score saved on the meta data.
 	 *
-	 * @return null|int Score to use.
+	 * @return int|null Score to use.
 	 */
 	protected function get_keyword_score( $keyword, $score ) {
 		if ( empty( $keyword ) ) {
@@ -400,11 +388,11 @@ class Indexable_Post_Builder {
 	/**
 	 * Checks whether an indexable should be built for this post.
 	 *
-	 * @param \WP_Post $post The post for which an indexable should be built.
+	 * @param WP_Post $post The post for which an indexable should be built.
 	 *
 	 * @return bool `true` if the post should be excluded from building, `false` if not.
 	 */
 	protected function should_exclude_post( $post ) {
-		return \in_array( $post->post_type, $this->post_type_helper->get_excluded_post_types_for_indexables(), true );
+		return $this->post_type_helper->is_excluded( $post->post_type );
 	}
 }

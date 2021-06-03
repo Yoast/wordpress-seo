@@ -8,6 +8,7 @@ use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
@@ -46,6 +47,13 @@ class Front_End_Integration_Test extends TestCase {
 	private $options;
 
 	/**
+	 * Represents the request helper.
+	 *
+	 * @var Mockery\MockInterface|Request_Helper
+	 */
+	private $request;
+
+	/**
 	 * Represents the meta tags context memoizer.
 	 *
 	 * @var Mockery\MockInterface|Meta_Tags_Context_Memoizer
@@ -61,6 +69,7 @@ class Front_End_Integration_Test extends TestCase {
 		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
 		$this->container        = Mockery::mock( ContainerInterface::class );
 		$this->options          = Mockery::mock( Options_Helper::class );
+		$this->request          = Mockery::mock( Request_Helper::class );
 
 		$this->instance = Mockery::mock(
 			Front_End_Integration::class,
@@ -68,6 +77,7 @@ class Front_End_Integration_Test extends TestCase {
 				$this->context_memoizer,
 				$this->container,
 				$this->options,
+				$this->request,
 				Mockery::mock( Helpers_Surface::class ),
 				Mockery::mock( WPSEO_Replace_Vars::class ),
 			]
@@ -97,6 +107,7 @@ class Front_End_Integration_Test extends TestCase {
 		$this->assertNotFalse( \has_action( 'wp_head', [ $this->instance, 'call_wpseo_head' ] ), 'Does not have expected wp_head action' );
 		$this->assertNotFalse( \has_action( 'wpseo_head', [ $this->instance, 'present_head' ] ), 'Does not have expected wpseo_head action' );
 		$this->assertNotFalse( \has_filter( 'wp_title', [ $this->instance, 'filter_title' ] ), 'Does not have expected wp_title filter' );
+		$this->assertNotFalse( \has_filter( 'wpseo_frontend_presenter_classes', [ $this->instance, 'filter_robots_presenter' ] ), 'Does not have expected wpseo_frontend_presenter_classes filter' );
 	}
 
 	/**
@@ -197,7 +208,7 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 		];
 
-		$callback = function ( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 
@@ -223,7 +234,7 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
-		$callback = function ( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, $this->instance->get_presenters( 'Error_Page' ) );
@@ -270,7 +281,7 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'enable_enhanced_slack_sharing' )
 			->andReturnTrue();
 
-		$callback = function ( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Term_Archive' ) ) );
@@ -325,7 +336,7 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
-		$callback = function ( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$actual   = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
@@ -367,7 +378,7 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
-		$callback = function ( $presenter ) {
+		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
@@ -385,6 +396,99 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
 			$expected
+		);
+	}
+
+	/**
+	 * Tests the filter robots presenter method without having the wp_robots function.
+	 *
+	 * @covers ::filter_robots_presenter
+	 */
+	public function test_filter_robots_presenter_with_wp_robots_absent() {
+		$presenters = [
+			'Yoast\WP\SEO\Presenters\Title_Presenter',
+			'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+			'Yoast\WP\SEO\Presenters\Robots_Presenter',
+		];
+
+		static::assertEquals( $presenters, $this->instance->filter_robots_presenter( $presenters ) );
+	}
+
+	/**
+	 * Tests the filter robots presenter without having the wp_robots attached to the wp_head action.
+	 *
+	 * @covers ::filter_robots_presenter
+	 */
+	public function test_filter_robots_presenter_and_wp_robots_not_attached_to_wp_head_filter() {
+		Monkey\Functions\expect( 'wp_robots' )->never();
+
+		$presenters = [
+			'Yoast\WP\SEO\Presenters\Title_Presenter',
+			'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+			'Yoast\WP\SEO\Presenters\Robots_Presenter',
+		];
+
+		static::assertEquals( $presenters, $this->instance->filter_robots_presenter( $presenters ) );
+	}
+
+	/**
+	 * Tests the filter robots presenter with having wp_robots attached to the wp_head action.
+	 *
+	 * @covers ::filter_robots_presenter
+	 */
+	public function test_filter_robots_presenter_and_wp_robots_to_wp_head_filter() {
+		Monkey\Functions\expect( 'wp_robots' )->never();
+
+		\add_action( 'wp_head', 'wp_robots' );
+
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnFalse();
+
+		$presenters = [
+			'Yoast\WP\SEO\Presenters\Title_Presenter',
+			'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+			'Yoast\WP\SEO\Presenters\Robots_Presenter',
+		];
+
+		static::assertEquals(
+			[
+				'Yoast\WP\SEO\Presenters\Title_Presenter',
+				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+			],
+			$this->instance->filter_robots_presenter( $presenters )
+		);
+	}
+
+	/**
+	 * Tests the filter robots presenter with having wp_robots attached to the wp_head action.
+	 *
+	 * @covers ::filter_robots_presenter
+	 */
+	public function test_rest_request_should_output_robots_presenter() {
+		Monkey\Functions\expect( 'wp_robots' )->never();
+
+		\add_action( 'wp_head', 'wp_robots' );
+
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnTrue();
+
+		$presenters = [
+			'Yoast\WP\SEO\Presenters\Title_Presenter',
+			'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+			'Yoast\WP\SEO\Presenters\Robots_Presenter',
+		];
+
+		static::assertEquals(
+			[
+				'Yoast\WP\SEO\Presenters\Title_Presenter',
+				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+				'Yoast\WP\SEO\Presenters\Robots_Presenter',
+			],
+			$this->instance->filter_robots_presenter( $presenters )
 		);
 	}
 }

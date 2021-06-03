@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action;
 use Yoast\WP\SEO\Conditionals\Headless_Rest_Endpoints_Enabled_Conditional;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Routes\Yoast_Head_REST_Field;
@@ -36,6 +37,13 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	protected $taxonomy_helper;
 
 	/**
+	 * The post helper.
+	 *
+	 * @var Post_Helper
+	 */
+	protected $post_helper;
+
+	/**
 	 * The head action.
 	 *
 	 * @var Indexable_Head_Action
@@ -57,11 +65,13 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
 		$this->taxonomy_helper  = Mockery::mock( Taxonomy_Helper::class );
+		$this->post_helper      = Mockery::mock( Post_Helper::class );
 		$this->head_action      = Mockery::mock( Indexable_Head_Action::class );
 
 		$this->instance = new Yoast_Head_REST_Field(
 			$this->post_type_helper,
 			$this->taxonomy_helper,
+			$this->post_helper,
 			$this->head_action
 		);
 	}
@@ -180,6 +190,10 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 				]
 			);
 
+		if ( $method === 'for_post' ) {
+			$this->post_helper->expects( 'is_post_indexable' )->once()->with( $params['id'] )->andReturnTrue();
+		}
+
 		if ( $method === 'for_post_type_archive' ) {
 			$this->post_type_helper->expects( 'has_archive' )->with( $input )->andReturnTrue();
 		}
@@ -191,8 +205,6 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * Tests adding the yoast_head property for the posts page.
 	 *
 	 * @covers ::for_post_type_archive
-	 *
-	 * @dataProvider method_provider
 	 */
 	public function test_adding_yoast_head_to_posts_page() {
 		$this->head_action
@@ -212,8 +224,6 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * Tests adding the yoast_head property for the posts page.
 	 *
 	 * @covers ::for_post_type_archive
-	 *
-	 * @dataProvider method_provider
 	 */
 	public function test_adding_yoast_head_to_post_type_without_archive() {
 		$this->post_type_helper->expects( 'has_archive' )->with( 'no-archive' )->andReturnFalse();
@@ -247,6 +257,10 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 				]
 			);
 
+		if ( $method === 'for_post' ) {
+			$this->post_helper->expects( 'is_post_indexable' )->once()->with( $params['id'] )->andReturnTrue();
+		}
+
 		if ( $method === 'for_post_type_archive' ) {
 			$this->post_type_helper->expects( 'has_archive' )->with( $input )->andReturnTrue();
 		}
@@ -258,8 +272,6 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * Tests adding the yoast_head property for the posts page.
 	 *
 	 * @covers ::for_post_type_archive
-	 *
-	 * @dataProvider method_provider
 	 */
 	public function test_adding_yoast_head_to_posts_page_with_404() {
 		$this->head_action

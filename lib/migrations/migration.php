@@ -39,8 +39,6 @@ abstract class Migration {
 	 * Creates a new migration.
 	 *
 	 * @param Adapter $adapter The current adapter.
-	 *
-	 * @return \Migration
 	 */
 	public function __construct( Adapter $adapter ) {
 		$this->set_adapter( $adapter );
@@ -51,7 +49,7 @@ abstract class Migration {
 	 *
 	 * @param Adapter $adapter The adapter to set.
 	 *
-	 * @return $this
+	 * @return $this|null
 	 */
 	public function set_adapter( $adapter ) {
 		if ( ! $adapter instanceof Adapter ) {
@@ -73,10 +71,10 @@ abstract class Migration {
 	/**
 	 * Creates a database.
 	 *
-	 * @param string $name    The name of the database.
-	 * @param array  $options The options.
+	 * @param string     $name    The name of the database.
+	 * @param array|null $options The options.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function create_database( $name, $options = null ) {
 		return $this->adapter->create_database( $name, $options );
@@ -87,7 +85,7 @@ abstract class Migration {
 	 *
 	 * @param string $name The name of the database.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function drop_database( $name ) {
 		return $this->adapter->drop_database( $name );
@@ -98,7 +96,7 @@ abstract class Migration {
 	 *
 	 * @param string $table_name The name of the table.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function drop_table( $table_name ) {
 		return $this->adapter->drop_table( $table_name );
@@ -110,7 +108,7 @@ abstract class Migration {
 	 * @param string $name     The name of the table.
 	 * @param string $new_name The new name of the table.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function rename_table( $name, $new_name ) {
 		return $this->adapter->rename_table( $name, $new_name );
@@ -123,7 +121,7 @@ abstract class Migration {
 	 * @param string $column_name     The column name.
 	 * @param string $new_column_name The new column name.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function rename_column( $table_name, $column_name, $new_column_name ) {
 		return $this->adapter->rename_column( $table_name, $column_name, $new_column_name );
@@ -137,7 +135,7 @@ abstract class Migration {
 	 * @param string       $type        The column type.
 	 * @param array|string $options     The options.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function add_column( $table_name, $column_name, $type, $options = [] ) {
 		return $this->adapter->add_column( $table_name, $column_name, $type, $options );
@@ -149,7 +147,7 @@ abstract class Migration {
 	 * @param string $table_name  The name of the table.
 	 * @param string $column_name The column name.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function remove_column( $table_name, $column_name ) {
 		return $this->adapter->remove_column( $table_name, $column_name );
@@ -163,7 +161,7 @@ abstract class Migration {
 	 * @param string       $type        The column type.
 	 * @param array|string $options     The options.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function change_column( $table_name, $column_name, $type, $options = [] ) {
 		return $this->adapter->change_column( $table_name, $column_name, $type, $options );
@@ -176,7 +174,7 @@ abstract class Migration {
 	 * @param string       $column_name The column name.
 	 * @param array|string $options     The options.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function add_index( $table_name, $column_name, $options = [] ) {
 		return $this->adapter->add_index( $table_name, $column_name, $options );
@@ -189,7 +187,7 @@ abstract class Migration {
 	 * @param string       $column_name The column name.
 	 * @param array|string $options     The options.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function remove_index( $table_name, $column_name, $options = [] ) {
 		return $this->adapter->remove_index( $table_name, $column_name, $options );
@@ -202,7 +200,7 @@ abstract class Migration {
 	 * @param string $created_column_name Created at column name.
 	 * @param string $updated_column_name Updated at column name.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function add_timestamps( $table_name, $created_column_name = 'created_at', $updated_column_name = 'updated_at' ) {
 		return $this->adapter->add_timestamps( $table_name, $created_column_name, $updated_column_name );
@@ -215,7 +213,7 @@ abstract class Migration {
 	 * @param string $created_column_name Created at column name.
 	 * @param string $updated_column_name Updated at column name.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function remove_timestamps( $table_name, $created_column_name = 'created_at', $updated_column_name = 'updated_at' ) {
 		return $this->adapter->remove_timestamps( $table_name, $created_column_name, $updated_column_name );
@@ -260,7 +258,7 @@ abstract class Migration {
 	 *
 	 * @param string $sql The query to run.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function query( $sql ) {
 		return $this->adapter->query( $sql );

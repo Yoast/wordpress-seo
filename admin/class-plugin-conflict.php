@@ -102,7 +102,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 		'seo' => [
 			'all-in-one-seo-pack/all_in_one_seo_pack.php',           // All in One SEO Pack.
 			'seo-ultimate/seo-ultimate.php',                         // SEO Ultimate.
-			'seo-by-rank-math/rank-math.php',						 // Rank Math.
+			'seo-by-rank-math/rank-math.php',                        // Rank Math.
 		],
 	];
 

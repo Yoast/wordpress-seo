@@ -247,8 +247,10 @@ class Indexable_Post_Builder_Test extends TestCase {
 				]
 			);
 
-		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )
-			->andReturn( [] );
+		$this->post_type_helper
+			->expects( 'is_excluded' )
+			->with( 'post' )
+			->andReturn( false );
 
 		$indexable_expectations = [
 			'object_id'                      => 1,
@@ -687,7 +689,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->object_sub_type   = 'post';
 		$this->indexable->post_status       = 'private';
 
-		Monkey\Filters\expectApplied( 'wpseo_public_post_statuses' )->once();
+		$this->post->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
 		$this->assertFalse( $this->instance->is_public( $this->indexable ) );
 	}
@@ -703,6 +705,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->object_sub_type   = 'post';
 		$this->indexable->post_status       = 'publish';
 
+		$this->post->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+
 		$this->assertTrue( $this->instance->is_public( $this->indexable ) );
 	}
 
@@ -716,6 +720,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->is_robots_noindex = null;
 		$this->indexable->object_sub_type   = 'post';
 		$this->indexable->post_status       = 'publish';
+
+		$this->post->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
 		$this->assertNull( $this->instance->is_public( $this->indexable ) );
 	}
@@ -863,9 +869,9 @@ class Indexable_Post_Builder_Test extends TestCase {
 				]
 			);
 
-		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )
+		$this->post_type_helper->expects( 'is_excluded' )
 			->once()
-			->andReturn( [ 'excluded_post_type' ] );
+			->andReturnTrue();
 
 		self::assertFalse( $this->instance->build( $post_id, false ) );
 	}

@@ -42,7 +42,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 	 *
 	 * @since 3.2
 	 *
-	 * @param null|string $type The type to get the key for. Null or self::SITEMAP_INDEX_TYPE for index cache.
+	 * @param string|null $type The type to get the key for. Null or self::SITEMAP_INDEX_TYPE for index cache.
 	 * @param int         $page The page of cache to get the key for.
 	 *
 	 * @return bool|string The key where the cache is stored on. False if the key could not be generated.
@@ -131,7 +131,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 	 *
 	 * @since 3.2
 	 *
-	 * @param null|string $type The type to get the key for. Null for all caches.
+	 * @param string|null $type The type to get the key for. Null for all caches.
 	 *
 	 * @return void
 	 */
@@ -161,8 +161,8 @@ class WPSEO_Sitemaps_Cache_Validator {
 	 *
 	 * @since 3.2
 	 *
-	 * @param null|string $type      The type of sitemap to clear cache for.
-	 * @param null|string $validator The validator to clear cache of.
+	 * @param string|null $type      The type of sitemap to clear cache for.
+	 * @param string|null $validator The validator to clear cache of.
 	 *
 	 * @return void
 	 */
@@ -207,7 +207,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 	 *
 	 * @param string $type Provide a type for a specific type validator, empty for global validator.
 	 *
-	 * @return null|string The validator for the supplied type.
+	 * @return string|null The validator for the supplied type.
 	 */
 	public static function get_validator( $type = '' ) {
 
@@ -278,9 +278,9 @@ class WPSEO_Sitemaps_Cache_Validator {
 	/**
 	 * Encode to base61 format.
 	 *
-	 * @since 3.2
-	 *
 	 * This is base64 (numeric + alpha + alpha upper case) without the 0.
+	 *
+	 * @since 3.2
 	 *
 	 * @param int $base10 The number that has to be converted to base 61.
 	 *

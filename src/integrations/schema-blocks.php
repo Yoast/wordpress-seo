@@ -3,7 +3,9 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Admin_Asset_Yoast_Components_L10n;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 
 /**
  * Loads schema block templates into Gutenberg.
@@ -32,12 +34,21 @@ class Schema_Blocks implements Integration_Interface {
 	protected $blocks_conditional;
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
+	 * Represents the short link helper.
+	 *
+	 * @var Short_Link_Helper
+	 */
+	protected $short_link_helper;
+
+	/**
+	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [];
+		return [
+			Schema_Blocks_Conditional::class,
+		];
 	}
 
 	/**
@@ -45,13 +56,16 @@ class Schema_Blocks implements Integration_Interface {
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager      The asset manager.
 	 * @param Schema_Blocks_Conditional $blocks_conditional The schema blocks conditional.
+	 * @param Short_Link_Helper         $short_link_helper  The short link helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
-		Schema_Blocks_Conditional $blocks_conditional
+		Schema_Blocks_Conditional $blocks_conditional,
+		Short_Link_Helper $short_link_helper
 	) {
 		$this->asset_manager      = $asset_manager;
 		$this->blocks_conditional = $blocks_conditional;
+		$this->short_link_helper  = $short_link_helper;
 	}
 
 	/**
@@ -63,6 +77,7 @@ class Schema_Blocks implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'enqueue_block_editor_assets', [ $this, 'load' ] );
+		\add_action( 'enqueue_block_editor_assets', [ $this, 'load_translations' ] );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'output' ] );
 	}
 
@@ -91,6 +106,15 @@ class Schema_Blocks implements Integration_Interface {
 	public function load() {
 		$this->asset_manager->enqueue_script( 'schema-blocks' );
 		$this->asset_manager->enqueue_style( 'schema-blocks' );
+
+		$this->asset_manager->localize_script(
+			'schema-blocks',
+			'yoastSchemaBlocks',
+			[
+				'requiredLink'    => $this->short_link_helper->build( 'https://yoa.st/required-fields' ),
+				'recommendedLink' => $this->short_link_helper->build( 'https://yoa.st/recommended-fields' ),
+			]
+		);
 	}
 
 	/**
@@ -114,7 +138,7 @@ class Schema_Blocks implements Integration_Interface {
 		 * @param array $templates The templates to filter.
 		 */
 		$templates = \apply_filters( 'wpseo_load_schema_templates', $templates );
-		if ( ! is_array( $templates ) || empty( $templates ) ) {
+		if ( ! \is_array( $templates ) || empty( $templates ) ) {
 			return;
 		}
 
@@ -122,10 +146,18 @@ class Schema_Blocks implements Integration_Interface {
 			if ( ! \file_exists( $template ) ) {
 				continue;
 			}
-			$type = ( \substr( $template, - 10 ) === '.block.php' ) ? 'block' : 'schema';
+			$type = ( \substr( $template, -10 ) === '.block.php' ) ? 'block' : 'schema';
 			echo '<script type="text/' . \esc_html( $type ) . '-template">';
 			include $template;
 			echo '</script>';
 		}
+	}
+
+	/**
+	 * Loads the translations and localizes the schema-blocks script file.
+	 */
+	public function load_translations() {
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
+		$yoast_components_l10n->localize_script( 'schema-blocks' );
 	}
 }

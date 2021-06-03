@@ -46,7 +46,7 @@ class Yoast_Input_Validation {
 	 *
 	 * @param string $admin_title The page title, with extra context added.
 	 *
-	 * @return string $admin_title The modified or original admin title.
+	 * @return string The modified or original admin title.
 	 */
 	public static function add_yoast_admin_document_title_errors( $admin_title ) {
 		$errors      = get_settings_errors();
@@ -97,8 +97,8 @@ class Yoast_Input_Validation {
 	 *
 	 * @since 12.1
 	 *
-	 * @param array $descriptions An associative array of error descriptions. For
-	 *                            each entry, the key must be the setting variable.
+	 * @param array $descriptions An associative array of error descriptions.
+	 *                            For each entry, the key must be the setting variable.
 	 */
 	public static function set_error_descriptions( $descriptions = [] ) {
 		$defaults = [
@@ -191,7 +191,8 @@ class Yoast_Input_Validation {
 	 * @since 12.1
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
-	 * @return string The error description.
+	 *
+	 * @return string|null The error description.
 	 */
 	public static function get_error_description( $error_code ) {
 		if ( ! isset( self::$error_descriptions[ $error_code ] ) ) {
@@ -207,6 +208,7 @@ class Yoast_Input_Validation {
 	 * @since 12.1
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
+	 *
 	 * @return string The aria-invalid HTML attribute or empty string.
 	 */
 	public static function get_the_aria_invalid_attribute( $error_code ) {
@@ -223,6 +225,7 @@ class Yoast_Input_Validation {
 	 * @since 12.1
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
+	 *
 	 * @return string The aria-describedby HTML attribute or empty string.
 	 */
 	public static function get_the_aria_describedby_attribute( $error_code ) {
@@ -239,6 +242,7 @@ class Yoast_Input_Validation {
 	 * @since 12.1
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
+	 *
 	 * @return string The error description HTML or empty string.
 	 */
 	public static function get_the_error_description( $error_code ) {
@@ -258,6 +262,7 @@ class Yoast_Input_Validation {
 	 *
 	 * @param string $error_code  Code of the error set via `add_settings_error()`, normally the variable name.
 	 * @param string $dirty_value The submitted invalid value.
+	 *
 	 * @return void
 	 */
 	public static function add_dirty_value_to_settings_errors( $error_code, $dirty_value ) {
@@ -269,6 +274,7 @@ class Yoast_Input_Validation {
 
 		foreach ( $wp_settings_errors as $index => $error ) {
 			if ( $error['code'] === $error_code ) {
+				// phpcs:ignore WordPress.WP.GlobalVariablesOverride -- This is a deliberate action.
 				$wp_settings_errors[ $index ]['yoast_dirty_value'] = $dirty_value;
 			}
 		}
@@ -280,6 +286,7 @@ class Yoast_Input_Validation {
 	 * @since 12.1
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
+	 *
 	 * @return string The submitted invalid input field value.
 	 */
 	public static function get_dirty_value( $error_code ) {
@@ -300,6 +307,7 @@ class Yoast_Input_Validation {
 	 * @since 12.1
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
+	 *
 	 * @return string The error invalid value message or empty string.
 	 */
 	public static function get_dirty_value_message( $error_code ) {

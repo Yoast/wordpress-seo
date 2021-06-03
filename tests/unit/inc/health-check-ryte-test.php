@@ -176,6 +176,11 @@ class Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+
 		$this->health_check->run();
 
 		$this->assertEquals(
@@ -218,6 +223,11 @@ class Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_remote_retrieve_response_message' )->andReturn( '' );
 		Monkey\Functions\expect( 'wp_enqueue_style' )->andReturn( '' );
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
+
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
 
 		$this->health_check->run();
 		$this->assertEquals(
@@ -292,6 +302,11 @@ class Health_Check_Ryte_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );
+
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->twice()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+		Monkey\Functions\expect( 'YoastSEO' )->twice()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
 
 		$this->health_check->run();
 		$this->assertEquals(

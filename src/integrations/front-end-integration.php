@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Integrations;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter;
@@ -38,6 +39,13 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var Options_Helper
 	 */
 	protected $options;
+
+	/**
+	 * Represents the request helper.
+	 *
+	 * @var Request_Helper
+	 */
+	protected $request;
 
 	/**
 	 * The helpers surface.
@@ -176,24 +184,27 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Front_End_Integration constructor.
 	 *
+	 * @codeCoverageIgnore It sets dependencies.
+	 *
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer  The meta tags context memoizer.
 	 * @param ContainerInterface         $service_container The DI container.
 	 * @param Options_Helper             $options           The options helper.
+	 * @param Request_Helper             $request           The request helper.
 	 * @param Helpers_Surface            $helpers           The helpers surface.
 	 * @param WPSEO_Replace_Vars         $replace_vars      The replace vars helper.
-	 *
-	 * @codeCoverageIgnore It sets dependencies.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $context_memoizer,
 		ContainerInterface $service_container,
 		Options_Helper $options,
+		Request_Helper $request,
 		Helpers_Surface $helpers,
 		WPSEO_Replace_Vars $replace_vars
 	) {
 		$this->container        = $service_container;
 		$this->context_memoizer = $context_memoizer;
 		$this->options          = $options;
+		$this->request          = $request;
 		$this->helpers          = $helpers;
 		$this->replace_vars     = $replace_vars;
 	}
@@ -209,6 +220,9 @@ class Front_End_Integration implements Integration_Interface {
 		// Filter the title for compatibility with other plugins and themes.
 		\add_filter( 'wp_title', [ $this, 'filter_title' ], 15 );
 
+		// Removes our robots presenter from the list when wp_robots is handling this.
+		\add_filter( 'wpseo_frontend_presenter_classes', [ $this, 'filter_robots_presenter' ] );
+
 		\add_action( 'wpseo_head', [ $this, 'present_head' ], -9999 );
 
 		\remove_action( 'wp_head', 'rel_canonical' );
@@ -222,6 +236,8 @@ class Front_End_Integration implements Integration_Interface {
 
 	/**
 	 * Filters the title, mainly used for compatibility reasons.
+	 *
+	 * @return string
 	 */
 	public function filter_title() {
 		$context = $this->context_memoizer->for_current_page();
@@ -234,6 +250,29 @@ class Front_End_Integration implements Integration_Interface {
 		$title_presenter->helpers      = $this->helpers;
 
 		return \esc_html( $title_presenter->get() );
+	}
+
+	/**
+	 * Filters our robots presenter, but only when wp_robots is attached to the wp_head action.
+	 *
+	 * @param array $presenters The presenters for current page.
+	 *
+	 * @return array The filtered presenters.
+	 */
+	public function filter_robots_presenter( $presenters ) {
+		if ( ! \function_exists( 'wp_robots' ) ) {
+			return $presenters;
+		}
+
+		if ( ! \has_action( 'wp_head', 'wp_robots' ) ) {
+			return $presenters;
+		}
+
+		if ( $this->request->is_rest_request() ) {
+			return $presenters;
+		}
+
+		return \array_diff( $presenters, [ 'Yoast\\WP\\SEO\\Presenters\\Robots_Presenter' ] );
 	}
 
 	/**
@@ -250,6 +289,7 @@ class Front_End_Integration implements Integration_Interface {
 
 		\do_action( 'wpseo_head' );
 
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Reason: we have to restore the query.
 		$GLOBALS['wp_query'] = $old_wp_query;
 	}
 
@@ -275,6 +315,7 @@ class Front_End_Integration implements Integration_Interface {
 
 			$output = $presenter->present();
 			if ( ! empty( $output ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput -- Presenters are responsible for correctly escaping their output.
 				echo "\t" . $output . \PHP_EOL;
 			}
 		}
@@ -291,7 +332,7 @@ class Front_End_Integration implements Integration_Interface {
 	public function get_presenters( $page_type ) {
 		$needed_presenters = $this->get_needed_presenters( $page_type );
 
-		$callback   = function( $presenter ) {
+		$callback   = static function( $presenter ) {
 			if ( ! \class_exists( $presenter ) ) {
 				return null;
 			}
@@ -310,7 +351,7 @@ class Front_End_Integration implements Integration_Interface {
 			$presenter_instances = $presenters;
 		}
 
-		$is_presenter_callback = function ( $presenter_instance ) {
+		$is_presenter_callback = static function ( $presenter_instance ) {
 			return $presenter_instance instanceof Abstract_Indexable_Presenter;
 		};
 		$presenter_instances   = \array_filter( $presenter_instances, $is_presenter_callback );
@@ -337,7 +378,7 @@ class Front_End_Integration implements Integration_Interface {
 			$presenters = \array_diff( $presenters, [ 'Title' ] );
 		}
 
-		$callback   = function ( $presenter ) {
+		$callback   = static function ( $presenter ) {
 			return "Yoast\WP\SEO\Presenters\\{$presenter}_Presenter";
 		};
 		$presenters = \array_map( $callback, $presenters );

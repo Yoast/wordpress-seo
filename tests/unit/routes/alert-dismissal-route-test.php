@@ -28,7 +28,7 @@ class Alert_Dismissal_Route_Test extends TestCase {
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var \Yoast\WP\SEO\Routes\Alert_Dismissal_Route
+	 * @var Alert_Dismissal_Route
 	 */
 	protected $instance;
 

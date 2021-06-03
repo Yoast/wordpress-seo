@@ -18,7 +18,7 @@ class Yoast_Admin_Tools_Page_Conditional_Test extends TestCase {
 	/**
 	 * Holds the Yoast admin tools page conditional.
 	 *
-	 * @var Yoast_Tools_Page_Conditional()
+	 * @var Yoast_Tools_Page_Conditional
 	 */
 	private $instance;
 

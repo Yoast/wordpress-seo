@@ -4,8 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.6
-Stable tag: 15.8
+Tested up to: 5.7
+Stable tag: 16.4
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -42,7 +42,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 
 * **SEO analysis**: an invaluable tool while writing SEO-friendly content with the right (focus) keyphrases in mind.
 * **Readability analysis**: ensures that humans and search engines can read and understand your content.
-* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian and Turkish.
+* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian, Turkish and Czech.
 * **A Google preview**, which shows what your listings will look like in the search results. Even on mobile devices!
 * **Innovative Schema blocks** for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results. Plus a breadcrumbs block to guide your users.
 * **[Premium] Internal linking blocks** to easily improve the structure of your content. Easily add a **table of contents block**, a **related links block**, a **subpages** block, or **siblings block**! Plus, we’ll keep adding these easy-to-add blocks to improve your site structure.
@@ -234,44 +234,49 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 15.9 =
-Release Date: February 23rd, 2021
+= 16.5 =
+Release Date: June 15th, 2021
 
 Enhancements:
 
- * Adds an image preview of the chosen image for the organization and person image.
- * Adds an image preview of the chosen image for the Facebook front page and default image.
- * Adds an image preview of the chosen image for the social images.
- * Improves interoperability and consistency in database queries.
- * Performance: prevents database queries for the homepage indexable.
+* Improves passive voice recognition for Turkish.
+* Moves the social settings for the homepage from the Social > Facebook tab, to Search Appearance > General.
+* Improves the organization of the Search Appearance > General tab, with distinct collapsibles for the Title Separator, the Homepage settings and the Schema.org settings.
+* Introduces a notice to be displayed in Search Appearance > General in place of the Social settings for the Homepage when Open Graph is disabled.
+* Introduces an image validation warning for the Homepage social image and the Default social image.
+* Improves spacing, headings and toggle labels in the Search Appearance settings, and makes the forms more consistent.
+* Optimizes license checks made by Premium add-ons.
+* Improves the truncation of the `primary_focus_keyword` field in the database to handle multibyte characters. Props to [rickhurst](https://github.com/rickhurst).
+* Integrates the Yoast SEO meta box in the Web Stories WordPress editor. Props to [swissspidy](https://github.com/swissspidy).
 
 Bugfixes:
 
-* Fixes a bug where the disabled style of the switch toggles didn't look right.
-* Fixes a bug with the HelpScout integration not being overwritten properly by Premium / Add-ons and thus not showing.
-* Fixes a bug where integrations toggles wouldn't display following content.
-* Fixes a bug where, for users of Yoast SEO Premium, the plugin name was still shown as `Yoast SEO` in the taxonomy metabox in Internet Explorer.
+* Fixes a bug where `max-image-preview:large` would be output in the robots meta tag in combination with `noimage`.
 
-= 15.8 =
-Release Date: February 10th, 2021
+= 16.4 =
+Release Date: June 1st, 2021
 
-Say hi to Yoast SEO 15.8! This release comes with a brand-new breadcrumbs block for the block editor. Try it out and guide your users - and Google! Read more about what’s new in Yoast SEO 15.8 in [our release post](https://yoa.st/release-15-8)!
+Meet Yoast SEO 16.4: This brand-new version of Yoast SEO comes with a rewritten language analysis, plus a newly supported language: Czech. People who write in this language can now fully use our tools to improve their content. We hope you enjoy this update! Read more about what’s new in Yoast SEO 16.4 in [our release post](https://yoa.st/release-16-4)!
 
 Enhancements:
 
-* Adds a breadcrumbs block, allowing users to add breadcrumbs to a page or post using the block editor, or to a widget area using the Gutenberg plugin.
-* Changes the default setting to enable breadcrumbs for the theme to `true`. This means themes that declare theme support for this feature automatically output Yoast breadcrumbs on every page. Existing installs will not be impacted by this change.
-* Breadcrumbs settings can now always be edited, regardless of if the breadcrumbs are enabled for the theme.
-* Like the block, the breadcrumbs shortcode is now always rendered, regardless of if the breadcrumbs are enabled for the theme.
-* Improves the loading time of the posts overview page in the WordPress backend. Props to [Rahe](https://github.com/Rahe).
-* Makes sure the breadcrumbs schema is always present, except on 404 pages.
+* Completes the readability analysis for Czech by adding the transition words, sentence beginnings and passive voice assessments.
+* Improves keyphrase recognition in Czech by filtering out function words such as `dvou`, `tvému`, `nějaký`.
+* Improves the accuracy of passive voice detection in Portuguese.
+* Adds the missing Polish transition word `jak wiemy` (props to @jarekherisz).
+* Makes all twitter meta tags self-closing, for the sake of consistency and to allow pages to pass validation in some tools.
+* Improves the UX consistency between the notification counter in the admin bar and in the sidebar.
+* Makes the notification counter in the admin bar a closer match to the counter the sidebar.
 
 Bugfixes:
 
-* Fixes a bug where the target indexable for relative links was not properly detected.
-* Fixes a bug where scheme-relative links were not parsed correctly.
-* Fixes a bug where paginated WooCommerce shop pages did not have the right canonical.
-* Fixes a bug where custom capabilities could malfunction due to a race condition. Props to [Jerome Charaoui](https://github.com/jcharaoui).
+* Fixes a bug where new feature notification couldn't be dismissed.
+* Fixes a bug where the primary term for custom post types was not always properly set for posts edited in the Gutenberg editor. 
+* Fixes a bug where the schema output could be incorrect on terms with the same ID as the static posts page.
+
+Other:
+
+* Adds a missing space to the feedback text in the keyphrase in introduction assessment.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
