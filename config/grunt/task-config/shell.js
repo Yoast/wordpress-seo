@@ -156,7 +156,8 @@ module.exports = function( grunt ) {
 		},
 
 		"composer-install-production": {
-			command: "composer install --prefer-dist --optimize-autoloader --no-dev --no-scripts",
+			command: "composer install --prefer-dist --optimize-autoloader --no-dev --no-scripts && " +
+					 "composer du --optimize --no-dev",
 		},
 
 		"composer-install": {
