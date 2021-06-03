@@ -140,7 +140,7 @@ module.exports = function( grunt ) {
 		},
 
 		webpack: {
-			command: "NODE_ENV=development yarn run wp-scripts build --config config/webpack/webpack.config.js",
+			command: "cross-env NODE_ENV=development yarn run wp-scripts build --config config/webpack/webpack.config.js",
 		},
 
 		"webpack-prod": {
@@ -192,10 +192,7 @@ module.exports = function( grunt ) {
 		},
 
 		"install-schema-blocks": {
-			// If a src directory exists in the schema-blocks but not dist directory then it needs to be built.
-			command: "if [ -d node_modules/@yoast/schema-blocks/src ] && [ ! -d node_modules/@yoast/schema-blocks/dist ]; then " +
-					 "cd node_modules/@yoast/schema-blocks && yarn install && yarn build; " +
-					 "fi",
+			command: "cd packages/schema-blocks && yarn build && cd ../..",
 		},
 
 		"check-for-uncommitted-changes": {

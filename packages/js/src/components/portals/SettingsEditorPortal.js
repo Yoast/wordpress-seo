@@ -10,12 +10,17 @@ import Portal from "./Portal";
 /**
  * Renders a portal for the editors in the search appearance settings.
  *
- * @param {object} target A target element or element ID in which to render the portal.
- * @param {object[]} replacementVariables the replacement variables for the editor.
- * @param {string[]} recommendedReplacementVariables the recommended replacement variables for the editor.
- * @param {string} titleTarget The ID of the title field.
- * @param {string} descriptionTarget The id of the description field.
- * @param {boolean} hasPaperStyle Whether the editor should be styled as a paper.
+ * @param {object}   target                          A target element or element ID in which to render the portal.
+ * @param {object[]} replacementVariables            The replacement variables for the editor.
+ * @param {string[]} recommendedReplacementVariables The recommended replacement variables for the editor.
+ * @param {string}   titleTarget                     The ID of the title field.
+ * @param {string}   descriptionTarget               The id of the description field.
+ * @param {boolean}  hasPaperStyle                   Whether the editor should be styled as a paper.
+ * @param {object}   labels                          The labels for the editor fields.
+ * @param {string}   descriptionPlaceholder          The placeholder for the description field.
+ * @param {bool}     hasNewBadge                     Whether the editor should have a 'New' badge.
+ * @param {bool}     isDisabled                      Whether the editor should be disabled.
+ * @param {bool}     hasPremiumBadge                 Whether the editor should have a 'Premium' badge.
  *
  * @returns {null|wp.Element} The element.
  */
@@ -29,6 +34,8 @@ export default function SettingsEditorPortal( {
 	labels,
 	descriptionPlaceholder,
 	hasNewBadge,
+	isDisabled,
+	hasPremiumBadge,
 } ) {
 	return (
 		<Portal target={ target }>
@@ -41,6 +48,8 @@ export default function SettingsEditorPortal( {
 				labels={ labels }
 				descriptionPlaceholder={ descriptionPlaceholder }
 				hasNewBadge={ hasNewBadge }
+				isDisabled={ isDisabled }
+				hasPremiumBadge={ hasPremiumBadge }
 			/>
 		</Portal>
 	);
@@ -59,8 +68,12 @@ SettingsEditorPortal.propTypes = {
 	} ),
 	descriptionPlaceholder: PropTypes.string,
 	hasNewBadge: PropTypes.bool,
+	isDisabled: PropTypes.bool,
+	hasPremiumBadge: PropTypes.bool,
 };
 
 SettingsEditorPortal.defaultProps = {
 	hasNewBadge: false,
+	isDisabled: false,
+	hasPremiumBadge: false,
 };

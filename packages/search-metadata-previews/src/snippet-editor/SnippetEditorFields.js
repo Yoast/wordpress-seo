@@ -26,7 +26,7 @@ const SlugInput = styled.input`
 	border: none;
 	width: 100%;
 	height: inherit;
-	line-height: inherit;
+	line-height: 1.71428571; // 24px based on 14px font-size
 	font-family: inherit;
 	font-size: inherit;
 	color: inherit;

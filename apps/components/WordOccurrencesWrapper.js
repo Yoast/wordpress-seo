@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import ExamplesContainer from "./ExamplesContainer";
 import { WordOccurrences } from "@yoast/components";
-import ProminentWord from "yoastseo/src/values/ProminentWord";
+import ProminentWord from "yoastseo/src/languageProcessing/values/ProminentWord";
 
 const initialWords = [
 	new ProminentWord( "davids", "david", 2 ),
