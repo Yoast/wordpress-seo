@@ -37,7 +37,7 @@ describe( "Yoast SEO blocks", () => {
 		await createNewPost();
 		await insertBlock( "Yoast How-to" );
 		const yoastSeoHowToBlock = await page.$x(
-			`//div[contains( @data-type, "yoast-seo/how-to-block" )]`
+			`//div[contains( @data-type, "yoast/how-to-block" )]`
 		);
 		expect( yoastSeoHowToBlock.length ).toBe( 1 );
 	} );
