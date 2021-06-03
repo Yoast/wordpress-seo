@@ -6,6 +6,8 @@ import {
 	createNewPost,
 	visitAdminPage,
 	pressKeyWithModifier,
+	installPlugin,
+	activatePlugin
 } from "@wordpress/e2e-test-utils";
 
 import { addQueryArgs } from '@wordpress/url';
