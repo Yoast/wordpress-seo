@@ -136,6 +136,10 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 		return \array_filter(
 			$all_definitions,
 			static function( $other_definition ) use ( $definition_class ) {
+				if ( $other_definition->isDeprecated() ) {
+					return false;
+				}
+
 				$other_class = $other_definition->getClass();
 				if ( $other_class === $definition_class->target_class_name ) {
 					// Never inject itself to itself.
