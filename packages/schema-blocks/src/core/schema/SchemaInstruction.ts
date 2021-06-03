@@ -4,13 +4,19 @@ import { BlockInstance } from "@wordpress/blocks";
 import { BlockValidation, BlockValidationResult } from "../validation";
 import { BlockPresence } from "../validation/BlockValidationResult";
 
+export type SchemaInstructionOptions = InstructionOptions & SchemaDefinitionConfiguration & {
+	presence: BlockPresence;
+}
+
 // eslint-disable-next-line no-use-before-define
-export type SchemaInstructionClass = { new( id: number, options: InstructionOptions ): SchemaInstruction };
+export type SchemaInstructionClass = { new( id: number, options: SchemaInstructionOptions ): SchemaInstruction };
 
 /**
  * SchemaInstruction class.
  */
 export default abstract class SchemaInstruction extends Instruction {
+	public options: SchemaInstructionOptions;
+
 	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
 	 * Renders schema.
@@ -29,10 +35,9 @@ export default abstract class SchemaInstruction extends Instruction {
 	 *
 	 * @returns The configuration.
 	 */
-	configuration(): Partial<SchemaDefinitionConfiguration> {
+	configuration(): Partial<SchemaInstructionOptions> {
 		return {};
 	}
-
 
 	/**
 	 * Validates a block against a schema definition.
@@ -41,6 +46,6 @@ export default abstract class SchemaInstruction extends Instruction {
 	 * @returns {BlockValidationResult} The validation results.
 	 */
 	validate( blockInstance: BlockInstance ): BlockValidationResult {
-		return new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Valid, BlockPresence.Unknown );
+		return new BlockValidationResult( blockInstance.clientId, blockInstance.name, BlockValidation.Valid, this.options.presence );
 	}
 }

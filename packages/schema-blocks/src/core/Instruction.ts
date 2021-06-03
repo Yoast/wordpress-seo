@@ -26,7 +26,7 @@ export default abstract class Instruction {
 	public options: InstructionOptions;
 
 	/**
-	 * Creates a render instruction.
+	 * Creates an instruction.
 	 *
 	 * @param id      The id.
 	 * @param options The options.

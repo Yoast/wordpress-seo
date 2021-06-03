@@ -52,7 +52,7 @@ export default abstract class Definition {
 	}
 
 	/**
-	 * Returns the configuration of this BlockDefinition.
+	 * Returns the configuration of this Definition.
 	 * Applying the customizer makes sure that the configurations of multiple instructions are concatenated rather than overwritten.
 	 *
 	 * @returns The configuration.

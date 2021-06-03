@@ -1,17 +1,19 @@
 import { SchemaDefinitionConfiguration } from "../../core/schema/SchemaDefinition";
-import SchemaInstruction from "../../core/schema/SchemaInstruction";
+import SchemaInstruction, { SchemaInstructionOptions } from "../../core/schema/SchemaInstruction";
+
+type SchemaOptions = SchemaInstructionOptions & {
+	separateInGraph?: boolean;
+	onlyNested?: boolean;
+	requiredFor?: string[];
+	recommendedFor?: string[];
+	optionalFor?: string[];
+}
 
 /**
  * Schema instruction.
  */
 export default class Schema extends SchemaInstruction {
-	public options: {
-		name: string;
-		onlyNested?: boolean;
-		requiredFor?: string[];
-		recommendedFor?: string[];
-		optionalFor?: string[];
-	}
+	public options: SchemaOptions;
 
 	/**
 	 * Returns the schema definition configuration.

@@ -109,29 +109,47 @@ function generateSchemaForBlocks(
 /**
  * Validates blocks recursively.
  *
+ * @param rootBlock The schema root to validate against.
  * @param blocks The block instances to validate.
  *
  * @returns Validation results for each (inner)block of the given blocks.
  */
-export function validateBlocks( blocks: BlockInstance[], rootBlock: SchemaDefinition ): BlockValidationResult[] {
+export function validateBlocks( rootBlock: SchemaDefinition, blocks: BlockInstance[] ): BlockValidationResult[] {
 	const validations: BlockValidationResult[] = [];
-	blocks.forEach( block => {
-		// This may be a third party block we cannot validate.
-		const definition = getBlockDefinition( block.name );
-		if ( definition ) {
-			if ( definition.isRelevantFor( rootBlock ) ) {
-				validations.push( definition.validate( block ) );
-			}
-		} else {
-			logger.warning( "Unable to validate block of type [" + block.name + "] " + block.clientId );
-			validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown, BlockPresence.Unknown ) );
 
-			// Recursively validate all blocks' innerblocks.
-			if ( block.innerBlocks && block.innerBlocks.length > 0 ) {
-				validations.push( ...validateBlocks( block.innerBlocks ) );
-			}
-		}
-	} );
+	// Use missingBlocks.ts instead
+
+	// Const rootBlockInstructions = Object.values( rootBlock.instructions );
+	// Const rootBlockConfigurations = rootBlockInstructions.map( rbi => rbi.configuration() );
+	// Const foundBlocks: string[] = [];
+
+	// RootBlockConfigurations.forEach( rootBlockconfig => {
+	// 	If ( blocks.find( block => block.name === rootBlockconfig.name ) ) {
+	// 		// We have found a block on the page that matches an instruction in the schema root
+	// 		FoundBlocks.push( rootBlockconfig.name );
+	// 	}
+	// } );
+	// RootBlockConfigurations.map( x => )
+
+
+	// Blocks.forEach( block => {
+	// 	// This may be a third party block we cannot validate.
+	// 	Const definition = getBlockDefinition( block.name );
+	// 	If ( definition ) {
+	// 		If ( definition.isRelevantFor( rootBlock ) ) {
+	// 			Const schemaInstruction = getSchemaInstruction( rootBlock );
+	// 			Validations.push( definition.validate( block  ) );
+	// 		}
+	// 	} else {
+	// 		Logger.warning( "Unable to validate block of type [" + block.name + "] " + block.clientId );
+	// 		Validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown, BlockPresence.Unknown ) );
+
+	// 		// Recursively validate all blocks' innerblocks.
+	// 		If ( block.innerBlocks && block.innerBlocks.length > 0 ) {
+	// 			Validations.push( ...validateBlocks( rootBlock, block.innerBlocks ) );
+	// 		}
+	// 	}
+	// } );
 	return validations;
 }
 
@@ -158,7 +176,6 @@ function determineSchemaRoot( rootBlocks: BlockInstance[] ) : SchemaDefinition {
 
 		if ( definition ) {
 			const schemaInstruction = getSchemaInstruction( definition );
-
 			const { requiredFor, recommendedFor, name } = schemaInstruction.options;
 
 			logger.debug( `${ name } is required for ${ requiredFor }` );
@@ -183,6 +200,9 @@ function determineSchemaRoot( rootBlocks: BlockInstance[] ) : SchemaDefinition {
 			rootCandidates.push( ...requiredFor );
 			rootCandidates.push( ...recommendedFor );
 		}
+
+		// Push the matching candidate to store
+		// If conflicting / multiple matches, don't push to store but show error and return nothing.
 	}
 	return null;
 }

@@ -44,7 +44,7 @@ export default class SchemaDefinition extends Definition {
 	 * Registers a schema definition.
 	 */
 	register(): void {
-		const configuration = this.configuration() as SchemaDefinitionConfiguration;
+		const configuration = this.configuration();
 
 		schemaDefinitions[ configuration.name ] = this;
 	}
@@ -55,7 +55,7 @@ export default class SchemaDefinition extends Definition {
 	 * @returns Whether or not schema should only be rendered for nested blocks.
 	 */
 	onlyNested(): boolean {
-		const configuration = this.configuration() as SchemaDefinitionConfiguration;
+		const configuration = this.configuration();
 
 		return configuration.onlyNested === true;
 	}
@@ -66,13 +66,17 @@ export default class SchemaDefinition extends Definition {
 	 * @returns Whether or not schema should be rendered even for nested blocks.
 	 */
 	separateInGraph(): boolean {
-		const configuration = this.configuration() as SchemaDefinitionConfiguration;
+		const configuration = this.configuration();
 
 		return configuration.separateInGraph === true;
 	}
 
-	getSchemaInstruction(): Schema {
-		const instructions = Object.values( definition.instructions );
-		const schemaInstruction: Schema = instructions.find( instruction => instruction instanceof Schema );
+	/**
+	 * Returns the configuration of this SchemaDefinition.
+	 *
+	 * @returns The configuration.
+	 */
+	configuration(): SchemaDefinitionConfiguration {
+		return super.configuration() as SchemaDefinitionConfiguration;
 	}
 }

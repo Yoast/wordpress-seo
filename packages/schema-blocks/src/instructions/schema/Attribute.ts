@@ -6,8 +6,7 @@ import { BlockInstance } from "@wordpress/blocks";
  * Attribute instruction.
  */
 export default class Attribute extends SchemaInstruction {
-	public options: {
-		name: string;
+	public options: SchemaInstructionOptions & {
 		default?: string;
 	}
 
