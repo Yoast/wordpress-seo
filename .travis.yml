@@ -151,6 +151,7 @@ install:
   - |
     if [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
       travis_retry composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
+      travis_retry composer du --no-interaction --ignore-platform-reqs --no-suggest
     elif [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$PHPLINT" == "1" ]]; then
       # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
       travis_retry composer update
