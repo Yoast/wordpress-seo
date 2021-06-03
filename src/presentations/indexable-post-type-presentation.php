@@ -194,9 +194,10 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 
 		if ( empty( $open_graph_description ) ) {
 			$open_graph_description = $this->post->get_the_excerpt( $this->model->object_id );
+			$open_graph_description = $this->post->strip_shortcodes( $open_graph_description );
 		}
 
-		return $this->post->strip_shortcodes( $open_graph_description );
+		return $open_graph_description;
 	}
 
 	/**
