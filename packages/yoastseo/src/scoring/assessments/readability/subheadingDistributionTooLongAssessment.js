@@ -1,4 +1,5 @@
 import { filter, merge } from "lodash-es";
+import excludeTableOfContentsTag from "../../../languageProcessing/helpers/sanitize/excludeTableOfContentsTag";
 
 import Assessment from "../assessment";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
@@ -66,7 +67,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		this._hasSubheadings = this.hasSubheadings( paper );
 
-		this._textLength = getWords( paper.getText() ).length;
+		this._textLength = getWords( excludeTableOfContentsTag( paper.getText() ) ).length;
 
 		const calculatedResult = this.calculateResult( i18n );
 		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
