@@ -24,16 +24,6 @@ class Open_Graph_Description_Test extends TestCase {
 
 		$this->set_instance();
 		$this->indexable->object_id = 1;
-
-		$this->post
-			->expects( 'strip_shortcodes' )
-			->withAnyArgs()
-			->once()
-			->andReturnUsing(
-				function( $string ) {
-					return $string;
-				}
-			);
 	}
 
 	/**
@@ -44,7 +34,12 @@ class Open_Graph_Description_Test extends TestCase {
 	public function test_with_open_graph_description() {
 		$this->indexable->open_graph_description = 'Open Graph description';
 
-		$this->assertSame( 'Open Graph description', $this->instance->generate_open_graph_description() );
+		// Do not strip any shortcodes from a manually set description.
+		$this->post
+			->expects( 'strip_shortcodes' )
+			->never();
+
+		self::assertSame( 'Open Graph description', $this->instance->generate_open_graph_description() );
 	}
 
 	/**
@@ -63,7 +58,12 @@ class Open_Graph_Description_Test extends TestCase {
 			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
 			->andReturn( $description_from_helper );
 
-		$this->assertSame( 'Description from helper', $this->instance->generate_open_graph_description() );
+		// Do not strip any shortcodes from a manually set description.
+		$this->post
+			->expects( 'strip_shortcodes' )
+			->never();
+
+		self::assertSame( 'Description from helper', $this->instance->generate_open_graph_description() );
 	}
 
 	/**
@@ -83,7 +83,12 @@ class Open_Graph_Description_Test extends TestCase {
 			->with( '', $this->indexable->object_type, $this->indexable->object_sub_type )
 			->andReturn( $description_from_helper );
 
-		$this->assertSame( 'Meta description', $this->instance->generate_open_graph_description() );
+		// Do not strip any shortcodes from a manually set description.
+		$this->post
+			->expects( 'strip_shortcodes' )
+			->never();
+
+		self::assertSame( 'Meta description', $this->instance->generate_open_graph_description() );
 	}
 
 	/**
@@ -96,7 +101,8 @@ class Open_Graph_Description_Test extends TestCase {
 		$this->indexable->object_sub_type = 'post';
 		$description_from_helper          = '';
 		$this->instance->meta_description = '';
-		$excerpt_description              = 'Excerpt description';
+		$excerpt_description              = '[gallery]Excerpt description';
+		$excerpt_description_no_shortcode = 'Excerpt description';
 
 		$this->values_helper
 			->expects( 'get_open_graph_description' )
@@ -109,6 +115,12 @@ class Open_Graph_Description_Test extends TestCase {
 			->once()
 			->andReturn( $excerpt_description );
 
-		$this->assertSame( 'Excerpt description', $this->instance->generate_open_graph_description() );
+		// Strip any shortcodes when the description comes from the excerpt.
+		$this->post
+			->expects( 'strip_shortcodes' )
+			->with( $excerpt_description )
+			->andReturn( $excerpt_description_no_shortcode );
+
+		self::assertSame( 'Excerpt description', $this->instance->generate_open_graph_description() );
 	}
 }
