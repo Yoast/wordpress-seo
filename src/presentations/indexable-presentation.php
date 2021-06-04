@@ -605,14 +605,19 @@ class Indexable_Presentation extends Abstract_Presentation {
 		}
 
 		if ( $this->context->open_graph_enabled === true ) {
-			$open_graph_title = $this->values_helper->get_open_graph_title( '', $this->model->object_type, $this->model->object_sub_type );
-			if ( ! empty( $open_graph_title ) ) {
-				return $open_graph_title;
-			}
-		}
+			$social_template_title = $this->values_helper->get_open_graph_title( '', $this->model->object_type, $this->model->object_sub_type );
+			$open_graph_title      = $this->open_graph_title;
 
-		if ( $this->open_graph_title && $this->context->open_graph_enabled === true ) {
-			return '';
+			// If the helper returns a value and it's different from the OG value in the indexable,
+			// output it in a twitter: tag.
+			if ( ! empty( $social_template_title ) && $social_template_title !== $open_graph_title ) {
+				return $social_template_title;
+			}
+
+			// If the OG title is set, let og: tag take care of this.
+			if ( ! empty( $open_graph_title ) ) {
+				return '';
+			}
 		}
 
 		if ( $this->title ) {
@@ -633,14 +638,19 @@ class Indexable_Presentation extends Abstract_Presentation {
 		}
 
 		if ( $this->context->open_graph_enabled === true ) {
-			$open_graph_description = $this->values_helper->get_open_graph_description( '', $this->model->object_type, $this->model->object_sub_type );
-			if ( ! empty( $open_graph_description ) ) {
-				return $open_graph_description;
-			}
-		}
+			$social_template_description = $this->values_helper->get_open_graph_description( '', $this->model->object_type, $this->model->object_sub_type );
+			$open_graph_description      = $this->open_graph_description;
 
-		if ( $this->open_graph_description && $this->context->open_graph_enabled === true ) {
-			return '';
+			// If the helper returns a value and it's different from the OG value in the indexable,
+			// output it in a twitter: tag.
+			if ( ! empty( $social_template_description ) && $social_template_description !== $open_graph_description ) {
+				return $social_template_description;
+			}
+
+			// If the OG description is set, let og: tag take care of this.
+			if ( ! empty( $open_graph_description ) ) {
+				return '';
+			}
 		}
 
 		if ( $this->meta_description ) {
