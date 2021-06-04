@@ -604,10 +604,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_title;
 		}
 
+		// Do not output tag if the helper returns a values, since it will be already in the og: tag.
 		if ( $this->context->open_graph_enabled === true ) {
 			$open_graph_title = $this->values_helper->get_open_graph_title( '', $this->model->object_type, $this->model->object_sub_type );
 			if ( ! empty( $open_graph_title ) ) {
-				return $open_graph_title;
+				return '';
 			}
 		}
 
@@ -632,10 +633,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_description;
 		}
 
+		// Do not output tag if the helper returns a values, since it will be already in the og: tag.
 		if ( $this->context->open_graph_enabled === true ) {
 			$open_graph_description = $this->values_helper->get_open_graph_description( '', $this->model->object_type, $this->model->object_sub_type );
 			if ( ! empty( $open_graph_description ) ) {
-				return $open_graph_description;
+				return '';
 			}
 		}
 
