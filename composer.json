@@ -59,7 +59,7 @@
 	},
 	"scripts": {
 		"pre-install-cmd": [
-			"if [ -d \"vendor_prefixed\" ]; then rm -r ./vendor_prefixed/*; fi"
+			"rm -rf ./vendor_prefixed/*/"
 		],
 		"test": [
 			"@php ./vendor/phpunit/phpunit/phpunit"
