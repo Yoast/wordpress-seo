@@ -50,7 +50,7 @@ class Twitter_Description_Test extends TestCase {
 			->expects( 'get_open_graph_description' )
 			->andReturn( $description_from_helper );
 
-		$this->assertSame( 'Description from helper', $this->instance->generate_twitter_description() );
+		$this->assertSame( '', $this->instance->generate_twitter_description() );
 	}
 
 	/**

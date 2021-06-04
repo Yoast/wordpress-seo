@@ -50,7 +50,7 @@ class Twitter_Title_Test extends TestCase {
 			->expects( 'get_open_graph_title' )
 			->andReturn( $title_from_helper );
 
-		$this->assertSame( 'Example of title from the helper', $this->instance->generate_twitter_title() );
+		$this->assertSame( '', $this->instance->generate_twitter_title() );
 	}
 
 	/**
