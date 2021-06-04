@@ -249,20 +249,6 @@ Enhancements:
 * Improves the truncation of the `primary_focus_keyword` field in the database to handle multibyte characters. Props to [rickhurst](https://github.com/rickhurst).
 * Introduces a partial integration of the Yoast SEO meta box in the Web Stories WordPress editor. Props to [swissspidy](https://github.com/swissspidy).
 * Less is more: removes a whole bunch of ads from the Yoast SEO admin screens.
-* Moves the Social templates forms at the end of the settings sections.
-* Fixes a bug where the "New" badges were not displayed for the Social templates forms.
-* Improves accuracy of the Czech passive voice assessment by separating clauses based on punctuation marks and an expanded list of stopwords.
-* Improves the stemming of Spanish words that look like ending in suffix `-mente`, e.g. `"clemente"` was incorrectly stemmed to `"cl"`, now it's stemmed to `"clement"`.
-* Improves code quality of the Spanish stemmer and changes the way we stem words ending in `-mente`.
-* Adds diacritics to the list of full form non-passive exceptions for Turkish.
-* Adds more non-passive exception words to the list of full form non-passive exceptions for Turkish.
-* Implements the new Clause and SentenceNew class to English folder, adds English Clause class, and adjusts related specs.
-* Adapts the language-specific files for passive voice assessment to the new structure for German, Dutch, French, Spanish, Italian, Portuguese, Polish, Hungarian, and Czech.
-* Refactors Sentence and SentencePart classes.
-* Moves passive voice values and some helpers, and the ProminentWord value to different folders in order to improve file organization.
-* Moves an exception check specific to English from the general getClauses file to the English-specific getClauses file.
-* Deletes obsolete files and changes SentenceNew class to Sentence. Also adds an additional check in parse.js to parse classes.
-* Fixes the stopwords list for Czech by adding the correct stopwords. Adds punctuation marks as sentence breakers.
 
 Bugfixes:
 
@@ -290,7 +276,7 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where new feature notification couldn't be dismissed.
-* Fixes a bug where the primary term for custom post types was not always properly set for posts edited in the Gutenberg editor. 
+* Fixes a bug where the primary term for custom post types was not always properly set for posts edited in the Gutenberg editor.
 * Fixes a bug where the schema output could be incorrect on terms with the same ID as the static posts page.
 
 Other:
