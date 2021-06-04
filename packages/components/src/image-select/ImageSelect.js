@@ -14,8 +14,9 @@ import Alert from "../Alert";
 function ImageSelect( props ) {
 	const imageSelected = props.imageUrl !== "";
 	const previewImageUrl = props.imageUrl || props.defaultImageUrl || "";
+	const showWarnings = props.warnings.length > 0 && imageSelected;
 
-	let imageClassName = "yoast-image-select__preview";
+	let imageClassName = showWarnings ? "yoast-image-select__preview yoast-image-select__preview-has-warnings" : "yoast-image-select__preview";
 	if ( previewImageUrl === "" ) {
 		imageClassName = "yoast-image-select__preview yoast-image-select__preview--no-preview";
 	}
@@ -27,6 +28,7 @@ function ImageSelect( props ) {
 		selectImageButtonId: props.selectImageButtonId,
 		replaceImageButtonId: props.replaceImageButtonId,
 		removeImageButtonId: props.removeImageButtonId,
+		isDisabled: props.isDisabled,
 	};
 
 	return (
@@ -38,19 +40,28 @@ function ImageSelect( props ) {
 			<FieldGroup
 				label={ props.label }
 				hasNewBadge={ props.hasNewBadge }
+				hasPremiumBadge={ props.hasPremiumBadge }
 			>
 				{ props.hasPreview &&
-					<button className={ imageClassName } onClick={ props.onClick } type="button">
+					<button
+						className={ imageClassName }
+						onClick={ props.onClick }
+						type="button"
+						disabled={ props.isDisabled }
+					>
 						{ previewImageUrl !== "" &&
 							<img src={ previewImageUrl } alt={ props.imageAltText } className="yoast-image-select__preview--image" />
 						}
 					</button>
 				}
 				{
-					props.warnings.length > 0 && imageSelected &&
-					props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
-						{ warning }
-					</Alert> )
+					showWarnings && <div role="alert">
+						{
+							props.warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
+								{ warning }
+							</Alert> )
+						}
+					</div>
 				}
 				<ImageSelectButtons { ...imageSelectButtonsProps } />
 			</FieldGroup>
@@ -75,6 +86,8 @@ ImageSelect.propTypes = {
 	removeImageButtonId: PropTypes.string,
 	warnings: PropTypes.arrayOf( PropTypes.string ),
 	hasNewBadge: PropTypes.bool,
+	isDisabled: PropTypes.bool,
+	hasPremiumBadge: PropTypes.bool,
 };
 
 ImageSelect.defaultProps = {
@@ -90,4 +103,6 @@ ImageSelect.defaultProps = {
 	removeImageButtonId: "",
 	warnings: [],
 	hasNewBadge: false,
+	isDisabled: false,
+	hasPremiumBadge: false,
 };

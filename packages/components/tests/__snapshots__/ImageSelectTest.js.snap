@@ -18,6 +18,7 @@ exports[`ImageSelect ImageSelects match the snapshot 1`] = `
     </div>
     <button
       className="yoast-image-select__preview yoast-image-select__preview--no-preview"
+      disabled={false}
       onClick={[Function]}
       type="button"
     />
@@ -26,6 +27,7 @@ exports[`ImageSelect ImageSelects match the snapshot 1`] = `
     >
       <button
         className="yoast-button yoast-button--secondary"
+        disabled={false}
         id=""
         onClick={[Function]}
         type="button"
@@ -55,6 +57,7 @@ exports[`ImageSelect ImageSelects match the snapshot 2`] = `
     </div>
     <button
       className="yoast-image-select__preview"
+      disabled={false}
       onClick={[Function]}
       type="button"
     >
@@ -69,6 +72,7 @@ exports[`ImageSelect ImageSelects match the snapshot 2`] = `
     >
       <button
         className="yoast-button yoast-button--secondary"
+        disabled={false}
         id=""
         onClick={[Function]}
         type="button"
@@ -77,6 +81,7 @@ exports[`ImageSelect ImageSelects match the snapshot 2`] = `
       </button>
       <button
         className="yoast-remove"
+        disabled={false}
         id=""
         onClick={[Function]}
         type="button"
@@ -109,6 +114,7 @@ exports[`ImageSelect ImageSelects match the snapshot 3`] = `
     >
       <button
         className="yoast-button yoast-button--secondary"
+        disabled={false}
         id=""
         onClick={[Function]}
         type="button"
@@ -141,6 +147,7 @@ exports[`ImageSelect ImageSelects match the snapshot 4`] = `
     >
       <button
         className="yoast-button yoast-button--secondary"
+        disabled={false}
         id=""
         onClick={[Function]}
         type="button"
@@ -149,6 +156,7 @@ exports[`ImageSelect ImageSelects match the snapshot 4`] = `
       </button>
       <button
         className="yoast-remove"
+        disabled={false}
         id=""
         onClick={[Function]}
         type="button"

@@ -47,7 +47,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Check if the web server is running on Apache.
+	 * Check if the web server is running on Apache or compatible (LiteSpeed).
 	 *
 	 * @since 1.8.0
 	 *
@@ -60,7 +60,7 @@ class WPSEO_Utils {
 
 		$software = sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) );
 
-		return stripos( $software, 'apache' ) !== false;
+		return stripos( $software, 'apache' ) !== false || stripos( $software, 'litespeed' ) !== false;
 	}
 
 	/**

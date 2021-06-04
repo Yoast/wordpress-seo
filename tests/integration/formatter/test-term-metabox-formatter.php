@@ -80,7 +80,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( trailingslashit( home_url( 'tag' ) ), $result['base_url'] );
 		$this->assertEquals( [ '' => [] ], $result['keyword_usage'] );
-		$this->assertEquals( '%%title%% %%sep%% %%sitename%%', $result['title_template'] );
+		$this->assertEquals( '%%term_title%% Archives %%page%% %%sep%% %%sitename%%', $result['title_template'] );
 		$this->assertEquals( '', $result['metadesc_template'] );
 	}
 
@@ -135,7 +135,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( '%%title%% %%sep%% %%sitename%%', $result['title_template'] );
+		$this->assertEquals( '%%term_title%% Archives %%page%% %%sep%% %%sitename%%', $result['title_template'] );
 		$this->assertEquals( 'This is a meta description', $result['metadesc_template'] );
 	}
 }

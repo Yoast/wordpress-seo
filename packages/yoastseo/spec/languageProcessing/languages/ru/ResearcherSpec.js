@@ -18,7 +18,7 @@ describe( "a test for the Russian Researcher", function() {
 	} );
 
 	it( "returns true if the Russian Researcher has a specific research", function() {
-		expect( researcher.hasResearch( "getPassiveVoice" ) ).toBe( true );
+		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
 	} );
 
 	it( "returns false if a specific helper is not available in the Russian Researcher", function() {

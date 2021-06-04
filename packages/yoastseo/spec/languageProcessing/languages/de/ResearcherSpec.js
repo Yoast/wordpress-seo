@@ -17,7 +17,7 @@ describe( "a test for the German Researcher", function() {
 	} );
 
 	it( "returns true if the German Researcher has a specific research", function() {
-		expect( researcher.hasResearch( "getPassiveVoice" ) ).toBe( true );
+		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
 	} );
 
 	it( "returns the German function words ", function() {
@@ -57,16 +57,12 @@ describe( "a test for the German Researcher", function() {
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "Katzen" ) ).toEqual( "Katz" );
 	} );
 
-	it( "splits German sentence into parts", function() {
-		const sentence =  "Zwischen 1927 und 1933 hatte sie intensiven Kontakt zur Erzabtei Beuron.";
-		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 0 ].getSentencePartText() ).toBe( "Zwischen 1927" );
-		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 1 ].getSentencePartText() ).toBe( "und 1933 hatte sie" +
-			" intensiven Kontakt zur Erzabtei Beuron." );
-	} );
-
-	it( "checks if a German sentence is passive or not", function() {
-		expect( researcher.getHelper( "isPassiveSentencePart" )( "Sie wird geliebt", [ "wird" ] ) ).toEqual( true );
-		expect( researcher.getHelper( "isPassiveSentencePart" )( "Sie hat ihren Hund geliebt", [] ) ).toEqual( false );
+	it( "splits German sentence into clauses and return the correct passiveness of the clauses", function() {
+		const sentence =  "Die Katze wurde adoptiert, sobald sie gesehen wurde.";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Die Katze wurde adoptiert," );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( true );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "sobald sie gesehen wurde." );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( true );
 	} );
 
 	it( "calculates the Flesch reading score using the formula for German", function() {

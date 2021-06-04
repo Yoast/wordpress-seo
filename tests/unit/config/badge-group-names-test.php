@@ -16,16 +16,16 @@ class Badge_Group_Names_Test extends TestCase {
 	const TESTING_GROUP = Badge_Group_Names::GROUP_GLOBAL_TEMPLATES;
 
 	/* The group we're testing will no longer be considered new from this version onwards. */
-	const VERSION_NO_LONGER_NEW = '16.5';
+	const VERSION_NO_LONGER_NEW = '16.7';
 
 	/* The group we're testing will no longer be considered new from this RC version onwards. */
-	const VERSION_NO_LONGER_NEW_RC = '16.5-RC1';
+	const VERSION_NO_LONGER_NEW_RC = '16.7-RC1';
 
 	/* The group we're testing will still be considered new on this version. */
-	const VERSION_STILL_NEW = '16.4';
+	const VERSION_STILL_NEW = '16.6';
 
 	/* The group we're testing is not considered new on this version. */
-	const VERSION_NEXT_MINOR = '16.6';
+	const VERSION_NEXT_MINOR = '16.8';
 
 	/* The group we're testing is definitely not considered new on this version. */
 	const VERSION_NEXT_MAJOR = '17.0';
