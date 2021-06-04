@@ -604,16 +604,20 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_title;
 		}
 
-		// Do not output tag if the helper returns a values, since it will be already in the og: tag.
 		if ( $this->context->open_graph_enabled === true ) {
-			$open_graph_title = $this->values_helper->get_open_graph_title( '', $this->model->object_type, $this->model->object_sub_type );
+			$social_template_title = $this->values_helper->get_open_graph_title( '', $this->model->object_type, $this->model->object_sub_type );
+			$open_graph_title      = $this->open_graph_title;
+
+			// If the helper returns a value and it's different from the OG value in the indexable,
+			// output it in a twitter: tag.
+			if ( ! empty( $social_template_title ) && $social_template_title !== $open_graph_title ) {
+				return $social_template_title;
+			}
+
+			// If the OG title is set, let og: tag take care of this.
 			if ( ! empty( $open_graph_title ) ) {
 				return '';
 			}
-		}
-
-		if ( $this->open_graph_title && $this->context->open_graph_enabled === true ) {
-			return '';
 		}
 
 		if ( $this->title ) {
@@ -633,16 +637,20 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_description;
 		}
 
-		// Do not output tag if the helper returns a values, since it will be already in the og: tag.
 		if ( $this->context->open_graph_enabled === true ) {
-			$open_graph_description = $this->values_helper->get_open_graph_description( '', $this->model->object_type, $this->model->object_sub_type );
+			$social_template_description = $this->values_helper->get_open_graph_description( '', $this->model->object_type, $this->model->object_sub_type );
+			$open_graph_description      = $this->open_graph_description;
+
+			// If the helper returns a value and it's different from the OG value in the indexable,
+			// output it in a twitter: tag.
+			if ( ! empty( $social_template_description ) && $social_template_description !== $open_graph_description ) {
+				return $social_template_description;
+			}
+
+			// If the OG description is set, let og: tag take care of this.
 			if ( ! empty( $open_graph_description ) ) {
 				return '';
 			}
-		}
-
-		if ( $this->open_graph_description && $this->context->open_graph_enabled === true ) {
-			return '';
 		}
 
 		if ( $this->meta_description ) {
