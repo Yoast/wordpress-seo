@@ -1,6 +1,7 @@
 # Grunt aliases
 ---
 'build':
+  - 'build:ts'
   - 'build:js'
   - 'build:css'
   - 'build:images'
@@ -14,13 +15,17 @@
 
 # Grunt command to only build CSS and JS
 'build:dev':
+  - 'build:ts'
   - 'build:js'
   - 'build:css'
+
+# Compile the TypeScript in the `schema-blocks` package
+'build:ts':
+  - 'shell:install-schema-blocks'
 
 # Build JavaScript from assets to production
 'build:js':
   - 'clean:build-assets-js'
-  - 'shell:install-schema-blocks'
   - 'copy:js-dependencies'
   - 'shell:webpack'
 
@@ -136,11 +141,13 @@ clean:build-assets:
 release:
   - 'clean:build-assets'
   - 'build:images'
+  - 'release:ts'
   - 'release:js'
   - 'release:css'
   - 'build:i18n'
-'release:js':
+'release:ts':
   - 'shell:install-schema-blocks'
+'release:js':
   - 'copy:js-dependencies'
   - 'shell:webpack-prod'
 
@@ -163,19 +170,19 @@ release:
   - 'wp_deploy:trunk'
 
 'update-changelog:file':
-  - get-latest-pr-texts
-  - update-changelog-with-latest-pr-texts
+  - 'get-latest-pr-texts'
+  - 'update-changelog-with-latest-pr-texts'
 
 'update-changelog:qa':
-  - get-latest-pr-texts
-  - download-qa-changelog
-  - build-qa-changelog
+  - 'get-latest-pr-texts'
+  - 'download-qa-changelog'
+  - 'build-qa-changelog'
 
 'update-changelog:all':
-  - get-latest-pr-texts
-  - update-changelog-with-latest-pr-texts
-  - download-qa-changelog
-  - build-qa-changelog
+  - 'get-latest-pr-texts'
+  - 'update-changelog-with-latest-pr-texts'
+  - 'download-qa-changelog'
+  - 'build-qa-changelog'
 
 # Default task
 default:

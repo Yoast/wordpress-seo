@@ -8,6 +8,7 @@ We follow [Semantic Versioning](http://semver.org/).
 ## 1.18.0
 ### Enhancements
 * Adds a new prop `hasPremiumBadge` to the `ReplacementVariableEditor` to display the `PremiumBadge` component.
+* Adds classes to the main elements of the `ReplacementVariableEditor` and `Mention` components to allow for individual styling.
 
 ## 1.16.0 April 26th, 2021
 ### Enhancements

@@ -13,5 +13,3 @@ $legend      = __( 'Title separator symbol', 'wordpress-seo' );
 $legend_attr = [ 'class' => 'radiogroup screen-reader-text' ];
 $yform->radio( 'separator', WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(), $legend, $legend_attr );
 
-require __DIR__ . '/force-rewrite-title.php';
-

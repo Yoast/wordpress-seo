@@ -17,7 +17,7 @@ describe( "a test for the French Researcher", function() {
 	} );
 
 	it( "returns true if the French Researcher has a specific research", function() {
-		expect( researcher.hasResearch( "getPassiveVoice" ) ).toBe( true );
+		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
 	} );
 
 	it( "returns French function words", function() {
@@ -57,15 +57,12 @@ describe( "a test for the French Researcher", function() {
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "chats" ) ).toEqual( "chat" );
 	} );
 
-	it( "splits French sentence into parts", function() {
-		const sentence =  "Ils étaient très amis lorsqu'ils étaient enfants.";
-		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 0 ].getSentencePartText() ).toBe( "étaient très amis" );
-		expect( researcher.getHelper( "getSentenceParts" )( sentence )[ 1 ].getSentencePartText() ).toBe( "étaient enfants." );
-	} );
-
-	it( "checks if a French sentence is passive or not", function() {
-		expect( researcher.getHelper( "isPassiveSentencePart" )( "Le chat est amené chez le vétérinaire.", [ "est" ] ) ).toEqual( true );
-		expect( researcher.getHelper( "isPassiveSentencePart" )( "La fille a amené le chat chez le vétérinaire.", [] ) ).toEqual( false );
+	it( "splits French sentence into clauses and checks if the clauses are passive", function() {
+		const sentence =  "Le chat est mignon et il est aimé.";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "est mignon" );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "est aimé." );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toEqual( false );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toEqual( true );
 	} );
 
 	it( "calculates the Flesch reading score using the formula for French", function() {
