@@ -38,13 +38,39 @@ class Twitter_Title_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where no Twitter title is set, the Values Helper provides a title, and Open Graph is enabled.
+	 * Tests the situation where
+	 * - no Twitter title is set
+	 * - Open Graph is enabled
+	 * - the Values Helper provides a title
+	 * - this is different from the OG title
 	 *
 	 * @covers ::generate_twitter_title
 	 */
 	public function test_generate_twitter_title_with_title_from_values_helper_and_open_graph_enabled() {
 		$this->context->open_graph_enabled = true;
+		$this->indexable->open_graph_title = 'Open Graph title';
 		$title_from_helper                 = 'Example of title from the helper';
+
+		$this->values_helper
+			->expects( 'get_open_graph_title' )
+			->andReturn( $title_from_helper );
+
+		$this->assertSame( 'Example of title from the helper', $this->instance->generate_twitter_title() );
+	}
+
+	/**
+	 * Tests the situation where
+	 * - no Twitter title is set
+	 * - Open Graph is enabled
+	 * - the Values Helper provides a title
+	 * - this is different from the OG title
+	 *
+	 * @covers ::generate_twitter_title
+	 */
+	public function test_generate_twitter_title_with_title_from_values_helper_same_as_og_title() {
+		$this->context->open_graph_enabled = true;
+		$this->indexable->open_graph_title = 'Open Graph title';
+		$title_from_helper                 = 'Open Graph title';
 
 		$this->values_helper
 			->expects( 'get_open_graph_title' )
