@@ -5,7 +5,8 @@
 	overflow: hidden;
 	width: 300px;
 	max-width: 100%;
-	height: 165px;
+	min-height: 165px;
+	max-height: 200px;
 	border: 1px solid rgba(0,0,0,0.2);
 	background-color: transparent;
 	padding: 0;
