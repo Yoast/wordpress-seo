@@ -166,7 +166,7 @@ class WPSEO_Configuration_Service_Test extends TestCase {
 	 */
 	public function test_set_configuration() {
 
-		if ( ! class_exists( 'WP_REST_Request' ) ) {
+		if ( ! \class_exists( 'WP_REST_Request', true ) ) {
 			$this->markTestSkipped( 'WordPress version too low to test with WP_REST_Request.' );
 
 			return;

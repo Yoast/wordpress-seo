@@ -5,7 +5,7 @@
  * @package WPSEO\Tests\Doubles
  */
 
-if ( class_exists( 'WP_REST_Server' ) ) {
+if ( \class_exists( 'WP_REST_Server', true ) ) {
 	/**
 	 * Class WPSEO_WP_REST_Server_Mock.
 	 */

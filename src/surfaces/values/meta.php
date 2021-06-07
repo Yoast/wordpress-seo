@@ -180,7 +180,7 @@ class Meta {
 
 		$presenter_class = $presenter_namespace . \implode( '_', \array_map( 'ucfirst', $parts ) ) . '_Presenter';
 
-		if ( \class_exists( $presenter_class ) ) {
+		if ( \class_exists( $presenter_class, true ) ) {
 			/**
 			 * The indexable presenter.
 			 *
