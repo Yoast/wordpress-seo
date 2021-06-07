@@ -25,7 +25,7 @@ else {
 	echo '<div class="social-settings-heading-container">';
 	echo '<h3 class="social-settings-heading">' . \esc_html__( 'Social settings', 'wordpress-seo' ) . '</h3>';
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the Badge_Presenter.
-	echo new Badge_Presenter( 'global-templates', '', 'global-templates' );
+	echo new Badge_Presenter( 'global-templates-homepage', '', 'global-templates' );
 	echo '</div>';
 
 	echo '<p>' . esc_html__( 'These are the image, title and description used when a link to your homepage is shared on social media.', 'wordpress-seo' ) . '</p>';

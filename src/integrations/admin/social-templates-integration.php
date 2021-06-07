@@ -155,7 +155,6 @@ class Social_Templates_Integration implements Integration_Interface {
 	protected function build_social_fields( Yoast_Form $yform, $identifier, $page_type_recommended, $page_type_specific ) {
 		$image_url_field_id = 'social-image-url-' . $identifier;
 		$image_id_field_id  = 'social-image-id-' . $identifier;
-		$badge_group_names  = new Badge_Group_Names();
 		$is_premium         = YoastSEO()->helpers->product->is_premium();
 
 		$section_class = 'yoast-settings-section';
@@ -170,9 +169,9 @@ class Social_Templates_Integration implements Integration_Interface {
 		echo '<h3 class="social-settings-heading">' . \esc_html__( 'Social settings', 'wordpress-seo' ) . '</h3>';
 		if ( $is_premium ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the Premium_Badge_Presenter.
-			echo new Premium_Badge_Presenter( 'global-templates' );
+			echo new Premium_Badge_Presenter( 'global-templates-' . $identifier );
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the Badge_Presenter.
-			echo new Badge_Presenter( 'global-templates', '', $this->group );
+			echo new Badge_Presenter( 'global-templates-' . $identifier, '', $this->group );
 		}
 		echo '</div>';
 
