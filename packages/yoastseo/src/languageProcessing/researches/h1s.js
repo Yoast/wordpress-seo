@@ -1,6 +1,5 @@
 import { getBlocks } from "../helpers/html/html";
 import { reject } from "lodash-es";
-import excludeTableOfContentsTag from "../helpers/sanitize/excludeTableOfContentsTag";
 
 const h1Regex = /<h1.*?>(.*?)<\/h1>/;
 
@@ -25,7 +24,7 @@ const emptyBlock = function( block ) {
  * @returns {Array} An array with all H1s, their content and position.
  */
 export default function( paper ) {
-	const text = excludeTableOfContentsTag( paper.getText() );
+	const text = paper.getText();
 
 	let blocks = getBlocks( text );
 	blocks = reject( blocks, emptyBlock );
