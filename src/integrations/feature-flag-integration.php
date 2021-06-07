@@ -12,18 +12,18 @@ use Yoast\WP\SEO\Conditionals\Feature_Flag_Conditional;
 class Feature_Flag_Integration implements Integration_Interface {
 
 	/**
-	 * All of known the feature flag conditionals.
-	 *
-	 * @var Feature_Flag_Conditional[]
-	 */
-	protected $feature_flags;
-
-	/**
 	 * The admin asset manager.
 	 *
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
 	protected $asset_manager;
+
+	/**
+	 * All of the feature flag conditionals.
+	 *
+	 * @var Feature_Flag_Conditional[]
+	 */
+	protected $feature_flags;
 
 	/**
 	 * Feature_Flag_Integration constructor.
@@ -32,8 +32,8 @@ class Feature_Flag_Integration implements Integration_Interface {
 	 * @param Feature_Flag_Conditional  ...$feature_flags All of the known feature flag conditionals.
 	 */
 	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager, Feature_Flag_Conditional ...$feature_flags ) {
-		$this->feature_flags = $feature_flags;
 		$this->asset_manager = $asset_manager;
+		$this->feature_flags = $feature_flags;
 	}
 
 	/**
@@ -55,7 +55,9 @@ class Feature_Flag_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Gather all the feature flags and inject them into the JavaScript.
+	 * Gathers all the feature flags and injects them into the JavaScript.
+	 *
+	 * @return void
 	 */
 	public function add_feature_flags() {
 		$enabled_features = $this->get_enabled_features();
@@ -91,9 +93,9 @@ class Feature_Flag_Integration implements Integration_Interface {
 		 *
 		 * @param string[] $enabled_features The current list of enabled feature flags.
 		 */
-		$filtered_enabled_features = apply_filters( 'wpseo_enable_feature', $enabled_features );
+		$filtered_enabled_features = \apply_filters( 'wpseo_enable_feature', $enabled_features );
 
-		if ( ! is_array( $filtered_enabled_features ) || empty( $filtered_enabled_features ) ) {
+		if ( ! \is_array( $filtered_enabled_features ) || empty( $filtered_enabled_features ) ) {
 			$filtered_enabled_features = $enabled_features;
 		}
 
