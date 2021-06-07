@@ -24,10 +24,8 @@ else {
 
 	echo '<div class="social-settings-heading-container">';
 	echo '<h3 class="social-settings-heading">' . \esc_html__( 'Social settings', 'wordpress-seo' ) . '</h3>';
-	if ( YoastSEO()->helpers->product->is_premium() ) {
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the Badge_Presenter.
-		echo new Badge_Presenter( 'global-templates', '', 'global-templates' );
-	}
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the Badge_Presenter.
+	echo new Badge_Presenter( 'global-templates', '', 'global-templates' );
 	echo '</div>';
 
 	echo '<p>' . esc_html__( 'These are the image, title and description used when a link to your homepage is shared on social media.', 'wordpress-seo' ) . '</p>';
