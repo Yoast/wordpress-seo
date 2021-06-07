@@ -2,7 +2,7 @@ import Researcher from "../../../../src/languageProcessing/languages/nb/Research
 import Paper from "../../../../src/values/Paper.js";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import functionWords from "../../../../src/languageProcessing/languages/nb/config/functionWords";
-import firstWordExceptions from "../../../../src/languageProcessing/languages/en/config/firstWordExceptions";
+import firstWordExceptions from "../../../../src/languageProcessing/languages/nb/config/firstWordExceptions";
 
 const morphologyDataNB = getMorphologyData( "nb" );
 
