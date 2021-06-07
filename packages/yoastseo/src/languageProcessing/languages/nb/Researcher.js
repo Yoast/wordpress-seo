@@ -28,7 +28,7 @@ export default class Researcher extends AbstractResearcher {
 		Object.assign( this.config, {
 			language: "nb",
 			functionWords,
-			firstWordExceptions
+			firstWordExceptions,
 		} );
 
 		Object.assign( this.helpers, {
