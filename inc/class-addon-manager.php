@@ -322,7 +322,7 @@ class WPSEO_Addon_Manager {
 			return false;
 		}
 
-		return class_exists( $slug_to_class_map[ $slug ] );
+		return \class_exists( $slug_to_class_map[ $slug ], false );
 	}
 
 	/**

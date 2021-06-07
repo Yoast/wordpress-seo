@@ -161,7 +161,7 @@ class Model implements JsonSerializable {
 	 * @return string The value of the property.
 	 */
 	protected static function get_static_property( $class_name, $property, $default = null ) {
-		if ( ! \class_exists( $class_name ) || ! \property_exists( $class_name, $property ) ) {
+		if ( ! \class_exists( $class_name, false ) || ! \property_exists( $class_name, $property ) ) {
 			return $default;
 		}
 

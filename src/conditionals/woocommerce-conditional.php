@@ -13,6 +13,6 @@ class WooCommerce_Conditional implements Conditional {
 	 * @return bool `true` when the WooCommerce plugin is installed and activated.
 	 */
 	public function is_met() {
-		return \class_exists( 'WooCommerce' );
+		return \class_exists( 'WooCommerce', false );
 	}
 }

@@ -14,6 +14,6 @@ class Jetpack_Conditional implements Conditional {
 	 * @return bool `true` when the Jetpack plugin exists on this WordPress installation.
 	 */
 	public function is_met() {
-		return \class_exists( 'Jetpack' );
+		return \class_exists( 'Jetpack', false );
 	}
 }

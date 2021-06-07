@@ -171,7 +171,7 @@ class WPSEO_Sitemap_Image_Parser {
 
 		$images = [];
 
-		if ( ! class_exists( 'DOMDocument' ) ) {
+		if ( ! \class_exists( 'DOMDocument', false ) ) {
 			return $images;
 		}
 

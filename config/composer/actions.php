@@ -112,7 +112,7 @@ class Actions {
 	public static function compile_dependency_injection_container( Event $event ) {
 		$io = $event->getIO();
 
-		if ( ! \class_exists( ContainerBuilder::class ) ) {
+		if ( ! \class_exists( ContainerBuilder::class, false ) ) {
 			$io->write( 'Not compiling dependency injection container, due to the container builder not being installed' );
 
 			return;
@@ -273,7 +273,7 @@ class Actions {
 		if ( ! \preg_match( $correct_class_name_regex, $name ) ) {
 			throw new Exception( "$name is not a valid migration name." );
 		}
-		if ( \class_exists( $name ) ) {
+		if ( \class_exists( $name, false ) ) {
 			throw new Exception( "A class with the name $name already exists." );
 		}
 

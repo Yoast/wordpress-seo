@@ -13,7 +13,7 @@ class Woocommerce_Helper {
 	 * @return bool Is WooCommerce active.
 	 */
 	public function is_active() {
-		return \class_exists( 'WooCommerce' );
+		return \class_exists( 'WooCommerce', false );
 	}
 
 	/**

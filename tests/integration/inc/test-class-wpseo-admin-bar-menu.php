@@ -45,7 +45,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	 * @return void
 	 */
 	public static function wpSetUpBeforeClass( $factory ) {
-		if ( ! class_exists( 'WP_Admin_Bar' ) ) {
+		if ( ! \class_exists( 'WP_Admin_Bar', false ) ) {
 			require_once ABSPATH . WPINC . '/class-wp-admin-bar.php';
 		}
 

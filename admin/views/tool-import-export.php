@@ -30,7 +30,7 @@ elseif ( filter_input( INPUT_POST, 'import_external' ) ) {
 	check_admin_referer( 'wpseo-import-plugins' );
 
 	$yoast_seo_class = filter_input( INPUT_POST, 'import_external_plugin' );
-	if ( class_exists( $yoast_seo_class ) ) {
+	if ( \class_exists( $yoast_seo_class, false ) ) {
 		$yoast_seo_import = new WPSEO_Import_Plugin( new $yoast_seo_class(), 'import' );
 	}
 }
@@ -38,7 +38,7 @@ elseif ( filter_input( INPUT_POST, 'clean_external' ) ) {
 	check_admin_referer( 'wpseo-clean-plugins' );
 
 	$yoast_seo_class = filter_input( INPUT_POST, 'clean_external_plugin' );
-	if ( class_exists( $yoast_seo_class ) ) {
+	if ( \class_exists( $yoast_seo_class, false ) ) {
 		$yoast_seo_import = new WPSEO_Import_Plugin( new $yoast_seo_class(), 'cleanup' );
 	}
 }

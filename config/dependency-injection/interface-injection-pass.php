@@ -82,7 +82,7 @@ class Interface_Injection_Pass implements CompilerPassInterface {
 	private function get_variadic_constructor( $definition ) {
 		// Limit the processing to classes from our project.
 		$definition_class = $definition->getClass();
-		if ( ! \class_exists( $definition_class ) ) {
+		if ( ! \class_exists( $definition_class, false ) ) {
 			return null;
 		}
 

@@ -102,7 +102,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_register() {
 
-		if ( ! class_exists( 'WP_REST_Server' ) ) {
+		if ( ! \class_exists( 'WP_REST_Server', false ) ) {
 			$this->markTestSkipped( 'WordPress version too low to test with WP_REST_Server.' );
 
 			return;

@@ -79,15 +79,15 @@ class Addon_Install_Action {
 	 * @return void
 	 */
 	protected function load_wordpress_classes() {
-		if ( ! class_exists( 'WP_Upgrader' ) ) {
+		if ( ! \class_exists( 'WP_Upgrader', false ) ) {
 			$this->require_file_helper->require_file_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 		}
 
-		if ( ! class_exists( 'Plugin_Upgrader' ) ) {
+		if ( ! \class_exists( 'Plugin_Upgrader', false ) ) {
 			$this->require_file_helper->require_file_once( ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php' );
 		}
 
-		if ( ! class_exists( 'WP_Upgrader_Skin' ) ) {
+		if ( ! \class_exists( 'WP_Upgrader_Skin', false ) ) {
 			$this->require_file_helper->require_file_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader-skin.php' );
 		}
 

@@ -62,10 +62,10 @@ function wpseo_auto_load( $class ) {
 		];
 	}
 
-	$cn = strtolower( $class );
+	$className = strtolower( $class );
 
-	if ( ! class_exists( $class ) && isset( $classes[ $cn ] ) ) {
-		require_once $classes[ $cn ];
+	if ( ! \class_exists( $class, false ) && isset( $classes[ $className ] ) ) {
+		require_once $classes[ $className ];
 	}
 }
 
@@ -74,7 +74,7 @@ $yoast_autoload_file = WPSEO_PATH . 'vendor/autoload.php';
 if ( is_readable( $yoast_autoload_file ) ) {
 	require $yoast_autoload_file;
 }
-elseif ( ! class_exists( 'WPSEO_Options' ) ) { // Still checking since might be site-level autoload R.
+elseif ( ! \class_exists( 'WPSEO_Options', false ) ) { // Still checking since might be site-level autoload R.
 	add_action( 'admin_init', 'yoast_wpseo_missing_autoload', 1 );
 
 	return;

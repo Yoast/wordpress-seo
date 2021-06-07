@@ -42,7 +42,7 @@ class Main extends Abstract_Main {
 	 * {@inheritDoc}
 	 */
 	protected function get_container() {
-		if ( $this->is_development() && \class_exists( '\Yoast\WP\SEO\Dependency_Injection\Container_Compiler' ) ) {
+		if ( $this->is_development() && \class_exists( '\Yoast\WP\SEO\Dependency_Injection\Container_Compiler', false ) ) {
 			// Exception here is unhandled as it will only occur in development.
 			Container_Compiler::compile(
 				$this->is_development(),
