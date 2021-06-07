@@ -99,7 +99,7 @@ class IntroductionKeywordAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sKeyphrase in introduction%3$s:" +
-						"Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. %2$sFix that%3$s!"
+						" Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. %2$sFix that%3$s!"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,

@@ -7,6 +7,7 @@ namespace Yoast\WP\SEO\Integrations\Admin\Addon_Installation;
 use Yoast\WP\SEO\Actions\Addon_Installation\Addon_Activate_Action;
 use Yoast\WP\SEO\Actions\Addon_Installation\Addon_Install_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Addon_Installation_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin\Licenses_Page_Conditional;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Activation_Error_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Already_Installed_Exception;
@@ -48,6 +49,7 @@ class Installation_Integration implements Integration_Interface {
 		return [
 			Admin_Conditional::class,
 			Licenses_Page_Conditional::class,
+			Addon_Installation_Conditional::class,
 		];
 	}
 

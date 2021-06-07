@@ -8,7 +8,7 @@ import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from ".";
 /**
  * Initializes the Schema Blocks store.
  */
-export function initializeSchemaBlocksStore() {
+export function initializeSchemaBlocksStore(): void {
 	const storeOptions: StoreConfig<SchemaBlocksState> = {
 		reducer: schemaBlocksReducer,
 		selectors: {

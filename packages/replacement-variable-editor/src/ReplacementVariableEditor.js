@@ -18,7 +18,7 @@ import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "./constants";
-import { NewBadge, SimulatedLabel } from "@yoast/components";
+import { NewBadge, SimulatedLabel, PremiumBadge } from "@yoast/components";
 
 /**
  * The replacement variable editor.
@@ -32,7 +32,7 @@ class ReplacementVariableEditor extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.uniqueId = uniqueId();
+		this.uniqueId = uniqueId( "replacement-variable-editor-field-" );
 
 		switch ( props.type ) {
 			case "description":
@@ -83,32 +83,40 @@ class ReplacementVariableEditor extends React.Component {
 			onMouseEnter,
 			onMouseLeave,
 			hasNewBadge,
+			isDisabled,
+			hasPremiumBadge,
 		} = this.props;
 
 		const InputContainer = this.InputContainer;
 
 		const addVariableButton = <TriggerReplacementVariableSuggestionsButton
+			className="yst-replacevar__button-insert"
 			onClick={ this.triggerReplacementVariableSuggestions }
+			disabled={ isDisabled }
 		>
 			{ __( "Insert variable", "yoast-components" ) }
 		</TriggerReplacementVariableSuggestionsButton>;
 
 		return (
 			<FormSection
+				className="yst-replacevar"
 				onMouseEnter={ onMouseEnter }
 				onMouseLeave={ onMouseLeave }
 			>
 				<SimulatedLabel
+					className="yst-replacevar__label"
 					id={ this.uniqueId }
 					onClick={ onFocus }
 				>
 					{ label }
-					{ hasNewBadge && <NewBadge inLabel={ true } /> }
 				</SimulatedLabel>
+				{ hasPremiumBadge && <PremiumBadge inLabel={ true } /> }
+				{ hasNewBadge && <NewBadge inLabel={ true } /> }
 				{ addVariableButton }
 				<InputContainer
+					className="yst-replacevar__editor"
 					onClick={ onFocus }
-					isActive={ isActive }
+					isActive={ isActive && ! isDisabled }
 					isHovered={ isHovered }
 				>
 					<ReplacementVariableEditorStandalone
@@ -125,6 +133,7 @@ class ReplacementVariableEditor extends React.Component {
 							editorRef( ref );
 						} }
 						ariaLabelledBy={ this.uniqueId }
+						isDisabled={ isDisabled }
 					/>
 				</InputContainer>
 			</FormSection>
@@ -150,6 +159,8 @@ ReplacementVariableEditor.propTypes = {
 	onMouseEnter: PropTypes.func,
 	onMouseLeave: PropTypes.func,
 	hasNewBadge: PropTypes.bool,
+	isDisabled: PropTypes.bool,
+	hasPremiumBadge: PropTypes.bool,
 };
 
 ReplacementVariableEditor.defaultProps = {
@@ -167,6 +178,8 @@ ReplacementVariableEditor.defaultProps = {
 	onMouseEnter: () => {},
 	onMouseLeave: () => {},
 	hasNewBadge: false,
+	isDisabled: false,
+	hasPremiumBadge: false,
 };
 
 export default ReplacementVariableEditor;

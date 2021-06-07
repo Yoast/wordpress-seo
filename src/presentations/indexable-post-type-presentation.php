@@ -184,14 +184,20 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		if ( empty( $open_graph_description ) ) {
+			// The helper applies a filter, but we don't have a default value at this stage so we pass an empty string.
+			$open_graph_description = $this->values_helper->get_open_graph_description( '', $this->model->object_type, $this->model->object_sub_type );
+		}
+
+		if ( empty( $open_graph_description ) ) {
 			$open_graph_description = $this->meta_description;
 		}
 
 		if ( empty( $open_graph_description ) ) {
 			$open_graph_description = $this->post->get_the_excerpt( $this->model->object_id );
+			$open_graph_description = $this->post->strip_shortcodes( $open_graph_description );
 		}
 
-		return $this->post->strip_shortcodes( $open_graph_description );
+		return $open_graph_description;
 	}
 
 	/**

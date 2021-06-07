@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { BlockControls, RichText as WordPressRichText } from "@wordpress/block-editor";
 import { BlockConfiguration, BlockInstance } from "@wordpress/blocks";
-import { createElement } from "@wordpress/element";
+import { createElement, useCallback } from "@wordpress/element";
 
 import { BlockInstruction, BlockLeaf } from "../../core/blocks";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
@@ -68,19 +68,20 @@ export class Heading extends RichTextBase {
 			attributes.placeholder = this.options.placeholder;
 		}
 
+		const headingLevel = this.getHeadingLevel( props );
 		/**
 		 * On change handler for when a different heading level is chosen
 		 * via the block controls.
 		 *
 		 * @param newLevel The chosen heading level.
 		 */
-		const onHeadingLevelChange = ( newLevel: number ) => {
+		const onHeadingLevelChange = useCallback( ( newLevel: number ) => {
 			props.setAttributes( { [ this.options.name + "_level" ]: newLevel } );
-		};
+		}, [ headingLevel ] );
 
 		const headingControl = <BlockControls>
 			<HeadingLevelDropdown
-				selectedLevel={ this.getHeadingLevel( props ) }
+				selectedLevel={ headingLevel }
 				onChange={ onHeadingLevelChange }
 			/>
 		</BlockControls>;

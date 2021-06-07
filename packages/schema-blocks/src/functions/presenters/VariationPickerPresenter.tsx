@@ -1,11 +1,11 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore -- __experimentalBlockVariationPicker is defined in the package, though no type info is available.
 import { __experimentalBlockVariationPicker as ExperimentalBlockVariationPicker, useBlockProps } from "@wordpress/block-editor";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
 import { get, map } from "lodash";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { createElement } from "@wordpress/element";
+import { createElement, useCallback } from "@wordpress/element";
 import { VariationInterface } from "../../instructions/blocks/Variation";
 import { RenderEditProps } from "../..";
 
@@ -35,15 +35,15 @@ function createBlocksFromInnerBlocksTemplate( innerBlocksTemplate: BlockInstance
  *
  * @returns {ReactElement} The component.
  */
-export default function VariationPickerPresenter( { clientId, name, setAttributes }: RenderEditProps ) {
+export default function VariationPickerPresenter( { clientId, name, setAttributes }: RenderEditProps ): React.ReactElement {
 	const { blockType, defaultVariation, variations } = useSelect(
 		select => {
 			const {
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore -- getBlockVariations is defined in the package, though no type info is available.
 				getBlockVariations,
 				getBlockType,
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore -- getDefaultBlockVariation is defined in the package, though no type info is available.
 				getDefaultBlockVariation,
 			} = select( "core/blocks" );
@@ -65,7 +65,7 @@ export default function VariationPickerPresenter( { clientId, name, setAttribute
 	 *
 	 * @param nextVariation The variation that is selected by the user.
 	 */
-	const onSelect = ( nextVariation = defaultVariation ) => {
+	const onSelect = useCallback( ( nextVariation = defaultVariation ) => {
 		if ( nextVariation.attributes ) {
 			setAttributes( nextVariation.attributes );
 		}
@@ -79,7 +79,7 @@ export default function VariationPickerPresenter( { clientId, name, setAttribute
 				true,
 			);
 		}
-	};
+	}, null );
 
 	return (
 		<div { ...blockProps }>

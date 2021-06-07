@@ -80,6 +80,9 @@
             }
         ],
         // We use `wp.element.createElement` instead of the `react` package directly.
-        "react/react-in-jsx-scope": 0
+        "react/react-in-jsx-scope": 0,
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": ["error"],
+        "no-use-before-define": [ "error", { "functions": false } ]
     }
 }

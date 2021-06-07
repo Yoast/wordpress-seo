@@ -127,6 +127,45 @@ class WP_Robots_Integration_Test extends TestCase {
 					'index'             => 'index',
 					'follow'            => 'follow',
 					'max-image-preview' => 'max-image-preview:large',
+				],
+			],
+		];
+
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $context );
+
+		static::assertEquals(
+			[
+				'follow'            => true,
+				'index'             => true,
+				'max-image-preview' => 'large',
+			],
+			$this->instance->add_robots(
+				[
+					'index'  => true,
+					'follow' => true,
+				]
+			)
+		);
+	}
+
+	/**
+	 * Tests the add robots with having the robots input being overwritten by our data.
+	 *
+	 * @covers ::add_robots
+	 * @covers ::get_robots_value
+	 * @covers ::format_robots
+	 * @covers ::enforce_robots_congruence
+	 */
+	public function test_add_robots_with_noimageindex() {
+		$context = (object) [
+			'presentation' => (object) [
+				'robots' => [
+					'index'             => 'index',
+					'follow'            => 'follow',
+					'max-image-preview' => 'max-image-preview:large',
 					'imageindex'        => 'noimageindex',
 				],
 			],
@@ -142,7 +181,7 @@ class WP_Robots_Integration_Test extends TestCase {
 				'follow'            => true,
 				'index'             => true,
 				'noimageindex'      => true,
-				'max-image-preview' => 'large',
+				'max-image-preview' => 'none',
 			],
 			$this->instance->add_robots(
 				[
