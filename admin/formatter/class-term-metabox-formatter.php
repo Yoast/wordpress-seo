@@ -161,7 +161,11 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string The social title template.
 	 */
 	private function get_social_title_template() {
-		return $this->get_template( 'social-title' );
+		if ( YoastSEO()->helpers->product->is_premium() && WPSEO_Options::get( 'opengraph', false ) === true ) {
+			return $this->get_template( 'social-title' );
+		}
+
+		return '';
 	}
 
 	/**
@@ -170,7 +174,11 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string The social description template.
 	 */
 	private function get_social_description_template() {
-		return $this->get_template( 'social-description' );
+		if ( YoastSEO()->helpers->product->is_premium() && WPSEO_Options::get( 'opengraph', false ) === true ) {
+			return $this->get_template( 'social-description' );
+		}
+
+		return '';
 	}
 
 	/**
@@ -179,7 +187,11 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string The social description template.
 	 */
 	private function get_social_image_template() {
-		return $this->get_template( 'social-image-url' );
+		if ( YoastSEO()->helpers->product->is_premium() && WPSEO_Options::get( 'opengraph', false ) === true ) {
+			return $this->get_template( 'social-image-url' );
+		}
+
+		return '';
 	}
 
 	/**
