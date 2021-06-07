@@ -80,6 +80,8 @@ function getSentenceBeginning( sentence, firstWordExceptions ) {
 export default function( paper, researcher ) {
 	const firstWordExceptions = researcher.getConfig( "firstWordExceptions" );
 	let text = paper.getText();
+
+	// Exclude text inside tables.
 	if ( text.includes( "<table>" ) && text.includes( "</table>" ) ) {
 		text = text.replace( /<table>.*<\/table>/sg, "" );
 	}
