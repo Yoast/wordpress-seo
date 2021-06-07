@@ -249,14 +249,36 @@ Enhancements:
 * Improves the truncation of the `primary_focus_keyword` field in the database to handle multibyte characters. Props to [rickhurst](https://github.com/rickhurst).
 * Introduces a partial integration of the Yoast SEO meta box in the Web Stories WordPress editor. Props to [swissspidy](https://github.com/swissspidy).
 * Less is more: removes a whole bunch of ads from the Yoast SEO admin screens.
+* Moves the settings for the Front Page from the Social > Facebook tab, to Search Appearance > General.
+* Updates the same settings form to the same editor used by the other forms in Search Appearance, for a more coherent user experience.
+* Adds image validation warnings to the Homepage social image and the Default social image.
+* Improves headings and toggle labels readability and clarity in the Search Appearance settings.
+* Improves spacing between groups of related settings in the Search Appearance.
+* Improves the truncation of the primary_focus_keyword field to handle multibyte characters. Props to [rickhurst](https://github.com/rickhurst).
+* Optimizes license checks made by Premium add-ons.
+* Integrates the Yoast SEO meta box in the Web Stories WordPress editor. Props to [swissspidy](https://github.com/swissspidy).
+* Improves accuracy of the Czech passive voice assessment by separating clauses based on punctuation marks and an expanded list of stopwords.
+* Improves the stemming of Spanish words that look like ending in suffix `-mente`, e.g. `"clemente"` was incorrectly stemmed to `"cl"`, now it's stemmed to `"clement"`.
+* Improves code quality of the Spanish stemmer and changes the way we stem words ending in `-mente`.
+* Adds diacritics to the list of full form non-passive exceptions for Turkish.
+* Adds more non-passive exception words to the list of full form non-passive exceptions for Turkish.
+* Implements the new Clause and SentenceNew class to English folder, adds English Clause class, and adjusts related specs.
+* Adapts the language-specific files for passive voice assessment to the new structure for German, Dutch, French, Spanish, Italian, Portuguese, Polish, Hungarian, and Czech.
+* Refactors Sentence and SentencePart classes.
+* Moves passive voice values and some helpers, and the ProminentWord value to different folders in order to improve file organization.
+* Moves an exception check specific to English from the general getClauses file to the English-specific getClauses file.
+* Deletes obsolete files and changes SentenceNew class to Sentence. Also adds an additional check in parse.js to parse classes.
+* Fixes the stopwords list for Czech by adding the correct stopwords. Adds punctuation marks as sentence breakers.
 
 Bugfixes:
 
 * Fixes a bug where `max-image-preview:large` would be output in the robots meta tag in combination with `noimage`.
+* Fixes a bug where `max-image-preview:large` would still be output when a post is set `noimage`.
 
 Other:
 
 * Moves the 'Force rewrite titles' toggle into a separate paper in the General Search Appearance settings.
+* Improves the support for 16:9 images by the ImageSelect component.
 
 = 16.4 =
 Release Date: June 1st, 2021
