@@ -2,6 +2,7 @@ import Researcher from "../../../../src/languageProcessing/languages/nb/Research
 import Paper from "../../../../src/values/Paper.js";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import functionWords from "../../../../src/languageProcessing/languages/nb/config/functionWords";
+import firstWordExceptions from "../../../../src/languageProcessing/languages/en/config/firstWordExceptions";
 
 const morphologyDataNB = getMorphologyData( "nb" );
 
@@ -22,6 +23,10 @@ describe( "a test for Norwegian Researcher", function() {
 
 	it( "returns the Norwegian function words", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
+	} );
+
+	it( "returns the Norwegian first word exceptions", function() {
+		expect( researcher.getConfig( "firstWordExceptions" ) ).toEqual( firstWordExceptions );
 	} );
 
 	it( "returns the Norwegian locale", function() {
