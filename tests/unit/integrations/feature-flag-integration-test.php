@@ -156,7 +156,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add_feature_flags method when a feature flag is not met.
+	 * Tests the filter to enabled/disable feature flags.
 	 *
 	 * @covers ::add_feature_flags
 	 * @covers ::get_enabled_features
@@ -165,6 +165,50 @@ class Feature_Flag_Integration_Test extends TestCase {
 	public function test_add_feature_flags_filter() {
 		$currently_enabled_feature_flags = [ 'FEATURE_1' ];
 		$expected_enabled_feature_flags  = [ 'FEATURE_1', 'FEATURE_2' ];
+
+		$this->asset_manager
+			->expects( 'localize_script' )
+			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
+
+		// Mock a feature flag to be set.
+		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
+
+		$feature_flag_1
+			->expects( 'get_feature_flag' )
+			->andReturn( 'FEATURE_1' );
+
+		$feature_flag_1
+			->expects( 'is_met' )
+			->andReturn( true );
+
+		// Mock a feature flag to NOT be set.
+		$feature_flag_2 = \Mockery::mock( Feature_Flag_Conditional::class );
+
+		$feature_flag_2
+			->expects( 'is_met' )
+			->andReturn( false );
+
+		// We expect the filter to be called.
+		Monkey\Filters\expectApplied( 'wpseo_enable_feature' )
+			->with( $currently_enabled_feature_flags )
+			->andReturn( $expected_enabled_feature_flags );
+
+		$this->instance = new Feature_Flag_Integration( $this->asset_manager, $feature_flag_1, $feature_flag_2 );
+
+		$this->instance->add_feature_flags();
+	}
+
+	/**
+	 * Tests the filter that enables/disables feature flags when a feature flag
+	 * is removed.
+	 *
+	 * @covers ::add_feature_flags
+	 * @covers ::get_enabled_features
+	 * @covers ::filter_enabled_features
+	 */
+	public function test_add_feature_flags_filter_removes_flags() {
+		$currently_enabled_feature_flags = [ 'FEATURE_1' ];
+		$expected_enabled_feature_flags  = [];
 
 		$this->asset_manager
 			->expects( 'localize_script' )

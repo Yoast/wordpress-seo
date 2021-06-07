@@ -95,7 +95,7 @@ class Feature_Flag_Integration implements Integration_Interface {
 		 */
 		$filtered_enabled_features = \apply_filters( 'wpseo_enable_feature', $enabled_features );
 
-		if ( ! \is_array( $filtered_enabled_features ) || empty( $filtered_enabled_features ) ) {
+		if ( ! \is_array( $filtered_enabled_features ) ) {
 			$filtered_enabled_features = $enabled_features;
 		}
 
