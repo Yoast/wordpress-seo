@@ -50,6 +50,20 @@
 	margin-bottom: 0;
 }
 
+.social-settings-heading-container {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.social-settings-heading-container .social-settings-heading {
+	margin: 0;
+}
+
+.social-settings-heading-container .yoast-badge {
+	margin-left: 8px;
+}
+
 .draftJsMentionPlugin__mention__29BEd, .draftJsMentionPlugin__mention__29BEd:visited {
   color: #575f67;
   cursor: pointer;
