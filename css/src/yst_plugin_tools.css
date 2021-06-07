@@ -241,7 +241,7 @@ tr.yst_row.even {
 .wpseo_content_wrapper .paper.tab-block button.toggleable-container-trigger {
   width: 100%;
   padding: 16px;
-  font-size: 1rem;
+  font-size: 1.0625rem;
 }
 
 .wpseo_content_wrapper .paper.tab-block button.toggleable-container-trigger:focus {
@@ -915,7 +915,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 .yoast-settings-section.yoast-settings-section-disabled {
   position: relative;
-  padding: 0 16px 16px;
+  padding: 16px;
   border: solid 1px #cccccc;
 }
 
