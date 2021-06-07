@@ -391,13 +391,12 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 4 );
 	} );
 
-	it( "returns an object with English sentence beginnings in tables", function() {
+	it( "does not count consecutive sentences in tables", function() {
 		mockPaper = new Paper( "<table><td><tr>Sentence 1.</tr><tr>Sentence 2 that is longer.</tr><tr>Sentence 3 is shorter." +
 			"</tr><tr>Sentence 4.</tr></td></table>" );
 		researcher = new EnglishResearcher( mockPaper );
 
-		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "sentence", { locale: "en_US" } );
-		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 4 );
+		expect( getSentenceBeginnings( mockPaper, researcher ) ).toEqual( [] );
 	} );
 
 	it( "returns an object with English sentence beginnings with paragraph tags - it should match over paragraphs", function() {

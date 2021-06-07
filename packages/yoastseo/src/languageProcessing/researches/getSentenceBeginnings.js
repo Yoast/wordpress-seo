@@ -1,4 +1,5 @@
 import getWords from "../helpers/word/getWords.js";
+import getSentences from "../helpers/sentence/getSentences";
 import stripSpaces from "../helpers/sanitize/stripSpaces.js";
 import { stripFullTags as stripTags } from "../helpers/sanitize/stripHTMLTags.js";
 
@@ -78,7 +79,11 @@ function getSentenceBeginning( sentence, firstWordExceptions ) {
  */
 export default function( paper, researcher ) {
 	const firstWordExceptions = researcher.getConfig( "firstWordExceptions" );
-	let sentences = researcher.getResearch( "sentences" );
+	let text = paper.getText();
+	if ( text.includes( "<table>" ) && text.includes( "</table>" ) ) {
+		text = text.replace( /<table>.*<\/table>/sg, "" );
+	}
+	let sentences = getSentences( text );
 
 	let sentenceBeginnings = sentences.map( function( sentence ) {
 		return getSentenceBeginning( sentence, firstWordExceptions );
