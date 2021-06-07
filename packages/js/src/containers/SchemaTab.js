@@ -115,8 +115,8 @@ export default compose( [
 			schemaArticleTypeSelected: getArticleType(),
 			defaultArticleType: getDefaultArticleType(),
 			defaultPageType: getDefaultPageType(),
-			requiredBlockNames,
-			recommendedBlockNames,
+			requiredBlockNames: requiredBlockNames,
+			recommendedBlockNames: recommendedBlockNames,
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
