@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 use Brain\Monkey;
 use Mockery;
 
+use PhpParser\Node\Expr\Array_;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Feature_Flag_Conditional;
@@ -52,10 +53,29 @@ class Feature_Flag_Integration_Test extends TestCase {
 
 		$this->asset_manager             = \Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->feature_flag_conditionals = [
-			\Mockery::mock( Schema_Blocks_Conditional::class ),
+			\Mockery::mock( Feature_Flag_Conditional::class ),
 		];
 
 		$this->instance = new Feature_Flag_Integration( $this->asset_manager, ...$this->feature_flag_conditionals );
+	}
+
+	/**
+	 * Tests the constructor.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		self::assertInstanceOf(
+			WPSEO_Admin_Asset_Manager::class,
+			self::getPropertyValue( $this->instance, 'asset_manager' )
+		);
+		self::assertIsArray(
+			self::getPropertyValue( $this->instance, 'feature_flags' )
+		);
+		self::assertInstanceOf(
+			Feature_Flag_Conditional::class,
+			self::getPropertyValue( $this->instance, 'feature_flags' )[0]
+		);
 	}
 
 	/**
@@ -156,7 +176,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the filter to enabled/disable feature flags.
+	 * Tests the filter to enable/disable feature flags.
 	 *
 	 * @covers ::add_feature_flags
 	 * @covers ::get_enabled_features
@@ -236,6 +256,51 @@ class Feature_Flag_Integration_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_enable_feature' )
 			->with( $currently_enabled_feature_flags )
 			->andReturn( $expected_enabled_feature_flags );
+
+		$this->instance = new Feature_Flag_Integration( $this->asset_manager, $feature_flag_1, $feature_flag_2 );
+
+		$this->instance->add_feature_flags();
+	}
+
+	/**
+	 * Tests the filter that enables/disables feature flags when a feature flag
+	 * is removed.
+	 *
+	 * @covers ::add_feature_flags
+	 * @covers ::get_enabled_features
+	 * @covers ::filter_enabled_features
+	 */
+	public function test_add_feature_flags_filter_invalid_array() {
+		$currently_enabled_feature_flags = [ 'FEATURE_1' ];
+		$invalid_filter_return           = 'FEATURE_2';
+		$expected_enabled_feature_flags  = [ 'FEATURE_1' ];
+
+		$this->asset_manager
+			->expects( 'localize_script' )
+			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
+
+		// Mock a feature flag to be set.
+		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
+
+		$feature_flag_1
+			->expects( 'get_feature_flag' )
+			->andReturn( 'FEATURE_1' );
+
+		$feature_flag_1
+			->expects( 'is_met' )
+			->andReturn( true );
+
+		// Mock a feature flag to NOT be set.
+		$feature_flag_2 = \Mockery::mock( Feature_Flag_Conditional::class );
+
+		$feature_flag_2
+			->expects( 'is_met' )
+			->andReturn( false );
+
+		// We expect the filter to be called.
+		Monkey\Filters\expectApplied( 'wpseo_enable_feature' )
+			->with( $currently_enabled_feature_flags )
+			->andReturn( $invalid_filter_return );
 
 		$this->instance = new Feature_Flag_Integration( $this->asset_manager, $feature_flag_1, $feature_flag_2 );
 
