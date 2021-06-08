@@ -51,6 +51,7 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 			\esc_html__( 'Something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please %1$sre-start the process%2$s.', 'wordpress-seo' ),
 			'<a href="' . \get_admin_url( null, 'admin.php?page=wpseo_tools' ) . '">',
 			'</a>'
+
 		);
 		if ( $this->product_helper->is_premium() ) {
 			if ( $this->has_premium_license() ) {
@@ -58,8 +59,10 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 				$notification_text .= \esc_html__('If the problem persists, please contact support.', 'wordpress-seo');
 			} else {
 				// no premium license
+				/* Translators: %1$s expands to an opening anchor tag for a link leading to the MyYoast subscription management page, %2$s expands to a closing anchor tag. */
 				$notification_text = \sprintf(
-					\esc_html__( 'Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please make sure your license is active in MyYoast by completing %1$sthe provided steps here%2$s.',
+					\esc_html__( 'Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. '.
+						'Please make sure to activate your subscription in MyYoast by completing %1$sthese steps%2$s.',
 						'wordpress-seo'
 					),
 					'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/3wv' ) ) . '">',
