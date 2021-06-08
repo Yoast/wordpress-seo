@@ -46,9 +46,10 @@ export default class Duration extends BlockInstruction {
 	edit( props: RenderEditProps ): ReactElement | string {
 		const onChange = useCallback(
 			( value = 0 ) => {
+				value = Math.abs( value );
 				props.setAttributes( {
 					value,
-					[ `${ this.options.name }-iso8601-duration` ]: moment.duration( value, "minutes" ).toISOString(),
+					[ `${ this.options.name }-iso8601-duration` ]: value === 0 ? null : moment.duration( value, "minutes" ).toISOString(),
 				} );
 			},
 			[ props.attributes.value ],
@@ -58,6 +59,7 @@ export default class Duration extends BlockInstruction {
 			<div className="yoast-schema-flex yoast-schema-duration">
 				<TextControl
 					type="number"
+					min={ 1 }
 					placeholder="#"
 					aria-label={ __( "Cooking time", "yoast-schema-blocks" ) }
 					className="minutes-input"
