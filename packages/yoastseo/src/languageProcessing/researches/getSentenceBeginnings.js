@@ -82,9 +82,10 @@ export default function( paper, researcher ) {
 	let text = paper.getText();
 
 	// Exclude text inside tables.
-	if ( text.includes( "<table>" ) && text.includes( "</table>" ) ) {
-		text = text.replace( /<table>.*<\/table>/sg, "" );
+	if ( text.includes( "<figure class='wp-block-table'>" ) && text.includes( "</figure>" ) ) {
+		text = text.replace( /<figure class='wp-block-table'>.*<\/figure>/sg, "" );
 	}
+
 	let sentences = getSentences( text );
 
 	let sentenceBeginnings = sentences.map( function( sentence ) {

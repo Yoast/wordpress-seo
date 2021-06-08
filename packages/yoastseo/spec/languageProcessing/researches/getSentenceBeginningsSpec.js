@@ -392,8 +392,8 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 	} );
 
 	it( "does not count consecutive sentences in tables", function() {
-		mockPaper = new Paper( "<table><td><tr>Sentence 1.</tr><tr>Sentence 2 that is longer.</tr><tr>Sentence 3 is shorter." +
-			"</tr><tr>Sentence 4.</tr></td></table>" );
+		mockPaper = new Paper( "<figure class='wp-block-table'><table><tbody><tr><td>Cats and dogs.</td><td>Cats are cute.</td></tr><tr><td>Cats" +
+			" are awesome.</td><td>Cats are nice.</td></tr></tbody></table><figcaption>Cats are great.</figcaption></figure>" );
 		researcher = new EnglishResearcher( mockPaper );
 
 		expect( getSentenceBeginnings( mockPaper, researcher ) ).toEqual( [] );
