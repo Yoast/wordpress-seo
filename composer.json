@@ -58,9 +58,6 @@
 		]
 	},
 	"scripts": {
-		"pre-install-cmd": [
-			"rm -rf ./vendor_prefixed/*/"
-		],
 		"test": [
 			"@php ./vendor/phpunit/phpunit/phpunit"
 		],
