@@ -9,6 +9,8 @@ use WPSEO_Admin_Utils;
 use WPSEO_Replacevar_Editor;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
+use Yoast\WP\SEO\Presenters\Admin\Badge_Presenter;
+use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
 use Yoast\WP\SEO\Config\Badge_Group_Names;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Form;
@@ -153,7 +155,6 @@ class Social_Templates_Integration implements Integration_Interface {
 	protected function build_social_fields( Yoast_Form $yform, $identifier, $page_type_recommended, $page_type_specific ) {
 		$image_url_field_id = 'social-image-url-' . $identifier;
 		$image_id_field_id  = 'social-image-id-' . $identifier;
-		$badge_group_names  = new Badge_Group_Names();
 		$is_premium         = YoastSEO()->helpers->product->is_premium();
 
 		$section_class = 'yoast-settings-section';
@@ -164,6 +165,16 @@ class Social_Templates_Integration implements Integration_Interface {
 
 		\printf( '<div class="%s">', \esc_attr( $section_class ) );
 
+		echo '<div class="social-settings-heading-container">';
+		echo '<h3 class="social-settings-heading">' . \esc_html__( 'Social settings', 'wordpress-seo' ) . '</h3>';
+		if ( $is_premium ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the Premium_Badge_Presenter.
+			echo new Premium_Badge_Presenter( 'global-templates-' . $identifier );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the Badge_Presenter.
+			echo new Badge_Presenter( 'global-templates-' . $identifier, '', $this->group );
+		}
+		echo '</div>';
+
 		$yform->hidden( $image_url_field_id, $image_url_field_id );
 		$yform->hidden( $image_id_field_id, $image_id_field_id );
 		\printf(
@@ -172,17 +183,13 @@ class Social_Templates_Integration implements Integration_Interface {
 				data-react-image-portal
 				data-react-image-portal-target-image="%2$s"
 				data-react-image-portal-target-image-id="%3$s"
-				data-react-image-portal-has-new-badge="%4$s"
-				data-react-image-portal-is-disabled="%5$s"
-				data-react-image-portal-has-premium-badge="%6$s"
-				data-react-image-portal-has-image-validation="%7$s"
+				data-react-image-portal-is-disabled="%4$s"
+				data-react-image-portal-has-image-validation="%5$s"
 			></div>',
 			\esc_attr( 'yoast-social-' . $identifier . '-image-select' ),
 			\esc_attr( $image_url_field_id ),
 			\esc_attr( $image_id_field_id ),
-			\esc_attr( $is_premium && $badge_group_names->is_still_eligible_for_new_badge( $this->group ) ),
 			\esc_attr( ! $is_premium ),
-			\esc_attr( $is_premium ),
 			true
 		);
 
@@ -197,9 +204,7 @@ class Social_Templates_Integration implements Integration_Interface {
 				'label_title'             => \__( 'Social title', 'wordpress-seo' ),
 				'label_description'       => \__( 'Social description', 'wordpress-seo' ),
 				'description_placeholder' => \__( 'Modify your social description by editing it right here.', 'wordpress-seo' ),
-				'has_new_badge'           => $is_premium && $badge_group_names->is_still_eligible_for_new_badge( $this->group ),
 				'is_disabled'             => ! $is_premium,
-				'has_premium_badge'       => $is_premium,
 			]
 		);
 		$editor->render();
