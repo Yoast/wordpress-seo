@@ -8,6 +8,7 @@
   - 'build:i18n'
 
 'build-watch':
+  - 'clean:vendor-prefixed'
   - 'shell:composer-install'
   - 'build:js'
   - 'build:css'
@@ -86,6 +87,7 @@ clean:build-assets:
   - 'update-version:initializer'
 
 'artifact':
+  - 'clean:vendor-prefixed'
   - 'shell:composer-install'
   - 'shell:compile-dependency-injection-container'
   - 'shell:remove-dependency-injection-meta'

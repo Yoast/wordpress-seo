@@ -151,10 +151,6 @@ module.exports = function( grunt ) {
 			command: "yarn run wp-scripts start --config config/webpack/webpack.config.js",
 		},
 
-		"composer install": {
-			command: "composer install",
-		},
-
 		"composer-install-production": {
 			command: "composer install --prefer-dist --optimize-autoloader --no-dev --no-scripts",
 		},
