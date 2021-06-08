@@ -1184,10 +1184,6 @@ class WPSEO_Upgrade {
 		$updated_options['social-title-author-wpseo']  = '%%name%%';
 		$updated_options['social-title-archive-wpseo'] = '%%date%%';
 
-		$post_type_template         = 'social-title-';
-		$post_type_archive_template = 'social-title-ptarchive-';
-		$term_archive_template      = 'social-title-tax-';
-
 		/* translators: %s expands to the name of a post type (plural). */
 		$post_type_archive_default = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' );
 
@@ -1199,10 +1195,10 @@ class WPSEO_Upgrade {
 		if ( $post_type_objects ) {
 			foreach ( $post_type_objects as $pt ) {
 				// Post types.
-				$updated_options[ $post_type_template . $pt->name ] = '%%title%%';
+				$updated_options[ 'social-title-' . $pt->name ] = '%%title%%';
 
 				// Post type archives.
-				$updated_options[ $post_type_archive_template . $pt->name ] = $post_type_archive_default;
+				$updated_options[ 'social-title-ptarchive-' . $pt->name ] = $post_type_archive_default;
 			}
 		}
 
@@ -1210,7 +1206,7 @@ class WPSEO_Upgrade {
 
 		if ( $taxonomy_objects ) {
 			foreach ( $taxonomy_objects as $tax ) {
-				$updated_options[ $term_archive_template . $tax->name ] = $term_archive_default;
+				$updated_options[ 'social-title-tax-' . $tax->name ] = $term_archive_default;
 			}
 		}
 
