@@ -188,7 +188,7 @@ module.exports = function( grunt ) {
 		},
 
 		"install-schema-blocks": {
-			command: "cd packages/schema-blocks && yarn build && cd ../..",
+			command: "cd packages/schema-blocks && yarn install && yarn build && cd ../..",
 		},
 
 		"check-for-uncommitted-changes": {
