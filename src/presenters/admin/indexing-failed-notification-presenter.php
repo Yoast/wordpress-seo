@@ -60,11 +60,11 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 				// no premium license
 				$notification_text = \sprintf(
 					\esc_html__( 'Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please make sure your license is active in MyYoast by completing %1$sthe provided steps here%2$s.',
-						'wordpress-seo',
-						'<a href="'. \esc_url( $this->short_link_helper->get( 'https://yoa.st/3wv' ) ) . '">',
-						'</a>'
-					);
-
+						'wordpress-seo'
+					),
+					'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/3wv' ) ) . '">',
+					'</a>'
+				);
 			}
 		}
 		$notification_text .= '</p>';
