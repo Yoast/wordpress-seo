@@ -1,3 +1,4 @@
+import excludeTableOfContentsTag from "../helpers/sanitize/excludeTableOfContentsTag";
 import countWords from "../helpers/word/countWords.js";
 import matchParagraphs from "../helpers/html/matchParagraphs.js";
 import { filter } from "lodash-es";
@@ -9,7 +10,7 @@ import { filter } from "lodash-es";
  * @returns {Array} The array containing an object with the paragraph word count and paragraph text.
  */
 export default function( paper ) {
-	const text = paper.getText();
+	const text = excludeTableOfContentsTag( paper.getText() );
 	const paragraphs = matchParagraphs( text );
 	const paragraphsLength = [];
 	paragraphs.map( function( paragraph ) {
