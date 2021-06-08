@@ -1153,11 +1153,11 @@ class WPSEO_Upgrade {
 		$wpseo_social = get_option( 'wpseo_social' );
 		$wpseo_titles = get_option( 'wpseo_titles' );
 
-		// Reset to the correct default value.
-		$wpseo_titles['open_graph_frontpage_title'] = '%%sitename%%';
-
 		$copied_options = [];
-		$options        = [
+		// Reset to the correct default value.
+		$copied_options['open_graph_frontpage_title'] = '%%sitename%%';
+
+		$options = [
 			'og_frontpage_title'    => 'open_graph_frontpage_title',
 			'og_frontpage_desc'     => 'open_graph_frontpage_desc',
 			'og_frontpage_image'    => 'open_graph_frontpage_image',
