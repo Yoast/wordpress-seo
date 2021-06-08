@@ -823,10 +823,10 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_165() {
-		$this->copy_og_settings_from_social_to_titles();
+		add_action( 'init', [ $this, 'copy_og_settings_from_social_to_titles' ], 99 );
 
 		// Run after the WPSEO_Options::enrich_defaults method which has priority 99.
-		\add_action( 'init', [ $this, 'reset_og_settings_to_default_values' ], 100 );
+		add_action( 'init', [ $this, 'reset_og_settings_to_default_values' ], 100 );
 	}
 
 	/**
@@ -1150,8 +1150,8 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	public function copy_og_settings_from_social_to_titles() {
-		$wpseo_social = \get_option( 'wpseo_social' );
-		$wpseo_titles = \get_option( 'wpseo_titles' );
+		$wpseo_social = get_option( 'wpseo_social' );
+		$wpseo_titles = get_option( 'wpseo_titles' );
 
 		// Reset to the correct default value.
 		$wpseo_titles['open_graph_frontpage_title'] = '%%sitename%%';
@@ -1170,9 +1170,9 @@ class WPSEO_Upgrade {
 			}
 		}
 
-		$wpseo_titles = \array_merge( $wpseo_titles, $copied_options );
+		$wpseo_titles = array_merge( $wpseo_titles, $copied_options );
 
-		\update_option( 'wpseo_titles', $wpseo_titles );
+		update_option( 'wpseo_titles', $wpseo_titles );
 	}
 
 	/**
