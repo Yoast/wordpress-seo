@@ -1153,6 +1153,9 @@ class WPSEO_Upgrade {
 		$wpseo_social = \get_option( 'wpseo_social' );
 		$wpseo_titles = \get_option( 'wpseo_titles' );
 
+		// Reset to the correct default value.
+		$wpseo_titles['open_graph_frontpage_title'] = '%%sitename%%';
+
 		$copied_options = [];
 		$options        = [
 			'og_frontpage_title'    => 'open_graph_frontpage_title',
@@ -1162,7 +1165,7 @@ class WPSEO_Upgrade {
 		];
 
 		foreach ( $options as $social_option => $titles_option ) {
-			if ( isset( $wpseo_social[ $social_option ] ) ) {
+			if ( ! empty( $wpseo_social[ $social_option ] ) ) {
 				$copied_options[ $titles_option ] = $wpseo_social[ $social_option ];
 			}
 		}
@@ -1173,7 +1176,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Overwrites the social options defaults with the values from the matching SEO options.
+	 * Reset the social options with the correct default values.
 	 *
 	 * @return void
 	 */
