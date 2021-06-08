@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:ignore Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 namespace Yoast\WP\SEO\Presenters\Admin;
 
 use WPSEO_Addon_Manager;
@@ -43,7 +43,7 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 	 * @param Short_Link_Helper   $short_link_helper   The addon manager.
 	 * @param WPSEO_Addon_Manager $class_addon_manager The addon manager.
 	 */
-	public function __construct($product_helper, $short_link_helper, $class_addon_manager ) {
+	public function __construct( $product_helper, $short_link_helper, $class_addon_manager ) {
 		$this->class_addon_manager = $class_addon_manager;
 		$this->short_link_helper   = $short_link_helper;
 		$this->product_helper      = $product_helper;
@@ -57,8 +57,10 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 	public function present() {
 		$notification_text = \sprintf(
 			/* Translators: %1$s expands to an opening anchor tag for a link leading to the Yoast SEO tools page, %2$s expands to a closing anchor tag. */
-			\esc_html__( 'Something has gone wrong and we couldn\'t complete the optimization of your SEO data. '.
-				'Please %1$sre-start the process%2$s.', 'wordpress-seo' ),
+			\esc_html__(
+				'Something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please %1$sre-start the process%2$s.',
+				'wordpress-seo'
+			),
 			'<a href="' . \get_admin_url( null, 'admin.php?page=wpseo_tools' ) . '">',
 			'</a>'
 		);
@@ -67,13 +69,14 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 			if ( $this->has_premium_addon() ) {
 				// Add a support message for premium customers.
 				$notification_text .= ' ';
-				$notification_text .= \esc_html__('If the problem persists, please contact support.', 'wordpress-seo');
-			} else {
+				$notification_text .= \esc_html__( 'If the problem persists, please contact support.', 'wordpress-seo' );
+			}
+			else {
 				// premium plugin with inactive addon; overwrite the entire error message.
-				/* Translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page, %2$s expands to a closing anchor tag. */
 				$notification_text = \sprintf(
-					\esc_html__( 'Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. '.
-						'Please make sure to activate your subscription in MyYoast by completing %1$sthese steps%2$s.',
+					/* Translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page, %2$s expands to a closing anchor tag. */
+					\esc_html__(
+						'Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please make sure to activate your subscription in MyYoast by completing %1$sthese steps%2$s.',
 						'wordpress-seo'
 					),
 					'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/3wv' ) ) . '">',
@@ -85,6 +88,11 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 		return '<p>' . $notification_text . '</p>';
 	}
 
+	/**
+	 * Determines if the site has a valid Premium subscription.
+	 *
+	 * @return bool
+	 */
 	protected function has_premium_addon() {
 		return $this->class_addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG );
 	}
