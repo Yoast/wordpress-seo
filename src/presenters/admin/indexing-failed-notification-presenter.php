@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Presenters\Admin;
 
 use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 
@@ -22,20 +23,29 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 	protected $product_helper;
 
 	/**
-	 * The license manager.
+	 * The addon manager.
 	 *
 	 * @var WPSEO_Addon_Manager
 	 */
 	protected $class_addon_manager;
 
 	/**
+	 * The short link helper.
+	 *
+	 * @var Short_Link_Helper
+	 */
+	protected $short_link_helper;
+
+	/**
 	 * Indexing_Failed_Notification_Presenter constructor.
 	 *
 	 * @param Product_Helper      $product_helper      The product helper.
-	 * @param WPSEO_Addon_Manager $class_addon_manager The license manager.
+	 * @param Short_Link_Helper   $short_link_helper   The addon manager.
+	 * @param WPSEO_Addon_Manager $class_addon_manager The addon manager.
 	 */
-	public function __construct( $product_helper, $class_addon_manager ) {
+	public function __construct($product_helper, $short_link_helper, $class_addon_manager ) {
 		$this->class_addon_manager = $class_addon_manager;
+		$this->short_link_helper   = $short_link_helper;
 		$this->product_helper      = $product_helper;
 	}
 
@@ -45,21 +55,22 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 	 * @return string The notification in an HTML string representation.
 	 */
 	public function present() {
-		$notification_text  = '<p>';
-		$notification_text .= \sprintf(
+		$notification_text = \sprintf(
 			/* Translators: %1$s expands to an opening anchor tag for a link leading to the Yoast SEO tools page, %2$s expands to a closing anchor tag. */
-			\esc_html__( 'Something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please %1$sre-start the process%2$s.', 'wordpress-seo' ),
+			\esc_html__( 'Something has gone wrong and we couldn\'t complete the optimization of your SEO data. '.
+				'Please %1$sre-start the process%2$s.', 'wordpress-seo' ),
 			'<a href="' . \get_admin_url( null, 'admin.php?page=wpseo_tools' ) . '">',
 			'</a>'
-
 		);
+
 		if ( $this->product_helper->is_premium() ) {
-			if ( $this->has_premium_license() ) {
+			if ( $this->has_premium_addon() ) {
+				// Add a support message for premium customers.
 				$notification_text .= ' ';
 				$notification_text .= \esc_html__('If the problem persists, please contact support.', 'wordpress-seo');
 			} else {
-				// no premium license
-				/* Translators: %1$s expands to an opening anchor tag for a link leading to the MyYoast subscription management page, %2$s expands to a closing anchor tag. */
+				// premium plugin with inactive addon; overwrite the entire error message.
+				/* Translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page, %2$s expands to a closing anchor tag. */
 				$notification_text = \sprintf(
 					\esc_html__( 'Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. '.
 						'Please make sure to activate your subscription in MyYoast by completing %1$sthese steps%2$s.',
@@ -70,12 +81,11 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 				);
 			}
 		}
-		$notification_text .= '</p>';
 
-		return $notification_text;
+		return '<p>' . $notification_text . '</p>';
 	}
 
-	protected function has_premium_license() {
+	protected function has_premium_addon() {
 		return $this->class_addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG );
 	}
 }
