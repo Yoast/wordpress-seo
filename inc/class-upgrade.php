@@ -824,6 +824,9 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_165() {
 		$this->copy_og_settings_from_social_to_titles();
+
+		// Run after the WPSEO_Options::enrich_defaults method which has priority 99.
+		\add_action( 'init', [ $this, 'reset_og_settings_to_default_values' ], 100 );
 	}
 
 	/**
@@ -1167,5 +1170,52 @@ class WPSEO_Upgrade {
 		$wpseo_titles = \array_merge( $wpseo_titles, $copied_options );
 
 		\update_option( 'wpseo_titles', $wpseo_titles );
+	}
+
+	/**
+	 * Overwrites the social options defaults with the values from the matching SEO options.
+	 *
+	 * @return void
+	 */
+	public function reset_og_settings_to_default_values() {
+		$wpseo_titles    = get_option( 'wpseo_titles' );
+		$updated_options = [];
+
+		$updated_options['social-title-author-wpseo']  = '%%name%%';
+		$updated_options['social-title-archive-wpseo'] = '%%date%%';
+
+		$post_type_template         = 'social-title-';
+		$post_type_archive_template = 'social-title-ptarchive-';
+		$term_archive_template      = 'social-title-tax-';
+
+		/* translators: %s expands to the name of a post type (plural). */
+		$post_type_archive_default = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' );
+
+		/* translators: %s expands to the variable used for term title. */
+		$term_archive_default = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
+
+		$post_type_objects = get_post_types( [ 'public' => true ], 'objects' );
+
+		if ( $post_type_objects ) {
+			foreach ( $post_type_objects as $pt ) {
+				// Post types.
+				$updated_options[ $post_type_template . $pt->name ] = '%%title%%';
+
+				// Post type archives.
+				$updated_options[ $post_type_archive_template . $pt->name ] = $post_type_archive_default;
+			}
+		}
+
+		$taxonomy_objects = get_taxonomies( [ 'public' => true ], 'object' );
+
+		if ( $taxonomy_objects ) {
+			foreach ( $taxonomy_objects as $tax ) {
+				$updated_options[ $term_archive_template . $tax->name ] = $term_archive_default;
+			}
+		}
+
+		$wpseo_titles = array_merge( $wpseo_titles, $updated_options );
+
+		update_option( 'wpseo_titles', $wpseo_titles );
 	}
 }
