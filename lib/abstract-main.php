@@ -110,12 +110,11 @@ abstract class Abstract_Main {
 	 */
 	protected function is_development() {
 		try {
-			$development_mode = \WPSEO_Utils::is_development_mode();
+			return \WPSEO_Utils::is_development_mode();
 		}
 		catch ( \Exception $exception ) {
 			// E.g. when WordPress adn/or WordPress SEO are not loaded.
 			return \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT === 'development';
 		}
-		return $development_mode;
 	}
 }
