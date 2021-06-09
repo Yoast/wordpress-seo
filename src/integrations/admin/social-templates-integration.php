@@ -214,7 +214,7 @@ class Social_Templates_Integration implements Integration_Interface {
 			echo '<div class="yoast-settings-section-upsell">';
 
 			echo '<p>';
-			printf(
+			\printf(
 				/* translators: %s expands to 'Yoast SEO Premium'. */
 				\esc_html__( 'Unlock by updating %s or letting your admin update it', 'wordpress-seo' ),
 				'Yoast SEO Premium'
