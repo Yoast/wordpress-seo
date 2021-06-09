@@ -101,6 +101,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 		$crumb = [
 			'@type'    => 'ListItem',
 			'position' => ( $index + 1 ),
+			'name'     => $this->helpers->schema->html->smart_strip_tags( $breadcrumb['text'] ),
 			'item'     => [],
 		];
 
@@ -112,23 +113,19 @@ class Breadcrumb extends Abstract_Schema_Piece {
 		$crumb['item']['@type'] = 'WebPage';
 		$crumb['item']['@id']   = $breadcrumb['url'];
 		$crumb['item']['url']   = $breadcrumb['url'];
-		$crumb['item']['name']  = $this->helpers->schema->html->smart_strip_tags( $breadcrumb['text'] );
 
 		return $crumb;
 	}
 
 	/**
-	 * Creates the last breadcrumb in the breadcrumb list.
-	 * Provides a fallback for the URL and text:
-	 *  - URL falls back to the canonical of current page.
-	 *  - text falls back to the title of current page.
+	 * Creates the last breadcrumb in the breadcrumb list, linking it by @id to the webpage item.
 	 *
 	 * @param array $breadcrumb The position in the list.
 	 *
 	 * @return array The last of the breadcrumbs.
 	 */
 	private function format_last_breadcrumb( $breadcrumb ) {
-		unset( $breadcrumb['url'], $breadcrumb['text'], $breadcrumb['@type'] );
+		unset( $breadcrumb['url'], $breadcrumb['@type'] );
 		$breadcrumb['@id'] = $this->context->canonical . Schema_IDs::WEBPAGE_HASH;
 
 		return $breadcrumb;
