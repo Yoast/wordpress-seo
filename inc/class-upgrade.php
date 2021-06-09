@@ -1198,10 +1198,13 @@ class WPSEO_Upgrade {
 		if ( $post_type_objects ) {
 			foreach ( $post_type_objects as $pt ) {
 				// Post types.
-				$updated_options[ 'social-title-' . $pt->name ] = '%%title%%';
-
+				if ( isset( $wpseo_titles[ 'social-title-' . $pt->name ] ) ) {
+					$updated_options[ 'social-title-' . $pt->name ] = '%%title%%';
+				}
 				// Post type archives.
-				$updated_options[ 'social-title-ptarchive-' . $pt->name ] = $post_type_archive_default;
+				if ( isset( $wpseo_titles[ 'social-title-ptarchive-' . $pt->name ] ) ) {
+					$updated_options[ 'social-title-ptarchive-' . $pt->name ] = $post_type_archive_default;
+				}
 			}
 		}
 
@@ -1209,7 +1212,9 @@ class WPSEO_Upgrade {
 
 		if ( $taxonomy_objects ) {
 			foreach ( $taxonomy_objects as $tax ) {
-				$updated_options[ 'social-title-tax-' . $tax->name ] = $term_archive_default;
+				if ( isset( $wpseo_titles[ 'social-title-tax-' . $tax->name ] ) ) {
+					$updated_options[ 'social-title-tax-' . $tax->name ] = $term_archive_default;
+				}
 			}
 		}
 
