@@ -1,3 +1,4 @@
+import { singleWords as transitionWords } from "./transitionWords";
 /**
  * Returns an object with function words.
  *
@@ -94,6 +95,6 @@ const miscellaneous = [ "ok", "okay", "ja", "jo", "jaså", "nei", "ikke", "unnsk
 export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
 	quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
 	intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
-	timeWords, vagueNouns, miscellaneous );
+	timeWords, vagueNouns, miscellaneous, transitionWords );
 
 export default all;
