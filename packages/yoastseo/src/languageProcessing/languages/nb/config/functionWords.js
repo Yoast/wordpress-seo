@@ -38,7 +38,9 @@ const interviewVerbs = [ "tror", "fortelle", "fortell", "fortalte", "tenkte", "t
 
 const intensifiers = [ "virkelig", "akkurat", "visst" ];
 
-const auxiliariesAndDelexicalizedVerbs = [ ];
+const auxiliariesAndDelexicalizedVerbs = [ "ha", "har", "hadde", "gjør", "gjøre", "gjøre", "kaller", "kalte", "kalle",
+	"kalla", "virker", "virka", "virke", "virka", "går", "gikk", "gå", "leges", "lages", "legges", "lages", "består",
+	"bestod", "bestå", "bestått", "bety", "betyr" ];
 
 const generalAdjectivesAdverbs = [
 	// General adjective.
@@ -59,13 +61,11 @@ const vagueNouns = [ "ting", "tingene" ];
 
 const miscellaneous = [ "ok", "okay", "ja", "jaså", "nei", "ikke", "unnskyld", "beklager", "herr", "altså" ];
 
-const cannotBeBetweenPassiveAuxiliaryAndParticiple = [];
-
-const cannotDirectlyPrecedePassiveParticiple = [];
+const cannotBeBetweenPassiveAuxiliaryAndParticiple = [].concat( auxiliariesAndDelexicalizedVerbs, interviewVerbs );
 
 export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
 	quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
 	intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
-	timeWords, vagueNouns, miscellaneous, cannotBeBetweenPassiveAuxiliaryAndParticiple, cannotDirectlyPrecedePassiveParticiple );
+	timeWords, vagueNouns, miscellaneous, cannotBeBetweenPassiveAuxiliaryAndParticiple );
 
 export default all;

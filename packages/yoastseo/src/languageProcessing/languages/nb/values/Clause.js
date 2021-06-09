@@ -1,11 +1,11 @@
+
 import { languageProcessing } from "yoastseo";
-const { precedenceException, directPrecedenceException, values } = languageProcessing;
+const { precedenceException, values } = languageProcessing;
 const { Clause } = values;
 
 import getParticiples from "../helpers/internal/getParticiples";
 import {
 	cannotBeBetweenPassiveAuxiliaryAndParticiple,
-	cannotDirectlyPrecedePassiveParticiple
 } from "../../nb/config/functionWords";
 
 /**
@@ -36,7 +36,6 @@ class NorwegianClause extends Clause {
 		const clause = this.getClauseText();
 
 		const passiveParticiples = this.getParticiples().filter( participle =>
-			! directPrecedenceException( clause, participle, cannotDirectlyPrecedePassiveParticiple ) &&
 			! precedenceException( clause, participle, cannotBeBetweenPassiveAuxiliaryAndParticiple ) );
 
 		this.setPassive( passiveParticiples.length > 0 );

@@ -11,4 +11,5 @@ export default [
 	"bli",
 	"blivende",
 	"blis",
+	"er",
 ];

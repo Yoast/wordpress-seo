@@ -7,6 +7,8 @@ import stopwords from "../config/stopWords.js";
 
 const options = {
 	Clause: NorwegianClause,
+	stopwords,
+	auxiliaries,
 	regexes: {
 		auxiliaryRegex: createRegexFromArray( auxiliaries ),
 		stopwordRegex: createRegexFromArray( stopwords ),

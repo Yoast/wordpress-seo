@@ -4,7 +4,6 @@
  */
 
 export default [
-	// t-participles are participles that are used with an auxiliary
 	"villet",
 	"bruket",
 	"finnet",
@@ -31,6 +30,7 @@ export default [
 	"gjeldet",
 	"sendet",
 	"fortellet",
+	"skremt",
 	"prøvd",
 	"sittet",
 	"høret",
@@ -2036,6 +2036,7 @@ export default [
 	"gjeldet",
 	"gjeldt",
 	"gjort",
+	"kvalt",
 	"glidd",
 	"gravd",
 	"gravet",
@@ -3123,4 +3124,4 @@ export default [
 	"slepped",
 	"tigged",
 	"viked",
-	];
+];
