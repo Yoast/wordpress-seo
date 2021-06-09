@@ -109,16 +109,13 @@ abstract class Abstract_Main {
 	 * @return bool Whether or not to load in development mode.
 	 */
 	protected function is_development() {
-		$development_mode = \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT === 'development';
 		try {
-			// phpcs:disable Yoast.NamingConventions.ValidHookName.WrongPrefix -- Filter already applied in `class-wpseo-utils.php`.
-			/** This filter is documented in inc/class-wpseo-utils.php */
-			return \apply_filters( 'yoast_seo_development_mode', $development_mode );
-			// phpcs:enable
+			$development_mode = \WPSEO_Utils::is_development_mode();
 		}
 		catch ( \Exception $exception ) {
-			// E.g. when WordPress is not loaded, `apply_filters` is not available.
-			return $development_mode;
+			// E.g. when WordPress adn/or WordPress SEO are not loaded.
+			return \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT === 'development';
 		}
+		return $development_mode;
 	}
 }
