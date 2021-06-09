@@ -3,9 +3,11 @@ const { AbstractResearcher } = languageProcessing;
 
 // All config
 import functionWords from "./config/functionWords";
+import stopWords from "./config/stopWords";
 
 // All helpers
 import getStemmer from "./helpers/getStemmer";
+import getClauses from "./helpers/getClauses";
 
 /**
  * The researches contains all the researches
@@ -27,11 +29,14 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.config, {
 			language: "nb",
+			passiveConstructionType: "periphrastic",
 			functionWords,
+			stopWords,
 		} );
 
 		Object.assign( this.helpers, {
 			getStemmer,
+			getClauses,
 		} );
 	}
 }

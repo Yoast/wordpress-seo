@@ -59,9 +59,13 @@ const vagueNouns = [ "ting", "tingene" ];
 
 const miscellaneous = [ "ok", "okay", "ja", "jaså", "nei", "ikke", "unnskyld", "beklager", "herr", "altså" ];
 
+const cannotBeBetweenPassiveAuxiliaryAndParticiple = [];
+
+const cannotDirectlyPrecedePassiveParticiple = [];
+
 export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
 	quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
 	intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
-	timeWords, vagueNouns, miscellaneous );
+	timeWords, vagueNouns, miscellaneous, cannotBeBetweenPassiveAuxiliaryAndParticiple, cannotDirectlyPrecedePassiveParticiple );
 
 export default all;
