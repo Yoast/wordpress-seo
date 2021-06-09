@@ -41,7 +41,7 @@ const indefinitePronouns = [ "ingenting", "annen", "annet", "andre" ];
 
 const prepositions = [ "sånn", "ved", "mot", "ned", "enn", "over", "inn", "i", "sa", "opp", "der", "fra", "din", "nei", "mellom", "di", "oppe",
 	"av", "med", "til", "å", "på", "du", "uten", "én", "under", "hos", "inne", "gjennom", "unna", "del", "nede", "til", "over", "under", "etter",
-	"kun", "blant", "for", "mellom", "mot", "blant" ];
+	"kun", "blant", "for", "mellom", "blant" ];
 
 const conjunctions = [ "eller", "hvis", "ja", "et", "som", "i", "og", "både", "men", "mens", "enten", "verken", "at", "om", "da", "når", "før",
 	"idet", "etter at", "siden", "innen", "med det samme", "til", "inntil", "hver gang", "etter hvert som", "så lenge", "så lenge som", "så ofte",
@@ -74,14 +74,15 @@ const generalAdjectivesAdverbs = [
 	"helst", "dårligere", "dårligst", "vondt", "vondere", "vondest", "meget", "øverst", "enda", "neppe", "nokså", "nesten", "helt", "bitende",
 	"aller", "ganske", "aldeles", "derfra", "herfra", "utenlands", "noensteds", "oppå", "hjemme", "hit", "dit", "vekk", "fram", "fort", "hyggelig",
 	"hvorledes", "sånn", "således", "slik", "pent", "morsomt", "akkurat", "alt", "ofte", "nettopp", "bestandig", "noen gang", "noen ganger",
-	"fremdeles", "ennå", "da", "sjeldent", ];
+	"fremdeles", "ennå", "da", "sjeldent" ];
 
 const interjections = [ "hei", "fy", "au", "hurra", "uff", "takk", "hm", "fanden", "pokker", "fillern", "åh", "isj", "hallo", "æsj" ];
 
 const recipeWords = [ "g" ];
 
-const timeWords = [ "år", "året", "går", "dag", "nå", "tid", "tiden", "morgen", "dager", "minutt", "minutter", "dagen", "uke", "uker", "måneder", "stund",
-	"timer", "time", "morges", "ettermiddag", "tidlig", "fjor", "kveld", "natt", "fogårs", "vinter", "sommer", "vår", "høst"  ];
+const timeWords = [ "år", "året", "går", "dag", "nå", "tid", "tiden", "morgen", "dager", "minutt", "minutter", "dagen", "uke",
+	"uker", "måneder", "stund", "timer", "time", "morges", "ettermiddag", "tidlig", "fjor", "kveld", "natt", "fogårs", "vinter",
+	"sommer", "vår", "høst"  ];
 
 const vagueNouns = [ "ting", "tingene" ];
 
