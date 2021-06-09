@@ -66,7 +66,7 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 		);
 
 		if ( $this->product_helper->is_premium() ) {
-			if ( $this->has_premium_addon() ) {
+			if ( $this->has_valid_premium_subscription() ) {
 				// Add a support message for premium customers.
 				$notification_text .= ' ';
 				$notification_text .= \esc_html__( 'If the problem persists, please contact support.', 'wordpress-seo' );
@@ -93,7 +93,7 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 	 *
 	 * @return bool
 	 */
-	protected function has_premium_addon() {
+	protected function has_valid_premium_subscription() {
 		return $this->class_addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG );
 	}
 }
