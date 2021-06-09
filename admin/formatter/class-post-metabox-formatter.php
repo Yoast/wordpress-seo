@@ -25,6 +25,13 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	private $permalink;
 
 	/**
+	 * Whether we must return social templates values.
+	 *
+	 * @var bool
+	 */
+	private $use_social_templates = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param WP_Post|array $post      Post object.
@@ -34,6 +41,11 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	public function __construct( $post, array $options, $structure ) {
 		$this->post      = $post;
 		$this->permalink = $structure;
+
+		$this->use_social_templates = YoastSEO()->helpers->product->is_premium()
+									&& defined( '\WPSEO_PREMIUM_VERSION' )
+									&& \version_compare( \WPSEO_PREMIUM_VERSION, '16.5-RC0', '>=' )
+									&& WPSEO_Options::get( 'opengraph', false ) === true;
 	}
 
 	/**
@@ -201,7 +213,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string The social title template.
 	 */
 	private function get_social_title_template() {
-		if ( YoastSEO()->helpers->product->is_premium() && WPSEO_Options::get( 'opengraph', false ) === true ) {
+		if ( $this->use_social_templates ) {
 			return $this->get_template( 'social-title' );
 		}
 
@@ -214,7 +226,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string The social description template.
 	 */
 	private function get_social_description_template() {
-		if ( YoastSEO()->helpers->product->is_premium() && WPSEO_Options::get( 'opengraph', false ) === true ) {
+		if ( $this->use_social_templates ) {
 			return $this->get_template( 'social-description' );
 		}
 
@@ -227,7 +239,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string The social description template.
 	 */
 	private function get_social_image_template() {
-		if ( YoastSEO()->helpers->product->is_premium() && WPSEO_Options::get( 'opengraph', false ) === true ) {
+		if ( $this->use_social_templates ) {
 			return $this->get_template( 'social-image-url' );
 		}
 
