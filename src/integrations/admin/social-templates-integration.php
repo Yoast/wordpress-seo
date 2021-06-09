@@ -152,11 +152,11 @@ class Social_Templates_Integration implements Integration_Interface {
 	 * @param string     $page_type_specific    Editor specific type of page for a list of replaceable variables.
 	 */
 	protected function build_social_fields( Yoast_Form $yform, $identifier, $page_type_recommended, $page_type_specific ) {
-		$image_url_field_id = 'social-image-url-' . $identifier;
-		$image_id_field_id  = 'social-image-id-' . $identifier;
-		$is_premium         = YoastSEO()->helpers->product->is_premium();
-		$is_premium_16_5    = defined( '\WPSEO_PREMIUM_VERSION' ) && \version_compare( \WPSEO_PREMIUM_VERSION, '16.5-RC0', '>=' );
-		$is_form_enabled    = $is_premium && $is_premium_16_5;
+		$image_url_field_id    = 'social-image-url-' . $identifier;
+		$image_id_field_id     = 'social-image-id-' . $identifier;
+		$is_premium            = YoastSEO()->helpers->product->is_premium();
+		$is_premium_16_5_or_up = defined( '\WPSEO_PREMIUM_VERSION' ) && \version_compare( \WPSEO_PREMIUM_VERSION, '16.5-RC0', '>=' );
+		$is_form_enabled       = $is_premium && $is_premium_16_5_or_up;
 
 		$section_class = 'yoast-settings-section';
 
@@ -210,12 +210,16 @@ class Social_Templates_Integration implements Integration_Interface {
 		);
 		$editor->render();
 
-		if ( $is_premium && ! $is_premium_16_5 ) {
+		if ( $is_premium && ! $is_premium_16_5_or_up ) {
 			echo '<div class="yoast-settings-section-upsell">';
 
-			echo '<p>'
-			. \esc_html__( 'Unlock by updating Yoast SEO Premium or letting your admin update it', 'wordpress-seo' )
-			. '</p>';
+			echo '<p>';
+			printf(
+				/* translators: %s expands to 'Yoast SEO Premium'. */
+				\esc_html__( 'Unlock by updating %s or letting your admin update it', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			);
+			echo '</p>';
 			echo '</div>';
 		}
 

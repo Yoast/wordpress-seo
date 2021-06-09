@@ -42,10 +42,19 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		$this->post      = $post;
 		$this->permalink = $structure;
 
-		$this->use_social_templates = YoastSEO()->helpers->product->is_premium()
-									&& defined( '\WPSEO_PREMIUM_VERSION' )
-									&& \version_compare( \WPSEO_PREMIUM_VERSION, '16.5-RC0', '>=' )
-									&& WPSEO_Options::get( 'opengraph', false ) === true;
+		$this->use_social_templates = $this->use_social_templates();
+	}
+
+	/**
+	 * Determines whether the social templates should be used.
+	 *
+	 * @return bool Whether the social templates should be used.
+	 */
+	public function use_social_templates() {
+		return YoastSEO()->helpers->product->is_premium()
+			&& defined( '\WPSEO_PREMIUM_VERSION' )
+			&& \version_compare( \WPSEO_PREMIUM_VERSION, '16.5-RC0', '>=' )
+			&& WPSEO_Options::get( 'opengraph', false ) === true;
 	}
 
 	/**
