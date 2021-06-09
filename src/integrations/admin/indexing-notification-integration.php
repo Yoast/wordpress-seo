@@ -130,7 +130,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		Short_Link_Helper $short_link_helper,
 		Notification_Helper $notification_helper,
 		Indexing_Helper $indexing_helper,
-		WPSEO_Addon_Manager $addon_manager,
+		WPSEO_Addon_Manager $addon_manager
 	) {
 		$this->notification_center = $notification_center;
 		$this->product_helper      = $product_helper;
