@@ -963,6 +963,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$where .= $wpdb->prepare( ' AND meta_key = %s', WPSEO_Meta::$meta_prefix . $this->target_db_field );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- They are prepared on the lines above.
 		return $wpdb->get_results( "SELECT * FROM {$wpdb->postmeta} WHERE {$where}" );
 	}
 
