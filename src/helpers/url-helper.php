@@ -46,7 +46,7 @@ class Url_Helper {
 	 *
 	 * @return bool Whether or not the plugin is network-active.
 	 */
-	public static function is_plugin_network_active() {
+	public function is_plugin_network_active() {
 		static $network_active = null;
 
 		if ( ! \is_multisite() ) {
