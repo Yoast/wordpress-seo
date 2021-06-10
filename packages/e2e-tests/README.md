@@ -28,7 +28,7 @@ The command will execute the [e2e-test-env-setup.sh](e2e-test-env-setup.sh) file
 The command basically:
 - Move to the plugin root folder
 - Start the WordPress local environment
-- Install and activate the [yoast-simple-custom-post-type.zip](/data/yoast-simple-custom-post-type.zip) plugin: the plugin creates a custom post type used in the tests
+- Install and activate the [yoast-simple-custom-post-type.zip](./data/yoast-simple-custom-post-type.zip) plugin: the plugin creates a custom post type used in the tests
 7. Run the command `yarn test:e2e` to run the tests.
 8. When you are done with testing, run the following commands:
 ```
