@@ -9,9 +9,10 @@ use WPSEO_Admin_Utils;
 use WPSEO_Replacevar_Editor;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Badge_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
-use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Form;
 
 
@@ -213,13 +214,14 @@ class Social_Templates_Integration implements Integration_Interface {
 		if ( $is_premium && ! $is_premium_16_5_or_up ) {
 			echo '<div class="yoast-settings-section-upsell">';
 
-			echo '<p>';
-			\printf(
+			$unlock_alert = \sprintf(
 				/* translators: %s expands to 'Yoast SEO Premium'. */
-				\esc_html__( 'Unlock by updating %s or letting your admin update it', 'wordpress-seo' ),
+				\esc_html__( 'Unlock by having %s updated to the latest version.', 'wordpress-seo' ),
 				'Yoast SEO Premium'
 			);
-			echo '</p>';
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
+			echo new Alert_Presenter( $unlock_alert );
+
 			echo '</div>';
 		}
 
