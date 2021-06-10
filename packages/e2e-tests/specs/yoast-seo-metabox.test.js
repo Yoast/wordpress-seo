@@ -10,7 +10,7 @@ import {
 	activatePlugin
 } from "@wordpress/e2e-test-utils";
 
-import { deleteExistingTaxonomies } from "../src/helpers/utils";
+import { deleteExistingTaxonomies, createNewTaxonomy } from "../src/helpers/utils";
 import { addQueryArgs } from '@wordpress/url';
 
 describe( "Yoast SEO plugin metabox", () => {
@@ -69,20 +69,12 @@ describe( "Yoast SEO plugin metabox", () => {
 	} );
 
 	it( "shows correctly the Yoast SEO metabox should be present when editing a post tag page", async () => {
-		const tagTitle = "New Tag";
-
 		await deleteExistingTaxonomies( 'post_tag' );
-
-		// Create a new post tag
-		await page.waitForSelector( '#tag-name' );
-		await page.focus( '#tag-name' );
-		await pressKeyWithModifier( 'primary', 'a' );
-		await page.type( '#tag-name', tagTitle );
-		await page.click( '#submit' );
+		await createNewTaxonomy( 'post_tag', 'New Tag' );
 
 		// Go to the new created post tag page
 		const [ newCreatedTag ] = await page.$x(
-			`//a[contains( @class, "row-title" )][contains( text(), "${ tagTitle }" )]`
+			`//a[contains( @class, "row-title" )][contains( text(), "New Tag" )]`
 		);
 		await newCreatedTag.click();
 	
@@ -94,20 +86,12 @@ describe( "Yoast SEO plugin metabox", () => {
 	} );
 
 	it( "shows correctly the Yoast SEO metabox should be present when editing a custom post taxonomy page", async () => {
-		const taxonomyTitle = "New Taxonomy";
-
 		await deleteExistingTaxonomies( 'yoast_simple_posts_taxonomy' );
-	
-		// Create a new post taxonomy
-		await page.waitForSelector( '#tag-name' );
-		await page.focus( '#tag-name' );
-		await pressKeyWithModifier( 'primary', 'a' );
-		await page.type( '#tag-name', taxonomyTitle );
-		await page.click( '#submit' );
-	
+		await createNewTaxonomy( 'yoast_simple_posts_taxonomy', 'New Taxonomy' );
+
 		// Go to the new created post taxonomy page
 		const [ newCreatedTaxonomy ] = await page.$x(
-			`//a[contains( @class, "row-title" )][contains( text(), "${ taxonomyTitle }" )]`
+			`//a[contains( @class, "row-title" )][contains( text(), "New Taxonomy" )]`
 		);
 		await newCreatedTaxonomy.click();
 	
