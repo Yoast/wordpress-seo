@@ -1024,7 +1024,6 @@ export default [
 	"kjøpt",
 	"startt",
 	"finnes",
-
 	"lest",
 	"følgt",
 	"jobbt",
