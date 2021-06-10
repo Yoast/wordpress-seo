@@ -62,10 +62,10 @@ function wpseo_auto_load( $class ) {
 		];
 	}
 
-	$className = strtolower( $class );
+	$class_name = strtolower( $class );
 
-	if ( ! \class_exists( $class, false ) && isset( $classes[ $className ] ) ) {
-		require_once $classes[ $className ];
+	if ( ! \class_exists( $class, true ) && isset( $classes[ $class_name ] ) ) {
+		require_once $classes[ $class_name ];
 	}
 }
 
