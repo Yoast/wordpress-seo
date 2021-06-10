@@ -113,7 +113,7 @@ abstract class Abstract_Main {
 			return \WPSEO_Utils::is_development_mode();
 		}
 		catch ( \Exception $exception ) {
-			// E.g. when WordPress adn/or WordPress SEO are not loaded.
+			// E.g. when WordPress and/or WordPress SEO are not loaded.
 			return \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT === 'development';
 		}
 	}
