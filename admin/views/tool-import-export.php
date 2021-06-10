@@ -96,8 +96,8 @@ $yoast_seo_tabs = [
 	<br/><br/>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<?php foreach ( $yoast_seo_tabs as $identifier => $tab ) : ?>
-			<a class="nav-tab" id="<?php echo esc_attr( $identifier . '-tab' ); ?>" href="<?php echo esc_url( '#top#' . $identifier ); ?>"><?php echo esc_html( $tab['label'] ); ?></a>
+		<?php foreach ( $yoast_seo_tabs as $identifier => $seo_tab ) : ?>
+			<a class="nav-tab" id="<?php echo esc_attr( $identifier . '-tab' ); ?>" href="<?php echo esc_url( '#top#' . $identifier ); ?>"><?php echo esc_html( $seo_tab['label'] ); ?></a>
 		<?php endforeach; ?>
 
 		<?php
@@ -110,7 +110,7 @@ $yoast_seo_tabs = [
 
 <?php
 
-foreach ( $yoast_seo_tabs as $identifier => $tab ) {
+foreach ( $yoast_seo_tabs as $identifier => $seo_tab ) {
 	printf( '<div id="%s" class="wpseotab">', esc_attr( $identifier ) );
 	require_once WPSEO_PATH . 'admin/views/tabs/tool/' . $identifier . '.php';
 	echo '</div>';
