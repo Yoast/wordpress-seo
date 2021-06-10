@@ -8,3 +8,4 @@ import "./JobEmploymentType";
 import "./List";
 import "./Permalink";
 import "./Schema";
+import "./RecipeInstructions";
