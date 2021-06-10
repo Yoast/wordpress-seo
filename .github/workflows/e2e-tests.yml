@@ -2,7 +2,9 @@ name: yoast-e2e-tests
 
 on:
   push:
-    branches: [ try/yoast-e2e-tests-package ]
+    branches:
+      - try/yoast-e2e-tests-package
+  workflow_dispatch:
 
 jobs:
   yoast-e2e-tests-wp-latest:
