@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Conditionals\No_Tool_Selected_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -68,6 +69,13 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	protected $addon_manager;
 
 	/**
+	 * The product helper.
+	 *
+	 * @var Mockery\MockInterface|Product_Helper
+	 */
+	protected $product_helper;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
@@ -81,13 +89,15 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		$this->short_link_helper = Mockery::mock( Short_Link_Helper::class );
 		$this->indexing_helper   = Mockery::mock( Indexing_Helper::class );
 		$this->addon_manager     = Mockery::mock( WPSEO_Addon_Manager::class );
+		$this->product_helper    = Mockery::mock( Product_Helper::class );
 
 		$this->instance = new Indexing_Tool_Integration(
 			$this->asset_manager,
 			$this->indexable_helper,
 			$this->short_link_helper,
 			$this->indexing_helper,
-			$this->addon_manager
+			$this->addon_manager,
+			$this->product_helper
 		);
 	}
 
@@ -194,11 +204,16 @@ class Indexing_Tool_Integration_Test extends TestCase {
 			->with( 'https://yoa.st/3wv' )
 			->andReturn( 'https://yoa.st/3wv' );
 
+		$this->product_helper
+			->expects( 'is_premium' )
+			->andReturnTrue();
+
 		$injected_data = [
 			'disabled'                    => false,
 			'amount'                      => 112,
 			'firstTime'                   => true,
 			'hasValidPremiumSubscription' => true,
+			'isPremium'                   => true,
 			'subscriptionActivationLink'  => 'https://yoa.st/3wv',
 			'restApi'                     => [
 				'root'      => 'https://example.org/wp-ajax/',

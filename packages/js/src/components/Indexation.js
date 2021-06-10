@@ -325,23 +325,30 @@ export class Indexation extends Component {
 	 * @returns {string} The indexing error as an HTML-string.
 	 */
 	generateIndexingError() {
-		if ( ! yoastIndexingData.hasValidPremiumSubscription ) {
-			return sprintf(
-				__(
-					"Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
-					"Please make sure to activate your subscription in MyYoast by completing %1$sthese steps%2$s.",
-					"wordpress-seo"
-				),
-				"<a href='" + yoastIndexingData.subscriptionActivationLink + "'>",
-				"</a>"
-			);
-		}
-
-		return __(
+		let message = __(
 			"Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
 			"Please click the button again to re-start the process.",
 			"wordpress-seo"
 		);
+
+		if ( yoastIndexingData.isPremium === "1" ) {
+			if ( yoastIndexingData.hasValidPremiumSubscription === "1" ) {
+				message += __( 'If the problem persists, please contact support.', 'wordpress-seo' );
+			}
+			else {
+				message += sprintf(
+					__(
+						"Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
+						"Please make sure to activate your subscription in MyYoast by completing %1$sthese steps%2$s.",
+						"wordpress-seo"
+					),
+					"<a href='" + yoastIndexingData.subscriptionActivationLink + "'>",
+					"</a>"
+				);
+			}
+		}
+
+		return message
 	}
 
 	/**
