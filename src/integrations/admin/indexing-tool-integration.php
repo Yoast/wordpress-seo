@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\No_Tool_Selected_Conditional;
@@ -49,6 +50,13 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	protected $indexing_helper;
 
 	/**
+	 * The addon manager.
+	 *
+	 * @var WPSEO_Addon_Manager
+	 */
+	protected $addon_manager;
+
+	/**
 	 * Returns the conditionals based on which this integration should be active.
 	 *
 	 * @return array The array of conditionals.
@@ -68,17 +76,20 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	 * @param Indexable_Helper          $indexable_helper  The indexable helper.
 	 * @param Short_Link_Helper         $short_link_helper The short link helper.
 	 * @param Indexing_Helper           $indexing_helper   The indexing helper.
+	 * @param WPSEO_Addon_Manager       $addon_manager     The addon manager.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Indexable_Helper $indexable_helper,
 		Short_Link_Helper $short_link_helper,
-		Indexing_Helper $indexing_helper
+		Indexing_Helper $indexing_helper,
+		WPSEO_Addon_Manager $addon_manager
 	) {
 		$this->asset_manager     = $asset_manager;
 		$this->indexable_helper  = $indexable_helper;
 		$this->short_link_helper = $short_link_helper;
 		$this->indexing_helper   = $indexing_helper;
+		$this->addon_manager     = $addon_manager;
 	}
 
 	/**
@@ -100,10 +111,12 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		$this->asset_manager->enqueue_style( 'monorepo' );
 
 		$data = [
-			'disabled'  => ! $this->indexable_helper->should_index_indexables(),
-			'amount'    => $this->indexing_helper->get_filtered_unindexed_count(),
-			'firstTime' => ( $this->indexing_helper->is_initial_indexing() === true ),
-			'restApi'   => [
+			'disabled'                    => ! $this->indexable_helper->should_index_indexables(),
+			'amount'                      => $this->indexing_helper->get_filtered_unindexed_count(),
+			'firstTime'                   => ( $this->indexing_helper->is_initial_indexing() === true ),
+			'hasValidPremiumSubscription' => $this->has_valid_premium_subscription(),
+			'subscriptionActivationLink'  => \esc_url( $this->short_link_helper->get( 'https://yoa.st/3wv' ) ),
+			'restApi'                     => [
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => $this->get_endpoints(),
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),
@@ -118,6 +131,15 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		$data = \apply_filters( 'wpseo_indexing_data', $data );
 
 		$this->asset_manager->localize_script( 'indexation', 'yoastIndexingData', $data );
+	}
+
+	/**
+	 * Determines if the site has a valid Premium subscription.
+	 *
+	 * @return bool If the site has a valid Premium subscription.
+	 */
+	protected function has_valid_premium_subscription() {
+		return $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG );
 	}
 
 	/**

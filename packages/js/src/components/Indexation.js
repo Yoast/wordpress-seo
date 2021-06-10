@@ -1,6 +1,6 @@
 /* global yoastIndexingData */
 import { Component, Fragment } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { ProgressBar, NewButton, Alert } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
@@ -310,10 +310,38 @@ export class Indexation extends Component {
 	 * @returns {JSX.Element} The error alert.
 	 */
 	renderErrorAlert() {
+		const message = { __html: this.generateIndexingError() };
 		return <Alert type={ "error" }>
-			{ __( "Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
-				  "Please click the button again to re-start the process.", "wordpress-seo" ) }
+			<span dangerouslySetInnerHTML={ message } />
 		</Alert>;
+	}
+
+	/**
+	 * Generates an error message to show when indexing failed.
+	 *
+	 * The error message varies based on whether WordPress SEO Premium
+	 * has a valid, activated subscription or not.
+	 *
+	 * @returns {string} The indexing error as an HTML-string.
+	 */
+	generateIndexingError() {
+		if ( ! yoastIndexingData.hasValidPremiumSubscription ) {
+			return sprintf(
+				__(
+					"Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
+					"Please make sure to activate your subscription in MyYoast by completing %1$sthese steps%2$s.",
+					"wordpress-seo"
+				),
+				"<a href='" + yoastIndexingData.subscriptionActivationLink + "'>",
+				"</a>"
+			);
+		}
+
+		return __(
+			"Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
+			"Please click the button again to re-start the process.",
+			"wordpress-seo"
+		);
 	}
 
 	/**
