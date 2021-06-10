@@ -36,11 +36,6 @@ class Breadcrumb extends Abstract_Schema_Piece {
 		// In case of pagination, replace the last breadcrumb, because it only contains "Page [number]" and has no URL.
 		if ( $this->helpers->current_page->is_paged() || ( $this->context->indexable->number_of_pages > 1 ) ) {
 			\array_pop( $breadcrumbs );
-
-			$breadcrumbs[] = [
-				'url'  => $this->context->canonical,
-				'text' => $this->context->title,
-			];
 		}
 
 		// Only output breadcrumbs that are not hidden.
