@@ -3124,4 +3124,5 @@ export default [
 	"slepped",
 	"tigged",
 	"viked",
+	"kunngjort",
 ];
