@@ -49,7 +49,9 @@ jobs:
         node-version: 12
 
     - name: Install wp-env
-      run: npm install @wordpress/env
+      run: |
+        npm install @wordpress/env
+        wp-env start
 
     - name: Install Yarn dependencies
       run: yarn
