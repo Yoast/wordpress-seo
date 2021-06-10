@@ -61,6 +61,11 @@ jobs:
     - name: Build the plugin
       run: grunt build:dev
 
+
+    - name: Start Docker environment
+      run: |
+        npm run env:start
+
     - name: Initialize the environment
       run: |
         cd packages/e2e-tests
