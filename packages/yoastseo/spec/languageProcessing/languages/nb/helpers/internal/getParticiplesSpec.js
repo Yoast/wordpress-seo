@@ -1,8 +1,8 @@
 import getParticiples from "../../../../../../src/languageProcessing/languages/nb/helpers/internal/getParticiples.js";
 
-describe( "Test for matching Spanish participles", function() {
+describe( "Test for matching Norwegian participles", function() {
 	it( "returns matched participles.", function() {
-		const clauseText = "Oppgaven blir prøvd";
+		const clauseText = "Oppgaven blir prøvd.";
 		const foundParticiples = getParticiples( clauseText );
 		expect( foundParticiples ).toEqual(  [ "prøvd" ] );
 	} );
