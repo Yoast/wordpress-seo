@@ -1,4 +1,5 @@
 import { getSubheadingContentsTopLevel } from "../helpers/html/getSubheadings";
+import excludeTableOfContentsTag from "../helpers/sanitize/excludeTableOfContentsTag";
 import stripSomeTags from "../helpers/sanitize/stripNonTextTags";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
 
@@ -34,7 +35,7 @@ const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, us
  */
 export default function matchKeywordInSubheadings( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
-	const text = stripSomeTags( paper.getText() );
+	const text = stripSomeTags( excludeTableOfContentsTag( paper.getText() ) );
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
 	const result = { count: 0, matches: 0, percentReflectingTopic: 0 };
