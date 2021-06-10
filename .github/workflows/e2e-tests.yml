@@ -18,6 +18,11 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.x'
+        tools: composer
+
       # get and output the composer cache directory
     - name: Get Composer Cache Directory
       id: composer-cache
