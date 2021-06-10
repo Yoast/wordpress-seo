@@ -1,0 +1,51 @@
+name: e2e-tests
+
+on:
+  push:
+    branches: [ try/e2e-tests-package ]
+
+jobs:
+	e2e-tests-wp-latest:
+		name: e2e-tests (WordPress latest)
+
+	env:
+    	WP_VERSION: latest
+
+    runs-on: ubuntu-latest
+
+	steps:
+	    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+		- uses: actions/checkout@v2
+
+		# get and output the composer cache directory
+      	- name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+        	echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+		# setup the composer cache (vendor) with github actions cache and the cache dir defined in the previous step
+		- uses: actions/cache@v2
+        with:
+			path: ${{ steps.composer-cache.outputs.dir }}
+          	key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          	restore-keys: ${{ runner.os }}-composer-
+
+		- name: Install Composer dependencies
+        run: composer install
+
+		- name: Install NodeJS
+        uses: actions/v2
+        with:
+          node-version: 12
+
+		- name: Install Yarn dependencies
+		run: yarn
+
+		- name: Build the plugin
+		run: grunt build:dev
+
+		- name: Initialize the environment
+		run: bash e2e-test-env-setup.sh
+
+		- name: Run the tests
+		run: yarn test:e2e
