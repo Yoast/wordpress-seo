@@ -938,9 +938,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @return array
 	 */
 	protected function get_post_ids() {
-		$needed_ids = [];
+		$post_ids = [];
 		foreach ( $this->items as $item ) {
-			$needed_ids[] = $item->ID;
+			$post_ids[] = $item->ID;
 		}
 
 		return $post_ids;
