@@ -216,7 +216,7 @@ class Social_Templates_Integration implements Integration_Interface {
 
 			$unlock_alert = \sprintf(
 				/* translators: %s expands to 'Yoast SEO Premium'. */
-				\esc_html__( 'Unlock by updating %s or letting your admin update it.', 'wordpress-seo' ),
+				\esc_html__( 'Unlock by having %s updated to the latest version.', 'wordpress-seo' ),
 				'Yoast SEO Premium'
 			);
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
