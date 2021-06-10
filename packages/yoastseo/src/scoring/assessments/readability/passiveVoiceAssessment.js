@@ -7,6 +7,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
+import { isFeatureEnabled } from "@yoast/feature-flag";
 
 /**
  * Calculates the result based on the number of sentences and passives.
@@ -89,7 +90,7 @@ const calculatePassiveVoiceResult = function( passiveVoice, i18n ) {
  * @returns {object} All marked sentences.
  */
 const passiveVoiceMarker = function( paper, researcher ) {
-	const passiveVoice = researcher.getResearch( "getPassiveVoice" );
+	const passiveVoice = researcher.getResearch( "getPassiveVoiceResult" );
 	return map( passiveVoice.passives, function( sentence ) {
 		sentence = stripTags( sentence );
 		const marked = marker( sentence );
@@ -110,7 +111,12 @@ const passiveVoiceMarker = function( paper, researcher ) {
  * @returns {object} the Assessmentresult
  */
 const passiveVoiceAssessment = function( paper, researcher, i18n ) {
-	const passiveVoice = researcher.getResearch( "getPassiveVoice" );
+	// Check if the Norwegian readability feature is enabled and return the default result if it isn't.
+	if ( researcher.getConfig( "language" ) === "nb" && ! isFeatureEnabled( "norwegian-readability" ) ) {
+		return new AssessmentResult();
+	}
+
+	const passiveVoice = researcher.getResearch( "getPassiveVoiceResult" );
 
 	const passiveVoiceResult = calculatePassiveVoiceResult( passiveVoice, i18n );
 
@@ -132,7 +138,7 @@ const passiveVoiceAssessment = function( paper, researcher, i18n ) {
  * @returns {boolean} Returns true if the language is available and the paper is not empty.
  */
 const isApplicable = function( paper, researcher ) {
-	return paper.hasText() && researcher.hasResearch( "getPassiveVoice" );
+	return paper.hasText() && researcher.hasResearch( "getPassiveVoiceResult" );
 };
 
 export default {

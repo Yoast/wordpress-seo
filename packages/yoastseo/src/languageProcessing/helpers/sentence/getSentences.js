@@ -9,6 +9,7 @@ import { memoize } from "lodash-es";
 import { getBlocks } from "../html/html.js";
 import { unifyNonBreakingSpace as unifyWhitespace } from "../sanitize/unifyWhitespace.js";
 import SentenceTokenizer from "./SentenceTokenizer";
+import excludeTableOfContentsTag from "../sanitize/excludeTableOfContentsTag";
 
 // Character classes.
 const newLines = "\n\r|\n|\r";
@@ -39,6 +40,7 @@ const getSentencesFromBlockCached = memoize( getSentencesFromBlock );
  * @returns {Array} Sentences found in the text.
  */
 export default function( text ) {
+	text = excludeTableOfContentsTag( text );
 	text = unifyWhitespace( text );
 	let blocks = getBlocks( text );
 

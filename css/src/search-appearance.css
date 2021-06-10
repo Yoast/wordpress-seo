@@ -6,8 +6,66 @@
 .yoast-schema-settings-container {
 	margin-top: 18px;
 }
+
 .yoast-schema-settings-container:first-child {
 	margin-top: 0px;
+}
+
+.yoast-schema-settings-container .yoast-help {
+	position: relative;
+	flex: 0 0 20px;
+	height: 20px;
+	margin: 2px 0 0 6px;
+}
+
+.yoast-schema-settings-container .yoast-help:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.yoast-schema-settings-container .yoast-help .yoast-help__icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: -4px;
+	left: -4px;
+	border-radius: 100%;
+}
+
+.yoast-schema-settings-container .yoast-help:focus .yoast-help__icon {
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.collapsible-header .toggleable-container-trigger code {
+	font-weight: 300;
+}
+
+#yoast-person-image-select .yoast-image-select,
+#yoast-person-image-select .yoast-field-group,
+#yoast-organization-image-select .yoast-image-select,
+#yoast-organization-image-select .yoast-field-group {
+	margin-bottom: 0;
+}
+
+.social-settings-heading-container {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.social-settings-heading-container .social-settings-heading {
+	margin: 0;
+}
+
+.social-settings-heading-container .yoast-badge {
+	margin-left: 8px;
+}
+
+.yoast-settings-section-upsell .yoast-alert {
+	margin: 0 16px;
 }
 
 .draftJsMentionPlugin__mention__29BEd, .draftJsMentionPlugin__mention__29BEd:visited {

@@ -193,7 +193,7 @@ tr.yst_row.even {
 }
 
 .wpseo_content_wrapper #separator {
-  margin: 1.5em 0 0.5em;
+  margin: 1em 0 0;
 }
 
 .wpseo_content_wrapper #separator input.radio {
@@ -207,7 +207,7 @@ tr.yst_row.even {
 .wpseo_content_wrapper #separator input.radio + label {
   float: left;
   width: 30px !important;
-  margin: 0 5px 0.5em 0 !important;
+  margin: 0.5em 5px 0 0 !important;
   padding: 9px 6px;
   border: 1px solid #ccc;
   /* Don't change: these mimic Google's font and font size for titles */
@@ -241,7 +241,7 @@ tr.yst_row.even {
 .wpseo_content_wrapper .paper.tab-block button.toggleable-container-trigger {
   width: 100%;
   padding: 16px;
-  font-size: 1rem;
+  font-size: 1.0625rem;
 }
 
 .wpseo_content_wrapper .paper.tab-block button.toggleable-container-trigger:focus {
@@ -338,6 +338,10 @@ tr.yst_row.even {
 .wpseo_content_wrapper h3 {
   font-size: 1.15em;
   margin: 1em 0 0.5em 0;
+}
+
+.wpseo_content_wrapper h3.h2 {
+	font-size: 1.3em;
 }
 
 .wpseo_content_wrapper p,
@@ -901,8 +905,34 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	margin-bottom: 40px;
 }
 
-.yoast-settings-section .yoast-help-icon::before {
-	margin-top: -3px;
+.yoast-settings-section .yoast-field-group__title .yoast_help.yoast-help-link {
+    margin: -6px 0 0 2px;
+}
+
+#yoast-og-default-image-select .yoast-field-group__title {
+	display: none;
+}
+
+.yoast-settings-section.yoast-settings-section-disabled {
+  position: relative;
+  padding: 16px;
+  border: solid 1px #cccccc;
+}
+
+.yoast-settings-section.yoast-settings-section-disabled > * {
+  opacity: 0.5;
+}
+
+.yoast-settings-section.yoast-settings-section-disabled .yoast-settings-section-upsell {
+  opacity: 1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /*# sourceMappingURL=yst_plugin_tools.css.map */

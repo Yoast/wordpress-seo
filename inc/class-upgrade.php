@@ -72,6 +72,7 @@ class WPSEO_Upgrade {
 			'15.7-RC0'   => 'upgrade_157',
 			'15.9.1-RC0' => 'upgrade_1591',
 			'16.2-RC0'   => 'upgrade_162',
+			'16.5-RC0'   => 'upgrade_165',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -817,6 +818,18 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 16.5 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_165() {
+		add_action( 'init', [ $this, 'copy_og_settings_from_social_to_titles' ], 99 );
+
+		// Run after the WPSEO_Options::enrich_defaults method which has priority 99.
+		add_action( 'init', [ $this, 'reset_og_settings_to_default_values' ], 100 );
+	}
+
+	/**
 	 * Sets the home_url option for the 15.1 upgrade routine.
 	 *
 	 * @return void
@@ -1129,5 +1142,84 @@ class WPSEO_Upgrade {
 		}
 
 		WPSEO_Options::set( 'custom_taxonomy_slugs', $custom_taxonomies );
+	}
+
+	/**
+	 * Copies the frontpage social settings to the titles options.
+	 *
+	 * @return void
+	 */
+	public function copy_og_settings_from_social_to_titles() {
+		$wpseo_social = get_option( 'wpseo_social' );
+		$wpseo_titles = get_option( 'wpseo_titles' );
+
+		$copied_options = [];
+		// Reset to the correct default value.
+		$copied_options['open_graph_frontpage_title'] = '%%sitename%%';
+
+		$options = [
+			'og_frontpage_title'    => 'open_graph_frontpage_title',
+			'og_frontpage_desc'     => 'open_graph_frontpage_desc',
+			'og_frontpage_image'    => 'open_graph_frontpage_image',
+			'og_frontpage_image_id' => 'open_graph_frontpage_image_id',
+		];
+
+		foreach ( $options as $social_option => $titles_option ) {
+			if ( ! empty( $wpseo_social[ $social_option ] ) ) {
+				$copied_options[ $titles_option ] = $wpseo_social[ $social_option ];
+			}
+		}
+
+		$wpseo_titles = array_merge( $wpseo_titles, $copied_options );
+
+		update_option( 'wpseo_titles', $wpseo_titles );
+	}
+
+	/**
+	 * Reset the social options with the correct default values.
+	 *
+	 * @return void
+	 */
+	public function reset_og_settings_to_default_values() {
+		$wpseo_titles    = get_option( 'wpseo_titles' );
+		$updated_options = [];
+
+		$updated_options['social-title-author-wpseo']  = '%%name%%';
+		$updated_options['social-title-archive-wpseo'] = '%%date%%';
+
+		/* translators: %s expands to the name of a post type (plural). */
+		$post_type_archive_default = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' );
+
+		/* translators: %s expands to the variable used for term title. */
+		$term_archive_default = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
+
+		$post_type_objects = get_post_types( [ 'public' => true ], 'objects' );
+
+		if ( $post_type_objects ) {
+			foreach ( $post_type_objects as $pt ) {
+				// Post types.
+				if ( isset( $wpseo_titles[ 'social-title-' . $pt->name ] ) ) {
+					$updated_options[ 'social-title-' . $pt->name ] = '%%title%%';
+				}
+				// Post type archives.
+				if ( isset( $wpseo_titles[ 'social-title-ptarchive-' . $pt->name ] ) ) {
+					$updated_options[ 'social-title-ptarchive-' . $pt->name ] = $post_type_archive_default;
+				}
+			}
+		}
+
+		$taxonomy_objects = get_taxonomies( [ 'public' => true ], 'object' );
+
+		if ( $taxonomy_objects ) {
+			foreach ( $taxonomy_objects as $tax ) {
+				if ( isset( $wpseo_titles[ 'social-title-tax-' . $tax->name ] ) ) {
+					$updated_options[ 'social-title-tax-' . $tax->name ] = $term_archive_default;
+				}
+			}
+		}
+
+		$wpseo_titles = array_merge( $wpseo_titles, $updated_options );
+
+		update_option( 'wpseo_titles', $wpseo_titles );
 	}
 }

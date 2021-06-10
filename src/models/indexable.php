@@ -162,7 +162,7 @@ class Indexable extends Model {
 			$this->permalink_hash = \strlen( $this->permalink ) . ':' . \md5( $this->permalink );
 		}
 		if ( \strlen( $this->primary_focus_keyword ) > 191 ) {
-			$this->primary_focus_keyword = \substr( $this->primary_focus_keyword, 0, 191 );
+			$this->primary_focus_keyword = \mb_substr( $this->primary_focus_keyword, 0, 191, 'UTF-8' );
 		}
 
 		return parent::save();

@@ -1,8 +1,14 @@
-import { ImageSelect } from "@yoast/components";
+/* External dependencies */
+import PropTypes from "prop-types";
 import { Component } from "@wordpress/element";
 
+/* Yoast dependencies */
+import { ImageSelect } from "@yoast/components";
+import { validateFacebookImage } from "@yoast/helpers";
+
+/* Internal dependencies */
 import { openMedia } from "../helpers/selectMedia";
-import PropTypes from "prop-types";
+
 
 /**
  * Renders the ImageSelect.
@@ -21,12 +27,14 @@ class ImageSelectComponent extends Component {
 		this.state = {
 			imageUrl: this.getInitialValue(),
 			imageId: this.getInitialId(),
+			warnings: [],
 		};
 
 		this.setMyImageUrl = this.setMyImageUrl.bind( this );
 		this.setMyImageId = this.setMyImageId.bind( this );
 		this.onClick = this.onClick.bind( this );
 		this.removeImage = this.removeImage.bind( this );
+		this.setWarnings = this.setWarnings.bind( this );
 	}
 
 	/**
@@ -95,6 +103,10 @@ class ImageSelectComponent extends Component {
 		 * @returns {void}
 		 */
 		const imageCallback = ( image ) => {
+			if ( this.props.hasImageValidation ) {
+				this.setWarnings( validateFacebookImage( image ) );
+			}
+
 			this.setMyImageUrl( image.url );
 			if ( this.hiddenFieldImageId !== null ) {
 				this.setMyImageId( image.id );
@@ -118,6 +130,17 @@ class ImageSelectComponent extends Component {
 	}
 
 	/**
+	 * Sets the image warnings.
+	 *
+	 * @param {array} warnings The validation warnings.
+	 *
+	 * @returns {void} Void.
+	 */
+	setWarnings( warnings ) {
+		this.setState( { warnings: warnings } );
+	}
+
+	/**
 	 * Renders the ImageSelect component.
 	 *
 	 * @returns {wp.Element} The rendered component.
@@ -135,6 +158,9 @@ class ImageSelectComponent extends Component {
 				replaceImageButtonId={ this.props.replaceImageButtonId }
 				removeImageButtonId={ this.props.removeImageButtonId }
 				hasNewBadge={ this.props.hasNewBadge }
+				isDisabled={ this.props.isDisabled }
+				hasPremiumBadge={ this.props.hasPremiumBadge }
+				warnings={ this.state.warnings }
 			/>
 		);
 	}
@@ -149,6 +175,9 @@ ImageSelectComponent.propTypes = {
 	replaceImageButtonId: PropTypes.string,
 	removeImageButtonId: PropTypes.string,
 	hasNewBadge: PropTypes.bool,
+	isDisabled: PropTypes.bool,
+	hasPremiumBadge: PropTypes.bool,
+	hasImageValidation: PropTypes.bool,
 };
 
 ImageSelectComponent.defaultProps = {
@@ -159,6 +188,9 @@ ImageSelectComponent.defaultProps = {
 	replaceImageButtonId: "",
 	removeImageButtonId: "",
 	hasNewBadge: false,
+	isDisabled: false,
+	hasPremiumBadge: false,
+	hasImageValidation: false,
 };
 
 export default ImageSelectComponent;
