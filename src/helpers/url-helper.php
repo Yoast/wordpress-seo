@@ -72,7 +72,7 @@ class Url_Helper {
 	 *
 	 * @return string Home URL with optional path, appropriately slashed if not.
 	 */
-	public function home_with_network_check() {
+	public function network_safe_home_url() {
 		/**
 		 * Action: 'wpseo_home_url' - Allows overriding of the home URL.
 		 */
