@@ -102,17 +102,11 @@ class Breadcrumb extends Abstract_Schema_Piece {
 			'@type'    => 'ListItem',
 			'position' => ( $index + 1 ),
 			'name'     => $this->helpers->schema->html->smart_strip_tags( $breadcrumb['text'] ),
-			'item'     => [],
 		];
 
-		if ( ! isset( $breadcrumb['url'] ) && isset( $breadcrumb['@id'] ) ) {
-			$crumb['item']['@id'] = $breadcrumb['@id'];
-			return $crumb;
+		if ( ! empty( $breadcrumb['url'] ) ) {
+			$crumb['item'] = $breadcrumb['url'];
 		}
-
-		$crumb['item']['@type'] = 'WebPage';
-		$crumb['item']['@id']   = $breadcrumb['url'];
-		$crumb['item']['url']   = $breadcrumb['url'];
 
 		return $crumb;
 	}
@@ -125,8 +119,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 * @return array The last of the breadcrumbs.
 	 */
 	private function format_last_breadcrumb( $breadcrumb ) {
-		unset( $breadcrumb['url'], $breadcrumb['@type'] );
-		$breadcrumb['@id'] = $this->context->canonical . Schema_IDs::WEBPAGE_HASH;
+		unset( $breadcrumb['url'] );
 
 		return $breadcrumb;
 	}
