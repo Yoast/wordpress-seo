@@ -54,7 +54,9 @@ jobs:
       run: grunt build:dev
 
     - name: Initialize the environment
-      run: bash e2e-test-env-setup.sh
+      run: |
+        cd packages/e2e-tests
+        bash e2e-test-env-setup.sh
 
     - name: Run the tests
       run: yarn test:e2e
