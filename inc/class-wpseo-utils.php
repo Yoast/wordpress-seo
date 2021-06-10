@@ -934,7 +934,7 @@ class WPSEO_Utils {
 	 * @return string The home url.
 	 */
 	public static function get_home_url() {
-		return YoastSEO()->helpers->url->home_with_network_check();
+		return YoastSEO()->helpers->url->network_safe_home_url();
 	}
 
 	/**
