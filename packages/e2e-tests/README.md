@@ -24,7 +24,7 @@ grunt build:dev
 5. Now you can start a WordPress local environment using [@wordpress/env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/).
 
 Make sure Docker is running on your machine and run `wp-env start` to launch the enviromnment.
-Once you are done, you can run `wp-env start` to stop the local environment.
+Once you are done, you can run `wp-env stop` to stop the local environment.
 
 > The `wp-env start` and `wp-env stop` commands required to be run from the plugin root folder (wordpress-seo).
 > To make it easier, you can run these commands from another terminal tab.
