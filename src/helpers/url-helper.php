@@ -70,12 +70,9 @@ class Url_Helper {
 	/**
 	 * Retrieve network home URL if plugin is network-activated, or home url otherwise.
 	 *
-	 * @param string      $path   Path relative to home URL.
-	 * @param string|null $scheme Scheme to apply.
-	 *
 	 * @return string Home URL with optional path, appropriately slashed if not.
 	 */
-	public function home_with_network_check( $path = '', $scheme = null ) {
+	public function home_with_network_check() {
 		/**
 		 * Action: 'wpseo_home_url' - Allows overriding of the home URL.
 		 */
