@@ -112,7 +112,9 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	}
 
 	/**
-	 * Creates the last breadcrumb in the breadcrumb list, linking it by @id to the webpage item.
+	 * Creates the last breadcrumb in the breadcrumb list, omitting the URL per Google's spec.
+	 *
+	 * @link https://developers.google.com/search/docs/data-types/breadcrumb
 	 *
 	 * @param array $breadcrumb The position in the list.
 	 *
