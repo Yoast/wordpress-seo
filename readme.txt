@@ -249,7 +249,8 @@ Enhancements:
 * Improves the truncation of the `primary_focus_keyword` field in the database to handle multibyte characters. Props to [rickhurst](https://github.com/rickhurst).
 * Introduces a partial integration of the Yoast SEO meta box in the Web Stories WordPress editor. Props to [swissspidy](https://github.com/swissspidy).
 * Less is more: removes a whole bunch of ads from the Yoast SEO admin screens.
-* Improves the support for 16:9 images by the ImageSelect component.
+* Optimizes license checks made by Premium add-ons.
+* Improves accuracy of the Czech passive voice assessment by separating clauses based on punctuation marks and an expanded list of stopwords.
 
 Bugfixes:
 
