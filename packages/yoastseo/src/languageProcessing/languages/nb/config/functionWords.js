@@ -38,7 +38,7 @@ const interviewVerbs = [ "tror", "fortelle", "fortell", "fortalte", "tenkte", "t
 
 const intensifiers = [ "virkelig", "akkurat", "visst" ];
 
-const auxiliariesAndDelexicalizedVerbs = [ "ha", "har", "hadde", "gjør", "gjøre", "gjøre", "kaller", "kalte", "kalle",
+const auxiliariesAndDelexicalizedVerbs = [ "ha", "har", "hadde", "gjør", "gjøre", "kaller", "kalte", "kalle",
 	"kalla", "virker", "virka", "virke", "virka", "går", "gikk", "gå", "leges", "lages", "legges", "lages", "består",
 	"bestod", "bestå", "bestått", "bety", "betyr" ];
 
