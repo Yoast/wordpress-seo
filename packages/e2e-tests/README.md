@@ -20,18 +20,22 @@ composer install
 yarn
 grunt build:dev
 ```
+5. Move to the package folder by doing `cd packages/e2e-tests`.
+6. Now you will need to start a WordPress local environment using [@wordpress/env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/).
 
-5. Now you can start a WordPress local environment using [@wordpress/env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/).
-
-Make sure Docker is running on your machine and run `wp-env start` to launch the enviromnment.
-Once you are done, you can run `wp-env stop` to stop the local environment.
-
-> The `wp-env start` and `wp-env stop` commands required to be run from the plugin root folder (wordpress-seo).
-> To make it easier, you can run these commands from another terminal tab.
-
-6. Move to the package folder by doing `cd packages/e2e-tests`.
-
+First make sure Docker is running on your machine and run this command `bash e2e-test-env-setup.sh`.
+The command will execute the [e2e-test-env-setup.sh](e2e-test-env-setup.sh) file.
+The command basically:
+- Move to the plugin root folder
+- Start the WordPress local environment
+- Install and activate the [yoast-simple-custom-post-type.zip](/data/yoast-simple-custom-post-type.zip) plugin: the plugin creates a custom post type used in the tests
 7. Run the command `yarn test:e2e` to run the tests.
+8. When you are done with testing, run the following commands:
+```
+cd ../..
+wp-env stop
+```
+that stop the local environment.
 
 ## Configuration
 
