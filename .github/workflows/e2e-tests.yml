@@ -47,14 +47,6 @@ jobs:
     - name: Install wp-env
       run: npm install @wordpress/env
 
-    - uses: actions/cache@v2
-      id: yarn-cache
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
-
     - name: Install Yarn dependencies
       run: yarn
 
@@ -75,3 +67,6 @@ jobs:
       run: |
         cd packages/e2e-tests
         yarn test:e2e
+
+
+# TODO: yarn cache
