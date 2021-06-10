@@ -827,7 +827,7 @@ class WPSEO_Utils {
 	 * @return bool Whether or not the plugin is network-active.
 	 */
 	public static function is_plugin_network_active() {
-		return YoastSEO()->helpers->url->is_plugin_network_active( );
+		return YoastSEO()->helpers->url->is_plugin_network_active();
 	}
 
 	/**
@@ -934,7 +934,7 @@ class WPSEO_Utils {
 	 * @return string The home url.
 	 */
 	public static function get_home_url() {
-		return YoastSEO()->helpers->url->home_with_network_check( );
+		return YoastSEO()->helpers->url->home_with_network_check();
 	}
 
 	/**
