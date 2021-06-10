@@ -5,9 +5,6 @@ import {
 	trashAllPosts,
 	createNewPost,
 	visitAdminPage,
-	pressKeyWithModifier,
-	installPlugin,
-	activatePlugin
 } from "@wordpress/e2e-test-utils";
 
 import { deleteExistingTaxonomies, createNewTaxonomy } from "../src/helpers/utils";
