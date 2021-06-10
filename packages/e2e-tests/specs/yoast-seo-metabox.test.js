@@ -10,6 +10,7 @@ import {
 	activatePlugin
 } from "@wordpress/e2e-test-utils";
 
+import { deleteExistingTaxonomies } from "../src/helpers/utils";
 import { addQueryArgs } from '@wordpress/url';
 
 describe( "Yoast SEO plugin metabox", () => {
@@ -28,6 +29,17 @@ describe( "Yoast SEO plugin metabox", () => {
 	it( "shows correctly the Yoast SEO metabox should be present when editing a page", async () => {
 		await trashAllPosts( "page" );
    		await createNewPost( { postType: "page" } );
+
+		await page.waitForSelector( ".postbox.yoast.wpseo-metabox" );
+		const yoastSeoPostMetabox = await page.$x(
+			`//div[contains( @class, "wpseo-metabox" )][contains( .//h2, "Yoast SEO" )]`
+		);
+		expect( yoastSeoPostMetabox.length ).toBe( 1 );
+	} );
+
+	it( "shows correctly the Yoast SEO metabox should be present when editing a custom post", async () => {
+		await trashAllPosts( "yoast_post_type" );
+		await createNewPost( { postType: "yoast_post_type" } );
 
 		await page.waitForSelector( ".postbox.yoast.wpseo-metabox" );
 		const yoastSeoPostMetabox = await page.$x(
@@ -57,25 +69,12 @@ describe( "Yoast SEO plugin metabox", () => {
 	} );
 
 	it( "shows correctly the Yoast SEO metabox should be present when editing a post tag page", async () => {
-		const postTagQuery = addQueryArgs( '', {
-			taxonomy: 'post_tag',
-		} );
 		const tagTitle = "New Tag";
-	
-		await visitAdminPage( 'edit-tags.php', postTagQuery );
 
-		// Trash all existing post tags
-		await page.waitForSelector( '#the-list tr' );
-		const tagsRows = await page.$$( '#the-list tr' );
-		if( tagsRows.length !== null ) {
-			await page.click( '[id^=cb-select-all-]' );
-			await page.select( '#bulk-action-selector-top', 'delete' );
-			await page.focus( '#doaction' );
-			await page.keyboard.press( 'Enter' );
-		}
+		await deleteExistingTaxonomies( 'post_tag' );
 
 		// Create a new post tag
-		await page.waitForSelector('#tag-name');
+		await page.waitForSelector( '#tag-name' );
 		await page.focus( '#tag-name' );
 		await pressKeyWithModifier( 'primary', 'a' );
 		await page.type( '#tag-name', tagTitle );
@@ -94,37 +93,13 @@ describe( "Yoast SEO plugin metabox", () => {
 		expect( yoastSeoTaxonomyMetabox.length ).toBe( 1 );
 	} );
 
-	it( "shows correctly the Yoast SEO metabox should be present when editing a custom post", async () => {
-		await trashAllPosts( "yoast_post_type" );
-		await createNewPost( { postType: "yoast_post_type" } );
-
-		await page.waitForSelector( ".postbox.yoast.wpseo-metabox" );
-		const yoastSeoPostMetabox = await page.$x(
-			`//div[contains( @class, "wpseo-metabox" )][contains( .//h2, "Yoast SEO" )]`
-		);
-		expect( yoastSeoPostMetabox.length ).toBe( 1 );
-	} );
-
 	it( "shows correctly the Yoast SEO metabox should be present when editing a custom post taxonomy page", async () => {
-		const customPostTaxomomyQuery = addQueryArgs( '', {
-			taxonomy: 'yoast_simple_posts_taxonomy',
-		} );
 		const taxonomyTitle = "New Taxonomy";
-	
-		await visitAdminPage( 'edit-tags.php', customPostTaxomomyQuery );
-	
-		// Trash all existing custom post taxonomies
-		await page.waitForSelector( '#the-list tr' );
-		const taxonomiesRows = await page.$$( '#the-list tr' );
-		if( taxonomiesRows.length !== null ) {
-			await page.click( '[id^=cb-select-all-]' );
-			await page.select( '#bulk-action-selector-top', 'delete' );
-			await page.focus( '#doaction' );
-			await page.keyboard.press( 'Enter' );
-		}
+
+		await deleteExistingTaxonomies( 'yoast_simple_posts_taxonomy' );
 	
 		// Create a new post taxonomy
-		await page.waitForSelector('#tag-name');
+		await page.waitForSelector( '#tag-name' );
 		await page.focus( '#tag-name' );
 		await pressKeyWithModifier( 'primary', 'a' );
 		await page.type( '#tag-name', taxonomyTitle );
