@@ -1,4 +1,5 @@
 import getSubheadingTexts from "../helpers/html/getSubheadingTexts";
+import excludeTableOfContentsTag from "../helpers/sanitize/excludeTableOfContentsTag";
 import countWords from "../helpers/word/countWords";
 import { forEach } from "lodash-es";
 
@@ -8,7 +9,7 @@ import { forEach } from "lodash-es";
  * @returns {Array} The array with the length of each subheading.
  */
 export default function( paper ) {
-	const text = paper.getText();
+	const text = excludeTableOfContentsTag( paper.getText() );
 	const matches = getSubheadingTexts( text );
 
 	const subHeadingTexts = [];

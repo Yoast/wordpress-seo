@@ -2,8 +2,11 @@ import { languageProcessing } from "yoastseo";
 const { AbstractResearcher } = languageProcessing;
 
 // All config
+import firstWordExceptions from "./config/firstWordExceptions";
 import functionWords from "./config/functionWords";
 import stopWords from "./config/stopWords";
+import transitionWords from "./config/transitionWords";
+import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
 // All helpers
 import getStemmer from "./helpers/getStemmer";
@@ -24,13 +27,14 @@ export default class Researcher extends AbstractResearcher {
 		// Delete Flesch Reading Ease research since Norwegian doesn't have the support for it
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
-		delete this.defaultResearches.getSentenceBeginnings;
-		delete this.defaultResearches.findTransitionWords;
 
 		Object.assign( this.config, {
 			language: "nb",
 			passiveConstructionType: "periphrastic",
 			functionWords,
+			firstWordExceptions,
+			transitionWords,
+			twoPartTransitionWords,
 			stopWords,
 		} );
 

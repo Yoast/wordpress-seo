@@ -13,6 +13,12 @@
 	color: #004973;
 }
 
+.yoast-premium-badge {
+	background-color: #fff3cd;
+	color: #674e00;
+}
+
+
 .yoast-badge__is-link {
 	text-decoration: none;
 }

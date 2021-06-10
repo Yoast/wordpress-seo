@@ -243,15 +243,21 @@ Enhancements:
 * Moves the social settings for the homepage from the Social > Facebook tab, to Search Appearance > General.
 * Improves the organization of the Search Appearance > General tab, with distinct collapsibles for the Title Separator, the Homepage settings and the Schema.org settings.
 * Introduces a notice to be displayed in Search Appearance > General in place of the Social settings for the Homepage when Open Graph is disabled.
-* Introduces an image validation warning for the Homepage social image and the Default social image.
+* Introduces an image validation warning for the Homepage social image and the Default social image to warn about unsupported file extensions.
 * Improves spacing, headings and toggle labels in the Search Appearance settings, and makes the forms more consistent.
-* Optimizes license checks made by Premium add-ons.
+* Optimizes subscription validations made by Premium add-ons.
 * Improves the truncation of the `primary_focus_keyword` field in the database to handle multibyte characters. Props to [rickhurst](https://github.com/rickhurst).
-* Integrates the Yoast SEO meta box in the Web Stories WordPress editor. Props to [swissspidy](https://github.com/swissspidy).
+* Introduces a partial integration of the Yoast SEO meta box in the Web Stories WordPress editor. Props to [swissspidy](https://github.com/swissspidy).
+* Less is more: removes a whole bunch of ads from the Yoast SEO admin screens.
+* Improves the support for 16:9 images by the ImageSelect component.
 
 Bugfixes:
 
 * Fixes a bug where `max-image-preview:large` would be output in the robots meta tag in combination with `noimage`.
+
+Other:
+
+* Moves the 'Force rewrite titles' toggle into a separate paper in the General Search Appearance settings.
 
 = 16.4 =
 Release Date: June 1st, 2021
@@ -271,7 +277,7 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where new feature notification couldn't be dismissed.
-* Fixes a bug where the primary term for custom post types was not always properly set for posts edited in the Gutenberg editor. 
+* Fixes a bug where the primary term for custom post types was not always properly set for posts edited in the Gutenberg editor.
 * Fixes a bug where the schema output could be incorrect on terms with the same ID as the static posts page.
 
 Other:
