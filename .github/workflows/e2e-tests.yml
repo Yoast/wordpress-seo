@@ -9,6 +9,10 @@ on:
 jobs:
   yoast-e2e-tests-wp-latest:
 
+
+    env:
+      WP_VERSION: latest
+
     runs-on: ubuntu-latest
 
     steps:
@@ -52,11 +56,6 @@ jobs:
 
     - name: Build the plugin
       run: grunt build:dev
-
-
-    - name: Start Docker environment
-      run: |
-        npm run env:start
 
     - name: Initialize the environment
       run: |
