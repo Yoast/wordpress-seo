@@ -1,5 +1,5 @@
 <?php
-// phpcs:ignore Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 namespace Yoast\WP\SEO\Presenters\Admin;
 
 use WPSEO_Addon_Manager;
