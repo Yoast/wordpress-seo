@@ -94,7 +94,7 @@ describe( "Yoast SEO plugin metabox", () => {
 		expect( yoastSeoTaxonomyMetabox.length ).toBe( 1 );
 	} );
 
-	it("shows correctly the Yoast SEO metabox should be present when editing a custom post type", async() => {
+	it( "shows correctly the Yoast SEO metabox should be present when editing a custom post type", async() => {
         const cptPluginSlug = "custom-post-type-ui";
         const cptuiCreatePostType = addQueryArgs('', {
             page: "cptui_manage_post_types",
