@@ -251,6 +251,7 @@ Enhancements:
 * Less is more: removes a whole bunch of ads from the Yoast SEO admin screens.
 * Optimizes license checks made by Premium add-ons.
 * Improves accuracy of the Czech passive voice assessment by separating clauses based on punctuation marks and an expanded list of stopwords.
+* Changes the breadcrumbs schema output so Google can understand it better.
 
 Bugfixes:
 
