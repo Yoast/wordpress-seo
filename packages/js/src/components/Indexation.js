@@ -324,7 +324,7 @@ export class Indexation extends Component {
 	 * The error message varies based on whether WordPress SEO Premium
 	 * has a valid, activated subscription or not.
 	 *
-	 * @returns {string} The indexing error as an HTML-string.
+	 * @returns {string} The indexing error as an HTML string.
 	 */
 	generateIndexingError() {
 		let message = __(
@@ -343,6 +343,8 @@ export class Indexation extends Component {
 						"Please make sure to activate your subscription in MyYoast by completing %1$sthese steps%2$s.",
 						"wordpress-seo"
 					),
+					// Translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page,
+					// %2$s expands to a closing anchor tag.
 					"<a href='" + yoastIndexingData.subscriptionActivationLink + "'>",
 					"</a>"
 				);
