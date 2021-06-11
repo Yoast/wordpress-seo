@@ -47,5 +47,4 @@ describe( "detecting passive voice in sentences", function() {
 		var paper = new Paper( "Cameraet er her har vært vitne til oss.", { locale: "nb_NB" } );
 		expect( passiveVoice( paper, new Researcher( paper ) ).passives.length ).toBe( 0 );
 	} );
-
 } );
