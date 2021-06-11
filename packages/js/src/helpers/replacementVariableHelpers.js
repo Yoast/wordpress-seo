@@ -230,8 +230,12 @@ export function excerptFromContent( content, limit = 156 ) {
 	// Retrieves the first 156 chars from the content.
 	content = content.substring( 0, limit );
 
-	// Caps to the last space to have a full last word.
-	return content.substring( 0, content.lastIndexOf( " " ) );
+	// Caps to the last space to have a full last word if the content has space.
+	if ( /\s/.test( content ) ) {
+		content = content.substring( 0, content.lastIndexOf( " " ) );
+	}
+
+	return content;
 }
 
 /**
