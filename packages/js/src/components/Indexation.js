@@ -43,7 +43,9 @@ export class Indexation extends Component {
 			state: STATE.IDLE,
 			processed: 0,
 			amount: parseInt( this.settings.amount, 10 ),
-			firstTime: ( this.settings.firstTime === "1" ),
+			firstTime: (
+				this.settings.firstTime === "1"
+			),
 		};
 
 		this.startIndexing = this.startIndexing.bind( this );
@@ -333,9 +335,8 @@ export class Indexation extends Component {
 
 		if ( yoastIndexingData.isPremium === "1" ) {
 			if ( yoastIndexingData.hasValidPremiumSubscription === "1" ) {
-				message += __( 'If the problem persists, please contact support.', 'wordpress-seo' );
-			}
-			else {
+				message += __( "If the problem persists, please contact support.", "wordpress-seo" );
+			} else {
 				message += sprintf(
 					__(
 						"Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
@@ -348,7 +349,7 @@ export class Indexation extends Component {
 			}
 		}
 
-		return message
+		return message;
 	}
 
 	/**
