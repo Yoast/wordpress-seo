@@ -337,7 +337,7 @@ export class Indexation extends Component {
 			if ( yoastIndexingData.hasValidPremiumSubscription === "1" ) {
 				message += __( "If the problem persists, please contact support.", "wordpress-seo" );
 			} else {
-				message += sprintf(
+				message = sprintf(
 					__(
 						"Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
 						"Please make sure to activate your subscription in MyYoast by completing %1$sthese steps%2$s.",
