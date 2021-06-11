@@ -335,7 +335,7 @@ export class Indexation extends Component {
 
 		if ( yoastIndexingData.isPremium === "1" ) {
 			if ( yoastIndexingData.hasValidPremiumSubscription === "1" ) {
-				message += __( "If the problem persists, please contact support.", "wordpress-seo" );
+				message += __( " If the problem persists, please contact support.", "wordpress-seo" );
 			} else {
 				message = sprintf(
 					__(
