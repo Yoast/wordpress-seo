@@ -34,8 +34,6 @@ class NorwegianClause extends Clause {
 	 */
 	checkParticiples() {
 		const clause = this.getClauseText();
-		console.log( cannotBeBetweenPassiveAuxiliaryAndParticiple )
-
 		const passiveParticiples = this.getParticiples().filter( participle =>
 			! precedenceException( clause, participle, cannotBeBetweenPassiveAuxiliaryAndParticiple ) );
 
