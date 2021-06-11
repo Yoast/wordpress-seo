@@ -9,6 +9,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * Adds a new `PremiumBadge` component.
 * Adds a new prop `hadPremiumBadge` to the `FieldGroup` and `ImageSelect` components.
 * Adjusts the CSS of the `NewBadge` component so that it's mostly shared with `PremiumBadge`.
+* Improves the support for 16:9 images by the `ImageSelect` component.
 
 ## 2.17.0 April 1st, 2021
 ### Enhancements

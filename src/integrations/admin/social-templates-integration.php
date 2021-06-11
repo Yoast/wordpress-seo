@@ -9,10 +9,10 @@ use WPSEO_Admin_Utils;
 use WPSEO_Replacevar_Editor;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Badge_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
-use Yoast\WP\SEO\Config\Badge_Group_Names;
-use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Form;
 
 
@@ -153,13 +153,15 @@ class Social_Templates_Integration implements Integration_Interface {
 	 * @param string     $page_type_specific    Editor specific type of page for a list of replaceable variables.
 	 */
 	protected function build_social_fields( Yoast_Form $yform, $identifier, $page_type_recommended, $page_type_specific ) {
-		$image_url_field_id = 'social-image-url-' . $identifier;
-		$image_id_field_id  = 'social-image-id-' . $identifier;
-		$is_premium         = YoastSEO()->helpers->product->is_premium();
+		$image_url_field_id    = 'social-image-url-' . $identifier;
+		$image_id_field_id     = 'social-image-id-' . $identifier;
+		$is_premium            = YoastSEO()->helpers->product->is_premium();
+		$is_premium_16_5_or_up = defined( '\WPSEO_PREMIUM_VERSION' ) && \version_compare( \WPSEO_PREMIUM_VERSION, '16.5-RC0', '>=' );
+		$is_form_enabled       = $is_premium && $is_premium_16_5_or_up;
 
 		$section_class = 'yoast-settings-section';
 
-		if ( ! $is_premium ) {
+		if ( ! $is_form_enabled ) {
 			$section_class .= ' yoast-settings-section-disabled';
 		}
 
@@ -167,7 +169,7 @@ class Social_Templates_Integration implements Integration_Interface {
 
 		echo '<div class="social-settings-heading-container">';
 		echo '<h3 class="social-settings-heading">' . \esc_html__( 'Social settings', 'wordpress-seo' ) . '</h3>';
-		if ( $is_premium ) {
+		if ( $is_form_enabled ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the Premium_Badge_Presenter.
 			echo new Premium_Badge_Presenter( 'global-templates-' . $identifier );
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the Badge_Presenter.
@@ -189,7 +191,7 @@ class Social_Templates_Integration implements Integration_Interface {
 			\esc_attr( 'yoast-social-' . $identifier . '-image-select' ),
 			\esc_attr( $image_url_field_id ),
 			\esc_attr( $image_id_field_id ),
-			\esc_attr( ! $is_premium ),
+			\esc_attr( ! $is_form_enabled ),
 			true
 		);
 
@@ -204,10 +206,24 @@ class Social_Templates_Integration implements Integration_Interface {
 				'label_title'             => \__( 'Social title', 'wordpress-seo' ),
 				'label_description'       => \__( 'Social description', 'wordpress-seo' ),
 				'description_placeholder' => \__( 'Modify your social description by editing it right here.', 'wordpress-seo' ),
-				'is_disabled'             => ! $is_premium,
+				'is_disabled'             => ! $is_form_enabled,
 			]
 		);
 		$editor->render();
+
+		if ( $is_premium && ! $is_premium_16_5_or_up ) {
+			echo '<div class="yoast-settings-section-upsell">';
+
+			$unlock_alert = \sprintf(
+				/* translators: %s expands to 'Yoast SEO Premium'. */
+				\esc_html__( 'To unlock this feature please update %s to the latest version.', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			);
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
+			echo new Alert_Presenter( $unlock_alert );
+
+			echo '</div>';
+		}
 
 		if ( ! $is_premium ) {
 			$wpseo_page = filter_input( INPUT_GET, 'page' );
