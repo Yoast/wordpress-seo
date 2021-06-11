@@ -89,10 +89,6 @@ function generateSchemaForBlocks(
 
 		const definition = schemaDefinitions[ block.name ];
 
-		if ( definition ) {
-			logger.debug( `${ block.name } has the following Schema definition`, definition );
-		}
-
 		if ( shouldRenderSchema( definition, parentHasSchema ) ) {
 			renderSchema( block, definition );
 			if ( Array.isArray( block.innerBlocks ) ) {
