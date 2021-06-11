@@ -9,7 +9,6 @@ import BlockSuggestions from "./BlockSuggestionsPresenter";
 import { createAnalysisMessages, SidebarWarning } from "./SidebarWarningPresenter";
 import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { BlockValidationResult } from "../../core/validation";
-import logger from "../logger";
 import LabelWithHelpLink from "./LabelWithHelpLinkPresenter";
 
 interface SchemaAnalysisProps {
