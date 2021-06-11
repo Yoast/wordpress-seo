@@ -43,14 +43,7 @@ class Social_Templates_Integration implements Integration_Interface {
 	 *
 	 * @var string
 	 */
-	private $group;
-
-	/**
-	 * Social_Templates_Integration constructor.
-	 */
-	public function __construct() {
-		$this->group = 'global-templates';
-	}
+	private $group = 'global-templates';
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -77,7 +70,7 @@ class Social_Templates_Integration implements Integration_Interface {
 	 *
 	 * @return \WPSEO_Admin_Recommended_Replace_Vars
 	 */
-	public function get_admin_recommended_replace_vars() {
+	protected function get_admin_recommended_replace_vars() {
 		if ( is_null( $this->recommended_replace_vars ) ) {
 			$this->recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
 		}
@@ -90,7 +83,7 @@ class Social_Templates_Integration implements Integration_Interface {
 	 *
 	 * @return \WPSEO_Admin_Editor_Specific_Replace_Vars
 	 */
-	public function get_admin_editor_specific_replace_vars() {
+	protected function get_admin_editor_specific_replace_vars() {
 		if ( is_null( $this->editor_specific_replace_vars ) ) {
 			$this->editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 		}
