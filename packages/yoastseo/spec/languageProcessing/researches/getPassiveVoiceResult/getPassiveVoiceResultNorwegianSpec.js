@@ -41,4 +41,11 @@ describe( "detecting passive voice in sentences", function() {
 		var paper = new Paper( "Problemet å bli lagt merke til.", { locale: "nb_NB" } );
 		expect( passiveVoice( paper, new Researcher( paper ) ).passives.length ).toBe( 1 );
 	} );
+
+	it( "returns active voice when cannotBeBetweenAuxiliaryAndPassive found", function() {
+		// Exception: har
+		var paper = new Paper( "Cameraet er her har vært vitne til oss.", { locale: "nb_NB" } );
+		expect( passiveVoice( paper, new Researcher( paper ) ).passives.length ).toBe( 0 );
+	} );
+
 } );
