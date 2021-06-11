@@ -133,8 +133,14 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 	return validations;
 }
 
+/**
+ * Determines the Schema root to use when building up the Schema
+ * for this page.
+ *
+ * @param rootBlocks The blocks at the root of the post.
+ */
 function determineSchemaRoot( rootBlocks: BlockInstance[] ) {
-	for( const block of rootBlocks ) {
+	for ( const block of rootBlocks ) {
 		const definition = schemaDefinitions[ block.name ];
 
 		if ( definition ) {
