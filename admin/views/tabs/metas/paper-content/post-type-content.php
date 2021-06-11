@@ -15,7 +15,7 @@ $single_label = $wpseo_post_type->labels->singular_name;
 $paper_style  = false;
 
 /* translators: %s is the singular version of the post type's name. */
-echo '<h3 class="h2">' . esc_html( sprintf( __( 'Single %s settings', 'wordpress-seo' ), $wpseo_post_type->labels->singular_name ) ) . '</h3>';
+echo '<h3>' . esc_html( sprintf( __( 'Single %s settings', 'wordpress-seo' ), $wpseo_post_type->labels->singular_name ) ) . '</h3>';
 
 require __DIR__ . '/post_type/post-type.php';
 
@@ -37,7 +37,7 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	$plural_label = $wpseo_post_type->labels->name;
 
 	/* translators: %s is the plural version of the post type's name. */
-	echo '<h3 class="h2">' . esc_html( sprintf( __( '%s archive settings', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
+	echo '<h3>' . esc_html( sprintf( __( '%s archive settings', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
 
 	echo '<div class="yoast-settings-section">';
 
@@ -74,9 +74,11 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	echo '</div>';
 
 	if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
-		/* translators: %s is the plural version of the post type's name. */
-		echo '<h4>' . esc_html( sprintf( __( 'Breadcrumb settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h4>';
-		$yform->textinput( 'bctitle-ptarchive-' . $wpseo_post_type->name, __( 'Breadcrumbs title', 'wordpress-seo' ) );
+		echo '<div class="yoast-settings-section">';
+
+		$yform->textinput_extra_content( 'bctitle-ptarchive-' . $wpseo_post_type->name, __( 'Breadcrumbs title', 'wordpress-seo' ) );
+
+		echo '</div>';
 	}
 
 	/**

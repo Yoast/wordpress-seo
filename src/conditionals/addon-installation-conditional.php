@@ -13,7 +13,7 @@ class Addon_Installation_Conditional extends Feature_Flag_Conditional {
 	 *
 	 * @return string the name of the feature flag.
 	 */
-	protected function get_feature_flag() {
+	public function get_feature_flag() {
 		return 'ADDON_INSTALLATION';
 	}
 }

@@ -45,7 +45,6 @@ export function SchemaAnalysis( props: SchemaAnalysisProps ): ReactElement {
 
 	if ( validationResults ) {
 		warnings = createAnalysisMessages( validationResults );
-		logger.debug( "Warnings:", warnings );
 	}
 
 	const [ jobTitle, setJobTitle ] = useState( "" );

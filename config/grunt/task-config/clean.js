@@ -30,4 +30,8 @@ module.exports = {
 	"composer-files": [
 		"<%= files.artifactComposer %>/vendor",
 	],
+	"vendor-prefixed": [
+		"<%= paths.vendorPrefixed %>*/",
+		"!<%= paths.vendorPrefixed %>*.gitignore",
+	],
 };
