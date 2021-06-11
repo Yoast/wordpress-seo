@@ -1,73 +1,25 @@
 name: yoast-e2e-tests
-
 on:
-  push:
-    branches:
-      - try/e2e-tests-package
   workflow_dispatch:
 
 jobs:
   yoast-e2e-tests-wp-latest:
-
-
-    env:
-      WP_VERSION: latest
-
     runs-on: ubuntu-latest
 
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    - uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.x'
-        tools: composer
-
-      # get and output the composer cache directory
-    - name: Get Composer Cache Directory
-      id: composer-cache
-      run: |
-        echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      # setup the composer cache (vendor) with github actions cache and the cache dir defined in the previous step
-    - uses: actions/cache@v2
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: ${{ runner.os }}-composer-
-
-    - name: Update Composer dependencies
-      run: composer update
-
-    - name: Install Composer dependencies
-      run: composer install
-
-    - name: Install NodeJS
+    - name: Set Node version
       uses: actions/setup-node@v2
       with:
-        node-version: 12
+        node-version: '12'
+
+    - name: Install Composer dependencies
+      uses: php-actions/composer@v4
+      with:
+        php_version: 7.4
 
     - name: Install wp-env
       run: |
         npm install @wordpress/env
         wp-env start
-
-    - name: Install Yarn dependencies
-      run: yarn
-
-    - name: Build the plugin
-      run: grunt build:dev
-
-    - name: Initialize the environment
-      run: |
-        cd packages/e2e-tests
-        bash e2e-test-env-setup.sh
-
-    - name: Run the tests
-      run: |
-        cd packages/e2e-tests
-        yarn test:e2e
-
-
-# TODO: yarn cache
