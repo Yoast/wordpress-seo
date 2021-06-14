@@ -87,7 +87,7 @@ class Website extends Abstract_Schema_Piece {
 
 		$data['potentialAction'][] = [
 			'@type'       => 'SearchAction',
-			'target' => [
+			'target'      => [
 				'@type'       => 'EntryPoint',
 				'urlTemplate' => $search_url,
 			],

@@ -232,7 +232,7 @@ class Schema_Generator_Test extends TestCase {
 						'potentialAction' => [
 							[
 								'@type'       => 'SearchAction',
-								'target' => [
+								'target'      => [
 									'@type'       => 'EntryPoint',
 									'urlTemplate' => '?s={search_term_string}',
 								],
@@ -513,7 +513,7 @@ class Schema_Generator_Test extends TestCase {
 					'potentialAction' => [
 						[
 							'@type'       => 'SearchAction',
-							'target' => [
+							'target'      => [
 								'@type'       => 'EntryPoint',
 								'urlTemplate' => '?s={search_term_string}',
 							],
@@ -534,7 +534,7 @@ class Schema_Generator_Test extends TestCase {
 				'potentialAction' => [
 					[
 						'@type'       => 'SearchAction',
-						'target' => [
+						'target'      => [
 							'@type'       => 'EntryPoint',
 							'urlTemplate' => '?s={search_term_string}',
 						],
@@ -589,7 +589,7 @@ class Schema_Generator_Test extends TestCase {
 					'potentialAction' => [
 						[
 							'@type'       => 'SearchAction',
-							'target' => [
+							'target'      => [
 								'@type'       => 'EntryPoint',
 								'urlTemplate' => '?s={search_term_string}',
 							],
@@ -610,7 +610,7 @@ class Schema_Generator_Test extends TestCase {
 				'potentialAction' => [
 					[
 						'@type'       => 'SearchAction',
-						'target' => [
+						'target'      => [
 							'@type'       => 'EntryPoint',
 							'urlTemplate' => '?s={search_term_string}',
 						],
@@ -676,7 +676,7 @@ class Schema_Generator_Test extends TestCase {
 						'potentialAction' => [
 							[
 								'@type'       => 'SearchAction',
-								'target' => [
+								'target'      => [
 									'@type'       => 'EntryPoint',
 									'urlTemplate' => '?s={search_term_string}',
 								],
@@ -738,7 +738,7 @@ class Schema_Generator_Test extends TestCase {
 					'potentialAction' => [
 						[
 							'@type'       => 'SearchAction',
-							'target' => [
+							'target'      => [
 								'@type'       => 'EntryPoint',
 								'urlTemplate' => '?s={search_term_string}',
 							],
