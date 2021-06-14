@@ -44,12 +44,12 @@ describe( "a test for the Slovak Researcher", function() {
 	// it( "returns the Slovak two part transition word", function() {
 	// 	expect( researcher.getConfig( "twoPartTransitionWords" ) ).toEqual( twoPartTransitionWords );
 	// } );
-
-	it( "returns the Slovak syllables data", function() {
-		expect( researcher.getConfig( "syllables" ) ).toEqual( syllables );
-	} );
-
-	// it( "returns the Slovak Flesch reading ease scores and boundaries", function() {
+	//
+	// it( "returns the Slovak syllables data", function() {
+	// 	expect( researcher.getConfig( "syllables" ) ).toEqual( syllables );
+	// } );
+	//
+	// // it( "returns the Slovak Flesch reading ease scores and boundaries", function() {
 	// 	expect( researcher.getConfig( "fleschReadingEaseScores" ) ).toEqual( fleschReadingEaseScores );
 	// } );
 	//
