@@ -45,11 +45,12 @@ export default class Duration extends BlockInstruction {
 	 */
 	edit( props: RenderEditProps ): ReactElement | string {
 		const onChange = useCallback(
-			( value = 0 ) => {
+			( value = "0" ) => {
 				value = Math.abs( value );
 				props.setAttributes( {
-					value,
-					[ `${ this.options.name }-iso8601-duration` ]: value === 0 ? null : moment.duration( value, "minutes" ).toISOString(),
+					// Prevent leading zero's in the input-field (e.g. "01").
+					value: Number( value ).toString(),
+					[ `${ this.options.name }-iso8601-duration` ]: moment.duration( value, "minutes" ).toISOString(),
 				} );
 			},
 			[ props.attributes.value ],
@@ -59,12 +60,12 @@ export default class Duration extends BlockInstruction {
 			<div className="yoast-schema-flex yoast-schema-duration">
 				<TextControl
 					type="number"
-					min={ 1 }
+					min={ 0 }
 					placeholder="#"
 					aria-label={ __( "Cooking time", "yoast-schema-blocks" ) }
 					className="minutes-input"
 					onChange={ onChange }
-					value={ props.attributes.value as number || "" }
+					value={ props.attributes.value as string }
 				/>
 				<p> { __( "minutes", "yoast-schema-blocks" ) }</p>
 			</div>
@@ -80,7 +81,8 @@ export default class Duration extends BlockInstruction {
 		return {
 			attributes: {
 				value: {
-					type: "number",
+					type: "string",
+					"default": "0",
 				},
 				[ `${ this.options.name }-iso8601-duration` ]: {
 					type: "string",
