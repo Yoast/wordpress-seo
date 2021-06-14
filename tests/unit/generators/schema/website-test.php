@@ -125,7 +125,10 @@ class Website_Test extends TestCase {
 			'potentialAction' => [
 				[
 					'@type'       => 'SearchAction',
-					'target'      => 'https://example.com/?s={search_term_string}',
+					'target' => [
+						'@type'       => 'EntryPoint',
+						'urlTemplate' => 'https://example.com/?s={search_term_string}',
+					],
 					'query-input' => 'required name=search_term_string',
 				],
 			],
