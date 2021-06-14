@@ -232,7 +232,10 @@ class Schema_Generator_Test extends TestCase {
 						'potentialAction' => [
 							[
 								'@type'       => 'SearchAction',
-								'target'      => '?s={search_term_string}',
+								'target'      => [
+									'@type'       => 'EntryPoint',
+									'urlTemplate' => '?s={search_term_string}',
+								],
 								'query-input' => 'required name=search_term_string',
 							],
 						],
@@ -510,7 +513,10 @@ class Schema_Generator_Test extends TestCase {
 					'potentialAction' => [
 						[
 							'@type'       => 'SearchAction',
-							'target'      => '?s={search_term_string}',
+							'target'      => [
+								'@type'       => 'EntryPoint',
+								'urlTemplate' => '?s={search_term_string}',
+							],
 							'query-input' => 'required name=search_term_string',
 						],
 					],
@@ -528,7 +534,10 @@ class Schema_Generator_Test extends TestCase {
 				'potentialAction' => [
 					[
 						'@type'       => 'SearchAction',
-						'target'      => '?s={search_term_string}',
+						'target'      => [
+							'@type'       => 'EntryPoint',
+							'urlTemplate' => '?s={search_term_string}',
+						],
 						'query-input' => 'required name=search_term_string',
 					],
 				],
@@ -580,7 +589,10 @@ class Schema_Generator_Test extends TestCase {
 					'potentialAction' => [
 						[
 							'@type'       => 'SearchAction',
-							'target'      => '?s={search_term_string}',
+							'target'      => [
+								'@type'       => 'EntryPoint',
+								'urlTemplate' => '?s={search_term_string}',
+							],
 							'query-input' => 'required name=search_term_string',
 						],
 					],
@@ -598,7 +610,10 @@ class Schema_Generator_Test extends TestCase {
 				'potentialAction' => [
 					[
 						'@type'       => 'SearchAction',
-						'target'      => '?s={search_term_string}',
+						'target'      => [
+							'@type'       => 'EntryPoint',
+							'urlTemplate' => '?s={search_term_string}',
+						],
 						'query-input' => 'required name=search_term_string',
 					],
 				],
@@ -661,7 +676,10 @@ class Schema_Generator_Test extends TestCase {
 						'potentialAction' => [
 							[
 								'@type'       => 'SearchAction',
-								'target'      => '?s={search_term_string}',
+								'target'      => [
+									'@type'       => 'EntryPoint',
+									'urlTemplate' => '?s={search_term_string}',
+								],
 								'query-input' => 'required name=search_term_string',
 							],
 						],
@@ -720,7 +738,10 @@ class Schema_Generator_Test extends TestCase {
 					'potentialAction' => [
 						[
 							'@type'       => 'SearchAction',
-							'target'      => '?s={search_term_string}',
+							'target'      => [
+								'@type'       => 'EntryPoint',
+								'urlTemplate' => '?s={search_term_string}',
+							],
 							'query-input' => 'required name=search_term_string',
 						],
 					],
