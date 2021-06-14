@@ -1,5 +1,5 @@
 import Schema from "../../../src/instructions/schema/Schema";
-import { InstructionOptions } from "../../../dist/core/Instruction";
+import { InstructionOptions } from "../../../src/core/Instruction";
 
 describe( "The Schema schema instruction", () => {
 	it( "Returns the options as configuration.", () => {

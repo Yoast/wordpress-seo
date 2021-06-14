@@ -7,7 +7,6 @@ import { createElement } from "@wordpress/element";
 import { insertBlock } from "../innerBlocksHelper";
 import { isEmptyResult, isMissingResult, isValidResult } from "../validators/validateResults";
 import { BlockValidationResult } from "../../core/validation";
-import logger from "../logger";
 
 type BlockSuggestionAddedProps = {
 	blockTitle: string;
