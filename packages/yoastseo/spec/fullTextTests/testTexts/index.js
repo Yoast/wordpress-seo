@@ -91,6 +91,11 @@ import czechPaper1 from "./cs/czechPaper1";
 import czechPaper2 from "./cs/czechPaper2";
 import czechPaper3 from "./cs/czechPaper3";
 
+// Norwegian papers
+import norwegianPaper1 from "./nb/norwegianPaper1";
+import norwegianPaper2 from "./nb/norwegianPaper2";
+import norwegianPaper3 from "./nb/norwegianPaper3";
+
 /**
  * FrenchPaper1 & portuguesePaper3 are temporarily disabled until we figure out why there are small differences
  * in passive voice detection since upgrading from node v10 to the lts version.
@@ -149,5 +154,8 @@ export default [
 	czechPaper1,
 	czechPaper2,
 	czechPaper3,
+	norwegianPaper1,
+	norwegianPaper2,
+	norwegianPaper3,
 ];
 
