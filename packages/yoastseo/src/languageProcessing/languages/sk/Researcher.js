@@ -1,3 +1,6 @@
+import { languageProcessing } from "yoastseo";
+const { AbstractResearcher } = languageProcessing;
+
 // All config
 
 // All helpers
