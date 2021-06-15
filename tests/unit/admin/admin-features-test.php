@@ -58,10 +58,12 @@ class Admin_Features_Test extends TestCase {
 
 		$product_helper = Mockery::mock( Product_Helper::class );
 		$product_helper->expects( 'is_premium' )->times( 5 )->andReturn( false );
+		$url_helper = Mockery::mock( Url_Helper::class );
 
 		$helper_surface               = Mockery::mock( Helpers_Surface::class );
 		$helper_surface->current_page = $current_page_helper;
 		$helper_surface->product      = $product_helper;
+		$helper_surface->url          = $url_helper;
 
 		Monkey\Functions\expect( 'YoastSEO' )
 			->andReturn( (object) [ 'helpers' => $helper_surface ] );
