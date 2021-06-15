@@ -241,9 +241,7 @@ Enhancements:
 
 * Update `SearchAction` schema to comply with Google's updated specification.
 * Excludes sentences inside tables and table captions from the consecutive sentences assessment.
-* [yoastseo] Filter out table block content from the getSentenceBeginnings research.
 * [yoastseo] Excludes Table of Contents from the analysis.
-* [Yoast SEO Premium] Excludes Table of Contents from the SEO and readability analysis.
 * Adds adjacent relative links for WooCommerce shop pages. Props to [stodorovic](https://github.com/stodorovic).
 
 Bugfixes:
