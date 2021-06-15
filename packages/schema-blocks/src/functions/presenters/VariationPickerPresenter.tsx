@@ -57,7 +57,7 @@ export default function VariationPickerPresenter( { clientId, name, setAttribute
 		[ name ],
 	);
 
-	const { replaceInnerBlocks } = useDispatch( "core/block-editor" );
+	const { replaceInnerBlocks, replaceBlock } = useDispatch( "core/block-editor" );
 	const blockProps = useBlockProps();
 
 	/**
@@ -66,19 +66,14 @@ export default function VariationPickerPresenter( { clientId, name, setAttribute
 	 * @param nextVariation The variation that is selected by the user.
 	 */
 	const onSelect = useCallback( ( nextVariation = defaultVariation ) => {
-		if ( nextVariation.attributes ) {
-			setAttributes( nextVariation.attributes );
-		}
-
-		if ( nextVariation.innerBlocks ) {
-			replaceInnerBlocks(
-				clientId,
-				createBlocksFromInnerBlocksTemplate(
-					nextVariation.innerBlocks,
-				),
-				true,
-			);
-		}
+		replaceBlock(
+			clientId,
+			createBlock(
+				nextVariation.name,
+				nextVariation.attributes,
+				createBlocksFromInnerBlocksTemplate( nextVariation.innerBlocks ),
+			),
+		);
 	}, null );
 
 	return (
