@@ -239,18 +239,16 @@ Release Date: June 29th, 2021
 
 Enhancements:
 
-* Update `SearchAction` schema to comply with Google's updated specification.
+* Updates `SearchAction` schema to comply with Google's updated specification.
 * Excludes sentences inside tables and table captions from the consecutive sentences assessment.
-* [yoastseo] Excludes Table of Contents from the analysis.
 * Adds adjacent relative links for WooCommerce shop pages. Props to [stodorovic](https://github.com/stodorovic).
+* Adds increased compatibility for LiteSpeed web servers. Props to [J-Rey](https://github.com/J-Rey). 
 
 Bugfixes:
 
-* [wordpress-seo-premium] Fixes a bug where Premium users with an inactive Premium license were prompted indefinitely to restart their SEO data optimization. We now show an error message informing them how to activate their license.
-* [@yoast/schema-blocks] Fixes a bug where the Schema blocks were misaligned.
 * Fixes a bug where an error was shown on the page overview and post overview when the website's MySQL database is run in ANSI-mode. Props to [stodorovic](https://github.com/stodorovic).
 * Adds increased compatibility for LiteSpeed web servers. Props to [J-Rey](https://github.com/J-Rey).
-* Shortcodes are now only removed from the Open Graph description when it has been generated from the post's excerpt. Props @Lomerill.
+* Fixes a bug where shortcodes were removed from the Open Graph description even when they were explicitly added. Props to [Lomerill](https://github.com/Lomerill).
 
 = 16.5 =
 Release Date: June 15th, 2021
