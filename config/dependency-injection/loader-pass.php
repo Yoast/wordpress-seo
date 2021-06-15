@@ -36,6 +36,10 @@ class Loader_Pass implements CompilerPassInterface {
 		$definitions       = $container->getDefinitions();
 
 		foreach ( $definitions as $definition ) {
+			if ( $definition->isDeprecated() ) {
+				continue;
+			}
+
 			$this->process_definition( $definition, $loader_definition );
 		}
 	}

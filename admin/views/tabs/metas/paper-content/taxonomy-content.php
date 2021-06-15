@@ -16,7 +16,7 @@ if ( $wpseo_taxonomy->name === 'post_format' ) {
 	$yform->light_switch(
 		'disable-post_format',
 		__( 'Format-based archives', 'wordpress-seo' ),
-		[ __( 'Enabled', 'wordpress-seo' ), __( 'Disabled', 'wordpress-seo' ) ],
+		[ __( 'On', 'wordpress-seo' ), __( 'Off', 'wordpress-seo' ) ],
 		false
 	);
 }
@@ -36,7 +36,7 @@ if ( $wpseo_taxonomy->name !== 'post_format' ) {
 	$yform->show_hide_switch(
 		'display-metabox-tax-' . $wpseo_taxonomy->name,
 		/* translators: %s: Expands to an indexable object's name, like a post type or taxonomy. */
-		sprintf( __( 'Show SEO settings for %1$s', 'wordpress-seo' ), '<strong>' . $title . '</strong>' )
+		sprintf( __( 'Show SEO settings for %1$s?', 'wordpress-seo' ), $title )
 	);
 }
 

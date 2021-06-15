@@ -25,6 +25,13 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	private $permalink;
 
 	/**
+	 * Whether we must return social templates values.
+	 *
+	 * @var bool
+	 */
+	private $use_social_templates = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param WP_Post|array $post      Post object.
@@ -34,6 +41,20 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	public function __construct( $post, array $options, $structure ) {
 		$this->post      = $post;
 		$this->permalink = $structure;
+
+		$this->use_social_templates = $this->use_social_templates();
+	}
+
+	/**
+	 * Determines whether the social templates should be used.
+	 *
+	 * @return bool Whether the social templates should be used.
+	 */
+	public function use_social_templates() {
+		return YoastSEO()->helpers->product->is_premium()
+			&& defined( 'WPSEO_PREMIUM_VERSION' )
+			&& version_compare( WPSEO_PREMIUM_VERSION, '16.5-RC0', '>=' )
+			&& WPSEO_Options::get( 'opengraph', false ) === true;
 	}
 
 	/**
@@ -52,11 +73,15 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 
 		if ( $this->post instanceof WP_Post ) {
 			$values_to_set = [
-				'keyword_usage'       => $this->get_focus_keyword_usage(),
-				'title_template'      => $this->get_title_template(),
-				'metadesc_template'   => $this->get_metadesc_template(),
-				'metaDescriptionDate' => $this->get_metadesc_date(),
-				'first_content_image' => $this->get_image_url(),
+				'keyword_usage'               => $this->get_focus_keyword_usage(),
+				'title_template'              => $this->get_title_template(),
+				'title_template_no_fallback'  => $this->get_title_template( false ),
+				'metadesc_template'           => $this->get_metadesc_template(),
+				'metaDescriptionDate'         => $this->get_metadesc_date(),
+				'first_content_image'         => $this->get_image_url(),
+				'social_title_template'       => $this->get_social_title_template(),
+				'social_description_template' => $this->get_social_description_template(),
+				'social_image_template'       => $this->get_social_image_template(),
 			];
 
 			$values = ( $values_to_set + $values );
@@ -71,14 +96,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string|null The image URL for the social preview.
 	 */
 	protected function get_image_url() {
-		$post_id = $this->post->ID;
-
-		if ( has_post_thumbnail( $post_id ) ) {
-			$featured_image_info = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'thumbnail' );
-			return isset( $featured_image_info[0] ) ? $featured_image_info[0] : null;
-		}
-
-		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
+		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $this->post->ID );
 	}
 
 	/**
@@ -175,13 +193,15 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Retrieves the title template.
 	 *
+	 * @param bool $fallback Whether to return the hardcoded fallback if the template value is empty.
+	 *
 	 * @return string The title template.
 	 */
-	private function get_title_template() {
+	private function get_title_template( $fallback = true ) {
 		$title = $this->get_template( 'title' );
 
-		if ( $title === '' ) {
-			return '%%title%% %%sep%% %%sitename%%';
+		if ( $title === '' && $fallback === true ) {
+			return '%%title%% %%page%% %%sep%% %%sitename%%';
 		}
 
 		return $title;
@@ -190,10 +210,49 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * Retrieves the metadesc template.
 	 *
-	 * @return string
+	 * @return string The metadesc template.
 	 */
 	private function get_metadesc_template() {
 		return $this->get_template( 'metadesc' );
+	}
+
+	/**
+	 * Retrieves the social title template.
+	 *
+	 * @return string The social title template.
+	 */
+	private function get_social_title_template() {
+		if ( $this->use_social_templates ) {
+			return $this->get_template( 'social-title' );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Retrieves the social description template.
+	 *
+	 * @return string The social description template.
+	 */
+	private function get_social_description_template() {
+		if ( $this->use_social_templates ) {
+			return $this->get_template( 'social-description' );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Retrieves the social image template.
+	 *
+	 * @return string The social description template.
+	 */
+	private function get_social_image_template() {
+		if ( $this->use_social_templates ) {
+			return $this->get_template( 'social-image-url' );
+		}
+
+		return '';
 	}
 
 	/**

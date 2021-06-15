@@ -10,7 +10,7 @@ export type BlockVariation = {
 	name?: string;
 	title?: string;
 	description?: string;
-	icon?: string | object;
+	icon?: string | Record<string, unknown>;
 	isDefault?: boolean;
 	innerBlocks?: string[];
 };

@@ -25,6 +25,7 @@ export interface RenderEditProps extends BlockEditProps<Record<string, unknown>>
 
 export interface RenderSaveProps extends BlockSaveProps<Record<string, unknown>> {
 	clientId?: string;
+	className?: string;
 }
 
 export type MutableBlockConfiguration = {

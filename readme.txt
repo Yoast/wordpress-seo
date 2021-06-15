@@ -46,7 +46,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 * **A Google preview**, which shows what your listings will look like in the search results. Even on mobile devices!
 * **Innovative Schema blocks** for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results. Plus a breadcrumbs block to guide your users.
 * **[Premium] Internal linking blocks** to easily improve the structure of your content. Easily add a **table of contents block**, a **related links block**, a **subpages** block, or **siblings block**! Plus, we’ll keep adding these easy-to-add blocks to improve your site structure.
-* **[Premium]** Social previews to show you how your content will be shown on Twitter and Facebook.
+* **[Premium]** Social previews to show you how your content will be shown on Twitter and Facebook. Plus: Social Appearance Templates to guarantee a consistent look.
 * **[Premium]** The Insights tool that shows you what your text focuses on. This way you can keep your article in line with your keyphrases.
 * **[Premium]** Optimize your content for synonyms and related keyphrases.
 * **[Premium]** Optimize your article for different word forms of your keyphrases, as the singular and plural. But also different verb forms, synonyms, and related keyphrases. This makes for more natural content!
@@ -234,6 +234,34 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 16.5 =
+Release Date: June 15th, 2021
+
+Yoast SEO 16.5 is out today! This release comes with a number of fixes and enhancements. For instance, easier social media settings, better understanding of the Turkish and Czech languages and improvements to the breadcrumbs schema output. Read all about it in [our release post](https://yoa.st/release-16-5)!
+
+Enhancements:
+
+* Improves passive voice recognition for Turkish.
+* Improves accuracy of the Czech passive voice assessment by separating clauses based on punctuation marks, and by expanding the list of stopwords.
+* Changes the breadcrumbs schema output so Google can understand it better.
+* Moves the social settings for the homepage from the Social > Facebook tab, to Search Appearance > General.
+* Improves the organization of the Search Appearance > General tab, with distinct collapsibles for the Title Separator, the Homepage settings and the Schema.org settings.
+* Introduces a notice to be displayed in Search Appearance > General in place of the Social settings for the Homepage when Open Graph is disabled.
+* Introduces an image validation warning for the Homepage social image and the Default social image to warn about unsupported file extensions.
+* Improves spacing, headings and toggle labels in the Search Appearance settings, and makes the forms more consistent.
+* Less is more: removes a whole bunch of ads from the Yoast SEO admin screens.
+* Optimizes subscription validations made by Premium add-ons.
+* Improves the truncation of the `primary_focus_keyword` field in the database to handle multibyte characters. Props to [rickhurst](https://github.com/rickhurst).
+* Introduces a partial integration of the Yoast SEO meta box in the Web Stories WordPress editor. Props to [swissspidy](https://github.com/swissspidy).
+
+Bugfixes:
+
+* Fixes a bug where `max-image-preview:large` would be output in the robots meta tag in combination with `noimage`.
+
+Other:
+
+* Moves the 'Force rewrite titles' toggle into a separate paper in the General Search Appearance settings.
+
 = 16.4 =
 Release Date: June 1st, 2021
 
@@ -252,43 +280,12 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where new feature notification couldn't be dismissed.
-* Fixes a bug where the primary term for custom post types was not always properly set for posts edited in the Gutenberg editor. 
+* Fixes a bug where the primary term for custom post types was not always properly set for posts edited in the Gutenberg editor.
 * Fixes a bug where the schema output could be incorrect on terms with the same ID as the static posts page.
 
 Other:
 
 * Adds a missing space to the feedback text in the keyphrase in introduction assessment.
-
-= 16.3 =
-Release Date: May 18th, 2021
-
-Out now: Yoast SEO 16.3! This release helps you with one of the key aspects of modern SEO: Structured data. Yoast SEO 16.3 comes with a lot of enhancements for the Schema.org implementation. Enjoy! Read more about what’s new in Yoast SEO 16.3 in [our release post](https://yoa.st/release-16-3)!
-
-Enhancements:
-
-* Adds the Table of Contents accessibility feature to the `Article` Schema with a fallback to the `WebPage` Schema, when using the Yoast Table of Contents block.
-* Adds the `url` property to the `Author` Schema on a post when author archives are enabled.
-* Adds the `wordCount` and `thumbnailUrl` attributes to `Article` schema pieces.
-* Allows adding multiple FAQ blocks to a post or page.
-
-Bugfixes:
-
-* Fixes a bug where a malformed `Organization` piece would be added to the Schema output if the company logo was an unsupported image.
-* Fixes a bug where we would accidentally include unminified CSS files in the zip. This led to an unnecessary zip size increase.
-* Fixes a bug where the complete options array could be re-saved in the database at each frontend request.
-* Fixes a bug where both `noindex` and `index` values could be added to the `robots` meta tag on the WordPress login screen.
-* Fixes a rare bug where the name property could be missing in the breadcrumb Schema due to plugin conflicts.
-
-Other:
-
-* Adds the `yoast_display_gutenberg_compat_notification` filter to allow disabling the Gutenberg compatibility notification.
-* Adds the `wpseo_schema_person_data` filter to enable the filtering of `Person` Schema by the user's ID.
-* Adds the `Yoast\WP\SEO\admin_post_types_archive` action at the end of the archive section of the custom post types in Search Appearance.
-* Deprecates the `wpseo_admin_page_meta_post_types` action in favor of the new `Yoast\WP\SEO\admin_post_types_beforearchive` action.
-* Deprecates the `wpseo_admin_page_meta_taxonomies` action in favor of the new `Yoast\WP\SEO\admin_taxonomies_meta` action.
-* Improves the layout of the Search Appearance collapsibles.
-* Improves spacing between settings sections in the Search Appearance page.
-* Replaces all occurrences of 'SEMrush' by 'Semrush' to reflect Semrush's rebranding.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

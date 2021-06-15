@@ -4,11 +4,23 @@ import { removeBlock } from "../../BlockHelper";
 import { WarningBlockAttributes } from "../../../blocks/warning-block";
 
 /**
+ * Checks if a warning for the block with the given name is still applicable.
+ *
+ * @param blocks    The list of blocks.
+ * @param blockName The name of the block that used to trigger a warning.
+ *
+ * @returns {boolean} True if the warning is still applicable.
+ */
+function warningApplies( blocks: BlockInstance[], blockName: string ): boolean {
+	return blocks.filter( block => block.name === blockName ).length < 1;
+}
+
+/**
  * Removes any warning blocks that no longer apply.
  *
  * @param blocks The list of blocks.
  */
-export function removeObsoleteWarnings( blocks: BlockInstance[] ) {
+export function removeObsoleteWarnings( blocks: BlockInstance[] ): void {
 	// Are any warnings present?
 	const currentWarnings = blocks.filter( block => block.name === "yoast/warning-block" );
 	if ( currentWarnings.length === 0 ) {
@@ -24,16 +36,4 @@ export function removeObsoleteWarnings( blocks: BlockInstance[] ) {
 			removeBlock( warning.clientId );
 		}
 	} );
-}
-
-/**
- * Checks if a warning for the block with the given name is still applicable.
- *
- * @param blocks    The list of blocks.
- * @param blockName The name of the block that used to trigger a warning.
- *
- * @returns {boolean} True if the warning is still applicable.
- */
-function warningApplies( blocks: BlockInstance[], blockName: string ): boolean {
-	return blocks.filter( block => block.name === blockName ).length < 1;
 }

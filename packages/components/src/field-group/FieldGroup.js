@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import "./field-group.css";
 import HelpIcon, { helpIconDefaultProps, helpIconProps } from "../help-icon/HelpIcon";
 import NewBadge from "../new-badge/NewBadge";
+import PremiumBadge from "../premium-badge/PremiumBadge";
 
 /**
  * FieldGroup component that can be used to wrap our form elements in.
@@ -18,10 +19,22 @@ import NewBadge from "../new-badge/NewBadge";
  * @param {string} wrapperClassName Optional: A classname for the FieldGroup's outer div. Default is "yoast-field-group".
  * @param {string} titleClassName   Optional: A classname for the FieldGroup's title div. Default is "yoast-field-group__title".
  * @param {bool}   hasNewBadge      Optional: Whether the FieldGroup has a 'New' Badge.
+ * @param {bool}   hasPremiumBadge  Optional: Whether the FieldGroup has a 'Premium' Badge.
  *
  * @returns {React.Component} A div with a label, icon and optional description that renders all children.
  */
-const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children, wrapperClassName, titleClassName, hasNewBadge } ) => {
+const FieldGroup = ( {
+	htmlFor,
+	label,
+	linkTo,
+	linkText,
+	description,
+	children,
+	wrapperClassName,
+	titleClassName,
+	hasNewBadge,
+	hasPremiumBadge,
+} ) => {
 	const titleComponent = htmlFor
 		? <label htmlFor={ htmlFor }>{ label }</label>
 		: <b>{ label }</b>;
@@ -29,6 +42,7 @@ const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children, 
 		<div className={ wrapperClassName }>
 			{ label !== "" && <div className={ titleClassName }>
 				{ titleComponent }
+				{ hasPremiumBadge && <PremiumBadge inLabel={ true } /> }
 				{ hasNewBadge && <NewBadge inLabel={ true } /> }
 				{ linkTo !== "" && <HelpIcon
 					linkTo={ linkTo }
