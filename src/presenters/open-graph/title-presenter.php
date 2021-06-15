@@ -10,6 +10,8 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
  */
 class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 
+	const NAME = 'title';
+
 	/**
 	 * The tag format including placeholders.
 	 *

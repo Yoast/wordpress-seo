@@ -10,6 +10,8 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
  */
 class Image_Presenter extends Abstract_Indexable_Presenter {
 
+	const NAME = 'og:image';
+
 	/**
 	 * Image tags that we output for each image.
 	 *

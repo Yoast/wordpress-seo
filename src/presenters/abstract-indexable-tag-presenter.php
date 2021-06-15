@@ -41,7 +41,7 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 	/**
 	 * Escaped the output.
 	 *
-	 * @param string $value The value.
+	 * @param string $value The desired method of escaping; 'html', 'url' or 'attribute'.
 	 *
 	 * @return string The escaped value.
 	 */

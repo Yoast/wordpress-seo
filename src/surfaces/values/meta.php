@@ -112,36 +112,45 @@ class Meta {
 		$this->front_end    = $this->container->get( Front_End_Integration::class );
 	}
 
+	/**
+	 * Returns the metadata to be presented in json format.
+	 *
+	 * @return string The JSON output of the metadata.
+	 */
 	public function get_json_head() {
-		// Reuse get_head by turning it's parts into protected functions.
+		return present_head( 'JSON' );
+	}
+
+	/**
+	 * Returns the metadata to be presented in the page head.
+	 *
+	 * @return string The HTML output of the metadata.
+	 */
+	public function get_head() {
+		return present_head( 'HTML' );
 	}
 
 	/**
 	 * Returns the output as would be presented in the head.
 	 *
+	 * @param string $header_format Allowed formats are 'HTML' or 'JSON'; 'HTML' is default.
 	 * @return string The HTML output of the head.
 	 */
-	public function get_head() {
-		$presenters = $this->front_end->get_presenters( $this->context->page_type );
+	protected function present_head( $header_format = 'HTML' ) {
+		$html_output = $header_format === 'HTML';
+		$output = $html_output ? '' : [];
 
-		if ( $this->context->page_type === 'Date_Archive' ) {
-			$callback   = static function ( $presenter ) {
-				return ! \is_a( $presenter, Rel_Next_Presenter::class )
-					&& ! \is_a( $presenter, Rel_Prev_Presenter::class );
-			};
-			$presenters = \array_filter( $presenters, $callback );
-		}
-
-		$output = $html ? '' : [];
+		$presenters = $this->get_presenters();
 
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $this->context->presentation, $this->context );
+
 		foreach ( $presenters as $presenter ) {
 			$presenter->presentation = $presentation;
 			$presenter->helpers      = $this->helpers;
 			$presenter->replace_vars = $this->replace_vars;
 
-			if ( $html ) {
+			if ( $html_output ) {
 				$presenter_output = $presenter->present();
 				if ( ! empty( $presenter_output ) ) {
 					$output .= $presenter_output . \PHP_EOL;
@@ -229,5 +238,22 @@ class Meta {
 	 */
 	public function __debugInfo() {
 		return [ 'context' => $this->context ];
+	}
+
+	/**
+	 * @return Abstract_Indexable_Presenter[]
+	 */
+	protected function get_presenters()
+	{
+		$presenters = $this->front_end->get_presenters($this->context->page_type);
+
+		if ($this->context->page_type === 'Date_Archive') {
+			$callback = static function ($presenter) {
+				return !\is_a($presenter, Rel_Next_Presenter::class)
+					&& !\is_a($presenter, Rel_Prev_Presenter::class);
+			};
+			$presenters = \array_filter($presenters, $callback);
+		}
+		return $presenters;
 	}
 }
