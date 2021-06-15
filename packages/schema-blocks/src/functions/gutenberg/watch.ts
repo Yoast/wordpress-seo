@@ -117,7 +117,10 @@ function generateSchemaForBlocks(
 export function validateBlocks( rootBlock: SchemaDefinition, blocks: BlockInstance[] ): BlockValidationResult[] {
 	const validations: BlockValidationResult[] = [];
 
-	// Use missingBlocks.ts instead
+	// Use missingBlocks.ts to report required / recommended / optional blocks that are missing
+
+	// Validate the blocks that are found
+	blocks.map( x => x );
 
 	// Const rootBlockInstructions = Object.values( rootBlock.instructions );
 	// Const rootBlockConfigurations = rootBlockInstructions.map( rbi => rbi.configuration() );
