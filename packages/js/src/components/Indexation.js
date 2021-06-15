@@ -1,6 +1,6 @@
 /* global yoastIndexingData */
 import { Component, Fragment } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { ProgressBar, NewButton, Alert } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
@@ -43,7 +43,9 @@ export class Indexation extends Component {
 			state: STATE.IDLE,
 			processed: 0,
 			amount: parseInt( this.settings.amount, 10 ),
-			firstTime: ( this.settings.firstTime === "1" ),
+			firstTime: (
+				this.settings.firstTime === "1"
+			),
 		};
 
 		this.startIndexing = this.startIndexing.bind( this );
@@ -310,10 +312,46 @@ export class Indexation extends Component {
 	 * @returns {JSX.Element} The error alert.
 	 */
 	renderErrorAlert() {
+		const message = { __html: this.generateIndexingError() };
 		return <Alert type={ "error" }>
-			{ __( "Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
-				  "Please click the button again to re-start the process.", "wordpress-seo" ) }
+			<span dangerouslySetInnerHTML={ message } />
 		</Alert>;
+	}
+
+	/**
+	 * Generates an error message to show when indexing failed.
+	 *
+	 * The error message varies based on whether WordPress SEO Premium
+	 * has a valid, activated subscription or not.
+	 *
+	 * @returns {string} The indexing error as an HTML string.
+	 */
+	generateIndexingError() {
+		let message = __(
+			"Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
+			"Please click the button again to re-start the process.",
+			"wordpress-seo"
+		);
+
+		if ( yoastIndexingData.isPremium === "1" ) {
+			if ( yoastIndexingData.hasValidPremiumSubscription === "1" ) {
+				message += __( " If the problem persists, please contact support.", "wordpress-seo" );
+			} else {
+				message = sprintf(
+					__(
+						"Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
+						"Please make sure to activate your subscription in MyYoast by completing %1$sthese steps%2$s.",
+						"wordpress-seo"
+					),
+					// Translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page,
+					// %2$s expands to a closing anchor tag.
+					"<a href='" + yoastIndexingData.subscriptionActivationLink + "'>",
+					"</a>"
+				);
+			}
+		}
+
+		return message;
 	}
 
 	/**

@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -72,9 +73,16 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	/**
 	 * The notification helper.
 	 *
-	 * @var Notification_Helper
+	 * @var Mockery\MockInterface|Notification_Helper
 	 */
 	protected $notification_helper;
+
+	/**
+	 * The addon manager.
+	 *
+	 * @var Mockery\MockInterface|WPSEO_Addon_Manager
+	 */
+	protected $addon_manager;
 
 	/**
 	 * The instance under test.
@@ -95,6 +103,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		$this->short_link_helper   = Mockery::mock( Short_Link_Helper::class );
 		$this->notification_helper = Mockery::mock( Notification_Helper::class );
 		$this->indexing_helper     = Mockery::mock( Indexing_Helper::class );
+		$this->addon_manager       = Mockery::mock( WPSEO_Addon_Manager::class );
+
 
 		$this->instance = new Indexing_Notification_Integration(
 			$this->notification_center,
@@ -102,7 +112,8 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			$this->page_helper,
 			$this->short_link_helper,
 			$this->notification_helper,
-			$this->indexing_helper
+			$this->indexing_helper,
+			$this->addon_manager
 		);
 	}
 

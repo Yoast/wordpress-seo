@@ -12,6 +12,7 @@ import getDefaultQueryParams from "./getDefaultQueryParams";
 import getTranslations from "./getTranslations";
 import isContentAnalysisActive from "./isContentAnalysisActive";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
+import { enabledFeatures } from "@yoast/feature-flag";
 
 /**
  * Instantiates an analysis worker (wrapper).
@@ -42,7 +43,7 @@ export function getAnalysisConfiguration( customConfiguration = {} ) {
 		keywordAnalysisActive: isKeywordAnalysisActive(),
 		defaultQueryParams: getDefaultQueryParams(),
 		logLevel: get( window, [ "wpseoScriptData", "analysis", "worker", "log_level" ], "ERROR" ),
-		enabledFeatures: get( window, [ "wpseoScriptData", "analysis", "worker", "enabled_features" ], [] ),
+		enabledFeatures: enabledFeatures(),
 	};
 
 	configuration = merge( configuration, customConfiguration );

@@ -2,12 +2,14 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\No_Tool_Selected_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter;
@@ -49,6 +51,20 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	protected $indexing_helper;
 
 	/**
+	 * The addon manager.
+	 *
+	 * @var WPSEO_Addon_Manager
+	 */
+	protected $addon_manager;
+
+	/**
+	 * The product helper.
+	 *
+	 * @var Product_Helper
+	 */
+	protected $product_helper;
+
+	/**
 	 * Returns the conditionals based on which this integration should be active.
 	 *
 	 * @return array The array of conditionals.
@@ -68,17 +84,23 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	 * @param Indexable_Helper          $indexable_helper  The indexable helper.
 	 * @param Short_Link_Helper         $short_link_helper The short link helper.
 	 * @param Indexing_Helper           $indexing_helper   The indexing helper.
+	 * @param WPSEO_Addon_Manager       $addon_manager     The addon manager.
+	 * @param Product_Helper            $product_helper    The product helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Indexable_Helper $indexable_helper,
 		Short_Link_Helper $short_link_helper,
-		Indexing_Helper $indexing_helper
+		Indexing_Helper $indexing_helper,
+		WPSEO_Addon_Manager $addon_manager,
+		Product_Helper $product_helper
 	) {
 		$this->asset_manager     = $asset_manager;
 		$this->indexable_helper  = $indexable_helper;
 		$this->short_link_helper = $short_link_helper;
 		$this->indexing_helper   = $indexing_helper;
+		$this->addon_manager     = $addon_manager;
+		$this->product_helper    = $product_helper;
 	}
 
 	/**
@@ -100,10 +122,13 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		$this->asset_manager->enqueue_style( 'monorepo' );
 
 		$data = [
-			'disabled'  => ! $this->indexable_helper->should_index_indexables(),
-			'amount'    => $this->indexing_helper->get_filtered_unindexed_count(),
-			'firstTime' => ( $this->indexing_helper->is_initial_indexing() === true ),
-			'restApi'   => [
+			'disabled'                    => ! $this->indexable_helper->should_index_indexables(),
+			'amount'                      => $this->indexing_helper->get_filtered_unindexed_count(),
+			'firstTime'                   => ( $this->indexing_helper->is_initial_indexing() === true ),
+			'isPremium'                   => $this->product_helper->is_premium(),
+			'hasValidPremiumSubscription' => $this->has_valid_premium_subscription(),
+			'subscriptionActivationLink'  => \esc_url( $this->short_link_helper->get( 'https://yoa.st/3wv' ) ),
+			'restApi'                     => [
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => $this->get_endpoints(),
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),
@@ -118,6 +143,15 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		$data = \apply_filters( 'wpseo_indexing_data', $data );
 
 		$this->asset_manager->localize_script( 'indexation', 'yoastIndexingData', $data );
+	}
+
+	/**
+	 * Determines if the site has a valid Premium subscription.
+	 *
+	 * @return bool If the site has a valid Premium subscription.
+	 */
+	protected function has_valid_premium_subscription() {
+		return $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG );
 	}
 
 	/**

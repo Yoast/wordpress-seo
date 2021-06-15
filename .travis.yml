@@ -140,6 +140,9 @@ install:
       travis_retry composer install --no-interaction --ignore-platform-reqs
       travis_retry composer remove humbug/php-scoper --dev --ignore-platform-reqs
       travis_retry composer remove atanamo/php-codeshift --dev --ignore-platform-reqs
+      # Dependency injection compilation only works on PHP 7+.
+      # It makes use of reflection-based PHP code that only works on PHP 7+.
+      travis_retry composer du
       phpenv local --unset
       rm -rf vendor/*
     fi
@@ -153,9 +156,9 @@ install:
       travis_retry composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
     elif [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$PHPLINT" == "1" ]]; then
       # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
-      travis_retry composer update
-      travis_retry composer install --no-interaction
-      composer du
+      travis_retry composer update --no-interaction --no-scripts
+      travis_retry composer install --no-interaction --no-scripts
+      travis_retry composer du --no-scripts
     elif [[ "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
       travis_retry composer update
       travis_retry composer install --no-dev --no-interaction

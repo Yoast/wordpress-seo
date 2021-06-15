@@ -64,6 +64,10 @@
 	margin-left: 8px;
 }
 
+.yoast-settings-section-upsell .yoast-alert {
+	margin: 0 16px;
+}
+
 .draftJsMentionPlugin__mention__29BEd, .draftJsMentionPlugin__mention__29BEd:visited {
   color: #575f67;
   cursor: pointer;

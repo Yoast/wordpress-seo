@@ -49,8 +49,8 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 		if ( $this->is_filter_active() ) {
 			global $wpdb;
 
-			$where .= sprintf(
-				' AND ' . $wpdb->posts . '.ID IN( SELECT post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key = "%s" AND meta_value = "1" ) ',
+			$where .= $wpdb->prepare(
+				" AND {$wpdb->posts}.ID IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = '1' ) ",
 				WPSEO_Meta::$meta_prefix . self::META_NAME
 			);
 		}
@@ -118,12 +118,11 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 
 		return (int) $wpdb->get_var(
 			$wpdb->prepare(
-				'
-				SELECT COUNT( 1 )
-				FROM ' . $wpdb->postmeta . '
-				WHERE post_id IN( SELECT ID FROM ' . $wpdb->posts . ' WHERE post_type = %s ) AND
-				meta_value = "1" AND meta_key = %s
-				',
+				"SELECT COUNT( 1 )
+					FROM {$wpdb->postmeta}
+					WHERE post_id IN( SELECT ID FROM {$wpdb->posts} WHERE post_type = %s ) AND
+					meta_key = %s AND meta_value = '1'
+				",
 				$this->get_current_post_type(),
 				WPSEO_Meta::$meta_prefix . self::META_NAME
 			)
