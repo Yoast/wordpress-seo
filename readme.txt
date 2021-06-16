@@ -243,20 +243,12 @@ Enhancements:
 * Excludes sentences inside tables and table captions from the consecutive sentences assessment.
 * Adds adjacent relative links for WooCommerce shop pages. Props to [stodorovic](https://github.com/stodorovic).
 * Adds increased compatibility for LiteSpeed web servers. Props to [J-Rey](https://github.com/J-Rey). 
-* [yoastseo] Filters out table block content from the `getSentenceBeginnings` research.
-* [yoastseo] Excludes Table of Contents from the analysis.
-* [Yoast SEO Premium] Excludes Table of Contents from the SEO and readability analysis.
 
 Bugfixes:
 
 * Fixes a bug where an error was shown on the page overview and post overview when the website's MySQL database is run in ANSI-mode. Props to [stodorovic](https://github.com/stodorovic).
 * Adds increased compatibility for LiteSpeed web servers. Props to [J-Rey](https://github.com/J-Rey).
 * Fixes a bug where shortcodes were removed from the Open Graph description even when they were explicitly added. Props to [Lomerill](https://github.com/Lomerill).
-* [wordpress-seo-premium] Fixes a bug where Premium users with an inactive Premium license were prompted indefinitely to restart their SEO data optimization. We now show an error message informing them how to activate their license.
-* [@yoast/schema-blocks] Fixes a bug where the Schema blocks were misaligned.
-
-No category:
-
 * Fixes a bug that if you used the `wpseo_schema_{@type}` filter you would get a fatal error.
 
 = 16.5 =
