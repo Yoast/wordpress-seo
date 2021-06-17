@@ -59,7 +59,7 @@ class Admin_Features_Test extends TestCase {
 		$product_helper = Mockery::mock( Product_Helper::class );
 		$product_helper->expects( 'is_premium' )->times( 5 )->andReturn( false );
 		$url_helper = Mockery::mock( Url_Helper::class );
-		$url_helper->expects( 'is_plugin_network_active' )->andReturn( false );
+		$url_helper->expects( 'is_plugin_network_active' )->twice()->andReturn( false );
 
 		$helper_surface               = Mockery::mock( Helpers_Surface::class );
 		$helper_surface->current_page = $current_page_helper;
