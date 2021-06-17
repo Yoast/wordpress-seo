@@ -48,6 +48,7 @@ jobs:
       run: grunt build:dev
 
     - name: Execute the e2e-test-env-setup.sh file
-      run: |
+	  run: |
+        npm install @wordpress/env --save-dev
         cd packages/e2e-tests
         bash e2e-test-env-setup.sh
