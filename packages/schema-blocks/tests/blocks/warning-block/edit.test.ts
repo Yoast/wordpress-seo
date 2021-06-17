@@ -1,7 +1,7 @@
 import * as renderer from "react-test-renderer";
 import { shallow } from "enzyme";
 
-import { removeBlock, restoreBlock } from "../../../src/functions/BlockHelper";
+import { removeBlock, replaceBlock } from "../../../src/functions/BlockHelper";
 import { edit } from "../../../src/blocks/warning-block/edit";
 import { RenderEditProps } from "../../../src/core/blocks/BlockDefinition";
 
@@ -60,13 +60,13 @@ describe( "The edit function", () => {
 		expect( removeBlock ).toHaveBeenCalled();
 	} );
 
-	it( "should call the `restoreBlock` function if the 'no' button is clicked.", () => {
+	it( "should call the `replaceBlock` function if the 'no' button is clicked.", () => {
 		const tree = shallow( edit( defaultProps ) );
 
 		const noButton = tree.find( "button" ).at( 1 );
 
 		noButton.simulate( "click" );
 
-		expect( restoreBlock ).toHaveBeenCalled();
+		expect( replaceBlock ).toHaveBeenCalled();
 	} );
 } );

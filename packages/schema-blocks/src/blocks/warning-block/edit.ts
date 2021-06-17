@@ -1,6 +1,6 @@
 import { createElement } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { removeBlock, restoreBlock } from "../../functions/BlockHelper";
+import { removeBlock, replaceBlock } from "../../functions/BlockHelper";
 import { RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { BlockInstance } from "@wordpress/blocks";
 
@@ -54,7 +54,7 @@ export function edit( props: RenderEditProps ): JSX.Element {
 						{
 							key: "button-no",
 							onClick: () => {
-								restoreBlock( clientId, removedBlock as BlockInstance );
+								replaceBlock( clientId, removedBlock as BlockInstance );
 							},
 						},
 						__( "No, please undo this", "yoast-schema-blocks" ),

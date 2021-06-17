@@ -28,7 +28,7 @@ function removeBlock( clientId: string ): void {
  * @param {string} clientId          The client ID of the warning block.
  * @param {string} removedBlock      The removed block.
  */
-function restoreBlock( clientId: string, removedBlock: BlockInstance ): void {
+function replaceBlock( clientId: string, removedBlock: BlockInstance ): void {
 	dispatch( "core/block-editor" ).replaceBlock( clientId, removedBlock );
 }
 
@@ -64,4 +64,4 @@ function getHumanReadableBlockName( blockName: string ): string {
 	return blockName.substring( lastSlash + 1 ).toLocaleLowerCase();
 }
 
-export { getBlockByClientId, removeBlock, restoreBlock, getBlockType, getHumanReadableBlockName };
+export { getBlockByClientId, removeBlock, replaceBlock, getBlockType, getHumanReadableBlockName };

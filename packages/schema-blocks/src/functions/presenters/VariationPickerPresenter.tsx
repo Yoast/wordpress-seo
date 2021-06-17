@@ -4,7 +4,6 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { __experimentalBlockVariationPicker as ExperimentalBlockVariationPicker, useBlockProps } from "@wordpress/block-editor";
 import { BlockInstance, createBlock } from "@wordpress/blocks";
 import { get, map } from "lodash";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement, useCallback } from "@wordpress/element";
 import { VariationInterface } from "../../instructions/blocks/Variation";
 import { RenderEditProps } from "../..";
@@ -57,7 +56,7 @@ export default function VariationPickerPresenter( { clientId, name, setAttribute
 		[ name ],
 	);
 
-	const { replaceInnerBlocks, replaceBlock } = useDispatch( "core/block-editor" );
+	const { replaceBlock } = useDispatch( "core/block-editor" );
 	const blockProps = useBlockProps();
 
 	/**

@@ -1,7 +1,7 @@
 import { dispatch, select } from "@wordpress/data";
 import { BlockInstance } from "@wordpress/blocks";
 
-import { removeBlock, restoreBlock, getBlockType } from "../../src/functions/BlockHelper";
+import { removeBlock, replaceBlock, getBlockType } from "../../src/functions/BlockHelper";
 
 jest.mock( "@wordpress/data", () => {
 	return {
@@ -33,7 +33,7 @@ describe( "The removeBlock function", () => {
 	} );
 } );
 
-describe( "The restoreBlock function", () => {
+describe( "The replaceBlock function", () => {
 	it( "restores a block", () => {
 		const blockToRestore = {
 			clientId: "1234-abcd",
@@ -51,7 +51,7 @@ describe( "The restoreBlock function", () => {
 			],
 		} as BlockInstance;
 
-		restoreBlock( "1234-abcd", blockToRestore );
+		replaceBlock( "1234-abcd", blockToRestore );
 
 		expect( dispatch ).toHaveBeenCalledWith( "core/block-editor" );
 	} );
