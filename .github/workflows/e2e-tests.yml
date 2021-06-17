@@ -41,7 +41,6 @@ jobs:
           ${{ runner.os }}-yarn-
 
     - name: Run yarn command
-      if: steps.yarn-cache.outputs.cache-hit != 'true'
       run: |
         yarn add @wordpress/env --dev
         yarn
