@@ -28,9 +28,15 @@ jobs:
     - name: Install Composer packages
       run: composer install
 
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+
     - name: Run Node command
       run: |
-        yarn
+        yarn install
 
     - name: Build the plugin
       run: grunt build:dev
