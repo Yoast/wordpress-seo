@@ -41,13 +41,13 @@ jobs:
           ${{ runner.os }}-yarn-
 
     - name: Run yarn command
+      if: steps.yarn-cache.outputs.cache-hit != 'true'
       run: yarn
 
     - name: Build the plugin
       run: grunt build:dev
 
-    - name: Move to the e2e tests package folder
-      run: cd packages/e2e-tests
-
     - name: Execute the e2e-test-env-setup.sh file
-      run: ls
+      run: |
+        cd packages/e2e-tests
+        bash e2e-test-env-setup.sh
