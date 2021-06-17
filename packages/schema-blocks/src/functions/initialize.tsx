@@ -1,5 +1,9 @@
 import "../instructions";
 import { registerBlockType } from "@wordpress/blocks";
+import { Fill } from "@wordpress/components";
+import { createElement } from "@wordpress/element";
+import { registerPlugin } from "@wordpress/plugins";
+
 import { initializeSchemaBlocksStore } from "./redux";
 import { WarningBlock } from "../blocks/warning-block/configuration";
 import { processBlock, processSchema } from "./process";
@@ -7,10 +11,7 @@ import filter from "./gutenberg/filter";
 import watch from "./gutenberg/watch";
 import logger, { LogLevel } from "./logger";
 import injectSidebar from "./gutenberg/inject-sidebar";
-import { registerPlugin } from "@wordpress/plugins";
-import { Fill } from "@wordpress/components";
 import { SchemaAnalysis } from "./presenters/SchemaAnalysis";
-import { createElement } from "@wordpress/element";
 
 /**
  * Removes all whitespace including line breaks from a string.
@@ -69,11 +70,11 @@ export function initialize( logLevel: LogLevel = LogLevel.ERROR ): void {
 	} );
 
 	/**
-	 * Creates the Analysis component.
+	 * Creates the SchemaAnalysis component.
 	 *
 	 * @param props The props.
 	 *
-	 * @returns The analysis component.
+	 * @returns The SchemaAnalysis component.
 	 */
 	const SchemaAnalysisFill = (): React.ReactElement => {
 		return (
@@ -83,7 +84,7 @@ export function initialize( logLevel: LogLevel = LogLevel.ERROR ): void {
 		);
 	};
 
-	// Register the schema analysis as a plugin, because it needs to be in the same react tree as gutenberg.
+	// Register the SchemaAnalysis as a plugin, because it needs to be in the same React tree as Gutenberg.
 	registerPlugin( "yoast-seo-schema-blocks-analysis", {
 		render: SchemaAnalysisFill,
 		icon: null,
