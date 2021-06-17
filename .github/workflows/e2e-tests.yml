@@ -27,8 +27,18 @@ jobs:
     - name: Install Composer packages
       run: composer install
 
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+
     - name: Run yarn command
       run: yarn
 
     - name: Build the plugin
       run: grunt build:dev
+
+    run: cd packages/e2e-tests
+
+    run: bash e2e-test-env-setup.sh
