@@ -11,11 +11,6 @@ import { YOAST_SCHEMA_BLOCKS_STORE_NAME } from "../redux";
 import { BlockValidationResult } from "../../core/validation";
 import LabelWithHelpLink from "./LabelWithHelpLinkPresenter";
 
-interface SchemaAnalysisProps {
-	recommendedBlocks: string[];
-	requiredBlocks: string[];
-}
-
 /**
  * Retrieves the validation results from the Redux store.
  *

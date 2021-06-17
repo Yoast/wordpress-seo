@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 import SchemaTab from "../components/SchemaTab";
 import SchemaFields from "../helpers/fields/SchemaFields";
 import withLocation from "../helpers/withLocation";
-import { isFeatureEnabled } from "@yoast/feature-flag";
 
 /**
  * Function to get props based on the location.
