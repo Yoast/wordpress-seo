@@ -42,13 +42,13 @@ jobs:
 
     - name: Run Node command
       run: |
-        npm install @wordpress/env --save-dev
         yarn
 
     - name: Build the plugin
       run: grunt build:dev
 
     - name: Execute the e2e-test-env-setup.sh file
-      run: |
-        cd packages/e2e-tests
-        bash e2e-test-env-setup.sh
+	  run: |
+		cd packages/e2e-tests
+        npm install @wordpress/env --save-dev
+		bash e2e-test-env-setup.sh
