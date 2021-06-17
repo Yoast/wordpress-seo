@@ -50,5 +50,4 @@ jobs:
     - name: Execute the e2e-test-env-setup.sh file
       run: |
         cd packages/e2e-tests
-        npm install @wordpress/env --save-dev
         bash e2e-test-env-setup.sh
