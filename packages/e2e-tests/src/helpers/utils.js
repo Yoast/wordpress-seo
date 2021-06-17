@@ -38,4 +38,6 @@ export const createNewTaxonomy = async ( taxonomySlug, taxonomyTitle ) => {
 	await pressKeyWithModifier( 'primary', 'a' );
 	await page.type( '#tag-name', taxonomyTitle );
 	await page.click( '#submit' );
+
+	await page.waitForSelector( '#the-list tr.level-0' );
 }
