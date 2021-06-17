@@ -353,6 +353,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->title                     = 'Page title';
 
 		$this->current_page->expects( 'is_paged' )->andReturnTrue();
+		$this->current_page->expects( 'is_static_posts_page' )->once()->andReturnFalse();
 		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnFalse();
 
 		$this->html
@@ -419,6 +420,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->indexable->number_of_pages = 3;
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->current_page->expects( 'is_static_posts_page' )->once()->andReturnFalse();
 		$this->current_page->expects( 'is_home_static_page' )->andReturnFalse();
 
 		$this->html
