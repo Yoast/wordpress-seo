@@ -245,14 +245,15 @@ class Meta {
 	 */
 	protected function get_presenters()
 	{
-		$presenters = $this->front_end->get_presenters($this->context->page_type);
+		$presenters = $this->front_end->get_presenters( $this->context->page_type );
 
-		if ($this->context->page_type === 'Date_Archive') {
-			$callback = static function ($presenter) {
-				return !\is_a($presenter, Rel_Next_Presenter::class)
-					&& !\is_a($presenter, Rel_Prev_Presenter::class);
+		if ( $this->context->page_type === 'Date_Archive') {
+			// Define a filter that removes objects of type Rel_Next_Presenter or Rel_Prev_Presenter from a list.
+			$callback = static function ( $presenter ) {
+				return !\is_a( $presenter, Rel_Next_Presenter::class )
+					&& !\is_a( $presenter, Rel_Prev_Presenter::class );
 			};
-			$presenters = \array_filter($presenters, $callback);
+			$presenters = \array_filter( $presenters, $callback );
 		}
 		return $presenters;
 	}

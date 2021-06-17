@@ -125,7 +125,7 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 			->once()
 			->with(
 				'post_type',
-				Yoast_Head_REST_Field::YOAST_HEAD_FIELD_NAME,
+				Yoast_Head_REST_Field::YOAST_HEAD_ATTRIBUTE_NAME,
 				[ 'get_callback' => [ $this->instance, 'for_post' ] ]
 			);
 
@@ -133,7 +133,7 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 			->once()
 			->with(
 				'taxonomy',
-				Yoast_Head_REST_Field::YOAST_HEAD_FIELD_NAME,
+				Yoast_Head_REST_Field::YOAST_HEAD_ATTRIBUTE_NAME,
 				[ 'get_callback' => [ $this->instance, 'for_term' ] ]
 			);
 
@@ -141,7 +141,7 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 			->once()
 			->with(
 				'tag',
-				Yoast_Head_REST_Field::YOAST_HEAD_FIELD_NAME,
+				Yoast_Head_REST_Field::YOAST_HEAD_ATTRIBUTE_NAME,
 				[ 'get_callback' => [ $this->instance, 'for_term' ] ]
 			);
 
@@ -149,7 +149,7 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 			->once()
 			->with(
 				'user',
-				Yoast_Head_REST_Field::YOAST_HEAD_FIELD_NAME,
+				Yoast_Head_REST_Field::YOAST_HEAD_ATTRIBUTE_NAME,
 				[ 'get_callback' => [ $this->instance, 'for_author' ] ]
 			);
 
@@ -157,7 +157,7 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 			->once()
 			->with(
 				'type',
-				Yoast_Head_REST_Field::YOAST_HEAD_FIELD_NAME,
+				Yoast_Head_REST_Field::YOAST_HEAD_ATTRIBUTE_NAME,
 				[ 'get_callback' => [ $this->instance, 'for_post_type_archive' ] ]
 			);
 

@@ -21,14 +21,14 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const YOAST_HEAD_FIELD_NAME = 'yoast_head';
+	const YOAST_HEAD_ATTRIBUTE_NAME = 'yoast_head';
 
 	/**
 	 * The name of the yoast head field.
 	 *
 	 * @var string
 	 */
-	const YOAST_JSON_HEAD_FIELD_NAME = 'yoast_json_head';
+	const YOAST_JSON_HEAD_ATTRIBUTE_NAME = 'yoast_json_head';
 
 	/**
 	 * The post type helper.
@@ -180,19 +180,23 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	}
 
 	protected function register_rest_fields( $object_type, $callback ) {
-		\register_rest_field( $object_type, self::YOAST_HEAD_FIELD_NAME, [ 'get_callback' => [ $this, $callback ] ] );
-		\register_rest_field( $object_type, self::YOAST_JSON_HEAD_FIELD_NAME, [ 'get_callback' => [ $this, $callback ] ] );
+		// allow output in page head meta tags
+		\register_rest_field( $object_type, self::YOAST_HEAD_ATTRIBUTE_NAME, [ 'get_callback' => [ $this, $callback ] ] );
+		// output in a page head json object
+		\register_rest_field( $object_type, self::YOAST_JSON_HEAD_ATTRIBUTE_NAME, [ 'get_callback' => [ $this, $callback ] ] );
 	}
 
-	protected function render_object( $obj, $field_name ) {
+	protected function render_object( $obj, $attribute_name ) {
 		if ( $obj->status === 404 ) {
 			return null;
 		}
 
-		if ( $field_name === self::YOAST_HEAD_FIELD_NAME ) {
-			return $obj->head;
+		// Choose the correct output format based on the head attribute we are rendering.
+		switch ( $attribute_name ) {
+			case self::YOAST_JSON_HEAD_ATTRIBUTE_NAME :
+				return $obj->json_head;
+			default:
+				return $obj->head;
 		}
-
-		return $obj->json_head;
 	}
 }
