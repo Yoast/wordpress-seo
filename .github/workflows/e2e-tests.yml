@@ -27,8 +27,6 @@ jobs:
     - name: Install Composer packages
       run: composer install
 
-    - uses: c-hive/gha-yarn-cache@v1
-
     - name: Run Node command
       run: |
         yarn
