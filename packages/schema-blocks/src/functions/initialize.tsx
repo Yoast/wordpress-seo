@@ -78,11 +78,12 @@ export function initialize( logLevel: LogLevel = LogLevel.ERROR ): void {
 	const SchemaAnalysisFill = (): React.ReactElement => {
 		return (
 			<Fill name="YoastSchemaBlocksAnalysis">
-				{ ( fillProps: any ) => <SchemaAnalysis { ...fillProps } /> }
+				<SchemaAnalysis />
 			</Fill>
 		);
 	};
 
+	// Register the schema analysis as a plugin, because it needs to be in the same react tree as gutenberg.
 	registerPlugin( "yoast-seo-schema-blocks-analysis", {
 		render: SchemaAnalysisFill,
 		icon: null,
