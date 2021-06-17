@@ -3,12 +3,24 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Language_Utils;
+use Yoast\WP\SEO\Conditionals\Slovak_Support_Conditional;
 use Yoast\WP\SEO\Config\Researcher_Languages;
 
 /**
  * A helper object for language features.
  */
 class Language_Helper {
+	/**
+	 * Schema_Blocks constructor.
+	 *
+	 * @param Slovak_Support_Conditional $slovak_conditional The Slovak support conditional.
+	 */
+	public function __construct(
+		Slovak_Support_Conditional  $slovak_conditional
+	) {
+		$this->slovak_conditional = $slovak_conditional;
+	}
+
 
 	/**
 	 * Checks whether word form recognition is active for the used language.
@@ -45,7 +57,13 @@ class Language_Helper {
 	 */
 	public function get_researcher_language() {
 		$researcher_language = WPSEO_Language_Utils::get_language( get_locale() );
-		if ( ! \in_array( $researcher_language, Researcher_Languages::SUPPORTED_LANGUAGES, true ) ) {
+		$supported_languages = Researcher_Languages::SUPPORTED_LANGUAGES;
+
+		if ( $this->slovak_conditional->is_met() ) {
+			array_push( $supported_languages, 'sk' );
+		}
+
+		if ( ! \in_array( $researcher_language, $supported_languages, true ) ) {
 			$researcher_language = 'default';
 		}
 
