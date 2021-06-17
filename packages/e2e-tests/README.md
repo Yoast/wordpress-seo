@@ -25,7 +25,7 @@ grunt build:dev
 
 First make sure Docker is running on your machine and run this command `bash e2e-test-env-setup.sh`.
 The command will execute the [e2e-test-env-setup.sh](e2e-test-env-setup.sh) file.
-The command basically:
+This file basically:
 - Move to the plugin root folder
 - Start the WordPress local environment
 - Install and activate the [yoast-simple-custom-post-type.zip](./data/yoast-simple-custom-post-type.zip) plugin: the plugin creates a custom post type used in the tests
