@@ -24,5 +24,11 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-php-
 
-    - name: Install Composer dependencies
+    - name: Install Composer packages
       run: composer install
+
+    - name: Run yarn command
+      run: yarn
+
+    - name: Build the plugin
+      run: grunt build:dev
