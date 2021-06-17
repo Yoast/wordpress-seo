@@ -1,6 +1,6 @@
 import "../instructions";
 import { registerBlockType } from "@wordpress/blocks";
-import { initializeSchemaBlocksStore } from "../functions/redux";
+import { initializeSchemaBlocksStore } from "./redux";
 import { WarningBlock } from "../blocks/warning-block/configuration";
 import { processBlock, processSchema } from "./process";
 import filter from "./gutenberg/filter";

@@ -22,6 +22,8 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Moves an exception check specific to English from the general `getClauses` file to the English-specific `getClauses` file.
 * Deletes obsolete files and changes the `SentenceNew` class to `Sentence`. Also adds an additional check in `parse.js` to parse classes.
 * Fixes the stopwords list for Czech by adding the correct stopwords. Adds punctuation marks as sentence breakers.
+* Excludes Table of Contents from the analysis.
+* Filters out table block content from the `getSentenceBeginnings` research.
 
 ## 1.89.0 January 25th, 2021
 ### Enhancements
