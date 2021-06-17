@@ -41,7 +41,10 @@ jobs:
           ${{ runner.os }}-yarn-
 
     - name: Run yarn command
-      run: yarn --prefer-offline
+      if: steps.yarn-cache.outputs.cache-hit != 'true'
+	  run: |
+        yarn add @wordpress/env --dev
+        yarn
 
     - name: Build the plugin
       run: grunt build:dev
