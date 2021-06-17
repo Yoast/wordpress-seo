@@ -41,8 +41,7 @@ jobs:
           ${{ runner.os }}-yarn-
 
     - name: Run yarn command
-      if: steps.yarn-cache.outputs.cache-hit != 'true'
-      run: yarn
+      run: yarn --prefer-offline
 
     - name: Build the plugin
       run: grunt build:dev
