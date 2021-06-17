@@ -6,7 +6,11 @@ on:
 
 jobs:
   yoast-e2e-tests-wp-latest:
-    runs-on: ubuntu-latest
+
+	env:
+      WP_VERSION: latest
+
+	  runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
