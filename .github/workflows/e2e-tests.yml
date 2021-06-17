@@ -43,7 +43,6 @@ jobs:
 
     - name: Setup the environment and run the tests
       run: |
-        yarn wp-env stop
         yarn wp-env start
         yarn wp-env run tests-cli wp plugin install "https://github.com/Yoast/wordpress-seo/blob/try/e2e-tests-package/packages/e2e-tests/data/yoast-simple-custom-post-type.zip?raw=true"
         yarn wp-env run tests-cli wp plugin activate yoast-simple-custom-post-type
