@@ -1,8 +1,8 @@
 name: yoast-e2e-tests
 on:
   workflow_dispatch:
-  push:
-    branches: [ try/e2e-tests-package ]
+#  push:
+#    branches: [ try/e2e-tests-package ]
 
 jobs:
   yoast-e2e-tests-wp-latest:
@@ -27,12 +27,6 @@ jobs:
 
     - name: Install Composer packages
       run: composer install
-
-    - uses: actions/cache@v2
-      with:
-        path: '**/node_modules'
-        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
 
     - name: Run Node command
       run: |
