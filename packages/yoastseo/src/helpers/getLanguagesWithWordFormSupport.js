@@ -12,7 +12,6 @@ export function getLanguagesWithWordFormSupport() {
 	if ( isFeatureEnabled( "SLOVAK_SUPPORT" ) ) {
 		supportedLanguages.push( "sk" );
 	}
-	console.log( supportedLanguages );
 
 	return supportedLanguages;
 }
