@@ -10,7 +10,6 @@
     "test:e2e": "node run-tests.js"
   },
   "devDependencies": {
-	"@wordpress/env": "^4.0.5", 
     "@wordpress/e2e-test-utils": "^5.1.2",
     "@wordpress/url": "^2.22.2",
     "babel-jest": "^26.6.3",

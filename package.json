@@ -47,6 +47,7 @@
     "@typescript-eslint/parser": "^4.24.0",
     "@wordpress/babel-plugin-makepot": "^4.1.2",
     "@wordpress/dependency-extraction-webpack-plugin": "^3.1.0",
+	"@wordpress/env": "^4.0.5",
     "@wordpress/scripts": "^14.1.1",
     "@yoast/browserslist-config": "file:packages/browserslist-config",
     "@yoast/grunt-plugin-tasks": "^2.1.1",
