@@ -40,9 +40,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-yarn-
 
-    - name: Run yarn command
+    - name: Run Node command
       run: |
-        yarn add @wordpress/env --dev
+        npm install @wordpress/env --save-dev
         yarn
 
     - name: Build the plugin
