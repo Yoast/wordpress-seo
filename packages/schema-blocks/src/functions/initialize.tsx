@@ -7,6 +7,10 @@ import filter from "./gutenberg/filter";
 import watch from "./gutenberg/watch";
 import logger, { LogLevel } from "./logger";
 import injectSidebar from "./gutenberg/inject-sidebar";
+import { registerPlugin } from "@wordpress/plugins";
+import { Fill } from "@wordpress/components";
+import { SchemaAnalysis } from "./presenters/SchemaAnalysis";
+import { createElement } from "@wordpress/element";
 
 /**
  * Removes all whitespace including line breaks from a string.
@@ -62,6 +66,26 @@ export function initialize( logLevel: LogLevel = LogLevel.ERROR ): void {
 		} catch ( e ) {
 			logger.error( "Failed to parse gutenberg-template", e, this );
 		}
+	} );
+
+	/**
+	 * Creates the Analysis component.
+	 *
+	 * @param props The props.
+	 *
+	 * @returns The analysis component.
+	 */
+	const SchemaAnalysisFill = (): React.ReactElement => {
+		return (
+			<Fill name="YoastSchemaBlocksAnalysis">
+				{ ( fillProps: any ) => <SchemaAnalysis { ...fillProps } /> }
+			</Fill>
+		);
+	};
+
+	registerPlugin( "yoast-seo-schema-blocks-analysis", {
+		render: SchemaAnalysisFill,
+		icon: null,
 	} );
 
 	// Watch Gutenberg for block changes that require schema updates.

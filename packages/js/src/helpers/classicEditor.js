@@ -72,6 +72,8 @@ export function renderClassicEditorMetabox( store ) {
 		isRtl: localizedData.isRtl,
 	};
 
+	console.log( SlotFillProvider );
+
 	render(
 		(
 			<SlotFillProvider>
