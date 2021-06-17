@@ -1,5 +1,6 @@
 name: yoast-e2e-tests
 on:
+  workflow_dispatch:
   push:
     branches: [ try/e2e-tests-package ]
 
@@ -14,5 +15,14 @@ jobs:
       with:
         php-version: '7.3.24'
 
-    - name: Install Dependencies
-      run: composer update
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install Composer dependencies
+      run: composer install
