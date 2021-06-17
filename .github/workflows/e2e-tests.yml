@@ -39,6 +39,8 @@ jobs:
     - name: Build the plugin
       run: grunt build:dev
 
-    run: cd packages/e2e-tests
+    - name: Move to the e2e tests package folder
+      run: cd packages/e2e-tests
 
-    run: bash e2e-test-env-setup.sh
+    - name: Execute the e2e-test-env-setup.sh file
+      run: bash e2e-test-env-setup.sh
