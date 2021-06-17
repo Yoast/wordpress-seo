@@ -20,7 +20,7 @@ describe( "a test for Norwegian Researcher", function() {
 	} );
 
 	it( "returns false if the Norwegian Researcher doesn't have a certain config", function() {
-		expect( researcher.getConfig( "stopWords" ) ).toBe( false );
+		expect( researcher.getConfig( "syllables" ) ).toBe( false );
 	} );
 
 	it( "returns the Norwegian function words", function() {
