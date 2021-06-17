@@ -1,9 +1,7 @@
 name: yoast-e2e-tests
 on:
   push:
-    branches:
-      - try/yoast-e2e-tests-package
-  workflow_dispatch:
+    branches: [ try/e2e-tests-package ]
 
 jobs:
   yoast-e2e-tests-wp-latest:
@@ -12,10 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-#    - name: Set Node version
-#      uses: actions/setup-node@v2
-#      with:
-#        node-version: '12'
+    - uses: shivammathur/setup-php@v2
 
-    - name: Composer Install
-      uses: php-actions/composer@v6
+    - name: Install Dependencies
+      run: composer install
