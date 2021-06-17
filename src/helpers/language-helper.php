@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Config\Researcher_Languages;
  */
 class Language_Helper {
 	/**
-	 * Schema_Blocks constructor.
+	 * Language_Helper constructor.
 	 *
 	 * @param Slovak_Support_Conditional $slovak_conditional The Slovak support conditional.
 	 */
@@ -20,7 +20,6 @@ class Language_Helper {
 	) {
 		$this->slovak_conditional = $slovak_conditional;
 	}
-
 
 	/**
 	 * Checks whether word form recognition is active for the used language.
