@@ -39,7 +39,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 				$this->helpers->current_page->is_paged() ||
 				$this->context->indexable->number_of_pages > 1
 			) &&
-			// Do not replace the last breadcrumb on static post pages
+			// Do not replace the last breadcrumb on static post pages.
 			! $this->helpers->current_page->is_static_posts_page()
 		) {
 			\array_pop( $breadcrumbs );
