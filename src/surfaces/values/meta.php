@@ -6,6 +6,7 @@ use Exception;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
+use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Presenter;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Prev_Presenter;
@@ -206,7 +207,8 @@ class Meta {
 			 *
 			 * @var Abstract_Indexable_Presenter
 			 */
-			$presenter               = new $presenter_class();
+			$purePresenter           = new $presenter_class();
+			$presenter               = new Abstract_Cached_Indexable_Presenter( $purePresenter );
 			$presenter->presentation = $presentation;
 			$presenter->helpers      = $this->helpers;
 			$presenter->replace_vars = $this->replace_vars;
@@ -255,6 +257,6 @@ class Meta {
 			};
 			$presenters = \array_filter( $presenters, $callback );
 		}
-		return $presenters;
+		return \array_map( function ( $presenter ) { return new Abstract_Cached_Indexable_Presenter( $presenter ); }, $presenters );
 	}
 }
