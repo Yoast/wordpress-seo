@@ -20,7 +20,7 @@ class Internal_Linking_Category implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
-		\add_filter( 'block_categories', [ $this, 'add_block_categories' ] );
+		\add_filter( 'block_categories_all', [ $this, 'add_block_categories' ] );
 	}
 
 	/**
