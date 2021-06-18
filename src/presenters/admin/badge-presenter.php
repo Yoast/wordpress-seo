@@ -44,13 +44,6 @@ class Badge_Presenter extends Abstract_Presenter {
 	private $badge_group_names;
 
 	/**
-	 * An instance of the WPSEO_Admin_Asset_Manager class.
-	 *
-	 * @var WPSEO_Admin_Asset_Manager
-	 */
-	private $asset_manager;
-
-	/**
 	 * Badge_Presenter constructor.
 	 *
 	 * @param string                 $id                Id of the badge.
@@ -63,18 +56,10 @@ class Badge_Presenter extends Abstract_Presenter {
 		$this->link  = $link;
 		$this->group = $group;
 
-		if ( ! $this->asset_manager ) {
-			$this->asset_manager = new WPSEO_Admin_Asset_Manager();
-		}
-
 		if ( ! $badge_group_names instanceof Badge_Group_Names ) {
 			$badge_group_names = new Badge_Group_Names();
 		}
 		$this->badge_group_names = $badge_group_names;
-
-		if ( $this->is_group_still_new() ) {
-			$this->asset_manager->enqueue_style( 'badge' );
-		}
 	}
 
 	/**
