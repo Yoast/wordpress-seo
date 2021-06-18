@@ -7,14 +7,18 @@ namespace Yoast\WP\SEO\Presenters;
  */
 abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Presenter {
 
-	const NAME = 'unknown';
+	const META_NAME_CONTENT     = '<meta name="%$2s" content="%$1s" />';
+	const META_PROPERTY_CONTENT = '<meta property="%$2s" content="%$1s" />';
+	const DEFAULT_TAG_FORMAT    = self::META_NAME_CONTENT;
+
+	const KEY = 'NO KEY PROVIDED';
 
 	/**
 	 * The tag format including placeholders.
 	 *
 	 * @var string
 	 */
-	protected $tag_format = '<meta name="%$2s" value="%$1s" />';
+	protected $tag_format = self::DEFAULT_TAG_FORMAT;
 
 	/**
 	 * The method of escaping to use.
@@ -29,10 +33,15 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 	 * @return string The tag.
 	 */
 	public function present() {
+		if ( $this->KEY === 'NO KEY PROVIDED' ) {
+			echo self::class . ' is Abstract_Indexable_Tag_Presenter but does not provide a KEY.';
+			die;
+		}
+
 		$value = $this->get();
 
 		if ( \is_string( $value ) && $value !== '' ) {
-			return \sprintf( $this->tag_format, $this->escape( $value ), self::NAME );
+			return \sprintf( $this->tag_format, $this->escape( $value ), self::KEY );
 		}
 
 		return '';
@@ -46,12 +55,14 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 	 * @return string The escaped value.
 	 */
 	protected function escape( $value ) {
-		if ( $this->escaping === 'html' ) {
-			return \esc_html( $value );
+		switch ( $this->escaping ) {
+			case 'html':
+				return \esc_html( $value );
+			case 'url':
+				return \esc_url( $value );
+			case 'attribute':
+			default:
+				return \esc_attr( $value );
 		}
-		if ( $this->escaping === 'url' ) {
-			return \esc_url( $value );
-		}
-		return \esc_attr( $value );
 	}
 }

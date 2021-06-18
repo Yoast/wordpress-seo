@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Presenters;
 /**
  * Decorator presenter class for indexable presentations, preventing multiple gets on the same object
  */
-abstract class Abstract_Cached_Indexable_Presenter extends Abstract_Indexable_Presenter {
+class Abstract_Cached_Indexable_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
 	 * The decorated class.
@@ -14,15 +14,19 @@ abstract class Abstract_Cached_Indexable_Presenter extends Abstract_Indexable_Pr
 	 */
 	protected $decorated;
 
-	protected $cached_value;
+	/**
+	 * The read-once-use-many value produced by the decorated class.
+	 *
+	 * @var string|object|array
+	 */
+	private $cached_value;
 
 	/**
 	 * Abstract_Cached_Indexable_Presenter constructor.
 	 *
 	 * @param Abstract_Indexable_Presenter $decorated The class to be decorated.
 	 */
-	public function __construct( Abstract_Indexable_Presenter $decorated )
-	{
+	public function __construct( Abstract_Indexable_Presenter $decorated ) {
 		$this->decorated = $decorated;
 	}
 
@@ -36,5 +40,14 @@ abstract class Abstract_Cached_Indexable_Presenter extends Abstract_Indexable_Pr
 			$this->cached_value = $this->decorated->get();
 		}
 		return $this->cached_value;
+	}
+
+	/**
+	 * Returns the output as string.
+	 *
+	 * @return string The output.
+	 */
+	public function present() {
+		$this->decorated->present();
 	}
 }

@@ -16,7 +16,7 @@ class Article_Published_Time_Presenter extends Abstract_Indexable_Tag_Presenter 
 	 *
 	 * @var string
 	 */
-	protected $tag_format = '<meta property="article:published_time" content="%s" />';
+	protected $tag_format = self::META_PROPERTY_CONTENT;
 
 	/**
 	 * Gets the raw value of a presentation.

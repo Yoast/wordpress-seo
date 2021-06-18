@@ -9,12 +9,7 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
  */
 class Meta_Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 
-	/**
-	 * The tag format including placeholders.
-	 *
-	 * @var string
-	 */
-	protected $tag_format = '<meta name="description" content="%s" />';
+	const KEY = 'description';
 
 	/**
 	 * Returns the meta description for a post.

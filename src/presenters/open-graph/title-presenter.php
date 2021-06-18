@@ -10,14 +10,14 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
  */
 class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 
-	const NAME = 'title';
+	const NAME = 'og:title';
 
 	/**
 	 * The tag format including placeholders.
 	 *
 	 * @var string
 	 */
-	protected $tag_format = '<meta property="og:title" content="%s" />';
+	protected $tag_format = self::META_PROPERTY_CONTENT;
 
 	/**
 	 * Run the title content through replace vars, the `wpseo_opengraph_title` filter and sanitization.

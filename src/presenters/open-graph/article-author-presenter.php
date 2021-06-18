@@ -17,7 +17,7 @@ class Article_Author_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 *
 	 * @var string
 	 */
-	protected $tag_format = '<meta property="article:author" content="%s" />';
+	protected $tag_format = self::META_PROPERTY_CONTENT;
 
 	/**
 	 * Run the article author's Facebook URL through the `wpseo_opengraph_author_facebook` filter.
