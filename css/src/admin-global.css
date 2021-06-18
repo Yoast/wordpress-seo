@@ -595,6 +595,11 @@ body.folded .wpseo-admin-submit-fixed {
 	line-height: 1.6;
 }
 
+.wp-submenu .yoast-badge {
+	min-height: 14px;
+	font-size: 9px;
+}
+
 .yoast-new-badge {
 	background-color: #cce5ff;
 	color: #004973;
