@@ -31,6 +31,18 @@ class Rel_Next_Presenter extends Abstract_Indexable_Tag_Presenter {
 	public function present() {
 		$output = parent::present();
 
+		if ( is_front_page() && empty($output) ) {
+            global $paged, $wp_query;
+
+            if($paged===0){
+                $output = '<link rel="next" href="'. get_pagenum_link( ) . 'page/2" />' . PHP_EOL;
+            }elseif($paged === strval((int) $wp_query->max_num_pages)) {
+                return '';
+            }else{
+                $output = '<link rel="next" href="'. get_pagenum_link( $paged + 1 ) .'" />' . PHP_EOL;
+            }
+        }
+		
 		if ( ! empty( $output ) ) {
 			/**
 			 * Filter: 'wpseo_next_rel_link' - Allow changing link rel output by Yoast SEO.
