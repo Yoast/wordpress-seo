@@ -863,7 +863,7 @@ class Yoast_Form {
 			$index_switch_values,
 			sprintf(
 				/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
-				esc_html__( 'Show %s in search results?', 'wordpress-seo' ),
+				__( 'Show %s in search results?', 'wordpress-seo' ),
 				$label
 			),
 			$help,
