@@ -864,7 +864,7 @@ class Yoast_Form {
 			sprintf(
 				/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
 				esc_html__( 'Show %s in search results?', 'wordpress-seo' ),
-				esc_html( $label )
+				$label
 			),
 			$help,
 			[ 'disabled' => $is_disabled ]

@@ -35,6 +35,8 @@ if ( $wpseo_post_type->name === 'product' && YoastSEO()->helpers->woocommerce->i
 
 if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	$plural_label = $wpseo_post_type->labels->name;
+	$archive_link = get_post_type_archive_link( $wpseo_post_type->name );
+	$label = '<a href="' . $archive_link . '">' . $plural_label . '</a>';
 
 	/* translators: %s is the plural version of the post type's name. */
 	echo '<h3>' . esc_html( sprintf( __( '%s archive settings', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
@@ -48,7 +50,7 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 		sprintf(
 			/* translators: %s expands to the post type's name. */
 			__( 'the archive for %s', 'wordpress-seo' ),
-			$plural_label
+			$label
 		),
 		$custom_post_type_archive_help->get_button_html() . $custom_post_type_archive_help->get_panel_html()
 	);
