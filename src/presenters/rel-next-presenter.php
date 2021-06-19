@@ -30,6 +30,13 @@ class Rel_Next_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 */
 	public function present() {
 		$output = parent::present();
+		
+	    if (  is_front_page() && empty($output) ) {
+            global $paged;
+            if($paged > 1 ){
+                $output = '<link rel="prev" href="'. get_pagenum_link( $paged - 1 ) .'" />' . PHP_EOL;
+            }
+        }
 
 		if ( ! empty( $output ) ) {
 			/**
