@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Conditionals;
 
 /**
- * Checks if the YOAST_SEO_SCHEMA_BLOCKS constant is set.
+ * Checks if the YOAST_SEO_SLOVAK_SUPPORT constant is set.
  */
 class Slovak_Support_Conditional extends Feature_Flag_Conditional {
 
