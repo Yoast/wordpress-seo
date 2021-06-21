@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Language_Helper_Test
+ * Class Language_Helper_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Language_Helper
  *
@@ -35,11 +35,10 @@ class Language_Helper_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
+
 		$this->slovak_conditional = Mockery::mock( Slovak_Support_Conditional::class );
 
-		$this->instance = new Language_Helper(
-			$this->slovak_conditional
-		);
+		$this->instance = new Language_Helper( $this->slovak_conditional );
 	}
 
 	/**
