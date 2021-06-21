@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.10.0
+### Bugfixes:
+* Fixes a bug where the Schema blocks were misaligned.
+
 ## 1.9.0 June 1st, 2021
 ### Enhancements:
 * Provides a way to set the `tagName` that is used to render the value in the select instruction.

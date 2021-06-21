@@ -234,6 +234,25 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 16.6 =
+Release Date: June 29th, 2021
+
+Enhancements:
+
+* Updates `SearchAction` schema to comply with Google's updated specification.
+* Excludes sentences inside tables and table captions from the consecutive sentences assessment.
+* Adds adjacent relative links (`rel="prev"` and `rel="next"`) for WooCommerce shop pages. Props to [stodorovic](https://github.com/stodorovic).
+* Adds increased compatibility for LiteSpeed web servers. Props to [J-Rey](https://github.com/J-Rey). 
+* [Yoast SEO Premium] Excludes the Table of Contents block from the SEO and readability analysis.
+* Adds adjacent relative links for WooCommerce shop pages. Props to [stodorovic](https://github.com/stodorovic).
+
+Bugfixes:
+
+* Fixes a bug where an error would be shown on the page overview and post overview when the website's MySQL database was run in ANSI-mode. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where shortcodes would be removed from the Open Graph description even when they were explicitly added. Props to [Lomerill](https://github.com/Lomerill).
+* Fixes a bug where using the `wpseo_schema_{@type}` filter would result in a fatal error.
+* Fixes a bug where the last breadcrumb item was stripped in breadcrumb Schema output on subsequent pages of a static posts page.
+
 = 16.5 =
 Release Date: June 15th, 2021
 
@@ -261,31 +280,6 @@ Bugfixes:
 Other:
 
 * Moves the 'Force rewrite titles' toggle into a separate paper in the General Search Appearance settings.
-
-= 16.4 =
-Release Date: June 1st, 2021
-
-Meet Yoast SEO 16.4: This brand-new version of Yoast SEO comes with a rewritten language analysis, plus a newly supported language: Czech. People who write in this language can now fully use our tools to improve their content. We hope you enjoy this update! Read more about what’s new in Yoast SEO 16.4 in [our release post](https://yoa.st/release-16-4)!
-
-Enhancements:
-
-* Completes the readability analysis for Czech by adding the transition words, sentence beginnings and passive voice assessments.
-* Improves keyphrase recognition in Czech by filtering out function words such as `dvou`, `tvému`, `nějaký`.
-* Improves the accuracy of passive voice detection in Portuguese.
-* Adds the missing Polish transition word `jak wiemy` (props to @jarekherisz).
-* Makes all twitter meta tags self-closing, for the sake of consistency and to allow pages to pass validation in some tools.
-* Improves the UX consistency between the notification counter in the admin bar and in the sidebar.
-* Makes the notification counter in the admin bar a closer match to the counter the sidebar.
-
-Bugfixes:
-
-* Fixes a bug where new feature notification couldn't be dismissed.
-* Fixes a bug where the primary term for custom post types was not always properly set for posts edited in the Gutenberg editor.
-* Fixes a bug where the schema output could be incorrect on terms with the same ID as the static posts page.
-
-Other:
-
-* Adds a missing space to the feedback text in the keyphrase in introduction assessment.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

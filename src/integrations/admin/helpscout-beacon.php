@@ -23,6 +23,13 @@ class HelpScout_Beacon implements Integration_Interface {
 	protected $beacon_id = '2496aba6-0292-489c-8f5d-1c0fba417c2f';
 
 	/**
+	 * The id for the beacon for users that have tracking on.
+	 *
+	 * @var string
+	 */
+	protected $beacon_id_tracking_users = '6b8e74c5-aa81-4295-b97b-c2a62a13ea7f';
+
+	/**
 	 * The products the beacon is loaded for.
 	 *
 	 * @var array
@@ -91,7 +98,13 @@ class HelpScout_Beacon implements Integration_Interface {
 		$this->page          = \filter_input( \INPUT_GET, 'page', \FILTER_SANITIZE_STRING );
 
 		foreach ( $this->base_pages as $page ) {
-			$this->pages_ids[ $page ] = $this->beacon_id;
+			if ( $this->ask_consent ) {
+				// We want to be able to show surveys to people who have tracking on, so we give them a different beacon.
+				$this->pages_ids[ $page ] = $this->beacon_id_tracking_users;
+			}
+			else {
+				$this->pages_ids[ $page ] = $this->beacon_id;
+			}
 		}
 	}
 
