@@ -268,6 +268,9 @@ class Schema_Generator implements Generator_Interface {
 	/**
 	 * Allows filtering the graph piece by its schema type.
 	 *
+	 * Note: We removed the Abstract_Schema_Piece type-hint from the $graph_piece_generator argument, because
+	 *       it caused conflicts with old code, Yoast SEO Video specifically.
+	 *
 	 * @param array             $graph_piece The graph piece we're filtering.
 	 * @param string            $identifier  The identifier of the graph piece that is being filtered.
 	 * @param Meta_Tags_Context $context     The meta tags context.
@@ -276,7 +279,7 @@ class Schema_Generator implements Generator_Interface {
 	 *
 	 * @return array The filtered graph piece.
 	 */
-	private function type_filter( $graph_piece, $identifier, Meta_Tags_Context $context, Abstract_Schema_Piece $graph_piece_generator, array $graph_piece_generators ) {
+	private function type_filter( $graph_piece, $identifier, Meta_Tags_Context $context, $graph_piece_generator, array $graph_piece_generators ) {
 		$types = $this->get_type_from_piece( $graph_piece );
 		foreach ( $types as $type ) {
 			$type = \strtolower( $type );
