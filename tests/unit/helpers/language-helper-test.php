@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
+use Mockery;
+use Yoast\WP\SEO\Conditionals\Slovak_Support_Conditional;
 use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -22,11 +24,31 @@ class Language_Helper_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * The Slovak support conditional.
+	 *
+	 * @var Mockery\MockInterface|Slovak_Support_Conditional
+	 */
+	protected $blocks_conditional;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
 		parent::set_up();
-		$this->instance = new Language_Helper();
+		$this->slovak_conditional = Mockery::mock( Slovak_Support_Conditional::class );
+
+		$this->instance = new Language_Helper(
+			$this->slovak_conditional
+		);
+	}
+
+	/**
+	 * Tests the constructor by checking the set attributes.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		static::assertInstanceOf( Slovak_Support_Conditional::class, self::getPropertyValue( $this, 'slovak_conditional' ) );
 	}
 
 	/**
