@@ -3,9 +3,8 @@
 
 namespace Yoast\WP\SEO\Initializers;
 
+class Cache {
 
-class Cache
-{
 	/**
 	 * @var TKey
 	 */

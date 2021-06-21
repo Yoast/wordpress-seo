@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
  * Registers the yoast head REST field.
  * Not technically a route but behaves the same so is included here.
  */
+// phpcs:disable Yoast.Files.FileName.InvalidClassFileName -- reason: this explicitly concerns the Yoast head fields.
 class Yoast_Head_REST_Field implements Route_Interface {
 
 	/**
@@ -28,7 +29,7 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const YOAST_JSON_HEAD_ATTRIBUTE_NAME = 'yoast_json_head';
+	const YOAST_JSON_HEAD_ATTRIBUTE_NAME = 'yoast_head_json';
 
 	/**
 	 * The post type helper.
@@ -115,11 +116,12 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	/**
 	 * Returns the head for a post.
 	 *
-	 * @param array $params The rest request params.
+	 * @param array  $params The rest request params.
+	 * @param string $format The desired output format; 'HTML' or 'JSON'.
 	 *
 	 * @return string|null The head.
 	 */
-	public function for_post( $params, $field_name ) {
+	public function for_post( $params, $format = 'HTML' ) {
 		if ( ! isset( $params['id'] ) ) {
 			return null;
 		}
@@ -129,43 +131,46 @@ class Yoast_Head_REST_Field implements Route_Interface {
 		}
 		$obj = $this->head_action->for_post( $params['id'] );
 
-		return $this->render_object( $obj, $field_name );
+		return $this->render_object( $obj, $format );
 	}
 
 	/**
 	 * Returns the head for a term.
 	 *
-	 * @param array $params The rest request params.
+	 * @param array  $params The rest request params.
+	 * @param string $format The desired output format; 'HTML' or 'JSON'.
 	 *
 	 * @return string|null The head.
 	 */
-	public function for_term( $params, $field_name ) {
+	public function for_term( $params, $format = 'HTML' ) {
 		$obj = $this->head_action->for_term( $params['id'] );
 
-		return $this->render_object( $obj, $field_name );
+		return $this->render_object( $obj, $format );
 	}
 
 	/**
 	 * Returns the head for an author.
 	 *
-	 * @param array $params The rest request params.
+	 * @param array  $params The rest request params.
+	 * @param string $format The desired output format; 'HTML' or 'JSON'.
 	 *
 	 * @return string|null The head.
 	 */
-	public function for_author( $params, $field_name ) {
+	public function for_author( $params, $format = 'HTML' ) {
 		$obj = $this->head_action->for_author( $params['id'] );
 
-		return $this->render_object( $obj, $field_name );
+		return $this->render_object( $obj, $format );
 	}
 
 	/**
 	 * Returns the head for a post type archive.
 	 *
-	 * @param array $params The rest request params.
+	 * @param array  $params The rest request params.
+	 * @param string $format The desired output format; 'HTML' or 'JSON'.
 	 *
 	 * @return string|null The head.
 	 */
-	public function for_post_type_archive( $params, $field_name ) {
+	public function for_post_type_archive( $params, $format = 'HTML' ) {
 		if ( $params['slug'] === 'post' ) {
 			$obj = $this->head_action->for_posts_page();
 		}
@@ -176,7 +181,7 @@ class Yoast_Head_REST_Field implements Route_Interface {
 			$obj = $this->head_action->for_post_type_archive( $params['slug'] );
 		}
 
-		return $this->render_object( $obj, $field_name );
+		return $this->render_object( $obj, $format );
 	}
 
 	protected function register_rest_fields( $object_type, $callback ) {
@@ -186,15 +191,16 @@ class Yoast_Head_REST_Field implements Route_Interface {
 		\register_rest_field( $object_type, self::YOAST_JSON_HEAD_ATTRIBUTE_NAME, [ 'get_callback' => [ $this, $callback ] ] );
 	}
 
-	protected function render_object( $obj, $attribute_name ) {
+	protected function render_object( $obj, $format ='HTML' ) {
 		if ( $obj->status === 404 ) {
 			return null;
 		}
 
 		// Choose the correct output format based on the head attribute we are rendering.
-		switch ( $attribute_name ) {
-			case self::YOAST_JSON_HEAD_ATTRIBUTE_NAME :
+		switch ( $format ) {
+			case 'JSON':
 				return $obj->json_head;
+			case 'HTML':
 			default:
 				return $obj->head;
 		}

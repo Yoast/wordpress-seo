@@ -139,7 +139,7 @@ class Meta {
 	 */
 	protected function present_head( $header_format = 'HTML' ) {
 		$html_output = $header_format === 'HTML';
-		$output = $html_output ? '' : [];
+		$output      = $html_output ? '' : [];
 
 		$presenters = $this->get_presenters();
 
@@ -158,12 +158,13 @@ class Meta {
 				}
 			}
 			else {
-				$key            = $presenter::NAME;
+				$key            = $presenter::NAME; // sanitize name; og:title is an invalid json key
 				$value          = $presenter->get();
 				$output[ $key ] = $value;
 			}
 		}
 
+		// todo json start / end tags
 		return \trim( $output );
 	}
 
@@ -245,18 +246,23 @@ class Meta {
 	/**
 	 * @return Abstract_Indexable_Presenter[]
 	 */
-	protected function get_presenters()
-	{
+	protected function get_presenters() {
 		$presenters = $this->front_end->get_presenters( $this->context->page_type );
 
-		if ( $this->context->page_type === 'Date_Archive') {
+		if ( $this->context->page_type === 'Date_Archive' ) {
 			// Define a filter that removes objects of type Rel_Next_Presenter or Rel_Prev_Presenter from a list.
-			$callback = static function ( $presenter ) {
-				return !\is_a( $presenter, Rel_Next_Presenter::class )
-					&& !\is_a( $presenter, Rel_Prev_Presenter::class );
+			$callback   = static function ( $presenter ) {
+				return ! \is_a( $presenter, Rel_Next_Presenter::class )
+					&& ! \is_a( $presenter, Rel_Prev_Presenter::class );
 			};
 			$presenters = \array_filter( $presenters, $callback );
 		}
-		return \array_map( function ( $presenter ) { return new Abstract_Cached_Indexable_Presenter( $presenter ); }, $presenters );
+
+		return \array_map(
+			function ( $presenter ) {
+				return new Abstract_Cached_Indexable_Presenter( $presenter );
+			},
+			$presenters
+		);
 	}
 }

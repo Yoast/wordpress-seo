@@ -7,12 +7,14 @@ namespace Yoast\WP\SEO\Presenters;
  */
 class Rel_Prev_Presenter extends Abstract_Indexable_Tag_Presenter {
 
+	const KEY = 'prev';
+	
 	/**
 	 * The tag format including placeholders.
 	 *
 	 * @var string
 	 */
-	protected $tag_format = '<link rel="prev" href="%s" />';
+	protected $tag_format = self::LINK_REL_HREF;
 
 	/**
 	 * The method of escaping to use.

@@ -9,6 +9,7 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 
 	const META_NAME_CONTENT     = '<meta name="%$2s" content="%$1s" />';
 	const META_PROPERTY_CONTENT = '<meta property="%$2s" content="%$1s" />';
+	const LINK_REL_HREF         = '<link rel="%$2s" href="%$1s" />';
 	const DEFAULT_TAG_FORMAT    = self::META_NAME_CONTENT;
 
 	const KEY = 'NO KEY PROVIDED';
@@ -33,15 +34,15 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 	 * @return string The tag.
 	 */
 	public function present() {
-		if ( $this->KEY === 'NO KEY PROVIDED' ) {
-			echo self::class . ' is Abstract_Indexable_Tag_Presenter but does not provide a KEY.';
+		if ( $this::KEY === 'NO KEY PROVIDED' ) {
+			echo \get_class( $this ) . ' is an Abstract_Indexable_Tag_Presenter but does not provide a KEY constant.';
 			die;
 		}
 
 		$value = $this->get();
 
 		if ( \is_string( $value ) && $value !== '' ) {
-			return \sprintf( $this->tag_format, $this->escape( $value ), self::KEY );
+			return \sprintf( $this->tag_format, $this->escape( $value ), $this::KEY );
 		}
 
 		return '';

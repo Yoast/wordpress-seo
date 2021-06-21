@@ -9,6 +9,11 @@ use Yoast\WP\SEO\Surfaces\Meta_Surface;
  */
 class Indexable_Head_Action {
 
+	/**
+	 * Caches the output.
+	 *
+	 * @var
+	 */
 	protected $cache;
 
 	/**
