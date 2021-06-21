@@ -61,6 +61,10 @@ class Language_Helper_Test extends TestCase {
 	 * @param string $language The language to test.
 	 */
 	public function test_is_word_form_recognition_active( $language ) {
+		$this->blocks_conditional
+			->expects( 'is_met' )
+			->andReturnFalse();
+
 		$this->assertTrue( $this->instance->is_word_form_recognition_active( $language ) );
 	}
 
@@ -83,6 +87,10 @@ class Language_Helper_Test extends TestCase {
 	 * @param string $language The language to test.
 	 */
 	public function test_has_function_word_support( $language ) {
+		$this->blocks_conditional
+			->expects( 'is_met' )
+			->andReturnFalse();
+
 		$this->assertTrue( $this->instance->has_function_word_support( $language ) );
 	}
 
