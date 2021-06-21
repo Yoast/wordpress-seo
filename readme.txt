@@ -245,17 +245,13 @@ Enhancements:
 * Adds increased compatibility for LiteSpeed web servers. Props to [J-Rey](https://github.com/J-Rey). 
 * [Yoast SEO Premium] Excludes the Table of Contents block from the SEO and readability analysis.
 * Adds adjacent relative links for WooCommerce shop pages. Props to [stodorovic](https://github.com/stodorovic).
-* [yoastseo] Filters out table block content from the `getSentenceBeginnings` research.
-* [yoastseo] Excludes Table of Contents from the analysis.
 
 Bugfixes:
 
 * Fixes a bug where an error would be shown on the page overview and post overview when the website's MySQL database was run in ANSI-mode. Props to [stodorovic](https://github.com/stodorovic).
 * Fixes a bug where shortcodes would be removed from the Open Graph description even when they were explicitly added. Props to [Lomerill](https://github.com/Lomerill).
 * Fixes a bug where using the `wpseo_schema_{@type}` filter would result in a fatal error.
-* [wordpress-seo-premium] Fixes a bug where Premium users with an inactive Premium license would be prompted indefinitely to restart their SEO data optimization. We now show an error message informing them how to activate their license.
-* [@yoast/schema-blocks] Fixes a bug where the Schema blocks were misaligned.
-* Fixes a bug where the last breadcrumb item is stripped in breadcrumb schema on subsequent pages of a static posts page.
+* Fixes a bug where the last breadcrumb item was stripped in breadcrumb Schema output on subsequent pages of a static posts page.
 
 = 16.5 =
 Release Date: June 15th, 2021
