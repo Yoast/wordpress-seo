@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
  */
 class Article_Author_Presenter extends Abstract_Indexable_Tag_Presenter {
 
-	const NAME = 'article:author';
+	const KEY = 'article:author';
 
 	/**
 	 * The tag format including placeholders.

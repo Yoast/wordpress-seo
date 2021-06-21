@@ -2,14 +2,17 @@
 
 namespace Yoast\WP\SEO\Presenters;
 
+use http\Exception\InvalidArgumentException;
+use http\Exception\UnexpectedValueException;
+
 /**
  * Abstract presenter class for indexable tag presentations.
  */
 abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Presenter {
 
-	const META_NAME_CONTENT     = '<meta name="%$2s" content="%$1s" />';
-	const META_PROPERTY_CONTENT = '<meta property="%$2s" content="%$1s" />';
-	const LINK_REL_HREF         = '<link rel="%$2s" href="%$1s" />';
+	const META_NAME_CONTENT     = '<meta name="%2$s" content="%1$s" />';
+	const META_PROPERTY_CONTENT = '<meta property="%2$s" content="%1$s" />';
+	const LINK_REL_HREF         = '<link rel="%2$s" href="%1$s" />';
 	const DEFAULT_TAG_FORMAT    = self::META_NAME_CONTENT;
 
 	const KEY = 'NO KEY PROVIDED';
@@ -35,11 +38,11 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 	 */
 	public function present() {
 		if ( $this::KEY === 'NO KEY PROVIDED' ) {
-			echo \get_class( $this ) . ' is an Abstract_Indexable_Tag_Presenter but does not provide a KEY constant.';
-			die;
+			throw new \InvalidArgumentException( \get_class( $this ) . ' is an Abstract_Indexable_Tag_Presenter but does not provide a KEY constant.' );
 		}
 
 		$value = $this->get();
+
 
 		if ( \is_string( $value ) && $value !== '' ) {
 			return \sprintf( $this->tag_format, $this->escape( $value ), $this::KEY );
