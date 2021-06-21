@@ -28,7 +28,7 @@ class Language_Helper_Test extends TestCase {
 	 *
 	 * @var Mockery\MockInterface|Slovak_Support_Conditional
 	 */
-	protected $blocks_conditional;
+	protected $slovak_conditional;
 
 	/**
 	 * Sets up the tests.
@@ -61,7 +61,7 @@ class Language_Helper_Test extends TestCase {
 	 * @param string $language The language to test.
 	 */
 	public function test_is_word_form_recognition_active( $language ) {
-		$this->blocks_conditional
+		$this->slovak_conditional
 			->expects( 'is_met' )
 			->andReturnFalse();
 
@@ -87,7 +87,7 @@ class Language_Helper_Test extends TestCase {
 	 * @param string $language The language to test.
 	 */
 	public function test_has_function_word_support( $language ) {
-		$this->blocks_conditional
+		$this->slovak_conditional
 			->expects( 'is_met' )
 			->andReturnFalse();
 
