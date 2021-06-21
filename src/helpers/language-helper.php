@@ -58,6 +58,7 @@ class Language_Helper {
 		$researcher_language = WPSEO_Language_Utils::get_language( get_locale() );
 		$supported_languages = Researcher_Languages::SUPPORTED_LANGUAGES;
 
+		// If SLOVAK_SUPPORT feature is enabled, push Slovak to the array of the supported languages
 		if ( $this->slovak_conditional->is_met() ) {
 			array_push( $supported_languages, 'sk' );
 		}
