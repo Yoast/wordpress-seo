@@ -27,6 +27,17 @@ class Metabox_Editor_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 		$this->subject = new WPSEO_Metabox_Editor();
+
+		if ( ! defined( 'WPSEO_FILE' ) ) {
+			define( 'WPSEO_FILE', $this->get_wpseo_file() );
+		}
+		if ( ! defined( 'WPSEO_VERSION' ) ) {
+			define( 'WPSEO_VERSION', "16.6" );
+		}
+	}
+
+	protected function get_wpseo_file() {
+		return \realpath(__DIR__ . '/../../../../wp-seo.php' );
 	}
 
 	/**
@@ -48,7 +59,7 @@ class Metabox_Editor_Test extends TestCase {
 	public function test_add_css_inside_editor_empty() {
 		Monkey\Functions\expect( 'plugins_url' )
 			->once()
-			->with( 'css/dist/inside-editor-' . $this->get_flat_version() . '.css', \realpath( __DIR__ . '/../../../../wp-seo.php' ) )
+			->with( 'css/dist/inside-editor-' . $this->get_flat_version() . '.css', $this->get_wpseo_file() )
 			->andReturn( 'example.org' );
 
 		Monkey\Functions\expect( 'is_rtl' )->andReturn( false );
@@ -67,7 +78,7 @@ class Metabox_Editor_Test extends TestCase {
 	public function test_add_css_inside_editor_preexisting() {
 		Monkey\Functions\expect( 'plugins_url' )
 			->once()
-			->with( 'css/dist/inside-editor-' . $this->get_flat_version() . '.css', \realpath( __DIR__ . '/../../../../wp-seo.php' ) )
+			->with( 'css/dist/inside-editor-' . $this->get_flat_version() . '.css', $this->get_wpseo_file() )
 			->andReturn( 'example.org' );
 
 		Monkey\Functions\expect( 'is_rtl' )->andReturn( false );

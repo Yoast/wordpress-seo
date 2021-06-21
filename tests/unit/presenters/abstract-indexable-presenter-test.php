@@ -40,10 +40,4 @@ class Abstract_Indexable_Presenter_Test extends TestCase {
 
 		$this->assertSame( 'the replaced value', $instance->replace_vars( 'the given value' ) );
 	}
-
-	public function test_key_not_defined() {
-		$instance = new Concrete_Indexable_Presenter();
-
-		$instance->present()
-	}
 }

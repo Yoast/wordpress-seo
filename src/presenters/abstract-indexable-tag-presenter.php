@@ -2,9 +2,6 @@
 
 namespace Yoast\WP\SEO\Presenters;
 
-use http\Exception\InvalidArgumentException;
-use http\Exception\UnexpectedValueException;
-
 /**
  * Abstract presenter class for indexable tag presentations.
  */
@@ -42,7 +39,6 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 		}
 
 		$value = $this->get();
-
 
 		if ( \is_string( $value ) && $value !== '' ) {
 			return \sprintf( $this->tag_format, $this->escape( $value ), $this::KEY );

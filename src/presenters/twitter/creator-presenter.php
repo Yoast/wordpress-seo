@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
  */
 class Creator_Presenter extends Abstract_Indexable_Tag_Presenter {
 
-	const NAME = 'twitter:creator';
+	const KEY = 'twitter:creator';
 
 	/**
 	 * Gets the raw value of a presentation.
