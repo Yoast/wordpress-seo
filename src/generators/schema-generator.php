@@ -178,7 +178,7 @@ class Schema_Generator implements Generator_Interface {
 				 * Filter: 'wpseo_schema_block_<block-type>'.
 				 * This filter is documented in the `generate_graph()` function in this class.
 				 */
-				$graph      = \apply_filters( 'wpseo_schema_block_' . $block_type, $graph, $block, $context );
+				$graph = \apply_filters( 'wpseo_schema_block_' . $block_type, $graph, $block, $context );
 
 				if ( isset( $block['attrs']['yoast-schema'] ) ) {
 					$graph[] = $this->schema_replace_vars_helper->replace( $block['attrs']['yoast-schema'], $context->presentation );
