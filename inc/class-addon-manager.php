@@ -426,6 +426,10 @@ class WPSEO_Addon_Manager {
 			'homepage'         => $subscription->product->store_url,
 			'download_link'    => $subscription->product->download,
 			'package'          => $subscription->product->download,
+			'plugin'           => [
+				'url'  => trailingslashit( WP_PLUGIN_URL ) . $subscription->product->slug,
+				'path' => trailingslashit( PLUGINDIR ) . $subscription->product->slug,
+			],
 			'sections'         => [
 				'changelog' => $changelog,
 				'support'   => $this->get_support_section(),
