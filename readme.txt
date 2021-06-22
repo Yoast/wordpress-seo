@@ -243,7 +243,6 @@ Enhancements:
 * Excludes sentences inside tables and table captions from the consecutive sentences assessment.
 * Adds adjacent relative links (`rel="prev"` and `rel="next"`) for WooCommerce shop pages. Props to [stodorovic](https://github.com/stodorovic).
 * Adds increased compatibility for LiteSpeed web servers. Props to [J-Rey](https://github.com/J-Rey). 
-* [Yoast SEO Premium] Excludes the Table of Contents block from the SEO and readability analysis.
 * Adds adjacent relative links for WooCommerce shop pages. Props to [stodorovic](https://github.com/stodorovic).
 
 Bugfixes:
