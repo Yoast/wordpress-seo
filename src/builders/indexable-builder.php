@@ -202,9 +202,9 @@ class Indexable_Builder {
 				]
 			);
 
-			$permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
+			$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
 
-			if ( empty( $permalink ) ) {
+			if ( empty( $indexable->permalink ) ) {
 				$indexable->permalink = "unindexed";
 			}
 		}
