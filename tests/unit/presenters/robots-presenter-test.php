@@ -86,12 +86,8 @@ class Robots_Presenter_Test extends TestCase {
 			'follow' => 'nofollow',
 		];
 
-		$this->assertSame(
-			[
-				'index'  => 'index',
-				'follow' => 'nofollow',
-			],
-			$this->instance->get()
-		);
+		$result = $this->instance->get();
+
+		$this->assertSame( "index, nofollow", $result );
 	}
 }
