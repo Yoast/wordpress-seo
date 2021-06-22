@@ -119,7 +119,7 @@ class Meta {
 	 * @return string The JSON output of the metadata.
 	 */
 	public function get_json_head() {
-		return present_head( 'JSON' );
+		return $this->present_head( 'JSON' );
 	}
 
 	/**
@@ -128,7 +128,7 @@ class Meta {
 	 * @return string The HTML output of the metadata.
 	 */
 	public function get_head() {
-		return present_head( 'HTML' );
+		return $this->present_head( 'HTML' );
 	}
 
 	/**
@@ -146,6 +146,10 @@ class Meta {
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $this->context->presentation, $this->context );
 
+		if ( $header_format === 'JSON' ) {
+			$output .= "<!-- json start -->";
+		}
+
 		foreach ( $presenters as $presenter ) {
 			$presenter->presentation = $presentation;
 			$presenter->helpers      = $this->helpers;
@@ -158,10 +162,16 @@ class Meta {
 				}
 			}
 			else {
-				$key            = $presenter::NAME; // sanitize name; og:title is an invalid json key
+				$key            = ($presenter)::KEY; // sanitize name; og:title is an invalid json key
 				$value          = $presenter->get();
-				$output[ $key ] = $value;
+				if ( ! empty( $value ) ) {
+					$output[$key] = $value;
+				}
 			}
+		}
+
+		if ( $header_format === 'JSON' ) {
+			$output .= "<!-- json end -->";
 		}
 
 		// todo json start / end tags

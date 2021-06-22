@@ -48,6 +48,11 @@ class Abstract_Cached_Indexable_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The output.
 	 */
 	public function present() {
+		// Pass helpers on to decorated class.
+		$this->decorated->presentation = $this->presentation;
+		$this->decorated->replace_vars = $this->replace_vars;
+		$this->decorated->helpers      = $this->helpers;
+
 		$this->decorated->present();
 	}
 }
