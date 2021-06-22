@@ -16,8 +16,9 @@ import PortugueseResearcher from "../../src/languageProcessing/languages/pt/Rese
 import RussianResearcher from "../../src/languageProcessing/languages/ru/Researcher";
 import SwedishResearcher from "../../src/languageProcessing/languages/sv/Researcher";
 import TurkishResearcher from "../../src/languageProcessing/languages/tr/Researcher";
-import DefaultResearcher from "../../src/languageProcessing/languages/_default/Researcher";
 import CzechResearcher from "../../src/languageProcessing/languages/cs/Researcher";
+import SlovakResearcher from "../../src/languageProcessing/languages/sk/Researcher";
+import DefaultResearcher from "../../src/languageProcessing/languages/_default/Researcher";
 
 const researchers = {
 	ar: ArabicResearcher,
@@ -39,6 +40,7 @@ const researchers = {
 	sv: SwedishResearcher,
 	tr: TurkishResearcher,
 	cs: CzechResearcher,
+	sk: SlovakResearcher,
 };
 
 /**
