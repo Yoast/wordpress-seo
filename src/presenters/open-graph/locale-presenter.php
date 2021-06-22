@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
  */
 final class Locale_Presenter extends Abstract_Indexable_Tag_Presenter {
 
-	const NAME = 'og:locale';
+	const KEY = 'og:locale';
 
 	/**
 	 * The tag format including placeholders.

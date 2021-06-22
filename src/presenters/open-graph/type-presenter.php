@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
  */
 class Type_Presenter extends Abstract_Indexable_Tag_Presenter {
 
-	const NAME = 'og:type';
+	const KEY = 'og:type';
 
 	/**
 	 * The tag format including placeholders.

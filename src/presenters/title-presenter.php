@@ -37,6 +37,19 @@ class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 	}
 
 	/**
+	 * Returns a tag in the head.
+	 *
+	 * @return string The tag.
+	 */
+	public function present() {
+		$value = $this->get();
+
+		if ( \is_string( $value ) && $value !== '' ) {
+			return \sprintf( $this->tag_format, $this->escape( $value ) );
+		}
+	}
+
+	/**
 	 * Returns the presentation title.
 	 *
 	 * @return string The title.

@@ -90,4 +90,26 @@ class Robots_Presenter_Test extends TestCase {
 
 		$this->assertSame( "index, nofollow", $result );
 	}
+
+	/**
+	 * Tests the retrieval of the raw value.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get_raw() {
+		$this->presentation->robots = [
+			'index'  => 'index',
+			'follow' => 'nofollow',
+		];
+
+		$result = $this->instance->get_raw();
+
+		$this->assertSame(
+			[
+				'index'  => 'index',
+				'follow' => 'nofollow',
+			],
+			$result
+		);
+	}
 }

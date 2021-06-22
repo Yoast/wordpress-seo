@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
  */
 class Article_Published_Time_Presenter extends Abstract_Indexable_Tag_Presenter {
 
-	const NAME = 'article:published_time';
+	const KEY = 'article:published_time';
 
 	/**
 	 * The tag format including placeholders.

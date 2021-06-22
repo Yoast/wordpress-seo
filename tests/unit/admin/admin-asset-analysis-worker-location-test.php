@@ -26,7 +26,7 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 	}
 
 	protected function get_wpseo_file() {
-		return \realpath(__DIR__ . '/../../../../wp-seo.php' );
+		return \realpath(__DIR__ . '/../../../wp-seo.php' );
 	}
 
 	/**
@@ -48,7 +48,9 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 			->with( 'js/dist/analysis-worker-' . $version . '.js', $this->get_wpseo_file() )
 			->andReturn( 'asset_location' );
 
-		$actual = $location->get_url( $location->get_asset(), WPSEO_Admin_Asset::TYPE_JS );
+		$asset_location = $location->get_asset();
+		$actual = $location->get_url( $asset_location, WPSEO_Admin_Asset::TYPE_JS );
+
 		$this->assertSame( 'asset_location', $actual );
 	}
 

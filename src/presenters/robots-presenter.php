@@ -19,4 +19,8 @@ class Robots_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 		return \implode( ', ', $robots );
 	}
+
+	public function get_raw() {
+		return $this->presentation->robots;
+	}
 }
