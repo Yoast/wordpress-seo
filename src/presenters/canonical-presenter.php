@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 /**
  * Presenter class for the canonical.
  */
-class Canonical_Presenter extends Abstract_Indexable_Tag_Presenter {
+class Canonical_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
 	const KEY = 'canonical';
 
@@ -30,7 +30,7 @@ class Canonical_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 *
 	 * @return string The filtered canonical.
 	 */
-	public function get() {
+	public function refresh() {
 		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
 			return '';
 		}

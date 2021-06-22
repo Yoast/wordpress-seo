@@ -7,8 +7,8 @@ namespace Yoast\WP\SEO\Presenters;
  */
 abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Presenter {
 
-	const META_NAME_CONTENT     = '<meta name="%2$s" content="%1$s" />';
 	const META_PROPERTY_CONTENT = '<meta property="%2$s" content="%1$s" />';
+	const META_NAME_CONTENT     = '<meta name="%2$s" content="%1$s" />';
 	const LINK_REL_HREF         = '<link rel="%2$s" href="%1$s" />';
 	const DEFAULT_TAG_FORMAT    = self::META_NAME_CONTENT;
 

@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters;
 
-use Mockery;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -16,9 +15,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Abstract_Indexable_Tag_Presenter_Test extends TestCase {
 
 	public function test_key_not_defined() {
-		$instance = new Concrete_Indexable_Presenter();
+		$instance = new Concrete_Cached_Presenter();
 
-		$this->expectException( \InvalidArgumentException::class );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->expectExceptionMessage( 'Concrete_Indexable_Presenter is an Abstract_Indexable_Tag_Presenter but does not provide a KEY constant.' );
 
 		$instance->present();

@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 /**
  * Presenter class for the meta description.
  */
-class Meta_Description_Presenter extends Abstract_Indexable_Tag_Presenter {
+class Meta_Description_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
 	const KEY = 'description';
 
@@ -42,7 +42,7 @@ class Meta_Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 *
 	 * @return string The filtered meta description.
 	 */
-	public function get() {
+	public function refresh() {
 		$meta_description = $this->replace_vars( $this->presentation->meta_description );
 
 		/**

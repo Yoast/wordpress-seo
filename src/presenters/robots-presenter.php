@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Presenters;
 /**
  * Presenter class for the robots output.
  */
-class Robots_Presenter extends Abstract_Indexable_Tag_Presenter {
+class Robots_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
 	const KEY = 'robots';
 
@@ -14,7 +14,7 @@ class Robots_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 *
 	 * @return string The raw value.
 	 */
-	public function get() {
+	public function refresh() {
 		$robots = $this->presentation->robots;
 
 		return \implode( ', ', $robots );

@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Presenters\Twitter;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
 
 /**
  * Presenter class for the Twitter Card tag.
  */
-class Card_Presenter extends Abstract_Indexable_Tag_Presenter {
+class Card_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
 	const KEY = 'twitter:card';
 
@@ -17,7 +17,7 @@ class Card_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 *
 	 * @return string The filtered card type.
 	 */
-	public function get() {
+	public function refresh() {
 		/**
 		 * Filter: 'wpseo_twitter_card_type' - Allow changing the Twitter card type.
 		 *

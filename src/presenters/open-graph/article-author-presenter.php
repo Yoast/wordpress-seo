@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
 
 /**
  * Presenter class for the Open Graph article author.
  */
-class Article_Author_Presenter extends Abstract_Indexable_Tag_Presenter {
+class Article_Author_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
 	const KEY = 'article:author';
 
@@ -24,7 +24,7 @@ class Article_Author_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 *
 	 * @return string The filtered article author's Facebook URL.
 	 */
-	public function get() {
+	public function refresh() {
 		/**
 		 * Filter: 'wpseo_opengraph_author_facebook' - Allow developers to filter the article author's Facebook URL.
 		 *

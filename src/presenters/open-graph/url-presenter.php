@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
 
 /**
  * Presenter class for the Open Graph URL.
  */
-class Url_Presenter extends Abstract_Indexable_Tag_Presenter {
+class Url_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
 	const KEY = 'og:url';
 
@@ -31,7 +31,7 @@ class Url_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 *
 	 * @return string The filtered url.
 	 */
-	public function get() {
+	public function refresh() {
 		/**
 		 * Filter: 'wpseo_opengraph_url' - Allow changing the Yoast SEO generated open graph URL.
 		 *
