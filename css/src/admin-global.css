@@ -585,17 +585,20 @@ body.folded .wpseo-admin-submit-fixed {
   margin-right: 8px;
 }
 
-.yoast-badge {
+#wpadminbar .yoast-badge, .yoast-badge {
 	display: inline-block;
-	min-height: 16px;
 	padding: 0 8px;
 	border-radius: 8px;
 	font-weight: 600;
-	font-size: 10px;
 	line-height: 1.6;
 }
 
-.wp-submenu .yoast-badge {
+.yoast-badge {
+	min-height: 16px;
+	font-size: 10px;
+}
+
+#wpadminbar .yoast-badge, .wp-submenu .yoast-badge {
 	min-height: 14px;
 	font-size: 9px;
 }
