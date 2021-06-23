@@ -16,6 +16,6 @@ describe( "Calculate coverage for the Slovak stemmer", () => {
 		const coverage = ( stemsComparison.length - errors.length ) / stemsComparison.length;
 
 		expect( coverage ).toBeGreaterThan( coverageThreshold );
-		console.log( "The current coverage of the Czech stemmer is", coverage * 100, "%. The number of errors is", errors.length + "." );
+		console.log( "The current coverage of the Slovak stemmer is", coverage * 100, "%. The number of errors is", errors.length + "." );
 	} );
 } );
