@@ -16,7 +16,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
@@ -50,47 +50,36 @@ function palatalise( word, morphologyData ) {
  * @returns {string}     The word without case suffixes or the original word if no such suffix is found.
  */
 function removeCases( word, morphologyData ) {
-	const caseSuffix1 = "atoch";
-	if ( word.length > 7 && word.endsWith( caseSuffix1 ) ) {
+	const caseSuffixes = morphologyData.externalStemmer.caseSuffixes;
+	const caseRegexes = morphologyData.externalStemmer.caseRegexes;
+
+	if ( word.length > 7 && word.endsWith( caseSuffixes.caseSuffix1 ) ) {
 		// Return the word without the suffix
 		word = word.slice( 0, -5 );
 	}
-	const caseSuffix2 = "aťom";
-	if ( word.length > 6 && word.endsWith( caseSuffix2 ) ) {
+	if ( word.length > 6 && word.endsWith( caseSuffixes.caseSuffix2 ) ) {
 		word = palatalise( word.slice( 0, -3 ), morphologyData );
 	}
-
 	if ( word.length > 5 ) {
-		const caseSuffixes3 = [ "och", "ich", "ích", "ého", "eho", "ami", "emi", "ému",
-			"ete", "eti", "iho", "ího", "ími", "imu", "aťa" ];
-		const caseSuffixes4 = [ "ách", "ata", "aty", "ých", "ami",
-			"ové", "ovi", "ými" ];
-		if ( caseSuffixes3.includes( word.slice( -3 ) ) ) {
+		if ( caseSuffixes.caseSuffixes3.includes( word.slice( -3 ) ) ) {
 			word = palatalise( word.slice( 0, -2 ), morphologyData );
-		} else if ( caseSuffixes4.includes( word.slice( -3 ) ) ) {
+		} else if ( caseSuffixes.caseSuffixes4.includes( word.slice( -3 ) ) ) {
 			word = word.slice( 0, -3 );
 		}
 	}
 	if ( word.length > 4 ) {
-		const caseSuffix5 = "om";
-		const caseSuffixes6 = [ "es", "ém", "ím" ];
-		const caseSuffixes7 = [ "úm", "at", "ám", "os", "us", "ým", "mi", "ou", "ej" ];
-
-		if ( word.endsWith( caseSuffix5 ) ) {
+		if ( word.endsWith( caseSuffixes.caseSuffix5 ) ) {
 			word = palatalise( word.slice( 0, -1 ), morphologyData );
-		} else if ( caseSuffixes6.includes( word.slice( -2 ) ) ) {
+		} else if ( caseSuffixes.caseSuffixes6.includes( word.slice( -2 ) ) ) {
 			word = palatalise( word.slice( 0, -2 ), morphologyData );
-		} else if ( caseSuffixes7.includes( word.slice( -2 ) ) ) {
+		} else if ( caseSuffixes.caseSuffixes7.includes( word.slice( -2 ) ) ) {
 			word = word.slice( 0, -2 );
 		}
 	}
 	if ( word.length > 3 ) {
-		const caseRegex1 = new RegExp( "[eií]$" );
-		const caseRegex2 = new RegExp( "[úyaoáéý]$" );
-
-		if ( caseRegex1.test( word ) ) {
+		if ( new RegExp( caseRegexes.caseRegex1 ).test( word ) ) {
 			word =  palatalise( word, morphologyData );
-		} else if ( caseRegex2.test( word ) ) {
+		} else if ( new RegExp( caseRegexes.caseRegex2 ).test( word ) ) {
 			word = word.slice( 0, -1 );
 		}
 	}
@@ -106,13 +95,13 @@ function removeCases( word, morphologyData ) {
  * @returns {string}     The word without possessive suffixes or the original word if no such suffix is found.
  */
 function removePossessives( word, morphologyData ) {
+	const possessiveSuffixes = morphologyData.externalStemmer.possessiveSuffixes;
+
 	if ( word.length > 5 ) {
-		const posSuffixOv = "ov";
-		if ( word.endsWith( posSuffixOv ) ) {
+		if ( word.endsWith( possessiveSuffixes.posSuffixOv ) ) {
 			return word.slice( 0, -2 );
 		}
-		const posSuffixIn = "in";
-		if ( word.endsWith( posSuffixIn ) ) {
+		if ( word.endsWith( possessiveSuffixes.posSuffixIn ) ) {
 			return palatalise( word.slice( 0, -1 ), morphologyData );
 		}
 	}
