@@ -85,7 +85,7 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	protected function register_submenu_pages( $submenu_pages ) {
+	protected function register_submenu_pages( $submenu_pages, $page_identifier = null ) {
 		if ( ! is_array( $submenu_pages ) || empty( $submenu_pages ) ) {
 			return;
 		}
@@ -95,9 +95,12 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 
 		// Set the first submenu title to the title of the first submenu page.
 		global $submenu;
-		if ( isset( $submenu[ $this->get_page_identifier() ] ) && $this->check_manage_capability() ) {
+		if ( ! $page_identifier ) {
+			$page_identifier = $this->get_page_identifier();
+		}
+		if ( isset( $submenu[ $page_identifier ] ) ) {
 			// phpcs:ignore WordPress.WP.GlobalVariablesOverride -- This is a deliberate action.
-			$submenu[ $this->get_page_identifier() ][0][0] = $submenu_pages[0][2];
+			$submenu[ $page_identifier ][0][0] = $submenu_pages[0][2];
 		}
 	}
 

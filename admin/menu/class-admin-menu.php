@@ -24,24 +24,24 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 	 * Registers the menu item submenus.
 	 */
 	public function register_settings_page() {
-		$manage_capability = $this->get_manage_capability();
-		$page_identifier = $this->get_page_identifier();
+		$manage_capability   = $this->get_manage_capability();
+		$page_identifier     = $this->get_page_identifier();
 		$admin_page_callback = $this->get_admin_page_callback();
 
 		// Get all submenu pages.
 		$submenu_pages = $this->get_submenu_pages();
 
-		foreach ( $submenu_pages as $submenu_page ){
+		foreach ( $submenu_pages as $submenu_page ) {
 			if ( WPSEO_Capability_Utils::current_user_can( $submenu_page[3] ) ) {
-				$manage_capability = $submenu_page[3];
-				$page_identifier = $submenu_page[4];
+				$manage_capability   = $submenu_page[3];
+				$page_identifier     = $submenu_page[4];
 				$admin_page_callback = $submenu_page[5];
 				break;
 			}
 		}
 
 		foreach ( $submenu_pages as $index => $submenu_page ) {
-			$submenu_pages[$index][0] = $page_identifier;
+			$submenu_pages[ $index ][0] = $page_identifier;
 		}
 
 		/*
@@ -65,7 +65,7 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 		$admin_page_hooks[ $page_identifier ] = 'seo';
 
 		// Add submenu items to the main menu if possible.
-		$this->register_submenu_pages( $submenu_pages );
+		$this->register_submenu_pages( $submenu_pages, $page_identifier );
 	}
 
 	/**
