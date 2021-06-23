@@ -4,6 +4,7 @@ const { AbstractResearcher } = languageProcessing;
 // All config
 
 // All helpers
+import getStemmer from "./helpers/getStemmer";
 
 /**
  * The researches contains all the researches
@@ -30,6 +31,7 @@ export default class Researcher extends AbstractResearcher {
 		} );
 
 		Object.assign( this.helpers, {
+			getStemmer,
 		} );
 	}
 }
