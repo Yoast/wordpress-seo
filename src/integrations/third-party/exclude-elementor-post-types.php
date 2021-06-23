@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  *
  * Posts with these post types will not be saved to the indexable table.
  */
-class Elementor_Exclude_Post_Types implements Integration_Interface {
+class Exclude_Elementor_Post_Types implements Integration_Interface {
 
 	/**
 	 * Initializes the integration.
