@@ -188,9 +188,6 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 
 		$page_title .= ' - Yoast SEO';
 
-		// Force the general manage capability to be used.
-		$submenu_page[3] = $this->get_manage_capability();
-
 		// Register submenu page.
 		$hook_suffix = add_submenu_page(
 			$submenu_page[0],
