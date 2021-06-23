@@ -65,7 +65,7 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 		$admin_page_hooks[ $page_identifier ] = 'seo';
 
 		// Add submenu items to the main menu if possible.
-		$this->register_submenu_pages( $submenu_pages, $page_identifier );
+		$this->register_submenu_pages( $submenu_pages );
 	}
 
 	/**
