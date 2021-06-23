@@ -401,43 +401,6 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Finds the indexables that are cornerstones.
-	 *
-	 * @param int $limit The maximum amount of indexables to return.
-	 *
-	 * @return Indexable[] The found indexables.
-	 */
-	public function find_cornerstones( $limit = 20 ) {
-		$indexables = $this
-			->query()
-			->where( 'is_cornerstone', true )
-			->limit( $limit )
-			->find_many();
-
-		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
-	}
-
-	/**
-	 * Finds the indexables with the most incoming links.
-	 *
-	 * @param int $limit The maximum amount of indexables to return.
-	 *
-	 * @return Indexable[] The found indexables.
-	 */
-	public function find_with_most_incoming_links( $limit = 20 ) {
-		$indexables = $this
-			->query()
-			->where_raw( 'object_sub_type NOT IN ( \'attachment\' ) OR post_status IS NULL' )
-			->where_raw( 'post_status NOT IN ( \'draft\', \'auto-draft\' ) OR post_status IS NULL' )
-			->where_in( 'object_type', [ 'term', 'post' ] )
-			->order_by_desc( 'incoming_link_count' )
-			->limit( $limit )
-			->find_many();
-
-		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
-	}
-
-	/**
 	 * Returns all ancestors of a given indexable.
 	 *
 	 * @param Indexable $indexable The indexable to find the ancestors of.
@@ -515,7 +478,7 @@ class Indexable_Repository {
 	 *
 	 * @return bool|Indexable The indexable.
 	 */
-	protected function ensure_permalink( $indexable ) {
+	public function ensure_permalink( $indexable ) {
 		if ( $indexable && $indexable->permalink === null ) {
 			$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
 
