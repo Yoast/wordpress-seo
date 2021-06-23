@@ -24,7 +24,6 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Fixes the stopwords list for Czech by adding the correct stopwords. Adds punctuation marks as sentence breakers.
 * Excludes Table of Contents from the analysis.
 * Filters out table block content from the `getSentenceBeginnings` research.
-* Adds `stripHTMLTags` helper to `languageProcessing/index.js` file.
 
 ## 1.89.0 January 25th, 2021
 ### Enhancements
