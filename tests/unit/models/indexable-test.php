@@ -143,4 +143,29 @@ class Indexable_Test extends TestCase {
 		// Check again to test if it is now set correctly. Not calling `has_one` again.
 		$this->assertSame( 'found one', $this->instance->get_extension( 'has_one' ) );
 	}
+
+	/**
+	 * Tests that if the permalink is 'unindexed' it does not get trailingslashed ('unindexed/').
+	 *
+	 * @covers ::sanitize_permalink
+	 * @covers ::save
+	 */
+	public function test_do_trailing_slash_permalink_when_unindexed() {
+		$permalink = 'unindexed';
+
+		$this->instance->orm->expects( 'get' )->times( 5 )->with( 'permalink' )->andReturn( $permalink );
+		$this->instance->orm->expects( 'set' )
+			->once()
+			->with( 'permalink', $permalink );
+		$this->instance->orm->expects( 'set' )
+			->once()
+			->with( 'permalink_hash', \strlen( $permalink ) . ':' . \md5( $permalink ) );
+		$this->instance->orm->expects( 'get' )->once()->with( 'primary_focus_keyword' )->andReturn( 'keyword' );
+		$this->instance->orm->expects( 'save' )->once();
+
+		$this->instance->set( 'permalink', $permalink );
+		$this->instance->save();
+
+		$this->assertSame( 'unindexed', $this->instance->permalink );
+	}
 }
