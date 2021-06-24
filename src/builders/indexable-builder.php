@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
-use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -93,13 +92,6 @@ class Indexable_Builder {
 	protected $indexable_helper;
 
 	/**
-	 * The permalink helper.
-	 *
-	 * @var Permalink_Helper
-	 */
-	protected $permalink_helper;
-
-	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
 	 * @param Indexable_Author_Builder            $author_builder            The author builder for creating missing indexables.
@@ -112,7 +104,6 @@ class Indexable_Builder {
 	 * @param Indexable_Hierarchy_Builder         $hierarchy_builder         The hierarchy builder for creating the indexable hierarchy.
 	 * @param Primary_Term_Builder                $primary_term_builder      The primary term builder for creating primary terms for posts.
 	 * @param Indexable_Helper                    $indexable_helper          The indexable helper.
-	 * @param Permalink_Helper                    $permalink_helper          The permalink helper.
 	 */
 	public function __construct(
 		Indexable_Author_Builder $author_builder,
@@ -124,8 +115,7 @@ class Indexable_Builder {
 		Indexable_System_Page_Builder $system_page_builder,
 		Indexable_Hierarchy_Builder $hierarchy_builder,
 		Primary_Term_Builder $primary_term_builder,
-		Indexable_Helper $indexable_helper,
-		Permalink_Helper $permalink_helper
+		Indexable_Helper $indexable_helper
 	) {
 		$this->author_builder            = $author_builder;
 		$this->post_builder              = $post_builder;
@@ -137,7 +127,6 @@ class Indexable_Builder {
 		$this->hierarchy_builder         = $hierarchy_builder;
 		$this->primary_term_builder      = $primary_term_builder;
 		$this->indexable_helper          = $indexable_helper;
-		$this->permalink_helper          = $permalink_helper;
 	}
 
 	/**
@@ -201,12 +190,6 @@ class Indexable_Builder {
 					'post_status' => 'unindexed',
 				]
 			);
-
-			$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
-
-			if ( empty( $indexable->permalink ) ) {
-				$indexable->permalink = 'unindexed';
-			}
 		}
 
 		$indexable = $this->save_indexable( $indexable, $indexable_before );
