@@ -30,8 +30,8 @@ function getAnalysisConclusion( issues: BlockValidationResult[] ): SidebarWarnin
 	if ( issues.some( issue => issue.result >= BlockValidation.Invalid ) ) {
 		conclusionText = sprintf(
 			/* translators: %s expands to the schema block name. */
-			__( "Not all required information has been provided! No %s schema will be generated for your page.", "yoast-schema-blocks" ),
-			"Job posting",
+			__( "Not all required information has been provided! %s schema will not be generated for your page.", "yoast-schema-blocks" ),
+			"JobPosting",
 		);
 
 		return { text: conclusionText, color: "red" };

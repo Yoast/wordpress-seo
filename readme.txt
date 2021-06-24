@@ -241,15 +241,16 @@ Enhancements:
 
 * Updates `SearchAction` schema to comply with Google's updated specification.
 * Excludes sentences inside tables and table captions from the consecutive sentences assessment.
-* Adds adjacent relative links for WooCommerce shop pages. Props to [stodorovic](https://github.com/stodorovic).
+* Adds adjacent relative links (`rel="prev"` and `rel="next"`) for WooCommerce shop pages. Props to [stodorovic](https://github.com/stodorovic).
 * Adds increased compatibility for LiteSpeed web servers. Props to [J-Rey](https://github.com/J-Rey). 
+* Adds adjacent relative links for WooCommerce shop pages. Props to [stodorovic](https://github.com/stodorovic).
 
 Bugfixes:
 
-* Fixes a bug where an error was shown on the page overview and post overview when the website's MySQL database is run in ANSI-mode. Props to [stodorovic](https://github.com/stodorovic).
-* Adds increased compatibility for LiteSpeed web servers. Props to [J-Rey](https://github.com/J-Rey).
-* Fixes a bug where shortcodes were removed from the Open Graph description even when they were explicitly added. Props to [Lomerill](https://github.com/Lomerill).
-* Fixes a bug that if you used the `wpseo_schema_{@type}` filter you would get a fatal error.
+* Fixes a bug where an error would be shown on the page overview and post overview when the website's MySQL database was run in ANSI-mode. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where shortcodes would be removed from the Open Graph description even when they were explicitly added. Props to [Lomerill](https://github.com/Lomerill).
+* Fixes a bug where using the `wpseo_schema_{@type}` filter would result in a fatal error.
+* Fixes a bug where the last breadcrumb item was stripped in breadcrumb Schema output on subsequent pages of a static posts page.
 
 = 16.5 =
 Release Date: June 15th, 2021
