@@ -118,7 +118,7 @@ function removePossessives( word, morphologyData ) {
  */
 function removeComparatives( word, morphologyData ) {
 	if ( word.length > 5 ) {
-		const comparativeSuffixes = [ "ejš", "ějš" ];
+		const comparativeSuffixes = morphologyData.externalStemmer.comparativeSuffixes;
 		if ( comparativeSuffixes.includes( word.slice( -3 ) ) ) {
 			return palatalise( word.slice( 0, -2 ), morphologyData );
 		}
@@ -135,41 +135,31 @@ function removeComparatives( word, morphologyData ) {
  * @returns {string}      The word without diminutive suffixes or the original word if no such suffix is found.
  */
 function removeDiminutives( word, morphologyData ) {
-	const diminutiveSuffix1 = "oušok";
-	if ( word.length > 7 && word.endsWith( diminutiveSuffix1 ) ) {
+	const diminutiveSuffixes = morphologyData.externalStemmer.diminutiveSuffixes;
+	if ( word.length > 7 && word.endsWith( diminutiveSuffixes.diminutiveSuffix1 ) ) {
 		return word.slice( 0, -5 );
 	}
 	if ( word.length > 6 ) {
-		const diminutiveSuffixes2 = [ "ečok", "éčok", "ičok", "íčok", "enok", "énok",
-			"inok", "ínok" ];
-		if ( diminutiveSuffixes2.includes( word.slice( -4 ) ) ) {
+		if ( diminutiveSuffixes.diminutiveSuffixes2.includes( word.slice( -4 ) ) ) {
 			return palatalise( word.slice( 0, -3 ), morphologyData );
 		}
-		const diminutiveSuffixes3 = [ "áčok", "ačok", "očok", "učok", "anok", "onok",
-			"unok", "ánok" ];
-		if ( diminutiveSuffixes3.includes( word.slice( -4 ) ) ) {
+		if ( diminutiveSuffixes.diminutiveSuffixes3.includes( word.slice( -4 ) ) ) {
 			return palatalise( word.slice( 0, -4 ), morphologyData );
 		}
 	}
 	if ( word.length > 5 ) {
-		const diminutiveSuffixes4 = [ "ečk", "éčk", "ičk", "íčk", "enk", "énk",
-			"ink", "ínk" ];
-		if ( diminutiveSuffixes4.includes( word.slice( -3 ) ) ) {
+		if ( diminutiveSuffixes.diminutiveSuffixes4.includes( word.slice( -3 ) ) ) {
 			return palatalise( word.slice( 0, -3 ), morphologyData );
 		}
-		const diminutiveSuffixes5 = [ "áčk", "ačk", "očk", "učk", "ank", "onk",
-			"unk", "átk", "ánk", "ušk" ];
-		if ( diminutiveSuffixes5.includes( word.slice( -3 ) ) ) {
+		if ( diminutiveSuffixes.diminutiveSuffixes5.includes( word.slice( -3 ) ) ) {
 			return word.slice( 0, -3 );
 		}
 	}
 	if ( word.length > 4 ) {
-		const diminutiveSuffixes6 = [ "ek", "ék", "ík", "ik" ];
-		if ( diminutiveSuffixes6.includes( word.slice( -2 ) ) ) {
+		if ( diminutiveSuffixes.diminutiveSuffixes6.includes( word.slice( -2 ) ) ) {
 			return palatalise( word.slice( 0, -1 ), morphologyData );
 		}
-		const diminutiveSuffixes7 = [ "ák", "ak", "ok", "uk" ];
-		if ( diminutiveSuffixes7.includes( word.slice( -2 ) ) ) {
+		if ( diminutiveSuffixes.diminutiveSuffixes7.includes( word.slice( -2 ) ) ) {
 			return word.slice( 0, -1 );
 		}
 	}
@@ -188,16 +178,14 @@ function removeDiminutives( word, morphologyData ) {
  * @returns {string}      The word without augmentative suffixes or the original word if no such suffix is found.
  */
 function removeAugmentatives( word, morphologyData ) {
-	const augmentativeSuffix1 = "ajzn";
-	if ( word.length > 6 && word.endsWith( augmentativeSuffix1 ) ) {
+	const augmentativeSuffixes = morphologyData.externalStemmer.augmentativeSuffixes;
+	if ( word.length > 6 && word.endsWith( augmentativeSuffixes.augmentativeSuffix1 ) ) {
 		return word.slice( 0, -4 );
 	}
-	const augmentativeSuffixes2 = [ "izn", "isk" ];
-	if ( word.length > 5 && augmentativeSuffixes2.includes( word.slice( -3 ) ) ) {
+	if ( word.length > 5 && augmentativeSuffixes.augmentativeSuffixes2.includes( word.slice( -3 ) ) ) {
 		return palatalise( word.slice( 0, -2 ), morphologyData );
 	}
-	const augmentativeSuffix3 = "ák";
-	if ( word.length > 4 && word.endsWith( augmentativeSuffix3 ) ) {
+	if ( word.length > 4 && word.endsWith( augmentativeSuffixes.augmentativeSuffix3 ) ) {
 		return word.slice( 0, -2 );
 	}
 	return word;
@@ -212,60 +200,46 @@ function removeAugmentatives( word, morphologyData ) {
  * @returns {string}       The word without derivational suffixes or the original word if no such suffix is found.
  */
 function stemDerivational( word, morphologyData ) {
-	const derivationalSuffix1 = "obinec";
-	if ( word.length > 8 && word.endsWith( derivationalSuffix1 ) ) {
+	const derivationalSuffixes = morphologyData.externalStemmer.derivationalSuffixes;
+	if ( word.length > 8 && word.endsWith( derivationalSuffixes.derivationalSuffix1 ) ) {
 		return word.slice( 0, -6 );
 	}
 	if ( word.length > 7 ) {
-		const derivationalSuffix2 = "ionár";
-		if ( word.endsWith( derivationalSuffix2 ) ) {
+		if ( word.endsWith( derivationalSuffixes.derivationalSuffix2 ) ) {
 			return palatalise( word.slice( 0, -4 ), morphologyData );
 		}
-		const derivationalSuffixes3 = [ "ovisk", "ovstv", "ovišt", "ovník" ];
-		if ( derivationalSuffixes3.includes( word.slice( -5 ) ) ) {
+		if ( derivationalSuffixes.derivationalSuffixes3.includes( word.slice( -5 ) ) ) {
 			return word.slice( 0, -5 );
 		}
 	}
 	if ( word.length > 6 ) {
-		const derivationalSuffixes4 = [ "ások", "nosť", "teln", "ovec", "ovík",
-			"ovtv", "ovin", "štin" ];
-		if ( derivationalSuffixes4.includes( word.slice( -4 ) ) ) {
+		if ( derivationalSuffixes.derivationalSuffixes4.includes( word.slice( -4 ) ) ) {
 			return word.slice( 0, -4 );
 		}
-		const derivationalSuffixes5 = [ "enic", "inec", "itel" ];
-		if ( derivationalSuffixes5.includes( word.slice( -4 ) ) ) {
+		if ( derivationalSuffixes.derivationalSuffixes5.includes( word.slice( -4 ) ) ) {
 			return palatalise( word.slice( 0, -3 ), morphologyData );
 		}
 	}
 	if ( word.length > 5 ) {
-		const derivationalSuffix6 = "árn";
-		if ( word.endsWith( derivationalSuffix6 ) ) {
+		if ( word.endsWith( derivationalSuffixes.derivationalSuffix6 ) ) {
 			return word.slice( 0, -3 );
 		}
-		const derivationalSuffixes7 = [ "enk", "ián", "ist", "isk", "išt", "itb", "írn" ];
-		if ( derivationalSuffixes7.includes( word.slice( -3 ) ) ) {
+		if ( derivationalSuffixes.derivationalSuffixes7.includes( word.slice( -3 ) ) ) {
 			return palatalise( word.slice( 0, -2 ), morphologyData );
 		}
-		const derivationalSuffixes8 = [ "och", "ost", "ovn", "oun", "out", "ouš",
-			"ušk", "kyn", "čan", "kář", "néř", "ník",
-			"ctv", "stv" ];
-		if ( derivationalSuffixes8.includes( word.slice( -3 ) ) ) {
+		if ( derivationalSuffixes.derivationalSuffixes8.includes( word.slice( -3 ) ) ) {
 			return word.slice( 0, -3 );
 		}
 	}
 	if ( word.length > 4 ) {
-		const derivationalSuffixes9 = [ "áč", "ač", "án", "an", "ár", "ar", "ás", "as", "ob", "ot", "ov", "oň", "ul", "yn", "čk", "čn",
-			"dl", "nk", "tv", "tk", "vk" ];
-		if ( derivationalSuffixes9.includes( word.slice( -2 ) ) ) {
+		if ( derivationalSuffixes.derivationalSuffixes9.includes( word.slice( -2 ) ) ) {
 			return word.slice( 0, -2 );
 		}
-		const derivationalSuffixes10 = [ "ec", "en", "ér", "ír", "ic", "in", "ín",
-			"it", "iv" ];
-		if ( derivationalSuffixes10.includes( word.slice( -2 ) ) ) {
+		if ( derivationalSuffixes.derivationalSuffixes10.includes( word.slice( -2 ) ) ) {
 			return palatalise( word.slice( 0, -1 ), morphologyData );
 		}
 	}
-	const derivationalRegex = new RegExp( "[cčklnt]$" );
+	const derivationalRegex = new RegExp( morphologyData.externalStemmer.derivationalRegex );
 	if ( word.length > 3 && derivationalRegex.test( word ) ) {
 		return word.slice( 0, -1 );
 	}
