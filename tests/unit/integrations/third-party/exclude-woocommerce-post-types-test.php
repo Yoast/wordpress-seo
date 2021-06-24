@@ -55,7 +55,7 @@ class Exclude_WooCommerce_Post_Types_Test extends TestCase {
 	 */
 	public function test_register_hooks() {
 		Monkey\Filters\expectAdded( 'wpseo_indexable_excluded_post_types' )
-			->with( [ $this->instance, 'exclude_woocommerce_post_types' ] )
+			->with( [ $this->instance, 'exclude_post_types' ] )
 			->once();
 
 		$this->instance->register_hooks();
@@ -64,13 +64,13 @@ class Exclude_WooCommerce_Post_Types_Test extends TestCase {
 	/**
 	 * Tests that the correct post types are excluded.
 	 *
-	 * @covers ::exclude_woocommerce_post_types
+	 * @covers ::exclude_post_types
 	 */
 	public function test_exclude_woocommerce_post_types() {
 		$excluded_post_types = [];
 
 		$expected = [ 'shop_order' ];
-		$actual   = $this->instance->exclude_woocommerce_post_types( $excluded_post_types );
+		$actual   = $this->instance->exclude_post_types( $excluded_post_types );
 
 		self::assertEquals( $expected, $actual );
 	}

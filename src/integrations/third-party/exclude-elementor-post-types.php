@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
-use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Integrations\Exclude_Post_Type;
 
 /**
  * Exclude certain Elementor-specific post types from the indexable table.
@@ -12,14 +12,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Exclude_Elementor_Post_Types implements Integration_Interface {
-
-	/**
-	 * Initializes the integration.
-	 */
-	public function register_hooks() {
-		\add_filter( 'wpseo_indexable_excluded_post_types', [ $this, 'exclude_elementor_post_types' ] );
-	}
+class Exclude_Elementor_Post_Types extends Exclude_Post_Type {
 
 	/**
 	 * This integration is only active when the Elementor plugin
@@ -32,17 +25,12 @@ class Exclude_Elementor_Post_Types implements Integration_Interface {
 	}
 
 	/**
-	 * Exclude certain Elementor-specific post types from the indexable table.
+	 * Returns the name of the post type to be excluded.
+	 * To be used in the wpseo_indexable_excluded_post_types filter.
 	 *
-	 * Posts with these post types will not be saved to the indexable table.
-	 *
-	 * @param array $excluded_post_types The excluded post types.
-	 *
-	 * @return array The excluded post types, including the excluded Elementor post types.
+	 * @return string the name of the post type.
 	 */
-	public function exclude_elementor_post_types( $excluded_post_types ) {
-		$excluded_post_types[] = 'elementor_library';
-
-		return $excluded_post_types;
+	public function get_post_type() {
+		return 'elementor_library';
 	}
 }
