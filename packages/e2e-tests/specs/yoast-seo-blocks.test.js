@@ -77,4 +77,38 @@ describe( "Yoast SEO blocks", () => {
 		expect( yoastSeoHowToBlock.length ).toBe( 1 );
 	} );
 
+	it( "shows correctly Yoast SEO FAQ block in a custom post", async () => {
+		await trashAllPosts( "yoast_post_type" );
+		await createNewPost( { postType: "yoast_post_type" } );
+
+		await insertBlock( "Yoast FAQ" );
+		const yoastSeoFaqBlock = await page.$x(
+			`//div[contains( @data-type, "yoast/faq-block" )]`
+		);
+		expect( yoastSeoFaqBlock.length ).toBe( 1 );
+	} );
+
+	it( "shows correctly Yoast Breadcrumbs block in a custom post", async () => {
+		await trashAllPosts( "yoast_post_type" );
+		await createNewPost( { postType: "yoast_post_type" } );
+
+		await insertBlock( "Yoast Breadcrumbs" );
+		const yoastSeoBreadcrumbsBlock = await page.$x(
+			`//div[contains( @data-type, "yoast-seo/breadcrumbs" )]`
+		);
+		expect( yoastSeoBreadcrumbsBlock.length ).toBe( 1 );
+	} );
+
+	it( "shows correctly Yoast How-to block in a custom post", async () => {
+		await trashAllPosts( "yoast_post_type" );
+		await createNewPost( { postType: "yoast_post_type" } );
+
+		await insertBlock( "Yoast How-to" );
+		const yoastSeoHowToBlock = await page.$x(
+			`//div[contains( @data-type, "yoast/how-to-block" )]`
+		);
+		expect( yoastSeoHowToBlock.length ).toBe( 1 );
+	} );
+
+
 } );
