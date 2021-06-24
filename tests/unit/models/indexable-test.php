@@ -60,7 +60,7 @@ class Indexable_Test extends TestCase {
 			->once()
 			->with( 'permalink_hash', \strlen( $permalink ) . ':' . \md5( $permalink ) );
 		// Once for going into the if-statement, then twice for the permalink_hash.
-		$this->instance->orm->expects( 'get' )->times( 4 )->with( 'permalink' )->andReturn( $permalink );
+		$this->instance->orm->expects( 'get' )->times( 5 )->with( 'permalink' )->andReturn( $permalink );
 		$this->instance->orm->expects( 'get' )->once()->with( 'primary_focus_keyword' )->andReturn( 'keyword' );
 		$this->instance->orm->expects( 'save' )->once();
 
@@ -96,7 +96,7 @@ class Indexable_Test extends TestCase {
 			->once()
 			->with( 'permalink_hash', \strlen( $permalink_no_slash ) . ':' . \md5( $permalink_no_slash ) );
 		// Once for going into the if-statement, then once more for trailingslashit, then twice for the permalink_hash.
-		$this->instance->orm->expects( 'get' )->times( 4 )->with( 'permalink' )->andReturn( $permalink_no_slash );
+		$this->instance->orm->expects( 'get' )->times( 5 )->with( 'permalink' )->andReturn( $permalink_no_slash );
 		$this->instance->orm->expects( 'get' )->once()->with( 'primary_focus_keyword' )->andReturn( 'keyword' );
 		$this->instance->orm->expects( 'save' )->once();
 
