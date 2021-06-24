@@ -174,7 +174,7 @@ class Indexable extends Model {
 	 * @return void
 	 */
 	protected function sanitize_permalink() {
-		if ( $this->permalink === "unindexed" ) {
+		if ( $this->permalink === 'unindexed' ) {
 			return;
 		}
 

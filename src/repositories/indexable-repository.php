@@ -482,8 +482,8 @@ class Indexable_Repository {
 		if ( $indexable && $indexable->permalink === null ) {
 			$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
 
-			if ( $indexable->permalink === null && $indexable->post_status === "unindexed" ) {
-				$indexable->permalink = "unindexed";
+			if ( $indexable->permalink === null && $indexable->post_status === 'unindexed' ) {
+				$indexable->permalink = 'unindexed';
 			}
 
 			// Only save if changed.
