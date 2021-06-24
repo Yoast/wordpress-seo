@@ -11,7 +11,7 @@ describe( "Yoast SEO blocks", () => {
 
 	const title = "Test Post";
 
-	it( "shows correctly Yoast SEO FAQ block", async () => {
+	it( "shows correctly Yoast SEO FAQ block in a post", async () => {
 		await trashAllPosts();
 		await createNewPost();
 
@@ -22,7 +22,7 @@ describe( "Yoast SEO blocks", () => {
 		expect( yoastSeoFaqBlock.length ).toBe( 1 );
 	} );
 
-	it( "shows correctly Yoast Breadcrumbs block", async () => {
+	it( "shows correctly Yoast Breadcrumbs block in a post", async () => {
 		await trashAllPosts();
 		await createNewPost();
 
@@ -33,7 +33,7 @@ describe( "Yoast SEO blocks", () => {
 		expect( yoastSeoBreadcrumbsBlock.length ).toBe( 1 );
 	} );
 
-	it( "shows correctly Yoast How-to block", async () => {
+	it( "shows correctly Yoast How-to block in a post", async () => {
 		await trashAllPosts();
 		await createNewPost();
 
