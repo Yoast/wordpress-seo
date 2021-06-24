@@ -9,7 +9,12 @@ use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
  */
 class Bing_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'msvalidate.01';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'msvalidate.01';
 
 	/**
 	 * Retrieves the webmaster tool site verification value from the settings.

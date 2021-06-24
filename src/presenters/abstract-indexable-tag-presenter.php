@@ -12,7 +12,12 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 	const LINK_REL_HREF         = '<link rel="%2$s" href="%1$s" />';
 	const DEFAULT_TAG_FORMAT    = self::META_NAME_CONTENT;
 
-	const KEY = 'NO KEY PROVIDED';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'NO KEY PROVIDED';
 
 	/**
 	 * The tag format including placeholders.
@@ -34,14 +39,14 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 	 * @return string The tag.
 	 */
 	public function present() {
-		if ( $this::KEY === 'NO KEY PROVIDED' ) {
+		if ( $this->key === 'NO KEY PROVIDED' ) {
 			throw new \InvalidArgumentException( \get_class( $this ) . ' is an Abstract_Indexable_Tag_Presenter but does not provide a KEY constant.' );
 		}
 
 		$value = $this->get();
 
 		if ( \is_string( $value ) && $value !== '' ) {
-			return \sprintf( $this->tag_format, $this->escape( $value ), $this::KEY );
+			return \sprintf( $this->tag_format, $this->escape( $value ), $this->key );
 		}
 
 		return '';
@@ -64,5 +69,19 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 			default:
 				return \esc_attr( $value );
 		}
+	}
+
+	/**
+	 * Transforms an indexable presenter's key to a json safe key string.
+	 *
+	 * @param key The original presenter's key.
+	 *
+	 * @return string
+	 */
+	public function escape_key() {
+		if ( $this->key === 'NO KEY PROVIDED' ) {
+			return null;
+		}
+		return \str_replace( [ ':', ' ', '-' ], '_', $this->key );
 	}
 }

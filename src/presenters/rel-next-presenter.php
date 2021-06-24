@@ -9,7 +9,12 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
  */
 class Rel_Next_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'next';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'next';
 
 	/**
 	 * The tag format including placeholders.

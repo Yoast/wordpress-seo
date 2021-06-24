@@ -10,7 +10,12 @@ use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
  */
 class Card_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'twitter:card';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'twitter:card';
 
 	/**
 	 * Runs the card type through the `wpseo_twitter_card_type` filter.

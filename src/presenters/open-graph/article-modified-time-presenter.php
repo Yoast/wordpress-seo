@@ -10,7 +10,12 @@ use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
 // phpcs:ignore Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 class Article_Modified_Time_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'article:modified_time';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'article:modified_time';
 
 	/**
 	 * The tag format including placeholders.

@@ -9,7 +9,12 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
  */
 class Meta_Description_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'description';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'description';
 
 	/**
 	 * Returns the meta description for a post.

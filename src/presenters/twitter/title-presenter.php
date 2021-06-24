@@ -10,7 +10,12 @@ use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
  */
 class Title_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'twitter:title';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'twitter:title';
 
 	/**
 	 * Run the Twitter title through replace vars and the `wpseo_twitter_title` filter.

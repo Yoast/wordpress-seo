@@ -10,7 +10,12 @@ use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
  */
 class Image_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'twitter:image';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'twitter:image';
 
 	/**
 	 * The method of escaping to use.

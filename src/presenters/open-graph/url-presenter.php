@@ -10,7 +10,12 @@ use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
  */
 class Url_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'og:url';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'og:url';
 
 	/**
 	 * The tag format including placeholders.

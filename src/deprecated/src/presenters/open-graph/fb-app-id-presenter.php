@@ -15,7 +15,12 @@ use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
  */
 class FB_App_ID_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'fb:app_id';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'fb:app_id';
 
 	/**
 	 * The tag format including placeholders.

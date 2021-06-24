@@ -9,7 +9,12 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
  */
 class Canonical_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'canonical';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'canonical';
 
 	/**
 	 * The tag format including placeholders.

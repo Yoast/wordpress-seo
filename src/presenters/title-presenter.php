@@ -9,6 +9,8 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
  */
 class Title_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
+	protected $key = 'title';
+
 	/**
 	 * The tag format including placeholders.
 	 *

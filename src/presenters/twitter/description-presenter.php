@@ -10,7 +10,12 @@ use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
  */
 class Description_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'twitter:description';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'twitter:description';
 
 	/**
 	 * Run the Twitter description through replace vars and the `wpseo_twitter_description` filter.

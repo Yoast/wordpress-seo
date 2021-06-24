@@ -9,7 +9,12 @@ use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
  */
 class Baidu_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'baidu-site-verification';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'baidu-site-verification';
 
 	/**
 	 * Retrieves the webmaster tool site verification value from the settings.

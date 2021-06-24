@@ -10,7 +10,12 @@ use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
  */
 class Article_Publisher_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'article:publisher';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'article:publisher';
 
 	/**
 	 * The tag format including placeholders.

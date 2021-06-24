@@ -9,7 +9,12 @@ use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
  */
 class Pinterest_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'p:domain_verify';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'p:domain_verify';
 
 	/**
 	 * Retrieves the webmaster tool site verification value from the settings.

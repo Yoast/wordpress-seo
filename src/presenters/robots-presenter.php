@@ -7,7 +7,12 @@ namespace Yoast\WP\SEO\Presenters;
  */
 class Robots_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'robots';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'robots';
 
 	/**
 	 * Gets the raw value of a presentation.

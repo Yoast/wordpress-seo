@@ -9,7 +9,12 @@ use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
  */
 class Article_Published_Time_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
-	const KEY = 'article:published_time';
+	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'article:published_time';
 
 	/**
 	 * The tag format including placeholders.

@@ -118,7 +118,7 @@ class Meta {
 	 *
 	 * @return string The JSON output of the metadata.
 	 */
-	public function get_json_head() {
+	public function get_head_json() {
 		return $this->present_head( 'JSON' );
 	}
 
@@ -162,7 +162,7 @@ class Meta {
 				}
 			}
 			else {
-				$key            = ($presenter)::KEY; // sanitize name; og:title is an invalid json key
+				$key            = $presenter->key; // sanitize name; og:title is an invalid json key
 				$value          = $presenter->get();
 				if ( ! empty( $value ) ) {
 					$output[$key] = $value;
@@ -218,8 +218,7 @@ class Meta {
 			 *
 			 * @var Abstract_Indexable_Presenter
 			 */
-			$purePresenter           = new $presenter_class();
-			$presenter               = new Abstract_Cached_Indexable_Presenter( $purePresenter );
+			$presenter               = new $presenter_class();
 			$presenter->presentation = $presentation;
 			$presenter->helpers      = $this->helpers;
 			$presenter->replace_vars = $this->replace_vars;
@@ -268,11 +267,6 @@ class Meta {
 			$presenters = \array_filter( $presenters, $callback );
 		}
 
-		return \array_map(
-			function ( $presenter ) {
-				return new Abstract_Cached_Indexable_Presenter( $presenter );
-			},
-			$presenters
-		);
+		return $presenters;
 	}
 }
