@@ -36,7 +36,40 @@ describe( "Yoast SEO blocks", () => {
 	it( "shows correctly Yoast How-to block", async () => {
 		await trashAllPosts();
 		await createNewPost();
-		
+
+		await insertBlock( "Yoast How-to" );
+		const yoastSeoHowToBlock = await page.$x(
+			`//div[contains( @data-type, "yoast/how-to-block" )]`
+		);
+		expect( yoastSeoHowToBlock.length ).toBe( 1 );
+	} );
+
+	it( "shows correctly Yoast SEO FAQ block in a page", async () => {
+		await trashAllPosts( "page" );
+		await createNewPost( { postType: "page" } );
+
+		await insertBlock( "Yoast FAQ" );
+		const yoastSeoFaqBlock = await page.$x(
+			`//div[contains( @data-type, "yoast/faq-block" )]`
+		);
+		expect( yoastSeoFaqBlock.length ).toBe( 1 );
+	} );
+
+	it( "shows correctly Yoast Breadcrumbs block in a page", async () => {
+		await trashAllPosts( "page" );
+		await createNewPost( { postType: "page" } );
+
+		await insertBlock( "Yoast Breadcrumbs" );
+		const yoastSeoBreadcrumbsBlock = await page.$x(
+			`//div[contains( @data-type, "yoast-seo/breadcrumbs" )]`
+		);
+		expect( yoastSeoBreadcrumbsBlock.length ).toBe( 1 );
+	} );
+
+	it( "shows correctly Yoast How-to block in a page", async () => {
+		await trashAllPosts( "page" );
+		await createNewPost( { postType: "page" } );
+
 		await insertBlock( "Yoast How-to" );
 		const yoastSeoHowToBlock = await page.$x(
 			`//div[contains( @data-type, "yoast/how-to-block" )]`
