@@ -11,12 +11,10 @@ describe( "Yoast SEO blocks", () => {
 
 	const title = "Test Post";
 
-	beforeEach( async () => {
-		await trashAllPosts();
-	} );
-
 	it( "shows correctly Yoast SEO FAQ block", async () => {
+		await trashAllPosts();
 		await createNewPost();
+
 		await insertBlock( "Yoast FAQ" );
 		const yoastSeoFaqBlock = await page.$x(
 			`//div[contains( @data-type, "yoast/faq-block" )]`
@@ -25,7 +23,9 @@ describe( "Yoast SEO blocks", () => {
 	} );
 
 	it( "shows correctly Yoast Breadcrumbs block", async () => {
+		await trashAllPosts();
 		await createNewPost();
+
 		await insertBlock( "Yoast Breadcrumbs" );
 		const yoastSeoBreadcrumbsBlock = await page.$x(
 			`//div[contains( @data-type, "yoast-seo/breadcrumbs" )]`
@@ -34,7 +34,9 @@ describe( "Yoast SEO blocks", () => {
 	} );
 
 	it( "shows correctly Yoast How-to block", async () => {
+		await trashAllPosts();
 		await createNewPost();
+		
 		await insertBlock( "Yoast How-to" );
 		const yoastSeoHowToBlock = await page.$x(
 			`//div[contains( @data-type, "yoast/how-to-block" )]`
