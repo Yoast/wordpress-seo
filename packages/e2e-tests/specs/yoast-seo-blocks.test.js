@@ -110,5 +110,4 @@ describe( "Yoast SEO blocks", () => {
 		expect( yoastSeoHowToBlock.length ).toBe( 1 );
 	} );
 
-
 } );
