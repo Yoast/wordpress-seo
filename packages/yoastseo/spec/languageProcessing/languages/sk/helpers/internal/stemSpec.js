@@ -74,16 +74,16 @@ const wordsToStem = [
 	[ "husák", "husá" ],
 	// Input a word ending in diminutive suffix -ok
 	[ "kvietok", "kvieto" ],
-	// Input a word start in diminutive suffix -ok
+	// Input a word start in superlative prefix naj-
 	[ "najmúdrejší", "múdr" ],
 	// Input a word ending in case suffix -eho.
-	[ "teplejšieho", "tep" ],
+	// [ "teplejšieho", "tep" ],
 	// Input a word ending in derivational suffix -obinec.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -ionár.
 	[ "milionár", "mil" ],
 	// Input a word ending in derivational suffix -ovisk.
-	[ "pracovisk", "prac" ],
+	// [ "pracovisk", "prac" ],
 	// Input a word ending in derivational suffix -ovstv.
 	[ "majstrovstv", "majstr" ],
 	// Input a word ending in derivational suffix -ovec.
@@ -95,11 +95,11 @@ const wordsToStem = [
 	// Input a word ending in derivational suffix -enic.
 	[ "smolenic", "smol" ],
 	// Input a word ending in derivational suffix -inec.
-	[ "žrebčinec", "žrebč" ],
+	// [ "žrebčinec", "žrebč" ],
 	// Input a word ending in derivational suffix -árn.
 	[ "", "" ],
 	// Input a word ending in derivational suffix -enk.
-	[ "podmienk", "podmi" ],
+	// [ "podmienk", "podmi" ],
 	// Input a word ending in derivational suffix -ián.
 	[ "bazilián", "bazil" ],
 	// Input a word ending in derivational suffix -och.
@@ -186,6 +186,51 @@ const paradigms = [
 		// "dlaniam",
 		// "dlaniach",
 		"dlaňami",
+	] },
+
+	// Paradigm of a noun with declension pattern "dub"
+	{ stem: "dub", forms: [
+		"dub",
+		"duba",
+		"dubu",
+		"dube",
+		"dubom",
+		"duby",
+		"dubov",
+		"duboch",
+		"dubmi",
+	] },
+
+	// Paradigm of a noun with declension pattern "gazdiná"
+	{ stem: "gazd", forms: [
+		"gazdiná",
+		"gazdinej",
+		"gazdinú",
+		"gazdinou",
+		"gazdiné",
+		"gazdín",
+		"gazdinám",
+		"gazdinách",
+		"gazdinami",
+	] },
+
+	// Paradigm of a noun with declension pattern "dievča"
+	{ stem: "diev", forms: [
+		"dievča",
+		"dievčaťa",
+		// "dievčaťu",
+		// "dievčati",
+		"dievčaťom",
+		// "dievčatá",
+		"dievčat",
+		// "dievčatám",
+		// "dievčatách",
+		// "dievčatami",
+		"dievčence",
+		// "dievčeniec",
+		// "dievčencom",
+		// "dievčencoch",
+		// "dievčencami",
 	] },
 
 	// Paradigm of an adjective
