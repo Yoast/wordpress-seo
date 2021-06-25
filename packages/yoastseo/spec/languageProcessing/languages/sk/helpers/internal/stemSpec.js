@@ -55,9 +55,10 @@ const wordsToStem = [
 	// Input a word ending in diminutive suffix -anok
 	[ "lužianok", "luh" ],
 	// Input a word ending in diminutive suffix -ičk and a case suffix -a
-	[ "mamička", "ma" ],
-	// Should be stemmed into "pesn" (song), not "pes"(dog)
-	// [ "pesničky", "pes" ],
+	[ "mamička", "mam" ],
+	// Should be stemmed into "pesn" (song), not "pes"(dog). With the current stemmer, "pesn" is further stemmed to "pes"
+	// As it ends in -n which looks like a derivational suffix.
+	// [ "pesničky", "pesn" ],
 	// Input a word ending in diminutive suffix -ínk and a case suffix -ach
 	// Should be stemmed to "blond", but now stemmed to "blo". This is because this word is also processed in palatalise function
 	// [ "blondínka", "blond" ],
@@ -73,7 +74,10 @@ const wordsToStem = [
 	[ "husák", "husá" ],
 	// Input a word ending in diminutive suffix -ok
 	[ "kvietok", "kvieto" ],
+	// Input a word start in diminutive suffix -ok
+	[ "najmúdrejší", "múdr" ],
 ];
+
 
 const paradigms = [
 	// Paradigm of a noun
@@ -90,7 +94,49 @@ const paradigms = [
 		"teplých",
 		"teplými",
 	] },
-	// Paradigm of an adjestive
+
+	// Paradigm of a noun including the diminutive forms
+	{ stem: "mač", forms: [
+		"mačka",
+		"mačky",
+		"mačke",
+		"mačku",
+		"mačke",
+		"mačkou",
+		// "mačiek",
+		"mačkám",
+		"mačkách",
+		"mačkami",
+		// "mačička",
+		// "mačičkou",
+	] },
+
+	// Paradigm of a noun with declension pattern "chlap"
+	{ stem: "chlap", forms: [
+		"chlap",
+		"chlapa",
+		"chlapovi",
+		"chlape",
+		"chlapom",
+		"chlapi",
+		"chlapov",
+		"chlapoch",
+		"chlapmi",
+	] },
+
+	// Paradigm of a noun with declension pattern "dlaň"
+	{ stem: "dlaň", forms: [
+		"dlaň",
+		// "dlane",
+		// "dlani",
+		"dlaňou",
+		// "dlaní",
+		// "dlaniam",
+		// "dlaniach",
+		"dlaňami",
+	] },
+
+	// Paradigm of an adjective
 	{ stem: "krás", forms: [
 		"krásny",
 		// Comparative
