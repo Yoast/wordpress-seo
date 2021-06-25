@@ -54,6 +54,12 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 			if ( ! empty( $integration->premium ) && $integration->premium === true ) {
 				$name .= ' ' . new Premium_Badge_Presenter( $integration->name );
 			}
+
+			$disabled = false;
+			if ( $integration->premium === true && YoastSEO()->helpers->product->is_premium() === false ) {
+				$disabled = true;
+			}
+
 			$yform->toggle_switch(
 				$integration->setting,
 				[
@@ -61,13 +67,11 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 					'off' => __( 'Off', 'wordpress-seo' ),
 				],
 				$name,
-				$feature_help->get_button_html() . $feature_help->get_panel_html()
+				$feature_help->get_button_html() . $feature_help->get_panel_html(),
+				[ 'disabled' => $disabled ],
 			);
 
-			if ( ! empty( $integration->after ) ) {
-				// phpcs:ignore WordPress.Security.EscapeOutput -- after contains HTMl and we assume it's properly escape on object creation.
-				echo $integration->after;
-			}
+			do_action( 'Yoast\WP\SEO\admin_integration_after', $integration );
 		}
 		?>
 	</div>

@@ -86,7 +86,39 @@ class Yoast_Integration_Toggles {
 				/* translators: %s: Ryte */
 				'read_more_label' => sprintf( __( 'Read more about how %s works.', 'wordpress-seo' ), 'Ryte ' ),
 				'read_more_url'   => 'https://yoa.st/2an',
-				'order'           => 20,
+				'order'           => 15,
+			],
+			(object) [
+				/* translators: %s: Zapier. */
+				'name'            => \sprintf( \esc_html__( '%s integration', 'wordpress-seo-premium' ), 'Zapier' ),
+				'premium'         => true,
+				'setting'         => 'zapier_integration_active',
+				'label'           => \sprintf(
+				/* translators: 1: Yoast SEO, 2: Zapier. */
+					\__( 'Connecting %1$s to %2$s means you can instantly share your published posts with 2000+ destinations such as Twitter, Facebook and more.', 'wordpress-seo-premium' ),
+					'Yoast SEO',
+					'Zapier'
+				),
+				/* translators: %s: Zapier. */
+				'read_more_label' => \sprintf( \__( 'Read more about %s.', 'wordpress-seo-premium' ), 'Zapier' ),
+				'read_more_url'   => 'https://yoa.st/46o',
+				'order'           => 20, // The SEMrush integration on Free has order => 10.
+			],
+			(object) [
+				/* translators: %s: Algolia. */
+				'name'            => \sprintf( \esc_html__( '%s integration', 'wordpress-seo' ), 'Algolia' ),
+				'premium'         => true,
+				'setting'         => 'algolia_integration_active',
+				'label'           => \sprintf(
+				/* translators: 1: Yoast SEO, 2: Algolia. */
+					\__( 'Integrate %1$s with %2$s: send the number of internal links and the meta description to Algolia and remove noindexed posts & pages from your site\'s search results.', 'wordpress-seo' ),
+					'Yoast SEO',
+					'WP Search with Algolia'
+				),
+				/* translators: %s: Zapier. */
+				'read_more_label' => \sprintf( \__( 'Read more about our %s integration.', 'wordpress-seo' ), 'Algolia' ),
+				'read_more_url'   => 'https://yoa.st/4es',
+				'order'           => 25,
 			],
 		];
 
