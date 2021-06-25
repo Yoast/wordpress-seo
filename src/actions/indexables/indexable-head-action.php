@@ -47,10 +47,7 @@ class Indexable_Head_Action {
 				$value = $this->for_404();
 			}
 			else {
-				$value = (object) [
-					'head'   => $meta->get_head(),
-					'status' => 200,
-				];
+				$value = $this->for_200( $meta->get_head() );
 			}
 
 			$this->cache['url'][ $url ] = $value;
@@ -72,11 +69,7 @@ class Indexable_Head_Action {
 		if ( $meta === false ) {
 			return $this->for_404();
 		}
-
-		return (object) [
-			'head'   => $meta->get_head(),
-			'status' => 200,
-		];
+		return $this->for_200( $meta->get_head() );
 	}
 
 	/**
@@ -92,11 +85,7 @@ class Indexable_Head_Action {
 		if ( $meta === false ) {
 			return $this->for_404();
 		}
-
-		return (object) [
-			'head'   => $meta->get_head(),
-			'status' => 200,
-		];
+		return $this->for_200( $meta->get_head() );
 	}
 
 	/**
@@ -112,11 +101,7 @@ class Indexable_Head_Action {
 		if ( $meta === false ) {
 			return $this->for_404();
 		}
-
-		return (object) [
-			'head'   => $meta->get_head(),
-			'status' => 200,
-		];
+		return $this->for_200( $meta->get_head() );
 	}
 
 	/**
@@ -132,11 +117,7 @@ class Indexable_Head_Action {
 		if ( $meta === false ) {
 			return $this->for_404();
 		}
-
-		return (object) [
-			'head'   => $meta->get_head(),
-			'status' => 200,
-		];
+		return $this->for_200( $meta->get_head() );
 	}
 
 	/**
@@ -150,11 +131,7 @@ class Indexable_Head_Action {
 		if ( $meta === false ) {
 			return $this->for_404();
 		}
-
-		return (object) [
-			'head'      => $meta->get_head(),
-			'status'    => 200,
-		];
+		return $this->for_200( $meta->get_head() );
 	}
 
 	/**
@@ -167,6 +144,14 @@ class Indexable_Head_Action {
 		return (object) [
 			'head'   => $meta->get_head(),
 			'status' => 404,
+		];
+	}
+
+	protected function for_200( $content ){
+		return (object) [
+			'head_html' => $content->head_html,
+			'head_json' => $content->head_json,
+			'status'    => 200,
 		];
 	}
 }

@@ -126,8 +126,7 @@ class Meta {
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $this->context->presentation, $this->context );
 
-		$output = $this->present_head( $presenters, $presentation );
-		return $output;
+		return $this->present_head( $presenters, $presentation );
 	}
 
 	/**
@@ -172,8 +171,8 @@ class Meta {
 		$json_output = $this->create_JSON_presentation( $json_head_fields );
 
 		return (object) [
-			'json_head' => $json_output,
-			'html_head' => $html_output
+			'head_html' => \trim( $html_output ),
+			'head_json' => \trim( $json_output )
 		];
 	}
 

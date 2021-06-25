@@ -8,7 +8,7 @@ namespace Yoast\WP\SEO\Presenters;
 abstract class Abstract_Cached_Indexable_Tag_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * The read-once-use-many value produced by the decorated class.
+	 * The read-once-use-many value produced by the refresh function.
 	 *
 	 * @var mixed
 	 */

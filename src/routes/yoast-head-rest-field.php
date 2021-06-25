@@ -59,8 +59,6 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 */
 	protected $head_action;
 
-	protected $head_count = 0;
-
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
@@ -187,9 +185,9 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	}
 
 	protected function register_rest_fields( $object_type, $callback ) {
-		// allow output in page head meta tags
+		// output metadata in page head meta tags
 		\register_rest_field( $object_type, self::YOAST_HEAD_ATTRIBUTE_NAME, [ 'get_callback' => [ $this, $callback ] ] );
-		// output in a page head json object
+		// output metadata in a json object in a head meta tag
 		\register_rest_field( $object_type, self::YOAST_JSON_HEAD_ATTRIBUTE_NAME, [ 'get_callback' => [ $this, $callback ] ] );
 	}
 
@@ -201,10 +199,11 @@ class Yoast_Head_REST_Field implements Route_Interface {
 		// Choose the correct output format based on the head attribute we are rendering.
 		switch ( $format ) {
 			case self::YOAST_JSON_HEAD_ATTRIBUTE_NAME:
-				return $obj->head->json_head;
+				return $obj->head_json;
+
 			case self::YOAST_HEAD_ATTRIBUTE_NAME:
 			default:
-				return $obj->head->html_head;
+				return $obj->head_html;
 		}
 	}
 }
