@@ -32,7 +32,9 @@ abstract class Exclude_Post_Type implements Integration_Interface {
 	 *
 	 * @return array|string[] The conditionals.
 	 */
-	abstract public static function get_conditionals();
+	public static function get_conditionals() {
+		return [];
+	}
 
 	/**
 	 * Returns the name of the post type to be excluded.
