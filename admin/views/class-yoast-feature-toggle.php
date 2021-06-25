@@ -25,6 +25,13 @@ class Yoast_Feature_Toggle {
 	protected $setting = '';
 
 	/**
+	 * Whether the feature is premium or not.
+	 *
+	 * @var boolean
+	 */
+	protected $premium = false;
+
+	/**
 	 * Feature toggle label.
 	 *
 	 * @var string
