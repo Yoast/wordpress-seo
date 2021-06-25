@@ -174,6 +174,10 @@ class Indexable extends Model {
 	 * @return void
 	 */
 	protected function sanitize_permalink() {
+		if ( $this->permalink === 'unindexed' ) {
+			return;
+		}
+
 		$permalink_structure = \get_option( 'permalink_structure' );
 		$permalink_parts     = \wp_parse_url( $this->permalink );
 
