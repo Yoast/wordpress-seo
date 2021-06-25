@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Exclude_Oembed_Cache_Post_Type
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Exclude_Oembed_Cache_Post_Type_Test extends TestCase {
 
