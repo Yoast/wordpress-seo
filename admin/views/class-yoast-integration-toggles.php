@@ -90,17 +90,17 @@ class Yoast_Integration_Toggles {
 			],
 			(object) [
 				/* translators: %s: Zapier. */
-				'name'            => \sprintf( \esc_html__( '%s integration', 'wordpress-seo-premium' ), 'Zapier' ),
+				'name'            => \sprintf( \esc_html__( '%s integration', 'wordpress-seo' ), 'Zapier' ),
 				'premium'         => true,
 				'setting'         => 'zapier_integration_active',
 				'label'           => \sprintf(
 				/* translators: 1: Yoast SEO, 2: Zapier. */
-					\__( 'Connecting %1$s to %2$s means you can instantly share your published posts with 2000+ destinations such as Twitter, Facebook and more.', 'wordpress-seo-premium' ),
+					\__( 'Connecting %1$s to %2$s means you can instantly share your published posts with 2000+ destinations such as Twitter, Facebook and more.', 'wordpress-seo' ),
 					'Yoast SEO',
 					'Zapier'
 				),
 				/* translators: %s: Zapier. */
-				'read_more_label' => \sprintf( \__( 'Read more about %s.', 'wordpress-seo-premium' ), 'Zapier' ),
+				'read_more_label' => \sprintf( \__( 'Read more about %s.', 'wordpress-seo' ), 'Zapier' ),
 				'read_more_url'   => 'https://yoa.st/46o',
 				'order'           => 20, // The SEMrush integration on Free has order => 10.
 			],

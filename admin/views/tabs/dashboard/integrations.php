@@ -68,7 +68,7 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 				],
 				$name,
 				$feature_help->get_button_html() . $feature_help->get_panel_html(),
-				[ 'disabled' => $disabled ],
+				[ 'disabled' => $disabled ]
 			);
 
 			do_action( 'Yoast\WP\SEO\admin_integration_after', $integration );
