@@ -52,6 +52,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 * **[Premium]** Optimize your article for different word forms of your keyphrases, as the singular and plural. But also different verb forms, synonyms, and related keyphrases. This makes for more natural content!
 * **[Premium]** Automatic internal linking suggestions: write your article and get automatic suggested posts to link to!
 * **[Premium]** An orphaned content filter to detect posts that have no links pointing towards them!
+* **[Premium]** SEO workouts to make working on your site as easy as ABC. These SEO workflows will get your site into shape in no time!
 
 #### KEEP YOUR SITE IN PERFECT SHAPE
 
@@ -236,6 +237,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 16.6 =
 Release Date: June 29th, 2021
+
+Yoast SEO 16.6 comes with a new round of improvements and fixes. We’ve updated the analysis to exclude sentences inside tables and table captions from the consecutive sentences assessment. Enjoy! Read more about what’s new in Yoast SEO 16.6 in [our release post](https://yoa.st/release-16-6)!
 
 Enhancements:
 
