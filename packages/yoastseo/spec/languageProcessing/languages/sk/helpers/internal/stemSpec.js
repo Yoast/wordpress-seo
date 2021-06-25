@@ -7,7 +7,56 @@ const morphologyDataSK = getMorphologyData( "sk" ).sk;
 const wordsToStem = [
 	// Input a word ending in case suffix -eho.
 	[ "teplejšieho", "tep" ],
-
+	// Input a word ending in derivational suffix -obinec.
+	[ "", "" ],
+	// Input a word ending in derivational suffix -ionár.
+	[ "milionár", "mil" ],
+	// Input a word ending in derivational suffix -ovisk.
+	[ "pracovisk", "prac" ],
+	// Input a word ending in derivational suffix -ovstv.
+	[ "majstrovstv", "majstr" ],
+	// Input a word ending in derivational suffix -ovec.
+	[ "bezdomovec", "bezdom" ],
+	// Input a word ending in derivational suffix -ások.
+	[ "", "" ],
+	// Input a word ending in derivational suffix -nosť.
+	[ "možnosť", "mož" ],
+	// Input a word ending in derivational suffix -enic.
+	[ "smolenic", "smol" ],
+	// Input a word ending in derivational suffix -inec.
+	[ "žrebčinec", "žrebč" ],
+	// Input a word ending in derivational suffix -árn.
+	[ "", "" ],
+	// Input a word ending in derivational suffix -enk.
+	[ "podmienk", "podmi" ],
+	// Input a word ending in derivational suffix -ián.
+	[ "bazilián", "bazil" ],
+	// Input a word ending in derivational suffix -och.
+	[ "", "" ],
+	// Input a word ending in derivational suffix -ost.
+	[ "zodpovednost", "zodpovedn" ],
+	// Input a word ending in derivational suffix -áč.
+	[ "poslucháč", "posluch" ],
+	// Input a word ending in derivational suffix -ač.
+	[ "prijímač", "prijím" ],
+	// Input a word ending in derivational suffix -ec.
+	[ "rámec", "rám" ],
+	// Input a word ending in derivational suffix -en.
+	[ "žiaden", "žiad" ],
+	// Input a word ending in derivational suffix -ér.
+	[ "manažér", "manaž" ],
+	// Input a word ending in derivational suffix -ír.
+	[ "krajčír", "krajč" ],
+	// Input a word ending in derivational suffix -ic.
+	[ "", "" ],
+	// Input a word ending in derivational suffix -in.
+	[ "", "" ],
+	// Input a word ending in derivational suffix -ín.
+	[ "", "" ],
+	// Input a word ending in derivational suffix -it.
+	[ "", "" ],
+	// Input a word ending in derivational suffix -iv.
+	[ "", "" ],
 ];
 
 const paradigms = [
