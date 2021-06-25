@@ -44,7 +44,7 @@ describe( "The SidebarWarningPresenter ", () => {
 			expect( result.length ).toEqual( 1 );
 			expect( result[ 0 ] ).toEqual(
 				{
-					text: "Not all required information has been provided! No Job posting schema will be generated for your page.",
+					text: "Not all required information has been provided! JobPosting schema will not be generated for your page.",
 					color: "red",
 				},
 			);
@@ -67,7 +67,7 @@ describe( "The SidebarWarningPresenter ", () => {
 			} );
 			expect( result[ 1 ] ).toEqual(
 				{
-					text: "Not all required information has been provided! No Job posting schema will be generated for your page.",
+					text: "Not all required information has been provided! JobPosting schema will not be generated for your page.",
 					color: "red",
 				},
 			);
@@ -146,7 +146,7 @@ describe( "The SidebarWarningPresenter ", () => {
 				color: "red",
 			} );
 			expect( result[ 1 ] ).toEqual( {
-				text: "Not all required information has been provided! No Job posting schema will be generated for your page.",
+				text: "Not all required information has been provided! JobPosting schema will not be generated for your page.",
 				color: "red",
 			} );
 		} );

@@ -1,4 +1,5 @@
 import { __ } from "@wordpress/i18n";
+import { Slot } from "@wordpress/components";
 import { HelpText } from "@yoast/components";
 import { join, makeOutboundLink } from "@yoast/helpers";
 import PropTypes from "prop-types";
@@ -32,6 +33,7 @@ export default function CollapsibleCornerstone( { isCornerstone, onChange, learn
 				isEnabled={ isCornerstone }
 				onToggle={ onChange }
 			/>
+			<Slot name="YoastAfterCornerstoneToggle" />
 		</Collapsible>
 	);
 }
