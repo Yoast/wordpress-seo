@@ -7,6 +7,8 @@
  * @uses Yoast_Form $yform Form object.
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
+
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -46,14 +48,25 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			$help_text
 		);
 
+		$name = $feature->name;
+		if ( ! empty( $feature->premium ) && $feature->premium === true ) {
+			$name .= ' ' . new Premium_Badge_Presenter( $feature->name );
+		}
+
+		$disabled = false;
+		if ( $feature->premium === true && YoastSEO()->helpers->product->is_premium() === false ) {
+			$disabled = true;
+		}
+
 		$yform->toggle_switch(
 			$feature->setting,
 			[
 				'on'  => __( 'On', 'wordpress-seo' ),
 				'off' => __( 'Off', 'wordpress-seo' ),
 			],
-			$feature->name,
-			$feature_help->get_button_html() . $feature_help->get_panel_html()
+			$name,
+			$feature_help->get_button_html() . $feature_help->get_panel_html(),
+			[ 'disabled' => $disabled ]
 		);
 
 		if ( ! empty( $feature->after ) ) {

@@ -103,6 +103,24 @@ class Yoast_Feature_Toggles {
 				'order'           => 40,
 			],
 			(object) [
+				'name'            => __( 'Insights', 'wordpress-seo-premium' ),
+				'premium'         => true,
+				'setting'         => 'enable_metabox_insights',
+				'label'           => __( 'The Insights section in our metabox shows you useful data about your content, like what words you use most often.', 'wordpress-seo-premium' ),
+				'read_more_label' => __( 'Read more about how the insights can help you improve your content.', 'wordpress-seo-premium' ),
+				'read_more_url'   => 'https://yoa.st/2ai',
+				'order'           => 41,
+			],
+			(object) [
+				'name'            => __( 'Link suggestions', 'wordpress-seo' ),
+				'premium'         => true,
+				'setting'         => 'enable_link_suggestions',
+				'label'           => __( 'The link suggestions metabox contains a list of posts on your blog with similar content that might be interesting to link to.', 'wordpress-seo' ),
+				'read_more_label' => __( 'Read more about how internal linking can improve your site structure.', 'wordpress-seo' ),
+				'read_more_url'   => 'https://yoa.st/17g',
+				'order'           => 42,
+			],
+			(object) [
 				'name'            => __( 'XML sitemaps', 'wordpress-seo' ),
 				'setting'         => 'enable_xml_sitemap',
 				/* translators: %s: Yoast SEO */
