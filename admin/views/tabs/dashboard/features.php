@@ -70,7 +70,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		);
 
 		if ( ! empty( $feature->after ) ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscape -- Escaping handled in integrations.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping handled in integrations.
 			echo $feature->after;
 		}
 	}
