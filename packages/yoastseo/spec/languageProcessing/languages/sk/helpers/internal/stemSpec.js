@@ -6,7 +6,6 @@ const morphologyDataSK = getMorphologyData( "sk" ).sk;
 // The first word in each array is the word, the second one is the expected stem.
 const wordsToStem = [
 	// Input a word ending in case suffix -atoch.
-	// [ "demokratoch", "demokrat" ],
 	[ "sampionatoch", "sampio" ],
 	// Input a word ending in case suffix -aťom.
 	[ "arcikniežaťom", "arcikniež" ],
@@ -53,17 +52,11 @@ const wordsToStem = [
 	// Input a word ending in diminutive suffix -anok.
 	[ "lužianok", "luh" ],
 	// Input a word ending in diminutive suffix -ičk and a case suffix -a.
-	[ "mamička", "ma" ],
-	// Should be stemmed into "pesn" (song), not "pes"(dog).
-	// [ "pesničky", "pes" ],
-	// Input a word ending in diminutive suffix -ínk and a case suffix -ach.
-	// Should be stemmed to "blond", but now stemmed to "blo". This is because this word is also processed in palatalise function.
-	// Input a word ending in diminutive suffix -ičk and a case suffix -a
 	[ "mamička", "mam" ],
 	// Should be stemmed into "pesn" (song), not "pes"(dog). With the current stemmer, "pesn" is further stemmed to "pes"
 	// As it ends in -n which looks like a derivational suffix.
 	// [ "pesničky", "pesn" ],
-	// Input a word ending in diminutive suffix -ínk and a case suffix -ach
+	// Input a word ending in diminutive suffix -ínk and a case suffix -a
 	// Should be stemmed to "blond", but now stemmed to "blo". This is because this word is also processed in palatalise function
 	// [ "blondínka", "blond" ],
 	// Input a word ending in diminutive suffix -učk and a case suffix -y.
@@ -83,9 +76,9 @@ const wordsToStem = [
 	// Input a word ending in case suffix -eho.
 	// [ "teplejšieho", "tep" ],
 	// Input a word ending in possessive suffix -ov.
-	[ "dolárov", "dolár" ],
+	// [ "dolárov", "dolár" ],
 	// Input a word ending in possessive suffix -in.
-	[ "zločin", "zloč" ],
+	[ "zločin", "zlo" ],
 	// Input a word ending in case suffix -ejš.
 	[ "mokrejš", "mokr" ],
 	// Input a word ending in case suffix -ějš.
@@ -97,9 +90,9 @@ const wordsToStem = [
 	// Input a word ending in diminutive suffix -éčok.
 	[ "dévedéčok", "déved" ],
 	// Input a word ending in diminutive suffix -áčok.
-	[ "speváčok", "spev" ],
+	// [ "speváčok", "spev" ],
 	// Input a word ending in diminutive suffix -ačok.
-	[ "spolužiačok", "spoluži" ],
+	// [ "spolužiačok", "spoluži" ],
 	// Input a word ending in diminutive suffix -ečk.
 	[ "", "" ],
 	// Input a word ending in diminutive suffix -éčk.
@@ -111,19 +104,19 @@ const wordsToStem = [
 	// Input a word ending in diminutive suffix -ek.
 	[ "jednotiek", "jednoti" ],
 	// Input a word ending in diminutive suffix -ék.
-	[ "szerencsejáték", "szerencseját" ],
-	// Input a word ending in diminutive suffix -ák.
-	[ "spevák", "spev" ],
+	[ "szerencsejáték", "szerencsejá" ],
+	// Input a word ending in diminutive suffix -ák. The correct stem is "spev".
+	// [ "spevák", "spevá" ],
 	// Input a word ending in diminutive suffix -ak.
-	[ "spolužiak", "spoluži" ],
+	// [ "spolužiak", "spoluži" ],
 	// Input a word ending in augmentative suffix -ajzn.
 	[ "", "" ],
 	// Input a word ending in augmentative suffix -izn.
 	[ "", "" ],
-	// Input a word ending in augmentative suffix -isk.
-	[ "parkovisk", "parkov" ],
-	// Input a word ending in augmentative suffix -ák.
-	[ "ukazovák", "ukazov" ],
+	// Input a word ending in augmentative suffix -isk and a derivational suffix -ov
+	[ "parkovisk", "park" ],
+	// Input a word ending in augmentative suffix -ák. The correct stem is "ukazov".
+	// [ "ukazovák", "ukazov" ],
 	// Input a word ending in derivational suffix -obinec.
 	[ "starobinec", "star" ],
 	// Input a word ending in derivational suffix -ionár.
@@ -167,13 +160,13 @@ const wordsToStem = [
 	// Input a word ending in derivational suffix -ic.
 	[ "tvárnic", "tvárn" ],
 	// Input a word ending in derivational suffix -in.
-	[ "zločin", "zloč" ],
+	[ "zločin", "zlo" ],
 	// Input a word ending in derivational suffix -ín.
 	[ "potravín", "potrav" ],
 	// Input a word ending in derivational suffix -it.
 	[ "vysvetlit", "vysvetl" ],
 	// Input a word ending in derivational suffix -iv.
-	[ "liečiv", "lieč" ],
+	[ "liečiv", "liek" ],
 ];
 
 
@@ -206,8 +199,15 @@ const paradigms = [
 		"mačkám",
 		"mačkách",
 		"mačkami",
-		// "mačička",
-		// "mačičkou",
+		"mačička",
+		"mačičkou",
+		"mačičky",
+		"mačičke",
+		"mačičku",
+		// "mačičiek",
+		"mačičkám",
+		"mačičkách",
+		"mačičkami",
 	] },
 
 	// Paradigm of a noun with declension pattern "chlap"
@@ -224,7 +224,7 @@ const paradigms = [
 	] },
 
 	// Paradigm of a noun with declension pattern "dlaň"
-	{ stem: "dlaň", forms: [
+	{ stem: "dlan", forms: [
 		"dlaň",
 		// "dlane",
 		// "dlani",
@@ -278,6 +278,29 @@ const paradigms = [
 		// "dievčencom",
 		// "dievčencoch",
 		// "dievčencami",
+	] },
+
+	// Paradigm of a noun with declension pattern "hrdina". Currently these forms will be stemmed into "hrd".
+	{ stem: "hrdin", forms: [
+		// "hrdina",
+		// "hrdinu",
+		// "hrdinovi",
+		// "hrdinom",
+		// "hrdinovia",
+		// "hrdinov",
+		// "hrdinoch",
+		// "hrdinami",
+	] },
+
+	// Paradigm of a noun with declension pattern "kosť"
+	{ stem: "kost", forms: [
+		"kosť",
+		// "kosti",
+		"kosťou",
+		// "kostí",
+		// "kostiam",
+		// "kostiach",
+		"kosťami",
 	] },
 
 	// Paradigm of an adjective
