@@ -5,8 +5,6 @@ const morphologyDataSK = getMorphologyData( "sk" ).sk;
 
 // The first word in each array is the word, the second one is the expected stem.
 const wordsToStem = [
-	// Input a word ending in case suffix -eho.
-	[ "teplejšieho", "tep" ],
 	// Input a word ending in case suffix -atoch
 	// [ "demokratoch", "demokrat" ],
 	[ "sampionatoch", "sampio" ],
@@ -31,7 +29,7 @@ const wordsToStem = [
 	// Input a word ending in case suffix -es
 	[ "najdes", "naj" ],
 	// Input a word ending in case suffix -ím
-	[ "hovorím", "hov" ],
+	[ "hovorím", "hovo" ],
 	// Input a word ending in case suffix -úm
 	[ "chartúm", "char" ],
 	// Input a word ending in case suffix -ej
@@ -46,9 +44,39 @@ const wordsToStem = [
 	[ "skúpejší", "skúp" ],
 	// Input a word ending in a case suffix -í and comparative suffix -ějš
 	[ "nejkrásnější", "nejkrás" ],
+	// Input a word ending in diminutive suffix -oušok (a made-up word)
+	[ "prístroušok", "prístr" ],
+	// Input a word ending in diminutive suffix -ečok
+	[ "zrniečok", "zrni" ],
+	// Input a word ending in diminutive suffix -ínok
+	[ "blondínok", "blond" ],
+	// Input a word ending in diminutive suffix -ačok
+	[ "spišiačok", "spiš" ],
+	// Input a word ending in diminutive suffix -anok
+	[ "lužianok", "luh" ],
+	// Input a word ending in diminutive suffix -ičk and a case suffix -a
+	[ "mamička", "ma" ],
+	// Should be stemmed into "pesn" (song), not "pes"(dog)
+	// [ "pesničky", "pes" ],
+	// Input a word ending in diminutive suffix -ínk and a case suffix -ach
+	// Should be stemmed to "blond", but now stemmed to "blo". This is because this word is also processed in palatalise function
+	// [ "blondínka", "blond" ],
+	// Input a word ending in diminutive suffix -učk and a case suffix -y
+	[ "príručky", "prír" ],
+	// Input a word ending in diminutive suffix -ušk and a case suffix -a
+	[ "popoluška", "popo" ],
+	// Input a word ending in diminutive suffix -ék and a case suffix -a
+	[ "vinotéka", "vin" ],
+	// Input a word ending in diminutive suffix -ik
+	[ "vtáčik", "vtá" ],
+	// Input a word ending in diminutive suffix -ak
+	[ "husák", "husá" ],
+	// Input a word ending in diminutive suffix -ok
+	[ "kvietok", "kvieto" ],
 ];
 
 const paradigms = [
+	// Paradigm of a noun
 	{ stem: "tep", forms: [
 		"teplý",
 		"teplého",
@@ -61,6 +89,26 @@ const paradigms = [
 		"teplí",
 		"teplých",
 		"teplými",
+	] },
+	// Paradigm of an adjestive
+	{ stem: "krás", forms: [
+		"krásny",
+		// Comparative
+		// "krajši",
+		// Superlative
+		// "najkrajši",
+		"krásneho",
+		"krásnemu",
+		"krásnom",
+		"krásnym",
+		"krásna",
+		"krásnej",
+		"krásnu",
+		"krásnou",
+		"krásne",
+		"krásni",
+		"krásnych",
+		"krásnymi",
 	] },
 	// Paradigm of a verb
 	{ stem: "pochop", forms: [
@@ -86,6 +134,31 @@ const paradigms = [
 		// "pochopme",
 		"pochopte",
 		// "pochopenie",
+	] },
+	// Paradigm of a verb
+	{ stem: "hovor", forms: [
+		// "hovorím",
+		// "hovoril",
+		// "hovorila",
+		// "hovorilo",
+		// "hovoriť",
+		// "hovoríš",
+		"hovorí",
+		// "hovorili",
+		// "hovoríme",
+		// "hovoríte",
+		// "hovoria",
+		// "hovorme",
+		"hovorte",
+		// "hovoriaci",
+		// "hovoriac",
+		// "hovoriace",
+		// "hovoriaca",
+		"hovorený",
+		"hovorená",
+		"hovorené",
+		"hovorení",
+		// "hovorenie",
 	] },
 ];
 
