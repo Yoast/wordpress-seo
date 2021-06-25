@@ -168,7 +168,8 @@ function removeDiminutives( word, morphologyData ) {
 			return word.slice( 0, -1 );
 		}
 	}
-	if ( word.length > 3 && word.endsWith( "k" ) ) {
+	const diminutiveRegex = new RegExp( morphologyData.externalStemmer.diminutiveRegex );
+	if ( word.length > 3 && diminutiveRegex.test( word ) ) {
 		return word.slice( 0, -1 );
 	}
 	return word;
