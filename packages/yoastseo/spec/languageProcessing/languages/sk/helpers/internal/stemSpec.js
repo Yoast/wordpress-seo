@@ -58,6 +58,13 @@ const wordsToStem = [
 	// [ "pesničky", "pes" ],
 	// Input a word ending in diminutive suffix -ínk and a case suffix -ach.
 	// Should be stemmed to "blond", but now stemmed to "blo". This is because this word is also processed in palatalise function.
+	// Input a word ending in diminutive suffix -ičk and a case suffix -a
+	[ "mamička", "mam" ],
+	// Should be stemmed into "pesn" (song), not "pes"(dog). With the current stemmer, "pesn" is further stemmed to "pes"
+	// As it ends in -n which looks like a derivational suffix.
+	// [ "pesničky", "pesn" ],
+	// Input a word ending in diminutive suffix -ínk and a case suffix -ach
+	// Should be stemmed to "blond", but now stemmed to "blo". This is because this word is also processed in palatalise function
 	// [ "blondínka", "blond" ],
 	// Input a word ending in diminutive suffix -učk and a case suffix -y.
 	[ "príručky", "prír" ],
@@ -71,6 +78,8 @@ const wordsToStem = [
 	[ "husák", "husá" ],
 	// Input a word ending in diminutive suffix -ok.
 	[ "kvietok", "kvieto" ],
+	// Input a word start in diminutive suffix -ok
+	[ "najmúdrejší", "múdr" ],
 	// Input a word ending in case suffix -eho.
 	[ "teplejšieho", "tep" ],
 	// Input a word ending in possessive suffix -ov.
@@ -167,6 +176,7 @@ const wordsToStem = [
 	[ "liečiv", "lieč" ],
 ];
 
+
 const paradigms = [
 	// Paradigm of a noun.
 	{ stem: "tep", forms: [
@@ -183,6 +193,49 @@ const paradigms = [
 		"teplými",
 	] },
 	// Paradigm of an adjective.
+
+	// Paradigm of a noun including the diminutive forms
+	{ stem: "mač", forms: [
+		"mačka",
+		"mačky",
+		"mačke",
+		"mačku",
+		"mačke",
+		"mačkou",
+		// "mačiek",
+		"mačkám",
+		"mačkách",
+		"mačkami",
+		// "mačička",
+		// "mačičkou",
+	] },
+
+	// Paradigm of a noun with declension pattern "chlap"
+	{ stem: "chlap", forms: [
+		"chlap",
+		"chlapa",
+		"chlapovi",
+		"chlape",
+		"chlapom",
+		"chlapi",
+		"chlapov",
+		"chlapoch",
+		"chlapmi",
+	] },
+
+	// Paradigm of a noun with declension pattern "dlaň"
+	{ stem: "dlaň", forms: [
+		"dlaň",
+		// "dlane",
+		// "dlani",
+		"dlaňou",
+		// "dlaní",
+		// "dlaniam",
+		// "dlaniach",
+		"dlaňami",
+	] },
+
+	// Paradigm of an adjective
 	{ stem: "krás", forms: [
 		"krásny",
 		// Comparative.
