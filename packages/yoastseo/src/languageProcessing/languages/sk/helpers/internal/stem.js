@@ -109,12 +109,12 @@ function removePossessives( word, morphologyData ) {
 }
 
 /**
- * Removes comparative suffixes.
+ * Removes comparative and superlative affixes.
  *
  * @param {string} word             The word to stem.
  * @param {Object} morphologyData   The Slovak morphology data.
  *
- * @returns {string}     The word without comparative suffixes or the original word if no such suffix is found.
+ * @returns {string}     The word without comparative and superlative affixes or the original word if no such suffix is found.
  */
 function removeComparativeAndSuperlative( word, morphologyData ) {
 	const superlativePrefix = morphologyData.externalStemmer.superlativePrefix;
