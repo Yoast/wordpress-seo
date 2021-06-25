@@ -4,8 +4,10 @@ namespace Yoast\WP\SEO\Integrations;
 
 /**
  * Abstract class for excluding certain post types from being indexed.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-abstract class Exclude_Post_Type implements Integration_Interface {
+abstract class Abstract_Exclude_Post_Type implements Integration_Interface {
 
 	/**
 	 * Initializes the integration.

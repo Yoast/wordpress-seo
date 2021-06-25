@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Exclude_Oembed_Cache_Post_Type extends Exclude_Post_Type {
+class Exclude_Oembed_Cache_Post_Type extends Abstract_Exclude_Post_Type {
 
 	/**
 	 * This integration is only active when the database migrations have been run.

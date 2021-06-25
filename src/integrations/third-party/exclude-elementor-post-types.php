@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
-use Yoast\WP\SEO\Integrations\Exclude_Post_Type;
+use Yoast\WP\SEO\Integrations\Abstract_Exclude_Post_Type;
 
 /**
  * Exclude certain Elementor-specific post types from the indexable table.
@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Integrations\Exclude_Post_Type;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Exclude_Elementor_Post_Types extends Exclude_Post_Type {
+class Exclude_Elementor_Post_Types extends Abstract_Exclude_Post_Type {
 
 	/**
 	 * This integration is only active when the Elementor plugin
