@@ -8,8 +8,10 @@ use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Presenter;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Prev_Presenter;
+use Yoast\WP\SEO\Presenters\Yoast_Head_JSON_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -114,68 +116,65 @@ class Meta {
 	}
 
 	/**
-	 * Returns the metadata to be presented in json format.
-	 *
-	 * @return string The JSON output of the metadata.
-	 */
-	public function get_head_json() {
-		return $this->present_head( 'JSON' );
-	}
-
-	/**
 	 * Returns the metadata to be presented in the page head.
 	 *
 	 * @return string The HTML output of the metadata.
 	 */
 	public function get_head() {
-		return $this->present_head( 'HTML' );
-	}
-
-	/**
-	 * Returns the output as would be presented in the head.
-	 *
-	 * @param string $header_format Allowed formats are 'HTML' or 'JSON'; 'HTML' is default.
-	 * @return string The HTML output of the head.
-	 */
-	protected function present_head( $header_format = 'HTML' ) {
-		$html_output = $header_format === 'HTML';
-		$output      = $html_output ? '' : [];
-
 		$presenters = $this->get_presenters();
 
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $this->context->presentation, $this->context );
 
-		if ( $header_format === 'JSON' ) {
-			$output .= "<!-- json start -->";
-		}
+		$output = $this->present_head( $presenters, $presentation );
+		return $output;
+	}
+
+	/**
+	 * Returns the metadata to be presented in json format.
+	 *
+	 * @param array $json_head_data The array of key / value pairs that should be rendered as JSON.
+	 *
+	 * @return string The JSON output of the metadata.
+	 */
+	protected function create_JSON_presentation( $json_head_data ) {
+		$json_head_presenter = new Yoast_Head_JSON_Presenter();
+		$json_head_presenter->json_dictionary = $json_head_data;
+		return $json_head_presenter->present();
+	}
+
+	/**
+	 * Returns the output as would be presented in the head.
+	 *
+	 * @param Abstract_Indexable_Presenter[] $presenters The presenters that generated head metadata.
+	 * @param mixed $presentation         The data object holding the presentation data.
+	 *
+	 * @return object The HTML and JSON presentation of the head metadata.
+	 */
+	protected function present_head( $presenters, $presentation ) {
+		$html_output = '';
+		$json_head_fields = [];
 
 		foreach ( $presenters as $presenter ) {
 			$presenter->presentation = $presentation;
-			$presenter->helpers      = $this->helpers;
 			$presenter->replace_vars = $this->replace_vars;
+			$presenter->helpers      = $this->helpers;
 
-			if ( $html_output ) {
-				$presenter_output = $presenter->present();
-				if ( ! empty( $presenter_output ) ) {
-					$output .= $presenter_output . \PHP_EOL;
-				}
-			}
-			else {
-				$key            = $presenter->key; // sanitize name; og:title is an invalid json key
-				$value          = $presenter->get();
-				if ( ! empty( $value ) ) {
-					$output[$key] = $value;
-				}
+			$html_output .= $this->create_html_presentation( $presenter );
+			$json_field   = $this->create_json_field( $presenter );
+
+			// Only use the output of presenters that could successfully present their data.
+			if ( $json_field !== null && ! empty( $json_field->key ) ) {
+				$json_head_fields[ $json_field->key ] = $json_field->value;
 			}
 		}
 
-		if ( $header_format === 'JSON' ) {
-			$output .= "<!-- json end -->";
-		}
+		$json_output = $this->create_JSON_presentation( $json_head_fields );
 
-		// todo json start / end tags
-		return \trim( $output );
+		return (object) [
+			'json_head' => $json_output,
+			'html_head' => $html_output
+		];
 	}
 
 	/**
@@ -268,5 +267,44 @@ class Meta {
 		}
 
 		return $presenters;
+	}
+
+	/**
+	 * Uses the presenter to create a line of HTML.
+	 *
+	 * @param $presenter Abstract_Indexable_Presenter The presenter.
+	 * @return string
+	 */
+	protected function create_html_presentation( $presenter )
+	{
+		$presenter_output = $presenter->present();
+		if ( ! empty( $presenter_output ) ) {
+			return $presenter_output . \PHP_EOL;
+		}
+		return '';
+	}
+
+	/**
+	 * Converts a presenter's key and value to JSON.
+	 *
+	 * @param $presenter Abstract_Indexable_Presenter presenter whose key and value are to be converted to JSON.
+	 * @return object
+	 */
+	protected function create_json_field($presenter ) {
+		// Only Tag Presenters can be processed this way.
+		if ( ! \is_subclass_of( $presenter, Abstract_Indexable_Tag_Presenter::class ) ) {
+			return null;
+		}
+
+		$key   = $presenter->escape_key();
+		$value = $presenter->get();
+		if ( empty( $value ) ) {
+			return null;
+		}
+
+		return (object) [
+			'key' => $key,
+			'value' => $value
+		];
 	}
 }

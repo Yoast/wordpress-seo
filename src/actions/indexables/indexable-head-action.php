@@ -151,12 +151,8 @@ class Indexable_Head_Action {
 			return $this->for_404();
 		}
 
-		$head      = $meta->get_head();
-		$head_json = $meta->get_head_json();
-
 		return (object) [
-			'head'      => $head,
-			'head_json' => $head_json,
+			'head'      => $meta->get_head(),
 			'status'    => 200,
 		];
 	}
