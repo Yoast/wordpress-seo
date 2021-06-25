@@ -55,32 +55,32 @@ function removeCases( word, morphologyData ) {
 
 	if ( word.length > 7 && word.endsWith( caseSuffixes.caseSuffix1 ) ) {
 		// Return the word without the suffix
-		word = word.slice( 0, -5 );
+		return word.slice( 0, -5 );
 	}
 	if ( word.length > 6 && word.endsWith( caseSuffixes.caseSuffix2 ) ) {
-		word = palatalise( word.slice( 0, -3 ), morphologyData );
+		return palatalise( word.slice( 0, -3 ), morphologyData );
 	}
 	if ( word.length > 5 ) {
 		if ( caseSuffixes.caseSuffixes3.includes( word.slice( -3 ) ) ) {
-			word = palatalise( word.slice( 0, -2 ), morphologyData );
+			return palatalise( word.slice( 0, -2 ), morphologyData );
 		} else if ( caseSuffixes.caseSuffixes4.includes( word.slice( -3 ) ) ) {
-			word = word.slice( 0, -3 );
+			return word.slice( 0, -3 );
 		}
 	}
 	if ( word.length > 4 ) {
 		if ( word.endsWith( caseSuffixes.caseSuffix5 ) ) {
-			word = palatalise( word.slice( 0, -1 ), morphologyData );
+			return palatalise( word.slice( 0, -1 ), morphologyData );
 		} else if ( caseSuffixes.caseSuffixes6.includes( word.slice( -2 ) ) ) {
-			word = palatalise( word.slice( 0, -2 ), morphologyData );
+			return palatalise( word.slice( 0, -2 ), morphologyData );
 		} else if ( caseSuffixes.caseSuffixes7.includes( word.slice( -2 ) ) ) {
-			word = word.slice( 0, -2 );
+			return word.slice( 0, -2 );
 		}
 	}
 	if ( word.length > 3 ) {
 		if ( new RegExp( caseRegexes.caseRegex1 ).test( word ) ) {
-			word =  palatalise( word, morphologyData );
+			return  palatalise( word, morphologyData );
 		} else if ( new RegExp( caseRegexes.caseRegex2 ).test( word ) ) {
-			word = word.slice( 0, -1 );
+			return word.slice( 0, -1 );
 		}
 	}
 	return word;
