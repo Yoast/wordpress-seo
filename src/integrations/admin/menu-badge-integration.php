@@ -22,7 +22,7 @@ class Menu_Badge_Integration implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
-		\add_action( 'admin_enqueue_scripts', [ $this, 'add_inline_styles'] );
+		\add_action( 'admin_enqueue_scripts', [ $this, 'add_inline_styles' ] );
 	}
 
 	/**
