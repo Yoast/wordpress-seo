@@ -28,7 +28,7 @@ abstract class Exclude_Post_Type implements Integration_Interface {
 	}
 
 	/**
-	 * This integration is only active when the database migrations have been run.
+	 * This integration is only active when the child class's condtionals are met.
 	 *
 	 * @return array|string[] The conditionals.
 	 */
