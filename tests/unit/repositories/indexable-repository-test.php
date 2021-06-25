@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -462,5 +463,33 @@ class Indexable_Repository_Test extends TestCase {
 			->andReturn( 10 );
 
 		$this->assertSame( 10, $this->instance->reset_permalink( null, 'category' ) );
+	}
+
+	/**
+	 * Tests if ensure_permalink sets the permalink to 'unindexed' when the post_status is 'unindexed'.
+	 *
+	 * @covers ::ensure_permalink
+	 */
+	public function test_permalink_set_to_unindexed_ensure_permalink() {
+		/**
+		 * Mock indexable.
+		 *
+		 * @var Mockery\MockInterface|Indexable
+		 */
+		$indexable              = Mockery::mock( Indexable_Mock::class );
+		$indexable->permalink   = null;
+		$indexable->post_status = 'unindexed';
+
+		$indexable->expects( 'save' )
+			->once();
+
+		$this->permalink_helper
+			->expects( 'get_permalink_for_indexable' )
+			->with( $indexable )
+			->andReturn( null );
+
+		$this->instance->ensure_permalink( $indexable );
+
+		$this->assertSame( 'unindexed', $indexable->permalink );
 	}
 }
