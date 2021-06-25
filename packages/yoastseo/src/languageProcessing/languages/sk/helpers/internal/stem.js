@@ -116,11 +116,16 @@ function removePossessives( word, morphologyData ) {
  *
  * @returns {string}     The word without comparative suffixes or the original word if no such suffix is found.
  */
-function removeComparatives( word, morphologyData ) {
+function removeComparativeAndSuperlative( word, morphologyData ) {
+	const superlativePrefix = morphologyData.externalStemmer.superlativePrefix;
+	if ( word.length > 6 && word.startsWith( superlativePrefix ) ) {
+		word = word.slice( 3, word.length );
+	}
+
 	if ( word.length > 5 ) {
 		const comparativeSuffixes = morphologyData.externalStemmer.comparativeSuffixes;
 		if ( comparativeSuffixes.includes( word.slice( -3 ) ) ) {
-			return palatalise( word.slice( 0, -2 ), morphologyData );
+			word = palatalise( word.slice( 0, -2 ), morphologyData );
 		}
 	}
 	return word;
@@ -255,17 +260,17 @@ function stemDerivational( word, morphologyData ) {
  * @returns {string}    The stemmed word.
  */
 export default function stem( word, morphologyData ) {
-	// Remove case
+	// Remove case suffixes
 	word = removeCases( word, morphologyData );
-	// Remove possessives
+	// Remove possessive suffixes
 	word = removePossessives( word, morphologyData );
-	// Remove comparative
-	word = removeComparatives( word, morphologyData );
-	// Remove diminutive
+	// Remove comparative and superlative affixes
+	word = removeComparativeAndSuperlative( word, morphologyData );
+	// Remove diminutive suffixes
 	word = removeDiminutives( word, morphologyData );
-	// Remove augmentative
+	// Remove augmentative suffixes
 	word = removeAugmentatives( word, morphologyData );
-	// Remove derivational
+	// Remove derivational suffixes
 	word = stemDerivational( word, morphologyData );
 
 	return word;
