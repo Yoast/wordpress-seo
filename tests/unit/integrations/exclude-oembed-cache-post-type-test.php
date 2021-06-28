@@ -36,20 +36,6 @@ class Exclude_Oembed_Cache_Post_Type_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the right hooks are being registered
-	 * for the integration to work.
-	 *
-	 * @covers ::register_hooks
-	 */
-	public function test_register_hooks() {
-		Monkey\Filters\expectAdded( 'wpseo_indexable_excluded_post_types' )
-			->once()
-			->with( [ $this->instance, 'exclude_post_types' ] );
-
-		$this->instance->register_hooks();
-	}
-
-	/**
 	 * Tests that the integration is loaded when the
 	 * database migrations have run.
 	 *

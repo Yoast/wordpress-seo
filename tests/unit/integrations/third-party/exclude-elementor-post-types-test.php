@@ -48,20 +48,6 @@ class Exclude_Elementor_Post_Types_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the integration is correctly hooked into
-	 * the `wpseo_indexable_excluded_post_types` hook.
-	 *
-	 * @covers ::register_hooks
-	 */
-	public function test_register_hooks() {
-		Monkey\Filters\expectAdded( 'wpseo_indexable_excluded_post_types' )
-			->with( [ $this->instance, 'exclude_post_types' ] )
-			->once();
-
-		$this->instance->register_hooks();
-	}
-
-	/**
 	 * Tests that the correct post types are excluded.
 	 *
 	 * @covers ::exclude_post_types
