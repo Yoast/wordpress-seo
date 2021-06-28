@@ -116,7 +116,7 @@ class Language_Helper_Test extends TestCase {
 			[ 'hu' ],
 			[ 'nb' ],
 			[ 'tr' ],
-			[ 'cs' ]
+			[ 'cs' ],
 		];
 	}
 }
