@@ -39,7 +39,7 @@ abstract class Abstract_Exclude_Post_Type implements Integration_Interface {
 	}
 
 	/**
-	 * Returns the name of the post type to be excluded.
+	 * Returns the names of the post types to be excluded.
 	 * To be used in the wpseo_indexable_excluded_post_types filter.
 	 *
 	 * @return array the names of the post types.
