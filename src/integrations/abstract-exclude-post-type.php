@@ -24,9 +24,7 @@ abstract class Abstract_Exclude_Post_Type implements Integration_Interface {
 	 * @return array The excluded post types, including the specific post type.
 	 */
 	public function exclude_post_types( $excluded_post_types ) {
-		$excluded_post_types = array_merge( $excluded_post_types, $this->get_post_type() );
-
-		return $excluded_post_types;
+		return \array_merge( $excluded_post_types, $this->get_post_type() );
 	}
 
 	/**
