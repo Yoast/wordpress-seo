@@ -98,7 +98,7 @@ class WPSEO_Addon_Manager {
 		add_filter( 'pre_set_site_transient_update_plugins', [ $this, 'check_for_updates' ] );
 		add_filter( 'plugins_api', [ $this, 'get_plugin_information' ], 10, 3 );
 
-		foreach( array_keys( $this->get_installed_addons() ) as $plugin_file ) {
+		foreach ( array_keys( $this->get_installed_addons() ) as $plugin_file ) {
 			add_action( 'in_plugin_update_message-' . $plugin_file, [ $this, 'inactive_subscription_warning' ], 10, 2 );
 		}
 	}
@@ -289,7 +289,6 @@ class WPSEO_Addon_Manager {
 				// Make sure the plugin cannot update.
 				unset( $data->response[ $plugin_file ]->package, $data->response[ $plugin_file ]->download_link );
 			}
-
 		}
 
 		return $data;
@@ -304,7 +303,8 @@ class WPSEO_Addon_Manager {
 		$subscription = $this->get_subscription( $plugin_data['slug'] );
 		if ( $this->has_subscription_expired( $subscription ) ) {
 			echo '<br><br>';
-			echo '<strong><span class="wp-ui-text-notification alert dashicons dashicons-warning"></span> ' . sprintf( __( 'A new version of %1$s is available. %2$sRenew your subscription%3$s if you want to update to the latest version.', 'wordpress-seo-premium' ), $plugin_data['name'], '<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/4ey' ) . '">', '</a>' ) . '</strong>';
+			// translators: %1$s is the plugin name, %2$s and %3$s are a link.
+			echo '<strong><span class="wp-ui-text-notification alert dashicons dashicons-warning"></span> ' . sprintf( esc_html__( 'A new version of %1$s is available. %2$sRenew your subscription%3$s if you want to update to the latest version.', 'wordpress-seo' ), esc_html( $plugin_data['name'] ), '<a href="' . esc_attr( WPSEO_Shortlinker::get( 'https://yoa.st/4ey' ) ) . '">', '</a>' ) . '</strong>';
 		}
 	}
 
