@@ -186,26 +186,36 @@ class Yoast_Head_REST_Field implements Route_Interface {
 		return $this->render_object( $obj, $format );
 	}
 
+	/**
+	 * @param $object_type The object to process in the hook.
+	 * @param $callback    The method to run when the hook is triggered.
+	 */
 	protected function register_rest_fields( $object_type, $callback ) {
-		// output metadata in page head meta tags
+		// output metadata in page head meta tags.
 		\register_rest_field( $object_type, self::YOAST_HEAD_ATTRIBUTE_NAME, [ 'get_callback' => [ $this, $callback ] ] );
-		// output metadata in a json object in a head meta tag
+		// output metadata in a json object in a head meta tag.
 		\register_rest_field( $object_type, self::YOAST_JSON_HEAD_ATTRIBUTE_NAME, [ 'get_callback' => [ $this, $callback ] ] );
 	}
 
-	protected function render_object( $obj, $format = self::YOAST_HEAD_ATTRIBUTE_NAME ) {
-		if ( $obj->status === 404 ) {
+	/**
+	 * @param $head_data     The object with head tag data in multiple formats.
+	 * @param string $format The desired format.
+	 *
+	 * @return null|string The
+	 */
+	protected function render_object( $head_data, $format = self::YOAST_HEAD_ATTRIBUTE_NAME ) {
+		if ( $head_data->status === 404 ) {
 			return null;
 		}
 
 		// Choose the correct output format based on the head attribute we are rendering.
 		switch ( $format ) {
 			case self::YOAST_JSON_HEAD_ATTRIBUTE_NAME:
-				return $obj->head_json;
+				return $head_data->head_json;
 
 			case self::YOAST_HEAD_ATTRIBUTE_NAME:
 			default:
-				return $obj->head_html;
+				return $head_data->head_html;
 		}
 	}
 }

@@ -4,7 +4,8 @@ namespace Yoast\WP\SEO\Presenters;
 
 /**
  * Decorator presenter class for indexable presentations, preventing multiple gets on the same object
- * @phpcs:ignore Yoast.Files.FileName.InvalidClassFileName
+ * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Abstract_Cached_Indexable_Tag_Presenter extends Abstract_Indexable_Tag_Presenter {
 

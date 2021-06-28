@@ -19,6 +19,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group routes
  * @group indexables
+ *
+ * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Yoast_Head_REST_Field_Test extends TestCase {
 

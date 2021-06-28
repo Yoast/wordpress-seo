@@ -150,9 +150,9 @@ class Indexable_Head_Action {
 	/**
 	 * Retrieves the head for a successful page load.
 	 *
-	 * @param $content
+	 * @param $content The html and json representation of the header tags.
 	 *
-	 * @return object
+	 * @return object The presentations and status code 200.
 	 */
 	protected function for_200( $content ) {
 		return (object) [

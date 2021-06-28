@@ -229,7 +229,13 @@ class Meta {
 		$presenters = $this->front_end->get_presenters( $this->context->page_type );
 
 		if ( $this->context->page_type === 'Date_Archive' ) {
-			// Define a filter that removes objects of type Rel_Next_Presenter or Rel_Prev_Presenter from a list.
+			/**
+			 * Define a filter that removes objects of type Rel_Next_Presenter or Rel_Prev_Presenter from a list.
+			 *
+			 * @param $presenter The presenter to verify.
+			 *
+			 * @return bool True if the presenter is not a Rel_Next or Rel_Prev presenter.
+			 */
 			$callback   = static function ( $presenter ) {
 				return ! \is_a( $presenter, Rel_Next_Presenter::class )
 					&& ! \is_a( $presenter, Rel_Prev_Presenter::class );

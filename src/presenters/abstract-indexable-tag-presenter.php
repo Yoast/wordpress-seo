@@ -4,7 +4,8 @@ namespace Yoast\WP\SEO\Presenters;
 
 /**
  * Abstract presenter class for indexable tag presentations.
- * @phpcs:ignore Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
  */
 abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Presenter {
 
@@ -38,10 +39,12 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 	 * Returns a tag in the head.
 	 *
 	 * @return string The tag.
+	 *
+	 * @throws InvalidArgumentException When a subclass does not define a key property. This should appear during development.
 	 */
 	public function present() {
 		if ( $this->key === 'NO KEY PROVIDED' ) {
-			throw new \InvalidArgumentException( \get_class( $this ) . ' is an Abstract_Indexable_Tag_Presenter but does not provide a KEY constant.' );
+			throw new \InvalidArgumentException( \get_class( $this ) . ' is an Abstract_Indexable_Tag_Presenter but does not override the key property.' );
 		}
 
 		$value = $this->get();

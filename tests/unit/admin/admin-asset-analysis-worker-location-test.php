@@ -20,11 +20,11 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
+		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		if ( ! defined( 'WPSEO_FILE' ) ) {
 			define( 'WPSEO_FILE', $this->get_wpseo_file() );
 		}
-		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
+		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		if ( ! defined( 'WPSEO_VERSION' ) ) {
 			define( 'WPSEO_VERSION', '16.6' );
 		}
