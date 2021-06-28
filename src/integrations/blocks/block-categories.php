@@ -40,7 +40,7 @@ class Internal_Linking_Category implements Integration_Interface {
 		$wordpress_version = $this->wordpress_helper->get_wordpress_version();
 
 		// The 'block_categories' filter has been deprecated in WordPress 5.8 and replaced by 'block_categories_all'.
-		if ( \version_compare( $wordpress_version, '5.8', '<' ) ) {
+		if ( \version_compare( $wordpress_version, '5.8-beta0', '<' ) ) {
 			\add_filter( 'block_categories', [ $this, 'add_block_categories' ] );
 		}
 		else {
