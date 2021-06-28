@@ -110,9 +110,9 @@ const wordsToStem = [
 	// Input a word ending in diminutive suffix -ak.
 	// [ "spolužiak", "spoluži" ],
 	// Input a word ending in augmentative suffix -ajzn.
-	[ "", "" ],
+	[ "stabajzna", "stab" ],
 	// Input a word ending in augmentative suffix -izn.
-	[ "", "" ],
+	[ "priblizne", "prib" ],
 	// Input a word ending in augmentative suffix -isk and a derivational suffix -ov
 	[ "parkovisk", "park" ],
 	// Input a word ending in augmentative suffix -ák. The correct stem is "ukazov".
@@ -136,7 +136,7 @@ const wordsToStem = [
 	// Input a word ending in derivational suffix -inec.
 	// [ "žrebčinec", "žrebč" ],
 	// Input a word ending in derivational suffix -árn.
-	[ "", "" ],
+	[ "legendárneho", "legend" ],
 	// Input a word ending in derivational suffix -enk.
 	// [ "podmienk", "podmi" ],
 	// Input a word ending in derivational suffix -ián.
