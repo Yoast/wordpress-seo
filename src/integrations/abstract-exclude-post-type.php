@@ -30,7 +30,7 @@ abstract class Abstract_Exclude_Post_Type implements Integration_Interface {
 	}
 
 	/**
-	 * This integration is only active when the child class's condtionals are met.
+	 * This integration is only active when the child class's conditionals are met.
 	 *
 	 * @return array|string[] The conditionals.
 	 */
@@ -42,7 +42,7 @@ abstract class Abstract_Exclude_Post_Type implements Integration_Interface {
 	 * Returns the names of the post types to be excluded.
 	 * To be used in the wpseo_indexable_excluded_post_types filter.
 	 *
-	 * @return array the names of the post types.
+	 * @return array The names of the post types.
 	 */
 	abstract public function get_post_type();
 }
