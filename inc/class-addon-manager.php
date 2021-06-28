@@ -97,6 +97,10 @@ class WPSEO_Addon_Manager {
 		add_action( 'admin_init', [ $this, 'validate_addons' ], 15 );
 		add_filter( 'pre_set_site_transient_update_plugins', [ $this, 'check_for_updates' ] );
 		add_filter( 'plugins_api', [ $this, 'get_plugin_information' ], 10, 3 );
+
+		foreach( array_keys( $this->get_installed_addons() ) as $plugin_file ) {
+			add_action( 'in_plugin_update_message-' . $plugin_file, [ $this, 'inactive_subscription_warning' ], 10, 2 );
+		}
 	}
 
 	/**
@@ -275,20 +279,33 @@ class WPSEO_Addon_Manager {
 			$subscription_slug = $this->get_slug_by_plugin_file( $plugin_file );
 			$subscription      = $this->get_subscription( $subscription_slug );
 
-			if ( ! $subscription || $this->has_subscription_expired( $subscription ) ) {
+			if ( ! $subscription ) {
 				continue;
 			}
 
-			if ( version_compare( $installed_plugin['Version'], $subscription->product->version, '<' ) ) {
-				$data->response[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
+			$data->response[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
+
+			if ( $this->has_subscription_expired( $subscription ) ) {
+				// Make sure the plugin cannot update.
+				unset( $data->response[ $plugin_file ]->package, $data->response[ $plugin_file ]->download_link );
 			}
-			else {
-				// Still convert subscription when no updates is available.
-				$data->no_update[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
-			}
+
 		}
 
 		return $data;
+	}
+
+	/**
+	 * If the plugin is lacking an active subscription, throw a warning.
+	 *
+	 * @param array $plugin_data The data for the plugin in this row.
+	 */
+	public function inactive_subscription_warning( $plugin_data ) {
+		$subscription = $this->get_subscription( $plugin_data['slug'] );
+		if ( $this->has_subscription_expired( $subscription ) ) {
+			echo '<br><br>';
+			echo '<strong><span class="wp-ui-text-notification alert dashicons dashicons-warning"></span> ' . sprintf( __( 'A new version of %1$s is available. %2$sRenew your subscription%3$s if you want to update to the latest version.', 'wordpress-seo-premium' ), $plugin_data['name'], '<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/4ey' ) . '">', '</a>' ) . '</strong>';
+		}
 	}
 
 	/**
