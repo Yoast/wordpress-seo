@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Presenters;
 
 /**
  * Abstract presenter class for indexable tag presentations.
+ * @phpcs:ignore Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Presenter {
 
@@ -73,8 +74,6 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 
 	/**
 	 * Transforms an indexable presenter's key to a json safe key string.
-	 *
-	 * @param key The original presenter's key.
 	 *
 	 * @return string
 	 */

@@ -6,12 +6,10 @@ use Exception;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
-use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Presenter;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Prev_Presenter;
-use Yoast\WP\SEO\Presenters\Yoast_Head_JSON_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -126,7 +124,7 @@ class Meta {
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $this->context->presentation, $this->context );
 
-		$html_output = '';
+		$html_output      = '';
 		$json_head_fields = [];
 
 		foreach ( $presenters as $presenter ) {
@@ -144,11 +142,9 @@ class Meta {
 		}
 		$html_output = \trim( $html_output );
 
-		$json_output = $this->create_JSON_presentation( $json_head_fields );
-
 		return (object) [
 			'head_html' => $html_output,
-			'head_json' => $json_output
+			'head_json' => $json_head_fields,
 		];
 	}
 
@@ -250,26 +246,12 @@ class Meta {
 	 * @param $presenter Abstract_Indexable_Presenter The presenter.
 	 * @return string
 	 */
-	protected function create_html_presentation( $presenter )
-	{
-		$presenter_output = $presenter->present();
+	protected function create_html_presentation( $presenter ) {
+		 $presenter_output = $presenter->present();
 		if ( ! empty( $presenter_output ) ) {
 			return $presenter_output . \PHP_EOL;
 		}
 		return '';
-	}
-
-	/**
-	 * Returns the metadata to be presented in json format.
-	 *
-	 * @param array $json_head_data The array of key / value pairs that should be rendered as JSON.
-	 *
-	 * @return string The JSON output of the metadata.
-	 */
-	protected function create_JSON_presentation( $json_head_data ) {
-		$json_head_presenter = new Yoast_Head_JSON_Presenter();
-		$json_head_presenter->json_dictionary = $json_head_data;
-		return \trim( $json_head_presenter->present() );
 	}
 
 	/**
@@ -278,21 +260,20 @@ class Meta {
 	 * @param $presenter Abstract_Indexable_Presenter presenter whose key and value are to be converted to JSON.
 	 * @return object
 	 */
-	protected function create_json_field($presenter ) {
+	protected function create_json_field( $presenter ) {
 		// Only Tag Presenters can be processed this way.
 		if ( ! \is_subclass_of( $presenter, Abstract_Indexable_Tag_Presenter::class ) ) {
 			return null;
 		}
 
-		$key   = $presenter->escape_key();
 		$value = $presenter->get();
 		if ( empty( $value ) ) {
 			return null;
 		}
 
 		return (object) [
-			'key' => $key,
-			'value' => $value
+			'key'   => $presenter->escape_key(),
+			'value' => $value,
 		];
 	}
 }

@@ -19,7 +19,7 @@ class Abstract_Cached_Indexable_Tag_Presenter_Test extends TestCase {
 
 		$initial = $instance->get(); // hit count 1;
 		$cached  = $instance->get(); // cache hit;
-		$cached2  = $instance->get(); // cache hit;
+		$cached2 = $instance->get(); // cache hit;
 
 		$this->assertEquals( $initial, $cached );
 		$this->assertEquals( $initial, $cached2 );
@@ -45,9 +45,8 @@ class Concrete_Cached_Presenter extends Abstract_Cached_Indexable_Tag_Presenter 
 	 *
 	 * @return string
 	 */
-	public function refresh()
-	{
-		$this->hit_count++;
-		return "value refreshed!";
+	public function refresh() {
+		 $this->hit_count++;
+		return 'value refreshed!';
 	}
 }

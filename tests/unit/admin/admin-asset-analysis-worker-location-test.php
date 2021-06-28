@@ -11,22 +11,32 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Tests WPSEO_Admin_Asset.
  *
  * @coversDefaultClass WPSEO_Admin_Asset_Analysis_Worker_Location
+ * @phpcs:ignore Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 
-	protected function set_up()
-	{
+	/**
+	 * Prepare the tests.
+	 */
+	protected function set_up() {
 		parent::set_up();
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		if ( ! defined( 'WPSEO_FILE' ) ) {
-		define( 'WPSEO_FILE', $this->get_wpseo_file() );
+			define( 'WPSEO_FILE', $this->get_wpseo_file() );
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		if ( ! defined( 'WPSEO_VERSION' ) ) {
-			define( 'WPSEO_VERSION', "16.6" );
+			define( 'WPSEO_VERSION', '16.6' );
 		}
 	}
 
+	/**
+	 * Get the path to wordpress-seo
+	 *
+	 * @return false|string
+	 */
 	protected function get_wpseo_file() {
-		return \realpath(__DIR__ . '/../../../wp-seo.php' );
+		return \realpath( __DIR__ . '/../../../wp-seo.php' );
 	}
 
 	/**
@@ -49,7 +59,7 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 			->andReturn( 'asset_location' );
 
 		$asset_location = $location->get_asset();
-		$actual = $location->get_url( $asset_location, WPSEO_Admin_Asset::TYPE_JS );
+		$actual         = $location->get_url( $asset_location, WPSEO_Admin_Asset::TYPE_JS );
 
 		$this->assertSame( 'asset_location', $actual );
 	}

@@ -13,8 +13,10 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
  *
  * Registers the yoast head REST field.
  * Not technically a route but behaves the same so is included here.
+ *
+ * @phpcs:ignore Yoast.Files.FileName.InvalidClassFileName -- reason: this explicitly concerns the Yoast head fields.
+ * @phpcs:ignore Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-// phpcs:disable Yoast.Files.FileName.InvalidClassFileName -- reason: this explicitly concerns the Yoast head fields.
 class Yoast_Head_REST_Field implements Route_Interface {
 
 	/**

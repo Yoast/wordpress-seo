@@ -15,16 +15,21 @@ class Robots_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 	protected $key = 'robots';
 
 	/**
-	 * Gets the raw value of a presentation.
+	 * Gets the value of the robot tags presentation.
 	 *
-	 * @return string The raw value.
+	 * @return string The comma separated list of robot tags.
 	 */
 	public function refresh() {
-		$robots = $this->presentation->robots;
+		$robots = $this->get_raw();
 
 		return \implode( ', ', $robots );
 	}
 
+	/**
+	 * Gets the raw robot tags.
+	 *
+	 * @return array The array of robot tags.
+	 */
 	public function get_raw() {
 		return $this->presentation->robots;
 	}

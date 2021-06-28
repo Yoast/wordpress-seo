@@ -14,6 +14,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  */
 class Abstract_Indexable_Tag_Presenter_Test extends TestCase {
 
+	/**
+	 * @covers \Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter
+	 */
 	public function test_key_not_defined() {
 		$instance = new Concrete_Cached_Presenter();
 
@@ -26,8 +29,12 @@ class Abstract_Indexable_Tag_Presenter_Test extends TestCase {
 
 class Concrete_Indexable_Presenter extends Abstract_Indexable_Tag_Presenter {
 
-	public function get()
-	{
-		return "concrete";
+	/**
+	 * A concrete implementation of get().
+	 *
+	 * @return string
+	 */
+	public function get() {
+		 return 'concrete';
 	}
 }
