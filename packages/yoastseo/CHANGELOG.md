@@ -15,6 +15,15 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds diacritics to the list of full form non-passive exceptions for Turkish.
 * Adds more non-passive exception words to the list of full form non-passive exceptions for Turkish.
 * Improves code quality of the Spanish stemmer and changes the way we stem words ending in `-mente`.
+* Implements the new `Clause` and `SentenceNew` class to English folder, adds English Clause class, and adjusts related specs.
+* Adapts the language-specific files for passive voice assessment to the new structure for German, Dutch, French, Spanish, Italian, Portuguese, Polish, Hungarian, and Czech.
+* Refactors the `Sentence` and `SentencePart` classes.
+* Moves passive voice values and some helpers, and the `ProminentWord` value to different folders in order to improve file organization.
+* Moves an exception check specific to English from the general `getClauses` file to the English-specific `getClauses` file.
+* Deletes obsolete files and changes the `SentenceNew` class to `Sentence`. Also adds an additional check in `parse.js` to parse classes.
+* Fixes the stopwords list for Czech by adding the correct stopwords. Adds punctuation marks as sentence breakers.
+* Excludes Table of Contents from the analysis.
+* Filters out table block content from the `getSentenceBeginnings` research.
 
 ## 1.89.0 January 25th, 2021
 ### Enhancements

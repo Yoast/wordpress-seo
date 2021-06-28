@@ -8,6 +8,9 @@ export default class Schema extends SchemaInstruction {
 	public options: {
 		name: string;
 		onlyNested?: boolean;
+		requiredFor?: string[];
+		recommendedFor?: string[];
+		optionalFor?: string[];
 	}
 
 	/**

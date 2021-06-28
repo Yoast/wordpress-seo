@@ -24,6 +24,6 @@ describe( "The ClassName instruction", () => {
 			},
 		};
 
-		expect( className.save( props ) ).toEqual( "class-name yoast-inner-container" );
+		expect( className.save( props ) ).toEqual( "class-name" );
 	} );
 } );

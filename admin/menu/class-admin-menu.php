@@ -24,45 +24,48 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 	 * Registers the menu item submenus.
 	 */
 	public function register_settings_page() {
-		$can_manage_options = $this->check_manage_capability();
-
-		if ( $can_manage_options ) {
-			/*
-			 * The current user has the capability to control anything.
-			 * This means that all submenus and dashboard can be shown.
-			 */
-			global $admin_page_hooks;
-
-			add_menu_page(
-				'Yoast SEO: ' . __( 'Dashboard', 'wordpress-seo' ),
-				__( 'SEO', 'wordpress-seo' ) . ' ' . $this->get_notification_counter(),
-				$this->get_manage_capability(),
-				$this->get_page_identifier(),
-				$this->get_admin_page_callback(),
-				$this->get_icon_svg(),
-				'99.31337'
-			);
-
-			// Wipe notification bits from hooks.
-			// phpcs:ignore WordPress.WP.GlobalVariablesOverride -- This is a deliberate action.
-			$admin_page_hooks[ $this->get_page_identifier() ] = 'seo';
-		}
+		$manage_capability   = $this->get_manage_capability();
+		$page_identifier     = $this->get_page_identifier();
+		$admin_page_callback = $this->get_admin_page_callback();
 
 		// Get all submenu pages.
 		$submenu_pages = $this->get_submenu_pages();
 
-		// Add submenu items to the main menu if possible.
-		if ( $can_manage_options ) {
-			$this->register_submenu_pages( $submenu_pages );
+		foreach ( $submenu_pages as $submenu_page ) {
+			if ( WPSEO_Capability_Utils::current_user_can( $submenu_page[3] ) ) {
+				$manage_capability   = $submenu_page[3];
+				$page_identifier     = $submenu_page[4];
+				$admin_page_callback = $submenu_page[5];
+				break;
+			}
+		}
+
+		foreach ( $submenu_pages as $index => $submenu_page ) {
+			$submenu_pages[ $index ][0] = $page_identifier;
 		}
 
 		/*
-		 * If the user does not have the general manage options capability,
-		 * we need to make sure the desired sub-item can be reached.
+		 * The current user has the capability to control anything.
+		 * This means that all submenus and dashboard can be shown.
 		 */
-		if ( ! $can_manage_options ) {
-			$this->register_menu_pages( $submenu_pages );
-		}
+		global $admin_page_hooks;
+
+		add_menu_page(
+			'Yoast SEO: ' . __( 'Dashboard', 'wordpress-seo' ),
+			__( 'SEO', 'wordpress-seo' ) . ' ' . $this->get_notification_counter(),
+			$manage_capability,
+			$page_identifier,
+			$admin_page_callback,
+			$this->get_icon_svg(),
+			'99.31337'
+		);
+
+		// Wipe notification bits from hooks.
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride -- This is a deliberate action.
+		$admin_page_hooks[ $page_identifier ] = 'seo';
+
+		// Add submenu items to the main menu if possible.
+		$this->register_submenu_pages( $submenu_pages );
 	}
 
 	/**
