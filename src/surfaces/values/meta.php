@@ -223,6 +223,8 @@ class Meta {
 	}
 
 	/**
+	 * Returns all presenters.
+	 *
 	 * @return Abstract_Indexable_Presenter[]
 	 */
 	protected function get_presenters() {
@@ -250,10 +252,11 @@ class Meta {
 	 * Uses the presenter to create a line of HTML.
 	 *
 	 * @param $presenter Abstract_Indexable_Presenter The presenter.
+	 *
 	 * @return string
 	 */
 	protected function create_html_presentation( $presenter ) {
-		 $presenter_output = $presenter->present();
+		$presenter_output = $presenter->present();
 		if ( ! empty( $presenter_output ) ) {
 			return $presenter_output . \PHP_EOL;
 		}
@@ -264,6 +267,7 @@ class Meta {
 	 * Converts a presenter's key and value to JSON.
 	 *
 	 * @param $presenter Abstract_Indexable_Presenter presenter whose key and value are to be converted to JSON.
+	 *
 	 * @return object
 	 */
 	protected function create_json_field( $presenter ) {
