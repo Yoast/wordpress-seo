@@ -99,7 +99,7 @@ class Abstract_Exclude_Post_Type_Test extends TestCase {
 		$instance
 			->expects( 'get_post_type' )
 			->once()
-			->andReturn( 'the value to add to exclusions' );
+			->andReturn( [ 'the value to add to exclusions' ] );
 
 		$result = $instance->exclude_post_types( [] );
 

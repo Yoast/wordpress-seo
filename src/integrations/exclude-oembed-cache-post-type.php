@@ -23,12 +23,12 @@ class Exclude_Oembed_Cache_Post_Type extends Abstract_Exclude_Post_Type {
 	}
 
 	/**
-	 * Returns the name of the post type to be excluded.
+	 * Returns the names of the post types to be excluded.
 	 * To be used in the wpseo_indexable_excluded_post_types filter.
 	 *
-	 * @return string the name of the post type.
+	 * @return array the names of the post types.
 	 */
 	public function get_post_type() {
-		return 'oembed_cache';
+		return [ 'oembed_cache' ];
 	}
 }
