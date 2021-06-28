@@ -15,7 +15,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group integrations
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Abstract_Exclude_Post_Type_Test
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Abstract_Exclude_Post_Type
+ *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Abstract_Exclude_Post_Type_Test extends TestCase {
@@ -83,7 +84,7 @@ class Abstract_Exclude_Post_Type_Test extends TestCase {
 	/**
 	 * Tests the abstract method to get conditionals.
 	 *
-	 * @covers ::exclude_post_types
+	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals( [], Abstract_Exclude_Post_Type::get_conditionals() );
