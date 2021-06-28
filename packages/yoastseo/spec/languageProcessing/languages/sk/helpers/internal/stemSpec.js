@@ -185,9 +185,8 @@ const paradigms = [
 		"teplých",
 		"teplými",
 	] },
-	// Paradigm of an adjective.
 
-	// Paradigm of a noun including the diminutive forms
+	// Paradigm of a noun including the diminutive forms.
 	{ stem: "mač", forms: [
 		"mačka",
 		"mačky",
@@ -210,7 +209,7 @@ const paradigms = [
 		"mačičkami",
 	] },
 
-	// Paradigm of a noun with declension pattern "chlap"
+	// Paradigm of a noun with declension pattern "chlap".
 	{ stem: "chlap", forms: [
 		"chlap",
 		"chlapa",
@@ -223,8 +222,8 @@ const paradigms = [
 		"chlapmi",
 	] },
 
-	// Paradigm of a noun with declension pattern "dlaň"
-	{ stem: "dlan", forms: [
+	// Paradigm of a noun with declension pattern "dlaň".
+	{ stem: "dlaň", forms: [
 		"dlaň",
 		// "dlane",
 		// "dlani",
@@ -235,7 +234,7 @@ const paradigms = [
 		"dlaňami",
 	] },
 
-	// Paradigm of a noun with declension pattern "dub"
+	// Paradigm of a noun with declension pattern "dub".
 	{ stem: "dub", forms: [
 		"dub",
 		"duba",
@@ -248,7 +247,7 @@ const paradigms = [
 		"dubmi",
 	] },
 
-	// Paradigm of a noun with declension pattern "gazdiná"
+	// Paradigm of a noun with declension pattern "gazdiná".
 	{ stem: "gazd", forms: [
 		"gazdiná",
 		"gazdinej",
@@ -261,7 +260,7 @@ const paradigms = [
 		"gazdinami",
 	] },
 
-	// Paradigm of a noun with declension pattern "dievča"
+	// Paradigm of a noun with declension pattern "dievča".
 	{ stem: "diev", forms: [
 		"dievča",
 		"dievčaťa",
@@ -280,20 +279,20 @@ const paradigms = [
 		// "dievčencami",
 	] },
 
-	// Paradigm of a noun with declension pattern "hrdina". Currently these forms will be stemmed into "hrd".
-	{ stem: "hrdin", forms: [
-		// "hrdina",
-		// "hrdinu",
-		// "hrdinovi",
-		// "hrdinom",
+	// Paradigm of a noun with declension pattern "hrdina".
+	{ stem: "hrd", forms: [
+		"hrdina",
+		"hrdinu",
+		"hrdinovi",
+		"hrdinom",
 		// "hrdinovia",
-		// "hrdinov",
-		// "hrdinoch",
-		// "hrdinami",
+		"hrdinov",
+		"hrdinoch",
+		"hrdinami",
 	] },
 
-	// Paradigm of a noun with declension pattern "kosť"
-	{ stem: "kost", forms: [
+	// Paradigm of a noun with declension pattern "kosť".
+	{ stem: "kosť", forms: [
 		"kosť",
 		// "kosti",
 		"kosťou",
@@ -301,6 +300,85 @@ const paradigms = [
 		// "kostiam",
 		// "kostiach",
 		"kosťami",
+	] },
+
+	// Paradigm of a noun with declension pattern "mesto".
+	{ stem: "mes", forms: [
+		"mesto",
+		"mesta",
+		"mestu",
+		"meste",
+		"mestom",
+		"mestá",
+		// "miest",
+		"mestám",
+		"mestách",
+		"mestami",
+	] },
+
+	// Paradigm of a noun with declension pattern "srdce".
+	{ stem: "srd", forms: [
+		"srdce",
+		"srdca",
+		"srdcu",
+		"srdci",
+		"srdcom",
+		// "srdcia",
+		// "sŕdc",
+		// "srdciam",
+		// "srdciach",
+		// "srdciami",
+	] },
+
+	// Paradigm of a noun with declension pattern "stroj".
+	{ stem: "stroj", forms: [
+		"stroj",
+		"stroja",
+		"stroju",
+		"stroji",
+		"strojom",
+		"stroje",
+		"strojov",
+		"strojoch",
+		"strojmi",
+	] },
+
+	// Paradigm of a noun with declension pattern "ulica".
+	{ stem: "uli", forms: [
+		"ulica",
+		"ulice",
+		"ulici",
+		"ulicu",
+		"ulicou",
+		// "ulíc",
+		// "uliciam",
+		// "uliciach",
+		"ulicami",
+	] },
+
+	// Paradigm of a noun with declension pattern "vysvedčenie".
+	{ stem: "vysvedčeni", forms: [
+		"vysvedčenia",
+		"vysvedčeniu",
+		"vysvedčenie",
+		// "vysvedčení",
+		// "vysvedčením",
+		// "vysvedčeniam",
+		"vysvedčeniach",
+		"vysvedčeniami",
+	] },
+
+	// Paradigm of a noun with declension pattern "žena".
+	{ stem: "žen", forms: [
+		"žena",
+		"ženy",
+		"žene",
+		"ženu",
+		"ženou",
+		// "žien",
+		"ženám",
+		"ženách",
+		"ženami",
 	] },
 
 	// Paradigm of an adjective
@@ -323,6 +401,55 @@ const paradigms = [
 		"krásnych",
 		"krásnymi",
 	] },
+
+	// Paradigm of an adjective with "pekný" pattern.
+	{ stem: "pek", forms: [
+		"pekný",
+		"pekného",
+		"peknému",
+		"peknom",
+		"pekným",
+		"pekná",
+		"peknú",
+		"peknej",
+		"peknou",
+		"pekní",
+		"pekných",
+		"peknými",
+	] },
+
+	// Paradigm of an adjective with "cudzí" pattern.
+	{ stem: "cudz", forms: [
+		"cudzí",
+		// "cudzieho",
+		// "cudziemu",
+		"cudzom",
+		// "cudzím",
+		// "cudzia",
+		"cudzej",
+		// "cudziu",
+		"cudzou",
+		// "cudzie",
+		"cudzích",
+		"cudzími",
+	] },
+
+	// Paradigm of an adjective with "otcov" pattern.
+	{ stem: "otc", forms: [
+		"otcov",
+		// "otcovho",
+		// "otcovmu",
+		"otcovom",
+		"otcovým",
+		"otcova",
+		"otcovej",
+		"otcovu",
+		"otcovu",
+		"otcovi",
+		"otcových",
+		"otcovými",
+	] },
+
 	// Paradigm of a verb.
 	{ stem: "pochop", forms: [
 		// "pochopiť",
