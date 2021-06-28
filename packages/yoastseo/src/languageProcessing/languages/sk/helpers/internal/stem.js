@@ -168,8 +168,7 @@ function removeDiminutives( word, morphologyData ) {
 			return word.slice( 0, -1 );
 		}
 	}
-	const diminutiveRegex = new RegExp( morphologyData.externalStemmer.diminutiveRegex );
-	if ( word.length > 3 && diminutiveRegex.test( word ) ) {
+	if ( word.length > 3 && word.endsWith( "k" ) && ! word.endsWith( "isk" ) ) {
 		return word.slice( 0, -1 );
 	}
 	return word;
@@ -190,9 +189,6 @@ function removeAugmentatives( word, morphologyData ) {
 	}
 	if ( word.length > 5 && augmentativeSuffixes.augmentativeSuffixes2.includes( word.slice( -3 ) ) ) {
 		return palatalise( word.slice( 0, -2 ), morphologyData );
-	}
-	if ( word.length > 4 && word.endsWith( augmentativeSuffixes.augmentativeSuffix3 ) ) {
-		return word.slice( 0, -2 );
 	}
 	return word;
 }
