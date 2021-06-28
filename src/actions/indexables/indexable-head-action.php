@@ -147,6 +147,13 @@ class Indexable_Head_Action {
 		];
 	}
 
+	/**
+	 * Retrieves the head for a successful page load.
+	 *
+	 * @param $content
+	 *
+	 * @return object
+	 */
 	protected function for_200( $content ){
 		return (object) [
 			'head_html' => $content->head_html,

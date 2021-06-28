@@ -116,9 +116,9 @@ class Meta {
 	}
 
 	/**
-	 * Returns the metadata to be presented in the page head.
+	 * Returns the output as would be presented in the head.
 	 *
-	 * @return string The HTML output of the metadata.
+	 * @return object The HTML and JSON presentation of the head metadata.
 	 */
 	public function get_head() {
 		$presenters = $this->get_presenters();
@@ -126,31 +126,6 @@ class Meta {
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $this->context->presentation, $this->context );
 
-		return $this->present_head( $presenters, $presentation );
-	}
-
-	/**
-	 * Returns the metadata to be presented in json format.
-	 *
-	 * @param array $json_head_data The array of key / value pairs that should be rendered as JSON.
-	 *
-	 * @return string The JSON output of the metadata.
-	 */
-	protected function create_JSON_presentation( $json_head_data ) {
-		$json_head_presenter = new Yoast_Head_JSON_Presenter();
-		$json_head_presenter->json_dictionary = $json_head_data;
-		return $json_head_presenter->present();
-	}
-
-	/**
-	 * Returns the output as would be presented in the head.
-	 *
-	 * @param Abstract_Indexable_Presenter[] $presenters The presenters that generated head metadata.
-	 * @param mixed $presentation         The data object holding the presentation data.
-	 *
-	 * @return object The HTML and JSON presentation of the head metadata.
-	 */
-	protected function present_head( $presenters, $presentation ) {
 		$html_output = '';
 		$json_head_fields = [];
 
@@ -167,12 +142,13 @@ class Meta {
 				$json_head_fields[ $json_field->key ] = $json_field->value;
 			}
 		}
+		$html_output = \trim( $html_output );
 
 		$json_output = $this->create_JSON_presentation( $json_head_fields );
 
 		return (object) [
-			'head_html' => \trim( $html_output ),
-			'head_json' => \trim( $json_output )
+			'head_html' => $html_output,
+			'head_json' => $json_output
 		];
 	}
 
@@ -281,6 +257,19 @@ class Meta {
 			return $presenter_output . \PHP_EOL;
 		}
 		return '';
+	}
+
+	/**
+	 * Returns the metadata to be presented in json format.
+	 *
+	 * @param array $json_head_data The array of key / value pairs that should be rendered as JSON.
+	 *
+	 * @return string The JSON output of the metadata.
+	 */
+	protected function create_JSON_presentation( $json_head_data ) {
+		$json_head_presenter = new Yoast_Head_JSON_Presenter();
+		$json_head_presenter->json_dictionary = $json_head_data;
+		return \trim( $json_head_presenter->present() );
 	}
 
 	/**
