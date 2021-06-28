@@ -95,14 +95,15 @@ class Yoast_Integration_Toggles {
 				'setting'         => 'zapier_integration_active',
 				'label'           => \sprintf(
 				/* translators: 1: Yoast SEO, 2: Zapier. */
-					\__( 'Connecting %1$s to %2$s means you can instantly share your published posts with 2000+ destinations such as Twitter, Facebook and more.', 'wordpress-seo' ),
+					\__( 'Set up automated actions when you publish or update your content. By connecting %1$s with %2$s, you can easily send out your published posts to any of its 2000+ destinations, such as Twitter, Facebook and more.', 'wordpress-seo' ),
 					'Yoast SEO',
 					'Zapier'
 				),
 				/* translators: %s: Zapier. */
-				'read_more_label' => \sprintf( \__( 'Read more about %s.', 'wordpress-seo' ), 'Zapier' ),
-				'read_more_url'   => 'https://yoa.st/46o',
-				'order'           => 20, // The SEMrush integration on Free has order => 10.
+				'read_more_label' => \sprintf( \__( 'Find out more about our %s integration.', 'wordpress-seo' ), 'Zapier' ),
+				'read_more_url'   => 'https://yoa.st/4et',
+				'premium_url'     => 'https://yoa.st/46o',
+				'order'           => 20,
 			],
 			(object) [
 				/* translators: %s: Algolia. */
@@ -111,13 +112,14 @@ class Yoast_Integration_Toggles {
 				'setting'         => 'algolia_integration_active',
 				'label'           => \sprintf(
 				/* translators: 1: Yoast SEO, 2: Algolia. */
-					\__( 'Integrate %1$s with %2$s: send the number of internal links and the meta description to Algolia and remove noindexed posts & pages from your site\'s search results.', 'wordpress-seo' ),
+					\__( 'Improve the quality of your site search! Automatically helps your users find your cornerstone and most important content in your internal search results. It also removes noindexed posts & pages from your site’s search results.', 'wordpress-seo' ),
 					'Yoast SEO',
 					'WP Search with Algolia'
 				),
-				/* translators: %s: Zapier. */
-				'read_more_label' => \sprintf( \__( 'Read more about our %s integration.', 'wordpress-seo' ), 'Algolia' ),
-				'read_more_url'   => 'https://yoa.st/4es',
+				/* translators: %s: Algolia. */
+				'read_more_label' => \sprintf( \__( 'Find out more about our %s integration.', 'wordpress-seo' ), 'Algolia' ),
+				'read_more_url'   => 'https://yoa.st/4eu',
+				'premium_url'     => 'https://yoa.st/4ex',
 				'order'           => 25,
 			],
 		];

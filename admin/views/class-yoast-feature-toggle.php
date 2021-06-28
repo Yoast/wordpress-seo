@@ -46,6 +46,13 @@ class Yoast_Feature_Toggle {
 	protected $read_more_url = '';
 
 	/**
+	 * URL to learn more about the premium feature.
+	 *
+	 * @var string
+	 */
+	protected $premium_url = '';
+
+	/**
 	 * Label for the learn more link.
 	 *
 	 * @var string

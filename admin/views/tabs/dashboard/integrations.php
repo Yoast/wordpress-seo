@@ -35,10 +35,15 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 			}
 
 			if ( ! empty( $integration->read_more_label ) ) {
+				$url = $integration->read_more_url;
+				if ( ! empty( $integration->premium ) && $integration->premium === true ) {
+					$url = $integration->premium_url;
+				}
+
 				$help_text .= ' ';
 				$help_text .= sprintf(
 					'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
-					esc_url( WPSEO_Shortlinker::get( $integration->read_more_url ) ),
+					esc_url( WPSEO_Shortlinker::get( $url ) ),
 					esc_html( $integration->read_more_label )
 				);
 			}
