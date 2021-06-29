@@ -513,10 +513,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'alerts-' . $flat_version,
 			],
 			[
-				'name' => 'badge',
-				'src'  => 'badge-' . $flat_version,
-			],
-			[
 				'name' => 'edit-page',
 				'src'  => 'edit-page-' . $flat_version,
 			],
