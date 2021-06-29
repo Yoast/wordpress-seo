@@ -42,18 +42,16 @@ class Schema_Templates_Loader_Test extends TestCase {
 			$schema_directory . 'cooking-time.block.php',
 			$schema_directory . 'cooking-time.schema.php',
 			$schema_directory . 'image.schema.php',
-			$schema_directory . 'ingredients.block.php',
-			$schema_directory . 'ingredients.schema.php',
 			$schema_directory . 'recipe-description.block.php',
 			$schema_directory . 'recipe-description.schema.php',
+			$schema_directory . 'recipe-ingredients.block.php',
+			$schema_directory . 'recipe-ingredients.schema.php',
+			$schema_directory . 'recipe-instructions.block.php',
+			$schema_directory . 'recipe-instructions.schema.php',
 			$schema_directory . 'recipe-name.block.php',
 			$schema_directory . 'recipe-name.schema.php',
 			$schema_directory . 'recipe.block.php',
 			$schema_directory . 'recipe.schema.php',
-			$schema_directory . 'step.block.php',
-			$schema_directory . 'step.schema.php',
-			$schema_directory . 'steps.block.php',
-			$schema_directory . 'steps.schema.php',
 		];
 
 		static::assertEquals(
