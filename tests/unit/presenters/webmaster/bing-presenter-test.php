@@ -72,6 +72,9 @@ class Bing_Presenter_Test extends TestCase {
 
 	/**
 	 * Tests empty presentation.
+	 *
+	 * @covers ::present
+	 * @covers ::get
 	 */
 	public function test_empty_present() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( '' );

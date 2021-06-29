@@ -35,6 +35,8 @@ class Abstract_Cached_Indexable_Tag_Presenter_Test extends TestCase {
 
 /**
  * Class Concrete_Cached_Presenter, needed because abstract classes cannot be instantiated.
+ *
+ * @phpcs:disable Generic.Files.OneObjectStructurePerFile.MultipleFound
  */
 class Concrete_Cached_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 
