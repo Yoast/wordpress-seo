@@ -2,6 +2,7 @@ import { languageProcessing } from "yoastseo";
 const { AbstractResearcher } = languageProcessing;
 
 // All config
+import functionWords from "./config/functionWords";
 
 // All helpers
 
@@ -27,6 +28,7 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.config, {
 			language: "sk",
+			functionWords,
 		} );
 
 		Object.assign( this.helpers, {
