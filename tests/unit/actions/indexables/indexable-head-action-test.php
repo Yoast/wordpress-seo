@@ -71,17 +71,14 @@ class Indexable_Head_Action_Test extends TestCase {
 		$meta = Mockery::mock();
 		$meta
 			->expects( 'get_head' )
-			->andReturn(
-				(object) [
-					'html' => 'this is the head',
-					'json' => [ 'key' => 'value' ],
-				]
-			);
+			->andReturn( $this->get_head() );
 
 		$this->meta_surface
 			->expects( $method )
 			->with( $input )
 			->andReturn( $meta );
+
+		$output = $this->instance->{$method}( $input );
 
 		$this->assertEquals(
 			(object) [
@@ -89,7 +86,7 @@ class Indexable_Head_Action_Test extends TestCase {
 				'json'   => [ 'key' => 'value' ],
 				'status' => 200,
 			],
-			$this->instance->{$method}( $input )
+			$output
 		);
 	}
 
@@ -102,12 +99,7 @@ class Indexable_Head_Action_Test extends TestCase {
 		$meta = Mockery::mock();
 		$meta
 			->expects( 'get_head' )
-			->andReturn(
-				(object) [
-					'html' => 'this is the head',
-					'json' => [ 'key' => 'value' ],
-				]
-			);
+			->andReturn( $this->get_head() );
 
 		$this->meta_surface
 			->expects( 'for_posts_page' )
@@ -214,6 +206,21 @@ class Indexable_Head_Action_Test extends TestCase {
 			[ 'for_term', 1 ],
 			[ 'for_author', 1 ],
 			[ 'for_post_type_archive', 'type' ],
+		];
+	}
+
+	/**
+	 * Stub the Meta result.
+	 *
+	 * @param string $html The HTML setup.
+	 * @param string $json The JSON setup.
+	 *
+	 * @return object The mocked result.
+	 */
+	protected function get_head( $html = 'this is the head', $json = [ 'key' => 'value' ] ) {
+		return (object) [
+			'html' => $html,
+			'json' => $json,
 		];
 	}
 }

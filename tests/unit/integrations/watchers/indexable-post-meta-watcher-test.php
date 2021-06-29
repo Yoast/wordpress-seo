@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Mockery;
+use Brain\Monkey;
 use WPSEO_Meta;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Meta_Watcher;
@@ -17,6 +18,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Meta_Watcher
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Post_Meta_Watcher_Test extends TestCase {
 
@@ -85,6 +88,7 @@ class Indexable_Post_Meta_Watcher_Test extends TestCase {
 	 */
 	public function test_adding_yoast_meta_key() {
 		$this->post_watcher->expects( 'build_indexable' )->once()->with( 1 );
+		Monkey\functions\expect( 'error_get_last' )->once()->andReturnNull();
 
 		$this->instance->add_post_id( 0, 1, WPSEO_Meta::$meta_prefix . 'key' );
 		$this->instance->update_indexables();
@@ -98,6 +102,7 @@ class Indexable_Post_Meta_Watcher_Test extends TestCase {
 	 */
 	public function test_adding_non_yoast_meta_key() {
 		$this->post_watcher->expects( 'build_indexable' )->never();
+		Monkey\functions\expect( 'error_get_last' )->once()->andReturnNull();
 
 		$this->instance->add_post_id( 0, 1, 'bad_key' );
 		$this->instance->update_indexables();
@@ -111,6 +116,7 @@ class Indexable_Post_Meta_Watcher_Test extends TestCase {
 	 */
 	public function test_adding_multiple_yoast_meta_key() {
 		$this->post_watcher->expects( 'build_indexable' )->once()->with( 1 );
+		Monkey\functions\expect( 'error_get_last' )->once()->andReturnNull();
 
 		$this->instance->add_post_id( 0, 1, WPSEO_Meta::$meta_prefix . 'key' );
 		$this->instance->add_post_id( 5, 1, WPSEO_Meta::$meta_prefix . 'other_key' );
@@ -125,6 +131,7 @@ class Indexable_Post_Meta_Watcher_Test extends TestCase {
 	 */
 	public function test_adding_and_removing_yoast_meta_key() {
 		$this->post_watcher->expects( 'build_indexable' )->never();
+		Monkey\functions\expect( 'error_get_last' )->once()->andReturnNull();
 
 		$this->instance->add_post_id( 0, 1, WPSEO_Meta::$meta_prefix . 'key' );
 		$this->instance->remove_post_id( 1 );
@@ -140,9 +147,25 @@ class Indexable_Post_Meta_Watcher_Test extends TestCase {
 	 */
 	public function test_adding_yoast_meta_key_and_removing_other_post() {
 		$this->post_watcher->expects( 'build_indexable' )->once()->with( 1 );
+		Monkey\functions\expect( 'error_get_last' )->once()->andReturnNull();
 
 		$this->instance->add_post_id( 0, 1, WPSEO_Meta::$meta_prefix . 'key' );
 		$this->instance->remove_post_id( 2 );
+
+		$this->instance->update_indexables();
+	}
+
+	/**
+	 * Tests no indexing after an error.
+	 *
+	 * @covers ::add_post_id
+	 * @covers ::update_indexables
+	 */
+	public function test_do_not_index_after_error() {
+		$this->post_watcher->expects( 'build_indexable' )->never();
+		Monkey\functions\expect( '\error_get_last' )->once()->andReturn( new \InvalidArgumentException() );
+
+		$this->instance->add_post_id( 0, 1, WPSEO_Meta::$meta_prefix . 'key' );
 
 		$this->instance->update_indexables();
 	}

@@ -11,7 +11,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Tests WPSEO_Admin_Asset.
  *
  * @coversDefaultClass WPSEO_Admin_Asset_Analysis_Worker_Location
- * @phpcs:ignore Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ *
+ * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 
@@ -20,11 +22,11 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
+		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		if ( ! defined( 'WPSEO_FILE' ) ) {
 			define( 'WPSEO_FILE', $this->get_wpseo_file() );
 		}
-		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
+		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		if ( ! defined( 'WPSEO_VERSION' ) ) {
 			define( 'WPSEO_VERSION', '16.6' );
 		}

@@ -127,7 +127,7 @@ class Indexable_Head_Action {
 	 *
 	 * @param object $head The calculated Yoast head.
 	 *
-	 * @return object
+	 * @return object The presentations and status code 200.
 	 */
 	protected function for_200( $head ) {
 		return (object) [

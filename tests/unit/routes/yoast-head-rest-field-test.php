@@ -15,10 +15,13 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Yoast_Head_REST_Field_Test class.
  *
- * @coversDefaultClass Yoast\WP\SEO\Routes\Yoast_Head_REST_Field
+ * @coversDefaultClass \Yoast\WP\SEO\Routes\Yoast_Head_REST_Field
  *
  * @group routes
  * @group indexables
+ *
+ * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Yoast_Head_REST_Field_Test extends TestCase {
 
@@ -183,13 +186,7 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 			->expects( $method )
 			->once()
 			->with( $input )
-			->andReturn(
-				(object) [
-					'status' => 200,
-					'html'   => 'this is the head',
-					'json'   => [ 'key' => 'value' ],
-				]
-			);
+			->andReturn( $this->get_head() );
 
 		if ( $method === 'for_post' ) {
 			$this->post_helper->expects( 'is_post_indexable' )->once()->with( $params['id'] )->andReturnTrue();
@@ -199,7 +196,9 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 			$this->post_type_helper->expects( 'has_archive' )->with( $input )->andReturnTrue();
 		}
 
-		$this->assertEquals( 'this is the head', $this->instance->{$method}( $params ) );
+		$output = $this->instance->{$method}( $params );
+
+		$this->assertEquals( 'this is the HTML head', $output );
 	}
 
 	/**
@@ -211,15 +210,11 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 		$this->head_action
 			->expects( 'for_posts_page' )
 			->once()
-			->andReturn(
-				(object) [
-					'status' => 200,
-					'html'   => 'this is the head',
-					'json'   => [ 'key' => 'value' ],
-				]
-			);
+			->andReturn( $this->get_head() );
 
-		$this->assertEquals( 'this is the head', $this->instance->for_post_type_archive( [ 'slug' => 'post' ] ) );
+		$output = $this->instance->for_post_type_archive( [ 'slug' => 'post' ] );
+
+		$this->assertEquals( 'this is the HTML head', $output );
 	}
 
 	/**
@@ -316,6 +311,22 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 				[ 'slug' => 'type' ],
 				'type',
 			],
+		];
+	}
+
+	/**
+	 * Stub the Meta result.
+	 *
+	 * @param string $html The HTML setup.
+	 * @param string $json The JSON setup.
+	 *
+	 * @return object The mocked result.
+	 */
+	protected function get_head( $html = 'this is the HTML head', $json = 'this is the JSON head' ) {
+		return (object) [
+			'html'   => $html,
+			'json'   => $json,
+			'status' => 200,
 		];
 	}
 }

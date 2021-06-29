@@ -223,13 +223,21 @@ class Meta {
 	}
 
 	/**
+	 * Returns all presenters.
+	 *
 	 * @return Abstract_Indexable_Presenter[]
 	 */
 	protected function get_presenters() {
 		$presenters = $this->front_end->get_presenters( $this->context->page_type );
 
 		if ( $this->context->page_type === 'Date_Archive' ) {
-			// Define a filter that removes objects of type Rel_Next_Presenter or Rel_Prev_Presenter from a list.
+			/**
+			 * Define a filter that removes objects of type Rel_Next_Presenter or Rel_Prev_Presenter from a list.
+			 *
+			 * @param $presenter The presenter to verify.
+			 *
+			 * @return bool True if the presenter is not a Rel_Next or Rel_Prev presenter.
+			 */
 			$callback   = static function ( $presenter ) {
 				return ! \is_a( $presenter, Rel_Next_Presenter::class )
 					&& ! \is_a( $presenter, Rel_Prev_Presenter::class );
@@ -243,11 +251,12 @@ class Meta {
 	/**
 	 * Uses the presenter to create a line of HTML.
 	 *
-	 * @param $presenter Abstract_Indexable_Presenter The presenter.
+	 * @param Abstract_Indexable_Presenter $presenter The presenter.
+	 *
 	 * @return string
 	 */
 	protected function create_html_presentation( $presenter ) {
-		 $presenter_output = $presenter->present();
+		$presenter_output = $presenter->present();
 		if ( ! empty( $presenter_output ) ) {
 			return $presenter_output . \PHP_EOL;
 		}
@@ -257,7 +266,8 @@ class Meta {
 	/**
 	 * Converts a presenter's key and value to JSON.
 	 *
-	 * @param $presenter Abstract_Indexable_Presenter presenter whose key and value are to be converted to JSON.
+	 * @param Abstract_Indexable_Presenter $presenter The presenter whose key and value are to be converted to JSON.
+	 *
 	 * @return object
 	 */
 	protected function create_json_field( $presenter ) {
