@@ -54,6 +54,8 @@ class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 		if ( \is_string( $value ) && $value !== '' ) {
 			return \sprintf( $this->tag_format, $this->escape( $value ) );
 		}
+
+		return '';
 	}
 
 	/**
