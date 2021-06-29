@@ -238,11 +238,6 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 16.7 =
 Release Date: July 13th, 2021
 
-Enhancements:
-
-* [@yoast/schema-blocks] Adds the `RecipeInstructions` instruction for adding instructions to a Yoast Recipe block.
-* Updates the Recipe ingredients block and the Recipe instructions block (non-user-facing).
-
 Bugfixes:
 
 * Fixes a bug where a database entry would be added in the indexables table every time a WooCommerce order was created. 
