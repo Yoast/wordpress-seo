@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
 ## 1.10.0
+### Enhancements:
+* Adds the `RecipeInstructions` instruction for adding instructions to a Yoast Recipe block.
+
 ### Bugfixes:
 * Fixes a bug where the Schema blocks were misaligned.
 
