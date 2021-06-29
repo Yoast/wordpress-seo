@@ -88,7 +88,7 @@ class WP_Robots_Integration implements Integration_Interface {
 
 		$robots_presenter               = new Robots_Presenter();
 		$robots_presenter->presentation = $context->presentation;
-		return $this->format_robots( $robots_presenter->get_raw() );
+		return $this->format_robots( $robots_presenter->get() );
 	}
 
 	/**

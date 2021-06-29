@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Presenters;
 /**
  * Presenter class for the robots output.
  */
-class Robots_Presenter extends Abstract_Indexable_Tag_Presenter {
+class Robots_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
 	 * The tag key name.
@@ -15,22 +15,26 @@ class Robots_Presenter extends Abstract_Indexable_Tag_Presenter {
 	protected $key = 'robots';
 
 	/**
-	 * Gets the value of the robot tags presentation.
+	 * Returns the robots output.
 	 *
-	 * @return string The comma separated list of robot tags.
+	 * @return string The robots output tag.
 	 */
-	public function get() {
-		$robots = $this->get_raw();
+	public function present() {
+		$robots = \implode( ', ', $this->get() );
 
-		return \implode( ', ', $robots );
+		if ( \is_string( $robots ) && $robots !== '' ) {
+			return \sprintf( '<meta name="robots" content="%s" />', \esc_attr( $robots ) );
+		}
+
+		return '';
 	}
 
 	/**
-	 * Gets the raw robot tags.
+	 * Gets the raw value of a presentation.
 	 *
-	 * @return array The array of robot tags.
+	 * @return array The raw value.
 	 */
-	public function get_raw() {
+	public function get() {
 		return $this->presentation->robots;
 	}
 }
