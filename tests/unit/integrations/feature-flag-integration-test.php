@@ -116,7 +116,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 		$schema_blocks_conditional = \Mockery::mock( Schema_Blocks_Conditional::class );
 
 		$schema_blocks_conditional
-			->expects( 'get_feature_flag' )
+			->expects( 'get_feature_name' )
 			->andReturn( 'SCHEMA_BLOCKS' );
 
 		$schema_blocks_conditional
@@ -151,7 +151,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_1
-			->expects( 'get_feature_flag' )
+			->expects( 'get_feature_name' )
 			->andReturn( 'FEATURE_1' );
 
 		$feature_flag_1
@@ -194,7 +194,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_1
-			->expects( 'get_feature_flag' )
+			->expects( 'get_feature_name' )
 			->andReturn( 'FEATURE_1' );
 
 		$feature_flag_1
@@ -238,7 +238,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_1
-			->expects( 'get_feature_flag' )
+			->expects( 'get_feature_name' )
 			->andReturn( 'FEATURE_1' );
 
 		$feature_flag_1
@@ -283,7 +283,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_1
-			->expects( 'get_feature_flag' )
+			->expects( 'get_feature_name' )
 			->andReturn( 'FEATURE_1' );
 
 		$feature_flag_1

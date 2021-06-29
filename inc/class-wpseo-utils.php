@@ -829,24 +829,7 @@ class WPSEO_Utils {
 	 * @return bool Whether or not the plugin is network-active.
 	 */
 	public static function is_plugin_network_active() {
-		static $network_active = null;
-
-		if ( ! is_multisite() ) {
-			return false;
-		}
-
-		// If a cached result is available, bail early.
-		if ( $network_active !== null ) {
-			return $network_active;
-		}
-
-		$network_active_plugins = wp_get_active_network_plugins();
-
-		// Consider MU plugins and network-activated plugins as network-active.
-		$network_active = strpos( wp_normalize_path( WPSEO_FILE ), wp_normalize_path( WPMU_PLUGIN_DIR ) ) === 0
-			|| in_array( WP_PLUGIN_DIR . '/' . WPSEO_BASENAME, $network_active_plugins, true );
-
-		return $network_active;
+		return YoastSEO()->helpers->url->is_plugin_network_active();
 	}
 
 	/**
@@ -953,18 +936,7 @@ class WPSEO_Utils {
 	 * @return string The home url.
 	 */
 	public static function get_home_url() {
-
-		/**
-		 * Action: 'wpseo_home_url' - Allows overriding of the home URL.
-		 */
-		do_action( 'wpseo_home_url' );
-
-		// If the plugin is network-activated, use the network home URL.
-		if ( self::is_plugin_network_active() ) {
-			return network_home_url();
-		}
-
-		return home_url();
+		return YoastSEO()->helpers->url->network_safe_home_url();
 	}
 
 	/**
