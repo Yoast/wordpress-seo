@@ -3,7 +3,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { TextControl } from "@wordpress/components";
 import moment from "moment";
 
-import { ReactElement, createElement, useCallback, useEffect } from "react";
+import { ReactElement, createElement, useCallback } from "react";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 
