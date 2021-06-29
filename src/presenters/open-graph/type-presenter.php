@@ -11,11 +11,18 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 class Type_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'og:type';
+
+	/**
 	 * The tag format including placeholders.
 	 *
 	 * @var string
 	 */
-	protected $tag_format = '<meta property="og:type" content="%s" />';
+	protected $tag_format = self::META_PROPERTY_CONTENT;
 
 	/**
 	 * Run the opengraph type content through the `wpseo_opengraph_type` filter.
