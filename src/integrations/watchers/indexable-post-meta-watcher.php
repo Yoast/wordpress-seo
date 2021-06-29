@@ -102,6 +102,12 @@ class Indexable_Post_Meta_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function update_indexables() {
+		$error = \error_get_last();
+
+		if ( $error ) {
+			return;
+		}
+
 		foreach ( $this->post_ids_to_update as $post_id ) {
 			$this->post_watcher->build_indexable( $post_id );
 		}
