@@ -6,6 +6,8 @@
  * @since   1.8.0
  */
 
+use Yoast\WP\SEO\Integrations\Feature_Flag_Integration;
+
 /**
  * Group of utility methods for use by WPSEO.
  * All methods are static, this is just a sort of namespacing class wrapper.
@@ -47,7 +49,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Check if the web server is running on Apache.
+	 * Check if the web server is running on Apache or compatible (LiteSpeed).
 	 *
 	 * @since 1.8.0
 	 *
@@ -60,7 +62,7 @@ class WPSEO_Utils {
 
 		$software = sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) );
 
-		return stripos( $software, 'apache' ) !== false;
+		return stripos( $software, 'apache' ) !== false || stripos( $software, 'litespeed' ) !== false;
 	}
 
 	/**
@@ -1148,14 +1150,13 @@ class WPSEO_Utils {
 	 * @return string[] The array of enabled features.
 	 */
 	public static function retrieve_enabled_features() {
-		$enabled_features = [];
-		if ( defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
-			$enabled_features = preg_split( '/,\W*/', YOAST_SEO_ENABLED_FEATURES );
-		}
-		// Make the array of enabled features filterable, so features can be enabled at will.
-		$enabled_features = apply_filters( 'wpseo_enable_feature', $enabled_features );
-
-		return $enabled_features;
+		/**
+		 * The feature flag integration.
+		 *
+		 * @var Feature_Flag_Integration $feature_flag_integration;
+		 */
+		$feature_flag_integration = YoastSEO()->classes->get( Feature_Flag_Integration::class );
+		return $feature_flag_integration->get_enabled_features();
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */

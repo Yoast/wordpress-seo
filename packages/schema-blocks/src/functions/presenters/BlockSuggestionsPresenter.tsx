@@ -7,7 +7,6 @@ import { createElement } from "@wordpress/element";
 import { insertBlock } from "../innerBlocksHelper";
 import { isEmptyResult, isMissingResult, isValidResult } from "../validators/validateResults";
 import { BlockValidationResult } from "../../core/validation";
-import logger from "../logger";
 
 type BlockSuggestionAddedProps = {
 	blockTitle: string;
@@ -119,8 +118,6 @@ export function PureBlockSuggestionsPresenter( { heading, suggestions, blockName
 								suggestedBlockName={ suggestion.name }
 							/>;
 						}
-
-						logger.debug( "No use case for block ", blockName );
 					}, this )
 				}
 			</ul>

@@ -9,6 +9,7 @@ import storeBlockValidation from "./storeBlockValidation";
 import logger from "../logger";
 import { isResultValidForSchema } from "../validators/validateResults";
 import { missingBlocks } from "../validators/missingBlocks";
+import Schema from "../../instructions/schema/Schema";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -87,6 +88,7 @@ function generateSchemaForBlocks(
 		}
 
 		const definition = schemaDefinitions[ block.name ];
+
 		if ( shouldRenderSchema( definition, parentHasSchema ) ) {
 			renderSchema( block, definition );
 			if ( Array.isArray( block.innerBlocks ) ) {
@@ -101,12 +103,12 @@ function generateSchemaForBlocks(
 }
 
 /**
-* Validates blocks recursively.
-*
-* @param blocks The block instances to validate.
-*
-* @returns Validation results for each (inner)block of the given blocks.
-*/
+ * Validates blocks recursively.
+ *
+ * @param blocks The block instances to validate.
+ *
+ * @returns Validation results for each (inner)block of the given blocks.
+ */
 export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult[] {
 	const validations: BlockValidationResult[] = [];
 	blocks.forEach( block => {
@@ -128,6 +130,28 @@ export function validateBlocks( blocks: BlockInstance[] ): BlockValidationResult
 }
 
 /**
+ * Determines the Schema root to use when building up the Schema
+ * for this page.
+ *
+ * @param rootBlocks The blocks at the root of the post.
+ */
+function determineSchemaRoot( rootBlocks: BlockInstance[] ) {
+	for ( const block of rootBlocks ) {
+		const definition = schemaDefinitions[ block.name ];
+
+		if ( definition ) {
+			const instructions = Object.values( definition.instructions );
+			const schemaInstruction: Schema = instructions.find( instruction => instruction instanceof Schema );
+
+			const { requiredFor, recommendedFor, name } = schemaInstruction.options;
+
+			logger.debug( `${ name } is required for ${ requiredFor }` );
+			logger.debug( `${ name } is recommended for ${ recommendedFor }` );
+		}
+	}
+}
+
+/**
  * Watches Gutenberg for relevant changes.
  */
 export default function watch(): void {
@@ -142,6 +166,8 @@ export default function watch(): void {
 			if ( rootBlocks === previousRootBlocks ) {
 				return;
 			}
+
+			determineSchemaRoot( rootBlocks );
 
 			updatingSchema = true;
 			{

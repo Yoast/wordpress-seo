@@ -42,17 +42,6 @@ export default function isPassiveSentence( sentence ) {
 	const passiveVerbs1 = passiveVerbs.odikVerbStems1;
 	const passiveVerbs2 = passiveVerbs.odikVerbStems2;
 
-	for ( const word of words ) {
-		const checkPassiveVerb1 = checkHungarianPassive( word, passiveVerbs1, verbPrefixes, odikSuffixes1 );
-		if ( checkPassiveVerb1 ) {
-			return true;
-		}
-
-		const  checkPassiveVerbs2 = checkHungarianPassive( word, passiveVerbs2, verbPrefixes, odikSuffixes2 );
-		if ( checkPassiveVerbs2 ) {
-			return true;
-		}
-	}
-
-	return false;
+	return words.some( word => checkHungarianPassive( word, passiveVerbs1, verbPrefixes, odikSuffixes1 ) ||
+		checkHungarianPassive( word, passiveVerbs2, verbPrefixes, odikSuffixes2 ) );
 }

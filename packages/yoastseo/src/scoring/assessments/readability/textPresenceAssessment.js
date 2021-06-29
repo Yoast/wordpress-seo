@@ -1,4 +1,5 @@
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import excludeTableOfContentsTag from "../../../languageProcessing/helpers/sanitize/excludeTableOfContentsTag";
 import { stripFullTags as stripHTMLTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 
@@ -12,7 +13,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
  * @returns {AssessmentResult} The result of this assessment.
  */
 function textPresenceAssessment( paper, researcher, i18n ) {
-	const text = stripHTMLTags( paper.getText() );
+	const text = stripHTMLTags( excludeTableOfContentsTag( paper.getText() ) );
 	const urlTitle = createAnchorOpeningTag( "https://yoa.st/35h" );
 	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/35i" );
 

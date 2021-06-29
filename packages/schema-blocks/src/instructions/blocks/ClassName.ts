@@ -26,12 +26,10 @@ export default class ClassName extends BlockInstruction {
 	 * @returns The current set classname with the "yoast-inner-container"
 	 */
 	save( props: RenderSaveProps ): string {
-		let className = "yoast-inner-container";
 		if ( props.attributes.className ) {
-			className = `${ props.attributes.className } ${ className }`;
+			return props.attributes.className as string;
 		}
-
-		return className;
+		return "";
 	}
 }
 

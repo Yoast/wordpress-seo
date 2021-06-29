@@ -1,6 +1,7 @@
 /** @module stringProcessing/countWords */
 
 import { stripFullTags as stripTags } from "../sanitize/stripHTMLTags.js";
+import excludeTableOfContentsTag from "../sanitize/excludeTableOfContentsTag.js";
 
 import stripSpaces from "../sanitize/stripSpaces.js";
 import removePunctuation from "../sanitize/removePunctuation.js";
@@ -14,6 +15,7 @@ import { map, filter } from "lodash-es";
  * @returns {Array} The array with all words.
  */
 export default function( text ) {
+	text = excludeTableOfContentsTag( text );
 	text = stripSpaces( stripTags( text ) );
 	if ( text === "" ) {
 		return [];

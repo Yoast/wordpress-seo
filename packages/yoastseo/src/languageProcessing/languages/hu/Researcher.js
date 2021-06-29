@@ -10,8 +10,7 @@ import stopWords from "./config/stopWords";
 
 // All helpers
 import getStemmer from "./helpers/getStemmer";
-import getSentenceParts from "./helpers/getSentenceParts";
-import isPassiveSentencePart from "./helpers/isPassiveSentencePart";
+import getClauses from "./helpers/getClauses";
 import isPassiveSentence from "./helpers/isPassiveSentence";
 
 /**
@@ -42,8 +41,7 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.helpers, {
 			getStemmer,
-			getSentenceParts,
-			isPassiveSentencePart,
+			getClauses,
 			isPassiveSentence,
 		} );
 	}
