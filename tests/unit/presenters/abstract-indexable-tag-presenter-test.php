@@ -24,7 +24,7 @@ class Abstract_Indexable_Tag_Presenter_Test extends TestCase {
 		$instance = new Concrete_Cached_Presenter();
 
 		$this->expectException( 'InvalidArgumentException' );
-		$this->expectExceptionMessage( 'Concrete_Indexable_Presenter is an Abstract_Indexable_Tag_Presenter but does not override the key property.' );
+		$this->expectExceptionMessage( 'Yoast\WP\SEO\Tests\Unit\Presenters\Concrete_Cached_Presenter is an Abstract_Indexable_Tag_Presenter but does not override the key property.' );
 
 		$instance->present();
 	}

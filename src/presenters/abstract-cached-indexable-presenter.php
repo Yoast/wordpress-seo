@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Presenters;
 
 /**
  * Decorator presenter class for indexable presentations, preventing multiple gets on the same object
+ *
  * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */

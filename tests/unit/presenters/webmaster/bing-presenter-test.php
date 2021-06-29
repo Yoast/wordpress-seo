@@ -68,7 +68,12 @@ class Bing_Presenter_Test extends TestCase {
 			'<meta name="msvalidate.01" content="bing-ver" />',
 			$this->instance->present()
 		);
+	}
 
+	/**
+	 * Tests empty presentation.
+	 */
+	public function test_empty_present() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( '' );
 
 		$this->assertSame(

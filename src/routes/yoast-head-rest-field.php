@@ -200,7 +200,7 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	}
 
 	/**
-	 * Outputs the header fields in the requested format. 
+	 * Outputs the header fields in the requested format.
 	 *
 	 * @param object $head_data The object with head tag data in multiple formats.
 	 * @param string $format    The desired format.
