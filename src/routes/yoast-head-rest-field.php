@@ -187,8 +187,10 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	}
 
 	/**
-	 * @param $object_type The object to process in the hook.
-	 * @param $callback    The method to run when the hook is triggered.
+	 * Registers an HTML and a JSON presentation callback for a given object type.
+	 *
+	 * @param object $object_type The object to process in the hook.
+	 * @param string $callback    The method to run when the hook is triggered.
 	 */
 	protected function register_rest_fields( $object_type, $callback ) {
 		// output metadata in page head meta tags.
@@ -198,8 +200,10 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	}
 
 	/**
-	 * @param $head_data     The object with head tag data in multiple formats.
-	 * @param string $format The desired format.
+	 * Outputs the header fields in the requested format. 
+	 *
+	 * @param object $head_data The object with head tag data in multiple formats.
+	 * @param string $format    The desired format.
 	 *
 	 * @return null|string The
 	 */

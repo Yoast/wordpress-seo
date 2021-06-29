@@ -11,7 +11,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Tests WPSEO_Admin_Asset.
  *
  * @coversDefaultClass WPSEO_Admin_Asset_Analysis_Worker_Location
- * @phpcs:ignore Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ *
+ * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 

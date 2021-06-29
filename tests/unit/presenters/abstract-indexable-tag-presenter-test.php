@@ -8,7 +8,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Abstract_Indexable_Presenter_Test.
  *
- *
  * @group presenters
  *
  * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
@@ -18,6 +17,7 @@ class Abstract_Indexable_Tag_Presenter_Test extends TestCase {
 
 	/**
 	 * Verifies that an exception is thrown, if a subclass does not specify the 'key' property.
+	 *
 	 * @covers \Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter
 	 */
 	public function test_key_not_defined() {
@@ -32,6 +32,7 @@ class Abstract_Indexable_Tag_Presenter_Test extends TestCase {
 
 /**
  * Class Concrete_Indexable_Presenter.
+ *
  * @phpcs:disable Generic.Files.OneObjectStructurePerFile.MultipleFound Needed because abstract classes cannot be instantiated.
  */
 class Concrete_Indexable_Presenter extends Abstract_Indexable_Tag_Presenter {

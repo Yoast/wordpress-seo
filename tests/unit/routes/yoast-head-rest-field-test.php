@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Yoast_Head_REST_Field_Test class.
  *
- * @coversDefaultClass Yoast\WP\SEO\Routes\Yoast_Head_REST_Field
+ * @coversDefaultClass \Yoast\WP\SEO\Routes\Yoast_Head_REST_Field
  *
  * @group routes
  * @group indexables

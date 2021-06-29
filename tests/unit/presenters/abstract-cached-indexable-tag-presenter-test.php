@@ -17,6 +17,7 @@ class Abstract_Cached_Indexable_Tag_Presenter_Test extends TestCase {
 
 	/**
 	 * Test that the value is refreshed only once and subsequent gets return a cached value.
+	 *
 	 * @covers \Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter
 	 */
 	public function test_get_should_run_once() {

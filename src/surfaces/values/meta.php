@@ -251,7 +251,7 @@ class Meta {
 	/**
 	 * Uses the presenter to create a line of HTML.
 	 *
-	 * @param $presenter Abstract_Indexable_Presenter The presenter.
+	 * @param Abstract_Indexable_Presenter $presenter The presenter.
 	 *
 	 * @return string
 	 */
@@ -266,7 +266,7 @@ class Meta {
 	/**
 	 * Converts a presenter's key and value to JSON.
 	 *
-	 * @param $presenter Abstract_Indexable_Presenter presenter whose key and value are to be converted to JSON.
+	 * @param Abstract_Indexable_Presenter $presenter The presenter whose key and value are to be converted to JSON.
 	 *
 	 * @return object
 	 */
