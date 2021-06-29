@@ -71,4 +71,13 @@ class Concrete_Indexable_Presenter extends Abstract_Indexable_Presenter {
 	public function get() {
 		return 'concrete';
 	}
+
+	/**
+	 * Present the presentation.
+	 *
+	 * @return string
+	 */
+	public function present() {
+		return "present";
+	}
 }
