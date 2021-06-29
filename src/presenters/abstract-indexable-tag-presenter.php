@@ -15,13 +15,6 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 	const DEFAULT_TAG_FORMAT    = self::META_NAME_CONTENT;
 
 	/**
-	 * The tag key name.
-	 *
-	 * @var string
-	 */
-	protected $key = 'NO KEY PROVIDED';
-
-	/**
 	 * The tag format including placeholders.
 	 *
 	 * @var string
@@ -73,17 +66,5 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 			default:
 				return \esc_attr( $value );
 		}
-	}
-
-	/**
-	 * Transforms an indexable presenter's key to a json safe key string.
-	 *
-	 * @return string
-	 */
-	public function escape_key() {
-		if ( $this->key === 'NO KEY PROVIDED' ) {
-			return null;
-		}
-		return \str_replace( [ ':', ' ', '-' ], '_', $this->key );
 	}
 }

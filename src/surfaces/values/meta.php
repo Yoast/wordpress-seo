@@ -7,7 +7,6 @@ use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Prev_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
@@ -271,11 +270,6 @@ class Meta {
 	 * @return object
 	 */
 	protected function create_json_field( $presenter ) {
-		// Only Tag Presenters can be processed this way.
-		if ( ! \is_subclass_of( $presenter, Abstract_Indexable_Tag_Presenter::class ) ) {
-			return null;
-		}
-
 		$value = $presenter->get();
 		if ( empty( $value ) ) {
 			return null;
