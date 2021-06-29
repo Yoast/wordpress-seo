@@ -3,7 +3,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { TextControl } from "@wordpress/components";
 import moment from "moment";
 
-import { ReactElement, createElement, useCallback } from "react";
+import { ReactElement, createElement, useCallback, useEffect } from "react";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
 
@@ -50,7 +50,7 @@ export default class Duration extends BlockInstruction {
 				props.setAttributes( {
 					// Prevent leading zero's in the input-field (e.g. "01").
 					value: Number( value ).toString(),
-					[ `${ this.options.name }-iso8601-duration` ]: moment.duration( value, "minutes" ).toISOString(),
+					[ `${ this.options.name }-iso8601-duration` ]: this.convertToISOString( value ),
 				} );
 			},
 			[ props.attributes.value ],
@@ -78,17 +78,31 @@ export default class Duration extends BlockInstruction {
 	 * @returns The block configuration.
 	 */
 	configuration(): Partial<BlockConfiguration> {
+		const defaultDurationMinutes = 0;
+
 		return {
 			attributes: {
 				value: {
 					type: "string",
-					"default": "0",
+					"default": Number( defaultDurationMinutes ).toString(),
 				},
 				[ `${ this.options.name }-iso8601-duration` ]: {
 					type: "string",
+					"default": this.convertToISOString( defaultDurationMinutes ),
 				},
 			},
 		};
+	}
+
+	/**
+	 * Converts a number of minutes to a ISO8601 duration value.
+	 *
+	 * @param value Number of minutes to be converted to a ISO8601 duration value.
+	 *
+	 * @returns The ISO8601 duration value.
+	 */
+	convertToISOString( value: number ): string {
+		return moment.duration( value, "minutes" ).toISOString();
 	}
 }
 
