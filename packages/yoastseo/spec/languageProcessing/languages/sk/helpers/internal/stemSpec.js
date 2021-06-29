@@ -81,10 +81,6 @@ const wordsToStem = [
 	[ "zločin", "zlo" ],
 	// Input a word ending in case suffix -ejš.
 	[ "mokrejš", "mokr" ],
-	// Input a word ending in case suffix -ějš.
-	[ "", "" ],
-	// Input a word ending in diminutive suffix -oušok.
-	[ "", "" ],
 	// Input a word ending in diminutive suffix -ečok.
 	[ "zrniečok", "zrni" ],
 	// Input a word ending in diminutive suffix -éčok.
@@ -141,8 +137,6 @@ const wordsToStem = [
 	// [ "podmienk", "podmi" ],
 	// Input a word ending in derivational suffix -ián.
 	[ "bazilián", "bazil" ],
-	// Input a word ending in derivational suffix -och.
-	[ "", "" ],
 	// Input a word ending in derivational suffix -ost.
 	[ "zodpovednost", "zodpovedn" ],
 	// Input a word ending in derivational suffix -áč.
