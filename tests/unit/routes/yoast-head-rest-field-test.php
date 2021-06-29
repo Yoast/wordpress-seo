@@ -186,7 +186,8 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 			->andReturn(
 				(object) [
 					'status' => 200,
-					'head'   => 'this is the head',
+					'html'   => 'this is the head',
+					'json'   => [ 'key' => 'value' ],
 				]
 			);
 
@@ -213,7 +214,8 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 			->andReturn(
 				(object) [
 					'status' => 200,
-					'head'   => 'this is the head',
+					'html'   => 'this is the head',
+					'json'   => [ 'key' => 'value' ],
 				]
 			);
 

@@ -212,9 +212,14 @@ class Yoast_Head_REST_Field implements Route_Interface {
 		if ( $head->status === 404 ) {
 			return null;
 		}
-		if ( $format === self::YOAST_JSON_HEAD_ATTRIBUTE_NAME ) {
-			return $head->head_json;
+
+		switch ( $format ) {
+			case self::YOAST_HEAD_ATTRIBUTE_NAME:
+				return $head->html;
+			case self::YOAST_JSON_HEAD_ATTRIBUTE_NAME:
+				return $head->json;
 		}
-		return $head->head_html;
+
+		return null;
 	}
 }

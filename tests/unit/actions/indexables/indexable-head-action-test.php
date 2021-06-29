@@ -71,7 +71,12 @@ class Indexable_Head_Action_Test extends TestCase {
 		$meta = Mockery::mock();
 		$meta
 			->expects( 'get_head' )
-			->andReturn( 'this is the head' );
+			->andReturn(
+				(object) [
+					'html' => 'this is the head',
+					'json' => [ 'key' => 'value' ],
+				]
+			);
 
 		$this->meta_surface
 			->expects( $method )
@@ -80,7 +85,8 @@ class Indexable_Head_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'head'   => 'this is the head',
+				'html'   => 'this is the head',
+				'json'   => [ 'key' => 'value' ],
 				'status' => 200,
 			],
 			$this->instance->{$method}( $input )
@@ -96,7 +102,12 @@ class Indexable_Head_Action_Test extends TestCase {
 		$meta = Mockery::mock();
 		$meta
 			->expects( 'get_head' )
-			->andReturn( 'this is the head' );
+			->andReturn(
+				(object) [
+					'html' => 'this is the head',
+					'json' => [ 'key' => 'value' ],
+				]
+			);
 
 		$this->meta_surface
 			->expects( 'for_posts_page' )
@@ -104,7 +115,8 @@ class Indexable_Head_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'head'   => 'this is the head',
+				'html'   => 'this is the head',
+				'json'   => [ 'key' => 'value' ],
 				'status' => 200,
 			],
 			$this->instance->for_posts_page()
@@ -130,7 +142,12 @@ class Indexable_Head_Action_Test extends TestCase {
 		$meta = Mockery::mock();
 		$meta
 			->expects( 'get_head' )
-			->andReturn( 'this is the 404 head' );
+			->andReturn(
+				(object) [
+					'html' => 'this is the 404 head',
+					'json' => [ 'key' => 'value' ],
+				]
+			);
 
 		$this->meta_surface
 			->expects( $method )
@@ -143,7 +160,8 @@ class Indexable_Head_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'head'   => 'this is the 404 head',
+				'html'   => 'this is the 404 head',
+				'json'   => [ 'key' => 'value' ],
 				'status' => 404,
 			],
 			$this->instance->{$method}( $input )
@@ -159,7 +177,12 @@ class Indexable_Head_Action_Test extends TestCase {
 		$meta = Mockery::mock();
 		$meta
 			->expects( 'get_head' )
-			->andReturn( 'this is the 404 head' );
+			->andReturn(
+				(object) [
+					'html' => 'this is the 404 head',
+					'json' => [ 'key' => 'value' ],
+				]
+			);
 
 		$this->meta_surface
 			->expects( 'for_posts_page' )
@@ -171,7 +194,8 @@ class Indexable_Head_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'head'   => 'this is the 404 head',
+				'html'   => 'this is the 404 head',
+				'json'   => [ 'key' => 'value' ],
 				'status' => 404,
 			],
 			$this->instance->for_posts_page()

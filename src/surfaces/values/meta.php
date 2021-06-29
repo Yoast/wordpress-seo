@@ -143,8 +143,8 @@ class Meta {
 		$html_output = \trim( $html_output );
 
 		return (object) [
-			'head_html' => $html_output,
-			'head_json' => $json_head_fields,
+			'html' => $html_output,
+			'json' => $json_head_fields,
 		];
 	}
 

@@ -18,7 +18,7 @@ class Abstract_Indexable_Tag_Presenter_Test extends TestCase {
 	 * @covers \Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter
 	 */
 	public function test_key_not_defined() {
-		$instance = new Concrete_Cached_Presenter();
+		$instance = new Concrete_Indexable_Presenter();
 
 		$this->expectException( 'InvalidArgumentException' );
 		$this->expectExceptionMessage( 'Concrete_Indexable_Presenter is an Abstract_Indexable_Tag_Presenter but does not provide a KEY constant.' );
