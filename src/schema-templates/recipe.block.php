@@ -13,15 +13,15 @@ $yoast_seo_block_template = [
 	[ 'yoast/cooking-time' ],
 	[ 'core/image' ],
 	[ 'yoast/recipe-description' ],
-	[ 'yoast/ingredients' ],
-	[ 'yoast/steps' ],
+	[ 'yoast/recipe-ingredients' ],
+	[ 'yoast/recipe-instructions' ],
 ];
 
 $yoast_seo_required_blocks = [
 	[ 'name' => 'yoast/recipe-name' ],
 	[ 'name' => 'core/image' ],
-	[ 'name' => 'yoast/ingredients' ],
-	[ 'name' => 'yoast/steps' ],
+	[ 'name' => 'yoast/recipe-ingredients' ],
+	[ 'name' => 'yoast/recipe-instructions' ],
 ];
 
 $yoast_seo_recommended_blocks = [

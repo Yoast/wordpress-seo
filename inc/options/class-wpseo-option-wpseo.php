@@ -78,6 +78,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'zapier_api_key'                           => '',
 		'enable_metabox_insights'                  => true,
 		'enable_link_suggestions'                  => true,
+		'algolia_integration_active'               => false,
 	];
 
 	/**
