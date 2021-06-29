@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 /**
  * Presenter class for the rel next meta tag.
  */
-class Rel_Next_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
+class Rel_Next_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
 	 * The tag key name.
@@ -55,7 +55,7 @@ class Rel_Next_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 	 *
 	 * @return string The filtered adjacent link.
 	 */
-	public function refresh() {
+	public function get() {
 		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
 			return '';
 		}

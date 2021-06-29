@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 /**
  * Presenter class for the document title.
  */
-class Title_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
+class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
 	 * The tag key name.
@@ -35,7 +35,7 @@ class Title_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 	 *
 	 * @return string The raw value.
 	 */
-	public function refresh() {
+	public function get() {
 		// This ensures backwards compatibility with other plugins using this filter as well.
 		\add_filter( 'pre_get_document_title', [ $this, 'get_title' ], 15 );
 		$title = \wp_get_document_title();

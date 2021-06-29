@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Presenters\Twitter;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Presenter class for the Twitter image.
  */
-class Image_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
+class Image_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
 	 * The tag key name.
@@ -29,7 +29,7 @@ class Image_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 	 *
 	 * @return string The filtered Twitter image.
 	 */
-	public function refresh() {
+	public function get() {
 		/**
 		 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image.
 		 *

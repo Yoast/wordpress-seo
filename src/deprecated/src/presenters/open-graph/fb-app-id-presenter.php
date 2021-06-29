@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
-use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 // Mark this file as deprecated.
 \_deprecated_file( __FILE__, 'WPSEO 15.5' );
@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
  * @deprecated 15.5
  * @codeCoverageIgnore
  */
-class FB_App_ID_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
+class FB_App_ID_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
 	 * The tag key name.
@@ -34,7 +34,7 @@ class FB_App_ID_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 	 *
 	 * @return string The raw value.
 	 */
-	public function refresh() {
+	public function get() {
 		return $this->presentation->open_graph_fb_app_id;
 	}
 }

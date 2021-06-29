@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Presenters;
 /**
  * Presenter class for the robots output.
  */
-class Robots_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
+class Robots_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
 	 * The tag key name.
@@ -19,7 +19,7 @@ class Robots_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 	 *
 	 * @return string The comma separated list of robot tags.
 	 */
-	public function refresh() {
+	public function get() {
 		$robots = $this->get_raw();
 
 		return \implode( ', ', $robots );

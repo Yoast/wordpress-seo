@@ -1,4 +1,4 @@
-<?php
+<?php // @phpcs:ignore Yoast.Files.FileName.InvalidClassFileName -- reason: this explicitly concerns the Yoast head fields.
 
 namespace Yoast\WP\SEO\Routes;
 
@@ -14,7 +14,6 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
  * Registers the yoast head REST field.
  * Not technically a route but behaves the same so is included here.
  *
- * @phpcs:ignore Yoast.Files.FileName.InvalidClassFileName -- reason: this explicitly concerns the Yoast head fields.
  * @phpcs:ignore Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Yoast_Head_REST_Field implements Route_Interface {
@@ -186,26 +185,36 @@ class Yoast_Head_REST_Field implements Route_Interface {
 		return $this->render_object( $obj, $format );
 	}
 
+	/**
+	 * Registers the Yoast rest fields.
+	 *
+	 * @param string $object_type The object type.
+	 * @param string $callback    The function name of the callback.
+	 *
+	 * @return void
+	 */
 	protected function register_rest_fields( $object_type, $callback ) {
-		// output metadata in page head meta tags
+		// Output metadata in page head meta tags.
 		\register_rest_field( $object_type, self::YOAST_HEAD_ATTRIBUTE_NAME, [ 'get_callback' => [ $this, $callback ] ] );
-		// output metadata in a json object in a head meta tag
+		// Output metadata in a json object in a head meta tag.
 		\register_rest_field( $object_type, self::YOAST_JSON_HEAD_ATTRIBUTE_NAME, [ 'get_callback' => [ $this, $callback ] ] );
 	}
 
-	protected function render_object( $obj, $format = self::YOAST_HEAD_ATTRIBUTE_NAME ) {
-		if ( $obj->status === 404 ) {
+	/**
+	 * Returns the correct property for the Yoast head.
+	 *
+	 * @param stdObject $head   The Yoast head.
+	 * @param string    $format The format to return.
+	 *
+	 * @return string|array The output value. String if HTML was requested, array otherwise.
+	 */
+	protected function render_object( $head, $format = self::YOAST_HEAD_ATTRIBUTE_NAME ) {
+		if ( $head->status === 404 ) {
 			return null;
 		}
-
-		// Choose the correct output format based on the head attribute we are rendering.
-		switch ( $format ) {
-			case self::YOAST_JSON_HEAD_ATTRIBUTE_NAME:
-				return $obj->head_json;
-
-			case self::YOAST_HEAD_ATTRIBUTE_NAME:
-			default:
-				return $obj->head_html;
+		if ( $format === self::YOAST_JSON_HEAD_ATTRIBUTE_NAME ) {
+			return $head->head_json;
 		}
+		return $head->head_html;
 	}
 }

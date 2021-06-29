@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Presenters;
 /**
  * Presenter class for the rel prev meta tag.
  */
-class Rel_Prev_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
+class Rel_Prev_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
 	 * The tag key name.
@@ -55,7 +55,7 @@ class Rel_Prev_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 	 *
 	 * @return string The filtered adjacent link.
 	 */
-	public function refresh() {
+	public function get() {
 		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
 			return '';
 		}

@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Presenters\Twitter;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Cached_Indexable_Tag_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Presenter class for the Twitter title.
  */
-class Title_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
+class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
 	 * The tag key name.
@@ -22,7 +22,7 @@ class Title_Presenter extends Abstract_Cached_Indexable_Tag_Presenter {
 	 *
 	 * @return string The filtered Twitter title.
 	 */
-	public function refresh() {
+	public function get() {
 		/**
 		 * Filter: 'wpseo_twitter_title' - Allow changing the Twitter title.
 		 *
