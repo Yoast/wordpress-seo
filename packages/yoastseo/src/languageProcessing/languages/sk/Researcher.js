@@ -3,6 +3,7 @@ const { AbstractResearcher } = languageProcessing;
 
 // All config
 import stopWords from "./config/stopWords";
+import functionWords from "./config/functionWords";
 import { allWords as transitionWords } from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
@@ -26,15 +27,12 @@ export default class Researcher extends AbstractResearcher {
 		// When the research is available, this line should be removed.
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getSentenceBeginnings;
-		delete this.defaultResearches.functionWordsInKeyphrase;
 
 		Object.assign( this.config, {
 			language: "sk",
 			passiveConstructionType: "periphrastic",
 			stopWords,
-			// The function words is set to an empty array for now. Once the function words are implemented,
-			// This should be set to the actual array of the function words.
-			functionWords: [],
+			functionWords,
 			transitionWords,
 			twoPartTransitionWords,
 		} );

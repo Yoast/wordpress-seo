@@ -1,6 +1,7 @@
 import Researcher from "../../../../src/languageProcessing/languages/sk/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
 import stopWords from "../../../../src/languageProcessing/languages/sk/config/stopWords";
+import functionWords from "../../../../src/languageProcessing/languages/sk/config/functionWords";
 import { allWords as transitionWords } from "../../../../src/languageProcessing/languages/sk/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/sk/config/twoPartTransitionWords";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
@@ -17,6 +18,10 @@ describe( "a test for the Slovak Researcher", function() {
 
 	it( "returns the Slovak locale", function() {
 		expect( researcher.getConfig( "language" ) ).toEqual( "sk" );
+	} );
+
+	it( "returns the Slovak function words", function() {
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
 	} );
 
 	it( "returns Slovak stopwords", function() {
