@@ -125,7 +125,7 @@ const Content = ( props ) => {
 	return (
 		<Fragment>
 			{ schemaBlocksEnabled ? <SchemaBlocksHeader { ...props } /> : <Header { ...props } /> }
-			{ schemaBlocksEnabled && <Slot name="YoastSchemaBlocksAnalysis" /> }
+			{ schemaBlocksEnabled && <Slot name={ join( [ "yoast-schema-blocks-analysis", props.location ] ) } /> }
 			<FieldGroup
 				label={ __( "What type of page or content is this?", "wordpress-seo" ) }
 				linkTo={ props.additionalHelpTextLink }
