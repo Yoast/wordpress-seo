@@ -59,6 +59,15 @@ abstract class Abstract_Indexable_Presenter extends Abstract_Presenter {
 	}
 
 	/**
+	 * Returns the metafield's property key.
+	 *
+	 * @return string The property key.
+	 */
+	public function get_key() {
+		return $this->key;
+	}
+
+	/**
 	 * Replace replacement variables in a string.
 	 *
 	 * @param string $string The string.
