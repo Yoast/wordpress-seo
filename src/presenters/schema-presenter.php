@@ -10,6 +10,13 @@ use WPSEO_Utils;
 class Schema_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'schema';
+
+	/**
 	 * Returns the schema output.
 	 *
 	 * @return string The schema tag.
