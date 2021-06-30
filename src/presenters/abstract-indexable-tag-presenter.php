@@ -36,11 +36,14 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 	 * @throws \InvalidArgumentException When a subclass does not define a key property. This should appear during development.
 	 */
 	public function present() {
-		if ( $this->key === 'NO KEY PROVIDED' ) {
-			throw new \InvalidArgumentException( \get_class( $this ) . ' is an Abstract_Indexable_Presenter but does not override the key property.' );
-		}
-
 		$value = $this->get();
+
+		if ( $this->key === 'NO KEY PROVIDED' ) {
+			/**
+			 * Required for backwards compatability with add-ons in which we override this class and define the key in the tag_format.
+			 */
+			return \sprintf( $this->tag_format, $this->escape_value( $value ) );
+		}
 
 		if ( \is_string( $value ) && $value !== '' ) {
 			return \sprintf( $this->tag_format, $this->escape_value( $value ), $this->key );
