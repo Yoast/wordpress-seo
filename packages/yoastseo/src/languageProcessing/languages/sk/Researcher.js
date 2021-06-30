@@ -4,6 +4,7 @@ const { AbstractResearcher } = languageProcessing;
 // All config
 
 // All helpers
+import getStemmer from "./helpers/getStemmer";
 
 /**
  * The researches contains all the researches
@@ -27,9 +28,13 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.config, {
 			language: "sk",
+			// The function words is set to an empty array for now. Once the function words are implemented,
+			// This should be set to the actual array of the function words.
+			functionWords: [],
 		} );
 
 		Object.assign( this.helpers, {
+			getStemmer,
 		} );
 	}
 }
