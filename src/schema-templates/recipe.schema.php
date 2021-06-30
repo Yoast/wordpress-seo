@@ -14,7 +14,7 @@
 	"description": {{inner-blocks-html blocks={ "yoast/recipe-description": "description" } null-when-empty=true allowed-tags=[ "h1","h2","h3","h4","h5","h6","br","a","p","b","strong","i","em" ] }},
 	"cookTime": {{inner-blocks allowed-blocks=[ "yoast/cooking-time" ] only-first=true }},
 	"prepTime": {{attribute name="prep-time" }},
-	"recipeInstructions": {{inner-blocks allowed-blocks=[ "yoast/steps" ] only-first=true }},
-	"recipeIngredient": {{inner-blocks allowed-blocks=[ "yoast/ingredients" ] only-first=true }},
+	"recipeInstructions": {{inner-blocks allowed-blocks=[ "yoast/recipe-instructions" ] only-first=true }},
+	"recipeIngredient": {{inner-blocks allowed-blocks=[ "yoast/recipe-ingredients" ] only-first=true }},
 	"recipeYield": {{attribute name="yield" }}
 }
