@@ -136,18 +136,20 @@ class WP_Robots_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $context );
 
+		$result = $this->instance->add_robots(
+			[
+				'index'  => true,
+				'follow' => true,
+			]
+		);
+
 		static::assertEquals(
 			[
 				'follow'            => true,
 				'index'             => true,
 				'max-image-preview' => 'large',
 			],
-			$this->instance->add_robots(
-				[
-					'index'  => true,
-					'follow' => true,
-				]
-			)
+			$result
 		);
 	}
 

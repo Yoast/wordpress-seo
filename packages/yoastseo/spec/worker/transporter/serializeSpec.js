@@ -1,10 +1,9 @@
 import AssessmentResult from "../../../src/values/AssessmentResult";
 import Mark from "../../../src/values/Mark";
 import Paper from "../../../src/values/Paper";
-import Participle from "../../../src/values/Participle";
-import Sentence from "../../../src/values/Sentence";
-import SentencePart from "../../../src/values/SentencePart";
-import ProminentWord from "../../../src/values/ProminentWord";
+import Sentence from "../../../src/languageProcessing/values/Sentence";
+import Clause from "../../../src/languageProcessing/values/Clause";
+import ProminentWord from "../../../src/languageProcessing/values/ProminentWord";
 import serialize from "../../../src/worker/transporter/serialize";
 
 describe( "serialize", () => {
@@ -118,29 +117,11 @@ describe( "serialize", () => {
 		} );
 	} );
 
-	it( "serializes Participles", () => {
-		const thing = new Participle( "geschlossen", "Es wird geschlossen worden sein.",
-			{ auxiliaries: [ "wird", "worden" ], type: "irregular", language: "de" } );
-
-		const expected = {
-			_parseClass: "Participle",
-			attributes: {
-				auxiliaries: [ "wird", "worden" ],
-				language: "de",
-				type: "irregular",
-			},
-			determinesSentencePartIsPassive: false,
-			participle: "geschlossen",
-			sentencePart: "Es wird geschlossen worden sein.",
-		};
-
-		expect( serialize( thing ) ).toEqual( expected );
-	} );
-
 	it( "serializes Sentences", () => {
 		const thing = new Sentence( "This is a sample text." );
 		const expected = {
 			_parseClass: "Sentence",
+			clauses: [],
 			isPassive: false,
 			sentenceText: "This is a sample text.",
 		};
@@ -148,15 +129,16 @@ describe( "serialize", () => {
 		expect( serialize( thing ) ).toEqual( expected );
 	} );
 
-	it( "serializes SentenceParts", () => {
-		const thing = new SentencePart( "wird geschlossen", [ "wird" ] );
+	it( "serializes Clause", () => {
+		const thing = new Clause( "wird geschlossen", [ "wird" ] );
 		thing.setPassive( true );
 
 		const expected = {
-			_parseClass: "SentencePart",
+			_parseClass: "Clause",
 			auxiliaries: [ "wird" ],
+			clauseText: "wird geschlossen",
 			isPassive: true,
-			sentencePartText: "wird geschlossen",
+			participles: [],
 		};
 
 		expect( serialize( thing ) ).toEqual( expected );

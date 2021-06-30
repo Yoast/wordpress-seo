@@ -92,13 +92,6 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 
 		// Loop through submenu pages and add them.
 		array_walk( $submenu_pages, [ $this, 'register_submenu_page' ] );
-
-		// Set the first submenu title to the title of the first submenu page.
-		global $submenu;
-		if ( isset( $submenu[ $this->get_page_identifier() ] ) && $this->check_manage_capability() ) {
-			// phpcs:ignore WordPress.WP.GlobalVariablesOverride -- This is a deliberate action.
-			$submenu[ $this->get_page_identifier() ][0][0] = $submenu_pages[0][2];
-		}
 	}
 
 	/**
@@ -187,9 +180,6 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		$page_title .= ' - Yoast SEO';
-
-		// Force the general manage capability to be used.
-		$submenu_page[3] = $this->get_manage_capability();
 
 		// Register submenu page.
 		$hook_suffix = add_submenu_page(

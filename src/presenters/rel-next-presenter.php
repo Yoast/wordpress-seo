@@ -10,11 +10,18 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 class Rel_Next_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'next';
+
+	/**
 	 * The tag format including placeholders.
 	 *
 	 * @var string
 	 */
-	protected $tag_format = '<link rel="next" href="%s" />';
+	protected $tag_format = self::LINK_REL_HREF;
 
 	/**
 	 * The method of escaping to use.

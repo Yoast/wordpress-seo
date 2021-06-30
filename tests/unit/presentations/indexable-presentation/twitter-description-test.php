@@ -38,19 +38,45 @@ class Twitter_Description_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where no Twitter description is set, the Values Helper provides a description, and Open Graph is enabled.
+	 * Tests the situation where
+	 * - no Twitter description is set
+	 * - Open Graph is enabled
+	 * - the Values Helper provides a description
+	 * - this is different from the OG description
 	 *
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_generate_twitter_description_with_description_from_values_helper_and_open_graph_enabled() {
-		$this->context->open_graph_enabled = true;
-		$description_from_helper           = 'Description from helper';
+		$this->context->open_graph_enabled       = true;
+		$this->indexable->open_graph_description = 'Open Graph description';
+		$description_from_helper                 = 'Description from helper';
 
 		$this->values_helper
 			->expects( 'get_open_graph_description' )
 			->andReturn( $description_from_helper );
 
 		$this->assertSame( 'Description from helper', $this->instance->generate_twitter_description() );
+	}
+
+	/**
+	 * Tests the situation where
+	 * - no Twitter description is set
+	 * - Open Graph is enabled
+	 * - the Values Helper provides a description
+	 * - this is the same as the OG description
+	 *
+	 * @covers ::generate_twitter_description
+	 */
+	public function test_generate_twitter_description_with_description_from_values_helper_same_as_og_description() {
+		$this->context->open_graph_enabled       = true;
+		$this->indexable->open_graph_description = 'Open Graph description';
+		$description_from_helper                 = 'Open Graph description';
+
+		$this->values_helper
+			->expects( 'get_open_graph_description' )
+			->andReturn( $description_from_helper );
+
+		$this->assertSame( '', $this->instance->generate_twitter_description() );
 	}
 
 	/**
@@ -94,10 +120,6 @@ class Twitter_Description_Test extends TestCase {
 	public function test_generate_twitter_description_with_set_open_graph_description_and_open_graph_disabled() {
 		$this->context->open_graph_enabled = false;
 		$this->indexable->description      = 'SEO description';
-
-		$this->values_helper
-			->expects( 'get_open_graph_description' )
-			->andReturn( '' );
 
 		$this->assertSame( 'SEO description', $this->instance->generate_twitter_description() );
 	}

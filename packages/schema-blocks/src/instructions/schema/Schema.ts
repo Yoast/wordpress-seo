@@ -13,7 +13,17 @@ type SchemaOptions = SchemaInstructionOptions & {
  * Schema instruction.
  */
 export default class Schema extends SchemaInstruction {
+<<<<<<< HEAD
 	public options: SchemaOptions;
+=======
+	public options: {
+		name: string;
+		onlyNested?: boolean;
+		requiredFor?: string[];
+		recommendedFor?: string[];
+		optionalFor?: string[];
+	}
+>>>>>>> origin/trunk
 
 	/**
 	 * Returns the schema definition configuration.

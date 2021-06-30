@@ -11,11 +11,11 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 class Site_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * The tag format including placeholders.
+	 * The tag key name.
 	 *
 	 * @var string
 	 */
-	protected $tag_format = '<meta name="twitter:site" content="%s" />';
+	protected $key = 'twitter:site';
 
 	/**
 	 * Run the Twitter site through the `wpseo_twitter_site` filter.
