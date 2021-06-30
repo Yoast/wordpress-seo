@@ -230,8 +230,8 @@ export default function watch(): void {
 
 			updatingSchema = true;
 			{
-				const validationsForExistingBlocks = validateBlocks( blocksOnPage, rootDefinition );
-				const validationsForMissingBlocks = missingBlocks( blocksOnPage, rootDefinition );
+				const validationsForExistingBlocks = validateBlocks( rootDefinition, blocksOnPage );
+				const validationsForMissingBlocks = missingBlocks( blocksOnPage );
 
 				const validations = [
 					...validationsForExistingBlocks,

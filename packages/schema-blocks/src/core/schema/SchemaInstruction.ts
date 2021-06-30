@@ -5,7 +5,7 @@ import { BlockValidation, BlockValidationResult } from "../validation";
 import { BlockPresence } from "../validation/BlockValidationResult";
 
 export type SchemaInstructionOptions = InstructionOptions & SchemaDefinitionConfiguration & {
-	presence: BlockPresence;
+	presence?: BlockPresence;
 }
 
 // eslint-disable-next-line no-use-before-define
