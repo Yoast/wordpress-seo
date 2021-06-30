@@ -11,6 +11,13 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'twitter:misc';
+
+	/**
 	 * Presents the enhanced data for Slack
 	 *
 	 * @return string The Twitter tags for Slack.

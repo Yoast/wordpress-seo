@@ -1,7 +1,7 @@
 import "../instructions";
 import { registerBlockType } from "@wordpress/blocks";
 import { Fill } from "@wordpress/components";
-import { createElement } from "@wordpress/element";
+import { createElement, Fragment } from "@wordpress/element";
 import { registerPlugin } from "@wordpress/plugins";
 
 import { initializeSchemaBlocksStore } from "./redux";
@@ -78,9 +78,16 @@ export function initialize( logLevel: LogLevel = LogLevel.ERROR ): void {
 	 */
 	const SchemaAnalysisFill = (): React.ReactElement => {
 		return (
-			<Fill name="YoastSchemaBlocksAnalysis">
-				<SchemaAnalysis />
-			</Fill>
+			<Fragment>
+				{ [ "sidebar", "metabox" ].map( location => (
+					<Fill
+						key={ location }
+						name={ [ "yoast-schema-blocks-analysis", location ].join( "-" ) }
+					>
+						<SchemaAnalysis />
+					</Fill>
+				) ) }
+			</Fragment>
 		);
 	};
 

@@ -16,11 +16,18 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 class FB_App_ID_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'fb:app_id';
+
+	/**
 	 * The tag format including placeholders.
 	 *
 	 * @var string
 	 */
-	protected $tag_format = '<meta property="fb:app_id" content="%s" />';
+	protected $tag_format = self::META_PROPERTY_CONTENT;
 
 	/**
 	 * Gets the raw value of a presentation.
