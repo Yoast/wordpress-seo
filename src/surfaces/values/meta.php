@@ -270,7 +270,7 @@ class Meta {
 	 * @return object
 	 */
 	protected function create_json_field( $presenter ) {
-		if ( $presenter->key === 'NO KEY PROVIDED' ) {
+		if ( $presenter->get_key() === 'NO KEY PROVIDED' ) {
 			return null;
 		}
 
