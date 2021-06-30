@@ -10,7 +10,7 @@ const { getWords } = languageProcessing;
  */
 export default function( clauseText ) {
 	const words = getWords( clauseText );
-
 	const participleEndingsRegex = new RegExp( "(ný|ní|tý|ná|tá|né|té)$" );
+
 	return words.filter( word => participleEndingsRegex.test( word ) );
 }

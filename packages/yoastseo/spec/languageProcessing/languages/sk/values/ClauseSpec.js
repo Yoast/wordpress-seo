@@ -1,6 +1,6 @@
 import SlovakClause from "../../../../../src/languageProcessing/languages/sk/values/Clause";
 
-describe( "A test for checking the Czech clause", function() {
+describe( "A test for checking the Slovak clause", function() {
 	it( "checks the properties of the Slovak clause object with an auxiliary and a participle", function() {
 		const mockClause = new SlovakClause( "už bolo napísané", [ "bolo" ] );
 		expect( mockClause.getParticiples() ).toEqual( [ "napísané" ] );

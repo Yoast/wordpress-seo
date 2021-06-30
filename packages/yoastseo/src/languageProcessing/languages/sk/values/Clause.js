@@ -24,9 +24,9 @@ class SlovakClause extends Clause {
 
 	/**
 	 * Checks if any exceptions are applicable to this participle that would result in the clause not being passive.
- 	* If no exceptions are found, the clause is passive.
- 	*
- 	* @returns {void}
+	 * If no exceptions are found, the clause is passive.
+	 *
+	 * @returns {void}
 	 */
 	checkParticiples() {
 		const foundParticiples = this.getParticiples().filter( participle => ! nonPassives.includes( participle ) );
