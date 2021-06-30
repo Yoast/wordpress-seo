@@ -24,7 +24,6 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
 		delete this.defaultResearches.getSentenceBeginnings;
-		delete this.defaultResearches.functionWordsInKeyphrase;
 		delete this.defaultResearches.findTransitionWords;
 
 		Object.assign( this.config, {

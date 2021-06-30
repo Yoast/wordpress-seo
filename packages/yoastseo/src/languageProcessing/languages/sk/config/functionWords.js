@@ -1,9 +1,10 @@
+import { singleWords as transitionWords } from "./transitionWords";
 /**
  * Returns an array of Slovak function words.
  *
  * @returns {Array} The array filled with the function words.
  */
-export default [
+export const functionWords = [
 	"to",
 	"sa",
 	"je",
@@ -847,3 +848,6 @@ export default [
 	"tisíc",
 	"milión",
 ];
+
+export const all = functionWords.concat( transitionWords );
+export default all;
