@@ -2,8 +2,10 @@ import { languageProcessing } from "yoastseo";
 const { AbstractResearcher } = languageProcessing;
 
 // All config
+import stopWords from "./config/stopWords";
 
 // All helpers
+import getClauses from "./helpers/getClauses";
 
 /**
  * The researches contains all the researches
@@ -27,9 +29,12 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.config, {
 			language: "sk",
+			passiveConstructionType: "periphrastic",
+			stopWords,
 		} );
 
 		Object.assign( this.helpers, {
+			getClauses,
 		} );
 	}
 }
