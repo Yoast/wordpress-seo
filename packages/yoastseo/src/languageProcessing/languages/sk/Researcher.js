@@ -3,6 +3,8 @@ const { AbstractResearcher } = languageProcessing;
 
 // All config
 import functionWords from "./config/functionWords";
+import { allWords as transitionWords } from "./config/transitionWords";
+import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
 // All helpers
 import getStemmer from "./helpers/getStemmer";
@@ -24,11 +26,12 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
 		delete this.defaultResearches.getSentenceBeginnings;
-		delete this.defaultResearches.findTransitionWords;
 
 		Object.assign( this.config, {
 			language: "sk",
 			functionWords,
+			transitionWords,
+			twoPartTransitionWords,
 		} );
 
 		Object.assign( this.helpers, {
