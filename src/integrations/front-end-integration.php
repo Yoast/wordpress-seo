@@ -298,7 +298,7 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function present_head() {
 		$context    = $this->context_memoizer->for_current_page();
-		$presenters = $this->get_presenters( $context->page_type );
+		$presenters = $this->get_presenters( $context->page_type, $context );
 
 		/**
 		 * Filter 'wpseo_frontend_presentation' - Allow filtering the presentation used to output our meta values.
@@ -326,10 +326,11 @@ class Front_End_Integration implements Integration_Interface {
 	 * Returns all presenters for this page.
 	 *
 	 * @param string $page_type The page type.
+	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return Abstract_Indexable_Presenter[] The presenters.
 	 */
-	public function get_presenters( $page_type ) {
+	public function get_presenters( $page_type, $context = null ) {
 		$needed_presenters = $this->get_needed_presenters( $page_type );
 
 		$callback   = static function( $presenter ) {
@@ -345,7 +346,7 @@ class Front_End_Integration implements Integration_Interface {
 		 *
 		 * @api Abstract_Indexable_Presenter[] List of presenter instances.
 		 */
-		$presenter_instances = \apply_filters( 'wpseo_frontend_presenters', $presenters );
+		$presenter_instances = \apply_filters( 'wpseo_frontend_presenters', $presenters, $context );
 
 		if ( ! \is_array( $presenter_instances ) ) {
 			$presenter_instances = $presenters;
