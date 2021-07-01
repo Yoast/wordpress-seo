@@ -1,7 +1,6 @@
 node( 'docker-agent' ) {
 	checkout scm
 	env.GIT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'")
-	echo "${env.GIT_COMMIT}"
 	docker.withServer( 'tcp://172.17.0.1:2375' ) {
 		def ubuntu = docker.image( 'yoastseo/docker-php-composer-node' )
 		ubuntu.pull()
@@ -17,8 +16,9 @@ node( 'docker-agent' ) {
 				sh 'grunt artifact'
 			}
 			stage( 'Expose Artifact' ) {
-				sh "mv artifact.zip wordpress-seo-${env.BRANCH_NAME}.zip"
-				archiveArtifacts artifacts: "wordpress-seo-${env.BRANCH_NAME}.zip", fingerprint: true
+				def BRANCH_NAME = sh(returnStdout: true, script: "echo ${env.BRANCH_NAME} | sed -e s#/#-# | tr --delete '\n'")
+				sh "mv artifact.zip wordpress-seo-${BRANCH_NAME}.zip"
+				archiveArtifacts artifacts: "wordpress-seo-${BRANCH_NAME}.zip", fingerprint: true
 			}
 		}
 	}
