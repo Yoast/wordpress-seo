@@ -110,6 +110,9 @@ class Feature_Flag_Integration_Test extends TestCase {
 
 		$this->asset_manager
 			->expects( 'localize_script' )
+			->with( 'feature-flag-package', 'wpseoFeaturesL10n', $expected_enabled_feature_flags );
+		$this->asset_manager
+			->expects( 'localize_script' )
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag, in this case the Schema_Blocks_Conditional, to be set.
@@ -143,6 +146,9 @@ class Feature_Flag_Integration_Test extends TestCase {
 	public function test_add_feature_flags_not_met() {
 		$expected_enabled_feature_flags = [ 'FEATURE_1' ];
 
+		$this->asset_manager
+			->expects( 'localize_script' )
+			->with( 'feature-flag-package', 'wpseoFeaturesL10n', $expected_enabled_feature_flags );
 		$this->asset_manager
 			->expects( 'localize_script' )
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
@@ -188,6 +194,9 @@ class Feature_Flag_Integration_Test extends TestCase {
 
 		$this->asset_manager
 			->expects( 'localize_script' )
+			->with( 'feature-flag-package', 'wpseoFeaturesL10n', $expected_enabled_feature_flags );
+		$this->asset_manager
+			->expects( 'localize_script' )
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag to be set.
@@ -230,6 +239,9 @@ class Feature_Flag_Integration_Test extends TestCase {
 		$currently_enabled_feature_flags = [ 'FEATURE_1' ];
 		$expected_enabled_feature_flags  = [];
 
+		$this->asset_manager
+			->expects( 'localize_script' )
+			->with( 'feature-flag-package', 'wpseoFeaturesL10n', $expected_enabled_feature_flags );
 		$this->asset_manager
 			->expects( 'localize_script' )
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
@@ -277,6 +289,9 @@ class Feature_Flag_Integration_Test extends TestCase {
 
 		$this->asset_manager
 			->expects( 'localize_script' )
+			->with( 'feature-flag-package', 'wpseoFeaturesL10n', $expected_enabled_feature_flags );
+		$this->asset_manager
+			->expects( 'localize_script' )
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag to be set.
@@ -317,6 +332,9 @@ class Feature_Flag_Integration_Test extends TestCase {
 	public function test_add_feature_flags_non_available() {
 		$expected_enabled_feature_flags = [];
 
+		$this->asset_manager
+			->expects( 'localize_script' )
+			->with( 'feature-flag-package', 'wpseoFeaturesL10n', $expected_enabled_feature_flags );
 		$this->asset_manager
 			->expects( 'localize_script' )
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
