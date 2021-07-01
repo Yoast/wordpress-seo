@@ -325,8 +325,8 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Returns all presenters for this page.
 	 *
-	 * @param string $page_type The page type.
-	 * @param Meta_Tags_Context $context The meta tags context.
+	 * @param string            $page_type The page type.
+	 * @param Meta_Tags_Context $context   The meta tags context.
 	 *
 	 * @return Abstract_Indexable_Presenter[] The presenters.
 	 */
