@@ -17,8 +17,7 @@ node( 'docker-agent' ) {
 				sh 'grunt artifact'
 			}
 			stage( 'Expose Artifact' ) {
-				
-				sh "BRANCH_NAME=$(echo ${env.BRANCH_NAME} | sed -e s#/#-#) && mv artifact.zip wordpress-seo-\$BRANCH_NAME}.zip"
+				sh "BRANCH_NAME=\$(echo ${env.BRANCH_NAME} | sed -e s#/#-#) && mv artifact.zip wordpress-seo-\$BRANCH_NAME.zip"
 				archiveArtifacts artifacts: "wordpress-seo-${env.BRANCH_NAME}.zip", fingerprint: true
 			}
 		}
