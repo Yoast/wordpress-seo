@@ -235,6 +235,13 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 16.6.1 =
+Release Date: July 13th, 2021
+
+Bugfixes:
+
+* Fixes a bug where many Premium editor features would not work if Yoast SEO was updated to version 16.6 while Yoast SEO Premium was still on version 16.5 or lower.
+
 = 16.6 =
 Release Date: June 29th, 2021
 
