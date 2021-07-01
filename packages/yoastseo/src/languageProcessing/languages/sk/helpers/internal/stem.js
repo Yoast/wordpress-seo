@@ -249,6 +249,40 @@ function stemDerivational( word, morphologyData ) {
 }
 
 /**
+ * Checks whether a word is in the full-form exception list and if so returns the canonical stem.
+ *
+ * @param {string} word	            The word to be checked.
+ * @param {Object} morphologyData   The Slovak morphology data.
+ *
+ * @returns {string}                The canonical stem if word was found on the list or the original word otherwise.
+ */
+const checkWordInFullFormExceptions = function( word, exceptionListWithFullForms ) {
+	for ( const paradigm of exceptionListWithFullForms ) {
+		if ( paradigm[ 1 ].includes( word ) ) {
+			return paradigm[ 0 ];
+		}
+	}
+	return null;
+};
+
+/**
+ * Checks whether a stem is in an exception list of words with multiple stems and if so returns the canonical stem.
+ *
+ * @param {string} stemmedWord	            The stemmed word to be checked.
+ * @param {Object} stemsThatBelongToOneWord The data that shows how non-canonical stems should be canonicalized.
+ *
+ * @returns {null|string} The canonical stem or null if nothing was found.
+ */
+const canonicalizeStem = function( stemmedWord, stemsThatBelongToOneWord ) {
+	for ( const paradigm of stemsThatBelongToOneWord ) {
+		if (paradigm.includes( stemmedWord ) ) {
+			return paradigm[ 0 ];
+		}
+	}
+	return null;
+}
+
+/**
  * Stems Slovak words.
  *
  * @param {string} word             The word to stem.
@@ -257,6 +291,11 @@ function stemDerivational( word, morphologyData ) {
  * @returns {string}    The stemmed word.
  */
 export default function stem( word, morphologyData ) {
+	// Return stem of words on the full forms exception list.
+	const stemFromExceptionListWithFullForms = checkWordInFullFormExceptions( word, morphologyData.exceptionLists.exceptionStemsWithFullForms );
+	if ( stemFromExceptionListWithFullForms ) {
+		return stemFromExceptionListWithFullForms;
+	}
 	// Remove case suffixes
 	word = removeCases( word, morphologyData );
 	// Remove possessive suffixes
@@ -269,6 +308,12 @@ export default function stem( word, morphologyData ) {
 	word = removeAugmentatives( word, morphologyData );
 	// Remove derivational suffixes
 	word = stemDerivational( word, morphologyData );
+
+	// Return canonical stem of words that get a few different stems depending on the form.
+	const canonicalStem = canonicalizeStem( word, morphologyData.exceptionLists.stemsThatBelongToOneWord );
+	if ( canonicalStem ) {
+		return canonicalStem;
+	}
 
 	return word;
 }
