@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.7
-Stable tag: 16.6
+Stable tag: 16.6.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -247,6 +247,13 @@ Bugfixes:
 * Fixes a bug where a database entry would be added in the indexables table every time a WooCommerce order was created.
 * Fixes a bug where the SEO optimization could run indefinitely when the database contained at least 25 faulty indexables without a permalink.
 * Fixes a bug where the Advanced section and Schema tab wouldn't be visible in the metabox for Editors. Props to [jordif](https://github.com/jordif).
+
+= 16.6.1 =
+Release Date: July 1st, 2021
+
+Bugfixes:
+
+* Fixes a bug where many Premium editor features would not work if Yoast SEO was updated to version 16.6 while Yoast SEO Premium was still on version 16.5 or lower.
 
 = 16.6 =
 Release Date: June 29th, 2021
