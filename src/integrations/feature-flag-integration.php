@@ -61,7 +61,9 @@ class Feature_Flag_Integration implements Integration_Interface {
 	 */
 	public function add_feature_flags() {
 		$enabled_features = $this->get_enabled_features();
+		// Localize under both names for BC.
 		$this->asset_manager->localize_script( 'feature-flag-package', 'wpseoFeatureFlags', $enabled_features );
+		$this->asset_manager->localize_script( 'feature-flag-package', 'wpseoFeaturesL10n', $enabled_features );
 	}
 
 	/**

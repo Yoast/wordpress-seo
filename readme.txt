@@ -235,6 +235,13 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 16.6.1 =
+Release Date: July 1st, 2021
+
+Bugfixes:
+
+* Fixes a bug where many Premium editor features would not work if Yoast SEO was updated to version 16.6 while Yoast SEO Premium was still on version 16.5 or lower.
+
 = 16.6 =
 Release Date: June 29th, 2021
 
@@ -245,7 +252,7 @@ Enhancements:
 * Updates `SearchAction` schema to comply with Google's updated specification.
 * Excludes sentences inside tables and table captions from the consecutive sentences assessment.
 * Adds adjacent relative links (`rel="prev"` and `rel="next"`) for WooCommerce shop pages. Props to [stodorovic](https://github.com/stodorovic).
-* Adds increased compatibility for LiteSpeed web servers. Props to [J-Rey](https://github.com/J-Rey). 
+* Adds increased compatibility for LiteSpeed web servers. Props to [J-Rey](https://github.com/J-Rey).
 * Adds adjacent relative links for WooCommerce shop pages. Props to [stodorovic](https://github.com/stodorovic).
 
 Bugfixes:
