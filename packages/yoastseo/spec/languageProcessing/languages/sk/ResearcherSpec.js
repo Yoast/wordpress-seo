@@ -1,5 +1,6 @@
 import Researcher from "../../../../src/languageProcessing/languages/sk/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
+import stopWords from "../../../../src/languageProcessing/languages/sk/config/stopWords";
 import functionWords from "../../../../src/languageProcessing/languages/sk/config/functionWords";
 import { allWords as transitionWords } from "../../../../src/languageProcessing/languages/sk/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/sk/config/twoPartTransitionWords";
@@ -21,6 +22,21 @@ describe( "a test for the Slovak Researcher", function() {
 
 	it( "returns the Slovak function words", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
+	} );
+
+	it( "returns Slovak stopwords", function() {
+		expect( researcher.getConfig( "stopWords" ) ).toEqual( stopWords );
+	} );
+
+	it( "returns the Slovak passive construction type", function() {
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "periphrastic" );
+	} );
+
+	it( "splits Slovak sentence into clauses and checks their passiveness", function() {
+		const sentence =  "bola mačka adoptované alebo bola kúpená?";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "bola mačka adoptované" );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "alebo bola kúpená?" );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( true );
 	} );
 
 	it( "returns the Slovak transition words", function() {
