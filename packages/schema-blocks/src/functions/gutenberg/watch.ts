@@ -3,13 +3,15 @@ import { dispatch, select, subscribe } from "@wordpress/data";
 import SchemaDefinition, { schemaDefinitions } from "../../core/schema/SchemaDefinition";
 import { BlockInstance } from "@wordpress/blocks";
 import warningWatcher from "./watchers/warningWatcher";
-import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
-import { BlockPresence, BlockValidation, BlockValidationResult } from "../../core/validation";
+import { BlockValidationResult } from "../../core/validation";
 import storeBlockValidation from "./storeBlockValidation";
 import logger from "../logger";
 import { isResultValidForSchema } from "../validators/validateResults";
 import { missingBlocks } from "../validators/missingBlocks";
 import Schema from "../../instructions/schema/Schema";
+import { getAllBlocks } from "../innerBlocksHelper";
+import { BlockDefinition } from "../../core/blocks";
+import { getBlockDefinition } from "../../core/blocks/BlockDefinitionRepository";
 
 let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
@@ -109,50 +111,27 @@ function generateSchemaForBlocks(
 /**
  * Validates blocks recursively.
  *
- * @param rootBlock The schema root to validate against.
+ * @param schemaRoots The schema roots to validate against.
  * @param blocks The block instances to validate.
  *
  * @returns Validation results for each (inner)block of the given blocks.
  */
-export function validateBlocks( rootBlock: SchemaDefinition, blocks: BlockInstance[] ): BlockValidationResult[] {
+export function validateBlocks( schemaRoots: SchemaDefinition[], blocks: BlockInstance[] ): BlockValidationResult[] {
 	const validations: BlockValidationResult[] = [];
 
 	// Use missingBlocks.ts to report required / recommended / optional blocks that are missing
+	validations.push( ...missingBlocks( blocks ) );
 
 	// Validate the blocks that are found
-	blocks.map( x => x );
+	blocks.forEach( block => {
+		const blockDefinition = getBlockDefinition( block.name );
 
-	// Const rootBlockInstructions = Object.values( rootBlock.instructions );
-	// Const rootBlockConfigurations = rootBlockInstructions.map( rbi => rbi.configuration() );
-	// Const foundBlocks: string[] = [];
+		if ( blockDefinition ) {
+			const validationResult = blockDefinition.validate( block );
+			validations.push( validationResult );
+		}
+	} );
 
-	// RootBlockConfigurations.forEach( rootBlockconfig => {
-	// 	If ( blocks.find( block => block.name === rootBlockconfig.name ) ) {
-	// 		// We have found a block on the page that matches an instruction in the schema root
-	// 		FoundBlocks.push( rootBlockconfig.name );
-	// 	}
-	// } );
-	// RootBlockConfigurations.map( x => )
-
-
-	// Blocks.forEach( block => {
-	// 	// This may be a third party block we cannot validate.
-	// 	Const definition = getBlockDefinition( block.name );
-	// 	If ( definition ) {
-	// 		If ( definition.isRelevantFor( rootBlock ) ) {
-	// 			Const schemaInstruction = getSchemaInstruction( rootBlock );
-	// 			Validations.push( definition.validate( block  ) );
-	// 		}
-	// 	} else {
-	// 		Logger.warning( "Unable to validate block of type [" + block.name + "] " + block.clientId );
-	// 		Validations.push( new BlockValidationResult( block.clientId, block.name, BlockValidation.Unknown, BlockPresence.Unknown ) );
-
-	// 		// Recursively validate all blocks' innerblocks.
-	// 		If ( block.innerBlocks && block.innerBlocks.length > 0 ) {
-	// 			Validations.push( ...validateBlocks( rootBlock, block.innerBlocks ) );
-	// 		}
-	// 	}
-	// } );
 	return validations;
 }
 
@@ -172,7 +151,7 @@ function getSchemaInstruction( definition: SchemaDefinition ): Schema {
  * @param rootBlocks The Blocks
  * @returns The name of the schema root, if any
  */
-function determineSchemaRoot( rootBlocks: BlockInstance[] ) : SchemaDefinition {
+function determineSchemaRoot( rootBlocks: BlockInstance[] ) : SchemaDefinition[] {
 	const rootCandidates: string[] = [];
 	for ( const block of rootBlocks ) {
 		const definition = schemaDefinitions[ block.name ];
@@ -184,30 +163,16 @@ function determineSchemaRoot( rootBlocks: BlockInstance[] ) : SchemaDefinition {
 			logger.debug( `${ name } is required for ${ requiredFor }` );
 			logger.debug( `${ name } is recommended for ${ recommendedFor }` );
 
-			if ( requiredFor ) {
-				const matchingRoots = requiredFor.filter( possibleRoot => rootCandidates.includes( possibleRoot ) );
-				if ( matchingRoots ) {
-					const rootName = matchingRoots[ 0 ];
-					return schemaDefinitions[ rootName ];
-				}
-			}
-
-			if ( recommendedFor ) {
-				const matchingRoots = recommendedFor.filter( possibleRoot => rootCandidates.includes( possibleRoot ) );
-				if ( matchingRoots ) {
-					const rootName = matchingRoots[ 0 ];
-					return schemaDefinitions[ rootName ];
-				}
-			}
-
 			rootCandidates.push( ...requiredFor );
 			rootCandidates.push( ...recommendedFor );
 		}
-
-		// Push the matching candidate to store
-		// If conflicting / multiple matches, don't push to store but show error and return nothing.
 	}
-	return null;
+
+	const onlyUnique = ( value: string, index: number, self: string[] ) => self.indexOf( value ) === index;
+
+	const uniqueRootCandidates = rootCandidates.filter( onlyUnique );
+
+	return uniqueRootCandidates.map( name => schemaDefinitions[ name ] );
 }
 
 /**
@@ -221,22 +186,19 @@ export default function watch(): void {
 			}
 
 			const blocksOnPage: BlockInstance[] = select( "core/block-editor" ).getBlocks();
+			const allBlocks = getAllBlocks( blocksOnPage );
 
 			if ( blocksOnPage === previousRootBlocks ) {
 				return;
 			}
 
-			const rootDefinition: SchemaDefinition = determineSchemaRoot( blocksOnPage );
+			const rootDefinitions: SchemaDefinition[] = determineSchemaRoot( allBlocks );
+
+			logger.debug( "Possible schema roots:", rootDefinitions );
 
 			updatingSchema = true;
 			{
-				const validationsForExistingBlocks = validateBlocks( rootDefinition, blocksOnPage );
-				const validationsForMissingBlocks = missingBlocks( blocksOnPage );
-
-				const validations = [
-					...validationsForExistingBlocks,
-					...validationsForMissingBlocks,
-				];
+				const validations = validateBlocks( rootDefinitions, blocksOnPage );
 
 				storeBlockValidation( validations );
 
