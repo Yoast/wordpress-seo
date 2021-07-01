@@ -9,6 +9,6 @@ export default [
 	"jeden", "jedna", "jediný", "dva", "dvaja", "dve", "tri", "trojka", "traja", "štyri ", "štvoro", "štyria", "päť", "pät",
 	"šesť", "sedem", "osem", "deväť", "desať", "sto", "tisíc",
 	// Demonstrative pronouns:
-	"ten", "tá", "to", "tento ", "táto", "toto", "tamten", "tamtá", "tamto", "tí", "tie", "tieto", "toho", "tej", "tomu",
+	"ten", "tá", "to", "tento", "táto", "toto", "tamten", "tamtá", "tamto", "tí", "tie", "tieto", "toho", "tej", "tomu",
 	"tú", "tom", "tým", "tou", "tých", "tými", "títo", "tamtí", "tamtie", "tamtoho", "tomuto", "tohto",
 ];
