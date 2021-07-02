@@ -45,10 +45,12 @@ export default class Duration extends BlockInstruction {
 	 */
 	edit( props: RenderEditProps ): ReactElement | string {
 		const onChange = useCallback(
-			( value = 0 ) => {
+			( value = "0" ) => {
+				value = Math.abs( value );
 				props.setAttributes( {
-					value,
-					iso8601Duration: moment.duration( value, "minutes" ).toISOString(),
+					// Prevent leading zero's in the input-field (e.g. "01").
+					value: Number( value ).toString(),
+					[ `${ this.options.name }-iso8601-duration` ]: this.convertToISOString( value ),
 				} );
 			},
 			[ props.attributes.value ],
@@ -58,11 +60,12 @@ export default class Duration extends BlockInstruction {
 			<div className="yoast-schema-flex yoast-schema-duration">
 				<TextControl
 					type="number"
+					min={ 0 }
 					placeholder="#"
 					aria-label={ __( "Cooking time", "yoast-schema-blocks" ) }
 					className="minutes-input"
 					onChange={ onChange }
-					value={ props.attributes.value as number || "" }
+					value={ props.attributes.value as string }
 				/>
 				<p> { __( "minutes", "yoast-schema-blocks" ) }</p>
 			</div>
@@ -75,16 +78,31 @@ export default class Duration extends BlockInstruction {
 	 * @returns The block configuration.
 	 */
 	configuration(): Partial<BlockConfiguration> {
+		const defaultDurationMinutes = 0;
+
 		return {
 			attributes: {
 				value: {
-					type: "number",
-				},
-				iso8601Duration: {
 					type: "string",
+					"default": Number( defaultDurationMinutes ).toString(),
+				},
+				[ `${ this.options.name }-iso8601-duration` ]: {
+					type: "string",
+					"default": this.convertToISOString( defaultDurationMinutes ),
 				},
 			},
 		};
+	}
+
+	/**
+	 * Converts a number of minutes to a ISO8601 duration value.
+	 *
+	 * @param value Number of minutes to be converted to a ISO8601 duration value.
+	 *
+	 * @returns The ISO8601 duration value.
+	 */
+	convertToISOString( value: number ): string {
+		return moment.duration( value, "minutes" ).toISOString();
 	}
 }
 
