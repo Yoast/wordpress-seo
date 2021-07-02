@@ -104,8 +104,8 @@ class Front_End_Integration_Test extends TestCase {
 		)->makePartial();
 
 		// Set up mocks for classes which which are used in multiple tests.
-		$this->context      = Mockery::mock( Meta_Tags_Context::class );
-		$this->presenter    = Mockery::mock( Abstract_Indexable_Presenter::class );
+		$this->context   = Mockery::mock( Meta_Tags_Context::class );
+		$this->presenter = Mockery::mock( Abstract_Indexable_Presenter::class );
 
 		$this->context->page_type    = 'page_type';
 		$this->context->presentation = $this->presentation;
@@ -233,7 +233,7 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 		];
 
-		$callback = static function ( $presenter ) {
+		$callback = static function( $presenter ) {
 			return \get_class( $presenter );
 		};
 
@@ -264,7 +264,7 @@ class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $this->context );
 
-		$callback = static function ( $presenter ) {
+		$callback = static function( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, $this->instance->get_presenters( 'Error_Page' ) );
@@ -316,7 +316,7 @@ class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $this->context );
 
-		$callback = static function ( $presenter ) {
+		$callback = static function( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Term_Archive' ) ) );
@@ -376,7 +376,7 @@ class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $this->context );
 
-		$callback = static function ( $presenter ) {
+		$callback = static function( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$actual   = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
@@ -423,7 +423,7 @@ class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $this->context );
 
-		$callback = static function ( $presenter ) {
+		$callback = static function( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
