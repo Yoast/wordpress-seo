@@ -4,6 +4,7 @@ import stopWords from "../../../../src/languageProcessing/languages/sk/config/st
 import functionWords from "../../../../src/languageProcessing/languages/sk/config/functionWords";
 import { allWords as transitionWords } from "../../../../src/languageProcessing/languages/sk/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/sk/config/twoPartTransitionWords";
+import firstWordExceptions from "../../../../src/languageProcessing/languages/sk/config/firstWordExceptions";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 
 const morphologyDataSK = getMorphologyData( "sk" );
@@ -26,6 +27,10 @@ describe( "a test for the Slovak Researcher", function() {
 
 	it( "returns Slovak stopwords", function() {
 		expect( researcher.getConfig( "stopWords" ) ).toEqual( stopWords );
+	} );
+
+	it( "returns Slovak first word exceptions", function() {
+		expect( researcher.getConfig( "firstWordExceptions" ) ).toEqual( firstWordExceptions );
 	} );
 
 	it( "returns the Slovak passive construction type", function() {
