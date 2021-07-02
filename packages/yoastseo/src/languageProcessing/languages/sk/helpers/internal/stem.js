@@ -251,8 +251,8 @@ function stemDerivational( word, morphologyData ) {
 /**
  * Checks whether a word is in the full-form exception list and if so returns the canonical stem.
  *
- * @param {string} word	            The word to be checked.
- * @param {Object} morphologyData   The Slovak morphology data.
+ * @param {string} word	           				The word to be checked.
+ * @param {Object} exceptionListWithFullForms   The exception list to check.
  *
  * @returns {string}                The canonical stem if word was found on the list or the original word otherwise.
  */
@@ -275,12 +275,12 @@ const checkWordInFullFormExceptions = function( word, exceptionListWithFullForms
  */
 const canonicalizeStem = function( stemmedWord, stemsThatBelongToOneWord ) {
 	for ( const paradigm of stemsThatBelongToOneWord ) {
-		if (paradigm.includes( stemmedWord ) ) {
+		if ( paradigm.includes( stemmedWord ) ) {
 			return paradigm[ 0 ];
 		}
 	}
 	return null;
-}
+};
 
 /**
  * Stems Slovak words.
