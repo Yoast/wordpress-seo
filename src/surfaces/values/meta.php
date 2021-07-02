@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Surfaces\Values;
 
 use Exception;
 use WPSEO_Replace_Vars;
+use WPSEO_Utils;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
@@ -143,7 +144,7 @@ class Meta {
 
 		return (object) [
 			'html' => $html_output,
-			'json' => \json_encode( $json_head_fields, JSON_FORCE_OBJECT | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES ),
+			'json' => WPSEO_Utils::format_json_encode( $json_head_fields ),
 		];
 	}
 
