@@ -143,7 +143,7 @@ class Meta {
 
 		return (object) [
 			'html' => $html_output,
-			'json' => $json_head_fields,
+			'json' => \json_encode( $json_head_fields,JSON_FORCE_OBJECT | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES ),
 		];
 	}
 
