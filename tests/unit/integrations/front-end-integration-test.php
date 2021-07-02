@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
@@ -61,6 +62,25 @@ class Front_End_Integration_Test extends TestCase {
 	private $context_memoizer;
 
 	/**
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Presentation
+	 */
+	private $presentation;
+
+	/**
+	 * Represents the meta tags context.
+	 *
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Meta_Tags_Context
+	 */
+	private $context;
+
+	/**
+	 * Represents the options helper.
+	 *
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Abstract_Indexable_Presenter
+	 */
+	private $presenter;
+
+	/**
 	 * Method that runs before each test case.
 	 */
 	protected function set_up() {
@@ -82,6 +102,13 @@ class Front_End_Integration_Test extends TestCase {
 				Mockery::mock( WPSEO_Replace_Vars::class ),
 			]
 		)->makePartial();
+
+		// Set up mocks for classes which which are used in multiple tests.
+		$this->context      = Mockery::mock( Meta_Tags_Context::class );
+		$this->presenter    = Mockery::mock( Abstract_Indexable_Presenter::class );
+
+		$this->context->page_type    = 'page_type';
+		$this->context->presentation = $this->presentation;
 	}
 
 	/**
@@ -134,25 +161,18 @@ class Front_End_Integration_Test extends TestCase {
 	 * @covers ::present_head
 	 */
 	public function test_present_head() {
-		$presentation = Mockery::mock( Indexable_Presentation::class );
-		$context      = Mockery::mock( Meta_Tags_Context::class );
-		$presenter    = Mockery::mock( Abstract_Indexable_Presenter::class );
-
-		$context->page_type    = 'page_type';
-		$context->presentation = $presentation;
-
 		$this->context_memoizer
 			->expects( 'for_current_page' )
 			->once()
-			->andReturn( $context );
+			->andReturn( $this->context );
 
 		$this->instance
 			->expects( 'get_presenters' )
 			->once()
 			->with( 'page_type' )
-			->andReturn( [ $presenter ] );
+			->andReturn( [ $this->presenter ] );
 
-		$presenter
+		$this->presenter
 			->expects( 'present' )
 			->once()
 			->with()
@@ -177,6 +197,11 @@ class Front_End_Integration_Test extends TestCase {
 		$this->options->expects( 'get' )->with( 'opengraph' )->andReturnTrue();
 		$this->options->expects( 'get' )->with( 'twitter' )->andReturnTrue();
 		$this->options->expects( 'get' )->with( 'enable_enhanced_slack_sharing' )->andReturnTrue();
+
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $this->context );
 
 		$expected = [
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
@@ -234,6 +259,11 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $this->context );
+
 		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
@@ -280,6 +310,11 @@ class Front_End_Integration_Test extends TestCase {
 			->expects( 'get' )
 			->with( 'enable_enhanced_slack_sharing' )
 			->andReturnTrue();
+
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $this->context );
 
 		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
@@ -336,6 +371,11 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $this->context );
+
 		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
 		};
@@ -377,6 +417,11 @@ class Front_End_Integration_Test extends TestCase {
 			->expects( 'get' )
 			->with( 'opengraph' )
 			->andReturnTrue();
+
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $this->context );
 
 		$callback = static function ( $presenter ) {
 			return \get_class( $presenter );
