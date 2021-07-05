@@ -1,6 +1,6 @@
 import "babel-polyfill";
-import { AnalysisWebWorker } from "yoastseo";
-import getResearcher from "yoastseo/spec/specHelpers/getResearcher";
+import AnalysisWebWorker from "../../../packages/yoastseo/src/worker/AnalysisWebWorker";
+import getResearcher from "../../../packages/yoastseo/spec/specHelpers/getResearcher";
 
 self.onmessage = ( event ) => {
 	const language = event.data.language;
