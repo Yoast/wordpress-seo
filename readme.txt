@@ -240,7 +240,7 @@ Release Date: July 13th, 2021
 
 Enhancements:
 
-* Adds Yoast meta tags as a JSON object to the HTML head section when retrieving a post through the WordPress REST API.
+*  Upgrades our REST API to include individual keys/values for all of our meta tags, data and schema output.
 
 Bugfixes:
 
