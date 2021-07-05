@@ -44,7 +44,7 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 		$author_id              = $this->presentation->source->post_author;
 		$estimated_reading_time = $this->presentation->estimated_reading_time_minutes;
 
-		if ( \is_singular( 'post' ) && $author_id ) {
+		if ( $this->presentation->model->object_sub_type === 'post' && $author_id ) {
 			$data[ \__( 'Written by', 'wordpress-seo' ) ] = \get_the_author_meta( 'display_name', $author_id );
 		}
 

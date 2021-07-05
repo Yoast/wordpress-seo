@@ -5,8 +5,11 @@ namespace Yoast\WP\SEO\Tests\Unit\Presenters\Slack;
 use Brain\Monkey\Functions;
 use Mockery;
 use WP_Post;
+use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Slack\Enhanced_Data_Presenter;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -44,6 +47,9 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 		$this->instance                       = new Enhanced_Data_Presenter();
 		$this->instance->presentation         = Mockery::mock( Indexable_Presentation::class );
 		$this->instance->presentation->source = Mockery::mock( WP_Post::class );
+		$indexable                            = new Indexable_Mock();
+		$this->instance->presentation->model  = $indexable;
+
 		$this->presentation                   = $this->instance->presentation;
 	}
 
@@ -58,9 +64,11 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 		for ( $i = 0; $i < 10000; $i++ ) {
 			$post_content .= 'yoast ';
 		}
+
 		$this->presentation->source->post_content           = $post_content;
 		$this->presentation->source->post_author            = '123';
 		$this->presentation->estimated_reading_time_minutes = 40;
+		$this->presentation->model->object_sub_type         = 'post';
 
 		Functions\stubs(
 			[
@@ -74,6 +82,37 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 			. "\t<meta name=\"twitter:data1\" content=\"Agatha Christie\" />\n"
 			. "\t<meta name=\"twitter:label2\" content=\"Est. reading time\" />\n"
 			. "\t<meta name=\"twitter:data2\" content=\"40 minutes\" />",
+			$this->instance->present()
+		);
+	}
+
+	/**
+	 * Tests the presentation for a set of enhanced data.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present_no_post() {
+		$post_content = '';
+		for ( $i = 0; $i < 10000; $i++ ) {
+			$post_content .= 'yoast ';
+		}
+
+		$this->presentation->source->post_content           = $post_content;
+		$this->presentation->source->post_author            = '123';
+		$this->presentation->estimated_reading_time_minutes = 40;
+		$this->presentation->model->object_sub_type         = 'not a post';
+
+		Functions\stubs(
+			[
+				'get_the_author_meta' => 'Agatha Christie',
+				'is_singular'         => true,
+			]
+		);
+
+		$this->assertEquals(
+			"<meta name=\"twitter:label1\" content=\"Est. reading time\" />\n"
+			. "\t<meta name=\"twitter:data1\" content=\"40 minutes\" />",
 			$this->instance->present()
 		);
 	}
