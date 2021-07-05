@@ -5,8 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Presenters\Slack;
 use Brain\Monkey\Functions;
 use Mockery;
 use WP_Post;
-use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Slack\Enhanced_Data_Presenter;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -47,9 +45,7 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 		$this->instance                       = new Enhanced_Data_Presenter();
 		$this->instance->presentation         = Mockery::mock( Indexable_Presentation::class );
 		$this->instance->presentation->source = Mockery::mock( WP_Post::class );
-		$indexable                            = new Indexable_Mock();
-		$this->instance->presentation->model  = $indexable;
-
+		$this->instance->presentation->model  = new Indexable_Mock();
 		$this->presentation                   = $this->instance->presentation;
 	}
 
@@ -61,7 +57,7 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 	 */
 	public function test_present() {
 		$post_content = '';
-		for ( $i = 0; $i < 10000; $i++ ) {
+		for ( $i = 0; $i < 10; $i++ ) {
 			$post_content .= 'yoast ';
 		}
 
@@ -94,7 +90,7 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 	 */
 	public function test_present_no_post() {
 		$post_content = '';
-		for ( $i = 0; $i < 10000; $i++ ) {
+		for ( $i = 0; $i < 10; $i++ ) {
 			$post_content .= 'yoast ';
 		}
 
