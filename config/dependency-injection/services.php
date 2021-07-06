@@ -39,6 +39,9 @@ $container->setAlias( ContainerInterface::class, 'service_container' );
 // Required for the migrations framework.
 $container->register( Adapter::class, Adapter::class )->setAutowired( true )->setPublic( true );
 
+// Elegantly deprecate renamed classes.
+include __DIR__ . '/renamed-classes.php';
+
 $yoast_seo_excluded_files = [
 	'main.php',
 ];
