@@ -31,7 +31,7 @@ class Elementor_Exclude_Post_Types extends Exclude_Elementor_Post_Types {
 	* @deprecated 16.7 Use {@see \Yoast\WP\SEO\Integrations\Third_Party\Exclude_Elementor_Post_Types} instead.
 	*/
 	public function __construct() {
-		\_deprecated_function( __METHOD__, 'Yoast SEO Premium 16.7', '\Yoast\WP\SEO\Integrations\Third_Party\Exclude_Elementor_Post_Types' );
+		\_deprecated_function( __METHOD__, 'Yoast SEO 16.7', '\Yoast\WP\SEO\Integrations\Third_Party\Exclude_Elementor_Post_Types' );
 
 		// Only call a constructor if the parent has one; we already are a subclass of the parent.
 		if (is_callable('parent::__construct')) {
