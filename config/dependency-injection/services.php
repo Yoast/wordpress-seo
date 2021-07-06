@@ -18,6 +18,8 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * Holds the dependency injection container.
  *
  * @var $container \Symfony\Component\DependencyInjection\ContainerBuilder
+ *
+ * @phpcs:disable PEAR.Files.IncludingFile.UseRequire
  */
 // WordPress factory functions.
 $container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb' ] );

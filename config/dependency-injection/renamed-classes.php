@@ -1,9 +1,17 @@
-<?php
+<?php // phpcs:ignore
 /**
  * Yoast SEO Plugin File.
  *
  * Configuration file for dependency injection. Registers renamed classes.
  *
+ * @phpcs:disable Yoast.Files.FileName.InvalidFunctionsFileName
+ * @phpcs:disable Yoast.Commenting.FileComment.MissingPackageTag
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ * @phpcs:disable WordPress.Arrays.CommaAfterArrayItem.NoComma
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+ * @phpcs:disable Squiz.Commenting.FunctionComment.Missing
+ * @phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
  */
 
 /**
@@ -19,7 +27,7 @@ $renamed_classes = [
 	Elementor_Exclude_Post_Types::class => [ Renamed_To_Exclude_Elementor_Post_Types::class, '16.7' ]
 ];
 
-foreach( $renamed_classes as $original_class => $replacement ) {
+foreach ( $renamed_classes as $original_class => $replacement ) {
 	list( $renamed_class, $version ) = $replacement;
 	$container->register( $original_class, $original_class )
 		->setAutowired( true )
