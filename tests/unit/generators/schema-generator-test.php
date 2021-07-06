@@ -9,8 +9,10 @@ use Yoast\WP\SEO\Generators\Schema\FAQ;
 use Yoast\WP\SEO\Generators\Schema\Organization;
 use Yoast\WP\SEO\Generators\Schema_Generator;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
@@ -64,6 +66,20 @@ class Schema_Generator_Test extends TestCase {
 	protected $current_page;
 
 	/**
+	 * The article helper.
+	 *
+	 * @var Article_Helper|Mockery\MockInterface
+	 */
+	protected $article;
+
+	/**
+	 * The date helper.
+	 *
+	 * @var Date_Helper|Mockery\MockInterface
+	 */
+	protected $date;
+
+	/**
 	 * The organisation scheme generator.
 	 *
 	 * @var Organization|Mockery\MockInterface
@@ -100,7 +116,9 @@ class Schema_Generator_Test extends TestCase {
 		$this->id           = Mockery::mock( ID_Helper::class );
 		$this->current_page = Mockery::mock( Current_Page_Helper::class );
 
-		$this->html = Mockery::mock( HTML_Helper::class )->makePartial();
+		$this->html    = Mockery::mock( HTML_Helper::class )->makePartial();
+		$this->article = Mockery::mock( Article_Helper::class );
+		$this->date    = Mockery::mock( Date_Helper::class );
 
 		$helpers = Mockery::mock( Helpers_Surface::class );
 
@@ -110,7 +128,9 @@ class Schema_Generator_Test extends TestCase {
 			'id'       => $this->id,
 			'html'     => $this->html,
 			'language' => Mockery::mock( Language_Helper::class )->makePartial(),
+			'article'  => $this->article,
 		];
+		$helpers->date         = $this->date;
 
 		$this->replace_vars_helper = Mockery::mock( Replace_Vars_Helper::class );
 
@@ -204,11 +224,6 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
-		Monkey\Functions\expect( 'is_single' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-
 		$this->current_page
 			->expects( 'is_front_page' )
 			->andReturnTrue();
@@ -277,15 +292,30 @@ class Schema_Generator_Test extends TestCase {
 		$this->stubEscapeFunctions();
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
+		$this->context->indexable->object_type     = 'post';
+		$this->context->indexable->object_sub_type = 'post';
+		$this->context->post                       = (object) [
+			'post_date_gmt'     => 'date',
+			'post_modified_gmt' => 'date',
+		];
+		$this->context->has_image                  = false;
+
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
-			->withNoArgs()
+			->with( $this->context->post )
 			->andReturnFalse();
 
-		Monkey\Functions\expect( 'is_single' )
-			->once()
-			->withNoArgs()
-			->andReturnTrue();
+		$this->article
+			->expects( 'is_author_supported' )
+			->twice()
+			->with( 'post' )
+			->andReturnFalse();
+
+		$this->date
+			->expects( 'format' )
+			->twice()
+			->with( 'date' )
+			->andReturn( 'date' );
 
 		$this->current_page
 			->expects( 'is_front_page' )
@@ -442,15 +472,30 @@ class Schema_Generator_Test extends TestCase {
 		$this->stubEscapeFunctions();
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
-		Monkey\Functions\expect( 'is_single' )
-			->once()
-			->withNoArgs()
-			->andReturnTrue();
+		$this->context->indexable->object_type     = 'post';
+		$this->context->indexable->object_sub_type = 'post';
+		$this->context->post                       = (object) [
+			'post_date_gmt'     => 'date',
+			'post_modified_gmt' => 'date',
+		];
+		$this->context->has_image                  = false;
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
-			->withNoArgs()
+			->with( $this->context->post )
 			->andReturnFalse();
+
+		$this->article
+			->expects( 'is_author_supported' )
+			->twice()
+			->with( 'post' )
+			->andReturnFalse();
+
+		$this->date
+			->expects( 'format' )
+			->twice()
+			->with( 'date' )
+			->andReturn( 'date' );
 
 		$this->current_page
 			->expects( 'is_front_page' )
@@ -483,15 +528,30 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->blocks = [];
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
-		Monkey\Functions\expect( 'is_single' )
-			->once()
-			->withNoArgs()
-			->andReturnTrue();
+		$this->context->indexable->object_type     = 'post';
+		$this->context->indexable->object_sub_type = 'post';
+		$this->context->post                       = (object) [
+			'post_date_gmt'     => 'date',
+			'post_modified_gmt' => 'date',
+		];
+		$this->context->has_image                  = false;
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
-			->withNoArgs()
+			->with( $this->context->post )
 			->andReturnFalse();
+
+		$this->article
+			->expects( 'is_author_supported' )
+			->twice()
+			->with( 'post' )
+			->andReturnFalse();
+
+		$this->date
+			->expects( 'format' )
+			->twice()
+			->with( 'date' )
+			->andReturn( 'date' );
 
 		$this->current_page
 			->expects( 'is_front_page' )
@@ -559,15 +619,30 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->blocks = [];
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
-		Monkey\Functions\expect( 'is_single' )
-			->once()
-			->withNoArgs()
-			->andReturnTrue();
+		$this->context->indexable->object_type     = 'post';
+		$this->context->indexable->object_sub_type = 'post';
+		$this->context->post                       = (object) [
+			'post_date_gmt'     => 'date',
+			'post_modified_gmt' => 'date',
+		];
+		$this->context->has_image                  = false;
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
-			->withNoArgs()
+			->with( $this->context->post )
 			->andReturnFalse();
+
+		$this->article
+			->expects( 'is_author_supported' )
+			->twice()
+			->with( 'post' )
+			->andReturnFalse();
+
+		$this->date
+			->expects( 'format' )
+			->twice()
+			->with( 'date' )
+			->andReturn( 'date' );
 
 		$this->current_page
 			->expects( 'is_front_page' )
@@ -630,15 +705,24 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_get_graph_pieces_on_single_post_with_password_required() {
-		Monkey\Functions\expect( 'is_single' )
-			->once()
-			->withNoArgs()
-			->andReturnTrue();
+		$this->context->indexable->object_type     = 'post';
+		$this->context->indexable->object_sub_type = 'post';
+		$this->context->post                       = (object) [
+			'post_date_gmt'     => 'date',
+			'post_modified_gmt' => 'date',
+		];
+		$this->context->has_image                  = false;
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
-			->withNoArgs()
+			->with( $this->context->post )
 			->andReturnTrue();
+
+		$this->date
+			->expects( 'format' )
+			->twice()
+			->with( 'date' )
+			->andReturn( 'date' );
 
 		$this->current_page
 			->expects( 'is_front_page' )
@@ -770,6 +854,8 @@ class Schema_Generator_Test extends TestCase {
 							'@id' => '#id-1',
 						],
 					],
+					'datePublished'   => 'date',
+					'dateModified'    => 'date',
 				],
 				[
 					'@type'          => 'Question',

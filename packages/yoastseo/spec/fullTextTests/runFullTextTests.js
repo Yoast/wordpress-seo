@@ -40,7 +40,7 @@ import sentenceBeginningsAssessment from "../../src/scoring/assessments/readabil
 import testPapers from "./testTexts";
 
 // Enable Norwegian Readability feature
-enableFeatures( [ "norwegian-readability" ] );
+enableFeatures( [ "NORWEGIAN_READABILITY" ] );
 
 testPapers.forEach( function( testPaper ) {
 	// eslint-disable-next-line max-statements

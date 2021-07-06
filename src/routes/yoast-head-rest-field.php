@@ -19,14 +19,14 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 class Yoast_Head_REST_Field implements Route_Interface {
 
 	/**
-	 * The name of the yoast head field.
+	 * The name of the Yoast head field.
 	 *
 	 * @var string
 	 */
 	const YOAST_HEAD_ATTRIBUTE_NAME = 'yoast_head';
 
 	/**
-	 * The name of the yoast head field.
+	 * The name of the Yoast head JSON field.
 	 *
 	 * @var string
 	 */

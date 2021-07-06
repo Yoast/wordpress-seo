@@ -6,6 +6,7 @@ import stopWords from "./config/stopWords";
 import functionWords from "./config/functionWords";
 import { allWords as transitionWords } from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
+import firstWordExceptions from "./config/firstWordExceptions";
 
 // All helpers
 import getClauses from "./helpers/getClauses";
@@ -26,7 +27,6 @@ export default class Researcher extends AbstractResearcher {
 		// Deletes researches that are currently not available in Slovak.
 		// When the research is available, this line should be removed.
 		delete this.defaultResearches.getFleschReadingScore;
-		delete this.defaultResearches.getSentenceBeginnings;
 
 		Object.assign( this.config, {
 			language: "sk",
@@ -35,6 +35,7 @@ export default class Researcher extends AbstractResearcher {
 			functionWords,
 			transitionWords,
 			twoPartTransitionWords,
+			firstWordExceptions,
 		} );
 
 		Object.assign( this.helpers, {

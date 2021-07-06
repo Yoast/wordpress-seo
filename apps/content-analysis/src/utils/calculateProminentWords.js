@@ -1,6 +1,6 @@
 import { get, isEqual, take } from "lodash-es";
 import getLanguage from "yoastseo/src/languageProcessing/helpers/language/getLanguage";
-import getWords from "yoastseo/src/languageProcessing/helpers/word/getWords";
+import getWords from "../../../../packages/yoastseo/src/languageProcessing/helpers/word/getWords";
 import {
 	collapseProminentWordsOnStem,
 	filterProminentWords,
@@ -8,8 +8,8 @@ import {
 	getProminentWordsFromPaperAttributes,
 	retrieveAbbreviations,
 	sortProminentWords,
-} from "yoastseo/src/languageProcessing/helpers/prominentWords/determineProminentWords";
-import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "yoastseo/src/languageProcessing/helpers/html/getSubheadings";
+} from "../../../../packages/yoastseo/src/languageProcessing/helpers/prominentWords/determineProminentWords";
+import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../../../../packages/yoastseo/src/languageProcessing/helpers/html/getSubheadings";
 import getMorphologyData from "./getMorphologyData";
 
 const morphologyData = getMorphologyData();
