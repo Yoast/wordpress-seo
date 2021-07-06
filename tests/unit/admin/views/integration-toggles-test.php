@@ -23,6 +23,8 @@ class Yoast_Integration_Toggles_Test extends TestCase {
 		$expected_names = [
 			0 => 'Semrush integration',
 			1 => 'Ryte integration',
+			2 => 'Zapier integration',
+			3 => 'Algolia integration',
 		];
 
 		$this->stubTranslationFunctions();
@@ -52,7 +54,9 @@ class Yoast_Integration_Toggles_Test extends TestCase {
 			0 => 'Dummy prio 5',
 			1 => 'Semrush integration',
 			2 => 'Ryte integration',
-			3 => 'Dummy prio 50',
+			3 => 'Zapier integration',
+			4 => 'Algolia integration',
+			5 => 'Dummy prio 50',
 		];
 
 		$this->stubTranslationFunctions();

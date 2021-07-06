@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
+use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -105,6 +106,13 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	protected $indexing_helper;
 
 	/**
+	 * The Addon Manager.
+	 *
+	 * @var WPSEO_Addon_Manager
+	 */
+	protected $addon_manager;
+
+	/**
 	 * Indexing_Notification_Integration constructor.
 	 *
 	 * @param Yoast_Notification_Center $notification_center The notification center.
@@ -113,6 +121,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 * @param Short_Link_Helper         $short_link_helper   The short link helper.
 	 * @param Notification_Helper       $notification_helper The notification helper.
 	 * @param Indexing_Helper           $indexing_helper     The indexing helper.
+	 * @param WPSEO_Addon_Manager       $addon_manager       The addon manager.
 	 */
 	public function __construct(
 		Yoast_Notification_Center $notification_center,
@@ -120,7 +129,8 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		Current_Page_Helper $page_helper,
 		Short_Link_Helper $short_link_helper,
 		Notification_Helper $notification_helper,
-		Indexing_Helper $indexing_helper
+		Indexing_Helper $indexing_helper,
+		WPSEO_Addon_Manager $addon_manager
 	) {
 		$this->notification_center = $notification_center;
 		$this->product_helper      = $product_helper;
@@ -128,6 +138,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		$this->short_link_helper   = $short_link_helper;
 		$this->notification_helper = $notification_helper;
 		$this->indexing_helper     = $indexing_helper;
+		$this->addon_manager       = $addon_manager;
 	}
 
 	/**
@@ -239,7 +250,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	 */
 	protected function get_presenter( $reason ) {
 		if ( $reason === Indexing_Reasons::REASON_INDEXING_FAILED ) {
-			$presenter = new Indexing_Failed_Notification_Presenter( $this->product_helper );
+			$presenter = new Indexing_Failed_Notification_Presenter( $this->product_helper, $this->short_link_helper, $this->addon_manager );
 		}
 		else {
 			$total_unindexed = $this->indexing_helper->get_filtered_unindexed_count();

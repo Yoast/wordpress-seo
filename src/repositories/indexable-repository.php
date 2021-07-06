@@ -478,9 +478,13 @@ class Indexable_Repository {
 	 *
 	 * @return bool|Indexable The indexable.
 	 */
-	protected function ensure_permalink( $indexable ) {
+	public function ensure_permalink( $indexable ) {
 		if ( $indexable && $indexable->permalink === null ) {
 			$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
+
+			if ( $indexable->permalink === null && $indexable->post_status === 'unindexed' ) {
+				$indexable->permalink = 'unindexed';
+			}
 
 			// Only save if changed.
 			if ( $indexable->permalink !== null ) {

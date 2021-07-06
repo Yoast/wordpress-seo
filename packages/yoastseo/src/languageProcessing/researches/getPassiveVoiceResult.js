@@ -41,7 +41,7 @@ export const getMorphologicalPassives = function( paper, researcher ) {
 
 /**
  * Looks for periphrastic passive voice.
- * Supported periphrastic languages: "en", "de", "nl", "fr", "es", "it", "pt", "pl".
+ * Supported periphrastic languages: "en", "de", "nl", "fr", "es", "it", "pt", "pl", "sk"
  *
  * @param {Paper}      paper      The paper object.
  * @param {Researcher} researcher The researcher.
@@ -81,7 +81,8 @@ export const getPeriphrasticPassives = function( paper, researcher ) {
 
 /**
  * Looks for both morphological and periphrastic passive voice
- * Supported languages with both morphological and periphrastic passives: "hu". Languages that have not been implemented yet: "da", "nb".
+ * Supported languages with both morphological and periphrastic passives: "hu", "nb".
+ * Due to technical difficulties "nb" is only implemented as periphrastic at the moment. Languages that have not been implemented yet: "da".
  *
  * @param {Paper}      paper      The paper object.
  * @param {Researcher} researcher The researcher.

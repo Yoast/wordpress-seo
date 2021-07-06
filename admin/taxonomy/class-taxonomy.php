@@ -146,7 +146,6 @@ class WPSEO_Taxonomy {
 			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
 			$asset_manager->localize_script( 'term-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
-			$asset_manager->localize_script( 'term-edit', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
 			$script_data = [
 				'analysis'         => [
