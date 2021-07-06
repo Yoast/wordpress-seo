@@ -99,7 +99,6 @@ export const cannotBeBetweenPassiveAuxiliaryAndParticiple = [].concat( auxiliari
 export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
 	quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
 	intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
-	timeWords, vagueNouns, miscellaneous, cannotBeBetweenPassiveAuxiliaryAndParticiple );
-	timeWords, vagueNouns, miscellaneous, transitionWords );
+	timeWords, vagueNouns, miscellaneous, cannotBeBetweenPassiveAuxiliaryAndParticiple, transitionWords );
 
 export default all;
