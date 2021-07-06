@@ -17,7 +17,7 @@
  * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
  */
 
-use Yoast\WP\SEO\Integrations\Third_Party\Exclude_Elementor_Post_Types;
+namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 /**
 * Class Elementor_Exclude_Post_Types.
