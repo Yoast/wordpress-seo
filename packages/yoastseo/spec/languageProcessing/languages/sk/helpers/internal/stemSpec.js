@@ -18,11 +18,11 @@ const wordsToStem = [
 	// Input a word ending in case suffix -ých and a derivational suffix -č.
 	[ "zahraničných", "zahrani" ],
 	// Input a word ending in case suffix -ata.
-	[ "zvierata", "zvier" ],
+	[ "zvierata", "zviera" ],
 	// Input a word ending in case suffix -om and a derivational suffix -ob.
 	[ "spôsobom", "spôs" ],
 	// Input a word ending in case suffix -om.
-	[ "ľuďom", "ľuď" ],
+	[ "spolužiakom", "spolužia" ],
 	// Input a word ending in case suffix -es.
 	[ "najdes", "naj" ],
 	// Input a word ending in case suffix -ím.
@@ -161,6 +161,8 @@ const wordsToStem = [
 	[ "vysvetlit", "vysvetl" ],
 	// Input a word ending in derivational suffix -iv.
 	[ "liečiv", "liek" ],
+	// Stems a word from the exception list of stems with full forms.
+	[ "oči", "oko" ],
 ];
 
 
@@ -255,22 +257,22 @@ const paradigms = [
 	] },
 
 	// Paradigm of a noun with declension pattern "dievča".
-	{ stem: "diev", forms: [
+	{ stem: "dievča", forms: [
 		"dievča",
 		"dievčaťa",
-		// "dievčaťu",
-		// "dievčati",
+		"dievčaťu",
+		"dievčati",
 		"dievčaťom",
-		// "dievčatá",
+		"dievčatá",
 		"dievčat",
-		// "dievčatám",
-		// "dievčatách",
-		// "dievčatami",
+		"dievčatám",
+		"dievčatách",
+		"dievčatami",
 		"dievčence",
-		// "dievčeniec",
-		// "dievčencom",
-		// "dievčencoch",
-		// "dievčencami",
+		"dievčeniec",
+		"dievčencom",
+		"dievčencoch",
+		"dievčencami",
 	] },
 
 	// Paradigm of a noun with declension pattern "hrdina".
@@ -288,11 +290,11 @@ const paradigms = [
 	// Paradigm of a noun with declension pattern "kosť".
 	{ stem: "kosť", forms: [
 		"kosť",
-		// "kosti",
+		"kosti",
 		"kosťou",
-		// "kostí",
-		// "kostiam",
-		// "kostiach",
+		"kostí",
+		"kostiam",
+		"kostiach",
 		"kosťami",
 	] },
 
@@ -304,7 +306,7 @@ const paradigms = [
 		"meste",
 		"mestom",
 		"mestá",
-		// "miest",
+		"miest",
 		"mestám",
 		"mestách",
 		"mestami",
@@ -317,11 +319,11 @@ const paradigms = [
 		"srdcu",
 		"srdci",
 		"srdcom",
-		// "srdcia",
-		// "sŕdc",
-		// "srdciam",
-		// "srdciach",
-		// "srdciami",
+		"srdcia",
+		"sŕdc",
+		"srdciam",
+		"srdciach",
+		"srdciami",
 	] },
 
 	// Paradigm of a noun with declension pattern "stroj".
