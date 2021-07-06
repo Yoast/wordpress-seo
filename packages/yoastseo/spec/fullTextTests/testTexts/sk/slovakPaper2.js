@@ -153,7 +153,7 @@ const expectedResults = {
 	sentenceBeginnings: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: The text contains 7 instances where 3 or " +
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: The text contains 3 instances where 3 or " +
 			"more consecutive sentences start with the same word. <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!",
 	},
 };
