@@ -227,7 +227,7 @@ class Meta {
 	 * @return Abstract_Indexable_Presenter[]
 	 */
 	protected function get_presenters() {
-		$presenters = $this->front_end->get_presenters( $this->context->page_type );
+		$presenters = $this->front_end->get_presenters( $this->context->page_type, $this->context );
 
 		if ( $this->context->page_type === 'Date_Archive' ) {
 			/**
