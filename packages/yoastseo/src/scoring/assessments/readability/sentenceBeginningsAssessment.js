@@ -119,7 +119,7 @@ const sentenceBeginningMarker = function( paper, researcher ) {
  */
 const sentenceBeginningsAssessment = function( paper, researcher, i18n ) {
 	// Check if the Norwegian readability feature is enabled and return the default result if it isn't.
-	if ( researcher.getConfig( "language" ) === "nb" && ! isFeatureEnabled( "norwegian-readability" ) ) {
+	if ( researcher.getConfig( "language" ) === "nb" && ! isFeatureEnabled( "NORWEGIAN_READABILITY" ) ) {
 		return new AssessmentResult();
 	}
 
