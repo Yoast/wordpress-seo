@@ -73,6 +73,7 @@ class WPSEO_Upgrade {
 			'15.9.1-RC0' => 'upgrade_1591',
 			'16.2-RC0'   => 'upgrade_162',
 			'16.5-RC0'   => 'upgrade_165',
+			'16.8-RC0'   => 'upgrade_168',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -827,6 +828,38 @@ class WPSEO_Upgrade {
 
 		// Run after the WPSEO_Options::enrich_defaults method which has priority 99.
 		add_action( 'init', [ $this, 'reset_og_settings_to_default_values' ], 100 );
+	}
+
+	/**
+	 * Performs the 16.8 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_168() {
+		$cleaned_indexable_ids = $this->delete_shop_order_indexables_for_168();
+
+		// @todo add deletion of the returned ids from the rest of the tables - maybe combine queries for optimal performance.
+	}
+
+	/**
+	 * Cleans out shop_order subtypes from the indexable table and returns their ids. shop_order subtypes stopped being added in the indexable table since 16.7.
+	 *
+	 * @return array|null
+	 */
+	private function delete_shop_order_indexables_for_168() {
+		global $wpdb;
+
+		// Get the ids for all shop_order indexables.
+		$indexable_table       = Model::get_table_name( 'Indexable' );
+		$shop_order_indexables = $wpdb->get_col( "SELECT id FROM $indexable_table WHERE object_type = 'post' AND object_sub_type = 'shop_order'" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
+
+		if ( is_array( $shop_order_indexables ) && ! empty( $shop_order_indexables ) ) {
+			$wpdb->query( "DELETE FROM $indexable_table WHERE id ( " . implode( ',', $shop_order_indexables ) . ' ) ' ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
+
+			return $shop_order_indexables;
+		}
+
+		return null;
 	}
 
 	/**
