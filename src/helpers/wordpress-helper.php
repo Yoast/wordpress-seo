@@ -4,8 +4,11 @@ namespace Yoast\WP\SEO\Helpers;
 
 /**
  * A helper object for WordPress matters.
+ *
+ * Note: it is spelled like `Wordpress_Helper` because of Yoast's naming conventions for classes,
+ * which would otherwise break dependency injection in some cases.
  */
-class WordPress_Helper {
+class Wordpress_Helper {
 
 	/**
 	 * Returns the WordPress version.
