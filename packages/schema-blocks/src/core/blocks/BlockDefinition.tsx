@@ -21,7 +21,6 @@ import { openGeneralSidebar } from "../../functions/gutenberg/sidebar";
 export interface RenderEditProps extends BlockEditProps<Record<string, unknown>> {
 	clientId: string;
 	name?: string;
-	key?: string|number;
 }
 
 export interface RenderSaveProps extends BlockSaveProps<Record<string, unknown>> {
@@ -59,7 +58,7 @@ export default class BlockDefinition extends Definition {
 		const sidebarElements = this.sidebarElements( props );
 
 		// Take the children directly to avoid creating too many Fragments.
-		const elements = this.tree.children.map( ( leaf, i ) => leaf.edit( { ...props, key: i }, i ) ).filter( e => e !== null );
+		const elements = this.tree.children.map( ( leaf, i ) => leaf.edit( props, i ) ).filter( e => e !== null );
 
 		if ( sidebarElements.length > 0 ) {
 			const sidebarContainer =
