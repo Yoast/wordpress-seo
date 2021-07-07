@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Helpers\Wordpress_Helper;
 
 /**
- * Class WordPress_Helper_Test.
+ * Class Wordpress_Helper_Test.
  *
  * @group helpers
  *
