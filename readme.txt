@@ -240,7 +240,7 @@ Release Date: July 13th, 2021
 
 Enhancements:
 
-*  Upgrades our REST API to include individual keys/values for all of our meta tags, data and schema output.
+* Upgrades our REST API to include individual keys/values for all of our meta tags, data and schema output. Read all about it in [this in-depth explanation about our REST API](https://yoa.st/rest-api).
 
 Bugfixes:
 
