@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Blocks;
 
-use Yoast\WP\SEO\Helpers\WordPress_Helper;
+use Yoast\WP\SEO\Helpers\Wordpress_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -13,16 +13,16 @@ class Internal_Linking_Category implements Integration_Interface {
 	/**
 	 * Represents the WordPress helper.
 	 *
-	 * @var WordPress_Helper
+	 * @var Wordpress_Helper
 	 */
 	protected $wordpress_helper;
 
 	/**
 	 * Internal_Linking_Category constructor.
 	 *
-	 * @param WordPress_Helper $wordpress_helper The WordPress helper.
+	 * @param Wordpress_Helper $wordpress_helper The WordPress helper.
 	 */
-	public function __construct( WordPress_Helper $wordpress_helper ) {
+	public function __construct( Wordpress_Helper $wordpress_helper ) {
 		$this->wordpress_helper = $wordpress_helper;
 	}
 
