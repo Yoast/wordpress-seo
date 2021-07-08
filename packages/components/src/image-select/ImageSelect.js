@@ -45,7 +45,7 @@ function ImageSelect( props ) {
 				}
 			</span>
 		);
-	}
+	};
 
 	return (
 		<div
