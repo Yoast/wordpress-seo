@@ -42,6 +42,7 @@ export class Indexation extends Component {
 		this.state = {
 			state: STATE.IDLE,
 			processed: 0,
+			error: null,
 			amount: parseInt( this.settings.amount, 10 ),
 			firstTime: (
 				this.settings.firstTime === "1"
@@ -72,7 +73,7 @@ export class Indexation extends Component {
 
 		// Throw an error when the response's status code is not in the 200-299 range.
 		if ( ! response.ok ) {
-			throw new Error( data.message );
+			throw new Error( `${ response.status } - ${ response.statusText }: ${ data.message }` );
 		}
 
 		return data;
@@ -132,6 +133,7 @@ export class Indexation extends Component {
 			} catch ( error ) {
 				this.setState( {
 					state: STATE.ERRORED,
+					error: error,
 					firstTime: false,
 				} );
 			}
@@ -313,8 +315,19 @@ export class Indexation extends Component {
 	 */
 	renderErrorAlert() {
 		const message = { __html: this.generateIndexingError() };
+
+		const detailsStyling = {
+			border: "1px solid #8f1919",
+			margin: "16px 0 0 0",
+			padding: "16px",
+		};
+
 		return <Alert type={ "error" }>
-			<span dangerouslySetInnerHTML={ message } />
+			<span dangerouslySetInnerHTML={ message }/>
+			<details style={ detailsStyling }>
+				<summary>More details</summary>
+				{ this.state.error.message }
+			</details>
 		</Alert>;
 	}
 
