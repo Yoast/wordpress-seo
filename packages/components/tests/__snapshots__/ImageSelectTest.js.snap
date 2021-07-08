@@ -21,7 +21,13 @@ exports[`ImageSelect ImageSelects match the snapshot 1`] = `
       disabled={false}
       onClick={[Function]}
       type="button"
-    />
+    >
+      <span
+        className="screen-reader-text"
+      >
+        Select image
+      </span>
+    </button>
     <div
       className="yoast-image-select-buttons"
     >
@@ -66,6 +72,11 @@ exports[`ImageSelect ImageSelects match the snapshot 2`] = `
         className="yoast-image-select__preview--image"
         src="http://placekitten.com/300/300"
       />
+      <span
+        className="screen-reader-text"
+      >
+        Replace image
+      </span>
     </button>
     <div
       className="yoast-image-select-buttons"
