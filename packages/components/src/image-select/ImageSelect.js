@@ -110,7 +110,6 @@ ImageSelect.propTypes = {
 ImageSelect.defaultProps = {
 	defaultImageUrl: "",
 	imageUrl: "",
-	imageAltText: "",
 	onClick: () => {},
 	onMouseEnter: () => {},
 	onMouseLeave: () => {},
