@@ -1,11 +1,23 @@
 pipeline {
     agent {
-        docker { image 'node:14-alpine' }
+        docker {
+            image 'ubuntu-latest'
+        }
     }
     stages {
-        stage('Test') {
+        stage('Install composer dependencies') {
             steps {
-                sh 'node --version'
+                sh 'composer install'
+            }
+        }
+        stage('Install Yarn dependencies') {
+            steps {
+                sh 'yarn'
+            }
+        }
+        stage('Build the plugin') {
+            steps {
+                sh 'grunt build'
             }
         }
     }
