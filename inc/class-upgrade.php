@@ -836,9 +836,11 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_168() {
+		// Clean out shop_order post types from the indexables table and return which ids were cleaned out.
 		$cleaned_indexable_ids = $this->delete_shop_order_indexables_for_168();
 
-		// @todo add deletion of the returned ids from the rest of the tables - maybe combine queries for optimal performance.
+		$this->delete_shop_order_prominent_words_for_168( $cleaned_indexable_ids );
+		$this->delete_shop_order_seo_links_for_168( $cleaned_indexable_ids );
 	}
 
 	/**
@@ -854,12 +856,54 @@ class WPSEO_Upgrade {
 		$shop_order_indexables = $wpdb->get_col( "SELECT id FROM $indexable_table WHERE object_type = 'post' AND object_sub_type = 'shop_order'" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
 
 		if ( is_array( $shop_order_indexables ) && ! empty( $shop_order_indexables ) ) {
-			$wpdb->query( "DELETE FROM $indexable_table WHERE id ( " . implode( ',', $shop_order_indexables ) . ' ) ' ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
+			$wpdb->query( "DELETE FROM $indexable_table WHERE id IN( " . implode( ',', $shop_order_indexables ) . ' ) ' ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
 
 			return $shop_order_indexables;
 		}
 
 		return null;
+	}
+
+	/**
+	 * Cleans out shop_order subtypes from the prominent_words table.
+	 *
+	 * @param array $indexable_ids Indexables ids that have been cleaned out from the indexable table.
+	 *
+	 * @return bool
+	 */
+	private function delete_shop_order_prominent_words_for_168( $indexable_ids ) {
+		global $wpdb;
+
+		if ( is_array( $indexable_ids ) && ! empty( $indexable_ids ) ) {
+			$prominent_words_table = Model::get_table_name( 'Prominent_Words' );
+
+			$wpdb->query( "DELETE FROM $prominent_words_table WHERE indexable_id IN ( " . implode( ',', $indexable_ids ) . ' ) ' ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Cleans out shop_order subtypes from the seo_links table.
+	 *
+	 * @param array $indexable_ids Indexables ids that have been cleaned out from the indexable table.
+	 *
+	 * @return bool
+	 */
+	private function delete_shop_order_seo_links_for_168( $indexable_ids ) {
+		global $wpdb;
+
+		if ( is_array( $indexable_ids ) && ! empty( $indexable_ids ) ) {
+			$seo_links_table = Model::get_table_name( 'SEO_Links' );
+
+			$wpdb->query( "DELETE FROM $seo_links_table WHERE ( indexable_id IN ( " . implode( ',', $indexable_ids ) . " ) OR target_indexable_id IN ( " . implode( ',', $indexable_ids ) . " ) )  " ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
