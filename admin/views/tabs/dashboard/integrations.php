@@ -7,6 +7,8 @@
  * @uses Yoast_Form $yform Form object.
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
+
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -33,10 +35,15 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 			}
 
 			if ( ! empty( $integration->read_more_label ) ) {
+				$url = $integration->read_more_url;
+				if ( ! empty( $integration->premium ) && $integration->premium === true ) {
+					$url = $integration->premium_url;
+				}
+
 				$help_text .= ' ';
 				$help_text .= sprintf(
 					'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
-					esc_url( WPSEO_Shortlinker::get( $integration->read_more_url ) ),
+					esc_url( WPSEO_Shortlinker::get( $url ) ),
 					esc_html( $integration->read_more_label )
 				);
 			}
@@ -48,20 +55,28 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 				$help_text
 			);
 
+			$name = $integration->name;
+			if ( ! empty( $integration->premium ) && $integration->premium === true ) {
+				$name .= ' ' . new Premium_Badge_Presenter( $integration->name );
+			}
+
+			$disabled = false;
+			if ( $integration->premium === true && YoastSEO()->helpers->product->is_premium() === false ) {
+				$disabled = true;
+			}
+
 			$yform->toggle_switch(
 				$integration->setting,
 				[
 					'on'  => __( 'On', 'wordpress-seo' ),
 					'off' => __( 'Off', 'wordpress-seo' ),
 				],
-				$integration->name,
-				$feature_help->get_button_html() . $feature_help->get_panel_html()
+				$name,
+				$feature_help->get_button_html() . $feature_help->get_panel_html(),
+				[ 'disabled' => $disabled ]
 			);
 
-			if ( ! empty( $integration->after ) ) {
-				// phpcs:ignore WordPress.Security.EscapeOutput -- after contains HTMl and we assume it's properly escape on object creation.
-				echo $integration->after;
-			}
+			do_action( 'Yoast\WP\SEO\admin_integration_after', $integration );
 		}
 		?>
 	</div>

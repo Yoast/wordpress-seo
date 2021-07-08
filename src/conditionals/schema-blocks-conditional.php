@@ -13,7 +13,7 @@ class Schema_Blocks_Conditional extends Feature_Flag_Conditional {
 	 *
 	 * @return string the name of the feature flag.
 	 */
-	public function get_feature_flag() {
+	protected function get_feature_flag() {
 		return 'SCHEMA_BLOCKS';
 	}
 }

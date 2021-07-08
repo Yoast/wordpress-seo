@@ -24,5 +24,14 @@ abstract class Feature_Flag_Conditional implements Conditional {
 	 *
 	 * @return string the name of the feature flag.
 	 */
-	abstract public function get_feature_flag();
+	abstract protected function get_feature_flag();
+
+	/**
+	 * Returns the feature name.
+	 *
+	 * @return string the name of the feature flag.
+	 */
+	public function get_feature_name() {
+		return $this->get_feature_flag();
+	}
 }

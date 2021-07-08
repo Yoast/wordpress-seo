@@ -228,7 +228,7 @@ class Schema_Generator implements Generator_Interface {
 	 * @return Abstract_Schema_Piece[] A filtered array of graph pieces.
 	 */
 	protected function get_graph_pieces( $context ) {
-		if ( \is_single() && \post_password_required() ) {
+		if ( $context->indexable->object_type === 'post' && \post_password_required( $context->post ) ) {
 			$schema_pieces = [
 				new Schema\Organization(),
 				new Schema\Website(),

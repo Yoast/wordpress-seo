@@ -110,13 +110,16 @@ class Feature_Flag_Integration_Test extends TestCase {
 
 		$this->asset_manager
 			->expects( 'localize_script' )
+			->with( 'feature-flag-package', 'wpseoFeaturesL10n', $expected_enabled_feature_flags );
+		$this->asset_manager
+			->expects( 'localize_script' )
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag, in this case the Schema_Blocks_Conditional, to be set.
 		$schema_blocks_conditional = \Mockery::mock( Schema_Blocks_Conditional::class );
 
 		$schema_blocks_conditional
-			->expects( 'get_feature_flag' )
+			->expects( 'get_feature_name' )
 			->andReturn( 'SCHEMA_BLOCKS' );
 
 		$schema_blocks_conditional
@@ -145,13 +148,16 @@ class Feature_Flag_Integration_Test extends TestCase {
 
 		$this->asset_manager
 			->expects( 'localize_script' )
+			->with( 'feature-flag-package', 'wpseoFeaturesL10n', $expected_enabled_feature_flags );
+		$this->asset_manager
+			->expects( 'localize_script' )
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag to be set.
 		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_1
-			->expects( 'get_feature_flag' )
+			->expects( 'get_feature_name' )
 			->andReturn( 'FEATURE_1' );
 
 		$feature_flag_1
@@ -188,13 +194,16 @@ class Feature_Flag_Integration_Test extends TestCase {
 
 		$this->asset_manager
 			->expects( 'localize_script' )
+			->with( 'feature-flag-package', 'wpseoFeaturesL10n', $expected_enabled_feature_flags );
+		$this->asset_manager
+			->expects( 'localize_script' )
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag to be set.
 		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_1
-			->expects( 'get_feature_flag' )
+			->expects( 'get_feature_name' )
 			->andReturn( 'FEATURE_1' );
 
 		$feature_flag_1
@@ -232,13 +241,16 @@ class Feature_Flag_Integration_Test extends TestCase {
 
 		$this->asset_manager
 			->expects( 'localize_script' )
+			->with( 'feature-flag-package', 'wpseoFeaturesL10n', $expected_enabled_feature_flags );
+		$this->asset_manager
+			->expects( 'localize_script' )
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag to be set.
 		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_1
-			->expects( 'get_feature_flag' )
+			->expects( 'get_feature_name' )
 			->andReturn( 'FEATURE_1' );
 
 		$feature_flag_1
@@ -277,13 +289,16 @@ class Feature_Flag_Integration_Test extends TestCase {
 
 		$this->asset_manager
 			->expects( 'localize_script' )
+			->with( 'feature-flag-package', 'wpseoFeaturesL10n', $expected_enabled_feature_flags );
+		$this->asset_manager
+			->expects( 'localize_script' )
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag to be set.
 		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_1
-			->expects( 'get_feature_flag' )
+			->expects( 'get_feature_name' )
 			->andReturn( 'FEATURE_1' );
 
 		$feature_flag_1
@@ -317,6 +332,9 @@ class Feature_Flag_Integration_Test extends TestCase {
 	public function test_add_feature_flags_non_available() {
 		$expected_enabled_feature_flags = [];
 
+		$this->asset_manager
+			->expects( 'localize_script' )
+			->with( 'feature-flag-package', 'wpseoFeaturesL10n', $expected_enabled_feature_flags );
 		$this->asset_manager
 			->expects( 'localize_script' )
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
