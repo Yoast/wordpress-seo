@@ -1,4 +1,5 @@
 // External dependencies.
+import { select } from "@wordpress/data";
 import styled from "styled-components";
 import React from "react";
 import PropTypes from "prop-types";
@@ -74,14 +75,20 @@ function getTitleProgress( title ) {
  *
  * @returns {Object} The description progress.
  */
-function getDescriptionProgress( description, date ) {
+function getDescriptionProgress( description, date, useCornerstone ) {
 	let descriptionLength = description.length;
 	/* If the meta description is preceded by a date, two spaces and a hyphen (" - ") are added as well. Therefore,
 	three needs to be added to the total length. */
 	if ( date !== "" && descriptionLength > 0 ) {
 		descriptionLength += date.length + 3;
 	}
-	const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
+	const metaDescriptionLengthAssessment = useCornerstone ? new MetaDescriptionLengthAssessment( {
+			scores: {
+				tooLong: 3,
+				tooShort: 3,
+			}
+		} ) : new MetaDescriptionLengthAssessment()
+	//const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
 	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength );
 	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength();
 
@@ -122,9 +129,13 @@ class SnippetEditor extends React.Component {
 	 */
 	constructor( props ) {
 		super( props );
-
 		const measurementData = this.mapDataToMeasurements( props.data );
 		const previewData = this.mapDataToPreview( measurementData );
+		const {
+			isCornerstoneContent,
+		} = select( "yoast-seo/editor" );
+		const useCornerstone = isCornerstoneContent();
+		console.log( useCornerstone, "use cornerstone in SnippetEditor");
 
 		this.state = {
 			// Is opened by default when show close button is hidden.
@@ -133,7 +144,7 @@ class SnippetEditor extends React.Component {
 			hoveredField: null,
 			mappedData: previewData,
 			titleLengthProgress: getTitleProgress( measurementData.title ),
-			descriptionLengthProgress: getDescriptionProgress( measurementData.description, this.props.date ),
+			descriptionLengthProgress: getDescriptionProgress( measurementData.description, this.props.date, useCornerstone ),
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
