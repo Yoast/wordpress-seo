@@ -39,9 +39,6 @@ import sentenceBeginningsAssessment from "../../src/scoring/assessments/readabil
 // Import test papers
 import testPapers from "./testTexts";
 
-// Enable Norwegian Readability feature
-enableFeatures( [ "NORWEGIAN_READABILITY" ] );
-
 testPapers.forEach( function( testPaper ) {
 	// eslint-disable-next-line max-statements
 	describe( "Full-text test for paper " + testPaper.name, function() {
