@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { enableFeatures } from "@yoast/feature-flag";
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
