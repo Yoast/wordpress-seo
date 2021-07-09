@@ -20,11 +20,6 @@ class Language_Helper {
 	public function is_word_form_recognition_active( $language ) {
 		$supported_languages = [ 'de', 'en', 'es', 'fr', 'it', 'nl', 'ru', 'id', 'pt', 'pl', 'ar', 'sv', 'he', 'hu', 'nb', 'tr', 'cs' ];
 
-		// If SLOVAK_SUPPORT feature is enabled, push Slovak to the array of the supported languages.
-		if ( $this->slovak_conditional->is_met() ) {
-			array_push( $supported_languages, 'sk' );
-		}
-
 		return \in_array( $language, $supported_languages, true );
 	}
 
