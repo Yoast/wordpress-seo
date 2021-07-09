@@ -77,7 +77,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 		global $wp_query;
 
 		// No need to continue building a cache if the main query did not return anything to cache.
-		if ( empty( $wp_query->posts ) ){
+		if ( empty( $wp_query->posts ) ) {
 			return;
 		}
 
