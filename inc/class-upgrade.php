@@ -837,93 +837,68 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_168() {
 		// Clean out shop_order post types from the indexables table and return which ids were cleaned out.
-		$cleaned_indexable_ids = $this->delete_shop_order_indexables_for_168();
+		$cleaned_indexable_ids = $this->get_indexables_with_object_type( 'post', 'shop_order' );
 
-		$this->delete_shop_order_prominent_words_for_168( $cleaned_indexable_ids );
-		$this->delete_shop_order_seo_links_for_168( $cleaned_indexable_ids );
+		$result = $this->delete_rows_by_indexable_ids( $cleaned_indexable_ids, 'Prominent_Words', 'indexable_id' );
+		$result = $result && $this->delete_rows_by_indexable_ids( $cleaned_indexable_ids, 'SEO_Links', 'indexable_id' );
+		$result = $result && $this->delete_rows_by_indexable_ids( $cleaned_indexable_ids, 'SEO_Links', 'target_indexable_id' );
+
+
+		if ( $result !== false ) {
+			// Delete from indexables table, only if prominent_words and seo_links cleanup was successful, so as to not be left with orphaned entries.
+			$result = $this->delete_rows_by_indexable_ids( $cleaned_indexable_ids, 'Indexable', 'id' );
+		}
 	}
 
 	/**
-	 * Cleans out shop_order subtypes from the indexable table and returns their ids. shop_order subtypes stopped being added in the indexable table since 16.7.
+	 * Gets ids from the indexable table depending on the object_type and object_sub_type.
+	 *
+	 * @param string $object_type     The object type to query.
+	 * @param string $object_sub_type The object subtype to query.
 	 *
 	 * @return array|null
 	 */
-	private function delete_shop_order_indexables_for_168() {
+	private function get_indexables_with_object_type( $object_type, $object_sub_type ) {
 		global $wpdb;
 
 		// Get the ids for all shop_order indexables.
-		$indexable_table       = Model::get_table_name( 'Indexable' );
+		$indexable_table = Model::get_table_name( 'Indexable' );
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
-		$shop_order_indexables = $wpdb->get_col( "SELECT id FROM $indexable_table WHERE object_type = 'post' AND object_sub_type = 'shop_order'" ); 
-
+		$shop_order_indexables = $wpdb->get_col( "SELECT id FROM $indexable_table WHERE object_type = '" . $object_type . "' AND object_sub_type = '" . $object_sub_type. "'" );
 		if ( is_array( $shop_order_indexables ) && ! empty( $shop_order_indexables ) ) {
-			$this->perform_chunked_delete_where_in_query( $indexable_table, 'id', $shop_order_indexables );
-
 			return $shop_order_indexables;
 		}
 
 		return null;
+
 	}
 
-	 /**
+	/**
 	 * Performs a DELETE WHERE IN query in chunks, to avoid isses in large sites.
 	 *
-	 * @param string $from     The table to be delete rows from.
-	 * @param string $where    The where clause column.
-	 * @param array  $to_chunk The array to be chunked.
+	 * @param array $indexable_ids The indexables ids to be cleaned out.
+	 * @param string $table_name   The table to delete rows from.
+	 * @param string $where        The column to base the where clause.
 	 *
 	 * @return bool
 	 */
-	private function perform_chunked_delete_where_in_query( $from, $where, $to_chunk ) {
-		global $wpdb;
-
-		$chunk_size = apply_filters( 'wpseo_upgrade_query_chunk_size', 2 );
-		foreach ( array_chunk( $to_chunk, $chunk_size ) as $chunk ) {
-			$wpdb->query( "DELETE FROM $from WHERE $where IN( " . implode( ',', $chunk ) . ' ) ' );
-		}
-	}
-
-	/**
-	 * Cleans out shop_order subtypes from the prominent_words table.
-	 *
-	 * @param array $indexable_ids Indexables ids that have been cleaned out from the indexable table.
-	 *
-	 * @return bool
-	 */
-	private function delete_shop_order_prominent_words_for_168( $indexable_ids ) {
+	private function delete_rows_by_indexable_ids( $indexable_ids, $table_name, $where ) {
 		global $wpdb;
 
 		if ( is_array( $indexable_ids ) && ! empty( $indexable_ids ) ) {
-			$prominent_words_table = Model::get_table_name( 'Prominent_Words' );
+			$indexable_table = Model::get_table_name( $table_name );
+			$result          = true;
+			$chunk_size      = apply_filters( 'wpseo_upgrade_query_chunk_size', 500 );
 
-			$this->perform_chunked_delete_where_in_query( $prominent_words_table, 'indexable_id', $indexable_ids );
+			foreach ( array_chunk( $indexable_ids, $chunk_size ) as $chunk ) {
+				$result = $result && ! ( false === $wpdb->query( "DELETE FROM $indexable_table WHERE $where IN( " . implode( ',', $chunk ) . ' ) ' ) );
+			}
 
-			return true;
+			return $result;
 		}
 
 		return false;
-	}
 
-	/**
-	 * Cleans out shop_order subtypes from the seo_links table.
-	 *
-	 * @param array $indexable_ids Indexables ids that have been cleaned out from the indexable table.
-	 *
-	 * @return bool
-	 */
-	private function delete_shop_order_seo_links_for_168( $indexable_ids ) {
-		global $wpdb;
-
-		if ( is_array( $indexable_ids ) && ! empty( $indexable_ids ) ) {
-			$seo_links_table = Model::get_table_name( 'SEO_Links' );
-
-			$this->perform_chunked_delete_where_in_query( $seo_links_table, 'indexable_id', $indexable_ids );
-			$this->perform_chunked_delete_where_in_query( $seo_links_table, 'target_indexable_id', $indexable_ids );
-
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
