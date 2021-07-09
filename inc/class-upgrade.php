@@ -853,15 +853,34 @@ class WPSEO_Upgrade {
 
 		// Get the ids for all shop_order indexables.
 		$indexable_table       = Model::get_table_name( 'Indexable' );
-		$shop_order_indexables = $wpdb->get_col( "SELECT id FROM $indexable_table WHERE object_type = 'post' AND object_sub_type = 'shop_order'" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
+		$shop_order_indexables = $wpdb->get_col( "SELECT id FROM $indexable_table WHERE object_type = 'post' AND object_sub_type = 'shop_order'" ); 
 
 		if ( is_array( $shop_order_indexables ) && ! empty( $shop_order_indexables ) ) {
-			$wpdb->query( "DELETE FROM $indexable_table WHERE id IN( " . implode( ',', $shop_order_indexables ) . ' ) ' ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
+			$this->perform_chunked_delete_where_in_query( $indexable_table, 'id', $shop_order_indexables );
 
 			return $shop_order_indexables;
 		}
 
 		return null;
+	}
+
+	 /**
+	 * Performs a DELETE WHERE IN query in chunks, to avoid isses in large sites.
+	 *
+	 * @param string $from     The table to be delete rows from.
+	 * @param string $where    The where clause column.
+	 * @param array  $to_chunk The array to be chunked.
+	 *
+	 * @return bool
+	 */
+	private function perform_chunked_delete_where_in_query( $from, $where, $to_chunk ) {
+		global $wpdb;
+
+		$chunk_size = apply_filters( 'wpseo_upgrade_query_chunk_size', 2 );
+		foreach ( array_chunk( $to_chunk, $chunk_size ) as $chunk ) {
+			$wpdb->query( "DELETE FROM $from WHERE $where IN( " . implode( ',', $chunk ) . ' ) ' );
+		}
 	}
 
 	/**
@@ -877,7 +896,7 @@ class WPSEO_Upgrade {
 		if ( is_array( $indexable_ids ) && ! empty( $indexable_ids ) ) {
 			$prominent_words_table = Model::get_table_name( 'Prominent_Words' );
 
-			$wpdb->query( "DELETE FROM $prominent_words_table WHERE indexable_id IN ( " . implode( ',', $indexable_ids ) . ' ) ' ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
+			$this->perform_chunked_delete_where_in_query( $prominent_words_table, 'indexable_id', $indexable_ids );
 
 			return true;
 		}
@@ -898,7 +917,8 @@ class WPSEO_Upgrade {
 		if ( is_array( $indexable_ids ) && ! empty( $indexable_ids ) ) {
 			$seo_links_table = Model::get_table_name( 'SEO_Links' );
 
-			$wpdb->query( "DELETE FROM $seo_links_table WHERE ( indexable_id IN ( " . implode( ',', $indexable_ids ) . " ) OR target_indexable_id IN ( " . implode( ',', $indexable_ids ) . " ) )  " ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
+			$this->perform_chunked_delete_where_in_query( $seo_links_table, 'indexable_id', $indexable_ids );
+			$this->perform_chunked_delete_where_in_query( $seo_links_table, 'target_indexable_id', $indexable_ids );
 
 			return true;
 		}
