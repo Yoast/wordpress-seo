@@ -7,7 +7,6 @@ import {
 import "@wordpress/annotations";
 import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
-import {BlockInstance} from "@wordpress/blocks";
 
 const ANNOTATION_SOURCE = "yoast";
 
