@@ -7,6 +7,7 @@ import {
 import "@wordpress/annotations";
 import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
+import {BlockInstance} from "@wordpress/blocks";
 
 const ANNOTATION_SOURCE = "yoast";
 
@@ -103,7 +104,7 @@ function scheduleAnnotationQueueApplication() {
  * @returns {boolean} Whether or not annotations are available in Gutenberg.
  */
 export function isAnnotationAvailable() {
-	return select( "core/editor" ) && isFunction( select( "core/editor" ).getBlocks ) &&
+	return select( "core/block-editor" ) && isFunction( select( "core/block-editor" ).getBlocks ) &&
 		select( "core/annotations" ) && isFunction( dispatch( "core/annotations" ).__experimentalAddAnnotation );
 }
 
@@ -373,8 +374,7 @@ export function applyAsAnnotations( paper, marks ) {
 	if ( marks.length === 0 ) {
 		return;
 	}
-
-	const blocks = select( "core/editor" ).getBlocks();
+	const blocks = select( "core/block-editor" ).getBlocks();
 
 	// For every block...
 	const annotations = flatMap( blocks, ( ( block ) => {
