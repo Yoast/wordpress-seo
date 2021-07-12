@@ -75,7 +75,7 @@ export default class BlockDefinition extends Definition {
 			return elements[ 0 ] as ReactElement;
 		}
 
-		return createElement( Fragment, { key: props.clientId }, elements );
+		return createElement( Fragment, { key: props.clientId }, elements.map( ( element, i ) => createElement( Fragment, { key: i }, element ) ) );
 	}
 
 	/**
