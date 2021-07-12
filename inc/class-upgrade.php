@@ -831,12 +831,11 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 16.8 upgrade.
+	 * Performs the 16.8 upgrade. shop_order indexables stopped being added in the db since 16.7, so we have to clean out older entries.
 	 *
 	 * @return void
 	 */
 	private function upgrade_168() {
-		// Clean out shop_order post types from the indexables table and return which ids were cleaned out.
 		$cleaned_indexable_ids = $this->get_indexables_with_object_type( 'post', 'shop_order' );
 
 		$result = $this->delete_rows_by_indexable_ids( $cleaned_indexable_ids, 'Prominent_Words', 'indexable_id' );
@@ -861,7 +860,6 @@ class WPSEO_Upgrade {
 	private function get_indexables_with_object_type( $object_type, $object_sub_type ) {
 		global $wpdb;
 
-		// Get the ids for all shop_order indexables.
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
 		$shop_order_indexables = $wpdb->get_col( "SELECT id FROM $indexable_table WHERE object_type = '" . $object_type . "' AND object_sub_type = '" . $object_sub_type. "'" );
@@ -874,7 +872,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs a DELETE WHERE IN query in chunks, to avoid isses in large sites.
+	 * Cleans out indexable ids with a DELETE WHERE IN query in chunks, to avoid isses in large sites.
 	 *
 	 * @param array $indexable_ids The indexables ids to be cleaned out.
 	 * @param string $table_name   The table to delete rows from.
