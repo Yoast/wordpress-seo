@@ -5,12 +5,8 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Conditionals\Premium_Inactive_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Premium\Actions\Link_Suggestions_Action;
-use Yoast\WP\SEO\Premium\Helpers\Prominent_Words_Helper;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * WorkoutsIntegration class
@@ -35,7 +31,7 @@ class Workouts_Integration implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
+		return [ Admin_Conditional::class, Premium_Inactive_Conditional::class ];
 	}
 
 	/**
@@ -56,10 +52,8 @@ class Workouts_Integration implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
-		if ( ! YoastSEO()->helpers->product->is_premium() ) {
-			add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], 8 );
-			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-		}
+		add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], 8 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 	}
 
 	/**
