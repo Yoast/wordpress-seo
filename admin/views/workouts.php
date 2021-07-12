@@ -14,24 +14,27 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+$button_copy          = __( 'Finish this step', 'wordpress-seo' );
+$finished_button_copy = __( 'Revise this step', 'wordpress-seo' );
+
 ?>
 
 <div id='wpseo-workouts-container'>
 	<div>
 		<h1>
-			<?php esc_attr_e( 'SEO Workouts', 'wordpress-seo' ); ?>
+			<?php esc_html_e( 'SEO Workouts', 'wordpress-seo' ); ?>
 		</h1>
 		<p>
 			<?php
-			esc_attr_e(
+			esc_html_e(
 				'Getting your site in shape and keeping it SEO fit can be challenging. Let us help you get started by taking on the most common SEO challenges, with these step by step SEO workouts.',
 				'wordpress-seo'
 			);
 			?>
 		</p>
 		<div class='card'>
-			<h2><?php esc_attr_e( 'The cornerstone approach', 'wordpress-seo' ); ?></h2>
-			<h3><?php esc_attr_e( 'Rank with articles you want to rank with', 'wordpress-seo' ); ?></h3>
+			<h2><?php esc_html_e( 'The cornerstone approach', 'wordpress-seo' ); ?></h2>
+			<h3><?php esc_html_e( 'Rank with articles you want to rank with', 'wordpress-seo' ); ?></h3>
 			<p>
 				<?php
 				printf(
@@ -67,12 +70,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 			<hr />
 			<ol class='workflow yoast'>
 				<li>
-				<h4><?php esc_attr_e( 'Start: Choose your cornerstones!', 'wordpress-seo' ); ?></h4>
+				<h4><?php esc_html_e( 'Start: Choose your cornerstones!', 'wordpress-seo' ); ?></h4>
 				<div class='workflow__grid'>
 					<div>
 						<p>
 							<?php
-							esc_attr_e(
+							esc_html_e(
 								'Your site might not feel that SEO fit just yet. But that\'s just a matter of time. Let\'s start this workout by choosing your cornerstones.',
 								'wordpress-seo'
 							);
@@ -94,13 +97,19 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 							?>
 						</p>
 					</div>
+					<div>
+						<img
+							class="workflow__image"
+							src="<?php echo esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/seo_fitness_assistants_unfit.svg' ); ?>"
+							width="100px"
+							height="100px"
+							alt="">
+					</div>
 				</div>
-				<button class='yoast-button' disabled='1'>
-					<?php esc_attr_e( 'Finish this step', 'wordpress-seo' ); ?>
-				</button>
+				<button class='yoast-button'><?php echo esc_html( $button_copy ); ?></button>
 				</li>
 				<li>
-				<h4><?php esc_attr_e( 'Mark these articles as cornerstone content', 'wordpress-seo' ); ?></h4>
+				<h4><?php esc_html_e( 'Mark these articles as cornerstone content', 'wordpress-seo' ); ?></h4>
 				<p>
 					<?php
 					printf(
@@ -116,27 +125,40 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 					);
 					?>
 				</p>
-				<button class='yoast-button' disabled='1'>
-					<?php esc_attr_e( 'Finish this step', 'wordpress-seo' ); ?>
-				</button>
+				<p>
+					<img
+						src="<?php echo esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/stale-cornerstone-content-in-yoast-seo.png' ); ?>"
+						width="504px"
+						height="120px"
+						alt="The cornerstone toggle as shown in the Yoast SEO metabox."
+						style="border: 1px solid rgb(204, 204, 204);"
+					>
+				</p>
+				<button class='yoast-button'><?php echo esc_html( $button_copy ); ?></button>
 				</li>
 				<li class="yoast-fadeout">
-					<h4><?php esc_attr_e( 'Want to continue?', 'wordpress-seo' ); ?></h4>
+					<h4><?php esc_html_e( 'Want to continue?', 'wordpress-seo' ); ?></h4>
 					<div class='workflow__grid'>
 						<div>
 							<p>
 								<?php
-								esc_attr_e(
+								esc_html_e(
 									'Finish this workout and make sure the right pages are ranking with Yoast SEO Premium.',
 									'wordpress-seo'
 								);
 								?>
 							</p>
 							<a class='yoast-button-upsell' href='<?php echo esc_url( $cornerstone_upsell ); ?>'>
-								<?php esc_attr_e( 'Get Yoast SEO Premium', 'wordpress-seo' ); ?>
+								<?php esc_html_e( 'Get Yoast SEO Premium', 'wordpress-seo' ); ?>
 							</a>
 						</div>
 						<div>
+							<img
+								class="workflow__image"
+								src="<?php echo esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/seo_fitness_assistants_fit.svg' ); ?>"
+								width="100px"
+								height="100px"
+								alt="">
 						</div>
 					</div>
 				</li>
@@ -144,3 +166,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	jQuery( 'li > button' ).click( function() {
+		jQuery( this ).parent( 'li' ).toggleClass( 'finished' );
+		jQuery( this ).text(
+			jQuery( this ).text() === '<?php echo esc_html( $button_copy ); ?>' ? '<?php echo esc_html( $finished_button_copy ); ?>' : '<?php echo esc_html( $button_copy ); ?>'
+		);
+	} );
+</script>
