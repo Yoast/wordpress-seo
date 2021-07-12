@@ -861,20 +861,19 @@ class WPSEO_Upgrade {
 		global $wpdb;
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
-		$shop_order_indexables = $wpdb->get_col( "SELECT id FROM $indexable_table WHERE object_type = '" . $object_type . "' AND object_sub_type = '" . $object_sub_type. "'" );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: There is no user input.
+		$shop_order_indexables = $wpdb->get_col( "SELECT id FROM $indexable_table WHERE object_type = '" . $object_type . "' AND object_sub_type = '" . $object_sub_type . "'" );
 		if ( is_array( $shop_order_indexables ) && ! empty( $shop_order_indexables ) ) {
 			return $shop_order_indexables;
 		}
 
 		return null;
-
 	}
 
 	/**
 	 * Cleans out indexable ids with a DELETE WHERE IN query in chunks, to avoid isses in large sites.
 	 *
-	 * @param array $indexable_ids The indexables ids to be cleaned out.
+	 * @param array  $indexable_ids The indexables ids to be cleaned out.
 	 * @param string $table_name   The table to delete rows from.
 	 * @param string $where        The column to base the where clause.
 	 *
@@ -889,14 +888,16 @@ class WPSEO_Upgrade {
 			$chunk_size      = apply_filters( 'wpseo_upgrade_query_chunk_size', 500 );
 
 			foreach ( array_chunk( $indexable_ids, $chunk_size ) as $chunk ) {
-				$result = $result && ! ( false === $wpdb->query( "DELETE FROM $indexable_table WHERE $where IN( " . implode( ',', $chunk ) . ' ) ' ) );
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
+				$sql = $wpdb->prepare( "DELETE FROM $indexable_table WHERE $where IN( " . implode( ',', \array_fill( 0, \count( $chunk ), '%s' ) ) . ' ) ', $chunk );
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
+				$result = $result && ! ( $wpdb->query( $sql ) === false );
 			}
 
 			return $result;
 		}
 
 		return false;
-
 	}
 
 	/**
