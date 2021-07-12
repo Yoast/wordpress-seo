@@ -139,24 +139,24 @@ class WP_Robots_Integration implements Integration_Interface {
 	 * @return array The filtered robots.
 	 */
 	protected function enforce_robots_congruence( $robots ) {
-		if ( isset( $robots['nofollow'] ) ) {
+		if ( ! empty( $robots['nofollow'] ) ) {
 			$robots['follow'] = null;
 		}
-		if ( isset( $robots['noarchive'] ) ) {
+		if ( ! empty( $robots['noarchive'] ) ) {
 			$robots['archive'] = null;
 		}
-		if ( isset( $robots['noimageindex'] ) ) {
+		if ( ! empty( $robots['noimageindex'] ) ) {
 			$robots['imageindex'] = null;
 
 			// max-image-preview should be to none when noimageindex is present.
-			if ( isset( $robots['max-image-preview'] ) ) {
+			if ( ! empty( $robots['max-image-preview'] ) ) {
 				$robots['max-image-preview'] = 'none';
 			}
 		}
-		if ( isset( $robots['nosnippet'] ) ) {
+		if ( ! empty( $robots['nosnippet'] ) ) {
 			$robots['snippet'] = null;
 		}
-		if ( isset( $robots['noindex'] ) ) {
+		if ( ! empty( $robots['noindex'] ) ) {
 			$robots['index']             = null;
 			$robots['imageindex']        = null;
 			$robots['noimageindex']      = null;
