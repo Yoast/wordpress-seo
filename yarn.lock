@@ -3917,6 +3917,14 @@
     "@babel/runtime" "^7.13.10"
     lodash "^4.17.19"
 
+"@wordpress/dom@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@wordpress/dom/-/dom-3.1.1.tgz#e533666db79ddc829d127fa11960726e3e22d341"
+  integrity sha512-NkNkgczdQweWXXiP7uaXmuu58JsRU/WN9OTWT0pVTZumTQKsvm0Fcs55jt3NBG+X/F80DC+DPVW6+sTKv0Lqxg==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    lodash "^4.17.21"
+
 "@wordpress/e2e-test-utils@^5.1.2":
   version "5.1.4"
   resolved "https://registry.yarnpkg.com/@wordpress/e2e-test-utils/-/e2e-test-utils-5.1.4.tgz#33436d3168a339e3b3ed11dfe11df7f168f38739"
@@ -3927,13 +3935,6 @@
     "@wordpress/url" "^3.0.0"
     lodash "^4.17.21"
     node-fetch "^2.6.0"
-"@wordpress/dom@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@wordpress/dom/-/dom-3.1.1.tgz#e533666db79ddc829d127fa11960726e3e22d341"
-  integrity sha512-NkNkgczdQweWXXiP7uaXmuu58JsRU/WN9OTWT0pVTZumTQKsvm0Fcs55jt3NBG+X/F80DC+DPVW6+sTKv0Lqxg==
-  dependencies:
-    "@babel/runtime" "^7.13.10"
-    lodash "^4.17.21"
 
 "@wordpress/editor@^9.26.1":
   version "9.26.1"
@@ -4220,7 +4221,7 @@
     "@wordpress/i18n" "^3.19.1"
     lodash "^4.17.19"
 
-"@wordpress/keycodes@^3.1.1":
+"@wordpress/keycodes@^3.0.0", "@wordpress/keycodes@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@wordpress/keycodes/-/keycodes-3.1.1.tgz#d842167401967908713d2f43b3ff9f53cbef2bf8"
   integrity sha512-lLJTl/PJv0F5c02YfFdzS/sspmMM3kWYcix8sXsAQgjzLkOMizSQySBa3bpT2t5auN0YQ34YVyeupVfoY+evOQ==
@@ -12401,14 +12402,6 @@ grunt-git@^1.0.14:
   integrity sha512-cjavNWMysd7qnNMfGArtSdRRbtCUkvDoY/IM0MRcQJCGEEr7B/Onbz53ke7uM/EZroXEOMWtdc647m8TnevoaQ==
   dependencies:
     flopmang "^1.0.0"
-
-"grunt-glotpress@git+https://github.com/Yoast/grunt-glotpress.git#master":
-  version "0.3.0"
-  uid e6ccc69c2532d126f5d8a30397ffd012e55b6eec
-  resolved "git+https://github.com/Yoast/grunt-glotpress.git#e6ccc69c2532d126f5d8a30397ffd012e55b6eec"
-  dependencies:
-    request "^2.88.0"
-    request-promise-native "^1.0.7"
 
 "grunt-glotpress@https://github.com/Yoast/grunt-glotpress.git#master":
   version "0.3.0"
