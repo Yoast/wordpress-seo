@@ -83,7 +83,7 @@ class WP_Robots_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add robots with having the robots input value being a string.
+	 * Tests the add_robots with having the robots input value being a string.
 	 *
 	 * @covers ::add_robots
 	 * @covers ::get_robots_value
@@ -113,7 +113,7 @@ class WP_Robots_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add robots with the robots input being overwritten by our data,
+	 * Tests the add_robots with the robots input being overwritten by our data,
 	 * by setting 'index' and 'follow' to 'true'.
 	 *
 	 * @covers ::add_robots
@@ -156,7 +156,7 @@ class WP_Robots_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add robots with setting 'imageindex' to 'noimageindex' in the context object.
+	 * Tests the add_robots with setting 'imageindex' to 'noimageindex' in the context object.
 	 *
 	 * @covers ::add_robots
 	 * @covers ::get_robots_value
@@ -198,7 +198,7 @@ class WP_Robots_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add robots with the robots input being overwritten by our data,
+	 * Tests the add_robots with the robots input being overwritten by our data,
 	 * by setting 'noindex' and 'follow' to 'true'.
 	 *
 	 * @covers ::add_robots
@@ -239,7 +239,7 @@ class WP_Robots_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add robots with with passing both true and false for associated keys ('index'/'noindex').
+	 * Tests the add_robots with passing both true and false for associated keys ('index'/'noindex').
 	 *
 	 * This test fails when using `isset( $robots['noindex'] )`,
 	 * and passes when using `! empty( $robots['noindex'] )`.
