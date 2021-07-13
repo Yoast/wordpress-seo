@@ -113,14 +113,16 @@ class WP_Robots_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add robots with having the robots input being overwritten by our data.
+	 * Tests the add robots with the robots input being overwritten by our data,
+	 * by setting 'index' and 'follow' to 'true'.
 	 *
 	 * @covers ::add_robots
 	 * @covers ::get_robots_value
 	 * @covers ::format_robots
 	 * @covers ::enforce_robots_congruence
+	 * @covers ::sort_robots
 	 */
-	public function test_add_robots() {
+	public function test_add_robots_overwrite_robots_value_set_to_true() {
 		$context = (object) [
 			'presentation' => (object) [
 				'robots' => [
@@ -154,12 +156,13 @@ class WP_Robots_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add robots with having the robots input being overwritten by our data.
+	 * Tests the add robots with setting 'imageindex' to 'noimageindex' in the context object.
 	 *
 	 * @covers ::add_robots
 	 * @covers ::get_robots_value
 	 * @covers ::format_robots
 	 * @covers ::enforce_robots_congruence
+	 * @covers ::sort_robots
 	 */
 	public function test_add_robots_with_noimageindex() {
 		$context = (object) [
@@ -195,12 +198,14 @@ class WP_Robots_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add robots with having the robots input being overwritten by our data.
+	 * Tests the add robots with the robots input being overwritten by our data,
+	 * by setting 'noindex' and 'follow' to 'true'.
 	 *
 	 * @covers ::add_robots
 	 * @covers ::get_robots_value
 	 * @covers ::format_robots
 	 * @covers ::enforce_robots_congruence
+	 * @covers ::sort_robots
 	 */
 	public function test_add_robots_with_noindex_set() {
 		$context = (object) [
@@ -240,6 +245,7 @@ class WP_Robots_Integration_Test extends TestCase {
 	 * @covers ::get_robots_value
 	 * @covers ::format_robots
 	 * @covers ::enforce_robots_congruence
+	 * @covers ::sort_robots
 	 */
 	public function test_enforce_robots_congruence() {
 		$context = (object) [
