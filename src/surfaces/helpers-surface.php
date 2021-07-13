@@ -33,17 +33,17 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\Primary_Term_Helper   $primary_term
  * @property Helpers\Product_Helper        $product
  * @property Helpers\Redirect_Helper       $redirect
- * @property Helpers\Request_Helper        $request
- * @property Helpers\Require_File_Helper   $require_file
- * @property Helpers\Robots_Helper         $robots
- * @property Helpers\Short_Link_Helper     $short_link
- * @property Helpers\Site_Helper           $site
- * @property Helpers\String_Helper         $string
- * @property Helpers\Taxonomy_Helper       $taxonomy
- * @property Helpers\Url_Helper            $url
- * @property Helpers\User_Helper           $user
- * @property Helpers\Woocommerce_Helper    $woocommerce
- * @property Helpers\WordPress_Helper      $wordpress
+ * @property Helpers\Request_Helper      $request
+ * @property Helpers\Require_File_Helper $require_file
+ * @property Helpers\Robots_Helper       $robots
+ * @property Helpers\Short_Link_Helper   $short_link
+ * @property Helpers\Site_Helper         $site
+ * @property Helpers\String_Helper       $string
+ * @property Helpers\Taxonomy_Helper     $taxonomy
+ * @property Helpers\Url_Helper          $url
+ * @property Helpers\User_Helper         $user
+ * @property Helpers\Woocommerce_Helper  $woocommerce
+ * @property Helpers\Wordpress_Helper    $wordpress
  */
 class Helpers_Surface {
 

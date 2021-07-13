@@ -32,6 +32,7 @@ describe( "ImageSelect", () => {
 			const component = renderer.create(
 				<ImageSelect
 					label={ imageSelect.label }
+					imageAltText={ "" }
 					hasPreview={ imageSelect.hasPreview }
 					imageUrl={ imageSelect.imageUrl }
 				/>

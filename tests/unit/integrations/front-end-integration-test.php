@@ -169,7 +169,7 @@ class Front_End_Integration_Test extends TestCase {
 		$this->instance
 			->expects( 'get_presenters' )
 			->once()
-			->with( 'page_type' )
+			->with( 'page_type', $this->context )
 			->andReturn( [ $this->presenter ] );
 
 		$this->presenter
