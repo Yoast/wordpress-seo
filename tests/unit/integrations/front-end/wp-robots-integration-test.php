@@ -239,6 +239,47 @@ class WP_Robots_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the add robots with with passing both true and false for associated keys ('index'/'noindex').
+	 *
+	 * This test fails when using `isset( $robots['noindex'] )`,
+	 * and passes when using `! empty( $robots['noindex'] )`.
+	 *
+	 * @covers ::add_robots
+	 * @covers ::get_robots_value
+	 * @covers ::format_robots
+	 * @covers ::enforce_robots_congruence
+	 * @covers ::sort_robots
+	 */
+	public function test_add_robots_with_index_true_and_noindex_false() {
+		$context = (object) [
+			'presentation' => (object) [
+				'robots' => [
+					'index'  => 'index',
+					'follow' => 'follow',
+				],
+			],
+		];
+
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $context );
+
+		static::assertEquals(
+			[
+				'index'  => true,
+				'follow' => true,
+			],
+			$this->instance->add_robots(
+				[
+					'index'   => true,
+					'noindex' => false,
+				]
+			)
+		);
+	}
+
+	/**
 	 * Tests the add robots with having the robots input being overwritten by our data.
 	 *
 	 * @covers ::add_robots
