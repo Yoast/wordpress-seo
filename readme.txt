@@ -236,6 +236,34 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 16.8 =
+Release Date: July 27th, 2021
+
+Enhancements:
+
+* Adds the first two steps of the Premium cornerstone workout.
+* [yoastseo] Implements the consecutive sentence beginnings assessment for Slovak to ensure variety in a text.
+* [yoastseo] Implements the passive voice assessment for Slovak.
+* [yoastseo] Implements the transition words assessment for Slovak.
+* [yoastseo] Improves keyphrase recognition in Slovak by filtering out function words such as `som, a, jedna, že`.
+* Throw a notification in the /wp-admin/plugins.php to users who have an expired subscription.
+* [yoastseo] Adds external stemmer for Slovak.
+* [Yoast SEO Premium] Introduces word form support for Slovak.
+* [yoastseo] Improves keyword detection for Norwegian by expanding the list of function words.
+* [yoastseo] Implements the passive voice assessment for Norwegian.
+* [yoastseo] Adds Norwegian transition words and activates the transition words assessment.
+* [yoastseo] Activates the consecutive sentences assessment for Norwegian and adds a list of exception words to exclude from the assessment.
+
+Bugfixes:
+
+* [@yoast/components] Fixes a bug where the ImageSelect did not a have a screen reader text.
+* Fixes a bug where unrelated post queries were being done on ajax calls.
+* Improves performance if the main query does not return posts.
+
+No category:
+
+* Fixes a bug where paginated static frontpages would fail to output a valid breadcrumb.
+
 = 16.7 =
 Release Date: July 13th, 2021
 
@@ -250,33 +278,6 @@ Bugfixes:
 * Fixes a bug where a database entry would be added in the indexables table every time a WooCommerce order was created.
 * Fixes a bug where the SEO optimization could run indefinitely when the database contained at least 25 faulty indexables without a permalink.
 * Fixes a bug where the Advanced section and Schema tab wouldn't be visible in the metabox for Editors. Props to [jordif](https://github.com/jordif).
-
-= 16.6.1 =
-Release Date: July 1st, 2021
-
-Bugfixes:
-
-* Fixes a bug where many Premium editor features would not work if Yoast SEO was updated to version 16.6 while Yoast SEO Premium was still on version 16.5 or lower.
-
-= 16.6 =
-Release Date: June 29th, 2021
-
-Yoast SEO 16.6 comes with a new round of improvements and fixes. We’ve updated the analysis to exclude sentences inside tables and table captions from the consecutive sentences assessment. Enjoy! Read more about what’s new in Yoast SEO 16.6 in [our release post](https://yoa.st/release-16-6)!
-
-Enhancements:
-
-* Updates `SearchAction` schema to comply with Google's updated specification.
-* Excludes sentences inside tables and table captions from the consecutive sentences assessment.
-* Adds adjacent relative links (`rel="prev"` and `rel="next"`) for WooCommerce shop pages. Props to [stodorovic](https://github.com/stodorovic).
-* Adds increased compatibility for LiteSpeed web servers. Props to [J-Rey](https://github.com/J-Rey).
-* Adds adjacent relative links for WooCommerce shop pages. Props to [stodorovic](https://github.com/stodorovic).
-
-Bugfixes:
-
-* Fixes a bug where an error would be shown on the page overview and post overview when the website's MySQL database was run in ANSI-mode. Props to [stodorovic](https://github.com/stodorovic).
-* Fixes a bug where shortcodes would be removed from the Open Graph description even when they were explicitly added. Props to [Lomerill](https://github.com/Lomerill).
-* Fixes a bug where using the `wpseo_schema_{@type}` filter would result in a fatal error.
-* Fixes a bug where the last breadcrumb item was stripped in breadcrumb Schema output on subsequent pages of a static posts page.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
