@@ -241,15 +241,16 @@ Release Date: July 27th, 2021
 
 Enhancements:
 
-* Introduces Slovak language support.
-* Introduces Norwegian readability.
+* Completes the readability analysis for Slovak by adding the transition words, sentence beginnings and passive voice assessments.
+* Improves keyphrase recognition in Slovak by filtering out function words such as `som`, `a`, `jedna`, `že`.
+* Completes the readability analysis for Norwegian by adding the transition words, sentence beginnings and passive voice assessments.
+* Improves keyphrase recognition in Norwegian by expanding the list of function words that are filtered out.
 * Adds the first two steps of the Premium cornerstone workout.
-* Throws a notification in the `/wp-admin/plugins.php` to users who have an expired subscription.
-* Improves performance if the main query does not return posts.
+* Throws a notification in the plugins page to users who have an expired subscription.
+* Improves the performance of background requests (admin-ajax calls).
 
 Bugfixes:
 
-* Fixes a bug where unrelated post queries were being done on ajax calls.
 * Fixes a bug where paginated static frontpages would fail to output a valid breadcrumb.
 
 = 16.7 =
