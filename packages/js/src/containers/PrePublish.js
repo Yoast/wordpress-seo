@@ -19,14 +19,14 @@ import {
 export function mapSelectToProps( select ) {
 	const yoastStore = select( "yoast-seo/editor" );
 	const schemaBlocksStore = select( "yoast-seo/schema-blocks" );
-	const wpEditorStore = select( "core/editor" );
+	const wpBlockEditorStore = select( "core/block-editor" );
 
 	const checklist = [];
 
 	maybeAddFocusKeyphraseCheck( checklist, yoastStore );
 	maybeAddReadabilityCheck( checklist, yoastStore );
 	maybeAddSEOCheck( checklist, yoastStore );
-	maybeAddSchemaBlocksValidationCheck( checklist, schemaBlocksStore, wpEditorStore );
+	maybeAddSchemaBlocksValidationCheck( checklist, schemaBlocksStore, wpBlockEditorStore );
 
 	return { checklist };
 }
