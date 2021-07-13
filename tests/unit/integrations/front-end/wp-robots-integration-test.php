@@ -280,7 +280,50 @@ class WP_Robots_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add robots with having the robots input being overwritten by our data.
+	 * Tests the add_robots with passing `noimageindex` in combination with an empty string for `max-image-preview`.
+	 *
+	 * This test fails when using `! empty( $robots['max-image-preview'] )`,
+	 * and passes when using `isset( $robots['max-image-preview'] )`.
+	 *
+	 * @covers ::add_robots
+	 * @covers ::get_robots_value
+	 * @covers ::format_robots
+	 * @covers ::enforce_robots_congruence
+	 * @covers ::sort_robots
+	 */
+	public function test_add_robots_with_noimageindex_and_maximagepreview_empty() {
+		$context = (object) [
+			'presentation' => (object) [
+				'robots' => [
+					'index'  => 'index',
+					'follow' => 'follow',
+				],
+			],
+		];
+
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $context );
+
+		static::assertEquals(
+			[
+				'index'             => true,
+				'follow'            => true,
+				'noimageindex'      => true,
+				'max-image-preview' => 'none',
+			],
+			$this->instance->add_robots(
+				[
+					'noimageindex'      => true,
+					'max-image-preview' => '',
+				]
+			)
+		);
+	}
+
+	/**
+	 * Tests the add_robots with having the robots input being overwritten by our data.
 	 *
 	 * @covers ::add_robots
 	 * @covers ::get_robots_value
