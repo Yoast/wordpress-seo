@@ -1,10 +1,12 @@
 /* global yoastIndexingData */
 import { Component, Fragment } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
-import { ProgressBar, NewButton, Alert } from "@yoast/components";
+import { __ } from "@wordpress/i18n";
+import { Alert, NewButton, ProgressBar } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
-import { removeSearchParam, addHistoryState } from "../helpers/urlHelpers";
+import { addHistoryState, removeSearchParam } from "../helpers/urlHelpers";
+import IndexationError from "./IndexationError";
+import { RequestError } from "../errors/RequestError";
 
 const STATE = {
 	/**
@@ -73,7 +75,7 @@ export class Indexation extends Component {
 
 		// Throw an error when the response's status code is not in the 200-299 range.
 		if ( ! response.ok ) {
-			throw new Error( `${ response.status } - ${ response.statusText }: ${ data.message }` );
+			throw new RequestError( data.message, url, "POST", response.status );
 		}
 
 		return data;
@@ -314,57 +316,12 @@ export class Indexation extends Component {
 	 * @returns {JSX.Element} The error alert.
 	 */
 	renderErrorAlert() {
-		const message = { __html: this.generateIndexingError() };
-
-		const detailsStyling = {
-			border: "1px solid #8f1919",
-			margin: "16px 0 0 0",
-			padding: "16px",
-		};
-
-		return <Alert type={ "error" }>
-			<span dangerouslySetInnerHTML={ message }/>
-			<details style={ detailsStyling }>
-				<summary>More details</summary>
-				{ this.state.error.message }
-			</details>
-		</Alert>;
-	}
-
-	/**
-	 * Generates an error message to show when indexing failed.
-	 *
-	 * The error message varies based on whether WordPress SEO Premium
-	 * has a valid, activated subscription or not.
-	 *
-	 * @returns {string} The indexing error as an HTML string.
-	 */
-	generateIndexingError() {
-		let message = __(
-			"Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
-			"Please click the button again to re-start the process.",
-			"wordpress-seo"
-		);
-
-		if ( yoastIndexingData.isPremium === "1" ) {
-			if ( yoastIndexingData.hasValidPremiumSubscription === "1" ) {
-				message += __( " If the problem persists, please contact support.", "wordpress-seo" );
-			} else {
-				message = sprintf(
-					__(
-						"Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
-						"Please make sure to activate your subscription in MyYoast by completing %1$sthese steps%2$s.",
-						"wordpress-seo"
-					),
-					// Translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page,
-					// %2$s expands to a closing anchor tag.
-					"<a href='" + yoastIndexingData.subscriptionActivationLink + "'>",
-					"</a>"
-				);
-			}
-		}
-
-		return message;
+		return <IndexationError
+			isPremium={ yoastIndexingData.isPremium === "1" }
+			hasValidPremiumSubscription={ yoastIndexingData.hasValidPremiumSubscription === "1" }
+			subscriptionActivationLink={ yoastIndexingData.subscriptionActivationLink }
+			error={ this.state.error }
+		/>;
 	}
 
 	/**
