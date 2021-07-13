@@ -42,9 +42,11 @@ class Canonical_Presenter_Test extends TestCase {
 		$presentation->canonical = 'https://permalink';
 		$presentation->robots    = [];
 
+		$presented_canonical = $instance->present();
+
 		$this->assertEquals(
 			'<link rel="canonical" href="https://permalink" />',
-			$instance->present()
+			$presented_canonical
 		);
 	}
 

@@ -11,8 +11,35 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Tests WPSEO_Admin_Asset.
  *
  * @coversDefaultClass WPSEO_Admin_Asset_Analysis_Worker_Location
+ *
+ * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
+
+	/**
+	 * Prepare the tests.
+	 */
+	protected function set_up() {
+		parent::set_up();
+		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
+		if ( ! defined( 'WPSEO_FILE' ) ) {
+			define( 'WPSEO_FILE', $this->get_wpseo_file() );
+		}
+		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
+		if ( ! defined( 'WPSEO_VERSION' ) ) {
+			define( 'WPSEO_VERSION', '16.6' );
+		}
+	}
+
+	/**
+	 * Get the path to wordpress-seo
+	 *
+	 * @return false|string
+	 */
+	protected function get_wpseo_file() {
+		return \realpath( __DIR__ . '/../../../wp-seo.php' );
+	}
 
 	/**
 	 * Tests the get_url function.
@@ -30,10 +57,12 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 
 		Monkey\Functions\expect( 'plugins_url' )
 			->once()
-			->with( 'js/dist/analysis-worker-' . $version . '.js', \realpath( __DIR__ . '/../../../wp-seo.php' ) )
+			->with( 'js/dist/analysis-worker-' . $version . '.js', $this->get_wpseo_file() )
 			->andReturn( 'asset_location' );
 
-		$actual = $location->get_url( $location->get_asset(), WPSEO_Admin_Asset::TYPE_JS );
+		$asset_location = $location->get_asset();
+		$actual         = $location->get_url( $asset_location, WPSEO_Admin_Asset::TYPE_JS );
+
 		$this->assertSame( 'asset_location', $actual );
 	}
 
@@ -55,7 +84,7 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 
 		Monkey\Functions\expect( 'plugins_url' )
 			->once()
-			->with( 'js/dist/' . $custom_file_name . '-' . $version . '.js', \realpath( __DIR__ . '/../../../wp-seo.php' ) )
+			->with( 'js/dist/' . $custom_file_name . '-' . $version . '.js', $this->get_wpseo_file() )
 			->andReturn( 'asset_location' );
 
 		$actual = $location->get_url( $location->get_asset(), WPSEO_Admin_Asset::TYPE_JS );

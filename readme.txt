@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.7
+Tested up to: 5.8
 Stable tag: 16.6.1
 Requires PHP: 5.6.20
 
@@ -109,6 +109,7 @@ Yoast SEO integrates seamlessly into a range of themes and plugins. We work part
 * The [Advanced Custom Fields](https://wordpress.org/plugins/advanced-custom-fields/) plugin, when you also activate the [ACF Content Analysis for Yoast SEO](https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/) plugin.
 * The [Elementor](https://wordpress.org/plugins/elementor/) website builder.
 * [Zapier](https://zapier.com/apps/yoast-seo/integrations), which helps you automate your publishing flow.
+* [Algolia](https://wordpress.org/plugins/wp-search-with-algolia/) integration to improve the quality of your site search.
 
 ### BUG REPORTS
 
@@ -235,6 +236,21 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 16.7 =
+Release Date: July 13th, 2021
+
+Meet Yoast SEO 16.7! This release comes with extended support for headless WordPress. Yoast SEO comes with a REST API that developers can use to access our metadata in a headless WordPress installation. In Yoast SEO 16.7, we’re making more data available and also in a different format: JSON. Read more about what’s new in Yoast SEO 16.7 in [our release post](https://yoa.st/release-16-7)!
+
+Enhancements:
+
+* Upgrades our REST API to include individual keys/values for all of our meta tags, data and schema output. Read all about it in [this in-depth explanation about our REST API](https://yoa.st/rest-api).
+
+Bugfixes:
+
+* Fixes a bug where a database entry would be added in the indexables table every time a WooCommerce order was created.
+* Fixes a bug where the SEO optimization could run indefinitely when the database contained at least 25 faulty indexables without a permalink.
+* Fixes a bug where the Advanced section and Schema tab wouldn't be visible in the metabox for Editors. Props to [jordif](https://github.com/jordif).
+
 = 16.6.1 =
 Release Date: July 1st, 2021
 
@@ -261,34 +277,6 @@ Bugfixes:
 * Fixes a bug where shortcodes would be removed from the Open Graph description even when they were explicitly added. Props to [Lomerill](https://github.com/Lomerill).
 * Fixes a bug where using the `wpseo_schema_{@type}` filter would result in a fatal error.
 * Fixes a bug where the last breadcrumb item was stripped in breadcrumb Schema output on subsequent pages of a static posts page.
-
-= 16.5 =
-Release Date: June 15th, 2021
-
-Yoast SEO 16.5 is out today! This release comes with a number of fixes and enhancements. For instance, easier social media settings, better understanding of the Turkish and Czech languages and improvements to the breadcrumbs schema output. Read all about it in [our release post](https://yoa.st/release-16-5)!
-
-Enhancements:
-
-* Improves passive voice recognition for Turkish.
-* Improves accuracy of the Czech passive voice assessment by separating clauses based on punctuation marks, and by expanding the list of stopwords.
-* Changes the breadcrumbs schema output so Google can understand it better.
-* Moves the social settings for the homepage from the Social > Facebook tab, to Search Appearance > General.
-* Improves the organization of the Search Appearance > General tab, with distinct collapsibles for the Title Separator, the Homepage settings and the Schema.org settings.
-* Introduces a notice to be displayed in Search Appearance > General in place of the Social settings for the Homepage when Open Graph is disabled.
-* Introduces an image validation warning for the Homepage social image and the Default social image to warn about unsupported file extensions.
-* Improves spacing, headings and toggle labels in the Search Appearance settings, and makes the forms more consistent.
-* Less is more: removes a whole bunch of ads from the Yoast SEO admin screens.
-* Optimizes subscription validations made by Premium add-ons.
-* Improves the truncation of the `primary_focus_keyword` field in the database to handle multibyte characters. Props to [rickhurst](https://github.com/rickhurst).
-* Introduces a partial integration of the Yoast SEO meta box in the Web Stories WordPress editor. Props to [swissspidy](https://github.com/swissspidy).
-
-Bugfixes:
-
-* Fixes a bug where `max-image-preview:large` would be output in the robots meta tag in combination with `noimage`.
-
-Other:
-
-* Moves the 'Force rewrite titles' toggle into a separate paper in the General Search Appearance settings.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

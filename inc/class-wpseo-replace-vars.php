@@ -421,9 +421,10 @@ class WPSEO_Replace_Vars {
 	private function retrieve_parent_title() {
 		$replacement = null;
 
-		if ( ( is_singular() || is_admin() ) && isset( $GLOBALS['post'] ) ) {
-			if ( isset( $GLOBALS['post']->post_parent ) && $GLOBALS['post']->post_parent !== 0 ) {
-				$replacement = get_the_title( $GLOBALS['post']->post_parent );
+		if ( ! empty( $this->args->ID ) ) {
+			$parent_id = wp_get_post_parent_id( $this->args->ID );
+			if ( $parent_id ) {
+				$replacement = get_the_title( $parent_id );
 			}
 		}
 
@@ -505,7 +506,7 @@ class WPSEO_Replace_Vars {
 	private function retrieve_tag() {
 		$replacement = null;
 
-		if ( isset( $this->args->ID ) ) {
+		if ( ! empty( $this->args->ID ) ) {
 			$tags = $this->get_terms( $this->args->ID, 'post_tag' );
 			if ( $tags !== '' ) {
 				$replacement = $tags;
@@ -532,7 +533,7 @@ class WPSEO_Replace_Vars {
 	private function retrieve_term_description() {
 		$replacement = null;
 
-		if ( isset( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) {
+		if ( ! empty( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) {
 			$term_desc = get_term_field( 'description', $this->args->term_id, $this->args->taxonomy );
 			if ( $term_desc !== '' ) {
 				$replacement = wp_strip_all_tags( $term_desc );
@@ -729,21 +730,19 @@ class WPSEO_Replace_Vars {
 	 * @return string|null
 	 */
 	private function retrieve_cf_custom_field_name( $var ) {
-		global $post;
 		$replacement = null;
 
 		if ( is_string( $var ) && $var !== '' ) {
 			$field = substr( $var, 3 );
-			if ( ( is_singular() || is_admin() ) && ( is_object( $post ) && isset( $post->ID ) ) ) {
+			if ( ! empty( $this->args->ID ) ) {
 				// Post meta can be arrays and in this case we need to exclude them.
-				$name = get_post_meta( $post->ID, $field, true );
+				$name = get_post_meta( $this->args->ID, $field, true );
 				if ( $name !== '' && ! is_array( $name ) ) {
 					$replacement = $name;
 				}
 			}
-			elseif ( is_category() || is_tag() || is_tax() ) {
-				$term = $GLOBALS['wp_query']->get_queried_object();
-				$name = get_term_meta( $term->term_id, $field, true );
+			elseif ( ! empty( $this->args->term_id ) ) {
+				$name = get_term_meta( $this->args->term_id, $field, true );
 				if ( $name !== '' ) {
 					$replacement = $name;
 				}
@@ -785,13 +784,12 @@ class WPSEO_Replace_Vars {
 	 * @return string|null
 	 */
 	private function retrieve_ct_desc_custom_tax_name( $var ) {
-		global $post;
 		$replacement = null;
 
 		if ( is_string( $var ) && $var !== '' ) {
 			$tax = substr( $var, 8 );
-			if ( is_object( $post ) && isset( $post->ID ) ) {
-				$terms = get_the_terms( $post->ID, $tax );
+			if ( ! empty( $this->args->ID ) ) {
+				$terms = get_the_terms( $this->args->ID, $tax );
 				if ( is_array( $terms ) && $terms !== [] ) {
 					$term      = current( $terms );
 					$term_desc = get_term_field( 'description', $term->term_id, $tax );
@@ -1351,13 +1349,11 @@ class WPSEO_Replace_Vars {
 	 * @return string Either a single term or a comma delimited string of terms.
 	 */
 	public function get_terms( $id, $taxonomy, $return_single = false ) {
-
 		$output = '';
 
 		// If we're on a specific tag, category or taxonomy page, use that.
-		if ( is_category() || is_tag() || is_tax() ) {
-			$term   = $GLOBALS['wp_query']->get_queried_object();
-			$output = $term->name;
+		if ( ! empty( $this->args->term_id ) ) {
+			$output = $this->args->name;
 		}
 		elseif ( ! empty( $id ) && ! empty( $taxonomy ) ) {
 			$terms = get_the_terms( $id, $taxonomy );
@@ -1419,7 +1415,7 @@ class WPSEO_Replace_Vars {
 	private function retrieve_term_hierarchy() {
 		$replacement = null;
 
-		if ( isset( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) {
+		if ( ! empty( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) {
 			$hierarchy = $this->get_term_hierarchy();
 
 			if ( $hierarchy !== '' ) {

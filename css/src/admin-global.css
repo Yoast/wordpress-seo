@@ -630,6 +630,10 @@ body.folded .wpseo-admin-submit-fixed {
 	vertical-align: -1em;
 }
 
+.switch-container legend .yoast-badge {
+  vertical-align: 0em;
+}
+
 .yoast_help + .yoast-badge {
 	vertical-align: bottom;
 }

@@ -10,11 +10,11 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 class Yandex_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * The tag format including placeholders.
+	 * The tag key name.
 	 *
 	 * @var string
 	 */
-	protected $tag_format = '<meta name="yandex-verification" content="%s" />';
+	protected $key = 'yandex-verification';
 
 	/**
 	 * Retrieves the webmaster tool site verification value from the settings.
