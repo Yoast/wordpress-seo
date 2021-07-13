@@ -241,27 +241,15 @@ Release Date: July 27th, 2021
 
 Enhancements:
 
+* Introduces Slovak language support.
+* Introduces Norwegian readability.
 * Adds the first two steps of the Premium cornerstone workout.
-* [yoastseo] Implements the consecutive sentence beginnings assessment for Slovak to ensure variety in a text.
-* [yoastseo] Implements the passive voice assessment for Slovak.
-* [yoastseo] Implements the transition words assessment for Slovak.
-* [yoastseo] Improves keyphrase recognition in Slovak by filtering out function words such as `som, a, jedna, že`.
-* Throw a notification in the /wp-admin/plugins.php to users who have an expired subscription.
-* [yoastseo] Adds external stemmer for Slovak.
-* [Yoast SEO Premium] Introduces word form support for Slovak.
-* [yoastseo] Improves keyword detection for Norwegian by expanding the list of function words.
-* [yoastseo] Implements the passive voice assessment for Norwegian.
-* [yoastseo] Adds Norwegian transition words and activates the transition words assessment.
-* [yoastseo] Activates the consecutive sentences assessment for Norwegian and adds a list of exception words to exclude from the assessment.
+* Throws a notification in the `/wp-admin/plugins.php` to users who have an expired subscription.
+* Improves performance if the main query does not return posts.
 
 Bugfixes:
 
-* [@yoast/components] Fixes a bug where the ImageSelect did not a have a screen reader text.
 * Fixes a bug where unrelated post queries were being done on ajax calls.
-* Improves performance if the main query does not return posts.
-
-No category:
-
 * Fixes a bug where paginated static frontpages would fail to output a valid breadcrumb.
 
 = 16.7 =

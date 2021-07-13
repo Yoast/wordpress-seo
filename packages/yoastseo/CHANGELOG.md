@@ -5,6 +5,15 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ## 1.92.0
 ### Enhancements
+* Implements the consecutive sentence beginnings assessment for Slovak to ensure variety in a text.
+* Implements the passive voice assessment for Slovak.
+* Implements the transition words assessment for Slovak.
+* Improves keyphrase recognition in Slovak by filtering out function words such as `som, a, jedna, že`.
+* Adds external stemmer for Slovak.
+* Improves keyword detection for Norwegian by expanding the list of function words.
+* Implements the passive voice assessment for Norwegian.
+* Adds Norwegian transition words and activates the transition words assessment.
+* Activates the consecutive sentences assessment for Norwegian and adds a list of exception words to exclude from the assessment.
 * Adds `jak wiemy` to the list of Polish transition words.
 * Adds Czech stemmer.
 * Implements the passive voice assessment for Czech.
