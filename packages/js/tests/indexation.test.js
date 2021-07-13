@@ -94,6 +94,7 @@ describe( "Indexation", () => {
 				},
 				nonce: "nonsense",
 			},
+			subscriptionActivationLink: "https://example.net/activation-link",
 		};
 
 		global.fetch = jest.fn();
@@ -111,10 +112,6 @@ describe( "Indexation", () => {
 			const alert = component.find( "Alert" );
 
 			expect( alert.prop( "type" ) ).toEqual( "error" );
-			expect( alert.text() ).toEqual(
-				"Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
-				"Please click the button again to re-start the process."
-			);
 
 			done();
 		} );

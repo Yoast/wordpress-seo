@@ -93,7 +93,7 @@ function ErrorLine( { title, value } ) {
 
 ErrorLine.propTypes = {
 	title: PropTypes.string.isRequired,
-	value: PropTypes.any.isRequired,
+	value: PropTypes.any,
 };
 
 /**
@@ -137,7 +137,7 @@ export default function IndexationError( { isPremium, hasValidPremiumSubscriptio
 		<AlertParagraph dangerouslySetInnerHTML={ paragraph1 } />
 		<AlertParagraph dangerouslySetInnerHTML={ paragraph2 } />
 		<details>
-			<summary>{ __( "Show/hide error details", "wordpress-seo" ) }</summary>
+			<summary>{ __( "Error details (click to show/hide)", "wordpress-seo" ) }</summary>
 			<ErrorDetails error={ error } />
 		</details>
 	</Alert>;
