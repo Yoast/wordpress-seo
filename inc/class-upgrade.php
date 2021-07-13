@@ -836,16 +836,22 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_168() {
-		$cleaned_indexable_ids = $this->get_indexables_with_object_type( 'post', 'shop_order' );
+		$indexable_ids_to_clean = $this->get_indexables_with_object_type( 'post', 'shop_order' );
+		$number_of_indexables   = count( $indexable_ids_to_clean );
 
-		$result = $this->delete_rows_by_indexable_ids( $cleaned_indexable_ids, 'Prominent_Words', 'indexable_id' );
-		$result = $result && $this->delete_rows_by_indexable_ids( $cleaned_indexable_ids, 'SEO_Links', 'indexable_id' );
-		$result = $result && $this->delete_rows_by_indexable_ids( $cleaned_indexable_ids, 'SEO_Links', 'target_indexable_id' );
+		while ( $number_of_indexables > 0 ) {
+			$result = $this->delete_rows_by_indexable_ids( $indexable_ids_to_clean, 'Prominent_Words', 'indexable_id' );
+			$result = $result && $this->delete_rows_by_indexable_ids( $indexable_ids_to_clean, 'SEO_Links', 'indexable_id' );
+			$result = $result && $this->delete_rows_by_indexable_ids( $indexable_ids_to_clean, 'SEO_Links', 'target_indexable_id' );
 
+			if ( $result !== false ) {
+				// Delete from indexables table, only if prominent_words and seo_links cleanup was successful, so as to not be left with orphaned entries.
+				$result = $this->delete_rows_by_indexable_ids( $indexable_ids_to_clean, 'Indexable', 'id' );
+			}
 
-		if ( $result !== false ) {
-			// Delete from indexables table, only if prominent_words and seo_links cleanup was successful, so as to not be left with orphaned entries.
-			$result = $this->delete_rows_by_indexable_ids( $cleaned_indexable_ids, 'Indexable', 'id' );
+			$highest_id             = end( $indexable_ids_to_clean );
+			$indexable_ids_to_clean = $this->get_indexables_with_object_type( 'post', 'shop_order', $highest_id );
+			$number_of_indexables   = count( $indexable_ids_to_clean );
 		}
 	}
 
@@ -854,28 +860,35 @@ class WPSEO_Upgrade {
 	 *
 	 * @param string $object_type     The object type to query.
 	 * @param string $object_sub_type The object subtype to query.
+	 * @param int    $minimum_id      The id of the last indexable of previous gets.
+	 * @param int    $limit           The chunk size for the gets to be performed with.
 	 *
-	 * @return array|null
+	 * @return array
 	 */
-	private function get_indexables_with_object_type( $object_type, $object_sub_type ) {
+	private function get_indexables_with_object_type( $object_type, $object_sub_type, $minimum_id = 0, $limit = 500 ) {
 		global $wpdb;
 
+		$limit           = apply_filters( 'wpseo_upgrade_query_chunk_size', $limit );
 		$indexable_table = Model::get_table_name( 'Indexable' );
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: There is no user input.
-		$shop_order_indexables = $wpdb->get_col( "SELECT id FROM $indexable_table WHERE object_type = '" . $object_type . "' AND object_sub_type = '" . $object_sub_type . "'" );
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+		$sql = $wpdb->prepare( "SELECT id FROM $indexable_table WHERE object_type = '" . $object_type . "' AND object_sub_type = '" . $object_sub_type . "' AND id > " . $minimum_id . ' ORDER BY id LIMIT %d', $limit );
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
+		$shop_order_indexables = $wpdb->get_col( $sql );
+
 		if ( is_array( $shop_order_indexables ) && ! empty( $shop_order_indexables ) ) {
 			return $shop_order_indexables;
 		}
 
-		return null;
+		return [];
 	}
 
 	/**
-	 * Cleans out indexable ids with a DELETE WHERE IN query in chunks, to avoid isses in large sites.
+	 * Cleans out indexable ids with a DELETE WHERE IN query.
 	 *
 	 * @param array  $indexable_ids The indexables ids to be cleaned out.
-	 * @param string $table_name   The table to delete rows from.
-	 * @param string $where        The column to base the where clause.
+	 * @param string $table_name    The table to delete rows from.
+	 * @param string $where         The column to base the where clause.
 	 *
 	 * @return bool
 	 */
@@ -884,15 +897,11 @@ class WPSEO_Upgrade {
 
 		if ( is_array( $indexable_ids ) && ! empty( $indexable_ids ) ) {
 			$indexable_table = Model::get_table_name( $table_name );
-			$result          = true;
-			$chunk_size      = apply_filters( 'wpseo_upgrade_query_chunk_size', 500 );
 
-			foreach ( array_chunk( $indexable_ids, $chunk_size ) as $chunk ) {
-				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
-				$sql = $wpdb->prepare( "DELETE FROM $indexable_table WHERE $where IN( " . implode( ',', \array_fill( 0, \count( $chunk ), '%s' ) ) . ' ) ', $chunk );
-				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
-				$result = $result && ! ( $wpdb->query( $sql ) === false );
-			}
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
+			$sql = $wpdb->prepare( "DELETE FROM $indexable_table WHERE $where IN( " . implode( ',', \array_fill( 0, \count( $indexable_ids ), '%s' ) ) . ' ) ', $indexable_ids );
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
+			$result = ! ( $wpdb->query( $sql ) === false );
 
 			return $result;
 		}
