@@ -252,6 +252,7 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where paginated static frontpages would fail to output a valid breadcrumb.
+* Fixes a bug where the image selectors in the search appearance and social settings did not have a screen reader text.
 
 = 16.7 =
 Release Date: July 13th, 2021
