@@ -43,7 +43,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 * @return array Objects to be indexed.
 	 */
 	protected function get_objects() {
-		$query = $this->get_query( false, $this->get_limit() );
+		$query = $this->get_select_query( $this->get_limit() );
 
 		$posts = $this->wpdb->get_results( $query );
 
@@ -60,32 +60,87 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	}
 
 	/**
-	 * Queries the database for unindexed term IDs.
+	 * Queries the database for unindexed post link IDs.
 	 *
 	 * @param bool $count Whether or not it should be a count query.
-	 * @param int  $limit The maximum number of term IDs to return.
+	 * @param int  $limit The maximum number of post link IDs to return.
 	 *
 	 * @return string The query.
 	 */
 	protected function get_query( $count, $limit = 1 ) {
+		if ( $count ) {
+			return $this->get_count_query( $limit );
+		}
+		return $this->get_select_query( $limit );
+	}
+
+	/**
+	 * Builds a query for counting the number of unindexed post links.
+	 *
+	 * @param bool $limit The maximum amount of unindexed post links that should be counted.
+	 *
+	 * @return string The prepared query string.
+	 */
+	protected function get_count_query( $limit = false ) {
 		$public_post_types = $this->post_type_helper->get_accessible_post_types();
 		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) );
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$links_table       = Model::get_table_name( 'SEO_Links' );
 		$replacements      = $public_post_types;
 
-		$select = 'P.ID, P.post_content';
-		if ( $count ) {
-			$select = 'COUNT(P.ID)';
-		}
 		$limit_query = '';
-		if ( ! $count ) {
+		if ( $limit ) {
 			$limit_query    = 'LIMIT %d';
 			$replacements[] = $limit;
 		}
 
+		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
 		return $this->wpdb->prepare(
-			"SELECT $select
+			"SELECT COUNT(P.ID)
+			FROM {$this->wpdb->posts} AS P
+			LEFT JOIN $indexable_table AS I
+				ON P.ID = I.object_id
+				AND I.link_count IS NOT NULL
+				AND I.object_type = 'post'
+			LEFT JOIN $links_table AS L
+				ON L.post_id = P.ID
+				AND L.target_indexable_id IS NULL
+				AND L.type = 'internal'
+				AND L.target_post_id IS NOT NULL
+				AND L.target_post_id != 0
+			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
+				AND P.post_status = 'publish'
+				AND P.post_type IN ($placeholders)
+			ORDER BY P.ID
+			$limit_query
+			",
+			$replacements
+		);
+	}
+
+	/**
+	 * Builds a query for selecting the ID's of unindexed post links.
+	 *
+	 * @param bool $limit The maximum number of post link IDs to return.
+	 *
+	 * @return string The prepared query string.
+	 */
+	protected function get_select_query( $limit = false ) {
+		$public_post_types = $this->post_type_helper->get_accessible_post_types();
+		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) );
+		$indexable_table   = Model::get_table_name( 'Indexable' );
+		$links_table       = Model::get_table_name( 'SEO_Links' );
+		$replacements      = $public_post_types;
+
+		$limit_query = '';
+		if ( $limit ) {
+			$limit_query    = 'LIMIT %d';
+			$replacements[] = $limit;
+		}
+
+		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
+		return $this->wpdb->prepare(
+			"SELECT P.ID, P.post_content
 			FROM {$this->wpdb->posts} AS P
 			LEFT JOIN $indexable_table AS I
 				ON P.ID = I.object_id

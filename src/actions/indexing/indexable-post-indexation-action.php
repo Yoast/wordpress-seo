@@ -55,15 +55,17 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	/**
 	 * Returns the total number of unindexed posts.
 	 *
+	 * @param int $limit Limit the number of unindexed posts that are counted.
+	 *
 	 * @return int|false The total number of unindexed posts. False if the query fails.
 	 */
-	public function get_total_unindexed() {
+	public function get_total_unindexed( $limit = false ) {
 		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
 
-		$query = $this->get_query( true );
+		$query = $this->get_count_query( $limit );
 
 		$result = $this->wpdb->get_var( $query );
 
@@ -82,7 +84,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 * @return Indexable[] The created indexables.
 	 */
 	public function index() {
-		$query    = $this->get_query( false, $this->get_limit() );
+		$query    = $this->get_select_query( $this->get_limit() );
 		$post_ids = $this->wpdb->get_col( $query );
 
 		$indexables = [];
@@ -124,23 +126,67 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 * @return string The query.
 	 */
 	protected function get_query( $count, $limit = 1 ) {
+		if ( $count ) {
+			return $this->get_count_query( $limit );
+		}
+		return $this->get_select_query( $limit );
+	}
+
+	/**
+	 * Builds a query for counting the number of unindexed posts.
+	 *
+	 * @param bool $limit The maximum amount of unindexed posts that should be counted.
+	 *
+	 * @return string The prepared query string.
+	 */
+	protected function get_count_query( $limit = false ) {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		$post_types      = $this->get_post_types();
 		$replacements    = $post_types;
 
-		$select = 'P.ID';
-		if ( $count ) {
-			$select = 'COUNT(P.ID)';
-		}
-		$limit_query = '';
-		if ( ! $count ) {
+		$limit = '';
+		if ( $limit ) {
 			$limit_query    = 'LIMIT %d';
 			$replacements[] = $limit;
 		}
 
-		return $this->wpdb->prepare(
-			"
-			SELECT $select
+		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
+		return $this->wpdb->prepare( "
+			SELECT COUNT(P.ID)
+			FROM {$this->wpdb->posts} AS P
+			LEFT JOIN $indexable_table AS I
+				ON P.ID = I.object_id
+				AND I.object_type = 'post'
+				AND I.permalink_hash IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")
+			ORDER BY P.ID
+			$limit_query",
+			$replacements
+		);
+	}
+
+	/**
+	 * Builds a query for selecting the ID's of unindexed posts.
+	 *
+	 * @param bool $limit The maximum number of post IDs to return.
+	 *
+	 * @return string The prepared query string.
+	 */
+	protected function get_select_query( $limit = false ) {
+		$indexable_table = Model::get_table_name( 'Indexable' );
+		$post_types      = $this->get_post_types();
+		$replacements    = $post_types;
+
+		$limit = '';
+		if ( $limit ) {
+			$limit_query    = 'LIMIT %d';
+			$replacements[] = $limit;
+		}
+
+		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
+		return $this->wpdb->prepare( "
+			SELECT P.ID
 			FROM {$this->wpdb->posts} AS P
 			LEFT JOIN $indexable_table AS I
 				ON P.ID = I.object_id

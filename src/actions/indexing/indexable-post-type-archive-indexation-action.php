@@ -60,13 +60,13 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	 *
 	 * @return int The total number of unindexed post type archives.
 	 */
-	public function get_total_unindexed() {
+	public function get_total_unindexed( $limit = false ) {
 		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
 
-		$result = \count( $this->get_unindexed_post_type_archives( false ) );
+		$result = \count( $this->get_unindexed_post_type_archives( $limit ) );
 
 		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
 

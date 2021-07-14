@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use Brain\Monkey\Hook\Exception\InvalidHookArgument;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
@@ -79,6 +80,8 @@ class Indexing_Helper {
 	 * @var Indexable_General_Indexation_Action
 	 */
 	protected $general_indexation;
+
+	const COUNT_QUERY_STARTED_TRANSIENT = "wpseo-count-query-started";
 
 	/**
 	 * Indexing_Helper constructor.
@@ -239,13 +242,36 @@ class Indexing_Helper {
 	 *
 	 * @return int The total number of unindexed objects.
 	 */
-	public function get_unindexed_count() {
-		$unindexed_count  = $this->post_indexation->get_total_unindexed();
-		$unindexed_count += $this->term_indexation->get_total_unindexed();
-		$unindexed_count += $this->general_indexation->get_total_unindexed();
-		$unindexed_count += $this->post_type_archive_indexation->get_total_unindexed();
-		$unindexed_count += $this->post_link_indexing_action->get_total_unindexed();
-		$unindexed_count += $this->term_link_indexing_action->get_total_unindexed();
+	public function get_unindexed_count( $limit = null ) {
+		$query_started = \get_transient( self::COUNT_QUERY_STARTED_TRANSIENT );
+
+		if ( $query_started ) {
+			return 0;
+		}
+
+		\set_transient( self::COUNT_QUERY_STARTED_TRANSIENT, true, MINUTE_IN_SECONDS * 15 );
+
+		/** @var $indexing_actions Indexation_Action_Interface[] */
+		$indexing_actions = [
+			$this->post_indexation,
+			$this->term_indexation,
+			$this->general_indexation,
+			$this->post_type_archive_indexation,
+			$this->post_link_indexing_action,
+			$this->term_link_indexing_action,
+		];
+
+		if ( $limit === null ) {
+			$limit = $this->get_shutdown_limit();
+		}
+
+		$unindexed_count = 0;
+		foreach ( $indexing_actions as $indexing_action ) {
+			$unindexed_count += $indexing_action->get_unindexed_count( $limit );
+			if( $unindexed_count > $limit ) {
+				return $unindexed_count;
+			}
+		}
 
 		return $unindexed_count;
 	}
@@ -262,5 +288,30 @@ class Indexing_Helper {
 		 * @param int $unindexed_count The amount of unindexed objects.
 		 */
 		return \apply_filters( 'wpseo_indexing_get_unindexed_count', $this->get_unindexed_count() );
+	}
+
+	/**
+	 * Determine whether background indexation should be performed.
+	 *
+	 * @return bool Should background indexation be performed.
+	 */
+	public function should_index_on_shutdown() {
+		$total =$this->get_unindexed_count();
+
+		return  $total > 0 && $total < $this->get_shutdown_limit();
+	}
+
+	/**
+	 * Retrieves the shutdown limit. This limit is the amount of indexables that is generated in the background.
+	 *
+	 * @return int The shutdown limit.
+	 */
+	protected function get_shutdown_limit() {
+		/**
+		 * Filter 'wpseo_shutdown_indexation_limit' - Allow filtering the number of objects that can be indexed during shutdown.
+		 *
+		 * @api int The maximum number of objects indexed.
+		 */
+		return \apply_filters( 'wpseo_shutdown_indexation_limit', 25 );
 	}
 }

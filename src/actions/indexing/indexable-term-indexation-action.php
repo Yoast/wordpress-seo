@@ -124,23 +124,67 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 * @return string The query.
 	 */
 	protected function get_query( $count, $limit = 1 ) {
+		if ( $count ) {
+			return $this->get_count_query( $limit );
+		}
+		return $this->get_select_query( $limit );
+	}
+
+	/**
+	 * Builds a query for counting the number of unindexed terms.
+	 *
+	 * @param bool $limit The maximum amount of unindexed terms that should be counted.
+	 *
+	 * @return string The prepared query string.
+	 */
+	protected function get_count_query( $limit = false ) {
 		$public_taxonomies = $this->taxonomy->get_public_taxonomies();
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$replacements      = $public_taxonomies;
 
-		$select = 'term_id';
-		if ( $count ) {
-			$select = 'COUNT(term_id)';
-		}
 		$limit_query = '';
-		if ( ! $count ) {
+		if ( $limit ) {
 			$limit_query    = 'LIMIT %d';
 			$replacements[] = $limit;
 		}
 
-		return $this->wpdb->prepare(
-			"
-			SELECT $select
+		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
+		return $this->wpdb->prepare( "
+			SELECT COUNT(term_id)
+			FROM {$this->wpdb->term_taxonomy} AS T
+			LEFT JOIN $indexable_table AS I
+				ON T.term_id = I.object_id
+				AND I.object_type = 'term'
+				AND I.permalink_hash IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")
+			ORDER_BY term_id
+			$limit_query",
+			$replacements
+		);
+	}
+
+	/**
+	 * Builds a query for selecting the ID's of unindexed terms.
+	 *
+	 * @param bool $limit The maximum number of term IDs to return.
+	 *
+	 * @return string The prepared query string.
+	 */
+	protected function get_select_query( $limit = false ) {
+		$public_taxonomies = $this->taxonomy->get_public_taxonomies();
+		$indexable_table   = Model::get_table_name( 'Indexable' );
+		$replacements      = $public_taxonomies;
+
+		$limit_query = '';
+		if ( $limit ) {
+			$limit_query    = 'LIMIT %d';
+			$replacements[] = $limit;
+		}
+
+		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
+		return $this->wpdb->prepare( "
+			SELECT term_id
 			FROM {$this->wpdb->term_taxonomy} AS T
 			LEFT JOIN $indexable_table AS I
 				ON T.term_id = I.object_id
