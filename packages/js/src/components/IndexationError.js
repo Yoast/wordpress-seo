@@ -57,18 +57,37 @@ function generateFirstParagraph( isPremium, hasValidPremiumSubscription, subscri
  *
  * @param {boolean} isPremium Whether WordPress SEO Premium is currently active.
  * @param {boolean} hasValidPremiumSubscription Whether the user has a valid WordPress SEO Premium subscription.
+ * @param {string} supportLink The link for WordPress SEO users to show in the error.
+ * @param {string} premiumSupportLink The link for WordPress SEO Premium users to show in the error.
  *
  * @returns {string} The second paragraph of the error message as an HTML string.
  */
-function generateSecondParagraph( isPremium, hasValidPremiumSubscription ) {
+function generateSecondParagraph( isPremium, hasValidPremiumSubscription, supportLink, premiumSupportLink ) {
 	if ( isPremium && hasValidPremiumSubscription ) {
-		return __(
-			"These are the technical details for the error. Include them in your email to our support team, " +
-			"it can help them troubleshoot the problem.",
-			"wordpress-seo"
+		return sprintf(
+			__(
+				"These are the technical details for the error. Include them in %1$syour email to our support team%2$s, " +
+				"it can help them troubleshoot the problem.",
+				"wordpress-seo"
+			),
+			// Translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page,
+			// %2$s expands to a closing anchor tag.
+			"<a href='" + supportLink + "'>",
+			"</a>"
 		);
 	}
-	return __( "Below are the technical details for the error. They can be useful to include when reporting a bug to us.", "wordpress-seo" );
+
+	return sprintf(
+		__(
+			"Below are the technical details for the error. " +
+			"They can be useful to include %1$swhen reporting a bug to us%2$s.",
+			"wordpress-seo"
+		),
+		// Translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page,
+		// %2$s expands to a closing anchor tag.
+		"<a href='" + premiumSupportLink + "'>",
+		"</a>"
+	);
 }
 
 /**
@@ -125,13 +144,22 @@ ErrorDetails.propTypes = {
  * @param {boolean} isPremium Whether WordPress SEO Premium is currently active.
  * @param {boolean} hasValidPremiumSubscription Whether WordPress SEO Premium currently has a valid subscription.
  * @param {string} subscriptionActivationLink The subscription activation link to show when no valid subscription is available.
+ * @param {string} supportLink The link for WordPress SEO users to show in the error.
+ * @param {string} premiumSupportLink The link for WordPress SEO Premium users to show in the error.
  * @param {Error|RequestError} error The error to show.
  *
  * @returns {JSX.Element} The indexation error component.
  */
-export default function IndexationError( { isPremium, hasValidPremiumSubscription, subscriptionActivationLink, error } ) {
+export default function IndexationError( {
+	isPremium,
+	hasValidPremiumSubscription,
+	subscriptionActivationLink,
+	supportLink,
+	premiumSupportLink,
+	error
+} ) {
 	const paragraph1 = { __html: generateFirstParagraph( isPremium, hasValidPremiumSubscription, subscriptionActivationLink ) };
-	const paragraph2 = { __html: generateSecondParagraph( isPremium, hasValidPremiumSubscription ) };
+	const paragraph2 = { __html: generateSecondParagraph( isPremium, hasValidPremiumSubscription, supportLink, premiumSupportLink ) };
 
 	return <Alert type={ "error" }>
 		<AlertParagraph dangerouslySetInnerHTML={ paragraph1 } />
@@ -147,6 +175,8 @@ IndexationError.propTypes = {
 	isPremium: PropTypes.bool.isRequired,
 	hasValidPremiumSubscription: PropTypes.bool.isRequired,
 	subscriptionActivationLink: PropTypes.string.isRequired,
+	supportLink: PropTypes.string.isRequired,
+	premiumSupportLink: PropTypes.string.isRequired,
 	error: PropTypes.oneOfType( [
 		PropTypes.instanceOf( Error ),
 		PropTypes.instanceOf( RequestError ),

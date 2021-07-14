@@ -128,6 +128,8 @@ class Indexing_Tool_Integration implements Integration_Interface {
 			'isPremium'                   => $this->product_helper->is_premium(),
 			'hasValidPremiumSubscription' => $this->has_valid_premium_subscription(),
 			'subscriptionActivationLink'  => \esc_url( $this->short_link_helper->get( 'https://yoa.st/3wv' ) ),
+			'supportLink'                 => \esc_url( $this->short_link_helper->get( 'https://example.net/support' ) ),
+			'premiumSupportLink'          => \esc_url( $this->short_link_helper->get( 'https://example.net/premium-support' ) ),
 			'restApi'                     => [
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => $this->get_endpoints(),

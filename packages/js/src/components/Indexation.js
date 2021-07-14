@@ -320,6 +320,8 @@ export class Indexation extends Component {
 			isPremium={ yoastIndexingData.isPremium === "1" }
 			hasValidPremiumSubscription={ yoastIndexingData.hasValidPremiumSubscription === "1" }
 			subscriptionActivationLink={ yoastIndexingData.subscriptionActivationLink }
+			supportLink={ yoastIndexingData.supportLink }
+			premiumSupportLink={ yoastIndexingData.premiumSupportLink }
 			error={ this.state.error }
 		/>;
 	}
