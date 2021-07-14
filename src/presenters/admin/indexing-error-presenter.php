@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
- * Class Indexing_Error_Presenter
+ * An error that should be shown when indexation has failed.
  */
 class Indexing_Error_Presenter extends Abstract_Presenter {
 
@@ -53,8 +53,7 @@ class Indexing_Error_Presenter extends Abstract_Presenter {
 	/**
 	 * Generates the first paragraph of the error message to show when indexing failed.
 	 *
-	 * The contents of the paragraph varies based on whether WordPress SEO Premium
-	 * has a valid, activated subscription or not.
+	 * The contents of the paragraph varies based on whether WordPress SEO Premium has a valid, activated subscription or not.
 	 *
 	 * @param bool $is_premium                     Whether WordPress SEO Premium is currently active.
 	 * @param bool $has_valid_premium_subscription Whether WordPress SEO Premium currently has a valid subscription.
@@ -90,8 +89,7 @@ class Indexing_Error_Presenter extends Abstract_Presenter {
 	/**
 	 * Generates the second paragraph of the error message to show when indexing failed.
 	 *
-	 * The error message varies based on whether WordPress SEO Premium
-	 * has a valid, activated subscription or not.
+	 * The error message varies based on whether WordPress SEO Premium has a valid, activated subscription or not.
 	 *
 	 * @param bool $is_premium                     Whether WordPress SEO Premium is currently active.
 	 * @param bool $has_valid_premium_subscription Whether WordPress SEO Premium currently has a valid subscription.
@@ -123,9 +121,11 @@ class Indexing_Error_Presenter extends Abstract_Presenter {
 	}
 
 	/**
-	 * Presents the list item for the tools menu.
+	 * Presents the error message to show if SEO optimization failed.
 	 *
-	 * @return string The list item HTML.
+	 * The error message varies based on whether WordPress SEO Premium has a valid, activated subscription or not.
+	 *
+	 * @return string The error message to show.
 	 */
 	public function present() {
 		$is_premium                     = $this->product_helper->is_premium();
