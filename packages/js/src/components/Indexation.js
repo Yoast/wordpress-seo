@@ -317,11 +317,7 @@ export class Indexation extends Component {
 	 */
 	renderErrorAlert() {
 		return <IndexationError
-			isPremium={ yoastIndexingData.isPremium === "1" }
-			hasValidPremiumSubscription={ yoastIndexingData.hasValidPremiumSubscription === "1" }
-			subscriptionActivationLink={ yoastIndexingData.subscriptionActivationLink }
-			supportLink={ yoastIndexingData.supportLink }
-			premiumSupportLink={ yoastIndexingData.premiumSupportLink }
+			message={ yoastIndexingData.errorMessage }
 			error={ this.state.error }
 		/>;
 	}

@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import { Alert } from "@yoast/components";
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import { RequestError } from "../errors/RequestError";
 
 const AlertParagraph = styled.p`
@@ -116,67 +115,31 @@ ErrorLine.propTypes = {
 };
 
 /**
- * Shows a detailed error report of the given error.
- *
- * @param {Error|RequestError} error The error to show.
- *
- * @returns {JSX.Element} The error details component.
- */
-function ErrorDetails( { error } ) {
-	return <div>
-		<ErrorLine title={ "Request URL" } value={ error.url } />
-		<ErrorLine title={ "Request method" } value={ error.method } />
-		<ErrorLine title={ "Status code" } value={ error.statusCode } />
-		<ErrorLine title={ "Message" } value={ error.message } />
-	</div>;
-}
-
-ErrorDetails.propTypes = {
-	error: PropTypes.oneOfType( [
-		PropTypes.instanceOf( Error ),
-		PropTypes.instanceOf( RequestError ),
-	] ).isRequired,
-};
-
-/**
  * An error that should be shown when indexation has failed.
  *
- * @param {boolean} isPremium Whether WordPress SEO Premium is currently active.
- * @param {boolean} hasValidPremiumSubscription Whether WordPress SEO Premium currently has a valid subscription.
- * @param {string} subscriptionActivationLink The subscription activation link to show when no valid subscription is available.
- * @param {string} supportLink The link for WordPress SEO users to show in the error.
- * @param {string} premiumSupportLink The link for WordPress SEO Premium users to show in the error.
- * @param {Error|RequestError} error The error to show.
+ * @param {string} message The error message to show.
+ * @param {Error|RequestError} error The error itself.
  *
  * @returns {JSX.Element} The indexation error component.
  */
 export default function IndexationError( {
-	isPremium,
-	hasValidPremiumSubscription,
-	subscriptionActivationLink,
-	supportLink,
-	premiumSupportLink,
+	message,
 	error
 } ) {
-	const paragraph1 = { __html: generateFirstParagraph( isPremium, hasValidPremiumSubscription, subscriptionActivationLink ) };
-	const paragraph2 = { __html: generateSecondParagraph( isPremium, hasValidPremiumSubscription, supportLink, premiumSupportLink ) };
-
 	return <Alert type={ "error" }>
-		<AlertParagraph dangerouslySetInnerHTML={ paragraph1 } />
-		<AlertParagraph dangerouslySetInnerHTML={ paragraph2 } />
+		<div dangerouslySetInnerHTML={ { __html: message } } />
 		<details>
 			<summary>{ __( "Error details (click to show/hide)", "wordpress-seo" ) }</summary>
-			<ErrorDetails error={ error } />
+			<ErrorLine title={ "Request URL" } value={ error.url } />
+			<ErrorLine title={ "Request method" } value={ error.method } />
+			<ErrorLine title={ "Status code" } value={ error.statusCode } />
+			<ErrorLine title={ "Message" } value={ error.message } />
 		</details>
 	</Alert>;
 }
 
 IndexationError.propTypes = {
-	isPremium: PropTypes.bool.isRequired,
-	hasValidPremiumSubscription: PropTypes.bool.isRequired,
-	subscriptionActivationLink: PropTypes.string.isRequired,
-	supportLink: PropTypes.string.isRequired,
-	premiumSupportLink: PropTypes.string.isRequired,
+	message: PropTypes.string.isRequired,
 	error: PropTypes.oneOfType( [
 		PropTypes.instanceOf( Error ),
 		PropTypes.instanceOf( RequestError ),
