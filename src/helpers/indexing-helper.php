@@ -261,13 +261,10 @@ class Indexing_Helper {
 			$this->term_link_indexing_action,
 		];
 
-		if ( $limit === null ) {
-			$limit = $this->get_shutdown_limit();
-		}
-
 		$unindexed_count = 0;
+
 		foreach ( $indexing_actions as $indexing_action ) {
-			$unindexed_count += $indexing_action->get_unindexed_count( $limit );
+			$unindexed_count += $indexing_action->get_unindexed_count( $limit - $unindexed_count );
 			if( $unindexed_count > $limit ) {
 				return $unindexed_count;
 			}
@@ -295,23 +292,9 @@ class Indexing_Helper {
 	 *
 	 * @return bool Should background indexation be performed.
 	 */
-	public function should_index_on_shutdown() {
-		$total =$this->get_unindexed_count();
+	public function should_index_on_shutdown( $shutdown_limit ) {
+		$total = $this->get_unindexed_count( $shutdown_limit );
 
-		return  $total > 0 && $total < $this->get_shutdown_limit();
-	}
-
-	/**
-	 * Retrieves the shutdown limit. This limit is the amount of indexables that is generated in the background.
-	 *
-	 * @return int The shutdown limit.
-	 */
-	protected function get_shutdown_limit() {
-		/**
-		 * Filter 'wpseo_shutdown_indexation_limit' - Allow filtering the number of objects that can be indexed during shutdown.
-		 *
-		 * @api int The maximum number of objects indexed.
-		 */
-		return \apply_filters( 'wpseo_shutdown_indexation_limit', 25 );
+		return  $total > 0 && $total < $shutdown_limit;
 	}
 }

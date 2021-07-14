@@ -136,7 +136,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_shutdown_indexing() {
-		if ( $this->indexing_helper->should_index_on_shutdown() ) {
+		if ( $this->indexing_helper->should_index_on_shutdown( $this->get_shutdown_limit() ) ) {
 			\register_shutdown_function( [ $this, 'index' ] );
 		 }
 	}
@@ -154,5 +154,19 @@ class Background_Indexing_Integration implements Integration_Interface {
 		$this->post_link_indexing_action->index();
 		$this->term_link_indexing_action->index();
 		$this->complete_indexation_action->complete();
+	}
+
+	/**
+	 * Retrieves the shutdown limit. This limit is the amount of indexables that is generated in the background.
+	 *
+	 * @return int The shutdown limit.
+	 */
+	protected function get_shutdown_limit() {
+		/**
+		 * Filter 'wpseo_shutdown_indexation_limit' - Allow filtering the number of objects that can be indexed during shutdown.
+		 *
+		 * @api int The maximum number of objects indexed.
+		 */
+		return \apply_filters( 'wpseo_shutdown_indexation_limit', 25 );
 	}
 }
