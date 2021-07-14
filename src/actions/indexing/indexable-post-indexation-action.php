@@ -144,7 +144,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		$post_types      = $this->get_post_types();
 		$replacements    = $post_types;
 
-		$limit = '';
+		$limit_query = '';
 		if ( $limit ) {
 			$limit_query    = 'LIMIT %d';
 			$replacements[] = $limit;
@@ -178,7 +178,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		$post_types      = $this->get_post_types();
 		$replacements    = $post_types;
 
-		$limit = '';
+		$limit_query = '';
 		if ( $limit ) {
 			$limit_query    = 'LIMIT %d';
 			$replacements[] = $limit;

@@ -89,6 +89,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 				AND I.permalink_hash IS NOT NULL
 			WHERE I.object_id IS NULL
 				AND P.post_type IN (%s)
+			ORDER BY P.ID
 			$limit_placeholder";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
@@ -162,6 +163,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 				AND I.permalink_hash IS NOT NULL
 			WHERE I.object_id IS NULL
 				AND P.post_type IN (%s)
+			ORDER BY P.ID
 			$limit_placeholder";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
