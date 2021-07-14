@@ -62,7 +62,7 @@ class Indexing_Error_Presenter extends Abstract_Presenter {
 	 */
 	protected function generate_first_paragraph( $is_premium, $has_valid_premium_subscription ) {
 		$message = __(
-			'Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please click the button again to re-start the process.',
+			'Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please click the button again to re-start the process. ',
 			'wordpress-seo'
 		);
 
@@ -104,7 +104,7 @@ class Indexing_Error_Presenter extends Abstract_Presenter {
 					'These are the technical details for the error. Include them in %1$syour email to our support team%2$s, it can help them troubleshoot the problem.',
 					'wordpress-seo'
 				),
-				'<a href="' . \esc_url( $this->short_link_helper->get( 'https://example.net/support' ) ) . '">',
+				'<a href="' . \esc_url( $this->short_link_helper->get( 'https://example.net/premium-support' ) ) . '">',
 				'</a>'
 			);
 		}
@@ -115,7 +115,7 @@ class Indexing_Error_Presenter extends Abstract_Presenter {
 				'Below are the technical details for the error. They can be useful to include %1$swhen reporting a bug to us%2$s.',
 				'wordpress-seo'
 			),
-			'<a href="' . \esc_url( $this->short_link_helper->get( 'https://example.net/premium-support' ) ) . '">',
+			'<a href="' . \esc_url( $this->short_link_helper->get( 'https://example.net/support' ) ) . '">',
 			'</a>'
 		);
 	}
