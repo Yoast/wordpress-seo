@@ -251,7 +251,6 @@ class Indexing_Helper {
 
 		\set_transient( self::COUNT_QUERY_STARTED_TRANSIENT, true, MINUTE_IN_SECONDS * 15 );
 
-		/** @var $indexing_actions Indexation_Action_Interface[] */
 		$indexing_actions = [
 			$this->post_indexation,
 			$this->term_indexation,
@@ -264,11 +263,13 @@ class Indexing_Helper {
 		$unindexed_count = 0;
 
 		foreach ( $indexing_actions as $indexing_action ) {
-			$unindexed_count += $indexing_action->get_unindexed_count( $limit - $unindexed_count );
+			$unindexed_count += $indexing_action->get_total_unindexed( $limit - $unindexed_count + 1 );
 			if( $unindexed_count > $limit ) {
 				return $unindexed_count;
 			}
 		}
+
+		\delete_transient( self::COUNT_QUERY_STARTED_TRANSIENT );
 
 		return $unindexed_count;
 	}
@@ -285,16 +286,5 @@ class Indexing_Helper {
 		 * @param int $unindexed_count The amount of unindexed objects.
 		 */
 		return \apply_filters( 'wpseo_indexing_get_unindexed_count', $this->get_unindexed_count() );
-	}
-
-	/**
-	 * Determine whether background indexation should be performed.
-	 *
-	 * @return bool Should background indexation be performed.
-	 */
-	public function should_index_on_shutdown( $shutdown_limit ) {
-		$total = $this->get_unindexed_count( $shutdown_limit );
-
-		return  $total > 0 && $total < $shutdown_limit;
 	}
 }
