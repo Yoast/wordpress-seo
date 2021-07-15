@@ -74,44 +74,15 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 			return (int) $transient;
 		}
 
-		$query = $this->get_count_query( $limit );
+		$count = $this->get_count( $limit );
 
-		$result = $this->wpdb->get_var( $query );
-
-		if ( \is_null( $result ) ) {
+		if ( \is_null( $count ) ) {
 			return false;
 		}
 
-		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
+		\set_transient( static::TRANSIENT_CACHE_KEY, $count, \DAY_IN_SECONDS );
 
-		return (int) $result;
-	}
-
-	/**
-	 * Returns a limited number of unindexed posts.
-	 *
-	 * @param int $limit Limit the maximum number of unindexed posts that are counted.
-	 *
-	 * @return int|false The limited number of unindexed posts. False if the query fails.
-	 */
-	protected function get_limited_unindexed_count( $limit ) {
-		$transient = \get_transient( static::TRANSIENT_CACHE_KEY_LIMITED );
-		if ( $transient !== false ) {
-			return (int) $transient;
-		}
-
-		$query = $this->get_select_query( $limit );
-		$post_ids = $this->wpdb->get_col( $query );
-
-		if ( \is_null( $post_ids ) ) {
-			return false;
-		}
-
-		$count = (int) count( $post_ids );
-
-		\set_transient( static::TRANSIENT_CACHE_KEY_LIMITED, $count, \MINUTE_IN_SECONDS * 15 );
-
-		return $count;
+		return (int) $count;
 	}
 
 	/**
@@ -160,7 +131,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 *
 	 * @return string The prepared query string.
 	 */
-	protected function get_count_query( $limit = false ) {
+	protected function get_count( $limit = false ) {
 		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
 		if ( $limit !== false ) {
 			return $this->get_limited_unindexed_count( $limit );
@@ -170,7 +141,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		$post_types      = $this->get_post_types();
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
-		return $this->wpdb->prepare( "
+		$query = $this->wpdb->prepare( "
 			COUNT(P.ID)
 			FROM {$this->wpdb->posts} AS P
 			LEFT JOIN $indexable_table AS I
@@ -181,6 +152,35 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")",
 			$post_types
 		);
+
+		return $this->wpdb->get_var( $query );
+	}
+
+	/**
+	 * Returns a limited number of unindexed posts.
+	 *
+	 * @param int $limit Limit the maximum number of unindexed posts that are counted.
+	 *
+	 * @return int|false The limited number of unindexed posts. False if the query fails.
+	 */
+	protected function get_limited_unindexed_count( $limit ) {
+		$transient = \get_transient( static::TRANSIENT_CACHE_KEY_LIMITED );
+		if ( $transient !== false ) {
+			return (int) $transient;
+		}
+
+		$query = $this->get_select_query( $limit );
+		$post_ids = $this->wpdb->get_col( $query );
+
+		if ( \is_null( $post_ids ) ) {
+			return false;
+		}
+
+		$count = (int) count( $post_ids );
+
+		\set_transient( static::TRANSIENT_CACHE_KEY_LIMITED, $count, \MINUTE_IN_SECONDS * 15 );
+
+		return $count;
 	}
 
 	/**
