@@ -36,7 +36,7 @@ ErrorLine.propTypes = {
  *
  * @returns {JSX.Element} The indexation error component.
  */
-export default function IndexationError( { message, error } ) {
+export default function IndexingError( { message, error } ) {
 	return <Alert type={ "error" }>
 		<div dangerouslySetInnerHTML={ { __html: message } } />
 		<details>
@@ -49,7 +49,7 @@ export default function IndexationError( { message, error } ) {
 	</Alert>;
 }
 
-IndexationError.propTypes = {
+IndexingError.propTypes = {
 	message: PropTypes.string.isRequired,
 	error: PropTypes.oneOfType( [
 		PropTypes.instanceOf( Error ),

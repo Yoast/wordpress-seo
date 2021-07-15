@@ -5,7 +5,7 @@ import { Alert, NewButton, ProgressBar } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
 import { addHistoryState, removeSearchParam } from "../helpers/urlHelpers";
-import IndexationError from "./IndexationError";
+import IndexingError from "./IndexingError";
 import { RequestError } from "../errors/RequestError";
 
 const STATE = {
@@ -316,7 +316,7 @@ export class Indexation extends Component {
 	 * @returns {JSX.Element} The error alert.
 	 */
 	renderErrorAlert() {
-		return <IndexationError
+		return <IndexingError
 			message={ yoastIndexingData.errorMessage }
 			error={ this.state.error }
 		/>;
