@@ -67,21 +67,28 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 * @return string The prepared query string.
 	 */
 	protected function get_count_query( $limit = false ) {
+		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
+		if ( $limit !== false ) {
+			return $this->get_limited_unindexed_count( $limit );
+		}
+
 		$public_post_types = $this->post_type_helper->get_accessible_post_types();
-		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) );
+		$post_types        = \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) );
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$links_table       = Model::get_table_name( 'SEO_Links' );
 		$replacements      = $public_post_types;
 
+		$query_columns = 'COUNT(P.ID)';
 		$limit_query = '';
 		if ( $limit ) {
 			$limit_query    = 'LIMIT %d';
 			$replacements[] = $limit;
+			$query_columns    = 'P.ID';
 		}
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
 		return $this->wpdb->prepare(
-			"SELECT COUNT(P.ID)
+			"SELECT $query_columns
 			FROM {$this->wpdb->posts} AS P
 			LEFT JOIN $indexable_table AS I
 				ON P.ID = I.object_id
@@ -95,7 +102,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND L.target_post_id != 0
 			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
 				AND P.post_status = 'publish'
-				AND P.post_type IN ($placeholders)
+				AND P.post_type IN ($post_types)
 			ORDER BY P.ID
 			$limit_query
 			",
@@ -112,7 +119,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 */
 	protected function get_select_query( $limit = false ) {
 		$public_post_types = $this->post_type_helper->get_accessible_post_types();
-		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) );
+		$post_types        = \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) );
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$links_table       = Model::get_table_name( 'SEO_Links' );
 		$replacements      = $public_post_types;
@@ -139,7 +146,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND L.target_post_id != 0
 			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
 				AND P.post_status = 'publish'
-				AND P.post_type IN ($placeholders)
+				AND P.post_type IN ($post_types)
 			$limit_query
 			",
 			$replacements

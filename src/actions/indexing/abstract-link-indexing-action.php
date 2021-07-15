@@ -83,9 +83,7 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 		}
 
 		$query = $this->get_count_query();
-
 		$result = $this->wpdb->get_var( $query );
-
 		if ( \is_null( $result ) ) {
 			return false;
 		}
