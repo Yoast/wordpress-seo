@@ -88,7 +88,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 * @return Indexable[] The created indexables.
 	 */
 	public function index() {
-		$query    = $this->get_query( false, $this->get_limit() );
+		$query    = $this->$this->get_select_query( $this->get_limit() );
 		$term_ids = $this->wpdb->get_col( $query );
 
 		$indexables = [];
@@ -150,7 +150,11 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 			$public_taxonomies
 		);
 
-		return $this->wpdb->get_var( $query );
+		$result = $this->wpdb->get_var( $query );
+		if ( $result ) {
+			return (int) $result;
+		}
+		return false;
 	}
 
 	/**
