@@ -80,7 +80,10 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 			return false;
 		}
 
-		\set_transient( static::TRANSIENT_CACHE_KEY, $count, \DAY_IN_SECONDS );
+		// Limited queries have their own transient caching.
+		if ( $limit === false ) {
+			\set_transient( static::TRANSIENT_CACHE_KEY, $count, \DAY_IN_SECONDS );
+		}
 
 		return (int) $count;
 	}

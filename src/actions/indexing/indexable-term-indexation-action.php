@@ -63,54 +63,23 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 * @return int|false The number of unindexed terms. False if the query fails.
 	 */
 	public function get_total_unindexed( $limit = false ) {
-		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
-		if ( $limit !== false ) {
-			return $this->get_limited_unindexed_count( $limit );
-		}
-
 		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
 
-		$query = $this->get_query( true );
+		$count = $this->get_count( $limit );
 
-		$result = $this->wpdb->get_var( $query );
-
-		if ( \is_null( $result ) ) {
+		if ( \is_null( $count ) ) {
 			return false;
 		}
 
-		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
-
-		return (int) $result;
-	}
-
-	/**
-	 * Returns a limited number of unindexed posts.
-	 *
-	 * @param int $limit Limit the maximum number of unindexed posts that are counted.
-	 *
-	 * @return int|false The limited number of unindexed posts. False if the query fails.
-	 */
-	protected function get_limited_unindexed_count( $limit ) {
-		$transient = \get_transient( static::TRANSIENT_CACHE_KEY_LIMITED );
-		if ( $transient !== false ) {
-			return (int) $transient;
+		// Limited queries have their own transient caching.
+		if ( $limit === false ) {
+			\set_transient( static::TRANSIENT_CACHE_KEY, $count, \DAY_IN_SECONDS );
 		}
 
-		$query                = $this->get_select_query( $limit );
-		$unindexed_object_ids = $this->wpdb->get_col( $query );
-
-		if ( \is_null( $unindexed_object_ids ) ) {
-			return false;
-		}
-
-		$count = (int) count( $unindexed_object_ids );
-
-		\set_transient( static::TRANSIENT_CACHE_KEY_LIMITED, $count, \MINUTE_IN_SECONDS * 15 );
-
-		return $count;
+		return (int) $count;
 	}
 
 	/**
@@ -159,12 +128,17 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 *
 	 * @return string The prepared query string.
 	 */
-	protected function get_count_query() {
+	protected function get_count( $limit = false ) {
+		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
+		if ( $limit !== false ) {
+			return $this->get_limited_unindexed_count( $limit );
+		}
+
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$public_taxonomies = $this->taxonomy->get_public_taxonomies();
 
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
-		return $this->wpdb->prepare( "
+		$query = $this->wpdb->prepare( "
 			SELECT COUNT(term_id)
 			FROM {$this->wpdb->term_taxonomy} AS T
 			LEFT JOIN $indexable_table AS I
@@ -175,6 +149,35 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 				AND taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")",
 			$public_taxonomies
 		);
+
+		return $this->wpdb->get_var( $query );
+	}
+
+	/**
+	 * Returns a limited number of unindexed posts.
+	 *
+	 * @param int $limit Limit the maximum number of unindexed posts that are counted.
+	 *
+	 * @return int|false The limited number of unindexed posts. False if the query fails.
+	 */
+	protected function get_limited_unindexed_count( $limit ) {
+		$transient = \get_transient( static::TRANSIENT_CACHE_KEY_LIMITED );
+		if ( $transient !== false ) {
+			return (int) $transient;
+		}
+
+		$query                = $this->get_select_query( $limit );
+		$unindexed_object_ids = $this->wpdb->get_col( $query );
+
+		if ( \is_null( $unindexed_object_ids ) ) {
+			return false;
+		}
+
+		$count = (int) count( $unindexed_object_ids );
+
+		\set_transient( static::TRANSIENT_CACHE_KEY_LIMITED, $count, \MINUTE_IN_SECONDS * 15 );
+
+		return $count;
 	}
 
 	/**
