@@ -28,6 +28,10 @@ ErrorLine.propTypes = {
 	value: PropTypes.any,
 };
 
+ErrorLine.defaultProps = {
+	value: "",
+};
+
 /**
  * An error that should be shown when indexation has failed.
  *
