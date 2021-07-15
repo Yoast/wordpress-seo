@@ -19,6 +19,11 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	const TRANSIENT_CACHE_KEY = 'wpseo_total_unindexed_terms';
 
 	/**
+	 * The transient cache key for limited counts.
+	 */
+	const TRANSIENT_CACHE_KEY_LIMITED = 'wpseo_limited_unindexed_terms_count';
+
+	/**
 	 * The post type helper.
 	 *
 	 * @var Taxonomy_Helper
@@ -57,7 +62,12 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 *
 	 * @return int|false The number of unindexed terms. False if the query fails.
 	 */
-	public function get_total_unindexed() {
+	public function get_total_unindexed( $limit = false ) {
+		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
+		if ( $limit !== false ) {
+			return $this->get_limited_unindexed_count( $limit );
+		}
+
 		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
 		if ( $transient !== false ) {
 			return (int) $transient;
@@ -74,6 +84,33 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
 
 		return (int) $result;
+	}
+
+	/**
+	 * Returns a limited number of unindexed posts.
+	 *
+	 * @param int $limit Limit the maximum number of unindexed posts that are counted.
+	 *
+	 * @return int|false The limited number of unindexed posts. False if the query fails.
+	 */
+	protected function get_limited_unindexed_count( $limit ) {
+		$transient = \get_transient( static::TRANSIENT_CACHE_KEY_LIMITED );
+		if ( $transient !== false ) {
+			return (int) $transient;
+		}
+
+		$query                = $this->get_select_query( $limit );
+		$unindexed_object_ids = $this->wpdb->get_col( $query );
+
+		if ( \is_null( $unindexed_object_ids ) ) {
+			return false;
+		}
+
+		$count = (int) count( $unindexed_object_ids );
+
+		\set_transient( static::TRANSIENT_CACHE_KEY_LIMITED, $count, \MINUTE_IN_SECONDS * 15 );
+
+		return $count;
 	}
 
 	/**
@@ -116,37 +153,15 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * Queries the database for unindexed term IDs.
-	 *
-	 * @param bool $count Whether or not it should be a count query.
-	 * @param int  $limit The maximum number of term IDs to return.
-	 *
-	 * @return string The query.
-	 */
-	protected function get_query( $count, $limit = 1 ) {
-		if ( $count ) {
-			return $this->get_count_query( $limit );
-		}
-		return $this->get_select_query( $limit );
-	}
-
-	/**
 	 * Builds a query for counting the number of unindexed terms.
 	 *
 	 * @param bool $limit The maximum amount of unindexed terms that should be counted.
 	 *
 	 * @return string The prepared query string.
 	 */
-	protected function get_count_query( $limit = false ) {
-		$public_taxonomies = $this->taxonomy->get_public_taxonomies();
+	protected function get_count_query() {
 		$indexable_table   = Model::get_table_name( 'Indexable' );
-		$replacements      = $public_taxonomies;
-
-		$limit_query = '';
-		if ( $limit ) {
-			$limit_query    = 'LIMIT %d';
-			$replacements[] = $limit;
-		}
+		$public_taxonomies = $this->taxonomy->get_public_taxonomies();
 
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
 		return $this->wpdb->prepare( "
@@ -157,10 +172,8 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 				AND I.object_type = 'term'
 				AND I.permalink_hash IS NOT NULL
 			WHERE I.object_id IS NULL
-				AND taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")
-			ORDER_BY term_id
-			$limit_query",
-			$replacements
+				AND taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")",
+			$public_taxonomies
 		);
 	}
 

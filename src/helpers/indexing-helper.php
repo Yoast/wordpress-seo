@@ -249,7 +249,7 @@ class Indexing_Helper {
 			return 0;
 		}
 
-		\set_transient( self::COUNT_QUERY_STARTED_TRANSIENT, true, MINUTE_IN_SECONDS * 15 );
+		\set_transient( self::COUNT_QUERY_STARTED_TRANSIENT, true, \MINUTE_IN_SECONDS * 15 );
 
 		$indexing_actions = [
 			$this->post_indexation,

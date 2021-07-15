@@ -110,7 +110,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 
 		$count = (int) count( $post_ids );
 
-		\set_transient( static::TRANSIENT_CACHE_KEY_LIMITED . '_' . $limit, $count, \MINUTE_IN_SECONDS * 15 );
+		\set_transient( static::TRANSIENT_CACHE_KEY_LIMITED, $count, \MINUTE_IN_SECONDS * 15 );
 
 		return $count;
 	}
@@ -152,21 +152,6 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		}
 
 		return $limit;
-	}
-
-	/**
-	 * Queries the database for unindexed post IDs.
-	 *
-	 * @param bool $count Whether or not it should be a count query.
-	 * @param int  $limit The maximum number of post IDs to return.
-	 *
-	 * @return string The query.
-	 */
-	protected function get_query( $count, $limit = 1 ) {
-		if ( $count ) {
-			return $this->get_count_query( $limit );
-		}
-		return $this->get_select_query( $limit );
 	}
 
 	/**
