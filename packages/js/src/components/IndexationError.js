@@ -36,18 +36,15 @@ ErrorLine.propTypes = {
  *
  * @returns {JSX.Element} The indexation error component.
  */
-export default function IndexationError( {
-	message,
-	error
-} ) {
+export default function IndexationError( { message, error } ) {
 	return <Alert type={ "error" }>
 		<div dangerouslySetInnerHTML={ { __html: message } } />
 		<details>
 			<summary>{ __( "Error details (click to show/hide)", "wordpress-seo" ) }</summary>
-			<ErrorLine title={ "Request URL" } value={ error.url } />
-			<ErrorLine title={ "Request method" } value={ error.method } />
-			<ErrorLine title={ "Status code" } value={ error.statusCode } />
-			<ErrorLine title={ "Message" } value={ error.message } />
+			<ErrorLine title={ __( "Request URL", "wordpress-seo" ) } value={ error.url } />
+			<ErrorLine title={ __( "Request method", "wordpress-seo" ) } value={ error.method } />
+			<ErrorLine title={ __( "Status code", "wordpress-seo" ) } value={ error.statusCode } />
+			<ErrorLine title={ __( "Error message", "wordpress-seo" ) } value={ error.message } />
 		</details>
 	</Alert>;
 }
