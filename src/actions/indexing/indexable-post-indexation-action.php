@@ -15,11 +15,15 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 
 	/**
 	 * The transient cache key.
+	 *
+	 * @var string
 	 */
 	const TRANSIENT_CACHE_KEY = 'wpseo_total_unindexed_posts';
 
 	/**
 	 * The transient cache key for limited counts.
+	 *
+	 * @var string
 	 */
 	const TRANSIENT_CACHE_KEY_LIMITED = 'wpseo_limited_unindexed_posts_count';
 
@@ -65,17 +69,12 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 * @return int|false The total number of unindexed posts. False if the query fails.
 	 */
 	public function get_total_unindexed( $limit = false ) {
-		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
-		if ( $limit !== false ) {
-			return $this->get_limited_unindexed_count( $limit );
-		}
-
 		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
 
-		$query = $this->get_count_query();
+		$query = $this->get_count_query( $limit );
 
 		$result = $this->wpdb->get_var( $query );
 
@@ -157,11 +156,16 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	/**
 	 * Builds a query for counting the number of unindexed posts.
 	 *
-	 * @param bool $limit The maximum amount of unindexed posts that should be counted.
+	 * @param bool|int $limit The maximum amount of unindexed posts that should be counted.
 	 *
 	 * @return string The prepared query string.
 	 */
-	protected function get_count_query() {
+	protected function get_count_query( $limit = false ) {
+		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
+		if ( $limit !== false ) {
+			return $this->get_limited_unindexed_count( $limit );
+		}
+
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		$post_types      = $this->get_post_types();
 

@@ -60,21 +60,6 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	}
 
 	/**
-	 * Queries the database for unindexed term link IDs.
-	 *
-	 * @param bool $count Whether or not it should be a count query.
-	 * @param int  $limit The maximum number of term link IDs to return.
-	 *
-	 * @return string The query.
-	 */
-	protected function get_query( $count, $limit = 1 ) {
-		if ( $count ) {
-			return $this->get_count_query( $limit );
-		}
-		return $this->get_select_query( $limit );
-	}
-
-	/**
 	 * Builds a query for counting the number of unindexed term links.
 	 *
 	 * @param bool $limit The maximum amount of unindexed term links that should be counted.
@@ -82,6 +67,11 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 * @return string The prepared query string.
 	 */
 	protected function get_count_query( $limit = false ) {
+		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
+		if ( $limit !== false ) {
+			return $this->get_limited_unindexed_count( $limit );
+		}
+
 		$public_taxonomies = $this->taxonomy_helper->get_public_taxonomies();
 		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 		$indexable_table   = Model::get_table_name( 'Indexable' );

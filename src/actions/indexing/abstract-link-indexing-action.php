@@ -20,6 +20,13 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	const UNINDEXED_COUNT_TRANSIENT = null;
 
 	/**
+	 * The transient cache key for limited counts.
+	 *
+	 * @var string
+	 */
+	const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_LIMITED';
+
+	/**
 	 * The link builder.
 	 *
 	 * @var Indexable_Link_Builder
@@ -60,19 +67,22 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	/**
 	 * Returns the total number of unindexed links.
 	 *
-	 * @param int $limit Limit the number of unindexed posts that are counted.
+	 * @param int|false $limit Limit the number of unindexed posts that are counted.
 	 *
-	 * @return int|false The total number of unindexed links or `false` when there
-	 *                   are no unindexes links.
+	 * @return int|false The total number of unindexed links or `false` when there are no unindexed links.
 	 */
 	public function get_total_unindexed( $limit = false ) {
-		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
+		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
+		if ( $limit !== false ) {
+			return $this->get_limited_unindexed_count( $limit );
+		}
 
+		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
 
-		$query = $this->get_count_query( $limit );
+		$query = $this->get_count_query();
 
 		$result = $this->wpdb->get_var( $query );
 
@@ -83,6 +93,33 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, $result, \DAY_IN_SECONDS );
 
 		return (int) $result;
+	}
+
+	/**
+	 * Returns a limited number of unindexed posts.
+	 *
+	 * @param int $limit Limit the maximum number of unindexed posts that are counted.
+	 *
+	 * @return int|false The limited number of unindexed posts. False if the query fails.
+	 */
+	protected function get_limited_unindexed_count( $limit ) {
+		$transient = \get_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT );
+		if ( $transient !== false ) {
+			return (int) $transient;
+		}
+
+		$query = $this->get_select_query( $limit );
+		$post_ids = $this->wpdb->get_col( $query );
+
+		if ( \is_null( $post_ids ) ) {
+			return false;
+		}
+
+		$count = (int) count( $post_ids );
+
+		\set_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT . '_' . $limit, $count, \MINUTE_IN_SECONDS * 15 );
+
+		return $count;
 	}
 
 	/**
@@ -129,23 +166,11 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	abstract protected function get_objects();
 
 	/**
-	 * Queries the database for unindexed term IDs.
-	 *
-	 * @param bool $count Whether or not it should be a count query.
-	 * @param int  $limit The maximum number of term IDs to return.
-	 *
-	 * @return string The query.
-	 */
-	abstract protected function get_query( $count, $limit = 1 );
-
-	/**
 	 * Builds a query for counting the number of unindexed links.
-	 *
-	 * @param bool $limit The maximum amount of unindexed links that should be counted.
 	 *
 	 * @return string The prepared query string.
 	 */
-	abstract protected function get_count_query( $limit = false );
+	abstract protected function get_count_query();
 
 	/**
 	 * Builds a query for selecting the ID's of unindexed links.
