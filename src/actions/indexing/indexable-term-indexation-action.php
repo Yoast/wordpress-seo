@@ -88,7 +88,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 * @return Indexable[] The created indexables.
 	 */
 	public function index() {
-		$query    = $this->$this->get_select_query( $this->get_limit() );
+		$query    = $this->get_select_query( $this->get_limit() );
 		$term_ids = $this->wpdb->get_col( $query );
 
 		$indexables = [];
