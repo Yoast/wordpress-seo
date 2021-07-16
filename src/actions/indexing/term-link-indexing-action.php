@@ -72,7 +72,8 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
-		return $this->wpdb->prepare( "
+		return $this->wpdb->prepare(
+			"
 			SELECT COUNT(T.term_id)
 			FROM {$this->wpdb->term_taxonomy} AS T
 			LEFT JOIN $indexable_table AS I
@@ -105,7 +106,8 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		}
 
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
-		return $this->wpdb->prepare( "
+		return $this->wpdb->prepare(
+			"
 			SELECT T.term_id, T.description
 			FROM {$this->wpdb->term_taxonomy} AS T
 			LEFT JOIN $indexable_table AS I

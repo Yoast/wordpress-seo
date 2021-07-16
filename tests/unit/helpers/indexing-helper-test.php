@@ -358,7 +358,7 @@ class Indexing_Helper_Test extends TestCase {
 
 		Monkey\Functions\expect( 'set_transient' )
 			->once()
-			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT, true, \MINUTE_IN_SECONDS * 15 )
+			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT, true, ( \MINUTE_IN_SECONDS * 15 ) )
 			->andReturn( false );
 
 		Monkey\Functions\expect( 'delete_transient' )
@@ -414,7 +414,7 @@ class Indexing_Helper_Test extends TestCase {
 
 		Monkey\Functions\expect( 'set_transient' )
 			->once()
-			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT, true, \MINUTE_IN_SECONDS * 15 )
+			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT, true, ( \MINUTE_IN_SECONDS * 15 ) )
 			->andReturn( false );
 
 		Monkey\Functions\expect( 'delete_transient' )

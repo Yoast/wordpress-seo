@@ -80,6 +80,8 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		}
 
 		$query = $this->get_count_query();
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
 		$count = $this->wpdb->get_var( $query );
 
 		if ( \is_null( $count ) ) {
@@ -101,6 +103,8 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 */
 	public function index() {
 		$query    = $this->get_select_query( $this->get_limit() );
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$post_ids = $this->wpdb->get_col( $query );
 
 		$indexables = [];
@@ -136,8 +140,6 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	/**
 	 * Builds a query for counting the number of unindexed posts.
 	 *
-	 * @param bool|int $limit The maximum amount of unindexed posts that should be counted.
-	 *
 	 * @return string The prepared query string.
 	 */
 	protected function get_count_query() {
@@ -145,7 +147,8 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		$post_types      = $this->get_post_types();
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
-		return $this->wpdb->prepare( "
+		return $this->wpdb->prepare(
+			"
 			SELECT COUNT(P.ID)
 			FROM {$this->wpdb->posts} AS P
 			LEFT JOIN $indexable_table AS I
@@ -153,7 +156,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 				AND I.object_type = 'post'
 				AND I.permalink_hash IS NOT NULL
 			WHERE I.object_id IS NULL
-				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")",
+				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ')',
 			$post_types
 		);
 	}
@@ -172,6 +175,8 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		}
 
 		$query = $this->get_select_query( $limit );
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
 		$post_ids = $this->wpdb->get_col( $query );
 
 		if ( \is_null( $post_ids ) ) {
@@ -180,7 +185,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 
 		$count = (int) count( $post_ids );
 
-		\set_transient( static::TRANSIENT_CACHE_KEY_LIMITED, $count, \MINUTE_IN_SECONDS * 15 );
+		\set_transient( static::TRANSIENT_CACHE_KEY_LIMITED, $count, ( \MINUTE_IN_SECONDS * 15 ) );
 
 		return $count;
 	}
@@ -204,7 +209,8 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		}
 
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
-		return $this->wpdb->prepare( "
+		return $this->wpdb->prepare(
+			"
 			SELECT P.ID
 			FROM {$this->wpdb->posts} AS P
 			LEFT JOIN $indexable_table AS I

@@ -45,6 +45,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	protected function get_objects() {
 		$query = $this->get_select_query( $this->get_limit() );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$posts = $this->wpdb->get_results( $query );
 
 		return \array_map(
@@ -61,8 +62,6 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 
 	/**
 	 * Builds a query for counting the number of unindexed post links.
-	 *
-	 * @param bool $limit The maximum amount of unindexed post links that should be counted.
 	 *
 	 * @return string The prepared query string.
 	 */
@@ -96,7 +95,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	/**
 	 * Builds a query for selecting the ID's of unindexed post links.
 	 *
-	 * @param bool $limit The maximum number of post link IDs to return.
+	 * @param int|false $limit The maximum number of post link IDs to return.
 	 *
 	 * @return string The prepared query string.
 	 */
@@ -114,7 +113,8 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		}
 
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
-		return $this->wpdb->prepare( "
+		return $this->wpdb->prepare(
+			"
 			SELECT P.ID, P.post_content
 			FROM {$this->wpdb->posts} AS P
 			LEFT JOIN $indexable_table AS I

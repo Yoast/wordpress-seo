@@ -78,7 +78,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_count_query
 	 */
 	public function test_get_total_unindexed() {
-		$expected_query    = "
+		$expected_query = "
 			SELECT COUNT(term_id)
 			FROM wp_term_taxonomy AS T
 			LEFT JOIN wp_yoast_indexable AS I
@@ -128,7 +128,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		];
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_limited_unindexed_terms_count' )->andReturnFalse();
-		Functions\expect( 'set_transient' )->once()->with( 'wpseo_limited_unindexed_terms_count', count( $query_result ), \MINUTE_IN_SECONDS * 15 )->andReturnTrue();
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_limited_unindexed_terms_count', count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )
 			->once()

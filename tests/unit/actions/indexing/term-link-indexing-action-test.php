@@ -97,7 +97,7 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests getting the total unindexed.
+	 * Tests getting the unindexed count with a limit.
 	 *
 	 * @covers ::get_count_query
 	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed

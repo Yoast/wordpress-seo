@@ -58,6 +58,8 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	/**
 	 * Returns the total number of unindexed post type archives.
 	 *
+	 * @param int $limit Limit the number of counted objects.
+	 *
 	 * @return int The total number of unindexed post type archives.
 	 */
 	public function get_total_unindexed( $limit = false ) {

@@ -79,7 +79,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed() {
-		$expected_query    = "
+		$expected_query = "
 			SELECT COUNT(P.ID)
 			FROM wp_posts AS P
 			LEFT JOIN wp_yoast_indexable AS I
@@ -133,7 +133,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		];
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_limited_unindexed_posts_count' )->andReturnFalse();
-		Functions\expect( 'set_transient' )->once()->with( 'wpseo_limited_unindexed_posts_count', count( $query_result ), \MINUTE_IN_SECONDS * 15 )->andReturnTrue();
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_limited_unindexed_posts_count', count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
@@ -193,7 +193,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$excluded_post_types = [ 'excluded_post_type' ];
 		$queried_post_types  = [ 'public_post_type' ];
 
-		$expected_query    = "
+		$expected_query = "
 			SELECT COUNT(P.ID)
 			FROM wp_posts AS P
 			LEFT JOIN wp_yoast_indexable AS I

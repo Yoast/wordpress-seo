@@ -138,7 +138,8 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 		$public_taxonomies = $this->taxonomy->get_public_taxonomies();
 
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
-		return $this->wpdb->prepare( "
+		return $this->wpdb->prepare(
+			"
 			SELECT COUNT(term_id)
 			FROM {$this->wpdb->term_taxonomy} AS T
 			LEFT JOIN $indexable_table AS I
@@ -146,7 +147,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 				AND I.object_type = 'term'
 				AND I.permalink_hash IS NOT NULL
 			WHERE I.object_id IS NULL
-				AND taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")",
+				AND taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ')',
 			$public_taxonomies
 		);
 	}
@@ -173,7 +174,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 
 		$count = (int) count( $unindexed_object_ids );
 
-		\set_transient( static::TRANSIENT_CACHE_KEY_LIMITED, $count, \MINUTE_IN_SECONDS * 15 );
+		\set_transient( static::TRANSIENT_CACHE_KEY_LIMITED, $count, ( \MINUTE_IN_SECONDS * 15 ) );
 
 		return $count;
 	}
@@ -197,7 +198,8 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 		}
 
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
-		return $this->wpdb->prepare( "
+		return $this->wpdb->prepare(
+			"
 			SELECT term_id
 			FROM {$this->wpdb->term_taxonomy} AS T
 			LEFT JOIN $indexable_table AS I

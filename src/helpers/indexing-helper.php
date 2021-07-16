@@ -81,7 +81,7 @@ class Indexing_Helper {
 	 */
 	protected $general_indexation;
 
-	const COUNT_QUERY_STARTED_TRANSIENT = "wpseo_count_query_started";
+	const COUNT_QUERY_STARTED_TRANSIENT = 'wpseo_count_query_started';
 
 	/**
 	 * Indexing_Helper constructor.
@@ -240,6 +240,8 @@ class Indexing_Helper {
 	/**
 	 * Returns the total number of unindexed objects.
 	 *
+	 * @param int $limit Limit the number of unindexed objects that are counted.
+	 *
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_unindexed_count( $limit = null ) {
@@ -249,7 +251,7 @@ class Indexing_Helper {
 			return 0;
 		}
 
-		\set_transient( self::COUNT_QUERY_STARTED_TRANSIENT, true, \MINUTE_IN_SECONDS * 15 );
+		\set_transient( self::COUNT_QUERY_STARTED_TRANSIENT, true, ( \MINUTE_IN_SECONDS * 15 ) );
 
 		$indexing_actions = [
 			$this->post_indexation,
@@ -264,7 +266,7 @@ class Indexing_Helper {
 
 		foreach ( $indexing_actions as $indexing_action ) {
 			$unindexed_count += $indexing_action->get_total_unindexed( $limit - $unindexed_count + 1 );
-			if( $unindexed_count > $limit ) {
+			if ( $unindexed_count > $limit ) {
 				\delete_transient( self::COUNT_QUERY_STARTED_TRANSIENT );
 				return $unindexed_count;
 			}

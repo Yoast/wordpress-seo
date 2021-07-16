@@ -184,7 +184,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 
 		Functions\expect( 'set_transient' )
 			->once()
-			->with( Post_Link_Indexing_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT, count( $query_result ), \MINUTE_IN_SECONDS * 15 );
+			->with( Post_Link_Indexing_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT, count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) );
 
 		$this->post_type_helper
 			->expects( 'get_accessible_post_types' )

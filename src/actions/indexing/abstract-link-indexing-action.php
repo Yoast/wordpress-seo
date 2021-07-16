@@ -83,6 +83,8 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 		}
 
 		$query = $this->get_count_query();
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
 		$result = $this->wpdb->get_var( $query );
 		if ( \is_null( $result ) ) {
 			return false;
@@ -107,6 +109,8 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 		}
 
 		$query = $this->get_select_query( $limit );
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$post_ids = $this->wpdb->get_col( $query );
 
 		if ( \is_null( $post_ids ) ) {
@@ -115,7 +119,7 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 
 		$count = (int) count( $post_ids );
 
-		\set_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT, $count, \MINUTE_IN_SECONDS * 15 );
+		\set_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT, $count, ( \MINUTE_IN_SECONDS * 15 ) );
 
 		return $count;
 	}
