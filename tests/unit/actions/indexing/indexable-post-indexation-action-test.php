@@ -75,11 +75,10 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
-	 * @covers ::get_query
+	 * @covers ::get_count_query
 	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed() {
-		$limit_placeholder = '';
 		$expected_query    = "
 			SELECT COUNT(P.ID)
 			FROM wp_posts AS P
@@ -88,9 +87,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 				AND I.object_type = 'post'
 				AND I.permalink_hash IS NOT NULL
 			WHERE I.object_id IS NULL
-				AND P.post_type IN (%s)
-			ORDER BY P.ID
-			$limit_placeholder";
+				AND P.post_type IN (%s)";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', \DAY_IN_SECONDS )->andReturnTrue();
@@ -105,6 +102,49 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
 
 		$this->assertEquals( 10, $this->instance->get_total_unindexed() );
+	}
+
+	/**
+	 * Tests the get total unindexed method with a limit.
+	 *
+	 * @covers ::__construct
+	 * @covers ::get_total_unindexed
+	 * @covers ::get_post_types
+	 * @covers ::get_limited_unindexed_count
+	 * @covers ::get_select_query
+	 */
+	public function test_get_total_unindexed_with_limit() {
+		$limit          = 25;
+		$expected_query = "
+			SELECT P.ID
+			FROM wp_posts AS P
+			LEFT JOIN wp_yoast_indexable AS I
+				ON P.ID = I.object_id
+				AND I.object_type = 'post'
+				AND I.permalink_hash IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND P.post_type IN (%s)
+			LIMIT %d";
+
+		$query_result = [
+			'post_id_1',
+			'post_id_2',
+			'post_id_3',
+		];
+
+		Functions\expect( 'get_transient' )->once()->with( 'wpseo_limited_unindexed_posts_count' )->andReturnFalse();
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_limited_unindexed_posts_count', count( $query_result ), \MINUTE_IN_SECONDS * 15 )->andReturnTrue();
+
+		$this->wpdb->expects( 'prepare' )
+			->once()
+			->with( $expected_query, [ 'public_post_type', $limit ] )
+			->andReturn( 'query' );
+		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( $query_result );
+
+		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
+		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+
+		$this->assertEquals( count( $query_result ), $this->instance->get_total_unindexed( $limit ) );
 	}
 
 	/**
@@ -153,7 +193,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$excluded_post_types = [ 'excluded_post_type' ];
 		$queried_post_types  = [ 'public_post_type' ];
 
-		$limit_placeholder = '';
 		$expected_query    = "
 			SELECT COUNT(P.ID)
 			FROM wp_posts AS P
@@ -162,9 +201,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 				AND I.object_type = 'post'
 				AND I.permalink_hash IS NOT NULL
 			WHERE I.object_id IS NULL
-				AND P.post_type IN (%s)
-			ORDER BY P.ID
-			$limit_placeholder";
+				AND P.post_type IN (%s)";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', \DAY_IN_SECONDS )->andReturnTrue();

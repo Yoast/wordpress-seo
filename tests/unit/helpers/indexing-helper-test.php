@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
@@ -350,6 +351,20 @@ class Indexing_Helper_Test extends TestCase {
 			->once()
 			->andReturn( 0 );
 
+		Monkey\Functions\expect( 'get_transient' )
+			->once()
+			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT )
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'set_transient' )
+			->once()
+			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT, true, \MINUTE_IN_SECONDS * 15 )
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'delete_transient' )
+			->once()
+			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT );
+
 		static::assertEquals( 0, $this->instance->get_unindexed_count() );
 	}
 
@@ -391,6 +406,20 @@ class Indexing_Helper_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_indexing_get_unindexed_count' )
 			->andReturn( 20 );
+
+		Monkey\Functions\expect( 'get_transient' )
+			->once()
+			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT )
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'set_transient' )
+			->once()
+			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT, true, \MINUTE_IN_SECONDS * 15 )
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'delete_transient' )
+			->once()
+			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT );
 
 		static::assertEquals( 20, $this->instance->get_filtered_unindexed_count() );
 	}

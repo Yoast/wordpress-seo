@@ -75,10 +75,9 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
-	 * @covers ::get_query
+	 * @covers ::get_count_query
 	 */
 	public function test_get_total_unindexed() {
-		$limit_placeholder = '';
 		$expected_query    = "
 			SELECT COUNT(term_id)
 			FROM wp_term_taxonomy AS T
@@ -87,8 +86,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 				AND I.object_type = 'term'
 				AND I.permalink_hash IS NOT NULL
 			WHERE I.object_id IS NULL
-				AND taxonomy IN (%s)
-			$limit_placeholder";
+				AND taxonomy IN (%s)";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_terms', '10', \DAY_IN_SECONDS )->andReturnTrue();
@@ -100,6 +98,45 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( '10' );
 
 		$this->assertEquals( 10, $this->instance->get_total_unindexed() );
+	}
+
+	/**
+	 * Tests the get total unindexed method with a limit.
+	 *
+	 * @covers ::__construct
+	 * @covers ::get_total_unindexed
+	 * @covers ::get_limited_unindexed_count
+	 * @covers ::get_select_query
+	 */
+	public function test_get_total_unindexed_with_limit() {
+		$limit          = 10;
+		$expected_query = "
+			SELECT term_id
+			FROM wp_term_taxonomy AS T
+			LEFT JOIN wp_yoast_indexable AS I
+				ON T.term_id = I.object_id
+				AND I.object_type = 'term'
+				AND I.permalink_hash IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND taxonomy IN (%s)
+			LIMIT %d";
+
+		$query_result = [
+			'term_id_1',
+			'term_id_2',
+			'term_id_3',
+		];
+
+		Functions\expect( 'get_transient' )->once()->with( 'wpseo_limited_unindexed_terms_count' )->andReturnFalse();
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_limited_unindexed_terms_count', count( $query_result ), \MINUTE_IN_SECONDS * 15 )->andReturnTrue();
+		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
+		$this->wpdb->expects( 'prepare' )
+			->once()
+			->with( $expected_query, [ 'public_taxonomy', $limit ] )
+			->andReturn( 'query' );
+		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( $query_result );
+
+		$this->assertEquals( count( $query_result ), $this->instance->get_total_unindexed( $limit ) );
 	}
 
 	/**
