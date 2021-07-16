@@ -66,29 +66,15 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 *
 	 * @return string The prepared query string.
 	 */
-	protected function get_count_query( $limit = false ) {
-		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
-		if ( $limit !== false ) {
-			return $this->get_limited_unindexed_count( $limit );
-		}
-
+	protected function get_count_query() {
 		$public_post_types = $this->post_type_helper->get_accessible_post_types();
 		$post_types        = \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) );
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$links_table       = Model::get_table_name( 'SEO_Links' );
-		$replacements      = $public_post_types;
-
-		$query_columns = 'COUNT(P.ID)';
-		$limit_query = '';
-		if ( $limit ) {
-			$limit_query    = 'LIMIT %d';
-			$replacements[] = $limit;
-			$query_columns    = 'P.ID';
-		}
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
 		return $this->wpdb->prepare(
-			"SELECT $query_columns
+			"SELECT COUNT(P.ID)
 			FROM {$this->wpdb->posts} AS P
 			LEFT JOIN $indexable_table AS I
 				ON P.ID = I.object_id
@@ -104,9 +90,8 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND P.post_status = 'publish'
 				AND P.post_type IN ($post_types)
 			ORDER BY P.ID
-			$limit_query
 			",
-			$replacements
+			$public_post_types
 		);
 	}
 

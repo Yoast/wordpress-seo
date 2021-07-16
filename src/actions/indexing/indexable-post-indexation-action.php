@@ -69,12 +69,18 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 * @return int|false The total number of unindexed posts. False if the query fails.
 	 */
 	public function get_total_unindexed( $limit = false ) {
+		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
+		if ( $limit !== false ) {
+			return $this->get_limited_unindexed_count( $limit );
+		}
+
 		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
 
-		$count = $this->get_count( $limit );
+		$query = $this->get_count_query();
+		$count = $this->wpdb->get_var( $query );
 
 		if ( \is_null( $count ) ) {
 			return false;
@@ -134,18 +140,13 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 *
 	 * @return string The prepared query string.
 	 */
-	protected function get_count( $limit = false ) {
-		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
-		if ( $limit !== false ) {
-			return $this->get_limited_unindexed_count( $limit );
-		}
-
+	protected function get_count_query() {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		$post_types      = $this->get_post_types();
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
-		$query = $this->wpdb->prepare( "
-			COUNT(P.ID)
+		return $this->wpdb->prepare( "
+			SELECT COUNT(P.ID)
 			FROM {$this->wpdb->posts} AS P
 			LEFT JOIN $indexable_table AS I
 				ON P.ID = I.object_id
@@ -155,8 +156,6 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")",
 			$post_types
 		);
-
-		return $this->wpdb->get_var( $query );
 	}
 
 	/**

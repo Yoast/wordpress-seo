@@ -81,7 +81,7 @@ class Indexing_Helper {
 	 */
 	protected $general_indexation;
 
-	const COUNT_QUERY_STARTED_TRANSIENT = "wpseo-count-query-started";
+	const COUNT_QUERY_STARTED_TRANSIENT = "wpseo_count_query_started";
 
 	/**
 	 * Indexing_Helper constructor.

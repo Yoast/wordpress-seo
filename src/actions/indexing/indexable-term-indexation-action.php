@@ -63,12 +63,17 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 * @return int|false The number of unindexed terms. False if the query fails.
 	 */
 	public function get_total_unindexed( $limit = false ) {
+		if ( $limit !== false ) {
+			return $this->get_limited_unindexed_count( $limit );
+		}
+
 		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
 
-		$count = $this->get_count( $limit );
+		$query = $this->get_count_query();
+		$count = $this->wpdb->get_var( $query );
 
 		if ( \is_null( $count ) ) {
 			return false;
@@ -128,17 +133,12 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 *
 	 * @return string The prepared query string.
 	 */
-	protected function get_count( $limit = false ) {
-		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
-		if ( $limit !== false ) {
-			return $this->get_limited_unindexed_count( $limit );
-		}
-
+	protected function get_count_query() {
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$public_taxonomies = $this->taxonomy->get_public_taxonomies();
 
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
-		$query = $this->wpdb->prepare( "
+		return $this->wpdb->prepare( "
 			SELECT COUNT(term_id)
 			FROM {$this->wpdb->term_taxonomy} AS T
 			LEFT JOIN $indexable_table AS I
@@ -149,12 +149,6 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 				AND taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")",
 			$public_taxonomies
 		);
-
-		$result = $this->wpdb->get_var( $query );
-		if ( $result ) {
-			return (int) $result;
-		}
-		return false;
 	}
 
 	/**

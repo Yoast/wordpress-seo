@@ -66,22 +66,10 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 *
 	 * @return string The prepared query string.
 	 */
-	protected function get_count_query( $limit = false ) {
-		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
-		if ( $limit !== false ) {
-			return $this->get_limited_unindexed_count( $limit );
-		}
-
+	protected function get_count_query() {
 		$public_taxonomies = $this->taxonomy_helper->get_public_taxonomies();
 		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 		$indexable_table   = Model::get_table_name( 'Indexable' );
-		$replacements      = $public_taxonomies;
-
-		$limit_query = '';
-		if ( $limit ) {
-			$limit_query    = 'LIMIT %d';
-			$replacements[] = $limit;
-		}
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
 		return $this->wpdb->prepare(
@@ -94,9 +82,8 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 			WHERE I.object_id IS NULL
 				AND T.taxonomy IN ($placeholders)
 			ORDER BY T.term_id
-			$limit_query
 			",
-			$replacements
+			$public_taxonomies
 		);
 	}
 
