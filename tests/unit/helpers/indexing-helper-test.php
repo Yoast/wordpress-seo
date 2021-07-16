@@ -155,27 +155,27 @@ class Indexing_Helper_Test extends TestCase {
 	public function test_set_indexing_actions() {
 		static::assertInstanceOf(
 			Indexable_Post_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'indexing_actions' )[ 0 ]
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[0]
 		);
 		static::assertInstanceOf(
 			Indexable_Term_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'indexing_actions' )[ 1 ]
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[1]
 		);
 		static::assertInstanceOf(
 			Indexable_Post_Type_Archive_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'indexing_actions' )[ 2 ]
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[2]
 		);
 		static::assertInstanceOf(
 			Indexable_General_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'indexing_actions' )[ 3 ]
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[3]
 		);
 		static::assertInstanceOf(
 			Post_Link_Indexing_Action::class,
-			$this->getPropertyValue( $this->instance, 'indexing_actions' )[ 4 ]
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[4]
 		);
 		static::assertInstanceOf(
 			Term_Link_Indexing_Action::class,
-			$this->getPropertyValue( $this->instance, 'indexing_actions' )[ 5 ]
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[5]
 		);
 	}
 
