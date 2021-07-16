@@ -26,6 +26,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		add_action( 'wpseo_cleanup_indexables', [ $this, 'cleanup_obsolete_indexables' ], 10, 2 );
+		add_action( 'wpseo_deactivate', [ $this, 'unschedule_cron' ] );
 	}
 
 	/**
@@ -40,7 +41,7 @@ class Cleanup_Integration implements Integration_Interface {
 		$number_of_deletions = $this->clean_indexables_with_object_type( $object_type, $object_sub_type, 1000 );
 
 		if ( empty( $number_of_deletions ) ) {
-			wp_clear_scheduled_hook( 'wpseo_cleanup_indexables', [ $object_type, $object_sub_type ] );
+			$this->unschedule_cron();
 		}
 	}
 
@@ -63,5 +64,14 @@ class Cleanup_Integration implements Integration_Interface {
 		$sql = $wpdb->prepare( "DELETE FROM $indexable_table WHERE object_type = '" . $object_type . "' AND object_sub_type = '" . $object_sub_type . "' ORDER BY id LIMIT %d", $limit );
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
 		return $wpdb->query( $sql );
+	}
+
+	/**
+	 * Unschedules the WP-Cron job to cleanup indexables.
+	 *
+	 * @return void
+	 */
+	public function unschedule_cron() {
+		wp_unschedule_hook( 'wpseo_cleanup_indexables' );
 	}
 }
