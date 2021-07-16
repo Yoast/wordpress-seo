@@ -178,6 +178,6 @@ class Background_Indexing_Integration implements Integration_Interface {
 	public function should_index_on_shutdown( $shutdown_limit ) {
 		$total = $this->indexing_helper->get_unindexed_count( $shutdown_limit );
 
-		return  $total > 0 && $total < $shutdown_limit;
+		return  $total > $shutdown_limit;
 	}
 }

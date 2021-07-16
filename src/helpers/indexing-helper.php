@@ -265,12 +265,12 @@ class Indexing_Helper {
 		foreach ( $indexing_actions as $indexing_action ) {
 			$unindexed_count += $indexing_action->get_total_unindexed( $limit - $unindexed_count + 1 );
 			if( $unindexed_count > $limit ) {
+				\delete_transient( self::COUNT_QUERY_STARTED_TRANSIENT );
 				return $unindexed_count;
 			}
 		}
 
 		\delete_transient( self::COUNT_QUERY_STARTED_TRANSIENT );
-
 		return $unindexed_count;
 	}
 
