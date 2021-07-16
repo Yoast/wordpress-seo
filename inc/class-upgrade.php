@@ -74,7 +74,7 @@ class WPSEO_Upgrade {
 			'15.9.1-RC0' => 'upgrade_1591',
 			'16.2-RC0'   => 'upgrade_162',
 			'16.5-RC0'   => 'upgrade_165',
-			'16.8-RC0'   => 'upgrade_168',
+			'16.9-RC0'   => 'upgrade_169',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -836,7 +836,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade_168() {
+	private function upgrade_169() {
 		$cleanup             = new Cleanup_Integration();
 		$number_of_deletions = $cleanup->clean_indexables_with_object_type( 'post', 'shop_order', 1000 );
 
