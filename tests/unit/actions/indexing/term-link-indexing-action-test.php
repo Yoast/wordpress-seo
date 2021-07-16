@@ -193,7 +193,7 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 
 		Functions\expect( 'set_transient' )
 			->once()
-			->with( Term_Link_Indexing_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT, count( $query_result ), \MINUTE_IN_SECONDS * 15 )
+			->with( Term_Link_Indexing_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT, \count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )
 			->andReturn( true );
 
 		$this->assertEquals( count( $query_result ), $this->instance->get_total_unindexed( $limit ) );
@@ -231,7 +231,6 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
 
-		$empty_string   = '';
 		$expected_query = "
 			SELECT COUNT(T.term_id)
 			FROM wp_term_taxonomy AS T

@@ -3,12 +3,13 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use Brain\Monkey\Hook\Exception\InvalidHookArgument;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast_Notification_Center;
@@ -40,46 +41,11 @@ class Indexing_Helper {
 	protected $notification_center;
 
 	/**
-	 * The post indexing action.
+	 * The indexation actions.
 	 *
-	 * @var Indexable_Post_Indexation_Action
+	 * @var Indexation_Action_Interface[]
 	 */
-	protected $post_indexation;
-
-	/**
-	 * The term indexing action.
-	 *
-	 * @var Indexable_Term_Indexation_Action
-	 */
-	protected $term_indexation;
-
-	/**
-	 * The post type archive indexing action.
-	 *
-	 * @var Indexable_Post_Type_Archive_Indexation_Action
-	 */
-	protected $post_type_archive_indexation;
-
-	/**
-	 * The post link indexing action.
-	 *
-	 * @var Post_Link_Indexing_Action
-	 */
-	protected $post_link_indexing_action;
-
-	/**
-	 * The term link indexing action.
-	 *
-	 * @var Term_Link_Indexing_Action
-	 */
-	protected $term_link_indexing_action;
-
-	/**
-	 * Represents the general indexing.
-	 *
-	 * @var Indexable_General_Indexation_Action
-	 */
-	protected $general_indexation;
+	protected $indexing_actions;
 
 	const COUNT_QUERY_STARTED_TRANSIENT = 'wpseo_count_query_started';
 
@@ -120,12 +86,14 @@ class Indexing_Helper {
 		Post_Link_Indexing_Action $post_link_indexing_action,
 		Term_Link_Indexing_Action $term_link_indexing_action
 	) {
-		$this->post_indexation              = $post_indexation;
-		$this->term_indexation              = $term_indexation;
-		$this->post_type_archive_indexation = $post_type_archive_indexation;
-		$this->general_indexation           = $general_indexation;
-		$this->post_link_indexing_action    = $post_link_indexing_action;
-		$this->term_link_indexing_action    = $term_link_indexing_action;
+		$this->indexing_actions = [
+			$post_indexation,
+			$term_indexation,
+			$post_type_archive_indexation,
+			$general_indexation,
+			$post_link_indexing_action,
+			$term_link_indexing_action,
+		];
 	}
 
 	/**
@@ -253,18 +221,9 @@ class Indexing_Helper {
 
 		\set_transient( self::COUNT_QUERY_STARTED_TRANSIENT, true, ( \MINUTE_IN_SECONDS * 15 ) );
 
-		$indexing_actions = [
-			$this->post_indexation,
-			$this->term_indexation,
-			$this->general_indexation,
-			$this->post_type_archive_indexation,
-			$this->post_link_indexing_action,
-			$this->term_link_indexing_action,
-		];
-
 		$unindexed_count = 0;
 
-		foreach ( $indexing_actions as $indexing_action ) {
+		foreach ( $this->indexing_actions as $indexing_action ) {
 			$unindexed_count += $indexing_action->get_total_unindexed( $limit - $unindexed_count + 1 );
 			if ( $unindexed_count > $limit ) {
 				\delete_transient( self::COUNT_QUERY_STARTED_TRANSIENT );

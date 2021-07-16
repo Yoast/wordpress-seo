@@ -67,7 +67,6 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 */
 	protected function get_count_query() {
 		$public_post_types = $this->post_type_helper->get_accessible_post_types();
-		$post_types        = \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) );
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$links_table       = Model::get_table_name( 'SEO_Links' );
 
@@ -87,7 +86,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND L.target_post_id != 0
 			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
 				AND P.post_status = 'publish'
-				AND P.post_type IN ($post_types)",
+				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ')',
 			$public_post_types
 		);
 	}
@@ -101,7 +100,6 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 */
 	protected function get_select_query( $limit = false ) {
 		$public_post_types = $this->post_type_helper->get_accessible_post_types();
-		$post_types        = \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) );
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$links_table       = Model::get_table_name( 'SEO_Links' );
 		$replacements      = $public_post_types;
@@ -129,7 +127,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND L.target_post_id != 0
 			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
 				AND P.post_status = 'publish'
-				AND P.post_type IN ($post_types)
+				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) )  . ")
 			$limit_query",
 			$replacements
 		);

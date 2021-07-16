@@ -102,7 +102,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 * @return Indexable[] The created indexables.
 	 */
 	public function index() {
-		$query    = $this->get_select_query( $this->get_limit() );
+		$query = $this->get_select_query( $this->get_limit() );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$post_ids = $this->wpdb->get_col( $query );

@@ -45,6 +45,7 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	protected function get_objects() {
 		$query = $this->get_select_query( $this->get_limit() );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$terms = $this->wpdb->get_results( $query );
 
 		return \array_map(
@@ -61,8 +62,6 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 
 	/**
 	 * Builds a query for counting the number of unindexed term links.
-	 *
-	 * @param bool $limit The maximum amount of unindexed term links that should be counted.
 	 *
 	 * @return string The prepared query string.
 	 */
@@ -89,13 +88,12 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	/**
 	 * Builds a query for selecting the ID's of unindexed term links.
 	 *
-	 * @param bool $limit The maximum number of term link IDs to return.
+	 * @param int|false $limit The maximum number of term link IDs to return.
 	 *
 	 * @return string The prepared query string.
 	 */
 	protected function get_select_query( $limit = false ) {
 		$public_taxonomies = $this->taxonomy_helper->get_public_taxonomies();
-		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$replacements      = $public_taxonomies;
 
@@ -115,7 +113,7 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND I.object_type = 'term'
 				AND I.link_count IS NOT NULL
 			WHERE I.object_id IS NULL
-				AND T.taxonomy IN ($placeholders)
+				AND T.taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")
 			$limit_query",
 			$replacements
 		);

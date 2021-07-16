@@ -60,6 +60,8 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	/**
 	 * Returns the total number of unindexed terms.
 	 *
+	 * @param int|false $limit Limit the number of unindexed posts that are counted.
+	 *
 	 * @return int|false The number of unindexed terms. False if the query fails.
 	 */
 	public function get_total_unindexed( $limit = false ) {
@@ -73,6 +75,8 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 		}
 
 		$query = $this->get_count_query();
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
 		$count = $this->wpdb->get_var( $query );
 
 		if ( \is_null( $count ) ) {
@@ -165,7 +169,9 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 			return (int) $transient;
 		}
 
-		$query                = $this->get_select_query( $limit );
+		$query = $this->get_select_query( $limit );
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$unindexed_object_ids = $this->wpdb->get_col( $query );
 
 		if ( \is_null( $unindexed_object_ids ) ) {
