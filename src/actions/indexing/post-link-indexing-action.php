@@ -88,9 +88,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND L.target_post_id != 0
 			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
 				AND P.post_status = 'publish'
-				AND P.post_type IN ($post_types)
-			ORDER BY P.ID
-			",
+				AND P.post_type IN ($post_types)",
 			$public_post_types
 		);
 	}
@@ -116,8 +114,8 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		}
 
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
-		return $this->wpdb->prepare(
-			"SELECT P.ID, P.post_content
+		return $this->wpdb->prepare( "
+			SELECT P.ID, P.post_content
 			FROM {$this->wpdb->posts} AS P
 			LEFT JOIN $indexable_table AS I
 				ON P.ID = I.object_id
@@ -132,8 +130,7 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
 				AND P.post_status = 'publish'
 				AND P.post_type IN ($post_types)
-			$limit_query
-			",
+			$limit_query",
 			$replacements
 		);
 	}

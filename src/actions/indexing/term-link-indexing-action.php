@@ -72,17 +72,15 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
-		return $this->wpdb->prepare(
-			"SELECT COUNT(T.term_id)
+		return $this->wpdb->prepare( "
+			SELECT COUNT(T.term_id)
 			FROM {$this->wpdb->term_taxonomy} AS T
 			LEFT JOIN $indexable_table AS I
 				ON T.term_id = I.object_id
 				AND I.object_type = 'term'
 				AND I.link_count IS NOT NULL
 			WHERE I.object_id IS NULL
-				AND T.taxonomy IN ($placeholders)
-			ORDER BY T.term_id
-			",
+				AND T.taxonomy IN ($placeholders)",
 			$public_taxonomies
 		);
 	}
@@ -107,8 +105,8 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 		}
 
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
-		return $this->wpdb->prepare(
-			"SELECT T.term_id, T.description
+		return $this->wpdb->prepare( "
+			SELECT T.term_id, T.description
 			FROM {$this->wpdb->term_taxonomy} AS T
 			LEFT JOIN $indexable_table AS I
 				ON T.term_id = I.object_id
@@ -116,8 +114,7 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND I.link_count IS NOT NULL
 			WHERE I.object_id IS NULL
 				AND T.taxonomy IN ($placeholders)
-			$limit_query
-			",
+			$limit_query",
 			$replacements
 		);
 	}

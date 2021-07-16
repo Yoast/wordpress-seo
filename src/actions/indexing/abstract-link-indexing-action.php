@@ -115,7 +115,7 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 
 		$count = (int) count( $post_ids );
 
-		\set_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT . '_' . $limit, $count, \MINUTE_IN_SECONDS * 15 );
+		\set_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT, $count, \MINUTE_IN_SECONDS * 15 );
 
 		return $count;
 	}
