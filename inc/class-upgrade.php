@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 
 /**
  * This code handles the option upgrades.
@@ -836,77 +837,21 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_168() {
-		$indexable_ids_to_clean = $this->get_indexables_with_object_type( 'post', 'shop_order' );
-		$number_of_indexables   = count( $indexable_ids_to_clean );
+		$cleanup             = new Cleanup_Integration();
+		$number_of_deletions = $cleanup->clean_indexables_with_object_type( 'post', 'shop_order', 1000 );
 
-		while ( $number_of_indexables > 0 ) {
-			$result = $this->delete_rows_by_indexable_ids( $indexable_ids_to_clean, 'Prominent_Words', 'indexable_id' );
-			$result = $result && $this->delete_rows_by_indexable_ids( $indexable_ids_to_clean, 'SEO_Links', 'indexable_id' );
-			$result = $result && $this->delete_rows_by_indexable_ids( $indexable_ids_to_clean, 'SEO_Links', 'target_indexable_id' );
+		if ( ! empty( $number_of_deletions ) ) {
+			$indexables_to_clean = [ 'post', 'shop_order' ];
 
-			if ( $result !== false ) {
-				// Delete from indexables table, only if prominent_words and seo_links cleanup was successful, so as to not be left with orphaned entries.
-				$result = $this->delete_rows_by_indexable_ids( $indexable_ids_to_clean, 'Indexable', 'id' );
+			if ( ! wp_next_scheduled( 'wpseo_cleanup_indexables', $indexables_to_clean ) ) {
+				wp_schedule_event(
+					time(),
+					'hourly',
+					'wpseo_cleanup_indexables',
+					$indexables_to_clean
+				);
 			}
-
-			$highest_id             = end( $indexable_ids_to_clean );
-			$indexable_ids_to_clean = $this->get_indexables_with_object_type( 'post', 'shop_order', $highest_id );
-			$number_of_indexables   = count( $indexable_ids_to_clean );
 		}
-	}
-
-	/**
-	 * Gets ids from the indexable table depending on the object_type and object_sub_type.
-	 *
-	 * @param string $object_type     The object type to query.
-	 * @param string $object_sub_type The object subtype to query.
-	 * @param int    $minimum_id      The id of the last indexable of previous gets.
-	 * @param int    $limit           The chunk size for the gets to be performed with.
-	 *
-	 * @return array
-	 */
-	private function get_indexables_with_object_type( $object_type, $object_sub_type, $minimum_id = 0, $limit = 500 ) {
-		global $wpdb;
-
-		$limit           = apply_filters( 'wpseo_upgrade_query_chunk_size', $limit );
-		$indexable_table = Model::get_table_name( 'Indexable' );
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
-		$sql = $wpdb->prepare( "SELECT id FROM $indexable_table WHERE object_type = '" . $object_type . "' AND object_sub_type = '" . $object_sub_type . "' AND id > " . $minimum_id . ' ORDER BY id LIMIT %d', $limit );
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
-		$shop_order_indexables = $wpdb->get_col( $sql );
-
-		if ( is_array( $shop_order_indexables ) && ! empty( $shop_order_indexables ) ) {
-			return $shop_order_indexables;
-		}
-
-		return [];
-	}
-
-	/**
-	 * Cleans out indexable ids with a DELETE WHERE IN query.
-	 *
-	 * @param array  $indexable_ids The indexables ids to be cleaned out.
-	 * @param string $table_name    The table to delete rows from.
-	 * @param string $where         The column to base the where clause.
-	 *
-	 * @return bool
-	 */
-	private function delete_rows_by_indexable_ids( $indexable_ids, $table_name, $where ) {
-		global $wpdb;
-
-		if ( is_array( $indexable_ids ) && ! empty( $indexable_ids ) ) {
-			$indexable_table = Model::get_table_name( $table_name );
-
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no user input.
-			$sql = $wpdb->prepare( "DELETE FROM $indexable_table WHERE $where IN( " . implode( ',', \array_fill( 0, \count( $indexable_ids ), '%s' ) ) . ' ) ', $indexable_ids );
-			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
-			$result = ! ( $wpdb->query( $sql ) === false );
-
-			return $result;
-		}
-
-		return false;
 	}
 
 	/**
