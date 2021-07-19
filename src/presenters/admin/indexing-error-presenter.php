@@ -97,25 +97,13 @@ class Indexing_Error_Presenter extends Abstract_Presenter {
 	 * @return string The second paragraph of the error message.
 	 */
 	protected function generate_second_paragraph( $is_premium, $has_valid_premium_subscription ) {
-		if ( $is_premium && $has_valid_premium_subscription ) {
-			return sprintf(
-				// translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page, %2$s expands to a closing anchor tag.
-				__(
-					'These are the technical details for the error. Include them in %1$syour email to our support team%2$s, it can help them troubleshoot the problem.',
-					'wordpress-seo'
-				),
-				'<a href="' . \esc_url( $this->short_link_helper->get( 'https://example.net/premium-support' ) ) . '">',
-				'</a>'
-			);
-		}
-
 		return sprintf(
 			// translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page, %2$s expands to a closing anchor tag.
 			__(
-				'Below are the technical details for the error. They can be useful to include %1$swhen reporting a bug to us%2$s.',
+				'Below are the technical details for the error. See %1$sthis page%2$s for a more detailed explanation.',
 				'wordpress-seo'
 			),
-			'<a href="' . \esc_url( $this->short_link_helper->get( 'https://example.net/support' ) ) . '">',
+			'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/4f3' ) ) . '">',
 			'</a>'
 		);
 	}

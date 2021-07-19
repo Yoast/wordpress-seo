@@ -110,7 +110,7 @@ class Indexing_Error_Presenter_Test extends TestCase {
 
 		self::assertEquals(
 			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please click the button again to re-start the process. </p>' .
-			'<p>Below are the technical details for the error. They can be useful to include <a href="https://example.net/support">when reporting a bug to us</a>.</p>',
+			'<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
 			$actual
 		);
 	}
@@ -138,7 +138,7 @@ class Indexing_Error_Presenter_Test extends TestCase {
 		self::assertEquals(
 			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. ' .
 			'Please make sure to activate your subscription in MyYoast by completing <a href="https://yoa.st/3wv">these steps</a>.</p>' .
-			'<p>Below are the technical details for the error. They can be useful to include <a href="https://example.net/support">when reporting a bug to us</a>.</p>',
+			'<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
 			$actual
 		);
 	}
@@ -166,8 +166,7 @@ class Indexing_Error_Presenter_Test extends TestCase {
 		self::assertEquals(
 			'<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. ' .
 			'Please click the button again to re-start the process. If the problem persists, please contact support.</p>' .
-			'<p>These are the technical details for the error. Include them in' .
-			' <a href="https://example.net/premium-support">your email to our support team</a>, it can help them troubleshoot the problem.</p>',
+			'<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>',
 			$actual
 		);
 	}
