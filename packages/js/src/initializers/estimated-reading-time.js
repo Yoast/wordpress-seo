@@ -66,7 +66,7 @@ const debounceBlockEditor = debounce( getEstimatedReadingTimeBlockEditor, 1500, 
  *
  * @returns {void}
  */
-function getEstimatedReadingTimeBlockElementor() {
+function getEstimatedReadingTimeElementor() {
 	const content = select( "yoast-seo/editor" ).getEditorDataContent();
 	if ( previousContent !== content ) {
 		previousContent = content;
@@ -75,7 +75,7 @@ function getEstimatedReadingTimeBlockElementor() {
 }
 
 // Delays execution by 1,5 seconds for any change, forces execution after 3 seconds.
-const debounceElementorEditor = debounce( getEstimatedReadingTimeBlockElementor, 1500, { maxWait: 3000 } );
+const debounceElementorEditor = debounce( getEstimatedReadingTimeElementor, 1500, { maxWait: 3000 } );
 
 /**
  * Initializes the estimated reading time.
