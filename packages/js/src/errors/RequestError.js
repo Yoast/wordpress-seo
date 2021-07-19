@@ -9,14 +9,14 @@ export class RequestError extends Error {
 	 * @param {string} url The URL of the request that failed.
 	 * @param {"POST"|"GET"|"PUT"|"DELETE"} method The HTTP method of the failed request.
 	 * @param {number} statusCode The status code of the failed request.
-	 * @param {string} stacktrace The stack trace.
+	 * @param {string} stackTrace The stack trace.
 	 */
-	constructor( message, url, method, statusCode, stacktrace ) {
+	constructor( message, url, method, statusCode, stackTrace ) {
 		super( message );
 		this.name = "RequestError";
 		this.url = url;
 		this.method = method;
 		this.statusCode = statusCode;
-		this.stackTrace = stacktrace;
+		this.stackTrace = stackTrace;
 	}
 }

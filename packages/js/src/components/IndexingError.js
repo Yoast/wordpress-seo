@@ -26,7 +26,7 @@ const ErrorStackTrace = styled.pre`
  * @returns {JSX.Element|null} The error line component, or `null` if the value is `undefined`.
  */
 function ErrorLine( { title, value } ) {
-	if ( typeof value === "undefined" ) {
+	if ( ! value ) {
 		return null;
 	}
 	return <p>
@@ -45,6 +45,34 @@ ErrorLine.defaultProps = {
 };
 
 /**
+ * Renders a stack trace.
+ *
+ * @param {string} stack The stack trace.
+ *
+ * @returns {JSX.Element|null} The stack trace component, or `null` if no stack trace is available.
+ */
+function StackTrace( { stackTrace } ) {
+	if ( ! stackTrace ) {
+		return null;
+	}
+
+	return <details>
+		<summary>{ __( "Error stack trace", "wordpress-seo" ) }</summary>
+		<ErrorStackTrace>
+			{ stackTrace }
+		</ErrorStackTrace>
+	</details>;
+}
+
+StackTrace.propTypes = {
+	stackTrace: PropTypes.string,
+};
+
+StackTrace.defaultProps = {
+	stackTrace: "",
+};
+
+/**
  * An error that should be shown when indexation has failed.
  *
  * @param {string} message The error message to show.
@@ -56,18 +84,13 @@ export default function IndexingError( { message, error } ) {
 	return <Alert type={ "error" }>
 		<div dangerouslySetInnerHTML={ { __html: message } } />
 		<details>
-			<summary>{ __( "Error details (click to show/hide)", "wordpress-seo" ) }</summary>
+			<summary>{ __( "Error details", "wordpress-seo" ) }</summary>
 			<ErrorDetails>
 				<ErrorLine title={ __( "Request URL", "wordpress-seo" ) } value={ error.url } />
 				<ErrorLine title={ __( "Request method", "wordpress-seo" ) } value={ error.method } />
 				<ErrorLine title={ __( "Status code", "wordpress-seo" ) } value={ error.statusCode } />
 				<ErrorLine title={ __( "Error message", "wordpress-seo" ) } value={ error.message } />
-				<details>
-					<summary>{ __( "Error stack trace", "wordpress-seo" ) }</summary>
-					<ErrorStackTrace>
-						{ error.stackTrace }
-					</ErrorStackTrace>
-				</details>
+				<StackTrace stackTrace={ error.stackTrace } />
 			</ErrorDetails>
 		</details>
 	</Alert>;
