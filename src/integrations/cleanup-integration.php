@@ -25,8 +25,8 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'wpseo_cleanup_indexables', [ $this, 'cleanup_obsolete_indexables' ], 10, 2 );
-		add_action( 'wpseo_deactivate', [ $this, 'unschedule_cron' ] );
+		\add_action( 'wpseo_cleanup_indexables', [ $this, 'cleanup_obsolete_indexables' ], 10, 2 );
+		\add_action( 'wpseo_deactivate', [ $this, 'unschedule_cron' ] );
 	}
 
 	/**
@@ -57,7 +57,7 @@ class Cleanup_Integration implements Integration_Interface {
 	public function clean_indexables_with_object_type( $object_type, $object_sub_type, $limit = 1000 ) {
 		global $wpdb;
 
-		$limit           = apply_filters( 'wpseo_upgrade_query_limit_size', $limit );
+		$limit           = \apply_filters( 'wpseo_upgrade_query_limit_size', $limit );
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
@@ -72,6 +72,6 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function unschedule_cron() {
-		wp_unschedule_hook( 'wpseo_cleanup_indexables' );
+		\wp_unschedule_hook( 'wpseo_cleanup_indexables' );
 	}
 }
