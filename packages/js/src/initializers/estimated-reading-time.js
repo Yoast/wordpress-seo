@@ -16,7 +16,8 @@ function getEstimatedReadingTime( content ) {
 		} );
 }
 
-const debouncedGetEstimatedReadingTime = debounce( getEstimatedReadingTime, 500 );
+// Delays execution by 1,5 seconds for any change, forces execution after 3 seconds.
+const debouncedGetEstimatedReadingTime = debounce( getEstimatedReadingTime, 1500, { maxWait: 3000 } );
 
 /**
  * Initializes the estimated reading time for the classic editor.
@@ -41,23 +42,35 @@ function initializeEstimatedReadingTimeClassic() {
 	} );
 }
 
+// Used to trigger the initial reading time calculation for the block and Elementor editors.
+let previousContent = '';
+
 /**
  * Initializes the estimated reading time for the block editor.
  *
  * @returns {void}
  */
 function initializeEstimatedReadingTimeBlockEditor() {
-	let previousContent = select( "core/editor" ).getEditedPostAttribute( "content" );
-
 	subscribe( () => {
-		const content = select( "core/editor" ).getEditedPostAttribute( "content" );
-
-		if ( content !== previousContent ) {
-			previousContent = content;
-			debouncedGetEstimatedReadingTime( content );
-		}
+		doBlockEditorDebounce();
 	} );
 }
+
+/**
+ * Reads and compares the data from the block editor.
+ *
+ * @returns {void}
+ */
+function blockEditorDebounce() {
+	const content = select( "core/editor" ).getEditedPostAttribute( "content" );
+	if ( previousContent != content ){
+		previousContent = content;
+		getEstimatedReadingTime( content );
+	}
+}
+
+// Delays execution by 1,5 seconds for any change, forces execution after 3 seconds.
+const doBlockEditorDebounce = debounce( blockEditorDebounce, 1500, { maxWait: 3000 } );
 
 /**
  * Initializes the estimated reading time for the Elementor editor.
@@ -65,17 +78,26 @@ function initializeEstimatedReadingTimeBlockEditor() {
  * @returns {void}
  */
 function initializeEstimatedReadingTimeElementor() {
-	let previousContent = select( "yoast-seo/editor" ).getEditorDataContent();
-
 	subscribe( () => {
-		const content = select( "yoast-seo/editor" ).getEditorDataContent();
-
-		if ( content !== previousContent ) {
-			previousContent = content;
-			debouncedGetEstimatedReadingTime( content );
-		}
+		doElementorEditorDebounce();
 	} );
 }
+
+/**
+ * Reads and compares the data from the Elementor editor.
+ *
+ * @returns {void}
+ */
+ function elementorEditorDebounce() {
+	const content = select( "yoast-seo/editor" ).getEditorDataContent();
+	if ( previousContent != content ){
+		previousContent = content;
+		getEstimatedReadingTime( content );
+	}
+}
+
+// Delays execution by 1,5 seconds for any change, forces execution after 3 seconds.
+const doElementorEditorDebounce = debounce( elementorEditorDebounce, 1500, { maxWait: 3000 } );
 
 /**
  * Initializes the estimated reading time.
