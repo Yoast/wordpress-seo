@@ -61,7 +61,7 @@ function initializeEstimatedReadingTimeBlockEditor() {
  *
  * @returns {void}
  */
-function blockEditorDebounce() {
+function getEstimatedReadingTimeBlockEditor() {
 	const content = select( "core/editor" ).getEditedPostAttribute( "content" );
 	if ( previousContent !== content ) {
 		previousContent = content;
@@ -70,7 +70,7 @@ function blockEditorDebounce() {
 }
 
 // Delays execution by 1,5 seconds for any change, forces execution after 3 seconds.
-const doBlockEditorDebounce = debounce( blockEditorDebounce, 1500, { maxWait: 3000 } );
+const debounceBlockEditor = debounce( getEstimatedReadingTimeBlockEditor, 1500, { maxWait: 3000 } );
 
 /**
  * Gets the estimated reading time in the Elementor editor if the content has changed.
@@ -88,7 +88,7 @@ function initializeEstimatedReadingTimeElementor() {
  *
  * @returns {void}
  */
- function elementorEditorDebounce() {
+function getEstimatedReadingTimeBlockElementor() {
 	const content = select( "yoast-seo/editor" ).getEditorDataContent();
 	if ( previousContent !== content ) {
 		previousContent = content;
@@ -97,7 +97,7 @@ function initializeEstimatedReadingTimeElementor() {
 }
 
 // Delays execution by 1,5 seconds for any change, forces execution after 3 seconds.
-const doElementorEditorDebounce = debounce( elementorEditorDebounce, 1500, { maxWait: 3000 } );
+const debounceElementorEditor = debounce( getEstimatedReadingTimeBlockElementor, 1500, { maxWait: 3000 } );
 
 /**
  * Initializes the estimated reading time.
