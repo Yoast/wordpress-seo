@@ -50,17 +50,6 @@ let previousContent = "";
  *
  * @returns {void}
  */
-function initializeEstimatedReadingTimeBlockEditor() {
-	subscribe( () => {
-		doBlockEditorDebounce();
-	} );
-}
-
-/**
- * Reads and compares the data from the block editor.
- *
- * @returns {void}
- */
 function getEstimatedReadingTimeBlockEditor() {
 	const content = select( "core/editor" ).getEditedPostAttribute( "content" );
 	if ( previousContent !== content ) {
@@ -74,17 +63,6 @@ const debounceBlockEditor = debounce( getEstimatedReadingTimeBlockEditor, 1500, 
 
 /**
  * Gets the estimated reading time in the Elementor editor if the content has changed.
- *
- * @returns {void}
- */
-function initializeEstimatedReadingTimeElementor() {
-	subscribe( () => {
-		doElementorEditorDebounce();
-	} );
-}
-
-/**
- * Reads and compares the data from the Elementor editor.
  *
  * @returns {void}
  */
@@ -114,9 +92,13 @@ export default function initializeEstimatedReadingTime() {
 	// For the Elementor and Block editor, debounce the subscribe function, since this fires almost continuously.
 	// If not debounced, the editor would become very slow.
 	if ( window.wpseoScriptData.isElementorEditor === "1" ) {
-		initializeEstimatedReadingTimeElementor();
+		subscribe( () => {
+			debounceElementorEditor();
+		} );
 	} else if ( window.wpseoScriptData.isBlockEditor === "1" ) {
-		initializeEstimatedReadingTimeBlockEditor();
+		subscribe( () => {
+			debounceBlockEditor();
+		} );
 	} else {
 		initializeEstimatedReadingTimeClassic();
 	}
