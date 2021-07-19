@@ -54,6 +54,8 @@ class Cleanup_Integration_Test extends TestCase {
 		global $wpdb;
 		$indexable_table = 'wp_yoast_indexable';
 		$limit           = 1000;
+		$object_type     = 'post';
+		$object_sub_type = 'shop_order';
 
 		$wpdb         = Mockery::mock( 'wpdb' );
 		$wpdb->prefix = 'wp_';
@@ -61,16 +63,18 @@ class Cleanup_Integration_Test extends TestCase {
 			->shouldReceive( 'prepare' )
 			->once()
 			->with(
-				"DELETE FROM $indexable_table WHERE object_type = 'post' AND object_sub_type = 'shop_order' ORDER BY id LIMIT %d",
+				"DELETE FROM $indexable_table WHERE object_type = %s AND object_sub_type = %s ORDER BY id LIMIT %d",
+				$object_type,
+				$object_sub_type,
 				$limit
 			)
-			->andReturn( "DELETE FROM wp_yoast_indexable WHERE object_type = 'post' AND object_sub_type = 'shop_order' ORDER BY id LIMIT $limit" );
+			->andReturn( "DELETE FROM wp_yoast_indexable WHERE object_type = '" . $object_type . "' AND object_sub_type = '" . $object_sub_type . "' ORDER BY id LIMIT $limit" );
 
 		$wpdb
 			->shouldReceive( 'query' )
 			->once()
 			->with(
-				"DELETE FROM wp_yoast_indexable WHERE object_type = 'post' AND object_sub_type = 'shop_order' ORDER BY id LIMIT $limit"
+				"DELETE FROM wp_yoast_indexable WHERE object_type = 'post' AND object_sub_type = 'shop_order' ORDER BY id LIMIT 1000"
 			)
 			->andReturn( 1 );
 
