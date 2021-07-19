@@ -2,6 +2,18 @@ import PropTypes from "prop-types";
 import { Alert } from "@yoast/components";
 import { __ } from "@wordpress/i18n";
 import { RequestError } from "../errors/RequestError";
+import styled from "styled-components";
+
+const ErrorDetails = styled.div`
+	margin-top: 8px;
+`;
+
+const ErrorStackTrace = styled.pre`
+	overflow-x: scroll;
+	max-width: 500px;
+	border: 1px solid;
+	padding: 16px;
+`;
 
 /**
  * Shows a value for in the error details.
@@ -45,10 +57,18 @@ export default function IndexingError( { message, error } ) {
 		<div dangerouslySetInnerHTML={ { __html: message } } />
 		<details>
 			<summary>{ __( "Error details (click to show/hide)", "wordpress-seo" ) }</summary>
-			<ErrorLine title={ __( "Request URL", "wordpress-seo" ) } value={ error.url } />
-			<ErrorLine title={ __( "Request method", "wordpress-seo" ) } value={ error.method } />
-			<ErrorLine title={ __( "Status code", "wordpress-seo" ) } value={ error.statusCode } />
-			<ErrorLine title={ __( "Error message", "wordpress-seo" ) } value={ error.message } />
+			<ErrorDetails>
+				<ErrorLine title={ __( "Request URL", "wordpress-seo" ) } value={ error.url } />
+				<ErrorLine title={ __( "Request method", "wordpress-seo" ) } value={ error.method } />
+				<ErrorLine title={ __( "Status code", "wordpress-seo" ) } value={ error.statusCode } />
+				<ErrorLine title={ __( "Error message", "wordpress-seo" ) } value={ error.message } />
+				<details>
+					<summary>{ __( "Error stack trace", "wordpress-seo" ) }</summary>
+					<ErrorStackTrace>
+						{ error.stackTrace }
+					</ErrorStackTrace>
+				</details>
+			</ErrorDetails>
 		</details>
 	</Alert>;
 }
