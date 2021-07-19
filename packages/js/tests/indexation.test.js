@@ -95,6 +95,7 @@ describe( "Indexation", () => {
 				nonce: "nonsense",
 			},
 			subscriptionActivationLink: "https://example.net/activation-link",
+			errorMessage: "An error message.",
 		};
 
 		global.fetch = jest.fn();
