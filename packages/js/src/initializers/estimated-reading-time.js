@@ -16,7 +16,7 @@ function getEstimatedReadingTime( content ) {
 		} );
 }
 
-// Delays execution by 1,5 seconds for any change, forces execution after 3 seconds.
+// Delays execution by 1.5 seconds for any change, forces execution after 3 seconds.
 const debouncedGetEstimatedReadingTime = debounce( getEstimatedReadingTime, 1500, { maxWait: 3000 } );
 
 /**
@@ -58,9 +58,6 @@ function getEstimatedReadingTimeBlockEditor() {
 	}
 }
 
-// Delays execution by 1,5 seconds for any change, forces execution after 3 seconds.
-const debounceBlockEditor = debounce( getEstimatedReadingTimeBlockEditor, 1500, { maxWait: 3000 } );
-
 /**
  * Gets the estimated reading time in the Elementor editor if the content has changed.
  *
@@ -73,9 +70,6 @@ function getEstimatedReadingTimeElementor() {
 		getEstimatedReadingTime( content );
 	}
 }
-
-// Delays execution by 1,5 seconds for any change, forces execution after 3 seconds.
-const debounceElementorEditor = debounce( getEstimatedReadingTimeElementor, 1500, { maxWait: 3000 } );
 
 /**
  * Initializes the estimated reading time.
@@ -92,13 +86,10 @@ export default function initializeEstimatedReadingTime() {
 	// For the Elementor and Block editor, debounce the subscribe function, since this fires almost continuously.
 	// If not debounced, the editor would become very slow.
 	if ( window.wpseoScriptData.isElementorEditor === "1" ) {
-		subscribe( () => {
-			debounceElementorEditor();
-		} );
+		// Delays execution by 1.5 seconds for any change, forces execution after 3 seconds.
+		subscribe( debounce( getEstimatedReadingTimeElementor, 1500, { maxWait: 3000 } ) );
 	} else if ( window.wpseoScriptData.isBlockEditor === "1" ) {
-		subscribe( () => {
-			debounceBlockEditor();
-		} );
+		subscribe( debounce( getEstimatedReadingTimeBlockEditor, 1500, { maxWait: 3000 } ) );
 	} else {
 		initializeEstimatedReadingTimeClassic();
 	}
