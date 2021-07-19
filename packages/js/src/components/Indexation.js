@@ -75,7 +75,8 @@ export class Indexation extends Component {
 
 		// Throw an error when the response's status code is not in the 200-299 range.
 		if ( ! response.ok ) {
-			throw new RequestError( data.message, url, "POST", response.status, data.data.stackTrace );
+			const stackTrace = data.data ? data.data.stackTrace : "";
+			throw new RequestError( data.message, url, "POST", response.status, stackTrace );
 		}
 
 		return data;
