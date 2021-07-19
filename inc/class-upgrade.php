@@ -832,7 +832,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 16.8 upgrade. shop_order indexables stopped being added in the db since 16.7, so we have to clean out older entries.
+	 * Performs the 16.9 upgrade. shop_order indexables stopped being added in the db since 16.7, so we have to clean out older entries from the indexable table.
 	 *
 	 * @return void
 	 */
