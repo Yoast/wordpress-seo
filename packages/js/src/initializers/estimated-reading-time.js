@@ -43,10 +43,10 @@ function initializeEstimatedReadingTimeClassic() {
 }
 
 // Used to trigger the initial reading time calculation for the block and Elementor editors.
-let previousContent = '';
+let previousContent = "";
 
 /**
- * Initializes the estimated reading time for the block editor.
+ * Gets the estimated reading time in the block editor if the content has changed.
  *
  * @returns {void}
  */
@@ -63,7 +63,7 @@ function initializeEstimatedReadingTimeBlockEditor() {
  */
 function blockEditorDebounce() {
 	const content = select( "core/editor" ).getEditedPostAttribute( "content" );
-	if ( previousContent != content ){
+	if ( previousContent !== content ) {
 		previousContent = content;
 		getEstimatedReadingTime( content );
 	}
@@ -73,7 +73,7 @@ function blockEditorDebounce() {
 const doBlockEditorDebounce = debounce( blockEditorDebounce, 1500, { maxWait: 3000 } );
 
 /**
- * Initializes the estimated reading time for the Elementor editor.
+ * Gets the estimated reading time in the Elementor editor if the content has changed.
  *
  * @returns {void}
  */
@@ -90,7 +90,7 @@ function initializeEstimatedReadingTimeElementor() {
  */
  function elementorEditorDebounce() {
 	const content = select( "yoast-seo/editor" ).getEditorDataContent();
-	if ( previousContent != content ){
+	if ( previousContent !== content ) {
 		previousContent = content;
 		getEstimatedReadingTime( content );
 	}
@@ -111,6 +111,8 @@ export default function initializeEstimatedReadingTime() {
 
 	dispatch( "yoast-seo/editor" ).loadEstimatedReadingTime();
 
+	// For the Elementor and Block editor, debounce the subscribe function, since this fires almost continuously.
+	// If not debounced, the editor would become very slow.
 	if ( window.wpseoScriptData.isElementorEditor === "1" ) {
 		initializeEstimatedReadingTimeElementor();
 	} else if ( window.wpseoScriptData.isBlockEditor === "1" ) {
