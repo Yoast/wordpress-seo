@@ -6,7 +6,8 @@ import { colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
 import { addHistoryState, removeSearchParam } from "../helpers/urlHelpers";
 import IndexingError from "./IndexingError";
-import { RequestError } from "../errors/RequestError";
+import RequestError from "../errors/RequestError";
+import ParseError from "../errors/ParseError";
 
 const STATE = {
 	/**
@@ -71,7 +72,18 @@ export class Indexation extends Component {
 			},
 		} );
 
-		const data = await response.json();
+		const responseText = await response.text();
+
+		let data;
+		try {
+			/*
+			 * Sometimes, in case of a fatal error, or if WP_DEBUG is on and a DB query fails,
+			 * non-JSON is dumped into the HTTP response body, so account for that here.
+			 */
+			data = JSON.parse( responseText );
+		} catch ( error ) {
+			throw new ParseError( "Error parsing the response to JSON.", responseText );
+		}
 
 		// Throw an error when the response's status code is not in the 200-299 range.
 		if ( ! response.ok ) {

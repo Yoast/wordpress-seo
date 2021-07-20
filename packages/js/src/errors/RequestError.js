@@ -1,7 +1,7 @@
 /**
  * An error that should be thrown when a request has failed.
  */
-export class RequestError extends Error {
+export default class RequestError extends Error {
 	/**
 	 * An error that should be thrown when a request has failed.
 	 *

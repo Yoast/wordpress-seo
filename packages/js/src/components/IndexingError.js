@@ -1,14 +1,14 @@
 import PropTypes from "prop-types";
 import { Alert } from "@yoast/components";
 import { __ } from "@wordpress/i18n";
-import { RequestError } from "../errors/RequestError";
+import RequestError from "../errors/RequestError";
 import styled from "styled-components";
 
 const ErrorDetails = styled.div`
 	margin-top: 8px;
 `;
 
-const ErrorStackTrace = styled.pre`
+const Preformatted = styled.pre`
 	overflow-x: scroll;
 	max-width: 500px;
 	border: 1px solid;
@@ -45,38 +45,40 @@ ErrorLine.defaultProps = {
 };
 
 /**
- * Renders a stack trace.
+ * Renders a collapsible error box. For bigger error messages or stack traces.
  *
- * @param {string} stack The stack trace.
+ * @param {string} title The title of the element.
+ * @param {string} value The value.
  *
  * @returns {JSX.Element|null} The stack trace component, or `null` if no stack trace is available.
  */
-function StackTrace( { stackTrace } ) {
-	if ( ! stackTrace ) {
+function ErrorBox( { title, value } ) {
+	if ( ! value ) {
 		return null;
 	}
 
 	return <details>
-		<summary>{ __( "Error stack trace", "wordpress-seo" ) }</summary>
-		<ErrorStackTrace>
-			{ stackTrace }
-		</ErrorStackTrace>
+		<summary>{ title }</summary>
+		<Preformatted>
+			{ value }
+		</Preformatted>
 	</details>;
 }
 
-StackTrace.propTypes = {
-	stackTrace: PropTypes.string,
+ErrorBox.propTypes = {
+	title: PropTypes.string.isRequired,
+	value: PropTypes.string,
 };
 
-StackTrace.defaultProps = {
-	stackTrace: "",
+ErrorBox.defaultProps = {
+	value: "",
 };
 
 /**
  * An error that should be shown when indexation has failed.
  *
  * @param {string} message The error message to show.
- * @param {Error|RequestError} error The error itself.
+ * @param {Error|RequestError|ParseError} error The error itself.
  *
  * @returns {JSX.Element} The indexation error component.
  */
@@ -90,7 +92,8 @@ export default function IndexingError( { message, error } ) {
 				<ErrorLine title={ __( "Request method", "wordpress-seo" ) } value={ error.method } />
 				<ErrorLine title={ __( "Status code", "wordpress-seo" ) } value={ error.statusCode } />
 				<ErrorLine title={ __( "Error message", "wordpress-seo" ) } value={ error.message } />
-				<StackTrace stackTrace={ error.stackTrace } />
+				<ErrorBox title={ __( "Response", "wordpress-seo" ) } value={ error.parseString } />
+				<ErrorBox title={ __( "Error stack trace", "wordpress-seo" ) } value={ error.stackTrace } />
 			</ErrorDetails>
 		</details>
 	</Alert>;
