@@ -65,31 +65,6 @@ abstract class Abstract_Link_Indexing_Action extends Abstract_Indexing_Action {
 	}
 
 	/**
-	 * Returns the total number of unindexed links.
-	 *
-	 * @return int|false The total number of unindexed links or `false` when there are no unindexed links.
-	 */
-	public function get_total_unindexed() {
-		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
-
-		if ( $transient !== false ) {
-			return (int) $transient;
-		}
-
-		$query = $this->get_count_query();
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
-		$result = $this->wpdb->get_var( $query );
-		if ( \is_null( $result ) ) {
-			return false;
-		}
-
-		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, $result, \DAY_IN_SECONDS );
-
-		return (int) $result;
-	}
-
-	/**
 	 * Builds links for indexables which haven't had their links indexed yet.
 	 *
 	 * @return SEO_Links[] The created SEO links.
@@ -132,20 +107,4 @@ abstract class Abstract_Link_Indexing_Action extends Abstract_Indexing_Action {
 	 * @return array Objects to be indexed, should be an array of objects with object_id, object_type and content.
 	 */
 	abstract protected function get_objects();
-
-	/**
-	 * Builds a query for counting the number of unindexed links.
-	 *
-	 * @return string The prepared query string.
-	 */
-	abstract protected function get_count_query();
-
-	/**
-	 * Returns the transient key for the limited count.
-	 *
-	 * @return string The transient key.
-	 */
-	protected function get_limited_count_transient() {
-		return static::UNINDEXED_LIMITED_COUNT_TRANSIENT;
-	}
 }

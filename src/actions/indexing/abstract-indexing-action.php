@@ -8,11 +8,20 @@ namespace Yoast\WP\SEO\Actions\Indexing;
 abstract class Abstract_Indexing_Action implements Indexation_Action_Interface {
 
 	/**
-	 * Returns the transient key for the limited count.
+	 * The transient name.
 	 *
-	 * @return string The transient key.
+	 * This is a trick to force derived classes to define a transient themselves.
+	 *
+	 * @var string
 	 */
-	abstract protected function get_limited_count_transient();
+	const UNINDEXED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT;
+
+	/**
+	 * The transient cache key for limited counts.
+	 *
+	 * @var string
+	 */
+	const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
 
 	/**
 	 * Builds a query for selecting the ID's of unindexed posts.
@@ -21,7 +30,14 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface {
 	 *
 	 * @return string The prepared query string.
 	 */
-	abstract protected function get_select_query();
+	abstract protected function get_select_query( $limit );
+
+	/**
+	 * Builds a query for counting the number of unindexed posts.
+	 *
+	 * @return string The prepared query string.
+	 */
+	abstract protected function get_count_query();
 
 	/**
 	 * Returns a limited number of unindexed posts.
@@ -31,7 +47,7 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface {
 	 * @return int|false The limited number of unindexed posts. False if the query fails.
 	 */
 	public function get_limited_unindexed_count( $limit ) {
-		$transient = \get_transient( $this->get_limited_count_transient() );
+		$transient = \get_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
@@ -42,8 +58,33 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface {
 		$unindexed_object_ids = $this->wpdb->get_col( $query );
 		$count                = (int) count( $unindexed_object_ids );
 
-		\set_transient( $this->get_limited_count_transient(), $count, ( \MINUTE_IN_SECONDS * 15 ) );
+		\set_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT, $count, ( \MINUTE_IN_SECONDS * 15 ) );
 
 		return $count;
+	}
+
+	/**
+	 * Returns the total number of unindexed posts.
+	 *
+	 * @return int|false The total number of unindexed posts. False if the query fails.
+	 */
+	public function get_total_unindexed() {
+		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
+		if ( $transient !== false ) {
+			return (int) $transient;
+		}
+
+		$query = $this->get_count_query();
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
+		$count = $this->wpdb->get_var( $query );
+
+		if ( \is_null( $count ) ) {
+			return false;
+		}
+
+		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, $count, \DAY_IN_SECONDS );
+
+		return (int) $count;
 	}
 }

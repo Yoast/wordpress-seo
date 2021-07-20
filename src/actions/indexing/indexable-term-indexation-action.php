@@ -16,12 +16,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 	/**
 	 * The transient cache key.
 	 */
-	const TRANSIENT_CACHE_KEY = 'wpseo_total_unindexed_terms';
-
-	/**
-	 * The transient cache key for limited counts.
-	 */
-	const TRANSIENT_CACHE_KEY_LIMITED = 'wpseo_limited_unindexed_terms_count';
+	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_terms';
 
 	/**
 	 * The post type helper.
@@ -98,8 +93,8 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 			$indexables[] = $this->repository->find_by_id_and_type( (int) $term_id, 'term' );
 		}
 
-		\delete_transient( static::TRANSIENT_CACHE_KEY );
-		\delete_transient( static::TRANSIENT_CACHE_KEY_LIMITED );
+		\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
+		\delete_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
 		return $indexables;
 	}
@@ -180,14 +175,5 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 			$limit_query",
 			$replacements
 		);
-	}
-
-	/**
-	 * Returns the transient key for the limited count.
-	 *
-	 * @return string The transient key.
-	 */
-	protected function get_limited_count_transient() {
-		return static::TRANSIENT_CACHE_KEY_LIMITED;
 	}
 }

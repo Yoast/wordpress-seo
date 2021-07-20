@@ -18,14 +18,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 	 *
 	 * @var string
 	 */
-	const TRANSIENT_CACHE_KEY = 'wpseo_total_unindexed_posts';
-
-	/**
-	 * The transient cache key for limited counts.
-	 *
-	 * @var string
-	 */
-	const TRANSIENT_CACHE_KEY_LIMITED = 'wpseo_limited_unindexed_posts_count';
+	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_posts';
 
 	/**
 	 * The post type helper.
@@ -62,31 +55,6 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 	}
 
 	/**
-	 * Returns the total number of unindexed posts.
-	 *
-	 * @return int|false The total number of unindexed posts. False if the query fails.
-	 */
-	public function get_total_unindexed() {
-		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
-		if ( $transient !== false ) {
-			return (int) $transient;
-		}
-
-		$query = $this->get_count_query();
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
-		$count = $this->wpdb->get_var( $query );
-
-		if ( \is_null( $count ) ) {
-			return false;
-		}
-
-		\set_transient( static::TRANSIENT_CACHE_KEY, $count, \DAY_IN_SECONDS );
-
-		return (int) $count;
-	}
-
-	/**
 	 * Creates indexables for unindexed posts.
 	 *
 	 * @return Indexable[] The created indexables.
@@ -102,8 +70,8 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			$indexables[] = $this->repository->find_by_id_and_type( (int) $post_id, 'post' );
 		}
 
-		\delete_transient( static::TRANSIENT_CACHE_KEY );
-		\delete_transient( static::TRANSIENT_CACHE_KEY_LIMITED );
+		\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
+		\delete_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
 		return $indexables;
 	}
@@ -197,14 +165,5 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 
 		// `array_values`, to make sure that the keys are reset.
 		return \array_values( \array_diff( $public_post_types, $excluded_post_types ) );
-	}
-
-	/**
-	 * Returns the transient key for the limited count.
-	 *
-	 * @return string The transient key.
-	 */
-	protected function get_limited_count_transient() {
-		return static::TRANSIENT_CACHE_KEY_LIMITED;
 	}
 }
