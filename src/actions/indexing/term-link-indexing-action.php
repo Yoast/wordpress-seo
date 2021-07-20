@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
  * Reindexing action for term link indexables.
  */
 class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
+	use Limited_Count_Trait;
 
 	/**
 	 * The transient name.
@@ -117,5 +118,14 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 			$limit_query",
 			$replacements
 		);
+	}
+
+	/**
+	 * Returns the transient key for the limited count.
+	 *
+	 * @return string The transient key.
+	 */
+	protected function get_limited_count_transient() {
+		return static::UNINDEXED_LIMITED_COUNT_TRANSIENT;
 	}
 }

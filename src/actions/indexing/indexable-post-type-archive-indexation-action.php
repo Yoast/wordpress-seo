@@ -172,4 +172,15 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 		};
 		return \array_map( $callback, $results );
 	}
+
+	/**
+	 * Returns a limited number of unindexed posts.
+	 *
+	 * @param int $limit Limit the maximum number of unindexed posts that are counted.
+	 *
+	 * @return int|false The limited number of unindexed posts. False if the query fails.
+	 */
+	public function get_limited_unindexed_count( $limit ) {
+		return $this->get_total_unindexed( $limit );
+	}
 }

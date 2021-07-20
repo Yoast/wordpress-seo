@@ -105,11 +105,11 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the get total unindexed method with a limit.
+	 * Tests the get_limited_unindexed_count method with a limit.
 	 *
 	 * @covers ::__construct
-	 * @covers ::get_total_unindexed
 	 * @covers ::get_post_types
+	 * @covers ::get_limited_count_transient
 	 * @covers ::get_limited_unindexed_count
 	 * @covers ::get_select_query
 	 */
@@ -144,7 +144,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
 
-		$this->assertEquals( count( $query_result ), $this->instance->get_total_unindexed( $limit ) );
+		$this->assertEquals( count( $query_result ), $this->instance->get_limited_unindexed_count( $limit ) );
 	}
 
 	/**
@@ -269,6 +269,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
+		Functions\expect( 'delete_transient' )->with( 'wpseo_limited_unindexed_posts_count' );
 
 		$this->instance->index();
 	}
@@ -293,6 +294,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
+		Functions\expect( 'delete_transient' )->with( 'wpseo_limited_unindexed_posts_count' );
 
 		$this->instance->index();
 	}
@@ -350,6 +352,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
+		Functions\expect( 'delete_transient' )->with( 'wpseo_limited_unindexed_posts_count' );
 
 		$this->instance->index();
 	}

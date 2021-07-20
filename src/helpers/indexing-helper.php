@@ -206,7 +206,7 @@ class Indexing_Helper {
 	}
 
 	/**
-	 * Returns the total number of unindexed objects.
+	 * Returns the total or a limited number of unindexed objects.
 	 *
 	 * @param int $limit Limit the number of unindexed objects that are counted.
 	 *
@@ -222,16 +222,47 @@ class Indexing_Helper {
 		\set_transient( self::COUNT_QUERY_STARTED_TRANSIENT, true, ( \MINUTE_IN_SECONDS * 15 ) );
 
 		$unindexed_count = 0;
+		if ( $limit === null ) {
+			$unindexed_count = $this->get_total_unindexed_count();
+		}
+		else {
+			$unindexed_count = $this->get_limited_unindexed_count( $limit );
+		}
+
+		\delete_transient( self::COUNT_QUERY_STARTED_TRANSIENT );
+		return $unindexed_count;
+	}
+
+	/**
+	 * Returns the total number of unindexed objects.
+	 *
+	 * @return int The total number of unindexed objects.
+	 */
+	private function get_total_unindexed_count() {
+		$unindexed_count = 0;
+		foreach ( $this->indexing_actions as $indexing_action ) {
+			$unindexed_count += $indexing_action->get_total_unindexed();
+		}
+		return $unindexed_count;
+	}
+
+	/**
+	 * Returns a limited number of unindexed objects.
+	 *
+	 * @param int $limit Limit the number of unindexed objects that are counted.
+	 *
+	 * @return int The total number of unindexed objects.
+	 */
+	private function get_limited_unindexed_count( $limit ) {
+		$unindexed_count = 0;
 
 		foreach ( $this->indexing_actions as $indexing_action ) {
-			$unindexed_count += $indexing_action->get_total_unindexed( $limit - $unindexed_count + 1 );
+			$unindexed_count += $indexing_action->get_limited_unindexed_count( $limit - $unindexed_count + 1 );
 			if ( $unindexed_count > $limit ) {
-				\delete_transient( self::COUNT_QUERY_STARTED_TRANSIENT );
 				return $unindexed_count;
 			}
 		}
 
-		\delete_transient( self::COUNT_QUERY_STARTED_TRANSIENT );
 		return $unindexed_count;
 	}
 

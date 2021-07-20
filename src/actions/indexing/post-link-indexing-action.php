@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
  * Reindexing action for post link indexables.
  */
 class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
+	use Limited_Count_Trait;
 
 	/**
 	 * The transient name.
@@ -127,9 +128,18 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 				AND L.target_post_id != 0
 			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
 				AND P.post_status = 'publish'
-				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) )  . ")
+				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ")
 			$limit_query",
 			$replacements
 		);
+	}
+
+	/**
+	 * Returns the transient key for the limited count.
+	 *
+	 * @return string The transient key.
+	 */
+	protected function get_limited_count_transient() {
+		return static::UNINDEXED_LIMITED_COUNT_TRANSIENT;
 	}
 }

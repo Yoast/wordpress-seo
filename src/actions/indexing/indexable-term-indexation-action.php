@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * Reindexing action for term indexables.
  */
 class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
+	use Limited_Count_Trait;
 
 	/**
 	 * The transient cache key.
@@ -65,10 +66,6 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 * @return int|false The number of unindexed terms. False if the query fails.
 	 */
 	public function get_total_unindexed( $limit = false ) {
-		if ( $limit !== false ) {
-			return $this->get_limited_unindexed_count( $limit );
-		}
-
 		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
 		if ( $transient !== false ) {
 			return (int) $transient;
@@ -98,6 +95,8 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 */
 	public function index() {
 		$query    = $this->get_select_query( $this->get_limit() );
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$term_ids = $this->wpdb->get_col( $query );
 
 		$indexables = [];
@@ -134,8 +133,6 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	/**
 	 * Builds a query for counting the number of unindexed terms.
 	 *
-	 * @param bool $limit The maximum amount of unindexed terms that should be counted.
-	 *
 	 * @return string The prepared query string.
 	 */
 	protected function get_count_query() {
@@ -155,30 +152,6 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 				AND taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ')',
 			$public_taxonomies
 		);
-	}
-
-	/**
-	 * Returns a limited number of unindexed posts.
-	 *
-	 * @param int $limit Limit the maximum number of unindexed posts that are counted.
-	 *
-	 * @return int|false The limited number of unindexed posts. False if the query fails.
-	 */
-	protected function get_limited_unindexed_count( $limit ) {
-		$transient = \get_transient( static::TRANSIENT_CACHE_KEY_LIMITED );
-		if ( $transient !== false ) {
-			return (int) $transient;
-		}
-
-		$query = $this->get_select_query( $limit );
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
-		$unindexed_object_ids = $this->wpdb->get_col( $query );
-		$count                = (int) count( $unindexed_object_ids );
-
-		\set_transient( static::TRANSIENT_CACHE_KEY_LIMITED, $count, ( \MINUTE_IN_SECONDS * 15 ) );
-
-		return $count;
 	}
 
 	/**
@@ -213,5 +186,14 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 			$limit_query",
 			$replacements
 		);
+	}
+
+	/**
+	 * Returns the transient key for the limited count.
+	 *
+	 * @return string The transient key.
+	 */
+	protected function get_limited_count_transient() {
+		return static::TRANSIENT_CACHE_KEY_LIMITED;
 	}
 }

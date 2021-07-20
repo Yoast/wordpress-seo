@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * Reindexing action for post indexables.
  */
 class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
+	use Limited_Count_Trait;
 
 	/**
 	 * The transient cache key.
@@ -69,11 +70,6 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 * @return int|false The total number of unindexed posts. False if the query fails.
 	 */
 	public function get_total_unindexed( $limit = false ) {
-		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
-		if ( $limit !== false ) {
-			return $this->get_limited_unindexed_count( $limit );
-		}
-
 		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
 		if ( $transient !== false ) {
 			return (int) $transient;
@@ -163,30 +159,6 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * Returns a limited number of unindexed posts.
-	 *
-	 * @param int $limit Limit the maximum number of unindexed posts that are counted.
-	 *
-	 * @return int|false The limited number of unindexed posts. False if the query fails.
-	 */
-	protected function get_limited_unindexed_count( $limit ) {
-		$transient = \get_transient( static::TRANSIENT_CACHE_KEY_LIMITED );
-		if ( $transient !== false ) {
-			return (int) $transient;
-		}
-
-		$query = $this->get_select_query( $limit );
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
-		$unindexed_object_ids = $this->wpdb->get_col( $query );
-		$count                = (int) count( $unindexed_object_ids );
-
-		\set_transient( static::TRANSIENT_CACHE_KEY_LIMITED, $count, ( \MINUTE_IN_SECONDS * 15 ) );
-
-		return $count;
-	}
-
-	/**
 	 * Builds a query for selecting the ID's of unindexed posts.
 	 *
 	 * @param bool $limit The maximum number of post IDs to return.
@@ -231,5 +203,14 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 
 		// `array_values`, to make sure that the keys are reset.
 		return \array_values( \array_diff( $public_post_types, $excluded_post_types ) );
+	}
+
+	/**
+	 * Returns the transient key for the limited count.
+	 *
+	 * @return string The transient key.
+	 */
+	protected function get_limited_count_transient() {
+		return static::TRANSIENT_CACHE_KEY_LIMITED;
 	}
 }

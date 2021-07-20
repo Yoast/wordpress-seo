@@ -144,13 +144,13 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests getting the total unindexed.
+	 * Tests get_limited_unindexed_count with a limit.
 	 *
 	 * @covers ::get_select_query
-	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
+	 * @covers ::get_limited_count_transient
 	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_limited_unindexed_count
 	 */
-	public function test_get_total_unindexed_with_limit() {
+	public function test_get_limited_unindexed_count() {
 		$limit          = 10;
 		$expected_query = "
 			SELECT T.term_id, T.description
@@ -196,7 +196,7 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->with( Term_Link_Indexing_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT, \count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )
 			->andReturn( true );
 
-		$this->assertEquals( count( $query_result ), $this->instance->get_total_unindexed( $limit ) );
+		$this->assertEquals( count( $query_result ), $this->instance->get_limited_unindexed_count( $limit ) );
 	}
 
 	/**
@@ -320,6 +320,7 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 		}
 
 		Functions\expect( 'delete_transient' )->once()->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
+		Functions\expect( 'delete_transient' )->once()->with( Term_Link_Indexing_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
 		$this->instance->index();
 	}

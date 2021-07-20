@@ -101,14 +101,14 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the get total unindexed method with a limit.
+	 * Tests the get get_limited_unindexed_count with a limit.
 	 *
 	 * @covers ::__construct
-	 * @covers ::get_total_unindexed
+	 * @covers ::get_limited_count_transient
 	 * @covers ::get_limited_unindexed_count
 	 * @covers ::get_select_query
 	 */
-	public function test_get_total_unindexed_with_limit() {
+	public function test_get_limited_unindexed_count() {
 		$limit          = 10;
 		$expected_query = "
 			SELECT term_id
@@ -136,7 +136,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( $query_result );
 
-		$this->assertEquals( count( $query_result ), $this->instance->get_total_unindexed( $limit ) );
+		$this->assertEquals( count( $query_result ), $this->instance->get_limited_unindexed_count( $limit ) );
 	}
 
 	/**
@@ -202,6 +202,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'term' );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_terms' );
+		Functions\expect( 'delete_transient' )->with( 'wpseo_limited_unindexed_terms_count' );
 
 		$this->instance->index();
 	}
@@ -224,6 +225,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'term' );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_terms' );
+		Functions\expect( 'delete_transient' )->with( 'wpseo_limited_unindexed_terms_count' );
 
 		$this->instance->index();
 	}

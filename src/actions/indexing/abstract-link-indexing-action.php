@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * Reindexing action for link indexables.
  */
 abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interface {
+	use Limited_Count_Trait;
 
 	/**
 	 * The transient name.
@@ -67,17 +68,11 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	/**
 	 * Returns the total number of unindexed links.
 	 *
-	 * @param int|false $limit Limit the number of unindexed posts that are counted.
-	 *
 	 * @return int|false The total number of unindexed links or `false` when there are no unindexed links.
 	 */
-	public function get_total_unindexed( $limit = false ) {
-		// Limited queries are use to determine whether background indexing should occur, the exact number is irrelevant.
-		if ( $limit !== false ) {
-			return $this->get_limited_unindexed_count( $limit );
-		}
-
+	public function get_total_unindexed() {
 		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
+
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
@@ -93,30 +88,6 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, $result, \DAY_IN_SECONDS );
 
 		return (int) $result;
-	}
-
-	/**
-	 * Returns a limited number of unindexed links.
-	 *
-	 * @param int $limit Limit the maximum number of unindexed links that are counted.
-	 *
-	 * @return int|false The limited number of unindexed links. False if the query fails.
-	 */
-	protected function get_limited_unindexed_count( $limit ) {
-		$transient = \get_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT );
-		if ( $transient !== false ) {
-			return (int) $transient;
-		}
-
-		$query = $this->get_select_query( $limit );
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
-		$unindexed_object_ids = $this->wpdb->get_col( $query );
-		$count                = (int) count( $unindexed_object_ids );
-
-		\set_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT, $count, ( \MINUTE_IN_SECONDS * 15 ) );
-
-		return $count;
 	}
 
 	/**
@@ -171,11 +142,11 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	abstract protected function get_count_query();
 
 	/**
-	 * Builds a query for selecting the ID's of unindexed links.
+	 * Returns the transient key for the limited count.
 	 *
-	 * @param bool $limit The maximum number of link IDs to return.
-	 *
-	 * @return string The prepared query string.
+	 * @return string The transient key.
 	 */
-	abstract protected function get_select_query( $limit = false );
+	protected function get_limited_count_transient() {
+		return static::UNINDEXED_LIMITED_COUNT_TRANSIENT;
+	}
 }

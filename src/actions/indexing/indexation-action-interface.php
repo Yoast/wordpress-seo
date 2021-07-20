@@ -15,6 +15,15 @@ interface Indexation_Action_Interface {
 	public function get_total_unindexed();
 
 	/**
+	 * Returns a limited number of unindexed posts.
+	 *
+	 * @param int $limit Limit the maximum number of unindexed posts that are counted.
+	 *
+	 * @return int|false The limited number of unindexed posts. False if the query fails.
+	 */
+	public function get_limited_unindexed_count( $limit );
+
+	/**
 	 * Indexes a number of objects.
 	 *
 	 * NOTE: ALWAYS use limits, this method is intended to be called multiple times over several requests.

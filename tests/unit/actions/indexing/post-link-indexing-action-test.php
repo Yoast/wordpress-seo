@@ -145,13 +145,14 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests getting the unindexed count with a limit.
+	 * Tests getting get_limited_unindexed_count method with a limit.
 	 *
 	 * @covers ::get_select_query
-	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
+	 * @covers ::get_limited_count_transient
+	 * @covers ::get_limited_unindexed_count
 	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_limited_unindexed_count
 	 */
-	public function test_get_total_unindexed_with_limit() {
+	public function test_get_limited_unindexed_count() {
 		$limit          = 10;
 		$expected_query = "
 			SELECT P.ID, P.post_content
@@ -203,7 +204,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->with( 'query' )
 			->andReturn( $query_result );
 
-		$this->assertSame( count( $query_result ), $this->instance->get_total_unindexed( $limit ) );
+		$this->assertSame( count( $query_result ), $this->instance->get_limited_unindexed_count( $limit ) );
 	}
 
 	/**
@@ -276,6 +277,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 		}
 
 		Functions\expect( 'delete_transient' )->once()->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
+		Functions\expect( 'delete_transient' )->once()->with( Post_Link_Indexing_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
 		$this->instance->index();
 	}
