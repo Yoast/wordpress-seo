@@ -1,10 +1,11 @@
 <?php
+
 namespace Yoast\WP\SEO\Actions\Indexing;
 
 /**
  * Trait used to calculate unindexed object.
  */
-trait Limited_Count_Trait {
+abstract class Abstract_Indexing_Action implements Indexation_Action_Interface {
 
 	/**
 	 * Returns the transient key for the limited count.

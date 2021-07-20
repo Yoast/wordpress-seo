@@ -9,7 +9,6 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
  * Reindexing action for term link indexables.
  */
 class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
-	use Limited_Count_Trait;
 
 	/**
 	 * The transient name.

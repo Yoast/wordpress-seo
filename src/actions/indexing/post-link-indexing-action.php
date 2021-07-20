@@ -9,7 +9,6 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
  * Reindexing action for post link indexables.
  */
 class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
-	use Limited_Count_Trait;
 
 	/**
 	 * The transient name.

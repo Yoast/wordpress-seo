@@ -11,8 +11,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 /**
  * Reindexing action for post indexables.
  */
-class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
-	use Limited_Count_Trait;
+class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 
 	/**
 	 * The transient cache key.
@@ -47,7 +46,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 *
 	 * @var wpdb
 	 */
-	private $wpdb;
+	protected $wpdb;
 
 	/**
 	 * Indexable_Post_Indexing_Action constructor

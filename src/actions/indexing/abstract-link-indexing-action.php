@@ -10,8 +10,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 /**
  * Reindexing action for link indexables.
  */
-abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interface {
-	use Limited_Count_Trait;
+abstract class Abstract_Link_Indexing_Action extends Abstract_Indexing_Action {
 
 	/**
 	 * The transient name.

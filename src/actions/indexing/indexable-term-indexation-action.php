@@ -11,8 +11,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 /**
  * Reindexing action for term indexables.
  */
-class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
-	use Limited_Count_Trait;
+class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 
 	/**
 	 * The transient cache key.
@@ -43,7 +42,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 *
 	 * @var wpdb
 	 */
-	private $wpdb;
+	protected $wpdb;
 
 	/**
 	 * Indexable_Term_Indexation_Action constructor
