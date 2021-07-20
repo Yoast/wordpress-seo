@@ -19,6 +19,13 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_terms';
 
 	/**
+	 * The transient cache key for limited counts.
+	 *
+	 * @var string
+	 */
+	const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
+
+	/**
 	 * The post type helper.
 	 *
 	 * @var Taxonomy_Helper
@@ -58,7 +65,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 	 * @return int|false The number of unindexed terms. False if the query fails.
 	 */
 	public function get_total_unindexed( $limit = false ) {
-		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
+		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
@@ -72,7 +79,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 			return false;
 		}
 
-		\set_transient( static::TRANSIENT_CACHE_KEY, $count, \DAY_IN_SECONDS );
+		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, $count, \DAY_IN_SECONDS );
 
 		return (int) $count;
 	}

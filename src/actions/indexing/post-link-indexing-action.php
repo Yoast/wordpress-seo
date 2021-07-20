@@ -132,13 +132,4 @@ class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 			$replacements
 		);
 	}
-
-	/**
-	 * Returns the transient key for the limited count.
-	 *
-	 * @return string The transient key.
-	 */
-	protected function get_limited_count_transient() {
-		return static::UNINDEXED_LIMITED_COUNT_TRANSIENT;
-	}
 }

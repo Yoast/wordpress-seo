@@ -127,8 +127,8 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			'term_id_3',
 		];
 
-		Functions\expect( 'get_transient' )->once()->with( 'wpseo_limited_unindexed_terms_count' )->andReturnFalse();
-		Functions\expect( 'set_transient' )->once()->with( 'wpseo_limited_unindexed_terms_count', count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
+		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms_limited' )->andReturnFalse();
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_terms_limited', count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )
 			->once()
@@ -202,7 +202,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'term' );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_terms' );
-		Functions\expect( 'delete_transient' )->with( 'wpseo_limited_unindexed_terms_count' );
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_terms_limited' );
 
 		$this->instance->index();
 	}
@@ -225,7 +225,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'term' );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_terms' );
-		Functions\expect( 'delete_transient' )->with( 'wpseo_limited_unindexed_terms_count' );
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_terms_limited' );
 
 		$this->instance->index();
 	}

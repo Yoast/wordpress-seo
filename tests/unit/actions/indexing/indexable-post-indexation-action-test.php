@@ -109,11 +109,10 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_post_types
-	 * @covers ::get_limited_count_transient
 	 * @covers ::get_limited_unindexed_count
 	 * @covers ::get_select_query
 	 */
-	public function test_get_total_unindexed_with_limit() {
+	public function test_get_limited_unindexed_count() {
 		$limit          = 25;
 		$expected_query = "
 			SELECT P.ID
@@ -132,8 +131,8 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			'post_id_3',
 		];
 
-		Functions\expect( 'get_transient' )->once()->with( 'wpseo_limited_unindexed_posts_count' )->andReturnFalse();
-		Functions\expect( 'set_transient' )->once()->with( 'wpseo_limited_unindexed_posts_count', count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
+		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts_limited' )->andReturnFalse();
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts_limited', count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
@@ -269,7 +268,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
-		Functions\expect( 'delete_transient' )->with( 'wpseo_limited_unindexed_posts_count' );
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts_limited' );
 
 		$this->instance->index();
 	}
@@ -294,7 +293,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
-		Functions\expect( 'delete_transient' )->with( 'wpseo_limited_unindexed_posts_count' );
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts_limited' );
 
 		$this->instance->index();
 	}
@@ -352,7 +351,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
-		Functions\expect( 'delete_transient' )->with( 'wpseo_limited_unindexed_posts_count' );
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts_limited' );
 
 		$this->instance->index();
 	}

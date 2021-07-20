@@ -13,20 +13,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 abstract class Abstract_Link_Indexing_Action extends Abstract_Indexing_Action {
 
 	/**
-	 * The transient name.
-	 *
-	 * @var string
-	 */
-	const UNINDEXED_COUNT_TRANSIENT = null;
-
-	/**
-	 * The transient cache key for limited counts.
-	 *
-	 * @var string
-	 */
-	const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_LIMITED';
-
-	/**
 	 * The link builder.
 	 *
 	 * @var Indexable_Link_Builder

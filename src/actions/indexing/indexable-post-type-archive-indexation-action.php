@@ -15,7 +15,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	/**
 	 * The transient cache key.
 	 */
-	const TRANSIENT_CACHE_KEY = 'wpseo_total_unindexed_post_type_archives';
+	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_post_type_archives';
 
 	/**
 	 * The post type helper.
@@ -63,14 +63,14 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	 * @return int The total number of unindexed post type archives.
 	 */
 	public function get_total_unindexed( $limit = false ) {
-		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
+		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
 
 		$result = \count( $this->get_unindexed_post_type_archives( $limit ) );
 
-		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
+		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, $result, \DAY_IN_SECONDS );
 
 		return $result;
 	}
@@ -88,7 +88,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 			$indexables[] = $this->builder->build_for_post_type_archive( $post_type_archive );
 		}
 
-		\delete_transient( static::TRANSIENT_CACHE_KEY );
+		\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
 
 		return $indexables;
 	}

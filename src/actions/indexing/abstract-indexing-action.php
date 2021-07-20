@@ -14,7 +14,7 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface {
 	 *
 	 * @var string
 	 */
-	const UNINDEXED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT;
+	const UNINDEXED_COUNT_TRANSIENT = null;
 
 	/**
 	 * The transient cache key for limited counts.
