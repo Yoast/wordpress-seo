@@ -113,6 +113,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		}
 
 		\delete_transient( static::TRANSIENT_CACHE_KEY );
+		\delete_transient( static::TRANSIENT_CACHE_KEY_LIMITED );
 
 		return $indexables;
 	}
@@ -177,13 +178,8 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		$query = $this->get_select_query( $limit );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
-		$post_ids = $this->wpdb->get_col( $query );
-
-		if ( \is_null( $post_ids ) ) {
-			return false;
-		}
-
-		$count = (int) count( $post_ids );
+		$unindexed_object_ids = $this->wpdb->get_col( $query );
+		$count                = (int) count( $unindexed_object_ids );
 
 		\set_transient( static::TRANSIENT_CACHE_KEY_LIMITED, $count, ( \MINUTE_IN_SECONDS * 15 ) );
 

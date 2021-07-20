@@ -106,6 +106,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 		}
 
 		\delete_transient( static::TRANSIENT_CACHE_KEY );
+		\delete_transient( static::TRANSIENT_CACHE_KEY_LIMITED );
 
 		return $indexables;
 	}
@@ -173,12 +174,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$unindexed_object_ids = $this->wpdb->get_col( $query );
-
-		if ( \is_null( $unindexed_object_ids ) ) {
-			return false;
-		}
-
-		$count = (int) count( $unindexed_object_ids );
+		$count                = (int) count( $unindexed_object_ids );
 
 		\set_transient( static::TRANSIENT_CACHE_KEY_LIMITED, $count, ( \MINUTE_IN_SECONDS * 15 ) );
 
