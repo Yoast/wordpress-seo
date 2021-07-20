@@ -11,6 +11,11 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_General_Indexation_Action implements Indexation_Action_Interface {
 
 	/**
+	 * The transient cache key.
+	 */
+	const TRANSIENT_CACHE_KEY = 'wpseo_total_unindexed_general_items';
+
+	/**
 	 * Represents the indexables repository.
 	 *
 	 * @var Indexable_Repository
@@ -32,9 +37,18 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_total_unindexed() {
+		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
+		if ( $transient !== false ) {
+			return (int) $transient;
+		}
+
 		$indexables_to_create = $this->query();
 
-		return \count( $indexables_to_create );
+		$result = \count( $indexables_to_create );
+
+		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
+
+		return $result;
 	}
 
 	/**

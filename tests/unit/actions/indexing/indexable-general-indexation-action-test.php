@@ -52,7 +52,28 @@ class Indexable_General_Indexation_Action_Test extends TestCase {
 	public function test_get_total_unindexed() {
 		$this->set_query();
 
+		Monkey\Functions\expect( 'get_transient' )
+			->with( 'wpseo_total_unindexed_general_items' )
+			->andReturn( false );
+		Monkey\Functions\expect( 'set_transient' )
+			->with( 'wpseo_total_unindexed_general_items', 4, \DAY_IN_SECONDS );
+
 		$this->assertEquals( 4, $this->instance->get_total_unindexed() );
+	}
+
+	/**
+	 * Tests the calculation of the unindexed general pages.
+	 *
+	 * @covers ::__construct
+	 * @covers ::get_total_unindexed
+	 * @covers ::query
+	 */
+	public function test_get_total_unindexed_transient_set() {
+		Monkey\Functions\expect( 'get_transient' )
+			->with( 'wpseo_total_unindexed_general_items' )
+			->andReturn( 9 );
+
+		$this->assertEquals( 9, $this->instance->get_total_unindexed() );
 	}
 
 	/**
