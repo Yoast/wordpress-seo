@@ -200,22 +200,18 @@ class Indexing_Tool_Integration_Test extends TestCase {
 			->andReturnTrue();
 
 		$this->short_link_helper
-			->expects( 'get' )
-			->with( 'https://yoa.st/3wv' )
-			->andReturn( 'https://yoa.st/3wv' );
+			->allows( 'get' )
+			->andReturnArg( 0 );
 
 		$this->product_helper
 			->expects( 'is_premium' )
 			->andReturnTrue();
 
 		$injected_data = [
-			'disabled'                    => false,
-			'amount'                      => 112,
-			'firstTime'                   => true,
-			'hasValidPremiumSubscription' => true,
-			'isPremium'                   => true,
-			'subscriptionActivationLink'  => 'https://yoa.st/3wv',
-			'restApi'                     => [
+			'disabled'  => false,
+			'amount'    => 112,
+			'firstTime' => true,
+			'restApi'   => [
 				'root'      => 'https://example.org/wp-ajax/',
 				'endpoints' => [
 					'prepare'            => 'yoast/v1/indexing/prepare',
@@ -231,6 +227,10 @@ class Indexing_Tool_Integration_Test extends TestCase {
 				'nonce'     => 'nonce_value',
 			],
 		];
+
+		$injected_data['errorMessage'] = '<p>Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. ' .
+			'Please click the button again to re-start the process. If the problem persists, please contact support.</p>' .
+			'<p>Below are the technical details for the error. See <a href="https://yoa.st/4f3">this page</a> for a more detailed explanation.</p>';
 
 		Monkey\Functions\expect( 'rest_url' )
 			->andReturn( 'https://example.org/wp-ajax/' );
