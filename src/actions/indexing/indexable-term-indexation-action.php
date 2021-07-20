@@ -61,8 +61,6 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	/**
 	 * Returns the total number of unindexed terms.
 	 *
-	 * @param int|false $limit Limit the number of unindexed posts that are counted.
-	 *
 	 * @return int|false The number of unindexed terms. False if the query fails.
 	 */
 	public function get_total_unindexed( $limit = false ) {
@@ -80,10 +78,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 			return false;
 		}
 
-		// Limited queries have their own transient caching.
-		if ( $limit === false ) {
-			\set_transient( static::TRANSIENT_CACHE_KEY, $count, \DAY_IN_SECONDS );
-		}
+		\set_transient( static::TRANSIENT_CACHE_KEY, $count, \DAY_IN_SECONDS );
 
 		return (int) $count;
 	}
