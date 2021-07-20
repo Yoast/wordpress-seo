@@ -96,11 +96,11 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 	}
 
 	/**
-	 * Returns a limited number of unindexed posts.
+	 * Returns a limited number of unindexed links.
 	 *
-	 * @param int $limit Limit the maximum number of unindexed posts that are counted.
+	 * @param int $limit Limit the maximum number of unindexed links that are counted.
 	 *
-	 * @return int|false The limited number of unindexed posts. False if the query fails.
+	 * @return int|false The limited number of unindexed links. False if the query fails.
 	 */
 	protected function get_limited_unindexed_count( $limit ) {
 		$transient = \get_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT );
