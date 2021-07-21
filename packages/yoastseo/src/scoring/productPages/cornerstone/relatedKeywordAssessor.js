@@ -18,7 +18,7 @@ import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyph
  *
  * @constructor
  */
-const productRelatedKeywordAssessor = function( i18n, options ) {
+const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
 
 	this._assessments = [
@@ -39,6 +39,6 @@ const productRelatedKeywordAssessor = function( i18n, options ) {
 	];
 };
 
-inherits( productRelatedKeywordAssessor, Assessor );
+inherits( ProductCornerStoneRelatedKeywordAssessor, Assessor );
 
-export default productRelatedKeywordAssessor;
+export default ProductCornerStoneRelatedKeywordAssessor;
