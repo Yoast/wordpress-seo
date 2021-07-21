@@ -5,7 +5,6 @@ import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessm
 import KeywordDensityAssessment from "../assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment";
 import TextCompetingLinksAssessment from "../assessments/seo/TextCompetingLinksAssessment";
-import InternalLinksAssessment from "../assessments/seo/InternalLinksAssessment";
 import TitleKeywordAssessment from "../assessments/seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import Assessor from "../assessor";
@@ -13,7 +12,6 @@ import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAsses
 import SubheadingsKeyword from "../assessments/seo/SubHeadingsKeywordAssessment";
 import TextImages from "../assessments/seo/TextImagesAssessment";
 import TextLength from "../assessments/seo/TextLengthAssessment";
-import OutboundLinks from "../assessments/seo/OutboundLinksAssessment";
 import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
@@ -27,30 +25,28 @@ import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
  *
  * @constructor
  */
-const productSEOAssessor = function( i18n, researcher, options ) {
+const ProductSEOAssessor = function( i18n, researcher, options ) {
 	Assessor.call( this, i18n, researcher, options );
-	this.type = "SeoAssessor";
+	this.type = "productSEOAssessor";
 
 	this._assessments = [
 		new IntroductionKeywordAssessment(),
-		// new KeyphraseLengthAssessment(),
-		// new KeywordDensityAssessment(),
-		// new MetaDescriptionKeywordAssessment(),
-		// new MetaDescriptionLength(),
-		// new SubheadingsKeyword(),
-		// new TextCompetingLinksAssessment(),
-		// new TextImages(),
-		// new TextLength(),
-		// new OutboundLinks(),
-		// new TitleKeywordAssessment(),
-		// new InternalLinksAssessment(),
-		// new TitleWidth(),
-		// new UrlKeywordAssessment(),
-		// new FunctionWordsInKeyphrase(),
-		// new SingleH1Assessment(),
+		new KeyphraseLengthAssessment(),
+		new KeywordDensityAssessment(),
+		new MetaDescriptionKeywordAssessment(),
+		new MetaDescriptionLength(),
+		new SubheadingsKeyword(),
+		new TextCompetingLinksAssessment(),
+		new TextImages(),
+		new TextLength(),
+		new TitleKeywordAssessment(),
+		new TitleWidth(),
+		new UrlKeywordAssessment(),
+		new FunctionWordsInKeyphrase(),
+		new SingleH1Assessment(),
 	];
 };
 
-inherits( productSEOAssessor, Assessor );
+inherits( ProductSEOAssessor, Assessor );
 
-export default productSEOAssessor;
+export default ProductSEOAssessor;
