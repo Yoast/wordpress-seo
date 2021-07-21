@@ -6,15 +6,7 @@ import SentenceLengthInText from "../assessments/readability/sentenceLengthInTex
 import SubheadingDistributionTooLong from "../assessments/readability/subheadingDistributionTooLongAssessment.js";
 import transitionWords from "../assessments/readability/transitionWordsAssessment.js";
 import passiveVoice from "../assessments/readability/passiveVoiceAssessment.js";
-import sentenceBeginnings from "../assessments/readability/sentenceBeginningsAssessment.js";
 import textPresence from "../assessments/readability/textPresenceAssessment.js";
-
-/*
- Temporarily disabled:
-
- var wordComplexity = require( "./assessments/readability/wordComplexityAssessment.js" );
- var sentenceLengthInDescription = require( "./assessments/readability/sentenceLengthInDescriptionAssessment.js" );
- */
 
 /**
  * Creates the Assessor
@@ -25,9 +17,9 @@ import textPresence from "../assessments/readability/textPresenceAssessment.js";
  *
  * @constructor
  */
-const productContentAssessor = function( i18n, options = {} ) {
+const ProductContentAssessor = function( i18n, options = {} ) {
 	Assessor.call( this, i18n, options );
-	this.type = "ProductCornerstoneContentAssessor";
+	this.type = "productContentAssessor";
 
 	this._assessments = [
 		fleschReadingEase,
@@ -37,13 +29,11 @@ const productContentAssessor = function( i18n, options = {} ) {
 		transitionWords,
 		passiveVoice,
 		textPresence,
-		sentenceBeginnings,
-		// Temporarily disabled: wordComplexity,
 	];
 };
 
-require( "util" ).inherits( productContentAssessor, ContentAssessor );
+require( "util" ).inherits( ProductContentAssessor, ContentAssessor );
 
 
-export default productContentAssessor;
+export default ProductContentAssessor;
 
