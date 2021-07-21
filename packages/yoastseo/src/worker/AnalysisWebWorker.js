@@ -152,6 +152,72 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
+	 * Sets a custom content assessor class.
+	 *
+	 * @param {Class} ContentAssessorClass A content assessor class.
+	 *
+	 * @returns {void}
+	 */
+	setCustomContentAssessorClass( ContentAssessorClass ) {
+		this._CustomContentAssessorClass = ContentAssessorClass;
+	}
+
+	/**
+	 * Sets a custom cornerstone content assessor class.
+	 *
+	 * @param {Class} CornerstoneContentAssessorClass A cornerstone content assessor class.
+	 *
+	 * @returns {void}
+	 */
+	setCustomCornerstoneContentAssessorClass( CornerstoneContentAssessorClass ) {
+		this._CustomCornerstoneContentAssessorClass = CornerstoneContentAssessorClass;
+	}
+
+	/**
+	 * Sets a custom SEO assessor class.
+	 *
+	 * @param {Class} SEOAssessorClass An SEO assessor class.
+	 *
+	 * @returns {void}
+	 */
+	setCustomSEOAssessorClass( SEOAssessorClass ) {
+		this._CustomSEOAssessorClass = SEOAssessorClass;
+	}
+
+	/**
+	 * Sets a custom cornerstone SEO assessor class.
+	 *
+	 * @param {Class} CornerstoneSEOAssessorClass A cornerstone SEO assessor class.
+	 *
+	 * @returns {void}
+	 */
+	setCustomCornerstoneSEOAssessorClass( CornerstoneSEOAssessorClass ) {
+		this._CustomCornerstoneSEOAssessorClass = CornerstoneSEOAssessorClass;
+	}
+
+	/**
+	 * Sets a custom related keyword assessor class.
+	 *
+	 * @param {Class} RelatedKeywordAssessorClass A related keyword assessor class.
+	 *
+	 * @returns {void}
+	 */
+	setCustomRelatedKeywordAssessorClass( RelatedKeywordAssessorClass ) {
+		this._CustomRelatedKeywordAssessorClass = RelatedKeywordAssessorClass;
+	}
+
+	/**
+	 * Sets a custom cornerstone related keyword assessor class.
+	 *
+	 * @param {Class} CornerstoneRelatedKeywordAssessorClass A cornerstone related keyword assessor class.
+	 *
+	 * @returns {void}
+	 */
+	setCustomCornerstoneRelatedKeywordAssessorClass( CornerstoneRelatedKeywordAssessorClass ) {
+		this._CustomCornerstoneRelatedKeywordAssessorClass = CornerstoneRelatedKeywordAssessorClass;
+	}
+
+	/**
 	 * Sets up the web worker for running the tree readability and SEO analysis.
 	 *
 	 * @returns {void}
@@ -168,6 +234,14 @@ export default class AnalysisWebWorker {
 		this._contentTreeAssessor = null;
 		this._seoTreeAssessor = null;
 		this._relatedKeywordTreeAssessor = null;
+
+		// Custom assessors
+		this._CustomSEOAssessorClass = null;
+		this._CustomCornerstoneSEOAssessorClass = null;
+		this._CustomContentAssessorClass = null;
+		this._CustomCornerstoneContentAssessorClass = null;
+		this._CustomRelatedKeywordAssessorClass = null;
+		this._CustomCornerstoneRelatedKeywordAssessorClass = null;
 
 		// Registered assessments
 		this._registeredTreeAssessments = [];
