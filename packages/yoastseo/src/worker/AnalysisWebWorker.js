@@ -390,9 +390,25 @@ export default class AnalysisWebWorker {
 			return null;
 		}
 
-		const assessor = useCornerstone === true
-			? new CornerstoneContentAssessor( this._i18n, this._researcher )
-			: new ContentAssessor( this._i18n, this._researcher );
+		let assessor;
+
+		if ( useCornerstone === true ) {
+			/*
+			 * Use a custom cornerstone content assessor if available,
+			 * otherwise set the default cornerstone content assessor.
+			 */
+			assessor = this._CustomCornerstoneContentAssessorClass
+				? new this._CustomCornerstoneContentAssessorClass( this._i18n, this._researcher )
+				: new CornerstoneContentAssessor( this._i18n, this._researcher );
+		} else {
+			/*
+			 * For non-cornerstone content, use a custom SEO assessor if available,
+	         * otherwise use the default SEO assessor.
+			 */
+			assessor = this._CustomContentAssessorClass
+				? new this._CustomContentAssessorClass( this._i18n, this._researcher )
+				: new ContentAssessor( this._i18n, this._researcher );
+		}
 
 		return assessor;
 	}
@@ -421,11 +437,22 @@ export default class AnalysisWebWorker {
 		if ( useTaxonomy === true ) {
 			assessor = new TaxonomyAssessor( this._i18n, this._researcher );
 		} else {
-			assessor = useCornerstone === true
-				? new CornerstoneSEOAssessor( this._i18n, this._researcher )
-				: new SEOAssessor( this._i18n, this._researcher );
+			// Set cornerstone SEO assessor for cornerstone content.
+			if ( useCornerstone === true ) {
+				// Use a custom cornerstone SEO assessor if available, otherwise set the default cornerstone SEO assessor.
+				assessor = this._CustomCornerstoneSEOAssessorClass
+					? new this._CustomCornerstoneSEOAssessorClass( this._i18n, this._researcher )
+					: new CornerstoneSEOAssessor( this._i18n, this._researcher );
+			} else {
+			/*
+			 * For non-cornerstone content, use a custom SEO assessor if available,
+			 * otherwise use the default SEO assessor.
+			 */
+				assessor = this._CustomSEOAssessorClass
+					? new this._CustomSEOAssessorClass( this._i18n, this._researcher )
+					: new SEOAssessor( this._i18n, this._researcher );
+			}
 		}
-
 
 		if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "keyphraseDistribution" ) ) ) {
 			assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
@@ -463,9 +490,21 @@ export default class AnalysisWebWorker {
 		if ( useTaxonomy === true ) {
 			assessor = new RelatedKeywordTaxonomyAssessor( this._i18n, this._researcher );
 		} else {
-			assessor = useCornerstone === true
-				? new CornerstoneRelatedKeywordAssessor( this._i18n, this._researcher )
-				: new RelatedKeywordAssessor( this._i18n, this._researcher );
+			// Set cornerstone related keyword assessor for cornerstone content.
+			if ( useCornerstone === true ) {
+				// Use a custom related keyword assessor if available, otherwise use the default related keyword assessor.
+				assessor = this._CustomCornerstoneRelatedKeywordAssessorClass
+					? new this._CustomCornerstoneRelatedKeywordAssessorClass( this._i18n, this._researcher )
+					: new CornerstoneRelatedKeywordAssessor( this._i18n, this._researcher );
+			} else {
+			/*
+			 * For non-cornerstone content, use a custom related keyword assessor if available,
+			 * otherwise use the default related keyword assessor.
+			 */
+				assessor = this._CustomRelatedKeywordAssessorClass
+					? new this._CustomRelatedKeywordAssessorClass( this._i18n, this._researcher )
+					: new RelatedKeywordAssessor( this._i18n, this._researcher );
+			}
 		}
 
 		this._registeredAssessments.forEach( ( { name, assessment } ) => {
