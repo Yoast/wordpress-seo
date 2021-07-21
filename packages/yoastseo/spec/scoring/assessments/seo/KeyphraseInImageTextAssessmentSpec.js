@@ -1,4 +1,4 @@
-import KeyphraseInImagesAssessment from "../../../../src/scoring/assessments/seo/KeyphraseinImageTextAssessment";
+import KeyphraseInImagesAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 const i18n = Factory.buildJed();
