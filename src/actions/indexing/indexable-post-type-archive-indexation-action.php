@@ -68,6 +68,8 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 			return (int) $transient;
 		}
 
+		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, 0, \DAY_IN_SECONDS );
+
 		$result = \count( $this->get_unindexed_post_type_archives( $limit ) );
 
 		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, $result, \DAY_IN_SECONDS );

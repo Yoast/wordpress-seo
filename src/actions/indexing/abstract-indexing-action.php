@@ -52,6 +52,8 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface {
 			return (int) $transient;
 		}
 
+		\set_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT, 0, ( \MINUTE_IN_SECONDS * 15 ) );
+
 		$query = $this->get_select_query( $limit );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.

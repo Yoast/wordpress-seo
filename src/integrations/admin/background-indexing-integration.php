@@ -178,7 +178,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return bool Should background indexation be performed.
 	 */
 	public function should_index_on_shutdown( $shutdown_limit ) {
-		$total = $this->indexing_helper->get_unindexed_count( $shutdown_limit );
+		$total = $this->indexing_helper->get_filtered_unindexed_count( $shutdown_limit );
 
 		return ( $total > 0 && $total < $shutdown_limit );
 	}

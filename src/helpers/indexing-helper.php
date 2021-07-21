@@ -213,15 +213,8 @@ class Indexing_Helper {
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_unindexed_count( $limit = null ) {
-		$query_started = \get_transient( self::COUNT_QUERY_STARTED_TRANSIENT );
-
-		if ( $query_started ) {
-			return 0;
-		}
-
-		\set_transient( self::COUNT_QUERY_STARTED_TRANSIENT, true, ( \MINUTE_IN_SECONDS * 15 ) );
-
 		$unindexed_count = 0;
+
 		if ( $limit === null ) {
 			$unindexed_count = $this->get_total_unindexed_count();
 		}
@@ -229,7 +222,6 @@ class Indexing_Helper {
 			$unindexed_count = $this->get_limited_unindexed_count( $limit );
 		}
 
-		\delete_transient( self::COUNT_QUERY_STARTED_TRANSIENT );
 		return $unindexed_count;
 	}
 
@@ -271,12 +263,18 @@ class Indexing_Helper {
 	 *
 	 * @return int The total number of unindexed objects.
 	 */
-	public function get_filtered_unindexed_count() {
+	public function get_filtered_unindexed_count( $limit = false ) {
+		$unindexed_count = $this->get_unindexed_count( $limit );
+
+		if ( $limit !== false && $unindexed_count > $limit ) {
+			return $unindexed_count;
+		}
+
 		/**
 		 * Filter: 'wpseo_indexing_get_unindexed_count' - Allow changing the amount of unindexed objects.
 		 *
 		 * @param int $unindexed_count The amount of unindexed objects.
 		 */
-		return \apply_filters( 'wpseo_indexing_get_unindexed_count', $this->get_unindexed_count() );
+		return \apply_filters( 'wpseo_indexing_get_unindexed_count', $unindexed_count, $limit );
 	}
 }

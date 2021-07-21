@@ -60,31 +60,6 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 	}
 
 	/**
-	 * Returns the total number of unindexed terms.
-	 *
-	 * @return int|false The number of unindexed terms. False if the query fails.
-	 */
-	public function get_total_unindexed( $limit = false ) {
-		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
-		if ( $transient !== false ) {
-			return (int) $transient;
-		}
-
-		$query = $this->get_count_query();
-
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
-		$count = $this->wpdb->get_var( $query );
-
-		if ( \is_null( $count ) ) {
-			return false;
-		}
-
-		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, $count, \DAY_IN_SECONDS );
-
-		return (int) $count;
-	}
-
-	/**
 	 * Creates indexables for unindexed terms.
 	 *
 	 * @return Indexable[] The created indexables.
