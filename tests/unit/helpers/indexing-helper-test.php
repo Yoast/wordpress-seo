@@ -364,32 +364,32 @@ class Indexing_Helper_Test extends TestCase {
 	 */
 	public function test_get_filtered_unindexed_count() {
 		$this->post_indexation
-			->expects( 'get_limited_unindexed_count' )
+			->expects( 'get_total_unindexed' )
 			->once()
 			->andReturn( 0 );
 
 		$this->term_indexation
-			->expects( 'get_limited_unindexed_count' )
+			->expects( 'get_total_unindexed' )
 			->once()
 			->andReturn( 0 );
 
 		$this->general_indexation
-			->expects( 'get_limited_unindexed_count' )
+			->expects( 'get_total_unindexed' )
 			->once()
 			->andReturn( 0 );
 
 		$this->post_type_archive_indexation
-			->expects( 'get_limited_unindexed_count' )
+			->expects( 'get_total_unindexed' )
 			->once()
 			->andReturn( 0 );
 
 		$this->post_link_indexing_action
-			->expects( 'get_limited_unindexed_count' )
+			->expects( 'get_total_unindexed' )
 			->once()
 			->andReturn( 0 );
 
 		$this->term_link_indexing_action
-			->expects( 'get_limited_unindexed_count' )
+			->expects( 'get_total_unindexed' )
 			->once()
 			->andReturn( 0 );
 

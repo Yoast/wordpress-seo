@@ -210,10 +210,10 @@ class Indexing_Helper {
 	 *
 	 * @return int The total number of unindexed objects.
 	 */
-	public function get_unindexed_count( $limit = null ) {
+	public function get_unindexed_count( $limit = false ) {
 		$unindexed_count = 0;
 
-		if ( $limit === null ) {
+		if ( $limit === false ) {
 			$unindexed_count = $this->get_total_unindexed_count();
 		}
 		else {
