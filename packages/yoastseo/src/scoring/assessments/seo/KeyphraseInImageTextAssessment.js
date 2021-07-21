@@ -150,7 +150,7 @@ export default class TextImagesAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sImage Keyphrase%3$s: " +
-						"Images on this page do not have alt attributes with at least half of the words from your keyphrase." +
+						"Images on this page do not have alt attributes with at least half of the words from your keyphrase. " +
 						"%2$sFix that!%3$s!"
 					),
 					this._config.urlTitle,
