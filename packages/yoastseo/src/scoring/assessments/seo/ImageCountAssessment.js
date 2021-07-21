@@ -1,4 +1,5 @@
 import { merge } from "lodash-es";
+import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange";
 
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
@@ -23,6 +24,7 @@ export default class TextImagesAssessment extends Assessment {
 				bad: 3,
 				good: 9,
 			},
+			recommendedCount: 1,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33c" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33d" ),
 		};
@@ -64,7 +66,7 @@ export default class TextImagesAssessment extends Assessment {
 	}
 
 	/**
-	 * Calculate the result based on the current image count and current image alt-tag count.
+	 * Calculate the result based on the availability of images in the text.
 	 *
 	 * @param {Object} i18n The object used for translations.
 	 *
@@ -86,6 +88,30 @@ export default class TextImagesAssessment extends Assessment {
 					"</a>"
 				),
 			};
+		}
+
+		if ( this._config.scores.okay ) {
+			if ( inRangeStartEndInclusive( this.imageCount, 1, 3 ) ) {
+				return {
+					score: this._config.scores.okay,
+					resultText: i18n.sprintf(
+						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
+						* %1$d expands to the number of images found in the text,
+						* %2$d expands to the recommended number of images in the text, */
+						i18n.dngettext(
+							"js-text-analysis",
+							"%3$sImages%5$s: Only %1$d image appears on this page. We recommend at least %2$d. %4$sAdd more relevant images%5$s!",
+							"%3$sImages%5$s: Only %1$d images appear on this page. We recommend at least %2$d. %4$sAdd more relevant images%5$s!",
+							this.imageCount
+						),
+						this.imageCount,
+						this._config.recommendedCount,
+						this._config.urlTitle,
+						this._config.urlCallToAction,
+						"</a>"
+					),
+				};
+			}
 		}
 
 		// Text with at least one image.
