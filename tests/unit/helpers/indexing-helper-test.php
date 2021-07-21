@@ -319,6 +319,7 @@ class Indexing_Helper_Test extends TestCase {
 	 * Tests the retrieval of the unindexed count.
 	 *
 	 * @covers ::get_unindexed_count
+	 * @covers ::get_total_unindexed_count
 	 */
 	public function test_get_unindexed_count() {
 		$this->post_indexation
@@ -351,20 +352,6 @@ class Indexing_Helper_Test extends TestCase {
 			->once()
 			->andReturn( 0 );
 
-		Monkey\Functions\expect( 'get_transient' )
-			->once()
-			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT )
-			->andReturn( false );
-
-		Monkey\Functions\expect( 'set_transient' )
-			->once()
-			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT, true, ( \MINUTE_IN_SECONDS * 15 ) )
-			->andReturn( false );
-
-		Monkey\Functions\expect( 'delete_transient' )
-			->once()
-			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT );
-
 		static::assertEquals( 0, $this->instance->get_unindexed_count() );
 	}
 
@@ -372,55 +359,74 @@ class Indexing_Helper_Test extends TestCase {
 	 * Tests the retrieval of the filtered unindexed count.
 	 *
 	 * @covers ::get_filtered_unindexed_count
+	 * @covers ::get_unindexed_count
+	 * @covers ::get_limited_unindexed_count
 	 */
 	public function test_get_filtered_unindexed_count() {
 		$this->post_indexation
-			->expects( 'get_total_unindexed' )
+			->expects( 'get_limited_unindexed_count' )
 			->once()
 			->andReturn( 0 );
 
 		$this->term_indexation
-			->expects( 'get_total_unindexed' )
+			->expects( 'get_limited_unindexed_count' )
 			->once()
 			->andReturn( 0 );
 
 		$this->general_indexation
-			->expects( 'get_total_unindexed' )
+			->expects( 'get_limited_unindexed_count' )
 			->once()
 			->andReturn( 0 );
 
 		$this->post_type_archive_indexation
-			->expects( 'get_total_unindexed' )
+			->expects( 'get_limited_unindexed_count' )
 			->once()
 			->andReturn( 0 );
 
 		$this->post_link_indexing_action
-			->expects( 'get_total_unindexed' )
+			->expects( 'get_limited_unindexed_count' )
 			->once()
 			->andReturn( 0 );
 
 		$this->term_link_indexing_action
-			->expects( 'get_total_unindexed' )
+			->expects( 'get_limited_unindexed_count' )
 			->once()
 			->andReturn( 0 );
 
 		Monkey\Filters\expectApplied( 'wpseo_indexing_get_unindexed_count' )
 			->andReturn( 20 );
 
-		Monkey\Functions\expect( 'get_transient' )
-			->once()
-			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT )
-			->andReturn( false );
-
-		Monkey\Functions\expect( 'set_transient' )
-			->once()
-			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT, true, ( \MINUTE_IN_SECONDS * 15 ) )
-			->andReturn( false );
-
-		Monkey\Functions\expect( 'delete_transient' )
-			->once()
-			->with( Indexing_Helper::COUNT_QUERY_STARTED_TRANSIENT );
-
 		static::assertEquals( 20, $this->instance->get_filtered_unindexed_count() );
+	}
+
+	/**
+	 * Tests the retrieval of the filtered unindexed count with a limit.
+	 *
+	 * @covers ::get_filtered_unindexed_count
+	 * @covers ::get_unindexed_count
+	 * @covers ::get_limited_unindexed_count
+	 */
+	public function test_get_filtered_unindexed_count_with_limit() {
+		$limit = 25;
+
+		$this->post_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit + 1 )
+			->once()
+			->andReturn( 10 );
+
+		$this->term_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 10 + 1 )
+			->once()
+			->andReturn( 10 );
+
+		$this->post_type_archive_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 20 + 1 )
+			->once()
+			->andReturn( 10 );
+
+		static::assertEquals( 30, $this->instance->get_filtered_unindexed_count( 25 ) );
 	}
 }
