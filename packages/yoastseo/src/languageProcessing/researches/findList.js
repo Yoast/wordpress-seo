@@ -6,7 +6,7 @@
  * @returns {boolean} Whether there is a list in the paper text.
  */
 export default function( paper ) {
-	const regex = /<ul.*>[\s\S]*<\/ul>/
+	const regex = /<[uo]l.*>[\s\S]*<\/[uo]l>/
 
 	return regex.test( paper.getText() );
 }
