@@ -151,7 +151,7 @@ export default class TextImagesAssessment extends Assessment {
 						"js-text-analysis",
 						"%1$sImage Keyphrase%3$s: " +
 						"Images on this page do not have alt attributes with at least half of the words from your keyphrase. " +
-						"%2$sFix that!%3$s!"
+						"%2$sFix that%3$s!"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
