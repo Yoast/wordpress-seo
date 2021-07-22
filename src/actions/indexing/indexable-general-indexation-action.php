@@ -86,7 +86,7 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 			$indexables[] = $this->indexable_repository->find_for_home_page();
 		}
 
-		\set_transient( static::TRANSIENT_CACHE_KEY, 0, \DAY_IN_SECONDS );
+		\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
 
 		return $indexables;
 	}

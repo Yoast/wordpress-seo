@@ -114,8 +114,8 @@ class Indexable_General_Indexation_Action_Test extends TestCase {
 			->expects( 'find_for_home_page' )
 			->andReturn( 'home page' );
 
-		Monkey\Functions\expect( 'set_transient' )
-			->with( 'wpseo_total_unindexed_general_items', 0, \DAY_IN_SECONDS );
+		Monkey\Functions\expect( 'delete_transient' )
+			->with( 'wpseo_total_unindexed_general_items' );
 
 		$this->assertEquals( [ '404', 'search', 'date archive', 'home page' ], $this->instance->index() );
 	}
