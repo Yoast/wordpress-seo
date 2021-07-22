@@ -204,36 +204,34 @@ class Indexing_Helper {
 	}
 
 	/**
-	 * Returns the total or a limited number of unindexed objects.
-	 *
-	 * @param int $limit Limit the number of unindexed objects that are counted.
+	 * Returns the total number of unindexed objects.
 	 *
 	 * @return int The total number of unindexed objects.
 	 */
-	public function get_unindexed_count( $limit = false ) {
+	public function get_unindexed_count() {
 		$unindexed_count = 0;
 
-		if ( $limit === false ) {
-			$unindexed_count = $this->get_total_unindexed_count();
-		}
-		else {
-			$unindexed_count = $this->get_limited_unindexed_count( $limit );
+		foreach ( $this->indexing_actions as $indexing_action ) {
+			$unindexed_count += $indexing_action->get_total_unindexed();
 		}
 
 		return $unindexed_count;
 	}
 
 	/**
-	 * Returns the total number of unindexed objects.
+	 * Returns the total number of unindexed objects and applies a filter for third party integrations.
 	 *
 	 * @return int The total number of unindexed objects.
 	 */
-	private function get_total_unindexed_count() {
-		$unindexed_count = 0;
-		foreach ( $this->indexing_actions as $indexing_action ) {
-			$unindexed_count += $indexing_action->get_total_unindexed();
-		}
-		return $unindexed_count;
+	public function get_filtered_unindexed_count() {
+		$unindexed_count = $this->get_unindexed_count();
+
+		/**
+		 * Filter: 'wpseo_indexing_get_unindexed_count' - Allow changing the amount of unindexed objects.
+		 *
+		 * @param int $unindexed_count The amount of unindexed objects.
+		 */
+		return \apply_filters( 'wpseo_indexing_get_unindexed_count', $unindexed_count );
 	}
 
 	/**
@@ -243,7 +241,7 @@ class Indexing_Helper {
 	 *
 	 * @return int The total number of unindexed objects.
 	 */
-	private function get_limited_unindexed_count( $limit ) {
+	public function get_limited_unindexed_count( $limit ) {
 		$unindexed_count = 0;
 
 		foreach ( $this->indexing_actions as $indexing_action ) {
@@ -259,20 +257,25 @@ class Indexing_Helper {
 	/**
 	 * Returns the total number of unindexed objects and applies a filter for third party integrations.
 	 *
+	 * @param int $limit Limit the number of unindexed objects that are counted.
+	 *
 	 * @return int The total number of unindexed objects.
 	 */
-	public function get_filtered_unindexed_count( $limit = false ) {
-		$unindexed_count = $this->get_unindexed_count( $limit );
+	public function get_limited_filtered_unindexed_count( $limit ) {
+		$unindexed_count = $this->get_limited_unindexed_count( $limit );
 
-		if ( $limit !== false && $unindexed_count > $limit ) {
+		if ( $unindexed_count > $limit ) {
 			return $unindexed_count;
 		}
 
 		/**
-		 * Filter: 'wpseo_indexing_get_unindexed_count' - Allow changing the amount of unindexed objects.
+		 * Filter: 'wpseo_indexing_get_limited_unindexed_count' - Allow changing the amount of unindexed objects,
+		 * and allow for a maximum number of items counted to improve performance.
 		 *
-		 * @param int $unindexed_count The amount of unindexed objects.
+		 * @param int       $unindexed_count The amount of unindexed objects.
+		 * @param int|false $limit           Limit the number of unindexed objects that need to be counted.
+		 *                                   False if it doesn't need to be limited.
 		 */
-		return \apply_filters( 'wpseo_indexing_get_unindexed_count', $unindexed_count, $limit );
+		return \apply_filters( 'wpseo_indexing_get_limited_unindexed_count', $unindexed_count, $limit );
 	}
 }

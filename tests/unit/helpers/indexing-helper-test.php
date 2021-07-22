@@ -319,7 +319,6 @@ class Indexing_Helper_Test extends TestCase {
 	 * Tests the retrieval of the unindexed count.
 	 *
 	 * @covers ::get_unindexed_count
-	 * @covers ::get_total_unindexed_count
 	 */
 	public function test_get_unindexed_count() {
 		$this->post_indexation
@@ -359,7 +358,6 @@ class Indexing_Helper_Test extends TestCase {
 	 * Tests the retrieval of the filtered unindexed count.
 	 *
 	 * @covers ::get_filtered_unindexed_count
-	 * @covers ::get_unindexed_count
 	 * @covers ::get_limited_unindexed_count
 	 */
 	public function test_get_filtered_unindexed_count() {
@@ -402,11 +400,10 @@ class Indexing_Helper_Test extends TestCase {
 	/**
 	 * Tests the retrieval of the filtered unindexed count with a limit.
 	 *
-	 * @covers ::get_filtered_unindexed_count
-	 * @covers ::get_unindexed_count
+	 * @covers ::get_limited_filtered_unindexed_count
 	 * @covers ::get_limited_unindexed_count
 	 */
-	public function test_get_filtered_unindexed_count_with_limit() {
+	public function test_get__limitedfiltered_unindexed_count() {
 		$limit = 25;
 
 		$this->post_indexation
@@ -427,6 +424,6 @@ class Indexing_Helper_Test extends TestCase {
 			->once()
 			->andReturn( 10 );
 
-		static::assertEquals( 30, $this->instance->get_filtered_unindexed_count( 25 ) );
+		static::assertEquals( 30, $this->instance->get_limited_filtered_unindexed_count( 25 ) );
 	}
 }
