@@ -21,10 +21,11 @@ import PageTitleWidthAssessment from "./seo/PageTitleWidthAssessment";
 import SingleH1Assessment from "./seo/SingleH1Assessment";
 import SubheadingsKeywordAssessment from "./seo/SubHeadingsKeywordAssessment";
 import TextCompetingLinksAssessment from "./seo/TextCompetingLinksAssessment";
-import TextImagesAssessment from "./seo/TextImagesAssessment";
 import TextLengthAssessment from "./seo/TextLengthAssessment";
 import TitleKeywordAssessment from "./seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./seo/UrlKeywordAssessment";
+import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
+import ImageCountAssessment from "./seo/ImageCountAssessment";
 
 const readability = {
 	FleschReadingEaseAssessment,
@@ -52,10 +53,11 @@ const seo = {
 	SingleH1Assessment,
 	SubheadingsKeywordAssessment,
 	TextCompetingLinksAssessment,
-	TextImagesAssessment,
 	TextLengthAssessment,
 	TitleKeywordAssessment,
 	UrlKeywordAssessment,
+	ImageKeyphraseAssessment,
+	ImageCountAssessment,
 };
 
 export {

@@ -52,6 +52,17 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	}
 
 	/**
+	 * Returns a limited number of unindexed posts.
+	 *
+	 * @param int $limit Limit the maximum number of unindexed posts that are counted.
+	 *
+	 * @return int|false The limited number of unindexed posts. False if the query fails.
+	 */
+	public function get_limited_unindexed_count( $limit ) {
+		return $this->get_total_unindexed();
+	}
+
+	/**
 	 * Creates indexables for unindexed system pages, the date archive, and the homepage.
 	 *
 	 * @return Indexable[] The created indexables.

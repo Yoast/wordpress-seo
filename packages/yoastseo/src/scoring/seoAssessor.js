@@ -11,7 +11,8 @@ import UrlKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
 import Assessor from "./assessor";
 import MetaDescriptionLength from "./assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeyword from "./assessments/seo/SubHeadingsKeywordAssessment";
-import TextImages from "./assessments/seo/TextImagesAssessment";
+import ImageKeyphrase from "./assessments/seo/KeyphraseInImageTextAssessment";
+import ImageCount from "./assessments/seo/ImageCountAssessment";
 import TextLength from "./assessments/seo/TextLengthAssessment";
 import OutboundLinks from "./assessments/seo/OutboundLinksAssessment";
 import TitleWidth from "./assessments/seo/PageTitleWidthAssessment";
@@ -39,7 +40,8 @@ const SEOAssessor = function( i18n, researcher,  options ) {
 		new MetaDescriptionLength(),
 		new SubheadingsKeyword(),
 		new TextCompetingLinksAssessment(),
-		new TextImages(),
+		new ImageKeyphrase(),
+		new ImageCount(),
 		new TextLength(),
 		new OutboundLinks(),
 		new TitleKeywordAssessment(),
