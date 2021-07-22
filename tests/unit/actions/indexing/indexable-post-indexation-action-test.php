@@ -82,12 +82,11 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$expected_query = "
 			SELECT COUNT(P.ID)
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id IS NULL
-				AND P.post_type IN (%s)";
+			WHERE P.post_type IN (%s)
+			AND P.ID not in (
+				SELECT I.object_id from wp_yoast_indexable as I
+				WHERE I.object_type = 'post'
+				AND I.permalink_hash IS NOT NULL)";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', \DAY_IN_SECONDS )->andReturnTrue();
@@ -117,12 +116,11 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$expected_query = "
 			SELECT P.ID
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id IS NULL
-				AND P.post_type IN (%s)
+			WHERE P.post_type IN (%s)
+			AND P.ID not in (
+				SELECT I.object_id from wp_yoast_indexable as I
+				WHERE I.object_type = 'post'
+				AND I.permalink_hash IS NOT NULL)
 			LIMIT %d";
 
 		$query_result = [
@@ -195,12 +193,11 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$expected_query = "
 			SELECT COUNT(P.ID)
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id IS NULL
-				AND P.post_type IN (%s)";
+			WHERE P.post_type IN (%s)
+			AND P.ID not in (
+				SELECT I.object_id from wp_yoast_indexable as I
+				WHERE I.object_type = 'post'
+				AND I.permalink_hash IS NOT NULL)";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', \DAY_IN_SECONDS )->andReturnTrue();
@@ -230,12 +227,11 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$expected_query = "
 			SELECT P.ID
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id IS NULL
-				AND P.post_type IN (%s)
+			WHERE P.post_type IN (%s)
+			AND P.ID not in (
+				SELECT I.object_id from wp_yoast_indexable as I
+				WHERE I.object_type = 'post'
+				AND I.permalink_hash IS NOT NULL)
 			LIMIT %d";
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
@@ -314,12 +310,11 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$expected_query = "
 			SELECT P.ID
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id IS NULL
-				AND P.post_type IN (%s)
+			WHERE P.post_type IN (%s)
+			AND P.ID not in (
+				SELECT I.object_id from wp_yoast_indexable as I
+				WHERE I.object_type = 'post'
+				AND I.permalink_hash IS NOT NULL)
 			LIMIT %d";
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );

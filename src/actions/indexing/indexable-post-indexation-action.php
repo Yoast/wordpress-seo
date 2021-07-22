@@ -117,12 +117,11 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			"
 			SELECT COUNT(P.ID)
 			FROM {$this->wpdb->posts} AS P
-			LEFT JOIN $indexable_table AS I
-				ON P.ID = I.object_id
-				AND I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id IS NULL
-				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ')',
+			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")
+			AND P.ID not in (
+				SELECT I.object_id from $indexable_table as I
+				WHERE I.object_type = 'post'
+				AND I.permalink_hash IS NOT NULL)",
 			$post_types
 		);
 	}
@@ -150,12 +149,11 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			"
 			SELECT P.ID
 			FROM {$this->wpdb->posts} AS P
-			LEFT JOIN $indexable_table AS I
-				ON P.ID = I.object_id
-				AND I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id IS NULL
-				AND P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")
+			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")
+			AND P.ID not in (
+				SELECT I.object_id from $indexable_table as I
+				WHERE I.object_type = 'post'
+				AND I.permalink_hash IS NOT NULL)
 			$limit_query",
 			$replacements
 		);
