@@ -60,7 +60,7 @@ describe( "An image count assessment", function() {
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Image Keyphrase</a>: " +
 			"Images on this page do not have alt attributes with at least half of the words from your keyphrase. " +
-			"<a href='https://yoa.st/33d' target='_blank'>Fix that!</a>!" );
+			"<a href='https://yoa.st/33d' target='_blank'>Fix that</a>!" );
 	} );
 
 	it( "assesses four images, with an alt-tag without the presence of a keyword", function() {
@@ -81,7 +81,7 @@ describe( "An image count assessment", function() {
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Image Keyphrase</a>: " +
 			"Images on this page do not have alt attributes with at least half of the words from your keyphrase. " +
-			"<a href='https://yoa.st/33d' target='_blank'>Fix that!</a>!" );
+			"<a href='https://yoa.st/33d' target='_blank'>Fix that</a>!" );
 	} );
 
 	it( "assesses a single image, with alt-tag containing the keyphrase", function() {
