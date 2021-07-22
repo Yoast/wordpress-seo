@@ -44,7 +44,7 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface {
 	 *
 	 * @param int $limit Limit the maximum number of unindexed posts that are counted.
 	 *
-	 * @return int|false The limited number of unindexed posts. False if the query fails.
+	 * @return int The limited number of unindexed posts. 0 if the query fails.
 	 */
 	public function get_limited_unindexed_count( $limit ) {
 		$transient = \get_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT );
