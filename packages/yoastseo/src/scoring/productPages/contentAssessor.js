@@ -22,7 +22,6 @@ const ProductContentAssessor = function( i18n, options = {} ) {
 	this.type = "productContentAssessor";
 
 	this._assessments = [
-		fleschReadingEase,
 		new SubheadingDistributionTooLong(),
 		paragraphTooLong,
 		new SentenceLengthInText(),
