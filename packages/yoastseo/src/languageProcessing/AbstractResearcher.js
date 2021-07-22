@@ -32,6 +32,7 @@ import morphology from "./researches/getWordForms";
 import pageTitleWidth from "./researches/pageTitleWidth.js";
 import readingTime from "./researches/readingTime";
 import sentences from "./researches/sentences";
+import videoCount from "./researches/videoCount";
 import wordCountInText from "./researches/wordCountInText.js";
 import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
 
@@ -78,6 +79,7 @@ export default class AbstractResearcher {
 			readingTime,
 			sentences,
 			wordCountInText,
+			videoCount,
 			getPassiveVoiceResult,
 		};
 
