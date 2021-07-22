@@ -49,11 +49,6 @@ const expectedResults = {
 		score: 0,
 		resultText: "",
 	},
-	textImages: {
-		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: No images appear on this page. <a href='https://yoa.st/33d' target='_blank'>Add some</a>!",
-	},
 	textLength: {
 		isApplicable: true,
 		score: 9,
@@ -133,6 +128,15 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!",
+	},
+	imageKeyphrase: {
+		// This assessment is not applicable for this paper since the text doesn't contain any image.
+		isApplicable: false,
+	},
+	imageCount: {
+		isApplicable: true,
+		score: 3,
+		resultText: "<a href='https://yoa.st/33c' target='_blank'>Images</a>: No images appear on this page. <a href='https://yoa.st/33d' target='_blank'>Add some</a>!",
 	},
 };
 
