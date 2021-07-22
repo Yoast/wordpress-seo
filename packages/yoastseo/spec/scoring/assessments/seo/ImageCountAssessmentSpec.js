@@ -1,4 +1,4 @@
-import ImagesAndVideosAssessment from "../../../../src/scoring/assessments/seo/ImagesAndVideosAssessment";
+import ImageCountAssessment from "../../../../src/scoring/assessments/seo/ImageCountAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 const i18n = Factory.buildJed();
@@ -38,7 +38,7 @@ describe( "An image count assessment, including videos in product pages", functi
 			},
 			recommendedCount: 4,
 		};
-		const assessment = new ImagesAndVideosAssessment( config ).getResult( mockPaper, Factory.buildMockResearcher( {
+		const assessment = new ImageCountAssessment( config ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 1,
 		}, true ), i18n );
 
@@ -57,7 +57,7 @@ describe( "An image count assessment, including videos in product pages", functi
 			},
 			recommendedCount: 4,
 		};
-		const assessment = new ImagesAndVideosAssessment( config ).getResult( mockPaper, Factory.buildMockResearcher( {
+		const assessment = new ImageCountAssessment( config ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 2,
 		}, true ), i18n );
 
@@ -79,7 +79,7 @@ describe( "An image count assessment, including videos in product pages", functi
 			},
 			recommendedCount: 4,
 		};
-		const assessment = new ImagesAndVideosAssessment( config ).getResult( mockPaper, Factory.buildMockResearcher( {
+		const assessment = new ImageCountAssessment( config ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 5,
 		}, true ), i18n );
 
@@ -100,7 +100,7 @@ describe( "An image count assessment, including videos in product pages", functi
 			},
 			recommendedCount: 4,
 		};
-		const assessment = new ImagesAndVideosAssessment( config, true ).getResult( mockPaper, Factory.buildMockResearcher( {
+		const assessment = new ImageCountAssessment( config, true ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 0,
 			videoCount: 1,
 		}, true ), i18n );
@@ -125,7 +125,7 @@ describe( "An image count assessment, including videos in product pages", functi
 			},
 			recommendedCount: 4,
 		};
-		const assessment = new ImagesAndVideosAssessment( config, true ).getResult( mockPaper, Factory.buildMockResearcher( {
+		const assessment = new ImageCountAssessment( config, true ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 1,
 			videoCount: 1,
 		}, true ), i18n );
@@ -154,7 +154,7 @@ describe( "An image count assessment, including videos in product pages", functi
 			},
 			recommendedCount: 4,
 		};
-		const assessment = new ImagesAndVideosAssessment( config, true ).getResult( mockPaper, Factory.buildMockResearcher( {
+		const assessment = new ImageCountAssessment( config, true ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 5,
 			videoCount: 1,
 		}, true ), i18n );
@@ -165,7 +165,7 @@ describe( "An image count assessment, including videos in product pages", functi
 	it( "assesses text without images or videos (countVideos is on)", function() {
 		const mockPaper = new Paper( "sample" );
 
-		const assessment = new ImagesAndVideosAssessment( {}, true ).getResult( mockPaper, Factory.buildMockResearcher( {
+		const assessment = new ImageCountAssessment( {}, true ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 0,
 			videoCount: 0,
 		}, true ), i18n );

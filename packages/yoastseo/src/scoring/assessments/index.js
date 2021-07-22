@@ -25,7 +25,7 @@ import TextLengthAssessment from "./seo/TextLengthAssessment";
 import TitleKeywordAssessment from "./seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./seo/UrlKeywordAssessment";
 import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
-import ImagesAndVideosAssessment from "./seo/ImagesAndVideosAssessment";
+import ImageCountAssessment from "./seo/ImageCountAssessment";
 
 const readability = {
 	FleschReadingEaseAssessment,
@@ -57,7 +57,7 @@ const seo = {
 	TitleKeywordAssessment,
 	UrlKeywordAssessment,
 	ImageKeyphraseAssessment,
-	ImagesAndVideosAssessment,
+	ImageCountAssessment,
 };
 
 export {
