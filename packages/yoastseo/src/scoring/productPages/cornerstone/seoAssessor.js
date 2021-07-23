@@ -74,7 +74,7 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 		),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
-		new ImageCount(),
+		new ImageCount( {}, true ),
 		new ImageKeyphrase( {
 			scores: {
 				withAltNonKeyword: 3,

@@ -29,7 +29,7 @@ const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
 		new MetaDescriptionKeyword(),
 		new TextCompetingLinks(),
 		new FunctionWordsInKeyphrase(),
-		new ImageCount(),
+		new ImageCount( {}, true ),
 		new ImageKeyphrase( {
 			scores: {
 				withAltNonKeyword: 3,

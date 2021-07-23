@@ -30,7 +30,7 @@ const ProductRelatedKeywordAssessor = function( i18n, researcher, options ) {
 		new MetaDescriptionKeyword(),
 		new TextCompetingLinks(),
 		new FunctionWordsInKeyphrase(),
-		new ImageCount(),
+		new ImageCount( {}, true ),
 		new ImageKeyphrase(),
 	];
 };
