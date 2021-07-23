@@ -94,13 +94,13 @@ describe( "An image count assessment, including videos in product pages", functi
 			"Your browser does not support the video tag.\n" +
 			"</video> " );
 
-		const config = {
+		const productPagesConfig = {
 			scores: {
 				okay: 6,
 			},
 			recommendedCount: 4,
 		};
-		const assessment = new ImageCountAssessment( config, true ).getResult( mockPaper, Factory.buildMockResearcher( {
+		const assessment = new ImageCountAssessment( productPagesConfig, true ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 0,
 			videoCount: 1,
 		}, true ), i18n );
@@ -119,13 +119,13 @@ describe( "An image count assessment, including videos in product pages", functi
 			"Your browser does not support the video tag.\n" +
 			"</video>" );
 
-		const config = {
+		const productPagesConfig = {
 			scores: {
 				okay: 6,
 			},
 			recommendedCount: 4,
 		};
-		const assessment = new ImageCountAssessment( config, true ).getResult( mockPaper, Factory.buildMockResearcher( {
+		const assessment = new ImageCountAssessment( productPagesConfig, true ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 1,
 			videoCount: 1,
 		}, true ), i18n );
@@ -148,13 +148,13 @@ describe( "An image count assessment, including videos in product pages", functi
 			"Your browser does not support the video tag.\n" +
 			"</video> " );
 
-		const config = {
+		const productPagesConfig = {
 			scores: {
 				okay: 6,
 			},
 			recommendedCount: 4,
 		};
-		const assessment = new ImageCountAssessment( config, true ).getResult( mockPaper, Factory.buildMockResearcher( {
+		const assessment = new ImageCountAssessment( productPagesConfig, true ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 5,
 			videoCount: 1,
 		}, true ), i18n );
