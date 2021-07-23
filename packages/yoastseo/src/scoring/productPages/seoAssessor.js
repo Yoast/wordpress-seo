@@ -10,7 +10,8 @@ import UrlKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import Assessor from "../assessor";
 import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeyword from "../assessments/seo/SubHeadingsKeywordAssessment";
-import TextImages from "../assessments/seo/TextImagesAssessment";
+import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
+import ImageCount from "../assessments/seo/ImageCountAssessment";
 import TextLength from "../assessments/seo/TextLengthAssessment";
 import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
@@ -37,13 +38,14 @@ const ProductSEOAssessor = function( i18n, researcher, options ) {
 		new MetaDescriptionLength(),
 		new SubheadingsKeyword(),
 		new TextCompetingLinksAssessment(),
-		new TextImages(),
 		new TextLength(),
 		new TitleKeywordAssessment(),
 		new TitleWidth(),
 		new UrlKeywordAssessment(),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
+		new ImageCount(),
+		new ImageKeyphrase(),
 	];
 };
 
