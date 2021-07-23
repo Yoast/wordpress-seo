@@ -65,7 +65,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 	 * @return Indexable[] The created indexables.
 	 */
 	public function index() {
-		$query    = $this->get_select_query( $this->get_limit() );
+		$query = $this->get_select_query( $this->get_limit() );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$term_ids = $this->wpdb->get_col( $query );
