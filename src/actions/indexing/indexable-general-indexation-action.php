@@ -13,7 +13,7 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	/**
 	 * The transient cache key.
 	 */
-	const TRANSIENT_CACHE_KEY = 'wpseo_total_unindexed_general_items';
+	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_general_items';
 
 	/**
 	 * Represents the indexables repository.
@@ -37,7 +37,7 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_total_unindexed() {
-		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
+		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
@@ -46,7 +46,7 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 
 		$result = \count( $indexables_to_create );
 
-		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
+		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, $result, \DAY_IN_SECONDS );
 
 		return $result;
 	}
@@ -85,6 +85,8 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 		if ( isset( $indexables_to_create['home_page'] ) ) {
 			$indexables[] = $this->indexable_repository->find_for_home_page();
 		}
+
+		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, 0, \DAY_IN_SECONDS );
 
 		return $indexables;
 	}
