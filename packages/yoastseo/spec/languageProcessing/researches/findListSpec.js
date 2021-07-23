@@ -1,6 +1,5 @@
 import findList from "../../../src/languageProcessing/researches/findList";
 import Paper from "../../../src/values/Paper.js";
-import getLinks from "../../../src/languageProcessing/researches/getLinks";
 
 describe( "A test for finding a list in a text", function() {
 	it( "returns true if there is an unordered list in the text", function() {
