@@ -1,6 +1,3 @@
-import { merge } from "lodash-es";
-import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange";
-
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
@@ -16,7 +13,7 @@ export default class ListAssessment extends Assessment {
 	 *
 	 * @returns {void}
 	 */
-	constructor( ) {
+	constructor() {
 		super();
 
 		this._config = {
