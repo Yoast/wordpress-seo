@@ -44,7 +44,7 @@ const ProductSEOAssessor = function( i18n, researcher, options ) {
 			scores: {
 				widthTooShort: 9,
 			},
-		} ),
+		}, true ),
 		new UrlKeywordAssessment(),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
