@@ -7,7 +7,7 @@ import Factory from "../../../specHelpers/factory";
 const i18n = Factory.buildJed();
 
 describe( "A cornerstone product page content assessor", function() {
-		describe( "Checks the applicable assessments", function() {
+	describe( "Checks the applicable assessments", function() {
 		const paper = new Paper( "test" );
 		it( "Should have 8 available assessments for a fully supported language", function() {
 			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
