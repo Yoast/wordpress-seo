@@ -14,7 +14,7 @@ export default class PageTitleWidthAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object}  [config]        The configuration to use.
-	 * @param {boolean} isProductPage   Whether this assessment is run product page or not.
+	 * @param {boolean} isProductPage   Whether this assessment is run for product page or not.
 	 *
 	 * @returns {void}
 	 */
