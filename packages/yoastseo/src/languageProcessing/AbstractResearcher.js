@@ -8,7 +8,7 @@ import altTagCount from "./researches/altTagCount.js";
 import countSentencesFromText from "./researches/countSentencesFromText.js";
 import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
 import findKeywordInPageTitle from "./researches/findKeywordInPageTitle";
-import findLists from "./researches/findLists";
+import findList from "./researches/findList";
 import findTransitionWords from "./researches/findTransitionWords";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
 import getFleschReadingScore from "./researches/getFleschReadingScore";
@@ -54,7 +54,7 @@ export default class AbstractResearcher {
 			countSentencesFromText,
 			findKeywordInFirstParagraph,
 			findKeywordInPageTitle,
-			findLists,
+			findList,
 			findTransitionWords,
 			functionWordsInKeyphrase,
 			getFleschReadingScore,
