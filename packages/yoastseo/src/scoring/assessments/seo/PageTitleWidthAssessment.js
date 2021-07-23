@@ -13,11 +13,12 @@ export default class PageTitleWidthAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {Object} [config] The configuration to use.
+	 * @param {Object}  [config]        The configuration to use.
+	 * @param {boolean} isProductPage   Whether this assessment is run product page or not.
 	 *
 	 * @returns {void}
 	 */
-	constructor( config = {} ) {
+	constructor( config = {}, isProductPage = false ) {
 		super();
 
 		const defaultConfig = {
@@ -33,6 +34,7 @@ export default class PageTitleWidthAssessment extends Assessment {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34i" ),
 		};
 
+		this._isProductPage = isProductPage;
 		this.identifier = "titleWidth";
 		this._config = merge( defaultConfig, config );
 	}
@@ -101,6 +103,17 @@ export default class PageTitleWidthAssessment extends Assessment {
 	 */
 	translateScore( pageTitleWidth, i18n ) {
 		if ( inRange( pageTitleWidth, 1, 400 ) ) {
+			if ( this._isProductPage ) {
+				return i18n.sprintf(
+					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sSEO title width%2$s: Good job!"
+					),
+					this._config.urlTitle,
+					"</a>"
+				);
+			}
 			return i18n.sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				i18n.dgettext(
