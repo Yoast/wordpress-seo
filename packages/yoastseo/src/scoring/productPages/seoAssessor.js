@@ -44,7 +44,12 @@ const ProductSEOAssessor = function( i18n, researcher, options ) {
 		new UrlKeywordAssessment(),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
-		new ImageCount( {}, true ),
+		new ImageCount( {
+			scores: {
+				okay: 6,
+			},
+			recommendedCount: 4,
+		}, true ),
 		new ImageKeyphrase(),
 	];
 };
