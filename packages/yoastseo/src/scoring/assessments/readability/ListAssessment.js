@@ -19,7 +19,7 @@ export default class ListAssessment extends Assessment {
 	constructor( ) {
 		super();
 
-		const config = {
+		this._config = {
 			urlTitle: createAnchorOpeningTag( "https://yoast.com" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoast.com" ),
 			scores: {
@@ -82,7 +82,6 @@ export default class ListAssessment extends Assessment {
 						"%1$sLists%2$s: There is at least one list on this page. Great!"
 					),
 					this._config.urlTitle,
-					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -99,6 +98,7 @@ export default class ListAssessment extends Assessment {
 					"%1$sLists%3$s: No lists appear on this page. %2$sAdd at least one ordered or unordered list%3$s!"
 				),
 				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>"
 			),
 		};
