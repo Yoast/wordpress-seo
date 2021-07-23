@@ -136,4 +136,71 @@ describe( "A word count assessment", function() {
 		expect( results.getScore() ).toEqual( 9 );
 		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 925 words. Good job!" );
 	} );
+
+	const productPageConfig = {
+		recommendedMinimum: 200,
+		slightlyBelowMinimum: 150,
+		belowMinimum: 100,
+		veryFarBelowMinimum: 50,
+	};
+
+	it( "different boundaries are applied for a product page: very far below minimum", function() {
+		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 25 ) );
+		const productAssessment = new TextLengthAssessment( productPageConfig );
+
+		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 25 ), i18n );
+
+		expect( result.getScore() ).toEqual( -20 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 25 words. This is far below the recommended minimum of 200 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
+	} );
+
+	it( "different boundaries are applied for a product page: far below minimum", function() {
+		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 55 ) );
+		const productAssessment = new TextLengthAssessment( productPageConfig );
+
+		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 55 ), i18n );
+
+		expect( result.getScore() ).toEqual( -10 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 55 words. This is far below the recommended minimum of 200 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
+	} );
+
+	it( "different boundaries are applied for a product page: below minimum", function() {
+		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 101 ) );
+		const productAssessment = new TextLengthAssessment( productPageConfig );
+
+		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 101 ), i18n );
+
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 101 words. This is below the recommended minimum of 200 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
+	} );
+
+	it( "different boundaries are applied for a product page: slightly below minimum", function() {
+		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 155 ) );
+		const productAssessment = new TextLengthAssessment( productPageConfig );
+
+		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 155 ), i18n );
+
+		expect( result.getScore() ).toEqual( 6 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 155 words. This is slightly below the recommended minimum of 200 words." +
+			" <a href='https://yoa.st/34o' target='_blank'>Add a bit more copy</a>." );
+	} );
+
+
+	it( "different boundaries are applied for a product page: above minimum", function() {
+		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 201 ) );
+		const productAssessment = new TextLengthAssessment( productPageConfig );
+
+		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 201 ), i18n );
+
+		expect( result.getScore() ).toEqual( 9 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 201 words. Good job!" );
+	} );
 } );
