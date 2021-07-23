@@ -33,9 +33,9 @@ describe( "running assessments in the product page cornerstone SEO assessor", fu
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
+			"images",
 		] );
 	} );
 
@@ -47,10 +47,10 @@ describe( "running assessments in the product page cornerstone SEO assessor", fu
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
 			"singleH1",
+			"images",
 		] );
 	} );
 
@@ -63,9 +63,9 @@ describe( "running assessments in the product page cornerstone SEO assessor", fu
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
+			"images",
 		] );
 	} );
 
@@ -91,9 +91,9 @@ describe( "running assessments in the product page cornerstone SEO assessor", fu
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
+			"images",
 		] );
 	} );
 
@@ -108,9 +108,9 @@ describe( "running assessments in the product page cornerstone SEO assessor", fu
 			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
+			"images",
 		] );
 	} );
 
@@ -122,9 +122,9 @@ describe( "running assessments in the product page cornerstone SEO assessor", fu
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
+			"images",
 		] );
 	} );
 
@@ -137,10 +137,10 @@ describe( "running assessments in the product page cornerstone SEO assessor", fu
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
 			"urlKeyword",
+			"images",
 		] );
 	} );
 
@@ -167,9 +167,9 @@ describe( "running assessments in the product page cornerstone SEO assessor", fu
 			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
+			"images",
 		] );
 	} );
 
@@ -195,9 +195,9 @@ describe( "running assessments in the product page cornerstone SEO assessor", fu
 			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
+			"images",
 		] );
 	} );
 } );

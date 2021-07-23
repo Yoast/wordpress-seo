@@ -16,7 +16,7 @@ describe( "A cornerstone product page content assessor", function() {
 			};
 
 			const actual = contentAssessor.getApplicableAssessments().length;
-			const expected = 8;
+			const expected = 6;
 			expect( actual ).toBe( expected );
 		} );
 

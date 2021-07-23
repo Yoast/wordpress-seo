@@ -22,7 +22,7 @@ describe( "A product page content assessor", function() {
 				"textSentenceLength",
 				"textTransitionWords",
 				"passiveVoice",
-				"textPresence"
+				"textPresence",
 			];
 			expect( actual ).toEqual( expected );
 		} );
@@ -40,7 +40,7 @@ describe( "A product page content assessor", function() {
 				"subheadingsTooLong",
 				"textParagraphTooLong",
 				"textSentenceLength",
-				"textPresence"
+				"textPresence",
 			];
 			expect( actual ).toEqual( expected );
 		} );

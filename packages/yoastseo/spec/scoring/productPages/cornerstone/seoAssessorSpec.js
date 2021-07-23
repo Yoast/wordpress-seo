@@ -34,9 +34,9 @@ describe( "running assessments in the product page SEO assessor", function() {
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
+			"images",
 		] );
 	} );
 
@@ -48,10 +48,10 @@ describe( "running assessments in the product page SEO assessor", function() {
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
 			"singleH1",
+			"images",
 		] );
 	} );
 
@@ -64,9 +64,9 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
+			"images",
 		] );
 	} );
 
@@ -94,9 +94,9 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
+			"images",
 		] );
 	} );
 
@@ -108,9 +108,9 @@ describe( "running assessments in the product page SEO assessor", function() {
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
+			"images",
 		] );
 	} );
 
@@ -123,10 +123,10 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
 			"urlKeyword",
+			"images",
 		] );
 	} );
 
@@ -153,9 +153,9 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
+			"images",
 		] );
 	} );
 
@@ -181,9 +181,9 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
-			"textImages",
 			"textLength",
 			"titleWidth",
+			"images",
 		] );
 	} );
 
@@ -198,14 +198,12 @@ describe( "running assessments in the product page SEO assessor", function() {
 			expect( assessment._config.scores.tooShort ).toBe( 3 );
 		} );
 
-		test( "TextImagesAssessment", () => {
-			const assessment = assessor.getAssessment( "textImages" );
+		test( "ImageKeyphrase", () => {
+			const assessment = assessor.getAssessment( "imageKeyphrase" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.noImages ).toBe( 3 );
-			expect( assessment._config.scores.withAltNonKeyword ).toBe( 3 );
 			expect( assessment._config.scores.withAlt ).toBe( 3 );
 			expect( assessment._config.scores.noAlt ).toBe( 3 );
 		} );
