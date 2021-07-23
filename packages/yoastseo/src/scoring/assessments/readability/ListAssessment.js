@@ -28,7 +28,7 @@ export default class ListAssessment extends Assessment {
 			},
 		};
 
-		this.identifier = "lists";
+		this.identifier = "listsPresence";
 	}
 
 	/**

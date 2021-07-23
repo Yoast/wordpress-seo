@@ -8,7 +8,7 @@ const i18n = Factory.buildJed();
 
 describe( "A product page content assessor", function() {
 	describe( "Checks the applicable assessments", function() {
-		it( "Should have 6 available assessments for a fully supported language", function() {
+		it( "Should have 7 available assessments for a fully supported language", function() {
 			const paper = new Paper( "test", { locale: "en_US" } );
 			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
 
@@ -23,11 +23,12 @@ describe( "A product page content assessor", function() {
 				"textTransitionWords",
 				"passiveVoice",
 				"textPresence",
+				"listsPresence",
 			];
 			expect( actual ).toEqual( expected );
 		} );
 
-		it( "Should have 4 available assessments for a basic supported language", function() {
+		it( "Should have 5 available assessments for a basic supported language", function() {
 			const paper = new Paper( "test", { locale: "xx_XX" } );
 			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
 
@@ -41,6 +42,7 @@ describe( "A product page content assessor", function() {
 				"textParagraphTooLong",
 				"textSentenceLength",
 				"textPresence",
+				"listsPresence",
 			];
 			expect( actual ).toEqual( expected );
 		} );

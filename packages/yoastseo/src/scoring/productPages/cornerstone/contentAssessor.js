@@ -6,6 +6,7 @@ import SubheadingDistributionTooLong from "../../assessments/readability/subhead
 import transitionWords from "../../assessments/readability/transitionWordsAssessment.js";
 import passiveVoice from "../../assessments/readability/passiveVoiceAssessment.js";
 import textPresence from "../../assessments/readability/textPresenceAssessment.js";
+import ListsPresence from "../../assessments/readability/ListAssessment.js";
 
 /**
  * Creates the Assessor
@@ -33,6 +34,7 @@ const ProductCornerstoneContentAssessor = function( i18n, options = {} ) {
 		transitionWords,
 		passiveVoice,
 		textPresence,
+		new ListsPresence(),
 	];
 };
 
