@@ -491,7 +491,7 @@ describe( "A test for getting the right config", function() {
 			farTooMany: 30,
 		};
 		const mockPaper = new Paper( "" );
-		expect( new SentenceLengthInTextAssessment().getConfig( new DefaultResearcher( mockPaper ) ) ).toEqual( defaultConfig );
+		expect( new SentenceLengthInTextAssessment().getLanguageSpecificConfig( new DefaultResearcher( mockPaper ) ) ).toEqual( defaultConfig );
 	} );
 	it( "uses the default config if no language-specific config is available in cornerstone", function() {
 		const defaultConfigCornerstrone = {
@@ -500,16 +500,16 @@ describe( "A test for getting the right config", function() {
 			farTooMany: 25,
 		};
 		const mockPaper = new Paper( "" );
-		expect( new SentenceLengthInTextAssessment( true ).getConfig( new DefaultResearcher( mockPaper ) ) ).toEqual( defaultConfigCornerstrone );
+		expect( new SentenceLengthInTextAssessment( true ).getLanguageSpecificConfig( new DefaultResearcher( mockPaper ) ) ).toEqual( defaultConfigCornerstrone );
 	} );
 	it( "uses language-specific config if available", function() {
 		const mockPaper = new Paper( "" );
 		const researcher = new ItalianResearcher( mockPaper );
-		expect( new SentenceLengthInTextAssessment().getConfig( researcher ) ).toEqual( italianConfig );
+		expect( new SentenceLengthInTextAssessment().getLanguageSpecificConfig( researcher ) ).toEqual( italianConfig );
 	} );
 	it( "uses language-specific cornerstone config if available", function() {
 		const mockPaper = new Paper( "" );
-		expect( new SentenceLengthInTextAssessment( true ).getConfig( new PolishResearcher( mockPaper ) ) ).toEqual( polishConfig.cornerstoneConfig );
+		expect( new SentenceLengthInTextAssessment( true ).getLanguageSpecificConfig( new PolishResearcher( mockPaper ) ) ).toEqual( polishConfig.cornerstoneConfig );
 	} );
 	it( "uses a combination of language-specific and default config in cornerstone if there is regular but not cornerstone config" +
 		" available", function() {
@@ -519,7 +519,7 @@ describe( "A test for getting the right config", function() {
 			farTooMany: 25,
 		};
 		const mockPaper = new Paper( "" );
-		expect( new SentenceLengthInTextAssessment( true ).getConfig( new ItalianResearcher( mockPaper ) ) ).toEqual( expectedConfig );
+		expect( new SentenceLengthInTextAssessment( true ).getLanguageSpecificConfig( new ItalianResearcher( mockPaper ) ) ).toEqual( expectedConfig );
 	} );
 } );
 
