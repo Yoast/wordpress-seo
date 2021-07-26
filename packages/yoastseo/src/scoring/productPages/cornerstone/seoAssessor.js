@@ -45,9 +45,9 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 		new SubheadingsKeyword(),
 		new TextCompetingLinksAssessment(),
 		new TextLength( {
-			recommendedMinimum: 900,
-			slightlyBelowMinimum: 400,
-			belowMinimum: 300,
+			recommendedMinimum: 400,
+			slightlyBelowMinimum: 300,
+			belowMinimum: 200,
 
 			scores: {
 				belowMinimum: -20,
