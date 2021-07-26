@@ -1,4 +1,5 @@
 import FleschReadingEaseAssessment from "./readability/fleschReadingEaseAssessment";
+import ListAssessment from "./readability/ListAssessment";
 import ParagraphTooLongAssessment from "./readability/paragraphTooLongAssessment";
 import PassiveVoiceAssessment from "./readability/passiveVoiceAssessment";
 import SentenceBeginningsAssessment from "./readability/sentenceBeginningsAssessment";
@@ -29,6 +30,7 @@ import ImageCountAssessment from "./seo/ImageCountAssessment";
 
 const readability = {
 	FleschReadingEaseAssessment,
+	ListAssessment,
 	ParagraphTooLongAssessment,
 	PassiveVoiceAssessment,
 	SentenceBeginningsAssessment,
