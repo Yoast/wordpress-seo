@@ -230,7 +230,7 @@ describe( "A word count assessment", function() {
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: far below minimum", function() {
-		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 75 ) );
+		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 190 ) );
 		const productAssessmentCornerstone = new TextLengthAssessment( cornerstoneProductPageConfig );
 
 		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 75 ), i18n );
