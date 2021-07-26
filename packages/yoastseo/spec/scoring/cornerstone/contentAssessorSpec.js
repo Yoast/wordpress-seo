@@ -206,7 +206,7 @@ describe( "A content assessor", function() {
 		} );
 	} );
 
-	describe( "calculateOverallScore for non English with a text containing more than 200 words", function() {
+	describe( "calculateOverallScore for non English with an empty paper", function() {
 		let points, results, contentAssessor;
 
 		const paper = new Paper( "", { locale: "jv_ID" } );
