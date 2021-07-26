@@ -50,11 +50,6 @@ const expectedResults = {
 		score: 2,
 		resultText: "<a href='https://yoa.st/34l' target='_blank'>Link keyphrase</a>: You're linking to another page with the words you want this page to rank for. <a href='https://yoa.st/34m' target='_blank'>Don't do that</a>!",
 	},
-	textImages: {
-		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: No images appear on this page. <a href='https://yoa.st/33d' target='_blank'>Add some</a>!",
-	},
 	textLength: {
 		isApplicable: true,
 		score: 9,
@@ -134,6 +129,16 @@ const expectedResults = {
 		isApplicable: true,
 		score: 3,
 		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: The text contains 3 consecutive sentences starting with the same word. <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!",
+	},
+	imageKeyphrase: {
+		// This is not applicable to this paper since the text doesn't have any image in it.
+		isApplicable: false,
+	},
+	imageCount: {
+		isApplicable: true,
+		score: 3,
+		resultText: "<a href='https://yoa.st/33c' target='_blank'>Images</a>: No images appear on this page. " +
+			"<a href='https://yoa.st/33d' target='_blank'>Add some</a>!",
 	},
 };
 

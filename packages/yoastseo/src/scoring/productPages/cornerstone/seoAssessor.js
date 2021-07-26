@@ -11,7 +11,8 @@ import Assessor from "../../assessor";
 import SEOAssessor from "../seoAssessor";
 import MetaDescriptionLength from "../../assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeyword from "../../assessments/seo/SubHeadingsKeywordAssessment";
-import TextImages from "../../assessments/seo/TextImagesAssessment";
+import ImageKeyphrase from "../../assessments/seo/KeyphraseInImageTextAssessment";
+import ImageCount from "../../assessments/seo/ImageCountAssessment";
 import TextLength from "../../assessments/seo/TextLengthAssessment";
 import TitleWidth from "../../assessments/seo/PageTitleWidthAssessment";
 import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyphraseAssessment";
@@ -43,14 +44,6 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 		} ),
 		new SubheadingsKeyword(),
 		new TextCompetingLinksAssessment(),
-		new TextImages( {
-			scores: {
-				noImages: 3,
-				withAltNonKeyword: 3,
-				withAlt: 3,
-				noAlt: 3,
-			},
-		} ),
 		new TextLength( {
 			recommendedMinimum: 900,
 			slightlyBelowMinimum: 400,
@@ -64,14 +57,11 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 			cornerstoneContent: true,
 		} ),
 		new TitleKeywordAssessment(),
-		new TitleWidth(
-			{
-				scores: {
-					widthTooShort: 3,
-					widthTooLong: 3,
-				},
-			}
-		),
+		new TitleWidth( {
+			scores: {
+				widthTooShort: 9,
+			},
+		}, true ),
 		new UrlKeywordAssessment(
 			{
 				scores: {
@@ -81,6 +71,19 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 		),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
+		new ImageCount( {
+			scores: {
+				okay: 6,
+			},
+			recommendedCount: 4,
+		}, true ),
+		new ImageKeyphrase( {
+			scores: {
+				withAltNonKeyword: 3,
+				withAlt: 3,
+				noAlt: 3,
+			},
+		} ),
 	];
 };
 

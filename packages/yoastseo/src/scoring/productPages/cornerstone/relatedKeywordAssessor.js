@@ -5,7 +5,8 @@ import IntroductionKeyword from "../../assessments/seo/IntroductionKeywordAssess
 import KeyphraseLength from "../../assessments/seo/KeyphraseLengthAssessment.js";
 import KeywordDensity from "../../assessments/seo/KeywordDensityAssessment.js";
 import MetaDescriptionKeyword from "../../assessments/seo/MetaDescriptionKeywordAssessment.js";
-import TextImages from "../../assessments/seo/TextImagesAssessment.js";
+import ImageKeyphrase from "../../assessments/seo/KeyphraseInImageTextAssessment";
+import ImageCount from "../../assessments/seo/ImageCountAssessment";
 import TextCompetingLinks from "../../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyphraseAssessment";
 
@@ -27,15 +28,20 @@ const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
 		new KeywordDensity(),
 		new MetaDescriptionKeyword(),
 		new TextCompetingLinks(),
-		new TextImages( {
+		new FunctionWordsInKeyphrase(),
+		new ImageCount( {
 			scores: {
-				noImages: 3,
+				okay: 6,
+			},
+			recommendedCount: 4,
+		}, true ),
+		new ImageKeyphrase( {
+			scores: {
 				withAltNonKeyword: 3,
 				withAlt: 3,
 				noAlt: 3,
 			},
 		} ),
-		new FunctionWordsInKeyphrase(),
 	];
 };
 

@@ -79,5 +79,6 @@
   },
   "yoast": {
     "pluginVersion": "16.8-RC1"
-  }
+  },
+  "version": "0.0.0"
 }

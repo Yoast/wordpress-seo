@@ -12,7 +12,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "he_IL",
 	permalink: "https://he.wikipedia.org/wiki/%D7%A0%D7%90%D7%A4%D7%95%D7%9C%D7%99",
-	url: "wiki/%D7%A0%D7%90%D7%A4%D7%95%D7%9C%D7%99",
+	url: "%D7%A0%D7%90%D7%A4%D7%95%D7%9C%D7%99",
 } );
 
 const expectedResults = {
@@ -51,12 +51,6 @@ const expectedResults = {
 		isApplicable: true,
 		score: 0,
 		resultText: "",
-	},
-	textImages: {
-		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: " +
-			"No images appear on this page. <a href='https://yoa.st/33d' target='_blank'>Add some</a>!",
 	},
 	textLength: {
 		isApplicable: true,
@@ -146,6 +140,16 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>:" +
 			" There is enough variety in your sentences. That's great!",
+	},
+	imageKeyphrase: {
+		// This is not applicable to this paper since the text doesn't have any image in it.
+		isApplicable: false,
+	},
+	imageCount: {
+		isApplicable: true,
+		score: 3,
+		resultText: "<a href='https://yoa.st/33c' target='_blank'>Images</a>: No images appear on this page. " +
+			"<a href='https://yoa.st/33d' target='_blank'>Add some</a>!",
 	},
 };
 

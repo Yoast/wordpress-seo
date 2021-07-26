@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Presenters\Admin\Indexing_Error_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter;
 use Yoast\WP\SEO\Routes\Indexing_Route;
 
@@ -125,9 +126,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 			'disabled'                    => ! $this->indexable_helper->should_index_indexables(),
 			'amount'                      => $this->indexing_helper->get_filtered_unindexed_count(),
 			'firstTime'                   => ( $this->indexing_helper->is_initial_indexing() === true ),
-			'isPremium'                   => $this->product_helper->is_premium(),
-			'hasValidPremiumSubscription' => $this->has_valid_premium_subscription(),
-			'subscriptionActivationLink'  => \esc_url( $this->short_link_helper->get( 'https://yoa.st/3wv' ) ),
+			'errorMessage'                => $this->render_indexing_error(),
 			'restApi'                     => [
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => $this->get_endpoints(),
@@ -143,6 +142,21 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		$data = \apply_filters( 'wpseo_indexing_data', $data );
 
 		$this->asset_manager->localize_script( 'indexation', 'yoastIndexingData', $data );
+	}
+
+	/**
+	 * The error to show if optimization failed.
+	 *
+	 * @return string The error to show if optimization failed.
+	 */
+	protected function render_indexing_error() {
+		$presenter = new Indexing_Error_Presenter(
+			$this->short_link_helper,
+			$this->product_helper,
+			$this->addon_manager
+		);
+
+		return $presenter->present();
 	}
 
 	/**

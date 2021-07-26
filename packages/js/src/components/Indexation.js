@@ -1,10 +1,13 @@
 /* global yoastIndexingData */
 import { Component, Fragment } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
-import { ProgressBar, NewButton, Alert } from "@yoast/components";
+import { __ } from "@wordpress/i18n";
+import { Alert, NewButton, ProgressBar } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
-import { removeSearchParam, addHistoryState } from "../helpers/urlHelpers";
+import { addHistoryState, removeSearchParam } from "../helpers/urlHelpers";
+import IndexingError from "./IndexingError";
+import RequestError from "../errors/RequestError";
+import ParseError from "../errors/ParseError";
 
 const STATE = {
 	/**
@@ -42,6 +45,7 @@ export class Indexation extends Component {
 		this.state = {
 			state: STATE.IDLE,
 			processed: 0,
+			error: null,
 			amount: parseInt( this.settings.amount, 10 ),
 			firstTime: (
 				this.settings.firstTime === "1"
@@ -68,11 +72,23 @@ export class Indexation extends Component {
 			},
 		} );
 
-		const data = await response.json();
+		const responseText = await response.text();
+
+		let data;
+		try {
+			/*
+			 * Sometimes, in case of a fatal error, or if WP_DEBUG is on and a DB query fails,
+			 * non-JSON is dumped into the HTTP response body, so account for that here.
+			 */
+			data = JSON.parse( responseText );
+		} catch ( error ) {
+			throw new ParseError( "Error parsing the response to JSON.", responseText );
+		}
 
 		// Throw an error when the response's status code is not in the 200-299 range.
 		if ( ! response.ok ) {
-			throw new Error( data.message );
+			const stackTrace = data.data ? data.data.stackTrace : "";
+			throw new RequestError( data.message, url, "POST", response.status, stackTrace );
 		}
 
 		return data;
@@ -132,6 +148,7 @@ export class Indexation extends Component {
 			} catch ( error ) {
 				this.setState( {
 					state: STATE.ERRORED,
+					error: error,
 					firstTime: false,
 				} );
 			}
@@ -312,46 +329,10 @@ export class Indexation extends Component {
 	 * @returns {JSX.Element} The error alert.
 	 */
 	renderErrorAlert() {
-		const message = { __html: this.generateIndexingError() };
-		return <Alert type={ "error" }>
-			<span dangerouslySetInnerHTML={ message } />
-		</Alert>;
-	}
-
-	/**
-	 * Generates an error message to show when indexing failed.
-	 *
-	 * The error message varies based on whether WordPress SEO Premium
-	 * has a valid, activated subscription or not.
-	 *
-	 * @returns {string} The indexing error as an HTML string.
-	 */
-	generateIndexingError() {
-		let message = __(
-			"Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
-			"Please click the button again to re-start the process.",
-			"wordpress-seo"
-		);
-
-		if ( yoastIndexingData.isPremium === "1" ) {
-			if ( yoastIndexingData.hasValidPremiumSubscription === "1" ) {
-				message += __( " If the problem persists, please contact support.", "wordpress-seo" );
-			} else {
-				message = sprintf(
-					__(
-						"Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
-						"Please make sure to activate your subscription in MyYoast by completing %1$sthese steps%2$s.",
-						"wordpress-seo"
-					),
-					// Translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page,
-					// %2$s expands to a closing anchor tag.
-					"<a href='" + yoastIndexingData.subscriptionActivationLink + "'>",
-					"</a>"
-				);
-			}
-		}
-
-		return message;
+		return <IndexingError
+			message={ yoastIndexingData.errorMessage }
+			error={ this.state.error }
+		/>;
 	}
 
 	/**

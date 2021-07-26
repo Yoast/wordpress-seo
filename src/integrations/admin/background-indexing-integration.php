@@ -136,8 +136,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_shutdown_indexing() {
-		$total = $this->indexing_helper->get_unindexed_count();
-		if ( $total > 0 && $total < $this->get_shutdown_limit() ) {
+		if ( $this->should_index_on_shutdown( $this->get_shutdown_limit() ) ) {
 			\register_shutdown_function( [ $this, 'index' ] );
 		}
 	}
@@ -169,5 +168,18 @@ class Background_Indexing_Integration implements Integration_Interface {
 		 * @api int The maximum number of objects indexed.
 		 */
 		return \apply_filters( 'wpseo_shutdown_indexation_limit', 25 );
+	}
+
+	/**
+	 * Determine whether background indexation should be performed.
+	 *
+	 * @param int $shutdown_limit The shutdown limit used to determine whether indexation should be run.
+	 *
+	 * @return bool Should background indexation be performed.
+	 */
+	public function should_index_on_shutdown( $shutdown_limit ) {
+		$total = $this->indexing_helper->get_limited_filtered_unindexed_count( $shutdown_limit );
+
+		return ( $total > 0 && $total < $shutdown_limit );
 	}
 }

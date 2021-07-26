@@ -42,7 +42,7 @@ describe( "running assessments in the related keyword product assessor", functio
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
 			"keyphraseLength",
-			"textImages",
+			"images",
 		] );
 	} );
 
@@ -54,7 +54,7 @@ describe( "running assessments in the related keyword product assessor", functio
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionKeyword",
-			"textImages",
+			"images",
 		] );
 	} );
 
@@ -73,7 +73,7 @@ describe( "running assessments in the related keyword product assessor", functio
 			"introductionKeyword",
 			"keyphraseLength",
 			"keywordDensity",
-			"textImages",
+			"images",
 		] );
 	} );
 } );

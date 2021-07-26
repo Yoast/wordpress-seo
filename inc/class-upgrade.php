@@ -73,6 +73,7 @@ class WPSEO_Upgrade {
 			'15.9.1-RC0' => 'upgrade_1591',
 			'16.2-RC0'   => 'upgrade_162',
 			'16.5-RC0'   => 'upgrade_165',
+			'16.9-RC0'   => 'upgrade_169',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -827,6 +828,29 @@ class WPSEO_Upgrade {
 
 		// Run after the WPSEO_Options::enrich_defaults method which has priority 99.
 		add_action( 'init', [ $this, 'reset_og_settings_to_default_values' ], 100 );
+	}
+
+	/**
+	 * Performs the 16.9 upgrade. shop_order indexables stopped being added in the db since 16.7, so we have to clean out older entries from the indexable table.
+	 *
+	 * @return void
+	 */
+	private function upgrade_169() {
+		$cleanup_integration = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Cleanup_Integration::class );
+		$number_of_deletions = $cleanup_integration->clean_indexables_with_object_type( 'post', 'shop_order', 1000 );
+
+		if ( ! empty( $number_of_deletions ) ) {
+			$indexables_to_clean = [ 'post', 'shop_order' ];
+
+			if ( ! wp_next_scheduled( 'wpseo_cleanup_indexables', $indexables_to_clean ) ) {
+				wp_schedule_event(
+					time(),
+					'hourly',
+					'wpseo_cleanup_indexables',
+					$indexables_to_clean
+				);
+			}
+		}
 	}
 
 	/**

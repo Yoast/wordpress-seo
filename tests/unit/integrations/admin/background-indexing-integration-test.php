@@ -186,7 +186,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 */
 	public function test_register_shutdown_indexing() {
 		$this->indexing_helper
-			->expects( 'get_unindexed_count' )
+			->expects( 'get_limited_filtered_unindexed_count' )
 			->once()
 			->andReturn( 10 );
 
