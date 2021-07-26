@@ -268,9 +268,7 @@ class SnippetEditorFields extends React.Component {
 			recommendedReplacementVariables,
 			titleLengthProgress,
 			descriptionLengthProgress,
-			onFocus,
 			onBlur,
-			onChange,
 			descriptionEditorFieldPlaceholder,
 			data: {
 				title,
