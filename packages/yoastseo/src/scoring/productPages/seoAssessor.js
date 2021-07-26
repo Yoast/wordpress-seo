@@ -40,7 +40,11 @@ const ProductSEOAssessor = function( i18n, researcher, options ) {
 		new TextCompetingLinksAssessment(),
 		new TextLength(),
 		new TitleKeywordAssessment(),
-		new TitleWidth(),
+		new TitleWidth( {
+			scores: {
+				widthTooShort: 9,
+			},
+		}, true ),
 		new UrlKeywordAssessment(),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
