@@ -8,7 +8,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 /**
  * Represents the assessment that checks if there are keyphrase or synonyms in the alt attributes of images.
  */
-export default class TextImagesAssessment extends Assessment {
+export default class KeyphraseInImagesAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -32,8 +32,8 @@ export default class TextImagesAssessment extends Assessment {
 				withAlt: 6,
 				noAlt: 6,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33c" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33d" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/4f7" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4f6" ),
 		};
 
 		this.identifier = "imageKeyphrase";

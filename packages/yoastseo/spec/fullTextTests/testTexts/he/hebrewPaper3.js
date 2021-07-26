@@ -138,13 +138,13 @@ const expectedResults = {
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes " +
-			"with at least half of the words from your keyphrase. <a href='https://yoa.st/33d' target='_blank'>Fix that</a>!",
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes with at least" +
+			" half of the words from your keyphrase. <a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!",
 	},
 	imageCount: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Images</a>: Good job!",
+		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!",
 	},
 };
 
