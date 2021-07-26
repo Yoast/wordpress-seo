@@ -158,7 +158,8 @@ const transitionWordsMarker = function( paper, researcher ) {
  * @returns {boolean} Returns true if the language is available, the paper is not empty and if the text is longer than 200 words.
  */
 const isApplicable = function( paper, researcher ) {
-	return paper.hasText() && paper.getText().length > 199 && researcher.hasResearch( "findTransitionWords" );
+	const wordCount = researcher.getResearch( "wordCountInText" );
+	return paper.hasText() && wordCount >= 200 && researcher.hasResearch( "findTransitionWords" );
 };
 
 export default {
