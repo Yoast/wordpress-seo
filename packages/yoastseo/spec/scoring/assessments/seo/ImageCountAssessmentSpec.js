@@ -5,7 +5,7 @@ const i18n = Factory.buildJed();
 
 const imageCountAssessment = new ImageCountAssessment();
 
-describe( "An image count assessment", function() {
+describe( "An image count assessment, including videos in product pages", function() {
 	it( "assesses no images", function() {
 		const mockPaper = new Paper( "sample" );
 
@@ -85,6 +85,94 @@ describe( "An image count assessment", function() {
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Images</a>: Good job!" );
+	} );
+
+	it( "assesses a text with one video with an additional configuration for orange bullet (countVideos is true)", function() {
+		const mockPaper = new Paper( "These are just five words <video width=\"320\" height=\"240\" controls>\n" +
+			"  <source src=\"movie.mp4\" type=\"video/mp4\">\n" +
+			"  <source src=\"movie.ogg\" type=\"video/ogg\">\n" +
+			"Your browser does not support the video tag.\n" +
+			"</video> " );
+
+		const productPagesConfig = {
+			scores: {
+				okay: 6,
+			},
+			recommendedCount: 4,
+		};
+		const assessment = new ImageCountAssessment( productPagesConfig, true ).getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 0,
+			videoCount: 1,
+		}, true ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Images and videos</a>: " +
+			"Only 1 image or video appears on this page. We recommend at least 4. <a href='https://yoa.st/33d' target='_blank'>" +
+			"Add more relevant images or videos</a>!" );
+	} );
+
+	it( "assesses a text with one image and one video with an additional configuration for orange bullet (countVideos is true)", function() {
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' />. " +
+			"But you need more than five words to describe the beauty of a cat <video width=\"320\" height=\"240\" controls>\n" +
+			"  <source src=\"movie.mp4\" type=\"video/mp4\">\n" +
+			"  <source src=\"movie.ogg\" type=\"video/ogg\">\n" +
+			"Your browser does not support the video tag.\n" +
+			"</video>" );
+
+		const productPagesConfig = {
+			scores: {
+				okay: 6,
+			},
+			recommendedCount: 4,
+		};
+		const assessment = new ImageCountAssessment( productPagesConfig, true ).getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 1,
+			videoCount: 1,
+		}, true ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Images and videos</a>: " +
+			"Only 2 images or videos appear on this page. We recommend at least 4. <a href='https://yoa.st/33d' target='_blank'>" +
+			"Add more relevant images or videos</a>!" );
+	} );
+
+	it( "assesses a text with 5 images and 1 video with an additional configuration for orange bullet (countVideos is true)", function() {
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' />. " +
+			"But you need more than five words to describe the beauty of a cat <img src='image.jpg' />." +
+			"These are just five words <img src='image.jpg' />. " +
+			"But you need more than five words to describe the beauty of a cat <img src='image.jpg' />." +
+			"These are just five words <img src='image.jpg' />." +
+			"<video width=\"320\" height=\"240\" controls>\n" +
+			"  <source src=\"movie.mp4\" type=\"video/mp4\">\n" +
+			"  <source src=\"movie.ogg\" type=\"video/ogg\">\n" +
+			"Your browser does not support the video tag.\n" +
+			"</video> " );
+
+		const productPagesConfig = {
+			scores: {
+				okay: 6,
+			},
+			recommendedCount: 4,
+		};
+		const assessment = new ImageCountAssessment( productPagesConfig, true ).getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 5,
+			videoCount: 1,
+		}, true ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Images and videos</a>: Good job!" );
+	} );
+	it( "assesses text without images or videos (countVideos is on)", function() {
+		const mockPaper = new Paper( "sample" );
+
+		const assessment = new ImageCountAssessment( {}, true ).getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 0,
+			videoCount: 0,
+		}, true ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33c' target='_blank'>Images and videos</a>: " +
+			"No images or videos appear on this page. <a href='https://yoa.st/33d' target='_blank'>Add some</a>!" );
 	} );
 } );
 
