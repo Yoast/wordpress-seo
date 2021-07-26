@@ -240,7 +240,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.widthTooShort ).toBe( 3 );
+			expect( assessment._config.scores.widthTooShort ).toBe( 9 );
 			expect( assessment._config.scores.widthTooLong ).toBe( 3 );
 		} );
 

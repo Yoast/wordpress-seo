@@ -57,14 +57,11 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 			cornerstoneContent: true,
 		} ),
 		new TitleKeywordAssessment(),
-		new TitleWidth(
-			{
-				scores: {
-					widthTooShort: 3,
-					widthTooLong: 3,
-				},
-			}
-		),
+		new TitleWidth( {
+			scores: {
+				widthTooShort: 9,
+			},
+		}, true ),
 		new UrlKeywordAssessment(
 			{
 				scores: {

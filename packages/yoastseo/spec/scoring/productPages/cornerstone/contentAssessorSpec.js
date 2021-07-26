@@ -9,25 +9,25 @@ const i18n = Factory.buildJed();
 describe( "A cornerstone product page content assessor", function() {
 	describe( "Checks the applicable assessments", function() {
 		const paper = new Paper( "test" );
-		it( "Should have 8 available assessments for a fully supported language", function() {
+		it( "Should have 7 available assessments for a fully supported language", function() {
 			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
 
 			const actual = contentAssessor.getApplicableAssessments().length;
-			const expected = 6;
+			const expected = 7;
 			expect( actual ).toBe( expected );
 		} );
 
-		it( "Should have 4 available assessments for a basic supported language", function() {
+		it( "Should have 5 available assessments for a basic supported language", function() {
 			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
 
 			const actual = contentAssessor.getApplicableAssessments().length;
-			const expected = 4;
+			const expected = 5;
 			expect( actual ).toBe( expected );
 		} );
 	} );
