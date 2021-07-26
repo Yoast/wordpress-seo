@@ -230,6 +230,8 @@ describe( "running assessments in the product page SEO assessor", function() {
 			expect( assessment._config.scores ).toBeDefined();
 			expect( assessment._config.scores.belowMinimum ).toBe( -20 );
 			expect( assessment._config.scores.farBelowMinimum ).toBe( -20 );
+			expect( assessment._config.cornerstoneContent ).toBeDefined();
+			expect( assessment._config.cornerstoneContent ).toBeTruthy();
 		} );
 
 		test( "PageTitleWidthAssesment", () => {
