@@ -155,10 +155,10 @@ const transitionWordsMarker = function( paper, researcher ) {
  * @param {Paper}       paper       The paper to check.
  * @param {Researcher}  researcher  The researcher object.
  *
- * @returns {boolean} Returns true if the language is available and the paper is not empty.
+ * @returns {boolean} Returns true if the language is available, the paper is not empty and if the text is longer than 200 words.
  */
 const isApplicable = function( paper, researcher ) {
-	return paper.hasText() && researcher.hasResearch( "findTransitionWords" );
+	return paper.hasText() && paper.getText().length > 199 && researcher.hasResearch( "findTransitionWords" );
 };
 
 export default {
