@@ -38,7 +38,12 @@ const ProductSEOAssessor = function( i18n, researcher, options ) {
 		new MetaDescriptionLength(),
 		new SubheadingsKeyword(),
 		new TextCompetingLinksAssessment(),
-		new TextLength(),
+		new TextLength( {
+			recommendedMinimum: 200,
+			slightlyBelowMinimum: 150,
+			belowMinimum: 100,
+			veryFarBelowMinimum: 50,
+		} ),
 		new TitleKeywordAssessment(),
 		new TitleWidth( {
 			scores: {
