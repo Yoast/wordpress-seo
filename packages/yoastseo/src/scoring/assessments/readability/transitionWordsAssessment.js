@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from "@yoast/feature-flag";
 import { map } from "lodash-es";
 
 import formatNumber from "../../../helpers/formatNumber";
@@ -118,11 +117,6 @@ const calculateTransitionWordResult = function( transitionWordSentences, i18n ) 
  * @returns {object} The Assessment result.
  */
 const transitionWordsAssessment = function( paper, researcher, i18n ) {
-	// Check if the Norwegian readability feature is enabled and return the default result if it isn't.
-	if ( researcher.getConfig( "language" ) === "nb" && ! isFeatureEnabled( "norwegian-readability" ) ) {
-		return new AssessmentResult();
-	}
-
 	const transitionWordSentences = researcher.getResearch( "findTransitionWords" );
 	const transitionWordResult = calculateTransitionWordResult( transitionWordSentences, i18n );
 	const assessmentResult = new AssessmentResult();

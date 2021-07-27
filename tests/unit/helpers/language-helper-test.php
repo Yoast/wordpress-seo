@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
-use Mockery;
-use Yoast\WP\SEO\Conditionals\Slovak_Support_Conditional;
 use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -24,30 +22,11 @@ class Language_Helper_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * The Slovak support conditional.
-	 *
-	 * @var Mockery\MockInterface|Slovak_Support_Conditional
-	 */
-	protected $slovak_conditional;
-
-	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
 		parent::set_up();
-
-		$this->slovak_conditional = Mockery::mock( Slovak_Support_Conditional::class );
-
-		$this->instance = new Language_Helper( $this->slovak_conditional );
-	}
-
-	/**
-	 * Tests the constructor by checking the set attributes.
-	 *
-	 * @covers ::__construct
-	 */
-	public function test_constructor() {
-		static::assertInstanceOf( Slovak_Support_Conditional::class, self::getPropertyValue( $this, 'slovak_conditional' ) );
+		$this->instance = new Language_Helper();
 	}
 
 	/**
@@ -60,9 +39,6 @@ class Language_Helper_Test extends TestCase {
 	 * @param string $language The language to test.
 	 */
 	public function test_is_word_form_recognition_active( $language ) {
-		$this->slovak_conditional
-			->expects( 'is_met' )
-			->andReturnFalse();
 
 		$this->assertTrue( $this->instance->is_word_form_recognition_active( $language ) );
 	}
@@ -73,7 +49,7 @@ class Language_Helper_Test extends TestCase {
 	 * @return string[][] The dataset.
 	 */
 	public function supported_language_provider() {
-		return [ [ 'de' ], [ 'en' ], [ 'es' ], [ 'fr' ], [ 'it' ], [ 'nl' ], [ 'ru' ], [ 'id' ], [ 'pt' ], [ 'pl' ], [ 'ar' ], [ 'sv' ], [ 'he' ], [ 'hu' ], [ 'nb' ], [ 'tr' ], [ 'cs' ], [ 'sk' ] ];
+		return [ [ 'de' ], [ 'en' ], [ 'es' ], [ 'fr' ], [ 'it' ], [ 'nl' ], [ 'ru' ], [ 'id' ], [ 'pt' ], [ 'pl' ], [ 'ar' ], [ 'sv' ], [ 'he' ], [ 'hu' ], [ 'nb' ], [ 'tr' ], [ 'cs' ] ];
 	}
 
 	/**
@@ -86,9 +62,6 @@ class Language_Helper_Test extends TestCase {
 	 * @param string $language The language to test.
 	 */
 	public function test_has_function_word_support( $language ) {
-		$this->slovak_conditional
-			->expects( 'is_met' )
-			->andReturnFalse();
 
 		$this->assertTrue( $this->instance->has_function_word_support( $language ) );
 	}
@@ -117,7 +90,6 @@ class Language_Helper_Test extends TestCase {
 			[ 'nb' ],
 			[ 'tr' ],
 			[ 'cs' ],
-			[ 'sk' ],
 		];
 	}
 }

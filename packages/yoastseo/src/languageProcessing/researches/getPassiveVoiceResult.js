@@ -41,7 +41,7 @@ export const getMorphologicalPassives = function( paper, researcher ) {
 
 /**
  * Looks for periphrastic passive voice.
- * Supported periphrastic languages: "en", "de", "nl", "fr", "es", "it", "pt", "pl".
+ * Supported periphrastic languages: "en", "de", "nl", "fr", "es", "it", "pt", "pl", "sk"
  *
  * @param {Paper}      paper      The paper object.
  * @param {Researcher} researcher The researcher.

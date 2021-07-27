@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from "@yoast/feature-flag";
 import { filter, flatten, map, partition, sortBy } from "lodash-es";
 
 import marker from "../../../markers/addMark";
@@ -118,11 +117,6 @@ const sentenceBeginningMarker = function( paper, researcher ) {
  * @returns {object} The Assessment result
  */
 const sentenceBeginningsAssessment = function( paper, researcher, i18n ) {
-	// Check if the Norwegian readability feature is enabled and return the default result if it isn't.
-	if ( researcher.getConfig( "language" ) === "nb" && ! isFeatureEnabled( "norwegian-readability" ) ) {
-		return new AssessmentResult();
-	}
-
 	const sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
 	const groupedSentenceBeginnings = groupSentenceBeginnings( sentenceBeginnings );
 	const sentenceBeginningsResult = calculateSentenceBeginningsResult( groupedSentenceBeginnings, i18n );

@@ -1,4 +1,4 @@
-import getResearcher from "yoastseo/spec/specHelpers/getResearcher";
+import getResearcher from "../../../../packages/yoastseo/spec/specHelpers/getResearcher";
 import getLanguage from "yoastseo/src/languageProcessing/helpers/language/getLanguage";
 
 // Import researches

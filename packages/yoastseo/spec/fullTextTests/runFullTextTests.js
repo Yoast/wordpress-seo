@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { enableFeatures } from "@yoast/feature-flag";
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
@@ -38,9 +37,6 @@ import sentenceBeginningsAssessment from "../../src/scoring/assessments/readabil
 
 // Import test papers
 import testPapers from "./testTexts";
-
-// Enable Norwegian Readability feature
-enableFeatures( [ "norwegian-readability" ] );
 
 testPapers.forEach( function( testPaper ) {
 	// eslint-disable-next-line max-statements
