@@ -236,6 +236,25 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 16.9 =
+Release Date: August 10th, 2021
+
+Enhancements:
+
+* Adds shortlinks to yoast.com articles to the feedback text of the Images and Image Keyphrase assessments.
+* Improves performance of an SQL query used to find the number of unindexed posts in the indexable table.
+* Adds post link indexing and term link indexing to the `wp yoast index` WP-CLI command.
+* Splits the `Image alt attributes` assessment into two, `Images` and `ImageKeyphrase`.
+* Prevents some superfluous database queries for our indexables, preventing some unnecessary load on the database.
+* Improves the performance of large posts in the Block editor, Classic editor and Elementor.
+* Adds error details to the error message if SEO optimization fails for some unforeseen reason.
+* Cleans up indexables for WooCommerce check-out pages from the indexable table, in order to improve performance.
+
+Bugfixes:
+
+* Partially fixes a bug where queries due to the background indexation would put a lot of strain on the database.
+* Fixes a bug where the `robots` meta tag could have incorrect values if users called the `wp_robots` filter to set certain values to `false`. Props to [Roy-Orbison](https://github.com/Roy-Orbison).
+
 = 16.8 =
 Release Date: July 27th, 2021
 
@@ -255,21 +274,6 @@ Bugfixes:
 
 * Fixes a bug where paginated static frontpages would fail to output a valid breadcrumb.
 * Fixes a bug where the image selectors in the search appearance and social settings did not have a screen reader text.
-
-= 16.7 =
-Release Date: July 13th, 2021
-
-Meet Yoast SEO 16.7! This release comes with extended support for headless WordPress. Yoast SEO comes with a REST API that developers can use to access our metadata in a headless WordPress installation. In Yoast SEO 16.7, we’re making more data available and also in a different format: JSON. Read more about what’s new in Yoast SEO 16.7 in [our release post](https://yoa.st/release-16-7)!
-
-Enhancements:
-
-* Upgrades our REST API to include individual keys/values for all of our meta tags, data and schema output. Read all about it in [this in-depth explanation about our REST API](https://yoa.st/rest-api).
-
-Bugfixes:
-
-* Fixes a bug where a database entry would be added in the indexables table every time a WooCommerce order was created.
-* Fixes a bug where the SEO optimization could run indefinitely when the database contained at least 25 faulty indexables without a permalink.
-* Fixes a bug where the Advanced section and Schema tab wouldn't be visible in the metabox for Editors. Props to [jordif](https://github.com/jordif).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
