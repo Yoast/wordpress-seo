@@ -33,6 +33,17 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Fixes the stopwords list for Czech by adding the correct stopwords. Adds punctuation marks as sentence breakers.
 * Excludes Table of Contents from the analysis.
 * Filters out table block content from the `getSentenceBeginnings` research.
+* Makes `transitionWordsAssessment` not applicable when the text has less than 200 words.
+* Adds shortlinks to the feedback text of the Images and Image Keyphrase assessments.
+* Adds text length score boundaries config for product pages to the product page SEO assessors.
+* Adds custom config for `TitleWidth` assessment for product pages and adds extra feedback string in the assessment file for when short title width is not penalized with a bad score.
+* Creates a research file that checks if there are lists in the text, and an assessment file that returns a red bullet if there is no list and a green bullet if there is one.
+* Adds assessors for product pages.
+* Removes the outbound links and internal links assessments from the SEO analysis on product pages. 
+* Removes the Flesch Reading Ease assessment and the consecutive sentences assessment from the readability analysis on product pages.
+* Includes videos in the `ImageCount` analysis when the `countVideos` value is true.
+* Passes custom configuration for the images assessment for product pages
+* Splits the `TextImagesAssessment` into two, `KeyphraseInImageTextAssessment` and `ImageCountAssessment`.
 
 ## 1.89.0 January 25th, 2021
 ### Enhancements
