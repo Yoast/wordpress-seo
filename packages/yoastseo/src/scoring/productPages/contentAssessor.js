@@ -23,7 +23,12 @@ const ProductContentAssessor = function( i18n, options = {} ) {
 
 	this._assessments = [
 		new SubheadingDistributionTooLong(),
-		new ParagraphTooLong(),
+		new ParagraphTooLong( {
+			parameters: {
+				recommendedLength: 70,
+				maximumRecommendedLength: 100,
+			},
+		} ),
 		new SentenceLengthInText(),
 		transitionWords,
 		passiveVoice,
