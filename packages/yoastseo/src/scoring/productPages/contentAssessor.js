@@ -1,4 +1,3 @@
-import ParagraphTooLongAssessment from "../assessments/readability/paragraphTooLongAssessment.js";
 import Assessor from "../assessor.js";
 import ContentAssessor from "../contentAssessor";
 import ParagraphTooLong from "../assessments/readability/paragraphTooLongAssessment.js";
@@ -24,12 +23,7 @@ const ProductContentAssessor = function( i18n, options = {} ) {
 
 	this._assessments = [
 		new SubheadingDistributionTooLong(),
-		new ParagraphTooLong( {
-			parameters: {
-				recommendedLength: 70,
-				maximumRecommendedLength: 100,
-			},
-		} ),
+		new ParagraphTooLong(),
 		new SentenceLengthInText(),
 		transitionWords,
 		passiveVoice,
