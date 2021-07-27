@@ -82,7 +82,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 *
-	 * @returns {boolean} True when there is text.
+	 * @returns {boolean} True when there is text or when the text contains more than 300 words if "shouldNotAppearInShortText" is set to true.
 	 */
 	isApplicable( paper ) {
 		const textLength = getWords( paper.getText() ).length;
