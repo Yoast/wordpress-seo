@@ -114,9 +114,8 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!",
 	},
 	textTransitionWords: {
-		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 27.8% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		// This assessment is not applicable to this paper as the text contains less than 200 words.
+		isApplicable: false,
 	},
 	passiveVoice: {
 		isApplicable: true,
