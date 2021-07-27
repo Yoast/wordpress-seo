@@ -22,7 +22,7 @@ const ProductContentAssessor = function( i18n, options = {} ) {
 	this.type = "productContentAssessor";
 
 	this._assessments = [
-		new SubheadingDistributionTooLong(),
+		new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ),
 		paragraphTooLong,
 		new SentenceLengthInText(),
 		transitionWords,
