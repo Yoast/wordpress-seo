@@ -157,7 +157,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	 * @param {Researcher} researcher   The researcher used for calling research.
 	 * @param {object} i18n             The object used for translations.
 	 *
-	 * @returns {object} the Assessmentresult
+	 * @returns {object} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
 		let paragraphsLength = researcher.getResearch( "getParagraphLength" );
