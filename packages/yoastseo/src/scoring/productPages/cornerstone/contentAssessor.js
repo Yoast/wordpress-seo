@@ -1,6 +1,6 @@
 import Assessor from "../../assessor.js";
 import ContentAssessor from "../../contentAssessor";
-import paragraphTooLong from "../../assessments/readability/paragraphTooLongAssessment.js";
+import ParagraphTooLong from "../../assessments/readability/paragraphTooLongAssessment.js";
 import SentenceLengthInText from "../../assessments/readability/sentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "../../assessments/readability/subheadingDistributionTooLongAssessment.js";
 import transitionWords from "../../assessments/readability/transitionWordsAssessment.js";
@@ -29,7 +29,12 @@ const ProductCornerstoneContentAssessor = function( i18n, options = {} ) {
 				recommendedMaximumWordCount: 250,
 			},
 		} ),
-		paragraphTooLong,
+		new ParagraphTooLong( {
+			parameters: {
+				recommendedLength: 70,
+				maximumRecommendedLength: 100,
+			},
+		} ),
 		new SentenceLengthInText( true ),
 		transitionWords,
 		passiveVoice,
