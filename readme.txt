@@ -243,8 +243,8 @@ Enhancements:
 
 * Splits the `Image alt attributes` assessment into two assessments. The `Images` assessment checks if the page contains at least one image. The `Image Keyphrase` assessment checks if the images have alt texts, and if those alt texts contain the keyphrase.
 * Makes the `Transition Word` assessment not applicable when the text has less than 200 words.
-* Improves performance of an SQL query used to find the number of unindexed posts in the indexable table.
-* Prevents some superfluous database queries for our indexables, preventing some unnecessary load on the database.
+* Improves performance on admin page loads by optimizing the queries responsible for getting the number of unindexed posts on background indexing.
+* Makes admin pages load a little bit faster by preventing superfluous database queries for our indexables.
 * Improves the performance of large posts in the Block editor, Classic editor and Elementor.
 * Adds error details to the error message if SEO optimization fails for some unforeseen reason.
 * Cleans up indexables for WooCommerce check-out pages from the indexable table, in order to improve performance.
