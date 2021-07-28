@@ -29,7 +29,7 @@ import ImageCountAssessment from "../../src/scoring/assessments/seo/ImageCountAs
 // Import content assessments
 import fleschReadingAssessment from "../../src/scoring/assessments/readability/fleschReadingEaseAssessment";
 import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/subheadingDistributionTooLongAssessment";
-import ParagraphTooLongAssessment from "../../src/scoring/assessments/readability/paragraphTooLongAssessment";
+import ParagraphTooLongAssessment from "../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
 import SentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/sentenceLengthInTextAssessment";
 import transitionWordsAssessment from "../../src/scoring/assessments/readability/transitionWordsAssessment";
 import passiveVoiceAssessment from "../../src/scoring/assessments/readability/passiveVoiceAssessment";

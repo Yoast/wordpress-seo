@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import ParagraphTooLongAssessment from "../../../../src/scoring/assessments/readability/paragraphTooLongAssessment.js";
+import ParagraphTooLongAssessment from "../../../../src/scoring/assessments/readability/ParagraphTooLongAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import factory from "../../../specHelpers/factory";
 import Factory from "../../../specHelpers/factory.js";

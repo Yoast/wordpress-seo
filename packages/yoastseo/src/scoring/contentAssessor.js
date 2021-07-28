@@ -1,6 +1,6 @@
 import Assessor from "./assessor.js";
 import fleschReadingEase from "./assessments/readability/fleschReadingEaseAssessment.js";
-import ParagraphTooLong from "./assessments/readability/paragraphTooLongAssessment.js";
+import ParagraphTooLong from "./assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "./assessments/readability/sentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "./assessments/readability/subheadingDistributionTooLongAssessment.js";
 import transitionWords from "./assessments/readability/transitionWordsAssessment.js";
