@@ -95,7 +95,7 @@ class KeyphraseLengthAssessment extends Assessment {
 	 */
 	calculateResult( i18n ) {
 		if ( this._keyphraseLengthData.keyphraseLength < this._boundaries.recommendedMinimum ) {
-			if ( this._configToUse().isRelatedKeyphrase ) {
+			if ( this._configToUse.isRelatedKeyphrase ) {
 				return {
 					score: this._configToUse.scores.veryBad,
 					resultText: i18n.sprintf(
