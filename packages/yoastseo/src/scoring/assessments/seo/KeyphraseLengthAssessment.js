@@ -24,7 +24,7 @@ class KeyphraseLengthAssessment extends Assessment {
 	constructor( config, useCustomConfig = false ) {
 		super();
 
-		const defaultConfig = {
+		this.defaultConfig = {
 			parameters: {
 				recommendedMinimum: 1,
 				recommendedMaximum: 4,
@@ -46,7 +46,7 @@ class KeyphraseLengthAssessment extends Assessment {
 		};
 
 		this.identifier = "keyphraseLength";
-		this._config = merge( defaultConfig, config );
+		this._config = merge( this.defaultConfig, config );
 		this._useCustomConfig = useCustomConfig;
 	}
 
@@ -77,12 +77,19 @@ class KeyphraseLengthAssessment extends Assessment {
 
 		return assessmentResult;
 	}
+	/**
+	 * Checks which configuration to use.
+	 *
+	 * @param {Researcher} researcher The researcher used for calling research.
+	 *
+	 * @returns {Object} Configuration to use.
+	 */
 	getConfig( researcher ) {
 		let config = this._config;
 		const customKeyphraseLengthConfig = researcher.getConfig( "keyphraseLength" );
 		if ( this._useCustomConfig && customKeyphraseLengthConfig ) {
 			// If a language has specific configuration for keyphrase length, that configuration is used. (German, Dutch and Swedish)
-			config = customKeyphraseLengthConfig;
+			config = merge( this.defaultConfig, customKeyphraseLengthConfig );
 		}
 		return config;
 	}
@@ -94,6 +101,116 @@ class KeyphraseLengthAssessment extends Assessment {
 	 * @returns {Object} Object with score and text.
 	 */
 	calculateResult( i18n ) {
+		if ( this._useCustomConfig ) {
+			// Calculates bad score for custom pages
+			if ( this._keyphraseLengthData.keyphraseLength <= this._boundaries.acceptableMinimum ) {
+				return {
+					score: this._configToUse.scores.bad,
+					resultText: i18n.sprintf(
+						/* Translators:
+				%1$d expands to the number of words in the keyphrase,
+				%2$d expands to the recommended maximum of words in the keyphrase,
+				%3$s and %4$s expand to links on yoast.com,
+				%5$s expands to the anchor end tag. */
+						i18n.dgettext(
+							"js-text-analysis",
+							"%3$sKeyphrase length%5$s: The keyphrase is %1$d word long. That's shorter than the recommended minimum of %2$d " +
+							"words. %4$sMake it longer%5$s!"
+						),
+						this._keyphraseLengthData.keyphraseLength,
+						this._boundaries.recommendedMinimum,
+						this._configToUse.urlTitle,
+						this._configToUse.urlCallToAction,
+						"</a>"
+					),
+				};
+			}
+			if ( this._keyphraseLengthData.keyphraseLength > this._boundaries.acceptableMaximum ) {
+				return {
+					score: this._configToUse.scores.bad,
+					resultText: i18n.sprintf(
+						/* Translators:
+				%1$d expands to the number of words in the keyphrase,
+				%2$d expands to the recommended maximum of words in the keyphrase,
+				%3$s and %4$s expand to links on yoast.com,
+				%5$s expands to the anchor end tag. */
+						i18n.dgettext(
+							"js-text-analysis",
+							"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's longer than the recommended maximum of %2$d " +
+							"words. %4$sMake it shorter%5$s!"
+						),
+						this._keyphraseLengthData.keyphraseLength,
+						this._boundaries.recommendedMaximum,
+						this._configToUse.urlTitle,
+						this._configToUse.urlCallToAction,
+						"</a>"
+					),
+				};
+			}
+			// Calculates okay score for custom pages
+			if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.acceptableMinimum, this._boundaries.recommendedMinimum ) ) {
+				return {
+					score: this._configToUse.scores.okay,
+					resultText: i18n.sprintf(
+						/* Translators:
+						%1$d expands to the number of words in the keyphrase,
+						%2$d expands to the recommended maximum of words in the keyphrase,
+						%3$s and %4$s expand to links on yoast.com,
+						%5$s expands to the anchor end tag. */
+						i18n.dgettext(
+							"js-text-analysis",
+							"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's slightly shorter than the recommended minimum " +
+							"of %2$d words. %4$sMake it longer%5$s!"
+						),
+						this._keyphraseLengthData.keyphraseLength,
+						this._boundaries.recommendedMinimum,
+						this._configToUse.urlTitle,
+						this._configToUse.urlCallToAction,
+						"</a>"
+					),
+				};
+			}
+			if ( this._keyphraseLengthData.keyphraseLength === this._boundaries.acceptableMaximum ) {
+				return {
+					score: this._configToUse.scores.okay,
+					resultText: i18n.sprintf(
+						/* Translators:
+						%1$d expands to the number of words in the keyphrase,
+						%2$d expands to the recommended maximum of words in the keyphrase,
+						%3$s and %4$s expand to links on yoast.com,
+						%5$s expands to the anchor end tag. */
+						i18n.dgettext(
+							"js-text-analysis",
+							"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's longer than the recommended maximum of %2$d words. " +
+							"%4$sMake it shorter%5$s!"
+						),
+						this._keyphraseLengthData.keyphraseLength,
+						this._boundaries.recommendedMaximum,
+						this._configToUse.urlTitle,
+						this._configToUse.urlCallToAction,
+						"</a>"
+					),
+				};
+			}
+			// // Calculates good score for custom pages
+			if ( inRangeStartEndInclusive( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMinimum,
+				this._boundaries.recommendedMaximum ) ) {
+				return {
+					score: this._configToUse.scores.good,
+					resultText: i18n.sprintf(
+						/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+						i18n.dgettext(
+							"js-text-analysis",
+							"%1$sKeyphrase length%2$s: Good job!"
+						),
+						this._configToUse.urlTitle,
+						"</a>"
+					),
+				};
+			}
+		}
+
+		// Calcatules scores for regular pages
 		if ( this._keyphraseLengthData.keyphraseLength < this._boundaries.recommendedMinimum ) {
 			if ( this._configToUse.isRelatedKeyphrase ) {
 				return {
@@ -126,7 +243,6 @@ class KeyphraseLengthAssessment extends Assessment {
 				),
 			};
 		}
-
 		if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMinimum, this._boundaries.recommendedMaximum + 1 ) ) {
 			return {
 				score: this._configToUse.scores.good,
@@ -141,56 +257,6 @@ class KeyphraseLengthAssessment extends Assessment {
 				),
 			};
 		}
-		// 3 words gives orange score for product pages
-		if ( this._useCustomConfig ) {
-			if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.acceptableMinimum, this._boundaries.recommendedMinimum ) ) {
-				return {
-					score: this._configToUse.scores.okay,
-					resultText: i18n.sprintf(
-						/* Translators:
-						%1$d expands to the number of words in the keyphrase,
-						%2$d expands to the recommended maximum of words in the keyphrase,
-						%3$s and %4$s expand to links on yoast.com,
-						%5$s expands to the anchor end tag. */
-						i18n.dgettext(
-							"js-text-analysis",
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's shorter than the recommended minimum of %2$d words. "
-							+ "%4$sMake it longer%5$s!"
-						),
-						this._keyphraseLengthData.keyphraseLength,
-						this._boundaries.recommendedMinimum,
-						this._configToUse.urlTitle,
-						this._configToUse.urlCallToAction,
-						"</a>"
-					),
-				};
-			}
-		}
-		// 7-8 words for orange on product pages (acceptable maxium minus one)
-		if ( this._useCustomConfig ) {
-			if ( inRangeStartEndInclusive( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMaximum + 2, this._boundaries.acceptableMaximum ) ) {
-				return {
-					score: this._configToUse.scores.okay,
-					resultText: i18n.sprintf(
-						/* Translators:
-						%1$d expands to the number of words in the keyphrase,
-						%2$d expands to the recommended maximum of words in the keyphrase,
-						%3$s and %4$s expand to links on yoast.com,
-						%5$s expands to the anchor end tag. */
-						i18n.dgettext(
-							"js-text-analysis",
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's longer than the recommended maximum of %2$d words. "
-							+ "%4$sMake it longer%5$s!"
-						),
-						this._keyphraseLengthData.keyphraseLength,
-						this._boundaries.recommendedMaximum,
-						this._configToUse.urlTitle,
-						this._configToUse.urlCallToAction,
-						"</a>"
-					),
-				};
-			}
-		}
 		if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMaximum + 1, this._boundaries.acceptableMaximum + 1 ) ) {
 			return {
 				score: this._configToUse.scores.okay,
@@ -203,7 +269,7 @@ class KeyphraseLengthAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's more than the recommended maximum of %2$d words. " +
-							"%4$sMake it shorter%5$s!"
+						"%4$sMake it shorter%5$s!"
 					),
 					this._keyphraseLengthData.keyphraseLength,
 					this._boundaries.recommendedMaximum,
@@ -213,31 +279,7 @@ class KeyphraseLengthAssessment extends Assessment {
 				),
 			};
 		}
-		// Product pages gives bad if 1-2 word in keyphrase
-		if ( this._useCustomConfig ) {
-			if ( inRangeStartEndInclusive( this._keyphraseLengthData.keyphraseLength, this._boundaries.acceptableMinimum, this._boundaries.acceptableMinimum + 1 ) ) {
-				return {
-					score: this._configToUse.scores.bad,
-					resultText: i18n.sprintf(
-						/* Translators:
-				%1$d expands to the number of words in the keyphrase,
-				%2$d expands to the recommended maximum of words in the keyphrase,
-				%3$s and %4$s expand to links on yoast.com,
-				%5$s expands to the anchor end tag. */
-						i18n.dgettext(
-							"js-text-analysis",
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's shorter than the recommended minimum of %2$d words. " +
-					"%4$sMake it longer%5$s!"
-						),
-						this._keyphraseLengthData.keyphraseLength,
-						this._boundaries.recommendedMinimum,
-						this._configToUse.urlTitle,
-						this._configToUse.urlCallToAction,
-						"</a>"
-					),
-				};
-			}
-		}
+
 		return {
 			score: this._configToUse.scores.bad,
 			resultText: i18n.sprintf(

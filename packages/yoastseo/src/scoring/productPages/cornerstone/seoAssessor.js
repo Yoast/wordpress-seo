@@ -35,10 +35,10 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 		new IntroductionKeywordAssessment(),
 		new KeyphraseLengthAssessment( {
 			parameters: {
-				recommendedMinimum: 3,// add english (default values)
+				recommendedMinimum: 4,
 				recommendedMaximum: 6,
-				acceptableMaximum: 7,
-				acceptableMinimum: 1,
+				acceptableMaximum: 8,
+				acceptableMinimum: 2,
 			},
 		}, true ),
 		new KeywordDensityAssessment(),

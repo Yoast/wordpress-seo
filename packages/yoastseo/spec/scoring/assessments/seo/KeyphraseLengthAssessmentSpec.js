@@ -9,7 +9,6 @@ describe( "the keyphrase length assessment", function() {
 	it( "should assess a custom paper with one-word keyphrase as bad ", function() {
 		const paper = new Paper();
 		const researcher = factory.buildMockResearcher( { keyphraseLength: 1, functionWords: englishFunctionWords } );
-
 		const result = new KeyphraseLengthAssessment( {
 			parameters: {
 				recommendedMinimum: 4,
@@ -35,9 +34,9 @@ describe( "the keyphrase length assessment", function() {
 				acceptableMinimum: 1,
 			},
 		}, true ).getResult( paper, researcher, i18n );
-		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 3 words long. That's shorter than the recommended minimum of 4 words. " +
+			"The keyphrase is 3 words long. That's slightly shorter than the recommended minimum of 4 words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
 	} );
 
@@ -68,9 +67,9 @@ describe( "the keyphrase length assessment", function() {
 				acceptableMinimum: 1,
 			},
 		}, true ).getResult( paper, researcher, i18n );
-		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 7 words long. That's longer than the recommended maximum of 6 words. " +
+			"The keyphrase is 7 words long. That's more than the recommended maximum of 6 words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 	it( "should assess a custom paper with a keyphrase that's too long as bad", function() {
@@ -87,7 +86,7 @@ describe( "the keyphrase length assessment", function() {
 		}, true ).getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 9 words long. That's way more than the recommended maximum of 6 words. " +
+			"The keyphrase is 9 words long. That's longer than the recommended maximum of 6 words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 } );
@@ -122,9 +121,9 @@ describe( "the keyphrase length assessment", function() {
 				acceptableMinimum: 1,
 			},
 		}, true ).getResult( paper, researcher, i18n );
-		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 2 words long. That's shorter than the recommended minimum of 3 words. " +
+			"The keyphrase is 2 words long. That's slightly shorter than the recommended minimum of 3 words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
 	} );
 	it( "should assess a paper with a keyphrase that's the correct length", function() {
@@ -153,7 +152,7 @@ describe( "the keyphrase length assessment", function() {
 				acceptableMinimum: 1,
 			},
 		}, true ).getResult( paper, researcher, i18n );
-		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase is 7 words long. That's longer than the recommended maximum of 6 words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
@@ -172,12 +171,12 @@ describe( "the keyphrase length assessment", function() {
 		}, true ).getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 9 words long. That's way more than the recommended maximum of 6 words. " +
+			"The keyphrase is 9 words long. That's longer than the recommended maximum of 6 words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 } );
 
-xdescribe( "the keyphrase length assessment", function() {
+describe( "the keyphrase length assessment", function() {
 	it( "should assess a paper without a keyword as extremely bad", function() {
 		const paper = new Paper();
 		const researcher = factory.buildMockResearcher( { keyphraseLength: 0, functionWords: [] } );

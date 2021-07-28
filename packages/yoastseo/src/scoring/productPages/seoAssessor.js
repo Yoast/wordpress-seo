@@ -37,7 +37,7 @@ const ProductSEOAssessor = function( i18n, researcher, options ) {
 				recommendedMinimum: 4,
 				recommendedMaximum: 6,
 				acceptableMaximum: 8,
-				acceptableMinimum: 1,
+				acceptableMinimum: 2,
 			},
 		}, true ),
 		new KeywordDensityAssessment(),
