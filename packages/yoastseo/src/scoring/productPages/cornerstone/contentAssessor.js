@@ -22,13 +22,7 @@ const ProductCornerstoneContentAssessor = function( i18n, options = {} ) {
 	this.type = "productCornerstoneContentAssessor";
 
 	this._assessments = [
-		new SubheadingDistributionTooLong( {
-			parameters:	{
-				slightlyTooMany: 250,
-				farTooMany: 300,
-				recommendedMaximumWordCount: 250,
-			},
-		} ),
+		new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ),
 		paragraphTooLong,
 		new SentenceLengthInText( true ),
 		transitionWords,
