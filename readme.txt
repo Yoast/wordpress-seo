@@ -249,6 +249,7 @@ Enhancements:
 * Improves the performance of large posts in the Block editor, Classic editor and Elementor.
 * Adds error details to the error message if SEO optimization fails for some unforeseen reason.
 * Cleans up indexables for WooCommerce check-out pages from the indexable table, in order to improve performance.
+* Makes transition word assessment not applicable when the text has less than 200 words, as transition words are less relevant for very short texts.
 
 Bugfixes:
 
