@@ -1,6 +1,6 @@
 import Assessor from "../assessor.js";
 import ContentAssessor from "../contentAssessor";
-import paragraphTooLong from "../assessments/readability/paragraphTooLongAssessment.js";
+import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "../assessments/readability/sentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "../assessments/readability/subheadingDistributionTooLongAssessment.js";
 import transitionWords from "../assessments/readability/transitionWordsAssessment.js";
@@ -23,7 +23,12 @@ const ProductContentAssessor = function( i18n, options = {} ) {
 
 	this._assessments = [
 		new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ),
-		paragraphTooLong,
+		new ParagraphTooLong( {
+			parameters: {
+				recommendedLength: 70,
+				maximumRecommendedLength: 100,
+			},
+		} ),
 		new SentenceLengthInText(),
 		transitionWords,
 		passiveVoice,
