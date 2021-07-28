@@ -243,8 +243,7 @@ Enhancements:
 
 * Splits the `Image alt attributes` assessment into two assessments. The `Images` assessment checks if the page contains at least one image. The `Image Keyphrase` assessment checks if the images have alt texts, and if those alt texts contain the keyphrase.
 * Makes the `Transition Word` assessment not applicable when the text has less than 200 words.
-* Improves performance on admin page loads by optimizing the queries responsible for getting the number of unindexed posts on background indexing.
-* Makes admin pages load a little bit faster by preventing superfluous database queries for our indexables.
+* Reduces the load time of admin pages, by reducing the number of database queries and optimizing the queries themselves.
 * Improves the performance of large posts in the Block editor, Classic editor and Elementor.
 * Adds error details to the error message if SEO optimization fails for some unforeseen reason.
 * Cleans up indexables for WooCommerce check-out pages from the indexable table, in order to improve performance.
@@ -252,7 +251,6 @@ Enhancements:
 
 Bugfixes:
 
-* Partially fixes a bug where queries due to the background indexation would put a lot of strain on the database.
 * Fixes a bug where the `robots` meta tag could have incorrect values if users called the `wp_robots` filter to set certain values to `false`. Props to [Roy-Orbison](https://github.com/Roy-Orbison).
 
 = 16.8 =
