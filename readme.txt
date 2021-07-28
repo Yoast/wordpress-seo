@@ -242,7 +242,7 @@ Release Date: August 10th, 2021
 Enhancements:
 
 * Splits the `Image alt attributes` assessment into two assessments. The `Images` assessment checks if the page contains at least one image. The `Image Keyphrase` assessment checks if the images have alt texts, and if those alt texts contain the keyphrase.
-* Makes the `Transition Word` assessment not applicable when the text has less than 200 words.
+* Makes the `Transition Word` assessment not applicable when the text has less than 200 words, as transition words are less relevant for very short texts.
 * Reduces the load time of admin pages, by reducing the number of database queries and optimizing the queries themselves.
 * Improves the performance of large posts in the Block editor, Classic editor and Elementor.
 * Adds error details to the error message if SEO optimization fails for some unforeseen reason.
