@@ -241,15 +241,14 @@ Release Date: August 10th, 2021
 
 Enhancements:
 
-* Adds shortlinks to yoast.com articles to the feedback text of the Images and Image Keyphrase assessments.
+* Splits the `Image alt attributes` assessment into two assessments. The `Images` assessment checks if the page contains at least one image. The `Image Keyphrase` assessment checks if the images have alt texts, and if those alt texts contain the keyphrase.
+* Makes the `Transition Word` assessment not applicable when the text has less than 200 words.
 * Improves performance of an SQL query used to find the number of unindexed posts in the indexable table.
-* Adds post link indexing and term link indexing to the `wp yoast index` WP-CLI command.
-* Splits the `Image alt attributes` assessment into two, `Images` and `ImageKeyphrase`.
 * Prevents some superfluous database queries for our indexables, preventing some unnecessary load on the database.
 * Improves the performance of large posts in the Block editor, Classic editor and Elementor.
 * Adds error details to the error message if SEO optimization fails for some unforeseen reason.
 * Cleans up indexables for WooCommerce check-out pages from the indexable table, in order to improve performance.
-* Makes transition word assessment not applicable when the text has less than 200 words, as transition words are less relevant for very short texts.
+* Adds post link indexing and term link indexing to the `wp yoast index` WP-CLI command.
 
 Bugfixes:
 
