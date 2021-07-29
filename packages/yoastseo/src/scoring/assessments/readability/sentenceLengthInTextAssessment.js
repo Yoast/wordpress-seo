@@ -17,9 +17,9 @@ class SentenceLengthInTextAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {boolean} isCornerstone	The scoring configuration that should be used.
+	 * @param {boolean} config			The scoring configuration that should be used.
 	 * @param {boolean} isCornerstone	Whether cornerstone configuration should be used.
-	 * @param {boolean} isCornerstone	Whether product configuration should be used.
+	 * @param {boolean} isProduct		Whether product configuration should be used.
 
 	 * @returns {void}
 	 */
@@ -32,6 +32,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 			farTooMany: 30,
 		}
 
+		// Add cornerstone and/or product-specific config if applicable.
 		this._config = merge( defaultConfig, config );
 
 		this._isCornerstone = isCornerstone;
@@ -49,7 +50,9 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		const sentences = researcher.getResearch( "countSentencesFromText" );
-		this._config = this.getLanguageSpecificConfig( researcher );
+		if ( researcher.getConfig( "sentenceLength" ) ) {
+			this._config = this.getLanguageSpecificConfig( researcher );
+		}
 		const percentage = this.calculatePercentage( sentences );
 		const score = this.calculateScore( percentage );
 
@@ -83,7 +86,9 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 */
 	getMarks( paper, researcher ) {
 		const sentenceCount = researcher.getResearch( "countSentencesFromText" );
-		this._config = this.getLanguageSpecificConfig( researcher );
+		if ( researcher.getConfig( "sentenceLength" ) ) {
+			this._config = this.getLanguageSpecificConfig( researcher );
+		}
 		const sentenceObjects = this.getTooLongSentences( sentenceCount );
 
 		return map( sentenceObjects, function( sentenceObject ) {
@@ -103,24 +108,23 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {Object} The config that should be used.
 	 */
 	getLanguageSpecificConfig( researcher ) {
-		let languageSpecificConfig;
+		let currentConfig = this._config;
+		const languageSpecificConfig = researcher.getConfig( "sentenceLength" );
+
+		if ( languageSpecificConfig.hasOwnProperty( "recommendedWordCount" ) ) {
+			currentConfig.recommendedWordCount = languageSpecificConfig.recommendedWordCount;
+		}
 
 		// Check if a language has specific cornerstone configuration for non-product pages.
-		if ( this._isCornerstone === true && this._isProduct === false ) {
-			const languageSpecificCornerstoneConfig = researcher.getConfig( "sentenceLengthCornerstone" );
-			if ( languageSpecificCornerstoneConfig ) {
-				languageSpecificConfig = languageSpecificCornerstoneConfig;
-			}
+		if ( this._isCornerstone === true && this._isProduct === false && languageSpecificConfig.hasOwnProperty( "cornerstonePercentages") ) {
+			return merge( currentConfig, languageSpecificConfig.cornerstonePercentages );
 		}
 		// Check if a language has specific configuration for non-product, non-cornerstone pages.
-		else {
-			const languageSpecificRegularConfig = researcher.getConfig( "sentenceLength" );
-			if ( languageSpecificRegularConfig ) {
-				languageSpecificConfig = languageSpecificRegularConfig;
-			}
+		if ( this._isCornerstone === false && this._isProduct === false && languageSpecificConfig.hasOwnProperty( "percentages") ) {
+			return merge( currentConfig, languageSpecificConfig.percentages );
 		}
-		this._config = merge( this._config, languageSpecificConfig );
-		return this._config;
+		// More conditions should be added below once we add language-specific config for product pages.
+		return currentConfig;
 	}
 
 	/**

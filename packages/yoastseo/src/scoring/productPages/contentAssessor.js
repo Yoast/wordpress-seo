@@ -24,7 +24,10 @@ const ProductContentAssessor = function( i18n, options = {} ) {
 	this._assessments = [
 		new SubheadingDistributionTooLong(),
 		paragraphTooLong,
-		new SentenceLengthInText(),
+		new SentenceLengthInText( {
+			slightlyTooMany: 20,
+			farTooMany: 25,
+		}, false, true ),
 		transitionWords,
 		passiveVoice,
 		textPresence,

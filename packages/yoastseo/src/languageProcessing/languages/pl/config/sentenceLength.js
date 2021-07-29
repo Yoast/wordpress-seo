@@ -1,12 +1,10 @@
 export default {
-	regularConfig: {
-		recommendedWordCount: 20,
+	percentages: {
 		slightlyTooMany: 15,
 		farTooMany: 20,
 	},
-	cornerstoneConfig: {
-		recommendedWordCount: 20,
+	cornerstonePercentages: {
 		slightlyTooMany: 15,
 		farTooMany: 20,
-	},
+	}
 };
