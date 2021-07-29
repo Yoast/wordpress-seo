@@ -573,7 +573,7 @@ export default class AnalysisWebWorker {
 			"useCornerstone",
 			"locale",
 			"translations",
-			"customAnalysisType"
+			"customAnalysisType",
 		];
 		const seo = [
 			"keywordAnalysisActive",
@@ -583,7 +583,7 @@ export default class AnalysisWebWorker {
 			"locale",
 			"translations",
 			"researchData",
-			"customAnalysisType"
+			"customAnalysisType",
 		];
 		const configurationKeys = Object.keys( configuration );
 
