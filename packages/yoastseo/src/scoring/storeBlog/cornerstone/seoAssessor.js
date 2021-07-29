@@ -1,22 +1,14 @@
 import { inherits } from "util";
 
-import IntroductionKeywordAssessment from "../../assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../../assessments/seo/KeyphraseLengthAssessment";
-import KeywordDensityAssessment from "../../assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescriptionKeywordAssessment";
-import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment";
 import TitleKeywordAssessment from "../../assessments/seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
 import Assessor from "../../assessor";
 import SEOAssessor from "../seoAssessor";
 import MetaDescriptionLength from "../../assessments/seo/MetaDescriptionLengthAssessment";
-import SubheadingsKeyword from "../../assessments/seo/SubHeadingsKeywordAssessment";
-import ImageKeyphrase from "../../assessments/seo/KeyphraseInImageTextAssessment";
-import ImageCount from "../../assessments/seo/ImageCountAssessment";
-import TextLength from "../../assessments/seo/TextLengthAssessment";
 import TitleWidth from "../../assessments/seo/PageTitleWidthAssessment";
 import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyphraseAssessment";
-import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment";
 
 /**
  * Creates the Assessor
@@ -29,7 +21,7 @@ import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment";
  */
 const StoreBlogCornerstoneSEOAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
-	this.type = "StoreBlogCornerstoneSEOAssessor";
+	this.type = "storeBlogCornerstoneSEOAssessor";
 
 	this._assessments = [
 		new KeyphraseLengthAssessment(),
