@@ -355,4 +355,51 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 
 		$this->instance->index();
 	}
+
+	/**
+	 * Tests that the transients are not deleted when no indexables have been created.
+	 *
+	 * @covers ::get_objects
+	 * @covers ::get_query
+	 */
+	public function test_index_no_indexables_created() {
+		Filters\expectApplied( 'wpseo_link_indexing_limit' );
+
+		$this->post_type_helper
+			->expects( 'get_accessible_post_types' )
+			->once()
+			->andReturn( [ 'post', 'page' ] );
+
+		$expected_query = "
+			SELECT P.ID, P.post_content
+			FROM wp_posts AS P
+			LEFT JOIN wp_yoast_indexable AS I
+				ON P.ID = I.object_id
+				AND I.link_count IS NOT NULL
+				AND I.object_type = 'post'
+			LEFT JOIN wp_yoast_seo_links AS L
+				ON L.post_id = P.ID
+				AND L.target_indexable_id IS NULL
+				AND L.type = 'internal'
+				AND L.target_post_id IS NOT NULL
+				AND L.target_post_id != 0
+			WHERE ( I.object_id IS NULL OR L.post_id IS NOT NULL )
+				AND P.post_status = 'publish'
+				AND P.post_type IN (%s, %s)
+			LIMIT %d";
+
+		$this->wpdb
+			->expects( 'prepare' )
+			->once()
+			->with( $expected_query, [ 'post', 'page', 5 ] )
+			->andReturn( 'query' );
+
+		$this->wpdb
+			->expects( 'get_results' )
+			->once()
+			->with( 'query' )
+			->andReturn( [] );
+
+		$this->instance->index();
+	}
 }
