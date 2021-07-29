@@ -44,7 +44,7 @@ class Indexing_Helper {
 	/**
 	 * The indexation actions.
 	 *
-	 * @var Indexation_Action_Interface[]
+	 * @var Indexation_Action_Interface[]|Limited_Indexing_Action_Interface[]
 	 */
 	protected $indexing_actions;
 
