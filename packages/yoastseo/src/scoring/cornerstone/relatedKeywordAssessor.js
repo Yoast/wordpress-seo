@@ -21,6 +21,7 @@ import ImageCount from "../assessments/seo/ImageCountAssessment";
  */
 const relatedKeywordAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
+	this.type = "cornerstoneRelatedKeywordAssessor";
 
 	this._assessments = [
 		new IntroductionKeyword(),
