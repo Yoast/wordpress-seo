@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 /**
  * Reindexing action for post type archive indexables.
  */
-class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action_Interface {
+class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action_Interface, Limited_Indexing_Action_Interface {
 
 	/**
 	 * The transient cache key.
