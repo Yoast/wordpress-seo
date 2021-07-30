@@ -114,9 +114,8 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!",
 	},
 	textTransitionWords: {
-		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 27.8% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		// This assessment is not applicable to this paper as the text contains less than 200 words.
+		isApplicable: false,
 	},
 	passiveVoice: {
 		isApplicable: true,
@@ -136,13 +135,13 @@ const expectedResults = {
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes " +
-			"with at least half of the words from your keyphrase. <a href='https://yoa.st/33d' target='_blank'>Fix that</a>!",
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes with at least" +
+			" half of the words from your keyphrase. <a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!",
 	},
 	imageCount: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Images</a>: Good job!",
+		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!",
 	},
 };
 

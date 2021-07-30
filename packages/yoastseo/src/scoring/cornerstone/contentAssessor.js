@@ -1,7 +1,7 @@
 import Assessor from "../assessor.js";
 import ContentAssessor from "../contentAssessor";
 import fleschReadingEase from "../assessments/readability/fleschReadingEaseAssessment.js";
-import paragraphTooLong from "../assessments/readability/paragraphTooLongAssessment.js";
+import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "../assessments/readability/sentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "../assessments/readability/subheadingDistributionTooLongAssessment.js";
 import transitionWords from "../assessments/readability/transitionWordsAssessment.js";
@@ -39,6 +39,8 @@ const CornerStoneContentAssessor = function( i18n, options = {} ) {
 				recommendedMaximumWordCount: 250,
 			},
 		} ),
+		new ParagraphTooLong(),
+		new SentenceLengthInText( true ),
 		paragraphTooLong,
 		new SentenceLengthInText( {
 			slightlyTooMany: 20,
