@@ -170,4 +170,17 @@ describe( "running assessments in the store blog cornerstone SEO assessor", func
 			"titleWidth",
 		] );
 	} );
+
+	describe( "has configuration overrides", () => {
+
+		test( "PageTitleWidthAssesment", () => {
+			const assessment = assessor.getAssessment( "titleWidth" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
+			expect( assessment._config.scores.widthTooShort ).toBe( 9 );
+			expect( assessment._config.scores.widthTooLong ).toBe( 3 );
+		} );
+	} );
 } );
