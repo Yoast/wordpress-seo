@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Limited_Indexing_Action_Interface;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
@@ -43,7 +44,7 @@ class Indexing_Helper {
 	/**
 	 * The indexation actions.
 	 *
-	 * @var Indexation_Action_Interface[]
+	 * @var Indexation_Action_Interface[]|Limited_Indexing_Action_Interface[]
 	 */
 	protected $indexing_actions;
 

@@ -8,7 +8,6 @@ import MetaDescriptionKeyword from "../assessments/seo/MetaDescriptionKeywordAss
 import TextCompetingLinks from "../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
-import ImageCount from "../assessments/seo/ImageCountAssessment";
 
 /**
  * Creates the Assessor
@@ -37,7 +36,6 @@ const relatedKeywordAssessor = function( i18n, options ) {
 				noAlt: 3,
 			},
 		} ),
-		new ImageCount(),
 	];
 };
 

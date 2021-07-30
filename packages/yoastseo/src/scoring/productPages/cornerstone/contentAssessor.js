@@ -1,6 +1,6 @@
 import Assessor from "../../assessor.js";
 import ContentAssessor from "../../contentAssessor";
-import paragraphTooLong from "../../assessments/readability/paragraphTooLongAssessment.js";
+import ParagraphTooLong from "../../assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "../../assessments/readability/sentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "../../assessments/readability/subheadingDistributionTooLongAssessment.js";
 import transitionWords from "../../assessments/readability/transitionWordsAssessment.js";
@@ -22,14 +22,13 @@ const ProductCornerstoneContentAssessor = function( i18n, options = {} ) {
 	this.type = "productCornerstoneContentAssessor";
 
 	this._assessments = [
-		new SubheadingDistributionTooLong( {
-			parameters:	{
-				slightlyTooMany: 250,
-				farTooMany: 300,
-				recommendedMaximumWordCount: 250,
+		new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ),
+		new ParagraphTooLong( {
+			parameters: {
+				recommendedLength: 70,
+				maximumRecommendedLength: 100,
 			},
 		} ),
-		paragraphTooLong,
 		new SentenceLengthInText( true ),
 		transitionWords,
 		passiveVoice,
