@@ -68,9 +68,20 @@ abstract class Abstract_Link_Indexing_Action extends Abstract_Indexing_Action {
 		}
 
 		\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
-		\delete_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
 		return $indexables;
+	}
+
+	/**
+	 * In the case of term-links and post-links we want to use the total unindexed count, because using
+	 * the limited unindexed count actually leads to worse performance.
+	 *
+	 * @param int|bool $limit Unused.
+	 *
+	 * @return int The total number of unindexed links.
+	 */
+	public function get_limited_unindexed_count( $limit = false ) {
+		return $this->get_total_unindexed();
 	}
 
 	/**
