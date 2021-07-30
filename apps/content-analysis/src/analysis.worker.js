@@ -35,7 +35,6 @@ self.onmessage = ( event ) => {
 	// Store blog.
 	worker.setCustomSEOAssessorClass( StoreBlogSEOAssessor, "storeBlog" );
 	worker.setCustomCornerstoneSEOAssessorClass( StoreBlogCornerstoneSEOAssessor, "storeBlog" );
-	worker.setCustomRelatedKeywordAssessorClass( StoreBlogRelatedKeywordAssessor, "storeBlog" );
 	// Store posts and pages.
 	// Store collection pages.
 
