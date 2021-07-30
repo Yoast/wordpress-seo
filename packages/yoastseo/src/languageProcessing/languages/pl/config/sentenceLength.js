@@ -6,5 +6,5 @@ export default {
 	cornerstonePercentages: {
 		slightlyTooMany: 15,
 		farTooMany: 20,
-	}
+	},
 };

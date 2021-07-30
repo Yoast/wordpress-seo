@@ -3,5 +3,5 @@ export default {
 	percentages: {
 		slightlyTooMany: 20,
 		farTooMany: 25,
-	}
+	},
 };

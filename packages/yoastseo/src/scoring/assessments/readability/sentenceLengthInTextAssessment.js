@@ -30,7 +30,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 			recommendedWordCount: 20,
 			slightlyTooMany: 25,
 			farTooMany: 30,
-		}
+		};
 
 		// Add cornerstone and/or product-specific config if applicable.
 		this._config = merge( defaultConfig, config );
@@ -108,7 +108,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {Object} The config that should be used.
 	 */
 	getLanguageSpecificConfig( researcher ) {
-		let currentConfig = this._config;
+		const currentConfig = this._config;
 		const languageSpecificConfig = researcher.getConfig( "sentenceLength" );
 
 		if ( languageSpecificConfig.hasOwnProperty( "recommendedWordCount" ) ) {
@@ -116,11 +116,11 @@ class SentenceLengthInTextAssessment extends Assessment {
 		}
 
 		// Check if a language has specific cornerstone configuration for non-product pages.
-		if ( this._isCornerstone === true && this._isProduct === false && languageSpecificConfig.hasOwnProperty( "cornerstonePercentages") ) {
+		if ( this._isCornerstone === true && this._isProduct === false && languageSpecificConfig.hasOwnProperty( "cornerstonePercentages" ) ) {
 			return merge( currentConfig, languageSpecificConfig.cornerstonePercentages );
 		}
 		// Check if a language has specific configuration for non-product, non-cornerstone pages.
-		if ( this._isCornerstone === false && this._isProduct === false && languageSpecificConfig.hasOwnProperty( "percentages") ) {
+		if ( this._isCornerstone === false && this._isProduct === false && languageSpecificConfig.hasOwnProperty( "percentages" ) ) {
 			return merge( currentConfig, languageSpecificConfig.percentages );
 		}
 		// More conditions should be added below once we add language-specific config for product pages.

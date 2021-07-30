@@ -40,8 +40,6 @@ const CornerStoneContentAssessor = function( i18n, options = {} ) {
 			},
 		} ),
 		new ParagraphTooLong(),
-		new SentenceLengthInText( true ),
-		paragraphTooLong,
 		new SentenceLengthInText( {
 			slightlyTooMany: 20,
 			farTooMany: 25,

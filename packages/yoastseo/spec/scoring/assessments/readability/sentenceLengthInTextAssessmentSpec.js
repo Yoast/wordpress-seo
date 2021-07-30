@@ -7,39 +7,39 @@ const i18n = Factory.buildJed();
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import PolishResearcher from "../../../../src/languageProcessing/languages/pl/Researcher";
 import ItalianResearcher from "../../../../src/languageProcessing/languages/it/Researcher";
-import polishConfig from "../../../../src/languageProcessing/languages/pl/config/sentenceLength"
-import turkishConfig from "../../../../src/languageProcessing/languages/tr/config/sentenceLength"
+import polishConfig from "../../../../src/languageProcessing/languages/pl/config/sentenceLength";
+import turkishConfig from "../../../../src/languageProcessing/languages/tr/config/sentenceLength";
 
 const spanishConfig = {
 	recommendedWordCount: 25,
 	slightlyTooMany: 25,
 	farTooMany: 30,
-}
+};
 const hebrewConfig = {
 	recommendedWordCount: 15,
 	slightlyTooMany: 25,
 	farTooMany: 30,
-}
+};
 const russianConfig = {
 	recommendedWordCount: 15,
 	slightlyTooMany: 25,
 	farTooMany: 30,
-}
+};
 const italianConfig = {
 	recommendedWordCount: 25,
 	slightlyTooMany: 25,
 	farTooMany: 30,
-}
+};
 const portugueseConfig = {
 	recommendedWordCount: 25,
 	slightlyTooMany: 25,
 	farTooMany: 30,
-}
+};
 const catalanConfig = {
 	recommendedWordCount: 25,
 	slightlyTooMany: 55,
 	farTooMany: 30,
-}
+};
 
 // eslint-disable-next-line max-statements
 describe( "An assessment for sentence length", function() {
@@ -578,7 +578,7 @@ describe( "An assessment for sentence length for cornerstone content", function(
 		const assessment = new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
-		},true ).getResult( mockPaper, Factory.buildMockResearcher( [
+		}, true ).getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 21 },
 		], false, false, polishConfig ), i18n );
 
@@ -595,7 +595,7 @@ describe( "An assessment for sentence length for cornerstone content", function(
 		const assessment = new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
-		},true ).getResult( mockPaper, Factory.buildMockResearcher( [
+		}, true ).getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 30 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
@@ -615,7 +615,7 @@ describe( "An assessment for sentence length for cornerstone content", function(
 		const assessment = new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
-		},true ).getResult( mockPaper, Factory.buildMockResearcher( [
+		}, true ).getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 30 },
 			{ sentence: "", sentenceLength: 30 },
 			{ sentence: "", sentenceLength: 30 },
@@ -651,7 +651,7 @@ describe( "An assessment for sentence length for cornerstone content", function(
 		const assessment = new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
-		},true ).getResult( mockPaper, Factory.buildMockResearcher( [
+		}, true ).getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 25 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
