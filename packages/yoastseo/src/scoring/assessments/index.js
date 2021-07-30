@@ -1,6 +1,6 @@
 import FleschReadingEaseAssessment from "./readability/fleschReadingEaseAssessment";
 import ListAssessment from "./readability/ListAssessment";
-import ParagraphTooLongAssessment from "./readability/paragraphTooLongAssessment";
+import ParagraphTooLongAssessment from "./readability/ParagraphTooLongAssessment";
 import PassiveVoiceAssessment from "./readability/passiveVoiceAssessment";
 import SentenceBeginningsAssessment from "./readability/sentenceBeginningsAssessment";
 import SentenceLengthInTextAssessment from "./readability/sentenceLengthInTextAssessment";

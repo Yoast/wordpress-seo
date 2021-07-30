@@ -1,6 +1,6 @@
 import Assessor from "./assessor.js";
 import fleschReadingEase from "./assessments/readability/fleschReadingEaseAssessment.js";
-import paragraphTooLong from "./assessments/readability/paragraphTooLongAssessment.js";
+import ParagraphTooLong from "./assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "./assessments/readability/sentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "./assessments/readability/subheadingDistributionTooLongAssessment.js";
 import transitionWords from "./assessments/readability/transitionWordsAssessment.js";
@@ -37,7 +37,7 @@ const ContentAssessor = function( i18n, researcher, options = {} ) {
 
 		fleschReadingEase,
 		new SubheadingDistributionTooLong(),
-		paragraphTooLong,
+		new ParagraphTooLong(),
 		new SentenceLengthInText(),
 		transitionWords,
 		passiveVoice,

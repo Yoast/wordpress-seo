@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.8
-Stable tag: 16.7
+Stable tag: 16.8
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -42,7 +42,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 
 * **SEO analysis**: an invaluable tool while writing SEO-friendly content with the right (focus) keyphrases in mind.
 * **Readability analysis**: ensures that humans and search engines can read and understand your content.
-* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian, Turkish and Czech.
+* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian, Turkish, Czech, Norwegian and Slovak.
 * **A Google preview**, which shows what your listings will look like in the search results. Even on mobile devices!
 * **Innovative Schema blocks** for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results. Plus a breadcrumbs block to guide your users.
 * **[Premium] Internal linking blocks** to easily improve the structure of your content. Easily add a **table of contents block**, a **related links block**, a **subpages** block, or **siblings block**! Plus, we’ll keep adding these easy-to-add blocks to improve your site structure.
@@ -236,8 +236,37 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 16.9 =
+Release Date: August 10th, 2021
+
+Enhancements:
+
+* Splits the `Image alt attributes` assessment into two assessments. The `Images` assessment checks if the page contains at least one image. The `Image Keyphrase` assessment checks if the images have alt texts, and if those alt texts contain the keyphrase.
+* Makes the `Transition Word` assessment not applicable when the text has less than 200 words, as transition words are less relevant for very short texts.
+* Reduces the load time of admin pages, by reducing the number of database queries and optimizing the queries themselves.
+* Improves the performance of large posts in the Block editor, Classic editor and Elementor.
+* Adds error details to the error message if SEO optimization fails for some unforeseen reason.
+* Cleans up indexables for WooCommerce check-out pages from the indexable table, in order to improve performance.
+* Adds post link indexing and term link indexing to the `wp yoast index` WP-CLI command.
+* [yoastseo] Makes `transitionWordsAssessment` not applicable when the text has less than 200 words.
+* [yoastseo] Adds text length score boundaries config for product pages to the product page SEO assessors.
+* [yoastseo] Adds custom config for `TitleWidth` assessment for product pages and adds extra feedback string in the assessment file for when short title width is not penalized with a bad score.
+* [yoastseo] Creates a research file that checks if there are lists in the text, and an assessment file that returns a red bullet if there is no list and a green bullet if there is one.
+* [yoastseo] Adds assessors for product pages.
+* [yoastseo] Removes the outbound links and internal links assessments from the SEO analysis on product pages. 
+* [yoastseo] Removes the Flesch Reading Ease assessment and the consecutive sentences assessment from the readability analysis on product pages.
+* [yoastseo] Includes videos in the `ImageCount` analysis when the `countVideos` value is true.
+* [yoastseo] Passes custom configuration for the images assessment for product pages
+* [yoastseo] Splits the `TextImagesAssessment` into two, `KeyphraseInImageTextAssessment` and `ImageCountAssessment`.
+
+Bugfixes:
+
+* Fixes a bug where the `robots` meta tag could have incorrect values if users called the `wp_robots` filter to set certain values to `false`. Props to [Roy-Orbison](https://github.com/Roy-Orbison).
+
 = 16.8 =
 Release Date: July 27th, 2021
+
+Yoast SEO 16.8 is out today! This release comes with an updated readability analysis with support for two new languages: Norwegian and Slovak. Did you know that Yoast SEO is nearing language support for twenty languages? Read more about what’s new in Yoast SEO 16.8 in [our release post](https://yoa.st/release-16-8)!
 
 Enhancements:
 
@@ -253,21 +282,6 @@ Bugfixes:
 
 * Fixes a bug where paginated static frontpages would fail to output a valid breadcrumb.
 * Fixes a bug where the image selectors in the search appearance and social settings did not have a screen reader text.
-
-= 16.7 =
-Release Date: July 13th, 2021
-
-Meet Yoast SEO 16.7! This release comes with extended support for headless WordPress. Yoast SEO comes with a REST API that developers can use to access our metadata in a headless WordPress installation. In Yoast SEO 16.7, we’re making more data available and also in a different format: JSON. Read more about what’s new in Yoast SEO 16.7 in [our release post](https://yoa.st/release-16-7)!
-
-Enhancements:
-
-* Upgrades our REST API to include individual keys/values for all of our meta tags, data and schema output. Read all about it in [this in-depth explanation about our REST API](https://yoa.st/rest-api).
-
-Bugfixes:
-
-* Fixes a bug where a database entry would be added in the indexables table every time a WooCommerce order was created.
-* Fixes a bug where the SEO optimization could run indefinitely when the database contained at least 25 faulty indexables without a permalink.
-* Fixes a bug where the Advanced section and Schema tab wouldn't be visible in the metabox for Editors. Props to [jordif](https://github.com/jordif).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

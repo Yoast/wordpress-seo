@@ -200,4 +200,26 @@ describe( "running assessments in the product page cornerstone SEO assessor", fu
 			"images",
 		] );
 	} );
+
+	test( "TextLengthAssessment", () => {
+		const assessment = assessor.getAssessment( "textLength" );
+
+		expect( assessment ).toBeDefined();
+		expect( assessment._config ).toBeDefined();
+		expect( assessment._config.recommendedMinimum ).toBe( 200 );
+		expect( assessment._config.slightlyBelowMinimum ).toBe( 150 );
+		expect( assessment._config.belowMinimum ).toBe( 100 );
+		expect( assessment._config.veryFarBelowMinimum ).toBe( 50 );
+	} );
+
+	test( "ImageCountAssessment", () => {
+		const assessment = assessor.getAssessment( "images" );
+
+		expect( assessment ).toBeDefined();
+		expect( assessment._config ).toBeDefined();
+		expect( assessment._config.scores.okay ).toBe( 6 );
+		expect( assessment._config.recommendedCount ).toBe( 4 );
+		expect( assessment._config.scores ).toBeDefined();
+		expect( assessment._config.recommendedCount ).toBeDefined();
+	} );
 } );
