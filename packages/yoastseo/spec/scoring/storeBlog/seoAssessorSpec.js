@@ -172,7 +172,6 @@ describe( "running assessments in the store blog cornerstone SEO assessor", func
 	} );
 
 	describe( "has configuration overrides", () => {
-
 		test( "PageTitleWidthAssesment", () => {
 			const assessment = assessor.getAssessment( "titleWidth" );
 
