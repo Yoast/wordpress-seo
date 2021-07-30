@@ -34,13 +34,11 @@ const StoreBlogCornerstoneSEOAssessor = function( i18n, options ) {
 		} ),
 		new TitleKeywordAssessment(),
 		new TitleWidth( {
-			scores: {
 				scores: {
 					widthTooShort: 3,
 					widthTooLong: 3,
 				},
-			},
-		}, true ),
+		} ),
 		new UrlKeywordAssessment(
 			{
 				scores: {
