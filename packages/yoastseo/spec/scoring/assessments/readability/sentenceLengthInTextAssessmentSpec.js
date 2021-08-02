@@ -443,7 +443,7 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
 		expect( assessment.hasMarks() ).toBe( false );
 	} );
-	
+
 	it( "is not applicable for empty papers", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().isApplicable( mockPaper );
@@ -605,6 +605,133 @@ describe( "An assessment for sentence length for cornerstone content", function(
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
 			"25% of the sentences contain more than 20 words, which is more than the recommended maximum of 20%." +
+			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+} );
+
+describe( "An assessment for sentence length for product pages", function() {
+	it( "returns the score for 100% short sentences in English using the product page configuration", function() {
+		const mockPaper = new Paper();
+		const assessment = new SentenceLengthInTextAssessment( {
+			slightlyTooMany: 20,
+			farTooMany: 25,
+		}, false, true ).getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 19 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
+		expect( assessment.hasMarks() ).toBe( false );
+	} );
+
+	it( "returns the score for 100% long sentences in English using the product page configuration", function() {
+		const mockPaper = new Paper();
+		const assessment = new SentenceLengthInTextAssessment( {
+			slightlyTooMany: 20,
+			farTooMany: 25,
+		}, false, true ).getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 21 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 100% of the sentences" +
+			" contain more than 20 words, which is more than the recommended maximum of 20%. <a href='https://yoa.st/34w' target='_blank'>Try to" +
+			" shorten the sentences</a>." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for 25% long sentences in English using the product page configuration", function() {
+		const mockPaper = new Paper();
+		const assessment = new SentenceLengthInTextAssessment( {
+			slightlyTooMany: 20,
+			farTooMany: 25,
+		}, true ).getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 21 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
+			"25% of the sentences contain more than 20 words, which is more than the recommended maximum of 20%." +
+			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for 100% short sentences in English using the cornerstone product page configuration", function() {
+		const mockPaper = new Paper();
+		const assessment = new SentenceLengthInTextAssessment( {
+			slightlyTooMany: 15,
+			farTooMany: 20,
+		}, true, true ).getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 19 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
+		expect( assessment.hasMarks() ).toBe( false );
+	} );
+
+	it( "returns the score for 100% long sentences in English using the cornerstone product page configuration", function() {
+		const mockPaper = new Paper();
+		const assessment = new SentenceLengthInTextAssessment( {
+			slightlyTooMany: 15,
+			farTooMany: 20,
+		}, true, true ).getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 21 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 100% of the sentences" +
+			" contain more than 20 words, which is more than the recommended maximum of 15%. <a href='https://yoa.st/34w' target='_blank'>Try to" +
+			" shorten the sentences</a>." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for 20% long sentences in English using the cornerstone product page configuration", function() {
+		const mockPaper = new Paper();
+		const assessment = new SentenceLengthInTextAssessment( {
+			slightlyTooMany: 15,
+			farTooMany: 20,
+		}, true, true ).getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 21 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
+			"20% of the sentences contain more than 20 words, which is more than the recommended maximum of 15%." +
+			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for 25% long sentences in English using the cornerstone product page configuration", function() {
+		const mockPaper = new Paper();
+		const assessment = new SentenceLengthInTextAssessment( {
+			slightlyTooMany: 15,
+			farTooMany: 20,
+		}, true, true ).getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 21 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+		] ), i18n );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
+			"25% of the sentences contain more than 20 words, which is more than the recommended maximum of 15%." +
 			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
