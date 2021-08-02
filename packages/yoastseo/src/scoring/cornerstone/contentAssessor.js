@@ -4,7 +4,7 @@ import fleschReadingEase from "../assessments/readability/fleschReadingEaseAsses
 import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "../assessments/readability/sentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "../assessments/readability/subheadingDistributionTooLongAssessment.js";
-import transitionWords from "../assessments/readability/transitionWordsAssessment.js";
+import TransitionWords from "../assessments/readability/TransitionWordsAssessment.js";
 import passiveVoice from "../assessments/readability/passiveVoiceAssessment.js";
 import sentenceBeginnings from "../assessments/readability/sentenceBeginningsAssessment.js";
 import textPresence from "../assessments/readability/textPresenceAssessment.js";
@@ -41,7 +41,7 @@ const CornerStoneContentAssessor = function( i18n, options = {} ) {
 		} ),
 		new ParagraphTooLong(),
 		new SentenceLengthInText( true ),
-		transitionWords,
+		new TransitionWords(),
 		passiveVoice,
 		textPresence,
 		sentenceBeginnings,

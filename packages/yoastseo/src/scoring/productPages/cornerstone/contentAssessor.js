@@ -3,7 +3,7 @@ import ContentAssessor from "../../contentAssessor";
 import ParagraphTooLong from "../../assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "../../assessments/readability/sentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "../../assessments/readability/subheadingDistributionTooLongAssessment.js";
-import transitionWords from "../../assessments/readability/transitionWordsAssessment.js";
+import TransitionWords from "../../assessments/readability/TransitionWordsAssessment.js";
 import passiveVoice from "../../assessments/readability/passiveVoiceAssessment.js";
 import textPresence from "../../assessments/readability/textPresenceAssessment.js";
 import ListsPresence from "../../assessments/readability/ListAssessment.js";
@@ -36,7 +36,7 @@ const ProductCornerstoneContentAssessor = function( i18n, options = {} ) {
 			},
 		} ),
 		new SentenceLengthInText( true ),
-		transitionWords,
+		new TransitionWords(),
 		passiveVoice,
 		textPresence,
 		new ListsPresence(),

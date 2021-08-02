@@ -31,7 +31,7 @@ import fleschReadingAssessment from "../../src/scoring/assessments/readability/f
 import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/subheadingDistributionTooLongAssessment";
 import ParagraphTooLongAssessment from "../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
 import SentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/sentenceLengthInTextAssessment";
-import transitionWordsAssessment from "../../src/scoring/assessments/readability/transitionWordsAssessment";
+import TransitionWordsAssessment from "../../src/scoring/assessments/readability/TransitionWordsAssessment";
 import passiveVoiceAssessment from "../../src/scoring/assessments/readability/passiveVoiceAssessment";
 import textPresenceAssessment from "../../src/scoring/assessments/readability/textPresenceAssessment";
 import sentenceBeginningsAssessment from "../../src/scoring/assessments/readability/sentenceBeginningsAssessment";
@@ -72,6 +72,7 @@ testPapers.forEach( function( testPaper ) {
 		const imageKeyphraseAssessment = new ImageKeyphraseAssessment();
 		const imageCountAssessment = new ImageCountAssessment();
 		const paragraphTooLongAssessment = new ParagraphTooLongAssessment();
+		const transitionWordsAssessment = new TransitionWordsAssessment()
 
 		// SEO assessments.
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {
