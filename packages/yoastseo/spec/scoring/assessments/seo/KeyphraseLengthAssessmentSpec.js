@@ -69,7 +69,7 @@ describe( "the keyphrase length assessment", function() {
 		}, true ).getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 7 words long. That's more than the recommended maximum of 6 words. " +
+			"The keyphrase is 7 words long. That's longer than the recommended maximum of 6 words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 	it( "should assess a custom paper with a keyphrase that's too long as bad", function() {
