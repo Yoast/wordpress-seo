@@ -44,6 +44,7 @@ function initializeEstimatedReadingTimeClassic() {
 
 // Used to trigger the initial reading time calculation for the block and Elementor editors.
 let previousContent = "";
+let previousRecord = null;
 
 /**
  * Gets the estimated reading time in the block editor if the content has changed.
@@ -51,6 +52,16 @@ let previousContent = "";
  * @returns {void}
  */
 function getEstimatedReadingTimeBlockEditor() {
+	const postId   = select( "core/editor" ).getCurrentPostId();
+	const postType = select( "core/editor" ).getCurrentPostType();
+	const record   = select( "core" ).getEditedEntityRecord( "postType", postType, postId );
+
+	// If the post object itself hasn't changed don't convert blocks to HTML.
+	if ( previousRecord === record ) {
+		return;
+	}
+	previousRecord = record;
+
 	const content = select( "core/editor" ).getEditedPostAttribute( "content" );
 	if ( previousContent !== content ) {
 		previousContent = content;
