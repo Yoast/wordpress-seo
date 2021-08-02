@@ -19,7 +19,7 @@ describe( "test to check if all images have alt tags", function() {
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='' target='_blank'>Image alt tags</a>: None of the images " +
-			"has alt tags. <a href='' target='_blank'>Add alt attributes to your images</a>!" );
+			"has alt attributes. <a href='' target='_blank'>Add alt attributes to your images</a>!" );
 	} );
 
 	it( "assesses text with 4 images and 1 of the doesn't have alt tags", function() {
