@@ -6,7 +6,7 @@ import firstWordExceptions from "./config/firstWordExceptions";
 import { all as functionWords } from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
-import keyphraseLength from ".config/keyphraseLength";
+import keyphraseLength from "./config/keyphraseLength";
 
 // All helpers
 

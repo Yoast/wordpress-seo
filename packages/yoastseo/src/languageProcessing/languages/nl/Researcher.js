@@ -8,7 +8,7 @@ import stopWords from "./config/stopWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 import syllables from "./config/syllables.json";
-import keyphraseLength from ".config/keyphraseLength";
+import keyphraseLength from "./config/keyphraseLength";
 
 // All helpers
 import getClauses from "./helpers/getClauses";

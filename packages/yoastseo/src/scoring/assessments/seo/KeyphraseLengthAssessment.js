@@ -3,7 +3,7 @@ import { merge, inRange } from "lodash-es";
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
-import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange";
+import { inRangeEndInclusive, inRangeStartEndInclusive } from "../../helpers/assessments/inRange";
 
 /**
  * Assessment to check whether the keyphrase has a good length.
@@ -170,7 +170,8 @@ class KeyphraseLengthAssessment extends Assessment {
 					),
 				};
 			}
-			if ( this._keyphraseLengthData.keyphraseLength === this._boundaries.acceptableMaximum ) {
+			if ( inRangeEndInclusive( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMaximum,
+				this._boundaries.acceptableMaximum ) ) {
 				return {
 					score: this._configToUse.scores.okay,
 					resultText: i18n.sprintf(
