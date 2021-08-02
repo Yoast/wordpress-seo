@@ -306,6 +306,6 @@ describe( "A content assessor", function() {
 			expect( assessment._config.farTooMany ).toBe( 25 );
 			expect( assessment._isCornerstone ).toBe( true );
 			expect( assessment._isProduct ).toBe( false );
-		} )
+		} );
 	} );
 } );

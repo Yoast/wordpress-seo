@@ -119,7 +119,7 @@ describe( "A product page content assessor", function() {
 			expect( assessment._config.farTooMany ).toBe( 25 );
 			expect( assessment._isCornerstone ).toBe( false );
 			expect( assessment._isProduct ).toBe( true );
-		} )
+		} );
 
 		test( "ParagraphTooLong", () => {
 			const assessment = contentAssessor.getAssessment( "textParagraphTooLong" );

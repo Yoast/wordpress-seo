@@ -483,7 +483,7 @@ describe( "A test for getting the right config", function() {
 		expect( new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
-		}, true ).getLanguageSpecificConfig( new PolishResearcher( mockPaper ) ) ).toEqual( { "farTooMany": 20, "recommendedWordCount": 20, "slightlyTooMany": 15 } );
+		}, true ).getLanguageSpecificConfig( new PolishResearcher( mockPaper ) ) ).toEqual( { farTooMany: 20, recommendedWordCount: 20, slightlyTooMany: 15 } );
 	} );
 	it( "uses a combination of language-specific and default config in cornerstone if there is regular but not cornerstone config" +
 		" available", function() {

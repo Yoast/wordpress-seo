@@ -90,7 +90,7 @@ describe( "A cornerstone product page content assessor", function() {
 			expect( assessment._config.farTooMany ).toBe( 20 );
 			expect( assessment._isCornerstone ).toBe( true );
 			expect( assessment._isProduct ).toBe( true );
-		} )
+		} );
 
 		test( "ParagraphTooLong", () => {
 			const assessment = assessor.getAssessment( "textParagraphTooLong" );
