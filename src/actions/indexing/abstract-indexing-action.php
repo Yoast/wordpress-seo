@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Actions\Indexing;
 /**
  * Trait used to calculate unindexed object.
  */
-abstract class Abstract_Indexing_Action implements Indexation_Action_Interface {
+abstract class Abstract_Indexing_Action implements Indexation_Action_Interface, Limited_Indexing_Action_Interface {
 
 	/**
 	 * The transient name.

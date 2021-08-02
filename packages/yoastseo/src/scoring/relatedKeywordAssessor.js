@@ -6,7 +6,6 @@ import KeyphraseLength from "./assessments/seo/KeyphraseLengthAssessment.js";
 import KeywordDensity from "./assessments/seo/KeywordDensityAssessment.js";
 import MetaDescriptionKeyword from "./assessments/seo/MetaDescriptionKeywordAssessment.js";
 import ImageKeyphrase from "./assessments/seo/KeyphraseInImageTextAssessment";
-import ImageCount from "./assessments/seo/ImageCountAssessment";
 import TextCompetingLinks from "./assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
 
@@ -22,6 +21,7 @@ import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphrase
  */
 const relatedKeywordAssessor = function( i18n, researcher, options ) {
 	Assessor.call( this, i18n, researcher, options );
+	this.type = "relatedKeywordAssessor";
 
 	this._assessments = [
 		new IntroductionKeyword(),
@@ -31,7 +31,6 @@ const relatedKeywordAssessor = function( i18n, researcher, options ) {
 		new TextCompetingLinks(),
 		new FunctionWordsInKeyphrase(),
 		new ImageKeyphrase(),
-		new ImageCount(),
 	];
 };
 

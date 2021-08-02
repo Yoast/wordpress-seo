@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 /**
  * General reindexing action for indexables.
  */
-class Indexable_General_Indexation_Action implements Indexation_Action_Interface {
+class Indexable_General_Indexation_Action implements Indexation_Action_Interface, Limited_Indexing_Action_Interface {
 
 	/**
 	 * The transient cache key.
