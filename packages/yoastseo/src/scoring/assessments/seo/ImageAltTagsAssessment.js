@@ -77,11 +77,8 @@ export default class ImageAltTagsAssessment extends Assessment {
 		// The number of images with no alt tags.
 		const imagesNoAlt = this.altTagsProperties.noAlt;
 
-		// The number of images with alt tags.
-		const altTagsCount = this.altTagsProperties.withAlt;
-
 		// None of the images has alt tags.
-		if ( altTagsCount === 0 ) {
+		if ( imagesNoAlt === this.imageCount ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: i18n.sprintf(
@@ -98,7 +95,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 		}
 
 		// Not all images have alt tags.
-		if ( altTagsCount !== this.imageCount ) {
+		if ( imagesNoAlt > 0 ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: i18n.sprintf(
