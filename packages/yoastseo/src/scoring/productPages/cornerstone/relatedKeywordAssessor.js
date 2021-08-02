@@ -21,6 +21,7 @@ import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyph
  */
 const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
+	this.type = "productPageCornerstoneRelatedKeywordAssessor";
 
 	this._assessments = [
 		new IntroductionKeyword(),
