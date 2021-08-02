@@ -81,10 +81,24 @@ describe( "A cornerstone product page content assessor", function() {
 			expect( assessment._config.shouldNotAppearInShortText ).toBe( true );
 		} );
 
-		it( "should pass a 'true' value for the isCornerstone parameter in the SentenceLengthInTextAssessment", function() {
+		test( "SentenceLengthAssessment", () => {
 			const assessment = assessor.getAssessment( "textSentenceLength" );
 
-			expect( assessment._isCornerstone ).toBeTruthy();
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.slightlyTooMany ).toBe( 15 );
+			expect( assessment._config.farTooMany ).toBe( 20 );
+			expect( assessment._isCornerstone ).toBe( true );
+			expect( assessment._isProduct ).toBe( true );
+		} )
+
+		test( "ParagraphTooLong", () => {
+			const assessment = assessor.getAssessment( "textParagraphTooLong" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.parameters.recommendedLength ).toBe( 70 );
+			expect( assessment._config.parameters.maximumRecommendedLength ).toBe( 100 );
 		} );
 	} );
 } );
