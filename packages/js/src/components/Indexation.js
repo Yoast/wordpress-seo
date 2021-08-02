@@ -82,7 +82,8 @@ export class Indexation extends Component {
 			 */
 			data = JSON.parse( responseText );
 		} catch ( error ) {
-			throw new ParseError( "Error parsing the response to JSON.", responseText );
+			console.error( error );
+			console.error( responseText );
 		}
 
 		// Throw an error when the response's status code is not in the 200-299 range.
