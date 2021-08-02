@@ -1,4 +1,5 @@
 import { inherits } from "util";
+import ImageAltTags from "../assessments/seo/ImageAltTagsAssessment";
 
 import IntroductionKeywordAssessment from "../assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
@@ -60,6 +61,7 @@ const ProductSEOAssessor = function( i18n, researcher, options ) {
 			recommendedCount: 4,
 		}, true ),
 		new ImageKeyphrase(),
+		new ImageAltTags(),
 	];
 };
 

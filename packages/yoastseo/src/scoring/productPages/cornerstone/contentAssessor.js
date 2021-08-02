@@ -35,7 +35,10 @@ const ProductCornerstoneContentAssessor = function( i18n, options = {} ) {
 				maximumRecommendedLength: 100,
 			},
 		} ),
-		new SentenceLengthInText( true ),
+		new SentenceLengthInText( {
+			slightlyTooMany: 15,
+			farTooMany: 20,
+		}, true, true ),
 		new TransitionWords(),
 		passiveVoice,
 		textPresence,

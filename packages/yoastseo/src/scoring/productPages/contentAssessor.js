@@ -29,7 +29,10 @@ const ProductContentAssessor = function( i18n, options = {} ) {
 				maximumRecommendedLength: 100,
 			},
 		} ),
-		new SentenceLengthInText(),
+		new SentenceLengthInText( {
+			slightlyTooMany: 20,
+			farTooMany: 25,
+		}, false, true ),
 		new TransitionWords(),
 		passiveVoice,
 		textPresence,

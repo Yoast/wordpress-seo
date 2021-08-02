@@ -40,7 +40,10 @@ const CornerStoneContentAssessor = function( i18n, options = {} ) {
 			},
 		} ),
 		new ParagraphTooLong(),
-		new SentenceLengthInText( true ),
+		new SentenceLengthInText( {
+			slightlyTooMany: 20,
+			farTooMany: 25,
+		}, true ),
 		new TransitionWords(),
 		passiveVoice,
 		textPresence,
