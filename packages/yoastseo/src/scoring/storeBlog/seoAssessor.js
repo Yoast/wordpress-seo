@@ -27,11 +27,7 @@ const StoreBlogSEOAssessor = function( i18n, researcher, options ) {
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLength(),
 		new TitleKeywordAssessment(),
-		new TitleWidth( {
-			scores: {
-				widthTooShort: 9,
-			},
-		}, true ),
+		new TitleWidth(),
 		new UrlKeywordAssessment(),
 		new FunctionWordsInKeyphrase(),
 	];

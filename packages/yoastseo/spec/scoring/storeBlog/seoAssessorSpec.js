@@ -178,7 +178,7 @@ describe( "running assessments in the store blog cornerstone SEO assessor", func
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.widthTooShort ).toBe( 9 );
+			expect( assessment._config.scores.widthTooShort ).toBe( 6 );
 			expect( assessment._config.scores.widthTooLong ).toBe( 3 );
 		} );
 	} );
