@@ -83,7 +83,17 @@ class SnippetEditorFields extends React.Component {
 		this.uniqueId = uniqueId( "snippet-editor-field-" );
 
 		this.setRef = this.setRef.bind( this );
+		this.setTitleRef = this.setTitleRef.bind( this );
+		this.setSlugRef = this.setSlugRef.bind( this );
+		this.setDescriptionRef = this.setDescriptionRef.bind( this );
 		this.triggerReplacementVariableSuggestions = this.triggerReplacementVariableSuggestions.bind( this );
+		this.onFocusTitle = this.onFocusTitle.bind( this );
+		this.onChangeTitle = this.onChangeTitle.bind( this );
+		this.onFocusSlug = this.onFocusSlug.bind( this );
+		this.focusSlug = this.focusSlug.bind( this );
+		this.onChangeSlug = this.onChangeSlug.bind( this );
+		this.onFocusDescription = this.onFocusDescription.bind( this );
+		this.onChangeDescription = this.onChangeDescription.bind( this );
 	}
 
 	/**
@@ -96,6 +106,39 @@ class SnippetEditorFields extends React.Component {
 	 */
 	setRef( fieldName, ref ) {
 		this.elements[ fieldName ] = ref;
+	}
+
+	/**
+	 * Sets the title ref.
+	 *
+	 * @param {Object} ref The ref.
+	 *
+	 * @returns {void}
+	 */
+	setTitleRef( ref ) {
+		this.setRef( "title", ref );
+	}
+
+	/**
+	 * Sets the slug ref.
+	 *
+	 * @param {Object} ref The ref.
+	 *
+	 * @returns {void}
+	 */
+	setSlugRef( ref ) {
+		this.setRef( "slug", ref );
+	}
+
+	/**
+	 * Sets the description ref.
+	 *
+	 * @param {Object} ref The ref.
+	 *
+	 * @returns {void}
+	 */
+	setDescriptionRef( ref ) {
+		this.setRef( "description", ref );
 	}
 
 	/**
@@ -144,6 +187,75 @@ class SnippetEditorFields extends React.Component {
 	}
 
 	/**
+	 * Call the onFocus event for the title.
+	 *
+	 * @returns {void}
+	 */
+	 onFocusTitle() {
+		this.props.onFocus( "title" );
+	}
+
+	/**
+	 * Call the onChange event for the title.
+	 *
+	 * @param {string} content The content.
+	 *
+	 * @returns {void}
+	 */
+	onChangeTitle( content ) {
+		this.props.onChange( "title", content );
+	}
+
+	/**
+	 * Call the onFocus event for the slug.
+	 *
+	 * @returns {void}
+	 */
+	onFocusSlug() {
+		this.props.onFocus( "slug" );
+	}
+
+	/**
+	 * Focusses the slug element.
+	 *
+	 * @returns {void}
+	 */
+	focusSlug() {
+		this.elements.slug.focus();
+	}
+
+	/**
+	 * Call the onChange event for the slug.
+	 *
+	 * @param {string} content The content.
+	 *
+	 * @returns {void}
+	 */
+	 onChangeSlug( content ) {
+		this.props.onChange( "slug", content );
+	}
+
+	/**
+	 * Call the onFocus event for the description.
+	 *
+	 * @returns {void}
+	 */
+	 onFocusDescription() {
+		this.props.onFocus( "description" );
+	}
+
+	/**
+	 * Call the onChange event for the description.
+	 *
+	 * @param {string} content The content.
+	 *
+	 * @returns {void}
+	 */
+	onChangeDescription( content ) {
+		this.props.onChange( "description", content );
+	}
+
+	/**
 	 * Renders the snippet editor.
 	 *
 	 * @returns {ReactElement} The snippet editor element.
@@ -156,9 +268,7 @@ class SnippetEditorFields extends React.Component {
 			recommendedReplacementVariables,
 			titleLengthProgress,
 			descriptionLengthProgress,
-			onFocus,
 			onBlur,
-			onChange,
 			descriptionEditorFieldPlaceholder,
 			data: {
 				title,
@@ -180,15 +290,15 @@ class SnippetEditorFields extends React.Component {
 				<ReplacementVariableEditor
 					withCaret={ true }
 					label={ __( "SEO title", "yoast-components" ) }
-					onFocus={ () => onFocus( "title" ) }
-					onBlur={ () => onBlur() }
+					onFocus={ this.onFocusTitle }
+					onBlur={ onBlur }
 					isActive={ activeField === "title" }
 					isHovered={ hoveredField === "title" }
-					editorRef={ ref => this.setRef( "title", ref ) }
+					editorRef={ this.setTitleRef }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					content={ title }
-					onChange={ content => onChange( "title", content ) }
+					onChange={ this.onChangeTitle }
 					fieldId={ titleInputId }
 					type="title"
 				/>
@@ -199,21 +309,21 @@ class SnippetEditorFields extends React.Component {
 				/>
 				<SimulatedLabel
 					id={ slugLabelId }
-					onClick={ () => onFocus( "slug" ) }
+					onClick={ this.onFocusSlug }
 				>
 					{ __( "Slug", "yoast-components" ) }
 				</SimulatedLabel>
 				<InputContainerWithCaretStyles
-					onClick={ () => this.elements.slug.focus() }
+					onClick={ this.focusSlug }
 					isActive={ activeField === "slug" }
 					isHovered={ hoveredField === "slug" }
 				>
 					<SlugInput
 						value={ slug }
-						onChange={ event => onChange( "slug", event.target.value ) }
-						onFocus={ () => onFocus( "slug" ) }
-						onBlur={ () => onBlur() }
-						ref={ ref => this.setRef( "slug", ref ) }
+						onChange={ this.onChangeSlug }
+						onFocus={ this.onFocusSlug }
+						onBlur={ onBlur }
+						ref={ this.setSlugRef }
 						aria-labelledby={ this.uniqueId + "-slug" }
 						id={ slugInputId }
 					/>
@@ -223,15 +333,15 @@ class SnippetEditorFields extends React.Component {
 					type="description"
 					placeholder={ descriptionEditorFieldPlaceholder }
 					label={ __( "Meta description", "yoast-components" ) }
-					onFocus={ () => onFocus( "description" ) }
-					onBlur={ () => onBlur() }
+					onFocus={ this.onFocusDescription }
+					onBlur={ onBlur }
 					isActive={ activeField === "description" }
 					isHovered={ hoveredField === "description" }
-					editorRef={ ref => this.setRef( "description", ref ) }
+					editorRef={ this.setDescriptionRef }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					content={ description }
-					onChange={ content => onChange( "description", content ) }
+					onChange={ this.onChangeDescription }
 					fieldId={ descriptionInputId }
 				/>
 				<ProgressBar
