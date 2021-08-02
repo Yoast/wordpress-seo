@@ -88,7 +88,7 @@ export default class ImageAltTagsAssessment extends Assessment {
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sImage alt tags%3$s: None of the images has alt tags. %2$sAdd alt attributes to your images%3$s!"
+						"%1$sImage alt tags%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
