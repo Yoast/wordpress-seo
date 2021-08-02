@@ -46,7 +46,7 @@ export default class TransitionWordsAssessment extends Assessment {
 		}
 
 		return formatNumber( ( sentences.transitionWordSentences / sentences.totalSentences ) * 100 );
-	};
+	}
 
 	/**
 	 * Calculates the score for the assessment based on the percentage of sentences containing transition words.
@@ -68,7 +68,7 @@ export default class TransitionWordsAssessment extends Assessment {
 
 		// Green indicator.
 		return 9;
-	};
+	}
 
 	/**
 	 * Calculates transition word result.
@@ -107,7 +107,8 @@ export default class TransitionWordsAssessment extends Assessment {
 					/* Translators: %1$s and %4$s expand to a link to yoast.com, %2$s expands to the anchor end tag,
 					%3$s expands to the percentage of sentences containing transition words */
 					i18n.dgettext( "js-text-analysis",
-						"%1$sTransition words%2$s: Only %3$s of the sentences contain transition words, which is not enough. %4$sUse more of them%2$s."
+						"%1$sTransition words%2$s: Only %3$s of the sentences contain transition words, which is not enough." +
+						" %4$sUse more of them%2$s."
 					),
 					this._config.urlTitle,
 					"</a>",
@@ -127,7 +128,7 @@ export default class TransitionWordsAssessment extends Assessment {
 				this._config.urlTitle,
 				"</a>" ),
 		};
-	};
+	}
 
 	/**
 	 * Scores the percentage of sentences including one or more transition words.
@@ -148,7 +149,7 @@ export default class TransitionWordsAssessment extends Assessment {
 		assessmentResult.setHasMarks( transitionWordResult.hasMarks );
 
 		return assessmentResult;
-	};
+	}
 
 	/**
 	 * Marks text for the transition words assessment.
@@ -169,7 +170,7 @@ export default class TransitionWordsAssessment extends Assessment {
 				marked: marker( sentence ),
 			} );
 		} );
-	};
+	}
 
 	/**
 	 * Checks if the transition words assessment is applicable to the paper.
@@ -182,5 +183,5 @@ export default class TransitionWordsAssessment extends Assessment {
 	isApplicable( paper, researcher ) {
 		const wordCount = researcher.getResearch( "wordCountInText" );
 		return paper.hasText() && wordCount >= 200 && researcher.hasResearch( "findTransitionWords" );
-	};
+	}
 }

@@ -100,7 +100,7 @@ export default class PassiveVoiceAssessment extends Assessment {
 				this._config.urlCallToAction
 			),
 		};
-	};
+	}
 
 	/**
 	 * Marks all sentences that have the passive voice.
@@ -120,7 +120,7 @@ export default class PassiveVoiceAssessment extends Assessment {
 				marked: marked,
 			} );
 		} );
-	};
+	}
 
 	/**
 	 * Runs the passiveVoice module, based on this returns an assessment result with score and text.
@@ -143,7 +143,7 @@ export default class PassiveVoiceAssessment extends Assessment {
 		assessmentResult.setHasMarks( passiveVoiceResult.hasMarks );
 
 		return assessmentResult;
-	};
+	}
 
 	/**
 	 * Checks if passive voice analysis is available for the language of the paper.
@@ -155,5 +155,5 @@ export default class PassiveVoiceAssessment extends Assessment {
 	 */
 	isApplicable( paper, researcher ) {
 		return paper.hasText() && researcher.hasResearch( "getPassiveVoiceResult" );
-	};
-};
+	}
+}
