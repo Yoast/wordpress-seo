@@ -208,17 +208,30 @@ describe( "running assessments in the product page SEO assessor", function() {
 			expect( assessment._config.scores.noAlt ).toBe( 3 );
 		} );
 
+		test( "ImageCountAssessment", () => {
+			const assessment = assessor.getAssessment( "images" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores.okay ).toBe( 6 );
+			expect( assessment._config.recommendedCount ).toBe( 4 );
+			expect( assessment._config.scores ).toBeDefined();
+			expect( assessment._config.recommendedCount ).toBeDefined();
+		} );
+
 		test( "TextLengthAssessment", () => {
 			const assessment = assessor.getAssessment( "textLength" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.recommendedMinimum ).toBe( 900 );
-			expect( assessment._config.slightlyBelowMinimum ).toBe( 400 );
-			expect( assessment._config.belowMinimum ).toBe( 300 );
+			expect( assessment._config.recommendedMinimum ).toBe( 400 );
+			expect( assessment._config.slightlyBelowMinimum ).toBe( 300 );
+			expect( assessment._config.belowMinimum ).toBe( 200 );
 			expect( assessment._config.scores ).toBeDefined();
 			expect( assessment._config.scores.belowMinimum ).toBe( -20 );
 			expect( assessment._config.scores.farBelowMinimum ).toBe( -20 );
+			expect( assessment._config.cornerstoneContent ).toBeDefined();
+			expect( assessment._config.cornerstoneContent ).toBeTruthy();
 		} );
 
 		test( "PageTitleWidthAssesment", () => {
@@ -227,7 +240,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.widthTooShort ).toBe( 3 );
+			expect( assessment._config.scores.widthTooShort ).toBe( 9 );
 			expect( assessment._config.scores.widthTooLong ).toBe( 3 );
 		} );
 

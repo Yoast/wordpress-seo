@@ -146,32 +146,25 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests get_limited_unindexed_count with a limit.
 	 *
-	 * @covers ::get_select_query
-	 * @covers ::get_limited_count_transient
+	 * @covers ::get_count_query
+	 * @covers ::get_unindexed_count
+	 * @covers ::get_total_unindexed
 	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_limited_unindexed_count
 	 */
 	public function test_get_limited_unindexed_count() {
-		$limit          = 10;
 		$expected_query = "
-			SELECT T.term_id, T.description
+			SELECT COUNT(T.term_id)
 			FROM wp_term_taxonomy AS T
 			LEFT JOIN wp_yoast_indexable AS I
 				ON T.term_id = I.object_id
 				AND I.object_type = 'term'
 				AND I.link_count IS NOT NULL
 			WHERE I.object_id IS NULL
-				AND T.taxonomy IN (%s, %s)
-			LIMIT %d";
-
-		$query_result = [
-			'post_id_1',
-			'post_id_2',
-			'post_id_3',
-		];
+				AND T.taxonomy IN (%s, %s)";
 
 		Functions\expect( 'get_transient' )
 			->once()
-			->with( Term_Link_Indexing_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT )
+			->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT )
 			->andReturn( false );
 
 		$this->taxonomy_helper
@@ -182,21 +175,21 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 		$this->wpdb
 			->expects( 'prepare' )
 			->once()
-			->with( $expected_query, [ 'category', 'tag', $limit ] )
+			->with( $expected_query, [ 'category', 'tag' ] )
 			->andReturn( 'query' );
 
 		$this->wpdb
-			->expects( 'get_col' )
+			->expects( 'get_var' )
 			->once()
 			->with( 'query' )
-			->andReturn( $query_result );
+			->andReturn( '10' );
 
 		Functions\expect( 'set_transient' )
 			->once()
-			->with( Term_Link_Indexing_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT, \count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )
+			->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT, '10', \DAY_IN_SECONDS )
 			->andReturn( true );
 
-		$this->assertEquals( count( $query_result ), $this->instance->get_limited_unindexed_count( $limit ) );
+		$this->assertEquals( 10, $this->instance->get_limited_unindexed_count() );
 	}
 
 	/**
@@ -320,7 +313,6 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 		}
 
 		Functions\expect( 'delete_transient' )->once()->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
-		Functions\expect( 'delete_transient' )->once()->with( Term_Link_Indexing_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
 		$this->instance->index();
 	}

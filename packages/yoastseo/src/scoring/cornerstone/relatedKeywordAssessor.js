@@ -8,7 +8,6 @@ import MetaDescriptionKeyword from "../assessments/seo/MetaDescriptionKeywordAss
 import TextCompetingLinks from "../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
-import ImageCount from "../assessments/seo/ImageCountAssessment";
 
 /**
  * Creates the Assessor
@@ -21,6 +20,7 @@ import ImageCount from "../assessments/seo/ImageCountAssessment";
  */
 const relatedKeywordAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
+	this.type = "cornerstoneRelatedKeywordAssessor";
 
 	this._assessments = [
 		new IntroductionKeyword(),
@@ -36,7 +36,6 @@ const relatedKeywordAssessor = function( i18n, options ) {
 				noAlt: 3,
 			},
 		} ),
-		new ImageCount(),
 	];
 };
 

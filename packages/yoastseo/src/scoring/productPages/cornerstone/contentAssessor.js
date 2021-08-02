@@ -1,11 +1,12 @@
 import Assessor from "../../assessor.js";
 import ContentAssessor from "../../contentAssessor";
-import paragraphTooLong from "../../assessments/readability/paragraphTooLongAssessment.js";
+import ParagraphTooLong from "../../assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "../../assessments/readability/sentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "../../assessments/readability/subheadingDistributionTooLongAssessment.js";
 import transitionWords from "../../assessments/readability/transitionWordsAssessment.js";
 import passiveVoice from "../../assessments/readability/passiveVoiceAssessment.js";
 import textPresence from "../../assessments/readability/textPresenceAssessment.js";
+import ListsPresence from "../../assessments/readability/ListAssessment.js";
 
 /**
  * Creates the Assessor
@@ -27,12 +28,18 @@ const ProductCornerstoneContentAssessor = function( i18n, options = {} ) {
 				farTooMany: 300,
 				recommendedMaximumWordCount: 250,
 			},
+			shouldNotAppearInShortText: true } ),
+		new ParagraphTooLong( {
+			parameters: {
+				recommendedLength: 70,
+				maximumRecommendedLength: 100,
+			},
 		} ),
-		paragraphTooLong,
 		new SentenceLengthInText( true ),
 		transitionWords,
 		passiveVoice,
 		textPresence,
+		new ListsPresence(),
 	];
 };
 

@@ -47,3 +47,30 @@ describe( "the SEO title length assessment", function() {
 		expect( pageTitleLengthAssessment.getMaximumLength() ).toBe( 600 );
 	} );
 } );
+
+describe( "test for SEO title width assessment when is used in product page analysis", function() {
+	it( "assesses a paper from product page with short title width", function() {
+		const paper = new Paper( "", { title: "Controversial: A tortie cat turns out to be the most beatiful cat a study claims" } );
+		const config = {
+			scores: {
+				widthTooShort: 9,
+			},
+		};
+		const result = new PageTitleLengthAssessment( config, true ).getResult( paper, factory.buildMockResearcher( 300 ), i18n );
+		expect( result.getScore() ).toEqual( 9 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!" );
+	} );
+
+	it( "assesses a paper from product page with too long title width", function() {
+		const paper = new Paper( "", { title: "Controversial: A tortie cat turns out to be the most beatiful cat a study claims" } );
+		const config = {
+			scores: {
+				widthTooShort: 9,
+			},
+		};
+		const result = new PageTitleLengthAssessment( config, true ).getResult( paper, factory.buildMockResearcher( 620 ), i18n );
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: " +
+			"The SEO title is wider than the viewable limit. <a href='https://yoa.st/34i' target='_blank'>Try to make it shorter</a>." );
+	} );
+} );

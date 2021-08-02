@@ -140,8 +140,8 @@ const expectedResults = {
 	imageCount: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Images</a>: No images appear on this page. " +
-			"<a href='https://yoa.st/33d' target='_blank'>Add some</a>!",
+		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page. <a href='https://yoa.st/4f5' " +
+			"target='_blank'>Add some</a>!",
 	},
 };
 

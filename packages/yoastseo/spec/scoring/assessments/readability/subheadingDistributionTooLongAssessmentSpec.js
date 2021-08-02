@@ -129,6 +129,21 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		const assessment = subheadingDistributionTooLong.hasSubheadings( new Paper( shortText + subheading + longText ) );
 		expect( assessment ).toBe( true );
 	} );
+
+	it( "Returns false when the assessment shouldn't appear in short text analysis and the text contains less than 300 words", function() {
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( new Paper( shortText ) );
+		expect( assessment ).toBe( false );
+	} );
+
+	it( "Returns false when the assessment shouldn't appear in short text analysis and the paper is empty", function() {
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( new Paper( "" ) );
+		expect( assessment ).toBe( false );
+	} );
+
+	it( "Returns true when the assessment shouldn't appear in short text analysis but the text contains more than 300 words", function() {
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( new Paper( longText ) );
+		expect( assessment ).toBe( true );
+	} );
 } );
 
 describe.skip( "A test for marking too long text segments not separated by a subheading", function() {

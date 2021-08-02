@@ -26,8 +26,8 @@ export default class TextImagesAssessment extends Assessment {
 				good: 9,
 			},
 			recommendedCount: 1,
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33c" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33d" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/4f4" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4f5" ),
 		};
 
 		this.identifier = "images";

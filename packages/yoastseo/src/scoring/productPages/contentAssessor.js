@@ -1,11 +1,12 @@
 import Assessor from "../assessor.js";
 import ContentAssessor from "../contentAssessor";
-import paragraphTooLong from "../assessments/readability/paragraphTooLongAssessment.js";
+import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "../assessments/readability/sentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "../assessments/readability/subheadingDistributionTooLongAssessment.js";
 import transitionWords from "../assessments/readability/transitionWordsAssessment.js";
 import passiveVoice from "../assessments/readability/passiveVoiceAssessment.js";
 import textPresence from "../assessments/readability/textPresenceAssessment.js";
+import ListsPresence from "../assessments/readability/ListAssessment.js";
 
 /**
  * Creates the Assessor
@@ -21,12 +22,18 @@ const ProductContentAssessor = function( i18n, options = {} ) {
 	this.type = "productContentAssessor";
 
 	this._assessments = [
-		new SubheadingDistributionTooLong(),
-		paragraphTooLong,
+		new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ),
+		new ParagraphTooLong( {
+			parameters: {
+				recommendedLength: 70,
+				maximumRecommendedLength: 100,
+			},
+		} ),
 		new SentenceLengthInText(),
 		transitionWords,
 		passiveVoice,
 		textPresence,
+		new ListsPresence(),
 	];
 };
 
