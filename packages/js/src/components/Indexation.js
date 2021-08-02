@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 import { addHistoryState, removeSearchParam } from "../helpers/urlHelpers";
 import IndexingError from "./IndexingError";
 import RequestError from "../errors/RequestError";
-import ParseError from "../errors/ParseError";
 
 const STATE = {
 	/**
