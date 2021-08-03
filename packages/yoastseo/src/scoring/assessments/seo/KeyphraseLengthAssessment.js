@@ -102,6 +102,38 @@ class KeyphraseLengthAssessment extends Assessment {
 	 */
 	calculateResult( i18n ) {
 		if ( this._useCustomConfig ) {
+			if ( this._keyphraseLengthData.keyphraseLength === 0 ) {
+				if ( this._configToUse.isRelatedKeyphrase ) {
+					return {
+						score: this._configToUse.scores.veryBad,
+						resultText: i18n.sprintf(
+							/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+							i18n.dgettext(
+								"js-text-analysis",
+								"%1$sKeyphrase length%3$s: " +
+								"%2$sSet a keyphrase in order to calculate your SEO score%3$s."
+							),
+							this._configToUse.urlTitle,
+							this._configToUse.urlCallToAction,
+							"</a>"
+						),
+					};
+				}
+				return {
+					score: this._configToUse.scores.veryBad,
+					resultText: i18n.sprintf(
+						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
+						i18n.dgettext(
+							"js-text-analysis",
+							"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. " +
+							"%2$sSet a keyphrase in order to calculate your SEO score%3$s."
+						),
+						this._configToUse.urlTitle,
+						this._configToUse.urlCallToAction,
+						"</a>"
+					),
+				};
+			}
 			// Calculates bad score for custom pages
 			if ( this._keyphraseLengthData.keyphraseLength <= this._boundaries.acceptableMinimum ) {
 				return {
