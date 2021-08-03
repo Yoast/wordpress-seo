@@ -31,7 +31,7 @@ const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
 				recommendedMaximum: 6,
 				acceptableMaximum: 8,
 				acceptableMinimum: 2,
-			}, isRelatedKeyphrase: true
+			}, isRelatedKeyphrase: true,
 		}, true ),
 		new KeywordDensity(),
 		new MetaDescriptionKeyword(),

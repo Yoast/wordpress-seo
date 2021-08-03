@@ -32,7 +32,7 @@ const ProductRelatedKeywordAssessor = function( i18n, researcher, options ) {
 				recommendedMaximum: 6,
 				acceptableMaximum: 8,
 				acceptableMinimum: 2,
-			}, isRelatedKeyphrase: true
+			}, isRelatedKeyphrase: true,
 		}, true ),
 		new KeywordDensity(),
 		new MetaDescriptionKeyword(),
