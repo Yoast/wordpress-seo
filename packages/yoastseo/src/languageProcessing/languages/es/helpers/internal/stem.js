@@ -1,6 +1,8 @@
 /* eslint-disable max-statements, complexity */
 // The original stemmer is available at https://github.com/dmarman/lorca/blob/master/src/stemmer.js.
 import { languageProcessing } from "yoastseo";
+import checkVerbStemModifications from "./checkVerbStemModifications";
+
 const {
 	buildFormRule,
 	createRulesFromArrays,
@@ -20,6 +22,7 @@ const {
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  */
+
 
 /**
  * Checks if the input character is a Spanish vowel.
@@ -564,10 +567,16 @@ export default function stem( word, morphologyData ) {
 	word = stemGenericSuffix( word, rvText, rv );
 
 	// Check if the stemmed word is on the list of words with multiple stems. If so, return the canonical stem.
-
 	const canonicalStem = canonicalizeStem( word, morphologyData.stemsThatBelongToOneWord );
 	if ( canonicalStem ) {
 		return canonicalStem;
+	}
+
+	const modifiedVerbStem = checkVerbStemModifications( word, morphologyData );
+	if ( modifiedVerbStem ) {
+		// If on the list of words that look like verbs [notVerbForms] do not perform stem modification.
+		// Do not perform at the beginning of the word and if word does not have verb suffix.
+		return modifiedVerbStem;
 	}
 
 	return removeAccent( word );

@@ -418,6 +418,30 @@ const wordsToStem = [
 	// Words that looks like it ends in a valid -mente suffix but do not
 	[ "demente", "dement" ],
 	[ "clemente", "clement" ],
+	// Verbs that undergo stem modification.
+	// Qu -> c
+	[ "apliques", "aplic" ],
+	[ "ataquemos", "atac" ],
+	// Qu -> c + ue -> o
+	[ "trueque", "troc" ],
+	// Ij -> g
+	[ "dirijo", "dirig" ],
+	[ "exijamos", "exig" ],
+	// Zc -> c
+	[ "conozco", "conoc" ],
+	[ "traduzcamos", "traduc" ],
+	// I -> e
+	[ "sintió", "sent" ],
+	[ "sugiriese", "suger" ],
+	// U -> o
+	[ "murieron", "mor" ],
+	[ "durmió", "dorm" ],
+	// Ue -> o
+	[ "recuerdan", "record" ],
+	[ "resuelves", "resolv" ],
+	// Ie -> e
+	[ "cierno", "cern" ],
+	[ "aciertas", "acert" ],
 ];
 
 const paradigms = [
@@ -461,3 +485,4 @@ describe( "Test to make sure all forms of a paradigm get stemmed to the same ste
 		}
 	}
 } );
+
