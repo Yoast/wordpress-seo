@@ -5,7 +5,7 @@ import PassiveVoiceAssessment from "./readability/PassiveVoiceAssessment";
 import SentenceBeginningsAssessment from "./readability/sentenceBeginningsAssessment";
 import SentenceLengthInTextAssessment from "./readability/sentenceLengthInTextAssessment";
 import SubheadingDistributionTooLongAssessment from "./readability/subheadingDistributionTooLongAssessment";
-import TextPresenceAssessment from "./readability/textPresenceAssessment";
+import TextPresenceAssessment from "./readability/TextPresenceAssessment";
 import TransitionWordsAssessment from "./readability/transitionWordsAssessment";
 import WordComplexityAssessment from "./readability/wordComplexityAssessment";
 

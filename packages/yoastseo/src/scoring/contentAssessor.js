@@ -6,7 +6,7 @@ import SubheadingDistributionTooLong from "./assessments/readability/subheadingD
 import TransitionWords from "./assessments/readability/TransitionWordsAssessment.js";
 import passiveVoice from "./assessments/readability/PassiveVoiceAssessment.js";
 import sentenceBeginnings from "./assessments/readability/sentenceBeginningsAssessment.js";
-import textPresence from "./assessments/readability/textPresenceAssessment.js";
+import textPresence from "./assessments/readability/TextPresenceAssessment.js";
 
 /*
 	Temporarily disabled:

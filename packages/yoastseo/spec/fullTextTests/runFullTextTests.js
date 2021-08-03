@@ -33,7 +33,7 @@ import ParagraphTooLongAssessment from "../../src/scoring/assessments/readabilit
 import SentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/sentenceLengthInTextAssessment";
 import TransitionWordsAssessment from "../../src/scoring/assessments/readability/TransitionWordsAssessment";
 import PassiveVoiceAssessment from "../../src/scoring/assessments/readability/PassiveVoiceAssessment";
-import textPresenceAssessment from "../../src/scoring/assessments/readability/textPresenceAssessment";
+import TextPresenceAssessment from "../../src/scoring/assessments/readability/TextPresenceAssessment";
 import sentenceBeginningsAssessment from "../../src/scoring/assessments/readability/sentenceBeginningsAssessment";
 
 // Import test papers
@@ -74,6 +74,7 @@ testPapers.forEach( function( testPaper ) {
 		const paragraphTooLongAssessment = new ParagraphTooLongAssessment();
 		const transitionWordsAssessment = new TransitionWordsAssessment();
 		const passiveVoiceAssessment = new PassiveVoiceAssessment();
+		const textPresenceAssessment = new TextPresenceAssessment();
 
 		// SEO assessments.
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {

@@ -5,7 +5,7 @@ import SentenceLengthInText from "../assessments/readability/sentenceLengthInTex
 import SubheadingDistributionTooLong from "../assessments/readability/subheadingDistributionTooLongAssessment.js";
 import TransitionWords from "../assessments/readability/TransitionWordsAssessment.js";
 import passiveVoice from "../assessments/readability/PassiveVoiceAssessment.js";
-import textPresence from "../assessments/readability/textPresenceAssessment.js";
+import textPresence from "../assessments/readability/TextPresenceAssessment.js";
 import ListsPresence from "../assessments/readability/ListAssessment.js";
 
 /**
