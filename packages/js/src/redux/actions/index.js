@@ -25,6 +25,8 @@ export * from "./snippetEditor";
 export * from "./twitterEditor";
 export * from "./facebookEditor";
 export * from "./warning";
+export * from "./WincherModal";
+export * from "./WincherRequest";
 
 /**
  * A wrapper function so that we can wrap the field helper to the monorepo action.

@@ -21,3 +21,5 @@ export * from "./shoppingData";
 export * from "./snippetEditor";
 export * from "./twitterEditor";
 export * from "./warning";
+export * from "./WincherModal";
+export * from "./WincherRequest";

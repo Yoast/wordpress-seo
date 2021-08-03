@@ -17,6 +17,7 @@ import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
+import WincherSEOPerformaceModal from "../../containers/WincherSEOPerformaceModal";
 
 /* eslint-disable complexity */
 /**
@@ -76,6 +77,9 @@ export default function SidebarFill( { settings } ) {
 				</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
 					<CollapsibleCornerstone />
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 22 }>
+					<WincherSEOPerformaceModal />
 				</SidebarItem> }
 			</Fill>
 		</Fragment>
