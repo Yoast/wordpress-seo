@@ -98,4 +98,36 @@ describe( "A product page content assessor", function() {
 			expect( actual ).toEqual( expected );
 		} );
 	} );
+	describe( "has configuration overrides", () => {
+		const paper = new Paper( "test", { locale: "xx_XX" } );
+		const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
+
+		test( "SubheadingsDistributionTooLong", () => {
+			const assessment = contentAssessor.getAssessment( "subheadingsTooLong" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.shouldNotAppearInShortText ).toBe( true );
+		} );
+
+		test( "SentenceLengthAssessment", () => {
+			const assessment = contentAssessor.getAssessment( "textSentenceLength" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.slightlyTooMany ).toBe( 20 );
+			expect( assessment._config.farTooMany ).toBe( 25 );
+			expect( assessment._isCornerstone ).toBe( false );
+			expect( assessment._isProduct ).toBe( true );
+		} );
+
+		test( "ParagraphTooLong", () => {
+			const assessment = contentAssessor.getAssessment( "textParagraphTooLong" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.parameters.recommendedLength ).toBe( 70 );
+			expect( assessment._config.parameters.maximumRecommendedLength ).toBe( 100 );
+		} );
+	} );
 } );

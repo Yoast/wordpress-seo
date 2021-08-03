@@ -1,4 +1,5 @@
 import { inherits } from "util";
+import ImageAltTags from "../../assessments/seo/ImageAltTagsAssessment";
 
 import IntroductionKeywordAssessment from "../../assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../../assessments/seo/KeyphraseLengthAssessment";
@@ -91,6 +92,7 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 				noAlt: 3,
 			},
 		} ),
+		new ImageAltTags(),
 	];
 };
 
