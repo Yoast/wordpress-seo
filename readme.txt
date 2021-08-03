@@ -258,6 +258,7 @@ Enhancements:
 * [yoastseo] Includes videos in the `ImageCount` analysis when the `countVideos` value is true.
 * [yoastseo] Passes custom configuration for the images assessment for product pages
 * [yoastseo] Splits the `TextImagesAssessment` into two, `KeyphraseInImageTextAssessment` and `ImageCountAssessment`.
+* Improves overall performance and responsiveness in Gutenberg.
 
 Bugfixes:
 
