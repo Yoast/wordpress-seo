@@ -26,7 +26,14 @@ const ProductRelatedKeywordAssessor = function( i18n, researcher, options ) {
 
 	this._assessments = [
 		new IntroductionKeyword(),
-		new KeyphraseLength( { isRelatedKeyphrase: true } ),
+		new KeyphraseLength( {
+			parameters: {
+				recommendedMinimum: 4,
+				recommendedMaximum: 6,
+				acceptableMaximum: 8,
+				acceptableMinimum: 2,
+			}, isRelatedKeyphrase: true,
+		}, true ),
 		new KeywordDensity(),
 		new MetaDescriptionKeyword(),
 		new TextCompetingLinks(),
