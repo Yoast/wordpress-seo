@@ -25,7 +25,14 @@ const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
 
 	this._assessments = [
 		new IntroductionKeyword(),
-		new KeyphraseLength(),
+		new KeyphraseLength( {
+			parameters: {
+				recommendedMinimum: 4,
+				recommendedMaximum: 6,
+				acceptableMaximum: 8,
+				acceptableMinimum: 2,
+			}, isRelatedKeyphrase: true
+		}, true ),
 		new KeywordDensity(),
 		new MetaDescriptionKeyword(),
 		new TextCompetingLinks(),
