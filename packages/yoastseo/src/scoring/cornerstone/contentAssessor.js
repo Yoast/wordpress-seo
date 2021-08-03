@@ -2,11 +2,11 @@ import Assessor from "../assessor.js";
 import ContentAssessor from "../contentAssessor";
 import fleschReadingEase from "../assessments/readability/fleschReadingEaseAssessment.js";
 import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
-import SentenceLengthInText from "../assessments/readability/sentenceLengthInTextAssessment.js";
-import SubheadingDistributionTooLong from "../assessments/readability/subheadingDistributionTooLongAssessment.js";
+import SentenceLengthInText from "../assessments/readability/SentenceLengthInTextAssessment.js";
+import SubheadingDistributionTooLong from "../assessments/readability/SubheadingDistributionTooLongAssessment.js";
 import TransitionWords from "../assessments/readability/TransitionWordsAssessment.js";
 import passiveVoice from "../assessments/readability/PassiveVoiceAssessment.js";
-import sentenceBeginnings from "../assessments/readability/sentenceBeginningsAssessment.js";
+import sentenceBeginnings from "../assessments/readability/SentenceBeginningsAssessment.js";
 import textPresence from "../assessments/readability/TextPresenceAssessment.js";
 
 /*

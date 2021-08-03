@@ -2,9 +2,9 @@ import FleschReadingEaseAssessment from "./readability/fleschReadingEaseAssessme
 import ListAssessment from "./readability/ListAssessment";
 import ParagraphTooLongAssessment from "./readability/ParagraphTooLongAssessment";
 import PassiveVoiceAssessment from "./readability/PassiveVoiceAssessment";
-import SentenceBeginningsAssessment from "./readability/sentenceBeginningsAssessment";
-import SentenceLengthInTextAssessment from "./readability/sentenceLengthInTextAssessment";
-import SubheadingDistributionTooLongAssessment from "./readability/subheadingDistributionTooLongAssessment";
+import SentenceBeginningsAssessment from "./readability/SentenceBeginningsAssessment";
+import SentenceLengthInTextAssessment from "./readability/SentenceLengthInTextAssessment";
+import SubheadingDistributionTooLongAssessment from "./readability/SubheadingDistributionTooLongAssessment";
 import TextPresenceAssessment from "./readability/TextPresenceAssessment";
 import TransitionWordsAssessment from "./readability/transitionWordsAssessment";
 import WordComplexityAssessment from "./readability/wordComplexityAssessment";
