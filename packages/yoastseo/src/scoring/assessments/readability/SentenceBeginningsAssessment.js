@@ -44,16 +44,16 @@ export default class SentenceBeginningsAssessment extends Assessment {
 			return word.count > maximumConsecutiveDuplicates;
 		} );
 
-		if (tooOften[0].length === 0) {
+		if ( tooOften[ 0 ].length === 0 ) {
 			return { total: 0 };
 		}
 
-		const sortedCounts = sortBy( tooOften[0], function( word ) {
+		const sortedCounts = sortBy( tooOften[ 0 ], function( word ) {
 			return word.count;
 		} );
 
-		return { total: tooOften[0].length, lowestCount: sortedCounts[0].count };
-	};
+		return { total: tooOften[ 0 ].length, lowestCount: sortedCounts[ 0 ].count };
+	}
 
 	/**
 	 * Calculates the score based on sentence beginnings.
@@ -64,7 +64,6 @@ export default class SentenceBeginningsAssessment extends Assessment {
 	 * @returns {{score: number, text: string, hasMarks: boolean}} result object with score and text.
 	 */
 	calculateSentenceBeginningsResult( groupedSentenceBeginnings, i18n ) {
-
 		if ( groupedSentenceBeginnings.total > 0 ) {
 			return {
 				score: 3,
@@ -99,7 +98,7 @@ export default class SentenceBeginningsAssessment extends Assessment {
 				"</a>"
 			),
 		};
-	};
+	}
 
 	/**
 	 * Marks all consecutive sentences with the same beginnings.
@@ -127,7 +126,7 @@ export default class SentenceBeginningsAssessment extends Assessment {
 				marked: marked,
 			} );
 		} );
-	};
+	}
 
 	/**
 	 * Scores the repetition of sentence beginnings in consecutive sentences.
@@ -148,7 +147,7 @@ export default class SentenceBeginningsAssessment extends Assessment {
 		assessmentResult.setText( sentenceBeginningsResult.text );
 		assessmentResult.setHasMarks( sentenceBeginningsResult.hasMarks );
 		return assessmentResult;
-	};
+	}
 
 	/**
 	 * Checks if the sentence beginnings assessment is applicable to the paper.
@@ -160,5 +159,5 @@ export default class SentenceBeginningsAssessment extends Assessment {
 	 */
 	isApplicable( paper, researcher ) {
 		return paper.hasText() && researcher.hasResearch( "getSentenceBeginnings" );
-	};
+	}
 }
