@@ -6,7 +6,7 @@ import SentenceBeginningsAssessment from "./readability/SentenceBeginningsAssess
 import SentenceLengthInTextAssessment from "./readability/SentenceLengthInTextAssessment";
 import SubheadingDistributionTooLongAssessment from "./readability/SubheadingDistributionTooLongAssessment";
 import TextPresenceAssessment from "./readability/TextPresenceAssessment";
-import TransitionWordsAssessment from "./readability/transitionWordsAssessment";
+import TransitionWordsAssessment from "./readability/TransitionWordsAssessment";
 import WordComplexityAssessment from "./readability/wordComplexityAssessment";
 
 import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAssessment";
