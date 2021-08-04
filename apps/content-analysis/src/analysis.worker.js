@@ -61,6 +61,8 @@ self.onmessage = ( event ) => {
 	worker.setCustomCornerstoneSEOAssessorClass( CollectionCornerstoneSEOAssessor, "collectionPage" );
 	worker.setCustomRelatedKeywordAssessorClass( CollectionRelatedKeywordAssessor, "collectionPage"  );
 	worker.setCustomCornerstoneRelatedKeywordAssessorClass( CollectionCornerstoneRelatedKeywordAssessor, "collectionPage"  );
+	worker.setCustomContentAssessorClass( StorePostsAndPagesContentAssessor, "collectionPage" );
+	worker.setCustomCornerstoneContentAssessorClass( StorePostsAndPagesCornerstoneContentAssessor, "collectionPage" );
 
 	worker.register();
 };
