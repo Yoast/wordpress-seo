@@ -15,8 +15,10 @@ import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
 import ImageCount from "../assessments/seo/ImageCountAssessment";
 import TextLength from "../assessments/seo/TextLengthAssessment";
 import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
-import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import KeyphraseDistribution from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
+import FunctionWordsInKeyphrase from "../assessments/seo/KeyphraseDistributionAssessment";
+
 /**
  * Creates the Assessor
  *
@@ -69,6 +71,7 @@ const ProductSEOAssessor = function( i18n, researcher, options ) {
 		}, true ),
 		new ImageKeyphrase(),
 		new ImageAltTags(),
+		new KeyphraseDistribution(),
 	];
 };
 
