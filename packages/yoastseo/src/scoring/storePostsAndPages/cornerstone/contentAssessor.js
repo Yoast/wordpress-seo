@@ -25,7 +25,7 @@ import textPresence from "../../assessments/readability/textPresenceAssessment.j
  *
  * @constructor
  */
-const StorePostsAndPagesCornerStoneContentAssessor = function( i18n, options = {} ) {
+const StorePostsAndPagesCornerstoneContentAssessor = function( i18n, options = {} ) {
 	Assessor.call( this, i18n, options );
 	this.type = "storePostsAndPagesCornerstoneContentAssessor";
 
@@ -52,8 +52,8 @@ const StorePostsAndPagesCornerStoneContentAssessor = function( i18n, options = {
 	];
 };
 
-require( "util" ).inherits( StorePostsAndPagesCornerStoneContentAssessor, ContentAssessor );
+require( "util" ).inherits( StorePostsAndPagesCornerstoneContentAssessor, ContentAssessor );
 
 
-export default StorePostsAndPagesCornerStoneContentAssessor;
+export default StorePostsAndPagesCornerstoneContentAssessor;
 
