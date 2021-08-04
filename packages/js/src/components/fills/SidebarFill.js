@@ -34,47 +34,47 @@ export default function SidebarFill( { settings } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
-				<SidebarItem renderPriority={ 1 }>
+				<SidebarItem key="warning" renderPriority={ 1 }>
 					<Warning />
 				</SidebarItem>
-				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 				</SidebarItem> }
-				<SidebarItem renderPriority={ 23 }>
+				<SidebarItem key="google-preview" renderPriority={ 23 }>
 					<GooglePreviewModal />
 				</SidebarItem>
-				{ settings.displayFacebook && <SidebarItem renderPriority={ 24 }>
+				{ settings.displayFacebook && <SidebarItem key="facebook-preview" renderPriority={ 24 }>
 					<FacebookPreviewModal />
 				</SidebarItem> }
-				{ settings.displayTwitter && <SidebarItem renderPriority={ 25 }>
+				{ settings.displayTwitter && <SidebarItem key="twitter-preview" renderPriority={ 25 }>
 					<TwitterPreviewModal />
 				</SidebarItem> }
-				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 26 }>
+				{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 26 }>
 					<SidebarCollapsible
 						title={ __( "Schema", "wordpress-seo" ) }
 					>
 						<SchemaTabContainer />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 27 }>
+				{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 27 }>
 					<SidebarCollapsible
 						title={ __( "Advanced", "wordpress-seo" ) }
 					>
 						<AdvancedSettings />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+				{ settings.isContentAnalysisActive && <SidebarItem key="readability" renderPriority={ 10 }>
 					<ReadabilityAnalysis />
 				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo" renderPriority={ 20 }>
 					<SeoAnalysis
 						shouldUpsell={ settings.shouldUpsell }
 						shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 					/>
 				</SidebarItem> }
-				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
 					<CollapsibleCornerstone />
 				</SidebarItem> }
 			</Fill>

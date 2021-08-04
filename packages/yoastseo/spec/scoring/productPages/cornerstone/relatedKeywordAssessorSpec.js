@@ -42,7 +42,6 @@ describe( "running assessments in the cornerstone related keyword product assess
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
 			"keyphraseLength",
-			"images",
 		] );
 	} );
 
@@ -54,7 +53,6 @@ describe( "running assessments in the cornerstone related keyword product assess
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionKeyword",
-			"images",
 		] );
 	} );
 
@@ -73,7 +71,6 @@ describe( "running assessments in the cornerstone related keyword product assess
 			"introductionKeyword",
 			"keyphraseLength",
 			"keywordDensity",
-			"images",
 		] );
 	} );
 } );

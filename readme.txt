@@ -248,6 +248,7 @@ Enhancements:
 * Adds error details to the error message if SEO optimization fails for some unforeseen reason.
 * Cleans up indexables for WooCommerce check-out pages from the indexable table, in order to improve performance.
 * Adds post link indexing and term link indexing to the `wp yoast index` WP-CLI command.
+* Improves overall performance and responsiveness in Gutenberg.
 
 Bugfixes:
 
