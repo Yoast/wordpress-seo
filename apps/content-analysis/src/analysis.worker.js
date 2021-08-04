@@ -11,6 +11,11 @@ import productCornerstoneRelatedKeywordAssessor from "yoastseo/src/scoring/produ
 // Store blog assessors.
 import StoreBlogSEOAssessor from "yoastseo/src/scoring/storeBlog/seoAssessor";
 import StoreBlogCornerstoneSEOAssessor from "yoastseo/src/scoring/storeBlog/cornerstone/seoAssessor";
+// Collection page assessors.
+import CollectionSEOAssessor from "yoastseo/src/scoring/collectionPages/seoAssessor";
+import CollectionCornerstoneSEOAssessor from "yoastseo/src/scoring/collectionPages/cornerstone/seoAssessor";
+import CollectionRelatedKeywordAssessor from "yoastseo/src/scoring/collectionPages/RelatedKeywordAssessor";
+import CollectionCornerstoneRelatedKeywordAssessor from "yoastseo/src/scoring/collectionPages/cornerstone/relatedKeywordAssessor";
 
 
 self.onmessage = ( event ) => {
@@ -37,6 +42,10 @@ self.onmessage = ( event ) => {
 	worker.setCustomCornerstoneSEOAssessorClass( StoreBlogCornerstoneSEOAssessor, "storeBlog" );
 	// Store posts and pages.
 	// Store collection pages.
+	worker.setCustomSEOAssessorClass( CollectionSEOAssessor, "collectionPage" );
+	worker.setCustomCornerstoneSEOAssessorClass( CollectionCornerstoneSEOAssessor, "collectionPage" );
+	worker.setCustomRelatedKeywordAssessorClass( CollectionRelatedKeywordAssessor, "collectionPage"  );
+	worker.setCustomCornerstoneRelatedKeywordAssessorClass( CollectionCornerstoneRelatedKeywordAssessor, "collectionPage"  );
 
 	worker.register();
 };
