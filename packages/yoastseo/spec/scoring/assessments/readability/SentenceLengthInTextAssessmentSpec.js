@@ -1,5 +1,5 @@
 import addMark from "../../../../src/markers/addMark";
-import SentenceLengthInTextAssessment from "../../../../src/scoring/assessments/readability/sentenceLengthInTextAssessment";
+import SentenceLengthInTextAssessment from "../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
