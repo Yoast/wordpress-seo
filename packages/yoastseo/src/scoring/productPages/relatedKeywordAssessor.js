@@ -38,12 +38,6 @@ const ProductRelatedKeywordAssessor = function( i18n, researcher, options ) {
 		new MetaDescriptionKeyword(),
 		new TextCompetingLinks(),
 		new FunctionWordsInKeyphrase(),
-		new ImageCount( {
-			scores: {
-				okay: 6,
-			},
-			recommendedCount: 4,
-		}, true ),
 		new ImageKeyphrase(),
 	];
 };
