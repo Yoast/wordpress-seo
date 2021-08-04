@@ -23,7 +23,7 @@ import StorePostsAndPagesCornerstoneRelatedKeywordAssessor
 // Collection page assessors.
 import CollectionSEOAssessor from "yoastseo/src/scoring/collectionPages/seoAssessor";
 import CollectionCornerstoneSEOAssessor from "yoastseo/src/scoring/collectionPages/cornerstone/seoAssessor";
-import CollectionRelatedKeywordAssessor from "yoastseo/src/scoring/collectionPages/RelatedKeywordAssessor";
+import CollectionRelatedKeywordAssessor from "yoastseo/src/scoring/collectionPages/relatedKeywordAssessor";
 import CollectionCornerstoneRelatedKeywordAssessor from "yoastseo/src/scoring/collectionPages/cornerstone/relatedKeywordAssessor";
 
 
