@@ -5,9 +5,9 @@ import IntroductionKeyword from "../../assessments/seo/IntroductionKeywordAssess
 import KeyphraseLength from "../../assessments/seo/KeyphraseLengthAssessment.js";
 import KeywordDensity from "../../assessments/seo/KeywordDensityAssessment.js";
 import MetaDescriptionKeyword from "../../assessments/seo/MetaDescriptionKeywordAssessment.js";
-import ImageKeyphrase from "../../assessments/seo/KeyphraseInImageTextAssessment";
 import TextCompetingLinks from "../../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import ImageKeyphrase from "../../assessments/seo/KeyphraseInImageTextAssessment";
 
 /**
  * Creates the Assessor
@@ -18,20 +18,13 @@ import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyph
  *
  * @constructor
  */
-const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
+const StorePostsAndPagesCornerstoneRelatedKeywordAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
-	this.type = "productPageCornerstoneRelatedKeywordAssessor";
+	this.type = "storePostsAndPagesCornerstoneRelatedKeywordAssessor";
 
 	this._assessments = [
 		new IntroductionKeyword(),
-		new KeyphraseLength( {
-			parameters: {
-				recommendedMinimum: 4,
-				recommendedMaximum: 6,
-				acceptableMaximum: 8,
-				acceptableMinimum: 2,
-			}, isRelatedKeyphrase: true,
-		}, true ),
+		new KeyphraseLength(),
 		new KeywordDensity(),
 		new MetaDescriptionKeyword(),
 		new TextCompetingLinks(),
@@ -46,6 +39,6 @@ const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
 	];
 };
 
-inherits( ProductCornerStoneRelatedKeywordAssessor, Assessor );
+inherits( StorePostsAndPagesCornerstoneRelatedKeywordAssessor, Assessor );
 
-export default ProductCornerStoneRelatedKeywordAssessor;
+export default StorePostsAndPagesCornerstoneRelatedKeywordAssessor;

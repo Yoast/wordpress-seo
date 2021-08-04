@@ -11,6 +11,15 @@ import productCornerstoneRelatedKeywordAssessor from "yoastseo/src/scoring/produ
 // Store blog assessors.
 import StoreBlogSEOAssessor from "yoastseo/src/scoring/storeBlog/seoAssessor";
 import StoreBlogCornerstoneSEOAssessor from "yoastseo/src/scoring/storeBlog/cornerstone/seoAssessor";
+// Store blog posts and pages assessors.
+import StorePostsAndPagesSEOAssessor from "yoastseo/src/scoring/storePostsAndPages/seoAssessor";
+import StorePostsAndPagesCornerstoneSEOAssessor from "yoastseo/src/scoring/storePostsAndPages/cornerstone/seoAssessor";
+import StorePostsAndPagesContentAssessor from "yoastseo/src/scoring/storePostsAndPages/contentAssessor";
+import StorePostsAndPagesCornerstoneContentAssessor
+	from "yoastseo/src/scoring/storePostsAndPages/cornerstone/contentAssessor";
+import StorePostsAndPagesRelatedKeywordAssessor from "yoastseo/src/scoring/storePostsAndPages/relatedKeywordAssessor";
+import StorePostsAndPagesCornerstoneRelatedKeywordAssessor
+	from "yoastseo/src/scoring/storePostsAndPages/cornerstone/relatedKeywordAssessor";
 // Collection page assessors.
 import CollectionSEOAssessor from "yoastseo/src/scoring/collectionPages/seoAssessor";
 import CollectionCornerstoneSEOAssessor from "yoastseo/src/scoring/collectionPages/cornerstone/seoAssessor";
@@ -41,6 +50,12 @@ self.onmessage = ( event ) => {
 	worker.setCustomSEOAssessorClass( StoreBlogSEOAssessor, "storeBlog" );
 	worker.setCustomCornerstoneSEOAssessorClass( StoreBlogCornerstoneSEOAssessor, "storeBlog" );
 	// Store posts and pages.
+	worker.setCustomSEOAssessorClass( StorePostsAndPagesSEOAssessor, "storePostsAndPages" );
+	worker.setCustomCornerstoneSEOAssessorClass( StorePostsAndPagesCornerstoneSEOAssessor, "storePostsAndPages" );
+	worker.setCustomContentAssessorClass( StorePostsAndPagesContentAssessor, "storePostsAndPages" );
+	worker.setCustomCornerstoneContentAssessorClass( StorePostsAndPagesCornerstoneContentAssessor, "storePostsAndPages" );
+	worker.setCustomRelatedKeywordAssessorClass( StorePostsAndPagesRelatedKeywordAssessor, "storePostsAndPages" );
+	worker.setCustomCornerstoneRelatedKeywordAssessorClass( StorePostsAndPagesCornerstoneRelatedKeywordAssessor, "storePostsAndPages" );
 	// Store collection pages.
 	worker.setCustomSEOAssessorClass( CollectionSEOAssessor, "collectionPage" );
 	worker.setCustomCornerstoneSEOAssessorClass( CollectionCornerstoneSEOAssessor, "collectionPage" );

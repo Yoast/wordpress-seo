@@ -12,8 +12,8 @@ describe( "A list assessment", function() {
 		const assessment = listAssessment.getResult( mockPaper, Factory.buildMockResearcher( false ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoast.com' target='_blank'>Lists</a>: " +
-			"No lists appear on this page. <a href='https://yoast.com' target='_blank'>Add at least one ordered or unordered list</a>!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: " +
+			"No lists appear on this page. <a href='https://yoa.st/shopify39' target='_blank'>Add at least one ordered or unordered list</a>!" );
 	} );
 	it( "assesses when there is a list", function() {
 		const mockPaper = new Paper( "text with a list <ol type=\"i\">\n" +
@@ -25,7 +25,7 @@ describe( "A list assessment", function() {
 		const assessment = listAssessment.getResult( mockPaper, Factory.buildMockResearcher( true ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoast.com' target='_blank'>Lists</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: " +
 			"There is at least one list on this page. Great!" );
 	} );
 } );

@@ -1,12 +1,12 @@
-import Assessor from "./assessor.js";
-import fleschReadingEase from "./assessments/readability/fleschReadingEaseAssessment.js";
-import ParagraphTooLong from "./assessments/readability/ParagraphTooLongAssessment.js";
-import SentenceLengthInText from "./assessments/readability/SentenceLengthInTextAssessment.js";
-import SubheadingDistributionTooLong from "./assessments/readability/SubheadingDistributionTooLongAssessment.js";
-import TransitionWords from "./assessments/readability/TransitionWordsAssessment.js";
-import PassiveVoice from "./assessments/readability/PassiveVoiceAssessment.js";
-import SentenceBeginnings from "./assessments/readability/SentenceBeginningsAssessment.js";
-import TextPresence from "./assessments/readability/TextPresenceAssessment.js";
+import Assessor from "../assessor.js";
+import fleschReadingEase from "../assessments/readability/fleschReadingEaseAssessment.js";
+import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
+import SentenceLengthInText from "../assessments/readability/sentenceLengthInTextAssessment.js";
+import SubheadingDistributionTooLong from "../assessments/readability/SubheadingDistributionTooLongAssessment.js";
+import TransitionWords from "../assessments/readability/TransitionWordsAssessment.js";
+import PassiveVoice from "../assessments/readability/PassiveVoiceAssessment.js";
+import SentenceBeginnings from "../assessments/readability/SentenceBeginningsAssessment.js";
+import TextPresence from "../assessments/readability/TextPresenceAssessment.js";
 
 /*
 	Temporarily disabled:
@@ -15,7 +15,7 @@ import TextPresence from "./assessments/readability/TextPresenceAssessment.js";
 	var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
  */
 
-import scoreToRating from "./interpreters/scoreToRating";
+import scoreToRating from "../interpreters/scoreToRating";
 
 import { map } from "lodash-es";
 import { sum } from "lodash-es";
@@ -30,9 +30,9 @@ import { sum } from "lodash-es";
  *
  * @constructor
  */
-const ContentAssessor = function( i18n, researcher, options = {} ) {
+const StorePostsAndPagesContentAssessor = function( i18n, researcher, options = {} ) {
 	Assessor.call( this, i18n, researcher, options );
-	this.type = "ContentAssessor";
+	this.type = "storePostsAndPagesContentAssessor";
 	this._assessments = [
 
 		fleschReadingEase,
@@ -47,7 +47,7 @@ const ContentAssessor = function( i18n, researcher, options = {} ) {
 	];
 };
 
-require( "util" ).inherits( ContentAssessor, Assessor );
+require( "util" ).inherits( StorePostsAndPagesContentAssessor, Assessor );
 
 /**
  * Calculates the weighted rating for languages that have all assessments based on a given rating.
@@ -55,7 +55,7 @@ require( "util" ).inherits( ContentAssessor, Assessor );
  * @param {number} rating The rating to be weighted.
  * @returns {number} The weighted rating.
  */
-ContentAssessor.prototype.calculatePenaltyPointsFullSupport = function( rating ) {
+StorePostsAndPagesContentAssessor.prototype.calculatePenaltyPointsFullSupport = function( rating ) {
 	switch ( rating ) {
 		case "bad":
 			return 3;
@@ -73,7 +73,7 @@ ContentAssessor.prototype.calculatePenaltyPointsFullSupport = function( rating )
  * @param {number} rating The rating to be weighted.
  * @returns {number} The weighted rating.
  */
-ContentAssessor.prototype.calculatePenaltyPointsPartialSupport = function( rating ) {
+StorePostsAndPagesContentAssessor.prototype.calculatePenaltyPointsPartialSupport = function( rating ) {
 	switch ( rating ) {
 		case "bad":
 			return 4;
@@ -91,7 +91,7 @@ ContentAssessor.prototype.calculatePenaltyPointsPartialSupport = function( ratin
  *
  * @returns {boolean} True if fully supported.
  */
-ContentAssessor.prototype._allAssessmentsSupported = function() {
+StorePostsAndPagesContentAssessor.prototype._allAssessmentsSupported = function() {
 	const numberOfAssessments = 8;
 	const applicableAssessments = this.getApplicableAssessments();
 	return applicableAssessments.length === numberOfAssessments;
@@ -102,7 +102,7 @@ ContentAssessor.prototype._allAssessmentsSupported = function() {
  *
  * @returns {number} The total penalty points for the results.
  */
-ContentAssessor.prototype.calculatePenaltyPoints = function() {
+StorePostsAndPagesContentAssessor.prototype.calculatePenaltyPoints = function() {
 	const results = this.getValidResults();
 
 	const penaltyPoints = map( results, function( result ) {
@@ -126,7 +126,7 @@ ContentAssessor.prototype.calculatePenaltyPoints = function() {
  *
  * @private
  */
-ContentAssessor.prototype._ratePenaltyPoints = function( totalPenaltyPoints ) {
+StorePostsAndPagesContentAssessor.prototype._ratePenaltyPoints = function( totalPenaltyPoints ) {
 	if ( this.getValidResults().length === 1 ) {
 		// If we have only 1 result, we only have a "no content" result
 		return 30;
@@ -163,7 +163,7 @@ ContentAssessor.prototype._ratePenaltyPoints = function( totalPenaltyPoints ) {
  *
  * @returns {number} The overall score.
  */
-ContentAssessor.prototype.calculateOverallScore = function() {
+StorePostsAndPagesContentAssessor.prototype.calculateOverallScore = function() {
 	const results = this.getValidResults();
 
 	// If you have no content, you have a red indicator.
@@ -176,5 +176,5 @@ ContentAssessor.prototype.calculateOverallScore = function() {
 	return this._ratePenaltyPoints( totalPenaltyPoints );
 };
 
-export default ContentAssessor;
+export default StorePostsAndPagesContentAssessor;
 

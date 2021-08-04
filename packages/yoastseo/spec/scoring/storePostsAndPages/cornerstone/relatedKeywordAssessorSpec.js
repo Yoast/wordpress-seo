@@ -1,12 +1,12 @@
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
-import Assessor from "../../../../src/scoring/productPages/cornerstone/relatedKeywordAssessor.js";
+import Assessor from "../../../../src/scoring/cornerstone/relatedKeywordAssessor.js";
 import Paper from "../../../../src/values/Paper.js";
 import factory from "../../../specHelpers/factory.js";
 import getResults from "../../../specHelpers/getListOfAssessmentResults";
 const i18n = factory.buildJed();
 const assessor = new Assessor( i18n, new EnglishResearcher() );
 
-describe( "running assessments in the cornerstone related keyword product assessor", function() {
+describe( "running assessments in the assessor", function() {
 	it( "runs assessments without any specific requirements", function() {
 		assessor.assess( new Paper( "" ) );
 		const assessments = getResults( assessor.getValidResults() );

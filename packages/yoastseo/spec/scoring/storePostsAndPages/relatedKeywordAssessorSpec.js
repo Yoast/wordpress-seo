@@ -1,12 +1,12 @@
-import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
-import Assessor from "../../../../src/scoring/productPages/cornerstone/relatedKeywordAssessor.js";
-import Paper from "../../../../src/values/Paper.js";
-import factory from "../../../specHelpers/factory.js";
-import getResults from "../../../specHelpers/getListOfAssessmentResults";
+import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
+import Assessor from "../../../src/scoring/relatedKeywordAssessor";
+import Paper from "../../../src/values/Paper";
+import factory from "../../specHelpers/factory";
+import getResults from "../../specHelpers/getListOfAssessmentResults";
 const i18n = factory.buildJed();
 const assessor = new Assessor( i18n, new EnglishResearcher() );
 
-describe( "running assessments in the cornerstone related keyword product assessor", function() {
+describe( "running assessments in the assessor", function() {
 	it( "runs assessments without any specific requirements", function() {
 		assessor.assess( new Paper( "" ) );
 		const assessments = getResults( assessor.getValidResults() );
@@ -25,7 +25,7 @@ describe( "running assessments in the cornerstone related keyword product assess
 		] );
 	} );
 
-	it( "runs assessments that only require a keyword that consists of function words only", function() {
+	it( "runs assessments that only require a keyword that contains function words only", function() {
 		assessor.assess( new Paper( "", { keyword: "a" } ) );
 		const assessments = getResults( assessor.getValidResults() );
 

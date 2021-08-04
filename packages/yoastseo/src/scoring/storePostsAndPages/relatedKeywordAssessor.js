@@ -19,20 +19,13 @@ import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphras
  *
  * @constructor
  */
-const ProductRelatedKeywordAssessor = function( i18n, researcher, options ) {
+const StorePostsAndPagesRelatedKeywordAssessor = function( i18n, researcher, options ) {
 	Assessor.call( this, i18n, researcher, options );
-	this.type = "productPageRelatedKeywordAssessor";
+	this.type = "storePostsAndPagesRelatedKeywordAssessor";
 
 	this._assessments = [
 		new IntroductionKeyword(),
-		new KeyphraseLength( {
-			parameters: {
-				recommendedMinimum: 4,
-				recommendedMaximum: 6,
-				acceptableMaximum: 8,
-				acceptableMinimum: 2,
-			}, isRelatedKeyphrase: true,
-		}, true ),
+		new KeyphraseLength( { isRelatedKeyphrase: true } ),
 		new KeywordDensity(),
 		new MetaDescriptionKeyword(),
 		new TextCompetingLinks(),
@@ -41,6 +34,6 @@ const ProductRelatedKeywordAssessor = function( i18n, researcher, options ) {
 	];
 };
 
-inherits( ProductRelatedKeywordAssessor, Assessor );
+inherits( StorePostsAndPagesRelatedKeywordAssessor, Assessor );
 
-export default ProductRelatedKeywordAssessor;
+export default StorePostsAndPagesRelatedKeywordAssessor;
