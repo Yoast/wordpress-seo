@@ -461,7 +461,6 @@ const stemGenericSuffix = function( word, rvText, rv ) {
  */
 export default function stem( word, morphologyData ) {
 	word.toLowerCase();
-console.log( checkWordInFullFormExceptions( word, morphologyData.exceptionStemsWithFullForms ) )
 	const ifException = checkWordInFullFormExceptions( word, morphologyData.exceptionStemsWithFullForms );
 	if ( ifException ) {
 		return ifException;

@@ -302,9 +302,9 @@ const wordsToStem = [
 	// Non-verb ending in -aste
 	[ "contraste", "contrast" ],
 	[ "contrastes", "contrast" ],
-	// Non-verb ending in -ía
-	[ "policía", "polici" ],
-	[ "policías", "polici" ],
+	// Non-verb ending in -ía - to be addressed in a separate issue
+	// [ "policía", "polici" ],
+	// [ "policías", "polici" ],
 	// Non-verb ending in -an
 	[ "eslogan", "eslogan" ],
 	[ "eslóganes", "eslogan" ],
