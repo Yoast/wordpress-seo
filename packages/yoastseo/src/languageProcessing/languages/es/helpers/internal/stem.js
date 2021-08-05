@@ -155,13 +155,12 @@ const checkWordInFullFormExceptions = function( word, exceptions ) {
 };
 
 /**
- * The function considers if the input word can be an adverb in -mente and if so stems it.
+ * The function considers if the input word can be an adjective in -ano/anos/ana/anas and if so stems it.
  *
- * @param   {string}   word                             The word to stem.
- * @param   {string}   r1Text                           The R1 region of the word to stem.
- * @param   {Array}          An array of pairs of regexes to match.
+ * @param   {string}   word     The word to stem.
+ * @param   {string}   r1Text   The R1 region of the word to stem.
  *
- * @returns {string}   A stemmed adverb or the input word, if it is not an adverb.
+ * @returns {string}   A stemmed adjective or the input word, if it is not an adjective on -ano/os/a/as.
  */
 const stemAdjectivesOnAn = function( word, r1Text ) {
 	const adjectivesEndings = [ "ano", "anos", "ana", "anas" ];
