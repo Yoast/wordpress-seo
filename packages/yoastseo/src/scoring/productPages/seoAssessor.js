@@ -79,8 +79,13 @@ const ProductSEOAssessor = function( i18n, researcher, options ) {
 				okay: 6,
 			},
 			recommendedCount: 4,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify20" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify21" ),
 		}, true ),
-		new ImageKeyphrase(),
+		new ImageKeyphrase( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
+		} ),
 		new ImageAltTags( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify40" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify41" ),

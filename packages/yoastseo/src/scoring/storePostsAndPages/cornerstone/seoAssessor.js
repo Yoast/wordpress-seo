@@ -62,8 +62,13 @@ const StorePostsAndPagesCornerstoneSEOAssessor = function( i18n, options ) {
 				withAlt: 3,
 				noAlt: 3,
 			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
 		} ),
-		new ImageCount(),
+		new ImageCount( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify20" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify21" ),
+		} ),
 		new TextLength( {
 			recommendedMinimum: 900,
 			slightlyBelowMinimum: 400,

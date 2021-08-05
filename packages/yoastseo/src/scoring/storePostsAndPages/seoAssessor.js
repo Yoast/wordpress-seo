@@ -50,8 +50,14 @@ const StorePostsAndPagesSEOAssessor = function( i18n, researcher,  options ) {
 		new MetaDescriptionLength(),
 		new SubheadingsKeyword(),
 		new TextCompetingLinksAssessment(),
-		new ImageKeyphrase(),
-		new ImageCount(),
+		new ImageKeyphrase( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
+		} ),
+		new ImageCount( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify20" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify21" ),
+		} ),
 		new TextLength(),
 		new OutboundLinks(),
 		new TitleKeywordAssessment( {
