@@ -46,8 +46,14 @@ const CollectionSEOAssessor = function( i18n, researcher, options ) {
 	this._assessments = [
 		new IntroductionKeywordAssessment(),
 		new KeyphraseLengthAssessment(),
-		new KeywordDensityAssessment(),
-		new MetaDescriptionKeywordAssessment(),
+		new KeywordDensityAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify13" ),
+		} ),
+		new MetaDescriptionKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
+		} ),
 		new MetaDescriptionLengthAssessment(),
 		getTextLengthAssessment(),
 		new TitleKeywordAssessment( {

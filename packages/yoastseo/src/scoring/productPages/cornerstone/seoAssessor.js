@@ -43,15 +43,24 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 				acceptableMinimum: 2,
 			},
 		}, true ),
-		new KeywordDensityAssessment(),
-		new MetaDescriptionKeywordAssessment(),
+		new KeywordDensityAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify13" ),
+		} ),
+		new MetaDescriptionKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
+		} ),
 		new MetaDescriptionLength( {
 			scores:	{
 				tooLong: 3,
 				tooShort: 3,
 			},
 		} ),
-		new SubheadingsKeyword(),
+		new SubheadingsKeyword( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify16" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify17" ),
+		} ),
 		new TextCompetingLinksAssessment(),
 		new TextLength( {
 			recommendedMinimum: 400,

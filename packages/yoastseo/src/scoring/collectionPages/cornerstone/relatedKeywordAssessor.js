@@ -1,4 +1,5 @@
 import { inherits } from "util";
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 
 import IntroductionKeywordAssessment from "./../../assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "./../../assessments/seo/KeyphraseLengthAssessment";
@@ -27,6 +28,8 @@ const CollectionCornerstoneRelatedKeywordAssessor = function( i18n, researcher, 
 		new MetaDescriptionKeywordAssessment(
 			{ parameters: { recommendedMinimum: 1 },
 				scores: { good: 9, bad: 3 },
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
 			}
 		),
 		new FunctionWordsInKeyphrase(),

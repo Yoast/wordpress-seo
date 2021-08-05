@@ -25,7 +25,10 @@ const StoreBlogSEOAssessor = function( i18n, researcher, options ) {
 
 	this._assessments = [
 		new KeyphraseLengthAssessment(),
-		new MetaDescriptionKeywordAssessment(),
+		new MetaDescriptionKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
+		} ),
 		new MetaDescriptionLength(),
 		new TitleKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),

@@ -26,7 +26,10 @@ const StoreBlogCornerstoneSEOAssessor = function( i18n, options ) {
 
 	this._assessments = [
 		new KeyphraseLengthAssessment(),
-		new MetaDescriptionKeywordAssessment(),
+		new MetaDescriptionKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
+		} ),
 		new MetaDescriptionLength( {
 			scores:	{
 				tooLong: 3,
