@@ -18,6 +18,13 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_unindexed_term_link_count';
 
 	/**
+	 * The transient cache key for limited counts.
+	 *
+	 * @var string
+	 */
+	const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
+
+	/**
 	 * The post type helper.
 	 *
 	 * @var Taxonomy_Helper
