@@ -533,6 +533,7 @@ export default function stem( word, morphologyData ) {
 	* Step 2a and 2b:
 	* Stem verb suffixes.
 	*/
+	let isNonVerb = false;
 	const notVerbForms = morphologyData.wordsThatLookLikeButAreNot.notVerbForms;
 
 	// Stem verbal suffixes if no derivational suffix was detected and removed.
@@ -550,6 +551,7 @@ export default function stem( word, morphologyData ) {
 			 * without the -s (e.g. -as/a; -es/e), so will be stemmed after stripping the -s.
 			 */
 			word = wordWithoutS;
+			isNonVerb = true;
 		} else {
 			word = stemVerbSuffixes( word, wordAfter1, rvText, rv );
 		}
@@ -571,11 +573,13 @@ export default function stem( word, morphologyData ) {
 		return canonicalStem;
 	}
 
-	const modifiedVerbStem = checkVerbStemModifications( word, morphologyData );
-	if ( modifiedVerbStem ) {
-		// If on the list of words that look like verbs [notVerbForms] do not perform stem modification.
-		// Do not perform at the beginning of the word and if word does not have verb suffix.
-		return modifiedVerbStem;
+	if ( ! isNonVerb ) {
+		const modifiedVerbStem = checkVerbStemModifications( word, morphologyData );
+		if ( modifiedVerbStem ) {
+			// If on the list of words that look like verbs [notVerbForms] do not perform stem modification.
+			// Do not perform at the beginning of the word and if word does not have verb suffix.
+			return modifiedVerbStem;
+		}
 	}
 
 	return removeAccent( word );
