@@ -156,6 +156,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
+			"keyphraseDistribution",
 		] );
 	} );
 
@@ -184,6 +185,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
+			"keyphraseDistribution",
 		] );
 	} );
 
