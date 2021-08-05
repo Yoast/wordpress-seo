@@ -28,7 +28,11 @@ const StorePostsAndPagesCornerstoneRelatedKeywordAssessor = function( i18n, opti
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify8" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify9" ),
 		} ),
-		new KeyphraseLength(),
+		new KeyphraseLength( {
+			isRelatedKeyphrase: true,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
+		} ),
 		new KeywordDensity(),
 		new MetaDescriptionKeyword(),
 		new TextCompetingLinks(),

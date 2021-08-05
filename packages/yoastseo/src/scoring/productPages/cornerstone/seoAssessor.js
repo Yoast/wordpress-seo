@@ -45,6 +45,8 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 				acceptableMaximum: 8,
 				acceptableMinimum: 2,
 			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
 		}, true ),
 		new KeywordDensityAssessment(),
 		new MetaDescriptionKeywordAssessment(),

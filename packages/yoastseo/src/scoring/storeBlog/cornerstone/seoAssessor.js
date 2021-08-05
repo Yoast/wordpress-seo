@@ -25,7 +25,10 @@ const StoreBlogCornerstoneSEOAssessor = function( i18n, options ) {
 	this.type = "storeBlogCornerstoneSEOAssessor";
 
 	this._assessments = [
-		new KeyphraseLengthAssessment(),
+		new KeyphraseLengthAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
+		} ),
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLength( {
 			scores:	{
