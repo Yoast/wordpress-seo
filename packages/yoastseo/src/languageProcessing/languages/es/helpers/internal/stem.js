@@ -507,7 +507,7 @@ export default function stem( word, morphologyData ) {
 
 	const wordAfterAdjectiveOnAnCheck = stemAdjectivesOnAn( word, r1Text );
 	if ( wordAfterAdjectiveOnAnCheck != word ) {
-		return wordAfterAdjectiveOnAnCheck;
+		return removeAccent( wordAfterAdjectiveOnAnCheck );
 	}
 
 	/*
