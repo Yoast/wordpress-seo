@@ -5,7 +5,6 @@ const morphologyDataES = getMorphologyData( "es" ).es;
 
 const wordsToStem = [
 	// Input a word that ends in -s but is not a plural.
-	[ "americano", "american" ],
 	[ "caos", "caos" ],
 	[ "gas", "gas" ],
 	[ "martes", "martes" ],
@@ -18,6 +17,9 @@ const wordsToStem = [
 	[ "luces", "luz" ],
 	[ "voz", "voz" ],
 	[ "voces", "voz" ],
+	// Input an adjective on -ano
+	[ "americano", "american" ],
+	[ "republicana", "republican" ],
 	// Input a word that ends with a clitic pronoun and is on the list of words that end like pronouns suffixes but are not verbs.
 	[ "anime", "anim" ],
 	[ "abuela", "abuel" ],
