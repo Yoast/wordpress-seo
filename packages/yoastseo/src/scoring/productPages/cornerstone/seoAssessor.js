@@ -34,7 +34,10 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 	this.type = "ProductCornerstoneSEOAssessor";
 
 	this._assessments = [
-		new IntroductionKeywordAssessment(),
+		new IntroductionKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify8" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify9" ),
+		} ),
 		new KeyphraseLengthAssessment( {
 			parameters: {
 				recommendedMinimum: 4,
@@ -42,6 +45,8 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 				acceptableMaximum: 8,
 				acceptableMinimum: 2,
 			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
 		}, true ),
 		new KeywordDensityAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
@@ -99,6 +104,8 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 				okay: 6,
 			},
 			recommendedCount: 4,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify20" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify21" ),
 		}, true ),
 		new ImageKeyphrase( {
 			scores: {
@@ -106,6 +113,8 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 				withAlt: 3,
 				noAlt: 3,
 			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
 		} ),
 		new ImageAltTags( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify40" ),

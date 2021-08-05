@@ -25,14 +25,20 @@ const ProductRelatedKeywordAssessor = function( i18n, researcher, options ) {
 	this.type = "productPageRelatedKeywordAssessor";
 
 	this._assessments = [
-		new IntroductionKeyword(),
+		new IntroductionKeyword( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify8" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify9" ),
+		} ),
 		new KeyphraseLength( {
 			parameters: {
 				recommendedMinimum: 4,
 				recommendedMaximum: 6,
 				acceptableMaximum: 8,
 				acceptableMinimum: 2,
-			}, isRelatedKeyphrase: true,
+			},
+			isRelatedKeyphrase: true,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
 		}, true ),
 		new KeywordDensity(),
 		new MetaDescriptionKeyword( {

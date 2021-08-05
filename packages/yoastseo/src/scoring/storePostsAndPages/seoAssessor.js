@@ -34,8 +34,14 @@ const StorePostsAndPagesSEOAssessor = function( i18n, researcher,  options ) {
 	this.type = "storePostsAndPagesSEOAssessor";
 
 	this._assessments = [
-		new IntroductionKeywordAssessment(),
-		new KeyphraseLengthAssessment(),
+		new IntroductionKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify8" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify9" ),
+		} ),
+		new KeyphraseLengthAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
+		} ),
 		new KeywordDensityAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify13" ),
@@ -50,8 +56,14 @@ const StorePostsAndPagesSEOAssessor = function( i18n, researcher,  options ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify17" ),
 		} ),
 		new TextCompetingLinksAssessment(),
-		new ImageKeyphrase(),
-		new ImageCount(),
+		new ImageKeyphrase( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
+		} ),
+		new ImageCount( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify20" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify21" ),
+		} ),
 		new TextLength(),
 		new OutboundLinks(),
 		new TitleKeywordAssessment( {

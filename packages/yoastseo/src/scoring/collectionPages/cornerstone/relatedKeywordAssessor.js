@@ -22,8 +22,15 @@ const CollectionCornerstoneRelatedKeywordAssessor = function( i18n, researcher, 
 	this.type = "CollectionCornerstoneRelatedKeywordAssessor";
 
 	this._assessments = [
-		new IntroductionKeywordAssessment(),
-		new KeyphraseLengthAssessment( { isRelatedKeyphrase: true } ),
+		new IntroductionKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify8" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify9" ),
+		} ),
+		new KeyphraseLengthAssessment( {
+			isRelatedKeyphrase: true,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
+		} ),
 		new KeywordDensityAssessment(),
 		new MetaDescriptionKeywordAssessment(
 			{ parameters: { recommendedMinimum: 1 },
