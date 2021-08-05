@@ -1,9 +1,9 @@
 /* External dependencies */
 import { Fragment, Component } from "@wordpress/element";
-import { Slot } from "@wordpress/components";
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
+import without from "lodash/without";
 
 /* Yoast dependencies */
 import { NewButton, ButtonStyledLink } from "@yoast/components";
@@ -42,12 +42,10 @@ class WincherSEOPerformanceModal extends Component {
 	 * @returns {void}
 	 */
 	onModalOpen() {
-		// console.log(this.props)
-		//
-		// if ( this.props.keyphrase.length === 0 ) {
-		// 	this.props.onOpenWithNoKeyphrase();
-		// 	return;
-		// }
+		if ( without( this.props.keyphrases, "", null ).length === 0 ) {
+			this.props.onOpenWithNoKeyphrase();
+			return;
+		}
 
 		this.props.onOpen( this.props.location );
 	}
@@ -78,7 +76,7 @@ class WincherSEOPerformanceModal extends Component {
 		e.preventDefault();
 
 		// If no keyphrase has been submitted, trigger the error message immediately.
-		if ( this.props.keyphrase.length === 0 ) {
+		if ( without( this.props.keyphrases, "", null ).length === 0 ) {
 			this.props.onOpenWithNoKeyphrase();
 			return;
 		}
