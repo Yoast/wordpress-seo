@@ -3,7 +3,7 @@ import DefaultResearcher from "../../../../src/languageProcessing/languages/_def
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import DutchResearcher from "../../../../src/languageProcessing/languages/nl/Researcher";
 
-import ContentAssessor from "../../../../src/scoring/cornerstone/contentAssessor";
+import ContentAssessor from "../../../../src/scoring/storePostsAndPages/contentAssessor";
 import AssessmentResult from "../../../../src/values/AssessmentResult";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";

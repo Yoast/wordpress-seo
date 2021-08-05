@@ -1,5 +1,5 @@
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
-import Assessor from "../../../src/scoring/seoAssessor.js";
+import Assessor from "../../../src/scoring/storePostsAndPages/seoAssessor.js";
 import Paper from "../../../src/values/Paper.js";
 import factory from "../../specHelpers/factory.js";
 import getResults from "../../specHelpers/getAssessorResults";

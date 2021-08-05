@@ -1,5 +1,5 @@
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
-import Assessor from "../../../../src/scoring/cornerstone/seoAssessor.js";
+import Assessor from "../../../../src/scoring/storePostsAndPages/cornerstone/seoAssessor.js";
 import Paper from "../../../../src/values/Paper.js";
 import factory from "../../../specHelpers/factory.js";
 import getResults from "../../../specHelpers/getAssessorResults";
