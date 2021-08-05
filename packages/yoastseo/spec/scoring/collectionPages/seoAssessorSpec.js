@@ -162,6 +162,7 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
+			"keyphraseDistribution",
 		] );
 	} );
 
@@ -189,6 +190,7 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
+			"keyphraseDistribution",
 		] );
 	} );
 

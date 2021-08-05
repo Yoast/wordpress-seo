@@ -19,6 +19,7 @@ import TextLength from "../../assessments/seo/TextLengthAssessment";
 import TitleWidth from "../../assessments/seo/PageTitleWidthAssessment";
 import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment";
+import KeyphraseDistribution from "../../assessments/seo/KeyphraseDistributionAssessment";
 
 /**
  * Creates the Assessor
@@ -121,6 +122,7 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify41" ),
 		}
 		),
+		new KeyphraseDistribution(),
 	];
 };
 

@@ -1,5 +1,4 @@
 import Assessor from "../assessor.js";
-import fleschReadingEase from "../assessments/readability/fleschReadingEaseAssessment.js";
 import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "../assessments/readability/SentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "../assessments/readability/SubheadingDistributionTooLongAssessment.js";
@@ -35,7 +34,6 @@ const StorePostsAndPagesContentAssessor = function( i18n, researcher, options = 
 	this.type = "storePostsAndPagesContentAssessor";
 	this._assessments = [
 
-		fleschReadingEase,
 		new SubheadingDistributionTooLong(),
 		new ParagraphTooLong(),
 		new SentenceLengthInText(),

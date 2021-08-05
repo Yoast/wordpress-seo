@@ -19,6 +19,7 @@ import OutboundLinks from "../assessments/seo/OutboundLinksAssessment";
 import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
+import KeyphraseDistribution from "../assessments/seo/KeyphraseDistributionAssessment";
 /**
  * Creates the Assessor
  *
@@ -78,6 +79,7 @@ const StorePostsAndPagesSEOAssessor = function( i18n, researcher,  options ) {
 		} ),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
+		new KeyphraseDistribution(),
 	];
 };
 
