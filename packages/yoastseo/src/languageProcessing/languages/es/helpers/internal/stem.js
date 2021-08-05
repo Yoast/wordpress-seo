@@ -163,17 +163,17 @@ const checkWordInFullFormExceptions = function( word, exceptions ) {
  * @returns {string}   A stemmed adjective or the input word, if it is not an adjective on -ano/os/a/as.
  */
 const stemAdjectivesOnAn = function( word, r1Text ) {
-	const adjectivesEndings = [ "ano", "anos", "ana", "anas" ];
 	const adjectiveSuffix = findMatchingEndingInArray( r1Text, [ "ano", "anos", "ana", "anas" ] );
 
 	// Remove o/a/os/as
-	if ( adjectiveSuffix != "" ) {
-		word.endsWith( "s" )
-			? word = word.slice( 0, word.length - 2 )
-			: word = word.slice( 0, word.length - 1 );
+	if ( adjectiveSuffix !== "" ) {
+		if ( word.endsWith( "s" ) ) {
+			return word.slice( 0, word.length - 2 );
+		}
+		return word.slice( 0, word.length - 1 );
 	}
 	return word;
-}
+};
 
 /**
  * The function considers if the input word can be an adverb in -mente and if so stems it.
@@ -506,7 +506,7 @@ export default function stem( word, morphologyData ) {
 	const originalWord = word;
 
 	const wordAfterAdjectiveOnAnCheck = stemAdjectivesOnAn( word, r1Text );
-	if ( wordAfterAdjectiveOnAnCheck != word ) {
+	if ( wordAfterAdjectiveOnAnCheck !== word ) {
 		return removeAccent( wordAfterAdjectiveOnAnCheck );
 	}
 
