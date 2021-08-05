@@ -5,6 +5,7 @@ const morphologyDataES = getMorphologyData( "es" ).es;
 
 const wordsToStem = [
 	// Input a word that ends in -s but is not a plural.
+	[ "americano", "american" ],
 	[ "caos", "caos" ],
 	[ "gas", "gas" ],
 	[ "martes", "martes" ],
@@ -87,7 +88,7 @@ const wordsToStem = [
 	[ "alarguemos", "alarg" ],
 	// Input a word that looks like a verb form but it's not.
 	// [ "cabalgada", "cabalgad" ],
-	// [ "abacerías", "abaceri" ],
+	[ "abacería", "abaceri" ],
 	// Input a word that looks like a verb form and is on the list of stems that belong together.
 	[ "san", "san" ],
 	[ "virgen", "virgen" ],

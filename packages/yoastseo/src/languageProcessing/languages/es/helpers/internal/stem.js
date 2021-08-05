@@ -159,6 +159,24 @@ const checkWordInFullFormExceptions = function( word, exceptions ) {
  *
  * @param   {string}   word                             The word to stem.
  * @param   {string}   r1Text                           The R1 region of the word to stem.
+ * @param   {Array}          An array of pairs of regexes to match.
+ *
+ * @returns {string}   A stemmed adverb or the input word, if it is not an adverb.
+ */
+const stemAdjectivesOnAn = findMatchingEndingInArray( word, r1Text ); {
+// Remove o/a/os/as
+	const adjectivesEndings = [ "ano", "anos", "ana", "anas" ];
+	word.endsWith( "s" ))
+			? word.slice( 0, word.length - 2 )
+			: word.slice( 0, word.length - 1 );
+	return word
+}
+
+/**
+ * The function considers if the input word can be an adverb in -mente and if so stems it.
+ *
+ * @param   {string}   word                             The word to stem.
+ * @param   {string}   r1Text                           The R1 region of the word to stem.
  * @param   {Object}   menteStemming                    An object containing information about how to stem mente-adverbs.
  * @param   {string[]} menteStemming.notMenteAdverbs    An array of words that look like mente-adverbs but are not.
  * @param   {Array}    menteStemming.menteToStem        An array of pairs of regexes to match.
