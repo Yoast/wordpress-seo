@@ -61,7 +61,10 @@ const ProductSEOAssessor = function( i18n, researcher, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify16" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify17" ),
 		} ),
-		new TextCompetingLinksAssessment(),
+		new TextCompetingLinksAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify18" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify19" ),
+		} ),
 		new TextLength( {
 			recommendedMinimum: 200,
 			slightlyBelowMinimum: 150,
@@ -100,7 +103,10 @@ const ProductSEOAssessor = function( i18n, researcher, options ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify41" ),
 		}
 		),
-		new KeyphraseDistribution(),
+		new KeyphraseDistribution( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify30" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify31" ),
+		} ),
 	];
 };
 

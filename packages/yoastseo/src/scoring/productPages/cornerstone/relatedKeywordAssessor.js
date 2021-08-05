@@ -39,7 +39,10 @@ const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
 		}, true ),
-		new KeywordDensity(),
+		new KeywordDensity( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify13" ),
+		} ),
 		new MetaDescriptionKeyword( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
@@ -55,6 +58,8 @@ const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
 				withAlt: 3,
 				noAlt: 3,
 			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
 		} ),
 	];
 };

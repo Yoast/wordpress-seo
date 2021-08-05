@@ -33,7 +33,10 @@ const StorePostsAndPagesRelatedKeywordAssessor = function( i18n, researcher, opt
 			isRelatedKeyphrase: true,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ) } ),
-		new KeywordDensity(),
+		new KeywordDensity( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify13" ),
+		} ),
 		new MetaDescriptionKeyword( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
@@ -43,7 +46,10 @@ const StorePostsAndPagesRelatedKeywordAssessor = function( i18n, researcher, opt
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify19" ),
 		} ),
 		new FunctionWordsInKeyphrase(),
-		new ImageKeyphrase(),
+		new ImageKeyphrase( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
+		} ),
 	];
 };
 

@@ -56,7 +56,10 @@ const StorePostsAndPagesSEOAssessor = function( i18n, researcher,  options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify16" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify17" ),
 		} ),
-		new TextCompetingLinksAssessment(),
+		new TextCompetingLinksAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify18" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify19" ),
+		} ),
 		new ImageKeyphrase( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
@@ -79,7 +82,10 @@ const StorePostsAndPagesSEOAssessor = function( i18n, researcher,  options ) {
 		} ),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
-		new KeyphraseDistribution(),
+		new KeyphraseDistribution( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify30" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify31" ),
+		} ),
 	];
 };
 

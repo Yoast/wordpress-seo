@@ -31,7 +31,10 @@ const CollectionCornerstoneRelatedKeywordAssessor = function( i18n, researcher, 
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
 		} ),
-		new KeywordDensityAssessment(),
+		new KeywordDensityAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify13" ),
+		} ),
 		new MetaDescriptionKeywordAssessment(
 			{ parameters: { recommendedMinimum: 1 },
 				scores: { good: 9, bad: 3 },

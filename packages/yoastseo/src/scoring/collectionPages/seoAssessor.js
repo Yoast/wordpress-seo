@@ -74,7 +74,10 @@ const CollectionSEOAssessor = function( i18n, researcher, options ) {
 		} ),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
-		new KeyphraseDistribution(),
+		new KeyphraseDistribution( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify30" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify31" ),
+		} ),
 	];
 };
 

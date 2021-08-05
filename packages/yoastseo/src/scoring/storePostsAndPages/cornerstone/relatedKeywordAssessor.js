@@ -33,7 +33,10 @@ const StorePostsAndPagesCornerstoneRelatedKeywordAssessor = function( i18n, opti
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
 		} ),
-		new KeywordDensity(),
+		new KeywordDensity( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify13" ),
+		} ),
 		new MetaDescriptionKeyword( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
@@ -49,6 +52,8 @@ const StorePostsAndPagesCornerstoneRelatedKeywordAssessor = function( i18n, opti
 				withAlt: 3,
 				noAlt: 3,
 			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
 		} ),
 	];
 };
