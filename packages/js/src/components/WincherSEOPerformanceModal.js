@@ -37,15 +37,17 @@ class WincherSEOPerformanceModal extends Component {
 	}
 
 	/**
-	 * Handles the click event on the "Get related keyphrases" button.
+	 * Handles the click event on the "Get related keyphrase" button.
 	 *
 	 * @returns {void}
 	 */
 	onModalOpen() {
-		if ( this.props.keyphrases.length === 0 ) {
-			this.props.onOpenWithNoKeyphrase();
-			return;
-		}
+		// console.log(this.props)
+		//
+		// if ( this.props.keyphrase.length === 0 ) {
+		// 	this.props.onOpenWithNoKeyphrase();
+		// 	return;
+		// }
 
 		this.props.onOpen( this.props.location );
 	}
@@ -76,7 +78,7 @@ class WincherSEOPerformanceModal extends Component {
 		e.preventDefault();
 
 		// If no keyphrase has been submitted, trigger the error message immediately.
-		if ( this.props.keyphrases.length === 0 ) {
+		if ( this.props.keyphrase.length === 0 ) {
 			this.props.onOpenWithNoKeyphrase();
 			return;
 		}
@@ -194,7 +196,7 @@ class WincherSEOPerformanceModal extends Component {
 				}
 
 				<SidebarButton
-					id={ "wincher-open-button" }
+					id={ `wincher-open-button-${location}` }
 					title={ title }
 					suffixIcon={ { size: "20px", icon: "pencil-square" } }
 					onClick={ this.onModalOpen }
@@ -203,13 +205,13 @@ class WincherSEOPerformanceModal extends Component {
 				{ ! isLoggedIn && <div className={ "yoast" }>
 					{/*<ButtonStyledLink*/}
 					{/*	variant={ "secondary" }*/}
-					{/*	id={ `yoast-get-related-keyphrases-${location}` }*/}
+					{/*	id={ `yoast-get-related-keyphrase-${location}` }*/}
 					{/*	href={ "https://oauth.semrush.com/oauth2/authorize?" +*/}
 					{/*	"ref=1513012826&client_id=yoast&redirect_uri=https%3A%2F%2Foauth.semrush.com%2Foauth2%2Fyoast%2Fsuccess&" +*/}
 					{/*	"response_type=code&scope=user.id" }*/}
 					{/*	onClick={ this.onLinkClick }*/}
 					{/*>*/}
-					{/*	{ __( "Get related keyphrases", "wordpress-seo" ) }*/}
+					{/*	{ __( "Get related keyphrase", "wordpress-seo" ) }*/}
 					{/*	<span className={ "screen-reader-text" }>*/}
 					{/*		{ __( "(Opens in a new browser window)", "wordpress-seo" ) }*/}
 					{/*	</span>*/}
@@ -222,7 +224,7 @@ class WincherSEOPerformanceModal extends Component {
 }
 
 WincherSEOPerformanceModal.propTypes = {
-	keyphrases: PropTypes.string,
+	keyphrases: PropTypes.array,
 	location: PropTypes.string,
 	whichModalOpen: PropTypes.oneOf( [
 		"none",

@@ -5,11 +5,13 @@ import WincherSEOPerformanceModal from "../components/WincherSEOPerformanceModal
 export default compose( [
 	withSelect( ( select ) => {
 		const {
+			getFocusKeyphrase,
 			getWincherModalOpen,
 			getWincherLoginStatus,
 		} = select( "yoast-seo/editor" );
 
 		return {
+			keyphrases: [ getFocusKeyphrase() ],
 			whichModalOpen: getWincherModalOpen(),
 			isLoggedIn: getWincherLoginStatus(),
 		};

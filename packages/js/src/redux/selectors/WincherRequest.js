@@ -54,17 +54,6 @@ export function getWincherRequestKeyphrase( state ) {
 }
 
 /**
- * Gets the currently selected country.
- *
- * @param {Object} state The state.
- *
- * @returns {string} Current country.
- */
-export function getWincherSelectedCountry( state ) {
-	return state.WincherRequest.countryCode;
-}
-
-/**
  * Checks whether the last successful request has a dataset.
  *
  * @param {Object} state The state.

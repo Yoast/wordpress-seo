@@ -22,6 +22,7 @@ import * as ajaxHelper from "./helpers/ajaxHelper";
 import EditorModal from "./containers/EditorModal";
 import ImageSelectPortal from "./components/portals/ImageSelectPortal";
 import PersistentDismissableAlert from "./containers/PersistentDismissableAlert";
+import WincherSEOPerformance from "./containers/WincherSEOPerformance";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -57,6 +58,7 @@ window.yoast.editorModules = {
 		PersistentDismissableAlert,
 		Results,
 		SEMrushRelatedKeyphrases,
+		WincherSEOPerformance,
 	},
 	helpers: {
 		ajaxHelper,
