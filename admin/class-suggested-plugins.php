@@ -106,7 +106,7 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 	 * @return string The install suggested plugin message.
 	 */
 	protected function create_install_suggested_plugin_message( $suggested_plugin ) {
-		/* translators: %1$s expands to an opening strong tag, %2$s expands to the dependency name, %3$s expands to a closing strong tag, %4$s expands to and opening anchor tag, %5$s expands to a closing anchor tag. */
+		/* translators: %1$s expands to an opening strong tag, %2$s expands to the dependency name, %3$s expands to a closing strong tag, %4$s expands to an opening anchor tag, %5$s expands to a closing anchor tag. */
 		$message      = __( 'It looks like you aren\'t using our %1$s%2$s addon%3$s. %4$sUpgrade today%5$s to unlock more tools and SEO features to make your products stand out in search results.', 'wordpress-seo' );
 		$install_link = WPSEO_Admin_Utils::get_install_link( $suggested_plugin );
 
