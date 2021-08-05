@@ -5,7 +5,7 @@ import factory from "../../specHelpers/factory.js";
 import getResults from "../../specHelpers/getAssessorResults";
 const i18n = factory.buildJed();
 
-describe( "running assessments in the product page cornerstone SEO assessor", function() {
+describe( "running assessments in the product page SEO assessor", function() {
 	let assessor;
 
 	beforeEach( () => {
@@ -169,6 +169,7 @@ describe( "running assessments in the product page cornerstone SEO assessor", fu
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
+			"keyphraseDistribution",
 			"images",
 		] );
 	} );
@@ -197,6 +198,7 @@ describe( "running assessments in the product page cornerstone SEO assessor", fu
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
+			"keyphraseDistribution",
 			"images",
 		] );
 	} );

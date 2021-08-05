@@ -149,6 +149,7 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
+			"keyphraseDistribution",
 		] );
 	} );
 
@@ -176,6 +177,7 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
+			"keyphraseDistribution",
 		] );
 	} );
 
