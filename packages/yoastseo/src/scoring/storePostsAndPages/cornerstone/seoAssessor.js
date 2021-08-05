@@ -35,7 +35,10 @@ const StorePostsAndPagesCornerstoneSEOAssessor = function( i18n, options ) {
 	this.type = "storePostsAndPagesCornerstoneSEOAssessor";
 
 	this._assessments = [
-		new IntroductionKeywordAssessment(),
+		new IntroductionKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify8" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify9" ),
+		} ),
 		new KeyphraseLengthAssessment(),
 		new KeywordDensityAssessment(),
 		new MetaDescriptionKeywordAssessment( {

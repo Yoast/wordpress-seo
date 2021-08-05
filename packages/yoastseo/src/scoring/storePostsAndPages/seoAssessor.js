@@ -34,7 +34,10 @@ const StorePostsAndPagesSEOAssessor = function( i18n, researcher,  options ) {
 	this.type = "storePostsAndPagesSEOAssessor";
 
 	this._assessments = [
-		new IntroductionKeywordAssessment(),
+		new IntroductionKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify8" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify9" ),
+		} ),
 		new KeyphraseLengthAssessment(),
 		new KeywordDensityAssessment(),
 		new MetaDescriptionKeywordAssessment( {

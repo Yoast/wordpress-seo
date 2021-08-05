@@ -1,4 +1,5 @@
 import { inherits } from "util";
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import Assessor from "../../assessor.js";
 
 import IntroductionKeyword from "../../assessments/seo/IntroductionKeywordAssessment.js";
@@ -23,7 +24,10 @@ const StorePostsAndPagesCornerstoneRelatedKeywordAssessor = function( i18n, opti
 	this.type = "storePostsAndPagesCornerstoneRelatedKeywordAssessor";
 
 	this._assessments = [
-		new IntroductionKeyword(),
+		new IntroductionKeyword( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify8" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify9" ),
+		} ),
 		new KeyphraseLength(),
 		new KeywordDensity(),
 		new MetaDescriptionKeyword(),
