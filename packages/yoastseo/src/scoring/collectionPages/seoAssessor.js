@@ -50,9 +50,15 @@ const CollectionSEOAssessor = function( i18n, researcher, options ) {
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLengthAssessment(),
 		getTextLengthAssessment(),
-		new TitleKeywordAssessment(),
+		new TitleKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
+		} ),
 		new PageTitleWidthAssessment(),
-		new UrlKeywordAssessment(),
+		new UrlKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
+		} ),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
 	];

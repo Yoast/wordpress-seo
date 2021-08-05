@@ -1,4 +1,5 @@
 import { inherits } from "util";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 
 import IntroductionKeywordAssessment from "../assessments/seo/IntroductionKeywordAssessment";
 import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
@@ -36,7 +37,10 @@ const StorePostsAndPagesSEOAssessor = function( i18n, researcher,  options ) {
 		new IntroductionKeywordAssessment(),
 		new KeyphraseLengthAssessment(),
 		new KeywordDensityAssessment(),
-		new MetaDescriptionKeywordAssessment(),
+		new MetaDescriptionKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
+		} ),
 		new MetaDescriptionLength(),
 		new SubheadingsKeyword(),
 		new TextCompetingLinksAssessment(),
@@ -44,10 +48,16 @@ const StorePostsAndPagesSEOAssessor = function( i18n, researcher,  options ) {
 		new ImageCount(),
 		new TextLength(),
 		new OutboundLinks(),
-		new TitleKeywordAssessment(),
+		new TitleKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
+		} ),
 		new InternalLinksAssessment(),
 		new TitleWidth(),
-		new UrlKeywordAssessment(),
+		new UrlKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
+		} ),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
 	];

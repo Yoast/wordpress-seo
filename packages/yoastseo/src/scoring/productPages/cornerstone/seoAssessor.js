@@ -1,4 +1,5 @@
 import { inherits } from "util";
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import ImageAltTags from "../../assessments/seo/ImageAltTagsAssessment";
 
 import IntroductionKeywordAssessment from "../../assessments/seo/IntroductionKeywordAssessment";
@@ -64,7 +65,10 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 
 			cornerstoneContent: true,
 		} ),
-		new TitleKeywordAssessment(),
+		new TitleKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
+		} ),
 		new TitleWidth( {
 			scores: {
 				widthTooShort: 9,
@@ -75,6 +79,8 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 				scores: {
 					okay: 3,
 				},
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
 			}
 		),
 		new FunctionWordsInKeyphrase(),
@@ -92,7 +98,11 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 				noAlt: 3,
 			},
 		} ),
-		new ImageAltTags(),
+		new ImageAltTags( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify40" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify41" ),
+		}
+		),
 	];
 };
 

@@ -64,12 +64,15 @@ const CollectionCornerstoneSEOAssessor = function( i18n, researcher, options ) {
 					good: 9,
 					bad: 2,
 				},
-				urlTitle: createAnchorOpeningTag( "https://yoa.st/33g" ),
-				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33h" ),
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
 			}
 		),
 		new PageTitleWidthAssessment(),
-		new UrlKeywordAssessment(),
+		new UrlKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
+		} ),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
 	];

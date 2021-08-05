@@ -1,3 +1,5 @@
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+
 import Assessor from "../assessor.js";
 import ContentAssessor from "../contentAssessor";
 import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
@@ -36,7 +38,10 @@ const ProductContentAssessor = function( i18n, options = {} ) {
 		new TransitionWords(),
 		new PassiveVoice(),
 		new TextPresence(),
-		new ListsPresence(),
+		new ListsPresence( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify38" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify39" ),
+		} ),
 	];
 };
 

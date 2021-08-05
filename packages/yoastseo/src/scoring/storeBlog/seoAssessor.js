@@ -1,4 +1,5 @@
 import { inherits } from "util";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 
 import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
 import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment";
@@ -26,9 +27,15 @@ const StoreBlogSEOAssessor = function( i18n, researcher, options ) {
 		new KeyphraseLengthAssessment(),
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLength(),
-		new TitleKeywordAssessment(),
+		new TitleKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
+		} ),
 		new TitleWidth(),
-		new UrlKeywordAssessment(),
+		new UrlKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
+		} ),
 		new FunctionWordsInKeyphrase(),
 	];
 };

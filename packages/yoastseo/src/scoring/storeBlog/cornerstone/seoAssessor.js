@@ -1,4 +1,5 @@
 import { inherits } from "util";
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 
 import KeyphraseLengthAssessment from "../../assessments/seo/KeyphraseLengthAssessment";
 import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescriptionKeywordAssessment";
@@ -32,7 +33,10 @@ const StoreBlogCornerstoneSEOAssessor = function( i18n, options ) {
 				tooShort: 3,
 			},
 		} ),
-		new TitleKeywordAssessment(),
+		new TitleKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
+		} ),
 		new TitleWidth( {
 			scores: {
 				widthTooShort: 3,
@@ -44,6 +48,8 @@ const StoreBlogCornerstoneSEOAssessor = function( i18n, options ) {
 				scores: {
 					okay: 3,
 				},
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
 			}
 		),
 		new FunctionWordsInKeyphrase(),
