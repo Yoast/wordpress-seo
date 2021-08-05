@@ -56,6 +56,8 @@ class Cleanup_Integration implements Integration_Interface {
 		$deleted_orphans += $this->cleanup_orphaned_from_table( 'SEO_Links', 'indexable_id', 1000 );
 		$deleted_orphans += $this->cleanup_orphaned_from_table( 'SEO_Links', 'target_indexable_id', 1000 );
 
+		$deleted_orphans = \apply_filters( 'wpseo_cleanup_orphaned', $deleted_orphans );
+
 		if ( empty( $deleted_orphans ) ) {
 			$this->unschedule_cron( 'wpseo_cleanup_orphaned_indexables' );
 		}
@@ -77,6 +79,7 @@ class Cleanup_Integration implements Integration_Interface {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		$limit           = \apply_filters( 'wpseo_cron_query_limit_size', $limit );
 
+		// Warning: If this query is changed, make sure to update the query in cleanup_orphaned_from_table in Premium as well.
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		$query = $wpdb->prepare(
 			"
@@ -132,7 +135,8 @@ class Cleanup_Integration implements Integration_Interface {
 	public function unschedule_cron( $hook = null ) {
 		if ( is_string( $hook ) && ! empty( $hook ) ) {
 			\wp_unschedule_hook( $hook );
-		} else {
+		}
+		else {
 			\wp_unschedule_hook( 'wpseo_cleanup_indexables' );
 			\wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
 		}
