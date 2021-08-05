@@ -42,7 +42,64 @@ class Cleanup_Integration_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_cleanup_indexables', [ $this->instance, 'cleanup_obsolete_indexables' ] ), 'Does not have expected wpseo_cleanup_indexables filter' );
+		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_cleanup_orphaned_indexables', [ $this->instance, 'cleanup_orphaned_indexables' ] ), 'Does not have expected wpseo_cleanup_orphaned_indexables filter' );
 		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_deactivate', [ $this->instance, 'unschedule_cron' ] ), 'Does not have expected wpseo_deactivate filter' );
+	}
+
+	/**
+	 * Tests calling cleanup_orphaned_indexables.
+	 *
+	 * @covers ::cleanup_orphaned_indexables
+	 */
+	public function test_cleanup_orphaned_indexables() {
+		global $wpdb;
+
+		$wpdb         = Mockery::mock( 'wpdb' );
+		$wpdb->prefix = 'wp_';
+		$wpdb
+			->shouldReceive( 'prepare' )
+			->times( 3 )
+			->withAnyArgs()
+			->andReturn(
+				'
+				SELECT h.indexable_id
+				FROM wp_yoast_indexable_hierarchy h
+				LEFT JOIN wp_yoast_indexable AS i
+				ON h.indexable_id = i.id
+				WHERE i.id IS NULL
+				AND h.indexable_id IS NOT NULL
+				LIMIT 1000',
+				'
+				SELECT h.indexable_id
+				FROM wp_yoast_seo_links h
+				LEFT JOIN wp_yoast_indexable AS i
+				ON h.indexable_id = i.id
+				WHERE i.id IS NULL
+				AND h.indexable_id IS NOT NULL
+				LIMIT 1000',
+				'
+				SELECT h.target_indexable_id
+				FROM wp_yoast_seo_links h
+				LEFT JOIN wp_yoast_indexable AS i
+				ON h.target_indexable_id = i.id
+				WHERE i.id IS NULL
+				AND h.target_indexable_id IS NOT NULL
+				LIMIT 1000'
+			);
+
+		$wpdb
+			->shouldReceive( 'get_col' )
+			->times( 3 )
+			->withAnyArgs()
+			->andReturn( [ '123' ] );
+
+		$wpdb
+			->shouldReceive( 'query' )
+			->times( 3 )
+			->withAnyArgs()
+			->andReturn( 1 );
+
+		$this->instance->cleanup_orphaned_indexables();
 	}
 
 	/**
