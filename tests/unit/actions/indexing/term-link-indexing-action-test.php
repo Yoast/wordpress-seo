@@ -383,4 +383,44 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 
 		$this->instance->index();
 	}
+
+	/**
+	 * Tests that the transients are not deleted when no indexables have been created.
+	 *
+	 * @covers ::get_objects
+	 * @covers ::get_query
+	 */
+	public function test_index_no_indexables_created() {
+		Filters\expectApplied( 'wpseo_link_indexing_limit' );
+
+		$this->taxonomy_helper
+			->expects( 'get_public_taxonomies' )
+			->once()
+			->andReturn( [ 'category', 'tag' ] );
+
+		$expected_query = "
+			SELECT T.term_id, T.description
+			FROM wp_term_taxonomy AS T
+			LEFT JOIN wp_yoast_indexable AS I
+				ON T.term_id = I.object_id
+				AND I.object_type = 'term'
+				AND I.link_count IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND T.taxonomy IN (%s, %s)
+			LIMIT %d";
+
+		$this->wpdb
+			->expects( 'prepare' )
+			->once()
+			->with( $expected_query, [ 'category', 'tag', 5 ] )
+			->andReturn( 'query' );
+
+		$this->wpdb
+			->expects( 'get_results' )
+			->once()
+			->with( 'query' )
+			->andReturn( [] );
+
+		$this->instance->index();
+	}
 }
