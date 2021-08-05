@@ -163,13 +163,17 @@ const checkWordInFullFormExceptions = function( word, exceptions ) {
  *
  * @returns {string}   A stemmed adverb or the input word, if it is not an adverb.
  */
-const stemAdjectivesOnAn = findMatchingEndingInArray( word, r1Text ); {
-// Remove o/a/os/as
+const stemAdjectivesOnAn = function( word, r1Text ) {
 	const adjectivesEndings = [ "ano", "anos", "ana", "anas" ];
-	word.endsWith( "s" ))
-			? word.slice( 0, word.length - 2 )
-			: word.slice( 0, word.length - 1 );
-	return word
+	const adjectiveSuffix = findMatchingEndingInArray( r1Text, [ "ano", "anos", "ana", "anas" ] );
+
+	// Remove o/a/os/as
+	if ( adjectiveSuffix != "" ) {
+		word.endsWith( "s" )
+			? word = word.slice( 0, word.length - 2 )
+			: word = word.slice( 0, word.length - 1 );
+	}
+	return word;
 }
 
 /**
@@ -502,6 +506,11 @@ export default function stem( word, morphologyData ) {
 	let rvText = word.slice( rv );
 	const originalWord = word;
 
+	const wordAfterAdjectiveOnAnCheck = stemAdjectivesOnAn( word, r1Text );
+	if ( wordAfterAdjectiveOnAnCheck != word ) {
+		return wordAfterAdjectiveOnAnCheck;
+	}
+
 	/*
 	 * Step 0:
 	 * Stem enclitic pronouns.
@@ -516,6 +525,7 @@ export default function stem( word, morphologyData ) {
 
 	// The word after removing enclitic pronouns.
 	const wordAfter0 = word;
+
 	/*
 	 * Step 1:
 	 * If the word ends in derivational suffixes such as "anza", "anzas", "ico", "ica", "icos", "icas" etc. the suffix will be stemmed here.
