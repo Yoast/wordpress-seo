@@ -32,7 +32,7 @@ const StorePostsAndPagesRelatedKeywordAssessor = function( i18n, researcher, opt
 		new KeyphraseLength( {
 			isRelatedKeyphrase: true,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" )
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
 		} ),
 		new KeywordDensity( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
