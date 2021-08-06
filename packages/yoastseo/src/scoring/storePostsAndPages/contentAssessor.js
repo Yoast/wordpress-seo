@@ -40,7 +40,10 @@ const StorePostsAndPagesContentAssessor = function( i18n, researcher, options = 
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
 		} ),
 		new ParagraphTooLong(),
-		new SentenceLengthInText(),
+		new SentenceLengthInText( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify48" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify49" ),
+		} ),
 		new TransitionWords( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify44" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify45" ),

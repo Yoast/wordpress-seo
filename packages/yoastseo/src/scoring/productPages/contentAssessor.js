@@ -38,6 +38,8 @@ const ProductContentAssessor = function( i18n, options = {} ) {
 		new SentenceLengthInText( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify48" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify49" ),
 		}, false, true ),
 		new TransitionWords( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify44" ),

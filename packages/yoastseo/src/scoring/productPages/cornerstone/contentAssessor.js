@@ -42,6 +42,8 @@ const ProductCornerstoneContentAssessor = function( i18n, options = {} ) {
 		new SentenceLengthInText( {
 			slightlyTooMany: 15,
 			farTooMany: 20,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify48" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify49" ),
 		}, true, true ),
 		new TransitionWords( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify44" ),
