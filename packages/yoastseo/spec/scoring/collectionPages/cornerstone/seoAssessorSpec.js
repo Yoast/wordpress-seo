@@ -219,8 +219,8 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			expect( assessment._config.scores ).toBeDefined();
 			expect( assessment._config.scores.widthTooShort ).toBe( 6 );
 			expect( assessment._config.scores.widthTooLong ).toBe( 3 );
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify14' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify15' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify52' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify53' target='_blank'>" );
 		} );
 
 		test( "UrlKeywordAssessment", () => {

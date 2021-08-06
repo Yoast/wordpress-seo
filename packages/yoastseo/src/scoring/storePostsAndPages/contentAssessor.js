@@ -35,12 +35,18 @@ const StorePostsAndPagesContentAssessor = function( i18n, researcher, options = 
 	this.type = "storePostsAndPagesContentAssessor";
 	this._assessments = [
 
-		new SubheadingDistributionTooLong(),
+		new SubheadingDistributionTooLong( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify68" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
+		} ),
 		new ParagraphTooLong( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify66" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify67" ),
 		} ),
-		new SentenceLengthInText(),
+		new SentenceLengthInText( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify48" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify49" ),
+		} ),
 		new TransitionWords( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify44" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify45" ),

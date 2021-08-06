@@ -99,18 +99,25 @@ const StorePostsAndPagesCornerstoneSEOAssessor = function( i18n, options ) {
 			scores: {
 				noLinks: 3,
 			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify62" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify63" ),
 		} ),
 		new TitleKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
 		} ),
-		new InternalLinksAssessment(),
+		new InternalLinksAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify60" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify61" ),
+		} ),
 		new TitleWidth(
 			{
 				scores: {
 					widthTooShort: 3,
 					widthTooLong: 3,
 				},
+				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify52" ),
+				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify53" ),
 			}
 		),
 		new UrlKeywordAssessment(

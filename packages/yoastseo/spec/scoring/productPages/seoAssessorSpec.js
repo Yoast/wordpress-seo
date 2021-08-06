@@ -301,8 +301,8 @@ describe( "running assessments in the product page SEO assessor", function() {
 			expect( assessment._config.scores ).toBeDefined();
 			expect( assessment._config.scores.widthTooShort ).toBe( 9 );
 			expect( assessment._allowShortTitle ).toBe( true );
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify14' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify15' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify52' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify53' target='_blank'>" );
 		} );
 
 		test( "UrlKeywordAssessment", () => {

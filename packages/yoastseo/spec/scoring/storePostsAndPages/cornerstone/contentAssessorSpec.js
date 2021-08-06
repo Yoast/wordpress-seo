@@ -294,8 +294,8 @@ describe( "A content assessor", function() {
 			expect( assessment._config.parameters.slightlyTooMany ).toBe( 250 );
 			expect( assessment._config.parameters.farTooMany ).toBe( 300 );
 			expect( assessment._config.parameters.recommendedMaximumWordCount ).toBe( 250 );
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify30' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify31' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify68' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify69' target='_blank'>" );
 		} );
 
 		test( "SentenceLengthAssessment", () => {
@@ -306,8 +306,8 @@ describe( "A content assessor", function() {
 			expect( assessment._config.slightlyTooMany ).toBe( 20 );
 			expect( assessment._config.farTooMany ).toBe( 25 );
 			expect( assessment._isCornerstone ).toBe( true );
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify30' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify31' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify48' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify49' target='_blank'>" );
 		} );
 
 		test( "ParagraphTooLong", () => {

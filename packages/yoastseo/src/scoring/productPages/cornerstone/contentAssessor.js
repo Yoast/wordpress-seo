@@ -29,7 +29,10 @@ const ProductCornerstoneContentAssessor = function( i18n, options = {} ) {
 				farTooMany: 300,
 				recommendedMaximumWordCount: 250,
 			},
-			shouldNotAppearInShortText: true } ),
+			shouldNotAppearInShortText: true,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify68" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
+		} ),
 		new ParagraphTooLong( {
 			parameters: {
 				recommendedLength: 70,
@@ -41,6 +44,8 @@ const ProductCornerstoneContentAssessor = function( i18n, options = {} ) {
 		new SentenceLengthInText( {
 			slightlyTooMany: 15,
 			farTooMany: 20,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify48" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify49" ),
 		}, true, true ),
 		new TransitionWords( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify44" ),
