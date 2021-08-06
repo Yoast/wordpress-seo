@@ -49,7 +49,10 @@ const ProductContentAssessor = function( i18n, options = {} ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify42" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify43" ),
 		} ),
-		new TextPresence(),
+		new TextPresence( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify56" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),
+		} ),
 		new ListsPresence( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify38" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify39" ),

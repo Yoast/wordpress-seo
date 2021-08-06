@@ -93,7 +93,10 @@ const ProductSEOAssessor = function( i18n, researcher, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify50" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify51" ),
 		} ),
-		new SingleH1Assessment(),
+		new SingleH1Assessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify54" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify55" ),
+		} ),
 		new ImageCount( {
 			scores: {
 				okay: 6,
