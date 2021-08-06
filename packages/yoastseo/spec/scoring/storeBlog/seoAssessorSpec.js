@@ -172,14 +172,68 @@ describe( "running assessments in the store blog cornerstone SEO assessor", func
 	} );
 
 	describe( "has configuration overrides", () => {
+		test( "KeyphraseLengthAssessment", () => {
+			const assessment = assessor.getAssessment( "keyphraseLength" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify10' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify11' target='_blank'>" );
+		} );
+
+		test( "MetaDescriptionKeywordAssessment", () => {
+			const assessment = assessor.getAssessment( "metaDescriptionKeyword" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify14' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify15' target='_blank'>" );
+		} );
+
+		test( "MetaDescriptionLengthAssessment", () => {
+			const assessment = assessor.getAssessment( "metaDescriptionLength" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify14' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify15' target='_blank'>" );
+		} );
+
+		test( "TitleKeywordAssessment", () => {
+			const assessment = assessor.getAssessment( "titleKeyword" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify24' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify25' target='_blank'>" );
+		} );
+
 		test( "PageTitleWidthAssesment", () => {
 			const assessment = assessor.getAssessment( "titleWidth" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.widthTooShort ).toBe( 6 );
-			expect( assessment._config.scores.widthTooLong ).toBe( 3 );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify14' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify15' target='_blank'>" );
+		} );
+
+		test( "UrlKeywordAssessment", () => {
+			const assessment = assessor.getAssessment( "urlKeyword" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify26' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify27' target='_blank'>" );
+		} );
+
+		test( "FunctionWordsInKeyphrase", () => {
+			const assessment = assessor.getAssessment( "functionWordsInKeyphrase" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify14' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify15' target='_blank'>" );
 		} );
 	} );
 } );
