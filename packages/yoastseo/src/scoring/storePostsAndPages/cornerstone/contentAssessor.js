@@ -63,8 +63,8 @@ const StorePostsAndPagesCornerstoneContentAssessor = function( i18n, options = {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),
 		} ),
 		new SentenceBeginnings( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify56" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify5" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
 		} ),
 		// Temporarily disabled: wordComplexity,
 	];

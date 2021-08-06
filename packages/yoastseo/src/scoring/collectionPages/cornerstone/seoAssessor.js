@@ -27,8 +27,8 @@ export const getTextLengthAssessment = function() {
 		slightlyBelowMinimum: 80,
 		belowMinimum: 50,
 		veryFarBelowMinimum: 20,
-		urlTitle: createAnchorOpeningTag( "https://yoa.st/34j" ),
-		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34k" ),
+		urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
+		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
 		cornerstoneContent: true,
 	} );
 };

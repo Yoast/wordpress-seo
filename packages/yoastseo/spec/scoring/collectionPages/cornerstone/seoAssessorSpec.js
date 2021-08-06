@@ -207,8 +207,8 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			expect( assessment._config.scores.farBelowMinimum ).toBe( -10 );
 			expect( assessment._config.cornerstoneContent ).toBeDefined();
 			expect( assessment._config.cornerstoneContent ).toBeTruthy();
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify14' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify15' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify58' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify59' target='_blank'>" );
 		} );
 
 		test( "PageTitleWidthAssesment", () => {
