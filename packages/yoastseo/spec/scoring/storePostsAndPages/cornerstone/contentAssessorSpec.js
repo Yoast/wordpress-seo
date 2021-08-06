@@ -3,7 +3,7 @@ import DefaultResearcher from "../../../../src/languageProcessing/languages/_def
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import DutchResearcher from "../../../../src/languageProcessing/languages/nl/Researcher";
 
-import ContentAssessor from "../../../../src/scoring/storePostsAndPages/contentAssessor";
+import ContentAssessor from "../../../../src/scoring/storePostsAndPages/cornerstone/contentAssessor";
 import AssessmentResult from "../../../../src/values/AssessmentResult";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
@@ -190,9 +190,9 @@ describe( "A content assessor", function() {
 				new AssessmentResult(),
 			];
 			const testCases = [
-				{ points: 6, expected: 60 },
-				{ points: 4, expected: 90 },
-				{ points: 3, expected: 90 },
+				{ points: 6, expected: 30 },
+				{ points: 4, expected: 60 },
+				{ points: 3, expected: 60 },
 				{ points: 2, expected: 90 },
 			];
 
@@ -260,14 +260,14 @@ describe( "A content assessor", function() {
 			"accommodare. Mutat gloriatur ex cum, rebum salutandi ei his, vis delenit quaestio ne. Iisque qualisque duo ei. " +
 			"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
 			"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod." );
-		it( "Should have 8 available assessments for a fully supported language", function() {
+		it( "Should have 7 available assessments for a fully supported language", function() {
 			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
 
 			const actual = contentAssessor.getApplicableAssessments().length;
-			const expected = 8;
+			const expected = 7;
 			expect( actual ).toBe( expected );
 		} );
 
@@ -291,10 +291,11 @@ describe( "A content assessor", function() {
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.parameters ).toBeDefined();
-			expect( assessment._config.parameters.recommendedMaximumWordCount ).toBe( 250 );
 			expect( assessment._config.parameters.slightlyTooMany ).toBe( 250 );
 			expect( assessment._config.parameters.farTooMany ).toBe( 300 );
+			expect( assessment._config.parameters.recommendedMaximumWordCount ).toBe( 250 );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify30' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify31' target='_blank'>" );
 		} );
 
 		test( "SentenceLengthAssessment", () => {
@@ -305,7 +306,55 @@ describe( "A content assessor", function() {
 			expect( assessment._config.slightlyTooMany ).toBe( 20 );
 			expect( assessment._config.farTooMany ).toBe( 25 );
 			expect( assessment._isCornerstone ).toBe( true );
-			expect( assessment._isProduct ).toBe( false );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify30' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify31' target='_blank'>" );
+		} );
+
+		test( "ParagraphTooLong", () => {
+			const assessment = assessor.getAssessment( "textParagraphTooLong" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.parameters.recommendedLength ).toBe( 150 );
+			expect( assessment._config.parameters.maximumRecommendedLength ).toBe( 200 );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify30' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify31' target='_blank'>" );
+		} );
+
+		test( "TransitionWords", () => {
+			const assessment = assessor.getAssessment( "textTransitionWords" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify30' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify31' target='_blank'>" );
+		} );
+
+		test( "PassiveVoice", () => {
+			const assessment = assessor.getAssessment( "passiveVoice" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify30' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify31' target='_blank'>" );
+		} );
+
+		test( "TextPresence", () => {
+			const assessment = assessor.getAssessment( "textPresence" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify30' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify31' target='_blank'>" );
+		} );
+
+		test( "SentenceBeginnings", () => {
+			const assessment = assessor.getAssessment( "sentenceBeginnings" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify38' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify39' target='_blank'>" );
 		} );
 	} );
 } );
