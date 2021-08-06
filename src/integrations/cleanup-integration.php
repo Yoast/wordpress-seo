@@ -81,7 +81,7 @@ class Cleanup_Integration implements Integration_Interface {
 
 		// Sanitize the $limit.
 		$limit = ! is_int( $limit ) ? 1000 : $limit;
-		$limit = $limit > 5000 ? 5000 : ( $limit <= 0 ? 1000 : $limit );
+		$limit = ( $limit > 5000 ) ? 5000 : ( ( $limit <= 0 ) ? 1000 : $limit );
 
 		// Warning: If this query is changed, make sure to update the query in cleanup_orphaned_from_table in Premium as well.
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
