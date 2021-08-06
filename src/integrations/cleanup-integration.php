@@ -83,12 +83,12 @@ class Cleanup_Integration implements Integration_Interface {
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		$query = $wpdb->prepare(
 			"
-			SELECT h.{$column}
-			FROM {$table} h
-			LEFT JOIN {$indexable_table} AS i
-			ON h.{$column} = i.id
-			WHERE i.id IS NULL
-			AND h.{$column} IS NOT NULL
+			SELECT table_to_clean.{$column}
+			FROM {$table} table_to_clean
+			LEFT JOIN {$indexable_table} AS indexable_table
+			ON table_to_clean.{$column} = indexable_table.id
+			WHERE indexable_table.id IS NULL
+			AND table_to_clean.{$column} IS NOT NULL
 			LIMIT %d",
 			$limit
 		);

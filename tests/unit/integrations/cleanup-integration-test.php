@@ -62,28 +62,28 @@ class Cleanup_Integration_Test extends TestCase {
 			->withAnyArgs()
 			->andReturn(
 				'
-				SELECT h.indexable_id
-				FROM wp_yoast_indexable_hierarchy h
-				LEFT JOIN wp_yoast_indexable AS i
-				ON h.indexable_id = i.id
-				WHERE i.id IS NULL
-				AND h.indexable_id IS NOT NULL
+				SELECT htable_to_clean.indexable_id
+				FROM wp_yoast_indexable_hierarchy table_to_clean
+				LEFT JOIN wp_yoast_indexable AS indexable_table
+				ON table_to_clean.indexable_id = indexable_table.id
+				WHERE indexable_table.id IS NULL
+				AND table_to_clean.indexable_id IS NOT NULL
 				LIMIT 1000',
 				'
-				SELECT h.indexable_id
-				FROM wp_yoast_seo_links h
-				LEFT JOIN wp_yoast_indexable AS i
-				ON h.indexable_id = i.id
-				WHERE i.id IS NULL
-				AND h.indexable_id IS NOT NULL
+				SELECT table_to_clean.indexable_id
+				FROM wp_yoast_seo_links table_to_clean
+				LEFT JOIN wp_yoast_indexable AS indexable_table
+				ON table_to_clean.indexable_id = indexable_table.id
+				WHERE indexable_table.id IS NULL
+				AND table_to_clean.indexable_id IS NOT NULL
 				LIMIT 1000',
 				'
-				SELECT h.target_indexable_id
-				FROM wp_yoast_seo_links h
-				LEFT JOIN wp_yoast_indexable AS i
-				ON h.target_indexable_id = i.id
-				WHERE i.id IS NULL
-				AND h.target_indexable_id IS NOT NULL
+				SELECT table_to_clean.target_indexable_id
+				FROM wp_yoast_seo_links table_to_clean
+				LEFT JOIN wp_yoast_indexable AS indexable_table
+				ON table_to_clean.target_indexable_id = indexable_table.id
+				WHERE indexable_table.id IS NULL
+				AND table_to_clean.target_indexable_id IS NOT NULL
 				LIMIT 1000'
 			);
 
