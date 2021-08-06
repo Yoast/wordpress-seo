@@ -24,7 +24,11 @@ const ProductContentAssessor = function( i18n, options = {} ) {
 	this.type = "productContentAssessor";
 
 	this._assessments = [
-		new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ),
+		new SubheadingDistributionTooLong( {
+			shouldNotAppearInShortText: true,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify68" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
+		} ),
 		new ParagraphTooLong( {
 			parameters: {
 				recommendedLength: 70,

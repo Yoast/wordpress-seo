@@ -309,8 +309,8 @@ describe( "running assessments in the assessor", function() {
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify14' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify15' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify52' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify53' target='_blank'>" );
 		} );
 
 		test( "UrlKeywordAssessment", () => {

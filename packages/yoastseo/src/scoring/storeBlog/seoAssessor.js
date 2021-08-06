@@ -40,7 +40,10 @@ const StoreBlogSEOAssessor = function( i18n, researcher, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
 		} ),
-		new TitleWidth(),
+		new TitleWidth( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify52" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify53" ),
+		} ),
 		new UrlKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),

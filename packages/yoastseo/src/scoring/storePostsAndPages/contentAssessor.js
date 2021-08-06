@@ -35,7 +35,10 @@ const StorePostsAndPagesContentAssessor = function( i18n, researcher, options = 
 	this.type = "storePostsAndPagesContentAssessor";
 	this._assessments = [
 
-		new SubheadingDistributionTooLong(),
+		new SubheadingDistributionTooLong( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify68" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
+		} ),
 		new ParagraphTooLong(),
 		new SentenceLengthInText(),
 		new TransitionWords( {

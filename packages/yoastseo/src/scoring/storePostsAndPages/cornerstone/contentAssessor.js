@@ -37,6 +37,8 @@ const StorePostsAndPagesCornerstoneContentAssessor = function( i18n, options = {
 				farTooMany: 300,
 				recommendedMaximumWordCount: 250,
 			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify68" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
 		} ),
 		new ParagraphTooLong(),
 		new SentenceLengthInText( {

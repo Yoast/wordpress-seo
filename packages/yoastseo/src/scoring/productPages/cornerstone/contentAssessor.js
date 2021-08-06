@@ -29,7 +29,10 @@ const ProductCornerstoneContentAssessor = function( i18n, options = {} ) {
 				farTooMany: 300,
 				recommendedMaximumWordCount: 250,
 			},
-			shouldNotAppearInShortText: true } ),
+			shouldNotAppearInShortText: true,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify68" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
+		} ),
 		new ParagraphTooLong( {
 			parameters: {
 				recommendedLength: 70,
