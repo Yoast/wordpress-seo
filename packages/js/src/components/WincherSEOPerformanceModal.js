@@ -1,5 +1,6 @@
 /* External dependencies */
 import { Fragment, Component } from "@wordpress/element";
+import { Slot } from "@wordpress/components";
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
@@ -15,6 +16,7 @@ import Modal from "./modals/Modal";
 import { ReactComponent as YoastIcon } from "../../images/Yoast_icon_kader.svg";
 import { isCloseEvent } from "./modals/editorModals/EditorModal.js";
 import SidebarButton from "./SidebarButton";
+import WincherSEOPerformance from "../containers/WincherSEOPerformance";
 
 /**
  * Redux container for the SEOPerformanceModal modal.
@@ -97,13 +99,13 @@ class WincherSEOPerformanceModal extends Component {
 			"status=0",
 		];
 
-		// if ( ! this.popup || this.popup.closed ) {
-		// 	this.popup = window.open( url, "SEMrush_login", features.join( "," ) );
-		// }
-		// if ( this.popup ) {
-		// 	this.popup.focus();
-		// }
-		// window.addEventListener( "message", this.listenToMessages, false );
+		if ( ! this.popup || this.popup.closed ) {
+			this.popup = window.open( url, "SEMrush_login", features.join( "," ) );
+		}
+		if ( this.popup ) {
+			this.popup.focus();
+		}
+		window.addEventListener( "message", this.listenToMessages, false );
 	}
 
 	/**
@@ -188,7 +190,7 @@ class WincherSEOPerformanceModal extends Component {
 					<ModalContainer
 						className="yoast-gutenberg-modal__content yoast-wincher-seo-performance-modal__content"
 					>
-						<h2>Hello world</h2>
+						<WincherSEOPerformance />
 					</ModalContainer>
 				</Modal>
 				}

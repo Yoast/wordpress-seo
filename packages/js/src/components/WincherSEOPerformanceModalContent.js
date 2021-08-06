@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { isEmpty } from "lodash-es";
 
 /* Internal dependencies */
+import WincherSEOPerformanceLoading from "./modals/WincherSEOPerformanceLoading";
 
 
 /**
@@ -34,8 +35,10 @@ export function getUserMessage( props ) {
 		requestHasData,
 	} = props;
 
-	if ( isPending ) {
+	console.log(props)
 
+	if ( isPending ) {
+		return <WincherSEOPerformanceLoading />;
 	}
 
 	if ( requestLimitReached ) {
@@ -84,8 +87,11 @@ export default function WincherSEOPerformanceModalContent( props ) {
 		setRequestLimitReached,
 	} = props;
 
+	console.log(props)
+
 	return (
 		<Fragment>
+			This is a test 123
 			{ ! requestLimitReached && (
 				<Fragment>
 					Hello

@@ -16,6 +16,7 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases";
+import WincherSEOPerformance from "../../containers/WincherSEOPerformance";
 
 /* eslint-disable complexity */
 /**
@@ -33,7 +34,7 @@ export default function MetaboxFill( { settings } ) {
 			<SidebarItem renderPriority={ 1 }>
 				<Warning />
 			</SidebarItem>
-			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
+			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 7 }>
 				<KeywordInput
 					isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 				/>
@@ -58,6 +59,16 @@ export default function MetaboxFill( { settings } ) {
 					shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 				/>
 			</SidebarItem> }
+
+			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 25 }>
+				<MetaboxCollapsible
+					id={ "yoast-wincher-seo-performance-metabox" }
+					title={ __( "Track SEO performance", "wordpress-seo" ) } initialIsOpen={ false }
+				>
+					<WincherSEOPerformance />
+				</MetaboxCollapsible>
+			</SidebarItem> }
+
 			{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
 				<CollapsibleCornerstone />
 			</SidebarItem> }
