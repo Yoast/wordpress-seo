@@ -51,7 +51,10 @@ const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify18" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify19" ),
 		} ),
-		new FunctionWordsInKeyphrase(),
+		new FunctionWordsInKeyphrase( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify50" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify51" ),
+		} ),
 		new ImageKeyphrase( {
 			scores: {
 				withAltNonKeyword: 3,

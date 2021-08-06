@@ -187,8 +187,8 @@ describe( "running assessments in the store blog SEO assessor", function() {
 			expect( assessment._config.scores ).toBeDefined();
 			expect( assessment._config.scores.tooLong ).toBe( 3 );
 			expect( assessment._config.scores.tooShort ).toBe( 3 );
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify14' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify15' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify46' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify47' target='_blank'>" );
 		} );
 
 		test( "TitleKeywordAssessment", () => {
@@ -227,8 +227,8 @@ describe( "running assessments in the store blog SEO assessor", function() {
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify14' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify15' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify50' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify51' target='_blank'>" );
 		} );
 	} );
 } );
