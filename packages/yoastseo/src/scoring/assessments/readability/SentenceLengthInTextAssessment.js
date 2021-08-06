@@ -30,6 +30,8 @@ class SentenceLengthInTextAssessment extends Assessment {
 			recommendedWordCount: 20,
 			slightlyTooMany: 25,
 			farTooMany: 30,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34v" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34w" ),
 		};
 
 		// Add cornerstone and/or product-specific config if applicable.
@@ -137,14 +139,12 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {string} A string.
 	 */
 	translateScore( score, percentage,  i18n ) {
-		const urlTitle = createAnchorOpeningTag( "https://yoa.st/34v" );
-		const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/34w" );
 		if ( score >= 7 ) {
 			return i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis",
 					"%1$sSentence length%2$s: Great!" ),
-				urlTitle,
+				this._config.urlTitle,
 				"</a>"
 			);
 		}
@@ -156,12 +156,12 @@ class SentenceLengthInTextAssessment extends Assessment {
 			i18n.dgettext( "js-text-analysis",
 				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s words, which is more than the recommended maximum of %5$s." +
 				" %6$sTry to shorten the sentences%2$s." ),
-			urlTitle,
+			this._config.urlTitle,
 			"</a>",
 			percentage + "%",
 			this._config.recommendedWordCount,
 			this._config.slightlyTooMany + "%",
-			urlCallToAction
+			this._config.urlCallToAction
 		);
 	}
 
