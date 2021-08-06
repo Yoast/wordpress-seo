@@ -58,7 +58,10 @@ const StoreBlogCornerstoneSEOAssessor = function( i18n, options ) {
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
 			}
 		),
-		new FunctionWordsInKeyphrase(),
+		new FunctionWordsInKeyphrase( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify50" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify51" ),
+		} ),
 	];
 };
 

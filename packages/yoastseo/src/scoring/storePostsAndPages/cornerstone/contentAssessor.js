@@ -1,3 +1,4 @@
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import Assessor from "../../assessor.js";
 import ContentAssessor from "../../contentAssessor";
 import ParagraphTooLong from "../../assessments/readability/ParagraphTooLongAssessment.js";
@@ -44,7 +45,10 @@ const StorePostsAndPagesCornerstoneContentAssessor = function( i18n, options = {
 		}, true ),
 		new TransitionWords(),
 		new PassiveVoice(),
-		new TextPresence(),
+		new TextPresence( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify56" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),
+		} ),
 		new SentenceBeginnings(),
 		// Temporarily disabled: wordComplexity,
 	];
