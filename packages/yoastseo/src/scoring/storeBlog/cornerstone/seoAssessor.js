@@ -38,6 +38,8 @@ const StoreBlogCornerstoneSEOAssessor = function( i18n, options ) {
 				tooLong: 3,
 				tooShort: 3,
 			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify46" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify47" ),
 		} ),
 		new TitleKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),

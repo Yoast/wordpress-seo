@@ -38,8 +38,14 @@ const StorePostsAndPagesContentAssessor = function( i18n, researcher, options = 
 		new SubheadingDistributionTooLong(),
 		new ParagraphTooLong(),
 		new SentenceLengthInText(),
-		new TransitionWords(),
-		new PassiveVoice(),
+		new TransitionWords( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify44" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify45" ),
+		} ),
+		new PassiveVoice( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify42" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify43" ),
+		} ),
 		new TextPresence( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify56" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),

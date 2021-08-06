@@ -66,7 +66,10 @@ const CollectionCornerstoneSEOAssessor = function( i18n, researcher, options ) {
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
 			}
 		),
-		new MetaDescriptionLengthAssessment(),
+		new MetaDescriptionLengthAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify46" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify47" ),
+		} ),
 		getTextLengthAssessment(),
 		new TitleKeywordAssessment(
 			{

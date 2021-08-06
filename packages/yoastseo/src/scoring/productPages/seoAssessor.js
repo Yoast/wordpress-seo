@@ -56,7 +56,10 @@ const ProductSEOAssessor = function( i18n, researcher, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
 		} ),
-		new MetaDescriptionLength(),
+		new MetaDescriptionLength( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify46" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify47" ),
+		} ),
 		new SubheadingsKeyword( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify16" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify17" ),

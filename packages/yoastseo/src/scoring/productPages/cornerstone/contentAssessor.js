@@ -40,8 +40,14 @@ const ProductCornerstoneContentAssessor = function( i18n, options = {} ) {
 			slightlyTooMany: 15,
 			farTooMany: 20,
 		}, true, true ),
-		new TransitionWords(),
-		new PassiveVoice(),
+		new TransitionWords( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify44" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify45" ),
+		} ),
+		new PassiveVoice( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify42" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify43" ),
+		} ),
 		new TextPresence( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify56" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),

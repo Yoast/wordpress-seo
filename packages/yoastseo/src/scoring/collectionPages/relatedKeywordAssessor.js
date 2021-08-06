@@ -40,7 +40,10 @@ const CollectionRelatedKeywordAssessor = function( i18n, researcher, options ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
 		} ),
 		// Text Images assessment here.
-		new FunctionWordsInKeyphrase(),
+		new FunctionWordsInKeyphrase( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify50" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify51" ),
+		} ),
 	];
 };
 

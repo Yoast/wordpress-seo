@@ -42,7 +42,10 @@ const CollectionCornerstoneRelatedKeywordAssessor = function( i18n, researcher, 
 				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
 			}
 		),
-		new FunctionWordsInKeyphrase(),
+		new FunctionWordsInKeyphrase( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify50" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify51" ),
+		} ),
 	];
 };
 
