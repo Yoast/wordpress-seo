@@ -1,3 +1,4 @@
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import Assessor from "../assessor.js";
 import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "../assessments/readability/SentenceLengthInTextAssessment.js";
@@ -34,13 +35,34 @@ const StorePostsAndPagesContentAssessor = function( i18n, researcher, options = 
 	this.type = "storePostsAndPagesContentAssessor";
 	this._assessments = [
 
-		new SubheadingDistributionTooLong(),
-		new ParagraphTooLong(),
-		new SentenceLengthInText(),
-		new TransitionWords(),
-		new PassiveVoice(),
-		new TextPresence(),
-		new SentenceBeginnings(),
+		new SubheadingDistributionTooLong( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify68" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
+		} ),
+		new ParagraphTooLong( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify66" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify67" ),
+		} ),
+		new SentenceLengthInText( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify48" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify49" ),
+		} ),
+		new TransitionWords( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify44" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify45" ),
+		} ),
+		new PassiveVoice( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify42" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify43" ),
+		} ),
+		new TextPresence( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify56" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),
+		} ),
+		new SentenceBeginnings( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify5" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
+		} ),
 		// Temporarily disabled: wordComplexity,
 	];
 };

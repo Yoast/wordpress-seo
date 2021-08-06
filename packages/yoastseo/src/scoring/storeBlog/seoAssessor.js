@@ -1,4 +1,5 @@
 import { inherits } from "util";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 
 import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
 import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment";
@@ -23,13 +24,34 @@ const StoreBlogSEOAssessor = function( i18n, researcher, options ) {
 	this.type = "storeBlogSEOAssessor";
 
 	this._assessments = [
-		new KeyphraseLengthAssessment(),
-		new MetaDescriptionKeywordAssessment(),
-		new MetaDescriptionLength(),
-		new TitleKeywordAssessment(),
-		new TitleWidth(),
-		new UrlKeywordAssessment(),
-		new FunctionWordsInKeyphrase(),
+		new KeyphraseLengthAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
+		} ),
+		new MetaDescriptionKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
+		} ),
+		new MetaDescriptionLength( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify46" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify47" ),
+		} ),
+		new TitleKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
+		} ),
+		new TitleWidth( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify52" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify53" ),
+		} ),
+		new UrlKeywordAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
+		} ),
+		new FunctionWordsInKeyphrase( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify50" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify51" ),
+		} ),
 	];
 };
 

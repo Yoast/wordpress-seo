@@ -1,3 +1,4 @@
+import { merge } from "lodash-es";
 import addMark from "../../../../src/markers/addMark";
 import SentenceLengthInTextAssessment from "../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
 import Paper from "../../../../src/values/Paper.js";
@@ -457,6 +458,8 @@ describe( "A test for getting the right config", function() {
 			recommendedWordCount: 20,
 			slightlyTooMany: 25,
 			farTooMany: 30,
+			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/34v' target='_blank'>",
 		};
 		const mockPaper = new Paper( "" );
 		expect( new SentenceLengthInTextAssessment().getLanguageSpecificConfig( new DefaultResearcher( mockPaper ) ) ).toEqual( defaultConfig );
@@ -466,6 +469,8 @@ describe( "A test for getting the right config", function() {
 			recommendedWordCount: 20,
 			slightlyTooMany: 20,
 			farTooMany: 25,
+			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/34v' target='_blank'>",
 		};
 		const mockPaper = new Paper( "" );
 		expect( new SentenceLengthInTextAssessment( {
@@ -476,14 +481,22 @@ describe( "A test for getting the right config", function() {
 	it( "uses language-specific config if available", function() {
 		const mockPaper = new Paper( "" );
 		const researcher = new ItalianResearcher( mockPaper );
-		expect( new SentenceLengthInTextAssessment().getLanguageSpecificConfig( researcher ) ).toEqual( italianConfig );
+		const config = merge( italianConfig, { 	urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/34v' target='_blank'>" } );
+		expect( new SentenceLengthInTextAssessment().getLanguageSpecificConfig( researcher ) ).toEqual( config );
 	} );
 	it( "uses language-specific cornerstone config if available", function() {
 		const mockPaper = new Paper( "" );
 		expect( new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
-		}, true ).getLanguageSpecificConfig( new PolishResearcher( mockPaper ) ) ).toEqual( { farTooMany: 20, recommendedWordCount: 20, slightlyTooMany: 15 } );
+		}, true ).getLanguageSpecificConfig( new PolishResearcher( mockPaper ) ) ).toEqual( {
+			farTooMany: 20,
+			recommendedWordCount: 20,
+			slightlyTooMany: 15,
+			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/34v' target='_blank'>",
+		} );
 	} );
 	it( "uses a combination of language-specific and default config in cornerstone if there is regular but not cornerstone config" +
 		" available", function() {
@@ -491,6 +504,8 @@ describe( "A test for getting the right config", function() {
 			recommendedWordCount: 25,
 			slightlyTooMany: 20,
 			farTooMany: 25,
+			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/34v' target='_blank'>",
 		};
 		const mockPaper = new Paper( "" );
 		expect( new SentenceLengthInTextAssessment( {

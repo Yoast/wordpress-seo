@@ -99,35 +99,76 @@ describe( "A product page content assessor", function() {
 		} );
 	} );
 	describe( "has configuration overrides", () => {
-		const paper = new Paper( "test", { locale: "xx_XX" } );
-		const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
+		const assessor = new ContentAssessor( i18n );
 
 		test( "SubheadingsDistributionTooLong", () => {
-			const assessment = contentAssessor.getAssessment( "subheadingsTooLong" );
+			const assessment = assessor.getAssessment( "subheadingsTooLong" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.shouldNotAppearInShortText ).toBeDefined();
 			expect( assessment._config.shouldNotAppearInShortText ).toBe( true );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify68' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify69' target='_blank'>" );
 		} );
 
 		test( "SentenceLengthAssessment", () => {
-			const assessment = contentAssessor.getAssessment( "textSentenceLength" );
+			const assessment = assessor.getAssessment( "textSentenceLength" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.slightlyTooMany ).toBe( 20 );
 			expect( assessment._config.farTooMany ).toBe( 25 );
-			expect( assessment._isCornerstone ).toBe( false );
 			expect( assessment._isProduct ).toBe( true );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify48' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify49' target='_blank'>" );
 		} );
 
 		test( "ParagraphTooLong", () => {
-			const assessment = contentAssessor.getAssessment( "textParagraphTooLong" );
+			const assessment = assessor.getAssessment( "textParagraphTooLong" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.parameters.recommendedLength ).toBe( 70 );
 			expect( assessment._config.parameters.maximumRecommendedLength ).toBe( 100 );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify66' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify67' target='_blank'>" );
+		} );
+
+		test( "TransitionWords", () => {
+			const assessment = assessor.getAssessment( "textTransitionWords" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify44' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify45' target='_blank'>" );
+		} );
+
+		test( "PassiveVoice", () => {
+			const assessment = assessor.getAssessment( "passiveVoice" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify42' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify43' target='_blank'>" );
+		} );
+
+		test( "TextPresence", () => {
+			const assessment = assessor.getAssessment( "textPresence" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify56' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify57' target='_blank'>" );
+		} );
+
+		test( "ListsPresence", () => {
+			const assessment = assessor.getAssessment( "listsPresence" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify38' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify39' target='_blank'>" );
 		} );
 	} );
 } );

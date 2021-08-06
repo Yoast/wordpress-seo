@@ -1,4 +1,5 @@
 import { inherits } from "util";
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import Assessor from "../../assessor.js";
 
 import IntroductionKeyword from "../../assessments/seo/IntroductionKeywordAssessment.js";
@@ -23,18 +24,39 @@ const StorePostsAndPagesCornerstoneRelatedKeywordAssessor = function( i18n, opti
 	this.type = "storePostsAndPagesCornerstoneRelatedKeywordAssessor";
 
 	this._assessments = [
-		new IntroductionKeyword(),
-		new KeyphraseLength(),
-		new KeywordDensity(),
-		new MetaDescriptionKeyword(),
-		new TextCompetingLinks(),
-		new FunctionWordsInKeyphrase(),
+		new IntroductionKeyword( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify8" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify9" ),
+		} ),
+		new KeyphraseLength( {
+			isRelatedKeyphrase: true,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
+		} ),
+		new KeywordDensity( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify13" ),
+		} ),
+		new MetaDescriptionKeyword( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
+		} ),
+		new TextCompetingLinks( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify18" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify19" ),
+		} ),
+		new FunctionWordsInKeyphrase( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify50" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify51" ),
+		} ),
 		new ImageKeyphrase( {
 			scores: {
 				withAltNonKeyword: 3,
 				withAlt: 3,
 				noAlt: 3,
 			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
 		} ),
 	];
 };
