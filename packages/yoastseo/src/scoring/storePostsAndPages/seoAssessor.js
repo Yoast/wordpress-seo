@@ -71,7 +71,10 @@ const StorePostsAndPagesSEOAssessor = function( i18n, researcher,  options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify20" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify21" ),
 		} ),
-		new TextLength(),
+		new TextLength( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
+		} ),
 		new OutboundLinks(),
 		new TitleKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),

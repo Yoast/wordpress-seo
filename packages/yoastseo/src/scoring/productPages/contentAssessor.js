@@ -30,6 +30,8 @@ const ProductContentAssessor = function( i18n, options = {} ) {
 				recommendedLength: 70,
 				maximumRecommendedLength: 100,
 			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify66" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify67" ),
 		} ),
 		new SentenceLengthInText( {
 			slightlyTooMany: 20,

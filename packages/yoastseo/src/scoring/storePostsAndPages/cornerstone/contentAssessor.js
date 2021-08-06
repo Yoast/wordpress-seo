@@ -38,7 +38,10 @@ const StorePostsAndPagesCornerstoneContentAssessor = function( i18n, options = {
 				recommendedMaximumWordCount: 250,
 			},
 		} ),
-		new ParagraphTooLong(),
+		new ParagraphTooLong( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify66" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify67" ),
+		} ),
 		new SentenceLengthInText( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
@@ -55,7 +58,10 @@ const StorePostsAndPagesCornerstoneContentAssessor = function( i18n, options = {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify56" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),
 		} ),
-		new SentenceBeginnings(),
+		new SentenceBeginnings( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify56" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),
+		} ),
 		// Temporarily disabled: wordComplexity,
 	];
 };

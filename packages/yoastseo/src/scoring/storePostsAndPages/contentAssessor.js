@@ -36,7 +36,10 @@ const StorePostsAndPagesContentAssessor = function( i18n, researcher, options = 
 	this._assessments = [
 
 		new SubheadingDistributionTooLong(),
-		new ParagraphTooLong(),
+		new ParagraphTooLong( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify66" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify67" ),
+		} ),
 		new SentenceLengthInText(),
 		new TransitionWords( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify44" ),
@@ -50,7 +53,10 @@ const StorePostsAndPagesContentAssessor = function( i18n, researcher, options = 
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify56" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),
 		} ),
-		new SentenceBeginnings(),
+		new SentenceBeginnings( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify5" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
+		} ),
 		// Temporarily disabled: wordComplexity,
 	];
 };

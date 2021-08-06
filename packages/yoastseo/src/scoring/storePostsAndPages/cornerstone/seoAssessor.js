@@ -91,7 +91,8 @@ const StorePostsAndPagesCornerstoneSEOAssessor = function( i18n, options ) {
 				belowMinimum: -20,
 				farBelowMinimum: -20,
 			},
-
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
 			cornerstoneContent: true,
 		} ),
 		new OutboundLinks( {

@@ -73,6 +73,8 @@ const ProductSEOAssessor = function( i18n, researcher, options ) {
 			slightlyBelowMinimum: 150,
 			belowMinimum: 100,
 			veryFarBelowMinimum: 50,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
 		} ),
 		new TitleKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
