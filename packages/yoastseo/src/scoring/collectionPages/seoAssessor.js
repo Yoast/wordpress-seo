@@ -23,10 +23,10 @@ import KeyphraseDistribution from "./../assessments/seo/KeyphraseDistributionAss
 export const getTextLengthAssessment = function() {
 	// Export so it can be used in tests.
 	return new TextLengthAssessment( {
-		recommendedMinimum: 250,
-		slightlyBelowMinimum: 200,
-		belowMinimum: 100,
-		veryFarBelowMinimum: 50,
+		recommendedMinimum: 80,
+		slightlyBelowMinimum: 50,
+		belowMinimum: 20,
+		veryFarBelowMinimum: 10,
 		urlTitle: createAnchorOpeningTag( "https://yoa.st/34j" ),
 		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34k" ),
 	} );
