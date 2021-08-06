@@ -102,4 +102,22 @@ describe( "has configuration overrides", () => {
 		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify14' target='_blank'>" );
 		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify15' target='_blank'>" );
 	} );
+
+	test( "KeywordDensityAssessment", () => {
+		const assessment = assessor.getAssessment( "keywordDensity" );
+
+		expect( assessment ).toBeDefined();
+		expect( assessment._config ).toBeDefined();
+		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify12' target='_blank'>" );
+		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify13' target='_blank'>" );
+	} );
+
+	test( "FunctionWordsInKeyphrase", () => {
+		const assessment = assessor.getAssessment( "functionWordsInKeyphrase" );
+
+		expect( assessment ).toBeDefined();
+		expect( assessment._config ).toBeDefined();
+		expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify14' target='_blank'>" );
+		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify15' target='_blank'>" );
+	} );
 } );

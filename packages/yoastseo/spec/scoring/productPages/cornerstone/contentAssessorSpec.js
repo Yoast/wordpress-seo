@@ -79,6 +79,8 @@ describe( "A cornerstone product page content assessor", function() {
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.shouldNotAppearInShortText ).toBeDefined();
 			expect( assessment._config.shouldNotAppearInShortText ).toBe( true );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify30' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify31' target='_blank'>" );
 		} );
 
 		test( "SentenceLengthAssessment", () => {
@@ -90,6 +92,8 @@ describe( "A cornerstone product page content assessor", function() {
 			expect( assessment._config.farTooMany ).toBe( 20 );
 			expect( assessment._isCornerstone ).toBe( true );
 			expect( assessment._isProduct ).toBe( true );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify30' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify31' target='_blank'>" );
 		} );
 
 		test( "ParagraphTooLong", () => {
@@ -99,6 +103,44 @@ describe( "A cornerstone product page content assessor", function() {
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.parameters.recommendedLength ).toBe( 70 );
 			expect( assessment._config.parameters.maximumRecommendedLength ).toBe( 100 );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify30' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify31' target='_blank'>" );
+		} );
+
+		test( "TransitionWords", () => {
+			const assessment = assessor.getAssessment( "textTransitionWords" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify30' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify31' target='_blank'>" );
+		} );
+
+		test( "PassiveVoice", () => {
+			const assessment = assessor.getAssessment( "passiveVoice" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify30' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify31' target='_blank'>" );
+		} );
+
+		test( "TextPresence", () => {
+			const assessment = assessor.getAssessment( "textPresence" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify30' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify31' target='_blank'>" );
+		} );
+
+		test( "ListsPresence", () => {
+			const assessment = assessor.getAssessment( "listsPresence" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify38' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify39' target='_blank'>" );
 		} );
 	} );
 } );
