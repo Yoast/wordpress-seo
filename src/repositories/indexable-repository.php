@@ -527,6 +527,7 @@ class Indexable_Repository {
 			[
 				'permalink'      => null,
 				'permalink_hash' => null,
+				'version'        => 0,
 			]
 		);
 
