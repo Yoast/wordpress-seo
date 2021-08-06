@@ -199,10 +199,10 @@ describe( "running assessments in the collection page SEO assessor", function() 
 
 		expect( assessment ).toBeDefined();
 		expect( assessment._config ).toBeDefined();
-		expect( assessment._config.recommendedMinimum ).toBe( 250 );
-		expect( assessment._config.slightlyBelowMinimum ).toBe( 200 );
-		expect( assessment._config.belowMinimum ).toBe( 100 );
-		expect( assessment._config.veryFarBelowMinimum ).toBe( 50 );
+		expect( assessment._config.recommendedMinimum ).toBe( 80 );
+		expect( assessment._config.slightlyBelowMinimum ).toBe( 50 );
+		expect( assessment._config.belowMinimum ).toBe( 20 );
+		expect( assessment._config.veryFarBelowMinimum ).toBe( 10 );
 	} );
 
 	describe( "has configuration overrides", () => {
