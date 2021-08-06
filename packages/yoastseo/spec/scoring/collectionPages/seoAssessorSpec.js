@@ -223,14 +223,9 @@ describe( "running assessments in the collection page SEO assessor", function() 
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.recommendedMinimum ).toBe( 100 );
-			expect( assessment._config.slightlyBelowMinimum ).toBe( 80 );
-			expect( assessment._config.belowMinimum ).toBe( 50 );
-			expect( assessment._config.scores ).toBeDefined();
-			expect( assessment._config.scores.belowMinimum ).toBe( 3 );
-			expect( assessment._config.scores.farBelowMinimum ).toBe( -10 );
-			expect( assessment._config.cornerstoneContent ).toBeDefined();
-			expect( assessment._config.cornerstoneContent ).toBeTruthy();
+			expect( assessment._config.recommendedMinimum ).toBe( 80 );
+			expect( assessment._config.slightlyBelowMinimum ).toBe( 50 );
+			expect( assessment._config.belowMinimum ).toBe( 20 );
 			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify14' target='_blank'>" );
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify15' target='_blank'>" );
 		} );
@@ -281,8 +276,8 @@ describe( "running assessments in the collection page SEO assessor", function() 
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify12' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify13' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify8' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify9' target='_blank'>" );
 		} );
 
 		test( "KeyphraseLengthAssessment", () => {
