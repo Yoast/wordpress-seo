@@ -35,8 +35,14 @@ const ProductContentAssessor = function( i18n, options = {} ) {
 			slightlyTooMany: 20,
 			farTooMany: 25,
 		}, false, true ),
-		new TransitionWords(),
-		new PassiveVoice(),
+		new TransitionWords( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify44" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify45" ),
+		} ),
+		new PassiveVoice( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify42" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify43" ),
+		} ),
 		new TextPresence(),
 		new ListsPresence( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify38" ),
