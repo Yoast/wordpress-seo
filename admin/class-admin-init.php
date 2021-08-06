@@ -35,7 +35,6 @@ class WPSEO_Admin_Init {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dismissible' ] );
-		add_action( 'admin_init', [ $this, 'yoast_plugin_suggestions_notification' ], 15 );
 		add_action( 'admin_init', [ $this, 'unsupported_php_notice' ], 15 );
 		add_action( 'admin_init', [ $this->asset_manager, 'register_assets' ] );
 		add_action( 'admin_init', [ $this, 'show_hook_deprecation_warnings' ] );
@@ -76,59 +75,6 @@ class WPSEO_Admin_Init {
 	 */
 	public function enqueue_dismissible() {
 		$this->asset_manager->enqueue_style( 'dismissible' );
-	}
-
-	/**
-	 * Determines whether a suggested plugins notification needs to be displayed.
-	 *
-	 * @return void
-	 */
-	public function yoast_plugin_suggestions_notification() {
-		$checker             = new WPSEO_Plugin_Availability();
-		$notification_center = Yoast_Notification_Center::get();
-
-		// Get all Yoast plugins that have dependencies.
-		$plugins = $checker->get_plugins_with_dependencies();
-
-		foreach ( $plugins as $plugin_name => $plugin ) {
-			$dependency_names = $checker->get_dependency_names( $plugin );
-			$notification     = $this->get_yoast_seo_suggested_plugins_notification( $plugin_name, $plugin, $dependency_names[0] );
-
-			if ( $checker->dependencies_are_satisfied( $plugin ) && ! $checker->is_installed( $plugin ) ) {
-				$notification_center->add_notification( $notification );
-
-				continue;
-			}
-
-			$notification_center->remove_notification( $notification );
-		}
-	}
-
-	/**
-	 * Build Yoast SEO suggested plugins notification.
-	 *
-	 * @param string $name            The plugin name to use for the unique ID.
-	 * @param array  $plugin          The plugin to retrieve the data from.
-	 * @param string $dependency_name The name of the dependency.
-	 *
-	 * @return Yoast_Notification The notification containing the suggested plugin.
-	 */
-	private function get_yoast_seo_suggested_plugins_notification( $name, $plugin, $dependency_name ) {
-		$info_message = sprintf(
-			/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
-			__( '%1$s and %2$s can work together a lot better by adding a helper plugin. Please install %3$s to make your life better.', 'wordpress-seo' ),
-			'Yoast SEO',
-			$dependency_name,
-			sprintf( '<a href="%s">%s</a>', $plugin['url'], $plugin['title'] )
-		);
-
-		return new Yoast_Notification(
-			$info_message,
-			[
-				'id'   => 'wpseo-suggested-plugin-' . $name,
-				'type' => Yoast_Notification::WARNING,
-			]
-		);
 	}
 
 	/**
