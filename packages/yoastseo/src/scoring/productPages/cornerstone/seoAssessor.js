@@ -18,6 +18,7 @@ import TextLength from "../../assessments/seo/TextLengthAssessment";
 import TitleWidth from "../../assessments/seo/PageTitleWidthAssessment";
 import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment";
+import KeyphraseDistribution from "../../assessments/seo/KeyphraseDistributionAssessment";
 
 /**
  * Creates the Assessor
@@ -34,7 +35,14 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 
 	this._assessments = [
 		new IntroductionKeywordAssessment(),
-		new KeyphraseLengthAssessment(),
+		new KeyphraseLengthAssessment( {
+			parameters: {
+				recommendedMinimum: 4,
+				recommendedMaximum: 6,
+				acceptableMaximum: 8,
+				acceptableMinimum: 2,
+			},
+		}, true ),
 		new KeywordDensityAssessment(),
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLength( {
@@ -86,6 +94,7 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 			},
 		} ),
 		new ImageAltTags(),
+		new KeyphraseDistribution(),
 	];
 };
 

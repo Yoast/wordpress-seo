@@ -90,7 +90,9 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 			$indexables[] = $this->builder->build_for_post_type_archive( $post_type_archive );
 		}
 
-		\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
+		if ( \count( $indexables ) > 0 ) {
+			\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
+		}
 
 		return $indexables;
 	}

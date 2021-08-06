@@ -593,7 +593,10 @@ class Yoast_Notification_Center {
 			return;
 		}
 
-		array_walk( $notifications, [ $this, 'store_notifications_for_user' ] );
+		// Only update if new notifications are added, or present ones are resolved.
+		if ( $this->resolved > 0 || count( $this->new ) > 0 ) {
+			array_walk( $notifications, [ $this, 'store_notifications_for_user' ] );
+		}
 	}
 
 	/**
