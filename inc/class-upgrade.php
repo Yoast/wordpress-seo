@@ -74,6 +74,7 @@ class WPSEO_Upgrade {
 			'16.2-RC0'   => 'upgrade_162',
 			'16.5-RC0'   => 'upgrade_165',
 			'16.9-RC0'   => 'upgrade_169',
+			'17.0-RC0'   => 'upgrade_170',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -850,6 +851,22 @@ class WPSEO_Upgrade {
 					$indexables_to_clean
 				);
 			}
+		}
+	}
+
+	/**
+	 * Performs the 17.0 upgrade. shop_order indexables were cleaned from the indexable table in 16.9, so we have to clean out the orphaned entries from the rest of the tables.
+	 *
+	 * @return void
+	 */
+	private function upgrade_170() {
+		// Sets a scheduled job to do the cleanup eventually and not in the upgrade process itself. When that cleanup is completed, the job will de-register itself.
+		if ( ! wp_next_scheduled( 'wpseo_cleanup_orphaned_indexables' ) ) {
+			wp_schedule_event(
+				time(),
+				'hourly',
+				'wpseo_cleanup_orphaned_indexables'
+			);
 		}
 	}
 
