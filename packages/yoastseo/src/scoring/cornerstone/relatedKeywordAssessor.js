@@ -24,7 +24,7 @@ const relatedKeywordAssessor = function( i18n, options ) {
 
 	this._assessments = [
 		new IntroductionKeyword(),
-		new KeyphraseLength(),
+		new KeyphraseLength( { isRelatedKeyphrase: true } ),
 		new KeywordDensity(),
 		new MetaDescriptionKeyword(),
 		new TextCompetingLinks(),
