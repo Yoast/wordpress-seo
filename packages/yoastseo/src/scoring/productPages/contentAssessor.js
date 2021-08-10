@@ -26,38 +26,38 @@ const ProductContentAssessor = function( i18n, options = {} ) {
 	this._assessments = [
 		new SubheadingDistributionTooLong( {
 			shouldNotAppearInShortText: true,
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify68" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
+			urlTitle: createAnchorOpeningTag( options.subheadingUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.subheadingCTAUrl ),
 		} ),
 		new ParagraphTooLong( {
 			parameters: {
 				recommendedLength: 70,
 				maximumRecommendedLength: 100,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify66" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify67" ),
+			urlTitle: createAnchorOpeningTag( options.paragraphUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.paragraphCTAUrl ),
 		} ),
 		new SentenceLengthInText( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify48" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify49" ),
+			urlTitle: createAnchorOpeningTag( options.sentenceLengthUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.sentenceLengthCTAUrl ),
 		}, false, true ),
 		new TransitionWords( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify44" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify45" ),
+			urlTitle: createAnchorOpeningTag( options.transitionWordsUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.transitionWordsCTAUrl ),
 		} ),
 		new PassiveVoice( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify42" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify43" ),
+			urlTitle: createAnchorOpeningTag( options.passiveVoiceUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.passiveVoiceCTAUrl ),
 		} ),
 		new TextPresence( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify56" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify57" ),
+			urlTitle: createAnchorOpeningTag( options.textPresenceUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.textPresenceCTAUrl ),
 		} ),
 		new ListsPresence( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify38" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify39" ),
+			urlTitle: createAnchorOpeningTag( options.listsUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.listsCTAUrl ),
 		} ),
 	];
 };
