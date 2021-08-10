@@ -126,7 +126,7 @@ const wordsToStem = [
 	// Exceptions in superlatives.
 	[ "habilísima", "habil" ],
 	[ "majérrimo", "majerrim" ],
-	[ "cérrimo", "cerrim" ],
+	[ "cérrimo", "cérrim" ],
 	[ "gérrimo", "gerrim" ],
 	[ "torísimo", "torisim" ],
 	[ "físima", "fisim" ],

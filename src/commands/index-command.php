@@ -12,6 +12,8 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
+use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Main;
 
 /**
@@ -48,6 +50,20 @@ class Index_Command implements Command_Interface {
 	private $general_indexation_action;
 
 	/**
+	 * The term link indexing action.
+	 *
+	 * @var Term_Link_Indexing_Action
+	 */
+	private $term_link_indexing_action;
+
+	/**
+	 * The post link indexing action.
+	 *
+	 * @var Post_Link_Indexing_Action
+	 */
+	private $post_link_indexing_action;
+
+	/**
 	 * The complete indexation action.
 	 *
 	 * @var Indexable_Indexing_Complete_Action
@@ -76,6 +92,10 @@ class Index_Command implements Command_Interface {
 	 *                                                                                           action.
 	 * @param Indexing_Prepare_Action                       $prepare_indexing_action             The prepare indexing
 	 *                                                                                           action.
+	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action           The post link indexation
+	 *                                                                                           action.
+	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action           The term link indexation
+	 *                                                                                           action.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation_action,
@@ -83,7 +103,9 @@ class Index_Command implements Command_Interface {
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation_action,
 		Indexable_General_Indexation_Action $general_indexation_action,
 		Indexable_Indexing_Complete_Action $complete_indexation_action,
-		Indexing_Prepare_Action $prepare_indexing_action
+		Indexing_Prepare_Action $prepare_indexing_action,
+		Post_Link_Indexing_Action $post_link_indexing_action,
+		Term_Link_Indexing_Action $term_link_indexing_action
 	) {
 		$this->post_indexation_action              = $post_indexation_action;
 		$this->term_indexation_action              = $term_indexation_action;
@@ -91,6 +113,8 @@ class Index_Command implements Command_Interface {
 		$this->general_indexation_action           = $general_indexation_action;
 		$this->complete_indexation_action          = $complete_indexation_action;
 		$this->prepare_indexing_action             = $prepare_indexing_action;
+		$this->post_link_indexing_action           = $post_link_indexing_action;
+		$this->term_link_indexing_action           = $term_link_indexing_action;
 	}
 
 	/**
@@ -170,9 +194,9 @@ class Index_Command implements Command_Interface {
 			$this->clear();
 
 			// Delete the transients to make sure re-indexing runs every time.
-			\delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
-			\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
-			\delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
+			\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
+			\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
 		}
 
 		$indexation_actions = [
@@ -180,6 +204,8 @@ class Index_Command implements Command_Interface {
 			'terms'              => $this->term_indexation_action,
 			'post type archives' => $this->post_type_archive_indexation_action,
 			'general objects'    => $this->general_indexation_action,
+			'post links'         => $this->post_link_indexing_action,
+			'term links'         => $this->term_link_indexing_action,
 		];
 
 		$this->prepare_indexing_action->prepare();

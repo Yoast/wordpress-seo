@@ -9,7 +9,7 @@ import { mount } from "enzyme";
  * @returns {Promise} The promise.
  */
 const fetchReponse = ( data ) => {
-	return Promise.resolve( { json: () => Promise.resolve( data ), ok: true } );
+	return Promise.resolve( { text: () => Promise.resolve( JSON.stringify( data ) ), ok: true } );
 };
 
 describe( "Indexation", () => {
@@ -94,6 +94,8 @@ describe( "Indexation", () => {
 				},
 				nonce: "nonsense",
 			},
+			subscriptionActivationLink: "https://example.net/activation-link",
+			errorMessage: "An error message.",
 		};
 
 		global.fetch = jest.fn();
@@ -111,10 +113,6 @@ describe( "Indexation", () => {
 			const alert = component.find( "Alert" );
 
 			expect( alert.prop( "type" ) ).toEqual( "error" );
-			expect( alert.text() ).toEqual(
-				"Oops, something has gone wrong and we couldn't complete the optimization of your SEO data. " +
-				"Please click the button again to re-start the process."
-			);
 
 			done();
 		} );

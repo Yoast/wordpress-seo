@@ -121,9 +121,9 @@ class Indexable_Helper {
 		$this->indexing_helper->set_reason( $reason );
 
 		if ( $result !== false && $result > 0 ) {
-			\delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
-			\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
-			\delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
+			\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
+			\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
 		}
 	}
 

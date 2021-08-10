@@ -6,9 +6,9 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**
- * Represents the assessment that will look if the images have alt-tags and checks if the keyword is present in one of them.
+ * Represents the assessment that checks if there are keyphrase or synonyms in the alt attributes of images.
  */
-export default class TextImagesAssessment extends Assessment {
+export default class KeyphraseInImagesAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -25,7 +25,6 @@ export default class TextImagesAssessment extends Assessment {
 				upperBoundary: 0.75,
 			},
 			scores: {
-				noImages: 3,
 				withAltGoodNumberOfKeywordMatches: 9,
 				withAltTooFewKeywordMatches: 6,
 				withAltTooManyKeywordMatches: 6,
@@ -33,11 +32,11 @@ export default class TextImagesAssessment extends Assessment {
 				withAlt: 6,
 				noAlt: 6,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33c" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33d" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/4f7" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4f6" ),
 		};
 
-		this.identifier = "textImages";
+		this.identifier = "imageKeyphrase";
 		this._config = merge( defaultConfig, config );
 	}
 
@@ -67,14 +66,16 @@ export default class TextImagesAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has text.
+	 * Checks whether the paper has text with at least 1 image.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
 	 *
 	 * @returns {boolean} True when there is text.
 	 */
-	isApplicable( paper ) {
-		return paper.hasText();
+	isApplicable( paper, researcher ) {
+		this.imageCount = researcher.getResearch( "imageCount" );
+		return paper.hasText() && this.imageCount > 0;
 	}
 
 	/**
@@ -107,7 +108,7 @@ export default class TextImagesAssessment extends Assessment {
 	 * 5 or more images.
 	 *
 	 * @returns {boolean} Returns true if there are at least 5 images and the number of alt tags with keywords
-	 * is within the recommended range.
+	 * is above the recommended range.
 	 */
 	hasTooManyMatches() {
 		return this.imageCount > 4 && this.altProperties.withAltKeyword > this._maxNumberOfKeywordMatches;
@@ -122,23 +123,6 @@ export default class TextImagesAssessment extends Assessment {
 	 * @returns {Object} The calculated result.
 	 */
 	calculateResult( i18n ) {
-		// No images.
-		if ( this.imageCount === 0 ) {
-			return {
-				score: this._config.scores.noImages,
-				resultText: i18n.sprintf(
-					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sImage alt attributes%3$s: No images appear on this page. %2$sAdd some%3$s!"
-					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
-					"</a>"
-				),
-			};
-		}
-
 		// Has alt-tags, but no keyword is set.
 		if ( this.altProperties.withAlt > 0 ) {
 			return {
@@ -147,7 +131,7 @@ export default class TextImagesAssessment extends Assessment {
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sImage alt attributes%3$s: " +
+						"%1$sImage Keyphrase%3$s: " +
 						"Images on this page have alt attributes, but you have not set your keyphrase. %2$sFix that%3$s!"
 					),
 					this._config.urlTitle,
@@ -165,9 +149,9 @@ export default class TextImagesAssessment extends Assessment {
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sImage alt attributes%3$s: " +
-						"Images on this page do not have alt attributes that reflect the topic of your text. " +
-						"%2$sAdd your keyphrase or synonyms to the alt tags of relevant images%3$s!"
+						"%1$sImage Keyphrase%3$s: " +
+						"Images on this page do not have alt attributes with at least half of the words from your keyphrase. " +
+						"%2$sFix that%3$s!"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -186,10 +170,10 @@ export default class TextImagesAssessment extends Assessment {
 					 * %5$s expands to the anchor end tag. */
 					i18n.dngettext(
 						"js-text-analysis",
-						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, only %1$d has an alt attribute that " +
+						"%3$sImage Keyphrase%5$s: Out of %2$d images on this page, only %1$d has an alt attribute that " +
 						"reflects the topic of your text. " +
 						"%4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!",
-						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, only %1$d have alt attributes that " +
+						"%3$sImage Keyphrase%5$s: Out of %2$d images on this page, only %1$d have alt attributes that " +
 						"reflect the topic of your text. " +
 						"%4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!",
 						this.altProperties.withAltKeyword
@@ -215,7 +199,7 @@ export default class TextImagesAssessment extends Assessment {
 					 * %2$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%1$sImage alt attributes%2$s: Good job!"
+						"%1$sImage Keyphrase%2$s: Good job!"
 					),
 					this._config.urlTitle,
 					"</a>"
@@ -232,7 +216,7 @@ export default class TextImagesAssessment extends Assessment {
 					 * %5$s expands to the anchor end tag. */
 					i18n.dgettext(
 						"js-text-analysis",
-						"%3$sImage alt attributes%5$s: Out of %2$d images on this page, %1$d have alt attributes with " +
+						"%3$sImage Keyphrase%5$s: Out of %2$d images on this page, %1$d have alt attributes with " +
 						"words from your keyphrase or synonyms. " +
 						"That's a bit much. %4$sOnly include the keyphrase or its synonyms when it really fits the image%5$s."
 					),
@@ -250,7 +234,7 @@ export default class TextImagesAssessment extends Assessment {
 			score: this._config.scores.noAlt,
 			resultText: i18n.sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis", "%1$sImage alt attributes%3$s: " +
+				i18n.dgettext( "js-text-analysis", "%1$sImage Keyphrase%3$s: " +
 					"Images on this page do not have alt attributes that reflect the topic of your text. " +
 					"%2$sAdd your keyphrase or synonyms to the alt tags of relevant images%3$s!" ),
 				this._config.urlTitle,

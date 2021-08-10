@@ -5,7 +5,7 @@ import IntroductionKeyword from "./assessments/seo/IntroductionKeywordAssessment
 import KeyphraseLength from "./assessments/seo/KeyphraseLengthAssessment.js";
 import KeywordDensity from "./assessments/seo/KeywordDensityAssessment.js";
 import MetaDescriptionKeyword from "./assessments/seo/MetaDescriptionKeywordAssessment.js";
-import TextImages from "./assessments/seo/TextImagesAssessment.js";
+import ImageKeyphrase from "./assessments/seo/KeyphraseInImageTextAssessment";
 import TextCompetingLinks from "./assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphraseAssessment";
 
@@ -28,8 +28,8 @@ const relatedKeywordAssessor = function( i18n, researcher, options ) {
 		new KeywordDensity(),
 		new MetaDescriptionKeyword(),
 		new TextCompetingLinks(),
-		new TextImages(),
 		new FunctionWordsInKeyphrase(),
+		new ImageKeyphrase(),
 	];
 };
 

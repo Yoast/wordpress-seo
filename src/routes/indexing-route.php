@@ -421,7 +421,11 @@ class Indexing_Route extends Abstract_Indexation_Route {
 		} catch ( Exception $exception ) {
 			$this->indexing_helper->indexing_failed();
 
-			return new WP_Error( 'wpseo_error_indexing', $exception->getMessage() );
+			return new WP_Error(
+				'wpseo_error_indexing',
+				$exception->getMessage(),
+				[ 'stackTrace' => $exception->getTraceAsString() ]
+			);
 		}
 	}
 }

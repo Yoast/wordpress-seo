@@ -16,7 +16,6 @@ import MetaDescriptionKeywordAssessment from "../../src/scoring/assessments/seo/
 import MetaDescriptionLengthAssessment from "../../src/scoring/assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeywordAssessment from "../../src/scoring/assessments/seo/SubHeadingsKeywordAssessment";
 import TextCompetingLinksAssessment from "../../src/scoring/assessments/seo/TextCompetingLinksAssessment";
-import TextImagesAssessment from "../../src/scoring/assessments/seo/TextImagesAssessment";
 import TextLengthAssessment from "../../src/scoring/assessments/seo/TextLengthAssessment";
 import OutboundLinksAssessment from "../../src/scoring/assessments/seo/OutboundLinksAssessment";
 import InternalLinksAssessment from "../../src/scoring/assessments/seo/InternalLinksAssessment";
@@ -24,6 +23,8 @@ import TitleKeywordAssessment from "../../src/scoring/assessments/seo/TitleKeywo
 import TitleWidthAssessment from "../../src/scoring/assessments/seo/PageTitleWidthAssessment";
 import UrlKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordAssessment";
 import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
+import ImageKeyphraseAssessment from "../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
+import ImageCountAssessment from "../../src/scoring/assessments/seo/ImageCountAssessment";
 
 // Import content assessments
 import fleschReadingAssessment from "../../src/scoring/assessments/readability/fleschReadingEaseAssessment";
@@ -59,7 +60,6 @@ testPapers.forEach( function( testPaper ) {
 		const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
 		const subheadingsKeywordAssessment = new SubheadingsKeywordAssessment();
 		const textCompetingLinksAssessment = new TextCompetingLinksAssessment();
-		const textImagesAssessment = new TextImagesAssessment();
 		const textLengthAssessment = new TextLengthAssessment();
 		const outboundLinksAssessment = new OutboundLinksAssessment();
 		const internalLinksAssessment = new InternalLinksAssessment();
@@ -69,6 +69,8 @@ testPapers.forEach( function( testPaper ) {
 		const keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();
 		const subheadingDistributionTooLongAssessment = new SubheadingDistributionTooLongAssessment();
 		const sentenceLengthInTextAssessment = new SentenceLengthInTextAssessment();
+		const imageKeyphraseAssessment = new ImageKeyphraseAssessment();
+		const imageCountAssessment = new ImageCountAssessment();
 
 		// SEO assessments.
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {
@@ -149,17 +151,6 @@ testPapers.forEach( function( testPaper ) {
 				result.textCompetingLinks = textCompetingLinksAssessment.getResult( paper, researcher, i18n );
 				expect( result.textCompetingLinks.getScore() ).toBe( expectedResults.textCompetingLinks.score );
 				expect( result.textCompetingLinks.getText() ).toBe( expectedResults.textCompetingLinks.resultText );
-			}
-		} );
-
-		it( "returns a score and the associated feedback text for the textImages assessment", function() {
-			const isApplicable = textImagesAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.textImages.isApplicable );
-
-			if ( isApplicable ) {
-				result.textImages = textImagesAssessment.getResult( paper, researcher, i18n );
-				expect( result.textImages.getScore() ).toBe( expectedResults.textImages.score );
-				expect( result.textImages.getText() ).toBe( expectedResults.textImages.resultText );
 			}
 		} );
 
@@ -321,6 +312,26 @@ testPapers.forEach( function( testPaper ) {
 				result.sentenceBeginnings = sentenceBeginningsAssessment.getResult( paper, researcher, i18n );
 				expect( result.sentenceBeginnings.getScore() ).toBe( expectedResults.sentenceBeginnings.score );
 				expect( result.sentenceBeginnings.getText() ).toBe( expectedResults.sentenceBeginnings.resultText );
+			}
+		} );
+		it( "returns a score and the associated feedback text for the imageKeyphrase assessment", function() {
+			const isApplicable = imageKeyphraseAssessment.isApplicable( paper, researcher );
+			expect( isApplicable ).toBe( expectedResults.imageKeyphrase.isApplicable );
+
+			if ( isApplicable ) {
+				result.imageKeyphrase = imageKeyphraseAssessment.getResult( paper, researcher, i18n );
+				expect( result.imageKeyphrase.getScore() ).toBe( expectedResults.imageKeyphrase.score );
+				expect( result.imageKeyphrase.getText() ).toBe( expectedResults.imageKeyphrase.resultText );
+			}
+		} );
+		it( "returns a score and the associated feedback text for the imageCount assessment", function() {
+			const isApplicable = imageCountAssessment.isApplicable( paper, researcher );
+			expect( isApplicable ).toBe( expectedResults.imageCount.isApplicable );
+
+			if ( isApplicable ) {
+				result.imageCount = imageCountAssessment.getResult( paper, researcher, i18n );
+				expect( result.imageCount.getScore() ).toBe( expectedResults.imageCount.score );
+				expect( result.imageCount.getText() ).toBe( expectedResults.imageCount.resultText );
 			}
 		} );
 	} );

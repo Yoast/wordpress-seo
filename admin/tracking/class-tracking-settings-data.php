@@ -173,6 +173,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'zapier_api_key',
 		'enable_metabox_insights',
 		'enable_link_suggestions',
+		'workouts',
 	];
 
 	/**

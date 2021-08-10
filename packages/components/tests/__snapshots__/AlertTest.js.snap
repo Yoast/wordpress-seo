@@ -106,6 +106,10 @@ exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
   color: #004973;
 }
 
+.c3 p {
+  margin-top: 0;
+}
+
 .c2 {
   margin-top: 0.125rem;
   margin-right: 8px;
@@ -231,6 +235,10 @@ exports[`Alert the Alert types match the snapshot 1`] = `
   color: #004973;
 }
 
+.c3 p {
+  margin-top: 0;
+}
+
 .c2 {
   margin-top: 0.125rem;
   margin-right: 8px;
@@ -297,6 +305,10 @@ exports[`Alert the Alert types match the snapshot 2`] = `
 
 .c3 a {
   color: #004973;
+}
+
+.c3 p {
+  margin-top: 0;
 }
 
 .c2 {
@@ -367,6 +379,10 @@ exports[`Alert the Alert types match the snapshot 3`] = `
   color: #004973;
 }
 
+.c3 p {
+  margin-top: 0;
+}
+
 .c2 {
   margin-top: 0.125rem;
   margin-right: 8px;
@@ -433,6 +449,10 @@ exports[`Alert the Alert types match the snapshot 4`] = `
 
 .c3 a {
   color: #004973;
+}
+
+.c3 p {
+  margin-top: 0;
 }
 
 .c2 {

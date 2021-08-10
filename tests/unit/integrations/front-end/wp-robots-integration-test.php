@@ -83,7 +83,7 @@ class WP_Robots_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add robots with having the robots input value being a string.
+	 * Tests the add_robots with having the robots input value being a string.
 	 *
 	 * @covers ::add_robots
 	 * @covers ::get_robots_value
@@ -113,14 +113,16 @@ class WP_Robots_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add robots with having the robots input being overwritten by our data.
+	 * Tests the add_robots with the robots input being overwritten by our data,
+	 * by setting 'index' and 'follow' to 'true'.
 	 *
 	 * @covers ::add_robots
 	 * @covers ::get_robots_value
 	 * @covers ::format_robots
 	 * @covers ::enforce_robots_congruence
+	 * @covers ::sort_robots
 	 */
-	public function test_add_robots() {
+	public function test_add_robots_overwrite_robots_value_set_to_true() {
 		$context = (object) [
 			'presentation' => (object) [
 				'robots' => [
@@ -154,12 +156,13 @@ class WP_Robots_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add robots with having the robots input being overwritten by our data.
+	 * Tests the add_robots with setting 'imageindex' to 'noimageindex' in the context object.
 	 *
 	 * @covers ::add_robots
 	 * @covers ::get_robots_value
 	 * @covers ::format_robots
 	 * @covers ::enforce_robots_congruence
+	 * @covers ::sort_robots
 	 */
 	public function test_add_robots_with_noimageindex() {
 		$context = (object) [
@@ -195,12 +198,14 @@ class WP_Robots_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add robots with having the robots input being overwritten by our data.
+	 * Tests the add_robots with the robots input being overwritten by our data,
+	 * by setting 'noindex' and 'follow' to 'true'.
 	 *
 	 * @covers ::add_robots
 	 * @covers ::get_robots_value
 	 * @covers ::format_robots
 	 * @covers ::enforce_robots_congruence
+	 * @covers ::sort_robots
 	 */
 	public function test_add_robots_with_noindex_set() {
 		$context = (object) [
@@ -234,12 +239,97 @@ class WP_Robots_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add robots with having the robots input being overwritten by our data.
+	 * Tests the add_robots with passing both true and false for associated keys ('index'/'noindex').
+	 *
+	 * This test fails when using `isset( $robots['noindex'] )`,
+	 * and passes when using `! empty( $robots['noindex'] )`.
 	 *
 	 * @covers ::add_robots
 	 * @covers ::get_robots_value
 	 * @covers ::format_robots
 	 * @covers ::enforce_robots_congruence
+	 * @covers ::sort_robots
+	 */
+	public function test_add_robots_with_index_true_and_noindex_false() {
+		$context = (object) [
+			'presentation' => (object) [
+				'robots' => [
+					'index'  => 'index',
+					'follow' => 'follow',
+				],
+			],
+		];
+
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $context );
+
+		static::assertEquals(
+			[
+				'index'  => true,
+				'follow' => true,
+			],
+			$this->instance->add_robots(
+				[
+					'index'   => true,
+					'noindex' => false,
+				]
+			)
+		);
+	}
+
+	/**
+	 * Tests the add_robots with passing `noimageindex` in combination with an empty string for `max-image-preview`.
+	 *
+	 * This test fails when using `! empty( $robots['max-image-preview'] )`,
+	 * and passes when using `isset( $robots['max-image-preview'] )`.
+	 *
+	 * @covers ::add_robots
+	 * @covers ::get_robots_value
+	 * @covers ::format_robots
+	 * @covers ::enforce_robots_congruence
+	 * @covers ::sort_robots
+	 */
+	public function test_add_robots_with_noimageindex_and_maximagepreview_empty() {
+		$context = (object) [
+			'presentation' => (object) [
+				'robots' => [
+					'index'  => 'index',
+					'follow' => 'follow',
+				],
+			],
+		];
+
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $context );
+
+		static::assertEquals(
+			[
+				'index'             => true,
+				'follow'            => true,
+				'noimageindex'      => true,
+				'max-image-preview' => 'none',
+			],
+			$this->instance->add_robots(
+				[
+					'noimageindex'      => true,
+					'max-image-preview' => '',
+				]
+			)
+		);
+	}
+
+	/**
+	 * Tests the add_robots with having the robots input being overwritten by our data.
+	 *
+	 * @covers ::add_robots
+	 * @covers ::get_robots_value
+	 * @covers ::format_robots
+	 * @covers ::enforce_robots_congruence
+	 * @covers ::sort_robots
 	 */
 	public function test_enforce_robots_congruence() {
 		$context = (object) [
