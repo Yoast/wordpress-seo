@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.8
-Stable tag: 16.8
+Stable tag: 16.9
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -239,6 +239,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 16.9 =
 Release Date: August 10th, 2021
 
+Meet Yoast SEO 16.9: This release comes with two new image SEO assessments and improved performance. Happy updating! Read more about what’s new in Yoast SEO 16.9 in [our release post](https://yoa.st/release-16-9)!
+
 Enhancements:
 
 * Splits the `Image alt attributes` assessment into two assessments. The `Images` assessment checks if the page contains at least one image. The `Image Keyphrase` assessment checks if the images have alt texts, and if those alt texts contain the keyphrase.
@@ -248,7 +250,7 @@ Enhancements:
 * Adds error details to the error message if SEO optimization fails for some unforeseen reason.
 * Cleans up indexables for WooCommerce check-out pages from the indexable table, in order to improve performance.
 * Adds post link indexing and term link indexing to the `wp yoast index` WP-CLI command.
-* Improves overall performance and responsiveness in Gutenberg.
+* Improves the overall performance and responsiveness in Gutenberg.
 
 Bugfixes:
 
