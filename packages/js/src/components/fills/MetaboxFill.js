@@ -17,6 +17,7 @@ import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases";
 import WincherSEOPerformance from "../../containers/WincherSEOPerformance";
+import {colors} from "@yoast/style-guide";
 
 /* eslint-disable complexity */
 /**
@@ -63,7 +64,10 @@ export default function MetaboxFill( { settings } ) {
 			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 25 }>
 				<MetaboxCollapsible
 					id={ "yoast-wincher-seo-performance-metabox" }
-					title={ __( "Track SEO performance", "wordpress-seo" ) } initialIsOpen={ false }
+					title={ __( "Track SEO performance", "wordpress-seo" ) }
+					initialIsOpen={ false }
+					prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
+					prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
 				>
 					<WincherSEOPerformance />
 				</MetaboxCollapsible>
