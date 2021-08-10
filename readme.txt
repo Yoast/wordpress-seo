@@ -236,6 +236,33 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 17.0 =
+Release Date: August 24th, 2021
+
+Enhancements:
+
+* [yoastseo] Add correct shortlinks to product assessors.
+* [yoastseo] Adjust recommended text length values for non-cornerstone collections pages so that they are lower than the cornerstone ones.
+* [yoastseo] Adds keyphrase distribution assessment to all relevant product-related assessors.
+* [yoastseo] Adds assessors for collection pages and sets them in the `apps/content-analysis/src/analysis.worker.js`file.
+* [yoastseo] Adds assessors for blog posts and pages, and set them in `analysis.worker` in content analysis app.
+* [yoastseo] Adds shortlinks to the feedback text of the Lists assessment.
+* [Yoast SEO Premium] Improves word form recognition for stem-changing verbs in Spanish.
+* [yoastseo] Creates `ImageAltTagsAssessment` for product pages.
+* Speeds up load times of admin pages by preventing unnecessary counts of unindexed objects.
+* [yoastseo] Adds custom configuration for the keyphrase length assessment when used for product pages. Adds language-specific configuration parameters for German, Dutch and Swedish.
+* [yoastseo] Refactors the `paragraphTooLong` assessment into class and adds custom config for the assessment when used for product pages.
+* [yoastseo] Refactors the way that the right `config` is set for the sentence length assessment.
+* [yoastseo] Passes appropriate `config` to the sentence length assessment class in the product page content assessors.
+* [yoastseo] Adds an extra check in the `SubheadingsDistributionTooLong` assessment's applicability where we can adjust whether the assessment should appear in a short text analysis or not.
+* Improves the overall performance and responsiveness in Gutenberg.
+* [yoastseo] Adds assessors for store blogs.
+* [yoastseo] Adds functionality for the webworker to load custom assessors for the SEO analysis (regular/cornerstone), the SEO analysis for related keyphrases (regular/cornerstone), and the readability analysis (regular/cornerstone).
+
+Other:
+
+* Updated the message that recommends you to install WooCommerce SEO when WooCommerce is installed.
+
 = 16.9 =
 Release Date: August 10th, 2021
 
@@ -255,26 +282,6 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where the `robots` meta tag could have incorrect values if users called the `wp_robots` filter to set certain values to `false`. Props to [Roy-Orbison](https://github.com/Roy-Orbison).
-
-= 16.8 =
-Release Date: July 27th, 2021
-
-Yoast SEO 16.8 is out today! This release comes with an updated readability analysis with support for two new languages: Norwegian and Slovak. Did you know that Yoast SEO is nearing language support for twenty languages? Read more about what’s new in Yoast SEO 16.8 in [our release post](https://yoa.st/release-16-8)!
-
-Enhancements:
-
-* Completes the readability analysis for Slovak by adding the transition words, sentence beginnings and passive voice assessments.
-* Improves keyphrase recognition in Slovak by filtering out function words such as `som`, `a`, `jedna`, `že`.
-* Completes the readability analysis for Norwegian by adding the transition words, sentence beginnings and passive voice assessments.
-* Improves keyphrase recognition in Norwegian by expanding the list of function words that are filtered out.
-* Adds the first two steps of the Premium cornerstone workout.
-* Throws a notification in the plugins page to users who have an expired subscription.
-* Improves the performance of background requests (admin-ajax calls).
-
-Bugfixes:
-
-* Fixes a bug where paginated static frontpages would fail to output a valid breadcrumb.
-* Fixes a bug where the image selectors in the search appearance and social settings did not have a screen reader text.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
