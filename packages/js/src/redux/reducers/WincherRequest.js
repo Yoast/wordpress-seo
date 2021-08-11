@@ -7,6 +7,7 @@ import {
 	WINCHER_NEW_REQUEST,
 	WINCHER_NO_DATA_FOUND,
 	WINCHER_SET_LOGIN_STATUS,
+	WINCHER_TOGGLE_KEYPHRASE_TRACKING,
 } from "../actions";
 
 const INITIAL_STATE = {
@@ -73,6 +74,11 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 			return {
 				...state,
 				isLoggedIn: action.loginStatus,
+			};
+		case WINCHER_TOGGLE_KEYPHRASE_TRACKING:
+			return {
+				...state,
+				trackedKeyphrase: action.trackedKeyphrase,
 			};
 		default:
 			return state;

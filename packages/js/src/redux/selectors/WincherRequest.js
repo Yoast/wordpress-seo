@@ -74,3 +74,15 @@ export function getWincherRequestHasData( state ) {
 export function getWincherLoginStatus( state ) {
 	return state.WincherRequest.isLoggedIn;
 }
+
+/**
+ * Gets the user logged in to Wincher status.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} Whether or not the user is logged in to Wincher.
+ */
+export function getWincherKeyphraseIsTracked( state, keyphrase ) {
+	return state.WincherRequest.isLoggedIn;
+}
+

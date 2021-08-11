@@ -4,6 +4,7 @@ import { compose } from "@wordpress/compose";
 
 /* Internal dependencies */
 import WincherSEOPerformanceModalContent from "../components/WincherSEOPerformanceModalContent";
+import {setTrackingForKeyphrase, toggleTrackingForKeyphrase} from "../redux/actions";
 
 export default compose( [
 	withSelect( ( select ) => {
@@ -15,6 +16,8 @@ export default compose( [
 			getWincherIsRequestPending,
 			getWincherRequestHasData,
 			getWincherRequestKeyphrase,
+			getWincherIsTracking,
+			getWincherTrackedKeyphrases,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -25,6 +28,8 @@ export default compose( [
 			isPending: getWincherIsRequestPending(),
 			requestHasData: getWincherRequestHasData(),
 			lastRequestKeyphrase: getWincherRequestKeyphrase(),
+			isTracking: getWincherIsTracking(),
+			trackedKeyphrases: getWincherTrackedKeyphrases(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
@@ -34,10 +39,14 @@ export default compose( [
 			setWincherRequestFailed,
 			setWincherSetRequestLimitReached,
 			setWincherNoResultsFound,
+			toggleTrackingForKeyphrase,
+			setTrackingForKeyphrase,
+			setTrackedKeyphrases,
 		 } = dispatch( "yoast-seo/editor" );
+
 		return {
-			newRequest: ( countryCode, keyphrase ) => {
-				setWincherNewRequest( countryCode, keyphrase );
+			newRequest: ( keyphrase ) => {
+				setWincherNewRequest( keyphrase );
 			},
 			setRequestSucceeded: ( response ) => {
 				setWincherRequestSucceeded( response );
@@ -50,6 +59,15 @@ export default compose( [
 			},
 			setNoResultsFound: () => {
 				setWincherNoResultsFound();
+			},
+			setTrackingKeyphrase: ( keyphrase, isTracking ) => {
+				setTrackingForKeyphrase( keyphrase, isTracking );
+			},
+			toggleKeyphraseTracking: ( keyphrase ) => {
+				toggleTrackingForKeyphrase( keyphrase );
+			},
+			setTrackingKeyphrases: ( keyphrases ) => {
+				setTrackedKeyphrases( keyphrases );
 			},
 		};
 	} ),

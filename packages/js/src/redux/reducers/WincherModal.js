@@ -5,7 +5,7 @@ const INITIAL_STATE = {
 	displayNoKeyphraseMessage: false,
 };
 /**
- * A reducer for the SEMrush modal.
+ * A reducer for the Wincher modal.
  *
  * @param {Object} state The current state of the object.
  * @param {Object} action The received action.

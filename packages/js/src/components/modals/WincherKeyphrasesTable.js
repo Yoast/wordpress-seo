@@ -72,18 +72,20 @@ class WincherKeyphrasesTable extends Component {
 	/**
 	 * Gets the toggles state of the keyphrase.
 	 *
-	 * @param {string} id The toggle's ID.
+	 * @param {string} keyphrase The toggle's associated keyphrase.
 	 * @param {boolean} isEnabled Whether or not the toggle is enabled.
 	 *
 	 * @returns {wp.Element} The toggle component.
 	 */
-	getToggleState( id, isEnabled ) {
+	getToggleState( keyphrase, isEnabled ) {
 		return (
 			<Toggle
-				id={ id }
+				id={ `toggle-keyphrase-tracking-${keyphrase}` }
 				className={ "wincher-toggle" }
 				isEnabled={ isEnabled }
-				onSetToggleState={ () => {} }
+				onSetToggleState={ value => {
+					this.props.toggleAction( keyphrase );
+				} }
 				onToggleDisabled={ () => {} }
 			/>
 		);
@@ -113,7 +115,7 @@ class WincherKeyphrasesTable extends Component {
 				__( "Keyphrase position in the last 90 days on a scale from 0 to 100.", "wordpress-seo" )
 			}
 			dataTableHeaderLabels={ areaChartDataTableHeaderLabels }
-		/>
+		/>;
 	}
 
 	/**
@@ -122,7 +124,7 @@ class WincherKeyphrasesTable extends Component {
 	 * @returns {React.Element} The table.
 	 */
 	render() {
-		const { keyphrase, relatedKeyphrases, data, renderAction } = this.props;
+		const { keyphrases, data, renderAction, trackedKeyphrases } = this.props;
 		const url = "https://google.com";
 
 		return (
@@ -160,18 +162,18 @@ class WincherKeyphrasesTable extends Component {
 					<tbody>
 						{
 							data.results.rows.map( ( row, index ) => {
-								const relatedKeyphrase = row[ 1 ];
-								const isTracked = row[ 0 ] === true;
-								const getKeyphraseToggle = this.getToggleState( `toggle-keyphrase-tracking-${index}-${relatedKeyphrase}`, row[ 0 ] );
+								const trackableKeyphrase = row[ 1 ];
+								const isTracked = trackedKeyphrases.includes( trackableKeyphrase );
+								const getKeyphraseToggle = this.getToggleState( trackableKeyphrase, isTracked );
 
 								return <tr key={ index }>
 									<td>{ getKeyphraseToggle }</td>
-									<td>{ relatedKeyphrase }</td>
+									<td>{ trackableKeyphrase }</td>
 									<td>{ isTracked ? row[ 2 ] : "?" }</td>
 									<td className="yoast-table--nopadding">{ isTracked ? this.generatePositionOverTimeChart( row[ 3 ] ) : "?" }</td>
 									{
 										renderAction && <td className="yoast-table--nobreak">
-											{ renderAction( relatedKeyphrase, relatedKeyphrases ) }
+											{ renderAction( trackableKeyphrase ) }
 										</td>
 									}
 								</tr>;
@@ -195,16 +197,18 @@ class WincherKeyphrasesTable extends Component {
 
 WincherKeyphrasesTable.propTypes = {
 	data: PropTypes.object,
-	keyphrase: PropTypes.string,
-	relatedKeyphrases: PropTypes.array,
+	keyphrases: PropTypes.array,
+	trackedKeyphrases: PropTypes.array,
 	renderAction: PropTypes.func,
+	toggleAction: PropTypes.func,
 };
 
 WincherKeyphrasesTable.defaultProps = {
 	data: {},
-	keyphrase: "",
-	relatedKeyphrases: [],
+	keyphrases: [],
+	trackedKeyphrases: [],
 	renderAction: null,
+	toggleAction: null,
 };
 
 export default WincherKeyphrasesTable;

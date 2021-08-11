@@ -35,7 +35,7 @@ export default compose( [
 				setWincherDismissModal();
 			},
 			onAuthentication: ( status ) => {
-				// setWincherLoginStatus( status );
+				setWincherLoginStatus( status );
 			},
 		};
 	} ),

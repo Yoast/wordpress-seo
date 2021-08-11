@@ -4,11 +4,12 @@ export const WINCHER_SET_REQUEST_LIMIT_REACHED = "WINCHER_SET_LIMIT_REACHED";
 export const WINCHER_NEW_REQUEST = "WINCHER_NEW_REQUEST";
 export const WINCHER_NO_DATA_FOUND = "WINCHER_NO_DATA_FOUND";
 export const WINCHER_SET_LOGIN_STATUS = "WINCHER_SET_LOGIN_STATUS";
+export const WINCHER_TOGGLE_KEYPHRASE_TRACKING = "WINCHER_TOGGLE_KEYPHRASE_TRACKING";
 
 /**
  * An action creator for starting a new request.
  *
- * @param {string} keyphrase   The keyphrase for the Wincher request.
+ * @param {string} keyphrase The keyphrase for the Wincher request.
  *
  * @returns {Object} Action object.
  */
@@ -80,5 +81,19 @@ export function setWincherLoginStatus( loginStatus ) {
 	return {
 		type: WINCHER_SET_LOGIN_STATUS,
 		loginStatus,
+	};
+}
+
+/**
+ * An action creator for toggling the tracking of the passed keyphrase.
+ *
+ * @param {string} keyphrase The keyphrase to toggle tracking for.
+ *
+ * @returns {Object} Action object.
+ */
+export function setWincherToggleKeyphraseTracking( keyphrase ) {
+	return {
+		type: WINCHER_TOGGLE_KEYPHRASE_TRACKING,
+		trackedKeyphrase: keyphrase,
 	};
 }

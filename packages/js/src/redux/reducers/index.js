@@ -24,6 +24,7 @@ import twitterEditor from "./twitterEditor";
 import warning from "./warning";
 import WincherModal from "./WincherModal";
 import WincherRequest from "./WincherRequest";
+import WincherSEOPerformance from "./WincherSEOPerformance";
 
 export default {
 	activeMarker,
@@ -52,4 +53,5 @@ export default {
 	warning,
 	WincherModal,
 	WincherRequest,
+	WincherSEOPerformance,
 };

@@ -17,13 +17,14 @@ import { ReactComponent as YoastIcon } from "../../images/Yoast_icon_kader.svg";
 import { isCloseEvent } from "./modals/editorModals/EditorModal.js";
 import SidebarButton from "./SidebarButton";
 import WincherSEOPerformance from "../containers/WincherSEOPerformance";
+import {colors} from "@yoast/style-guide";
 
 /**
- * Redux container for the SEOPerformanceModal modal.
+ * Redux container for the WincherSEOPerformanceModal modal.
  */
 class WincherSEOPerformanceModal extends Component {
 	/**
-	 * Constructs the SEOPerformanceModal component.
+	 * Constructs the WincherSEOPerformanceModal component.
 	 *
 	 * @param {Object} props The properties.
 	 *
@@ -44,10 +45,10 @@ class WincherSEOPerformanceModal extends Component {
 	 * @returns {void}
 	 */
 	onModalOpen() {
-		if ( without( this.props.keyphrases, "", null ).length === 0 ) {
-			this.props.onOpenWithNoKeyphrase();
-			return;
-		}
+		// if ( without( this.props.keyphrases, "", null ).length === 0 ) {
+		// 	this.props.onOpenWithNoKeyphrase();
+		// 	return;
+		// }
 
 		this.props.onOpen( this.props.location );
 	}
@@ -78,10 +79,10 @@ class WincherSEOPerformanceModal extends Component {
 		e.preventDefault();
 
 		// If no keyphrase has been submitted, trigger the error message immediately.
-		if ( without( this.props.keyphrases, "", null ).length === 0 ) {
-			this.props.onOpenWithNoKeyphrase();
-			return;
-		}
+		// if ( without( this.props.keyphrases, "", null ).length === 0 ) {
+		// 	this.props.onOpenWithNoKeyphrase();
+		// 	return;
+		// }
 
 		const url    = e.target.href;
 		const height = "570";
@@ -170,9 +171,9 @@ class WincherSEOPerformanceModal extends Component {
 	}
 
 	/**
-	 * Renders the SEOPerformanceModal modal component.
+	 * Renders the WincherSEOPerformanceModal modal component.
 	 *
-	 * @returns {wp.Element} The SEOPerformanceModal modal component.
+	 * @returns {wp.Element} The WincherSEOPerformanceModal modal component.
 	 */
 	render() {
 		const { keyphrases, location, whichModalOpen, isLoggedIn } = this.props;
@@ -180,7 +181,7 @@ class WincherSEOPerformanceModal extends Component {
 
 		return (
 			<Fragment>
-				{ keyphrases && whichModalOpen === location &&
+				{ whichModalOpen === location &&
 				<Modal
 					title={ title }
 					onRequestClose={ this.onModalClose }
@@ -195,14 +196,26 @@ class WincherSEOPerformanceModal extends Component {
 				</Modal>
 				}
 
-				<SidebarButton
+				{ location === "sidebar" &&
+					<SidebarButton
+						id={ `wincher-open-button-${location}` }
+						title={ title }
+						suffixIcon={ { size: "20px", icon: "pencil-square" } }
+						onClick={ this.onModalOpen }
+					/>
+				}
+
+				{ location === "post-publish" &&
+					<a
+					href={"#"}
 					id={ `wincher-open-button-${location}` }
 					title={ title }
-					suffixIcon={ { size: "20px", icon: "pencil-square" } }
 					onClick={ this.onModalOpen }
-				/>
+					>{title}</a>
+				}
 
 				{ ! isLoggedIn && <div className={ "yoast" }>
+					Not logged in!
 					{/*<ButtonStyledLink*/}
 					{/*	variant={ "secondary" }*/}
 					{/*	id={ `yoast-get-related-keyphrase-${location}` }*/}
