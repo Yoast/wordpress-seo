@@ -25,8 +25,8 @@ const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
 
 	this._assessments = [
 		new IntroductionKeyword( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify8" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify9" ),
+			urlTitle: createAnchorOpeningTag( options.introductionKeyphraseUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.introductionKeyphraseCTAUrl ),
 		} ),
 		new KeyphraseLength( {
 			parameters: {
@@ -36,24 +36,24 @@ const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
 				acceptableMinimum: 2,
 			},
 			isRelatedKeyphrase: true,
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
+			urlTitle: createAnchorOpeningTag( options.keyphraseLengthUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.keyphraseLengthCTAUrl ),
 		}, true ),
 		new KeywordDensity( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify13" ),
+			urlTitle: createAnchorOpeningTag( options.keyphraseDensityUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.keyphraseDensityCTAUrl ),
 		} ),
 		new MetaDescriptionKeyword( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
+			urlTitle: createAnchorOpeningTag( options.metaDescriptionKeyphraseUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.metaDescriptionKeyphraseCTAUrl ),
 		} ),
 		new TextCompetingLinks( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify18" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify19" ),
+			urlTitle: createAnchorOpeningTag( options.textCompetingLinksUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.textCompetingLinksCTAUrl ),
 		} ),
 		new FunctionWordsInKeyphrase( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify50" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify51" ),
+			urlTitle: createAnchorOpeningTag( options.functionWordsInKeyphraseUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.functionWordsInKeyphraseCTAUrl ),
 		} ),
 		new ImageKeyphrase( {
 			scores: {
@@ -61,8 +61,8 @@ const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
 				withAlt: 3,
 				noAlt: 3,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
+			urlTitle: createAnchorOpeningTag( options.imageKeyphraseUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.imageKeyphraseCTAUrl ),
 		} ),
 	];
 };
