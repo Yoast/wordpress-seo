@@ -24,9 +24,10 @@ import KeyphraseDistribution from "../../assessments/seo/KeyphraseDistributionAs
 /**
  * Creates the Assessor
  *
- * @param {Object} i18n The i18n object used for translations.
- * @param {Object} options The options for this assessor.
- * @param {Object} options.marker The marker to pass the list of marks to.
+ * @param {Object} i18n 			The i18n object used for translations.
+ * @param {object} researcher       The researcher to use for the analysis.
+ * @param {Object} options 			The options for this assessor.
+ * @param {Object} options.marker 	The marker to pass the list of marks to.
  *
  * @constructor
  */
