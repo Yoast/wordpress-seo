@@ -85,7 +85,7 @@ describe( "A cornerstone product page content assessor", function() {
 			textPresenceCTAUrl: "https://yoast.com/12",
 			listsUrlTitle: "https://yoast.com/13",
 			listsCTAUrl: "https://yoast.com/14",
-			} );
+		} );
 
 		test( "SubheadingsDistributionTooLong", () => {
 			const assessment = assessor.getAssessment( "subheadingsTooLong" );

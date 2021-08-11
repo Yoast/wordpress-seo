@@ -42,7 +42,8 @@ describe( "running assessments in the product page SEO assessor", function() {
 			imageAltTagsUrlTitle: "https://yoast.com/31",
 			imageAltTagsCTAUrl: "https://yoast.com/32",
 			keyphraseDistributionUrlTitle: "https://yoast.com/33",
-			keyphraseDistributionCTAUrl: "https://yoast.com/34",} );
+			keyphraseDistributionCTAUrl: "https://yoast.com/34",
+		} );
 	} );
 
 	it( "runs assessments without any specific requirements", function() {
