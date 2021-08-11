@@ -18,7 +18,7 @@ import ListsPresence from "../../assessments/readability/ListAssessment.js";
  *
  * @constructor
  */
-const ProductCornerstoneContentAssessor = function( i18n, options = {} ) {
+const ProductCornerstoneContentAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
 	this.type = "productCornerstoneContentAssessor";
 

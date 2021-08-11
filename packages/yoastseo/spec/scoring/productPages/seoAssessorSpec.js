@@ -9,7 +9,8 @@ describe( "running assessments in the product page SEO assessor", function() {
 	let assessor;
 
 	beforeEach( () => {
-		assessor = new Assessor( i18n, new DefaultResearcher(), { introductionKeyphraseUrlTitle: "https://yoast.com/1",
+		assessor = new Assessor( i18n, new DefaultResearcher(), {
+			introductionKeyphraseUrlTitle: "https://yoast.com/1",
 			introductionKeyphraseCTAUrl: "https://yoast.com/2",
 			keyphraseLengthUrlTitle: "https://yoast.com/3",
 			keyphraseLengthCTAUrl: "https://yoast.com/4",

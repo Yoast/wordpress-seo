@@ -19,7 +19,7 @@ import ListsPresence from "../assessments/readability/ListAssessment.js";
  *
  * @constructor
  */
-const ProductContentAssessor = function( i18n, options = {} ) {
+const ProductContentAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
 	this.type = "productContentAssessor";
 
