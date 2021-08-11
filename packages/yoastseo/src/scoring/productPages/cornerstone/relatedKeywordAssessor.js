@@ -19,8 +19,8 @@ import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyph
  *
  * @constructor
  */
-const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
-	Assessor.call( this, i18n, options );
+const ProductCornerStoneRelatedKeywordAssessor = function( i18n, researcher, options ) {
+	Assessor.call( this, i18n, researcher, options );
 	this.type = "productPageCornerstoneRelatedKeywordAssessor";
 
 	this._assessments = [
