@@ -30,8 +30,8 @@ import KeyphraseDistribution from "../../assessments/seo/KeyphraseDistributionAs
  *
  * @constructor
  */
-const ProductCornerstoneSEOAssessor = function( i18n, options ) {
-	Assessor.call( this, i18n, options );
+const ProductCornerstoneSEOAssessor = function( i18n, researcher, options ) {
+	Assessor.call( this, i18n, researcher, options );
 	this.type = "ProductCornerstoneSEOAssessor";
 
 	this._assessments = [
