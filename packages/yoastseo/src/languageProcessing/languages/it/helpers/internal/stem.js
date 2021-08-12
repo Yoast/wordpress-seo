@@ -354,11 +354,13 @@ export default function stem( word, morphologyData ) {
 	if ( irregularPluralNounsAndAdjectives ) {
 		return irregularPluralNounsAndAdjectives;
 	}
-	// // Check the exception list for irregular verbs listed in full forms.
-	// let ifException = checkWordInFullFormExceptions( word, morphologyData.exceptionStemsWithFullForms );
-	// if ( ifException ) {
-	// 	return ifException;
-	// }
+
+	// Check the exception list for irregular verbs listed in full forms.
+	const irregularVerbs = checkWordInFullFormExceptions( word, morphologyData.irregularVerbs );
+	if ( irregularVerbs ) {
+		return irregularVerbs;
+	}
+
 	// Start word pre-processing.
 	word = preProcess( word, morphologyData );
 
