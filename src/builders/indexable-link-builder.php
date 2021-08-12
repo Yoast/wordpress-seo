@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 
 /**
- * Post link builder.
+ * Indexable link builder.
  */
 class Indexable_Link_Builder {
 
@@ -51,7 +51,7 @@ class Indexable_Link_Builder {
 	protected $indexable_repository;
 
 	/**
-	 * Post_Link_Builder constructor.
+	 * Indexable_Link_Builder constructor.
 	 *
 	 * @param SEO_Links_Repository $seo_links_repository The SEO links repository.
 	 * @param Url_Helper           $url_helper           The URL helper.
@@ -352,7 +352,7 @@ class Indexable_Link_Builder {
 	}
 
 	/**
-	 * Updatates the link counts for related indexables.
+	 * Updates the link counts for related indexables.
 	 *
 	 * @param Indexable   $indexable The indexable.
 	 * @param SEO_Links[] $links     The link models.
