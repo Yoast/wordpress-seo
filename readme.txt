@@ -242,7 +242,7 @@ Release Date: August 24th, 2021
 Enhancements:
 
 * Speeds up load times of admin pages by preventing unnecessary counts of unindexed objects.
-* Cleans up items from the database that are not used anymore, thereby reducing the size of your site's database.
+* Cleans up items from the database that are not used anymore, thereby reducing the size of many sites' database.
 * Improves the overall performance and responsiveness in Gutenberg.
 * [yoastseo] Add correct shortlinks to product assessors.
 * [yoastseo] Adjust recommended text length values for non-cornerstone collections pages so that they are lower than the cornerstone ones.
