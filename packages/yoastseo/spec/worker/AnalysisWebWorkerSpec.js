@@ -1807,39 +1807,46 @@ describe( "AnalysisWebWorker", () => {
 	} );
 
 	describe( "set assessors", () => {
+		const customAssessorOptions = { url: "url" };
 		beforeEach( () => {
 			scope = createScope();
 			worker = new AnalysisWebWorker( scope, researcher );
 		} );
 
 		it( "can set a custom SEO assessor.", () => {
-			worker.setCustomSEOAssessorClass( SEOAssessor, "test" );
+			worker.setCustomSEOAssessorClass( SEOAssessor, "test", customAssessorOptions  );
 			expect( worker._CustomSEOAssessorClasses.test ).toBe( SEOAssessor );
+			expect( worker._CustomSEOAssessorOptions.test ).toBe( customAssessorOptions );
 		} );
 
 		it( "can set a custom cornerstone SEO assessor.", () => {
-			worker.setCustomCornerstoneSEOAssessorClass( SEOAssessor, "test" );
+			worker.setCustomCornerstoneSEOAssessorClass( SEOAssessor, "test", customAssessorOptions );
 			expect( worker._CustomCornerstoneSEOAssessorClasses.test ).toBe( SEOAssessor );
+			expect( worker._CustomCornerstoneSEOAssessorOptions.test ).toBe( customAssessorOptions );
 		} );
 
 		it( "can set a custom content assessor.", () => {
-			worker.setCustomContentAssessorClass( SEOAssessor, "test" );
+			worker.setCustomContentAssessorClass( SEOAssessor, "test", customAssessorOptions );
 			expect( worker._CustomContentAssessorClasses.test ).toBe( SEOAssessor );
+			expect( worker._CustomContentAssessorOptions.test ).toBe( customAssessorOptions );
 		} );
 
 		it( "can set a custom cornerstone content assessor.", () => {
-			worker.setCustomCornerstoneContentAssessorClass( SEOAssessor, "test" );
+			worker.setCustomCornerstoneContentAssessorClass( SEOAssessor, "test", customAssessorOptions );
 			expect( worker._CustomCornerstoneContentAssessorClasses.test ).toBe( SEOAssessor );
+			expect( worker._CustomCornerstoneContentAssessorOptions.test ).toBe( customAssessorOptions );
 		} );
 
 		it( "can set a custom related keyword assessor.", () => {
-			worker.setCustomRelatedKeywordAssessorClass( SEOAssessor, "test" );
+			worker.setCustomRelatedKeywordAssessorClass( SEOAssessor, "test", customAssessorOptions );
 			expect( worker._CustomRelatedKeywordAssessorClasses.test ).toBe( SEOAssessor );
+			expect( worker._CustomRelatedKeywordAssessorOptions.test ).toBe( customAssessorOptions );
 		} );
 
 		it( "can set a custom cornerstone related keyword assessor.", () => {
-			worker.setCustomCornerstoneRelatedKeywordAssessorClass( SEOAssessor, "test" );
+			worker.setCustomCornerstoneRelatedKeywordAssessorClass( SEOAssessor, "test", customAssessorOptions );
 			expect( worker._CustomCornerstoneRelatedKeywordAssessorClasses.test ).toBe( SEOAssessor );
+			expect( worker._CustomCornerstoneRelatedKeywordAssessorOptions.test ).toBe( customAssessorOptions );
 		} );
 	} );
 } );
