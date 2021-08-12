@@ -87,6 +87,7 @@ class WincherKeyphrasesTable extends Component {
 					this.props.toggleAction( keyphrase );
 				} }
 				onToggleDisabled={ () => {} }
+				showToggleStateLabel={ false }
 			/>
 		);
 	}

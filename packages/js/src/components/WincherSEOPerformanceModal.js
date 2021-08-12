@@ -201,6 +201,7 @@ class WincherSEOPerformanceModal extends Component {
 						id={ `wincher-open-button-${location}` }
 						title={ title }
 						suffixIcon={ { size: "20px", icon: "pencil-square" } }
+						prefixIcon={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
 						onClick={ this.onModalOpen }
 					/>
 				}
