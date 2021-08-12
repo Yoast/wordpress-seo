@@ -5,7 +5,21 @@ import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
 
 const i18n = Factory.buildJed();
-
+const options = {
+	subheadingUrlTitle: "https://yoast.com/1",
+	subheadingCTAUrl: "https://yoast.com/2",
+	paragraphUrlTitle: "https://yoast.com/3",
+	paragraphCTAUrl: "https://yoast.com/4",
+	sentenceLengthUrlTitle: "https://yoast.com/5",
+	sentenceLengthCTAUrl: "https://yoast.com/6",
+	transitionWordsUrlTitle: "https://yoast.com/7",
+	transitionWordsCTAUrl: "https://yoast.com/8",
+	passiveVoiceUrlTitle: "https://yoast.com/9",
+	passiveVoiceCTAUrl: "https://yoast.com/10",
+	textPresenceUrlTitle: "https://yoast.com/11",
+	textPresenceCTAUrl: "https://yoast.com/12",
+	listsUrlTitle: "https://yoast.com/13",
+	listsCTAUrl: "https://yoast.com/14" };
 describe( "A cornerstone product page content assessor", function() {
 	describe( "Checks the applicable assessments for text that contains less than 300 words", function() {
 		const paper = new Paper( "Lorem ipsum dolor sit amet, voluptua probatus ullamcorper id vis, ceteros consetetur qui ea, " +
@@ -22,7 +36,7 @@ describe( "A cornerstone product page content assessor", function() {
 			"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
 			"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod." );
 		it( "Should have 6 available assessments for a fully supported language", function() {
-			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
+			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ), options );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
@@ -33,7 +47,7 @@ describe( "A cornerstone product page content assessor", function() {
 		} );
 
 		it( "Should have 4 available assessments for a basic supported language", function() {
-			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
+			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ), options );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
@@ -47,7 +61,7 @@ describe( "A cornerstone product page content assessor", function() {
 	describe( "Checks the applicable assessments for text that contains more than 300 words", function() {
 		const paper = new Paper( "a tortie cat ".repeat( 150 ) );
 		it( "Should have 7 available assessments for a fully supported language", function() {
-			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
+			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ), options );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
@@ -58,7 +72,7 @@ describe( "A cornerstone product page content assessor", function() {
 		} );
 
 		it( "Should have 5 available assessments for a basic supported language", function() {
-			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
+			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ), options );
 			contentAssessor.getPaper = function() {
 				return paper;
 			};
