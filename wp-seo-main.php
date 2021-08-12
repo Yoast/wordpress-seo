@@ -5,6 +5,8 @@
  * @package WPSEO\Main
  */
 
+use Composer\Autoload\ClassLoader;
+
 if ( ! function_exists( 'add_filter' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -92,6 +94,10 @@ require_once WPSEO_PATH . 'src/functions.php';
  */
 if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {
 	define( 'YOAST_ENVIRONMENT', 'production' );
+}
+
+if ( YOAST_ENVIRONMENT === 'development' ) {
+	add_action( 'plugins_loaded', 'yoast_wpseo_reregister_autoload', 1 );
 }
 
 /**
@@ -544,6 +550,21 @@ function yoast_wpseo_missing_autoload_notice() {
 	$message = esc_html__( 'The %1$s plugin installation is incomplete. Please refer to %2$sinstallation instructions%3$s.', 'wordpress-seo' );
 	$message = sprintf( $message, 'Yoast SEO', '<a href="https://github.com/Yoast/wordpress-seo#installation">', '</a>' );
 	yoast_wpseo_activation_failed_notice( $message );
+}
+
+/**
+ * Reregisters the autoloader so that Yoast SEO is at the front.
+ * This prevents conflicts with the development versions of our addons.
+ *
+ * @return void
+ */
+function yoast_wpseo_reregister_autoload() {
+	$all_autoloaders = ClassLoader::getRegisteredLoaders();
+	if ( isset( $all_autoloaders[ __DIR__ . '/vendor' ] ) ) {
+		$autoloader = $all_autoloaders[ __DIR__ . '/vendor' ];
+		$autoloader->unregister();
+		$autoloader->register();
+	}
 }
 
 /**
