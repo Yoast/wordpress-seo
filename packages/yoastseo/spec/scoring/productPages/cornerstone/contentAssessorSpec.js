@@ -19,7 +19,9 @@ const options = {
 	textPresenceUrlTitle: "https://yoast.com/11",
 	textPresenceCTAUrl: "https://yoast.com/12",
 	listsUrlTitle: "https://yoast.com/13",
-	listsCTAUrl: "https://yoast.com/14" };
+	listsCTAUrl: "https://yoast.com/14",
+};
+
 describe( "A cornerstone product page content assessor", function() {
 	describe( "Checks the applicable assessments for text that contains less than 300 words", function() {
 		const paper = new Paper( "Lorem ipsum dolor sit amet, voluptua probatus ullamcorper id vis, ceteros consetetur qui ea, " +
@@ -84,7 +86,8 @@ describe( "A cornerstone product page content assessor", function() {
 	} );
 
 	describe( "has configuration overrides", () => {
-		const assessor = new ContentAssessor( i18n, {
+		const paper = new Paper( "a tortie cat ".repeat( 150 ) );
+		const assessor = new ContentAssessor( i18n, new DefaultResearcher( paper ), {
 			subheadingUrlTitle: "https://yoast.com/1",
 			subheadingCTAUrl: "https://yoast.com/2",
 			paragraphUrlTitle: "https://yoast.com/3",
