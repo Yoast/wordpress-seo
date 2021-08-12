@@ -419,6 +419,8 @@ export default function stem( word, morphologyData ) {
 	// Normalize digraphs ch/gh.
 	word = normalizeDigraphs( word, morphologyData, rvText );
 
+	// Lowercase the word before canonicalizing stem
+	word = word.toLowerCase();
 
 	// Returns a canonical stem for words with multiple stems (e.g., verbs: chiudere–chiuso; diminutives: ovetto-uovo).
 	const canonicalStem = canonicalizeStem( word, morphologyData.stemsThatBelongToOneWord );
