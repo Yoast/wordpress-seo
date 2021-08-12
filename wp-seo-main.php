@@ -563,7 +563,7 @@ function yoast_wpseo_reregister_autoload() {
 	if ( isset( $all_autoloaders[ __DIR__ . '/vendor' ] ) ) {
 		$autoloader = $all_autoloaders[ __DIR__ . '/vendor' ];
 		$autoloader->unregister();
-		$autoloader->register();
+		$autoloader->register( true );
 	}
 }
 
