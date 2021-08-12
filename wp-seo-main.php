@@ -74,7 +74,7 @@ function wpseo_auto_load( $class ) {
 $yoast_autoload_file = WPSEO_PATH . 'vendor/autoload.php';
 
 if ( is_readable( $yoast_autoload_file ) ) {
-	$autoloader = require $yoast_autoload_file;
+	$yoast_autoloader = require $yoast_autoload_file;
 }
 elseif ( ! class_exists( 'WPSEO_Options' ) ) { // Still checking since might be site-level autoload R.
 	add_action( 'admin_init', 'yoast_wpseo_missing_autoload', 1 );
@@ -96,7 +96,7 @@ if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {
 	define( 'YOAST_ENVIRONMENT', 'production' );
 }
 
-if ( YOAST_ENVIRONMENT === 'development' && isset( $autoloader ) ) {
+if ( YOAST_ENVIRONMENT === 'development' && isset( $yoast_autoloader ) ) {
 	add_action(
 		'plugins_loaded',
 		/**
@@ -107,9 +107,9 @@ if ( YOAST_ENVIRONMENT === 'development' && isset( $autoloader ) ) {
 		 *
 		 * @return void
 		 */
-		function() use ( $autoloader ) {
-			$autoloader->unregister();
-			$autoloader->register( true );
+		function() use ( $yoast_autoloader ) {
+			$yoast_autoloader->unregister();
+			$yoast_autoloader->register( true );
 		},
 		1
 	);
