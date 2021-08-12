@@ -66,8 +66,8 @@ export default function MetaboxFill( { settings } ) {
 					id={ "yoast-wincher-seo-performance-metabox" }
 					title={ __( "Track SEO performance", "wordpress-seo" ) }
 					initialIsOpen={ false }
-					prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
-					prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
+					prefixIcon={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
+					prefixIconCollapsed={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
 				>
 					<WincherSEOPerformance />
 				</MetaboxCollapsible>
