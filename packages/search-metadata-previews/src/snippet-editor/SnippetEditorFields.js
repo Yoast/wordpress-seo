@@ -227,12 +227,12 @@ class SnippetEditorFields extends React.Component {
 	/**
 	 * Call the onChange event for the slug.
 	 *
-	 * @param {string} content The content.
+	 * @param {SyntheticEvent} event The event.
 	 *
 	 * @returns {void}
 	 */
-	 onChangeSlug( content ) {
-		this.props.onChange( "slug", content );
+	 onChangeSlug( event ) {
+		this.props.onChange( "slug", event.target.value );
 	}
 
 	/**
