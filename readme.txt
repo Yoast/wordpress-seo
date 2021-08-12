@@ -242,8 +242,13 @@ Release Date: August 24th, 2021
 Enhancements:
 
 * Speeds up load times of admin pages by preventing unnecessary counts of unindexed objects.
-* Cleans up items from the database that are not used anymore, thereby reducing the size of your site's database.
+* Cleans up items from the database that are not used anymore, thereby reducing the size of many sites' database.
 * Improves the overall performance and responsiveness in Gutenberg.
+
+Bugfixes:
+
+* Fixes a bug where the `Save all` button in the bulk editor did not work.
+* Fixes a bug where the `Existing` column in the bulk editor did not update after save.
 
 Other:
 
@@ -263,7 +268,6 @@ Enhancements:
 * Adds error details to the error message if SEO optimization fails for some unforeseen reason.
 * Cleans up indexables for WooCommerce check-out pages from the indexable table, in order to improve performance.
 * Adds post link indexing and term link indexing to the `wp yoast index` WP-CLI command.
-* Improves the overall performance and responsiveness in Gutenberg.
 
 Bugfixes:
 
