@@ -74,3 +74,23 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 } );
+
+describe( "has configuration overrides", () => {
+	test( "KeyphraseLength", () => {
+		const assessment = assessor.getAssessment( "keyphraseLength" );
+
+		expect( assessment ).toBeDefined();
+		expect( assessment._config ).toBeDefined();
+		expect( assessment._config.isRelatedKeyphrase ).toBeTruthy();
+	} );
+
+	test( "ImageKeyphrase", () => {
+		const assessment = assessor.getAssessment( "imageKeyphrase" );
+
+		expect( assessment ).toBeDefined();
+		expect( assessment._config ).toBeDefined();
+		expect( assessment._config.scores.withAltNonKeyword ).toBe( 3 );
+		expect( assessment._config.scores.withAlt ).toBe( 3 );
+		expect( assessment._config.scores.noAlt ).toBe( 3 );
+	} );
+} );
