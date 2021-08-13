@@ -117,6 +117,17 @@ class Yoast_Integration_Toggles {
 				'premium_url'     => 'https://yoa.st/4ex',
 				'order'           => 25,
 			],
+			(object) [
+				/* translators: %s: 'Wincher' */
+				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'Wincher' ),
+				'setting'         => 'wincher_integration_active',
+				'label'           => sprintf(
+				/* translators: %s: 'Wincher' */
+					__( 'The %s integration offers the option to track specific keyphrases and gain insights in their positions.', 'wordpress-seo' ),
+					'Wincher'
+				),
+				'order'           => 11,
+			],
 		];
 
 		/**

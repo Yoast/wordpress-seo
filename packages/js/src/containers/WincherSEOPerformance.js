@@ -4,7 +4,6 @@ import { compose } from "@wordpress/compose";
 
 /* Internal dependencies */
 import WincherSEOPerformanceModalContent from "../components/WincherSEOPerformanceModalContent";
-import {setTrackingForKeyphrase, toggleTrackingForKeyphrase} from "../redux/actions";
 
 export default compose( [
 	withSelect( ( select ) => {
@@ -42,7 +41,7 @@ export default compose( [
 			toggleTrackingForKeyphrase,
 			setTrackingForKeyphrase,
 			setTrackedKeyphrases,
-		 } = dispatch( "yoast-seo/editor" );
+		} = dispatch( "yoast-seo/editor" );
 
 		return {
 			newRequest: ( keyphrase ) => {

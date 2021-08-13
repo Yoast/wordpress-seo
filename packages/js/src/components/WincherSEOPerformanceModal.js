@@ -45,11 +45,6 @@ class WincherSEOPerformanceModal extends Component {
 	 * @returns {void}
 	 */
 	onModalOpen() {
-		// if ( without( this.props.keyphrases, "", null ).length === 0 ) {
-		// 	this.props.onOpenWithNoKeyphrase();
-		// 	return;
-		// }
-
 		this.props.onOpen( this.props.location );
 	}
 
@@ -77,12 +72,6 @@ class WincherSEOPerformanceModal extends Component {
 	 */
 	onLinkClick( e ) {
 		e.preventDefault();
-
-		// If no keyphrase has been submitted, trigger the error message immediately.
-		// if ( without( this.props.keyphrases, "", null ).length === 0 ) {
-		// 	this.props.onOpenWithNoKeyphrase();
-		// 	return;
-		// }
 
 		const url    = e.target.href;
 		const height = "570";

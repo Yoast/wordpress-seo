@@ -18,16 +18,12 @@ export default compose( [
 	} ),
 	withDispatch( ( dispatch ) => {
 		const {
-			setWincherNoKeyphraseMessage,
 			setWincherOpenModal,
 			setWincherDismissModal,
 			setWincherLoginStatus,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
-			onOpenWithNoKeyphrase: () => {
-				setWincherNoKeyphraseMessage();
-			},
 			onOpen: ( location ) => {
 				setWincherOpenModal( location );
 			},

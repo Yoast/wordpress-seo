@@ -5,13 +5,14 @@ import { __, sprintf, _n } from "@wordpress/i18n";
 import { isEmpty } from "lodash-es";
 
 /* Yoast dependencies */
+import { Toggle } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
 
 /* Internal dependencies */
 import AreaChart from "../AreaChart";
-import {Toggle} from "@yoast/components";
 
 const GetMoreInsightsLink = makeOutboundLink();
+const ViewLink = makeOutboundLink();
 
 /**
  * The WincherKeyphrasesTable component.
@@ -83,10 +84,9 @@ class WincherKeyphrasesTable extends Component {
 				id={ `toggle-keyphrase-tracking-${keyphrase}` }
 				className={ "wincher-toggle" }
 				isEnabled={ isEnabled }
-				onSetToggleState={ value => {
+				onSetToggleState={ () => {
 					this.props.toggleAction( keyphrase );
 				} }
-				onToggleDisabled={ () => {} }
 				showToggleStateLabel={ false }
 			/>
 		);
@@ -125,20 +125,19 @@ class WincherKeyphrasesTable extends Component {
 	 * @returns {React.Element} The table.
 	 */
 	render() {
-		const { keyphrases, data, renderAction, trackedKeyphrases } = this.props;
-		const url = "https://google.com";
+		const { keyphrases, data, trackedKeyphrases, allowToggling } = this.props;
 
 		return (
 			data && ! isEmpty( data.results ) && <Fragment>
 				<table className="yoast yoast-table">
 					<thead>
 						<tr>
-							<th
+							{ allowToggling && <th
 								scope="col"
 								abbr={ __( "Tracking", "wordpress-seo" ) }
 							>
 								{ __( "Tracking", "wordpress-seo" ) }
-							</th>
+							</th> }
 							<th
 								scope="col"
 								abbr={ __( "Keyphrase", "wordpress-seo" ) }
@@ -157,33 +156,34 @@ class WincherKeyphrasesTable extends Component {
 							>
 								{ __( "Position over time", "wordpress-seo" ) }
 							</th>
-							{ renderAction && <td className="yoast-table--nobreak" /> }
+							<td className="yoast-table--nobreak" />
 						</tr>
 					</thead>
 					<tbody>
 						{
 							data.results.rows.map( ( row, index ) => {
 								const trackableKeyphrase = row[ 1 ];
-								const isTracked = trackedKeyphrases.includes( trackableKeyphrase );
-								const getKeyphraseToggle = this.getToggleState( trackableKeyphrase, isTracked );
+								const isTracked          = trackedKeyphrases.includes( trackableKeyphrase );
 
-								return <tr key={ index }>
-									<td>{ getKeyphraseToggle }</td>
+								return <tr key={ `trackable-keyphrase-${index}` }>
+									{ allowToggling &&  <td>{ this.getToggleState( trackableKeyphrase, isTracked ) }</td> }
 									<td>{ trackableKeyphrase }</td>
 									<td>{ isTracked ? row[ 2 ] : "?" }</td>
 									<td className="yoast-table--nopadding">{ isTracked ? this.generatePositionOverTimeChart( row[ 3 ] ) : "?" }</td>
-									{
-										renderAction && <td className="yoast-table--nobreak">
-											{ renderAction( trackableKeyphrase ) }
-										</td>
-									}
+									<td className="yoast-table--nobreak">
+										{
+											<ViewLink href={ `https://google.com?q=${trackableKeyphrase}` }>
+												{ __( "View", "wordpress-seo" ) }
+											</ViewLink>
+										}
+									</td>
 								</tr>;
 							} )
 						}
 					</tbody>
 				</table>
 				<p style={ { marginBottom: 0 } }>
-					<GetMoreInsightsLink href={ url }>
+					<GetMoreInsightsLink href={ "https://google.com" }>
 						{ sprintf(
 							/* translators: %s expands to Wincher */
 							__( "Get more insights over at %s", "wordpress-seo" ),
@@ -200,16 +200,16 @@ WincherKeyphrasesTable.propTypes = {
 	data: PropTypes.object,
 	keyphrases: PropTypes.array,
 	trackedKeyphrases: PropTypes.array,
-	renderAction: PropTypes.func,
 	toggleAction: PropTypes.func,
+	allowToggling: PropTypes.bool,
 };
 
 WincherKeyphrasesTable.defaultProps = {
 	data: {},
 	keyphrases: [],
 	trackedKeyphrases: [],
-	renderAction: null,
 	toggleAction: null,
+	allowToggling: true,
 };
 
 export default WincherKeyphrasesTable;

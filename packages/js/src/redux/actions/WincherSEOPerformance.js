@@ -29,7 +29,7 @@ export function setWincherKeyphraseTracking( isTracking ) {
  *
  * @returns {Object} Action object.
  */
-export function toggleKeyphraseTrack() {
+export function toggleKeyphraseTracking() {
 	return {
 		type: WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING,
 	};
