@@ -30,7 +30,7 @@ branch="master"
 mainDir=$(pwd)
 
 if [[ $lastTag =~ ^feature/* || $lastTag =~ ^release/* || $lastTag =~ ^hotfix/* || $lastTag == "trunk" ]]; then
-  branch=$lastTag
+    branch=$lastTag
 fi
 
 # Clone the dist repo.
@@ -55,11 +55,12 @@ git add -A
 
 # If it's a feature, release or trunk branch.
 if [[ $lastTag =~ ^feature/* || $lastTag =~ ^release/* || $lastTag =~ ^hotfix/* || $lastTag == "trunk" ]]; then
-  git commit --allow-empty -m "${TRAVIS_COMMIT_MESSAGE}"
+    git commit --allow-empty -m "${TRAVIS_COMMIT_MESSAGE}"
 else
-  git commit -m "Release ${lastTag}"
-   # Tag the commit.
-  git tag ${lastTag}
+    git commit -m "Release ${lastTag}"
+    # Tag the commit.
+    lastTag=$(echo $lastTag | sed 's/^\([0-9]\+\.[0-9]\+\)$/\1.0/')
+    git tag ${lastTag}
 fi
 
 # Push to remote.

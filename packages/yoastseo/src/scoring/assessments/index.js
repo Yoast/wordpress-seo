@@ -1,4 +1,5 @@
 import FleschReadingEaseAssessment from "./readability/fleschReadingEaseAssessment";
+import ListAssessment from "./readability/ListAssessment";
 import ParagraphTooLongAssessment from "./readability/paragraphTooLongAssessment";
 import PassiveVoiceAssessment from "./readability/passiveVoiceAssessment";
 import SentenceBeginningsAssessment from "./readability/sentenceBeginningsAssessment";
@@ -21,13 +22,15 @@ import PageTitleWidthAssessment from "./seo/PageTitleWidthAssessment";
 import SingleH1Assessment from "./seo/SingleH1Assessment";
 import SubheadingsKeywordAssessment from "./seo/SubHeadingsKeywordAssessment";
 import TextCompetingLinksAssessment from "./seo/TextCompetingLinksAssessment";
-import TextImagesAssessment from "./seo/TextImagesAssessment";
 import TextLengthAssessment from "./seo/TextLengthAssessment";
 import TitleKeywordAssessment from "./seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./seo/UrlKeywordAssessment";
+import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
+import ImageCountAssessment from "./seo/ImageCountAssessment";
 
 const readability = {
 	FleschReadingEaseAssessment,
+	ListAssessment,
 	ParagraphTooLongAssessment,
 	PassiveVoiceAssessment,
 	SentenceBeginningsAssessment,
@@ -52,10 +55,11 @@ const seo = {
 	SingleH1Assessment,
 	SubheadingsKeywordAssessment,
 	TextCompetingLinksAssessment,
-	TextImagesAssessment,
 	TextLengthAssessment,
 	TitleKeywordAssessment,
 	UrlKeywordAssessment,
+	ImageKeyphraseAssessment,
+	ImageCountAssessment,
 };
 
 export {

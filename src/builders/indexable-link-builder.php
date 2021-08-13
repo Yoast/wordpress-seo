@@ -303,11 +303,19 @@ class Indexable_Link_Builder {
 		}
 
 		if ( $is_image && $model->target_post_id ) {
-			list( , $width, $height ) = \wp_get_attachment_image_src( $model->target_post_id, 'full' );
+			$file = \get_attached_file( $model->target_post_id );
+			if ( $file ) {
+				list( , $width, $height ) = \wp_get_attachment_image_src( $model->target_post_id, 'full' );
 
-			$model->width  = $width;
-			$model->height = $height;
-			$model->size   = \filesize( \get_attached_file( $model->target_post_id ) );
+				$model->width  = $width;
+				$model->height = $height;
+				$model->size   = \filesize( $file );
+			}
+			else {
+				$model->width  = 0;
+				$model->height = 0;
+				$model->size   = 0;
+			}
 		}
 
 		if ( $model->target_indexable_id ) {

@@ -2,12 +2,15 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
+use Brain\Monkey\Hook\Exception\InvalidHookArgument;
+use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Limited_Indexing_Action_Interface;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast_Notification_Center;
@@ -39,46 +42,11 @@ class Indexing_Helper {
 	protected $notification_center;
 
 	/**
-	 * The post indexing action.
+	 * The indexation actions.
 	 *
-	 * @var Indexable_Post_Indexation_Action
+	 * @var Indexation_Action_Interface[]|Limited_Indexing_Action_Interface[]
 	 */
-	protected $post_indexation;
-
-	/**
-	 * The term indexing action.
-	 *
-	 * @var Indexable_Term_Indexation_Action
-	 */
-	protected $term_indexation;
-
-	/**
-	 * The post type archive indexing action.
-	 *
-	 * @var Indexable_Post_Type_Archive_Indexation_Action
-	 */
-	protected $post_type_archive_indexation;
-
-	/**
-	 * The post link indexing action.
-	 *
-	 * @var Post_Link_Indexing_Action
-	 */
-	protected $post_link_indexing_action;
-
-	/**
-	 * The term link indexing action.
-	 *
-	 * @var Term_Link_Indexing_Action
-	 */
-	protected $term_link_indexing_action;
-
-	/**
-	 * Represents the general indexing.
-	 *
-	 * @var Indexable_General_Indexation_Action
-	 */
-	protected $general_indexation;
+	protected $indexing_actions;
 
 	/**
 	 * Indexing_Helper constructor.
@@ -117,12 +85,14 @@ class Indexing_Helper {
 		Post_Link_Indexing_Action $post_link_indexing_action,
 		Term_Link_Indexing_Action $term_link_indexing_action
 	) {
-		$this->post_indexation              = $post_indexation;
-		$this->term_indexation              = $term_indexation;
-		$this->post_type_archive_indexation = $post_type_archive_indexation;
-		$this->general_indexation           = $general_indexation;
-		$this->post_link_indexing_action    = $post_link_indexing_action;
-		$this->term_link_indexing_action    = $term_link_indexing_action;
+		$this->indexing_actions = [
+			$post_indexation,
+			$term_indexation,
+			$post_type_archive_indexation,
+			$general_indexation,
+			$post_link_indexing_action,
+			$term_link_indexing_action,
+		];
 	}
 
 	/**
@@ -240,12 +210,11 @@ class Indexing_Helper {
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_unindexed_count() {
-		$unindexed_count  = $this->post_indexation->get_total_unindexed();
-		$unindexed_count += $this->term_indexation->get_total_unindexed();
-		$unindexed_count += $this->general_indexation->get_total_unindexed();
-		$unindexed_count += $this->post_type_archive_indexation->get_total_unindexed();
-		$unindexed_count += $this->post_link_indexing_action->get_total_unindexed();
-		$unindexed_count += $this->term_link_indexing_action->get_total_unindexed();
+		$unindexed_count = 0;
+
+		foreach ( $this->indexing_actions as $indexing_action ) {
+			$unindexed_count += $indexing_action->get_total_unindexed();
+		}
 
 		return $unindexed_count;
 	}
@@ -256,11 +225,58 @@ class Indexing_Helper {
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_filtered_unindexed_count() {
+		$unindexed_count = $this->get_unindexed_count();
+
 		/**
 		 * Filter: 'wpseo_indexing_get_unindexed_count' - Allow changing the amount of unindexed objects.
 		 *
 		 * @param int $unindexed_count The amount of unindexed objects.
 		 */
-		return \apply_filters( 'wpseo_indexing_get_unindexed_count', $this->get_unindexed_count() );
+		return \apply_filters( 'wpseo_indexing_get_unindexed_count', $unindexed_count );
+	}
+
+	/**
+	 * Returns a limited number of unindexed objects.
+	 *
+	 * @param int $limit Limit the number of unindexed objects that are counted.
+	 *
+	 * @return int The total number of unindexed objects.
+	 */
+	public function get_limited_unindexed_count( $limit ) {
+		$unindexed_count = 0;
+
+		foreach ( $this->indexing_actions as $indexing_action ) {
+			$unindexed_count += $indexing_action->get_limited_unindexed_count( $limit - $unindexed_count + 1 );
+			if ( $unindexed_count > $limit ) {
+				return $unindexed_count;
+			}
+		}
+
+		return $unindexed_count;
+	}
+
+	/**
+	 * Returns the total number of unindexed objects and applies a filter for third party integrations.
+	 *
+	 * @param int $limit Limit the number of unindexed objects that are counted.
+	 *
+	 * @return int The total number of unindexed objects.
+	 */
+	public function get_limited_filtered_unindexed_count( $limit ) {
+		$unindexed_count = $this->get_limited_unindexed_count( $limit );
+
+		if ( $unindexed_count > $limit ) {
+			return $unindexed_count;
+		}
+
+		/**
+		 * Filter: 'wpseo_indexing_get_limited_unindexed_count' - Allow changing the amount of unindexed objects,
+		 * and allow for a maximum number of items counted to improve performance.
+		 *
+		 * @param int       $unindexed_count The amount of unindexed objects.
+		 * @param int|false $limit           Limit the number of unindexed objects that need to be counted.
+		 *                                   False if it doesn't need to be limited.
+		 */
+		return \apply_filters( 'wpseo_indexing_get_limited_unindexed_count', $unindexed_count, $limit );
 	}
 }

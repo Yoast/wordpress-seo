@@ -139,24 +139,26 @@ class WP_Robots_Integration implements Integration_Interface {
 	 * @return array The filtered robots.
 	 */
 	protected function enforce_robots_congruence( $robots ) {
-		if ( isset( $robots['nofollow'] ) ) {
+		if ( ! empty( $robots['nofollow'] ) ) {
 			$robots['follow'] = null;
 		}
-		if ( isset( $robots['noarchive'] ) ) {
+		if ( ! empty( $robots['noarchive'] ) ) {
 			$robots['archive'] = null;
 		}
-		if ( isset( $robots['noimageindex'] ) ) {
+		if ( ! empty( $robots['noimageindex'] ) ) {
 			$robots['imageindex'] = null;
 
-			// max-image-preview should be to none when noimageindex is present.
+			// `max-image-preview` should set be to `none` when `noimageindex` is present.
+			// Using `isset` rather than `! empty` here so that in the rare case of `max-image-preview`
+			// being equal to an empty string due to filtering, its value would still be set to `none`.
 			if ( isset( $robots['max-image-preview'] ) ) {
 				$robots['max-image-preview'] = 'none';
 			}
 		}
-		if ( isset( $robots['nosnippet'] ) ) {
+		if ( ! empty( $robots['nosnippet'] ) ) {
 			$robots['snippet'] = null;
 		}
-		if ( isset( $robots['noindex'] ) ) {
+		if ( ! empty( $robots['noindex'] ) ) {
 			$robots['index']             = null;
 			$robots['imageindex']        = null;
 			$robots['noimageindex']      = null;

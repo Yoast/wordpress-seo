@@ -42,7 +42,6 @@ describe( "running assessments in the assessor", function() {
 		expect( assessments ).toEqual( [
 			"introductionKeyword",
 			"keyphraseLength",
-			"textImages",
 		] );
 	} );
 
@@ -54,7 +53,6 @@ describe( "running assessments in the assessor", function() {
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionKeyword",
-			"textImages",
 		] );
 	} );
 
@@ -73,7 +71,6 @@ describe( "running assessments in the assessor", function() {
 			"introductionKeyword",
 			"keyphraseLength",
 			"keywordDensity",
-			"textImages",
 		] );
 	} );
 } );
