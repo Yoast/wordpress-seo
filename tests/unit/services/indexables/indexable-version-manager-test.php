@@ -56,7 +56,6 @@ class Indexable_Version_Manager_Test extends TestCase {
 	 * @covers ::register_routes
 	 */
 	public function test_get_versions() {
-
 		$versions = $this->instance->get_version_by_type();
 
 		$this->assertEquals( 6, \count( $versions ) );
@@ -71,12 +70,12 @@ class Indexable_Version_Manager_Test extends TestCase {
 	/**
 	 * Tests the indexable_needs_upgrade route for a low indexable version.
 	 *
+	 * @covers ::get_version_by_type
 	 * @covers ::indexable_needs_upgrade
 	 */
 	public function test_needs_upgrade_if_Indexable_version_too_low() {
 		// Arrange.
 		$versions = $this->instance->get_version_by_type();
-
 		// Force lower version; this unit test updates automatically with newer versions.
 		$this->setup_indexable( 'post', $versions[ 'post' ] - 1 );
 
@@ -90,13 +89,12 @@ class Indexable_Version_Manager_Test extends TestCase {
 	/**
 	 * Tests the indexable_needs_upgrade route for an equal indexable version.
 	 *
+	 * @covers ::get_version_by_type
 	 * @covers ::indexable_needs_upgrade
 	 */
 	public function test_needs_upgrade_if_Indexable_version_same() {
 		// Arrange.
 		$versions = $this->instance->get_version_by_type();
-
-
 		// Force identical version; this unit test updates automatically with newer versions.
 		$this->setup_indexable( 'post', $versions[ 'post' ] );
 
@@ -115,9 +113,25 @@ class Indexable_Version_Manager_Test extends TestCase {
 	public function test_needs_upgrade_if_Indexable_version_higher() {
 		// Arrange.
 		$versions = $this->instance->get_version_by_type();
-
 		// Force higher version; this unit test updates automatically with newer versions.
 		$this->setup_indexable( 'post', $versions[ 'post' ] + 1 );
+
+		// Act.
+		$result = $this->instance->indexable_needs_upgrade( $this->indexable );
+
+		// Assert.
+		$this->assertFalse( $result );
+	}
+
+	/**
+	 * Tests the indexable_needs_upgrade route for an unknown indexable type.
+	 *
+	 * @covers ::indexable_needs_upgrade
+	 */
+	public function test_needs_upgrade_if_Indexable_type_unknown() {
+		// Arrange.
+		// Use an unknown object type so that the version cannot be determined.
+		$this->setup_indexable( 'this object type does not exist', 1 );
 
 		// Act.
 		$result = $this->instance->indexable_needs_upgrade( $this->indexable );

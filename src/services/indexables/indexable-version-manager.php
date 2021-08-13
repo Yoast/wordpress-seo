@@ -59,7 +59,7 @@ class Indexable_Version_Manager {
 	 * @return boolean True if the given version is older than the current latest version.
 	 */
 	public function indexable_needs_upgrade( $indexable ) {
-		if ( ! $indexable ) {
+		if ( ! $indexable || ! is_subclass_of( $indexable, Indexable::class ) ) {
 			return false;
 		}
 
@@ -78,7 +78,7 @@ class Indexable_Version_Manager {
 		$versions =  $this->get_version_by_type();
 
 		if ( ! \array_key_exists( $object_type, $versions ) ) {
-			return 0;
+			return false;
 		}
 
 		// If the indexable's version is below the current version, that indexable needs updating.
