@@ -9,18 +9,20 @@ use Yoast\WP\SEO\Models\Indexable;
  */
 class Indexable_Version_Manager {
 
+	const DEFAULT_INDEXABLE_VERSION = 1;
+
 	/**
 	 * The list of indexable builder versions defined by Yoast SEO Free.
 	 *
 	 * @var array
 	 */
 	protected $indexable_versions_by_type = [
-		'post' => 1,
-		'term' => 1,
-		'link' => 1,
-		'general' => 1,
-		'post_link' => 1,
-		'term_link' => 1,
+		'general' => self::DEFAULT_INDEXABLE_VERSION,
+		'post' => self::DEFAULT_INDEXABLE_VERSION,
+		'post_type_archive' => self::DEFAULT_INDEXABLE_VERSION,
+		'term' => self::DEFAULT_INDEXABLE_VERSION,
+		'post_link' => self::DEFAULT_INDEXABLE_VERSION,
+		'term_link' => self::DEFAULT_INDEXABLE_VERSION,
 	];
 
 	/**
@@ -37,13 +39,13 @@ class Indexable_Version_Manager {
 	 *
 	 * @param $object_type string The Indexable type for which you want to know the most recent version.
 	 *
-	 * @return int The most recent version number for the type, or 0 if the version doesn't exist.
+	 * @return int The most recent version number for the type, or 1 if the version doesn't exist.
 	 */
 	public function get_latest_version_for_type( $object_type ) {
-		$versions =  $this->get_version_by_type();
+		$versions = $this->get_version_by_type();
 
 		if ( ! \array_key_exists( $object_type, $versions ) ) {
-			return 0;
+			return self::DEFAULT_INDEXABLE_VERSION;
 		}
 
 		return $versions[ $object_type ];
@@ -54,7 +56,7 @@ class Indexable_Version_Manager {
 	 *
 	 * @param $indexable Indexable The indexable to check.
 	 *
-	 * @return boolean
+	 * @return boolean True if the given version is older than the current latest version.
 	 */
 	public function indexable_needs_upgrade( $indexable ) {
 		if ( ! $indexable ) {
@@ -65,12 +67,12 @@ class Indexable_Version_Manager {
 	}
 
 	/**
-	 * Determines if an indexable version for the type is lower than the builder for that indexable type.
+	 * Determines if an indexable version for the type is lower than the current version for that indexable type.
 	 *
 	 * @param $object_type string The indexable's object type.
 	 * @param $indexable_version int The indexable's version.
 	 *
-	 * @return boolean
+	 * @return boolean True if the given version is older than the current latest version.
 	 */
 	public function needs_upgrade( $object_type, $indexable_version ) {
 		$versions =  $this->get_version_by_type();
