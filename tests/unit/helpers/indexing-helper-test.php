@@ -180,13 +180,13 @@ class Indexing_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests start.
+	 * Tests prepare.
 	 *
-	 * @covers ::start
+	 * @covers ::prepare
 	 * @covers ::set_first_time
 	 * @covers ::set_started
 	 */
-	public function test_start() {
+	public function test_prepare() {
 		$this->options_helper
 			->expects( 'set' )
 			->once()
@@ -205,17 +205,17 @@ class Indexing_Helper_Test extends TestCase {
 			->once()
 			->with( 'indexing_started', $start_time );
 
-		$this->instance->start();
+		$this->instance->prepare();
 	}
 
 	/**
-	 * Tests finish.
+	 * Tests complete.
 	 *
-	 * @covers ::finish
+	 * @covers ::complete
 	 * @covers ::set_started
 	 * @covers ::set_reason
 	 */
-	public function test_finish() {
+	public function test_complete() {
 		$this->options_helper
 			->expects( 'set' )
 			->once()
@@ -231,7 +231,7 @@ class Indexing_Helper_Test extends TestCase {
 			->once()
 			->with( Indexing_Notification_Integration::NOTIFICATION_ID );
 
-		$this->instance->finish();
+		$this->instance->complete();
 	}
 
 	/**

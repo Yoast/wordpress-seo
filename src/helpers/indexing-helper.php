@@ -97,7 +97,9 @@ class Indexing_Helper {
 
 	/**
 	 * Sets several database options when the indexing process is started.
+	 *
 	 * @deprecated 17.1 method was renamed to prepare for internal consistency.
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -114,11 +116,16 @@ class Indexing_Helper {
 		$this->set_first_time( false );
 		$this->set_started( $this->date_helper->current_time() );
 		$this->remove_indexing_notification();
+		// Do not set_reason here; if the process is cancelled, the reason to start indexing is still valid.
 	}
 
 	/**
 	 * Sets several database options when the indexing process is finished.
+	 *
 	 * @deprecated 17.1 method was renamed to complete for internal consistency.
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	public function finish() {
 		$this->complete();
