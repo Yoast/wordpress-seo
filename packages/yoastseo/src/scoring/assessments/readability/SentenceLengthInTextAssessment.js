@@ -1,3 +1,4 @@
+import { isFeatureEnabled } from "@yoast/feature-flag";
 import { map, merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -51,6 +52,11 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {AssessmentResult} The Assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
+		// Check if the Farsi feature is enabled and return the default result if it isn't.
+		if ( researcher.getConfig( "language" ) === "fa" && ! isFeatureEnabled( "FARSI_SUPPORT" ) ) {
+			return new AssessmentResult();
+		}
+
 		const sentences = researcher.getResearch( "countSentencesFromText" );
 		if ( researcher.getConfig( "sentenceLength" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
