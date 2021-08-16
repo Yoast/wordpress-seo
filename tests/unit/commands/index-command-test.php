@@ -10,6 +10,8 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
+use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Commands\Index_Command;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -53,6 +55,20 @@ class Index_Command_Test extends TestCase {
 	private $general_indexation_action;
 
 	/**
+	 * The post link indexation action.
+	 *
+	 * @var Post_Link_Indexing_Action
+	 */
+	private $post_link_indexation_action;
+
+	/**
+	 * The term link indexation action.
+	 *
+	 * @var Term_Link_Indexing_Action
+	 */
+	private $term_link_indexation_action;
+
+	/**
 	 * The complete indexation action.
 	 *
 	 * @var Indexable_Indexing_Complete_Action
@@ -83,6 +99,8 @@ class Index_Command_Test extends TestCase {
 		$this->term_indexation_action              = Mockery::mock( Indexable_Term_Indexation_Action::class );
 		$this->post_type_archive_indexation_action = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
 		$this->general_indexation_action           = Mockery::mock( Indexable_General_Indexation_Action::class );
+		$this->post_link_indexation_action         = Mockery::mock( Post_Link_Indexing_Action::class );
+		$this->term_link_indexation_action         = Mockery::mock( Term_Link_Indexing_Action::class );
 		$this->complete_indexation_action          = Mockery::mock( Indexable_Indexing_Complete_Action::class );
 		$this->prepare_indexing_action             = Mockery::mock( Indexing_Prepare_Action::class );
 
@@ -92,7 +110,9 @@ class Index_Command_Test extends TestCase {
 			$this->post_type_archive_indexation_action,
 			$this->general_indexation_action,
 			$this->complete_indexation_action,
-			$this->prepare_indexing_action
+			$this->prepare_indexing_action,
+			$this->post_link_indexation_action,
+			$this->term_link_indexation_action
 		);
 	}
 
@@ -136,6 +156,8 @@ class Index_Command_Test extends TestCase {
 			$this->term_indexation_action,
 			$this->post_type_archive_indexation_action,
 			$this->general_indexation_action,
+			$this->post_link_indexation_action,
+			$this->term_link_indexation_action,
 		];
 
 		foreach ( $indexation_actions as $indexation_action ) {
@@ -152,12 +174,12 @@ class Index_Command_Test extends TestCase {
 
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
 		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
-			->times( 4 )
+			->times( 6 )
 			->with( Mockery::type( 'string' ), 30 )
 			->andReturn( $progress_bar_mock );
-		$progress_bar_mock->expects( 'tick' )->times( 4 )->with( 25 );
-		$progress_bar_mock->expects( 'tick' )->times( 4 )->with( 5 );
-		$progress_bar_mock->expects( 'finish' )->times( 4 );
+		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 25 );
+		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 5 );
+		$progress_bar_mock->expects( 'finish' )->times( 6 );
 
 		$this->instance->index();
 	}
@@ -175,6 +197,8 @@ class Index_Command_Test extends TestCase {
 			$this->term_indexation_action,
 			$this->post_type_archive_indexation_action,
 			$this->general_indexation_action,
+			$this->post_link_indexation_action,
+			$this->term_link_indexation_action,
 		];
 
 		foreach ( $indexation_actions as $indexation_action ) {
@@ -191,12 +215,12 @@ class Index_Command_Test extends TestCase {
 
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
 		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
-			->times( 4 )
+			->times( 6 )
 			->with( Mockery::type( 'string' ), 30 )
 			->andReturn( $progress_bar_mock );
-		$progress_bar_mock->expects( 'tick' )->times( 4 )->with( 25 );
-		$progress_bar_mock->expects( 'tick' )->times( 4 )->with( 5 );
-		$progress_bar_mock->expects( 'finish' )->times( 4 );
+		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 25 );
+		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 5 );
+		$progress_bar_mock->expects( 'finish' )->times( 6 );
 
 		$cli = Mockery::mock( 'overload:WP_CLI' );
 		$cli
@@ -273,6 +297,8 @@ class Index_Command_Test extends TestCase {
 			$this->term_indexation_action,
 			$this->post_type_archive_indexation_action,
 			$this->general_indexation_action,
+			$this->post_link_indexation_action,
+			$this->term_link_indexation_action,
 		];
 
 		foreach ( $indexation_actions as $indexation_action ) {
@@ -294,12 +320,12 @@ class Index_Command_Test extends TestCase {
 
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
 		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
-			->times( 8 )
+			->times( 12 )
 			->with( Mockery::type( 'string' ), 30 )
 			->andReturn( $progress_bar_mock );
-		$progress_bar_mock->expects( 'tick' )->times( 8 )->with( 25 );
-		$progress_bar_mock->expects( 'tick' )->times( 8 )->with( 5 );
-		$progress_bar_mock->expects( 'finish' )->times( 8 );
+		$progress_bar_mock->expects( 'tick' )->times( 12 )->with( 25 );
+		$progress_bar_mock->expects( 'tick' )->times( 12 )->with( 5 );
+		$progress_bar_mock->expects( 'finish' )->times( 12 );
 
 		$this->instance->index( null, [ 'network' => true ] );
 	}

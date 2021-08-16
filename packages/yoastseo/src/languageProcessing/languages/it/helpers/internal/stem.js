@@ -354,6 +354,13 @@ export default function stem( word, morphologyData ) {
 	if ( irregularPluralNounsAndAdjectives ) {
 		return irregularPluralNounsAndAdjectives;
 	}
+
+	// Check the exception list for irregular verbs listed in full forms.
+	const irregularVerbs = checkWordInFullFormExceptions( word, morphologyData.irregularVerbs );
+	if ( irregularVerbs ) {
+		return irregularVerbs;
+	}
+
 	// Start word pre-processing.
 	word = preProcess( word, morphologyData );
 
@@ -412,6 +419,8 @@ export default function stem( word, morphologyData ) {
 	// Normalize digraphs ch/gh.
 	word = normalizeDigraphs( word, morphologyData, rvText );
 
+	// Lowercase the word before canonicalizing stem
+	word = word.toLowerCase();
 
 	// Returns a canonical stem for words with multiple stems (e.g., verbs: chiudere–chiuso; diminutives: ovetto-uovo).
 	const canonicalStem = canonicalizeStem( word, morphologyData.stemsThatBelongToOneWord );

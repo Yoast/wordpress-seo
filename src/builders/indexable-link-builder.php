@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 
 /**
- * Post link builder.
+ * Indexable link builder.
  */
 class Indexable_Link_Builder {
 
@@ -51,7 +51,7 @@ class Indexable_Link_Builder {
 	protected $indexable_repository;
 
 	/**
-	 * Post_Link_Builder constructor.
+	 * Indexable_Link_Builder constructor.
 	 *
 	 * @param SEO_Links_Repository $seo_links_repository The SEO links repository.
 	 * @param Url_Helper           $url_helper           The URL helper.
@@ -303,11 +303,19 @@ class Indexable_Link_Builder {
 		}
 
 		if ( $is_image && $model->target_post_id ) {
-			list( , $width, $height ) = \wp_get_attachment_image_src( $model->target_post_id, 'full' );
+			$file = \get_attached_file( $model->target_post_id );
+			if ( $file ) {
+				list( , $width, $height ) = \wp_get_attachment_image_src( $model->target_post_id, 'full' );
 
-			$model->width  = $width;
-			$model->height = $height;
-			$model->size   = \filesize( \get_attached_file( $model->target_post_id ) );
+				$model->width  = $width;
+				$model->height = $height;
+				$model->size   = \filesize( $file );
+			}
+			else {
+				$model->width  = 0;
+				$model->height = 0;
+				$model->size   = 0;
+			}
 		}
 
 		if ( $model->target_indexable_id ) {
@@ -344,7 +352,7 @@ class Indexable_Link_Builder {
 	}
 
 	/**
-	 * Updatates the link counts for related indexables.
+	 * Updates the link counts for related indexables.
 	 *
 	 * @param Indexable   $indexable The indexable.
 	 * @param SEO_Links[] $links     The link models.

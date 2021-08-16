@@ -1,11 +1,12 @@
 import FleschReadingEaseAssessment from "./readability/fleschReadingEaseAssessment";
-import ParagraphTooLongAssessment from "./readability/paragraphTooLongAssessment";
-import PassiveVoiceAssessment from "./readability/passiveVoiceAssessment";
-import SentenceBeginningsAssessment from "./readability/sentenceBeginningsAssessment";
-import SentenceLengthInTextAssessment from "./readability/sentenceLengthInTextAssessment";
-import SubheadingDistributionTooLongAssessment from "./readability/subheadingDistributionTooLongAssessment";
-import TextPresenceAssessment from "./readability/textPresenceAssessment";
-import TransitionWordsAssessment from "./readability/transitionWordsAssessment";
+import ListAssessment from "./readability/ListAssessment";
+import ParagraphTooLongAssessment from "./readability/ParagraphTooLongAssessment";
+import PassiveVoiceAssessment from "./readability/PassiveVoiceAssessment";
+import SentenceBeginningsAssessment from "./readability/SentenceBeginningsAssessment";
+import SentenceLengthInTextAssessment from "./readability/SentenceLengthInTextAssessment";
+import SubheadingDistributionTooLongAssessment from "./readability/SubheadingDistributionTooLongAssessment";
+import TextPresenceAssessment from "./readability/TextPresenceAssessment";
+import TransitionWordsAssessment from "./readability/TransitionWordsAssessment";
 import WordComplexityAssessment from "./readability/wordComplexityAssessment";
 
 import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAssessment";
@@ -21,13 +22,16 @@ import PageTitleWidthAssessment from "./seo/PageTitleWidthAssessment";
 import SingleH1Assessment from "./seo/SingleH1Assessment";
 import SubheadingsKeywordAssessment from "./seo/SubHeadingsKeywordAssessment";
 import TextCompetingLinksAssessment from "./seo/TextCompetingLinksAssessment";
-import TextImagesAssessment from "./seo/TextImagesAssessment";
 import TextLengthAssessment from "./seo/TextLengthAssessment";
 import TitleKeywordAssessment from "./seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./seo/UrlKeywordAssessment";
+import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
+import ImageCountAssessment from "./seo/ImageCountAssessment";
+import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
 
 const readability = {
 	FleschReadingEaseAssessment,
+	ListAssessment,
 	ParagraphTooLongAssessment,
 	PassiveVoiceAssessment,
 	SentenceBeginningsAssessment,
@@ -52,10 +56,12 @@ const seo = {
 	SingleH1Assessment,
 	SubheadingsKeywordAssessment,
 	TextCompetingLinksAssessment,
-	TextImagesAssessment,
 	TextLengthAssessment,
 	TitleKeywordAssessment,
 	UrlKeywordAssessment,
+	ImageKeyphraseAssessment,
+	ImageCountAssessment,
+	ImageAltTagsAssessment,
 };
 
 export {

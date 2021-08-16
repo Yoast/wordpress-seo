@@ -12,7 +12,8 @@ import Assessor from "../assessor";
 import SEOAssessor from "../seoAssessor";
 import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeyword from "../assessments/seo/SubHeadingsKeywordAssessment";
-import TextImages from "../assessments/seo/TextImagesAssessment";
+import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
+import ImageCount from "../assessments/seo/ImageCountAssessment";
 import TextLength from "../assessments/seo/TextLengthAssessment";
 import OutboundLinks from "../assessments/seo/OutboundLinksAssessment";
 import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
@@ -45,14 +46,14 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 		} ),
 		new SubheadingsKeyword(),
 		new TextCompetingLinksAssessment(),
-		new TextImages( {
+		new ImageKeyphrase( {
 			scores: {
-				noImages: 3,
 				withAltNonKeyword: 3,
 				withAlt: 3,
 				noAlt: 3,
 			},
 		} ),
+		new ImageCount(),
 		new TextLength( {
 			recommendedMinimum: 900,
 			slightlyBelowMinimum: 400,

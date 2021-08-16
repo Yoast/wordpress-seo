@@ -18,6 +18,13 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_unindexed_term_link_count';
 
 	/**
+	 * The transient cache key for limited counts.
+	 *
+	 * @var string
+	 */
+	const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
+
+	/**
 	 * The post type helper.
 	 *
 	 * @var Taxonomy_Helper
@@ -43,8 +50,9 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	 * @return array Objects to be indexed.
 	 */
 	protected function get_objects() {
-		$query = $this->get_query( false, $this->get_limit() );
+		$query = $this->get_select_query( $this->get_limit() );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$terms = $this->wpdb->get_results( $query );
 
 		return \array_map(
@@ -60,40 +68,60 @@ class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 	}
 
 	/**
-	 * Queries the database for unindexed term IDs.
+	 * Builds a query for counting the number of unindexed term links.
 	 *
-	 * @param bool $count Whether or not it should be a count query.
-	 * @param int  $limit The maximum number of term IDs to return.
-	 *
-	 * @return string The query.
+	 * @return string The prepared query string.
 	 */
-	protected function get_query( $count, $limit = 1 ) {
+	protected function get_count_query() {
 		$public_taxonomies = $this->taxonomy_helper->get_public_taxonomies();
 		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 		$indexable_table   = Model::get_table_name( 'Indexable' );
-		$replacements      = $public_taxonomies;
 
-		$select = 'T.term_id, T.description';
-		if ( $count ) {
-			$select = 'COUNT(T.term_id)';
-		}
-		$limit_query = '';
-		if ( ! $count ) {
-			$limit_query    = 'LIMIT %d';
-			$replacements[] = $limit;
-		}
-
+		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
 		return $this->wpdb->prepare(
-			"SELECT $select
+			"
+			SELECT COUNT(T.term_id)
 			FROM {$this->wpdb->term_taxonomy} AS T
 			LEFT JOIN $indexable_table AS I
 				ON T.term_id = I.object_id
 				AND I.object_type = 'term'
 				AND I.link_count IS NOT NULL
 			WHERE I.object_id IS NULL
-				AND T.taxonomy IN ($placeholders)
-			$limit_query
-			",
+				AND T.taxonomy IN ($placeholders)",
+			$public_taxonomies
+		);
+	}
+
+	/**
+	 * Builds a query for selecting the ID's of unindexed term links.
+	 *
+	 * @param int|false $limit The maximum number of term link IDs to return.
+	 *
+	 * @return string The prepared query string.
+	 */
+	protected function get_select_query( $limit = false ) {
+		$public_taxonomies = $this->taxonomy_helper->get_public_taxonomies();
+		$indexable_table   = Model::get_table_name( 'Indexable' );
+		$replacements      = $public_taxonomies;
+
+		$limit_query = '';
+		if ( $limit ) {
+			$limit_query    = 'LIMIT %d';
+			$replacements[] = $limit;
+		}
+
+		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
+		return $this->wpdb->prepare(
+			"
+			SELECT T.term_id, T.description
+			FROM {$this->wpdb->term_taxonomy} AS T
+			LEFT JOIN $indexable_table AS I
+				ON T.term_id = I.object_id
+				AND I.object_type = 'term'
+				AND I.link_count IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND T.taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")
+			$limit_query",
 			$replacements
 		);
 	}

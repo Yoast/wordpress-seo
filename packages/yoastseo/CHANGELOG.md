@@ -5,6 +5,21 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ## 1.92.0
 ### Enhancements
+* Adds correct shortlinks to product assessors.
+* Adjusts recommended text length values for non-cornerstone collections pages so that they are lower than the cornerstone ones.
+* Adds a keyphrase distribution assessment to all relevant product-related assessors.
+* Adds assessors for collection pages and sets them in the `apps/content-analysis/src/analysis.worker.js` file.
+* Adds assessors for blog posts and pages, and sets them in `analysis.worker` in the content analysis app.
+* Adds shortlinks to the feedback text of the Lists assessment.
+* Creates `ImageAltTagsAssessment` for product pages.
+* Adds custom configuration for the keyphrase length assessment when used for product pages.
+* Adds language-specific configuration parameters for German, Dutch and Swedish.
+* Refactors the `paragraphTooLong` assessment into a class and adds custom config for the assessment when used for product pages.
+* Refactors the way that the right `config` is set for the sentence length assessment.
+* Passes appropriate `config` to the sentence length assessment class in the product page content assessors.
+* Adds an extra check in the `SubheadingsDistributionTooLong` assessment's applicability where we can adjust whether the assessment should appear in a short text analysis or not.
+* Adds assessors for store blogs.
+* Adds functionality for the webworker to load custom assessors for the SEO analysis (regular/cornerstone), the SEO analysis for related keyphrases (regular/cornerstone), and the readability analysis (regular/cornerstone).
 * Implements the consecutive sentence beginnings assessment for Slovak to ensure variety in a text.
 * Implements the passive voice assessment for Slovak.
 * Implements the transition words assessment for Slovak.
@@ -33,6 +48,22 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Fixes the stopwords list for Czech by adding the correct stopwords. Adds punctuation marks as sentence breakers.
 * Excludes Table of Contents from the analysis.
 * Filters out table block content from the `getSentenceBeginnings` research.
+* Makes `transitionWordsAssessment` not applicable when the text has less than 200 words.
+* Adds shortlinks to the feedback text of the Images and Image Keyphrase assessments.
+* Adds text length score boundaries config for product pages to the product page SEO assessors.
+* Adds custom config for `TitleWidth` assessment for product pages and adds extra feedback string in the assessment file for when short title width is not penalized with a bad score.
+* Creates a research file that checks if there are lists in the text, and an assessment file that returns a red bullet if there is no list and a green bullet if there is one.
+* Adds assessors for product pages.
+* Removes the outbound links and internal links assessments from the SEO analysis on product pages.
+* Removes the Flesch Reading Ease assessment and the consecutive sentences assessment from the readability analysis on product pages.
+* Includes videos in the `ImageCount` analysis when the `countVideos` value is true.
+* Passes custom configuration for the images assessment for product pages
+* Splits the `TextImagesAssessment` into two, `KeyphraseInImageTextAssessment` and `ImageCountAssessment`.
+
+### Other
+* Removes the Flesch Reading Ease assessment from the blog posts and pages assessors.
+* Removes the `Images` assessment from related keyphrase analysis in `productPages`.
+* Refactors the transition words, passive voice, text presence, and sentence beginnings assessments into classes.
 
 ## 1.89.0 January 25th, 2021
 ### Enhancements

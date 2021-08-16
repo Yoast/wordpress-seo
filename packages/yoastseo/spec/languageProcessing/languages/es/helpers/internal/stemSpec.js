@@ -17,6 +17,9 @@ const wordsToStem = [
 	[ "luces", "luz" ],
 	[ "voz", "voz" ],
 	[ "voces", "voz" ],
+	// Input an adjective on -ano
+	[ "americano", "american" ],
+	[ "republicana", "republican" ],
 	// Input a word that ends with a clitic pronoun and is on the list of words that end like pronouns suffixes but are not verbs.
 	[ "anime", "anim" ],
 	[ "abuela", "abuel" ],
@@ -87,7 +90,7 @@ const wordsToStem = [
 	[ "alarguemos", "alarg" ],
 	// Input a word that looks like a verb form but it's not.
 	// [ "cabalgada", "cabalgad" ],
-	// [ "abacerías", "abaceri" ],
+	[ "abacería", "abaceri" ],
 	// Input a word that looks like a verb form and is on the list of stems that belong together.
 	[ "san", "san" ],
 	[ "virgen", "virgen" ],
@@ -126,7 +129,7 @@ const wordsToStem = [
 	// Exceptions in superlatives.
 	[ "habilísima", "habil" ],
 	[ "majérrimo", "majerrim" ],
-	[ "cérrimo", "cerrim" ],
+	[ "cérrimo", "cérrim" ],
 	[ "gérrimo", "gerrim" ],
 	[ "torísimo", "torisim" ],
 	[ "físima", "fisim" ],
@@ -302,7 +305,7 @@ const wordsToStem = [
 	// Non-verb ending in -aste
 	[ "contraste", "contrast" ],
 	[ "contrastes", "contrast" ],
-	// Non-verb ending in -ía
+	// Non-verb ending in -ía.
 	[ "policía", "polici" ],
 	[ "policías", "polici" ],
 	// Non-verb ending in -an
@@ -418,6 +421,30 @@ const wordsToStem = [
 	// Words that looks like it ends in a valid -mente suffix but do not
 	[ "demente", "dement" ],
 	[ "clemente", "clement" ],
+	// Verbs that undergo stem modification.
+	// Qu -> c
+	[ "apliques", "aplic" ],
+	[ "ataquemos", "atac" ],
+	// Qu -> c + ue -> o
+	[ "trueque", "trueque" ],
+	// Ij -> g
+	[ "dirijo", "dirig" ],
+	[ "exijamos", "exig" ],
+	// Zc -> c
+	[ "conozco", "conoc" ],
+	[ "traduzcamos", "traduc" ],
+	// I -> e
+	[ "sintió", "sent" ],
+	[ "sugiriese", "suger" ],
+	// U -> o
+	[ "murieron", "mor" ],
+	[ "durmió", "dorm" ],
+	// Ue -> o
+	[ "recuerdan", "record" ],
+	[ "resuelves", "resolv" ],
+	// Ie -> e
+	[ "cierno", "cern" ],
+	[ "aciertas", "acert" ],
 ];
 
 const paradigms = [
@@ -461,3 +488,4 @@ describe( "Test to make sure all forms of a paradigm get stemmed to the same ste
 		}
 	}
 } );
+
