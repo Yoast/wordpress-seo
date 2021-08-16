@@ -149,8 +149,7 @@ install:
   - |
     if [[ "$COVERAGE" == "1" ]]; then
       # Install phpcov so we can combine the coverage results of unit and integration tests.
-      echo 'do not require require phpunit/phpcov ^3.1'
-      # travis_retry composer require phpunit/phpcov ^3.1
+      travis_retry composer require phpunit/phpcov ^3.1
     fi
   - |
     if [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
@@ -182,7 +181,8 @@ before_script:
       fi
       PLUGIN_SLUG=$(basename $(pwd))
       export WP_DEVELOP_DIR=/tmp/wordpress/
-      git clone --depth=1 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
+      git clone --depth=1 --branch="${WP_VERSION}-branch" https://github.com/WordPress/WordPress.git /tmp/wordpress
+      # git clone --depth=1 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
       cd ..
       cp -r "$PLUGIN_SLUG" "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
       cd /tmp/wordpress/
