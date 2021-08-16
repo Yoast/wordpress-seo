@@ -80,7 +80,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @return array The filtered image.
 	 */
-	protected function filter( $image ) {
+	public function filter( $image ) {
 		/**
 		 * Filter: 'wpseo_opengraph_image' - Allow changing the Open Graph image.
 		 *
