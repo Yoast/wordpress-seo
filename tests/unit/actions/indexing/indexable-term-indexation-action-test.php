@@ -144,7 +144,6 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
-	 * @covers ::get_query
 	 */
 	public function test_get_total_unindexed_cached() {
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms' )->andReturn( '10' );
@@ -174,7 +173,6 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::index
 	 * @covers ::get_limit
-	 * @covers ::get_query
 	 */
 	public function test_index() {
 		$expected_query = "
@@ -236,7 +234,6 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::index
 	 * @covers ::get_limit
-	 * @covers ::get_query
 	 */
 	public function test_index_no_indexables_created() {
 		$expected_query = "

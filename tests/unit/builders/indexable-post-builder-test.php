@@ -681,7 +681,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests is_public for when the post status is not public.
 	 *
 	 * @covers ::is_public
-	 * @covers ::is_public_post_status
 	 */
 	public function test_is_public_post_status_is_not_public() {
 		$this->indexable->is_protected      = false;

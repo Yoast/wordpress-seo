@@ -108,7 +108,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_post_types
-	 * @covers ::get_limited_unindexed_count
 	 * @covers ::get_select_query
 	 */
 	public function test_get_limited_unindexed_count() {
@@ -149,7 +148,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
-	 * @covers ::get_query
 	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed_cached() {
@@ -182,7 +180,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
-	 * @covers ::get_query
 	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed_with_excluded_post_types() {
@@ -219,7 +216,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::index
-	 * @covers ::get_query
 	 * @covers ::get_limit
 	 * @covers ::get_post_types
 	 */
@@ -299,7 +295,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::index
-	 * @covers ::get_query
 	 * @covers ::get_limit
 	 * @covers ::get_post_types
 	 */
@@ -356,7 +351,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::index
-	 * @covers ::get_query
 	 * @covers ::get_limit
 	 * @covers ::get_post_types
 	 */
