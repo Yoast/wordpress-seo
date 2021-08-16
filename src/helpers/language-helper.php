@@ -49,12 +49,7 @@ class Language_Helper {
 	 * @return bool Whether the language has function word support.
 	 */
 	public function has_function_word_support( $language ) {
-		$supported_languages = [ 'en', 'de', 'nl', 'fr', 'es', 'it', 'pt', 'ru', 'pl', 'sv', 'id', 'he', 'ar', 'hu', 'nb', 'tr', 'cs', 'sk' ];
-
-		// If FARSI_SUPPORT feature is enabled, push Farsi to the array of the supported languages.
-		if ( $this->farsi_conditional->is_met() ) {
-			array_push( $supported_languages, 'fa' );
-		}
+		$supported_languages = [ 'en', 'de', 'nl', 'fr', 'es', 'it', 'pt', 'ru', 'pl', 'sv', 'id', 'he', 'ar', 'hu', 'nb', 'tr', 'cs', 'sk', 'fa' ];
 
 		return \in_array( $language, $supported_languages, true );
 	}
