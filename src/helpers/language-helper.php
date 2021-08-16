@@ -64,11 +64,6 @@ class Language_Helper {
 		$researcher_language = WPSEO_Language_Utils::get_language( get_locale() );
 		$supported_languages = Researcher_Languages::SUPPORTED_LANGUAGES;
 
-		// If FARSI_SUPPORT feature is enabled, push Farsi to the array of the supported languages.
-		if ( $this->farsi_conditional->is_met() ) {
-			array_push( $supported_languages, 'fa' );
-		}
-
 		if ( ! \in_array( $researcher_language, $supported_languages, true ) ) {
 			$researcher_language = 'default';
 		}
