@@ -149,7 +149,8 @@ install:
   - |
     if [[ "$COVERAGE" == "1" ]]; then
       # Install phpcov so we can combine the coverage results of unit and integration tests.
-      travis_retry composer require phpunit/phpcov ^3.1
+      echo 'do not require require phpunit/phpcov ^3.1'
+      # travis_retry composer require phpunit/phpcov ^3.1
     fi
   - |
     if [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
