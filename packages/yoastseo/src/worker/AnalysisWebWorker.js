@@ -297,18 +297,7 @@ export default class AnalysisWebWorker {
 	 */
 	register() {
 		this._scope.onmessage = this.handleMessage;
-		this._scope.analysisWorker = {
-			registerAssessment: this.registerAssessment,
-			registerParser: this.registerParser,
-			registerMessageHandler: this.registerMessageHandler,
-			refreshAssessment: this.refreshAssessment,
-			setCustomContentAssessorClass: this.setCustomContentAssessorClass,
-			setCustomCornerstoneContentAssessorClass: this.setCustomCornerstoneContentAssessorClass,
-			setCustomSEOAssessorClass: this.setCustomSEOAssessorClass,
-			setCustomCornerstoneSEOAssessorClass: this.setCustomCornerstoneSEOAssessorClass,
-			setCustomRelatedKeywordAssessorClass: this.setCustomRelatedKeywordAssessorClass,
-			setCustomCornerstoneRelatedKeywordAssessorClass: this.setCustomCornerstoneRelatedKeywordAssessorClass,
-		};
+		this._scope.analysisWorker = this;
 	}
 
 	/**
@@ -446,6 +435,7 @@ export default class AnalysisWebWorker {
 			 * For non-cornerstone content, use a custom SEO assessor if available,
 	         * otherwise use the default SEO assessor.
 			 */
+			console.log( this._CustomContentAssessorClasses[ customAnalysisType ])
 			assessor = this._CustomContentAssessorClasses[ customAnalysisType ]
 				? new this._CustomContentAssessorClasses[ customAnalysisType ](
 					this._i18n,
@@ -454,6 +444,7 @@ export default class AnalysisWebWorker {
 				: new ContentAssessor( this._i18n, this._researcher );
 		}
 
+		console.log( assessor, "assessor")
 		return assessor;
 	}
 
