@@ -205,6 +205,11 @@ class Indexing_Helper_Test extends TestCase {
 			->once()
 			->with( 'indexing_started', $start_time );
 
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->once()
+			->with( 'wpseo-reindex' );
+
 		$this->instance->prepare();
 	}
 
