@@ -2209,6 +2209,7 @@ class ORM implements \ArrayAccess {
 	public function save_many( $models ) {
 		$new_models = [];
 		$values     = [];
+		$success    = true;
 
 		foreach ( $models as $model) {
 
@@ -2226,9 +2227,24 @@ class ORM implements \ArrayAccess {
 			$values       = \array_merge( $values, $model_values );
 		}
 
-		$query = $this->build_insert_many( $new_models);
+		// We have to have maximum 1000 rows to be bulk inserted as this is the native MySQL limit for bulk INSERTs.
+		$chunk = \apply_filters( 'wpseo_bulk_insert_chunk', 1000 );
+		$chunk = ! is_int( $chunk ) ? 1000 : $chunk;
+		$chunk = ( $chunk > 1000 ) ? 1000 : ( ( $chunk <= 0 ) ? 1000 : $chunk );
+		
+		$values_chunk = $chunk * count( $model_values );
 
-		$success = self::execute( $query, $values );
+		while ( count( $new_models ) > 0 ) {
+			$models_to_use = array_slice( $new_models, 0, $chunk );
+			$values_to_use = array_slice( $values, 0, $values_chunk );
+
+			$query   = $this->build_insert_many( $models_to_use );
+			$success = $success && (bool) self::execute( $query, $values_to_use );
+
+			$new_models = array_slice( $new_models, $chunk );
+			$values     = array_slice( $values, $values_chunk );
+		}
+		
 		return $success;
 	}
 
@@ -2319,7 +2335,7 @@ class ORM implements \ArrayAccess {
 	}
 
 	/**
-	 * Builds a multiple INSERT query.
+	 * Builds a bulk INSERT query.
 	 *
 	 * @param array $models Array of model instances to be inserted.
 	 *
