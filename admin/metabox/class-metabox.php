@@ -298,6 +298,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$values['semrushIntegrationActive'] = 0;
 		}
 
+		if ( $values['wincherIntegrationActive'] && $this->post->post_type === 'attachment' ) {
+			$values['wincherIntegrationActive'] = 0;
+		}
+
 		return $values;
 	}
 

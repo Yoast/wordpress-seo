@@ -78,7 +78,7 @@ export default function SidebarFill( { settings } ) {
 				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
 					<CollapsibleCornerstone />
 				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 22 }>
+				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive && <SidebarItem renderPriority={ 22 }>
 					<WincherSEOPerformanceModal
 						location="sidebar"
 					/>

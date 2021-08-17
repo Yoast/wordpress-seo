@@ -166,6 +166,8 @@ class WPSEO_Metabox_Formatter {
 			'analysisHeadingTitle'        => __( 'Analysis', 'wordpress-seo' ),
 			'zapierIntegrationActive'     => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
 			'zapierConnectedStatus'       => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
+			'wincherIntegrationActive'    => WPSEO_Options::get( 'wincher_integration_active', true ) ? 1 : 0,
+			'wincherLoginStatus'          => WPSEO_Options::get( 'wincher_integration_active', true ) ? $this->get_wincher_login_status() : false,
 
 			/**
 			 * Filter to determine whether the PreviouslyUsedKeyword assessment should run.
@@ -266,6 +268,32 @@ class WPSEO_Metabox_Formatter {
 		}
 
 		return $semrush_client->has_valid_tokens();
+	}
+
+	/**
+	 * Checks if the user is logged in to Wincher.
+	 *
+	 * @return bool The Wincher login status.
+	 */
+	private function get_wincher_login_status() {
+		return true;
+//		try {
+//			$wincher = YoastSEO()->classes->get( Wincher_Client::class );
+//		} catch ( Empty_Property_Exception $e ) {
+//			// Return false if token is malformed (empty property).
+//			return false;
+//		}
+//
+//		// Get token (and refresh it if it's expired).
+//		try {
+//			$wincher->get_tokens();
+//		} catch ( Authentication_Failed_Exception $e ) {
+//			return false;
+//		} catch ( Empty_Token_Exception $e ) {
+//			return false;
+//		}
+//
+//		return $wincher->has_valid_tokens();
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */

@@ -174,6 +174,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'enable_metabox_insights',
 		'enable_link_suggestions',
 		'workouts',
+		'wincher_integration_active',
 	];
 
 	/**
