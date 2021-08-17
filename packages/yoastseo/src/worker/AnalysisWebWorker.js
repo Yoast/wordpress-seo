@@ -441,7 +441,6 @@ export default class AnalysisWebWorker {
 			 * For non-cornerstone content, use a custom SEO assessor if available,
 	         * otherwise use the default SEO assessor.
 			 */
-			console.log( this._CustomContentAssessorClasses[ customAnalysisType ], "custom content assessor" );
 			assessor = this._CustomContentAssessorClasses[ customAnalysisType ]
 				? new this._CustomContentAssessorClasses[ customAnalysisType ](
 					this._i18n,
@@ -450,7 +449,6 @@ export default class AnalysisWebWorker {
 				: new ContentAssessor( this._i18n, this._researcher );
 		}
 
-		console.log( assessor, "assessor" );
 		return assessor;
 	}
 
