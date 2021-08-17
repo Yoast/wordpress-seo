@@ -24,20 +24,20 @@ import KeyphraseDistribution from "../../assessments/seo/KeyphraseDistributionAs
 /**
  * Creates the Assessor
  *
- * @param {Object} i18n The i18n object used for translations.
- * @param {Object} options The options for this assessor.
- * @param {Object} options.marker The marker to pass the list of marks to.
+ * @param {object} i18n         The i18n object used for translations.
+ * @param {object} researcher   The researcher to use for the analysis.
+ * @param {Object} options      The options for this assessor.
  *
  * @constructor
  */
-const ProductCornerstoneSEOAssessor = function( i18n, options ) {
-	Assessor.call( this, i18n, options );
+const ProductCornerstoneSEOAssessor = function( i18n, researcher, options ) {
+	Assessor.call( this, i18n, researcher, options );
 	this.type = "ProductCornerstoneSEOAssessor";
 
 	this._assessments = [
 		new IntroductionKeywordAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify8" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify9" ),
+			urlTitle: createAnchorOpeningTag( options.introductionKeyphraseUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.introductionKeyphraseCTAUrl ),
 		} ),
 		new KeyphraseLengthAssessment( {
 			parameters: {
@@ -46,32 +46,32 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 				acceptableMaximum: 8,
 				acceptableMinimum: 2,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
+			urlTitle: createAnchorOpeningTag( options.keyphraseLengthUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.keyphraseLengthCTAUrl ),
 		}, true ),
 		new KeywordDensityAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify13" ),
+			urlTitle: createAnchorOpeningTag( options.keyphraseDensityUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.keyphraseDensityCTAUrl ),
 		} ),
 		new MetaDescriptionKeywordAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
+			urlTitle: createAnchorOpeningTag( options.metaDescriptionKeyphraseUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.metaDescriptionKeyphraseCTAUrl ),
 		} ),
 		new MetaDescriptionLength( {
 			scores:	{
 				tooLong: 3,
 				tooShort: 3,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify46" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify47" ),
+			urlTitle: createAnchorOpeningTag( options.metaDescriptionLengthUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.metaDescriptionLengthCTAUrl ),
 		} ),
 		new SubheadingsKeyword( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify16" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify17" ),
+			urlTitle: createAnchorOpeningTag( options.subheadingsKeyphraseUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.subheadingsKeyphraseCTAUrl ),
 		} ),
 		new TextCompetingLinksAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify18" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify19" ),
+			urlTitle: createAnchorOpeningTag( options.textCompetingLinksUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.textCompetingLinksCTAUrl ),
 		} ),
 		new TextLength( {
 			recommendedMinimum: 400,
@@ -82,45 +82,45 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 				belowMinimum: -20,
 				farBelowMinimum: -20,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
+			urlTitle: createAnchorOpeningTag( options.textLengthUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.textLengthCTAUrl ),
 			cornerstoneContent: true,
 		} ),
 		new TitleKeywordAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
+			urlTitle: createAnchorOpeningTag( options.titleKeyphraseUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.titleKeyphraseCTAUrl ),
 		} ),
 		new TitleWidth( {
 			scores: {
 				widthTooShort: 9,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify52" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify53" ),
+			urlTitle: createAnchorOpeningTag( options.titleWidthUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.titleWidthCTAUrl ),
 		}, true ),
 		new UrlKeywordAssessment(
 			{
 				scores: {
 					okay: 3,
 				},
-				urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
-				urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
+				urlTitle: createAnchorOpeningTag( options.urlKeyphraseUrlTitle ),
+				urlCallToAction: createAnchorOpeningTag( options.urlKeyphraseCTAUrl ),
 			}
 		),
 		new FunctionWordsInKeyphrase( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify50" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify51" ),
+			urlTitle: createAnchorOpeningTag( options.functionWordsInKeyphraseUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.functionWordsInKeyphraseCTAUrl ),
 		} ),
 		new SingleH1Assessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify54" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify55" ),
+			urlTitle: createAnchorOpeningTag( options.singleH1UrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.singleH1CTAUrl ),
 		} ),
 		new ImageCount( {
 			scores: {
 				okay: 6,
 			},
 			recommendedCount: 4,
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify20" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify21" ),
+			urlTitle: createAnchorOpeningTag( options.imageCountUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.imageCountCTAUrl ),
 		}, true ),
 		new ImageKeyphrase( {
 			scores: {
@@ -128,17 +128,17 @@ const ProductCornerstoneSEOAssessor = function( i18n, options ) {
 				withAlt: 3,
 				noAlt: 3,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
+			urlTitle: createAnchorOpeningTag( options.imageKeyphraseUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.imageKeyphraseCTAUrl ),
 		} ),
 		new ImageAltTags( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify40" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify41" ),
+			urlTitle: createAnchorOpeningTag( options.imageAltTagsUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.imageAltTagsCTAUrl ),
 		}
 		),
 		new KeyphraseDistribution( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify30" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify31" ),
+			urlTitle: createAnchorOpeningTag( options.keyphraseDistributionUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.keyphraseDistributionCTAUrl ),
 		} ),
 	];
 };
