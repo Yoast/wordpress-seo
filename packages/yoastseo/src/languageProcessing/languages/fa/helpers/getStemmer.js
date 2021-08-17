@@ -1,7 +1,7 @@
 import { isFeatureEnabled } from "@yoast/feature-flag";
 import { get } from "lodash-es";
 import { languageProcessing } from "yoastseo";
-// For now I imported the English stemmer so that some specs would be failing.
+// For now I imported the English stemmer so that some specs would not be failing.
 // Once the Farsi stemmer is implemented, this has to be changed to Farsi stemmer.
 import determineStem from "../../en/helpers/internal/determineStem";
 const { baseStemmer } = languageProcessing;
