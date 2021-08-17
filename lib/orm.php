@@ -2211,7 +2211,7 @@ class ORM implements \ArrayAccess {
 		$values     = [];
 		$success    = true;
 
-		foreach ( $models as $model) {
+		foreach ( $models as $model ) {
 
 			if ( ! $model->orm->is_new ) {
 				$model->save();
@@ -2221,7 +2221,7 @@ class ORM implements \ArrayAccess {
 			$new_models[] = $model;
 		}
 
-		foreach ( $new_models as $new_model) {
+		foreach ( $new_models as $new_model ) {
 			// Remove any expression fields as they are already baked into the query.
 			$model_values = \array_values( \array_diff_key( $new_model->orm->dirty_fields, $new_model->orm->expr_fields ) );
 			$values       = \array_merge( $values, $model_values );
@@ -2231,10 +2231,11 @@ class ORM implements \ArrayAccess {
 		$chunk = \apply_filters( 'wpseo_bulk_insert_chunk', 1000 );
 		$chunk = ! is_int( $chunk ) ? 1000 : $chunk;
 		$chunk = ( $chunk > 1000 ) ? 1000 : ( ( $chunk <= 0 ) ? 1000 : $chunk );
-		
-		$values_chunk = $chunk * count( $model_values );
 
-		while ( count( $new_models ) > 0 ) {
+		$values_chunk = ( $chunk * count( $model_values ) );
+
+		$model_count = ( count( $new_models ) );
+		while ( $model_count > 0 ) {
 			$models_to_use = array_slice( $new_models, 0, $chunk );
 			$values_to_use = array_slice( $values, 0, $values_chunk );
 
@@ -2243,8 +2244,10 @@ class ORM implements \ArrayAccess {
 
 			$new_models = array_slice( $new_models, $chunk );
 			$values     = array_slice( $values, $values_chunk );
+
+			$model_count = ( count( $new_models ) );
 		}
-		
+
 		return $success;
 	}
 
@@ -2357,7 +2360,7 @@ class ORM implements \ArrayAccess {
 			$query[] = "({$placeholders}),";
 		}
 
-		return \rtrim( \implode( ' ', $query ), ',');
+		return \rtrim( \implode( ' ', $query ), ',' );
 	}
 
 	/**
