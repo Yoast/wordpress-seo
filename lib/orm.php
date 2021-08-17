@@ -2203,6 +2203,8 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @return int|false The number of inserted rows on success, false for failure.
 	 *
+	 * @example From the Indexable_Link_Builder class: $this->seo_links_repository->query()->save_many( $links );
+	 *
 	 * @throws \Exception Primary key ID contains null value(s).
 	 * @throws \Exception Primary key ID missing from row or is null.
 	 */
@@ -2227,25 +2229,29 @@ class ORM implements \ArrayAccess {
 			$values       = \array_merge( $values, $model_values );
 		}
 
-		// We have to have maximum 1000 rows to be bulk inserted as this is the native MySQL limit for bulk INSERTs.
-		$chunk = \apply_filters( 'wpseo_bulk_insert_chunk', 1000 );
-		$chunk = ! is_int( $chunk ) ? 1000 : $chunk;
+		/**
+		* Filter: 'wpseo_chunk_bulked_insert_queries' - Allow filtering the chunk size of each bulked INSERT query to comply with MySQL limits.
+		*
+		* @api int The chunk size of the bulked INSERT queries.
+		*/
+		$chunk = \apply_filters( 'wpseo_chunk_bulked_insert_queries', 1000 );
+		$chunk = ! \is_int( $chunk ) ? 1000 : $chunk;
 		$chunk = ( $chunk > 1000 ) ? 1000 : ( ( $chunk <= 0 ) ? 1000 : $chunk );
 
-		$values_chunk = ( $chunk * count( $model_values ) );
+		$values_chunk = ( $chunk * \count( $model_values ) );
 
-		$model_count = ( count( $new_models ) );
+		$model_count = ( \count( $new_models ) );
 		while ( $model_count > 0 ) {
-			$models_to_use = array_slice( $new_models, 0, $chunk );
-			$values_to_use = array_slice( $values, 0, $values_chunk );
+			$models_to_use = \array_slice( $new_models, 0, $chunk );
+			$values_to_use = \array_slice( $values, 0, $values_chunk );
 
 			$query   = $this->build_insert_many( $models_to_use );
 			$success = $success && (bool) self::execute( $query, $values_to_use );
 
-			$new_models = array_slice( $new_models, $chunk );
-			$values     = array_slice( $values, $values_chunk );
+			$new_models = \array_slice( $new_models, $chunk );
+			$values     = \array_slice( $values, $values_chunk );
 
-			$model_count = ( count( $new_models ) );
+			$model_count = ( \count( $new_models ) );
 		}
 
 		return $success;
