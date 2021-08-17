@@ -23,6 +23,9 @@ export default class Researcher extends AbstractResearcher {
 
 		// Delete the researches from the Abstract Researcher that currently are not available for Farsi.
 		delete this.defaultResearches.getFleschReadingScore;
+		delete this.defaultResearches.findTransitionWords;
+		delete this.defaultResearches.getPassiveVoiceResult;
+		delete this.defaultResearches.getSentenceBeginnings;
 
 		Object.assign( this.config, {
 			language: "fa",
