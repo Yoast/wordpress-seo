@@ -79,6 +79,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_metabox_insights'                  => true,
 		'enable_link_suggestions'                  => true,
 		'algolia_integration_active'               => false,
+		'wincher_integration_active'               => true,
+		'wincher_tokens'                           => [],
+		'wincher_automatically_add_keyphrases'     => false,
 	];
 
 	/**
@@ -409,6 +412,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'enable_enhanced_slack_sharing'  => false,
 			'semrush_integration_active'     => false,
 			'zapier_integration_active'      => false,
+			'wincher_integration_active'     => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.
