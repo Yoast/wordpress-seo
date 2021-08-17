@@ -52,15 +52,14 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {AssessmentResult} The Assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		// Check if the Farsi feature is enabled and return the default result if it isn't.
-		if ( researcher.getConfig( "language" ) === "fa" && ! isFeatureEnabled( "FARSI_SUPPORT" ) ) {
-			return new AssessmentResult();
-		}
-
 		const sentences = researcher.getResearch( "countSentencesFromText" );
-		if ( researcher.getConfig( "sentenceLength" ) ) {
+		// Also checks if the language is Farsi and if the feature is enabled. If it is, proceed to retrieve the language-specific config.
+		// If the feature is disabled, the default config is used.
+		if ( ( isFeatureEnabled( "FARSI_SUPPORT" ) && researcher.getConfig( "language" ) === "fa" ) ||
+			( researcher.getConfig( "sentenceLength" ) && researcher.getConfig( "language" ) !== "fa" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
 		}
+
 		const percentage = this.calculatePercentage( sentences );
 		const score = this.calculateScore( percentage );
 
