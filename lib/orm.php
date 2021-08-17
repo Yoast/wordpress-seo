@@ -2197,6 +2197,42 @@ class ORM implements \ArrayAccess {
 	}
 
 	/**
+	 * Inserts multiple rows in a single query or updates single rows separately if they are not new entries.
+	 *
+	 * @param array $models Array of model instances to be inserted/updated.
+	 *
+	 * @return int|false The number of inserted rows on success, false for failure.
+	 *
+	 * @throws \Exception Primary key ID contains null value(s).
+	 * @throws \Exception Primary key ID missing from row or is null.
+	 */
+	public function save_many( $models ) {
+		$new_models = [];
+		$values     = [];
+
+		foreach ( $models as $model) {
+
+			if ( ! $model->orm->is_new ) {
+				$model->save();
+
+				continue;
+			}
+			$new_models[] = $model;
+		}
+
+		foreach ( $new_models as $new_model) {
+			// Remove any expression fields as they are already baked into the query.
+			$model_values = \array_values( \array_diff_key( $new_model->orm->dirty_fields, $new_model->orm->expr_fields ) );
+			$values       = \array_merge( $values, $model_values );
+		}
+
+		$query = $this->build_insert_many( $new_models);
+
+		$success = self::execute( $query, $values );
+		return $success;
+	}
+
+	/**
 	 * Updates many records in the database.
 	 *
 	 * @return int|bool The number of rows changed if the query was succesful. False otherwise.
@@ -2280,6 +2316,32 @@ class ORM implements \ArrayAccess {
 		$query[]      = "({$placeholders})";
 
 		return \implode( ' ', $query );
+	}
+
+	/**
+	 * Builds a multiple INSERT query.
+	 *
+	 * @param array $models Array of model instances to be inserted.
+	 *
+	 * @return string The insert query.
+	 */
+	protected function build_insert_many( $models ) {
+		$example_model = $models[0];
+		$placeholders  = '';
+
+		$query        = [];
+		$query[]      = 'INSERT INTO';
+		$query[]      = $this->quote_identifier( $example_model->orm->table_name );
+		$field_list   = \array_map( [ $this, 'quote_identifier' ], \array_keys( $example_model->orm->dirty_fields ) );
+		$query[]      = '(' . \implode( ', ', $field_list ) . ')';
+		$query[]      = 'VALUES';
+		$placeholders = $this->create_placeholders( $example_model->orm->dirty_fields );
+
+		foreach ( $models as $model ) {
+			$query[] = "({$placeholders}),";
+		}
+
+		return \rtrim( \implode( ' ', $query ), ',');
 	}
 
 	/**
