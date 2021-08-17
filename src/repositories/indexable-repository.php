@@ -507,26 +507,6 @@ class Indexable_Repository {
 		return $indexable;
 	}
 
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Returns all children of a given indexable.
-	 *
-	 * @deprecated 15.0
-	 * @codeCoverageIgnore
-	 *
-	 * @param Indexable $indexable The indexable to find the children of.
-	 *
-	 * @return Indexable[] All children of the given indexable.
-	 */
-	public function get_children( Indexable $indexable ) {
-		\_deprecated_function( __METHOD__, 'WPSEO 15.0' );
-
-		$indexable_ids = $this->hierarchy_repository->find_children( $indexable );
-
-		return $this->find_by_ids( $indexable_ids );
-	}
-
 	/**
 	 * Resets the permalinks of the passed object type and subtype.
 	 *
