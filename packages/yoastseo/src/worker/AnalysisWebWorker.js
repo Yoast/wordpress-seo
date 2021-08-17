@@ -170,6 +170,7 @@ export default class AnalysisWebWorker {
 	setCustomContentAssessorClass( ContentAssessorClass, customAnalysisType, customAssessorOptions ) {
 		this._CustomContentAssessorClasses[ customAnalysisType ] = ContentAssessorClass;
 		this._CustomContentAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._contentAssessor = this.createContentAssessor();
 	}
 
 	/**
@@ -184,6 +185,7 @@ export default class AnalysisWebWorker {
 	setCustomCornerstoneContentAssessorClass( CornerstoneContentAssessorClass, customAnalysisType, customAssessorOptions ) {
 		this._CustomCornerstoneContentAssessorClasses[ customAnalysisType ] = CornerstoneContentAssessorClass;
 		this._CustomCornerstoneContentAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._contentAssessor = this.createContentAssessor();
 	}
 
 	/**
@@ -198,6 +200,7 @@ export default class AnalysisWebWorker {
 	setCustomSEOAssessorClass( SEOAssessorClass, customAnalysisType, customAssessorOptions ) {
 		this._CustomSEOAssessorClasses[ customAnalysisType ] = SEOAssessorClass;
 		this._CustomSEOAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._seoAssessor = this.createSEOAssessor();
 	}
 
 	/**
@@ -212,6 +215,7 @@ export default class AnalysisWebWorker {
 	setCustomCornerstoneSEOAssessorClass( CornerstoneSEOAssessorClass, customAnalysisType, customAssessorOptions ) {
 		this._CustomCornerstoneSEOAssessorClasses[ customAnalysisType ] = CornerstoneSEOAssessorClass;
 		this._CustomCornerstoneSEOAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._seoAssessor = this.createSEOAssessor();
 	}
 
 	/**
@@ -226,6 +230,7 @@ export default class AnalysisWebWorker {
 	setCustomRelatedKeywordAssessorClass( RelatedKeywordAssessorClass, customAnalysisType, customAssessorOptions ) {
 		this._CustomRelatedKeywordAssessorClasses[ customAnalysisType ] = RelatedKeywordAssessorClass;
 		this._CustomRelatedKeywordAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
 	}
 
 	/**
@@ -240,6 +245,7 @@ export default class AnalysisWebWorker {
 	setCustomCornerstoneRelatedKeywordAssessorClass( CornerstoneRelatedKeywordAssessorClass, customAnalysisType, customAssessorOptions  ) {
 		this._CustomCornerstoneRelatedKeywordAssessorClasses[ customAnalysisType ] = CornerstoneRelatedKeywordAssessorClass;
 		this._CustomCornerstoneRelatedKeywordAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
 	}
 
 	/**
@@ -435,7 +441,7 @@ export default class AnalysisWebWorker {
 			 * For non-cornerstone content, use a custom SEO assessor if available,
 	         * otherwise use the default SEO assessor.
 			 */
-			console.log( this._CustomContentAssessorClasses[ customAnalysisType ])
+			console.log( this._CustomContentAssessorClasses[ customAnalysisType ], "custom content assessor")
 			assessor = this._CustomContentAssessorClasses[ customAnalysisType ]
 				? new this._CustomContentAssessorClasses[ customAnalysisType ](
 					this._i18n,
