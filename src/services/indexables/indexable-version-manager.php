@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Services\Indexables;
 
+use Yoast\WP\SEO\Config\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
@@ -9,46 +10,15 @@ use Yoast\WP\SEO\Models\Indexable;
  */
 class Indexable_Version_Manager {
 
-	const DEFAULT_INDEXABLE_VERSION = 1;
-
 	/**
-	 * The list of indexable builder versions defined by Yoast SEO Free.
+	 * Stores the version of each Indexable type.
 	 *
-	 * @var array
+	 * @var Indexable_Builder_Versions
 	 */
-	protected $indexable_versions_by_type = [
-		'general' => self::DEFAULT_INDEXABLE_VERSION,
-		'post' => self::DEFAULT_INDEXABLE_VERSION,
-		'post_type_archive' => self::DEFAULT_INDEXABLE_VERSION,
-		'term' => self::DEFAULT_INDEXABLE_VERSION,
-		'post_link' => self::DEFAULT_INDEXABLE_VERSION,
-		'term_link' => self::DEFAULT_INDEXABLE_VERSION,
-	];
+	protected $indexable_builder_versions;
 
-	/**
-	 * Provides the indexable versions
-	 *
-	 * @return array
-	 */
-	public function get_version_by_type() {
-		return $this->indexable_versions_by_type;
-	}
-
-	/**
-	 * Provides the most recent version number for an Indexable's object type.
-	 *
-	 * @param $object_type string The Indexable type for which you want to know the most recent version.
-	 *
-	 * @return int The most recent version number for the type, or 1 if the version doesn't exist.
-	 */
-	public function get_latest_version_for_type( $object_type ) {
-		$versions = $this->get_version_by_type();
-
-		if ( ! \array_key_exists( $object_type, $versions ) ) {
-			return self::DEFAULT_INDEXABLE_VERSION;
-		}
-
-		return $versions[ $object_type ];
+	public function __construct( Indexable_Builder_Versions $indexable_builder_versions ) {
+		$this->indexable_builder_versions = $indexable_builder_versions;
 	}
 
 	/**
@@ -75,13 +45,9 @@ class Indexable_Version_Manager {
 	 * @return boolean True if the given version is older than the current latest version.
 	 */
 	public function needs_upgrade( $object_type, $indexable_version ) {
-		$versions =  $this->get_version_by_type();
-
-		if ( ! \array_key_exists( $object_type, $versions ) ) {
-			return false;
-		}
+		$version = $this->indexable_builder_versions->get_latest_version_for_type( $object_type );
 
 		// If the indexable's version is below the current version, that indexable needs updating.
-		return $indexable_version < $versions[ $object_type ];
+		return $indexable_version < $version;
 	}
 }

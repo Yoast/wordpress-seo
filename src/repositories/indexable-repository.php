@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 
 /**
  * Class Indexable_Repository.
@@ -68,6 +69,13 @@ class Indexable_Repository {
 	protected $permalink_helper;
 
 	/**
+	 * Checks if Indexables are up to date.
+	 *
+	 * @var Indexable_Version_Manager
+	 */
+	protected $version_manager;
+
+	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
 	 * @param Indexable_Builder              $builder              The indexable builder.
@@ -76,6 +84,7 @@ class Indexable_Repository {
 	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository.
 	 * @param wpdb                           $wpdb                 The WordPress database instance.
 	 * @param Permalink_Helper               $permalink_helper     The permalink helper.
+	 * @param Indexable_Version_Manager      $version_manager      The indexable version manager.
 	 */
 	public function __construct(
 		Indexable_Builder $builder,
@@ -83,7 +92,8 @@ class Indexable_Repository {
 		Logger $logger,
 		Indexable_Hierarchy_Repository $hierarchy_repository,
 		wpdb $wpdb,
-		Permalink_Helper $permalink_helper
+		Permalink_Helper $permalink_helper,
+		Indexable_Version_Manager $version_manager
 	) {
 		$this->builder              = $builder;
 		$this->current_page         = $current_page;
@@ -91,6 +101,7 @@ class Indexable_Repository {
 		$this->hierarchy_repository = $hierarchy_repository;
 		$this->wpdb                 = $wpdb;
 		$this->permalink_helper     = $permalink_helper;
+		$this->version_manager      = $version_manager;
 	}
 
 	/**
@@ -147,6 +158,7 @@ class Indexable_Repository {
 				[
 					'object_type' => 'unknown',
 					'post_status' => 'unindexed',
+					'version'     => 1,
 				]
 			);
 		}
@@ -309,6 +321,7 @@ class Indexable_Repository {
 		$indexable = $this->query()
 			->where( 'object_type', 'system-page' )
 			->where( 'object_sub_type', $object_sub_type )
+			->where_lt( 'version', $this->current_version )
 			->find_one();
 
 		if ( $auto_create && ! $indexable ) {

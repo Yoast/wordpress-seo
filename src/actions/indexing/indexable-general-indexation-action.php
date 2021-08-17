@@ -102,7 +102,7 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	}
 
 	/**
-	 * Check which indexables already exists and return the values of the ones to create.
+	 * Check which indexables already exist and return the values of the ones to create.
 	 *
 	 * @return array The indexable types to create.
 	 */
