@@ -2197,40 +2197,32 @@ class ORM implements \ArrayAccess {
 	}
 
 	/**
-	 * Inserts multiple rows in a single query or updates single rows separately if they are not new entries.
+	 * Inserts multiple rows in a single query. Expects new rows as it's a strictly insert function, not an update one.
 	 *
-	 * @param array $models Array of model instances to be inserted/updated.
+	 * @param array $models Array of model instances to be inserted.
 	 *
-	 * @return int|false The number of inserted rows on success, false for failure.
+	 * @return bool True for successful insert, false for failed.
 	 *
 	 * @example From the Indexable_Link_Builder class: $this->seo_links_repository->query()->save_many( $links );
 	 *
-	 * @throws \Exception Primary key ID contains null value(s).
-	 * @throws \Exception Primary key ID missing from row or is null.
+	 * @throws \Exception Instance to be inserted is not a new one.
 	 */
-	public function save_many( $models ) {
-		$new_models = [];
-		$values     = [];
-		$success    = true;
+	public function insert_many( $models ) {
+		$values  = [];
+		$success = true;
 
 		foreach ( $models as $model ) {
-
 			if ( ! $model->orm->is_new ) {
-				$model->save();
-
-				continue;
+				throw new \Exception( 'Instance to be inserted is not a new one' );
 			}
-			$new_models[] = $model;
-		}
 
-		foreach ( $new_models as $new_model ) {
 			// Remove any expression fields as they are already baked into the query.
-			$model_values = \array_values( \array_diff_key( $new_model->orm->dirty_fields, $new_model->orm->expr_fields ) );
+			$model_values = \array_values( \array_diff_key( $model->orm->dirty_fields, $model->orm->expr_fields ) );
 			$values       = \array_merge( $values, $model_values );
 		}
 
 		/**
-		* Filter: 'wpseo_chunk_bulked_insert_queries' - Allow filtering the chunk size of each bulked INSERT query to comply with MySQL limits.
+		* Filter: 'wpseo_chunk_bulked_insert_queries' - Allow filtering the chunk size of each bulked INSERT query to comply with MySQL limits. The value passed shouldn't be over 1000, if it is, we lower it back to 1000 after the filter.
 		*
 		* @api int The chunk size of the bulked INSERT queries.
 		*/
@@ -2240,18 +2232,18 @@ class ORM implements \ArrayAccess {
 
 		$values_chunk = ( $chunk * \count( $model_values ) );
 
-		$model_count = ( \count( $new_models ) );
+		$model_count = ( \count( $models ) );
 		while ( $model_count > 0 ) {
-			$models_to_use = \array_slice( $new_models, 0, $chunk );
+			$models_to_use = \array_slice( $models, 0, $chunk );
 			$values_to_use = \array_slice( $values, 0, $values_chunk );
 
 			$query   = $this->build_insert_many( $models_to_use );
 			$success = $success && (bool) self::execute( $query, $values_to_use );
 
-			$new_models = \array_slice( $new_models, $chunk );
-			$values     = \array_slice( $values, $values_chunk );
+			$models = \array_slice( $models, $chunk );
+			$values = \array_slice( $values, $values_chunk );
 
-			$model_count = ( \count( $new_models ) );
+			$model_count = ( \count( $models ) );
 		}
 
 		return $success;
@@ -2351,8 +2343,8 @@ class ORM implements \ArrayAccess {
 	 * @return string The insert query.
 	 */
 	protected function build_insert_many( $models ) {
-		$example_model = $models[0];
-		$placeholders  = '';
+		$example_model      = $models[0];
+		$total_placeholders = '';
 
 		$query        = [];
 		$query[]      = 'INSERT INTO';
@@ -2363,10 +2355,11 @@ class ORM implements \ArrayAccess {
 		$placeholders = $this->create_placeholders( $example_model->orm->dirty_fields );
 
 		foreach ( $models as $model ) {
-			$query[] = "({$placeholders}),";
+			$total_placeholders .= "({$placeholders}),";
 		}
 
-		return \rtrim( \implode( ' ', $query ), ',' );
+		$query[] = \rtrim( $total_placeholders, ',' );
+		return \implode( ' ', $query );
 	}
 
 	/**
