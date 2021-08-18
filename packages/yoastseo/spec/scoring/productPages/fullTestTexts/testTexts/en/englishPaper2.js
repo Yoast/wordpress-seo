@@ -32,8 +32,8 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was" +
-			"found 123 times. This is great!",
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was " +
+			"found 11 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -62,7 +62,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 4712 words. Good job!",
+		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 853 words. Good job!",
 	},
 	titleKeyword: {
 		isApplicable: true,
@@ -97,7 +97,7 @@ const expectedResults = {
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify22' target='_blank'>Image Keyphrase</a>: Out of 21 images on this page, " +
+		resultText: "<a href='https://yoa.st/shopify22' target='_blank'>Image Keyphrase</a>: Out of 18 images on this page, " +
 			"only 5 have alt attributes that reflect the topic of your text. <a href='https://yoa.st/shopify23' target='_blank'>" +
 			"Add your keyphrase or synonyms to the alt tags of more relevant images</a>!",
 	},
@@ -113,13 +113,14 @@ const expectedResults = {
 	},
 	keyphraseDistribution: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do " +
+			"not contain the keyphrase or its synonyms. <a href='https://yoa.st/shopify31' target='_blank'>Distribute them more evenly</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify68' target='_blank'>Subheading distribution</a>: 4 sections of your text " +
+		resultText: "<a href='https://yoa.st/shopify68' target='_blank'>Subheading distribution</a>: 2 sections of your text " +
 			"are longer than 300 words and are not separated by any subheadings. <a href='https://yoa.st/shopify69' target='_blank'>" +
 			"Add subheadings to improve readability</a>.",
 	},
@@ -137,7 +138,7 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 1.8% of the sentences contain " +
+		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 1.2% of the sentences contain " +
 			"transition words, which is not enough. <a href='https://yoa.st/shopify45' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
