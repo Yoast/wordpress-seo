@@ -2222,13 +2222,13 @@ class ORM implements \ArrayAccess {
 		}
 
 		/**
-		* Filter: 'wpseo_chunk_bulked_insert_queries' - Allow filtering the chunk size of each bulked INSERT query to comply with MySQL limits. The value passed shouldn't be over 1000, if it is, we lower it back to 1000 after the filter.
-		*
-		* @api int The chunk size of the bulked INSERT queries.
-		*/
+		 * Filter: 'wpseo_chunk_bulked_insert_queries' - Allow filtering the chunk size of each bulked INSERT query.
+		 *
+		 * @api int The chunk size of the bulked INSERT queries.
+		 */
 		$chunk = \apply_filters( 'wpseo_chunk_bulked_insert_queries', 1000 );
 		$chunk = ! \is_int( $chunk ) ? 1000 : $chunk;
-		$chunk = ( $chunk > 1000 ) ? 1000 : ( ( $chunk <= 0 ) ? 1000 : $chunk );
+		$chunk = ( $chunk <= 0 ) ? 1000 : $chunk;
 
 		$values_chunk = ( $chunk * \count( $model_values ) );
 
