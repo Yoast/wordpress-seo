@@ -48,13 +48,7 @@ class Image_Helper_Test extends TestCase {
 		$this->url   = Mockery::mock( Url_Helper::class )->makePartial();
 		$this->image = Mockery::mock( Base_Image_Helper::class )->makePartial();
 
-		$this->instance = Mockery::mock(
-			Image_Helper::class,
-			[
-				$this->url,
-				$this->image,
-			]
-		)->makePartial();
+		$this->instance = new Image_Helper( $this->url, $this->image );
 	}
 
 	/**
@@ -99,8 +93,8 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::get_override_image_size
 	 */
 	public function test_get_override_image_size() {
-		Monkey\Functions\expect( 'apply_filters' )
-			->with( 'wpseo_opengraph_image_size', null )
+		Monkey\Filters\expectApplied( 'wpseo_opengraph_image_size' )
+			->with( null )
 			->once()
 			->andReturn( 'full' );
 
@@ -140,8 +134,8 @@ class Image_Helper_Test extends TestCase {
 			->once()
 			->andReturn( 'image.jpg' );
 
-		$this->instance
-			->expects( 'get_override_image_size' )
+		Monkey\Filters\expectApplied( 'wpseo_opengraph_image_size' )
+			->with( null )
 			->once()
 			->andReturn( 'full' );
 
@@ -165,11 +159,6 @@ class Image_Helper_Test extends TestCase {
 			->with( 1337 )
 			->once()
 			->andReturn( 'image.jpg' );
-
-		$this->instance
-			->expects( 'get_override_image_size' )
-			->once()
-			->andReturn( null );
 
 		$this->assertEquals( 'image.jpg', $this->instance->get_image_by_id( 1337 ) );
 	}
