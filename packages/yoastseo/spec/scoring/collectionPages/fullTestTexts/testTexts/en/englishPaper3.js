@@ -1,0 +1,136 @@
+import Paper from "../../../../../../src/values/Paper.js";
+import content from "./englishPaper3.html";
+
+const name = "englishPaper3";
+
+const paper = new Paper( content, {
+	keyword: "table linens",
+	synonyms: "table cover",
+	description: "Looking for table decor that&#39;s as memorable as your event? Silk &amp;amp; Willow table linens are " +
+		"naturally plant dyed and made from 100% natural materials.",
+	title: "Table linens - Silk & Willow",
+	titleWidth: 450,
+	locale: "en_EN",
+	permalink: "https://www.silkandwillow.com/collections/plant-dyed-table-linens",
+	url: "plant-dyed-table-linens",
+} );
+
+const expectedResults = {
+	introductionKeyword: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify8' target='_blank'>Keyphrase in introduction</a>: Well done!",
+	},
+	keyphraseLength: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify10' target='_blank'>Keyphrase length</a>: Good job!",
+	},
+	keywordDensity: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 8 times. This is great!",
+	},
+	metaDescriptionKeyword: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify14' target='_blank'>Keyphrase in meta description</a>: Keyphrase or synonym " +
+			"appear in the meta description. Well done!",
+	},
+	metaDescriptionLength: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify46' target='_blank'>Meta description length</a>: The meta description is over 156 characters." +
+			" To ensure the entire description will be visible, <a href='https://yoa.st/shopify47' target='_blank'>you should reduce the length</a>!",
+	},
+	textLength: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 780 words. Good job!",
+	},
+	titleKeyword: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in title</a>: The exact match of the focus " +
+			"keyphrase appears at the beginning of the SEO title. Good job!",
+	},
+	titleWidth: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify52' target='_blank'>SEO title width</a>: Good job!",
+	},
+	urlKeyword: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify26' target='_blank'>Keyphrase in slug</a>: Great work!",
+	},
+	functionWordsInKeyphrase: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	singleH1: {
+		isApplicable: true,
+		score: 1,
+		resultText: "<a href='https://yoa.st/shopify54' target='_blank'>Single title</a>: H1s should only be used as your " +
+			"main title. Find all H1s in your text that aren't your main title and <a href='https://yoa.st/shopify55' target='_blank'>" +
+			"change them to a lower heading level</a>!",
+	},
+	keyphraseDistribution: {
+		isApplicable: true,
+		score: 1,
+		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Very uneven. Large parts of " +
+			"your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/shopify31' target='_blank'>" +
+			"Distribute them more evenly</a>.",
+	},
+	subheadingsTooLong: {
+		isApplicable: true,
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify68' target='_blank'>Subheading distribution</a>: 1 section of your text is longer than 300 " +
+			"words and is not separated by any subheadings. <a href='https://yoa.st/shopify69' target='_blank'>Add subheadings to improve " +
+			"readability</a>.",
+	},
+	textParagraphTooLong: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify66' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+	},
+	textSentenceLength: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: Great!",
+	},
+	textTransitionWords: {
+		isApplicable: true,
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: None of the sentences contain " +
+			"transition words. <a href='https://yoa.st/shopify45' target='_blank'>Use some</a>.",
+	},
+	passiveVoice: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
+	},
+	textPresence: {
+		score: 0,
+		resultText: "",
+	},
+	sentenceBeginnings: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify5' target='_blank'>Consecutive sentences</a>: " +
+			"There is enough variety in your sentences. That's great!",
+	},
+};
+
+export {
+	name,
+	paper,
+	expectedResults,
+};
+
+export default {
+	name: name,
+	paper: paper,
+	expectedResults: expectedResults,
+};
