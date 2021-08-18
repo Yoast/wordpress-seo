@@ -86,10 +86,6 @@ class Language_Helper_Test extends TestCase {
 	 * @param string $language The language to test.
 	 */
 	public function test_has_function_word_support( $language ) {
-		$this->farsi_conditional
-			->expects( 'is_met' )
-			->andReturnFalse();
-
 		$this->assertTrue( $this->instance->has_function_word_support( $language ) );
 	}
 
@@ -117,6 +113,7 @@ class Language_Helper_Test extends TestCase {
 			[ 'nb' ],
 			[ 'tr' ],
 			[ 'cs' ],
+			[ 'fa' ],
 		];
 	}
 }
