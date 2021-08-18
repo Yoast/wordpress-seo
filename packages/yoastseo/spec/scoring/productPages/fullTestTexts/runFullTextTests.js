@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
 import factory from "../../../../../yoastseo/spec/specHelpers/factory.js";
