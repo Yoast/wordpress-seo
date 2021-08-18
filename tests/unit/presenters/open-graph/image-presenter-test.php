@@ -88,9 +88,9 @@ class Image_Presenter_Test extends TestCase {
 
 		$this->presentation->open_graph_images = [ $image ];
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_opengraph_image' )
 			->once()
-			->with( 'wpseo_opengraph_image', 'https://example.com/image.jpg', $this->presentation )
+			->with( 'https://example.com/image.jpg', $this->presentation )
 			->andReturn( false );
 
 		$this->assertEquals( [ [ 'url' => 'https://example.com/image.jpg' ] ], $this->instance->get() );
@@ -106,9 +106,9 @@ class Image_Presenter_Test extends TestCase {
 
 		$this->presentation->open_graph_images = [ $image ];
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_opengraph_image' )
 			->once()
-			->with( 'wpseo_opengraph_image', 'https://example.com/image.jpg', $this->presentation )
+			->with( 'https://example.com/image.jpg', $this->presentation )
 			->andReturn( 'https://example.com/filtered_image.jpg' );
 
 		$this->assertEquals( [ [ 'url' => 'https://example.com/filtered_image.jpg' ] ], $this->instance->get() );
