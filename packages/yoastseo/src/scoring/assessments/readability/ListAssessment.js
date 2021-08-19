@@ -42,7 +42,6 @@ export default class ListAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		this.textContainsList = researcher.getResearch( "findList" );
-		console.log( this.textContainsList, "text contains list" );
 
 		const calculatedScore = this.calculateResult( i18n );
 
