@@ -41,7 +41,8 @@ export default class ListAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher, i18n ) {
-		this.textContainsList = researcher.getResearch( "findLists" );
+		this.textContainsList = researcher.getResearch( "findList" );
+		console.log( this.textContainsList, "text contains list" );
 
 		const calculatedScore = this.calculateResult( i18n );
 
