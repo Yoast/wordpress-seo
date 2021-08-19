@@ -2205,9 +2205,15 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @example From the Indexable_Link_Builder class: $this->seo_links_repository->query()->save_many( $links );
 	 *
+	 * @throws \Exception Invalid or no instances to be inserted.
 	 * @throws \Exception Instance to be inserted is not a new one.
 	 */
 	public function insert_many( $models ) {
+		// Validate the input first.
+		if ( ! \is_array( $models ) || empty( $models ) ) {
+			throw new \Exception( 'Invalid or no instances to be inserted' );
+		}
+
 		$values  = [];
 		$success = true;
 
