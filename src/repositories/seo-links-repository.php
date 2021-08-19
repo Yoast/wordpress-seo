@@ -129,4 +129,16 @@ class SEO_Links_Repository {
 			->where_in( 'id', $ids )
 			->delete_many();
 	}
+
+	/**
+	 * Insert multiple seo links.
+	 *
+	 * @param SEO_Links[] $links The seo links to be inserted.
+	 *
+	 * @return bool Whether or not the insert was succesfull.
+	 */
+	public function insert_many( $links ) {
+		return $this->query()
+			->insert_many( $links );
+	}
 }

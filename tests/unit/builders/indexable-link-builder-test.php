@@ -87,6 +87,17 @@ class Indexable_Link_Builder_Test extends TestCase {
 			$this->post_helper
 		);
 		$this->instance->set_dependencies( $this->indexable_repository, $this->image_helper );
+
+		Functions\expect( 'wp_list_pluck' )->andReturnUsing(
+			static function ( $array, $prop ) {
+				return \array_map(
+					static function ( $e ) use ( $prop ) {
+						return $e->{$prop};
+					},
+					$array
+				);
+			}
+		);
 	}
 
 	/**
@@ -126,26 +137,27 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$parsed_link_url = [
 			'scheme' => 'https',
 			'host'   => 'link.com',
+			'path'   => 'newly-added-in-post',
 		];
 
 		Functions\expect( 'home_url' )->once()->andReturn( 'https://site.com' );
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com' )->andReturn( $parsed_home_url );
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com/page' )->andReturn( $parsed_page_url );
-		Functions\expect( 'wp_parse_url' )->once()->with( 'https://link.com' )->andReturn( $parsed_link_url );
+		Functions\expect( 'wp_parse_url' )->once()->with( 'https://link.com/newly-added-in-post' )->andReturn( $parsed_link_url );
 
 		$this->url_helper->expects( 'get_link_type' )->with( $parsed_link_url, $parsed_home_url, $is_image )->andReturn( $link_type );
 
 		$query_mock             = Mockery::mock();
 		$seo_link               = Mockery::mock( SEO_Links_Mock::class );
 		$seo_link->type         = $link_type;
-		$seo_link->url          = 'https://link.com';
+		$seo_link->url          = 'https://link.com/newly-added-in-post';
 		$seo_link->indexable_id = $indexable->id;
 		$seo_link->post_id      = $indexable->object_id;
 
 		$this->seo_links_repository->expects( 'query' )->once()->andReturn( $query_mock );
 		$query_mock->expects( 'create' )->once()->with(
 			[
-				'url'          => 'https://link.com',
+				'url'          => 'https://link.com/newly-added-in-post',
 				'type'         => $link_type,
 				'indexable_id' => $indexable->id,
 				'post_id'      => $indexable->object_id,
@@ -154,9 +166,12 @@ class Indexable_Link_Builder_Test extends TestCase {
 
 		$old_seo_link                      = new SEO_Links_Mock();
 		$old_seo_link->target_indexable_id = 3;
+		$old_seo_link->url                 = 'https://link.com/no-longer-in-post/';
+		$old_seo_link->id                  = 567;
 		$this->seo_links_repository->expects( 'find_all_by_indexable_id' )->once()->with( $indexable->id )->andReturn( [ $old_seo_link ] );
-		$this->seo_links_repository->expects( 'delete_all_by_indexable_id' )->once()->with( $indexable->id );
-		$this->seo_links_repository->expects( 'delete_all_by_post_id' )->once()->with( $indexable->object_id );
+		$this->seo_links_repository->expects( 'delete_many_by_id' )->once()->with( [ 567 ] );
+		$this->seo_links_repository->expects( 'delete_all_by_post_id_where_indexable_id_null' )->once()->with( $indexable->object_id );
+		$this->seo_links_repository->expects( 'insert_many' )->once()->with( [ $seo_link ] );
 		$this->seo_links_repository
 			->expects( 'get_incoming_link_counts_for_indexable_ids' )
 			->once()
@@ -170,8 +185,6 @@ class Indexable_Link_Builder_Test extends TestCase {
 				]
 			);
 		$this->indexable_repository->expects( 'update_incoming_link_count' )->once()->with( 3, 0 );
-
-		$seo_link->expects( 'save' )->once();
 
 		$links = $this->instance->build( $indexable, $content );
 
@@ -244,6 +257,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$seo_link->target_post_id      = $target_indexable->object_id;
 
 		$this->seo_links_repository->expects( 'query' )->once()->andReturn( $query_mock );
+		$this->seo_links_repository->expects( 'delete_many_by_id' )->once()->with( [ 567 ] );
 		$query_mock->expects( 'create' )->once()->with(
 			[
 				'url'          => $target_indexable->permalink,
@@ -255,9 +269,11 @@ class Indexable_Link_Builder_Test extends TestCase {
 
 		$old_seo_link                      = new SEO_Links_Mock();
 		$old_seo_link->target_indexable_id = 3;
+		$old_seo_link->url                 = 'https://link.com/no-longer-in-post/';
+		$old_seo_link->id                  = 567;
 		$this->seo_links_repository->expects( 'find_all_by_indexable_id' )->once()->with( $indexable->id )->andReturn( [ $old_seo_link ] );
-		$this->seo_links_repository->expects( 'delete_all_by_indexable_id' )->once()->with( $indexable->id );
-		$this->seo_links_repository->expects( 'delete_all_by_post_id' )->once()->with( $indexable->object_id );
+		$this->seo_links_repository->expects( 'delete_all_by_post_id_where_indexable_id_null' )->once()->with( $indexable->object_id );
+		$this->seo_links_repository->expects( 'insert_many' )->once()->with( [ $seo_link ] );
 		$this->seo_links_repository->expects( 'get_incoming_link_counts_for_indexable_ids' )
 			->with( [ 2, 3 ] )
 			->andReturn(
@@ -287,8 +303,6 @@ class Indexable_Link_Builder_Test extends TestCase {
 			->with( $target_indexable->permalink )
 			->andReturn( $target_indexable->object_id );
 
-		$seo_link->expects( 'save' )->once();
-
 		$links = $this->instance->build( $indexable, $content );
 
 		self::assertCount( 1, $links );
@@ -304,8 +318,8 @@ class Indexable_Link_Builder_Test extends TestCase {
 	 */
 	public function build_provider() {
 		return [
-			[ '<a href="https://link.com">link</a>', SEO_Links::TYPE_EXTERNAL, false ],
-			[ '<img src="https://link.com" />', SEO_Links::TYPE_EXTERNAL_IMAGE, true ],
+			[ '<a href="https://link.com/newly-added-in-post">link</a>', SEO_Links::TYPE_EXTERNAL, false ],
+			[ '<img src="https://link.com/newly-added-in-post" />', SEO_Links::TYPE_EXTERNAL_IMAGE, true ],
 		];
 	}
 }

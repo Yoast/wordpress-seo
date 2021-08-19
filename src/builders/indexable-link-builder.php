@@ -376,7 +376,7 @@ class Indexable_Link_Builder {
 		}
 
 		if ( ! empty( $links_to_add ) ) {
-			$this->seo_links_repository->query()->insert_many( $links_to_add );
+			$this->seo_links_repository->insert_many( $links_to_add );
 		}
 
 		foreach ( $links as $link ) {
@@ -400,9 +400,13 @@ class Indexable_Link_Builder {
 	 * @return SEO_Links[] Links that are in $links_a, but not in $links_b.
 	 */
 	protected function links_diff( $links_a, $links_b ) {
-		return \array_udiff( $links_a, $links_b, function( SEO_Links $link_a, SEO_Links $link_b ) {
-			return strcmp( $link_a->url, $link_b->url );
-		} );
+		return \array_udiff(
+			$links_a,
+			$links_b,
+			function( SEO_Links $link_a, SEO_Links $link_b ) {
+				return strcmp( $link_a->url, $link_b->url );
+			}
+		);
 	}
 
 	/**
