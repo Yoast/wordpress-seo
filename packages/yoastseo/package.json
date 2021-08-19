@@ -103,6 +103,8 @@
     "testPathIgnorePatterns": [
       "/spec/specHelpers/*",
       "/spec/fullTextTests/testTexts",
+      "/spec/scoring/collectionPages/fullTextTests/testTexts",
+      "/spec/scoring/productPages/fullTextTests/testTexts",
       "/spec/languageProcessing/languages/es/helpers/internal/stemmerCoverage/generateStems.js",
       "/spec/languageProcessing/languages/es/helpers/internal/stemmerCoverage/goldStandardStems.json",
       "/spec/languageProcessing/languages/fr/helpers/internal/stemmerCoverage/generateStems.js",
