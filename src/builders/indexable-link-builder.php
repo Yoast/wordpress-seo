@@ -379,12 +379,12 @@ class Indexable_Link_Builder {
 			$this->seo_links_repository->insert_many( $links_to_add );
 		}
 
-		foreach ( $links as $link ) {
+		foreach ( $links_to_add as $link ) {
 			if ( $link->target_indexable_id ) {
 				$updated_indexable_ids[] = $link->target_indexable_id;
 			}
 		}
-		foreach ( $old_links as $link ) {
+		foreach ( $links_to_remove as $link ) {
 			$updated_indexable_ids[] = $link->target_indexable_id;
 		}
 
