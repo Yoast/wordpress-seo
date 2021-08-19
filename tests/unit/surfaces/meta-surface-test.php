@@ -67,6 +67,8 @@ class Meta_Surface_Test extends TestCase {
 	private $wp_rewrite_wrapper;
 
 	/**
+	 * The helper
+	 *
 	 * @var Indexable_Helper
 	 */
 	private $indexable_helper;
