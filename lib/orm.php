@@ -2197,6 +2197,59 @@ class ORM implements \ArrayAccess {
 	}
 
 	/**
+	 * Inserts multiple rows in a single query. Expects new rows as it's a strictly insert function, not an update one.
+	 *
+	 * @param array $models Array of model instances to be inserted.
+	 *
+	 * @return bool True for successful insert, false for failed.
+	 *
+	 * @example From the Indexable_Link_Builder class: $this->seo_links_repository->query()->save_many( $links );
+	 *
+	 * @throws \Exception Instance to be inserted is not a new one.
+	 */
+	public function insert_many( $models ) {
+		$values  = [];
+		$success = true;
+
+		foreach ( $models as $model ) {
+			if ( ! $model->orm->is_new ) {
+				throw new \Exception( 'Instance to be inserted is not a new one' );
+			}
+
+			// Remove any expression fields as they are already baked into the query.
+			$model_values = \array_values( \array_diff_key( $model->orm->dirty_fields, $model->orm->expr_fields ) );
+			$values       = \array_merge( $values, $model_values );
+		}
+
+		/**
+		 * Filter: 'wpseo_chunk_bulked_insert_queries' - Allow filtering the chunk size of each bulked INSERT query.
+		 *
+		 * @api int The chunk size of the bulked INSERT queries.
+		 */
+		$chunk = \apply_filters( 'wpseo_chunk_bulked_insert_queries', 1000 );
+		$chunk = ! \is_int( $chunk ) ? 1000 : $chunk;
+		$chunk = ( $chunk <= 0 ) ? 1000 : $chunk;
+
+		$values_chunk = ( $chunk * \count( $model_values ) );
+
+		$model_count = ( \count( $models ) );
+		while ( $model_count > 0 ) {
+			$models_to_use = \array_slice( $models, 0, $chunk );
+			$values_to_use = \array_slice( $values, 0, $values_chunk );
+
+			$query   = $this->build_insert_many( $models_to_use );
+			$success = $success && (bool) self::execute( $query, $values_to_use );
+
+			$models = \array_slice( $models, $chunk );
+			$values = \array_slice( $values, $values_chunk );
+
+			$model_count = ( \count( $models ) );
+		}
+
+		return $success;
+	}
+
+	/**
 	 * Updates many records in the database.
 	 *
 	 * @return int|bool The number of rows changed if the query was succesful. False otherwise.
@@ -2279,6 +2332,33 @@ class ORM implements \ArrayAccess {
 		$placeholders = $this->create_placeholders( $this->dirty_fields );
 		$query[]      = "({$placeholders})";
 
+		return \implode( ' ', $query );
+	}
+
+	/**
+	 * Builds a bulk INSERT query.
+	 *
+	 * @param array $models Array of model instances to be inserted.
+	 *
+	 * @return string The insert query.
+	 */
+	protected function build_insert_many( $models ) {
+		$example_model      = $models[0];
+		$total_placeholders = '';
+
+		$query        = [];
+		$query[]      = 'INSERT INTO';
+		$query[]      = $this->quote_identifier( $example_model->orm->table_name );
+		$field_list   = \array_map( [ $this, 'quote_identifier' ], \array_keys( $example_model->orm->dirty_fields ) );
+		$query[]      = '(' . \implode( ', ', $field_list ) . ')';
+		$query[]      = 'VALUES';
+		$placeholders = $this->create_placeholders( $example_model->orm->dirty_fields );
+
+		foreach ( $models as $model ) {
+			$total_placeholders .= "({$placeholders}),";
+		}
+
+		$query[] = \rtrim( $total_placeholders, ',' );
 		return \implode( ' ', $query );
 	}
 
