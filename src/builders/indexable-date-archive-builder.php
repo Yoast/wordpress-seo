@@ -44,6 +44,7 @@ class Indexable_Date_Archive_Builder {
 		$indexable->is_robots_noindex = $this->options->get( 'noindex-archive-wpseo' );
 		$indexable->is_public         = ( (int) $indexable->is_robots_noindex !== 1 );
 		$indexable->blog_id           = \get_current_blog_id();
+		$indexable->permalink         = null;
 
 		return $indexable;
 	}

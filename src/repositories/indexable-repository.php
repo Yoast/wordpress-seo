@@ -201,7 +201,7 @@ class Indexable_Repository {
 			->where( 'object_type', $object_type )
 			->find_many();
 
-		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
+		return \array_map( [ $this, 'upgrade_indexable'], $indexables );
 	}
 
 	/**
@@ -224,7 +224,7 @@ class Indexable_Repository {
 			->where( 'object_sub_type', $object_sub_type )
 			->find_many();
 
-		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
+		return \array_map( [ $this, 'upgrade_indexable'], $indexables );
 	}
 
 	/**
@@ -248,7 +248,7 @@ class Indexable_Repository {
 				$indexable = $this->builder->build_for_home_page();
 			}
 
-			$indexable = $this->ensure_permalink( $indexable );
+			$indexable = $this->upgrade_indexable( $indexable );
 
 			\wp_cache_set( 'home-page', $indexable, 'yoast-seo-indexables', ( 5 * \MINUTE_IN_SECONDS ) );
 		}
@@ -275,7 +275,7 @@ class Indexable_Repository {
 			$indexable = $this->builder->build_for_date_archive();
 		}
 
-		return $this->ensure_permalink( $indexable );
+		return $this->upgrade_indexable( $indexable );
 	}
 
 	/**
@@ -301,7 +301,7 @@ class Indexable_Repository {
 			$indexable = $this->builder->build_for_post_type_archive( $post_type );
 		}
 
-		return $this->ensure_permalink( $indexable );
+		return $this->upgrade_indexable( $indexable );
 	}
 
 	/**
@@ -321,14 +321,13 @@ class Indexable_Repository {
 		$indexable = $this->query()
 			->where( 'object_type', 'system-page' )
 			->where( 'object_sub_type', $object_sub_type )
-			->where_lt( 'version', $this->current_version )
 			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->builder->build_for_system_page( $object_sub_type );
 		}
 
-		return $this->ensure_permalink( $indexable );
+		return $this->upgrade_indexable( $indexable );
 	}
 
 	/**
@@ -348,9 +347,11 @@ class Indexable_Repository {
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->builder->build_for_id_and_type( $object_id, $object_type );
+		} else {
+			$indexable = $this->upgrade_indexable( $indexable );
 		}
 
-		return $this->ensure_permalink( $indexable );
+		return $indexable;
 	}
 
 	/**
@@ -390,7 +391,7 @@ class Indexable_Repository {
 			}
 		}
 
-		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
+		return \array_map( [ $this, 'upgrade_indexable'], $indexables );
 	}
 
 	/**
@@ -410,7 +411,7 @@ class Indexable_Repository {
 			->where_in( 'id', $indexable_ids )
 			->find_many();
 
-		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
+		return \array_map( [ $this, 'upgrade_indexable'], $indexables );
 	}
 
 	/**
@@ -423,14 +424,14 @@ class Indexable_Repository {
 	public function get_ancestors( Indexable $indexable ) {
 		// If we've already set ancestors on the indexable no need to get them again.
 		if ( \is_array( $indexable->ancestors ) && ! empty( $indexable->ancestors ) ) {
-			return \array_map( [ $this, 'ensure_permalink' ], $indexable->ancestors );
+			return \array_map( [ $this, 'upgrade_indexable'], $indexable->ancestors );
 		}
 
 		$indexable_ids = $this->hierarchy_repository->find_ancestors( $indexable );
 
 		// If we've set ancestors on the indexable because we had to build them to find them.
 		if ( \is_array( $indexable->ancestors ) && ! empty( $indexable->ancestors ) ) {
-			return \array_map( [ $this, 'ensure_permalink' ], $indexable->ancestors );
+			return \array_map( [ $this, 'upgrade_indexable'], $indexable->ancestors );
 		}
 
 		if ( empty( $indexable_ids ) ) {
@@ -446,7 +447,7 @@ class Indexable_Repository {
 			->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
 			->find_many();
 
-		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
+		return \array_map( [ $this, 'upgrade_indexable'], $indexables );
 	}
 
 	/**
@@ -485,24 +486,16 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Ensures that the given indexable has a permalink.
+	 * Checks if an Indexable is outdated, and rebuilds it when necessary.
 	 *
 	 * @param Indexable $indexable The indexable.
 	 *
-	 * @return bool|Indexable The indexable.
+	 * @return Indexable The indexable.
 	 */
-	public function ensure_permalink( $indexable ) {
-		if ( $indexable && $indexable->permalink === null ) {
-			$indexable->permalink = $this->permalink_helper->get_permalink_for_indexable( $indexable );
-
-			if ( $indexable->permalink === null && $indexable->post_status === 'unindexed' ) {
-				$indexable->permalink = 'unindexed';
-			}
-
-			// Only save if changed.
-			if ( $indexable->permalink !== null ) {
-				$indexable->save();
-			}
+	public function upgrade_indexable( $indexable )
+	{
+		if ( $this->version_manager->indexable_needs_upgrade( $indexable ) ) {
+			$indexable = $this->builder->build( $indexable );
 		}
 		return $indexable;
 	}

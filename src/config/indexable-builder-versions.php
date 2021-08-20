@@ -21,11 +21,10 @@ class Indexable_Builder_Versions
 		'general'           => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
 		'home-page'         => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
 		'post'              => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
-		'post_link'         => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
-		'post_type_archive' => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
+		'post-type-archive' => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
 		'term'              => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
-		'term_link'         => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
 		'user'              => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
+		'system-page'       => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
 	];
 
 	/**

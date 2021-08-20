@@ -6,23 +6,22 @@ use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Config\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexable_Version_Manager_Test.
+ * Class Indexable_Builder_Versions_Test.
  *
  * @group indexables
  *
- * @coversDefaultClass \Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager
+ * @coversDefaultClass \Yoast\WP\SEO\Services\Indexables\Indexable_Builder_Versions
  */
-class Indexable_Version_Manager_Test extends TestCase {
+class Indexable_Builder_Versions_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var Indexable_Version_Manager
+	 * @var Indexable_Builder_Versions
 	 */
 	protected $instance;
 
@@ -39,7 +38,7 @@ class Indexable_Version_Manager_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Indexable_Version_Manager( new Indexable_Builder_Versions() );
+		$this->instance = new Indexable_Builder_Versions_Double();
 	}
 
 	/**
@@ -48,7 +47,7 @@ class Indexable_Version_Manager_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertInstanceOf( Indexable_Version_Manager::class, $this->instance );
+		$this->assertInstanceOf( Indexable_Builder_Versions::class, $this->instance );
 	}
 
 	/**
@@ -57,7 +56,7 @@ class Indexable_Version_Manager_Test extends TestCase {
 	 * @covers ::register_routes
 	 */
 	public function test_get_versions() {
-		$versions = $this->instance->get_version_by_type();
+		$versions = $this->instance->get_latest_version_for_type();
 
 		$this->assertEquals( 6, \count( $versions ) );
 		$this->assertArrayHasKey( 'general', $versions );

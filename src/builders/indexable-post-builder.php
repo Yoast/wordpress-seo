@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 
 /**
  * Post Builder for the indexables.
@@ -40,6 +41,13 @@ class Indexable_Post_Builder {
 	 * @var Post_Type_Helper
 	 */
 	protected $post_type_helper;
+
+	/**
+	 * Knows the latest version of each Indexable type.
+	 *
+	 * @var Indexable_Version_Manager
+	 */
+	protected $indexable_version_manager;
 
 	/**
 	 * Indexable_Post_Builder constructor.
@@ -136,6 +144,8 @@ class Indexable_Post_Builder {
 
 		$indexable->schema_page_type    = $this->get_meta_value( $post_id, 'schema_page_type' );
 		$indexable->schema_article_type = $this->get_meta_value( $post_id, 'schema_article_type' );
+
+		$indexable = $this->indexable_version_manager->set_latest( $indexable );
 
 		return $indexable;
 	}

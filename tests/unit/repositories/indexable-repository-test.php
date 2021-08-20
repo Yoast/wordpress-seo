@@ -468,7 +468,7 @@ class Indexable_Repository_Test extends TestCase {
 	/**
 	 * Tests if ensure_permalink sets the permalink to 'unindexed' when the post_status is 'unindexed'.
 	 *
-	 * @covers ::ensure_permalink
+	 * @covers ::upgrade_indexable
 	 */
 	public function test_permalink_set_to_unindexed_ensure_permalink() {
 		/**
@@ -488,7 +488,7 @@ class Indexable_Repository_Test extends TestCase {
 			->with( $indexable )
 			->andReturn( null );
 
-		$this->instance->ensure_permalink( $indexable );
+		$this->instance->upgrade_indexable( $indexable );
 
 		$this->assertSame( 'unindexed', $indexable->permalink );
 	}

@@ -22,9 +22,9 @@ class Indexable_Version_Manager {
 	}
 
 	/**
-	 * Determines if an indexable has a lower version than the builder for that indexable's type.
+	 * Determines if an Indexable has a lower version than the builder for that Indexable's type.
 	 *
-	 * @param $indexable Indexable The indexable to check.
+	 * @param $indexable Indexable The Indexable to check.
 	 *
 	 * @return boolean True if the given version is older than the current latest version.
 	 */
@@ -37,17 +37,32 @@ class Indexable_Version_Manager {
 	}
 
 	/**
-	 * Determines if an indexable version for the type is lower than the current version for that indexable type.
+	 * Determines if an Indexable version for the type is lower than the current version for that Indexable type.
 	 *
-	 * @param $object_type string The indexable's object type.
-	 * @param $indexable_version int The indexable's version.
+	 * @param $object_type       string The Indexable's object type.
+	 * @param $indexable_version int    The Indexable's version.
 	 *
 	 * @return boolean True if the given version is older than the current latest version.
 	 */
 	public function needs_upgrade( $object_type, $indexable_version ) {
 		$version = $this->indexable_builder_versions->get_latest_version_for_type( $object_type );
 
-		// If the indexable's version is below the current version, that indexable needs updating.
+		// If the Indexable's version is below the current version, that Indexable needs updating.
 		return $indexable_version < $version;
+	}
+
+	/**
+	 * Sets an Indexable's version to the latest version.
+	 *
+	 * @param $indexable Indexable The Indexable to update.
+	 *
+	 * @return Indexable
+	 */
+	public function set_latest( $indexable ){
+		if ( ! $indexable ) {
+			return $indexable;
+		}
+		$indexable->version = $this->indexable_builder_versions->get_latest_version_for_type( $indexable->object_type );
+		return $indexable;
 	}
 }
