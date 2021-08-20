@@ -305,7 +305,7 @@ export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demon
 	interrogativeProAdverbs, locativeAdverbs, prepositionalAdverbs, otherAuxiliaries, otherAuxiliariesInfinitive, copulaEstar, copulaSer,
 	copulaEstarInfinitive, copulaSerInfinitive, prepositions, coordinatingConjunctions, correlativeConjunctions,
 	subordinatingConjunctions, interviewVerbs, transitionWords, additionalTransitionWords, intensifiers, delexicalizedVerbs,
-	delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous,
+	delexicalizedVerbsInfinitive, interjections, generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, timeWords,
 	titlesPreceding, titlesFollowing );
 
 export default {
