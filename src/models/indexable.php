@@ -76,7 +76,7 @@ use Yoast\WP\Lib\Model;
  *
  * @property int    $estimated_reading_time_minutes
  *
- * @property int	$version
+ * @property int    $version
  */
 class Indexable extends Model {
 

@@ -201,7 +201,7 @@ class Indexable_Repository {
 			->where( 'object_type', $object_type )
 			->find_many();
 
-		return \array_map( [ $this, 'upgrade_indexable'], $indexables );
+		return \array_map( [ $this, 'upgrade_indexable' ], $indexables );
 	}
 
 	/**
@@ -224,7 +224,7 @@ class Indexable_Repository {
 			->where( 'object_sub_type', $object_sub_type )
 			->find_many();
 
-		return \array_map( [ $this, 'upgrade_indexable'], $indexables );
+		return \array_map( [ $this, 'upgrade_indexable' ], $indexables );
 	}
 
 	/**
@@ -391,7 +391,7 @@ class Indexable_Repository {
 			}
 		}
 
-		return \array_map( [ $this, 'upgrade_indexable'], $indexables );
+		return \array_map( [ $this, 'upgrade_indexable' ], $indexables );
 	}
 
 	/**
@@ -411,7 +411,7 @@ class Indexable_Repository {
 			->where_in( 'id', $indexable_ids )
 			->find_many();
 
-		return \array_map( [ $this, 'upgrade_indexable'], $indexables );
+		return \array_map( [ $this, 'upgrade_indexable' ], $indexables );
 	}
 
 	/**
@@ -424,14 +424,14 @@ class Indexable_Repository {
 	public function get_ancestors( Indexable $indexable ) {
 		// If we've already set ancestors on the indexable no need to get them again.
 		if ( \is_array( $indexable->ancestors ) && ! empty( $indexable->ancestors ) ) {
-			return \array_map( [ $this, 'upgrade_indexable'], $indexable->ancestors );
+			return \array_map( [ $this, 'upgrade_indexable' ], $indexable->ancestors );
 		}
 
 		$indexable_ids = $this->hierarchy_repository->find_ancestors( $indexable );
 
 		// If we've set ancestors on the indexable because we had to build them to find them.
 		if ( \is_array( $indexable->ancestors ) && ! empty( $indexable->ancestors ) ) {
-			return \array_map( [ $this, 'upgrade_indexable'], $indexable->ancestors );
+			return \array_map( [ $this, 'upgrade_indexable' ], $indexable->ancestors );
 		}
 
 		if ( empty( $indexable_ids ) ) {
@@ -447,7 +447,7 @@ class Indexable_Repository {
 			->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
 			->find_many();
 
-		return \array_map( [ $this, 'upgrade_indexable'], $indexables );
+		return \array_map( [ $this, 'upgrade_indexable' ], $indexables );
 	}
 
 	/**
@@ -492,8 +492,7 @@ class Indexable_Repository {
 	 *
 	 * @return Indexable The indexable.
 	 */
-	public function upgrade_indexable( $indexable )
-	{
+	public function upgrade_indexable( $indexable ) {
 		if ( $this->version_manager->indexable_needs_upgrade( $indexable ) ) {
 			$indexable = $this->builder->build( $indexable );
 		}

@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Config;
 /**
  * Class Indexable_Builder_Versions
  */
-class Indexable_Builder_Versions
-{
+class Indexable_Builder_Versions {
+
 	const DEFAULT_INDEXABLE_BUILDER_VERSION = 1;
 
 	/**

@@ -77,7 +77,7 @@ class Indexable_Builder_Versions_Test extends TestCase {
 		// Arrange.
 		$versions = $this->instance->get_version_by_type();
 		// Force lower version; this unit test updates automatically with newer versions.
-		$this->setup_indexable( 'post', $versions[ 'post' ] - 1 );
+		$this->setup_indexable( 'post', ( $versions['post'] - 1 ) );
 
 		// Act.
 		$result = $this->instance->indexable_needs_upgrade( $this->indexable );
@@ -96,7 +96,7 @@ class Indexable_Builder_Versions_Test extends TestCase {
 		// Arrange.
 		$versions = $this->instance->get_version_by_type();
 		// Force identical version; this unit test updates automatically with newer versions.
-		$this->setup_indexable( 'post', $versions[ 'post' ] );
+		$this->setup_indexable( 'post', $versions['post'] );
 
 		// Act.
 		$result = $this->instance->indexable_needs_upgrade( $this->indexable );
@@ -114,7 +114,7 @@ class Indexable_Builder_Versions_Test extends TestCase {
 		// Arrange.
 		$versions = $this->instance->get_version_by_type();
 		// Force higher version; this unit test updates automatically with newer versions.
-		$this->setup_indexable( 'post', $versions[ 'post' ] + 1 );
+		$this->setup_indexable( 'post', ( $versions['post'] + 1 ) );
 
 		// Act.
 		$result = $this->instance->indexable_needs_upgrade( $this->indexable );
@@ -146,6 +146,6 @@ class Indexable_Builder_Versions_Test extends TestCase {
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
 		$this->indexable->object_type = $obj_type;
-		$this->indexable->version = $version;
+		$this->indexable->version     = $version;
 	}
 }

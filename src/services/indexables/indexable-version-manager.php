@@ -58,7 +58,7 @@ class Indexable_Version_Manager {
 	 *
 	 * @return Indexable
 	 */
-	public function set_latest( $indexable ){
+	public function set_latest( $indexable ) {
 		if ( ! $indexable ) {
 			return $indexable;
 		}

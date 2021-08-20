@@ -21,13 +21,13 @@ class Indexable_Author_Builder {
 	 * @var Author_Archive_Helper
 	 */
 	private $author_archive;
+
 	/**
 	 * Knows the latest version of each Indexable type.
 	 *
 	 * @var Indexable_Version_Manager
 	 */
 	protected $indexable_version_manager;
-
 
 	/**
 	 * Indexable_Author_Builder constructor.
@@ -39,7 +39,7 @@ class Indexable_Author_Builder {
 		Author_Archive_Helper $author_archive,
 		Indexable_Version_Manager $indexable_version_manager
 	) {
-		$this->author_archive = $author_archive;
+		$this->author_archive            = $author_archive;
 		$this->indexable_version_manager = $indexable_version_manager;
 	}
 

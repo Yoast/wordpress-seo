@@ -176,15 +176,12 @@ class Indexable_Builder {
 	 * @return bool|Indexable Instance of indexable. False when unable to build.
 	 */
 	public function build_for_id_and_type( $object_id, $object_type, $indexable = false ) {
-		$indexable = $this->ensure_indexable( $indexable );
-		$indexable->object_id   = $object_id;
-		$indexable->object_type = $object_type;
+		$defaults = [
+			'object_type' => $object_type,
+			'object_id'   => $object_id
+		];
 
-		$indexable = $this->build( $indexable );
-
-		if ( \in_array( $object_type, [ 'post', 'term' ], true ) && $indexable->post_status !== 'unindexed' ) {
-			$this->hierarchy_builder->build( $indexable );
-		}
+		$indexable = $this->build( $indexable, $defaults );
 
 		return $indexable;
 	}
@@ -227,7 +224,7 @@ class Indexable_Builder {
 	 */
 	public function build_for_post_type_archive( $post_type, $indexable = false ) {
 		$defaults = [
-			'object_type' => 'post-type-archive',
+			'object_type'     => 'post-type-archive',
 			'object_sub_type' => $post_type
 		];
 		return $this->build( $indexable, $defaults );
@@ -236,17 +233,17 @@ class Indexable_Builder {
 	/**
 	 * Creates an indexable for a system page.
 	 *
-	 * @param string         $object_sub_type The type of system page.
-	 * @param Indexable|bool $indexable       Optional. An existing indexable to overwrite.
+	 * @param string         $page_type The type of system page.
+	 * @param Indexable|bool $indexable Optional. An existing indexable to overwrite.
 	 *
 	 * @deprecated 17.1 use the build method instead.
 	 *
 	 * @return Indexable The search result indexable.
 	 */
-	public function build_for_system_page( $object_sub_type, $indexable = false ) {
+	public function build_for_system_page($page_type, $indexable = false ) {
 		$defaults = [
-			'object_type' => 'system-page',
-			'object_sub_type' => $object_sub_type
+			'object_type'     => 'system-page',
+			'object_sub_type' => $page_type
 		];
 		return $this->build( $indexable, $defaults );
 	}
@@ -255,7 +252,7 @@ class Indexable_Builder {
 	 * Ensures we have a valid indexable. Creates one if false is passed.
 	 *
 	 * @param Indexable|false $indexable The indexable.
-	 * @param array           $defaults  The inital properties of the Indexable.
+	 * @param array           $defaults  The initial properties of the Indexable.
 	 *
 	 * @return Indexable The indexable.
 	 */
@@ -320,7 +317,7 @@ class Indexable_Builder {
 	 *
 	 * @return Indexable|false The resulting Indexable.
 	 */
-	public function build($indexable, $defaults = null ){
+	public function build( $indexable, $defaults = null ){
 		// Backup the previous Indexable, if there was one.
 		$indexable_before = $indexable ? $this->deep_copy_indexable( $indexable ) : null;
 
@@ -337,12 +334,21 @@ class Indexable_Builder {
 						return $indexable;
 					}
 
+					// Always rebuild the primary term.
 					$this->primary_term_builder->build( $indexable->object_id );
 
+					// Always rebuild the hierarchy; this needs the primary terms to run correctly.
+					$this->hierarchy_builder->build( $indexable );
+
+					// Check the author indexable.
 					$author_indexable = $this->indexable_repository->find_by_id_and_type(
 						$indexable->author_id, 'user', false );
 					if ( ! $author_indexable || $this->version_manager->indexable_needs_upgrade( $author_indexable ) ) {
-						$this->build( $author_indexable );
+						$author_defaults = [
+							'object-type' => 'user',
+							'object_id' => $indexable->author_id
+						];
+						$this->build( $author_indexable, $author_defaults );
 					}
 					break;
 
@@ -352,6 +358,7 @@ class Indexable_Builder {
 
 				case 'term':
 					$indexable = $this->term_builder->build( $indexable->object_id, $indexable );
+					$this->hierarchy_builder->build( $indexable );
 					break;
 
 				case 'home-page':
@@ -363,12 +370,11 @@ class Indexable_Builder {
 					break;
 
 				case 'post-type-archive':
-					$indexable = $this->post_type_archive_builder->build( $indexable );
+					$indexable = $this->post_type_archive_builder->build( $indexable->object_sub_type, $indexable );
 					break;
 
 				case 'system-page':
-					// Saves the Indexable, todo normalize.
-					$indexable = $this->build_for_system_page( $indexable );
+					$indexable = $this->system_page_builder->build( $indexable->object_sub_type, $indexable );
 					break;
 			}
 
