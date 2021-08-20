@@ -443,15 +443,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Clear rewrite rules.
-	 *
-	 * @since 1.8.0
-	 */
-	public static function clear_rewrites() {
-		delete_option( 'rewrite_rules' );
-	}
-
-	/**
 	 * Do simple reliable math calculations without the risk of wrong results.
 	 *
 	 * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results.
@@ -1416,5 +1407,16 @@ SVG;
 		}
 
 		return is_super_admin();
+	}
+
+	/**
+	 * Clear rewrite rules.
+	 *
+	 * @since 1.8.0
+	 * @deprecated 17.1 
+	 * @codeCoverageIgnore
+	 */
+	public static function clear_rewrites() {
+		_deprecated_function( __METHOD__, 'WPSEO 17.1' );
 	}
 }
