@@ -238,6 +238,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 17.0 =
 Release Date: August 24th, 2021
+Say hello to Yoast SEO 17.0! This release includes some behind-the-scenes improvements, including several fixes for our indexables data management. For now, please enjoy Yoast SEO and write the best possible content in the language of your choice! Read more about what’s new in Yoast SEO 17.0 in [our release post](https://yoa.st/release-17-0)!
 
 Enhancements:
 
