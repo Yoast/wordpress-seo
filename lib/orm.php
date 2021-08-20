@@ -2203,7 +2203,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @return bool True for successful insert, false for failed.
 	 *
-	 * @example From the Indexable_Link_Builder class: $this->seo_links_repository->query()->save_many( $links );
+	 * @example From the Indexable_Link_Builder class: $this->seo_links_repository->query()->insert_many( $links );
 	 *
 	 * @throws \Exception Invalid or no instances to be inserted.
 	 * @throws \Exception Instance to be inserted is not a new one.
@@ -2214,8 +2214,9 @@ class ORM implements \ArrayAccess {
 			throw new \Exception( 'Invalid or no instances to be inserted' );
 		}
 
-		$values  = [];
-		$success = true;
+		$values              = [];
+		$total_dirty_fields  = [];
+		$success             = true;
 
 		foreach ( $models as $model ) {
 			if ( ! $model->orm->is_new ) {
@@ -2223,9 +2224,11 @@ class ORM implements \ArrayAccess {
 			}
 
 			// Remove any expression fields as they are already baked into the query.
-			$model_values = \array_values( \array_diff_key( $model->orm->dirty_fields, $model->orm->expr_fields ) );
-			$values       = \array_merge( $values, $model_values );
+			$dirty_fields = \array_diff_key( $model->orm->dirty_fields, $model->orm->expr_fields );
+			$total_dirty_fields = \array_merge( $total_dirty_fields, $dirty_fields );
 		}
+
+		$total_dirty_fields = \array_keys( $total_dirty_fields );
 
 		/**
 		 * Filter: 'wpseo_chunk_bulked_insert_queries' - Allow filtering the chunk size of each bulked INSERT query.
@@ -2236,14 +2239,23 @@ class ORM implements \ArrayAccess {
 		$chunk = ! \is_int( $chunk ) ? 1000 : $chunk;
 		$chunk = ( $chunk <= 0 ) ? 1000 : $chunk;
 
-		$values_chunk = ( $chunk * \count( $model_values ) );
+		$values_chunk = ( $chunk * \count( $total_dirty_fields ) );
 
 		$model_count = ( \count( $models ) );
 		while ( $model_count > 0 ) {
+
+			foreach ( $models as $model ) {
+				foreach ( $total_dirty_fields as $total_dirty_field) {
+					$model->orm->dirty_fields[$total_dirty_field] = ( isset( $model->orm->dirty_fields[$total_dirty_field] ) ) ? $model->orm->dirty_fields[$total_dirty_field] : null;
+				}
+				$model_values = \array_values( \array_diff_key( $model->orm->dirty_fields, $model->orm->expr_fields ) );
+				$values       = \array_merge( $values, $model_values );
+			}
+
 			$models_to_use = \array_slice( $models, 0, $chunk );
 			$values_to_use = \array_slice( $values, 0, $values_chunk );
 
-			$query   = $this->build_insert_many( $models_to_use );
+			$query   = $this->build_insert_many( $models_to_use, $total_dirty_fields );
 			$success = $success && (bool) self::execute( $query, $values_to_use );
 
 			$models = \array_slice( $models, $chunk );
@@ -2348,21 +2360,30 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @return string The insert query.
 	 */
-	protected function build_insert_many( $models ) {
+	protected function build_insert_many( $models, $total_dirty_fields ) {
 		$example_model      = $models[0];
 		$total_placeholders = '';
 
 		$query        = [];
 		$query[]      = 'INSERT INTO';
 		$query[]      = $this->quote_identifier( $example_model->orm->table_name );
-		$field_list   = \array_map( [ $this, 'quote_identifier' ], \array_keys( $example_model->orm->dirty_fields ) );
+		$field_list   = \array_map( [ $this, 'quote_identifier' ], $total_dirty_fields );
 		$query[]      = '(' . \implode( ', ', $field_list ) . ')';
 		$query[]      = 'VALUES';
-		$placeholders = $this->create_placeholders( $example_model->orm->dirty_fields );
 
 		foreach ( $models as $model ) {
+			$placeholder   = [];
+			foreach ( $total_dirty_fields as $dirty_field ) {
+				$placeholder[] = ( $model->orm->dirty_fields[$dirty_field] === null ) ? 'NULL' : '%s';
+			}
+			$placeholders = \implode( ', ', $placeholder );
 			$total_placeholders .= "({$placeholders}),";
 		}
+		// $placeholders = $this->create_placeholders( $total_dirty_fields );
+
+		// foreach ( $models as $model ) {
+		// 	$total_placeholders .= "({$placeholders}),";
+		// }
 
 		$query[] = \rtrim( $total_placeholders, ',' );
 		return \implode( ' ', $query );
