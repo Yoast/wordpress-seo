@@ -99,4 +99,18 @@ class Option_Wpseo_Watcher_Test extends TestCase {
 
 		$this->assertFalse( Monkey\Actions\has( 'shutdown', 'flush_rewrite_rules' ) );
 	}
+
+	/**
+	 * Tests action does not exist when the `stripcategorybase` option was not found.
+	 *
+	 * @covers \Yoast\WP\SEO\Integrations\Watchers\Option_Wpseo_Watcher::category_base_strip_flush_rewrites
+	 */
+	public function test_category_base_strip_flush_rewrites_option_not_found() {
+		$old_value_test = [ 'notstripcategorybase' => '1' ];
+		$new_value_test = [ 'stripcategorybase' => '0' ];
+
+		$this->instance->category_base_strip_flush_rewrites( $old_value_test, $new_value_test );
+
+		$this->assertFalse( Monkey\Actions\has( 'shutdown', 'flush_rewrite_rules' ) );
+	}
 }
