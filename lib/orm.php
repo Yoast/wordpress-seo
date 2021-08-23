@@ -2259,13 +2259,12 @@ class ORM implements \ArrayAccess {
 		$chunk = ! \is_int( $chunk ) ? 100 : $chunk;
 		$chunk = ( $chunk <= 0 ) ? 100 : $chunk;
 
-		$model_count = ( \count( $models ) );
-		while ( $model_count > 0 ) {
-			$values        = [];
-			$models_to_use = \array_slice( $models, 0, $chunk );
+		$chunked_models = \array_chunk( $models, $chunk );
+		foreach ( $chunked_models as $models_chunk ) {
+			$values = [];
 
 			// Now, we're creating all dirty fields throughout the models and setting them to null if they don't exist in each model.
-			foreach ( $models_to_use as $model ) {
+			foreach ( $models_chunk as $model ) {
 				$model_values = [];
 				foreach ( $dirty_column_names as $dirty_field ) {
 					$model->orm->dirty_fields[ $dirty_field ] = ( isset( $model->orm->dirty_fields[ $dirty_field ] ) ) ? $model->orm->dirty_fields[ $dirty_field ] : null;
@@ -2277,12 +2276,8 @@ class ORM implements \ArrayAccess {
 			}
 			// We now have the same dirty fields in all our models and also gathered all values.
 
-			$query   = $this->build_insert_many( $models_to_use, $dirty_column_names );
+			$query   = $this->build_insert_many( $models_chunk, $dirty_column_names );
 			$success = $success && (bool) self::execute( $query, $values );
-
-			$models = \array_slice( $models, $chunk );
-
-			$model_count = ( \count( $models ) );
 		}
 
 		return $success;
