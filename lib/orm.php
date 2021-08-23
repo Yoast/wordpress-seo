@@ -2246,9 +2246,6 @@ class ORM implements \ArrayAccess {
 
 		$success = true;
 
-		// First, we'll gather all the dirty fields throughout the models to be inserted.
-		$dirty_column_names = $this->get_dirty_column_names( $models );
-
 		/**
 		 * Filter: 'wpseo_chunk_bulked_insert_queries' - Allow filtering the chunk size of each bulked INSERT query.
 		 *
