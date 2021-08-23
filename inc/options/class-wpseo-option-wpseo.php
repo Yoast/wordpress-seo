@@ -82,6 +82,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'wincher_integration_active'               => true,
 		'wincher_tokens'                           => [],
 		'wincher_automatically_add_keyphrases'     => false,
+		'wincher_website_id'                       => '',
 	];
 
 	/**
@@ -266,6 +267,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'license_server_version':
 				case 'home_url':
 				case 'zapier_api_key':
+				case 'wincher_website_id':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
@@ -338,6 +340,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'semrush_tokens':
 				case 'custom_taxonomy_slugs':
 				case 'zapier_subscription':
+				case 'wincher_tokens':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
