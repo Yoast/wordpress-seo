@@ -2205,13 +2205,17 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @example From the Indexable_Link_Builder class: $this->seo_links_repository->query()->insert_many( $links );
 	 *
-	 * @throws \Exception Invalid or no instances to be inserted.
-	 * @throws \Exception Instance to be inserted is not a new one.
+	 * @throws \InvalidArgumentException Invalid instances to be inserted.
+	 * @throws \InvalidArgumentException Instance to be inserted is not a new one.
 	 */
 	public function insert_many( $models ) {
 		// Validate the input first.
-		if ( ! \is_array( $models ) || empty( $models ) ) {
-			throw new \Exception( 'Invalid or no instances to be inserted' );
+		if ( ! \is_array( $models )  ) {
+			throw new \InvalidArgumentException( 'Invalid instances to be inserted' );
+		}
+
+		if ( empty( $models ) ) {
+			return false;
 		}
 
 		$total_dirty_fields = [];
@@ -2220,7 +2224,7 @@ class ORM implements \ArrayAccess {
 		// First, we'll gather all the dirty fields throughout the models to be inserted.
 		foreach ( $models as $model ) {
 			if ( ! $model->orm->is_new ) {
-				throw new \Exception( 'Instance to be inserted is not a new one' );
+				throw new \InvalidArgumentException( 'Instance to be inserted is not a new one' );
 			}
 
 			// Remove any expression fields as they are already baked into the query.
