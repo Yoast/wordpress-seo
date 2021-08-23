@@ -1413,10 +1413,10 @@ SVG;
 	 * Clear rewrite rules.
 	 *
 	 * @since 1.8.0
-	 * @deprecated 17.1
+	 * @deprecated 17.2
 	 * @codeCoverageIgnore
 	 */
 	public static function clear_rewrites() {
-		_deprecated_function( __METHOD__, 'WPSEO 17.1' );
+		_deprecated_function( __METHOD__, 'WPSEO 17.2' );
 	}
 }
