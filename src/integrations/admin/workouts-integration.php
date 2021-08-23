@@ -69,7 +69,7 @@ class Workouts_Integration implements Integration_Interface {
 			'wpseo_dashboard',
 			'',
 			\__( 'Workouts', 'wordpress-seo' ) . ' <span class="yoast-badge yoast-premium-badge"></span>',
-			'edit_others_posts',
+			'wpseo_manage_options',
 			'wpseo_workouts',
 			[ $this, 'render' ],
 		];
