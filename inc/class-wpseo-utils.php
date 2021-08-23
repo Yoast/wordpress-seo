@@ -1413,7 +1413,7 @@ SVG;
 	 * Clear rewrite rules.
 	 *
 	 * @since 1.8.0
-	 * @deprecated 17.1 
+	 * @deprecated 17.1
 	 * @codeCoverageIgnore
 	 */
 	public static function clear_rewrites() {

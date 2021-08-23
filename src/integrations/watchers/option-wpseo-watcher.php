@@ -54,10 +54,9 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	 *
 	 * @param array $old_value The old value of the option.
 	 * @param array $new_value The new value of the option.
-	 *
 	 */
 	public function category_base_strip_flush_rewrites( $old_value, $new_value ) {
-		if ( \array_key_exists( 'stripcategorybase', $new_value ) 
+		if ( \array_key_exists( 'stripcategorybase', $new_value )
 		&& \array_key_exists( 'stripcategorybase', $old_value )
 		&& $old_value['stripcategorybase'] !== $new_value['stripcategorybase'] ) {
 			add_action( 'shutdown', 'flush_rewrite_rules' );
