@@ -24,7 +24,7 @@ module.exports = {
 				[ "packages/yoastseo/CHANGELOG.md", ".tmp/pg-yoastseo.md" ],
 				// [ "packages/js/CHANGELOG.md", ".tmp/pg-js.md" ],
 			],
-			commitChangelog: false,
+			commitChangelog: true,
 		},
 	},
 };

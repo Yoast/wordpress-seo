@@ -59,7 +59,7 @@ module.exports = {
 			],
 			findTheseAddons: [
 				[ "[wordpress-seo-premium]", "pl-wordpress-seo-premium.md" ],
-				[ "[Yoast SEO Premium]", "pl-wordpress-seo-premium.md" ],
+				// [ "[Yoast SEO Premium]", "pl-wordpress-seo-premium.md" ],
 				[ "[wordpress-seo-local]", "pl-wordpress-seo-local.md" ],
 				[ "[wpseo-new]", "pl-wpseo-new.md" ],
 				[ "[wpseo-video]", "pl-wpseo-video.md" ],
