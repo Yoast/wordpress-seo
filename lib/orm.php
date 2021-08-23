@@ -2197,6 +2197,33 @@ class ORM implements \ArrayAccess {
 	}
 
 	/**
+	 * Extracts and gathers all dirty column names from the given model instances.
+	 *
+	 * @param array $models Array of model instances to be inserted.
+	 *
+	 * @return bool True for successful insert, false for failed.
+	 *
+	 * @throws \InvalidArgumentException Instance to be inserted is not a new one.
+	 */
+	public function get_dirty_column_names( $models ) {
+		$dirty_column_names = [];
+
+		foreach ( $models as $model ) {
+			if ( ! $model->orm->is_new ) {
+				throw new \InvalidArgumentException( 'Instance to be inserted is not a new one' );
+			}
+
+			// Remove any expression fields as they are already baked into the query.
+			$dirty_fields       = \array_diff_key( $model->orm->dirty_fields, $model->orm->expr_fields );
+			$dirty_column_names = \array_merge( $dirty_column_names, $dirty_fields );
+		}
+
+		$dirty_column_names = \array_keys( $dirty_column_names );
+
+		return $dirty_column_names;
+	}
+
+	/**
 	 * Inserts multiple rows in a single query. Expects new rows as it's a strictly insert function, not an update one.
 	 *
 	 * @param array $models Array of model instances to be inserted.
@@ -2218,21 +2245,10 @@ class ORM implements \ArrayAccess {
 			return false;
 		}
 
-		$total_dirty_fields = [];
-		$success            = true;
+		$success = true;
 
 		// First, we'll gather all the dirty fields throughout the models to be inserted.
-		foreach ( $models as $model ) {
-			if ( ! $model->orm->is_new ) {
-				throw new \InvalidArgumentException( 'Instance to be inserted is not a new one' );
-			}
-
-			// Remove any expression fields as they are already baked into the query.
-			$dirty_fields       = \array_diff_key( $model->orm->dirty_fields, $model->orm->expr_fields );
-			$total_dirty_fields = \array_merge( $total_dirty_fields, $dirty_fields );
-		}
-
-		$total_dirty_fields = \array_keys( $total_dirty_fields );
+		$dirty_column_names = $this->get_dirty_column_names( $models );
 
 		/**
 		 * Filter: 'wpseo_chunk_bulked_insert_queries' - Allow filtering the chunk size of each bulked INSERT query.
@@ -2251,7 +2267,7 @@ class ORM implements \ArrayAccess {
 			// Now, we're creating all dirty fields throughout the models and setting them to null if they don't exist in each model.
 			foreach ( $models_to_use as $model ) {
 				$model_values = [];
-				foreach ( $total_dirty_fields as $dirty_field ) {
+				foreach ( $dirty_column_names as $dirty_field ) {
 					$model->orm->dirty_fields[ $dirty_field ] = ( isset( $model->orm->dirty_fields[ $dirty_field ] ) ) ? $model->orm->dirty_fields[ $dirty_field ] : null;
 					if ( ! is_null( $model->orm->dirty_fields[ $dirty_field ] ) ) {
 						$model_values[] = $model->orm->dirty_fields[ $dirty_field ];
@@ -2261,7 +2277,7 @@ class ORM implements \ArrayAccess {
 			}
 			// We now have the same dirty fields in all our models and also gathered all values.
 
-			$query   = $this->build_insert_many( $models_to_use, $total_dirty_fields );
+			$query   = $this->build_insert_many( $models_to_use, $dirty_column_names );
 			$success = $success && (bool) self::execute( $query, $values );
 
 			$models = \array_slice( $models, $chunk );
@@ -2362,25 +2378,25 @@ class ORM implements \ArrayAccess {
 	 * Builds a bulk INSERT query.
 	 *
 	 * @param array $models Array of model instances to be inserted.
-	 * @param array $total_dirty_fields Array of dirty fields to be used in INSERT.
+	 * @param array $dirty_column_names Array of dirty fields to be used in INSERT.
 	 *
 	 * @return string The insert query.
 	 */
-	protected function build_insert_many( $models, $total_dirty_fields ) {
+	protected function build_insert_many( $models, $dirty_column_names ) {
 		$example_model      = $models[0];
 		$total_placeholders = '';
 
 		$query      = [];
 		$query[]    = 'INSERT INTO';
 		$query[]    = $this->quote_identifier( $example_model->orm->table_name );
-		$field_list = \array_map( [ $this, 'quote_identifier' ], $total_dirty_fields );
+		$field_list = \array_map( [ $this, 'quote_identifier' ], $dirty_column_names );
 		$query[]    = '(' . \implode( ', ', $field_list ) . ')';
 		$query[]    = 'VALUES';
 
 		// We assign placeholders per model for dirty fields that have values and NULL for dirty fields that don't.
 		foreach ( $models as $model ) {
 			$placeholder = [];
-			foreach ( $total_dirty_fields as $dirty_field ) {
+			foreach ( $dirty_column_names as $dirty_field ) {
 				$placeholder[] = ( $model->orm->dirty_fields[ $dirty_field ] === null ) ? 'NULL' : '%s';
 			}
 			$placeholders        = \implode( ', ', $placeholder );
