@@ -78,10 +78,10 @@ class Option_Wpseo_Watcher_Test extends TestCase {
 	 * @covers \Yoast\WP\SEO\Integrations\Watchers\Option_Wpseo_Watcher::category_base_strip_flush_rewrites
 	 */
 	public function test_category_base_strip_flush_rewrites_option_changed() {
-		$old_value_test = ['stripcategorybase'=>'1'];
-		$new_value_test = ['stripcategorybase'=>'0'];
+		$old_value_test = [ 'stripcategorybase' => '1' ];
+		$new_value_test = [ 'stripcategorybase' => '0' ];
 
-		$this->instance->category_base_strip_flush_rewrites($old_value_test, $new_value_test);
+		$this->instance->category_base_strip_flush_rewrites( $old_value_test, $new_value_test );
 
 		$this->assertNotFalse( Monkey\Actions\has( 'shutdown', 'flush_rewrite_rules' ) );
 	}
@@ -92,10 +92,10 @@ class Option_Wpseo_Watcher_Test extends TestCase {
 	 * @covers \Yoast\WP\SEO\Integrations\Watchers\Option_Wpseo_Watcher::category_base_strip_flush_rewrites
 	 */
 	public function test_category_base_strip_flush_rewrites_option_unchanged() {
-		$old_value_test = ['stripcategorybase'=>'0'];
-		$new_value_test = ['stripcategorybase'=>'0'];
+		$old_value_test = [ 'stripcategorybase' => '0' ];
+		$new_value_test = [ 'stripcategorybase' => '0' ];
 
-		$this->instance->category_base_strip_flush_rewrites($old_value_test, $new_value_test);
+		$this->instance->category_base_strip_flush_rewrites( $old_value_test, $new_value_test );
 
 		$this->assertFalse( Monkey\Actions\has( 'shutdown', 'flush_rewrite_rules' ) );
 	}
