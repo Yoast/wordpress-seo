@@ -2214,17 +2214,17 @@ class ORM implements \ArrayAccess {
 			throw new \Exception( 'Invalid or no instances to be inserted' );
 		}
 
-		$values              = [];
-		$total_dirty_fields  = [];
-		$success             = true;
+		$total_dirty_fields = [];
+		$success            = true;
 
+		// First, we'll gather all the dirty fields throughout the models to be inserted.
 		foreach ( $models as $model ) {
 			if ( ! $model->orm->is_new ) {
 				throw new \Exception( 'Instance to be inserted is not a new one' );
 			}
 
 			// Remove any expression fields as they are already baked into the query.
-			$dirty_fields = \array_diff_key( $model->orm->dirty_fields, $model->orm->expr_fields );
+			$dirty_fields       = \array_diff_key( $model->orm->dirty_fields, $model->orm->expr_fields );
 			$total_dirty_fields = \array_merge( $total_dirty_fields, $dirty_fields );
 		}
 
@@ -2239,27 +2239,28 @@ class ORM implements \ArrayAccess {
 		$chunk = ! \is_int( $chunk ) ? 1000 : $chunk;
 		$chunk = ( $chunk <= 0 ) ? 1000 : $chunk;
 
-		$values_chunk = ( $chunk * \count( $total_dirty_fields ) );
-
 		$model_count = ( \count( $models ) );
 		while ( $model_count > 0 ) {
-
-			foreach ( $models as $model ) {
-				foreach ( $total_dirty_fields as $total_dirty_field) {
-					$model->orm->dirty_fields[$total_dirty_field] = ( isset( $model->orm->dirty_fields[$total_dirty_field] ) ) ? $model->orm->dirty_fields[$total_dirty_field] : null;
-				}
-				$model_values = \array_values( \array_diff_key( $model->orm->dirty_fields, $model->orm->expr_fields ) );
-				$values       = \array_merge( $values, $model_values );
-			}
-
+			$values        = [];
 			$models_to_use = \array_slice( $models, 0, $chunk );
-			$values_to_use = \array_slice( $values, 0, $values_chunk );
+
+			// Now, we're creating all dirty fields throughout the models and setting them to null if they don't exist in each model.
+			foreach ( $models_to_use as $model ) {
+				$model_values = [];
+				foreach ( $total_dirty_fields as $dirty_field ) {
+					$model->orm->dirty_fields[ $dirty_field ] = ( isset( $model->orm->dirty_fields[ $dirty_field ] ) ) ? $model->orm->dirty_fields[ $dirty_field ] : null;
+					if ( ! is_null( $model->orm->dirty_fields[ $dirty_field ] ) ) {
+						$model_values[] = $model->orm->dirty_fields[ $dirty_field ];
+					}
+				}
+				$values = \array_merge( $values, $model_values );
+			}
+			// We now have the same dirty fields in all our models and also gathered all values.
 
 			$query   = $this->build_insert_many( $models_to_use, $total_dirty_fields );
-			$success = $success && (bool) self::execute( $query, $values_to_use );
+			$success = $success && (bool) self::execute( $query, $values );
 
 			$models = \array_slice( $models, $chunk );
-			$values = \array_slice( $values, $values_chunk );
 
 			$model_count = ( \count( $models ) );
 		}
@@ -2357,6 +2358,7 @@ class ORM implements \ArrayAccess {
 	 * Builds a bulk INSERT query.
 	 *
 	 * @param array $models Array of model instances to be inserted.
+	 * @param array $total_dirty_fields Array of dirty fields to be used in INSERT.
 	 *
 	 * @return string The insert query.
 	 */
@@ -2364,26 +2366,22 @@ class ORM implements \ArrayAccess {
 		$example_model      = $models[0];
 		$total_placeholders = '';
 
-		$query        = [];
-		$query[]      = 'INSERT INTO';
-		$query[]      = $this->quote_identifier( $example_model->orm->table_name );
-		$field_list   = \array_map( [ $this, 'quote_identifier' ], $total_dirty_fields );
-		$query[]      = '(' . \implode( ', ', $field_list ) . ')';
-		$query[]      = 'VALUES';
+		$query      = [];
+		$query[]    = 'INSERT INTO';
+		$query[]    = $this->quote_identifier( $example_model->orm->table_name );
+		$field_list = \array_map( [ $this, 'quote_identifier' ], $total_dirty_fields );
+		$query[]    = '(' . \implode( ', ', $field_list ) . ')';
+		$query[]    = 'VALUES';
 
+		// We assign placeholders per model for dirty fields that have values and NULL for dirty fields that don't.
 		foreach ( $models as $model ) {
-			$placeholder   = [];
+			$placeholder = [];
 			foreach ( $total_dirty_fields as $dirty_field ) {
-				$placeholder[] = ( $model->orm->dirty_fields[$dirty_field] === null ) ? 'NULL' : '%s';
+				$placeholder[] = ( $model->orm->dirty_fields[ $dirty_field ] === null ) ? 'NULL' : '%s';
 			}
-			$placeholders = \implode( ', ', $placeholder );
+			$placeholders        = \implode( ', ', $placeholder );
 			$total_placeholders .= "({$placeholders}),";
 		}
-		// $placeholders = $this->create_placeholders( $total_dirty_fields );
-
-		// foreach ( $models as $model ) {
-		// 	$total_placeholders .= "({$placeholders}),";
-		// }
 
 		$query[] = \rtrim( $total_placeholders, ',' );
 		return \implode( ' ', $query );
