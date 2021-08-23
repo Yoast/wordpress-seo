@@ -2201,7 +2201,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @param array $models Array of model instances to be inserted.
 	 *
-	 * @return bool True for successful insert, false for failed.
+	 * @return array The distinct set of columns that are dirty in at least one of the models.
 	 *
 	 * @throws \InvalidArgumentException Instance to be inserted is not a new one.
 	 */
@@ -2209,7 +2209,7 @@ class ORM implements \ArrayAccess {
 		$dirty_column_names = [];
 
 		foreach ( $models as $model ) {
-			if ( ! $model->orm->is_new ) {
+			if ( ! $model->orm->is_new() ) {
 				throw new \InvalidArgumentException( 'Instance to be inserted is not a new one' );
 			}
 
@@ -2255,7 +2255,7 @@ class ORM implements \ArrayAccess {
 		 *
 		 * @api int The chunk size of the bulked INSERT queries.
 		 */
-		$chunk = \apply_filters( 'wpseo_chunk_bulked_insert_queries', 100 );
+		$chunk = \apply_filters( 'wpseo_chunk_bulk_insert_queries', 100 );
 		$chunk = ! \is_int( $chunk ) ? 100 : $chunk;
 		$chunk = ( $chunk <= 0 ) ? 100 : $chunk;
 
@@ -2263,19 +2263,29 @@ class ORM implements \ArrayAccess {
 		foreach ( $chunked_models as $models_chunk ) {
 			$values = [];
 
-			// Now, we're creating all dirty fields throughout the models and setting them to null if they don't exist in each model.
+			// First, we'll gather all the dirty fields throughout the models to be inserted.
+			$dirty_column_names = $this->get_dirty_column_names( $models_chunk );
+
+			// Now, we're creating all dirty fields throughout the models and
+			// setting them to null if they don't exist in each model.
 			foreach ( $models_chunk as $model ) {
 				$model_values = [];
-				foreach ( $dirty_column_names as $dirty_field ) {
-					$model->orm->dirty_fields[ $dirty_field ] = ( isset( $model->orm->dirty_fields[ $dirty_field ] ) ) ? $model->orm->dirty_fields[ $dirty_field ] : null;
-					if ( ! is_null( $model->orm->dirty_fields[ $dirty_field ] ) ) {
-						$model_values[] = $model->orm->dirty_fields[ $dirty_field ];
+
+				foreach ( $dirty_column_names as $dirty_column ) {
+					// Set the value to null if it hasn't been set already.
+					if ( ! isset( $model->orm->dirty_fields[ $dirty_column ] ) ) {
+						$model->orm->dirty_fields[ $dirty_column ] = null;
+					}
+
+					// Only register the value if it is not null.
+					if ( ! is_null( $model->orm->dirty_fields[ $dirty_column ] ) ) {
+						$model_values[] = $model->orm->dirty_fields[ $dirty_column ];
 					}
 				}
 				$values = \array_merge( $values, $model_values );
 			}
-			// We now have the same dirty fields in all our models and also gathered all values.
 
+			// We now have the same set of dirty columns in all our models and also gathered all values.
 			$query   = $this->build_insert_many( $models_chunk, $dirty_column_names );
 			$success = $success && (bool) self::execute( $query, $values );
 		}
