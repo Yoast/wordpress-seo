@@ -7,9 +7,10 @@
 
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Config\SEMrush_Client;
+use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Token_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
 
 /**
  * This class forces needed methods for the metabox localization.
@@ -276,24 +277,23 @@ class WPSEO_Metabox_Formatter {
 	 * @return bool The Wincher login status.
 	 */
 	private function get_wincher_login_status() {
-		return true;
-//		try {
-//			$wincher = YoastSEO()->classes->get( Wincher_Client::class );
-//		} catch ( Empty_Property_Exception $e ) {
-//			// Return false if token is malformed (empty property).
-//			return false;
-//		}
-//
-//		// Get token (and refresh it if it's expired).
-//		try {
-//			$wincher->get_tokens();
-//		} catch ( Authentication_Failed_Exception $e ) {
-//			return false;
-//		} catch ( Empty_Token_Exception $e ) {
-//			return false;
-//		}
-//
-//		return $wincher->has_valid_tokens();
+		try {
+			$wincher = YoastSEO()->classes->get( Wincher_Client::class );
+		} catch ( Empty_Property_Exception $e ) {
+			// Return false if token is malformed (empty property).
+			return false;
+		}
+
+		// Get token (and refresh it if it's expired).
+		try {
+			$wincher->get_tokens();
+		} catch ( Authentication_Failed_Exception $e ) {
+			return false;
+		} catch ( Empty_Token_Exception $e ) {
+			return false;
+		}
+
+		return $wincher->has_valid_tokens();
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
