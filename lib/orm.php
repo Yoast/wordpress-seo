@@ -2242,7 +2242,7 @@ class ORM implements \ArrayAccess {
 		}
 
 		if ( empty( $models ) ) {
-			return false;
+			return true;
 		}
 
 		$success = true;
