@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Indexables;
 
-use doubles\config\Indexable_Builder_Versions_Double;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Config\Indexable_Builder_Versions_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -47,7 +47,7 @@ class Indexable_Version_Manager_Test extends TestCase {
 		parent::set_up();
 
 		$this->indexable_versions = new Indexable_Builder_Versions_Double();
-		$this->instance = new Indexable_Version_Manager( $this->indexable_versions );
+		$this->instance           = new Indexable_Version_Manager( $this->indexable_versions );
 	}
 
 	/**
@@ -143,10 +143,10 @@ class Indexable_Version_Manager_Test extends TestCase {
 	/**
 	 * Configures the mocked Indexable.
 	 *
-	 * @param string $obj_type
-	 * @param int $version
+	 * @param string $obj_type The object type of the indexable under test.
+	 * @param int    $version  The current version of the indexable under test.
 	 */
-	protected function setup_indexable( $obj_type = 'post', $version = 1 ) {
+	protected function setup_indexable( $obj_type = 'post', $version = 0 ) {
 		// Setup the Indexable mock and its ORM layer.
 		$this->indexable      = Mockery::mock( Indexable_Mock::class );
 		$this->indexable->orm = Mockery::mock( ORM::class );

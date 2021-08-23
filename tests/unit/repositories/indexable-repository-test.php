@@ -69,6 +69,13 @@ class Indexable_Repository_Test extends TestCase {
 	protected $wpdb;
 
 	/**
+	 * Represents the Version Manager.
+	 *
+	 * @var Mockery\Mock|Indexable_Version_Manager
+	 */
+	protected $version_manager;
+
+	/**
 	 * Represents the permalink helper.
 	 *
 	 * @var Mockery\MockInterface|Permalink_Helper
@@ -87,6 +94,7 @@ class Indexable_Repository_Test extends TestCase {
 		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
 		$this->wpdb                 = Mockery::mock( wpdb::class );
 		$this->permalink_helper     = Mockery::mock( Permalink_Helper::class );
+		$this->version_manager      = Mockery::mock( Indexable_Version_Manager::class );
 		$this->instance             = Mockery::mock(
 			Indexable_Repository::class,
 			[
@@ -96,7 +104,7 @@ class Indexable_Repository_Test extends TestCase {
 				$this->hierarchy_repository,
 				$this->wpdb,
 				$this->permalink_helper,
-				Mockery::mock( Indexable_Version_Manager::class ),
+				$this->version_manager,
 			]
 		)->makePartial();
 	}
@@ -157,6 +165,12 @@ class Indexable_Repository_Test extends TestCase {
 
 		$orm_object = $this->mock_orm( [ 1 ], [ $indexable ] );
 
+		$this->version_manager
+			->expects( 'indexable_needs_upgrade' )
+			->once()
+			->with( $indexable )
+			->andReturnFalse();
+
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
 		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
@@ -179,6 +193,12 @@ class Indexable_Repository_Test extends TestCase {
 			->andReturn( [ 1, 2 ] );
 
 		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
+
+		$this->version_manager
+			->expects( 'indexable_needs_upgrade' )
+			->once()
+			->with( $indexable )
+			->andReturnFalse();
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
@@ -211,6 +231,12 @@ class Indexable_Repository_Test extends TestCase {
 			->with( $indexable )
 			->andReturn( $permalink );
 
+		$this->version_manager
+			->expects( 'indexable_needs_upgrade' )
+			->once()
+			->with( $indexable )
+			->andReturnFalse();
+
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
 		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
@@ -242,6 +268,12 @@ class Indexable_Repository_Test extends TestCase {
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
+		$this->version_manager
+			->expects( 'indexable_needs_upgrade' )
+			->once()
+			->with( $indexable )
+			->andReturnFalse();
+
 		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
 		$this->assertNull( $indexable->permalink );
 	}
@@ -271,6 +303,12 @@ class Indexable_Repository_Test extends TestCase {
 			->expects( 'get_permalink_for_indexable' )
 			->with( $indexable )
 			->andReturn( $permalink );
+
+		$this->version_manager
+			->expects( 'indexable_needs_upgrade' )
+			->once()
+			->with( $indexable )
+			->andReturnFalse();
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
@@ -349,6 +387,12 @@ class Indexable_Repository_Test extends TestCase {
 			->expects( 'find_many' )
 			->once()
 			->andReturn( [ $indexable ] );
+
+		$this->version_manager
+			->expects( 'indexable_needs_upgrade' )
+			->once()
+			->with( $indexable )
+			->andReturnFalse();
 
 		$permalink = 'https://example.org/permalink';
 
@@ -493,5 +537,13 @@ class Indexable_Repository_Test extends TestCase {
 		$this->instance->upgrade_indexable( $indexable );
 
 		$this->assertSame( 'unindexed', $indexable->permalink );
+	}
+
+	public function test_rebuild_indexable_if_outdated() {
+
+//		if ( $this->version_manager->indexable_needs_upgrade( $indexable ) ) {
+//				$indexable = $this->builder->build( $indexable );
+//			}
+//			return $indexable;
 	}
 }

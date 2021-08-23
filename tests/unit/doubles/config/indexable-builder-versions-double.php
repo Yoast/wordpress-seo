@@ -1,10 +1,12 @@
 <?php
 
-
-namespace doubles\config;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Config;
 
 use Yoast\WP\SEO\Config\Indexable_Builder_Versions;
 
+/**
+ * Class Indexable_Builder_Versions_Double
+ */
 class Indexable_Builder_Versions_Double extends Indexable_Builder_Versions {
 
 	/**

@@ -13,7 +13,7 @@ class Indexable_Version_Manager {
 	/**
 	 * Stores the version of each Indexable type.
 	 *
-	 * @var Indexable_Builder_Versions
+	 * @var $indexable_builder_versions Indexable_Builder_Versions The current versions of all indexable builders.
 	 */
 	protected $indexable_builder_versions;
 
@@ -45,10 +45,10 @@ class Indexable_Version_Manager {
 	 * @return boolean True if the given version is older than the current latest version.
 	 */
 	public function needs_upgrade( $object_type, $indexable_version ) {
-		$version = $this->indexable_builder_versions->get_latest_version_for_type( $object_type );
+		$current_indexable_builder_version = $this->indexable_builder_versions->get_latest_version_for_type( $object_type );
 
 		// If the Indexable's version is below the current version, that Indexable needs updating.
-		return $indexable_version < $version;
+		return ( $indexable_version ? $indexable_version : 1 ) < $current_indexable_builder_version;
 	}
 
 	/**
