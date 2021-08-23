@@ -7,7 +7,6 @@ use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
@@ -76,13 +75,6 @@ class Indexable_Repository_Test extends TestCase {
 	protected $version_manager;
 
 	/**
-	 * Represents the permalink helper.
-	 *
-	 * @var Mockery\MockInterface|Permalink_Helper
-	 */
-	protected $permalink_helper;
-
-	/**
 	 * Setup the test.
 	 */
 	protected function set_up() {
@@ -93,7 +85,6 @@ class Indexable_Repository_Test extends TestCase {
 		$this->logger               = Mockery::mock( Logger::class );
 		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
 		$this->wpdb                 = Mockery::mock( wpdb::class );
-		$this->permalink_helper     = Mockery::mock( Permalink_Helper::class );
 		$this->version_manager      = Mockery::mock( Indexable_Version_Manager::class );
 		$this->instance             = Mockery::mock(
 			Indexable_Repository::class,
@@ -103,7 +94,6 @@ class Indexable_Repository_Test extends TestCase {
 				$this->logger,
 				$this->hierarchy_repository,
 				$this->wpdb,
-				$this->permalink_helper,
 				$this->version_manager,
 			]
 		)->makePartial();
@@ -211,7 +201,7 @@ class Indexable_Repository_Test extends TestCase {
 	 *
 	 * @covers ::get_ancestors
 	 */
-	public function test_get_ancestors_ensures_permalink() {
+	public function test_get_ancestors_checks_version() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
 		$indexable->expects( 'save' )->once();
 		$indexable->object_type = 'post';
@@ -225,11 +215,6 @@ class Indexable_Repository_Test extends TestCase {
 		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
 
 		$permalink = 'https://example.org/permalink';
-
-		$this->permalink_helper
-			->expects( 'get_permalink_for_indexable' )
-			->with( $indexable )
-			->andReturn( $permalink );
 
 		$this->version_manager
 			->expects( 'indexable_needs_upgrade' )
@@ -260,11 +245,6 @@ class Indexable_Repository_Test extends TestCase {
 			->andReturn( [ 1, 2 ] );
 
 		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
-
-		$this->permalink_helper
-			->expects( 'get_permalink_for_indexable' )
-			->with( $indexable )
-			->andReturnNull();
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
@@ -298,11 +278,6 @@ class Indexable_Repository_Test extends TestCase {
 		$orm_object = $this->mock_orm( [ 1 ], [ $indexable ] );
 
 		$permalink = 'https://example.org/permalink';
-
-		$this->permalink_helper
-			->expects( 'get_permalink_for_indexable' )
-			->with( $indexable )
-			->andReturn( $permalink );
 
 		$this->version_manager
 			->expects( 'indexable_needs_upgrade' )
@@ -393,13 +368,6 @@ class Indexable_Repository_Test extends TestCase {
 			->once()
 			->with( $indexable )
 			->andReturnFalse();
-
-		$permalink = 'https://example.org/permalink';
-
-		$this->permalink_helper
-			->expects( 'get_permalink_for_indexable' )
-			->with( $indexable )
-			->andReturn( $permalink );
 
 		$this->assertSame( [ $indexable ], $this->instance->find_by_ids( [ 1, 2, 3 ] ) );
 	}
@@ -529,10 +497,17 @@ class Indexable_Repository_Test extends TestCase {
 		$indexable->expects( 'save' )
 			->once();
 
-		$this->permalink_helper
-			->expects( 'get_permalink_for_indexable' )
+		$this->version_manager
+			->expects( 'indexable_needs_upgrade' )
+			->once()
 			->with( $indexable )
-			->andReturn( null );
+			->andReturnTrue();
+
+		$this->builder
+			->expects( 'build' )
+			->once()
+			->with( $indexable )
+			->andReturn( $indexable );
 
 		$this->instance->upgrade_indexable( $indexable );
 
@@ -540,10 +515,20 @@ class Indexable_Repository_Test extends TestCase {
 	}
 
 	public function test_rebuild_indexable_if_outdated() {
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
-//		if ( $this->version_manager->indexable_needs_upgrade( $indexable ) ) {
-//				$indexable = $this->builder->build( $indexable );
-//			}
-//			return $indexable;
+		$this->version_manager
+			->expects( 'indexable_needs_upgrade' )
+			->once()
+			->with( $indexable )
+			->andReturnTrue();
+
+		$this->builder
+			->expects( 'build' )
+			->once()
+			->with( $indexable )
+			->andReturn( $indexable );
+
+		$this->instance->upgrade_indexable( $indexable );
 	}
 }

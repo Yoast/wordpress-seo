@@ -9,7 +9,6 @@ use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
-use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
@@ -62,13 +61,6 @@ class Indexable_Repository {
 	protected $indexable_helper;
 
 	/**
-	 * Represents the permalink helper.
-	 *
-	 * @var Permalink_Helper
-	 */
-	protected $permalink_helper;
-
-	/**
 	 * Checks if Indexables are up to date.
 	 *
 	 * @var Indexable_Version_Manager
@@ -83,7 +75,6 @@ class Indexable_Repository {
 	 * @param Logger                         $logger               The logger.
 	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository.
 	 * @param wpdb                           $wpdb                 The WordPress database instance.
-	 * @param Permalink_Helper               $permalink_helper     The permalink helper.
 	 * @param Indexable_Version_Manager      $version_manager      The indexable version manager.
 	 */
 	public function __construct(
@@ -92,7 +83,6 @@ class Indexable_Repository {
 		Logger $logger,
 		Indexable_Hierarchy_Repository $hierarchy_repository,
 		wpdb $wpdb,
-		Permalink_Helper $permalink_helper,
 		Indexable_Version_Manager $version_manager
 	) {
 		$this->builder              = $builder;
@@ -100,7 +90,6 @@ class Indexable_Repository {
 		$this->logger               = $logger;
 		$this->hierarchy_repository = $hierarchy_repository;
 		$this->wpdb                 = $wpdb;
-		$this->permalink_helper     = $permalink_helper;
 		$this->version_manager      = $version_manager;
 	}
 

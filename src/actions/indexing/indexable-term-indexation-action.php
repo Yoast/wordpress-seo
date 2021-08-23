@@ -127,11 +127,14 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$public_taxonomies = $this->taxonomy->get_public_taxonomies();
 
+		$taxonomies_placeholders =
+			\implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
+
 		$replacements = [ $this->version ];
-		\array_push( $replacements, $public_taxonomies );
+		\array_push( $replacements, $taxonomies_placeholders );
 
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
-		return $this->wpdb->prepare(
+		$q = $this->wpdb->prepare(
 			"
 			SELECT COUNT(term_id)
 			FROM {$this->wpdb->term_taxonomy} AS T
@@ -140,9 +143,10 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 				AND I.object_type = 'term'
 				AND I.version < %d
 			WHERE I.object_id IS NULL
-				AND taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ')',
-			$replacements
-		);
+				AND taxonomy IN (%s)",
+			$replacements);
+
+		return $q;
 	}
 
 	/**
