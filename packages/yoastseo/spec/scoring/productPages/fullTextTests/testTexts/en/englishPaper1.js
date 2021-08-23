@@ -4,16 +4,15 @@ import content from "./englishPaper1.html";
 const name = "englishPaper1";
 
 const paper = new Paper( content, {
-	keyword: "Resurfacing facial mask",
-	synonyms: "facial treatment",
-	description: "A 15 minute at-home Sparkling Facial treatment infused with our signature 6% AHA | 0.5% BHA Rose Complex and " +
-		"ultra-nourishing ingredients like resveratrol and Damask Rose petals to resurface and brighten your complexion " +
-		"without compromising your skin barrier.",
-	title: "Rosé resurfacing facial mask",
+	keyword: "Cat toys",
+	synonyms: "cat entertainment",
+	description: "Cat play and toys incorporates predatory games of \"play aggression.\" Cats' behaviors when playing are " +
+		"similar to hunting behaviors.",
+	title: "Cat play and toys",
 	titleWidth: 450,
 	locale: "en_EN",
-	permalink: "https://thenimetyou.com/products/rose-resurfacing-facial-mask",
-	url: "rose-resurfacing-facial-mask",
+	permalink: "https://en.wikipedia.org/wiki/Cat_play_and_toys",
+	url: "Cat_play_and_toys",
 } );
 
 const expectedResults = {
@@ -24,16 +23,14 @@ const expectedResults = {
 	},
 	keyphraseLength: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/shopify10' target='_blank'>Keyphrase length</a>: The keyphrase is 3 words long. " +
-			"That's slightly shorter than the recommended minimum of 4 words. <a href='https://yoa.st/shopify11' target='_blank'>Make it longer</a>!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify10' target='_blank'>Keyphrase length</a>: The keyphrase is 2 word long. That's shorter " +
+			"than the recommended minimum of 4 words. <a href='https://yoa.st/shopify11' target='_blank'>Make it longer</a>!",
 	},
 	keywordDensity: {
 		isApplicable: true,
-		score: -50,
-		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 7 times. " +
-			"That's way more than the recommended maximum of 3 times for a text of this length. <a href='https://yoa.st/shopify13' " +
-			"target='_blank'>Don't overoptimize</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 4 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -43,12 +40,14 @@ const expectedResults = {
 	},
 	metaDescriptionLength: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/shopify46' target='_blank'>Meta description length</a>: The meta description is over 156 characters." +
-			" To ensure the entire description will be visible, <a href='https://yoa.st/shopify47' target='_blank'>you should reduce the length</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify46' target='_blank'>Meta description length</a>: Well done!",
 	},
 	subheadingsKeyword: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify16' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/shopify17' " +
+			"target='_blank'>Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,
@@ -57,16 +56,15 @@ const expectedResults = {
 	},
 	textLength: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 158 words. This is slightly" +
-			" below the recommended minimum of 200 words. <a href='https://yoa.st/shopify59' target='_blank'>Add a bit more copy</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 218 words. Good job!",
 	},
 	titleKeyword: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in title</a>: The exact match of the " +
-			"focus keyphrase appears in the SEO title, but not at the beginning. <a href='https://yoa.st/shopify25' target='_blank'>" +
-			"Move it to the beginning for the best results</a>.",
+		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. " +
+			"<a href='https://yoa.st/shopify25' target='_blank'>Try to write the exact match of your keyphrase in the SEO title " +
+			"and put it at the beginning of the title</a>.",
 	},
 	titleWidth: {
 		isApplicable: true,
@@ -76,8 +74,7 @@ const expectedResults = {
 	urlKeyword: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify26' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase appears in " +
-			"the slug. That's great!",
+		resultText: "<a href='https://yoa.st/shopify26' target='_blank'>Keyphrase in slug</a>: Great work!",
 	},
 	functionWordsInKeyphrase: {
 		isApplicable: true,
@@ -86,17 +83,13 @@ const expectedResults = {
 	},
 	singleH1: {
 		isApplicable: true,
-		score: 1,
-		resultText: "<a href='https://yoa.st/shopify54' target='_blank'>Single title</a>: H1s should only be used as your " +
-			"main title. Find all H1s in your text that aren't your main title and <a href='https://yoa.st/shopify55' target='_blank'>" +
-			"change them to a lower heading level</a>!",
+		score: 0,
+		resultText: "",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/shopify22' target='_blank'>Image Keyphrase</a>: Out of 6 images on this page, 6 have alt attributes" +
-			" with words from your keyphrase or synonyms. That's a bit much. <a href='https://yoa.st/shopify23' target='_blank'>" +
-			"Only include the keyphrase or its synonyms when it really fits the image</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify22' target='_blank'>Image Keyphrase</a>: Good job!",
 	},
 	imageCount: {
 		isApplicable: true,
@@ -105,13 +98,14 @@ const expectedResults = {
 	},
 	imageAltTags: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify40' target='_blank'>Image alt tags</a>: All images have alt attributes. Good job!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify40' target='_blank'>Image alt tags</a>: 1 image out of 4 doesn't have alt attributes." +
+			" <a href='https://yoa.st/shopify41' target='_blank'>Add alt attributes to your images</a>!",
 	},
 	keyphraseDistribution: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text " +
+		score: 1,
+		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Very uneven. Large parts of your text " +
 			"do not contain the keyphrase or its synonyms. <a href='https://yoa.st/shopify31' target='_blank'>Distribute them more evenly</a>.",
 	},
 	subheadingsTooLong: {
@@ -119,8 +113,9 @@ const expectedResults = {
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify66' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify66' target='_blank'>Paragraph length</a>: 2 of the paragraphs contain more than " +
+			"the recommended maximum of 70 words. <a href='https://yoa.st/shopify67' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
@@ -128,8 +123,9 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: Great!",
 	},
 	textTransitionWords: {
-		// The text contains less than 200 words
-		isApplicable: false,
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Well done!",
 	},
 	passiveVoice: {
 		isApplicable: true,
