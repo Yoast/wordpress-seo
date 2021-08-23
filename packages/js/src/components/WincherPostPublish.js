@@ -1,68 +1,64 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import {Fragment, Component} from "@wordpress/element";
-import { FieldGroup } from "@yoast/components";
-import WincherToggle from "./WincherToggle";
+import {Fragment, useCallback} from "@wordpress/element";
 
-
-export function trackAllKeyphrases( toggleState ) {
-	console.log( "Hello!", toggleState );
-}
-
-class WincherPostPublish extends Component {
-	render() {
-		const displayToggle = this.props.trackedKeyphrases.length === 0;
-
-		return (
-			<Fragment>
-				<FieldGroup
-					label={ __( "SEO performance", "wordpress-seo" ) }
-					linkTo={ "https://google.com" }
-					linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
-				/>
-				{ displayToggle && <WincherToggle
-					onToggle={ this.props.toggleTrackAll }
-					isEnabled={ this.props.isTrackingArticle } /> }
-				{ ! displayToggle && <p>{ __( "Manual tracking has already been set for one or more keyphrases.", "wordpress-seo" ) }</p> }
-			</Fragment>
-		);
-	}
-}
+import {FieldGroup, NewButton} from "@yoast/components";
+import WincherExplanation from "./modals/WincherExplanation";
 
 /**
  * Renders the WincherPostPublish Yoast integration.
  *
+ * @param {Object} props The props to use.
+ *
  * @returns {wp.Element} The WincherPostPublish panel.
  */
-// export default function WincherPostPublish( props ) {
-// 	const {
-// 		isTrackingArticle,
-// 		trackedKeyphrases,
-// 		toggleTrackAll,
-// 		setIsTrackingAll,
-// 	} = props;
-//
-// 	const displayToggle = trackedKeyphrases.length === 0;
-//
-// 	console.log(isTrackingArticle)
-//
-// 	return <Fragment>
-// 		<FieldGroup
-// 			label={ __( "SEO performance", "wordpress-seo" ) }
-// 			linkTo={ "https://google.com" }
-// 			linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
-// 		/>
-// 		{ displayToggle && <WincherToggle onToggle={ toggleTrackAll } isEnabled={ isTrackingArticle } /> }
-// 		{ ! displayToggle && <p>{ __( "Manual tracking has already been set for one or more keyphrases.", "wordpress-seo" ) }</p> }
-// 	</Fragment>;
-// }
+export default function WincherPostPublish( props ) {
+	const {
+		hasTrackedKeyphrases,
+		trackAll,
+		keyphrases,
+	} = props;
+
+	const trackAllOnClick = useCallback( () => {
+		trackAll( keyphrases );
+	},
+	[ keyphrases ] );
+
+	return (
+		<Fragment>
+			<FieldGroup
+				label={ __( "SEO performance", "wordpress-seo" ) }
+				linkTo={ "https://google.com" }
+				linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
+			/>
+
+			<WincherExplanation />
+
+			{ hasTrackedKeyphrases && <p>
+				{ __( "Tracking has already been enabled for one or more keyphrases of this page. " +
+					"Clicking the button below will enable tracking for all of its keyphrases.", "wordpress-seo" ) }
+			</p> }
+
+			<div className="yoast">
+				<NewButton
+					variant="secondary"
+					onClick={ trackAllOnClick }
+				>
+					{ __( "Track all keyphrases on this page", "wordpress-seo" ) }
+				</NewButton>
+			</div>
+		</Fragment>
+	);
+}
 
 WincherPostPublish.propTypes = {
-	trackedKeyphrases: PropTypes.array,
+	keyphrases: PropTypes.array,
+	trackAll: PropTypes.func,
+	hasTrackedKeyphrases: PropTypes.bool,
 };
 
 WincherPostPublish.defaultProps = {
-	trackedKeyphrases: [],
+	keyphrases: [],
+	trackAll: () => {},
+	hasTrackedKeyphrases: false,
 };
-
-export default WincherPostPublish;

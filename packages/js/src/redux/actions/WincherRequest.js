@@ -4,7 +4,6 @@ export const WINCHER_SET_REQUEST_LIMIT_REACHED = "WINCHER_SET_LIMIT_REACHED";
 export const WINCHER_NEW_REQUEST = "WINCHER_NEW_REQUEST";
 export const WINCHER_NO_DATA_FOUND = "WINCHER_NO_DATA_FOUND";
 export const WINCHER_SET_LOGIN_STATUS = "WINCHER_SET_LOGIN_STATUS";
-export const WINCHER_TOGGLE_KEYPHRASE_TRACKING = "WINCHER_TOGGLE_KEYPHRASE_TRACKING";
 
 /**
  * An action creator for starting a new request.
@@ -51,11 +50,14 @@ export function setWincherRequestFailed( response ) {
 /**
  * An action creator for when the request limit has been reached.
  *
+ * @param {int} limit The limit assigned to the account.
+ *
  * @returns {Object} Action object.
  */
-export function setWincherSetRequestLimitReached() {
+export function setWincherSetRequestLimitReached( limit ) {
 	return {
 		type: WINCHER_SET_REQUEST_LIMIT_REACHED,
+		limit,
 	};
 }
 
@@ -73,27 +75,15 @@ export function setWincherNoResultsFound() {
 /**
  * An action creator to check if the user is logged in to Wincher.
  *
- * @param {boolean} loginStatus The login status.
+ * @param {boolean} loginStatus        The login status.
+ * @param {boolean} newlyAuthenticated Whether the login attempt is based on a new OAuth connection.
  *
  * @returns {Object} Action object.
  */
-export function setWincherLoginStatus( loginStatus ) {
+export function setWincherLoginStatus( loginStatus, newlyAuthenticated ) {
 	return {
 		type: WINCHER_SET_LOGIN_STATUS,
 		loginStatus,
-	};
-}
-
-/**
- * An action creator for toggling the tracking of the passed keyphrase.
- *
- * @param {string} keyphrase The keyphrase to toggle tracking for.
- *
- * @returns {Object} Action object.
- */
-export function setWincherToggleKeyphraseTracking( keyphrase ) {
-	return {
-		type: WINCHER_TOGGLE_KEYPHRASE_TRACKING,
-		trackedKeyphrase: keyphrase,
+		newlyAuthenticated,
 	};
 }

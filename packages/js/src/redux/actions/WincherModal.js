@@ -28,11 +28,11 @@ export function setWincherOpenModal( location ) {
 }
 
 /**
- * Displayes the empty keyphrase message when attempting to open the Wincher modal.
+ * Sets the no keyphrase to true when attempting to open the Wincher modal without a keyphrase being set.
  *
  * @returns {Object} Action object.
  */
-export function setWincherNoKeyphraseMessage() {
+export function setWincherNoKeyphrase() {
 	return {
 		type: WINCHER_MODAL_OPEN_NO_KEYPHRASE,
 	};

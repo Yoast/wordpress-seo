@@ -1,8 +1,9 @@
 import {
 	WINCHER_SET_SEO_PERFORMANCE_TRACKING,
-	WINCHER_TOGGLE_KEYPHRASE_TRACKING,
 	WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
-	WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE, WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES,
+	WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
+	WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES,
+	WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING,
 } from "../actions";
 
 import { xor } from "lodash-es";
@@ -24,23 +25,28 @@ function WincherSEOPerformanceReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
 		case WINCHER_SET_SEO_PERFORMANCE_TRACKING:
 			return {
+				...state,
 				isTracking: action.isTracking,
 			};
-		case WINCHER_TOGGLE_KEYPHRASE_TRACKING:
+		case WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING:
 			return {
+				...state,
 				isTracking: ! state.isTracking,
 			};
 		case WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE:
 			return {
+				...state,
 				trackableKeyphrase: action.trackableKeyphrase,
 			};
 		case WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE:
 			return {
+				...state,
 				trackedKeyphrases: xor( state.trackedKeyphrases, [ action.trackableKeyphrase ] ),
 			};
 		case WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES:
 			return {
-				trackedKeyphrases: [ action.trackedKeyphrases ],
+				...state,
+				trackedKeyphrases: action.trackedKeyphrases,
 			};
 	}
 	return state;

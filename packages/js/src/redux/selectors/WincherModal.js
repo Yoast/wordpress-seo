@@ -10,12 +10,12 @@ export function getWincherModalOpen( state ) {
 }
 
 /**
- * Gets the current display status of empty keyphrase message.
+ * Determines whether there's a keyphrase set..
  *
  * @param {Object} state The state.
  *
- * @returns {string} Current empty keyphrase message state.
+ * @returns {bool} Whether a keyphrase is set or not.
  */
-export function getWincherNoKeyphraseMessage( state ) {
-	return state.WincherModal.displayNoKeyphraseMessage;
+export function hasWincherNoKeyphrase( state ) {
+	return state.WincherModal.hasNoKeyphrase;
 }

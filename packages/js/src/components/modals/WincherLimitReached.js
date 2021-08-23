@@ -5,6 +5,8 @@ import { __, sprintf } from "@wordpress/i18n";
 import { makeOutboundLink } from "@yoast/helpers";
 import { Alert } from "@yoast/components";
 import interpolateComponents from "interpolate-components";
+import PropTypes from "prop-types";
+import WincherKeyphrasesTable from "../WincherKeyphrasesTable";
 
 const UpdateWincherPlanLink = makeOutboundLink();
 
@@ -13,7 +15,7 @@ const UpdateWincherPlanLink = makeOutboundLink();
  *
  * @returns {wp.Element} The Wincher limit exceeded modal content.
  */
-const WincherLimitReached = () => {
+const WincherLimitReached = ( props ) => {
 	const message = sprintf(
 		/* translators: %d expands to the amount of allowed keyphrases on a free account, %s expands to a link to Wincher plans. */
 		__(
@@ -21,7 +23,7 @@ const WincherLimitReached = () => {
 			"If you wish to add more keyphrases, please %s.",
 			"wordpress-seo"
 		),
-		10,
+		props.limit,
 		"{{updateWincherPlanLink/}}"
 	);
 
@@ -45,6 +47,14 @@ const WincherLimitReached = () => {
 			}
 		</Alert>
 	);
+};
+
+WincherLimitReached.propTypes = {
+	limit: PropTypes.number,
+};
+
+WincherLimitReached.defaultProps = {
+	limit: 10,
 };
 
 export default WincherLimitReached;

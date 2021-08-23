@@ -1,18 +1,18 @@
 /* External dependencies */
 import PropTypes from "prop-types";
-import { Fragment, Component } from "@wordpress/element";
+import {Fragment, Component, useCallback, useEffect} from "@wordpress/element";
 import { __, sprintf, _n } from "@wordpress/i18n";
-import { isEmpty } from "lodash-es";
+import { isEmpty, map, without } from "lodash-es";
+import apiFetch from "@wordpress/api-fetch";
+import { addQueryArgs } from "@wordpress/url";
 
 /* Yoast dependencies */
-import { Toggle } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
 
 /* Internal dependencies */
-import AreaChart from "../AreaChart";
+import WincherTableRow from "./WincherTableRow";
 
 const GetMoreInsightsLink = makeOutboundLink();
-const ViewLink = makeOutboundLink();
 
 /**
  * The WincherKeyphrasesTable component.
@@ -28,24 +28,18 @@ class WincherKeyphrasesTable extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.transformTrendDataToChartPoints   = this.transformTrendDataToChartPoints.bind( this );
-		this.getAreaChartDataTableHeaderLabels = this.getAreaChartDataTableHeaderLabels.bind( this );
-		this.mapAreaChartDataToTableData       = this.mapAreaChartDataToTableData.bind( this );
-		this.getToggleState                    = this.getToggleState.bind( this );
-		this.onLoginOpen                       = this.onLoginOpen.bind( this );
-		this.listenToMessages                  = this.listenToMessages.bind( this );
+		this.onLoginOpen      = this.onLoginOpen.bind( this );
+		this.listenToMessages = this.listenToMessages.bind( this );
+		this.onTrackKeyphrase = this.onTrackKeyphrase.bind( this );
+		this.getTrackedKeyphrases = this.getTrackedKeyphrases.bind( this );
 	}
 
 	/**
 	 * Opens the popup window.
 	 *
-	 * @param {event} e The click event.
-	 *
 	 * @returns {void}
 	 */
-	onLoginOpen( e ) {
-		e.preventDefault();
-
+	onLoginOpen() {
 		const url    = "https://auth.wincher.com/connect/authorize?client_id=yoast&response_type=code&redirect_uri=https%3A%2F%2Fauth.wincher.com%2Fyoast%2Fsetup&scope=api%20offline_access";
 		const height = "570";
 		const width  = "340";
@@ -65,14 +59,16 @@ class WincherKeyphrasesTable extends Component {
 		if ( ! this.popup || this.popup.closed ) {
 			this.popup = window.open( url, "Wincher_login", features.join( "," ) );
 		}
+
 		if ( this.popup ) {
 			this.popup.focus();
 		}
+
 		window.addEventListener( "message", this.listenToMessages, false );
 	}
 
 	/**
-	 * Listens to message events from the SEMrush popup.
+	 * Listens to message events from the Wincher popup.
 	 *
 	 * @param {event} event The message event.
 	 *
@@ -97,7 +93,7 @@ class WincherKeyphrasesTable extends Component {
 			this.popup.close();
 			// Stop listening to messages, since the popup is closed.
 			window.removeEventListener( "message", this.listenToMessages, false );
-			this.props.onAuthentication( false );
+			this.props.onAuthentication( false, false );
 		}
 	}
 
@@ -109,112 +105,124 @@ class WincherKeyphrasesTable extends Component {
 	 * @returns {void}
 	 */
 	async performAuthenticationRequest( data ) {
-		try {
-			const { code, websiteId } = data;
+		const { code, websiteId } = data;
 
-			// const response = await apiFetch( {
-			// 	path: "yoast/v1/wincher/authenticate",
-			// 	method: "POST",
-			// 	data: { code, websiteId },
-			// } );
-			//
-			// if ( response.status === 200 ) {
-			// 	this.props.onAuthentication( true );
-			// 	this.onModalOpen();
-			// 	// Close the popup if it's been opened again by mistake.
-			// 	this.popup.close();
-			// } else {
-			// 	console.error( response.error );
-			// }
+		await this.callEndpoint(
+			{
+				path: "yoast/v1/wincher/authenticate",
+				method: "POST",
+				data: { code, websiteId },
+			},
+			async ( response ) => {
+				this.props.onAuthentication( true, true );
+
+				// Collect all data known to Wincher first.
+				await this.getTrackedKeyphrases( this.props.keyphrases );
+				await this.performTrackingRequest( this.props.lastRequestKeyphrase );
+
+				// Close the popup if it's been opened again by mistake.
+				this.popup.close();
+			}
+		);
+	}
+
+	async performLimitCheckRequest() {
+		return await this.callEndpoint(
+			{
+				path: "yoast/v1/wincher/limit/check",
+				method: "GET",
+			},
+			( response ) => {
+				// Set the user limits.
+
+
+				return { ...response };
+			}
+		);
+	}
+
+	async performTrackingRequest( keyphrase ) {
+		const trackLimits = await this.performLimitCheckRequest();
+
+		if ( ! trackLimits.canTrack ) {
+			this.props.setRequestLimitReached( trackLimits.limit );
+
+			return;
+		}
+
+		await this.callEndpoint(
+			{
+				path: "yoast/v1/wincher/track/keyphrase/bulk",
+				method: "POST",
+				data: { keyphrase },
+			},
+			( response ) => {
+				this.props.toggleKeyphraseTracking( keyphrase );
+				this.props.setRequestSucceeded( response );
+			},
+			201
+		);
+	}
+
+	async onTrackKeyphrase( keyphrase ) {
+		// Prepare a new request.
+		this.props.newRequest( keyphrase );
+
+		if ( ! this.props.isLoggedIn ) {
+			this.onLoginOpen();
+
+			return;
+		}
+
+		// Toggle off
+
+		await this.performTrackingRequest( keyphrase );
+	}
+
+	 async getTrackedKeyphrases( keyphrases ) {
+		const preparedKeyphrases = encodeURIComponent( JSON.stringify( keyphrases ) );
+
+		await this.callEndpoint( {
+			path: addQueryArgs(
+				"yoast/v1/wincher/keyphrases",
+				{
+					keyphrases: preparedKeyphrases,
+					postID: window.wp.data.select( "core/editor" ).getCurrentPostId(),
+				}
+			),
+			method: "GET",
+		},
+		async ( response ) => {
+			this.props.setRequestSucceeded( response );
+			this.props.setTrackingKeyphrases( response );
+
+		} );
+	}
+
+	async callEndpoint( endpoint, callback, expectedCode = 200 ) {
+		try {
+			const response = await apiFetch( endpoint );
+
+			if ( response.status === expectedCode ) {
+				return callback( response );
+			}
+
+			this.props.setRequestFailed( response );
+			console.error( response.error );
 		} catch ( e ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
 			console.error( e.message );
 		}
 	}
 
-	/**
-	 * Transforms the Wincher Position data to x/y points for the SVG area chart.
-	 *
-	 * @param {Object} trend Comma separated list of position values for a single keyphrase.
-	 *
-	 * @returns {Array} An array of x/y coordinates objects.
-	 */
-	transformTrendDataToChartPoints( trend ) {
-		const trendArray = trend.split( "," );
 
-		return trendArray.map( ( value, index ) => ( { x: index, y: parseFloat( value ) } ) );
+	async componentDidMount() {
+		if ( this.props.isLoggedIn ) {
+			await this.getTrackedKeyphrases( this.props.keyphrases );
+		}
 	}
 
-	/**
-	 * Gets the labels for the data table headers.
-	 *
-	 * @returns {Array} The data table header labels.
-	 */
-	getAreaChartDataTableHeaderLabels() {
-		return Array.from( { length: 90 }, ( _, i ) => i + 1 ).map( ( i ) => {
-			/* translators: %d expands to the amount of days */
-			return sprintf( _n( "%d day", "%d days", i, "wordpress-seo" ), i );
-		} );
-	}
-
-	/**
-	 * Adapts the chart y axis data to a more meaningful format for the alternative representation in the data table.
-	 *
-	 * @param {number} y The raw y axis data of the chart.
-	 *
-	 * @returns {number} The formatted y axis data.
-	 */
-	mapAreaChartDataToTableData( y ) {
-		return Math.round( y * 100 );
-	}
-
-	/**
-	 * Gets the toggles state of the keyphrase.
-	 *
-	 * @param {string} keyphrase The toggle's associated keyphrase.
-	 * @param {boolean} isEnabled Whether or not the toggle is enabled.
-	 *
-	 * @returns {wp.Element} The toggle component.
-	 */
-	getToggleState( keyphrase, isEnabled ) {
-		return (
-			<Toggle
-				id={ `toggle-keyphrase-tracking-${keyphrase}` }
-				className="wincher-toggle"
-				isEnabled={ isEnabled }
-				onSetToggleState={ () => {
-					this.props.toggleAction( keyphrase );
-				} }
-				showToggleStateLabel={ false }
-			/>
-		);
-	}
-
-	/**
-	 *  Generates a chart based on the passed data.
-	 *
-	 * @param {Object} entry The data entry to check for data points.
-	 *
-	 * @returns {wp.Element} The chart containing the positions over time.
-	 */
-	generatePositionOverTimeChart( entry ) {
-		const areaChartDataTableHeaderLabels = this.getAreaChartDataTableHeaderLabels();
-		const chartPoints = this.transformTrendDataToChartPoints( entry );
-
-		return <AreaChart
-			width={ 66 }
-			height={ 24 }
-			data={ chartPoints }
-			strokeWidth={ 1.8 }
-			strokeColor="#498afc"
-			fillColor="#ade3fc"
-			className="yoast-related-keyphrases-modal__chart"
-			mapChartDataToTableData={ this.mapAreaChartDataToTableData }
-			dataTableCaption={
-				__( "Keyphrase position in the last 90 days on a scale from 0 to 100.", "wordpress-seo" )
-			}
-			dataTableHeaderLabels={ areaChartDataTableHeaderLabels }
-		/>;
+	getKeyphraseDataFromResponse( keyphrase ) {
+		return ( this.props.response && ! isEmpty( this.props.response ) ) ? this.props.response.results.find( data => data.keyword === keyphrase.toLowerCase() ) : null;
 	}
 
 	/**
@@ -223,10 +231,13 @@ class WincherKeyphrasesTable extends Component {
 	 * @returns {React.Element} The table.
 	 */
 	render() {
-		const { keyphrases, data, trackedKeyphrases, allowToggling, isTrackingAll } = this.props;
+		const {
+			keyphrases,
+			allowToggling,
+		} = this.props;
 
 		return (
-			data && ! isEmpty( data.results ) && <Fragment>
+			keyphrases && ! isEmpty( keyphrases ) && <Fragment>
 				<table className="yoast yoast-table">
 					<thead>
 						<tr>
@@ -259,27 +270,14 @@ class WincherKeyphrasesTable extends Component {
 					</thead>
 					<tbody>
 						{
-							data.results.rows.map( ( row, index ) => {
-								const trackableKeyphrase = row[ 1 ];
-								const isTracked          = trackedKeyphrases.includes( trackableKeyphrase );
-
-
-
-
-
-								return <tr key={ `trackable-keyphrase-${index}` }>
-									{ allowToggling &&  <td>{ this.getToggleState( trackableKeyphrase, isTracked ) }</td> }
-									<td>{ trackableKeyphrase }</td>
-									<td>{ isTracked ? row[ 2 ] : "?" }</td>
-									<td className="yoast-table--nopadding">{ isTracked ? this.generatePositionOverTimeChart( row[ 3 ] ) : "?" }</td>
-									<td className="yoast-table--nobreak">
-										{
-											<ViewLink href={ `https://google.com?q=${trackableKeyphrase}` }>
-												{ __( "View", "wordpress-seo" ) }
-											</ViewLink>
-										}
-									</td>
-								</tr>;
+							keyphrases.map( ( keyphrase, index ) => {
+								return ( <WincherTableRow
+									key={ `trackable-keyphrase-${index}` }
+									keyphrase={ keyphrase }
+									allowToggling={ allowToggling }
+									onTrackKeyphrase={ this.onTrackKeyphrase }
+									rowData={ this.getKeyphraseDataFromResponse( keyphrase ) }
+								/> );
 							} )
 						}
 					</tbody>
@@ -299,21 +297,28 @@ class WincherKeyphrasesTable extends Component {
 }
 
 WincherKeyphrasesTable.propTypes = {
-	data: PropTypes.object,
+	response: PropTypes.object,
 	keyphrases: PropTypes.array,
 	trackedKeyphrases: PropTypes.array,
 	toggleAction: PropTypes.func,
 	allowToggling: PropTypes.bool,
-	isTrackingAll: PropTypes.bool,
+	isLoggedIn: PropTypes.bool,
+	newRequest: PropTypes.func.isRequired,
+	setRequestSucceeded: PropTypes.func.isRequired,
+	setRequestLimitReached: PropTypes.func.isRequired,
+	setRequestFailed: PropTypes.func.isRequired,
+	setNoResultsFound: PropTypes.func.isRequired,
+	onAuthentication: PropTypes.func.isRequired,
+	toggleKeyphraseTracking: PropTypes.func.isRequired,
 };
 
 WincherKeyphrasesTable.defaultProps = {
-	data: {},
+	response: {},
 	keyphrases: [],
 	trackedKeyphrases: [],
 	toggleAction: null,
 	allowToggling: true,
-	isTrackingAll: false,
+	isLoggedIn: false,
 };
 
 export default WincherKeyphrasesTable;

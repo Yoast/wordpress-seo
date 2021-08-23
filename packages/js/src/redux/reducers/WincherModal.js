@@ -1,8 +1,12 @@
-import { WINCHER_MODAL_DISMISS, WINCHER_MODAL_OPEN, WINCHER_MODAL_OPEN_NO_KEYPHRASE } from "../actions";
+import {
+	WINCHER_MODAL_DISMISS,
+	WINCHER_MODAL_OPEN,
+	WINCHER_MODAL_OPEN_NO_KEYPHRASE,
+} from "../actions";
 
 const INITIAL_STATE = {
 	whichModalOpen: "none",
-	displayNoKeyphraseMessage: false,
+	hasNoKeyphrase: false,
 };
 /**
  * A reducer for the Wincher modal.
@@ -17,17 +21,17 @@ function WincherModalReducer( state = INITIAL_STATE, action ) {
 		case WINCHER_MODAL_OPEN_NO_KEYPHRASE:
 			return {
 				whichModalOpen: "none",
-				displayNoKeyphraseMessage: true,
+				hasNoKeyphrase: true,
 			};
 		case WINCHER_MODAL_OPEN:
 			return {
+				...state,
 				whichModalOpen: action.location,
-				displayNoKeyphraseMessage: false,
 			};
 		case WINCHER_MODAL_DISMISS:
 			return {
+				...state,
 				whichModalOpen: "none",
-				displayNoKeyphraseMessage: false,
 			};
 	}
 	return state;

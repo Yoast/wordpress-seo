@@ -3,7 +3,7 @@ import { withDispatch, withSelect } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 
 /* Internal dependencies */
-import WincherSEOPerformanceModalContent from "../components/WincherSEOPerformanceModalContent";
+import WincherKeyphrasesTable from "../components/WincherKeyphrasesTable";
 
 export default compose( [
 	withSelect( ( select ) => {
@@ -15,10 +15,9 @@ export default compose( [
 			getWincherRequestHasData,
 			getWincherRequestKeyphrase,
 			getWincherIsTracking,
+			getWincherTrackedKeyphrases,
 			getWincherTrackableKeyphrases,
-			hasWincherNoKeyphrase,
-			getWincherAuthenticationStatus,
-			getWincherLimit,
+			getWincherLoginStatus,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -30,9 +29,8 @@ export default compose( [
 			requestHasData: getWincherRequestHasData(),
 			lastRequestKeyphrase: getWincherRequestKeyphrase(),
 			isTracking: getWincherIsTracking(),
-			hasNoKeyphrase: hasWincherNoKeyphrase(),
-			isNewlyAuthenticated: getWincherAuthenticationStatus(),
-			limit: getWincherLimit(),
+			trackedKeyphrases: getWincherTrackedKeyphrases(),
+			isLoggedIn: getWincherLoginStatus(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
@@ -42,8 +40,10 @@ export default compose( [
 			setWincherRequestFailed,
 			setWincherSetRequestLimitReached,
 			setWincherNoResultsFound,
+			toggleTrackingForKeyphrase,
 			setTrackingForKeyphrase,
 			setTrackedKeyphrases,
+			setWincherLoginStatus,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
@@ -56,8 +56,8 @@ export default compose( [
 			setRequestFailed: ( response ) => {
 				setWincherRequestFailed( response );
 			},
-			setRequestLimitReached: () => {
-				setWincherSetRequestLimitReached();
+			setRequestLimitReached: ( limit ) => {
+				setWincherSetRequestLimitReached( limit );
 			},
 			setNoResultsFound: () => {
 				setWincherNoResultsFound();
@@ -65,9 +65,15 @@ export default compose( [
 			setTrackingKeyphrase: ( keyphrase, isTracking ) => {
 				setTrackingForKeyphrase( keyphrase, isTracking );
 			},
+			toggleKeyphraseTracking: ( keyphrase ) => {
+				toggleTrackingForKeyphrase( keyphrase );
+			},
 			setTrackingKeyphrases: ( keyphrases ) => {
 				setTrackedKeyphrases( keyphrases );
 			},
+			onAuthentication: ( status, newlyAuthenticated ) => {
+				setWincherLoginStatus( status, newlyAuthenticated );
+			},
 		};
 	} ),
-] )( WincherSEOPerformanceModalContent );
+] )( WincherKeyphrasesTable );

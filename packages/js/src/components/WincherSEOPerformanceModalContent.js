@@ -3,20 +3,17 @@ import { Fragment } from "@wordpress/element";
 import {__, _n, sprintf} from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash-es";
-import without from "lodash/without";
 
 
+import { FieldGroup } from "@yoast/components";
 /* Internal dependencies */
 import WincherSEOPerformanceLoading from "./modals/WincherSEOPerformanceLoading";
 import WincherLimitReached from "./modals/WincherLimitReached";
 import WincherRequestFailed from "./modals/WincherRequestFailed";
 import WincherConnectedAlert from "./modals/WincherConnectedAlert";
 import WincherCurrentlyTrackingAlert from "./modals/WincherCurrentlyTrackingAlert";
-import { FieldGroup } from "@yoast/components";
-import { makeOutboundLink } from "@yoast/helpers";
-import WincherKeyphrasesTable from "./modals/WincherKeyphrasesTable";
+import WincherKeyphrasesTable from "../containers/WincherKeyphrasesTable";
 import WincherExplanation from "./modals/WincherExplanation";
-import getL10nObject from "../analysis/getL10nObject";
 import WincherNoKeyphraseSet from "./modals/WincherNoKeyphraseSet";
 
 /**
@@ -39,19 +36,15 @@ export function hasError( response ) {
  */
 export function getUserMessage( props ) {
 	const {
-		isPending,
-		requestLimitReached,
 		isSuccess,
 		response,
 		requestHasData,
+		isPending,
 	} = props;
+
 
 	if ( isPending ) {
 		return <WincherSEOPerformanceLoading />;
-	}
-
-	if ( requestLimitReached ) {
-		return <WincherLimitReached />;
 	}
 
 	if ( ! isSuccess && hasError( response ) ) {
@@ -64,36 +57,6 @@ export function getUserMessage( props ) {
 }
 
 /**
- * Determines whether the maximum amount of related keyphrases has been reached.
- *
- * @param {array} relatedKeyphrases The related keyphrases. Can be empty.
- *
- * @returns {boolean} Whether or not the maximum limit has been reached.
- */
-export function hasMaximumRelatedKeyphrases( relatedKeyphrases ) {
-	return relatedKeyphrases && relatedKeyphrases.length >= 4;
-}
-
-function generate_random_numbers() {
-	return Array.from( { length: 90 }, ( _, i ) => i + 1 ).map( ( i ) => {
-		return Math.random();
-	} );
-}
-
-export function getTrackableKeyphrases( props ) {
-	const isPremium = getL10nObject().isPremium;
-
-	if ( isPremium ) {
-		return [
-			props.keyphrase,
-			...window.wp.data.select( "yoast-seo-premium/editor" ).getKeywords(),
-		];
-	}
-
-	return [ props.keyphrase ];
-}
-
-/**
  * Renders the Wincher SEO Performance modal content.
  *
  * @param {Object} props The props to use within the content.
@@ -102,88 +65,51 @@ export function getTrackableKeyphrases( props ) {
  */
 export default function WincherSEOPerformanceModalContent( props ) {
 	const {
-		response,
-		lastRequestKeyphrase,
-		keyphrase,
-		newRequest,
+		hasNoKeyphrase,
+		isNewlyAuthenticated,
 		requestLimitReached,
-		setRequestFailed,
-		setNoResultsFound,
-		relatedKeyphrases,
-		setRequestSucceeded,
-		setRequestLimitReached,
-		setTrackingKeyphrase,
-		toggleKeyphraseTracking,
-		trackedKeyphrases,
-		setTrackingKeyphrases,
+		limit,
 	} = props;
-
-
-	// Collect keyphrases
-	const keyphrases = getTrackableKeyphrases( props );
-
-
-	// If data is present, we need to match it to whatever keyphrases are set from the live data.
-
-	// TODO: Remove this upon implementation of the API.
-	const testData = {
-		results: {
-			rows: [
-				[ true, keyphrase, 1, generate_random_numbers().join( "," ) ],
-				// [ false, "graaa", 10, generate_random_numbers().join( "," ) ],
-				// [ false, "no", 55, generate_random_numbers().join( "," ) ],
-				[ true, "hello world", 100, generate_random_numbers().join( "," ) ],
-			],
-		},
-	};
 
 	return (
 		<Fragment>
-			{ without( keyphrases, "", null ).length === 0 && <WincherNoKeyphraseSet /> }
-			{ true && <WincherConnectedAlert />  }
+			{ hasNoKeyphrase && <WincherNoKeyphraseSet /> }
 
-			<FieldGroup
-				label={ __( "SEO performance", "wordpress-seo" ) }
-				linkTo={ "https://google.com" }
-				linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
-			/>
-			<WincherExplanation />
+			{ ! hasNoKeyphrase && (
+				<Fragment>
+					{ isNewlyAuthenticated && <WincherConnectedAlert /> }
 
-			{ true && <WincherCurrentlyTrackingAlert />  }
+					<FieldGroup
+						label={ __( "SEO performance", "wordpress-seo" ) }
+						linkTo={ "https://google.com" }
+						linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
+					/>
+					<WincherExplanation />
 
-			{ getUserMessage( props ) }
+					{ true && <WincherCurrentlyTrackingAlert /> }
 
-			<p>{ __( "You can enable / disable tracking the SEO performance for each keyphrase below.", "wordpress-seo" ) }</p>
+					{ getUserMessage( props ) }
 
-			{ true && <WincherLimitReached /> }
+					<p>{ __( "You can enable / disable tracking the SEO performance for each keyphrase below.", "wordpress-seo" ) }</p>
 
-			<WincherKeyphrasesTable
-				keyphrases={ getTrackableKeyphrases( props ) }
-				trackedKeyphrases={ trackedKeyphrases }
-				data={ testData }
-				toggleAction={ toggleKeyphraseTracking }
-			/>
+					{ requestLimitReached && <WincherLimitReached limit={ limit } /> }
+					<WincherKeyphrasesTable />
+				</Fragment>
+			) }
 		</Fragment>
 	);
 }
 
 WincherSEOPerformanceModalContent.propTypes = {
-	keyphrase: PropTypes.string,
-	relatedKeyphrases: PropTypes.array,
+	limit: PropTypes.number,
 	requestLimitReached: PropTypes.bool,
-	newRequest: PropTypes.func.isRequired,
-	setRequestSucceeded: PropTypes.func.isRequired,
-	setRequestLimitReached: PropTypes.func.isRequired,
-	setRequestFailed: PropTypes.func.isRequired,
-	setNoResultsFound: PropTypes.func.isRequired,
-	response: PropTypes.object,
-	lastRequestKeyphrase: PropTypes.string,
+	hasNoKeyphrase: PropTypes.bool,
+	isNewlyAuthenticated: PropTypes.bool,
 };
 
 WincherSEOPerformanceModalContent.defaultProps = {
-	keyphrase: "",
-	relatedKeyphrases: [],
+	limit: 10,
 	requestLimitReached: false,
-	response: {},
-	lastRequestKeyphrase: "",
+	hasNoKeyphrase: false,
+	isNewlyAuthenticated: false,
 };

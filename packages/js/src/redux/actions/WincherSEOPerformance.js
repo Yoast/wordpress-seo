@@ -1,12 +1,24 @@
-import AnalysisFields from "../../helpers/fields/AnalysisFields";
+import WincherSEOAnalysisFields from "../../helpers/fields/WincherSEOAnalysisFields";
 
 export const WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING = "WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING";
 export const WINCHER_SET_SEO_PERFORMANCE_TRACKING = "WINCHER_SET_SEO_PERFORMANCE_TRACKING";
 
 export const WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE = "WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE";
-export const WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE = "WINCHER_ET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE";
+export const WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE = "WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE";
 
 export const WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES = "WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES";
+
+/**
+ * An action creator for loading the Wincher SEO tracking.
+ *
+ * @returns {Object} The Wincher SEO tracking. action.
+ */
+export const loadWincherKeyphraseTracking = () => {
+	return {
+		type: WINCHER_SET_SEO_PERFORMANCE_TRACKING,
+		isTracking: WincherSEOAnalysisFields.isTracking,
+	};
+};
 
 /**
  * Sets the tracking toggle for the current article.
@@ -16,7 +28,7 @@ export const WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES = "WINCHER_SET_SEO_P
  * @returns {Object} Action object.
  */
 export function setWincherKeyphraseTracking( isTracking ) {
-	// AnalysisFields.isTracking = isTracking;
+	// WincherSEOAnalysisFields.isTracking = isTracking;
 
 	return {
 		type: WINCHER_SET_SEO_PERFORMANCE_TRACKING,
@@ -30,6 +42,8 @@ export function setWincherKeyphraseTracking( isTracking ) {
  * @returns {Object} Action object.
  */
 export function toggleKeyphraseTracking() {
+	// WincherSEOAnalysisFields.isTracking = ! WincherSEOAnalysisFields.isTracking;
+
 	return {
 		type: WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING,
 	};
@@ -73,8 +87,10 @@ export function setTrackingForKeyphrase( trackableKeyphrase, isTrackingKeyphrase
  * @returns {Object} Action object.
  */
 export function setTrackedKeyphrases( trackedKeyphrases ) {
+	WincherSEOAnalysisFields.trackingKeyphrases = trackedKeyphrases;
+
 	return {
-		type: WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
+		type: WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES,
 		trackedKeyphrases,
 	};
 }

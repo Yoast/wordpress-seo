@@ -1,26 +1,27 @@
+/* External dependencies */
 import { withDispatch, withSelect } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
+
+/* Internal dependencies */
 import WincherSEOPerformanceModal from "../components/WincherSEOPerformanceModal";
 
 export default compose( [
 	withSelect( ( select ) => {
 		const {
-			getFocusKeyphrase,
 			getWincherModalOpen,
-			getWincherLoginStatus,
+			getWincherTrackableKeyphrases,
 		} = select( "yoast-seo/editor" );
 
 		return {
-			keyphrases: [ getFocusKeyphrase() ],
+			keyphrases: getWincherTrackableKeyphrases(),
 			whichModalOpen: getWincherModalOpen(),
-			isLoggedIn: getWincherLoginStatus(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
 		const {
 			setWincherOpenModal,
 			setWincherDismissModal,
-			setWincherLoginStatus,
+			setWincherNoKeyphrase,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
@@ -30,8 +31,8 @@ export default compose( [
 			onClose: () => {
 				setWincherDismissModal();
 			},
-			onAuthentication: ( status ) => {
-				setWincherLoginStatus( status );
+			onNoKeyphraseSet: () => {
+				setWincherNoKeyphrase();
 			},
 		};
 	} ),

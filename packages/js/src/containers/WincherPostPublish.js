@@ -1,31 +1,34 @@
+/* External dependencies */
 import { withDispatch, withSelect } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
+
+/* Internal dependencies */
 import WincherPostPublish from "../components/WincherPostPublish";
 
 export default compose( [
 	withSelect( ( select ) => {
 		const {
-			getWincherIsTracking,
 			getWincherTrackedKeyphrases,
+			hasWincherTrackedKeyphrases,
+			getWincherTrackableKeyphrases,
 		} = select( "yoast-seo/editor" );
 
 		return {
-			isTrackingArticle: getWincherIsTracking(),
 			trackedKeyphrases: getWincherTrackedKeyphrases(),
+			hasTrackedKeyphrases: hasWincherTrackedKeyphrases(),
+			keyphrases: getWincherTrackableKeyphrases(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
 		const {
-			toggleKeyphraseTracking,
-			setWincherKeyphraseTracking,
+			setWincherOpenModal,
+			setTrackedKeyphrases,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
-			toggleTrackAll: () => {
-				toggleKeyphraseTracking();
-			},
-			setIsTrackingAll: ( isTracking ) => {
-				setWincherKeyphraseTracking( isTracking );
+			trackAll: ( keyphrases ) => {
+				setTrackedKeyphrases( keyphrases );
+				setWincherOpenModal( "sidebar" );
 			},
 		};
 	} ),

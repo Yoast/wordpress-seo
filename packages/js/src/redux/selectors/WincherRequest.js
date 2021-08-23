@@ -76,13 +76,23 @@ export function getWincherLoginStatus( state ) {
 }
 
 /**
- * Gets the user logged in to Wincher status.
+ * Gets the newly authenticated to Wincher status.
  *
  * @param {Object} state The state.
  *
- * @returns {boolean} Whether or not the user is logged in to Wincher.
+ * @returns {boolean} Whether the user is a newly authenticated account.
  */
-export function getWincherKeyphraseIsTracked( state, keyphrase ) {
-	return state.WincherRequest.isLoggedIn;
+export function getWincherAuthenticationStatus( state ) {
+	return state.WincherRequest.isNewlyAuthenticated;
 }
 
+/**
+ * Gets the tracking limit.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {int} The trackg limit assigned to the user account.
+ */
+export function getWincherLimit( state ) {
+	return state.WincherRequest.limit;
+}
