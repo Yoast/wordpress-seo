@@ -4620,7 +4620,7 @@
 
 "@yoast/grunt-plugin-tasks@ssh://git@github.com:Yoast/plugin-grunt-tasks#DO-483-build-changelog-inprovements":
   version "2.1.2"
-  resolved "ssh://git@github.com:Yoast/plugin-grunt-tasks#79fdeeb29973cd74bda2a9dbb12efa54c5ee654b"
+  resolved "ssh://git@github.com:Yoast/plugin-grunt-tasks#c4a373ff55450c945978774e2e608466f6ced5f8"
   dependencies:
     "@yoast/browserslist-config" "^1.0.0"
     autoprefixer "^9.7.2"
