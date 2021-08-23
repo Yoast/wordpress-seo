@@ -2210,7 +2210,7 @@ class ORM implements \ArrayAccess {
 	 */
 	public function insert_many( $models ) {
 		// Validate the input first.
-		if ( ! \is_array( $models )  ) {
+		if ( ! \is_array( $models ) ) {
 			throw new \InvalidArgumentException( 'Invalid instances to be inserted' );
 		}
 
