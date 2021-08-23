@@ -5,9 +5,16 @@ use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
+/**
+ * Class Orm_Test.
+ *
+ * @coversDefaultClass \Yoast\WP\Lib\ORM
+ */
 class Orm_Test extends TestCase {
 
 	/**
+	 * The instance to test.
+	 *
 	 * @var Orm_Double
 	 */
 	protected $instance;
@@ -21,6 +28,11 @@ class Orm_Test extends TestCase {
 		$this->instance = new Orm_Double( 'test', [] );
 	}
 
+	/**
+	 * Test_insert_many_throws_on_invalid_argument.
+	 *
+	 * @covers ::insert_many
+	 */
 	public function test_insert_many_throws_on_invalid_argument() {
 		// Arrange.
 		$models = $this;
@@ -32,6 +44,11 @@ class Orm_Test extends TestCase {
 		// Assert.
 	}
 
+	/**
+	 * Test_insert_many_early_return_for_empty_array.
+	 *
+	 * @covers ::insert_many
+	 */
 	public function test_insert_many_early_return_for_empty_array() {
 		// Arrange.
 		$models = [];
@@ -43,6 +60,11 @@ class Orm_Test extends TestCase {
 		$this->assertTrue( $result );
 	}
 
+	/**
+	 * Test_insert_many_throws_on_not_new_model.
+	 *
+	 * @covers ::insert_many
+	 */
 	public function test_insert_many_throws_on_not_new_model() {
 		// Arrange.
 		$orm = Mockery::mock( ORM::class );
