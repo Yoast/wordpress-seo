@@ -2235,9 +2235,9 @@ class ORM implements \ArrayAccess {
 		 *
 		 * @api int The chunk size of the bulked INSERT queries.
 		 */
-		$chunk = \apply_filters( 'wpseo_chunk_bulked_insert_queries', 1000 );
-		$chunk = ! \is_int( $chunk ) ? 1000 : $chunk;
-		$chunk = ( $chunk <= 0 ) ? 1000 : $chunk;
+		$chunk = \apply_filters( 'wpseo_chunk_bulked_insert_queries', 100 );
+		$chunk = ! \is_int( $chunk ) ? 100 : $chunk;
+		$chunk = ( $chunk <= 0 ) ? 100 : $chunk;
 
 		$model_count = ( \count( $models ) );
 		while ( $model_count > 0 ) {
