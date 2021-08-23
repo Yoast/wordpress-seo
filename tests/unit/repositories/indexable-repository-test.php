@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -95,6 +96,7 @@ class Indexable_Repository_Test extends TestCase {
 				$this->hierarchy_repository,
 				$this->wpdb,
 				$this->permalink_helper,
+				Mockery::mock( Indexable_Version_Manager::class ),
 			]
 		)->makePartial();
 	}

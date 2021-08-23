@@ -158,7 +158,7 @@ class Indexable_Builder {
 	 *
 	 * @return bool|Indexable
 	 */
-	protected function deep_copy_indexable( $indexable ){
+	protected function deep_copy_indexable( $indexable ) {
 		return $this->indexable_repository
 			->query()
 			->create( $indexable->as_array() );
@@ -178,7 +178,7 @@ class Indexable_Builder {
 	public function build_for_id_and_type( $object_id, $object_type, $indexable = false ) {
 		$defaults = [
 			'object_type' => $object_type,
-			'object_id'   => $object_id
+			'object_id'   => $object_id,
 		];
 
 		$indexable = $this->build( $indexable, $defaults );
@@ -225,7 +225,7 @@ class Indexable_Builder {
 	public function build_for_post_type_archive( $post_type, $indexable = false ) {
 		$defaults = [
 			'object_type'     => 'post-type-archive',
-			'object_sub_type' => $post_type
+			'object_sub_type' => $post_type,
 		];
 		return $this->build( $indexable, $defaults );
 	}
@@ -240,10 +240,10 @@ class Indexable_Builder {
 	 *
 	 * @return Indexable The search result indexable.
 	 */
-	public function build_for_system_page($page_type, $indexable = false ) {
+	public function build_for_system_page( $page_type, $indexable = false ) {
 		$defaults = [
 			'object_type'     => 'system-page',
-			'object_sub_type' => $page_type
+			'object_sub_type' => $page_type,
 		];
 		return $this->build( $indexable, $defaults );
 	}
@@ -317,7 +317,7 @@ class Indexable_Builder {
 	 *
 	 * @return Indexable|false The resulting Indexable.
 	 */
-	public function build( $indexable, $defaults = null ){
+	public function build( $indexable, $defaults = null ) {
 		// Backup the previous Indexable, if there was one.
 		$indexable_before = $indexable ? $this->deep_copy_indexable( $indexable ) : null;
 
@@ -342,11 +342,14 @@ class Indexable_Builder {
 
 					// Check the author indexable.
 					$author_indexable = $this->indexable_repository->find_by_id_and_type(
-						$indexable->author_id, 'user', false );
+						$indexable->author_id,
+						'user',
+						false
+					);
 					if ( ! $author_indexable || $this->version_manager->indexable_needs_upgrade( $author_indexable ) ) {
 						$author_defaults = [
 							'object-type' => 'user',
-							'object_id' => $indexable->author_id
+							'object_id'   => $indexable->author_id,
 						];
 						$this->build( $author_indexable, $author_defaults );
 					}
@@ -391,7 +394,7 @@ class Indexable_Builder {
 					'object_id'   => $indexable->object_id,
 					'object_type' => $indexable->object_type,
 					'post_status' => 'unindexed',
-					'version'     => 0
+					'version'     => 0,
 				]
 			);
 			// Make sure that the indexing process doesn't get stuck in a loop on this broken indexable.
