@@ -134,10 +134,7 @@ export class Indexation extends Component {
 		while ( this.isState( STATE.IN_PROGRESS ) && url !== false ) {
 			try {
 				await this.doPreIndexingAction( endpoint );
-				console.log( "the endpoint: ", endpoint );
-				console.log( "the url: ", url );
 				const response = await this.doIndexingRequest( url, this.settings.restApi.nonce );
-				console.log( "the response: ", response );
 				await this.doPostIndexingAction( endpoint, response );
 
 				this.setState( previousState => (
