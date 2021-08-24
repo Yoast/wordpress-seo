@@ -530,7 +530,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests creating the notification when it's not a prod site.
+	 * Tests that no notification is created when it's not a prod site.
 	 *
 	 * @covers ::maybe_create_notification
 	 * @covers ::should_show_notification
