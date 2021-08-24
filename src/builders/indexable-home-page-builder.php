@@ -2,10 +2,10 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Config\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 
 /**
  * Homepage Builder for the indexables.
@@ -33,27 +33,27 @@ class Indexable_Home_Page_Builder {
 	protected $url_helper;
 
 	/**
-	 * Knows the latest version of each Indexable type.
+	 * The latest version of the Indexable-Home-Page-Builder.
 	 *
-	 * @var Indexable_Version_Manager
+	 * @var int
 	 */
-	protected $indexable_version_manager;
+	protected $version;
 
 	/**
 	 * Indexable_Home_Page_Builder constructor.
 	 *
-	 * @param Options_Helper            $options                   The options helper.
-	 * @param Url_Helper                $url_helper                The url helper.
-	 * @param Indexable_Version_Manager $indexable_version_manager Knows the latest version of each Indexable type.
+	 * @param Options_Helper             $options    The options helper.
+	 * @param Url_Helper                 $url_helper The url helper.
+	 * @param Indexable_Builder_Versions $versions   Knows the latest version of each Indexable type.
 	 */
 	public function __construct(
 		Options_Helper $options,
 		Url_Helper $url_helper,
-		Indexable_Version_Manager $indexable_version_manager
+		Indexable_Builder_Versions $versions
 	) {
-		$this->options                   = $options;
-		$this->url_helper                = $url_helper;
-		$this->indexable_version_manager = $indexable_version_manager;
+		$this->options    = $options;
+		$this->url_helper = $url_helper;
+		$this->version    = $versions->get_latest_version_for_type( 'home-page' );
 	}
 
 	/**
@@ -92,7 +92,7 @@ class Indexable_Home_Page_Builder {
 			$this->set_open_graph_image_meta_data( $indexable );
 		}
 
-		$indexable = $this->indexable_version_manager->set_latest( $indexable );
+		$indexable->version = $this->version;
 
 		return $indexable;
 	}

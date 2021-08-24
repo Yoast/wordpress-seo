@@ -5,12 +5,12 @@ namespace Yoast\WP\SEO\Builders;
 use WP_Error;
 use WP_Post;
 use WPSEO_Meta;
+use Yoast\WP\SEO\Config\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 
 /**
  * Post Builder for the indexables.
@@ -43,24 +43,27 @@ class Indexable_Post_Builder {
 	protected $post_type_helper;
 
 	/**
-	 * Knows the latest version of each Indexable type.
+	 * Knows the latest version of the Indexable post builder type.
 	 *
-	 * @var Indexable_Version_Manager
+	 * @var int
 	 */
-	protected $indexable_version_manager;
+	protected $version;
 
 	/**
 	 * Indexable_Post_Builder constructor.
 	 *
-	 * @param Post_Helper      $post_helper      The post helper.
-	 * @param Post_Type_Helper $post_type_helper The post type helper.
+	 * @param Post_Helper                $post_helper      The post helper.
+	 * @param Post_Type_Helper           $post_type_helper The post type helper.
+	 * @param Indexable_Builder_Versions $versions         The indexable builder versions.
 	 */
 	public function __construct(
 		Post_Helper $post_helper,
-		Post_Type_Helper $post_type_helper
+		Post_Type_Helper $post_type_helper,
+		Indexable_Builder_Versions $versions
 	) {
 		$this->post_helper      = $post_helper;
 		$this->post_type_helper = $post_type_helper;
+		$this->version          = $versions->get_latest_version_for_type( 'post' );
 	}
 
 	/**
@@ -145,7 +148,7 @@ class Indexable_Post_Builder {
 		$indexable->schema_page_type    = $this->get_meta_value( $post_id, 'schema_page_type' );
 		$indexable->schema_article_type = $this->get_meta_value( $post_id, 'schema_article_type' );
 
-		$indexable = $this->indexable_version_manager->set_latest( $indexable );
+		$indexable->version = $this->version;
 
 		return $indexable;
 	}

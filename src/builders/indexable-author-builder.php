@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Config\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 
 /**
  * Author Builder for the indexables.
@@ -23,24 +23,24 @@ class Indexable_Author_Builder {
 	private $author_archive;
 
 	/**
-	 * Knows the latest version of each Indexable type.
+	 * The latest version of the Indexable_Author_Builder.
 	 *
-	 * @var Indexable_Version_Manager
+	 * @var int
 	 */
-	protected $indexable_version_manager;
+	protected $version;
 
 	/**
 	 * Indexable_Author_Builder constructor.
 	 *
-	 * @param Author_Archive_Helper     $author_archive            The author archive helper.
-	 * @param Indexable_Version_Manager $indexable_version_manager The Indexable version manager.
+	 * @param Author_Archive_Helper      $author_archive The author archive helper.
+	 * @param Indexable_Builder_Versions $versions       The Indexable version manager.
 	 */
 	public function __construct(
 		Author_Archive_Helper $author_archive,
-		Indexable_Version_Manager $indexable_version_manager
+		Indexable_Builder_Versions $versions
 	) {
-		$this->author_archive            = $author_archive;
-		$this->indexable_version_manager = $indexable_version_manager;
+		$this->author_archive = $author_archive;
+		$this->version        = $versions->get_latest_version_for_type( 'user' );
 	}
 
 	/**
@@ -72,7 +72,7 @@ class Indexable_Author_Builder {
 		$this->reset_social_images( $indexable );
 		$this->handle_social_images( $indexable );
 
-		$indexable = $this->indexable_version_manager->set_latest( $indexable );
+		$indexable->version = $this->version;
 
 		return $indexable;
 	}
