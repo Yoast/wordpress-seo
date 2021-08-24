@@ -4,15 +4,15 @@ import content from "./englishPaper3.html";
 const name = "englishPaper3";
 
 const paper = new Paper( content, {
-	keyword: "table linens",
-	synonyms: "table cover",
-	description: "Looking for table decor that&#39;s as memorable as your event? Silk &amp;amp; Willow table linens are " +
-		"naturally plant dyed and made from 100% natural materials.",
-	title: "Table linens - Silk & Willow",
+	keyword: "Young adult fiction",
+	synonyms: "YA",
+	description: "Young adult fiction (YA) is a category of fiction written for readers from 12 to 18 years of age. " +
+		"While the genre is targeted to adolescents, approximately half of YA readers are adults.",
+	title: "Young adult fiction",
 	titleWidth: 450,
 	locale: "en_EN",
-	permalink: "https://www.silkandwillow.com/collections/plant-dyed-table-linens",
-	url: "plant-dyed-table-linens",
+	permalink: "https://en.wikipedia.org/wiki/Young_adult_fiction",
+	url: "Young_adult_fiction",
 } );
 
 const expectedResults = {
@@ -29,13 +29,15 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 8 times. This is great!",
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 7 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify14' target='_blank'>Keyphrase in meta description</a>: Keyphrase or synonym " +
-			"appear in the meta description. Well done!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify14' target='_blank'>Keyphrase in meta description</a>: The meta description " +
+			"contains the keyphrase " +
+			"3 times, which is over the advised maximum of 2 times. <a href='https://yoa.st/shopify15' target='_blank'>" +
+			"Limit that</a>!",
 	},
 	metaDescriptionLength: {
 		isApplicable: true,
@@ -46,7 +48,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 780 words. Good job!",
+		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 437 words. Good job!",
 	},
 	titleKeyword: {
 		isApplicable: true,
@@ -71,10 +73,8 @@ const expectedResults = {
 	},
 	singleH1: {
 		isApplicable: true,
-		score: 1,
-		resultText: "<a href='https://yoa.st/shopify54' target='_blank'>Single title</a>: H1s should only be used as your " +
-			"main title. Find all H1s in your text that aren't your main title and <a href='https://yoa.st/shopify55' target='_blank'>" +
-			"change them to a lower heading level</a>!",
+		score: 0,
+		resultText: "",
 	},
 	keyphraseDistribution: {
 		isApplicable: true,
@@ -85,10 +85,8 @@ const expectedResults = {
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/shopify68' target='_blank'>Subheading distribution</a>: 1 section of your text is longer than 300 " +
-			"words and is not separated by any subheadings. <a href='https://yoa.st/shopify69' target='_blank'>Add subheadings to improve " +
-			"readability</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify68' target='_blank'>Subheading distribution</a>: Great job!",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
@@ -103,13 +101,15 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: None of the sentences contain " +
-			"transition words. <a href='https://yoa.st/shopify45' target='_blank'>Use some</a>.",
+		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 14.5% of the sentences " +
+			"contain transition words, which is not enough. <a href='https://yoa.st/shopify45' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 10.9% of the sentences contain passive voice, " +
+			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
+			"Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		score: 0,
@@ -117,9 +117,9 @@ const expectedResults = {
 	},
 	sentenceBeginnings: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify5' target='_blank'>Consecutive sentences</a>: " +
-			"There is enough variety in your sentences. That's great!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify5' target='_blank'>Consecutive sentences</a>: The text contains 4 consecutive " +
+			"sentences starting with the same word. <a href='https://yoa.st/shopify65' target='_blank'>Try to mix things up</a>!",
 	},
 };
 
