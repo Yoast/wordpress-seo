@@ -62,6 +62,8 @@ class Front_End_Integration_Test extends TestCase {
 	private $context_memoizer;
 
 	/**
+	 * Represents the indexable presentation.
+	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Presentation
 	 */
 	private $presentation;

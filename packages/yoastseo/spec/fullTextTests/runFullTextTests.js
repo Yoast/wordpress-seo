@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { enableFeatures } from "@yoast/feature-flag";
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
@@ -38,6 +39,9 @@ import SentenceBeginningsAssessment from "../../src/scoring/assessments/readabil
 
 // Import test papers
 import testPapers from "./testTexts";
+
+// Enable Farsi support
+enableFeatures( [ "FARSI_SUPPORT" ] );
 
 testPapers.forEach( function( testPaper ) {
 	// eslint-disable-next-line max-statements

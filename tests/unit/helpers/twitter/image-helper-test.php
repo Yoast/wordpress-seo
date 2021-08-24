@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers\Twitter;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Helpers\Image_Helper as Base_Image_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -29,7 +30,7 @@ class Image_Helper_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = Mockery::mock( Image_Helper::class )->makePartial();
+		$this->instance = new Image_Helper( Mockery::mock( Base_Image_Helper::class ) );
 	}
 
 	/**
@@ -38,8 +39,8 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::get_image_size
 	 */
 	public function test_get_image_size() {
-		Monkey\Functions\expect( 'apply_filters' )
-			->with( 'wpseo_twitter_image_size', 'full' )
+		Monkey\Filters\expectApplied( 'wpseo_twitter_image_size' )
+			->with( 'full' )
 			->once()
 			->andReturn( 'full' );
 

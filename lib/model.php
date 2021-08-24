@@ -88,6 +88,13 @@ class Model implements JsonSerializable {
 	protected $int_columns = [];
 
 	/**
+	 * Which columns contain float values.
+	 *
+	 * @var array
+	 */
+	protected $float_columns = [];
+
+	/**
 	 * Hacks around the Model to provide WordPress prefix to tables.
 	 *
 	 * @param string $class_name   Type of Model to load.
@@ -505,6 +512,9 @@ class Model implements JsonSerializable {
 		if ( $value !== null && \in_array( $property, $this->int_columns, true ) ) {
 			return (int) $value;
 		}
+		if ( $value !== null && \in_array( $property, $this->float_columns, true ) ) {
+			return (float) $value;
+		}
 
 		return $value;
 	}
@@ -522,6 +532,9 @@ class Model implements JsonSerializable {
 			$value = ( $value ) ? '1' : '0';
 		}
 		if ( $value !== null && \in_array( $property, $this->int_columns, true ) ) {
+			$value = (string) $value;
+		}
+		if ( $value !== null && \in_array( $property, $this->float_columns, true ) ) {
 			$value = (string) $value;
 		}
 
