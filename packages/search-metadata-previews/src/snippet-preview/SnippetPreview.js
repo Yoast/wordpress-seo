@@ -31,21 +31,22 @@ import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
  */
 // Was #1e0fbe
 const colorTitleDesktop         = "#1a0dab";
-const colorTitleMobile          = "#1967d2";
+const colorTitleMobile          = "#1558d6";
 const colorUrlBaseDesktop       = "#202124";
 const colorUrlRestDesktop       = "#5f6368";
-const colorUrlMobile            = "#3c4043";
+const colorUrlBaseMobile		= "#202124";
+const colorUrlRestMobile		= "#70757a";
 const colorDescriptionDesktop   = "#4d5156";
 const colorDescriptionMobile    = "#3c4043";
 // Changed to have 4.5:1 contrast.
-const colorGeneratedDescription = "#767676";
+const colorGeneratedDescription = "4d5156";
 // Was #70757f for both desktop and mobile
 const colorDateDesktop          = "#777";
 const colorDateMobile           = "#70757a";
 
 // Font sizes and line-heights.
-const fontSizeTitleMobile    = "16px";
-const lineHeightTitleMobile  = "20px";
+const fontSizeTitleMobile    = "20px";
+const lineHeightTitleMobile  = "26px";
 
 const fontSizeTitleDesktop   = "20px";
 const lineHeightTitleDesktop = "1.3";
@@ -166,11 +167,11 @@ const BaseUrlOverflowContainer = styled( BaseUrl )`
 const UrlContentContainer = styled.span`
 	font-size: ${ props => props.screenMode === MODE_DESKTOP ? fontSizeUrlDesktop : fontSizeUrlMobile };
 	line-height: ${ props => props.screenMode === MODE_DESKTOP ? lineHeightUrlDesktop : lineHeightUrlMobile };
-	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlRestDesktop : colorUrlMobile };
+	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlRestDesktop : colorUrlRestMobile };
 `;
 
 const UrlBaseContainer = styled.span`
-	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlBaseDesktop : colorUrlMobile };
+	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlBaseDesktop : colorUrlBaseMobile };
 `;
 
 BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
@@ -488,8 +489,8 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {?ReactElement} The rendered date.
 	 */
 	renderDate() {
-		// The u22C5 is the unicode character "dot operator" equivalent to `&sdot;`.
-		const separator = this.props.mode === MODE_DESKTOP ? "-" : "\u22C5";
+		// The u2014 and uFF0D unicode characters represent the ßdashes / minus signs.
+		const separator = this.props.mode === MODE_DESKTOP ? "\u2014" : "\uFF0D";
 
 		return this.props.date &&
 			<DatePreview screenMode={ this.props.mode }>{ this.props.date } { separator } </DatePreview>;
