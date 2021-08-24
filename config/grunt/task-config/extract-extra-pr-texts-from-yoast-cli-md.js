@@ -21,6 +21,7 @@ module.exports = {
 				[ "[search-metadata-previews]", "pg-search-metadata-previews.md" ],
 				[ "[search-metadata previews]", "pg-search-metadata-previews.md" ],
 				[ "[@yoast/search-metadata-previews]", "pg-search-metadata-previews.md" ],
+				[ "[@yoast/search-metadata-preview]", "pg-search-metadata-previews.md" ],
 				[ "[components]", "pg-components.md" ],
 				[ "[@yoast/components]", "pg-components.md" ],
 				[ "[social-metadata-forms]", "pg-social-metadata-forms.md" ],
