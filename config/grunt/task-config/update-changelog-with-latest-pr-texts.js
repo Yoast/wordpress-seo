@@ -22,6 +22,7 @@ module.exports = {
 			useANewLineAfterHeader: true,
 			commitChangelog: true,
 			useEditDistanceComapair: true,
+			addTheseExtraFiles: [ ],
 		},
 	},
 
