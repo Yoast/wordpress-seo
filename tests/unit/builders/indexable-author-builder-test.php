@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
+use Yoast\WP\SEO\Config\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -107,7 +108,10 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->once()
 			->andReturn( 'avatar_image.jpg' );
 
-		$builder = new Indexable_Author_Builder( $this->author_archive );
+		$builder = new Indexable_Author_Builder(
+			$this->author_archive,
+			new Indexable_Builder_Versions()
+		);
 		$builder->build( 1, $this->indexable_mock );
 	}
 

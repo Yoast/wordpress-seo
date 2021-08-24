@@ -18,6 +18,7 @@ use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -124,6 +125,13 @@ class Indexable_Builder_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * The version manager.
+	 *
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Version_Manager
+	 */
+	protected $version_manager;
+
+	/**
 	 * Sets up the test.
 	 */
 	protected function set_up() {
@@ -141,8 +149,8 @@ class Indexable_Builder_Test extends TestCase {
 		$this->hierarchy_builder         = Mockery::mock( Indexable_Hierarchy_Builder::class );
 		$this->primary_term_builder      = Mockery::mock( Primary_Term_Builder::class );
 		$this->indexable_helper          = Mockery::mock( Indexable_Helper::class );
-
-		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
+		$this->version_manager           = Mockery::mock( Indexable_Version_Manager::class );
+		$this->indexable_repository      = Mockery::mock( Indexable_Repository::class );
 
 		$this->indexable            = Mockery::mock( Indexable_Mock::class );
 		$this->indexable->author_id = 1999;
@@ -157,7 +165,8 @@ class Indexable_Builder_Test extends TestCase {
 			$this->system_page_builder,
 			$this->hierarchy_builder,
 			$this->primary_term_builder,
-			$this->indexable_helper
+			$this->indexable_helper,
+			new Indexable_Version_Manager()
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );

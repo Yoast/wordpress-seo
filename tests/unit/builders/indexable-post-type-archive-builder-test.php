@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Type_Archive_Builder;
+use Yoast\WP\SEO\Config\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -49,7 +50,7 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 
-		$builder = new Indexable_Post_Type_Archive_Builder( $options_mock );
+		$builder = new Indexable_Post_Type_Archive_Builder( $options_mock, new Indexable_Builder_Versions() );
 		$builder->build( 'my-post-type', $indexable_mock );
 	}
 }

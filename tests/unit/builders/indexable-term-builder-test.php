@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
+use Yoast\WP\SEO\Config\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Image_Helper;
@@ -80,7 +81,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$this->taxonomy = Mockery::mock( Taxonomy_Helper::class );
 
 		$this->instance = new Indexable_Term_Builder_Double(
-			$this->taxonomy
+			$this->taxonomy,
+			new Indexable_Builder_Versions()
 		);
 
 		$this->image            = Mockery::mock( Image_Helper::class );
@@ -160,11 +162,11 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$instance = new Indexable_Term_Builder( $this->taxonomy );
+		$instance = new Indexable_Term_Builder( $this->taxonomy, new Indexable_Builder_Versions() );
 
 		$this->assertInstanceOf(
-			Taxonomy_Helper::class,
-			$this->getPropertyValue( $instance, 'taxonomy' )
+			Indexable_Term_Builder::class,
+			$instance
 		);
 	}
 
@@ -239,6 +241,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 			'primary_focus_keyword'       => 'focuskeyword',
 			'primary_focus_keyword_score' => 75,
 			'readability_score'           => 50,
+			'version'                     => 1,
 		];
 
 		$this->set_indexable_set_expectations( $indexable_mock, $indexable_expectations );

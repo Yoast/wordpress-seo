@@ -512,15 +512,15 @@ class Indexable_Repository_Test extends TestCase {
 	 * @param $should    bool      is the indexable outdated or not?
 	 */
 	private function mock_version_check( $indexable, $should ) {
-		$result = $should ? true : false;
+		$rebuild = $should ? true : false;
 
 		$this->version_manager
 			->expects( 'indexable_needs_upgrade' )
 			->once()
 			->with( $indexable )
-			->andReturn( $result );
+			->andReturn( $rebuild );
 
-		if ( $result ) {
+		if ( $rebuild ) {
 			$this->builder
 				->expects( 'build' )
 				->once()
