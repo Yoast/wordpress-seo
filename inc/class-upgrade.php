@@ -838,8 +838,8 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_169() {
 		$cleanup_integration = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Cleanup_Integration::class );
+	
 		$number_of_deletions = $cleanup_integration->clean_indexables_with_object_type( 'post', 'shop_order', 1000 );
-
 		if ( ! empty( $number_of_deletions ) ) {
 			$indexables_to_clean = [ 'post', 'shop_order' ];
 

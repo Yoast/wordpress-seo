@@ -8,6 +8,8 @@ use Yoast\WP\Lib\Model;
  */
 class Cleanup_Integration implements Integration_Interface {
 
+	const CURRENT_TASK_OPTION = "wpseo-cleanup-current-task";
+
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
@@ -15,6 +17,87 @@ class Cleanup_Integration implements Integration_Interface {
 	 */
 	public static function get_conditionals() {
 		return [];
+	}
+
+	private function get_cleanup_tasks() {
+		return [
+			"clean_indexables_by_object_sub_type_shop-order" => function( $limit ) {
+				return $this->clean_indexables_with_object_type( "post", "shop-order", $limit );
+			},
+			"clean_indexables_by_post_status_auto-draft" => function( $limit ) {
+				return $this->clean_indexables_with_post_status( "auto-draft", $limit );
+			},
+			/* These should always be the last one to be called */
+			"clean_orphaned_content_indexable_hierarchy" => function( $limit ) {
+				return $this->cleanup_orphaned_from_table( 'Indexable_Hierarchy', 'indexable_id', $limit );
+			},
+			"clean_orphaned_content_seo_links_indexable_id" => function( $limit ) {
+				return $this->cleanup_orphaned_from_table( 'SEO_Links', 'indexable_id', $limit );
+			},
+			"clean_orphaned_content_seo_links_target_indexable_id" => function( $limit ) {
+				return $this->cleanup_orphaned_from_table( 'SEO_Links', 'target_indexable_id', $limit );
+			},
+		];
+	}
+
+	public function start_cleanup() {
+		$this->reset_cleanup();
+
+		$cleanups = $this->get_cleanup_tasks();
+
+		foreach ( $cleanups as $name => $action ) {
+			$limit = \apply_filters( 'wpseo_cron_query_limit_size', 1000 );
+
+			$items_cleaned = $action( $limit );
+			if ( $items_cleaned < $limit ) {
+				continue;
+			}
+			// There are more items to delete for the current cleanup job, start a cronjob at the specified job.
+			$this->start_cron_job( $name );
+			return;
+		}
+	}
+
+	private function reset_cleanup() {
+		\delete_option( self::CURRENT_TASK_OPTION );
+		\wp_unschedule_hook( 'wpseo_cleanup_cron' );
+	}
+
+	private function start_cron_job( $job_name ) {
+		\add_option( self::CURRENT_TASK_OPTION, $job_name );
+		\wp_schedule_event(
+			time(),
+			'hourly',
+			'wpseo_cleanup_cron',
+		);
+	}
+
+	public function _run_cleanup_cron() {
+		$current_task_name = \get_option( self::CURRENT_TASK_OPTION );
+		$limit             = \apply_filters( 'wpseo_cron_query_limit_size', 1000 );
+		$tasks             = $this->get_cleanup_tasks();
+
+		
+		while ( $current_task = \current( $tasks ) ) {
+			// Skip the tasks that have already been done.
+			if ( \key( $tasks ) !== $current_task_name ) {
+				\next( $tasks );
+				continue;
+			}
+
+			$items_cleaned = $current_task( $limit );
+
+			if( $items_cleaned === 0 ) {
+				// Check if we are finshed with all tasks.
+				if ( \next( $tasks ) === false ) {
+					$this->reset_cleanup();
+					return;
+				}
+				// Continue with the next task next time.
+				\update_option( self::CURRENT_TASK_OPTION, \key( $tasks ) );
+				return;
+			}
+		}
 	}
 
 	/**
@@ -25,8 +108,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'wpseo_cleanup_indexables', [ $this, 'cleanup_obsolete_indexables' ], 10, 2 );
-		\add_action( 'wpseo_cleanup_orphaned_indexables', [ $this, 'cleanup_orphaned_indexables' ] );
+		\add_action( 'wpseo_cleanup_cron', [ $this, '_run_cleanup_cron' ] );
 		\add_action( 'wpseo_deactivate', [ $this, 'unschedule_cron' ] );
 	}
 
@@ -128,6 +210,10 @@ class Cleanup_Integration implements Integration_Interface {
 		$sql = $wpdb->prepare( "DELETE FROM $indexable_table WHERE object_type = %s AND object_sub_type = %s ORDER BY id LIMIT %d", $object_type, $object_sub_type, $limit );
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
 		return $wpdb->query( $sql );
+	}
+
+	public function clean_indexables_with_post_status( $post_status ) {
+
 	}
 
 	/**
