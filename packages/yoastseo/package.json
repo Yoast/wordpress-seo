@@ -89,7 +89,9 @@
     },
     "transformIgnorePatterns": [
       "<rootDir>/node_modules/(?!lodash-es/.*)",
-      "<rootDir>/spec/fullTextTests/testText/*/*\\.html"
+      "<rootDir>/spec/fullTextTests/testText/*/*\\.html",
+      "<rootDir>/spec/scoring/collectionPages/fullTextTests/testTexts/*/*\\.html",
+      "<rootDir>/spec/scoring/productPages/fullTextTests/testTexts/*/*\\.html"
     ],
     "testRegex": "/spec/.*\\.(js)$",
     "testEnvironment": "node",

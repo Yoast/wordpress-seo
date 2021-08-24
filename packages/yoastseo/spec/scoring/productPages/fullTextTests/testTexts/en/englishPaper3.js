@@ -4,16 +4,16 @@ import content from "./englishPaper3.html";
 const name = "englishPaper3";
 
 const paper = new Paper( content, {
-	keyword: "birch milk refining toner",
-	synonyms: "hydrating toner",
-	description: "*For a limited time only, receive a complimentary Living Cleansing Balm Travel Mini with every purchase of " +
-		"the Birch Milk Refining Toner to help you on your acne journey. Exclusions apply* The Birch Milk Refining Toner is more " +
-		"than just a hydrating toner. Its gentle-yet-effective formulation helps to prevent breakouts",
-	title: "Birch milk refining toner",
+	keyword: "cat tree",
+	synonyms: "tree house",
+	description: "Cat trees vary in height and complexity, with most cats preferring features offering height[1] " +
+		"over comfort, particularly if tall enough to allow a clear survey of their territory. " +
+		"Some cats prefer options which offer shelter or a secluded escape,[1] which may be at any height of the structure.",
+	title: "Cat tree house",
 	titleWidth: 450,
 	locale: "en_EN",
-	permalink: "https://thenimetyou.com/products/birch-milk-refining-toner",
-	url: "birch-milk-refining-toner",
+	permalink: "https://en.wikipedia.org/wiki/Cat_tree",
+	url: "Cat_tree",
 } );
 
 const expectedResults = {
@@ -24,19 +24,22 @@ const expectedResults = {
 	},
 	keyphraseLength: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify10' target='_blank'>Keyphrase length</a>: Good job!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify10' target='_blank'>Keyphrase length</a>: The keyphrase is 2 word long. " +
+			"That's shorter than the recommended minimum of 4 words. <a href='https://yoa.st/shopify11' target='_blank'>Make it longer</a>!",
 	},
 	keywordDensity: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 9 times. This is great!",
+		score: -50,
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 11 times. " +
+			"That's way more than the recommended maximum of 8 times for a text of this length. <a href='https://yoa.st/shopify13' " +
+			"target='_blank'>Don't overoptimize</a>!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/shopify14' target='_blank'>Keyphrase in meta description</a>: The meta description contains " +
-			"the keyphrase 3 times, which is over the advised maximum of 2 times. <a href='https://yoa.st/shopify15' target='_blank'>Limit that</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify14' target='_blank'>Keyphrase in meta description</a>: Keyphrase or synonym appear " +
+			"in the meta description. Well done!",
 	},
 	metaDescriptionLength: {
 		isApplicable: true,
@@ -46,10 +49,7 @@ const expectedResults = {
 			"target='_blank'>you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
-		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/shopify16' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/shopify17'" +
-			" target='_blank'>Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!",
+		isApplicable: false,
 	},
 	textCompetingLinks: {
 		isApplicable: true,
@@ -59,7 +59,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 623 words. Good job!",
+		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 345 words. Good job!",
 	},
 	titleKeyword: {
 		isApplicable: true,
@@ -75,8 +75,7 @@ const expectedResults = {
 	urlKeyword: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify26' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase " +
-			"appears in the slug. That's great!",
+		resultText: "<a href='https://yoa.st/shopify26' target='_blank'>Keyphrase in slug</a>: Great work!",
 	},
 	functionWordsInKeyphrase: {
 		isApplicable: true,
@@ -85,29 +84,25 @@ const expectedResults = {
 	},
 	singleH1: {
 		isApplicable: true,
-		score: 1,
-		resultText: "<a href='https://yoa.st/shopify54' target='_blank'>Single title</a>: H1s should only be used as your " +
-			"main title. Find all H1s in your text that aren't your main title and <a href='https://yoa.st/shopify55' target='_blank'>" +
-			"change them to a lower heading level</a>!",
+		score: 0,
+		resultText: "",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/shopify22' target='_blank'>Image Keyphrase</a>: Out of 8 images on this page, " +
-			"7 have alt attributes with words from your keyphrase or synonyms. That's a bit much. " +
-			"<a href='https://yoa.st/shopify23' target='_blank'>Only include the keyphrase or its synonyms when it really fits " +
-			"the image</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify22' target='_blank'>Image Keyphrase</a>: Good job!",
 	},
 	imageCount: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify20' target='_blank'>Images and videos</a>: Good job!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify20' target='_blank'>Images and videos</a>: Only 2 images or videos " +
+			"appear on this page. We recommend at least 4. <a href='https://yoa.st/shopify21' target='_blank'>" +
+			"Add more relevant images or videos</a>!",
 	},
 	imageAltTags: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/shopify40' target='_blank'>Image alt tags</a>: 1 image out of 8 doesn't have alt attributes." +
-			" <a href='https://yoa.st/shopify41' target='_blank'>Add alt attributes to your images</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify40' target='_blank'>Image alt tags</a>: All images have alt attributes. Good job!",
 	},
 	keyphraseDistribution: {
 		isApplicable: true,
@@ -116,29 +111,34 @@ const expectedResults = {
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify68' target='_blank'>Subheading distribution</a>: Great job!",
+		score: 2,
+		resultText: "<a href='https://yoa.st/shopify68' target='_blank'>Subheading distribution</a>: You are not using any " +
+			"subheadings, although your text is rather long. <a href='https://yoa.st/shopify69' target='_blank'>Try and add some subheadings</a>.",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify66' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify66' target='_blank'>Paragraph length</a>: 1 of the paragraphs contains " +
+			"more than the recommended maximum of 70 words. <a href='https://yoa.st/shopify67' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: Great!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 28.6% of the sentences contain " +
+			"more than 20 words, which is more than the recommended maximum of 20%. <a href='https://yoa.st/shopify49' target='_blank'>" +
+			"Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 10.5% of the sentences contain " +
-			"transition words, which is not enough. <a href='https://yoa.st/shopify45' target='_blank'>Use more of them</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Well done!",
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 17.4% of the sentences contain passive voice, " +
+			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
+			"Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		score: 0,
@@ -146,9 +146,8 @@ const expectedResults = {
 	},
 	listPresence: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: No lists appear on this page. " +
-			"<a href='https://yoa.st/shopify39' target='_blank'>Add at least one ordered or unordered list</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: There is at least one list on this page. Great!",
 	},
 };
 
