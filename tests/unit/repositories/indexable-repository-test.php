@@ -368,6 +368,7 @@ class Indexable_Repository_Test extends TestCase {
 				[
 					'permalink'      => null,
 					'permalink_hash' => null,
+					'version'        => 0,
 				]
 			)
 			->once()
@@ -399,6 +400,7 @@ class Indexable_Repository_Test extends TestCase {
 				[
 					'permalink'      => null,
 					'permalink_hash' => null,
+					'version'        => 0,
 				]
 			)
 			->once()
@@ -440,6 +442,7 @@ class Indexable_Repository_Test extends TestCase {
 				[
 					'permalink'      => null,
 					'permalink_hash' => null,
+					'version'        => 0,
 				]
 			)
 			->once()
@@ -475,7 +478,9 @@ class Indexable_Repository_Test extends TestCase {
 		$indexable->expects( 'save' )
 			->once();
 
-		$this->instance->upgrade_indexable( $indexable );
+		$this->mock_version_check( $indexable, false );
+
+		$indexable = $this->instance->upgrade_indexable( $indexable );
 
 		$this->assertSame( 'unindexed', $indexable->permalink );
 	}
