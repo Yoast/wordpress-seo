@@ -34,8 +34,8 @@ const colorTitleDesktop         = "#1a0dab";
 const colorTitleMobile          = "#1558d6";
 const colorUrlBaseDesktop       = "#202124";
 const colorUrlRestDesktop       = "#5f6368";
-const colorUrlBaseMobile		= "#202124";
-const colorUrlRestMobile		= "#70757a";
+const colorUrlBaseMobile        = "#202124";
+const colorUrlRestMobile        = "#70757a";
 const colorDescriptionDesktop   = "#4d5156";
 const colorDescriptionMobile    = "#3c4043";
 // Changed to have 4.5:1 contrast.
@@ -489,7 +489,7 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {?ReactElement} The rendered date.
 	 */
 	renderDate() {
-		// The u2014 and uFF0D unicode characters represent the ßdashes / minus signs.
+		// The u2014 and uFF0D unicode characters represent the em-dashes / minus signs.
 		const separator = this.props.mode === MODE_DESKTOP ? "\u2014" : "\uFF0D";
 
 		return this.props.date &&
