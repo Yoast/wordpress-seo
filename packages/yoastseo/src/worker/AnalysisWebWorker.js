@@ -116,6 +116,12 @@ export default class AnalysisWebWorker {
 		this.registerAssessment = this.registerAssessment.bind( this );
 		this.registerMessageHandler = this.registerMessageHandler.bind( this );
 		this.refreshAssessment = this.refreshAssessment.bind( this );
+		this.setCustomContentAssessorClass = this.setCustomContentAssessorClass.bind( this );
+		this.setCustomCornerstoneContentAssessorClass = this.setCustomCornerstoneContentAssessorClass.bind( this );
+		this.setCustomSEOAssessorClass = this.setCustomSEOAssessorClass.bind( this );
+		this.setCustomCornerstoneSEOAssessorClass = this.setCustomCornerstoneSEOAssessorClass.bind( this );
+		this.setCustomRelatedKeywordAssessorClass = this.setCustomRelatedKeywordAssessorClass.bind( this );
+		this.setCustomCornerstoneRelatedKeywordAssessorClass = this.setCustomCornerstoneRelatedKeywordAssessorClass.bind( this );
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
@@ -164,6 +170,7 @@ export default class AnalysisWebWorker {
 	setCustomContentAssessorClass( ContentAssessorClass, customAnalysisType, customAssessorOptions ) {
 		this._CustomContentAssessorClasses[ customAnalysisType ] = ContentAssessorClass;
 		this._CustomContentAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._contentAssessor = this.createContentAssessor();
 	}
 
 	/**
@@ -178,6 +185,7 @@ export default class AnalysisWebWorker {
 	setCustomCornerstoneContentAssessorClass( CornerstoneContentAssessorClass, customAnalysisType, customAssessorOptions ) {
 		this._CustomCornerstoneContentAssessorClasses[ customAnalysisType ] = CornerstoneContentAssessorClass;
 		this._CustomCornerstoneContentAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._contentAssessor = this.createContentAssessor();
 	}
 
 	/**
@@ -192,6 +200,7 @@ export default class AnalysisWebWorker {
 	setCustomSEOAssessorClass( SEOAssessorClass, customAnalysisType, customAssessorOptions ) {
 		this._CustomSEOAssessorClasses[ customAnalysisType ] = SEOAssessorClass;
 		this._CustomSEOAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._seoAssessor = this.createSEOAssessor();
 	}
 
 	/**
@@ -206,6 +215,7 @@ export default class AnalysisWebWorker {
 	setCustomCornerstoneSEOAssessorClass( CornerstoneSEOAssessorClass, customAnalysisType, customAssessorOptions ) {
 		this._CustomCornerstoneSEOAssessorClasses[ customAnalysisType ] = CornerstoneSEOAssessorClass;
 		this._CustomCornerstoneSEOAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._seoAssessor = this.createSEOAssessor();
 	}
 
 	/**
@@ -220,6 +230,7 @@ export default class AnalysisWebWorker {
 	setCustomRelatedKeywordAssessorClass( RelatedKeywordAssessorClass, customAnalysisType, customAssessorOptions ) {
 		this._CustomRelatedKeywordAssessorClasses[ customAnalysisType ] = RelatedKeywordAssessorClass;
 		this._CustomRelatedKeywordAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
 	}
 
 	/**
@@ -234,6 +245,7 @@ export default class AnalysisWebWorker {
 	setCustomCornerstoneRelatedKeywordAssessorClass( CornerstoneRelatedKeywordAssessorClass, customAnalysisType, customAssessorOptions  ) {
 		this._CustomCornerstoneRelatedKeywordAssessorClasses[ customAnalysisType ] = CornerstoneRelatedKeywordAssessorClass;
 		this._CustomCornerstoneRelatedKeywordAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
 	}
 
 	/**
@@ -291,12 +303,7 @@ export default class AnalysisWebWorker {
 	 */
 	register() {
 		this._scope.onmessage = this.handleMessage;
-		this._scope.analysisWorker = {
-			registerAssessment: this.registerAssessment,
-			registerParser: this.registerParser,
-			registerMessageHandler: this.registerMessageHandler,
-			refreshAssessment: this.refreshAssessment,
-		};
+		this._scope.analysisWorker = this;
 	}
 
 	/**
