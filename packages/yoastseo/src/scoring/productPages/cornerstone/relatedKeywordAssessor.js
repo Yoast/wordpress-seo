@@ -1,4 +1,5 @@
 import { inherits } from "util";
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import Assessor from "../../assessor.js";
 
 import IntroductionKeyword from "../../assessments/seo/IntroductionKeywordAssessment.js";
@@ -6,7 +7,6 @@ import KeyphraseLength from "../../assessments/seo/KeyphraseLengthAssessment.js"
 import KeywordDensity from "../../assessments/seo/KeywordDensityAssessment.js";
 import MetaDescriptionKeyword from "../../assessments/seo/MetaDescriptionKeywordAssessment.js";
 import ImageKeyphrase from "../../assessments/seo/KeyphraseInImageTextAssessment";
-import ImageCount from "../../assessments/seo/ImageCountAssessment";
 import TextCompetingLinks from "../../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyphraseAssessment";
 
@@ -21,26 +21,48 @@ import FunctionWordsInKeyphrase from "../../assessments/seo/FunctionWordsInKeyph
  */
 const ProductCornerStoneRelatedKeywordAssessor = function( i18n, options ) {
 	Assessor.call( this, i18n, options );
+	this.type = "productPageCornerstoneRelatedKeywordAssessor";
 
 	this._assessments = [
-		new IntroductionKeyword(),
-		new KeyphraseLength(),
-		new KeywordDensity(),
-		new MetaDescriptionKeyword(),
-		new TextCompetingLinks(),
-		new FunctionWordsInKeyphrase(),
-		new ImageCount( {
-			scores: {
-				okay: 6,
+		new IntroductionKeyword( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify8" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify9" ),
+		} ),
+		new KeyphraseLength( {
+			parameters: {
+				recommendedMinimum: 4,
+				recommendedMaximum: 6,
+				acceptableMaximum: 8,
+				acceptableMinimum: 2,
 			},
-			recommendedCount: 4,
+			isRelatedKeyphrase: true,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify10" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify11" ),
 		}, true ),
+		new KeywordDensity( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify12" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify13" ),
+		} ),
+		new MetaDescriptionKeyword( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify14" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify15" ),
+		} ),
+		new TextCompetingLinks( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify18" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify19" ),
+		} ),
+		new FunctionWordsInKeyphrase( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify50" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify51" ),
+		} ),
 		new ImageKeyphrase( {
 			scores: {
 				withAltNonKeyword: 3,
 				withAlt: 3,
 				noAlt: 3,
 			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
 		} ),
 	];
 };

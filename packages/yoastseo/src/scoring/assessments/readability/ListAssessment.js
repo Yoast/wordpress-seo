@@ -17,8 +17,8 @@ export default class ListAssessment extends Assessment {
 		super();
 
 		this._config = {
-			urlTitle: createAnchorOpeningTag( "https://yoast.com" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoast.com" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify38" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify39" ),
 			scores: {
 				bad: 3,
 				good: 9,

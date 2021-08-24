@@ -1,4 +1,4 @@
-/* External dpendencies */
+/* External dependencies */
 import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 import {
@@ -36,7 +36,8 @@ class SettingsReplacementVariableField extends Component {
 			isHovered: false,
 		};
 
-		this.focus = this.focus.bind( this );
+		this.focus  = this.focus.bind( this );
+		this.setRef = this.setRef.bind( this );
 	}
 
 	/**
@@ -46,6 +47,17 @@ class SettingsReplacementVariableField extends Component {
 	 */
 	focus() {
 		this.inputRef.focus();
+	}
+
+	/**
+	 * Sets the input ref.
+	 *
+	 * @param {Object} ref The input ref.
+	 *
+	 * @returns {void}
+	 */
+	setRef( ref ) {
+		this.inputRef = ref;
 	}
 
 	/**
@@ -75,9 +87,7 @@ class SettingsReplacementVariableField extends Component {
 					onFocus={ this.focus }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
-					editorRef={ ref => {
-						this.inputRef = ref;
-					} }
+					editorRef={ this.setRef }
 				/>
 			</SnippetEditorWidthContainer>
 		);

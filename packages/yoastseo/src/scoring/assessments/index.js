@@ -1,12 +1,12 @@
 import FleschReadingEaseAssessment from "./readability/fleschReadingEaseAssessment";
 import ListAssessment from "./readability/ListAssessment";
-import ParagraphTooLongAssessment from "./readability/paragraphTooLongAssessment";
-import PassiveVoiceAssessment from "./readability/passiveVoiceAssessment";
-import SentenceBeginningsAssessment from "./readability/sentenceBeginningsAssessment";
-import SentenceLengthInTextAssessment from "./readability/sentenceLengthInTextAssessment";
-import SubheadingDistributionTooLongAssessment from "./readability/subheadingDistributionTooLongAssessment";
-import TextPresenceAssessment from "./readability/textPresenceAssessment";
-import TransitionWordsAssessment from "./readability/transitionWordsAssessment";
+import ParagraphTooLongAssessment from "./readability/ParagraphTooLongAssessment";
+import PassiveVoiceAssessment from "./readability/PassiveVoiceAssessment";
+import SentenceBeginningsAssessment from "./readability/SentenceBeginningsAssessment";
+import SentenceLengthInTextAssessment from "./readability/SentenceLengthInTextAssessment";
+import SubheadingDistributionTooLongAssessment from "./readability/SubheadingDistributionTooLongAssessment";
+import TextPresenceAssessment from "./readability/TextPresenceAssessment";
+import TransitionWordsAssessment from "./readability/TransitionWordsAssessment";
 import WordComplexityAssessment from "./readability/wordComplexityAssessment";
 
 import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAssessment";
@@ -27,6 +27,7 @@ import TitleKeywordAssessment from "./seo/TitleKeywordAssessment";
 import UrlKeywordAssessment from "./seo/UrlKeywordAssessment";
 import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
+import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
 
 const readability = {
 	FleschReadingEaseAssessment,
@@ -60,6 +61,7 @@ const seo = {
 	UrlKeywordAssessment,
 	ImageKeyphraseAssessment,
 	ImageCountAssessment,
+	ImageAltTagsAssessment,
 };
 
 export {

@@ -236,6 +236,26 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 17.0 =
+Release Date: August 24th, 2021
+
+Say hello to Yoast SEO 17.0! This release includes some behind-the-scenes improvements, including several fixes for our indexables data management. For now, please enjoy Yoast SEO and write the best possible content in the language of your choice! Read more about what’s new in Yoast SEO 17.0 in [our release post](https://yoa.st/release-17-0)!
+
+Enhancements:
+
+* Speeds up load times of admin pages by preventing unnecessary counts of unindexed objects.
+* Cleans up items from the database that are not used anymore, thereby reducing the size of many sites' database.
+* Improves the overall performance and responsiveness in Gutenberg.
+
+Bugfixes:
+
+* Fixes a bug where the `Save all` button in the bulk editor did not work.
+* Fixes a bug where the `Existing` column in the bulk editor did not update after save.
+
+Other:
+
+* Updates the message that recommends you to install WooCommerce SEO when WooCommerce is installed.
+
 = 16.9 =
 Release Date: August 10th, 2021
 
@@ -250,31 +270,10 @@ Enhancements:
 * Adds error details to the error message if SEO optimization fails for some unforeseen reason.
 * Cleans up indexables for WooCommerce check-out pages from the indexable table, in order to improve performance.
 * Adds post link indexing and term link indexing to the `wp yoast index` WP-CLI command.
-* Improves the overall performance and responsiveness in Gutenberg.
 
 Bugfixes:
 
 * Fixes a bug where the `robots` meta tag could have incorrect values if users called the `wp_robots` filter to set certain values to `false`. Props to [Roy-Orbison](https://github.com/Roy-Orbison).
-
-= 16.8 =
-Release Date: July 27th, 2021
-
-Yoast SEO 16.8 is out today! This release comes with an updated readability analysis with support for two new languages: Norwegian and Slovak. Did you know that Yoast SEO is nearing language support for twenty languages? Read more about what’s new in Yoast SEO 16.8 in [our release post](https://yoa.st/release-16-8)!
-
-Enhancements:
-
-* Completes the readability analysis for Slovak by adding the transition words, sentence beginnings and passive voice assessments.
-* Improves keyphrase recognition in Slovak by filtering out function words such as `som`, `a`, `jedna`, `že`.
-* Completes the readability analysis for Norwegian by adding the transition words, sentence beginnings and passive voice assessments.
-* Improves keyphrase recognition in Norwegian by expanding the list of function words that are filtered out.
-* Adds the first two steps of the Premium cornerstone workout.
-* Throws a notification in the plugins page to users who have an expired subscription.
-* Improves the performance of background requests (admin-ajax calls).
-
-Bugfixes:
-
-* Fixes a bug where paginated static frontpages would fail to output a valid breadcrumb.
-* Fixes a bug where the image selectors in the search appearance and social settings did not have a screen reader text.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

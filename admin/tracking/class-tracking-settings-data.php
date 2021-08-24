@@ -105,7 +105,6 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'disable-date',
 		'disable-post_format',
 		'disable-attachment',
-		'is-media-purge-relevant',
 		'breadcrumbs-404crumb',
 		'breadcrumbs-display-blog-page',
 		'breadcrumbs-boldlast',
