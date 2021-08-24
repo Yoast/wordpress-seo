@@ -155,11 +155,7 @@ class Indexable_Repository_Test extends TestCase {
 
 		$orm_object = $this->mock_orm( [ 1 ], [ $indexable ] );
 
-		$this->version_manager
-			->expects( 'indexable_needs_upgrade' )
-			->once()
-			->with( $indexable )
-			->andReturnFalse();
+		$this->mock_version_check( $indexable, true );
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
@@ -184,11 +180,7 @@ class Indexable_Repository_Test extends TestCase {
 
 		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
 
-		$this->version_manager
-			->expects( 'indexable_needs_upgrade' )
-			->once()
-			->with( $indexable )
-			->andReturnFalse();
+		$this->mock_version_check( $indexable, false );
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
@@ -216,11 +208,7 @@ class Indexable_Repository_Test extends TestCase {
 
 		$permalink = 'https://example.org/permalink';
 
-		$this->version_manager
-			->expects( 'indexable_needs_upgrade' )
-			->once()
-			->with( $indexable )
-			->andReturnFalse();
+		$this->mock_version_check( $indexable, true );
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
@@ -248,11 +236,7 @@ class Indexable_Repository_Test extends TestCase {
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
-		$this->version_manager
-			->expects( 'indexable_needs_upgrade' )
-			->once()
-			->with( $indexable )
-			->andReturnFalse();
+		$this->mock_version_check( $indexable, false );
 
 		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
 		$this->assertNull( $indexable->permalink );
@@ -279,11 +263,7 @@ class Indexable_Repository_Test extends TestCase {
 
 		$permalink = 'https://example.org/permalink';
 
-		$this->version_manager
-			->expects( 'indexable_needs_upgrade' )
-			->once()
-			->with( $indexable )
-			->andReturnFalse();
+		$this->mock_version_check( $indexable, true );
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
@@ -363,13 +343,11 @@ class Indexable_Repository_Test extends TestCase {
 			->once()
 			->andReturn( [ $indexable ] );
 
-		$this->version_manager
-			->expects( 'indexable_needs_upgrade' )
-			->once()
-			->with( $indexable )
-			->andReturnFalse();
+		$this->mock_version_check( $indexable, true );
 
-		$this->assertSame( [ $indexable ], $this->instance->find_by_ids( [ 1, 2, 3 ] ) );
+		$result = $this->instance->find_by_ids( [ 1, 2, 3 ] );
+
+		$this->assertSame( [ $indexable ], $result );
 	}
 
 	/**
@@ -497,38 +475,52 @@ class Indexable_Repository_Test extends TestCase {
 		$indexable->expects( 'save' )
 			->once();
 
-		$this->version_manager
-			->expects( 'indexable_needs_upgrade' )
-			->once()
-			->with( $indexable )
-			->andReturnTrue();
-
-		$this->builder
-			->expects( 'build' )
-			->once()
-			->with( $indexable )
-			->andReturn( $indexable );
-
 		$this->instance->upgrade_indexable( $indexable );
 
 		$this->assertSame( 'unindexed', $indexable->permalink );
 	}
 
+	/**
+	 * Test that the indexable is rebuilt if the version check says so.
+	 */
 	public function test_rebuild_indexable_if_outdated() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
+
+		$this->mock_version_check( $indexable, true );
+
+		$this->instance->upgrade_indexable( $indexable );
+	}
+
+	/**
+	 * Test that the indexable is not rebuilt if the version check says not to.
+	 */
+	public function test_do_not_rebuild_indexable_if_up_to_date() {
+		$indexable = Mockery::mock( Indexable_Mock::class );
+
+		$this->mock_version_check( $indexable, false );
+
+		$this->instance->upgrade_indexable( $indexable );
+	}
+
+	/**
+	 * @param $indexable Indexable The mocked indexable
+	 * @param $should    bool      is the indexable outdated or not?
+	 */
+	private function mock_version_check( $indexable, $should ) {
+		$result = $should ? true : false;
 
 		$this->version_manager
 			->expects( 'indexable_needs_upgrade' )
 			->once()
 			->with( $indexable )
-			->andReturnTrue();
+			->andReturn( $result );
 
-		$this->builder
-			->expects( 'build' )
-			->once()
-			->with( $indexable )
-			->andReturn( $indexable );
-
-		$this->instance->upgrade_indexable( $indexable );
+		if ( $result ) {
+			$this->builder
+				->expects( 'build' )
+				->once()
+				->with( $indexable )
+				->andReturn( $indexable );
+		}
 	}
 }
