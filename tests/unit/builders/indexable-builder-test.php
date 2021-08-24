@@ -154,6 +154,8 @@ class Indexable_Builder_Test extends TestCase {
 
 		$this->indexable            = Mockery::mock( Indexable_Mock::class );
 		$this->indexable->author_id = 1999;
+		$this->indexable->version   = 1;
+
 
 		$this->instance = new Indexable_Builder(
 			$this->author_builder,
@@ -166,7 +168,7 @@ class Indexable_Builder_Test extends TestCase {
 			$this->hierarchy_builder,
 			$this->primary_term_builder,
 			$this->indexable_helper,
-			new Indexable_Version_Manager()
+			$this->version_manager
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );
@@ -255,7 +257,19 @@ class Indexable_Builder_Test extends TestCase {
 			->withNoArgs()
 			->andReturnTrue();
 
-		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'post', $this->indexable ) );
+		$this->version_manager
+			->expects( 'indexable_needs_upgrade' )
+			->once()
+			->andReturnTrue();
+
+		$this->version_manager
+			->expects( 'set_latest' )
+			->once()
+			->andReturnArg( 0 );
+
+		$result = $this->instance->build_for_id_and_type( 1337, 'post', $this->indexable );
+
+		$this->assertSame( $this->indexable, $result );
 	}
 
 	/**
@@ -696,6 +710,11 @@ class Indexable_Builder_Test extends TestCase {
 			->withNoArgs()
 			->andReturnTrue();
 
+		$this->version_manager
+			->expects( 'set_latest' )
+			->once()
+			->andReturnArg( 0 );
+
 		$this->assertEquals( $fake_indexable, $this->instance->build_for_id_and_type( 1, 'term', $this->indexable ) );
 	}
 
@@ -725,34 +744,16 @@ class Indexable_Builder_Test extends TestCase {
 			->with( [] )
 			->andReturn( $this->indexable );
 
-		$this->post_builder
-			->expects( 'build' )
-			->once()
-			->with( 1337, $this->indexable )
-			->andReturn( $this->indexable );
-
-		$this->primary_term_builder
-			->expects( 'build' )
-			->once()
-			->with( 1337 );
-
-		$this->hierarchy_builder
-			->expects( 'build' )
-			->once()
-			->with( $this->indexable );
-
-		$author_indexable = Mockery::mock( Indexable_Mock::class );
-		$this->indexable_repository
-			->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 1999, 'user', false )
-			->andReturn( $author_indexable );
-
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
 			->once()
 			->withNoArgs()
 			->andReturnFalse();
+
+		$this->version_manager
+			->expects( 'set_latest' )
+			->once()
+			->andReturnArg( 0 );
 
 		Monkey\Filters\expectApplied( 'wpseo_should_save_indexable' )
 			->once()
@@ -763,6 +764,8 @@ class Indexable_Builder_Test extends TestCase {
 			->never()
 			->with( $this->indexable, $this->indexable );
 
-		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'post', $this->indexable ) );
+		$result = $this->instance->build_for_id_and_type( 1337, 'post', $this->indexable );
+
+		$this->assertSame( $this->indexable, $result );
 	}
 }

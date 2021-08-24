@@ -250,7 +250,7 @@ class Indexable_Repository_Test extends TestCase {
 	 */
 	public function test_get_ancestors_one_ancestor_ensures_permalink() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
-		$indexable->expects( 'save' )->once();
+		$indexable->expects( 'save' )->never();
 		$indexable->object_type = 'post';
 
 		$this->hierarchy_repository
@@ -324,7 +324,6 @@ class Indexable_Repository_Test extends TestCase {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_type = 'post';
 
-		$indexable->expects( 'save' )->once();
 
 		$orm_object = Mockery::mock();
 
@@ -475,14 +474,12 @@ class Indexable_Repository_Test extends TestCase {
 		$indexable->permalink   = null;
 		$indexable->post_status = 'unindexed';
 
-		$indexable->expects( 'save' )
-			->once();
 
 		$this->mock_version_check( $indexable, false );
 
 		$indexable = $this->instance->upgrade_indexable( $indexable );
 
-		$this->assertSame( 'unindexed', $indexable->permalink );
+		$this->assertSame( null, $indexable->permalink );
 	}
 
 	/**

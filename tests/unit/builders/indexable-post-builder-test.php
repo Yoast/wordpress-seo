@@ -291,6 +291,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'schema_page_type'               => 'FAQPage',
 			'schema_article_type'            => 'NewsArticle',
 			'estimated_reading_time_minutes' => 11,
+			'version'                        => 1,
 		];
 
 		$this->indexable      = Mockery::mock( Indexable::class );

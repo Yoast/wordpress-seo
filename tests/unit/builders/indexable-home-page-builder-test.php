@@ -120,6 +120,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_description', 'home_og_description' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', null );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'version', 1 );
 
 		// Mock offsetExists.
 		$this->indexable_mock->orm->expects( 'offsetExists' )->with( 'description' )->andReturn( true );

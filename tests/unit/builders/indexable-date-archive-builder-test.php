@@ -44,6 +44,8 @@ class Indexable_Date_Archive_Builder_Test extends TestCase {
 
 		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'permalink', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'version', 1 );
 
 		$builder = new Indexable_Date_Archive_Builder( $options_mock, new Indexable_Builder_Versions() );
 		$builder->build( $indexable_mock );

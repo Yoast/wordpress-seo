@@ -49,6 +49,7 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'version', 1 );
 
 		$builder = new Indexable_Post_Type_Archive_Builder( $options_mock, new Indexable_Builder_Versions() );
 		$builder->build( 'my-post-type', $indexable_mock );
