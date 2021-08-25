@@ -154,13 +154,6 @@ class Wincher_Keyphrases_Action {
 	 */
 	public function get_tracked_keyphrases( $post_id, $used_keyphrases = [] ) {
 		try {
-//			$transient_key = \sprintf( static::TRANSIENT_CACHE_KEY, $post_id );
-//			$transient     = \get_transient( $transient_key );
-//
-//			if ( $this->should_use_transient( $transient, $used_keyphrases ) ) {
-//				//			 	return $this->to_result_object( $transient );
-//			}
-
 			$results = $this->client->get(
 				\sprintf(
 					self::KEYPHRASES_URL,
@@ -172,10 +165,9 @@ class Wincher_Keyphrases_Action {
 				$results['data'] = $this->filter_results_by_used_keyphrases( $results['data'], $used_keyphrases );
 			}
 
-				// Map chart data with the keyphrases and filter out non-tracked keyphrases.
+			// Map chart data with the keyphrases and filter out non-tracked keyphrases.
 			$results['data'] = $this->match_chart_data( $results['data'], $used_keyphrases );
 
-//			\set_transient( $transient_key, $results, 12 * \HOUR_IN_SECONDS );
 			return $this->to_result_object( $results );
 		} catch ( Exception $e ) {
 			return (object) [
