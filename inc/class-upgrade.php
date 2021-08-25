@@ -835,7 +835,7 @@ class WPSEO_Upgrade {
 	/**
 	 * Performs the 17.1 upgrade. Cleans out any unnecessary indexables. See $cleanup_integration->get_cleanup_tasks() to see what will be cleaned out.
 	 *
-	 * @return void 
+	 * @return void
 	 */
 	private function upgrade_171() {
 		\wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );

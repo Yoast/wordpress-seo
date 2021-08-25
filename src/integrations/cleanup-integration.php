@@ -14,7 +14,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 *
 	 * @var string
 	 */
-	const CURRENT_TASK_OPTION = "wpseo-cleanup-current-task";
+	const CURRENT_TASK_OPTION = 'wpseo-cleanup-current-task';
 
 	/**
 	 * Initializes the integration.
@@ -24,7 +24,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'wpseo_cleanup_cron', [ $this, '_run_cleanup_cron' ] );
+		\add_action( 'wpseo_cleanup_cron', [ $this, 'run_cleanup_cron' ] );
 		\add_action( 'wpseo_deactivate', [ $this, 'reset_cleanup' ] );
 	}
 
@@ -44,20 +44,20 @@ class Cleanup_Integration implements Integration_Interface {
 	 */
 	private function get_cleanup_tasks() {
 		return [
-			"clean_indexables_by_object_sub_type_shop-order" => function( $limit ) {
-				return $this->clean_indexables_with_object_type( "post", "shop-order", $limit );
+			'clean_indexables_by_object_sub_type_shop-order' => function( $limit ) {
+				return $this->clean_indexables_with_object_type( 'post', 'shop-order', $limit );
 			},
-			"clean_indexables_by_post_status_auto-draft" => function( $limit ) {
-				return $this->clean_indexables_with_post_status( "auto-draft", $limit );
+			'clean_indexables_by_post_status_auto-draft' => function( $limit ) {
+				return $this->clean_indexables_with_post_status( 'auto-draft', $limit );
 			},
 			/* These should always be the last one to be called */
-			"clean_orphaned_content_indexable_hierarchy" => function( $limit ) {
+			'clean_orphaned_content_indexable_hierarchy' => function( $limit ) {
 				return $this->cleanup_orphaned_from_table( 'Indexable_Hierarchy', 'indexable_id', $limit );
 			},
-			"clean_orphaned_content_seo_links_indexable_id" => function( $limit ) {
+			'clean_orphaned_content_seo_links_indexable_id' => function( $limit ) {
 				return $this->cleanup_orphaned_from_table( 'SEO_Links', 'indexable_id', $limit );
 			},
-			"clean_orphaned_content_seo_links_target_indexable_id" => function( $limit ) {
+			'clean_orphaned_content_seo_links_target_indexable_id' => function( $limit ) {
 				return $this->cleanup_orphaned_from_table( 'SEO_Links', 'target_indexable_id', $limit );
 			},
 		];
@@ -93,6 +93,11 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @return int The limit for the amount of entities to be cleaned.
 	 */
 	private function get_limit() {
+		/**
+		 * Filter: Adds the possibility to limit the number of items are deleted from the database on cleanup.
+		 *
+		 * @api int $limit Maximum number of indexables to be cleaned up per query.
+		 */
 		$limit = \apply_filters( 'wpseo_cron_query_limit_size', 1000 );
 
 		if ( ! \is_int( $limit ) ) {
@@ -105,7 +110,7 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * Resets and stops the cleanup integration.
 	 *
-	 * @return void 
+	 * @return void
 	 */
 	private function reset_cleanup() {
 		\delete_option( self::CURRENT_TASK_OPTION );
@@ -115,23 +120,25 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * Starts the cleanup cron job.
 	 *
-	 * @return void 
+	 * @param string $task_name The task name of the next cleanup task to run.
+	 *
+	 * @return void
 	 */
-	private function start_cron_job( $job_name ) {
-		\update_option( self::CURRENT_TASK_OPTION, $job_name );
+	private function start_cron_job( $task_name ) {
+		\update_option( self::CURRENT_TASK_OPTION, $task_name );
 		\wp_schedule_event(
 			time(),
 			'hourly',
-			'wpseo_cleanup_cron',
+			'wpseo_cleanup_cron'
 		);
 	}
 
 	/**
 	 * The callback that is called for the cleanup cron job.
 	 *
-	 * @return void 
+	 * @return void
 	 */
-	public function _run_cleanup_cron() {
+	public function run_cleanup_cron() {
 		$current_task_name = \get_option( self::CURRENT_TASK_OPTION, '' );
 
 		if ( $current_task_name === false ) {
@@ -141,27 +148,30 @@ class Cleanup_Integration implements Integration_Interface {
 
 		$limit = $this->get_limit();
 		$tasks = $this->get_cleanup_tasks();
-		
-		while ( $current_task = \current( $tasks ) ) {
+
+		$current_task = \current( $tasks );
+		while ( $current_task !== false ) {
 			// Skip the tasks that have already been done.
 			if ( \key( $tasks ) !== $current_task_name ) {
-				\next( $tasks );
+				$current_task = \next( $tasks );
 				continue;
 			}
 
 			$items_cleaned = $current_task( $limit );
 
-			if( $items_cleaned === 0 ) {
+			if ( $items_cleaned === 0 ) {
 				// Check if we are finshed with all tasks.
 				if ( \next( $tasks ) === false ) {
 					$this->reset_cleanup();
 					return;
 				}
 
-				// Continue with the next task next time.
+				// Continue with the next task next time the cron job is run.
 				\update_option( self::CURRENT_TASK_OPTION, \key( $tasks ) );
 				return;
 			}
+			// There were items deleted for the current task, continue with the same task next cron call.
+			return;
 		}
 	}
 
