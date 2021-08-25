@@ -11,10 +11,13 @@ class Cleanup_Integration implements Integration_Interface {
 
 	/**
 	 * Identifier used to determine the current task.
-	 *
-	 * @var string
 	 */
 	const CURRENT_TASK_OPTION = 'wpseo-cleanup-current-task';
+
+	/**
+	 * Identifier for the cron job.
+	 */
+	const CRON_HOOK = 'wpseo_cleanup_cron';
 
 	/**
 	 * Initializes the integration.
@@ -24,7 +27,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'wpseo_cleanup_cron', [ $this, 'run_cleanup_cron' ] );
+		\add_action( self::CRON_HOOK, [ $this, 'run_cleanup_cron' ] );
 		\add_action( 'wpseo_deactivate', [ $this, 'reset_cleanup' ] );
 	}
 
@@ -114,7 +117,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 */
 	public function reset_cleanup() {
 		\delete_option( self::CURRENT_TASK_OPTION );
-		\wp_unschedule_hook( 'wpseo_cleanup_cron' );
+		\wp_unschedule_hook( self::CRON_HOOK );
 	}
 
 	/**
@@ -129,7 +132,7 @@ class Cleanup_Integration implements Integration_Interface {
 		\wp_schedule_event(
 			time(),
 			'hourly',
-			'wpseo_cleanup_cron'
+			self::CRON_HOOK
 		);
 	}
 
@@ -139,7 +142,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function run_cleanup_cron() {
-		$current_task_name = \get_option( self::CURRENT_TASK_OPTION, '' );
+		$current_task_name = \get_option( self::CURRENT_TASK_OPTION );
 
 		if ( $current_task_name === false ) {
 			$this->reset_cleanup();

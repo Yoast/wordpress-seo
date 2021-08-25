@@ -51,6 +51,12 @@ class Cleanup_Integration_Test extends TestCase {
 	 * Tests calling test_run_cleanup.
 	 *
 	 * @covers ::test_run_cleanup
+	 * @covers ::get_cleanup_tasks
+	 * @covers ::clean_indexables_with_object_type
+	 * @covers ::clean_indexables_with_post_status
+	 * @covers ::cleanup_orphaned_from_table
+	 * @covers ::get_limit
+	 * @covers ::reset_cleanup
 	 */
 	public function test_run_cleanup() {
 		Monkey\Functions\expect( 'delete_option' )
@@ -59,7 +65,7 @@ class Cleanup_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_unschedule_hook' )
 			->once()
-			->with( 'wpseo_cleanup_cron' );
+			->with( Cleanup_Integration::CRON_HOOK );
 
 		Monkey\Filters\expectApplied( 'wpseo_cron_query_limit_size' )
 			->once()
@@ -180,5 +186,118 @@ class Cleanup_Integration_Test extends TestCase {
 			->andReturn( 50 );
 
 		$this->instance->run_cleanup();
+	}
+
+	/**
+	 * Tests whether run_cleanup starts the cron-job.
+	 *
+	 * @covers ::test_run_cleanup
+	 * @covers ::get_cleanup_tasks
+	 * @covers ::get_limit
+	 * @covers ::reset_cleanup
+	 * @covers ::clean_indexables_with_object_type
+	 * @covers ::start_cron_job
+	 */
+	public function test_run_cleanup_starts_cron_job() {
+		Monkey\Functions\expect( 'delete_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION );
+
+		Monkey\Functions\expect( 'wp_unschedule_hook' )
+			->once()
+			->with( 'wpseo_cleanup_cron' );
+
+		Monkey\Filters\expectApplied( 'wpseo_cron_query_limit_size' )
+			->once()
+			->andReturn( 1000 );
+
+		$this->instance->expects( 'clean_indexables_with_object_type' )
+			->once()
+			->with( 'post', 'shop-order', 1000 )
+			->andReturn( 1000 );
+
+		Monkey\Functions\expect( 'update_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION, 'clean_indexables_by_object_sub_type_shop-order' );
+
+		Monkey\Functions\expect( 'wp_schedule_event' )
+			->once()
+			->with( Mockery::type( 'int' ), 'hourly', Cleanup_Integration::CRON_HOOK );
+
+		$this->instance->run_cleanup();
+	}
+
+	/**
+	 * Tests the run_cleanup_cron function.
+	 *
+	 * Specifically tests whether the option is set to the next task when the current task is finished.
+	 *
+	 * @covers ::run_cleanup_cron
+	 * @covers ::get_cleanup_tasks
+	 * @covers ::get_limit
+	 * @covers ::start_cron_job
+	 */
+	public function test_run_cleanup_cron() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
+			->andReturn( 'clean_indexables_by_object_sub_type_shop-order' );
+
+		Monkey\Filters\expectApplied( 'wpseo_cron_query_limit_size' )
+			->once()
+			->andReturn( 1000 );
+
+		global $wpdb;
+
+		$wpdb         = Mockery::mock( 'wpdb' );
+		$wpdb->prefix = 'wp_';
+
+		$this->instance->expects( 'clean_indexables_with_object_type' )
+			->once()
+			->with( 'post', 'shop-order', 1000 )
+			->andReturn( 0 );
+
+		Monkey\Functions\expect( 'update_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION, 'clean_indexables_by_post_status_auto-draft' );
+
+		$this->instance->run_cleanup_cron();
+	}
+
+	/**
+	 * Tests the run_cleanup_cron function.
+	 *
+	 * Specifically tests whether everything is cleaned up after the last task is finished.
+	 *
+	 * @covers ::run_cleanup_cron
+	 * @covers ::get_cleanup_tasks
+	 * @covers ::get_limit
+	 * @covers ::clean_indexables_with_object_type
+	 * @covers ::start_cron_job
+	 */
+	public function test_run_cleanup_cron_last_tasks() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
+			->andReturn( 'clean_orphaned_content_seo_links_target_indexable_id' );
+
+		Monkey\Filters\expectApplied( 'wpseo_cron_query_limit_size' )
+			->once()
+			->andReturn( 1000 );
+
+		$this->instance->expects( 'cleanup_orphaned_from_table' )
+			->once()
+			->with( 'SEO_Links', 'target_indexable_id', 1000 )
+			->andReturn( 0 );
+
+		Monkey\Functions\expect( 'delete_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION );
+
+		Monkey\Functions\expect( 'wp_unschedule_hook' )
+			->once()
+			->with( 'wpseo_cleanup_cron' );
+
+		$this->instance->run_cleanup_cron();
 	}
 }
