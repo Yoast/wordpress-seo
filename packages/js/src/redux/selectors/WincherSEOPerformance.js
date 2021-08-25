@@ -12,28 +12,6 @@ export function getWincherIsTracking( state ) {
 }
 
 /**
- * Gets the current tracking status of the keyphrase.
- *
- * @param {Object} state The state.
- *
- * @returns {boolean} Current tracking status of the keyphrase.
- */
-export function getWincherIsTrackingKeyphrase( state ) {
-	return state.WincherSEOPerformance.isTrackingKeyphrase;
-}
-
-/**
- * Gets the keyphrase that may be tracked.
- *
- * @param {Object} state The state.
- *
- * @returns {string} The keyphrase.
- */
-export function getWincherTrackableKeyphrase( state ) {
-	return state.WincherSEOPerformance.trackableKeyphrase;
-}
-
-/**
  * Gets the currently tracked keyphrases.
  *
  * @param {Object} state The state.
@@ -73,4 +51,15 @@ export function getWincherTrackableKeyphrases( state ) {
 	}
 
 	return [ state.focusKeyword ];
+}
+
+/**
+ * Gets the chart data.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {array} The chart data.
+ */
+export function getWincherTrackedKeyphrasesChartData( state ) {
+	return state.WincherSEOPerformance.chartData;
 }

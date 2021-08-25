@@ -147,12 +147,11 @@ class Wincher_Keyphrases_Action {
 	/**
 	 * Gets the tracked keyphrases.
 	 *
-	 * @param $post_id
 	 * @param $used_keyphrases
 	 *
 	 * @return object The response object.
 	 */
-	public function get_tracked_keyphrases( $post_id, $used_keyphrases = [] ) {
+	public function get_tracked_keyphrases( $used_keyphrases = [] ) {
 		try {
 			$results = $this->client->get(
 				\sprintf(
@@ -165,8 +164,10 @@ class Wincher_Keyphrases_Action {
 				$results['data'] = $this->filter_results_by_used_keyphrases( $results['data'], $used_keyphrases );
 			}
 
-			// Map chart data with the keyphrases and filter out non-tracked keyphrases.
-			$results['data'] = $this->match_chart_data( $results['data'], $used_keyphrases );
+			$results['data'] = \array_combine(
+				\array_column( $results['data'], 'keyword' ),
+				\array_values( $results['data'] )
+			);
 
 			return $this->to_result_object( $results );
 		} catch ( Exception $e ) {
@@ -177,7 +178,14 @@ class Wincher_Keyphrases_Action {
 		}
 	}
 
-
+	/**
+	 * Gets the keyphrase chart data for the passed keyphrases.
+	 * Retrieves all available chart data if no keyphrases are provided.
+	 *
+	 * @param array $used_keyphrases The currently used keyphrases. Optional.
+	 *
+	 * @return object The keyphrase chart data.
+	 */
 	public function get_keyphrase_chart_data( $used_keyphrases = [] ) {
 		try {
 			$endpoint = \sprintf(
@@ -215,6 +223,12 @@ class Wincher_Keyphrases_Action {
 				$results['data']['keywords'] = $this->filter_results_by_used_keyphrases( $results['data']['keywords'], $used_keyphrases );
 			}
 
+			// Extract the positional data and assign it to the keyphrase.
+			$results['data'] = \array_combine(
+				\array_column( $results['data']['keywords'], 'keyword' ),
+				\array_column( $results['data']['keywords'], 'position' )
+			);
+
 			return $this->to_result_object( $results );
 		} catch ( Exception $e ) {
 			return (object) [
@@ -222,25 +236,6 @@ class Wincher_Keyphrases_Action {
 				'status' => $e->getCode(),
 			];
 		}
-	}
-
-	/**
-	 * Checks whether the transient values should be used instead of calling the API.
-	 *
-	 * @param array $current_transient The current transient array.
-	 * @param array $keyphrases        The used keyphrases.
-	 *
-	 * @return bool Whether to use the transient values.
-	 */
-	protected function should_use_transient( $current_transient, $keyphrases ) {
-		if ( empty( $current_transient ) ) {
-			return false;
-		}
-
-		$keyphrases_in_transient = \sort( \array_column( $current_transient['data'], 'keyword') );
-		$keyphrases = \sort( $keyphrases );
-
-		return $keyphrases_in_transient == $keyphrases;
 	}
 
 	/**

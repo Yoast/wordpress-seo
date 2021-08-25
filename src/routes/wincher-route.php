@@ -172,9 +172,6 @@ class Wincher_Route implements Route_Interface {
 				'keyphrases' => [
 					'required' => true,
 				],
-				'postID' => [
-					'required' => true,
-				],
 			],
 		];
 
@@ -253,7 +250,7 @@ class Wincher_Route implements Route_Interface {
 	public function get_tracked_keyphrases( WP_REST_Request $request ) {
 		$decoded_keyphrases = json_decode( urldecode( $request['keyphrases'] ) );
 
-		$data = $this->keyphrases_action->get_tracked_keyphrases( $request['postID'], $decoded_keyphrases );
+		$data = $this->keyphrases_action->get_tracked_keyphrases( $decoded_keyphrases );
 
 		return new WP_REST_Response( $data, $data->status );
 	}
@@ -279,7 +276,9 @@ class Wincher_Route implements Route_Interface {
 	 * @return WP_REST_Response The response.
 	 */
 	public function get_keyphrase_chart_data( WP_REST_Request $request ) {
-		$data = $this->keyphrases_action->get_keyphrase_chart_data( $request[ 'keyphrases' ] );
+		$decoded_keyphrases = json_decode( urldecode( $request['keyphrases'] ) );
+
+		$data = $this->keyphrases_action->get_keyphrase_chart_data( $decoded_keyphrases );
 
 		return new WP_REST_Response( $data, $data->status );
 	}

@@ -7,11 +7,10 @@ import {
 	WINCHER_NEW_REQUEST,
 	WINCHER_NO_DATA_FOUND,
 	WINCHER_SET_LOGIN_STATUS,
-	WINCHER_SET_TRACK_ALL_REQUEST,
+	WINCHER_SET_TRACK_ALL_REQUEST, WINCHER_SET_PENDING_CHART_DATA_REQUEST,
 } from "../actions";
 
 const INITIAL_STATE = {
-	isRequestPending: false,
 	keyphrase: "",
 	isSuccess: false,
 	response: null,
@@ -21,6 +20,7 @@ const INITIAL_STATE = {
 	isNewlyAuthenticated: false,
 	limit: 10,
 	trackAll: false,
+	hasPendingChartDataRequest: false,
 };
 /**
  * A reducer for the Wincher request.
@@ -35,7 +35,6 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 		case WINCHER_NEW_REQUEST:
 			return {
 				...state,
-				isRequestPending: true,
 				keyphrase: action.keyphrase,
 				isSuccess: false,
 				response: null,
@@ -44,7 +43,6 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 			// The status code should be 200 OK here.
 			return {
 				...state,
-				isRequestPending: false,
 				isSuccess: true,
 				response: action.response,
 				hasData: true,
@@ -54,7 +52,6 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 			// The status code should be an error code here.
 			return {
 				...state,
-				isRequestPending: false,
 				isSuccess: false,
 				response: action.response,
 				hasData: false,
@@ -63,7 +60,6 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 		case WINCHER_SET_REQUEST_LIMIT_REACHED:
 			return {
 				...state,
-				isRequestPending: false,
 				limitReached: true,
 				hasData: false,
 				limit: action.limit,
@@ -73,7 +69,6 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 			return {
 				...state,
 				isSuccess: true,
-				isRequestPending: false,
 				hasData: false,
 				response: null,
 				trackAll: false,
@@ -88,6 +83,11 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 			return {
 				...state,
 				trackAll: true,
+			};
+		case WINCHER_SET_PENDING_CHART_DATA_REQUEST:
+			return {
+				...state,
+				hasPendingChartDataRequest: action.isPending,
 			};
 		default:
 			return state;

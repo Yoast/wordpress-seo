@@ -39,13 +39,7 @@ export function getUserMessage( props ) {
 		isSuccess,
 		response,
 		requestHasData,
-		isPending,
 	} = props;
-
-
-	if ( isPending ) {
-		return <WincherSEOPerformanceLoading />;
-	}
 
 	if ( ! isSuccess && hasError( response ) ) {
 		return <WincherRequestFailed />;
@@ -69,7 +63,7 @@ export default function WincherSEOPerformanceModalContent( props ) {
 		isNewlyAuthenticated,
 		requestLimitReached,
 		limit,
-		isPending,
+		hasPendingChartRequest,
 	} = props;
 
 	return (
@@ -87,7 +81,7 @@ export default function WincherSEOPerformanceModalContent( props ) {
 					/>
 					<WincherExplanation />
 
-					{ isPending && <WincherCurrentlyTrackingAlert /> }
+					{ hasPendingChartRequest && <WincherCurrentlyTrackingAlert /> }
 
 					{ getUserMessage( props ) }
 
@@ -106,6 +100,7 @@ WincherSEOPerformanceModalContent.propTypes = {
 	requestLimitReached: PropTypes.bool,
 	hasNoKeyphrase: PropTypes.bool,
 	isNewlyAuthenticated: PropTypes.bool,
+	hasPendingChartRequest: PropTypes.bool,
 };
 
 WincherSEOPerformanceModalContent.defaultProps = {
@@ -113,4 +108,5 @@ WincherSEOPerformanceModalContent.defaultProps = {
 	requestLimitReached: false,
 	hasNoKeyphrase: false,
 	isNewlyAuthenticated: false,
+	hasPendingChartRequest: false,
 };

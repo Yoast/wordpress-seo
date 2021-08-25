@@ -17,12 +17,12 @@ const ViewLink = makeOutboundLink();
 /**
  * Transforms the Wincher Position data to x/y points for the SVG area chart.
  *
- * @param {Array} trend List of position values for a single keyphrase.
+ * @param {Object} chartEntry List of position values for a single keyphrase.
  *
  * @returns {Array} An array of x/y coordinates objects.
  */
-function transformTrendDataToChartPoints( trend ) {
-	return trend.map( ( entry, index ) => ( { x: index, y: 101 - entry.value } ) );
+function transformTrendDataToChartPoints( chartEntry ) {
+	return chartEntry.history.map( ( entry, index ) => ( { x: index, y: 101 - entry.value } ) );
 }
 
 /**
@@ -30,8 +30,8 @@ function transformTrendDataToChartPoints( trend ) {
  *
  * @returns {Array} The data table header labels.
  */
-function getAreaChartDataTableHeaderLabels() {
-	return Array.from( { length: 90 }, ( _, i ) => i + 1 ).map( ( i ) => {
+function getAreaChartDataTableHeaderLabels( rowData ) {
+	return Array.from( { length: rowData.history.length }, ( _, i ) => i + 1 ).map( ( i ) => {
 		/* translators: %d expands to the amount of days */
 		return sprintf( _n( "%d day", "%d days", i, "wordpress-seo" ), i );
 	} );
@@ -57,12 +57,12 @@ function mapAreaChartDataToTableData( y ) {
  * @returns {wp.Element|string} The chart containing the positions over time. If there is none, return "?".
  */
 function generatePositionOverTimeChart( rowData ) {
-	if ( isEmpty( rowData ) || isEmpty( rowData.chartData ) ) {
+	if ( isEmpty( rowData ) ) {
 		return "?";
 	}
 
-	const areaChartDataTableHeaderLabels = getAreaChartDataTableHeaderLabels();
-	const chartPoints = transformTrendDataToChartPoints( rowData.chartData );
+	const areaChartDataTableHeaderLabels = getAreaChartDataTableHeaderLabels( rowData );
+	const chartPoints = transformTrendDataToChartPoints( rowData );
 
 	return <AreaChart
 		width={ 66 }
@@ -105,16 +105,62 @@ export function renderToggleState( { keyphrase, isEnabled, toggleAction } ) {
 /**
  * Gets the keyphrase position.
  *
- * @param {Object} rowData The row data to extract the keyphrase position from.
+ * @param {Object} chartData The chart data to extract the keyphrase position from.
  *
  * @returns {string} The keyphrase position. Returns a "?" if no data is present.
  */
-export function getKeyphrasePosition( rowData ) {
-	if ( isEmpty( rowData ) || isEmpty( rowData.chartData ) || rowData.position > 100 ) {
+export function getKeyphrasePosition( chartData ) {
+	if ( isEmpty( chartData ) || chartData.value > 100 ) {
 		return "?";
 	}
 
-	return rowData.position;
+	return chartData.value;
+}
+
+export function getPositionalDataByState( props ) {
+	const { rowData, chartData, websiteId } = props;
+
+	const isEnabled    = ! isEmpty( rowData );
+	const hasChartData = ! isEmpty( chartData );
+	const viewLinkURL  = ( rowData ) ? sprintf(
+		"https://www.wincher.com/websites/%s/keywords?serp=%s?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
+		websiteId,
+		rowData.id
+	) : null;
+
+	if ( ! isEnabled ) {
+		return (
+			<Fragment>
+				<td>?</td>
+				<td className="yoast-table--nopadding">?</td>
+				<td className="yoast-table--nobreak" />
+			</Fragment>
+		);
+	}
+
+	if ( ! hasChartData ) {
+		return (
+			<Fragment>
+				<td className="yoast-table--nopadding" colSpan="3">
+					<WincherSEOPerformanceLoading />
+				</td>
+			</Fragment>
+		);
+	}
+
+	return (
+		<Fragment>
+			<td>{ getKeyphrasePosition( chartData ) }</td>
+			<td className="yoast-table--nopadding">{ generatePositionOverTimeChart( chartData ) }</td>
+			<td className="yoast-table--nobreak">
+				{
+					<ViewLink href={ viewLinkURL }>
+						{ __( "View", "wordpress-seo" ) }
+					</ViewLink>
+				}
+			</td>
+		 </Fragment>
+	);
 }
 
 /**
@@ -133,11 +179,9 @@ export default function WincherTableRow( props ) {
 		onTrackKeyphrase,
 		onUntrackKeyphrase,
 		isFocusKeyphrase,
-		isPending,
-		websiteId,
 	} = props;
 
-	const isEnabled = ! isEmpty( rowData );
+	const isEnabled    = ! isEmpty( rowData );
 
 	const toggleAction = useCallback(
 		() => {
@@ -154,30 +198,11 @@ export default function WincherTableRow( props ) {
 		[ keyphrase, onTrackKeyphrase, onUntrackKeyphrase, isEnabled, rowData ]
 	);
 
-	const viewLinkURL = ( rowData ) ? sprintf(
-		"https://www.wincher.com/websites/%s/keywords?serp=%s?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
-		websiteId,
-		rowData.id
-	) : null;
-
 	return <tr>
 		{ allowToggling && <td>{ renderToggleState( { keyphrase, isEnabled, toggleAction } ) }</td> }
 		<td>{ keyphrase }{ isFocusKeyphrase && <span>*</span> }</td>
 
-		{ isPending && <td className="yoast-table--nopadding" colSpan="3">
-			<WincherSEOPerformanceLoading />
-		</td> }
-		{ ! isPending && <Fragment>
-			<td>{ getKeyphrasePosition( rowData ) }</td>
-			<td className="yoast-table--nopadding">{ generatePositionOverTimeChart( rowData ) }</td>
-			<td className="yoast-table--nobreak">
-				{
-					<ViewLink href={ viewLinkURL }>
-						{ __( "View", "wordpress-seo" ) }
-					</ViewLink>
-				}
-			</td>
-		</Fragment> }
+		{ getPositionalDataByState( props ) }
 	</tr>;
 }
 

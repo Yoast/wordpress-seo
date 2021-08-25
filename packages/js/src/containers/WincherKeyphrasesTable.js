@@ -20,6 +20,7 @@ export default compose( [
 			getWincherTrackableKeyphrases,
 			getWincherLoginStatus,
 			shouldWincherTrackAll,
+			getWincherTrackedKeyphrasesChartData,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -35,6 +36,7 @@ export default compose( [
 			isLoggedIn: getWincherLoginStatus(),
 			trackAll: shouldWincherTrackAll(),
 			websiteID: WincherSEOAnalysisFields.websiteId,
+			trackedKeyphrasesChartData: getWincherTrackedKeyphrasesChartData(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
@@ -48,6 +50,8 @@ export default compose( [
 			setTrackedKeyphrases,
 			setWincherLoginStatus,
 			unsetTrackingForKeyphrase,
+			setTrackedKeyphrasesChartData,
+			setPendingChartDataRequest,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
@@ -75,8 +79,14 @@ export default compose( [
 			setTrackingKeyphrases: ( keyphrases ) => {
 				setTrackedKeyphrases( keyphrases );
 			},
+			setTrackingCharts: ( chartData ) => {
+				setTrackedKeyphrasesChartData( chartData );
+			},
 			onAuthentication: ( status, newlyAuthenticated ) => {
 				setWincherLoginStatus( status, newlyAuthenticated );
+			},
+			setPendingChartRequest: ( isPending ) => {
+				setPendingChartDataRequest( isPending );
 			},
 		};
 	} ),

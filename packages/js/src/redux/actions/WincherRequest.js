@@ -1,11 +1,11 @@
-import {WINCHER_SET_TRACK_ALL_REQUEST} from "./WincherSEOPerformance";
-
 export const WINCHER_SET_REQUEST_SUCCEEDED = "WINCHER_SET_REQUEST_SUCCEEDED";
 export const WINCHER_SET_REQUEST_FAILED = "WINCHER_SET_REQUEST_FAILED";
 export const WINCHER_SET_REQUEST_LIMIT_REACHED = "WINCHER_SET_LIMIT_REACHED";
 export const WINCHER_NEW_REQUEST = "WINCHER_NEW_REQUEST";
 export const WINCHER_NO_DATA_FOUND = "WINCHER_NO_DATA_FOUND";
 export const WINCHER_SET_LOGIN_STATUS = "WINCHER_SET_LOGIN_STATUS";
+export const WINCHER_SET_TRACK_ALL_REQUEST = "WINCHER_FORCE_SEO_PERFORMANCE_TRACKED_KEYPHRASES";
+export const WINCHER_SET_PENDING_CHART_DATA_REQUEST = "WINCHER_SET_PENDING_CHART_DATA_REQUEST";
 
 /**
  * An action creator for starting a new request.
@@ -100,3 +100,18 @@ export function trackAllKeyphrases() {
 		type: WINCHER_SET_TRACK_ALL_REQUEST,
 	};
 }
+
+/**
+ * An action creator for when there are still pending chart data requests.
+ *
+ * @param {boolean} isPending Whether the request is still pending.
+ *
+ * @returns {Object} Action object.
+ */
+export function setPendingChartDataRequest( isPending ) {
+	return {
+		type: WINCHER_SET_PENDING_CHART_DATA_REQUEST,
+		isPending,
+	};
+}
+

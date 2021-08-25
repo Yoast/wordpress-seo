@@ -11,7 +11,6 @@ export default compose( [
 			getWincherRequestLimitReached,
 			getWincherRequestResponse,
 			getWincherRequestIsSuccess,
-			getWincherIsRequestPending,
 			getWincherRequestHasData,
 			getWincherRequestKeyphrase,
 			getWincherIsTracking,
@@ -19,6 +18,7 @@ export default compose( [
 			hasWincherNoKeyphrase,
 			getWincherAuthenticationStatus,
 			getWincherLimit,
+			hasPendingChartDataRequest,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -26,7 +26,6 @@ export default compose( [
 			requestLimitReached: getWincherRequestLimitReached(),
 			response: getWincherRequestResponse(),
 			isSuccess: getWincherRequestIsSuccess(),
-			isPending: getWincherIsRequestPending(),
 			requestHasData: getWincherRequestHasData(),
 			lastRequestKeyphrase: getWincherRequestKeyphrase(),
 			isTracking: getWincherIsTracking(),
@@ -34,6 +33,7 @@ export default compose( [
 			isNewlyAuthenticated: getWincherAuthenticationStatus(),
 			limit: getWincherLimit(),
 			trackAll: false,
+			hasPendingChartRequest: hasPendingChartDataRequest(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

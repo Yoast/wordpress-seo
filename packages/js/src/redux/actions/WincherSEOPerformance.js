@@ -7,7 +7,7 @@ export const WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE = "WINCHER_SET_S
 export const WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE = "WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE";
 
 export const WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES = "WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES";
-export const WINCHER_SET_TRACK_ALL_REQUEST = "WINCHER_FORCE_SEO_PERFORMANCE_TRACKED_KEYPHRASES";
+export const WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES_CHART_DATA = "WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES_CHART_DATA";
 
 /**
  * An action creator for loading the Wincher SEO tracking.
@@ -77,7 +77,7 @@ export function unsetTrackingForKeyphrase( untrackedKeyphrase ) {
 /**
  * Sets the keyphrases that are being tracked for the current article.
  *
- * @param {array} trackedKeyphrases The keyphrases that are being tracked.
+ * @param {Object} trackedKeyphrases The keyphrases that are being tracked.
  *
  * @returns {Object} Action object.
  */
@@ -85,5 +85,19 @@ export function setTrackedKeyphrases( trackedKeyphrases ) {
 	return {
 		type: WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES,
 		trackedKeyphrases,
+	};
+}
+
+/**
+ * Sets the keyphrases that are being tracked for the current article.
+ *
+ * @param {Object} chartData The chart Data for the tracked keyphrases.
+ *
+ * @returns {Object} Action object.
+ */
+export function setTrackedKeyphrasesChartData( chartData ) {
+	return {
+		type: WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES_CHART_DATA,
+		chartData,
 	};
 }
