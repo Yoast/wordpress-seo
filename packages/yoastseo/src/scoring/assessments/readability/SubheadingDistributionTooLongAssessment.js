@@ -37,6 +37,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 				badSubheadings: 3,
 				badLongTextNoSubheadings: 2,
 			},
+			shouldNotAppearInShortText: false,
 		};
 
 		this.identifier = "subheadingsTooLong";
@@ -81,10 +82,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 *
-	 * @returns {boolean} True when there is text.
+	 * @returns {boolean} True when there is text or when the text contains more than 300 words if "shouldNotAppearInShortText" is set to true.
 	 */
 	isApplicable( paper ) {
-		return paper.hasText();
+		const textLength = getWords( paper.getText() ).length;
+		return this._config.shouldNotAppearInShortText ? paper.hasText() && textLength > 300 : paper.hasText();
 	}
 
 	/**

@@ -297,10 +297,15 @@ describe( "A content assessor", function() {
 			expect( assessment._config.parameters.farTooMany ).toBe( 300 );
 		} );
 
-		it( "should pass a 'true' value for the isCornerstone parameter in the SentenceLengthInTextAssessment", function() {
+		test( "SentenceLengthAssessment", () => {
 			const assessment = assessor.getAssessment( "textSentenceLength" );
 
-			expect( assessment._isCornerstone ).toBeTruthy();
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.slightlyTooMany ).toBe( 20 );
+			expect( assessment._config.farTooMany ).toBe( 25 );
+			expect( assessment._isCornerstone ).toBe( true );
+			expect( assessment._isProduct ).toBe( false );
 		} );
 	} );
 } );

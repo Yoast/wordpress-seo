@@ -1,6 +1,8 @@
 /* eslint-disable max-statements, complexity */
 // The original stemmer is available at https://github.com/dmarman/lorca/blob/master/src/stemmer.js.
 import { languageProcessing } from "yoastseo";
+import checkVerbStemModifications from "./checkVerbStemModifications";
+
 const {
 	buildFormRule,
 	createRulesFromArrays,
@@ -20,6 +22,7 @@ const {
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  */
+
 
 /**
  * Checks if the input character is a Spanish vowel.
@@ -149,6 +152,27 @@ const checkWordInFullFormExceptions = function( word, exceptions ) {
 		}
 	}
 	return null;
+};
+
+/**
+ * The function considers if the input word can be an adjective in -ano/anos/ana/anas and if so stems it.
+ *
+ * @param   {string}   word     The word to stem.
+ * @param   {string}   r1Text   The R1 region of the word to stem.
+ *
+ * @returns {string}   A stemmed adjective or the input word, if it is not an adjective on -ano/os/a/as.
+ */
+const stemAdjectivesOnAn = function( word, r1Text ) {
+	const adjectiveSuffix = findMatchingEndingInArray( r1Text, [ "ano", "anos", "ana", "anas" ] );
+
+	// Remove o/a/os/as
+	if ( adjectiveSuffix !== "" ) {
+		if ( word.endsWith( "s" ) ) {
+			return word.slice( 0, word.length - 2 );
+		}
+		return word.slice( 0, word.length - 1 );
+	}
+	return word;
 };
 
 /**
@@ -458,7 +482,6 @@ const stemGenericSuffix = function( word, rvText, rv ) {
  */
 export default function stem( word, morphologyData ) {
 	word.toLowerCase();
-
 	const ifException = checkWordInFullFormExceptions( word, morphologyData.exceptionStemsWithFullForms );
 	if ( ifException ) {
 		return ifException;
@@ -482,6 +505,11 @@ export default function stem( word, morphologyData ) {
 	let rvText = word.slice( rv );
 	const originalWord = word;
 
+	const wordAfterAdjectiveOnAnCheck = stemAdjectivesOnAn( word, r1Text );
+	if ( wordAfterAdjectiveOnAnCheck !== word ) {
+		return removeAccent( wordAfterAdjectiveOnAnCheck );
+	}
+
 	/*
 	 * Step 0:
 	 * Stem enclitic pronouns.
@@ -496,6 +524,7 @@ export default function stem( word, morphologyData ) {
 
 	// The word after removing enclitic pronouns.
 	const wordAfter0 = word;
+
 	/*
 	 * Step 1:
 	 * If the word ends in derivational suffixes such as "anza", "anzas", "ico", "ica", "icos", "icas" etc. the suffix will be stemmed here.
@@ -531,6 +560,7 @@ export default function stem( word, morphologyData ) {
 	* Step 2a and 2b:
 	* Stem verb suffixes.
 	*/
+	let isNonVerb = false;
 	const notVerbForms = morphologyData.wordsThatLookLikeButAreNot.notVerbForms;
 
 	// Stem verbal suffixes if no derivational suffix was detected and removed.
@@ -548,6 +578,7 @@ export default function stem( word, morphologyData ) {
 			 * without the -s (e.g. -as/a; -es/e), so will be stemmed after stripping the -s.
 			 */
 			word = wordWithoutS;
+			isNonVerb = true;
 		} else {
 			word = stemVerbSuffixes( word, wordAfter1, rvText, rv );
 		}
@@ -564,10 +595,18 @@ export default function stem( word, morphologyData ) {
 	word = stemGenericSuffix( word, rvText, rv );
 
 	// Check if the stemmed word is on the list of words with multiple stems. If so, return the canonical stem.
-
 	const canonicalStem = canonicalizeStem( word, morphologyData.stemsThatBelongToOneWord );
 	if ( canonicalStem ) {
 		return canonicalStem;
+	}
+
+	if ( ! isNonVerb ) {
+		const modifiedVerbStem = checkVerbStemModifications( word, morphologyData );
+		if ( modifiedVerbStem ) {
+			// If on the list of words that look like verbs [notVerbForms] do not perform stem modification.
+			// Do not perform at the beginning of the word and if word does not have verb suffix.
+			return modifiedVerbStem;
+		}
 	}
 
 	return removeAccent( word );

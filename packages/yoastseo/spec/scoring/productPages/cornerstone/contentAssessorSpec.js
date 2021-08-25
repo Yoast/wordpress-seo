@@ -7,7 +7,7 @@ import Factory from "../../../specHelpers/factory";
 const i18n = Factory.buildJed();
 
 describe( "A cornerstone product page content assessor", function() {
-	describe( "Checks the applicable assessments", function() {
+	describe( "Checks the applicable assessments for text that contains less than 300 words", function() {
 		const paper = new Paper( "Lorem ipsum dolor sit amet, voluptua probatus ullamcorper id vis, ceteros consetetur qui ea, " +
 			"nam movet populo aliquam te. His eu debitis fastidii. Pri ea amet dicant. Ut his suas corpora, eu reformidans " +
 			"signiferumque duo. At erant expetenda patrioque quo, rebum atqui nam ad, tempor elaboraret interpretaris pri ad. " +
@@ -21,6 +21,31 @@ describe( "A cornerstone product page content assessor", function() {
 			"accommodare. Mutat gloriatur ex cum, rebum salutandi ei his, vis delenit quaestio ne. Iisque qualisque duo ei. " +
 			"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
 			"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod." );
+		it( "Should have 6 available assessments for a fully supported language", function() {
+			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
+			contentAssessor.getPaper = function() {
+				return paper;
+			};
+
+			const actual = contentAssessor.getApplicableAssessments().length;
+			const expected = 6;
+			expect( actual ).toBe( expected );
+		} );
+
+		it( "Should have 4 available assessments for a basic supported language", function() {
+			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
+			contentAssessor.getPaper = function() {
+				return paper;
+			};
+
+			const actual = contentAssessor.getApplicableAssessments().length;
+			const expected = 4;
+			expect( actual ).toBe( expected );
+		} );
+	} );
+
+	describe( "Checks the applicable assessments for text that contains more than 300 words", function() {
+		const paper = new Paper( "a tortie cat ".repeat( 150 ) );
 		it( "Should have 7 available assessments for a fully supported language", function() {
 			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
 			contentAssessor.getPaper = function() {
@@ -52,16 +77,70 @@ describe( "A cornerstone product page content assessor", function() {
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.parameters ).toBeDefined();
-			expect( assessment._config.parameters.recommendedMaximumWordCount ).toBe( 250 );
-			expect( assessment._config.parameters.slightlyTooMany ).toBe( 250 );
-			expect( assessment._config.parameters.farTooMany ).toBe( 300 );
+			expect( assessment._config.shouldNotAppearInShortText ).toBeDefined();
+			expect( assessment._config.shouldNotAppearInShortText ).toBe( true );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify68' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify69' target='_blank'>" );
 		} );
 
-		it( "should pass a 'true' value for the isCornerstone parameter in the SentenceLengthInTextAssessment", function() {
+		test( "SentenceLengthAssessment", () => {
 			const assessment = assessor.getAssessment( "textSentenceLength" );
 
-			expect( assessment._isCornerstone ).toBeTruthy();
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.slightlyTooMany ).toBe( 15 );
+			expect( assessment._config.farTooMany ).toBe( 20 );
+			expect( assessment._isCornerstone ).toBe( true );
+			expect( assessment._isProduct ).toBe( true );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify48' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify49' target='_blank'>" );
+		} );
+
+		test( "ParagraphTooLong", () => {
+			const assessment = assessor.getAssessment( "textParagraphTooLong" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.parameters.recommendedLength ).toBe( 70 );
+			expect( assessment._config.parameters.maximumRecommendedLength ).toBe( 100 );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify66' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify67' target='_blank'>" );
+		} );
+
+		test( "TransitionWords", () => {
+			const assessment = assessor.getAssessment( "textTransitionWords" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify44' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify45' target='_blank'>" );
+		} );
+
+		test( "PassiveVoice", () => {
+			const assessment = assessor.getAssessment( "passiveVoice" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify42' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify43' target='_blank'>" );
+		} );
+
+		test( "TextPresence", () => {
+			const assessment = assessor.getAssessment( "textPresence" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify56' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify57' target='_blank'>" );
+		} );
+
+		test( "ListsPresence", () => {
+			const assessment = assessor.getAssessment( "listsPresence" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify38' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify39' target='_blank'>" );
 		} );
 	} );
 } );

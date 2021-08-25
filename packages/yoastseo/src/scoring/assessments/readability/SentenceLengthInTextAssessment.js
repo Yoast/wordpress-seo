@@ -1,4 +1,4 @@
-import { map } from "lodash-es";
+import { map, merge } from "lodash-es";
 
 import Assessment from "../assessment";
 import getTooLongSentences from "../../helpers/assessments/checkForTooLongSentences";
@@ -17,13 +17,28 @@ class SentenceLengthInTextAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {boolean} isCornerstone	Whether the cornerstone configuration should be used.
+	 * @param {boolean} config			The scoring configuration that should be used.
+	 * @param {boolean} isCornerstone	Whether cornerstone configuration should be used.
+	 * @param {boolean} isProduct		Whether product configuration should be used.
+
 	 * @returns {void}
 	 */
-	constructor( isCornerstone = false ) {
+	constructor( config = {}, isCornerstone = false, isProduct = false ) {
 		super();
 
+		const defaultConfig = {
+			recommendedWordCount: 20,
+			slightlyTooMany: 25,
+			farTooMany: 30,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34v" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34w" ),
+		};
+
+		// Add cornerstone and/or product-specific config if applicable.
+		this._config = merge( defaultConfig, config );
+
 		this._isCornerstone = isCornerstone;
+		this._isProduct = isProduct;
 		this.identifier = "textSentenceLength";
 	}
 
@@ -37,7 +52,9 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		const sentences = researcher.getResearch( "countSentencesFromText" );
-		this._config = this.getConfig( researcher );
+		if ( researcher.getConfig( "sentenceLength" ) ) {
+			this._config = this.getLanguageSpecificConfig( researcher );
+		}
 		const percentage = this.calculatePercentage( sentences );
 		const score = this.calculateScore( percentage );
 
@@ -71,7 +88,9 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 */
 	getMarks( paper, researcher ) {
 		const sentenceCount = researcher.getResearch( "countSentencesFromText" );
-		this._config = this.getConfig( researcher );
+		if ( researcher.getConfig( "sentenceLength" ) ) {
+			this._config = this.getLanguageSpecificConfig( researcher );
+		}
 		const sentenceObjects = this.getTooLongSentences( sentenceCount );
 
 		return map( sentenceObjects, function( sentenceObject ) {
@@ -84,46 +103,30 @@ class SentenceLengthInTextAssessment extends Assessment {
 	}
 
 	/**
-	 * Gets the right config for the scoring criteria.
+	 * Check if there is language-specific config, and if so, overwrite the current config with it.
 	 *
 	 * @param {Researcher} researcher The researcher to use.
 	 *
 	 * @returns {Object} The config that should be used.
 	 */
-	getConfig( researcher ) {
-		let config;
+	getLanguageSpecificConfig( researcher ) {
+		const currentConfig = this._config;
+		const languageSpecificConfig = researcher.getConfig( "sentenceLength" );
 
-		if ( this._isCornerstone === true ) {
-			// If a language has specific cornerstone configuration, that configuration is used.
-			const languageSpecificCornerstoneConfig = researcher.getConfig( "sentenceLengthCornerstone" );
-			if ( languageSpecificCornerstoneConfig ) {
-				config = languageSpecificCornerstoneConfig;
-			} else {
-				/*
-			 * If there is no language-specific cornerstone config, but there is general sentence length config,
-			 * the recommended word count from that config is used.
-			 * */
-				let recommendedWordCount = researcher.getConfig( "sentenceLength" ).recommendedWordCount;
-				if ( ! recommendedWordCount ) {
-					recommendedWordCount = 20;
-				}
-
-				config = {
-					recommendedWordCount: recommendedWordCount,
-					slightlyTooMany: 20,
-					farTooMany: 25,
-				};
-			}
-		} else {
-			const languageSpecificConfig = researcher.getConfig( "sentenceLength" );
-			const defaultConfig = {
-				recommendedWordCount: 20,
-				slightlyTooMany: 25,
-				farTooMany: 30,
-			};
-			config = languageSpecificConfig ? languageSpecificConfig : defaultConfig;
+		if ( languageSpecificConfig.hasOwnProperty( "recommendedWordCount" ) ) {
+			currentConfig.recommendedWordCount = languageSpecificConfig.recommendedWordCount;
 		}
-		return config;
+
+		// Check if a language has specific cornerstone configuration for non-product pages.
+		if ( this._isCornerstone === true && this._isProduct === false && languageSpecificConfig.hasOwnProperty( "cornerstonePercentages" ) ) {
+			return merge( currentConfig, languageSpecificConfig.cornerstonePercentages );
+		}
+		// Check if a language has specific configuration for non-product, non-cornerstone pages.
+		if ( this._isCornerstone === false && this._isProduct === false && languageSpecificConfig.hasOwnProperty( "percentages" ) ) {
+			return merge( currentConfig, languageSpecificConfig.percentages );
+		}
+		// More conditions should be added below once we add language-specific config for product pages.
+		return currentConfig;
 	}
 
 	/**
@@ -136,14 +139,12 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {string} A string.
 	 */
 	translateScore( score, percentage,  i18n ) {
-		const urlTitle = createAnchorOpeningTag( "https://yoa.st/34v" );
-		const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/34w" );
 		if ( score >= 7 ) {
 			return i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis",
 					"%1$sSentence length%2$s: Great!" ),
-				urlTitle,
+				this._config.urlTitle,
 				"</a>"
 			);
 		}
@@ -155,12 +156,12 @@ class SentenceLengthInTextAssessment extends Assessment {
 			i18n.dgettext( "js-text-analysis",
 				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s words, which is more than the recommended maximum of %5$s." +
 				" %6$sTry to shorten the sentences%2$s." ),
-			urlTitle,
+			this._config.urlTitle,
 			"</a>",
 			percentage + "%",
 			this._config.recommendedWordCount,
 			this._config.slightlyTooMany + "%",
-			urlCallToAction
+			this._config.urlCallToAction
 		);
 	}
 

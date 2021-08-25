@@ -1,4 +1,4 @@
-import SubheadingDistributionTooLong from "../../../../src/scoring/assessments/readability/subheadingDistributionTooLongAssessment.js";
+import SubheadingDistributionTooLong from "../../../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
@@ -127,6 +127,21 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 
 	it( "Returns true from hasSubheadings to the paper with text", function() {
 		const assessment = subheadingDistributionTooLong.hasSubheadings( new Paper( shortText + subheading + longText ) );
+		expect( assessment ).toBe( true );
+	} );
+
+	it( "Returns false when the assessment shouldn't appear in short text analysis and the text contains less than 300 words", function() {
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( new Paper( shortText ) );
+		expect( assessment ).toBe( false );
+	} );
+
+	it( "Returns false when the assessment shouldn't appear in short text analysis and the paper is empty", function() {
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( new Paper( "" ) );
+		expect( assessment ).toBe( false );
+	} );
+
+	it( "Returns true when the assessment shouldn't appear in short text analysis but the text contains more than 300 words", function() {
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( new Paper( longText ) );
 		expect( assessment ).toBe( true );
 	} );
 } );
