@@ -75,8 +75,10 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 			$indexables[] = $this->repository->find_by_id_and_type( (int) $term_id, 'term' );
 		}
 
-		\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
-		\delete_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT );
+		if ( \count( $indexables ) > 0 ) {
+			\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
+			\delete_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT );
+		}
 
 		return $indexables;
 	}

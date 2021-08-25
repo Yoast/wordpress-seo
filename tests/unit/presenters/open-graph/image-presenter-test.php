@@ -39,7 +39,7 @@ class Image_Presenter_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance     = Mockery::mock( Image_Presenter::class )->makePartial();
+		$this->instance     = new Image_Presenter();
 		$this->presentation = new Indexable_Presentation();
 
 		$this->instance->presentation = $this->presentation;
@@ -84,12 +84,16 @@ class Image_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_filter_wrong_image_url_returned() {
-		Monkey\Functions\expect( 'apply_filters' )
+		$image = [ 'url' => 'https://example.com/image.jpg' ];
+
+		$this->presentation->open_graph_images = [ $image ];
+
+		Monkey\Filters\expectApplied( 'wpseo_opengraph_image' )
 			->once()
-			->with( 'wpseo_opengraph_image', 'image.jpg', $this->presentation )
+			->with( 'https://example.com/image.jpg', $this->presentation )
 			->andReturn( false );
 
-		$this->assertEquals( [ 'url' => 'image.jpg' ], $this->instance->filter( [ 'url' => 'image.jpg' ], $this->presentation ) );
+		$this->assertEquals( [ [ 'url' => 'https://example.com/image.jpg' ] ], $this->instance->get() );
 	}
 
 	/**
@@ -98,12 +102,16 @@ class Image_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_filter() {
-		Monkey\Functions\expect( 'apply_filters' )
-			->once()
-			->with( 'wpseo_opengraph_image', 'image.jpg', $this->presentation )
-			->andReturn( 'filtered_image.jpg' );
+		$image = [ 'url' => 'https://example.com/image.jpg' ];
 
-		$this->assertEquals( [ 'url' => 'filtered_image.jpg' ], $this->instance->filter( [ 'url' => 'image.jpg' ], $this->presentation ) );
+		$this->presentation->open_graph_images = [ $image ];
+
+		Monkey\Filters\expectApplied( 'wpseo_opengraph_image' )
+			->once()
+			->with( 'https://example.com/image.jpg', $this->presentation )
+			->andReturn( 'https://example.com/filtered_image.jpg' );
+
+		$this->assertEquals( [ [ 'url' => 'https://example.com/filtered_image.jpg' ] ], $this->instance->get() );
 	}
 
 	/**

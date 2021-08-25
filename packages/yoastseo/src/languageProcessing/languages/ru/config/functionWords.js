@@ -507,7 +507,7 @@ export const all = [].concat( cardinalNumerals, ordinalNumerals, demonstrativePr
 	locativeAdverbs, adverbialGenitives, filteredPassiveAuxiliaries,
 	otherAuxiliaries, copula, prepositions, coordinatingConjunctions, subordinatingConjunctions, interviewVerbs,
 	transitionWords, intensifiers, delexicalizedVerbs, interjections, generalAdjectivesAdverbs,
-	recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing );
+	recipeWords, vagueNouns, miscellaneous, titlesPreceding, titlesFollowing, timeWords );
 
 export default {
 	filteredAtEnding,

@@ -61,6 +61,7 @@ export default class AnalysisWebWorker {
 			useKeywordDistribution: false,
 			// The locale used for language-specific configurations in Flesch-reading ease and Sentence length assessments.
 			locale: "en_US",
+			customAnalysisType: "",
 		};
 
 		this._scheduler = new Scheduler();
@@ -115,6 +116,12 @@ export default class AnalysisWebWorker {
 		this.registerAssessment = this.registerAssessment.bind( this );
 		this.registerMessageHandler = this.registerMessageHandler.bind( this );
 		this.refreshAssessment = this.refreshAssessment.bind( this );
+		this.setCustomContentAssessorClass = this.setCustomContentAssessorClass.bind( this );
+		this.setCustomCornerstoneContentAssessorClass = this.setCustomCornerstoneContentAssessorClass.bind( this );
+		this.setCustomSEOAssessorClass = this.setCustomSEOAssessorClass.bind( this );
+		this.setCustomCornerstoneSEOAssessorClass = this.setCustomCornerstoneSEOAssessorClass.bind( this );
+		this.setCustomRelatedKeywordAssessorClass = this.setCustomRelatedKeywordAssessorClass.bind( this );
+		this.setCustomCornerstoneRelatedKeywordAssessorClass = this.setCustomCornerstoneRelatedKeywordAssessorClass.bind( this );
 
 		// Bind event handlers to this scope.
 		this.handleMessage = this.handleMessage.bind( this );
@@ -152,6 +159,96 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
+	 * Sets a custom content assessor class.
+	 *
+	 * @param {Class}  ContentAssessorClass     A content assessor class.
+	 * @param {string} customAnalysisType       The type of analysis.
+	 * @param {Object} customAssessorOptions    The options to use.
+	 *
+	 * @returns {void}
+	 */
+	setCustomContentAssessorClass( ContentAssessorClass, customAnalysisType, customAssessorOptions ) {
+		this._CustomContentAssessorClasses[ customAnalysisType ] = ContentAssessorClass;
+		this._CustomContentAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._contentAssessor = this.createContentAssessor();
+	}
+
+	/**
+	 * Sets a custom cornerstone content assessor class.
+	 *
+	 * @param {Class}  CornerstoneContentAssessorClass  A cornerstone content assessor class.
+	 * @param {string} customAnalysisType               The type of analysis.
+	 * @param {Object} customAssessorOptions            The options to use.
+	 *
+	 * @returns {void}
+	 */
+	setCustomCornerstoneContentAssessorClass( CornerstoneContentAssessorClass, customAnalysisType, customAssessorOptions ) {
+		this._CustomCornerstoneContentAssessorClasses[ customAnalysisType ] = CornerstoneContentAssessorClass;
+		this._CustomCornerstoneContentAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._contentAssessor = this.createContentAssessor();
+	}
+
+	/**
+	 * Sets a custom SEO assessor class.
+	 *
+	 * @param {Class}   SEOAssessorClass         An SEO assessor class.
+	 * @param {string}  customAnalysisType       The type of analysis.
+	 * @param {Object}  customAssessorOptions    The options to use.
+	 *
+	 * @returns {void}
+	 */
+	setCustomSEOAssessorClass( SEOAssessorClass, customAnalysisType, customAssessorOptions ) {
+		this._CustomSEOAssessorClasses[ customAnalysisType ] = SEOAssessorClass;
+		this._CustomSEOAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._seoAssessor = this.createSEOAssessor();
+	}
+
+	/**
+	 * Sets a custom cornerstone SEO assessor class.
+	 *
+	 * @param {Class}   CornerstoneSEOAssessorClass  A cornerstone SEO assessor class.
+	 * @param {string}  customAnalysisType           The type of analysis.
+	 * @param {Object}  customAssessorOptions        The options to use.
+	 *
+	 * @returns {void}
+	 */
+	setCustomCornerstoneSEOAssessorClass( CornerstoneSEOAssessorClass, customAnalysisType, customAssessorOptions ) {
+		this._CustomCornerstoneSEOAssessorClasses[ customAnalysisType ] = CornerstoneSEOAssessorClass;
+		this._CustomCornerstoneSEOAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._seoAssessor = this.createSEOAssessor();
+	}
+
+	/**
+	 * Sets a custom related keyword assessor class.
+	 *
+	 * @param {Class}   RelatedKeywordAssessorClass A related keyword assessor class.
+	 * @param {string}  customAnalysisType          The type of analysis.
+	 * @param {Object}  customAssessorOptions       The options to use.
+	 *
+	 * @returns {void}
+	 */
+	setCustomRelatedKeywordAssessorClass( RelatedKeywordAssessorClass, customAnalysisType, customAssessorOptions ) {
+		this._CustomRelatedKeywordAssessorClasses[ customAnalysisType ] = RelatedKeywordAssessorClass;
+		this._CustomRelatedKeywordAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
+	}
+
+	/**
+	 * Sets a custom cornerstone related keyword assessor class.
+	 *
+	 * @param {Class}   CornerstoneRelatedKeywordAssessorClass  A cornerstone related keyword assessor class.
+	 * @param {string}  customAnalysisType                      The type of analysis.
+	 * @param {Object}  customAssessorOptions                   The options to use.
+	 *
+	 * @returns {void}
+	 */
+	setCustomCornerstoneRelatedKeywordAssessorClass( CornerstoneRelatedKeywordAssessorClass, customAnalysisType, customAssessorOptions  ) {
+		this._CustomCornerstoneRelatedKeywordAssessorClasses[ customAnalysisType ] = CornerstoneRelatedKeywordAssessorClass;
+		this._CustomCornerstoneRelatedKeywordAssessorOptions[ customAnalysisType ] = customAssessorOptions;
+		this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
+	}
+
+	/**
 	 * Sets up the web worker for running the tree readability and SEO analysis.
 	 *
 	 * @returns {void}
@@ -168,6 +265,22 @@ export default class AnalysisWebWorker {
 		this._contentTreeAssessor = null;
 		this._seoTreeAssessor = null;
 		this._relatedKeywordTreeAssessor = null;
+
+		// Custom assessor classes.
+		this._CustomSEOAssessorClasses = {};
+		this._CustomCornerstoneSEOAssessorClasses = {};
+		this._CustomContentAssessorClasses = {};
+		this._CustomCornerstoneContentAssessorClasses = {};
+		this._CustomRelatedKeywordAssessorClasses = {};
+		this._CustomCornerstoneRelatedKeywordAssessorClasses = {};
+
+		// Custom assessor options.
+		this._CustomSEOAssessorOptions = {};
+		this._CustomCornerstoneSEOAssessorOptions = {};
+		this._CustomContentAssessorOptions = {};
+		this._CustomCornerstoneContentAssessorOptions = {};
+		this._CustomRelatedKeywordAssessorOptions = {};
+		this._CustomCornerstoneRelatedKeywordAssessorOptions = {};
 
 		// Registered assessments
 		this._registeredTreeAssessments = [];
@@ -190,12 +303,7 @@ export default class AnalysisWebWorker {
 	 */
 	register() {
 		this._scope.onmessage = this.handleMessage;
-		this._scope.analysisWorker = {
-			registerAssessment: this.registerAssessment,
-			registerParser: this.registerParser,
-			registerMessageHandler: this.registerMessageHandler,
-			refreshAssessment: this.refreshAssessment,
-		};
+		this._scope.analysisWorker = this;
 	}
 
 	/**
@@ -302,23 +410,44 @@ export default class AnalysisWebWorker {
 	/**
 	 * Initializes the appropriate content assessor.
 	 *
-	 * @returns {null|ContentAssessor|CornerstoneContentAssessor} The chosen
-	 *                                                            content
-	 *                                                            assessor.
+	 * @returns {null|Assessor} The chosen content assessor.
 	 */
 	createContentAssessor() {
 		const {
 			contentAnalysisActive,
 			useCornerstone,
+			customAnalysisType,
 		} = this._configuration;
 
 		if ( contentAnalysisActive === false ) {
 			return null;
 		}
 
-		const assessor = useCornerstone === true
-			? new CornerstoneContentAssessor( this._i18n, this._researcher )
-			: new ContentAssessor( this._i18n, this._researcher );
+		let assessor;
+
+		if ( useCornerstone === true ) {
+			/*
+			 * Use a custom cornerstone content assessor if available,
+			 * otherwise set the default cornerstone content assessor.
+			 */
+			assessor = this._CustomCornerstoneContentAssessorClasses[ customAnalysisType ]
+				? new this._CustomCornerstoneContentAssessorClasses[ customAnalysisType ](
+					this._i18n,
+					this._researcher,
+					this._CustomCornerstoneContentAssessorOptions[ customAnalysisType ] )
+				: new CornerstoneContentAssessor( this._i18n, this._researcher );
+		} else {
+			/*
+			 * For non-cornerstone content, use a custom SEO assessor if available,
+	         * otherwise use the default SEO assessor.
+			 */
+			assessor = this._CustomContentAssessorClasses[ customAnalysisType ]
+				? new this._CustomContentAssessorClasses[ customAnalysisType ](
+					this._i18n,
+					this._researcher,
+					this._CustomContentAssessorOptions[ customAnalysisType ] )
+				: new ContentAssessor( this._i18n, this._researcher );
+		}
 
 		return assessor;
 	}
@@ -326,9 +455,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Initializes the appropriate SEO assessor.
 	 *
-	 * @returns {null|SEOAssessor|CornerstoneSEOAssessor|TaxonomyAssessor} The chosen
-	 *                                                                     SEO
-	 *                                                                     assessor.
+	 * @returns {null|Assessor} The chosen SEO assessor.
 	 */
 	createSEOAssessor() {
 		const {
@@ -336,6 +463,7 @@ export default class AnalysisWebWorker {
 			useCornerstone,
 			useKeywordDistribution,
 			useTaxonomy,
+			customAnalysisType,
 		} = this._configuration;
 
 		if ( keywordAnalysisActive === false ) {
@@ -347,11 +475,28 @@ export default class AnalysisWebWorker {
 		if ( useTaxonomy === true ) {
 			assessor = new TaxonomyAssessor( this._i18n, this._researcher );
 		} else {
-			assessor = useCornerstone === true
-				? new CornerstoneSEOAssessor( this._i18n, this._researcher )
-				: new SEOAssessor( this._i18n, this._researcher );
+			// Set cornerstone SEO assessor for cornerstone content.
+			if ( useCornerstone === true ) {
+				// Use a custom cornerstone SEO assessor if available, otherwise set the default cornerstone SEO assessor.
+				assessor = this._CustomCornerstoneSEOAssessorClasses[ customAnalysisType ]
+					? new this._CustomCornerstoneSEOAssessorClasses[ customAnalysisType ](
+						this._i18n,
+						this._researcher,
+						this._CustomCornerstoneSEOAssessorOptions[ customAnalysisType ] )
+					: new CornerstoneSEOAssessor( this._i18n, this._researcher );
+			} else {
+			/*
+			 * For non-cornerstone content, use a custom SEO assessor if available,
+			 * otherwise use the default SEO assessor.
+			 */
+				assessor = this._CustomSEOAssessorClasses[ customAnalysisType ]
+					? new this._CustomSEOAssessorClasses[ customAnalysisType ](
+						this._i18n,
+						this._researcher,
+						this._CustomSEOAssessorOptions[ customAnalysisType ] )
+					: new SEOAssessor( this._i18n, this._researcher );
+			}
 		}
-
 
 		if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "keyphraseDistribution" ) ) ) {
 			assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
@@ -369,15 +514,14 @@ export default class AnalysisWebWorker {
 	/**
 	 * Initializes the appropriate SEO assessor for related keywords.
 	 *
-	 * @returns {null|SEOAssessor|CornerstoneSEOAssessor|TaxonomyAssessor} The chosen
-	 *                                                                     related keywords
-	 *                                                                     assessor.
+	 * @returns {null|Assessor} The chosen related keywords assessor.
 	 */
 	createRelatedKeywordsAssessor() {
 		const {
 			keywordAnalysisActive,
 			useCornerstone,
 			useTaxonomy,
+			customAnalysisType,
 		} = this._configuration;
 
 		if ( keywordAnalysisActive === false ) {
@@ -389,9 +533,27 @@ export default class AnalysisWebWorker {
 		if ( useTaxonomy === true ) {
 			assessor = new RelatedKeywordTaxonomyAssessor( this._i18n, this._researcher );
 		} else {
-			assessor = useCornerstone === true
-				? new CornerstoneRelatedKeywordAssessor( this._i18n, this._researcher )
-				: new RelatedKeywordAssessor( this._i18n, this._researcher );
+			// Set cornerstone related keyword assessor for cornerstone content.
+			if ( useCornerstone === true ) {
+				// Use a custom related keyword assessor if available, otherwise use the default related keyword assessor.
+				assessor = this._CustomCornerstoneRelatedKeywordAssessorClasses[ customAnalysisType ]
+					? new this._CustomCornerstoneRelatedKeywordAssessorClasses[ customAnalysisType ](
+						this._i18n,
+						this._researcher,
+						this._CustomCornerstoneRelatedKeywordAssessorOptions[ customAnalysisType ] )
+					: new CornerstoneRelatedKeywordAssessor( this._i18n, this._researcher );
+			} else {
+			/*
+			 * For non-cornerstone content, use a custom related keyword assessor if available,
+			 * otherwise use the default related keyword assessor.
+			 */
+				assessor = this._CustomRelatedKeywordAssessorClasses[ customAnalysisType ]
+					? new this._CustomRelatedKeywordAssessorClasses[ customAnalysisType ](
+						this._i18n,
+						this._researcher,
+						this._CustomRelatedKeywordAssessorOptions[ customAnalysisType ] )
+					: new RelatedKeywordAssessor( this._i18n, this._researcher );
+			}
 		}
 
 		this._registeredAssessments.forEach( ( { name, assessment } ) => {
@@ -451,8 +613,23 @@ export default class AnalysisWebWorker {
 	 * @returns {Object} Containing seo and readability with true or false.
 	 */
 	static shouldAssessorsUpdate( configuration, contentAssessor = null, seoAssessor = null ) {
-		const readability = [ "contentAnalysisActive", "useCornerstone", "locale", "translations" ];
-		const seo = [ "keywordAnalysisActive", "useCornerstone", "useTaxonomy", "useKeywordDistribution", "locale", "translations", "researchData" ];
+		const readability = [
+			"contentAnalysisActive",
+			"useCornerstone",
+			"locale",
+			"translations",
+			"customAnalysisType",
+		];
+		const seo = [
+			"keywordAnalysisActive",
+			"useCornerstone",
+			"useTaxonomy",
+			"useKeywordDistribution",
+			"locale",
+			"translations",
+			"researchData",
+			"customAnalysisType",
+		];
 		const configurationKeys = Object.keys( configuration );
 
 		return {

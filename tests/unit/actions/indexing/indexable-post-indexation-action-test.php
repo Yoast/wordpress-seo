@@ -350,4 +350,52 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		$this->instance->index();
 	}
+
+	/**
+	 * Tests that the transients are not deleted when no indexables have been created.
+	 *
+	 * @covers ::__construct
+	 * @covers ::index
+	 * @covers ::get_query
+	 * @covers ::get_limit
+	 * @covers ::get_post_types
+	 */
+	public function test_index_no_indexables_created() {
+		$expected_query = "
+			SELECT P.ID
+			FROM wp_posts AS P
+			WHERE P.post_type IN (%s)
+			AND P.ID not in (
+				SELECT I.object_id from wp_yoast_indexable as I
+				WHERE I.object_type = 'post'
+				AND I.permalink_hash IS NOT NULL)
+			LIMIT %d";
+
+		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
+
+		$this->post_type_helper
+			->expects( 'get_public_post_types' )
+			->once()
+			->andReturn( [ 'public_post_type' ] );
+		$this->post_type_helper
+			->expects( 'get_excluded_post_types_for_indexables' )
+			->once()
+			->andReturn( [] );
+
+		$this->wpdb
+			->expects( 'prepare' )
+			->once()
+			->with(
+				$expected_query,
+				[ 'public_post_type', 25 ]
+			)
+			->andReturn( 'query' );
+		$this->wpdb
+			->expects( 'get_col' )
+			->once()
+			->with( 'query' )
+			->andReturn( [] );
+
+		$this->instance->index();
+	}
 }

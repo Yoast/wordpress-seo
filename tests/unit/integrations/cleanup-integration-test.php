@@ -42,7 +42,64 @@ class Cleanup_Integration_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_cleanup_indexables', [ $this->instance, 'cleanup_obsolete_indexables' ] ), 'Does not have expected wpseo_cleanup_indexables filter' );
+		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_cleanup_orphaned_indexables', [ $this->instance, 'cleanup_orphaned_indexables' ] ), 'Does not have expected wpseo_cleanup_orphaned_indexables filter' );
 		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_deactivate', [ $this->instance, 'unschedule_cron' ] ), 'Does not have expected wpseo_deactivate filter' );
+	}
+
+	/**
+	 * Tests calling cleanup_orphaned_indexables.
+	 *
+	 * @covers ::cleanup_orphaned_indexables
+	 */
+	public function test_cleanup_orphaned_indexables() {
+		global $wpdb;
+
+		$wpdb         = Mockery::mock( 'wpdb' );
+		$wpdb->prefix = 'wp_';
+		$wpdb
+			->shouldReceive( 'prepare' )
+			->times( 3 )
+			->withAnyArgs()
+			->andReturn(
+				'
+				SELECT htable_to_clean.indexable_id
+				FROM wp_yoast_indexable_hierarchy table_to_clean
+				LEFT JOIN wp_yoast_indexable AS indexable_table
+				ON table_to_clean.indexable_id = indexable_table.id
+				WHERE indexable_table.id IS NULL
+				AND table_to_clean.indexable_id IS NOT NULL
+				LIMIT 1000',
+				'
+				SELECT table_to_clean.indexable_id
+				FROM wp_yoast_seo_links table_to_clean
+				LEFT JOIN wp_yoast_indexable AS indexable_table
+				ON table_to_clean.indexable_id = indexable_table.id
+				WHERE indexable_table.id IS NULL
+				AND table_to_clean.indexable_id IS NOT NULL
+				LIMIT 1000',
+				'
+				SELECT table_to_clean.target_indexable_id
+				FROM wp_yoast_seo_links table_to_clean
+				LEFT JOIN wp_yoast_indexable AS indexable_table
+				ON table_to_clean.target_indexable_id = indexable_table.id
+				WHERE indexable_table.id IS NULL
+				AND table_to_clean.target_indexable_id IS NOT NULL
+				LIMIT 1000'
+			);
+
+		$wpdb
+			->shouldReceive( 'get_col' )
+			->times( 3 )
+			->withAnyArgs()
+			->andReturn( [ '123' ] );
+
+		$wpdb
+			->shouldReceive( 'query' )
+			->times( 3 )
+			->withAnyArgs()
+			->andReturn( 1 );
+
+		$this->instance->cleanup_orphaned_indexables();
 	}
 
 	/**

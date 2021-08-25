@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { enableFeatures } from "@yoast/feature-flag";
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
@@ -28,16 +29,19 @@ import ImageCountAssessment from "../../src/scoring/assessments/seo/ImageCountAs
 
 // Import content assessments
 import fleschReadingAssessment from "../../src/scoring/assessments/readability/fleschReadingEaseAssessment";
-import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/subheadingDistributionTooLongAssessment";
-import paragraphTooLongAssessment from "../../src/scoring/assessments/readability/paragraphTooLongAssessment";
-import SentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/sentenceLengthInTextAssessment";
-import transitionWordsAssessment from "../../src/scoring/assessments/readability/transitionWordsAssessment";
-import passiveVoiceAssessment from "../../src/scoring/assessments/readability/passiveVoiceAssessment";
-import textPresenceAssessment from "../../src/scoring/assessments/readability/textPresenceAssessment";
-import sentenceBeginningsAssessment from "../../src/scoring/assessments/readability/sentenceBeginningsAssessment";
+import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
+import ParagraphTooLongAssessment from "../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
+import SentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
+import TransitionWordsAssessment from "../../src/scoring/assessments/readability/TransitionWordsAssessment";
+import PassiveVoiceAssessment from "../../src/scoring/assessments/readability/PassiveVoiceAssessment";
+import TextPresenceAssessment from "../../src/scoring/assessments/readability/TextPresenceAssessment";
+import SentenceBeginningsAssessment from "../../src/scoring/assessments/readability/SentenceBeginningsAssessment";
 
 // Import test papers
 import testPapers from "./testTexts";
+
+// Enable Farsi support
+enableFeatures( [ "FARSI_SUPPORT" ] );
 
 testPapers.forEach( function( testPaper ) {
 	// eslint-disable-next-line max-statements
@@ -71,6 +75,11 @@ testPapers.forEach( function( testPaper ) {
 		const sentenceLengthInTextAssessment = new SentenceLengthInTextAssessment();
 		const imageKeyphraseAssessment = new ImageKeyphraseAssessment();
 		const imageCountAssessment = new ImageCountAssessment();
+		const paragraphTooLongAssessment = new ParagraphTooLongAssessment();
+		const transitionWordsAssessment = new TransitionWordsAssessment();
+		const passiveVoiceAssessment = new PassiveVoiceAssessment();
+		const textPresenceAssessment = new TextPresenceAssessment();
+		const sentenceBeginningsAssessment = new SentenceBeginningsAssessment();
 
 		// SEO assessments.
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {
