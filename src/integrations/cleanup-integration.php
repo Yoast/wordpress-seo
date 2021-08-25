@@ -2,13 +2,31 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use Closure;
 use Yoast\WP\Lib\Model;
 /**
  * Adds cleanup hooks.
  */
 class Cleanup_Integration implements Integration_Interface {
 
+	/**
+	 * Identifier used to determine the current task.
+	 *
+	 * @var string
+	 */
 	const CURRENT_TASK_OPTION = "wpseo-cleanup-current-task";
+
+	/**
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
+	 */
+	public function register_hooks() {
+		\add_action( 'wpseo_cleanup_cron', [ $this, '_run_cleanup_cron' ] );
+		\add_action( 'wpseo_deactivate', [ $this, 'reset_cleanup' ] );
+	}
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -19,6 +37,11 @@ class Cleanup_Integration implements Integration_Interface {
 		return [];
 	}
 
+	/**
+	 * Returns an array of cleanup tasks.
+	 *
+	 * @return Closure[] The cleanup tasks.
+	 */
 	private function get_cleanup_tasks() {
 		return [
 			"clean_indexables_by_object_sub_type_shop-order" => function( $limit ) {
@@ -40,31 +63,62 @@ class Cleanup_Integration implements Integration_Interface {
 		];
 	}
 
-	public function start_cleanup() {
+	/**
+	 * Starts the indexables cleanup.
+	 *
+	 * @return void
+	 */
+	public function run_cleanup() {
 		$this->reset_cleanup();
 
 		$cleanups = $this->get_cleanup_tasks();
 
 		foreach ( $cleanups as $name => $action ) {
-			$limit = \apply_filters( 'wpseo_cron_query_limit_size', 1000 );
+			$limit = $this->get_limit();
 
 			$items_cleaned = $action( $limit );
 			if ( $items_cleaned < $limit ) {
 				continue;
 			}
+
 			// There are more items to delete for the current cleanup job, start a cronjob at the specified job.
 			$this->start_cron_job( $name );
 			return;
 		}
 	}
 
+	/**
+	 * Gets the deletion limit for cleanups.
+	 *
+	 * @return int The limit for the amount of entities to be cleaned.
+	 */
+	private function get_limit() {
+		$limit = \apply_filters( 'wpseo_cron_query_limit_size', 1000 );
+
+		if ( ! \is_int( $limit ) ) {
+			$limit = 1000;
+		}
+
+		return $limit;
+	}
+
+	/**
+	 * Resets and stops the cleanup integration.
+	 *
+	 * @return void 
+	 */
 	private function reset_cleanup() {
 		\delete_option( self::CURRENT_TASK_OPTION );
 		\wp_unschedule_hook( 'wpseo_cleanup_cron' );
 	}
 
+	/**
+	 * Starts the cleanup cron job.
+	 *
+	 * @return void 
+	 */
 	private function start_cron_job( $job_name ) {
-		\add_option( self::CURRENT_TASK_OPTION, $job_name );
+		\update_option( self::CURRENT_TASK_OPTION, $job_name );
 		\wp_schedule_event(
 			time(),
 			'hourly',
@@ -72,11 +126,21 @@ class Cleanup_Integration implements Integration_Interface {
 		);
 	}
 
+	/**
+	 * The callback that is called for the cleanup cron job.
+	 *
+	 * @return void 
+	 */
 	public function _run_cleanup_cron() {
-		$current_task_name = \get_option( self::CURRENT_TASK_OPTION );
-		$limit             = \apply_filters( 'wpseo_cron_query_limit_size', 1000 );
-		$tasks             = $this->get_cleanup_tasks();
+		$current_task_name = \get_option( self::CURRENT_TASK_OPTION, '' );
 
+		if ( $current_task_name === false ) {
+			$this->reset_cleanup();
+			return;
+		}
+
+		$limit = $this->get_limit();
+		$tasks = $this->get_cleanup_tasks();
 		
 		while ( $current_task = \current( $tasks ) ) {
 			// Skip the tasks that have already been done.
@@ -93,55 +157,11 @@ class Cleanup_Integration implements Integration_Interface {
 					$this->reset_cleanup();
 					return;
 				}
+
 				// Continue with the next task next time.
 				\update_option( self::CURRENT_TASK_OPTION, \key( $tasks ) );
 				return;
 			}
-		}
-	}
-
-	/**
-	 * Initializes the integration.
-	 *
-	 * This is the place to register hooks and filters.
-	 *
-	 * @return void
-	 */
-	public function register_hooks() {
-		\add_action( 'wpseo_cleanup_cron', [ $this, '_run_cleanup_cron' ] );
-		\add_action( 'wpseo_deactivate', [ $this, 'unschedule_cron' ] );
-	}
-
-	/**
-	 * Cleans rows from the indexable table and unregisters the cron if no deletions.
-	 *
-	 * @param string $object_type     The object type to query.
-	 * @param string $object_sub_type The object subtype to query.
-	 *
-	 * @return void
-	 */
-	public function cleanup_obsolete_indexables( $object_type, $object_sub_type ) {
-		$number_of_deletions = $this->clean_indexables_with_object_type( $object_type, $object_sub_type, 1000 );
-
-		if ( empty( $number_of_deletions ) ) {
-			$this->unschedule_cron( 'wpseo_cleanup_indexables' );
-		}
-	}
-
-	/**
-	 * Cleans orphaned rows from the yoast tables and unregisters the cron if no deletions.
-	 *
-	 * @return void
-	 */
-	public function cleanup_orphaned_indexables() {
-		$deleted_orphans  = $this->cleanup_orphaned_from_table( 'Indexable_Hierarchy', 'indexable_id', 1000 );
-		$deleted_orphans += $this->cleanup_orphaned_from_table( 'SEO_Links', 'indexable_id', 1000 );
-		$deleted_orphans += $this->cleanup_orphaned_from_table( 'SEO_Links', 'target_indexable_id', 1000 );
-
-		$deleted_orphans = \apply_filters( 'wpseo_cleanup_orphaned', $deleted_orphans );
-
-		if ( empty( $deleted_orphans ) ) {
-			$this->unschedule_cron( 'wpseo_cleanup_orphaned_indexables' );
 		}
 	}
 
@@ -154,7 +174,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 *
 	 * @return int The number of deleted rows.
 	 */
-	public function cleanup_orphaned_from_table( $table, $column, $limit = 1000 ) {
+	protected function cleanup_orphaned_from_table( $table, $column, $limit = 1000 ) {
 		global $wpdb;
 
 		$table           = Model::get_table_name( $table );
@@ -198,12 +218,11 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @param string $object_sub_type The object subtype to query.
 	 * @param int    $limit           The limit we'll apply to the delete query.
 	 *
-	 * @return int|bool
+	 * @return int|bool The number of rows that was deleted or false if the query failed.
 	 */
-	public function clean_indexables_with_object_type( $object_type, $object_sub_type, $limit = 1000 ) {
+	protected function clean_indexables_with_object_type( $object_type, $object_sub_type, $limit ) {
 		global $wpdb;
 
-		$limit           = \apply_filters( 'wpseo_upgrade_query_limit_size', $limit );
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
@@ -212,23 +231,22 @@ class Cleanup_Integration implements Integration_Interface {
 		return $wpdb->query( $sql );
 	}
 
-	public function clean_indexables_with_post_status( $post_status ) {
-
-	}
-
 	/**
-	 * Unschedules the WP-Cron jobs to cleanup indexables and orphaned rows.
+	 * Deletes rows from the indexable table depending on the post_status.
 	 *
-	 * @param string|null $hook The hook to unregister.
-	 * @return void
+	 * @param string $post_status     The post status to query.
+	 * @param int    $limit           The limit we'll apply to the delete query.
+	 *
+	 * @return int|bool The number of rows that was deleted or false if the query failed.
 	 */
-	public function unschedule_cron( $hook = null ) {
-		if ( is_string( $hook ) && ! empty( $hook ) ) {
-			\wp_unschedule_hook( $hook );
-		}
-		else {
-			\wp_unschedule_hook( 'wpseo_cleanup_indexables' );
-			\wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
-		}
+	protected function clean_indexables_with_post_status( $post_status, $limit ) {
+		global $wpdb;
+
+		$indexable_table = Model::get_table_name( 'Indexable' );
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+		$sql = $wpdb->prepare( "DELETE FROM $indexable_table WHERE post_status = %s ORDER BY id LIMIT %d", $post_status, $limit );
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
+		return $wpdb->query( $sql );
 	}
 }
