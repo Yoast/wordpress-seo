@@ -143,12 +143,6 @@ class WPSEO_Meta {
 				'default_value' => 'false',
 				'description'   => '',
 			],
-			'wincher_tracked_keyphrases' => [
-				'type'          => 'hidden',
-				'title'         => 'wincher_tracked_keyphrases',
-				'default_value' => null,
-				'description'   => '',
-			],
 		],
 		'advanced' => [
 			'meta-robots-noindex'  => [

@@ -76,6 +76,13 @@ class Wincher_Keyphrases_Action {
 		$this->options_helper = $options_helper;
 	}
 
+	/**
+	 * Sends the tracking API request for one or more keyphrases.
+	 *
+	 * @param string|array $keyphrases One or more keyphrases that should be tracked.
+	 *
+	 * @return object The reponse object.
+	 */
 	public function track_keyphrases( $keyphrases ) {
 		try {
 			$endpoint = \sprintf(
@@ -88,7 +95,7 @@ class Wincher_Keyphrases_Action {
 				$keyphrases = [ $keyphrases ];
 			}
 
-			$keyphrases = array_map(
+			$formatted_keyphrases = array_map(
 				function( $keyphrase ) {
 					return [
 						'keyword' => $keyphrase,
@@ -98,7 +105,9 @@ class Wincher_Keyphrases_Action {
 				$keyphrases
 			);
 
-			$results = $this->client->post( $endpoint, \WPSEO_Utils::format_json_encode( $keyphrases ) );
+			$results = $this->client->post( $endpoint, \WPSEO_Utils::format_json_encode( $formatted_keyphrases ) );
+
+			$results['data'] = $this->match_chart_data( $results['data'], $keyphrases );
 
 			return $this->to_result_object( $results );
 		} catch ( Exception $e ) {
@@ -110,39 +119,12 @@ class Wincher_Keyphrases_Action {
 	}
 
 	/**
-	 * Gets the tracked keyphrases.
+	 * Sends an untrack request for the passed keyword ID.
+	 *
+	 * @param int $keyphrase_id The ID of the keyphrase to untrack.
 	 *
 	 * @return object The response object.
 	 */
-	public function get_tracked_keyphrases( $keyphrases, $post_id ) {
-		try {
-			$transient_key = \sprintf( static::TRANSIENT_CACHE_KEY, $post_id );
-			$transient     = \get_transient( $transient_key );
-
-			 if ( $this->should_use_transient( $transient, $keyphrases ) ) {
-//			 	return $this->to_result_object( $transient );
-			 }
-
-			$results = $this->client->get(
-				\sprintf(
-					self::KEYPHRASES_URL,
-					$this->options_helper->get( 'wincher_website_id' )
-				)
-			);
-
-			// Map chart data with the keyphrases and filter out non-tracked keyphrases.
-			$results['data'] = $this->collect_keyphrase_data( $results['data'], $keyphrases );
-
-			 \set_transient( $transient_key, $results, 12 * \HOUR_IN_SECONDS );
-			return $this->to_result_object( $results );
-		} catch ( Exception $e ) {
-			return (object) [
-				'error'  => $e->getMessage(),
-				'status' => $e->getCode(),
-			];
-		}
-	}
-
 	public function untrack_keyphrase( $keyphrase_id ) {
 		try {
 			$endpoint = \sprintf(
@@ -162,7 +144,49 @@ class Wincher_Keyphrases_Action {
 		}
 	}
 
-	public function get_keyphrase_chart_data() {
+	/**
+	 * Gets the tracked keyphrases.
+	 *
+	 * @param $post_id
+	 * @param $used_keyphrases
+	 *
+	 * @return object The response object.
+	 */
+	public function get_tracked_keyphrases( $post_id, $used_keyphrases = [] ) {
+		try {
+//			$transient_key = \sprintf( static::TRANSIENT_CACHE_KEY, $post_id );
+//			$transient     = \get_transient( $transient_key );
+//
+//			if ( $this->should_use_transient( $transient, $used_keyphrases ) ) {
+//				//			 	return $this->to_result_object( $transient );
+//			}
+
+			$results = $this->client->get(
+				\sprintf(
+					self::KEYPHRASES_URL,
+					$this->options_helper->get( 'wincher_website_id' )
+				)
+			);
+
+			if ( ! empty( $used_keyphrases ) ) {
+				$results['data'] = $this->filter_results_by_used_keyphrases( $results['data'], $used_keyphrases );
+			}
+
+				// Map chart data with the keyphrases and filter out non-tracked keyphrases.
+			$results['data'] = $this->match_chart_data( $results['data'], $used_keyphrases );
+
+//			\set_transient( $transient_key, $results, 12 * \HOUR_IN_SECONDS );
+			return $this->to_result_object( $results );
+		} catch ( Exception $e ) {
+			return (object) [
+				'error'  => $e->getMessage(),
+				'status' => $e->getCode(),
+			];
+		}
+	}
+
+
+	public function get_keyphrase_chart_data( $used_keyphrases = [] ) {
 		try {
 			$endpoint = \sprintf(
 				self::KEYPHRASES_CHART_URL,
@@ -179,6 +203,7 @@ class Wincher_Keyphrases_Action {
 				]
 			);
 
+			// TODO: Remove this
 			$current_site_url = ( get_site_url() !== 'http://localhost' ) ? get_site_url() : 'https://www.wincher.com/';
 
 			// Filter correct site data.
@@ -190,7 +215,12 @@ class Wincher_Keyphrases_Action {
 			);
 
 			if ( ! empty( $site_chart ) ) {
+				// Ensure we have a proper zero-indexed data set.
 				$results['data'] = \reset( $site_chart );
+			}
+
+			if ( ! empty( $used_keyphrases ) ) {
+				$results['data']['keywords'] = $this->filter_results_by_used_keyphrases( $results['data']['keywords'], $used_keyphrases );
 			}
 
 			return $this->to_result_object( $results );
@@ -222,50 +252,20 @@ class Wincher_Keyphrases_Action {
 	}
 
 	/**
-	 * Filters the result data to only extract the used keyphrases' information.
-	 *
-	 * @param array $used_keyphrases The used keyphrases.
-	 * @param array $results The API result data.
-	 *
-	 * @return array The filtered out keyphrases.
-	 */
-	protected function filter_used_keyphrases_from_results( $used_keyphrases, $results ) {
-		if ( empty( $used_keyphrases ) || empty( $results ) ) {
-			return $results;
-		}
-
-		// Ensure to reset the keys otherwise it'll be seen as an object.
-		return array_values(
-			array_filter(
-				$results,
-				function( $entry ) use ( $used_keyphrases ) {
-
-					// Set all keyphrases to lowercase to ensure a proper match.
-					return in_array( $entry['keyword'], array_map( 'strtolower', $used_keyphrases ), true );
-				}
-			)
-		);
-	}
-
-	/**
-	 * Collects the keyphrase and chart data and matches them.
-	 * Finally, it filters out to only contain the used keyphrases' data.
+	 * Matches the keyphrase and chart data.
 	 *
 	 * @param array $keyphrase_data  The keyphrase data.
 	 * @param array $used_keyphrases The used keyphrases.
 	 *
 	 * @return array The filtered keyphrase data.
 	 */
-	protected function collect_keyphrase_data( $keyphrase_data, $used_keyphrases ) {
-		$chart_data = $this->get_keyphrase_chart_data();
+	protected function match_chart_data( $keyphrase_data, $used_keyphrases ) {
+		$chart_data = $this->get_keyphrase_chart_data( $used_keyphrases );
 		$usable_keyphrase_data = [];
 
 		foreach ( $keyphrase_data as $keyphrase_entry) {
-			$keyphrase_entry['chart_data'] = [];
-
-			if ( ! \in_array( $keyphrase_entry['keyword'], \array_map( 'strtolower', $used_keyphrases ) ) ) {
-				continue;
-			}
+			$keyphrase_entry['position'] = null;
+			$keyphrase_entry['chartData'] = [];
 
 			foreach ( $chart_data->results['keywords'] as $chart_data_item ) {
 				if ( $keyphrase_entry['keyword'] !== $chart_data_item['keyword'] ) {
@@ -276,10 +276,16 @@ class Wincher_Keyphrases_Action {
 				$keyphrase_entry['chartData'] = $this->backfill_history( $chart_data_item['position']['history'] );
 			}
 
-			$usable_keyphrase_data[] = $keyphrase_entry;
+			$usable_keyphrase_data[$keyphrase_entry['keyword']] = $keyphrase_entry;
 		}
 
 		return $usable_keyphrase_data;
+	}
+
+	protected function filter_results_by_used_keyphrases( $results, $used_keyphrases ) {
+		return array_filter( $results, function( $result ) use ( $used_keyphrases ) {
+			return \in_array( $result['keyword'], \array_map( 'strtolower', $used_keyphrases ) );
+		} );
 	}
 
 	/**

@@ -192,7 +192,12 @@ class Wincher_PKCE_Provider extends GenericProvider {
 		}
 
 		$parsed = $this->parseResponse( $response );
+
 		$this->checkResponse( $response, $parsed );
+
+		if ( ! \is_array( $parsed ) && $parsed === "" ) {
+			$parsed = [ 'data' => [] ];
+		}
 
 		// Add the response code as this is omitted from Winchers API.
 		if ( ! array_key_exists( 'status', $parsed ) ) {

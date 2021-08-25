@@ -34,21 +34,21 @@ class Wincher_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const ACCOUNT_LIMIT_ROUTE = self::ROUTE_PREFIX . '/limit/check';
+	const ACCOUNT_LIMIT_ROUTE = self::ROUTE_PREFIX . '/limits';
 
 	/**
 	 * The track single keyphrase route constant.
 	 *
 	 * @var string
 	 */
-	const KEYPHRASE_TRACK_ROUTE = self::ROUTE_PREFIX . '/track/keyphrase';
+	const KEYPHRASE_TRACK_ROUTE = self::ROUTE_PREFIX . '/keyphrase/track';
 
 	/**
 	 * The track bulk keyphrases route constant.
 	 *
 	 * @var string
 	 */
-	const KEYPHRASES_TRACK_ROUTE = self::ROUTE_PREFIX . '/track/keyphrase/bulk';
+	const KEYPHRASES_TRACK_ROUTE = self::ROUTE_PREFIX . '/keyphrases/track';
 
 	/**
 	 * The keyphrases route constant.
@@ -62,7 +62,7 @@ class Wincher_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const UNTRACK_KEYPHRASE_ROUTE = self::ROUTE_PREFIX . '/untrack/keyphrases';
+	const UNTRACK_KEYPHRASE_ROUTE = self::ROUTE_PREFIX . '/keyphrases/untrack';
 
 	/**
 	 * The keyphrases chart data route constant.
@@ -156,7 +156,7 @@ class Wincher_Route implements Route_Interface {
 			'callback'            => [ $this, 'track_keyphrases' ],
 			'permission_callback' => [ $this, 'can_use_wincher' ],
 			'args'                => [
-				'keyphrase' => [
+				'keyphrases' => [
 					'required'          => true,
 				],
 			],
@@ -238,7 +238,7 @@ class Wincher_Route implements Route_Interface {
 	 * @return WP_REST_Response The response.
 	 */
 	public function track_keyphrases( WP_REST_Request $request ) {
-		$data = $this->keyphrases_action->track_keyphrases( $request['keyphrase'] );
+		$data = $this->keyphrases_action->track_keyphrases( $request['keyphrases'] );
 
 		return new WP_REST_Response( $data, $data->status );
 	}
@@ -253,7 +253,7 @@ class Wincher_Route implements Route_Interface {
 	public function get_tracked_keyphrases( WP_REST_Request $request ) {
 		$decoded_keyphrases = json_decode( urldecode( $request['keyphrases'] ) );
 
-		$data = $this->keyphrases_action->get_tracked_keyphrases( $decoded_keyphrases, $request['postID'] );
+		$data = $this->keyphrases_action->get_tracked_keyphrases( $request['postID'], $decoded_keyphrases );
 
 		return new WP_REST_Response( $data, $data->status );
 	}
@@ -263,12 +263,12 @@ class Wincher_Route implements Route_Interface {
 	 *
 	 * @param WP_REST_Request $request The request. This request should have a code param set.
 	 *
-	 * @return WP_REST_Response The response.
+	 * @return object The response.
 	 */
 	public function untrack_keyphrase( WP_REST_Request $request ) {
-		$data = $this->keyphrases_action->untrack_keyphrase( $request['keyphrase_id'] );
+		$data = $this->keyphrases_action->untrack_keyphrase( $request['keyphraseID'] );
 
-		return new WP_REST_Response( $data, $data->status );
+		return (object)[ 'results' => [], 'status' => $data->status ];
 	}
 
 	/**
@@ -279,7 +279,7 @@ class Wincher_Route implements Route_Interface {
 	 * @return WP_REST_Response The response.
 	 */
 	public function get_keyphrase_chart_data( WP_REST_Request $request ) {
-		$data = $this->keyphrases_action->get_keyphrase_chart_data();
+		$data = $this->keyphrases_action->get_keyphrase_chart_data( $request[ 'keyphrases' ] );
 
 		return new WP_REST_Response( $data, $data->status );
 	}

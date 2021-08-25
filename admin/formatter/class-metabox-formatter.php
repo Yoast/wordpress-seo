@@ -169,6 +169,7 @@ class WPSEO_Metabox_Formatter {
 			'zapierConnectedStatus'       => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
 			'wincherIntegrationActive'    => WPSEO_Options::get( 'wincher_integration_active', true ) ? 1 : 0,
 			'wincherLoginStatus'          => WPSEO_Options::get( 'wincher_integration_active', true ) ? $this->get_wincher_login_status() : false,
+			'wincherWebsiteId'            => WPSEO_Options::get( 'wincher_website_id', 0 ),
 
 			/**
 			 * Filter to determine whether the PreviouslyUsedKeyword assessment should run.
