@@ -4,6 +4,7 @@ import { compose } from "@wordpress/compose";
 
 /* Internal dependencies */
 import WincherKeyphrasesTable from "../components/WincherKeyphrasesTable";
+import WincherSEOAnalysisFields from "../helpers/fields/WincherSEOAnalysisFields";
 
 export default compose( [
 	withSelect( ( select ) => {
@@ -18,6 +19,7 @@ export default compose( [
 			getWincherTrackedKeyphrases,
 			getWincherTrackableKeyphrases,
 			getWincherLoginStatus,
+			shouldWincherTrackAll,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -31,6 +33,8 @@ export default compose( [
 			isTracking: getWincherIsTracking(),
 			trackedKeyphrases: getWincherTrackedKeyphrases(),
 			isLoggedIn: getWincherLoginStatus(),
+			trackAll: shouldWincherTrackAll(),
+			websiteID: WincherSEOAnalysisFields.websiteId,
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
@@ -40,10 +44,10 @@ export default compose( [
 			setWincherRequestFailed,
 			setWincherSetRequestLimitReached,
 			setWincherNoResultsFound,
-			toggleTrackingForKeyphrase,
 			setTrackingForKeyphrase,
 			setTrackedKeyphrases,
 			setWincherLoginStatus,
+			unsetTrackingForKeyphrase,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
@@ -62,11 +66,11 @@ export default compose( [
 			setNoResultsFound: () => {
 				setWincherNoResultsFound();
 			},
-			setTrackingKeyphrase: ( keyphrase, isTracking ) => {
-				setTrackingForKeyphrase( keyphrase, isTracking );
+			addTrackingKeyphrase: ( keyphraseObject ) => {
+				setTrackingForKeyphrase( keyphraseObject );
 			},
-			toggleKeyphraseTracking: ( keyphrase ) => {
-				toggleTrackingForKeyphrase( keyphrase );
+			removeTrackingKeyphrase: ( keyphrase ) => {
+				unsetTrackingForKeyphrase( keyphrase );
 			},
 			setTrackingKeyphrases: ( keyphrases ) => {
 				setTrackedKeyphrases( keyphrases );

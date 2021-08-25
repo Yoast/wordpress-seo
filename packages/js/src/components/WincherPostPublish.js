@@ -1,8 +1,12 @@
+/* External dependencies */
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import {Fragment, useCallback} from "@wordpress/element";
+import { Fragment, useCallback } from "@wordpress/element";
 
-import {FieldGroup, NewButton} from "@yoast/components";
+/* Yoast dependencies */
+import { FieldGroup, NewButton } from "@yoast/components";
+
+/* Internal dependencies */
 import WincherExplanation from "./modals/WincherExplanation";
 
 /**

@@ -1,3 +1,5 @@
+import {WINCHER_SET_TRACK_ALL_REQUEST} from "./WincherSEOPerformance";
+
 export const WINCHER_SET_REQUEST_SUCCEEDED = "WINCHER_SET_REQUEST_SUCCEEDED";
 export const WINCHER_SET_REQUEST_FAILED = "WINCHER_SET_REQUEST_FAILED";
 export const WINCHER_SET_REQUEST_LIMIT_REACHED = "WINCHER_SET_LIMIT_REACHED";
@@ -85,5 +87,16 @@ export function setWincherLoginStatus( loginStatus, newlyAuthenticated ) {
 		type: WINCHER_SET_LOGIN_STATUS,
 		loginStatus,
 		newlyAuthenticated,
+	};
+}
+
+/**
+ * Tracks all keyphrases associated with the current article.
+ *
+ * @returns {Object} Action object.
+ */
+export function trackAllKeyphrases() {
+	return {
+		type: WINCHER_SET_TRACK_ALL_REQUEST,
 	};
 }

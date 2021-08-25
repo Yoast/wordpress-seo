@@ -1,11 +1,16 @@
-import {Component, Fragment, useCallback} from "@wordpress/element";
+/* External dependencies */
 import PropTypes from "prop-types";
-import {Toggle} from "@yoast/components";
-import {__, _n, sprintf} from "@wordpress/i18n";
-import {makeOutboundLink} from "@yoast/helpers";
+import { useCallback, Fragment } from "@wordpress/element";
+import { __, _n, sprintf } from "@wordpress/i18n";
+import { isEmpty } from "lodash-es";
+
+/* Yoast dependencies */
+import { Toggle } from "@yoast/components";
+import { makeOutboundLink } from "@yoast/helpers";
+
+/* Internal dependencies */
 import AreaChart from "./AreaChart";
-import WincherKeyphrasesTable from "./WincherKeyphrasesTable";
-import {isEmpty} from "lodash-es";
+import WincherSEOPerformanceLoading from "./modals/WincherSEOPerformanceLoading";
 
 const ViewLink = makeOutboundLink();
 
@@ -126,43 +131,64 @@ export default function WincherTableRow( props ) {
 		rowData,
 		allowToggling,
 		onTrackKeyphrase,
+		onUntrackKeyphrase,
+		isFocusKeyphrase,
+		isPending,
+		websiteId,
 	} = props;
 
-	const trackableKeyphrase = keyphrase;
-	const isEnabled          = ! isEmpty( rowData );
+	const isEnabled = ! isEmpty( rowData );
 
 	const toggleAction = useCallback(
 		() => {
-			( async() => {
-				await onTrackKeyphrase( trackableKeyphrase );
-			} )();
+			if ( isEnabled ) {
+				( async() => {
+					await onUntrackKeyphrase( keyphrase, rowData.id );
+				} )();
+			} else {
+				( async() => {
+					await onTrackKeyphrase( keyphrase );
+				} )();
+			}
 		},
-		[ trackableKeyphrase, onTrackKeyphrase ]
+		[ keyphrase, onTrackKeyphrase, onUntrackKeyphrase, isEnabled, rowData ]
 	);
+
+	const viewLinkURL = ( rowData ) ? sprintf(
+		"https://www.wincher.com/websites/%s/keywords?serp=%s?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
+		websiteId,
+		rowData.id
+	) : null;
 
 	return <tr>
 		{ allowToggling && <td>{ renderToggleState( { keyphrase, isEnabled, toggleAction } ) }</td> }
-		<td>{ trackableKeyphrase }</td>
-		<td>{ getKeyphrasePosition( rowData ) }</td>
-		<td className="yoast-table--nopadding">{ generatePositionOverTimeChart( rowData ) }</td>
-		<td className="yoast-table--nobreak">
-			{
-				<ViewLink href={ `https://google.com?q=${trackableKeyphrase}` }>
-					{ __( "View", "wordpress-seo" ) }
-				</ViewLink>
-			}
-		</td>
+		<td>{ keyphrase }{ isFocusKeyphrase && <span>*</span> }</td>
+
+		{ isPending && <td className="yoast-table--nopadding" colSpan="3">
+			<WincherSEOPerformanceLoading />
+		</td> }
+		{ ! isPending && <Fragment>
+			<td>{ getKeyphrasePosition( rowData ) }</td>
+			<td className="yoast-table--nopadding">{ generatePositionOverTimeChart( rowData ) }</td>
+			<td className="yoast-table--nobreak">
+				{
+					<ViewLink href={ viewLinkURL }>
+						{ __( "View", "wordpress-seo" ) }
+					</ViewLink>
+				}
+			</td>
+		</Fragment> }
 	</tr>;
 }
 
 WincherTableRow.propTypes = {
-	trackedKeyphrases: PropTypes.array,
 	allowToggling: PropTypes.bool,
-	rowData: PropTypes.array.isRequired,
+	rowData: PropTypes.object.isRequired,
+	keyphrase: PropTypes.string.isRequired,
 	onTrackKeyphrase: PropTypes.func.isRequired,
+	onUntrackKeyphrase: PropTypes.func.isRequired,
 };
 
 WincherTableRow.defaultProps = {
-	trackedKeyphrases: [],
 	allowToggling: true,
 };

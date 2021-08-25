@@ -1,5 +1,5 @@
 /* External dependencies */
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 
 /* Yoast dependencies */
 import { SvgIcon } from "@yoast/components";
@@ -12,14 +12,7 @@ import { SvgIcon } from "@yoast/components";
 const WincherSEOPerformanceLoading = () => {
 	return (
 		<p className="yoast-wincher-seo-performance-modal__loading-message">
-			{
-				sprintf(
-					/* translators: %1$s expands to "Yoast SEO", %2$s expands to "Wincher". */
-					__( "Please wait while %1$s connects to %2$s to get SEO performance...", "wordpress-seo" ),
-					"Yoast SEO",
-					"Wincher"
-				)
-			}
+			{ __( "Tracking the ranking position...", "wordpress-seo" )	}
 			&nbsp;
 			<SvgIcon icon="loading-spinner" />
 		</p>

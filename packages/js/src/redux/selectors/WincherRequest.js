@@ -96,3 +96,14 @@ export function getWincherAuthenticationStatus( state ) {
 export function getWincherLimit( state ) {
 	return state.WincherRequest.limit;
 }
+
+/**
+ * Determines whether all keyphrases should be tracked.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} Whether all keyphrases should be tracked.
+ */
+export function shouldWincherTrackAll( state ) {
+	return state.WincherRequest.trackAll === true;
+}

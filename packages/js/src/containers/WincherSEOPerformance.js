@@ -33,6 +33,7 @@ export default compose( [
 			hasNoKeyphrase: hasWincherNoKeyphrase(),
 			isNewlyAuthenticated: getWincherAuthenticationStatus(),
 			limit: getWincherLimit(),
+			trackAll: false,
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

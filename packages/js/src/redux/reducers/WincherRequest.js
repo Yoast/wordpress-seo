@@ -7,6 +7,7 @@ import {
 	WINCHER_NEW_REQUEST,
 	WINCHER_NO_DATA_FOUND,
 	WINCHER_SET_LOGIN_STATUS,
+	WINCHER_SET_TRACK_ALL_REQUEST,
 } from "../actions";
 
 const INITIAL_STATE = {
@@ -19,6 +20,7 @@ const INITIAL_STATE = {
 	isLoggedIn: false,
 	isNewlyAuthenticated: false,
 	limit: 10,
+	trackAll: false,
 };
 /**
  * A reducer for the Wincher request.
@@ -46,6 +48,7 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 				isSuccess: true,
 				response: action.response,
 				hasData: true,
+				trackAll: false,
 			};
 		case WINCHER_SET_REQUEST_FAILED:
 			// The status code should be an error code here.
@@ -55,6 +58,7 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 				isSuccess: false,
 				response: action.response,
 				hasData: false,
+				trackAll: false,
 			};
 		case WINCHER_SET_REQUEST_LIMIT_REACHED:
 			return {
@@ -63,6 +67,7 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 				limitReached: true,
 				hasData: false,
 				limit: action.limit,
+				trackAll: false,
 			};
 		case WINCHER_NO_DATA_FOUND:
 			return {
@@ -71,12 +76,18 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 				isRequestPending: false,
 				hasData: false,
 				response: null,
+				trackAll: false,
 			};
 		case WINCHER_SET_LOGIN_STATUS:
 			return {
 				...state,
 				isLoggedIn: action.loginStatus,
 				isNewlyAuthenticated: action.newlyAuthenticated,
+			};
+		case WINCHER_SET_TRACK_ALL_REQUEST:
+			return {
+				...state,
+				trackAll: true,
 			};
 		default:
 			return state;

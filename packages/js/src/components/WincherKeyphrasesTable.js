@@ -1,18 +1,25 @@
 /* External dependencies */
 import PropTypes from "prop-types";
-import {Fragment, Component, useCallback, useEffect} from "@wordpress/element";
-import { __, sprintf, _n } from "@wordpress/i18n";
-import { isEmpty, map, without } from "lodash-es";
+import { Fragment, Component } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+import { isEmpty, isArray } from "lodash-es";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
+import styled from "styled-components";
 
 /* Yoast dependencies */
-import { makeOutboundLink } from "@yoast/helpers";
+import { getDirectionalStyle, makeOutboundLink } from "@yoast/helpers";
 
 /* Internal dependencies */
 import WincherTableRow from "./WincherTableRow";
 
 const GetMoreInsightsLink = makeOutboundLink();
+
+const FocusKeyphraseFootnote = styled.span`
+	position: absolute;
+	${ getDirectionalStyle( "right", "left" ) }: 8px;
+	font-style: italic;
+`;
 
 /**
  * The WincherKeyphrasesTable component.
@@ -28,9 +35,10 @@ class WincherKeyphrasesTable extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.onLoginOpen      = this.onLoginOpen.bind( this );
-		this.listenToMessages = this.listenToMessages.bind( this );
-		this.onTrackKeyphrase = this.onTrackKeyphrase.bind( this );
+		this.onLoginOpen          = this.onLoginOpen.bind( this );
+		this.listenToMessages     = this.listenToMessages.bind( this );
+		this.onTrackKeyphrase     = this.onTrackKeyphrase.bind( this );
+		this.onUntrackKeyphrase   = this.onUntrackKeyphrase.bind( this );
 		this.getTrackedKeyphrases = this.getTrackedKeyphrases.bind( this );
 	}
 
@@ -129,7 +137,7 @@ class WincherKeyphrasesTable extends Component {
 	async performLimitCheckRequest() {
 		return await this.callEndpoint(
 			{
-				path: "yoast/v1/wincher/limit/check",
+				path: "yoast/v1/wincher/limits",
 				method: "GET",
 			},
 			( response ) => {
@@ -141,7 +149,7 @@ class WincherKeyphrasesTable extends Component {
 		);
 	}
 
-	async performTrackingRequest( keyphrase ) {
+	async performTrackingRequest( keyphrases ) {
 		const trackLimits = await this.performLimitCheckRequest();
 
 		if ( ! trackLimits.canTrack ) {
@@ -150,15 +158,19 @@ class WincherKeyphrasesTable extends Component {
 			return;
 		}
 
+		if ( ! isArray( keyphrases ) ) {
+			keyphrases = [ keyphrases ];
+		}
+
 		await this.callEndpoint(
 			{
-				path: "yoast/v1/wincher/track/keyphrase/bulk",
+				path: "yoast/v1/wincher/keyphrases/track",
 				method: "POST",
-				data: { keyphrase },
+				data: { keyphrases },
 			},
 			( response ) => {
-				this.props.toggleKeyphraseTracking( keyphrase );
 				this.props.setRequestSucceeded( response );
+				this.props.addTrackingKeyphrase( response.results );
 			},
 			201
 		);
@@ -174,9 +186,24 @@ class WincherKeyphrasesTable extends Component {
 			return;
 		}
 
-		// Toggle off
-
 		await this.performTrackingRequest( keyphrase );
+	}
+
+	async onUntrackKeyphrase( keyphrase, keyphraseID ) {
+		this.props.newRequest( keyphrase );
+
+		await this.callEndpoint(
+			{
+				path: "yoast/v1/wincher/keyphrases/untrack",
+				method: "DELETE",
+				data: { keyphraseID },
+			},
+			( response ) => {
+				this.props.setRequestSucceeded( response );
+				this.props.removeTrackingKeyphrase( keyphrase.toLowerCase() );
+			},
+			204
+		);
 	}
 
 	 async getTrackedKeyphrases( keyphrases ) {
@@ -194,11 +221,40 @@ class WincherKeyphrasesTable extends Component {
 		},
 		async ( response ) => {
 			this.props.setRequestSucceeded( response );
-			this.props.setTrackingKeyphrases( response );
+			this.props.setTrackingKeyphrases( response.results );
 
+			// Get the chart data.
+			await this.getTrackedKeyphrasesChartData( keyphrases );
 		} );
 	}
 
+	async getTrackedKeyphrasesChartData( keyphrases ) {
+		const preparedKeyphrases = encodeURIComponent( JSON.stringify( keyphrases ) );
+
+		await this.callEndpoint( {
+			path: addQueryArgs(
+				"yoast/v1/wincher/keyphrases/chart",
+				{
+					keyphrases: preparedKeyphrases,
+				}
+			),
+			method: "GET",
+		},
+		async ( response ) => {
+			console.log( response );
+			// this.props.setRequestSucceeded( response );
+		} );
+	}
+
+	/**
+	 * Calls the passed endpoint and handles any potential errors.
+	 *
+	 * @param {Object}   endpoint     The endpoint object.
+	 * @param {Function} callback     The callback function to call on a successful API call.
+	 * @param {int}      expectedCode The expected reponse code to trigger the callback method on. Defaults to 200.
+	 *
+	 * @returns {Promise} The API response promise.
+	 */
 	async callEndpoint( endpoint, callback, expectedCode = 200 ) {
 		try {
 			const response = await apiFetch( endpoint );
@@ -214,15 +270,39 @@ class WincherKeyphrasesTable extends Component {
 		}
 	}
 
-
+	/**
+	 * Loads tracking data when the table is mounted in the DOM.
+	 *
+	 * @returns {Promise<void>} The tracked keyphrases API call.
+	 */
 	async componentDidMount() {
+		if ( this.props.trackAll ) {
+			await this.performTrackingRequest( this.props.keyphrases );
+
+			return;
+		}
+
 		if ( this.props.isLoggedIn ) {
 			await this.getTrackedKeyphrases( this.props.keyphrases );
 		}
 	}
 
+	/**
+	 * Gets the passed keyphrase from the response data object.
+	 *
+	 * @param {string} keyphrase The keyphrase to search for.
+	 *
+	 * @returns {Object|null} The keyphrase object. Returns null if it can't be found.
+	 */
 	getKeyphraseDataFromResponse( keyphrase ) {
-		return ( this.props.response && ! isEmpty( this.props.response ) ) ? this.props.response.results.find( data => data.keyword === keyphrase.toLowerCase() ) : null;
+		const { trackedKeyphrases } = this.props;
+		const targetKeyphrase = keyphrase.toLowerCase();
+
+		if ( trackedKeyphrases && ! isEmpty( trackedKeyphrases ) && trackedKeyphrases.hasOwnProperty( targetKeyphrase ) ) {
+			return trackedKeyphrases[ targetKeyphrase ];
+		}
+
+		return null;
 	}
 
 	/**
@@ -232,9 +312,16 @@ class WincherKeyphrasesTable extends Component {
 	 */
 	render() {
 		const {
-			keyphrases,
 			allowToggling,
+			isPending,
+			websiteId,
 		} = this.props;
+
+		let keyphrases = this.props.keyphrases;
+
+		// TODO: Remove this after completion.
+		keyphrases.push("SEO rank tracker");
+		keyphrases.push("seo ranking tracking");
 
 		return (
 			keyphrases && ! isEmpty( keyphrases ) && <Fragment>
@@ -276,13 +363,17 @@ class WincherKeyphrasesTable extends Component {
 									keyphrase={ keyphrase }
 									allowToggling={ allowToggling }
 									onTrackKeyphrase={ this.onTrackKeyphrase }
+									onUntrackKeyphrase={ this.onUntrackKeyphrase }
 									rowData={ this.getKeyphraseDataFromResponse( keyphrase ) }
+									isPending={ isPending }
+									isFocusKeyphrase={ index === 0 }
+									websiteId={ websiteId }
 								/> );
 							} )
 						}
 					</tbody>
 				</table>
-				<p style={ { marginBottom: 0 } }>
+				<p style={ { marginBottom: 0, position: "relative" } }>
 					<GetMoreInsightsLink href={ "https://google.com" }>
 						{ sprintf(
 							/* translators: %s expands to Wincher */
@@ -290,6 +381,9 @@ class WincherKeyphrasesTable extends Component {
 							"Wincher"
 						) }
 					</GetMoreInsightsLink>
+					<FocusKeyphraseFootnote>
+						{ __( "* focus keyphrase", "wordpress-seo" ) }
+					</FocusKeyphraseFootnote>
 				</p>
 			</Fragment>
 		);
@@ -309,7 +403,6 @@ WincherKeyphrasesTable.propTypes = {
 	setRequestFailed: PropTypes.func.isRequired,
 	setNoResultsFound: PropTypes.func.isRequired,
 	onAuthentication: PropTypes.func.isRequired,
-	toggleKeyphraseTracking: PropTypes.func.isRequired,
 };
 
 WincherKeyphrasesTable.defaultProps = {

@@ -1,6 +1,6 @@
 /* External dependencies */
 import { Fragment } from "@wordpress/element";
-import {__, _n, sprintf} from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash-es";
 
@@ -69,6 +69,7 @@ export default function WincherSEOPerformanceModalContent( props ) {
 		isNewlyAuthenticated,
 		requestLimitReached,
 		limit,
+		isPending,
 	} = props;
 
 	return (
@@ -86,7 +87,7 @@ export default function WincherSEOPerformanceModalContent( props ) {
 					/>
 					<WincherExplanation />
 
-					{ true && <WincherCurrentlyTrackingAlert /> }
+					{ isPending && <WincherCurrentlyTrackingAlert /> }
 
 					{ getUserMessage( props ) }
 

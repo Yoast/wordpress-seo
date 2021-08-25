@@ -22,12 +22,12 @@ export default compose( [
 	withDispatch( ( dispatch ) => {
 		const {
 			setWincherOpenModal,
-			setTrackedKeyphrases,
+			trackAllKeyphrases,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
 			trackAll: ( keyphrases ) => {
-				setTrackedKeyphrases( keyphrases );
+				trackAllKeyphrases( keyphrases );
 				setWincherOpenModal( "sidebar" );
 			},
 		};

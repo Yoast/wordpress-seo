@@ -60,4 +60,13 @@ export default class WincherSEOAnalysisFields {
 	static get trackingKeyphrases() {
 		return JSON.parse( WincherSEOAnalysisFields.TrackedKeyphrasesElement.value );
 	}
+
+	/**
+	 * Getter for the Wincher website ID.
+	 *
+	 * @returns {int} The Wincher website ID.
+	 */
+	static get websiteId() {
+		return window.wpseoScriptData.metabox.wincherWebsiteId;
+	}
 }

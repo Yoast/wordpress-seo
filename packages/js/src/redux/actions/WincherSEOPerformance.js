@@ -3,10 +3,11 @@ import WincherSEOAnalysisFields from "../../helpers/fields/WincherSEOAnalysisFie
 export const WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING = "WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING";
 export const WINCHER_SET_SEO_PERFORMANCE_TRACKING = "WINCHER_SET_SEO_PERFORMANCE_TRACKING";
 
-export const WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE = "WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE";
 export const WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE = "WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE";
+export const WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE = "WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE";
 
 export const WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES = "WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES";
+export const WINCHER_SET_TRACK_ALL_REQUEST = "WINCHER_FORCE_SEO_PERFORMANCE_TRACKED_KEYPHRASES";
 
 /**
  * An action creator for loading the Wincher SEO tracking.
@@ -28,8 +29,6 @@ export const loadWincherKeyphraseTracking = () => {
  * @returns {Object} Action object.
  */
 export function setWincherKeyphraseTracking( isTracking ) {
-	// WincherSEOAnalysisFields.isTracking = isTracking;
-
 	return {
 		type: WINCHER_SET_SEO_PERFORMANCE_TRACKING,
 		isTracking,
@@ -42,40 +41,36 @@ export function setWincherKeyphraseTracking( isTracking ) {
  * @returns {Object} Action object.
  */
 export function toggleKeyphraseTracking() {
-	// WincherSEOAnalysisFields.isTracking = ! WincherSEOAnalysisFields.isTracking;
-
 	return {
 		type: WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING,
 	};
 }
 
 /**
- * Toggles the tracking of a specific keyphrase for the current article.
+ * Sets the tracking of a specific keyphrase for the current article.
  *
- * @param {string} trackableKeyphrase The keyphrase that can be tracked.
+ * @param {Object} keyphraseObject The keyphrase data object to use.
  *
  * @returns {Object} Action object.
  */
-export function toggleTrackingForKeyphrase( trackableKeyphrase ) {
+export function setTrackingForKeyphrase( keyphraseObject ) {
 	return {
-		type: WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
-		trackableKeyphrase,
+		type: WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
+		keyphraseObject,
 	};
 }
 
 /**
- * Sets the tracking toggle of a specific keyphrase for the current article.
+ * Unsets the tracking of a specific keyphrase for the current article.
  *
- * @param {string} trackableKeyphrase The keyphrase that can be tracked.
- * @param {boolean} isTrackingKeyphrase Whether or not the keyphrase is being tracked..
+ * @param {string} untrackedKeyphrase The keyphrase that is untracked.
  *
  * @returns {Object} Action object.
  */
-export function setTrackingForKeyphrase( trackableKeyphrase, isTrackingKeyphrase ) {
+export function unsetTrackingForKeyphrase( untrackedKeyphrase ) {
 	return {
-		type: WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
-		trackableKeyphrase,
-		isTrackingKeyphrase,
+		type: WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
+		untrackedKeyphrase,
 	};
 }
 
@@ -87,8 +82,6 @@ export function setTrackingForKeyphrase( trackableKeyphrase, isTrackingKeyphrase
  * @returns {Object} Action object.
  */
 export function setTrackedKeyphrases( trackedKeyphrases ) {
-	WincherSEOAnalysisFields.trackingKeyphrases = trackedKeyphrases;
-
 	return {
 		type: WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES,
 		trackedKeyphrases,
