@@ -185,7 +185,7 @@ export const all = [].concat( articles, cardinalNumerals, ordinalNumerals, demon
 	personalPronounsNominative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeAdverbs,
 	locativeAdverbs, adverbialGenitives, auxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions,
 	subordinatingConjunctions, interviewVerbs, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections,
-	generalAdjectivesAndAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, relativePronoun, transitionWords );
+	generalAdjectivesAndAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, relativePronoun, transitionWords, timeWords );
 
 /**
  * Returns function words for Indonesian.

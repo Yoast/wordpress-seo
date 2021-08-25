@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## Future Release
+### Enhancements
+* Adds a missing array entry that caused time-related words in Dutch, English, Indonesian, Russian, and Spanish to not be counted as function words.
+* Registers the whole web worker with the scope.
+* Replaces assessment shortlinks that are passed to the assessment constructors in the product assessors with variables.
+* Adds functionality for the webworker to also set custom options when loading the custom assessors for the SEO analysis (regular/cornerstone), the SEO analysis for related keyphrases (regular/cornerstone), and the readability analysis (regular/cornerstone).
+
+### Non user facing
+* Fixes a typo that caused the `findList` research to not be used in the `ListAssessment`.
+* Adds a feature-flag for Farsi support.
+
+
 ## 1.92.0
 ### Enhancements
 * Adds correct shortlinks to product assessors.

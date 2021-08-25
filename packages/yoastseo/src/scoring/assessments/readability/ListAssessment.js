@@ -1,6 +1,7 @@
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
+import { merge } from "lodash-es";
 
 /**
  * Represents the assessment that will look if the text has a list (only applicable for product pages).
@@ -13,10 +14,10 @@ export default class ListAssessment extends Assessment {
 	 *
 	 * @returns {void}
 	 */
-	constructor() {
+	constructor( config = {} ) {
 		super();
 
-		this._config = {
+		const defaultConfig = {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify38" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify39" ),
 			scores: {
@@ -24,6 +25,8 @@ export default class ListAssessment extends Assessment {
 				good: 9,
 			},
 		};
+
+		this._config = merge( defaultConfig, config );
 
 		this.identifier = "listsPresence";
 	}
@@ -38,7 +41,7 @@ export default class ListAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher, i18n ) {
-		this.textContainsList = researcher.getResearch( "findLists" );
+		this.textContainsList = researcher.getResearch( "findList" );
 
 		const calculatedScore = this.calculateResult( i18n );
 

@@ -59,6 +59,20 @@ class SEO_Links_Repository {
 	}
 
 	/**
+	 * Clears all SEO Links by post ID where the indexable id is null.
+	 *
+	 * @param int $post_id The post ID.
+	 *
+	 * @return bool Whether or not the delete was succesfull.
+	 */
+	public function delete_all_by_post_id_where_indexable_id_null( $post_id ) {
+		return $this->query()
+			->where( 'post_id', $post_id )
+			->where_null( 'indexable_id' )
+			->delete_many();
+	}
+
+	/**
 	 * Clears all SEO Links by indexable ID.
 	 *
 	 * @param int $indexable_id The indexable ID.
@@ -101,5 +115,30 @@ class SEO_Links_Repository {
 			->where_in( 'target_indexable_id', $indexable_ids )
 			->group_by( 'target_indexable_id' )
 			->find_array();
+	}
+
+	/**
+	 * Deletes all seo links for the given ids.
+	 *
+	 * @param int[] $ids The seo link ids.
+	 *
+	 * @return bool Whether or not the delete was succesfull.
+	 */
+	public function delete_many_by_id( $ids ) {
+		return $this->query()
+			->where_in( 'id', $ids )
+			->delete_many();
+	}
+
+	/**
+	 * Insert multiple seo links.
+	 *
+	 * @param SEO_Links[] $links The seo links to be inserted.
+	 *
+	 * @return bool Whether or not the insert was succesfull.
+	 */
+	public function insert_many( $links ) {
+		return $this->query()
+			->insert_many( $links );
 	}
 }
