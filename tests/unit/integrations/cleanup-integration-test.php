@@ -30,7 +30,9 @@ class Cleanup_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Cleanup_Integration();
+		$this->instance = Mockery::mock( Cleanup_Integration::class )
+			->makePartial()
+			->shouldAllowMockingProtectedMethods();
 	}
 
 	/**
@@ -41,100 +43,142 @@ class Cleanup_Integration_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_cleanup_indexables', [ $this->instance, 'cleanup_obsolete_indexables' ] ), 'Does not have expected wpseo_cleanup_indexables filter' );
-		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_cleanup_orphaned_indexables', [ $this->instance, 'cleanup_orphaned_indexables' ] ), 'Does not have expected wpseo_cleanup_orphaned_indexables filter' );
-		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_deactivate', [ $this->instance, 'unschedule_cron' ] ), 'Does not have expected wpseo_deactivate filter' );
+		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_cleanup_cron', [ $this->instance, 'run_cleanup_cron' ] ), 'Does not have expected run_cleanup_cron filter' );
+		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_deactivate', [ $this->instance, 'reset_cleanup' ] ), 'Does not have expected reset_cleanup filter' );
 	}
 
 	/**
-	 * Tests calling cleanup_orphaned_indexables.
+	 * Tests calling test_run_cleanup.
 	 *
-	 * @covers ::cleanup_orphaned_indexables
+	 * @covers ::test_run_cleanup
 	 */
-	public function test_cleanup_orphaned_indexables() {
+	public function test_run_cleanup() {
+		Monkey\Functions\expect( 'delete_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION );
+
+		Monkey\Functions\expect( 'wp_unschedule_hook' )
+			->once()
+			->with( 'wpseo_cleanup_cron' );
+
+		Monkey\Filters\expectApplied( 'wpseo_cron_query_limit_size' )
+			->once()
+			->andReturn( 1000 );
+
 		global $wpdb;
 
 		$wpdb         = Mockery::mock( 'wpdb' );
 		$wpdb->prefix = 'wp_';
-		$wpdb
-			->shouldReceive( 'prepare' )
-			->times( 3 )
-			->withAnyArgs()
-			->andReturn(
-				'
-				SELECT htable_to_clean.indexable_id
-				FROM wp_yoast_indexable_hierarchy table_to_clean
-				LEFT JOIN wp_yoast_indexable AS indexable_table
-				ON table_to_clean.indexable_id = indexable_table.id
-				WHERE indexable_table.id IS NULL
-				AND table_to_clean.indexable_id IS NOT NULL
-				LIMIT 1000',
-				'
-				SELECT table_to_clean.indexable_id
-				FROM wp_yoast_seo_links table_to_clean
-				LEFT JOIN wp_yoast_indexable AS indexable_table
-				ON table_to_clean.indexable_id = indexable_table.id
-				WHERE indexable_table.id IS NULL
-				AND table_to_clean.indexable_id IS NOT NULL
-				LIMIT 1000',
-				'
-				SELECT table_to_clean.target_indexable_id
-				FROM wp_yoast_seo_links table_to_clean
-				LEFT JOIN wp_yoast_indexable AS indexable_table
-				ON table_to_clean.target_indexable_id = indexable_table.id
-				WHERE indexable_table.id IS NULL
-				AND table_to_clean.target_indexable_id IS NOT NULL
-				LIMIT 1000'
-			);
 
-		$wpdb
-			->shouldReceive( 'get_col' )
-			->times( 3 )
-			->withAnyArgs()
-			->andReturn( [ '123' ] );
-
-		$wpdb
-			->shouldReceive( 'query' )
-			->times( 3 )
-			->withAnyArgs()
-			->andReturn( 1 );
-
-		$this->instance->cleanup_orphaned_indexables();
-	}
-
-	/**
-	 * Tests calling cleanup_obsolete_indexables.
-	 *
-	 * @covers ::cleanup_obsolete_indexables
-	 */
-	public function test_cleanup_obsolete_indexables() {
-		global $wpdb;
-		$indexable_table = 'wp_yoast_indexable';
-		$limit           = 1000;
-		$object_type     = 'post';
-		$object_sub_type = 'shop_order';
-
-		$wpdb         = Mockery::mock( 'wpdb' );
-		$wpdb->prefix = 'wp_';
-		$wpdb
-			->shouldReceive( 'prepare' )
+		/* Clean up of indexables with object_sub_type shop-order */
+		$wpdb->shouldReceive( 'prepare' )
 			->once()
 			->with(
-				"DELETE FROM $indexable_table WHERE object_type = %s AND object_sub_type = %s ORDER BY id LIMIT %d",
-				$object_type,
-				$object_sub_type,
-				$limit
+				'DELETE FROM wp_yoast_indexable WHERE object_type = %s AND object_sub_type = %s ORDER BY id LIMIT %d',
+				'post',
+				'shop-order',
+				1000
 			)
-			->andReturn( "DELETE FROM wp_yoast_indexable WHERE object_type = '" . $object_type . "' AND object_sub_type = '" . $object_sub_type . "' ORDER BY id LIMIT $limit" );
+			->andReturn( 'prepared_shop_order_delete_query' );
 
-		$wpdb
-			->shouldReceive( 'query' )
+		$wpdb->shouldReceive( 'query' )
+			->once()
+			->with( 'prepared_shop_order_delete_query' )
+			->andReturn( 50 );
+
+		/* Clean up of indexables with post_status auto-draft */
+		$wpdb->shouldReceive( 'prepare' )
 			->once()
 			->with(
-				"DELETE FROM wp_yoast_indexable WHERE object_type = 'post' AND object_sub_type = 'shop_order' ORDER BY id LIMIT 1000"
+				'DELETE FROM wp_yoast_indexable WHERE post_status = %s ORDER BY id LIMIT %d',
+				'auto-draft',
+				1000
 			)
-			->andReturn( 1 );
+			->andReturn( 'prepared_auto_draft_delete_query' );
 
-		$this->instance->cleanup_obsolete_indexables( 'post', 'shop_order' );
+		$wpdb->shouldReceive( 'query' )
+			->once()
+			->with( 'prepared_auto_draft_delete_query' )
+			->andReturn( 50 );
+
+		/* Clean up of indexable hierarchy for deleted indexables */
+		$wpdb->shouldReceive( 'prepare' )
+			->once()
+			->with(
+				'
+			SELECT table_to_clean.indexable_id
+			FROM wp_yoast_indexable_hierarchy table_to_clean
+			LEFT JOIN wp_yoast_indexable AS indexable_table
+			ON table_to_clean.indexable_id = indexable_table.id
+			WHERE indexable_table.id IS NULL
+			AND table_to_clean.indexable_id IS NOT NULL
+			LIMIT %d',
+				1000
+			)
+			->andReturn( 'prepared_indexable_hierarchy_select_query' );
+
+		$wpdb->shouldReceive( 'get_col' )
+			->once()
+			->with( 'prepared_indexable_hierarchy_select_query' )
+			->andReturn( [ 1, 2, 3 ] );
+
+		$wpdb->shouldReceive( 'query' )
+			->once()
+			->with( 'DELETE FROM wp_yoast_indexable_hierarchy WHERE indexable_id IN( 1,2,3 )' )
+			->andReturn( 50 );
+
+		/* Clean up of seo links ids for deleted indexables */
+		$wpdb->shouldReceive( 'prepare' )
+			->once()
+			->with(
+				'
+			SELECT table_to_clean.indexable_id
+			FROM wp_yoast_seo_links table_to_clean
+			LEFT JOIN wp_yoast_indexable AS indexable_table
+			ON table_to_clean.indexable_id = indexable_table.id
+			WHERE indexable_table.id IS NULL
+			AND table_to_clean.indexable_id IS NOT NULL
+			LIMIT %d',
+				1000
+			)
+			->andReturn( 'wp_yoast_seo_links_indexable_id_select_query' );
+
+		$wpdb->shouldReceive( 'get_col' )
+			->once()
+			->with( 'wp_yoast_seo_links_indexable_id_select_query' )
+			->andReturn( [ 4, 5, 6 ] );
+
+		$wpdb->shouldReceive( 'query' )
+			->once()
+			->with( 'DELETE FROM wp_yoast_seo_links WHERE indexable_id IN( 4,5,6 )' )
+			->andReturn( 50 );
+
+		/* Clean up of seo links target ids for deleted indexables */
+		$wpdb->shouldReceive( 'prepare' )
+			->once()
+			->with(
+				'
+			SELECT table_to_clean.target_indexable_id
+			FROM wp_yoast_seo_links table_to_clean
+			LEFT JOIN wp_yoast_indexable AS indexable_table
+			ON table_to_clean.target_indexable_id = indexable_table.id
+			WHERE indexable_table.id IS NULL
+			AND table_to_clean.target_indexable_id IS NOT NULL
+			LIMIT %d',
+				1000
+			)
+			->andReturn( 'wp_yoast_seo_links_target_indexable_id_select_query' );
+
+		$wpdb->shouldReceive( 'get_col' )
+			->once()
+			->with( 'wp_yoast_seo_links_target_indexable_id_select_query' )
+			->andReturn( [ 7, 8, 9 ] );
+
+		$wpdb->shouldReceive( 'query' )
+			->once()
+			->with( 'DELETE FROM wp_yoast_seo_links WHERE target_indexable_id IN( 7,8,9 )' )
+			->andReturn( 50 );
+
+		$this->instance->run_cleanup();
 	}
 }
