@@ -6,8 +6,6 @@
  */
 
 use Yoast\WP\Lib\Model;
-use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
-use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 /**
  * This code handles the option upgrades.
