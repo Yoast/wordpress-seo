@@ -98,7 +98,7 @@ class Indexing_Helper {
 	/**
 	 * Sets several database options when the indexing process is started.
 	 *
-	 * @deprecated 17.1 method was renamed to prepare for internal consistency.
+	 * @deprecated 17.2 method was renamed to prepare for internal consistency.
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
@@ -122,7 +122,7 @@ class Indexing_Helper {
 	/**
 	 * Sets several database options when the indexing process is finished.
 	 *
-	 * @deprecated 17.1 method was renamed to complete for internal consistency.
+	 * @deprecated 17.2 method was renamed to complete for internal consistency.
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
