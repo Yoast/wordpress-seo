@@ -5,6 +5,8 @@
  * @package WPSEO\Main
  */
 
+use Composer\Autoload\ClassLoader;
+
 if ( ! function_exists( 'add_filter' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -15,7 +17,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '17.0-RC2' );
+define( 'WPSEO_VERSION', '17.1-RC1' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -72,7 +74,7 @@ function wpseo_auto_load( $class ) {
 $yoast_autoload_file = WPSEO_PATH . 'vendor/autoload.php';
 
 if ( is_readable( $yoast_autoload_file ) ) {
-	require $yoast_autoload_file;
+	$yoast_autoloader = require $yoast_autoload_file;
 }
 elseif ( ! class_exists( 'WPSEO_Options' ) ) { // Still checking since might be site-level autoload R.
 	add_action( 'admin_init', 'yoast_wpseo_missing_autoload', 1 );
@@ -92,6 +94,25 @@ require_once WPSEO_PATH . 'src/functions.php';
  */
 if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {
 	define( 'YOAST_ENVIRONMENT', 'production' );
+}
+
+if ( YOAST_ENVIRONMENT === 'development' && isset( $yoast_autoloader ) ) {
+	add_action(
+		'plugins_loaded',
+		/**
+		 * Reregisters the autoloader so that Yoast SEO is at the front.
+		 * This prevents conflicts with the development versions of our addons.
+		 * An anonymous function is used so we can use the autoloader variable.
+		 * As this is only loaded in development removing this action is not a concern.
+		 *
+		 * @return void
+		 */
+		function() use ( $yoast_autoloader ) {
+			$yoast_autoloader->unregister();
+			$yoast_autoloader->register( true );
+		},
+		1
+	);
 }
 
 /**

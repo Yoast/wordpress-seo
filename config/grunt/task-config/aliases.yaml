@@ -174,7 +174,8 @@ release:
 'update-changelog:file':
   - 'get-latest-pr-texts'
   - 'update-changelog-with-latest-pr-texts'
-
+  - 'extract-extra-pr-texts-from-yoast-cli-md'
+  - 'update-package-changelog'
 'update-changelog:qa':
   - 'get-latest-pr-texts'
   - 'download-qa-changelog'
@@ -185,6 +186,8 @@ release:
   - 'update-changelog-with-latest-pr-texts'
   - 'download-qa-changelog'
   - 'build-qa-changelog'
+  - 'extract-extra-pr-texts-from-yoast-cli-md'
+  - 'update-package-changelog'
 
 # Default task
 default:
