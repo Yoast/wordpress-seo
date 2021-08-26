@@ -63,7 +63,7 @@ module.exports = {
 				[ "[wordpress-seo-local]", "pl-wordpress-seo-local.md" ],
 				[ "[wpseo-new]", "pl-wpseo-new.md" ],
 				[ "[wpseo-video]", "pl-wpseo-video.md" ],
-				[ "[wpseo-woocommerce]", "plwp-seo-woocommerce.md" ] ],
+				[ "[wpseo-woocommerce]", "pl-wpseo-woocommerce.md" ] ],
 
 			outputFolder: ".tmp/",
 		},
