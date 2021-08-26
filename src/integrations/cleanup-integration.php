@@ -20,6 +20,11 @@ class Cleanup_Integration implements Integration_Interface {
 	const CRON_HOOK = 'wpseo_cleanup_cron';
 
 	/**
+	 * Identifier for starting the cleanup.
+	 */
+	const START_HOOK = 'wpseo_start_cleanup_indexables';
+
+	/**
 	 * Initializes the integration.
 	 *
 	 * This is the place to register hooks and filters.
@@ -27,6 +32,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
+		\add_action( self::START_HOOK, [ $this, 'run_cleanup' ] );
 		\add_action( self::CRON_HOOK, [ $this, 'run_cleanup_cron' ] );
 		\add_action( 'wpseo_deactivate', [ $this, 'reset_cleanup' ] );
 	}

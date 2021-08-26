@@ -838,8 +838,7 @@ class WPSEO_Upgrade {
 	private function upgrade_172() {
 		\wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
 
-		$cleanup_integration = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Cleanup_Integration::class );
-		$cleanup_integration->run_cleanup();
+		\wp_schedule_single_event( time(), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
 	}
 
 	/**
