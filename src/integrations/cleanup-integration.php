@@ -41,6 +41,34 @@ class Cleanup_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Starts the indexables cleanup.
+	 *
+	 * @return void
+	 */
+	public function run_cleanup() {
+		$this->reset_cleanup();
+
+		$cleanups = $this->get_cleanup_tasks();
+		$limit    = $this->get_limit();
+
+		foreach ( $cleanups as $name => $action ) {
+			$items_cleaned = $action( $limit );
+
+			if ( $items_cleaned === false ) {
+				return;
+			}
+
+			if ( $items_cleaned < $limit ) {
+				continue;
+			}
+
+			// There are more items to delete for the current cleanup job, start a cronjob at the specified job.
+			$this->start_cron_job( $name );
+			return;
+		}
+	}
+
+	/**
 	 * Returns an array of cleanup tasks.
 	 *
 	 * @return Closure[] The cleanup tasks.
@@ -48,7 +76,7 @@ class Cleanup_Integration implements Integration_Interface {
 	protected function get_cleanup_tasks() {
 		return [
 			'clean_indexables_by_object_sub_type_shop-order' => function( $limit ) {
-				return $this->clean_indexables_with_object_type( 'post', 'shop-order', $limit );
+				return $this->clean_indexables_with_object_type_and_object_sub_type( 'post', 'shop-order', $limit );
 			},
 			'clean_indexables_by_post_status_auto-draft' => function( $limit ) {
 				return $this->clean_indexables_with_post_status( 'auto-draft', $limit );
@@ -64,30 +92,6 @@ class Cleanup_Integration implements Integration_Interface {
 				return $this->cleanup_orphaned_from_table( 'SEO_Links', 'target_indexable_id', $limit );
 			},
 		];
-	}
-
-	/**
-	 * Starts the indexables cleanup.
-	 *
-	 * @return void
-	 */
-	public function run_cleanup() {
-		$this->reset_cleanup();
-
-		$cleanups = $this->get_cleanup_tasks();
-		$limit    = $this->get_limit();
-
-		foreach ( $cleanups as $name => $action ) {
-			$items_cleaned = $action( $limit );
-
-			if ( $items_cleaned < $limit ) {
-				continue;
-			}
-
-			// There are more items to delete for the current cleanup job, start a cronjob at the specified job.
-			$this->start_cron_job( $name );
-			return;
-		}
 	}
 
 	/**
@@ -162,6 +166,11 @@ class Cleanup_Integration implements Integration_Interface {
 
 			$items_cleaned = $current_task( $limit );
 
+			if ( $items_cleaned === false ) {
+				$this->reset_cleanup();
+				return;
+			}
+
 			if ( $items_cleaned === 0 ) {
 				// Check if we are finshed with all tasks.
 				if ( \next( $tasks ) === false ) {
@@ -187,7 +196,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 *
 	 * @return int|bool The number of rows that was deleted or false if the query failed.
 	 */
-	protected function clean_indexables_with_object_type( $object_type, $object_sub_type, $limit ) {
+	protected function clean_indexables_with_object_type_and_object_sub_type( $object_type, $object_sub_type, $limit ) {
 		global $wpdb;
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
@@ -212,7 +221,7 @@ class Cleanup_Integration implements Integration_Interface {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
-		$sql = $wpdb->prepare( "DELETE FROM $indexable_table WHERE post_status = %s ORDER BY id LIMIT %d", $post_status, $limit );
+		$sql = $wpdb->prepare( "DELETE FROM $indexable_table WHERE object_type = 'post' AND post_status = %s ORDER BY id LIMIT %d", $post_status, $limit );
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
 		return $wpdb->query( $sql );
 	}
@@ -224,7 +233,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @param string $column The table column the cleanup will rely on.
 	 * @param int    $limit  The limit we'll apply to the queries.
 	 *
-	 * @return int The number of deleted rows.
+	 * @return int|bool The number of deleted rows, false if the query fails.
 	 */
 	protected function cleanup_orphaned_from_table( $table, $column, $limit ) {
 		global $wpdb;
@@ -255,6 +264,6 @@ class Cleanup_Integration implements Integration_Interface {
 		}
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
-		return intval( $wpdb->query( "DELETE FROM $table WHERE {$column} IN( " . implode( ',', $orphans ) . ' )' ) );
+		return $wpdb->query( "DELETE FROM $table WHERE {$column} IN( " . implode( ',', $orphans ) . ' )' );
 	}
 }

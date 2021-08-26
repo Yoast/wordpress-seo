@@ -195,7 +195,7 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
 	 * @covers ::reset_cleanup
-	 * @covers ::clean_indexables_with_object_type
+	 * @covers ::clean_indexables_with_object_type_and_object_sub_type
 	 * @covers ::start_cron_job
 	 */
 	public function test_run_cleanup_starts_cron_job() {
@@ -211,7 +211,7 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 1000 );
 
-		$this->instance->expects( 'clean_indexables_with_object_type' )
+		$this->instance->expects( 'clean_indexables_with_object_type_and_object_sub_type' )
 			->once()
 			->with( 'post', 'shop-order', 1000 )
 			->andReturn( 1000 );
@@ -252,7 +252,7 @@ class Cleanup_Integration_Test extends TestCase {
 		$wpdb         = Mockery::mock( 'wpdb' );
 		$wpdb->prefix = 'wp_';
 
-		$this->instance->expects( 'clean_indexables_with_object_type' )
+		$this->instance->expects( 'clean_indexables_with_object_type_and_object_sub_type' )
 			->once()
 			->with( 'post', 'shop-order', 1000 )
 			->andReturn( 0 );
@@ -272,7 +272,7 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::run_cleanup_cron
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
-	 * @covers ::clean_indexables_with_object_type
+	 * @covers ::clean_indexables_with_object_type_and_object_sub_type
 	 * @covers ::start_cron_job
 	 */
 	public function test_run_cleanup_cron_last_tasks() {
