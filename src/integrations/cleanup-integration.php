@@ -130,7 +130,7 @@ class Cleanup_Integration implements Integration_Interface {
 	private function start_cron_job( $task_name ) {
 		\update_option( self::CURRENT_TASK_OPTION, $task_name );
 		\wp_schedule_event(
-			time(),
+			time() + HOUR_IN_SECONDS,
 			'hourly',
 			self::CRON_HOOK
 		);
