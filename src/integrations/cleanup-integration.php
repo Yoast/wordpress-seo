@@ -32,7 +32,7 @@ class Cleanup_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
+	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array The array of conditionals.
 	 */
@@ -81,7 +81,7 @@ class Cleanup_Integration implements Integration_Interface {
 			'clean_indexables_by_post_status_auto-draft' => function( $limit ) {
 				return $this->clean_indexables_with_post_status( 'auto-draft', $limit );
 			},
-			/* These should always be the last one to be called */
+			/* These should always be the last ones to be called. */
 			'clean_orphaned_content_indexable_hierarchy' => function( $limit ) {
 				return $this->cleanup_orphaned_from_table( 'Indexable_Hierarchy', 'indexable_id', $limit );
 			},
@@ -101,7 +101,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 */
 	private function get_limit() {
 		/**
-		 * Filter: Adds the possibility to limit the number of items are deleted from the database on cleanup.
+		 * Filter: Adds the possibility to limit the number of items that are deleted from the database on cleanup.
 		 *
 		 * @api int $limit Maximum number of indexables to be cleaned up per query.
 		 */
@@ -134,7 +134,7 @@ class Cleanup_Integration implements Integration_Interface {
 	private function start_cron_job( $task_name ) {
 		\update_option( self::CURRENT_TASK_OPTION, $task_name );
 		\wp_schedule_event(
-			( time() + HOUR_IN_SECONDS ),
+			( \time() + HOUR_IN_SECONDS ),
 			'hourly',
 			self::CRON_HOOK
 		);
@@ -164,6 +164,7 @@ class Cleanup_Integration implements Integration_Interface {
 				continue;
 			}
 
+			// Call the cleanup callback function that accompanies the current task.
 			$items_cleaned = $current_task( $limit );
 
 			if ( $items_cleaned === false ) {
@@ -172,7 +173,7 @@ class Cleanup_Integration implements Integration_Interface {
 			}
 
 			if ( $items_cleaned === 0 ) {
-				// Check if we are finshed with all tasks.
+				// Check if we are finished with all tasks.
 				if ( \next( $tasks ) === false ) {
 					$this->reset_cleanup();
 					return;
@@ -210,8 +211,8 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * Deletes rows from the indexable table depending on the post_status.
 	 *
-	 * @param string $post_status     The post status to query.
-	 * @param int    $limit           The limit we'll apply to the delete query.
+	 * @param string $post_status The post status to query.
+	 * @param int    $limit       The limit we'll apply to the delete query.
 	 *
 	 * @return int|bool The number of rows that was deleted or false if the query failed.
 	 */
@@ -229,7 +230,7 @@ class Cleanup_Integration implements Integration_Interface {
 	/**
 	 * Cleans orphaned rows from a yoast table.
 	 *
-	 * @param string $table  The table to cleanup.
+	 * @param string $table  The table to clean up.
 	 * @param string $column The table column the cleanup will rely on.
 	 * @param int    $limit  The limit we'll apply to the queries.
 	 *

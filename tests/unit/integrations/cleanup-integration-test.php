@@ -50,7 +50,7 @@ class Cleanup_Integration_Test extends TestCase {
 	/**
 	 * Tests calling test_run_cleanup.
 	 *
-	 * @covers ::test_run_cleanup
+	 * @covers ::run_cleanup
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::clean_indexables_with_object_type
 	 * @covers ::clean_indexables_with_post_status
@@ -191,7 +191,7 @@ class Cleanup_Integration_Test extends TestCase {
 	/**
 	 * Tests whether run_cleanup starts the cron-job.
 	 *
-	 * @covers ::test_run_cleanup
+	 * @covers ::run_cleanup
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
 	 * @covers ::reset_cleanup
