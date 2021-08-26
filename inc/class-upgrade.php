@@ -73,7 +73,7 @@ class WPSEO_Upgrade {
 			'15.9.1-RC0' => 'upgrade_1591',
 			'16.2-RC0'   => 'upgrade_162',
 			'16.5-RC0'   => 'upgrade_165',
-			'17.1-RC0'   => 'upgrade_171',
+			'17.2-RC0'   => 'upgrade_172',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -831,11 +831,11 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 17.1 upgrade. Cleans out any unnecessary indexables. See $cleanup_integration->get_cleanup_tasks() to see what will be cleaned out.
+	 * Performs the 17.2 upgrade. Cleans out any unnecessary indexables. See $cleanup_integration->get_cleanup_tasks() to see what will be cleaned out.
 	 *
 	 * @return void
 	 */
-	private function upgrade_171() {
+	private function upgrade_172() {
 		\wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
 
 		$cleanup_integration = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Cleanup_Integration::class );
