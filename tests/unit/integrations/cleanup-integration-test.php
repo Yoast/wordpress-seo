@@ -6,7 +6,6 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\Lib\Model;
 
 /**
  * Class Cleanup_Integration_Test.
