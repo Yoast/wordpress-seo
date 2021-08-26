@@ -61,7 +61,7 @@ module.exports = {
 			findTheseAddons: [
 				[ "[wordpress-seo-premium]", "pl-wordpress-seo-premium.md" ],
 				[ "[wordpress-seo-local]", "pl-wordpress-seo-local.md" ],
-				[ "[wpseo-new]", "pl-wpseo-new.md" ],
+				[ "[wpseo-news]", "pl-wpseo-news.md" ],
 				[ "[wpseo-video]", "pl-wpseo-video.md" ],
 				[ "[wpseo-woocommerce]", "pl-wpseo-woocommerce.md" ] ],
 
