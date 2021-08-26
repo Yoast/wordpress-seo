@@ -244,6 +244,7 @@ Enhancements:
 * Improves the performance of saving posts, especially on posts with a lot of links.
 * Stops showing the SEO Optimization notification on non-production sites.
 * Improves the filtering out of function words in Dutch, English, Indonesian, Russian, and Spanish by including time-related words like 'minute'.
+*  Updates the styling of our Google preview to reflect the updated styling of the Google search results.
 
 = 17.0 =
 Release Date: August 24th, 2021
