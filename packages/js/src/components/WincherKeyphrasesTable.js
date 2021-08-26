@@ -2,9 +2,7 @@
 import PropTypes from "prop-types";
 import { Fragment, Component } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { isEmpty, isArray } from "lodash-es";
-import apiFetch from "@wordpress/api-fetch";
-import { addQueryArgs } from "@wordpress/url";
+import { isEmpty } from "lodash-es";
 import styled from "styled-components";
 
 /* Yoast dependencies */
@@ -12,6 +10,13 @@ import { getDirectionalStyle, makeOutboundLink } from "@yoast/helpers";
 
 /* Internal dependencies */
 import WincherTableRow from "./WincherTableRow";
+import {
+	authenticate,
+	getAccountLimits,
+	getKeyphrases,
+	getKeyphrasesChartData,
+	trackKeyphrases, untrackKeyphrase,
+} from "../helpers/wincherEndpoints";
 
 const GetMoreInsightsLink = makeOutboundLink();
 
@@ -107,6 +112,30 @@ class WincherKeyphrasesTable extends Component {
 	}
 
 	/**
+	 * Wraps the API requests and handles the API responses.
+	 *
+	 * @param {Function} apiRequest        The API request function call to handle.
+	 * @param {Function} onSuccessCallback The callback to run on a successful response.
+	 * @param {number} expectedStatusCode  The expected status code to run the success callback on.
+	 *
+	 * @returns {Promise} The handled response promise.
+	 */
+	async handleAPIResponse( apiRequest, onSuccessCallback, expectedStatusCode = 200 ) {
+		try {
+			const response = await apiRequest();
+
+			if ( response.status === expectedStatusCode ) {
+				return onSuccessCallback( response );
+			}
+
+			this.props.setRequestFailed( response );
+			console.error( response.error );
+		} catch ( e ) {
+			console.error( e.message );
+		}
+	}
+
+	/**
 	 * Get the tokens using the provided code after user has granted authorization.
 	 *
 	 * @param {Object} data The message data.
@@ -114,7 +143,6 @@ class WincherKeyphrasesTable extends Component {
 	 * @returns {void}
 	 */
 	async performAuthenticationRequest( data ) {
-		const { code, websiteId } = data;
 		const {
 			onAuthentication,
 			setRequestSucceeded,
@@ -122,39 +150,19 @@ class WincherKeyphrasesTable extends Component {
 			lastRequestKeyphrase,
 		} = this.props;
 
-		await this.callEndpoint(
-			{
-				path: "yoast/v1/wincher/authenticate",
-				method: "POST",
-				data: { code, websiteId },
-			},
+		await this.handleAPIResponse(
+			() => authenticate( data ),
 			async( response ) => {
 				onAuthentication( true, true );
 				setRequestSucceeded( response );
 
 				// Collect all data known to Wincher first.
 				await this.getTrackedKeyphrases( keyphrases );
+				await this.getTrackedKeyphrasesChartData( keyphrases );
 				await this.performTrackingRequest( lastRequestKeyphrase );
 
 				// Close the popup if it's been opened again by mistake.
 				this.popup.close();
-			}
-		);
-	}
-
-	/**
-	 * Gets the currently set limit information associated with the connected Wincher account.
-	 *
-	 * @returns {Object} The account limits.
-	 */
-	async getAccountLimits() {
-		return await this.callEndpoint(
-			{
-				path: "yoast/v1/wincher/limits",
-				method: "GET",
-			},
-			( response ) => {
-				return { ...response };
 			}
 		);
 	}
@@ -172,7 +180,8 @@ class WincherKeyphrasesTable extends Component {
 			addTrackingKeyphrase,
 			setRequestSucceeded,
 		} = this.props;
-		const trackLimits = await this.getAccountLimits();
+
+		const trackLimits = await getAccountLimits();
 
 		if ( ! trackLimits.canTrack ) {
 			setRequestLimitReached( trackLimits.limit );
@@ -180,22 +189,11 @@ class WincherKeyphrasesTable extends Component {
 			return;
 		}
 
-		if ( ! isArray( keyphrases ) ) {
-			keyphrases = [ keyphrases ];
-		}
-
-		await this.callEndpoint(
-			{
-				path: "yoast/v1/wincher/keyphrases/track",
-				method: "POST",
-				data: { keyphrases },
-			},
-			async( response ) => {
+		await this.handleAPIResponse(
+			() => trackKeyphrases( keyphrases ),
+			( response ) => {
 				setRequestSucceeded( response );
 				addTrackingKeyphrase( response.results );
-
-				// Get the chart data.
-				await this.getTrackedKeyphrasesChartData( keyphrases );
 			},
 			201
 		);
@@ -234,12 +232,8 @@ class WincherKeyphrasesTable extends Component {
 	async onUntrackKeyphrase( keyphrase, keyphraseID ) {
 		const { setRequestSucceeded, removeTrackingKeyphrase } = this.props;
 
-		await this.callEndpoint(
-			{
-				path: "yoast/v1/wincher/keyphrases/untrack",
-				method: "DELETE",
-				data: { keyphraseID },
-			},
+		await this.handleAPIResponse(
+			() => untrackKeyphrase( keyphraseID ),
 			( response ) => {
 				setRequestSucceeded( response );
 				removeTrackingKeyphrase( keyphrase.toLowerCase() );
@@ -256,25 +250,21 @@ class WincherKeyphrasesTable extends Component {
 	 * @returns {void}
 	 */
 	 async getTrackedKeyphrases( keyphrases ) {
-		const { setRequestSucceeded, setTrackingKeyphrases } = this.props;
-		const preparedKeyphrases = encodeURIComponent( JSON.stringify( keyphrases ) );
+		const {
+			setRequestSucceeded,
+			setTrackingKeyphrases,
+		} = this.props;
 
-		await this.callEndpoint( {
-			path: addQueryArgs(
-				"yoast/v1/wincher/keyphrases",
-				{
-					keyphrases: preparedKeyphrases,
-				}
-			),
-			method: "GET",
-		},
-		async( response ) => {
-			setRequestSucceeded( response );
-			setTrackingKeyphrases( response.results );
+		await this.handleAPIResponse(
+			() => getKeyphrases( keyphrases ),
+			async( response ) => {
+				setRequestSucceeded( response );
+				setTrackingKeyphrases( response.results );
 
-			// Get the chart data.
-			await this.getTrackedKeyphrasesChartData( keyphrases );
-		} );
+				// Get the chart data.
+				await this.getTrackedKeyphrasesChartData( keyphrases );
+			}
+		);
 	}
 
 	/**
@@ -284,34 +274,26 @@ class WincherKeyphrasesTable extends Component {
 	 *
 	 * @returns {void}
 	 */
-	async getTrackedKeyphrasesChartData( keyphrases ) {
+	async getTrackedKeyphrasesChartData( keyphrases = [] ) {
 		const {
 			setPendingChartRequest,
 			setRequestSucceeded,
 			setTrackingCharts,
 		} = this.props;
 
-		const preparedKeyphrases = encodeURIComponent( JSON.stringify( keyphrases ) );
-
 		setPendingChartRequest( true );
 
-		await this.callEndpoint( {
-			path: addQueryArgs(
-				"yoast/v1/wincher/keyphrases/chart",
-				{
-					keyphrases: preparedKeyphrases,
-				}
-			),
-			method: "GET",
-		},
-		async( response ) => {
-			setRequestSucceeded( response );
-			setTrackingCharts( response.results );
+		await this.handleAPIResponse(
+			() => getKeyphrasesChartData( keyphrases ),
+			( response ) => {
+				setRequestSucceeded( response );
+				setTrackingCharts( response.results );
 
-			if  ( this.allKeyphrasesHavePositionData() ) {
-				setPendingChartRequest( false );
+				if  ( this.allKeyphrasesHavePositionData() ) {
+					setPendingChartRequest( false );
+				}
 			}
-		} );
+		);
 	}
 
 	/**
@@ -326,30 +308,6 @@ class WincherKeyphrasesTable extends Component {
 	}
 
 	/**
-	 * Calls the passed endpoint and handles any potential errors.
-	 *
-	 * @param {Object}   endpoint     The endpoint object.
-	 * @param {Function} callback     The callback function to call on a successful API call.
-	 * @param {int}      expectedCode The expected reponse code to trigger the callback method on. Defaults to 200.
-	 *
-	 * @returns {Promise} The API response promise.
-	 */
-	async callEndpoint( endpoint, callback, expectedCode = 200 ) {
-		try {
-			const response = await apiFetch( endpoint );
-
-			if ( response.status === expectedCode ) {
-				return callback( response );
-			}
-
-			this.props.setRequestFailed( response );
-			console.error( response.error );
-		} catch ( e ) {
-			console.error( e.message );
-		}
-	}
-
-	/**
 	 * Loads tracking data when the table is mounted in the DOM.
 	 *
 	 * @returns {void}
@@ -357,15 +315,17 @@ class WincherKeyphrasesTable extends Component {
 	async componentDidMount() {
 		const { trackAll, isLoggedIn, keyphrases } = this.props;
 
+		if ( ! isLoggedIn ) {
+			return;
+		}
+
 		if ( trackAll ) {
 			await this.performTrackingRequest( keyphrases );
 
 			return;
 		}
 
-		if ( isLoggedIn ) {
-			await this.getTrackedKeyphrases( keyphrases );
-		}
+		await this.getTrackedKeyphrases( keyphrases );
 	}
 
 	/**

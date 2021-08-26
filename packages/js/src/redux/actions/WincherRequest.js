@@ -125,7 +125,7 @@ export function setPendingChartDataRequest( isPending ) {
  */
 export function setAutomaticKeyphaseTracking( automaticallyTrack ) {
 	return {
-		type: WINCHER_SET_TRACK_ALL_REQUEST,
+		type: WINCHER_SET_AUTOMATICALLY_TRACK_ALL_REQUEST,
 		automaticallyTrack,
 	};
 }
