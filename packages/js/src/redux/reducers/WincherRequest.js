@@ -21,6 +21,7 @@ const INITIAL_STATE = {
 	limit: 10,
 	trackAll: false,
 	hasPendingChartDataRequest: false,
+	automaticallyTrack: false,
 };
 /**
  * A reducer for the Wincher request.

@@ -6,6 +6,7 @@ export const WINCHER_NO_DATA_FOUND = "WINCHER_NO_DATA_FOUND";
 export const WINCHER_SET_LOGIN_STATUS = "WINCHER_SET_LOGIN_STATUS";
 export const WINCHER_SET_TRACK_ALL_REQUEST = "WINCHER_FORCE_SEO_PERFORMANCE_TRACKED_KEYPHRASES";
 export const WINCHER_SET_PENDING_CHART_DATA_REQUEST = "WINCHER_SET_PENDING_CHART_DATA_REQUEST";
+export const WINCHER_SET_AUTOMATICALLY_TRACK_ALL_REQUEST = "WINCHER_SET_AUTOMATICALLY_TRACK_ALL_REQUEST";
 
 /**
  * An action creator for starting a new request.
@@ -112,6 +113,20 @@ export function setPendingChartDataRequest( isPending ) {
 	return {
 		type: WINCHER_SET_PENDING_CHART_DATA_REQUEST,
 		isPending,
+	};
+}
+
+/**
+ * An action creator for  automatically tracking all keyphrases.
+ *
+ * @param {boolean} automaticallyTrack Whether to automatically track newly added keyphrases.
+ *
+ * @returns {Object} Action object.
+ */
+export function setAutomaticKeyphaseTracking( automaticallyTrack ) {
+	return {
+		type: WINCHER_SET_TRACK_ALL_REQUEST,
+		automaticallyTrack,
 	};
 }
 
