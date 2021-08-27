@@ -289,7 +289,7 @@ class DashboardWidget extends Component {
 	 * @returns {void|wp.Element} The Wincher performance entry.
 	 */
 	getWincherSEOPerformance() {
-		if ( ! wpseoDashboardWidgetL10n.is_wincher_active ) {
+		if ( wpseoDashboardWidgetL10n.is_wincher_active === "0" ) {
 			return;
 		}
 

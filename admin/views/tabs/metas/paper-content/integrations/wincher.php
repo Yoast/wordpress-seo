@@ -7,8 +7,13 @@
  * @uses Yoast_Form $yform Form object.
  */
 
+
+use Yoast\WP\SEO\Config\Wincher_Client;
+
 $asset_manager = new WPSEO_Admin_Asset_Manager();
 $asset_manager->enqueue_style( 'monorepo' );
+
+$wincher_client = YoastSEO()->classes->get( Wincher_Client::class );
 ?>
 
 <div id="wincher-connection">
@@ -16,14 +21,17 @@ $asset_manager->enqueue_style( 'monorepo' );
 	<?php
 
 	$yform = Yoast_Form::get_instance();
-	$yform->checkbox(
-		'wincher_automatically_add_keyphrases',
-		sprintf(
-		/* translators: %s expands to Wincher */
-			esc_html__( 'Automatically add new keyphrases to %s', 'wordpress-seo' ),
-			'Wincher'
-		)
-	);
+
+	if ( $wincher_client->has_valid_tokens() ) {
+		$yform->checkbox(
+			'wincher_automatically_add_keyphrases',
+			sprintf(
+			/* translators: %s expands to Wincher */
+				esc_html__( 'Automatically add new keyphrases to %s', 'wordpress-seo' ),
+				'Wincher'
+			)
+		);
+	}
 
 	$button_text = sprintf(
 		/* translators: %s expands to Wincher */

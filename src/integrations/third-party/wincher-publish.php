@@ -7,6 +7,7 @@ use WPSEO_Meta;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
 use Yoast\WP\SEO\Conditionals\Wincher_Automatically_Track_Conditional;
 use Yoast\WP\SEO\Conditionals\Wincher_Enabled_Conditional;
+use Yoast\WP\SEO\Conditionals\Wincher_Token_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -76,12 +77,16 @@ class Wincher_Publish implements Integration_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * This integration should only be active when WPML is installed and activated.
+	 * This integration should only be active when the feature is enabled, a token is available and automatically tracking is enabled.
 	 *
 	 * @return array The conditionals.
 	 */
 	public static function get_conditionals() {
-		return [ Wincher_Enabled_Conditional::class, Wincher_Automatically_Track_Conditional::class ];
+		return [
+			Wincher_Enabled_Conditional::class,
+			Wincher_Automatically_Track_Conditional::class,
+			Wincher_Token_Conditional::class,
+		];
 	}
 
 	/**
