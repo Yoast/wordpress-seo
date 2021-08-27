@@ -21,17 +21,19 @@ const ViewLink = makeOutboundLink();
  *
  * @returns {Array} An array of x/y coordinates objects.
  */
-function transformTrendDataToChartPoints( chartEntry ) {
-	return chartEntry.history.map( ( entry, index ) => ( { x: index, y: 101 - entry.value } ) );
+export function transformTrendDataToChartPoints( chartEntry ) {
+	return chartEntry.position.history.map( ( entry, index ) => ( { x: index, y: 101 - entry.value } ) );
 }
 
 /**
  * Gets the labels for the data table headers.
  *
+ * @param {Object} chartData The chart data to map.
+ *
  * @returns {Array} The data table header labels.
  */
-function getAreaChartDataTableHeaderLabels( rowData ) {
-	return Array.from( { length: rowData.history.length }, ( _, i ) => i + 1 ).map( ( i ) => {
+export function getAreaChartDataTableHeaderLabels( chartData ) {
+	return Array.from( { length: chartData.position.history.length }, ( _, i ) => i + 1 ).map( ( i ) => {
 		/* translators: %d expands to the amount of days */
 		return sprintf( _n( "%d day", "%d days", i, "wordpress-seo" ), i );
 	} );
@@ -44,7 +46,7 @@ function getAreaChartDataTableHeaderLabels( rowData ) {
  *
  * @returns {number} The formatted y axis data.
  */
-function mapAreaChartDataToTableData( y ) {
+export function mapAreaChartDataToTableData( y ) {
 	return Math.round( y * 100 );
 }
 
@@ -52,17 +54,17 @@ function mapAreaChartDataToTableData( y ) {
 /**
  *  Generates a chart based on the passed data.
  *
- * @param {Object} rowData The data entry to check for data points.
+ * @param {Object} chartData The chart data entry.
  *
  * @returns {wp.Element|string} The chart containing the positions over time. If there is none, return "?".
  */
-function generatePositionOverTimeChart( rowData ) {
-	if ( isEmpty( rowData ) ) {
+export function generatePositionOverTimeChart( chartData ) {
+	if ( isEmpty( chartData ) || isEmpty( chartData.position ) ) {
 		return "?";
 	}
 
-	const areaChartDataTableHeaderLabels = getAreaChartDataTableHeaderLabels( rowData );
-	const chartPoints = transformTrendDataToChartPoints( rowData );
+	const areaChartDataTableHeaderLabels = getAreaChartDataTableHeaderLabels( chartData );
+	const chartPoints = transformTrendDataToChartPoints( chartData );
 
 	return <AreaChart
 		width={ 66 }
@@ -110,13 +112,20 @@ export function renderToggleState( { keyphrase, isEnabled, toggleAction } ) {
  * @returns {string} The keyphrase position. Returns a "?" if no data is present.
  */
 export function getKeyphrasePosition( chartData ) {
-	if ( isEmpty( chartData ) || chartData.value > 100 ) {
+	if ( isEmpty( chartData ) || isEmpty( chartData.position ) || chartData.position.value > 100 ) {
 		return "?";
 	}
 
-	return chartData.value;
+	return chartData.position.value;
 }
 
+/**
+ * Gets the positional data based on the current UI state and returns the appropiate UI element.
+ *
+ * @param {Object} props The props to use.
+ *
+ * @returns {wp.Element} The rendered element.
+ */
 export function getPositionalDataByState( props ) {
 	const { rowData, chartData, websiteId } = props;
 
@@ -181,7 +190,7 @@ export default function WincherTableRow( props ) {
 		isFocusKeyphrase,
 	} = props;
 
-	const isEnabled    = ! isEmpty( rowData );
+	const isEnabled  = ! isEmpty( rowData );
 
 	const toggleAction = useCallback(
 		() => {
@@ -210,10 +219,14 @@ WincherTableRow.propTypes = {
 	allowToggling: PropTypes.bool,
 	rowData: PropTypes.object.isRequired,
 	keyphrase: PropTypes.string.isRequired,
-	onTrackKeyphrase: PropTypes.func.isRequired,
-	onUntrackKeyphrase: PropTypes.func.isRequired,
+	onTrackKeyphrase: PropTypes.func,
+	onUntrackKeyphrase: PropTypes.func,
+	isFocusKeyphrase: PropTypes.bool,
 };
 
 WincherTableRow.defaultProps = {
 	allowToggling: true,
+	onTrackKeyphrase: () => {},
+	onUntrackKeyphrase: () => {},
+	isFocusKeyphrase: false,
 };

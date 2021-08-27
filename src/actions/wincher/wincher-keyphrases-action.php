@@ -147,7 +147,7 @@ class Wincher_Keyphrases_Action {
 	/**
 	 * Gets the tracked keyphrases.
 	 *
-	 * @param $used_keyphrases
+	 * @param array $used_keyphrases The keyphrases used in the current post.
 	 *
 	 * @return object The response object.
 	 */
@@ -203,7 +203,7 @@ class Wincher_Keyphrases_Action {
 				]
 			);
 
-			// TODO: Remove this
+			// TODO: Remove this.
 			$current_site_url = ( get_site_url() !== 'http://localhost' ) ? get_site_url() : 'https://www.wincher.com/';
 
 			// Filter correct site data.
@@ -226,7 +226,7 @@ class Wincher_Keyphrases_Action {
 			// Extract the positional data and assign it to the keyphrase.
 			$results['data'] = \array_combine(
 				\array_column( $results['data']['keywords'], 'keyword' ),
-				\array_column( $results['data']['keywords'], 'position' )
+				\array_values( $results['data']['keywords'] )
 			);
 
 			return $this->to_result_object( $results );
@@ -247,11 +247,11 @@ class Wincher_Keyphrases_Action {
 	 * @return array The filtered keyphrase data.
 	 */
 	protected function match_chart_data( $keyphrase_data, $used_keyphrases ) {
-		$chart_data = $this->get_keyphrase_chart_data( $used_keyphrases );
+		$chart_data            = $this->get_keyphrase_chart_data( $used_keyphrases );
 		$usable_keyphrase_data = [];
 
-		foreach ( $keyphrase_data as $keyphrase_entry) {
-			$keyphrase_entry['position'] = null;
+		foreach ( $keyphrase_data as $keyphrase_entry ) {
+			$keyphrase_entry['position']  = null;
 			$keyphrase_entry['chartData'] = [];
 
 			foreach ( $chart_data->results['keywords'] as $chart_data_item ) {
@@ -263,16 +263,27 @@ class Wincher_Keyphrases_Action {
 				$keyphrase_entry['chartData'] = $this->backfill_history( $chart_data_item['position']['history'] );
 			}
 
-			$usable_keyphrase_data[$keyphrase_entry['keyword']] = $keyphrase_entry;
+			$usable_keyphrase_data[ $keyphrase_entry['keyword'] ] = $keyphrase_entry;
 		}
 
 		return $usable_keyphrase_data;
 	}
 
+	/**
+	 * Filters the results based on the passed keyphrases.
+	 *
+	 * @param array $results         The results to filter.
+	 * @param array $used_keyphrases The used keyphrases.
+	 *
+	 * @return array The filtered results.
+	 */
 	protected function filter_results_by_used_keyphrases( $results, $used_keyphrases ) {
-		return array_filter( $results, function( $result ) use ( $used_keyphrases ) {
-			return \in_array( $result['keyword'], \array_map( 'strtolower', $used_keyphrases ) );
-		} );
+		return \array_filter(
+			$results,
+			function( $result ) use ( $used_keyphrases ) {
+				return \in_array( $result['keyword'], \array_map( 'strtolower', $used_keyphrases ), true );
+			}
+		);
 	}
 
 	/**

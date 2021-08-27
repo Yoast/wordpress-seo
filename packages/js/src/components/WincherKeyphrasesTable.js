@@ -15,7 +15,9 @@ import {
 	getAccountLimits,
 	getKeyphrases,
 	getKeyphrasesChartData,
-	trackKeyphrases, untrackKeyphrase,
+	messageHandler,
+	trackKeyphrases,
+	untrackKeyphrase,
 } from "../helpers/wincherEndpoints";
 
 const GetMoreInsightsLink = makeOutboundLink();
@@ -89,26 +91,12 @@ class WincherKeyphrasesTable extends Component {
 	 * @returns {void}
 	 */
 	async listenToMessages( event ) {
-		const { data, source, origin } = event;
-
-		// Check that the message comes from the expected origin.
-		if ( origin !== "https://auth.wincher.com" || this.popup !== source ) {
-			return;
-		}
-
-		if ( data.type === "wincher:oauth:success" ) {
-			this.popup.close();
-			// Stop listening to messages, since the popup is closed.
-			window.removeEventListener( "message", this.listenToMessages, false );
-			await this.performAuthenticationRequest( data );
-		}
-
-		if ( data.type === "wincher:oauth:error" ) {
-			this.popup.close();
-			// Stop listening to messages, since the popup is closed.
-			window.removeEventListener( "message", this.listenToMessages, false );
-			this.props.onAuthentication( false, false );
-		}
+		messageHandler(
+			event,
+			this.popup,
+			( data ) => this.performAuthenticationRequest( data ),
+			() => this.props.onAuthentication( false, false )
+		);
 	}
 
 	/**

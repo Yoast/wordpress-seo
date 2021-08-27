@@ -121,3 +121,36 @@ export async function untrackKeyphrase( keyphraseID ) {
 		data: { keyphraseID },
 	} );
 }
+
+/**
+ * Handles to message events from the Wincher popup.
+ *
+ * @param {event} event The message event.
+ * @param {Window} popup The login popup to close.
+ * @param {Function} onSuccess The onSuccess callback.
+ * @param {Function} onError The onError callback.
+ *
+ * @returns {void}
+ */
+export async function messageHandler( event, popup, onSuccess, onError ) {
+	const { data, source, origin } = event;
+
+	// Check that the message comes from the expected origin.
+	if ( origin !== "https://auth.wincher.com" || popup !== source ) {
+		return;
+	}
+
+	if ( data.type === "wincher:oauth:success" ) {
+		popup.close();
+		// Stop listening to messages, since the popup is closed.
+		window.removeEventListener( "message", messageHandler, false );
+		await onSuccess( data );
+	}
+
+	if ( data.type === "wincher:oauth:error" ) {
+		popup.close();
+		// Stop listening to messages, since the popup is closed.
+		window.removeEventListener( "message", messageHandler, false );
+		await onError( data );
+	}
+}

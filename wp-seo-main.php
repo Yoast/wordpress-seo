@@ -6,6 +6,10 @@
  */
 
 use Composer\Autoload\ClassLoader;
+use Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action;
+use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
+use Yoast\WP\SEO\Actions\Wincher\Wincher_Login_Action;
+use Yoast\WP\SEO\Routes\Wincher_Route;
 
 if ( ! function_exists( 'add_filter' ) ) {
 	header( 'Status: 403 Forbidden' );
@@ -378,6 +382,14 @@ function wpseo_init_rest_api() {
 	foreach ( $endpoints as $endpoint ) {
 		$endpoint->register();
 	}
+
+	$wincher_routes = new Wincher_Route(
+		YoastSEO()->classes->get( Wincher_Login_Action::class ),
+		YoastSEO()->classes->get( Wincher_Account_Action::class ),
+		YoastSEO()->classes->get( Wincher_Keyphrases_Action::class )
+	);
+
+	$wincher_routes->register_routes();
 }
 
 /**

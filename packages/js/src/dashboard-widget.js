@@ -8,6 +8,8 @@ import { getPostFeed } from "@yoast/helpers";
 
 // Internal dependencies.
 import { setYoastComponentsL10n } from "./helpers/i18n";
+import WincherPerformanceReport from "./components/WincherPerformanceReport";
+import { authenticate, getKeyphrasesChartData, messageHandler } from "./helpers/wincherEndpoints";
 
 /**
  * The Yoast dashboard widget component used on the WordPress admin dashboard.
@@ -22,8 +24,15 @@ class DashboardWidget extends Component {
 		this.state = {
 			statistics: null,
 			feed: null,
+			wincherData: null,
+			wincherIsLoggedIn: wpseoDashboardWidgetL10n.wincher_is_logged_in,
 			isDataFetched: false,
 		};
+
+		this.onConnect = this.onConnect.bind( this );
+		this.getWincherData = this.getWincherData.bind( this );
+		this.listenToMessages = this.listenToMessages.bind( this );
+		this.performAuthenticationRequest = this.performAuthenticationRequest.bind( this );
 	}
 
 	/**
@@ -57,6 +66,10 @@ class DashboardWidget extends Component {
 
 		this.getStatistics();
 		this.getFeed();
+
+		if ( this.state.wincherIsLoggedIn ) {
+			this.getWincherData();
+		}
 
 		this.setState( {
 			isDataFetched: true,
@@ -127,6 +140,46 @@ class DashboardWidget extends Component {
 	}
 
 	/**
+	 * Fetches data from Wincher, parses it and sets it to the state.
+	 *
+	 * @returns {void}
+	 */
+	async getWincherData() {
+		const keyphraseChartData = await getKeyphrasesChartData();
+
+		if ( keyphraseChartData.status === 200 ) {
+			const wincherData = Object.fromEntries(
+				Object.entries( keyphraseChartData.results )
+					.sort( this.sortWincherData )
+					.splice( 0, 5 )
+			);
+
+			this.setState( { wincherData } );
+		}
+	}
+
+	/**
+	 * Sorts the Wincher results in ascending order based on the position value.
+	 *
+	 * @param {Object} a The first Wincher result.
+	 * @param {Object} b The second Wincher result.
+	 *
+	 * @returns {number} The sorting order.
+	 */
+	sortWincherData( [ , a ], [ , b ] ) {
+		if ( a.position.value > b.position.value ) {
+			return 1;
+		}
+
+		if ( a.position.value < b.position.value ) {
+			return -1;
+		}
+
+		return 0;
+	}
+
+
+	/**
 	 * Returns the SEO Assessment sub-component.
 	 *
 	 * @returns {wp.Element} The SEO Assessment component.
@@ -163,6 +216,92 @@ class DashboardWidget extends Component {
 	}
 
 	/**
+	 * Get the tokens using the provided code after user has granted authorization.
+	 *
+	 * @param {Object} data The message data.
+	 *
+	 * @returns {void}
+	 */
+	async performAuthenticationRequest( data ) {
+		const response = await authenticate( data );
+
+		if ( response.status === 200 ) {
+			this.setState( { wincherIsLoggedIn: true } );
+
+			await this.getWincherData();
+			this.popup.close();
+		}
+	}
+
+	/**
+	 * Listens to message events from the Wincher popup.
+	 *
+	 * @param {event} event The message event.
+	 *
+	 * @returns {void}
+	 */
+	async listenToMessages( event ) {
+		messageHandler(
+			event,
+			this.popup,
+			( data ) => this.performAuthenticationRequest( data ),
+			() => {}
+		);
+	}
+
+	/**
+	 * The connect action when users aren't logged in to Wincher.
+	 *
+	 * @returns {void}
+	 */
+	onConnect() {
+		const url    = "https://auth.wincher.com/connect/authorize?client_id=yoast&response_type=code&" +
+			"redirect_uri=https%3A%2F%2Fauth.wincher.com%2Fyoast%2Fsetup&scope=api%20offline_access";
+		const height = "570";
+		const width  = "340";
+		const top    = window.top.outerHeight / 2 + window.top.screenY - ( height / 2 );
+		const left   = window.top.outerWidth / 2 + window.top.screenX - ( width / 2 );
+
+		const features = [
+			"top=" + top,
+			"left=" + left,
+			"width=" + width,
+			"height=" + height,
+			"resizable=1",
+			"scrollbars=1",
+			"status=0",
+		];
+
+		if ( ! this.popup || this.popup.closed ) {
+			this.popup = window.open( url, "Wincher_login", features.join( "," ) );
+		}
+
+		if ( this.popup ) {
+			this.popup.focus();
+		}
+
+		window.addEventListener( "message", this.listenToMessages, false );
+	}
+
+	/**
+	 * Gets the Wincher SEO Performance entry.
+	 *
+	 * @returns {void|wp.Element} The Wincher performance entry.
+	 */
+	getWincherSEOPerformance() {
+		if ( ! wpseoDashboardWidgetL10n.is_wincher_active ) {
+			return;
+		}
+
+		return <WincherPerformanceReport
+			data={ this.state.wincherData }
+			websiteId={ wpseoDashboardWidgetL10n.wincher_website_id }
+			isLoggedIn={ this.state.wincherIsLoggedIn }
+			onConnectAction={ this.onConnect }
+		/>;
+	}
+
+	/**
 	 * Renders the component.
 	 *
 	 * @returns {wp.Element} The component.
@@ -170,6 +309,7 @@ class DashboardWidget extends Component {
 	render() {
 		const contents = [
 			this.getSeoAssessment(),
+			this.getWincherSEOPerformance(),
 			this.getYoastFeed(),
 		].filter( item => item !== null );
 

@@ -86,11 +86,15 @@ class Wincher_Route implements Route_Interface {
 	private $login_action;
 
 	/**
+	 * The account action.
+	 *
 	 * @var Wincher_Account_Action
 	 */
 	private $account_action;
 
 	/**
+	 * The keyphrases action.
+	 *
 	 * @var Wincher_Keyphrases_Action
 	 */
 	private $keyphrases_action;
@@ -107,7 +111,9 @@ class Wincher_Route implements Route_Interface {
 	/**
 	 * Wincher_Route constructor.
 	 *
-	 * @param Wincher_Login_Action $login_action   The login action.
+	 * @param Wincher_Login_Action      $login_action      The login action.
+	 * @param Wincher_Account_Action    $account_action    The account action.
+	 * @param Wincher_Keyphrases_Action $keyphrases_action The keyphrases action.
 	 */
 	public function __construct(
 		Wincher_Login_Action $login_action,
@@ -265,7 +271,10 @@ class Wincher_Route implements Route_Interface {
 	public function untrack_keyphrase( WP_REST_Request $request ) {
 		$data = $this->keyphrases_action->untrack_keyphrase( $request['keyphraseID'] );
 
-		return (object)[ 'results' => [], 'status' => $data->status ];
+		return (object) [
+			'results' => [],
+			'status'  => $data->status,
+		];
 	}
 
 	/**

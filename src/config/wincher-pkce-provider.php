@@ -2,12 +2,15 @@
 
 namespace Yoast\WP\SEO\Config;
 
-use InvalidArgumentException;
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
-use League\OAuth2\Client\Token\AccessTokenInterface;
 use UnexpectedValueException;
+use YoastSEO_Vendor\GuzzleHttp\Exception\BadResponseException;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 use YoastSEO_Vendor\League\OAuth2\Client\Tool\BearerAuthorizationTrait;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Log\InvalidArgumentException;
 
 /**
  * Class Wincher_PKCE_Provider
@@ -16,14 +19,18 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	use BearerAuthorizationTrait;
 
 	/**
+	 * The method to use.
+	 *
 	 * @var string
 	 */
-	private $pkceMethod = null;
+	private $pkce_method = null;
 
 	/**
+	 * The PKCE code.
+	 *
 	 * @var string
 	 */
-	protected $pkceCode;
+	protected $pkce_code;
 
 	/**
 	 * Returns the current value of the pkceCode parameter.
@@ -33,7 +40,7 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	 * @return string
 	 */
 	public function getPkceCode() {
-		return $this->pkceCode;
+		return $this->pkce_code;
 	}
 
 	/**
@@ -41,9 +48,11 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	 * hashed as code_challenge parameters in an authorization flow.
 	 * Must be between 43 and 128 characters long.
 	 *
-	 * @param  int $length Length of the random string to be generated.
+	 * @param int $length Length of the random string to be generated.
 	 *
 	 * @return string
+	 *
+	 * @throws \Exception Throws exception if an invalid value is passed to random_bytes.
 	 */
 	protected function getRandomPkceCode( $length = 64 ) {
 		return substr(
@@ -58,18 +67,22 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	}
 
 	/**
+	 * Returns the current value of the pkceMethod parameter.
+	 *
 	 * @return string|null
 	 */
 	protected function getPkceMethod() {
-		return $this->pkceMethod;
+		return $this->pkce_method;
 	}
 
 	/**
 	 * Returns authorization parameters based on provided options.
 	 *
-	 * @param  array $options
+	 * @param  array $options The options to use in the authorization parameters.
 	 *
-	 * @return array Authorization parameters
+	 * @return array The authorization parameters
+	 *
+	 * @throws InvalidArgumentException|\Exception Throws exception if an invalid PCKE method is passed in the options.
 	 */
 	protected function getAuthorizationParameters( array $options ) {
 		if ( empty( $options['state'] ) ) {
@@ -93,28 +106,30 @@ class Wincher_PKCE_Provider extends GenericProvider {
 		// Store the state as it may need to be accessed later on.
 		$this->state = $options['state'];
 
-		$pkceMethod = $this->getPkceMethod();
-		if ( ! empty( $pkceMethod ) ) {
-			$this->pkceCode = $this->getRandomPkceCode();
-			if ( $pkceMethod === 'S256' ) {
+		$pkce_method = $this->getPkceMethod();
+		if ( ! empty( $pkce_method ) ) {
+			$this->pkce_code = $this->getRandomPkceCode();
+			if ( $pkce_method === 'S256' ) {
 				$options['code_challenge'] = trim(
 					strtr(
-						base64_encode( hash( 'sha256', $this->pkceCode, true ) ),
+						base64_encode( hash( 'sha256', $this->pkce_code, true ) ),
 						'+/',
 						'-_'
 					),
 					'='
 				);
-			} elseif ( $pkceMethod === 'plain' ) {
-				$options['code_challenge'] = $this->pkceCode;
-			} else {
-				throw new InvalidArgumentException( 'Unknown PKCE method "' . $pkceMethod . '".' );
 			}
-			$options['code_challenge_method'] = $pkceMethod;
+			elseif ( $pkce_method === 'plain' ) {
+				$options['code_challenge'] = $this->pkce_code;
+			}
+			else {
+				throw new InvalidArgumentException( 'Unknown PKCE method "' . $pkce_method . '".' );
+			}
+			$options['code_challenge_method'] = $pkce_method;
 		}
 
-		// Business code layer might set a different redirect_uri parameter
-		// depending on the context, leave it as-is
+		// Business code layer might set a different redirect_uri parameter.
+		// Depending on the context, leave it as-is.
 		if ( ! isset( $options['redirect_uri'] ) ) {
 			$options['redirect_uri'] = $this->redirectUri;
 		}
@@ -127,11 +142,12 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	/**
 	 * Requests an access token using a specified grant and option set.
 	 *
-	 * @param  mixed $grant
-	 * @param  array $options
-	 * @throws IdentityProviderException
+	 * @param mixed $grant   The grant to request access for.
+	 * @param array $options The options to use with the current request.
 	 *
-	 * @return AccessTokenInterface
+	 * @return AccessToken|AccessTokenInterface The access token.
+	 *
+	 * @throws IdentityProviderException Exception thrown if the provider response contains errors.
 	 */
 	public function getAccessToken( $grant, array $options = [] ) {
 		$grant = $this->verifyGrant( $grant );
@@ -142,18 +158,20 @@ class Wincher_PKCE_Provider extends GenericProvider {
 			'redirect_uri'  => $this->redirectUri,
 		];
 
-		if ( ! empty( $this->pkceCode ) ) {
-			$params['code_verifier'] = $this->pkceCode;
+		if ( ! empty( $this->pkce_code ) ) {
+			$params['code_verifier'] = $this->pkce_code;
 		}
 
 		$params   = $grant->prepareRequestParameters( $params, $options );
 		$request  = $this->getAccessTokenRequest( $params );
 		$response = $this->getParsedResponse( $request );
-		if ( false === is_array( $response ) ) {
+
+		if ( \is_array( $response ) === false ) {
 			throw new UnexpectedValueException(
 				'Invalid response received from Authorization Server. Expected JSON.'
 			);
 		}
+
 		$prepared = $this->prepareAccessTokenResponse( $response );
 		$token    = $this->createAccessToken( $prepared, $grant );
 
@@ -163,7 +181,7 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	/**
 	 * Returns all options that can be configured.
 	 *
-	 * @return array
+	 * @return array The configurable options.
 	 */
 	protected function getConfigurableOptions() {
 		return array_merge(
@@ -182,12 +200,18 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Parses the request response.
+	 *
+	 * @param RequestInterface $request The request interface.
+	 *
+	 * @return array The parsed response.
+	 *
+	 * @throws IdentityProviderException Exception thrown if there is no proper identity provider.
 	 */
-	public function getParsedResponse( \YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request ) {
+	public function getParsedResponse( RequestInterface $request ) {
 		try {
 			$response = $this->getResponse( $request );
-		} catch ( \YoastSEO_Vendor\GuzzleHttp\Exception\BadResponseException $e ) {
+		} catch ( BadResponseException $e ) {
 			$response = $e->getResponse();
 		}
 
@@ -195,7 +219,7 @@ class Wincher_PKCE_Provider extends GenericProvider {
 
 		$this->checkResponse( $response, $parsed );
 
-		if ( ! \is_array( $parsed ) && $parsed === "" ) {
+		if ( ! \is_array( $parsed ) && $parsed === '' ) {
 			$parsed = [ 'data' => [] ];
 		}
 
