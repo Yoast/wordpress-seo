@@ -361,13 +361,8 @@ class WincherKeyphrasesTable extends Component {
 		const {
 			allowToggling,
 			websiteId,
+			keyphrases,
 		} = this.props;
-
-		const keyphrases = this.props.keyphrases;
-
-		// TODO: Remove this after completion.
-		keyphrases.push( "SEO rank tracker" );
-		keyphrases.push( "seo ranking tracking" );
 
 		return (
 			keyphrases && ! isEmpty( keyphrases ) && <Fragment>

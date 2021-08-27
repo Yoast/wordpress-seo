@@ -4,10 +4,10 @@ import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash-es";
 
-
+/* Yoast dependencies */
 import { FieldGroup } from "@yoast/components";
+
 /* Internal dependencies */
-import WincherSEOPerformanceLoading from "./modals/WincherSEOPerformanceLoading";
 import WincherLimitReached from "./modals/WincherLimitReached";
 import WincherRequestFailed from "./modals/WincherRequestFailed";
 import WincherConnectedAlert from "./modals/WincherConnectedAlert";
