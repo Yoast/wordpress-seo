@@ -101,14 +101,14 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 				AND I.object_type = 'term'
 				AND I.version < %d
 			WHERE I.object_id IS NULL
-				AND taxonomy IN (%s)";
+				AND taxonomy IN (%s, %s)";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_terms', '10', \DAY_IN_SECONDS )->andReturnTrue();
-		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
+		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy', 'other_taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )
 			->once()
-			->with( $expected_query, [ 2, 'public_taxonomy' ] )
+			->with( $expected_query, [ 2, 'public_taxonomy', 'other_taxonomy' ] )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( '10' );
 
@@ -133,7 +133,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 				AND I.object_type = 'term'
 				AND I.version < %d
 			WHERE I.object_id IS NULL
-				AND taxonomy IN (%s)
+				AND taxonomy IN (%s, %s)
 			LIMIT %d";
 
 		$query_result = [
@@ -144,10 +144,10 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms_limited' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_terms_limited', count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
-		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
+		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy', 'other_taxonomy'  ] );
 		$this->wpdb->expects( 'prepare' )
 			->once()
-			->with( $expected_query, [ 'public_taxonomy', $limit ] )
+			->with( $expected_query, [ 2, 'public_taxonomy', 'other_taxonomy', $limit ] )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( $query_result );
 
@@ -200,15 +200,15 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 				AND I.object_type = 'term'
 				AND I.version < %d
 			WHERE I.object_id IS NULL
-				AND taxonomy IN (%s)
+				AND taxonomy IN (%s, %s)
 			LIMIT %d";
 
 		Filters\expectApplied( 'wpseo_term_indexation_limit' )->andReturn( 25 );
 
-		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
+		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy', 'other_Taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )
 			->once()
-			->with( $expected_query, [ 'public_taxonomy', 2, 25 ] )
+			->with( $expected_query, [ 2, 'public_taxonomy', 'other_Taxonomy', 25 ] )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
 
@@ -260,17 +260,17 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			LEFT JOIN wp_yoast_indexable AS I
 				ON T.term_id = I.object_id
 				AND I.object_type = 'term'
-				AND I.permalink_hash IS NOT NULL
+				AND I.version < %d
 			WHERE I.object_id IS NULL
-				AND taxonomy IN (%s)
+				AND taxonomy IN (%s, %s)
 			LIMIT %d";
 
 		Filters\expectApplied( 'wpseo_term_indexation_limit' )->andReturn( 25 );
 
-		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
+		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy', 'other_taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )
 			->once()
-			->with( $expected_query, [ 'public_taxonomy', 25 ] )
+			->with( $expected_query, [ 2, 'public_taxonomy', 'other_taxonomy', 25 ] )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [] );
 
