@@ -30,7 +30,7 @@ class Indexable_Builder_Versions {
 	/**
 	 * Provides the most recent version number for an Indexable's object type.
 	 *
-	 * @param $object_type string The Indexable type for which you want to know the most recent version.
+	 * @param string $object_type The Indexable type for which you want to know the most recent version.
 	 *
 	 * @return int The most recent version number for the type, or 1 if the version doesn't exist.
 	 */

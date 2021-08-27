@@ -27,14 +27,28 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable
 	 */
-	private $indexable_mock;
+	protected $indexable_mock;
 
 	/**
 	 * The author archive.
 	 *
-	 * @var Author_Archive_Helper
+	 * @var Author_Archive_Helper|Mockery\MockInterface
 	 */
-	private $author_archive;
+	protected $author_archive;
+
+	/**
+	 * The indexable builder versions
+	 *
+	 * @var Indexable_Builder_Versions|Mockery\MockInterface
+	 */
+	protected $versions;
+
+	/**
+	 * The class under test.
+	 *
+	 * @var Indexable_Author_Builder
+	 */
+	protected $instance;
 
 	/**
 	 * Sets up the test class.
@@ -74,7 +88,18 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 
 		$this->author_archive = Mockery::mock( Author_Archive_Helper::class );
-		$this->author_archive->expects( 'author_has_public_posts' )->with( 1 )->andReturn( true );
+		$this->author_archive
+			->expects( 'author_has_public_posts' )
+			->with( 1 )
+			->andReturn( true );
+
+		$this->versions = Mockery::mock( Indexable_Builder_Versions::class );
+		$this->versions
+			->expects( 'get_latest_version_for_type' )
+			->with( 'user' )
+			->andReturn( 2 );
+
+		$this->instance = new Indexable_Author_Builder( $this->author_archive, $this->versions );
 	}
 
 	/**
@@ -91,6 +116,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', true );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'version', 2 );
 
 		$this->indexable_mock->orm->expects( 'get' )->once()->with( 'open_graph_image' );
 		$this->indexable_mock->orm->expects( 'get' )->twice()->with( 'open_graph_image_id' );
@@ -108,11 +134,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->once()
 			->andReturn( 'avatar_image.jpg' );
 
-		$builder = new Indexable_Author_Builder(
-			$this->author_archive,
-			new Indexable_Builder_Versions()
-		);
-		$builder->build( 1, $this->indexable_mock );
+		$this->instance->build( 1, $this->indexable_mock );
 	}
 
 	/**
@@ -125,10 +147,10 @@ class Indexable_Author_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_title', 1 )->andReturn( 'title' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_metadesc', 1 )->andReturn( 'description' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_noindex_author', 1 )->andReturn( 'on' );
-
 		$this->indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', true );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'version', 2 );
 
 		$this->indexable_mock->orm->expects( 'get' )->once()->with( 'open_graph_image' );
 		$this->indexable_mock->orm->expects( 'get' )->once()->with( 'open_graph_image_id' );
@@ -148,8 +170,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 			)
 			->andReturn( '' );
 
-		$builder = new Indexable_Author_Builder( $this->author_archive );
-		$builder->build( 1, $this->indexable_mock );
+		$this->instance->build( 1, $this->indexable_mock );
 	}
 
 	/**
@@ -166,6 +187,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'title', null );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'description', null );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'version', 2 );
 
 		$this->indexable_mock->orm->expects( 'get' )->once()->with( 'open_graph_image' );
 		$this->indexable_mock->orm->expects( 'get' )->twice()->with( 'open_graph_image_id' );
@@ -183,7 +205,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->once()
 			->andReturn( 'avatar_image.jpg' );
 
-		$builder = new Indexable_Author_Builder( $this->author_archive );
-		$builder->build( 1, $this->indexable_mock );
+		$this->instance->build( 1, $this->indexable_mock );
 	}
 }

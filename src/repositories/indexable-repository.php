@@ -336,7 +336,8 @@ class Indexable_Repository {
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->builder->build_for_id_and_type( $object_id, $object_type );
-		} else {
+		}
+		else {
 			$indexable = $this->upgrade_indexable( $indexable );
 		}
 

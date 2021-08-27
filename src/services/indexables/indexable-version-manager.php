@@ -17,6 +17,11 @@ class Indexable_Version_Manager {
 	 */
 	protected $indexable_builder_versions;
 
+	/**
+	 * Indexable_Version_Manager constructor.
+	 *
+	 * @param Indexable_Builder_Versions $indexable_builder_versions The current versions of all indexable builders.
+	 */
 	public function __construct( Indexable_Builder_Versions $indexable_builder_versions ) {
 		$this->indexable_builder_versions = $indexable_builder_versions;
 	}
@@ -24,12 +29,13 @@ class Indexable_Version_Manager {
 	/**
 	 * Determines if an Indexable has a lower version than the builder for that Indexable's type.
 	 *
-	 * @param $indexable Indexable The Indexable to check.
+	 * @param Indexable $indexable The Indexable to check.
 	 *
 	 * @return boolean True if the given version is older than the current latest version.
 	 */
 	public function indexable_needs_upgrade( $indexable ) {
-		if ( ! $indexable || ! is_subclass_of( $indexable, Indexable::class ) ) {
+		if ( ( ! $indexable ) ||
+			( ! is_subclass_of( $indexable, Indexable::class ) ) ) {
 			return false;
 		}
 
@@ -39,8 +45,8 @@ class Indexable_Version_Manager {
 	/**
 	 * Determines if an Indexable version for the type is lower than the current version for that Indexable type.
 	 *
-	 * @param $object_type       string The Indexable's object type.
-	 * @param $indexable_version int    The Indexable's version.
+	 * @param string $object_type       The Indexable's object type.
+	 * @param int    $indexable_version The Indexable's version.
 	 *
 	 * @return boolean True if the given version is older than the current latest version.
 	 */
@@ -48,13 +54,14 @@ class Indexable_Version_Manager {
 		$current_indexable_builder_version = $this->indexable_builder_versions->get_latest_version_for_type( $object_type );
 
 		// If the Indexable's version is below the current version, that Indexable needs updating.
-		return ( $indexable_version ? $indexable_version : 1 ) < $current_indexable_builder_version;
+		$version = ( $indexable_version ) ? $indexable_version : 1;
+		return $version < $current_indexable_builder_version;
 	}
 
 	/**
 	 * Sets an Indexable's version to the latest version.
 	 *
-	 * @param $indexable Indexable The Indexable to update.
+	 * @param Indexable $indexable The Indexable to update.
 	 *
 	 * @return Indexable
 	 */

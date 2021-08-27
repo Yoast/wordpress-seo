@@ -44,9 +44,9 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	protected $wpdb;
 
 	/**
-	 * The version manager
+	 * The version manager.
 	 *
-	 * @var	Indexable_Builder_Versions|Mockery\MockInterface
+	 * @var Indexable_Builder_Versions|Mockery\MockInterface
 	 */
 	protected $builder_versions;
 
@@ -74,7 +74,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		$this->builder_versions
 			->expects( 'get_latest_version_for_type' )
-			->withArgs( [ 'post'] )
+			->withArgs( [ 'post' ] )
 			->andReturn( 2 );
 
 		$this->instance = new Indexable_Post_Indexation_Action(

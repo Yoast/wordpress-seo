@@ -10,7 +10,6 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Config\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -54,7 +53,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	/**
 	 * The Versions.
 	 *
-	 * @var Indexable_Builder_Versions
+	 * @var Indexable_Builder_Versions|Mockery\MockInterface
 	 */
 	protected $versions;
 
@@ -71,7 +70,12 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->repository          = Mockery::mock( Indexable_Repository::class );
 		$this->wpdb                = Mockery::mock( 'wpdb' );
 		$this->wpdb->term_taxonomy = 'wp_term_taxonomy';
-		$this->versions            = new Indexable_Builder_Versions();
+		$this->versions            = Mockery::mock( Indexable_Builder_Versions::class );
+
+		$this->versions
+			->expects( 'get_latest_version_for_type' )
+			->withArgs( [ 'term'] )
+			->andReturn( 2 );
 
 		$this->instance = new Indexable_Term_Indexation_Action(
 			$this->taxonomy,
@@ -95,7 +99,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			LEFT JOIN wp_yoast_indexable AS I
 				ON T.term_id = I.object_id
 				AND I.object_type = 'term'
-				AND I.version < 1
+				AND I.version < %d
 			WHERE I.object_id IS NULL
 				AND taxonomy IN (%s)";
 
@@ -104,7 +108,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )
 			->once()
-			->with( $expected_query, [ 'public_taxonomy' ] )
+			->with( $expected_query, [ 2, 'public_taxonomy' ] )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( '10' );
 
@@ -127,7 +131,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			LEFT JOIN wp_yoast_indexable AS I
 				ON T.term_id = I.object_id
 				AND I.object_type = 'term'
-				AND I.permalink_hash IS NOT NULL
+				AND I.version < %d
 			WHERE I.object_id IS NULL
 				AND taxonomy IN (%s)
 			LIMIT %d";
@@ -194,7 +198,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			LEFT JOIN wp_yoast_indexable AS I
 				ON T.term_id = I.object_id
 				AND I.object_type = 'term'
-				AND I.permalink_hash IS NOT NULL
+				AND I.version < %d
 			WHERE I.object_id IS NULL
 				AND taxonomy IN (%s)
 			LIMIT %d";
@@ -204,7 +208,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )
 			->once()
-			->with( $expected_query, [ 'public_taxonomy', 25 ] )
+			->with( $expected_query, [ 'public_taxonomy', 2, 25 ] )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
 
