@@ -126,6 +126,9 @@ class Wincher_Publish implements Integration_Interface {
 			$keyphrases = array_merge( $keyphrases, $additional_keywords );
 		}
 
+		// Filter out empty entries.
+		$keyphrases = \array_filter( $keyphrases );
+
 		if ( ! empty( $keyphrases ) ) {
 			$this->keyphrases_action->track_keyphrases( $keyphrases );
 		}
