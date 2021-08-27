@@ -171,8 +171,6 @@ class Indexable_Builder {
 	 * @param string         $object_type The indexable object type.
 	 * @param Indexable|bool $indexable   Optional. An existing indexable to overwrite.
 	 *
-	 * @deprecated 17.1 use the build method instead.
-	 *
 	 * @return bool|Indexable Instance of indexable. False when unable to build.
 	 */
 	public function build_for_id_and_type( $object_id, $object_type, $indexable = false ) {
@@ -191,8 +189,6 @@ class Indexable_Builder {
 	 *
 	 * @param Indexable|bool $indexable Optional. An existing indexable to overwrite.
 	 *
-	 * @deprecated 17.1 use the build method instead.
-	 *
 	 * @return Indexable The home page indexable.
 	 */
 	public function build_for_home_page( $indexable = false ) {
@@ -203,8 +199,6 @@ class Indexable_Builder {
 	 * Creates an indexable for the date archive.
 	 *
 	 * @param Indexable|bool $indexable Optional. An existing indexable to overwrite.
-	 *
-	 * @deprecated 17.1 use the build method instead.
 	 *
 	 * @return Indexable The date archive indexable.
 	 */
@@ -217,8 +211,6 @@ class Indexable_Builder {
 	 *
 	 * @param string         $post_type The post type.
 	 * @param Indexable|bool $indexable Optional. An existing indexable to overwrite.
-	 *
-	 * @deprecated 17.1 use the build method instead.
 	 *
 	 * @return Indexable The post type archive indexable.
 	 */
@@ -235,8 +227,6 @@ class Indexable_Builder {
 	 *
 	 * @param string         $page_type The type of system page.
 	 * @param Indexable|bool $indexable Optional. An existing indexable to overwrite.
-	 *
-	 * @deprecated 17.1 use the build method instead.
 	 *
 	 * @return Indexable The search result indexable.
 	 */
