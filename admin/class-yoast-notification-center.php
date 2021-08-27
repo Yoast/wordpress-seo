@@ -597,8 +597,8 @@ class Yoast_Notification_Center {
 		$filtered_merged_notifications = apply_filters( 'yoast_notifications_before_storage', $merged_notifications );
 
 		// The notifications were filtered and therefore need to be stored.
-		if ( $merged_notifications !== $filtered_merged_notifications ){
-			$merged_notifications = $filtered_merged_notifications;
+		if ( $merged_notifications !== $filtered_merged_notifications ) {
+			$merged_notifications             = $filtered_merged_notifications;
 			$this->notifications_need_storage = true;
 		}
 
@@ -612,7 +612,7 @@ class Yoast_Notification_Center {
 		}
 
 		// Only store notifications if changes are made.
-		if ( $this->notifications_need_storage ){
+		if ( $this->notifications_need_storage ) {
 			array_walk( $notifications, [ $this, 'store_notifications_for_user' ] );
 		}
 	}
