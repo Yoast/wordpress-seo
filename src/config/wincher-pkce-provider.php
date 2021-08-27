@@ -23,14 +23,14 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	 *
 	 * @var string
 	 */
-	private $pkce_method = null;
+	private $pkceMethod = null;
 
 	/**
 	 * The PKCE code.
 	 *
 	 * @var string
 	 */
-	protected $pkce_code;
+	protected $pkceCode;
 
 	/**
 	 * Returns the current value of the pkceCode parameter.
@@ -40,7 +40,7 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	 * @return string
 	 */
 	public function getPkceCode() {
-		return $this->pkce_code;
+		return $this->pkceCode;
 	}
 
 	/**
@@ -72,7 +72,7 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	 * @return string|null
 	 */
 	protected function getPkceMethod() {
-		return $this->pkce_method;
+		return $this->pkceMethod;
 	}
 
 	/**
@@ -108,11 +108,11 @@ class Wincher_PKCE_Provider extends GenericProvider {
 
 		$pkce_method = $this->getPkceMethod();
 		if ( ! empty( $pkce_method ) ) {
-			$this->pkce_code = $this->getRandomPkceCode();
+			$this->pkceCode = $this->getRandomPkceCode();
 			if ( $pkce_method === 'S256' ) {
 				$options['code_challenge'] = trim(
 					strtr(
-						base64_encode( hash( 'sha256', $this->pkce_code, true ) ),
+						base64_encode( hash( 'sha256', $this->pkceCode, true ) ),
 						'+/',
 						'-_'
 					),
@@ -120,7 +120,7 @@ class Wincher_PKCE_Provider extends GenericProvider {
 				);
 			}
 			elseif ( $pkce_method === 'plain' ) {
-				$options['code_challenge'] = $this->pkce_code;
+				$options['code_challenge'] = $this->pkceCode;
 			}
 			else {
 				throw new InvalidArgumentException( 'Unknown PKCE method "' . $pkce_method . '".' );
@@ -158,8 +158,8 @@ class Wincher_PKCE_Provider extends GenericProvider {
 			'redirect_uri'  => $this->redirectUri,
 		];
 
-		if ( ! empty( $this->pkce_code ) ) {
-			$params['code_verifier'] = $this->pkce_code;
+		if ( ! empty( $this->pkceCode ) ) {
+			$params['code_verifier'] = $this->pkceCode;
 		}
 
 		$params   = $grant->prepareRequestParameters( $params, $options );
