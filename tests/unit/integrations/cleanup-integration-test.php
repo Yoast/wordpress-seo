@@ -55,6 +55,7 @@ class Cleanup_Integration_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
+		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_start_cleanup_indexables', [ $this->instance, 'run_cleanup' ] ), 'Does not have expected wpseo_cleanup filter' );
 		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_cleanup_cron', [ $this->instance, 'run_cleanup_cron' ] ), 'Does not have expected run_cleanup_cron filter' );
 		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_deactivate', [ $this->instance, 'reset_cleanup' ] ), 'Does not have expected reset_cleanup filter' );
 	}
