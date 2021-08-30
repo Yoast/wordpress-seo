@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -319,8 +320,8 @@ class Indexable_Builder {
 
 				case 'post':
 					$indexable = $this->post_builder->build( $indexable->object_id, $indexable );
-					if ( $indexable === false ) {
-						// Indexable for this Post was not built for a reason; for example if its post type is excluded.
+					if ( ! $indexable ) {
+						// Indexable for this Post was not built for a reason; e.g. if its post type is excluded.
 						return $indexable;
 					}
 
@@ -330,7 +331,7 @@ class Indexable_Builder {
 					// Always rebuild the hierarchy; this needs the primary terms to run correctly.
 					$this->hierarchy_builder->build( $indexable );
 
-					// Check the author indexable.
+					// Rebuild the author indexable when necessary.
 					$author_indexable = $this->indexable_repository->find_by_id_and_type(
 						$indexable->author_id,
 						'user',
@@ -338,7 +339,7 @@ class Indexable_Builder {
 					);
 					if ( ! $author_indexable || $this->version_manager->indexable_needs_upgrade( $author_indexable ) ) {
 						$author_defaults = [
-							'object-type' => 'user',
+							'object_type' => 'user',
 							'object_id'   => $indexable->author_id,
 						];
 						$this->build( $author_indexable, $author_defaults );
@@ -380,7 +381,9 @@ class Indexable_Builder {
 			/**
 			 * @var Indexable $indexable
 			 */
-			$indexable = $this->indexable_repository->query()->create(
+			$indexable = $this->indexable_repository
+				->query()
+				->create(
 				[
 					'object_id'   => $indexable->object_id,
 					'object_type' => $indexable->object_type,
