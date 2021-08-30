@@ -81,7 +81,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 */
 	protected function get_cleanup_tasks() {
 		return [
-			'clean_indexables_by_object_sub_type_shop-order' => function( $limit ) {
+			'clean_indexables_with_object_type_and_object_sub_type_shop-order' => function( $limit ) {
 				return $this->clean_indexables_with_object_type_and_object_sub_type( 'post', 'shop-order', $limit );
 			},
 			'clean_indexables_by_post_status_auto-draft' => function( $limit ) {
