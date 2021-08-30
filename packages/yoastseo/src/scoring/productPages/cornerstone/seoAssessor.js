@@ -121,7 +121,7 @@ const ProductCornerstoneSEOAssessor = function( i18n, researcher, options ) {
 			recommendedCount: 4,
 			urlTitle: createAnchorOpeningTag( options.imageCountUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.imageCountCTAUrl ),
-		}, true ),
+		}, options.countVideos ),
 		new ImageKeyphrase( {
 			scores: {
 				withAltNonKeyword: 3,
