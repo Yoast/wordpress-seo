@@ -120,7 +120,9 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!",
 	},
 	textTransitionWords: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 23.1% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: false,
