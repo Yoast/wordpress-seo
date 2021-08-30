@@ -246,6 +246,8 @@ class Wincher_Keyphrases_Action {
 				}
 			);
 
+			$results['data'] = [];
+
 			if ( ! empty( $site_chart ) ) {
 				// Ensure we have a proper zero-indexed data set.
 				$results['data'] = \reset( $site_chart );
