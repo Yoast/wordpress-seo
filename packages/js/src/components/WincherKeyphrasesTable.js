@@ -15,10 +15,10 @@ import {
 	getAccountLimits,
 	getKeyphrases,
 	getKeyphrasesChartData,
-	messageHandler,
 	trackKeyphrases,
 	untrackKeyphrase,
 } from "../helpers/wincherEndpoints";
+import LoginPopup from "../helpers/loginPopup";
 
 const GetMoreInsightsLink = makeOutboundLink();
 
@@ -43,7 +43,6 @@ class WincherKeyphrasesTable extends Component {
 		super( props );
 
 		this.onLoginOpen          = this.onLoginOpen.bind( this );
-		this.listenToMessages     = this.listenToMessages.bind( this );
 		this.onTrackKeyphrase     = this.onTrackKeyphrase.bind( this );
 		this.onUntrackKeyphrase   = this.onUntrackKeyphrase.bind( this );
 		this.getTrackedKeyphrases = this.getTrackedKeyphrases.bind( this );
@@ -55,48 +54,27 @@ class WincherKeyphrasesTable extends Component {
 	 * @returns {void}
 	 */
 	onLoginOpen() {
-		const url    = "https://auth.wincher.com/connect/authorize?client_id=yoast&response_type=code&" +
+		const url = "https://auth.wincher.com/connect/authorize?client_id=yoast&response_type=code&" +
 			"redirect_uri=https%3A%2F%2Fauth.wincher.com%2Fyoast%2Fsetup&scope=api%20offline_access";
-		const height = "570";
-		const width  = "340";
-		const top    = window.top.outerHeight / 2 + window.top.screenY - ( height / 2 );
-		const left   = window.top.outerWidth / 2 + window.top.screenX - ( width / 2 );
 
-		const features = [
-			"top=" + top,
-			"left=" + left,
-			"width=" + width,
-			"height=" + height,
-			"resizable=1",
-			"scrollbars=1",
-			"status=0",
-		];
-
-		if ( ! this.popup || this.popup.closed ) {
-			this.popup = window.open( url, "Wincher_login", features.join( "," ) );
-		}
-
-		if ( this.popup ) {
-			this.popup.focus();
-		}
-
-		window.addEventListener( "message", this.listenToMessages, false );
-	}
-
-	/**
-	 * Listens to message events from the Wincher popup.
-	 *
-	 * @param {event} event The message event.
-	 *
-	 * @returns {void}
-	 */
-	async listenToMessages( event ) {
-		messageHandler(
-			event,
-			this.popup,
-			( data ) => this.performAuthenticationRequest( data ),
-			() => this.props.onAuthentication( false, false )
+		this.loginPopup = new LoginPopup(
+			url,
+			{
+				success: {
+					type: "wincher:oauth:success",
+					callback: ( data ) => this.performAuthenticationRequest( data ),
+				},
+				error: {
+					type: "wincher:oauth:error",
+					callback: () => this.props.onAuthentication( false, false ),
+				},
+			},
+			{
+				title: "Wincher_login",
+			}
 		);
+
+		this.loginPopup.createPopup();
 	}
 
 	/**
@@ -117,7 +95,6 @@ class WincherKeyphrasesTable extends Component {
 			}
 
 			this.props.setRequestFailed( response );
-			console.error( response.error );
 		} catch ( e ) {
 			console.error( e.message );
 		}
@@ -150,7 +127,11 @@ class WincherKeyphrasesTable extends Component {
 				await this.performTrackingRequest( lastRequestKeyphrase );
 
 				// Close the popup if it's been opened again by mistake.
-				this.popup.close();
+				const popup = this.loginPopup.getPopup();
+
+				if ( popup ) {
+					popup.close();
+				}
 			}
 		);
 	}
@@ -179,9 +160,10 @@ class WincherKeyphrasesTable extends Component {
 
 		await this.handleAPIResponse(
 			() => trackKeyphrases( keyphrases ),
-			( response ) => {
+			async( response ) => {
 				setRequestSucceeded( response );
 				addTrackingKeyphrase( response.results );
+				await this.getTrackedKeyphrasesChartData( keyphrases );
 			},
 			201
 		);

@@ -331,6 +331,7 @@ class WPSEO_Admin {
 			/* translators: %s: expends to Yoast SEO */
 			'help_video_iframe_title' => sprintf( __( '%s video tutorial', 'wordpress-seo' ), 'Yoast SEO' ),
 			'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
+			'wincher_is_logged_in'    => WPSEO_Options::get( 'wincher_integration_active', true ) ? YoastSEO()->helpers->wincher->login_status() : false,
 		];
 	}
 
@@ -366,4 +367,5 @@ class WPSEO_Admin {
 			'cornerstone_filter' => new WPSEO_Cornerstone_Filter(),
 		];
 	}
+
 }

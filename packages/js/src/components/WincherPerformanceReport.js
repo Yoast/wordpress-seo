@@ -13,6 +13,7 @@ import { NewButton } from "@yoast/components";
 import WincherConnectExplanation from "./modals/WincherConnectExplanation";
 import WincherNoTrackedKeyphrasesAlert from "./modals/WincherNoTrackedKeyphrasesAlert";
 import { getKeyphrasePosition, generatePositionOverTimeChart } from "./WincherTableRow";
+import WincherLimitReached from "./modals/WincherLimitReached";
 
 const ViewLink = makeOutboundLink();
 const GetMoreInsightsLink = makeOutboundLink();
@@ -94,13 +95,14 @@ const notConnectedMessage = ( props ) => {
  * @returns {wp.Element} The message.
  */
 const noTrackedKeyphrasesMessage = ( props ) => {
-	const { className, onTrackAllAction } = props;
+	const { className, onTrackAllAction, limits } = props;
 
 	return (
 		<WincherSEOPerformanceReportText
 			className={ `${ className }__text` }
 		>
-			<WincherNoTrackedKeyphrasesAlert />
+			{ ! isEmpty( limits ) && ! limits.canTrack && <WincherLimitReached limit={ limits.limit } /> }
+			{ isEmpty( limits )  && <WincherNoTrackedKeyphrasesAlert /> }
 
 			<div className={ "yoast" }>
 				<NewButton
@@ -127,7 +129,7 @@ const noTrackedKeyphrasesMessage = ( props ) => {
  * @returns {wp.Element} The react component.
  */
 const WincherPerformanceReport = ( props ) => {
-	const { className, data, websiteId, isLoggedIn } = props;
+	const { className, websiteId, isLoggedIn, data } = props;
 
 	return (
 		<WicnherSEOPerformanceContainer
@@ -141,7 +143,6 @@ const WincherPerformanceReport = ( props ) => {
 
 			{ ! isLoggedIn && notConnectedMessage( props ) }
 			{ isLoggedIn && ( ! data || isEmpty( data ) ) && noTrackedKeyphrasesMessage( props ) }
-
 			{ isLoggedIn && data && ! isEmpty( data ) && <Fragment>
 				<table className="yoast yoast-table">
 					<thead>

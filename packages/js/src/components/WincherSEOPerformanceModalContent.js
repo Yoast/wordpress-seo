@@ -15,6 +15,7 @@ import WincherCurrentlyTrackingAlert from "./modals/WincherCurrentlyTrackingAler
 import WincherKeyphrasesTable from "../containers/WincherKeyphrasesTable";
 import WincherExplanation from "./modals/WincherExplanation";
 import WincherNoKeyphraseSet from "./modals/WincherNoKeyphraseSet";
+import WincherAutoTrackingEnabledAlert from "./modals/WincherAutoTrackingEnabledAlert";
 
 /**
  * Determines whether the error property is present in the passed response object.
@@ -38,15 +39,14 @@ export function getUserMessage( props ) {
 	const {
 		isSuccess,
 		response,
-		requestHasData,
 	} = props;
+
+	if ( ! isSuccess && hasError( response ) && response.status === 400 ) {
+		return <WincherLimitReached limit={ response.results.limit } />;
+	}
 
 	if ( ! isSuccess && hasError( response ) ) {
 		return <WincherRequestFailed />;
-	}
-
-	if ( ! requestHasData ) {
-		return <p>{ __( "Sorry, there's no data available for that keyphrase.", "wordpress-seo" ) }</p>;
 	}
 }
 
@@ -64,6 +64,8 @@ export default function WincherSEOPerformanceModalContent( props ) {
 		requestLimitReached,
 		limit,
 		hasPendingChartRequest,
+		hasTrackedKeyphrases,
+		shouldTrackAll,
 	} = props;
 
 	return (
@@ -81,11 +83,13 @@ export default function WincherSEOPerformanceModalContent( props ) {
 					/>
 					<WincherExplanation />
 
-					{ hasPendingChartRequest && <WincherCurrentlyTrackingAlert /> }
+					{ hasTrackedKeyphrases && hasPendingChartRequest && <WincherCurrentlyTrackingAlert /> }
 
 					{ getUserMessage( props ) }
 
 					<p>{ __( "You can enable / disable tracking the SEO performance for each keyphrase below.", "wordpress-seo" ) }</p>
+
+					{ shouldTrackAll && <WincherAutoTrackingEnabledAlert />}
 
 					{ requestLimitReached && <WincherLimitReached limit={ limit } /> }
 					<WincherKeyphrasesTable />

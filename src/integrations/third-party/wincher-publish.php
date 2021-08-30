@@ -123,16 +123,8 @@ class Wincher_Publish implements Integration_Interface {
 			return;
 		}
 
-		$keyphrases   = [];
-		$keyphrases[] = WPSEO_Meta::get_value( 'focuskw', $post->ID );
-
-		if ( YoastSEO()->helpers->product->is_premium() ) {
-			$additional_keywords = json_decode( WPSEO_Meta::get_value( 'focuskeywords', $post->ID ), true );
-			$keyphrases = array_merge( $keyphrases, $additional_keywords );
-		}
-
 		// Filter out empty entries.
-		$keyphrases = \array_filter( $keyphrases );
+		$keyphrases = \array_filter( $this->keyphrases_action->collect_keyphrases_from_post( $post ) );
 
 		if ( ! empty( $keyphrases ) ) {
 			$this->keyphrases_action->track_keyphrases( $keyphrases );

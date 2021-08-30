@@ -3,18 +3,17 @@
 namespace Yoast\WP\SEO\Actions\Wincher;
 
 use Exception;
+use WP_Post;
+use WP_Query;
+use WPSEO_Meta;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Class Wincher_Keyphrases_Action
  */
 class Wincher_Keyphrases_Action {
-
-	/**
-	 * The transient cache key.
-	 */
-	const TRANSIENT_CACHE_KEY = 'wpseo_wincher_tracked_keyphrases_%s';
 
 	/**
 	 * The Wincher keyphrase URL for single keyphrase addition.
@@ -66,24 +65,38 @@ class Wincher_Keyphrases_Action {
 	protected $options_helper;
 
 	/**
+	 * The Indexable_Repository instance.
+	 *
+	 * @var Indexable_Repository
+	 */
+	protected $indexable_repository;
+
+	/**
 	 * Wincher_Keyphrases_Action constructor.
 	 *
-	 * @param Wincher_Client $client The API client.
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Wincher_Client       $client         The API client.
+	 * @param Options_Helper       $options_helper The options helper.
+	 * @param Indexable_Repository $indexable_repository The indexables repository.
 	 */
-	public function __construct( Wincher_Client $client, Options_Helper $options_helper ) {
+	public function __construct(
+		Wincher_Client $client,
+		Options_Helper $options_helper,
+		Indexable_Repository $indexable_repository
+	) {
 		$this->client         = $client;
 		$this->options_helper = $options_helper;
+		$this->indexable_repository = $indexable_repository;
 	}
 
 	/**
 	 * Sends the tracking API request for one or more keyphrases.
 	 *
 	 * @param string|array $keyphrases One or more keyphrases that should be tracked.
+	 * @param Object       $limits     The limits API call response data.
 	 *
 	 * @return object The reponse object.
 	 */
-	public function track_keyphrases( $keyphrases ) {
+	public function track_keyphrases( $keyphrases, $limits ) {
 		try {
 			$endpoint = \sprintf(
 				self::KEYPHRASES_ADD_URL,
@@ -95,19 +108,38 @@ class Wincher_Keyphrases_Action {
 				$keyphrases = [ $keyphrases ];
 			}
 
-			$formatted_keyphrases = array_map(
-				function( $keyphrase ) {
-					return [
-						'keyword' => $keyphrase,
-						'groups'  => [],
-					];
-				},
-				$keyphrases
+			// Calculate if the user would exceed their limit.
+			if ( ! $limits->canTrack || $this->would_exceed_limits( $keyphrases, $limits ) ) {
+				$response = [
+					'data'   => [
+						'limit'    => $limits->limit,
+						'canTrack' => $limits->canTrack,
+					],
+					'error'  => 'Account limit exceeded',
+					'status' => 400,
+				];
+
+				return $this->to_result_object( $response );
+			}
+
+			$formatted_keyphrases = \array_values(
+				\array_map(
+					function ( $keyphrase ) {
+						return [
+							'keyword' => $keyphrase,
+							'groups'  => [],
+						];
+					},
+					$keyphrases
+				)
 			);
 
 			$results = $this->client->post( $endpoint, \WPSEO_Utils::format_json_encode( $formatted_keyphrases ) );
 
-			$results['data'] = $this->match_chart_data( $results['data'], $keyphrases );
+			$results['data'] = \array_combine(
+				\array_column( $results['data'], 'keyword' ),
+				\array_values( $results['data'] )
+			);
 
 			return $this->to_result_object( $results );
 		} catch ( Exception $e ) {
@@ -239,34 +271,68 @@ class Wincher_Keyphrases_Action {
 	}
 
 	/**
-	 * Matches the keyphrase and chart data.
+	 * Collects the keyphrases associated with the post.
 	 *
-	 * @param array $keyphrase_data  The keyphrase data.
-	 * @param array $used_keyphrases The used keyphrases.
+	 * @param WP_Post $post The post object.
 	 *
-	 * @return array The filtered keyphrase data.
+	 * @return array The keyphrases.
 	 */
-	protected function match_chart_data( $keyphrase_data, $used_keyphrases ) {
-		$chart_data            = $this->get_keyphrase_chart_data( $used_keyphrases );
-		$usable_keyphrase_data = [];
+	public function collect_keyphrases_from_post( $post ) {
+		$keyphrases   = [];
+		$primary_keyphrase = $this->indexable_repository
+			->query()
+			->select( 'primary_focus_keyword' )
+			->where( 'object_id', $post->ID )
+			->find_one();
 
-		foreach ( $keyphrase_data as $keyphrase_entry ) {
-			$keyphrase_entry['position']  = null;
-			$keyphrase_entry['chartData'] = [];
+		$keyphrases[] = $primary_keyphrase->primary_focus_keyword;
 
-			foreach ( $chart_data->results['keywords'] as $chart_data_item ) {
-				if ( $keyphrase_entry['keyword'] !== $chart_data_item['keyword'] ) {
-					continue;
-				}
+		if ( YoastSEO()->helpers->product->is_premium() ) {
+			$additional_keywords = \json_decode( WPSEO_Meta::get_value( 'focuskeywords', $post->ID ), true );
 
-				$keyphrase_entry['position']  = $chart_data_item['position']['value'];
-				$keyphrase_entry['chartData'] = $this->backfill_history( $chart_data_item['position']['history'] );
-			}
-
-			$usable_keyphrase_data[ $keyphrase_entry['keyword'] ] = $keyphrase_entry;
+			$keyphrases = \array_merge( $keyphrases, $additional_keywords );
 		}
 
-		return $usable_keyphrase_data;
+		return $keyphrases;
+	}
+
+	/**
+	 * @param $limits
+	 *
+	 * @return array|object
+	 */
+	public function trackAll( $limits ) {
+		// Collect primary keyphrases first.
+		$keyphrases = \array_column(
+			$this->indexable_repository
+			->query()
+			->select( 'primary_focus_keyword' )
+			->where_not_null( 'primary_focus_keyword')
+			->find_array(),
+			'primary_focus_keyword'
+		);
+
+		if ( YoastSEO()->helpers->product->is_premium() ) {
+			// Collect all related keyphrases.
+			$query_posts = new WP_Query( 'post_type=any&nopaging=true' );
+
+			foreach ( $query_posts->posts as $post ) {
+				$additional_keywords = \json_decode( WPSEO_Meta::get_value( 'focuskeywords', $post->ID ), true );
+				$keyphrases = \array_merge( $keyphrases, $additional_keywords );
+			}
+		}
+
+		// Filter out empty entries.
+		$keyphrases = \array_filter( $keyphrases );
+
+		if ( empty( $keyphrases ) ) {
+			return [
+				'data'   => [],
+				'status' => 200,
+			];
+		}
+
+		return $this->track_keyphrases( $keyphrases, $limits );
 	}
 
 	/**
@@ -286,25 +352,12 @@ class Wincher_Keyphrases_Action {
 		);
 	}
 
-	/**
-	 * Backfills the historical data.
-	 *
-	 * @param array $history_data The history data.
-	 *
-	 * @return array The history data including the backfills.
-	 */
-	protected function backfill_history( $history_data ) {
-		$exisiting_items = \count( $history_data );
-		$backfilled      = \array_fill(
-			0,
-			( 90 - $exisiting_items ),
-			[
-				'datetime' => '',
-				'value'    => 101,
-			]
-		);
+	protected function would_exceed_limits( $keyphrases, $limits ) {
+		if ( ! is_array( $keyphrases ) ) {
+			$keyphrases = [ $keyphrases ];
+		}
 
-		return \array_merge( $backfilled, \array_values( $history_data ) );
+		return count( $keyphrases ) + $limits->usage > $limits->limit;
 	}
 
 	/**
@@ -315,10 +368,13 @@ class Wincher_Keyphrases_Action {
 	 * @return object The result object.
 	 */
 	protected function to_result_object( $result ) {
-		return (object) [
-			'results' => $result['data'],
-			'status'  => $result['status'],
-		];
+		if ( \array_key_exists( 'data', $result ) ) {
+			$result['results'] = $result['data'];
+
+			unset( $result['data'] );
+		}
+
+		return (object) $result;
 	}
 }
 

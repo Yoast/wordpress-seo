@@ -133,7 +133,7 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 			'wp_version'           => substr( $GLOBALS['wp_version'], 0, 3 ) . '-' . ( is_plugin_active( 'classic-editor/classic-editor.php' ) ? '1' : '0' ),
 			'php_version'          => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION,
 			'is_wincher_active'    => WPSEO_Options::get( 'wincher_integration_active', true ) ? 1 : 0,
-			'wincher_is_logged_in' => WPSEO_Options::get( 'wincher_integration_active', true ) ? $this->get_wincher_login_status() : false,
+			'wincher_is_logged_in' => WPSEO_Options::get( 'wincher_integration_active', true ) ? YoastSEO()->helpers->wincher->login_status() : false,
 			'wincher_website_id'   => WPSEO_Options::get( 'wincher_website_id', 0 ),
 		];
 	}
@@ -158,30 +158,5 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 		$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
 
 		return $analysis_seo->is_enabled() && current_user_can( 'edit_posts' );
-	}
-
-	/**
-	 * Checks if the user is logged in to Wincher.
-	 *
-	 * @return bool The Wincher login status.
-	 */
-	private function get_wincher_login_status() {
-		try {
-			$wincher = YoastSEO()->classes->get( Wincher_Client::class );
-		} catch ( Empty_Property_Exception $e ) {
-			// Return false if token is malformed (empty property).
-			return false;
-		}
-
-		// Get token (and refresh it if it's expired).
-		try {
-			$wincher->get_tokens();
-		} catch ( Authentication_Failed_Exception $e ) {
-			return false;
-		} catch ( Empty_Token_Exception $e ) {
-			return false;
-		}
-
-		return $wincher->has_valid_tokens();
 	}
 }

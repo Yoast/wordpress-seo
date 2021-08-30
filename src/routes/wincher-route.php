@@ -2,8 +2,10 @@
 
 namespace Yoast\WP\SEO\Routes;
 
+use WP_Query;
 use WP_REST_Request;
 use WP_REST_Response;
+use WPSEO_Meta;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Login_Action;
@@ -70,6 +72,13 @@ class Wincher_Route implements Route_Interface {
 	 * @var string
 	 */
 	const KEYPHRASE_CHART_ROUTE = self::ROUTE_PREFIX . '/keyphrases/chart';
+
+	/**
+	 * The track all keyphrases route constant.
+	 *
+	 * @var string
+	 */
+	const KEYPHRASE_TRACK_ALL_ROUTE = self::ROUTE_PREFIX . '/keyphrases/track/all';
 
 	/**
 	 * The full login route constant.
@@ -203,6 +212,14 @@ class Wincher_Route implements Route_Interface {
 		];
 
 		\register_rest_route( Main::API_V1_NAMESPACE, self::KEYPHRASE_CHART_ROUTE, $get_keyphrase_chart_route_args );
+
+		$track_all_route_args = [
+			'methods'             => 'POST',
+			'callback'            => [ $this, 'track_all' ],
+			'permission_callback' => [ $this, 'can_use_wincher' ],
+		];
+
+		\register_rest_route( Main::API_V1_NAMESPACE, self::KEYPHRASE_TRACK_ALL_ROUTE, $track_all_route_args );
 	}
 
 	/**
@@ -241,7 +258,8 @@ class Wincher_Route implements Route_Interface {
 	 * @return WP_REST_Response The response.
 	 */
 	public function track_keyphrases( WP_REST_Request $request ) {
-		$data = $this->keyphrases_action->track_keyphrases( $request['keyphrases'] );
+		$limits = $this->account_action->check_limit();
+		$data = $this->keyphrases_action->track_keyphrases( $request['keyphrases'], $limits );
 
 		return new WP_REST_Response( $data, $data->status );
 	}
@@ -254,7 +272,7 @@ class Wincher_Route implements Route_Interface {
 	 * @return WP_REST_Response The response.
 	 */
 	public function get_tracked_keyphrases( WP_REST_Request $request ) {
-		$decoded_keyphrases = json_decode( urldecode( $request['keyphrases'] ) );
+		$decoded_keyphrases = \json_decode( \urldecode( $request['keyphrases'] ) );
 
 		$data = $this->keyphrases_action->get_tracked_keyphrases( $decoded_keyphrases );
 
@@ -285,9 +303,23 @@ class Wincher_Route implements Route_Interface {
 	 * @return WP_REST_Response The response.
 	 */
 	public function get_keyphrase_chart_data( WP_REST_Request $request ) {
-		$decoded_keyphrases = json_decode( urldecode( $request['keyphrases'] ) );
+		$decoded_keyphrases = \json_decode( \urldecode( $request['keyphrases'] ) );
 
 		$data = $this->keyphrases_action->get_keyphrase_chart_data( $decoded_keyphrases );
+
+		return new WP_REST_Response( $data, $data->status );
+	}
+
+	/**
+	 * Collects all keyphrases and sends it to Wincher to track.
+	 *
+	 * @param WP_REST_Request $request The request. This request should have a keyphrases param set.
+	 *
+	 * @return WP_REST_Response The response.
+	 */
+	public function track_all( WP_REST_Request $request ) {
+		$limits = $this->account_action->check_limit();
+		$data   = $this->keyphrases_action->trackAll( $limits );
 
 		return new WP_REST_Response( $data, $data->status );
 	}

@@ -1,7 +1,9 @@
-/* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData, ClipboardJS */
+/* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData, ClipboardJS, wpApiSettings */
 
 import a11ySpeak from "a11y-speak";
 import { debounce } from "lodash-es";
+import LoginPopup from "../helpers/loginPopup";
+import { authenticate } from "../helpers/wincherEndpoints";
 
 /**
  * @summary Initializes the admin script.
@@ -301,6 +303,89 @@ export default function initAdmin( jQuery ) {
 		}
 	}
 
+	// Variable to store the popup reference in.
+	let wincherPopup = null;
+
+	function addExistingKeyphrasesRequest() {
+		jQuery( "#wincher-track-all-keyohrases-success, #wincher-track-all-keyohrases-error" ).hide();
+
+		jQuery.post( "/wp-json/yoast/v1/wincher/keyphrases/track/all",
+			{
+				_wpnonce: wpApiSettings.nonce,
+			},
+			( data ) => {
+				if ( data.status === 201 ) {
+					jQuery( "#wincher-track-all-keyphrases-success" ).show();
+				}
+			} )
+			.fail( ( xhr ) => {
+				const data = xhr.responseJSON;
+
+				if ( data.status === 400 ) {
+					jQuery( "#wincher-track-all-limit" ).text( data.results.limit );
+					jQuery( "#wincher-track-all-keyphrases-error" ).show();
+				}
+			} );
+	}
+
+	/**
+	 * Get the tokens using the provided code after user has granted authorization.
+	 *
+	 * @param {Object} data The message data.
+	 *
+	 * @returns {void}
+	 */
+	async function performAuthenticationRequest( data ) {
+		const response = await authenticate( data );
+
+		if ( response.status !== 200 ) {
+			return;
+		}
+
+		const popup = wincherPopup.getPopup();
+
+		if ( popup ) {
+			popup.close();
+		}
+
+		addExistingKeyphrasesRequest();
+	}
+
+	function onConnect() {
+		const url = "https://auth.wincher.com/connect/authorize?client_id=yoast&response_type=code&" +
+			"redirect_uri=https%3A%2F%2Fauth.wincher.com%2Fyoast%2Fsetup&scope=api%20offline_access";
+
+		wincherPopup = new LoginPopup(
+			url,
+			{
+				success: {
+					type: "wincher:oauth:success",
+					callback: async( data ) => await performAuthenticationRequest( data ),
+				},
+				error: {
+					type: "wincher:oauth:error",
+					callback: () => {},
+				},
+			},
+			{
+				title: "Wincher_login",
+			}
+		);
+
+		wincherPopup.createPopup();
+	}
+
+	function addExistingKeyphrasesToWincher() {
+		// Check if we're logged in first.
+		if ( ! wpseoAdminGlobalL10n.wincher_is_logged_in ) {
+			onConnect();
+
+			return;
+		}
+
+		addExistingKeyphrasesRequest();
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
@@ -433,6 +518,12 @@ export default function initAdmin( jQuery ) {
 			target
 				.attr( "aria-expanded", ! toggleableContainer.hasClass( "toggleable-container-hidden" ) )
 				.find( "span" ).toggleClass( "dashicons-arrow-up-alt2 dashicons-arrow-down-alt2" );
+		} );
+
+		jQuery( "#wincher-track-all-keyphrases" ).on( "click", ( event ) => {
+			event.preventDefault();
+
+			addExistingKeyphrasesToWincher();
 		} );
 
 		const opengraphToggle = jQuery( "#opengraph" );

@@ -19,6 +19,8 @@ export default compose( [
 			getWincherAuthenticationStatus,
 			getWincherLimit,
 			hasPendingChartDataRequest,
+			hasWincherTrackedKeyphrases,
+			shouldWincherAutomaticallyTrackAll,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -34,6 +36,8 @@ export default compose( [
 			limit: getWincherLimit(),
 			trackAll: false,
 			hasPendingChartRequest: hasPendingChartDataRequest(),
+			hasTrackedKeyphrases: hasWincherTrackedKeyphrases(),
+			shouldTrackAll: shouldWincherAutomaticallyTrackAll(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

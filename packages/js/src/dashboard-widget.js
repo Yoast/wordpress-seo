@@ -9,7 +9,8 @@ import { getPostFeed } from "@yoast/helpers";
 // Internal dependencies.
 import { setYoastComponentsL10n } from "./helpers/i18n";
 import WincherPerformanceReport from "./components/WincherPerformanceReport";
-import { authenticate, getKeyphrasesChartData, messageHandler } from "./helpers/wincherEndpoints";
+import {authenticate, getKeyphrasesChartData, trackAllKeyphrases} from "./helpers/wincherEndpoints";
+import LoginPopup from "./helpers/loginPopup";
 
 /**
  * The Yoast dashboard widget component used on the WordPress admin dashboard.
@@ -26,13 +27,14 @@ class DashboardWidget extends Component {
 			feed: null,
 			wincherData: null,
 			wincherIsLoggedIn: wpseoDashboardWidgetL10n.wincher_is_logged_in,
+			wincherLimits: {},
 			isDataFetched: false,
 		};
 
 		this.onConnect = this.onConnect.bind( this );
 		this.getWincherData = this.getWincherData.bind( this );
-		this.listenToMessages = this.listenToMessages.bind( this );
 		this.performAuthenticationRequest = this.performAuthenticationRequest.bind( this );
+		this.onTrackAll = this.onTrackAll.bind( this );
 	}
 
 	/**
@@ -225,28 +227,19 @@ class DashboardWidget extends Component {
 	async performAuthenticationRequest( data ) {
 		const response = await authenticate( data );
 
-		if ( response.status === 200 ) {
-			this.setState( { wincherIsLoggedIn: true } );
-
-			await this.getWincherData();
-			this.popup.close();
+		if ( response.status !== 200 ) {
+			return;
 		}
-	}
 
-	/**
-	 * Listens to message events from the Wincher popup.
-	 *
-	 * @param {event} event The message event.
-	 *
-	 * @returns {void}
-	 */
-	async listenToMessages( event ) {
-		messageHandler(
-			event,
-			this.popup,
-			( data ) => this.performAuthenticationRequest( data ),
-			() => {}
-		);
+		this.setState( { wincherIsLoggedIn: true } );
+
+		await this.getWincherData();
+
+		const popup = this.loginPopup.getPopup();
+
+		if ( popup ) {
+			popup.close();
+		}
 	}
 
 	/**
@@ -255,32 +248,43 @@ class DashboardWidget extends Component {
 	 * @returns {void}
 	 */
 	onConnect() {
-		const url    = "https://auth.wincher.com/connect/authorize?client_id=yoast&response_type=code&" +
+		const url = "https://auth.wincher.com/connect/authorize?client_id=yoast&response_type=code&" +
 			"redirect_uri=https%3A%2F%2Fauth.wincher.com%2Fyoast%2Fsetup&scope=api%20offline_access";
-		const height = "570";
-		const width  = "340";
-		const top    = window.top.outerHeight / 2 + window.top.screenY - ( height / 2 );
-		const left   = window.top.outerWidth / 2 + window.top.screenX - ( width / 2 );
 
-		const features = [
-			"top=" + top,
-			"left=" + left,
-			"width=" + width,
-			"height=" + height,
-			"resizable=1",
-			"scrollbars=1",
-			"status=0",
-		];
+		this.loginPopup = new LoginPopup(
+			url,
+			{
+				success: {
+					type: "wincher:oauth:success",
+					callback: ( data ) => this.performAuthenticationRequest( data ),
+				},
+				error: {
+					type: "wincher:oauth:error",
+					callback: () => {},
+				},
+			},
+			{
+				title: "Wincher_login",
+			}
+		);
 
-		if ( ! this.popup || this.popup.closed ) {
-			this.popup = window.open( url, "Wincher_login", features.join( "," ) );
+		this.loginPopup.createPopup();
+	}
+
+	/**
+	 * Tracks all keyphrases.
+	 *
+	 * @returns {void}
+	 */
+	async onTrackAll() {
+		const response = await trackAllKeyphrases();
+
+		// If we hit the limit with this call, display the error message.
+		if ( response.status === 400 ) {
+			this.setState( {
+				wincherLimits: response.results,
+			} );
 		}
-
-		if ( this.popup ) {
-			this.popup.focus();
-		}
-
-		window.addEventListener( "message", this.listenToMessages, false );
 	}
 
 	/**
@@ -298,6 +302,8 @@ class DashboardWidget extends Component {
 			websiteId={ wpseoDashboardWidgetL10n.wincher_website_id }
 			isLoggedIn={ this.state.wincherIsLoggedIn }
 			onConnectAction={ this.onConnect }
+			onTrackAllAction={ this.onTrackAll }
+			limits={ this.state.wincherLimits }
 		/>;
 	}
 

@@ -1,11 +1,11 @@
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
-import {isArray} from "lodash-es";
+import { isArray } from "lodash-es";
 
 /**
  * Calls the passed endpoint and handles any potential errors.
  *
- * @param {Object}   endpoint     The endpoint object.
+ * @param {Object} endpoint The endpoint object.
  *
  * @returns {Promise} The API response promise.
  */
@@ -13,7 +13,8 @@ export async function callEndpoint( endpoint  ) {
 	try {
 		return await apiFetch( endpoint );
 	} catch ( e ) {
-		console.error( e.message );
+		// Assume it's a valid API call.
+		return e;
 	}
 }
 
@@ -123,34 +124,13 @@ export async function untrackKeyphrase( keyphraseID ) {
 }
 
 /**
- * Handles to message events from the Wincher popup.
+ * Tracks all available keyphrases
  *
- * @param {event} event The message event.
- * @param {Window} popup The login popup to close.
- * @param {Function} onSuccess The onSuccess callback.
- * @param {Function} onError The onError callback.
- *
- * @returns {void}
+ * @returns {Promise} The API response promise.
  */
-export async function messageHandler( event, popup, onSuccess, onError ) {
-	const { data, source, origin } = event;
-
-	// Check that the message comes from the expected origin.
-	if ( origin !== "https://auth.wincher.com" || popup !== source ) {
-		return;
-	}
-
-	if ( data.type === "wincher:oauth:success" ) {
-		popup.close();
-		// Stop listening to messages, since the popup is closed.
-		window.removeEventListener( "message", messageHandler, false );
-		await onSuccess( data );
-	}
-
-	if ( data.type === "wincher:oauth:error" ) {
-		popup.close();
-		// Stop listening to messages, since the popup is closed.
-		window.removeEventListener( "message", messageHandler, false );
-		await onError( data );
-	}
+export async function trackAllKeyphrases() {
+	return await callEndpoint( {
+		path: "yoast/v1/wincher/keyphrases/track/all",
+		method: "POST",
+	} );
 }
