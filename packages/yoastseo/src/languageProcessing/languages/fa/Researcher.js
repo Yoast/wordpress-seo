@@ -5,6 +5,7 @@ const { AbstractResearcher } = languageProcessing;
 import functionWords from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
+import firstWordExceptions from "./config/firstWordExceptions";
 
 // All helpers
 import createBasicWordForms from "./helpers/createBasicWordForms";
@@ -26,13 +27,13 @@ export default class Researcher extends AbstractResearcher {
 		// Delete the researches from the Abstract Researcher that currently are not available for Farsi.
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
-		delete this.defaultResearches.getSentenceBeginnings;
 
 		Object.assign( this.config, {
 			language: "fa",
 			functionWords,
 			transitionWords,
 			twoPartTransitionWords,
+			firstWordExceptions,
 		} );
 
 		Object.assign( this.helpers, {
