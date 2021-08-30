@@ -335,6 +335,12 @@ class Indexable_Builder_Test extends TestCase {
 			->withNoArgs()
 			->andReturnTrue();
 
+		$this->version_manager
+			->expects( 'set_latest' )
+			->once()
+			->withAnyArgs()
+			->andReturn( $author_indexable );
+
 		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'post', $this->indexable ) );
 	}
 
@@ -665,15 +671,15 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::build_for_id_and_type
 	 */
 	public function test_build_for_id_and_type_returns_fake_indexable() {
+		$this->indexable_repository
+			->expects( 'query' )
+			->once()
+			->andReturnSelf();
+
 		$this->indexable
 			->expects( 'as_array' )
 			->once()
 			->andReturn( [] );
-
-		$this->indexable_repository
-			->expects( 'query' )
-			->twice()
-			->andReturnSelf();
 
 		$this->indexable_repository
 			->expects( 'create' )
@@ -681,28 +687,26 @@ class Indexable_Builder_Test extends TestCase {
 			->with( [] )
 			->andReturn( $this->indexable );
 
+		$this->indexable
+			->expects( 'save' )
+			->once();
+
 		$this->term_builder->expects( 'build' )
 			->once()
 			->with( 1, $this->indexable )
 			->andThrows( Invalid_Term_Exception::class );
-
-		$fake_indexable              = Mockery::mock( Indexable_Mock::class );
-		$fake_indexable->post_status = 'unindexed';
-		$fake_indexable
-			->expects( 'save' )
-			->once();
-
-		$this->indexable_repository
-			->expects( 'create' )
-			->once()
-			->with(
-				[
-					'object_id'   => 1,
-					'object_type' => 'term',
-					'post_status' => 'unindexed',
-				]
-			)
-			->andReturn( $fake_indexable );
+		//
+		// $this->indexable_repository
+		// ->expects( 'create' )
+		// ->once()
+		// ->with(
+		// [
+		// 'object_id'   => 1,
+		// 'object_type' => 'term',
+		// 'post_status' => 'unindexed',
+		// ]
+		// )
+		// ->andReturn( $fake_indexable );
 
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
@@ -715,7 +719,7 @@ class Indexable_Builder_Test extends TestCase {
 			->once()
 			->andReturnArg( 0 );
 
-		$this->assertEquals( $fake_indexable, $this->instance->build_for_id_and_type( 1, 'term', $this->indexable ) );
+		$this->assertEquals( $this->indexable, $this->instance->build_for_id_and_type( 1, 'term', $this->indexable ) );
 	}
 
 	/**

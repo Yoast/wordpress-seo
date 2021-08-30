@@ -484,6 +484,8 @@ class Indexable_Repository_Test extends TestCase {
 
 	/**
 	 * Test that the indexable is rebuilt if the version check says so.
+	 *
+	 * @covers ::upgrade_indexable
 	 */
 	public function test_rebuild_indexable_if_outdated() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -495,6 +497,8 @@ class Indexable_Repository_Test extends TestCase {
 
 	/**
 	 * Test that the indexable is not rebuilt if the version check says not to.
+	 *
+	 * @covers ::upgrade_indexable
 	 */
 	public function test_do_not_rebuild_indexable_if_up_to_date() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
@@ -505,11 +509,13 @@ class Indexable_Repository_Test extends TestCase {
 	}
 
 	/**
-	 * @param $indexable Indexable The mocked indexable
-	 * @param $should    bool      is the indexable outdated or not?
+	 * Setup a version check to steer the upgrade routine.
+	 *
+	 * @param Indexable $indexable The mocked indexable.
+	 * @param bool      $should    Is the indexable outdated or not.
 	 */
 	private function mock_version_check( $indexable, $should ) {
-		$rebuild = $should ? true : false;
+		$rebuild = ( $should ) ? true : false;
 
 		$this->version_manager
 			->expects( 'indexable_needs_upgrade' )

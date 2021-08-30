@@ -143,7 +143,8 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 				AND I.version < %d
 			WHERE I.object_id IS NULL
 				AND taxonomy IN ($taxonomies_placeholders)",
-			$replacements);
+			$replacements
+		);
 
 		return $q;
 	}

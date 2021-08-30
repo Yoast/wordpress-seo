@@ -74,7 +74,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 
 		$this->versions
 			->expects( 'get_latest_version_for_type' )
-			->withArgs( [ 'term'] )
+			->withArgs( [ 'term' ] )
 			->andReturn( 2 );
 
 		$this->instance = new Indexable_Term_Indexation_Action(
@@ -144,7 +144,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms_limited' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_terms_limited', count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
-		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy', 'other_taxonomy'  ] );
+		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy', 'other_taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )
 			->once()
 			->with( $expected_query, [ 2, 'public_taxonomy', 'other_taxonomy', $limit ] )
