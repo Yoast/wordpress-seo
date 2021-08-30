@@ -1,3 +1,4 @@
+import { singleWords as singleWordTransitionWords } from "./transitionWords";
 /**
  * Returns an array with function words.
  *
@@ -113,6 +114,7 @@ const transitionWords = [ "دوباره", "قطعاً", "حتماً", "اصلا�
 export const all = [].concat( cardinalNumerals, ordinalNumerals, pronouns, interrogatives,
 	quantifiers, reflexivePronouns, indefinitePronouns, prepositions, conjunctions, interviewVerbs,
 	intensifiers, auxiliariesAndDelexicalizedVerbs, generalAdjectivesAdverbs, interjections, recipeWords,
-	timeWords, vagueNouns, titles, transitionWords, postposition, reciprocalNouns, possessivePronouns, fractions, articles );
+	timeWords, vagueNouns, titles, transitionWords, postposition, reciprocalNouns, possessivePronouns, fractions,
+	articles, singleWordTransitionWords );
 
 export default all;
