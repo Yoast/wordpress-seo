@@ -61,6 +61,15 @@ class Cleanup_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the class uses the right conditionals.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		static::assertEquals( [], Cleanup_Integration::get_conditionals() );
+	}
+
+	/**
 	 * Tests calling test_run_cleanup.
 	 *
 	 * @covers ::run_cleanup
@@ -99,6 +108,37 @@ class Cleanup_Integration_Test extends TestCase {
 
 		/* Clean up of seo links target ids for deleted indexables */
 		$this->setup_cleanup_orphaned_from_table_mocks( 50, 'SEO_Links', 'target_indexable_id', $query_limit );
+
+		$this->instance->run_cleanup();
+	}
+
+	/**
+	 * Tests calling test_run_cleanup.
+	 *
+	 * @covers ::run_cleanup
+	 * @covers ::get_cleanup_tasks
+	 * @covers ::clean_indexables_with_object_type_and_object_sub_type
+	 * @covers ::clean_indexables_with_post_status
+	 * @covers ::cleanup_orphaned_from_table
+	 * @covers ::get_limit
+	 * @covers ::reset_cleanup
+	 */
+	public function test_run_cleanup_db_query_failed() {
+		Monkey\Functions\expect( 'delete_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION );
+
+		Monkey\Functions\expect( 'wp_unschedule_hook' )
+			->once()
+			->with( Cleanup_Integration::CRON_HOOK );
+
+		$query_limit = 1000;
+		Monkey\Filters\expectApplied( 'wpseo_cron_query_limit_size' )
+			->once()
+			->andReturn( $query_limit );
+
+		/* Clean up of indexables with object_sub_type shop-order */
+		$this->setup_clean_indexables_with_object_type_and_object_sub_type_mocks( false, 'post', 'shop-order', $query_limit );
 
 		$this->instance->run_cleanup();
 	}
@@ -175,12 +215,31 @@ class Cleanup_Integration_Test extends TestCase {
 	/**
 	 * Tests the run_cleanup_cron function.
 	 *
+	 * Specifically tests whether the option is set to the next task when the current task is finished.
+	 *
+	 * @covers ::run_cleanup_cron
+	 * @covers ::get_cleanup_tasks
+	 * @covers ::get_limit
+	 * @covers ::start_cron_job
+	 */
+	public function test_run_cleanup_cron_no_tasks() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
+			->andReturn( [] );
+
+		$this->instance->run_cleanup_cron();
+	}
+
+	/**
+	 * Tests the run_cleanup_cron function.
+	 *
 	 * Specifically tests whether everything is cleaned up after the last task is finished.
 	 *
 	 * @covers ::run_cleanup_cron
 	 * @covers ::get_cleanup_tasks
 	 * @covers ::get_limit
-	 * @covers ::clean_indexables_with_object_type_and_object_sub_type
+	 * @covers ::cleanup_orphaned_from_table
 	 * @covers ::start_cron_job
 	 */
 	public function test_run_cleanup_cron_last_tasks() {
@@ -203,6 +262,113 @@ class Cleanup_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_unschedule_hook' )
 			->once()
 			->with( 'wpseo_cleanup_cron' );
+
+		$this->instance->run_cleanup_cron();
+	}
+
+	/**
+	 * Tests the run_cleanup_cron function.
+	 *
+	 * Specifically tests whether everything is cleaned up when no tasks are left.
+	 *
+	 * @covers ::run_cleanup_cron
+	 * @covers ::get_cleanup_tasks
+	 */
+	public function test_run_cleanup_cron_no_tasks_left() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'delete_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION );
+
+		Monkey\Functions\expect( 'wp_unschedule_hook' )
+			->once()
+			->with( 'wpseo_cleanup_cron' );
+
+		$this->instance->run_cleanup_cron();
+	}
+
+	/**
+	 * Tests the run_cleanup_cron function.
+	 *
+	 * Specifically tests whether everything is cleaned up when no tasks are left.
+	 *
+	 * @covers ::run_cleanup_cron
+	 * @covers ::get_limit
+	 * @covers ::get_cleanup_tasks
+	 */
+	public function test_run_cleanup_cron_db_query_failed() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
+			->andReturn( 'clean_indexables_by_post_status_auto-draft' );
+
+		$query_limit = 1000;
+		Monkey\Filters\expectApplied( 'wpseo_cron_query_limit_size' )
+			->once()
+			->andReturn( $query_limit );
+
+		$this->setup_clean_indexables_with_post_status_mocks( false, 'auto-draft', 1000 );
+
+		Monkey\Functions\expect( 'delete_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION );
+
+		Monkey\Functions\expect( 'wp_unschedule_hook' )
+			->once()
+			->with( 'wpseo_cleanup_cron' );
+
+		$this->instance->run_cleanup_cron();
+	}
+
+	/**
+	 * Tests the run_cleanup_cron function.
+	 *
+	 * Specifically tests whether everything is not cleaned up when there are still items left.
+	 *
+	 * @covers ::run_cleanup_cron
+	 * @covers ::get_limit
+	 * @covers ::get_cleanup_tasks
+	 */
+	public function test_run_cleanup_cron_items_left() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
+			->andReturn( 'clean_indexables_by_post_status_auto-draft' );
+
+		$query_limit = 1000;
+		Monkey\Filters\expectApplied( 'wpseo_cron_query_limit_size' )
+			->once()
+			->andReturn( $query_limit );
+
+		$this->setup_clean_indexables_with_post_status_mocks( 50, 'auto-draft', 1000 );
+
+		$this->instance->run_cleanup_cron();
+	}
+
+	/**
+	 * Tests the run_cleanup_cron function.
+	 *
+	 * Specifically tests whether the query limit is
+	 *
+	 * @covers ::run_cleanup_cron
+	 * @covers ::get_limit
+	 * @covers ::get_cleanup_tasks
+	 */
+	public function test_run_cleanup_invalid_query_limit_from_filter() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
+			->andReturn( 'clean_indexables_by_post_status_auto-draft' );
+
+		Monkey\Filters\expectApplied( 'wpseo_cron_query_limit_size' )
+			->once()
+			->andReturn( null );
+
+		$this->setup_clean_indexables_with_post_status_mocks( 50, 'auto-draft', 1000 );
 
 		$this->instance->run_cleanup_cron();
 	}
