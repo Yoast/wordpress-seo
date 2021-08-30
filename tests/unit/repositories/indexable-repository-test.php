@@ -155,7 +155,7 @@ class Indexable_Repository_Test extends TestCase {
 
 		$orm_object = $this->mock_orm( [ 1 ], [ $indexable ] );
 
-		$this->mock_version_check( $indexable, true );
+		$this->mock_version_check( $indexable, $indexable );
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
@@ -180,7 +180,7 @@ class Indexable_Repository_Test extends TestCase {
 
 		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
 
-		$this->mock_version_check( $indexable, false );
+		$this->mock_version_check( $indexable );
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
@@ -194,8 +194,7 @@ class Indexable_Repository_Test extends TestCase {
 	 * @covers ::get_ancestors
 	 */
 	public function test_get_ancestors_checks_version() {
-		$indexable = Mockery::mock( Indexable_Mock::class );
-		$indexable->expects( 'save' )->once();
+		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_type = 'post';
 
 		$this->hierarchy_repository
@@ -208,12 +207,15 @@ class Indexable_Repository_Test extends TestCase {
 
 		$permalink = 'https://example.org/permalink';
 
-		$this->mock_version_check( $indexable, true );
+		$resulting_indexable            = Mockery::mock( Indexable_Mock::class );
+		$resulting_indexable->permalink = $permalink;
+
+		$this->mock_version_check( $indexable, $resulting_indexable );
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
-		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
-		$this->assertEquals( $permalink, $indexable->permalink );
+		$this->assertSame( [ $resulting_indexable ], $this->instance->get_ancestors( $indexable ) );
+		$this->assertEquals( $permalink, $resulting_indexable->permalink );
 	}
 
 	/**
@@ -236,7 +238,7 @@ class Indexable_Repository_Test extends TestCase {
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
-		$this->mock_version_check( $indexable, false );
+		$this->mock_version_check( $indexable );
 
 		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
 		$this->assertNull( $indexable->permalink );
@@ -263,12 +265,15 @@ class Indexable_Repository_Test extends TestCase {
 
 		$permalink = 'https://example.org/permalink';
 
-		$this->mock_version_check( $indexable, true );
+		$resulting_indexable            = Mockery::mock( Indexable_Mock::class );
+		$resulting_indexable->permalink = $permalink;
+
+		$this->mock_version_check( $indexable, $resulting_indexable );
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
-		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
-		$this->assertEquals( $permalink, $indexable->permalink );
+		$this->assertSame( [ $resulting_indexable ], $this->instance->get_ancestors( $indexable ) );
+		$this->assertEquals( $permalink, $resulting_indexable->permalink );
 	}
 
 	/**
@@ -342,7 +347,7 @@ class Indexable_Repository_Test extends TestCase {
 			->once()
 			->andReturn( [ $indexable ] );
 
-		$this->mock_version_check( $indexable, true );
+		$this->mock_version_check( $indexable, $indexable );
 
 		$result = $this->instance->find_by_ids( [ 1, 2, 3 ] );
 
@@ -474,8 +479,7 @@ class Indexable_Repository_Test extends TestCase {
 		$indexable->permalink   = null;
 		$indexable->post_status = 'unindexed';
 
-
-		$this->mock_version_check( $indexable, false );
+		$this->mock_version_check( $indexable, $indexable );
 
 		$indexable = $this->instance->upgrade_indexable( $indexable );
 
@@ -490,7 +494,7 @@ class Indexable_Repository_Test extends TestCase {
 	public function test_rebuild_indexable_if_outdated() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
 
-		$this->mock_version_check( $indexable, true );
+		$this->mock_version_check( $indexable, $indexable );
 
 		$this->instance->upgrade_indexable( $indexable );
 	}
@@ -503,7 +507,7 @@ class Indexable_Repository_Test extends TestCase {
 	public function test_do_not_rebuild_indexable_if_up_to_date() {
 		$indexable = Mockery::mock( Indexable_Mock::class );
 
-		$this->mock_version_check( $indexable, false );
+		$this->mock_version_check( $indexable );
 
 		$this->instance->upgrade_indexable( $indexable );
 	}
@@ -511,24 +515,23 @@ class Indexable_Repository_Test extends TestCase {
 	/**
 	 * Setup a version check to steer the upgrade routine.
 	 *
-	 * @param Indexable $indexable The mocked indexable.
-	 * @param bool      $should    Is the indexable outdated or not.
+	 * @param Indexable $indexable        The mocked indexable.
+	 * @param Indexable $indexable_result The mocked indexable after the upgrade routine is run.
+	 *                                    If not provided, or set to `null`, we expect the upgrade routine to not be triggered.
 	 */
-	private function mock_version_check( $indexable, $should ) {
-		$rebuild = ( $should ) ? true : false;
-
+	private function mock_version_check( $indexable, $indexable_result = null ) {
 		$this->version_manager
 			->expects( 'indexable_needs_upgrade' )
 			->once()
 			->with( $indexable )
-			->andReturn( $rebuild );
+			->andReturn( $indexable_result !== null );
 
-		if ( $rebuild ) {
+		if ( $indexable_result ) {
 			$this->builder
 				->expects( 'build' )
 				->once()
 				->with( $indexable )
-				->andReturn( $indexable );
+				->andReturn( $indexable_result );
 		}
 	}
 }
