@@ -235,9 +235,6 @@ class Wincher_Keyphrases_Action {
 				]
 			);
 
-			// TODO: Remove this.
-			$current_site_url = ( get_site_url() !== 'http://localhost' ) ? get_site_url() : 'https://www.wincher.com/';
-
 			// Filter correct site data.
 			$site_chart = \array_filter(
 				$results['data'],
