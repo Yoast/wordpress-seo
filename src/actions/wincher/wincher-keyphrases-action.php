@@ -235,6 +235,9 @@ class Wincher_Keyphrases_Action {
 				]
 			);
 
+			// Get current site URL as Wincher can track multiple websites for a single account.
+			$current_site_url = \get_site_url();
+
 			// Filter correct site data.
 			$site_chart = \array_filter(
 				$results['data'],
