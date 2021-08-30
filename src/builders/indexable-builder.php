@@ -263,11 +263,11 @@ class Indexable_Builder {
 	 *
 	 * @return Indexable The indexable.
 	 */
-	private function save_indexable( $indexable, $indexable_before = null ) {
+	protected function save_indexable( $indexable, $indexable_before = null ) {
 		$intend_to_save = $this->indexable_helper->should_index_indexables();
 
 		/**
-		 * Filter: 'wpseo_override_save_indexable' - Allow developers to enable / disable
+		 * Filter: 'wpseo_should_save_indexable' - Allow developers to enable / disable
 		 * saving the indexable when the indexable is updated. Warning: overriding
 		 * the intended action may cause problems when moving from a staging to a
 		 * production environment because indexable permalinks may get set incorrectly.
