@@ -136,7 +136,9 @@ const expectedResults = {
 		resultText: "",
 	},
 	sentenceBeginnings: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
