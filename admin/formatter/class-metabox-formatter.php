@@ -272,6 +272,7 @@ class WPSEO_Metabox_Formatter {
 
 		return $semrush_client->has_valid_tokens();
 	}
+
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**

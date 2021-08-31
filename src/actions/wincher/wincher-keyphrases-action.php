@@ -83,8 +83,8 @@ class Wincher_Keyphrases_Action {
 		Options_Helper $options_helper,
 		Indexable_Repository $indexable_repository
 	) {
-		$this->client         = $client;
-		$this->options_helper = $options_helper;
+		$this->client               = $client;
+		$this->options_helper       = $options_helper;
 		$this->indexable_repository = $indexable_repository;
 	}
 
@@ -109,10 +109,12 @@ class Wincher_Keyphrases_Action {
 			}
 
 			// Calculate if the user would exceed their limit.
+			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- To ensure JS code style, this can be ignored.
 			if ( ! $limits->canTrack || $this->would_exceed_limits( $keyphrases, $limits ) ) {
 				$response = [
 					'data'   => [
 						'limit'    => $limits->limit,
+						// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- To ensure JS code style, this can be ignored.
 						'canTrack' => $limits->canTrack,
 					],
 					'error'  => 'Account limit exceeded',
@@ -280,7 +282,7 @@ class Wincher_Keyphrases_Action {
 	 * @return array The keyphrases.
 	 */
 	public function collect_keyphrases_from_post( $post ) {
-		$keyphrases   = [];
+		$keyphrases        = [];
 		$primary_keyphrase = $this->indexable_repository
 			->query()
 			->select( 'primary_focus_keyword' )
@@ -299,18 +301,20 @@ class Wincher_Keyphrases_Action {
 	}
 
 	/**
-	 * @param $limits
+	 * Tracks all the available keyphrases known to Yoast SEO.
 	 *
-	 * @return array|object
+	 * @param object $limits The limit API request response.
+	 *
+	 * @return object The tracked keyphrases response object.
 	 */
-	public function trackAll( $limits ) {
+	public function track_all( $limits ) {
 		// Collect primary keyphrases first.
 		$keyphrases = \array_column(
 			$this->indexable_repository
-			->query()
-			->select( 'primary_focus_keyword' )
-			->where_not_null( 'primary_focus_keyword')
-			->find_array(),
+				->query()
+				->select( 'primary_focus_keyword' )
+				->where_not_null( 'primary_focus_keyword' )
+				->find_array(),
 			'primary_focus_keyword'
 		);
 
@@ -320,7 +324,7 @@ class Wincher_Keyphrases_Action {
 
 			foreach ( $query_posts->posts as $post ) {
 				$additional_keywords = \json_decode( WPSEO_Meta::get_value( 'focuskeywords', $post->ID ), true );
-				$keyphrases = \array_merge( $keyphrases, $additional_keywords );
+				$keyphrases          = \array_merge( $keyphrases, $additional_keywords );
 			}
 		}
 
@@ -328,10 +332,12 @@ class Wincher_Keyphrases_Action {
 		$keyphrases = \array_filter( $keyphrases );
 
 		if ( empty( $keyphrases ) ) {
-			return [
-				'data'   => [],
-				'status' => 200,
-			];
+			return $this->to_result_object(
+				[
+					'data'   => [],
+					'status' => 200,
+				]
+			);
 		}
 
 		return $this->track_keyphrases( $keyphrases, $limits );
@@ -354,12 +360,20 @@ class Wincher_Keyphrases_Action {
 		);
 	}
 
+	/**
+	 * Determines whether the amount of keyphrases would mean the user exceeds their account limits.
+	 *
+	 * @param string|array $keyphrases The keyphrases to be added.
+	 * @param object       $limits     The current account limits.
+	 *
+	 * @return bool Whether the limit is exceeded.
+	 */
 	protected function would_exceed_limits( $keyphrases, $limits ) {
 		if ( ! is_array( $keyphrases ) ) {
 			$keyphrases = [ $keyphrases ];
 		}
 
-		return count( $keyphrases ) + $limits->usage > $limits->limit;
+		return ( count( $keyphrases ) + $limits->usage ) > $limits->limit;
 	}
 
 	/**

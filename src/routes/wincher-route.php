@@ -259,7 +259,7 @@ class Wincher_Route implements Route_Interface {
 	 */
 	public function track_keyphrases( WP_REST_Request $request ) {
 		$limits = $this->account_action->check_limit();
-		$data = $this->keyphrases_action->track_keyphrases( $request['keyphrases'], $limits );
+		$data   = $this->keyphrases_action->track_keyphrases( $request['keyphrases'], $limits );
 
 		return new WP_REST_Response( $data, $data->status );
 	}
@@ -319,7 +319,7 @@ class Wincher_Route implements Route_Interface {
 	 */
 	public function track_all( WP_REST_Request $request ) {
 		$limits = $this->account_action->check_limit();
-		$data   = $this->keyphrases_action->trackAll( $limits );
+		$data   = $this->keyphrases_action->track_all( $limits );
 
 		return new WP_REST_Response( $data, $data->status );
 	}

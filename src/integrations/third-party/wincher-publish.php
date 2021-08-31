@@ -49,8 +49,8 @@ class Wincher_Publish implements Integration_Interface {
 		Options_Helper $options_helper,
 		Wincher_Keyphrases_Action $keyphrases_action
 	) {
-		$this->wincher_enabled = $wincher_enabled;
-		$this->options_helper  = $options_helper;
+		$this->wincher_enabled   = $wincher_enabled;
+		$this->options_helper    = $options_helper;
 		$this->keyphrases_action = $keyphrases_action;
 	}
 
@@ -87,19 +87,6 @@ class Wincher_Publish implements Integration_Interface {
 			Wincher_Automatically_Track_Conditional::class,
 			Wincher_Token_Conditional::class,
 		];
-	}
-
-	/**
-	 * Checks whether a request is the Classic Editor POST request.
-	 *
-	 * @return bool Whether the request is the Classic Editor POST request.
-	 */
-	public function is_classic_editor_post_request() {
-		if ( $this->is_rest_request() || \wp_doing_ajax() ) {
-			return false;
-		}
-
-		return isset( $_GET['meta-box-loader'] ) === false;
 	}
 
 	/**
