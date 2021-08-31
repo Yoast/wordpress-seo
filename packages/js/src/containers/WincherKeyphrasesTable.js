@@ -4,7 +4,6 @@ import { compose } from "@wordpress/compose";
 
 /* Internal dependencies */
 import WincherKeyphrasesTable from "../components/WincherKeyphrasesTable";
-import WincherSEOAnalysisFields from "../helpers/fields/WincherSEOAnalysisFields";
 
 export default compose( [
 	withSelect( ( select ) => {
@@ -35,7 +34,6 @@ export default compose( [
 			trackedKeyphrases: getWincherTrackedKeyphrases(),
 			isLoggedIn: getWincherLoginStatus(),
 			trackAll: shouldWincherTrackAll(),
-			websiteID: WincherSEOAnalysisFields.websiteId,
 			trackedKeyphrasesChartData: getWincherTrackedKeyphrasesChartData(),
 		};
 	} ),

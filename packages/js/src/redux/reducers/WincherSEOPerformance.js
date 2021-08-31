@@ -1,8 +1,6 @@
 import {
-	WINCHER_SET_SEO_PERFORMANCE_TRACKING,
 	WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
 	WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES,
-	WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING,
 	WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
 	WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES_CHART_DATA,
 } from "../actions";
@@ -10,7 +8,6 @@ import {
 import { pickBy } from "lodash-es";
 
 const INITIAL_STATE = {
-	isTracking: false,
 	trackedKeyphrases: {},
 	trackAll: false,
 	chartData: {},
@@ -26,16 +23,6 @@ const INITIAL_STATE = {
  */
 function WincherSEOPerformanceReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
-		case WINCHER_SET_SEO_PERFORMANCE_TRACKING:
-			return {
-				...state,
-				isTracking: action.isTracking,
-			};
-		case WINCHER_TOGGLE_SEO_PERFORMANCE_TRACKING:
-			return {
-				...state,
-				isTracking: ! state.isTracking,
-			};
 		case WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE:
 			return {
 				...state,

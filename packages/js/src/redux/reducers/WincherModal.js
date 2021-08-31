@@ -32,6 +32,7 @@ function WincherModalReducer( state = INITIAL_STATE, action ) {
 			return {
 				...state,
 				whichModalOpen: "none",
+				hasNoKeyphrase: false,
 			};
 	}
 	return state;
