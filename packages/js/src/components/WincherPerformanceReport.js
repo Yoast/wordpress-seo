@@ -148,6 +148,25 @@ const createRow = ( keyphrase, chartData, websiteId ) => {
 };
 
 /**
+ * Gets the proper user message based on the current login state and presence of data.
+ *
+ * @param {Object} props The props.
+ *
+ * @returns {wp.Element} The user message.
+ */
+const getUserMessage = ( props ) => {
+	const { isLoggedIn, data } = props;
+
+	if ( ! isLoggedIn ) {
+		return notConnectedMessage( props );
+	}
+
+	if ( ! data || isEmpty( data ) ) {
+		return noTrackedKeyphrasesMessage( props );
+	}
+};
+
+/**
  * The Dashboard Wincer SEO Performance component.
  *
  * @param {Object} props The component props.
@@ -167,8 +186,8 @@ const WincherPerformanceReport = ( props ) => {
 				{ __( "Top performing keyphrases on your site", "wordpress-seo" ) }
 			</WincherSEOPerformanceReportHeader>
 
-			{ ! isLoggedIn && notConnectedMessage( props ) }
-			{ isLoggedIn && ( ! data || isEmpty( data ) ) && noTrackedKeyphrasesMessage( props ) }
+			{ getUserMessage( props ) }
+
 			{ isLoggedIn && data && ! isEmpty( data ) && <Fragment>
 				<table className="yoast yoast-table">
 					<thead>

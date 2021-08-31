@@ -29,24 +29,47 @@ export function hasError( response ) {
 }
 
 /**
+ * Gets the proper error message component.
+ *
+ * @param {Object} response The response object to base the error message on.
+ *
+ * @returns {wp.Element} The error message component.
+ */
+export function getErrorMessage( response ) {
+	if ( response.status === 400 ) {
+		return <WincherLimitReached
+			limit={ response.results.limit }
+		/>;
+	}
+
+	return <WincherRequestFailed />;
+}
+
+/**
  * Gets a user message based on the passed props' values.
  *
  * @param {Object} props The props to use.
  *
- * @returns {wp.Element} The user message.
+ * @returns {void|wp.Element} The user message.
  */
 export function getUserMessage( props ) {
 	const {
 		isSuccess,
 		response,
+		hasPendingChartRequest,
+		hasTrackedKeyphrases,
 	} = props;
 
-	if ( ! isSuccess && hasError( response ) && response.status === 400 ) {
-		return <WincherLimitReached limit={ response.results.limit } />;
+	if ( isEmpty( response ) ) {
+		return;
 	}
 
 	if ( ! isSuccess && hasError( response ) ) {
-		return <WincherRequestFailed />;
+		return getErrorMessage( response );
+	}
+
+	if ( hasTrackedKeyphrases && hasPendingChartRequest ) {
+		return <WincherCurrentlyTrackingAlert />;
 	}
 }
 
@@ -63,8 +86,6 @@ export default function WincherSEOPerformanceModalContent( props ) {
 		isNewlyAuthenticated,
 		requestLimitReached,
 		limit,
-		hasPendingChartRequest,
-		hasTrackedKeyphrases,
 		shouldTrackAll,
 	} = props;
 
@@ -82,8 +103,6 @@ export default function WincherSEOPerformanceModalContent( props ) {
 						linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
 					/>
 					<WincherExplanation />
-
-					{ hasTrackedKeyphrases && hasPendingChartRequest && <WincherCurrentlyTrackingAlert /> }
 
 					{ getUserMessage( props ) }
 
@@ -104,8 +123,6 @@ WincherSEOPerformanceModalContent.propTypes = {
 	requestLimitReached: PropTypes.bool,
 	hasNoKeyphrase: PropTypes.bool,
 	isNewlyAuthenticated: PropTypes.bool,
-	hasPendingChartRequest: PropTypes.bool,
-	hasTrackedKeyphrases: PropTypes.bool,
 	shouldTrackAll: PropTypes.bool,
 };
 
@@ -114,7 +131,5 @@ WincherSEOPerformanceModalContent.defaultProps = {
 	requestLimitReached: false,
 	hasNoKeyphrase: false,
 	isNewlyAuthenticated: false,
-	hasPendingChartRequest: false,
-	hasTrackedKeyphrases: false,
 	shouldTrackAll: false,
 };
