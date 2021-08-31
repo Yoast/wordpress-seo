@@ -243,7 +243,7 @@ class Indexable_Builder_Test extends TestCase {
 			->once()
 			->with( 1999, 'user', false )
 			->andReturnFalse();
-		// author builder
+
 		$author_indexable = Mockery::mock( Indexable_Mock::class );
 		$author_indexable
 			->expects( 'save' )
@@ -920,8 +920,8 @@ class Indexable_Builder_Test extends TestCase {
 		$fake_indexable->version     = 0;
 
 		$this->indexable_repository
-			 ->expects( 'create' )
-			 ->once()
+			->expects( 'create' )
+			->once()
 			->with(
 				[
 					'object_id'   => 1337,

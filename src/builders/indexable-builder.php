@@ -125,7 +125,7 @@ class Indexable_Builder {
 		Indexable_Hierarchy_Builder $hierarchy_builder,
 		Primary_Term_Builder $primary_term_builder,
 		Indexable_Helper $indexable_helper,
-		Indexable_Version_Manager $indexable_version_manager
+		Indexable_Version_Manager $version_manager
 	) {
 		$this->author_builder            = $author_builder;
 		$this->post_builder              = $post_builder;
@@ -137,7 +137,7 @@ class Indexable_Builder {
 		$this->hierarchy_builder         = $hierarchy_builder;
 		$this->primary_term_builder      = $primary_term_builder;
 		$this->indexable_helper          = $indexable_helper;
-		$this->version_manager           = $indexable_version_manager;
+		$this->version_manager           = $version_manager;
 	}
 
 	/**
@@ -154,7 +154,7 @@ class Indexable_Builder {
 	/**
 	 * Creates a clean copy of an Indexable to allow for later database operations.
 	 *
-	 * @param $indexable Indexable The Indexable to copy.
+	 * @param Indexable $indexable The Indexable to copy.
 	 *
 	 * @return bool|Indexable
 	 */
@@ -309,7 +309,7 @@ class Indexable_Builder {
 	 */
 	public function build( $indexable, $defaults = null ) {
 		// Backup the previous Indexable, if there was one.
-		$indexable_before = $indexable ? $this->deep_copy_indexable( $indexable ) : null;
+		$indexable_before = ( $indexable ) ? $this->deep_copy_indexable( $indexable ) : null;
 
 		// Make sure we have an Indexable to work with.
 		$indexable = $this->ensure_indexable( $indexable, $defaults );
@@ -378,6 +378,9 @@ class Indexable_Builder {
 		}
 		catch ( Source_Exception $exception ) {
 			/**
+			 * The current indexable could not be indexed. Create a placeholder indexable, so we can
+			 * skip this indexable in future indexing runs.
+			 *
 			 * @var Indexable $indexable
 			 */
 			$indexable = $this->indexable_repository

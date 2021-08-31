@@ -130,8 +130,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 
 		$replacements    = $this->get_post_types();
 		$post_type_count = \count( $replacements );
-
-		$replacements[] = $this->version;
+		$replacements[]  = $this->version;
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
 		return $this->wpdb->prepare(

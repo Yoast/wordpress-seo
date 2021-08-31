@@ -1,5 +1,7 @@
 <?php
 
+namespace Yoast\WP\SEO\Tests\Unit\Repositories;
+
 use doubles\lib\Orm_Double;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Models\Indexable;
