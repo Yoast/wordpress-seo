@@ -3,6 +3,8 @@ const { AbstractResearcher } = languageProcessing;
 
 // All config
 import functionWords from "./config/functionWords";
+import transitionWords from "./config/transitionWords";
+import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
 // All helpers
 import createBasicWordForms from "./helpers/createBasicWordForms";
@@ -27,6 +29,8 @@ export default class Researcher extends AbstractResearcher {
 		Object.assign( this.config, {
 			language: "fa",
 			functionWords,
+			transitionWords,
+			twoPartTransitionWords,
 		} );
 
 		Object.assign( this.helpers, {
