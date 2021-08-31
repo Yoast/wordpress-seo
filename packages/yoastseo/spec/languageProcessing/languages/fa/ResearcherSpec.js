@@ -36,4 +36,14 @@ describe( "a test for the Farsi Researcher", function() {
 			]
 		);
 	} );
+
+	it( "returns the Farsi passive construction type", function() {
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "morphological" );
+	} );
+
+	it( "checks if an Farsi sentence is passive or not", function() {
+		// Passive verb: خراشیده
+		expect( researcher.getHelper( "isPassiveSentence" )( ".پنجره خراشیده است" ) ).toEqual( true );
+		expect( researcher.getHelper( "isPassiveSentence" )( ".او پنجره را خراش داد" ) ).toEqual( false );
+	} );
 } );

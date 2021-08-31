@@ -7,6 +7,7 @@ import functionWords from "./config/functionWords";
 // All helpers
 import createBasicWordForms from "./helpers/createBasicWordForms";
 import getStemmer from "./helpers/getStemmer";
+import isPassiveSentence from "./helpers/isPassiveSentence";
 
 
 /**
@@ -24,10 +25,10 @@ export default class Researcher extends AbstractResearcher {
 		// Delete the researches from the Abstract Researcher that currently are not available for Farsi.
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.findTransitionWords;
-		delete this.defaultResearches.getPassiveVoiceResult;
 		delete this.defaultResearches.getSentenceBeginnings;
 
 		Object.assign( this.config, {
+			passiveConstructionType: "morphological",
 			language: "fa",
 			functionWords,
 		} );
@@ -35,6 +36,7 @@ export default class Researcher extends AbstractResearcher {
 		Object.assign( this.helpers, {
 			createBasicWordForms,
 			getStemmer,
+			isPassiveSentence,
 		} );
 	}
 }
