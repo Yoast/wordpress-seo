@@ -40,8 +40,11 @@ class Main_Double extends Main {
 		if ( $this->container ) {
 			return;
 		}
-
-		$this->container = $this->get_container();
-		Container_Registry::register( $this->get_name(), $this->container );
+		try {
+			$this->container = $this->get_container();
+			Container_Registry::register( $this->get_name(), $this->container );
+		} catch ( \Exception $e ) {
+			return;
+		}
 	}
 }
