@@ -135,6 +135,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 		$replacements[]  = $this->version;
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
+		// @phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 		return $this->wpdb->prepare(
 			"
 			SELECT COUNT(P.ID)
@@ -144,7 +145,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 				SELECT I.object_id from $indexable_table as I
 				WHERE I.object_type = 'post'
 				AND I.version < %d )",
-			$replacements
+			...$replacements
 		);
 	}
 
@@ -168,6 +169,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 		}
 
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
+		// @phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 		return $this->wpdb->prepare(
 			"
 			SELECT P.ID
@@ -178,7 +180,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 				WHERE I.object_type = 'post'
 				AND I.version < %d )
 			$limit_query",
-			$replacements
+			...$replacements
 		);
 	}
 
