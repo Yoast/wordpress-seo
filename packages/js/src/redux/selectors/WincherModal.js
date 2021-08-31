@@ -10,7 +10,7 @@ export function getWincherModalOpen( state ) {
 }
 
 /**
- * Determines whether there's a keyphrase set..
+ * Determines whether there's a keyphrase set.
  *
  * @param {Object} state The state.
  *
