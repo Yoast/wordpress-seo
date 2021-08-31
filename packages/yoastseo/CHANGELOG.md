@@ -13,6 +13,9 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ### Non user facing
 * Fixes a typo that caused the `findList` research to not be used in the `ListAssessment`.
 * Adds a feature-flag for Farsi support.
+* Makes Consecutive sentence, Passive voice and Transition words assessments available for Farsi when the Feature flag is enabled.
+* Adds a missing plural variant of a feedback string for the keyphrase length assessment in product pages.
+* Replaces Images assessment `countVideos` value that is passed to the assessment constructor in the product assessors with a variable. 
 
 
 ## 1.92.0
