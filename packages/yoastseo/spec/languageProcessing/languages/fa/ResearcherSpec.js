@@ -1,6 +1,8 @@
 import Researcher from "../../../../src/languageProcessing/languages/fa/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
 import functionWords from "../../../../src/languageProcessing/languages/fa/config/functionWords";
+import transitionWords from "../../../../src/languageProcessing/languages/fa/config/transitionWords";
+import twoPartTransitionWords from "../../../../src/languageProcessing/languages/fa/config/twoPartTransitionWords";
 
 describe( "a test for the Farsi Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -23,6 +25,14 @@ describe( "a test for the Farsi Researcher", function() {
 
 	it( "returns Farsi function words", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
+	} );
+
+	it( "returns the Farsi transition words", function() {
+		expect( researcher.getConfig( "transitionWords" ) ).toEqual( transitionWords );
+	} );
+
+	it( "returns the Farsi two part transition word", function() {
+		expect( researcher.getConfig( "twoPartTransitionWords" ) ).toEqual( twoPartTransitionWords );
 	} );
 
 	it( "returns the Farsi locale", function() {

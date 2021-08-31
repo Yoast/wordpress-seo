@@ -360,26 +360,54 @@ class Indexable_Link_Builder {
 	 * @return void
 	 */
 	protected function update_related_indexables( $indexable, $links ) {
-		$updated_indexable_ids = [];
-		$old_links             = $this->seo_links_repository->find_all_by_indexable_id( $indexable->id );
-		$this->seo_links_repository->delete_all_by_indexable_id( $indexable->id );
-
-		// Old links were only stored by post id, so remove this as well. This can be removed if we ever fully clear all seo links.
+		// Old links were only stored by post id, so remove all old seo links for this post that have no indexable id.
+		// This can be removed if we ever fully clear all seo links.
 		if ( $indexable->object_type === 'post' ) {
-			$this->seo_links_repository->delete_all_by_post_id( $indexable->object_id );
+			$this->seo_links_repository->delete_all_by_post_id_where_indexable_id_null( $indexable->object_id );
 		}
 
-		foreach ( $links as $link ) {
-			$link->save();
+		$updated_indexable_ids = [];
+		$old_links             = $this->seo_links_repository->find_all_by_indexable_id( $indexable->id );
+
+		$links_to_remove = $this->links_diff( $old_links, $links );
+		$links_to_add    = $this->links_diff( $links, $old_links );
+
+		if ( ! empty( $links_to_remove ) ) {
+			$this->seo_links_repository->delete_many_by_id( \wp_list_pluck( $links_to_remove, 'id' ) );
+		}
+
+		if ( ! empty( $links_to_add ) ) {
+			$this->seo_links_repository->insert_many( $links_to_add );
+		}
+
+		foreach ( $links_to_add as $link ) {
 			if ( $link->target_indexable_id ) {
 				$updated_indexable_ids[] = $link->target_indexable_id;
 			}
 		}
-		foreach ( $old_links as $link ) {
+		foreach ( $links_to_remove as $link ) {
 			$updated_indexable_ids[] = $link->target_indexable_id;
 		}
 
 		$this->update_incoming_links_for_related_indexables( $updated_indexable_ids );
+	}
+
+	/**
+	 * Creates a diff between two arrays of SEO links, based on urls.
+	 *
+	 * @param SEO_Links[] $links_a The array to compare.
+	 * @param SEO_Links[] $links_b The array to compare against.
+	 *
+	 * @return SEO_Links[] Links that are in $links_a, but not in $links_b.
+	 */
+	protected function links_diff( $links_a, $links_b ) {
+		return \array_udiff(
+			$links_a,
+			$links_b,
+			function( SEO_Links $link_a, SEO_Links $link_b ) {
+				return strcmp( $link_a->url, $link_b->url );
+			}
+		);
 	}
 
 	/**
