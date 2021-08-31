@@ -10,6 +10,8 @@ use Yoast\WP\SEO\Models\Indexable;
  * Date Archive Builder for the indexables.
  *
  * Formats the date archive meta to indexable format.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Date_Archive_Builder {
 

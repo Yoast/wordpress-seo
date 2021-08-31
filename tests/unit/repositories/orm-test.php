@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
 use doubles\lib\Orm_Double;
+use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\TestCase;

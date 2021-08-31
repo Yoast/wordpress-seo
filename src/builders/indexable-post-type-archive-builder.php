@@ -10,6 +10,8 @@ use Yoast\WP\SEO\Models\Indexable;
  * Post type archive builder for the indexables.
  *
  * Formats the post type archive meta to indexable format.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Post_Type_Archive_Builder {
 

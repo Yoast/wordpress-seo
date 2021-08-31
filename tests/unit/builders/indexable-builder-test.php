@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
-use doubles\builders\Indexable_Builder_Double;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
@@ -21,6 +20,7 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Builder_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

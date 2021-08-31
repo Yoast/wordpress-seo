@@ -11,6 +11,8 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Reindexing action for term indexables.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 
