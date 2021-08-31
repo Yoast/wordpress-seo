@@ -63,7 +63,7 @@ class Main_Test extends TestCase {
 			if ( isset( $this->aliasses[ $service_id ] ) ) {
 				$service_id = $this->aliasses[ $service_id ];
 			}
-			if ( str_starts_with( $service_id, 'YoastSEO_Vendor' ) ) {
+			if ( strpos( $service_id, 'YoastSEO_Vendor' ) === 0 ) {
 				continue;
 			}
 
