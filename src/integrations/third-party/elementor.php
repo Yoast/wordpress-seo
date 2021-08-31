@@ -123,15 +123,13 @@ class Elementor implements Integration_Interface {
 		Capability_Helper $capability,
 		Estimated_Reading_Time_Conditional $estimated_reading_time_conditional
 	) {
-		$this->asset_manager = $asset_manager;
-		$this->options       = $options;
-		$this->capability    = $capability;
-
-		$this->seo_analysis                       = new WPSEO_Metabox_Analysis_SEO();
-		$this->readability_analysis               = new WPSEO_Metabox_Analysis_Readability();
-		$this->social_is_enabled                  = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
-		$this->is_advanced_metadata_enabled       = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
+		$this->asset_manager                      = $asset_manager;
+		$this->options                            = $options;
+		$this->capability                         = $capability;
 		$this->estimated_reading_time_conditional = $estimated_reading_time_conditional;
+
+		$this->seo_analysis         = new WPSEO_Metabox_Analysis_SEO();
+		$this->readability_analysis = new WPSEO_Metabox_Analysis_Readability();
 	}
 
 	/**
@@ -174,6 +172,9 @@ class Elementor implements Integration_Interface {
 	 * @return void
 	 */
 	public function init() {
+		$this->social_is_enabled            = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
+		$this->is_advanced_metadata_enabled = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
+
 		$this->asset_manager->register_assets();
 		$this->enqueue();
 		$this->render_hidden_fields();
