@@ -63,7 +63,8 @@ export default function MetaboxFill( { settings } ) {
 					shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 				/>
 			</SidebarItem> }
-			{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive && <SidebarItem key="wincher-seo-performance" renderPriority={ 25 }>
+			{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
+			<SidebarItem key="wincher-seo-performance" renderPriority={ 25 }>
 				<MetaboxCollapsible
 					id={ "yoast-wincher-seo-performance-metabox" }
 					title={ __( "Track SEO performance", "wordpress-seo" ) }

@@ -122,6 +122,32 @@ const noTrackedKeyphrasesMessage = ( props ) => {
 };
 
 /**
+ * Creates a new row to be displayed in the table.
+ *
+ * @param {string} keyphrase The keyphrase to be used in the row.
+ * @param {Object} chartData The associated chart data to be displayed.
+ * @param {number} websiteId The website ID to link to.
+ *
+ * @returns {wp.Element} The row.
+ */
+const createRow = ( keyphrase, chartData, websiteId ) => {
+	return (
+		<tr key={ `trackable-keyphrase-${keyphrase}` }>
+			<td>{ keyphrase }</td>
+			<td>{ getKeyphrasePosition( chartData ) }</td>
+			<td className="yoast-table--nopadding">{ generatePositionOverTimeChart( chartData ) }</td>
+			<td className="yoast-table--nobreak">
+				{
+					<ViewLink href={ viewLinkUrl( { websiteId, id: chartData.id } ) }>
+						{ __( "View", "wordpress-seo" ) }
+					</ViewLink>
+				}
+			</td>
+		</tr>
+	);
+};
+
+/**
  * The Dashboard Wincer SEO Performance component.
  *
  * @param {Object} props The component props.
@@ -172,20 +198,7 @@ const WincherPerformanceReport = ( props ) => {
 						{
 							Object.entries( data )
 								.map( ( [ keyphrase, chartData ] ) => {
-									return (
-										<tr key={ `trackable-keyphrase-${keyphrase}` }>
-											<td>{ keyphrase }</td>
-											<td>{ getKeyphrasePosition( chartData ) }</td>
-											<td className="yoast-table--nopadding">{ generatePositionOverTimeChart( chartData ) }</td>
-											<td className="yoast-table--nobreak">
-												{
-													<ViewLink href={ viewLinkUrl( { websiteId, id: chartData.id } ) }>
-														{ __( "View", "wordpress-seo" ) }
-													</ViewLink>
-												}
-											</td>
-										</tr>
-									);
+									createRow( keyphrase, chartData, websiteId );
 								} )
 						}
 					</tbody>
@@ -209,14 +222,11 @@ WincherPerformanceReport.propTypes = {
 	className: PropTypes.string,
 	data: PropTypes.object.isRequired,
 	websiteId: PropTypes.string.isRequired,
-	onConnectAction: PropTypes.func.isRequired,
-	onTrackAllAction: PropTypes.func,
 	isLoggedIn: PropTypes.bool.isRequired,
 };
 
 WincherPerformanceReport.defaultProps = {
 	className: "wincher-seo-performance",
-	onTrackAllAction: () => {},
 };
 
 export default WincherPerformanceReport;

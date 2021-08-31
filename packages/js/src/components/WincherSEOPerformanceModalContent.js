@@ -89,7 +89,7 @@ export default function WincherSEOPerformanceModalContent( props ) {
 
 					<p>{ __( "You can enable / disable tracking the SEO performance for each keyphrase below.", "wordpress-seo" ) }</p>
 
-					{ shouldTrackAll && <WincherAutoTrackingEnabledAlert />}
+					{ shouldTrackAll && <WincherAutoTrackingEnabledAlert /> }
 
 					{ requestLimitReached && <WincherLimitReached limit={ limit } /> }
 					<WincherKeyphrasesTable />
@@ -105,6 +105,8 @@ WincherSEOPerformanceModalContent.propTypes = {
 	hasNoKeyphrase: PropTypes.bool,
 	isNewlyAuthenticated: PropTypes.bool,
 	hasPendingChartRequest: PropTypes.bool,
+	hasTrackedKeyphrases: PropTypes.bool,
+	shouldTrackAll: PropTypes.bool,
 };
 
 WincherSEOPerformanceModalContent.defaultProps = {
@@ -113,4 +115,6 @@ WincherSEOPerformanceModalContent.defaultProps = {
 	hasNoKeyphrase: false,
 	isNewlyAuthenticated: false,
 	hasPendingChartRequest: false,
+	hasTrackedKeyphrases: false,
+	shouldTrackAll: false,
 };

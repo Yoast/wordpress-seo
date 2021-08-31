@@ -85,8 +85,6 @@ export default class LoginPopup {
 	async messageHandler( event ) {
 		const { data, source, origin } = event;
 
-		console.log( this.origin, this.eventHandlers );
-
 		// Check that the message comes from the expected origin.
 		if ( origin !== this.origin || this.popup !== source ) {
 			return;

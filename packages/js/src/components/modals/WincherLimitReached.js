@@ -6,12 +6,13 @@ import { makeOutboundLink } from "@yoast/helpers";
 import { Alert } from "@yoast/components";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
-import WincherKeyphrasesTable from "../WincherKeyphrasesTable";
 
 const UpdateWincherPlanLink = makeOutboundLink();
 
 /**
  * Creates the content for the Wincher limit exceeded modal.
+ *
+ * @param {Object} props The props to use for this component.
  *
  * @returns {wp.Element} The Wincher limit exceeded modal content.
  */

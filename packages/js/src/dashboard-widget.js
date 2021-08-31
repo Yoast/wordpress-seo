@@ -1,6 +1,8 @@
 /* global wpseoDashboardWidgetL10n, wpseoApi */
 // External dependencies.
 import { Component, render } from "@wordpress/element";
+
+/* Yoast dependencies */
 import { ArticleList as WordpressFeed } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import { SiteSEOReport as SeoAssessment } from "@yoast/analysis-report";
@@ -9,7 +11,7 @@ import { getPostFeed } from "@yoast/helpers";
 // Internal dependencies.
 import { setYoastComponentsL10n } from "./helpers/i18n";
 import WincherPerformanceReport from "./components/WincherPerformanceReport";
-import {authenticate, getKeyphrasesChartData, trackAllKeyphrases} from "./helpers/wincherEndpoints";
+import { authenticate, getKeyphrasesChartData, trackAllKeyphrases } from "./helpers/wincherEndpoints";
 import LoginPopup from "./helpers/loginPopup";
 
 /**

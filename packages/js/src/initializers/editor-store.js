@@ -4,7 +4,7 @@ import reducers from "../redux/reducers";
 import * as selectors from "../redux/selectors";
 import * as actions from "../redux/actions";
 import * as controls from "../redux/controls";
-import {setAutomaticKeyphaseTracking} from "../redux/actions";
+
 /**
  * Populates the store.
  *

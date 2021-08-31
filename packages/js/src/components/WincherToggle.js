@@ -1,8 +1,13 @@
-import {Component, Fragment} from "@wordpress/element";
+// External dependencies.
+import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import {Toggle} from "@yoast/components";
 import { __ } from "@wordpress/i18n";
+
+/* Yoast dependencies */
+import { Toggle } from "@yoast/components";
+
+// Internal dependencies.
 import WincherExplanation from "./modals/WincherExplanation";
 
 const Wincher = styled.div`
