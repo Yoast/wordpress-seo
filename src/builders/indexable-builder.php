@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -384,13 +383,13 @@ class Indexable_Builder {
 			$indexable = $this->indexable_repository
 				->query()
 				->create(
-				[
-					'object_id'   => $indexable->object_id,
-					'object_type' => $indexable->object_type,
-					'post_status' => 'unindexed',
-					'version'     => 0,
-				]
-			);
+					[
+						'object_id'   => $indexable->object_id,
+						'object_type' => $indexable->object_type,
+						'post_status' => 'unindexed',
+						'version'     => 0,
+					]
+				);
 			// Make sure that the indexing process doesn't get stuck in a loop on this broken indexable.
 			$indexable = $this->version_manager->set_latest( $indexable );
 

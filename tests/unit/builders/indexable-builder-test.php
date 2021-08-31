@@ -225,7 +225,12 @@ class Indexable_Builder_Test extends TestCase {
 		$this->version_manager
 			->expects( 'set_latest' )
 			->twice()
-			->andReturnUsing( function ( $indexable ) { $indexable->version = 2; return $indexable; } );
+			->andReturnUsing(
+				function ( $indexable ) {
+					$indexable->version = 2;
+					return $indexable;
+				}
+			);
 
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
@@ -246,7 +251,12 @@ class Indexable_Builder_Test extends TestCase {
 
 		$this->indexable_repository
 			->expects( 'create' )
-			->with( [ 'object_type' => 'user', 'object_id' => 1999 ] )
+			->with(
+				[
+					'object_type' => 'user',
+					'object_id'   => 1999,
+				]
+			)
 			->once()
 			->andReturn( $author_indexable );
 
@@ -269,7 +279,7 @@ class Indexable_Builder_Test extends TestCase {
 			->once()
 			->andReturn( [] );
 
-		$author_indexable = Mockery::mock( Indexable_Mock::class );
+		$author_indexable              = Mockery::mock( Indexable_Mock::class );
 		$author_indexable->object_type = 'user';
 		$author_indexable->object_id   = 1999;
 		$author_indexable->version     = 0;
@@ -287,7 +297,12 @@ class Indexable_Builder_Test extends TestCase {
 		$this->version_manager
 			->expects( 'set_latest' )
 			->twice()
-			->andReturnUsing( function ( $indexable ) { $indexable->version = 2; return $indexable; } );
+			->andReturnUsing(
+				function ( $indexable ) {
+					$indexable->version = 2;
+					return $indexable;
+				}
+			);
 
 		$this->indexable_repository
 			->expects( 'create' )
@@ -404,7 +419,12 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'set_latest' )
 			->twice()
 			->withAnyArgs()
-			->andReturnUsing( function ( $indexable ) { $indexable->version = 2; return $indexable; } );
+			->andReturnUsing(
+				function ( $indexable ) {
+					$indexable->version = 2;
+					return $indexable;
+				}
+			);
 
 		// Prevent the indexable builder from actually saving in this test.
 		// The test is complex enough in its current state.
@@ -474,7 +494,12 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'set_latest' )
 			->once()
 			->with( $fake_indexable )
-			->andReturnUsing( function ( $indexable ) { $indexable->version = 2; return $indexable; } );
+			->andReturnUsing(
+				function ( $indexable ) {
+					$indexable->version = 2;
+					return $indexable;
+				}
+			);
 
 		// Actually saving is outside the scope of this test.
 		$this->indexable_helper
@@ -497,10 +522,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::ensure_indexable
 	 */
 	public function test_build_for_id_and_type_with_user_given() {
-		$this->indexable
-			->expects( 'save' )
-			->once();
-
+		$this->indexable->object_type = 'user';
 		$this->indexable
 			->expects( 'as_array' )
 			->once()
@@ -517,23 +539,32 @@ class Indexable_Builder_Test extends TestCase {
 			->with( [] )
 			->andReturn( $this->indexable );
 
-		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
-			->once()
-			->with( $this->indexable, $this->indexable );
-
 		$this->author_builder
 			->expects( 'build' )
 			->once()
 			->with( 1337, $this->indexable )
 			->andReturn( $this->indexable );
 
+		$this->version_manager
+			->expects( 'set_latest' )
+			->once()
+			->with( $this->indexable )
+			->andReturnUsing(
+				function ( $indexable ) {
+					$indexable->version = 2;
+					return $indexable;
+				}
+			);
+
+		// Actual saving is outside test scope.
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
 			->once()
 			->withNoArgs()
-			->andReturnTrue();
+			->andReturnFalse();
 
 		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'user', $this->indexable ) );
+		$this->assertTrue( $this->indexable->version === 2 );
 	}
 
 	/**
@@ -545,10 +576,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::ensure_indexable
 	 */
 	public function test_build_for_id_and_type_with_term_given() {
-		$this->indexable
-			->expects( 'save' )
-			->once();
-
+		$this->indexable->object_type = 'term';
 		$this->indexable
 			->expects( 'as_array' )
 			->once()
@@ -564,10 +592,6 @@ class Indexable_Builder_Test extends TestCase {
 			->once()
 			->with( [] )
 			->andReturn( $this->indexable );
-
-		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
-			->once()
-			->with( $this->indexable, $this->indexable );
 
 		$this->term_builder
 			->expects( 'build' )
@@ -580,11 +604,22 @@ class Indexable_Builder_Test extends TestCase {
 			->once()
 			->with( $this->indexable );
 
+		$this->version_manager
+			->expects( 'set_latest' )
+			->once()
+			->with( $this->indexable )
+			->andReturnUsing(
+				function ( $indexable ) {
+					$indexable->version = 2;
+					return $indexable;
+				}
+			);
+
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
 			->once()
 			->withNoArgs()
-			->andReturnTrue();
+			->andReturnFalse();
 
 		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'term', $this->indexable ) );
 	}
@@ -598,6 +633,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::ensure_indexable
 	 */
 	public function test_build_for_id_and_type_with_unknown_type_given() {
+		$this->indexable->object_type = 'this type should not be processed';
 		$this->indexable
 			->expects( 'as_array' )
 			->once()
@@ -614,10 +650,31 @@ class Indexable_Builder_Test extends TestCase {
 			->with( [] )
 			->andReturn( $this->indexable );
 
-		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type(
-			1337,
-			'bicycle',
-			$this->indexable )
+		$this->version_manager
+			->expects( 'set_latest' )
+			->once()
+			->with( $this->indexable )
+			->andReturnUsing(
+				function ( $indexable ) {
+					$indexable->version = 0;
+					return $indexable;
+				}
+			);
+
+		// Actual saving is outside test scope.
+		$this->indexable_helper
+			->expects( 'should_index_indexables' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
+		$this->assertSame(
+			$this->indexable,
+			$this->instance->build_for_id_and_type(
+				1337,
+				'this type should not be processed',
+				$this->indexable
+			)
 		);
 	}
 
@@ -630,6 +687,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::ensure_indexable
 	 */
 	public function test_build_for_homepage() {
+		$this->indexable->object_type = 'home-page';
 		$this->home_page_builder
 			->expects( 'build' )
 			->once()
@@ -637,18 +695,37 @@ class Indexable_Builder_Test extends TestCase {
 			->andReturn( $this->indexable );
 
 		$this->indexable
-			->expects( 'save' )
-			->once();
+			->expects( 'as_array' )
+			->once()
+			->andReturn( [] );
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->once()
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( [] )
+			->andReturn( $this->indexable );
 
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
 			->once()
 			->withNoArgs()
-			->andReturnTrue();
+			->andReturnFalse();
 
-		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
+		$this->version_manager
+			->expects( 'set_latest' )
 			->once()
-			->with( $this->indexable, $this->indexable );
+			->with( $this->indexable )
+			->andReturnUsing(
+				function ( $indexable ) {
+					$indexable->version = 2;
+					return $indexable;
+				}
+			);
 
 		$this->assertSame( $this->indexable, $this->instance->build_for_home_page( $this->indexable ) );
 	}
@@ -668,15 +745,39 @@ class Indexable_Builder_Test extends TestCase {
 			->with( $this->indexable )
 			->andReturn( $this->indexable );
 
+		$this->indexable->object_type = 'date-archive';
 		$this->indexable
-			->expects( 'save' )
-			->once();
+			->expects( 'as_array' )
+			->once()
+			->andReturn( [] );
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->once()
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( [] )
+			->andReturn( $this->indexable );
 
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
 			->once()
 			->withNoArgs()
-			->andReturnTrue();
+			->andReturnFalse();
+
+		$this->version_manager
+			->expects( 'set_latest' )
+			->once()
+			->with( $this->indexable )
+			->andReturnUsing(
+				function ( $indexable ) {
+					$indexable->version = 2;
+					return $indexable;
+				}
+			);
 
 		$this->assertSame( $this->indexable, $this->instance->build_for_date_archive( $this->indexable ) );
 	}
@@ -696,28 +797,42 @@ class Indexable_Builder_Test extends TestCase {
 			->with( 'post', $this->indexable )
 			->andReturn( $this->indexable );
 
-		$this->indexable
-			->expects( 'save' )
-			->once();
+		$this->indexable->object_type     = 'post-type-archive';
+		$this->indexable->object_sub_type = 'post';
 		$this->indexable
 			->expects( 'as_array' )
 			->once()
 			->andReturn( [] );
+
 		$this->indexable_repository
 			->expects( 'query' )
+			->once()
 			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( [] )
+			->andReturn( $this->indexable );
 
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
 			->once()
 			->withNoArgs()
-			->andReturnTrue();
+			->andReturnFalse();
 
-		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
+		$this->version_manager
+			->expects( 'set_latest' )
 			->once()
-			->with( $this->indexable, $this->indexable );
+			->with( $this->indexable )
+			->andReturnUsing(
+				function ( $indexable ) {
+					$indexable->version = 2;
+					return $indexable;
+				}
+			);
 
-		$this->assertSame( $this->indexable, $this->instance->build_for_post_type_archive( 'post', $this->indexable ) );
+		$this->assertSame( $this->indexable, $this->instance->build_for_post_type_archive( 'post-type-archive', $this->indexable ) );
 	}
 
 	/**
@@ -729,34 +844,43 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::ensure_indexable
 	 */
 	public function test_build_for_system_page() {
-		$this->system_page_builder
-			->expects( 'build' )
-			->once()
-			->with( 'sub-type', $this->indexable )
-			->andReturn( $this->indexable );
-
-		$this->indexable
-			->expects( 'save' )
-			->once();
-		$this->indexable_repository
-			->expects( 'query' )
-			->andReturnSelf();
+		$this->indexable->object_type     = 'system_page';
+		$this->indexable->object_sub_type = '404';
 		$this->indexable
 			->expects( 'as_array' )
 			->once()
 			->andReturn( [] );
 
+		$this->indexable_repository
+			->expects( 'query' )
+			->once()
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( [] )
+			->andReturn( $this->indexable );
+
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
 			->once()
 			->withNoArgs()
-			->andReturnTrue();
+			->andReturnFalse();
 
-		Monkey\Actions\expectDone( 'wpseo_save_indexable' )
+		$this->version_manager
+			->expects( 'set_latest' )
 			->once()
-			->with( $this->indexable, $this->indexable );
+			->with( $this->indexable )
+			->andReturnUsing(
+				function ( $indexable ) {
+					$indexable->version = 2;
+					return $indexable;
+				}
+			);
 
-		$this->assertSame( $this->indexable, $this->instance->build_for_system_page( 'sub-type', $this->indexable ) );
+
+		$this->assertSame( $this->indexable, $this->instance->build_for_system_page( '404', $this->indexable ) );
 	}
 
 	/**
@@ -798,14 +922,14 @@ class Indexable_Builder_Test extends TestCase {
 		$this->indexable_repository
 			 ->expects( 'create' )
 			 ->once()
-			 ->with(
-			 [
-				 'object_id'   => 1337,
-				 'object_type' => 'term',
-				 'post_status' => 'unindexed',
-				 'version'     => 0
-			 ]
-		 )->andReturn( $fake_indexable );
+			->with(
+				[
+					'object_id'   => 1337,
+					'object_type' => 'term',
+					'post_status' => 'unindexed',
+					'version'     => 0,
+				]
+			)->andReturn( $fake_indexable );
 
 		$this->version_manager
 			->expects( 'set_latest' )
