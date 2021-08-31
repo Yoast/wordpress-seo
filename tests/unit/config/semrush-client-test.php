@@ -6,11 +6,11 @@ use Mockery;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Failed_Storage_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Failed_Storage_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Config\SEMrush_Client_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
+use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
 use Yoast\WP\SEO\Wrappers\WP_Remote_Handler;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
@@ -35,7 +35,7 @@ class SEMrush_Client_Test extends TestCase {
 	/**
 	 * The token object.
 	 *
-	 * @var LegacyMockInterface|MockInterface|SEMrush_Token
+	 * @var LegacyMockInterface|MockInterface|OAuth_Token
 	 */
 	protected $token;
 
@@ -74,7 +74,7 @@ class SEMrush_Client_Test extends TestCase {
 		parent::set_up();
 
 		$this->response       = Mockery::mock( AccessTokenInterface::class );
-		$this->token          = Mockery::mock( SEMrush_Token::class );
+		$this->token          = Mockery::mock( OAuth_Token::class );
 		$this->provider       = Mockery::mock( GenericProvider::class );
 		$this->options_helper = Mockery::mock( Options_Helper::class );
 	}
@@ -140,7 +140,7 @@ class SEMrush_Client_Test extends TestCase {
 			$this->getPropertyValue( $instance, 'options_helper' )
 		);
 		$this->assertInstanceOf(
-			SEMrush_Token::class,
+			OAuth_Token::class,
 			$this->getPropertyValue( $instance, 'token' )
 		);
 	}
@@ -198,7 +198,7 @@ class SEMrush_Client_Test extends TestCase {
 		$requested_tokens             = $instance->request_tokens( '123456' );
 		$requested_tokens->created_at = $this->time;
 
-		$this->assertInstanceOf( SEMrush_Token::class, $requested_tokens );
+		$this->assertInstanceOf( OAuth_Token::class, $requested_tokens );
 	}
 
 	/**
