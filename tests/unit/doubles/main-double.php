@@ -32,7 +32,7 @@ class Main_Double extends Main {
 	/**
 	 * Loads the plugin.
 	 *
-	 * Overloaded to prevent the loader from being initialized.
+	 * Overridden to prevent the loader from being initialized.
 	 *
 	 * @return void
 	 */
@@ -46,5 +46,17 @@ class Main_Double extends Main {
 		} catch ( \Exception $e ) {
 			return;
 		}
+	}
+
+	/**
+	 * Returns whether or not we're in an environment for Yoast development.
+	 *
+	 * Overridden to prevent the di container being compiled instead of being fetched from cache,
+	 * this is needed for running the unit-tests in PHP 5.6.
+	 *
+	 * @return bool Whether or not to load in development mode.
+	 */
+	protected function is_development() {
+		return false;
 	}
 }
