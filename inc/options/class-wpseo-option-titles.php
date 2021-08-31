@@ -973,14 +973,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				'option' => '&#8902;',
 				'label'  => __( 'Low asterisk', 'wordpress-seo' ),
 			],
-			'sc-pipe'   => [
-				'option' => '|',
-				'label'  => __( 'Vertical bar', 'wordpress-seo' ),
-			],
-			'sc-tilde'  => [
-				'option' => '~',
-				'label'  => __( 'Small tilde', 'wordpress-seo' ),
-			],
 			'sc-laquo'  => [
 				'option' => '&laquo;',
 				'label'  => __( 'Left angle quotation mark', 'wordpress-seo' ),
