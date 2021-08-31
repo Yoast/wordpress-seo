@@ -7,7 +7,7 @@ import { forEach } from "lodash-es";
 /**
  * Looks for morphological passive voice.
  * Supported morphological languages: "ru", "sv", "id", "ar", "he", "tr", "fa".
- *
+ * Farsi is implemented as morphological because the periphrastic passives are used as compound verbs (among other compound passives).
  * @param {Paper}      paper      The paper object.
  * @param {Researcher} researcher The researcher.
  *
