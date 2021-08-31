@@ -105,7 +105,7 @@ const ProductSEOAssessor = function( i18n, researcher, options ) {
 			recommendedCount: 4,
 			urlTitle: createAnchorOpeningTag( options.imageCountUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.imageCountCTAUrl ),
-		}, true ),
+		}, options.countVideos ),
 		new ImageKeyphrase( {
 			urlTitle: createAnchorOpeningTag( options.imageKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.imageKeyphraseCTAUrl ),
