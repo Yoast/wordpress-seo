@@ -128,7 +128,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 	protected function get_count_query() {
 		$indexable_table         = Model::get_table_name( 'Indexable' );
 		$taxonomy_table          = $this->wpdb->term_taxonomy;
-		$public_taxonomies       = $this->taxonomy->get_public_taxonomies();
+		$public_taxonomies       = \array_keys( $this->taxonomy->get_public_taxonomies() );
 		$taxonomies_placeholders =
 			\implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 
@@ -162,7 +162,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 	protected function get_select_query( $limit = false ) {
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$taxonomy_table    = $this->wpdb->term_taxonomy;
-		$public_taxonomies = $this->taxonomy->get_public_taxonomies();
+		$public_taxonomies = \array_keys( $this->taxonomy->get_public_taxonomies() );
 		$placeholders      =
 			\implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 
