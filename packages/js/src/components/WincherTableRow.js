@@ -217,7 +217,7 @@ export default function WincherTableRow( props ) {
 
 WincherTableRow.propTypes = {
 	allowToggling: PropTypes.bool,
-	rowData: PropTypes.object.isRequired,
+	rowData: PropTypes.object,
 	keyphrase: PropTypes.string.isRequired,
 	onTrackKeyphrase: PropTypes.func,
 	onUntrackKeyphrase: PropTypes.func,
@@ -226,6 +226,7 @@ WincherTableRow.propTypes = {
 
 WincherTableRow.defaultProps = {
 	allowToggling: true,
+	rowData: {},
 	onTrackKeyphrase: () => {},
 	onUntrackKeyphrase: () => {},
 	isFocusKeyphrase: false,
