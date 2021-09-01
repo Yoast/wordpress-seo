@@ -56,7 +56,7 @@ describe( "a test for the Farsi Researcher", function() {
 		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "morphological" );
 	} );
 
-	it( "checks if an Farsi sentence is passive or not", function() {
+	it( "checks if a Farsi sentence is passive or not", function() {
 		// Passive verb: خراشیده
 		expect( researcher.getHelper( "isPassiveSentence" )( ".پنجره خراشیده است" ) ).toEqual( true );
 		expect( researcher.getHelper( "isPassiveSentence" )( ".او پنجره را خراش داد" ) ).toEqual( false );

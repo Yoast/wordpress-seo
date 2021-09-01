@@ -1,6 +1,6 @@
 import isPassiveSentence from "../../../../../src/languageProcessing/languages/fa/helpers/isPassiveSentence.js";
 
-describe( "detecting passive voice in sentences", function() {
+describe( "a test for detecting passive voice in sentences", function() {
 	it( "returns active voice", function() {
 		expect( isPassiveSentence( ".باران شروع شد" ) ).toBe( false );
 	} );

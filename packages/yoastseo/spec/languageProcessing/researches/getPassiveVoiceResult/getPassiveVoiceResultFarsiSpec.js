@@ -10,7 +10,7 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	it( "returns active voice", function() {
-		const paper = new Paper( ".من در را باز می کنم", { locale: "ar" } );
+		const paper = new Paper( ".من در را باز می کنم", { locale: "fa" } );
 		const researcher = new Researcher( paper );
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 0 );
 	} );
