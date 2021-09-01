@@ -10,6 +10,7 @@ import sentenceLength from "./config/sentenceLength";
 // All helpers
 import createBasicWordForms from "./helpers/createBasicWordForms";
 import getStemmer from "./helpers/getStemmer";
+import isPassiveSentence from "./helpers/isPassiveSentence";
 
 
 /**
@@ -28,6 +29,7 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getFleschReadingScore;
 
 		Object.assign( this.config, {
+			passiveConstructionType: "morphological",
 			language: "fa",
 			functionWords,
 			transitionWords,
@@ -38,6 +40,7 @@ export default class Researcher extends AbstractResearcher {
 		Object.assign( this.helpers, {
 			createBasicWordForms,
 			getStemmer,
+			isPassiveSentence,
 		} );
 	}
 }
