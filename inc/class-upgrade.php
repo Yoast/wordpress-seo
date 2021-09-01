@@ -75,6 +75,7 @@ class WPSEO_Upgrade {
 			'16.5-RC0'   => 'upgrade_165',
 			'16.9-RC0'   => 'upgrade_169',
 			'17.0-RC0'   => 'upgrade_170',
+			'17.1-RC0'   => 'upgrade_171',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -867,6 +868,18 @@ class WPSEO_Upgrade {
 				'hourly',
 				'wpseo_cleanup_orphaned_indexables'
 			);
+		}
+	}
+
+	/**
+	 * Performs the 17.1 upgrade. Removes the pipe and tilde separators and replaces them with the dash separator.
+	 *
+	 * @return void
+	 */
+	private function upgrade_171() {
+		$separator = WPSEO_Options::get( 'separator' );
+		if ( $separator === 'sc-pipe' || $separator === 'sc-tilde' ) {
+			WPSEO_Options::set( 'separator', 'sc-dash' );
 		}
 	}
 
