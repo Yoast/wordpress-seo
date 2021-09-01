@@ -5,6 +5,9 @@ namespace Yoast\WP\SEO\Tests\Unit;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Main_Double;
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Integrations\Third_Party\Elementor;
+use Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher;
+use Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher;
 
 /**
  * Class Loader_Test
@@ -30,6 +33,17 @@ class Main_Test extends TestCase {
 	];
 
 	/**
+	 * Classes that are excluded from the test because they have logic in their constructor.
+	 *
+	 * @var string[] Array of classes.
+	 */
+	private $excluded_classes = [
+		Indexable_Category_Permalink_Watcher::class,
+		Indexable_Permalink_Watcher::class,
+		Elementor::class,
+	];
+
+	/**
 	 * Sets an instance for test purposes.
 	 */
 	protected function set_up() {
@@ -46,9 +60,6 @@ class Main_Test extends TestCase {
 			->andReturn( $this->instance );
 		// Deprecated classes call _deprecated_function in the constructor.
 		Monkey\Functions\expect( '_deprecated_function' );
-		// Permalink watcher calls wp_next_scheduled in the constructor.
-		Monkey\Functions\expect( 'wp_next_scheduled' )
-			->andReturn( true );
 	}
 
 	/**
@@ -60,6 +71,9 @@ class Main_Test extends TestCase {
 		$container = $this->instance->get_container();
 
 		foreach ( $container->getServiceIds() as $service_id ) {
+			if ( in_array( $service_id, $this->excluded_classes, true ) ) {
+				continue;
+			}
 			if ( isset( $this->aliasses[ $service_id ] ) ) {
 				$service_id = $this->aliasses[ $service_id ];
 			}
