@@ -47,12 +47,11 @@ const StoreBlogCornerstoneSEOAssessor = function( i18n, options ) {
 		} ),
 		new TitleWidth( {
 			scores: {
-				widthTooShort: 3,
-				widthTooLong: 3,
+				widthTooShort: 9,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify52" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify53" ),
-		} ),
+		}, true ),
 		new UrlKeywordAssessment(
 			{
 				scores: {

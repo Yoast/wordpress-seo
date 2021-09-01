@@ -3,6 +3,7 @@ import Paper from "../../../../src/values/Paper.js";
 import functionWords from "../../../../src/languageProcessing/languages/fa/config/functionWords";
 import transitionWords from "../../../../src/languageProcessing/languages/fa/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/fa/config/twoPartTransitionWords";
+import sentenceLength from "../../../../src/languageProcessing/languages/fa/config/sentenceLength";
 
 describe( "a test for the Farsi Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -33,6 +34,10 @@ describe( "a test for the Farsi Researcher", function() {
 
 	it( "returns the Farsi two part transition word", function() {
 		expect( researcher.getConfig( "twoPartTransitionWords" ) ).toEqual( twoPartTransitionWords );
+	} );
+
+	it( "returns Farsi sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
 	it( "returns the Farsi locale", function() {

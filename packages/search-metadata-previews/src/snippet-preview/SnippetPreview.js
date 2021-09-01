@@ -137,7 +137,7 @@ const TitleUnboundedDesktop = styled.span`
 
 const TitleUnboundedMobile = styled.span`
 	display: inline-block;
-	max-height: 40px; // max two lines of text
+	max-height: 52px; // max two lines of text
 	padding-top: 1px;
 	vertical-align: top;
 	overflow: hidden;
