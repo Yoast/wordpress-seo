@@ -65,20 +65,6 @@ class Elementor implements Integration_Interface {
 	protected $capability;
 
 	/**
-	 * Holds whether the socials are enabled.
-	 *
-	 * @var bool
-	 */
-	protected $social_is_enabled;
-
-	/**
-	 * Holds whether the advanced settings are enabled.
-	 *
-	 * @var bool
-	 */
-	protected $is_advanced_metadata_enabled;
-
-	/**
 	 * Helper to determine whether or not the SEO analysis is enabled.
 	 *
 	 * @var WPSEO_Metabox_Analysis_SEO
@@ -172,9 +158,6 @@ class Elementor implements Integration_Interface {
 	 * @return void
 	 */
 	public function init() {
-		$this->social_is_enabled            = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
-		$this->is_advanced_metadata_enabled = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
-
 		$this->asset_manager->register_assets();
 		$this->enqueue();
 		$this->render_hidden_fields();
@@ -266,7 +249,7 @@ class Elementor implements Integration_Interface {
 		WPSEO_Meta::init();
 
 		$social_fields = [];
-		if ( $this->social_is_enabled ) {
+		if ( $this->is_social_enabled() ) {
 			$social_fields = WPSEO_Meta::get_meta_field_defs( 'social', $post->post_type );
 		}
 
@@ -466,7 +449,7 @@ class Elementor implements Integration_Interface {
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
 
-		if ( $this->is_advanced_metadata_enabled ) {
+		if ( $this->is_advanced_metadata_enabled() ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'advanced' );
 		}
@@ -474,7 +457,7 @@ class Elementor implements Integration_Interface {
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema', $this->get_metabox_post()->post_type );
 
-		if ( $this->social_is_enabled ) {
+		if ( $this->is_social_enabled() ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
@@ -714,5 +697,35 @@ class Elementor implements Integration_Interface {
 		}
 
 		return $shortcode_tags;
+	}
+
+	/**
+	 * Checks if social metadata is enabled.
+	 *
+	 * @return bool Whether or not social metadata is enabled.
+	 */
+	protected function is_social_enabled() {
+		static $is_social_enabled;
+
+		if ( $is_social_enabled === null ) {
+			$is_social_enabled = $this->options->get( 'opengraph', false ) || $this->options->get( 'twitter', false );
+		}
+
+		return $is_social_enabled;
+	}
+
+	/**
+	 * Checks if advanced metadata is enabled, and whether the current user can edit it.
+	 *
+	 * @return bool Whether or not advanced metadata is enabled.
+	 */
+	protected function is_advanced_metadata_enabled() {
+		static $is_advanced_metadata_enabled;
+
+		if ( $is_advanced_metadata_enabled === null ) {
+			$is_advanced_metadata_enabled = $this->capability->current_user_can( 'wpseo_edit_advanced_metadata' ) || $this->options->get( 'disableadvanced_meta' ) === false;
+		}
+
+		return $is_advanced_metadata_enabled;
 	}
 }
