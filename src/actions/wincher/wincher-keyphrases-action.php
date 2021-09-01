@@ -244,7 +244,7 @@ class Wincher_Keyphrases_Action {
 			$site_chart = \array_filter(
 				$results['data'],
 				function( $entry ) use ( $current_site_url ) {
-					return $entry['url'] === $current_site_url;
+					return rtrim( $entry['url'], '/' ) === $current_site_url;
 				}
 			);
 
@@ -289,7 +289,9 @@ class Wincher_Keyphrases_Action {
 			->where( 'object_id', $post->ID )
 			->find_one();
 
-		$keyphrases[] = $primary_keyphrase->primary_focus_keyword;
+		if ( $primary_keyphrase ) {
+			$keyphrases[] = $primary_keyphrase->primary_focus_keyword;
+		}
 
 		if ( YoastSEO()->helpers->product->is_premium() ) {
 			$additional_keywords = \json_decode( WPSEO_Meta::get_value( 'focuskeywords', $post->ID ), true );
