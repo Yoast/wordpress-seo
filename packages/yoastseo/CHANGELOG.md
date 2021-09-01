@@ -9,6 +9,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Registers the whole web worker with the scope.
 * Replaces assessment shortlinks that are passed to the assessment constructors in the product assessors with variables.
 * Adds functionality for the webworker to also set custom options when loading the custom assessors for the SEO analysis (regular/cornerstone), the SEO analysis for related keyphrases (regular/cornerstone), and the readability analysis (regular/cornerstone).
+* Adds custom config for TitleWidth assessment in all SEO assessors so that short title is not penalized with a bad score.
 
 ### Non user facing
 * Fixes a typo that caused the `findList` research to not be used in the `ListAssessment`.
