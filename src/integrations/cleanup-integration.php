@@ -80,24 +80,34 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @return Closure[] The cleanup tasks.
 	 */
 	protected function get_cleanup_tasks() {
-		return [
-			'clean_indexables_with_object_type_and_object_sub_type_shop-order' => function( $limit ) {
-				return $this->clean_indexables_with_object_type_and_object_sub_type( 'post', 'shop-order', $limit );
-			},
-			'clean_indexables_by_post_status_auto-draft' => function( $limit ) {
-				return $this->clean_indexables_with_post_status( 'auto-draft', $limit );
-			},
-			/* These should always be the last ones to be called. */
-			'clean_orphaned_content_indexable_hierarchy' => function( $limit ) {
-				return $this->cleanup_orphaned_from_table( 'Indexable_Hierarchy', 'indexable_id', $limit );
-			},
-			'clean_orphaned_content_seo_links_indexable_id' => function( $limit ) {
-				return $this->cleanup_orphaned_from_table( 'SEO_Links', 'indexable_id', $limit );
-			},
-			'clean_orphaned_content_seo_links_target_indexable_id' => function( $limit ) {
-				return $this->cleanup_orphaned_from_table( 'SEO_Links', 'target_indexable_id', $limit );
-			},
-		];
+		return \array_merge(
+			[
+				'clean_indexables_with_object_type_and_object_sub_type_shop-order' => function( $limit ) {
+					return $this->clean_indexables_with_object_type_and_object_sub_type( 'post', 'shop-order', $limit );
+				},
+				'clean_indexables_by_post_status_auto-draft' => function( $limit ) {
+					return $this->clean_indexables_with_post_status( 'auto-draft', $limit );
+				},
+			],
+			/**
+			 * Filter: Adds the possibility to add addition cleanup functions.
+			 *
+			 * @api array Associative array with unique keys. Value should be a cleanup function that receives a limit.
+			 */
+			\apply_filters( 'wpseo_cleanup_tasks', [] ),
+			[
+				/* These should always be the last ones to be called. */
+				'clean_orphaned_content_indexable_hierarchy' => function( $limit ) {
+					return $this->cleanup_orphaned_from_table( 'Indexable_Hierarchy', 'indexable_id', $limit );
+				},
+				'clean_orphaned_content_seo_links_indexable_id' => function( $limit ) {
+					return $this->cleanup_orphaned_from_table( 'SEO_Links', 'indexable_id', $limit );
+				},
+				'clean_orphaned_content_seo_links_target_indexable_id' => function( $limit ) {
+					return $this->cleanup_orphaned_from_table( 'SEO_Links', 'target_indexable_id', $limit );
+				},
+			]
+		);
 	}
 
 	/**
@@ -117,7 +127,7 @@ class Cleanup_Integration implements Integration_Interface {
 			$limit = 1000;
 		}
 
-		return $limit;
+		return \abs( $limit );
 	}
 
 	/**
@@ -161,6 +171,11 @@ class Cleanup_Integration implements Integration_Interface {
 
 		$limit = $this->get_limit();
 		$tasks = $this->get_cleanup_tasks();
+
+		// The task may have been added by a filter that has been removed, in that case just start over.
+		if ( ! isset( $tasks[ $current_task_name ] ) ) {
+			$current_task_name = \key( $tasks );
+		}
 
 		$current_task = \current( $tasks );
 		while ( $current_task !== false ) {
