@@ -95,7 +95,7 @@ class Cleanup_Integration_Test extends TestCase {
 			->andReturn( $query_limit );
 
 		/* Clean up of indexables with object_sub_type shop-order */
-		$this->setup_clean_indexables_with_object_type_and_object_sub_type_mocks( 50, 'post', 'shop-order', $query_limit );
+		$this->setup_clean_indexables_with_object_type_and_object_sub_type_mocks( 50, 'post', 'shop_order', $query_limit );
 
 		/* Clean up of indexables with post_status auto-draft */
 		$this->setup_clean_indexables_with_post_status_mocks( 50, 'auto-draft', $query_limit );
@@ -138,7 +138,7 @@ class Cleanup_Integration_Test extends TestCase {
 			->andReturn( $query_limit );
 
 		/* Clean up of indexables with object_sub_type shop-order */
-		$this->setup_clean_indexables_with_object_type_and_object_sub_type_mocks( false, 'post', 'shop-order', $query_limit );
+		$this->setup_clean_indexables_with_object_type_and_object_sub_type_mocks( false, 'post', 'shop_order', $query_limit );
 
 		$this->instance->run_cleanup();
 	}
@@ -168,11 +168,11 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $query_limit );
 
-		$this->setup_clean_indexables_with_object_type_and_object_sub_type_mocks( 1000, 'post', 'shop-order', $query_limit );
+		$this->setup_clean_indexables_with_object_type_and_object_sub_type_mocks( 1000, 'post', 'shop_order', $query_limit );
 
 		Monkey\Functions\expect( 'update_option' )
 			->once()
-			->with( Cleanup_Integration::CURRENT_TASK_OPTION, 'clean_indexables_with_object_type_and_object_sub_type_shop-order' );
+			->with( Cleanup_Integration::CURRENT_TASK_OPTION, 'clean_indexables_with_object_type_and_object_sub_type_shop_order' );
 
 		Monkey\Functions\expect( 'wp_schedule_event' )
 			->once()
@@ -191,11 +191,11 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::get_limit
 	 * @covers ::start_cron_job
 	 */
-	public function test_run_cleanup_cron() {
+	public function test_run_cleanup_cron_next_task() {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
-			->andReturn( 'clean_indexables_with_object_type_and_object_sub_type_shop-order' );
+			->andReturn( 'clean_indexables_with_object_type_and_object_sub_type_shop_order' );
 
 		$query_limit = 1000;
 
@@ -203,30 +203,11 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $query_limit );
 
-		$this->setup_clean_indexables_with_object_type_and_object_sub_type_mocks( 0, 'post', 'shop-order', $query_limit );
+		$this->setup_clean_indexables_with_object_type_and_object_sub_type_mocks( 0, 'post', 'shop_order', $query_limit );
 
 		Monkey\Functions\expect( 'update_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION, 'clean_indexables_by_post_status_auto-draft' );
-
-		$this->instance->run_cleanup_cron();
-	}
-
-	/**
-	 * Tests the run_cleanup_cron function.
-	 *
-	 * Specifically tests whether the option is set to the next task when the current task is finished.
-	 *
-	 * @covers ::run_cleanup_cron
-	 * @covers ::get_cleanup_tasks
-	 * @covers ::get_limit
-	 * @covers ::start_cron_job
-	 */
-	public function test_run_cleanup_cron_no_tasks() {
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
-			->andReturn( [] );
 
 		$this->instance->run_cleanup_cron();
 	}
@@ -242,7 +223,7 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::cleanup_orphaned_from_table
 	 * @covers ::start_cron_job
 	 */
-	public function test_run_cleanup_cron_last_tasks() {
+	public function test_run_cleanup_cron_last_task() {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( Cleanup_Integration::CURRENT_TASK_OPTION )
