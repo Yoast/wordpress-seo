@@ -85,9 +85,12 @@ const CollectionCornerstoneSEOAssessor = function( i18n, researcher, options ) {
 			}
 		),
 		new PageTitleWidthAssessment( {
+			scores: {
+				widthTooShort: 9,
+			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify52" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify53" ),
-		} ),
+		}, true ),
 		new UrlKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),

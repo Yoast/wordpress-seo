@@ -151,4 +151,15 @@ describe( "running assessments in the assessor", function() {
 			"titleWidth",
 		] );
 	} );
+
+	describe( "has configuration overrides", () => {
+		test( "PageTitleWidthAssesment", () => {
+			const assessment = assessor.getAssessment( "titleWidth" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
+			expect( assessment._config.scores.widthTooShort ).toBe( 9 );
+		} );
+	} );
 } );
