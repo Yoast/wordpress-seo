@@ -46,7 +46,11 @@ const SEOAssessor = function( i18n, researcher,  options ) {
 		new OutboundLinks(),
 		new TitleKeywordAssessment(),
 		new InternalLinksAssessment(),
-		new TitleWidth(),
+		new TitleWidth( {
+			scores: {
+				widthTooShort: 9,
+			},
+		}, true ),
 		new UrlKeywordAssessment(),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
