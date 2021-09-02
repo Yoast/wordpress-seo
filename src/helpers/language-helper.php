@@ -16,6 +16,7 @@ class Language_Helper {
 	 *
 	 * @return bool Whether word form recognition is active for the used language.
 	 */
+	
 	public function is_word_form_recognition_active( $language ) {
 		$supported_languages = [ 'de', 'en', 'es', 'fr', 'it', 'nl', 'ru', 'id', 'pt', 'pl', 'ar', 'sv', 'he', 'hu', 'nb', 'tr', 'cs', 'sk', 'fa' ];
 
