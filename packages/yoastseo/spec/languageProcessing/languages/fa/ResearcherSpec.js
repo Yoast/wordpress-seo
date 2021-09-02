@@ -3,6 +3,7 @@ import Paper from "../../../../src/values/Paper.js";
 import functionWords from "../../../../src/languageProcessing/languages/fa/config/functionWords";
 import transitionWords from "../../../../src/languageProcessing/languages/fa/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/fa/config/twoPartTransitionWords";
+import sentenceLength from "../../../../src/languageProcessing/languages/fa/config/sentenceLength";
 import firstWordExceptions from "../../../../src/languageProcessing/languages/fa/config/firstWordExceptions";
 
 describe( "a test for the Farsi Researcher", function() {
@@ -36,6 +37,10 @@ describe( "a test for the Farsi Researcher", function() {
 		expect( researcher.getConfig( "twoPartTransitionWords" ) ).toEqual( twoPartTransitionWords );
 	} );
 
+	it( "returns Farsi sentence length config", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
+	} );
+
 	it( "returns the Farsi first word exceptions", function() {
 		expect( researcher.getConfig( "firstWordExceptions" ) ).toEqual( firstWordExceptions );
 	} );
@@ -50,5 +55,15 @@ describe( "a test for the Farsi Researcher", function() {
 				"ماشینهایم", "ماشینهایی", "ماشینها", "نماشینها", "ماشینهایی", "ماشینهای",
 			]
 		);
+	} );
+
+	it( "returns the Farsi passive construction type", function() {
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "morphological" );
+	} );
+
+	it( "checks if a Farsi sentence is passive or not", function() {
+		// Passive verb: خراشیده
+		expect( researcher.getHelper( "isPassiveSentence" )( ".پنجره خراشیده است" ) ).toEqual( true );
+		expect( researcher.getHelper( "isPassiveSentence" )( ".او پنجره را خراش داد" ) ).toEqual( false );
 	} );
 } );
