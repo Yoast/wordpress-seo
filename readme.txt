@@ -245,8 +245,8 @@ Enhancements:
 * Stops showing the SEO Optimization notification on non-production sites.
 * Improves the filtering of function words in Dutch, English, Indonesian, Russian, and Spanish by including time-related words like 'minute'.
 * Updates the styling of our Google preview, to reflect the updated styling of the Google search results.
-* We give a green bullet for short SEO titles, in line with how Google currently displays titles.
-* Removes the `|` and `~` separators because Google replaces them in their search results.
+* We no longer warn users when they have short titles, because concise, specific titles are less likely to be altered by Google.
+* Removes the `|` and `~` separator options from titles, because Google frequently replaces these in search results.
 
 = 17.0 =
 Release Date: August 24th, 2021
