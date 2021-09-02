@@ -248,19 +248,19 @@ export default function stem( word, morphologyData ) {
 
 	const rv = findRvRegion( word, morphologyData );
 
-	// Step 0: Remove prefective prefixes and verb ending for perfective aspect verbs
+	// Step 1: Remove perfective prefixes.
 	word = removePerfectivePrefix( word, morphologyData, rv );
 
-	// Step 1: Remove inflectional suffixes if they are present in the word.
+	// Step 2: Remove inflectional suffixes if they are present in the word.
 	word = removeInflectionalSuffixes( word, morphologyData, rv );
 
-	// Step 2: If the word ends in "и", remove it.
+	// Step 3: If the word ends in "и", remove it.
 	const removeIEnding = removeEndings( word, morphologyData.externalStemmer.regexI, rv );
 	if ( removeIEnding ) {
 		word = removeIEnding;
 	}
 
-	// Step 3: There can be one of three options:
+	// Step 4: There can be one of three options:
 	// 1. If the word ends in нн, remove the last letter.
 	if ( word.endsWith( morphologyData.externalStemmer.doubleN ) ) {
 		word = word.substr( 0, word.length - 1 );
