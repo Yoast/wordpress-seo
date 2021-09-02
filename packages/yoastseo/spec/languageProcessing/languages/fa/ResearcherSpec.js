@@ -4,6 +4,7 @@ import functionWords from "../../../../src/languageProcessing/languages/fa/confi
 import transitionWords from "../../../../src/languageProcessing/languages/fa/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/fa/config/twoPartTransitionWords";
 import sentenceLength from "../../../../src/languageProcessing/languages/fa/config/sentenceLength";
+import firstWordExceptions from "../../../../src/languageProcessing/languages/fa/config/firstWordExceptions";
 
 describe( "a test for the Farsi Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -38,6 +39,10 @@ describe( "a test for the Farsi Researcher", function() {
 
 	it( "returns Farsi sentence length config", function() {
 		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
+	} );
+
+	it( "returns the Farsi first word exceptions", function() {
+		expect( researcher.getConfig( "firstWordExceptions" ) ).toEqual( firstWordExceptions );
 	} );
 
 	it( "returns the Farsi locale", function() {

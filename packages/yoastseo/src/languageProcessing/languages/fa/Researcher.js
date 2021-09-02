@@ -6,6 +6,7 @@ import functionWords from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 import sentenceLength from "./config/sentenceLength";
+import firstWordExceptions from "./config/firstWordExceptions";
 
 // All helpers
 import createBasicWordForms from "./helpers/createBasicWordForms";
@@ -35,6 +36,7 @@ export default class Researcher extends AbstractResearcher {
 			transitionWords,
 			twoPartTransitionWords,
 			sentenceLength,
+			firstWordExceptions,
 		} );
 
 		Object.assign( this.helpers, {
