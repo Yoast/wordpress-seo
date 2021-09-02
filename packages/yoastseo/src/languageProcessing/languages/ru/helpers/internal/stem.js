@@ -24,6 +24,8 @@
  * https://github.com/neonxp/Stemmer/blob/master/src/NXP/Stemmer.php
  */
 
+import { checkBeginningsList } from "../../../id/helpers/internal/stemHelpers";
+
 /**
  * Checks if the input character is a Russian vowel.
  *
@@ -110,6 +112,30 @@ const removeEndings = function( word, regex, region ) {
 
 	return null;
 };
+/**
+ * Removes the endings from the word.
+ *
+ * @param {string}          word	The word to check.
+ * @param {Object}			morphologyData The morphology data
+ * @param {int}             rv	The word region
+ *
+ * @returns {string|null}	The word if the stemming rule could be applied or null otherwise.
+ */
+const removePerfectiveAffixes = function( word, morphologyData, rv ) {
+	// Checks if word has perfective prefix and verb suffix
+	const prefix = word.substr( 0, rv );
+	const ending = word.substr( prefix.length );
+
+	const perfectiveSuffixes = morphologyData.externalStemmer.regexPerfectiveEndings;
+	const perfectiveEndingsRegex = new RegExp( perfectiveSuffixes, "i" );
+
+	if( prefix === "по" || prefix === "про" ){
+		if( perfectiveEndingsRegex.test( ending ) ){
+			word = ending.replace( perfectiveEndingsRegex, "" );
+		}
+	}
+	return word;
+};
 
 /**
  * Removes inflectional suffixes from the word.
@@ -141,7 +167,6 @@ const removeInflectionalSuffixes = function( word, morphologyData, rv ) {
 		if ( removeReflexiveSuffixes ) {
 			word = removeReflexiveSuffixes;
 		}
-
 		// Try to remove following endings (in this order): ADJECTIVAL, VERB, NOUN. If one of them is found the step is finalized.
 		const regexAdjective = morphologyData.externalStemmer.regexAdjective;
 		const removeParticipleSuffixes = removeEndings( word, morphologyData.externalStemmer.regexParticiple + regexAdjective, rv );
@@ -225,6 +250,9 @@ export default function stem( word, morphologyData ) {
 	}
 
 	const rv = findRvRegion( word, morphologyData );
+
+	// Step 0: Remove prefective prefixes and verb ending for perfective aspect verbs
+	word = removePerfectiveAffixes( word, morphologyData, rv );
 
 	// Step 1: Remove inflectional suffixes if they are present in the word.
 	word = removeInflectionalSuffixes( word, morphologyData, rv );

@@ -8,6 +8,10 @@ const morphologyDataRU = getMorphologyData( "ru" ).ru;
 const wordsToStem = [
 	// Words with perfective gerund suffix.
 	[ "прочитав", "прочит" ],
+	// Words with perfective prefix and verb suffix.
+	[ "прочитал", "чит" ],
+	[ "побежать", "беж" ],
+	[ "поcодействовали", "посодействов" ],
 	// Words with noun suffixes
 	[ "записей", "запис" ],
 	[ "записями", "запис" ],
