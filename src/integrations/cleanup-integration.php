@@ -2,10 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
-use Brain\Monkey\Hook\Exception\InvalidHookArgument;
-use Brain\Monkey\Hook\Exception\InvalidAddedHookArgument;
 use Closure;
-use UnexpectedValueException;
 use Yoast\WP\Lib\Model;
 /**
  * Adds cleanup hooks.
