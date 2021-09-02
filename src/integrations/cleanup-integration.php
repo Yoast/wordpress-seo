@@ -2,7 +2,10 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use Brain\Monkey\Hook\Exception\InvalidHookArgument;
+use Brain\Monkey\Hook\Exception\InvalidAddedHookArgument;
 use Closure;
+use UnexpectedValueException;
 use Yoast\WP\Lib\Model;
 /**
  * Adds cleanup hooks.
@@ -80,6 +83,14 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @return Closure[] The cleanup tasks.
 	 */
 	protected function get_cleanup_tasks() {
+
+		/**
+		 * Filter: Adds the possibility to add addition cleanup functions.
+		 *
+		 * @api array Associative array with unique keys. Value should be a cleanup function that receives a limit.
+		 */
+		$additional_tasks = \apply_filters( 'wpseo_cleanup_tasks', [] );
+
 		return \array_merge(
 			[
 				'clean_indexables_with_object_type_and_object_sub_type_shop_order' => function( $limit ) {
@@ -89,12 +100,7 @@ class Cleanup_Integration implements Integration_Interface {
 					return $this->clean_indexables_with_post_status( 'auto-draft', $limit );
 				},
 			],
-			/**
-			 * Filter: Adds the possibility to add addition cleanup functions.
-			 *
-			 * @api array Associative array with unique keys. Value should be a cleanup function that receives a limit.
-			 */
-			\apply_filters( 'wpseo_cleanup_tasks', [] ),
+			$this->get_additional_tasks(),
 			[
 				/* These should always be the last ones to be called. */
 				'clean_orphaned_content_indexable_hierarchy' => function( $limit ) {
@@ -108,6 +114,36 @@ class Cleanup_Integration implements Integration_Interface {
 				},
 			]
 		);
+	}
+
+	/**
+	 * Gets additional tasks from the 'wpseo_cleanup_tasks' filter.
+	 *
+	 * @return Closure[] Associative array of cleanup functions.
+	 */
+	private function get_additional_tasks() {
+
+		/**
+		 * Filter: Adds the possibility to add addition cleanup functions.
+		 *
+		 * @api array Associative array with unique keys. Value should be a cleanup function that receives a limit.
+		 */
+		$additional_tasks = \apply_filters( 'wpseo_cleanup_tasks', [] );
+
+		if ( ! is_array( $additional_tasks ) ) {
+			return [];
+		}
+
+		foreach ( $additional_tasks as $key => $value ) {
+			if ( is_int( $key ) ) {
+				return [];
+			}
+			if ( ( ! is_object( $value ) ) || ! ( $value instanceof Closure ) ) {
+				return [];
+			}
+		}
+
+		return $additional_tasks;
 	}
 
 	/**
