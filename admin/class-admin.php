@@ -332,6 +332,10 @@ class WPSEO_Admin {
 			'help_video_iframe_title' => sprintf( __( '%s video tutorial', 'wordpress-seo' ), 'Yoast SEO' ),
 			'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
 			'wincher_is_logged_in'    => WPSEO_Options::get( 'wincher_integration_active', true ) ? YoastSEO()->helpers->wincher->login_status() : false,
+			'links.wincher.auth_url'  => $this->prepare_wincher_auth_url( \get_site_url() ),
+			'links.wincher.website'   => 'https://www.wincher.com',
+			'links.wincher.pricing'   => 'https://www.wincher.com/pricing',
+			'links.wincher.login'     => 'https://www.wincher.com/login?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
 		];
 	}
 
@@ -366,5 +370,29 @@ class WPSEO_Admin {
 		return [
 			'cornerstone_filter' => new WPSEO_Cornerstone_Filter(),
 		];
+	}
+
+	/**
+	 * Prepares the Wincher auth URL.
+	 *
+	 * @param string $site_url The site URL.
+	 *
+	 * @return string The Wincher authentication URL.
+	 */
+	protected function prepare_wincher_auth_url( $site_url ) {
+		$parsed_site_url = \wp_parse_url( $site_url );
+
+		$params = [
+			'client_id' => 'yoast',
+			'response_type' => 'code',
+			'redirect_uri' => 'https://auth.wincher.com/yoast/setup',
+			'scope' => 'api offline_access',
+			'state' => \json_encode( [ 'domain' => $parsed_site_url[ 'host' ] ] ),
+		];
+
+		return \sprintf(
+			'https://auth.wincher.com/connect/authorize?%s',
+			\http_build_query( $params )
+		);
 	}
 }

@@ -41,7 +41,7 @@ abstract class OAuth_Client {
 	 *
 	 * @var OAuth_Token|null
 	 */
-	protected $token;
+	protected $token = null;
 
 	/**
 	 * OAuth_Client constructor.
@@ -60,7 +60,18 @@ abstract class OAuth_Client {
 		$this->provider       = $provider;
 		$this->token_option   = $token_option;
 		$this->options_helper = $options_helper;
-		$this->token          = $this->get_token_from_storage();
+
+		$tokens = $this->options_helper->get( $this->token_option );
+
+		if ( ! empty( $tokens ) ) {
+			$this->token = new OAuth_Token(
+				$tokens['access_token'],
+				$tokens['refresh_token'],
+				$tokens['expires'],
+				$tokens['has_expired'],
+				$tokens['created_at']
+			);
+		}
 	}
 
 	/**
@@ -167,29 +178,6 @@ abstract class OAuth_Client {
 		}
 
 		return $this->token;
-	}
-
-	/**
-	 * Retrieves the token from storage.
-	 *
-	 * @return OAuth_Token|null The token object. Returns null if none exists.
-	 *
-	 * @throws Empty_Property_Exception Exception thrown if a token property is empty.
-	 */
-	public function get_token_from_storage() {
-		$tokens = $this->options_helper->get( $this->token_option );
-
-		if ( empty( $tokens ) ) {
-			return null;
-		}
-
-		return new OAuth_Token(
-			$tokens['access_token'],
-			$tokens['refresh_token'],
-			$tokens['expires'],
-			$tokens['has_expired'],
-			$tokens['created_at']
-		);
 	}
 
 	/**

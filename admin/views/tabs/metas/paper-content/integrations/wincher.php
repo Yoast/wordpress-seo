@@ -67,7 +67,6 @@ $wincher_is_logged_in = YoastSEO()->helpers->wincher->login_status();
 	$button_text = sprintf(
 		/* translators: %s expands to Wincher */
 		esc_html__( 'Add existing keyphrases to %s', 'wordpress-seo' ),
-		esc_html__( 'Add existing keyphrases to %s', 'wordpress-seo' ),
 		'Wincher'
 	);
 	echo sprintf(
