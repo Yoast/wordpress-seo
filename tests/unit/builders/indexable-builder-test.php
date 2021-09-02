@@ -564,7 +564,7 @@ class Indexable_Builder_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->assertSame( $this->indexable, $this->instance->build_for_id_and_type( 1337, 'user', $this->indexable ) );
-		$this->assertTrue( $this->indexable->version === 2 );
+		$this->assertEquals( 2, $this->indexable->version );
 	}
 
 	/**
