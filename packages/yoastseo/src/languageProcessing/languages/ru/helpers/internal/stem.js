@@ -111,22 +111,21 @@ const removeEndings = function( word, regex, region ) {
 	return null;
 };
 /**
- * Removes the endings from the word.
+ * Removes the perfective prefix.
  *
- * @param {string}          word	The word to check.
- * @param {Object}			morphologyData The morphology data
- * @param {int}             rv	The word region
+ * @param {string}  word	        The word to check.
+ * @param {Object}  morphologyData  The morphology data.
+ * @param {int}     rv	            The word region.
  *
- * @returns {string|null}	The word if the stemming rule could be applied or null otherwise.
+ * @returns {string}	The stemmed word if the word has perfective prefix an verb suffix, otherwise the original word.
  */
 const removePerfectivePrefix = function( word, morphologyData, rv ) {
-	// Checks if word has perfective prefix and verb suffix
 	const prefix = word.substr( 0, rv );
 	const ending = word.substr( prefix.length );
 
-	const perfectiveSuffixes = morphologyData.externalStemmer.regexPerfectiveEndings;
-	const perfectiveEndingsRegex = new RegExp( perfectiveSuffixes, "i" );
+	const perfectiveEndingsRegex = new RegExp( morphologyData.externalStemmer.regexPerfectiveEndings, "i" );
 
+	// Checks if word has perfective prefix and verb suffix
 	if ( ( prefix === "по" && ! ending.startsWith( "д" ) ) || prefix === "про" ) {
 		if ( perfectiveEndingsRegex.test( ending ) ) {
 			word = ending;
