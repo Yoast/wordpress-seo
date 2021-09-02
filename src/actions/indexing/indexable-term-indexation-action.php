@@ -136,7 +136,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 		\array_push( $replacements, ...$public_taxonomies );
 
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
-		$q = $this->wpdb->prepare(
+		return $this->wpdb->prepare(
 			"
 			SELECT COUNT(term_id)
 			FROM {$taxonomy_table} AS T
@@ -148,8 +148,6 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 				AND taxonomy IN ($taxonomies_placeholders)",
 			$replacements
 		);
-
-		return $q;
 	}
 
 	/**

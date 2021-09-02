@@ -62,7 +62,7 @@ class Indexable_Version_Manager_Test extends TestCase {
 	/**
 	 * Tests the indexable_needs_upgrade route for a low indexable version.
 	 *
-	 * @covers ::get_version_by_type
+	 * @covers ::needs_upgrade
 	 * @covers ::indexable_needs_upgrade
 	 */
 	public function test_needs_upgrade_if_Indexable_version_too_low() {
@@ -83,7 +83,7 @@ class Indexable_Version_Manager_Test extends TestCase {
 	/**
 	 * Tests the indexable_needs_upgrade route for an equal indexable version.
 	 *
-	 * @covers ::get_version_by_type
+	 * @covers ::needs_upgrade
 	 * @covers ::indexable_needs_upgrade
 	 */
 	public function test_needs_upgrade_if_Indexable_version_same() {
@@ -105,6 +105,7 @@ class Indexable_Version_Manager_Test extends TestCase {
 	/**
 	 * Tests the indexable_needs_upgrade route for an equal indexable version.
 	 *
+	 * @covers ::needs_upgrade
 	 * @covers ::indexable_needs_upgrade
 	 */
 	public function test_needs_upgrade_if_Indexable_version_higher() {
@@ -125,6 +126,7 @@ class Indexable_Version_Manager_Test extends TestCase {
 	/**
 	 * Tests the indexable_needs_upgrade route for an unknown indexable type.
 	 *
+	 * @covers ::needs_upgrade
 	 * @covers ::indexable_needs_upgrade
 	 */
 	public function test_needs_upgrade_if_Indexable_type_unknown() {

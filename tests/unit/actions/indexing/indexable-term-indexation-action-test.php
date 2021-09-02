@@ -110,7 +110,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn(
 			[
 				'public_taxonomy' => 'public_taxonomy',
-				'other_taxonomy'  => 'other_taxonomy'
+				'other_taxonomy'  => 'other_taxonomy',
 			]
 		);
 		$this->wpdb->expects( 'prepare' )
@@ -154,7 +154,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn(
 			[
 				'public_taxonomy' => 'public_taxonomy',
-				'other_taxonomy'  => 'other_taxonomy'
+				'other_taxonomy'  => 'other_taxonomy',
 			]
 		);
 		$this->wpdb->expects( 'prepare' )
@@ -194,7 +194,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->taxonomy
 			->expects( 'get_public_taxonomies' )
 			->once()
-			->andReturn( [ 'public_taxonomy' => 'public_taxonomy'] );
+			->andReturn( [ 'public_taxonomy' => 'public_taxonomy' ] );
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -234,7 +234,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn(
 			[
 				'public_taxonomy' => 'public_taxonomy',
-				'other_taxonomy'  => 'other_taxonomy'
+				'other_taxonomy'  => 'other_taxonomy',
 			]
 		);
 		$this->wpdb->expects( 'prepare' )
@@ -262,7 +262,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	public function test_index_with_limit_filter_no_int() {
 		Filters\expectApplied( 'wpseo_term_indexation_limit' )->andReturn( 'not an integer' );
 
-		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' => 'public_taxonomy'] );
+		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' => 'public_taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
 
@@ -301,7 +301,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn(
 			[
 				'public_taxonomy' => 'public_taxonomy',
-				'other_taxonomy'  => 'other_taxonomy'
+				'other_taxonomy'  => 'other_taxonomy',
 			]
 		);
 		$this->wpdb->expects( 'prepare' )

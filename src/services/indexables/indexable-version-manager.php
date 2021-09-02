@@ -50,7 +50,7 @@ class Indexable_Version_Manager {
 	 *
 	 * @return boolean True if the given version is older than the current latest version.
 	 */
-	public function needs_upgrade( $object_type, $indexable_version ) {
+	protected function needs_upgrade( $object_type, $indexable_version ) {
 		$current_indexable_builder_version = $this->indexable_builder_versions->get_latest_version_for_type( $object_type );
 
 		// If the Indexable's version is below the current version, that Indexable needs updating.
