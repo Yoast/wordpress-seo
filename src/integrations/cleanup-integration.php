@@ -83,14 +83,6 @@ class Cleanup_Integration implements Integration_Interface {
 	 * @return Closure[] The cleanup tasks.
 	 */
 	protected function get_cleanup_tasks() {
-
-		/**
-		 * Filter: Adds the possibility to add addition cleanup functions.
-		 *
-		 * @api array Associative array with unique keys. Value should be a cleanup function that receives a limit.
-		 */
-		$additional_tasks = \apply_filters( 'wpseo_cleanup_tasks', [] );
-
 		return \array_merge(
 			[
 				'clean_indexables_with_object_type_and_object_sub_type_shop_order' => function( $limit ) {
