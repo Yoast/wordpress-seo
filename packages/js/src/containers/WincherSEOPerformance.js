@@ -21,6 +21,7 @@ export default compose( [
 			hasPendingChartDataRequest,
 			hasWincherTrackedKeyphrases,
 			shouldWincherAutomaticallyTrackAll,
+			getWincherLoginStatus,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -38,6 +39,7 @@ export default compose( [
 			hasPendingChartRequest: hasPendingChartDataRequest(),
 			hasTrackedKeyphrases: hasWincherTrackedKeyphrases(),
 			shouldTrackAll: shouldWincherAutomaticallyTrackAll(),
+			isLoggedIn: getWincherLoginStatus(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

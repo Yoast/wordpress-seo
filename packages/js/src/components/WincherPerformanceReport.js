@@ -1,3 +1,5 @@
+/* global wpseoAdminGlobalL10n */
+
 /* External dependencies */
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -217,13 +219,15 @@ const WincherPerformanceReport = ( props ) => {
 						{
 							Object.entries( data )
 								.map( ( [ keyphrase, chartData ] ) => {
-									createRow( keyphrase, chartData, websiteId );
+									return createRow( keyphrase, chartData.ranking, websiteId );
 								} )
 						}
 					</tbody>
 				</table>
 				<p style={ { marginBottom: 0, position: "relative" } }>
-					<GetMoreInsightsLink href={ "https://google.com" }>
+					<GetMoreInsightsLink
+						href={ wpseoAdminGlobalL10n[ "links.wincher.login" ] }
+					>
 						{ sprintf(
 							/* translators: %s expands to Wincher */
 							__( "Get more insights over at %s", "wordpress-seo" ),

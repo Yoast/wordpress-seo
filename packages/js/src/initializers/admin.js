@@ -352,11 +352,8 @@ export default function initAdmin( jQuery ) {
 	}
 
 	function onConnect() {
-		const url = "https://auth.wincher.com/connect/authorize?client_id=yoast&response_type=code&" +
-			"redirect_uri=https%3A%2F%2Fauth.wincher.com%2Fyoast%2Fsetup&scope=api%20offline_access";
-
 		wincherPopup = new LoginPopup(
-			url,
+			wpseoAdminGlobalL10n[ "links.wincher.auth_url" ],
 			{
 				success: {
 					type: "wincher:oauth:success",
@@ -369,6 +366,8 @@ export default function initAdmin( jQuery ) {
 			},
 			{
 				title: "Wincher_login",
+				width: 400,
+				height: 600,
 			}
 		);
 

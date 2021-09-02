@@ -1,3 +1,5 @@
+/* global wpseoAdminGlobalL10n */
+
 /* External dependencies */
 import { __, sprintf } from "@wordpress/i18n";
 
@@ -34,7 +36,7 @@ const WincherLimitReached = ( props ) => {
 				interpolateComponents( {
 					mixedString: message,
 					components: {
-						updateWincherPlanLink: <UpdateWincherPlanLink href={ "https://google.com" }>
+						updateWincherPlanLink: <UpdateWincherPlanLink href={ wpseoAdminGlobalL10n[ "links.wincher.pricing" ] }>
 							{
 								sprintf(
 									/* translators: %s : Expands to "Wincher". */

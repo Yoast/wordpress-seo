@@ -84,4 +84,30 @@ describe( "WincherKeyphrasesTable", () => {
 		expect( component.instance().getKeyphraseData( "yoast seo" ) ).toEqual( keyphrasesData[ "yoast seo" ] );
 		expect( component.instance().getKeyphraseChartData( "yoast seo" ) ).toEqual( chartData[ "yoast seo" ] );
 	} );
+
+	it( "should track all keyphrases", () => {
+		const component = shallow( <WincherKeyphrasesTable
+			keyphrases={ keyphrases }
+			trackedKeyphrases={ keyphrasesData }
+			trackedKeyphrasesChartData={ chartData }
+			onAuthentication={ noop }
+			addTrackingKeyphrase={ noop }
+			newRequest={ noop }
+			setRequestLimitReached={ noop }
+			setPendingChartRequest={ noop }
+			setTrackingKeyphrases={ noop }
+			setRequestFailed={ noop }
+			setRequestSucceeded={ noop }
+			setTrackingCharts={ noop }
+			removeTrackingKeyphrase={ noop }
+			isLoggedIn={ true }
+			trackAll={ true }
+		/> );
+
+		const spy = jest.spyOn( component.instance(), "performTrackingRequest" );
+
+		component.instance().componentDidMount();
+
+		expect( spy ).toHaveBeenCalled();
+	} );
 } );

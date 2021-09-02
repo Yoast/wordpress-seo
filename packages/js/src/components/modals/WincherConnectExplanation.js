@@ -1,3 +1,5 @@
+/* global wpseoAdminGlobalL10n, wpseoAdminL10n */
+
 /* External dependencies */
 import { __, sprintf } from "@wordpress/i18n";
 import interpolateComponents from "interpolate-components";
@@ -30,10 +32,10 @@ const WincherConnectExplanation = () => {
 				interpolateComponents( {
 					mixedString: message,
 					components: {
-						wincherLink: <WincherLink href={ "https://google.com" }>
+						wincherLink: <WincherLink href={ wpseoAdminGlobalL10n[ "links.wincher.website" ] }>
 							Wincher
 						</WincherLink>,
-						wincherReadMoreLink: <WincherReadMoreLink href={ "https://google.com" }>
+						wincherReadMoreLink: <WincherReadMoreLink href={ wpseoAdminL10n[ "shortlinks.wincher.seo_performance_info" ] }>
 							{ __( "Read more about keyphrase tracking with Wincher", "wordpress-seo" ) }
 						</WincherReadMoreLink>,
 					},

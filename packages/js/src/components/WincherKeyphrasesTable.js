@@ -1,3 +1,5 @@
+/* global wpseoAdminGlobalL10n */
+
 /* External dependencies */
 import PropTypes from "prop-types";
 import { Fragment, Component } from "@wordpress/element";
@@ -54,11 +56,8 @@ class WincherKeyphrasesTable extends Component {
 	 * @returns {void}
 	 */
 	onLoginOpen() {
-		const url = "https://auth.wincher.com/connect/authorize?client_id=yoast&response_type=code&" +
-			"redirect_uri=https%3A%2F%2Fauth.wincher.com%2Fyoast%2Fsetup&scope=api%20offline_access";
-
 		this.loginPopup = new LoginPopup(
-			url,
+			wpseoAdminGlobalL10n[ "links.wincher.auth_url" ],
 			{
 				success: {
 					type: "wincher:oauth:success",
@@ -71,6 +70,8 @@ class WincherKeyphrasesTable extends Component {
 			},
 			{
 				title: "Wincher_login",
+				width: 400,
+				height: 600,
 			}
 		);
 
@@ -123,7 +124,6 @@ class WincherKeyphrasesTable extends Component {
 
 				// Collect all data known to Wincher first.
 				await this.getTrackedKeyphrases( keyphrases );
-				await this.getTrackedKeyphrasesChartData( keyphrases );
 				await this.performTrackingRequest( lastRequestKeyphrase );
 
 				// Close the popup if it's been opened again by mistake.
@@ -163,7 +163,6 @@ class WincherKeyphrasesTable extends Component {
 			async( response ) => {
 				setRequestSucceeded( response );
 				addTrackingKeyphrase( response.results );
-				await this.getTrackedKeyphrasesChartData( keyphrases );
 			},
 			201
 		);
@@ -189,6 +188,7 @@ class WincherKeyphrasesTable extends Component {
 		}
 
 		await this.performTrackingRequest( keyphrase );
+		await this.getTrackedKeyphrasesChartData( Object.keys( this.props.trackedKeyphrases ) );
 	}
 
 	/**
@@ -231,6 +231,10 @@ class WincherKeyphrasesTable extends Component {
 				setRequestSucceeded( response );
 				setTrackingKeyphrases( response.results );
 
+				if ( isEmpty( response.results ) ) {
+					return;
+				}
+
 				// Get the chart data.
 				await this.getTrackedKeyphrasesChartData( keyphrases );
 			}
@@ -254,7 +258,7 @@ class WincherKeyphrasesTable extends Component {
 		setPendingChartRequest( true );
 
 		await this.handleAPIResponse(
-			() => getKeyphrasesChartData( keyphrases ),
+			() => getKeyphrasesChartData( keyphrases, window.wp.data.select( "core/editor" ).getPermalink() ),
 			( response ) => {
 				setRequestSucceeded( response );
 				setTrackingCharts( response.results );
@@ -397,7 +401,9 @@ class WincherKeyphrasesTable extends Component {
 					</tbody>
 				</table>
 				<p style={ { marginBottom: 0, position: "relative" } }>
-					<GetMoreInsightsLink href={ "https://google.com" }>
+					<GetMoreInsightsLink
+						href={ wpseoAdminGlobalL10n[ "links.wincher.login" ] }
+					>
 						{ sprintf(
 							/* translators: %s expands to Wincher */
 							__( "Get more insights over at %s", "wordpress-seo" ),

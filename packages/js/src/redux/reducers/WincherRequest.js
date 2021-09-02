@@ -7,7 +7,9 @@ import {
 	WINCHER_NEW_REQUEST,
 	WINCHER_NO_DATA_FOUND,
 	WINCHER_SET_LOGIN_STATUS,
-	WINCHER_SET_TRACK_ALL_REQUEST, WINCHER_SET_PENDING_CHART_DATA_REQUEST, WINCHER_SET_AUTOMATICALLY_TRACK_ALL_REQUEST,
+	WINCHER_SET_TRACK_ALL_REQUEST,
+	WINCHER_SET_PENDING_CHART_DATA_REQUEST,
+	WINCHER_SET_AUTOMATICALLY_TRACK_ALL_REQUEST,
 } from "../actions";
 
 const INITIAL_STATE = {
@@ -93,7 +95,7 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 		case WINCHER_SET_AUTOMATICALLY_TRACK_ALL_REQUEST:
 			return {
 				...state,
-				automaticallyTrack: true,
+				automaticallyTrack: action.automaticallyTrack,
 			};
 		default:
 			return state;

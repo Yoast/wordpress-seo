@@ -108,6 +108,7 @@ describe( "WincherTableRow", () => {
 		expect( component.find( Toggle ).length ).toEqual( 1 );
 		expect( component.find( AreaChart ).length ).toEqual( 1 );
 
+		expect( component.find( Toggle ).getElement().props.id ).toBe( "toggle-keyphrase-tracking-yoast seo" );
 		expect( component.find( Toggle ).getElement().props.isEnabled ).toBe( true );
 		expect( component.find( Toggle ).getElement().props.showToggleStateLabel ).toBe( false );
 
@@ -125,6 +126,7 @@ describe( "WincherTableRow", () => {
 		expect( component.find( Toggle ).length ).toEqual( 1 );
 		expect( component.find( AreaChart ).length ).toEqual( 0 );
 
+		expect( component.find( Toggle ).getElement().props.id ).toBe( "toggle-keyphrase-tracking-yoast seo" );
 		expect( component.find( Toggle ).getElement().props.isEnabled ).toBe( false );
 		expect( component.find( "td" ).at( 1 ).text() ).toEqual( "yoast seo" );
 		expect( component.find( "td" ).at( 2 ).text() ).toEqual( "?" );

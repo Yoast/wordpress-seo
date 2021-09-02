@@ -1,4 +1,4 @@
-/* global wpseoDashboardWidgetL10n, wpseoApi */
+/* global wpseoDashboardWidgetL10n, wpseoApi, wpseoAdminGlobalL10n */
 // External dependencies.
 import { Component, render } from "@wordpress/element";
 
@@ -11,7 +11,7 @@ import { getPostFeed } from "@yoast/helpers";
 // Internal dependencies.
 import { setYoastComponentsL10n } from "./helpers/i18n";
 import WincherPerformanceReport from "./components/WincherPerformanceReport";
-import { authenticate, getKeyphrasesChartData, trackAllKeyphrases } from "./helpers/wincherEndpoints";
+import { authenticate, getKeyphrases, trackAllKeyphrases } from "./helpers/wincherEndpoints";
 import LoginPopup from "./helpers/loginPopup";
 
 /**
@@ -149,7 +149,7 @@ class DashboardWidget extends Component {
 	 * @returns {void}
 	 */
 	async getWincherData() {
-		const keyphraseChartData = await getKeyphrasesChartData();
+		const keyphraseChartData = await getKeyphrases( [], true );
 
 		if ( keyphraseChartData.status === 200 ) {
 			const wincherData = Object.fromEntries(
@@ -171,11 +171,11 @@ class DashboardWidget extends Component {
 	 * @returns {number} The sorting order.
 	 */
 	sortWincherData( [ , a ], [ , b ] ) {
-		if ( a.position.value > b.position.value ) {
+		if ( a.ranking.position.value > b.ranking.position.value ) {
 			return 1;
 		}
 
-		if ( a.position.value < b.position.value ) {
+		if ( a.ranking.position.value < b.ranking.position.value ) {
 			return -1;
 		}
 
@@ -250,11 +250,8 @@ class DashboardWidget extends Component {
 	 * @returns {void}
 	 */
 	onConnect() {
-		const url = "https://auth.wincher.com/connect/authorize?client_id=yoast&response_type=code&" +
-			"redirect_uri=https%3A%2F%2Fauth.wincher.com%2Fyoast%2Fsetup&scope=api%20offline_access";
-
 		this.loginPopup = new LoginPopup(
-			url,
+			wpseoAdminGlobalL10n[ "links.wincher.auth_url" ],
 			{
 				success: {
 					type: "wincher:oauth:success",
@@ -267,6 +264,8 @@ class DashboardWidget extends Component {
 			},
 			{
 				title: "Wincher_login",
+				width: 400,
+				height: 600,
 			}
 		);
 

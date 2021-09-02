@@ -38,42 +38,38 @@ export async function authenticate( responseData ) {
 /**
  * Gets the chart data for the tracked keyphrases.
  *
- * @param {Array} keyphrases The keyphrases used in the post.
+ * @param {Array}  keyphrases The keyphrases used in the post.
+ * @param {string} permalink  The post's/page's permalink. Optional.
  *
  * @returns {Promise} The API response promise.
  */
-export async function getKeyphrasesChartData( keyphrases = [] ) {
-	const preparedKeyphrases = encodeURIComponent( JSON.stringify( keyphrases ) );
-
+export async function getKeyphrasesChartData( keyphrases = [], permalink = "" ) {
 	return await callEndpoint( {
-		path: addQueryArgs(
-			"yoast/v1/wincher/keyphrases/chart",
-			{
-				keyphrases: preparedKeyphrases,
-			}
-		),
-		method: "GET",
+		path: "yoast/v1/wincher/keyphrases/chart",
+		method: "POST",
+		data: {
+			keyphrases,
+			permalink,
+		},
 	} );
 }
 
 /**
- * Gets the tracked keyphrases data.
+ * Gets the tracked keyphrases data via POST.
  *
- * @param {Array} keyphrases The keyphrases to get the data for.
+ * @param {Array}   keyphrases     The keyphrases to get the data for.
+ * @param {boolean} includeRanking Whether ranking data should be included.
  *
  * @returns {Promise} The API response promise.
  */
-export async function getKeyphrases( keyphrases = [] ) {
-	const preparedKeyphrases = encodeURIComponent( JSON.stringify( keyphrases ) );
-
+export async function getKeyphrases( keyphrases = [], includeRanking = false ) {
 	return await callEndpoint( {
-		path: addQueryArgs(
-			"yoast/v1/wincher/keyphrases",
-			{
-				keyphrases: preparedKeyphrases,
-			}
-		),
-		method: "GET",
+		path: "yoast/v1/wincher/keyphrases",
+		method: "POST",
+		data: {
+			keyphrases,
+			includeRanking,
+		},
 	} );
 }
 

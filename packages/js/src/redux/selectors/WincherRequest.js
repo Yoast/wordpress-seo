@@ -127,5 +127,5 @@ export function hasPendingChartDataRequest( state ) {
  * @returns {boolean} Whether all keyphrases should automatically be tracked.
  */
 export function shouldWincherAutomaticallyTrackAll( state ) {
-	return state.WincherRequest.automaticallyTrack === true;
+	return state.WincherRequest.automaticallyTrack;
 }
