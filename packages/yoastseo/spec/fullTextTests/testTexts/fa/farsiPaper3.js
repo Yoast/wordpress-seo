@@ -128,7 +128,9 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!",
 	},
 	passiveVoice: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
 	},
 	textPresence: {
 		isApplicable: true,
