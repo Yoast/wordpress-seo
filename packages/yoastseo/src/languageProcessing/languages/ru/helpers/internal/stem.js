@@ -24,8 +24,6 @@
  * https://github.com/neonxp/Stemmer/blob/master/src/NXP/Stemmer.php
  */
 
-import { checkBeginningsList } from "../../../id/helpers/internal/stemHelpers";
-
 /**
  * Checks if the input character is a Russian vowel.
  *
@@ -129,8 +127,8 @@ const removePerfectiveAffixes = function( word, morphologyData, rv ) {
 	const perfectiveSuffixes = morphologyData.externalStemmer.regexPerfectiveEndings;
 	const perfectiveEndingsRegex = new RegExp( perfectiveSuffixes, "i" );
 
-	if( prefix === "по" || prefix === "про" ){
-		if( perfectiveEndingsRegex.test( ending ) ){
+	if ( ( prefix === "по" && ! ending.startsWith( "д" ) ) || prefix === "про" ) {
+		if ( perfectiveEndingsRegex.test( ending ) ) {
 			word = ending.replace( perfectiveEndingsRegex, "" );
 		}
 	}

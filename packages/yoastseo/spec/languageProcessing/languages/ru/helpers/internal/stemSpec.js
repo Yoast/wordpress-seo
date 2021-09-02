@@ -11,7 +11,11 @@ const wordsToStem = [
 	// Words with perfective prefix and verb suffix.
 	[ "прочитал", "чит" ],
 	[ "побежать", "беж" ],
-	[ "поcодействовали", "посодействов" ],
+	[ "поcодействовали", "cодействов" ],
+	[ "просмотрела", "смотр" ],
+	// Verbs that start on под- (по- must not get stemmed)
+	[ "подбежать", "подбежа" ],
+	[ "подставить", "подстав" ],
 	// Words with noun suffixes
 	[ "записей", "запис" ],
 	[ "записями", "запис" ],
