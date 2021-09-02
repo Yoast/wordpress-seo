@@ -119,7 +119,7 @@ const removeEndings = function( word, regex, region ) {
  *
  * @returns {string|null}	The word if the stemming rule could be applied or null otherwise.
  */
-const removePerfectiveAffixes = function( word, morphologyData, rv ) {
+const removePerfectivePrefix = function( word, morphologyData, rv ) {
 	// Checks if word has perfective prefix and verb suffix
 	const prefix = word.substr( 0, rv );
 	const ending = word.substr( prefix.length );
@@ -129,7 +129,7 @@ const removePerfectiveAffixes = function( word, morphologyData, rv ) {
 
 	if ( ( prefix === "по" && ! ending.startsWith( "д" ) ) || prefix === "про" ) {
 		if ( perfectiveEndingsRegex.test( ending ) ) {
-			word = ending.replace( perfectiveEndingsRegex, "" );
+			word = ending;
 		}
 	}
 	return word;
@@ -250,7 +250,7 @@ export default function stem( word, morphologyData ) {
 	const rv = findRvRegion( word, morphologyData );
 
 	// Step 0: Remove prefective prefixes and verb ending for perfective aspect verbs
-	word = removePerfectiveAffixes( word, morphologyData, rv );
+	word = removePerfectivePrefix( word, morphologyData, rv );
 
 	// Step 1: Remove inflectional suffixes if they are present in the word.
 	word = removeInflectionalSuffixes( word, morphologyData, rv );
