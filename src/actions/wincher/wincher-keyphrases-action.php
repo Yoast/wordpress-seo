@@ -16,13 +16,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Wincher_Keyphrases_Action {
 
 	/**
-	 * The Wincher keyphrase URL for single keyphrase addition.
-	 *
-	 * @var string
-	 */
-	const KEYPHRASE_ADD_URL = 'https://api.wincher.com/beta/websites/%s/keywords';
-
-	/**
 	 * The Wincher keyphrase URL for bulk addition.
 	 *
 	 * @var string
@@ -182,16 +175,22 @@ class Wincher_Keyphrases_Action {
 	 * Gets the tracked keyphrases.
 	 *
 	 * @param array $used_keyphrases The keyphrases used in the current post.
+	 * @param bool  $include_ranking Whether to include ranking data in the response..
 	 *
 	 * @return object The response object.
 	 */
-	public function get_tracked_keyphrases( $used_keyphrases = [] ) {
+	public function get_tracked_keyphrases( $used_keyphrases = [], $include_ranking = false ) {
 		try {
 			$results = $this->client->get(
 				\sprintf(
 					self::KEYPHRASES_URL,
 					$this->options_helper->get( 'wincher_website_id' )
-				)
+				),
+				[
+					'params' => [
+						'include_ranking' => ( $include_ranking ) ? 'true': 'false',
+					],
+				]
 			);
 
 			if ( ! empty( $used_keyphrases ) ) {
@@ -216,11 +215,12 @@ class Wincher_Keyphrases_Action {
 	 * Gets the keyphrase chart data for the passed keyphrases.
 	 * Retrieves all available chart data if no keyphrases are provided.
 	 *
-	 * @param array $used_keyphrases The currently used keyphrases. Optional.
+	 * @param array  $used_keyphrases The currently used keyphrases. Optional.
+	 * @param string $permalink       The current permalink. Optional.
 	 *
 	 * @return object The keyphrase chart data.
 	 */
-	public function get_keyphrase_chart_data( $used_keyphrases = [] ) {
+	public function get_keyphrase_chart_data( $used_keyphrases = [], $permalink = '' ) {
 		try {
 			$endpoint = \sprintf(
 				self::KEYPHRASES_CHART_URL,
@@ -234,17 +234,16 @@ class Wincher_Keyphrases_Action {
 						'start_at' => gmdate( 'Y-m-d\T00:00:00\Z', strtotime( '-90 days' ) ),
 						'end_at'   => gmdate( 'Y-m-d\TH:i:s\Z' ),
 					],
+					'timeout' => 60,
 				]
 			);
 
-			// Get current site URL as Wincher can track multiple websites for a single account.
-			$current_site_url = \get_site_url();
+			$permalink = empty( $permalink ) ? get_site_url( null, '/' ) : $permalink;
 
-			// Filter correct site data.
 			$site_chart = \array_filter(
 				$results['data'],
-				function( $entry ) use ( $current_site_url ) {
-					return rtrim( $entry['url'], '/' ) === $current_site_url;
+				function( $entry ) use ( $permalink ) {
+					return $entry['url'] === $permalink;
 				}
 			);
 
@@ -373,6 +372,10 @@ class Wincher_Keyphrases_Action {
 	protected function would_exceed_limits( $keyphrases, $limits ) {
 		if ( ! is_array( $keyphrases ) ) {
 			$keyphrases = [ $keyphrases ];
+		}
+
+		if ( \is_null( $limits->limit ) ) {
+			return false;
 		}
 
 		return ( count( $keyphrases ) + $limits->usage ) > $limits->limit;

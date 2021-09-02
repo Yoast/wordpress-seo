@@ -180,12 +180,15 @@ class Wincher_Route implements Route_Interface {
 		\register_rest_route( Main::API_V1_NAMESPACE, self::KEYPHRASES_TRACK_ROUTE, $track_keyphrases_route_args );
 
 		$get_keyphrases_route_args = [
-			'methods'             => 'GET',
+			'methods'             => 'POST',
 			'callback'            => [ $this, 'get_tracked_keyphrases' ],
 			'permission_callback' => [ $this, 'can_use_wincher' ],
 			'args'                => [
 				'keyphrases' => [
 					'required' => true,
+				],
+				'include_ranking' => [
+					'required' => false,
 				],
 			],
 		];
@@ -201,7 +204,7 @@ class Wincher_Route implements Route_Interface {
 		\register_rest_route( Main::API_V1_NAMESPACE, self::UNTRACK_KEYPHRASE_ROUTE, $delete_keyphrase_route_args );
 
 		$get_keyphrase_chart_route_args = [
-			'methods'             => 'GET',
+			'methods'             => 'POST',
 			'callback'            => [ $this, 'get_keyphrase_chart_data' ],
 			'permission_callback' => [ $this, 'can_use_wincher' ],
 			'args'                => [
@@ -265,16 +268,17 @@ class Wincher_Route implements Route_Interface {
 	}
 
 	/**
-	 * Gets the tracked keyphrases.
+	 * Gets the tracked keyphrases via POST.
+	 * This is done via POST, so we don't potentially run into URL limit issues when a lot of long keyphrases are tracked.
 	 *
 	 * @param WP_REST_Request $request The request. This request should have a code param set.
 	 *
 	 * @return WP_REST_Response The response.
 	 */
 	public function get_tracked_keyphrases( WP_REST_Request $request ) {
-		$decoded_keyphrases = \json_decode( \urldecode( $request['keyphrases'] ) );
+		$include_ranking = isset( $request['includeRanking' ] ) && $request['includeRanking' ] === true;
 
-		$data = $this->keyphrases_action->get_tracked_keyphrases( $decoded_keyphrases );
+		$data = $this->keyphrases_action->get_tracked_keyphrases( $request['keyphrases'], $include_ranking );
 
 		return new WP_REST_Response( $data, $data->status );
 	}
@@ -296,16 +300,15 @@ class Wincher_Route implements Route_Interface {
 	}
 
 	/**
-	 * Gets the tracked keyphrases chart data.
+	 * Gets the tracked keyphrases chart data via POST.
+	 * This is done via POST, so we don't potentially run into URL limit issues when a lot of long keyphrases are tracked.
 	 *
 	 * @param WP_REST_Request $request The request. This request should have a code param set.
 	 *
 	 * @return WP_REST_Response The response.
 	 */
 	public function get_keyphrase_chart_data( WP_REST_Request $request ) {
-		$decoded_keyphrases = \json_decode( \urldecode( $request['keyphrases'] ) );
-
-		$data = $this->keyphrases_action->get_keyphrase_chart_data( $decoded_keyphrases );
+		$data = $this->keyphrases_action->get_keyphrase_chart_data( $request['keyphrases'], $request['permalink'] );
 
 		return new WP_REST_Response( $data, $data->status );
 	}
