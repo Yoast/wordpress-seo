@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from "@yoast/feature-flag";
 import { filter, flatten, map, merge, partition, sortBy } from "lodash-es";
 
 import marker from "../../../markers/addMark";
@@ -139,11 +138,6 @@ export default class SentenceBeginningsAssessment extends Assessment {
 	 * @returns {object} The Assessment result
 	 */
 	getResult( paper, researcher, i18n ) {
-		// Check if the Farsi feature is enabled and return the default result if it isn't.
-		if ( researcher.getConfig( "language" ) === "fa" && ! isFeatureEnabled( "FARSI_SUPPORT" ) ) {
-			return new AssessmentResult();
-		}
-
 		const sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
 		const groupedSentenceBeginnings = this.groupSentenceBeginnings( sentenceBeginnings );
 		const sentenceBeginningsResult = this.calculateSentenceBeginningsResult( groupedSentenceBeginnings, i18n );
