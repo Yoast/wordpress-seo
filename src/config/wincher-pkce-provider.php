@@ -14,6 +14,8 @@ use YoastSEO_Vendor\Psr\Log\InvalidArgumentException;
 
 /**
  * Class Wincher_PKCE_Provider
+ *
+ * @codeCoverageIgnore Ignoring as this class is purely a temporary wrapper until https://github.com/thephpleague/oauth2-client/pull/901 is merged.
  */
 class Wincher_PKCE_Provider extends GenericProvider {
 	use BearerAuthorizationTrait;

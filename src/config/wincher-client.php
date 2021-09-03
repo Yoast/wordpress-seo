@@ -59,6 +59,7 @@ class Wincher_Client extends OAuth_Client {
 
 	/**
 	 * @inheritDoc
+	 * @codeCoverageIgnore
 	 */
 	protected function do_request( $method, $url, array $options ) {
 		$options['headers'] = [ 'Content-Type' => 'application/json' ];
