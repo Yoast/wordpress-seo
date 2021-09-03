@@ -1,5 +1,4 @@
 // External dependencies.
-import { select } from "@wordpress/data";
 import styled from "styled-components";
 import React from "react";
 import PropTypes from "prop-types";
@@ -74,8 +73,9 @@ function getTitleProgress( title ) {
 /**
  * Gets the description progress.
  *
- * @param {string} description The description.
- * @param {string} date        The meta description date
+ * @param {string}  description     The description.
+ * @param {string}  date            The meta description date.
+ * @param {boolean} useCornerstone  Whether the cornerstone content toggle is on or off.
  *
  * @returns {Object} The description progress.
  */
@@ -86,13 +86,14 @@ function getDescriptionProgress( description, date, useCornerstone ) {
 	if ( date !== "" && descriptionLength > 0 ) {
 		descriptionLength += date.length + 3;
 	}
+
 	const metaDescriptionLengthAssessment = useCornerstone ? new MetaDescriptionLengthAssessment( {
-			scores: {
-				tooLong: 3,
-				tooShort: 3,
-			}
-		} ) : new MetaDescriptionLengthAssessment()
-	//const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
+		scores: {
+			tooLong: 3,
+			tooShort: 3,
+		},
+	} ) : new MetaDescriptionLengthAssessment();
+
 	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength );
 	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength();
 
@@ -118,6 +119,7 @@ class SnippetEditor extends React.Component {
 	 * @param {string}   props.data.title                        The initial title.
 	 * @param {string}   props.data.slug                         The initial slug.
 	 * @param {string}   props.data.description                  The initial description.
+	 * @param {bool}     props.isCornerstone                     Whether the cornerstone content toggle is on or off.
 	 * @param {string}   props.baseUrl                           The base URL to use for the preview.
 	 * @param {string}   props.mode                              The mode the editor should be in.
 	 * @param {Function} props.onChange                          Called when the data changes.
@@ -135,11 +137,6 @@ class SnippetEditor extends React.Component {
 		super( props );
 		const measurementData = this.mapDataToMeasurements( props.data );
 		const previewData = this.mapDataToPreview( measurementData );
-		const {
-			isCornerstoneContent,
-		} = select( "yoast-seo/editor" );
-		const useCornerstone = isCornerstoneContent();
-		console.log( useCornerstone, "use cornerstone in SnippetEditor");
 
 		this.state = {
 			// Is opened by default when show close button is hidden.
@@ -148,7 +145,7 @@ class SnippetEditor extends React.Component {
 			hoveredField: null,
 			mappedData: previewData,
 			titleLengthProgress: getTitleProgress( measurementData.title ),
-			descriptionLengthProgress: getDescriptionProgress( measurementData.description, this.props.date, useCornerstone ),
+			descriptionLengthProgress: getDescriptionProgress( measurementData.description, this.props.date, props.isCornerstone ),
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
@@ -174,7 +171,8 @@ class SnippetEditor extends React.Component {
 		if (
 			prevProps.data.description !== nextProps.data.description ||
 			prevProps.data.slug !== nextProps.data.slug ||
-			prevProps.data.title !== nextProps.data.title
+			prevProps.data.title !== nextProps.data.title ||
+			prevProps.isCornerstone !== nextProps.isCornerstone
 		) {
 			isDirty = true;
 		}
@@ -203,7 +201,7 @@ class SnippetEditor extends React.Component {
 			this.setState(
 				{
 					titleLengthProgress: getTitleProgress( data.title ),
-					descriptionLengthProgress: getDescriptionProgress( data.description, nextProps.date ),
+					descriptionLengthProgress: getDescriptionProgress( data.description, nextProps.date, nextProps.isCornerstone ),
 				}
 			);
 		}
@@ -619,6 +617,7 @@ SnippetEditor.propTypes = {
 	mobileImageSrc: PropTypes.string,
 	idSuffix: PropTypes.string,
 	shoppingData: PropTypes.object,
+	isCornerstone: PropTypes.bool,
 };
 
 SnippetEditor.defaultProps = {
@@ -648,6 +647,7 @@ SnippetEditor.defaultProps = {
 	mobileImageSrc: "",
 	idSuffix: "",
 	shoppingData: {},
+	isCornerstone: false,
 };
 
 export default SnippetEditor;
