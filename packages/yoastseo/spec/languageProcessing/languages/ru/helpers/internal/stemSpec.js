@@ -8,6 +8,18 @@ const morphologyDataRU = getMorphologyData( "ru" ).ru;
 const wordsToStem = [
 	// Words with perfective gerund suffix.
 	[ "прочитав", "прочит" ],
+	// Words with perfective prefix and verb suffix.
+	[ "прочитал", "чита" ],
+	[ "читал", "чита" ],
+	[ "побежать", "бежа" ],
+	[ "поcодействовали", "cодействова" ],
+	[ "просмотрела", "смотре" ],
+	[ "смотреть", "смотре" ],
+	[ "позавтракали", "завтрака" ],
+	[ "завтракают", "завтрака" ],
+	// Verbs that start on под- (по- must not get stemmed)
+	[ "подбежать", "подбежа" ],
+	[ "подставить", "подстав" ],
 	// Words with noun suffixes
 	[ "записей", "запис" ],
 	[ "записями", "запис" ],

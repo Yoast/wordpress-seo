@@ -104,7 +104,7 @@ describe( "A content assessor", function() {
 		let points, results, contentAssessor;
 
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n );
+			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher() );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -284,7 +284,7 @@ describe( "A content assessor", function() {
 	} );
 
 	describe( "has configuration overrides", () => {
-		const assessor = new ContentAssessor( i18n );
+		const assessor = new ContentAssessor( i18n, new DefaultResearcher() );
 
 		test( "SubheadingsDistributionTooLong", () => {
 			const assessment = assessor.getAssessment( "subheadingsTooLong" );
