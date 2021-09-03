@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Models\Indexable;
  *
  * Formats the homepage meta to indexable format.
  *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 4 words is fine.
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Home_Page_Builder {
 

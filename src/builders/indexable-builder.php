@@ -371,8 +371,6 @@ class Indexable_Builder {
 					break;
 			}
 
-			// After building the indexable, set it to the latest version for the indexable type.
-			$indexable = $this->version_manager->set_latest( $indexable );
 			return $this->save_indexable( $indexable, $indexable_before );
 
 		}

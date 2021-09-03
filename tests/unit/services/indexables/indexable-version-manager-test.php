@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Services\Indexables;
 
 use Mockery;
 use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Config\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Config\Indexable_Builder_Versions_Double;
@@ -56,7 +57,10 @@ class Indexable_Version_Manager_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertInstanceOf( Indexable_Version_Manager::class, $this->instance );
+		self::assertInstanceOf(
+			Indexable_Builder_Versions::class,
+			self::getPropertyValue( $this->instance, 'indexable_builder_versions' )
+		);
 	}
 
 	/**
