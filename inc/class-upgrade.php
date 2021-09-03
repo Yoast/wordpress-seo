@@ -73,9 +73,8 @@ class WPSEO_Upgrade {
 			'15.9.1-RC0' => 'upgrade_1591',
 			'16.2-RC0'   => 'upgrade_162',
 			'16.5-RC0'   => 'upgrade_165',
-			'16.9-RC0'   => 'upgrade_169',
-			'17.0-RC0'   => 'upgrade_170',
 			'17.1-RC0'   => 'upgrade_171',
+			'17.2-RC0'   => 'upgrade_172',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -833,41 +832,16 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 16.9 upgrade. shop_order indexables stopped being added in the db since 16.7, so we have to clean out older entries from the indexable table.
+	 * Performs the 17.2 upgrade. Cleans out any unnecessary indexables. See $cleanup_integration->get_cleanup_tasks() to see what will be cleaned out.
 	 *
 	 * @return void
 	 */
-	private function upgrade_169() {
-		$cleanup_integration = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Cleanup_Integration::class );
-		$number_of_deletions = $cleanup_integration->clean_indexables_with_object_type( 'post', 'shop_order', 1000 );
+	private function upgrade_172() {
+		\wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
+		\wp_unschedule_hook( 'wpseo_cleanup_indexables' );
 
-		if ( ! empty( $number_of_deletions ) ) {
-			$indexables_to_clean = [ 'post', 'shop_order' ];
-
-			if ( ! wp_next_scheduled( 'wpseo_cleanup_indexables', $indexables_to_clean ) ) {
-				wp_schedule_event(
-					time(),
-					'hourly',
-					'wpseo_cleanup_indexables',
-					$indexables_to_clean
-				);
-			}
-		}
-	}
-
-	/**
-	 * Performs the 17.0 upgrade. shop_order indexables were cleaned from the indexable table in 16.9, so we have to clean out the orphaned entries from the rest of the tables.
-	 *
-	 * @return void
-	 */
-	private function upgrade_170() {
-		// Sets a scheduled job to do the cleanup eventually and not in the upgrade process itself. When that cleanup is completed, the job will de-register itself.
-		if ( ! wp_next_scheduled( 'wpseo_cleanup_orphaned_indexables' ) ) {
-			wp_schedule_event(
-				time(),
-				'hourly',
-				'wpseo_cleanup_orphaned_indexables'
-			);
+		if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
+			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
 		}
 	}
 
