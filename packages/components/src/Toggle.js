@@ -37,8 +37,8 @@ const ToggleBar = styled.div`
 const ToggleBullet = styled.span`
 	background-color: ${ props => props.isEnabled ? colors.$color_green_medium_light : colors.$color_grey_medium_dark };
 	${ props => props.isEnabled
-		? getDirectionalStyle( "margin-left: 12px;", "margin-right: 12px;" )
-		: getDirectionalStyle( "margin-left: -2px;", "margin-right: -2px;" ) };
+	? getDirectionalStyle( "margin-left: 12px;", "margin-right: 12px;" )
+	: getDirectionalStyle( "margin-left: -2px;", "margin-right: -2px;" ) };
 	box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.1);
 	border-radius: 100%;
 	height: 20px;
