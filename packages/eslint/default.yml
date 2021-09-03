@@ -159,6 +159,9 @@ rules:
   func-style: 0
   id-length: 0
   id-match: 0
+  # Note: We need to disable the indent rule for template literals
+  # because of a bug in how babel-eslint parse them.
+  # See https://github.com/babel/babel-eslint/issues/741
   indent: [2, tab, {"SwitchCase": 1, "ignoredNodes": [TemplateLiteral] }]
   jsx-quotes: [2, "prefer-double"]
   key-spacing: [2, {"beforeColon": false, "afterColon": true}]
