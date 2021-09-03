@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { enableFeatures } from "@yoast/feature-flag";
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();
@@ -17,7 +16,6 @@ import MetaDescriptionKeywordAssessment from "../../src/scoring/assessments/seo/
 import MetaDescriptionLengthAssessment from "../../src/scoring/assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeywordAssessment from "../../src/scoring/assessments/seo/SubHeadingsKeywordAssessment";
 import TextCompetingLinksAssessment from "../../src/scoring/assessments/seo/TextCompetingLinksAssessment";
-import TextImagesAssessment from "../../src/scoring/assessments/seo/TextImagesAssessment";
 import TextLengthAssessment from "../../src/scoring/assessments/seo/TextLengthAssessment";
 import OutboundLinksAssessment from "../../src/scoring/assessments/seo/OutboundLinksAssessment";
 import InternalLinksAssessment from "../../src/scoring/assessments/seo/InternalLinksAssessment";
@@ -25,22 +23,21 @@ import TitleKeywordAssessment from "../../src/scoring/assessments/seo/TitleKeywo
 import TitleWidthAssessment from "../../src/scoring/assessments/seo/PageTitleWidthAssessment";
 import UrlKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordAssessment";
 import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
+import ImageKeyphraseAssessment from "../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
+import ImageCountAssessment from "../../src/scoring/assessments/seo/ImageCountAssessment";
 
 // Import content assessments
 import fleschReadingAssessment from "../../src/scoring/assessments/readability/fleschReadingEaseAssessment";
-import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/subheadingDistributionTooLongAssessment";
-import paragraphTooLongAssessment from "../../src/scoring/assessments/readability/paragraphTooLongAssessment";
-import SentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/sentenceLengthInTextAssessment";
-import transitionWordsAssessment from "../../src/scoring/assessments/readability/transitionWordsAssessment";
-import passiveVoiceAssessment from "../../src/scoring/assessments/readability/passiveVoiceAssessment";
-import textPresenceAssessment from "../../src/scoring/assessments/readability/textPresenceAssessment";
-import sentenceBeginningsAssessment from "../../src/scoring/assessments/readability/sentenceBeginningsAssessment";
+import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
+import ParagraphTooLongAssessment from "../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
+import SentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
+import TransitionWordsAssessment from "../../src/scoring/assessments/readability/TransitionWordsAssessment";
+import PassiveVoiceAssessment from "../../src/scoring/assessments/readability/PassiveVoiceAssessment";
+import TextPresenceAssessment from "../../src/scoring/assessments/readability/TextPresenceAssessment";
+import SentenceBeginningsAssessment from "../../src/scoring/assessments/readability/SentenceBeginningsAssessment";
 
 // Import test papers
 import testPapers from "./testTexts";
-
-// Enable Norwegian Readability feature
-enableFeatures( [ "NORWEGIAN_READABILITY" ] );
 
 testPapers.forEach( function( testPaper ) {
 	// eslint-disable-next-line max-statements
@@ -63,7 +60,6 @@ testPapers.forEach( function( testPaper ) {
 		const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
 		const subheadingsKeywordAssessment = new SubheadingsKeywordAssessment();
 		const textCompetingLinksAssessment = new TextCompetingLinksAssessment();
-		const textImagesAssessment = new TextImagesAssessment();
 		const textLengthAssessment = new TextLengthAssessment();
 		const outboundLinksAssessment = new OutboundLinksAssessment();
 		const internalLinksAssessment = new InternalLinksAssessment();
@@ -73,6 +69,13 @@ testPapers.forEach( function( testPaper ) {
 		const keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();
 		const subheadingDistributionTooLongAssessment = new SubheadingDistributionTooLongAssessment();
 		const sentenceLengthInTextAssessment = new SentenceLengthInTextAssessment();
+		const imageKeyphraseAssessment = new ImageKeyphraseAssessment();
+		const imageCountAssessment = new ImageCountAssessment();
+		const paragraphTooLongAssessment = new ParagraphTooLongAssessment();
+		const transitionWordsAssessment = new TransitionWordsAssessment();
+		const passiveVoiceAssessment = new PassiveVoiceAssessment();
+		const textPresenceAssessment = new TextPresenceAssessment();
+		const sentenceBeginningsAssessment = new SentenceBeginningsAssessment();
 
 		// SEO assessments.
 		it( "returns a score and the associated feedback text for the introductionKeyword assessment", function() {
@@ -153,17 +156,6 @@ testPapers.forEach( function( testPaper ) {
 				result.textCompetingLinks = textCompetingLinksAssessment.getResult( paper, researcher, i18n );
 				expect( result.textCompetingLinks.getScore() ).toBe( expectedResults.textCompetingLinks.score );
 				expect( result.textCompetingLinks.getText() ).toBe( expectedResults.textCompetingLinks.resultText );
-			}
-		} );
-
-		it( "returns a score and the associated feedback text for the textImages assessment", function() {
-			const isApplicable = textImagesAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.textImages.isApplicable );
-
-			if ( isApplicable ) {
-				result.textImages = textImagesAssessment.getResult( paper, researcher, i18n );
-				expect( result.textImages.getScore() ).toBe( expectedResults.textImages.score );
-				expect( result.textImages.getText() ).toBe( expectedResults.textImages.resultText );
 			}
 		} );
 
@@ -325,6 +317,26 @@ testPapers.forEach( function( testPaper ) {
 				result.sentenceBeginnings = sentenceBeginningsAssessment.getResult( paper, researcher, i18n );
 				expect( result.sentenceBeginnings.getScore() ).toBe( expectedResults.sentenceBeginnings.score );
 				expect( result.sentenceBeginnings.getText() ).toBe( expectedResults.sentenceBeginnings.resultText );
+			}
+		} );
+		it( "returns a score and the associated feedback text for the imageKeyphrase assessment", function() {
+			const isApplicable = imageKeyphraseAssessment.isApplicable( paper, researcher );
+			expect( isApplicable ).toBe( expectedResults.imageKeyphrase.isApplicable );
+
+			if ( isApplicable ) {
+				result.imageKeyphrase = imageKeyphraseAssessment.getResult( paper, researcher, i18n );
+				expect( result.imageKeyphrase.getScore() ).toBe( expectedResults.imageKeyphrase.score );
+				expect( result.imageKeyphrase.getText() ).toBe( expectedResults.imageKeyphrase.resultText );
+			}
+		} );
+		it( "returns a score and the associated feedback text for the imageCount assessment", function() {
+			const isApplicable = imageCountAssessment.isApplicable( paper, researcher );
+			expect( isApplicable ).toBe( expectedResults.imageCount.isApplicable );
+
+			if ( isApplicable ) {
+				result.imageCount = imageCountAssessment.getResult( paper, researcher, i18n );
+				expect( result.imageCount.getScore() ).toBe( expectedResults.imageCount.score );
+				expect( result.imageCount.getText() ).toBe( expectedResults.imageCount.resultText );
 			}
 		} );
 	} );

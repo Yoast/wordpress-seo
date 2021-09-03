@@ -55,12 +55,6 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34l' target='_blank'>Link keyphrase</a>: You're linking to another page with the words" +
 			" you want this page to rank for. <a href='https://yoa.st/34m' target='_blank'>Don't do that</a>!",
 	},
-	textImages: {
-		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: No images appear on this page." +
-			" <a href='https://yoa.st/33d' target='_blank'>Add some</a>!",
-	},
 	textLength: {
 		isApplicable: true,
 		score: 9,
@@ -92,7 +86,8 @@ const expectedResults = {
 	urlKeyword: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",
+		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase " +
+			"appears in the slug. That's great!",
 	},
 	urlLength: {
 		isApplicable: true,
@@ -126,10 +121,14 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!",
 	},
 	textTransitionWords: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 23.1% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 12.9% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		isApplicable: true,
@@ -137,7 +136,19 @@ const expectedResults = {
 		resultText: "",
 	},
 	sentenceBeginnings: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!",
+	},
+	imageKeyphrase: {
+		// This is not applicable to this paper since the text doesn't have any image in it.
 		isApplicable: false,
+	},
+	imageCount: {
+		isApplicable: true,
+		score: 3,
+		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page." +
+			" <a href='https://yoa.st/4f5' target='_blank'>Add some</a>!",
 	},
 };
 

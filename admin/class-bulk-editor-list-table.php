@@ -909,7 +909,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			$meta_value = $values[ $meta_value ];
 		}
 
-		$id = "wpseo-existing-$record_id-$this->target_db_field";
+		$id = "wpseo-existing-$this->target_db_field-$record_id";
 
 		// $attributes correctly escaped, verified by Alexander. See WPSEO_Bulk_Description_List_Table::parse_page_specific_column.
 		return sprintf( '<td %2$s id="%3$s">%1$s</td>', esc_html( $meta_value ), $attributes, esc_attr( $id ) );

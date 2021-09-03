@@ -47,6 +47,6 @@ domReady( () => {
 	// Initialize global admin scripts.
 	initAdmin( jQuery );
 
-	// Initialize the Estimated Reading Time
-	initializeEstimatedReadingTime();
+	// Initialize the Estimated Reading Time after 500ms to avoid blocking initial loading.
+	setTimeout( initializeEstimatedReadingTime, 500 );
 } );

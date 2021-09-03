@@ -10,12 +10,12 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 /**
  * Reindexing action for post type archive indexables.
  */
-class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action_Interface {
+class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action_Interface, Limited_Indexing_Action_Interface {
 
 	/**
 	 * The transient cache key.
 	 */
-	const TRANSIENT_CACHE_KEY = 'wpseo_total_unindexed_post_type_archives';
+	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_post_type_archives';
 
 	/**
 	 * The post type helper.
@@ -58,17 +58,21 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	/**
 	 * Returns the total number of unindexed post type archives.
 	 *
+	 * @param int $limit Limit the number of counted objects.
+	 *
 	 * @return int The total number of unindexed post type archives.
 	 */
-	public function get_total_unindexed() {
-		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
+	public function get_total_unindexed( $limit = false ) {
+		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
 
-		$result = \count( $this->get_unindexed_post_type_archives( false ) );
+		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, 0, \DAY_IN_SECONDS );
 
-		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
+		$result = \count( $this->get_unindexed_post_type_archives( $limit ) );
+
+		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, $result, \DAY_IN_SECONDS );
 
 		return $result;
 	}
@@ -86,7 +90,9 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 			$indexables[] = $this->builder->build_for_post_type_archive( $post_type_archive );
 		}
 
-		\delete_transient( static::TRANSIENT_CACHE_KEY );
+		if ( \count( $indexables ) > 0 ) {
+			\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
+		}
 
 		return $indexables;
 	}
@@ -169,5 +175,16 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 			return $result['object_sub_type'];
 		};
 		return \array_map( $callback, $results );
+	}
+
+	/**
+	 * Returns a limited number of unindexed posts.
+	 *
+	 * @param int $limit Limit the maximum number of unindexed posts that are counted.
+	 *
+	 * @return int|false The limited number of unindexed posts. False if the query fails.
+	 */
+	public function get_limited_unindexed_count( $limit ) {
+		return $this->get_total_unindexed( $limit );
 	}
 }

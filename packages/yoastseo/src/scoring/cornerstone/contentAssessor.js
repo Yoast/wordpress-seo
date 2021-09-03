@@ -1,13 +1,13 @@
 import Assessor from "../assessor.js";
 import ContentAssessor from "../contentAssessor";
 import fleschReadingEase from "../assessments/readability/fleschReadingEaseAssessment.js";
-import paragraphTooLong from "../assessments/readability/paragraphTooLongAssessment.js";
-import SentenceLengthInText from "../assessments/readability/sentenceLengthInTextAssessment.js";
-import SubheadingDistributionTooLong from "../assessments/readability/subheadingDistributionTooLongAssessment.js";
-import transitionWords from "../assessments/readability/transitionWordsAssessment.js";
-import passiveVoice from "../assessments/readability/passiveVoiceAssessment.js";
-import sentenceBeginnings from "../assessments/readability/sentenceBeginningsAssessment.js";
-import textPresence from "../assessments/readability/textPresenceAssessment.js";
+import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
+import SentenceLengthInText from "../assessments/readability/SentenceLengthInTextAssessment.js";
+import SubheadingDistributionTooLong from "../assessments/readability/SubheadingDistributionTooLongAssessment.js";
+import TransitionWords from "../assessments/readability/TransitionWordsAssessment.js";
+import PassiveVoice from "../assessments/readability/PassiveVoiceAssessment.js";
+import SentenceBeginnings from "../assessments/readability/SentenceBeginningsAssessment.js";
+import TextPresence from "../assessments/readability/TextPresenceAssessment.js";
 
 /*
  Temporarily disabled:
@@ -19,14 +19,15 @@ import textPresence from "../assessments/readability/textPresenceAssessment.js";
 /**
  * Creates the Assessor
  *
- * @param {object} i18n The i18n object used for translations.
- * @param {Object} options The options for this assessor.
- * @param {Object} options.marker The marker to pass the list of marks to.
+ * @param {object} i18n             The i18n object used for translations.
+ * @param {object} researcher       The researcher used for the analysis.
+ * @param {Object} options          The options for this assessor.
+ * @param {Object} options.marker   The marker to pass the list of marks to.
  *
  * @constructor
  */
-const CornerStoneContentAssessor = function( i18n, options = {} ) {
-	Assessor.call( this, i18n, options );
+const CornerStoneContentAssessor = function( i18n, researcher, options = {} ) {
+	Assessor.call( this, i18n, researcher, options );
 	this.type = "CornerstoneContentAssessor";
 
 	this._assessments = [
@@ -39,12 +40,15 @@ const CornerStoneContentAssessor = function( i18n, options = {} ) {
 				recommendedMaximumWordCount: 250,
 			},
 		} ),
-		paragraphTooLong,
-		new SentenceLengthInText( true ),
-		transitionWords,
-		passiveVoice,
-		textPresence,
-		sentenceBeginnings,
+		new ParagraphTooLong(),
+		new SentenceLengthInText( {
+			slightlyTooMany: 20,
+			farTooMany: 25,
+		}, true ),
+		new TransitionWords(),
+		new PassiveVoice(),
+		new TextPresence(),
+		new SentenceBeginnings(),
 		// Temporarily disabled: wordComplexity,
 	];
 };

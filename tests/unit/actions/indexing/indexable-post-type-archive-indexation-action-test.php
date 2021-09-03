@@ -258,6 +258,43 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the transients are not deleted when no indexables have been created.
+	 *
+	 * @covers ::index
+	 * @covers ::get_limit
+	 * @covers ::get_unindexed_post_type_archives
+	 * @covers ::get_post_types_with_archive_pages
+	 * @covers ::get_indexed_post_type_archives
+	 */
+	public function test_index_no_indexables_created() {
+		$public_post_types = [
+			[
+				'name'        => 'movies',
+				'has_archive' => true,
+			],
+			[
+				'name'        => 'books',
+				'has_archive' => true,
+			],
+			[
+				'name'        => 'posts',
+				'has_archive' => true,
+			],
+		];
+
+		$indexed_post_types = [ 'movies', 'books', 'posts' ];
+
+		$this->set_expectations_for_post_type_helper( $public_post_types );
+		$this->set_expectations_for_repository( $indexed_post_types );
+
+		Monkey\Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
+			->with( 25 )
+			->andReturn( 25 );
+
+		$this->assertEquals( [], $this->instance->index() );
+	}
+
+	/**
 	 * Sets the expectations for the post type helper.
 	 *
 	 * @param array $public_post_types The public post types.

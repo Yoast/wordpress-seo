@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
@@ -154,27 +155,27 @@ class Indexing_Helper_Test extends TestCase {
 	public function test_set_indexing_actions() {
 		static::assertInstanceOf(
 			Indexable_Post_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'post_indexation' )
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[0]
 		);
 		static::assertInstanceOf(
 			Indexable_Term_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'term_indexation' )
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[1]
 		);
 		static::assertInstanceOf(
 			Indexable_Post_Type_Archive_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'post_type_archive_indexation' )
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[2]
 		);
 		static::assertInstanceOf(
 			Indexable_General_Indexation_Action::class,
-			$this->getPropertyValue( $this->instance, 'general_indexation' )
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[3]
 		);
 		static::assertInstanceOf(
 			Post_Link_Indexing_Action::class,
-			$this->getPropertyValue( $this->instance, 'post_link_indexing_action' )
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[4]
 		);
 		static::assertInstanceOf(
 			Term_Link_Indexing_Action::class,
-			$this->getPropertyValue( $this->instance, 'term_link_indexing_action' )
+			$this->getPropertyValue( $this->instance, 'indexing_actions' )[5]
 		);
 	}
 
@@ -357,6 +358,7 @@ class Indexing_Helper_Test extends TestCase {
 	 * Tests the retrieval of the filtered unindexed count.
 	 *
 	 * @covers ::get_filtered_unindexed_count
+	 * @covers ::get_limited_unindexed_count
 	 */
 	public function test_get_filtered_unindexed_count() {
 		$this->post_indexation
@@ -393,5 +395,35 @@ class Indexing_Helper_Test extends TestCase {
 			->andReturn( 20 );
 
 		static::assertEquals( 20, $this->instance->get_filtered_unindexed_count() );
+	}
+
+	/**
+	 * Tests the retrieval of the filtered unindexed count with a limit.
+	 *
+	 * @covers ::get_limited_filtered_unindexed_count
+	 * @covers ::get_limited_unindexed_count
+	 */
+	public function test_get__limitedfiltered_unindexed_count() {
+		$limit = 25;
+
+		$this->post_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit + 1 )
+			->once()
+			->andReturn( 10 );
+
+		$this->term_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 10 + 1 )
+			->once()
+			->andReturn( 10 );
+
+		$this->post_type_archive_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( $limit - 20 + 1 )
+			->once()
+			->andReturn( 10 );
+
+		static::assertEquals( 30, $this->instance->get_limited_filtered_unindexed_count( 25 ) );
 	}
 }

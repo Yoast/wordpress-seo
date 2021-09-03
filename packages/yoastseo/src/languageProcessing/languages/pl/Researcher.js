@@ -36,8 +36,7 @@ export default class Researcher extends AbstractResearcher {
 			stopWords,
 			transitionWords,
 			twoPartTransitionWords,
-			sentenceLength: sentenceLength.regularConfig,
-			sentenceLengthCornerstone: sentenceLength.cornerstoneConfig,
+			sentenceLength: sentenceLength,
 		} );
 
 		Object.assign( this.helpers, {

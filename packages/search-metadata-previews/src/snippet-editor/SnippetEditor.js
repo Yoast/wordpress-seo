@@ -56,7 +56,11 @@ const CloseEditorButton = styled( SnippetEditorButton )`
  */
 function getTitleProgress( title ) {
 	const titleWidth = measureTextWidth( title );
-	const pageTitleWidthAssessment = new PageTitleWidthAssessment();
+	const pageTitleWidthAssessment = new PageTitleWidthAssessment( {
+		scores: {
+			widthTooShort: 9,
+		},
+	}, true );
 	const score = pageTitleWidthAssessment.calculateScore( titleWidth );
 	const maximumLength = pageTitleWidthAssessment.getMaximumLength();
 
