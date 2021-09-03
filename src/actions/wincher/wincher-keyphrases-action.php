@@ -87,7 +87,7 @@ class Wincher_Keyphrases_Action {
 	 * @param string|array $keyphrases One or more keyphrases that should be tracked.
 	 * @param Object       $limits     The limits API call response data.
 	 *
-	 * @return object The reponse object.
+	 * @return Object The reponse object.
 	 */
 	public function track_keyphrases( $keyphrases, $limits ) {
 		try {

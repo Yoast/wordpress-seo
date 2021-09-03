@@ -187,8 +187,9 @@ class Wincher_Route implements Route_Interface {
 				'keyphrases' => [
 					'required' => true,
 				],
-				'include_ranking' => [
+				'includeRanking' => [
 					'required' => false,
+					'default' => false,
 				],
 			],
 		];
@@ -276,9 +277,7 @@ class Wincher_Route implements Route_Interface {
 	 * @return WP_REST_Response The response.
 	 */
 	public function get_tracked_keyphrases( WP_REST_Request $request ) {
-		$include_ranking = isset( $request['includeRanking' ] ) && $request['includeRanking' ] === true;
-
-		$data = $this->keyphrases_action->get_tracked_keyphrases( $request['keyphrases'], $include_ranking );
+		$data = $this->keyphrases_action->get_tracked_keyphrases( $request['keyphrases'], $request['includeRanking'] );
 
 		return new WP_REST_Response( $data, $data->status );
 	}
