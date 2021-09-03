@@ -35,6 +35,7 @@ describe( "SnippetEditor container", () => {
 					getSnippetEditorMode: jest.fn().mockReturnValue( "desktop" ),
 					getSnippetEditorPreviewImageUrl: jest.fn().mockReturnValue( "https://localhost.test/wp-content/uploads/2021/01/WordPress2.jpg" ),
 					getSnippetEditorWordsToHighlight: jest.fn().mockReturnValue( [ "active" ] ),
+					isCornerstoneContent: jest.fn().mockReturnValue( true ),
 				};
 			}
 		} );
@@ -70,6 +71,7 @@ describe( "SnippetEditor container", () => {
 				price: "&euro; 123",
 			},
 			wordsToHighlight: [ "active" ],
+			isCornerstone: true,
 		};
 
 		const result = mapSelectToProps( select );
