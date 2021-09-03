@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use Yoast\WP\SEO\Config\Indexable_Builder_Versions;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;

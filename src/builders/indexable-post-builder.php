@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Builders;
 use WP_Error;
 use WP_Post;
 use WPSEO_Meta;
-use Yoast\WP\SEO\Config\Indexable_Builder_Versions;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;

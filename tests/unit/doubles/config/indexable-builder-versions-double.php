@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Config;
 
-use Yoast\WP\SEO\Config\Indexable_Builder_Versions;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Class Indexable_Builder_Versions_Double

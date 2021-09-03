@@ -7,7 +7,7 @@ use Brain\Monkey\Functions;
 use Mockery;
 use wpdb;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
-use Yoast\WP\SEO\Config\Indexable_Builder_Versions;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;

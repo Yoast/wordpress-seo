@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Config;
+namespace Yoast\WP\SEO\Values\Indexables;
 
 /**
  * Class Indexable_Builder_Versions
