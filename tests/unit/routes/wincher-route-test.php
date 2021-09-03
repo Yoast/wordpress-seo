@@ -267,6 +267,40 @@ class Wincher_Route_Test extends TestCase {
 		$this->assertTrue( $this->instance->has_valid_keyphrase( 'seo' ) );
 	}
 
+
+	/**
+	 * Tests that the user can use the wincher endpoints.
+	 *
+	 * @covers ::can_use_wincher
+	 */
+	public function test_can_use_wincher() {
+		Monkey\Functions\expect( 'current_user_can' )
+			->with( 'edit_posts' )
+			->once()
+			->andReturn( true );
+
+		$this->assertTrue( $this->instance->can_use_wincher() );
+	}
+
+	/**
+	 * Tests that the user can't use the wincher endpoints.
+	 *
+	 * @covers ::can_use_wincher
+	 */
+	public function test_can_use_wincher_fails() {
+		Monkey\Functions\expect( 'current_user_can' )
+			->with( 'edit_posts' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'current_user_can' )
+			->with( 'edit_pages' )
+			->once()
+			->andReturn( false );
+
+		$this->assertFalse( $this->instance->can_use_wincher() );
+	}
+
 	/**
 	 * Tests the authentication route.
 	 *
