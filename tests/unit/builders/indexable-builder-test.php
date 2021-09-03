@@ -222,16 +222,6 @@ class Indexable_Builder_Test extends TestCase {
 			->with( $this->indexable )
 			->andReturn( $this->indexable );
 
-		$this->version_manager
-			->expects( 'set_latest' )
-			->twice()
-			->andReturnUsing(
-				function ( $indexable ) {
-					$indexable->version = 2;
-					return $indexable;
-				}
-			);
-
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
 			->twice()
@@ -293,16 +283,6 @@ class Indexable_Builder_Test extends TestCase {
 			->twice()
 			->withNoArgs()
 			->andReturnSelf();
-
-		$this->version_manager
-			->expects( 'set_latest' )
-			->twice()
-			->andReturnUsing(
-				function ( $indexable ) {
-					$indexable->version = 2;
-					return $indexable;
-				}
-			);
 
 		$this->indexable_repository
 			->expects( 'create' )
@@ -414,17 +394,6 @@ class Indexable_Builder_Test extends TestCase {
 			->once()
 			->withAnyArgs()
 			->andReturnTrue();
-
-		$this->version_manager
-			->expects( 'set_latest' )
-			->twice()
-			->withAnyArgs()
-			->andReturnUsing(
-				function ( $indexable ) {
-					$indexable->version = 2;
-					return $indexable;
-				}
-			);
 
 		// Prevent the indexable builder from actually saving in this test.
 		// The test is complex enough in its current state.
@@ -543,14 +512,8 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'build' )
 			->once()
 			->with( 1337, $this->indexable )
-			->andReturn( $this->indexable );
-
-		$this->version_manager
-			->expects( 'set_latest' )
-			->once()
-			->with( $this->indexable )
 			->andReturnUsing(
-				function ( $indexable ) {
+				function( $id, Indexable $indexable ) {
 					$indexable->version = 2;
 					return $indexable;
 				}
@@ -604,17 +567,6 @@ class Indexable_Builder_Test extends TestCase {
 			->once()
 			->with( $this->indexable );
 
-		$this->version_manager
-			->expects( 'set_latest' )
-			->once()
-			->with( $this->indexable )
-			->andReturnUsing(
-				function ( $indexable ) {
-					$indexable->version = 2;
-					return $indexable;
-				}
-			);
-
 		$this->indexable_helper
 			->expects( 'should_index_indexables' )
 			->once()
@@ -649,17 +601,6 @@ class Indexable_Builder_Test extends TestCase {
 			->once()
 			->with( [] )
 			->andReturn( $this->indexable );
-
-		$this->version_manager
-			->expects( 'set_latest' )
-			->once()
-			->with( $this->indexable )
-			->andReturnUsing(
-				function ( $indexable ) {
-					$indexable->version = 0;
-					return $indexable;
-				}
-			);
 
 		// Actual saving is outside test scope.
 		$this->indexable_helper
@@ -716,17 +657,6 @@ class Indexable_Builder_Test extends TestCase {
 			->withNoArgs()
 			->andReturnFalse();
 
-		$this->version_manager
-			->expects( 'set_latest' )
-			->once()
-			->with( $this->indexable )
-			->andReturnUsing(
-				function ( $indexable ) {
-					$indexable->version = 2;
-					return $indexable;
-				}
-			);
-
 		$this->assertSame( $this->indexable, $this->instance->build_for_home_page( $this->indexable ) );
 	}
 
@@ -767,17 +697,6 @@ class Indexable_Builder_Test extends TestCase {
 			->once()
 			->withNoArgs()
 			->andReturnFalse();
-
-		$this->version_manager
-			->expects( 'set_latest' )
-			->once()
-			->with( $this->indexable )
-			->andReturnUsing(
-				function ( $indexable ) {
-					$indexable->version = 2;
-					return $indexable;
-				}
-			);
 
 		$this->assertSame( $this->indexable, $this->instance->build_for_date_archive( $this->indexable ) );
 	}
@@ -821,17 +740,6 @@ class Indexable_Builder_Test extends TestCase {
 			->withNoArgs()
 			->andReturnFalse();
 
-		$this->version_manager
-			->expects( 'set_latest' )
-			->once()
-			->with( $this->indexable )
-			->andReturnUsing(
-				function ( $indexable ) {
-					$indexable->version = 2;
-					return $indexable;
-				}
-			);
-
 		$this->assertSame( $this->indexable, $this->instance->build_for_post_type_archive( 'post-type-archive', $this->indexable ) );
 	}
 
@@ -867,18 +775,6 @@ class Indexable_Builder_Test extends TestCase {
 			->once()
 			->withNoArgs()
 			->andReturnFalse();
-
-		$this->version_manager
-			->expects( 'set_latest' )
-			->once()
-			->with( $this->indexable )
-			->andReturnUsing(
-				function ( $indexable ) {
-					$indexable->version = 2;
-					return $indexable;
-				}
-			);
-
 
 		$this->assertSame( $this->indexable, $this->instance->build_for_system_page( '404', $this->indexable ) );
 	}
