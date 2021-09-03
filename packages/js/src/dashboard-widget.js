@@ -152,14 +152,22 @@ class DashboardWidget extends Component {
 		const keyphraseChartData = await getKeyphrases( [], true );
 
 		if ( keyphraseChartData.status === 200 ) {
-			const wincherData = Object.fromEntries(
+			const results = Object.fromEntries(
 				Object.entries( keyphraseChartData.results )
 					.sort( this.sortWincherData )
 					.splice( 0, 5 )
 			);
 
-			this.setState( { wincherData } );
+			this.setState( {
+				wincherData: {
+					results,
+					status: keyphraseChartData.status,
+				},
+			} );
 		}
+
+
+		this.setState( { wincherData: { ...keyphraseChartData } } );
 	}
 
 	/**

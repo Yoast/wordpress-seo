@@ -16,6 +16,7 @@ import WincherConnectExplanation from "./modals/WincherConnectExplanation";
 import WincherNoTrackedKeyphrasesAlert from "./modals/WincherNoTrackedKeyphrasesAlert";
 import { getKeyphrasePosition, generatePositionOverTimeChart } from "./WincherTableRow";
 import WincherLimitReached from "./modals/WincherLimitReached";
+import WincherReconnectAlert from "./modals/WincherReconnectAlert";
 
 const ViewLink = makeOutboundLink();
 const GetMoreInsightsLink = makeOutboundLink();
@@ -157,13 +158,19 @@ const createRow = ( keyphrase, chartData, websiteId ) => {
  * @returns {wp.Element} The user message.
  */
 const getUserMessage = ( props ) => {
-	const { isLoggedIn, data } = props;
+	const { isLoggedIn, data, onConnectAction } = props;
 
 	if ( ! isLoggedIn ) {
 		return notConnectedMessage( props );
 	}
 
-	if ( ! data || isEmpty( data ) ) {
+	if ( ! isEmpty( data ) && data.status === 404 ) {
+		return <WincherReconnectAlert
+			onReconnect={ onConnectAction }
+		/>
+	}
+
+	if ( ! data || isEmpty( data.results ) ) {
 		return noTrackedKeyphrasesMessage( props );
 	}
 };
@@ -190,7 +197,7 @@ const WincherPerformanceReport = ( props ) => {
 
 			{ getUserMessage( props ) }
 
-			{ isLoggedIn && data && ! isEmpty( data ) && <Fragment>
+			{ isLoggedIn && data && ! isEmpty( data ) && ! isEmpty( data.results ) && <Fragment>
 				<table className="yoast yoast-table">
 					<thead>
 						<tr>
@@ -217,7 +224,7 @@ const WincherPerformanceReport = ( props ) => {
 					</thead>
 					<tbody>
 						{
-							Object.entries( data )
+							Object.entries( data.results )
 								.map( ( [ keyphrase, chartData ] ) => {
 									return createRow( keyphrase, chartData.ranking, websiteId );
 								} )

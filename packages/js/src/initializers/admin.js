@@ -306,6 +306,11 @@ export default function initAdmin( jQuery ) {
 	// Variable to store the popup reference in.
 	let wincherPopup = null;
 
+	/**
+	 * Performs the adding of exisitng keywords to Wincher request.
+	 *
+	 * @returns {void}
+	 */
 	function addExistingKeyphrasesRequest() {
 		jQuery( "#wincher-track-all-keyohrases-success, #wincher-track-all-keyohrases-error" ).hide();
 
@@ -324,6 +329,10 @@ export default function initAdmin( jQuery ) {
 				if ( data.status === 400 ) {
 					jQuery( "#wincher-track-all-limit" ).text( data.results.limit );
 					jQuery( "#wincher-track-all-keyphrases-error" ).show();
+				}
+
+				if ( data.status === 404 ) {
+					jQuery( "#wincher-website-error" ).show();
 				}
 			} );
 	}
@@ -351,6 +360,11 @@ export default function initAdmin( jQuery ) {
 		addExistingKeyphrasesRequest();
 	}
 
+	/**
+	 * Fires when the user wants to connect to Wincher.
+	 *
+	 * @returns {void}
+	 */
 	function onConnect() {
 		wincherPopup = new LoginPopup(
 			wpseoAdminGlobalL10n[ "links.wincher.auth_url" ],
@@ -374,6 +388,11 @@ export default function initAdmin( jQuery ) {
 		wincherPopup.createPopup();
 	}
 
+	/**
+	 * Adds the existing keyphrases to Wincher.
+	 *
+	 * @returns {void}
+	 */
 	function addExistingKeyphrasesToWincher() {
 		// Check if we're logged in first.
 		if ( ! wpseoAdminGlobalL10n.wincher_is_logged_in ) {
@@ -523,6 +542,12 @@ export default function initAdmin( jQuery ) {
 			event.preventDefault();
 
 			addExistingKeyphrasesToWincher();
+		} );
+
+		jQuery( "#wincher-track-all-website-error-link" ).on( "click", ( event ) => {
+			event.preventDefault();
+
+			onConnect();
 		} );
 
 		const opengraphToggle = jQuery( "#opengraph" );

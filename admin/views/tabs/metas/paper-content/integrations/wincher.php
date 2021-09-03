@@ -23,6 +23,23 @@ $wincher_is_logged_in = YoastSEO()->helpers->wincher->login_status();
 	$yform = Yoast_Form::get_instance();
 
 	if ( $wincher_is_logged_in ) {
+
+		echo '<div id="wincher-automatic-tracking-upsell">';
+
+		$upsell_message = sprintf(
+			/* translators: 1: Link start tag to the Wincher pricing page, 2: expands to Wincher, 3: Link closing tag. */
+			 esc_html__( 'Enabling automatic tracking of your keyphrases by %2$s can quickly exceed account limits. If you want to ensure all your keyphrases can be tracked, please %1$supgrade your plan%3$s.', 'wordpress-seo' ),
+			'<a href="https://www.wincher.com/pricing" target="_blank" rel="noopener noreferrer">',
+			'Wincher',
+			'</a>'
+		);
+
+		$upsell_alert = new Alert_Presenter( $upsell_message, 'info' );
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.
+		echo '<div class="yoast-measure">' . $upsell_alert->present() . '</div>';
+		echo '</div>';
+
 		$yform->checkbox(
 			'wincher_automatically_add_keyphrases',
 			sprintf(
@@ -32,6 +49,8 @@ $wincher_is_logged_in = YoastSEO()->helpers->wincher->login_status();
 			)
 		);
 	}
+
+	echo '<br />';
 
 	echo '<div id="wincher-track-all-keyphrases-success" style="display: none;">';
 	$successfully_added_message = sprintf(
@@ -50,10 +69,10 @@ $wincher_is_logged_in = YoastSEO()->helpers->wincher->login_status();
 
 	$limit_reached_message = sprintf(
 		/* translators: 1: A span element associated with the account limit, 2: The span closing tag, 3: Link start tag to the Wincher website, 4: expands to Wincher, 5: Link closing tag. */
-		esc_html__( 'You\'ve reached the maximum amount of %1$s%2$s keyphrases you can add to your free Wincher account. If you wish to add more keyphrases, please %3$supgrade your %4$s plan.%5$s.', 'wordpress-seo' ),
+		esc_html__( 'You\'ve reached the maximum amount of %1$s%2$s keyphrases you can add to your free %4$s account. If you wish to add more keyphrases, please %3$supgrade your %4$s plan.%5$s.', 'wordpress-seo' ),
 		'<span id="wincher-track-all-limit">',
 		'</span>',
-		'<a href="https://google.com">',
+		'<a href="https://www.wincher.com/pricing">',
 		'Wincher',
 		'</a>'
 	);
@@ -62,6 +81,22 @@ $wincher_is_logged_in = YoastSEO()->helpers->wincher->login_status();
 
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.
 	echo '<div class="yoast-measure">' . $limit_reached_alert->present() . '</div>';
+	echo '</div>';
+
+	echo '<div id="wincher-website-error" style="display: none;">';
+
+	$website_error_message = sprintf(
+		/* translators: %1$s expands to the opening tag for a link to open the Wincher login popup, %2$s expands to Wincher, %3$s expands to the closing tag for the link. */
+		esc_html__( 'It seems like something went wrong when retrieving your website\'s data. Please %1$s reconnect to %2$s and try again%3$s.', 'wordpress-seo' ),
+		'<a href="#" id="wincher-track-all-website-error-link">',
+		'Wincher',
+		'</a>'
+	);
+
+	$website_error_alert = new Alert_Presenter( $website_error_message, 'error' );
+
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.
+	echo '<div class="yoast-measure">' . $website_error_alert->present() . '</div>';
 	echo '</div>';
 
 	$button_text = sprintf(

@@ -131,6 +131,10 @@ class Wincher_Keyphrases_Action {
 
 			$results = $this->client->post( $endpoint, \WPSEO_Utils::format_json_encode( $formatted_keyphrases ) );
 
+			if ( ! \array_key_exists( 'data', $results ) ) {
+				return $this->to_result_object( $results );
+			}
+
 			$results['data'] = \array_combine(
 				\array_column( $results['data'], 'keyword' ),
 				\array_values( $results['data'] )
@@ -181,11 +185,13 @@ class Wincher_Keyphrases_Action {
 	 */
 	public function get_tracked_keyphrases( $used_keyphrases = [], $include_ranking = false ) {
 		try {
+			$endpoint = \sprintf(
+				self::KEYPHRASES_URL,
+				$this->options_helper->get( 'wincher_website_id' )
+			);
+
 			$results = $this->client->get(
-				\sprintf(
-					self::KEYPHRASES_URL,
-					$this->options_helper->get( 'wincher_website_id' )
-				),
+				$endpoint,
 				[
 					'params' => [
 						'include_ranking' => ( $include_ranking ) ? 'true': 'false',

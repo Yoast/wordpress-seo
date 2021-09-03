@@ -21,6 +21,7 @@ import {
 	untrackKeyphrase,
 } from "../helpers/wincherEndpoints";
 import LoginPopup from "../helpers/loginPopup";
+import WincherReconnectAlert from "./modals/WincherReconnectAlert";
 
 const GetMoreInsightsLink = makeOutboundLink();
 
@@ -348,7 +349,14 @@ class WincherKeyphrasesTable extends Component {
 			allowToggling,
 			websiteId,
 			keyphrases,
+			response,
 		} = this.props;
+
+		if ( ! isEmpty( response ) && response.status === 404 ) {
+			return <WincherReconnectAlert
+				onReconnect={ this.onLoginOpen }
+			/>;
+		}
 
 		return (
 			keyphrases && ! isEmpty( keyphrases ) && <Fragment>
@@ -426,6 +434,7 @@ WincherKeyphrasesTable.propTypes = {
 	allowToggling: PropTypes.bool,
 	isLoggedIn: PropTypes.bool,
 	trackAll: PropTypes.bool,
+	response: PropTypes.object,
 	newRequest: PropTypes.func.isRequired,
 	setRequestSucceeded: PropTypes.func.isRequired,
 	setRequestLimitReached: PropTypes.func.isRequired,
@@ -449,6 +458,7 @@ WincherKeyphrasesTable.defaultProps = {
 	trackAll: false,
 	websiteId: 0,
 	lastRequestKeyphrase: "",
+	response: {},
 };
 
 export default WincherKeyphrasesTable;
