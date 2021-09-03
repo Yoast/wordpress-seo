@@ -2,7 +2,6 @@ import stem from "../../../../../../src/languageProcessing/languages/ru/helpers/
 import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 
 const morphologyDataRU = getMorphologyData( "ru" ).ru;
-
 // The first word in each array is the word, the second one is the expected stem.
 
 const wordsToStem = [
@@ -57,13 +56,23 @@ const wordsToStem = [
 	[ "бездыханность",  "бездыхан" ],
 	[ "восторженностью", "восторжен" ],
 	// Irregular plurals.
-	[ "курицу", "куриц" ],
-	[ "кур", "куриц" ],
+	[ "курицу", "кур" ],
+	[ "куры", "кур" ],
 	[ "ребёнок", "ребёнк" ],
 	[ "детей", "ребёнк" ],
 	[ "ребята", "ребёнк" ],
 	[ "уху", "ухо" ],
 	[ "ушами", "ухо" ],
+	[ "мать", "ма" ],
+	[ "матерей", "ма" ],
+	[ "славяне", "славян" ],
+	[ "славянин", "славян" ],
+	[ "cудна", "cуд" ],
+	[ "суднами", "суд" ],
+	[ "сыновья", "сы" ],
+	[ "церковью", "церкв" ],
+	[ "церкви", "церкв" ],
+	[ "щенками", "щенк" ],
 	// Words that belong to doNotStemSuffix exceptions
 	[ "космодром", "космодром" ],
 	[ "детдом", "детдом" ],
