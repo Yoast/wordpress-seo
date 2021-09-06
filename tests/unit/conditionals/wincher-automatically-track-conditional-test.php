@@ -40,6 +40,18 @@ class Wincher_Automatically_Track_Conditional_Test extends TestCase {
 	}
 
 	/**
+	 * Tests if the class attributes are set propertly.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct() {
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options' )
+		);
+	}
+
+	/**
 	 * Tests that the conditional is not met when automatic tracking is disabled.
 	 *
 	 * @covers ::is_met

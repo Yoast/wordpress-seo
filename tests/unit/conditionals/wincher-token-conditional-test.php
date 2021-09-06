@@ -40,6 +40,18 @@ class Wincher_Token_Conditional_Test extends TestCase {
 	}
 
 	/**
+	 * Tests if the class attributes are set propertly.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct() {
+		$this->assertInstanceOf(
+			Wincher_Client::class,
+			$this->getPropertyValue( $this->instance, 'client' )
+		);
+	}
+
+	/**
 	 * Tests that the conditional is not met when there is no token.
 	 *
 	 * @covers ::is_met
