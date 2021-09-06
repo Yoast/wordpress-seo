@@ -327,6 +327,34 @@ class Wincher_Keyphrases_Action {
 	}
 
 	/**
+	 * Collects the keyphrases associated with the post.
+	 *
+	 * @param WP_Post $post The post object.
+	 *
+	 * @return array The keyphrases.
+	 */
+	public function collect_keyphrases_from_post( $post ) {
+		$keyphrases        = [];
+		$primary_keyphrase = $this->indexable_repository
+			->query()
+			->select( 'primary_focus_keyword' )
+			->where( 'object_id', $post->ID )
+			->find_one();
+
+		if ( $primary_keyphrase ) {
+			$keyphrases[] = $primary_keyphrase->primary_focus_keyword;
+		}
+
+		if ( YoastSEO()->helpers->product->is_premium() ) {
+			$additional_keywords = \json_decode( WPSEO_Meta::get_value( 'focuskeywords', $post->ID ), true );
+
+			$keyphrases = \array_merge( $keyphrases, $additional_keywords );
+		}
+
+		return $keyphrases;
+	}
+
+	/**
 	 * Filters the results based on the passed keyphrases.
 	 *
 	 * @param array $results         The results to filter.
@@ -361,34 +389,6 @@ class Wincher_Keyphrases_Action {
 		}
 
 		return ( count( $keyphrases ) + $limits->usage ) > $limits->limit;
-	}
-
-	/**
-	 * Collects the keyphrases associated with the post.
-	 *
-	 * @param WP_Post $post The post object.
-	 *
-	 * @return array The keyphrases.
-	 */
-	protected function collect_keyphrases_from_post( $post ) {
-		$keyphrases        = [];
-		$primary_keyphrase = $this->indexable_repository
-			->query()
-			->select( 'primary_focus_keyword' )
-			->where( 'object_id', $post->ID )
-			->find_one();
-
-		if ( $primary_keyphrase ) {
-			$keyphrases[] = $primary_keyphrase->primary_focus_keyword;
-		}
-
-		if ( YoastSEO()->helpers->product->is_premium() ) {
-			$additional_keywords = \json_decode( WPSEO_Meta::get_value( 'focuskeywords', $post->ID ), true );
-
-			$keyphrases = \array_merge( $keyphrases, $additional_keywords );
-		}
-
-		return $keyphrases;
 	}
 
 	/**

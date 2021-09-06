@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use WP_Post;
-use WPSEO_Meta;
+use Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
 use Yoast\WP\SEO\Conditionals\Wincher_Automatically_Track_Conditional;
 use Yoast\WP\SEO\Conditionals\Wincher_Enabled_Conditional;
@@ -38,6 +38,13 @@ class Wincher_Publish implements Integration_Interface {
 	protected $keyphrases_action;
 
 	/**
+	 * The Wincher account action handler.
+	 *
+	 * @var Wincher_Account_Action
+	 */
+	protected $account_action;
+
+	/**
 	 * Wincher publish constructor.
 	 *
 	 * @param Wincher_Enabled_Conditional $wincher_enabled   The WPML WPSEO conditional.
@@ -47,11 +54,13 @@ class Wincher_Publish implements Integration_Interface {
 	public function __construct(
 		Wincher_Enabled_Conditional $wincher_enabled,
 		Options_Helper $options_helper,
-		Wincher_Keyphrases_Action $keyphrases_action
+		Wincher_Keyphrases_Action $keyphrases_action,
+		Wincher_Account_Action $account_action
 	) {
 		$this->wincher_enabled   = $wincher_enabled;
 		$this->options_helper    = $options_helper;
 		$this->keyphrases_action = $keyphrases_action;
+		$this->account_action = $account_action;
 	}
 
 	/**
@@ -114,7 +123,7 @@ class Wincher_Publish implements Integration_Interface {
 		$keyphrases = \array_filter( $this->keyphrases_action->collect_keyphrases_from_post( $post ) );
 
 		if ( ! empty( $keyphrases ) ) {
-			$this->keyphrases_action->track_keyphrases( $keyphrases );
+			$this->keyphrases_action->track_keyphrases( $keyphrases, $this->account_action->check_limit() );
 		}
 	}
 
