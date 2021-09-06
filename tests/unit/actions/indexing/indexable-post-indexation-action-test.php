@@ -103,7 +103,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
-				AND I.version < %d )";
+				AND I.version >= %d )";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', \DAY_IN_SECONDS )->andReturnTrue();
@@ -137,7 +137,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
-				AND I.version < %d )
+				AND I.version >= %d )
 			LIMIT %d";
 
 		$query_result = [
@@ -214,7 +214,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
-				AND I.version < %d )";
+				AND I.version >= %d )";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', \DAY_IN_SECONDS )->andReturnTrue();
@@ -248,7 +248,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
-				AND I.version < %d )
+				AND I.version >= %d )
 			LIMIT %d";
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
@@ -331,7 +331,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
-				AND I.version < %d )
+				AND I.version >= %d )
 			LIMIT %d";
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
@@ -385,7 +385,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
-				AND I.version < %d )
+				AND I.version >= %d )
 			LIMIT %d";
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );

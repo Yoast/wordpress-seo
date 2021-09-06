@@ -143,7 +143,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 			LEFT JOIN $indexable_table AS I
 				ON T.term_id = I.object_id
 				AND I.object_type = 'term'
-				AND I.version = %d
+				AND I.version >= %d
 			WHERE I.object_id IS NULL
 				AND taxonomy IN ($taxonomies_placeholders)",
 			$replacements
@@ -181,7 +181,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 			LEFT JOIN $indexable_table AS I
 				ON T.term_id = I.object_id
 				AND I.object_type = 'term'
-				AND I.version = %d
+				AND I.version >= %d
 			WHERE I.object_id IS NULL
 				AND taxonomy IN ($placeholders)
 			$limit_query",

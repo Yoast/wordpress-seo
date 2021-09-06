@@ -68,6 +68,7 @@ class Indexable_Version_Manager {
 		if ( ! $indexable ) {
 			return $indexable;
 		}
+
 		$indexable->version = $this->indexable_builder_versions->get_latest_version_for_type( $indexable->object_type );
 
 		return $indexable;

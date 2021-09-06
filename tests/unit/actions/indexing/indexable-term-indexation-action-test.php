@@ -101,7 +101,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			LEFT JOIN wp_yoast_indexable AS I
 				ON T.term_id = I.object_id
 				AND I.object_type = 'term'
-				AND I.version < %d
+				AND I.version >= %d
 			WHERE I.object_id IS NULL
 				AND taxonomy IN (%s, %s)";
 
@@ -138,7 +138,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			LEFT JOIN wp_yoast_indexable AS I
 				ON T.term_id = I.object_id
 				AND I.object_type = 'term'
-				AND I.version < %d
+				AND I.version >= %d
 			WHERE I.object_id IS NULL
 				AND taxonomy IN (%s, %s)
 			LIMIT %d";
@@ -224,7 +224,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			LEFT JOIN wp_yoast_indexable AS I
 				ON T.term_id = I.object_id
 				AND I.object_type = 'term'
-				AND I.version < %d
+				AND I.version >= %d
 			WHERE I.object_id IS NULL
 				AND taxonomy IN (%s, %s)
 			LIMIT %d";
@@ -291,7 +291,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			LEFT JOIN wp_yoast_indexable AS I
 				ON T.term_id = I.object_id
 				AND I.object_type = 'term'
-				AND I.version < %d
+				AND I.version >= %d
 			WHERE I.object_id IS NULL
 				AND taxonomy IN (%s, %s)
 			LIMIT %d";

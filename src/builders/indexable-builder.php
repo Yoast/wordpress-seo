@@ -327,10 +327,10 @@ class Indexable_Builder {
 					// Always rebuild the primary term.
 					$this->primary_term_builder->build( $indexable->object_id );
 
-					// Always rebuild the hierarchy; this needs the primary terms to run correctly.
+					// Always rebuild the hierarchy; this needs the primary term to run correctly.
 					$this->hierarchy_builder->build( $indexable );
 
-					// Rebuild the author indexable when necessary.
+					// Rebuild the author indexable only when necessary.
 					$author_indexable = $this->indexable_repository->find_by_id_and_type(
 						$indexable->author_id,
 						'user',
