@@ -199,6 +199,10 @@ class Wincher_Keyphrases_Action {
 				]
 			);
 
+			if ( ! \array_key_exists( 'data', $results ) ) {
+				return $this->to_result_object( $results );
+			}
+
 			if ( ! empty( $used_keyphrases ) ) {
 				$results['data'] = $this->filter_results_by_used_keyphrases( $results['data'], $used_keyphrases );
 			}
@@ -244,7 +248,7 @@ class Wincher_Keyphrases_Action {
 				]
 			);
 
-			$permalink = empty( $permalink ) ? get_site_url( null, '/' ) : $permalink;
+			$permalink = empty( $permalink ) ? \get_site_url( null, '/' ) : $permalink;
 
 			$site_chart = \array_filter(
 				$results['data'],
@@ -277,34 +281,6 @@ class Wincher_Keyphrases_Action {
 				'status' => $e->getCode(),
 			];
 		}
-	}
-
-	/**
-	 * Collects the keyphrases associated with the post.
-	 *
-	 * @param WP_Post $post The post object.
-	 *
-	 * @return array The keyphrases.
-	 */
-	public function collect_keyphrases_from_post( $post ) {
-		$keyphrases        = [];
-		$primary_keyphrase = $this->indexable_repository
-			->query()
-			->select( 'primary_focus_keyword' )
-			->where( 'object_id', $post->ID )
-			->find_one();
-
-		if ( $primary_keyphrase ) {
-			$keyphrases[] = $primary_keyphrase->primary_focus_keyword;
-		}
-
-		if ( YoastSEO()->helpers->product->is_premium() ) {
-			$additional_keywords = \json_decode( WPSEO_Meta::get_value( 'focuskeywords', $post->ID ), true );
-
-			$keyphrases = \array_merge( $keyphrases, $additional_keywords );
-		}
-
-		return $keyphrases;
 	}
 
 	/**
@@ -385,6 +361,34 @@ class Wincher_Keyphrases_Action {
 		}
 
 		return ( count( $keyphrases ) + $limits->usage ) > $limits->limit;
+	}
+
+	/**
+	 * Collects the keyphrases associated with the post.
+	 *
+	 * @param WP_Post $post The post object.
+	 *
+	 * @return array The keyphrases.
+	 */
+	protected function collect_keyphrases_from_post( $post ) {
+		$keyphrases        = [];
+		$primary_keyphrase = $this->indexable_repository
+			->query()
+			->select( 'primary_focus_keyword' )
+			->where( 'object_id', $post->ID )
+			->find_one();
+
+		if ( $primary_keyphrase ) {
+			$keyphrases[] = $primary_keyphrase->primary_focus_keyword;
+		}
+
+		if ( YoastSEO()->helpers->product->is_premium() ) {
+			$additional_keywords = \json_decode( WPSEO_Meta::get_value( 'focuskeywords', $post->ID ), true );
+
+			$keyphrases = \array_merge( $keyphrases, $additional_keywords );
+		}
+
+		return $keyphrases;
 	}
 
 	/**
