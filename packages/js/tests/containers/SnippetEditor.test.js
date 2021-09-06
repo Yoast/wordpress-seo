@@ -36,6 +36,7 @@ describe( "SnippetEditor container", () => {
 					getSnippetEditorPreviewImageUrl: jest.fn().mockReturnValue( "https://localhost.test/wp-content/uploads/2021/01/WordPress2.jpg" ),
 					getSnippetEditorWordsToHighlight: jest.fn().mockReturnValue( [ "active" ] ),
 					isCornerstoneContent: jest.fn().mockReturnValue( true ),
+					getIsTerm: jest.fn().mockReturnValue( true ),
 				};
 			}
 		} );
@@ -72,6 +73,7 @@ describe( "SnippetEditor container", () => {
 			},
 			wordsToHighlight: [ "active" ],
 			isCornerstone: true,
+			isTaxonomy: true,
 		};
 
 		const result = mapSelectToProps( select );
