@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 // External dependencies
 import { forEach, isArray, isNumber, isObject } from "lodash-es";
 import { getLogger } from "loglevel";

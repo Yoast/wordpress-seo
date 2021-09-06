@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
-use Mockery;
-use Yoast\WP\SEO\Conditionals\Farsi_Support_Conditional;
 use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -24,30 +22,11 @@ class Language_Helper_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * The Farsi support conditional.
-	 *
-	 * @var Mockery\MockInterface|Farsi_Support_Conditional
-	 */
-	protected $farsi_conditional;
-
-	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
 		parent::set_up();
-
-		$this->farsi_conditional = Mockery::mock( Farsi_Support_Conditional::class );
-
-		$this->instance = new Language_Helper( $this->farsi_conditional );
-	}
-
-	/**
-	 * Tests the constructor by checking the set attributes.
-	 *
-	 * @covers ::__construct
-	 */
-	public function test_constructor() {
-		static::assertInstanceOf( Farsi_Support_Conditional::class, self::getPropertyValue( $this, 'farsi_conditional' ) );
+		$this->instance = new Language_Helper();
 	}
 
 	/**
@@ -60,10 +39,6 @@ class Language_Helper_Test extends TestCase {
 	 * @param string $language The language to test.
 	 */
 	public function test_is_word_form_recognition_active( $language ) {
-		$this->farsi_conditional
-			->expects( 'is_met' )
-			->andReturnFalse();
-
 		$this->assertTrue( $this->instance->is_word_form_recognition_active( $language ) );
 	}
 

@@ -17,7 +17,7 @@ abstract class Abstract_Main {
 	 *
 	 * @var ContainerInterface|null
 	 */
-	private $container;
+	protected $container;
 
 	/**
 	 * Loads the plugin.
