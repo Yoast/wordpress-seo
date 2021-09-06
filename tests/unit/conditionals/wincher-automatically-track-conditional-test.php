@@ -7,6 +7,8 @@ use Yoast\WP\SEO\Conditionals\Wincher_Automatically_Track_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
+// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
+
 /**
  * Class Wincher_Automatically_Track_Conditional_Test.
  *
@@ -25,6 +27,7 @@ class Wincher_Automatically_Track_Conditional_Test extends TestCase {
 
 	/**
 	 * The Options_Helper instance.
+	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Options_Helper
 	 */
 	private $options_helper;
@@ -36,7 +39,7 @@ class Wincher_Automatically_Track_Conditional_Test extends TestCase {
 		parent::set_up();
 
 		$this->options_helper = Mockery::mock( Options_Helper::class );
-		$this->instance = new Wincher_Automatically_Track_Conditional( $this->options_helper );
+		$this->instance       = new Wincher_Automatically_Track_Conditional( $this->options_helper );
 	}
 
 	/**

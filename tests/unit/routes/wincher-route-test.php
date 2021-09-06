@@ -165,7 +165,7 @@ class Wincher_Route_Test extends TestCase {
 						],
 						'includeRanking' => [
 							'required' => false,
-							'default' => false,
+							'default'  => false,
 						],
 					],
 				]
@@ -267,7 +267,6 @@ class Wincher_Route_Test extends TestCase {
 		$this->assertTrue( $this->instance->has_valid_keyphrase( 'seo' ) );
 	}
 
-
 	/**
 	 * Tests that the user can use the wincher endpoints.
 	 *
@@ -338,7 +337,12 @@ class Wincher_Route_Test extends TestCase {
 
 		$this->account_action
 			->expects( 'check_limit' )
-			->andReturn( (object) [ 'results' => [ 'canTrack' => true ], 'status' => '200' ] );
+			->andReturn(
+				(object) [
+					'results' => [ 'canTrack' => true ],
+					'status'  => '200',
+				]
+			);
 
 		Mockery::mock( 'overload:WP_REST_Response' );
 
@@ -455,8 +459,13 @@ class Wincher_Route_Test extends TestCase {
 
 		$this->keyphrases_action
 			->expects( 'untrack_keyphrase' )
-			->with( '12345'	)
-			->andReturn( (object) [ 'results' => [], 'status' => '200' ] );
+			->with( '12345' )
+			->andReturn(
+				(object) [
+					'results' => [],
+					'status'  => '200',
+				]
+			);
 
 		Mockery::mock( 'overload:WP_REST_Response' );
 
@@ -482,8 +491,13 @@ class Wincher_Route_Test extends TestCase {
 
 		$this->keyphrases_action
 			->expects( 'get_keyphrase_chart_data' )
-			->with( [ 'seo' ], 'https://yoast.com/page'	)
-			->andReturn( (object) [ 'results' => [], 'status' => '200' ] );
+			->with( [ 'seo' ], 'https://yoast.com/page' )
+			->andReturn(
+				(object) [
+					'results' => [],
+					'status'  => '200',
+				]
+			);
 
 		Mockery::mock( 'overload:WP_REST_Response' );
 

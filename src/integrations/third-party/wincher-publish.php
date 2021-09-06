@@ -50,6 +50,7 @@ class Wincher_Publish implements Integration_Interface {
 	 * @param Wincher_Enabled_Conditional $wincher_enabled   The WPML WPSEO conditional.
 	 * @param Options_Helper              $options_helper    The options helper.
 	 * @param Wincher_Keyphrases_Action   $keyphrases_action The keyphrases action class.
+	 * @param Wincher_Account_Action      $account_action    The account action class.
 	 */
 	public function __construct(
 		Wincher_Enabled_Conditional $wincher_enabled,
@@ -60,7 +61,7 @@ class Wincher_Publish implements Integration_Interface {
 		$this->wincher_enabled   = $wincher_enabled;
 		$this->options_helper    = $options_helper;
 		$this->keyphrases_action = $keyphrases_action;
-		$this->account_action = $account_action;
+		$this->account_action    = $account_action;
 	}
 
 	/**

@@ -189,7 +189,7 @@ class Wincher_Route implements Route_Interface {
 				],
 				'includeRanking' => [
 					'required' => false,
-					'default' => false,
+					'default'  => false,
 				],
 			],
 		];

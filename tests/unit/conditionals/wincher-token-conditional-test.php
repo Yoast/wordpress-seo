@@ -25,6 +25,7 @@ class Wincher_Token_Conditional_Test extends TestCase {
 
 	/**
 	 * The Wincher_Client instance.
+	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Wincher_Client
 	 */
 	private $wincher_client;

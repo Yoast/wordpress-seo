@@ -66,10 +66,10 @@ class Wincher_Publish_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options_helper  = Mockery::mock( Options_Helper::class );
-		$this->wincher_enabled = Mockery::mock( Wincher_Enabled_Conditional::class );
-		$this->keyphrases_action  = Mockery::mock( Wincher_Keyphrases_Action::class );
-		$this->account_action  = Mockery::mock( Wincher_Account_Action::class );
+		$this->options_helper    = Mockery::mock( Options_Helper::class );
+		$this->wincher_enabled   = Mockery::mock( Wincher_Enabled_Conditional::class );
+		$this->keyphrases_action = Mockery::mock( Wincher_Keyphrases_Action::class );
+		$this->account_action    = Mockery::mock( Wincher_Account_Action::class );
 
 		$this->instance = Mockery::mock(
 			Wincher_Publish::class,
@@ -157,11 +157,13 @@ class Wincher_Publish_Test extends TestCase {
 		$this->keyphrases_action
 			->expects( 'collect_keyphrases_from_post' )
 			->with( $post )
-			->andReturn( [
-				'yoast seo',
-				'blog seo',
-				'wincher',
-			] );
+			->andReturn(
+				[
+					'yoast seo',
+					'blog seo',
+					'wincher',
+				]
+			);
 
 		$this->account_action
 			->expects( 'check_limit' )
@@ -169,13 +171,13 @@ class Wincher_Publish_Test extends TestCase {
 			->andReturn(
 				(object) [
 					'canTrack' => true,
-					'limit' => 100,
-					'usage' => 10,
-					'status' => 200,
+					'limit'    => 100,
+					'usage'    => 10,
+					'status'   => 200,
 				]
 			);
 
-		$this->keyphrases_action->expects('track_keyphrases')->once();
+		$this->keyphrases_action->expects( 'track_keyphrases' )->once();
 
 		$this->instance->track_request( $post );
 	}
@@ -198,7 +200,7 @@ class Wincher_Publish_Test extends TestCase {
 			->never();
 
 		$this->keyphrases_action
-			->expects('track_keyphrases')
+			->expects( 'track_keyphrases' )
 			->never();
 
 		$this->instance->track_request( $post );

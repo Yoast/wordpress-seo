@@ -78,22 +78,24 @@ class Wincher_Account_Action_Test extends TestCase {
 		$this->client_instance
 			->expects( 'get' )
 			->with( 'https://api.wincher.com/beta/account' )
-			->andReturn( [
-				'limits' => [
-					'keywords' => [
-						'usage' => 10,
-						'limit' => 100,
+			->andReturn(
+				[
+					'limits' => [
+						'keywords' => [
+							'usage' => 10,
+							'limit' => 100,
+						],
 					],
-				],
-				'status' => 200,
-			] );
+					'status' => 200,
+				]
+			);
 
 		$this->assertEquals(
 			(object) [
 				'canTrack' => true,
-				'limit' => 100,
-				'usage' => 10,
-				'status' => 200,
+				'limit'    => 100,
+				'usage'    => 10,
+				'status'   => 200,
 			],
 			$this->instance->check_limit()
 		);
@@ -108,22 +110,24 @@ class Wincher_Account_Action_Test extends TestCase {
 		$this->client_instance
 			->expects( 'get' )
 			->with( 'https://api.wincher.com/beta/account' )
-			->andReturn( [
-				'limits' => [
-					'keywords' => [
-						'usage' => 100,
-						'limit' => 100,
+			->andReturn(
+				[
+					'limits' => [
+						'keywords' => [
+							'usage' => 100,
+							'limit' => 100,
+						],
 					],
-				],
-				'status' => 200,
-			] );
+					'status' => 200,
+				]
+			);
 
 		$this->assertEquals(
 			(object) [
 				'canTrack' => false,
-				'limit' => 100,
-				'usage' => 100,
-				'status' => 200,
+				'limit'    => 100,
+				'usage'    => 100,
+				'status'   => 200,
 			],
 			$this->instance->check_limit()
 		);
@@ -138,22 +142,24 @@ class Wincher_Account_Action_Test extends TestCase {
 		$this->client_instance
 			->expects( 'get' )
 			->with( 'https://api.wincher.com/beta/account' )
-			->andReturn( [
-				'limits' => [
-					'keywords' => [
-						'usage' => 100000,
-						'limit' => null,
+			->andReturn(
+				[
+					'limits' => [
+						'keywords' => [
+							'usage' => 100000,
+							'limit' => null,
+						],
 					],
-				],
-				'status' => 200,
-			] );
+					'status' => 200,
+				]
+			);
 
 		$this->assertEquals(
 			(object) [
 				'canTrack' => true,
-				'limit' => null,
-				'usage' => 100000,
-				'status' => 200,
+				'limit'    => null,
+				'usage'    => 100000,
+				'status'   => 200,
 			],
 			$this->instance->check_limit()
 		);

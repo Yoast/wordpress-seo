@@ -383,11 +383,11 @@ class WPSEO_Admin {
 		$parsed_site_url = \wp_parse_url( $site_url );
 
 		$params = [
-			'client_id' => 'yoast',
+			'client_id'     => 'yoast',
 			'response_type' => 'code',
-			'redirect_uri' => 'https://auth.wincher.com/yoast/setup',
-			'scope' => 'api offline_access',
-			'state' => \json_encode( [ 'domain' => $parsed_site_url[ 'host' ] ] ),
+			'redirect_uri'  => 'https://auth.wincher.com/yoast/setup',
+			'scope'         => 'api offline_access',
+			'state'         => \WPSEO_Utils::format_json_encode( [ 'domain' => $parsed_site_url['host'] ] ),
 		];
 
 		return \sprintf(

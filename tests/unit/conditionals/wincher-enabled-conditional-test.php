@@ -25,6 +25,7 @@ class Wincher_Enabled_Conditional_Test extends TestCase {
 
 	/**
 	 * The Options_Helper instance.
+	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Options_Helper
 	 */
 	private $options_helper;
@@ -36,7 +37,7 @@ class Wincher_Enabled_Conditional_Test extends TestCase {
 		parent::set_up();
 
 		$this->options_helper = Mockery::mock( Options_Helper::class );
-		$this->instance = new Wincher_Enabled_Conditional( $this->options_helper );
+		$this->instance       = new Wincher_Enabled_Conditional( $this->options_helper );
 	}
 
 	/**

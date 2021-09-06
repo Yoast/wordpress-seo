@@ -88,10 +88,11 @@ class SEMrush_Client_Test extends TestCase {
 			->once()
 			->andReturnNull();
 
-		$instance = Mockery::mock( SEMrush_Client::class,
+		$instance = Mockery::mock(
+			SEMrush_Client::class,
 			[
 				$this->options_helper,
-				Mockery::mock( WP_Remote_Handler::class )
+				Mockery::mock( WP_Remote_Handler::class ),
 			]
 		)->makePartial();
 
@@ -124,10 +125,11 @@ class SEMrush_Client_Test extends TestCase {
 				]
 			);
 
-		$instance = Mockery::mock( SEMrush_Client::class,
+		$instance = Mockery::mock(
+			SEMrush_Client::class,
 			[
 				$this->options_helper,
-				Mockery::mock( WP_Remote_Handler::class )
+				Mockery::mock( WP_Remote_Handler::class ),
 			]
 		)->makePartial();
 

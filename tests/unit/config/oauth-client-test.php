@@ -92,11 +92,12 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'oauth_token' )
 			->andReturnNull();
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
 		);
 
@@ -140,11 +141,12 @@ class OAuth_Client_Test extends TestCase {
 				]
 			);
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
 		);
 
@@ -213,11 +215,12 @@ class OAuth_Client_Test extends TestCase {
 			)
 			->andReturns( $this->token );
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
 		)->makePartial();
 
@@ -236,7 +239,7 @@ class OAuth_Client_Test extends TestCase {
 		$this->expectException( Authentication_Failed_Exception::class );
 
 		$this->options_helper
-			->expects('get')
+			->expects( 'get' )
 			->with( 'oauth_token' )
 			->andReturn(
 				[
@@ -254,11 +257,12 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'authorization_code', [ 'code' => '' ] )
 			->andThrow( IdentityProviderException::class );
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
 		)->makePartial();
 
@@ -305,18 +309,18 @@ class OAuth_Client_Test extends TestCase {
 			->andReturnTrue();
 
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
 		)->makePartial();
 
 		$stored_token = $instance->store_token( $this->token );
 
 		$this->assertInstanceOf( OAuth_Token::class, $stored_token );
-
 	}
 
 	/**
@@ -360,11 +364,12 @@ class OAuth_Client_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
 		)->makePartial();
 
@@ -402,20 +407,22 @@ class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => $this->time + 604800,
+					'expires'       => ( $this->time + 604800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
 				]
 			);
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
-		)->makePartial()
-		 ->shouldAllowMockingProtectedMethods();
+		)
+		->makePartial()
+		->shouldAllowMockingProtectedMethods();
 
 		$result = $instance->get( 'https://google.com' );
 
@@ -434,22 +441,27 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'oauth_token' )
 			->andReturnNull();
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
-		)->makePartial()
-		 ->shouldAllowMockingProtectedMethods();
+		)
+							->makePartial()
+							->shouldAllowMockingProtectedMethods();
 
-		$instance
-			->expects( 'do_request' )
-			 ->once()
-			 ->with( 'POST', 'https://google.com', [
-				 'body' => 'request body',
-			 ] )
-			 ->andReturn( [] );
+		$instance->expects( 'do_request' )
+				->once()
+				->with(
+					'POST',
+					'https://google.com',
+					[
+						'body' => 'request body',
+					]
+				)
+				->andReturn( [] );
 
 		$instance->post( 'https://google.com', 'request body' );
 	}
@@ -466,19 +478,21 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'oauth_token' )
 			->andReturnNull();
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
-		)->makePartial()
-		 ->shouldAllowMockingProtectedMethods();
+		)
+		->makePartial()
+		->shouldAllowMockingProtectedMethods();
 
 		$instance->expects( 'do_request' )
-				 ->once()
-				 ->with( 'DELETE', 'https://google.com', [] )
-				 ->andReturn( [] );
+				->once()
+				->with( 'DELETE', 'https://google.com', [] )
+				->andReturn( [] );
 
 		$instance->delete( 'https://google.com' );
 	}
@@ -505,13 +519,15 @@ class OAuth_Client_Test extends TestCase {
 				]
 			);
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
-		)->makePartial();
+		)
+		->makePartial();
 
 		$this->assertFalse( $instance->has_valid_tokens() );
 	}
@@ -528,13 +544,15 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'oauth_token' )
 			->andReturnNull();
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
-		)->makePartial();
+		)
+		->makePartial();
 
 		$this->assertFalse( $instance->has_valid_tokens() );
 	}
@@ -548,25 +566,27 @@ class OAuth_Client_Test extends TestCase {
 		$this->time = \time();
 
 		$this->options_helper
-			->expects('get')
+			->expects( 'get' )
 			->with( 'oauth_token' )
 			->andReturn(
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => $this->time + 604800,
+					'expires'       => ( $this->time + 604800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
 				]
 			);
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
-		)->makePartial();
+		)
+		->makePartial();
 
 		$this->assertNotEmpty(
 			$this->getPropertyValue( $instance, 'token' )
@@ -589,13 +609,15 @@ class OAuth_Client_Test extends TestCase {
 
 		$this->expectException( Empty_Token_Exception::class );
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
-		)->makePartial();
+		)
+		->makePartial();
 
 		$instance->get_tokens();
 	}
@@ -635,11 +657,12 @@ class OAuth_Client_Test extends TestCase {
 			->expects( 'set' )
 			->once();
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
 		)->makePartial()
 		->shouldAllowMockingProtectedMethods();
@@ -669,17 +692,18 @@ class OAuth_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => $this->time + 604800,
+					'expires'       => ( $this->time + 604800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
 				]
 			);
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
 		)->makePartial();
 
@@ -712,7 +736,7 @@ class OAuth_Client_Test extends TestCase {
 			[
 				'getToken'        => '000000',
 				'getRefreshToken' => '000001',
-				'getExpires'      => $this->time + 604800,
+				'getExpires'      => ( $this->time + 604800 ),
 				'hasExpired'      => false,
 			]
 		);
@@ -723,11 +747,12 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'refresh_token', [ 'refresh_token' => null ] )
 			->andReturn( $this->response );
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
 		)->makePartial()
 		->shouldAllowMockingProtectedMethods();
@@ -774,14 +799,16 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'refresh_token', [ 'refresh_token' => null ] )
 			->andThrow( \UnexpectedValueException::class );
 
-		$instance = \Mockery::mock( OAuth_Client::class,
+		$instance = \Mockery::mock(
+			OAuth_Client::class,
 			[
 				'oauth_token',
 				$this->provider,
-				$this->options_helper
+				$this->options_helper,
 			]
-		)->makePartial()
-		 ->shouldAllowMockingProtectedMethods();
+		)
+		->makePartial()
+		->shouldAllowMockingProtectedMethods();
 
 		$instance
 			->expects( 'store_token' )

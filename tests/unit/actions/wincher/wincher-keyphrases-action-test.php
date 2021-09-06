@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Actions\SEMrush;
+namespace Yoast\WP\SEO\Tests\Unit\Actions\Wincher;
 
 use Brain\Monkey;
 use Mockery;
@@ -62,17 +62,16 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	 */
 	private $end_date;
 
-
 	/**
 	 * Set up the test fixtures.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->client_instance = Mockery::mock( Wincher_Client::class );
-		$this->options_helper = Mockery::mock( Options_Helper::class );
+		$this->client_instance      = Mockery::mock( Wincher_Client::class );
+		$this->options_helper       = Mockery::mock( Options_Helper::class );
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
-		$this->instance        = new Wincher_Keyphrases_Action(
+		$this->instance             = new Wincher_Keyphrases_Action(
 			$this->client_instance,
 			$this->options_helper,
 			$this->indexable_repository
@@ -116,7 +115,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with('wincher_website_id')
+			->with( 'wincher_website_id' )
 			->once()
 			->andReturns( '12345' );
 
@@ -125,12 +124,22 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->once()
 			->with(
 				'https://api.wincher.com/beta/websites/12345/keywords/bulk',
-				\WPSEO_Utils::format_json_encode( [ [ 'keyword' => 'yoast seo', 'groups' => [] ] ] )
+				\WPSEO_Utils::format_json_encode(
+					[
+						[
+							'keyword' => 'yoast seo',
+							'groups'  => [],
+						],
+					]
+				)
 			)
 			->andReturns(
 				[
-					'data' => [
-						[ 'keyword' => 'yoast seo', 'id' => 12345 ],
+					'data'   => [
+						[
+							'keyword' => 'yoast seo',
+							'id'      => 12345,
+						],
 					],
 					'status' => 200,
 				]
@@ -139,7 +148,10 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'results' => [
-					'yoast seo' => [ 'keyword' => 'yoast seo', 'id' => 12345 ],
+					'yoast seo' => [
+						'keyword' => 'yoast seo',
+						'id'      => 12345,
+					],
 				],
 				'status'  => 200,
 			],
@@ -162,17 +174,17 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with('wincher_website_id')
+			->with( 'wincher_website_id' )
 			->once()
 			->andReturns( '12345' );
 
 		$this->assertEquals(
 			(object) [
 				'results' => [
-					'limit' => 1000,
+					'limit'    => 1000,
 					'canTrack' => false,
 				],
-				'error' => 'Account limit exceeded',
+				'error'   => 'Account limit exceeded',
 				'status'  => 400,
 			],
 			$this->instance->track_keyphrases( [ 'yoast seo' ], $limits )
@@ -194,17 +206,17 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with('wincher_website_id')
+			->with( 'wincher_website_id' )
 			->once()
 			->andReturns( '12345' );
 
 		$this->assertEquals(
 			(object) [
 				'results' => [
-					'limit' => 1000,
+					'limit'    => 1000,
 					'canTrack' => true,
 				],
-				'error' => 'Account limit exceeded',
+				'error'   => 'Account limit exceeded',
 				'status'  => 400,
 			],
 			$this->instance->track_keyphrases( [ 'yoast seo', 'wincher' ], $limits )
@@ -219,7 +231,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	public function test_untrack_keyphrase() {
 		$this->options_helper
 			->expects( 'get' )
-			->with('wincher_website_id')
+			->with( 'wincher_website_id' )
 			->once()
 			->andReturns( '12345' );
 
@@ -229,7 +241,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->with( 'https://api.wincher.com/beta/websites/12345/keywords/12345' )
 			->andReturns(
 				[
-					'data' => [],
+					'data'   => [],
 					'status' => 200,
 				]
 			);
@@ -251,7 +263,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	public function test_get_tracked_keyphrases() {
 		$this->options_helper
 			->expects( 'get' )
-			->with('wincher_website_id')
+			->with( 'wincher_website_id' )
 			->once()
 			->andReturns( '12345' );
 
@@ -263,14 +275,20 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 				[
 					'params' => [
 						'include_ranking' => 'false',
-						]
+					],
 				]
 			)
 			->andReturns(
 				[
-					'data' => [
-						[ 'keyword' => 'yoast seo', 'id' => 12345 ],
-						[ 'keyword' => 'wincher', 'id' => 12346 ],
+					'data'   => [
+						[
+							'keyword' => 'yoast seo',
+							'id'      => 12345,
+						],
+						[
+							'keyword' => 'wincher',
+							'id'      => 12346,
+						],
 
 					],
 					'status' => 200,
@@ -280,8 +298,14 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'results' => [
-					'yoast seo' => [ 'keyword' => 'yoast seo', 'id' => 12345 ],
-					'wincher' => [ 'keyword' => 'wincher', 'id' => 12346 ],
+					'yoast seo' => [
+						'keyword' => 'yoast seo',
+						'id'      => 12345,
+					],
+					'wincher'   => [
+						'keyword' => 'wincher',
+						'id'      => 12346,
+					],
 				],
 				'status'  => 200,
 			],
@@ -297,7 +321,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	public function test_get_tracked_keyphrases_no_data_key() {
 		$this->options_helper
 			->expects( 'get' )
-			->with('wincher_website_id')
+			->with( 'wincher_website_id' )
 			->once()
 			->andReturns( '12345' );
 
@@ -309,20 +333,20 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 				[
 					'params' => [
 						'include_ranking' => 'false',
-					]
+					],
 				]
 			)
 			->andReturns(
 				[
 					'some_other_key' => [],
-					'status' => 200,
+					'status'         => 200,
 				]
 			);
 
 		$this->assertEquals(
 			(object) [
 				'some_other_key' => [],
-				'status'  => 200,
+				'status'         => 200,
 			],
 			$this->instance->get_tracked_keyphrases()
 		);
@@ -336,7 +360,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	public function test_get_tracked_keyphrases_filtered_by_used_keyphrases() {
 		$this->options_helper
 			->expects( 'get' )
-			->with('wincher_website_id')
+			->with( 'wincher_website_id' )
 			->once()
 			->andReturns( '12345' );
 
@@ -348,14 +372,20 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 				[
 					'params' => [
 						'include_ranking' => 'false',
-					]
+					],
 				]
 			)
 			->andReturns(
 				[
-					'data' => [
-						[ 'keyword' => 'yoast seo', 'id' => 12345 ],
-						[ 'keyword' => 'wincher', 'id' => 12346 ],
+					'data'   => [
+						[
+							'keyword' => 'yoast seo',
+							'id'      => 12345,
+						],
+						[
+							'keyword' => 'wincher',
+							'id'      => 12346,
+						],
 
 					],
 					'status' => 200,
@@ -365,7 +395,10 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'results' => [
-					'yoast seo' => [ 'keyword' => 'yoast seo', 'id' => 12345 ],
+					'yoast seo' => [
+						'keyword' => 'yoast seo',
+						'id'      => 12345,
+					],
 				],
 				'status'  => 200,
 			],
@@ -381,7 +414,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	public function test_get_tracked_keyphrases_including_ranking() {
 		$this->options_helper
 			->expects( 'get' )
-			->with('wincher_website_id')
+			->with( 'wincher_website_id' )
 			->once()
 			->andReturns( '12345' );
 
@@ -393,14 +426,22 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 				[
 					'params' => [
 						'include_ranking' => 'true',
-					]
+					],
 				]
 			)
 			->andReturns(
 				[
-					'data' => [
-						[ 'keyword' => 'yoast seo', 'id' => 12345, 'ranking' => [] ],
-						[ 'keyword' => 'wincher', 'id' => 12346, 'ranking' => [] ],
+					'data'   => [
+						[
+							'keyword' => 'yoast seo',
+							'id'      => 12345,
+							'ranking' => [],
+						],
+						[
+							'keyword' => 'wincher',
+							'id'      => 12346,
+							'ranking' => [],
+						],
 
 					],
 					'status' => 200,
@@ -410,8 +451,16 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'results' => [
-					'yoast seo' => [ 'keyword' => 'yoast seo', 'id' => 12345, 'ranking' => [] ],
-					'wincher' => [ 'keyword' => 'wincher', 'id' => 12346, 'ranking' => [] ],
+					'yoast seo' => [
+						'keyword' => 'yoast seo',
+						'id'      => 12345,
+						'ranking' => [],
+					],
+					'wincher'   => [
+						'keyword' => 'wincher',
+						'id'      => 12346,
+						'ranking' => [],
+					],
 				],
 				'status'  => 200,
 			],
@@ -430,7 +479,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with('wincher_website_id')
+			->with( 'wincher_website_id' )
 			->once()
 			->andReturns( '12345' );
 
@@ -445,28 +494,44 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->with(
 				'https://api.wincher.com/beta/int/websites/12345/pages',
 				[
-					'query' => [
+					'query'   => [
 						'start_at' => $this->start_date,
-						'end_at' => $this->end_date,
+						'end_at'   => $this->end_date,
 					],
 					'timeout' => 60,
 				]
 			)
 			->andReturns(
 				[
-					'data' => [
+					'data'   => [
 						[
-							'url' => 'https://yoast.com/',
+							'url'      => 'https://yoast.com/',
 							'keywords' => [
-								[ 'keyword' => 'yoast seo', 'id' => 12345, 'position' => 1 ],
-								[ 'keyword' => 'seo expertise', 'id' => 12346, 'position' => 22 ],
+								[
+									'keyword'  => 'yoast seo',
+									'id'       => 12345,
+									'position' => 1,
+								],
+								[
+									'keyword'  => 'seo expertise',
+									'id'       => 12346,
+									'position' => 22,
+								],
 							],
 						],
 						[
-							'url' => 'https://yoast.com/blog/',
+							'url'      => 'https://yoast.com/blog/',
 							'keywords' => [
-								[ 'keyword' => 'yoast seo', 'id' => 22345, 'position' => 20 ],
-								[ 'keyword' => 'blog seo', 'id' => 22346, 'position' => 22 ],
+								[
+									'keyword'  => 'yoast seo',
+									'id'       => 22345,
+									'position' => 20,
+								],
+								[
+									'keyword'  => 'blog seo',
+									'id'       => 22346,
+									'position' => 22,
+								],
 							],
 						],
 					],
@@ -477,8 +542,16 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'results' => [
-					'yoast seo' => [ 'keyword' => 'yoast seo', 'id' => 12345, 'position' => 1 ],
-					'seo expertise' =>	[ 'keyword' => 'seo expertise', 'id' => 12346, 'position' => 22 ],
+					'yoast seo'     => [
+						'keyword'  => 'yoast seo',
+						'id'       => 12345,
+						'position' => 1,
+					],
+					'seo expertise' => [
+						'keyword'  => 'seo expertise',
+						'id'       => 12346,
+						'position' => 22,
+					],
 				],
 				'status'  => 200,
 			],
@@ -497,7 +570,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with('wincher_website_id')
+			->with( 'wincher_website_id' )
 			->once()
 			->andReturns( '12345' );
 
@@ -512,28 +585,44 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->with(
 				'https://api.wincher.com/beta/int/websites/12345/pages',
 				[
-					'query' => [
+					'query'   => [
 						'start_at' => $this->start_date,
-						'end_at' => $this->end_date,
+						'end_at'   => $this->end_date,
 					],
 					'timeout' => 60,
 				]
 			)
 			->andReturns(
 				[
-					'data' => [
+					'data'   => [
 						[
-							'url' => 'https://yoast.com/',
+							'url'      => 'https://yoast.com/',
 							'keywords' => [
-								[ 'keyword' => 'yoast seo', 'id' => 12345, 'position' => 1 ],
-								[ 'keyword' => 'seo expertise', 'id' => 12346, 'position' => 22 ],
+								[
+									'keyword'  => 'yoast seo',
+									'id'       => 12345,
+									'position' => 1,
+								],
+								[
+									'keyword'  => 'seo expertise',
+									'id'       => 12346,
+									'position' => 22,
+								],
 							],
 						],
 						[
-							'url' => 'https://yoast.com/blog/',
+							'url'      => 'https://yoast.com/blog/',
 							'keywords' => [
-								[ 'keyword' => 'yoast seo', 'id' => 22345, 'position' => 20 ],
-								[ 'keyword' => 'blog seo', 'id' => 22346, 'position' => 22 ],
+								[
+									'keyword'  => 'yoast seo',
+									'id'       => 22345,
+									'position' => 20,
+								],
+								[
+									'keyword'  => 'blog seo',
+									'id'       => 22346,
+									'position' => 22,
+								],
 							],
 						],
 					],
@@ -544,7 +633,11 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'results' => [
-					'seo expertise' =>	[ 'keyword' => 'seo expertise', 'id' => 12346, 'position' => 22 ],
+					'seo expertise' => [
+						'keyword'  => 'seo expertise',
+						'id'       => 12346,
+						'position' => 22,
+					],
 				],
 				'status'  => 200,
 			],
@@ -563,7 +656,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with('wincher_website_id')
+			->with( 'wincher_website_id' )
 			->once()
 			->andReturns( '12345' );
 
@@ -573,28 +666,44 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->with(
 				'https://api.wincher.com/beta/int/websites/12345/pages',
 				[
-					'query' => [
+					'query'   => [
 						'start_at' => $this->start_date,
-						'end_at' => $this->end_date,
+						'end_at'   => $this->end_date,
 					],
 					'timeout' => 60,
 				]
 			)
 			->andReturns(
 				[
-					'data' => [
+					'data'   => [
 						[
-							'url' => 'https://yoast.com/',
+							'url'      => 'https://yoast.com/',
 							'keywords' => [
-								[ 'keyword' => 'yoast seo', 'id' => 12345, 'position' => 1 ],
-								[ 'keyword' => 'seo expertise', 'id' => 12346, 'position' => 22 ],
+								[
+									'keyword'  => 'yoast seo',
+									'id'       => 12345,
+									'position' => 1,
+								],
+								[
+									'keyword'  => 'seo expertise',
+									'id'       => 12346,
+									'position' => 22,
+								],
 							],
 						],
 						[
-							'url' => 'https://yoast.com/blog/',
+							'url'      => 'https://yoast.com/blog/',
 							'keywords' => [
-								[ 'keyword' => 'yoast seo', 'id' => 22345, 'position' => 20 ],
-								[ 'keyword' => 'blog seo', 'id' => 22346, 'position' => 22 ],
+								[
+									'keyword'  => 'yoast seo',
+									'id'       => 22345,
+									'position' => 20,
+								],
+								[
+									'keyword'  => 'blog seo',
+									'id'       => 22346,
+									'position' => 22,
+								],
 							],
 						],
 					],
@@ -605,8 +714,16 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'results' => [
-					'yoast seo' =>	[ 'keyword' => 'yoast seo', 'id' => 22345, 'position' => 20 ],
-					'blog seo' =>	[ 'keyword' => 'blog seo', 'id' => 22346, 'position' => 22 ],
+					'yoast seo' => [
+						'keyword'  => 'yoast seo',
+						'id'       => 22345,
+						'position' => 20,
+					],
+					'blog seo'  => [
+						'keyword'  => 'blog seo',
+						'id'       => 22346,
+						'position' => 22,
+					],
 				],
 				'status'  => 200,
 			],
@@ -629,7 +746,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with('wincher_website_id')
+			->with( 'wincher_website_id' )
 			->once()
 			->andReturns( '12345' );
 
@@ -653,22 +770,36 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 				]
 			);
 
-		$this->client_instance->expects( 'post' )->once()->andReturn( [
-			'data' => [
-				[ 'keyword' => 'yoast seo', 'id' => 12345 ],
-				[ 'keyword' => 'blog seo', 'id' => 12346 ],
-			],
-			'status' => 200,
-		] );
+		$this->client_instance->expects( 'post' )->once()->andReturn(
+			[
+				'data'   => [
+					[
+						'keyword' => 'yoast seo',
+						'id'      => 12345,
+					],
+					[
+						'keyword' => 'blog seo',
+						'id'      => 12346,
+					],
+				],
+				'status' => 200,
+			]
+		);
 
 		$this->assertEquals(
 			(object) [
 				'results' => [
-					'yoast seo' => [ 'keyword' => 'yoast seo', 'id' => 12345 ],
-					'blog seo' => [ 'keyword' => 'blog seo', 'id' => 12346 ],
+					'yoast seo' => [
+						'keyword' => 'yoast seo',
+						'id'      => 12345,
+					],
+					'blog seo'  => [
+						'keyword' => 'blog seo',
+						'id'      => 12346,
+					],
 				],
 				'status'  => 200,
-			] ,
+			],
 			$this->instance->track_all( $limits )
 		);
 	}
@@ -688,7 +819,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
-			->with('wincher_website_id')
+			->with( 'wincher_website_id' )
 			->once()
 			->andReturns( '12345' );
 
@@ -715,10 +846,10 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 		$this->assertEquals(
 			(object) [
 				'results' => [
-					'limit' => 1000,
+					'limit'    => 1000,
 					'canTrack' => false,
 				],
-				'error' => 'Account limit exceeded',
+				'error'   => 'Account limit exceeded',
 				'status'  => 400,
 			],
 			$this->instance->track_all( $limits )

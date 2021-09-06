@@ -28,7 +28,7 @@ $wincher_is_logged_in = YoastSEO()->helpers->wincher->login_status();
 
 		$upsell_message = sprintf(
 			/* translators: 1: Link start tag to the Wincher pricing page, 2: expands to Wincher, 3: Link closing tag. */
-			 esc_html__( 'Enabling automatic tracking of your keyphrases by %2$s can quickly exceed account limits. If you want to ensure all your keyphrases can be tracked, please %1$supgrade your plan%3$s.', 'wordpress-seo' ),
+			esc_html__( 'Enabling automatic tracking of your keyphrases by %2$s can quickly exceed account limits. If you want to ensure all your keyphrases can be tracked, please %1$supgrade your plan%3$s.', 'wordpress-seo' ),
 			'<a href="https://www.wincher.com/pricing" target="_blank" rel="noopener noreferrer">',
 			'Wincher',
 			'</a>'

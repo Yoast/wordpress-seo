@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Wrappers\WP_Remote_Handler;
  * @coversDefaultClass \Yoast\WP\SEO\Config\Wincher_Client
  */
 class Wincher_Client_Test extends TestCase {
+
 	/**
 	 * The optins helper.
 	 *
@@ -62,16 +63,17 @@ class Wincher_Client_Test extends TestCase {
 				[
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => $this->time + 604800,
+					'expires'       => ( $this->time + 604800 ),
 					'has_expired'   => false,
 					'created_at'    => 1234890,
 				]
 			);
 
-		$instance = Mockery::mock( Wincher_Client::class,
+		$instance = Mockery::mock(
+			Wincher_Client::class,
 			[
 				$this->options_helper,
-				Mockery::mock( WP_Remote_Handler::class )
+				Mockery::mock( WP_Remote_Handler::class ),
 			]
 		)->makePartial();
 

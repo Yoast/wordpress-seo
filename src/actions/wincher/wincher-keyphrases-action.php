@@ -194,7 +194,7 @@ class Wincher_Keyphrases_Action {
 				$endpoint,
 				[
 					'params' => [
-						'include_ranking' => ( $include_ranking ) ? 'true': 'false',
+						'include_ranking' => ( $include_ranking ) ? 'true' : 'false',
 					],
 				]
 			);
@@ -240,7 +240,7 @@ class Wincher_Keyphrases_Action {
 			$results = $this->client->get(
 				$endpoint,
 				[
-					'query' => [
+					'query'   => [
 						'start_at' => gmdate( 'Y-m-d\T00:00:00\Z', strtotime( '-90 days' ) ),
 						'end_at'   => gmdate( 'Y-m-d\TH:i:s\Z' ),
 					],
@@ -408,4 +408,3 @@ class Wincher_Keyphrases_Action {
 		return (object) $result;
 	}
 }
-

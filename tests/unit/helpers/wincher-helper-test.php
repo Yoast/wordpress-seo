@@ -47,8 +47,8 @@ class Wincher_Helper_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->instance = new Wincher_Helper();
-		$this->token = Mockery::mock( OAuth_Token::class );
+		$this->instance                        = new Wincher_Helper();
+		$this->token                           = Mockery::mock( OAuth_Token::class );
 		$this->authentication_failed_exception = Mockery::mock( Authentication_Failed_Exception::class );
 	}
 
