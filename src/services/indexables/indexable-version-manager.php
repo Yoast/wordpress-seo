@@ -35,7 +35,7 @@ class Indexable_Version_Manager {
 	 */
 	public function indexable_needs_upgrade( $indexable ) {
 		if ( ( ! $indexable ) ||
-			( ! is_subclass_of( $indexable, Indexable::class ) ) ) {
+			( ! is_a( $indexable, Indexable::class ) ) ) {
 			return false;
 		}
 
@@ -54,8 +54,7 @@ class Indexable_Version_Manager {
 		$current_indexable_builder_version = $this->indexable_builder_versions->get_latest_version_for_type( $object_type );
 
 		// If the Indexable's version is below the current version, that Indexable needs updating.
-		$version = ( $indexable_version ) ? $indexable_version : 1;
-		return $version < $current_indexable_builder_version;
+		return $indexable_version < $current_indexable_builder_version;
 	}
 
 	/**
