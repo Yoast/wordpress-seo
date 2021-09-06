@@ -86,6 +86,7 @@ export function mapSelectToProps( select ) {
 		getSnippetEditorPreviewImageUrl,
 		getSnippetEditorWordsToHighlight,
 		isCornerstoneContent,
+		getIsTerm,
 	} = select( "yoast-seo/editor" );
 
 	const replacementVariables = getReplaceVars();
@@ -110,6 +111,7 @@ export function mapSelectToProps( select ) {
 		shoppingData: getShoppingData(),
 		wordsToHighlight: getSnippetEditorWordsToHighlight(),
 		isCornerstone: isCornerstoneContent(),
+		isTaxonomy: getIsTerm(),
 	};
 }
 
