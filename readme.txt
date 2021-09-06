@@ -239,6 +239,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 17.1 =
 Release Date: September 7th, 2021
 
+Yoast SEO 17.1 is out today! In this release, you’ll find a couple of small changes that’ll help you write great titles that stand up to Google’s scrutiny. It also includes some behind-the-scenes improvements, including several fixes for our indexables data management. For now, please enjoy Yoast SEO and write the best possible content in the language of your choice! Read more about what’s new in Yoast SEO 17.1 in [our release post](https://yoa.st/release-17-1)!
+
 Enhancements:
 
 * Improves the performance of saving posts by excluding unchanged items, especially noticeable on posts with many links.
