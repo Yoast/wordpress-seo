@@ -12,7 +12,6 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds custom config for TitleWidth assessment in all SEO assessors so that short title is not penalized with a bad score.
 * Expands Russian irregular nouns exception list.
 * Adds stemming rule for the most common perfective verbs.
-* Removes the Farsi feature flag.
 * Implements the passive voice assessment for Farsi.
 * Implements the consecutive sentences assessment for Farsi to ensure variety in a text.
 * Changes the maximum recommended sentence length in Farsi to 25 words.
@@ -24,11 +23,12 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds a feature-flag for Farsi support.
 * Makes Consecutive sentence, Passive voice and Transition words assessments available for Farsi when the Feature flag is enabled.
 * Adds a missing plural variant of a feedback string for the keyphrase length assessment in product pages.
-* Replaces Images assessment `countVideos` value that is passed to the assessment constructor in the product assessors with a variable. 
+* Replaces Images assessment `countVideos` value that is passed to the assessment constructor in the product assessors with a variable.
 * Improves the Farsi passive voice assessment by expanding the list of passive verb forms.
 * Adds missing researcher parameter in assessors.
 * Updates `README.md` for Farsi support.
 * Adjusts Farsi full text tests papers.
+* Removes the Farsi feature flag.
 * Adjusts the English papers in full text tests for product pages.
 * Adds full text tests for product pages and collection pages assessments.
 
