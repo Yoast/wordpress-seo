@@ -9,6 +9,8 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Reindexing action for link indexables.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Abstract_Link_Indexing_Action extends Abstract_Indexing_Action {
 
