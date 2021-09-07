@@ -248,7 +248,7 @@ class Social_Templates_Integration implements Integration_Interface {
 
 			echo '<div class="yoast-settings-section-upsell">';
 
-			echo '<a class="yoast-button-upsell" href="' . \esc_url( \add_query_arg( [ 'screen' => $wpseo_page ], WPSEO_Shortlinker::get( 'https://yoa.st/4e0' ) ) ) . '" target="_blank">'
+			echo '<a class="yoast-button-upsell" href="' . \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/4e0' ) ) . '" target="_blank">'
 			. \esc_html__( 'Unlock with Premium', 'wordpress-seo' )
 			// phpcs:ignore WordPress.Security.EscapeOutput -- Already escapes correctly.
 			. WPSEO_Admin_Utils::get_new_tab_message()
