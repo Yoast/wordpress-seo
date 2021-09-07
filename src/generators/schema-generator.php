@@ -138,6 +138,7 @@ class Schema_Generator implements Generator_Interface {
 			foreach ( $graph_pieces as $graph_piece ) {
 				/**
 				 * Filter: 'wpseo_schema_<identifier>' - Allows changing graph piece output.
+				 * This filter can be called with either an identifier or a block type (see `add_schema_blocks_graph_pieces()`).
 				 *
 				 * @api array $graph_piece The graph piece to filter.
 				 *
@@ -146,7 +147,7 @@ class Schema_Generator implements Generator_Interface {
 				 * @param Abstract_Schema_Piece[] $graph_piece_generators A value object with context variables.
 				 */
 				$graph_piece = \apply_filters( 'wpseo_schema_' . $identifier, $graph_piece, $context, $graph_piece_generator, $graph_piece_generators );
-				$graph_piece = $this->type_filter( $graph_piece, $identifier, $context );
+				$graph_piece = $this->type_filter( $graph_piece, $identifier, $context, $graph_piece_generator, $graph_piece_generators );
 				$graph_piece = $this->validate_type( $graph_piece );
 
 				if ( \is_array( $graph_piece ) ) {
@@ -172,16 +173,12 @@ class Schema_Generator implements Generator_Interface {
 	protected function add_schema_blocks_graph_pieces( $graph, $context ) {
 		foreach ( $context->blocks as $block_type => $blocks ) {
 			foreach ( $blocks as $block ) {
-				/**
-				 * Filter: 'wpseo_schema_block_<block-type>' - Allows filtering graph output per block.
-				 *
-				 * @api array $graph Our Schema output.
-				 *
-				 * @param WP_Block_Parser_Block $block   The block.
-				 * @param Meta_Tags_Context     $context A value object with context variables.
-				 */
 				$block_type = \strtolower( $block['blockName'] );
-				$graph      = \apply_filters( 'wpseo_schema_block_' . $block_type, $graph, $block, $context );
+				/**
+				 * Filter: 'wpseo_schema_block_<block-type>'.
+				 * This filter is documented in the `generate_graph()` function in this class.
+				 */
+				$graph = \apply_filters( 'wpseo_schema_block_' . $block_type, $graph, $block, $context );
 
 				if ( isset( $block['attrs']['yoast-schema'] ) ) {
 					$graph[] = $this->schema_replace_vars_helper->replace( $block['attrs']['yoast-schema'], $context->presentation );
@@ -231,7 +228,7 @@ class Schema_Generator implements Generator_Interface {
 	 * @return Abstract_Schema_Piece[] A filtered array of graph pieces.
 	 */
 	protected function get_graph_pieces( $context ) {
-		if ( \is_single() && \post_password_required() ) {
+		if ( $context->indexable->object_type === 'post' && \post_password_required( $context->post ) ) {
 			$schema_pieces = [
 				new Schema\Organization(),
 				new Schema\Website(),
@@ -268,13 +265,18 @@ class Schema_Generator implements Generator_Interface {
 	/**
 	 * Allows filtering the graph piece by its schema type.
 	 *
-	 * @param array             $graph_piece The graph piece we're filtering.
-	 * @param string            $identifier  The identifier of the graph piece that is being filtered.
-	 * @param Meta_Tags_Context $context     The meta tags context.
+	 * Note: We removed the Abstract_Schema_Piece type-hint from the $graph_piece_generator argument, because
+	 *       it caused conflicts with old code, Yoast SEO Video specifically.
+	 *
+	 * @param array                   $graph_piece The graph piece we're filtering.
+	 * @param string                  $identifier  The identifier of the graph piece that is being filtered.
+	 * @param Meta_Tags_Context       $context     The meta tags context.
+	 * @param Abstract_Schema_Piece   $graph_piece_generator A value object with context variables.
+	 * @param Abstract_Schema_Piece[] $graph_piece_generators A value object with context variables.
 	 *
 	 * @return array The filtered graph piece.
 	 */
-	private function type_filter( $graph_piece, $identifier, Meta_Tags_Context $context ) {
+	private function type_filter( $graph_piece, $identifier, Meta_Tags_Context $context, $graph_piece_generator, array $graph_piece_generators ) {
 		$types = $this->get_type_from_piece( $graph_piece );
 		foreach ( $types as $type ) {
 			$type = \strtolower( $type );
@@ -287,8 +289,10 @@ class Schema_Generator implements Generator_Interface {
 				 * @api array $graph_piece The graph piece to filter.
 				 *
 				 * @param Meta_Tags_Context $context A value object with context variables.
+				 * @param Abstract_Schema_Piece $graph_piece_generator A value object with context variables.
+				 * @param Abstract_Schema_Piece[] $graph_piece_generators A value object with context variables.
 				 */
-				$graph_piece = \apply_filters( 'wpseo_schema_' . $type, $graph_piece, $context );
+				$graph_piece = \apply_filters( 'wpseo_schema_' . $type, $graph_piece, $context, $graph_piece_generator, $graph_piece_generators );
 			}
 		}
 

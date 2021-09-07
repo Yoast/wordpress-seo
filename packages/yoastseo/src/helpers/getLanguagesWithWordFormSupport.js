@@ -1,4 +1,3 @@
-const supportedLanguages = [ "en", "de", "es", "fr", "it", "nl", "ru", "id", "pt", "pl", "ar", "sv", "he", "hu", "nb", "tr", "cs" ];
 
 /**
  * Checks which languages have morphology support inside YoastSEO.js.
@@ -6,5 +5,6 @@ const supportedLanguages = [ "en", "de", "es", "fr", "it", "nl", "ru", "id", "pt
  * @returns {string[]} A list of languages that have morphology support.
  */
 export function getLanguagesWithWordFormSupport() {
+	const supportedLanguages = [ "en", "de", "es", "fr", "it", "nl", "ru", "id", "pt", "pl", "ar", "sv", "he", "hu", "nb", "tr", "cs", "sk" ];
 	return supportedLanguages;
 }

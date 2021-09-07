@@ -56,12 +56,6 @@ const expectedResults = {
 		score: 0,
 		resultText: "",
 	},
-	textImages: {
-		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: No images appear on this page. " +
-			"<a href='https://yoa.st/33d' target='_blank'>Add some</a>!",
-	},
 	textLength: {
 		isApplicable: true,
 		score: 9,
@@ -144,6 +138,16 @@ const expectedResults = {
 	},
 	sentenceBeginnings: {
 		isApplicable: false,
+	},
+	imageKeyphrase: {
+		// This is not applicable to this paper since the text doesn't have any image in it.
+		isApplicable: false,
+	},
+	imageCount: {
+		isApplicable: true,
+		score: 3,
+		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page. " +
+			"<a href='https://yoa.st/4f5' target='_blank'>Add some</a>!",
 	},
 };
 

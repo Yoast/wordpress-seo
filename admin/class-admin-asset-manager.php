@@ -513,10 +513,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'alerts-' . $flat_version,
 			],
 			[
-				'name' => 'badge',
-				'src'  => 'badge-' . $flat_version,
-			],
-			[
 				'name' => 'edit-page',
 				'src'  => 'edit-page-' . $flat_version,
 			],
@@ -601,6 +597,11 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'elementor',
 				'src'  => 'elementor-' . $flat_version,
+			],
+			[
+				'name' => 'workouts',
+				'src'  => 'workouts-' . $flat_version,
+				'deps' => [ self::PREFIX . 'monorepo' ],
 			],
 		];
 	}

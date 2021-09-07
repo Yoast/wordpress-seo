@@ -34,13 +34,19 @@ class Breadcrumb extends Abstract_Schema_Piece {
 		$list_elements = [];
 
 		// In case of pagination, replace the last breadcrumb, because it only contains "Page [number]" and has no URL.
-		if ( $this->helpers->current_page->is_paged() || ( $this->context->indexable->number_of_pages > 1 ) ) {
+		if (
+			(
+				$this->helpers->current_page->is_paged() ||
+				$this->context->indexable->number_of_pages > 1
+			) &&
+			(
+				// Do not replace the last breadcrumb on static post pages.
+				! $this->helpers->current_page->is_static_posts_page() &&
+				// Do not remove the last breadcrumb if only one exists (bugfix for custom paginated frontpages).
+				\count( $breadcrumbs ) > 1
+			)
+		) {
 			\array_pop( $breadcrumbs );
-
-			$breadcrumbs[] = [
-				'url'  => $this->context->canonical,
-				'text' => $this->context->title,
-			];
 		}
 
 		// Only output breadcrumbs that are not hidden.
@@ -101,35 +107,27 @@ class Breadcrumb extends Abstract_Schema_Piece {
 		$crumb = [
 			'@type'    => 'ListItem',
 			'position' => ( $index + 1 ),
-			'item'     => [],
+			'name'     => $this->helpers->schema->html->smart_strip_tags( $breadcrumb['text'] ),
 		];
 
-		if ( ! isset( $breadcrumb['url'] ) && isset( $breadcrumb['@id'] ) ) {
-			$crumb['item']['@id'] = $breadcrumb['@id'];
-			return $crumb;
+		if ( ! empty( $breadcrumb['url'] ) ) {
+			$crumb['item'] = $breadcrumb['url'];
 		}
-
-		$crumb['item']['@type'] = 'WebPage';
-		$crumb['item']['@id']   = $breadcrumb['url'];
-		$crumb['item']['url']   = $breadcrumb['url'];
-		$crumb['item']['name']  = $this->helpers->schema->html->smart_strip_tags( $breadcrumb['text'] );
 
 		return $crumb;
 	}
 
 	/**
-	 * Creates the last breadcrumb in the breadcrumb list.
-	 * Provides a fallback for the URL and text:
-	 *  - URL falls back to the canonical of current page.
-	 *  - text falls back to the title of current page.
+	 * Creates the last breadcrumb in the breadcrumb list, omitting the URL per Google's spec.
+	 *
+	 * @link https://developers.google.com/search/docs/data-types/breadcrumb
 	 *
 	 * @param array $breadcrumb The position in the list.
 	 *
 	 * @return array The last of the breadcrumbs.
 	 */
 	private function format_last_breadcrumb( $breadcrumb ) {
-		unset( $breadcrumb['url'], $breadcrumb['text'], $breadcrumb['@type'] );
-		$breadcrumb['@id'] = $this->context->canonical . Schema_IDs::WEBPAGE_HASH;
+		unset( $breadcrumb['url'] );
 
 		return $breadcrumb;
 	}

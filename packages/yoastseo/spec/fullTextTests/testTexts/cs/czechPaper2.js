@@ -56,13 +56,6 @@ const expectedResults = {
 		score: 0,
 		resultText: "",
 	},
-	textImages: {
-		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Out of 10 images on this page, " +
-			"only 1 has an alt attribute that reflects the topic of your text. <a href='https://yoa.st/33d' target='_blank'>" +
-			"Add your keyphrase or synonyms to the alt tags of more relevant images</a>!",
-	},
 	textLength: {
 		isApplicable: true,
 		score: 9,
@@ -148,6 +141,18 @@ const expectedResults = {
 		score: 3,
 		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: The text contains 7 instances where 3 or " +
 			"more consecutive sentences start with the same word. <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!",
+	},
+	imageKeyphrase: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Out of 10 images on this page, only 1 has an alt attribute" +
+			" that reflects the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags" +
+			" of more relevant images</a>!",
+	},
+	imageCount: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!",
 	},
 };
 

@@ -1,3 +1,4 @@
+/* global wpseoAdminL10n */
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
 import { useEffect } from "@wordpress/element";
@@ -17,15 +18,15 @@ import withLocation from "../helpers/withLocation";
 const getLocationBasedProps = ( location ) => {
 	if ( location === "metabox" ) {
 		return {
-			helpTextLink: "https://yoa.st/400",
-			additionalHelpTextLink: "https://yoa.st/402",
+			helpTextLink: wpseoAdminL10n[ "shortlinks.metabox.schema.explanation" ],
+			additionalHelpTextLink: wpseoAdminL10n[ "shortlinks.metabox.schema.page_type" ],
 			isMetabox: true,
 		};
 	}
 
 	return {
-		helpTextLink: "https://yoa.st/401",
-		additionalHelpTextLink: "https://yoa.st/403",
+		helpTextLink: wpseoAdminL10n[ "shortlinks.sidebar.schema.explanation" ],
+		additionalHelpTextLink: wpseoAdminL10n[ "shortlinks.sidebar.schema.page_type" ],
 		isMetabox: false,
 	};
 };

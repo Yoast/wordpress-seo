@@ -1,3 +1,4 @@
+/* global wpseoAdminL10n */
 import { Fragment, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, MultiSelect, RadioButtonGroup, Select, TextInput } from "@yoast/components";
@@ -90,7 +91,7 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 					id={ join( [ "yoast-meta-robots-noindex", location ] ) }
 					options={ metaRobotsNoIndexOptions }
 					selected={ noIndex }
-					linkTo={ "https://yoa.st/allow-search-engines" }
+					linkTo={ wpseoAdminL10n[ "shortlinks.advanced.allow_search_engines" ] }
 					linkText={ __( "Learn more about the no-index setting on our help page.", "wordpress-seo" ) }
 				/>
 			</Fragment>;
@@ -130,7 +131,7 @@ const MetaRobotsNoFollow = ( { noFollow, onNoFollowChange, postTypeName } ) => {
 				groupName={ id }
 				onChange={ onNoFollowChange }
 				selected={ noFollow }
-				linkTo={ "https://yoa.st/follow-links" }
+				linkTo={ wpseoAdminL10n[ "shortlinks.advanced.follow_links" ] }
 				linkText={ __( "Learn more about the no-follow setting on our help page.", "wordpress-seo" ) }
 			/>;
 		} }
@@ -167,7 +168,7 @@ const MetaRobotsAdvanced = ( { advanced, onAdvancedChange } ) => {
 					{ name: __( "No Snippet", "wordpress-seo" ), value: "nosnippet" },
 				] }
 				selected={ advanced }
-				linkTo={ "https://yoa.st/meta-robots-advanced" }
+				linkTo={ wpseoAdminL10n[ "shortlinks.advanced.meta_robots" ] }
 				linkText={ __( "Learn more about advanced meta robots settings on our help page.", "wordpress-seo" ) }
 			/>;
 		} }
@@ -195,7 +196,7 @@ const BreadcrumbsTitle = ( { breadcrumbsTitle, onBreadcrumbsTitleChange } ) => {
 					id={ join( [ "yoast-breadcrumbs-title", location ] ) }
 					onChange={ onBreadcrumbsTitleChange }
 					value={ breadcrumbsTitle }
-					linkTo={ "https://yoa.st/breadcrumbs-title" }
+					linkTo={ wpseoAdminL10n[ "shortlinks.advanced.breadcrumbs_title" ] }
 					linkText={ __( "Learn more about the breadcrumbs title setting on our help page.", "wordpress-seo" ) }
 				/>;
 			}

@@ -76,7 +76,6 @@ import indonesianPaper1 from "./id/indonesianPaper1";
 import indonesianPaper2 from "./id/indonesianPaper2";
 import indonesianPaper3 from "./id/indonesianPaper3";
 
-
 // Farsi papers
 import farsiPaper1 from "./fa/farsiPaper1";
 import farsiPaper2 from "./fa/farsiPaper2";
@@ -90,6 +89,16 @@ import portuguesePaper2 from "./pt/portuguesePaper2";
 import czechPaper1 from "./cs/czechPaper1";
 import czechPaper2 from "./cs/czechPaper2";
 import czechPaper3 from "./cs/czechPaper3";
+
+// Norwegian papers
+import norwegianPaper1 from "./nb/norwegianPaper1";
+import norwegianPaper2 from "./nb/norwegianPaper2";
+import norwegianPaper3 from "./nb/norwegianPaper3";
+
+// Slovak papers
+import slovakPaper1 from "./sk/slovakPaper1";
+import slovakPaper2 from "./sk/slovakPaper2";
+import slovakPaper3 from "./sk/slovakPaper3";
 
 /**
  * FrenchPaper1 & portuguesePaper3 are temporarily disabled until we figure out why there are small differences
@@ -120,9 +129,6 @@ export default [
 	russianPaper2,
 	russianPaper3,
 	arabicPaper1,
-	farsiPaper1,
-	farsiPaper2,
-	farsiPaper3,
 	englishPaperForPerformanceTest,
 	spanishPaperForPerformanceTest,
 	polishPaperForPerformanceTest,
@@ -149,5 +155,14 @@ export default [
 	czechPaper1,
 	czechPaper2,
 	czechPaper3,
+	norwegianPaper1,
+	norwegianPaper2,
+	norwegianPaper3,
+	slovakPaper1,
+	slovakPaper2,
+	slovakPaper3,
+	farsiPaper1,
+	farsiPaper2,
+	farsiPaper3,
 ];
 

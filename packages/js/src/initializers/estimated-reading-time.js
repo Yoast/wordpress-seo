@@ -16,7 +16,8 @@ function getEstimatedReadingTime( content ) {
 		} );
 }
 
-const debouncedGetEstimatedReadingTime = debounce( getEstimatedReadingTime, 500 );
+// Delays execution by 1.5 seconds for any change, forces execution after 3 seconds.
+const debouncedGetEstimatedReadingTime = debounce( getEstimatedReadingTime, 1500, { maxWait: 3000 } );
 
 /**
  * Initializes the estimated reading time for the classic editor.
@@ -41,40 +42,44 @@ function initializeEstimatedReadingTimeClassic() {
 	} );
 }
 
+// Used to trigger the initial reading time calculation for the block and Elementor editors.
+let previousContent = "";
+let previousRecord = null;
+
 /**
- * Initializes the estimated reading time for the block editor.
+ * Gets the estimated reading time in the block editor if the content has changed.
  *
  * @returns {void}
  */
-function initializeEstimatedReadingTimeBlockEditor() {
-	let previousContent = select( "core/editor" ).getEditedPostAttribute( "content" );
+function getEstimatedReadingTimeBlockEditor() {
+	const postId   = select( "core/editor" ).getCurrentPostId();
+	const postType = select( "core/editor" ).getCurrentPostType();
+	const record   = select( "core" ).getEditedEntityRecord( "postType", postType, postId );
 
-	subscribe( () => {
-		const content = select( "core/editor" ).getEditedPostAttribute( "content" );
+	// If the post object itself hasn't changed don't convert blocks to HTML.
+	if ( previousRecord === record ) {
+		return;
+	}
+	previousRecord = record;
 
-		if ( content !== previousContent ) {
-			previousContent = content;
-			debouncedGetEstimatedReadingTime( content );
-		}
-	} );
+	const content = select( "core/editor" ).getEditedPostAttribute( "content" );
+	if ( previousContent !== content ) {
+		previousContent = content;
+		getEstimatedReadingTime( content );
+	}
 }
 
 /**
- * Initializes the estimated reading time for the Elementor editor.
+ * Gets the estimated reading time in the Elementor editor if the content has changed.
  *
  * @returns {void}
  */
-function initializeEstimatedReadingTimeElementor() {
-	let previousContent = select( "yoast-seo/editor" ).getEditorDataContent();
-
-	subscribe( () => {
-		const content = select( "yoast-seo/editor" ).getEditorDataContent();
-
-		if ( content !== previousContent ) {
-			previousContent = content;
-			debouncedGetEstimatedReadingTime( content );
-		}
-	} );
+function getEstimatedReadingTimeElementor() {
+	const content = select( "yoast-seo/editor" ).getEditorDataContent();
+	if ( previousContent !== content ) {
+		previousContent = content;
+		getEstimatedReadingTime( content );
+	}
 }
 
 /**
@@ -89,10 +94,13 @@ export default function initializeEstimatedReadingTime() {
 
 	dispatch( "yoast-seo/editor" ).loadEstimatedReadingTime();
 
+	// For the Elementor and Block editor, debounce the subscribe function, since this fires almost continuously.
+	// If not debounced, the editor would become very slow.
 	if ( window.wpseoScriptData.isElementorEditor === "1" ) {
-		initializeEstimatedReadingTimeElementor();
+		// Delays execution by 1.5 seconds for any change, forces execution after 3 seconds.
+		subscribe( debounce( getEstimatedReadingTimeElementor, 1500, { maxWait: 3000 } ) );
 	} else if ( window.wpseoScriptData.isBlockEditor === "1" ) {
-		initializeEstimatedReadingTimeBlockEditor();
+		subscribe( debounce( getEstimatedReadingTimeBlockEditor, 1500, { maxWait: 3000 } ) );
 	} else {
 		initializeEstimatedReadingTimeClassic();
 	}

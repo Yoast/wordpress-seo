@@ -8,6 +8,7 @@ use WPSEO_Breadcrumbs;
 use WPSEO_Addon_Manager;
 use WPSEO_Frontend;
 use WPSEO_Replace_Vars;
+use WPSEO_Shortlinker;
 use Yoast\WP\Lib\Migrations\Adapter;
 use Yoast\WP\SEO\WordPress\Wrapper;
 use Yoast_Notification_Center;
@@ -17,6 +18,8 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * Holds the dependency injection container.
  *
  * @var $container \Symfony\Component\DependencyInjection\ContainerBuilder
+ *
+ * @phpcs:disable PEAR.Files.IncludingFile.UseRequire
  */
 // WordPress factory functions.
 $container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb' ] );
@@ -26,6 +29,7 @@ $container->register( WPSEO_Replace_Vars::class, WPSEO_Replace_Vars::class )->se
 $container->register( WPSEO_Admin_Asset_Manager::class, WPSEO_Admin_Asset_Manager::class )->setFactory( [ Wrapper::class, 'get_admin_asset_manager' ] )->setPublic( true );
 $container->register( Yoast_Notification_Center::class, Yoast_Notification_Center::class )->setFactory( [ Yoast_Notification_Center::class, 'get' ] )->setPublic( true );
 $container->register( WPSEO_Addon_Manager::class, WPSEO_Addon_Manager::class )->setFactory( [ Wrapper::class, 'get_addon_manager' ] )->setPublic( true );
+$container->register( WPSEO_Shortlinker::class, WPSEO_Shortlinker::class )->setFactory( [ Wrapper::class, 'get_shortlinker' ] )->setPublic( true );
 
 // Backwards-compatibility classes in the global namespace.
 $container->register( WPSEO_Breadcrumbs::class, WPSEO_Breadcrumbs::class )->setAutowired( true )->setPublic( true );
@@ -36,6 +40,9 @@ $container->setAlias( ContainerInterface::class, 'service_container' );
 
 // Required for the migrations framework.
 $container->register( Adapter::class, Adapter::class )->setAutowired( true )->setPublic( true );
+
+// Elegantly deprecate renamed classes.
+include __DIR__ . '/renamed-classes.php';
 
 $yoast_seo_excluded_files = [
 	'main.php',

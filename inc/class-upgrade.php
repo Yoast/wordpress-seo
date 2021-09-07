@@ -73,6 +73,8 @@ class WPSEO_Upgrade {
 			'15.9.1-RC0' => 'upgrade_1591',
 			'16.2-RC0'   => 'upgrade_162',
 			'16.5-RC0'   => 'upgrade_165',
+			'17.1-RC0'   => 'upgrade_171',
+			'17.2-RC0'   => 'upgrade_172',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -827,6 +829,32 @@ class WPSEO_Upgrade {
 
 		// Run after the WPSEO_Options::enrich_defaults method which has priority 99.
 		add_action( 'init', [ $this, 'reset_og_settings_to_default_values' ], 100 );
+	}
+
+	/**
+	 * Performs the 17.2 upgrade. Cleans out any unnecessary indexables. See $cleanup_integration->get_cleanup_tasks() to see what will be cleaned out.
+	 *
+	 * @return void
+	 */
+	private function upgrade_172() {
+		\wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
+		\wp_unschedule_hook( 'wpseo_cleanup_indexables' );
+
+		if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
+			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
+		}
+	}
+
+	/**
+	 * Performs the 17.1 upgrade. Removes the pipe and tilde separators and replaces them with the dash separator.
+	 *
+	 * @return void
+	 */
+	private function upgrade_171() {
+		$separator = WPSEO_Options::get( 'separator' );
+		if ( $separator === 'sc-pipe' || $separator === 'sc-tilde' ) {
+			WPSEO_Options::set( 'separator', 'sc-dash' );
+		}
 	}
 
 	/**

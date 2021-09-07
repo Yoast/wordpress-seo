@@ -57,8 +57,7 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 
 		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		$wp_query        = Mockery::mock( WP_Query::class );
-		$wp_query->posts = [];
-		$wp_query->expects( 'get_posts' )->once()->andReturn( $posts );
+		$wp_query->posts = $posts;
 
 		Functions\expect( 'wp_list_pluck' )
 			->once()
@@ -107,46 +106,12 @@ class Admin_Columns_Cache_Integration_Test extends TestCase {
 	 */
 	public function test_fill_cache_with_non_post_query() {
 		global $wp_query;
-		global $per_page;
-		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-		$per_page = 10;
-
-		$posts = [
-			(object) [
-				'ID'          => 1,
-				'post_parent' => 0,
-			],
-		];
-
-		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-		$wp_query        = Mockery::mock( WP_Query::class );
-		$wp_query->posts = [];
-		$wp_query->expects( 'get_posts' )->once()->andReturn( $posts );
-
-		Functions\expect( '_prime_post_caches' )->once()->with( [ 1 ] );
-
-		$results = [ (object) [ 'object_id' => 1 ] ];
-
-		$this->indexable_repository->expects( 'find_by_multiple_ids_and_type' )->once()->with( [ 1 ], 'post', false )->andReturn( $results );
-
-		$this->instance->fill_cache();
-	}
-
-	/**
-	 * Tests the fill_cache function.
-	 *
-	 * @covers ::__construct
-	 * @covers ::fill_cache
-	 */
-	public function test_fill_cache_with_no_results() {
-		global $wp_query;
 
 		$posts = [];
 
 		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		$wp_query        = Mockery::mock( WP_Query::class );
-		$wp_query->posts = [];
-		$wp_query->expects( 'get_posts' )->once()->andReturn( $posts );
+		$wp_query->posts = $posts;
 
 		$this->instance->fill_cache();
 	}

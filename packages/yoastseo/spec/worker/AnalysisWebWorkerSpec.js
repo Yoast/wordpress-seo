@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 // External dependencies
 import { forEach, isArray, isNumber, isObject } from "lodash-es";
 import { getLogger } from "loglevel";
@@ -7,6 +10,7 @@ import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 import { createShortlink } from "../../src/helpers/shortlinker";
 import Assessment from "../../src/scoring/assessments/assessment";
 import SEOAssessor from "../../src/scoring/seoAssessor";
+import contentAssessor from "../../src/scoring/contentAssessor";
 import { SEOScoreAggregator } from "../../src/parsedPaper/assess/scoreAggregators";
 import { TreeResearcher } from "../../src/parsedPaper/research";
 import AssessmentResult from "../../src/values/AssessmentResult";
@@ -224,6 +228,10 @@ describe( "AnalysisWebWorker", () => {
 
 			test( "update seo with researchData", () => {
 				expect( AnalysisWebWorker.shouldAssessorsUpdate( { researchData: {} }, false, false ) ).toEqual( updateSEO );
+			} );
+
+			test( "update both with customAnalysis", () => {
+				expect( AnalysisWebWorker.shouldAssessorsUpdate( { customAnalysisType: "test" }, false, false ) ).toEqual( updateBoth );
 			} );
 		} );
 
@@ -1192,6 +1200,61 @@ describe( "AnalysisWebWorker", () => {
 			expect( assessor ).not.toBeNull();
 			expect( assessor.type ).toBe( "CornerstoneContentAssessor" );
 		} );
+
+		test( "listens to customAnalysisType and sets the custom content assessor if available", () => {
+			worker._configuration.customAnalysisType = "type1";
+			// Swapping the content assessor for the SEO assessor.
+			worker._CustomContentAssessorClasses.type1 = SEOAssessor;
+			const assessor = worker.createContentAssessor();
+			// Custom assessor used.
+			expect( assessor.type ).toBe( "SEOAssessor" );
+		} );
+
+		test( "listens to customAnalysisType but returns the default content assessor if no matching custom assessor is available", () => {
+			worker._configuration.customAnalysisType = "type1";
+			// Swapping the content assessor for the SEO assessor.
+			worker._CustomContentAssessorClasses.type2 = SEOAssessor;
+			const assessor = worker.createContentAssessor();
+			// Default assessor used.
+			expect( assessor.type ).toBe( "ContentAssessor" );
+		} );
+
+		test( "listens to customAnalysisType but returns the default content assessor if no custom analysis type is set", () => {
+			worker._configuration.customAnalysisType = "";
+			// Swapping the content assessor for the SEO assessor.
+			worker._CustomContentAssessorClasses.type1 = SEOAssessor;
+			const assessor = worker.createContentAssessor();
+			// Default assessor used.
+			expect( assessor.type ).toBe( "ContentAssessor" );
+		} );
+
+		test( "listens to customAnalysisType and sets the custom cornerstone content assessor if available", () => {
+			worker._configuration.useCornerstone = true;
+			worker._configuration.customAnalysisType = "type1";
+			// Swapping the cornerstone assessor for the SEO assessor.
+			worker._CustomCornerstoneContentAssessorClasses.type1 = SEOAssessor;
+			const assessor = worker.createContentAssessor();
+			// Custom assessor used.
+			expect( assessor.type ).toBe( "SEOAssessor" );
+		} );
+
+		test( "listens to customAnalysisType but returns the default cornerstone SEO assessor if no matching custom assessor is available", () => {
+			worker._configuration.useCornerstone = true;
+			worker._configuration.customAnalysisType = "type1";
+			worker._CustomCornerstoneContentAssessorClasses.type2 = SEOAssessor;
+			const assessor = worker.createContentAssessor();
+			// Default assessor used.
+			expect( assessor.type ).toBe( "CornerstoneContentAssessor" );
+		} );
+
+		test( "listens to customAnalysisType but returns the default cornerstone SEO assessor if no custom analysis type is set", () => {
+			worker._configuration.useCornerstone = true;
+			worker._configuration.customAnalysisType = "";
+			worker._CustomCornerstoneContentAssessorClasses.type1 = SEOAssessor;
+			const assessor = worker.createContentAssessor();
+			// Default assessor used.
+			expect( assessor.type ).toBe( "CornerstoneContentAssessor" );
+		} );
 	} );
 
 	describe( "createSEOAssessor", () => {
@@ -1258,6 +1321,63 @@ describe( "AnalysisWebWorker", () => {
 			expect( assessment.identifier ).toBe( "keyphraseDistribution" );
 		} );
 
+		test( "listens to customAnalysisType and sets the custom SEO assessor if available", () => {
+			worker._configuration.customAnalysisType = "type1";
+			// Swapping the SEO assessor for the content assessor.
+			worker._CustomSEOAssessorClasses.type1 = contentAssessor;
+			const assessor = worker.createSEOAssessor();
+			// Custom assessor used.
+			expect( assessor.type ).toBe( "ContentAssessor" );
+		} );
+
+		test( "listens to customAnalysisType but returns the default SEO assessor if no matching custom assessor is available", () => {
+			worker._configuration.customAnalysisType = "type1";
+			// Swapping the SEO assessor for the content assessor.
+			worker._CustomSEOAssessorClasses.type2 = contentAssessor;
+			const assessor = worker.createSEOAssessor();
+			// Default assessor used.
+			expect( assessor.type ).toBe( "SEOAssessor" );
+		} );
+
+		test( "listens to customAnalysisType but returns the default SEO assessor if no custom analysis type is set", () => {
+			worker._configuration.customAnalysisType = "";
+			// Swapping the SEO assessor for the content assessor.
+			worker._CustomSEOAssessorClasses.type2 = contentAssessor;
+			const assessor = worker.createSEOAssessor();
+			// Default assessor used.
+			expect( assessor.type ).toBe( "SEOAssessor" );
+		} );
+
+		test( "listens to customAnalysisType and sets the custom cornerstone SEO assessor if available", () => {
+			worker._configuration.useCornerstone = true;
+			worker._configuration.customAnalysisType = "type1";
+			// Swapping the cornerstone SEO assessor for the content assessor.
+			worker._CustomCornerstoneSEOAssessorClasses.type1 = contentAssessor;
+			const assessor = worker.createSEOAssessor();
+			// Custom assessor used.
+			expect( assessor.type ).toBe( "ContentAssessor" );
+		} );
+
+		test( "listens to customAnalysisType but returns the default cornerstone SEO assessor if no matching custom assessor is available", () => {
+			worker._configuration.useCornerstone = true;
+			worker._configuration.customAnalysisType = "type1";
+			// Swapping the cornerstone SEO assessor for the content assessor.
+			worker._CustomCornerstoneSEOAssessorClasses.type2 = contentAssessor;
+			const assessor = worker.createSEOAssessor();
+			// Default assessor used.
+			expect( assessor.type ).toBe( "CornerstoneSEOAssessor" );
+		} );
+
+		test( "listens to customAnalysisType but returns the default cornerstone SEO assessor if no custom analysis type is set", () => {
+			worker._configuration.useCornerstone = true;
+			worker._configuration.customAnalysisType = "";
+			// Swapping the cornerstone SEO assessor for the content assessor.
+			worker._CustomCornerstoneSEOAssessorClasses.type1 = contentAssessor;
+			const assessor = worker.createSEOAssessor();
+			// Default assessor used.
+			expect( assessor.type ).toBe( "CornerstoneSEOAssessor" );
+		} );
+
 		test( "adds registered assessments", () => {
 			const assessment = createAssessment( "assessment" );
 			worker.registerAssessment( "assessment", assessment, "plugin" );
@@ -1267,6 +1387,70 @@ describe( "AnalysisWebWorker", () => {
 			const actualAssessment = assessor.getAssessment( "assessment" );
 			expect( actualAssessment ).toBeDefined();
 			expect( actualAssessment.identifier ).toBe( "assessment" );
+		} );
+	} );
+
+	describe( "createRelatedKeywordAssessor", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+		} );
+
+		test( "listens to customAnalysisType and sets the custom related keyword assessor if available", () => {
+			worker._configuration.customAnalysisType = "type1";
+			// Swapping the related keyword assessor for the content assessor.
+			worker._CustomRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			const assessor = worker.createRelatedKeywordsAssessor();
+			// Custom assessor used.
+			expect( assessor.type ).toBe( "ContentAssessor" );
+		} );
+
+		test( "listens to customAnalysisType but returns the default related keyword assessor if no matching custom assessor is available", () => {
+			worker._configuration.customAnalysisType = "type1";
+			// Swapping the related keyword assessor for the content assessor.
+			worker._CustomRelatedKeywordAssessorClasses.type2 = contentAssessor;
+			const assessor = worker.createRelatedKeywordsAssessor();
+			// Default assessor used.
+			expect( assessor.type ).toBe( "relatedKeywordAssessor" );
+		} );
+
+		test( "listens to customAnalysisType but returns the default related keyword assessor if no custom analysis type is set", () => {
+			worker._configuration.customAnalysisType = "";
+			// Swapping the related keyword assessor for the content assessor.
+			worker._CustomRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			const assessor = worker.createRelatedKeywordsAssessor();
+			// Default assessor used.
+			expect( assessor.type ).toBe( "relatedKeywordAssessor" );
+		} );
+
+		test( "listens to customAnalysisType and sets the custom cornerstone related keyword assessor if available", () => {
+			worker._configuration.useCornerstone = true;
+			worker._configuration.customAnalysisType = "type1";
+			// Swapping the cornerstone related keyword assessor for the content assessor.
+			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			const assessor = worker.createRelatedKeywordsAssessor();
+			// Custom assessor used.
+			expect( assessor.type ).toBe( "ContentAssessor" );
+		} );
+
+		test( "listens to customAnalysisType but returns the default cornerstone SEO assessor if no matching custom assessor is available", () => {
+			worker._configuration.useCornerstone = true;
+			worker._configuration.customAnalysisType = "type1";
+			// Swapping the cornerstone related keyword assessor for the content assessor.
+			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type2 = contentAssessor;
+			const assessor = worker.createRelatedKeywordsAssessor();
+			// Default assessor used.
+			expect( assessor.type ).toBe( "cornerstoneRelatedKeywordAssessor" );
+		} );
+
+		test( "listens to customAnalysisType but returns the default cornerstone SEO assessor if no custom analysis type is set", () => {
+			worker._configuration.useCornerstone = true;
+			worker._configuration.customAnalysisType = "";
+			// Swapping the cornerstone related keyword assessor for the content assessor.
+			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = contentAssessor;
+			const assessor = worker.createRelatedKeywordsAssessor();
+			// Default assessor used.
+			expect( assessor.type ).toBe( "cornerstoneRelatedKeywordAssessor" );
 		} );
 	} );
 
@@ -1622,6 +1806,50 @@ describe( "AnalysisWebWorker", () => {
 			const mockParser = {};
 
 			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
+		} );
+	} );
+
+	describe( "set assessors", () => {
+		const customAssessorOptions = { url: "url" };
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope, researcher );
+		} );
+
+		it( "can set a custom SEO assessor.", () => {
+			worker.setCustomSEOAssessorClass( SEOAssessor, "test", customAssessorOptions  );
+			expect( worker._CustomSEOAssessorClasses.test ).toBe( SEOAssessor );
+			expect( worker._CustomSEOAssessorOptions.test ).toBe( customAssessorOptions );
+		} );
+
+		it( "can set a custom cornerstone SEO assessor.", () => {
+			worker.setCustomCornerstoneSEOAssessorClass( SEOAssessor, "test", customAssessorOptions );
+			expect( worker._CustomCornerstoneSEOAssessorClasses.test ).toBe( SEOAssessor );
+			expect( worker._CustomCornerstoneSEOAssessorOptions.test ).toBe( customAssessorOptions );
+		} );
+
+		it( "can set a custom content assessor.", () => {
+			worker.setCustomContentAssessorClass( SEOAssessor, "test", customAssessorOptions );
+			expect( worker._CustomContentAssessorClasses.test ).toBe( SEOAssessor );
+			expect( worker._CustomContentAssessorOptions.test ).toBe( customAssessorOptions );
+		} );
+
+		it( "can set a custom cornerstone content assessor.", () => {
+			worker.setCustomCornerstoneContentAssessorClass( SEOAssessor, "test", customAssessorOptions );
+			expect( worker._CustomCornerstoneContentAssessorClasses.test ).toBe( SEOAssessor );
+			expect( worker._CustomCornerstoneContentAssessorOptions.test ).toBe( customAssessorOptions );
+		} );
+
+		it( "can set a custom related keyword assessor.", () => {
+			worker.setCustomRelatedKeywordAssessorClass( SEOAssessor, "test", customAssessorOptions );
+			expect( worker._CustomRelatedKeywordAssessorClasses.test ).toBe( SEOAssessor );
+			expect( worker._CustomRelatedKeywordAssessorOptions.test ).toBe( customAssessorOptions );
+		} );
+
+		it( "can set a custom cornerstone related keyword assessor.", () => {
+			worker.setCustomCornerstoneRelatedKeywordAssessorClass( SEOAssessor, "test", customAssessorOptions );
+			expect( worker._CustomCornerstoneRelatedKeywordAssessorClasses.test ).toBe( SEOAssessor );
+			expect( worker._CustomCornerstoneRelatedKeywordAssessorOptions.test ).toBe( customAssessorOptions );
 		} );
 	} );
 } );

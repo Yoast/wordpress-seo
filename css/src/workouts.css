@@ -1,0 +1,103 @@
+#wpseo-workouts-container h1,
+#wpseo-workouts-container h3 {
+	color: #a4286a;
+	font-weight: 500;
+}
+#wpseo-workouts-container h2 {
+	font-size: 12px;
+	text-transform: uppercase;
+}
+
+.workflow tr.cornerstone {
+	font-weight: 700;
+}
+#wpseo-workouts-container div.card {
+	max-width: 600px;
+	width: 100%;
+	padding: 24px;
+	border-radius: 8px;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+	border: 0;
+}
+.workflow {
+	list-style: none;
+	counter-reset: line-number;
+	margin-left:48px;
+}
+.workflow li {
+	position: relative;
+	counter-increment: line-number;
+	padding-bottom: 16px;
+}
+.workflow > li::before {
+	content: "";
+	position: absolute;
+	width: 2px;
+	background: #a4286a;
+	left: -33px;
+	top: 0;
+	bottom: -20px;
+}
+.workflow > li:last-of-type::before {
+	display: none;
+}
+.workflow > li::after {
+	content: counter(line-number);
+	width: 28px;
+	height: 28px;
+	text-align: center;
+	border: solid 2px #a4286a;
+	color: #a4286a;
+	background: #fff;
+	position: absolute;
+	display:block;
+	border-radius: 100%;
+	line-height: 28px;
+	top:-8px;
+	left: -48px;
+}
+.workflow li.finished::after {
+	content: "";
+	background: url("data:image/svg+xml,<svg width='24' fill='none' stroke='%23FFFFFF' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' role='img' aria-hidden='true' focusable='false'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 13l4 4L19 7'></path></svg>") #a4286a;
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+.workflow li.finished p, .workflow li.finished table {
+	opacity: 0.5;
+}
+
+.workflow li img {
+	max-width: 100%;
+}
+
+.workflow li img.workflow__image{
+	max-height: 100px;
+	max-width: 100px;
+}
+
+.workflow li.yoast-fadeout::before {
+	background: linear-gradient(180deg, rgba(164,40,106,1) 0%, rgba(255,255,255,1) 75%);
+	display: block;
+}
+
+.workflow__grid {
+	display: grid;
+	grid-template-columns: auto 100px;
+	gap: 8px;
+}
+
+.workflow__grid > div:last-of-type {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
+
+table.yoast_help.yoast_link_suggestions thead td {
+	padding: 16px 8px;
+}
+
+table.yoast_help.yoast_link_suggestions td {
+	vertical-align: middle;
+}

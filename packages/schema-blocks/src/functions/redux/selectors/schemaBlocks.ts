@@ -64,7 +64,7 @@ export function getRequiredBlockNames(): string[] {
  */
 export function getRecommendedBlockNames(): string[] {
 	return [
-		"yoast/job-expiration",
+		"yoast/job-application-closing-date",
 		"yoast/job-employment-type",
 		"yoast/job-salary",
 		"yoast/job-requirements",
@@ -79,6 +79,6 @@ export function getRecommendedBlockNames(): string[] {
  * @returns The list of required and recommended blocks.
  */
 export function getBlockNames(): string[] {
-	return [ ...getRecommendedBlockNames(), ... getRequiredBlockNames() ];
+	return [ ...getRecommendedBlockNames(), ...getRequiredBlockNames() ];
 }
 

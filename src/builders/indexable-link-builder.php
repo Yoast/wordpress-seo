@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 
 /**
- * Post link builder.
+ * Indexable link builder.
  */
 class Indexable_Link_Builder {
 
@@ -51,7 +51,7 @@ class Indexable_Link_Builder {
 	protected $indexable_repository;
 
 	/**
-	 * Post_Link_Builder constructor.
+	 * Indexable_Link_Builder constructor.
 	 *
 	 * @param SEO_Links_Repository $seo_links_repository The SEO links repository.
 	 * @param Url_Helper           $url_helper           The URL helper.
@@ -303,11 +303,19 @@ class Indexable_Link_Builder {
 		}
 
 		if ( $is_image && $model->target_post_id ) {
-			list( , $width, $height ) = \wp_get_attachment_image_src( $model->target_post_id, 'full' );
+			$file = \get_attached_file( $model->target_post_id );
+			if ( $file ) {
+				list( , $width, $height ) = \wp_get_attachment_image_src( $model->target_post_id, 'full' );
 
-			$model->width  = $width;
-			$model->height = $height;
-			$model->size   = \filesize( \get_attached_file( $model->target_post_id ) );
+				$model->width  = $width;
+				$model->height = $height;
+				$model->size   = \filesize( $file );
+			}
+			else {
+				$model->width  = 0;
+				$model->height = 0;
+				$model->size   = 0;
+			}
 		}
 
 		if ( $model->target_indexable_id ) {
@@ -344,7 +352,7 @@ class Indexable_Link_Builder {
 	}
 
 	/**
-	 * Updatates the link counts for related indexables.
+	 * Updates the link counts for related indexables.
 	 *
 	 * @param Indexable   $indexable The indexable.
 	 * @param SEO_Links[] $links     The link models.
@@ -352,26 +360,54 @@ class Indexable_Link_Builder {
 	 * @return void
 	 */
 	protected function update_related_indexables( $indexable, $links ) {
-		$updated_indexable_ids = [];
-		$old_links             = $this->seo_links_repository->find_all_by_indexable_id( $indexable->id );
-		$this->seo_links_repository->delete_all_by_indexable_id( $indexable->id );
-
-		// Old links were only stored by post id, so remove this as well. This can be removed if we ever fully clear all seo links.
+		// Old links were only stored by post id, so remove all old seo links for this post that have no indexable id.
+		// This can be removed if we ever fully clear all seo links.
 		if ( $indexable->object_type === 'post' ) {
-			$this->seo_links_repository->delete_all_by_post_id( $indexable->object_id );
+			$this->seo_links_repository->delete_all_by_post_id_where_indexable_id_null( $indexable->object_id );
 		}
 
-		foreach ( $links as $link ) {
-			$link->save();
+		$updated_indexable_ids = [];
+		$old_links             = $this->seo_links_repository->find_all_by_indexable_id( $indexable->id );
+
+		$links_to_remove = $this->links_diff( $old_links, $links );
+		$links_to_add    = $this->links_diff( $links, $old_links );
+
+		if ( ! empty( $links_to_remove ) ) {
+			$this->seo_links_repository->delete_many_by_id( \wp_list_pluck( $links_to_remove, 'id' ) );
+		}
+
+		if ( ! empty( $links_to_add ) ) {
+			$this->seo_links_repository->insert_many( $links_to_add );
+		}
+
+		foreach ( $links_to_add as $link ) {
 			if ( $link->target_indexable_id ) {
 				$updated_indexable_ids[] = $link->target_indexable_id;
 			}
 		}
-		foreach ( $old_links as $link ) {
+		foreach ( $links_to_remove as $link ) {
 			$updated_indexable_ids[] = $link->target_indexable_id;
 		}
 
 		$this->update_incoming_links_for_related_indexables( $updated_indexable_ids );
+	}
+
+	/**
+	 * Creates a diff between two arrays of SEO links, based on urls.
+	 *
+	 * @param SEO_Links[] $links_a The array to compare.
+	 * @param SEO_Links[] $links_b The array to compare against.
+	 *
+	 * @return SEO_Links[] Links that are in $links_a, but not in $links_b.
+	 */
+	protected function links_diff( $links_a, $links_b ) {
+		return \array_udiff(
+			$links_a,
+			$links_b,
+			function( SEO_Links $link_a, SEO_Links $link_b ) {
+				return strcmp( $link_a->url, $link_b->url );
+			}
+		);
 	}
 
 	/**

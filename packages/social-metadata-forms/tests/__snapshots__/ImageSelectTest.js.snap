@@ -106,6 +106,10 @@ exports[`The ImageSelect component displays warnings 1`] = `
   color: #004973;
 }
 
+.c5 p {
+  margin-top: 0;
+}
+
 .c4 {
   margin-top: 0.125rem;
   margin-right: 8px;

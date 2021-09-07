@@ -17,7 +17,7 @@ abstract class Abstract_Main {
 	 *
 	 * @var ContainerInterface|null
 	 */
-	private $container;
+	protected $container;
 
 	/**
 	 * Loads the plugin.
@@ -109,6 +109,12 @@ abstract class Abstract_Main {
 	 * @return bool Whether or not to load in development mode.
 	 */
 	protected function is_development() {
-		return \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT === 'development';
+		try {
+			return \WPSEO_Utils::is_development_mode();
+		}
+		catch ( \Exception $exception ) {
+			// E.g. when WordPress and/or WordPress SEO are not loaded.
+			return \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT === 'development';
+		}
 	}
 }

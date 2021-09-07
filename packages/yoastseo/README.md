@@ -105,10 +105,11 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 | Indonesian 	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Arabic    	| ✅                	| ❌<sup>3</sup>        | ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Hebrew      |   ✅                | ❌<sup>3</sup>             | ✅             |    ✅               |      ✅                   |           ✅                     | ✅                         |
-| Farsi    	  |                  	|                         |               	|                       |                             	| ✅                          	|
+| Farsi    	  |   ✅               	| ❌<sup>3</sup>            | ✅              	| ✅                    | ✅                             | ✅                          	|
 | Turkish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Norwegian     | ✅                	| ❌<sup>3</sup>        | ✅                 | ✅                   	| ✅                           	| ✅                          	|
 | Czech     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Slovak     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
 

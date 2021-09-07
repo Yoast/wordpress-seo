@@ -8,6 +8,7 @@ use WPSEO_Admin_Recommended_Replace_Vars;
 use WPSEO_Admin_Utils;
 use WPSEO_Replacevar_Editor;
 use WPSEO_Shortlinker;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
@@ -42,16 +43,7 @@ class Social_Templates_Integration implements Integration_Interface {
 	 *
 	 * @var string
 	 */
-	private $group;
-
-	/**
-	 * Social_Templates_Integration constructor.
-	 */
-	public function __construct() {
-		$this->recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
-		$this->editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
-		$this->group                        = 'global-templates';
-	}
+	private $group = 'global-templates';
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -59,7 +51,7 @@ class Social_Templates_Integration implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ Open_Graph_Conditional::class ];
+		return [ Admin_Conditional::class, Open_Graph_Conditional::class ];
 	}
 
 	/**
@@ -74,14 +66,40 @@ class Social_Templates_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Returns the recommended replacements variables object, creating it if needed.
+	 *
+	 * @return \WPSEO_Admin_Recommended_Replace_Vars
+	 */
+	protected function get_admin_recommended_replace_vars() {
+		if ( is_null( $this->recommended_replace_vars ) ) {
+			$this->recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		}
+
+		return $this->recommended_replace_vars;
+	}
+
+	/**
+	 * Returns the editor specific replacements variables object, creating it if needed.
+	 *
+	 * @return \WPSEO_Admin_Editor_Specific_Replace_Vars
+	 */
+	protected function get_admin_editor_specific_replace_vars() {
+		if ( is_null( $this->editor_specific_replace_vars ) ) {
+			$this->editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+		}
+
+		return $this->editor_specific_replace_vars;
+	}
+
+	/**
 	 * Build a set of social fields for the author archives in the Search Appearance section.
 	 *
 	 * @param Yoast_Form $yform The form builder.
 	 */
 	public function social_author_archives( $yform ) {
 		$identifier            = 'author-wpseo';
-		$page_type_recommended = $this->recommended_replace_vars->determine_for_archive( 'author' );
-		$page_type_specific    = $this->editor_specific_replace_vars->determine_for_archive( 'author' );
+		$page_type_recommended = $this->get_admin_recommended_replace_vars()->determine_for_archive( 'author' );
+		$page_type_specific    = $this->get_admin_editor_specific_replace_vars()->determine_for_archive( 'author' );
 
 		$this->build_social_fields( $yform, $identifier, $page_type_recommended, $page_type_specific );
 	}
@@ -93,8 +111,8 @@ class Social_Templates_Integration implements Integration_Interface {
 	 */
 	public function social_date_archives( $yform ) {
 		$identifier            = 'archive-wpseo';
-		$page_type_recommended = $this->recommended_replace_vars->determine_for_archive( 'date' );
-		$page_type_specific    = $this->editor_specific_replace_vars->determine_for_archive( 'date' );
+		$page_type_recommended = $this->get_admin_recommended_replace_vars()->determine_for_archive( 'date' );
+		$page_type_specific    = $this->get_admin_editor_specific_replace_vars()->determine_for_archive( 'date' );
 
 		$this->build_social_fields( $yform, $identifier, $page_type_recommended, $page_type_specific );
 	}
@@ -110,8 +128,8 @@ class Social_Templates_Integration implements Integration_Interface {
 			return;
 		}
 
-		$page_type_recommended = $this->recommended_replace_vars->determine_for_post_type( $post_type_name );
-		$page_type_specific    = $this->editor_specific_replace_vars->determine_for_post_type( $post_type_name );
+		$page_type_recommended = $this->get_admin_recommended_replace_vars()->determine_for_post_type( $post_type_name );
+		$page_type_specific    = $this->get_admin_editor_specific_replace_vars()->determine_for_post_type( $post_type_name );
 
 		$this->build_social_fields( $yform, $post_type_name, $page_type_recommended, $page_type_specific );
 	}
@@ -124,8 +142,8 @@ class Social_Templates_Integration implements Integration_Interface {
 	 */
 	public function social_post_types_archive( $yform, $post_type_name ) {
 		$identifier            = 'ptarchive-' . $post_type_name;
-		$page_type_recommended = $this->recommended_replace_vars->determine_for_archive( $post_type_name );
-		$page_type_specific    = $this->editor_specific_replace_vars->determine_for_archive( $post_type_name );
+		$page_type_recommended = $this->get_admin_recommended_replace_vars()->determine_for_archive( $post_type_name );
+		$page_type_specific    = $this->get_admin_editor_specific_replace_vars()->determine_for_archive( $post_type_name );
 
 		$this->build_social_fields( $yform, $identifier, $page_type_recommended, $page_type_specific );
 	}
@@ -138,8 +156,8 @@ class Social_Templates_Integration implements Integration_Interface {
 	 */
 	public function social_taxonomies( $yform, $taxonomy ) {
 		$identifier            = 'tax-' . $taxonomy->name;
-		$page_type_recommended = $this->recommended_replace_vars->determine_for_term( $taxonomy->name );
-		$page_type_specific    = $this->editor_specific_replace_vars->determine_for_term( $taxonomy->name );
+		$page_type_recommended = $this->get_admin_recommended_replace_vars()->determine_for_term( $taxonomy->name );
+		$page_type_specific    = $this->get_admin_editor_specific_replace_vars()->determine_for_term( $taxonomy->name );
 
 		$this->build_social_fields( $yform, $identifier, $page_type_recommended, $page_type_specific );
 	}
@@ -230,7 +248,7 @@ class Social_Templates_Integration implements Integration_Interface {
 
 			echo '<div class="yoast-settings-section-upsell">';
 
-			echo '<a class="yoast-button-upsell" href="' . \esc_url( \add_query_arg( [ 'screen' => $wpseo_page ], WPSEO_Shortlinker::get( 'https://yoa.st/4e0' ) ) ) . '" target="_blank">'
+			echo '<a class="yoast-button-upsell" href="' . \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/4e0' ) ) . '" target="_blank">'
 			. \esc_html__( 'Unlock with Premium', 'wordpress-seo' )
 			// phpcs:ignore WordPress.Security.EscapeOutput -- Already escapes correctly.
 			. WPSEO_Admin_Utils::get_new_tab_message()

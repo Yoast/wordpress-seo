@@ -44,7 +44,13 @@ class SettingsSnippetEditorFields extends React.Component {
 		};
 
 		this.setRef = this.setRef.bind( this );
+		this.setTitleRef = this.setTitleRef.bind( this );
+		this.setDescriptionRef = this.setDescriptionRef.bind( this );
 		this.triggerReplacementVariableSuggestions = this.triggerReplacementVariableSuggestions.bind( this );
+		this.onFocusTitle = this.onFocusTitle.bind( this );
+		this.onChangeTitle = this.onChangeTitle.bind( this );
+		this.onFocusDescription = this.onFocusDescription.bind( this );
+		this.onChangeDescription = this.onChangeDescription.bind( this );
 	}
 
 	/**
@@ -57,6 +63,28 @@ class SettingsSnippetEditorFields extends React.Component {
 	 */
 	setRef( field, ref ) {
 		this.elements[ field ] = ref;
+	}
+
+	/**
+	 * Sets the title ref.
+	 *
+	 * @param {Object} ref The ref.
+	 *
+	 * @returns {void}
+	 */
+	setTitleRef( ref ) {
+		this.setRef( "title", ref );
+	}
+
+	/**
+	 * Sets the description ref.
+	 *
+	 * @param {Object} ref The ref.
+	 *
+	 * @returns {void}
+	 */
+	 setDescriptionRef( ref ) {
+		this.setRef( "description", ref );
 	}
 
 	/**
@@ -100,6 +128,46 @@ class SettingsSnippetEditorFields extends React.Component {
 	}
 
 	/**
+	 * Call the onFocus event for the title.
+	 *
+	 * @returns {void}
+	 */
+	onFocusTitle() {
+		this.props.onFocus( "title" );
+	}
+
+	/**
+	 * Call the onChange event for the title.
+	 *
+	 * @param {string} content The content.
+	 *
+	 * @returns {void}
+	 */
+	onChangeTitle( content ) {
+		this.props.onChange( "title", content );
+	}
+
+	/**
+	 * Call the onFocus event for the description.
+	 *
+	 * @returns {void}
+	 */
+	 onFocusDescription() {
+		this.props.onFocus( "description" );
+	}
+
+	/**
+	 * Call the onChange event for the description.
+	 *
+	 * @param {string} content The content.
+	 *
+	 * @returns {void}
+	 */
+	onChangeDescription( content ) {
+		this.props.onChange( "description", content );
+	}
+
+	/**
 	 * Renders the snippet editor.
 	 *
 	 * @returns {ReactElement} The snippet editor element.
@@ -111,9 +179,7 @@ class SettingsSnippetEditorFields extends React.Component {
 			hoveredField,
 			replacementVariables,
 			recommendedReplacementVariables,
-			onFocus,
 			onBlur,
-			onChange,
 			data: {
 				title,
 				description,
@@ -133,15 +199,15 @@ class SettingsSnippetEditorFields extends React.Component {
 				<ReplacementVariableEditor
 					type="title"
 					label={ labels.title || __( "SEO title", "yoast-components" ) }
-					onFocus={ () => onFocus( "title" ) }
+					onFocus={ this.onFocusTitle }
 					onBlur={ onBlur }
 					isActive={ activeField === "title" }
 					isHovered={ hoveredField === "title" }
-					editorRef={ ref => this.setRef( "title", ref ) }
+					editorRef={ this.setTitleRef }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					content={ title }
-					onChange={ content => onChange( "title", content ) }
+					onChange={ this.onChangeTitle }
 					fieldId={ fieldIds.title }
 					hasNewBadge={ hasNewBadge }
 					isDisabled={ isDisabled }
@@ -151,15 +217,15 @@ class SettingsSnippetEditorFields extends React.Component {
 					type="description"
 					placeholder={ descriptionEditorFieldPlaceholder }
 					label={ labels.description ||  __( "Meta description", "yoast-components" ) }
-					onFocus={ () => onFocus( "description" ) }
+					onFocus={ this.onFocusDescription }
 					onBlur={ onBlur }
 					isActive={ activeField === "description" }
 					isHovered={ hoveredField === "description" }
-					editorRef={ ref => this.setRef( "description", ref ) }
+					editorRef={ this.setDescriptionRef }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					content={ description }
-					onChange={ content => onChange( "description", content ) }
+					onChange={ this.onChangeDescription }
 					fieldId={ fieldIds.description }
 					hasNewBadge={ hasNewBadge }
 					isDisabled={ isDisabled }

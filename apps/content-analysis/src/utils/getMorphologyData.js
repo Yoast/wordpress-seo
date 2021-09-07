@@ -6,7 +6,8 @@ let morphologyData = null;
  * @returns {Object} The morphology data, or an empty object if not available.
  */
 function loadLocalMorphologyData() {
-	let data, dataDe, dataNL, dataES, dataFR, dataRU, dataIT, dataPT, dataID, dataPL, dataAR, dataSV, dataHE, dataHU, dataNB, dataTR, dataCS = {};
+	let data, dataDe, dataNL, dataES, dataFR, dataRU, dataIT, dataPT, dataID, dataPL, dataAR, dataSV, dataHE, dataHU,
+		dataNB, dataTR, dataCS, dataSK = {};
 	try {
 		// Disabling global require to be able to fail.
 		// eslint-disable-next-line global-require
@@ -20,9 +21,9 @@ function loadLocalMorphologyData() {
 		// eslint-disable-next-line global-require
 		dataFR = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-fr-v9.json" );
 		// eslint-disable-next-line global-require
-		dataRU = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-ru-v9.json" );
+		dataRU = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-ru-v10.json" );
 		// eslint-disable-next-line global-require
-		dataIT = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-it-v9.json" );
+		dataIT = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-it-v10.json" );
 		// eslint-disable-next-line global-require
 		dataPT = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-pt-v9.json" );
 		// eslint-disable-next-line global-require
@@ -43,11 +44,13 @@ function loadLocalMorphologyData() {
 		dataTR = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-tr-v1.json" );
 		// eslint-disable-next-line global-require
 		dataCS = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-cs-v1.json" );
+		// eslint-disable-next-line global-require
+		dataSK = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-sk-v1.json" );
 	} catch ( error ) {
 		// Falling back to empty data.
 	}
 	return merge( data, dataDe, dataNL, dataES, dataFR, dataRU, dataIT, dataPT, dataID, dataPL, dataAR, dataSV, dataHE, dataHU, dataNB, dataTR,
-		dataCS );
+		dataCS, dataSK );
 }
 
 /**
