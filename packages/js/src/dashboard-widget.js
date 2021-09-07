@@ -13,6 +13,7 @@ import { setYoastComponentsL10n } from "./helpers/i18n";
 import WincherPerformanceReport from "./components/WincherPerformanceReport";
 import { authenticate, getKeyphrases, trackAllKeyphrases } from "./helpers/wincherEndpoints";
 import LoginPopup from "./helpers/loginPopup";
+import { isEmpty, filter, sortBy } from "lodash-es";
 
 /**
  * The Yoast dashboard widget component used on the WordPress admin dashboard.
@@ -152,11 +153,14 @@ class DashboardWidget extends Component {
 		const keyphraseChartData = await getKeyphrases( [], true );
 
 		if ( keyphraseChartData.status === 200 ) {
-			const results = Object.fromEntries(
-				Object.entries( keyphraseChartData.results )
-					.sort( this.sortWincherData )
-					.splice( 0, 5 )
-			);
+
+			const filteredResults = filter( keyphraseChartData.results, ( entry ) => {
+				return ! isEmpty( entry.ranking );
+			} );
+
+			const results = sortBy( filteredResults, ( entry ) => {
+				return entry.ranking.position.value;
+			} ).splice( 0, 10 );
 
 			this.setState( {
 				wincherData: {
@@ -165,31 +169,7 @@ class DashboardWidget extends Component {
 				},
 			} );
 		}
-
-
-		this.setState( { wincherData: { ...keyphraseChartData } } );
 	}
-
-	/**
-	 * Sorts the Wincher results in ascending order based on the position value.
-	 *
-	 * @param {Object} a The first Wincher result.
-	 * @param {Object} b The second Wincher result.
-	 *
-	 * @returns {number} The sorting order.
-	 */
-	sortWincherData( [ , a ], [ , b ] ) {
-		if ( a.ranking.position.value > b.ranking.position.value ) {
-			return 1;
-		}
-
-		if ( a.ranking.position.value < b.ranking.position.value ) {
-			return -1;
-		}
-
-		return 0;
-	}
-
 
 	/**
 	 * Returns the SEO Assessment sub-component.

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
-import { isEmpty } from "lodash-es";
+import { isEmpty, map } from "lodash-es";
 
 /* Yoast dependencies */
 import { makeOutboundLink } from "@yoast/helpers";
@@ -51,7 +51,7 @@ const viewLinkUrl = ( props ) => {
 	const { websiteId, id } = props;
 
 	return sprintf(
-		"https://www.wincher.com/websites/%s/keywords?serp=%s?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
+		"https://www.wincher.com/websites/%s/keywords?serp=%s&utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
 		websiteId,
 		id
 	);
@@ -224,10 +224,9 @@ const WincherPerformanceReport = ( props ) => {
 					</thead>
 					<tbody>
 						{
-							Object.entries( data.results )
-								.map( ( [ keyphrase, chartData ] ) => {
-									return createRow( keyphrase, chartData.ranking, websiteId );
-								} )
+							map( data.results, ( entry ) => {
+								return createRow( entry.keyword, entry.ranking, websiteId );
+							} )
 						}
 					</tbody>
 				</table>
