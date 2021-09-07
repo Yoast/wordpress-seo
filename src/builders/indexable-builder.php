@@ -203,7 +203,7 @@ class Indexable_Builder {
 	 * @return Indexable The date archive indexable.
 	 */
 	public function build_for_date_archive( $indexable = false ) {
-		return $this->build( $indexable, [ 'object_type' => 'date-type-archive' ] );
+		return $this->build( $indexable, [ 'object_type' => 'date-archive' ] );
 	}
 
 	/**
