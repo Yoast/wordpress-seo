@@ -78,9 +78,7 @@ import indonesianPaper3 from "./id/indonesianPaper3";
 
 
 // Farsi papers
-import farsiPaper1 from "./fa/farsiPaper1";
-import farsiPaper2 from "./fa/farsiPaper2";
-import farsiPaper3 from "./fa/farsiPaper3";
+// TO_DO: Import back the Farsi papers after Consecutive sentences, Passive voice and Transition words assessment for Farsi are implemented.
 
 // Portuguese papers
 import portuguesePaper1 from "./pt/portuguesePaper1";
@@ -104,6 +102,9 @@ import slovakPaper3 from "./sk/slovakPaper3";
 /**
  * FrenchPaper1 & portuguesePaper3 are temporarily disabled until we figure out why there are small differences
  * in passive voice detection since upgrading from node v10 to the lts version.
+ *
+ * All Farsi papers are also temporarily disabled until the Consecutive sentences, Passive voice and Transition words assessments
+ * for Farsi are implemented.
  */
 export default [
 	englishPaper1,
@@ -130,9 +131,6 @@ export default [
 	russianPaper2,
 	russianPaper3,
 	arabicPaper1,
-	farsiPaper1,
-	farsiPaper2,
-	farsiPaper3,
 	englishPaperForPerformanceTest,
 	spanishPaperForPerformanceTest,
 	polishPaperForPerformanceTest,

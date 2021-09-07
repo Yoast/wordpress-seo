@@ -1,3 +1,4 @@
+import { isFeatureEnabled } from "@yoast/feature-flag";
 import { map, merge } from "lodash-es";
 
 import formatNumber from "../../../helpers/formatNumber";
@@ -140,6 +141,11 @@ export default class TransitionWordsAssessment extends Assessment {
 	 * @returns {object} The Assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
+		// Check if the Farsi feature is enabled and return the default result if it isn't.
+		if ( researcher.getConfig( "language" ) === "fa" && ! isFeatureEnabled( "FARSI_SUPPORT" ) ) {
+			return new AssessmentResult();
+		}
+
 		const transitionWordSentences = researcher.getResearch( "findTransitionWords" );
 		const transitionWordResult = this.calculateTransitionWordResult( transitionWordSentences, i18n );
 		const assessmentResult = new AssessmentResult();

@@ -5,6 +5,22 @@ import Factory from "../../specHelpers/factory.js";
 import Paper from "../../../src/values/Paper.js";
 
 const i18n = Factory.buildJed();
+const options = {
+	subheadingUrlTitle: "https://yoast.com/1",
+	subheadingCTAUrl: "https://yoast.com/2",
+	paragraphUrlTitle: "https://yoast.com/3",
+	paragraphCTAUrl: "https://yoast.com/4",
+	sentenceLengthUrlTitle: "https://yoast.com/5",
+	sentenceLengthCTAUrl: "https://yoast.com/6",
+	transitionWordsUrlTitle: "https://yoast.com/7",
+	transitionWordsCTAUrl: "https://yoast.com/8",
+	passiveVoiceUrlTitle: "https://yoast.com/9",
+	passiveVoiceCTAUrl: "https://yoast.com/10",
+	textPresenceUrlTitle: "https://yoast.com/11",
+	textPresenceCTAUrl: "https://yoast.com/12",
+	listsUrlTitle: "https://yoast.com/13",
+	listsCTAUrl: "https://yoast.com/14",
+};
 
 describe( "A product page content assessor", function() {
 	describe( "Checks the applicable assessments for text containing less than 300 words", function() {
@@ -22,7 +38,7 @@ describe( "A product page content assessor", function() {
 				"accommodare. Mutat gloriatur ex cum, rebum salutandi ei his, vis delenit quaestio ne. Iisque qualisque duo ei. " +
 				"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
 				"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod.", { locale: "en_US" } );
-			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
+			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ), options );
 
 			contentAssessor.getPaper = function() {
 				return paper;
@@ -41,7 +57,7 @@ describe( "A product page content assessor", function() {
 
 		it( "Should have 4 available assessments for a basic supported language", function() {
 			const paper = new Paper( "test", { locale: "xx_XX" } );
-			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
+			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ), options );
 
 			contentAssessor.getPaper = function() {
 				return paper;
@@ -61,7 +77,7 @@ describe( "A product page content assessor", function() {
 	describe( "Checks the applicable assessments for text containing more than 300 words", function() {
 		it( "Should have 7 available assessments for a fully supported language", function() {
 			const paper = new Paper( "beautiful cats ".repeat( 200 ), { locale: "en_US" } );
-			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
+			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ), options );
 
 			contentAssessor.getPaper = function() {
 				return paper;
@@ -81,7 +97,7 @@ describe( "A product page content assessor", function() {
 
 		it( "Should have 5 available assessments for a basic supported language", function() {
 			const paper = new Paper( "test ".repeat( 310 ), { locale: "xx_XX" } );
-			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
+			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ), options );
 
 			contentAssessor.getPaper = function() {
 				return paper;
@@ -99,7 +115,24 @@ describe( "A product page content assessor", function() {
 		} );
 	} );
 	describe( "has configuration overrides", () => {
-		const assessor = new ContentAssessor( i18n );
+		const paper = new Paper( "a tortie cat ".repeat( 150 ) );
+
+		const assessor = new ContentAssessor( i18n, new DefaultResearcher( paper ), {
+			subheadingUrlTitle: "https://yoast.com/1",
+			subheadingCTAUrl: "https://yoast.com/2",
+			paragraphUrlTitle: "https://yoast.com/3",
+			paragraphCTAUrl: "https://yoast.com/4",
+			sentenceLengthUrlTitle: "https://yoast.com/5",
+			sentenceLengthCTAUrl: "https://yoast.com/6",
+			transitionWordsUrlTitle: "https://yoast.com/7",
+			transitionWordsCTAUrl: "https://yoast.com/8",
+			passiveVoiceUrlTitle: "https://yoast.com/9",
+			passiveVoiceCTAUrl: "https://yoast.com/10",
+			textPresenceUrlTitle: "https://yoast.com/11",
+			textPresenceCTAUrl: "https://yoast.com/12",
+			listsUrlTitle: "https://yoast.com/13",
+			listsCTAUrl: "https://yoast.com/14",
+		} );
 
 		test( "SubheadingsDistributionTooLong", () => {
 			const assessment = assessor.getAssessment( "subheadingsTooLong" );
@@ -108,8 +141,19 @@ describe( "A product page content assessor", function() {
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.shouldNotAppearInShortText ).toBeDefined();
 			expect( assessment._config.shouldNotAppearInShortText ).toBe( true );
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify68' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify69' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/1' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/2' target='_blank'>" );
+		} );
+
+		test( "ParagraphTooLong", () => {
+			const assessment = assessor.getAssessment( "textParagraphTooLong" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.parameters.recommendedLength ).toBe( 70 );
+			expect( assessment._config.parameters.maximumRecommendedLength ).toBe( 100 );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/3' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/4' target='_blank'>" );
 		} );
 
 		test( "SentenceLengthAssessment", () => {
@@ -120,19 +164,8 @@ describe( "A product page content assessor", function() {
 			expect( assessment._config.slightlyTooMany ).toBe( 20 );
 			expect( assessment._config.farTooMany ).toBe( 25 );
 			expect( assessment._isProduct ).toBe( true );
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify48' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify49' target='_blank'>" );
-		} );
-
-		test( "ParagraphTooLong", () => {
-			const assessment = assessor.getAssessment( "textParagraphTooLong" );
-
-			expect( assessment ).toBeDefined();
-			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.parameters.recommendedLength ).toBe( 70 );
-			expect( assessment._config.parameters.maximumRecommendedLength ).toBe( 100 );
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify66' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify67' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/5' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/6' target='_blank'>" );
 		} );
 
 		test( "TransitionWords", () => {
@@ -140,8 +173,8 @@ describe( "A product page content assessor", function() {
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify44' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify45' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/7' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/8' target='_blank'>" );
 		} );
 
 		test( "PassiveVoice", () => {
@@ -149,8 +182,8 @@ describe( "A product page content assessor", function() {
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify42' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify43' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/9' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/10' target='_blank'>" );
 		} );
 
 		test( "TextPresence", () => {
@@ -158,8 +191,8 @@ describe( "A product page content assessor", function() {
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify56' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify57' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/11' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/12' target='_blank'>" );
 		} );
 
 		test( "ListsPresence", () => {
@@ -167,8 +200,8 @@ describe( "A product page content assessor", function() {
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify38' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify39' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/13' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/14' target='_blank'>" );
 		} );
 	} );
 } );

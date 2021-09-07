@@ -54,7 +54,7 @@ class Options_Helper {
 	 * @return string The title separator.
 	 */
 	public function get_title_separator() {
-		$replacement = $this->get_default( 'wpseo_titles', 'separator' );
+		$default = $this->get_default( 'wpseo_titles', 'separator' );
 
 		// Get the titles option and the separator options.
 		$separator         = $this->get( 'separator' );
@@ -64,6 +64,12 @@ class Options_Helper {
 		if ( isset( $seperator_options[ $separator ] ) ) {
 			// Set the new replacement.
 			$replacement = $seperator_options[ $separator ];
+		}
+		elseif ( isset( $seperator_options[ $default ] ) ) {
+			$replacement = $seperator_options[ $default ];
+		}
+		else {
+			$replacement = \reset( $seperator_options );
 		}
 
 		/**

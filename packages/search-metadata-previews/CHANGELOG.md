@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We follow [Semantic Versioning](http://semver.org/).
 
+## Future Release
+### Enhancements
+* Updates the styling of our Google preview to reflect the updated styling of the Google search results.
+* Adds custom config for `PageTitleWidthAssessment` so that the bar indicator under SEO title field shows green when short SEO title is set.
+
+
 ## 2.19.0 May 17th, 2021
 ### Enhancements
 * When product data like rating, number of reviews, price or availability is provided, it is now shown in the Google Preview.

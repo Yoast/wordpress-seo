@@ -236,6 +236,20 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 17.1 =
+Release Date: September 7th, 2021
+
+Yoast SEO 17.1 is out today! In this release, you’ll find a couple of small changes that’ll help you write great titles that stand up to Google’s scrutiny. It also includes some behind-the-scenes improvements, including several fixes for our indexables data management. For now, please enjoy Yoast SEO and write the best possible content in the language of your choice! Read more about what’s new in Yoast SEO 17.1 in [our release post](https://yoa.st/release-17-1)!
+
+Enhancements:
+
+* Improves the performance of saving posts by excluding unchanged items, especially noticeable on posts with many links.
+* Stops showing the SEO Optimization notification on non-production sites.
+* Improves the filtering of function words in Dutch, English, Indonesian, Russian, and Spanish by including time-related words like 'minute'.
+* Updates the styling of our Google preview, to reflect the updated styling of the Google search results.
+* Stops warning users when they have short titles, because concise, specific titles are less likely to be altered by Google.
+* Removes the `|` and `~` separator options from titles, because Google frequently replaces these in search results.
+
 = 17.0 =
 Release Date: August 24th, 2021
 
@@ -255,25 +269,6 @@ Bugfixes:
 Other:
 
 * Updates the message that recommends you to install WooCommerce SEO when WooCommerce is installed.
-
-= 16.9 =
-Release Date: August 10th, 2021
-
-Meet Yoast SEO 16.9: This release comes with two new image SEO assessments and improved performance. Happy updating! Read more about what’s new in Yoast SEO 16.9 in [our release post](https://yoa.st/release-16-9)!
-
-Enhancements:
-
-* Splits the `Image alt attributes` assessment into two assessments. The `Images` assessment checks if the page contains at least one image. The `Image Keyphrase` assessment checks if the images have alt texts, and if those alt texts contain the keyphrase.
-* Makes the `Transition Word` assessment not applicable when the text has less than 200 words, as transition words are less relevant for very short texts.
-* Reduces the load time of admin pages, by reducing the number of database queries and optimizing the queries themselves.
-* Improves the performance of large posts in the Block editor, Classic editor and Elementor.
-* Adds error details to the error message if SEO optimization fails for some unforeseen reason.
-* Cleans up indexables for WooCommerce check-out pages from the indexable table, in order to improve performance.
-* Adds post link indexing and term link indexing to the `wp yoast index` WP-CLI command.
-
-Bugfixes:
-
-* Fixes a bug where the `robots` meta tag could have incorrect values if users called the `wp_robots` filter to set certain values to `false`. Props to [Roy-Orbison](https://github.com/Roy-Orbison).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
