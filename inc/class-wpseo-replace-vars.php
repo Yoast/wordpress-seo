@@ -390,7 +390,6 @@ class WPSEO_Replace_Vars {
 					// Trim the auto-generated string to a word boundary.
 					$replacement = substr( $replacement, 0, strrpos( $replacement, ' ' ) );
 				}
-
 			}
 		}
 
