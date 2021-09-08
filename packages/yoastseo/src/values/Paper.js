@@ -15,6 +15,7 @@ var defaultAttributes = {
 	url: "",
 	locale: "en_US",
 	permalink: "",
+	date: "",
 };
 
 /**
@@ -31,7 +32,7 @@ var defaultAttributes = {
  * @param {string} [attributes.permalink]   The base url + slug.
  * @param {string} [attributes.locale]      The locale.
  * @param {Object} [attributes.wpBlocks]    The text, encoded in WordPress block editor blocks.
- *
+ * @param {string} [attributes.date]        The date.
  * @constructor
  */
 var Paper = function( text, attributes ) {
@@ -190,11 +191,27 @@ Paper.prototype.hasPermalink = function() {
 };
 
 /**
- * Return the permalink, or an empty string of no permalink is available.
+ * Return the permalink, or an empty string if no permalink is available.
  * @returns {string} Returns the permalink.
  */
 Paper.prototype.getPermalink = function() {
 	return this._attributes.permalink;
+};
+
+/**
+ * Check whether a date is available.
+ * @returns {boolean} Returns true if the Paper has a date.
+ */
+Paper.prototype.hasDate = function() {
+	return this._attributes.date !== "";
+};
+
+/**
+ * Returns the date, or an empty string if no date is available.
+ * @returns {string} Returns the date.
+ */
+Paper.prototype.getDate = function() {
+	return this._attributes.date;
 };
 
 /*
