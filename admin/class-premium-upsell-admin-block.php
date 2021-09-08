@@ -48,8 +48,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	 * @return void
 	 */
 	public function render() {
-		$page = filter_input( INPUT_GET, 'page' );
-		$url  = add_query_arg( [ 'screen' => $page ], WPSEO_Shortlinker::get( 'https://yoa.st/17h' ) );
+		$url = WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
 
 		$arguments = [
 			'<strong>' . esc_html__( 'Multiple keyphrases', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Increase your SEO reach', 'wordpress-seo' ),
