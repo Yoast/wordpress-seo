@@ -7,6 +7,8 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 
 /**
  * Reindexing action for post link indexables.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Post_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 

@@ -12,6 +12,8 @@ use Yoast\WP\SEO\Models\Indexable;
  * Trait for determine the social image to use in the indexable.
  *
  * Represents the trait used in builders for handling social images.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 trait Indexable_Social_Image_Trait {
 
