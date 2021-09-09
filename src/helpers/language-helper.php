@@ -69,6 +69,11 @@ class Language_Helper {
 		$researcher_language = WPSEO_Language_Utils::get_language( get_locale() );
 		$supported_languages = Researcher_Languages::SUPPORTED_LANGUAGES;
 
+		// If JAPANESE_SUPPORT feature is enabled, push Japanese to the array of the supported languages.
+		if ( $this->japanese_conditional->is_met() ) {
+			array_push( $supported_languages, 'ja' );
+		}
+
 		if ( ! \in_array( $researcher_language, $supported_languages, true ) ) {
 			$researcher_language = 'default';
 		}
