@@ -243,7 +243,7 @@ Enhancements:
 
 * Completes the readability analysis for Farsi by adding the transition words, sentence beginnings and passive voice assessments, and by adjusting the sentence length assessment to make it more appropriate for the Farsi language.
 * Improves keyword detection for Farsi by adding more categories to the list of function words. E.g., general adjectives and adverbs category, conjunctions, and articles.
-* Cleans up indexables for posts with `auto-draft` post-status.
+* Cleans up indexables for posts with `auto-draft` post-status, in order to speed-up your admin pages.
 
 = 17.1 =
 Release Date: September 7th, 2021
