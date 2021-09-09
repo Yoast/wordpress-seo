@@ -81,12 +81,7 @@ function getTitleProgress( title ) {
  * @returns {Object} The description progress.
  */
 function getDescriptionProgress( description, date, isCornerstone, isTaxonomy ) {
-	let descriptionLength = description.length;
-	/* If the meta description is preceded by a date, two spaces and a hyphen (" - ") are added as well. Therefore,
-	three needs to be added to the total length. */
-	if ( date !== "" && descriptionLength > 0 ) {
-		descriptionLength += date.length + 3;
-	}
+	const descriptionLength = languageProcessing.metaDescriptionLength( date, description );
 
 	// Override the default config if the cornerstone content toggle is on and it is not a taxonomy page.
 	const metaDescriptionLengthAssessment = ( isCornerstone && ! isTaxonomy ) ? new MetaDescriptionLengthAssessment( {
