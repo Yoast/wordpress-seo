@@ -53,7 +53,7 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 	 * @returns {AssessmentResult} The assessment result.
 	 */
 	getResult( paper, researcher, i18n ) {
-		const descriptionLength = researcher.getResearch( "metaDescriptionLength" )( paper.getDate(), paper.getDescription() );
+		const descriptionLength = researcher.getResearch( "metaDescriptionLength" );
 		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( this.calculateScore( descriptionLength ) );
