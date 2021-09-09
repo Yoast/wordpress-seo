@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
@@ -40,6 +41,13 @@ class Indexable_Home_Page_Builder {
 	protected $version;
 
 	/**
+	 * The permalink helper.
+	 *
+	 * @var Permalink_Helper
+	 */
+	protected $permalink;
+
+	/**
 	 * Indexable_Home_Page_Builder constructor.
 	 *
 	 * @param Options_Helper             $options    The options helper.
@@ -49,11 +57,13 @@ class Indexable_Home_Page_Builder {
 	public function __construct(
 		Options_Helper $options,
 		Url_Helper $url_helper,
-		Indexable_Builder_Versions $versions
+		Indexable_Builder_Versions $versions,
+		Permalink_Helper $permalink
 	) {
 		$this->options    = $options;
 		$this->url_helper = $url_helper;
 		$this->version    = $versions->get_latest_version_for_type( 'home-page' );
+		$this->permalink  = $permalink;
 	}
 
 	/**
@@ -67,7 +77,7 @@ class Indexable_Home_Page_Builder {
 		$indexable->object_type      = 'home-page';
 		$indexable->title            = $this->options->get( 'title-home-wpseo' );
 		$indexable->breadcrumb_title = $this->options->get( 'breadcrumbs-home' );
-		$indexable->permalink        = $this->url_helper->home();
+		$indexable->permalink        = $this->permalink->get_relative_permalink( $this->url_helper->home() );
 		$indexable->blog_id          = \get_current_blog_id();
 		$indexable->description      = $this->options->get( 'metadesc-home-wpseo' );
 		if ( empty( $indexable->description ) ) {

@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Builders;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
@@ -32,6 +33,13 @@ class Indexable_Term_Builder {
 	protected $version;
 
 	/**
+	 * The permalink helper.
+	 *
+	 * @var Permalink_Helper
+	 */
+	protected $permalink;
+
+	/**
 	 * Indexable_Term_Builder constructor.
 	 *
 	 * @param Taxonomy_Helper            $taxonomy_helper The taxonomy helper.
@@ -39,10 +47,12 @@ class Indexable_Term_Builder {
 	 */
 	public function __construct(
 		Taxonomy_Helper $taxonomy_helper,
-		Indexable_Builder_Versions $versions
+		Indexable_Builder_Versions $versions,
+		Permalink_Helper $permalink
 	) {
 		$this->taxonomy_helper = $taxonomy_helper;
 		$this->version         = $versions->get_latest_version_for_type( 'term' );
+		$this->permalink       = $permalink;
 	}
 
 	/**
@@ -78,7 +88,7 @@ class Indexable_Term_Builder {
 		$indexable->object_id       = $term_id;
 		$indexable->object_type     = 'term';
 		$indexable->object_sub_type = $term->taxonomy;
-		$indexable->permalink       = $term_link;
+		$indexable->permalink       = $this->permalink->get_relative_permalink( $term_link );
 		$indexable->blog_id         = \get_current_blog_id();
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
