@@ -81,7 +81,7 @@ function getTitleProgress( title ) {
  * @returns {Object} The description progress.
  */
 function getDescriptionProgress( description, date, isCornerstone, isTaxonomy ) {
-	const descriptionLength = languageProcessing.metaDescriptionLength( date, description );
+	const descriptionLength = languageProcessing.countMetaDescriptionLength( date, description );
 
 	// Override the default config if the cornerstone content toggle is on and it is not a taxonomy page.
 	const metaDescriptionLengthAssessment = ( isCornerstone && ! isTaxonomy ) ? new MetaDescriptionLengthAssessment( {
