@@ -7,6 +7,7 @@ use Brain\Monkey\Functions;
 use Mockery;
 use wpdb;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -18,6 +19,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Post_Indexation_Action_Test extends TestCase {
 
@@ -43,6 +46,13 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	protected $wpdb;
 
 	/**
+	 * The version manager.
+	 *
+	 * @var Indexable_Builder_Versions|Mockery\MockInterface
+	 */
+	protected $builder_versions;
+
+	/**
 	 * The instance.
 	 *
 	 * @var Indexable_Post_Indexation_Action
@@ -62,11 +72,18 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->repository       = Mockery::mock( Indexable_Repository::class );
 		$this->wpdb             = Mockery::mock( 'wpdb' );
 		$this->wpdb->posts      = 'wp_posts';
+		$this->builder_versions = Mockery::mock( Indexable_Builder_Versions::class );
+
+		$this->builder_versions
+			->expects( 'get_latest_version_for_type' )
+			->withArgs( [ 'post' ] )
+			->andReturn( 2 );
 
 		$this->instance = new Indexable_Post_Indexation_Action(
 			$this->post_type_helper,
 			$this->repository,
-			$this->wpdb
+			$this->wpdb,
+			$this->builder_versions
 		);
 	}
 
@@ -86,14 +103,14 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL)";
+				AND I.version = %d )";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', \DAY_IN_SECONDS )->andReturnTrue();
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
-			->with( $expected_query, [ 'public_post_type' ] )
+			->with( $expected_query, [ 'public_post_type', 2 ] )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( '10' );
 
@@ -120,7 +137,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL)
+				AND I.version = %d )
 			LIMIT %d";
 
 		$query_result = [
@@ -134,7 +151,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
-			->with( $expected_query, [ 'public_post_type', $limit ] )
+			->with( $expected_query, [ 'public_post_type', 2, $limit ] )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( $query_result );
 
@@ -188,7 +205,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	public function test_get_total_unindexed_with_excluded_post_types() {
 		$public_post_types   = [ 'public_post_type', 'excluded_post_type' ];
 		$excluded_post_types = [ 'excluded_post_type' ];
-		$queried_post_types  = [ 'public_post_type' ];
+		$query_params        = [ 'public_post_type', 2 ];
 
 		$expected_query = "
 			SELECT COUNT(P.ID)
@@ -197,7 +214,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL)";
+				AND I.version = %d )";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', \DAY_IN_SECONDS )->andReturnTrue();
@@ -207,7 +224,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
-			->with( $expected_query, $queried_post_types )
+			->with( $expected_query, $query_params )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( '10' );
 
@@ -231,7 +248,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL)
+				AND I.version = %d )
 			LIMIT %d";
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
@@ -250,7 +267,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->once()
 			->with(
 				$expected_query,
-				[ 'public_post_type', 25 ]
+				[ 'public_post_type', 2, 25 ]
 			)
 			->andReturn( 'query' );
 		$this->wpdb
@@ -314,7 +331,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL)
+				AND I.version = %d )
 			LIMIT %d";
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
@@ -332,7 +349,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->once()
 			->with(
 				$expected_query,
-				[ 'public_post_type', 25 ]
+				[ 'public_post_type', 2, 25 ]
 			)
 			->andReturn( 'query' );
 		$this->wpdb
@@ -368,7 +385,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL)
+				AND I.version = %d )
 			LIMIT %d";
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
@@ -387,7 +404,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->once()
 			->with(
 				$expected_query,
-				[ 'public_post_type', 25 ]
+				[ 'public_post_type', 2, 25 ]
 			)
 			->andReturn( 'query' );
 		$this->wpdb

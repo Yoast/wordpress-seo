@@ -14,7 +14,7 @@ The directory structure splits the code up into different concepts. Here's a glo
 ```
 src
 ├── actions             REST actions contain the business logic which is executed on routes.
-├── builders            Builders create Indexables from legacy post metadata 
+├── builders            Builders create Indexables from legacy post metadata
 ├── commands            Yoast WP-CLI commands.
 ├── conditionals        Conditionals determine whether an Integration should load.
 ├── config              Config objects for our tooling.
@@ -33,7 +33,7 @@ src
 │    ├── third-party    Integrations with third-party plugins.
 │    └── watchers       Integrations that watch data mutations and do something.
 ├── loggers             PSR-3 Loggers, see https://www.php-fig.org/psr/psr-3/
-├── memoizers           Memoizers cache data and context. @todo move to repositories and remove this concept. 
+├── memoizers           Memoizers cache data and context. @todo move to repositories and remove this concept.
 ├── models              Idiorm ORM models.
 ├── oauth               Contains an oauth client. @todo move to a separate lib or to /clients concept.
 ├── orm                 Contains a wrapper of Idiorm. @todo move to a separate lib or to /wrappers concept.
@@ -46,6 +46,7 @@ src
 │    └── webmaster      Webmaster tag presenters.
 ├── routes              Routes register a REST route and connect it to an action.
 ├── repositories        Repositories are injectable services from which I can request ORM Model instances
+├── services            Services offer business rules within a specific functional domain.
 ├── surfaces            Surfaces are facades through which integrators can interface with Yoast SEO.
 ├── values              Values are meant to encapsulate data in a reliable structure that is easy to interface with.
 ├── wordpress           Contains a WordPress wrapper. @todo move to /wrappers concept.
