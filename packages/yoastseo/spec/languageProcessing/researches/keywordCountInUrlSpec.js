@@ -222,9 +222,9 @@ describe( "test to check url for keyword", function() {
 	} );
 
 	it( "works with dash within the keyword in url", function() {
-	 	const paper = new Paper( "", { url: "two-room-apartment", keyword: "two-room apartment" } );
+		const paper = new Paper( "", { url: "two-room-apartment", keyword: "two-room apartment" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
-	 	expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
+		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
 	} );
 } );

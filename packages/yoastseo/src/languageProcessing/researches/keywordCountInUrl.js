@@ -16,7 +16,6 @@ function dehyphenateKeyphraseForms( topicForms ) {
 	const dehyphenatedKeyphraseForms = [];
 
 	topicForms.keyphraseForms.forEach( function( wordForms ) {
-
 		// If a word doesn't contain hyphens, don't split it.
 		if ( wordForms[ 0 ].indexOf( "-" ) === -1 ) {
 			dehyphenatedKeyphraseForms.push( wordForms );
@@ -25,7 +24,7 @@ function dehyphenateKeyphraseForms( topicForms ) {
 
 		// Split each form of a hyphenated word and add each compound to the array of dehyphenated keyphrase forms.
 		wordForms.forEach( function( wordForm ) {
-			const splitWordForm = wordForm.split( "-" )
+			const splitWordForm = wordForm.split( "-" );
 			splitWordForm.forEach( compound => dehyphenatedKeyphraseForms.push( [ compound ] ) );
 		} );
 	} );
@@ -46,7 +45,7 @@ export default function( paper, researcher ) {
 	const topicForms = dehyphenateKeyphraseForms( researcher.getResearch( "morphology" ) );
 	const parsedSlug = parseSlug( paper.getUrl() );
 
-	let keyphraseInSlug = findTopicFormsInString( topicForms, parsedSlug, false, paper.getLocale() );
+	const keyphraseInSlug = findTopicFormsInString( topicForms, parsedSlug, false, paper.getLocale() );
 
 	return {
 		keyphraseLength: topicForms.keyphraseForms.length,
