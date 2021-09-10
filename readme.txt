@@ -251,7 +251,7 @@ Enhancements:
 
 Other:
 
-* Load our help beacon on the workouts page.
+* Loads our help beacon on the workouts page.
 
 = 17.1 =
 Release Date: September 7th, 2021
