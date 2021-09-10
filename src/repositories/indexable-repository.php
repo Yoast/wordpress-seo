@@ -475,6 +475,7 @@ class Indexable_Repository {
 			->update_many();
 	}
 
+	 * @return bool|Indexable The indexable.
 	/**
 	 * Checks if an Indexable is outdated, and rebuilds it when necessary.
 	 *
