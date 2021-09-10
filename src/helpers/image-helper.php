@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Image_Utils;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -39,14 +40,23 @@ class Image_Helper {
 	private $options;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Url_Helper
+	 */
+	private $url;
+
+	/**
 	 * Image_Helper constructor.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
 	 * @param Options_Helper       $options              The options helper.
+	 * @param Url_Helper           $url                  The URL helper.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository, Options_Helper $options ) {
+	public function __construct( Indexable_Repository $indexable_repository, Options_Helper $options, Url_Helper $url ) {
 		$this->indexable_repository = $indexable_repository;
 		$this->options              = $options;
+		$this->url                  = $url;
 	}
 
 	/**
@@ -285,7 +295,13 @@ class Image_Helper {
 			return 0;
 		}
 
-		$indexable = $this->indexable_repository->find_by_permalink( $url );
+		$relative_url = $this->url->get_url_path( $url );
+
+		$indexable = $this->indexable_repository->find_by_permalink( $relative_url );
+
+		if ( ! $indexable ) {
+			$indexable = $this->indexable_repository->find_by_permalink( $url );
+		}
 
 		if ( $indexable && $indexable->object_type === 'post' && $indexable->object_sub_type === 'attachment' ) {
 			return $indexable->object_id;
