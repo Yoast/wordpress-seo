@@ -143,7 +143,12 @@ class SnippetEditor extends React.Component {
 			hoveredField: null,
 			mappedData: previewData,
 			titleLengthProgress: getTitleProgress( measurementData.title ),
-			descriptionLengthProgress: getDescriptionProgress( measurementData.description, this.props.date, this.props.isCornerstone, this.props.isTaxonomy ),
+			descriptionLengthProgress: getDescriptionProgress(
+				measurementData.description,
+				this.props.date,
+				this.props.isCornerstone,
+				this.props.isTaxonomy
+			),
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
