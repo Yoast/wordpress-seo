@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
-use Yoast\WP\SEO\Helpers\Permalink_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
@@ -31,26 +31,27 @@ class Indexable_Author_Builder {
 	protected $version;
 
 	/**
-	 * The permalink helper.
+	 * The URL helper.
 	 *
-	 * @var Permalink_Helper
+	 * @var Url_Helper
 	 */
-	protected $permalink;
+	protected $url;
 
 	/**
 	 * Indexable_Author_Builder constructor.
 	 *
 	 * @param Author_Archive_Helper      $author_archive The author archive helper.
 	 * @param Indexable_Builder_Versions $versions       The Indexable version manager.
+	 * @param Url_Helper                 $url            The URL helper
 	 */
 	public function __construct(
 		Author_Archive_Helper $author_archive,
 		Indexable_Builder_Versions $versions,
-		Permalink_Helper $permalink
+		Url_Helper $url
 	) {
 		$this->author_archive = $author_archive;
 		$this->version        = $versions->get_latest_version_for_type( 'user' );
-		$this->permalink      = $permalink;
+		$this->url            = $url;
 	}
 
 	/**
@@ -66,7 +67,7 @@ class Indexable_Author_Builder {
 
 		$indexable->object_id              = $user_id;
 		$indexable->object_type            = 'user';
-		$indexable->permalink              = $this->permalink->get_relative_permalink( \get_author_posts_url( $user_id ) );
+		$indexable->permalink              = $this->url->get_url_path( \get_author_posts_url( $user_id ) );
 		$indexable->title                  = $meta_data['wpseo_title'];
 		$indexable->description            = $meta_data['wpseo_metadesc'];
 		$indexable->is_cornerstone         = false;

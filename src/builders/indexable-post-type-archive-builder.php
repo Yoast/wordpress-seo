@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Permalink_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
@@ -31,26 +31,27 @@ class Indexable_Post_Type_Archive_Builder {
 	protected $version;
 
 	/**
-	 * The permalink helper.
+	 * The URL helper.
 	 *
-	 * @var Permalink_Helper
+	 * @var Url_Helper
 	 */
-	protected $permalink;
+	protected $url;
 
 	/**
 	 * Indexable_Post_Type_Archive_Builder constructor.
 	 *
 	 * @param Options_Helper             $options  The options helper.
 	 * @param Indexable_Builder_Versions $versions The latest version of each Indexable builder.
+	 * @param Url_Helper                 $url      The url helper.
 	 */
 	public function __construct(
 		Options_Helper $options,
 		Indexable_Builder_Versions $versions,
-		Permalink_Helper $permalink
+		Url_Helper $url
 	) {
 		$this->options = $options;
 		$this->version = $versions->get_latest_version_for_type( 'post-type-archive' );
-		$this->permalink  = $permalink;
+		$this->url     = $url;
 	}
 
 	/**
@@ -67,7 +68,7 @@ class Indexable_Post_Type_Archive_Builder {
 		$indexable->title             = $this->options->get( 'title-ptarchive-' . $post_type );
 		$indexable->description       = $this->options->get( 'metadesc-ptarchive-' . $post_type );
 		$indexable->breadcrumb_title  = $this->get_breadcrumb_title( $post_type );
-		$indexable->permalink         = $this->permalink->get_relative_permalink( \get_post_type_archive_link( $post_type ) );
+		$indexable->permalink         = $this->url->get_url_path( \get_post_type_archive_link( $post_type ) );
 		$indexable->is_robots_noindex = $this->options->get( 'noindex-ptarchive-' . $post_type );
 		$indexable->is_public         = ( (int) $indexable->is_robots_noindex !== 1 );
 		$indexable->blog_id           = \get_current_blog_id();

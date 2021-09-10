@@ -7,7 +7,7 @@ use WP_Post;
 use WPSEO_Meta;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
-use Yoast\WP\SEO\Helpers\Permalink_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -51,11 +51,11 @@ class Indexable_Post_Builder {
 	protected $version;
 
 	/**
-	 * The permalink helper.
+	 * The URL helper.
 	 *
-	 * @var Permalink_Helper
+	 * @var Url_Helper
 	 */
-	protected $permalink;
+	protected $url;
 
 	/**
 	 * Indexable_Post_Builder constructor.
@@ -63,17 +63,18 @@ class Indexable_Post_Builder {
 	 * @param Post_Helper                $post_helper      The post helper.
 	 * @param Post_Type_Helper           $post_type_helper The post type helper.
 	 * @param Indexable_Builder_Versions $versions         The indexable builder versions.
+	 * @param Url_Helper                 $url              The url helper.
 	 */
 	public function __construct(
 		Post_Helper $post_helper,
 		Post_Type_Helper $post_type_helper,
 		Indexable_Builder_Versions $versions,
-		Permalink_Helper $permalink
+		Url_Helper $url
 	) {
 		$this->post_helper      = $post_helper;
 		$this->post_type_helper = $post_type_helper;
 		$this->version          = $versions->get_latest_version_for_type( 'post' );
-		$this->permalink        = $permalink;
+		$this->url              = $url;
 	}
 
 	/**
@@ -111,7 +112,7 @@ class Indexable_Post_Builder {
 		$indexable->object_id       = $post_id;
 		$indexable->object_type     = 'post';
 		$indexable->object_sub_type = $post->post_type;
-		$indexable->permalink       = $this->permalink->get_relative_permalink( $this->get_permalink( $post->post_type, $post_id ) );
+		$indexable->permalink       = $this->url->get_url_path( $this->get_permalink( $post->post_type, $post_id ) );
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( $post_id, 'focuskw' ),

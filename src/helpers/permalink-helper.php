@@ -43,17 +43,4 @@ class Permalink_Helper {
 
 		return null;
 	}
-
-	/**
-	 * Retrieves the relative permalink for a given url.
-	 *
-	 * @param string $url The URL.
-	 *
-	 * @return string The relative permalink.
-	 */
-	public function get_relative_permalink( $url ) {
-		$relative_url = \wp_parse_url( $url, \PHP_URL_PATH );
-
-		return $relative_url;
-	}
 }

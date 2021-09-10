@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Builders;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
-use Yoast\WP\SEO\Helpers\Permalink_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
@@ -33,26 +33,27 @@ class Indexable_Term_Builder {
 	protected $version;
 
 	/**
-	 * The permalink helper.
+	 * The URL helper.
 	 *
-	 * @var Permalink_Helper
+	 * @var Url_Helper
 	 */
-	protected $permalink;
+	protected $url;
 
 	/**
 	 * Indexable_Term_Builder constructor.
 	 *
 	 * @param Taxonomy_Helper            $taxonomy_helper The taxonomy helper.
 	 * @param Indexable_Builder_Versions $versions        The latest version of each Indexable Builder.
+	 * @param Url_Helper                 $url             The url helper.
 	 */
 	public function __construct(
 		Taxonomy_Helper $taxonomy_helper,
 		Indexable_Builder_Versions $versions,
-		Permalink_Helper $permalink
+		Url_Helper $url
 	) {
 		$this->taxonomy_helper = $taxonomy_helper;
 		$this->version         = $versions->get_latest_version_for_type( 'term' );
-		$this->permalink       = $permalink;
+		$this->url       = $url;
 	}
 
 	/**
@@ -88,7 +89,7 @@ class Indexable_Term_Builder {
 		$indexable->object_id       = $term_id;
 		$indexable->object_type     = 'term';
 		$indexable->object_sub_type = $term->taxonomy;
-		$indexable->permalink       = $this->permalink->get_relative_permalink( $term_link );
+		$indexable->permalink       = $this->url->get_url_path( $term_link );
 		$indexable->blog_id         = \get_current_blog_id();
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
