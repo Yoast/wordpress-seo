@@ -23,6 +23,7 @@ import areWordsInSentence from "./helpers/word/areWordsInSentence";
 import getClauses from "./helpers/passiveVoice/periphrastic/getClauses";
 import getClausesSplitOnStopWords from "./helpers/passiveVoice/periphrastic/freeAuxiliaryParticipleOrder/getClausesSplitOnStopWords";
 import { stripFullTags as stripHTMLTags } from "./helpers/sanitize/stripHTMLTags";
+import countMetaDescriptionLength from "./helpers/word/countMetaDescriptionLength";
 
 export {
 	AbstractResearcher,
@@ -51,4 +52,5 @@ export {
 	getClauses,
 	getClausesSplitOnStopWords,
 	stripHTMLTags,
+	countMetaDescriptionLength,
 };
