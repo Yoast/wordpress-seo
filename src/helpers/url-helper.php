@@ -140,6 +140,7 @@ class Url_Helper {
 	 * @return string The absolute url.
 	 */
 	public function ensure_absolute_url( $url ) {
+		// @TODO: consider edge cases ($wp_rewrite, etc).
 		if ( ! \is_string( $url ) || $url === '' ) {
 			return $url;
 		}
@@ -159,6 +160,7 @@ class Url_Helper {
 	 * @return string
 	 */
 	public function build_absolute_url( $path = null ) {
+		// @TODO: consider edge cases ($wp_rewrite, etc).
 		$path      = \wp_parse_url( $path, \PHP_URL_PATH );
 		$url_parts = \wp_parse_url( \home_url() );
 

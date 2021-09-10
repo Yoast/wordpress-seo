@@ -228,7 +228,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->permalink_helper->get_permalink_for_indexable( $this->model );
 		}
 
-		return $this->model->permalink;
+		return $this->url->build_absolute_url( $this->model->permalink );
 	}
 
 	/**
