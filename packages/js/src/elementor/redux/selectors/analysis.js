@@ -8,8 +8,8 @@ import {
 	getSnippetEditorDescriptionWithTemplate,
 	getSnippetEditorSlug,
 	getSnippetEditorTitleWithTemplate,
+	getDateFromSettings,
 } from "../../../redux/selectors";
-import { getDateFromSettings } from "../../../redux/selectors";
 
 import { applyModifications } from "../../initializers/pluggable";
 
