@@ -172,8 +172,12 @@ class Indexable_Builder {
 	 * @param Indexable|bool $indexable   Optional. An existing indexable to overwrite.
 	 *
 	 * @return bool|Indexable Instance of indexable. False when unable to build.
+	 *
+	 * @deprecated 17.3
 	 */
 	public function build_for_id_and_type( $object_id, $object_type, $indexable = false ) {
+		_deprecated_function( __METHOD__, 'WPSEO 17.3', self::class . '::build' ) ;
+
 		$defaults = [
 			'object_type' => $object_type,
 			'object_id'   => $object_id,
@@ -238,22 +242,6 @@ class Indexable_Builder {
 			'object_sub_type' => $page_type,
 		];
 		return $this->build( $indexable, $defaults );
-	}
-
-	/**
-	 * Ensures we have a valid indexable. Creates one if false is passed.
-	 *
-	 * @param Indexable|false $indexable The indexable.
-	 * @param array           $defaults  The initial properties of the Indexable.
-	 *
-	 * @return Indexable The indexable.
-	 */
-	private function ensure_indexable( $indexable, $defaults = [] ) {
-		if ( ! $indexable ) {
-			return $this->indexable_repository->query()->create( $defaults );
-		}
-
-		return $indexable;
 	}
 
 	/**
