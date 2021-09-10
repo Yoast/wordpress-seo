@@ -17,6 +17,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Changes the maximum recommended sentence length in Farsi to 25 words.
 * Adds Farsi transition words and activates the transition words assessment.
 * Expands the list of function words for Farsi.
+* Removes the Farsi feature flag.
 
 ### Non user facing
 * Fixes a typo that caused the `findList` research to not be used in the `ListAssessment`.
