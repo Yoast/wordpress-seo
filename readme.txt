@@ -241,13 +241,9 @@ Release Date: September 21st, 2021
 
 Enhancements:
 
-* Completes the readability analysis for Farsi by adding the transition words, sentence beginnings and passive voice assessments, and by adjusting the sentence length assessment to make it more appropriate for the Farsi language.
+* Completes the readability analysis for Farsi by adding the transition words, consecutive sentences, and passive voice assessments, and by adjusting the sentence length assessment to make it more appropriate for the Farsi language.
 * Improves keyword detection for Farsi by adding more categories to the list of function words. E.g., general adjectives and adverbs category, conjunctions, and articles.
 * Cleans up indexables for posts with `auto-draft` post-status, in order to speed-up your admin pages.
-* Adds Passive voice assessment for Farsi.
-* Adds the consecutive sentences assessment for Farsi to ensure variety in a text.
-* Improves the sentence length assessment for Farsi by increasing the maximum recommended sentence length to 25 words.
-* Adds Transition words assessment for Farsi.
 
 Other:
 
