@@ -167,7 +167,7 @@ const getUserMessage = ( props ) => {
 	if ( ! isEmpty( data ) && data.status === 404 ) {
 		return <WincherReconnectAlert
 			onReconnect={ onConnectAction }
-		/>
+		/>;
 	}
 
 	if ( ! data || isEmpty( data.results ) ) {
