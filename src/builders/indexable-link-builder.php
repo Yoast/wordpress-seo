@@ -290,6 +290,7 @@ class Indexable_Link_Builder {
 			}
 
 			// Lastly, if still no good, fallback to WP functions.
+			// @todo: Check how trunk deals with img-1024x694.png image links. If it always resorts in this WP way, create Maintenance ticket, if not it's something to be fixed with this PR.
 			if ( ! $target ) {
 				// If target indexable cannot be found, create one based on the post's post ID.
 				$post_id = $this->get_post_id( $model->type, $permalink );

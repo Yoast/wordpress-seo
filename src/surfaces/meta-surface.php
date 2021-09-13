@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Surfaces;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -54,6 +55,13 @@ class Meta_Surface {
 	private $indexable_helper;
 
 	/**
+	 * The url helper.
+	 *
+	 * @var Url_Helper
+	 */
+	protected $url_helper;
+
+	/**
 	 * Meta_Surface constructor.
 	 *
 	 * @param ContainerInterface         $container            The DI container.
@@ -61,19 +69,22 @@ class Meta_Surface {
 	 * @param Indexable_Repository       $indexable_repository The indexable repository.
 	 * @param WP_Rewrite_Wrapper         $wp_rewrite_wrapper   The WP rewrite wrapper.
 	 * @param Indexable_Helper           $indexable_helper     The indexable helper.
+	 * @param Url_Helper                 $url_helper           The URL helper.
 	 */
 	public function __construct(
 		ContainerInterface $container,
 		Meta_Tags_Context_Memoizer $context_memoizer,
 		Indexable_Repository $indexable_repository,
 		WP_Rewrite_Wrapper $wp_rewrite_wrapper,
-		Indexable_Helper $indexable_helper
+		Indexable_Helper $indexable_helper,
+		Url_Helper $url_helper
 	) {
 		$this->container          = $container;
 		$this->context_memoizer   = $context_memoizer;
 		$this->repository         = $indexable_repository;
 		$this->wp_rewrite_wrapper = $wp_rewrite_wrapper;
 		$this->indexable_helper   = $indexable_helper;
+		$this->url_helper         = $url_helper;
 	}
 
 	/**
@@ -303,7 +314,7 @@ class Meta_Surface {
 	/**
 	 * Returns the meta tags context for a url.
 	 *
-	 * @param string $url The url of the page. Required to be relative to the site url.
+	 * @param string $url The url of the page. Required to be an absolute url that is relative to the site url.
 	 *
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
@@ -320,7 +331,12 @@ class Meta_Surface {
 			$indexable = $this->repository->find_for_date_archive();
 		}
 		else {
-			$indexable = $this->repository->find_by_permalink( $url );
+			$relative_url = $this->url_helper->get_url_path( $url );
+			$indexable    = $this->repository->find_by_permalink( $relative_url );
+
+			if ( ! $indexable ) {
+				$indexable = $this->repository->find_by_permalink( $url );
+			}
 		}
 
 		// If we still don't have an indexable abort, the WP globals could be anything so we can't use the unknown indexable.

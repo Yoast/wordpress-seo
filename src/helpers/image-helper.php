@@ -296,8 +296,7 @@ class Image_Helper {
 		}
 
 		$relative_url = $this->url->get_url_path( $url );
-
-		$indexable = $this->indexable_repository->find_by_permalink( $relative_url );
+		$indexable    = $this->indexable_repository->find_by_permalink( $relative_url );
 
 		if ( ! $indexable ) {
 			$indexable = $this->indexable_repository->find_by_permalink( $url );

@@ -107,7 +107,7 @@ class Url_Helper {
 	 * @return string The path of the URL. Returns an empty string if URL parsing fails.
 	 */
 	public function get_url_path( $url ) {
-		// @TODO: consider edge cases (ports, etc.).
+		// @TODO: consider edge cases (ports, etc.). Also, this _will_ have clunky behavior in subdirectory WP sites, we need to look into that.
 		return (string) \wp_parse_url( $url, \PHP_URL_PATH );
 	}
 
