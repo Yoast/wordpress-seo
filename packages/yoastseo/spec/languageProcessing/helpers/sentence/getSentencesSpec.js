@@ -417,6 +417,106 @@ describe( "Get sentences from text", function() {
 	} );
 } );
 
+describe( "parse Japanese text", () => {
+	it( "parses a Japanese text.", function() {
+		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた。" +
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。" +
+			"1959年（昭和34年）4月20日、新丹那トンネル熱海口で起工式を行って着工し、東京オリンピック開会直前の1964年（昭和39年）" +
+			"10月1日に開業した。計画段階では「東海道新線」と呼ばれていたが、開業時には「東海道新幹線」と命名された。";
+		const expected = [
+			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた。",
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
+			"1959年（昭和34年）4月20日、新丹那トンネル熱海口で起工式を行って着工し、東京オリンピック開会直前の1964年（昭和39年）10月1日に開業した。",
+			"計画段階では「東海道新線」と呼ばれていたが、開業時には「東海道新幹線」と命名された。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	it( "parses a Japanese text which contains quotation marks.", function() {
+		const text = "『東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、』抜本的な輸送力増強を迫られていた。" +
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。";
+		const expected = [
+			"『東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、』抜本的な輸送力増強を迫られていた。",
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	xit( "parses a Japanese text which contains sentence delimiter inside quotation block.", function() {
+		const text = "『東海道新幹線の開業前、。東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、』抜本的な輸送力増強を迫られていた。" +
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。";
+		const expected = [
+			"『東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、』抜本的な輸送力増強を迫られていた。",
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	xit( "parses a Japanese text which contains a space as sentence delimiter.", function() {
+		const text = "『東海道新幹線の開業前、 東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、』抜本的な輸送力増強を迫られていた。";
+		const expected = [
+			"『東海道新幹線の開業前、",
+			"東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、』抜本的な輸送力増強を迫られていた。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	xit( "parses a Japanese text where delimiters are used in the middle of a sentence outside a quotation bracket.", function() {
+		const text = "スカパー! が、50チャンネルの番組に一発で飛ぶことができる 「スカパー オリジナルのテレビリモコン」を抽選で50人にプレゼントするという情報が編集部に寄せられた。";
+		const expected = [
+			"スカパー! が、50チャンネルの番組に一発で飛ぶことができる 「スカパー オリジナルのテレビリモコン」を抽選で50人にプレゼントするという情報が編集部に寄せられた。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	it( "parses a Japanese text which contains a single katakana middle dot.", function() {
+		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた・" +
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。";
+		const expected = [
+			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた・" +
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	it( "parses a Japanese text which contains two katakana middle dots.", function() {
+		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた・・" +
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。";
+		const expected = [
+			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた・・",
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	it( "parses a Japanese text which contains English question mark.", function() {
+		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた?" +
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。";
+		const expected = [
+			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた?",
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+} );
+
 describe( "Parse languages written right-to-left", function() {
 	it( "parses a Hebrew text", function() {
 		const text = "רקע היסטורי תאורטי\n" +
