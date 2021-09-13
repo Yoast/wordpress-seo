@@ -56,6 +56,11 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 		],
 	];
 
+	/**
+	 * Mapping between the AiOSEO replace vars and the Yoast replace vars.
+	 *
+	 * @var array
+	 */
 	protected $replace_vars = [
 		// They key is the AiOSEO replace var, the value is the Yoast replace var (see class-wpseo-replace-vars).
 		// The commented-out descriptions are copied from the AiOSEO metabox.
@@ -64,10 +69,8 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 		'#site_title'        => '%%sitename%%',
 		'#author_first_name' => '',
 		'#author_last_name'  => '',
-		'#author_name'       => '%%name%%',
-		// Currently broken in Yoast, see https://yoast.atlassian.net/browse/IM-1334
-		'#categories'        => '%%category%%',
-		// All the categories, comma-separated. Currently broken in Yoast, see https://yoast.atlassian.net/browse/IM-1334
+		'#author_name'       => '%%name%%', // Currently broken in Yoast, see https://yoast.atlassian.net/browse/IM-1334.
+		'#categories'        => '%%category%%', // Currently broken in Yoast, see https://yoast.atlassian.net/browse/IM-1334.
 		'#current_date'      => '',
 		'#current_day'       => '',
 		'#current_month'     => '',
