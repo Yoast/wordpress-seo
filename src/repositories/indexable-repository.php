@@ -476,6 +476,24 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Ensures that the given indexable has a permalink.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * will be deprecated in 17.3 - Use upgrade_indexable instead.
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool|Indexable The indexable.
+	 */
+	public function ensure_permalink( $indexable ) {
+		// @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- self::class is safe.
+		// @phpcs:ignore Squiz.PHP.CommentedOutCode.Found
+		// _deprecated_function( __METHOD__, 'WPSEO 17.3', self::class . '::upgrade_indexable' );
+
+		return $this->upgrade_indexable( $indexable );
+	}
+
+	/**
 	 * Checks if an Indexable is outdated, and rebuilds it when necessary.
 	 *
 	 * @param Indexable $indexable The indexable.
