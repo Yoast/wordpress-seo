@@ -23,11 +23,25 @@ describe( "test to check url for keyword", function() {
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
-	it( "returns no matches for dashed words", function() {
+	it( "returns no matches for differently dashed words", function() {
 		const paper = new Paper( "", { url: "url-with-key-word", keyword: "keyword" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 0 } );
+	} );
+
+	it( "returns matches for equally dashed words", function() {
+		const paper = new Paper( "", { url: "url-with-key-word", keyword: "key-word" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
+	} );
+
+	it( "returns matches for equally dashed words with more words around", function() {
+		const paper = new Paper( "", { url: "url-with-key-word", keyword: "exciting key-word exciting" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 4, percentWordMatches: 50 } );
 	} );
 
 	it( "returns matches with diacritics", function() {
@@ -197,21 +211,20 @@ describe( "test to check url for keyword", function() {
 		const paper = new Paper( "", { url: "buku-buku", keyword: "buku-buku" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
-		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
+		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
 	it( "works with dash within the keyword in url", function() {
 		const paper = new Paper( "", { url: "on-the-go", keyword: "on-the-go" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
-		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
+		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
 	} );
 
-	// eslint-disable-next-line capitalized-comments
-	 /* it( "works with dash within the keyword in url", function() {
-	 	const paper = new Paper( "", { url: "two-room-apartment", keyword: "two-room apartment" } );
+	it( "works with dash within the keyword in url", function() {
+		const paper = new Paper( "", { url: "two-room-apartment", keyword: "two-room apartment" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
-	 	expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
-	 } );*/
+		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
+	} );
 } );

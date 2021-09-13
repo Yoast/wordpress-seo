@@ -69,6 +69,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		'wpseo_social',
 		'wpseo_tools',
 		'wpseo_licenses',
+		'wpseo_workouts',
 	];
 
 	/**
