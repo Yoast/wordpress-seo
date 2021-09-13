@@ -10,13 +10,28 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Replaces assessment shortlinks that are passed to the assessment constructors in the product assessors with variables.
 * Adds functionality for the webworker to also set custom options when loading the custom assessors for the SEO analysis (regular/cornerstone), the SEO analysis for related keyphrases (regular/cornerstone), and the readability analysis (regular/cornerstone).
 * Adds custom config for TitleWidth assessment in all SEO assessors so that short title is not penalized with a bad score.
+* Expands Russian irregular nouns exception list.
+* Adds stemming rule for the most common perfective verbs.
+* Implements the passive voice assessment for Farsi.
+* Implements the consecutive sentences assessment for Farsi to ensure variety in a text.
+* Changes the maximum recommended sentence length in Farsi to 25 words.
+* Adds Farsi transition words and activates the transition words assessment.
+* Expands the list of function words for Farsi.
+* Removes the Farsi feature flag.
 
 ### Non user facing
 * Fixes a typo that caused the `findList` research to not be used in the `ListAssessment`.
 * Adds a feature-flag for Farsi support.
 * Makes Consecutive sentence, Passive voice and Transition words assessments available for Farsi when the Feature flag is enabled.
 * Adds a missing plural variant of a feedback string for the keyphrase length assessment in product pages.
-* Replaces Images assessment `countVideos` value that is passed to the assessment constructor in the product assessors with a variable. 
+* Replaces Images assessment `countVideos` value that is passed to the assessment constructor in the product assessors with a variable.
+* Improves the Farsi passive voice assessment by expanding the list of passive verb forms.
+* Adds missing researcher parameter in assessors.
+* Updates `README.md` for Farsi support.
+* Adjusts Farsi full text tests papers.
+* Removes the Farsi feature flag.
+* Adjusts the English papers in full text tests for product pages.
+* Adds full text tests for product pages and collection pages assessments.
 
 
 ## 1.92.0

@@ -6,6 +6,8 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 
 /**
  * Indexing action to call when the indexable indexing process is completed.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Indexing_Complete_Action {
 
