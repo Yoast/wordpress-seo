@@ -24,8 +24,6 @@ const fullStop = ".";
  * \u2025 - Japanese two dot leader.
  */
 const sentenceDelimiters = "?!;\u2026\u06d4\u061f\u3002\uFF61\uFF01\u203C\uFF1F\u2047\u2049\u2048\u2049\u2026\u2025";
-// Katakana middle dot is a valid sentence delimiter only if it occurs two or more times.
-const katakanaMiddleDot = "\u30FB{2,}";
 
 const fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
 const sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
@@ -37,7 +35,7 @@ const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 const blockStartRegex = /^\s*[[({]\s*$/;
 const blockEndRegex = /^\s*[\])}]\s*$/;
 
-const sentenceEndRegex = new RegExp( "[" + fullStop + sentenceDelimiters + "]|" + katakanaMiddleDot + "$" );
+const sentenceEndRegex = new RegExp( "[" + fullStop + sentenceDelimiters + "]$" );
 
 /**
  * Class for tokenizing a (html) text into sentences.
