@@ -153,7 +153,6 @@ class DashboardWidget extends Component {
 		const keyphraseChartData = await getKeyphrases( [], true );
 
 		if ( keyphraseChartData.status === 200 ) {
-
 			const filteredResults = filter( keyphraseChartData.results, ( entry ) => {
 				return ! isEmpty( entry.ranking );
 			} );
