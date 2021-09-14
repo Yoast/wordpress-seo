@@ -1,3 +1,4 @@
+/* global wpseoAdminL10n */
 import { isUndefined, merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -28,8 +29,8 @@ class TextCompetingLinksAssessment extends Assessment {
 			scores: {
 				bad: 2,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/34l" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34m" ),
+			urlTitle: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.competing_links" ] ),
+			urlCallToAction: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.competing_linksCall_to_action" ] ),
 		};
 
 		this.identifier = "textCompetingLinks";

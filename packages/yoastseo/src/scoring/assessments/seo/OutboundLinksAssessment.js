@@ -1,3 +1,4 @@
+/* global wpseoAdminL10n */
 import { isEmpty, merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -25,8 +26,8 @@ export default class OutboundLinksAssessment extends Assessment {
 				someNoFollowed: 8,
 				allFollowed: 9,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/34f" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34g" ),
+			urlTitle: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.outbound_links" ] ),
+			urlCallToAction: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.outbound_linksCall_to_action" ] ),
 		};
 
 		this.identifier = "externalLinks";

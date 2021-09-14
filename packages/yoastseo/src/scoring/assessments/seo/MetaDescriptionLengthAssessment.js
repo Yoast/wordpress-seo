@@ -1,3 +1,4 @@
+/* global wpseoAdminL10n */
 import { merge } from "lodash-es";
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
@@ -26,8 +27,8 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 				tooShort: 6,
 				correctLength: 9,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/34d" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34e" ),
+			urlTitle: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.metadescription_length" ] ),
+			urlCallToAction: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.metadescription_lengthCall_to_action" ] ),
 		};
 
 		this.identifier = "metaDescriptionLength";

@@ -1,3 +1,4 @@
+/* global wpseoAdminL10n */
 import { merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -30,8 +31,8 @@ export default class PageTitleWidthAssessment extends Assessment {
 				widthTooLong: 3,
 				widthCorrect: 9,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/34h" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34i" ),
+			urlTitle: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.page_title_width" ] ),
+			urlCallToAction: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.age_title_widthCall_to_action" ] ),
 		};
 
 		this._allowShortTitle = allowShortTitle;

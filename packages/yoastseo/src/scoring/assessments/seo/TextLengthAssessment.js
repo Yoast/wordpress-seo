@@ -1,3 +1,4 @@
+/* global wpseoAdminL10n */
 import { inRange, merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -31,8 +32,8 @@ export default class TextLengthAssessment extends Assessment {
 				farBelowMinimum: -10,
 				veryFarBelowMinimum: -20,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/34n" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34o" ),
+			urlTitle: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.text_length" ] ),
+			urlCallToAction: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.text_lengthCall_to_action" ] ),
 
 			cornerstoneContent: false,
 		};

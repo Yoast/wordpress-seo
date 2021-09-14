@@ -1,3 +1,4 @@
+/* global wpseoAdminL10n */
 import { map } from "lodash-es";
 import { merge } from "lodash-es";
 import { isUndefined } from "lodash-es";
@@ -27,8 +28,8 @@ class singleH1Assessment extends Assessment {
 			scores: {
 				textContainsSuperfluousH1: 1,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/3a6" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/3a7" ),
+			urlTitle: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.SingleH1" ] ),
+			urlCallToAction: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.SingleH1Call_to_action" ] ),
 		};
 
 		this.identifier = "singleH1";

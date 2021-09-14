@@ -1,3 +1,4 @@
+/* global wpseoAdminL10n */
 import { merge } from "lodash-es";
 import { getSubheadingsTopLevel } from "../../../languageProcessing/helpers/html/getSubheadings";
 import Assessment from "../assessment";
@@ -30,8 +31,8 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 				goodNumberOfMatches: 9,
 				tooManyMatches: 3,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33m" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33n" ),
+			urlTitle: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.subheadingsKeyword" ] ),
+			urlCallToAction: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.subheadingsKeywordCall_to_action" ] ),
 		};
 
 		this.identifier = "subheadingsKeyword";

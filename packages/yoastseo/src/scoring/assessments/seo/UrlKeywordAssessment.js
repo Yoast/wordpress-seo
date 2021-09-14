@@ -1,3 +1,4 @@
+/* global wpseoAdminL10n */
 import { merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -26,8 +27,8 @@ class UrlKeywordAssessment extends Assessment {
 				okay: 6,
 				good: 9,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33o" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33p" ),
+			urlTitle: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.url" ] ),
+			urlCallToAction: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.urlCall_to_action" ] ),
 		};
 
 		this.identifier = "urlKeyword";
