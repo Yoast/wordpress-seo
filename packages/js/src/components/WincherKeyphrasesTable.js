@@ -264,8 +264,6 @@ class WincherKeyphrasesTable extends Component {
 
 				const keyphrasesHaveNoRankingData = this.noKeyphrasesHaveRankingData();
 
-				console.log( keyphrasesHaveNoRankingData )
-
 				if ( keyphrasesHaveNoRankingData ) {
 					setPendingChartRequest( true );
 				} else {
@@ -314,6 +312,20 @@ class WincherKeyphrasesTable extends Component {
 		}, 10000 );
 
 		await this.getTrackedKeyphrases( keyphrases );
+	}
+
+	/**
+	 * Reset the interval if component changed.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate() {
+		const { keyphrases } = this.props;
+
+		clearInterval( this.interval );
+		this.interval = setInterval( async() => {
+			await this.getTrackedKeyphrases( keyphrases );
+		}, 10000 );
 	}
 
 	/**

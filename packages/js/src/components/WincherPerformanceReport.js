@@ -127,13 +127,14 @@ const noTrackedKeyphrasesMessage = ( props ) => {
 /**
  * Creates a new row to be displayed in the table.
  *
+ * @param {int}    id        The keyphrase ID.
  * @param {string} keyphrase The keyphrase to be used in the row.
  * @param {Object} chartData The associated chart data to be displayed.
  * @param {number} websiteId The website ID to link to.
  *
  * @returns {wp.Element} The row.
  */
-const createRow = ( keyphrase, chartData, websiteId ) => {
+const createRow = ( id, keyphrase, chartData, websiteId ) => {
 	return (
 		<tr key={ `trackable-keyphrase-${keyphrase}` }>
 			<td>{ keyphrase }</td>
@@ -141,7 +142,7 @@ const createRow = ( keyphrase, chartData, websiteId ) => {
 			<td className="yoast-table--nopadding">{ generatePositionOverTimeChart( chartData ) }</td>
 			<td className="yoast-table--nobreak">
 				{
-					<ViewLink href={ viewLinkUrl( { websiteId, id: chartData.id } ) }>
+					<ViewLink href={ viewLinkUrl( { websiteId, id } ) }>
 						{ __( "View", "wordpress-seo" ) }
 					</ViewLink>
 				}
@@ -225,7 +226,7 @@ const WincherPerformanceReport = ( props ) => {
 					<tbody>
 						{
 							map( data.results, ( entry ) => {
-								return createRow( entry.keyword, entry.ranking, websiteId );
+								return createRow( entry.id, entry.keyword, entry.ranking, websiteId );
 							} )
 						}
 					</tbody>

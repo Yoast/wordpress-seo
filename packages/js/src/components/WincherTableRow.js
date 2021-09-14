@@ -108,12 +108,17 @@ export function renderToggleState( { keyphrase, isEnabled, toggleAction } ) {
  * Gets the keyphrase position.
  *
  * @param {Object} chartData The chart data to extract the keyphrase position from.
+ * @param {Object} ranking   The keyphrase ranking data.
  *
  * @returns {string} The keyphrase position. Returns a "?" if no data is present.
  */
-export function getKeyphrasePosition( chartData ) {
-	if ( isEmpty( chartData ) || isEmpty( chartData.position ) ) {
+export function getKeyphrasePosition( chartData, ranking ) {
+	if ( isEmpty( ranking ) ) {
 		return "?";
+	}
+
+	if ( ! isEmpty( ranking ) && ( isEmpty( chartData ) || isEmpty( chartData.position ) ) ) {
+		return "> 100";
 	}
 
 	if ( chartData.position.value > 100 ) {
@@ -151,7 +156,7 @@ export function getPositionalDataByState( props ) {
 		);
 	}
 
-	if ( ! hasChartData ) {
+	if ( ! hasChartData && isEmpty( rowData.ranking ) ) {
 		return (
 			<Fragment>
 				<td className="yoast-table--nopadding" colSpan="3">
@@ -163,7 +168,7 @@ export function getPositionalDataByState( props ) {
 
 	return (
 		<Fragment>
-			<td>{ getKeyphrasePosition( chartData ) }</td>
+			<td>{ getKeyphrasePosition( chartData, rowData.ranking ) }</td>
 			<td className="yoast-table--nopadding">{ generatePositionOverTimeChart( chartData ) }</td>
 			<td className="yoast-table--nobreak">
 				{
