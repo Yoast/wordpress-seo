@@ -60,10 +60,11 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 	 * Mapping between the AiOSEO replace vars and the Yoast replace vars.
 	 *
 	 * @var array
+	 *
+	 * @see https://yoast.com/help/list-available-snippet-variables-yoast-seo/
 	 */
 	protected $replace_vars = [
 		// They key is the AiOSEO replace var, the value is the Yoast replace var (see class-wpseo-replace-vars).
-		// The commented-out descriptions are copied from the AiOSEO metabox.
 		'#post_title'        => '%%title%%',
 		'#separator_sa'      => '%%sep%%',
 		'#site_title'        => '%%sitename%%',
@@ -89,9 +90,10 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 	];
 
 	/**
-	 * Replaces values in our temporary table according to our settings.
+	 * Replaces the AiOSEO variables in our temporary table with Yoast variables (replace vars).
 	 *
-	 * @param array $replace_values Key value pair of values to replace with other values.
+	 * @param array $replace_values Key value pair of values to replace with other values. This is only used in the base class but not here.
+	 *                              That is because this class doesn't have any `convert` keys in `$clone_keys`.
 	 *
 	 * @return void
 	 */
