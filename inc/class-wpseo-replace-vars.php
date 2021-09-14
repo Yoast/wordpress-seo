@@ -1165,6 +1165,19 @@ class WPSEO_Replace_Vars {
 		return \get_the_author_meta( 'last_name', $this->retrieve_userid() );
 	}
 
+	/**
+	 * Retrieve the post/page/cpt author's last name for use as replacement string.
+	 *
+	 * @return string
+	 */
+	private function retrieve_permalink() {
+		if ( empty( $this->args->ID ) ) {
+			return null;
+		}
+
+		return \get_permalink( $this->args->ID );
+	}
+
 	/* *********************** HELP TEXT RELATED ************************** */
 
 	/**
@@ -1347,6 +1360,7 @@ class WPSEO_Replace_Vars {
 			new WPSEO_Replacement_Variable( 'post_day', __( 'Post day', 'wordpress-seo' ), __( 'Replaced with the day the post was published', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'author_first_name', __( 'Author first name', 'wordpress-seo' ), __( 'Replaced with the first name of the author', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'author_last_name', __( 'Author last name', 'wordpress-seo' ), __( 'Replaced with the last name of the author', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'permalink', __( 'Permalink', 'wordpress-seo' ), __( 'Replaced with the permalink', 'wordpress-seo' ) ),
 		];
 
 		foreach ( $replacement_variables as $replacement_variable ) {
