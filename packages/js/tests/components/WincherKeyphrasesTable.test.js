@@ -1,7 +1,7 @@
 import { shallow } from "enzyme";
 
-global.window.wpseoAdminL10n = [];
-global.window.wpseoAdminL10n[ "shortlinks.semrush.volume_help" ] = "test.com";
+global.window.wpseoAdminGlobalL10n = [];
+global.window.wpseoAdminGlobalL10n[ "links.wincher.login" ] = "test.com";
 
 import WincherKeyphrasesTable
 	from "../../../js/src/components/WincherKeyphrasesTable";
@@ -15,6 +15,11 @@ const keyphrasesData = {
 	"yoast seo": {
 		id: "12345",
 		keyword: "yoast seo",
+		ranking: {
+			position: {
+				value: 10,
+			},
+		},
 	},
 	"woocommerce seo": {
 		id: "54321",
@@ -80,7 +85,7 @@ describe( "WincherKeyphrasesTable", () => {
 
 		expect( component.find( WincherTableRow ).length ).toEqual( 1 );
 
-		expect( component.instance().allKeyphrasesHavePositionData() ).toEqual( false );
+		expect( component.instance().noKeyphrasesHaveRankingData() ).toEqual( false );
 		expect( component.instance().getKeyphraseData( "yoast seo" ) ).toEqual( keyphrasesData[ "yoast seo" ] );
 		expect( component.instance().getKeyphraseChartData( "yoast seo" ) ).toEqual( chartData[ "yoast seo" ] );
 	} );

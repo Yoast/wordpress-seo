@@ -4,7 +4,7 @@
 import PropTypes from "prop-types";
 import { Fragment, Component } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { isEmpty } from "lodash-es";
+import { isEmpty, filter } from "lodash-es";
 import styled from "styled-components";
 
 /* Yoast dependencies */
@@ -227,7 +227,7 @@ class WincherKeyphrasesTable extends Component {
 		} = this.props;
 
 		await this.handleAPIResponse(
-			() => getKeyphrases( keyphrases ),
+			() => getKeyphrases( keyphrases, true ),
 			async( response ) => {
 				setRequestSucceeded( response );
 				setTrackingKeyphrases( response.results );
@@ -256,30 +256,30 @@ class WincherKeyphrasesTable extends Component {
 			setTrackingCharts,
 		} = this.props;
 
-		setPendingChartRequest( true );
-
 		await this.handleAPIResponse(
 			() => getKeyphrasesChartData( keyphrases, window.wp.data.select( "core/editor" ).getPermalink() ),
 			( response ) => {
 				setRequestSucceeded( response );
 				setTrackingCharts( response.results );
 
-				if  ( this.allKeyphrasesHavePositionData() ) {
-					setPendingChartRequest( false );
-				}
+				setPendingChartRequest( this.noKeyphrasesHaveRankingData() );
 			}
 		);
 	}
 
 	/**
-	 * Determines whether the amount of tracked keyphrases and the chart data, are equal.
+	 * Determines whether the amount of tracked keyphrases is equal to the amount of keyphrases without ranking data.
 	 *
-	 * @returns {boolean} Whether there are equal amounts of chart data available.
+	 * @returns {boolean} Whether there are equal amounts of keyphrases and missing ranking data
 	 */
-	allKeyphrasesHavePositionData() {
-		const { trackedKeyphrasesChartData, trackedKeyphrases } = this.props;
+	noKeyphrasesHaveRankingData() {
+		const { trackedKeyphrases } = this.props;
 
-		return Object.keys( trackedKeyphrasesChartData ).length === Object.keys( trackedKeyphrases ).length;
+		const positionalData = filter( trackedKeyphrases, ( trackedKeyphrase ) => {
+			return isEmpty( trackedKeyphrase.ranking );
+		} );
+
+		return positionalData.length === Object.keys( trackedKeyphrases ).length;
 	}
 
 	/**
