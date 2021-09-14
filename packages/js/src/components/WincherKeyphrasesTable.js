@@ -262,7 +262,16 @@ class WincherKeyphrasesTable extends Component {
 				setRequestSucceeded( response );
 				setTrackingCharts( response.results );
 
-				setPendingChartRequest( this.noKeyphrasesHaveRankingData() );
+				const keyphrasesHaveNoRankingData = this.noKeyphrasesHaveRankingData();
+
+				console.log( keyphrasesHaveNoRankingData )
+
+				if ( keyphrasesHaveNoRankingData ) {
+					setPendingChartRequest( true );
+				} else {
+					clearInterval( this.interval );
+					setPendingChartRequest( false );
+				}
 			}
 		);
 	}
@@ -300,7 +309,20 @@ class WincherKeyphrasesTable extends Component {
 			return;
 		}
 
+		this.interval = setInterval( async() => {
+			await this.getTrackedKeyphrases( keyphrases );
+		}, 10000 );
+
 		await this.getTrackedKeyphrases( keyphrases );
+	}
+
+	/**
+	 * Unsets the polling when the modal is closed.
+	 *
+	 * @returns {void}
+	 */
+	componentWillUnmount() {
+		clearInterval( this.interval );
 	}
 
 	/**
