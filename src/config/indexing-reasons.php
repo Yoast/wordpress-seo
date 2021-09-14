@@ -29,6 +29,8 @@ class Indexing_Reasons {
 
 	/**
 	 * Represents the reason that the home url option is changed.
+	 *
+	 * @deprecated 17.3
 	 */
 	const REASON_HOME_URL_OPTION = 'home_url_option_changed';
 }

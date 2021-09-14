@@ -9,6 +9,7 @@ use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
@@ -61,6 +62,13 @@ class Indexable_Repository {
 	protected $indexable_helper;
 
 	/**
+	 * The url helper.
+	 *
+	 * @var Url_Helper
+	 */
+	protected $url_helper;
+
+	/**
 	 * Checks if Indexables are up to date.
 	 *
 	 * @var Indexable_Version_Manager
@@ -76,6 +84,7 @@ class Indexable_Repository {
 	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository.
 	 * @param wpdb                           $wpdb                 The WordPress database instance.
 	 * @param Indexable_Version_Manager      $version_manager      The indexable version manager.
+	 * @param Url_Helper                     $url                  The URL helper.
 	 */
 	public function __construct(
 		Indexable_Builder $builder,
@@ -83,7 +92,8 @@ class Indexable_Repository {
 		Logger $logger,
 		Indexable_Hierarchy_Repository $hierarchy_repository,
 		wpdb $wpdb,
-		Indexable_Version_Manager $version_manager
+		Indexable_Version_Manager $version_manager,
+		Url_Helper $url
 	) {
 		$this->builder              = $builder;
 		$this->current_page         = $current_page;
@@ -91,6 +101,7 @@ class Indexable_Repository {
 		$this->hierarchy_repository = $hierarchy_repository;
 		$this->wpdb                 = $wpdb;
 		$this->version_manager      = $version_manager;
+		$this->url                  = $url;
 	}
 
 	/**
@@ -156,16 +167,30 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Retrieves an indexable by its permalink.
+	 * Retrieves an indexable by its permalink. Tries first with a relative URL and if it does not succeed, tries with the url as it came into the function.
 	 *
 	 * @param string $permalink The indexable permalink.
 	 *
 	 * @return bool|Indexable The indexable, false if none could be found.
 	 */
 	public function find_by_permalink( $permalink ) {
-		$permalink_hash = \strlen( $permalink ) . ':' . \md5( $permalink );
+		// First try with the relative.
+		$relative_url = $this->url->get_url_path( $permalink );
+		$relative_url_hash = \strlen( $relative_url ) . ':' . \md5( $relative_url );
 
 		// Find by both permalink_hash and permalink, permalink_hash is indexed so will be used first by the DB to optimize the query.
+		$result = $this->query()
+			->where( 'permalink_hash', $relative_url_hash )
+			->where( 'permalink', $relative_url )
+			->find_one();
+
+		if ( $result ) {
+			return $result;
+		}
+
+		// If no results, then try with the originally given url.
+		$permalink_hash = \strlen( $permalink ) . ':' . \md5( $permalink );
+
 		return $this->query()
 			->where( 'permalink_hash', $permalink_hash )
 			->where( 'permalink', $permalink )

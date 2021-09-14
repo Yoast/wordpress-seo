@@ -278,12 +278,10 @@ class Indexable_Link_Builder {
 
 		if ( $model->type === SEO_Links::TYPE_INTERNAL || $model->type === SEO_Links::TYPE_INTERNAL_IMAGE ) {
 			$permalink = $this->get_permalink( $url, $home_url );
-			if ( $this->url_helper->is_relative( $permalink ) ) {
-				// Make sure we're checking against the absolute URL, and add a trailing slash if the site has a trailing slash in its permalink settings.
-				$permalink = $this->url_helper->ensure_absolute_url( \user_trailingslashit( $permalink ) );
-			}
-			$target = $this->indexable_repository->find_by_permalink( $permalink );
+			$permalink = $this->url_helper->ensure_absolute_url( \user_trailingslashit( $permalink ) );
+			$target    = $this->indexable_repository->find_by_permalink( $permalink );
 
+			// @todo: Check how trunk deals with img-1024x694.png image links. If it always resorts in this WP way, create Maintenance ticket, if not it's something to be fixed with this PR.
 			if ( ! $target ) {
 				// If target indexable cannot be found, create one based on the post's post ID.
 				$post_id = $this->get_post_id( $model->type, $permalink );

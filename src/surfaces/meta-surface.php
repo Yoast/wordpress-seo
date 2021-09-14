@@ -303,7 +303,7 @@ class Meta_Surface {
 	/**
 	 * Returns the meta tags context for a url.
 	 *
-	 * @param string $url The url of the page. Required to be relative to the site url.
+	 * @param string $url The url of the page. Required to be an absolute url that is relative to the site url.
 	 *
 	 * @return Meta|false The meta values. False if none could be found.
 	 */

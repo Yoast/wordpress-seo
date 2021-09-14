@@ -107,6 +107,7 @@ class Url_Helper {
 	 * @return string The path of the URL. Returns an empty string if URL parsing fails.
 	 */
 	public function get_url_path( $url ) {
+		// @TODO: consider edge cases (ports, etc.). Also, this _will_ have clunky behavior in subdirectory WP sites, we need to look into that.
 		return (string) \wp_parse_url( $url, \PHP_URL_PATH );
 	}
 
@@ -140,6 +141,7 @@ class Url_Helper {
 	 * @return string The absolute url.
 	 */
 	public function ensure_absolute_url( $url ) {
+		// @TODO: consider edge cases ($wp_rewrite, etc).
 		if ( ! \is_string( $url ) || $url === '' ) {
 			return $url;
 		}
@@ -159,6 +161,7 @@ class Url_Helper {
 	 * @return string
 	 */
 	public function build_absolute_url( $path = null ) {
+		// @TODO: consider edge cases ($wp_rewrite, etc).
 		$path      = \wp_parse_url( $path, \PHP_URL_PATH );
 		$url_parts = \wp_parse_url( \home_url() );
 
