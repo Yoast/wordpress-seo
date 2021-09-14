@@ -13,8 +13,8 @@ const fullStop = ".";
  * \u06D4 - Urdu full stop.
  * \u061f - Arabic question mark.
  * \u3002 - Japanese ideographic full stop.
- * \uFF61 - Japanese halfwidth ideographic full stop.
- * \uFF01 - Japanese fullwidth exclamation mark.
+ * \uFF61 - Japanese half-width ideographic full stop.
+ * \uFF01 - Japanese full-width exclamation mark.
  * \u203C - Japanese double exclamation mark.
  * \uFF1F - Japanese fullwidth question mark.
  * \u2047 - Japanese double question mark.
