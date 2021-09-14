@@ -357,6 +357,8 @@ export default function initAdmin( jQuery ) {
 			popup.close();
 		}
 
+		jQuery( "#wincher-login-success" ).show();
+
 		addExistingKeyphrasesRequest();
 	}
 
