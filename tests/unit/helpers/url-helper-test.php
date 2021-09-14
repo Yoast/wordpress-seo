@@ -32,7 +32,7 @@ class Url_Helper_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = Mockery::mock( Url_Helper::class )->makePartial();
+		$this->instance = new Url_Helper();
 	}
 
 	/**
@@ -70,14 +70,14 @@ class Url_Helper_Test extends TestCase {
 	 */
 	public function test_build_absolute_url_relative_url() {
 		Monkey\Functions\expect( 'home_url' )
-			->andReturn( 'home_url' );
+			->andReturn( 'https://example.com' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
 			->withArgs( [ 'https://example.com/my-page', \PHP_URL_PATH ] )
 			->andReturn( '/my-page' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->withArgs( [ 'home_url' ] )
+			->withArgs( [ 'https://example.com' ] )
 			->andReturn(
 				[
 					'scheme' => 'https',
@@ -240,35 +240,36 @@ class Url_Helper_Test extends TestCase {
 	 * Tests the ensure absolute url with a relative url given as argument.
 	 *
 	 * @covers ::ensure_absolute_url
+	 * @covers ::is_relative
+	 *
 	 */
 	public function test_ensure_absolute_url_with_relative_url_given() {
-		$this->instance
-			->expects( 'is_relative' )
-			->once()
-			->with( 'page' )
-			->andReturnTrue();
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'https://example.com' );
 
-		$this->instance
-			->expects( 'build_absolute_url' )
-			->once()
-			->with( 'page' )
-			->andReturn( 'https://example.org/page' );
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->withArgs( [ 'page', \PHP_URL_PATH ] )
+			->andReturn( 'page' );
 
-		$this->assertEquals( 'https://example.org/page', $this->instance->ensure_absolute_url( 'page' ) );
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->withArgs( [ 'https://example.com' ] )
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
+
+		$this->assertEquals( 'https://example.com/page', $this->instance->ensure_absolute_url( 'page' ) );
 	}
 
 	/**
 	 * Tests the ensure absolute url with an absolute url given as argument.
 	 *
 	 * @covers ::ensure_absolute_url
+	 * @covers ::is_relative
 	 */
 	public function test_ensure_absolute_url_with_absolute_url_given() {
-		$this->instance
-			->expects( 'is_relative' )
-			->once()
-			->with( 'https://example.org/page' )
-			->andReturnFalse();
-
 		$this->assertEquals( 'https://example.org/page', $this->instance->ensure_absolute_url( 'https://example.org/page' ) );
 	}
 
