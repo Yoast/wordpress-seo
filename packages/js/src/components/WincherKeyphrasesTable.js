@@ -49,6 +49,8 @@ class WincherKeyphrasesTable extends Component {
 		this.onTrackKeyphrase     = this.onTrackKeyphrase.bind( this );
 		this.onUntrackKeyphrase   = this.onUntrackKeyphrase.bind( this );
 		this.getTrackedKeyphrases = this.getTrackedKeyphrases.bind( this );
+
+		this.interval = null;
 	}
 
 	/**
@@ -322,10 +324,12 @@ class WincherKeyphrasesTable extends Component {
 	componentDidUpdate() {
 		const { keyphrases } = this.props;
 
-		clearInterval( this.interval );
-		this.interval = setInterval( async() => {
-			await this.getTrackedKeyphrases( keyphrases );
-		}, 10000 );
+		if ( ! isEmpty( this.interval ) ) {
+			clearInterval( this.interval );
+			this.interval = setInterval( async () => {
+				await this.getTrackedKeyphrases( keyphrases );
+			}, 10000 );
+		}
 	}
 
 	/**
