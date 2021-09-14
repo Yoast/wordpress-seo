@@ -324,9 +324,9 @@ class WincherKeyphrasesTable extends Component {
 	componentDidUpdate() {
 		const { keyphrases } = this.props;
 
-		if ( ! isEmpty( this.interval ) ) {
+		if ( this.noKeyphrasesHaveRankingData() ) {
 			clearInterval( this.interval );
-			this.interval = setInterval( async () => {
+			this.interval = setInterval( async() => {
 				await this.getTrackedKeyphrases( keyphrases );
 			}, 10000 );
 		}
