@@ -76,7 +76,6 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 		'#current_day'       => '',
 		'#current_month'     => '',
 		'#current_year'      => '',
-		'#custom_field'      => '',
 		'#permalink'         => '',
 		'#post_date'         => '%%date%%',
 		'#post_day'          => '',
@@ -112,5 +111,14 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 				)
 			);
 		}
+
+		// Replace the '#custom_field' variable(s). The current data are a number of rows in tmp_meta_table with a 'meta_value' column.
+		// Some example of values in the meta_value column:
+		$meta_value1 = '#custom_field-veldje #post_title#custom_field-gras'; // note that a meta value can hold more than one custom field.
+		$meta_value2 = '#post_title#custom_field-groen'; // note there isn't necessarily a space between variables.
+		$meta_value3 = '#separator_sa'; // note that some meta values won't have a custom field.
+
+		// The AiOSEO custom fields take the form of `#custom_field-myfield`.
+		// These should be mapped to %%cf_myfield%%.
 	}
 }
