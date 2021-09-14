@@ -379,6 +379,8 @@ class WPSEO_Taxonomy {
 			'tag_description',
 			'searchphrase',
 			'currentyear',
+			'currentmonth',
+			'currentday',
 		];
 
 		foreach ( $vars_to_cache as $var ) {

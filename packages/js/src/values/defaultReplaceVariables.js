@@ -100,5 +100,15 @@ export default function getDefaultReplacementVariables() {
 			label: __( "Current year", "wordpress-seo" ),
 			value: "",
 		},
+		{
+			name: "currentmonth",
+			label: __( "Current month", "wordpress-seo" ),
+			value: "",
+		},
+		{
+			name: "currentday",
+			label: __( "Current day", "wordpress-seo" ),
+			value: "",
+		},
 	];
 }

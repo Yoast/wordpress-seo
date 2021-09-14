@@ -871,6 +871,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'replaceVars' => [
 				'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
 				'replace_vars'             => $this->get_replace_vars(),
+				'hidden_replace_vars'      => [
+					'currentyear',
+					'currentmonth',
+					'currentday',
+					'post_year',
+					'post_month',
+					'post_day',
+					'author_first_name',
+					'author_last_name',
+				],
 				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 				'scope'                    => $this->determine_scope(),
 				'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
@@ -978,6 +988,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'sep',
 			'page',
 			'currentyear',
+			'currentmonth',
+			'currentday',
+			'post_year',
+			'post_month',
+			'post_day',
+			'author_first_name',
+			'author_last_name',
 		];
 
 		foreach ( $vars_to_cache as $var ) {

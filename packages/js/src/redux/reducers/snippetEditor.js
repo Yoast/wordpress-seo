@@ -3,6 +3,7 @@ import {
 	SWITCH_MODE,
 	UPDATE_DATA,
 	UPDATE_REPLACEMENT_VARIABLE,
+	HIDE_REPLACEMENT_VARIABLES,
 	REMOVE_REPLACEMENT_VARIABLE,
 	REFRESH,
 	UPDATE_WORDS_TO_HIGHLIGHT,
@@ -68,6 +69,7 @@ function snippetEditorReducer( state = getInitialState(), action ) {
 						name: action.name,
 						label: action.label || replaceVar.label,
 						value: action.value,
+						hidden: replaceVar.hidden,
 					};
 				}
 				return replaceVar;
@@ -76,6 +78,22 @@ function snippetEditorReducer( state = getInitialState(), action ) {
 			if ( isNewReplaceVar ) {
 				nextReplacementVariables = pushNewReplaceVar( nextReplacementVariables, action );
 			}
+
+			return {
+				...state,
+				replacementVariables: nextReplacementVariables,
+			};
+		}
+
+		case HIDE_REPLACEMENT_VARIABLES: {
+			const nextReplacementVariables = state.replacementVariables.map( ( replaceVar ) => {
+				return {
+					name: replaceVar.name,
+					label: replaceVar.label,
+					value: replaceVar.value,
+					hidden: action.data.includes( replaceVar.name ),
+				};
+			} );
 
 			return {
 				...state,
