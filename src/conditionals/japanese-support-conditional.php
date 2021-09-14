@@ -3,9 +3,9 @@
 namespace Yoast\WP\SEO\Conditionals;
 
 /**
- * Checks if the YOAST_SEO_FARSI_SUPPORT constant is set.
+ * Checks if the YOAST_SEO_JAPANESE_SUPPORT constant is set.
  */
-class Farsi_Support_Conditional extends Feature_Flag_Conditional {
+class Japanese_Support_Conditional extends Feature_Flag_Conditional {
 
 	/**
 	 * Returns the name of the feature flag.
@@ -14,6 +14,6 @@ class Farsi_Support_Conditional extends Feature_Flag_Conditional {
 	 * @return string the name of the feature flag.
 	 */
 	public function get_feature_flag() {
-		return 'FARSI_SUPPORT';
+		return 'JAPANESE_SUPPORT';
 	}
 }

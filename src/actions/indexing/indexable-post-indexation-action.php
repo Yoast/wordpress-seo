@@ -4,12 +4,15 @@ namespace Yoast\WP\SEO\Actions\Indexing;
 
 use wpdb;
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Reindexing action for post indexables.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 
@@ -49,16 +52,30 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 	protected $wpdb;
 
 	/**
+	 * The latest version of Post Indexables.
+	 *
+	 * @var int
+	 */
+	protected $version;
+
+	/**
 	 * Indexable_Post_Indexing_Action constructor
 	 *
-	 * @param Post_Type_Helper     $post_type_helper The post type helper.
-	 * @param Indexable_Repository $repository       The indexable repository.
-	 * @param wpdb                 $wpdb             The WordPress database instance.
+	 * @param Post_Type_Helper           $post_type_helper The post type helper.
+	 * @param Indexable_Repository       $repository       The indexable repository.
+	 * @param wpdb                       $wpdb             The WordPress database instance.
+	 * @param Indexable_Builder_Versions $builder_versions The latest versions for each Indexable type.
 	 */
-	public function __construct( Post_Type_Helper $post_type_helper, Indexable_Repository $repository, wpdb $wpdb ) {
+	public function __construct(
+		Post_Type_Helper $post_type_helper,
+		Indexable_Repository $repository,
+		wpdb $wpdb,
+		Indexable_Builder_Versions $builder_versions
+	) {
 		$this->post_type_helper = $post_type_helper;
 		$this->repository       = $repository;
 		$this->wpdb             = $wpdb;
+		$this->version          = $builder_versions->get_latest_version_for_type( 'post' );
 	}
 
 	/**
@@ -112,19 +129,23 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 	 */
 	protected function get_count_query() {
 		$indexable_table = Model::get_table_name( 'Indexable' );
-		$post_types      = $this->get_post_types();
+
+		$replacements    = $this->get_post_types();
+		$post_type_count = \count( $replacements );
+		$replacements[]  = $this->version;
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
+		// @phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 		return $this->wpdb->prepare(
 			"
 			SELECT COUNT(P.ID)
 			FROM {$this->wpdb->posts} AS P
-			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")
+			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, $post_type_count, '%s' ) ) . ")
 			AND P.ID not in (
 				SELECT I.object_id from $indexable_table as I
 				WHERE I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL)",
-			$post_types
+				AND I.version = %d )",
+			$replacements
 		);
 	}
 
@@ -139,6 +160,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		$post_types      = $this->get_post_types();
 		$replacements    = $post_types;
+		$replacements[]  = $this->version;
 
 		$limit_query = '';
 		if ( $limit ) {
@@ -147,6 +169,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 		}
 
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
+		// @phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 		return $this->wpdb->prepare(
 			"
 			SELECT P.ID
@@ -155,7 +178,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			AND P.ID not in (
 				SELECT I.object_id from $indexable_table as I
 				WHERE I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL)
+				AND I.version = %d )
 			$limit_query",
 			$replacements
 		);

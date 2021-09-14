@@ -8,7 +8,9 @@ import {
 	getSnippetEditorDescriptionWithTemplate,
 	getSnippetEditorSlug,
 	getSnippetEditorTitleWithTemplate,
+	getDateFromSettings,
 } from "../../../redux/selectors";
+
 import { applyModifications } from "../../initializers/pluggable";
 
 /**
@@ -46,5 +48,6 @@ export const getAnalysisData = ( state ) => {
 		titleWidth: measureTextWidth( title ),
 		url: slug,
 		permalink: baseUrl + slug,
+		date: getDateFromSettings( state ),
 	};
 };

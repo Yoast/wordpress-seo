@@ -62,6 +62,13 @@ class Yoast_Notification_Center {
 	private $notifications_retrieved = false;
 
 	/**
+	 * Internal flag for whether notifications need to be updated in storage.
+	 *
+	 * @var bool
+	 */
+	private $notifications_need_storage = false;
+
+	/**
 	 * Construct.
 	 */
 	private function __construct() {
@@ -321,6 +328,8 @@ class Yoast_Notification_Center {
 
 		// Add to list.
 		$this->notifications[ $user_id ][] = $notification;
+
+		$this->notifications_need_storage = true;
 	}
 
 	/**
@@ -432,6 +441,8 @@ class Yoast_Notification_Center {
 
 		unset( $notifications[ $index ] );
 		$this->notifications[ $user_id ] = array_values( $notifications );
+
+		$this->notifications_need_storage = true;
 	}
 
 	/**
@@ -450,6 +461,7 @@ class Yoast_Notification_Center {
 		}
 
 		$this->remove_notification( $notification, $resolve );
+		$this->notifications_need_storage = true;
 	}
 
 	/**
@@ -582,7 +594,13 @@ class Yoast_Notification_Center {
 		 *
 		 * @api Yoast_Notification[] $notifications
 		 */
-		$merged_notifications = apply_filters( 'yoast_notifications_before_storage', $merged_notifications );
+		$filtered_merged_notifications = apply_filters( 'yoast_notifications_before_storage', $merged_notifications );
+
+		// The notifications were filtered and therefore need to be stored.
+		if ( $merged_notifications !== $filtered_merged_notifications ) {
+			$merged_notifications             = $filtered_merged_notifications;
+			$this->notifications_need_storage = true;
+		}
 
 		$notifications = $this->split_on_user_id( $merged_notifications );
 
@@ -593,7 +611,10 @@ class Yoast_Notification_Center {
 			return;
 		}
 
-		array_walk( $notifications, [ $this, 'store_notifications_for_user' ] );
+		// Only store notifications if changes are made.
+		if ( $this->notifications_need_storage ) {
+			array_walk( $notifications, [ $this, 'store_notifications_for_user' ] );
+		}
 	}
 
 	/**

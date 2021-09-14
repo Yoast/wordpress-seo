@@ -105,7 +105,7 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 | Indonesian 	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Arabic    	| ✅                	| ❌<sup>3</sup>        | ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Hebrew      |   ✅                | ❌<sup>3</sup>             | ✅             |    ✅               |      ✅                   |           ✅                     | ✅                         |
-| Farsi    	  |                  	|                         |               	|                       |                             	| ✅                          	|
+| Farsi    	  |   ✅               	| ❌<sup>3</sup>            | ✅              	| ✅                    | ✅                             | ✅                          	|
 | Turkish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Norwegian     | ✅                	| ❌<sup>3</sup>        | ✅                 | ✅                   	| ✅                           	| ✅                          	|
 | Czech     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|

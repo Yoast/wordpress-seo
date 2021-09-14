@@ -116,6 +116,7 @@ export default compose( [
 			getSnippetEditorIsLoading,
 			getSnippetEditorMode,
 			getSnippetEditorWordsToHighlight,
+			isCornerstoneContent,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -130,6 +131,7 @@ export default compose( [
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			replacementVariables: getCurrentReplacementVariablesForEditor(),
 			wordsToHighlight: getSnippetEditorWordsToHighlight(),
+			isCornerstone: isCornerstoneContent(),
 		};
 	} ),
 	withDispatch( dispatch => {

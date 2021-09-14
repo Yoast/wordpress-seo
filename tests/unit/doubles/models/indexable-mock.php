@@ -106,4 +106,6 @@ class Indexable_Mock extends Indexable {
 	public $language;
 
 	public $region;
+
+	public $version;
 }

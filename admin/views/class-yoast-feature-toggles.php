@@ -160,7 +160,7 @@ class Yoast_Feature_Toggles {
 					__( 'Allow us to track some data about your site to improve our plugin.', 'wordpress-seo' ),
 					'Yoast SEO'
 				),
-				'read_more_url'   => 'https://yoa.st/usage-tracking',
+				'read_more_url'   => 'https://yoa.st/usage-tracking-2',
 				'order'           => 95,
 			],
 			(object) [

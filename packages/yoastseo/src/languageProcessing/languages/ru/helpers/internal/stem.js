@@ -110,6 +110,29 @@ const removeEndings = function( word, regex, region ) {
 
 	return null;
 };
+/**
+ * Removes the perfective prefix.
+ *
+ * @param {string}  word	        The word to check.
+ * @param {Object}  morphologyData  The morphology data.
+ * @param {int}     rv	            The word region.
+ *
+ * @returns {string}	The stemmed word if the word has perfective prefix an verb suffix, otherwise the original word.
+ */
+const removePerfectivePrefix = function( word, morphologyData, rv ) {
+	const prefix = word.substr( 0, rv );
+	const ending = word.substr( prefix.length );
+
+	const perfectiveEndingsRegex = new RegExp( morphologyData.externalStemmer.regexPerfectiveEndings, "i" );
+
+	// Checks if word has perfective prefix and verb suffix
+	if ( ( prefix === "по" && ! ending.startsWith( "д" ) ) || prefix === "про" ) {
+		if ( perfectiveEndingsRegex.test( ending ) ) {
+			word = ending;
+		}
+	}
+	return word;
+};
 
 /**
  * Removes inflectional suffixes from the word.
@@ -141,7 +164,6 @@ const removeInflectionalSuffixes = function( word, morphologyData, rv ) {
 		if ( removeReflexiveSuffixes ) {
 			word = removeReflexiveSuffixes;
 		}
-
 		// Try to remove following endings (in this order): ADJECTIVAL, VERB, NOUN. If one of them is found the step is finalized.
 		const regexAdjective = morphologyData.externalStemmer.regexAdjective;
 		const removeParticipleSuffixes = removeEndings( word, morphologyData.externalStemmer.regexParticiple + regexAdjective, rv );
@@ -226,16 +248,19 @@ export default function stem( word, morphologyData ) {
 
 	const rv = findRvRegion( word, morphologyData );
 
-	// Step 1: Remove inflectional suffixes if they are present in the word.
+	// Step 1: Remove perfective prefixes.
+	word = removePerfectivePrefix( word, morphologyData, rv );
+
+	// Step 2: Remove inflectional suffixes if they are present in the word.
 	word = removeInflectionalSuffixes( word, morphologyData, rv );
 
-	// Step 2: If the word ends in "и", remove it.
+	// Step 3: If the word ends in "и", remove it.
 	const removeIEnding = removeEndings( word, morphologyData.externalStemmer.regexI, rv );
 	if ( removeIEnding ) {
 		word = removeIEnding;
 	}
 
-	// Step 3: There can be one of three options:
+	// Step 4: There can be one of three options:
 	// 1. If the word ends in нн, remove the last letter.
 	if ( word.endsWith( morphologyData.externalStemmer.doubleN ) ) {
 		word = word.substr( 0, word.length - 1 );

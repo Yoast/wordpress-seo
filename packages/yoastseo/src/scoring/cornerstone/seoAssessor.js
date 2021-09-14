@@ -23,14 +23,15 @@ import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
 /**
  * Creates the Assessor
  *
- * @param {Object} i18n The i18n object used for translations.
- * @param {Object} options The options for this assessor.
- * @param {Object} options.marker The marker to pass the list of marks to.
+ * @param {Object} i18n             The i18n object used for translations.
+ * @param {object} researcher       The researcher used for the analysis.
+ * @param {Object} options          The options for this assessor.
+ * @param {Object} options.marker   The marker to pass the list of marks to.
  *
  * @constructor
  */
-const CornerstoneSEOAssessor = function( i18n, options ) {
-	Assessor.call( this, i18n, options );
+const CornerstoneSEOAssessor = function( i18n, researcher, options ) {
+	Assessor.call( this, i18n, researcher, options );
 	this.type = "CornerstoneSEOAssessor";
 
 	this._assessments = [
@@ -76,10 +77,10 @@ const CornerstoneSEOAssessor = function( i18n, options ) {
 		new TitleWidth(
 			{
 				scores: {
-					widthTooShort: 3,
-					widthTooLong: 3,
+					widthTooShort: 9,
 				},
-			}
+			},
+			true
 		),
 		new UrlKeywordAssessment(
 			{

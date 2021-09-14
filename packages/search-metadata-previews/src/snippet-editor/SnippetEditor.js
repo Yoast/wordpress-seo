@@ -55,7 +55,11 @@ const CloseEditorButton = styled( SnippetEditorButton )`
  */
 function getTitleProgress( title ) {
 	const titleWidth = measureTextWidth( title );
-	const pageTitleWidthAssessment = new PageTitleWidthAssessment();
+	const pageTitleWidthAssessment = new PageTitleWidthAssessment( {
+		scores: {
+			widthTooShort: 9,
+		},
+	}, true );
 	const score = pageTitleWidthAssessment.calculateScore( titleWidth );
 	const maximumLength = pageTitleWidthAssessment.getMaximumLength();
 
@@ -69,19 +73,24 @@ function getTitleProgress( title ) {
 /**
  * Gets the description progress.
  *
- * @param {string} description The description.
- * @param {string} date        The meta description date
+ * @param {string}  description     The description.
+ * @param {string}  date            The meta description date.
+ * @param {bool}    isCornerstone   Whether the cornerstone content toggle is on or off.
+ * @param {bool}    isTaxonomy      Whether the page is a taxonomy page.
  *
  * @returns {Object} The description progress.
  */
-function getDescriptionProgress( description, date ) {
-	let descriptionLength = description.length;
-	/* If the meta description is preceded by a date, two spaces and a hyphen (" - ") are added as well. Therefore,
-	three needs to be added to the total length. */
-	if ( date !== "" && descriptionLength > 0 ) {
-		descriptionLength += date.length + 3;
-	}
-	const metaDescriptionLengthAssessment = new MetaDescriptionLengthAssessment();
+function getDescriptionProgress( description, date, isCornerstone, isTaxonomy ) {
+	const descriptionLength = languageProcessing.countMetaDescriptionLength( date, description );
+
+	// Override the default config if the cornerstone content toggle is on and it is not a taxonomy page.
+	const metaDescriptionLengthAssessment = ( isCornerstone && ! isTaxonomy ) ? new MetaDescriptionLengthAssessment( {
+		scores: {
+			tooLong: 3,
+			tooShort: 3,
+		},
+	} ) : new MetaDescriptionLengthAssessment();
+
 	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength );
 	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength();
 
@@ -107,6 +116,8 @@ class SnippetEditor extends React.Component {
 	 * @param {string}   props.data.title                        The initial title.
 	 * @param {string}   props.data.slug                         The initial slug.
 	 * @param {string}   props.data.description                  The initial description.
+	 * @param {bool}     props.isCornerstone                     Whether the cornerstone content toggle is on or off.
+	 * @param {bool}     props.isTaxonomy                        Whether the page is a taxonomy page.
 	 * @param {string}   props.baseUrl                           The base URL to use for the preview.
 	 * @param {string}   props.mode                              The mode the editor should be in.
 	 * @param {Function} props.onChange                          Called when the data changes.
@@ -122,7 +133,6 @@ class SnippetEditor extends React.Component {
 	 */
 	constructor( props ) {
 		super( props );
-
 		const measurementData = this.mapDataToMeasurements( props.data );
 		const previewData = this.mapDataToPreview( measurementData );
 
@@ -133,7 +143,12 @@ class SnippetEditor extends React.Component {
 			hoveredField: null,
 			mappedData: previewData,
 			titleLengthProgress: getTitleProgress( measurementData.title ),
-			descriptionLengthProgress: getDescriptionProgress( measurementData.description, this.props.date ),
+			descriptionLengthProgress: getDescriptionProgress(
+				measurementData.description,
+				this.props.date,
+				this.props.isCornerstone,
+				this.props.isTaxonomy
+			),
 		};
 
 		this.setFieldFocus = this.setFieldFocus.bind( this );
@@ -159,7 +174,9 @@ class SnippetEditor extends React.Component {
 		if (
 			prevProps.data.description !== nextProps.data.description ||
 			prevProps.data.slug !== nextProps.data.slug ||
-			prevProps.data.title !== nextProps.data.title
+			prevProps.data.title !== nextProps.data.title ||
+			prevProps.isCornerstone !== nextProps.isCornerstone ||
+			prevProps.isTaxonomy !== nextProps.isTaxonomy
 		) {
 			isDirty = true;
 		}
@@ -188,7 +205,11 @@ class SnippetEditor extends React.Component {
 			this.setState(
 				{
 					titleLengthProgress: getTitleProgress( data.title ),
-					descriptionLengthProgress: getDescriptionProgress( data.description, nextProps.date ),
+					descriptionLengthProgress: getDescriptionProgress(
+						data.description,
+						nextProps.date,
+						nextProps.isCornerstone,
+						nextProps.isTaxonomy ),
 				}
 			);
 		}
@@ -604,6 +625,8 @@ SnippetEditor.propTypes = {
 	mobileImageSrc: PropTypes.string,
 	idSuffix: PropTypes.string,
 	shoppingData: PropTypes.object,
+	isCornerstone: PropTypes.bool,
+	isTaxonomy: PropTypes.bool,
 };
 
 SnippetEditor.defaultProps = {
@@ -633,6 +656,8 @@ SnippetEditor.defaultProps = {
 	mobileImageSrc: "",
 	idSuffix: "",
 	shoppingData: {},
+	isCornerstone: false,
+	isTaxonomy: false,
 };
 
 export default SnippetEditor;

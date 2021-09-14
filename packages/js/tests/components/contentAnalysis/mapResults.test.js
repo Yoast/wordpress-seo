@@ -105,7 +105,7 @@ describe( "mapResults", () => {
 
 describe( "getIconForScore", () => {
 	it( "has a fallback icon", () => {
-		const expected = { icon: "seo-score-none", color: colors.$color_grey_disabled };
+		const expected = { icon: "seo-score-none", color: colors.$color_red };
 		const actual = getIconForScore( "non-existing score" );
 
 		expect( actual.icon ).toBe( expected.icon );

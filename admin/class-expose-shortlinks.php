@@ -16,10 +16,19 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 	 * @var array
 	 */
 	private $shortlinks = [
+		'shortlinks.advanced.allow_search_engines'                  => 'https://yoa.st/allow-search-engines',
+		'shortlinks.advanced.follow_links'                          => 'https://yoa.st/follow-links',
+		'shortlinks.advanced.meta_robots'                           => 'https://yoa.st/meta-robots-advanced',
+		'shortlinks.advanced.breadcrumbs_title'                     => 'https://yoa.st/breadcrumbs-title',
+		'shortlinks.metabox.schema.explanation'                     => 'https://yoa.st/400',
+		'shortlinks.metabox.schema.page_type'                       => 'https://yoa.st/402',
+		'shortlinks.sidebar.schema.explanation'                     => 'https://yoa.st/401',
+		'shortlinks.sidebar.schema.page_type'                       => 'https://yoa.st/403',
 		'shortlinks.focus_keyword_info'                             => 'https://yoa.st/focus-keyword',
 		'shortlinks.nofollow_sponsored'                             => 'https://yoa.st/nofollow-sponsored',
 		'shortlinks.snippet_preview_info'                           => 'https://yoa.st/snippet-preview',
 		'shortlinks.cornerstone_content_info'                       => 'https://yoa.st/1i9',
+		'shortlinks.upsell.social_previews'                         => 'https://yoa.st/social-preview-cta',
 		'shortlinks.upsell.sidebar.focus_keyword_synonyms_link'     => 'https://yoa.st/textlink-synonyms-popup-sidebar',
 		'shortlinks.upsell.sidebar.focus_keyword_synonyms_button'   => 'https://yoa.st/keyword-synonyms-popup-sidebar',
 		'shortlinks.upsell.sidebar.focus_keyword_additional_link'   => 'https://yoa.st/textlink-keywords-popup-sidebar',
