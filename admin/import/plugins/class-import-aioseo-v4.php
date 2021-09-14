@@ -103,6 +103,7 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 		// Now, we'll also loop through the replace_vars array, which holds the mappings between the AiOSEO variables and the Yoast variables.
 		// We'll replace all the AiOSEO variables in the temporary table with their Yoast equivalents.
 		foreach ( $this->replace_vars as $aioseo_variable => $yoast_variable ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: We need this query and this is done at many other places as well, for example class-import-rankmath.
 			$wpdb->query(
 				$wpdb->prepare(
 					'UPDATE tmp_meta_table SET meta_value = REPLACE( meta_value, %s, %s )',
