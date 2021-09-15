@@ -83,6 +83,7 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 		url: storeData.snippetEditor.data.slug,
 		permalink: storeData.settings.snippetEditor.baseUrl + storeData.snippetEditor.data.slug,
 		wpBlocks: blocks,
+		date: storeData.settings.snippetEditor.date,
 	};
 
 	// Modify the data through pluggable.
