@@ -1,3 +1,4 @@
+/* global wpseoAdminL10n */
 import { merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -31,8 +32,8 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 				ok: 6,
 				bad: 3,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33k" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33l" ),
+			urlTitle: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.metadescription_keyword" ] ),
+			urlCallToAction: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.metadescription_keywordCall_to_action" ] ),
 		};
 
 		this.identifier = "metaDescriptionKeyword";

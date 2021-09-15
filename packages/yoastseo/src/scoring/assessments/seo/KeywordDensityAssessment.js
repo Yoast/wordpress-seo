@@ -1,3 +1,4 @@
+/* global wpseoAdminL10n */
 import { merge } from "lodash-es";
 
 import recommendedKeywordCount from "../../helpers/assessments/recommendedKeywordCount.js";
@@ -61,8 +62,8 @@ class KeywordDensityAssessment extends Assessment {
 				correctDensity: 9,
 				underMinimum: 4,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33v" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33w" ),
+			urlTitle: createAnchorOpeningTag( self.wpseoAdminL10n[ "shortlinks.metabox.SEO.keyword_density" ] ),
+			urlCallToAction: createAnchorOpeningTag( self.wpseoAdminL10n[ "shortlinks.metabox.SEO.keyword_densityCall_to_action" ] ),
 		};
 
 		this.identifier = "keywordDensity";

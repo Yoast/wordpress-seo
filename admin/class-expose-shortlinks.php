@@ -69,8 +69,10 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.metabox.SEO.outbound_linksCall_to_action'       => 'https://yoa.st/34g',
 		'shortlinks.metabox.SEO.metadescription_length'             => 'https://yoa.st/34d',
 		'shortlinks.metabox.SEO.metadescription_lengthCall_to_action'=> 'https://yoa.st/34e',
-		'shortlinks.metabox.SEO.keyword_density'                    => '',
-		'shortlinks.metabox.SEO.keyword_densityCall_to_action'      => '',
+		'shortlinks.metabox.SEO.metadescription_keyword'             => 'https://yoa.st/34d',
+		'shortlinks.metabox.SEO.metadescription_keywordCall_to_action'=> 'https://yoa.st/34e',
+		'shortlinks.metabox.SEO.keyword_density'                    => 'https://yoa.st/33v',
+		'shortlinks.metabox.SEO.keyword_densityCall_to_action'      => 'https://yoa.st/33w',
 	];
 
 	/**
