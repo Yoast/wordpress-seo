@@ -1,9 +1,9 @@
-/* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData, ClipboardJS, wpApiSettings */
+/* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData, ClipboardJS */
 
 import a11ySpeak from "a11y-speak";
 import { debounce } from "lodash-es";
 import LoginPopup from "../helpers/loginPopup";
-import { authenticate } from "../helpers/wincherEndpoints";
+import { authenticate, trackAllKeyphrases } from "../helpers/wincherEndpoints";
 
 /**
  * @summary Initializes the admin script.
@@ -311,30 +311,23 @@ export default function initAdmin( jQuery ) {
 	 *
 	 * @returns {void}
 	 */
-	function addExistingKeyphrasesRequest() {
+	async function addExistingKeyphrasesRequest() {
 		jQuery( "#wincher-track-all-keyohrases-success, #wincher-track-all-keyohrases-error" ).hide();
 
-		jQuery.post( "/wp-json/yoast/v1/wincher/keyphrases/track/all",
-			{
-				_wpnonce: wpApiSettings.nonce,
-			},
-			( data ) => {
-				if ( data.status === 201 ) {
-					jQuery( "#wincher-track-all-keyphrases-success" ).show();
-				}
-			} )
-			.fail( ( xhr ) => {
-				const data = xhr.responseJSON;
+		const data = await trackAllKeyphrases();
 
-				if ( data.status === 400 ) {
-					jQuery( "#wincher-track-all-limit" ).text( data.results.limit );
-					jQuery( "#wincher-track-all-keyphrases-error" ).show();
-				}
+		if ( data.status === 201 ) {
+			jQuery( "#wincher-track-all-keyphrases-success" ).show();
+		}
 
-				if ( data.status === 404 ) {
-					jQuery( "#wincher-website-error" ).show();
-				}
-			} );
+		if ( data.status === 400 ) {
+			jQuery( "#wincher-track-all-limit" ).text( data.results.limit );
+			jQuery( "#wincher-track-all-keyphrases-error" ).show();
+		}
+
+		if ( data.status === 404 ) {
+			jQuery( "#wincher-website-error" ).show();
+		}
 	}
 
 	/**
@@ -359,7 +352,7 @@ export default function initAdmin( jQuery ) {
 
 		jQuery( "#wincher-login-success" ).show();
 
-		addExistingKeyphrasesRequest();
+		await addExistingKeyphrasesRequest();
 	}
 
 	/**
@@ -395,7 +388,7 @@ export default function initAdmin( jQuery ) {
 	 *
 	 * @returns {void}
 	 */
-	function addExistingKeyphrasesToWincher() {
+	async function addExistingKeyphrasesToWincher() {
 		// Check if we're logged in first.
 		if ( ! wpseoAdminGlobalL10n.wincher_is_logged_in ) {
 			onConnect();
@@ -403,7 +396,7 @@ export default function initAdmin( jQuery ) {
 			return;
 		}
 
-		addExistingKeyphrasesRequest();
+		await addExistingKeyphrasesRequest();
 	}
 
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
