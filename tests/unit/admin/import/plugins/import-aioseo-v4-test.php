@@ -48,13 +48,16 @@ class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 
 		$wpdb->shouldReceive( 'query' );
 
+		// Standard replace vars.
+		$this->set_replace_vars_prepare_expectations( $wpdb );
+
+		// Custom fields.
+
 		$wpdb->expects( 'prepare' )
 			->with(
 				'SELECT meta_value FROM tmp_meta_table WHERE meta_value LIKE %s',
 				'%#custom_field-%'
 			);
-
-		$this->set_replace_vars_prepare_expectations( $wpdb );
 
 		$wpdb->expects( 'get_col' )
 			->andReturn(
@@ -95,6 +98,37 @@ class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 				'%%cf_some_custom_field%%'
 			);
 
+		// Custom taxonomies.
+
+		$wpdb->expects( 'prepare' )
+			->with(
+				'SELECT meta_value FROM tmp_meta_table WHERE meta_value LIKE %s',
+				'%#tax_name-%'
+			);
+
+		$wpdb->expects( 'get_col' )
+			->andReturn(
+				[
+					'#post_title#tax_name-taxonomy',
+					'some text | #tax_name-taxonomy',
+					'#tax_name-taxonomy#tax_name-category',
+				]
+			);
+
+		$wpdb->expects( 'prepare' )
+			->with(
+				'UPDATE tmp_meta_table SET meta_value = REPLACE( meta_value, %s, %s )',
+				'#tax_name-taxonomy',
+				'%%ct_taxonomy%%'
+			);
+
+		$wpdb->expects( 'prepare' )
+			->with(
+				'UPDATE tmp_meta_table SET meta_value = REPLACE( meta_value, %s, %s )',
+				'#tax_name-category',
+				'%%ct_category%%'
+			);
+
 		// The `$replace_values` argument is not used by the class, so pass an empty array.
 		$this->instance->meta_key_clone_replace( [] );
 	}
@@ -115,13 +149,28 @@ class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 
 		$wpdb->shouldReceive( 'query' );
 
+		// Standard replace vars.
+
+		$this->set_replace_vars_prepare_expectations( $wpdb );
+
+		// Custom fields.
+
 		$wpdb->expects( 'prepare' )
 			->with(
 				'SELECT meta_value FROM tmp_meta_table WHERE meta_value LIKE %s',
 				'%#custom_field-%'
 			);
 
-		$this->set_replace_vars_prepare_expectations( $wpdb );
+		$wpdb->expects( 'get_col' )
+			->andReturn( [] );
+
+		// Custom taxonomies.
+
+		$wpdb->expects( 'prepare' )
+			->with(
+				'SELECT meta_value FROM tmp_meta_table WHERE meta_value LIKE %s',
+				'%#tax_name-%'
+			);
 
 		$wpdb->expects( 'get_col' )
 			->andReturn( [] );

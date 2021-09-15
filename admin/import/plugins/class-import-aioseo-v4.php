@@ -119,6 +119,11 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 		$meta_values_with_custom_fields = $this->get_meta_values_with_custom_fields( $wpdb, 'custom_field' );
 		$unique_custom_fields           = $this->get_unique_custom_fields( $meta_values_with_custom_fields, 'custom_field' );
 		$this->replace_custom_field_replace_vars( $unique_custom_fields, $wpdb, 'custom_field', 'cf' );
+
+		// Map `#tax_name-{tax-slug}` to `%%ct_{tax-slug}%%``
+		$meta_values_with_custom_fields = $this->get_meta_values_with_custom_fields( $wpdb, 'tax_name' );
+		$unique_custom_fields           = $this->get_unique_custom_fields( $meta_values_with_custom_fields, 'tax_name' );
+		$this->replace_custom_field_replace_vars( $unique_custom_fields, $wpdb, 'tax_name', 'ct' );
 	}
 
 	/**
