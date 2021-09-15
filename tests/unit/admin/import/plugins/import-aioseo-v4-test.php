@@ -158,6 +158,7 @@ class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 			'#tagline'           => '%%sitedesc%%',
 			'#taxonomy_title'    => '%%primary_category%%',
 			'#tax_name'          => '',
+			'#category_name'     => '%%primary_category%%',
 		];
 
 		foreach ( $replace_vars as $aioseo_variable => $yoast_variable ) {
