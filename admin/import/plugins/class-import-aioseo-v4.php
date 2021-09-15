@@ -86,6 +86,7 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 		'#tagline'           => '%%sitedesc%%',
 		'#taxonomy_title'    => '%%primary_category%%',
 		'#tax_name'          => '',
+		'#category_name'     => '%%primary_category%%',
 	];
 
 	/**
