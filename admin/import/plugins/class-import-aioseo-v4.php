@@ -116,27 +116,29 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 
 		// The AiOSEO custom fields take the form of `#custom_field-myfield`.
 		// These should be mapped to %%cf_myfield%%.
-		$meta_values_with_custom_fields = $this->get_meta_values_with_custom_fields( $wpdb, 'custom_field' );
-		$unique_custom_fields           = $this->get_unique_custom_fields( $meta_values_with_custom_fields, 'custom_field' );
-		$this->replace_custom_field_replace_vars( $unique_custom_fields, $wpdb, 'custom_field', 'cf' );
+		$meta_values_with_custom_fields = $this->get_meta_values_with_custom_field_or_taxonomy( $wpdb, 'custom_field' );
+		$unique_custom_fields           = $this->get_unique_custom_fields_or_taxonomies( $meta_values_with_custom_fields, 'custom_field' );
+		$this->replace_custom_field_or_taxonomy_replace_vars( $unique_custom_fields, $wpdb, 'custom_field', 'cf' );
 
-		// Map `#tax_name-{tax-slug}` to `%%ct_{tax-slug}%%``
-		$meta_values_with_custom_fields = $this->get_meta_values_with_custom_fields( $wpdb, 'tax_name' );
-		$unique_custom_fields           = $this->get_unique_custom_fields( $meta_values_with_custom_fields, 'tax_name' );
-		$this->replace_custom_field_replace_vars( $unique_custom_fields, $wpdb, 'tax_name', 'ct' );
+		// Map `#tax_name-{tax-slug}` to `%%ct_{tax-slug}%%``.
+		$meta_values_with_custom_fields = $this->get_meta_values_with_custom_field_or_taxonomy( $wpdb, 'tax_name' );
+		$unique_custom_fields           = $this->get_unique_custom_fields_or_taxonomies( $meta_values_with_custom_fields, 'tax_name' );
+		$this->replace_custom_field_or_taxonomy_replace_vars( $unique_custom_fields, $wpdb, 'tax_name', 'ct' );
 	}
 
 	/**
-	 * Filters out all unique custom fields used in an AiOSEO replace var.
+	 * Filters out all unique custom fields/taxonomies/etc. used in an AiOSEO replace var.
 	 *
 	 * @param string[] $meta_values_with_custom_fields An array of all the meta values that
 	 *                                                 contain one or more AIOSEO custom field replace vars
 	 *                                                 (in the form `#custom_field-xyz`).
+	 * @param string $aioseo_prefix                    The AiOSEO prefix to use
+	 *                                                 (e.g. `custom-field` for custom fields or `tax_name` for custom taxonomies).
 	 *
-	 * @return string[] An array of all the unique custom fields used in the replace vars.
+	 * @return string[] An array of all the unique custom fields/taxonomies/etc. used in the replace vars.
 	 *                  E.g. `xyz` in the above example.
 	 */
-	protected function get_unique_custom_fields( $meta_values_with_custom_fields, $aioseo_prefix ) {
+	protected function get_unique_custom_fields_or_taxonomies( $meta_values_with_custom_fields, $aioseo_prefix ) {
 		$unique_custom_fields = [];
 
 		foreach ( $meta_values_with_custom_fields as $meta_value_with_custom_fields ) {
@@ -158,14 +160,17 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 	}
 
 	/**
-	 * Replaces every AIOSEO custom field replace var with the Yoast version.
+	 * Replaces every AIOSEO custom field/taxonomy/etc. replace var with the Yoast version.
 	 *
 	 * E.g. `#custom_field-xyz` becomes `%%cf_xyz%%`.
 	 *
 	 * @param string[] $unique_custom_fields An array of unique custom fields to replace the replace vars of.
 	 * @param wpdb     $wpdb                 The WordPress database object.
+	 * @param string   $aioseo_prefix        The AiOSEO prefix to use
+	 *                                       (e.g. `custom-field` for custom fields or `tax_name` for custom taxonomies).
+	 * @param string   $yoast_prefix         The Yoast prefix to use (e.g. `cf` for custom fields).
 	 */
-	protected function replace_custom_field_replace_vars( $unique_custom_fields, $wpdb, $aioseo_prefix, $yoast_prefix ) {
+	protected function replace_custom_field_or_taxonomy_replace_vars( $unique_custom_fields, $wpdb, $aioseo_prefix, $yoast_prefix ) {
 		foreach ( $unique_custom_fields as $unique_custom_field ) {
 			$aioseo_variable = "#{$aioseo_prefix}-{$unique_custom_field}";
 			$yoast_variable  = "%%{$yoast_prefix}_{$unique_custom_field}%%";
@@ -187,11 +192,13 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 	 * Retrieve all the meta values from the temporary meta table that contain
 	 * at least one AiOSEO custom field replace var.
 	 *
-	 * @param wpdb $wpdb The WordPress database object.
+	 * @param wpdb   $wpdb          The WordPress database object.
+	 * @param string $aioseo_prefix The AiOSEO prefix to use
+	 *                              (e.g. `custom-field` for custom fields or `tax_name` for custom taxonomies).
 	 *
 	 * @return string[] All meta values that contain at least one AioSEO custom field replace var.
 	 */
-	protected function get_meta_values_with_custom_fields( $wpdb, $aioseo_prefix ) {
+	protected function get_meta_values_with_custom_field_or_taxonomy( $wpdb, $aioseo_prefix ) {
 		return $wpdb->get_col(
 			$wpdb->prepare(
 				'SELECT meta_value FROM tmp_meta_table WHERE meta_value LIKE %s',

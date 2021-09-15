@@ -36,9 +36,9 @@ class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 	 * Tests the meta_key_clone_replace method.
 	 *
 	 * @covers WPSEO_Import_AIOSEO_V4::meta_key_clone_replace
-	 * @covers WPSEO_Import_AIOSEO_V4::get_unique_custom_fields
-	 * @covers WPSEO_Import_AIOSEO_V4::replace_custom_field_replace_vars
-	 * @covers WPSEO_Import_AIOSEO_V4::get_meta_values_with_custom_fields
+	 * @covers WPSEO_Import_AIOSEO_V4::get_unique_custom_fields_or_taxonomies
+	 * @covers WPSEO_Import_AIOSEO_V4::replace_custom_field_or_taxonomy_replace_vars
+	 * @covers WPSEO_Import_AIOSEO_V4::get_meta_values_with_custom_field_or_taxonomy
 	 */
 	public function test_meta_key_clone_replace() {
 		global $wpdb;
@@ -137,9 +137,9 @@ class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 	 * Tests the meta_key_clone_replace method.
 	 *
 	 * @covers WPSEO_Import_AIOSEO_V4::meta_key_clone_replace
-	 * @covers WPSEO_Import_AIOSEO_V4::get_unique_custom_fields
-	 * @covers WPSEO_Import_AIOSEO_V4::replace_custom_field_replace_vars
-	 * @covers WPSEO_Import_AIOSEO_V4::get_meta_values_with_custom_fields
+	 * @covers WPSEO_Import_AIOSEO_V4::get_unique_custom_fields_or_taxonomies
+	 * @covers WPSEO_Import_AIOSEO_V4::replace_custom_field_or_taxonomy_replace_vars
+	 * @covers WPSEO_Import_AIOSEO_V4::get_meta_values_with_custom_field_or_taxonomy
 	 */
 	public function test_meta_key_clone_replace_no_custom_field_replace_vars() {
 		global $wpdb;
