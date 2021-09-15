@@ -113,13 +113,89 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 			);
 		}
 
-		// Replace the '#custom_field' variable(s). The current data are a number of rows in tmp_meta_table with a 'meta_value' column.
-		// Some example of values in the meta_value column:
-		$meta_value1 = '#custom_field-veldje #post_title#custom_field-gras'; // note that a meta value can hold more than one custom field.
-		$meta_value2 = '#post_title#custom_field-groen'; // note there isn't necessarily a space between variables.
-		$meta_value3 = '#separator_sa'; // note that some meta values won't have a custom field.
-
 		// The AiOSEO custom fields take the form of `#custom_field-myfield`.
 		// These should be mapped to %%cf_myfield%%.
+		$meta_values_with_custom_fields = $this->get_meta_values_with_custom_fields( $wpdb );
+		$unique_custom_fields           = $this->get_unique_custom_fields( $meta_values_with_custom_fields );
+		$this->replace_custom_field_replace_vars( $unique_custom_fields, $wpdb );
 	}
+
+	/**
+	 * Filters out all unique custom fields used in an AiOSEO replace var.
+	 *
+	 * @param string[] $meta_values_with_custom_fields An array of all the meta values that
+	 *                                                 contain one or more AIOSEO custom field replace vars
+	 *                                                 (in the form `#custom_field-xyz`).
+	 *
+	 * @return string[] An array of all the unique custom fields used in the replace vars.
+	 *                  E.g. `xyz` in the above example.
+	 */
+	protected function get_unique_custom_fields( $meta_values_with_custom_fields ) {
+		$unique_custom_fields = [];
+
+		foreach ( $meta_values_with_custom_fields as $meta_value_with_custom_fields ) {
+			// Find all custom field replace vars.
+			\preg_match_all(
+				'/#custom_field-(\w+)/',
+				$meta_value_with_custom_fields,
+				$matches
+			);
+
+			$custom_fields = $matches[1];
+
+			foreach ( $custom_fields as $custom_field ) {
+				$unique_custom_fields[ \trim( $custom_field ) ] = 1;
+			}
+		}
+
+		return \array_keys( $unique_custom_fields );
+	}
+
+	/**
+	 * Replaces every AIOSEO custom field replace var with the Yoast version.
+	 *
+	 * E.g. `#custom_field-xyz` becomes `%%cf_xyz%%`.
+	 *
+	 * @param string[] $unique_custom_fields An array of unique custom fields to replace the replace vars of.
+	 * @param wpdb     $wpdb                 The WordPress database object.
+	 */
+	protected function replace_custom_field_replace_vars( $unique_custom_fields, $wpdb ) {
+		foreach ( $unique_custom_fields as $unique_custom_field ) {
+			$aioseo_variable = "#custom_field-{$unique_custom_field}";
+			$yoast_variable  = "%%cf_{$unique_custom_field}%%";
+
+			// %%cf_some_custom_field %%sep%% %%sitename%%&nbsp;&nbsp;%%%%cf_some_custom_field%%
+			// %%cf_some_custom_field%% %%sep%% %%sitename%%&nbsp;&nbsp;%%cf_some_custom_field%%
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->query(
+				$wpdb->prepare(
+					'UPDATE tmp_meta_table SET meta_value = REPLACE( meta_value, %s, %s )',
+					$aioseo_variable,
+					$yoast_variable
+				)
+			);
+		}
+	}
+
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+
+	/**
+	 * Retrieve all the meta values from the temporary meta table that contain
+	 * at least one AiOSEO custom field replace var.
+	 *
+	 * @param wpdb $wpdb The WordPress database object.
+	 *
+	 * @return string[] All meta values that contain at least one AioSEO custom field replace var.
+	 */
+	protected function get_meta_values_with_custom_fields( wpdb $wpdb ) {
+		return $wpdb->get_col(
+			$wpdb->prepare(
+				'SELECT meta_value FROM tmp_meta_table WHERE meta_value LIKE %s',
+				'%#custom_field-%'
+			)
+		);
+	}
+
+	// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 }
