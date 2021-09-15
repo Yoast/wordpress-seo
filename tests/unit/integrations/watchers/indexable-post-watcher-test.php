@@ -230,12 +230,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->andReturn( $post );
 
 		$this->post
-			->expects( 'is_post_indexable' )
-			->once()
-			->with( $post_id )
-			->andReturn( true );
-
-		$this->post
 			->expects( 'get_public_post_statuses' )
 			->once()
 			->andReturn( [ 'publish' ] );
@@ -246,23 +240,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->with( $indexable_mock, $post_content );
 
 		$this->instance->build_indexable( $post_id );
-	}
-
-	/**
-	 * Tests the early return for non-indexable post.
-	 *
-	 * @covers ::build_indexable
-	 */
-	public function test_build_indexable_is_not_indexable() {
-		$id = 1;
-
-		$this->post
-			->expects( 'is_post_indexable' )
-			->once()
-			->with( $id )
-			->andReturn( false );
-
-		$this->instance->build_indexable( $id );
 	}
 
 	/**
@@ -300,12 +277,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->post
-			->expects( 'is_post_indexable' )
-			->with( $post_id )
-			->once()
-			->andReturnTrue();
-
 		$indexable_mock = Mockery::mock( Indexable_Mock::class );
 		$indexable_mock->expects( 'save' )->never();
 
@@ -331,12 +302,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			'post_content' => $post_content,
 			'post_status'  => 'publish',
 		];
-
-		$this->post
-			->expects( 'is_post_indexable' )
-			->with( $post_id )
-			->once()
-			->andReturnTrue();
 
 		$indexable_mock = Mockery::mock( Indexable_Mock::class );
 		$indexable_mock->expects( 'save' )->once();
