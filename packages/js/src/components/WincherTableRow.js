@@ -113,10 +113,6 @@ export function renderToggleState( { keyphrase, isEnabled, toggleAction } ) {
  * @returns {string} The keyphrase position. Returns a "?" if no data is present.
  */
 export function getKeyphrasePosition( chartData, ranking ) {
-	if ( isEmpty( ranking ) ) {
-		return "?";
-	}
-
 	if ( ! isEmpty( ranking ) && ( isEmpty( chartData ) || isEmpty( chartData.position ) ) ) {
 		return "> 100";
 	}
