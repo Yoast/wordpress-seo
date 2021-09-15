@@ -503,12 +503,35 @@ describe( "parses Japanese text", () => {
 
 		expect( actual ).toEqual( expected );
 	} );
+	it( "parses a Japanese text which a free standing quotation block.", function() {
+		const text = "「もちろん院卒でも歓迎してくれる企業はありますから、そうしたところに行けばいいだけです。ただ、つらくないわけではないですよね。" +
+			"あるお笑い芸人の方が、いまいちブレークできない理由として『人見知り』『お酒が飲めない』『軍団に入らない』の三つを挙げていましたが、まさに私はこれでした」";
+		const expected =   [
+			"「もちろん院卒でも歓迎してくれる企業はありますから、そうしたところに行けばいいだけです。",
+			"ただ、つらくないわけではないですよね。",
+			"あるお笑い芸人の方が、いまいちブレークできない理由として『人見知り』『お酒が飲めない』『軍団に入らない』の三つを挙げていましたが、まさに私はこれでした」",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
 	xit( "parses a Japanese text which contains sentence delimiter inside quotation block.", function() {
-		const text = "『東海道新幹線の開業前、。東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、』抜本的な輸送力増強を迫られていた。" +
-			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。";
+		const text = "彼女は「明日休みだね。なにしようか？」と言った。";
 		const expected = [
-			"『東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、』抜本的な輸送力増強を迫られていた。",
-			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
+			"彼女は「明日休みだね。",
+			"なにしようか？",
+			"」と言った。" ];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	xit( "parses a Japanese text which contains sentence delimiter inside quotation block.", function() {
+		const text = "すると音声を一度ミュートにした息子から、「ママ、静かにして。ママの声が先生に聞こえそう」と、秋田の独り言が先生に聞こえそうだと注意を受けたのだとか。";
+		const expected =  [
+			"すると音声を一度ミュートにした息子から、「ママ、静かにして。",
+			"ママの声が先生に聞こえそう」と、秋田の独り言が先生に聞こえそうだと注意を受けたのだとか。",
 		];
 
 		const actual = getSentences( text );
