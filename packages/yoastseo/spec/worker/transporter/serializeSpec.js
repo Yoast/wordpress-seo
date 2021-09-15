@@ -77,6 +77,7 @@ describe( "serialize", () => {
 			locale: "en_US",
 			permalink: "https://example.com/page-0",
 			title: "A text about a keyword.",
+			date: "8 September 2021",
 		} );
 
 		expect( serialize( thing ) ).toEqual( {
@@ -90,6 +91,7 @@ describe( "serialize", () => {
 			synonyms: "",
 			titleWidth: 0,
 			url: "",
+			date: "8 September 2021",
 		} );
 	} );
 
