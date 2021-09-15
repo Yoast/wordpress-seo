@@ -13,6 +13,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+use Yoast\WP\SEO\Conditionals\Japanese_Support_Conditional;
+
 /**
  * Class: WPSEO_Replace_Vars.
  *
@@ -369,7 +371,8 @@ class WPSEO_Replace_Vars {
 	 * @return string|null
 	 */
 	private function retrieve_excerpt() {
-		$replacement = null;
+		$japanese_feature_flag = new Japanese_Support_Conditional();
+		$replacement           = null;
 
 		// The check `post_password_required` is because excerpt must be hidden for a post with a password.
 		if ( ! empty( $this->args->ID ) && ! post_password_required( $this->args->ID ) ) {
@@ -386,8 +389,17 @@ class WPSEO_Replace_Vars {
 
 				$replacement = wp_html_excerpt( $content, 156 );
 
-				// Trim the auto-generated string to a word boundary.
-				$replacement = substr( $replacement, 0, strrpos( $replacement, ' ' ) );
+				// Check if Japanese support is enabled.
+				if ( $japanese_feature_flag->is_met() ) {
+					// Check if the description has space and trim the auto-generated string to a word boundary.
+					if ( strrpos( $replacement, ' ' ) ) {
+						$replacement = substr( $replacement, 0, strrpos( $replacement, ' ' ) );
+					}
+				}
+				else {
+					// If Japanese support is disabled, always trim the auto-generated string to a word boundary doesn't matter whether a space is present or not.
+					$replacement = substr( $replacement, 0, strrpos( $replacement, ' ' ) );
+				}
 			}
 		}
 
