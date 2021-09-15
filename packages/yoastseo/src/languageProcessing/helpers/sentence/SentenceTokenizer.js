@@ -1,3 +1,4 @@
+import { isFeatureEnabled } from "@yoast/feature-flag";
 import { map } from "lodash-es";
 import { isUndefined } from "lodash-es";
 import { isNaN } from "lodash-es";
@@ -23,7 +24,11 @@ const fullStop = ".";
  * \u2026 - Japanese horizontal ellipsis.
  * \u2025 - Japanese two dot leader.
  */
-const sentenceDelimiters = "?!;\u2026\u06d4\u061f\u3002\uFF61\uFF01\u203C\uFF1F\u2047\u2049\u2048\u2049\u2026\u2025";
+let sentenceDelimiters = "?!;\u2026\u06d4\u061f";
+
+if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
+	sentenceDelimiters = "?!;\u2026\u06d4\u061f\u3002\uFF61\uFF01\u203C\uFF1F\u2047\u2049\u2048\u2049\u2026\u2025";
+}
 
 const fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
 const sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
@@ -59,8 +64,13 @@ export default class SentenceTokenizer {
 			/^[\u3280-\u3289]+$/i,
 		];
 
-		return ! isNaN( parseInt( character, 10 ) ) ||
-			japaneseNumbers.some( numberRange => numberRange.test( character ) );
+		console.log( isFeatureEnabled( "JAPANESE_SUPPORT" ), "feature" );
+		console.log( sentenceDelimiters, "delimiters" );
+
+
+		return isFeatureEnabled( "JAPANESE_SUPPORT" )
+			? ( ! isNaN( parseInt( character, 10 ) ) || japaneseNumbers.some( numberRange => numberRange.test( character ) ) )
+			: ! isNaN( parseInt( character, 10 ) );
 	}
 
 	/**
@@ -222,16 +232,21 @@ export default class SentenceTokenizer {
 	 * @returns {boolean} Returns true if it is a valid beginning, false if it is not.
 	 */
 	isValidSentenceBeginning( sentenceBeginning ) {
-		return (
-			this.isCapitalLetter( sentenceBeginning ) ||
-			this.isLetterFromRTLLanguage( sentenceBeginning ) ||
-			this.isNumber( sentenceBeginning ) ||
-			this.isQuotation( sentenceBeginning ) ||
-			this.isPunctuation( sentenceBeginning ) ||
-			this.isSmallerThanSign( sentenceBeginning ) ||
-			this.isJapaneseSentenceBeginning( sentenceBeginning ) ||
-			this.isJapaneseQuotation( sentenceBeginning )
-		);
+		return isFeatureEnabled( "JAPANESE_SUPPORT" )
+			? ( this.isCapitalLetter( sentenceBeginning ) ||
+				this.isLetterFromRTLLanguage( sentenceBeginning ) ||
+				this.isNumber( sentenceBeginning ) ||
+				this.isQuotation( sentenceBeginning ) ||
+				this.isPunctuation( sentenceBeginning ) ||
+				this.isSmallerThanSign( sentenceBeginning ) ||
+				this.isJapaneseSentenceBeginning( sentenceBeginning ) ||
+				this.isJapaneseQuotation( sentenceBeginning ) )
+			: ( this.isCapitalLetter( sentenceBeginning ) ||
+				this.isLetterFromRTLLanguage( sentenceBeginning ) ||
+				this.isNumber( sentenceBeginning ) ||
+				this.isQuotation( sentenceBeginning ) ||
+				this.isPunctuation( sentenceBeginning ) ||
+				this.isSmallerThanSign( sentenceBeginning ) );
 	}
 
 	/**

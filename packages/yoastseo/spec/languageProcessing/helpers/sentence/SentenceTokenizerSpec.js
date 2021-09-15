@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import SentenceTokenizer from "../../../../src/languageProcessing/helpers/sentence/SentenceTokenizer";
 
 const mockTokenizer = new SentenceTokenizer();
