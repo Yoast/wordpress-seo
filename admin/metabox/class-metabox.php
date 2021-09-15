@@ -872,6 +872,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
 				'replace_vars'             => $this->get_replace_vars(),
 				'hidden_replace_vars'      => [
+					'currentdate',
 					'currentyear',
 					'currentmonth',
 					'currentday',
@@ -988,6 +989,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'sitedesc',
 			'sep',
 			'page',
+			'currentdate',
 			'currentyear',
 			'currentmonth',
 			'currentday',
