@@ -132,7 +132,7 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 	 * @param string[] $meta_values_with_custom_fields An array of all the meta values that
 	 *                                                 contain one or more AIOSEO custom field replace vars
 	 *                                                 (in the form `#custom_field-xyz`).
-	 * @param string $aioseo_prefix                    The AiOSEO prefix to use
+	 * @param string   $aioseo_prefix                  The AiOSEO prefix to use
 	 *                                                 (e.g. `custom-field` for custom fields or `tax_name` for custom taxonomies).
 	 *
 	 * @return string[] An array of all the unique custom fields/taxonomies/etc. used in the replace vars.
