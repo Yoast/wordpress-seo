@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import getSentenceBeginnings from "../../../src/languageProcessing/researches/getSentenceBeginnings";
 
 import Paper from "../../../src/values/Paper.js";
