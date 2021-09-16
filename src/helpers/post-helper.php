@@ -164,8 +164,8 @@ class Post_Helper {
 	 * @return bool True if the post can be indexed.
 	 */
 	public function is_post_indexable( $post_id ) {
-		// Don't index auto-drafts.
-		if ( in_array( \get_post_status( $post_id ), $this->get_excluded_post_statuses() ) ) {
+		// Don't index excluded post statuses.
+		if ( in_array( \get_post_status( $post_id ), $this->get_excluded_post_statuses(), true ) ) {
 			return false;
 		}
 
@@ -183,7 +183,7 @@ class Post_Helper {
 	}
 
 	/**
-	 * Retrieves the list of excluded posts statuses.
+	 * Retrieves the list of excluded post statuses.
 	 *
 	 * @return array The excluded post statuses.
 	 */

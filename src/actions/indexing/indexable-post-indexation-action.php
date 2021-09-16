@@ -134,21 +134,20 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			$post_types,
 			$excluded_post_statusses
 		);
-	
-		$replacements[]       = $this->version;
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
+		// @phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 		return $this->wpdb->prepare(
 			"
 			SELECT COUNT(P.ID)
 			FROM {$this->wpdb->posts} AS P
-			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")
-			AND I.post_status NOT IN (" . \implode( ', ', \array_fill( 0, \count( $excluded_post_statusses ), '%s' ) ) . ")
+			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ')
+			AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statusses ), '%s' ) ) . ")
 			AND P.ID not in (
 				SELECT I.object_id from $indexable_table as I
 				WHERE I.object_type = 'post'
 				AND I.permalink_hash IS NOT NULL)",
-			$post_types
+			$replacements
 		);
 	}
 
@@ -168,8 +167,6 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			$post_types,
 			$excluded_post_statusses
 		);
-	
-		$replacements[]       = $this->version;
 
 		$limit_query = '';
 		if ( $limit ) {
@@ -178,12 +175,13 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 		}
 
 		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
+		// @phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 		return $this->wpdb->prepare(
 			"
 			SELECT P.ID
 			FROM {$this->wpdb->posts} AS P
-			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")
-			AND P.post_status NOT IN (" . \implode( ', ', \array_fill( 0, \count( $excluded_post_statusses ), '%s' ) ) . ")
+			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ')
+			AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statusses ), '%s' ) ) . ")
 			AND P.ID not in (
 				SELECT I.object_id from $indexable_table as I
 				WHERE I.object_type = 'post'
