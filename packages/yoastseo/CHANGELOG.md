@@ -32,6 +32,10 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Removes the Farsi feature flag.
 * Adjusts the English papers in full text tests for product pages.
 * Adds full text tests for product pages and collection pages assessments.
+* Implements the passive voice assessment for Farsi.
+* Implements the consecutive sentences assessment for Farsi to ensure variety in a text.
+* Changes the maximum recommended sentence length in Farsi to 25 words.
+* Adds Farsi transition words and activates the transition words assessment.
 
 
 ## 1.92.0
