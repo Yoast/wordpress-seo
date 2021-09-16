@@ -24,7 +24,7 @@ class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * Set up the tests.
+	 * Sets up the tests.
 	 */
 	protected function set_up() {
 		parent::set_up();

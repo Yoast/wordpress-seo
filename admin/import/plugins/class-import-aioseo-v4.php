@@ -93,6 +93,7 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 	 *
 	 * @param array $replace_values Key value pair of values to replace with other values. This is only used in the base class but not here.
 	 *                              That is because this class doesn't have any `convert` keys in `$clone_keys`.
+	 *                              For that reason, we're overwriting the base class' `meta_key_clone_replace()` function without executing that base functionality.
 	 *
 	 * @return void
 	 */
