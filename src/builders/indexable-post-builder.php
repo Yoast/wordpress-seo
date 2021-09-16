@@ -77,6 +77,10 @@ class Indexable_Post_Builder {
 	 * @throws Post_Not_Found_Exception When the post could not be found.
 	 */
 	public function build( $post_id, $indexable ) {
+		if ( ! $this->post_helper->is_post_indexable( $post_id ) ) {
+			return false;
+		}
+
 		$post = $this->post_helper->get_post( $post_id );
 
 		if ( $post === null ) {
