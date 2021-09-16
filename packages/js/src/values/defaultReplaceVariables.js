@@ -110,5 +110,10 @@ export default function getDefaultReplacementVariables() {
 			label: __( "Current day", "wordpress-seo" ),
 			value: "",
 		},
+		{
+			name: "permalink",
+			label: __( "Permalink", "wordpress-seo" ),
+			value: "",
+		},
 	];
 }

@@ -1153,7 +1153,15 @@ class WPSEO_Replace_Vars {
 	 * @return string
 	 */
 	private function retrieve_author_first_name() {
-		return \get_the_author_meta( 'first_name', $this->retrieve_userid() );
+		$replacement = null;
+
+		$user_id = (int) $this->retrieve_userid();
+		$name    = get_the_author_meta( 'first_name', $user_id );
+		if ( $name !== '' ) {
+			$replacement = $name;
+		}
+
+		return $replacement;
 	}
 
 	/**
@@ -1162,7 +1170,15 @@ class WPSEO_Replace_Vars {
 	 * @return string
 	 */
 	private function retrieve_author_last_name() {
-		return \get_the_author_meta( 'last_name', $this->retrieve_userid() );
+		$replacement = null;
+
+		$user_id = (int) $this->retrieve_userid();
+		$name    = get_the_author_meta( 'last_name', $user_id );
+		if ( $name !== '' ) {
+			$replacement = $name;
+		}
+
+		return $replacement;
 	}
 
 	/**
