@@ -8,6 +8,7 @@ use Mockery;
 use wpdb;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -30,6 +31,13 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @var Post_Type_Helper|Mockery\MockInterface
 	 */
 	protected $post_type_helper;
+
+	/**
+	 * The post helper mock.
+	 *
+	 * @var Post_Helper|Mockery\MockInterface
+	 */
+	protected $post_helper;
 
 	/**
 	 * The builder mock.
@@ -69,6 +77,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$wpdb = (object) [ 'prefix' => 'wp_' ];
 
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
+		$this->post_helper      = Mockery::mock( Post_Helper::class );
 		$this->repository       = Mockery::mock( Indexable_Repository::class );
 		$this->wpdb             = Mockery::mock( 'wpdb' );
 		$this->wpdb->posts      = 'wp_posts';
@@ -83,7 +92,8 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			$this->post_type_helper,
 			$this->repository,
 			$this->wpdb,
-			$this->builder_versions
+			$this->builder_versions,
+			$this->post_helper
 		);
 	}
 
@@ -100,6 +110,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			SELECT COUNT(P.ID)
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
+			AND P.post_status NOT IN (%s)
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
@@ -110,12 +121,13 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
-			->with( $expected_query, [ 'public_post_type', 2 ] )
+			->with( $expected_query, [ 'public_post_type', 'auto-draft', 2 ] )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( '10' );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
 		$this->assertEquals( 10, $this->instance->get_total_unindexed() );
 	}
@@ -134,6 +146,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			SELECT P.ID
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
+			AND P.post_status NOT IN (%s)
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
@@ -151,12 +164,13 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
-			->with( $expected_query, [ 'public_post_type', 2, $limit ] )
+			->with( $expected_query, [ 'public_post_type', 'auto-draft', 2, $limit ] )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( $query_result );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
 		$this->assertEquals( count( $query_result ), $this->instance->get_limited_unindexed_count( $limit ) );
 	}
@@ -186,6 +200,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( null );
@@ -205,12 +220,13 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	public function test_get_total_unindexed_with_excluded_post_types() {
 		$public_post_types   = [ 'public_post_type', 'excluded_post_type' ];
 		$excluded_post_types = [ 'excluded_post_type' ];
-		$query_params        = [ 'public_post_type', 2 ];
+		$query_params        = [ 'public_post_type', 'auto-draft', 2 ];
 
 		$expected_query = "
 			SELECT COUNT(P.ID)
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
+			AND P.post_status NOT IN (%s)
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
@@ -221,6 +237,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( $public_post_types );
 		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( $excluded_post_types );
+		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
@@ -245,6 +262,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			SELECT P.ID
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
+			AND P.post_status NOT IN (%s)
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
@@ -261,13 +279,16 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->expects( 'get_excluded_post_types_for_indexables' )
 			->once()
 			->andReturn( [] );
+		$this->post_helper->expects( 'get_excluded_post_statuses' )
+			->once()
+			->andReturn( [ 'auto-draft' ] );
 
 		$this->wpdb
 			->expects( 'prepare' )
 			->once()
 			->with(
 				$expected_query,
-				[ 'public_post_type', 2, 25 ]
+				[ 'public_post_type', 'auto-draft', 2, 25 ]
 			)
 			->andReturn( 'query' );
 		$this->wpdb
@@ -297,6 +318,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
@@ -328,6 +350,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			SELECT P.ID
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
+			AND P.post_status NOT IN (%s)
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
@@ -344,12 +367,16 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->expects( 'get_excluded_post_types_for_indexables' )
 			->once()
 			->andReturn( $excluded_post_types );
+		$this->post_helper
+			->expects( 'get_excluded_post_statuses' )
+			->once()
+			->andReturn( [ 'auto-draft' ] );
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
 			->with(
 				$expected_query,
-				[ 'public_post_type', 2, 25 ]
+				[ 'public_post_type', 'auto-draft', 2, 25 ]
 			)
 			->andReturn( 'query' );
 		$this->wpdb
@@ -382,6 +409,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			SELECT P.ID
 			FROM wp_posts AS P
 			WHERE P.post_type IN (%s)
+			AND P.post_status NOT IN (%s)
 			AND P.ID not in (
 				SELECT I.object_id from wp_yoast_indexable as I
 				WHERE I.object_type = 'post'
@@ -398,13 +426,17 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->expects( 'get_excluded_post_types_for_indexables' )
 			->once()
 			->andReturn( [] );
+		$this->post_helper
+			->expects( 'get_excluded_post_statuses' )
+			->once()
+			->andReturn( [ 'auto-draft' ] );
 
 		$this->wpdb
 			->expects( 'prepare' )
 			->once()
 			->with(
 				$expected_query,
-				[ 'public_post_type', 2, 25 ]
+				[ 'public_post_type', 'auto-draft', 2, 25 ]
 			)
 			->andReturn( 'query' );
 		$this->wpdb

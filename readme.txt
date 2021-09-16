@@ -245,6 +245,10 @@ Enhancements:
 * Improves keyword detection for Farsi by adding more categories to the list of function words. E.g., general adjectives and adverbs category, conjunctions, and articles.
 * Cleans up indexables for posts with `auto-draft` post-status, in order to speed-up your admin pages.
 
+Bugfixes:
+
+* Fixes a bug where indexables would be created for post auto-drafts when the SEO optimization is run.
+
 Other:
 
 * Loads our help beacon on the workouts page.
