@@ -73,6 +73,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 	 * @param Indexable_Repository       $repository       The indexable repository.
 	 * @param wpdb                       $wpdb             The WordPress database instance.
 	 * @param Indexable_Builder_Versions $builder_versions The latest versions for each Indexable type.
+	 * @param Post_Helper                $post_helper      The post helper.
 	 */
 	public function __construct(
 		Post_Type_Helper $post_type_helper,
@@ -146,8 +147,8 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			$post_types,
 			$excluded_post_statusses
 		);
-	
-		$replacements[]       = $this->version;
+
+		$replacements[] = $this->version;
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
 		// @phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
@@ -155,8 +156,8 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			"
 			SELECT COUNT(P.ID)
 			FROM {$this->wpdb->posts} AS P
-			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")
-			AND I.post_status NOT IN (" . \implode( ', ', \array_fill( 0, \count( $excluded_post_statusses ), '%s' ) ) . ")
+			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ')
+			AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statusses ), '%s' ) ) . ")
 			AND P.ID not in (
 				SELECT I.object_id from $indexable_table as I
 				WHERE I.object_type = 'post'
@@ -181,8 +182,8 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			$post_types,
 			$excluded_post_statusses
 		);
-	
-		$replacements[]       = $this->version;
+
+		$replacements[] = $this->version;
 
 		$limit_query = '';
 		if ( $limit ) {
@@ -196,8 +197,8 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			"
 			SELECT P.ID
 			FROM {$this->wpdb->posts} AS P
-			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")
-			AND P.post_status NOT IN (" . \implode( ', ', \array_fill( 0, \count( $excluded_post_statusses ), '%s' ) ) . ")
+			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ')
+			AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statusses ), '%s' ) ) . ")
 			AND P.ID not in (
 				SELECT I.object_id from $indexable_table as I
 				WHERE I.object_type = 'post'
