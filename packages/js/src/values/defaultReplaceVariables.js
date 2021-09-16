@@ -96,6 +96,11 @@ export default function getDefaultReplacementVariables() {
 			value: "",
 		},
 		{
+			name: "currentdate",
+			label: __( "Current date", "wordpress-seo" ),
+			value: "",
+		},
+		{
 			name: "currentyear",
 			label: __( "Current year", "wordpress-seo" ),
 			value: "",
