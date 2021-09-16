@@ -249,6 +249,10 @@ Enhancements:
 * Improves the sentence length assessment for Farsi by increasing the maximum recommended sentence length to 25 words.
 * Adds Transition words assessment for Farsi.
 
+Bugfixes:
+
+* Fixes a bug where indexables would be created for `auto-draft` indexables when the SEO optimization is run.
+
 Other:
 
 * Loads our help beacon on the workouts page.
