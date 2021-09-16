@@ -165,7 +165,7 @@ class Post_Helper {
 	 */
 	public function is_post_indexable( $post_id ) {
 		// Don't index auto-drafts.
-		if ( \get_post_status( $post_id ) === 'auto-draft' ) {
+		if ( in_array( \get_post_status( $post_id ), $this->get_excluded_post_statuses() ) ) {
 			return false;
 		}
 
@@ -180,6 +180,15 @@ class Post_Helper {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Retrieves the list of excluded posts statuses.
+	 *
+	 * @return array The excluded post statuses.
+	 */
+	public function get_excluded_post_statuses() {
+		return [ 'auto-draft' ];
 	}
 
 	/**

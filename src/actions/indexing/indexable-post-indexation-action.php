@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Actions\Indexing;
 
 use wpdb;
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -35,6 +36,13 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 	protected $post_type_helper;
 
 	/**
+	 * The post helper.
+	 *
+	 * @var Post_Helper
+	 */
+	protected $post_helper;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -54,11 +62,18 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 	 * @param Post_Type_Helper     $post_type_helper The post type helper.
 	 * @param Indexable_Repository $repository       The indexable repository.
 	 * @param wpdb                 $wpdb             The WordPress database instance.
+	 * @param Post_Helper          $post_helper      The post helper.
 	 */
-	public function __construct( Post_Type_Helper $post_type_helper, Indexable_Repository $repository, wpdb $wpdb ) {
+	public function __construct(
+		Post_Type_Helper $post_type_helper,
+		Indexable_Repository $repository,
+		wpdb $wpdb,
+		Post_Helper $post_helper
+	) {
 		$this->post_type_helper = $post_type_helper;
 		$this->repository       = $repository;
 		$this->wpdb             = $wpdb;
+		$this->post_helper      = $post_helper;
 	}
 
 	/**
@@ -112,7 +127,15 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 	 */
 	protected function get_count_query() {
 		$indexable_table = Model::get_table_name( 'Indexable' );
-		$post_types      = $this->get_post_types();
+
+		$post_types              = $this->get_post_types();
+		$excluded_post_statusses = $this->post_helper->get_excluded_post_statuses();
+		$replacements            = array_merge(
+			$post_types,
+			$excluded_post_statusses
+		);
+	
+		$replacements[]       = $this->version;
 
 		// Warning: If this query is changed, makes sure to update the query in get_select_query as well.
 		return $this->wpdb->prepare(
@@ -120,6 +143,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			SELECT COUNT(P.ID)
 			FROM {$this->wpdb->posts} AS P
 			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")
+			AND I.post_status NOT IN (" . \implode( ', ', \array_fill( 0, \count( $excluded_post_statusses ), '%s' ) ) . ")
 			AND P.ID not in (
 				SELECT I.object_id from $indexable_table as I
 				WHERE I.object_type = 'post'
@@ -137,8 +161,15 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 	 */
 	protected function get_select_query( $limit = false ) {
 		$indexable_table = Model::get_table_name( 'Indexable' );
-		$post_types      = $this->get_post_types();
-		$replacements    = $post_types;
+
+		$post_types              = $this->get_post_types();
+		$excluded_post_statusses = $this->post_helper->get_excluded_post_statuses();
+		$replacements            = array_merge(
+			$post_types,
+			$excluded_post_statusses
+		);
+	
+		$replacements[]       = $this->version;
 
 		$limit_query = '';
 		if ( $limit ) {
@@ -152,6 +183,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			SELECT P.ID
 			FROM {$this->wpdb->posts} AS P
 			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ")
+			AND P.post_status NOT IN (" . \implode( ', ', \array_fill( 0, \count( $excluded_post_statusses ), '%s' ) ) . ")
 			AND P.ID not in (
 				SELECT I.object_id from $indexable_table as I
 				WHERE I.object_type = 'post'
