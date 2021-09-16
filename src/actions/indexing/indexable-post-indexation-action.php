@@ -141,11 +141,11 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 	protected function get_count_query() {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$post_types              = $this->get_post_types();
-		$excluded_post_statusses = $this->post_helper->get_excluded_post_statuses();
-		$replacements            = array_merge(
+		$post_types             = $this->get_post_types();
+		$excluded_post_statuses = $this->post_helper->get_excluded_post_statuses();
+		$replacements           = array_merge(
 			$post_types,
-			$excluded_post_statusses
+			$excluded_post_statuses
 		);
 
 		$replacements[] = $this->version;
@@ -157,7 +157,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			SELECT COUNT(P.ID)
 			FROM {$this->wpdb->posts} AS P
 			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ')
-			AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statusses ), '%s' ) ) . ")
+			AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statuses ), '%s' ) ) . ")
 			AND P.ID not in (
 				SELECT I.object_id from $indexable_table as I
 				WHERE I.object_type = 'post'
@@ -176,11 +176,11 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 	protected function get_select_query( $limit = false ) {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		$post_types              = $this->get_post_types();
-		$excluded_post_statusses = $this->post_helper->get_excluded_post_statuses();
-		$replacements            = array_merge(
+		$post_types             = $this->get_post_types();
+		$excluded_post_statuses = $this->post_helper->get_excluded_post_statuses();
+		$replacements           = array_merge(
 			$post_types,
-			$excluded_post_statusses
+			$excluded_post_statuses
 		);
 
 		$replacements[] = $this->version;
@@ -198,7 +198,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			SELECT P.ID
 			FROM {$this->wpdb->posts} AS P
 			WHERE P.post_type IN (" . \implode( ', ', \array_fill( 0, \count( $post_types ), '%s' ) ) . ')
-			AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statusses ), '%s' ) ) . ")
+			AND P.post_status NOT IN (' . \implode( ', ', \array_fill( 0, \count( $excluded_post_statuses ), '%s' ) ) . ")
 			AND P.ID not in (
 				SELECT I.object_id from $indexable_table as I
 				WHERE I.object_type = 'post'
