@@ -251,7 +251,7 @@ Enhancements:
 
 Bugfixes:
 
-* Fixes a bug where indexables would be created for `auto-draft` indexables when the SEO optimization is run.
+* Fixes a bug where indexables would be created for post auto-drafts when the SEO optimization is run.
 
 Other:
 
