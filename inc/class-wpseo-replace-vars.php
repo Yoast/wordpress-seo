@@ -264,6 +264,7 @@ class WPSEO_Replace_Vars {
 			'author_last_name',
 			'permalink',
 			'postcontent',
+			'category_title',
 		];
 	}
 
