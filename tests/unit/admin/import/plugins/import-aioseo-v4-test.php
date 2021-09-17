@@ -195,7 +195,7 @@ class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 			'#current_month'     => '%%currentmonth%%',
 			'#current_year'      => '%%currentyear%%',
 			'#permalink'         => '%%permalink%%',
-			'#post_content'      => '',
+			'#post_content'      => '%%post_content%%',
 			'#post_date'         => '%%date%%',
 			'#post_day'          => '%%post_day%%',
 			'#post_month'        => '%%post_month%%',
@@ -206,7 +206,7 @@ class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 			'#separator_sa'      => '%%sep%%',
 			'#site_title'        => '%%sitename%%',
 			'#tagline'           => '%%sitedesc%%',
-			'#taxonomy_title'    => '',
+			'#taxonomy_title'    => '%%category_title%%',
 		];
 
 		foreach ( $replace_vars as $aioseo_variable => $yoast_variable ) {

@@ -74,7 +74,7 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 		'#current_month'     => '%%currentmonth%%',
 		'#current_year'      => '%%currentyear%%',
 		'#permalink'         => '%%permalink%%',
-		'#post_content'      => '',
+		'#post_content'      => '%%post_content%%',
 		'#post_date'         => '%%date%%',
 		'#post_day'          => '%%post_day%%',
 		'#post_month'        => '%%post_month%%',
@@ -85,7 +85,7 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 		'#separator_sa'      => '%%sep%%',
 		'#site_title'        => '%%sitename%%',
 		'#tagline'           => '%%sitedesc%%',
-		'#taxonomy_title'    => '',
+		'#taxonomy_title'    => '%%category_title%%',
 	];
 
 	/**
