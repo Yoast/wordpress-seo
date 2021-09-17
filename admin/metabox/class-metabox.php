@@ -988,7 +988,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'author_first_name',
 			'author_last_name',
 			'permalink',
-			'postcontent',
+			'post_content',
 			'category_title',
 		];
 

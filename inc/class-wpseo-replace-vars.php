@@ -263,7 +263,7 @@ class WPSEO_Replace_Vars {
 			'author_first_name',
 			'author_last_name',
 			'permalink',
-			'postcontent',
+			'post_content',
 			'category_title',
 		];
 	}
@@ -1223,7 +1223,7 @@ class WPSEO_Replace_Vars {
 	 *
 	 * @return string|null
 	 */
-	private function retrieve_postcontent() {
+	private function retrieve_post_content() {
 		$replacement = null;
 
 		// The check `post_password_required` is because content must be hidden for a post with a password.
@@ -1447,7 +1447,7 @@ class WPSEO_Replace_Vars {
 			new WPSEO_Replacement_Variable( 'author_first_name', __( 'Author first name', 'wordpress-seo' ), __( 'Replaced with the first name of the author', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'author_last_name', __( 'Author last name', 'wordpress-seo' ), __( 'Replaced with the last name of the author', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'permalink', __( 'Permalink', 'wordpress-seo' ), __( 'Replaced with the permalink', 'wordpress-seo' ) ),
-			new WPSEO_Replacement_Variable( 'postcontent', __( 'Post Content', 'wordpress-seo' ), __( 'Replaced with the post content', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'post_content', __( 'Post Content', 'wordpress-seo' ), __( 'Replaced with the post content', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'category_title', __( 'Category Title', 'wordpress-seo' ), __( 'Current or first category title', 'wordpress-seo' ) ),
 		];
 
