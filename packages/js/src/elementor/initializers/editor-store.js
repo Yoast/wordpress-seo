@@ -51,6 +51,8 @@ const populateStore = store => {
 
 	store.dispatch( actions.setSEMrushChangeCountry( window.wpseoScriptData.metabox.countryCode ) );
 	store.dispatch( actions.setSEMrushLoginStatus( window.wpseoScriptData.metabox.SEMrushLoginStatus ) );
+
+	store.dispatch( actions.hideReplacementVariables( window.wpseoScriptData.analysis.plugins.replaceVars.hidden_replace_vars ) );
 };
 
 /**
