@@ -583,7 +583,7 @@ class Elementor implements Integration_Interface {
 			'author_first_name',
 			'author_last_name',
 			'permalink',
-			'postcontent',
+			'post_content',
 			'category_title',
 		];
 

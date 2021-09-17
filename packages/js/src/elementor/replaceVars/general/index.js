@@ -10,6 +10,7 @@ export { default as name } from "./name";
 export { default as page } from "./page";
 export { default as pageNumber } from "./pageNumber";
 export { default as pageTotal } from "./pageTotal";
+export { default as postContent } from "./postContent";
 export { default as postTypeNamePlural } from "./postTypeNamePlural";
 export { default as postTypeNameSingular } from "./postTypeNameSingular";
 export { default as primaryCategory } from "./primaryCategory";

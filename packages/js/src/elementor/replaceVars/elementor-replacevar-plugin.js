@@ -59,6 +59,7 @@ const getReplacements = ( scope = "" ) => {
 				"primaryCategory",
 				"pageNumber",
 				"pageTotal",
+				"postContent",
 				"postTypeNamePlural",
 				"postTypeNameSingular",
 				"searchPhrase",
