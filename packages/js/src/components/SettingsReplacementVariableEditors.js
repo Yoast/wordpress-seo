@@ -80,7 +80,7 @@ class SettingsReplacementVariableEditors extends Component {
 				reactReplacevarPageTypeSpecific
 			);
 
-			filteredReplacementVariables = this.filterOutHiddenReplaceVars(
+			filteredReplacementVariables = this.setHiddenReplaceVars(
 				filteredReplacementVariables
 			);
 
@@ -109,19 +109,21 @@ class SettingsReplacementVariableEditors extends Component {
 	}
 
 	/**
-	 * Filters out any hidden replacement variables from the given list
-	 * of replacement variables. E.g. replace vars that *should* work,
-	 * but should not be shown as an option.
+	 * Sets any replacement variables from the given list to hidden if are
+	 * included in the list of hidden replacement variables.
 	 *
-	 * @param {Object[]} replaceVars The replacement variables to filter.
+	 * E.g. replace vars that *should* work, but should not be shown as an option.
 	 *
-	 * @returns {Object[]} The list of replacement variables with the hidden ones filtered out.
+	 * @param {Object[]} replaceVars The replacement variables.
+	 *
+	 * @returns {Object[]} The list of replacement variables with the hidden ones set to hidden.
 	 */
-	filterOutHiddenReplaceVars( replaceVars ) {
+	setHiddenReplaceVars( replaceVars ) {
 		const { hidden_replace_vars: hiddenReplaceVars } = wpseoScriptData.analysis.plugins.replaceVars;
 
-		return replaceVars.filter( replaceVar => {
-			return ! includes( hiddenReplaceVars, replaceVar.name );
+		return replaceVars.map( replaceVar => {
+			replaceVar.hidden = includes( hiddenReplaceVars, replaceVar.name );
+			return replaceVar;
 		} );
 	}
 
