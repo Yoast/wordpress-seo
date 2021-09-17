@@ -1,4 +1,8 @@
 export { default as authorFirstName } from "./authorFirstName";
+export { default as authorLastName } from "./authorLastName";
+export { default as currentDate } from "./currentDate";
+export { default as currentDay } from "./currentDay";
+export { default as currentMonth } from "./currentMonth";
 export { default as category } from "./category";
 export { default as currentYear } from "./currentYear";
 export { default as date } from "./date";
