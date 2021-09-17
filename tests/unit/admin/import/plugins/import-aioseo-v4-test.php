@@ -186,27 +186,27 @@ class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 	 */
 	private function set_replace_vars_prepare_expectations( $wpdb ) {
 		$replace_vars = [
-			'#post_title'        => '%%title%%',
-			'#separator_sa'      => '%%sep%%',
-			'#site_title'        => '%%sitename%%',
 			'#author_first_name' => '%%author_first_name%%',
 			'#author_last_name'  => '%%author_last_name%%',
 			'#author_name'       => '%%name%%',
 			'#categories'        => '%%category%%',
+			'#category_name'     => '',
 			'#current_date'      => '%%currentdate%%',
 			'#current_day'       => '%%currentday%%',
 			'#current_month'     => '%%currentmonth%%',
 			'#current_year'      => '%%currentyear%%',
 			'#permalink'         => '%%permalink%%',
+			'#post_content'      => '',
 			'#post_date'         => '%%date%%',
 			'#post_day'          => '%%post_day%%',
 			'#post_month'        => '%%post_month%%',
+			'#post_title'        => '%%title%%',
 			'#post_year'         => '%%post_year%%',
 			'#post_excerpt'      => '%%excerpt%%',
 			'#post_excerpt_only' => '%%excerpt_only%%',
+			'#separator_sa'      => '%%sep%%',
+			'#site_title'        => '%%sitename%%',
 			'#tagline'           => '%%sitedesc%%',
-			'#taxonomy_title'    => '%%primary_category%%',
-			'#category_name'     => '%%primary_category%%',
 		];
 
 		foreach ( $replace_vars as $aioseo_variable => $yoast_variable ) {
