@@ -75,9 +75,13 @@ class SettingsReplacementVariableEditors extends Component {
 				reactReplacevarHasPremiumBadge,
 			} = targetElement.dataset;
 
-			const filteredReplacementVariables = this.filterEditorSpecificReplaceVars(
+			let filteredReplacementVariables = this.filterEditorSpecificReplaceVars(
 				this.props.replacementVariables,
 				reactReplacevarPageTypeSpecific
+			);
+
+			filteredReplacementVariables = this.filterOutHiddenReplaceVars(
+				filteredReplacementVariables
 			);
 
 			const labels = {
@@ -101,6 +105,23 @@ class SettingsReplacementVariableEditors extends Component {
 					hasPremiumBadge={ reactReplacevarHasPremiumBadge === "1" }
 				/>
 			);
+		} );
+	}
+
+	/**
+	 * Filters out any hidden replacement variables from the given list
+	 * of replacement variables. E.g. replace vars that *should* work,
+	 * but should not be shown as an option.
+	 *
+	 * @param {Object[]} replaceVars The replacement variables to filter.
+	 *
+	 * @returns {Object[]} The list of replacement variables with the hidden ones filtered out.
+	 */
+	filterOutHiddenReplaceVars( replaceVars ) {
+		const { hidden_replace_vars: hiddenReplaceVars } = wpseoScriptData.analysis.plugins.replaceVars;
+
+		return replaceVars.filter( replaceVar => {
+			return ! includes( hiddenReplaceVars, replaceVar.name );
 		} );
 	}
 
