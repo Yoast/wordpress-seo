@@ -65,27 +65,27 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 	 */
 	protected $replace_vars = [
 		// They key is the AiOSEO replace var, the value is the Yoast replace var (see class-wpseo-replace-vars).
-		'#post_title'        => '%%title%%',
-		'#separator_sa'      => '%%sep%%',
-		'#site_title'        => '%%sitename%%',
 		'#author_first_name' => '%%author_first_name%%',
 		'#author_last_name'  => '%%author_last_name%%',
-		'#author_name'       => '%%name%%', // Currently broken in Yoast, see https://yoast.atlassian.net/browse/IM-1334.
-		'#categories'        => '%%category%%', // Currently broken in Yoast, see https://yoast.atlassian.net/browse/IM-1334.
+		'#author_name'       => '%%name%%',
+		'#categories'        => '%%category%%',
+		'#category_name'     => '',
 		'#current_date'      => '%%currentdate%%',
 		'#current_day'       => '%%currentday%%',
 		'#current_month'     => '%%currentmonth%%',
 		'#current_year'      => '%%currentyear%%',
 		'#permalink'         => '%%permalink%%',
+		'#post_content'      => '',
 		'#post_date'         => '%%date%%',
 		'#post_day'          => '%%post_day%%',
 		'#post_month'        => '%%post_month%%',
+		'#post_title'        => '%%title%%',
 		'#post_year'         => '%%post_year%%',
 		'#post_excerpt'      => '%%excerpt%%',
 		'#post_excerpt_only' => '%%excerpt_only%%',
+		'#separator_sa'      => '%%sep%%',
+		'#site_title'        => '%%sitename%%',
 		'#tagline'           => '%%sitedesc%%',
-		'#taxonomy_title'    => '%%primary_category%%',
-		'#category_name'     => '%%primary_category%%',
 	];
 
 	/**
