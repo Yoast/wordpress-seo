@@ -1,3 +1,4 @@
+export { default as authorFirstName } from "./authorFirstName";
 export { default as category } from "./category";
 export { default as currentYear } from "./currentYear";
 export { default as date } from "./date";

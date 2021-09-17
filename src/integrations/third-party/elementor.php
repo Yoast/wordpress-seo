@@ -562,6 +562,9 @@ class Elementor implements Integration_Interface {
 			'sep',
 			'page',
 			'currentyear',
+			'currentdate',
+			'currentmonth',
+			'currentday',
 			'tag',
 			'category',
 			'primary_category',
@@ -572,6 +575,14 @@ class Elementor implements Integration_Interface {
 			'user_description',
 			'pagetotal',
 			'pagenumber',
+			'post_year',
+			'post_month',
+			'post_day',
+			'author_first_name',
+			'author_last_name',
+			'permalink',
+			'postcontent',
+			'category_title',
 		];
 
 		foreach ( $vars_to_cache as $var ) {

@@ -46,6 +46,7 @@ const getReplacements = ( scope = "" ) => {
 	switch ( scope ) {
 		case "post":
 			return [
+				"authorFirstName",
 				"category",
 				"currentYear",
 				"date",
