@@ -1237,6 +1237,7 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Retrieve the current or first category title. To be used for import data from AIOSEO.
+	 * The code derives from AIOSEO's way of dealing with that var, so we can ensure 100% seamless transition.
 	 *
 	 * @return string|null
 	 */
