@@ -245,6 +245,29 @@ class WPSEO_Replace_Vars {
 	}
 
 	/**
+	 * Returns the list of hidden replace vars.
+	 *
+	 * E.g. the replace vars that should work, but are not advertised.
+	 *
+	 * @return string[] The list of hidden replace vars.
+	 */
+	public function get_hidden_replace_vars() {
+		return [
+			'currentdate',
+			'currentyear',
+			'currentmonth',
+			'currentday',
+			'post_year',
+			'post_month',
+			'post_day',
+			'author_first_name',
+			'author_last_name',
+			'permalink',
+			'postcontent',
+		];
+	}
+
+	/**
 	 * Retrieve the replacements for the variables found.
 	 *
 	 * @param array $matches Variables found in the original string - regex result.
