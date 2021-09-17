@@ -76,6 +76,7 @@ YoastReplaceVarPlugin.prototype.registerReplacements = function() {
 	this.addReplacement( new ReplaceVar( "%%author_last_name%%",  "author_last_name" ) );
 	this.addReplacement( new ReplaceVar( "%%permalink%%",         "permalink" ) );
 	this.addReplacement( new ReplaceVar( "%%postcontent%%",       "postcontent" ) );
+	this.addReplacement( new ReplaceVar( "%%category_title%%",    "category_title" ) );
 	this.addReplacement( new ReplaceVar( "%%date%%",              "date" ) );
 	this.addReplacement( new ReplaceVar( "%%userid%%",            "userid" ) );
 	this.addReplacement( new ReplaceVar( "%%id%%",                "id" ) );

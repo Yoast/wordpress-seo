@@ -1211,6 +1211,34 @@ class WPSEO_Replace_Vars {
 		return $replacement;
 	}
 
+	/**
+	 * Retrieve the current or first category title. To be used for import data from AIOSEO.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_category_title() {
+		$replacement = null;
+
+		if ( ! empty( $this->args->ID ) ) {
+			$post            = get_post( $this->args->ID );
+			$post_taxonomies = get_object_taxonomies( $post, 'objects' );
+			$post_terms      = [];
+			foreach ( $post_taxonomies as $taxonomy_slug => $taxonomy ) {
+				if ( ! $taxonomy->hierarchical ) {
+					continue;
+				}
+				$post_taxonomy_terms = get_the_terms( $this->args->ID, $taxonomy_slug );
+				if ( is_array( $post_taxonomy_terms ) ) {
+					$post_terms = array_merge( $post_terms, $post_taxonomy_terms );
+				}
+			}
+
+			$replacement = ( ! empty( $post_terms ) ) ? $post_terms[0]->name : '';
+		}
+
+		return $replacement;
+	}
+
 	/* *********************** HELP TEXT RELATED ************************** */
 
 	/**
@@ -1395,6 +1423,7 @@ class WPSEO_Replace_Vars {
 			new WPSEO_Replacement_Variable( 'author_last_name', __( 'Author last name', 'wordpress-seo' ), __( 'Replaced with the last name of the author', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'permalink', __( 'Permalink', 'wordpress-seo' ), __( 'Replaced with the permalink', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'postcontent', __( 'Post Content', 'wordpress-seo' ), __( 'Replaced with the post content', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'category_title', __( 'Category Title', 'wordpress-seo' ), __( 'Current or first category title', 'wordpress-seo' ) ),
 		];
 
 		foreach ( $replacement_variables as $replacement_variable ) {

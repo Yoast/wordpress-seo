@@ -882,7 +882,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					'author_first_name',
 					'author_last_name',
 					'permalink',
-					'postcontent ',
+					'postcontent',
+					'category_title',
 				],
 				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 				'scope'                    => $this->determine_scope(),
@@ -1001,6 +1002,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'author_last_name',
 			'permalink',
 			'postcontent',
+			'category_title',
 		];
 
 		foreach ( $vars_to_cache as $var ) {
