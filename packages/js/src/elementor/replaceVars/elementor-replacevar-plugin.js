@@ -47,7 +47,11 @@ const getReplacements = ( scope = "" ) => {
 		case "post":
 			return [
 				"authorFirstName",
+				"authorLastName",
 				"category",
+				"currentDate",
+				"currentDay",
+				"currentMonth",
 				"currentYear",
 				"date",
 				"excerpt",
