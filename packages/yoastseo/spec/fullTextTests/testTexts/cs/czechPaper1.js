@@ -32,8 +32,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 4,
 		resultText: "Keyphrase density</a>: The focus keyphrase was found 9 times. " +
-			"That's less than the recommended minimum of 12 times for a text of this length. <a href='https://yoa.st/33w' " +
-			"target='_blank'>Focus on your keyphrase</a>!",
+			"That's less than the recommended minimum of 12 times for a text of this length. Focus on your keyphrase</a>!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -49,8 +48,7 @@ const expectedResults = {
 	subheadingsKeyword: {
 		isApplicable: true,
 		score: 3,
-		resultText: "Keyphrase in subheading</a>: <a href='https://yoa.st/33n' " +
-			"target='_blank'>Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!",
+		resultText: "Keyphrase in subheading</a>: Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,

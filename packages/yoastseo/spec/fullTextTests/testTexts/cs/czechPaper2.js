@@ -48,8 +48,7 @@ const expectedResults = {
 	subheadingsKeyword: {
 		isApplicable: true,
 		score: 3,
-		resultText: "Keyphrase in subheading</a>: <a href='https://yoa.st/33n' " +
-			"target='_blank'>Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!",
+		resultText: "Keyphrase in subheading</a>: Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,

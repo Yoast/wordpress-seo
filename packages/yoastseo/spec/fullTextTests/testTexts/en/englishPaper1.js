@@ -39,7 +39,7 @@ const expectedResults = {
 	metaDescriptionLength: {
 		isApplicable: true,
 		score: 6,
-		resultText: "you should reduce the length</a>!",
+		resultText: "Meta description length</a>: The meta description is over 156 characters. To ensure the entire description will be visible, you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
 		isApplicable: true,
@@ -60,7 +60,7 @@ const expectedResults = {
 	externalLinks: {
 		isApplicable: true,
 		score: 3,
-		resultText: "Add some</a>!",
+		resultText: "Outbound links</a>: No outbound links appear in this page. Add some</a>!",
 	},
 	internalLinks: {
 		isApplicable: true,
@@ -120,7 +120,7 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 6,
-		resultText: "Use more of them</a>.",
+		resultText: "Transition words</a>: Only 24.5% of the sentences contain transition words, which is not enough. Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
