@@ -18,8 +18,8 @@ export default class ListAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify38" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify39" ),
+			urlTitle: "",
+			urlCallToAction: "",
 			scores: {
 				bad: 3,
 				good: 9,
@@ -43,7 +43,7 @@ export default class ListAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		this.textContainsList = researcher.getResearch( "findList" );
 
-		const calculatedScore = this.calculateResult( i18n );
+		const calculatedScore = this.calculateResult( i18n, researcher );
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedScore.score );
@@ -67,10 +67,23 @@ export default class ListAssessment extends Assessment {
 	 * Calculate the result based on the availability of lists in the text.
 	 *
 	 * @param {Object} i18n The object used for translations.
+	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
 	 *
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult( i18n ) {
+	calculateResult( i18n, researcher ) {
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.readability.list" ] &&
+			links[ "hortlinks.metabox.readability.listCall_to_action" ] ) {
+			// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.list" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.listCall_to_action" ] );
+		}
+		// Calculates scores
 		// Text with at least one list.
 		if ( this.textContainsList ) {
 			return {
@@ -81,7 +94,7 @@ export default class ListAssessment extends Assessment {
 						"js-text-analysis",
 						"%1$sLists%2$s: There is at least one list on this page. Great!"
 					),
-					this._config.urlTitle,
+					urlTitle,
 					"</a>"
 				),
 			};
@@ -97,8 +110,8 @@ export default class ListAssessment extends Assessment {
 					"js-text-analysis",
 					"%1$sLists%3$s: No lists appear on this page. %2$sAdd at least one ordered or unordered list%3$s!"
 				),
-				this._config.urlTitle,
-				this._config.urlCallToAction,
+				urlTitle,
+				urlCallToAction,
 				"</a>"
 			),
 		};

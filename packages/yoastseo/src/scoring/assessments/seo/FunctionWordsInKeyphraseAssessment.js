@@ -25,8 +25,8 @@ class FunctionWordsInKeyphraseAssessment extends Assessment {
 			scores: {
 				onlyFunctionWords: 0,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/functionwordskeyphrase-1" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/functionwordskeyphrase-2" ),
+			urlTitle: "",
+			urlCallToAction: createAnchorOpeningTag( "" ),
 		};
 
 		this.identifier = "functionWordsInKeyphrase";
@@ -44,6 +44,18 @@ class FunctionWordsInKeyphraseAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher, i18n ) {
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.SEO.function_words_in_keyphrase" ] &&
+			links[ "shortlinks.metabox.SEO.function_words_in_keyphraseCall_to_action" ] ) {
+			// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.function_words_in_keyphrase" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.function_words_in_keyphraseCall_to_action" ] );
+		}
+		// Calculates scores
 		this._functionWordsInKeyphrase = researcher.getResearch( "functionWordsInKeyphrase" );
 		this._keyword = escape( paper.getKeyword() );
 		const assessmentResult = new AssessmentResult();
@@ -60,8 +72,8 @@ class FunctionWordsInKeyphraseAssessment extends Assessment {
 				i18n.dgettext( "js-text-analysis", "%1$sFunction words in keyphrase%3$s: " +
 					"Your keyphrase \"%4$s\" contains function words only. " +
 					"%2$sLearn more about what makes a good keyphrase.%3$s" ),
-				this._config.urlTitle,
-				this._config.urlCallToAction,
+				urlTitle,
+				urlCallToAction,
 				"</a>",
 				this._keyword
 			) );

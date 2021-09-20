@@ -40,8 +40,8 @@ class KeyphraseLengthAssessment extends Assessment {
 				okay: 6,
 				good: 9,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33i" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33j" ),
+			urlTitle: "",
+			urlCallToAction: "",
 			isRelatedKeyphrase: false,
 		};
 
@@ -70,7 +70,7 @@ class KeyphraseLengthAssessment extends Assessment {
 			this._boundaries = merge( {}, this._configToUse.parameters, this._configToUse.parametersNoFunctionWordSupport  );
 		}
 
-		const calculatedResult = this.calculateResult( i18n );
+		const calculatedResult = this.calculateResult( i18n, researcher );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -97,10 +97,21 @@ class KeyphraseLengthAssessment extends Assessment {
 	 * Calculates the result based on the keyphraseLength research.
 	 *
 	 * @param {Jed} i18n The object used for translations.
-	 *
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @returns {Object} Object with score and text.
 	 */
-	calculateResult( i18n ) {
+	calculateResult( i18n, researcher ) {
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.SEO.keyphrase_length" ] && links[ "shortlinks.metabox.SEO.keyphrase_lengthCall_to_action" ] ) {
+			// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.keyphrase_length" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.keyphrase_lengthCall_to_action" ] );
+		}
+		// Calculates scores
 		if ( this._useCustomConfig ) {
 			if ( this._keyphraseLengthData.keyphraseLength === 0 ) {
 				if ( this._configToUse.isRelatedKeyphrase ) {
@@ -113,8 +124,8 @@ class KeyphraseLengthAssessment extends Assessment {
 								"%1$sKeyphrase length%3$s: " +
 								"%2$sSet a keyphrase in order to calculate your SEO score%3$s."
 							),
-							this._configToUse.urlTitle,
-							this._configToUse.urlCallToAction,
+							urlTitle,
+							urlCallToAction,
 							"</a>"
 						),
 					};
@@ -128,8 +139,8 @@ class KeyphraseLengthAssessment extends Assessment {
 							"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. " +
 							"%2$sSet a keyphrase in order to calculate your SEO score%3$s."
 						),
-						this._configToUse.urlTitle,
-						this._configToUse.urlCallToAction,
+						urlTitle,
+						urlCallToAction,
 						"</a>"
 					),
 				};
@@ -154,8 +165,8 @@ class KeyphraseLengthAssessment extends Assessment {
 						),
 						this._keyphraseLengthData.keyphraseLength,
 						this._boundaries.recommendedMinimum,
-						this._configToUse.urlTitle,
-						this._configToUse.urlCallToAction,
+						urlTitle,
+						urlCallToAction,
 						"</a>"
 					),
 				};
@@ -176,8 +187,8 @@ class KeyphraseLengthAssessment extends Assessment {
 						),
 						this._keyphraseLengthData.keyphraseLength,
 						this._boundaries.recommendedMaximum,
-						this._configToUse.urlTitle,
-						this._configToUse.urlCallToAction,
+						urlTitle,
+						urlCallToAction,
 						"</a>"
 					),
 				};
@@ -199,8 +210,8 @@ class KeyphraseLengthAssessment extends Assessment {
 						),
 						this._keyphraseLengthData.keyphraseLength,
 						this._boundaries.recommendedMinimum,
-						this._configToUse.urlTitle,
-						this._configToUse.urlCallToAction,
+						urlTitle,
+						urlCallToAction,
 						"</a>"
 					),
 				};
@@ -222,8 +233,8 @@ class KeyphraseLengthAssessment extends Assessment {
 						),
 						this._keyphraseLengthData.keyphraseLength,
 						this._boundaries.recommendedMaximum,
-						this._configToUse.urlTitle,
-						this._configToUse.urlCallToAction,
+						urlTitle,
+						urlCallToAction,
 						"</a>"
 					),
 				};
@@ -239,7 +250,7 @@ class KeyphraseLengthAssessment extends Assessment {
 							"js-text-analysis",
 							"%1$sKeyphrase length%2$s: Good job!"
 						),
-						this._configToUse.urlTitle,
+						urlTitle,
 						"</a>"
 					),
 				};
@@ -258,8 +269,8 @@ class KeyphraseLengthAssessment extends Assessment {
 							"%1$sKeyphrase length%3$s: " +
 							"%2$sSet a keyphrase in order to calculate your SEO score%3$s."
 						),
-						this._configToUse.urlTitle,
-						this._configToUse.urlCallToAction,
+						urlTitle,
+						urlCallToAction,
 						"</a>"
 					),
 				};
@@ -273,8 +284,8 @@ class KeyphraseLengthAssessment extends Assessment {
 						"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. " +
 						"%2$sSet a keyphrase in order to calculate your SEO score%3$s."
 					),
-					this._configToUse.urlTitle,
-					this._configToUse.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -288,7 +299,7 @@ class KeyphraseLengthAssessment extends Assessment {
 						"js-text-analysis",
 						"%1$sKeyphrase length%2$s: Good job!"
 					),
-					this._configToUse.urlTitle,
+					urlTitle,
 					"</a>"
 				),
 			};
@@ -309,8 +320,8 @@ class KeyphraseLengthAssessment extends Assessment {
 					),
 					this._keyphraseLengthData.keyphraseLength,
 					this._boundaries.recommendedMaximum,
-					this._configToUse.urlTitle,
-					this._configToUse.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -331,8 +342,8 @@ class KeyphraseLengthAssessment extends Assessment {
 				),
 				this._keyphraseLengthData.keyphraseLength,
 				this._boundaries.recommendedMaximum,
-				this._configToUse.urlTitle,
-				this._configToUse.urlCallToAction,
+				urlTitle,
+				urlCallToAction,
 				"</a>"
 			),
 		};

@@ -34,8 +34,8 @@ class InternalLinksAssessment extends Assessment {
 				noneInternalFollow: 7,
 				noInternal: 3,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33z" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34a" ),
+			urlTitle: "",
+			urlCallToAction: "",
 		};
 
 		this.identifier = "internalLinks";
@@ -55,7 +55,7 @@ class InternalLinksAssessment extends Assessment {
 		this.linkStatistics = researcher.getResearch( "getLinkStatistics" );
 		const assessmentResult = new AssessmentResult();
 
-		const calculatedResult = this.calculateResult( i18n );
+		const calculatedResult = this.calculateResult( i18n, researcher );
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 
@@ -77,10 +77,21 @@ class InternalLinksAssessment extends Assessment {
 	 * Returns a score and text based on the linkStatistics object.
 	 *
 	 * @param {Jed} i18n The object used for translations.
-	 *
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @returns {Object} ResultObject with score and text
 	 */
-	calculateResult( i18n ) {
+	calculateResult( i18n, researcher ) {
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.internal_links" ] && links[ "shortlinks.metabox.SEO.internal_linksCall_to_action" ] ) {
+			// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.internal_links" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.internal_linksCall_to_action" ] );
+		}
+		// Calculates scores
 		if ( this.linkStatistics.internalTotal === 0 ) {
 			return {
 				score: this._config.scores.noInternal,
@@ -88,8 +99,8 @@ class InternalLinksAssessment extends Assessment {
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext( "js-text-analysis", "%1$sInternal links%3$s: " +
 						"No internal links appear in this page, %2$smake sure to add some%3$s!" ),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -102,8 +113,8 @@ class InternalLinksAssessment extends Assessment {
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					i18n.dgettext( "js-text-analysis", "%1$sInternal links%3$s: " +
 						"The internal links in this page are all nofollowed. %2$sAdd some good internal links%3$s." ),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -128,7 +139,7 @@ class InternalLinksAssessment extends Assessment {
 					"js-text-analysis",
 					"%1$sInternal links%2$s: There are both nofollowed and normal internal links on this page. Good job!"
 				),
-				this._config.urlTitle,
+				urlTitle,
 				"</a>"
 			),
 		};

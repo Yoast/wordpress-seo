@@ -1,4 +1,3 @@
-/* global wpseoAdminL10n */
 import { merge } from "lodash-es";
 import { getSubheadingsTopLevel } from "../../../languageProcessing/helpers/html/getSubheadings";
 import Assessment from "../assessment";
@@ -31,8 +30,8 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 				goodNumberOfMatches: 9,
 				tooManyMatches: 3,
 			},
-			urlTitle: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.subheadingsKeyword" ] ),
-			urlCallToAction: createAnchorOpeningTag( wpseoAdminL10n[ "shortlinks.metabox.SEO.subheadingsKeywordCall_to_action" ] ),
+			urlTitle: "",
+			urlCallToAction: "",
 		};
 
 		this.identifier = "subheadingsKeyword";
@@ -55,7 +54,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 
 		this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.parameters.lowerBoundary );
 		this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.parameters.upperBoundary );
-		const calculatedResult = this.calculateResult( i18n );
+		const calculatedResult = this.calculateResult( i18n, researcher );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -141,10 +140,21 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 * Determines the score and the Result text for the subheadings.
 	 *
 	 * @param {Object} i18n The object used for translations.
-	 *
+	 * @param {Researcher} researcher   The researcher used for calling research.
 	 * @returns {Object} The object with the calculated score and the result text.
 	 */
-	calculateResult( i18n ) {
+	calculateResult( i18n, researcher ) {
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.SEO.subheadingsKeyword" ] && links[ "shortlinks.metabox.SEO.subheadingsKeywordCall_to_action" ] ) {
+			// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.subheadingsKeyword" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.subheadingsKeywordCall_to_action" ] );
+		}
+		// Calculate scores
 		if ( this.hasTooFewMatches() ) {
 			return {
 				score: this._config.scores.tooFewMatches,
@@ -154,8 +164,8 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 						"js-text-analysis",
 						"%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your H2 and H3 subheadings%3$s!"
 					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -171,8 +181,8 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 						"%1$sKeyphrase in subheading%3$s: More than 75%% of your H2 and H3 subheadings reflect the topic of your copy. " +
 						"That's too much. %2$sDon't over-optimize%3$s!"
 					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -189,7 +199,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 						"%1$sKeyphrase in subheading%2$s: Your H2 or H3 subheading reflects the topic of your copy. Good job!",
 						this._subHeadings.matches
 					),
-					this._config.urlTitle,
+					urlTitle,
 					"</a>"
 				),
 			};
@@ -207,7 +217,7 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 						"%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflect the topic of your copy. Good job!",
 						this._subHeadings.matches
 					),
-					this._config.urlTitle,
+					urlTitle,
 					"</a>",
 					this._subHeadings.matches
 				),
@@ -222,8 +232,8 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 					"js-text-analysis",
 					"%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your H2 and H3 subheadings%3$s!"
 				),
-				this._config.urlTitle,
-				this._config.urlCallToAction,
+				urlTitle,
+				urlCallToAction,
 				"</a>"
 			),
 		};
