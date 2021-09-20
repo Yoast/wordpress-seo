@@ -29,6 +29,7 @@
     "@wordpress/compose": "^4.1.1",
     "@wordpress/data": "^5.1.1",
     "@wordpress/element": "^3.1.1",
+    "@wordpress/i18n": "^4.1.1",
     "@yoast/replacement-variable-editor": "^1.17.0",
     "@yoast/admin-ui-toolkit": "^0.0.0",
     "classnames": "^2.3.1",
@@ -41,17 +42,19 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
-    "jsoneditor": "^9.4.1",
-    "jsoneditor-react": "^3.1.1",
-    "postcss-import": "^14.0.2"
-  },
-  "peerDependencies": {
     "@pawelgalazka/shell": "^2.0.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.1.9",
-    "@wordpress/i18n": "^4.1.1",
-    "@wordpress/scripts": "^16.1.1",
+    "jsoneditor": "^9.4.1",
+    "jsoneditor-react": "^3.1.1",
+    "postcss-import": "^14.0.2",
     "sirv-cli": "^1.0.14"
+  },
+  "peerDependencies": {
+    "@wordpress/scripts": "^16.1.1",
+    "eslint-config-yoast": "^5.0.17",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.24.0"
   }
 }

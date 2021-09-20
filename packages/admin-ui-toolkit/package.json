@@ -13,6 +13,7 @@
     "@wordpress/compose": "^4.1.1",
     "@wordpress/data": "^5.1.1",
     "@wordpress/element": "^3.1.1",
+    "@wordpress/i18n": "^4.1.1",
     "classnames": "^2.3.1",
     "lodash": "^4.17.21",
     "nanoid": "^3.1.25",
@@ -22,7 +23,9 @@
   },
   "devDependencies": {},
   "peerDependencies": {
-    "@wordpress/i18n": "^4.1.1",
-    "@wordpress/scripts": "^16.1.1"
+    "@wordpress/scripts": "^16.1.1",
+    "eslint-config-yoast": "^5.0.17",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.24.0"
   }
 }
