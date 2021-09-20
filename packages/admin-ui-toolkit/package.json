@@ -1,0 +1,28 @@
+{
+  "name": "@yoast/admin-ui-toolkit",
+  "version": "0.0.0",
+  "description": "The Yoast admin-ui-toolkit",
+  "repository": "https://github.com/Yoast/wordpress-seo.git",
+  "author": "Yoast <support@yoast.com>",
+  "private": true,
+  "scripts": {},
+  "dependencies": {
+    "@headlessui/react": "^1.4.0",
+    "@heroicons/react": "^1.0.1",
+    "@tailwindcss/forms": "^0.3.2",
+    "@wordpress/compose": "^4.1.1",
+    "@wordpress/data": "^5.1.1",
+    "@wordpress/element": "^3.1.1",
+    "classnames": "^2.3.1",
+    "lodash": "^4.17.21",
+    "nanoid": "^3.1.25",
+    "prop-types": "^15.7.2",
+    "react-router-dom": "^5.2.0",
+    "tailwindcss": "^2.1.3"
+  },
+  "devDependencies": {},
+  "peerDependencies": {
+    "@wordpress/i18n": "^4.1.1",
+    "@wordpress/scripts": "^16.1.1"
+  }
+}

@@ -92,6 +92,8 @@ test.sh
 /js/dist/*
 /css/dist/*
 /packages/*/dist
+/packages/*/build
+/packages/*/build-module
 yarn-error.log
 coverage
 dependencies.json

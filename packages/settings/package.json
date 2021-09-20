@@ -1,0 +1,57 @@
+{
+  "name": "@yoast/settings",
+  "version": "0.0.0",
+  "description": "The Yoast settings UI",
+  "main": "src/index.js",
+  "repository": "https://github.com/Yoast/wordpress-seo.git",
+  "author": "Yoast <support@yoast.com>",
+  "private": true,
+  "scripts": {
+    "build": "yarn clean && yarn build:web",
+    "build:dev": "yarn clean && NODE_ENV=development yarn build:web",
+    "build:web": "wp-scripts build --webpack-no-externals",
+    "build:module": "babel src --out-dir build-module",
+    "clean": "rm -rf build build-module",
+    "watch": "WP_LIVE_RELOAD_PORT=36001 wp-scripts start src/index.js --webpack-no-externals",
+    "watch:dev": "WP_LIVE_RELOAD_PORT=36002 wp-scripts start dev/index.js --webpack-no-externals",
+    "watch:qa": "WP_LIVE_RELOAD_PORT=36003 wp-scripts start qa/index.js --webpack-no-externals --build",
+    "test": "wp-scripts test-unit-js  --color",
+    "serve": "sirv --dev --port 5001",
+    "start": "node start-and-serve.js",
+    "lint": "wp-scripts lint-js --config ../../.eslintrc"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.4.0",
+    "@heroicons/react": "^1.0.1",
+    "@tailwindcss/forms": "^0.3.2",
+    "@wordpress/a11y": "^3.1.1",
+    "@wordpress/components": "^14.1.1",
+    "@wordpress/compose": "^4.1.1",
+    "@wordpress/data": "^5.1.1",
+    "@wordpress/element": "^3.1.1",
+    "@yoast/replacement-variable-editor": "^1.17.0",
+    "@yoast/admin-ui-toolkit": "^0.0.0",
+    "classnames": "^2.3.1",
+    "lodash": "^4.17.21",
+    "postcss": "^8.3.0",
+    "postcss-rtlcss": "^3.3.4",
+    "prop-types": "^15.7.2",
+    "react-router-dom": "^5.2.0",
+    "tailwindcss": "^2.1.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.5",
+    "jsoneditor": "^9.4.1",
+    "jsoneditor-react": "^3.1.1",
+    "postcss-import": "^14.0.2"
+  },
+  "peerDependencies": {
+    "@pawelgalazka/shell": "^2.0.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/user-event": "^13.1.9",
+    "@wordpress/i18n": "^4.1.1",
+    "@wordpress/scripts": "^16.1.1",
+    "sirv-cli": "^1.0.14"
+  }
+}

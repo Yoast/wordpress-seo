@@ -1,0 +1,32 @@
+@import "@yoast/admin-ui-toolkit/styles.css";
+
+.yst-skip-link {
+	@apply yst-button--remove;
+	@apply yst-text-blue-700;
+	position: fixed;
+	bottom: 60px;
+	right: 115px;
+}
+
+.yst-welcome-gif {
+	transform: rotateY(-2deg) skew(-3deg);
+}
+
+.yst-welcome-container {
+	@apply yst-mt-4 lg:yst-mt-0 lg:yst-ml-10;
+	perspective: 60px;
+	max-height: 500px;
+	overflow: hidden;
+}
+
+.yst-welcome-container::before {
+	content: "";
+	display: block;
+	background: linear-gradient(90deg, rgba(243,244,246,0) 0%, rgba(243,244,246,0) 0%, rgba(255,255,255,1) 100%);
+	position: absolute;
+	top: 0;
+	left: 50%;
+	right: 0;
+	bottom: 0;
+	z-index: 1;
+}

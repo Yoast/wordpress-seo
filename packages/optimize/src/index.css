@@ -1,0 +1,54 @@
+@import "@yoast/admin-ui-toolkit/styles.css";
+@import "draft-js-mention-plugin/lib/plugin.css";
+@import "draft-js/dist/Draft.css";
+
+.yoast-image-select b {
+	@apply yst-font-medium;
+}
+
+.yoast-image-select .yoast-field-group__title {
+	@apply yst-mb-0 yst-text-sm;
+}
+
+/* Custom CSS for the replacevar editor. */
+div.yst-replacevar {
+	@apply yst-block;
+}
+.yst-replacevar .yst-replacevar__label {
+	@apply yst-mb-2;
+}
+.yst-replacevar .yst-replacevar__button-insert {
+	@apply yst-inline-flex yst-h-auto yst-w-auto yst-mb-2 yst-items-center yst-justify-center yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-leading-4 yst-border yst-rounded-md yst-shadow-sm focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-indigo-500 yst-text-gray-700 yst-bg-white yst-border-gray-300 hover:yst-bg-gray-50;
+}
+
+.yst-replacevar .yst-replacevar__editor {
+	@apply yst-border-gray-300 yst-block yst-w-full yst-shadow-sm yst-text-sm yst-rounded-md yst-text-gray-700 yst-border yst-py-2 yst-px-3;
+}
+
+.yst-replacevar .yst-replacevar__mention {
+	@apply yst-inline-flex yst-leading-normal yst-rounded-full yst-items-center yst-py-0.5 yst-px-2.5 yst-m-0.5 yst-text-xs yst-font-medium yst-bg-gray-100 yst-text-gray-800;
+}
+
+/* Using a bit of a nasty selector, since we can not add classes within DraftJS */
+.yst-replacevar__editor .public-DraftStyleDefault-block > span {
+	@apply yst-inline-block yst-my-0.5;
+}
+
+[dir="rtl"] .public-DraftStyleDefault-ltr {
+	direction: rtl;
+	text-align: right;
+}
+
+/* Custom CSS for Google Preview */
+#yoast-snippet-preview-container img {
+	@apply yst-inline;
+}
+#yoast-snippet-preview-container strong {
+	@apply yst-font-bold;
+}
+
+/* Custom CSS for Mark button */
+.yoast-mark-button.yoast-mark-button {
+	@apply yst-flex yst-flex-col yst-items-center;
+	padding-top: 2px;
+}
