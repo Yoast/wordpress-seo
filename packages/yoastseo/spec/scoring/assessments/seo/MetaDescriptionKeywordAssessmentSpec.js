@@ -15,9 +15,9 @@ describe( "the metadescription keyword assessment", function() {
 		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherNoMatches, i18n );
 
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: " +
+		expect( assessment.getText() ).toBe( "Keyphrase in meta description</a>: " +
 			"The meta description has been specified, but it does not contain the keyphrase. " +
-			"<a href='https://yoa.st/33l' target='_blank'>Fix that</a>!" );
+			"Fix that</a>!" );
 	} );
 
 	it( "returns a good result and an appropriate feedback message when at least one sentence contains every keyword term " +
@@ -26,7 +26,7 @@ describe( "the metadescription keyword assessment", function() {
 		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherOneMatch, i18n );
 
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: " +
+		expect( assessment.getText() ).toBe( "Keyphrase in meta description</a>: " +
 			"Keyphrase or synonym appear in the meta description. Well done!" );
 	} );
 
@@ -36,7 +36,7 @@ describe( "the metadescription keyword assessment", function() {
 		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherTwoMatches, i18n );
 
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
+		expect( assessment.getText() ).toBe( "Keyphrase in meta " +
 			"description</a>: Keyphrase or synonym appear in the meta description. Well done!" );
 	} );
 
@@ -45,9 +45,9 @@ describe( "the metadescription keyword assessment", function() {
 		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherThreeMatches, i18n );
 
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
+		expect( assessment.getText() ).toBe( "Keyphrase in meta " +
 			"description</a>: The meta description contains the keyphrase 3 times, which is over the advised maximum " +
-			"of 2 times. <a href='https://yoa.st/33l' target='_blank'>Limit that</a>!" );
+			"of 2 times. Limit that</a>!" );
 	} );
 
 	it( "is not applicable when the paper doesn't have a keyword", function() {

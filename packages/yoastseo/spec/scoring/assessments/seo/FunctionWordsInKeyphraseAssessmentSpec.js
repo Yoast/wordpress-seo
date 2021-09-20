@@ -15,9 +15,9 @@ describe( "An assessment for checking if the keyphrase contains function words o
 		);
 		expect( assessment.getScore() ).toBe( 0 );
 		expect( assessment.getText() ).toBe(
-			"<a href='https://yoa.st/functionwordskeyphrase-1' target='_blank'>Function words in keyphrase</a>: " +
+			"Function words in keyphrase</a>: " +
 			"Your keyphrase \"someone was here\" contains function words only. " +
-			"<a href='https://yoa.st/functionwordskeyphrase-2' target='_blank'>Learn more about what makes a good keyphrase.</a>"
+			"Learn more about what makes a good keyphrase.</a>"
 		);
 	} );
 
