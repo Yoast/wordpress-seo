@@ -32,7 +32,7 @@ class Language_Helper {
 	 * @param Japanese_Support_Conditional $japanese_conditional The Japanese support conditional.
 	 * @param Greek_Support_Conditional    $greek_conditional    The Greek support conditional.
 	 */
-	public function __construct( Japanese_Support_Conditional $japanese_conditional, Greek_Support_Conditional    $greek_conditional ) {
+	public function __construct( Japanese_Support_Conditional $japanese_conditional, Greek_Support_Conditional $greek_conditional ) {
 		$this->japanese_conditional = $japanese_conditional;
 		$this->greek_conditional    = $greek_conditional;
 	}
