@@ -229,7 +229,7 @@ class WincherKeyphrasesTable extends Component {
 		} = this.props;
 
 		await this.handleAPIResponse(
-			() => getKeyphrases( keyphrases, true ),
+			() => getKeyphrases( keyphrases ),
 			async( response ) => {
 				setRequestSucceeded( response );
 				setTrackingKeyphrases( response.results );
@@ -285,7 +285,7 @@ class WincherKeyphrasesTable extends Component {
 		const { trackedKeyphrases } = this.props;
 
 		const positionalData = filter( trackedKeyphrases, ( trackedKeyphrase ) => {
-			return isEmpty( trackedKeyphrase.ranking );
+			return isEmpty( trackedKeyphrase.ranking_updated_at );
 		} );
 
 		return positionalData.length === Object.keys( trackedKeyphrases ).length;
@@ -387,6 +387,7 @@ class WincherKeyphrasesTable extends Component {
 			allowToggling,
 			websiteId,
 			keyphrases,
+			chartDataTs,
 			response,
 		} = this.props;
 
@@ -439,6 +440,7 @@ class WincherKeyphrasesTable extends Component {
 									onUntrackKeyphrase={ this.onUntrackKeyphrase }
 									rowData={ this.getKeyphraseData( keyphrase ) }
 									chartData={ this.getKeyphraseChartData( keyphrase ) }
+									chartDataTs={ chartDataTs }
 									isFocusKeyphrase={ index === 0 }
 									websiteId={ websiteId }
 								/> );
@@ -485,6 +487,7 @@ WincherKeyphrasesTable.propTypes = {
 	setTrackingKeyphrases: PropTypes.func.isRequired,
 	websiteId: PropTypes.number,
 	lastRequestKeyphrase: PropTypes.string,
+	chartDataTs: PropTypes.number,
 };
 
 WincherKeyphrasesTable.defaultProps = {
@@ -497,6 +500,7 @@ WincherKeyphrasesTable.defaultProps = {
 	websiteId: 0,
 	lastRequestKeyphrase: "",
 	response: {},
+	chartDataTs: 0,
 };
 
 export default WincherKeyphrasesTable;

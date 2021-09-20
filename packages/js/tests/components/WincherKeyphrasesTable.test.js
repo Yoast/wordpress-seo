@@ -15,6 +15,8 @@ const keyphrasesData = {
 	"yoast seo": {
 		id: "12345",
 		keyword: "yoast seo",
+		// eslint-disable-next-line camelcase
+		ranking_updated_at: new Date().toISOString(),
 		ranking: {
 			position: {
 				value: 10,

@@ -63,3 +63,14 @@ export function getWincherTrackableKeyphrases( state ) {
 export function getWincherTrackedKeyphrasesChartData( state ) {
 	return state.WincherSEOPerformance.chartData;
 }
+
+/**
+ * Gets the chart data timestamp.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {number} The chart data timestamp.
+ */
+export function getWincherTrackedKeyphrasesChartDataTs( state ) {
+	return state.WincherSEOPerformance.chartDataTs;
+}
