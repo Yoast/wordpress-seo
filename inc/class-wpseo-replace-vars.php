@@ -1242,8 +1242,6 @@ class WPSEO_Replace_Vars {
 	 * @return string|null
 	 */
 	private function retrieve_category_title() {
-
-
 		if ( empty( $this->args ) || empty( $this->args->ID ) ) {
 			return null;
 		}
@@ -1259,7 +1257,7 @@ class WPSEO_Replace_Vars {
 			$post_terms = get_the_terms( $post_id, $taxonomy_slug );
 			if ( is_array( $post_terms ) && count( $post_terms ) > 0 ) {
 				// AiOSEO takes the name of whatever the first hierarchical taxonomy is.
-				$term = $post_terms[ 0 ];
+				$term = $post_terms[0];
 				if ( $term ) {
 					return $term->name;
 				}
