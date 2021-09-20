@@ -31,8 +31,8 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 				ok: 6,
 				bad: 3,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33k" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33l" ),
+			urlTitle: "",
+			urlCallToAction: "",
 		};
 
 		this.identifier = "metaDescriptionKeyword";
@@ -51,7 +51,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		this._keyphraseCounts = researcher.getResearch( "metaDescriptionKeyword" );
 		const assessmentResult = new AssessmentResult();
-		const calculatedResult = this.calculateResult( i18n );
+		const calculatedResult = this.calculateResult( i18n, researcher );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -63,10 +63,21 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 * Returns the result object based on the number of keyword matches in the meta description.
 	 *
 	 * @param {Jed} i18n The object used for translations.
-	 *
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @returns {Object} Result object with score and text.
 	 */
-	calculateResult( i18n ) {
+	calculateResult( i18n, researcher ) {
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.SEO.metadescription_keyword" ] && links[ "shortlinks.metabox.SEO.metadescription_keywordCall_to_action" ] ) {
+			// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.metadescription_keyword" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.metadescription_keywordCall_to_action" ] );
+		}
+
 		// GOOD result when the meta description contains a keyphrase or synonym 1 or 2 times.
 		if ( this._keyphraseCounts === 1 || this._keyphraseCounts === 2 ) {
 			return {
@@ -77,7 +88,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 						"js-text-analysis",
 						"%1$sKeyphrase in meta description%2$s: Keyphrase or synonym appear in the meta description. Well done!"
 					),
-					this._config.urlTitle,
+					urlTitle,
 					"</a>"
 				),
 			};
@@ -99,10 +110,10 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 						"%1$sKeyphrase in meta description%2$s: The meta description contains the keyphrase %3$s times, " +
 						"which is over the advised maximum of 2 times. %4$sLimit that%5$s!"
 					),
-					this._config.urlTitle,
+					urlTitle,
 					"</a>",
 					this._keyphraseCounts,
-					this._config.urlCallToAction,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -122,9 +133,9 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 					"%1$sKeyphrase in meta description%2$s: The meta description has been specified, " +
 					"but it does not contain the keyphrase. %3$sFix that%4$s!"
 				),
-				this._config.urlTitle,
+				urlTitle,
 				"</a>",
-				this._config.urlCallToAction,
+				urlCallToAction,
 				"</a>"
 			),
 		};

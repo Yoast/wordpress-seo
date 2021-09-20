@@ -28,8 +28,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 				slightlyTooMany: 300,
 				farTooMany: 350,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/34x" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34y" ),
+			urlTitle: "",
+			urlCallToAction: "",
 			scores: {
 				goodShortTextNoSubheadings: 9,
 				goodSubheadings: 9,
@@ -69,7 +69,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		this._textLength = getWords( paper.getText() ).length;
 
-		const calculatedResult = this.calculateResult( i18n );
+		const calculatedResult = this.calculateResult( i18n, researcher );
 		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -116,10 +116,22 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * Calculates the score and creates a feedback string based on the subheading texts length.
 	 *
 	 * @param {Object} i18n The object used for translations.
-	 *
+	 * @param {Researcher}  researcher  The researcher used for calling research.
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult( i18n ) {
+	calculateResult( i18n, researcher ) {
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.readability.subheading_distribution" ] &&
+			links[ "shortlinks.metabox.readability.subheading_distributionCall_to_action" ] ) {
+			// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.subheading_distribution" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.subheading_distributionCall_to_action" ] );
+		}
+		// Calculates scores
 		if ( this._textLength > 300 ) {
 			if ( this._hasSubheadings ) {
 				const longestSubheadingTextLength = this._subheadingTextsLength[ 0 ].wordCount;
@@ -133,7 +145,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 								"js-text-analysis",
 								"%1$sSubheading distribution%2$s: Great job!"
 							),
-							this._config.urlTitle,
+							urlTitle,
 							"</a>"
 						),
 					};
@@ -156,11 +168,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 								"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d words " +
 								"and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 								this._tooLongTextsNumber ),
-							this._config.urlTitle,
+							urlTitle,
 							"</a>",
 							this._tooLongTextsNumber,
 							this._config.parameters.recommendedMaximumWordCount,
-							this._config.urlCallToAction
+							urlCallToAction
 						),
 					};
 				}
@@ -179,11 +191,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 							"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d words " +
 							"and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 							this._tooLongTextsNumber ),
-						this._config.urlTitle,
+						urlTitle,
 						"</a>",
 						this._tooLongTextsNumber,
 						this._config.parameters.recommendedMaximumWordCount,
-						this._config.urlCallToAction
+						urlCallToAction
 					),
 				};
 			}
@@ -197,9 +209,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 						"%1$sSubheading distribution%2$s: You are not using any subheadings, although your text is rather long." +
 						" %3$sTry and add some subheadings%2$s."
 					),
-					this._config.urlTitle,
+					urlTitle,
 					"</a>",
-					this._config.urlCallToAction
+					urlCallToAction
 				),
 			};
 		}
@@ -213,7 +225,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 						"js-text-analysis",
 						"%1$sSubheading distribution%2$s: Great job!"
 					),
-					this._config.urlTitle,
+					urlTitle,
 					"</a>"
 				),
 			};
@@ -228,7 +240,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 					"%1$sSubheading distribution%2$s: You are not using any subheadings, but your text is short enough" +
 					" and probably doesn't need them."
 				),
-				this._config.urlTitle,
+				urlTitle,
 				"</a>"
 			),
 		};

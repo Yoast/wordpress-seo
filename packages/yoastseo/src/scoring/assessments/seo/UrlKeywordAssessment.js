@@ -26,8 +26,8 @@ class UrlKeywordAssessment extends Assessment {
 				okay: 6,
 				good: 9,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33o" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33p" ),
+			urlTitle: "",
+			urlCallToAction: "",
 		};
 
 		this.identifier = "urlKeyword";
@@ -48,7 +48,7 @@ class UrlKeywordAssessment extends Assessment {
 
 		const assessmentResult = new AssessmentResult();
 
-		const calculatedResult = this.calculateResult( i18n );
+		const calculatedResult = this.calculateResult( i18n, researcher );
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 
@@ -70,10 +70,22 @@ class UrlKeywordAssessment extends Assessment {
 	 * Determines the score and the result text based on whether or not there's a keyword in the url.
 	 *
 	 * @param {Jed} i18n The object used for translations.
-	 *
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
-	calculateResult( i18n ) {
+	calculateResult( i18n, researcher ) {
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.SEO.url" ] && links[ "shortlinks.metabox.SEO.urlCall_to_action" ] ) {
+			// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.url" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.urlCall_to_action" ] );
+		}
+
+		// Calculates good score
 		if ( this._keywordInURL.keyphraseLength < 3 ) {
 			if ( this._keywordInURL.percentWordMatches === 100 ) {
 				return {
@@ -84,7 +96,7 @@ class UrlKeywordAssessment extends Assessment {
 							"js-text-analysis",
 							"%1$sKeyphrase in slug%2$s: Great work!"
 						),
-						this._config.urlTitle,
+						urlTitle,
 						"</a>"
 					),
 				};
@@ -98,8 +110,8 @@ class UrlKeywordAssessment extends Assessment {
 						"js-text-analysis",
 						"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!"
 					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -114,7 +126,7 @@ class UrlKeywordAssessment extends Assessment {
 						"js-text-analysis",
 						"%1$sKeyphrase in slug%2$s: More than half of your keyphrase appears in the slug. That's great!"
 					),
-					this._config.urlTitle,
+					urlTitle,
 					"</a>"
 				),
 			};
@@ -127,8 +139,8 @@ class UrlKeywordAssessment extends Assessment {
 					"js-text-analysis",
 					"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!"
 				),
-				this._config.urlTitle,
-				this._config.urlCallToAction,
+				urlTitle,
+				urlCallToAction,
 				"</a>"
 			),
 		};

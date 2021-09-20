@@ -40,8 +40,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 				bad: 1,
 				consideration: 0,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33q" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33u" ),
+			urlTitle: "",
+			urlCallToAction: "",
 		};
 
 		this.identifier = "keyphraseDistribution";
@@ -62,7 +62,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 		const assessmentResult = new AssessmentResult();
 
-		const calculatedResult = this.calculateResult( i18n );
+		const calculatedResult = this.calculateResult( i18n, researcher );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -75,10 +75,21 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 * Calculates the result based on the keyphraseDistribution research.
 	 *
 	 * @param {Jed} i18n The object used for translations.
-	 *
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @returns {Object} Object with score and feedback text.
 	 */
-	calculateResult( i18n ) {
+	calculateResult( i18n, researcher ) {
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.SEO.keyphrase_distribution" ] && links[ "shortlinks.metabox.SEO.keyphrase_distributionCall_to_action" ] ) {
+			// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.keyphrase_distribution" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.keyphrase_distributionCall_to_action" ] );
+		}
+		// Calculates scores
 		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
 
 		if ( distributionScore === 100 ) {
@@ -92,8 +103,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 						"%1$sKeyphrase distribution%3$s: " +
 						"%2$sInclude your keyphrase or its synonyms in the text so that we can check keyphrase distribution%3$s."
 					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -110,8 +121,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 						"%1$sKeyphrase distribution%3$s: " +
 						"Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s."
 					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -130,8 +141,8 @@ class KeyphraseDistributionAssessment extends Assessment {
 						"%1$sKeyphrase distribution%3$s: " +
 						"Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s."
 					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -145,7 +156,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 					"js-text-analysis",
 					"%1$sKeyphrase distribution%2$s: Good job!"
 				),
-				this._config.urlTitle,
+				urlTitle,
 				"</a>"
 			),
 		};

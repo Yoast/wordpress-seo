@@ -688,6 +688,11 @@ export default class AnalysisWebWorker {
 			delete  configuration.enabledFeatures;
 		}
 
+		if ( has( configuration, "links" ) ) {
+			this._researcher.addResearchData( "links", configuration.links );
+			delete  configuration.links;
+		}
+
 		this._configuration = merge( this._configuration, configuration );
 
 		if ( update.readability ) {

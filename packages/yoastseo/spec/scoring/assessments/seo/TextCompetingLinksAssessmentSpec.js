@@ -33,9 +33,9 @@ describe( "An assessment for competing links in the text", function() {
 		);
 
 		expect( result.getScore() ).toBe( 2 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34l' target='_blank'>Link keyphrase</a>: " +
+		expect( result.getText() ).toBe( "Link keyphrase</a>: " +
 			"You're linking to another page with the words you want this page to rank for. " +
-			"<a href='https://yoa.st/34m' target='_blank'>Don't do that</a>!" );
+			"Don't do that</a>!" );
 	} );
 
 	it( "returns the score when the paper is empty", function() {

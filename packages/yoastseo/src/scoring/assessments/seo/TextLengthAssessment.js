@@ -31,8 +31,8 @@ export default class TextLengthAssessment extends Assessment {
 				farBelowMinimum: -10,
 				veryFarBelowMinimum: -20,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/34n" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34o" ),
+			urlTitle: "",
+			urlCallToAction: "",
 
 			cornerstoneContent: false,
 		};
@@ -53,7 +53,7 @@ export default class TextLengthAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		const wordCount = researcher.getResearch( "wordCountInText" );
 		const assessmentResult = new AssessmentResult();
-		const calculatedResult = this.calculateResult( wordCount, i18n );
+		const calculatedResult = this.calculateResult( wordCount, i18n, researcher );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -66,10 +66,21 @@ export default class TextLengthAssessment extends Assessment {
 	 *
 	 * @param {number}  wordCount   The amount of words to be checked against.
 	 * @param {Jed}     i18n        The locale object.
-	 *
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @returns {Object} The score and the feedback string.
 	 */
-	calculateResult( wordCount, i18n ) {
+	calculateResult( wordCount, i18n, researcher ) {
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.SEO.title" ] && links[ "shortlinks.metabox.SEO.titleCall_to_action" ] ) {
+		// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.text_length" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.text_lengthCall_to_action" ] );
+		}
+		// Calculate scores
 		if ( wordCount >= this._config.recommendedMinimum ) {
 			return {
 				score: this._config.scores.recommendedMinimum,
@@ -82,7 +93,7 @@ export default class TextLengthAssessment extends Assessment {
 						"%2$sText length%3$s: The text contains %1$d words. Good job!",
 						wordCount ),
 					wordCount,
-					this._config.urlTitle,
+					urlTitle,
 					"</a>"
 				),
 			};
@@ -116,8 +127,8 @@ export default class TextLengthAssessment extends Assessment {
 						this._config.recommendedMinimum
 					),
 					wordCount,
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>",
 					this._config.recommendedMinimum
 				),
@@ -147,8 +158,8 @@ export default class TextLengthAssessment extends Assessment {
 							this._config.recommendedMinimum
 						),
 						wordCount,
-						this._config.urlTitle,
-						this._config.urlCallToAction,
+						urlTitle,
+						urlCallToAction,
 						"</a>",
 						this._config.recommendedMinimum
 					),
@@ -176,8 +187,8 @@ export default class TextLengthAssessment extends Assessment {
 						this._config.recommendedMinimum
 					),
 					wordCount,
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>",
 					this._config.recommendedMinimum
 				),
@@ -205,8 +216,8 @@ export default class TextLengthAssessment extends Assessment {
 					this._config.recommendedMinimum
 				),
 				wordCount,
-				this._config.urlTitle,
-				this._config.urlCallToAction,
+				urlTitle,
+				urlCallToAction,
 				"</a>",
 				this._config.recommendedMinimum
 			),

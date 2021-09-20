@@ -32,8 +32,8 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 				withAlt: 6,
 				noAlt: 6,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/4f7" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4f6" ),
+			urlTitle: "",
+			urlCallToAction: "",
 		};
 
 		this.identifier = "imageKeyphrase";
@@ -56,7 +56,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 		this._minNumberOfKeywordMatches = Math.ceil( this.imageCount * this._config.parameters.lowerBoundary );
 		this._maxNumberOfKeywordMatches = Math.floor( this.imageCount * this._config.parameters.upperBoundary );
 
-		const calculatedScore = this.calculateResult( i18n );
+		const calculatedScore = this.calculateResult( i18n, researcher );
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedScore.score );
@@ -119,10 +119,21 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 	 * Calculate the result based on the current image count and current image alt-tag count.
 	 *
 	 * @param {Object} i18n The object used for translations.
-	 *
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult( i18n ) {
+	calculateResult( i18n, researcher ) {
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.SEO.keyphrase_in_image" ] && links[ "shortlinks.metabox.SEO.keyphrase_in_imageCall_to_action" ] ) {
+			// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.keyphrase_in_image" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.keyphrase_in_imageCall_to_action" ] );
+		}
+		// Calculates scores
 		// Has alt-tags, but no keyword is set.
 		if ( this.altProperties.withAlt > 0 ) {
 			return {
@@ -134,8 +145,8 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 						"%1$sImage Keyphrase%3$s: " +
 						"Images on this page have alt attributes, but you have not set your keyphrase. %2$sFix that%3$s!"
 					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -153,8 +164,8 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 						"Images on this page do not have alt attributes with at least half of the words from your keyphrase. " +
 						"%2$sFix that%3$s!"
 					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -180,8 +191,8 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 					),
 					this.altProperties.withAltKeyword,
 					this.imageCount,
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -201,7 +212,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 						"js-text-analysis",
 						"%1$sImage Keyphrase%2$s: Good job!"
 					),
-					this._config.urlTitle,
+					urlTitle,
 					"</a>"
 				),
 			};
@@ -222,8 +233,8 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 					),
 					this.altProperties.withAltKeyword,
 					this.imageCount,
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -237,8 +248,8 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 				i18n.dgettext( "js-text-analysis", "%1$sImage Keyphrase%3$s: " +
 					"Images on this page do not have alt attributes that reflect the topic of your text. " +
 					"%2$sAdd your keyphrase or synonyms to the alt tags of relevant images%3$s!" ),
-				this._config.urlTitle,
-				this._config.urlCallToAction,
+				urlTitle,
+				urlCallToAction,
 				"</a>"
 			),
 		};

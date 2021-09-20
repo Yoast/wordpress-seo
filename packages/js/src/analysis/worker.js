@@ -44,6 +44,7 @@ export function getAnalysisConfiguration( customConfiguration = {} ) {
 		defaultQueryParams: getDefaultQueryParams(),
 		logLevel: get( window, [ "wpseoScriptData", "analysis", "worker", "log_level" ], "ERROR" ),
 		enabledFeatures: enabledFeatures(),
+		links: get( window, [ "wpseoAdminL10n" ], [] ),
 	};
 
 	configuration = merge( configuration, customConfiguration );

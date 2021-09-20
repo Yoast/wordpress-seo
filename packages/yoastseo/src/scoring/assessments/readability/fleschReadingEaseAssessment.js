@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import { inRange } from "lodash-es";
 
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
@@ -9,10 +10,11 @@ import AssessmentResult from "../../../values/AssessmentResult";
  * @param {Object} fleschReadingScore   The Flesch reading ease score.
  * @param {Object} scoresConfig         The Flesch reading ease assessment scores and borders.
  * @param {Object} i18n                 The i18n-object used for parsing translations.
+ * @param {Researcher} researcher The researcher used for calling research.
  *
  * @returns {Object} Object with score and resultText.
  */
-const calculateFleschReadingResult = function( fleschReadingScore, scoresConfig, i18n ) {
+const calculateFleschReadingResult = function( fleschReadingScore, scoresConfig, i18n, researcher ) {
 	// Results must be between 0 and 100;
 	if ( fleschReadingScore < 0 ) {
 		fleschReadingScore = 0;
@@ -25,9 +27,18 @@ const calculateFleschReadingResult = function( fleschReadingScore, scoresConfig,
 	let score;
 	let feedback = "";
 	let note = i18n.dgettext( "js-text-analysis", "Good job!" );
-	const urlTitle = createAnchorOpeningTag( "https://yoa.st/34r" );
-	const urlCallToAction = createAnchorOpeningTag( "https://yoa.st/34s" );
-
+	let urlTitle = "";
+	let urlCallToAction = "";
+	// Get the links
+	const links = researcher.getData( "links" );
+	// Check if links for the assessment is available in links data
+	if ( links[ "shortlinks.metabox.flesch.reading.ease" ] &&
+		links[ "shortlinks.metabox.flesch.reading.easeCall_to_action" ] ) {
+		// Overwrite default links with links from configuration
+		urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.flesch.reading.ease" ] );
+		urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.flesch.reading.easeCall_to_action" ] );
+	}
+	// Calculate scores
 	if ( fleschReadingScore >= scoresConfig.borders.veryEasy ) {
 		score = scoresConfig.scores.veryEasy;
 		feedback = i18n.dgettext( "js-text-analysis", "very easy" );
@@ -136,7 +147,7 @@ const getFleschReadingResult = function( paper, researcher, i18n ) {
 	};
 	const config = languageSpecificConfig ? languageSpecificConfig : defaultConfig;
 
-	const fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, config, i18n );
+	const fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, config, i18n, researcher );
 
 	const assessmentResult =  new AssessmentResult();
 

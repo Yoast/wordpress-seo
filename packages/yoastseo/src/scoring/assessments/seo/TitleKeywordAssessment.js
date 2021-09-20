@@ -32,8 +32,8 @@ class TitleKeywordAssessment extends Assessment {
 				okay: 6,
 				bad: 2,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/33g" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33h" ),
+			urlTitle: "",
+			urlCallToAction: "",
 		};
 
 		this.identifier = "titleKeyword";
@@ -55,7 +55,7 @@ class TitleKeywordAssessment extends Assessment {
 
 		const assessmentResult = new AssessmentResult();
 
-		const calculatedResult = this.calculateResult( i18n, this._keyword );
+		const calculatedResult = this.calculateResult( i18n, this._keyword, researcher );
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 
@@ -80,10 +80,21 @@ class TitleKeywordAssessment extends Assessment {
 	 *
 	 * @param {Jed}     i18n        The object used for translations.
 	 * @param {string}  keyword     The keyword of the paper (to be returned in the feedback strings).
-	 *
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @returns {Object} Object with score and text.
 	 */
-	calculateResult( i18n, keyword ) {
+	calculateResult( i18n, keyword, researcher ) {
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.SEO.title" ] && links[ "shortlinks.metabox.SEO.titleCall_to_action" ] ) {
+			// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.title" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.titleCall_to_action" ] );
+		}
+
 		const exactMatchFound = this._keywordMatches.exactMatchFound;
 		const position = this._keywordMatches.position;
 		const allWordsFound = this._keywordMatches.allWordsFound;
@@ -101,7 +112,7 @@ class TitleKeywordAssessment extends Assessment {
 							"%1$sKeyphrase in title%2$s: The exact match of the focus keyphrase appears at the beginning " +
 							"of the SEO title. Good job!"
 						),
-						this._config.urlTitle,
+						urlTitle,
 						"</a>"
 					),
 				};
@@ -116,8 +127,8 @@ class TitleKeywordAssessment extends Assessment {
 						"%1$sKeyphrase in title%3$s: The exact match of the focus keyphrase appears in the SEO title, but not " +
 						"at the beginning. %2$sMove it to the beginning for the best results%3$s."
 					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -134,8 +145,8 @@ class TitleKeywordAssessment extends Assessment {
 						"%1$sKeyphrase in title%3$s: Does not contain the exact match. %2$sTry to write the exact match of " +
 						"your keyphrase in the SEO title and put it at the beginning of the title%3$s."
 					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};
@@ -152,8 +163,8 @@ class TitleKeywordAssessment extends Assessment {
 						"%1$sKeyphrase in title%3$s: Does not contain the exact match. %2$sTry to write the exact match of " +
 						"your keyphrase in the SEO title and put it at the beginning of the title%3$s."
 					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>",
 					keyword
 				),
@@ -171,8 +182,8 @@ class TitleKeywordAssessment extends Assessment {
 					"%2$sFor the best SEO results write the exact match of your keyphrase in the SEO title, and put " +
 					"the keyphrase at the beginning of the title%3$s."
 				),
-				this._config.urlTitle,
-				this._config.urlCallToAction,
+				urlTitle,
+				urlCallToAction,
 				"</a>",
 				keyword
 			),

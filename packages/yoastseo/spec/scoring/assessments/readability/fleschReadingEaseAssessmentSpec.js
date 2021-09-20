@@ -13,7 +13,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 80.5 ), i18n );
 
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 80.5 in the test," +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 80.5 in the test," +
 			" which is considered easy to read. Good job!" );
 	} );
 
@@ -23,7 +23,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 70.1 ), i18n );
 
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 70.1 in the test," +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 70.1 in the test," +
 			" which is considered fairly easy to read. Good job!" );
 	} );
 
@@ -33,7 +33,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 69.9 ), i18n );
 
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 69.9 in the test," +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 69.9 in the test," +
 			" which is considered ok to read. Good job!" );
 	} );
 
@@ -43,8 +43,8 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 50.9 ), i18n );
 
 		expect( result.getScore() ).toBe( 6 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 50.9 in" +
-			" the test, which is considered fairly difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences" +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 50.9 in" +
+			" the test, which is considered fairly difficult to read. Try to make shorter sentences" +
 			" to improve readability</a>." );
 	} );
 
@@ -54,8 +54,8 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 49.1 ), i18n );
 
 		expect( result.getScore() ).toBe( 3 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 49.1 in the test," +
-			" which is considered difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less" +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 49.1 in the test," +
+			" which is considered difficult to read. Try to make shorter sentences, using less" +
 			" difficult words to improve readability</a>." );
 	} );
 
@@ -65,8 +65,8 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 1.2 ), i18n );
 
 		expect( result.getScore() ).toBe( 3 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 1.2 in the test," +
-			" which is considered very difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less" +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 1.2 in the test," +
+			" which is considered very difficult to read. Try to make shorter sentences, using less" +
 			" difficult words to improve readability</a>." );
 	} );
 	it( "returns a 'very easy' score and the associated feedback text for a paper using the default config when the score is 100.", function() {
@@ -74,7 +74,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 100 ), i18n );
 
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 100 in the test," +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 100 in the test," +
 			" which is considered very easy to read. Good job!" );
 	} );
 
@@ -84,7 +84,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 90 ), i18n );
 
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 90 in the test," +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 90 in the test," +
 			" which is considered very easy to read. Good job!" );
 	} );
 
@@ -93,7 +93,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 100, false, false, russianConfig ), i18n );
 
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 100 in the test," +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 100 in the test," +
 			" which is considered very easy to read. Good job!" );
 	} );
 
@@ -103,7 +103,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 80, false, false, russianConfig ), i18n );
 
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 80 in the test," +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 80 in the test," +
 			" which is considered very easy to read. Good job!" );
 	} );
 
@@ -113,7 +113,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 85.6, false, false, russianConfig ), i18n );
 
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 85.6 in the test," +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 85.6 in the test," +
 			" which is considered very easy to read. Good job!" );
 	} );
 
@@ -123,7 +123,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 72.9, false, false, russianConfig ), i18n );
 
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 72.9 in the test," +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 72.9 in the test," +
 			" which is considered easy to read. Good job!" );
 	} );
 
@@ -133,7 +133,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 66.6, false, false, russianConfig ), i18n );
 
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 66.6 in the test," +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 66.6 in the test," +
 			" which is considered fairly easy to read. Good job!" );
 	} );
 
@@ -143,7 +143,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 55.5, false, false, russianConfig ), i18n );
 
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 55.5 in the test," +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 55.5 in the test," +
 			" which is considered ok to read. Good job!" );
 	} );
 
@@ -153,8 +153,8 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 40.9, false, false, russianConfig ), i18n );
 
 		expect( result.getScore() ).toBe( 6 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 40.9 in the test," +
-			" which is considered fairly difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences to" +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 40.9 in the test," +
+			" which is considered fairly difficult to read. Try to make shorter sentences to" +
 			" improve readability</a>." );
 	} );
 
@@ -164,8 +164,8 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 30, false, false, russianConfig ), i18n );
 
 		expect( result.getScore() ).toBe( 3 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 30 in the test," +
-			" which is considered difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less " +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 30 in the test," +
+			" which is considered difficult to read. Try to make shorter sentences, using less " +
 			"difficult words to improve readability</a>." );
 	} );
 
@@ -175,8 +175,8 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 11.2, false, false, russianConfig ), i18n );
 
 		expect( result.getScore() ).toBe( 3 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 11.2 in the" +
-			" test, which is considered very difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using " +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 11.2 in the" +
+			" test, which is considered very difficult to read. Try to make shorter sentences, using " +
 			"less difficult words to improve readability</a>." );
 	} );
 
@@ -185,7 +185,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 103.0, false, false, russianConfig ), i18n );
 
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 100" +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 100" +
 			" in the test, which is considered very easy to read. Good job!" );
 	} );
 
@@ -194,8 +194,8 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( -3.0 ), i18n );
 
 		expect( result.getScore() ).toBe( 3 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 0" +
-			" in the test, which is considered very difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter" +
+		expect( result.getText() ).toBe( "Flesch Reading Ease</a>: The copy scores 0" +
+			" in the test, which is considered very difficult to read. Try to make shorter" +
 			" sentences, using less difficult words to improve readability</a>." );
 	} );
 
