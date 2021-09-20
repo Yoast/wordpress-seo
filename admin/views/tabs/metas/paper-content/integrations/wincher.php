@@ -37,7 +37,7 @@ $wincher_is_logged_in = YoastSEO()->helpers->wincher->login_status();
 			$upsell_message = sprintf(
 				/* translators: 1: Link start tag to the Wincher pricing page, 2: expands to Wincher, 3: Link closing tag. */
 				esc_html__( 'Enabling automatic tracking of your keyphrases by %2$s can quickly exceed account limits. If you want to ensure all your keyphrases can be tracked, please %1$supgrade your plan%3$s.', 'wordpress-seo' ),
-				'<a href="https://www.wincher.com/pricing" target="_blank" rel="noopener noreferrer">',
+				'<a href="https://www.wincher.com/pricing?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast" target="_blank" rel="noopener noreferrer">',
 				'Wincher',
 				'</a>'
 			);
@@ -96,7 +96,7 @@ $wincher_is_logged_in = YoastSEO()->helpers->wincher->login_status();
 			esc_html__( 'You\'ve reached the maximum amount of %1$s%2$s keyphrases you can add to your %4$s account. If you wish to add more keyphrases, please %3$supgrade your %4$s plan.%5$s.', 'wordpress-seo' ),
 			'<span id="wincher-track-all-limit">',
 			'</span>',
-			'<a href="https://www.wincher.com/pricing">',
+			'<a href="https://www.wincher.com/pricing?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast">',
 			'Wincher',
 			'</a>'
 		);

@@ -136,7 +136,7 @@ export function getPositionalDataByState( props ) {
 	const updated = rowData && rowData.ranking_updated_at;
 	const isRankingDataFresh = updated && moment( updated ) >= moment().subtract( 7, "days" );
 	const viewLinkURL  = ( rowData ) ? sprintf(
-		"https://www.wincher.com/websites/%s/keywords?serp=%s?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
+		"https://app.wincher.com/websites/%s/keywords?serp=%s&utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
 		websiteId,
 		rowData.id
 	) : null;
