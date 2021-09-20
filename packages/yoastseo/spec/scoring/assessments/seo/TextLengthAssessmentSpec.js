@@ -12,8 +12,7 @@ describe( "A word count assessment", function() {
 
 		expect( assessment.getScore() ).toEqual( -20 );
 		expect( assessment.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 1 word. This is far below the recommended minimum of 300 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add more content</a>." );
+			"The text contains 1 word. This is far below the recommended minimum of 300 words. Add more content</a>." );
 	} );
 
 	it( "assesses a low word count", function() {
@@ -22,8 +21,7 @@ describe( "A word count assessment", function() {
 
 		expect( assessment.getScore() ).toEqual( -20 );
 		expect( assessment.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 5 words. This is far below the recommended minimum of 300 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add more content</a>." );
+			"The text contains 5 words. This is far below the recommended minimum of 300 words. Add more content</a>." );
 	} );
 
 	it( "assesses a medium word count", function() {
@@ -32,8 +30,7 @@ describe( "A word count assessment", function() {
 
 		expect( assessment.getScore() ).toEqual( -10 );
 		expect( assessment.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 150 words. This is far below the recommended minimum of 300 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add more content</a>." );
+			"The text contains 150 words. This is far below the recommended minimum of 300 words. Add more content</a>." );
 	} );
 
 	it( "assesses a slightly higher than medium word count", function() {
@@ -42,8 +39,7 @@ describe( "A word count assessment", function() {
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 225 words. This is below the recommended minimum of 300 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add more content</a>." );
+			"The text contains 225 words. This is below the recommended minimum of 300 words. Add more content</a>." );
 	} );
 
 	it( "assesses an almost at the recommended amount, word count", function() {
@@ -52,8 +48,7 @@ describe( "A word count assessment", function() {
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 275 words. This is slightly below the recommended minimum of 300 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add a bit more copy</a>." );
+			"The text contains 275 words. This is slightly below the recommended minimum of 300 words. Add a bit more copy</a>." );
 	} );
 
 
@@ -87,8 +82,7 @@ describe( "A word count assessment", function() {
 
 		expect( results.getScore() ).toEqual( -20 );
 		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 25 words. This is far below the recommended minimum of 900 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add more content</a>." );
+			"The text contains 25 words. This is far below the recommended minimum of 900 words. Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: far below minimum", function() {
@@ -99,8 +93,7 @@ describe( "A word count assessment", function() {
 
 		expect( results.getScore() ).toEqual( -20 );
 		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 125 words. This is far below the recommended minimum of 900 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add more content</a>." );
+			"The text contains 125 words. This is far below the recommended minimum of 900 words. Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: below minimum", function() {
@@ -111,8 +104,7 @@ describe( "A word count assessment", function() {
 
 		expect( results.getScore() ).toEqual( -20 );
 		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 325 words. This is below the recommended minimum of 900 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add more content</a>." );
+			"The text contains 325 words. This is below the recommended minimum of 900 words. Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: slightly below minimum", function() {
@@ -123,8 +115,7 @@ describe( "A word count assessment", function() {
 
 		expect( results.getScore() ).toEqual( 6 );
 		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 425 words. This is below the recommended minimum of 900 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add more content</a>." );
+			"The text contains 425 words. This is below the recommended minimum of 900 words. Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: above minimum", function() {
@@ -152,8 +143,7 @@ describe( "A word count assessment", function() {
 
 		expect( result.getScore() ).toEqual( -20 );
 		expect( result.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 25 words. This is far below the recommended minimum of 200 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add more content</a>." );
+			"The text contains 25 words. This is far below the recommended minimum of 200 words. Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied for a product page: far below minimum", function() {
@@ -164,8 +154,7 @@ describe( "A word count assessment", function() {
 
 		expect( result.getScore() ).toEqual( -10 );
 		expect( result.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 55 words. This is far below the recommended minimum of 200 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add more content</a>." );
+			"The text contains 55 words. This is far below the recommended minimum of 200 words. Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied for a product page: below minimum", function() {
@@ -176,8 +165,7 @@ describe( "A word count assessment", function() {
 
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 101 words. This is below the recommended minimum of 200 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add more content</a>." );
+			"The text contains 101 words. This is below the recommended minimum of 200 words. Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied for a product page: slightly below minimum", function() {
@@ -225,8 +213,7 @@ describe( "A word count assessment", function() {
 
 		expect( results.getScore() ).toEqual( -20 );
 		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 25 words. This is far below the recommended minimum of 400 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add more content</a>." );
+			"The text contains 25 words. This is far below the recommended minimum of 400 words. Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: far below minimum", function() {
@@ -237,8 +224,7 @@ describe( "A word count assessment", function() {
 
 		expect( results.getScore() ).toEqual( -20 );
 		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 75 words. This is far below the recommended minimum of 400 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add more content</a>." );
+			"The text contains 75 words. This is far below the recommended minimum of 400 words. Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: below minimum", function() {
@@ -249,8 +235,7 @@ describe( "A word count assessment", function() {
 
 		expect( results.getScore() ).toEqual( -20 );
 		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 225 words. This is below the recommended minimum of 400 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add more content</a>." );
+			"The text contains 225 words. This is below the recommended minimum of 400 words. Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: slightly below minimum", function() {
@@ -261,8 +246,7 @@ describe( "A word count assessment", function() {
 
 		expect( results.getScore() ).toEqual( 6 );
 		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 380 words. This is below the recommended minimum of 400 words. <a href='https://yoa.st/34o' " +
-			"target='_blank'>Add more content</a>." );
+			"The text contains 380 words. This is below the recommended minimum of 400 words. Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: above minimum", function() {
