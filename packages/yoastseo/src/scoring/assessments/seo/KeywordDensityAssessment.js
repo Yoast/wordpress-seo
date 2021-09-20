@@ -211,7 +211,7 @@ class KeywordDensityAssessment extends Assessment {
 					urlTitle,
 					"</a>",
 					this._minRecommendedKeywordCount,
-					this._config.urlCallToAction
+					urlCallToAction
 				),
 			};
 		}
