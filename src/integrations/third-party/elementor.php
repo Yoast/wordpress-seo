@@ -569,6 +569,7 @@ class Elementor implements Integration_Interface {
 			'currentday',
 			'tag',
 			'category',
+			'category_title',
 			'primary_category',
 			'pt_single',
 			'pt_plural',
