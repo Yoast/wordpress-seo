@@ -3,7 +3,7 @@ import { get } from "lodash";
 /**
  * Returns the replacement for the %%post_month%% variable.
  *
- * @returns {string} The post day.
+ * @returns {string} The post month.
  */
 function getReplacement() {
 	return get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.post_month", "" );
