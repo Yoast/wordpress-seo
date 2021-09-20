@@ -87,10 +87,10 @@ class TextCompetingLinksAssessment extends Assessment {
 		// Get the links
 		const links = researcher.getData( "links" );
 		// Check if links for the assessment is available in links data
-		if ( links[ "shortlinks.metabox.SEO.competing_links" ] && links[ "shortlinks.metabox.SEO.titleCall_to_action" ] ) {
+		if ( links[ "shortlinks.metabox.SEO.competing_links" ] && links[ "shortlinks.metabox.SEO.competing_linksCall_to_action" ] ) {
 			// Overwrite default links with links from configuration
 			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.competing_links" ] );
-			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.titleCall_to_action" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.competing_linksCall_to_action" ] );
 		}
 		// Calculate scores
 		if ( this.linkCount.keyword.totalKeyword > this._config.parameters.recommendedMaximum ) {
