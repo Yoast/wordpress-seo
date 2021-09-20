@@ -1242,6 +1242,8 @@ class WPSEO_Replace_Vars {
 	 * @return string|null
 	 */
 	private function retrieve_category_title() {
+
+		/*
 		$replacement = null;
 
 		if ( ! empty( $this->args->ID ) ) {
@@ -1262,6 +1264,31 @@ class WPSEO_Replace_Vars {
 		}
 
 		return $replacement;
+		 */
+
+		if ( empty( $this->args ) || empty( $this->args->ID ) ) {
+			return null;
+		}
+		$post_id = $this->args->ID;
+
+		$post       = get_post( $post_id );
+		$taxonomies = get_object_taxonomies( $post, 'objects' );
+
+		foreach ( $taxonomies as $taxonomy_slug => $taxonomy ) {
+			if ( ! $taxonomy->hierarchical ) {
+				continue;
+			}
+			$post_terms = get_the_terms( $post_id, $taxonomy_slug );
+			if ( is_array( $post_terms ) && count( $post_terms ) > 0 ) {
+				// AiOSEO takes the name of whatever the first hierarchical taxonomy is.
+				$term = $post_terms[ 0 ];
+				if ( $term ) {
+					return $term->name;
+				}
+			}
+		}
+
+		return null;
 	}
 
 	/* *********************** HELP TEXT RELATED ************************** */

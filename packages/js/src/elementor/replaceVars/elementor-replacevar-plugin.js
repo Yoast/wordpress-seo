@@ -179,12 +179,18 @@ const getCurrentReplacementVariables = () => {
 export const getCurrentReplacementVariablesForEditor = () => {
 	if ( currentReplaceVarsForEditor === null ) {
 		currentReplaceVarsForEditor = [];
+
+		const hiddenReplaceVars = get( window, "wpseoScriptData.analysis.plugins.replaceVars.hidden_replace_vars", [] );
+
 		getCurrentReplacementVariables().forEach( replacementVariable => {
+			const shouldBeHidden = hiddenReplaceVars.includes( replacementVariable.name );
+
 			// Add the main replacement variable.
 			currentReplaceVarsForEditor.push( {
 				name: replacementVariable.name,
 				label: replacementVariable.label,
 				value: replacementVariable.placeholder,
+				hidden: shouldBeHidden,
 			} );
 
 			// Add the aliases.
@@ -193,6 +199,7 @@ export const getCurrentReplacementVariablesForEditor = () => {
 					name: alias.name,
 					label: alias.label,
 					value: alias.placeholder,
+					hidden: shouldBeHidden,
 				} );
 			} );
 		} );
