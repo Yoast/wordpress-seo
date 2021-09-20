@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import getSentences from "../../../src/languageProcessing/researches/countSentencesFromText.js";
 import Paper from "../../../src/values/Paper";
 
