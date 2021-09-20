@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import KeyphraseDistributionAssessment from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
@@ -19,8 +22,8 @@ describe( "An assessment to check your keyphrase distribution", function() {
 		);
 
 		expect( assessment.getScore() ).toEqual( 0 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: " +
-			"<a href='https://yoa.st/33u' target='_blank'>Include your keyphrase or its synonyms in the text so that we can check keyphrase" +
+		expect( assessment.getText() ).toEqual( "Keyphrase distribution</a>: " +
+			"Include your keyphrase or its synonyms in the text so that we can check keyphrase" +
 			" distribution</a>." );
 	} );
 
@@ -36,8 +39,8 @@ describe( "An assessment to check your keyphrase distribution", function() {
 		);
 
 		expect( assessment.getScore() ).toEqual( 1 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Very uneven. " +
-			"Large parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute" +
+		expect( assessment.getText() ).toEqual( "Keyphrase distribution</a>: Very uneven. " +
+			"Large parts of your text do not contain the keyphrase or its synonyms. Distribute" +
 			" them more evenly</a>." );
 	} );
 
@@ -53,8 +56,8 @@ describe( "An assessment to check your keyphrase distribution", function() {
 		);
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. " +
-			"Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute" +
+		expect( assessment.getText() ).toEqual( "Keyphrase distribution</a>: Uneven. " +
+			"Some parts of your text do not contain the keyphrase or its synonyms. Distribute" +
 			" them more evenly</a>." );
 	} );
 
@@ -70,7 +73,7 @@ describe( "An assessment to check your keyphrase distribution", function() {
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!" );
+		expect( assessment.getText() ).toEqual( "Keyphrase distribution</a>: Good job!" );
 	} );
 } );
 

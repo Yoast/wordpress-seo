@@ -78,7 +78,7 @@ export default class ListAssessment extends Assessment {
 		const links = researcher.getData( "links" );
 		// Check if links for the assessment is available in links data
 		if ( links[ "shortlinks.metabox.readability.list" ] &&
-			links[ "hortlinks.metabox.readability.listCall_to_action" ] ) {
+			links[ "shortlinks.metabox.readability.listCall_to_action" ] ) {
 			// Overwrite default links with links from configuration
 			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.list" ] );
 			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.listCall_to_action" ] );

@@ -9,9 +9,9 @@ import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 // All characters that indicate a sentence delimiter.
 const fullStop = ".";
 /*
- * \u2026 - ellipsis
- * \u06D4 - Urdu full stop
- * \u061f - Arabic question mark
+ * \u2026 - ellipsis.
+ * \u06D4 - Urdu full stop.
+ * \u061f - Arabic question mark.
  */
 const sentenceDelimiters = "?!;\u2026\u06d4\u061f";
 
@@ -163,14 +163,12 @@ export default class SentenceTokenizer {
 	 * @returns {boolean} Returns true if it is a valid beginning, false if it is not.
 	 */
 	isValidSentenceBeginning( sentenceBeginning ) {
-		return (
-			this.isCapitalLetter( sentenceBeginning ) ||
-			this.isLetterFromRTLLanguage( sentenceBeginning ) ||
-			this.isNumber( sentenceBeginning ) ||
-			this.isQuotation( sentenceBeginning ) ||
-			this.isPunctuation( sentenceBeginning ) ||
-			this.isSmallerThanSign( sentenceBeginning )
-		);
+		return ( this.isCapitalLetter( sentenceBeginning ) ||
+				this.isLetterFromRTLLanguage( sentenceBeginning ) ||
+				this.isNumber( sentenceBeginning ) ||
+				this.isQuotation( sentenceBeginning ) ||
+				this.isPunctuation( sentenceBeginning ) ||
+				this.isSmallerThanSign( sentenceBeginning ) );
 	}
 
 	/**

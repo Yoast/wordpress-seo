@@ -1,4 +1,5 @@
 // Lodash imports.
+import { isFeatureEnabled } from "@yoast/feature-flag";
 import { filter } from "lodash-es";
 import { flatMap } from "lodash-es";
 import { isEmpty } from "lodash-es";
@@ -9,6 +10,7 @@ import { memoize } from "lodash-es";
 import { getBlocks } from "../html/html.js";
 import { unifyNonBreakingSpace as unifyWhitespace } from "../sanitize/unifyWhitespace.js";
 import SentenceTokenizer from "./SentenceTokenizer";
+import JapaneseSentenceTokenizer from "./SentenceTokenizerJapanese";
 import excludeTableOfContentsTag from "../sanitize/excludeTableOfContentsTag";
 
 // Character classes.
@@ -24,7 +26,7 @@ const newLineRegex = new RegExp( newLines );
  * @returns {Array<string>} The list of sentences in the block.
  */
 function getSentencesFromBlock( block ) {
-	const sentenceTokenizer = new SentenceTokenizer();
+	const sentenceTokenizer = isFeatureEnabled( "JAPANESE_SUPPORT" ) ? new JapaneseSentenceTokenizer() : new SentenceTokenizer();
 	const { tokenizer, tokens } = sentenceTokenizer.createTokenizer();
 	sentenceTokenizer.tokenize( tokenizer, block );
 

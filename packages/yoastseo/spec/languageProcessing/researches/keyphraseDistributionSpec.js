@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
 import {
 	computeScoresPerSentenceShortTopic,

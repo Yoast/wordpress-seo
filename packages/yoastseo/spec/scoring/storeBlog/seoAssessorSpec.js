@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import Assessor from "../../../src/scoring/storeBlog/seoAssessor.js";
 import Paper from "../../../src/values/Paper.js";
