@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import { inRange } from "lodash-es";
 
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
