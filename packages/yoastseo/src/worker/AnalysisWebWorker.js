@@ -689,7 +689,6 @@ export default class AnalysisWebWorker {
 		}
 
 		if ( has( configuration, "links" ) ) {
-			// Make feature flags available inside of the web worker.
 			this._researcher.addResearchData( "links", configuration.links );
 			delete  configuration.links;
 		}
