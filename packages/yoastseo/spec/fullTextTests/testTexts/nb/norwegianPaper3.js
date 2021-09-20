@@ -43,14 +43,12 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "Meta description length</a>: The meta description is " +
-			"over 156 characters. To ensure the entire description will be visible, <a href='https://yoa.st/34e' " +
-			"target='_blank'>you should reduce the length</a>!",
+			"over 156 characters. To ensure the entire description will be visible, you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
 		isApplicable: true,
 		score: 3,
-		resultText: "Keyphrase in subheading</a>: <a href='https://yoa.st/33n' " +
-			"target='_blank'>Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!",
+		resultText: "Keyphrase in subheading</a>: Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,
