@@ -2,7 +2,7 @@
 import { withSelect } from "@wordpress/data";
 import { Component, Fragment } from "@wordpress/element";
 import { replacementVariablesShape } from "@yoast/replacement-variable-editor";
-import { includes, map } from "lodash";
+import { includes, map, get } from "lodash";
 import PropTypes from "prop-types";
 import SettingsEditorPortal from "./portals/SettingsEditorPortal";
 import SettingsFieldPortal from "./portals/SettingsFieldPortal";
@@ -119,7 +119,7 @@ class SettingsReplacementVariableEditors extends Component {
 	 * @returns {Object[]} The list of replacement variables with the hidden ones set to hidden.
 	 */
 	setHiddenReplaceVars( replaceVars ) {
-		const { hidden_replace_vars: hiddenReplaceVars } = wpseoScriptData.analysis.plugins.replaceVars;
+		const hiddenReplaceVars = get( window, "wpseoScriptData.analysis.plugins.replaceVars.hidden_replace_vars", [] );
 
 		return replaceVars.map( replaceVar => {
 			replaceVar.hidden = includes( hiddenReplaceVars, replaceVar.name );
