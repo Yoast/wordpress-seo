@@ -243,6 +243,7 @@ Enhancements:
 
 * Improves the accuracy of the Keyphrase in slug assessment by correctly detecting multi-word keyphrases with at least one hyphenated word in the slug.
 * Changes the default color for overall scores to red.
+* Fixes a bug where the All in One SEO plugin (version 4) was not detected in our import tool.
 
 Bugfixes:
 
