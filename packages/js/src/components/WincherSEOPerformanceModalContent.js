@@ -38,9 +38,9 @@ export function hasError( response ) {
  * @returns {wp.Element} The error message component.
  */
 export function getErrorMessage( response ) {
-	if ( response.status === 400 ) {
+	if ( response.status === 400 && response.data && response.data.canTrack === false ) {
 		return <WincherLimitReached
-			limit={ response.results.limit }
+			limit={ response.data.limit }
 		/>;
 	}
 
