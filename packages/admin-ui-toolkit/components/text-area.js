@@ -1,6 +1,6 @@
 import { ExclamationCircleIcon } from "@heroicons/react/solid";
-import { getErrorAriaProps, getErrorId } from "@yoast/toolkit/helpers";
-import { validationErrorPropType } from "@yoast/toolkit/prop-types";
+import { getErrorAriaProps, getErrorId } from "@yoast/admin-ui-toolkit/helpers";
+import { validationErrorPropType } from "@yoast/admin-ui-toolkit/prop-types";
 import classNames from "classnames";
 import { PropTypes } from "prop-types";
 
