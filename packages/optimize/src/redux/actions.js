@@ -1,5 +1,4 @@
 import { select } from "@wordpress/data";
-import { HANDLE_ROUTE_CHANGED_ERROR, HANDLE_ROUTE_CHANGED_REQUEST, HANDLE_ROUTE_CHANGED_SUCCESS } from "@yoast/settings-ui/src/redux/constants";
 
 import { OPTIMIZE_STORE_KEY } from "../constants";
 import {
@@ -43,6 +42,9 @@ import {
 	SET_DATA,
 	SET_MARKER,
 	SET_QUERY_DATA,
+	HANDLE_ROUTE_CHANGED_ERROR,
+	HANDLE_ROUTE_CHANGED_REQUEST,
+	HANDLE_ROUTE_CHANGED_SUCCESS,
 } from "./constants";
 import { RESEARCHES } from "./reducers/analysis-research";
 
@@ -126,11 +128,11 @@ export function resetListData() {
  *                   depending on the outcome of the query.
  */
 export function* handleQuery() {
-	yield { type: HANDLE_QUERY_REQUEST };
+	yield{ type: HANDLE_QUERY_REQUEST };
 
 	try {
 		const queryData = yield select( OPTIMIZE_STORE_KEY ).getQueryData();
-		const response = yield { type: HANDLE_QUERY, payload: queryData };
+		const response = yield{ type: HANDLE_QUERY, payload: queryData };
 
 		if ( response.status === 200 ) {
 			return { type: HANDLE_QUERY_SUCCESS, payload: response };
@@ -149,12 +151,12 @@ export function* handleQuery() {
  *                   depending on the outcome of the query.
  */
 export function* handleMoreResultsQuery() {
-	yield { type: HANDLE_MORE_RESULTS_QUERY_REQUEST };
+	yield{ type: HANDLE_MORE_RESULTS_QUERY_REQUEST };
 
 	try {
 		const queryData = yield select( OPTIMIZE_STORE_KEY ).getQueryData();
 		const after = yield select( OPTIMIZE_STORE_KEY ).getListData( "after" );
-		const response = yield { type: HANDLE_QUERY, payload: { ...queryData, after } };
+		const response = yield{ type: HANDLE_QUERY, payload: { ...queryData, after } };
 
 		if ( response.status === 200 ) {
 			return { type: HANDLE_MORE_RESULTS_QUERY_SUCCESS, payload: response };
@@ -172,13 +174,13 @@ export function* handleMoreResultsQuery() {
  * @returns {Object} Either the HANDLE_SAVE_SUCCESS or the HANDLE_SAVE_ERROR action.
  */
 export function* handleSave( { contentType, id, ...requestData } ) {
-	yield { type: HANDLE_SAVE_REQUEST };
+	yield{ type: HANDLE_SAVE_REQUEST };
 
 	try {
 		const original = yield select( OPTIMIZE_STORE_KEY ).getOriginalData();
 		const data = yield select( OPTIMIZE_STORE_KEY ).getData();
 		// Add contentType to payload.
-		const response = yield { type: HANDLE_SAVE, payload: { data, options: { contentType, id, ...requestData } } };
+		const response = yield{ type: HANDLE_SAVE, payload: { data, options: { contentType, id, ...requestData } } };
 
 		if ( response.status === 200 ) {
 			// A redirect has been automatically created if slug has changed.
@@ -197,10 +199,10 @@ export function* handleSave( { contentType, id, ...requestData } ) {
  * @returns {Object} Either the GET_DETAIL_SUCCESS or the GET_DETAIL_ERROR action.
  */
 export function* getDetail( { contentType, id, ...requestData } ) {
-	yield { type: GET_DETAIL_REQUEST };
+	yield{ type: GET_DETAIL_REQUEST };
 
 	try {
-		const response = yield { type: GET_DETAIL, payload: { contentType, id, ...requestData } };
+		const response = yield{ type: GET_DETAIL, payload: { contentType, id, ...requestData } };
 
 		if ( response.status === 200 ) {
 			return {
@@ -227,11 +229,11 @@ export function* getDetail( { contentType, id, ...requestData } ) {
  *                   depending on the outcome of the query.
  */
 export function* runAnalysis( { contentType } ) {
-	yield { type: RUN_ANALYSIS_REQUEST };
+	yield{ type: RUN_ANALYSIS_REQUEST };
 
 	try {
 		const data = yield select( OPTIMIZE_STORE_KEY ).getAnalysisData( contentType );
-		const response = yield { type: RUN_ANALYSIS, payload: { contentType, data } };
+		const response = yield{ type: RUN_ANALYSIS, payload: { contentType, data } };
 
 		if ( response.status === 200 ) {
 			return {
@@ -256,11 +258,11 @@ export function* runAnalysis( { contentType } ) {
  *                   action, depending on the outcome of the query.
  */
 export function* runRelatedKeyphrasesAnalysis( { contentType } ) {
-	yield { type: RUN_RELATED_KEYPHRASE_ANALYSIS_REQUEST };
+	yield{ type: RUN_RELATED_KEYPHRASE_ANALYSIS_REQUEST };
 
 	try {
 		const data = yield select( OPTIMIZE_STORE_KEY ).getRelatedKeyphrasesAnalysisData();
-		const response = yield { type: RUN_RELATED_KEYPHRASE_ANALYSIS, payload: { contentType, data } };
+		const response = yield{ type: RUN_RELATED_KEYPHRASE_ANALYSIS, payload: { contentType, data } };
 
 		if ( response.status === 200 ) {
 			return {
@@ -371,11 +373,11 @@ export function removeRelatedKeyphrase( key ) {
  *                   depending on the outcome of the query.
  */
 function* runResearch( { contentType, data } ) {
-	yield { type: RUN_RESEARCH_REQUEST };
+	yield{ type: RUN_RESEARCH_REQUEST };
 	const payload = { research: data.research };
 
 	try {
-		const response = yield { type: RUN_RESEARCH, payload: { contentType, data } };
+		const response = yield{ type: RUN_RESEARCH, payload: { contentType, data } };
 
 		if ( response.status === 200 ) {
 			payload.data = response.data;
@@ -416,10 +418,10 @@ export function* runWordFormsResearch( { contentType } ) {
  * @returns {{type: string}} The action.
  */
 export function* handleRouteChanged( location ) {
-	yield { type: HANDLE_ROUTE_CHANGED_REQUEST };
+	yield{ type: HANDLE_ROUTE_CHANGED_REQUEST };
 
 	try {
-		yield { type: HANDLE_ROUTE_CHANGED, payload: location };
+		yield{ type: HANDLE_ROUTE_CHANGED, payload: location };
 
 		return { type: HANDLE_ROUTE_CHANGED_SUCCESS, payload: { location } };
 	} catch ( error ) {
