@@ -65,26 +65,26 @@ var YoastReplaceVarPlugin = function( app, store ) {
  * @returns {void}
  */
 YoastReplaceVarPlugin.prototype.registerReplacements = function() {
+	this.addReplacement( new ReplaceVar( "%%author_first_name%%", "author_first_name" ) );
+	this.addReplacement( new ReplaceVar( "%%author_last_name%%",  "author_last_name" ) );
+	this.addReplacement( new ReplaceVar( "%%category%%",          "category" ) );
+	this.addReplacement( new ReplaceVar( "%%category_title%%",    "category_title" ) );
 	this.addReplacement( new ReplaceVar( "%%currentdate%%",       "currentdate" ) );
 	this.addReplacement( new ReplaceVar( "%%currentday%%",        "currentday" ) );
 	this.addReplacement( new ReplaceVar( "%%currentmonth%%",      "currentmonth" ) );
 	this.addReplacement( new ReplaceVar( "%%currenttime%%",       "currenttime" ) );
 	this.addReplacement( new ReplaceVar( "%%currentyear%%",       "currentyear" ) );
-	this.addReplacement( new ReplaceVar( "%%post_year%%",         "post_year" ) );
-	this.addReplacement( new ReplaceVar( "%%post_month%%",        "post_month" ) );
-	this.addReplacement( new ReplaceVar( "%%author_first_name%%", "author_first_name" ) );
-	this.addReplacement( new ReplaceVar( "%%author_last_name%%",  "author_last_name" ) );
-	this.addReplacement( new ReplaceVar( "%%permalink%%",         "permalink" ) );
-	this.addReplacement( new ReplaceVar( "%%post_content%%",      "post_content" ) );
-	this.addReplacement( new ReplaceVar( "%%category_title%%",    "category_title" ) );
 	this.addReplacement( new ReplaceVar( "%%date%%",              "date" ) );
-	this.addReplacement( new ReplaceVar( "%%userid%%",            "userid" ) );
 	this.addReplacement( new ReplaceVar( "%%id%%",                "id" ) );
 	this.addReplacement( new ReplaceVar( "%%page%%",              "page" ) );
+	this.addReplacement( new ReplaceVar( "%%permalink%%",         "permalink" ) );
+	this.addReplacement( new ReplaceVar( "%%post_content%%",      "post_content" ) );
+	this.addReplacement( new ReplaceVar( "%%post_month%%",        "post_month" ) );
+	this.addReplacement( new ReplaceVar( "%%post_year%%",         "post_year" ) );
 	this.addReplacement( new ReplaceVar( "%%searchphrase%%",      "searchphrase" ) );
 	this.addReplacement( new ReplaceVar( "%%sitedesc%%",          "sitedesc" ) );
 	this.addReplacement( new ReplaceVar( "%%sitename%%",          "sitename" ) );
-	this.addReplacement( new ReplaceVar( "%%category%%",          "category" ) );
+	this.addReplacement( new ReplaceVar( "%%userid%%",            "userid" ) );
 
 	this.addReplacement( new ReplaceVar( "%%focuskw%%", "keyword", {
 		source: "app",
