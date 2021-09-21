@@ -81,7 +81,13 @@ const getReplacements = ( scope = "" ) => {
 			];
 		case "page":
 			return [
+				"authorFirstName",
+				"authorLastName",
 				"category",
+				"categoryTitle",
+				"currentDate",
+				"currentDay",
+				"currentMonth",
 				"currentYear",
 				"date",
 				"excerpt",
@@ -93,6 +99,11 @@ const getReplacements = ( scope = "" ) => {
 				"primaryCategory",
 				"pageNumber",
 				"pageTotal",
+				"permalink",
+				"postContent",
+				"postDay",
+				"postMonth",
+				"postYear",
 				"postTypeNamePlural",
 				"postTypeNameSingular",
 				"searchPhrase",
