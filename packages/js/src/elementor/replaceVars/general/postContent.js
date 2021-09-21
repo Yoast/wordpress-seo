@@ -10,9 +10,9 @@ function getReplacement() {
 }
 
 /**
- * Represents the sep replacement variable.
+ * Represents the post content replacement variable.
  *
- * @returns {Object} The sep replacement variable.
+ * @returns {Object} The post content replacement variable.
  */
 export default {
 	name: "post_content",

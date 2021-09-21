@@ -1135,7 +1135,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the post/page/cpt's published year for use as replacement string.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	private function retrieve_post_year() {
 		if ( empty( $this->args->ID ) ) {
@@ -1148,7 +1148,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the post/page/cpt's published month for use as replacement string.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	private function retrieve_post_month() {
 		if ( empty( $this->args->ID ) ) {
@@ -1161,7 +1161,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the post/page/cpt's published day for use as replacement string.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	private function retrieve_post_day() {
 		if ( empty( $this->args->ID ) ) {
@@ -1174,7 +1174,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the post/page/cpt author's first name for use as replacement string.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	private function retrieve_author_first_name() {
 		$replacement = null;
@@ -1191,7 +1191,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the post/page/cpt author's last name for use as replacement string.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	private function retrieve_author_last_name() {
 		$replacement = null;
@@ -1206,9 +1206,9 @@ class WPSEO_Replace_Vars {
 	}
 
 	/**
-	 * Retrieve the post/page/cpt author's last name for use as replacement string.
+	 * Retrieve the post/page/cpt permalink for use as replacement string.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	private function retrieve_permalink() {
 		if ( empty( $this->args->ID ) ) {

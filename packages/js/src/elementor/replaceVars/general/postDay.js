@@ -10,9 +10,9 @@ function getReplacement() {
 }
 
 /**
- * Represents the sep replacement variable.
+ * Represents the post day replacement variable.
  *
- * @returns {Object} The sep replacement variable.
+ * @returns {Object} The post day replacement variable.
  */
 export default {
 	name: "post_day",

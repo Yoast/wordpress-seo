@@ -10,9 +10,9 @@ function getReplacement() {
 }
 
 /**
- * Represents the sep replacement variable.
+ * Represents the author last name replacement variable.
  *
- * @returns {Object} The sep replacement variable.
+ * @returns {Object} The author last name replacement variable.
  */
 export default {
 	name: "author_last_name",

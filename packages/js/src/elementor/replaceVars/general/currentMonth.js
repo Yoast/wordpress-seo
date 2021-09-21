@@ -10,9 +10,9 @@ function getReplacement() {
 }
 
 /**
- * Represents the sep replacement variable.
+ * Represents the current month replacement variable.
  *
- * @returns {Object} The sep replacement variable.
+ * @returns {Object} The current month replacement variable.
  */
 export default {
 	name: "currentmonth",

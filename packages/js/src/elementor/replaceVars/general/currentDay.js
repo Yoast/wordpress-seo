@@ -10,9 +10,9 @@ function getReplacement() {
 }
 
 /**
- * Represents the sep replacement variable.
+ * Represents the current day replacement variable.
  *
- * @returns {Object} The sep replacement variable.
+ * @returns {Object} The current day replacement variable.
  */
 export default {
 	name: "currentday",

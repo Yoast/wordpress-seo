@@ -10,9 +10,9 @@ function getReplacement() {
 }
 
 /**
- * Represents the sep replacement variable.
+ * Represents the permalink replacement variable.
  *
- * @returns {Object} The sep replacement variable.
+ * @returns {Object} The permalink replacement variable.
  */
 export default {
 	name: "permalink",
