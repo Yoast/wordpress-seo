@@ -1,6 +1,5 @@
 import registerGlobalAPIs, { createNavigationAPI } from "@yoast/admin-ui-toolkit/global-apis";
 import { setLocaleData } from "@yoast/admin-ui-toolkit/helpers";
-import "./index.css";
 import initializeApp from "./initializers/app";
 import initializeNavigation from "./initializers/navigation";
 import initializeStore from "./initializers/store";

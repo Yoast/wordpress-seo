@@ -1,5 +1,6 @@
 import initialize from "../src";
 import exampleConfig from "../qa/example-config";
+import "./index.css";
 
 const app = initialize( exampleConfig );
 

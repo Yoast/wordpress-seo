@@ -2,7 +2,6 @@ import registerGlobalAPIs, { createNavigationAPI } from "@yoast/admin-ui-toolkit
 import { setLocaleData } from "@yoast/admin-ui-toolkit/helpers";
 import { noop } from "lodash";
 import { createContentTypesWithDefaults } from "./helpers";
-import "./index.css";
 import initializeApp from "./initializers/app";
 import initializeNavigation from "./initializers/navigation";
 import initializeStore from "./initializers/store";

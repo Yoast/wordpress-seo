@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "The Yoast welcome UI",
   "main": "src/index.js",
+  "style": "src/index.css",
   "repository": "https://github.com/Yoast/wordpress-seo.git",
   "author": "Yoast <support@yoast.com>",
   "private": true,

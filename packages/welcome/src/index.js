@@ -2,7 +2,6 @@ import { render } from "@wordpress/element";
 import registerGlobalAPIs from "@yoast/admin-ui-toolkit/global-apis";
 import { setLocaleData } from "@yoast/admin-ui-toolkit/helpers";
 import App from "./app";
-import "./index.css";
 
 /**
  * Initializes the welcome app.

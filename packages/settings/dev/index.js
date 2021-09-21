@@ -1,5 +1,5 @@
 import { CakeIcon } from "@heroicons/react/outline";
-
+import "./index.css";
 import exampleConfig from "../qa/example-config";
 import globalApp from "../src/initializers/global-app";
 import initialize from "../src/index";

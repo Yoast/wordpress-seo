@@ -5,7 +5,7 @@ import "jsoneditor-react/es/editor.min.css";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { Disclosure } from "@headlessui/react";
 import classNames from "classnames";
-
+import "./index.css";
 import initialize from "../src/index";
 import exampleConfig from "./example-config";
 
