@@ -227,6 +227,10 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		const value = searchValue.toLowerCase();
 
 		return suggestions.filter( function( suggestion ) {
+			if ( suggestion.hidden ) {
+				return false;
+			}
+
 			return ! value || suggestion.name.toLowerCase().indexOf( value ) === 0;
 		} );
 	}
