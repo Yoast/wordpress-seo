@@ -550,9 +550,9 @@ class Adapter {
 	/**
 	 * Adds an index.
 	 *
-	 * @param string $table_name  The table name.
-	 * @param string $column_name The column name.
-	 * @param array  $options     Index options.
+	 * @param string       $table_name  The table name.
+	 * @param array|string $column_name The column name(s).
+	 * @param array        $options     Index options.
 	 *
 	 * @return bool
 	 */
@@ -605,9 +605,9 @@ class Adapter {
 	/**
 	 * Drops an index.
 	 *
-	 * @param string $table_name  The table name.
-	 * @param string $column_name The column name.
-	 * @param array  $options     Index options.
+	 * @param string       $table_name  The table name.
+	 * @param array|string $column_name The column name(s).
+	 * @param array        $options     Index options.
 	 *
 	 * @return bool
 	 */
@@ -678,9 +678,9 @@ class Adapter {
 	/**
 	 * Checks an index.
 	 *
-	 * @param string $table_name  The table name.
-	 * @param string $column_name The column name.
-	 * @param array  $options     Index options.
+	 * @param string       $table_name  The table name.
+	 * @param array|string $column_name The column name(s).
+	 * @param array        $options     Index options.
 	 *
 	 * @return bool Whether or not the index exists.
 	 */

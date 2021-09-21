@@ -123,10 +123,14 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!",
 	},
 	textTransitionWords: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!",
 	},
 	passiveVoice: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 10.1% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		isApplicable: true,
@@ -134,7 +138,9 @@ const expectedResults = {
 		resultText: "",
 	},
 	sentenceBeginnings: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,

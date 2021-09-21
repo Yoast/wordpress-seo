@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from "@yoast/feature-flag";
 import { map, merge } from "lodash-es";
 
 import formatNumber from "../../../helpers/formatNumber";
@@ -133,11 +132,6 @@ export default class PassiveVoiceAssessment extends Assessment {
 	 * @returns {object} the Assessmentresult
 	 */
 	getResult( paper, researcher, i18n ) {
-		// Check if the Farsi feature is enabled and return the default result if it isn't.
-		if ( researcher.getConfig( "language" ) === "fa" && ! isFeatureEnabled( "FARSI_SUPPORT" ) ) {
-			return new AssessmentResult();
-		}
-
 		const passiveVoice = researcher.getResearch( "getPassiveVoiceResult" );
 
 		const passiveVoiceResult = this.calculatePassiveVoiceResult( passiveVoice, i18n );
