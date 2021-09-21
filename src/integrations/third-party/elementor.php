@@ -585,7 +585,6 @@ class Elementor implements Integration_Interface {
 			'author_last_name',
 			'permalink',
 			'post_content',
-			'category_title',
 		];
 
 		foreach ( $vars_to_cache as $var ) {
