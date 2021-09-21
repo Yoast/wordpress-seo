@@ -322,7 +322,11 @@ class WincherKeyphrasesTable extends Component {
 	 * @returns {void}
 	 */
 	componentDidUpdate() {
-		const { keyphrases } = this.props;
+		const { keyphrases, isLoggedIn } = this.props;
+
+		if ( ! isLoggedIn ) {
+			return;
+		}
 
 		if ( this.noKeyphrasesHaveRankingData() ) {
 			clearInterval( this.interval );
