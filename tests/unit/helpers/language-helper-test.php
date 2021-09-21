@@ -56,10 +56,8 @@ class Language_Helper_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertInstanceOf( Japanese_Support_Conditional::class,
-			$this->getPropertyValue( $this, 'japanese_conditional' ) );
-		$this->assertInstanceOf( Greek_Support_Conditional::class,
-			$this->getPropertyValue( $this, 'greek_conditional' ) );
+		$this->assertInstanceOf( Japanese_Support_Conditional::class, $this->getPropertyValue( $this, 'japanese_conditional' ) );
+		$this->assertInstanceOf( Greek_Support_Conditional::class, $this->getPropertyValue( $this, 'greek_conditional' ) );
 	}
 
 	/**
