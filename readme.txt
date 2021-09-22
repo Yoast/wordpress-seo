@@ -248,6 +248,7 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where the meta description bar indicator color would not always match the color of the assessment bullet.
+* Fixes a bug where the placement variables Category, Name and Tag would not show up in the snippet preview.
 
 Other:
 
