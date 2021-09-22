@@ -6,7 +6,7 @@ module.exports = function( grunt ) {
 		target: {
 			src: [ "<%= files.js %>", "<%= files.jsDontLint %>" ],
 			options: {
-				maxWarnings: 22,
+				maxWarnings: 23,
 				fix: fix,
 			},
 		},

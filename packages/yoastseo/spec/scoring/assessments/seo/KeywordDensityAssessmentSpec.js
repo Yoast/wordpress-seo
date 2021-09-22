@@ -23,9 +23,9 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 		const researcher = new DefaultResearcher( paper );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toBe( 4 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+		expect( result.getText() ).toBe( "Keyphrase density</a>: " +
 			"The focus keyphrase was found 0 times. That's less than the recommended minimum of 5 times for a text of this length." +
-			" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
+			" Focus on your keyphrase</a>!" );
 	} );
 
 	it( "runs the keywordDensity on the paper with a low keyphrase density (0.1%)", function() {
@@ -33,9 +33,9 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 		const researcher = new DefaultResearcher( paper );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toBe( 4 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+		expect( result.getText() ).toBe( "Keyphrase density</a>: " +
 			"The focus keyphrase was found 1 time. That's less than the recommended minimum of 5 times for a text of this length." +
-			" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
+			" Focus on your keyphrase</a>!" );
 	} );
 
 	it( "runs the keywordDensity on the paper with a good keyphrase density (0.5%)", function() {
@@ -43,7 +43,7 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 		const researcher = new DefaultResearcher( paper );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+		expect( result.getText() ).toBe( "Keyphrase density</a>: " +
 			"The focus keyphrase was found 5 times. This is great!" );
 	} );
 
@@ -52,7 +52,7 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 		const researcher = new DefaultResearcher( paper );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+		expect( result.getText() ).toBe( "Keyphrase density</a>: " +
 			"The focus keyphrase was found 20 times. This is great!" );
 	} );
 
@@ -61,9 +61,9 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 		const researcher = new DefaultResearcher( paper );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toBe( -10 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+		expect( result.getText() ).toBe( "Keyphrase density</a>: " +
 			"The focus keyphrase was found 35 times. That's more than the recommended maximum of 29 times " +
-			"for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
+			"for a text of this length. Don't overoptimize</a>!" );
 	} );
 
 	it( "runs the keywordDensity on the paper with a very high keyphrase density (10%)", function() {
@@ -71,9 +71,9 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 		const researcher = new DefaultResearcher( paper );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toBe( -50 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+		expect( result.getText() ).toBe( "Keyphrase density</a>: " +
 			"The focus keyphrase was found 100 times. That's way more than the recommended maximum of 29 times " +
-			"for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
+			"for a text of this length. Don't overoptimize</a>!" );
 	} );
 
 
@@ -82,7 +82,7 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 		const researcher = new DefaultResearcher( paper );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+		expect( result.getText() ).toBe( "Keyphrase density</a>: " +
 			"The focus keyphrase was found 20 times. This is great!" );
 	} );
 
@@ -91,9 +91,9 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 		const researcher = new DefaultResearcher( paper );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toBe( -50 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+		expect( result.getText() ).toBe( "Keyphrase density</a>: " +
 			"The focus keyphrase was found 20 times. That's way more than the recommended maximum of 12 times " +
-			"for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
+			"for a text of this length. Don't overoptimize</a>!" );
 	} );
 
 	it( "returns a bad result if the keyword is only used once, regardless of the density", function() {
@@ -101,9 +101,9 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 		const researcher = new DefaultResearcher( paper );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toBe( 4 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+		expect( result.getText() ).toBe( "Keyphrase density</a>: " +
 			"The focus keyphrase was found 1 time. That's less than the recommended minimum of 2 times " +
-			"for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
+			"for a text of this length. Focus on your keyphrase</a>!" );
 	} );
 
 	it( "returns a good result if the keyword is used twice and " +
@@ -112,7 +112,7 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 		const researcher = new DefaultResearcher( paper );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+		expect( result.getText() ).toBe( "Keyphrase density</a>: " +
 			"The focus keyphrase was found 2 times. This is great!" );
 	} );
 
@@ -144,7 +144,7 @@ describe( "Tests for the keywordDensity assessment for languages with morphology
 		researcher.addResearchData( "morphology", morphologyData );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+		expect( result.getText() ).toBe( "Keyphrase density</a>: " +
 			"The focus keyphrase was found 32 times. This is great!" );
 	} );
 
@@ -154,7 +154,7 @@ describe( "Tests for the keywordDensity assessment for languages with morphology
 		researcher.addResearchData( "morphology", morphologyDataDe );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toBe( 9 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+		expect( result.getText() ).toBe( "Keyphrase density</a>: " +
 			"The focus keyphrase was found 32 times. This is great!" );
 	} );
 
@@ -163,9 +163,9 @@ describe( "Tests for the keywordDensity assessment for languages with morphology
 		const researcher = new GermanResearcher( paper );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toBe( -10 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+		expect( result.getText() ).toBe( "Keyphrase density</a>: " +
 			"The focus keyphrase was found 32 times. That's more than the recommended maximum of 29 times for a text of this length. " +
-			"<a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
+			"Don't overoptimize</a>!" );
 	} );
 } );
 describe( "A test for marking the keyword", function() {

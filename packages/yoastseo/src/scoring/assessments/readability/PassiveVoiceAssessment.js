@@ -24,8 +24,8 @@ export default class PassiveVoiceAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/34t" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34u" ),
+			urlTitle: "",
+			urlCallToAction: "",
 		};
 
 		this.identifier = "passiveVoice";
@@ -37,10 +37,22 @@ export default class PassiveVoiceAssessment extends Assessment {
 	 *
 	 * @param {object} passiveVoice     The object containing the number of sentences and passives.
 	 * @param {object} i18n             The object used for translations.
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 *
 	 * @returns {{score: number, text}} resultobject with score and text.
 	 */
-	calculatePassiveVoiceResult( passiveVoice, i18n ) {
+	calculatePassiveVoiceResult( passiveVoice, i18n, researcher ) {
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.readability.sentence_length" ] &&
+			links[ "shortlinks.metabox.readability.sentence_lengthCall_to_action" ] ) {
+			// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.passive_voice" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.passive_voiceCall_to_action" ] );
+		}
 		let score;
 		let percentage = 0;
 		const recommendedValue = 10;
@@ -76,7 +88,7 @@ export default class PassiveVoiceAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sPassive voice%2$s: You're using enough active voice. That's great!" ),
-					this._config.urlTitle,
+					urlTitle,
 					"</a>"
 				),
 			};
@@ -93,11 +105,11 @@ export default class PassiveVoiceAssessment extends Assessment {
 					"%5$sTry to use their active counterparts%2$s."
 
 				),
-				this._config.urlTitle,
+				urlTitle,
 				"</a>",
 				percentage + "%",
 				recommendedValue + "%",
-				this._config.urlCallToAction
+				urlCallToAction
 			),
 		};
 	}
@@ -134,7 +146,7 @@ export default class PassiveVoiceAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		const passiveVoice = researcher.getResearch( "getPassiveVoiceResult" );
 
-		const passiveVoiceResult = this.calculatePassiveVoiceResult( passiveVoice, i18n );
+		const passiveVoiceResult = this.calculatePassiveVoiceResult( passiveVoice, i18n, researcher );
 
 		const assessmentResult = new AssessmentResult();
 

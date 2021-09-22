@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.8
-Stable tag: 17.1
+Stable tag: 17.2
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -236,14 +236,33 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 17.3 =
+Release Date: October 5th, 2021
+
+Enhancements:
+
+* Adds the possibility to import data from All in One SEO, version 4.
+* Improves the accuracy of the Keyphrase in slug assessment by correctly detecting multi-word keyphrases with at least one hyphenated word in the slug.
+* Changes the default color for overall scores to red.
+
+Bugfixes:
+
+* Fixes a bug where the meta description bar indicator color would not always match the color of the assessment bullet.
+
+Other:
+
+* Adds version management to our indexables framework; this makes the SEO Optimization process more robust, and prepares for future features.
+
 = 17.2 =
 Release Date: September 21st, 2021
+
+Yoast SEO 17.2 is out now! Yoast SEO comes with many powerful tools that will help you write SEO-proof and readable texts. And as of today, you can also work on your readability in the Farsi language. Readable content is awesome content! Read more about what’s new in Yoast SEO 17.2 in [our release post](https://yoa.st/release-17-2)!
 
 Enhancements:
 
 * Completes the readability analysis for Farsi by adding the transition words, consecutive sentences, and passive voice assessments, and by adjusting the sentence length assessment to make it more appropriate for the Farsi language.
 * Improves keyword detection for Farsi by adding more categories to the list of function words. E.g., general adjectives and adverbs category, conjunctions, and articles.
-* Cleans up indexables for posts with `auto-draft` post-status, in order to speed-up your admin pages.
+* Cleans up indexables for posts with an `auto-draft` post-status, in order to speed-up your admin pages.
 
 Bugfixes:
 
@@ -252,20 +271,6 @@ Bugfixes:
 Other:
 
 * Loads our help beacon on the workouts page.
-
-= 17.1 =
-Release Date: September 7th, 2021
-
-Yoast SEO 17.1 is out today! In this release, you’ll find a couple of small changes that’ll help you write great titles that stand up to Google’s scrutiny. It also includes some behind-the-scenes improvements, including several fixes for our indexables data management. For now, please enjoy Yoast SEO and write the best possible content in the language of your choice! Read more about what’s new in Yoast SEO 17.1 in [our release post](https://yoa.st/release-17-1)!
-
-Enhancements:
-
-* Improves the performance of saving posts by excluding unchanged items, especially noticeable on posts with many links.
-* Stops showing the SEO Optimization notification on non-production sites.
-* Improves the filtering of function words in Dutch, English, Indonesian, Russian, and Spanish by including time-related words like 'minute'.
-* Updates the styling of our Google preview, to reflect the updated styling of the Google search results.
-* Stops warning users when they have short titles, because concise, specific titles are less likely to be altered by Google.
-* Removes the `|` and `~` separator options from titles, because Google frequently replaces these in search results.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

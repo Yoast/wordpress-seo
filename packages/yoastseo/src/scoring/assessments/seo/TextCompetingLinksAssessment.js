@@ -28,8 +28,8 @@ class TextCompetingLinksAssessment extends Assessment {
 			scores: {
 				bad: 2,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/34l" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34m" ),
+			urlTitle: "",
+			urlCallToAction: "",
 		};
 
 		this.identifier = "textCompetingLinks";
@@ -50,7 +50,7 @@ class TextCompetingLinksAssessment extends Assessment {
 
 		this.linkCount = researcher.getResearch( "getLinkStatistics" );
 
-		const calculatedResult = this.calculateResult( i18n );
+		const calculatedResult = this.calculateResult( i18n, researcher );
 
 		if ( isUndefined( calculatedResult ) ) {
 			return assessmentResult;
@@ -78,10 +78,21 @@ class TextCompetingLinksAssessment extends Assessment {
 	 * Returns a result based on the number of links.
 	 *
 	 * @param {Jed} i18n The object used for translations.
-	 *
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @returns {Object} ResultObject with score and text.
 	 */
-	calculateResult( i18n ) {
+	calculateResult( i18n, researcher ) {
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.SEO.competing_links" ] && links[ "shortlinks.metabox.SEO.competing_linksCall_to_action" ] ) {
+			// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.competing_links" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.competing_linksCall_to_action" ] );
+		}
+		// Calculate scores
 		if ( this.linkCount.keyword.totalKeyword > this._config.parameters.recommendedMaximum ) {
 			return {
 				score: this._config.scores.bad,
@@ -93,8 +104,8 @@ class TextCompetingLinksAssessment extends Assessment {
 						"You're linking to another page with the words you want this page to rank for. " +
 						"%2$sDon't do that%3$s!"
 					),
-					this._config.urlTitle,
-					this._config.urlCallToAction,
+					urlTitle,
+					urlCallToAction,
 					"</a>"
 				),
 			};

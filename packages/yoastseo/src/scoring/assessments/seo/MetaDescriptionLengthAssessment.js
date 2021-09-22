@@ -26,8 +26,8 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 				tooShort: 6,
 				correctLength: 9,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/34d" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34e" ),
+			urlTitle: "",
+			urlCallToAction: "",
 		};
 
 		this.identifier = "metaDescriptionLength";
@@ -57,7 +57,7 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( this.calculateScore( descriptionLength ) );
-		assessmentResult.setText( this.translateScore( descriptionLength, i18n ) );
+		assessmentResult.setText( this.translateScore( descriptionLength, i18n, researcher ) );
 
 		// Max and actual are used in the snippet editor progress bar.
 		assessmentResult.max = this._config.maximumLength;
@@ -94,17 +94,28 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 	 *
 	 * @param {number} descriptionLength    The length of the metadescription.
 	 * @param {object} i18n                 The object used for translations.
-	 *
+	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @returns {string} The translated string.
 	 */
-	translateScore( descriptionLength, i18n ) {
+	translateScore( descriptionLength, i18n, researcher ) {
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.SEO.metadescription_length" ] && links[ "shortlinks.metabox.SEO.metadescription_lengthCall_to_action" ] ) {
+			// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.metadescription_length" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.metadescription_lengthCall_to_action" ] );
+		}
+		// Translate scores
 		if ( descriptionLength === 0 ) {
 			return i18n.sprintf(
 				/* Translators:  %1$s and %2$s expand to a links on yoast.com, %3$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis", "%1$sMeta description length%3$s:  No meta description has been specified. " +
 					"Search engines will display copy from the page instead. %2$sMake sure to write one%3$s!" ),
-				this._config.urlTitle,
-				this._config.urlCallToAction,
+				urlTitle,
+				urlCallToAction,
 				"</a>"
 			);
 		}
@@ -116,8 +127,8 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 				the total available number of characters in the meta description */
 				i18n.dgettext( "js-text-analysis", "%1$sMeta description length%3$s: The meta description is too short (under %4$d characters). " +
 				"Up to %5$d characters are available. %2$sUse the space%3$s!" ),
-				this._config.urlTitle,
-				this._config.urlCallToAction,
+				urlTitle,
+				urlCallToAction,
 				"</a>",
 				this._config.recommendedMaximumLength,
 				this._config.maximumLength
@@ -130,8 +141,8 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 				%4$d expands to	the total available number of characters in the meta description */
 				i18n.dgettext( "js-text-analysis", "%1$sMeta description length%3$s: The meta description is over %4$d characters. " +
 				"To ensure the entire description will be visible, %2$syou should reduce the length%3$s!" ),
-				this._config.urlTitle,
-				this._config.urlCallToAction,
+				urlTitle,
+				urlCallToAction,
 				"</a>",
 				this._config.maximumLength
 			);
@@ -140,7 +151,7 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 		return i18n.sprintf(
 			/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 			i18n.dgettext( "js-text-analysis", "%1$sMeta description length%2$s: Well done!" ),
-			this._config.urlTitle,
+			urlTitle,
 			"</a>"
 		);
 	}

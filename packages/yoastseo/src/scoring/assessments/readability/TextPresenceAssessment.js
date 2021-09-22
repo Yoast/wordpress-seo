@@ -20,8 +20,8 @@ export default class TextPresenceAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/35h" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/35i" ),
+			urlTitle: "",
+			urlCallToAction: "",
 		};
 
 		this.identifier = "textPresence";
@@ -39,6 +39,17 @@ export default class TextPresenceAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		const text = stripHTMLTags( excludeTableOfContentsTag( paper.getText() ) );
+		let urlTitle = this._config.urlTitle;
+		let urlCallToAction = this._config.urlCallToAction;
+		// Get the links
+		const links = researcher.getData( "links" );
+		// Check if links for the assessment is available in links data
+		if ( links[ "shortlinks.metabox.readability.text_presence" ] &&
+			links[ "shortlinks.metabox.readability.text_presenceCall_to_action" ] ) {
+			// Overwrite default links with links from configuration
+			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.text_presence" ] );
+			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.text_presenceCall_to_action" ] );
+		}
 
 		if ( text.length < 50 ) {
 			const result = new AssessmentResult();
@@ -48,9 +59,9 @@ export default class TextPresenceAssessment extends Assessment {
 				%2$s expands to the anchor end tag*/
 				i18n.dgettext( "js-text-analysis",
 					"%1$sNot enough content%2$s: %3$sPlease add some content to enable a good analysis%2$s." ),
-				this._config.urlTitle,
+				urlTitle,
 				"</a>",
-				this._config.urlCallToAction ) );
+				urlCallToAction ) );
 
 			result.setScore( 3 );
 			return result;
