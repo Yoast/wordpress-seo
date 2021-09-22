@@ -25,8 +25,8 @@ export default class OutboundLinksAssessment extends Assessment {
 				someNoFollowed: 8,
 				allFollowed: 9,
 			},
-			urlTitle: "",
-			urlCallToAction: "",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34f" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34g" ),
 		};
 
 		this.identifier = "externalLinks";
@@ -47,7 +47,7 @@ export default class OutboundLinksAssessment extends Assessment {
 		const assessmentResult = new AssessmentResult();
 		if ( ! isEmpty( linkStatistics ) ) {
 			assessmentResult.setScore( this.calculateScore( linkStatistics ) );
-			assessmentResult.setText( this.translateScore( linkStatistics, i18n, researcher ) );
+			assessmentResult.setText( this.translateScore( linkStatistics, i18n ) );
 		}
 		return assessmentResult;
 	}
@@ -95,28 +95,18 @@ export default class OutboundLinksAssessment extends Assessment {
 	 *
 	 * @param {Object}  linkStatistics  The object with all link statistics.
 	 * @param {Jed}     i18n            The object used for translations.
-	 * @param {Researcher} researcher The researcher used for calling research.
+	 *
 	 * @returns {string} The translated string.
 	 */
-	translateScore( linkStatistics, i18n, researcher ) {
-		let urlTitle = this._config.urlTitle;
-		let urlCallToAction = this._config.urlCallToAction;
-		// Get the links
-		const links = researcher.getData( "links" );
-		// Check if links for the assessment is available in links data
-		if ( links[ "shortlinks.metabox.SEO.outbound_links" ] && links[ "shortlinks.metabox.SEO.outbound_linksCall_to_action" ] ) {
-			// Overwrite default links with links from configuration
-			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.outbound_links" ] );
-			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.outbound_linksCall_to_action" ] );
-		}
+	translateScore( linkStatistics, i18n ) {
 		if ( linkStatistics.externalTotal === 0 ) {
 			return i18n.sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%3$s: " +
 					"No outbound links appear in this page. " +
 					"%2$sAdd some%3$s!" ),
-				urlTitle,
-				urlCallToAction,
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>"
 			);
 		}
@@ -127,8 +117,8 @@ export default class OutboundLinksAssessment extends Assessment {
 				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%3$s: " +
 					"All outbound links on this page are nofollowed. " +
 					"%2$sAdd some normal links%3$s." ),
-				urlTitle,
-				urlCallToAction,
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>"
 			);
 		}
@@ -138,7 +128,7 @@ export default class OutboundLinksAssessment extends Assessment {
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%2$s: " +
 					"Good job!" ),
-				urlTitle,
+				this._config.urlTitle,
 				"</a>"
 			);
 		}
@@ -149,7 +139,7 @@ export default class OutboundLinksAssessment extends Assessment {
 				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%2$s: " +
 					"There are both nofollowed and normal outbound links on this page. " +
 					"Good job!" ),
-				urlTitle,
+				this._config.urlTitle,
 				"</a>"
 			);
 		}

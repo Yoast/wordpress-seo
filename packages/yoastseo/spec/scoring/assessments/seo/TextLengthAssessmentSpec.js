@@ -11,8 +11,9 @@ describe( "A word count assessment", function() {
 		const assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 1 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( -20 );
-		expect( assessment.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 1 word. This is far below the recommended minimum of 300 words. Add more content</a>." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 1 word. This is far below the recommended minimum of 300 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
 	} );
 
 	it( "assesses a low word count", function() {
@@ -20,8 +21,9 @@ describe( "A word count assessment", function() {
 		const assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 5 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( -20 );
-		expect( assessment.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 5 words. This is far below the recommended minimum of 300 words. Add more content</a>." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 5 words. This is far below the recommended minimum of 300 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
 	} );
 
 	it( "assesses a medium word count", function() {
@@ -29,8 +31,9 @@ describe( "A word count assessment", function() {
 		const assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 150 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( -10 );
-		expect( assessment.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 150 words. This is far below the recommended minimum of 300 words. Add more content</a>." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 150 words. This is far below the recommended minimum of 300 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
 	} );
 
 	it( "assesses a slightly higher than medium word count", function() {
@@ -38,8 +41,9 @@ describe( "A word count assessment", function() {
 		const assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 225 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 225 words. This is below the recommended minimum of 300 words. Add more content</a>." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 225 words. This is below the recommended minimum of 300 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
 	} );
 
 	it( "assesses an almost at the recommended amount, word count", function() {
@@ -47,8 +51,9 @@ describe( "A word count assessment", function() {
 		const assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 275 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 275 words. This is slightly below the recommended minimum of 300 words. Add a bit more copy</a>." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 275 words. This is slightly below the recommended minimum of 300 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add a bit more copy</a>." );
 	} );
 
 
@@ -57,7 +62,7 @@ describe( "A word count assessment", function() {
 		const assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 325 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "Text length</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
 			"The text contains 325 words. Good job!" );
 	} );
 
@@ -81,8 +86,9 @@ describe( "A word count assessment", function() {
 		const results = assessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 25 ), i18n );
 
 		expect( results.getScore() ).toEqual( -20 );
-		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 25 words. This is far below the recommended minimum of 900 words. Add more content</a>." );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 25 words. This is far below the recommended minimum of 900 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: far below minimum", function() {
@@ -92,8 +98,9 @@ describe( "A word count assessment", function() {
 		const results = assessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 125 ), i18n );
 
 		expect( results.getScore() ).toEqual( -20 );
-		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 125 words. This is far below the recommended minimum of 900 words. Add more content</a>." );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 125 words. This is far below the recommended minimum of 900 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: below minimum", function() {
@@ -103,8 +110,9 @@ describe( "A word count assessment", function() {
 		const results = assessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 325 ), i18n );
 
 		expect( results.getScore() ).toEqual( -20 );
-		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 325 words. This is below the recommended minimum of 900 words. Add more content</a>." );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 325 words. This is below the recommended minimum of 900 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: slightly below minimum", function() {
@@ -114,8 +122,9 @@ describe( "A word count assessment", function() {
 		const results = assessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 425 ), i18n );
 
 		expect( results.getScore() ).toEqual( 6 );
-		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 425 words. This is below the recommended minimum of 900 words. Add more content</a>." );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 425 words. This is below the recommended minimum of 900 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: above minimum", function() {
@@ -125,7 +134,7 @@ describe( "A word count assessment", function() {
 		const results = assessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 925 ), i18n );
 
 		expect( results.getScore() ).toEqual( 9 );
-		expect( results.getText() ).toEqual( "Text length</a>: The text contains 925 words. Good job!" );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 925 words. Good job!" );
 	} );
 
 	const productPageConfig = {
@@ -142,8 +151,9 @@ describe( "A word count assessment", function() {
 		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 25 ), i18n );
 
 		expect( result.getScore() ).toEqual( -20 );
-		expect( result.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 25 words. This is far below the recommended minimum of 200 words. Add more content</a>." );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 25 words. This is far below the recommended minimum of 200 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied for a product page: far below minimum", function() {
@@ -153,8 +163,9 @@ describe( "A word count assessment", function() {
 		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 55 ), i18n );
 
 		expect( result.getScore() ).toEqual( -10 );
-		expect( result.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 55 words. This is far below the recommended minimum of 200 words. Add more content</a>." );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 55 words. This is far below the recommended minimum of 200 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied for a product page: below minimum", function() {
@@ -164,8 +175,9 @@ describe( "A word count assessment", function() {
 		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 101 ), i18n );
 
 		expect( result.getScore() ).toEqual( 3 );
-		expect( result.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 101 words. This is below the recommended minimum of 200 words. Add more content</a>." );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 101 words. This is below the recommended minimum of 200 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied for a product page: slightly below minimum", function() {
@@ -175,9 +187,9 @@ describe( "A word count assessment", function() {
 		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 155 ), i18n );
 
 		expect( result.getScore() ).toEqual( 6 );
-		expect( result.getText() ).toEqual( "Text length</a>: " +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
 			"The text contains 155 words. This is slightly below the recommended minimum of 200 words." +
-			" Add a bit more copy</a>." );
+			" <a href='https://yoa.st/34o' target='_blank'>Add a bit more copy</a>." );
 	} );
 
 
@@ -188,7 +200,7 @@ describe( "A word count assessment", function() {
 		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 201 ), i18n );
 
 		expect( result.getScore() ).toEqual( 9 );
-		expect( result.getText() ).toEqual( "Text length</a>: " +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
 			"The text contains 201 words. Good job!" );
 	} );
 
@@ -212,8 +224,9 @@ describe( "A word count assessment", function() {
 		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 25 ), i18n );
 
 		expect( results.getScore() ).toEqual( -20 );
-		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 25 words. This is far below the recommended minimum of 400 words. Add more content</a>." );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 25 words. This is far below the recommended minimum of 400 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: far below minimum", function() {
@@ -223,8 +236,9 @@ describe( "A word count assessment", function() {
 		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 75 ), i18n );
 
 		expect( results.getScore() ).toEqual( -20 );
-		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 75 words. This is far below the recommended minimum of 400 words. Add more content</a>." );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 75 words. This is far below the recommended minimum of 400 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: below minimum", function() {
@@ -234,8 +248,9 @@ describe( "A word count assessment", function() {
 		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 225 ), i18n );
 
 		expect( results.getScore() ).toEqual( -20 );
-		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 225 words. This is below the recommended minimum of 400 words. Add more content</a>." );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 225 words. This is below the recommended minimum of 400 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: slightly below minimum", function() {
@@ -245,8 +260,9 @@ describe( "A word count assessment", function() {
 		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 380 ), i18n );
 
 		expect( results.getScore() ).toEqual( 6 );
-		expect( results.getText() ).toEqual( "Text length</a>: " +
-			"The text contains 380 words. This is below the recommended minimum of 400 words. Add more content</a>." );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 380 words. This is below the recommended minimum of 400 words. <a href='https://yoa.st/34o' " +
+			"target='_blank'>Add more content</a>." );
 	} );
 
 	it( "different boundaries are applied if the content is cornerstone: above minimum", function() {
@@ -256,6 +272,6 @@ describe( "A word count assessment", function() {
 		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 425 ), i18n );
 
 		expect( results.getScore() ).toEqual( 9 );
-		expect( results.getText() ).toEqual( "Text length</a>: The text contains 425 words. Good job!" );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 425 words. Good job!" );
 	} );
 } );

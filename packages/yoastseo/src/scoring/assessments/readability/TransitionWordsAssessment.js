@@ -24,8 +24,8 @@ export default class TransitionWordsAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			urlTitle: "",
-			urlCallToAction: "",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34z" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/35a" ),
 		};
 
 		this.identifier = "textTransitionWords";
@@ -76,22 +76,10 @@ export default class TransitionWordsAssessment extends Assessment {
 	 * @param {object} transitionWordSentences  The object containing the total number of sentences and the number of sentences containing
 	 *                                          a transition word.
 	 * @param {object} i18n                     The object used for translations.
-	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
+	 *
 	 * @returns {object} Object containing score and text.
 	 */
-	calculateTransitionWordResult( transitionWordSentences, i18n, researcher ) {
-		let urlTitle = this._config.urlTitle;
-		let urlCallToAction = this._config.urlCallToAction;
-		// Get the links
-		const links = researcher.getData( "links" );
-		// Check if links for the assessment is available in links data
-		if ( links[ "shortlinks.metabox.readability.transition_words" ] &&
-			links[ "shortlinks.metabox.readability.transition_wordsCall_to_action" ] ) {
-			// Overwrite default links with links from configuration
-			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.transition_words" ] );
-			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.transition_wordsCall_to_action" ] );
-		}
-		// Calculates scores
+	calculateTransitionWordResult( transitionWordSentences, i18n ) {
 		const percentage = this.calculateTransitionWordPercentage( transitionWordSentences );
 		const score = this.calculateScoreFromPercentage( percentage );
 		const hasMarks   = ( percentage > 0 );
@@ -105,7 +93,7 @@ export default class TransitionWordsAssessment extends Assessment {
 					i18n.dgettext( "js-text-analysis",
 						"%1$sTransition words%2$s: None of the sentences contain transition words. %3$sUse some%2$s."
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>",
 					this._config.urlCallToAction ),
 			};
@@ -122,10 +110,10 @@ export default class TransitionWordsAssessment extends Assessment {
 						"%1$sTransition words%2$s: Only %3$s of the sentences contain transition words, which is not enough." +
 						" %4$sUse more of them%2$s."
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>",
 					percentage + "%",
-					urlCallToAction ),
+					this._config.urlCallToAction ),
 			};
 		}
 
@@ -137,7 +125,7 @@ export default class TransitionWordsAssessment extends Assessment {
 				i18n.dgettext( "js-text-analysis",
 					"%1$sTransition words%2$s: Well done!"
 				),
-				urlTitle,
+				this._config.urlTitle,
 				"</a>" ),
 		};
 	}
@@ -153,7 +141,7 @@ export default class TransitionWordsAssessment extends Assessment {
 	 */
 	getResult( paper, researcher, i18n ) {
 		const transitionWordSentences = researcher.getResearch( "findTransitionWords" );
-		const transitionWordResult = this.calculateTransitionWordResult( transitionWordSentences, i18n, researcher );
+		const transitionWordResult = this.calculateTransitionWordResult( transitionWordSentences, i18n );
 		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( transitionWordResult.score );

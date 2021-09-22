@@ -30,7 +30,7 @@ describe( "Tests outbound links assessment", function() {
 		const assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "Outbound links</a>: Good job!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: Good job!" );
 	} );
 
 	it( "Tests a paper with some do-follow outbound links and some no-follow outbound links", function() {
@@ -52,7 +52,7 @@ describe( "Tests outbound links assessment", function() {
 		const assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 8 );
-		expect( assessment.getText() ).toEqual( "Outbound links</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: " +
 			"There are both nofollowed and normal outbound links on this page. Good job!" );
 	} );
 
@@ -75,8 +75,8 @@ describe( "Tests outbound links assessment", function() {
 		const assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 7 );
-		expect( assessment.getText() ).toEqual( "Outbound links</a>: " +
-			"All outbound links on this page are nofollowed. Add some normal links</a>." );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: " +
+			"All outbound links on this page are nofollowed. <a href='https://yoa.st/34g' target='_blank'>Add some normal links</a>." );
 	} );
 
 	it( "Returns the right result when the do-follow outbound links are more than the external links -" +
@@ -106,8 +106,8 @@ describe( "Tests outbound links assessment", function() {
 		let assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( { externalTotal: 0 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual( "Outbound links</a>: " +
-			"No outbound links appear in this page. Add some</a>!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: " +
+			"No outbound links appear in this page. <a href='https://yoa.st/34g' target='_blank'>Add some</a>!" );
 
 		assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( {} ), i18n );
 		expect( assessment.getScore() ).toEqual( 0 );

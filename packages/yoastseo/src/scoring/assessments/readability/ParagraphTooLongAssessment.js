@@ -22,8 +22,8 @@ export default class ParagraphTooLongAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			urlTitle: "",
-			urlCallToAction: "",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/35d" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/35e" ),
 			parameters: {
 				recommendedLength: 150,
 				maximumRecommendedLength: 200,
@@ -54,22 +54,10 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	 * @param {array} paragraphsLength  The array containing the lengths of individual paragraphs.
 	 * @param {array} tooLongParagraphs The number of too long paragraphs.
 	 * @param {object} i18n             The i18n object used for translations.
-	 * @param {Researcher} researcher The researcher used for calling research.
 	 *
 	 * @returns {{score: number, text: string }} the assessmentResult.
 	 */
-	calculateResult( paragraphsLength, tooLongParagraphs, i18n, researcher ) {
-		let urlTitle = this._config.urlTitle;
-		let urlCallToAction = this._config.urlCallToAction;
-		// Get the links
-		const links = researcher.getData( "links" );
-		// Check if links for the assessment is available in links data
-		if ( links[ "shortlinks.metabox.readability.paragraph_too_long" ] &&
-			links[ "shortlinks.metabox.readability.paragraph_too_longCall_to_action" ] ) {
-			// Overwrite default links with links from configuration
-			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.paragraph_too_long" ] );
-			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.paragraph_too_longCall_to_action" ] );
-		}
+	calculateResult( paragraphsLength, tooLongParagraphs, i18n ) {
 		let score;
 
 		if ( paragraphsLength.length === 0 ) {
@@ -102,7 +90,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 					i18n.dgettext( "js-text-analysis",
 						"%1$sParagraph length%2$s: None of the paragraphs are too long. Great job!" ),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
@@ -117,11 +105,11 @@ export default class ParagraphTooLongAssessment extends Assessment {
 					"%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum of %4$d words." +
 					" %5$sShorten your paragraphs%2$s!", "%1$sParagraph length%2$s: %3$d of the paragraphs contain more than the " +
 					"recommended maximum of %4$d words. %5$sShorten your paragraphs%2$s!", tooLongParagraphs.length ),
-				urlTitle,
+				this._config.urlTitle,
 				"</a>",
 				tooLongParagraphs.length,
 				this._config.parameters.recommendedLength,
-				urlCallToAction
+				this._config.urlCallToAction
 			),
 		};
 	}
@@ -177,7 +165,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 		paragraphsLength = this.sortParagraphs( paragraphsLength );
 
 		const tooLongParagraphs = this.getTooLongParagraphs( paragraphsLength );
-		const paragraphLengthResult = this.calculateResult( paragraphsLength, tooLongParagraphs, i18n, researcher );
+		const paragraphLengthResult = this.calculateResult( paragraphsLength, tooLongParagraphs, i18n );
 		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( paragraphLengthResult.score );
