@@ -35,6 +35,7 @@ describe( "snippet editor action creators", () => {
 				name: "title",
 				value: "Title",
 				label: "Label",
+				hidden: false,
 			} );
 		} );
 		it( "returns an action with an empty label when no label is passed", () => {
@@ -43,6 +44,7 @@ describe( "snippet editor action creators", () => {
 				name: "title",
 				value: "Title",
 				label: "",
+				hidden: false,
 			} );
 		} );
 	} );

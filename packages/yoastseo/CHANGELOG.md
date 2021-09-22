@@ -18,6 +18,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds Farsi transition words and activates the transition words assessment.
 * Expands the list of function words for Farsi.
 * Removes the Farsi feature flag.
+* Removes hyphens from a keyphrase for the Keyphrase in slug assessment. Also removes the functionality that would look for the keyphrase in the unparsed slug if it was not found in the parsed slug, as it is made redundant by the new functionality.
 
 ### Non user facing
 * Fixes a typo that caused the `findList` research to not be used in the `ListAssessment`.
@@ -36,6 +37,10 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Implements the consecutive sentences assessment for Farsi to ensure variety in a text.
 * Changes the maximum recommended sentence length in Farsi to 25 words.
 * Adds Farsi transition words and activates the transition words assessment.
+* Fixes assessment result links that omit tracking parameters.
+* Makes it possible to tokenize sentences in Japanese.
+* Adds Japanese folder and Researcher.
+* Adds a feature-flag for Japanese support.
 
 
 ## 1.92.0
