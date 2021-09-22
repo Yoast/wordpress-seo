@@ -241,7 +241,7 @@ Release Date: October 5th, 2021
 
 Enhancements:
 
-* Adds the possibility to import data from All in One SEO, version 4.
+* Extends the All in One SEO importer to be compatible with versions 4.0 and up.
 * Improves the accuracy of the Keyphrase in slug assessment by correctly detecting multi-word keyphrases with at least one hyphenated word in the slug.
 * Changes the default color for overall scores to red.
 
