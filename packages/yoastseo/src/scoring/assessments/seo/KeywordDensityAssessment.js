@@ -61,8 +61,8 @@ class KeywordDensityAssessment extends Assessment {
 				correctDensity: 9,
 				underMinimum: 4,
 			},
-			urlTitle: "",
-			urlCallToAction: "",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33v" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33w" ),
 		};
 
 		this.identifier = "keywordDensity";
@@ -113,7 +113,7 @@ class KeywordDensityAssessment extends Assessment {
 		this.setBoundaries( paper.getText(), keyphraseLength );
 
 		this._keywordDensity = this._keywordDensityData.keywordDensity * keyphraseLengthFactor( keyphraseLength );
-		const calculatedScore = this.calculateResult( i18n, researcher );
+		const calculatedScore = this.calculateResult( i18n );
 
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
@@ -179,21 +179,10 @@ class KeywordDensityAssessment extends Assessment {
 	 * Returns the score for the keyphrase density.
 	 *
 	 * @param {Jed} i18n The object used for translations.
-	 * @param {Researcher} researcher The researcher used for calling research.
+	 *
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
-	calculateResult( i18n, researcher ) {
-		let urlTitle = this._config.urlTitle;
-		let urlCallToAction = this._config.urlCallToAction;
-		// Get the links
-		const links = researcher.getData( "links" );
-		// Check if links for the assessment is available in links data
-		if ( links[ "shortlinks.metabox.SEO.keyword_density" ] && links[ "shortlinks.metabox.SEO.keyword_densityCall_to_action" ] ) {
-			// Overwrite default links with links from configuration
-			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.keyword_density" ] );
-			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.keyword_densityCall_to_action" ] );
-		}
-		// Calculate scores
+	calculateResult( i18n ) {
 		if ( this.hasNoMatches() ) {
 			return {
 				score: this._config.scores.underMinimum,
@@ -208,10 +197,10 @@ class KeywordDensityAssessment extends Assessment {
 						"That's less than the recommended minimum of %3$d times for a text of this length. " +
 						"%4$sFocus on your keyphrase%2$s!"
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>",
 					this._minRecommendedKeywordCount,
-					urlCallToAction
+					this._config.urlCallToAction
 				),
 			};
 		}
@@ -233,10 +222,10 @@ class KeywordDensityAssessment extends Assessment {
 						"recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
 						this._keywordCount.count
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>",
 					this._minRecommendedKeywordCount,
-					urlCallToAction,
+					this._config.urlCallToAction,
 					this._keywordCount.count
 				),
 			};
@@ -256,7 +245,7 @@ class KeywordDensityAssessment extends Assessment {
 						"%1$sKeyphrase density%2$s: The focus keyphrase was found %3$d times. This is great!",
 						this._keywordCount.count
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>",
 					this._keywordCount.count
 				),
@@ -280,10 +269,10 @@ class KeywordDensityAssessment extends Assessment {
 						"recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 						this._keywordCount.count
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>",
 					this._maxRecommendedKeywordCount,
-					urlCallToAction,
+					this._config.urlCallToAction,
 					this._keywordCount.count
 				),
 			};
@@ -306,10 +295,10 @@ class KeywordDensityAssessment extends Assessment {
 					"recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
 					this._keywordCount.count
 				),
-				urlTitle,
+				this._config.urlTitle,
 				"</a>",
 				this._maxRecommendedKeywordCount,
-				urlCallToAction,
+				this._config.urlCallToAction,
 				this._keywordCount.count
 			),
 		};

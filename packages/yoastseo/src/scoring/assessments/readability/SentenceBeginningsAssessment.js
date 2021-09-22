@@ -24,8 +24,8 @@ export default class SentenceBeginningsAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			urlTitle: "",
-			urlCallToAction: "",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/35f" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/35g" ),
 		};
 
 		this.identifier = "sentenceBeginnings";
@@ -60,23 +60,10 @@ export default class SentenceBeginningsAssessment extends Assessment {
 	 *
 	 * @param {object} groupedSentenceBeginnings    The object with grouped sentence beginnings.
 	 * @param {object} i18n                         The object used for translations.
-	 * @param {Researcher} researcher The researcher used for calling research.
 	 *
 	 * @returns {{score: number, text: string, hasMarks: boolean}} result object with score and text.
 	 */
-	calculateSentenceBeginningsResult( groupedSentenceBeginnings, i18n, researcher ) {
-		let urlTitle = this._config.urlTitle;
-		let urlCallToAction = this._config.urlCallToAction;
-		// Get the links
-		const links = researcher.getData( "links" );
-		// Check if links for the assessment is available in links data
-		if ( links[ "shortlinks.metabox.readability.sentence_length" ] &&
-			links[ "shortlinks.metabox.readability.sentence_lengthCall_to_action" ] ) {
-			// Overwrite default links with links from configuration
-			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.sentence_beginnings" ] );
-			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.sentence_beginningsCall_to_action" ] );
-		}
-		// Calculate scores
+	calculateSentenceBeginningsResult( groupedSentenceBeginnings, i18n ) {
 		if ( groupedSentenceBeginnings.total > 0 ) {
 			return {
 				score: 3,
@@ -92,11 +79,11 @@ export default class SentenceBeginningsAssessment extends Assessment {
 						" %3$d or more consecutive sentences start with the same word. %5$sTry to mix things up%2$s!",
 						groupedSentenceBeginnings.total
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>",
 					groupedSentenceBeginnings.lowestCount,
 					groupedSentenceBeginnings.total,
-					urlCallToAction
+					this._config.urlCallToAction
 				),
 			};
 		}
@@ -107,7 +94,7 @@ export default class SentenceBeginningsAssessment extends Assessment {
 				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
 				i18n.dgettext( "js-text-analysis",
 					"%1$sConsecutive sentences%2$s: There is enough variety in your sentences. That's great!" ),
-				urlTitle,
+				this._config.urlTitle,
 				"</a>"
 			),
 		};
@@ -153,7 +140,7 @@ export default class SentenceBeginningsAssessment extends Assessment {
 	getResult( paper, researcher, i18n ) {
 		const sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
 		const groupedSentenceBeginnings = this.groupSentenceBeginnings( sentenceBeginnings );
-		const sentenceBeginningsResult = this.calculateSentenceBeginningsResult( groupedSentenceBeginnings, i18n, researcher );
+		const sentenceBeginningsResult = this.calculateSentenceBeginningsResult( groupedSentenceBeginnings, i18n );
 		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( sentenceBeginningsResult.score );

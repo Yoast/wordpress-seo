@@ -17,8 +17,8 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 
 		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe(
-			"Keyphrase in title</a>: Not all the words from your " +
-			"keyphrase \"keyword\" appear in the SEO title. For the best SEO results " +
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Not all the words from your " +
+			"keyphrase \"keyword\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>For the best SEO results " +
 			"write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title</a>."
 		);
 	} );
@@ -35,7 +35,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe(
-			"Keyphrase in title</a>: The exact match of the " +
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the " +
 			"focus keyphrase appears at the beginning of the SEO title. Good job!"
 		);
 	} );
@@ -52,9 +52,9 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe(
-			"Keyphrase in title</a>: The exact match of the focus " +
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the focus " +
 			"keyphrase appears in the SEO title, but not at the beginning. " +
-			"Move it to the beginning for the best results</a>."
+			"<a href='https://yoa.st/33h' target='_blank'>Move it to the beginning for the best results</a>."
 		);
 	} );
 
@@ -70,8 +70,8 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe(
-			"Keyphrase in title</a>: Does not contain the exact match. " +
-			"Try to write the exact match of your keyphrase in the SEO title and put " +
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. " +
+			"<a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of your keyphrase in the SEO title and put " +
 			"it at the beginning of the title</a>."
 		);
 	} );
@@ -88,8 +88,8 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 
 		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe(
-			"Keyphrase in title</a>: Does not contain the exact match. " +
-			"Try to write the exact match of your keyphrase in the SEO title and put " +
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. " +
+			"<a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of your keyphrase in the SEO title and put " +
 			"it at the beginning of the title</a>."
 		);
 	} );

@@ -18,9 +18,9 @@ describe( "the keyphrase length assessment", function() {
 			},
 		}, true ).getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toEqual( 3 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: " +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase is 1 word long. That's shorter than the recommended minimum of 4 words. " +
-			"Make it longer</a>!" );
+			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
 	} );
 	it( "should assess a custom paper with a slightly too short keyphrase as okay ", function() {
 		const paper = new Paper();
@@ -35,9 +35,9 @@ describe( "the keyphrase length assessment", function() {
 			},
 		}, true ).getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toEqual( 6 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: " +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase is 3 words long. That's slightly shorter than the recommended minimum of 4 words. " +
-			"Make it longer</a>!" );
+			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
 	} );
 
 	it( "should assess a paper with a keyphrase that's the correct length", function() {
@@ -52,7 +52,7 @@ describe( "the keyphrase length assessment", function() {
 			},
 		}, true ).getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toEqual( 9 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: Good job!" );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!" );
 	} );
 
 	it( "should assess a custom paper with a keyphrase that's slightly too long as okay", function() {
@@ -68,9 +68,9 @@ describe( "the keyphrase length assessment", function() {
 			},
 		}, true ).getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toEqual( 6 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: " +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase is 7 words long. That's longer than the recommended maximum of 6 words. " +
-			"Make it shorter</a>!" );
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 	it( "should assess a custom paper with a keyphrase that's too long as bad", function() {
 		const paper = new Paper( "", { keyword: "keyword" } );
@@ -85,9 +85,9 @@ describe( "the keyphrase length assessment", function() {
 			},
 		}, true ).getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toEqual( 3 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: " +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase is 9 words long. That's longer than the recommended maximum of 6 words. " +
-			"Make it shorter</a>!" );
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 } );
 describe( "the keyphrase length assessment", function() {
@@ -105,9 +105,9 @@ describe( "the keyphrase length assessment", function() {
 			},
 		}, true ).getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toEqual( 3 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: " +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase is 1 word long. That's shorter than the recommended minimum of 3 words. " +
-			"Make it longer</a>!" );
+			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
 	} );
 	it( "should assess a custom paper with a slightly too short keyphrase as okay ", function() {
 		const paper = new Paper();
@@ -122,9 +122,9 @@ describe( "the keyphrase length assessment", function() {
 			},
 		}, true ).getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toEqual( 6 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: " +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase is 2 words long. That's slightly shorter than the recommended minimum of 3 words. " +
-			"Make it longer</a>!" );
+			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
 	} );
 	it( "should assess a paper with a keyphrase that's the correct length", function() {
 		const paper = new Paper( "", { keyword: "keyword" } );
@@ -138,7 +138,7 @@ describe( "the keyphrase length assessment", function() {
 			},
 		}, true ).getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toEqual( 9 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: Good job!" );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!" );
 	} );
 	it( "should assess a custom paper with a keyphrase that's slightly too long as okay", function() {
 		const paper = new Paper( "", { keyword: "keyword" } );
@@ -153,9 +153,9 @@ describe( "the keyphrase length assessment", function() {
 			},
 		}, true ).getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toEqual( 6 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: " +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase is 7 words long. That's longer than the recommended maximum of 6 words. " +
-			"Make it shorter</a>!" );
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 	it( "should assess a custom paper with a keyphrase that's too long as bad", function() {
 		const paper = new Paper( "", { keyword: "keyword" } );
@@ -170,9 +170,9 @@ describe( "the keyphrase length assessment", function() {
 			},
 		}, true ).getResult( paper, researcher, i18n );
 		expect( result.getScore() ).toEqual( 3 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: " +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase is 9 words long. That's longer than the recommended maximum of 6 words. " +
-			"Make it shorter</a>!" );
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 } );
 
@@ -184,9 +184,9 @@ describe( "the keyphrase length assessment", function() {
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( -999 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: " +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"No focus keyphrase was set for this page. " +
-			"Set a keyphrase in order to calculate your SEO score</a>." );
+			"<a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
 	} );
 	it( "should assess a paper without a keyword as extremely bad", function() {
 		const paper = new Paper();
@@ -195,9 +195,9 @@ describe( "the keyphrase length assessment", function() {
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( -999 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: " +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"No focus keyphrase was set for this page. " +
-			"Set a keyphrase in order to calculate your SEO score</a>." );
+			"<a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
 	} );
 
 	it( "should show a different feedback text when no keyphrase is set for a related keyphrase", function() {
@@ -207,8 +207,8 @@ describe( "the keyphrase length assessment", function() {
 		const result = new KeyphraseLengthAssessment( { isRelatedKeyphrase: true } ).getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( -999 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: " +
-			"Set a keyphrase in order to calculate your SEO score</a>." );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"<a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
 	} );
 
 	it( "should assess a paper with a keyphrase that's too long as bad", function() {
@@ -218,9 +218,9 @@ describe( "the keyphrase length assessment", function() {
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 3 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: " +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase is 11 words long. That's way more than the recommended maximum of 4 words. " +
-			"Make it shorter</a>!" );
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 
 	it( "should assess a paper with a keyphrase that's the correct length", function() {
@@ -230,7 +230,7 @@ describe( "the keyphrase length assessment", function() {
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 9 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: Good job!" );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!" );
 	} );
 
 	it( "should assess a paper with a keyphrase that's a little longer than the correct length", function() {
@@ -240,9 +240,9 @@ describe( "the keyphrase length assessment", function() {
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 6 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: " +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase is 5 words long. That's more than the recommended maximum of 4 words. " +
-			"Make it shorter</a>!" );
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 
 	it( "should assess a paper with an 6-word keyphrase as good for a language that doesn't support function words", function() {
@@ -252,7 +252,7 @@ describe( "the keyphrase length assessment", function() {
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 9 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: Good job!" );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!" );
 	} );
 	it( "should assess a paper with an 9-word keyphrase as okay for a language that doesn't support function words", function() {
 		const paper = new Paper( "", { keyword: "1 2 3 4 5 6 7 8 9" } );
@@ -261,8 +261,8 @@ describe( "the keyphrase length assessment", function() {
 		const result = new KeyphraseLengthAssessment().getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 6 );
-		expect( result.getText() ).toEqual( "Keyphrase length</a>: " +
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase is 9 words long. That's more than the recommended maximum of 6 words. " +
-			"Make it shorter</a>!" );
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 } );
