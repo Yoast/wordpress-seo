@@ -151,7 +151,7 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 
 			/*
 			 * `$matches[1]` contain the captured matches of the
-			 * first capturing group (the `(\w+)` in the regex above).
+			 * first capturing group (the `([\w-]+)` in the regex above).
 			 */
 			$custom_fields_or_taxonomies = $matches[1];
 
