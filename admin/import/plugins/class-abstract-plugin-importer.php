@@ -41,6 +41,13 @@ abstract class WPSEO_Plugin_Importer {
 	protected $clone_keys;
 
 	/**
+	 * Array of post ids whose meta are to be imported.
+	 *
+	 * @var array
+	 */
+	protected $post_ids = [];
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {}
@@ -80,7 +87,11 @@ abstract class WPSEO_Plugin_Importer {
 	 * @return bool Import success status.
 	 */
 	protected function import() {
-		return $this->meta_keys_clone( $this->clone_keys );
+		$status         = $this->meta_keys_clone( $this->clone_keys );
+		$imported_posts = array_unique ( $this->post_ids );
+		// @TODO: use those ids to set their indexable version to 0, so we can rebuild them.
+
+		return $status;
 	}
 
 	/**
@@ -221,6 +232,8 @@ abstract class WPSEO_Plugin_Importer {
 
 		$this->meta_key_clone_replace( $replace_values );
 
+		$ids = $wpdb->get_col( 'SELECT post_id FROM tmp_meta_table' );
+		$this->post_ids = array_merge( $this->post_ids, $ids );
 		// With everything done, we insert all our newly cloned lines into the postmeta table.
 		$wpdb->query( "INSERT INTO {$wpdb->postmeta} SELECT * FROM tmp_meta_table" );
 

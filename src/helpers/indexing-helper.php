@@ -284,7 +284,7 @@ class Indexing_Helper {
 	 * Retriggers the indexing notification.
 	 *
 	 * @param string $reason The reason for which we need re-indexing.
-	 * 
+	 *
 	 * @return void.
 	 */
 	public function retrigger_indexing_notification( $reason = Indexing_Reasons::REASON_IMPORT_COMPLETED ) {
