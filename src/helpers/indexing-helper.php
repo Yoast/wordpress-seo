@@ -291,13 +291,16 @@ class Indexing_Helper {
 		// First, let's delete all count transients.
 		\delete_transient( Indexable_General_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
 		\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
+		\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 		\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
 		\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
+		\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 		\delete_transient( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
+		\delete_transient( Post_Link_Indexing_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 		\delete_transient( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
+		\delete_transient( Term_Link_Indexing_Action::UNINDEXED_LIMITED_COUNT_TRANSIENT );
 
 		// Then, let's set a reason for indexing, so that the notification for indexing pops up.
-		
 		$this->set_reason( $reason );
 	}
 }
