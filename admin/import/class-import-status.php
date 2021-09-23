@@ -110,6 +110,15 @@ class WPSEO_Import_Status {
 	}
 
 	/**
+	 * Gets the importer status.
+	 *
+	 * @return WPSEO_Import_Status The current object.
+	 */
+	public function get_status() {
+		return $this->status;
+	}
+
+	/**
 	 * Returns a success message depending on the action.
 	 *
 	 * @return string Returns a success message for the current action.

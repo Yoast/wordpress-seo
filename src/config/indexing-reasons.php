@@ -31,4 +31,9 @@ class Indexing_Reasons {
 	 * Represents the reason that the home url option is changed.
 	 */
 	const REASON_HOME_URL_OPTION = 'home_url_option_changed';
+
+	/**
+	 * Represents the reason that an import has been completed.
+	 */
+	const REASON_IMPORT_COMPLETED = 'import_completed';
 }

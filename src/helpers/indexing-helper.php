@@ -279,4 +279,25 @@ class Indexing_Helper {
 		 */
 		return \apply_filters( 'wpseo_indexing_get_limited_unindexed_count', $unindexed_count, $limit );
 	}
+
+	/**
+	 * Retriggers the indexing notification.
+	 *
+	 * @param string $reason The reason for which we need re-indexing.
+	 * 
+	 * @return void.
+	 */
+	public function retrigger_indexing_notification( $reason = Indexing_Reasons::REASON_IMPORT_COMPLETED ) {
+		// First, let's delete all count transients.
+		\delete_transient( Indexable_General_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
+		\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
+		\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
+		\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
+		\delete_transient( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
+		\delete_transient( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
+
+		// Then, let's set a reason for indexing, so that the notification for indexing pops up.
+		
+		$this->set_reason( $reason );
+	}
 }

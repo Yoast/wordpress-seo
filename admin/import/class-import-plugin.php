@@ -41,6 +41,11 @@ class WPSEO_Import_Plugin {
 				break;
 			case 'import':
 				$this->status = $this->importer->run_import();
+
+				if ( $this->status->get_status() === true ) {
+					// Import was a success, time to notify users to re-index.
+					YoastSEO()->helpers->indexing->retrigger_indexing_notification();
+				}
 				break;
 			case 'detect':
 			default:
