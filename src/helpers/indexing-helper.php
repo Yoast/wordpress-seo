@@ -302,5 +302,8 @@ class Indexing_Helper {
 
 		// Then, let's set a reason for indexing, so that the notification for indexing pops up.
 		$this->set_reason( $reason );
+
+		// Also, clear the indexing_started option so we cover the case where an SEO optimization might already be running at the time of the import. 
+		$this->set_started( null );
 	}
 }
