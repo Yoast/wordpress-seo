@@ -24,8 +24,8 @@ class WPSEO_Sitemap_Provider_Overlap_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Set up our double class.
 	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
 
 		// Make sure the author archives are enabled.
 		WPSEO_Options::set( 'disable-author', false );

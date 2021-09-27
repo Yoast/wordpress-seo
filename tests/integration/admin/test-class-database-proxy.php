@@ -27,8 +27,8 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Instantiates a reusable table proxy and creates the table.
 	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
 
 		global $wpdb;
 
