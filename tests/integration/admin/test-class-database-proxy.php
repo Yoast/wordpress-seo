@@ -51,8 +51,8 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		global $wpdb;
 

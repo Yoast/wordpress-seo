@@ -22,8 +22,8 @@ class WPSEO_Configuration_Structure_Test extends TestCase {
 	/**
 	 * Set up.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->structure = new WPSEO_Configuration_Structure_Mock();
 	}

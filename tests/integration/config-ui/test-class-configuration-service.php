@@ -24,8 +24,8 @@ class WPSEO_Configuration_Service_Test extends TestCase {
 	/**
 	 * Preparation.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->configuration_service = new WPSEO_Configuration_Service();
 	}

@@ -29,8 +29,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test setup.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		WPSEO_Options::set( 'keyword_analysis_active', true );
 	}

@@ -27,8 +27,8 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Creates a post to use in the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->term     = $this->factory->term->create_and_get();
 		$this->taxonomy = get_taxonomy( $this->term->taxonomy );

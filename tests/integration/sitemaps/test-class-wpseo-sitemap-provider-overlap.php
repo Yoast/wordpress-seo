@@ -34,8 +34,8 @@ class WPSEO_Sitemap_Provider_Overlap_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Set up our double class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		self::$class_instance = new WPSEO_Sitemaps_Double();
 
