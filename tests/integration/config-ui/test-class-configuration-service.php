@@ -33,13 +33,13 @@ class WPSEO_Configuration_Service_Test extends TestCase {
 	/**
 	 * Cleaning.
 	 */
-	public function tearDown() {
-		parent::tearDown();
-
+	public function tear_down() {
 		remove_action(
 			'rest_api_init',
 			[ $this->configuration_service, 'initialize' ]
 		);
+
+		parent::tear_down();
 	}
 
 	/**

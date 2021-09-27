@@ -28,11 +28,13 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Drops our table and returns to normal WPDB testing state.
 	 */
-	public function tearDown() {
+	public function tear_down() {
 		$this->class_instance->run_cleanup();
 
 		add_filter( 'query', [ $this, '_create_temporary_tables' ] );
 		add_filter( 'query', [ $this, '_drop_temporary_tables' ] );
+
+		parent::tear_down();
 	}
 
 	/**

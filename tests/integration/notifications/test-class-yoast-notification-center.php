@@ -46,11 +46,11 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Remove notifications on tearDown.
 	 */
-	public function tearDown() {
-		parent::tearDown();
-
+	public function tear_down() {
 		$notification_center = Yoast_Notification_Center::get();
 		$notification_center->deactivate_hook();
+
+		parent::tear_down();
 	}
 
 	/**
