@@ -63,14 +63,14 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Drops the table from the proxy.
 	 */
-	public static function tearDownAfterClass() {
-		parent::tearDownAfterClass();
-
+	public static function tear_down_after_class() {
 		global $wpdb;
 
 		$full_table_name = self::$proxy->get_table_name();
 
 		$wpdb->query( "DROP TABLE {$full_table_name}" );
+
+		parent::tear_down_after_class();
 	}
 
 	/**
