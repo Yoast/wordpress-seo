@@ -237,7 +237,11 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 17.2.1 =
-Release Date: October 12th, 2021
+Release Date: September 28th, 2021
+
+Bugfixes:
+
+* Fixes a bug that could lead to a fatal error in the breadcrumbs block for auto-draft posts.
 
 = 17.2 =
 Release Date: September 21st, 2021
