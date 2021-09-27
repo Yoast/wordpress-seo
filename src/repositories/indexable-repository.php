@@ -548,7 +548,7 @@ class Indexable_Repository {
 				'version' => 0,
 			]
 		);
-		
+
 		$query->where_in( 'object_id', $post_ids );
 		$query->where( 'object_type', 'post' );
 

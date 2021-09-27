@@ -87,9 +87,9 @@ abstract class WPSEO_Plugin_Importer {
 	 * @return bool Import success status.
 	 */
 	protected function import() {
-		$status         = $this->meta_keys_clone( $this->clone_keys );
+		$status = $this->meta_keys_clone( $this->clone_keys );
 
-		// Time to reset the indexables for posts that were affected by the import
+		// Time to reset the indexables for posts that were affected by the import.
 		$imported_posts = array_unique( $this->post_ids );
 		YoastSEO()->helpers->indexable->reset_indexables_by_post_ids( $imported_posts );
 
@@ -234,8 +234,10 @@ abstract class WPSEO_Plugin_Importer {
 
 		$this->meta_key_clone_replace( $replace_values );
 
-		$ids = $wpdb->get_col( 'SELECT post_id FROM tmp_meta_table' );
-		$this->post_ids = array_merge( $this->post_ids, $ids );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$affected_post_ids = $wpdb->get_col( 'SELECT post_id FROM tmp_meta_table' );
+		$this->post_ids    = array_merge( $this->post_ids, $affected_post_ids );
+
 		// With everything done, we insert all our newly cloned lines into the postmeta table.
 		$wpdb->query( "INSERT INTO {$wpdb->postmeta} SELECT * FROM tmp_meta_table" );
 

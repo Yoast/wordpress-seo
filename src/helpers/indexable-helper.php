@@ -135,7 +135,7 @@ class Indexable_Helper {
 	 */
 	public function reset_indexables_by_post_ids( $post_ids, $reason = Indexing_Reasons::REASON_IMPORT_COMPLETED ) {
 		$result = 0;
-		 /**
+		/**
 		 * Filter: 'wpseo_chunk_bulk_reset_post_indexables' - Allow filtering the chunk size of each bulked reset post indexable query.
 		 *
 		 * @api int The chunk size of the bulked reset post indexable query.
