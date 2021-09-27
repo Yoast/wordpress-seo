@@ -436,7 +436,6 @@ class Indexing_Helper_Test extends TestCase {
 	 * @covers ::set_started
 	 */
 	public function test_retrigger_indexing_notification() {
-		$start_time = 160934509;
 		Monkey\Functions\expect( 'delete_transient' )
 			->times( 10 )
 			->withAnyArgs();
