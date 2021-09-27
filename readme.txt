@@ -236,6 +236,9 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 17.2.1 =
+Release Date: October 12th, 2021
+
 = 17.2 =
 Release Date: September 21st, 2021
 
