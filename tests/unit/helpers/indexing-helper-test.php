@@ -426,4 +426,36 @@ class Indexing_Helper_Test extends TestCase {
 
 		static::assertEquals( 30, $this->instance->get_limited_filtered_unindexed_count( 25 ) );
 	}
+
+	/**
+	 * Tests getting the indexing start time.
+	 *
+	 * @covers ::retrigger_indexing_notification
+	 * @covers ::clear_count_transients
+	 * @covers ::set_reason
+	 * @covers ::set_started
+	 */
+	public function test_retrigger_indexing_notification() {
+		$start_time = 160934509;
+		Monkey\Functions\expect( 'delete_transient' )
+			->times( 10 )
+			->withAnyArgs();
+
+		$this->options_helper
+			->expects( 'set' )
+			->once()
+			->with( 'indexing_reason', 'import_completed' );
+
+		$this->options_helper
+			->expects( 'set' )
+			->once()
+			->with( 'indexing_started', null );
+
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->once()
+			->with( Indexing_Notification_Integration::NOTIFICATION_ID );
+
+		$this->instance->retrigger_indexing_notification();
+	}
 }

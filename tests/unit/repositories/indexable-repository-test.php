@@ -465,6 +465,47 @@ class Indexable_Repository_Test extends TestCase {
 	}
 
 	/**
+	 * Tests if the reset_permalink method fires when type and subtype are passed.
+	 *
+	 * @covers ::reset_posts
+	 */
+	public function test_reset_posts() {
+		$orm_object = Mockery::mock();
+		$post_ids   = [ 1, 2, 3 ];
+
+		$this->instance
+			->expects( 'query' )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects( 'set' )
+			->with(
+				[
+					'version' => 0,
+				]
+			)
+			->once()
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'where_in' )
+			->with( 'object_id', $post_ids )
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'where' )
+			->with( 'object_type', 'post' )
+			->andReturnSelf();
+
+		$orm_object
+			->expects( 'update_many' )
+			->once()
+			->andReturn( 3 );
+
+		$this->assertSame( 3, $this->instance->reset_posts( $post_ids ) );
+	}
+
+	/**
 	 * Tests if ensure_permalink sets the permalink to 'unindexed' when the post_status is 'unindexed'.
 	 *
 	 * @covers ::upgrade_indexable

@@ -407,6 +407,7 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			[ 'permalink_settings_changed' ],
 			[ 'category_base_changed' ],
 			[ 'home_url_option_changed' ],
+			[ 'import_completed' ],
 		];
 	}
 
