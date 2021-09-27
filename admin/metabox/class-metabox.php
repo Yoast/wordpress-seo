@@ -985,11 +985,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'post_year',
 			'post_month',
 			'post_day',
+			'name',
 			'author_first_name',
 			'author_last_name',
 			'permalink',
 			'post_content',
 			'category_title',
+			'tag',
+			'category',
 		];
 
 		foreach ( $vars_to_cache as $var ) {

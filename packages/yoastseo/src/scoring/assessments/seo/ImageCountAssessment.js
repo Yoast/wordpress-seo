@@ -26,8 +26,8 @@ export default class TextImagesAssessment extends Assessment {
 				good: 9,
 			},
 			recommendedCount: 1,
-			urlTitle: "",
-			urlCallToAction: "",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/4f4" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4f5" ),
 		};
 
 		this.identifier = "images";
@@ -48,7 +48,7 @@ export default class TextImagesAssessment extends Assessment {
 		this.imageCount = researcher.getResearch( "imageCount" );
 		this.videoCount = researcher.getResearch( "videoCount" );
 
-		const calculatedScore = this.calculateResult( i18n, researcher );
+		const calculatedScore = this.calculateResult( i18n );
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedScore.score );
@@ -72,21 +72,10 @@ export default class TextImagesAssessment extends Assessment {
 	 * Calculate the result based on the availability of images in the text, including videos in product pages.
 	 *
 	 * @param {Object} i18n The object used for translations.
-	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
+	 *
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult( i18n, researcher ) {
-		let urlTitle = this._config.urlTitle;
-		let urlCallToAction = this._config.urlCallToAction;
-		// Get the links
-		const links = researcher.getData( "links" );
-		// Check if links for the assessment is available in links data
-		if ( links[ "shortlinks.metabox.SEO.image_count" ] && links[ "shortlinks.metabox.SEO.image_countCall_to_action" ] ) {
-			// Overwrite default links with links from configuration
-			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.image_count" ] );
-			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.image_countCall_to_action" ] );
-		}
-		// Calculates scores
+	calculateResult( i18n ) {
 		// If "countVideos" is on, we include videos in the assessment
 		const mediaCount = this._countVideos ? this.imageCount + this.videoCount : this.imageCount;
 
@@ -101,8 +90,8 @@ export default class TextImagesAssessment extends Assessment {
 							"js-text-analysis",
 							"%1$sImages and videos%3$s: No images or videos appear on this page. %2$sAdd some%3$s!"
 						),
-						urlTitle,
-						urlCallToAction,
+						this._config.urlTitle,
+						this._config.urlCallToAction,
 						"</a>"
 					),
 				};
@@ -115,8 +104,8 @@ export default class TextImagesAssessment extends Assessment {
 						"js-text-analysis",
 						"%1$sImages%3$s: No images appear on this page. %2$sAdd some%3$s!"
 					),
-					urlTitle,
-					urlCallToAction,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -140,8 +129,8 @@ export default class TextImagesAssessment extends Assessment {
 						),
 						mediaCount,
 						this._config.recommendedCount,
-						urlTitle,
-						urlCallToAction,
+						this._config.urlTitle,
+						this._config.urlCallToAction,
 						"</a>"
 					),
 				};
@@ -162,8 +151,8 @@ export default class TextImagesAssessment extends Assessment {
 						),
 						mediaCount,
 						this._config.recommendedCount,
-						urlTitle,
-						urlCallToAction,
+						this._config.urlTitle,
+						this._config.urlCallToAction,
 						"</a>"
 					),
 				};
@@ -181,7 +170,7 @@ export default class TextImagesAssessment extends Assessment {
 						"js-text-analysis",
 						"%1$sImages and videos%2$s: Good job!"
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
@@ -197,7 +186,7 @@ export default class TextImagesAssessment extends Assessment {
 					"js-text-analysis",
 					"%1$sImages%2$s: Good job!"
 				),
-				urlTitle,
+				this._config.urlTitle,
 				"</a>"
 			),
 		};

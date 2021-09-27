@@ -144,14 +144,14 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 		foreach ( $meta_values as $meta_value ) {
 			// Find all custom field replace vars, store them in `$matches`.
 			\preg_match_all(
-				"/#$aioseo_prefix-(\w+)/",
+				"/#$aioseo_prefix-([\w-]+)/",
 				$meta_value,
 				$matches
 			);
 
 			/*
 			 * `$matches[1]` contain the captured matches of the
-			 * first capturing group (the `(\w+)` in the regex above).
+			 * first capturing group (the `([\w-]+)` in the regex above).
 			 */
 			$custom_fields_or_taxonomies = $matches[1];
 

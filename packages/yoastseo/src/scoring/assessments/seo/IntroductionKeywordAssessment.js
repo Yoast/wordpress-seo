@@ -28,8 +28,8 @@ class IntroductionKeywordAssessment extends Assessment {
 				okay: 6,
 				bad: 3,
 			},
-			urlTitle: "",
-			urlCallToAction: "",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33e" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33f" ),
 		};
 
 		this.identifier = "introductionKeyword";
@@ -49,7 +49,7 @@ class IntroductionKeywordAssessment extends Assessment {
 		const assessmentResult = new AssessmentResult();
 
 		this._firstParagraphMatches = researcher.getResearch( "findKeywordInFirstParagraph" );
-		const calculatedResult = this.calculateResult( i18n, researcher );
+		const calculatedResult = this.calculateResult( i18n );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -72,21 +72,10 @@ class IntroductionKeywordAssessment extends Assessment {
 	 * Returns a result based on the number of occurrences of keyphrase in the first paragraph.
 	 *
 	 * @param {Jed} i18n The object used for translations.
-	 * @param {Researcher} researcher The researcher used for calling research.
+	 *
 	 * @returns {Object} result object with a score and translation text.
 	 */
-	calculateResult( i18n, researcher ) {
-		let urlTitle = this._config.urlTitle;
-		let urlCallToAction = this._config.urlCallToAction;
-		// Get the links
-		const links = researcher.getData( "links" );
-		// Check if links for the assessment is available in links data
-		if ( links[ "shortlinks.metabox.SEO.introduction_keword" ] && links[ "shortlinks.metabox.SEO.introduction_kewordCall_to_action" ] ) {
-			// Overwrite default links with links from configuration
-			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.introduction_keword" ] );
-			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.introduction_kewordCall_to_action" ] );
-		}
-		// Calculates scores
+	calculateResult( i18n ) {
 		if ( this._firstParagraphMatches.foundInOneSentence ) {
 			return {
 				score: this._config.scores.good,
@@ -96,7 +85,7 @@ class IntroductionKeywordAssessment extends Assessment {
 						"js-text-analysis",
 						"%1$sKeyphrase in introduction%2$s: Well done!"
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
@@ -112,8 +101,8 @@ class IntroductionKeywordAssessment extends Assessment {
 						"%1$sKeyphrase in introduction%3$s:" +
 						" Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. %2$sFix that%3$s!"
 					),
-					urlTitle,
-					urlCallToAction,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -128,8 +117,8 @@ class IntroductionKeywordAssessment extends Assessment {
 					"%1$sKeyphrase in introduction%3$s: Your keyphrase or its synonyms do not appear in the first paragraph. " +
 					"%2$sMake sure the topic is clear immediately%3$s."
 				),
-				urlTitle,
-				urlCallToAction,
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>"
 			),
 		};

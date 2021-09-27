@@ -27,9 +27,9 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "laptop", count: 1 },
 			{ word: "table", count: 4 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "Consecutive sentences</a>:" +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>:" +
 			" The text contains 4 consecutive sentences starting with the same word." +
-			" Try to mix things up</a>!" );
+			" <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!" );
 	} );
 
 	it( "scores two instance with too many consecutive English sentences starting with the same word, 5 being the lowest count.", function() {
@@ -37,8 +37,9 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "banana", count: 6 }, { word: "pencil", count: 1 },
 			{ word: "bottle", count: 5 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "Consecutive sentences</a>: " +
-			"The text contains 2 instances where 5 or more consecutive sentences start with the same word. Try to mix things up</a>!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
+			"The text contains 2 instances where 5 or more consecutive sentences start with the same word. <a href='https://yoa.st/35g' " +
+			"target='_blank'>Try to mix things up</a>!" );
 	} );
 
 	it( "scores zero instance with too many consecutive English sentences starting with the same word.", function() {
@@ -46,7 +47,7 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "telephone", count: 2 }, { word: "towel", count: 2 },
 			{ word: "couch", count: 1 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "Consecutive sentences</a>: " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
 			"There is enough variety in your sentences. That's great!" );
 	} );
 
@@ -55,9 +56,9 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "Stuhl", count: 2 }, { word: "Banane", count: 1 },
 			{ word: "Tafel", count: 4 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "Consecutive sentences</a>: T" +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: T" +
 			"he text contains 4 consecutive sentences starting with the same word." +
-			" Try to mix things up</a>!" );
+			" <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!" );
 	} );
 
 	it( "scores two instance with too many consecutive German sentences starting with the same word, 5 being the lowest count.", function() {
@@ -65,8 +66,9 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "Banane", count: 6 }, { word: "Blatt", count: 1 },
 			{ word: "Schloss", count: 5 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "Consecutive sentences</a>: " +
-			"The text contains 2 instances where 5 or more consecutive sentences start with the same word. Try to mix things up</a>!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
+			"The text contains 2 instances where 5 or more consecutive sentences start with the same word. <a href='https://yoa.st/35g' " +
+			"target='_blank'>Try to mix things up</a>!" );
 	} );
 
 	it( "scores zero instance with too many consecutive German sentences starting with the same word.", function() {
@@ -74,7 +76,7 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "Telefon", count: 2 }, { word: "Hund", count: 2 },
 			{ word: "Haus", count: 1 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "Consecutive sentences</a>: " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
 			"There is enough variety in your sentences. That's great!" );
 	} );
 
@@ -83,9 +85,9 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "cangkir", count: 2 }, { word: "pisang", count: 1 },
 			{ word: "meja", count: 4 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "Consecutive sentences</a>: " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
 			"The text contains 4 consecutive sentences starting with the same word." +
-			" Try to mix things up</a>!" );
+			" <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!" );
 	} );
 
 	it( "scores two instance with too many consecutive Indonesian sentences starting with the same word, 5 being the lowest count.", function() {
@@ -93,8 +95,9 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "cangkir", count: 6 }, { word: "pisang", count: 1 },
 			{ word: "botol", count: 5 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "Consecutive sentences</a>: " +
-			"The text contains 2 instances where 5 or more consecutive sentences start with the same word. Try to mix things up</a>!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
+			"The text contains 2 instances where 5 or more consecutive sentences start with the same word. <a href='https://yoa.st/35g' " +
+			"target='_blank'>Try to mix things up</a>!" );
 	} );
 
 	it( "scores zero instance with too many consecutive Indonesian sentences starting with the same word.", function() {
@@ -102,7 +105,7 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "pensil", count: 2 }, { word: "kopi", count: 2 },
 			{ word: "sofa", count: 1 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "Consecutive sentences</a>: " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
 			"There is enough variety in your sentences. That's great!" );
 	} );
 
@@ -111,9 +114,9 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "csésze", count: 2 }, { word: "laptop", count: 1 },
 			{ word: "asztal", count: 4 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "Consecutive sentences</a>: " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
 			"The text contains 4 consecutive sentences starting with the same word." +
-			" Try to mix things up</a>!" );
+			" <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!" );
 	} );
 
 	it( "scores two instance with too many consecutive Hungarian sentences starting with the same word, 5 being the lowest count.", function() {
@@ -121,8 +124,9 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "banán", count: 6 }, { word: "ceruza", count: 1 },
 			{ word: "üveg", count: 5 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "Consecutive sentences</a>: " +
-			"The text contains 2 instances where 5 or more consecutive sentences start with the same word. Try to mix things up</a>!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
+			"The text contains 2 instances where 5 or more consecutive sentences start with the same word. <a href='https://yoa.st/35g' " +
+			"target='_blank'>Try to mix things up</a>!" );
 	} );
 
 	it( "scores zero instance with too many consecutive Hungarian sentences starting with the same word.", function() {
@@ -130,7 +134,7 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "ceruza", count: 2 }, { word: "kávé", count: 2 },
 			{ word: "kanapé", count: 1 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "Consecutive sentences</a>: " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
 			"There is enough variety in your sentences. That's great!" );
 	} );
 
@@ -139,9 +143,9 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "bilgisayar", count: 2 }, { word: "köpek", count: 1 },
 			{ word: "kedi", count: 4 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "Consecutive sentences</a>: " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
 			"The text contains 4 consecutive sentences starting with the same word." +
-			" Try to mix things up</a>!" );
+			" <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!" );
 	} );
 
 	it( "scores two instance with too many consecutive Turkish sentences starting with the same word, 5 being the lowest count.", function() {
@@ -149,8 +153,9 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "muz", count: 6 }, { word: "makyaj", count: 1 },
 			{ word: "çay", count: 5 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "Consecutive sentences</a>: " +
-			"The text contains 2 instances where 5 or more consecutive sentences start with the same word. Try to mix things up</a>!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
+			"The text contains 2 instances where 5 or more consecutive sentences start with the same word. <a href='https://yoa.st/35g' " +
+			"target='_blank'>Try to mix things up</a>!" );
 	} );
 
 	it( "scores zero instance with too many consecutive Turkish sentences starting with the same word.", function() {
@@ -158,7 +163,7 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 			{ word: "ayakkabı", count: 2 }, { word: "kayıt", count: 2 },
 			{ word: "ceket", count: 1 } ] ), i18n );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "Consecutive sentences</a>: " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: " +
 			"There is enough variety in your sentences. That's great!" );
 	} );
 

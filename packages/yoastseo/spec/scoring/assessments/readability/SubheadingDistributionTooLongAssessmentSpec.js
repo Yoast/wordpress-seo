@@ -19,7 +19,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "Subheading distribution</a>: " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
 			"You are not using any subheadings, but your text is short enough and probably doesn't need them." );
 	} );
 
@@ -30,7 +30,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "Subheading distribution</a>: Great job!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: Great job!" );
 	} );
 
 	it( "Scores a long text (>300 words), which does not have subheadings.", function() {
@@ -40,8 +40,8 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 2 );
-		expect( assessment.getText() ).toBe( "Subheading distribution</a>: " +
-			"You are not using any subheadings, although your text is rather long. " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+			"You are not using any subheadings, although your text is rather long. <a href='https://yoa.st/34y' target='_blank'>" +
 			"Try and add some subheadings</a>." );
 	} );
 
@@ -52,7 +52,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "Subheading distribution</a>: Great job!" );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: Great job!" );
 	} );
 
 	it( "Scores a long text (>300 words), which has subheadings and all sections of the text are <300 words, except for one, " +
@@ -63,9 +63,9 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 6 );
-		expect( assessment.getText() ).toBe( "Subheading distribution</a>: " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
 			"1 section of your text is longer than 300 words and is not separated by any subheadings." +
-			" Add subheadings to improve readability</a>." );
+			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
 	it( "Scores a long text (>300 words), which has subheadings and all sections of the text are <300 words, except for two, " +
@@ -76,9 +76,9 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 6 );
-		expect( assessment.getText() ).toBe( "Subheading distribution</a>: " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
 			"2 sections of your text are longer than 300 words and are not separated by any subheadings." +
-			" Add subheadings to improve readability</a>." );
+			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
 	it( "Scores a long text (>300 words), which has subheadings and all sections of the text are <300 words, except for one, " +
@@ -89,9 +89,9 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "Subheading distribution</a>: " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
 			"1 section of your text is longer than 300 words and is not separated by any subheadings." +
-			" Add subheadings to improve readability</a>." );
+			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
 	it( "Scores a long text (>300 words), which has subheadings and some sections of the text are above 350 words long.", function() {
@@ -101,9 +101,9 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			i18n
 		);
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "Subheading distribution</a>: " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
 			"2 sections of your text are longer than 300 words and are not separated by any subheadings." +
-			" Add subheadings to improve readability</a>." );
+			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
 
