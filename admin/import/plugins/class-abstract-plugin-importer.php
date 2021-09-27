@@ -88,8 +88,10 @@ abstract class WPSEO_Plugin_Importer {
 	 */
 	protected function import() {
 		$status         = $this->meta_keys_clone( $this->clone_keys );
-		$imported_posts = array_unique ( $this->post_ids );
-		// @TODO: use those ids to set their indexable version to 0, so we can rebuild them.
+
+		// Time to reset the indexables for posts that were affected by the import
+		$imported_posts = array_unique( $this->post_ids );
+		YoastSEO()->helpers->indexable->reset_indexables_by_post_ids( $imported_posts );
 
 		return $status;
 	}

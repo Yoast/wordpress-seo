@@ -128,6 +128,35 @@ class Indexable_Helper {
 	}
 
 	/**
+	 * Resets the indexables of given posts.
+	 *
+	 * @param array  $post_ids The ids of the posts that need their indexables reset.
+	 * @param string $reason   The reason that the permalink has been changed.
+	 */
+	public function reset_indexables_by_post_ids( $post_ids, $reason = Indexing_Reasons::REASON_IMPORT_COMPLETED ) {
+		$result = 0;
+		 /**
+		 * Filter: 'wpseo_chunk_bulk_reset_post_indexables' - Allow filtering the chunk size of each bulked reset post indexable query.
+		 *
+		 * @api int The chunk size of the bulked reset post indexable query.
+		 */
+		$chunk = \apply_filters( 'wpseo_chunk_bulk_reset_post_indexables', 10000 );
+		$chunk = ! \is_int( $chunk ) ? 10000 : $chunk;
+		$chunk = ( $chunk <= 0 ) ? 10000 : $chunk;
+
+		$chunked_posts = \array_chunk( $post_ids, $chunk );
+		foreach ( $chunked_posts as $post_chunk ) {
+			$result += (int) $this->repository->reset_posts( $post_chunk );
+		}
+
+		// If we had even one successful reset query, we need to prompt users to trigger SEO optimization.
+		if ( $result !== false && $result > 0 ) {
+			$this->indexing_helper->set_reason( $reason );
+			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
+		}
+	}
+
+	/**
 	 * Determines whether indexing indexables is appropriate at this time.
 	 *
 	 * @return bool Whether or not the indexables should be indexed.

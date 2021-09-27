@@ -534,4 +534,24 @@ class Indexable_Repository {
 
 		return $query->update_many();
 	}
+
+	/**
+	 * Resets the indexables of the passed post ids.
+	 *
+	 * @param array $post_ids The ids of the posts that need their indexables reset.
+	 *
+	 * @return int|bool The number of post indexables changed if the query was succesful. False otherwise.
+	 */
+	public function reset_posts( $post_ids ) {
+		$query = $this->query()->set(
+			[
+				'version' => 0,
+			]
+		);
+		
+		$query->where_in( 'object_id', $post_ids );
+		$query->where( 'object_type', 'post' );
+
+		return $query->update_many();
+	}
 }
