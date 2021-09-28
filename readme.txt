@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.8
-Stable tag: 17.2
+Stable tag: 17.2.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -248,11 +248,17 @@ Bugfixes:
 
 * Fixes a bug where the meta description bar indicator color would not always match the color of the assessment bullet.
 * Fixes a bug where the placement variables Category, Name and Tag would not show up in the snippet preview.
-* Fixes a bug that could lead to a fatal error in the breadcrumbs block for auto-draft posts.
 
 Other:
 
 * Adds version management to our indexables framework; this makes the SEO Optimization process more robust, and prepares for future features.
+
+= 17.2.1 =
+Release Date: September 28th, 2021
+
+Bugfixes:
+
+* Fixes a bug that could lead to a fatal error in the breadcrumbs block for auto-draft posts.
 
 = 17.2 =
 Release Date: September 21st, 2021
