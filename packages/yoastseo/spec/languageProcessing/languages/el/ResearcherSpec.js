@@ -33,5 +33,4 @@ describe( "a test for Greek Researcher", function() {
 	it( "returns the Greek two part transition word", function() {
 		expect( researcher.getConfig( "twoPartTransitionWords" ) ).toEqual( twoPartTransitionWords );
 	} );
-
 } );
