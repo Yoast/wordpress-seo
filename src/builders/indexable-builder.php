@@ -192,6 +192,7 @@ class Indexable_Builder {
 	 * @return Indexable The home page indexable.
 	 */
 	public function build_for_home_page( $indexable = false ) {
+		\deprecated_function( __METHOD__, '17.4', 'Indexable_Builder::build' );
 		return $this->build( $indexable, [ 'object_type' => 'home-page' ] );
 	}
 

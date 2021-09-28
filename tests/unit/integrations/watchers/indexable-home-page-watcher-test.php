@@ -100,9 +100,9 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 			->andReturn( $indexable_mock );
 
 		$this->builder
-			->expects( 'build_for_home_page' )
+			->expects( 'build' )
 			->once()
-			->with( $indexable_mock )
+			->with( $indexable_mock, [ 'object_type' => 'home-page' ] )
 			->andReturn( $indexable_mock );
 
 		$this->instance->check_option( [ 'title-home-wpseo' => 'bar' ], [ 'title-home-wpseo' => 'baz' ], 'wpseo_titles' );
@@ -137,9 +137,9 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 			->andReturn( $indexable_mock );
 
 		$this->builder
-			->expects( 'build_for_home_page' )
+			->expects( 'build' )
 			->once()
-			->with( $indexable_mock )
+			->with( $indexable_mock, [ 'object_type' => 'home-page' ] )
 			->andReturn( $indexable_mock );
 
 		$this->instance->check_option( [ 'open_graph_frontpage_desc' => 'bar' ], [ 'open_graph_frontpage_desc' => 'baz' ], 'wpseo_titles' );
@@ -173,9 +173,9 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 			->andReturn( false );
 
 		$this->builder
-			->expects( 'build_for_home_page' )
+			->expects( 'build' )
 			->once()
-			->with( false )
+			->with( false, [ 'object_type' => 'home-page' ] )
 			->andReturn( $indexable_mock );
 
 		$this->instance->build_indexable();

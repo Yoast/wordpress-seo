@@ -620,47 +620,6 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests building an indexable for the homepage.
-	 *
-	 * @covers ::__construct
-	 * @covers ::set_indexable_repository
-	 * @covers ::build_for_home_page
-	 * @covers ::ensure_indexable
-	 */
-	public function test_build_for_homepage() {
-		$this->indexable->object_type = 'home-page';
-		$this->home_page_builder
-			->expects( 'build' )
-			->once()
-			->with( $this->indexable )
-			->andReturn( $this->indexable );
-
-		$this->indexable
-			->expects( 'as_array' )
-			->once()
-			->andReturn( [] );
-
-		$this->indexable_repository
-			->expects( 'query' )
-			->once()
-			->andReturnSelf();
-
-		$this->indexable_repository
-			->expects( 'create' )
-			->once()
-			->with( [] )
-			->andReturn( $this->indexable );
-
-		$this->indexable_helper
-			->expects( 'should_index_indexables' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-
-		$this->assertSame( $this->indexable, $this->instance->build_for_home_page( $this->indexable ) );
-	}
-
-	/**
 	 * Tests building an indexable for the date archive.
 	 *
 	 * @covers ::__construct

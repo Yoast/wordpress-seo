@@ -234,7 +234,7 @@ class Indexable_Repository {
 			$indexable = $this->query()->where( 'object_type', 'home-page' )->find_one();
 
 			if ( $auto_create && ! $indexable ) {
-				$indexable = $this->builder->build_for_home_page();
+				$indexable = $this->builder->build( false, [ 'object_type' => 'home-page' ] );
 			}
 
 			$indexable = $this->upgrade_indexable( $indexable );
