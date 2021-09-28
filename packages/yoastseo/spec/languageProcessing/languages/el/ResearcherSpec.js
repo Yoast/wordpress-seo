@@ -1,5 +1,7 @@
 import Researcher from "../../../../src/languageProcessing/languages/el/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
+import transitionWords from "../../../../src/languageProcessing/languages/el/config/transitionWords";
+import twoPartTransitionWords from "../../../../src/languageProcessing/languages/el/config/twoPartTransitionWords";
 
 describe( "a test for Greek Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -23,4 +25,13 @@ describe( "a test for Greek Researcher", function() {
 	it( "doesn't stem word if the basic stemmer is used in the Researcher", function() {
 		expect( researcher.getHelper( "getStemmer" )()( "γάτες" ) ).toBe( "γάτες" );
 	} );
+
+	it( "returns the Greek transition words", function() {
+		expect( researcher.getConfig( "transitionWords" ) ).toEqual( transitionWords );
+	} );
+
+	it( "returns the Greek two part transition word", function() {
+		expect( researcher.getConfig( "twoPartTransitionWords" ) ).toEqual( twoPartTransitionWords );
+	} );
+
 } );
