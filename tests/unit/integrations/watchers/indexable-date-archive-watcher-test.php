@@ -88,7 +88,7 @@ class Indexable_Date_Archive_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 
 		$this->repository->expects( 'find_for_date_archive' )->once()->with( false )->andReturn( $indexable_mock );
-		$this->builder->expects( 'build_for_date_archive' )->once()->with( $indexable_mock )->andReturn( $indexable_mock );
+		$this->builder->expects( 'build' )->once()->with( $indexable_mock, [ 'object_type' => 'date-archive' ] )->andReturn( $indexable_mock );
 
 		$this->instance->check_option( [ 'title-archive-wpseo' => 'bar' ], [ 'title-archive-wpseo' => 'baz' ] );
 	}
@@ -127,7 +127,7 @@ class Indexable_Date_Archive_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 
 		$this->repository->expects( 'find_for_date_archive' )->once()->with( false )->andReturn( false );
-		$this->builder->expects( 'build_for_date_archive' )->once()->with( false )->andReturn( $indexable_mock );
+		$this->builder->expects( 'build' )->once()->with( false, [ 'object_type' => 'date-archive' ] )->andReturn( $indexable_mock );
 
 		$this->instance->build_indexable();
 	}

@@ -89,6 +89,6 @@ class Indexable_Date_Archive_Watcher implements Integration_Interface {
 	 */
 	public function build_indexable() {
 		$indexable = $this->repository->find_for_date_archive( false );
-		$this->builder->build_for_date_archive( $indexable );
+		$this->builder->build( $indexable, [ 'object_type' => 'date-archive' ] );
 	}
 }

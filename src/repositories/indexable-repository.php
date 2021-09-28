@@ -261,7 +261,7 @@ class Indexable_Repository {
 		$indexable = $this->query()->where( 'object_type', 'date-archive' )->find_one();
 
 		if ( $auto_create && ! $indexable ) {
-			$indexable = $this->builder->build_for_date_archive();
+			$indexable = $this->builder->build( false, [ 'object_type' => 'date-archive' ] );
 		}
 
 		return $this->upgrade_indexable( $indexable );

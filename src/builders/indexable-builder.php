@@ -204,6 +204,7 @@ class Indexable_Builder {
 	 * @return Indexable The date archive indexable.
 	 */
 	public function build_for_date_archive( $indexable = false ) {
+		\deprecated_function( __METHOD__, '17.4', 'Indexable_Builder::build' );
 		return $this->build( $indexable, [ 'object_type' => 'date-archive' ] );
 	}
 

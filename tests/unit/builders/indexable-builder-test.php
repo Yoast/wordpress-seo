@@ -620,47 +620,6 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests building an indexable for the date archive.
-	 *
-	 * @covers ::__construct
-	 * @covers ::set_indexable_repository
-	 * @covers ::build_for_date_archive
-	 * @covers ::ensure_indexable
-	 */
-	public function test_build_for_date_archive() {
-		$this->date_archive_builder
-			->expects( 'build' )
-			->once()
-			->with( $this->indexable )
-			->andReturn( $this->indexable );
-
-		$this->indexable->object_type = 'date-archive';
-		$this->indexable
-			->expects( 'as_array' )
-			->once()
-			->andReturn( [] );
-
-		$this->indexable_repository
-			->expects( 'query' )
-			->once()
-			->andReturnSelf();
-
-		$this->indexable_repository
-			->expects( 'create' )
-			->once()
-			->with( [] )
-			->andReturn( $this->indexable );
-
-		$this->indexable_helper
-			->expects( 'should_index_indexables' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-
-		$this->assertSame( $this->indexable, $this->instance->build_for_date_archive( $this->indexable ) );
-	}
-
-	/**
 	 * Tests building an indexable for the post type archive.
 	 *
 	 * @covers ::__construct
