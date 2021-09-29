@@ -1,8 +1,8 @@
 /**
- * Returns an array with exceptions for the sentence beginning researcher.
+ * Returns an array with exceptions for the sentence beginning research.
  * @type {Array} The array filled with exceptions.
  */
-export default [
+const firstWords = [
 	// Definite articles:
 	"o", "του", "τον ", "ο", "των", "τους", "η", "της", "την", "τις", "το", "τα",
 	// Indefinite articles:
@@ -16,3 +16,18 @@ export default [
 	"τόσου", "τόσον", "τόσοι", "τόσων", "τόσους", "τόση", "τόσης", "τόσες", "τόσο", "τόσα", "τούτος", "τούτου", "τούτον",
 	"τούτοι", "τούτων", "τούτους", "τούτη ", "τούτης", "τούτην ", "τούτες", "τούτο", "τούτα", "εδώ", "εκεί",
 ];
+
+/**
+ * Returns an array of words that occur after demonstrative pronouns.
+ *
+ * @type {string[]} The array filled with exceptions.
+ */
+const secondWords = [
+	// Definite articles:
+	"o", "του", "τον ", "ο", "των", "τους", "η", "της", "την", "τις", "το", "τα",
+];
+
+export default {
+	firstWords: firstWords,
+	secondWords: secondWords,
+};
