@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Mockery;
+use Yoast\WP\SEO\Conditionals\Greek_Support_Conditional;
 use Yoast\WP\SEO\Conditionals\Japanese_Support_Conditional;
 use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -31,14 +32,22 @@ class Language_Helper_Test extends TestCase {
 	protected $japanese_conditional;
 
 	/**
+	 * The Greek support conditional.
+	 *
+	 * @var Mockery\MockInterface|Greek_Support_Conditional
+	 */
+	protected $greek_conditional;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
 		$this->japanese_conditional = Mockery::mock( Japanese_Support_Conditional::class );
+		$this->greek_conditional    = Mockery::mock( Greek_Support_Conditional::class );
 
-		$this->instance = new Language_Helper( $this->japanese_conditional );
+		$this->instance = new Language_Helper( $this->japanese_conditional, $this->greek_conditional );
 	}
 
 	/**
@@ -47,7 +56,8 @@ class Language_Helper_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		static::assertInstanceOf( Japanese_Support_Conditional::class, self::getPropertyValue( $this, 'japanese_conditional' ) );
+		$this->assertInstanceOf( Japanese_Support_Conditional::class, $this->getPropertyValue( $this, 'japanese_conditional' ) );
+		$this->assertInstanceOf( Greek_Support_Conditional::class, $this->getPropertyValue( $this, 'greek_conditional' ) );
 	}
 
 	/**
@@ -61,6 +71,10 @@ class Language_Helper_Test extends TestCase {
 	 */
 	public function test_is_word_form_recognition_active( $language ) {
 		$this->japanese_conditional
+			->expects( 'is_met' )
+			->andReturnFalse();
+
+		$this->greek_conditional
 			->expects( 'is_met' )
 			->andReturnFalse();
 
@@ -89,6 +103,11 @@ class Language_Helper_Test extends TestCase {
 		$this->japanese_conditional
 			->expects( 'is_met' )
 			->andReturnFalse();
+
+		$this->greek_conditional
+			->expects( 'is_met' )
+			->andReturnFalse();
+
 		$this->assertTrue( $this->instance->has_function_word_support( $language ) );
 	}
 
