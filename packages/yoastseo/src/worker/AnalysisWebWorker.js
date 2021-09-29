@@ -31,8 +31,6 @@ import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
 // Tree assessor functionality.
 import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../parsedPaper/assess/scoreAggregators";
 
-const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
-
 const logger = getLogger( "yoast-analysis-worker" );
 logger.setDefaultLevel( "error" );
 
@@ -458,6 +456,7 @@ export default class AnalysisWebWorker {
 	 * @returns {null|Assessor} The chosen SEO assessor.
 	 */
 	createSEOAssessor() {
+		const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 		const {
 			keywordAnalysisActive,
 			useCornerstone,
