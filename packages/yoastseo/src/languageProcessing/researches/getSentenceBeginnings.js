@@ -50,11 +50,13 @@ const compareFirstWords = function( sentenceBeginnings, sentences ) {
 /**
  * Retrieves the first word from the sentence.
  *
- * @param {string} sentence The sentence to retrieve the first word from.
- * @param {Array} firstWordExceptions Exceptions to match against.
+ * @param {string}  sentence                The sentence to retrieve the first word from.
+ * @param {Array}   firstWordExceptions     First word exceptions to match against.
+ * @param {Array}   secondWordExceptions    Second word exceptions to match against.
+ *
  * @returns {string} The first word of the sentence.
  */
-function getSentenceBeginning( sentence, firstWordExceptions ) {
+function getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptions ) {
 	const words = getWords( stripTags( stripSpaces( sentence ) ) );
 
 	if ( words.length === 0 ) {
@@ -64,7 +66,12 @@ function getSentenceBeginning( sentence, firstWordExceptions ) {
 	let firstWord = words[ 0 ].toLocaleLowerCase();
 
 	if ( firstWordExceptions.indexOf( firstWord ) > -1 && words.length > 1 ) {
-		firstWord += " " + words[ 1 ];
+		firstWord = firstWord + " " + words[ 1 ];
+		if ( secondWordExceptions ) {
+			if ( secondWordExceptions.includes( words[ 1 ] ) ) {
+				firstWord = firstWord + " " + words[ 2 ];
+			}
+		}
 	}
 
 	return firstWord;
@@ -73,12 +80,14 @@ function getSentenceBeginning( sentence, firstWordExceptions ) {
 /**
  * Gets the first word of each sentence from the text, and returns an object containing the first word of each sentence and the corresponding counts.
  *
- * @param {Paper} paper The Paper object to get the text from.
- * @param {Researcher} researcher The researcher this research is a part of.
+ * @param {Paper}       paper       The Paper object to get the text from.
+ * @param {Researcher}  researcher  The researcher this research is a part of.
+ *
  * @returns {Object} The object containing the first word of each sentence and the corresponding counts.
  */
 export default function( paper, researcher ) {
 	const firstWordExceptions = researcher.getConfig( "firstWordExceptions" );
+	const secondWordExceptions = researcher.getConfig( "secondWordExceptions" );
 	let text = paper.getText();
 
 	// Exclude text inside tables.
@@ -87,7 +96,7 @@ export default function( paper, researcher ) {
 	let sentences = getSentences( text );
 
 	let sentenceBeginnings = sentences.map( function( sentence ) {
-		return getSentenceBeginning( sentence, firstWordExceptions );
+		return getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptions );
 	} );
 
 	sentences = sentences.filter( function( sentence ) {
