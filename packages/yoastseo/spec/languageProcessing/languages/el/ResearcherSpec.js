@@ -1,5 +1,6 @@
 import Researcher from "../../../../src/languageProcessing/languages/el/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
+import firstWordExceptions from "../../../../src/languageProcessing/languages/el/config/firstWordExceptions";
 
 describe( "a test for Greek Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -18,6 +19,10 @@ describe( "a test for Greek Researcher", function() {
 
 	it( "returns false if the Greek Researcher doesn't have a certain config", function() {
 		expect( researcher.getConfig( "sentenceLength" ) ).toBe( false );
+	} );
+
+	it( "returns the Greek first word exceptions", function() {
+		expect( researcher.getConfig( "firstWordExceptions" ) ).toEqual( firstWordExceptions );
 	} );
 
 	it( "doesn't stem word if the basic stemmer is used in the Researcher", function() {
