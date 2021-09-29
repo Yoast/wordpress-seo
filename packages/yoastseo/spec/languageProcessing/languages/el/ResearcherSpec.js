@@ -22,7 +22,11 @@ describe( "a test for Greek Researcher", function() {
 	} );
 
 	it( "returns the Greek first word exceptions", function() {
-		expect( researcher.getConfig( "firstWordExceptions" ) ).toEqual( firstWordExceptions );
+		expect( researcher.getConfig( "firstWordExceptions" ) ).toEqual( firstWordExceptions.firstWords );
+	} );
+
+	it( "returns the Greek second word exceptions", function() {
+		expect( researcher.getConfig( "secondWordExceptions" ) ).toEqual( firstWordExceptions.secondWords );
 	} );
 
 	it( "doesn't stem word if the basic stemmer is used in the Researcher", function() {
