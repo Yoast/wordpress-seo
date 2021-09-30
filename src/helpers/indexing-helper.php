@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use Brain\Monkey\Hook\Exception\InvalidHookArgument;
 use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;

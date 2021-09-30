@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Helpers\Date_Helper;
-use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;

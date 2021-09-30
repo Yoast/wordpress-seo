@@ -6,8 +6,6 @@ use Elementor\Controls_Manager;
 use Elementor\Core\DocumentTypes\PageBase;
 use WP_Post;
 use WP_Screen;
-use WPSEO_Admin_Asset;
-use WPSEO_Admin_Asset_Analysis_Worker_Location;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Asset_Yoast_Components_L10n;
 use WPSEO_Admin_Recommended_Replace_Vars;

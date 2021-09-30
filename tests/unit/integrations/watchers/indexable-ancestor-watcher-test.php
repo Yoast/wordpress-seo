@@ -10,7 +10,6 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Ancestor_Watcher;
-use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;

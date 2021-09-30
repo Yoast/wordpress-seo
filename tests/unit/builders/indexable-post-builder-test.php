@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
-use PHPUnit_Framework_ExpectationFailedException;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
