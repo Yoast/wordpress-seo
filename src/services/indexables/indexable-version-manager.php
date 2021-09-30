@@ -13,7 +13,7 @@ class Indexable_Version_Manager {
 	/**
 	 * Stores the version of each Indexable type.
 	 *
-	 * @var $indexable_builder_versions Indexable_Builder_Versions The current versions of all indexable builders.
+	 * @var Indexable_Builder_Versions The current versions of all indexable builders.
 	 */
 	protected $indexable_builder_versions;
 
