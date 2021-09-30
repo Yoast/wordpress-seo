@@ -95,6 +95,6 @@ class Workouts_Integration implements Integration_Interface {
 	public function render() {
 		$cornerstone_guide  = $this->shortlinker->build_shortlink( 'https://yoa.st/4f1' );
 		$cornerstone_upsell = $this->shortlinker->build_shortlink( 'https://yoa.st/4f2' );
-		require_once WPSEO_PATH . 'admin/views/workouts.php';
+		require_once \WPSEO_PATH . 'admin/views/workouts.php';
 	}
 }

@@ -80,7 +80,7 @@ class Addon_Activate_Action {
 	 */
 	protected function load_wordpress_classes() {
 		if ( ! function_exists( 'get_plugins' ) ) {
-			$this->require_file_helper->require_file_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+			$this->require_file_helper->require_file_once( \ABSPATH . 'wp-admin/includes/plugin.php' );
 		}
 	}
 }

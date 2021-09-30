@@ -243,7 +243,7 @@ class Social_Templates_Integration implements Integration_Interface {
 		}
 
 		if ( ! $is_premium ) {
-			$wpseo_page = filter_input( INPUT_GET, 'page' );
+			$wpseo_page = filter_input( \INPUT_GET, 'page' );
 
 			echo '<div class="yoast-settings-section-upsell">';
 

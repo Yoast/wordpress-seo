@@ -84,7 +84,7 @@ class Installation_Integration implements Integration_Interface {
 	 * @returns void
 	 */
 	public function install_and_activate_addons() {
-		if ( filter_input( INPUT_GET, 'action' ) !== 'install' ) {
+		if ( filter_input( \INPUT_GET, 'action' ) !== 'install' ) {
 			return;
 		}
 
