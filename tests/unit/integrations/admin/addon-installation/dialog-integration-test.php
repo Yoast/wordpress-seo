@@ -6,8 +6,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin\Addon_Installation;
 
 use Mockery;
 use WPSEO_Addon_Manager;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Integrations\Admin\Addon_Installation\Dialog_Integration;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Dialog_Integration_Test

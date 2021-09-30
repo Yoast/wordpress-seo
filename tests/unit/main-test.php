@@ -2,12 +2,12 @@
 
 namespace Yoast\WP\SEO\Tests\Unit;
 
-use Yoast\WP\SEO\Tests\Unit\Doubles\Main_Double;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Integrations\Third_Party\Elementor;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Main_Double;
 
 /**
  * Class Loader_Test

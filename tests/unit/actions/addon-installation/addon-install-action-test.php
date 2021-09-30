@@ -2,17 +2,17 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Addon_Installation;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Plugin_Upgrader;
 use WP_Error;
 use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Actions\Addon_Installation\Addon_Install_Action;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Install_Plugins_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Already_Installed_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Installation_Error_Exception;
+use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Install_Plugins_Exception;
 use Yoast\WP\SEO\Helpers\Require_File_Helper;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Addon_Install_Action_Test

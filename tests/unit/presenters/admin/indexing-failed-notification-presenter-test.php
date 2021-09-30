@@ -6,9 +6,9 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Failed_Notification_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 
 /**
  * Class Indexing_Failed_Notification_Presenter_Test

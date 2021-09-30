@@ -6,9 +6,9 @@ namespace Yoast\WP\SEO\Integrations\Admin\Addon_Installation;
 
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Addon_Installation_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin\Licenses_Page_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
