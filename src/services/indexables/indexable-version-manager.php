@@ -34,8 +34,9 @@ class Indexable_Version_Manager {
 	 * @return boolean True if the given version is older than the current latest version.
 	 */
 	public function indexable_needs_upgrade( $indexable ) {
-		if ( ( ! $indexable ) ||
-			( ! is_a( $indexable, Indexable::class ) ) ) {
+		if ( ( ! $indexable )
+			|| ( ! is_a( $indexable, Indexable::class ) )
+		) {
 			return false;
 		}
 

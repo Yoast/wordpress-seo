@@ -16,7 +16,6 @@ use Yoast\WP\SEO\Presenters\Admin\Badge_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
 use Yoast_Form;
 
-
 /**
  * Class Social_Templates_Integration.
  *

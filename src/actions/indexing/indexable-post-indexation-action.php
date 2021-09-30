@@ -182,7 +182,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 			$post_types,
 			$excluded_post_statuses
 		);
-		$replacements[]  = $this->version;
+		$replacements[]         = $this->version;
 
 		$limit_query = '';
 		if ( $limit ) {

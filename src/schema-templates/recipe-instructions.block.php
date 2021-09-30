@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Schema_Templates\Assets\Icons;
+
 // phpcs:disable WordPress.Security.EscapeOutput -- Reason: The Icons contains safe svg.
 ?>
 

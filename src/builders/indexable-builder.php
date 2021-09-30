@@ -372,7 +372,6 @@ class Indexable_Builder {
 			}
 
 			return $this->save_indexable( $indexable, $indexable_before );
-
 		}
 		catch ( Source_Exception $exception ) {
 			/**
