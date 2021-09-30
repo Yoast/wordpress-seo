@@ -50,11 +50,13 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_total_unindexed() {
+		// @TODO: Consider *not* using a transient for this (considering it does not run that frequently).
 		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is is already prepared.
 		$indexables_to_create = $this->wpdb->get_col( $this->query() );
 
 		$result = \count( $indexables_to_create );
@@ -67,10 +69,42 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	/**
 	 * Creates indexables for unindexed system pages, the date archive, and the homepage.
 	 *
-	 * @return Indexable[] The created indexables.
+	 * @return void
 	 */
 	public function index() {
-		//@TODO
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is is already prepared.
+		$aioseo_indexables = $this->wpdb->get_results( $this->query(), ARRAY_A );
+
+		foreach ( $aioseo_indexables as $aioseo_indexable ) {
+			$indexable = $this->indexable_repository->find_by_id_and_type( $aioseo_indexable['post_id'], 'post' );
+
+			if ( ! \is_a( $indexable, 'Yoast\WP\SEO\Models\Indexable' ) ) {
+				continue;
+			}
+			$indexable = $this->map( $indexable, $aioseo_indexable );
+
+			$indexable->save();
+		}
+		\update_site_option( static::IMPORT_CURSOR_VALUE, $aioseo_indexable['id'] );
+	}
+
+	/**
+	 * Creates indexables for unindexed system pages, the date archive, and the homepage.
+	 *
+	 * @param Indexable $indexable        The Yoast indexable.
+	 * @param array     $aioseo_indexable The AIOSEO indexable.
+	 *
+	 * @return Indexable[] The created indexables.
+	 */
+	public function map( $indexable, $aioseo_indexable ) {
+		$indexable->title                  = ( empty( $indexable->title ) ) ? ( ! empty( $aioseo_indexable['title'] ) ) ? $aioseo_indexable['title'] : null : $indexable->title;
+		$indexable->description            = ( empty( $indexable->description ) ) ? ( ! empty( $aioseo_indexable['description'] ) ) ? $aioseo_indexable['description'] : null : $indexable->description;
+		$indexable->open_graph_title       = ( empty( $indexable->open_graph_title ) ) ? ( ! empty( $aioseo_indexable['og_title'] ) ) ? $aioseo_indexable['og_title'] : null : $indexable->open_graph_title;
+		$indexable->open_graph_description = ( empty( $indexable->open_graph_description ) ) ? ( ! empty( $aioseo_indexable['og_description'] ) ) ? $aioseo_indexable['og_description'] : null : $indexable->open_graph_description;
+		$indexable->twitter_title          = ( empty( $indexable->twitter_title ) ) ? ( ! empty( $aioseo_indexable['twitter_title'] ) ) ? $aioseo_indexable['twitter_title'] : null : $indexable->twitter_title;
+		$indexable->twitter_description    = ( empty( $indexable->twitter_description ) ) ? ( ! empty( $aioseo_indexable['twitter_description'] ) ) ? $aioseo_indexable['twitter_description'] : null : $indexable->twitter_description;
+
+		return $indexable;
 	}
 
 	/**
@@ -105,16 +139,17 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 		$limit  = $this->get_limit();
 
 		$replacements = [ $cursor, $limit ];
-		
-		// @phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+
+		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		return $this->wpdb->prepare(
 			"
-			SELECT post_id
+			SELECT *
 			FROM {$indexable_table}
 			WHERE id > %d
 			ORDER BY id
 			LIMIT %d",
 			$replacements
 		);
+		// phpcs:enable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 }

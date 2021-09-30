@@ -5,7 +5,7 @@
  * @package WPSEO\Admin\Import\Plugins
  */
 
- use Yoast\WP\SEO\Actions\Indexing\Aioseo_Posts_Import_Action;
+use Yoast\WP\SEO\Actions\Indexing\Aioseo_Posts_Import_Action;
 /**
  * Class with functionality to import & clean All in One SEO Pack post metadata, versions 4 and up.
  */
@@ -222,5 +222,15 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 	protected function detect() {
 		$aioseo_posts_import_action = YoastSEO()->classes->get( Aioseo_Posts_Import_Action::class );
 		return ! empty( $aioseo_posts_import_action->get_total_unindexed() );
+	}
+
+	/**
+	 * Detects whether there is AIOSEO data to import from its custom table.
+	 *
+	 * @return void
+	 */
+	protected function import() {
+		$aioseo_posts_import_action = YoastSEO()->classes->get( Aioseo_Posts_Import_Action::class );
+		$aioseo_posts_import_action->index();
 	}
 }
