@@ -115,7 +115,6 @@ class Main_Image_Test extends TestCase {
 	 * Tests that generate call generate from url without a featured image but with a content image.
 	 *
 	 * @covers ::generate
-	 * @covers ::get_social_image
 	 * @covers ::get_featured_image
 	 * @covers ::get_first_content_image
 	 */
@@ -164,7 +163,6 @@ class Main_Image_Test extends TestCase {
 	 * Tests that generate returns the OpenGraph social image when available.
 	 *
 	 * @covers ::generate
-	 * @covers ::get_social_image
 	 * @covers ::get_featured_image
 	 * @covers ::get_first_content_image
 	 */
@@ -200,7 +198,6 @@ class Main_Image_Test extends TestCase {
 	 * an OpenGraph image is not available.
 	 *
 	 * @covers ::generate
-	 * @covers ::get_social_image
 	 * @covers ::get_featured_image
 	 * @covers ::get_first_content_image
 	 */
