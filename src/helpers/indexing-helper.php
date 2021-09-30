@@ -98,11 +98,37 @@ class Indexing_Helper {
 	/**
 	 * Sets several database options when the indexing process is started.
 	 *
+	 * @deprecated 17.4 This method was renamed to prepare for internal consistency.
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function start() {
+		$this->prepare();
+	}
+
+	/**
+	 * Prepares the indexing process by setting several database options and removing the indexing notification.
+	 *
+	 * @return void
+	 */
+	public function prepare() {
 		$this->set_first_time( false );
 		$this->set_started( $this->date_helper->current_time() );
+		$this->remove_indexing_notification();
+		// Do not set_reason here; if the process is cancelled, the reason to start indexing is still valid.
+	}
+
+	/**
+	 * Sets several database options when the indexing process is finished.
+	 *
+	 * @deprecated 17.4 This method was renamed to complete for internal consistency.
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function finish() {
+		$this->complete();
 	}
 
 	/**
@@ -110,7 +136,7 @@ class Indexing_Helper {
 	 *
 	 * @return void
 	 */
-	public function finish() {
+	public function complete() {
 		$this->set_reason( '' );
 		$this->set_started( null );
 	}
@@ -134,11 +160,13 @@ class Indexing_Helper {
 	 */
 	public function set_reason( $reason ) {
 		$this->options_helper->set( 'indexing_reason', $reason );
+		$this->remove_indexing_notification();
+	}
 
-		/*
-		 * Remove any pre-existing notification, so that a new notification
-		 * (with a possible new reason) can be added.
-		 */
+	/**
+	 * Removes any pre-existing notification, so that a new notification (with a possible new reason) can be added.
+	 */
+	protected function remove_indexing_notification() {
 		$this->notification_center->remove_notification_by_id(
 			Indexing_Notification_Integration::NOTIFICATION_ID
 		);
