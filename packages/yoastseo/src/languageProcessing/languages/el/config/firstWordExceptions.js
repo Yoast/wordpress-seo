@@ -18,14 +18,27 @@ const firstWords = [
 ];
 
 /**
- * Returns an array of words that occur after demonstrative pronouns.
+ * Returns an array of words that can occur after demonstrative pronouns.
  *
  * @type {string[]} The array filled with exceptions.
  */
 const secondWords = [
-	// Definite articles:
-	"o", "του", "τον ", "ο", "των", "τους", "η", "της", "την", "τις", "το", "τα", "ο", "η", "το", "του", "τον", "οι",
-	"των", "του", "της", "την", "οι", "τις", "τα",
+	// Definite articles and relative pronouns
+	"o",
+	"του",
+	"τον ",
+	"ο",
+	"των",
+	"τους",
+	"η",
+	"της",
+	"την",
+	"τις",
+	"το",
+	"τα",
+	"που",
+	"τον",
+	"οι",
 ];
 
 export default {
