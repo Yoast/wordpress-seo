@@ -39,21 +39,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_schedule_flush() {
 		self::$class_instance->schedule_flush();
-		$this->assertTrue( get_option( $this->flush_option_name ) === 1 );
-	}
-
-	/**
-	 * Tests whether the flush listens to the option.
-	 *
-	 * @covers WPSEO_Rewrite::flush
-	 */
-	public function test_flush() {
-		delete_option( $this->flush_option_name );
-
-		$this->assertFalse( self::$class_instance->flush() );
-
-		self::$class_instance->schedule_flush();
-		$this->assertTrue( self::$class_instance->flush() );
+		$this->assertIsInt( has_action( 'shutdown', 'flush_rewrite_rules' ) );
 	}
 
 	/**
