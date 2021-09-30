@@ -359,9 +359,9 @@ class WPSEO_Admin_Asset_Manager {
 		$scripts = [];
 		$assets  = require $args['asset_file'];
 		foreach ( $assets as $file => $data ) {
-			$name = substr( $file, 0, -$args['ext_length'] );
-			$name = strtolower( preg_replace( '/([A-Z])/', '-$1', $name ) );
-			$name = $name . $args['suffix'];
+			$name  = substr( $file, 0, -$args['ext_length'] );
+			$name  = strtolower( preg_replace( '/([A-Z])/', '-$1', $name ) );
+			$name .= $args['suffix'];
 
 			$deps = $data['dependencies'];
 			if ( isset( $args['additional_deps'][ $name ] ) ) {
