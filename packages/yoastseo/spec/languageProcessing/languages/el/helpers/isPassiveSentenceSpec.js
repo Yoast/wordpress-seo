@@ -2,12 +2,12 @@ import isPassiveSentence from "../../../../../src/languageProcessing/languages/e
 
 describe( "a test for detecting passive voice in sentences", function() {
 	it( "returns active voice (present)", function() {
-		expect( isPassiveSentence( "Εγώ διπλώνω τα ρούχα" ) ).toBe( false );
+		expect( isPassiveSentence( "Εγώ διπλώνω τα ρούχα." ) ).toBe( false );
 	} );
 
 	it( "returns passive voice (morphological conditional present)", function() {
 		// Passive: χτίστηκε.
-		expect( isPassiveSentence( "Το σπίτι χτίστηκε από τον πατέρα μου" ) ).toBe( true );
+		expect( isPassiveSentence( "Το σπίτι χτίστηκε από τον πατέρα μου." ) ).toBe( true );
 	} );
 
 	it( "returns a non passive verb that looks like a passive (deponent verb)", function() {

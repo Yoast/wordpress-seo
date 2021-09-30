@@ -38,5 +38,5 @@ const auxiliariesToHave = [
 export default {
 	auxiliaries1: auxiliariesToHave,
 	auxiliaries2: auxiliariesToBe,
-	allAuxiliaries: [].concat( auxiliariesToHave, auxiliariesToBe ),
+	allAuxiliaries: auxiliariesToHave.concat( auxiliariesToBe ),
 };

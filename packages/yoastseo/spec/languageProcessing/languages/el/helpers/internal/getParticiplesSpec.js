@@ -10,7 +10,7 @@ describe( "Test for matching Greek participles", function() {
 	} );
 
 	it( "returns no matched participles.", function() {
-		const sentence = "η γάτα εγκαταλ.";
+		const sentence = "To καινουργιο αυτοκίνητο μου τρέχει με ενενήντα χιλιόμετρα την ώρα.";
 		const foundParticiples = getParticiples( sentence );
 		expect( foundParticiples ).toEqual( null );
 	} );
