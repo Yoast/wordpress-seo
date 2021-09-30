@@ -47,7 +47,7 @@ class Dialog_Integration_Test extends TestCase {
 
 		$this->instance->register_hooks();
 
-		$this->assertSame( 10, has_action( 'admin_init', [ $this->instance, 'start_addon_installation' ] ) );
+		$this->assertSame( 10, \has_action( 'admin_init', [ $this->instance, 'start_addon_installation' ] ) );
 	}
 
 	/**
@@ -59,8 +59,8 @@ class Dialog_Integration_Test extends TestCase {
 
 		$this->instance->start_addon_installation();
 
-		$this->assertFalse( has_action( 'admin_enqueue_scripts', [ $this->instance, 'show_modal' ] ) );
-		$this->assertFalse( has_action( 'admin_notices', [ $this->instance, 'throw_no_owned_addons_warning' ] ) );
+		$this->assertFalse( \has_action( 'admin_enqueue_scripts', [ $this->instance, 'show_modal' ] ) );
+		$this->assertFalse( \has_action( 'admin_notices', [ $this->instance, 'throw_no_owned_addons_warning' ] ) );
 	}
 
 	/**
@@ -86,8 +86,8 @@ class Dialog_Integration_Test extends TestCase {
 
 		$this->instance->start_addon_installation();
 
-		$this->assertSame( 10, has_action( 'admin_notices', [ $this->instance, 'throw_no_owned_addons_warning' ] ) );
-		$this->assertFalse( has_action( 'admin_enqueue_scripts' ) );
+		$this->assertSame( 10, \has_action( 'admin_notices', [ $this->instance, 'throw_no_owned_addons_warning' ] ) );
+		$this->assertFalse( \has_action( 'admin_enqueue_scripts' ) );
 	}
 
 	/**
@@ -120,7 +120,7 @@ class Dialog_Integration_Test extends TestCase {
 
 		$this->instance->start_addon_installation();
 
-		$this->assertSame( 10, has_action( 'admin_enqueue_scripts', [ $this->instance, 'show_modal' ] ) );
-		$this->assertFalse( has_action( 'admin_notices' ) );
+		$this->assertSame( 10, \has_action( 'admin_enqueue_scripts', [ $this->instance, 'show_modal' ] ) );
+		$this->assertFalse( \has_action( 'admin_notices' ) );
 	}
 }

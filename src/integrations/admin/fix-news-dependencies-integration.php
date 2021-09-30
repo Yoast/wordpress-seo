@@ -33,7 +33,7 @@ class Fix_News_Dependencies_Integration implements Integration_Interface {
 		// Load the editor script when on an edit post or new post page.
 		$is_post_edit_page = $pagenow === 'post.php' || $pagenow === 'post-new.php';
 		if ( $is_post_edit_page ) {
-			add_action( 'admin_enqueue_scripts', [ $this, 'add_news_script_dependency' ], 11 );
+			\add_action( 'admin_enqueue_scripts', [ $this, 'add_news_script_dependency' ], 11 );
 		}
 	}
 
@@ -43,7 +43,7 @@ class Fix_News_Dependencies_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function add_news_script_dependency() {
-		$scripts = wp_scripts();
+		$scripts = \wp_scripts();
 
 		if ( ! isset( $scripts->registered['wpseo-news-editor'] ) ) {
 			return;

@@ -52,8 +52,8 @@ class Workouts_Integration implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
-		add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], 8 );
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], 8 );
+		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 	}
 
 	/**

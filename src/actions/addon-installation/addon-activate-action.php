@@ -51,7 +51,7 @@ class Addon_Activate_Action {
 	 * @throws User_Cannot_Activate_Plugins_Exception Exception when the user is not allowed to activate.
 	 */
 	public function activate_addon( $plugin_slug ) {
-		if ( ! current_user_can( 'activate_plugins' ) ) {
+		if ( ! \current_user_can( 'activate_plugins' ) ) {
 			throw new User_Cannot_Activate_Plugins_Exception();
 		}
 
@@ -62,9 +62,9 @@ class Addon_Activate_Action {
 		$this->load_wordpress_classes();
 
 		$plugin_file       = $this->addon_manager->get_plugin_file( $plugin_slug );
-		$activation_result = activate_plugin( $plugin_file );
+		$activation_result = \activate_plugin( $plugin_file );
 
-		if ( $activation_result !== null && is_wp_error( $activation_result ) ) {
+		if ( $activation_result !== null && \is_wp_error( $activation_result ) ) {
 			throw new Addon_Activation_Error_Exception( $activation_result->get_error_message() );
 		}
 
@@ -79,7 +79,7 @@ class Addon_Activate_Action {
 	 * @return void
 	 */
 	protected function load_wordpress_classes() {
-		if ( ! function_exists( 'get_plugins' ) ) {
+		if ( ! \function_exists( 'get_plugins' ) ) {
 			$this->require_file_helper->require_file_once( \ABSPATH . 'wp-admin/includes/plugin.php' );
 		}
 	}

@@ -405,7 +405,7 @@ class Indexable_Link_Builder {
 			$links_a,
 			$links_b,
 			static function( SEO_Links $link_a, SEO_Links $link_b ) {
-				return strcmp( $link_a->url, $link_b->url );
+				return \strcmp( $link_a->url, $link_b->url );
 			}
 		);
 	}

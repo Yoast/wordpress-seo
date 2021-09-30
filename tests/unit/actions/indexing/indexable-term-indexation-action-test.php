@@ -149,7 +149,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		];
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms_limited' )->andReturnFalse();
-		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_terms_limited', count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_terms_limited', \count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn(
 			[
 				'public_taxonomy' => 'public_taxonomy',
@@ -162,7 +162,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( $query_result );
 
-		$this->assertEquals( count( $query_result ), $this->instance->get_limited_unindexed_count( $limit ) );
+		$this->assertEquals( \count( $query_result ), $this->instance->get_limited_unindexed_count( $limit ) );
 	}
 
 	/**

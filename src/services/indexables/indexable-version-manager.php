@@ -35,7 +35,7 @@ class Indexable_Version_Manager {
 	 */
 	public function indexable_needs_upgrade( $indexable ) {
 		if ( ( ! $indexable )
-			|| ( ! is_a( $indexable, Indexable::class ) )
+			|| ( ! \is_a( $indexable, Indexable::class ) )
 		) {
 			return false;
 		}
