@@ -98,7 +98,7 @@ class Indexing_Helper {
 	/**
 	 * Sets several database options when the indexing process is started.
 	 *
-	 * @deprecated 17.2 method was renamed to prepare for internal consistency.
+	 * @deprecated 17.4 This method was renamed to prepare for internal consistency.
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
@@ -108,7 +108,7 @@ class Indexing_Helper {
 	}
 
 	/**
-	 * Sets several database options when the indexing process is started.
+	 * Prepares the indexing process by setting several database options and removing the indexing notification.
 	 *
 	 * @return void
 	 */
@@ -122,7 +122,7 @@ class Indexing_Helper {
 	/**
 	 * Sets several database options when the indexing process is finished.
 	 *
-	 * @deprecated 17.2 method was renamed to complete for internal consistency.
+	 * @deprecated 17.4 This method was renamed to complete for internal consistency.
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
@@ -164,7 +164,7 @@ class Indexing_Helper {
 	}
 
 	/**
-	 * Remove any pre-existing notification, so that a new notification (with a possible new reason) can be added.
+	 * Removes any pre-existing notification, so that a new notification (with a possible new reason) can be added.
 	 */
 	protected function remove_indexing_notification() {
 		$this->notification_center->remove_notification_by_id(
