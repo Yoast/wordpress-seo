@@ -76,8 +76,8 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 	/**
 	 * Build Yoast SEO suggested plugins notification.
 	 *
-	 * @param string $name            The plugin name to use for the unique ID.
-	 * @param array  $plugin          The plugin to retrieve the data from.
+	 * @param string $name   The plugin name to use for the unique ID.
+	 * @param array  $plugin The plugin to retrieve the data from.
 	 *
 	 * @return Yoast_Notification The notification containing the suggested plugin.
 	 */
@@ -101,7 +101,7 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 	/**
 	 * Creates a message to suggest the installation of a particular plugin.
 	 *
-	 * @param array $suggested_plugin   The suggested plugin.
+	 * @param array $suggested_plugin The suggested plugin.
 	 *
 	 * @return string The install suggested plugin message.
 	 */
@@ -140,7 +140,7 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 	/**
 	 * Creates a message to suggest the activation of a particular plugin.
 	 *
-	 * @param array $suggested_plugin   The suggested plugin.
+	 * @param array $suggested_plugin The suggested plugin.
 	 *
 	 * @return string The activate suggested plugin message.
 	 */
