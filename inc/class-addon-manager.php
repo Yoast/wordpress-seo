@@ -127,7 +127,7 @@ class WPSEO_Addon_Manager {
 	 * @param string $plugin_slug The plugin slug to search.
 	 *
 	 * @return bool|string Plugin file when installed, False when plugin isn't installed.
-	 **/
+	 */
 	public function get_plugin_file( $plugin_slug ) {
 		$plugins            = $this->get_plugins();
 		$plugin_files       = array_keys( $plugins );
