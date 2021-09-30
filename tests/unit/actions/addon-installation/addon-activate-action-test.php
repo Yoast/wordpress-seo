@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Addon_Installation;
 
 use Mockery;
 use Brain\Monkey;
+use WP_Error;
+use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Actions\Addon_Installation\Addon_Activate_Action;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Activation_Error_Exception;
@@ -20,7 +22,7 @@ class Addon_Activate_Action_Test extends TestCase {
 	/**
 	 * The wpseo addon manager.
 	 *
-	 * @var Mockery\MockInterface|\WPSEO_Addon_Manager
+	 * @var Mockery\MockInterface|WPSEO_Addon_Manager
 	 */
 	protected $wpseo_addon_manager;
 
@@ -44,7 +46,7 @@ class Addon_Activate_Action_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->wpseo_addon_manager = Mockery::mock( \WPSEO_Addon_Manager::class );
+		$this->wpseo_addon_manager = Mockery::mock( WPSEO_Addon_Manager::class );
 		$this->require_file_helper = Mockery::mock( Require_File_Helper::class );
 		$this->instance            = new Addon_Activate_Action( $this->wpseo_addon_manager, $this->require_file_helper );
 	}
@@ -111,7 +113,7 @@ class Addon_Activate_Action_Test extends TestCase {
 			->with( 'plugin_slug' )
 			->andReturn( 'plugin_file' );
 
-		$wp_error = Mockery::mock( \WP_Error::class );
+		$wp_error = Mockery::mock( WP_Error::class );
 
 		$wp_error
 			->expects( 'get_error_message' )

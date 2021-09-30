@@ -4,6 +4,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin\Addon_Installation;
 
+use WPSEO_Addon_Manager;
+use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Addon_Installation_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin\Licenses_Page_Conditional;
@@ -17,7 +19,7 @@ class Dialog_Integration implements Integration_Interface {
 	/**
 	 * The addon manager.
 	 *
-	 * @var \WPSEO_Addon_Manager
+	 * @var WPSEO_Addon_Manager
 	 */
 	protected $addon_manager;
 
@@ -42,9 +44,9 @@ class Dialog_Integration implements Integration_Interface {
 	/**
 	 * Addon_Installation constructor.
 	 *
-	 * @param \WPSEO_Addon_Manager $addon_manager The addon manager.
+	 * @param WPSEO_Addon_Manager $addon_manager The addon manager.
 	 */
-	public function __construct( \WPSEO_Addon_Manager $addon_manager ) {
+	public function __construct( WPSEO_Addon_Manager $addon_manager ) {
 		$this->addon_manager = $addon_manager;
 	}
 
@@ -103,7 +105,7 @@ class Dialog_Integration implements Integration_Interface {
 	 */
 	public function show_modal() {
 		\wp_localize_script(
-			\WPSEO_Admin_Asset_Manager::PREFIX . 'addon-installation',
+			WPSEO_Admin_Asset_Manager::PREFIX . 'addon-installation',
 			'wpseoAddonInstallationL10n',
 			[
 				'addons' => $this->owned_addons,
@@ -111,7 +113,7 @@ class Dialog_Integration implements Integration_Interface {
 			]
 		);
 
-		$asset_manager = new \WPSEO_Admin_Asset_Manager();
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'addon-installation' );
 	}
 

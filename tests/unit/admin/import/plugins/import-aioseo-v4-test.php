@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Admin\Import\Plugins;
 
 use Mockery;
+use wpdb;
 use WPSEO_Import_AIOSEO_V4;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Admin\Import\Plugins\WPSEO_Import_AIOSEO_V4_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -182,7 +183,7 @@ class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 	/**
 	 * Set expectation for replacing the replace vars in the database.
 	 *
-	 * @param \WPDB|Mockery\MockInterface $wpdb The (mocked) WordPress database object.
+	 * @param wpdb|Mockery\MockInterface $wpdb The (mocked) WordPress database object.
 	 */
 	private function set_replace_vars_prepare_expectations( $wpdb ) {
 		$replace_vars = [
