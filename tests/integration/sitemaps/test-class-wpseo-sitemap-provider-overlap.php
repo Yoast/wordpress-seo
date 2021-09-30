@@ -6,13 +6,13 @@
  */
 
 /**
- * Class Test_WPSEO_Sitemap_Provider_Overlap.
+ * Class WPSEO_Sitemap_Provider_Overlap_Test.
  *
  * @group sitemaps
  *
  * @covers WPSEO_Sitemaps
  */
-class Test_WPSEO_Sitemap_Provider_Overlap extends WPSEO_UnitTestCase {
+class WPSEO_Sitemap_Provider_Overlap_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
