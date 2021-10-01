@@ -112,7 +112,14 @@ class Schema_Types {
 	 * @return array[] The schema article type options.
 	 */
 	public function get_article_type_options() {
-		return [
+		/**
+		 * Filter: 'wpseo_schema_article_types_labels' - Allow developers to filter the available article types and their labels.
+		 *
+		 * Make sure when you filter this to also filter `wpseo_schema_article_types`.
+		 *
+		 * @api array $schema_article_types_labels The available schema article types and their labels.
+		 */
+		return apply_filters( 'wpseo_schema_article_types_labels', [
 			[
 				'name'  => \__( 'Article', 'wordpress-seo' ),
 				'value' => 'Article',
@@ -149,6 +156,6 @@ class Schema_Types {
 				'name'  => \__( 'None', 'wordpress-seo' ),
 				'value' => 'None',
 			],
-		];
+		] );
 	}
 }
