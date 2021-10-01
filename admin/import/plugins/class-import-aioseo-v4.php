@@ -221,7 +221,7 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 	 */
 	protected function detect() {
 		$aioseo_posts_import_action = YoastSEO()->classes->get( Aioseo_Posts_Import_Action::class );
-		return ! empty( $aioseo_posts_import_action->get_total_unindexed() );
+		return ( $aioseo_posts_import_action->get_total_unindexed() > 0 );
 	}
 
 	/**

@@ -33,6 +33,15 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	 */
 	protected $wpdb;
 
+	protected $aioseo_to_yoast_map = [
+			'title'                  => 'title',
+			'description'            => 'description',
+			'og_title'       => 'open_graph_title',
+			'og_description' => 'open_graph_description',
+			'twitter_title'          => 'twitter_title',
+			'twitter_description'    => 'twitter_description',
+	];
+
 	/**
 	 * Indexable_General_Indexation_Action constructor.
 	 *
@@ -78,6 +87,7 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 		foreach ( $aioseo_indexables as $aioseo_indexable ) {
 			$indexable = $this->indexable_repository->find_by_id_and_type( $aioseo_indexable['post_id'], 'post' );
 
+			// Let's ensure that the current post id represents something that we want to index (eg. *not* shop_order).
 			if ( ! \is_a( $indexable, 'Yoast\WP\SEO\Models\Indexable' ) ) {
 				continue;
 			}
@@ -97,12 +107,13 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	 * @return Indexable[] The created indexables.
 	 */
 	public function map( $indexable, $aioseo_indexable ) {
-		$indexable->title                  = ( empty( $indexable->title ) ) ? ( ! empty( $aioseo_indexable['title'] ) ) ? $aioseo_indexable['title'] : null : $indexable->title;
-		$indexable->description            = ( empty( $indexable->description ) ) ? ( ! empty( $aioseo_indexable['description'] ) ) ? $aioseo_indexable['description'] : null : $indexable->description;
-		$indexable->open_graph_title       = ( empty( $indexable->open_graph_title ) ) ? ( ! empty( $aioseo_indexable['og_title'] ) ) ? $aioseo_indexable['og_title'] : null : $indexable->open_graph_title;
-		$indexable->open_graph_description = ( empty( $indexable->open_graph_description ) ) ? ( ! empty( $aioseo_indexable['og_description'] ) ) ? $aioseo_indexable['og_description'] : null : $indexable->open_graph_description;
-		$indexable->twitter_title          = ( empty( $indexable->twitter_title ) ) ? ( ! empty( $aioseo_indexable['twitter_title'] ) ) ? $aioseo_indexable['twitter_title'] : null : $indexable->twitter_title;
-		$indexable->twitter_description    = ( empty( $indexable->twitter_description ) ) ? ( ! empty( $aioseo_indexable['twitter_description'] ) ) ? $aioseo_indexable['twitter_description'] : null : $indexable->twitter_description;
+		foreach ( $this->aioseo_to_yoast_map as $prop => $value ) {
+			if ( ! empty( $indexable->orm->get( $value ) ) ) {
+				continue;
+			}
+
+			$indexable->orm->set( $value, $prop);
+		}
 
 		return $indexable;
 	}
