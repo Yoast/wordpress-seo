@@ -4,11 +4,12 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin\Addon_Installation;
 
+use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Actions\Addon_Installation\Addon_Activate_Action;
 use Yoast\WP\SEO\Actions\Addon_Installation\Addon_Install_Action;
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Addon_Installation_Conditional;
 use Yoast\WP\SEO\Conditionals\Admin\Licenses_Page_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Activation_Error_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Already_Installed_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Installation_Error_Exception;
@@ -38,7 +39,7 @@ class Installation_Integration implements Integration_Interface {
 	/**
 	 * The addon manager.
 	 *
-	 * @var \WPSEO_Addon_Manager
+	 * @var WPSEO_Addon_Manager
 	 */
 	protected $addon_manager;
 
@@ -56,12 +57,12 @@ class Installation_Integration implements Integration_Interface {
 	/**
 	 * Addon_Installation constructor.
 	 *
-	 * @param \WPSEO_Addon_Manager  $addon_manager         The addon manager.
+	 * @param WPSEO_Addon_Manager   $addon_manager         The addon manager.
 	 * @param Addon_Activate_Action $addon_activate_action The addon activate action.
 	 * @param Addon_Install_Action  $addon_install_action  The addon install action.
 	 */
 	public function __construct(
-		\WPSEO_Addon_Manager $addon_manager,
+		WPSEO_Addon_Manager $addon_manager,
 		Addon_Activate_Action $addon_activate_action,
 		Addon_Install_Action $addon_install_action
 	) {

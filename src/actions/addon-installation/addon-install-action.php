@@ -2,6 +2,9 @@
 
 namespace Yoast\WP\SEO\Actions\Addon_Installation;
 
+use Plugin_Upgrader;
+use WP_Error;
+use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Already_Installed_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Installation_Error_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Install_Plugins_Exception;
@@ -15,7 +18,7 @@ class Addon_Install_Action {
 	/**
 	 * The addon manager.
 	 *
-	 * @var \WPSEO_Addon_Manager
+	 * @var WPSEO_Addon_Manager
 	 */
 	protected $addon_manager;
 
@@ -29,11 +32,11 @@ class Addon_Install_Action {
 	/**
 	 * Addon_Activate_Action constructor.
 	 *
-	 * @param \WPSEO_Addon_Manager $addon_manager       The addon manager.
-	 * @param Require_File_Helper  $require_file_helper A helper that can require files.
+	 * @param WPSEO_Addon_Manager $addon_manager       The addon manager.
+	 * @param Require_File_Helper $require_file_helper A helper that can require files.
 	 */
 	public function __construct(
-		\WPSEO_Addon_Manager $addon_manager,
+		WPSEO_Addon_Manager $addon_manager,
 		Require_File_Helper $require_file_helper
 	) {
 		$this->addon_manager       = $addon_manager;
@@ -118,10 +121,10 @@ class Addon_Install_Action {
 	 *
 	 * @codeCoverageIgnore Contains WordPress specific logic.
 	 *
-	 * @return bool|\WP_Error True when success, WP_Error when something went wrong.
+	 * @return bool|WP_Error True when success, WP_Error when something went wrong.
 	 */
 	protected function install( $plugin_download ) {
-		$plugin_upgrader = new \Plugin_Upgrader();
+		$plugin_upgrader = new Plugin_Upgrader();
 
 		return $plugin_upgrader->install( $plugin_download );
 	}

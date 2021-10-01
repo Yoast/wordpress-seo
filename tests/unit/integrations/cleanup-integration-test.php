@@ -4,9 +4,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
 use Mockery;
+use wpdb;
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Integrations\Cleanup_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\Lib\Model;
 
 /**
  * Class Cleanup_Integration_Test.
@@ -27,7 +28,7 @@ class Cleanup_Integration_Test extends TestCase {
 	/**
 	 * The WPDB mock.
 	 *
-	 * @var Mockery\MockInterface|\wpdb
+	 * @var Mockery\MockInterface|wpdb
 	 */
 	private $wpdb;
 

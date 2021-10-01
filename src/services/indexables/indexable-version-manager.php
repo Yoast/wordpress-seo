@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Services\Indexables;
 
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Handles version control for Indexables.

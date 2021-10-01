@@ -5,8 +5,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin\Addon_Installation;
 
 use Mockery;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
+use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Integrations\Admin\Addon_Installation\Dialog_Integration;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Dialog_Integration_Test
@@ -18,7 +19,7 @@ class Dialog_Integration_Test extends TestCase {
 	/**
 	 * The addon manager.
 	 *
-	 * @var \WPSEO_Addon_Manager
+	 * @var WPSEO_Addon_Manager
 	 */
 	protected $wpseo_addon_manager;
 
@@ -35,7 +36,7 @@ class Dialog_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->wpseo_addon_manager = Mockery::mock( \WPSEO_Addon_Manager::class );
+		$this->wpseo_addon_manager = Mockery::mock( WPSEO_Addon_Manager::class );
 		$this->instance            = new Dialog_Integration( $this->wpseo_addon_manager );
 	}
 

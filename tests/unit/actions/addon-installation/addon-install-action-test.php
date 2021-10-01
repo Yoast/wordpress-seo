@@ -2,14 +2,17 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Addon_Installation;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
+use Plugin_Upgrader;
+use WP_Error;
+use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Actions\Addon_Installation\Addon_Install_Action;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Install_Plugins_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Already_Installed_Exception;
 use Yoast\WP\SEO\Exceptions\Addon_Installation\Addon_Installation_Error_Exception;
+use Yoast\WP\SEO\Exceptions\Addon_Installation\User_Cannot_Install_Plugins_Exception;
 use Yoast\WP\SEO\Helpers\Require_File_Helper;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Addon_Install_Action_Test
@@ -21,7 +24,7 @@ class Addon_Install_Action_Test extends TestCase {
 	/**
 	 * The wpseo addon manager.
 	 *
-	 * @var Mockery\MockInterface|\WPSEO_Addon_Manager
+	 * @var Mockery\MockInterface|WPSEO_Addon_Manager
 	 */
 	protected $wpseo_addon_manager;
 
@@ -45,7 +48,7 @@ class Addon_Install_Action_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->wpseo_addon_manager = Mockery::mock( \WPSEO_Addon_Manager::class );
+		$this->wpseo_addon_manager = Mockery::mock( WPSEO_Addon_Manager::class );
 		$this->require_file_helper = Mockery::mock( Require_File_Helper::class );
 		$this->instance            = new Addon_Install_Action( $this->wpseo_addon_manager, $this->require_file_helper );
 	}
@@ -128,13 +131,13 @@ class Addon_Install_Action_Test extends TestCase {
 			->once()
 			->with( ABSPATH . 'wp-admin/includes/file.php' );
 
-		$wp_error = Mockery::mock( \WP_Error::class );
+		$wp_error = Mockery::mock( WP_Error::class );
 
 		$wp_error
 			->expects( 'get_error_message' )
 			->once();
 
-		$plugin_upgrader = Mockery::mock( 'overload:' . \Plugin_Upgrader::class );
+		$plugin_upgrader = Mockery::mock( 'overload:' . Plugin_Upgrader::class );
 
 		$plugin_upgrader
 			->expects( 'install' )
@@ -188,7 +191,7 @@ class Addon_Install_Action_Test extends TestCase {
 			->once()
 			->with( ABSPATH . 'wp-admin/includes/file.php' );
 
-		$plugin_upgrader = Mockery::mock( 'overload:' . \Plugin_Upgrader::class );
+		$plugin_upgrader = Mockery::mock( 'overload:' . Plugin_Upgrader::class );
 
 		$plugin_upgrader
 			->expects( 'install' )
