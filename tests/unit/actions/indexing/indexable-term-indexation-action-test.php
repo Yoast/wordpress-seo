@@ -126,7 +126,6 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	 * Tests the get get_limited_unindexed_count with a limit.
 	 *
 	 * @covers ::__construct
-	 * @covers ::get_limited_count_transient
 	 * @covers ::get_limited_unindexed_count
 	 * @covers ::get_select_query
 	 */

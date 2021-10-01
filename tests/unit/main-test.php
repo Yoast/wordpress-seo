@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Main_Double;
 /**
  * Class Loader_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Main;
+ * @coversDefaultClass \Yoast\WP\SEO\Main
  */
 class Main_Test extends TestCase {
 

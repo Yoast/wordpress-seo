@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  *
  * @group indexables
  *
- * @coversDefaultClass \Yoast\WP\SEO\Services\Indexables\Indexable_Builder_Versions
+ * @coversDefaultClass \Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions
  */
 class Indexable_Builder_Versions_Test extends TestCase {
 
@@ -34,7 +34,7 @@ class Indexable_Builder_Versions_Test extends TestCase {
 	/**
 	 * Tests the content the Indexable builder version array.
 	 *
-	 * @covers ::get_versions
+	 * @covers \Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions
 	 */
 	public function test_get_versions() {
 		// Get the protected field from the test double.
