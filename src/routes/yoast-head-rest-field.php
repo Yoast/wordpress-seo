@@ -206,7 +206,7 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 * @param stdObject $head   The Yoast head.
 	 * @param string    $format The format to return.
 	 *
-	 * @return string|array The output value. String if HTML was requested, array otherwise.
+	 * @return string|array|null The output value. String if HTML was requested, array otherwise.
 	 */
 	protected function render_object( $head, $format = self::YOAST_HEAD_ATTRIBUTE_NAME ) {
 		if ( $head->status === 404 ) {

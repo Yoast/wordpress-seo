@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
 use Mockery;
-
+use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Error_Presenter;
@@ -33,7 +33,7 @@ class Indexing_Error_Presenter_Test extends TestCase {
 	/**
 	 * The mocked addon manager.
 	 *
-	 * @var Mockery\MockInterface|\WPSEO_Addon_Manager
+	 * @var Mockery\MockInterface|WPSEO_Addon_Manager
 	 */
 	protected $addon_manager;
 
@@ -52,7 +52,7 @@ class Indexing_Error_Presenter_Test extends TestCase {
 
 		$this->short_link_helper = Mockery::mock( Short_Link_Helper::class );
 		$this->product_helper    = Mockery::mock( Product_Helper::class );
-		$this->addon_manager     = Mockery::mock( \WPSEO_Addon_Manager::class );
+		$this->addon_manager     = Mockery::mock( WPSEO_Addon_Manager::class );
 
 		$this->instance = new Indexing_Error_Presenter(
 			$this->short_link_helper,
@@ -83,7 +83,7 @@ class Indexing_Error_Presenter_Test extends TestCase {
 			self::getPropertyValue( $this->instance, 'product_helper' )
 		);
 		self::assertInstanceOf(
-			\WPSEO_Addon_Manager::class,
+			WPSEO_Addon_Manager::class,
 			self::getPropertyValue( $this->instance, 'addon_manager' )
 		);
 	}
@@ -103,7 +103,7 @@ class Indexing_Error_Presenter_Test extends TestCase {
 
 		$this->addon_manager
 			->expects( 'has_valid_subscription' )
-			->with( \WPSEO_Addon_Manager::PREMIUM_SLUG )
+			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
 			->andReturnFalse();
 
 		$actual = $this->instance->present();
@@ -130,7 +130,7 @@ class Indexing_Error_Presenter_Test extends TestCase {
 
 		$this->addon_manager
 			->expects( 'has_valid_subscription' )
-			->with( \WPSEO_Addon_Manager::PREMIUM_SLUG )
+			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
 			->andReturnFalse();
 
 		$actual = $this->instance->present();
@@ -158,7 +158,7 @@ class Indexing_Error_Presenter_Test extends TestCase {
 
 		$this->addon_manager
 			->expects( 'has_valid_subscription' )
-			->with( \WPSEO_Addon_Manager::PREMIUM_SLUG )
+			->with( WPSEO_Addon_Manager::PREMIUM_SLUG )
 			->andReturnSelf();
 
 		$actual = $this->instance->present();

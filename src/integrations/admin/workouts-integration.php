@@ -52,8 +52,8 @@ class Workouts_Integration implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
-		add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], 8 );
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], 8 );
+		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 	}
 
 	/**
@@ -61,7 +61,7 @@ class Workouts_Integration implements Integration_Interface {
 	 *
 	 * @param array $submenu_pages The Yoast SEO submenu pages.
 	 *
-	 * @return array the filtered submenu pages.
+	 * @return array The filtered submenu pages.
 	 */
 	public function add_submenu_page( $submenu_pages ) {
 		// this inserts the workouts menu page at the correct place in the array without overriding that position.
@@ -95,6 +95,6 @@ class Workouts_Integration implements Integration_Interface {
 	public function render() {
 		$cornerstone_guide  = $this->shortlinker->build_shortlink( 'https://yoa.st/4f1' );
 		$cornerstone_upsell = $this->shortlinker->build_shortlink( 'https://yoa.st/4f2' );
-		require_once WPSEO_PATH . 'admin/views/workouts.php';
+		require_once \WPSEO_PATH . 'admin/views/workouts.php';
 	}
 }

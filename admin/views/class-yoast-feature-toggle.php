@@ -27,7 +27,7 @@ class Yoast_Feature_Toggle {
 	/**
 	 * Whether the feature is premium or not.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $premium = false;
 

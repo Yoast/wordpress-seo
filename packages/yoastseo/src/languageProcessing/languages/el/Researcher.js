@@ -2,6 +2,7 @@ import { languageProcessing } from "yoastseo";
 const { AbstractResearcher } = languageProcessing;
 
 // All config
+import firstWordExceptions from "./config/firstWordExceptions";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
@@ -23,7 +24,6 @@ export default class Researcher extends AbstractResearcher {
 		// Deletes researches that are not available for languages that we haven't supported yet.
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
-		delete this.defaultResearches.getSentenceBeginnings;
 		delete this.defaultResearches.functionWordsInKeyphrase;
 
 		Object.assign( this.config, {
@@ -31,6 +31,8 @@ export default class Researcher extends AbstractResearcher {
 			functionWords: [],
 			transitionWords,
 			twoPartTransitionWords,
+			firstWordExceptions: firstWordExceptions.firstWords,
+			secondWordExceptions: firstWordExceptions.secondWords,
 		} );
 
 		Object.assign( this.helpers, {

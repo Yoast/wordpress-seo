@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Helpers\Date_Helper;
-use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
@@ -180,13 +179,13 @@ class Indexing_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests start.
+	 * Tests prepare.
 	 *
-	 * @covers ::start
+	 * @covers ::prepare
 	 * @covers ::set_first_time
 	 * @covers ::set_started
 	 */
-	public function test_start() {
+	public function test_prepare() {
 		$this->options_helper
 			->expects( 'set' )
 			->once()
@@ -205,17 +204,22 @@ class Indexing_Helper_Test extends TestCase {
 			->once()
 			->with( 'indexing_started', $start_time );
 
-		$this->instance->start();
+		$this->notification_center
+			->expects( 'remove_notification_by_id' )
+			->once()
+			->with( 'wpseo-reindex' );
+
+		$this->instance->prepare();
 	}
 
 	/**
-	 * Tests finish.
+	 * Tests complete.
 	 *
-	 * @covers ::finish
+	 * @covers ::complete
 	 * @covers ::set_started
 	 * @covers ::set_reason
 	 */
-	public function test_finish() {
+	public function test_complete() {
 		$this->options_helper
 			->expects( 'set' )
 			->once()
@@ -231,7 +235,7 @@ class Indexing_Helper_Test extends TestCase {
 			->once()
 			->with( Indexing_Notification_Integration::NOTIFICATION_ID );
 
-		$this->instance->finish();
+		$this->instance->complete();
 	}
 
 	/**

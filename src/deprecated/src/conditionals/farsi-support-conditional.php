@@ -20,7 +20,7 @@ class Farsi_Support_Conditional extends Feature_Flag_Conditional {
 	 * @return string the name of the feature flag.
 	 */
 	public function get_feature_flag() {
-		_deprecated_function( __METHOD__, 'WPSEO 17.2' );
+		\_deprecated_function( __METHOD__, 'WPSEO 17.2' );
 		return 'FARSI_SUPPORT';
 	}
 }
