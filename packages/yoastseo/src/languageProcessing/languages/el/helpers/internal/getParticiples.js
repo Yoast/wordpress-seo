@@ -24,9 +24,9 @@ export default function( clauseText ) {
 	const foundPassives = [];
 
 	if ( getParticiples.length > 0 ) {
-		foundPassives.push( { participle: getParticiples, type: "participle" } );
+		foundPassives.push( { passives: getParticiples, type: "participle" } );
 	} else if ( getInfinitives.length > 0 ) {
-		foundPassives.push( { participle: getInfinitives, type: "infinitive" } );
+		foundPassives.push( { passives: getInfinitives, type: "infinitive" } );
 	}
 
 	return foundPassives;
