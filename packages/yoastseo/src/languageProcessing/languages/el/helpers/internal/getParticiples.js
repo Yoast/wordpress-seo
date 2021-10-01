@@ -17,10 +17,13 @@ export default function( clauseText ) {
 	const infinitiveEndingsRegex = new RegExp( "(ηθεί|φθεί|θει|τει)$" );
 	const participle = words.filter( word => participleEndingsRegex.test( word ) );
 	const infinitive = words.filter( word => infinitiveEndingsRegex.test( word ) );
+	const foundParticiple = [];
+
 	if ( participle.length > 0 ) {
-		return { participle: participle, type: "participle" };
+		foundParticiple.push( { participle: participle, type: "participle" } );
 	} else if ( infinitive.length > 0 ) {
-		return { participle: infinitive, type: "infinitive" };
+		foundParticiple.push( { participle: infinitive, type: "infinitive" } );
 	}
-	return null;
+
+	return foundParticiple;
 }
