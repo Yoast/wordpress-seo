@@ -5,7 +5,7 @@ describe( "Test for matching Greek participles", function() {
 		// Passive participle: αγαπημένη.
 		const sentence = "Η γάτα είναι αγαπημένη.";
 		const foundParticiples = getParticiples( sentence );
-		expect( foundParticiples[ 0 ].participle ).toEqual( [ "αγαπημένη" ] );
+		expect( foundParticiples[ 0 ].passives ).toEqual( [ "αγαπημένη" ] );
 		expect( foundParticiples[ 0 ].type ).toEqual( "participle" );
 	} );
 
@@ -13,7 +13,7 @@ describe( "Test for matching Greek participles", function() {
 		// Passive infinitive: αγαπηθεί.
 		const sentence = "Ο σκύλος έχει αγαπηθεί.";
 		const foundParticiples = getParticiples( sentence );
-		expect( foundParticiples[ 0 ].participle ).toEqual( [ "αγαπηθεί" ] );
+		expect( foundParticiples[ 0 ].passives ).toEqual( [ "αγαπηθεί" ] );
 		expect( foundParticiples[ 0 ].type ).toEqual( "infinitive" );
 	} );
 
