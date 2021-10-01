@@ -1,6 +1,9 @@
 import { languageProcessing } from "yoastseo";
 const { AbstractResearcher } = languageProcessing;
 
+// All config
+import firstWordExceptions from "./config/firstWordExceptions";
+
 // All helpers
 import getStemmer from "./helpers/getStemmer";
 
@@ -19,14 +22,14 @@ export default class Researcher extends AbstractResearcher {
 		// Deletes researches that are not available for languages that we haven't supported yet.
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
-		delete this.defaultResearches.getSentenceBeginnings;
 		delete this.defaultResearches.findTransitionWords;
 		delete this.defaultResearches.functionWordsInKeyphrase;
 
 		Object.assign( this.config, {
 			language: "el",
 			functionWords: [],
-
+			firstWordExceptions: firstWordExceptions.firstWords,
+			secondWordExceptions: firstWordExceptions.secondWords,
 		} );
 
 		Object.assign( this.helpers, {
