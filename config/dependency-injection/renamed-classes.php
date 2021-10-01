@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Integrations\Third_Party\Elementor_Exclude_Post_Types;
 use Yoast\WP\SEO\Integrations\Third_Party\Exclude_Elementor_Post_Types as Renamed_To_Exclude_Elementor_Post_Types;
 
 $renamed_classes = [
-	Elementor_Exclude_Post_Types::class => [ Renamed_To_Exclude_Elementor_Post_Types::class, '16.7' ]
+	Elementor_Exclude_Post_Types::class => [ Renamed_To_Exclude_Elementor_Post_Types::class, '16.7' ],
 ];
 
 foreach ( $renamed_classes as $original_class => $replacement ) {

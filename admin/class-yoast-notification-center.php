@@ -812,9 +812,8 @@ class Yoast_Notification_Center {
 			unset( $notification_data['options']['nonce'] );
 		}
 
-		if (
-			isset( $notification_data['message'] ) &&
-			\is_subclass_of( $notification_data['message'], Abstract_Presenter::class, false )
+		if ( isset( $notification_data['message'] )
+			&& \is_subclass_of( $notification_data['message'], Abstract_Presenter::class, false )
 		) {
 			$notification_data['message'] = $notification_data['message']->present();
 		}

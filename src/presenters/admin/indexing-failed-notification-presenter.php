@@ -7,7 +7,6 @@ use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
-
 /**
  * Class Indexing_Failed_Notification_Presenter.
  *

@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations;
 
 use Closure;
 use Yoast\WP\Lib\Model;
+
 /**
  * Adds cleanup hooks.
  */
