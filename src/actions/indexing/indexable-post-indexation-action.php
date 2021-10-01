@@ -4,11 +4,11 @@ namespace Yoast\WP\SEO\Actions\Indexing;
 
 use wpdb;
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Reindexing action for post indexables.
@@ -143,7 +143,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 
 		$post_types             = $this->get_post_types();
 		$excluded_post_statuses = $this->post_helper->get_excluded_post_statuses();
-		$replacements           = array_merge(
+		$replacements           = \array_merge(
 			$post_types,
 			$excluded_post_statuses
 		);
@@ -178,11 +178,11 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 
 		$post_types             = $this->get_post_types();
 		$excluded_post_statuses = $this->post_helper->get_excluded_post_statuses();
-		$replacements           = array_merge(
+		$replacements           = \array_merge(
 			$post_types,
 			$excluded_post_statuses
 		);
-		$replacements[]  = $this->version;
+		$replacements[]         = $this->version;
 
 		$limit_query = '';
 		if ( $limit ) {

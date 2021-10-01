@@ -29,8 +29,6 @@
 	"require-dev": {
 		"humbug/php-scoper": "^0.13.4",
 		"league/oauth2-client": "2.4.1",
-		"php-parallel-lint/php-console-highlighter": "^0.5",
-		"php-parallel-lint/php-parallel-lint": "^1.3.0",
 		"phpunit/phpunit": "^5.7",
 		"psr/container": "1.0.0",
 		"psr/log": "^1.0",
@@ -38,7 +36,7 @@
 		"symfony/dependency-injection": "^3.4",
 		"yoast/php-development-environment": "^1.0",
 		"yoast/wp-test-utils": "^0.2.1",
-		"yoast/yoastcs": "^2.1.0"
+		"yoast/yoastcs": "^2.2.0"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,

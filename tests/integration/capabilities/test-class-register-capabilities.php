@@ -8,7 +8,7 @@
 /**
  * Unit Test Class.
  */
-class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
+class WPSEO_Register_Capabilities_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests whether the list of registered capabilities contains the correct capabilities.

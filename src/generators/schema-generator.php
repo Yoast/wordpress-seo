@@ -268,10 +268,10 @@ class Schema_Generator implements Generator_Interface {
 	 * Note: We removed the Abstract_Schema_Piece type-hint from the $graph_piece_generator argument, because
 	 *       it caused conflicts with old code, Yoast SEO Video specifically.
 	 *
-	 * @param array                   $graph_piece The graph piece we're filtering.
-	 * @param string                  $identifier  The identifier of the graph piece that is being filtered.
-	 * @param Meta_Tags_Context       $context     The meta tags context.
-	 * @param Abstract_Schema_Piece   $graph_piece_generator A value object with context variables.
+	 * @param array                   $graph_piece            The graph piece we're filtering.
+	 * @param string                  $identifier             The identifier of the graph piece that is being filtered.
+	 * @param Meta_Tags_Context       $context                The meta tags context.
+	 * @param Abstract_Schema_Piece   $graph_piece_generator  A value object with context variables.
 	 * @param Abstract_Schema_Piece[] $graph_piece_generators A value object with context variables.
 	 *
 	 * @return array The filtered graph piece.

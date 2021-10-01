@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Services\Indexables;
 
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Handles version control for Indexables.
@@ -13,7 +13,7 @@ class Indexable_Version_Manager {
 	/**
 	 * Stores the version of each Indexable type.
 	 *
-	 * @var $indexable_builder_versions Indexable_Builder_Versions The current versions of all indexable builders.
+	 * @var Indexable_Builder_Versions The current versions of all indexable builders.
 	 */
 	protected $indexable_builder_versions;
 
@@ -31,11 +31,12 @@ class Indexable_Version_Manager {
 	 *
 	 * @param Indexable $indexable The Indexable to check.
 	 *
-	 * @return boolean True if the given version is older than the current latest version.
+	 * @return bool True if the given version is older than the current latest version.
 	 */
 	public function indexable_needs_upgrade( $indexable ) {
-		if ( ( ! $indexable ) ||
-			( ! is_a( $indexable, Indexable::class ) ) ) {
+		if ( ( ! $indexable )
+			|| ( ! \is_a( $indexable, Indexable::class ) )
+		) {
 			return false;
 		}
 
@@ -48,7 +49,7 @@ class Indexable_Version_Manager {
 	 * @param string $object_type       The Indexable's object type.
 	 * @param int    $indexable_version The Indexable's version.
 	 *
-	 * @return boolean True if the given version is older than the current latest version.
+	 * @return bool True if the given version is older than the current latest version.
 	 */
 	protected function needs_upgrade( $object_type, $indexable_version ) {
 		$current_indexable_builder_version = $this->indexable_builder_versions->get_latest_version_for_type( $object_type );

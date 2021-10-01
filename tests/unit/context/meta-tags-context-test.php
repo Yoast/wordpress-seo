@@ -30,7 +30,7 @@ class Meta_Tags_Context_Test extends TestCase {
 	/**
 	 * The options helper.
 	 *
-	 * @var Options_Helper|\Mockery\Mock
+	 * @var Options_Helper|Mockery\Mock
 	 */
 	private $options;
 

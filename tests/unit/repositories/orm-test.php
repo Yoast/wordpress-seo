@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
 use doubles\lib\Orm_Double;
+use InvalidArgumentException;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Models\Indexable;
@@ -39,7 +40,7 @@ class Orm_Test extends TestCase {
 	public function test_insert_many_throws_on_invalid_argument() {
 		// Arrange.
 		$models = $this;
-		$this->expectException( \InvalidArgumentException::class );
+		$this->expectException( InvalidArgumentException::class );
 
 		// Act.
 		$result = $this->instance->insert_many( $models );
@@ -81,7 +82,7 @@ class Orm_Test extends TestCase {
 			$indexable,
 		];
 
-		$this->expectException( \InvalidArgumentException::class );
+		$this->expectException( InvalidArgumentException::class );
 
 		// Act.
 		$result = $this->instance->insert_many( $models );
