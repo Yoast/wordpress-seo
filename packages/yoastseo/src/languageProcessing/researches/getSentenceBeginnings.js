@@ -48,7 +48,8 @@ const compareFirstWords = function( sentenceBeginnings, sentences ) {
 };
 
 /**
- * Retrieves the first word from the sentence.
+ * Retrieves the first word from the sentence. If the first or second word is on an exception list of words that should not be considered as sentence
+ * beginnings, the following word is also retrieved.
  *
  * @param {string}  sentence                The sentence to retrieve the first word from.
  * @param {Array}   firstWordExceptions     First word exceptions to match against.
