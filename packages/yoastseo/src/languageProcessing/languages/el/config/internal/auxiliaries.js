@@ -9,7 +9,6 @@ const auxiliariesToBe = [
 	"είμαστε",
 	"είστε",
 	"είσαστε",
-	"είναι",
 	"ήμουν",
 	"ήσουν",
 	"ήταν",
@@ -17,7 +16,6 @@ const auxiliariesToBe = [
 	"ήμασταν",
 	"ήσαστε",
 	"ήσασταν",
-	"ήταν",
 ];
 
 const auxiliariesToHave = [
@@ -31,12 +29,13 @@ const auxiliariesToHave = [
 	"είχες",
 	"είχε",
 	"είχαμε",
-	"είχαμε",
 	"είχαν",
 ];
 
-export default {
-	auxiliaries1: auxiliariesToHave,
-	auxiliaries2: auxiliariesToBe,
-	allAuxiliaries: auxiliariesToHave.concat( auxiliariesToBe ),
+const allAuxiliaries = auxiliariesToHave.concat( auxiliariesToBe );
+
+export {
+	auxiliariesToHave,
+	auxiliariesToBe,
+	allAuxiliaries,
 };
