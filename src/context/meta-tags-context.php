@@ -494,6 +494,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			$additional_type = $this->options->get( 'schema-article-type-' . $this->indexable->object_sub_type );
 		}
 
+		if ( stripos( $additional_type, 'Article' ) !== false ) {
+			return $additional_type;
+		}
+
 		$type = 'Article';
 
 		/*
