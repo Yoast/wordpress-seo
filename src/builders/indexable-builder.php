@@ -302,8 +302,8 @@ class Indexable_Builder {
 	/**
 	 * Rebuilds an Indexable from scratch.
 	 *
-	 * @param Indexable $indexable The Indexable to (re)build.
-	 * @param array     $defaults  The object type of the Indexable.
+	 * @param Indexable  $indexable The Indexable to (re)build.
+	 * @param array|null $defaults  The object type of the Indexable.
 	 *
 	 * @return Indexable|false The resulting Indexable.
 	 */

@@ -61,7 +61,7 @@ class Workouts_Integration implements Integration_Interface {
 	 *
 	 * @param array $submenu_pages The Yoast SEO submenu pages.
 	 *
-	 * @return array the filtered submenu pages.
+	 * @return array The filtered submenu pages.
 	 */
 	public function add_submenu_page( $submenu_pages ) {
 		// this inserts the workouts menu page at the correct place in the array without overriding that position.

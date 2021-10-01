@@ -28,7 +28,7 @@ class Addon_Install_Action_Test extends TestCase {
 	/**
 	 * The require file helper.
 	 *
-	 * @var Mockery\MockInterface|Require_File_Helper;
+	 * @var Mockery\MockInterface|Require_File_Helper
 	 */
 	protected $require_file_helper;
 

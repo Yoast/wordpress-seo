@@ -36,7 +36,7 @@ foreach ( $renamed_classes as $original_class => $replacement ) {
 		->setDeprecated( true, "%service_id% is deprecated since version $version! Use $renamed_class instead." );
 }
 
-// If the DI container is built by composer this WordPress function will not exist.
+// If the DI container is built by Composer this WordPress function will not exist.
 if ( ! function_exists( '_deprecated_file' ) ) {
 	function _deprecated_file( $file, $version, $replacement = '', $message = '' ) {}
 }

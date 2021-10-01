@@ -2379,7 +2379,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Builds a bulk INSERT query.
 	 *
-	 * @param array $models Array of model instances to be inserted.
+	 * @param array $models             Array of model instances to be inserted.
 	 * @param array $dirty_column_names Array of dirty fields to be used in INSERT.
 	 *
 	 * @return string The insert query.

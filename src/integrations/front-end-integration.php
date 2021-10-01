@@ -326,8 +326,8 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Returns all presenters for this page.
 	 *
-	 * @param string            $page_type The page type.
-	 * @param Meta_Tags_Context $context   The meta tags context for the current page.
+	 * @param string                 $page_type The page type.
+	 * @param Meta_Tags_Context|null $context   The meta tags context for the current page.
 	 *
 	 * @return Abstract_Indexable_Presenter[] The presenters.
 	 */
@@ -349,8 +349,8 @@ class Front_End_Integration implements Integration_Interface {
 		/**
 		 * Filter 'wpseo_frontend_presenters' - Allow filtering the presenter instances in or out of the request.
 		 *
-		 * @param $presenters array The presenters.
-		 * @param Meta_Tags_Context The meta tags context for the current page.
+		 * @param array             $presenters The presenters.
+		 * @param Meta_Tags_Context $context    The meta tags context for the current page.
 		 *
 		 * @api Abstract_Indexable_Presenter[] List of presenter instances.
 		 */
