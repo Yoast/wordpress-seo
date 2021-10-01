@@ -1,5 +1,7 @@
 import { languageProcessing } from "yoastseo";
 const { AbstractResearcher } = languageProcessing;
+
+// All config
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
