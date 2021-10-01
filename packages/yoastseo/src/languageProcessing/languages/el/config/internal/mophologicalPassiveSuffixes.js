@@ -79,7 +79,6 @@ export const passiveSuffixes = [
 	"σαι",
 	"ται",
 	"στε",
-	"θεί",
 	"τεί",
 	"ταν",
 	"ηθώ",
