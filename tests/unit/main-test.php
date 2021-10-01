@@ -71,13 +71,13 @@ class Main_Test extends TestCase {
 		$container = $this->instance->get_container();
 
 		foreach ( $container->getServiceIds() as $service_id ) {
-			if ( in_array( $service_id, $this->excluded_classes, true ) ) {
+			if ( \in_array( $service_id, $this->excluded_classes, true ) ) {
 				continue;
 			}
 			if ( isset( $this->aliasses[ $service_id ] ) ) {
 				$service_id = $this->aliasses[ $service_id ];
 			}
-			if ( strpos( $service_id, 'YoastSEO_Vendor' ) === 0 ) {
+			if ( \strpos( $service_id, 'YoastSEO_Vendor' ) === 0 ) {
 				continue;
 			}
 

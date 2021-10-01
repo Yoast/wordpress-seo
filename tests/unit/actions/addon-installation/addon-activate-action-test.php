@@ -105,7 +105,7 @@ class Addon_Activate_Action_Test extends TestCase {
 		$this->require_file_helper
 			->expects( 'require_file_once' )
 			->once()
-			->with( ABSPATH . 'wp-admin/includes/plugin.php' );
+			->with( \ABSPATH . 'wp-admin/includes/plugin.php' );
 
 		$this->wpseo_addon_manager
 			->shouldReceive( 'get_plugin_file' )
@@ -148,7 +148,7 @@ class Addon_Activate_Action_Test extends TestCase {
 		$this->require_file_helper
 			->expects( 'require_file_once' )
 			->once()
-			->with( ABSPATH . 'wp-admin/includes/plugin.php' );
+			->with( \ABSPATH . 'wp-admin/includes/plugin.php' );
 
 		$this->wpseo_addon_manager
 			->shouldReceive( 'get_plugin_file' )

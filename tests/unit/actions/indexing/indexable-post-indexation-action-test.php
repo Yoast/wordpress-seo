@@ -159,7 +159,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		];
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts_limited' )->andReturnFalse();
-		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts_limited', count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts_limited', \count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
@@ -171,7 +171,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
 		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
-		$this->assertEquals( count( $query_result ), $this->instance->get_limited_unindexed_count( $limit ) );
+		$this->assertEquals( \count( $query_result ), $this->instance->get_limited_unindexed_count( $limit ) );
 	}
 
 	/**

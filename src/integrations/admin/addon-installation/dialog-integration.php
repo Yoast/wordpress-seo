@@ -54,7 +54,7 @@ class Dialog_Integration implements Integration_Interface {
 	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
-		add_action( 'admin_init', [ $this, 'start_addon_installation' ] );
+		\add_action( 'admin_init', [ $this, 'start_addon_installation' ] );
 	}
 
 	/**
@@ -72,11 +72,11 @@ class Dialog_Integration implements Integration_Interface {
 		$this->bust_myyoast_addon_information_cache();
 		$this->owned_addons = $this->get_owned_addons();
 
-		if ( count( $this->owned_addons ) > 0 ) {
-			add_action( 'admin_enqueue_scripts', [ $this, 'show_modal' ] );
+		if ( \count( $this->owned_addons ) > 0 ) {
+			\add_action( 'admin_enqueue_scripts', [ $this, 'show_modal' ] );
 		}
 		else {
-			add_action( 'admin_notices', [ $this, 'throw_no_owned_addons_warning' ] );
+			\add_action( 'admin_notices', [ $this, 'throw_no_owned_addons_warning' ] );
 		}
 	}
 
@@ -87,9 +87,9 @@ class Dialog_Integration implements Integration_Interface {
 	 */
 	public function throw_no_owned_addons_warning() {
 		echo '<div class="notice notice-warning"><p>' .
-			sprintf(
+			\sprintf(
 				/* translators: %1$s expands to Yoast SEO */
-				esc_html__(
+				\esc_html__(
 					'No %1$s plugins have been installed. You don\'t seem to own any active subscriptions.',
 					'wordpress-seo'
 				),

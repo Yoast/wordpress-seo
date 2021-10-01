@@ -109,27 +109,27 @@ class Addon_Install_Action_Test extends TestCase {
 		$this->require_file_helper
 			->expects( 'require_file_once' )
 			->once()
-			->with( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+			->with( \ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
 		$this->require_file_helper
 			->expects( 'require_file_once' )
 			->never()
-			->with( ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php' );
+			->with( \ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php' );
 
 		$this->require_file_helper
 			->expects( 'require_file_once' )
 			->once()
-			->with( ABSPATH . 'wp-admin/includes/class-wp-upgrader-skin.php' );
+			->with( \ABSPATH . 'wp-admin/includes/class-wp-upgrader-skin.php' );
 
 		$this->require_file_helper
 			->expects( 'require_file_once' )
 			->once()
-			->with( ABSPATH . 'wp-admin/includes/plugin.php' );
+			->with( \ABSPATH . 'wp-admin/includes/plugin.php' );
 
 		$this->require_file_helper
 			->expects( 'require_file_once' )
 			->once()
-			->with( ABSPATH . 'wp-admin/includes/file.php' );
+			->with( \ABSPATH . 'wp-admin/includes/file.php' );
 
 		$wp_error = Mockery::mock( WP_Error::class );
 
@@ -169,27 +169,27 @@ class Addon_Install_Action_Test extends TestCase {
 		$this->require_file_helper
 			->expects( 'require_file_once' )
 			->once()
-			->with( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+			->with( \ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
 		$this->require_file_helper
 			->expects( 'require_file_once' )
 			->never()
-			->with( ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php' );
+			->with( \ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php' );
 
 		$this->require_file_helper
 			->expects( 'require_file_once' )
 			->once()
-			->with( ABSPATH . 'wp-admin/includes/class-wp-upgrader-skin.php' );
+			->with( \ABSPATH . 'wp-admin/includes/class-wp-upgrader-skin.php' );
 
 		$this->require_file_helper
 			->expects( 'require_file_once' )
 			->once()
-			->with( ABSPATH . 'wp-admin/includes/plugin.php' );
+			->with( \ABSPATH . 'wp-admin/includes/plugin.php' );
 
 		$this->require_file_helper
 			->expects( 'require_file_once' )
 			->once()
-			->with( ABSPATH . 'wp-admin/includes/file.php' );
+			->with( \ABSPATH . 'wp-admin/includes/file.php' );
 
 		$plugin_upgrader = Mockery::mock( 'overload:' . Plugin_Upgrader::class );
 

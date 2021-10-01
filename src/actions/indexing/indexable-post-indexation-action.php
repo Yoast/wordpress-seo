@@ -143,7 +143,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 
 		$post_types             = $this->get_post_types();
 		$excluded_post_statuses = $this->post_helper->get_excluded_post_statuses();
-		$replacements           = array_merge(
+		$replacements           = \array_merge(
 			$post_types,
 			$excluded_post_statuses
 		);
@@ -178,7 +178,7 @@ class Indexable_Post_Indexation_Action extends Abstract_Indexing_Action {
 
 		$post_types             = $this->get_post_types();
 		$excluded_post_statuses = $this->post_helper->get_excluded_post_statuses();
-		$replacements           = array_merge(
+		$replacements           = \array_merge(
 			$post_types,
 			$excluded_post_statuses
 		);

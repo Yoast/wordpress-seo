@@ -410,9 +410,9 @@ class Elementor implements Integration_Interface {
 		];
 
 		$worker_script_data = [
-			'url'                     => YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-analysis-worker' ),
-			'dependencies'            => YoastSEO()->helpers->asset->get_dependency_urls_by_handle( 'yoast-seo-analysis-worker' ),
-			'keywords_assessment_url' => YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-used-keywords-assessment' ),
+			'url'                     => \YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-analysis-worker' ),
+			'dependencies'            => \YoastSEO()->helpers->asset->get_dependency_urls_by_handle( 'yoast-seo-analysis-worker' ),
+			'keywords_assessment_url' => \YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-used-keywords-assessment' ),
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 			// We need to make the feature flags separately available inside of the analysis web worker.
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),

@@ -49,12 +49,12 @@ class Language_Helper {
 
 		// If JAPANESE_SUPPORT feature is enabled, push Japanese to the array of the supported languages.
 		if ( $this->japanese_conditional->is_met() ) {
-			array_push( $supported_languages, 'ja' );
+			\array_push( $supported_languages, 'ja' );
 		}
 
 		// If GREEK_SUPPORT feature is enabled, push Greek to the array of the supported languages.
 		if ( $this->greek_conditional->is_met() ) {
-			array_push( $supported_languages, 'el' );
+			\array_push( $supported_languages, 'el' );
 		}
 
 		return \in_array( $language, $supported_languages, true );
@@ -73,12 +73,12 @@ class Language_Helper {
 
 		// If JAPANESE_SUPPORT feature is enabled, push Japanese to the array of the supported languages.
 		if ( $this->japanese_conditional->is_met() ) {
-			array_push( $supported_languages, 'ja' );
+			\array_push( $supported_languages, 'ja' );
 		}
 
 		// If GREEK_SUPPORT feature is enabled, push Greek to the array of the supported languages.
 		if ( $this->greek_conditional->is_met() ) {
-			array_push( $supported_languages, 'el' );
+			\array_push( $supported_languages, 'el' );
 		}
 
 		return \in_array( $language, $supported_languages, true );
@@ -91,17 +91,17 @@ class Language_Helper {
 	 * @return string The language to use to select a researcher.
 	 */
 	public function get_researcher_language() {
-		$researcher_language = WPSEO_Language_Utils::get_language( get_locale() );
+		$researcher_language = WPSEO_Language_Utils::get_language( \get_locale() );
 		$supported_languages = Researcher_Languages::SUPPORTED_LANGUAGES;
 
 		// If JAPANESE_SUPPORT feature is enabled, push Japanese to the array of the supported languages.
 		if ( $this->japanese_conditional->is_met() ) {
-			array_push( $supported_languages, 'ja' );
+			\array_push( $supported_languages, 'ja' );
 		}
 
 		// If GREEK_SUPPORT feature is enabled, push Greek to the array of the supported languages.
 		if ( $this->greek_conditional->is_met() ) {
-			array_push( $supported_languages, 'el' );
+			\array_push( $supported_languages, 'el' );
 		}
 
 		if ( ! \in_array( $researcher_language, $supported_languages, true ) ) {
