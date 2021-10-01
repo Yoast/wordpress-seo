@@ -3,6 +3,8 @@ const { AbstractResearcher } = languageProcessing;
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
+import transitionWords from "./config/transitionWords";
+import twoPartTransitionWords from "./config/twoPartTransitionWords";
 
 // All helpers
 import getStemmer from "./helpers/getStemmer";
@@ -22,12 +24,13 @@ export default class Researcher extends AbstractResearcher {
 		// Deletes researches that are not available for languages that we haven't supported yet.
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
-		delete this.defaultResearches.findTransitionWords;
 		delete this.defaultResearches.functionWordsInKeyphrase;
 
 		Object.assign( this.config, {
 			language: "el",
 			functionWords: [],
+			transitionWords,
+			twoPartTransitionWords,
 			firstWordExceptions: firstWordExceptions.firstWords,
 			secondWordExceptions: firstWordExceptions.secondWords,
 		} );
