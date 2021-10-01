@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher;
 /**
  * Class Loader_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Main;
+ * @coversDefaultClass \Yoast\WP\SEO\Main
  */
 class Main_Test extends TestCase {
 
