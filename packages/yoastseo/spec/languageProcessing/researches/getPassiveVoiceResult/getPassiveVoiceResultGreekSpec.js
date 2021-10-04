@@ -6,7 +6,7 @@ import Paper from "../../../../src/values/Paper.js";
 import Researcher from "../../../../src/languageProcessing/languages/el/Researcher";
 
 describe( "detecting passive voice in sentences", function() {
-	it( "returns active voice", function() {
+	it( "returns active voice when no auxiliary is found and no morphological passive verb is found", function() {
 		const paper = new Paper( "Αυτός ο μπαμπάς είναι φοβερός.", { locale: "el" } );
 		const researcher = new Researcher( paper );
 
@@ -20,48 +20,30 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 1 );
 	} );
 
-	xit( "returns passive voice for a morphological passive construction with participle ending in -θεί", function() {
-		const paper = new Paper( "", { locale: "el" } );
-		const researcher = new Researcher( paper );
-
-		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 1 );
-	} );
-
-	xit( "returns passive voice for a periphrastic passive construction with an auxiliary 'to be' and a passive participle", function() {
-		// Change the sentence after the NSC provides a real sentence
-		const paper = new Paper( "Η γάτα είναι σκέφτεται τί θα μετάμένος.", { locale: "el" } );
-		const researcher = new Researcher( paper );
-
-		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 1 );
-	} );
-
-	xit( "returns passive voice for a periphrastic passive construction with an auxiliary 'to have' and a passive infinitive", function() {
-		// Change the sentence after the NSC provides a real sentence
-		const paper = new Paper( "Η γάτα έχω μετάμηθεί.", { locale: "el" } );
-		const researcher = new Researcher( paper );
-
-		expect( passiveVoice( paper, researcher ).passives ).toBe( 1 );
-	} );
-
-	xit( "returns passive voice for a periphrastic passive construction with an auxiliary 'to have' and a passive infinitive ending in -ηθεί", function() {
-		// Change the sentence after the NSC provides a real sentence
-		const paper = new Paper( "Η γάτα έχω μετάμηθεί.", { locale: "el" } );
-		const researcher = new Researcher( paper );
-
-		expect( passiveVoice( paper, researcher ).passives ).toBe( 1 );
-	} );
-
-	xit( "returns active voice for a sentence with an auxiliary 'to have' and a passive participle", function() {
-		// Change the sentence after the NSC provides a real sentence
-		const paper = new Paper( "Η γάτα έχω τί θα μετάημένες.", { locale: "el" } );
+	it( "returns active voice for non passive verb that looks like a passive (deponent verb)", function() {
+		// Non Passive: σκέφτεται.
+		const paper = new Paper( "Η γάτα μου σκέφτεται τί θα φάει μετά.", { locale: "el" } );
 		const researcher = new Researcher( paper );
 
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 0 );
 	} );
 
-	xit( "returns active voice for a sentence with an auxiliary 'to have' and a active infinitive", function() {
-		// Change the sentence after the NSC provides a real sentence
-		const paper = new Paper( "Η γάτα έχω σκέφτε τί θα μετάμηθεί.", { locale: "el" } );
+	it( "returns passive voice for a periphrastic passive construction with an auxiliary 'to be' and a passive participle", function() {
+		const paper = new Paper( "Το φαγητο είναι μαγειρεμένο από την μαμά μου.", { locale: "el" } );
+		const researcher = new Researcher( paper );
+
+		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 1 );
+	} );
+
+	it( "returns active voice for a sentence with an auxiliary 'to have' and a passive participle", function() {
+		const paper = new Paper( "Έχω γραμμένη την εργασία μου.", { locale: "el" } );
+		const researcher = new Researcher( paper );
+
+		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 0 );
+	} );
+
+	it( "returns active voice for a sentence with an auxiliary 'to have' and a active infinitive", function() {
+		const paper = new Paper( "Σήμερα έχω λύσει πολλά προβλήματα.", { locale: "el" } );
 		const researcher = new Researcher( paper );
 
 		expect( passiveVoice( paper, researcher ).passives.length ).toBe( 0 );
@@ -69,7 +51,6 @@ describe( "detecting passive voice in sentences", function() {
 
 	it( "returns active voice for a sentence with an auxiliary 'to have' and a passive infinitive, " +
 		"but the infinitive is directly preceded by 'να' ", function() {
-		// Change the sentence after the NSC provides a real sentence
 		const paper = new Paper( "Το άρθρο έχει να γραφθεί.", { locale: "el" } );
 		const researcher = new Researcher( paper );
 
