@@ -25,7 +25,7 @@ export default function isPassiveSentence( sentence ) {
 				 * Return true if the word ends with one of the passive suffixes, if the word is more than 4 characters long
 				 * And if the word stem is not in the non-passive exception list.
 				 *
-				 * Passive infinitive with -θεί/-τεί is not a valid participle if it's directly preceded by "να"
+				 * Passive infinitive with -θεί/-τεί is not a valid passive if it's directly preceded by "να".
 				 */
 				return /^(θεί|τεί)$/.test( suffix )
 					? ( ! nonPassiveVerbStems.includes( stem ) && ! directPrecedenceException( sentence, word, directPrecedenceExceptionList ) )

@@ -10,4 +10,9 @@ describe( "A test for creating a Greek clause object and for checking Greek part
 		const mockClause = new GreekClause( "Το φαγητο είναι μαγειρεμένο από την μαμά μου.", [ "είναι" ] );
 		expect( mockClause.isPassive() ).toBe( true );
 	} );
+
+	it( "returns active voice if no participle is found", function() {
+		const mockClause = new GreekClause( "Η γάτα μου είναι η πιο όμορφη.", [ "είναι" ] );
+		expect( mockClause.isPassive() ).toBe( false );
+	} );
 } );
