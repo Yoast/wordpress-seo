@@ -35,7 +35,7 @@ class WebPage extends Abstract_Schema_Piece {
 			],
 		];
 
-		if ( empty( $this->context->canonical ) && is_search() ) {
+		if ( empty( $this->context->canonical ) && \is_search() ) {
 			$data['url'] = $this->build_search_url();
 		}
 
@@ -125,7 +125,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 */
 	private function add_potential_action( $data ) {
 		$url = $this->context->canonical;
-		if ( empty( $url ) && is_search() ) {
+		if ( empty( $url ) && \is_search() ) {
 			$url = $this->build_search_url();
 		}
 
@@ -150,6 +150,6 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @return string Search URL.
 	 */
 	private function build_search_url() {
-		return trailingslashit( $this->context->site_url ) . '?s=' . get_search_query();
+		return $this->context->site_url . '?s=' . \get_search_query();
 	}
 }
