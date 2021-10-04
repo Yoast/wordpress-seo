@@ -495,7 +495,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		// If the additional type is a subtype of Article, we're fine, and we can bail here.
-		if ( stripos( $additional_type, 'Article' ) !== false ) {
+		if ( \stripos( $additional_type, 'Article' ) !== false ) {
 			/**
 			 * Filter: 'wpseo_schema_article_type' - Allow changing the Article type.
 			 *
