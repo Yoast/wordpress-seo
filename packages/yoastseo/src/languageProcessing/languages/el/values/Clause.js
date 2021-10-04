@@ -1,10 +1,7 @@
 import { languageProcessing } from "yoastseo";
-const { values, directPrecedenceException } = languageProcessing;
+const { values } = languageProcessing;
 const { Clause } = values;
 import getParticiples from "../helpers/internal/getParticiples";
-import { auxiliariesToHave, auxiliariesToBe } from "../config/internal/auxiliaries.js";
-
-const directPrecedenceExceptionList = [ "να" ];
 
 /**
  * Creates a Clause object for the Greek language.
@@ -26,37 +23,14 @@ class GreekClause extends Clause {
 
 	/**
 	 * Sets the passiveness of a clause based on whether the matched participle is a valid one.
+	 * We only process clauses that have an auxiliary in this check.
 	 *
 	 * @returns {void}
 	 */
 	checkParticiples() {
 		const participles = this.getParticiples();
 
-		const matchedParticiple = this.getAuxiliaries().some( auxiliary => participles.some( participle =>
-			this.checkExceptions( auxiliary, participle ) ) );
-
-		this.setPassive( matchedParticiple );
-	}
-
-	/**
-	 * Checks if any exceptions are applicable to this participle that would result in the clause not being passive.
-	 * If no exceptions are found, the clause is passive.
-	 *
-	 * In Greek periphrastic construction, the clause is passive if the clause contains:
-	 * (a) auxiliary "to be" + passive participle
-	 * (b) auxiliary "to have" + passive infinitive, and the infinitive should not be preceded by 'να'
-	 *
-	 * @param {string} auxiliary    The auxiliary to check.
-	 * @param {object} participle   The participle object to check.
-	 *
-	 * @returns {boolean}   Whether or not the matched participle is a passive one.
-	 */
-	checkExceptions( auxiliary, participle ) {
-		const clause = this.getClauseText();
-
-		return ( auxiliariesToHave.includes( auxiliary ) && participle.type === "infinitive" &&
-			! directPrecedenceException( clause, participle.passives[ 0 ], directPrecedenceExceptionList ) ) ||
-			( auxiliariesToBe.includes( auxiliary ) && participle.type === "participle" );
+		this.setPassive( participles.length > 0 );
 	}
 }
 

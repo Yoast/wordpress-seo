@@ -2,13 +2,13 @@ import { languageProcessing } from "yoastseo";
 const { getClausesSplitOnStopWords, createRegexFromArray } = languageProcessing;
 
 import GreekClause from "../values/Clause";
-import { allAuxiliaries } from "../config/internal/auxiliaries.js";
+import auxiliaries from "../config/internal/auxiliaries.js";
 import stopWords from "../config/stopWords";
 
 const options = {
 	Clause: GreekClause,
 	regexes: {
-		auxiliaryRegex: createRegexFromArray( allAuxiliaries ),
+		auxiliaryRegex: createRegexFromArray( auxiliaries ),
 		stopwordRegex: createRegexFromArray( stopWords ),
 	},
 };
