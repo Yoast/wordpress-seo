@@ -18,6 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Aioseo_Posts_Import_Action
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Posts_Import_Action_Test extends TestCase {
 
@@ -52,8 +53,8 @@ class Aioseo_Posts_Import_Action_Test extends TestCase {
 	 * @covers ::map
 	 */
 	public function test_map_with_empty_yoast_indexable() {
-		$indexable         = Mockery::mock( Indexable_Mock::class );
-		$indexable->orm    = Mockery::mock( ORM::class );
+		$indexable      = Mockery::mock( Indexable_Mock::class );
+		$indexable->orm = Mockery::mock( ORM::class );
 
 		$aioseio_indexable = [
 			'title'                => 'title1',
@@ -64,7 +65,7 @@ class Aioseo_Posts_Import_Action_Test extends TestCase {
 			'twitter_description'  => 'twitter_description1',
 		];
 
-		$indexable = $this->instance->map( $indexable, $aioseio_indexable);
+		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
 
 		$this->assertEquals( 'title1', $indexable->title );
 		$this->assertEquals( 'description1', $indexable->description );
@@ -80,10 +81,10 @@ class Aioseo_Posts_Import_Action_Test extends TestCase {
 	 * @covers ::map
 	 */
 	public function test_map_with_existing_yoast_indexable() {
-		$indexable         = Mockery::mock( Indexable_Mock::class );
-		$indexable->orm    = Mockery::mock( ORM::class );
+		$indexable      = Mockery::mock( Indexable_Mock::class );
+		$indexable->orm = Mockery::mock( ORM::class );
 
-		$indexable->title = 'existing_title';
+		$indexable->title       = 'existing_title';
 		$indexable->description = 'existing_dsc';
 
 		$aioseio_indexable = [
@@ -95,7 +96,7 @@ class Aioseo_Posts_Import_Action_Test extends TestCase {
 			'twitter_description'  => 'twitter_description1',
 		];
 
-		$indexable = $this->instance->map( $indexable, $aioseio_indexable);
+		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
 
 		$this->assertEquals( 'existing_title', $indexable->title );
 		$this->assertEquals( 'existing_dsc', $indexable->description );
@@ -111,14 +112,14 @@ class Aioseo_Posts_Import_Action_Test extends TestCase {
 	 * @covers ::map
 	 */
 	public function test_map_with_missing_aioseo_data() {
-		$indexable         = Mockery::mock( Indexable_Mock::class );
-		$indexable->orm    = Mockery::mock( ORM::class );
+		$indexable      = Mockery::mock( Indexable_Mock::class );
+		$indexable->orm = Mockery::mock( ORM::class );
 
 		$indexable->twitter_description = null;
 
 		$aioseio_indexable = [];
 
-		$indexable = $this->instance->map( $indexable, $aioseio_indexable);
+		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
 
 		$this->assertNull( $indexable->twitter_description );
 	}

@@ -40,15 +40,25 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	 */
 	protected $meta;
 
+	/**
+	 * The map of aioseo to yoast meta.
+	 *
+	 * @var array
+	 */
 	protected $aioseo_to_yoast_map = [
-			'title'                  => 'title',
-			'description'            => 'description',
-			'og_title'               => 'open_graph_title',
-			'og_description'         => 'open_graph_description',
-			'twitter_title'          => 'twitter_title',
-			'twitter_description'    => 'twitter_description',
+		'title'               => 'title',
+		'description'         => 'description',
+		'og_title'            => 'open_graph_title',
+		'og_description'      => 'open_graph_description',
+		'twitter_title'       => 'twitter_title',
+		'twitter_description' => 'twitter_description',
 	];
 
+	/**
+	 * The map of yoast to post meta.
+	 *
+	 * @var array
+	 */
 	protected $yoast_to_postmeta = [
 		'title'                  => 'title',
 		'description'            => 'metadesc',
@@ -110,7 +120,7 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 			$this->map_to_postmeta( $indexable );
 		}
 
-		if ( get_site_option(static::IMPORT_CURSOR_VALUE) < $aioseo_indexable['id'] ) {
+		if ( \get_site_option( static::IMPORT_CURSOR_VALUE ) < $aioseo_indexable['id'] ) {
 			\update_site_option( static::IMPORT_CURSOR_VALUE, $aioseo_indexable['id'] );
 		}
 	}
@@ -129,10 +139,9 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 				continue;
 			}
 
-			if ( ! empty( $aioseo_indexable[$prop] ) ) {
-				$indexable->{$value} = $aioseo_indexable[$prop];
+			if ( ! empty( $aioseo_indexable[ $prop ] ) ) {
+				$indexable->{$value} = $aioseo_indexable[ $prop ];
 			}
-
 		}
 
 		return $indexable;
@@ -150,9 +159,8 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 			if ( empty( $indexable->{$prop} ) ) {
 				continue;
 			}
-			
-			$this->meta->set_value( $value, $indexable->{$prop}, $indexable->object_id );
 
+			$this->meta->set_value( $value, $indexable->{$prop}, $indexable->object_id );
 		}
 	}
 
