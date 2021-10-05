@@ -242,9 +242,9 @@ Release Date: October 19th, 2021
 Bugfixes:
 
 * Fixes a bug where the `url` property in the search page schema would be empty.
-* Fixes a bug where the shortlinks of Keyphrase distribution assessment omit the tracking parameters.
+* Fixes a bug where the shortlinks of Keyphrase distribution assessment omitted the tracking parameters.
 * Fixes a bug where a duplicate canonical tag was output for web stories created with the Web Stories plugin. Props to [swissspidey](https://github.com/swissspidy).
-* Fixes a bug where a race condition may occur that causes the rewrite rules to be flushed on every page request when using a persistent cache like Redis.
+* Fixes a bug where a race condition could occur that caused the rewrite rules to be flushed on every page request when using a persistent cache like Redis.
 
 = 17.3 =
 Release Date: October 5th, 2021
