@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -56,7 +57,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->indexable_mock      = Mockery::mock( Indexable::class );
+		$this->indexable_mock      = new Indexable_Mock();
 		$this->indexable_mock->orm = Mockery::mock( ORM::class );
 
 		Monkey\Functions\expect( 'get_author_posts_url' )->once()->with( 1 )->andReturn( 'https://permalink' );

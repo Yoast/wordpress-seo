@@ -54,25 +54,34 @@ class Indexable_Factory
 		}
 	}
 
+	/**
+	 * Prepares an array of properties for a given indexable type.
+	 *
+	 * @param null $type The indexable type to create default properties for.
+	 *
+	 * @return array
+	 */
+	protected function get_defaults ( $type = null ) {
+		if ( ! $type )
+		switch ( $type ) {
+			// Default indexable types.
+			case 'date-archive':
+			case 'home-page':
+			case 'post':
+			case 'term':
+			case 'user':
+			default:
+				return [
+					'object_type' => $type
+				];
 
-	protected $defaults = [
-		'date-archive' => [
-			'object_type' => 'date-archive'
-		],r
-		'home-page' => [
-			'object_type' => 'home-page'
-		],
-		'post' => [
-			'object_type' => 'post'
-		],
-		'system-page' => [
-			'object_type' => 'system-page'
-		],
-		'term' => [
-			'object_type' => 'term'
-		],
-		'user' => [
-			'object_type' => 'user'
-		],
-	];
+			// System Pages.
+			case '404':
+			case 'search-result':
+				return [
+					'object_type'     => 'system-page',
+					'object_sub_type' => $type,
+				];
+		}
+	}
 }
