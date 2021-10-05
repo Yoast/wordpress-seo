@@ -88,7 +88,7 @@ function processResult( mappedResult, mappedResults ) {
  * @returns {Object} The icon and color for the score.
  */
 export function getIconForScore( score ) {
-	let icon = { icon: "seo-score-none", color: colors.$color_grey_disabled };
+	let icon = { icon: "seo-score-none", color: colors.$color_red };
 
 	switch ( score ) {
 		case "loading":

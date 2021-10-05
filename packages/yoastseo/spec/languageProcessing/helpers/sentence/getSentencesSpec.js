@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+import { enableFeatures } from "@yoast/feature-flag";
 import getSentences from "../../../../src/languageProcessing/helpers/sentence/getSentences.js";
 
 import {
@@ -14,6 +18,8 @@ import {
 } from "../sanitize/mergeListItemsSpec";
 
 import { forEach } from "lodash-es";
+
+enableFeatures( [ "JAPANESE_SUPPORT" ] );
 
 /**
  * Helper to test sentence detection.
@@ -414,6 +420,163 @@ describe( "Get sentences from text", function() {
 		];
 
 		testGetSentences( testCases );
+	} );
+} );
+
+describe( "parses Japanese text", () => {
+	it( "parses a Japanese text.", function() {
+		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた。" +
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。計画段階では「東海道新線」と呼ばれていたが、開業時には「東海道新幹線」と命名された。";
+		const expected = [
+			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた。",
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
+			"計画段階では「東海道新線」と呼ばれていたが、開業時には「東海道新幹線」と命名された。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	it( "parses a Japanese text with sentences that start with numerals.", function() {
+		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた。" +
+			"９これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。" +
+			"1959年（昭和34年）4月20日、新丹那トンネル熱海口で起工式を行って着工し、東京オリンピック開会直前の1964年（昭和39年）" +
+			"10月1日に開業した。⑳計画段階では「東海道新線」と呼ばれていたが、開業時には「東海道新幹線」と命名された。㊉新丹那トンネル熱海口で起工式を行って着工し、" +
+			"東京オリンピック開会直前の1964年。㈠東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており。";
+		const expected = [
+			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた。",
+			"９これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
+			"1959年（昭和34年）4月20日、新丹那トンネル熱海口で起工式を行って着工し、東京オリンピック開会直前の1964年（昭和39年）10月1日に開業した。",
+			"⑳計画段階では「東海道新線」と呼ばれていたが、開業時には「東海道新幹線」と命名された。",
+			"㊉新丹那トンネル熱海口で起工式を行って着工し、東京オリンピック開会直前の1964年。",
+			"㈠東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており。" ];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	it( "parses a Japanese text with sentences that end with different types of sentence delimiters.", function() {
+		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、⁇" +
+			"９これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定‼" +
+			"1959年（昭和34年）4月20日、新丹那トンネル熱海口で起工式を行って着工し、東京オリンピック開会直前の1964年（昭和39年）" +
+			"10月1日に開業した‥⑳計画段階では「東海道新線」と呼ばれていたが、開業時には「東海道新幹線」と命名された…㊉新丹那トンネル熱海口で起工式を行って着工し、" +
+			"東京オリンピック開会直前の1964年。";
+		const expected = [
+			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、⁇",
+			"９これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定‼",
+			"1959年（昭和34年）4月20日、新丹那トンネル熱海口で起工式を行って着工し、東京オリンピック開会直前の1964年（昭和39年）10月1日に開業した‥",
+			"⑳計画段階では「東海道新線」と呼ばれていたが、開業時には「東海道新幹線」と命名された…",
+			"㊉新丹那トンネル熱海口で起工式を行って着工し、東京オリンピック開会直前の1964年。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	it( "parses a Japanese text which contains quotation marks.", function() {
+		const text = "『東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、』抜本的な輸送力増強を迫られていた。" +
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。";
+		const expected = [
+			"『東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、』抜本的な輸送力増強を迫られていた。",
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	it( "parses a Japanese text which contains a single katakana middle dot.", function() {
+		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた・" +
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。";
+		const expected = [
+			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた・" +
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	it( "parses a Japanese text which contains English question mark.", function() {
+		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた?" +
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。";
+		const expected = [
+			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた?",
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	it( "parses a Japanese text which a free standing quotation block.", function() {
+		const text = "「もちろん院卒でも歓迎してくれる企業はありますから、そうしたところに行けばいいだけです。ただ、つらくないわけではないですよね。" +
+			"あるお笑い芸人の方が、いまいちブレークできない理由として『人見知り』『お酒が飲めない』『軍団に入らない』の三つを挙げていましたが、まさに私はこれでした」";
+		const expected =   [
+			"「もちろん院卒でも歓迎してくれる企業はありますから、そうしたところに行けばいいだけです。",
+			"ただ、つらくないわけではないですよね。",
+			"あるお笑い芸人の方が、いまいちブレークできない理由として『人見知り』『お酒が飲めない』『軍団に入らない』の三つを挙げていましたが、まさに私はこれでした」",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	xit( "parses a Japanese text which contains sentence delimiter inside quotation block.", function() {
+		const text = "彼女は「明日休みだね。なにしようか？」と言った。";
+		const expected = [
+			"彼女は「明日休みだね。",
+			"なにしようか？",
+			"」と言った。" ];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	xit( "parses a Japanese text which contains sentence delimiter inside quotation block.", function() {
+		const text = "すると音声を一度ミュートにした息子から、「ママ、静かにして。ママの声が先生に聞こえそう」と、秋田の独り言が先生に聞こえそうだと注意を受けたのだとか。";
+		const expected =  [
+			"すると音声を一度ミュートにした息子から、「ママ、静かにして。",
+			"ママの声が先生に聞こえそう」と、秋田の独り言が先生に聞こえそうだと注意を受けたのだとか。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	xit( "parses a Japanese text which contains a space as sentence delimiter.", function() {
+		const text = "『東海道新幹線の開業前、 東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、』抜本的な輸送力増強を迫られていた。";
+		const expected = [
+			"『東海道新幹線の開業前、",
+			"東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、』抜本的な輸送力増強を迫られていた。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	xit( "parses a Japanese text where delimiters are used in the middle of a sentence outside a quotation bracket.", function() {
+		const text = "スカパー! が、50チャンネルの番組に一発で飛ぶことができる 「スカパー オリジナルのテレビリモコン」を抽選で50人にプレゼントするという情報が編集部に寄せられた。";
+		const expected = [
+			"スカパー! が、50チャンネルの番組に一発で飛ぶことができる 「スカパー オリジナルのテレビリモコン」を抽選で50人にプレゼントするという情報が編集部に寄せられた。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
+	} );
+	xit( "parses a Japanese text which contains two katakana middle dots. The text should be split on the two katakana middle dots" +
+		" (we don't cover this case for now).", function() {
+		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた・・" +
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。";
+		const expected = [
+			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた・・",
+			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
+		];
+
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
 	} );
 } );
 

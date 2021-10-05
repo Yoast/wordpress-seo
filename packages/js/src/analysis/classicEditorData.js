@@ -6,7 +6,7 @@ const { removeMarks } = analysis.markers;
 import { isUndefined, debounce } from "lodash-es";
 
 /* Internal dependencies */
-import { updateReplacementVariable, updateData } from "../redux/actions/snippetEditor";
+import { updateReplacementVariable, updateData, hideReplacementVariables } from "../redux/actions/snippetEditor";
 import { setContentImage } from "../redux/actions/settings";
 import {
 	excerptFromContent,
@@ -45,13 +45,15 @@ export default class ClassicEditorData {
 	/**
 	 * Initializes the class by filling this._initialData and subscribing to relevant elements.
 	 *
-	 * @param {Object} replaceVars The replacement variables passed in the wp-seo-post-scraper args.
+	 * @param {Object}   replaceVars The replacement variables passed in the wp-seo-post-scraper args.
+	 * @param {string[]} hiddenReplaceVars The replacement variables passed in the wp-seo-post-scraper args.
 	 *
 	 * @returns {void}
 	 */
-	initialize( replaceVars ) {
+	initialize( replaceVars, hiddenReplaceVars = [] ) {
 		this._initialData = this.getInitialData( replaceVars );
 		fillReplacementVariables( this._initialData, this._store );
+		this._store.dispatch( hideReplacementVariables( hiddenReplaceVars ) );
 		this.subscribeToElements();
 		this.subscribeToStore();
 		this.subscribeToSnippetPreviewImage();

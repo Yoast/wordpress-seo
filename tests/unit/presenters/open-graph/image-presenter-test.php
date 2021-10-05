@@ -120,14 +120,21 @@ class Image_Presenter_Test extends TestCase {
 	 * @covers ::get
 	 */
 	public function test_get() {
-		$image = [
+		$raw_image = [
+			'url'    => 'https://example.com/image.jpg',
+			'width'  => 100,
+			'height' => 100,
+			'path'   => 'SECRET',
+		];
+
+		$expected_image = [
 			'url'    => 'https://example.com/image.jpg',
 			'width'  => 100,
 			'height' => 100,
 		];
 
-		$this->presentation->open_graph_images = [ $image ];
+		$this->presentation->open_graph_images = [ $raw_image ];
 
-		$this->assertSame( [ $image ], $this->instance->get() );
+		$this->assertSame( [ $expected_image ], $this->instance->get() );
 	}
 }

@@ -13,6 +13,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+use Yoast\WP\SEO\Conditionals\Japanese_Support_Conditional;
+
 /**
  * Class: WPSEO_Replace_Vars.
  *
@@ -245,6 +247,30 @@ class WPSEO_Replace_Vars {
 	}
 
 	/**
+	 * Returns the list of hidden replace vars.
+	 *
+	 * E.g. the replace vars that should work, but are not advertised.
+	 *
+	 * @return string[] The list of hidden replace vars.
+	 */
+	public function get_hidden_replace_vars() {
+		return [
+			'currentdate',
+			'currentyear',
+			'currentmonth',
+			'currentday',
+			'post_year',
+			'post_month',
+			'post_day',
+			'author_first_name',
+			'author_last_name',
+			'permalink',
+			'post_content',
+			'category_title',
+		];
+	}
+
+	/**
 	 * Retrieve the replacements for the variables found.
 	 *
 	 * @param array $matches Variables found in the original string - regex result.
@@ -369,7 +395,8 @@ class WPSEO_Replace_Vars {
 	 * @return string|null
 	 */
 	private function retrieve_excerpt() {
-		$replacement = null;
+		$japanese_feature_flag = new Japanese_Support_Conditional();
+		$replacement           = null;
 
 		// The check `post_password_required` is because excerpt must be hidden for a post with a password.
 		if ( ! empty( $this->args->ID ) && ! post_password_required( $this->args->ID ) ) {
@@ -386,8 +413,17 @@ class WPSEO_Replace_Vars {
 
 				$replacement = wp_html_excerpt( $content, 156 );
 
-				// Trim the auto-generated string to a word boundary.
-				$replacement = substr( $replacement, 0, strrpos( $replacement, ' ' ) );
+				// Check if Japanese support is enabled.
+				if ( $japanese_feature_flag->is_met() ) {
+					// Check if the description has space and trim the auto-generated string to a word boundary.
+					if ( strrpos( $replacement, ' ' ) ) {
+						$replacement = substr( $replacement, 0, strrpos( $replacement, ' ' ) );
+					}
+				}
+				else {
+					// If Japanese support is disabled, always trim the auto-generated string to a word boundary doesn't matter whether a space is present or not.
+					$replacement = substr( $replacement, 0, strrpos( $replacement, ' ' ) );
+				}
 			}
 		}
 
@@ -1108,6 +1144,141 @@ class WPSEO_Replace_Vars {
 		return $replacement;
 	}
 
+	/**
+	 * Retrieve the post/page/cpt's published year for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_post_year() {
+		if ( empty( $this->args->ID ) ) {
+			return null;
+		}
+
+		return \get_the_date( 'Y', $this->args->ID );
+	}
+
+	/**
+	 * Retrieve the post/page/cpt's published month for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_post_month() {
+		if ( empty( $this->args->ID ) ) {
+			return null;
+		}
+
+		return \get_the_date( 'F', $this->args->ID );
+	}
+
+	/**
+	 * Retrieve the post/page/cpt's published day for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_post_day() {
+		if ( empty( $this->args->ID ) ) {
+			return null;
+		}
+
+		return \get_the_date( 'd', $this->args->ID );
+	}
+
+	/**
+	 * Retrieve the post/page/cpt author's first name for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_author_first_name() {
+		$replacement = null;
+
+		$user_id = (int) $this->retrieve_userid();
+		$name    = get_the_author_meta( 'first_name', $user_id );
+		if ( $name !== '' ) {
+			$replacement = $name;
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the post/page/cpt author's last name for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_author_last_name() {
+		$replacement = null;
+
+		$user_id = (int) $this->retrieve_userid();
+		$name    = get_the_author_meta( 'last_name', $user_id );
+		if ( $name !== '' ) {
+			$replacement = $name;
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the post/page/cpt permalink for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_permalink() {
+		if ( empty( $this->args->ID ) ) {
+			return null;
+		}
+
+		return \get_permalink( $this->args->ID );
+	}
+
+	/**
+	 * Retrieve the post/page/cpt content for use as replacement string.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_post_content() {
+		$replacement = null;
+
+		// The check `post_password_required` is because content must be hidden for a post with a password.
+		if ( ! empty( $this->args->ID ) && $this->args->post_content !== '' && ! post_password_required( $this->args->ID ) ) {
+			$content     = strip_shortcodes( $this->args->post_content );
+			$replacement = wp_strip_all_tags( $content );
+		}
+
+		return $replacement;
+	}
+
+	/**
+	 * Retrieve the current or first category title. To be used for import data from AIOSEO.
+	 * The code derives from AIOSEO's way of dealing with that var, so we can ensure 100% seamless transition.
+	 *
+	 * @return string|null
+	 */
+	private function retrieve_category_title() {
+		if ( empty( $this->args ) || empty( $this->args->ID ) ) {
+			return null;
+		}
+		$post_id = $this->args->ID;
+
+		$post       = get_post( $post_id );
+		$taxonomies = get_object_taxonomies( $post, 'objects' );
+
+		foreach ( $taxonomies as $taxonomy_slug => $taxonomy ) {
+			if ( ! $taxonomy->hierarchical ) {
+				continue;
+			}
+			$post_terms = get_the_terms( $post_id, $taxonomy_slug );
+			if ( is_array( $post_terms ) && count( $post_terms ) > 0 ) {
+				// AiOSEO takes the name of whatever the first hierarchical taxonomy is.
+				$term = $post_terms[0];
+				if ( $term ) {
+					return $term->name;
+				}
+			}
+		}
+
+		return null;
+	}
+
 	/* *********************** HELP TEXT RELATED ************************** */
 
 	/**
@@ -1281,6 +1452,18 @@ class WPSEO_Replace_Vars {
 			new WPSEO_Replacement_Variable( 'searchphrase', __( 'Search phrase', 'wordpress-seo' ), __( 'Replaced with the current search phrase', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'term_hierarchy', __( 'Term hierarchy', 'wordpress-seo' ), __( 'Replaced with the term ancestors hierarchy', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'sep', __( 'Separator', 'wordpress-seo' ), $separator_description ),
+			new WPSEO_Replacement_Variable( 'currentdate', __( 'Current date', 'wordpress-seo' ), __( 'Replaced with the current date', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'currentyear', __( 'Current year', 'wordpress-seo' ), __( 'Replaced with the current year', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'currentmonth', __( 'Current month', 'wordpress-seo' ), __( 'Replaced with the current month', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'currentday', __( 'Current day', 'wordpress-seo' ), __( 'Replaced with the current day', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'post_year', __( 'Post year', 'wordpress-seo' ), __( 'Replaced with the year the post was published', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'post_month', __( 'Post month', 'wordpress-seo' ), __( 'Replaced with the month the post was published', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'post_day', __( 'Post day', 'wordpress-seo' ), __( 'Replaced with the day the post was published', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'author_first_name', __( 'Author first name', 'wordpress-seo' ), __( 'Replaced with the first name of the author', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'author_last_name', __( 'Author last name', 'wordpress-seo' ), __( 'Replaced with the last name of the author', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'permalink', __( 'Permalink', 'wordpress-seo' ), __( 'Replaced with the permalink', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'post_content', __( 'Post Content', 'wordpress-seo' ), __( 'Replaced with the post content', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'category_title', __( 'Category Title', 'wordpress-seo' ), __( 'Current or first category title', 'wordpress-seo' ) ),
 		];
 
 		foreach ( $replacement_variables as $replacement_variable ) {

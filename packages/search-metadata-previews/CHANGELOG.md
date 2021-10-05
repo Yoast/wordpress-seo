@@ -8,6 +8,9 @@ We follow [Semantic Versioning](http://semver.org/).
 * Updates the styling of our Google preview to reflect the updated styling of the Google search results.
 * Adds custom config for `PageTitleWidthAssessment` so that the bar indicator under SEO title field shows green when short SEO title is set.
 
+### Bugfixes
+* Passes different config when initializing `MetadescriptionLengthAssessment` in `SnippetEditor.js` depending on whether the cornerstone content is active or not.
+
 
 ## 2.19.0 May 17th, 2021
 ### Enhancements

@@ -21,10 +21,8 @@ export default compose( [
 				readabilityScoreColor = colors.$color_ok;
 				break;
 			case "bad":
-				readabilityScoreColor = colors.$color_bad;
-				break;
 			default:
-				readabilityScoreColor = colors.$color_score_icon;
+				readabilityScoreColor = colors.$color_bad;
 				break;
 		}
 
@@ -38,10 +36,8 @@ export default compose( [
 				seoScoreColor = colors.$color_ok;
 				break;
 			case "bad":
-				seoScoreColor = colors.$color_bad;
-				break;
 			default:
-				seoScoreColor = colors.$color_score_icon;
+				seoScoreColor = colors.$color_bad;
 				break;
 		}
 

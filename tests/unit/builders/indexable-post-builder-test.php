@@ -7,6 +7,7 @@ use Mockery;
 use PHPUnit_Framework_ExpectationFailedException;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
@@ -103,7 +104,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$this->instance = new Indexable_Post_Builder_Double(
 			$this->post,
-			$this->post_type_helper
+			$this->post_type_helper,
+			new Indexable_Builder_Versions()
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );
@@ -295,6 +297,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'schema_page_type'               => 'FAQPage',
 			'schema_article_type'            => 'NewsArticle',
 			'estimated_reading_time_minutes' => 11,
+			'version'                        => 1,
 		];
 
 		$this->indexable      = Mockery::mock( Indexable::class );

@@ -45,6 +45,17 @@ export function getIsElementorEditor( state ) {
 }
 
 /**
+ * Returns whether this is the taxonomy editor or not.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {Boolean} Whether this is a taxonomy editor.
+ */
+export function getIsTerm( state ) {
+	return get( state, "editorContext.isTerm", false );
+}
+
+/**
  * Returns which type of editor this is.
  *
  * @param {Object} state The state.

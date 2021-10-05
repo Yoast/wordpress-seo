@@ -5,6 +5,7 @@ import { select, subscribe } from "@wordpress/data";
 import {
 	updateReplacementVariable,
 	updateData,
+	hideReplacementVariables,
 } from "../redux/actions/snippetEditor";
 import {
 	setContentImage,
@@ -44,12 +45,15 @@ export default class BlockEditorData {
 	 * Initializes this Gutenberg data instance.
 	 *
 	 * @param {Object} replaceVars The replacevars.
+	 * @param {string[]} hiddenReplaceVars The replacement variables passed in the wp-seo-post-scraper args.
+	 *
 	 * @returns {void}
 	 */
-	initialize( replaceVars ) {
+	initialize( replaceVars, hiddenReplaceVars = [] ) {
 		// Fill data object on page load.
 		this._data = this.getInitialData( replaceVars );
 		fillReplacementVariables( this._data, this._store );
+		this._store.dispatch( hideReplacementVariables( hiddenReplaceVars ) );
 		this.subscribeToGutenberg();
 		this.subscribeToYoastSEO();
 	}

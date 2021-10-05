@@ -871,6 +871,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'replaceVars' => [
 				'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
 				'replace_vars'             => $this->get_replace_vars(),
+				'hidden_replace_vars'      => $this->get_hidden_replace_vars(),
 				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 				'scope'                    => $this->determine_scope(),
 				'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
@@ -977,7 +978,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'sitedesc',
 			'sep',
 			'page',
+			'currentdate',
 			'currentyear',
+			'currentmonth',
+			'currentday',
+			'post_year',
+			'post_month',
+			'post_day',
+			'name',
+			'author_first_name',
+			'author_last_name',
+			'permalink',
+			'post_content',
+			'category_title',
+			'tag',
+			'category',
 		];
 
 		foreach ( $vars_to_cache as $var ) {
@@ -986,6 +1001,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		// Merge custom replace variables with the WordPress ones.
 		return array_merge( $cached_replacement_vars, $this->get_custom_replace_vars( $this->get_metabox_post() ) );
+	}
+
+	/**
+	 * Returns the list of replace vars that should be hidden inside the editor.
+	 *
+	 * @return string[] The hidden replace vars.
+	 */
+	protected function get_hidden_replace_vars() {
+		return ( new WPSEO_Replace_Vars() )->get_hidden_replace_vars();
 	}
 
 	/**
