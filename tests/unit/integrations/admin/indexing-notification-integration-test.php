@@ -263,8 +263,9 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->andReturn( 0 );
 
 		$this->indexing_helper
-			->expects( 'get_filtered_unindexed_count' )
+			->expects( 'get_limited_filtered_unindexed_count' )
 			->once()
+			->with( 1 )
 			->andReturn( 0 );
 
 		$this->notification_center
@@ -318,9 +319,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->andReturn( 0 );
 
 		$this->indexing_helper
-			->expects( 'get_filtered_unindexed_count' )
+			->expects( 'get_limited_filtered_unindexed_count' )
 			->once()
-			->andReturn( 40 );
+			->with( 1 )
+			->andReturn( 1 );
 
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
@@ -368,8 +370,14 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->andReturn( 0 );
 
 		$this->indexing_helper
+			->expects( 'get_limited_filtered_unindexed_count' )
+			->once()
+			->with( 1 )
+			->andReturn( 1 );
+
+		$this->indexing_helper
 			->expects( 'get_filtered_unindexed_count' )
-			->twice()
+			->once()
 			->andReturn( 40 );
 
 		$this->notification_center
@@ -451,9 +459,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->andReturn( 0 );
 
 		$this->indexing_helper
-			->expects( 'get_filtered_unindexed_count' )
+			->expects( 'get_limited_filtered_unindexed_count' )
 			->once()
-			->andReturn( 40 );
+			->with( 1 )
+			->andReturn( 1 );
 
 		$this->notification_center
 			->expects( 'remove_notification_by_id' )
@@ -517,8 +526,9 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->andReturn( 0 );
 
 		$this->indexing_helper
-			->expects( 'get_filtered_unindexed_count' )
+			->expects( 'get_limited_filtered_unindexed_count' )
 			->once()
+			->with( 1 )
 			->andReturn( 0 );
 
 		$this->notification_center
