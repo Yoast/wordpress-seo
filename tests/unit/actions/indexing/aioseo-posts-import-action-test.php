@@ -7,6 +7,7 @@ use Mockery;
 use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Actions\Indexing\Aioseo_Posts_Import_Action;
+use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -44,7 +45,65 @@ class Aioseo_Posts_Import_Action_Test extends TestCase {
 
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 		$this->wpdb                 = Mockery::mock( 'wpdb' );
-		$this->instance             = new Aioseo_Posts_Import_Action( $this->indexable_repository, $this->wpdb );
+		$this->meta                 = Mockery::mock( Meta_Helper::class );
+		$this->instance             = new Aioseo_Posts_Import_Action( $this->indexable_repository, $this->wpdb, $this->meta );
+	}
+
+	/**
+	 * Tests the mapping of indexable data to postmeta.
+	 *
+	 * @covers ::map_to_postmeta
+	 */
+	public function test_map_postmeta_with_full_yoast_indexable() {
+		$indexable      = Mockery::mock( Indexable_Mock::class );
+		$indexable->orm = Mockery::mock( ORM::class );
+
+		$indexable->title                  = 'title1';
+		$indexable->description            = 'description1';
+		$indexable->open_graph_title       = 'open_graph_title1';
+		$indexable->open_graph_description = 'open_graph_description1';
+		$indexable->twitter_title          = 'twitter_title1';
+		$indexable->twitter_description    = 'twitter_description1';
+		$indexable->object_id              = 123;
+
+		$this->meta->expects( 'set_value' )
+			->with( 'title', 'title1', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'metadesc', 'description1', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'opengraph-title', 'open_graph_title1', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'opengraph-description', 'open_graph_description1', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'twitter-title', 'twitter_title1', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'twitter-description', 'twitter_description1', 123 )
+			->andReturn( true );
+
+
+		$indexable = $this->instance->map_to_postmeta( $indexable );
+	}
+
+	/**
+	 * Tests the mapping of indexable data to postmeta, when the indexable is empty.
+	 *
+	 * @covers ::map_to_postmeta
+	 */
+	public function test_map_postmeta_with_empty_yoast_indexable() {
+		$indexable      = Mockery::mock( Indexable_Mock::class );
+		$indexable->orm = Mockery::mock( ORM::class );
+
+		$indexable->object_id = 123;
+
+		$this->meta->expects( 'set_value' )
+			->never();
+
+		$indexable = $this->instance->map_to_postmeta( $indexable );
 	}
 
 	/**
