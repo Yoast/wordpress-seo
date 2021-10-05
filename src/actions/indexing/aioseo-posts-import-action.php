@@ -14,10 +14,9 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 
 	/**
-	 * The transient cache key.
+	 * The persistent cursor key.
 	 */
-	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_aioseo_posts';
-	const IMPORT_CURSOR_VALUE       = 'wpseo_aioseo_import_cursor';
+	const IMPORT_CURSOR_VALUE = 'wpseo_aioseo_import_cursor';
 
 	/**
 	 * Represents the indexables repository.
@@ -36,8 +35,8 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	protected $aioseo_to_yoast_map = [
 			'title'                  => 'title',
 			'description'            => 'description',
-			'og_title'       => 'open_graph_title',
-			'og_description' => 'open_graph_description',
+			'og_title'               => 'open_graph_title',
+			'og_description'         => 'open_graph_description',
 			'twitter_title'          => 'twitter_title',
 			'twitter_description'    => 'twitter_description',
 	];
@@ -59,18 +58,10 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_total_unindexed() {
-		// @TODO: Consider *not* using a transient for this (considering it does not run that frequently).
-		$transient = \get_transient( static::UNINDEXED_COUNT_TRANSIENT );
-		if ( $transient !== false ) {
-			return (int) $transient;
-		}
-
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is is already prepared.
 		$indexables_to_create = $this->wpdb->get_col( $this->query() );
 
 		$result = \count( $indexables_to_create );
-
-		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, $result, \DAY_IN_SECONDS );
 
 		return $result;
 	}
@@ -95,7 +86,10 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 
 			$indexable->save();
 		}
-		\update_site_option( static::IMPORT_CURSOR_VALUE, $aioseo_indexable['id'] );
+
+		if ( get_site_option(static::IMPORT_CURSOR_VALUE) < $aioseo_indexable['id'] ) {
+			\update_site_option( static::IMPORT_CURSOR_VALUE, $aioseo_indexable['id'] );
+		}
 	}
 
 	/**
@@ -108,11 +102,14 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	 */
 	public function map( $indexable, $aioseo_indexable ) {
 		foreach ( $this->aioseo_to_yoast_map as $prop => $value ) {
-			if ( ! empty( $indexable->orm->get( $value ) ) ) {
+			if ( ! empty( $indexable->{$value} ) ) {
 				continue;
 			}
 
-			$indexable->orm->set( $value, $prop);
+			if ( ! empty( $aioseo_indexable[$prop] ) ) {
+				$indexable->{$value} = $aioseo_indexable[$prop];
+			}
+
 		}
 
 		return $indexable;
