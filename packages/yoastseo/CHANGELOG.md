@@ -20,6 +20,9 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Removes the Farsi feature flag.
 * Removes hyphens from a keyphrase for the Keyphrase in slug assessment. Also removes the functionality that would look for the keyphrase in the unparsed slug if it was not found in the parsed slug, as it is made redundant by the new functionality.
 
+### Bugfixes
+* Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
+
 ### Non user facing
 * Fixes a typo that caused the `findList` research to not be used in the `ListAssessment`.
 * Adds a feature-flag for Farsi support.
@@ -41,6 +44,9 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Makes it possible to tokenize sentences in Japanese.
 * Adds Japanese folder and Researcher.
 * Adds a feature-flag for Japanese support.
+* Implements the consecutive sentences assessment for Greek to ensure variety in a text.
+* Adds Greek transition words and activates the transition words assessment.
+* Adds a language folder and Researcher for Greek. 
 
 
 ## 1.92.0
