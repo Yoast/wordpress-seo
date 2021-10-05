@@ -69,6 +69,35 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	];
 
 	/**
+	 * The map from AiOSEO replace var to Yoast replace var.
+	 *
+	 * @var string[]
+	 */
+	protected $replace_var_map = [
+		'#author_first_name' => '%%author_first_name%%',
+		'#author_last_name'  => '%%author_last_name%%',
+		'#author_name'       => '%%name%%',
+		'#categories'        => '%%category%%',
+		'#current_date'      => '%%currentdate%%',
+		'#current_day'       => '%%currentday%%',
+		'#current_month'     => '%%currentmonth%%',
+		'#current_year'      => '%%currentyear%%',
+		'#permalink'         => '%%permalink%%',
+		'#post_content'      => '%%post_content%%',
+		'#post_date'         => '%%date%%',
+		'#post_day'          => '%%post_day%%',
+		'#post_month'        => '%%post_month%%',
+		'#post_title'        => '%%title%%',
+		'#post_year'         => '%%post_year%%',
+		'#post_excerpt_only' => '%%excerpt_only%%',
+		'#post_excerpt'      => '%%excerpt%%',
+		'#separator_sa'      => '%%sep%%',
+		'#site_title'        => '%%sitename%%',
+		'#tagline'           => '%%sitedesc%%',
+		'#taxonomy_title'    => '%%category_title%%',
+	];
+
+	/**
 	 * Aioseo_Posts_Import_Action constructor.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexables repository.
@@ -140,7 +169,7 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 			}
 
 			if ( ! empty( $aioseo_indexable[ $prop ] ) ) {
-				$indexable->{$value} = $aioseo_indexable[ $prop ];
+				$indexable->{$value} = $this->map_replace_vars( $aioseo_indexable[ $prop ] );
 			}
 		}
 
@@ -162,6 +191,26 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 
 			$this->meta->set_value( $value, $indexable->{$prop}, $indexable->object_id );
 		}
+	}
+
+	/**
+	 * Maps the AiOSEO replace vars to our own replace vars.
+	 *
+	 * @param string $text The text to replace the replace vars in.
+	 *
+	 * @return string The text with the AiOSEO replace vars replaced with our own.
+	 */
+	private function map_replace_vars( $text ) {
+		// Standard replace vars.
+		foreach ( $this->replace_var_map as $aioseo_replace_var => $yoast_replace_var ) {
+			$text = \str_replace( $aioseo_replace_var, $yoast_replace_var, $text );
+		}
+
+		// Custom fields.
+		$text = \preg_replace( '/#custom_field-(\w+)/', '%%cf_$1%%', $text );
+
+		// Custom taxonomies.
+		return \preg_replace( '/#tax_name-(\w+)/', '%%ct_$1%%', $text );
 	}
 
 	/**

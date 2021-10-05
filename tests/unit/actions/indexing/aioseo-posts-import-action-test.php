@@ -182,4 +182,54 @@ class Aioseo_Posts_Import_Action_Test extends TestCase {
 
 		$this->assertNull( $indexable->twitter_description );
 	}
+
+	/**
+	 * Tests the mapping of AiOSEO replace vars to our own.
+	 *
+	 * @dataProvider replace_var_test_provider
+	 *
+	 * @covers ::map
+	 *
+	 * @param string $original The original text, with AiOSEO replace vars.
+	 * @param string $expected The expected text, with all AiOSEO replace vars replaced with our own.
+	 */
+	public function test_map_title_replace_var( $original, $expected ) {
+		$indexable      = Mockery::mock( Indexable_Mock::class );
+		$indexable->orm = Mockery::mock( ORM::class );
+
+		$aioseio_indexable = [
+			'title'               => $original,
+			'description'         => $original,
+			'og_title'            => $original,
+			'og_description'      => $original,
+			'twitter_title'       => $original,
+			'twitter_description' => $original,
+		];
+
+		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
+
+		$this->assertEquals( $expected, $indexable->title );
+		$this->assertEquals( $expected, $indexable->description );
+		$this->assertEquals( $expected, $indexable->open_graph_title );
+		$this->assertEquals( $expected, $indexable->open_graph_description );
+		$this->assertEquals( $expected, $indexable->twitter_title );
+		$this->assertEquals( $expected, $indexable->twitter_description );
+	}
+
+	/**
+	 * Test provider for testing the mapping of AiOSEO replace vars to our replace vars.
+	 *
+	 * @return string[][] Test data.
+	 */
+	public function replace_var_test_provider() {
+		return [
+			[ 'A text with a #post_title.', 'A text with a %%title%%.' ],
+			[ 'A text with a #author_last_name.', 'A text with a %%author_last_name%%.' ],
+			[ 'A text with a #author_last_name#non-existing-var.', 'A text with a %%author_last_name%%#non-existing-var.' ],
+			[ 'A text #permalink.', 'A text %%permalink%%.' ],
+			[ 'A text #custom_field-some_field.', 'A text %%cf_some_field%%.' ],
+			[ 'A text #tax_name-some_tax.', 'A text %%ct_some_tax%%.' ],
+			[ 'A text #tax_name-some_tax #custom_field-some_field.', 'A text %%ct_some_tax%% %%cf_some_field%%.' ],
+		];
+	}
 }
