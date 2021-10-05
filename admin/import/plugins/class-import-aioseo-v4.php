@@ -215,7 +215,7 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 	// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 	/**
-	 * Detects whether there is AIOSEO data to import from its custom table.
+	 * Detects whether there is AIOSEO data to import from their custom table.
 	 *
 	 * @return bool Boolean indicating whether there is something to import.
 	 */
@@ -225,7 +225,7 @@ class WPSEO_Import_AIOSEO_V4 extends WPSEO_Plugin_Importer {
 	}
 
 	/**
-	 * Detects whether there is AIOSEO data to import from its custom table.
+	 * Actually AIOSEO data from their custom table.
 	 *
 	 * @return void
 	 */

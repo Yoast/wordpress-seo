@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 
 /**
- * General reindexing action for indexables.
+ * Importing action for AIOSEO post data.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
@@ -69,7 +69,7 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	];
 
 	/**
-	 * Indexable_General_Indexation_Action constructor.
+	 * Aioseo_Posts_Import_Action constructor.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexables repository.
 	 * @param wpdb                 $wpdb                 The WordPress database instance.
@@ -82,9 +82,9 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * Returns the total number of unindexed objects.
+	 * Returns the total number of unimported objects.
 	 *
-	 * @return int The total number of unindexed objects.
+	 * @return int The total number of unimported objects.
 	 */
 	public function get_total_unindexed() {
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is is already prepared.
@@ -96,7 +96,7 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * Creates indexables for unindexed system pages, the date archive, and the homepage.
+	 * Imports AIOSEO meta data and creates the respective Yoast indexables and postmeta.
 	 *
 	 * @return void
 	 */
@@ -120,13 +120,13 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 			$this->map_to_postmeta( $indexable );
 		}
 
-		if ( \get_site_option( static::IMPORT_CURSOR_VALUE ) < $aioseo_indexable['id'] ) {
+		if ( \get_site_option( static::IMPORT_CURSOR_VALUE, 0 ) < $aioseo_indexable['id'] ) {
 			\update_site_option( static::IMPORT_CURSOR_VALUE, $aioseo_indexable['id'] );
 		}
 	}
 
 	/**
-	 * Creates indexables for unindexed system pages, the date archive, and the homepage.
+	 * Maps AIOSEO meta data to Yoast meta data.
 	 *
 	 * @param Indexable $indexable        The Yoast indexable.
 	 * @param array     $aioseo_indexable The AIOSEO indexable.
@@ -165,7 +165,7 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * Returns the number of objects that will be indexed in a single indexing pass.
+	 * Returns the number of objects that will be imported in a single importing pass.
 	 *
 	 * @return int The limit.
 	 */
@@ -185,9 +185,9 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * Check which indexables already exist and return the values of the ones to create.
+	 * Checks which AIOSEO indexables are to be imported next, if any.
 	 *
-	 * @return array The indexable types to create.
+	 * @return array The indexables to import.
 	 */
 	private function query() {
 		$indexable_table = $this->wpdb->prefix . 'aioseo_posts';
