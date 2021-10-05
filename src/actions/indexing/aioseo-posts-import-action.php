@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Actions\Indexing;
 use wpdb;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Helpers\Meta_Helper;
 
 /**
  * General reindexing action for indexables.
@@ -32,6 +33,13 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	 */
 	protected $wpdb;
 
+	/**
+	 * The Meta helper.
+	 *
+	 * @var Meta_Helper
+	 */
+	protected $meta;
+
 	protected $aioseo_to_yoast_map = [
 			'title'                  => 'title',
 			'description'            => 'description',
@@ -41,15 +49,26 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 			'twitter_description'    => 'twitter_description',
 	];
 
+	protected $yoast_to_postmeta = [
+		'title'                  => 'title',
+		'description'            => 'metadesc',
+		'open_graph_title'       => 'opengraph-title',
+		'open_graph_description' => 'opengraph-description',
+		'twitter_title'          => 'twitter-title',
+		'twitter_description'    => 'twitter-description',
+	];
+
 	/**
 	 * Indexable_General_Indexation_Action constructor.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexables repository.
 	 * @param wpdb                 $wpdb                 The WordPress database instance.
+	 * @param Meta_Helper          $meta                 The Meta helper.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository, wpdb $wpdb ) {
+	public function __construct( Indexable_Repository $indexable_repository, wpdb $wpdb, Meta_Helper $meta ) {
 		$this->indexable_repository = $indexable_repository;
 		$this->wpdb                 = $wpdb;
+		$this->meta                 = $meta;
 	}
 
 	/**
@@ -82,9 +101,13 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 			if ( ! \is_a( $indexable, 'Yoast\WP\SEO\Models\Indexable' ) ) {
 				continue;
 			}
+
 			$indexable = $this->map( $indexable, $aioseo_indexable );
 
 			$indexable->save();
+
+			// To ensure that indexables can be rebuild after a reset, we have to store the data in the postmeta table too.
+			$this->map_to_postmeta( $indexable );
 		}
 
 		if ( get_site_option(static::IMPORT_CURSOR_VALUE) < $aioseo_indexable['id'] ) {
@@ -113,6 +136,24 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 		}
 
 		return $indexable;
+	}
+
+	/**
+	 * Creates postmeta from a Yoast indexable.
+	 *
+	 * @param Indexable $indexable The Yoast indexable.
+	 *
+	 * @return void.
+	 */
+	public function map_to_postmeta( $indexable ) {
+		foreach ( $this->yoast_to_postmeta as $prop => $value ) {
+			if ( empty( $indexable->{$prop} ) ) {
+				continue;
+			}
+			
+			$this->meta->set_value( $value, $indexable->{$prop}, $indexable->object_id );
+
+		}
 	}
 
 	/**
