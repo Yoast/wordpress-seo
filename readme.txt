@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.8
-Stable tag: 17.2.1
+Stable tag: 17.3
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -239,6 +239,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 17.3 =
 Release Date: October 5th, 2021
 
+Yoast SEO 17.3 is out today! This release includes general bug fixes to some SEO assessments and improvements to indexables data management. Now is as good a time as any to start optimizing your content with Yoast SEO! Read more about what's new in Yoast SEO 17.3 in [our release post](https://yoa.st/release-17-3)!
+
 Enhancements:
 
 * Improves the accuracy of the Keyphrase in slug assessment by correctly detecting multi-word keyphrases with at least one hyphenated word in the slug.
@@ -248,6 +250,7 @@ Bugfixes:
 
 * Fixes a bug where the meta description bar indicator color would not always match the color of the assessment bullet.
 * Fixes a bug where the placement variables Category, Name and Tag would not show up in the snippet preview.
+* Fixes a bug where the `path` of open graph images of the JSON head would be incorrect.
 
 Other:
 
