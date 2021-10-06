@@ -231,7 +231,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		}
 
 		// Never show a notification when nothing should be indexed.
-		return $this->indexing_helper->get_filtered_unindexed_count() > 0;
+		return $this->indexing_helper->get_limited_filtered_unindexed_count( 1 ) > 0;
 	}
 
 	/**

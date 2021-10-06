@@ -189,6 +189,11 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			->with( 'wpseo_total_unindexed_terms' )
 			->andReturnFalse();
 
+		Functions\expect( 'set_transient' )
+			->once()
+			->with( 'wpseo_total_unindexed_terms', 0, ( \MINUTE_IN_SECONDS * 15 ) )
+			->andReturn( true );
+
 		$this->taxonomy
 			->expects( 'get_public_taxonomies' )
 			->once()

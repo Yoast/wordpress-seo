@@ -108,6 +108,11 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT )
 			->andReturn( false );
 
+		Functions\expect( 'set_transient' )
+			->once()
+			->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT, 0, ( \MINUTE_IN_SECONDS * 15 ) )
+			->andReturn( true );
+
 		$this->post_type_helper
 			->expects( 'get_accessible_post_types' )
 			->once()
@@ -157,6 +162,11 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT )
 			->andReturn( false );
+
+		Functions\expect( 'set_transient' )
+			->once()
+			->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT, 0, ( \MINUTE_IN_SECONDS * 15 ) )
+			->andReturn( true );
 
 		$this->post_type_helper
 			->expects( 'get_accessible_post_types' )
