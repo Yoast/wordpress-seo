@@ -82,9 +82,9 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * Returns the total number of unimported objects.
+	 * Returns the (limited) total number of unimported objects.
 	 *
-	 * @return int The total number of unimported objects.
+	 * @return int The (limited) total number of unimported objects.
 	 */
 	public function get_total_unindexed() {
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is is already prepared.
