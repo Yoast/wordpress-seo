@@ -195,9 +195,7 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 		$cursor = \get_site_option( static::IMPORT_CURSOR_VALUE, 0 );
 		$limit  = $this->get_limit();
 
-		$replacements = [ $cursor, $limit ];
-
-		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		return $this->wpdb->prepare(
 			"
 			SELECT *
@@ -205,8 +203,9 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 			WHERE id > %d
 			ORDER BY id
 			LIMIT %d",
-			$replacements
+			$cursor,
+			$limit
 		);
-		// phpcs:enable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 }
