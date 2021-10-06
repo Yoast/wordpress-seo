@@ -111,9 +111,9 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * Returns the total number of unimported objects.
+	 * Returns the (limited) total number of unimported objects.
 	 *
-	 * @return int The total number of unimported objects.
+	 * @return int The (limited) total number of unimported objects.
 	 */
 	public function get_total_unindexed() {
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is is already prepared.
@@ -244,9 +244,7 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 		$cursor = \get_site_option( static::IMPORT_CURSOR_VALUE, 0 );
 		$limit  = $this->get_limit();
 
-		$replacements = [ $cursor, $limit ];
-
-		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		return $this->wpdb->prepare(
 			"
 			SELECT *
@@ -254,8 +252,9 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 			WHERE id > %d
 			ORDER BY id
 			LIMIT %d",
-			$replacements
+			$cursor,
+			$limit
 		);
-		// phpcs:enable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 }
