@@ -185,9 +185,9 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * Checks which AIOSEO indexables are to be imported next, if any.
+	 * Creates a query for gathering AiOSEO data from the database.
 	 *
-	 * @return array The indexables to import.
+	 * @return string The query to use for importing or counting the number of items to import.
 	 */
 	private function query() {
 		$indexable_table = $this->wpdb->prefix . 'aioseo_posts';
