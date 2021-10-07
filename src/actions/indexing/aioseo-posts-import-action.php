@@ -102,6 +102,7 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is is already prepared.
 		$aioseo_indexables = $this->wpdb->get_results( $this->query(), ARRAY_A );
 
+		$last_indexed_aioseo_id = 0;
 		foreach ( $aioseo_indexables as $aioseo_indexable ) {
 			$indexable = $this->indexable_repository->find_by_id_and_type( $aioseo_indexable['post_id'], 'post' );
 
@@ -111,15 +112,16 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 			}
 
 			$indexable = $this->map( $indexable, $aioseo_indexable );
-
 			$indexable->save();
 
 			// To ensure that indexables can be rebuild after a reset, we have to store the data in the postmeta table too.
 			$this->map_to_postmeta( $indexable );
+
+			$last_indexed_aioseo_id = $aioseo_indexable['id'];
 		}
 
-		if ( \get_site_option( static::IMPORT_CURSOR_VALUE, 0 ) < $aioseo_indexable['id'] ) {
-			\update_site_option( static::IMPORT_CURSOR_VALUE, $aioseo_indexable['id'] );
+		if ( \get_site_option( static::IMPORT_CURSOR_VALUE, 0 ) < $last_indexed_aioseo_id ) {
+			\update_site_option( static::IMPORT_CURSOR_VALUE, $last_indexed_aioseo_id );
 		}
 	}
 
