@@ -119,7 +119,7 @@ class Aioseo_Posts_Import_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the mapping of indexable data.
+	 * Tests the mapping of indexable data when we have an empty Yoast indexable.
 	 *
 	 * @covers ::map
 	 */
@@ -147,7 +147,7 @@ class Aioseo_Posts_Import_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the mapping of indexable data.
+	 * Tests the mapping of indexable data when we have existing data in the Yoast indexable.
 	 *
 	 * @covers ::map
 	 */
@@ -178,7 +178,7 @@ class Aioseo_Posts_Import_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the mapping of indexable data.
+	 * Tests the mapping of indexable data when we have missing data from the AIOSEO indexable.
 	 *
 	 * @covers ::map
 	 */
