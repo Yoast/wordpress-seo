@@ -836,6 +836,7 @@ class WPSEO_Upgrade {
 	 * Schedules a cleanup of the database, cleaning out unused data.
 	 */
 	private function retrigger_cleanup() {
+		// The hooks that are unscheduled here have since been renamed.
 		\wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
 		\wp_unschedule_hook( 'wpseo_cleanup_indexables' );
 

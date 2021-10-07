@@ -319,7 +319,7 @@ class Cleanup_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Cleans up the old prominent word versions from the database.
+	 * Cleans up the old prominent word versions from the postmeta table in the database.
 	 *
 	 * @param int $limit The maximum number of prominent word version numbers to clean in one go.
 	 *
