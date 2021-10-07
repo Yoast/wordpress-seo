@@ -98,7 +98,7 @@ class Aioseo_Posts_Import_Action_Test extends TestCase {
 			->andReturn( true );
 
 
-		$indexable = $this->instance->map_to_postmeta( $indexable );
+		$this->instance->map_to_postmeta( $indexable );
 	}
 
 	/**
@@ -115,7 +115,7 @@ class Aioseo_Posts_Import_Action_Test extends TestCase {
 		$this->meta->expects( 'set_value' )
 			->never();
 
-		$indexable = $this->instance->map_to_postmeta( $indexable );
+		$this->instance->map_to_postmeta( $indexable );
 	}
 
 	/**
