@@ -134,13 +134,13 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	 * @return Indexable[] The created indexables.
 	 */
 	public function map( $indexable, $aioseo_indexable ) {
-		foreach ( $this->aioseo_to_yoast_map as $prop => $value ) {
-			if ( ! empty( $indexable->{$value} ) ) {
+		foreach ( $this->aioseo_to_yoast_map as $aioseo_key => $yoast_key ) {
+			if ( ! empty( $indexable->{$yoast_key} ) ) {
 				continue;
 			}
 
-			if ( ! empty( $aioseo_indexable[ $prop ] ) ) {
-				$indexable->{$value} = $aioseo_indexable[ $prop ];
+			if ( ! empty( $aioseo_indexable[ $aioseo_key ] ) ) {
+				$indexable->{$yoast_key} = $aioseo_indexable[ $aioseo_key ];
 			}
 		}
 
@@ -155,12 +155,12 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	 * @return void.
 	 */
 	public function map_to_postmeta( $indexable ) {
-		foreach ( $this->yoast_to_postmeta as $prop => $value ) {
-			if ( empty( $indexable->{$prop} ) ) {
+		foreach ( $this->yoast_to_postmeta as $indexable_column => $post_meta_key ) {
+			if ( empty( $indexable->{$indexable_column} ) ) {
 				continue;
 			}
 
-			$this->meta->set_value( $value, $indexable->{$prop}, $indexable->object_id );
+			$this->meta->set_value( $post_meta_key, $indexable->{$indexable_column}, $indexable->object_id );
 		}
 	}
 
