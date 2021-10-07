@@ -131,7 +131,7 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 	 * @param Indexable $indexable        The Yoast indexable.
 	 * @param array     $aioseo_indexable The AIOSEO indexable.
 	 *
-	 * @return Indexable[] The created indexables.
+	 * @return Indexable The created indexables.
 	 */
 	public function map( $indexable, $aioseo_indexable ) {
 		foreach ( $this->aioseo_to_yoast_map as $aioseo_key => $yoast_key ) {
