@@ -89,6 +89,9 @@ class Cleanup_Integration implements Integration_Interface {
 				'clean_indexables_by_post_status_auto-draft' => function( $limit ) {
 					return $this->clean_indexables_with_post_status( 'auto-draft', $limit );
 				},
+				'clean_old_prominent_word_entries' => function( $limit ) {
+					return $this->cleanup_old_prominent_words( $limit );
+				},
 			],
 			$this->get_additional_tasks(),
 			[
@@ -273,6 +276,72 @@ class Cleanup_Integration implements Integration_Interface {
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
 		return $wpdb->query( $sql );
 	}
+
+	/**
+	 * Cleans up old style prominent words from the database.
+	 *
+	 * @param int $limit The maximum amount of old prominent words to clean up in one go. Defaults to 1000.
+	 *
+	 * @return int The number of deleted rows.
+	 */
+	public function cleanup_old_prominent_words( $limit = 1000 ) {
+		global $wpdb;
+
+		$taxonomy_ids = $this->retrieve_prominent_word_taxonomies( $wpdb, $limit );
+
+		if ( \count( $taxonomy_ids ) === 0 ) {
+			return 0;
+		}
+
+		$nr_of_deleted_rows = $this->delete_prominent_word_taxonomies_and_terms( $wpdb, $taxonomy_ids );
+
+		if ( $nr_of_deleted_rows === false ) {
+			// Failed query.
+			return 0;
+		}
+
+		return $nr_of_deleted_rows;
+	}
+
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+
+	/**
+	 * Retrieve a list of prominent word taxonomy IDs.
+	 *
+	 * @param \wpdb $wpdb  The WordPress database object.
+	 * @param int   $limit The maximum amount of prominent word taxonomies to retrieve.
+	 *
+	 * @return string[] A list of prominent word taxonomy IDs (of size 'limit').
+	 */
+	protected function retrieve_prominent_word_taxonomies( $wpdb, $limit ) {
+		return $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE taxonomy = %s LIMIT %d",
+				[ 'yst_prominent_words', $limit ]
+			)
+		);
+	}
+
+	/**
+	 * Deletes the given list of taxonomies and their terms.
+	 *
+	 * @param \wpdb    $wpdb         The WordPress database object.
+	 * @param string[] $taxonomy_ids The IDs of the taxonomies to remove and their corresponding terms.
+	 *
+	 * @return bool|int `false` if the query failed, the amount of rows deleted otherwise.
+	 */
+	protected function delete_prominent_word_taxonomies_and_terms( $wpdb, $taxonomy_ids ) {
+		return $wpdb->query(
+			$wpdb->prepare(
+				"DELETE t, tr, tt FROM {$wpdb->term_taxonomy} tt
+				LEFT JOIN {$wpdb->terms} t ON tt.term_id = t.term_id 
+				LEFT JOIN {$wpdb->term_relationships} tr ON tt.term_taxonomy_id = tr.term_taxonomy_id 
+				WHERE tt.term_taxonomy_id IN ( " . \implode( ', ', \array_fill( 0, \count( $taxonomy_ids ), '%s' ) ) . ' )',
+				$taxonomy_ids
+			)
+		);
+	}
+	// phpcs:enable
 
 	/**
 	 * Cleans orphaned rows from a yoast table.

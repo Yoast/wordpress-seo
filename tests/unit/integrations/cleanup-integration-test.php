@@ -42,8 +42,11 @@ class Cleanup_Integration_Test extends TestCase {
 
 		global $wpdb;
 
-		$wpdb         = Mockery::mock( 'wpdb' );
-		$wpdb->prefix = 'wp_';
+		$wpdb                     = Mockery::mock( 'wpdb' );
+		$wpdb->prefix             = 'wp_';
+		$wpdb->term_taxonomy      = 'wp_term_taxonomy';
+		$wpdb->terms              = 'wp_terms';
+		$wpdb->term_relationships = 'wp_term_relationships';
 
 		$this->wpdb = $wpdb;
 	}
@@ -109,6 +112,8 @@ class Cleanup_Integration_Test extends TestCase {
 
 		/* Clean up of seo links target ids for deleted indexables */
 		$this->setup_cleanup_orphaned_from_table_mocks( 50, 'SEO_Links', 'target_indexable_id', $query_limit );
+
+		$this->setup_cleanup_old_prominent_words();
 
 		$this->instance->run_cleanup();
 	}
@@ -450,5 +455,135 @@ class Cleanup_Integration_Test extends TestCase {
 			->once()
 			->with( "DELETE FROM {$table} WHERE {$column} IN( " . \implode( ',', $ids ) . ' )' )
 			->andReturn( 50 );
+	}
+
+	/**
+	 * Tests the cleanup of the old prominent words from the database.
+	 *
+	 * @covers ::cleanup_old_prominent_words
+	 * @covers ::retrieve_prominent_word_taxonomies
+	 * @covers ::delete_prominent_word_taxonomies_and_terms
+	 */
+	public function setup_cleanup_old_prominent_words() {
+		$limit = 1000;
+
+		$this->wpdb->expects( 'prepare' )
+			->with(
+				'SELECT term_taxonomy_id FROM wp_term_taxonomy WHERE taxonomy = %s LIMIT %d',
+				[ 'yst_prominent_words', $limit ]
+			)
+			->andReturn(
+				'SELECT term_taxonomy_id FROM wp_term_taxonomy WHERE taxonomy = \'yst_prominent_words\' LIMIT 1000'
+			);
+
+		$this->wpdb->expects( 'get_col' )
+			->with( 'SELECT term_taxonomy_id FROM wp_term_taxonomy WHERE taxonomy = \'yst_prominent_words\' LIMIT 1000' )
+			->andReturn( [ 1, 4, 32 ] );
+
+		$this->wpdb->expects( 'prepare' )
+			->with(
+				'DELETE t, tr, tt FROM wp_term_taxonomy tt
+				LEFT JOIN wp_terms t ON tt.term_id = t.term_id 
+				LEFT JOIN wp_term_relationships tr ON tt.term_taxonomy_id = tr.term_taxonomy_id 
+				WHERE tt.term_taxonomy_id IN ( %s, %s, %s )',
+				[ 1, 4, 32 ]
+			)
+			->andReturn(
+				'DELETE t, tr, tt FROM wp_term_taxonomy tt 
+				LEFT JOIN wp_terms t ON tt.term_id = t.term_id 
+				LEFT JOIN wp_term_relationships tr ON tt.term_taxonomy_id = tr.term_taxonomy_id 
+				WHERE tt.term_taxonomy_id IN ( 1, 4, 32 )'
+			);
+
+		$this->wpdb->expects( 'query' )
+			->with(
+				'DELETE t, tr, tt FROM wp_term_taxonomy tt 
+				LEFT JOIN wp_terms t ON tt.term_id = t.term_id 
+				LEFT JOIN wp_term_relationships tr ON tt.term_taxonomy_id = tr.term_taxonomy_id 
+				WHERE tt.term_taxonomy_id IN ( 1, 4, 32 )'
+			)
+			->andReturn( 10 );
+
+	}
+
+	/**
+	 * Tests that no old prominent word taxonomies are cleaned up when there is nothing to clean.
+	 *
+	 * @covers ::cleanup_old_prominent_words
+	 * @covers ::retrieve_prominent_word_taxonomies
+	 */
+	public function test_cleanup_old_prominent_words_nothing_to_clean() {
+		$limit = 1000;
+
+		$this->wpdb->expects( 'prepare' )
+			->with(
+				'SELECT wp_taxonomy_id FROM wp_term_taxonomy WHERE taxonomy = %s LIMIT %d',
+				[ 'yst_prominent_words', $limit ]
+			)
+			->andReturn(
+				'SELECT term_taxonomy_id FROM wp_term_taxonomy WHERE taxonomy = \'yst_prominent_words\' LIMIT 1000'
+			);
+
+		$this->wpdb->expects( 'get_col' )
+			->with( 'SELECT term_taxonomy_id FROM wp_term_taxonomy WHERE taxonomy = \'yst_prominent_words\' LIMIT 1000' )
+			->andReturn( [] );
+
+		self::assertEquals(
+			0,
+			$this->instance->cleanup_old_prominent_words( $limit )
+		);
+	}
+
+	/**
+	 * Tests the cleanup of the old prominent words from the database.
+	 *
+	 * @covers ::cleanup_old_prominent_words
+	 * @covers ::retrieve_prominent_word_taxonomies
+	 * @covers ::delete_prominent_word_taxonomies_and_terms
+	 */
+	public function test_cleanup_old_prominent_words_query_fails() {
+		$limit = 1000;
+
+		$this->wpdb->expects( 'prepare' )
+			->with(
+				'SELECT term_taxonomy_id FROM wp_term_taxonomy WHERE taxonomy = %s LIMIT %d',
+				[ 'yst_prominent_words', $limit ]
+			)
+			->andReturn(
+				'SELECT term_taxonomy_id FROM wp_term_taxonomy WHERE taxonomy = \'yst_prominent_words\' LIMIT 1000'
+			);
+
+		$this->wpdb->expects( 'get_col' )
+			->with( 'SELECT term_taxonomy_id FROM wp_term_taxonomy WHERE taxonomy = \'yst_prominent_words\' LIMIT 1000' )
+			->andReturn( [ 1, 4, 32 ] );
+
+		$this->wpdb->expects( 'prepare' )
+			->with(
+				'DELETE t, tr, tt FROM wp_term_taxonomy tt
+				LEFT JOIN wp_terms t ON tt.term_id = t.term_id 
+				LEFT JOIN wp_term_relationships tr ON tt.term_taxonomy_id = tr.term_taxonomy_id 
+				WHERE tt.term_taxonomy_id IN ( %s, %s, %s )',
+				[ 1, 4, 32 ]
+			)
+			->andReturn(
+				'DELETE t, tr, tt FROM wp_term_taxonomy tt 
+				LEFT JOIN wp_terms t ON tt.term_id = t.term_id 
+				LEFT JOIN wp_term_relationships tr ON tt.term_taxonomy_id = tr.term_taxonomy_id 
+				WHERE tt.term_taxonomy_id IN ( 1, 4, 32 )'
+			);
+
+		$this->wpdb->expects( 'query' )
+			->with(
+				'DELETE t, tr, tt FROM wp_term_taxonomy tt 
+				LEFT JOIN wp_terms t ON tt.term_id = t.term_id 
+				LEFT JOIN wp_term_relationships tr ON tt.term_taxonomy_id = tr.term_taxonomy_id 
+				WHERE tt.term_taxonomy_id IN ( 1, 4, 32 )'
+			)
+			->andReturn( false );
+
+		self::assertEquals(
+			0,
+			$this->instance->cleanup_old_prominent_words( $limit )
+		);
 	}
 }
