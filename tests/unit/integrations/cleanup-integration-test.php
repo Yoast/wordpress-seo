@@ -530,7 +530,6 @@ class Cleanup_Integration_Test extends TestCase {
 				WHERE tt.term_taxonomy_id IN ( 1, 4, 32 )'
 			)
 			->andReturn( 10 );
-
 	}
 
 	/**
