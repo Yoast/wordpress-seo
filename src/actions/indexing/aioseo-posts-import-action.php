@@ -90,9 +90,7 @@ class Aioseo_Posts_Import_Action implements Indexation_Action_Interface {
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is is already prepared.
 		$indexables_to_create = $this->wpdb->get_col( $this->query() );
 
-		$result = \count( $indexables_to_create );
-
-		return $result;
+		return \count( $indexables_to_create );
 	}
 
 	/**
