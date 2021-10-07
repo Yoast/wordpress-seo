@@ -858,20 +858,6 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Re-triggers the cleanup of old things from the database.
-	 *
-	 * @return void
-	 */
-	private function retrigger_cleanup() {
-		\wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
-		\wp_unschedule_hook( 'wpseo_cleanup_indexables' );
-
-		if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
-			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
-		}
-	}
-
-	/**
 	 * Sets the home_url option for the 15.1 upgrade routine.
 	 *
 	 * @return void
