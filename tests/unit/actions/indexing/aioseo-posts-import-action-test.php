@@ -2,14 +2,12 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexing;
 
-use Brain\Monkey;
 use Mockery;
-use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Actions\Indexing\Aioseo_Posts_Import_Action;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
-use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
