@@ -89,6 +89,9 @@ class Cleanup_Integration implements Integration_Interface {
 				'clean_indexables_by_post_status_auto-draft' => function( $limit ) {
 					return $this->clean_indexables_with_post_status( 'auto-draft', $limit );
 				},
+				'clean_old_prominent_word_version_numbers' => function( $limit ) {
+					return $this->cleanup_old_prominent_word_version_numbers( $limit );
+				},
 			],
 			$this->get_additional_tasks(),
 			[
@@ -313,5 +316,26 @@ class Cleanup_Integration implements Integration_Interface {
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
 		return $wpdb->query( "DELETE FROM $table WHERE {$column} IN( " . \implode( ',', $orphans ) . ' )' );
+	}
+
+	/**
+	 * Cleans up the old prominent word versions from the postmeta table in the database.
+	 *
+	 * @param int $limit The maximum number of prominent word version numbers to clean in one go.
+	 *
+	 * @return bool|int The number of cleaned up prominent word version numbers, or `false` if the query failed.
+	 */
+	protected function cleanup_old_prominent_word_version_numbers( $limit ) {
+		global $wpdb;
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+		$query = $wpdb->prepare(
+			"DELETE FROM {$wpdb->postmeta} WHERE meta_key = %s LIMIT %d",
+			[ '_yst_prominent_words_version', $limit ]
+		);
+		// phpcs:enable
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
+		return $wpdb->query( $query );
 	}
 }

@@ -78,6 +78,7 @@ class Cleanup_Integration_Test extends TestCase {
 	 * @covers ::clean_indexables_with_object_type_and_object_sub_type
 	 * @covers ::clean_indexables_with_post_status
 	 * @covers ::cleanup_orphaned_from_table
+	 * @covers ::cleanup_old_prominent_word_version_numbers
 	 * @covers ::get_limit
 	 * @covers ::reset_cleanup
 	 */
@@ -109,6 +110,8 @@ class Cleanup_Integration_Test extends TestCase {
 
 		/* Clean up of seo links target ids for deleted indexables */
 		$this->setup_cleanup_orphaned_from_table_mocks( 50, 'SEO_Links', 'target_indexable_id', $query_limit );
+
+		$this->setup_cleanup_old_prominent_words_versions( $query_limit );
 
 		$this->instance->run_cleanup();
 	}
@@ -353,6 +356,30 @@ class Cleanup_Integration_Test extends TestCase {
 		$this->setup_clean_indexables_with_post_status_mocks( 50, 'auto-draft', 1000 );
 
 		$this->instance->run_cleanup_cron();
+	}
+
+	/**
+	 * Sets up the expectations for the cleanup old prominent words versions task.
+	 *
+	 * @param int $limit The query limit.
+	 *
+	 * @return void
+	 */
+	private function setup_cleanup_old_prominent_words_versions( $limit ) {
+		$this->wpdb->postmeta = $this->wpdb->prefix . 'postmeta';
+
+		$this->wpdb->expects( 'prepare' )
+			->with(
+				'DELETE FROM wp_postmeta WHERE meta_key = %s LIMIT %d',
+				[ '_yst_prominent_words_version', $limit ]
+			)
+			->andReturn(
+				'DELETE FROM wp_postmeta WHERE meta_key = \'_yst_prominent_words_version\' LIMIT ' . $limit
+			);
+
+		$this->wpdb->expects( 'query' )
+			->with( 'DELETE FROM wp_postmeta WHERE meta_key = \'_yst_prominent_words_version\' LIMIT ' . $limit )
+			->andReturn( 3 );
 	}
 
 	/**
