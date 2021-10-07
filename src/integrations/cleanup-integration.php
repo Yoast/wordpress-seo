@@ -325,7 +325,7 @@ class Cleanup_Integration implements Integration_Interface {
 	 *
 	 * @return bool|int The number of cleaned up prominent word version numbers, or `false` if the query failed.
 	 */
-	protected function cleanup_old_prominent_word_version_numbers( $limit = 1000 ) {
+	protected function cleanup_old_prominent_word_version_numbers( $limit ) {
 		global $wpdb;
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
