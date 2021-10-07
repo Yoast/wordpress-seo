@@ -36,6 +36,20 @@ class Aioseo_Posts_Import_Action_Test extends TestCase {
 	protected $indexable_repository;
 
 	/**
+	 * The mocked WordPress database object.
+	 *
+	 * @var Mockery\MockInterface|\wpdb
+	 */
+	protected $wpdb;
+
+	/**
+	 * The mocked meta helper.
+	 *
+	 * @var Mockery\MockInterface|Meta_Helper
+	 */
+	protected $meta;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
