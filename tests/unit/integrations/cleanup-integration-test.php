@@ -517,7 +517,7 @@ class Cleanup_Integration_Test extends TestCase {
 
 		$this->wpdb->expects( 'prepare' )
 			->with(
-				'SELECT wp_taxonomy_id FROM wp_term_taxonomy WHERE taxonomy = %s LIMIT %d',
+				'SELECT term_taxonomy_id FROM wp_term_taxonomy WHERE taxonomy = %s LIMIT %d',
 				[ 'yst_prominent_words', $limit ]
 			)
 			->andReturn(
