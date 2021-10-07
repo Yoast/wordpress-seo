@@ -47,6 +47,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Implements the consecutive sentences assessment for Greek to ensure variety in a text.
 * Adds Greek transition words and activates the transition words assessment.
 * Adds a language folder and Researcher for Greek. 
+* Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
 
 
 ## 1.92.0

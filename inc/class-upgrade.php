@@ -74,8 +74,8 @@ class WPSEO_Upgrade {
 			'16.2-RC0'   => 'upgrade_162',
 			'16.5-RC0'   => 'upgrade_165',
 			'17.1-RC0'   => 'upgrade_171',
-			'17.2-RC0'   => 'upgrade_172',
-			'17.4-RC0'   => 'upgrade_174',
+			'17.2-RC0'   => 'retrigger_cleanup',
+			'17.4-RC0'   => 'retrigger_cleanup',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -833,21 +833,16 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 17.2 upgrade. Cleans out any unnecessary indexables. See $cleanup_integration->get_cleanup_tasks() to see what will be cleaned out.
-	 *
-	 * @return void
+	 * Schedules a cleanup of the database, cleaning out unused data.
 	 */
-	private function upgrade_172() {
-		$this->retrigger_cleanup();
-	}
+	private function retrigger_cleanup() {
+		// The hooks that are unscheduled here have since been renamed.
+		\wp_unschedule_hook( 'wpseo_cleanup_orphaned_indexables' );
+		\wp_unschedule_hook( 'wpseo_cleanup_indexables' );
 
-	/**
-	 * Performs the 17.2 upgrade. Schedules the cleanup integration if it's no already scheduled.
-	 *
-	 * @return void
-	 */
-	private function upgrade_174() {
-		$this->retrigger_cleanup();
+		if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
+			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
+		}
 	}
 
 	/**
