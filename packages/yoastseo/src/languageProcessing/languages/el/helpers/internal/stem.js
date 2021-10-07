@@ -24,54 +24,25 @@
  * https://github.com/Apmats/greekstemmerjs
  */
 
-import { languageProcessing } from "yoastseo";
-const { createSingleRuleFromArray, createRulesFromArrays } = languageProcessing;
+import getMorphologyData from "../../../../../../spec/specHelpers/getMorphologyData";
+import { matchAndStemWordWithRegexArray, matchAndStemWordWithOneRegex, matchAndStemWord } from "./stemHelpers";
 
 /**
- * Checks if the input character is a Greek vowel.
+ * Checks if a word is in the exception list of step 1 stemming process.
  *
- * @param {string} char             The character to be checked.
+ * @param {string} word             The word to check.
  * @param {Object} morphologyData   The Greek morphology data.
- *
- * @returns {boolean} Whether the input character is a Russian vowel.
+ * @returns {string}    The stem of the word.
  */
-const isVowel = function( char, morphologyData ) {
-	return morphologyData.externalStemmer.vowels.includes( char );
-};
-
-/**
- * Checks whether the word ends in a suffix, and removes it if it does.
- *
- * @param {string}		word		The word to check.
- * @param {string[]}	suffixes	The suffixes to check.
- *
- * @returns {string}	The word with the suffix removed or the input word if no suffix was found.
- */
-const removeSuffix = function removeSuffix(word, suffixes) {
-	for ( const suffix of suffixes ) {
-		if ( word.endsWith( suffix ) ) {
-			return word.slice( 0, -suffix.length );
-		}
+function checkExceptionStep1( word, morphologyData ) {
+	const exceptions = morphologyData.externalStemmer.step1Exceptions;
+	const regex = new RegExp( "(.*)(" + Object.keys( exceptions ).join( "|" ) + ")$" );
+	const match = regex.exec( word );
+	if ( match !== null ) {
+		word = match[ 1 ] + exceptions[ match[ 2 ] ];
 	}
 	return word;
-};
-
-/**
- * Checks whether a word is in the full-form exception list and if so returns the canonical stem.
- *
- * @param {string} word	      The word to be checked.
- * @param {Object} exceptions The list of full-form exceptions to be checked in.
- *
- * @returns {null|string} The canonical stem or null if nothing was found.
- */
-const checkWordInFullFormExceptions = function( word, exceptions ) {
-	for ( const paradigm of exceptions ) {
-		if ( paradigm[ 1 ].includes( word ) ) {
-			return paradigm[ 0 ];
-		}
-	}
-	return null;
-};
+}
 
 /**
  * Stems suffixes from step 1.
@@ -81,43 +52,23 @@ const checkWordInFullFormExceptions = function( word, exceptions ) {
  *
  * @returns {string}     The word without suffixes or the original word if no such suffix is found.
  */
-function removeEndingsStep1( word, morphologyData ) {
-	const suffixesStep1 = morphologyData.externalStemmer.suffixesStep1;
+function stemWordStep1( word, morphologyData ) {
+	const regexesStep1 = morphologyData.externalStemmer.suffixesStep1;
+	const regexes1 = new RegExp( regexesStep1.regexesArray1 );
+	const regexes2 = regexesStep1.regexesArray2;
+	const endings = regexesStep1.step1Endings;
+	let match;
+	if ( ( match = new RegExp( regexesStep1.regexStep1a ).exec( word ) ) !== null ) {
+		word = match[ 1 ];
+		if ( ! new RegExp( regexesStep1.regexStep1b ).test( word ) ) {
+			word += "αδ";
+		}
+	}
+	word = matchAndStemWordWithRegexArray( word, regexes1, regexes2, endings );
 
-	if ( word.endsWith( suffixesStep1.suffixesStep1a ) ) {
-		// Return the word without the suffix
-		return word.slice( 0, -4 );
-	}
-	if ( word.endsWith( suffixesStep1.suffixesStep1b ) ) {
-		// Remove suffix and add ΑΔ
-		return word.slice( 0, -suffix.length ) + "ΑΔ";
-	}
-	if ( word.endsWith( suffixesStep1.suffixesStep1c ) ) {
-		// Remove the suffix
-		return word.slice( 0, -4 );
-	}
-	if ( word.endsWith( suffixesStep1.suffixesStep1d ) ) {
-		// Remove the suffix and add ΕΔ
-		return word.slice( 0, -suffix.length ) + "ΕΔ";
-	}
-	if ( word.endsWith( suffixesStep1.suffixesStep1e ) ) {
-		// Remove the suffix
-		return word.slice( 0, -5 );
-	}
-	if ( word.endsWith( suffixesStep1.suffixesStep1f ) ) {
-		// Remove the suffix and add ΟΥΔ
-		return word.slice( 0, -suffix.length ) + "ΟΥΔ";
-	}
-	if ( word.endsWith( suffixesStep1.suffixesStep1f ) ) {
-		// Remove the suffix
-		return word.slice( 0, -suffix.length );
-	}
-	if ( word.endsWith( suffixesStep1.suffixesStep1f ) ) {
-		// Remove the suffix and add Ε
-		return word.slice( 0, -suffix.length ) + "Ε";
-	}
 	return word;
 }
+
 /**
  * Stems suffixes from step 2.
  *
@@ -126,63 +77,199 @@ function removeEndingsStep1( word, morphologyData ) {
  *
  * @returns {string}     The word without suffixes or the original word if no such suffix is found.
  */
-// 3a and 3b in orginial stemmer
-function removeEndingsStep2( word, morphologyData ) {
-	const suffixesStep2 = morphologyData.externalStemmer.suffixesStep2;
-	// Checks if the part of the word preceding the endingis at least 4 letters
-	if ( word.length >= 7 ) {
-		// Removes suffix
-		if ( word.endsWith( suffixesStep2.suffixesStep2a ) ) {
-			return word.slice( 0, -suffix.length );
-		}
-		// 3b in original stemmer, not finished
-		if ( word.endsWith( suffixesStep2.suffixesStep2b ) ) {
-			return word.slice( 0, -suffix.length ) + "Ι";
-		}
-		return word;
+function stemWordStep2( word, morphologyData ) {
+	const regexesStep2 = morphologyData.externalStemmer.regexesStep2;
+	const vowelRegex1 = new RegExp( morphologyData.externalStemmer.vowelRegex1 );
+	let match;
+	if ( ( match = new RegExp( regexesStep2.regex2a ).exec( word ) ) !== null && match[ 1 ].length > 4 ) {
+		word = match[ 1 ];
 	}
-	/**
-	 * Stems suffixes from step 3.
-	 *
-	 * @param {string} word             The word to stem.
-	 * @param {Object} morphologyData   The Greek morphology data.
-	 *
-	 * @returns {string}     The word without suffixes or the original word if no such suffix is found.
-	 */
-	function removeEndingsStep3( word, morphologyData ) {
-		const suffixesStep1 = morphologyData.externalStemmer.suffixesStep3;
+	if ( ( match = new RegExp( regexesStep2.regex2b ).exec( word ) !== null ) ) {
+		word = match[ 1 ];
+		if ( vowelRegex1.test( word ) || word.length < 2 || new RegExp( regexesStep2.regex2c ).test( match[ 1 ] ) ) {
+			word += "ι";
+		}
+		if ( new RegExp( regexesStep2.regex2d ).test( match[ 1 ] ) ) {
+			word += "αι";
+		}
+	}
+	return word;
+}
 
-		if ( word.endsWith( suffixesStep1.suffixesStep3a ) ) {
-			// Return the word without the suffix
-			return word.slice( 0, -suffix.length );
+/**
+ * Stems suffixes from step 3.
+ *
+ * @param {string} word             The word to stem.
+ * @param {Object} morphologyData   The Greek morphology data.
+ *
+ * @returns {string}     The word without suffixes or the original word if no such suffix is found.
+ */
+function stemWordStep3( word, morphologyData ) {
+	const vowelRegex1 = new RegExp( morphologyData.externalStemmer.vowelRegex1 );
+	const regexesStep3 = morphologyData.externalStemmer.regexesStep3;
+	let match;
+	if ( ( match = new RegExp( regexesStep3.regex3a ).exec( word ) ) !== null ) {
+		word = match[ 1 ];
+		if ( vowelRegex1.test( word ) || new RegExp( regexesStep3.regex3b ).test( word ) || new RegExp( regexesStep3.regex3c ).test( word ) ) {
+			word += "ικ";
 		}
-		if ( word.endsWith( isVowel())  ) {
-			// Remove suffix and add ΑΔ
-			return word.slice( 0, -suffix.length ) + "ΑΔ";
+	}
+	return word;
+}
+
+/**
+ * Stems suffixes from step 4.
+ *
+ * @param {string} word             The word to stem.
+ * @param {Object} morphologyData   The Greek morphology data.
+ *
+ * @returns {string}     The word without suffixes or the original word if no such suffix is found.
+ */
+function stemWordStep4( word, morphologyData ) {
+	const regexesStep4 = morphologyData.externalStemmer.regexesStep4;
+	const vowelRegex1 = morphologyData.externalStemmer.vowelRegex1;
+	const vowelRegex2 = morphologyData.externalStemmer.vowelRegex2;
+	let match;
+	if ( word === "αγαμε" ) {
+		return "αγαμ";
+	}
+
+	word = matchAndStemWordWithOneRegex( word, regexesStep4.regex4a );
+
+	word = matchAndStemWordWithRegexArray( word, regexesStep4.regexesArray1a, regexesStep4.regexesArray1b, regexesStep4.step4Endings1 );
+
+	word = matchAndStemWord( word, regexesStep4.regex4b, vowelRegex2, regexesStep4.regex4c, "αν" );
+
+	word = matchAndStemWordWithOneRegex( word, regexesStep4.regex4d );
+
+	if ( ( match = new RegExp( regexesStep4.regex4e ).exec( word ) ) !== null ) {
+		word = match[ 1 ];
+		if ( vowelRegex2.test( word ) || new RegExp( regexesStep4.regex4f ).test( word ) ||
+			new RegExp( regexesStep4.regex4g ).test( word ) ) {
+			word += "ετ";
 		}
-		if ( word.endsWith( suffixesStep1.suffixesStep1c ) ) {
-			// Remove the suffix
-			return word.slice( 0, -4 );
+	}
+
+	if ( ( match = new RegExp( regexesStep4.regex4h ).exec( word ) ) !== null ) {
+		word = match[ 1 ];
+		if ( new RegExp( regexesStep4.regex4i ).test( match[ 1 ] ) ) {
+			word += "οντ";
+		} else if ( new RegExp( regexesStep4.regex4j ).test( match[ 1 ] ) ) {
+			word += "ωντ";
 		}
-		if ( word.endsWith( suffixesStep1.suffixesStep1d ) ) {
-			// Remove the suffix and add ΕΔ
-			return word.slice( 0, -suffix.length ) + "ΕΔ";
+	}
+	word = matchAndStemWordWithRegexArray( word, regexesStep4.regexesArray2a, regexesStep4.regexesArray2b, regexesStep4.step4Endings2 );
+
+	word = matchAndStemWordWithOneRegex( word, regexesStep4.regex4k );
+
+	word = matchAndStemWord( word, regexesStep4.regex4l, regexesStep4.regex4m, regexesStep4.regex4n, "ηκ" );
+
+	if ( ( match = new RegExp( regexesStep4.regex4o ).exec( word ) ) !== null ) {
+		word = match[ 1 ];
+		if ( vowelRegex1.test( word ) || new RegExp( regexesStep4.regex4p ).test( match[ 1 ] ) ||
+			new RegExp( regexesStep4.regex4q ).test( match[ 1 ] ) ) {
+			word += "ους";
 		}
-		if ( word.endsWith( suffixesStep1.suffixesStep1e ) ) {
-			// Remove the suffix
-			return word.slice( 0, -5 );
+	}
+
+	if ( ( match = new RegExp( regexesStep4.regex4r ).exec( word ) ) !== null ) {
+		word = match[ 1 ];
+		if ( new RegExp( regexesStep4.regex4s ).test( word ) ||
+			( new RegExp( regexesStep4.regex4t ).test( word ) && ! new RegExp( regexesStep4.regex4u ).test( word ) ) ||
+			new RegExp( regexesStep4.regex4v ).test( word ) ) {
+			word += "αγ";
 		}
-		if ( word.endsWith( suffixesStep1.suffixesStep1f ) ) {
-			// Remove the suffix and add ΟΥΔ
-			return word.slice( 0, -suffix.length ) + "ΟΥΔ";
+	}
+	word = matchAndStemWordWithRegexArray( word, regexesStep4.regexesArray3a, regexesStep4.regexesArray3b, regexesStep4.step4Endings3 );
+
+	return word;
+}
+
+/**
+ * Stems suffixes from step 5.
+ *
+ * @param {string} word             The word to stem.
+ * @param {Object} morphologyData   The Greek morphology data.
+ *
+ * @returns {string}     The word without suffixes or the original word if no such suffix is found.
+ */
+function stemWordStep5( word, morphologyData ) {
+	const regexesStep5 = morphologyData.externalStemmer.regexesStep5;
+	let match;
+	if ( ( match = new RegExp( regexesStep5.regex5a ).exec( word ) ) !== null ) {
+		word = match[ 1 ] + "μ";
+		if ( new RegExp( regexesStep5.regex5b ).test( match[ 1 ] ) ) {
+			word += "α";
+		} else if ( new RegExp( regexesStep5.regex5c ).test( match[ 1 ] ) ) {
+			word += "ατ";
 		}
-		if ( word.endsWith( suffixesStep1.suffixesStep1f ) ) {
-			// Remove the suffix
-			return word.slice( 0, -suffix.length );
+	}
+
+	if ( ( match = new RegExp( regexesStep5.regex5d ).exec( word ) ) !== null ) {
+		word = match[ 1 ] + "ου";
+	}
+
+	return word;
+}
+
+/**
+ * Stems suffixes from step 6.
+ *
+ * @param {string} word             The word to stem.
+ * @param {Object} morphologyData   The Greek morphology data.
+ *
+ * @returns {string}     The word without suffixes or the original word if no such suffix is found.
+ */
+function stemWordStep6( word, morphologyData ) {
+	const regexesStep6 = morphologyData.externalStemmer.regexesStep6;
+
+	let match;
+	if ( ( match = new RegExp( regexesStep6.regex6a ).exec( word ) ) !== null ) {
+		if ( ! new RegExp( regexesStep6.regex6b ).test( match[ 1 ] ) ) {
+			word = match[ 1 ];
 		}
-		if ( word.endsWith( suffixesStep1.suffixesStep1f ) ) {
-			// Remove the suffix and add Ε
-			return word.slice( 0, -suffix.length ) + "Ε";
+		if ( new RegExp( regexesStep6.regex6c ).test( match[ 1 ] ) ) {
+			word += "υτ";
 		}
+	}
+
+	return word;
+}
+
+/**
+ * Stems Greek words
+ *
+ * @param {string} word           The word to stem.
+ * @param {Object} morphologyData The object that contains regex-based rules and exception lists for Greek stemming.
+ *
+ * @returns {string} The stem of an Greek word.
+ */
+export default function stem( word, morphologyData ) {
+	const originalWord = word;
+	const doNotStemWords = morphologyData.externalStemmer.doNotStemWords;
+	if ( word.length < 3 || doNotStemWords.include( word ) ) {
 		return word;
 	}
+	// Check for exceptions first before proceeding to the next step.
+	word = checkExceptionStep1( word, morphologyData );
+	// Step 1
+	word = stemWordStep1( word, morphologyData );
+	// Step 2
+	word = stemWordStep2( word, morphologyData );
+	// Step 3
+	word = stemWordStep3( word, morphologyData );
+	// Step 4
+	word = stemWordStep4( word, morphologyData );
+	// Step 5
+	word = stemWordStep5( word, morphologyData );
+
+	// Handle long words.
+	const longWordRegex = morphologyData.externalStemmer.longWordRegex;
+	if ( originalWord.length === word.length ) {
+		word = matchAndStemWordWithOneRegex( word, longWordRegex );
+	}
+	// Step 6
+	word = stemWordStep6( word, morphologyData );
+
+	return word;
+}
