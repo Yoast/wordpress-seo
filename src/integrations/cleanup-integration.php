@@ -331,7 +331,7 @@ class Cleanup_Integration implements Integration_Interface {
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		$query = $wpdb->prepare(
 			"DELETE FROM {$wpdb->postmeta} WHERE meta_key = %s LIMIT %d",
-			[ '_yst_prominent_words', $limit ]
+			[ '_yst_prominent_words_version', $limit ]
 		);
 		// phpcs:enable
 

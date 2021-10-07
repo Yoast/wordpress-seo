@@ -371,14 +371,14 @@ class Cleanup_Integration_Test extends TestCase {
 		$this->wpdb->expects( 'prepare' )
 			->with(
 				'DELETE FROM wp_postmeta WHERE meta_key = %s LIMIT %d',
-				[ '_yst_prominent_words', $limit ]
+				[ '_yst_prominent_words_version', $limit ]
 			)
 			->andReturn(
-				'DELETE FROM wp_postmeta WHERE meta_key = \'_yst_prominent_words\' LIMIT 1000'
+				'DELETE FROM wp_postmeta WHERE meta_key = \'_yst_prominent_words_version\' LIMIT 1000'
 			);
 
 		$this->wpdb->expects( 'query' )
-			->with( 'DELETE FROM wp_postmeta WHERE meta_key = \'_yst_prominent_words\' LIMIT 1000' )
+			->with( 'DELETE FROM wp_postmeta WHERE meta_key = \'_yst_prominent_words_version\' LIMIT 1000' )
 			->andReturn( 3 );
 	}
 
