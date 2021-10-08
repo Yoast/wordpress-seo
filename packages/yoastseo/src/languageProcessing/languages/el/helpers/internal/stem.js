@@ -53,14 +53,14 @@ function checkExceptionStep1( word, morphologyData ) {
  * @returns {string}     The word without suffixes or the original word if no such suffix is found.
  */
 function stemWordStep1( word, morphologyData ) {
-	const regexesStep1 = morphologyData.externalStemmer.suffixesStep1;
-	const regexes1 = new RegExp( regexesStep1.regexesArray1 );
+	const regexesStep1 = morphologyData.externalStemmer.regexesStep1;
+	const regexes1 = regexesStep1.regexesArray1;
 	const regexes2 = regexesStep1.regexesArray2;
 	const endings = regexesStep1.step1Endings;
 	let match;
-	if ( ( match = new RegExp( regexesStep1.regexStep1a ).exec( word ) ) !== null ) {
+	if ( ( match = new RegExp( regexesStep1.regex1a ).exec( word ) ) !== null ) {
 		word = match[ 1 ];
-		if ( ! new RegExp( regexesStep1.regexStep1b ).test( word ) ) {
+		if ( ! new RegExp( regexesStep1.regex1b ).test( word ) ) {
 			word += "αδ";
 		}
 	}
@@ -84,8 +84,9 @@ function stemWordStep2( word, morphologyData ) {
 	if ( ( match = new RegExp( regexesStep2.regex2a ).exec( word ) ) !== null && match[ 1 ].length > 4 ) {
 		word = match[ 1 ];
 	}
-	if ( ( match = new RegExp( regexesStep2.regex2b ).exec( word ) !== null ) ) {
+	if ( ( match = new RegExp( regexesStep2.regex2b ).exec( word ) ) !== null ) {
 		word = match[ 1 ];
+
 		if ( vowelRegex1.test( word ) || word.length < 2 || new RegExp( regexesStep2.regex2c ).test( match[ 1 ] ) ) {
 			word += "ι";
 		}
@@ -136,7 +137,7 @@ function stemWordStep4( word, morphologyData ) {
 
 	word = matchAndStemWordWithOneRegex( word, regexesStep4.regex4a );
 
-	word = matchAndStemWordWithRegexArray( word, regexesStep4.regexesArray1a, regexesStep4.regexesArray1b, regexesStep4.step4Endings1 );
+	word = matchAndStemWordWithRegexArray( word, regexesStep4.regexesArray1a, regexesStep4.regexesArray1b, regexesStep4.step4Endings2 );
 
 	word = matchAndStemWord( word, regexesStep4.regex4b, vowelRegex2, regexesStep4.regex4c, "αν" );
 
@@ -144,7 +145,7 @@ function stemWordStep4( word, morphologyData ) {
 
 	if ( ( match = new RegExp( regexesStep4.regex4e ).exec( word ) ) !== null ) {
 		word = match[ 1 ];
-		if ( vowelRegex2.test( word ) || new RegExp( regexesStep4.regex4f ).test( word ) ||
+		if ( new RegExp( vowelRegex2 ).test( word ) || new RegExp( regexesStep4.regex4f ).test( word ) ||
 			new RegExp( regexesStep4.regex4g ).test( word ) ) {
 			word += "ετ";
 		}
@@ -166,7 +167,7 @@ function stemWordStep4( word, morphologyData ) {
 
 	if ( ( match = new RegExp( regexesStep4.regex4o ).exec( word ) ) !== null ) {
 		word = match[ 1 ];
-		if ( vowelRegex1.test( word ) || new RegExp( regexesStep4.regex4p ).test( match[ 1 ] ) ||
+		if ( new RegExp( vowelRegex1 ).test( word ) || new RegExp( regexesStep4.regex4p ).test( match[ 1 ] ) ||
 			new RegExp( regexesStep4.regex4q ).test( match[ 1 ] ) ) {
 			word += "ους";
 		}
@@ -247,19 +248,24 @@ function stemWordStep6( word, morphologyData ) {
 export default function stem( word, morphologyData ) {
 	const originalWord = word;
 	const doNotStemWords = morphologyData.externalStemmer.doNotStemWords;
-	if ( word.length < 3 || doNotStemWords.include( word ) ) {
+	if ( word.length < 3 || doNotStemWords.includes( word ) ) {
 		return word;
 	}
 	// Check for exceptions first before proceeding to the next step.
 	word = checkExceptionStep1( word, morphologyData );
+
 	// Step 1
 	word = stemWordStep1( word, morphologyData );
+
 	// Step 2
 	word = stemWordStep2( word, morphologyData );
+
 	// Step 3
 	word = stemWordStep3( word, morphologyData );
+
 	// Step 4
 	word = stemWordStep4( word, morphologyData );
+
 	// Step 5
 	word = stemWordStep5( word, morphologyData );
 
