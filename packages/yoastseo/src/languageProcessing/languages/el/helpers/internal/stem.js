@@ -1,3 +1,4 @@
+/* eslint-disable max-statements,complexity */
 /**
  * MIT License
  *
@@ -24,7 +25,6 @@
  * https://github.com/Apmats/greekstemmerjs
  */
 
-import getMorphologyData from "../../../../../../spec/specHelpers/getMorphologyData";
 import { matchAndStemWordWithRegexArray, matchAndStemWordWithOneRegex, matchAndStemWord } from "./stemHelpers";
 
 /**
