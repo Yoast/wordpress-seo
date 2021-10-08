@@ -54,9 +54,7 @@ function checkExceptionStep1( word, morphologyData ) {
  */
 function stemWordStep1( word, morphologyData ) {
 	const regexesStep1 = morphologyData.externalStemmer.regexesStep1;
-	const regexes1 = regexesStep1.regexesArray1;
-	const regexes2 = regexesStep1.regexesArray2;
-	const endings = regexesStep1.step1Endings;
+	const regexesArrays = regexesStep1.regexesArrays;
 	let match;
 	if ( ( match = new RegExp( regexesStep1.regex1a ).exec( word ) ) !== null ) {
 		word = match[ 1 ];
@@ -64,7 +62,7 @@ function stemWordStep1( word, morphologyData ) {
 			word += "αδ";
 		}
 	}
-	word = matchAndStemWordWithRegexArray( word, regexes1, regexes2, endings );
+	word = matchAndStemWordWithRegexArray( word, regexesArrays[ 0 ], regexesArrays[ 1 ], regexesArrays[ 2 ] );
 
 	return word;
 }
@@ -128,6 +126,7 @@ function stemWordStep3( word, morphologyData ) {
  */
 function stemWordStep4( word, morphologyData ) {
 	const regexesStep4 = morphologyData.externalStemmer.regexesStep4;
+	const regexesArrays = regexesStep4.regexesArrays;
 	const vowelRegex1 = morphologyData.externalStemmer.vowelRegex1;
 	const vowelRegex2 = morphologyData.externalStemmer.vowelRegex2;
 	let match;
@@ -137,7 +136,7 @@ function stemWordStep4( word, morphologyData ) {
 
 	word = matchAndStemWordWithOneRegex( word, regexesStep4.regex4a );
 
-	word = matchAndStemWordWithRegexArray( word, regexesStep4.regexesArray1a, regexesStep4.regexesArray1b, regexesStep4.step4Endings2 );
+	word = matchAndStemWordWithRegexArray( word, regexesArrays.arrays1[ 0 ], regexesArrays.arrays1[ 1 ], regexesArrays.arrays1[ 2 ] );
 
 	word = matchAndStemWord( word, regexesStep4.regex4b, vowelRegex2, regexesStep4.regex4c, "αν" );
 
@@ -159,7 +158,7 @@ function stemWordStep4( word, morphologyData ) {
 			word += "ωντ";
 		}
 	}
-	word = matchAndStemWordWithRegexArray( word, regexesStep4.regexesArray2a, regexesStep4.regexesArray2b, regexesStep4.step4Endings2 );
+	word = matchAndStemWordWithRegexArray( word, regexesArrays.arrays2[ 0 ], regexesArrays.arrays2[ 1 ], regexesArrays.arrays2[ 2 ] );
 
 	word = matchAndStemWordWithOneRegex( word, regexesStep4.regex4k );
 
@@ -181,7 +180,7 @@ function stemWordStep4( word, morphologyData ) {
 			word += "αγ";
 		}
 	}
-	word = matchAndStemWordWithRegexArray( word, regexesStep4.regexesArray3a, regexesStep4.regexesArray3b, regexesStep4.step4Endings3 );
+	word = matchAndStemWordWithRegexArray( word, regexesArrays.arrays3[ 0 ], regexesArrays.arrays3[ 1 ], regexesArrays.arrays3[ 2 ] );
 
 	return word;
 }
