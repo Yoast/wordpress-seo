@@ -25,17 +25,7 @@ jobs:
   fast_finish: true
   include:
     - php: 7.2
-      env: PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=14
-    - php: 7.4
-      name: "PHP 7.4: Check CS"
-      before_install: skip
-      before_script: skip
-      install:
-        - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
-        - travis_retry composer install --no-interaction
-      script:
-        - composer check-cs-threshold
-      after_script: skip
+      env: CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=14
     - php: 7.3.24
       env: WP_VERSION=latest WP_MULTISITE=1 COVERAGE=1
     - php: 5.6
@@ -116,7 +106,6 @@ cache:
   yarn: true
   directories:
     - $HOME/.composer/cache
-    - .cache
     - node_modules
 
 before_install:
@@ -295,9 +284,6 @@ script:
       vendor/bin/phpunit --coverage-php /tmp/coverage/tests.cov
       travis_time_finish && travis_fold end "PHP.coverage"
     fi
-  # Validate the composer.json file.
-  # @link https://getcomposer.org/doc/03-cli.md#validate
-  - if [[ $TRAVIS_PHP_VERSION == "5.6" || $TRAVIS_PHP_VERSION == "7.4" ]]; then composer validate --no-check-all; fi
 
   # Check for known security vulnerabilities in the currently locked-in dependencies.
   - if [[ "$SECURITY" == "1" ]]; then $SECURITYCHECK_DIR/local-php-security-checker_1.2.0_linux_amd64 --path=$(pwd)/composer.lock;fi

@@ -1,0 +1,75 @@
+name: CS
+
+on:
+  # Run on all pushes (except to master) and on all pull requests.
+  push:
+    branches-ignore:
+      - 'master'
+  pull_request:
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
+
+# Cancels all previous workflow runs for the same branch that have not yet completed.
+concurrency:
+  # The concurrency group contains the workflow name and the branch name.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checkcs:
+    name: 'Check code style'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Determine the base branch for the file diff
+        id: base_branch
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "::set-output name=NAME::$BASE_REF"
+            echo "::set-output name=REF::origin/$BASE_REF"
+          else
+            echo '::set-output name=NAME::trunk'
+            echo "::set-output name=REF::origin/trunk"
+          fi
+
+      - name: Fetch base branch
+        run: git fetch --no-tags --depth=1 origin ${{ steps.base_branch.outputs.NAME }}
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+          tools: cs2pr
+
+      # Validate the composer.json file.
+      # @link https://getcomposer.org/doc/03-cli.md#validate
+      - name: Validate Composer installation
+        run: composer validate --no-check-all
+
+      # Install dependencies and handle caching in one go.
+      # @link https://github.com/marketplace/actions/install-composer-dependencies
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v2
+
+      # Check the codestyle of the files against a threshold of expected errors and warnings.
+      - name: Check PHP code style against the threshold
+        run: composer check-cs-threshold
+
+      # Check the codestyle only of the files which were changed in the current branch.
+      # This step will only be executed if the threshold check exited with a failure status.
+      # The results of this CS check will be shown inline in the PR via the CS2PR tool.
+      # @link https://github.com/staabm/annotate-pull-request-from-checkstyle/
+      - name: Check PHP code style for the changes made in the branch only
+        if: ${{ failure() }}
+        continue-on-error: true
+        run: composer check-branch-cs -- ${{ steps.base_branch.outputs.REF }}
+
+      - name: Show PHPCS results in PR
+        if: ${{ failure() }}
+        run: cs2pr ./phpcs-report.xml
