@@ -336,9 +336,17 @@ TPL;
 		echo 'Running coding standards checks, this may take some time.', \PHP_EOL;
 		$command = 'composer check-cs-warnings -- -mq --report="YoastCS\\Yoast\\Reports\\Threshold"';
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Non-WP context, this is fine.
-		@\passthru( $command, $return );
+		@\exec( $command, $phpcs_output, $return );
 
-		if ( \defined( 'YOASTCS_ABOVE_THRESHOLD' ) && \YOASTCS_ABOVE_THRESHOLD === true ) {
+		$phpcs_output = \implode( \PHP_EOL, $phpcs_output );
+		echo $phpcs_output;
+
+		$above_threshold = true;
+		if ( \strpos( $phpcs_output, 'Coding standards checks have passed!' ) !== false ) {
+			$above_threshold = false;
+		}
+
+		if ( $above_threshold === true ) {
 			echo \PHP_EOL;
 			echo 'Running check-branch-cs.', \PHP_EOL;
 			echo 'This might show problems on untouched lines. Focus on the lines you\'ve changed first.', \PHP_EOL;
@@ -348,7 +356,7 @@ TPL;
 			@\passthru( 'composer check-branch-cs' );
 		}
 
-		exit( ( ( \defined( 'YOASTCS_ABOVE_THRESHOLD' ) && \YOASTCS_ABOVE_THRESHOLD === true ) || $return > 2 ) ? $return : 0 );
+		exit( ( $above_threshold === true || $return > 2 ) ? $return : 0 );
 	}
 
 	/**
