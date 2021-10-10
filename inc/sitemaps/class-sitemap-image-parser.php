@@ -368,8 +368,12 @@ class WPSEO_Sitemap_Image_Parser {
 		if ( strpos( $file, $uploads['basedir'] ) === 0 ) {
 			$src = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
 		}
-		elseif ( strpos( $file, 'wp-content/uploads' ) !== false ) {
-			$src = $uploads['baseurl'] . substr( $file, ( strpos( $file, 'wp-content/uploads' ) + 18 ) );
+		elseif ( defined( 'UPLOADS' ) && strpos( $file, UPLOADS ) !== false ) {
+			$src = $uploads['baseurl'] . substr( $file, ( strpos( $file, UPLOADS ) + strlen( UPLOADS ) ) );
+		}
+		elseif ( strpos( $file, str_replace( ABSPATH, '', WP_CONTENT_DIR ) . '/uploads' ) !== false ) {
+			$uploads_rel_path = str_replace( ABSPATH, '', WP_CONTENT_DIR ) . '/uploads';
+			$src              = $uploads['baseurl'] . substr( $file, ( strpos( $file, $uploads_rel_path ) + strlen( $uploads_rel_path ) ) );
 		}
 		else {
 			// It's a newly uploaded file, therefore $file is relative to the baseurl.
