@@ -64,17 +64,17 @@ export default function MetaboxFill( { settings } ) {
 				/>
 			</SidebarItem> }
 			{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
-			<SidebarItem key="wincher-seo-performance" renderPriority={ 25 }>
-				<MetaboxCollapsible
-					id={ "yoast-wincher-seo-performance-metabox" }
-					title={ __( "Track SEO performance", "wordpress-seo" ) }
-					initialIsOpen={ false }
-					prefixIcon={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
-					prefixIconCollapsed={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
-				>
-					<WincherSEOPerformance />
-				</MetaboxCollapsible>
-			</SidebarItem> }
+				<SidebarItem key="wincher-seo-performance" renderPriority={ 25 }>
+					<MetaboxCollapsible
+						id={ "yoast-wincher-seo-performance-metabox" }
+						title={ __( "Track SEO performance", "wordpress-seo" ) }
+						initialIsOpen={ false }
+						prefixIcon={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
+						prefixIconCollapsed={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
+					>
+						<WincherSEOPerformance />
+					</MetaboxCollapsible>
+				</SidebarItem> }
 			{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
 				<CollapsibleCornerstone />
 			</SidebarItem> }
