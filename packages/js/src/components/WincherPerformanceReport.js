@@ -51,7 +51,7 @@ const viewLinkUrl = ( props ) => {
 	const { websiteId, id } = props;
 
 	return sprintf(
-		"https://www.wincher.com/websites/%s/keywords?serp=%s&utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
+		"https://app.wincher.com/websites/%s/keywords?serp=%s&utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
 		websiteId,
 		id
 	);

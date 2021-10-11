@@ -21,6 +21,7 @@ export default compose( [
 			getWincherLoginStatus,
 			shouldWincherTrackAll,
 			getWincherTrackedKeyphrasesChartData,
+			getWincherTrackedKeyphrasesChartDataTs,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -36,6 +37,7 @@ export default compose( [
 			isLoggedIn: getWincherLoginStatus(),
 			trackAll: shouldWincherTrackAll(),
 			trackedKeyphrasesChartData: getWincherTrackedKeyphrasesChartData(),
+			chartDataTs: getWincherTrackedKeyphrasesChartDataTs(),
 			websiteId: wincherWebsiteId(),
 		};
 	} ),

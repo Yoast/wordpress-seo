@@ -11,6 +11,7 @@ const INITIAL_STATE = {
 	trackedKeyphrases: {},
 	trackAll: false,
 	chartData: {},
+	chartDataTs: 0,
 };
 
 /**
@@ -44,6 +45,7 @@ function WincherSEOPerformanceReducer( state = INITIAL_STATE, action ) {
 			return {
 				...state,
 				chartData: action.chartData,
+				chartDataTs: Date.now(),
 			};
 	}
 	return state;

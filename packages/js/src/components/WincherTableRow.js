@@ -11,6 +11,7 @@ import { makeOutboundLink } from "@yoast/helpers";
 /* Internal dependencies */
 import AreaChart from "./AreaChart";
 import WincherSEOPerformanceLoading from "./modals/WincherSEOPerformanceLoading";
+import moment from "moment";
 
 const ViewLink = makeOutboundLink();
 
@@ -108,16 +109,11 @@ export function renderToggleState( { keyphrase, isEnabled, toggleAction } ) {
  * Gets the keyphrase position.
  *
  * @param {Object} chartData The chart data to extract the keyphrase position from.
- * @param {Object} ranking   The keyphrase ranking data.
  *
- * @returns {string} The keyphrase position. Returns a "?" if no data is present.
+ * @returns {string} The keyphrase position.
  */
-export function getKeyphrasePosition( chartData, ranking ) {
-	if ( ! isEmpty( ranking ) && ( isEmpty( chartData ) || isEmpty( chartData.position ) ) ) {
-		return "> 100";
-	}
-
-	if ( chartData.position.value > 100 ) {
+export function getKeyphrasePosition( chartData ) {
+	if ( ! chartData || chartData.position.value > 100 ) {
 		return "> 100";
 	}
 
@@ -132,12 +128,15 @@ export function getKeyphrasePosition( chartData, ranking ) {
  * @returns {wp.Element} The rendered element.
  */
 export function getPositionalDataByState( props ) {
-	const { rowData, chartData, websiteId } = props;
+	const { rowData, chartData, chartDataTs, websiteId } = props;
 
 	const isEnabled    = ! isEmpty( rowData );
 	const hasChartData = ! isEmpty( chartData );
+	const isChartDataFresh = rowData && chartDataTs >= new Date( rowData.created_at ).getTime();
+	const updated = rowData && rowData.ranking_updated_at;
+	const isRankingDataFresh = updated && moment( updated ) >= moment().subtract( 7, "days" );
 	const viewLinkURL  = ( rowData ) ? sprintf(
-		"https://www.wincher.com/websites/%s/keywords?serp=%s?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
+		"https://app.wincher.com/websites/%s/keywords?serp=%s&utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
 		websiteId,
 		rowData.id
 	) : null;
@@ -151,8 +150,7 @@ export function getPositionalDataByState( props ) {
 			</Fragment>
 		);
 	}
-
-	if ( ! hasChartData && isEmpty( rowData.ranking ) ) {
+	if ( ! hasChartData && ( ! isRankingDataFresh || ! isChartDataFresh ) ) {
 		return (
 			<Fragment>
 				<td className="yoast-table--nopadding" colSpan="3">
@@ -164,7 +162,7 @@ export function getPositionalDataByState( props ) {
 
 	return (
 		<Fragment>
-			<td>{ getKeyphrasePosition( chartData, rowData.ranking ) }</td>
+			<td>{ getKeyphrasePosition( chartData ) }</td>
 			<td className="yoast-table--nopadding">{ generatePositionOverTimeChart( chartData ) }</td>
 			<td className="yoast-table--nobreak">
 				{
@@ -227,6 +225,7 @@ WincherTableRow.propTypes = {
 	onTrackKeyphrase: PropTypes.func,
 	onUntrackKeyphrase: PropTypes.func,
 	isFocusKeyphrase: PropTypes.bool,
+	chartDataTs: PropTypes.number,
 };
 
 WincherTableRow.defaultProps = {

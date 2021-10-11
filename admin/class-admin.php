@@ -333,9 +333,9 @@ class WPSEO_Admin {
 			'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
 			'wincher_is_logged_in'    => WPSEO_Options::get( 'wincher_integration_active', true ) ? YoastSEO()->helpers->wincher->login_status() : false,
 			'links.wincher.auth_url'  => $this->prepare_wincher_auth_url( \get_site_url() ),
-			'links.wincher.website'   => 'https://www.wincher.com',
-			'links.wincher.pricing'   => 'https://www.wincher.com/pricing',
-			'links.wincher.login'     => 'https://www.wincher.com/login?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
+			'links.wincher.website'   => 'https://www.wincher.com?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
+			'links.wincher.pricing'   => 'https://www.wincher.com/pricing?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
+			'links.wincher.login'     => 'https://app.wincher.com/login?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
 		];
 	}
 
