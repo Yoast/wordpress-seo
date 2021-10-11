@@ -16,8 +16,8 @@ const WincherCurrentlyTrackingAlert = () => {
 				sprintf(
 					/* translators: %s: Expands to "Wincher". */
 					__(
-						"%s is currently tracking the ranking position(s) of your page. This may take a few minutes. " +
-						"Please wait or check back later.",
+						// eslint-disable-next-line max-len
+						"%s is currently tracking the ranking position(s) of your page. This may take a few minutes. Please wait or check back later.",
 						"wordpress-seo"
 					),
 					"Wincher"
