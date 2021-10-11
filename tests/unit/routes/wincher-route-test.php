@@ -249,25 +249,6 @@ class Wincher_Route_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the keyphrase isn't valid, when an empty string or only a space is passed.
-	 *
-	 * @covers ::has_valid_keyphrase
-	 */
-	public function test_is_invalid_keyphrase_with_invalid_keyphrase_given() {
-		$this->assertFalse( $this->instance->has_valid_keyphrase( '' ) );
-		$this->assertFalse( $this->instance->has_valid_keyphrase( ' ' ) );
-	}
-
-	/**
-	 * Tests that the keyphrase isn't valid, when an empty string or only a space is passed.
-	 *
-	 * @covers ::has_valid_keyphrase
-	 */
-	public function test_is_valid_keyphrase_with_valid_keyphrase_given() {
-		$this->assertTrue( $this->instance->has_valid_keyphrase( 'seo' ) );
-	}
-
-	/**
 	 * Tests that the user can use the wincher endpoints.
 	 *
 	 * @covers ::can_use_wincher

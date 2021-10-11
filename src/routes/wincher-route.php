@@ -340,23 +340,12 @@ class Wincher_Route implements Route_Interface {
 	/**
 	 * Checks if a valid website_id was returned.
 	 *
-	 * @param string $website_id The website_id to check.
+	 * @param int $website_id The website_id to check.
 	 *
 	 * @return bool Whether the website_id is valid.
 	 */
 	public function has_valid_website_id( $website_id ) {
-		return $website_id !== '';
-	}
-
-	/**
-	 * Checks if a valid keyphrase is provided.
-	 *
-	 * @param string $keyphrase The keyphrase to check.
-	 *
-	 * @return bool Whether the keyphrase is valid.
-	 */
-	public function has_valid_keyphrase( $keyphrase ) {
-		return \trim( $keyphrase ) !== '';
+		return ! empty( $website_id ) && is_int( $website_id );
 	}
 
 	/**
