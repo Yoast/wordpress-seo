@@ -173,10 +173,10 @@ class Indexable_Builder {
 	 *
 	 * @return bool|Indexable Instance of indexable. False when unable to build.
 	 *
-	 * @deprecated 17.3
+	 * @deprecated 17.5
 	 */
 	public function build_for_id_and_type( $object_id, $object_type, $indexable = false ) {
-		_deprecated_function( __METHOD__, 'WPSEO 17.3', self::class . '::build' ) ;
+		_deprecated_function( __METHOD__, 'WPSEO 17.5', self::class . '::build' ) ;
 
 		$defaults = [
 			'object_type' => $object_type,
@@ -194,9 +194,11 @@ class Indexable_Builder {
 	 * @param Indexable|bool $indexable Optional. An existing indexable to overwrite.
 	 *
 	 * @return Indexable The home page indexable.
+	 *
+	 * @deprecated 17.5
 	 */
 	public function build_for_home_page( $indexable = false ) {
-		\deprecated_function( __METHOD__, '17.4', 'Indexable_Builder::build' );
+		_deprecated_function( __METHOD__, '17.5', 'Indexable_Builder::build' );
 		return $this->build( $indexable, [ 'object_type' => 'home-page' ] );
 	}
 
@@ -206,9 +208,11 @@ class Indexable_Builder {
 	 * @param Indexable|bool $indexable Optional. An existing indexable to overwrite.
 	 *
 	 * @return Indexable The date archive indexable.
+	 *
+	 * @deprecated 17.5
 	 */
 	public function build_for_date_archive( $indexable = false ) {
-		\deprecated_function( __METHOD__, '17.4', 'Indexable_Builder::build' );
+		_deprecated_function( __METHOD__, '17.5', 'Indexable_Builder::build' );
 		return $this->build( $indexable, [ 'object_type' => 'date-archive' ] );
 	}
 
@@ -219,8 +223,11 @@ class Indexable_Builder {
 	 * @param Indexable|bool $indexable Optional. An existing indexable to overwrite.
 	 *
 	 * @return Indexable The post type archive indexable.
+	 *
+	 * @deprecated 17.5
 	 */
 	public function build_for_post_type_archive( $post_type, $indexable = false ) {
+		_deprecated_function( __METHOD__, '17.5', 'Indexable_Builder::build' );
 		$defaults = [
 			'object_type'     => 'post-type-archive',
 			'object_sub_type' => $post_type,
@@ -235,8 +242,11 @@ class Indexable_Builder {
 	 * @param Indexable|bool $indexable Optional. An existing indexable to overwrite.
 	 *
 	 * @return Indexable The search result indexable.
+	 *
+	 * @deprecated 17.5
 	 */
 	public function build_for_system_page( $page_type, $indexable = false ) {
+		_deprecated_function( __METHOD__, '17.5', 'Indexable_Builder::build' );
 		$defaults = [
 			'object_type'     => 'system-page',
 			'object_sub_type' => $page_type,
@@ -293,7 +303,7 @@ class Indexable_Builder {
 	 * Rebuilds an Indexable from scratch.
 	 *
 	 * @param Indexable $indexable The Indexable to (re)build.
-	 * @param array     $defaults  The object type of the Indexable.
+	 * @param array     $defaults  The template in case of for a newly created Indexable.
 	 *
 	 * @return Indexable|false The resulting Indexable.
 	 */
