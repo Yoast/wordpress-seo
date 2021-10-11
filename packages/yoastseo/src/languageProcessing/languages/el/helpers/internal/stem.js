@@ -249,9 +249,10 @@ export default function stem( word, morphologyData ) {
 	word = word.toLocaleUpperCase( "el" );
 
 	const originalWord = word;
+
 	const doNotStemWords = morphologyData.externalStemmer.doNotStemWords;
 	if ( word.length < 3 || doNotStemWords.includes( word ) ) {
-		return word;
+		return word.toLocaleLowerCase( "el" );
 	}
 	// Check for exceptions first before proceeding to the next step.
 	word = checkExceptionStep1( word, morphologyData );
