@@ -18,9 +18,9 @@ describe( "SEMrushCountrySelector", () => {
 			setRequestSucceeded={ noop } setRequestLimitReached={ noop } setRequestFailed={ noop } setNoResultsFound={ noop }
 		/> );
 
-		// component.find( "#yoast-semrush-country-selector-button" ).simulate( "click" );
-		//
-		// expect( onClickMock ).toHaveBeenCalled();
+		component.find( "#yoast-semrush-country-selector-button" ).simulate( "click" );
+
+		expect( onClickMock ).toHaveBeenCalled();
 	} );
 	it( "successfully calls the associated setCountry function when the selected option has changed", () => {
 		const setCountryMock = jest.fn();
