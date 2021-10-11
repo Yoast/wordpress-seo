@@ -64,7 +64,7 @@ const viewLinkUrl = ( props ) => {
  *
  * @returns {wp.Element} The message.
  */
-const notConnectedMessage = ( props ) => {
+const NotConnectedMessage = ( props ) => {
 	const { className, onConnectAction } = props;
 
 	return (
@@ -97,7 +97,7 @@ const notConnectedMessage = ( props ) => {
  *
  * @returns {wp.Element} The message.
  */
-const noTrackedKeyphrasesMessage = ( props ) => {
+const NoTrackedKeyphrasesMessage = ( props ) => {
 	const { className, onTrackAllAction, limits } = props;
 
 	return (
@@ -134,7 +134,7 @@ const noTrackedKeyphrasesMessage = ( props ) => {
  *
  * @returns {wp.Element} The row.
  */
-const createRow = ( id, keyphrase, chartData, websiteId ) => {
+const Row = ( { id, keyphrase, chartData, websiteId } ) => {
 	return (
 		<tr key={ `trackable-keyphrase-${keyphrase}` }>
 			<td>{ keyphrase }</td>
@@ -151,6 +151,17 @@ const createRow = ( id, keyphrase, chartData, websiteId ) => {
 	);
 };
 
+Row.propTypes = {
+	id: PropTypes.number.isRequired,
+	keyphrase: PropTypes.string.isRequired,
+	chartData: PropTypes.object,
+	websiteId: PropTypes.number.isRequired,
+};
+
+Row.defaultProps = {
+	chartData: {},
+};
+
 /**
  * Gets the proper user message based on the current login state and presence of data.
  *
@@ -162,7 +173,7 @@ const getUserMessage = ( props ) => {
 	const { isLoggedIn, data, onConnectAction } = props;
 
 	if ( ! isLoggedIn ) {
-		return notConnectedMessage( props );
+		return <NotConnectedMessage { ...props } />;
 	}
 
 	if ( ! isEmpty( data ) && data.status === 404 ) {
@@ -172,7 +183,7 @@ const getUserMessage = ( props ) => {
 	}
 
 	if ( ! data || isEmpty( data.results ) ) {
-		return noTrackedKeyphrasesMessage( props );
+		return <NoTrackedKeyphrasesMessage { ...props } />;
 	}
 };
 
@@ -226,7 +237,12 @@ const WincherPerformanceReport = ( props ) => {
 					<tbody>
 						{
 							map( data.results, ( entry ) => {
-								return createRow( entry.id, entry.keyword, entry.ranking, websiteId );
+								return <Row
+									id={ entry.id }
+									keyphrase={ entry.keyword }
+									chartData={ entry.ranking }
+									websiteId={ websiteId }
+								/>;
 							} )
 						}
 					</tbody>
