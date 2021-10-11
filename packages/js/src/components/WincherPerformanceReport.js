@@ -169,7 +169,7 @@ Row.defaultProps = {
  *
  * @returns {wp.Element} The user message.
  */
-const getUserMessage = ( props ) => {
+const GetUserMessage = ( props ) => {
 	const { isLoggedIn, data, onConnectAction } = props;
 
 	if ( ! isLoggedIn ) {
@@ -185,6 +185,18 @@ const getUserMessage = ( props ) => {
 	if ( ! data || isEmpty( data.results ) ) {
 		return <NoTrackedKeyphrasesMessage { ...props } />;
 	}
+
+	return null;
+};
+
+GetUserMessage.propTypes = {
+	isLoggedIn: PropTypes.bool.isRequired,
+	data: PropTypes.object,
+	onConnectAction: PropTypes.func.isRequired,
+};
+
+GetUserMessage.defaultProps = {
+	data: {},
 };
 
 /**
@@ -207,7 +219,7 @@ const WincherPerformanceReport = ( props ) => {
 				{ __( "Top performing keyphrases on your site", "wordpress-seo" ) }
 			</WincherSEOPerformanceReportHeader>
 
-			{ getUserMessage( props ) }
+			<GetUserMessage { ...props } />
 
 			{ isLoggedIn && data && ! isEmpty( data ) && ! isEmpty( data.results ) && <Fragment>
 				<table className="yoast yoast-table">

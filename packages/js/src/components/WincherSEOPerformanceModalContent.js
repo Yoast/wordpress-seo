@@ -37,7 +37,7 @@ export function hasError( response ) {
  *
  * @returns {wp.Element} The error message component.
  */
-export function getErrorMessage( response ) {
+const GetErrorMessage = ( { response } ) => {
 	if ( response.status === 400 && response.data && response.data.canTrack === false ) {
 		return <WincherLimitReached
 			limit={ response.data.limit }
@@ -47,6 +47,10 @@ export function getErrorMessage( response ) {
 	return <WincherRequestFailed />;
 }
 
+GetErrorMessage.propTypes = {
+	response: PropTypes.object.isRequired,
+};
+
 /**
  * Gets a user message based on the passed props' values.
  *
@@ -54,26 +58,32 @@ export function getErrorMessage( response ) {
  *
  * @returns {void|wp.Element} The user message.
  */
-export function getUserMessage( props ) {
-	const {
-		isSuccess,
-		response,
-		hasPendingChartRequest,
-		hasTrackedKeyphrases,
-	} = props;
-
+const GetUserMessage = ( { isSuccess, response, hasPendingChartRequest, hasTrackedKeyphrases } ) => {
 	if ( isEmpty( response ) ) {
-		return;
+		return null;
 	}
 
 	if ( ! isSuccess && hasError( response ) ) {
-		return getErrorMessage( response );
+		return <GetErrorMessage response={ response } />;
 	}
 
 	if ( hasTrackedKeyphrases && hasPendingChartRequest ) {
 		return <WincherCurrentlyTrackingAlert />;
 	}
-}
+
+	return null;
+};
+
+GetUserMessage.propTypes = {
+	isSuccess: PropTypes.bool.isRequired,
+	hasPendingChartRequest: PropTypes.bool.isRequired,
+	hasTrackedKeyphrases: PropTypes.bool.isRequired,
+	response: PropTypes.object,
+};
+
+GetUserMessage.defaultProps = {
+	response: {},
+};
 
 /**
  * Renders the Wincher SEO Performance modal content.
@@ -107,7 +117,7 @@ export default function WincherSEOPerformanceModalContent( props ) {
 					/>
 					<WincherExplanation />
 
-					{ getUserMessage( props ) }
+					<GetUserMessage { ...props } />
 
 					<p>{ __( "You can enable / disable tracking the SEO performance for each keyphrase below.", "wordpress-seo" ) }</p>
 
