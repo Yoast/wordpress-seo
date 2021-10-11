@@ -1,5 +1,5 @@
 /* External dependencies */
-import { Fragment, Component } from "@wordpress/element";
+import { Fragment, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import without from "lodash/without";
@@ -16,89 +16,86 @@ import SidebarButton from "./SidebarButton";
 import WincherSEOPerformance from "../containers/WincherSEOPerformance";
 
 /**
- * Redux container for the WincherSEOPerformanceModal modal.
+ * Handles the click event on the "Track SEO performance" button.
+ *
+ * @param {Object} props The props to use.
+ *
+ * @returns {void}
  */
-class WincherSEOPerformanceModal extends Component {
-	/**
-	 * Constructs the WincherSEOPerformanceModal component.
-	 *
-	 * @param {Object} props The properties.
-	 *
-	 * @returns {void}
-	 */
-	constructor( props ) {
-		super( props );
+export function openModal( props ) {
+	const { keyphrases, onNoKeyphraseSet, onOpen, location } = props;
 
-		this.onModalOpen      = this.onModalOpen.bind( this );
-		this.onModalClose     = this.onModalClose.bind( this );
+	if ( without( keyphrases, "", null ).length === 0 ) {
+		onNoKeyphraseSet();
 	}
 
-	/**
-	 * Handles the click event on the "Get related keyphrase" button.
-	 *
-	 * @returns {void}
-	 */
-	onModalOpen() {
-		if ( without( this.props.keyphrases, "", null ).length === 0 ) {
-			this.props.onNoKeyphraseSet();
-		}
+	onOpen( location );
+}
 
-		this.props.onOpen( this.props.location );
+/**
+ * Handles the close event for the modal.
+ *
+ * @param {Object} props The props to use.
+ * @param {Event} event The event passed to the closeModal.
+ *
+ * @returns {void}
+ */
+export function closeModal( props, event ) {
+	if ( ! isCloseEvent( event ) ) {
+		return;
 	}
 
-	/**
-	 * Handles the close event for the modal.
-	 *
-	 * @param {Event} event The event passed to the onRequestClose.
-	 *
-	 * @returns {void}
-	 */
-	onModalClose( event ) {
-		if ( ! isCloseEvent( event ) ) {
-			return;
-		}
+	props.onClose();
+}
 
-		this.props.onClose();
-	}
+/**
+ * The WincherSEOPerformanceModal modal.
+ *
+ * @param {Object} props The props to use.
+ *
+ * @returns {wp.Element} The WincherSEOPerformanceModal.
+ */
+export default function WincherSEOPerformanceModal( props ) {
+	const { location, whichModalOpen } = props;
 
-	/**
-	 * Renders the WincherSEOPerformanceModal modal component.
-	 *
-	 * @returns {wp.Element} The WincherSEOPerformanceModal modal component.
-	 */
-	render() {
-		const { location, whichModalOpen } = this.props;
-		const title = __( "Track SEO performance", "wordpress-seo" );
+	const onModalOpen = useCallback( () => {
+		openModal( props );
+	}, [ openModal, props ] );
 
-		return (
-			<Fragment>
-				{ whichModalOpen === location &&
-				<Modal
-					title={ title }
-					onRequestClose={ this.onModalClose }
-					icon={ <YoastIcon /> }
-					additionalClassName="yoast-wincher-seo-performance-modal"
+	const onModalClose = useCallback( ( event ) => {
+		closeModal( props, event );
+	}, [ closeModal, props ] );
+
+	const title = __( "Track SEO performance", "wordpress-seo" );
+
+	return (
+		<Fragment>
+			{ whichModalOpen === location &&
+			<Modal
+				title={ title }
+				onRequestClose={ onModalClose }
+				icon={ <YoastIcon /> }
+				additionalClassName="yoast-wincher-seo-performance-modal"
+			>
+				<ModalContainer
+					className="yoast-gutenberg-modal__content yoast-wincher-seo-performance-modal__content"
 				>
-					<ModalContainer
-						className="yoast-gutenberg-modal__content yoast-wincher-seo-performance-modal__content"
-					>
-						<WincherSEOPerformance />
-					</ModalContainer>
-				</Modal>
-				}
+					<WincherSEOPerformance />
+				</ModalContainer>
+			</Modal>
+			}
 
-				{ location === "sidebar" &&
-					<SidebarButton
-						id={ `wincher-open-button-${location}` }
-						title={ title }
-						suffixIcon={ { size: "20px", icon: "pencil-square" } }
-						prefixIcon={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
-						onClick={ this.onModalOpen }
-					/>
-				}
-			</Fragment>
-		);
-	}
+			{ location === "sidebar" &&
+			<SidebarButton
+				id={ `wincher-open-button-${location}` }
+				title={ title }
+				suffixIcon={ { size: "20px", icon: "pencil-square" } }
+				prefixIcon={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
+				onClick={ onModalOpen }
+			/>
+			}
+		</Fragment>
+	);
 }
 
 WincherSEOPerformanceModal.propTypes = {
@@ -108,16 +105,9 @@ WincherSEOPerformanceModal.propTypes = {
 		"metabox",
 		"sidebar",
 	] ),
-	onOpen: PropTypes.func.isRequired,
-	onClose: PropTypes.func.isRequired,
-	onNoKeyphraseSet: PropTypes.func.isRequired,
-	keyphrases: PropTypes.array,
 };
 
 WincherSEOPerformanceModal.defaultProps = {
 	location: "",
 	whichModalOpen: "none",
-	keyphrases: [],
 };
-
-export default WincherSEOPerformanceModal;
