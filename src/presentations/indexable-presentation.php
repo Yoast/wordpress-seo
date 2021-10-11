@@ -730,9 +730,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * Generates the schema for the page.
 	 *
-	 * @return array The Schema object.
-	 *
 	 * @codeCoverageIgnore Wrapper method.
+	 *
+	 * @return array The Schema object.
 	 */
 	public function generate_schema() {
 		return $this->schema_generator->generate( $this->context );
@@ -741,9 +741,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * Generates the breadcrumbs for the page.
 	 *
-	 * @return array The breadcrumbs.
-	 *
 	 * @codeCoverageIgnore Wrapper method.
+	 *
+	 * @return array The breadcrumbs.
 	 */
 	public function generate_breadcrumbs() {
 		return $this->breadcrumbs_generator->generate( $this->context );
@@ -752,9 +752,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * Generates the estimated reading time.
 	 *
-	 * @return int|null The estimated reading time.
-	 *
 	 * @codeCoverageIgnore Wrapper method.
+	 *
+	 * @return int|null The estimated reading time.
 	 */
 	public function generate_estimated_reading_time_minutes() {
 		if ( $this->model->estimated_reading_time_minutes !== null ) {

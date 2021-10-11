@@ -319,6 +319,8 @@ class WPSEO_Meta {
 		}
 		unset( $subset, $field_group, $key, $field_def );
 
+		self::filter_schema_article_types();
+
 		add_filter( 'update_post_metadata', [ __CLASS__, 'remove_meta_if_default' ], 10, 5 );
 		add_filter( 'add_post_metadata', [ __CLASS__, 'dont_save_meta_if_default' ], 10, 4 );
 	}
@@ -1048,5 +1050,21 @@ class WPSEO_Meta {
 		}
 
 		return $post_ids;
+	}
+
+	/**
+	 * Filter the schema article types.
+	 *
+	 * @return void
+	 */
+	public static function filter_schema_article_types() {
+		/**
+		 * Filter: 'wpseo_schema_article_types' - Allow developers to filter the available article types.
+		 *
+		 * Make sure when you filter this to also filter `wpseo_schema_article_types_labels`.
+		 *
+		 * @api array $schema_article_types The available schema article types.
+		 */
+		self::$meta_fields['schema']['schema_article_type']['options'] = apply_filters( 'wpseo_schema_article_types', self::$meta_fields['schema']['schema_article_type']['options'] );
 	}
 }

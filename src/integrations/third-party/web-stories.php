@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use WP_Screen;
-use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Web_Stories_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;

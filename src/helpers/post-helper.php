@@ -165,7 +165,7 @@ class Post_Helper {
 	 */
 	public function is_post_indexable( $post_id ) {
 		// Don't index excluded post statuses.
-		if ( in_array( \get_post_status( $post_id ), $this->get_excluded_post_statuses(), true ) ) {
+		if ( \in_array( \get_post_status( $post_id ), $this->get_excluded_post_statuses(), true ) ) {
 			return false;
 		}
 

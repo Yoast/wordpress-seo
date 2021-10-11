@@ -7,11 +7,11 @@ use Brain\Monkey\Functions;
 use Mockery;
 use wpdb;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Indexable_Post_Indexation_Action_Test class
@@ -137,7 +137,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_post_types
-	 * @covers ::get_limited_unindexed_count
 	 * @covers ::get_select_query
 	 */
 	public function test_get_limited_unindexed_count() {
@@ -160,7 +159,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		];
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts_limited' )->andReturnFalse();
-		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts_limited', count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts_limited', \count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
@@ -172,7 +171,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
 		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
-		$this->assertEquals( count( $query_result ), $this->instance->get_limited_unindexed_count( $limit ) );
+		$this->assertEquals( \count( $query_result ), $this->instance->get_limited_unindexed_count( $limit ) );
 	}
 
 	/**
@@ -180,7 +179,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
-	 * @covers ::get_query
 	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed_cached() {
@@ -197,6 +195,10 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 */
 	public function test_get_total_unindexed_failed_query() {
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
+		Functions\expect( 'set_transient' )
+			->once()
+			->with( 'wpseo_total_unindexed_posts', 0, ( \MINUTE_IN_SECONDS * 15 ) )
+			->andReturnFalse();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
@@ -214,7 +216,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
-	 * @covers ::get_query
 	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed_with_excluded_post_types() {
@@ -253,7 +254,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::index
-	 * @covers ::get_query
 	 * @covers ::get_limit
 	 * @covers ::get_post_types
 	 */
@@ -338,7 +338,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::index
-	 * @covers ::get_query
 	 * @covers ::get_limit
 	 * @covers ::get_post_types
 	 */
@@ -400,7 +399,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::index
-	 * @covers ::get_query
 	 * @covers ::get_limit
 	 * @covers ::get_post_types
 	 */

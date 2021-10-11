@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.8
-Stable tag: 17.2.1
+Stable tag: 17.3
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -236,8 +236,23 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 17.4 =
+Release Date: October 19th, 2021
+
+Enhancements:
+
+* Improves two queries used to determine whether or not a site has been fully processed using our SEO data optimization. This should prevent potential slowdowns in extremely large sites.
+
+Bugfixes:
+
+* Fixes a bug where the `url` property in the search page schema would be empty.
+* Fixes a bug where a duplicate canonical tag was output for web stories created with the Web Stories plugin. Props to [swissspidey](https://github.com/swissspidy).
+* Fixes a bug where a race condition could occur that caused the rewrite rules to be flushed on every page request when using a persistent cache like Redis.
+
 = 17.3 =
 Release Date: October 5th, 2021
+
+Yoast SEO 17.3 is out today! This release includes general bug fixes to some SEO assessments and improvements to indexables data management. Now is as good a time as any to start optimizing your content with Yoast SEO! Read more about what's new in Yoast SEO 17.3 in [our release post](https://yoa.st/release-17-3)!
 
 Enhancements:
 
@@ -248,36 +263,11 @@ Bugfixes:
 
 * Fixes a bug where the meta description bar indicator color would not always match the color of the assessment bullet.
 * Fixes a bug where the placement variables Category, Name and Tag would not show up in the snippet preview.
+* Fixes a bug where the `path` of open graph images of the JSON head would be incorrect.
 
 Other:
 
 * Adds version management to our indexables framework; this makes the SEO Optimization process more robust, and prepares for future features.
-
-= 17.2.1 =
-Release Date: September 28th, 2021
-
-Bugfixes:
-
-* Fixes a bug that could lead to a fatal error in the breadcrumbs block for auto-draft posts.
-
-= 17.2 =
-Release Date: September 21st, 2021
-
-Yoast SEO 17.2 is out now! Yoast SEO comes with many powerful tools that will help you write SEO-proof and readable texts. And as of today, you can also work on your readability in the Farsi language. Readable content is awesome content! Read more about what’s new in Yoast SEO 17.2 in [our release post](https://yoa.st/release-17-2)!
-
-Enhancements:
-
-* Completes the readability analysis for Farsi by adding the transition words, consecutive sentences, and passive voice assessments, and by adjusting the sentence length assessment to make it more appropriate for the Farsi language.
-* Improves keyword detection for Farsi by adding more categories to the list of function words. E.g., general adjectives and adverbs category, conjunctions, and articles.
-* Cleans up indexables for posts with an `auto-draft` post-status, in order to speed-up your admin pages.
-
-Bugfixes:
-
-* Fixes a bug where indexables would be created for post auto-drafts when the SEO optimization is run.
-
-Other:
-
-* Loads our help beacon on the workouts page.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

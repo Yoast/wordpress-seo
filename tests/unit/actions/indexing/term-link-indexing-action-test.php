@@ -147,7 +147,6 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 * Tests get_limited_unindexed_count with a limit.
 	 *
 	 * @covers ::get_count_query
-	 * @covers ::get_unindexed_count
 	 * @covers ::get_total_unindexed
 	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_limited_unindexed_count
 	 */
@@ -195,7 +194,6 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::get_query
 	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed_cached() {
@@ -210,7 +208,6 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::get_query
 	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed_failed_query() {
@@ -218,6 +215,11 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT )
 			->andReturn( false );
+
+		Functions\expect( 'set_transient' )
+			->once()
+			->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT, 0, ( \MINUTE_IN_SECONDS * 15 ) )
+			->andReturn( true );
 
 		$this->taxonomy_helper
 			->expects( 'get_public_taxonomies' )
@@ -253,7 +255,6 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 * Tests the index function.
 	 *
 	 * @covers ::get_objects
-	 * @covers ::get_query
 	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::index
 	 */
 	public function test_index() {
@@ -321,7 +322,6 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 * Tests the index function.
 	 *
 	 * @covers ::get_objects
-	 * @covers ::get_query
 	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::index
 	 */
 	public function test_index_without_link_count() {
@@ -388,7 +388,6 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 * Tests that the transients are not deleted when no indexables have been created.
 	 *
 	 * @covers ::get_objects
-	 * @covers ::get_query
 	 */
 	public function test_index_no_indexables_created() {
 		Filters\expectApplied( 'wpseo_link_indexing_limit' );

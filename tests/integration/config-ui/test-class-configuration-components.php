@@ -8,9 +8,9 @@
 use Yoast\WPTestUtils\WPIntegration\TestCase;
 
 /**
- * Class WPSEO_Configuration_Components_Tests.
+ * Class WPSEO_Configuration_Components_Test.
  */
-class WPSEO_Configuration_Components_Tests extends TestCase {
+class WPSEO_Configuration_Components_Test extends TestCase {
 
 	use Yoast_SEO_ReflectionToString_Deprecation_Handler;
 
