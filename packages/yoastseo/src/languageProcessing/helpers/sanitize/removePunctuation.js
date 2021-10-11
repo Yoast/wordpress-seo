@@ -30,7 +30,7 @@ export default function( text ) {
 	}
 
 	const punctuationRegexStart = new RegExp( "^[" + punctuationRegexString + "]+" );
-	const punctuationRegexEnd = new RegExp( "^[" + punctuationRegexString +  "]+$" );
+	const punctuationRegexEnd = new RegExp( "[" + punctuationRegexString +  "]+$" );
 
 	text = text.replace( punctuationRegexStart, "" );
 	text = text.replace( punctuationRegexEnd, "" );

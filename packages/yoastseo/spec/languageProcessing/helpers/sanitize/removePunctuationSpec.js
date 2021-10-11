@@ -1,4 +1,10 @@
+/**
+ * @jest-environment jsdom
+ */
+import { enableFeatures } from "@yoast/feature-flag";
 import removePunctuation from "../../../../src/languageProcessing/helpers/sanitize/removePunctuation.js";
+
+enableFeatures( [ "JAPANESE_SUPPORT" ] );
 
 describe( "a test for removing punctuation from a string", function() {
 	it( "returns string without dash at the end", function() {
@@ -51,6 +57,12 @@ describe( "Removing language-specific punctuation", function() {
 		expect( removePunctuation( "الجيدة؛" ) ).toBe( "الجيدة" );
 		// Urdu full stop
 		expect( removePunctuation( "گئے۔" ) ).toBe( "گئے" );
+	} );
+
+	it( "returns a word without punctuation in Japanese.", function() {
+		expect( removePunctuation( "高度。" ) ).toBe( "高度" );
+		expect( removePunctuation( "⁇" ) ).toBe( "" );
+		expect( removePunctuation( "＠東海道" ) ).toBe( "東海道" );
 	} );
 } );
 
