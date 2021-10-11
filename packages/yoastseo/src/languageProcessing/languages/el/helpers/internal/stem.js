@@ -59,7 +59,7 @@ function stemWordStep1( word, morphologyData ) {
 	if ( ( match = new RegExp( regexesStep1.regex1a ).exec( word ) ) !== null ) {
 		word = match[ 1 ];
 		if ( ! new RegExp( regexesStep1.regex1b ).test( word ) ) {
-			word += "αδ";
+			word += "ΑΔ";
 		}
 	}
 	word = matchAndStemWordWithRegexArray( word, regexesArrays[ 0 ], regexesArrays[ 1 ], regexesArrays[ 2 ] );
@@ -86,10 +86,10 @@ function stemWordStep2( word, morphologyData ) {
 		word = match[ 1 ];
 
 		if ( vowelRegex1.test( word ) || word.length < 2 || new RegExp( regexesStep2.regex2c ).test( match[ 1 ] ) ) {
-			word += "ι";
+			word += "Ι";
 		}
 		if ( new RegExp( regexesStep2.regex2d ).test( match[ 1 ] ) ) {
-			word += "αι";
+			word += "ΑΙ";
 		}
 	}
 	return word;
@@ -110,7 +110,7 @@ function stemWordStep3( word, morphologyData ) {
 	if ( ( match = new RegExp( regexesStep3.regex3a ).exec( word ) ) !== null ) {
 		word = match[ 1 ];
 		if ( vowelRegex1.test( word ) || new RegExp( regexesStep3.regex3b ).test( word ) || new RegExp( regexesStep3.regex3c ).test( word ) ) {
-			word += "ικ";
+			word += "ΙΚ";
 		}
 	}
 	return word;
@@ -130,15 +130,15 @@ function stemWordStep4( word, morphologyData ) {
 	const vowelRegex1 = morphologyData.externalStemmer.vowelRegex1;
 	const vowelRegex2 = morphologyData.externalStemmer.vowelRegex2;
 	let match;
-	if ( word === "αγαμε" ) {
-		return "αγαμ";
+	if ( word === "ΑΓΑΜΕ" ) {
+		return "ΑΓΑΜ";
 	}
 
 	word = matchAndStemWordWithOneRegex( word, regexesStep4.regex4a );
 
 	word = matchAndStemWordWithRegexArray( word, regexesArrays.arrays1[ 0 ], regexesArrays.arrays1[ 1 ], regexesArrays.arrays1[ 2 ] );
 
-	word = matchAndStemWord( word, regexesStep4.regex4b, vowelRegex2, regexesStep4.regex4c, "αν" );
+	word = matchAndStemWord( word, regexesStep4.regex4b, vowelRegex2, regexesStep4.regex4c, "ΑΝ" );
 
 	word = matchAndStemWordWithOneRegex( word, regexesStep4.regex4d );
 
@@ -146,38 +146,38 @@ function stemWordStep4( word, morphologyData ) {
 		word = match[ 1 ];
 		if ( new RegExp( vowelRegex2 ).test( word ) || new RegExp( regexesStep4.regex4f ).test( word ) ||
 			new RegExp( regexesStep4.regex4g ).test( word ) ) {
-			word += "ετ";
+			word += "ΕΤ";
 		}
 	}
 
 	if ( ( match = new RegExp( regexesStep4.regex4h ).exec( word ) ) !== null ) {
 		word = match[ 1 ];
 		if ( new RegExp( regexesStep4.regex4i ).test( match[ 1 ] ) ) {
-			word += "οντ";
+			word += "ΟΝΤ";
 		} else if ( new RegExp( regexesStep4.regex4j ).test( match[ 1 ] ) ) {
-			word += "ωντ";
+			word += "ΩΝΤ";
 		}
 	}
 	word = matchAndStemWordWithRegexArray( word, regexesArrays.arrays2[ 0 ], regexesArrays.arrays2[ 1 ], regexesArrays.arrays2[ 2 ] );
 
 	word = matchAndStemWordWithOneRegex( word, regexesStep4.regex4k );
 
-	word = matchAndStemWord( word, regexesStep4.regex4l, regexesStep4.regex4m, regexesStep4.regex4n, "ηκ" );
+	word = matchAndStemWord( word, regexesStep4.regex4l, regexesStep4.regex4m, regexesStep4.regex4n, "ΗΚ" );
 
 	if ( ( match = new RegExp( regexesStep4.regex4o ).exec( word ) ) !== null ) {
 		word = match[ 1 ];
 		if ( new RegExp( vowelRegex1 ).test( word ) || new RegExp( regexesStep4.regex4p ).test( match[ 1 ] ) ||
 			new RegExp( regexesStep4.regex4q ).test( match[ 1 ] ) ) {
-			word += "ους";
+			word += "ΟΥΣ";
 		}
 	}
 
 	if ( ( match = new RegExp( regexesStep4.regex4r ).exec( word ) ) !== null ) {
 		word = match[ 1 ];
+
 		if ( new RegExp( regexesStep4.regex4s ).test( word ) ||
-			( new RegExp( regexesStep4.regex4t ).test( word ) && ! new RegExp( regexesStep4.regex4u ).test( word ) ) ||
-			new RegExp( regexesStep4.regex4v ).test( word ) ) {
-			word += "αγ";
+			( new RegExp( regexesStep4.regex4t ).test( word ) && ! new RegExp( regexesStep4.regex4u ).test( word ) ) ) {
+			word += "ΑΓ";
 		}
 	}
 	word = matchAndStemWordWithRegexArray( word, regexesArrays.arrays3[ 0 ], regexesArrays.arrays3[ 1 ], regexesArrays.arrays3[ 2 ] );
@@ -197,16 +197,16 @@ function stemWordStep5( word, morphologyData ) {
 	const regexesStep5 = morphologyData.externalStemmer.regexesStep5;
 	let match;
 	if ( ( match = new RegExp( regexesStep5.regex5a ).exec( word ) ) !== null ) {
-		word = match[ 1 ] + "μ";
+		word = match[ 1 ] + "Μ";
 		if ( new RegExp( regexesStep5.regex5b ).test( match[ 1 ] ) ) {
-			word += "α";
+			word += "Α";
 		} else if ( new RegExp( regexesStep5.regex5c ).test( match[ 1 ] ) ) {
-			word += "ατ";
+			word += "ΑΤ";
 		}
 	}
 
 	if ( ( match = new RegExp( regexesStep5.regex5d ).exec( word ) ) !== null ) {
-		word = match[ 1 ] + "ου";
+		word = match[ 1 ] + "ΟΥ";
 	}
 
 	return word;
@@ -229,7 +229,7 @@ function stemWordStep6( word, morphologyData ) {
 			word = match[ 1 ];
 		}
 		if ( new RegExp( regexesStep6.regex6c ).test( match[ 1 ] ) ) {
-			word += "υτ";
+			word += "ΥΤ";
 		}
 	}
 
@@ -245,6 +245,9 @@ function stemWordStep6( word, morphologyData ) {
  * @returns {string} The stem of an Greek word.
  */
 export default function stem( word, morphologyData ) {
+	// We process the word in uppercase to account for the character changing in lowercase depending on its position in the word.
+	word = word.toLocaleUpperCase( "el" );
+
 	const originalWord = word;
 	const doNotStemWords = morphologyData.externalStemmer.doNotStemWords;
 	if ( word.length < 3 || doNotStemWords.includes( word ) ) {
@@ -275,6 +278,9 @@ export default function stem( word, morphologyData ) {
 	}
 	// Step 6
 	word = stemWordStep6( word, morphologyData );
+
+	// Make the word lowercase again after the stemming process complete.
+	word = word.toLocaleLowerCase( "el" );
 
 	return word;
 }

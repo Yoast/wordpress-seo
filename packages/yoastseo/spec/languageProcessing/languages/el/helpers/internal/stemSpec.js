@@ -21,8 +21,8 @@ const wordsToStem = [
 	[ "παππουδων", "παππ" ],
 	[ "αρκουδες", "αρκουδ" ],
 	// Step 1d.
-	[ "υποθεσεως", "υποθεσ" ],
-	[ "υποθεσεων", "υποθεσ" ],
+	[ "υποθεσεως", "υποθες" ],
+	[ "υποθεσεων", "υποθες" ],
 	[ "θεων", "θε" ],
 	// Step 2a.
 	[ "γυναικειο", "γυναικ" ],
@@ -42,7 +42,7 @@ const wordsToStem = [
 	[ "αγαπησανε", "αγαπ" ],
 	[ "τραγανε", "τραγαν" ],
 	[ "βραχμανε", "βραχμαν" ],
-	// [ "σαρακατσανε", "σαρακατσαν" ],
+	[ "σαρακατσανε", "σαρακατσαν" ],
 	// Step 4c.
 	[ "αγαπησετε", "αγαπ" ],
 	[ "βενετε", "βενετ" ],
@@ -69,7 +69,7 @@ const wordsToStem = [
 	[ "μεδουσα", "μεδους" ],
 	[ "μεδουσα", "μεδους" ],
 	// Step 4i.
-	// [ "κολλαγες", "κολλ" ],
+	[ "κολλαγες", "κολλ" ],
 	[ "αβασταγο", "αβασταγ" ],
 	[ "αβασταγα", "αβασταγ" ],
 	// Step 4j.
@@ -119,7 +119,7 @@ describe( "Test for stemming Greek words", () => {
 	} );
 } );
 
-xdescribe( "Test to make sure all forms of a paradigm get stemmed to the same stem", () => {
+describe( "Test to make sure all forms of a paradigm get stemmed to the same stem", () => {
 	for ( const paradigm of paradigms ) {
 		for ( const form of paradigm.forms ) {
 			it( "correctly stems the word: " + form + " to " + paradigm.stem, () => {
