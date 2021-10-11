@@ -216,6 +216,11 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT )
 			->andReturn( false );
 
+		Functions\expect( 'set_transient' )
+			->once()
+			->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT, 0, ( \MINUTE_IN_SECONDS * 15 ) )
+			->andReturn( true );
+
 		$this->taxonomy_helper
 			->expects( 'get_public_taxonomies' )
 			->once()

@@ -5,9 +5,12 @@ const { AbstractResearcher } = languageProcessing;
 import firstWordExceptions from "./config/firstWordExceptions";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
+import functionWords from "./config/functionWords";
 
 // All helpers
 import getStemmer from "./helpers/getStemmer";
+import getClauses from "./helpers/getClauses";
+import isPassiveSentence from "./helpers/isPassiveSentence";
 
 /**
  * The researches contains all the researches
@@ -28,7 +31,8 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.config, {
 			language: "el",
-			functionWords: [],
+			functionWords,
+			passiveConstructionType: "morphologicalAndPeriphrastic",
 			transitionWords,
 			twoPartTransitionWords,
 			firstWordExceptions: firstWordExceptions.firstWords,
@@ -37,6 +41,8 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.helpers, {
 			getStemmer,
+			getClauses,
+			isPassiveSentence,
 		} );
 	}
 }
