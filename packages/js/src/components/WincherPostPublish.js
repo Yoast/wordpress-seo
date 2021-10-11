@@ -26,7 +26,7 @@ export default function WincherPostPublish( props ) {
 	const trackAllOnClick = useCallback( () => {
 		trackAll( keyphrases );
 	},
-	[ keyphrases ] );
+	[ trackAll, keyphrases ] );
 
 	return (
 		<Fragment>
