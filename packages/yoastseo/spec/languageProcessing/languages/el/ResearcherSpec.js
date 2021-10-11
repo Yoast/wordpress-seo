@@ -3,6 +3,7 @@ import Paper from "../../../../src/values/Paper.js";
 import firstWordExceptions from "../../../../src/languageProcessing/languages/el/config/firstWordExceptions";
 import transitionWords from "../../../../src/languageProcessing/languages/el/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/el/config/twoPartTransitionWords";
+import functionWords from "../../../../src/languageProcessing/languages/el/config/functionWords";
 
 describe( "a test for Greek Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -41,6 +42,10 @@ describe( "a test for Greek Researcher", function() {
 
 	it( "returns the Greek two part transition word", function() {
 		expect( researcher.getConfig( "twoPartTransitionWords" ) ).toEqual( twoPartTransitionWords );
+	} );
+
+	it( "returns Greek function words", function() {
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
 	} );
 
 	it( "returns the Greek passive construction type", function() {
