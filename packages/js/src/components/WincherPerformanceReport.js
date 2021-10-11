@@ -90,6 +90,15 @@ const NotConnectedMessage = ( props ) => {
 	);
 };
 
+NotConnectedMessage.propTypes = {
+	className: PropTypes.string,
+	onConnectAction: PropTypes.func.isRequired,
+};
+
+NotConnectedMessage.defaultProps = {
+	className: "",
+};
+
 /**
  * Renders the 'No tracked keyphrases' message.
  *
@@ -122,6 +131,17 @@ const NoTrackedKeyphrasesMessage = ( props ) => {
 			</div>
 		</WincherSEOPerformanceReportText>
 	);
+};
+
+NoTrackedKeyphrasesMessage.propTypes = {
+	className: PropTypes.string,
+	onTrackAllAction: PropTypes.func.isRequired,
+	limits: PropTypes.object,
+};
+
+NoTrackedKeyphrasesMessage.defaultProps = {
+	className: "",
+	limits: {},
 };
 
 /**

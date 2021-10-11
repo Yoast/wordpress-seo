@@ -137,12 +137,12 @@ export function getKeyphrasePosition( chartData ) {
 export function getPositionalDataByState( props ) {
 	const { rowData, chartData, chartDataTs, websiteId } = props;
 
-	const isEnabled    = ! isEmpty( rowData );
-	const hasChartData = ! isEmpty( chartData );
-	const isChartDataFresh = rowData && chartDataTs >= new Date( rowData.created_at ).getTime();
-	const updated = rowData && rowData.ranking_updated_at;
+	const isEnabled          = ! isEmpty( rowData );
+	const hasChartData       = ! isEmpty( chartData );
+	const isChartDataFresh   = rowData && chartDataTs >= new Date( rowData.created_at ).getTime();
+	const updated            = rowData && rowData.ranking_updated_at;
 	const isRankingDataFresh = updated && moment( updated ) >= moment().subtract( 7, "days" );
-	const viewLinkURL  = ( rowData ) ? sprintf(
+	const viewLinkURL        = ( rowData ) ? sprintf(
 		"https://app.wincher.com/websites/%s/keywords?serp=%s&utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
 		websiteId,
 		rowData.id

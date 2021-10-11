@@ -45,7 +45,7 @@ const GetErrorMessage = ( { response } ) => {
 	}
 
 	return <WincherRequestFailed />;
-}
+};
 
 GetErrorMessage.propTypes = {
 	response: PropTypes.object.isRequired,

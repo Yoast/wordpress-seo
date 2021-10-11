@@ -30,6 +30,7 @@ const WincherReconnectAlert = ( props ) => {
 				interpolateComponents( {
 					mixedString: message,
 					components: {
+						// eslint-disable-next-line jsx-a11y/anchor-is-valid
 						reconnectToWincher: <a href="#" onClick={ props.onReconnect }>
 							{
 								sprintf(
