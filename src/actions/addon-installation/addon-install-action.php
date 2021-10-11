@@ -117,9 +117,9 @@ class Addon_Install_Action {
 	/**
 	 * Runs the installation by using the WordPress installation routine.
 	 *
-	 * @param string $plugin_download The url to the download.
-	 *
 	 * @codeCoverageIgnore Contains WordPress specific logic.
+	 *
+	 * @param string $plugin_download The url to the download.
 	 *
 	 * @return bool|WP_Error True when success, WP_Error when something went wrong.
 	 */

@@ -224,6 +224,9 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
+		Monkey\Functions\expect( 'is_search' )
+			->andReturn( false );
+
 		$this->current_page
 			->expects( 'is_front_page' )
 			->andReturnTrue();
@@ -316,6 +319,9 @@ class Schema_Generator_Test extends TestCase {
 			->twice()
 			->with( 'date' )
 			->andReturn( 'date' );
+
+		Monkey\Functions\expect( 'is_search' )
+			->andReturn( false );
 
 		$this->current_page
 			->expects( 'is_front_page' )
@@ -497,6 +503,9 @@ class Schema_Generator_Test extends TestCase {
 			->with( 'date' )
 			->andReturn( 'date' );
 
+		Monkey\Functions\expect( 'is_search' )
+			->andReturn( false );
+
 		$this->current_page
 			->expects( 'is_front_page' )
 			->andReturnTrue();
@@ -552,6 +561,9 @@ class Schema_Generator_Test extends TestCase {
 			->twice()
 			->with( 'date' )
 			->andReturn( 'date' );
+
+		Monkey\Functions\expect( 'is_search' )
+			->andReturn( false );
 
 		$this->current_page
 			->expects( 'is_front_page' )
@@ -644,6 +656,9 @@ class Schema_Generator_Test extends TestCase {
 			->with( 'date' )
 			->andReturn( 'date' );
 
+		Monkey\Functions\expect( 'is_search' )
+			->andReturn( false );
+
 		$this->current_page
 			->expects( 'is_front_page' )
 			->andReturnTrue();
@@ -724,6 +739,9 @@ class Schema_Generator_Test extends TestCase {
 			->with( 'date' )
 			->andReturn( 'date' );
 
+		Monkey\Functions\expect( 'is_search' )
+			->andReturn( false );
+
 		$this->current_page
 			->expects( 'is_front_page' )
 			->andReturnFalse();
@@ -802,6 +820,90 @@ class Schema_Generator_Test extends TestCase {
 		];
 
 		$this->assertEquals( $expected, $this->instance->protected_webpage_schema( $graph_piece ) );
+	}
+
+	/**
+	 * Tests with the generate with a search page.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::get_graph_pieces
+	 */
+	public function test_generate_with_search_page() {
+		$this->context->indexable->object_sub_type = 'super-custom-post-type';
+		$this->context->site_url                   = 'https://fake.url/';
+
+		$this->context->schema_page_type = [
+			'CollectionPage',
+			'SearchResultsPage',
+		];
+		$this->current_page->expects( 'is_paged' )->andReturns( false );
+
+		Monkey\Functions\expect( 'is_search' )
+			->andReturn( true );
+
+
+		Monkey\Functions\expect( 'get_search_query' )
+			->andReturn( 'searchterm' );
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->andReturnTrue();
+
+		$this->replace_vars_helper
+			->expects( 'register_replace_vars' )
+			->once();
+
+		$this->context->blocks = [];
+
+		$this->assertEquals(
+			[
+				'@context' => 'https://schema.org',
+				'@graph'   => [
+					[
+						'@type'           => 'WebSite',
+						'@id'             => 'https://fake.url/#website',
+						'url'             => 'https://fake.url/',
+						'name'            => '',
+						'description'     => 'description',
+						'potentialAction' => [
+							[
+								'@type'       => 'SearchAction',
+								'target'      => [
+									'@type'       => 'EntryPoint',
+									'urlTemplate' => 'https://fake.url/?s={search_term_string}',
+								],
+								'query-input' => 'required name=search_term_string',
+							],
+						],
+						'inLanguage'      => 'English',
+					],
+					[
+						'@type'           => [
+							'CollectionPage',
+							'SearchResultsPage',
+						],
+						'@id'             => '#webpage',
+						'url'             => 'https://fake.url/?s=searchterm',
+						'name'            => '',
+						'isPartOf'        => [
+							'@id' => 'https://fake.url/#website',
+						],
+						'inLanguage'      => 'English',
+						'breadcrumb'      => [ '@id' => '#breadcrumb' ],
+						'potentialAction' => [
+							[
+								'@type'  => 'ReadAction',
+								'target' => [
+									0 => 'https://fake.url/?s=searchterm',
+								],
+							],
+						],
+					],
+				],
+			],
+			$this->instance->generate( $this->context )
+		);
 	}
 
 	/**

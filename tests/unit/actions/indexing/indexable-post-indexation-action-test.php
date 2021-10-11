@@ -195,6 +195,10 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 */
 	public function test_get_total_unindexed_failed_query() {
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
+		Functions\expect( 'set_transient' )
+			->once()
+			->with( 'wpseo_total_unindexed_posts', 0, ( \MINUTE_IN_SECONDS * 15 ) )
+			->andReturnFalse();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );

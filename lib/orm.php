@@ -2226,11 +2226,11 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Inserts multiple rows in a single query. Expects new rows as it's a strictly insert function, not an update one.
 	 *
+	 * @example From the Indexable_Link_Builder class: $this->seo_links_repository->query()->insert_many( $links );
+	 *
 	 * @param array $models Array of model instances to be inserted.
 	 *
 	 * @return bool True for successful insert, false for failed.
-	 *
-	 * @example From the Indexable_Link_Builder class: $this->seo_links_repository->query()->insert_many( $links );
 	 *
 	 * @throws \InvalidArgumentException Invalid instances to be inserted.
 	 * @throws \InvalidArgumentException Instance to be inserted is not a new one.
