@@ -59,7 +59,7 @@ export function mapAreaChartDataToTableData( y ) {
  *
  * @returns {wp.Element|string} The chart containing the positions over time. If there is none, return "?".
  */
-export function generatePositionOverTimeChart( chartData ) {
+export function PositionOverTimeChart( { chartData } ) {
 	if ( isEmpty( chartData ) || isEmpty( chartData.position ) ) {
 		return "?";
 	}
@@ -83,6 +83,13 @@ export function generatePositionOverTimeChart( chartData ) {
 	/>;
 }
 
+PositionOverTimeChart.propTypes = {
+	chartData: PropTypes.object,
+};
+
+PositionOverTimeChart.defaultProps = {
+	chartData: {},
+};
 
 /**
  * Gets the toggles state of the keyphrase.
@@ -163,7 +170,7 @@ export function getPositionalDataByState( props ) {
 	return (
 		<Fragment>
 			<td>{ getKeyphrasePosition( chartData ) }</td>
-			<td className="yoast-table--nopadding">{ generatePositionOverTimeChart( chartData ) }</td>
+			<td className="yoast-table--nopadding">{ <PositionOverTimeChart chartData={ chartData } /> }</td>
 			<td className="yoast-table--nobreak">
 				{
 					<ViewLink href={ viewLinkURL }>

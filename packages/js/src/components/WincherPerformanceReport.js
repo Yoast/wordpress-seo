@@ -14,7 +14,7 @@ import { NewButton } from "@yoast/components";
 /* Internal dependencies */
 import WincherConnectExplanation from "./modals/WincherConnectExplanation";
 import WincherNoTrackedKeyphrasesAlert from "./modals/WincherNoTrackedKeyphrasesAlert";
-import { getKeyphrasePosition, generatePositionOverTimeChart } from "./WincherTableRow";
+import { getKeyphrasePosition, PositionOverTimeChart } from "./WincherTableRow";
 import WincherLimitReached from "./modals/WincherLimitReached";
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
 
@@ -139,7 +139,7 @@ const Row = ( { id, keyphrase, chartData, websiteId } ) => {
 		<tr key={ `trackable-keyphrase-${keyphrase}` }>
 			<td>{ keyphrase }</td>
 			<td>{ getKeyphrasePosition( chartData ) }</td>
-			<td className="yoast-table--nopadding">{ generatePositionOverTimeChart( chartData ) }</td>
+			<td className="yoast-table--nopadding">{ <PositionOverTimeChart chartData={ chartData } /> }</td>
 			<td className="yoast-table--nobreak">
 				{
 					<ViewLink href={ viewLinkUrl( { websiteId, id } ) }>
