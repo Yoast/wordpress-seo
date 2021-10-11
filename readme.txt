@@ -239,10 +239,13 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 17.4 =
 Release Date: October 19th, 2021
 
+Enhancements:
+
+* Improves two queries used to determine whether or not a site has been fully processed using our SEO data optimization. This should prevent potential slowdowns in extremely large sites.
+
 Bugfixes:
 
 * Fixes a bug where the `url` property in the search page schema would be empty.
-* Fixes a bug where the shortlinks of Keyphrase distribution assessment omitted the tracking parameters.
 * Fixes a bug where a duplicate canonical tag was output for web stories created with the Web Stories plugin. Props to [swissspidey](https://github.com/swissspidy).
 * Fixes a bug where a race condition could occur that caused the rewrite rules to be flushed on every page request when using a persistent cache like Redis.
 
