@@ -6,11 +6,11 @@ import stem from "../../../../../../../src/languageProcessing/languages/el/helpe
 import getMorphologyData from "../../../../../../specHelpers/getMorphologyData";
 import sampleVocabulary from "./sampleVocabulary.json";
 
-// const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( sampleVocabulary.words, functionWords );
+const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( sampleVocabulary.words, functionWords );
 const morphologyDataEL = getMorphologyData( "el" ).el;
 
 describe( "Generate stems for Greek words", () => {
-	const corpusWithStems = sampleVocabulary.words.map( word => [ word, stem( word, morphologyDataEL ) ] );
+	const corpusWithStems = wordsToStemWithoutFunctionWords.map( word => [ word, stem( word, morphologyDataEL ) ] );
 
 	console.log( JSON.stringify( corpusWithStems ) );
 } );

@@ -4,6 +4,9 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/el
 import transitionWords from "../../../../src/languageProcessing/languages/el/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/el/config/twoPartTransitionWords";
 import functionWords from "../../../../src/languageProcessing/languages/el/config/functionWords";
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
+
+const morphologyDataEL = getMorphologyData( "el" );
 
 describe( "a test for Greek Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -32,8 +35,9 @@ describe( "a test for Greek Researcher", function() {
 		expect( researcher.getConfig( "secondWordExceptions" ) ).toEqual( firstWordExceptions.secondWords );
 	} );
 
-	it( "doesn't stem word if the basic stemmer is used in the Researcher", function() {
-		expect( researcher.getHelper( "getStemmer" )()( "γάτες" ) ).toBe( "γάτες" );
+	it( "stems the Greek word using the Greek stemmer", function() {
+		researcher.addResearchData( "morphology", morphologyDataEL );
+		expect( researcher.getHelper( "getStemmer" )( researcher )( "αγαπάς" ) ).toEqual( "αγαπ" );
 	} );
 
 	it( "returns the Greek transition words", function() {
