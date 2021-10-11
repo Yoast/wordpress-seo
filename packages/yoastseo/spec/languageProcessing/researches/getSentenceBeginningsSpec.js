@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import getSentenceBeginnings from "../../../src/languageProcessing/researches/getSentenceBeginnings";
 
 import Paper from "../../../src/values/Paper.js";
@@ -13,7 +16,7 @@ import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Rese
 import DutchResearcher from "../../../src/languageProcessing/languages/nl/Researcher";
 import RussianResearcher from "../../../src/languageProcessing/languages/ru/Researcher";
 import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
-
+import GreekResearcher from "../../../src/languageProcessing/languages/el/Researcher";
 
 // eslint-disable-next-line max-statements
 describe( "gets the sentence beginnings and the count of consecutive duplicates.", function() {
@@ -497,5 +500,37 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "مرحبا" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
+	} );
+} );
+
+describe( "gets the sentence beginnings data for Greek", () => {
+	let mockPaper;
+	let researcher;
+	it( "returns an object with sentence beginnings and counts for three sentences all starting with the same words", () => {
+		mockPaper = new Paper( "Οι γάτες είναι χαριτωμένες. Οι γάτες είναι γλυκές. Οι γάτες είναι αξιολάτρευτες.", { locale: "el" } );
+		researcher = new GreekResearcher( mockPaper );
+
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "οι" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
+	} );
+	it( "returns an object with sentence beginnings and counts for three sentences all starting with the same words" +
+		" that are listed in first word exception list", () => {
+		mockPaper = new Paper( " Ένα από τα πιο σημαντικά προβλήματα στην εποχή μας είναι η υπερθέρμανση του πλανήτη." +
+			" Ένα πρωινό, όπως πήγαινα στην δουλειά, βλέπω ένα μικρό γατάκι κάτω από ένα αυτοκίνητο." +
+			" Ένα παιδί έχει ανάγκη την οικογένεια του.", { locale: "el" } );
+		researcher = new GreekResearcher( mockPaper );
+
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "ένα από" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "ένα πρωινό" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 2 ].word ).toBe( "ένα παιδί" );
+	} );
+	it( "returns an object with sentence beginnings and counts for three sentences all starting with the same words" +
+		" that are listed in first word exception list and followed by a word that is also in second word exception list", () => {
+		mockPaper = new Paper( "Αυτός ο μπαμπάς είναι φοβερός. Αυτός ο παππούς είναι καλός. Αυτός ο άνδρας είναι όμορφος.", { locale: "el" } );
+		researcher = new GreekResearcher( mockPaper );
+
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "αυτός ο μπαμπάς" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "αυτός ο παππούς" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 2 ].word ).toBe( "αυτός ο άνδρας" );
 	} );
 } );

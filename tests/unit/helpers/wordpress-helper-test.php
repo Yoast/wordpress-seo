@@ -4,8 +4,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 // phpcs:disable WordPress.WP.CapitalPDangit.MisspelledClassName -- It is spelled like `Wordpress_Helper` because of Yoast's naming conventions for classes, which would otherwise break dependency injection in some cases.
 
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Helpers\Wordpress_Helper;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Wordpress_Helper_Test.

@@ -62,6 +62,10 @@ This PR affects the following parts of the plugin, which may require extra testi
 
 * [ ] This PR changes the UI in the plugin. I have added the 'UI change' label to this PR.
 
+## Other environments
+
+* [ ] This PR also affects other environments and needs to be tested there.
+
 ## Documentation
 
 * [ ] I have written documentation for this change.
@@ -70,5 +74,6 @@ This PR affects the following parts of the plugin, which may require extra testi
 
 * [ ] I have tested this code to the best of my abilities
 * [ ] I have added unittests to verify the code works as intended
+* [ ] If any part of the code is behind a feature flag, my test instructions also cover cases where the feature flag is switched off.
 
 Fixes #

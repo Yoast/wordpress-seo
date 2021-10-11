@@ -231,9 +231,9 @@ class Current_Page_Helper {
 		$queried_object = $wp_query->get_queried_object();
 
 		return (
-			$wp_query->is_posts_page &&
-			\is_a( $queried_object, WP_Post::class ) &&
-			$queried_object->post_type === 'page'
+			$wp_query->is_posts_page
+			&& \is_a( $queried_object, WP_Post::class )
+			&& $queried_object->post_type === 'page'
 		);
 	}
 

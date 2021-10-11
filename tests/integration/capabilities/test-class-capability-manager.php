@@ -10,7 +10,7 @@ use Yoast\WPTestUtils\WPIntegration\TestCase;
 /**
  * Unit Test Class.
  */
-class Capability_Manager_Tests extends TestCase {
+class Capability_Manager_Test extends TestCase {
 
 	/**
 	 * Tests whether capabilities are correctly registered.

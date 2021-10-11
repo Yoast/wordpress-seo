@@ -20,7 +20,7 @@ class Norwegian_Readability_Conditional extends Feature_Flag_Conditional {
 	 * @return string the name of the feature flag.
 	 */
 	public function get_feature_flag() {
-		_deprecated_function( __METHOD__, 'WPSEO 16.8' );
+		\_deprecated_function( __METHOD__, 'WPSEO 16.8' );
 		return 'NORWEGIAN_READABILITY';
 	}
 }

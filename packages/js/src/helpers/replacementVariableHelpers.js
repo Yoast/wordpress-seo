@@ -13,6 +13,7 @@ import { stripTags } from "@wordpress/sanitize";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import { firstToUpperCase } from "./stringHelpers";
 
+import { isFeatureEnabled } from "@yoast/feature-flag";
 import { strings } from "@yoast/helpers";
 const { stripHTMLTags } = strings;
 
@@ -230,8 +231,18 @@ export function excerptFromContent( content, limit = 156 ) {
 	// Retrieves the first 156 chars from the content.
 	content = content.substring( 0, limit );
 
-	// Caps to the last space to have a full last word.
-	return content.substring( 0, content.lastIndexOf( " " ) );
+	// Check if Japanese support is enabled
+	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
+		// Check if the description has space and trim the auto-generated string to a word boundary.
+		if ( /\s/.test( content ) ) {
+			content = content.substring( 0, content.lastIndexOf( " " ) );
+		}
+	} else {
+		// If Japanese support is disabled, always trim the auto-generated string to a word boundary doesn't matter whether a space is present or not.
+		content = content.substring( 0, content.lastIndexOf( " " ) );
+	}
+
+	return content;
 }
 
 /**

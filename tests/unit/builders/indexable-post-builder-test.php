@@ -6,7 +6,6 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
@@ -17,6 +16,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Post_Builder_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Class Indexable_Post_Builder_Test.
@@ -254,6 +254,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->with( 'post' )
 			->andReturn( false );
 
+		$this->post
+			->expects( 'is_post_indexable' )
+			->with( 1 )
+			->andReturn( true );
+
 		$indexable_expectations = [
 			'object_id'                      => 1,
 			'object_type'                    => 'post',
@@ -359,6 +364,22 @@ class Indexable_Post_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 
 		$this->instance->build( 1, $this->indexable );
+	}
+
+	/**
+	 * Tests if the build function returns false when the options_helper->is_post_indexable criterium is not met.
+	 *
+	 * @covers ::build
+	 */
+	public function test_build_post_not_indexable() {
+		$this->indexable = Mockery::mock( Indexable::class );
+
+		$this->post
+			->expects( 'is_post_indexable' )
+			->with( 1 )
+			->andReturn( false );
+
+		$this->assertEquals( false, $this->instance->build( 1, $this->indexable ) );
 	}
 
 	/**
@@ -684,7 +705,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests is_public for when the post status is not public.
 	 *
 	 * @covers ::is_public
-	 * @covers ::is_public_post_status
 	 */
 	public function test_is_public_post_status_is_not_public() {
 		$this->indexable->is_protected      = false;
@@ -846,6 +866,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_term_null() {
+		$this->post
+			->expects( 'is_post_indexable' )
+			->with( 1 )
+			->andReturn( true );
+
 		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( null );
 
 		$this->expectException( Post_Not_Found_Exception::class );
@@ -862,6 +887,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 */
 	public function test_build_post_type_excluded() {
 		$post_id = 1;
+
+		$this->post
+			->expects( 'is_post_indexable' )
+			->with( $post_id )
+			->andReturn( true );
 
 		$this->post->expects( 'get_post' )
 			->once()

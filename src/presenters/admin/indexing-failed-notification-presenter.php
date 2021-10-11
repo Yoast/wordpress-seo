@@ -7,7 +7,6 @@ use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
-
 /**
  * Class Indexing_Failed_Notification_Presenter.
  *
@@ -72,7 +71,7 @@ class Indexing_Failed_Notification_Presenter extends Abstract_Presenter {
 				$notification_text .= \esc_html__( 'If the problem persists, please contact support.', 'wordpress-seo' );
 			}
 			else {
-				// premium plugin with inactive addon; overwrite the entire error message.
+				// Premium plugin with inactive addon; overwrite the entire error message.
 				$notification_text = \sprintf(
 					/* Translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page, %2$s expands to a closing anchor tag. */
 					\esc_html__(

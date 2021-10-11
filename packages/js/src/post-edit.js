@@ -31,7 +31,10 @@ domReady( () => {
 	// Initialize the editor integration
 	window.yoast.initEditorIntegration( store );
 	const editorData = new window.yoast.EditorData( () => {}, store );
-	editorData.initialize( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars );
+	editorData.initialize(
+		window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars,
+		window.wpseoScriptData.analysis.plugins.replaceVars.hidden_replace_vars
+	);
 
 	// Initialize the post scraper.
 	initPostScraper( jQuery, store, editorData );
