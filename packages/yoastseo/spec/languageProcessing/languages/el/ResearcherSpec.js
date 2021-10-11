@@ -47,4 +47,21 @@ describe( "a test for Greek Researcher", function() {
 	it( "returns Greek function words", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
 	} );
+
+	it( "returns the Greek passive construction type", function() {
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "morphologicalAndPeriphrastic" );
+	} );
+
+	it( "splits Greek sentence into clauses", function() {
+		const sentence = "Το άρθρο είναι γραμμένο και ο συγγραφέας είναι ευχαριστημένος.";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Το άρθρο είναι γραμμένο" );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( true );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "ο συγγραφέας είναι ευχαριστημένος." );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( true );
+	} );
+
+	it( "checks if a Greek sentence is passive or not", function() {
+		expect( researcher.getHelper( "isPassiveSentence" )( "Το σπίτι χτίστηκε από τον πατέρα μου." ) ).toEqual( true );
+		expect( researcher.getHelper( "isPassiveSentence" )( "Εγώ διπλώνω τα ρούχα." ) ).toEqual( false );
+	} );
 } );
