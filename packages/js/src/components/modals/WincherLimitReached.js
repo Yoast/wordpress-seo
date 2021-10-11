@@ -22,8 +22,8 @@ const WincherLimitReached = ( props ) => {
 	const message = sprintf(
 		/* translators: %d expands to the amount of allowed keyphrases on a free account, %s expands to a link to Wincher plans. */
 		__(
-			"You've reached the maximum amount of %d keyphrases you can add to your Wincher account. " +
-			"If you wish to add more keyphrases, please %s.",
+			// eslint-disable-next-line max-len
+			"You've reached the maximum amount of %d keyphrases you can add to your Wincher account. If you wish to add more keyphrases, please %s.",
 			"wordpress-seo"
 		),
 		props.limit,

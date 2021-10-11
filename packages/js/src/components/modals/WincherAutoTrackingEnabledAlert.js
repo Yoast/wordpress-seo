@@ -16,8 +16,8 @@ const WincherAutoTrackingEnabledAlert = () => {
 				sprintf(
 					/* translators: %s: Expands to "Wincher". */
 					__(
-						"Automatic tracking of keyphrases is enabled. " +
-						"Your keyphrase(s) will automatically be tracked by %s when you publish your post.",
+						// eslint-disable-next-line max-len
+						"Automatic tracking of keyphrases is enabled. Your keyphrase(s) will automatically be tracked by %s when you publish your post.",
 						"wordpress-seo"
 					),
 					"Wincher"
