@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Helpers\Meta_Helper;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Aioseo_Posts_Importing_Action extends Cursor_Manager implements Importing_Action_Interface {
+class Aioseo_Posts_Importing_Action extends Abstract_Cursor_Manager implements Importing_Action_Interface {
 
 	/**
 	 * The domain of the action.
@@ -100,7 +100,6 @@ class Aioseo_Posts_Importing_Action extends Cursor_Manager implements Importing_
 		return self::DOMAIN;
 	}
 
-
 	/**
 	 * Retrieves the constant name of the class.
 	 *
@@ -118,6 +117,7 @@ class Aioseo_Posts_Importing_Action extends Cursor_Manager implements Importing_
 	public function get_cursor_id() {
 		return self::CURSOR_ID;
 	}
+
 	/**
 	 * Returns the (limited) total number of unimported objects.
 	 *
