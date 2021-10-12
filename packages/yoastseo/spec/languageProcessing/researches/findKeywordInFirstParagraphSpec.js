@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";

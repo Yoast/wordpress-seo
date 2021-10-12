@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import FarsiResearcher from "../../../src/languageProcessing/languages/fa/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
