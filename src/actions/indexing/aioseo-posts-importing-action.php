@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Helpers\Meta_Helper;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Aioseo_Posts_Importing_Action implements Importing_Action_Interface {
+class Aioseo_Posts_Importing_Action extends Cursor_Manager implements Importing_Action_Interface {
 
 	/**
 	 * The domain of the action.
@@ -92,6 +92,33 @@ class Aioseo_Posts_Importing_Action implements Importing_Action_Interface {
 	}
 
 	/**
+	 * Retrieves the constant domain of the class.
+	 *
+	 * @return string The domain of the class.
+	 */
+	public function get_domain() {
+		return self::DOMAIN;
+	}
+
+
+	/**
+	 * Retrieves the constant name of the class.
+	 *
+	 * @return string The constant name of the class.
+	 */
+	public function get_name() {
+		return self::NAME;
+	}
+
+	/**
+	 * Retrieves the constant cursor id of the class.
+	 *
+	 * @return string The constant cursor id of the class.
+	 */
+	public function get_cursor_id() {
+		return self::CURSOR_ID;
+	}
+	/**
 	 * Returns the (limited) total number of unimported objects.
 	 *
 	 * @return int The (limited) total number of unimported objects.
@@ -141,9 +168,7 @@ class Aioseo_Posts_Importing_Action implements Importing_Action_Interface {
 			$last_indexed_aioseo_id = $aioseo_indexable['id'];
 		}
 
-		if ( \get_site_option( static::CURSOR_ID, 0 ) < $last_indexed_aioseo_id ) {
-			\update_site_option( static::CURSOR_ID, $last_indexed_aioseo_id );
-		}
+		$this->set_cursor( $last_indexed_aioseo_id );
 	}
 
 	/**
@@ -213,7 +238,7 @@ class Aioseo_Posts_Importing_Action implements Importing_Action_Interface {
 	public function query() {
 		$indexable_table = $this->wpdb->prefix . 'aioseo_posts';
 
-		$cursor = \get_site_option( static::CURSOR_ID, 0 );
+		$cursor = $this->get_cursor();
 		$limit  = $this->get_limit();
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
