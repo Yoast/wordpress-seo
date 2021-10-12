@@ -1,7 +1,6 @@
 import { shallow } from "enzyme";
 
-import WincherTableRow from "../../src/components/WincherTableRow";
-import AreaChart from "../../src/components/AreaChart";
+import WincherTableRow, { PositionOverTimeChart } from "../../src/components/WincherTableRow";
 import { Toggle } from "@yoast/components";
 import WincherSEOPerformanceLoading from "../../src/components/modals/WincherSEOPerformanceLoading";
 
@@ -57,7 +56,7 @@ describe( "WincherTableRow", () => {
 
 		expect( component.find( "td" ).length ).toEqual( 5 );
 		expect( component.find( Toggle ).length ).toEqual( 1 );
-		expect( component.find( AreaChart ).length ).toEqual( 1 );
+		expect( component.find( PositionOverTimeChart ).length ).toEqual( 1 );
 
 		expect( component.find( Toggle ).getElement().props.id ).toBe( "toggle-keyphrase-tracking-yoast seo" );
 		expect( component.find( Toggle ).getElement().props.isEnabled ).toBe( true );
@@ -75,7 +74,7 @@ describe( "WincherTableRow", () => {
 
 		expect( component.find( "td" ).length ).toEqual( 5 );
 		expect( component.find( Toggle ).length ).toEqual( 1 );
-		expect( component.find( AreaChart ).length ).toEqual( 0 );
+		expect( component.find( PositionOverTimeChart ).length ).toEqual( 0 );
 
 		expect( component.find( Toggle ).getElement().props.id ).toBe( "toggle-keyphrase-tracking-yoast seo" );
 		expect( component.find( Toggle ).getElement().props.isEnabled ).toBe( false );
