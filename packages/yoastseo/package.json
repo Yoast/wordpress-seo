@@ -147,7 +147,10 @@
       "/spec/languageProcessing/languages/cs/helpers/internal/stemmerCoverage/generateStems.js",
       "/spec/languageProcessing/languages/sk/helpers/internal/stemmerCoverage/goldStandardStems.json",
       "/spec/languageProcessing/languages/sk/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/sk/helpers/internal/stemmerCoverage/generateStems.js"
+      "/spec/languageProcessing/languages/sk/helpers/internal/stemmerCoverage/generateStems.js",
+      "/spec/languageProcessing/languages/el/helpers/internal/stemmerCoverage/goldStandardStems.json",
+      "/spec/languageProcessing/languages/el/helpers/internal/stemmerCoverage/sampleVocabulary.json",
+      "/spec/languageProcessing/languages/el/helpers/internal/stemmerCoverage/generateStems.js"
     ],
     "coveragePathIgnorePatterns": [
       "js/templates.js"
