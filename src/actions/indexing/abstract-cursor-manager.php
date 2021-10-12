@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Actions\Indexing;
 /**
  * The Cursor Manager abstract class.
  */
-abstract class Cursor_Manager {
+abstract class Abstract_Cursor_Manager {
 
 	/**
 	 * Returns the cursor id.
