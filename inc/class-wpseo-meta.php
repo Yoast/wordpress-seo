@@ -393,7 +393,15 @@ class WPSEO_Meta {
 
 				$article_helper = new Article_Helper();
 				if ( $post_type !== 'page' && $article_helper->is_author_supported( $post_type ) ) {
-					$field_defs['schema_article_type']['default'] = WPSEO_Options::get( 'schema-article-type-' . $post_type );
+					$default_schema_article_type = WPSEO_Options::get( 'schema-article-type-' . $post_type );
+
+					/** This filter is documented in inc/options/class-wpseo-option-titles.php */
+					$allowed_article_types = apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES );
+
+					if ( ! \array_key_exists( $default_schema_article_type, $allowed_article_types, true ) ) {
+						$default_schema_article_type = WPSEO_Options::get_default( 'wpseo_titles', 'schema-article-type-' . $post_type );
+					}
+					$field_defs['schema_article_type']['default'] = $default_schema_article_type;
 				}
 				else {
 					unset( $field_defs['schema_article_type'] );
@@ -1058,13 +1066,7 @@ class WPSEO_Meta {
 	 * @return void
 	 */
 	public static function filter_schema_article_types() {
-		/**
-		 * Filter: 'wpseo_schema_article_types' - Allow developers to filter the available article types.
-		 *
-		 * Make sure when you filter this to also filter `wpseo_schema_article_types_labels`.
-		 *
-		 * @api array $schema_article_types The available schema article types.
-		 */
+		/** This filter is documented in inc/options/class-wpseo-option-titles.php */
 		self::$meta_fields['schema']['schema_article_type']['options'] = apply_filters( 'wpseo_schema_article_types', self::$meta_fields['schema']['schema_article_type']['options'] );
 	}
 }
