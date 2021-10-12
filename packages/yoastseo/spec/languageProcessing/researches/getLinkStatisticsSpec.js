@@ -102,6 +102,23 @@ describe( "Tests a string for anchors and its attributes", function() {
 		expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
 	} );
 
+	it( "should not detect the keyword in link text which links to a fragment on the same page", function() {
+		const attributes = {
+			keyword: "focuskeyword",
+			url: "http://yoast.com/this-page/",
+			permalink: "http://yoast.com/this-page/",
+		};
+
+		const mockPaper = new Paper( "string <a href='#some-fragment'>focuskeyword</a>", attributes );
+		const researcher = new EnglishResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toBe( 1 );
+		expect( foundLinks.otherTotal ).toBe( 1 );
+		expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
+	} );
+
 	it( "should detect nofollow as rel attribute", function() {
 		let mockPaper = new Paper( "string <a href='http://example.com' rel='nofollow'>link</a>", paperAttributes );
 		let researcher = new EnglishResearcher( mockPaper );
