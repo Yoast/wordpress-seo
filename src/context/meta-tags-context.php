@@ -6,6 +6,7 @@ use WP_Block_Parser_Block;
 use WP_Post;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Config\Schema_IDs;
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -492,6 +493,13 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		$additional_type = $this->indexable->schema_article_type;
 		if ( \is_null( $additional_type ) ) {
 			$additional_type = $this->options->get( 'schema-article-type-' . $this->indexable->object_sub_type );
+		}
+
+		/** This filter is documented in inc/options/class-wpseo-option-titles.php */
+		$allowed_article_types = \apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES );
+
+		if ( ! \array_key_exists( $additional_type, $allowed_article_types ) ) {
+			$additional_type = $this->options->get_title_default( 'schema-article-type-' . $this->indexable->object_sub_type );
 		}
 
 		// If the additional type is a subtype of Article, we're fine, and we can bail here.
