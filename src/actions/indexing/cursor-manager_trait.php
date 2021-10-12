@@ -3,16 +3,18 @@
 namespace Yoast\WP\SEO\Actions\Indexing;
 
 /**
- * The Cursor Manager abstract class.
+ * The Cursor Manager trait.
  */
-abstract class Abstract_Cursor_Manager {
+trait Cursor_Manager_Trait {
 
 	/**
 	 * Returns the cursor id.
 	 *
 	 * @return string The cursor id.
 	 */
-	abstract public function get_cursor_id();
+	public function get_cursor_id() {
+		return $this->cursor_id;
+	}
 
 	/**
 	 * Returns the stored cursor value.
