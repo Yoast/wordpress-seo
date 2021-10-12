@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import { enableFeatures } from "@yoast/feature-flag";
 import removePunctuation from "../../../../src/languageProcessing/helpers/sanitize/removePunctuation.js";
 

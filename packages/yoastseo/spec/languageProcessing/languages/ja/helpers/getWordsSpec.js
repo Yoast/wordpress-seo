@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import { enableFeatures } from "@yoast/feature-flag";
 import getWords from "../../../../../src/languageProcessing/languages/ja/helpers/getWords";
 
