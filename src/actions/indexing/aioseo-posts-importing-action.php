@@ -12,7 +12,9 @@ use Yoast\WP\SEO\Helpers\Meta_Helper;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Aioseo_Posts_Importing_Action extends Abstract_Cursor_Manager implements Importing_Action_Interface {
+class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
+
+	use Cursor_Manager_Trait;
 
 	/**
 	 * The domain of the action.
@@ -23,11 +25,12 @@ class Aioseo_Posts_Importing_Action extends Abstract_Cursor_Manager implements I
 	 * The name of the action.
 	 */
 	const NAME = 'posts';
-
 	/**
-	 * The persistent cursor key.
+	 * The map of yoast to post meta.
+	 *
+	 * @var string
 	 */
-	const CURSOR_ID = 'wpseo_' . self::DOMAIN . '_' . self::NAME . '_import_cursor';
+	private $cursor_id = 'wpseo_' . self::DOMAIN . '_' . self::NAME . '_import_cursor';
 
 	/**
 	 * Represents the indexables repository.
@@ -89,33 +92,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Cursor_Manager implements I
 		$this->indexable_repository = $indexable_repository;
 		$this->wpdb                 = $wpdb;
 		$this->meta                 = $meta;
-	}
-
-	/**
-	 * Retrieves the constant domain of the class.
-	 *
-	 * @return string The domain of the class.
-	 */
-	public function get_domain() {
-		return self::DOMAIN;
-	}
-
-	/**
-	 * Retrieves the constant name of the class.
-	 *
-	 * @return string The constant name of the class.
-	 */
-	public function get_name() {
-		return self::NAME;
-	}
-
-	/**
-	 * Retrieves the constant cursor id of the class.
-	 *
-	 * @return string The constant cursor id of the class.
-	 */
-	public function get_cursor_id() {
-		return self::CURSOR_ID;
 	}
 
 	/**
