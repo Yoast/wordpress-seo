@@ -95,7 +95,7 @@
       "<rootDir>/spec/scoring/productPages/fullTextTests/testTexts/*/*\\.html"
     ],
     "testRegex": "/spec/.*\\.(js)$",
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
     "moduleDirectories": [
       "node_modules"
     ],
