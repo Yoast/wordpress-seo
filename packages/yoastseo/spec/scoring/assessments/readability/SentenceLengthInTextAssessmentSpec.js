@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import { merge } from "lodash-es";
 import addMark from "../../../../src/markers/addMark";
 import SentenceLengthInTextAssessment from "../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
