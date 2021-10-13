@@ -310,6 +310,27 @@ class WPSEO_Admin_Asset_Manager {
 			'in_footer' => ! in_array( 'post-edit-classic', $header_scripts, true ),
 		];
 
+		$scripts['workouts'] = [
+			'name'         => 'workouts',
+			'src'         => 'workouts-' . $flat_version,
+			'deps' => [
+				'clipboard',
+				'lodash',
+				'wp-api-fetch',
+				'wp-a11y',
+				'wp-components',
+				'wp-compose',
+				'wp-data',
+				'wp-dom-ready',
+				'wp-element',
+				'wp-i18n',
+				WPSEO_Admin_Asset_Manager::PREFIX . 'analysis',
+				WPSEO_Admin_Asset_Manager::PREFIX . 'editor-modules',
+				WPSEO_Admin_Asset_Manager::PREFIX . 'react-select',
+				WPSEO_Admin_Asset_Manager::PREFIX . 'yoast-components',
+			],
+		];
+
 		// Add the current language to every script that requires the analysis package.
 		foreach ( $scripts as $name => $script ) {
 			if ( substr( $name, -8 ) === 'language' ) {
