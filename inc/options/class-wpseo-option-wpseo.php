@@ -79,6 +79,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_metabox_insights'                  => true,
 		'enable_link_suggestions'                  => true,
 		'algolia_integration_active'               => false,
+		'import_cursors'                           => [],
 	];
 
 	/**
@@ -358,6 +359,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					}
 					break;
 
+				case 'import_cursors':
+					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
+						$clean[ $key ] = $dirty[ $key ];
+					}
+					break;
 				/*
 				 * Boolean (checkbox) fields.
 				 */

@@ -6,6 +6,7 @@ use wpdb;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Importing action for AIOSEO post data.
@@ -30,7 +31,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 *
 	 * @var string
 	 */
-	private $cursor_id = 'wpseo_' . self::DOMAIN . '_' . self::NAME . '_import_cursor';
+	private $cursor_id = self::DOMAIN . '_' . self::NAME;
 
 	/**
 	 * Represents the indexables repository.
@@ -52,6 +53,14 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @var Meta_Helper
 	 */
 	protected $meta;
+
+	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options;
+
 
 	/**
 	 * The map of aioseo to yoast meta.
@@ -87,11 +96,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @param Indexable_Repository $indexable_repository The indexables repository.
 	 * @param wpdb                 $wpdb                 The WordPress database instance.
 	 * @param Meta_Helper          $meta                 The Meta helper.
+	 * @param Options_Helper       $options              The options helper.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository, wpdb $wpdb, Meta_Helper $meta ) {
+	public function __construct( Indexable_Repository $indexable_repository, wpdb $wpdb, Meta_Helper $meta, Options_Helper $options ) {
 		$this->indexable_repository = $indexable_repository;
 		$this->wpdb                 = $wpdb;
 		$this->meta                 = $meta;
+		$this->options              = $options;
 	}
 
 	/**
@@ -144,7 +155,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			$last_indexed_aioseo_id = $aioseo_indexable['id'];
 		}
 
-		$this->set_cursor( $last_indexed_aioseo_id );
+		$this->set_cursor( $this->options, $last_indexed_aioseo_id );
 	}
 
 	/**
@@ -214,7 +225,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	public function query() {
 		$indexable_table = $this->wpdb->prefix . 'aioseo_posts';
 
-		$cursor = $this->get_cursor();
+		$cursor = $this->get_cursor( $this->options );
 		$limit  = $this->get_limit();
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.

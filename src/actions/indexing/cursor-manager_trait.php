@@ -18,23 +18,30 @@ trait Cursor_Manager_Trait {
 
 	/**
 	 * Returns the stored cursor value.
+	 * 
+	 * @param Options_Helper $options_helper The options helper
 	 *
 	 * @return int The stored cursor value.
 	 */
-	public function get_cursor() {
-		return \get_site_option( $this->get_cursor_id(), 0 );
+	public function get_cursor( $options_helper ) {
+		$import_cursors = $options_helper->get( 'import_cursors', [] );
+		return ( isset( $import_cursors[ $this->get_cursor_id() ] ) ) ? $import_cursors[ $this->get_cursor_id() ] : 0;
 	}
 
 	/**
 	 * Stores the current cursor value.
 	 *
-	 * @param int $last_imported_id The id of the lastly imported entry.
+	 * @param Options_Helper $options_helper   The options helper.
+	 * @param int            $last_imported_id The id of the lastly imported entry.
 	 *
 	 * @return void.
 	 */
-	public function set_cursor( $last_imported_id ) {
-		if ( $this->get_cursor() < $last_imported_id ) {
-			\update_site_option( $this->get_cursor_id(), $last_imported_id );
+	public function set_cursor( $options_helper, $last_imported_id ) {
+		$current_cursors = $options_helper->get( 'import_cursors', [] );
+
+		if ( ! isset( $current_cursors[ $this->get_cursor_id() ] ) || $current_cursors[ $this->get_cursor_id() ] < $last_imported_id ) {
+			$current_cursors[ $this->get_cursor_id() ] = $last_imported_id;
+			$options_helper->set( 'import_cursors', $current_cursors );
 		}
 	}
 }
