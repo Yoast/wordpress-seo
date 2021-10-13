@@ -18,8 +18,8 @@ trait Cursor_Manager_Trait {
 
 	/**
 	 * Returns the stored cursor value.
-	 * 
-	 * @param Options_Helper $options_helper The options helper
+	 *
+	 * @param Options_Helper $options_helper The options helper.
 	 *
 	 * @return int The stored cursor value.
 	 */
