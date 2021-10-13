@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import transitionWordsResearch from "../../../src/languageProcessing/researches/findTransitionWords.js";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";

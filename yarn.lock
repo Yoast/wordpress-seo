@@ -22889,6 +22889,11 @@ tiny-lr@^1.1.1:
     object-assign "^4.1.0"
     qs "^6.4.0"
 
+tiny-segmenter@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/tiny-segmenter/-/tiny-segmenter-0.2.0.tgz#4f91115efaa90d1f98b481623b0dcc830a9e1a69"
+  integrity sha1-T5ERXvqpDR+YtIFiOw3MgwqeGmk=
+
 tiny-warning@^1.0.0, tiny-warning@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tiny-warning/-/tiny-warning-1.0.3.tgz#94a30db453df4c643d0fd566060d60a875d84754"

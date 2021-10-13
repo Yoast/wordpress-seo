@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import keywordCount from "../../../src/languageProcessing/researches/keywordCount.js";
 import Paper from "../../../src/values/Paper.js";
 import factory from "../../specHelpers/factory";

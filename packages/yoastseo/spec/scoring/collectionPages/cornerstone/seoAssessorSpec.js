@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import Assessor from "../../../../src/scoring/collectionPages/cornerstone/seoAssessor.js";
 import Paper from "../../../../src/values/Paper.js";

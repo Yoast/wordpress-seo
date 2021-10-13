@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import getKeywordDensity from "../../../src/languageProcessing/researches/getKeywordDensity.js";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";

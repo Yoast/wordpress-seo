@@ -522,9 +522,13 @@ class Yoast_Form {
 	 *
 	 * @param string $var The variable within the option to create the hidden input for.
 	 * @param string $id  The ID of the element.
+	 * @param mixed  $val Optional. The value to set in the input field. Otherwise the value from the options will be used.
 	 */
-	public function hidden( $var, $id = '' ) {
-		$val = $this->get_field_value( $var, '' );
+	public function hidden( $var, $id = '', $val = null ) {
+		if ( is_null( $val ) ) {
+			$val = $this->get_field_value( $var, '' );
+		}
+
 		if ( is_bool( $val ) ) {
 			$val = ( $val === true ) ? 'true' : 'false';
 		}
