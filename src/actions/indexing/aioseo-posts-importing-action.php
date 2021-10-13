@@ -26,6 +26,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * The name of the action.
 	 */
 	const NAME = 'posts';
+
 	/**
 	 * The map of yoast to post meta.
 	 *
@@ -60,7 +61,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @var Options_Helper
 	 */
 	protected $options;
-
 
 	/**
 	 * The map of aioseo to yoast meta.

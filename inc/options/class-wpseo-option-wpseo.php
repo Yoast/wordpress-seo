@@ -364,6 +364,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 						$clean[ $key ] = $dirty[ $key ];
 					}
 					break;
+
 				/*
 				 * Boolean (checkbox) fields.
 				 */
