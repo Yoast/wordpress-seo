@@ -32,6 +32,7 @@ const entry = {
 	"term-edit": "./packages/js/src/term-edit.js",
 	"used-keywords-assessment": "./packages/js/src/used-keywords-assessment.js",
 	"react-select": "./packages/js/src/externals/react-select.js",
+	workouts: "./packages/js/src/workouts.js",
 };
 
 /**

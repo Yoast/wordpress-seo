@@ -311,8 +311,8 @@ class WPSEO_Admin_Asset_Manager {
 		];
 
 		$scripts['workouts'] = [
-			'name'         => 'workouts',
-			'src'         => 'workouts-' . $flat_version,
+			'name' => 'workouts',
+			'src'  => 'workouts-' . $flat_version . '.js',
 			'deps' => [
 				'clipboard',
 				'lodash',
@@ -324,10 +324,10 @@ class WPSEO_Admin_Asset_Manager {
 				'wp-dom-ready',
 				'wp-element',
 				'wp-i18n',
-				WPSEO_Admin_Asset_Manager::PREFIX . 'analysis',
-				WPSEO_Admin_Asset_Manager::PREFIX . 'editor-modules',
-				WPSEO_Admin_Asset_Manager::PREFIX . 'react-select',
-				WPSEO_Admin_Asset_Manager::PREFIX . 'yoast-components',
+				self::PREFIX . 'analysis',
+				self::PREFIX . 'editor-modules',
+				self::PREFIX . 'react-select',
+				self::PREFIX . 'yoast-components',
 			],
 		];
 

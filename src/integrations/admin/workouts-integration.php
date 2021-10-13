@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Premium\Integrations\Admin;
+namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Shortlinker;
@@ -9,7 +9,6 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Routes\Workouts_Route;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -75,11 +74,11 @@ class Workouts_Integration implements Integration_Interface {
 		Options_Helper $options_helper,
 		Post_Type_Helper $post_type_helper
 	) {
-		$this->indexable_repository    = $indexable_repository;
-		$this->admin_asset_manager     = $admin_asset_manager;
-		$this->shortlinker             = $shortlinker;
-		$this->options_helper          = $options_helper;
-		$this->post_type_helper        = $post_type_helper;
+		$this->indexable_repository = $indexable_repository;
+		$this->admin_asset_manager  = $admin_asset_manager;
+		$this->shortlinker          = $shortlinker;
+		$this->options_helper       = $options_helper;
+		$this->post_type_helper     = $post_type_helper;
 	}
 
 	/**
@@ -102,7 +101,7 @@ class Workouts_Integration implements Integration_Interface {
 		$submenu_pages[] = [
 			'wpseo_dashboard',
 			'',
-			\__( 'Workouts', 'wordpress-seo-premium' ) . ' <span class="yoast-badge yoast-premium-badge"></span>',
+			\__( 'Workouts', 'wordpress-seo' ) . ' <span class="yoast-badge yoast-premium-badge"></span>',
 			'edit_others_posts',
 			'wpseo_workouts',
 			[ $this, 'render_target' ],
@@ -120,7 +119,7 @@ class Workouts_Integration implements Integration_Interface {
 			return;
 		}
 
-		$this->admin_asset_manager->enqueue_style( 'monorepo' );
+		$this->admin_asset_manager->enqueue_style( 'workouts' );
 
 		$workouts_option = $this->options_helper->get( 'workouts' );
 

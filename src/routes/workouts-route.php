@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Premium\Routes;
+namespace Yoast\WP\SEO\Routes;
 
 use WP_REST_Response;
 use WPSEO_Meta;
@@ -53,19 +53,18 @@ class Workouts_Route implements Route_Interface {
 	/**
 	 * Workouts_Route constructor.
 	 *
-	 * @param Indexable_Repository    $indexable_repository    The indexable repository.
-	 * @param Link_Suggestions_Action $link_suggestions_action The link suggestions action.
-	 * @param Indexable_Term_Builder  $indexable_term_builder  The indexable term builder.
-	 * @param Post_Type_Helper        $post_type_helper        The post type helper.
+	 * @param Indexable_Repository   $indexable_repository    The indexable repository.
+	 * @param Indexable_Term_Builder $indexable_term_builder  The indexable term builder.
+	 * @param Post_Type_Helper       $post_type_helper        The post type helper.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
 		Indexable_Term_Builder $indexable_term_builder,
 		Post_Type_Helper $post_type_helper
 	) {
-		$this->indexable_repository    = $indexable_repository;
-		$this->indexable_term_builder  = $indexable_term_builder;
-		$this->post_type_helper        = $post_type_helper;
+		$this->indexable_repository   = $indexable_repository;
+		$this->indexable_term_builder = $indexable_term_builder;
+		$this->post_type_helper       = $post_type_helper;
 	}
 
 	/**
@@ -100,6 +99,8 @@ class Workouts_Route implements Route_Interface {
 				],
 			],
 		];
+
+		\register_rest_route( Main::API_V1_NAMESPACE, self::WORKOUTS_ROUTE, $workouts_route );
 	}
 
 	/**

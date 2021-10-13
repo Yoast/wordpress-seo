@@ -11,14 +11,42 @@
 .workflow tr.cornerstone {
 	font-weight: 700;
 }
+
+#wpseo-workouts-container hr {
+	margin-bottom: 24px;
+}
+
+#wpseo-workouts-container progress {
+	margin: 16px 0 8px 0;
+}
+
 #wpseo-workouts-container div.card {
-	max-width: 600px;
+	max-width: 720px;
 	width: 100%;
 	padding: 24px;
 	border-radius: 8px;
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 	border: 0;
 }
+
+#wpseo-workouts-container div.card>h2 {
+	margin: 0 0 1em 0;
+}
+
+#wpseo-workouts-container div.card.card-small {
+	max-width: 320px;
+	display: flex;
+	flex-direction: column;
+}
+
+#wpseo-workouts-container div.card.card-small>span {
+	margin-top: auto;
+}
+
+#wpseo-workouts-container table button {
+	margin: 2px;
+}
+
 .workflow {
 	list-style: none;
 	counter-reset: line-number;
@@ -82,6 +110,16 @@
 	display: block;
 }
 
+.workflow li #react-select-2-input {
+	box-shadow: none !important;
+}
+
+.workflows__index__grid {
+	display: grid;
+	grid-template-columns: 320px 320px;
+	gap: 16px;
+}
+
 .workflow__grid {
 	display: grid;
 	grid-template-columns: auto 100px;
@@ -100,4 +138,63 @@ table.yoast_help.yoast_link_suggestions thead td {
 
 table.yoast_help.yoast_link_suggestions td {
 	vertical-align: middle;
+}
+
+table.yoast_help th.divider {
+	text-align: center;
+}
+
+.workflow table.yoast_help td {
+	vertical-align: middle;
+}
+
+.workflow table.yoast_help.yoast_link_suggestions td div {
+	display: inline-block;
+}
+
+.workflow table.yoast_help.yoast_link_suggestions td strong {
+	display: inline-block;
+	margin-right: 8px;
+}
+
+.components-modal__header {
+	height: 72px;
+	padding: 0 24px;
+}
+
+.components-modal__header .components-modal__header-heading {
+	font-size: 20px;
+	font-weight: 400;
+	color: #a4286a;
+	line-height: 1.2;
+	margin: 0;
+}
+
+.components-modal__header .yoast-icon {
+	background-color: var(--yoast-color-primary);
+	mask-image: var(--yoast-svg-icon-yoast);
+	-webkit-mask-image: var(--yoast-svg-icon-yoast);
+	mask-size: 100% 100%;
+	-webkit-mask-size: 100% 100%;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-right: 8px;
+}
+
+.components-modal__content {
+	padding: 0 24px 24px;
+}
+
+.components-modal__content input[type=text] {
+	width: 100%;
+	max-width: 400px;
+}
+
+.components-modal__frame.yoast__workout {
+	max-width: 720px;
+}
+
+.yoast__redirect-suggestions {
+	line-height: 2;
 }
