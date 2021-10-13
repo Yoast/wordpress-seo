@@ -12,10 +12,5 @@ export function getLanguagesWithWordFormSupport() {
 		supportedLanguages.push( "ja" );
 	}
 
-	// Add Greek to the supported languages list if the feature is enabled.
-	if ( isFeatureEnabled( "GREEK_SUPPORT" ) ) {
-		supportedLanguages.push( "el" );
-	}
-
 	return supportedLanguages;
 }
