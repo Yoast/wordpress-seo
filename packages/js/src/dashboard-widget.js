@@ -251,8 +251,8 @@ class DashboardWidget extends Component {
 			},
 			{
 				title: "Wincher_login",
-				width: 400,
-				height: 600,
+				width: 500,
+				height: 700,
 			}
 		);
 
