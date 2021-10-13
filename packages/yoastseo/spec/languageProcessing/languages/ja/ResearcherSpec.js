@@ -1,5 +1,6 @@
 import Researcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
+import functionWords from "../../../../src/languageProcessing/languages/ja/config/functionWords";
 
 describe( "a test for Japanese Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -18,6 +19,10 @@ describe( "a test for Japanese Researcher", function() {
 
 	it( "returns false if the Japanese Researcher doesn't have a certain config", function() {
 		expect( researcher.getConfig( "sentenceLength" ) ).toBe( false );
+	} );
+
+	it( "returns false if the Japanese Researcher doesn't have a certain config", function() {
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
 	} );
 
 	it( "doesn't stem word if the Japanese Researcher is used", function() {
