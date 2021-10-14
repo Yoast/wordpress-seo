@@ -4,7 +4,9 @@ podTemplate(
 			name: 'node',
 			image: 'node:12',
 			ttyEnabled: true,
-			envVars: []
+			envVars: [
+			    CI: true
+			]
 		)
 	],
 	volumes: [
@@ -20,7 +22,6 @@ podTemplate(
 				    sh 'yarn lint'
 				    sh 'yarn test'
 				}
-
 			}
 		}
 	}
