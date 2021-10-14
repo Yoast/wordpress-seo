@@ -20,7 +20,9 @@ podTemplate(
 				dir( 'packages/yoastseo' ) {
 				    sh 'yarn'
 				    sh 'yarn lint'
-				    sh 'yarn test'
+				    withCredentials([gitUsernamePassword(credentialsId: '8c97ea6c-a347-40a4-b1aa-5637ba96510a', gitToolName: 'git-tool')]) {
+				         sh 'yarn test'
+				    }
 				}
 			}
 		}
