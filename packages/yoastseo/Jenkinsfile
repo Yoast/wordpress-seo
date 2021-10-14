@@ -7,16 +7,16 @@ podTemplate(
 			envVars: [
 				envVar(key: 'CI', value: 'true')
 			],
-			nodeSelector: {
-				jenkins: worker
-			},
 		)
 	],
+	nodeSelector: {
+		jenkins: worker
+	},
 	volumes: [
 		emptyDirVolume(mountPath: '/var/www/html', memory: false),
 	]
 ) {
-	node('jenkins-agent') {
+	node(POD_LABEL) {
 		stage('Run shell') {
 			container('node') {
 				checkout scm
