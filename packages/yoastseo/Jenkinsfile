@@ -14,7 +14,11 @@ podTemplate(
 	node(POD_LABEL) {
 		stage('Run shell') {
 			container('node') {
+				checkout scm
+				sh 'cd packages/yoastseo'
 				sh 'yarn'
+				sh 'yarn lint'
+				sh 'yarn test'
 			}
 		}
 	}
