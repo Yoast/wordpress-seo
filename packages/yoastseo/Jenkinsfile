@@ -13,22 +13,32 @@ podTemplate(
 		emptyDirVolume(mountPath: '/var/www/html', memory: false),
 	]
 ) {
-	node(POD_LABEL) {
+	node('jenkins-agent') {
 		stage('Run shell') {
 			container('node') {
 				checkout scm
 				dir( 'packages/yoastseo' ) {
-					sh 'yarn'
-					try {
-						sh 'yarn lint --output-file-src=`pwd`/build/logs/code-style-src.txt --output-file-tests=`pwd`/build/logs/code-style-tests.txt'
-					}
-					finally {
-						def checkstyle = scanForIssues tool: checkStyle(pattern: 'build/logs/code-style-src.txt')
-						def checkstyleTests = scanForIssues tool: checkStyle(pattern: 'build/logs/code-style-tests.txt')
-						publishIssues issues: [checkstyle, checkstyleTests]
-					}
-					withCredentials([gitUsernamePassword(credentialsId: '8c97ea6c-a347-40a4-b1aa-5637ba96510a', gitToolName: 'git-tool')]) {
-						 sh 'yarn test'
+					stages {
+						stage('yarn install') {
+							sh 'yarn'
+						}
+						parallel {
+							stage('linter') {
+								try {
+									sh 'yarn lint --output-file-src=`pwd`/build/logs/code-style-src.txt --output-file-tests=`pwd`/build/logs/code-style-tests.txt'
+								}
+								finally {
+									def checkstyle = scanForIssues tool: checkStyle(pattern: 'build/logs/code-style-src.txt')
+									def checkstyleTests = scanForIssues tool: checkStyle(pattern: 'build/logs/code-style-tests.txt')
+									publishIssues issues: [checkstyle, checkstyleTests]
+								}
+							}
+							stage('tests') {
+								withCredentials([gitUsernamePassword(credentialsId: '8c97ea6c-a347-40a4-b1aa-5637ba96510a', gitToolName: 'git-tool')]) {
+									sh 'yarn test'
+								}
+							}
+						}
 					}
 				}
 			}
