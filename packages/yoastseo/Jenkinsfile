@@ -15,10 +15,12 @@ podTemplate(
 		stage('Run shell') {
 			container('node') {
 				checkout scm
-				sh 'cd packages/yoastseo'
-				sh 'yarn'
-				sh 'yarn lint'
-				sh 'yarn test'
+				dir( 'packages/yoastseo' ) {
+				    sh 'yarn'
+				    sh 'yarn lint'
+				    sh 'yarn test'
+				}
+
 			}
 		}
 	}
