@@ -11,6 +11,18 @@ export const getWorkouts = ( state ) => {
 };
 
 /**
+ * Gets the indexables for a particular step.
+ *
+ * @param {Object} state The state.
+ * @param {string} workout The name of the workout.
+ * @param {string} step The name of the step.
+ * @returns {Object[]} The indexables.
+ */
+export const getIndexablesByStep = ( state, workout, step ) => {
+	return state.workouts[ workout ].indexablesByStep[ step ];
+};
+
+/**
  * Get the finished workouts.
  * @param {Object} state The state.
  * @returns {String[]} The finished workouts.

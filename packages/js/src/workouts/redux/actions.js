@@ -1,6 +1,3 @@
-import { STEPS } from "../config";
-import apiFetch from "@wordpress/api-fetch";
-
 export const FINISH_STEPS = "FINISH_STEPS";
 export const TOGGLE_WORKOUT = "TOGGLE_WORKOUT";
 export const SET_WORKOUTS = "SET_WORKOUTS";
@@ -77,4 +74,42 @@ export const clearActiveWorkout = () => {
  */
 export const toggleStep = ( workout, step ) => {
 	return { type: TOGGLE_STEP, workout, step };
+};
+
+/**
+ * Saves an indexable for a workout.
+ * This allows a workout to remember indexables that are being worked on.
+ *
+ * @param {string} workout The workout for which to toggle the step.
+ * @param {object[]} indexables The indexables.
+ * @param {string} fromStep The step from which to move the indexables.
+ * @param {string} toStep The step to which to move the indexables.
+ *
+ * @returns {object} The action that moves the indexables.
+ */
+export const moveIndexables = ( workout, indexables, fromStep, toStep ) => {
+	return { type: MOVE_INDEXABLES, workout, indexables, fromStep, toStep };
+};
+
+/**
+ * Clears the indexables as stored for a workout.
+ *
+ * @param {string} workout The workout for which to toggle the step.
+ *
+ * @returns {object} The action that clears the indexables.
+ */
+export const clearIndexables = ( workout ) => {
+	return { type: CLEAR_INDEXABLES, workout };
+};
+
+/**
+ * Clears the indexables in specific steps as stored for a workout.
+ *
+ * @param {string}   workout The workout for which to toggle the step.
+ * @param {string[]} steps   The steps to clear.
+ *
+ * @returns {object} The action that clears the indexables in specific steps.
+ */
+export const clearIndexablesInSteps = ( workout, steps ) => {
+	return { type: CLEAR_INDEXABLES_IN_STEPS, workout, steps };
 };

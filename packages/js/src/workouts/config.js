@@ -8,14 +8,6 @@ export const WORKOUTS = {
 };
 
 /**
- * The names of the steps per workout.
- */
-export const STEPS = {
-	cornerstone: {},
-	orphaned: {},
-};
-
-/**
  * The names of the finishable steps per workout.
  */
 export const FINISHABLE_STEPS = {

@@ -1,6 +1,8 @@
 import { union, merge, cloneDeep } from "lodash";
 import {
-	CLEAR_ACTIVE_WORKOUT, FINISH_STEPS, OPEN_WORKOUT,
+	CLEAR_ACTIVE_WORKOUT, CLEAR_INDEXABLES,
+	CLEAR_INDEXABLES_IN_STEPS,
+	FINISH_STEPS, MOVE_INDEXABLES, OPEN_WORKOUT,
 	SET_WORKOUTS, TOGGLE_STEP, TOGGLE_WORKOUT,
 } from "./actions";
 import { FINISHABLE_STEPS } from "../config";
@@ -69,6 +71,28 @@ const workoutsReducer = ( state = initialState, action ) => {
 		case SET_WORKOUTS:
 			newState.workouts = merge( newState.workouts, action.workouts );
 			newState.loading = false;
+			return newState;
+		case MOVE_INDEXABLES:
+			action.indexables.forEach( function( indexable ) {
+				if ( action.fromStep !== "" ) {
+					const oldLocation = newState.workouts[ action.workout ].indexablesByStep[ action.fromStep ].findIndex(
+						storedIndexable => storedIndexable.id === indexable.id
+					);
+					newState.workouts[ action.workout ].indexablesByStep[ action.fromStep ][ oldLocation ].purge = true;
+					newState.workouts[ action.workout ].indexablesByStep[ action.fromStep ][ oldLocation ].movedTo = action.toStep;
+				}
+				if ( action.toStep !== "" ) {
+					newState.workouts[ action.workout ].indexablesByStep[ action.toStep ].push( indexable );
+				}
+			} );
+			return newState;
+		case CLEAR_INDEXABLES:
+			newState.workouts[ action.workout ].indexablesByStep = initialState.workouts[ action.workout ].indexablesByStep;
+			return newState;
+		case CLEAR_INDEXABLES_IN_STEPS:
+			for ( const step of action.steps ) {
+				newState.workouts[ action.workout ].indexablesByStep[ step ] = [];
+			}
 			return newState;
 		default:
 			return state;
