@@ -9,9 +9,7 @@ podTemplate(
 			],
 		)
 	],
-	nodeSelector: {
-		jenkins: worker
-	},
+	nodeSelector: 'jenkins-worker',
 	volumes: [
 		emptyDirVolume(mountPath: '/var/www/html', memory: false),
 	]
