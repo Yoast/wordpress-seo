@@ -6,7 +6,10 @@ podTemplate(
 			ttyEnabled: true,
 			envVars: [
 				envVar(key: 'CI', value: 'true')
-			]
+			],
+			nodeSelector: {
+				jenkins: worker
+			},
 		)
 	],
 	volumes: [
