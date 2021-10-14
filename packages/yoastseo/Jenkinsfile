@@ -1,48 +1,10 @@
 podTemplate(
 	containers: [
 		containerTemplate(
-			name: 'mysql',
-			image: 'mysql:5.7',
+			name: 'node',
+			image: 'node:12',
 			ttyEnabled: true,
-			envVars: [
-				envVar(key: 'MYSQL_ROOT_PASSWORD', value: 'root'),
-				envVar(key: 'MYSQL_DATABASE', value: 'database'),
-				envVar(key: 'MYSQL_USER', value: 'user'),
-				envVar(key: 'MYSQL_PASSWORD', value: 'password')
-			]
-		),
-		containerTemplate(
-			name: 'wordpress',
-			image: 'yoastseo/wordpress:latest',
-			ttyEnabled: true,
-			envVars: [
-				envVar(key: 'WORDPRESS_DB_USER', value: 'user'),
-				envVar(key: 'WORDPRESS_DB_PASSWORD', value: 'password'),
-				envVar(key: 'WORDPRESS_DB_NAME', value: 'database'),
-				envVar(key: 'WORDPRESS_DB_HOST', value: '127.0.0.1'),
-				envVar(key: 'WORDPRESS_DEBUG', value: 'true' )
-			]
-		),
-		containerTemplate(
-			name: 'wordpress-cli',
-			image: 'yoastseo/wordpress:cli',
-			ttyEnabled: true,
-			command: 'cat',
-			envVars: [
-				envVar(key: 'WORDPRESS_DB_USER', value: 'user'),
-				envVar(key: 'WORDPRESS_DB_PASSWORD', value: 'password'),
-				envVar(key: 'WORDPRESS_DB_NAME', value: 'database'),
-				envVar(key: 'WORDPRESS_DB_HOST', value: '127.0.0.1'),
-				envVar(key: 'WORDPRESS_DEBUG', value: 'true' )
-			],
-			runAsUser: '1000'
-		),
-		containerTemplate(
-			name: 'screenshot',
-			image: 'zenika/alpine-chrome',
-			ttyEnabled: true,
-			command: 'cat',
-			runAsUser: '1000'
+			envVars: []
 		)
 	],
 	volumes: [
@@ -51,16 +13,8 @@ podTemplate(
 ) {
 	node(POD_LABEL) {
 		stage('Run shell') {
-			container('wordpress-cli') {
-				sh 'while ! mysqladmin ping -h$WORDPRESS_DB_HOST -u$WORDPRESS_DB_USER -p$WORDPRESS_DB_PASSWORD --silent; do sleep 1; done'
-			    sh 'wp core install --url=http://localhost --admin_user=admin --admin_password=password --admin_email=admin@localhost.test --title=Yoast --allow-root --path=/var/www/html'
-			}
-			container('screenshot') {
-				sh 'chromium-browser --headless --use-gl=swiftshader --disable-software-rasterizer --disable-dev-shm-usage --no-sandbox --screenshot --hide-scrollbars --window-size=1920,1080 http://localhost'
-				sh 'mv screenshot.png homepage.png'
-				sh 'chromium-browser --headless --use-gl=swiftshader --disable-software-rasterizer --disable-dev-shm-usage --no-sandbox --screenshot --hide-scrollbars --window-size=1920,1080 http://localhost/wp-login.php'
-				sh 'mv screenshot.png login.png'
-				archiveArtifacts artifacts: '*.png', fingerprint: true
+			container('node') {
+				sh 'yarn'
 			}
 		}
 	}
