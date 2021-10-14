@@ -143,7 +143,7 @@ class Schema_Types {
 					'value' => 'SatiricalArticle',
 				],
 				[
-					'name'  => \__( 'Scholary Article', 'wordpress-seo' ),
+					'name'  => \__( 'Scholarly Article', 'wordpress-seo' ),
 					'value' => 'ScholarlyArticle',
 				],
 				[
