@@ -5,7 +5,7 @@ podTemplate(
 			image: 'node:12',
 			ttyEnabled: true,
 			envVars: [
-			    CI: true
+			    envVar(key: 'CI', value: true)
 			]
 		)
 	],
