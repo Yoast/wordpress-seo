@@ -230,12 +230,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		return $this->wpdb->prepare(
-			"
-			SELECT *
-			FROM {$indexable_table}
-			WHERE id > %d
-			ORDER BY id
-			LIMIT %d",
+			"SELECT * FROM {$indexable_table} WHERE id > %d ORDER BY id LIMIT %d",
 			$cursor,
 			$limit
 		);
