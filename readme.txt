@@ -239,6 +239,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 17.4 =
 Release Date: October 19th, 2021
 
+Yoast SEO 17.4 is out today! This release comes with several fixes and enhancements to help database performance on larger sites by cleaning up data and streamlining retrieval. Happy updating! Read more about what's new in Yoast SEO 17.4 in [our release post](https://yoa.st/release-17-4)!
+
 Enhancements:
 
 * Improves two queries used to determine whether or not a site has been fully processed using our SEO data optimization. This should prevent potential slowdowns in extremely large sites.
