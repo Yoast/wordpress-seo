@@ -35,7 +35,7 @@ class Language_Helper {
 	 * @return bool Whether word form recognition is active for the used language.
 	 */
 	public function is_word_form_recognition_active( $language ) {
-		$supported_languages = [ 'de', 'en', 'es', 'fr', 'it', 'nl', 'ru', 'id', 'pt', 'pl', 'ar', 'sv', 'he', 'hu', 'nb', 'tr', 'cs', 'sk', 'fa', 'el' ];
+		$supported_languages = [ 'de', 'en', 'es', 'fr', 'it', 'nl', 'ru', 'id', 'pt', 'pl', 'ar', 'sv', 'he', 'hu', 'nb', 'tr', 'cs', 'sk', 'el' ];
 
 		// If JAPANESE_SUPPORT feature is enabled, push Japanese to the array of the supported languages.
 		if ( $this->japanese_conditional->is_met() ) {
