@@ -42,11 +42,12 @@ export function hasWincherTrackedKeyphrases( state ) {
  */
 export function getWincherTrackableKeyphrases( state ) {
 	const isPremium = getL10nObject().isPremium;
+	const premiumStore = window.wp.data.select( "yoast-seo-premium/editor" );
 
-	if ( isPremium ) {
+	if ( isPremium && premiumStore ) {
 		return [
 			state.focusKeyword,
-			...window.wp.data.select( "yoast-seo-premium/editor" ).getKeywords(),
+			...premiumStore.getKeywords().map( k => k.keyword ),
 		];
 	}
 
