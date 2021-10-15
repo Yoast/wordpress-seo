@@ -42,10 +42,11 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Checks if the Wincher integration is disabled; if so, deletes the tokens.
+	 * Checks if the Wincher integration is disabled; if so, deletes the tokens
+	 * and website id.
 	 *
-	 * We delete the tokens if the Wincher integration is disabled, no matter if
-	 * the value has actually changed or not.
+	 * We delete them if the Wincher integration is disabled, no matter if the
+	 * value has actually changed or not.
 	 *
 	 * @param array $old_value The old value of the option.
 	 * @param array $new_value The new value of the option.
@@ -53,7 +54,11 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	 * @return bool Whether the Wincher tokens have been deleted or not.
 	 */
 	public function check_wincher_option_disabled( $old_value, $new_value ) {
-		return $this->check_token_option_disabled( 'wincher_integration_active', 'wincher_tokens', $new_value );
+		$disabled = $this->check_token_option_disabled( 'wincher_integration_active', 'wincher_tokens', $new_value );
+		if ($disabled) {
+			\YoastSEO()->helpers->options->set( 'wincher_website_id', '' );
+		}
+		return $disabled;
 	}
 
 	/**
