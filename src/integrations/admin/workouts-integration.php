@@ -157,7 +157,7 @@ class Workouts_Integration implements Integration_Interface {
 	 * Renders the target for the React to mount to.
 	 */
 	public function render_target() {
-		echo '<div id="wpseo-workouts-container"></div>';
+		echo '<div id="wpseo-workouts-container-free"></div>';
 	}
 
 	/**

@@ -1,24 +1,29 @@
-import { registerStore } from "@wordpress/data";
+import { register, dispatch, createReduxStore } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
-import { render } from "@wordpress/element";
 
 import Workouts from "./workouts/redux/container";
 import * as actions from "./workouts/redux/actions";
 import * as selectors from "./workouts/redux/selectors";
 import workoutsReducer from "./workouts/redux/reducer";
+import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
 
 const { setWordPressSeoL10n } = window.yoast.editorModules.helpers.i18n;
 setWordPressSeoL10n();
 
-registerStore( "yoast-seo/workouts", {
+const store = createReduxStore( "yoast-seo/workouts", {
 	reducer: workoutsReducer,
 	actions,
 	selectors,
 } );
 
+register( store );
+
+window.wpseoWorkoutsData = window.wpseoWorkoutsData || {};
+window.wpseoWorkoutsData.registerWorkout = ( key, priority, Component ) => {
+	dispatch( "yoast-seo/workouts" ).registerWorkout( key, priority );
+	registerReactComponent( key, Component );
+};
+
 domReady( () => {
-	render(
-		<Workouts />,
-		document.getElementById( "wpseo-workouts-container" ),
-	);
+	renderReactRoot( "wpseo-workouts-container-free", <Workouts /> );
 } );

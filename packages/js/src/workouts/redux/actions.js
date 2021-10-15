@@ -8,6 +8,10 @@ export const MOVE_INDEXABLES = "MOVE_INDEXABLES";
 export const CLEAR_INDEXABLES = "CLEAR_INDEXABLES";
 export const CLEAR_INDEXABLES_IN_STEPS = "CLEAR_INDEXABLES_IN_STEPS";
 
+export const registerWorkout = ( key, priority ) => {
+	return { type: "REGISTER_WORKOUT", payload: { key, priority } };
+};
+
 /**
  * An action creator for finishing a workout step.
  *
