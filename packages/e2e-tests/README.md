@@ -25,7 +25,9 @@ grunt build:dev
 5. Move to the package folder by doing `cd packages/e2e-tests`.
 6. Now you will need to start a WordPress local environment using [@wordpress/env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/).
 
-First make sure Docker is running on your machine and run this command `bash e2e-test-env-setup.sh`.
+> First, make sure you install the `@wordpress/env` package if you haven't already: `npm -g i @wordpress/env`.
+> Then, make sure Docker is running on your machine and run this command `bash e2e-test-env-setup.sh`.
+
 The command will execute the [e2e-test-env-setup.sh](e2e-test-env-setup.sh) file.
 This file basically:
 - Move to the plugin root folder
