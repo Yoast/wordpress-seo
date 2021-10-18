@@ -5,6 +5,7 @@ import { Fragment, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash-es";
+import styled from "styled-components";
 
 /* Yoast dependencies */
 import { Button, FieldGroup } from "@yoast/components";
@@ -189,6 +190,14 @@ ConnectToWincher.defaultProps = {
 	response: {},
 };
 
+const ContentWrapper = styled.div`
+	${ props => props.isDisabled && `
+		opacity: .4;
+		pointer-events: none;
+		margin-top: 20px;
+	`};
+`;
+
 /**
  * Renders the Wincher SEO Performance modal content.
  *
@@ -219,12 +228,14 @@ export default function WincherSEOPerformanceModalContent( props ) {
 			<ConnectToWincher { ...props } />
 			<GetUserMessage { ...props } />
 
-			<p>{ __( "You can enable / disable tracking the SEO performance for each keyphrase below.", "wordpress-seo" ) }</p>
+			<ContentWrapper isDisabled={ ! isLoggedIn }>
+				<p>{ __( "You can enable / disable tracking the SEO performance for each keyphrase below.", "wordpress-seo" ) }</p>
 
-			{ isLoggedIn && shouldTrackAll && <WincherAutoTrackingEnabledAlert /> }
+				{ isLoggedIn && shouldTrackAll && <WincherAutoTrackingEnabledAlert /> }
 
-			{ requestLimitReached && <WincherLimitReached limit={ limit } /> }
-			<WincherKeyphrasesTable />
+				{ requestLimitReached && <WincherLimitReached limit={ limit } /> }
+				<WincherKeyphrasesTable />
+			</ContentWrapper>
 		</Fragment>
 	);
 }

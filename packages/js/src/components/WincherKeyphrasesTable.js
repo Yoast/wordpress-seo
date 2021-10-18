@@ -29,10 +29,6 @@ const FocusKeyphraseFootnote = styled.span`
 	font-style: italic;
 `;
 
-const StyledTable = styled.table`
-	opacity: ${ props => props.isDisabled ? .5 : 1 };
-`;
-
 /**
  * The WincherKeyphrasesTable component.
  */
@@ -335,7 +331,7 @@ class WincherKeyphrasesTable extends Component {
 
 		return (
 			keyphrases && ! isEmpty( keyphrases ) && <Fragment>
-				<StyledTable className="yoast yoast-table" isDisabled={ isDisabled }>
+				<table className="yoast yoast-table">
 					<thead>
 						<tr>
 							{ allowToggling && <th
@@ -384,7 +380,7 @@ class WincherKeyphrasesTable extends Component {
 							} )
 						}
 					</tbody>
-				</StyledTable>
+				</table>
 				<p style={ { marginBottom: 0, position: "relative" } }>
 					<GetMoreInsightsLink
 						href={ wpseoAdminGlobalL10n[ "links.wincher.login" ] }
