@@ -10,10 +10,12 @@ import { flatten, uniq } from "lodash-es";
  * @returns {Array} The array of created forms.
  */
 function createForms( word, morphologyData ) {
+	const paradigmEndingsGroups = morphologyData.paradigmGroups;
+
 	// The endings in the array are sorted from the longest to the shortest.
 	// This way, if there are multiple matches, the first element in the matched array is always the longest one.
-	const allEndings = morphologyData.allEndings;
-	const paradigmEndingsGroups = morphologyData.paradigmGroups;
+	let allEndings = uniq( flatten( paradigmEndingsGroups ) );
+	allEndings = allEndings.sort( ( a, b ) => b.length - a.length || a.localeCompare( b ) );
 
 	// Check if the word matches any ending(s) and save the ending(s).
 	const matchedEndings = allEndings.filter( ending => word.endsWith( ending ) );
@@ -61,5 +63,6 @@ export default function( word, morphologyData ) {
 	if ( word.length <= 1 ) {
 		return [ word ];
 	}
+
 	return createForms( word, morphologyData );
 }
