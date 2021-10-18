@@ -25,7 +25,9 @@ trait Cursor_Manager_Trait {
 	 */
 	public function get_cursor( $options_helper ) {
 		$import_cursors = $options_helper->get( 'import_cursors', [] );
-		return ( isset( $import_cursors[ $this->get_cursor_id() ] ) ) ? $import_cursors[ $this->get_cursor_id() ] : 0;
+		$cursor_id      = $this->get_cursor_id();
+
+		return ( isset( $import_cursors[ $cursor_id ] ) ) ? $import_cursors[ $cursor_id ] : 0;
 	}
 
 	/**
@@ -38,9 +40,10 @@ trait Cursor_Manager_Trait {
 	 */
 	public function set_cursor( $options_helper, $last_imported_id ) {
 		$current_cursors = $options_helper->get( 'import_cursors', [] );
+		$cursor_id       = $this->get_cursor_id();
 
-		if ( ! isset( $current_cursors[ $this->get_cursor_id() ] ) || $current_cursors[ $this->get_cursor_id() ] < $last_imported_id ) {
-			$current_cursors[ $this->get_cursor_id() ] = $last_imported_id;
+		if ( ! isset( $current_cursors[ $cursor_id ] ) || $current_cursors[ $cursor_id ] < $last_imported_id ) {
+			$current_cursors[ $cursor_id ] = $last_imported_id;
 			$options_helper->set( 'import_cursors', $current_cursors );
 		}
 	}
