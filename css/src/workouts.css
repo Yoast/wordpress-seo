@@ -1,9 +1,9 @@
-#wpseo-workouts-container h1,
-#wpseo-workouts-container h3 {
+#wpseo-workouts-container-free h1,
+#wpseo-workouts-container-free h3 {
 	color: #a4286a;
 	font-weight: 500;
 }
-#wpseo-workouts-container h2 {
+#wpseo-workouts-container-free h2 {
 	font-size: 12px;
 	text-transform: uppercase;
 }
@@ -12,15 +12,15 @@
 	font-weight: 700;
 }
 
-#wpseo-workouts-container hr {
+#wpseo-workouts-container-free hr {
 	margin-bottom: 24px;
 }
 
-#wpseo-workouts-container progress {
+#wpseo-workouts-container-free progress {
 	margin: 16px 0 8px 0;
 }
 
-#wpseo-workouts-container div.card {
+#wpseo-workouts-container-free div.card {
 	max-width: 720px;
 	width: 100%;
 	padding: 24px;
@@ -29,21 +29,21 @@
 	border: 0;
 }
 
-#wpseo-workouts-container div.card>h2 {
+#wpseo-workouts-container-free div.card>h2 {
 	margin: 0 0 1em 0;
 }
 
-#wpseo-workouts-container div.card.card-small {
+#wpseo-workouts-container-free div.card.card-small {
 	max-width: 320px;
 	display: flex;
 	flex-direction: column;
 }
 
-#wpseo-workouts-container div.card.card-small>span {
+#wpseo-workouts-container-free div.card.card-small>span {
 	margin-top: auto;
 }
 
-#wpseo-workouts-container table button {
+#wpseo-workouts-container-free table button {
 	margin: 2px;
 }
 
