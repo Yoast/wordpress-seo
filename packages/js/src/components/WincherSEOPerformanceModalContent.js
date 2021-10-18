@@ -16,7 +16,6 @@ import WincherConnectedAlert from "./modals/WincherConnectedAlert";
 import WincherCurrentlyTrackingAlert from "./modals/WincherCurrentlyTrackingAlert";
 import WincherKeyphrasesTable from "../containers/WincherKeyphrasesTable";
 import WincherExplanation from "./modals/WincherExplanation";
-import WincherNoKeyphraseSet from "./modals/WincherNoKeyphraseSet";
 import WincherAutoTrackingEnabledAlert from "./modals/WincherAutoTrackingEnabledAlert";
 
 /**
@@ -104,8 +103,6 @@ export default function WincherSEOPerformanceModalContent( props ) {
 
 	return (
 		<Fragment>
-			{ hasNoKeyphrase && <WincherNoKeyphraseSet /> }
-
 			{ ! hasNoKeyphrase && (
 				<Fragment>
 					{ isNewlyAuthenticated && <WincherConnectedAlert /> }

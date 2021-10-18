@@ -26,6 +26,7 @@ function WincherModalReducer( state = INITIAL_STATE, action ) {
 		case WINCHER_MODAL_OPEN:
 			return {
 				...state,
+				hasNoKeyphrase: false,
 				whichModalOpen: action.location,
 			};
 		case WINCHER_MODAL_DISMISS:

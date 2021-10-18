@@ -27,6 +27,8 @@ export function openModal( props ) {
 
 	if ( without( keyphrases, "", null ).length === 0 ) {
 		onNoKeyphraseSet();
+
+		return;
 	}
 
 	onOpen( location );
