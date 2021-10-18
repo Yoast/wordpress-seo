@@ -105,8 +105,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->with(
 				$expected_query,
-				0,
-				25
+				[ 0, 25 ]
 			)
 			->andReturn(
 				'
@@ -129,7 +128,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			)
 			->andReturn( [ '1', '2', '3' ] );
 
-		$limited_unimported_rows = $this->mock_instance->get_total_unindexed();
+		$limited_unimported_rows = $this->mock_instance->get_limited_unindexed_count( 25 );
 		$this->assertEquals( 3, $limited_unimported_rows );
 	}
 
@@ -152,8 +151,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->with(
 				$expected_query,
-				0,
-				25
+				[ 0, 25 ]
 			)
 			->andReturn(
 				'
