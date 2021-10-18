@@ -8,7 +8,7 @@ import { isEmpty } from "lodash-es";
 import styled from "styled-components";
 
 /* Yoast dependencies */
-import { Button, FieldGroup } from "@yoast/components";
+import { NewButton, FieldGroup } from "@yoast/components";
 
 /* Internal dependencies */
 import WincherLimitReached from "./modals/WincherLimitReached";
@@ -172,13 +172,13 @@ const ConnectToWincher = ( props ) => {
 		return <WincherReconnectAlert onReconnect={ onLoginCallback } />;
 	}
 
-	return <Button onClick={ onLoginCallback }>
+	return <NewButton onClick={ onLoginCallback } variant="primary">
 		{ sprintf(
 			/* translators: %s expands to Wincher */
 			__( "Connect with %s", "wordpress-seo" ),
 			"Wincher"
 		) }
-	</Button>;
+	</NewButton>;
 };
 
 ConnectToWincher.propTypes = {
