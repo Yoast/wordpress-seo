@@ -109,7 +109,7 @@ export function renderToggleState( { keyphrase, isEnabled, toggleAction, isDisab
 			isEnabled={ isEnabled }
 			onSetToggleState={ toggleAction }
 			showToggleStateLabel={ false }
-			disabled={ isDisabled }
+			disable={ isDisabled }
 		/>
 	);
 }
