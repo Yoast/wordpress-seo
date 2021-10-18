@@ -1,3 +1,5 @@
+import { flatten, uniq } from "lodash-es";
+
 /**
  * Checks if the word matches any paradigm and creates the forms from the matched paradigm(s).
  * If no matches found, returns an array with the original word.
@@ -15,17 +17,20 @@ function createForms( word, morphologyData ) {
 
 	// Check if the word matches any paradigm.
 	const matchedWord = allParadigmsRegex.exec( word );
-	let forms;
+	const forms = [];
 
 	if ( matchedWord === null ) {
-		forms = [ word ];
+		// If there is no match found, add the original word to forms array.
+		forms.push( word );
 	} else {
 		const matchedStem = matchedWord[ 1 ];
 		const matchedEnding = matchedWord[ 2 ];
 
+		// Loop over each endings group in the endings group array.
 		for ( const endingsGroup of paradigmEndingsGroups ) {
+			// Check if the ending of the matched word can be found in the endings group and create all the forms with all the endings in the group.
 			if ( endingsGroup.includes( matchedEnding ) ) {
-				forms = endingsGroup.map( ending => matchedStem + ending );
+				forms.push( endingsGroup.map( ending => matchedStem + ending ) );
 			}
 		}
 	}
@@ -36,13 +41,14 @@ function createForms( word, morphologyData ) {
 		forms.push( word.slice( 0, -ruEnding.length ) );
 	}
 
-	return forms;
+	return uniq( flatten( forms ) );
 }
 /**
  * Creates forms for Japanese word.
  *
  * @param {string}  word            The word to check.
  * @param {Object}  morphologyData  The morphology data.
+ *
  * @returns {Array} The array of created forms.
  */
 export default function( word, morphologyData ) {
