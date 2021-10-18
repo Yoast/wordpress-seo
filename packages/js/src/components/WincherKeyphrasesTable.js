@@ -13,15 +13,13 @@ import { getDirectionalStyle, makeOutboundLink } from "@yoast/helpers";
 /* Internal dependencies */
 import WincherTableRow from "./WincherTableRow";
 import {
-	authenticate,
 	getAccountLimits,
 	getKeyphrases,
 	getKeyphrasesChartData,
+	handleAPIResponse,
 	trackKeyphrases,
 	untrackKeyphrase,
 } from "../helpers/wincherEndpoints";
-import LoginPopup from "../helpers/loginPopup";
-import WincherReconnectAlert from "./modals/WincherReconnectAlert";
 
 const GetMoreInsightsLink = makeOutboundLink();
 
@@ -29,6 +27,10 @@ const FocusKeyphraseFootnote = styled.span`
 	position: absolute;
 	${ getDirectionalStyle( "right", "left" ) }: 8px;
 	font-style: italic;
+`;
+
+const StyledTable = styled.table`
+	opacity: ${ props => props.isDisabled ? .5 : 1 };
 `;
 
 /**
@@ -45,98 +47,11 @@ class WincherKeyphrasesTable extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.onLoginOpen          = this.onLoginOpen.bind( this );
 		this.onTrackKeyphrase     = this.onTrackKeyphrase.bind( this );
 		this.onUntrackKeyphrase   = this.onUntrackKeyphrase.bind( this );
 		this.getTrackedKeyphrases = this.getTrackedKeyphrases.bind( this );
 
 		this.interval = null;
-	}
-
-	/**
-	 * Opens the popup window.
-	 *
-	 * @returns {void}
-	 */
-	onLoginOpen() {
-		this.loginPopup = new LoginPopup(
-			wpseoAdminGlobalL10n[ "links.wincher.auth_url" ],
-			{
-				success: {
-					type: "wincher:oauth:success",
-					callback: ( data ) => this.performAuthenticationRequest( data ),
-				},
-				error: {
-					type: "wincher:oauth:error",
-					callback: () => this.props.onAuthentication( false, false ),
-				},
-			},
-			{
-				title: "Wincher_login",
-				width: 500,
-				height: 700,
-			}
-		);
-
-		this.loginPopup.createPopup();
-	}
-
-	/**
-	 * Wraps the API requests and handles the API responses.
-	 *
-	 * @param {Function} apiRequest        The API request function call to handle.
-	 * @param {Function} onSuccessCallback The callback to run on a successful response.
-	 * @param {number} expectedStatusCode  The expected status code to run the success callback on.
-	 *
-	 * @returns {Promise} The handled response promise.
-	 */
-	async handleAPIResponse( apiRequest, onSuccessCallback, expectedStatusCode = 200 ) {
-		try {
-			const response = await apiRequest();
-
-			if ( response.status === expectedStatusCode ) {
-				return onSuccessCallback( response );
-			}
-
-			this.props.setRequestFailed( response );
-		} catch ( e ) {
-			console.error( e.message );
-		}
-	}
-
-	/**
-	 * Get the tokens using the provided code after user has granted authorization.
-	 *
-	 * @param {Object} data The message data.
-	 *
-	 * @returns {void}
-	 */
-	async performAuthenticationRequest( data ) {
-		const {
-			onAuthentication,
-			setRequestSucceeded,
-			keyphrases,
-			lastRequestKeyphrase,
-		} = this.props;
-
-		await this.handleAPIResponse(
-			() => authenticate( data ),
-			async( response ) => {
-				onAuthentication( true, true );
-				setRequestSucceeded( response );
-
-				// Collect all data known to Wincher first.
-				await this.getTrackedKeyphrases( keyphrases );
-				await this.performTrackingRequest( lastRequestKeyphrase );
-
-				// Close the popup if it's been opened again by mistake.
-				const popup = this.loginPopup.getPopup();
-
-				if ( popup ) {
-					popup.close();
-				}
-			}
-		);
 	}
 
 	/**
@@ -151,6 +66,7 @@ class WincherKeyphrasesTable extends Component {
 			setRequestLimitReached,
 			addTrackingKeyphrase,
 			setRequestSucceeded,
+			setRequestFailed,
 		} = this.props;
 
 		const trackLimits = await getAccountLimits();
@@ -161,11 +77,14 @@ class WincherKeyphrasesTable extends Component {
 			return;
 		}
 
-		await this.handleAPIResponse(
+		await handleAPIResponse(
 			() => trackKeyphrases( keyphrases ),
 			async( response ) => {
 				setRequestSucceeded( response );
 				addTrackingKeyphrase( response.results );
+			},
+			async( response ) => {
+				setRequestFailed( response );
 			},
 			201
 		);
@@ -179,16 +98,10 @@ class WincherKeyphrasesTable extends Component {
 	 * @returns {void}
 	 */
 	async onTrackKeyphrase( keyphrase ) {
-		const { newRequest, isLoggedIn } = this.props;
+		const { newRequest } = this.props;
 
 		// Prepare a new request.
 		newRequest( keyphrase );
-
-		if ( ! isLoggedIn ) {
-			this.onLoginOpen();
-
-			return;
-		}
 
 		await this.performTrackingRequest( keyphrase );
 		await this.getTrackedKeyphrasesChartData( Object.keys( this.props.trackedKeyphrases ) );
@@ -203,13 +116,20 @@ class WincherKeyphrasesTable extends Component {
 	 * @returns {void}
 	 */
 	async onUntrackKeyphrase( keyphrase, keyphraseID ) {
-		const { setRequestSucceeded, removeTrackingKeyphrase } = this.props;
+		const {
+			setRequestSucceeded,
+			removeTrackingKeyphrase,
+			setRequestFailed,
+		} = this.props;
 
-		await this.handleAPIResponse(
+		await handleAPIResponse(
 			() => untrackKeyphrase( keyphraseID ),
 			( response ) => {
 				setRequestSucceeded( response );
 				removeTrackingKeyphrase( keyphrase.toLowerCase() );
+			},
+			async( response ) => {
+				setRequestFailed( response );
 			},
 			204
 		);
@@ -226,9 +146,10 @@ class WincherKeyphrasesTable extends Component {
 		const {
 			setRequestSucceeded,
 			setTrackingKeyphrases,
+			setRequestFailed,
 		} = this.props;
 
-		await this.handleAPIResponse(
+		await handleAPIResponse(
 			() => getKeyphrases( keyphrases ),
 			async( response ) => {
 				setRequestSucceeded( response );
@@ -240,6 +161,9 @@ class WincherKeyphrasesTable extends Component {
 
 				// Get the chart data.
 				await this.getTrackedKeyphrasesChartData( keyphrases );
+			},
+			async( response ) => {
+				setRequestFailed( response );
 			}
 		);
 	}
@@ -256,11 +180,12 @@ class WincherKeyphrasesTable extends Component {
 			setPendingChartRequest,
 			setRequestSucceeded,
 			setTrackingCharts,
+			setRequestFailed,
 		} = this.props;
 
-		await this.handleAPIResponse(
+		await handleAPIResponse(
 			() => getKeyphrasesChartData( keyphrases, window.wp.data.select( "core/editor" ).getPermalink() ),
-			( response ) => {
+			async( response ) => {
 				setRequestSucceeded( response );
 				setTrackingCharts( response.results );
 
@@ -272,6 +197,9 @@ class WincherKeyphrasesTable extends Component {
 					clearInterval( this.interval );
 					setPendingChartRequest( false );
 				}
+			},
+			async( response ) => {
+				setRequestFailed( response );
 			}
 		);
 	}
@@ -392,18 +320,14 @@ class WincherKeyphrasesTable extends Component {
 			websiteId,
 			keyphrases,
 			chartDataTs,
-			response,
+			isLoggedIn,
 		} = this.props;
 
-		if ( ! isEmpty( response ) && response.status === 404 ) {
-			return <WincherReconnectAlert
-				onReconnect={ this.onLoginOpen }
-			/>;
-		}
+		const isDisabled = ! isLoggedIn;
 
 		return (
 			keyphrases && ! isEmpty( keyphrases ) && <Fragment>
-				<table className="yoast yoast-table">
+				<StyledTable className="yoast yoast-table" isDisabled={ isDisabled }>
 					<thead>
 						<tr>
 							{ allowToggling && <th
@@ -447,11 +371,12 @@ class WincherKeyphrasesTable extends Component {
 									chartDataTs={ chartDataTs }
 									isFocusKeyphrase={ index === 0 }
 									websiteId={ websiteId }
+									isDisabled={ isDisabled }
 								/> );
 							} )
 						}
 					</tbody>
-				</table>
+				</StyledTable>
 				<p style={ { marginBottom: 0, position: "relative" } }>
 					<GetMoreInsightsLink
 						href={ wpseoAdminGlobalL10n[ "links.wincher.login" ] }
@@ -478,19 +403,16 @@ WincherKeyphrasesTable.propTypes = {
 	allowToggling: PropTypes.bool,
 	isLoggedIn: PropTypes.bool,
 	trackAll: PropTypes.bool,
-	response: PropTypes.object,
 	newRequest: PropTypes.func.isRequired,
 	setRequestSucceeded: PropTypes.func.isRequired,
 	setRequestLimitReached: PropTypes.func.isRequired,
 	setRequestFailed: PropTypes.func.isRequired,
-	onAuthentication: PropTypes.func.isRequired,
 	addTrackingKeyphrase: PropTypes.func.isRequired,
 	setPendingChartRequest: PropTypes.func.isRequired,
 	setTrackingCharts: PropTypes.func.isRequired,
 	removeTrackingKeyphrase: PropTypes.func.isRequired,
 	setTrackingKeyphrases: PropTypes.func.isRequired,
 	websiteId: PropTypes.number,
-	lastRequestKeyphrase: PropTypes.string,
 	chartDataTs: PropTypes.number,
 };
 
@@ -502,8 +424,6 @@ WincherKeyphrasesTable.defaultProps = {
 	isLoggedIn: false,
 	trackAll: false,
 	websiteId: 0,
-	lastRequestKeyphrase: "",
-	response: {},
 	chartDataTs: 0,
 };
 

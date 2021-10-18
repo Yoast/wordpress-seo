@@ -94,13 +94,14 @@ PositionOverTimeChart.defaultProps = {
 /**
  * Gets the toggles state of the keyphrase.
  *
- * @param {string}  keyphrase The toggle's associated keyphrase.
- * @param {boolean} isEnabled Whether or not the toggle is enabled.
+ * @param {string}   keyphrase The toggle's associated keyphrase.
+ * @param {boolean}  isEnabled Whether or not the toggle is enabled.
  * @param {function} toggleAction The toggle action to call.
+ * @param {boolean}  isDisabled Whether the toggle is disabled. Defaults to false.
  *
  * @returns {wp.Element} The toggle component.
  */
-export function renderToggleState( { keyphrase, isEnabled, toggleAction } ) {
+export function renderToggleState( { keyphrase, isEnabled, toggleAction, isDisabled = false } ) {
 	return (
 		<Toggle
 			id={ `toggle-keyphrase-tracking-${keyphrase}` }
@@ -108,6 +109,7 @@ export function renderToggleState( { keyphrase, isEnabled, toggleAction } ) {
 			isEnabled={ isEnabled }
 			onSetToggleState={ toggleAction }
 			showToggleStateLabel={ false }
+			disabled={ isDisabled }
 		/>
 	);
 }
@@ -198,12 +200,17 @@ export default function WincherTableRow( props ) {
 		onTrackKeyphrase,
 		onUntrackKeyphrase,
 		isFocusKeyphrase,
+		isDisabled,
 	} = props;
 
 	const isEnabled  = ! isEmpty( rowData );
 
 	const toggleAction = useCallback(
 		() => {
+			if ( isDisabled ) {
+				return () => {};
+			}
+
 			if ( isEnabled ) {
 				( async() => {
 					await onUntrackKeyphrase( keyphrase, rowData.id );
@@ -214,11 +221,11 @@ export default function WincherTableRow( props ) {
 				} )();
 			}
 		},
-		[ keyphrase, onTrackKeyphrase, onUntrackKeyphrase, isEnabled, rowData ]
+		[ keyphrase, onTrackKeyphrase, onUntrackKeyphrase, isEnabled, rowData, isDisabled ]
 	);
 
 	return <tr>
-		{ allowToggling && <td>{ renderToggleState( { keyphrase, isEnabled, toggleAction } ) }</td> }
+		{ allowToggling && <td>{ renderToggleState( { keyphrase, isEnabled, toggleAction, isDisabled } ) }</td> }
 		<td>{ keyphrase }{ isFocusKeyphrase && <span>*</span> }</td>
 
 		{ getPositionalDataByState( props ) }
@@ -232,7 +239,7 @@ WincherTableRow.propTypes = {
 	onTrackKeyphrase: PropTypes.func,
 	onUntrackKeyphrase: PropTypes.func,
 	isFocusKeyphrase: PropTypes.bool,
-	chartDataTs: PropTypes.number,
+	isDisabled: PropTypes.bool,
 };
 
 WincherTableRow.defaultProps = {
@@ -241,4 +248,5 @@ WincherTableRow.defaultProps = {
 	onTrackKeyphrase: () => {},
 	onUntrackKeyphrase: () => {},
 	isFocusKeyphrase: false,
+	isDisabled: false,
 };

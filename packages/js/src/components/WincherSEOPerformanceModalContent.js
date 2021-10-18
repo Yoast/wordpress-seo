@@ -1,13 +1,13 @@
-/* global wpseoAdminL10n */
+/* global wpseoAdminL10n, wpseoAdminGlobalL10n */
 
 /* External dependencies */
-import { Fragment } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { Fragment, useCallback } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash-es";
 
 /* Yoast dependencies */
-import { FieldGroup } from "@yoast/components";
+import { Button, FieldGroup } from "@yoast/components";
 
 /* Internal dependencies */
 import WincherLimitReached from "./modals/WincherLimitReached";
@@ -17,6 +17,9 @@ import WincherCurrentlyTrackingAlert from "./modals/WincherCurrentlyTrackingAler
 import WincherKeyphrasesTable from "../containers/WincherKeyphrasesTable";
 import WincherExplanation from "./modals/WincherExplanation";
 import WincherAutoTrackingEnabledAlert from "./modals/WincherAutoTrackingEnabledAlert";
+import LoginPopup from "../helpers/loginPopup";
+import { authenticate, handleAPIResponse } from "../helpers/wincherEndpoints";
+import WincherReconnectAlert from "./modals/WincherReconnectAlert";
 
 /**
  * Determines whether the error property is present in the passed response object.
@@ -84,6 +87,108 @@ GetUserMessage.defaultProps = {
 	response: {},
 };
 
+let currentPopup = null;
+
+/**
+ * Get the tokens using the provided code after user has granted authorization.
+ *
+ * @param {Object} props The props.
+ * @param {Object} data The message data.
+ *
+ * @returns {void}
+ */
+const performAuthenticationRequest = async( props, data ) => {
+	const {
+		onAuthentication,
+		setRequestSucceeded,
+		setRequestFailed,
+	} = props;
+
+	await handleAPIResponse(
+		() => authenticate( data ),
+		async( response ) => {
+			onAuthentication( true, true );
+			setRequestSucceeded( response );
+
+			// Close the popup if it's been opened again by mistake.
+			const popup = currentPopup.getPopup();
+
+			if ( popup ) {
+				popup.close();
+			}
+		},
+		async( response ) => setRequestFailed( response )
+	);
+};
+
+/**
+ * Opens the popup window.
+ *
+ * @param {Object} props The props.
+ *
+ * @returns {void}
+ */
+const onLoginOpen = ( props ) => {
+	currentPopup = new LoginPopup(
+		wpseoAdminGlobalL10n[ "links.wincher.auth_url" ],
+		{
+			success: {
+				type: "wincher:oauth:success",
+				callback: ( data ) => performAuthenticationRequest( props, data ),
+			},
+			error: {
+				type: "wincher:oauth:error",
+				callback: () => props.onAuthentication( false, false ),
+			},
+		},
+		{
+			title: "Wincher_login",
+			width: 500,
+			height: 700,
+		}
+	);
+
+	currentPopup.createPopup();
+};
+
+/**
+ * Creates the Connect to Wincher button or displays the reconnect alert if something has gone wrong.
+ *
+ * @param {Object} props The props to use.
+ *
+ * @returns {void|wp.Element} The connect button or reconnect alert.
+ */
+const ConnectToWincher = ( props ) => {
+	if ( props.isLoggedIn ) {
+		return null;
+	}
+
+	const onLoginCallback = useCallback( () => {
+		onLoginOpen( props );
+	}, [ onLoginOpen, props ] );
+
+	if ( ! isEmpty( props.response ) && props.response.status === 404 ) {
+		return <WincherReconnectAlert onReconnect={ onLoginCallback } />;
+	}
+
+	return <Button onClick={ onLoginCallback }>
+		{ sprintf(
+			/* translators: %s expands to Wincher */
+			__( "Connect with %s", "wordpress-seo" ),
+			"Wincher"
+		) }
+	</Button>;
+};
+
+ConnectToWincher.propTypes = {
+	response: PropTypes.object,
+	isLoggedIn: PropTypes.bool.isRequired,
+};
+
+ConnectToWincher.defaultProps = {
+	response: {},
+};
+
 /**
  * Renders the Wincher SEO Performance modal content.
  *
@@ -93,7 +198,6 @@ GetUserMessage.defaultProps = {
  */
 export default function WincherSEOPerformanceModalContent( props ) {
 	const {
-		hasNoKeyphrase,
 		isNewlyAuthenticated,
 		requestLimitReached,
 		limit,
@@ -103,27 +207,24 @@ export default function WincherSEOPerformanceModalContent( props ) {
 
 	return (
 		<Fragment>
-			{ ! hasNoKeyphrase && (
-				<Fragment>
-					{ isNewlyAuthenticated && <WincherConnectedAlert /> }
+			{ isNewlyAuthenticated && <WincherConnectedAlert /> }
 
-					<FieldGroup
-						label={ __( "SEO performance", "wordpress-seo" ) }
-						linkTo={ wpseoAdminL10n[ "shortlinks.wincher.seo_performance" ] }
-						linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
-					/>
-					<WincherExplanation />
+			<FieldGroup
+				label={ __( "SEO performance", "wordpress-seo" ) }
+				linkTo={ wpseoAdminL10n[ "shortlinks.wincher.seo_performance" ] }
+				linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
+			/>
+			<WincherExplanation />
 
-					<GetUserMessage { ...props } />
+			<ConnectToWincher { ...props } />
+			<GetUserMessage { ...props } />
 
-					<p>{ __( "You can enable / disable tracking the SEO performance for each keyphrase below.", "wordpress-seo" ) }</p>
+			<p>{ __( "You can enable / disable tracking the SEO performance for each keyphrase below.", "wordpress-seo" ) }</p>
 
-					{ isLoggedIn && shouldTrackAll && <WincherAutoTrackingEnabledAlert /> }
+			{ isLoggedIn && shouldTrackAll && <WincherAutoTrackingEnabledAlert /> }
 
-					{ requestLimitReached && <WincherLimitReached limit={ limit } /> }
-					<WincherKeyphrasesTable />
-				</Fragment>
-			) }
+			{ requestLimitReached && <WincherLimitReached limit={ limit } /> }
+			<WincherKeyphrasesTable />
 		</Fragment>
 	);
 }
@@ -135,6 +236,7 @@ WincherSEOPerformanceModalContent.propTypes = {
 	isNewlyAuthenticated: PropTypes.bool,
 	shouldTrackAll: PropTypes.bool,
 	isLoggedIn: PropTypes.bool,
+	response: PropTypes.object,
 };
 
 WincherSEOPerformanceModalContent.defaultProps = {
@@ -144,4 +246,5 @@ WincherSEOPerformanceModalContent.defaultProps = {
 	isNewlyAuthenticated: false,
 	shouldTrackAll: false,
 	isLoggedIn: false,
+	response: {},
 };

@@ -18,6 +18,30 @@ export async function callEndpoint( endpoint  ) {
 }
 
 /**
+ * Wraps the API requests and handles the API responses.
+ *
+ * @param {Function} apiRequest        The API request function call to handle.
+ * @param {Function} onSuccessCallback The callback to run on a successful response.
+ * @param {Function} onFailureCallback The callback to run on a failed response.
+ * @param {number} expectedStatusCode  The expected status code to run the success callback on.
+ *
+ * @returns {Promise} The handled response promise.
+ */
+export async function handleAPIResponse( apiRequest, onSuccessCallback, onFailureCallback, expectedStatusCode = 200 ) {
+	try {
+		const response = await apiRequest();
+
+		if ( response.status === expectedStatusCode ) {
+			return onSuccessCallback( response );
+		}
+
+		return onFailureCallback( response );
+	} catch ( e ) {
+		console.error( e.message );
+	}
+}
+
+/**
  * Authenticates the user with Wincher's OAuth server.
  *
  * @param {Object} responseData The message response data.
