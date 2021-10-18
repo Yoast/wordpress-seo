@@ -18,21 +18,21 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	use Cursor_Manager_Trait;
 
 	/**
-	 * The domain of the action.
+	 * The plugin of the action.
 	 */
-	const DOMAIN = 'aioseo';
+	const PLUGIN = 'aioseo';
 
 	/**
-	 * The name of the action.
+	 * The type of the action.
 	 */
-	const NAME = 'posts';
+	const TYPE = 'posts';
 
 	/**
 	 * The map of yoast to post meta.
 	 *
 	 * @var string
 	 */
-	private $cursor_id = self::DOMAIN . '_' . self::NAME;
+	private $cursor_id = self::PLUGIN . '_' . self::TYPE;
 
 	/**
 	 * Represents the indexables repository.
