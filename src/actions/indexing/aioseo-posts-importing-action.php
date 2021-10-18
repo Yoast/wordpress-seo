@@ -28,13 +28,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	const TYPE = 'posts';
 
 	/**
-	 * The map of yoast to post meta.
-	 *
-	 * @var string
-	 */
-	private $cursor_id = self::PLUGIN . '_' . self::TYPE;
-
-	/**
 	 * Represents the indexables repository.
 	 *
 	 * @var Indexable_Repository
@@ -158,7 +151,8 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			$last_indexed_aioseo_id = $aioseo_indexable['id'];
 		}
 
-		$this->set_cursor( $this->options, $last_indexed_aioseo_id );
+		$cursor_id = $this->get_cursor_id();
+		$this->set_cursor( $this->options, $last_indexed_aioseo_id, $cursor_id );
 	}
 
 	// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
@@ -232,7 +226,8 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	public function query( $limit = false ) {
 		$indexable_table = $this->wpdb->prefix . 'aioseo_posts';
 
-		$cursor          = $this->get_cursor( $this->options );
+		$cursor_id       = $this->get_cursor_id();
+		$cursor          = $this->get_cursor( $this->options, $cursor_id );
 		$replacements    = [ $cursor ];
 		$limit_statement = '';
 
