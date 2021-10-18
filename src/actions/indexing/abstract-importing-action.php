@@ -8,22 +8,18 @@ namespace Yoast\WP\SEO\Actions\Indexing;
 abstract class Abstract_Importing_Action implements Indexation_Action_Interface, Limited_Indexing_Action_Interface {
 
 	/**
-	 * The domain of the class.
-	 *
-	 * This is a trick to force derived classes to define a transient themselves.
+	 * The plugin the class deals with.
 	 *
 	 * @var string
 	 */
-	const DOMAIN = null;
+	const PLUGIN = null;
 
 	/**
-	 * The name of the class.
-	 *
-	 * This is a trick to force derived classes to define a transient themselves.
+	 * The type the class deals with.
 	 *
 	 * @var string
 	 */
-	const NAME = null;
+	const TYPE = null;
 
 	/**
 	 * Creates a query for gathering to-be-imported data from the database.
