@@ -1,8 +1,10 @@
 /**
  * Checks if the word matches any paradigm and creates the forms from the matched paradigm(s).
  * If no matches found, returns an array with the original word.
+ *
  * @param {string}  word            The word to check.
  * @param {Object}  morphologyData  The morphology data.
+ *
  * @returns {Array} The array of created forms.
  */
 function createForms( word, morphologyData ) {
@@ -13,24 +15,26 @@ function createForms( word, morphologyData ) {
 
 	// Check if the word matches any paradigm.
 	const matchedWord = allParadigmsRegex.exec( word );
-	let forms = [];
+	let forms;
 
 	if ( matchedWord === null ) {
-		forms.push( word );
+		forms = [ word ];
 	} else {
 		const matchedStem = matchedWord[ 1 ];
 		const matchedEnding = matchedWord[ 2 ];
 
 		for ( const endingsGroup of paradigmEndingsGroups ) {
 			if ( endingsGroup.includes( matchedEnding ) ) {
-				forms.push( endingsGroup.map( ending => matchedStem + ending ) );
+				forms = endingsGroup.map( ending => matchedStem + ending );
 			}
 		}
 	}
 
-	// If the final character ends in る, also create an extra form where the character is removed
+	// If the final character of the input word ends in る, also create an extra form where the character is removed.
 	const ruEnding = "る";
-	forms = forms.map( form => form.endsWith( ruEnding ) ? form.slice( 0, -ruEnding.length ) : form );
+	if ( word.endsWith( ruEnding ) ) {
+		forms.push( word.slice( 0, -ruEnding.length ) );
+	}
 
 	return forms;
 }
