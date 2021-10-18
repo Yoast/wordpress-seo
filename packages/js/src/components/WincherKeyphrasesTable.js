@@ -250,10 +250,18 @@ class WincherKeyphrasesTable extends Component {
 	 * @returns {void}
 	 */
 	componentDidUpdate() {
-		const { keyphrases, isLoggedIn } = this.props;
+		const {
+			keyphrases,
+			isLoggedIn,
+			isNewlyAuthenticated,
+		} = this.props;
 
 		if ( ! isLoggedIn ) {
 			return;
+		}
+
+		if ( isNewlyAuthenticated ) {
+			this.getTrackedKeyphrases( keyphrases );
 		}
 
 		if ( this.noKeyphrasesHaveRankingData() ) {
@@ -414,6 +422,7 @@ WincherKeyphrasesTable.propTypes = {
 	setTrackingKeyphrases: PropTypes.func.isRequired,
 	websiteId: PropTypes.number,
 	chartDataTs: PropTypes.number,
+	isNewlyAuthenticated: PropTypes.bool,
 };
 
 WincherKeyphrasesTable.defaultProps = {
@@ -425,6 +434,7 @@ WincherKeyphrasesTable.defaultProps = {
 	trackAll: false,
 	websiteId: 0,
 	chartDataTs: 0,
+	isNewlyAuthenticated: false,
 };
 
 export default WincherKeyphrasesTable;

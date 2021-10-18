@@ -51,6 +51,7 @@ export default compose( [
 			setWincherNoResultsFound,
 			setTrackingForKeyphrase,
 			setTrackedKeyphrases,
+			setWincherLoginStatus,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
@@ -74,6 +75,9 @@ export default compose( [
 			},
 			setTrackingKeyphrases: ( keyphrases ) => {
 				setTrackedKeyphrases( keyphrases );
+			},
+			onAuthentication: ( status, newlyAuthenticated ) => {
+				setWincherLoginStatus( status, newlyAuthenticated );
 			},
 		};
 	} ),
