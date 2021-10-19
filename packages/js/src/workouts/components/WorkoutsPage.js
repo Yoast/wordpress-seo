@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
+import { Slot } from "@wordpress/components";
 import { NewBadge } from "@yoast/components";
 import { FINISHABLE_STEPS, WORKOUTS } from "../config";
 import { createInterpolateElement, useCallback, useEffect } from "@wordpress/element";
@@ -92,56 +93,60 @@ export default function WorkoutsPage( props ) {
 			{ activeWorkout && <Button onClick={ clearActiveWorkout }>{ __( "← Back to all workouts", "worpdress-seo-premium" ) }</Button> }
 			{ ! activeWorkout && <div className="workflows__index__grid">
 
-				<div className="card card-small">
-					<h2>{ __( "The cornerstone approach", "wordpress-seo-premium" ) }</h2>
-					<h3>{ __( "Rank with articles you want to rank with", "wordpress-seo-premium" ) }</h3>
-					<p>
-						{
-							createInterpolateElement(
-								sprintf(
-									__(
-										// eslint-disable-next-line max-len
-										"On your site you have a few articles that are %1$sthe%2$s most important. You want to rank highest in Google with these articles. At Yoast, we call these articles cornerstone articles. Take the following 4 steps in order to start ranking with your cornerstone articles!",
-										"wordpress-seo-premium",
+				<Slot name="cornerstone-workout">
+					<div className="card card-small">
+						<h2>{ __( "The cornerstone approach", "wordpress-seo-premium" ) }</h2>
+						<h3>{ __( "Rank with articles you want to rank with", "wordpress-seo-premium" ) }</h3>
+						<p>
+							{
+								createInterpolateElement(
+									sprintf(
+										__(
+											// eslint-disable-next-line max-len
+											"On your site you have a few articles that are %1$sthe%2$s most important. You want to rank highest in Google with these articles. At Yoast, we call these articles cornerstone articles. Take the following 4 steps in order to start ranking with your cornerstone articles!",
+											"wordpress-seo-premium",
+										),
+										"<em>",
+										"</em>",
 									),
-									"<em>",
-									"</em>",
-								),
-								{
-									em: <em />,
-								},
-							)
-						}
-					</p>
-					<span>
-						<WorkoutButton workout={ WORKOUTS.cornerstone } />
-					</span>
-				</div>
-				<div className="card card-small">
-					<h2>{ __( "Orphaned content", "wordpress-seo-premium" ) } <NewBadge /></h2>
-					<h3>{ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo-premium" ) }</h3>
-					<p>
-						{
-							createInterpolateElement(
-								sprintf(
-									__(
-										// eslint-disable-next-line max-len
-										"Orphaned content is content that doesn’t get any links from other posts or pages on your site. As a result of that, this content is hard to find, for both Google and visitors. Posts and pages need internal links to them, to fit into a site’s structure and to be findable. With this workout we'll help you update your orphaned content and make sure you have links pointing towards them!",
-										"wordpress-seo-premium",
+									{
+										em: <em />,
+									},
+								)
+							}
+						</p>
+						<span>
+							<WorkoutButton workout={ WORKOUTS.cornerstone } />
+						</span>
+					</div>
+				</Slot>
+				<Slot name="orphaned-workout">
+					<div className="card card-small">
+						<h2>{ __( "Orphaned content", "wordpress-seo-premium" ) } <NewBadge /></h2>
+						<h3>{ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo-premium" ) }</h3>
+						<p>
+							{
+								createInterpolateElement(
+									sprintf(
+										__(
+											// eslint-disable-next-line max-len
+											"Orphaned content is content that doesn’t get any links from other posts or pages on your site. As a result of that, this content is hard to find, for both Google and visitors. Posts and pages need internal links to them, to fit into a site’s structure and to be findable. With this workout we'll help you update your orphaned content and make sure you have links pointing towards them!",
+											"wordpress-seo-premium",
+										),
+										"<em>",
+										"</em>",
 									),
-									"<em>",
-									"</em>",
-								),
-								{
-									em: <em />,
-								},
-							)
-						}
-					</p>
-					<span>
-						<WorkoutButton workout={ WORKOUTS.orphaned } />
-					</span>
-				</div>
+									{
+										em: <em />,
+									},
+								)
+							}
+						</p>
+						<span>
+							<WorkoutButton workout={ WORKOUTS.orphaned } />
+						</span>
+					</div>
+				</Slot>
 			</div> }
 		</div>
 	);
