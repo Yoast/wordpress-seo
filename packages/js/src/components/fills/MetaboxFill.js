@@ -2,6 +2,7 @@
 import { Fill } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
+import { useCallback } from "@wordpress/element";
 
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
@@ -23,13 +24,24 @@ import { colors } from "@yoast/style-guide";
 /**
  * Creates the Metabox component.
  *
- * @param {Object} settings The feature toggles.
- * @param {Object} store    The Redux store.
- * @param {Object} theme    The theme to use.
+ * @param {Object} settings 				The feature toggles.
+ * @param {Object} store    				The Redux store.
+ * @param {Object} theme    				The theme to use.
+ * @param {Array} wincherKeyphrases 		The Wincher trackable keyphrases.
+ * @param {Function} setWincherNoKeyphrase	Sets wincher no keyphrases in the store.
  *
  * @returns {wp.Element} The Metabox component.
  */
-export default function MetaboxFill( { settings } ) {
+export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNoKeyphrase } ) {
+	const onToggleWincher = useCallback( () => {
+		if ( ! wincherKeyphrases.length ) {
+			setWincherNoKeyphrase( true );
+			// This is fragile, should replace with a real React ref.
+			document.querySelector( "#focus-keyword-input-metabox" ).focus();
+			return false;
+		}
+	}, [ wincherKeyphrases, setWincherNoKeyphrase ] );
+
 	return (
 		<Fill name="YoastMetabox">
 			<SidebarItem
@@ -71,6 +83,7 @@ export default function MetaboxFill( { settings } ) {
 						initialIsOpen={ false }
 						prefixIcon={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
 						prefixIconCollapsed={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }
+						onToggle={ onToggleWincher }
 					>
 						<WincherSEOPerformance />
 					</MetaboxCollapsible>
@@ -98,5 +111,8 @@ export default function MetaboxFill( { settings } ) {
 
 MetaboxFill.propTypes = {
 	settings: PropTypes.object.isRequired,
+	wincherKeyphrases: PropTypes.array.isRequired,
+	setWincherNoKeyphrase: PropTypes.func.isRequired,
 };
+
 /* eslint-enable complexity */

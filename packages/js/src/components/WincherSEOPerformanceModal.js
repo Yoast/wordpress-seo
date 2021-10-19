@@ -2,7 +2,6 @@
 import { Fragment, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import without from "lodash/without";
 
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
@@ -25,7 +24,7 @@ import WincherSEOPerformance from "../containers/WincherSEOPerformance";
 export function openModal( props ) {
 	const { keyphrases, onNoKeyphraseSet, onOpen, location } = props;
 
-	if ( without( keyphrases, "", null ).length === 0 ) {
+	if ( ! keyphrases.length ) {
 		onNoKeyphraseSet();
 
 		return;

@@ -32,15 +32,13 @@ export function hasWincherTrackedKeyphrases( state ) {
 export function getWincherTrackableKeyphrases( state ) {
 	const isPremium = getL10nObject().isPremium;
 	const premiumStore = window.wp.data.select( "yoast-seo-premium/editor" );
+	const keyphrases = [ state.focusKeyword.trim() ];
 
 	if ( isPremium && premiumStore ) {
-		return [
-			state.focusKeyword,
-			...premiumStore.getKeywords().map( k => k.keyword ),
-		];
+		keyphrases.push( ...premiumStore.getKeywords().map( k => k.keyword.trim() ) );
 	}
 
-	return [ state.focusKeyword ];
+	return keyphrases.filter( k => !! k );
 }
 
 /**

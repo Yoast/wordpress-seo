@@ -14,11 +14,13 @@ export default compose( [
 			getWincherLoginStatus,
 			getWincherRequestIsSuccess,
 			getWincherRequestResponse,
+			getWincherTrackableKeyphrases,
 			hasWincherTrackedKeyphrases,
 			shouldWincherAutomaticallyTrackAll,
 		} = select( "yoast-seo/editor" );
 
 		return {
+			keyphrases: getWincherTrackableKeyphrases(),
 			hasTrackedKeyphrases: hasWincherTrackedKeyphrases(),
 			isLoggedIn: getWincherLoginStatus(),
 			isNewlyAuthenticated: isWincherNewlyAuthenticated(),
