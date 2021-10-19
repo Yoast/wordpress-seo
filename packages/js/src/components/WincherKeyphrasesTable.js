@@ -48,6 +48,7 @@ class WincherKeyphrasesTable extends Component {
 		this.getTrackedKeyphrases = this.getTrackedKeyphrases.bind( this );
 
 		this.interval = null;
+		this.hasFetchedKeyphrasesAfterConnect = false;
 	}
 
 	/**
@@ -223,7 +224,7 @@ class WincherKeyphrasesTable extends Component {
 	noKeyphrasesHaveRankingData() {
 		const { trackedKeyphrases } = this.props;
 
-		if ( ! trackedKeyphrases.length ) {
+		if ( isEmpty( trackedKeyphrases ) ) {
 			return false;
 		}
 
@@ -275,8 +276,9 @@ class WincherKeyphrasesTable extends Component {
 			return;
 		}
 
-		if ( isNewlyAuthenticated ) {
+		if ( isNewlyAuthenticated && ! this.hasFetchedKeyphrasesAfterConnect ) {
 			this.getTrackedKeyphrases( keyphrases );
+			this.hasFetchedKeyphrasesAfterConnect = true;
 		}
 
 		if ( this.noKeyphrasesHaveRankingData() ) {
