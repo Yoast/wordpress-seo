@@ -1,8 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\Indexing;
+namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use wpdb;
+use Yoast\WP\SEO\Actions\Importing\Abstract_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Import_Cursor_Manager_Trait;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
@@ -15,7 +17,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  */
 class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
-	use Cursor_Manager_Trait;
+	use Import_Cursor_Manager_Trait;
 
 	/**
 	 * The plugin of the action.
@@ -77,7 +79,11 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @param Indexable_To_Postmeta_Helper $indexable_to_postmeta The indexable_to_postmeta helper.
 	 * @param Options_Helper               $options               The options helper.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository, wpdb $wpdb, Indexable_To_Postmeta_Helper $indexable_to_postmeta, Options_Helper $options ) {
+	public function __construct(
+		Indexable_Repository $indexable_repository,
+		wpdb $wpdb,
+		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
+		Options_Helper $options ) {
 		$this->indexable_repository  = $indexable_repository;
 		$this->wpdb                  = $wpdb;
 		$this->indexable_to_postmeta = $indexable_to_postmeta;

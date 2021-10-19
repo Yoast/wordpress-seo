@@ -1,11 +1,13 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\Indexing;
+namespace Yoast\WP\SEO\Actions\Importing;
+
+use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * The Cursor Manager trait.
  */
-trait Cursor_Manager_Trait {
+trait Import_Cursor_Manager_Trait {
 
 	/**
 	 * Returns the stored cursor value.

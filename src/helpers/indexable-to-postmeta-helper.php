@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use Yoast\WP\SEO\Models\Indexable;
+
 /**
  * A helper object to map indexable data to postmeta.
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
@@ -32,7 +34,7 @@ class Indexable_To_Postmeta_Helper {
 	/**
 	 * Indexable_To_Postmeta_Helper constructor.
 	 *
-	 * @param param Meta_Helper $meta The Meta helper.
+	 * @param Meta_Helper $meta The Meta helper.
 	 */
 	public function __construct( Meta_Helper $meta ) {
 		$this->meta = $meta;

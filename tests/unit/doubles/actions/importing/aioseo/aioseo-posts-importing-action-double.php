@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Doubles\Actions;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo;
 
-use Yoast\WP\SEO\Actions\Indexing\Aioseo_Posts_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
 
 /**
  * Class Aioseo_Posts_Importing_Action_Double

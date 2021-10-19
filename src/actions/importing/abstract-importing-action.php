@@ -1,6 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\Indexing;
+namespace Yoast\WP\SEO\Actions\Importing;
+
+use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
+use Yoast\WP\SEO\Actions\Indexing\Limited_Indexing_Action_Interface;
 
 /**
  * Importing action interface.
