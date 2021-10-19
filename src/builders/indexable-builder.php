@@ -6,6 +6,7 @@ use Yoast\WP\SEO\Exceptions\Indexable\Source_Exception;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Services\Indexables\Indexable_Factory;
 use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 
 /**
@@ -100,6 +101,13 @@ class Indexable_Builder {
 	protected $version_manager;
 
 	/**
+	 * Creates blank Indexables for a given type.
+	 *
+	 * @var Indexable_Factory
+	 */
+	protected $indexable_factory;
+
+	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
 	 * @param Indexable_Author_Builder            $author_builder            The author builder for creating missing indexables.
@@ -113,6 +121,7 @@ class Indexable_Builder {
 	 * @param Primary_Term_Builder                $primary_term_builder      The primary term builder for creating primary terms for posts.
 	 * @param Indexable_Helper                    $indexable_helper          The indexable helper.
 	 * @param Indexable_Version_Manager           $version_manager           The indexable version manager.
+	 * @param Indexable_Factory                   $indexable_factory         The indexable factory.
 	 */
 	public function __construct(
 		Indexable_Author_Builder $author_builder,
@@ -125,7 +134,8 @@ class Indexable_Builder {
 		Indexable_Hierarchy_Builder $hierarchy_builder,
 		Primary_Term_Builder $primary_term_builder,
 		Indexable_Helper $indexable_helper,
-		Indexable_Version_Manager $version_manager
+		Indexable_Version_Manager $version_manager,
+		Indexable_Factory $indexable_factory
 	) {
 		$this->author_builder            = $author_builder;
 		$this->post_builder              = $post_builder;
@@ -138,6 +148,7 @@ class Indexable_Builder {
 		$this->primary_term_builder      = $primary_term_builder;
 		$this->indexable_helper          = $indexable_helper;
 		$this->version_manager           = $version_manager;
+		$this->indexable_factory         = $indexable_factory;
 	}
 
 	/**
@@ -173,10 +184,10 @@ class Indexable_Builder {
 	 *
 	 * @return bool|Indexable Instance of indexable. False when unable to build.
 	 *
-	 * @deprecated 17.5
+	 * @deprecated 17.6
 	 */
 	public function build_for_id_and_type( $object_id, $object_type, $indexable = false ) {
-		_deprecated_function( __METHOD__, 'WPSEO 17.5', self::class . '::build' ) ;
+		_deprecated_function( __METHOD__, 'WPSEO 17.6', self::class . '::build' ) ;
 
 		$defaults = [
 			'object_type' => $object_type,
@@ -195,10 +206,10 @@ class Indexable_Builder {
 	 *
 	 * @return Indexable The home page indexable.
 	 *
-	 * @deprecated 17.5
+	 * @deprecated 17.6
 	 */
 	public function build_for_home_page( $indexable = false ) {
-		_deprecated_function( __METHOD__, '17.5', 'Indexable_Builder::build' );
+		_deprecated_function( __METHOD__, '17.6', 'Indexable_Builder::build' );
 		return $this->build( $indexable, [ 'object_type' => 'home-page' ] );
 	}
 
@@ -209,10 +220,10 @@ class Indexable_Builder {
 	 *
 	 * @return Indexable The date archive indexable.
 	 *
-	 * @deprecated 17.5
+	 * @deprecated 17.6
 	 */
 	public function build_for_date_archive( $indexable = false ) {
-		_deprecated_function( __METHOD__, '17.5', 'Indexable_Builder::build' );
+		_deprecated_function( __METHOD__, '17.6', 'Indexable_Builder::build' );
 		return $this->build( $indexable, [ 'object_type' => 'date-archive' ] );
 	}
 
@@ -224,10 +235,10 @@ class Indexable_Builder {
 	 *
 	 * @return Indexable The post type archive indexable.
 	 *
-	 * @deprecated 17.5
+	 * @deprecated 17.6
 	 */
 	public function build_for_post_type_archive( $post_type, $indexable = false ) {
-		_deprecated_function( __METHOD__, '17.5', 'Indexable_Builder::build' );
+		_deprecated_function( __METHOD__, '17.6', 'Indexable_Builder::build' );
 		$defaults = [
 			'object_type'     => 'post-type-archive',
 			'object_sub_type' => $post_type,
@@ -243,15 +254,15 @@ class Indexable_Builder {
 	 *
 	 * @return Indexable The search result indexable.
 	 *
-	 * @deprecated 17.5
+	 * @deprecated 17.6
 	 */
 	public function build_for_system_page( $page_type, $indexable = false ) {
-		_deprecated_function( __METHOD__, '17.5', 'Indexable_Builder::build' );
+		_deprecated_function( __METHOD__, '17.6', 'Indexable_Builder::build' );
 		$defaults = [
 			'object_type'     => 'system-page',
 			'object_sub_type' => $page_type,
 		];
-		return $this->build( $indexable, $defaults );
+		return $this->build_for_type( $indexable, $page_type );
 	}
 
 	/**
@@ -300,10 +311,24 @@ class Indexable_Builder {
 	}
 
 	/**
+	 * (re)Builds an indexable of the given type.
+	 *
+	 * @param $indexable Indexable The indexable to (re)build.
+	 * @param $type      string    The indexable type.
+	 *
+	 * @return Indexable|false The resulting Indexable.
+	 */
+	public function build_for_type( $indexable, $type, $object_id ) {
+
+	}
+
+	/**
 	 * Rebuilds an Indexable from scratch.
 	 *
 	 * @param Indexable $indexable The Indexable to (re)build.
 	 * @param array     $defaults  The template in case of for a newly created Indexable.
+	 *
+	 * @deprecated 17.6
 	 *
 	 * @return Indexable|false The resulting Indexable.
 	 */

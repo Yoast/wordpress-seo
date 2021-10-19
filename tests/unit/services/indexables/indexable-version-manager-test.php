@@ -19,7 +19,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager
  */
 class Indexable_Version_Manager_Test extends TestCase {
-
 	/**
 	 * Represents the instance to test.
 	 *

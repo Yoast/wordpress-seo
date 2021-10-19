@@ -24,34 +24,31 @@ class Indexable_Factory
 	}
 
 	/**
-	 * Ensures we have a valid indexable. Creates one if false is passed.
+	 * Ensures we have a valid indexable. Creates an indexable if a falsey value is passed.
 	 *
-	 * @param Indexable|false $indexable The indexable.
-	 * @param array           $defaults  The initial properties of the Indexable.
+	 * @param Indexable $indexable The indexable.
+	 * @param string    $type      The Indexable type.
 	 *
 	 * @return Indexable The indexable.
 	 */
-	private function ensure_indexable( $indexable, $defaults = [] ) {
+	protected function ensure_indexable( $indexable, $type ) {
 		if ( ! $indexable ) {
-			return $this->indexable_repository->query()->create( $defaults );
+			$indexable = $this->create( $type );
 		}
 
 		return $indexable;
 	}
 
-
 	/**
 	 * Creates an Indexable of the specified type
 	 *
-	 * @param string $object_type     The object type to create an indexable for.
-	 * @param string $object_sub_type Optional. The object subtype to create an indexable for.
+	 * @param string $object_type The object type to create an indexable for.
+	 *
+	 * @return Indexable The newly created indexable.
 	 */
-	public function create ( $object_type = '', $object_sub_type = '' ) {
-		$defaults = [];
-
-		if ( \array_key_exists( $object_type, $this->defaults ) ) {
-			$defaults = $this->defaults[ $object_type ];
-		}
+	public function create ( $object_type = '' ) {
+		$defaults = $this->get_defaults( $object_type );
+		return $this->indexable_repository->query()->create( $defaults );
 	}
 
 	/**
@@ -62,7 +59,8 @@ class Indexable_Factory
 	 * @return array
 	 */
 	protected function get_defaults ( $type = null ) {
-		if ( ! $type )
+		if ( ! $type ) return [];
+
 		switch ( $type ) {
 			// Default indexable types.
 			case 'date-archive':
@@ -75,7 +73,7 @@ class Indexable_Factory
 					'object_type' => $type
 				];
 
-			// System Pages.
+			// System Pages set their type in the subtype.
 			case '404':
 			case 'search-result':
 				return [
