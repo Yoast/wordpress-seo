@@ -39,7 +39,6 @@ export default compose( [
 			setWincherTrackedKeyphrases,
 			setWincherTrackingForKeyphrase,
 			unsetWincherTrackingForKeyphrase,
-			setPendingChartDataRequest,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
@@ -66,9 +65,6 @@ export default compose( [
 			},
 			setChartData: ( chartData ) => {
 				setWincherChartData( chartData );
-			},
-			setPendingChartRequest: ( isPending ) => {
-				setPendingChartDataRequest( isPending );
 			},
 		};
 	} ),

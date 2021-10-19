@@ -190,7 +190,6 @@ class WincherKeyphrasesTable extends Component {
 	 */
 	async getTrackedKeyphrasesChartData( keyphrases = [] ) {
 		const {
-			setPendingChartRequest,
 			setRequestSucceeded,
 			setChartData,
 			setRequestFailed,
@@ -201,19 +200,29 @@ class WincherKeyphrasesTable extends Component {
 			async( response ) => {
 				setRequestSucceeded( response );
 				setChartData( response.results );
-
-				const keyphrasesHaveNoRankingData = this.noKeyphrasesHaveRankingData();
-
-				if ( keyphrasesHaveNoRankingData ) {
-					setPendingChartRequest( true );
-				} else {
-					setPendingChartRequest( false );
-				}
 			},
 			async( response ) => {
 				setRequestFailed( response );
 			}
 		);
+	}
+
+	/**
+	 * Determines whether there are any tracked keyphrases that still miss
+	 * ranking data completely.
+	 *
+	 * @returns {boolean} Whether there are some keyphrases missing ranking data.
+	 */
+	someKeyphrasesHaveNoRankingData() {
+		const { trackedKeyphrases } = this.props;
+
+		if ( isEmpty( trackedKeyphrases ) ) {
+			return false;
+		}
+
+		return filter( trackedKeyphrases, ( trackedKeyphrase ) => {
+			return isEmpty( trackedKeyphrase.ranking_updated_at );
+		} ).length > 0;
 	}
 
 	/**
@@ -281,8 +290,8 @@ class WincherKeyphrasesTable extends Component {
 			this.hasFetchedKeyphrasesAfterConnect = true;
 		}
 
-		if ( this.noKeyphrasesHaveRankingData() ) {
-			clearInterval( this.interval );
+		clearInterval( this.interval );
+		if ( this.someKeyphrasesHaveNoRankingData() ) {
 			this.interval = setInterval( async() => {
 				await this.getTrackedKeyphrases( keyphrases );
 			}, 10000 );
@@ -427,7 +436,6 @@ WincherKeyphrasesTable.propTypes = {
 	keyphrases: PropTypes.array,
 	newRequest: PropTypes.func.isRequired,
 	removeTrackedKeyphrase: PropTypes.func.isRequired,
-	setPendingChartRequest: PropTypes.func.isRequired,
 	setRequestFailed: PropTypes.func.isRequired,
 	setKeyphraseLimitReached: PropTypes.func.isRequired,
 	setRequestSucceeded: PropTypes.func.isRequired,

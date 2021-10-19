@@ -76,17 +76,6 @@ export function shouldWincherTrackAll( state ) {
 }
 
 /**
- * Determines whether there's still a pending keyphrase data request.
- *
- * @param {Object} state The state.
- *
- * @returns {boolean} Whether there's still a pending chart request.
- */
-export function hasPendingChartDataRequest( state ) {
-	return state.WincherRequest.hasPendingChartDataRequest === true;
-}
-
-/**
  * Determines whether all keyphrases should automatically be tracked.
  *
  * @param {Object} state The state.

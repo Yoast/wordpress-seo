@@ -62,16 +62,12 @@ GetErrorMessage.propTypes = {
  *
  * @returns {void|wp.Element} The user message.
  */
-const GetUserMessage = ( { isSuccess, response, hasPendingChartRequest, hasTrackedKeyphrases } ) => {
-	if ( isEmpty( response ) ) {
-		return null;
-	}
-
-	if ( ! isSuccess && hasError( response ) ) {
+const GetUserMessage = ( { isSuccess, response, allKeyphrasesMissRanking } ) => {
+	if ( ! isEmpty( response ) && ! isSuccess && hasError( response ) ) {
 		return <GetErrorMessage response={ response } />;
 	}
 
-	if ( hasTrackedKeyphrases && hasPendingChartRequest ) {
+	if ( allKeyphrasesMissRanking ) {
 		return <WincherCurrentlyTrackingAlert />;
 	}
 
@@ -80,8 +76,7 @@ const GetUserMessage = ( { isSuccess, response, hasPendingChartRequest, hasTrack
 
 GetUserMessage.propTypes = {
 	isSuccess: PropTypes.bool.isRequired,
-	hasPendingChartRequest: PropTypes.bool.isRequired,
-	hasTrackedKeyphrases: PropTypes.bool.isRequired,
+	allKeyphrasesMissRanking: PropTypes.bool.isRequired,
 	response: PropTypes.object,
 };
 
@@ -211,7 +206,7 @@ export default function WincherSEOPerformanceModalContent( props ) {
 	const {
 		keyphrases,
 		isNewlyAuthenticated,
-		requestLimitReached,
+		keyphraseLimitReached,
 		limit,
 		shouldTrackAll,
 		isLoggedIn,
@@ -240,7 +235,7 @@ export default function WincherSEOPerformanceModalContent( props ) {
 
 					{ isLoggedIn && shouldTrackAll && <WincherAutoTrackingEnabledAlert /> }
 
-					{ requestLimitReached && <WincherLimitReached limit={ limit } /> }
+					{ keyphraseLimitReached && <WincherLimitReached limit={ limit } /> }
 
 					<WincherKeyphrasesTable />
 				</ContentWrapper> }
@@ -253,7 +248,7 @@ WincherSEOPerformanceModalContent.propTypes = {
 	isNewlyAuthenticated: PropTypes.bool,
 	keyphrases: PropTypes.array,
 	limit: PropTypes.number,
-	requestLimitReached: PropTypes.bool,
+	keyphraseLimitReached: PropTypes.bool,
 	response: PropTypes.object,
 	shouldTrackAll: PropTypes.bool,
 };
@@ -263,7 +258,7 @@ WincherSEOPerformanceModalContent.defaultProps = {
 	isNewlyAuthenticated: false,
 	keyphrases: [],
 	limit: 10,
-	requestLimitReached: false,
+	keyphraseLimitReached: false,
 	response: {},
 	shouldTrackAll: false,
 };

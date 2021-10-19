@@ -15,13 +15,13 @@ export default compose( [
 			getWincherRequestIsSuccess,
 			getWincherRequestResponse,
 			getWincherTrackableKeyphrases,
-			hasWincherTrackedKeyphrases,
+			getWincherAllKeyphrasesMissRanking,
 			shouldWincherAutomaticallyTrackAll,
 		} = select( "yoast-seo/editor" );
 
 		return {
 			keyphrases: getWincherTrackableKeyphrases(),
-			hasTrackedKeyphrases: hasWincherTrackedKeyphrases(),
+			allKeyphrasesMissRanking: getWincherAllKeyphrasesMissRanking(),
 			isLoggedIn: getWincherLoginStatus(),
 			isNewlyAuthenticated: isWincherNewlyAuthenticated(),
 			isSuccess: getWincherRequestIsSuccess(),

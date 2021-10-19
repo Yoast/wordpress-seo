@@ -1,3 +1,7 @@
+/* External dependencies */
+import { isEmpty, filter } from "lodash-es";
+
+/* Internal dependencies */
 import getL10nObject from "../../analysis/getL10nObject";
 
 /**
@@ -19,7 +23,7 @@ export function getWincherTrackedKeyphrases( state ) {
  * @returns {boolean} Whether keyphrases are being tracked.
  */
 export function hasWincherTrackedKeyphrases( state ) {
-	return state.WincherSEOPerformance.trackedKeyphrases.length !== 0;
+	return ! isEmpty( state.WincherSEOPerformance.trackedKeyphrases );
 }
 
 /**
@@ -61,4 +65,25 @@ export function getWincherChartData( state ) {
  */
 export function getWincherChartDataTs( state ) {
 	return state.WincherSEOPerformance.chartDataTs;
+}
+
+/**
+ * Determines whether all keyphrases being tracked are still missing ranking data.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} Whether all keyphrases being tracked are missing ranking data.
+ */
+export function getWincherAllKeyphrasesMissRanking( state ) {
+	const { trackedKeyphrases } = state.WincherSEOPerformance;
+
+	if ( isEmpty( trackedKeyphrases ) ) {
+		return false;
+	}
+
+	const withoutRanking = filter( trackedKeyphrases, ( trackedKeyphrase ) => {
+		return isEmpty( trackedKeyphrase.ranking_updated_at );
+	} );
+
+	return withoutRanking.length === Object.keys( trackedKeyphrases ).length;
 }

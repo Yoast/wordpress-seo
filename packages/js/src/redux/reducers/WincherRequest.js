@@ -7,7 +7,6 @@ import {
 	WINCHER_NEW_REQUEST,
 	WINCHER_SET_LOGIN_STATUS,
 	WINCHER_SET_TRACK_ALL_REQUEST,
-	WINCHER_SET_PENDING_CHART_DATA_REQUEST,
 	WINCHER_SET_AUTOMATICALLY_TRACK_ALL_REQUEST,
 } from "../actions";
 
@@ -19,7 +18,6 @@ const INITIAL_STATE = {
 	isNewlyAuthenticated: false,
 	limit: 10,
 	trackAll: false,
-	hasPendingChartDataRequest: false,
 	automaticallyTrack: false,
 };
 /**
@@ -35,6 +33,7 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 		case WINCHER_NEW_REQUEST:
 			return {
 				...state,
+			    limitReached: false,
 				isSuccess: false,
 				response: null,
 			};
@@ -71,11 +70,6 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 			return {
 				...state,
 				trackAll: true,
-			};
-		case WINCHER_SET_PENDING_CHART_DATA_REQUEST:
-			return {
-				...state,
-				hasPendingChartDataRequest: action.isPending,
 			};
 		case WINCHER_SET_AUTOMATICALLY_TRACK_ALL_REQUEST:
 			return {
