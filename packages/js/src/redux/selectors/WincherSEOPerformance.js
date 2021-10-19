@@ -1,17 +1,6 @@
 import getL10nObject from "../../analysis/getL10nObject";
 
 /**
- * Gets the current tracking status.
- *
- * @param {Object} state The state.
- *
- * @returns {boolean} Current tracking status.
- */
-export function getWincherIsTracking( state ) {
-	return state.WincherSEOPerformance.isTracking;
-}
-
-/**
  * Gets the currently tracked keyphrases.
  *
  * @param {Object} state The state.
@@ -61,7 +50,7 @@ export function getWincherTrackableKeyphrases( state ) {
  *
  * @returns {array} The chart data.
  */
-export function getWincherTrackedKeyphrasesChartData( state ) {
+export function getWincherChartData( state ) {
 	return state.WincherSEOPerformance.chartData;
 }
 
@@ -72,6 +61,6 @@ export function getWincherTrackedKeyphrasesChartData( state ) {
  *
  * @returns {number} The chart data timestamp.
  */
-export function getWincherTrackedKeyphrasesChartDataTs( state ) {
+export function getWincherChartDataTs( state ) {
 	return state.WincherSEOPerformance.chartDataTs;
 }

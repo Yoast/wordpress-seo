@@ -8,73 +8,40 @@ import WincherSEOPerformanceModalContent from "../components/WincherSEOPerforman
 export default compose( [
 	withSelect( ( select ) => {
 		const {
-			getWincherRequestLimitReached,
-			getWincherRequestResponse,
-			getWincherRequestIsSuccess,
-			getWincherRequestHasData,
-			getWincherRequestKeyphrase,
-			getWincherIsTracking,
-			getWincherTrackableKeyphrases,
-			hasWincherNoKeyphrase,
-			getWincherAuthenticationStatus,
+			isWincherNewlyAuthenticated,
+			getWincherKeyphraseLimitReached,
 			getWincherLimit,
-			hasPendingChartDataRequest,
+			getWincherLoginStatus,
+			getWincherRequestIsSuccess,
+			getWincherRequestResponse,
 			hasWincherTrackedKeyphrases,
 			shouldWincherAutomaticallyTrackAll,
-			getWincherLoginStatus,
 		} = select( "yoast-seo/editor" );
 
 		return {
-			keyphrases: getWincherTrackableKeyphrases(),
-			requestLimitReached: getWincherRequestLimitReached(),
-			response: getWincherRequestResponse(),
-			isSuccess: getWincherRequestIsSuccess(),
-			requestHasData: getWincherRequestHasData(),
-			lastRequestKeyphrase: getWincherRequestKeyphrase(),
-			isTracking: getWincherIsTracking(),
-			hasNoKeyphrase: hasWincherNoKeyphrase(),
-			isNewlyAuthenticated: getWincherAuthenticationStatus(),
-			limit: getWincherLimit(),
-			trackAll: false,
-			hasPendingChartRequest: hasPendingChartDataRequest(),
 			hasTrackedKeyphrases: hasWincherTrackedKeyphrases(),
-			shouldTrackAll: shouldWincherAutomaticallyTrackAll(),
 			isLoggedIn: getWincherLoginStatus(),
+			isNewlyAuthenticated: isWincherNewlyAuthenticated(),
+			isSuccess: getWincherRequestIsSuccess(),
+			keyphraseLimitReached: getWincherKeyphraseLimitReached(),
+			limit: getWincherLimit(),
+			response: getWincherRequestResponse(),
+			shouldTrackAll: shouldWincherAutomaticallyTrackAll(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
 		const {
-			setWincherNewRequest,
 			setWincherRequestSucceeded,
 			setWincherRequestFailed,
-			setWincherSetRequestLimitReached,
-			setWincherNoResultsFound,
-			setTrackingForKeyphrase,
-			setTrackedKeyphrases,
 			setWincherLoginStatus,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
-			newRequest: ( keyphrase ) => {
-				setWincherNewRequest( keyphrase );
-			},
 			setRequestSucceeded: ( response ) => {
 				setWincherRequestSucceeded( response );
 			},
 			setRequestFailed: ( response ) => {
 				setWincherRequestFailed( response );
-			},
-			setRequestLimitReached: () => {
-				setWincherSetRequestLimitReached();
-			},
-			setNoResultsFound: () => {
-				setWincherNoResultsFound();
-			},
-			setTrackingKeyphrase: ( keyphrase, isTracking ) => {
-				setTrackingForKeyphrase( keyphrase, isTracking );
-			},
-			setTrackingKeyphrases: ( keyphrases ) => {
-				setTrackedKeyphrases( keyphrases );
 			},
 			onAuthentication: ( status, newlyAuthenticated ) => {
 				setWincherLoginStatus( status, newlyAuthenticated );

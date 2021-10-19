@@ -2,7 +2,7 @@ export const WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE = "WINCHER_SET_S
 export const WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE = "WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE";
 
 export const WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES = "WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES";
-export const WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES_CHART_DATA = "WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES_CHART_DATA";
+export const WINCHER_SET_SEO_PERFORMANCE_CHART_DATA = "WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES_CHART_DATA";
 
 /**
  * Sets the tracking of a specific keyphrase for the current article.
@@ -11,7 +11,7 @@ export const WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES_CHART_DATA = "WINCHE
  *
  * @returns {Object} Action object.
  */
-export function setTrackingForKeyphrase( keyphraseObject ) {
+export function setWincherTrackingForKeyphrase( keyphraseObject ) {
 	return {
 		type: WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
 		keyphraseObject,
@@ -25,7 +25,7 @@ export function setTrackingForKeyphrase( keyphraseObject ) {
  *
  * @returns {Object} Action object.
  */
-export function unsetTrackingForKeyphrase( untrackedKeyphrase ) {
+export function unsetWincherTrackingForKeyphrase( untrackedKeyphrase ) {
 	return {
 		type: WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
 		untrackedKeyphrase,
@@ -39,7 +39,7 @@ export function unsetTrackingForKeyphrase( untrackedKeyphrase ) {
  *
  * @returns {Object} Action object.
  */
-export function setTrackedKeyphrases( trackedKeyphrases ) {
+export function setWincherTrackedKeyphrases( trackedKeyphrases ) {
 	return {
 		type: WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES,
 		trackedKeyphrases,
@@ -53,9 +53,9 @@ export function setTrackedKeyphrases( trackedKeyphrases ) {
  *
  * @returns {Object} Action object.
  */
-export function setTrackedKeyphrasesChartData( chartData ) {
+export function setWincherChartData( chartData ) {
 	return {
-		type: WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES_CHART_DATA,
+		type: WINCHER_SET_SEO_PERFORMANCE_CHART_DATA,
 		chartData,
 	};
 }

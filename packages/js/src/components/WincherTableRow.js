@@ -196,7 +196,6 @@ export default function WincherTableRow( props ) {
 	const {
 		keyphrase,
 		rowData,
-		allowToggling,
 		onTrackKeyphrase,
 		onUntrackKeyphrase,
 		isFocusKeyphrase,
@@ -225,7 +224,7 @@ export default function WincherTableRow( props ) {
 	);
 
 	return <tr>
-		{ allowToggling && <td>{ renderToggleState( { keyphrase, isEnabled, toggleAction, isDisabled } ) }</td> }
+		<td>{ renderToggleState( { keyphrase, isEnabled, toggleAction, isDisabled } ) }</td>
 		<td>{ keyphrase }{ isFocusKeyphrase && <span>*</span> }</td>
 
 		{ getPositionalDataByState( props ) }
@@ -233,7 +232,6 @@ export default function WincherTableRow( props ) {
 }
 
 WincherTableRow.propTypes = {
-	allowToggling: PropTypes.bool,
 	rowData: PropTypes.object,
 	keyphrase: PropTypes.string.isRequired,
 	onTrackKeyphrase: PropTypes.func,
@@ -243,7 +241,6 @@ WincherTableRow.propTypes = {
 };
 
 WincherTableRow.defaultProps = {
-	allowToggling: true,
 	rowData: {},
 	onTrackKeyphrase: () => {},
 	onUntrackKeyphrase: () => {},

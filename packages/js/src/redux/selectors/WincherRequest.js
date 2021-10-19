@@ -1,15 +1,4 @@
 /**
- * Gets the current request status - pending or done.
- *
- * @param {Object} state The state.
- *
- * @returns {boolean} Current request status.
- */
-export function getWincherIsRequestPending( state ) {
-	return state.WincherRequest.isRequestPending;
-}
-
-/**
  * Gets the request return state (success or failed).
  *
  * @param {Object} state The state.
@@ -38,30 +27,8 @@ export function getWincherRequestResponse( state ) {
  *
  * @returns {boolean} Current request limit reached boolean.
  */
-export function getWincherRequestLimitReached( state ) {
+export function getWincherKeyphraseLimitReached( state ) {
 	return state.WincherRequest.limitReached;
-}
-
-/**
- * Gets the current keyphrase of the request.
- *
- * @param {Object} state The state.
- *
- * @returns {string} Current request keyphrase.
- */
-export function getWincherRequestKeyphrase( state ) {
-	return state.WincherRequest.keyphrase;
-}
-
-/**
- * Checks whether the last successful request has a dataset.
- *
- * @param {Object} state The state.
- *
- * @returns {boolean} Whether or not there was a dataset in the last successful request.
- */
-export function getWincherRequestHasData( state ) {
-	return state.WincherRequest.hasData;
 }
 
 /**
@@ -82,7 +49,7 @@ export function getWincherLoginStatus( state ) {
  *
  * @returns {boolean} Whether the user is a newly authenticated account.
  */
-export function getWincherAuthenticationStatus( state ) {
+export function isWincherNewlyAuthenticated( state ) {
 	return state.WincherRequest.isNewlyAuthenticated;
 }
 

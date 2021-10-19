@@ -2,7 +2,6 @@ export const WINCHER_SET_REQUEST_SUCCEEDED = "WINCHER_SET_REQUEST_SUCCEEDED";
 export const WINCHER_SET_REQUEST_FAILED = "WINCHER_SET_REQUEST_FAILED";
 export const WINCHER_SET_REQUEST_LIMIT_REACHED = "WINCHER_SET_LIMIT_REACHED";
 export const WINCHER_NEW_REQUEST = "WINCHER_NEW_REQUEST";
-export const WINCHER_NO_DATA_FOUND = "WINCHER_NO_DATA_FOUND";
 export const WINCHER_SET_LOGIN_STATUS = "WINCHER_SET_LOGIN_STATUS";
 export const WINCHER_SET_TRACK_ALL_REQUEST = "WINCHER_FORCE_SEO_PERFORMANCE_TRACKED_KEYPHRASES";
 export const WINCHER_SET_PENDING_CHART_DATA_REQUEST = "WINCHER_SET_PENDING_CHART_DATA_REQUEST";
@@ -11,14 +10,11 @@ export const WINCHER_SET_AUTOMATICALLY_TRACK_ALL_REQUEST = "WINCHER_SET_AUTOMATI
 /**
  * An action creator for starting a new request.
  *
- * @param {string} keyphrase The keyphrase for the Wincher request.
- *
  * @returns {Object} Action object.
  */
-export function setWincherNewRequest( keyphrase ) {
+export function setWincherNewRequest() {
 	return {
 		type: WINCHER_NEW_REQUEST,
-		keyphrase,
 	};
 }
 
@@ -57,21 +53,10 @@ export function setWincherRequestFailed( response ) {
  *
  * @returns {Object} Action object.
  */
-export function setWincherSetRequestLimitReached( limit ) {
+export function setWincherSetKeyphraseLimitReached( limit ) {
 	return {
 		type: WINCHER_SET_REQUEST_LIMIT_REACHED,
 		limit,
-	};
-}
-
-/**
- * An action creator for when no data is returned from Wincher.
- *
- * @returns {Object} Action object.
- */
-export function setWincherNoResultsFound() {
-	return {
-		type: WINCHER_NO_DATA_FOUND,
 	};
 }
 

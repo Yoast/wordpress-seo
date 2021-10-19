@@ -2,7 +2,7 @@ import {
 	WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
 	WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES,
 	WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
-	WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES_CHART_DATA,
+	WINCHER_SET_SEO_PERFORMANCE_CHART_DATA,
 } from "../actions";
 
 import { pickBy } from "lodash-es";
@@ -41,7 +41,7 @@ function WincherSEOPerformanceReducer( state = INITIAL_STATE, action ) {
 				...state,
 				trackedKeyphrases: action.trackedKeyphrases,
 			};
-		case WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES_CHART_DATA:
+		case WINCHER_SET_SEO_PERFORMANCE_CHART_DATA:
 			return {
 				...state,
 				chartData: action.chartData,

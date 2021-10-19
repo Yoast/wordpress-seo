@@ -9,38 +9,24 @@ import wincherWebsiteId from "../analysis/wincherWebsiteId";
 export default compose( [
 	withSelect( ( select ) => {
 		const {
-			getWincherRequestLimitReached,
-			getWincherRequestResponse,
-			getWincherRequestIsSuccess,
-			getWincherIsRequestPending,
-			getWincherRequestHasData,
-			getWincherRequestKeyphrase,
-			getWincherIsTracking,
 			getWincherTrackedKeyphrases,
 			getWincherTrackableKeyphrases,
 			getWincherLoginStatus,
+			getWincherChartData,
+			getWincherChartDataTs,
+			isWincherNewlyAuthenticated,
 			shouldWincherTrackAll,
-			getWincherTrackedKeyphrasesChartData,
-			getWincherTrackedKeyphrasesChartDataTs,
-			getWincherAuthenticationStatus,
 		} = select( "yoast-seo/editor" );
 
 		return {
 			keyphrases: getWincherTrackableKeyphrases(),
-			requestLimitReached: getWincherRequestLimitReached(),
-			response: getWincherRequestResponse(),
-			isSuccess: getWincherRequestIsSuccess(),
-			isPending: getWincherIsRequestPending(),
-			requestHasData: getWincherRequestHasData(),
-			lastRequestKeyphrase: getWincherRequestKeyphrase(),
-			isTracking: getWincherIsTracking(),
 			trackedKeyphrases: getWincherTrackedKeyphrases(),
+			trackedKeyphrasesChartData: getWincherChartData(),
 			isLoggedIn: getWincherLoginStatus(),
 			trackAll: shouldWincherTrackAll(),
-			trackedKeyphrasesChartData: getWincherTrackedKeyphrasesChartData(),
-			chartDataTs: getWincherTrackedKeyphrasesChartDataTs(),
+			chartDataTs: getWincherChartDataTs(),
 			websiteId: wincherWebsiteId(),
-			isNewlyAuthenticated: getWincherAuthenticationStatus(),
+			isNewlyAuthenticated: isWincherNewlyAuthenticated(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
@@ -48,18 +34,17 @@ export default compose( [
 			setWincherNewRequest,
 			setWincherRequestSucceeded,
 			setWincherRequestFailed,
-			setWincherSetRequestLimitReached,
-			setWincherNoResultsFound,
-			setTrackingForKeyphrase,
-			setTrackedKeyphrases,
-			unsetTrackingForKeyphrase,
-			setTrackedKeyphrasesChartData,
+			setWincherSetKeyphraseLimitReached,
+			setWincherChartData,
+			setWincherTrackedKeyphrases,
+			setWincherTrackingForKeyphrase,
+			unsetWincherTrackingForKeyphrase,
 			setPendingChartDataRequest,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
-			newRequest: ( keyphrase ) => {
-				setWincherNewRequest( keyphrase );
+			newRequest: () => {
+				setWincherNewRequest();
 			},
 			setRequestSucceeded: ( response ) => {
 				setWincherRequestSucceeded( response );
@@ -67,23 +52,20 @@ export default compose( [
 			setRequestFailed: ( response ) => {
 				setWincherRequestFailed( response );
 			},
-			setRequestLimitReached: ( limit ) => {
-				setWincherSetRequestLimitReached( limit );
+			setKeyphraseLimitReached: ( limit ) => {
+				setWincherSetKeyphraseLimitReached( limit );
 			},
-			setNoResultsFound: () => {
-				setWincherNoResultsFound();
+			addTrackedKeyphrase: ( keyphraseObject ) => {
+				setWincherTrackingForKeyphrase( keyphraseObject );
 			},
-			addTrackingKeyphrase: ( keyphraseObject ) => {
-				setTrackingForKeyphrase( keyphraseObject );
+			removeTrackedKeyphrase: ( keyphrase ) => {
+				unsetWincherTrackingForKeyphrase( keyphrase );
 			},
-			removeTrackingKeyphrase: ( keyphrase ) => {
-				unsetTrackingForKeyphrase( keyphrase );
+			setTrackedKeyphrases: ( keyphrases ) => {
+				setWincherTrackedKeyphrases( keyphrases );
 			},
-			setTrackingKeyphrases: ( keyphrases ) => {
-				setTrackedKeyphrases( keyphrases );
-			},
-			setTrackingCharts: ( chartData ) => {
-				setTrackedKeyphrasesChartData( chartData );
+			setChartData: ( chartData ) => {
+				setWincherChartData( chartData );
 			},
 			setPendingChartRequest: ( isPending ) => {
 				setPendingChartDataRequest( isPending );

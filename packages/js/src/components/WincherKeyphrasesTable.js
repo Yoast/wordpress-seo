@@ -60,25 +60,25 @@ class WincherKeyphrasesTable extends Component {
 	 */
 	async performTrackingRequest( keyphrases ) {
 		const {
-			setRequestLimitReached,
-			addTrackingKeyphrase,
+			setKeyphraseLimitReached,
+			addTrackedKeyphrase,
 			setRequestSucceeded,
 			setRequestFailed,
-			removeTrackingKeyphrase,
+			removeTrackedKeyphrase,
 		} = this.props;
 
 		const keyphrasesArray = Array.isArray( keyphrases ) ? keyphrases : [ keyphrases ];
 
 		// Add the keyphrases already for instant UX. Will be removed again if the request fails or the limit is reached.
-		keyphrasesArray.map( k => addTrackingKeyphrase( {
+		keyphrasesArray.map( k => addTrackedKeyphrase( {
 			[ k.toLowerCase() ]: { keyword: k },
 		} ) );
 
 		const trackLimits = await getAccountLimits();
 
 		if ( ! trackLimits.canTrack ) {
-			keyphrasesArray.map( k => removeTrackingKeyphrase( k ) );
-			setRequestLimitReached( trackLimits.limit );
+			keyphrasesArray.map( k => removeTrackedKeyphrase( k ) );
+			setKeyphraseLimitReached( trackLimits.limit );
 
 			return;
 		}
@@ -87,11 +87,11 @@ class WincherKeyphrasesTable extends Component {
 			() => trackKeyphrases( keyphrases ),
 			async( response ) => {
 				setRequestSucceeded( response );
-				addTrackingKeyphrase( response.results );
+				addTrackedKeyphrase( response.results );
 			},
 			async( response ) => {
 				setRequestFailed( response );
-				keyphrasesArray.map( k => removeTrackingKeyphrase( k ) );
+				keyphrasesArray.map( k => removeTrackedKeyphrase( k ) );
 			},
 			201
 		);
@@ -108,7 +108,7 @@ class WincherKeyphrasesTable extends Component {
 		const { newRequest } = this.props;
 
 		// Prepare a new request.
-		newRequest( keyphrase );
+		newRequest();
 
 		await this.performTrackingRequest( keyphrase );
 		await this.getTrackedKeyphrasesChartData( Object.keys( this.props.trackedKeyphrases ) );
@@ -125,24 +125,24 @@ class WincherKeyphrasesTable extends Component {
 	async onUntrackKeyphrase( keyphrase, keyphraseID ) {
 		const {
 			setRequestSucceeded,
-			removeTrackingKeyphrase,
-			addTrackingKeyphrase,
+			removeTrackedKeyphrase,
+			addTrackedKeyphrase,
 			setRequestFailed,
 		} = this.props;
 
 		keyphrase = keyphrase.toLowerCase();
 		const oldData = this.getKeyphraseData( keyphrase );
-		removeTrackingKeyphrase( keyphrase );
+		removeTrackedKeyphrase( keyphrase );
 
 		await handleAPIResponse(
 			() => untrackKeyphrase( keyphraseID ),
 			( response ) => {
 				setRequestSucceeded( response );
-				removeTrackingKeyphrase( keyphrase );
+				removeTrackedKeyphrase( keyphrase );
 			},
 			async( response ) => {
 				setRequestFailed( response );
-				addTrackingKeyphrase( { [ keyphrase ]: oldData } );
+				addTrackedKeyphrase( { [ keyphrase ]: oldData } );
 			}
 		);
 	}
@@ -157,7 +157,7 @@ class WincherKeyphrasesTable extends Component {
 	 async getTrackedKeyphrases( keyphrases ) {
 		const {
 			setRequestSucceeded,
-			setTrackingKeyphrases,
+			setTrackedKeyphrases,
 			setRequestFailed,
 		} = this.props;
 
@@ -165,7 +165,7 @@ class WincherKeyphrasesTable extends Component {
 			() => getKeyphrases( keyphrases ),
 			async( response ) => {
 				setRequestSucceeded( response );
-				setTrackingKeyphrases( response.results );
+				setTrackedKeyphrases( response.results );
 
 				if ( isEmpty( response.results ) ) {
 					clearInterval( this.interval );
@@ -192,7 +192,7 @@ class WincherKeyphrasesTable extends Component {
 		const {
 			setPendingChartRequest,
 			setRequestSucceeded,
-			setTrackingCharts,
+			setChartData,
 			setRequestFailed,
 		} = this.props;
 
@@ -200,7 +200,7 @@ class WincherKeyphrasesTable extends Component {
 			() => getKeyphrasesChartData( keyphrases, window.wp.data.select( "core/editor" ).getPermalink() ),
 			async( response ) => {
 				setRequestSucceeded( response );
-				setTrackingCharts( response.results );
+				setChartData( response.results );
 
 				const keyphrasesHaveNoRankingData = this.noKeyphrasesHaveRankingData();
 
@@ -341,7 +341,6 @@ class WincherKeyphrasesTable extends Component {
 	 */
 	render() {
 		const {
-			allowToggling,
 			websiteId,
 			keyphrases,
 			chartDataTs,
@@ -355,12 +354,12 @@ class WincherKeyphrasesTable extends Component {
 				<table className="yoast yoast-table">
 					<thead>
 						<tr>
-							{ allowToggling && <th
+							<th
 								scope="col"
 								abbr={ __( "Tracking", "wordpress-seo" ) }
 							>
 								{ __( "Tracking", "wordpress-seo" ) }
-							</th> }
+							</th>
 							<th
 								scope="col"
 								abbr={ __( "Keyphrase", "wordpress-seo" ) }
@@ -388,7 +387,6 @@ class WincherKeyphrasesTable extends Component {
 								return ( <WincherTableRow
 									key={ `trackable-keyphrase-${index}` }
 									keyphrase={ keyphrase }
-									allowToggling={ allowToggling }
 									onTrackKeyphrase={ this.onTrackKeyphrase }
 									onUntrackKeyphrase={ this.onUntrackKeyphrase }
 									rowData={ this.getKeyphraseData( keyphrase ) }
@@ -422,36 +420,34 @@ class WincherKeyphrasesTable extends Component {
 }
 
 WincherKeyphrasesTable.propTypes = {
+	addTrackedKeyphrase: PropTypes.func.isRequired,
+	chartDataTs: PropTypes.number,
+	isLoggedIn: PropTypes.bool,
+	isNewlyAuthenticated: PropTypes.bool,
 	keyphrases: PropTypes.array,
+	newRequest: PropTypes.func.isRequired,
+	removeTrackedKeyphrase: PropTypes.func.isRequired,
+	setPendingChartRequest: PropTypes.func.isRequired,
+	setRequestFailed: PropTypes.func.isRequired,
+	setKeyphraseLimitReached: PropTypes.func.isRequired,
+	setRequestSucceeded: PropTypes.func.isRequired,
+	setChartData: PropTypes.func.isRequired,
+	setTrackedKeyphrases: PropTypes.func.isRequired,
+	trackAll: PropTypes.bool,
 	trackedKeyphrases: PropTypes.object,
 	trackedKeyphrasesChartData: PropTypes.object,
-	allowToggling: PropTypes.bool,
-	isLoggedIn: PropTypes.bool,
-	trackAll: PropTypes.bool,
-	newRequest: PropTypes.func.isRequired,
-	setRequestSucceeded: PropTypes.func.isRequired,
-	setRequestLimitReached: PropTypes.func.isRequired,
-	setRequestFailed: PropTypes.func.isRequired,
-	addTrackingKeyphrase: PropTypes.func.isRequired,
-	setPendingChartRequest: PropTypes.func.isRequired,
-	setTrackingCharts: PropTypes.func.isRequired,
-	removeTrackingKeyphrase: PropTypes.func.isRequired,
-	setTrackingKeyphrases: PropTypes.func.isRequired,
 	websiteId: PropTypes.number,
-	chartDataTs: PropTypes.number,
-	isNewlyAuthenticated: PropTypes.bool,
 };
 
 WincherKeyphrasesTable.defaultProps = {
+	chartDataTs: 0,
+	isLoggedIn: false,
+	isNewlyAuthenticated: false,
 	keyphrases: [],
+	trackAll: false,
 	trackedKeyphrases: {},
 	trackedKeyphrasesChartData: {},
-	allowToggling: true,
-	isLoggedIn: false,
-	trackAll: false,
 	websiteId: 0,
-	chartDataTs: 0,
-	isNewlyAuthenticated: false,
 };
 
 export default WincherKeyphrasesTable;

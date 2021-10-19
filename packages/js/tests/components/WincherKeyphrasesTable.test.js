@@ -58,11 +58,11 @@ describe( "WincherKeyphrasesTable", () => {
 			newRequest={ noop }
 			setRequestLimitReached={ noop }
 			setPendingChartRequest={ noop }
-			setTrackingKeyphrases={ noop }
+			setTrackedKeyphrases={ noop }
 			setRequestFailed={ noop }
 			setRequestSucceeded={ noop }
-			setTrackingCharts={ noop }
-			removeTrackingKeyphrase={ noop }
+			setChartData={ noop }
+			removeTrackedKeyphrase={ noop }
 		/> );
 
 		expect( component.find( "tbody" ).getElement().props.children.length ).toEqual( 1 );
@@ -78,11 +78,11 @@ describe( "WincherKeyphrasesTable", () => {
 			newRequest={ noop }
 			setRequestLimitReached={ noop }
 			setPendingChartRequest={ noop }
-			setTrackingKeyphrases={ noop }
+			setTrackedKeyphrases={ noop }
 			setRequestFailed={ noop }
 			setRequestSucceeded={ noop }
-			setTrackingCharts={ noop }
-			removeTrackingKeyphrase={ noop }
+			setChartData={ noop }
+			removeTrackedKeyphrase={ noop }
 		/> );
 
 		expect( component.find( WincherTableRow ).length ).toEqual( 1 );
@@ -102,11 +102,11 @@ describe( "WincherKeyphrasesTable", () => {
 			newRequest={ noop }
 			setRequestLimitReached={ noop }
 			setPendingChartRequest={ noop }
-			setTrackingKeyphrases={ noop }
+			setTrackedKeyphrases={ noop }
 			setRequestFailed={ noop }
 			setRequestSucceeded={ noop }
-			setTrackingCharts={ noop }
-			removeTrackingKeyphrase={ noop }
+			setChartData={ noop }
+			removeTrackedKeyphrase={ noop }
 			isLoggedIn={ true }
 			trackAll={ true }
 		/> );

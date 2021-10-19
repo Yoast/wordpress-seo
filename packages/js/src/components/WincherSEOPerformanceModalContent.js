@@ -241,21 +241,19 @@ export default function WincherSEOPerformanceModalContent( props ) {
 }
 
 WincherSEOPerformanceModalContent.propTypes = {
+	isLoggedIn: PropTypes.bool,
+	isNewlyAuthenticated: PropTypes.bool,
 	limit: PropTypes.number,
 	requestLimitReached: PropTypes.bool,
-	hasNoKeyphrase: PropTypes.bool,
-	isNewlyAuthenticated: PropTypes.bool,
-	shouldTrackAll: PropTypes.bool,
-	isLoggedIn: PropTypes.bool,
 	response: PropTypes.object,
+	shouldTrackAll: PropTypes.bool,
 };
 
 WincherSEOPerformanceModalContent.defaultProps = {
+	isLoggedIn: false,
+	isNewlyAuthenticated: false,
 	limit: 10,
 	requestLimitReached: false,
-	hasNoKeyphrase: false,
-	isNewlyAuthenticated: false,
-	shouldTrackAll: false,
-	isLoggedIn: false,
 	response: {},
+	shouldTrackAll: false,
 };

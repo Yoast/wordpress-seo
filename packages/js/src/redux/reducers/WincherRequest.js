@@ -5,7 +5,6 @@ import {
 	WINCHER_SET_REQUEST_FAILED,
 	WINCHER_SET_REQUEST_SUCCEEDED,
 	WINCHER_NEW_REQUEST,
-	WINCHER_NO_DATA_FOUND,
 	WINCHER_SET_LOGIN_STATUS,
 	WINCHER_SET_TRACK_ALL_REQUEST,
 	WINCHER_SET_PENDING_CHART_DATA_REQUEST,
@@ -13,11 +12,9 @@ import {
 } from "../actions";
 
 const INITIAL_STATE = {
-	keyphrase: "",
 	isSuccess: false,
 	response: null,
 	limitReached: false,
-	hasData: true,
 	isLoggedIn: false,
 	isNewlyAuthenticated: false,
 	limit: 10,
@@ -38,7 +35,6 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 		case WINCHER_NEW_REQUEST:
 			return {
 				...state,
-				keyphrase: action.keyphrase,
 				isSuccess: false,
 				response: null,
 			};
@@ -48,7 +44,6 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 				...state,
 				isSuccess: true,
 				response: action.response,
-				hasData: true,
 				trackAll: false,
 			};
 		case WINCHER_SET_REQUEST_FAILED:
@@ -57,23 +52,13 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 				...state,
 				isSuccess: false,
 				response: action.response,
-				hasData: false,
 				trackAll: false,
 			};
 		case WINCHER_SET_REQUEST_LIMIT_REACHED:
 			return {
 				...state,
 				limitReached: true,
-				hasData: false,
 				limit: action.limit,
-				trackAll: false,
-			};
-		case WINCHER_NO_DATA_FOUND:
-			return {
-				...state,
-				isSuccess: true,
-				hasData: false,
-				response: null,
 				trackAll: false,
 			};
 		case WINCHER_SET_LOGIN_STATUS:
