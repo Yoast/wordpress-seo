@@ -13,12 +13,13 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @package Yoast\WP\SEO\Tests\Unit\Actions\Importing
  *
  * @coversDefaultClass Yoast\WP\SEO\Actions\Importing\Import_Cursor_Manager_Trait
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Import_Cursor_Manager_Trait_Test extends TestCase {
 
 	use Import_Cursor_Manager_Trait;
 
-	const CURSOR_ID = "MY_CURSOR_IS_COOL";
+	const CURSOR_ID = 'MY_CURSOR_IS_COOL';
 
 	/**
 	 * The options helper mock.
@@ -27,6 +28,9 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 	 */
 	private $options_helper;
 
+	/**
+	 * Sets up the test class.
+	 */
 	public function set_up() {
 		$this->options_helper = Mockery::Mock( Options_Helper::class );
 	}
@@ -36,7 +40,7 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 	 *
 	 * @covers ::get_cursor
 	 */
-	function test_get_cursor(){
+	public function test_get_cursor() {
 		// Arrange.
 		$this->options_helper
 			->expects( 'get' )
@@ -55,7 +59,7 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 	 *
 	 * @covers ::get_cursor
 	 */
-	function test_get_cursor_default(){
+	public function test_get_cursor_default() {
 		// Arrange.
 		$this->options_helper
 			->expects( 'get' )
@@ -72,13 +76,13 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 	/**
 	 * Test reading the cursor value from the option.
 	 *
+	 * @param int $cursor_value mixed The invalid cursor value.
+	 *
 	 * @dataProvider not_set_cursor_values
 	 *
 	 * @covers ::set_cursor
-	 *
-	 * @param $cursor_value mixed The invalid cursor value.
 	 */
-	function test_set_cursor_invalid( $cursor_value ){
+	public function test_set_cursor_invalid( $cursor_value ) {
 		// Arrange.
 		$this->options_helper
 			->expects( 'get' )
@@ -87,7 +91,7 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 		$this->options_helper
 			->expects( 'set' )
 			->withAnyArgs()
-			->Never();
+			->never();
 
 		// Act.
 		$this->set_cursor( $this->options_helper, self::CURSOR_ID, $cursor_value );
@@ -101,15 +105,15 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_cursor_invalid function.
 	 */
-	function not_set_cursor_values() {
+	public function not_set_cursor_values() {
 		return [
 			[ 0 ],
 			[ -1 ],
 			[ 1336 ],
 			[ 1337 ],
-			[ PHP_INT_MIN ],
+			[ -9223372036854775808 ],
 			[ 1336.3 ],
-			[ "apples" ],
+			[ 'apples' ],
 			[ null ],
 		];
 	}
@@ -123,7 +127,7 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 	 *
 	 * @param array $testcase The associated array testcase.
 	 */
-	function test_set_cursor( $testcase ){
+	public function test_set_cursor( $testcase ) {
 		// Arrange.
 		$this->options_helper
 			->expects( 'get' )
@@ -145,7 +149,7 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 	 *
 	 * @return array Data for test_set_cursor function.
 	 */
-	function set_cursor_values() {
+	public function set_cursor_values() {
 		return [
 			[ 1338 ],
 			[ 1337.5 ],
