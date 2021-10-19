@@ -13,7 +13,7 @@ trait Import_Cursor_Manager_Trait {
 	 * Returns the stored cursor value.
 	 *
 	 * @param Options_Helper $options_helper The options helper.
-	 * @param int            $cursor_id      The cursor id.
+	 * @param string         $cursor_id      The cursor id.
 	 *
 	 * @return int The stored cursor value.
 	 */
@@ -27,12 +27,12 @@ trait Import_Cursor_Manager_Trait {
 	 * Stores the current cursor value.
 	 *
 	 * @param Options_Helper $options_helper   The options helper.
+	 * @param string         $cursor_id        The cursor id.
 	 * @param int            $last_imported_id The id of the lastly imported entry.
-	 * @param int            $cursor_id        The cursor id.
 	 *
 	 * @return void.
 	 */
-	public function set_cursor( $options_helper, $last_imported_id, $cursor_id ) {
+	public function set_cursor( $options_helper, $cursor_id, $last_imported_id ) {
 		$current_cursors = $options_helper->get( 'import_cursors', [] );
 
 		if ( ! isset( $current_cursors[ $cursor_id ] ) || $current_cursors[ $cursor_id ] < $last_imported_id ) {

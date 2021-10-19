@@ -1,10 +1,8 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
+namespace Yoast\WP\SEO\Actions\Importing;
 
 use wpdb;
-use Yoast\WP\SEO\Actions\Importing\Abstract_Importing_Action;
-use Yoast\WP\SEO\Actions\Importing\Import_Cursor_Manager_Trait;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
@@ -147,7 +145,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		}
 
 		$cursor_id = $this->get_cursor_id();
-		$this->set_cursor( $this->options, $last_indexed_aioseo_id, $cursor_id );
+		$this->set_cursor( $this->options, $cursor_id, $last_indexed_aioseo_id );
 	}
 
 	// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
