@@ -243,7 +243,7 @@ Enhancements:
 
 * Completes the readability analysis for Greek by adding the transition words, sentence beginnings and passive voice assessments.
 * Improves keyword detection for Greek by adding function words list.
-* Reduce the right padding of the collapsible sidebar buttons to match gutenbergs new styling.
+* Reduces the right padding of the collapsible sidebar buttons to match Gutenberg's new styling.
 
 Bugfixes:
 
