@@ -92,7 +92,9 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return int The total number of unimported objects.
 	 */
 	public function get_total_unindexed() {
-		$indexables_to_create = $this->wpdb->get_col( $this->query() );
+		$limit                = false;
+		$just_detect          = true;
+		$indexables_to_create = $this->wpdb->get_col( $this->query( $limit, $just_detect ) );
 
 		return \count( $indexables_to_create );
 	}
@@ -105,7 +107,8 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return int|false The limited number of unindexed posts. False if the query fails.
 	 */
 	public function get_limited_unindexed_count( $limit ) {
-		$indexables_to_create = $this->wpdb->get_col( $this->query( $limit ) );
+		$just_detect          = true;
+		$indexables_to_create = $this->wpdb->get_col( $this->query( $limit, $just_detect ) );
 
 		return \count( $indexables_to_create );
 	}
@@ -189,18 +192,28 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	/**
 	 * Creates a query for gathering AiOSEO data from the database.
 	 *
-	 * @param int $limit The maximum number of unimported objects to be returned.
+	 * @param int  $limit       The maximum number of unimported objects to be returned.
+	 * @param bool $just_detect Whether we want to just detect if there are unimported objects. If false, we want to actually import them too.
 	 *
 	 * @return string The query to use for importing or counting the number of items to import.
 	 */
-	public function query( $limit = false ) {
+	public function query( $limit = false, $just_detect = false ) {
 		$indexable_table = $this->wpdb->prefix . 'aioseo_posts';
 
-		$cursor_id       = $this->get_cursor_id();
-		$cursor          = $this->get_cursor( $this->options, $cursor_id );
-		$replacements    = [ $cursor ];
-		$limit_statement = '';
+		$select_statement = 'id';
+		if ( ! $just_detect ) {
+			// If we want to import too, we need the actual needed data from AIOSEO indexables.
+			$needed_data = \array_keys( $this->aioseo_to_yoast_map );
+			\array_push( $needed_data, 'id', 'post_id' );
 
+			$select_statement = \implode( ', ', $needed_data );
+		}
+
+		$cursor_id    = $this->get_cursor_id();
+		$cursor       = $this->get_cursor( $this->options, $cursor_id );
+		$replacements = [ $cursor ];
+
+		$limit_statement = '';
 		if ( ! empty( $limit ) ) {
 			$replacements[]  = $limit;
 			$limit_statement = ' LIMIT %d';
@@ -208,7 +221,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		return $this->wpdb->prepare(
-			"SELECT * FROM {$indexable_table} WHERE id > %d ORDER BY id{$limit_statement}",
+			"SELECT {$select_statement} FROM {$indexable_table} WHERE id > %d ORDER BY id{$limit_statement}",
 			$replacements
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
