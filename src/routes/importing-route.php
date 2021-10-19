@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Main;
  *
  * Importing route for importing from other SEO plugins.
  */
-class Importing_Route implements Route_Interface {
+class Importing_Route extends Abstract_Action_Route {
 
 	use No_Conditionals;
 
@@ -42,14 +42,14 @@ class Importing_Route implements Route_Interface {
 	 *
 	 * @return void
 	 */
-	public function register_routes() { 
+	public function register_routes() {
 		register_rest_route(
 			Main::API_V1_NAMESPACE,
 			self::ROUTE,
 			[
 				'callback'            => [ $this, 'execute' ],
 				'permission_callback' => [ $this, 'can_import' ],
-				'methods'             => [ "GET" ],
+				'methods'             => [ 'GET' ],
 			]
 		);
 	}
@@ -59,27 +59,25 @@ class Importing_Route implements Route_Interface {
 	 *
 	 * @param mixed $data The request parameters.
 	 *
-	 * @return WP_REST_Response 
+	 * @return WP_REST_Response
 	 */
 	public function execute( $data ) {
-		$plugin = (string) $data[ 'plugin' ];
-		$type   = (string) $data[ 'type' ];
+		$plugin = (string) $data['plugin'];
+		$type   = (string) $data['type'];
 
 		$method = "import_{$plugin}_{$type}";
 
 		try {
-			$result  = $this->{ $method }();
+			$result   = $this->{ $method }();
 			$next_url = "import/{$plugin}/{$type}";
 
-			if ( count( $result[ 'objects' ] ) === 0 ) {
-				$next_url = $result[ 'next_url' ];
+			if ( count( $result['objects'] ) === 0 ) {
+				$next_url = $result['next_url'];
 			}
 
-			return new WP_REST_Response(
-				[
-					'objects'  => $result[ 'objects' ],
-					'next_url' => $next_url,
-				]
+			return $this->respond_with(
+				$result['objects'],
+				$next_url
 			);
 		} catch ( \Exception $exception ) {
 			return new WP_Error(
