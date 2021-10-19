@@ -108,7 +108,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->andReturn( 0 );
 
-		$expected_query = 'SELECT * FROM wp_aioseo_posts WHERE id > %d ORDER BY id LIMIT %d';
+		$expected_query = 'SELECT id FROM wp_aioseo_posts WHERE id > %d ORDER BY id LIMIT %d';
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
@@ -118,7 +118,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			)
 			->andReturn(
 				'
-				SELECT *
+				SELECT id
 				FROM wp_aioseo_posts
 				WHERE id > 0
 				ORDER BY id
@@ -129,7 +129,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->with(
 				'
-				SELECT *
+				SELECT id
 				FROM wp_aioseo_posts
 				WHERE id > 0
 				ORDER BY id
@@ -154,7 +154,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->andReturn( 0 );
 
-		$expected_query = 'SELECT * FROM wp_aioseo_posts WHERE id > %d ORDER BY id LIMIT %d';
+		$expected_query = 'SELECT title, description, og_title, og_description, twitter_title, twitter_description, id, post_id FROM wp_aioseo_posts WHERE id > %d ORDER BY id LIMIT %d';
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
@@ -164,7 +164,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			)
 			->andReturn(
 				'
-				SELECT *
+				SELECT id
 				FROM wp_aioseo_posts
 				WHERE id > 0
 				ORDER BY id
