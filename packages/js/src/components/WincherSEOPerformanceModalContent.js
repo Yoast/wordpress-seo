@@ -227,6 +227,7 @@ export default function WincherSEOPerformanceModalContent( props ) {
 
 			<ConnectToWincher { ...props } />
 			<GetUserMessage { ...props } />
+			{ keyphraseLimitReached && <WincherLimitReached limit={ limit } /> }
 
 			{ noKeyphrases
 				? <WincherNoKeyphraseSet />
@@ -234,8 +235,6 @@ export default function WincherSEOPerformanceModalContent( props ) {
 					<p>{ __( "You can enable / disable tracking the SEO performance for each keyphrase below.", "wordpress-seo" ) }</p>
 
 					{ isLoggedIn && shouldTrackAll && <WincherAutoTrackingEnabledAlert /> }
-
-					{ keyphraseLimitReached && <WincherLimitReached limit={ limit } /> }
 
 					<WincherKeyphrasesTable />
 				</ContentWrapper> }
