@@ -1,3 +1,4 @@
+export const REGISTER_WORKOUT = "REGISTER_WORKOUT";
 export const FINISH_STEPS = "FINISH_STEPS";
 export const TOGGLE_WORKOUT = "TOGGLE_WORKOUT";
 export const SET_WORKOUTS = "SET_WORKOUTS";
@@ -9,7 +10,7 @@ export const CLEAR_INDEXABLES = "CLEAR_INDEXABLES";
 export const CLEAR_INDEXABLES_IN_STEPS = "CLEAR_INDEXABLES_IN_STEPS";
 
 export const registerWorkout = ( key, priority ) => {
-	return { type: "REGISTER_WORKOUT", payload: { key, priority } };
+	return { type: REGISTER_WORKOUT, payload: { key, priority } };
 };
 
 /**

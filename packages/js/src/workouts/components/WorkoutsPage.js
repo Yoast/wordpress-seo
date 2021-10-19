@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
-import { Slot } from "@wordpress/components";
 import { NewBadge } from "@yoast/components";
 import { FINISHABLE_STEPS, WORKOUTS } from "../config";
 import { createInterpolateElement, useCallback, useEffect } from "@wordpress/element";
 import { Button } from "@yoast/components";
+import SlotWithDefault from "../../components/slots/SlotWithDefault";
 
 const {
 	workouts: workoutsSetting,
@@ -92,8 +92,7 @@ export default function WorkoutsPage( props ) {
 			</p>
 			{ activeWorkout && <Button onClick={ clearActiveWorkout }>{ __( "← Back to all workouts", "worpdress-seo-premium" ) }</Button> }
 			{ ! activeWorkout && <div className="workflows__index__grid">
-
-				<Slot name="cornerstone-workout">
+				<SlotWithDefault name="cornerstone-workout">
 					<div className="card card-small">
 						<h2>{ __( "The cornerstone approach", "wordpress-seo-premium" ) }</h2>
 						<h3>{ __( "Rank with articles you want to rank with", "wordpress-seo-premium" ) }</h3>
@@ -119,40 +118,34 @@ export default function WorkoutsPage( props ) {
 							<WorkoutButton workout={ WORKOUTS.cornerstone } />
 						</span>
 					</div>
-				</Slot>
-				<Slot name="orphaned-workout">
-					{
-						( fills ) => {
-							return fills.length === 0
-								? <div className="card card-small">
-									<h2>{ __( "Orphaned content", "wordpress-seo-premium" ) } <NewBadge /></h2>
-									<h3>{ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo-premium" ) }</h3>
-									<p>
-										{
-											createInterpolateElement(
-												sprintf(
-													__(
-														// eslint-disable-next-line max-len
-														"Orphaned content is content that doesn’t get any links from other posts or pages on your site. As a result of that, this content is hard to find, for both Google and visitors. Posts and pages need internal links to them, to fit into a site’s structure and to be findable. With this workout we'll help you update your orphaned content and make sure you have links pointing towards them!",
-														"wordpress-seo-premium",
-													),
-													"<em>",
-													"</em>",
-												),
-												{
-													em: <em />,
-												},
-											)
-										}
-									</p>
-									<span>
-										<WorkoutButton workout={ WORKOUTS.orphaned } />
-									</span>
-								</div>
-								: fills;
-						}
-					}
-				</Slot>
+				</SlotWithDefault>
+				<SlotWithDefault name="orphaned-workout">
+					<div className="card card-small">
+						<h2>{ __( "Orphaned content", "wordpress-seo-premium" ) } <NewBadge /></h2>
+						<h3>{ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo-premium" ) }</h3>
+						<p>
+							{
+								createInterpolateElement(
+									sprintf(
+										__(
+											// eslint-disable-next-line max-len
+											"Orphaned content is content that doesn’t get any links from other posts or pages on your site. As a result of that, this content is hard to find, for both Google and visitors. Posts and pages need internal links to them, to fit into a site’s structure and to be findable. With this workout we'll help you update your orphaned content and make sure you have links pointing towards them!",
+											"wordpress-seo-premium",
+										),
+										"<em>",
+										"</em>",
+									),
+									{
+										em: <em />,
+									},
+								)
+							}
+						</p>
+						<span>
+							<WorkoutButton workout={ WORKOUTS.orphaned } />
+						</span>
+					</div>
+				</SlotWithDefault>
 			</div> }
 		</div>
 	);
