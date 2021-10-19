@@ -168,7 +168,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 
 			$this->mock_instance->expects( 'set_cursor' )
 				->once()
-				->with( $this->options, 0 );
+				->with( $this->options, 0, 'aioseo_posts' );
 
 			$this->mock_instance->index();
 	}
