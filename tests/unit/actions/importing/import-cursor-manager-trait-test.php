@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Actions\Importing\Import_Cursor_Manager_Trait;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
+// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 /**
  * Class Import_Cursor_Manager_Trait_Test
  *
@@ -76,11 +77,11 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 	/**
 	 * Test reading the cursor value from the option.
 	 *
-	 * @param int $cursor_value mixed The invalid cursor value.
-	 *
 	 * @dataProvider not_set_cursor_values
 	 *
 	 * @covers ::set_cursor
+	 *
+	 * @param mixed $cursor_value The invalid cursor value.
 	 */
 	public function test_set_cursor_invalid( $cursor_value ) {
 		// Arrange.
@@ -153,7 +154,7 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 		return [
 			[ 1338 ],
 			[ 1337.5 ],
-			[ PHP_INT_MAX ],
+			[ 123456789 ],
 		];
 	}
 }
