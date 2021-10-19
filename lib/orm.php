@@ -48,6 +48,7 @@ use Yoast\WP\SEO\Config\Migration_Status;
  * @see http://www.php-fig.org/psr/psr-1/
  */
 class ORM implements \ArrayAccess {
+
 	/*
 	 * --- CLASS CONSTANTS ---
 	 */
@@ -2378,7 +2379,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Builds a bulk INSERT query.
 	 *
-	 * @param array $models Array of model instances to be inserted.
+	 * @param array $models             Array of model instances to be inserted.
 	 * @param array $dirty_column_names Array of dirty fields to be used in INSERT.
 	 *
 	 * @return string The insert query.

@@ -2,9 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use Google\Web_Stories as Google_Web_Stories;
-use WP_Screen;
-use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Web_Stories_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -53,11 +50,21 @@ class Web_Stories implements Integration_Interface {
 		\add_action( 'web_stories_enable_schemaorg_metadata', '__return_false' );
 		\add_action( 'web_stories_enable_open_graph_metadata', '__return_false' );
 		\add_action( 'web_stories_enable_twitter_metadata', '__return_false' );
-		\remove_action( 'web_stories_story_head', 'rel_canonical' );
-		\add_action( 'web_stories_story_head', [ $this->front_end, 'call_wpseo_head' ], 9 );
+
+		\add_action( 'web_stories_story_head', [ $this, 'web_stories_story_head' ], 1 );
 		\add_filter( 'wpseo_schema_article_post_types', [ $this, 'filter_schema_article_post_types' ] );
 		\add_filter( 'wpseo_schema_article_type', [ $this, 'filter_schema_article_type' ], 10, 2 );
 		\add_filter( 'wpseo_metadesc', [ $this, 'filter_meta_description' ], 10, 2 );
+	}
+
+	/**
+	 * Hooks into web story <head> generation to modify output.
+	 *
+	 * @return void
+	 */
+	public function web_stories_story_head() {
+		\remove_action( 'web_stories_story_head', 'rel_canonical' );
+		\add_action( 'web_stories_story_head', [ $this->front_end, 'call_wpseo_head' ], 9 );
 	}
 
 	/**
@@ -67,7 +74,7 @@ class Web_Stories implements Integration_Interface {
 	 * @return string[] Array of post types.
 	 */
 	public function filter_schema_article_post_types( $post_types ) {
-		$post_types[] = Google_Web_Stories\Story_Post_Type::POST_TYPE_SLUG;
+		$post_types[] = 'web-story';
 		return $post_types;
 	}
 
@@ -79,7 +86,7 @@ class Web_Stories implements Integration_Interface {
 	 * @return string The description sentence.
 	 */
 	public function filter_meta_description( $description, $presentation ) {
-		if ( $description || $presentation->model->object_sub_type !== Google_Web_Stories\Story_Post_Type::POST_TYPE_SLUG ) {
+		if ( $description || $presentation->model->object_sub_type !== 'web-story' ) {
 			return $description;
 		}
 
@@ -94,7 +101,7 @@ class Web_Stories implements Integration_Interface {
 	 * @return string|string[] Article type.
 	 */
 	public function filter_schema_article_type( $type, $indexable ) {
-		if ( $indexable->object_sub_type !== Google_Web_Stories\Story_Post_Type::POST_TYPE_SLUG ) {
+		if ( $indexable->object_sub_type !== 'web-story' ) {
 			return $type;
 		}
 

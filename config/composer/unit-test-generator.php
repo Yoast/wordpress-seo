@@ -259,7 +259,7 @@ TPL;
 	 */
 	protected function generate_property_statements( array $constructor_arguments ) {
 		$statements = \array_map(
-			function( $argument ) {
+			static function( $argument ) {
 				return self::generate_mocked_property_statement( $argument->getClass()->getShortName(), $argument->getName() );
 			},
 			$constructor_arguments

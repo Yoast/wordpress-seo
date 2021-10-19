@@ -621,7 +621,14 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					break;
 				case 'schema-article-type-':
 					if ( isset( $dirty[ $key ] ) && is_string( $dirty[ $key ] ) ) {
-						if ( array_key_exists( $dirty[ $key ], Schema_Types::ARTICLE_TYPES ) ) {
+						/**
+						 * Filter: 'wpseo_schema_article_types' - Allow developers to filter the available article types.
+						 *
+						 * Make sure when you filter this to also filter `wpseo_schema_article_types_labels`.
+						 *
+						 * @api array $schema_article_types The available schema article types.
+						 */
+						if ( array_key_exists( $dirty[ $key ], apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES ) ) ) {
 							$clean[ $key ] = $dirty[ $key ];
 						}
 						else {

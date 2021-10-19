@@ -49,7 +49,7 @@ abstract class Abstract_Indexable_Presenter extends Abstract_Presenter {
 	/**
 	 * Transforms an indexable presenter's key to a json safe key string.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function escape_key() {
 		if ( $this->key === 'NO KEY PROVIDED' ) {

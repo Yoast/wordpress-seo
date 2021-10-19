@@ -5,12 +5,12 @@ namespace Yoast\WP\SEO\Builders;
 use WP_Error;
 use WP_Post;
 use WPSEO_Meta;
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Post Builder for the indexables.

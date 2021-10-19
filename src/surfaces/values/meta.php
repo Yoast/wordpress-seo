@@ -233,7 +233,7 @@ class Meta {
 			/**
 			 * Define a filter that removes objects of type Rel_Next_Presenter or Rel_Prev_Presenter from a list.
 			 *
-			 * @param $presenter The presenter to verify.
+			 * @param object $presenter The presenter to verify.
 			 *
 			 * @return bool True if the presenter is not a Rel_Next or Rel_Prev presenter.
 			 */
@@ -267,7 +267,7 @@ class Meta {
 	 *
 	 * @param Abstract_Indexable_Presenter $presenter The presenter whose key and value are to be converted to JSON.
 	 *
-	 * @return object
+	 * @return object|null
 	 */
 	protected function create_json_field( $presenter ) {
 		if ( $presenter->get_key() === 'NO KEY PROVIDED' ) {

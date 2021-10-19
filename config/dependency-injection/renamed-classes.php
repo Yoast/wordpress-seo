@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Integrations\Third_Party\Elementor_Exclude_Post_Types;
 use Yoast\WP\SEO\Integrations\Third_Party\Exclude_Elementor_Post_Types as Renamed_To_Exclude_Elementor_Post_Types;
 
 $renamed_classes = [
-	Elementor_Exclude_Post_Types::class => [ Renamed_To_Exclude_Elementor_Post_Types::class, '16.7' ]
+	Elementor_Exclude_Post_Types::class => [ Renamed_To_Exclude_Elementor_Post_Types::class, '16.7' ],
 ];
 
 foreach ( $renamed_classes as $original_class => $replacement ) {
@@ -36,7 +36,7 @@ foreach ( $renamed_classes as $original_class => $replacement ) {
 		->setDeprecated( true, "%service_id% is deprecated since version $version! Use $renamed_class instead." );
 }
 
-// If the DI container is built by composer this WordPress function will not exist.
+// If the DI container is built by Composer this WordPress function will not exist.
 if ( ! function_exists( '_deprecated_file' ) ) {
 	function _deprecated_file( $file, $version, $replacement = '', $message = '' ) {}
 }

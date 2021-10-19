@@ -29,10 +29,10 @@ class Asset_Helper {
 	 *
 	 * @param string $handle The handle.
 	 *
-	 * @return string[] All dependencies of the given handle.
+	 * @return string[]|bool All dependencies of the given handle.
 	 */
 	public function get_dependency_handles( $handle ) {
-		$scripts = wp_scripts();
+		$scripts = \wp_scripts();
 
 		if ( ! isset( $scripts->registered[ $handle ] ) ) {
 			return false;
@@ -64,7 +64,7 @@ class Asset_Helper {
 	 * @return string|false The URL of the asset or false if the asset does not exist.
 	 */
 	public function get_asset_url( $handle ) {
-		$scripts = wp_scripts();
+		$scripts = \wp_scripts();
 
 		if ( ! isset( $scripts->registered[ $handle ] ) ) {
 			return false;
@@ -84,15 +84,15 @@ class Asset_Helper {
 
 		$src = $obj->src;
 
-		if ( ! preg_match( '|^(https?:)?//|', $src ) && ! ( $scripts->content_url && \strpos( $src, $scripts->content_url ) === 0 ) ) {
+		if ( ! \preg_match( '|^(https?:)?//|', $src ) && ! ( $scripts->content_url && \strpos( $src, $scripts->content_url ) === 0 ) ) {
 			$src = $scripts->base_url . $src;
 		}
 
 		if ( ! empty( $ver ) ) {
-			$src = add_query_arg( 'ver', $ver, $src );
+			$src = \add_query_arg( 'ver', $ver, $src );
 		}
 
 		/** This filter is documented in wp-includes/class.wp-scripts.php */
-		return esc_url( apply_filters( 'script_loader_src', $src, $handle ) );
+		return \esc_url( \apply_filters( 'script_loader_src', $src, $handle ) );
 	}
 }

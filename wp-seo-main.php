@@ -5,8 +5,6 @@
  * @package WPSEO\Main
  */
 
-use Composer\Autoload\ClassLoader;
-
 if ( ! function_exists( 'add_filter' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -17,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '17.3' );
+define( 'WPSEO_VERSION', '17.4-RC6' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -107,7 +105,7 @@ if ( YOAST_ENVIRONMENT === 'development' && isset( $yoast_autoloader ) ) {
 		 *
 		 * @return void
 		 */
-		function() use ( $yoast_autoloader ) {
+		static function() use ( $yoast_autoloader ) {
 			$yoast_autoloader->unregister();
 			$yoast_autoloader->register( true );
 		},

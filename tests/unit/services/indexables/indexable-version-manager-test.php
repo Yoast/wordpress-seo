@@ -4,12 +4,12 @@ namespace Yoast\WP\SEO\Tests\Unit\Services\Indexables;
 
 use Mockery;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Config\Indexable_Builder_Versions_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Class Indexable_Version_Manager_Test.
