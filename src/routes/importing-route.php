@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Routes;
 
+use Exception;
 use WP_Error;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
@@ -49,7 +50,7 @@ class Importing_Route extends Abstract_Action_Route {
 			[
 				'callback'            => [ $this, 'execute' ],
 				'permission_callback' => [ $this, 'can_import' ],
-				'methods'             => [ 'GET' ],
+				'methods'             => [ 'POST' ],
 			]
 		);
 	}
@@ -59,17 +60,21 @@ class Importing_Route extends Abstract_Action_Route {
 	 *
 	 * @param mixed $data The request parameters.
 	 *
-	 * @return WP_REST_Response
+	 * @return WP_REST_Response|false Response or false on non-existent route.
 	 */
 	public function execute( $data ) {
 		$plugin = (string) $data['plugin'];
 		$type   = (string) $data['type'];
 
-		$method = "import_{$plugin}_{$type}";
+		$method   = "import_{$plugin}_{$type}";
+		$next_url = "import/{$plugin}/{$type}";
 
 		try {
-			$result   = $this->{ $method }();
-			$next_url = "import/{$plugin}/{$type}";
+			if ( ! method_exists( $this, $method ) ) {
+				return false;
+			}
+
+			$result = $this->{ $method }();
 
 			if ( count( $result['objects'] ) === 0 ) {
 				$next_url = $result['next_url'];
@@ -95,7 +100,7 @@ class Importing_Route extends Abstract_Action_Route {
 	 */
 	protected function import_aioseo_posts() {
 		return [
-			'objects'  => [],
+			'objects'  => [ 'test' ],
 			'next_url' => self::IMPORT_AIOSEO_TERMS_ROUTE,
 		];
 	}
