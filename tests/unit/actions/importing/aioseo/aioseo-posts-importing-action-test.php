@@ -106,7 +106,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	public function test_get_total_unindexed() {
 		$this->mock_instance->expects( 'get_cursor' )
 			->once()
-			->andReturn( 0 );
+			->andReturn( 1337 );
 
 		$expected_query = 'SELECT id FROM wp_aioseo_posts WHERE id > %d ORDER BY id LIMIT %d';
 
@@ -114,13 +114,13 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->with(
 				$expected_query,
-				[ 0, 25 ]
+				[ 1337, 25 ]
 			)
 			->andReturn(
 				'
 				SELECT id
 				FROM wp_aioseo_posts
-				WHERE id > 0
+				WHERE id > 1337
 				ORDER BY id
 				LIMIT 25'
 			);
@@ -131,11 +131,11 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				'
 				SELECT id
 				FROM wp_aioseo_posts
-				WHERE id > 0
+				WHERE id > 1337
 				ORDER BY id
 				LIMIT 25'
 			)
-			->andReturn( [ '1', '2', '3' ] );
+			->andReturn( [ '1338', '1339', '1340' ] );
 
 		$limited_unimported_rows = $this->mock_instance->get_limited_unindexed_count( 25 );
 		$this->assertEquals( 3, $limited_unimported_rows );
@@ -146,13 +146,13 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 *
 	 * @covers ::index
 	 */
-	public function test_index() {
+	public function test_donot_index_if_no_importables() {
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		define( 'ARRAY_A', 'ARRAY_A' );
 
 		$this->mock_instance->expects( 'get_cursor' )
 			->once()
-			->andReturn( 0 );
+			->andReturn( 1337 );
 
 		$expected_query = 'SELECT title, description, og_title, og_description, twitter_title, twitter_description, id, post_id FROM wp_aioseo_posts WHERE id > %d ORDER BY id LIMIT %d';
 
@@ -160,17 +160,18 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->with(
 				$expected_query,
-				[ 0, 25 ]
+				[ 1337, 25 ]
 			)
 			->andReturn(
 				'
-				SELECT id
+				SELECT title, description, og_title, og_description, twitter_title, twitter_description, id, post_id
 				FROM wp_aioseo_posts
-				WHERE id > 0
+				WHERE id > 1337
 				ORDER BY id
 				LIMIT 25'
 			);
 
+			// return 0 importables
 			$this->wpdb->expects( 'get_results' )
 				->once()
 				->andReturn( [] );
