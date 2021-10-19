@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Actions\Indexing;
 use wpdb;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Helpers\Meta_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
@@ -42,11 +42,11 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	protected $wpdb;
 
 	/**
-	 * The Meta helper.
+	 * The indexable_to_postmeta helper.
 	 *
-	 * @var Meta_Helper
+	 * @var Indexable_To_Postmeta_Helper
 	 */
-	protected $meta;
+	protected $indexable_to_postmeta;
 
 	/**
 	 * The options helper.
@@ -70,32 +70,18 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	];
 
 	/**
-	 * The map of yoast to post meta.
-	 *
-	 * @var array
-	 */
-	protected $yoast_to_postmeta = [
-		'title'                  => 'title',
-		'description'            => 'metadesc',
-		'open_graph_title'       => 'opengraph-title',
-		'open_graph_description' => 'opengraph-description',
-		'twitter_title'          => 'twitter-title',
-		'twitter_description'    => 'twitter-description',
-	];
-
-	/**
 	 * Aioseo_Posts_Import_Action constructor.
 	 *
-	 * @param Indexable_Repository $indexable_repository The indexables repository.
-	 * @param wpdb                 $wpdb                 The WordPress database instance.
-	 * @param Meta_Helper          $meta                 The Meta helper.
-	 * @param Options_Helper       $options              The options helper.
+	 * @param Indexable_Repository         $indexable_repository  The indexables repository.
+	 * @param wpdb                         $wpdb                  The WordPress database instance.
+	 * @param Indexable_To_Postmeta_Helper $indexable_to_postmeta The indexable_to_postmeta helper.
+	 * @param Options_Helper               $options               The options helper.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository, wpdb $wpdb, Meta_Helper $meta, Options_Helper $options ) {
-		$this->indexable_repository = $indexable_repository;
-		$this->wpdb                 = $wpdb;
-		$this->meta                 = $meta;
-		$this->options              = $options;
+	public function __construct( Indexable_Repository $indexable_repository, wpdb $wpdb, Indexable_To_Postmeta_Helper $indexable_to_postmeta, Options_Helper $options ) {
+		$this->indexable_repository  = $indexable_repository;
+		$this->wpdb                  = $wpdb;
+		$this->indexable_to_postmeta = $indexable_to_postmeta;
+		$this->options               = $options;
 	}
 
 	// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: They are already prepared.
@@ -146,7 +132,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			$indexable->save();
 
 			// To ensure that indexables can be rebuild after a reset, we have to store the data in the postmeta table too.
-			$this->map_to_postmeta( $indexable );
+			$this->indexable_to_postmeta->map_to_postmeta( $indexable );
 
 			$last_indexed_aioseo_id = $aioseo_indexable['id'];
 		}
@@ -166,6 +152,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return Indexable The created indexables.
 	 */
 	public function map( $indexable, $aioseo_indexable ) {
+		// Do not overwrite any existing values.
 		foreach ( $this->aioseo_to_yoast_map as $aioseo_key => $yoast_key ) {
 			if ( ! empty( $indexable->{$yoast_key} ) ) {
 				continue;
@@ -177,23 +164,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		}
 
 		return $indexable;
-	}
-
-	/**
-	 * Creates postmeta from a Yoast indexable.
-	 *
-	 * @param Indexable $indexable The Yoast indexable.
-	 *
-	 * @return void.
-	 */
-	public function map_to_postmeta( $indexable ) {
-		foreach ( $this->yoast_to_postmeta as $indexable_column => $post_meta_key ) {
-			if ( empty( $indexable->{$indexable_column} ) ) {
-				continue;
-			}
-
-			$this->meta->set_value( $post_meta_key, $indexable->{$indexable_column}, $indexable->object_id );
-		}
 	}
 
 	/**
