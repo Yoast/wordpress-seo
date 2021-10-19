@@ -6,6 +6,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * The Cursor Manager trait.
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 trait Import_Cursor_Manager_Trait {
 
