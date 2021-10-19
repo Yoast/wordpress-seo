@@ -10,7 +10,7 @@ let morphologyData = null;
  */
 function loadLocalMorphologyData() {
 	let data, dataDe, dataNL, dataES, dataFR, dataRU, dataIT, dataPT, dataID, dataPL, dataAR, dataSV, dataHE, dataHU,
-		dataNB, dataTR, dataCS, dataSK, dataEL = {};
+		dataNB, dataTR, dataCS, dataSK, dataEL, dataJA = {};
 	try {
 		data = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-en-v4.json" );
 		dataDe = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-de-v9.json" );
@@ -31,11 +31,12 @@ function loadLocalMorphologyData() {
 		dataCS = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-cs-v1.json" );
 		dataSK = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-sk-v1.json" );
 		dataEL = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-el-v1.json" );
+		dataJA = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-ja-v1.json" );
 	} catch ( error ) {
 		// Falling back to empty data.
 	}
 	return merge( data, dataDe, dataNL, dataES, dataFR, dataRU, dataIT, dataPT, dataID, dataPL, dataAR, dataSV, dataHE, dataHU, dataNB, dataTR,
-		dataCS, dataSK, dataEL );
+		dataCS, dataSK, dataEL, dataJA );
 }
 
 /**
