@@ -1,0 +1,22 @@
+{
+  "name": "@yoast/analysis-store",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.6.2",
+    "react": "^17.0.2",
+    "react-redux": "^7.2.5"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-react": "^7.14.5"
+  },
+  "scripts": {
+    "build": "babel src -d build",
+    "watch": "babel src -w -d build"
+  }
+}
