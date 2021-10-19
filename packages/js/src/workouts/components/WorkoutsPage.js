@@ -123,9 +123,8 @@ export default function WorkoutsPage( props ) {
 				<Slot name="orphaned-workout">
 					{
 						( fills ) => {
-							return fills
-								? fills
-								: <div className="card card-small">
+							return fills.length === 0
+								? <div className="card card-small">
 									<h2>{ __( "Orphaned content", "wordpress-seo-premium" ) } <NewBadge /></h2>
 									<h3>{ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo-premium" ) }</h3>
 									<p>
@@ -149,7 +148,8 @@ export default function WorkoutsPage( props ) {
 									<span>
 										<WorkoutButton workout={ WORKOUTS.orphaned } />
 									</span>
-								</div>;
+								</div>
+								: fills;
 						}
 					}
 				</Slot>
