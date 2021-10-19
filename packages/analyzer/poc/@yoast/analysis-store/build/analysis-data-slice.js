@@ -3,12 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectors = exports.default = exports.actions = void 0;
+exports.default = exports.analysisDataSelectors = exports.analysisDataActions = void 0;
 
 var _toolkit = require("@reduxjs/toolkit");
 
+const SLICE_NAME = "analysisData";
 const analysisDataSlice = (0, _toolkit.createSlice)({
-  name: "analysisData",
+  name: SLICE_NAME,
   initialState: {
     content: ""
   },
@@ -21,11 +22,11 @@ const analysisDataSlice = (0, _toolkit.createSlice)({
 
 const selectContent = state => state.analysisData.content;
 
-const selectors = {
+const analysisDataSelectors = {
   selectContent
 };
-exports.selectors = selectors;
-const actions = analysisDataSlice.actions;
-exports.actions = actions;
+exports.analysisDataSelectors = analysisDataSelectors;
+const analysisDataActions = analysisDataSlice.actions;
+exports.analysisDataActions = analysisDataActions;
 var _default = analysisDataSlice.reducer;
 exports.default = _default;

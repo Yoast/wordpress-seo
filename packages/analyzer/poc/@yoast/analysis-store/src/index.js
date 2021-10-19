@@ -1,35 +1,43 @@
 /* eslint-disable require-jsdoc */
 
 import { configureStore } from "@reduxjs/toolkit";
+import { identity } from "lodash";
 
-import analysisDataReducer, { actions as analysisDataActions, selectors as analysisDataSelectors } from "./analysis-data-slice";
+import analysisDataReducer, { analysisDataActions, analysisDataSelectors } from "./analysis-data-slice";
+import analysisResultsReducer, { analysisResultsActions, analysisResultsSelectors } from "./analysis-results-slice";
+import { createActions, createSelectors } from "./helpers";
 import createProvider from "./provider";
 
 export const actions = {
 	...analysisDataActions,
+	...analysisResultsActions,
 };
 
 export const selectors = {
 	...analysisDataSelectors,
+	...analysisResultsSelectors,
 };
 
 const createAnalysisStore = ( {
-	getSeoResults,
-	getReadabilityResults,
-	getResearchResults,
+	fetchSeoResults,
+	fetchReadabilityResults,
+	fetchResearchResults,
+	preparePaper = identity,
 	middleware = [],
 } ) => {
 	const store = configureStore( {
 		reducer: {
 			analysisData: analysisDataReducer,
+			analysisResults: analysisResultsReducer,
 		},
 		middleware: ( getDefaultMiddleware ) => [
 			...getDefaultMiddleware( {
 				thunk: {
 					extraArgument: {
-						getSeoResults,
-						getReadabilityResults,
-						getResearchResults,
+						preparePaper,
+						fetchSeoResults,
+						fetchReadabilityResults,
+						fetchResearchResults,
 					},
 				},
 			} ),
@@ -37,11 +45,11 @@ const createAnalysisStore = ( {
 		],
 	} );
 
-	const Provider = createProvider( { store } );
+	const Provider = createProvider( store );
 
 	return {
-		dispatch: store.dispatch,
-		select: ( selector, ...args ) => selector( store.getState(), ...args ),
+		actions: createActions( store, actions ),
+		selectors: createSelectors( store, selectors ),
 		Provider,
 	};
 };

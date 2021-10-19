@@ -1,30 +1,38 @@
 import { useCallback } from "react";
-import createAnalysisStore, { actions as analysisActions } from "@yoast/analysis-store";
+import createAnalysisStore from "@yoast/analysis-store";
 
-const middleware = [];
+const testMiddleware = store => next => action => {
+  if ( action.type === "analysisResults/fetchSeoResults" ) {
+    console.warn("action", action);
+      return next( action );
+  }
 
-const { store, Provider } = createAnalysisStore( {
-  getReadabilityResults: () => {
-    console.log( "getReadabilityResults" )
-    return {};
+  next( action );
+};
+
+const { Provider, actions: analysisActions } = createAnalysisStore( {
+  fetchReadabilityResults: async () => {
+    console.warn( "fetchReadabilityResults triggered" );
+    await new Promise( resolve => setTimeout( resolve, 1000 ) );
+    return { data: "readabilityResults" };
   },
-  getSeoResults: () => {
-    console.log( "getSeoResults" )
-    return {};
+  fetchSeoResults: async () => {
+    console.warn( "fetchSeoResults triggered" );
+    await new Promise( resolve => setTimeout( resolve, 1000 ) );
+    return { data: "seoResults" };
   },
-  getResearchResults: () => {
-    console.log( "getResearchResults" )
-    return {};
+  fetchResearchResults: async () => {
+    console.warn( "fetchResearchResults triggered" );
+    await new Promise( resolve => setTimeout( resolve, 1000 ) );
+    return { data: "researchResults" };
   },
-  middleware,
+  middleware: [testMiddleware],
 } );
 
 
 function App() {
   const handleChange = useCallback( ( event ) => {
-    store.dispatch(
-      analysisActions.updatedContent( event.target.value )
-    );
+    analysisActions.updatedContent( event.target.value )
   }, [] );
   return (
     <Provider>

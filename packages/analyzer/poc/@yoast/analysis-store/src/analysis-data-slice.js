@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const SLICE_NAME = "analysisData";
+
 const analysisDataSlice = createSlice( {
-	name: "analysisData",
+	name: SLICE_NAME,
 	initialState: {
 		content: "",
 	},
@@ -14,10 +16,10 @@ const analysisDataSlice = createSlice( {
 
 const selectContent = state => state.analysisData.content;
 
-export const selectors = {
+export const analysisDataSelectors = {
 	selectContent,
 };
 
-export const actions = analysisDataSlice.actions;
+export const analysisDataActions = analysisDataSlice.actions;
 
 export default analysisDataSlice.reducer;
