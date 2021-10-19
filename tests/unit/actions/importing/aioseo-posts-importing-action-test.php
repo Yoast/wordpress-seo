@@ -171,7 +171,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				LIMIT 25'
 			);
 
-			// return 0 importables.
+			// Return 0 importables.
 			$this->wpdb->expects( 'get_results' )
 				->once()
 				->andReturn( [] );
