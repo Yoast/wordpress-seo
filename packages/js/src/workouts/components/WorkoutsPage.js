@@ -121,31 +121,37 @@ export default function WorkoutsPage( props ) {
 					</div>
 				</Slot>
 				<Slot name="orphaned-workout">
-					<div className="card card-small">
-						<h2>{ __( "Orphaned content", "wordpress-seo-premium" ) } <NewBadge /></h2>
-						<h3>{ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo-premium" ) }</h3>
-						<p>
-							{
-								createInterpolateElement(
-									sprintf(
-										__(
-											// eslint-disable-next-line max-len
-											"Orphaned content is content that doesn’t get any links from other posts or pages on your site. As a result of that, this content is hard to find, for both Google and visitors. Posts and pages need internal links to them, to fit into a site’s structure and to be findable. With this workout we'll help you update your orphaned content and make sure you have links pointing towards them!",
-											"wordpress-seo-premium",
-										),
-										"<em>",
-										"</em>",
-									),
-									{
-										em: <em />,
-									},
-								)
-							}
-						</p>
-						<span>
-							<WorkoutButton workout={ WORKOUTS.orphaned } />
-						</span>
-					</div>
+					{
+						( fills ) => {
+							return fills
+								? fills
+								: <div className="card card-small">
+									<h2>{ __( "Orphaned content", "wordpress-seo-premium" ) } <NewBadge /></h2>
+									<h3>{ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo-premium" ) }</h3>
+									<p>
+										{
+											createInterpolateElement(
+												sprintf(
+													__(
+														// eslint-disable-next-line max-len
+														"Orphaned content is content that doesn’t get any links from other posts or pages on your site. As a result of that, this content is hard to find, for both Google and visitors. Posts and pages need internal links to them, to fit into a site’s structure and to be findable. With this workout we'll help you update your orphaned content and make sure you have links pointing towards them!",
+														"wordpress-seo-premium",
+													),
+													"<em>",
+													"</em>",
+												),
+												{
+													em: <em />,
+												},
+											)
+										}
+									</p>
+									<span>
+										<WorkoutButton workout={ WORKOUTS.orphaned } />
+									</span>
+								</div>;
+						}
+					}
 				</Slot>
 			</div> }
 		</div>
