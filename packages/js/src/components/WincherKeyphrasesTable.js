@@ -152,6 +152,7 @@ class WincherKeyphrasesTable extends Component {
 				setTrackingKeyphrases( response.results );
 
 				if ( isEmpty( response.results ) ) {
+					clearInterval( this.interval );
 					return;
 				}
 
@@ -190,7 +191,6 @@ class WincherKeyphrasesTable extends Component {
 				if ( keyphrasesHaveNoRankingData ) {
 					setPendingChartRequest( true );
 				} else {
-					clearInterval( this.interval );
 					setPendingChartRequest( false );
 				}
 			},
@@ -207,6 +207,10 @@ class WincherKeyphrasesTable extends Component {
 	 */
 	noKeyphrasesHaveRankingData() {
 		const { trackedKeyphrases } = this.props;
+
+		if ( ! trackedKeyphrases.length ) {
+			return false;
+		}
 
 		const positionalData = filter( trackedKeyphrases, ( trackedKeyphrase ) => {
 			return isEmpty( trackedKeyphrase.ranking_updated_at );
