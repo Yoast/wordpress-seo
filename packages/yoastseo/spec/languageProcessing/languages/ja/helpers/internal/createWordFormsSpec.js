@@ -6,8 +6,8 @@ const morphologyDataJA = getMorphologyData( "ja" ).ja;
 
 describe( "test for creating word forms for Japanese", function() {
 	it( "returns an array with the original word if the word is one character long", function() {
-		let words = createWordForms( "来", morphologyDataJA );
-		expect( words ).toEqual( [ "来" ] );
+		let words = createWordForms( "猫", morphologyDataJA );
+		expect( words ).toEqual( [ "猫" ] );
 
 		words = createWordForms( "バラ", morphologyDataJA );
 		expect( words ).toEqual( [ "バラ" ] );
