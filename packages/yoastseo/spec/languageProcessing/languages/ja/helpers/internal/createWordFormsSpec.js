@@ -18,45 +18,47 @@ describe( "test for creating word forms for Japanese", function() {
 		expect( words ).toEqual( [ "会う", "会い", "会わ", "会え", "会お", "会っ", "会える", "会わせ", "会わせる", "会われ", "会われる", "会おう" ]
 		);
 	} );
-	xit( "returns an array with the word forms for a input word that ends in T group ending", function() {
-		const words = createWordForms( "来", morphologyDataJA );
+	it( "returns an array with the word forms for a input word that ends in T group ending", function() {
+		const words = createWordForms( "待つ", morphologyDataJA );
 
-		expect( words ).toEqual( [ "来" ] );
+		expect( words ).toEqual( [ "待つ", "待ち", "待た", "待て", "待と", "待っ", "待てる", "待たせ", "待たせる", "待たれ", "待たれる", "待とう" ] );
 	} );
-	xit( "returns an array with the word forms for a input word that ends in R group ending", function() {
-		const words = createWordForms( "来", morphologyDataJA );
+	it( "returns an array with the word forms for a input word that ends in R group ending", function() {
+		const words = createWordForms( "頑張り", morphologyDataJA );
 
-		expect( words ).toEqual( [ "来" ] );
+		expect( words ).toEqual( [ "頑張る", "頑張り", "頑張ら", "頑張れ", "頑張ろ", "頑張っ", "頑張れる", "頑張らせ", "頑張らせる", "頑張られ", "頑張られる", "頑張ろう" ]
+		);
 	} );
-	xit( "returns an array with the word forms for a input word that ends in N group ending", function() {
-		const words = createWordForms( "来", morphologyDataJA );
+	it( "returns an array with the word forms for a input word that ends in N group ending", function() {
+		const words = createWordForms( "死な", morphologyDataJA );
 
-		expect( words ).toEqual( [ "来" ] );
+		expect( words ).toEqual( [ "死ぬ", "死に", "死な", "死ね", "死の", "死ん", "死ねる", "死なせ", "死なせる", "死なれ", "死なれる", "死のう" ]
+		);
 	} );
-	xit( "returns an array with the word forms for a input word that ends in M group ending", function() {
-		const words = createWordForms( "来", morphologyDataJA );
+	it( "returns an array with the word forms for a input word that ends in M group ending", function() {
+		const words = createWordForms( "休め", morphologyDataJA );
 
-		expect( words ).toEqual( [ "来" ] );
+		expect( words ).toEqual( [ "休む", "休み", "休ま", "休め", "休も", "休ん", "休める", "休ませ", "休ませる", "休まれ", "休まれる", "休もう" ] );
 	} );
-	xit( "returns an array with the word forms for a input word that ends in B group ending", function() {
-		const words = createWordForms( "来", morphologyDataJA );
+	it( "returns an array with the word forms for a input word that ends in B group ending", function() {
+		const words = createWordForms( "及ぼ", morphologyDataJA );
 
-		expect( words ).toEqual( [ "来" ] );
+		expect( words ).toEqual( [ "及ぶ", "及び", "及ば", "及べ", "及ぼ", "及ん", "及べる", "及ばせ", "及ばせる", "及ばれ", "及ばれる", "及ぼう" ] );
 	} );
-	xit( "returns an array with the word forms for a input word that ends in K group ending", function() {
-		const words = createWordForms( "来", morphologyDataJA );
+	it( "returns an array with the word forms for a input word that ends in K group ending", function() {
+		const words = createWordForms( "遅かっ", morphologyDataJA );
 
-		expect( words ).toEqual( [ "来" ] );
+		expect( words ).toEqual( [ "遅く", "遅き", "遅か", "遅け", "遅こ", "遅い", "遅ける", "遅かせ", "遅かせる", "遅かれ", "遅かれる", "遅こう", "遅かっ" ] );
 	} );
-	xit( "returns an array with the word forms for a input word that ends in G group ending", function() {
-		const words = createWordForms( "来", morphologyDataJA );
+	it( "returns an array with the word forms for a input word that ends in G group ending", function() {
+		const words = createWordForms( "脱げる", morphologyDataJA );
 
-		expect( words ).toEqual( [ "来" ] );
+		expect( words ).toEqual( [ "脱ぐ", "脱ぎ", "脱が", "脱げ", "脱ご", "脱い", "脱げる", "脱がせ", "脱がせる", "脱がれ", "脱がれる", "脱ごう" ] );
 	} );
-	xit( "returns an array with the word forms for a input word that ends in S group ending", function() {
-		const words = createWordForms( "来", morphologyDataJA );
+	it( "returns an array with the word forms for a input word that ends in S group ending", function() {
+		const words = createWordForms( "話させる", morphologyDataJA );
 
-		expect( words ).toEqual( [ "来" ] );
+		expect( words ).toEqual( [ "話す", "話し", "話さ", "話せ", "話そ", "話せる", "話させ", "話させる", "話され", "話される", "話そう" ] );
 	} );
 	it( "returns an additional forms without る ending if the input word ends in -る", function() {
 		const words = createWordForms( "見る", morphologyDataJA );
