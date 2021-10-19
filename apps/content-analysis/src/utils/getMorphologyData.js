@@ -30,7 +30,7 @@ function loadLocalMorphologyData() {
 		dataTR = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-tr-v1.json" );
 		dataCS = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-cs-v1.json" );
 		dataSK = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-sk-v1.json" );
-		dataEL = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-sk-v1.json" );
+		dataEL = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-el-v1.json" );
 		dataJA = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-ja-v1.json" );
 	} catch ( error ) {
 		// Falling back to empty data.

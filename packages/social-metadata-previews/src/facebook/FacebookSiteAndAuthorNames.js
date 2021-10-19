@@ -3,6 +3,7 @@ import React, { Fragment } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
+import { isString } from "lodash";
 
 /* Internal dependencies */
 import FacebookAuthorName from "./FacebookAuthorName";
@@ -59,11 +60,13 @@ function renderFacebookAuthorName( authorName ) {
  * Renders a FacebookSiteAndAuthorNames component.
  *
  * @param {object} props The props.
+ * @param {string} props.authorName The author's name.
+ * @param {string} props.siteUrl The site url.
  *
  * @returns {React.Element} The rendered element.
  */
 const FacebookSiteAndAuthorNames = ( props ) => {
-	const hasAuthorName = props.authorName.length > 0;
+	const hasAuthorName =  isString( props.authorName ) && props.authorName.length > 0;
 	const screenReaderText = hasAuthorName
 		/* Translators: 1: site name, 2: post author name */
 		? sprintf( __( "%1$s by %2$s", "yoast-components" ), props.siteUrl, props.authorName )
