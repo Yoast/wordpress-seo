@@ -63,11 +63,20 @@ class WincherKeyphrasesTable extends Component {
 			addTrackingKeyphrase,
 			setRequestSucceeded,
 			setRequestFailed,
+			removeTrackingKeyphrase,
 		} = this.props;
+
+		const keyphrasesArray = Array.isArray( keyphrases ) ? keyphrases : [ keyphrases ];
+
+		// Add the keyphrases already for instant UX. Will be removed again if the request fails or the limit is reached.
+		keyphrasesArray.map( k => addTrackingKeyphrase( {
+			[ k.toLowerCase() ]: { keyword: k },
+		} ) );
 
 		const trackLimits = await getAccountLimits();
 
 		if ( ! trackLimits.canTrack ) {
+			keyphrasesArray.map( k => removeTrackingKeyphrase( k ) );
 			setRequestLimitReached( trackLimits.limit );
 
 			return;
@@ -81,6 +90,7 @@ class WincherKeyphrasesTable extends Component {
 			},
 			async( response ) => {
 				setRequestFailed( response );
+				keyphrasesArray.map( k => removeTrackingKeyphrase( k ) );
 			},
 			201
 		);
@@ -115,19 +125,24 @@ class WincherKeyphrasesTable extends Component {
 		const {
 			setRequestSucceeded,
 			removeTrackingKeyphrase,
+			addTrackingKeyphrase,
 			setRequestFailed,
 		} = this.props;
+
+		keyphrase = keyphrase.toLowerCase();
+		const oldData = this.getKeyphraseData( keyphrase );
+		removeTrackingKeyphrase( keyphrase );
 
 		await handleAPIResponse(
 			() => untrackKeyphrase( keyphraseID ),
 			( response ) => {
 				setRequestSucceeded( response );
-				removeTrackingKeyphrase( keyphrase.toLowerCase() );
+				removeTrackingKeyphrase( keyphrase );
 			},
 			async( response ) => {
 				setRequestFailed( response );
-			},
-			204
+				addTrackingKeyphrase( { [ keyphrase ]: oldData } );
+			}
 		);
 	}
 

@@ -164,9 +164,11 @@ class Wincher_Keyphrases_Action {
 				$keyphrase_id
 			);
 
-			$results = $this->client->delete( $endpoint );
+			$this->client->delete( $endpoint );
 
-			return $this->to_result_object( $results );
+			return (object) [
+				'status' => 200,
+			];
 		} catch ( Exception $e ) {
 			return (object) [
 				'error'  => $e->getMessage(),

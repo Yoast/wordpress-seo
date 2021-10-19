@@ -292,10 +292,7 @@ class Wincher_Route implements Route_Interface {
 	public function untrack_keyphrase( WP_REST_Request $request ) {
 		$data = $this->keyphrases_action->untrack_keyphrase( $request['keyphraseID'] );
 
-		return (object) [
-			'results' => [],
-			'status'  => $data->status,
-		];
+		return new WP_REST_Response( $data, $data->status );
 	}
 
 	/**
