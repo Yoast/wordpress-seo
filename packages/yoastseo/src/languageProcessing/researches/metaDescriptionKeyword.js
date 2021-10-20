@@ -31,9 +31,9 @@ const replaceFoundKeywordForms = function( description, matchedKeywordForms, max
  * @param {string} locale the current locale
  * @returns {Number} the number of matched keyphrases in the sentence.
  */
-const matchPerSentence = function( sentence, topicForms, locale ) {
+const matchPerSentence = function( sentence, topicForms, locale, matchKeywordHelper ) {
 	// Focus keyphrase matches.
-	const matchesKeyphrase = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
+	const matchesKeyphrase = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale, matchKeywordHelper ) );
 
 	// Count the number of matches that contain every word in the entire keyphrase.
 	const fullKeyphraseMatches = Math.min( ...matchesKeyphrase.map( match => match.count ) );
@@ -45,7 +45,7 @@ const matchPerSentence = function( sentence, topicForms, locale ) {
 	const fullSynonymsMatches = topicForms.synonymsForms.map(
 		synonymForms => {
 			// Synonym keyphrase matches.
-			const matches = synonymForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
+			const matches = synonymForms.map( keywordForms => matchWords( sentence, keywordForms, locale, matchKeywordHelper ) );
 			// Count the number of matches that contain every word in the entire synonym keyphrase.
 			const fullSynonymMatches = Math.min( ...matches.map( match => match.count ) );
 			// Replace all full matches so we do not match them for other synonyms.
@@ -66,6 +66,7 @@ const matchPerSentence = function( sentence, topicForms, locale ) {
  * @returns {Number} The number of keyphrase matches for the entire description.
  */
 export default function( paper, researcher ) {
+	const matchKeywordHelper = researcher.getHelper( "matchTextWithWord" );
 	const description = paper.getDescription();
 	const locale = paper.getLocale();
 
@@ -74,7 +75,7 @@ export default function( paper, researcher ) {
 	const sentences = getSentences( description );
 
 	const sentenceMatches = sentences.map(
-		sentence => matchPerSentence( sentence, topicForms, locale )
+		sentence => matchPerSentence( sentence, topicForms, locale, matchKeywordHelper )
 	);
 
 	return sentenceMatches.reduce( ( sum, count ) => sum + count, 0 );
