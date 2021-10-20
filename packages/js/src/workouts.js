@@ -1,4 +1,5 @@
 import { register, dispatch, createReduxStore } from "@wordpress/data";
+import { Fill } from "@wordpress/components";
 import domReady from "@wordpress/dom-ready";
 
 import Workouts from "./workouts/redux/container";
@@ -21,7 +22,7 @@ register( store );
 window.wpseoWorkoutsData = window.wpseoWorkoutsData || {};
 window.wpseoWorkoutsData.registerWorkout = ( key, priority, Component ) => {
 	dispatch( "yoast-seo/workouts" ).registerWorkout( key, priority );
-	registerReactComponent( key, Component );
+	registerReactComponent( key, () => <Fill name={ `${ key }` }><Component /></Fill> );
 };
 
 domReady( () => {
