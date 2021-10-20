@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { NewBadge, PremiumBadge, Slot } from "@yoast/components";
-import { useEffect } from "@wordpress/element";
+import { useEffect, useMemo } from "@wordpress/element";
 import { Button } from "@yoast/components";
+import { sortBy } from "lodash";
 import SlotWithDefault from "../../components/slots/SlotWithDefault";
 import WorkoutCard from "./WorkoutCard";
 import { FINISHABLE_STEPS } from "../config";
@@ -43,7 +44,16 @@ export default function WorkoutsPage( props ) {
 		saveWorkouts( workouts );
 	}, [ workouts, loading ] );
 
-	const slotIds = Object.keys( workouts );
+	/**
+	 * Generate slots based on the workout key, and sort by priority.
+	 */
+	 const slots = useMemo( () => {
+		const slotIds = Object.keys( workouts );
+		const sortedWorkouts = sortBy( slotIds.map( id => {
+			return { ...workouts[ id ], id };
+		} ), "priority" );
+		return sortedWorkouts.map( workout => <Slot key={ workout.id } name={ `${ workout.id }` } /> );
+	}, [ workouts ] );
 
 	return (
 		<div>
@@ -91,9 +101,7 @@ export default function WorkoutsPage( props ) {
 						finishedSteps={ [] }
 					/>
 				</SlotWithDefault>
-				{
-					slotIds.map( id => <Slot key={ id } name={ id } /> )
-				}
+				{ slots }
 			</div> }
 		</div>
 	);
