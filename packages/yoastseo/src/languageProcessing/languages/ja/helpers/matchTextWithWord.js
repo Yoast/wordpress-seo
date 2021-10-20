@@ -16,21 +16,17 @@ import stripSomeTags from "../../../helpers/sanitize/stripNonTextTags";
 export default function( text, wordToMatch ) {
 	text = stripSomeTags( text );
 	text = unifyWhitespace( text );
-    text = normalizeQuotes( text );
+	text = normalizeQuotes( text );
 
 	const words = getContentWords( text );
-	const matches = [];
-
-	if ( words.includes( wordToMatch ) ) {
-		matches.push( wordToMatch );
-	}
+	const matchedWords = words.filter( word => wordToMatch === word );
 
 	// Create an array of positions of matches to determine where in the text the wordToMatch occurred first.
-	const positions = matches.map( match => text.indexOf( match ) );
+	const positions = matchedWords.map( match => text.indexOf( match ) );
 
 	return {
-		count: matches.length,
-		matches: matches,
+		count: matchedWords.length,
+		matches: matchedWords,
 		position: Math.min( ...positions ),
 	};
 }
