@@ -7,6 +7,9 @@ import getStemmer from "./helpers/getStemmer";
 // All config
 import functionWords from "./config/functionWords";
 
+// Custom Researches
+import getParagraphLength from "./customResearches/getParagraphLength";
+
 /**
  * The researches contains all the researches
  */
@@ -25,6 +28,7 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getSentenceBeginnings;
 		delete this.defaultResearches.findTransitionWords;
 		delete this.defaultResearches.functionWordsInKeyphrase;
+		delete this.defaultResearches.getParagraphLength;
 
 		Object.assign( this.config, {
 			language: "ja",
