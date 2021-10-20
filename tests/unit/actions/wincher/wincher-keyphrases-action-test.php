@@ -248,7 +248,6 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'results' => [],
 				'status'  => 200,
 			],
 			$this->instance->untrack_keyphrase( 12345 )
