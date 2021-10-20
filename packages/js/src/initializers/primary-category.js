@@ -242,7 +242,7 @@ export default function initPrimaryCategory( $ ) {
 			updatePrimaryTermSelectors( taxonomyName );
 
 			// The clicked link will be hidden so we need to focus something different.
-			checkbox.focus();
+			checkbox.trigger( "focus" );
 		};
 	}
 
