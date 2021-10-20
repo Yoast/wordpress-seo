@@ -3,7 +3,7 @@ import {
 	CLEAR_ACTIVE_WORKOUT, CLEAR_INDEXABLES,
 	CLEAR_INDEXABLES_IN_STEPS,
 	FINISH_STEPS, MOVE_INDEXABLES, OPEN_WORKOUT,
-	SET_WORKOUTS, TOGGLE_STEP, TOGGLE_WORKOUT,
+	SET_WORKOUTS, TOGGLE_STEP, TOGGLE_WORKOUT, REGISTER_WORKOUT,
 } from "./actions";
 import { FINISHABLE_STEPS } from "../config";
 
@@ -15,10 +15,12 @@ const initialState = {
 	activeWorkout: "",
 	workouts: {
 		cornerstone: {
+			priority: 50,
 			finishedSteps: [],
 			indexablesByStep: {},
 		},
 		orphaned: {
+			priority: 50,
 			finishedSteps: [],
 			indexablesByStep: {},
 		},
@@ -38,6 +40,13 @@ const workoutsReducer = ( state = initialState, action ) => {
 	let i;
 	const newState = cloneDeep( state );
 	switch ( action.type ) {
+		case REGISTER_WORKOUT:
+			newState.workouts[ action.payload.key ] = {
+				priority: action.payload.priority,
+				finishedSteps: [],
+				indexablesByStep: {},
+			};
+			return newState;
 		case FINISH_STEPS:
 			newState.workouts[ action.workout ].finishedSteps =  union( state.workouts[ action.workout ].finishedSteps, action.steps );
 			return newState;
