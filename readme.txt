@@ -242,12 +242,12 @@ Release Date: November 2nd, 2021
 Enhancements:
 
 * Completes the readability analysis for Greek by adding the transition words, sentence beginnings and passive voice assessments.
-* Improves keyword detection for Greek by adding function words list.
-* Reduces the right padding of the collapsible sidebar buttons to match Gutenberg's new styling.
+* Improves keyword detection for Greek by adding a function words list.
+* Reduces the right padding of the collapsible sidebar buttons to match the block editor's new styling.
 
 Bugfixes:
 
-* Fixes a bug where the analysis highlight button would be visible on WordPress taxonomies (tags/categories/custom taxonomies) even though we don't support it.
+* Fixes a bug where the analysis highlight button would be visible on tags, categories, and custom taxonomies even though we don't support highlighting for those types.
 * Fixes a bug where links to items on the same page were incorrectly identified as links to other pages, leading to an incorrect result on the Link keyphrase assessment.
 
 = 17.4 =
