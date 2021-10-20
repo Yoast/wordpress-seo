@@ -36,6 +36,7 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 			    limitReached: false,
 				isSuccess: false,
 				response: null,
+				isNewlyAuthenticated: false,
 			};
 		case WINCHER_SET_REQUEST_SUCCEEDED:
 			// The status code should be 200 OK here.
