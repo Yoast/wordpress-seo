@@ -30,7 +30,7 @@ export const getIndexablesByStep = ( state, workout, step ) => {
 export const getFinishedWorkouts = ( state ) => {
 	const finishedWorkouts = [];
 	Object.keys( state.workouts ).forEach( function( workout ) {
-		if ( state.workouts[ workout ].finishedSteps.length === FINISHABLE_STEPS[ workout ].length ) {
+		if ( state.workouts[ workout ].finishedSteps.length === FINISHABLE_STEPS[ workout ]?.length ) {
 			finishedWorkouts.push( workout );
 		}
 	} );
