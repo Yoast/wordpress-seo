@@ -125,6 +125,7 @@ class SnippetEditor extends React.Component {
 	 * @param {Object}   props.descriptionLengthProgress         The values for the description length assessment.
 	 * @param {Function} props.mapEditorDataToPreview            Function to map the editor data to data for the preview.
 	 * @param {string}   props.locale                            The locale of the page.
+	 * @param {string}   props.mobileImageSrc                    Mobile I
 	 * @param {bool}     props.hasPaperStyle                     Whether or not it has paper style.
 	 * @param {string}   props.descriptionEditorFieldPlaceholder The placeholder value for the description field.
 	 * @param {bool}     props.showCloseButton                   Whether or not users have the option to open and close
