@@ -42,6 +42,18 @@ export async function handleAPIResponse( apiRequest, onSuccessCallback, onFailur
 }
 
 /**
+ * Returns the authorization URL.
+ *
+ * @returns {Promise} The API response promise.
+ */
+export async function getAuthorizationUrl() {
+	return await callEndpoint( {
+		path: "yoast/v1/wincher/authorization-url",
+		method: "GET",
+	} );
+}
+
+/**
  * Authenticates the user with Wincher's OAuth server.
  *
  * @param {Object} responseData The message response data.

@@ -18,6 +18,11 @@ class Wincher_Client extends OAuth_Client {
 	const TOKEN_OPTION = 'wincher_tokens';
 
 	/**
+	 * Name of the temporary PKCE cookie.
+	 */
+	const PKCE_COOKIE_NAME = 'yoast_wincher_pkce';
+
+	/**
 	 * @var WP_Remote_Handler
 	 */
 	protected $wp_remote_handler;
@@ -43,7 +48,8 @@ class Wincher_Client extends OAuth_Client {
 				'urlAccessToken'          => 'https://auth.wincher.com/connect/token',
 				'urlResourceOwnerDetails' => 'https://api.wincher.com/beta/user',
 				'scopes'                  => [ 'api', 'offline_access' ],
-				'pkce_method'             => 'S256',
+				'scopeSeparator'          => ' ',
+				'pkceMethod'              => 'S256',
 			],
 			[
 				'httpClient' => new Client( [ 'handler' => $wp_remote_handler ] ),
@@ -55,6 +61,39 @@ class Wincher_Client extends OAuth_Client {
 			$provider,
 			$options_helper
 		);
+	}
+
+	/**
+	 * Return the authorization URL.
+	 *
+	 * @return string The authentication URL.
+	 */
+	public function get_authorization_url() {
+		$parsed_site_url = \wp_parse_url( \get_site_url() );
+
+		$url = $this->provider->getAuthorizationUrl(
+			[
+				'state' => \WPSEO_Utils::format_json_encode( [ 'domain' => $parsed_site_url['host'] ] ),
+			]
+		);
+
+		$pkceCode = $this->provider->getPkceCode();
+
+		// Store a session cookie with the PKCE code that we need in order to
+		// exchange the returned code for a token after authorization.
+		setcookie( self::PKCE_COOKIE_NAME, $pkceCode, 0, '/', '', ! ! $_SERVER['HTTPS'], true );
+
+		return $url;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function request_tokens( $code ) {
+		if ( $pkceCode = $_COOKIE[ self::PKCE_COOKIE_NAME ] ) {
+			$this->provider->setPkceCode( $pkceCode );
+		}
+		return parent::request_tokens( $code );
 	}
 
 	/**

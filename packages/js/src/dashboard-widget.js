@@ -1,4 +1,4 @@
-/* global wpseoDashboardWidgetL10n, wpseoApi, wpseoAdminGlobalL10n */
+/* global wpseoDashboardWidgetL10n, wpseoApi */
 // External dependencies.
 import { Component, render } from "@wordpress/element";
 
@@ -11,7 +11,7 @@ import { getPostFeed } from "@yoast/helpers";
 // Internal dependencies.
 import { setYoastComponentsL10n } from "./helpers/i18n";
 import WincherPerformanceReport from "./components/WincherPerformanceReport";
-import { authenticate, getKeyphrases, trackAllKeyphrases } from "./helpers/wincherEndpoints";
+import { authenticate, getAuthorizationUrl, getKeyphrases, trackAllKeyphrases } from "./helpers/wincherEndpoints";
 import LoginPopup from "./helpers/loginPopup";
 import { isEmpty, filter, sortBy } from "lodash-es";
 
@@ -236,9 +236,16 @@ class DashboardWidget extends Component {
 	 *
 	 * @returns {void}
 	 */
-	onConnect() {
+	async onConnect() {
+		if ( this.loginPopup && ! this.loginPopup.isClosed() ) {
+			this.loginPopup.focus();
+			return;
+		}
+
+		const { url } = await getAuthorizationUrl();
+
 		this.loginPopup = new LoginPopup(
-			wpseoAdminGlobalL10n[ "links.wincher.auth_url" ],
+			url,
 			{
 				success: {
 					type: "wincher:oauth:success",

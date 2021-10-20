@@ -1,4 +1,4 @@
-/* global wpseoAdminL10n, wpseoAdminGlobalL10n */
+/* global wpseoAdminL10n */
 
 /* External dependencies */
 import { Fragment, useCallback } from "@wordpress/element";
@@ -20,7 +20,7 @@ import WincherExplanation from "./modals/WincherExplanation";
 import WincherNoKeyphraseSet from "./modals/WincherNoKeyphraseSet";
 import WincherAutoTrackingEnabledAlert from "./modals/WincherAutoTrackingEnabledAlert";
 import LoginPopup from "../helpers/loginPopup";
-import { authenticate, handleAPIResponse } from "../helpers/wincherEndpoints";
+import { authenticate, getAuthorizationUrl, handleAPIResponse } from "../helpers/wincherEndpoints";
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
 
 /**
@@ -125,9 +125,16 @@ const performAuthenticationRequest = async( props, data ) => {
  *
  * @returns {void}
  */
-const onLoginOpen = ( props ) => {
+const onLoginOpen = async( props ) => {
+	if ( currentPopup && ! currentPopup.isClosed() ) {
+		currentPopup.focus();
+		return;
+	}
+
+	const { url } = await getAuthorizationUrl();
+
 	currentPopup = new LoginPopup(
-		wpseoAdminGlobalL10n[ "links.wincher.auth_url" ],
+		url,
 		{
 			success: {
 				type: "wincher:oauth:success",

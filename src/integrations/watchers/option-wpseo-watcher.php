@@ -55,7 +55,7 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	 */
 	public function check_wincher_option_disabled( $old_value, $new_value ) {
 		$disabled = $this->check_token_option_disabled( 'wincher_integration_active', 'wincher_tokens', $new_value );
-		if ($disabled) {
+		if ( $disabled ) {
 			\YoastSEO()->helpers->options->set( 'wincher_website_id', '' );
 		}
 		return $disabled;

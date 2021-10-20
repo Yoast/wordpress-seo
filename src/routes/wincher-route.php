@@ -25,6 +25,13 @@ class Wincher_Route implements Route_Interface {
 	const ROUTE_PREFIX = 'wincher';
 
 	/**
+	 * The authorize route constant.
+	 *
+	 * @var string
+	 */
+	const AUTHORIZATION_URL_ROUTE = self::ROUTE_PREFIX . '/authorization-url';
+
+	/**
 	 * The authenticate route constant.
 	 *
 	 * @var string
@@ -37,13 +44,6 @@ class Wincher_Route implements Route_Interface {
 	 * @var string
 	 */
 	const ACCOUNT_LIMIT_ROUTE = self::ROUTE_PREFIX . '/limits';
-
-	/**
-	 * The track single keyphrase route constant.
-	 *
-	 * @var string
-	 */
-	const KEYPHRASE_TRACK_ROUTE = self::ROUTE_PREFIX . '/keyphrase/track';
 
 	/**
 	 * The track bulk keyphrases route constant.
@@ -79,13 +79,6 @@ class Wincher_Route implements Route_Interface {
 	 * @var string
 	 */
 	const KEYPHRASE_TRACK_ALL_ROUTE = self::ROUTE_PREFIX . '/keyphrases/track/all';
-
-	/**
-	 * The full login route constant.
-	 *
-	 * @var string
-	 */
-	const FULL_AUTHENTICATION_ROUTE = Main::API_V1_NAMESPACE . '/' . self::AUTHENTICATION_ROUTE;
 
 	/**
 	 * The login action.
@@ -140,6 +133,12 @@ class Wincher_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function register_routes() {
+		$authorize_route_args = [
+			'methods'   => 'GET',
+			'callback'  => [ $this, 'get_authorization_url' ],
+		];
+		\register_rest_route( Main::API_V1_NAMESPACE, self::AUTHORIZATION_URL_ROUTE, $authorize_route_args );
+
 		$authentication_route_args = [
 			'methods'             => 'POST',
 			'callback'            => [ $this, 'authenticate' ],
@@ -224,6 +223,16 @@ class Wincher_Route implements Route_Interface {
 		];
 
 		\register_rest_route( Main::API_V1_NAMESPACE, self::KEYPHRASE_TRACK_ALL_ROUTE, $track_all_route_args );
+	}
+
+	/**
+	 * Returns the authorization URL.
+	 *
+	 * @return WP_REST_Response The response.
+	 */
+	public function get_authorization_url() {
+		$data = $this->login_action->get_authorization_url();
+		return new WP_REST_Response( $data, $data->status );
 	}
 
 	/**

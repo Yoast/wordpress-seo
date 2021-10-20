@@ -3,7 +3,7 @@
 import a11ySpeak from "a11y-speak";
 import { debounce } from "lodash-es";
 import LoginPopup from "../helpers/loginPopup";
-import { authenticate, trackAllKeyphrases } from "../helpers/wincherEndpoints";
+import { getAuthorizationUrl, authenticate, trackAllKeyphrases } from "../helpers/wincherEndpoints";
 
 /**
  * @summary Initializes the admin script.
@@ -360,9 +360,16 @@ export default function initAdmin( jQuery ) {
 	 *
 	 * @returns {void}
 	 */
-	function onConnect() {
+	async function onConnect() {
+		if ( wincherPopup && ! wincherPopup.isClosed() ) {
+			wincherPopup.focus();
+			return;
+		}
+
+		const { url } = await getAuthorizationUrl();
+
 		wincherPopup = new LoginPopup(
-			wpseoAdminGlobalL10n[ "links.wincher.auth_url" ],
+			url,
 			{
 				success: {
 					type: "wincher:oauth:success",

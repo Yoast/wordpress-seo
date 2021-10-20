@@ -113,4 +113,24 @@ export default class LoginPopup {
 	getPopup() {
 		return this.popup;
 	}
+
+	/**
+	 * Checks if the popup is closed.
+	 *
+	 * @returns {boolean} True if there is no popup or if it's closed, otherwise false.
+	 */
+	isClosed() {
+		return ! this.popup || this.popup.closed;
+	}
+
+	/**
+	 * Focuses the popup if it's open.
+	 *
+	 * @returns {void}
+	 */
+	focus() {
+		if ( ! this.isClosed() ) {
+			this.popup.focus();
+		}
+	}
 }

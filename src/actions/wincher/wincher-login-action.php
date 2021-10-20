@@ -37,6 +37,18 @@ class Wincher_Login_Action {
 	}
 
 	/**
+	 * Returns the authorization URL.
+	 *
+	 * @return object The response object.
+	 */
+	public function get_authorization_url() {
+		return (object) [
+			'status'    => 200,
+			'url'       => $this->client->get_authorization_url(),
+		];
+	}
+
+	/**
 	 * Authenticates with Wincher to request the necessary tokens.
 	 *
 	 * @param string $code The authentication code to use to request a token with.

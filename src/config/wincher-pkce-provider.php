@@ -25,7 +25,7 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	 *
 	 * @var string
 	 */
-	private $pkceMethod = null;
+	protected $pkceMethod = null;
 
 	/**
 	 * The PKCE code.
@@ -33,6 +33,19 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	 * @var string
 	 */
 	protected $pkceCode;
+
+	/**
+	 * Set the value of the pkceCode parameter.
+	 *
+	 * When using PKCE this should be set before requesting an access token.
+	 *
+	 * @param string $pkceCode
+	 * @return self
+	 */
+	public function setPkceCode( $pkceCode ) {
+		$this->pkceCode = $pkceCode;
+		return $this;
+	}
 
 	/**
 	 * Returns the current value of the pkceCode parameter.
@@ -97,7 +110,6 @@ class Wincher_PKCE_Provider extends GenericProvider {
 
 		$options += [
 			'response_type'   => 'code',
-			'approval_prompt' => 'auto',
 		];
 
 		if ( is_array( $options['scope'] ) ) {
