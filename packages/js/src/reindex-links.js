@@ -124,10 +124,10 @@ function startReindexing() {
  * @returns {void}
  */
 function openLinkIndexing() {
-	jQuery( "#general-tab" ).click();
+	jQuery( "#general-tab" ).trigger( "click" );
 
 	if ( linkIndexingCompleted === false ) {
-		jQuery( "#openLinkIndexing" ).click();
+		jQuery( "#openLinkIndexing" ).trigger( "click" );
 	}
 }
 
