@@ -33,13 +33,13 @@ class YoastReusableBlocksPlugin {
 	 * @returns {string} The parsed content
 	 */
 	parseReusableBlocks( content ) {
-		const commentRegex = /<!-- wp:block {"ref":(\d+)} \/-->/g;
+		const reusableBlockRegex = /<!-- wp:block {"ref":(\d+)} \/-->/g;
 
-		if ( content.match( commentRegex ) ) {
+		if ( content.match( reusableBlockRegex ) ) {
 			const { __experimentalReusableBlocks } = this.blockEditorDataModule.getSettings();
 
 			if ( __experimentalReusableBlocks ) {
-				content = content.replace( commentRegex, ( match, blockId ) => {
+				content = content.replace( reusableBlockRegex, ( match, blockId ) => {
 					const reusableBlockId = parseInt( blockId, 10 );
 					const reusableBlock = __experimentalReusableBlocks.find( item => item.id === reusableBlockId );
 
