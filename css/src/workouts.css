@@ -198,3 +198,127 @@ table.yoast_help th.divider {
 .yoast__redirect-suggestions {
 	line-height: 2;
 }
+
+/* Duplicated from style.css?ver=5.8.1 (from the block editor) in order to apply styling to the WorkoutUpsell modal. */
+.components-modal__screen-overlay {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.35);
+	z-index: 100000;
+	animation: edit-post__fade-in-animation 0.2s ease-out 0s;
+	animation-fill-mode: forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+	.components-modal__screen-overlay {
+		animation-duration: 1ms;
+		animation-delay: 0s;
+	}
+}
+
+.components-modal__frame {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	box-sizing: border-box;
+	margin: 0;
+	background: #fff;
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+	border-radius: 2px;
+	overflow: auto;
+}
+@media (min-width: 600px) {
+	.components-modal__frame {
+		top: 50%;
+		right: auto;
+		bottom: auto;
+		left: 50%;
+		min-width: 360px;
+		max-width: calc(100% - 16px - 16px);
+		max-height: 90%;
+		transform: translate(-50%, -50%);
+		animation: components-modal__appear-animation 0.1s ease-out;
+		animation-fill-mode: forwards;
+	}
+}
+@media (min-width: 600px) and (prefers-reduced-motion: reduce) {
+	.components-modal__frame {
+		animation-duration: 1ms;
+		animation-delay: 0s;
+	}
+}
+
+@keyframes components-modal__appear-animation {
+	from {
+		margin-top: 32px;
+	}
+	to {
+		margin-top: 0;
+	}
+}
+.components-modal__header {
+	box-sizing: border-box;
+	border-bottom: 1px solid #ddd;
+	padding: 0 32px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	background: #fff;
+	align-items: center;
+	height: 60px;
+	z-index: 10;
+	position: relative;
+	position: sticky;
+	top: 0;
+	margin: 0 -32px 24px;
+}
+@supports (-ms-ime-align: auto) {
+	.components-modal__header {
+		position: fixed;
+		width: 100%;
+	}
+}
+.components-modal__header .components-modal__header-heading {
+	font-size: 1rem;
+	font-weight: 600;
+}
+.components-modal__header h1 {
+	line-height: 1;
+	margin: 0;
+}
+.components-modal__header .components-button {
+	position: relative;
+	left: 8px;
+}
+
+.components-modal__header-heading-container {
+	align-items: center;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: row;
+	justify-content: left;
+}
+
+.components-modal__header-icon-container {
+	display: inline-block;
+}
+.components-modal__header-icon-container svg {
+	max-width: 36px;
+	max-height: 36px;
+	padding: 8px;
+}
+
+.components-modal__content {
+	box-sizing: border-box;
+	height: 100%;
+	padding: 0 32px 24px;
+}
+@supports (-ms-ime-align: auto) {
+	.components-modal__content {
+		padding-top: 60px;
+	}
+}
