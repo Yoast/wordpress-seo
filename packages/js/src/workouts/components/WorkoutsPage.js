@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { NewBadge, PremiumBadge } from "@yoast/components";
+import { NewBadge, PremiumBadge, Slot } from "@yoast/components";
 import { useEffect } from "@wordpress/element";
 import { Button } from "@yoast/components";
 import SlotWithDefault from "../../components/slots/SlotWithDefault";
@@ -42,6 +42,8 @@ export default function WorkoutsPage( props ) {
 		// Saves the workouts on change.
 		saveWorkouts( workouts );
 	}, [ workouts, loading ] );
+
+	const slotIds = Object.keys( workouts );
 
 	return (
 		<div>
@@ -89,6 +91,9 @@ export default function WorkoutsPage( props ) {
 						finishedSteps={ [] }
 					/>
 				</SlotWithDefault>
+				{
+					slotIds.map( id => <Slot key={ id } name={ id } /> )
+				}
 			</div> }
 		</div>
 	);
