@@ -9,9 +9,9 @@ import { isEmpty } from "lodash-es";
  * Matches the alt-tags in the images found in the text.
  * Returns an object with the totals and different alt-tags.
  *
- * @param {Array} imageMatches  Array with all the matched images in the text
- * @param {Object} topicForms   The object with the keyphrase and the synonyms forms from the paper.
- * @param {string} locale       The locale used for transliteration.
+ * @param {Array}       imageMatches        Array with all the matched images in the text
+ * @param {Object}      topicForms          The object with the keyphrase and the synonyms forms from the paper.
+ * @param {string}      locale              The locale used for transliteration.
  * @param {function}    matchWordCustomHelper The helper function to match word in text.
  *
  * @returns {object} altProperties Object with all alt-tags that were found.
