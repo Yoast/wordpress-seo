@@ -7,7 +7,7 @@ class YoastReusableBlocksPlugin {
 	 *
 	 * @param {Function} registerPlugin        Function to register this plugin.
 	 * @param {Function} registerModification  Function to register a modification of this plugin.
-     * @param {Object}   blockEditorDataModule The WordPress block editor data module. E.g. `window.wp.data.select("core/block-editor")`
+	 * @param {Object}   blockEditorDataModule The WordPress block editor data module. E.g. `window.wp.data.select("core/block-editor")`
 	 */
 	constructor( registerPlugin, registerModification, blockEditorDataModule ) {
 		this._registerPlugin = registerPlugin;
