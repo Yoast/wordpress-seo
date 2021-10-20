@@ -97,11 +97,10 @@ PositionOverTimeChart.defaultProps = {
  * @param {string}   keyphrase The toggle's associated keyphrase.
  * @param {boolean}  isEnabled Whether or not the toggle is enabled.
  * @param {function} toggleAction The toggle action to call.
- * @param {boolean}  isDisabled Whether the toggle is disabled. Defaults to false.
  *
  * @returns {wp.Element} The toggle component.
  */
-export function renderToggleState( { keyphrase, isEnabled, toggleAction, isDisabled = false } ) {
+export function renderToggleState( { keyphrase, isEnabled, toggleAction } ) {
 	return (
 		<Toggle
 			id={ `toggle-keyphrase-tracking-${keyphrase}` }
@@ -109,7 +108,6 @@ export function renderToggleState( { keyphrase, isEnabled, toggleAction, isDisab
 			isEnabled={ isEnabled }
 			onSetToggleState={ toggleAction }
 			showToggleStateLabel={ false }
-			disable={ isDisabled }
 		/>
 	);
 }
@@ -207,24 +205,20 @@ export default function WincherTableRow( props ) {
 	const toggleAction = useCallback(
 		() => {
 			if ( isDisabled ) {
-				return () => {};
+				return;
 			}
 
 			if ( isEnabled ) {
-				( async() => {
-					await onUntrackKeyphrase( keyphrase, rowData.id );
-				} )();
+				onUntrackKeyphrase( keyphrase, rowData.id );
 			} else {
-				( async() => {
-					await onTrackKeyphrase( keyphrase );
-				} )();
+				onTrackKeyphrase( keyphrase );
 			}
 		},
 		[ keyphrase, onTrackKeyphrase, onUntrackKeyphrase, isEnabled, rowData, isDisabled ]
 	);
 
 	return <tr>
-		<td>{ renderToggleState( { keyphrase, isEnabled, toggleAction, isDisabled } ) }</td>
+		<td>{ renderToggleState( { keyphrase, isEnabled, toggleAction } ) }</td>
 		<td>{ keyphrase }{ isFocusKeyphrase && <span>*</span> }</td>
 
 		{ getPositionalDataByState( props ) }
