@@ -3,10 +3,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { identity } from "lodash";
 
-import analysisDataReducer, { analysisDataActions, analysisDataSelectors } from "./analysis-data-slice";
-import analysisResultsReducer, { analysisResultsActions, analysisResultsSelectors } from "./analysis-results-slice";
 import { createActions, createSelectors } from "./helpers";
 import createProvider from "./provider";
+
+import analysisDataReducer, { analysisDataActions, analysisDataSelectors } from "./analysis-data-slice";
+import analysisResultsReducer, { analysisResultsActions, analysisResultsSelectors } from "./analysis-results-slice";
 
 export const actions = {
 	...analysisDataActions,
@@ -23,6 +24,7 @@ const createAnalysisStore = ( {
 	fetchReadabilityResults,
 	fetchResearchResults,
 	preparePaper = identity,
+	processResults = identity,
 	middleware = [],
 } ) => {
 	const store = configureStore( {
@@ -30,11 +32,12 @@ const createAnalysisStore = ( {
 			analysisData: analysisDataReducer,
 			analysisResults: analysisResultsReducer,
 		},
-		middleware: ( getDefaultMiddleware ) => [
+		middleware: ( getDefaultMiddleware ) => ( [
 			...getDefaultMiddleware( {
 				thunk: {
 					extraArgument: {
 						preparePaper,
+						processResults,
 						fetchSeoResults,
 						fetchReadabilityResults,
 						fetchResearchResults,
@@ -42,7 +45,7 @@ const createAnalysisStore = ( {
 				},
 			} ),
 			...middleware,
-		],
+		] ),
 	} );
 
 	const Provider = createProvider( store );
