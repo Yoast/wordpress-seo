@@ -22,8 +22,8 @@ class WPSEO_Author_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Sets up our double class.
 	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
 
 		// Makes sure the author archives are enabled.
 		WPSEO_Options::set( 'disable-author', false );

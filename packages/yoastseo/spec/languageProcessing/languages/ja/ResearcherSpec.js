@@ -2,6 +2,10 @@ import Researcher from "../../../../src/languageProcessing/languages/ja/Research
 import Paper from "../../../../src/values/Paper.js";
 import functionWords from "../../../../src/languageProcessing/languages/ja/config/functionWords";
 
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
+
+const morphologyDataJA = getMorphologyData( "ja" );
+
 describe( "a test for Japanese Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
 
@@ -25,7 +29,11 @@ describe( "a test for Japanese Researcher", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
 	} );
 
-	it( "doesn't stem word if the Japanese Researcher is used", function() {
-		expect( researcher.getHelper( "getStemmer" )()( "食べる" ) ).toBe( "食べる" );
+	it( "creates the word forms when the Japanese morphology data is available", function() {
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		expect( researcher.getHelper( "getStemmer" )( researcher )( "日帰り" ) ).toEqual(
+			[ "日帰る", "日帰り", "日帰ら", "日帰れ", "日帰ろ", "日帰っ", "日帰れる", "日帰らせ",
+				"日帰らせる", "日帰られ", "日帰られる", "日帰ろう" ]
+		);
 	} );
 } );

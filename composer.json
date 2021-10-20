@@ -35,7 +35,7 @@
 		"symfony/config": "^3.4",
 		"symfony/dependency-injection": "^3.4",
 		"yoast/php-development-environment": "^1.0",
-		"yoast/wp-test-utils": "^0.2.1",
+		"yoast/wp-test-utils": "^1.0.0",
 		"yoast/yoastcs": "^2.2.0"
 	},
 	"minimum-stability": "dev",
