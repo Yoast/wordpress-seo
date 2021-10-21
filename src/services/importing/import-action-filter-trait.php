@@ -22,14 +22,14 @@ trait Importer_Action_Filter_Trait {
 		$actions = $all_actions;
 
 		if ( $plugin ) {
-			$actions = array_filter( $actions, function( $detector, $plugin ) {
-				return $detector->plugin === $plugin;
+			$actions = array_filter( $actions, function( $action, $plugin ) {
+				return $action->plugin === $plugin;
 			} );
 		}
 
 		if ( $type ) {
-			$actions = array_filter( $actions, function( $detector, $type ) {
-				return $detector->plugin === $type;
+			$actions = array_filter( $actions, function( $action, $type ) {
+				return $action->plugin === $type;
 			} );
 		}
 

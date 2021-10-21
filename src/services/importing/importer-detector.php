@@ -26,11 +26,13 @@ class Importable_Detector {
 	public function detect( $plugin = null, $type = null ) {
 		$detectors = filter_actions( $this->importers, $plugin, $type );
 
-		$detected = \array_reduce( [], function ( $detector ) {
+		$detected = [];
+
+		foreach( $detectors as $detector ) {
 			if ( $detector->get_limited_count( 1 ) > 0 ) {
-				return [ $detector->plugin => $detector->type ];
+				$detected[ $detector->name ][] = $detector->type;
 			}
-		}, $detectors );
+		}
 
 		return $detected;
 	}
