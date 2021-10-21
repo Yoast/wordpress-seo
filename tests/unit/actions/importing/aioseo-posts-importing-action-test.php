@@ -180,6 +180,12 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				->once()
 				->with( $this->options, 0, 'aioseo_posts' );
 
+		if ( version_compare( PHP_VERSION, '8.0.0' ) >= 0 ) {
+			$this->options->expects( 'get' )
+				->with( 'import_cursor', [] )
+				->andReturn( [] );
+		}
+
 			$this->mock_instance->index();
 	}
 
