@@ -6,6 +6,7 @@ import * as actions from "./workouts/redux/actions";
 import * as selectors from "./workouts/redux/selectors";
 import workoutsReducer from "./workouts/redux/reducer";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
+import WorkoutCard from "./workouts/components/WorkoutCard";
 
 const { setWordPressSeoL10n } = window.yoast.editorModules.helpers.i18n;
 setWordPressSeoL10n();
@@ -33,6 +34,11 @@ if ( ! isPremium ) {
 	} );
 	*/
 }
+
+window.wpseoWorkoutsData.registerWorkout( "generic-workout-card", 20, () => {
+	return <WorkoutCard title={ "test" } subtitle={ "subtest" } usps={ [] } steps={ [] } finishedSteps={ [] } />;
+} );
+
 
 domReady( () => {
 	renderReactRoot( "wpseo-workouts-container-free", <Workouts /> );

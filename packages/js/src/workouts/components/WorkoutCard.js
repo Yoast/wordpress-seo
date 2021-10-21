@@ -1,5 +1,10 @@
 import PropTypes from "prop-types";
 import { Button } from "@yoast/components";
+import { __ } from "@wordpress/i18n";
+import { FINISHABLE_STEPS, WORKOUTS } from "../config";
+import { useCallback, useEffect, useState } from "@wordpress/element";
+import { openWorkout, toggleWorkout } from "../redux/actions";
+import { Modal } from "@wordpress/components";
 
 /**
  * The WorkoutCard component
@@ -20,7 +25,66 @@ export default function WorkoutCard( {
 	badges,
 	priority,
 } ) {
-	return <div className="card card-small">
+
+	const [ isUpsellOpen, setUpsellOpen ] = useState( false );
+
+	let classes = [
+		"card",
+		"card-small",
+	];
+
+	const onUpsellClose = function() {
+		setUpsellOpen( false );
+		classes = [ "card", "card-small" ];
+	};
+
+	const onButtonClick = function() {
+		setUpsellOpen( true );
+		classes = [ "card" ];
+	};
+
+	useEffect( () => {
+		if  ( isUpsellOpen ) {
+			classes = [ "card" ];
+		} else {
+			classes = [ "card", "card-small" ];
+		}
+	}, [ isUpsellOpen ] );
+
+	/**
+	 * The button to open a workout.
+	 *
+	 * @returns {wp.Element} The button.
+	 */
+	const WorkoutButton = function() {
+		let toggle = false;
+		let buttonText = __( "Start workout!", "wordpress-seo" );
+		let onClick = onButtonClick;
+		if ( workout ) {
+			if ( finishedSteps.length === 0 ) {
+				buttonText = __( "Start workout!", "wordpress-seo" );
+			} else if ( finishedSteps.length < FINISHABLE_STEPS[ workout ].length ) {
+				buttonText = __( "Continue workout!", "wordpress-seo" );
+			} else {
+				buttonText = __( "Do workout again", "wordpress-seo" );
+				toggle = true;
+			}
+
+			onClick = useCallback(
+				() => {
+					openWorkout( workout );
+					if ( toggle ) {
+						toggleWorkout( workout );
+					}
+				},
+				[ workout, toggle, openWorkout, toggleWorkout ]
+			);
+		}
+
+		return <Button onClick={ onClick }>{ buttonText }</Button>;
+	};
+
+	return <div className={ classes.join( " " ) }>
 		<h2>{ title }{ badges }</h2>
 		<h3>{ subtitle }</h3>
 		<ul>
@@ -29,7 +93,15 @@ export default function WorkoutCard( {
 			}
 		</ul>
 		<img src={ image } alt="" />
-		<Button variant="primary">{ "Start workout" }</Button>
+		<span>
+			<WorkoutButton />
+		</span>
+		{ isUpsellOpen && <Modal
+			title={ title }
+			onRequestClose={ onUpsellClose }
+		>
+			<p>Some upsell text</p>
+		</Modal> }
 	</div>;
 }
 
@@ -47,9 +119,9 @@ WorkoutCard.propTypes = {
 };
 
 WorkoutCard.defaultProps = {
-	image: "https://www.fillmurray.com/150/150",
-	upsell: () => {},
-	workout: () => {},
+	image: null,
+	upsell: null,
+	workout: null,
 	badges: [],
 	priority: 50,
 };
