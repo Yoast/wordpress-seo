@@ -24,16 +24,6 @@ window.wpseoWorkoutsData.registerWorkout = ( key, priority, Component ) => {
 	registerReactComponent( key, Component );
 };
 
-const isPremium = window.wpseoWorkoutsData.isPremium;
-if ( ! isPremium ) {
-	/* Register the free workouts here.
-
-	window.wpseoWorkoutsData.registerWorkout( "key", 20, () => {
-		return <...WorkoutCard />;
-	} );
-	*/
-}
-
 domReady( () => {
 	renderReactRoot( "wpseo-workouts-container-free", <Workouts /> );
 } );
