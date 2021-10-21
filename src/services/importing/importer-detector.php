@@ -18,9 +18,7 @@ class Importable_Detector {
 	 */
 	protected $importers;
 
-	public function __construct(
-		Importing_Action_Interface ...$importers
-	)
+	public function __construct( Importing_Action_Interface ...$importers )
 	{
 		$this->importers = $importers;
 	}
@@ -29,7 +27,6 @@ class Importable_Detector {
 		$detectors = $this->filter_actions( $this->importers, $plugin, $type );
 
 		$detected = [];
-
 		foreach( $detectors as $detector ) {
 			if ( $detector->get_limited_count( 1 ) > 0 ) {
 				$detected[ $detector->name ][] = $detector->type;

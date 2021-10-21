@@ -25,13 +25,13 @@ trait Importer_Action_Filter_Trait {
 
 		if ( $plugin ) {
 			$actions = array_filter( $actions, function( $action, $plugin ) {
-				return $action->plugin === $plugin;
+				return $action->get_plugin() === $plugin;
 			} );
 		}
 
 		if ( $type ) {
 			$actions = array_filter( $actions, function( $action, $type ) {
-				return $action->plugin === $type;
+				return $action->get_type() === $type;
 			} );
 		}
 
