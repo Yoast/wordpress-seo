@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Services\Importing;
 
+use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
+
 /**
  * Detects if any data from other SEO plugins is available for importing.
  */
@@ -12,19 +14,19 @@ class Importable_Detector {
 	/**
 	 * All known import actions
 	 *
-	 * @var array
+	 * @var array|Importing_Action_Interface[]
 	 */
-	protected Indexable_Import_Action[] $importers;
+	protected $importers;
 
 	public function __construct(
-		Indexable_Import_Action ...$importers
+		Importing_Action_Interface ...$importers
 	)
 	{
 		$this->importers = $importers;
 	}
 
 	public function detect( $plugin = null, $type = null ) {
-		$detectors = filter_actions( $this->importers, $plugin, $type );
+		$detectors = $this->filter_actions( $this->importers, $plugin, $type );
 
 		$detected = [];
 
