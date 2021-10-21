@@ -356,7 +356,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 } );
 
 describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms in the supplied string for Japanese " +
-	"with langauge specific helper to match word is text", function() {
+	"with a language specific helper to match word is text", function() {
 	it( "returns the number and the percentage of words matched, synonyms deprecated", function() {
 		expect( findTopicFormsInString(
 			{
