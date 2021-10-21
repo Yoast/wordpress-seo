@@ -6,11 +6,60 @@ import { Button } from "@yoast/components";
 import { sortBy } from "lodash";
 import SlotWithDefault from "../../components/slots/SlotWithDefault";
 import WorkoutCard from "./WorkoutCard";
-import { FINISHABLE_STEPS } from "../config";
+import { FINISHABLE_STEPS, WORKOUTS } from "../config";
 
 const {
 	workouts: workoutsSetting,
 } = window.wpseoWorkoutsData;
+
+/**
+ * Temporary workoutcard.
+ *
+ * @returns {wp.Element} A WorkoutCard for the Cornerstone workout.
+ */
+const CornerStoneCard = () => {
+	return <WorkoutCard
+		title={ __( "The cornerstone approach", "wordpress-seo" ) }
+		badges={ [ <PremiumBadge key={ "premium-badge" } /> ] }
+		subtitle={ __( "Rank with articles you want to rank with", "wordpress-seo" ) }
+		usps={ [
+			__(
+				// eslint-disable-next-line max-len
+				"On your site you have a few articles that are the most important. You want to rank highest in Google with these articles. At Yoast, we call these articles cornerstone articles. Take the following 4 steps in order to start ranking with your cornerstone articles!",
+				"wordpress-seo"
+			),
+		] }
+		finishableSteps={ FINISHABLE_STEPS.cornerstone }
+		finishedSteps={ [] }
+	/>;
+};
+
+/**
+ * Temporary workoutcard.
+ *
+ * @returns {wp.Element} A WorkoutCard for the Orphaned workout.
+ */
+const OrphanedCard = () => {
+	return <WorkoutCard
+		title={ __( "Orphaned content", "wordpress-seo" ) }
+		badges={ [ <PremiumBadge key={ "premium-badge" } />, <NewBadge key={ "new-badge" } /> ] }
+		subtitle={ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo" ) }
+		usps={ [
+			__(
+				// eslint-disable-next-line max-len
+				"Orphaned content is content that doesn’t get any links from other posts or pages on your site. As a result of that, this content is hard to find, for both Google and visitors. Posts and pages need internal links to them, to fit into a site’s structure and to be findable. With this workout we'll help you update your orphaned content and make sure you have links pointing towards them!",
+				"wordpress-seo"
+			),
+		] }
+		finishableSteps={ FINISHABLE_STEPS.orphaned }
+		finishedSteps={ [] }
+	/>;
+};
+
+const upsellWorkouts = {
+	[ WORKOUTS.cornerstone ]: CornerStoneCard,
+	[ WORKOUTS.orphaned ]: OrphanedCard,
+};
 
 /**
  * Renders the workouts page.
@@ -52,7 +101,16 @@ export default function WorkoutsPage( props ) {
 		const sortedWorkouts = sortBy( slotIds.map( id => {
 			return { ...workouts[ id ], id };
 		} ), "priority" );
-		return sortedWorkouts.map( workout => <Slot key={ workout.id } name={ `${ workout.id }` } /> );
+
+		return sortedWorkouts.map( workout => {
+			if ( upsellWorkouts[ workout.id ] ) {
+				const DefaultCard = upsellWorkouts[ workout.id ];
+				return <SlotWithDefault key={ workout.id } name={ `${ workout.id }` }>
+					<DefaultCard />
+				</SlotWithDefault>;
+			}
+			return <Slot key={ workout.id } name={ `${ workout.id }` } />;
+		} );
 	}, [ workouts ] );
 
 	return (
@@ -69,38 +127,6 @@ export default function WorkoutsPage( props ) {
 			</p>
 			{ activeWorkout && <Button onClick={ clearActiveWorkout }>{ __( "← Back to all workouts", "worpdress-seo" ) }</Button> }
 			{ ! activeWorkout && <div className="workflows__index__grid">
-				<SlotWithDefault name="cornerstone-workout">
-					<WorkoutCard
-						title={ __( "The cornerstone approach", "wordpress-seo" ) }
-						badges={ [ <PremiumBadge key={ "premium-badge" } /> ] }
-						subtitle={ __( "Rank with articles you want to rank with", "wordpress-seo" ) }
-						usps={ [
-							__(
-								// eslint-disable-next-line max-len
-								"On your site you have a few articles that are the most important. You want to rank highest in Google with these articles. At Yoast, we call these articles cornerstone articles. Take the following 4 steps in order to start ranking with your cornerstone articles!",
-								"wordpress-seo"
-							),
-						] }
-						finishableSteps={ FINISHABLE_STEPS.cornerstone }
-						finishedSteps={ [] }
-					/>
-				</SlotWithDefault>
-				<SlotWithDefault name="orphaned-workout">
-					<WorkoutCard
-						title={ __( "Orphaned content", "wordpress-seo" ) }
-						badges={ [ <PremiumBadge key={ "premium-badge" } />, <NewBadge key={ "new-badge" } /> ] }
-						subtitle={ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo" ) }
-						usps={ [
-							__(
-								// eslint-disable-next-line max-len
-								"Orphaned content is content that doesn’t get any links from other posts or pages on your site. As a result of that, this content is hard to find, for both Google and visitors. Posts and pages need internal links to them, to fit into a site’s structure and to be findable. With this workout we'll help you update your orphaned content and make sure you have links pointing towards them!",
-								"wordpress-seo"
-							),
-						] }
-						finishableSteps={ FINISHABLE_STEPS.orphaned }
-						finishedSteps={ [] }
-					/>
-				</SlotWithDefault>
 				{ slots }
 			</div> }
 		</div>
