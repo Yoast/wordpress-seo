@@ -108,9 +108,10 @@ WorkoutCard.propTypes = {
 	title: PropTypes.string.isRequired,
 	subtitle: PropTypes.string.isRequired,
 	usps: PropTypes.arrayOf( PropTypes.string ).isRequired,
-	image: PropTypes.string,
-	steps: PropTypes.arrayOf( PropTypes.string ).isRequired,
+	finishableSteps: PropTypes.arrayOf( PropTypes.string ).isRequired,
 	finishedSteps: PropTypes.arrayOf( PropTypes.string ).isRequired,
+	image: PropTypes.string,
+	steps: PropTypes.arrayOf( PropTypes.string ),
 	upsell: PropTypes.element,
 	workout: PropTypes.element,
 	badges: PropTypes.arrayOf( PropTypes.element ),
@@ -123,4 +124,5 @@ WorkoutCard.defaultProps = {
 	workout: null,
 	badges: [],
 	priority: 50,
+	steps: [],
 };
