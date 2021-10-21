@@ -354,8 +354,10 @@ class WincherKeyphrasesTable extends Component {
 			keyphrases,
 			chartDataTs,
 			isLoggedIn,
+			trackedKeyphrases,
 		} = this.props;
 
+		const isLoading = isLoggedIn && trackedKeyphrases === null;
 		const isDisabled = ! isLoggedIn;
 
 		return (
@@ -404,6 +406,7 @@ class WincherKeyphrasesTable extends Component {
 									isFocusKeyphrase={ index === 0 }
 									websiteId={ websiteId }
 									isDisabled={ isDisabled }
+									isLoading={ isLoading }
 								/> );
 							} )
 						}

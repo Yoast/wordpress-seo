@@ -10,7 +10,7 @@ import { pickBy } from "lodash-es";
 
 const INITIAL_STATE = {
 	websiteId: "",
-	trackedKeyphrases: {},
+	trackedKeyphrases: null,
 	trackAll: false,
 	chartData: {},
 	chartDataTs: 0,

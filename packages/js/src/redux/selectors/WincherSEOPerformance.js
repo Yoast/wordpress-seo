@@ -20,7 +20,7 @@ export function getWincherWebsiteId( state ) {
  *
  * @param {Object} state The state.
  *
- * @returns {array} The currently tracked keyphrases.
+ * @returns {Object|null} The currently tracked keyphrases.
  */
 export function getWincherTrackedKeyphrases( state ) {
 	return state.WincherSEOPerformance.trackedKeyphrases;

@@ -5,7 +5,7 @@ import { __, _n, sprintf } from "@wordpress/i18n";
 import { isEmpty } from "lodash-es";
 
 /* Yoast dependencies */
-import { Toggle } from "@yoast/components";
+import { SvgIcon, Toggle } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
 
 /* Internal dependencies */
@@ -97,10 +97,15 @@ PositionOverTimeChart.defaultProps = {
  * @param {string}   keyphrase The toggle's associated keyphrase.
  * @param {boolean}  isEnabled Whether or not the toggle is enabled.
  * @param {function} toggleAction The toggle action to call.
+ * @param {function} isLoading Whether or not we're still loading initial data.
  *
  * @returns {wp.Element} The toggle component.
  */
-export function renderToggleState( { keyphrase, isEnabled, toggleAction } ) {
+export function renderToggleState( { keyphrase, isEnabled, toggleAction, isLoading } ) {
+	if ( isLoading ) {
+		return <SvgIcon icon="loading-spinner" />;
+	}
+
 	return (
 		<Toggle
 			id={ `toggle-keyphrase-tracking-${keyphrase}` }
@@ -198,6 +203,7 @@ export default function WincherTableRow( props ) {
 		onUntrackKeyphrase,
 		isFocusKeyphrase,
 		isDisabled,
+		isLoading,
 	} = props;
 
 	const isEnabled  = ! isEmpty( rowData );
@@ -218,7 +224,7 @@ export default function WincherTableRow( props ) {
 	);
 
 	return <tr>
-		<td>{ renderToggleState( { keyphrase, isEnabled, toggleAction } ) }</td>
+		<td>{ renderToggleState( { keyphrase, isEnabled, toggleAction, isLoading } ) }</td>
 		<td>{ keyphrase }{ isFocusKeyphrase && <span>*</span> }</td>
 
 		{ getPositionalDataByState( props ) }
@@ -232,6 +238,7 @@ WincherTableRow.propTypes = {
 	onUntrackKeyphrase: PropTypes.func,
 	isFocusKeyphrase: PropTypes.bool,
 	isDisabled: PropTypes.bool,
+	isLoading: PropTypes.bool,
 	websiteId: PropTypes.string,
 };
 
@@ -241,4 +248,5 @@ WincherTableRow.defaultProps = {
 	onUntrackKeyphrase: () => {},
 	isFocusKeyphrase: false,
 	isDisabled: false,
+	isLoading: false,
 };
