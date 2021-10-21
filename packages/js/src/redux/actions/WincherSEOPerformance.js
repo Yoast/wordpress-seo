@@ -1,8 +1,24 @@
+export const WINCHER_SET_WEBSITE_ID = "WINCHER_SET_WEBSITE_ID";
+
 export const WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE = "WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE";
 export const WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE = "WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE";
 
 export const WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES = "WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES";
 export const WINCHER_SET_SEO_PERFORMANCE_CHART_DATA = "WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES_CHART_DATA";
+
+/**
+ * Sets the current website id.
+ *
+ * @param {String} websiteId The website id.
+ *
+ * @returns {Object} Action object.
+ */
+export function setWincherWebsiteId( websiteId ) {
+	return {
+		type: WINCHER_SET_WEBSITE_ID,
+		websiteId,
+	};
+}
 
 /**
  * Sets the tracking of a specific keyphrase for the current article.

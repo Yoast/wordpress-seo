@@ -5,6 +5,17 @@ import { isEmpty, filter } from "lodash-es";
 import getL10nObject from "../../analysis/getL10nObject";
 
 /**
+ * Gets the current website id.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String} The current website id.
+ */
+export function getWincherWebsiteId( state ) {
+	return state.WincherSEOPerformance.websiteId;
+}
+
+/**
  * Gets the currently tracked keyphrases.
  *
  * @param {Object} state The state.

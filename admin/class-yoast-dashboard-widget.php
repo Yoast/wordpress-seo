@@ -134,7 +134,7 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 			'php_version'          => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION,
 			'is_wincher_active'    => WPSEO_Options::get( 'wincher_integration_active', true ) ? 1 : 0,
 			'wincher_is_logged_in' => WPSEO_Options::get( 'wincher_integration_active', true ) ? YoastSEO()->helpers->wincher->login_status() : false,
-			'wincher_website_id'   => WPSEO_Options::get( 'wincher_website_id', 0 ),
+			'wincher_website_id'   => WPSEO_Options::get( 'wincher_website_id', '' ),
 		];
 	}
 

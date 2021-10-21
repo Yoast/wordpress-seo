@@ -175,7 +175,7 @@ Row.propTypes = {
 	id: PropTypes.number.isRequired,
 	keyphrase: PropTypes.string.isRequired,
 	chartData: PropTypes.object,
-	websiteId: PropTypes.number.isRequired,
+	websiteId: PropTypes.string.isRequired,
 };
 
 Row.defaultProps = {

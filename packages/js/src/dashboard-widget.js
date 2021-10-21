@@ -29,6 +29,7 @@ class DashboardWidget extends Component {
 			statistics: null,
 			feed: null,
 			wincherData: null,
+			wincherWebsiteId: wpseoDashboardWidgetL10n.wincher_website_id,
 			wincherIsLoggedIn: wpseoDashboardWidgetL10n.wincher_is_logged_in,
 			wincherLimits: {},
 			isDataFetched: false,
@@ -220,7 +221,10 @@ class DashboardWidget extends Component {
 			return;
 		}
 
-		this.setState( { wincherIsLoggedIn: true } );
+		this.setState( {
+			wincherIsLoggedIn: true,
+			wincherWebsiteId: data.websiteId.toString(),
+		} );
 
 		await this.getWincherData();
 
@@ -294,7 +298,7 @@ class DashboardWidget extends Component {
 
 		return <WincherPerformanceReport
 			data={ this.state.wincherData }
-			websiteId={ wpseoDashboardWidgetL10n.wincher_website_id }
+			websiteId={ this.state.wincherWebsiteId }
 			isLoggedIn={ this.state.wincherIsLoggedIn }
 			onConnectAction={ this.onConnect }
 			onTrackAllAction={ this.onTrackAll }

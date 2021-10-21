@@ -33,6 +33,7 @@ export default compose( [
 	} ),
 	withDispatch( ( dispatch ) => {
 		const {
+			setWincherWebsiteId,
 			setWincherRequestSucceeded,
 			setWincherRequestFailed,
 			setWincherLoginStatus,
@@ -45,7 +46,8 @@ export default compose( [
 			setRequestFailed: ( response ) => {
 				setWincherRequestFailed( response );
 			},
-			onAuthentication: ( status, newlyAuthenticated ) => {
+			onAuthentication: ( status, newlyAuthenticated, websiteId ) => {
+				setWincherWebsiteId( websiteId );
 				setWincherLoginStatus( status, newlyAuthenticated );
 			},
 		};

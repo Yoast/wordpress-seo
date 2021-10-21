@@ -3,11 +3,13 @@ import {
 	WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES,
 	WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
 	WINCHER_SET_SEO_PERFORMANCE_CHART_DATA,
+	WINCHER_SET_WEBSITE_ID,
 } from "../actions";
 
 import { pickBy } from "lodash-es";
 
 const INITIAL_STATE = {
+	websiteId: "",
 	trackedKeyphrases: {},
 	trackAll: false,
 	chartData: {},
@@ -24,6 +26,11 @@ const INITIAL_STATE = {
  */
 function WincherSEOPerformanceReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
+		case WINCHER_SET_WEBSITE_ID:
+			return {
+				...state,
+				websiteId: action.websiteId,
+			};
 		case WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE:
 			return {
 				...state,

@@ -104,7 +104,7 @@ const performAuthenticationRequest = async( props, data ) => {
 	await handleAPIResponse(
 		() => authenticate( data ),
 		async( response ) => {
-			onAuthentication( true, true );
+			onAuthentication( true, true, data.websiteId.toString() );
 			setRequestSucceeded( response );
 
 			// Close the popup if it's been opened again by mistake.

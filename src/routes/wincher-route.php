@@ -245,7 +245,7 @@ class Wincher_Route implements Route_Interface {
 	public function authenticate( WP_REST_Request $request ) {
 		$data = $this
 			->login_action
-			->authenticate( $request['code'], $request['websiteId'] );
+			->authenticate( $request['code'], (string) $request['websiteId'] );
 
 		return new WP_REST_Response( $data, $data->status );
 	}

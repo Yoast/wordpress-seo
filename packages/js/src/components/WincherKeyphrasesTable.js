@@ -444,7 +444,7 @@ WincherKeyphrasesTable.propTypes = {
 	trackAll: PropTypes.bool,
 	trackedKeyphrases: PropTypes.object,
 	trackedKeyphrasesChartData: PropTypes.object,
-	websiteId: PropTypes.number,
+	websiteId: PropTypes.string,
 };
 
 WincherKeyphrasesTable.defaultProps = {
@@ -455,7 +455,7 @@ WincherKeyphrasesTable.defaultProps = {
 	trackAll: false,
 	trackedKeyphrases: {},
 	trackedKeyphrasesChartData: {},
-	websiteId: 0,
+	websiteId: "",
 };
 
 export default WincherKeyphrasesTable;

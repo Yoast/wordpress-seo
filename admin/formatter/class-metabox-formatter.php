@@ -169,7 +169,7 @@ class WPSEO_Metabox_Formatter {
 			'zapierConnectedStatus'       => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
 			'wincherIntegrationActive'    => WPSEO_Options::get( 'wincher_integration_active', true ) ? 1 : 0,
 			'wincherLoginStatus'          => WPSEO_Options::get( 'wincher_integration_active', true ) ? YoastSEO()->helpers->wincher->login_status() : false,
-			'wincherWebsiteId'            => WPSEO_Options::get( 'wincher_website_id', 0 ),
+			'wincherWebsiteId'            => WPSEO_Options::get( 'wincher_website_id', '' ),
 			'wincherAutoAddKeyphrases'    => WPSEO_Options::get( 'wincher_automatically_add_keyphrases', false ),
 
 			/**

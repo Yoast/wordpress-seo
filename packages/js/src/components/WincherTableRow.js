@@ -232,6 +232,7 @@ WincherTableRow.propTypes = {
 	onUntrackKeyphrase: PropTypes.func,
 	isFocusKeyphrase: PropTypes.bool,
 	isDisabled: PropTypes.bool,
+	websiteId: PropTypes.string,
 };
 
 WincherTableRow.defaultProps = {
