@@ -25,18 +25,17 @@ export default function WorkoutCard( {
 	upsell,
 	workout,
 	badges,
-	priority,
 } ) {
 	const { openWorkout, toggleWorkout } = useDispatch( "yoast-seo/workouts" );
 
 	const [ isUpsellOpen, setUpsellOpen ] = useState( false );
+	const [ isToggle, setToggle ] = useState( false );
+
 	const closeUpsell = useCallback( () => setUpsellOpen( false ), [] );
 	const openUpsell = useCallback( () => setUpsellOpen( true ), [] );
 
-	const [ isToggle, setToggle ] = useState( false );
-
 	useEffect( () => {
-		if ( finishedSteps.length === finishableSteps?.length ) {
+		if ( finishedSteps.length === finishableSteps.length ) {
 			setToggle( true );
 		}
 	}, [ finishedSteps, finishableSteps ] );
@@ -44,7 +43,7 @@ export default function WorkoutCard( {
 	const buttonText = useMemo( () => {
 		if ( finishedSteps.length === 0 ) {
 			return __( "Start workout!", "wordpress-seo" );
-		} else if ( finishedSteps.length < finishableSteps?.length ) {
+		} else if ( finishedSteps.length < finishableSteps.length ) {
 			return __( "Continue workout!", "wordpress-seo" );
 		}
 		return __( "Do workout again", "wordpress-seo" );
@@ -67,7 +66,7 @@ export default function WorkoutCard( {
 	);
 
 	return <div className={ "card card-small" }>
-		<h2>{ title }{ badges }</h2>
+		<h2>{ title } { badges }</h2>
 		<h3>{ subtitle }</h3>
 		<ul>
 			{
@@ -78,13 +77,14 @@ export default function WorkoutCard( {
 		<span>
 			<Button onClick={ onClick }>{ buttonText }</Button>
 			<ProgressBar
-				id={ `${title}WorkoutProgress` }
+				id={ `${title}-workout-progress` }
 				max={ finishableSteps.length }
 				value={ finishedSteps.length }
 			/>
-			<label htmlFor="cornerstoneWorkoutProgress"><em>
+			<label htmlFor={ `${title}-workout-progress` }><em>
 				{
 					sprintf(
+						// translators: %1$s: number of finished steps, %2$s: number of finishable steps
 						__(
 							"%1$s/%2$s steps completed",
 							"wordpress-seo"
@@ -95,12 +95,14 @@ export default function WorkoutCard( {
 				}
 			</em></label>
 		</span>
-		{ isUpsellOpen && <Modal
-			title={ title }
-			onRequestClose={ closeUpsell }
-		>
-			<p>Some upsell text</p>
-		</Modal> }
+		{ isUpsellOpen &&
+			<Modal
+				title={ title }
+				onRequestClose={ closeUpsell }
+			>
+				<p>Some upsell text</p>
+			</Modal>
+		}
 	</div>;
 }
 
@@ -115,7 +117,6 @@ WorkoutCard.propTypes = {
 	upsell: PropTypes.element,
 	workout: PropTypes.element,
 	badges: PropTypes.arrayOf( PropTypes.element ),
-	priority: PropTypes.number,
 };
 
 WorkoutCard.defaultProps = {
@@ -123,6 +124,5 @@ WorkoutCard.defaultProps = {
 	upsell: null,
 	workout: null,
 	badges: [],
-	priority: 50,
 	steps: [],
 };
