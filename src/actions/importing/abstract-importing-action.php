@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Actions\Indexing\Limited_Indexing_Action_Interface;
 /**
  * Importing action interface.
  */
-abstract class Abstract_Importing_Action implements Indexation_Action_Interface, Limited_Indexing_Action_Interface {
+abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 
 	/**
 	 * The plugin the class deals with.
@@ -23,6 +23,25 @@ abstract class Abstract_Importing_Action implements Indexation_Action_Interface,
 	 * @var string
 	 */
 	const TYPE = null;
+
+	/**
+	 * The name of the plugin we import from.
+	 *
+	 * @return string The plugin we import from.
+	 */
+	public function get_plugin()
+	{
+		return self::PLUGIN;
+	}
+
+	/**
+	 * The data type we import from the plugin.
+	 *
+	 * @return string The data type we import from the plugin.
+	 */
+	public function get_type() {
+		return self::TYPE;
+	}
 
 	/**
 	 * Gets the cursor id.
