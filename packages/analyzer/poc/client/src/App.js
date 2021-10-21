@@ -1,32 +1,42 @@
 import { useCallback } from "react";
-import createAnalysisStore from "@yoast/analysis-store";
+import { reduce } from "lodash";
+import createAnalysisStore, { selectors as analysisStoreSelectors } from "@yoast/analysis-store";
+import createReplacementVariables from "@yoast/replacement-variables";
 
-const testMiddleware = store => next => action => {
-  if ( action.type === "analysisResults/fetchSeoResults" ) {
-    console.warn("action", action);
-      return next( action );
-  }
+// Include analysis worker in analyzer?
+// Send accessor type with analyze requests next to paper, how to handle?
+// Add wrapper around these packages that exports a magic createYoastSeoIntegration function
+// First candidate classic editor with WooCommerce
 
-  next( action );
+const preparePaper = ( paper, { getState } ) => {
+  const replacementVariables = createReplacementVariables( [
+    {
+      name: "title",
+      getReplacement: () => {
+        console.warn('getReplacement', analysisStoreSelectors.selectTitle( getState() ));
+        return analysisStoreSelectors.selectTitle( getState() );
+      },
+    },
+  ] );
+
+  return reduce(
+    paper,
+    ( acc, value, key ) => ( {
+      ...acc,
+      [key]: replacementVariables.apply( value ),
+    } ),
+    {}
+  );
 };
 
 const { Provider, actions: analysisActions } = createAnalysisStore( {
-  fetchReadabilityResults: async () => {
-    console.warn( "fetchReadabilityResults triggered" );
-    await new Promise( resolve => setTimeout( resolve, 1000 ) );
-    return { data: "readabilityResults" };
-  },
-  fetchSeoResults: async () => {
-    console.warn( "fetchSeoResults triggered" );
+  preparePaper,
+  analyze: async ( paper, config ) => {
+    console.warn( "analyze triggered with paper", paper );
     await new Promise( resolve => setTimeout( resolve, 1000 ) );
     return { data: "seoResults" };
   },
-  fetchResearchResults: async () => {
-    console.warn( "fetchResearchResults triggered" );
-    await new Promise( resolve => setTimeout( resolve, 1000 ) );
-    return { data: "researchResults" };
-  },
-  middleware: [testMiddleware],
+  middleware: [],
 } );
 
 
@@ -36,7 +46,7 @@ function App() {
   }, [] );
   return (
     <Provider>
-      <div className="App">
+      <div style={ { margin: "80px" } }>
         <textarea name="editor" rows="16" onChange={ handleChange } />
       </div>
       <div>

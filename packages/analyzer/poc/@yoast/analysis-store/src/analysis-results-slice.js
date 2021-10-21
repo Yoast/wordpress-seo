@@ -10,6 +10,7 @@ const fetchSeoResults = createAsyncThunk(
 	`${SLICE_NAME}/fetchSeoResults`,
 	async( { key, paper }, { dispatch, getState, extra: service } ) => {
 		// NOTE: Pass key to worker here?
+		// Add seoTitleWidth to paper here in some smart way (after preparePaper/replaceVars)
 		const response = await service.fetchSeoResults(
 			service.preparePaper( paper, { dispatch, getState } )
 		);

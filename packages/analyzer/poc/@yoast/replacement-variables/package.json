@@ -1,7 +1,20 @@
 {
   "name": "@yoast/replacement-variables",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "build/index.js",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-react": "^7.14.5"
+  },
+  "scripts": {
+    "build": "babel src -d build",
+    "watch": "babel src -w -d build"
+  }
 }
