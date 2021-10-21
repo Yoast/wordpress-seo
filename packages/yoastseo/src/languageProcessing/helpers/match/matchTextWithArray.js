@@ -21,7 +21,7 @@ export default function( text, array, locale = "en_EN", matchWordCustomHelper ) 
 	array = array.map( normalizeQuotes );
 
 	unique( array ).forEach( function( wordToMatch ) {
-		const occurrence = matchWordCustomHelper ? matchWordCustomHelper( text, wordToMatch ) : matchTextWithWord( text, wordToMatch, locale );
+		const occurrence = matchTextWithWord( text, wordToMatch, locale, matchWordCustomHelper );
 		count += occurrence.count;
 		matches = matches.concat( occurrence.matches );
 	} );
