@@ -35,7 +35,7 @@ const WincherConnectExplanation = () => {
 						wincherLink: <WincherLink href={ wpseoAdminGlobalL10n[ "links.wincher.website" ] }>
 							Wincher
 						</WincherLink>,
-						wincherReadMoreLink: <WincherReadMoreLink href={ wpseoAdminL10n[ "shortlinks.wincher.seo_performance_info" ] }>
+						wincherReadMoreLink: <WincherReadMoreLink href={ wpseoAdminL10n[ "shortlinks.wincher.seo_performance" ] }>
 							{ __( "Read more about keyphrase tracking with Wincher", "wordpress-seo" ) }
 						</WincherReadMoreLink>,
 					},
