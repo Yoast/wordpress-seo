@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { NewBadge, PremiumBadge, Slot } from "@yoast/components";
+import { Slot } from "@wordpress/components";
 import { useEffect, useMemo } from "@wordpress/element";
-import { Button } from "@yoast/components";
+import { Button, NewBadge, PremiumBadge } from "@yoast/components";
 import { sortBy } from "lodash";
 import SlotWithDefault from "../../components/slots/SlotWithDefault";
 import WorkoutCard from "./WorkoutCard";
