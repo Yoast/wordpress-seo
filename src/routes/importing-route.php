@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Routes;
 use Exception;
 use WP_Error;
 use WP_REST_Response;
+use Yoast\WP\SEO\Actions\Importing\Abstract_Importing_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 
@@ -25,18 +26,20 @@ class Importing_Route extends Abstract_Action_Route {
 	const ROUTE = '/import/(?P<plugin>\w+)/(?P<type>\w+)';
 
 	/**
-	 * The aioseo posts import route constant.
+	 * List of available importers.
 	 *
-	 * @var string
+	 * @var Abstract_Importing_Action[]
 	 */
-	const IMPORT_AIOSEO_POSTS_ROUTE = '/import/aioseo/posts';
+	protected $importers;
 
 	/**
-	 * The aioseo terms import route constant.
+	 * Importing_Route constructor.
 	 *
-	 * @var string
+	 * @param Abstract_Importing_Action[] $importers All available importers.
 	 */
-	const IMPORT_AIOSEO_TERMS_ROUTE = '/import/aioseo/terms';
+	public function __construct( Abstract_Importing_Action ...$importers ) {
+		$this->$importers = $importers;
+	}
 
 	/**
 	 * Registers routes with WordPress.
@@ -66,22 +69,29 @@ class Importing_Route extends Abstract_Action_Route {
 		$plugin = (string) $data['plugin'];
 		$type   = (string) $data['type'];
 
-		$method   = "import_{$plugin}_{$type}";
 		$next_url = "import/{$plugin}/{$type}";
 
 		try {
-			if ( ! method_exists( $this, $method ) ) {
-				return false;
+			$importer = $this->get_importer( $plugin, $type );
+
+			if ( $importer === false ) {
+				return new WP_Error(
+					'rest_no_route',
+					'Requested importer not found',
+					[
+						'status' => 404,
+					]
+				);
 			}
 
-			$result = $this->{ $method }();
+			$result = $importer->index();
 
-			if ( count( $result['objects'] ) === 0 ) {
-				$next_url = $result['next_url'];
+			if ( count( $result ) === 0 ) {
+				$next_url = false;
 			}
 
 			return $this->respond_with(
-				$result['objects'],
+				$result,
 				$next_url
 			);
 		} catch ( \Exception $exception ) {
@@ -94,15 +104,20 @@ class Importing_Route extends Abstract_Action_Route {
 	}
 
 	/**
-	 * Runs the aioseo post importer.
+	 * Gets the right importer for the given arguments.
 	 *
-	 * @return array
+	 * @param string $plugin The plugin to import from.
+	 * @param string $type   The type of entity to import.
+	 *
+	 * @return Abstract_Importing_Action|false The importer, or false if no importer was found.
 	 */
-	protected function import_aioseo_posts() {
-		return [
-			'objects'  => [ 'test' ],
-			'next_url' => self::IMPORT_AIOSEO_TERMS_ROUTE,
-		];
+	protected function get_importer( $plugin, $type ) {
+		foreach ( $this->importers as $importer ) {
+			if ( $importer::PLUGIN === $plugin && $importer::TYPE === $type ) {
+				return $importer;
+			}
+		}
+		return false;
 	}
 
 	/**
