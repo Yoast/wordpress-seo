@@ -1,4 +1,5 @@
 import wordMatch from "../../../../src/languageProcessing/helpers/match/matchTextWithWord.js";
+import matchWordCustomHelper from "../../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
 
 describe( "Counts the occurences of a word in a string", function() {
 	it( "returns number", function() {
@@ -185,5 +186,10 @@ describe( "Counts the occurences of a word in a string", function() {
 		expect( wordMatch( "الجيدة؛", "الجيدة", "ar_AE" ).count ).toBe( 1 );
 		// Urdu full stop
 		expect( wordMatch( "گئے۔", "گئے", "ur" ).count ).toBe( 1 );
+	} );
+
+	it( "Should match Japanese words where the language specific helper to match text to word is used", function() {
+		expect( wordMatch( "日帰りイベントを数回そして5泊6日の国内旅行を予定している。", "日帰り", "ja", matchWordCustomHelper  ).count ).toBe( 1 );
+		expect( wordMatch( "これによって少しでも夏休み明けの感染者数を抑えたいという事だけど、どうなるかな者数。", "者数", "ja", matchWordCustomHelper ).count ).toBe( 2 );
 	} );
 } );
