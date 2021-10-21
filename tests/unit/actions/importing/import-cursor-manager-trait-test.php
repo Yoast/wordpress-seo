@@ -114,7 +114,6 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 			[ 1337 ],
 			[ -9223372036854775808 ],
 			[ 1336.3 ],
-			[ 'apples' ],
 			[ null ],
 		];
 	}
@@ -154,7 +153,7 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 		return [
 			[ 1338 ],
 			[ 1337.5 ],
-			[ 123456789 ],
+			[ 9223372036854775807 ],
 		];
 	}
 }
