@@ -1,0 +1,27 @@
+{
+  "name": "@yoast/analyis-store",
+  "version": "1.0.0",
+  "main": "build/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yoast/wordpress-seo",
+    "directory": "packages/analysis-store"
+  },
+  "author": "Team Yoast",
+  "license": "GPL-3.0",
+  "scripts": {
+    "build": "babel src -d build --extensions \".ts,.tsx\"",
+    "watch": "babel src -w -d build--extensions \".ts,.tsx\""
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.6.2",
+    "@wordpress/data": "^6.1.1",
+    "@wordpress/element": "^4.0.2",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/preset-typescript": "^7.15.0"
+  }
+}
