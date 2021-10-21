@@ -1,5 +1,3 @@
 {
-  "presets": [
-    "@babel/preset-typescript"
-  ]
+  "presets": [ "@wordpress/babel-preset-default" ]
 }

@@ -1,7 +1,7 @@
 {
   "name": "@yoast/analyis-store",
   "version": "1.0.0",
-  "main": "build/index.ts",
+  "main": "build/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/yoast/wordpress-seo",
@@ -10,8 +10,8 @@
   "author": "Team Yoast",
   "license": "GPL-3.0",
   "scripts": {
-    "build": "babel src -d build --extensions \".ts,.tsx\"",
-    "watch": "babel src -w -d build--extensions \".ts,.tsx\""
+    "build": "babel src --out-dir build",
+    "watch": "babel src --watch --out-dir build"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",
@@ -22,6 +22,9 @@
   "devDependencies": {
     "@babel/cli": "^7.15.7",
     "@babel/core": "^7.15.8",
-    "@babel/preset-typescript": "^7.15.0"
+    "@babel/eslint-parser": "^7.15.8",
+    "@babel/eslint-plugin": "^7.14.5",
+    "@wordpress/babel-preset-default": "^6.3.3",
+    "eslint-config-yoast": "^5.0.17"
   }
 }
