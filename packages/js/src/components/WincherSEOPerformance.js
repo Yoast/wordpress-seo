@@ -209,7 +209,7 @@ const ContentWrapper = styled.div`
  *
  * @returns {wp.Element} The Wincher SEO Performance modal content.
  */
-export default function WincherSEOPerformanceModalContent( props ) {
+export default function WincherSEOPerformance( props ) {
 	const {
 		keyphrases,
 		isNewlyAuthenticated,
@@ -249,7 +249,7 @@ export default function WincherSEOPerformanceModalContent( props ) {
 	);
 }
 
-WincherSEOPerformanceModalContent.propTypes = {
+WincherSEOPerformance.propTypes = {
 	isLoggedIn: PropTypes.bool,
 	isNewlyAuthenticated: PropTypes.bool,
 	keyphrases: PropTypes.array,
@@ -259,7 +259,7 @@ WincherSEOPerformanceModalContent.propTypes = {
 	shouldTrackAll: PropTypes.bool,
 };
 
-WincherSEOPerformanceModalContent.defaultProps = {
+WincherSEOPerformance.defaultProps = {
 	isLoggedIn: false,
 	isNewlyAuthenticated: false,
 	keyphrases: [],

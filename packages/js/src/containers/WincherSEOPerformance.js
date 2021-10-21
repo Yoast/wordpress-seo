@@ -3,7 +3,7 @@ import { withDispatch, withSelect } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 
 /* Internal dependencies */
-import WincherSEOPerformanceModalContent from "../components/WincherSEOPerformanceModalContent";
+import WincherSEOPerformance from "../components/WincherSEOPerformance";
 
 export default compose( [
 	withSelect( ( select ) => {
@@ -52,4 +52,4 @@ export default compose( [
 			},
 		};
 	} ),
-] )( WincherSEOPerformanceModalContent );
+] )( WincherSEOPerformance );
