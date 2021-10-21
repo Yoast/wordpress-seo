@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Slot } from "@wordpress/components";
 
 /**
@@ -18,3 +19,12 @@ export default function SlotWithDefault( props ) {
 		}
 	</Slot>;
 }
+
+SlotWithDefault.propTypes = {
+	name: PropTypes.string.isRequired,
+	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
+};
+
+SlotWithDefault.defaultProps = {
+	children: null,
+};
