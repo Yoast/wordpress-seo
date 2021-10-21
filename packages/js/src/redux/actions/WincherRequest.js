@@ -80,7 +80,7 @@ export function setWincherLoginStatus( loginStatus, newlyAuthenticated ) {
  *
  * @returns {Object} Action object.
  */
-export function trackAllKeyphrases() {
+export function setWincherTrackAllKeyphrases() {
 	return {
 		type: WINCHER_SET_TRACK_ALL_REQUEST,
 	};
@@ -93,7 +93,7 @@ export function trackAllKeyphrases() {
  *
  * @returns {Object} Action object.
  */
-export function setAutomaticKeyphaseTracking( automaticallyTrack ) {
+export function setWincherAutomaticKeyphaseTracking( automaticallyTrack ) {
 	return {
 		type: WINCHER_SET_AUTOMATICALLY_TRACK_ALL_REQUEST,
 		automaticallyTrack,
