@@ -11,6 +11,7 @@ module.exports = function( grunt ) {
 				maxWarnings: 22,
 				fix: fix,
 				outputFile: outputFileSrc,
+				format: "checkstyle",
 			},
 		},
 		tests: {
@@ -20,6 +21,7 @@ module.exports = function( grunt ) {
 				maxWarnings: 19,
 				fix: fix,
 				outputFile: outputFileTests,
+				format: "checkstyle",
 			},
 		},
 	};
