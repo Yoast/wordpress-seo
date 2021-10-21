@@ -6,7 +6,6 @@ import * as actions from "./workouts/redux/actions";
 import * as selectors from "./workouts/redux/selectors";
 import workoutsReducer from "./workouts/redux/reducer";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
-import WorkoutCard from "./workouts/components/WorkoutCard";
 
 const { setWordPressSeoL10n } = window.yoast.editorModules.helpers.i18n;
 setWordPressSeoL10n();
@@ -24,21 +23,6 @@ window.wpseoWorkoutsData.registerWorkout = ( key, priority, Component ) => {
 	dispatch( "yoast-seo/workouts" ).registerWorkout( key, priority );
 	registerReactComponent( key, Component );
 };
-
-const isPremium = window.wpseoWorkoutsData.isPremium;
-if ( ! isPremium ) {
-	/* Register the free workouts here.
-
-	window.wpseoWorkoutsData.registerWorkout( "key", 20, () => {
-		return <...WorkoutCard />;
-	} );
-	*/
-}
-
-window.wpseoWorkoutsData.registerWorkout( "generic-workout-card", 20, () => {
-	return <WorkoutCard title={ "test" } subtitle={ "subtest" } usps={ [] } steps={ [] } finishedSteps={ [] } />;
-} );
-
 
 domReady( () => {
 	renderReactRoot( "wpseo-workouts-container-free", <Workouts /> );

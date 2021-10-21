@@ -1,10 +1,11 @@
+// External dependencies.
 import PropTypes from "prop-types";
-import { Button } from "@yoast/components";
-import { __ } from "@wordpress/i18n";
-import { FINISHABLE_STEPS, WORKOUTS } from "../config";
-import { useCallback, useEffect, useState } from "@wordpress/element";
-import { openWorkout, toggleWorkout } from "../redux/actions";
+import { __, sprintf } from "@wordpress/i18n";
+import { useCallback, useState, useMemo, useEffect } from "@wordpress/element";
 import { Modal } from "@wordpress/components";
+import { useDispatch } from "@wordpress/data";
+// Internal dependencies.
+import { Button, ProgressBar } from "@yoast/components";
 
 /**
  * The WorkoutCard component
@@ -19,72 +20,53 @@ export default function WorkoutCard( {
 	usps,
 	image,
 	steps,
+	finishableSteps,
 	finishedSteps,
 	upsell,
 	workout,
 	badges,
 	priority,
 } ) {
+	const { openWorkout, toggleWorkout } = useDispatch( "yoast-seo/workouts" );
 
 	const [ isUpsellOpen, setUpsellOpen ] = useState( false );
+	const closeUpsell = useCallback( () => setUpsellOpen( false ), [] );
+	const openUpsell = useCallback( () => setUpsellOpen( true ), [] );
 
-	let classes = [
-		"card",
-		"card-small",
-	];
-
-	const onUpsellClose = function() {
-		setUpsellOpen( false );
-		classes = [ "card", "card-small" ];
-	};
-
-	const onButtonClick = function() {
-		setUpsellOpen( true );
-		classes = [ "card" ];
-	};
+	const [ isToggle, setToggle ] = useState( false );
 
 	useEffect( () => {
-		if  ( isUpsellOpen ) {
-			classes = [ "card" ];
-		} else {
-			classes = [ "card", "card-small" ];
+		if ( finishedSteps.length === finishableSteps?.length ) {
+			setToggle( true );
 		}
-	}, [ isUpsellOpen ] );
+	}, [ finishedSteps, finishableSteps ] );
 
-	/**
-	 * The button to open a workout.
-	 *
-	 * @returns {wp.Element} The button.
-	 */
-	const WorkoutButton = function() {
-		let toggle = false;
-		let buttonText = __( "Start workout!", "wordpress-seo" );
-		let onClick = onButtonClick;
-		if ( workout ) {
-			if ( finishedSteps.length === 0 ) {
-				buttonText = __( "Start workout!", "wordpress-seo" );
-			} else if ( finishedSteps.length < FINISHABLE_STEPS[ workout ].length ) {
-				buttonText = __( "Continue workout!", "wordpress-seo" );
+	const buttonText = useMemo( () => {
+		if ( finishedSteps.length === 0 ) {
+			return __( "Start workout!", "wordpress-seo" );
+		} else if ( finishedSteps.length < finishableSteps?.length ) {
+			return __( "Continue workout!", "wordpress-seo" );
+		}
+		return __( "Do workout again", "wordpress-seo" );
+	},
+	  [ finishedSteps, finishableSteps ]
+	);
+
+	const onClick = useCallback(
+		() => {
+			if ( workout ) {
+				openWorkout( workout );
+				if ( isToggle ) {
+					toggleWorkout( workout );
+				}
 			} else {
-				buttonText = __( "Do workout again", "wordpress-seo" );
-				toggle = true;
+				openUpsell();
 			}
+		},
+		[ workout, isToggle, openWorkout, toggleWorkout ]
+	);
 
-			onClick = useCallback(
-				() => {
-					openWorkout( workout );
-					if ( toggle ) {
-						toggleWorkout( workout );
-					}
-				},
-				[ workout, toggle, openWorkout, toggleWorkout ]
-			);
-		}
-
-		return <Button onClick={ onClick }>{ buttonText }</Button>;
-	};
-
-	return <div className={ classes.join( " " ) }>
+	return <div className={ "card card-small" }>
 		<h2>{ title }{ badges }</h2>
 		<h3>{ subtitle }</h3>
 		<ul>
@@ -94,11 +76,28 @@ export default function WorkoutCard( {
 		</ul>
 		<img src={ image } alt="" />
 		<span>
-			<WorkoutButton />
+			<Button onClick={ onClick }>{ buttonText }</Button>
+			<ProgressBar
+				id={ `${title}WorkoutProgress` }
+				max={ finishableSteps.length }
+				value={ finishedSteps.length }
+			/>
+			<label htmlFor="cornerstoneWorkoutProgress"><em>
+				{
+					sprintf(
+						__(
+							"%1$s/%2$s steps completed",
+							"wordpress-seo"
+						),
+						finishedSteps.length,
+						finishableSteps.length
+					)
+				}
+			</em></label>
 		</span>
 		{ isUpsellOpen && <Modal
 			title={ title }
-			onRequestClose={ onUpsellClose }
+			onRequestClose={ closeUpsell }
 		>
 			<p>Some upsell text</p>
 		</Modal> }
