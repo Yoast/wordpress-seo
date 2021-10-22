@@ -56,6 +56,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	protected $options;
 
 	/**
+	 * The table that we work with.
+	 *
+	 * @var string
+	 */
+	protected $table_name;
+
+	/**
 	 * The map of aioseo to yoast meta.
 	 *
 	 * @var array
@@ -86,6 +93,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		$this->wpdb                  = $wpdb;
 		$this->indexable_to_postmeta = $indexable_to_postmeta;
 		$this->options               = $options;
+		$this->table_name            = $this->wpdb->prefix . 'aioseo_posts';
 	}
 
 	// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: They are already prepared.
@@ -96,6 +104,10 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return int The total number of unimported objects.
 	 */
 	public function get_total_unindexed() {
+		if ( ! $this->table_exists( $this->table_name ) ) {
+			return 0;
+		}
+
 		$limit                = false;
 		$just_detect          = true;
 		$indexables_to_create = $this->wpdb->get_col( $this->query( $limit, $just_detect ) );
@@ -111,6 +123,10 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return int|false The limited number of unindexed posts. False if the query fails.
 	 */
 	public function get_limited_unindexed_count( $limit ) {
+		if ( ! $this->table_exists( $this->table_name ) ) {
+			return 0;
+		}
+
 		$just_detect          = true;
 		$indexables_to_create = $this->wpdb->get_col( $this->query( $limit, $just_detect ) );
 
@@ -123,6 +139,10 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return void
 	 */
 	public function index() {
+		if ( ! $this->table_exists( $this->table_name ) ) {
+			return;
+		}
+
 		$limit             = $this->get_limit();
 		$aioseo_indexables = $this->wpdb->get_results( $this->query( $limit ), ARRAY_A );
 
@@ -202,8 +222,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return string The query to use for importing or counting the number of items to import.
 	 */
 	public function query( $limit = false, $just_detect = false ) {
-		$indexable_table = $this->wpdb->prefix . 'aioseo_posts';
-
 		$select_statement = 'id';
 		if ( ! $just_detect ) {
 			// If we want to import too, we need the actual needed data from AIOSEO indexables.
@@ -233,7 +251,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		return $this->wpdb->prepare(
-			"SELECT {$select_statement} FROM {$indexable_table} WHERE id > %d ORDER BY id{$limit_statement}",
+			"SELECT {$select_statement} FROM {$this->table_name} WHERE id > %d ORDER BY id{$limit_statement}",
 			$replacements
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
