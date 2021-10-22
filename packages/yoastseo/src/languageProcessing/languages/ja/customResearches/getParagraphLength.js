@@ -11,13 +11,12 @@ import { filter } from "lodash-es";
  */
 export default function( paper ) {
 	const text = excludeTableOfContentsTag( paper.getText() );
-	const textNoImg = text.replace( "<img(?:[^>]+)?>", "" );
-	const paragraphs = matchParagraphs( textNoImg );
+	const paragraphs = matchParagraphs( text );
 	const paragraphsLength = [];
 	paragraphs.map( function( paragraph ) {
 		paragraphsLength.push( {
 			characterCount: countCharacters( paragraph ),
-			textNoImg: paragraph,
+			text: paragraph,
 		} );
 	} );
 

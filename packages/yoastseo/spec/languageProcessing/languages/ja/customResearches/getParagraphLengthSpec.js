@@ -10,14 +10,14 @@ describe( "a test for getting paragraph length", function() {
 
 	it( "returns the paragraph length of two paragraphs divided by double linebreaks and ends with double linebreak", function() {
 		const mockPaper = new Paper( "Lorem \n\n ipsum two \n\n" );
-		expect( getParagraphLength( mockPaper )[ 0 ].characterCount ).toBe( 6 );
-		expect( getParagraphLength( mockPaper )[ 1 ].characterCount ).toBe( 11 );
+		expect( getParagraphLength( mockPaper )[ 0 ].characterCount ).toBe( 5 );
+		expect( getParagraphLength( mockPaper )[ 1 ].characterCount ).toBe( 9 );
 	} );
 
 	it( "returns the paragraph length of two paragraphs divided by double linebreaks and don't end with double linebreak", function() {
 		const mockPaper = new Paper( "Lorem \n\n ipsum two" );
-		expect( getParagraphLength( mockPaper )[ 0 ].characterCount ).toBe( 6 );
-		expect( getParagraphLength( mockPaper )[ 1 ].characterCount ).toBe( 10 );
+		expect( getParagraphLength( mockPaper )[ 0 ].characterCount ).toBe( 5 );
+		expect( getParagraphLength( mockPaper )[ 1 ].characterCount ).toBe( 9 );
 	} );
 
 	it( "returns the paragraph length of a paragraph without tags or double linebreaks", function() {
