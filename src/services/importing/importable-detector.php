@@ -41,7 +41,7 @@ class Importable_Detector {
 		$detected = [];
 		foreach ( $detectors as $detector ) {
 			if ( $detector->get_limited_unindexed_count( 1 ) > 0 ) {
-				$detected[ $detector->name ][] = $detector->type;
+				$detected[ $detector->get_plugin() ][] = $detector->get_type();
 			}
 		}
 
