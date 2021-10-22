@@ -30,7 +30,8 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 * @return string The plugin we import from.
 	 */
 	public function get_plugin() {
-		return self::PLUGIN;
+		$class = get_class( $this );
+		return $class::PLUGIN;
 	}
 
 	/**
@@ -39,7 +40,8 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 * @return string The data type we import from the plugin.
 	 */
 	public function get_type() {
-		return self::TYPE;
+		$class = get_class( $this );
+		return $class::TYPE;
 	}
 
 	/**
