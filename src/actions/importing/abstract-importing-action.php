@@ -29,8 +29,7 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 *
 	 * @return string The plugin we import from.
 	 */
-	public function get_plugin()
-	{
+	public function get_plugin() {
 		return self::PLUGIN;
 	}
 

@@ -12,12 +12,12 @@ interface Importing_Action_Interface extends Indexation_Action_Interface, Limite
 	 *
 	 * @return string The plugin name.
 	 */
-	function get_plugin();
+	public function get_plugin();
 
 	/**
 	 * Returns the type of data we import.
 	 *
 	 * @return string The type of data.
 	 */
-	function get_type();
+	public function get_type();
 }
