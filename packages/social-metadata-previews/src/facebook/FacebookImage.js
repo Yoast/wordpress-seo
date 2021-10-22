@@ -15,22 +15,19 @@ import {
 
 const FacebookImageContainer = styled.div`
 	position: relative;
-	height: ${ props => props.dimensions.height };
 	${ props => props.mode === "landscape" ? `max-width: ${ props.dimensions.width }` : `min-width: ${ props.dimensions.width }` };
 	overflow: hidden;
 	background-color: ${ colors.$color_white };
 `;
 
 // Adding && for specificity, competing styles coming from blockeditor
-const StyledImage = styled.img`
+const StyledImage = styled.div`
 	&& {
-		max-width: ${ props => props.imageProperties.width }px;
-		height: ${ props => props.imageProperties.height }px;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		max-width: none;
+		background-image: url(${ props => props.imageSrc });
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center;
+    	padding-bottom: ${ FACEBOOK_IMAGE_SIZES.aspectRatio }%;
 	}
 `;
 
@@ -174,9 +171,10 @@ class FacebookImage extends Component {
 			onClick={ this.props.onImageClick }
 		>
 			<StyledImage
-				src={ this.props.src }
-				alt={ this.props.alt }
-				imageProperties={ imageProperties }
+				imageSrc={ this.props.src }
+
+				role="img"
+				aria-label={ this.props.alt }
 			/>
 		</FacebookImageContainer>;
 	}

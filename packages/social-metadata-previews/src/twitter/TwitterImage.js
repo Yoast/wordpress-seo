@@ -22,7 +22,6 @@ const injectCardDependentStyles = ( isLarge, border = true ) => {
 	if ( isLarge ) {
 		return (
 			`
-			height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;
 			max-width: ${ TWITTER_IMAGE_SIZES.landscapeWidth }px;
 			${ border ? "border-bottom: 1px solid #E1E8ED;" : "" }
 			border-radius: 14px 14px 0 0;
@@ -47,14 +46,13 @@ const TwitterImageContainer = styled.div`
 	${ props => injectCardDependentStyles( props.isLarge ) }
 `;
 
-const StyledImage = styled.img`
+const StyledImage = styled.div`
 	&& {
-		max-width: ${ props => props.imageProperties.width }px;
-		height: ${ props => props.imageProperties.height }px;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
+		background-image: url(${ props => props.imageSrc });
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center;
+    	padding-bottom: ${ TWITTER_IMAGE_SIZES.aspectRatio }%;
 	}
 `;
 
@@ -72,6 +70,7 @@ const BaseImage = styled.div`
 `;
 
 const PlaceholderImage = styled( BaseImage )`
+	height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;
 	border-top-left-radius: 14px;
 	${ props => props.isLarge ? "border-top-right-radius" : "border-bottom-left-radius" }: 14px;
 	border-style: dashed;
@@ -101,7 +100,6 @@ export default class TwitterImage extends React.Component {
 	constructor( props ) {
 		super( props );
 		this.state = {
-			imageProperties: null,
 			status: "loading",
 		};
 
@@ -153,7 +151,7 @@ export default class TwitterImage extends React.Component {
 	 * the TwitterImageContainer.
 	 */
 	render() {
-		const { imageProperties, status } = this.state;
+		const { status } = this.state;
 
 		if ( status === "loading" || this.props.src === "" || status === "errored" ) {
 			return <PlaceholderImage
@@ -173,9 +171,10 @@ export default class TwitterImage extends React.Component {
 			onMouseLeave={ this.props.onMouseLeave }
 		>
 			<StyledImage
-				src={ this.props.src }
-				alt={ this.props.alt }
-				imageProperties={ imageProperties }
+				imageSrc={ this.props.src }
+
+				role="img"
+				aria-label={ this.props.alt }
 			/>
 		</TwitterImageContainer>;
 	}
