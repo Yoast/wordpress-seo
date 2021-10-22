@@ -3,6 +3,7 @@ const { AbstractResearcher } = languageProcessing;
 
 // All helpers
 import getStemmer from "./helpers/getStemmer";
+import matchWordCustomHelper from "./helpers/matchTextWithWord";
 
 // All config
 import functionWords from "./config/functionWords";
@@ -37,6 +38,7 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.helpers, {
 			getStemmer,
+			matchWordCustomHelper,
 		} );
 	}
 }
