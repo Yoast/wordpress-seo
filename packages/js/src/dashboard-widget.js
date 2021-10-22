@@ -283,6 +283,8 @@ class DashboardWidget extends Component {
 			this.setState( {
 				wincherLimits: response.results,
 			} );
+		} else {
+			await this.getWincherData();
 		}
 	}
 
