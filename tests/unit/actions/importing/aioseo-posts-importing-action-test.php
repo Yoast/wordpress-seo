@@ -93,7 +93,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				$this->indexable_to_postmeta,
 				$this->options,
 			]
-		)->makePartial();
+		)->makePartial()->shouldAllowMockingProtectedMethods();
 
 		$this->wpdb->prefix = 'wp_';
 	}
@@ -124,6 +124,14 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				ORDER BY id
 				LIMIT 25'
 			);
+
+		$this->mock_instance->expects( 'get_table' )
+			->twice()
+			->andReturn( 'wp_aioseo_posts' );
+
+		$this->wpdb->expects( 'get_var' )
+			->once()
+			->andReturn( 'wp_aioseo_posts' );
 
 		$this->wpdb->expects( 'get_col' )
 			->once()
@@ -170,6 +178,14 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				ORDER BY id
 				LIMIT 25'
 			);
+
+			$this->mock_instance->expects( 'get_table' )
+				->twice()
+				->andReturn( 'wp_aioseo_posts' );
+
+			$this->wpdb->expects( 'get_var' )
+				->once()
+				->andReturn( 'wp_aioseo_posts' );
 
 			// Return 0 importables.
 			$this->wpdb->expects( 'get_results' )
