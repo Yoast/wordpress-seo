@@ -19,11 +19,22 @@ const store = createReduxStore( "yoast-seo/workouts", {
 
 register( store );
 
-window.wpseoWorkoutsData = window.wpseoWorkoutsData || {};
-window.wpseoWorkoutsData.registerWorkout = ( key, priority, Component ) => {
+/**
+ * Registers a workoutcomponent to render in free.
+ *
+ * @param {string} key           An identifier for the workout.
+ * @param {number} priority      A priority for the workout (lower number = higher priority).
+ * @param {wp.Element} Component The WorkoutCard component.
+ *
+ * @returns {void}
+ */
+function registerWorkout( key, priority, Component ) {
 	dispatch( "yoast-seo/workouts" ).registerWorkout( key, priority );
 	registerReactComponent( key, () => <Fill name={ `${ key }` }><Component /></Fill> );
-};
+}
+
+window.wpseoWorkoutsData = window.wpseoWorkoutsData || {};
+window.wpseoWorkoutsData.registerWorkout = registerWorkout;
 
 domReady( () => {
 	renderReactRoot( "wpseo-workouts-container-free", <Workouts /> );
