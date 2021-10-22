@@ -275,4 +275,21 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 
 		$this->assertNull( $indexable->twitter_description );
 	}
+
+	/**
+	 * Tests the checking of the table existance.
+	 *
+	 * @covers ::table_exists
+	 */
+	public function test_table_exists() {
+		$this->mock_instance->expects( 'get_table' )
+			->once()
+			->andReturn( 'wp_aioseo_posts' );
+
+		$this->wpdb->expects( 'get_var' )
+			->once()
+			->with( "SHOW TABLES LIKE 'wp_aioseo_posts'" );
+
+		$this->mock_instance->table_exists( $this->wpdb );
+	}
 }
