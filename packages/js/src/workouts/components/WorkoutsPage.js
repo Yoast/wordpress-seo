@@ -7,6 +7,7 @@ import { sortBy } from "lodash";
 import SlotWithDefault from "../../components/slots/SlotWithDefault";
 import WorkoutCard from "./WorkoutCard";
 import { FINISHABLE_STEPS, WORKOUTS } from "../config";
+import WorkoutUpsell from "./WorkoutUpsell";
 
 const {
 	workouts: workoutsSetting,
@@ -17,6 +18,18 @@ const {
  *
  * @returns {wp.Element} A WorkoutCard for the Cornerstone workout.
  */
+
+const CornerstoneUpsell = ( props ) => {
+	return <WorkoutUpsell
+		addOn={ "Premium" }
+		onRequestClose={ props.onRequestClose }
+		upsellLink={ "https://yoast.com" }
+		title={ "An Upsell" }
+	>
+		You should definitely buy Premium
+	</WorkoutUpsell>;
+};
+
 const CornerStoneCard = () => {
 	return <WorkoutCard
 		title={ __( "The cornerstone approach", "wordpress-seo" ) }
@@ -29,8 +42,7 @@ const CornerStoneCard = () => {
 				"wordpress-seo"
 			),
 		] }
-		finishableSteps={ FINISHABLE_STEPS.cornerstone }
-		finishedSteps={ [] }
+		upsell={ CornerstoneUpsell }
 	/>;
 };
 
@@ -51,6 +63,7 @@ const OrphanedCard = () => {
 				"wordpress-seo"
 			),
 		] }
+		workout={ () => { return <p>Workout</p>; } }
 		finishableSteps={ FINISHABLE_STEPS.orphaned }
 		finishedSteps={ [] }
 	/>;
@@ -80,10 +93,13 @@ export default function WorkoutsPage( props ) {
 	} = props;
 
 	useEffect( () => {
+		/**
+		NOTE! We should restore the `loading` mechanism to avoid this triggering an endless loop!
+
 		if ( window.location.hash && window.location.hash.length > 1 ) {
 			openWorkout( window.location.hash.substr( 1 ) );
 			return;
-		}
+		}*/
 
 		// Saves the workouts on change.
 		saveWorkouts( workouts );
@@ -122,9 +138,9 @@ export default function WorkoutsPage( props ) {
 				) }
 			</p>
 			{ activeWorkout && <Button onClick={ clearActiveWorkout }>{ __( "← Back to all workouts", "worpdress-seo" ) }</Button> }
-			{ ! activeWorkout && <div className="workflows__index__grid">
+			 <div className="workflows__index__grid">
 				{ slots }
-			</div> }
+			</div>
 		</div>
 	);
 }

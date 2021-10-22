@@ -2,8 +2,7 @@
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { useCallback, useState, useMemo, useEffect } from "@wordpress/element";
-import { Modal } from "@wordpress/components";
-import { useDispatch } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 // Internal dependencies.
 import { Button, ProgressBar } from "@yoast/components";
 
@@ -27,21 +26,25 @@ export default function WorkoutCard( {
 	badges,
 } ) {
 	const { openWorkout, toggleWorkout } = useDispatch( "yoast-seo/workouts" );
+	const activeWorkout = useSelect( ( select ) => { return select( "yoast-seo/workouts" ).getActiveWorkout(); }, [] );
 
 	const [ isUpsellOpen, setUpsellOpen ] = useState( false );
 	const [ isToggle, setToggle ] = useState( false );
 
+	const UpsellComponent = upsell;
 	const closeUpsell = useCallback( () => setUpsellOpen( false ), [] );
 	const openUpsell = useCallback( () => setUpsellOpen( true ), [] );
 
+	const WorkoutComponent = workout;
+
 	useEffect( () => {
-		if ( finishedSteps.length === finishableSteps.length ) {
+		if ( finishableSteps && finishedSteps.length === finishableSteps.length ) {
 			setToggle( true );
 		}
 	}, [ finishedSteps, finishableSteps ] );
 
 	const buttonText = useMemo( () => {
-		if ( finishedSteps.length === 0 ) {
+		if ( ! finishableSteps || finishedSteps.length === 0 ) {
 			return __( "Start workout!", "wordpress-seo" );
 		} else if ( finishedSteps.length < finishableSteps.length ) {
 			return __( "Continue workout!", "wordpress-seo" );
@@ -54,9 +57,9 @@ export default function WorkoutCard( {
 	const onClick = useCallback(
 		() => {
 			if ( workout ) {
-				openWorkout( workout );
+				openWorkout( workout.name );
 				if ( isToggle ) {
-					toggleWorkout( workout );
+					toggleWorkout( workout.name );
 				}
 			} else {
 				openUpsell();
@@ -65,53 +68,53 @@ export default function WorkoutCard( {
 		[ workout, isToggle, openWorkout, toggleWorkout ]
 	);
 
-	return <div className={ "card card-small" }>
-		<h2>{ title } { badges }</h2>
-		<h3>{ subtitle }</h3>
-		<ul>
-			{
-				usps.map( ( usp, index ) => <li key={ `${ title }-${ index }` }>{ usp }</li> )
-			}
-		</ul>
-		<img src={ image } alt="" />
-		<span>
-			<Button onClick={ onClick }>{ buttonText }</Button>
-			<ProgressBar
-				id={ `${title}-workout-progress` }
-				max={ finishableSteps.length }
-				value={ finishedSteps.length }
-			/>
-			<label htmlFor={ `${title}-workout-progress` }><em>
+	return ( <>
+		{ ! activeWorkout && <div className={ "card card-small" }>
+			<h2>{ title } { badges }</h2>
+			<h3>{ subtitle }</h3>
+			<ul>
 				{
-					sprintf(
-						// translators: %1$s: number of finished steps, %2$s: number of finishable steps
-						__(
-							"%1$s/%2$s steps completed",
-							"wordpress-seo"
-						),
-						finishedSteps.length,
-						finishableSteps.length
-					)
+					usps.map( ( usp, index ) => <li key={ `${ title }-${ index }` }>{ usp }</li> )
 				}
-			</em></label>
-		</span>
-		{ isUpsellOpen &&
-			<Modal
-				title={ title }
-				onRequestClose={ closeUpsell }
-			>
-				<p>Some upsell text</p>
-			</Modal>
-		}
-	</div>;
+			</ul>
+			<img src={ image } alt="" />
+
+			<span>
+				<Button onClick={ onClick }>{ buttonText }</Button>
+				{ finishableSteps &&
+				<>
+					<ProgressBar
+						id={ `${title}-workout-progress` }
+						max={ finishableSteps.length }
+						value={ finishedSteps.length }
+					/>
+					<label htmlFor={ `${title}-workout-progress` }><em>
+						{
+							sprintf(
+								// translators: %1$s: number of finished steps, %2$s: number of finishable steps
+								__(
+									"%1$s/%2$s steps completed",
+									"wordpress-seo"
+								),
+								finishedSteps.length,
+								finishableSteps.length
+							)
+						}
+					</em></label>
+				</> }
+			</span>
+			{ upsell && isUpsellOpen && <UpsellComponent onRequestClose={ closeUpsell } /> }
+		</div> }
+		{ workout && activeWorkout === workout.name && <WorkoutComponent onRequestClose={ closeUpsell } /> }
+	</>	);
 }
 
 WorkoutCard.propTypes = {
 	title: PropTypes.string.isRequired,
 	subtitle: PropTypes.string.isRequired,
 	usps: PropTypes.arrayOf( PropTypes.string ).isRequired,
-	finishableSteps: PropTypes.arrayOf( PropTypes.string ).isRequired,
-	finishedSteps: PropTypes.arrayOf( PropTypes.string ).isRequired,
+	finishableSteps: PropTypes.arrayOf( PropTypes.string ),
+	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
 	image: PropTypes.string,
 	steps: PropTypes.arrayOf( PropTypes.string ),
 	upsell: PropTypes.element,
@@ -125,4 +128,6 @@ WorkoutCard.defaultProps = {
 	workout: null,
 	badges: [],
 	steps: [],
+	finishableSteps: null,
+	finishedSteps: null,
 };
