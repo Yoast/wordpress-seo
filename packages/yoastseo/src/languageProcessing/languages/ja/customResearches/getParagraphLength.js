@@ -1,6 +1,6 @@
-import excludeTableOfContentsTag from "../helpers/sanitize/excludeTableOfContentsTag";
-import countCharacters from "../ja/helpers/countCharacters.js";
-import matchParagraphs from "../helpers/html/matchParagraphs.js";
+import excludeTableOfContentsTag from "../../../helpers/sanitize/excludeTableOfContentsTag";
+import countCharacters from "../../ja/helpers/countCharacters.js";
+import matchParagraphs from "../../../helpers/html/matchParagraphs.js";
 import { filter } from "lodash-es";
 
 /**
@@ -11,12 +11,13 @@ import { filter } from "lodash-es";
  */
 export default function( paper ) {
 	const text = excludeTableOfContentsTag( paper.getText() );
-	const paragraphs = matchParagraphs( text );
+	const textNoImg = text.replace( "<img(?:[^>]+)?>", "" );
+	const paragraphs = matchParagraphs( textNoImg );
 	const paragraphsLength = [];
 	paragraphs.map( function( paragraph ) {
 		paragraphsLength.push( {
-			characterCount: countCharacters( paragraph),
-			text: paragraph,
+			characterCount: countCharacters( paragraph ),
+			textNoImg: paragraph,
 		} );
 	} );
 
