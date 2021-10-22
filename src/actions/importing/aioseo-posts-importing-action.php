@@ -213,8 +213,16 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			$select_statement = \implode( ', ', $needed_data );
 		}
 
-		$cursor_id    = $this->get_cursor_id();
-		$cursor       = $this->get_cursor( $this->options, $cursor_id );
+		$cursor_id = $this->get_cursor_id();
+		$cursor    = $this->get_cursor( $this->options, $cursor_id );
+
+		/**
+		 * Filter 'wpseo_aioseo_post_cursor' - Allow filtering the value of the aioseo post import cursor.
+		 *
+		 * @api int The value of the aioseo post import cursor.
+		 */
+		$cursor = \apply_filters( 'wpseo_aioseo_post_import_cursor', $cursor );
+
 		$replacements = [ $cursor ];
 
 		$limit_statement = '';
