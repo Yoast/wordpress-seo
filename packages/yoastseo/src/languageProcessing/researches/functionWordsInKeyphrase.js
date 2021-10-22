@@ -13,7 +13,7 @@ import getWords from "../helpers/word/getWords";
 export default function( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
 
-	// The custom helper for getWords is only available in Japanese researcher.
+	// A helper to get words from the keyphrase for languages that don't use the default way.
 	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
 	const keyphrase = paper.getKeyword();
 
