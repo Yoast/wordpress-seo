@@ -16,6 +16,7 @@ export default compose( [
 			getWincherChartDataTs,
 			isWincherNewlyAuthenticated,
 			shouldWincherTrackAll,
+			getPermalink,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -27,6 +28,7 @@ export default compose( [
 			chartDataTs: getWincherChartDataTs(),
 			websiteId: getWincherWebsiteId(),
 			isNewlyAuthenticated: isWincherNewlyAuthenticated(),
+			permalink: getPermalink(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

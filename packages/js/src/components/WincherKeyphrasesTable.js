@@ -193,10 +193,11 @@ class WincherKeyphrasesTable extends Component {
 			setRequestSucceeded,
 			setChartData,
 			setRequestFailed,
+			permalink,
 		} = this.props;
 
 		await handleAPIResponse(
-			() => getKeyphrasesChartData( keyphrases, window.wp.data.select( "core/editor" ).getPermalink() ),
+			() => getKeyphrasesChartData( keyphrases, permalink ),
 			async( response ) => {
 				setRequestSucceeded( response );
 				setChartData( response.results );
@@ -448,6 +449,7 @@ WincherKeyphrasesTable.propTypes = {
 	trackedKeyphrases: PropTypes.object,
 	trackedKeyphrasesChartData: PropTypes.object,
 	websiteId: PropTypes.string,
+	permalink: PropTypes.string.isRequired,
 };
 
 WincherKeyphrasesTable.defaultProps = {
