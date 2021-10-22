@@ -26,7 +26,7 @@ trait Importer_Action_Filter_Trait {
 		if ( $plugin ) {
 			$actions = array_filter(
 				$actions,
-				function( $action, $plugin ) {
+				function( $action ) use ( $plugin ) {
 					return $action->get_plugin() === $plugin;
 				}
 			);
@@ -35,7 +35,7 @@ trait Importer_Action_Filter_Trait {
 		if ( $type ) {
 			$actions = array_filter(
 				$actions,
-				function( $action, $type ) {
+				function( $action ) use ( $type ) {
 					return $action->get_type() === $type;
 				}
 			);
