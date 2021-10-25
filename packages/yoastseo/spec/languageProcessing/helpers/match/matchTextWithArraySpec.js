@@ -1,4 +1,5 @@
 import arrayMatch from "../../../../src/languageProcessing/helpers/match/matchTextWithArray.js";
+import matchWordCustomHelper from "../../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
 
 describe( "a test matching strings in an array", function() {
 	it( "returns the matches in the array", function() {
@@ -50,6 +51,24 @@ describe( "a test matching strings in an array", function() {
 
 		expect( arrayMatch( "This text contains buku-buku, buku-buku, and buku.", [ "buku", "buku-buku" ], "id_ID" ) ).toEqual(
 			{ count: 3, matches: [ "buku", "buku-buku", "buku-buku" ] }
+		);
+	} );
+
+	it( "returns the correct number of matches for Japanese which uses language specific helper to match word in text", function() {
+		expect( arrayMatch( "我が家はみんな元気じゃないです。", [ "日帰り" ], "ja", matchWordCustomHelper ) ).toEqual(
+			{ count: 0, matches: [] }
+		);
+
+		expect( arrayMatch( "日帰りイベントを数回そして5泊6日の国内旅行を予定している。", [ "日帰り" ], "ja", matchWordCustomHelper ) ).toEqual(
+			{ count: 1, matches: [ "日帰り" ] }
+		);
+
+		expect( arrayMatch( "日帰りイベントを数回そして5泊6日の国内旅行を予定している日帰り。", [ "日帰り" ], "ja", matchWordCustomHelper ) ).toEqual(
+			{ count: 2, matches: [ "日帰り", "日帰り" ] }
+		);
+
+		expect( arrayMatch( "これによって少しでも夏休み明けの感染者数を抑えたいという事だけど、どうなるかな。", [ "者数", "感染" ], "ja", matchWordCustomHelper ) ).toEqual(
+			{ count: 2, matches: [ "者数", "感染" ] }
 		);
 	} );
 } );

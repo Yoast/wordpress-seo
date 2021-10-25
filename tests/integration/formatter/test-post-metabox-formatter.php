@@ -20,8 +20,8 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Creates a post to use in the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->post = $this->factory->post->create_and_get();
 	}

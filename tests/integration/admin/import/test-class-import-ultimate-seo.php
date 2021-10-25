@@ -20,8 +20,8 @@ class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->class_instance = new WPSEO_Import_Ultimate_SEO();
 	}
