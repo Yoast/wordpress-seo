@@ -30,7 +30,7 @@ register( store );
  */
 function registerWorkout( key, priority, Component ) {
 	dispatch( "yoast-seo/workouts" ).registerWorkout( key, priority );
-	registerReactComponent( key, <Fill name={ `${ key }` }><Component /></Fill> );
+	registerReactComponent( key, () => <Fill name={ `${ key }` }><Component /></Fill> );
 }
 
 window.wpseoWorkoutsData = window.wpseoWorkoutsData || {};
