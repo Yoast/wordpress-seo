@@ -21,8 +21,7 @@ import WordOccurrences from "./WordOccurrences";
 const getKeywordResearchArticleLink = ( url ) => {
 	const keywordsResearchLinkTranslation = sprintf(
 		__(
-			"Read our %1$sultimate guide to keyword research%2$s to learn " +
-			"more about keyword research and keyword strategy.",
+			"Read our %1$sultimate guide to keyword research%2$s to learn more about keyword research and keyword strategy.",
 			"wordpress-seo"
 		),
 		"{{a}}",
@@ -47,17 +46,15 @@ const getKeywordResearchArticleLink = ( url ) => {
 const getExplanation = keywords => {
 	if ( keywords.length === 0 ) {
 		return __(
-			"Once you add a bit more copy, we'll give you a list of words that occur the most in the content. " +
-			"These give an indication of what your content focuses on.",
+			// eslint-disable-next-line max-len
+			"Once you add a bit more copy, we'll give you a list of words that occur the most in the content. These give an indication of what your content focuses on.",
 			"wordpress-seo"
 		);
 	}
 
 	return __(
-		"The following words occur the most in the content. " +
-		"These give an indication of what your content focuses on. " +
-		"If the words differ a lot from your topic, " +
-		"you might want to rewrite your content accordingly. ",
+		// eslint-disable-next-line max-len
+		"The following words occur the most in the content. These give an indication of what your content focuses on. If the words differ a lot from your topic, you might want to rewrite your content accordingly. ",
 		"wordpress-seo"
 	);
 };

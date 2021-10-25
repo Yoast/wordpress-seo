@@ -189,8 +189,8 @@ class ConfigurationWizard extends React.Component {
 			errorMessage: interpolateComponents( {
 				/** Translators: {{link}} resolves to the link opening tag to yoa.st/bugreport, {{/link}} resolves to the link closing tag. **/
 				mixedString: __(
-					"A problem occurred when saving the current step, {{link}}please file a bug report{{/link}} " +
-					"describing what step you are on and which changes you want to make (if any).",
+					// eslint-disable-next-line max-len
+					"A problem occurred when saving the current step, {{link}}please file a bug report{{/link}} describing what step you are on and which changes you want to make (if any).",
 					"wordpress-seo"
 				),
 				// The anchor does have content (see mixedString above).
