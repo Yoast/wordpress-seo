@@ -47,6 +47,7 @@ jobs:
 
       - name: Install Node dependencies
         run: |
+          npm -g i @wordpress/env
           yarn
 
       - name: Build the plugin
