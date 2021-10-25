@@ -47,7 +47,6 @@ jobs:
 
       - name: Install Node dependencies
         run: |
-          if: steps.yarn-cache.outputs.cache-hit != 'true'
           yarn
 
       - name: Build the plugin
