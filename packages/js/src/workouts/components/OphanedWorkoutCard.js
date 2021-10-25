@@ -33,7 +33,6 @@ const upsell = ( props ) => {
  * @returns {WPElement} The CornerstoneWorkoutCard component.
  */
 export default function OrphanedWorkoutCard( {
-	steps,
 	finishedSteps,
 	workout,
 	badges,
@@ -53,7 +52,6 @@ export default function OrphanedWorkoutCard( {
 			),
 		] }
 		image={ "" }
-		steps={ steps }
 		finishableSteps={ FINISHABLE_STEPS.orphaned }
 		finishedSteps={ finishedSteps }
 		upsell={ upsell }
@@ -64,13 +62,11 @@ export default function OrphanedWorkoutCard( {
 
 OrphanedWorkoutCard.propTypes = {
 	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
-	steps: PropTypes.arrayOf( PropTypes.string ),
 	workout: PropTypes.element,
 	badges: PropTypes.arrayOf( PropTypes.element ),
 };
 
 OrphanedWorkoutCard.defaultProps = {
-	steps: [],
 	finishedSteps: null,
 	workout: null,
 	badges: [],

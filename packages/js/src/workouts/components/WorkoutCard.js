@@ -18,7 +18,6 @@ export default function WorkoutCard( {
 	subtitle,
 	usps,
 	image,
-	steps,
 	finishableSteps,
 	finishedSteps,
 	upsell,
@@ -115,7 +114,6 @@ WorkoutCard.propTypes = {
 	finishableSteps: PropTypes.arrayOf( PropTypes.string ),
 	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
 	image: PropTypes.string,
-	steps: PropTypes.arrayOf( PropTypes.string ),
 	upsell: PropTypes.func,
 	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
@@ -126,7 +124,6 @@ WorkoutCard.defaultProps = {
 	upsell: null,
 	workout: null,
 	badges: [],
-	steps: [],
 	finishableSteps: null,
 	finishedSteps: null,
 };

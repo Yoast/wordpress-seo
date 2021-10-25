@@ -33,7 +33,6 @@ const upsell = ( props ) => {
  * @returns {WPElement} The CornerstoneWorkoutCard component.
  */
 export default function CornerstoneWorkoutCard( {
-	steps,
 	finishedSteps,
 	workout,
 	badges,
@@ -51,7 +50,6 @@ export default function CornerstoneWorkoutCard( {
 			"wordpress-seo"
 		) ] }
 		image={ "image" }
-		steps={ steps }
 		finishableSteps={ FINISHABLE_STEPS.cornerstone }
 		finishedSteps={ finishedSteps }
 		upsell={ upsell }
@@ -62,13 +60,11 @@ export default function CornerstoneWorkoutCard( {
 
 CornerstoneWorkoutCard.propTypes = {
 	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
-	steps: PropTypes.arrayOf( PropTypes.string ),
 	workout: PropTypes.element,
 	badges: PropTypes.arrayOf( PropTypes.element ),
 };
 
 CornerstoneWorkoutCard.defaultProps = {
-	steps: [],
 	finishedSteps: null,
 	workout: null,
 	badges: [],
