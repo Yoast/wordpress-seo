@@ -7,6 +7,7 @@ import SlotWithDefault from "../../components/slots/SlotWithDefault";
 import WorkoutCard from "./WorkoutCard";
 import { FINISHABLE_STEPS } from "../config";
 import CornerstoneWorkoutCard from "./CornerstoneWorkoutCard";
+import OrphanedWorkoutCard from "./OphanedWorkoutCard";
 
 const {
 	workouts: workoutsSetting,
@@ -62,20 +63,7 @@ export default function WorkoutsPage( props ) {
 					<CornerstoneWorkoutCard finishedSteps={ [] } />
 				</SlotWithDefault>
 				<SlotWithDefault name="orphaned-workout">
-					<WorkoutCard
-						title={ __( "Orphaned content", "wordpress-seo" ) }
-						badges={ [ <PremiumBadge key={ "premium-badge" } />, <NewBadge key={ "new-badge" } /> ] }
-						subtitle={ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo" ) }
-						usps={ [
-							__(
-								// eslint-disable-next-line max-len
-								"Orphaned content is content that doesn’t get any links from other posts or pages on your site. As a result of that, this content is hard to find, for both Google and visitors. Posts and pages need internal links to them, to fit into a site’s structure and to be findable. With this workout we'll help you update your orphaned content and make sure you have links pointing towards them!",
-								"wordpress-seo"
-							),
-						] }
-						finishableSteps={ FINISHABLE_STEPS.orphaned }
-						finishedSteps={ [] }
-					/>
+					<OrphanedWorkoutCard finishedSteps={ [] } badges={ [ <NewBadge key={ "new-badge" } /> ] } />
 				</SlotWithDefault>
 			</div> }
 		</div>

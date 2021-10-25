@@ -94,7 +94,7 @@ export default function WorkoutCard( {
 				}
 			</em></label>
 		</span>
-		{ isUpsellOpen && upsell( closeUpsell ) }
+		{ upsell && isUpsellOpen && upsell( closeUpsell ) }
 	</div>;
 }
 
