@@ -160,7 +160,7 @@ class FacebookImage extends Component {
 					onMouseEnter={ this.props.onMouseEnter }
 					onMouseLeave={ this.props.onMouseLeave }
 				>
-					{ __( "Select image", "yoast-components" ) }
+					{ __( "Select image", "wordpress-seo" ) }
 				</PlaceholderImage>
 			);
 		}

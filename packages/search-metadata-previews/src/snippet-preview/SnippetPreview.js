@@ -473,7 +473,7 @@ export default class SnippetPreview extends PureComponent {
 	getDescription() {
 		if ( ! this.props.description ) {
 			return __( "Please provide a meta description by editing the snippet below. If you don’t, Google will " +
-				"try to find a relevant part of your post to show in the search results.", "yoast-components" );
+				"try to find a relevant part of your post to show in the search results.", "wordpress-seo" );
 		}
 
 		return truncate( this.props.description, {
@@ -581,7 +581,7 @@ export default class SnippetPreview extends PureComponent {
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 		return <React.Fragment>
 			<ScreenReaderText>
-				{ __( "Url preview", "yoast-components" ) + ":" }
+				{ __( "Url preview", "wordpress-seo" ) + ":" }
 			</ScreenReaderText>
 			<Url>
 				<BaseUrlOverflowContainer
@@ -743,7 +743,7 @@ export default class SnippetPreview extends PureComponent {
 			return (
 				<PartContainer className="yoast-shopping-data-preview--desktop">
 					<ScreenReaderText>
-						{ __( "Shopping data preview:", "yoast-components" ) }
+						{ __( "Shopping data preview:", "wordpress-seo" ) }
 					</ScreenReaderText>
 					<ProductDataDesktop
 						shoppingData={ shoppingData }
@@ -756,7 +756,7 @@ export default class SnippetPreview extends PureComponent {
 			return (
 				<PartContainer className="yoast-shopping-data-preview--mobile">
 					<ScreenReaderText>
-						{ __( "Shopping data preview:", "yoast-components" ) }
+						{ __( "Shopping data preview:", "wordpress-seo" ) }
 					</ScreenReaderText>
 					<ProductDataMobile
 						shoppingData={ shoppingData }
@@ -814,7 +814,7 @@ export default class SnippetPreview extends PureComponent {
 						{ this.renderUrl() }
 						{ downArrow }
 						<ScreenReaderText>
-							{ __( "SEO title preview", "yoast-components" ) + ":" }
+							{ __( "SEO title preview", "wordpress-seo" ) + ":" }
 						</ScreenReaderText>
 						<SnippetTitle
 							onMouseUp={ onMouseUp.bind( null, "title" ) }
@@ -831,7 +831,7 @@ export default class SnippetPreview extends PureComponent {
 					</PartContainer>
 					<PartContainer>
 						<ScreenReaderText>
-							{ __( "Meta description preview:", "yoast-components" ) }
+							{ __( "Meta description preview:", "wordpress-seo" ) }
 						</ScreenReaderText>
 						{ this.renderDescription() }
 					</PartContainer>

@@ -274,7 +274,7 @@ class SnippetEditor extends React.Component {
 		}
 
 		if ( descriptionEditorFieldPlaceholder === "" ) {
-			descriptionEditorFieldPlaceholder = __( "Modify your meta description by editing it right here", "yoast-components" );
+			descriptionEditorFieldPlaceholder = __( "Modify your meta description by editing it right here", "wordpress-seo" );
 		}
 
 		return (
@@ -297,7 +297,7 @@ class SnippetEditor extends React.Component {
 					descriptionInputId={ join( [ "yoast-google-preview-description", idSuffix ] ) }
 				/>
 				{ showCloseButton &&
-					<CloseEditorButton onClick={ this.close }>{ __( "Close snippet editor", "yoast-components" ) }</CloseEditorButton>
+					<CloseEditorButton onClick={ this.close }>{ __( "Close snippet editor", "wordpress-seo" ) }</CloseEditorButton>
 				}
 			</React.Fragment>
 		);
@@ -588,7 +588,7 @@ class SnippetEditor extends React.Component {
 						ref={ this.setEditButtonRef }
 					>
 						<SvgIcon icon="edit" />
-						{ __( "Edit snippet", "yoast-components" ) }
+						{ __( "Edit snippet", "wordpress-seo" ) }
 					</EditSnippetButton> }
 
 					{ this.renderEditor() }
