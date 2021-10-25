@@ -1,0 +1,22 @@
+{
+  "name": "@yoast/replacement-variables",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "babel src -d build",
+    "watch": "babel src -w -d build"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/eslint-parser": "^7.15.8",
+    "@babel/eslint-plugin": "^7.14.5",
+    "@wordpress/babel-preset-default": "^6.3.3",
+    "eslint-config-yoast": "^5.0.17"
+  }
+}

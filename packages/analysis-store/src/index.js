@@ -25,7 +25,7 @@ const createAnalysisStore = ( {
 	const store = createReduxStore( {
 		reducer: {
 			// analysisData: analysisDataReducer,
-			// analysisResults: analysisResultsReducer,
+		// analysisResults: analysisResultsReducer,
 		},
 	} );
 	register( store );
