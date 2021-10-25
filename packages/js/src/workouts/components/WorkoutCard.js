@@ -118,7 +118,7 @@ WorkoutCard.propTypes = {
 	image: PropTypes.string,
 	steps: PropTypes.arrayOf( PropTypes.string ),
 	upsell: PropTypes.func,
-	workout: PropTypes.element,
+	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
 };
 
