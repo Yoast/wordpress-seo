@@ -13,9 +13,20 @@ const {
 	workouts: workoutsSetting,
 } = window.wpseoWorkoutsData;
 
+/**
+ * The Free (upsell) CornerstoneWorkoutCard.
+ *
+ * @returns {wp.Element} A WorkoutCard for the Cornerstone workout.
+ */
 const CornerstoneCard = () => {
 	return <CornerstoneWorkoutCard />;
 };
+
+/**
+ * The Free (upsell) OrphanedWorkoutCard.
+ *
+ * @returns {wp.Element} A WorkoutCard for the Orphaned workout.
+ */
 const OrphanedCard = () => {
 	return <OrphanedWorkoutCard
 		badges={ [ <NewBadge key={ "new-badge-orphaned-workout" } /> ] }

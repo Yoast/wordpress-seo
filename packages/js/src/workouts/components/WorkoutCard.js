@@ -25,7 +25,9 @@ export default function WorkoutCard( {
 	badges,
 } ) {
 	const { openWorkout, toggleWorkout } = useDispatch( "yoast-seo/workouts" );
-	const activeWorkout = useSelect( ( select ) => { return select( "yoast-seo/workouts" ).getActiveWorkout(); }, [] );
+	const activeWorkout = useSelect( ( select ) => {
+		return select( "yoast-seo/workouts" ).getActiveWorkout();
+	}, [] );
 
 	const [ isUpsellOpen, setUpsellOpen ] = useState( false );
 	const [ isToggle, setToggle ] = useState( false );
