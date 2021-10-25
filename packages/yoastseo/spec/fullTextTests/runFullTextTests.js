@@ -103,7 +103,7 @@ testPapers.forEach( function( testPaper ) {
 				result.keywordDensity = keywordDensityAssessment.getResult(
 					paper,
 					researcher,
-					);
+				);
 				expect( result.keywordDensity.getScore() ).toBe( expectedResults.keywordDensity.score );
 				expect( result.keywordDensity.getText() ).toBe( expectedResults.keywordDensity.resultText );
 			}

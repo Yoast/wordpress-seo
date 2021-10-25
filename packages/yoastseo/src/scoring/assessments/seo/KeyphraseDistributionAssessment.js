@@ -165,7 +165,7 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 *
 	 * @returns {boolean} True when there is a keyword and a text with 15 sentences or more.
 	 */
-	isApplicable( paper) {
+	isApplicable( paper ) {
 		return paper.hasText() && paper.hasKeyword() && getSentences( paper.getText() ).length >= 15;
 	}
 }

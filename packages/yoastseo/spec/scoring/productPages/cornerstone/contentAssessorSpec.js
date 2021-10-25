@@ -2,7 +2,6 @@ import DefaultResearcher from "../../../../src/languageProcessing/languages/_def
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import ContentAssessor from "../../../../src/scoring/productPages/cornerstone/contentAssessor";
 import Paper from "../../../../src/values/Paper";
-import Factory from "../../../specHelpers/factory";
 
 const options = {
 	subheadingUrlTitle: "https://yoast.com/1",

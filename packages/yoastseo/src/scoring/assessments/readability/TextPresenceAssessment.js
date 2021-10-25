@@ -37,6 +37,7 @@ export default class TextPresenceAssessment extends Assessment {
 	 *
 	 * @returns {AssessmentResult} The result of this assessment.
 	 */
+	// eslint-disable-next-line no-unused-vars
 	getResult( paper, researcher ) {
 		const text = stripHTMLTags( excludeTableOfContentsTag( paper.getText() ) );
 

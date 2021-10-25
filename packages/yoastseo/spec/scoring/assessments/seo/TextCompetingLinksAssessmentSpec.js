@@ -27,7 +27,7 @@ describe( "An assessment for competing links in the text", function() {
 					otherNofollow: 0,
 				}
 			),
-			);
+		);
 
 		expect( result.getScore() ).toBe( 2 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/34l' target='_blank'>Link keyphrase</a>: " +
@@ -38,7 +38,7 @@ describe( "An assessment for competing links in the text", function() {
 	it( "returns the score when the paper is empty", function() {
 		const paper = new Paper( "" );
 		const result = new TextCompetingLinksAssessment( {} ).getResult( paper, new DefaultResearcher( paper ) );
-		expect( result.score ).toBe(  0 );
+		expect( result.score ).toBe( 0 );
 	} );
 
 	it( "is not applicable for papers without text", function() {
