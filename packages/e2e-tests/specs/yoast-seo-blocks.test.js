@@ -3,16 +3,15 @@
  */
 import {
 	createNewPost,
-	trashAllPosts,
 	insertBlock,
 } from "@wordpress/e2e-test-utils";
 
+import { deleteAllPostsWithApi } from "../src/helpers/utils";
+
 describe("Yoast SEO blocks", () => {
 
-	const title = "Test Post";
-
 	it("shows correctly Yoast SEO FAQ block in a post", async () => {
-		await trashAllPosts();
+		await deleteAllPostsWithApi('posts');
 		await createNewPost();
 
 		await insertBlock("Yoast FAQ");
@@ -23,7 +22,7 @@ describe("Yoast SEO blocks", () => {
 	});
 
 	it("shows correctly Yoast Breadcrumbs block in a post", async () => {
-		await trashAllPosts();
+		await deleteAllPostsWithApi('posts');
 		await createNewPost();
 
 		await insertBlock("Yoast Breadcrumbs");
@@ -34,7 +33,7 @@ describe("Yoast SEO blocks", () => {
 	});
 
 	it("shows correctly Yoast How-to block in a post", async () => {
-		await trashAllPosts();
+		await deleteAllPostsWithApi('posts');
 		await createNewPost();
 
 		await insertBlock("Yoast How-to");
@@ -45,7 +44,7 @@ describe("Yoast SEO blocks", () => {
 	});
 
 	it("shows correctly Yoast SEO FAQ block in a page", async () => {
-		await trashAllPosts("page");
+		await deleteAllPostsWithApi('pages');
 		await createNewPost({ postType: "page" });
 
 		await insertBlock("Yoast FAQ");
@@ -56,7 +55,7 @@ describe("Yoast SEO blocks", () => {
 	});
 
 	it("shows correctly Yoast Breadcrumbs block in a page", async () => {
-		await trashAllPosts("page");
+		await deleteAllPostsWithApi('pages');
 		await createNewPost({ postType: "page" });
 
 		await insertBlock("Yoast Breadcrumbs");
@@ -67,7 +66,7 @@ describe("Yoast SEO blocks", () => {
 	});
 
 	it("shows correctly Yoast How-to block in a page", async () => {
-		await trashAllPosts("page");
+		await deleteAllPostsWithApi('pages');
 		await createNewPost({ postType: "page" });
 
 		await insertBlock("Yoast How-to");
@@ -78,7 +77,7 @@ describe("Yoast SEO blocks", () => {
 	});
 
 	it("shows correctly Yoast SEO FAQ block in a custom post", async () => {
-		await trashAllPosts("yoast_post_type");
+		await deleteAllPostsWithApi('yoast_post_type');
 		await createNewPost({ postType: "yoast_post_type" });
 
 		await insertBlock("Yoast FAQ");
@@ -89,7 +88,7 @@ describe("Yoast SEO blocks", () => {
 	});
 
 	it("shows correctly Yoast Breadcrumbs block in a custom post", async () => {
-		await trashAllPosts("yoast_post_type");
+		await deleteAllPostsWithApi('yoast_post_type');
 		await createNewPost({ postType: "yoast_post_type" });
 
 		await insertBlock("Yoast Breadcrumbs");
@@ -100,7 +99,7 @@ describe("Yoast SEO blocks", () => {
 	});
 
 	it("shows correctly Yoast How-to block in a custom post", async () => {
-		await trashAllPosts("yoast_post_type");
+		await deleteAllPostsWithApi('yoast_post_type');
 		await createNewPost({ postType: "yoast_post_type" });
 
 		await insertBlock("Yoast How-to");
