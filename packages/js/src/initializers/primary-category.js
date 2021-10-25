@@ -64,7 +64,7 @@ export default function initPrimaryCategory( $ ) {
 		}
 		const clone = categoryListItem.clone();
 		clone.children().remove();
-		return $.trim( clone.text() );
+		return clone.text().trim();
 	}
 
 	/**

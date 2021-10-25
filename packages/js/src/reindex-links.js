@@ -146,7 +146,7 @@ function init() {
 		}
 	} );
 
-	jQuery( "#noticeRunLinkIndex" ).click( openLinkIndexing );
+	jQuery( "#noticeRunLinkIndex" ).on( "click", openLinkIndexing );
 
 	if ( window.location.href.indexOf( "&reIndexLinks=1" ) !== -1 ) {
 		jQuery( openLinkIndexing );

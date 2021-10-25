@@ -110,7 +110,7 @@
 			}
 		} );
 
-		$( ".button-primary" ).click( function( ev ) {
+		$( ".button-primary" ).on( "click", function( ev ) {
 			if ( $( ev.target ).attr( "id" ) !== "save-order" && wpseoSlugChanged() ) {
 				wpseoShowNotification();
 			}
