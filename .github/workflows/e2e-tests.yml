@@ -18,6 +18,12 @@ jobs:
         with:
           node-version: '14'
 
+      - name: Setup PHP with composer v2 
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '5.6.20'
+          tools: composer:v2
+
       - name: Install composer dependencies
         run: |
           composer update
