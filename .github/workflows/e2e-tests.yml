@@ -3,7 +3,7 @@ name: Yoast e2e tests
 on:
   push:
     branches:
-      - integrate/e2e-tests-to-cis
+      - integrate/e2e-tests-to-ci
 
 jobs:
   e2e-tests:
