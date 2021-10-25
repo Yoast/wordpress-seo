@@ -90,7 +90,7 @@ export default compose(
 					clearIndexablesInSteps,
 					saveWorkouts,
 				};
-			},
+			}
 		),
-	],
+	]
 )( WorkoutsPage );

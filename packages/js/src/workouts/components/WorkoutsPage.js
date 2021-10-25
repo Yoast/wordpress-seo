@@ -14,11 +14,12 @@ const {
 } = window.wpseoWorkoutsData;
 
 /**
- * Temporary workoutcard.
+ * Temporary upsell.
  *
- * @returns {wp.Element} A WorkoutCard for the Cornerstone workout.
+ * @param {Object} props The props object.
+ *
+ * @returns {wp.Element} A WorkoutUpsell for the Cornerstone workout.
  */
-
 const CornerstoneUpsell = ( props ) => {
 	return <WorkoutUpsell
 		addOn={ "Premium" }
@@ -30,6 +31,11 @@ const CornerstoneUpsell = ( props ) => {
 	</WorkoutUpsell>;
 };
 
+/**
+ * Temporary workoutcard.
+ *
+ * @returns {wp.Element} A WorkoutCard for the Cornerstone workout.
+ */
 const CornerStoneCard = () => {
 	return <WorkoutCard
 		title={ __( "The cornerstone approach", "wordpress-seo" ) }
@@ -63,7 +69,9 @@ const OrphanedCard = () => {
 				"wordpress-seo"
 			),
 		] }
-		workout={ () => { return <p>Workout</p>; } }
+		workout={ () => {
+			return <p>Workout</p>;
+		} }
 		finishableSteps={ FINISHABLE_STEPS.orphaned }
 		finishedSteps={ [] }
 	/>;
