@@ -101,17 +101,18 @@ export default function WorkoutsPage( props ) {
 	} = props;
 
 	useEffect( () => {
-		/**
-		NOTE! We should restore the `loading` mechanism to avoid this triggering an endless loop!
-
-		if ( window.location.hash && window.location.hash.length > 1 ) {
-			openWorkout( window.location.hash.substr( 1 ) );
+		// Loads the workouts on first render.
+		if ( loading === true ) {
+			initWorkouts( workoutsSetting );
+			if ( window.location.hash && window.location.hash.length > 1 ) {
+				openWorkout( window.location.hash.substr( 1 ) );
+			}
 			return;
-		}*/
+		}
 
 		// Saves the workouts on change.
 		saveWorkouts( workouts );
-	}, [ workouts ] );
+	}, [ workouts, loading ] );
 
 	/**
 	 * Generate slots based on the workout key, and sort by priority.
