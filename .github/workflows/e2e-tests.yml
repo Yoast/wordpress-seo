@@ -35,8 +35,12 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-build-node-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-node-modules
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - name: Install Node dependencies
         run: |
@@ -53,7 +57,7 @@ jobs:
 
       - name: Install and activate the yoast-simple-custom-post-type plugin
         run: |
-          yarn wp-env run tests-cli wp plugin install "https://github.com/Yoast/wordpress-seo/blob/try/e2e-tests-package/packages/e2e-tests/data/yoast-simple-custom-post-type.zip?raw=true" --activate
+          yarn wp-env run tests-cli wp plugin install "https://github.com/Yoast/wordpress-seo/blob/trunk/packages/e2e-tests/data/yoast-simple-custom-post-type.zip?raw=true" --activate
 
       - name: Run the e2e tests
         run: |
