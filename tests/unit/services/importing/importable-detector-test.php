@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Services\Importing\Importable_Detector_Doubl
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Importable_Detector.
+ * Class Importable_Detector_Test.
  *
  * @group importing
  *
@@ -112,14 +112,33 @@ class Importable_Detector_Test extends TestCase {
 		$this->assertTrue( \is_array( self::getPropertyValue( $this->instance, 'importers' ) ) );
 
 		$importer = array_values( self::getPropertyValue( $this->instance, 'importers' ) )[0];
-		self::assertInstanceOf(
+		$this->assertInstanceOf(
 			Aioseo_Posts_Importing_Action::class,
 			$importer
 		);
 	}
 
 	/**
-	 * Tests if the needed attributes are set correctly.
+	 * Tests if the detector detects when there are no importers.
+	 *
+	 * @covers ::detect
+	 */
+	public function test_detect_no_importers() {
+		$this->mock_instance->expects( 'filter_actions' )
+			->once()
+			->andReturn( [] );
+
+		$this->importing_action->expects( 'get_limited_unindexed_count' )
+			->never();
+
+		$detected = $this->mock_instance->detect();
+
+		$this->assertTrue( \is_array( $detected ) );
+		$this->assertTrue( \count( $detected ) === 0 );
+	}
+
+	/**
+	 * Tests if the detector actually detects when there are unimported data.
 	 *
 	 * @covers ::detect
 	 */
@@ -130,7 +149,7 @@ class Importable_Detector_Test extends TestCase {
 
 		$this->importing_action->expects( 'get_limited_unindexed_count' )
 			->once()
-			->andReturn(4); // Any number between 1-25;
+			->andReturn( 4 ); // Any number between 1-25.
 
 		$detected = $this->mock_instance->detect();
 
@@ -140,6 +159,25 @@ class Importable_Detector_Test extends TestCase {
 		$this->assertTrue( \count( $detected ) === 1 );
 		$this->assertTrue( isset( $detected['aioseo'] ) );
 		$this->assertTrue( $detected['aioseo'][0] === 'posts' );
+	}
 
+	/**
+	 * Tests if the detector detects when there are no unimported data.
+	 *
+	 * @covers ::detect
+	 */
+	public function test_detect_no_data_to_import() {
+		$this->mock_instance->expects( 'filter_actions' )
+			->once()
+			->andReturn( self::getPropertyValue( $this->instance, 'importers' ) );
+
+		$this->importing_action->expects( 'get_limited_unindexed_count' )
+			->once()
+			->andReturn( 0 );
+
+		$detected = $this->mock_instance->detect();
+
+		$this->assertTrue( \is_array( $detected ) );
+		$this->assertTrue( \count( $detected ) === 0 );
 	}
 }
