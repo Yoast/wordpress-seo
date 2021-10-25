@@ -277,6 +277,8 @@ class WPSEO_Addon_Manager {
 	 * @return stdClass Extended data for update_plugins.
 	 */
 	public function check_for_updates( $data ) {
+		global $wp_version;
+
 		if ( empty( $data ) ) {
 			return $data;
 		}
@@ -289,16 +291,30 @@ class WPSEO_Addon_Manager {
 				continue;
 			}
 
-			if ( version_compare( $installed_plugin['Version'], $subscription->product->version, '<' ) ) {
-				$data->response[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
+			$plugin_data  = $this->convert_subscription_to_plugin( $subscription, $data );
+			$is_no_update = true;
+			if ( version_compare( $installed_plugin['Version'], $plugin_data->new_version, '<' ) ) {
+				$is_no_update = false;
 
-				if ( $this->has_subscription_expired( $subscription ) ) {
-					unset( $data->response[ $plugin_file ]->package, $data->response[ $plugin_file ]->download_link );
+				// If we haven't retrieved the 'requires' info from Yoast Free yet, do nothing.
+				if ( is_null( $plugin_data->requires ) ) {
+					continue;
+				} 
+				
+				if ( version_compare( $plugin_data->requires, $wp_version, '<=' ) ) {
+					$data->response[ $plugin_file ] = $plugin_data;
+	
+					if ( $this->has_subscription_expired( $subscription ) ) {
+						unset( $data->response[ $plugin_file ]->package, $data->response[ $plugin_file ]->download_link );
+					}
+				} else {
+					$is_no_update = true;
 				}
 			}
-			else {
+			
+			if ( $is_no_update ) {
 				// Still convert subscription when no updates is available.
-				$data->no_update[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
+				$data->no_update[ $plugin_file ] = $plugin_data;
 
 				if ( $this->has_subscription_expired( $subscription ) ) {
 					unset( $data->no_update[ $plugin_file ]->package, $data->no_update[ $plugin_file ]->download_link );
@@ -444,11 +460,30 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @return stdClass The converted subscription.
 	 */
-	protected function convert_subscription_to_plugin( $subscription ) {
+	protected function convert_subscription_to_plugin( $subscription, $data = false ) {
 		// We need to replace h2's and h3's with h4's because the styling expects that.
 		$changelog = str_replace( '</h2', '</h4', str_replace( '<h2', '<h4', $subscription->product->changelog ) );
 		$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
 
+		$latest_yoast_free = false;
+
+        // Check if $data (which contains all plugin update details) exists, 
+        // and pull Yoast free from there for later use.
+		if ( $data ) {
+			foreach( $data->response as $response_plugin ) {
+				if ( $response_plugin->plugin === WPSEO_BASENAME ) {
+					$latest_yoast_free = $response_plugin;
+					break;
+				}
+			}
+			foreach( $data->no_update as $no_update_plugin ) {
+				if ( $no_update_plugin->plugin === WPSEO_BASENAME ) {
+					$latest_yoast_free = $no_update_plugin;
+					break;
+				}
+			}
+		}
+		
 		return (object) [
 			'new_version'      => $subscription->product->version,
 			'name'             => $subscription->product->name,
@@ -467,9 +502,12 @@ class WPSEO_Addon_Manager {
 			],
 			'update_supported' => true,
 			'banners'          => $this->get_banners( $subscription->product->slug ),
-			'tested'           => YOAST_SEO_WP_TESTED,
-			'requires'         => YOAST_SEO_WP_REQUIRED,
-			'requires_php'     => YOAST_SEO_PHP_REQUIRED,
+			// For the next 3, check if the Yoast free plugin object exists,
+			// if so, if it contains the needed data.
+			// Set that data, and set the current as a failover if the update data does not exist.
+			'tested'           => ($latest_yoast_free && isset( $latest_yoast_free->tested ) ) ? $latest_yoast_free->tested : null,
+			'requires'         => ($latest_yoast_free && isset( $latest_yoast_free->requires ) ) ? $latest_yoast_free->requires : null,
+			'requires_php'     => ($latest_yoast_free && isset( $latest_yoast_free->requires_php ) ) ? $latest_yoast_free->requires_php : null,
 		];
 	}
 
