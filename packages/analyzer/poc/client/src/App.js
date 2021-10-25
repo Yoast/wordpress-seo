@@ -13,8 +13,8 @@ const preparePaper = ( paper, { getState } ) => {
     {
       name: "title",
       getReplacement: () => {
-        console.warn('getReplacement', analysisStoreSelectors.selectTitle( getState() ));
-        return analysisStoreSelectors.selectTitle( getState() );
+        console.warn('getReplacement', analysisStoreSelectors.selectSeoTitle( getState() ));
+        return analysisStoreSelectors.selectSeoTitle( getState() );
       },
     },
   ] );
@@ -42,12 +42,12 @@ const { Provider, actions: analysisActions } = createAnalysisStore( {
 
 function App() {
   const handleChange = useCallback( ( event ) => {
-    analysisActions.updatedContent( event.target.value )
+    analysisActions.updateContent( event.target.value )
   }, [] );
   return (
     <Provider>
       <div style={ { margin: "80px" } }>
-        <textarea name="editor" rows="16" onChange={ handleChange } />
+        <textarea name="editor" rows="16" onChange={ handleChange } defaultValue="%%title%%" />
       </div>
       <div>
         <h2>Sidebar</h2>

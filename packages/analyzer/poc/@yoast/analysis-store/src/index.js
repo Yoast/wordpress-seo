@@ -20,9 +20,7 @@ export const selectors = {
 };
 
 const createAnalysisStore = ( {
-	fetchSeoResults,
-	fetchReadabilityResults,
-	fetchResearchResults,
+	analyze,
 	preparePaper = identity,
 	processResults = identity,
 	middleware = [],
@@ -38,9 +36,7 @@ const createAnalysisStore = ( {
 					extraArgument: {
 						preparePaper,
 						processResults,
-						fetchSeoResults,
-						fetchReadabilityResults,
-						fetchResearchResults,
+						analyze,
 					},
 				},
 			} ),

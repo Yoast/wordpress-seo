@@ -15,6 +15,6 @@
   },
   "scripts": {
     "build": "babel src -d build",
-    "watch": "babel src -w -d build"
+    "watch": "babel src -w -d build --source-maps"
   }
 }

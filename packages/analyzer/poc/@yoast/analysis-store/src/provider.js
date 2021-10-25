@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Provider as StoreProvider, useSelector, useDispatch } from "react-redux";
+import { Provider as StoreProvider, useDispatch, useSelector } from "react-redux";
 
 import { analysisDataSelectors } from "./analysis-data-slice";
 import { analysisResultsActions } from "./analysis-results-slice";
@@ -9,9 +9,11 @@ const Effects = ( { children } ) => {
 	const content = useSelector( analysisDataSelectors.selectContent );
 
 	useEffect( () => {
-		dispatch( analysisResultsActions.fetchSeoResults( {
+		dispatch( analysisResultsActions.analyze( {
 			key: "focus",
-			paper: content,
+			paper: {
+				content,
+			},
 		} ) );
 	}, [ dispatch, content ] );
 

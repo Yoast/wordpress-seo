@@ -6,12 +6,12 @@ import { ASYNC_STATUS } from "./constants";
 const SLICE_NAME = "analysisResults";
 const INITIAL_RESULTS = {};
 
-const fetchSeoResults = createAsyncThunk(
-	`${SLICE_NAME}/fetchSeoResults`,
+const analyze = createAsyncThunk(
+	`${SLICE_NAME}/analyze`,
 	async( { key, paper }, { dispatch, getState, extra: service } ) => {
 		// NOTE: Pass key to worker here?
 		// Add seoTitleWidth to paper here in some smart way (after preparePaper/replaceVars)
-		const response = await service.fetchSeoResults(
+		const response = await service.analyze(
 			service.preparePaper( paper, { dispatch, getState } )
 		);
 		return {
@@ -41,14 +41,14 @@ const analysisResultsSlice = createSlice( {
 	},
 	reducers: {},
 	extraReducers: ( builder ) => {
-		builder.addCase( fetchSeoResults.pending, ( state ) => {
+		builder.addCase( analyze.pending, ( state ) => {
 			state.seo.status = ASYNC_STATUS.PENDING;
 		} );
-		builder.addCase( fetchSeoResults.fulfilled, ( state, action ) => {
+		builder.addCase( analyze.fulfilled, ( state, action ) => {
 			state.seo.status = ASYNC_STATUS.FULFILLED;
 			state.seo.results[ action.payload.key ] = action.payload.results;
 		} );
-		builder.addCase( fetchSeoResults.rejected, ( state, action ) => {
+		builder.addCase( analyze.rejected, ( state, action ) => {
 			state.seo.status = ASYNC_STATUS.REJECTED;
 			state.seo.error = action.payload;
 		} );
@@ -63,7 +63,7 @@ export const analysisResultsSelectors = {
 
 export const analysisResultsActions = {
 	...analysisResultsSlice.actions,
-	fetchSeoResults,
+	analyze,
 };
 
 export default analysisResultsSlice.reducer;

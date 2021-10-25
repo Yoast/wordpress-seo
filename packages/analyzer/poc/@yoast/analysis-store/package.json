@@ -7,7 +7,6 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",
     "lodash": "^4.17.21",
-    "react": "^17.0.2",
     "react-redux": "^7.2.5"
   },
   "devDependencies": {
@@ -16,8 +15,11 @@
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5"
   },
+  "peerDependencies": {
+    "react": "^17.0.2"
+  },
   "scripts": {
     "build": "babel src -d build",
-    "watch": "babel src -w -d build"
+    "watch": "babel src -w -d build --source-maps"
   }
 }

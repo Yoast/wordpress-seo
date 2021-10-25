@@ -16,17 +16,17 @@ const analysisDataSlice = createSlice( {
 		synonyms: [ "", "a synonym", "b synonym" ],
 	},
 	reducers: {
-		updatedContent: ( state, action ) => {
+		updateContent: ( state, action ) => {
 			state.content = action.payload;
 		},
 	},
 } );
 
-const selectTitle = state => state.analysisData.title;
+const selectSeoTitle = state => state.analysisData.seoTitle;
 const selectContent = state => state.analysisData.content;
 
 export const analysisDataSelectors = {
-	selectTitle,
+	selectSeoTitle,
 	selectContent,
 };
 
