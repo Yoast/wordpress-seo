@@ -37,10 +37,6 @@ export default function OrphanedWorkoutCard( {
 	workout,
 	badges,
 } ) {
-	if ( ! workout ) {
-		badges.push( <PremiumBadge key={ "premium-badge-orphaned-workout" } /> );
-	}
-
 	return <WorkoutCard
 		title={ __( "Orphaned content", "wordpress-seo" ) }
 		subtitle={ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo" ) }

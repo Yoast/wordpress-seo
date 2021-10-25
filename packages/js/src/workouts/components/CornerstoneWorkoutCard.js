@@ -2,7 +2,6 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 // Internal dependencies.
-import { PremiumBadge } from "@yoast/components";
 import WorkoutCard from "./WorkoutCard";
 import WorkoutUpsell from "./WorkoutUpsell";
 import { FINISHABLE_STEPS } from "../config";
@@ -37,10 +36,6 @@ export default function CornerstoneWorkoutCard( {
 	workout,
 	badges,
 } ) {
-	if ( ! workout ) {
-		badges.push( <PremiumBadge key={ "premium-badge-cornerstone-workout" } /> );
-	}
-
 	return <WorkoutCard
 		title={ __( "The cornerstone approach", "wordpress-seo" ) }
 		subtitle={ __( "Rank with articles you want to rank with", "wordpress-seo" ) }
