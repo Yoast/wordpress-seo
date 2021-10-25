@@ -2,18 +2,17 @@
  * WordPress e2e utilities
  */
 import {
-	trashAllPosts,
 	createNewPost,
 	visitAdminPage,
 } from "@wordpress/e2e-test-utils";
 
-import { deleteExistingTaxonomies, createNewTaxonomy } from "../src/helpers/utils";
+import { deleteAllPostsWithApi, createNewTaxonomyTerm, deleteAllTaxonomyTerms } from "../src/helpers/utils";
 import { addQueryArgs } from '@wordpress/url';
 
 describe("Yoast SEO plugin metabox", () => {
 
 	it("shows correctly the Yoast SEO metabox should be present when editing a post", async () => {
-		await trashAllPosts();
+		await deleteAllPostsWithApi('posts');
 		await createNewPost();
 
 		await page.waitForSelector(".postbox.yoast.wpseo-metabox");
@@ -24,7 +23,7 @@ describe("Yoast SEO plugin metabox", () => {
 	});
 
 	it("shows correctly the Yoast SEO metabox should be present when editing a page", async () => {
-		await trashAllPosts("page");
+		await deleteAllPostsWithApi('pages');
 		await createNewPost({ postType: "page" });
 
 		await page.waitForSelector(".postbox.yoast.wpseo-metabox");
@@ -35,7 +34,7 @@ describe("Yoast SEO plugin metabox", () => {
 	});
 
 	it("shows correctly the Yoast SEO metabox should be present when editing a custom post", async () => {
-		await trashAllPosts("yoast_post_type");
+		await deleteAllPostsWithApi('yoast_post_type');
 		await createNewPost({ postType: "yoast_post_type" });
 
 		await page.waitForSelector(".postbox.yoast.wpseo-metabox");
@@ -66,8 +65,12 @@ describe("Yoast SEO plugin metabox", () => {
 	});
 
 	it("shows correctly the Yoast SEO metabox should be present when editing a post tag page", async () => {
-		await deleteExistingTaxonomies('post_tag');
-		await createNewTaxonomy('post_tag', 'New Tag');
+		await deleteAllTaxonomyTerms('tags');
+		await createNewTaxonomyTerm('tags', 'test-tag', 'New Tag');
+
+		await visitAdminPage('edit-tags.php', addQueryArgs('', {
+			taxonomy: 'post_tag'
+		}));
 
 		// Go to the new created post tag page
 		const [newCreatedTag] = await page.$x(
@@ -83,8 +86,12 @@ describe("Yoast SEO plugin metabox", () => {
 	});
 
 	it("shows correctly the Yoast SEO metabox should be present when editing a custom post taxonomy page", async () => {
-		await deleteExistingTaxonomies('yoast_simple_posts_taxonomy');
-		await createNewTaxonomy('yoast_simple_posts_taxonomy', 'New Taxonomy');
+		await deleteAllTaxonomyTerms('yoast_simple_posts_taxonomy');
+		await createNewTaxonomyTerm('yoast_simple_posts_taxonomy', 'new-taxonomy', 'New Taxonomy');
+
+		await visitAdminPage('edit-tags.php', addQueryArgs('', {
+			taxonomy: 'yoast_simple_posts_taxonomy'
+		}));
 
 		// Go to the new created post taxonomy page
 		const [newCreatedTaxonomy] = await page.$x(
