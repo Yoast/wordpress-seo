@@ -111,7 +111,7 @@ describe( "test for paragraph too long assessment when is used in product page a
 			},
 		};
 		const result = new ParagraphTooLongAssessment( config ).getResult( paper, factory.buildMockResearcher( [ { wordCount: 60, text: "" }, { wordCount: 11, text: "" },
-			{ wordCount: 13, text: "" } ] ), i18n );
+			{ wordCount: 13, text: "" } ] ) );
 		expect( result.getScore() ).toEqual( 9 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!" );
 	} );
@@ -124,7 +124,7 @@ describe( "test for paragraph too long assessment when is used in product page a
 			},
 		};
 		const result = new ParagraphTooLongAssessment( config ).getResult( paper, factory.buildMockResearcher( [ { wordCount: 110, text: "" }, { wordCount: 150, text: "" },
-			{ wordCount: 150, text: "" } ] ), i18n );
+			{ wordCount: 150, text: "" } ] ) );
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain more than the recommended maximum of 70 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 	} );
@@ -137,7 +137,7 @@ describe( "test for paragraph too long assessment when is used in product page a
 			},
 		};
 		const result = new ParagraphTooLongAssessment( config ).getResult( paper, factory.buildMockResearcher( [ { wordCount: 90, text: "" }, { wordCount: 75, text: "" },
-			{ wordCount: 80, text: "" } ] ), i18n );
+			{ wordCount: 80, text: "" } ] ) );
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain more than the recommended maximum of 70 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 	} );

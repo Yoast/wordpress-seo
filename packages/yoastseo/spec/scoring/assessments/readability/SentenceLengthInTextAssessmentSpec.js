@@ -632,7 +632,7 @@ describe( "An assessment for sentence length for product pages", function() {
 			farTooMany: 25,
 		}, false, true ).getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 19 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -647,7 +647,7 @@ describe( "An assessment for sentence length for product pages", function() {
 			farTooMany: 25,
 		}, false, true ).getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 21 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -667,7 +667,7 @@ describe( "An assessment for sentence length for product pages", function() {
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -684,7 +684,7 @@ describe( "An assessment for sentence length for product pages", function() {
 			farTooMany: 20,
 		}, true, true ).getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 19 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -699,7 +699,7 @@ describe( "An assessment for sentence length for product pages", function() {
 			farTooMany: 20,
 		}, true, true ).getResult( mockPaper, Factory.buildMockResearcher( [
 			{ sentence: "", sentenceLength: 21 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -720,7 +720,7 @@ describe( "An assessment for sentence length for product pages", function() {
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -740,7 +740,7 @@ describe( "An assessment for sentence length for product pages", function() {
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
 			{ sentence: "", sentenceLength: 1 },
-		] ), i18n );
+		] ) );
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );

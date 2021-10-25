@@ -209,7 +209,7 @@ describe( "A content assessor", function() {
 		const paper = new Paper( "", { locale: "jv_ID" } );
 
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
+			contentAssessor = new ContentAssessor( new DefaultResearcher( paper ) );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};

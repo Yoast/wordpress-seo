@@ -277,7 +277,7 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +

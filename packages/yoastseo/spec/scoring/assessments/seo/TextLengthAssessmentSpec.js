@@ -147,7 +147,7 @@ describe( "A word count assessment", function() {
 		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 25 ) );
 		const productAssessment = new TextLengthAssessment( productPageConfig );
 
-		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 25 ), i18n );
+		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 25 ) );
 
 		expect( result.getScore() ).toEqual( -20 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
@@ -159,7 +159,7 @@ describe( "A word count assessment", function() {
 		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 55 ) );
 		const productAssessment = new TextLengthAssessment( productPageConfig );
 
-		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 55 ), i18n );
+		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 55 ) );
 
 		expect( result.getScore() ).toEqual( -10 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
@@ -171,7 +171,7 @@ describe( "A word count assessment", function() {
 		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 101 ) );
 		const productAssessment = new TextLengthAssessment( productPageConfig );
 
-		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 101 ), i18n );
+		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 101 ) );
 
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
@@ -183,7 +183,7 @@ describe( "A word count assessment", function() {
 		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 155 ) );
 		const productAssessment = new TextLengthAssessment( productPageConfig );
 
-		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 155 ), i18n );
+		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 155 ) );
 
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
@@ -196,7 +196,7 @@ describe( "A word count assessment", function() {
 		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 201 ) );
 		const productAssessment = new TextLengthAssessment( productPageConfig );
 
-		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 201 ), i18n );
+		const result = productAssessment.getResult( mockPaper, Factory.buildMockResearcher( 201 ) );
 
 		expect( result.getScore() ).toEqual( 9 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
@@ -220,7 +220,7 @@ describe( "A word count assessment", function() {
 		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 25 ) );
 		const productAssessmentCornerstone = new TextLengthAssessment( cornerstoneProductPageConfig );
 
-		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 25 ), i18n );
+		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 25 ) );
 
 		expect( results.getScore() ).toEqual( -20 );
 		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
@@ -232,7 +232,7 @@ describe( "A word count assessment", function() {
 		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 190 ) );
 		const productAssessmentCornerstone = new TextLengthAssessment( cornerstoneProductPageConfig );
 
-		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 75 ), i18n );
+		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 75 ) );
 
 		expect( results.getScore() ).toEqual( -20 );
 		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
@@ -244,7 +244,7 @@ describe( "A word count assessment", function() {
 		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 225 ) );
 		const productAssessmentCornerstone = new TextLengthAssessment( cornerstoneProductPageConfig );
 
-		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 225 ), i18n );
+		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 225 ) );
 
 		expect( results.getScore() ).toEqual( -20 );
 		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
@@ -256,7 +256,7 @@ describe( "A word count assessment", function() {
 		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 380 ) );
 		const productAssessmentCornerstone = new TextLengthAssessment( cornerstoneProductPageConfig );
 
-		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 380 ), i18n );
+		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 380 ) );
 
 		expect( results.getScore() ).toEqual( 6 );
 		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
@@ -268,7 +268,7 @@ describe( "A word count assessment", function() {
 		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 425 ) );
 		const productAssessmentCornerstone = new TextLengthAssessment( cornerstoneProductPageConfig );
 
-		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 425 ), i18n );
+		const results = productAssessmentCornerstone.getResult( mockPaper, Factory.buildMockResearcher( 425 ) );
 
 		expect( results.getScore() ).toEqual( 9 );
 		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 425 words. Good job!" );
