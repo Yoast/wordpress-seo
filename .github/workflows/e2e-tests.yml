@@ -47,8 +47,7 @@ jobs:
 
       - name: Install Node dependencies
         run: |
-          npm -g i @wordpress/env
-          yarn
+          yarn  --prefer-offline
 
       - name: Build the plugin
         run: |
@@ -56,4 +55,5 @@ jobs:
 
       - name: Install WordPress
         run: |
-          npm run wp-env start
+          npm -g i @wordpress/env
+          wp-env start
