@@ -8,6 +8,24 @@ import WorkoutUpsell from "./WorkoutUpsell";
 import { FINISHABLE_STEPS } from "../config";
 
 /**
+ * Creates a WorkoutUpsell component.
+ *
+ * @param {Object} props The props object.
+ *
+ * @returns {wp.Element} The WorkoutUpsell component.
+ */
+const upsell = ( props ) => {
+	return <WorkoutUpsell
+		title={ "Get Yoast SEO Premium!" }
+		addOn={ "Premium" }
+		upsellLink={ "https://www.yoast.com" }
+		onRequestClose={ props.onRequestClose }
+	>
+		<p>You should definitely buy Premium</p>
+	</WorkoutUpsell>;
+};
+
+/**
  * The CornerstoneWorkoutCard component.
  *
  * @param {Object} props The props object.
@@ -20,44 +38,21 @@ export default function OrphanedWorkoutCard( {
 	workout,
 	badges,
 } ) {
-	const title = __( "Orphaned content", "wordpress-seo" );
-	const subtitle = __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo" );
-	const usps = [
-		__(
-			// eslint-disable-next-line max-len
-			"Orphaned content is content that doesn’t get any links from other posts or pages on your site. As a result of that, this content is hard to find, for both Google and visitors. Posts and pages need internal links to them, to fit into a site’s structure and to be findable. With this workout we'll help you update your orphaned content and make sure you have links pointing towards them!",
-			"wordpress-seo"
-		),
-	];
-	const image = "";
-
-	/**
-	 * Creates a WorkoutUpsell component.
-	 *
-	 * @param {Object} onRequestClose The onRequestClose for the upsell component.
-	 *
-	 * @returns {Object} The WorkoutUpsell component.
-	 */
-	const upsell = function( onRequestClose ) {
-		return <WorkoutUpsell
-			title={ "Get Yoast SEO Premium!" }
-			addOn={ "Premium" }
-			upsellLink={ "https://www.yoast.com" }
-			onRequestClose={ onRequestClose }
-		>
-			<p>Are you convinced?!</p>
-		</WorkoutUpsell>;
-	};
-
 	if ( ! workout ) {
 		badges.push( <PremiumBadge key={ "premium-badge" } /> );
 	}
 
 	return <WorkoutCard
-		title={ title }
-		subtitle={ subtitle }
-		usps={ usps }
-		image={ image }
+		title={ __( "Orphaned content", "wordpress-seo" ) }
+		subtitle={ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo" ) }
+		usps={ [
+			__(
+				// eslint-disable-next-line max-len
+				"Orphaned content is content that doesn’t get any links from other posts or pages on your site. As a result of that, this content is hard to find, for both Google and visitors. Posts and pages need internal links to them, to fit into a site’s structure and to be findable. With this workout we'll help you update your orphaned content and make sure you have links pointing towards them!",
+				"wordpress-seo"
+			),
+		] }
+		image={ "" }
 		steps={ steps }
 		finishableSteps={ FINISHABLE_STEPS.orphaned }
 		finishedSteps={ finishedSteps }
@@ -68,7 +63,7 @@ export default function OrphanedWorkoutCard( {
 }
 
 OrphanedWorkoutCard.propTypes = {
-	finishedSteps: PropTypes.arrayOf( PropTypes.string ).isRequired,
+	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
 	steps: PropTypes.arrayOf( PropTypes.string ),
 	workout: PropTypes.element,
 	badges: PropTypes.arrayOf( PropTypes.element ),
@@ -76,6 +71,7 @@ OrphanedWorkoutCard.propTypes = {
 
 OrphanedWorkoutCard.defaultProps = {
 	steps: [],
+	finishedSteps: null,
 	workout: null,
 	badges: [],
 };

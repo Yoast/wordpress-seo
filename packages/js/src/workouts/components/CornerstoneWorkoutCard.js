@@ -8,6 +8,24 @@ import WorkoutUpsell from "./WorkoutUpsell";
 import { FINISHABLE_STEPS } from "../config";
 
 /**
+ * Creates a WorkoutUpsell component.
+ *
+ * @param {Object} props The props object.
+ *
+ * @returns {wp.Element} The WorkoutUpsell component.
+ */
+const upsell = ( props ) => {
+	return <WorkoutUpsell
+		title={ "Get Yoast SEO Premium!" }
+		addOn={ "Premium" }
+		upsellLink={ "https://www.yoast.com" }
+		onRequestClose={ props.onRequestClose }
+	>
+		<p>You should definitely buy Premium</p>
+	</WorkoutUpsell>;
+};
+
+/**
  * The CornerstoneWorkoutCard component.
  *
  * @param {Object} props The props object.
@@ -20,44 +38,19 @@ export default function CornerstoneWorkoutCard( {
 	workout,
 	badges,
 } ) {
-	const title = __( "The cornerstone approach", "wordpress-seo" );
-	const subtitle = __( "Rank with articles you want to rank with", "wordpress-seo" );
-	const usps = [
-		__(
-			// eslint-disable-next-line max-len
-			"On your site you have a few articles that are the most important. You want to rank highest in Google with these articles. At Yoast, we call these articles cornerstone articles. Take the following 4 steps in order to start ranking with your cornerstone articles!",
-			"wordpress-seo"
-		),
-	];
-	const image = "";
-
-	/**
-	 * Creates a WorkoutUpsell component.
-	 *
-	 * @param {Object} onRequestClose The onRequestClose for the upsell component.
-	 *
-	 * @returns {Object} The WorkoutUpsell component.
-	 */
-	const upsell = function( onRequestClose ) {
-		return <WorkoutUpsell
-			title={ "Get Yoast SEO Premium!" }
-			addOn={ "Premium" }
-			upsellLink={ "https://www.yoast.com" }
-			onRequestClose={ onRequestClose }
-		>
-			<p>Are you convinced?!</p>
-		</WorkoutUpsell>;
-	};
-
 	if ( ! workout ) {
 		badges.push( <PremiumBadge key={ "premium-badge" } /> );
 	}
 
 	return <WorkoutCard
-		title={ title }
-		subtitle={ subtitle }
-		usps={ usps }
-		image={ image }
+		title={ __( "The cornerstone approach", "wordpress-seo" ) }
+		subtitle={ __( "Rank with articles you want to rank with", "wordpress-seo" ) }
+		usps={ [ __(
+			// eslint-disable-next-line max-len
+			"On your site you have a few articles that are the most important. You want to rank highest in Google with these articles. At Yoast, we call these articles cornerstone articles. Take the following 4 steps in order to start ranking with your cornerstone articles!",
+			"wordpress-seo"
+		) ] }
+		image={ "image" }
 		steps={ steps }
 		finishableSteps={ FINISHABLE_STEPS.cornerstone }
 		finishedSteps={ finishedSteps }
@@ -68,7 +61,7 @@ export default function CornerstoneWorkoutCard( {
 }
 
 CornerstoneWorkoutCard.propTypes = {
-	finishedSteps: PropTypes.arrayOf( PropTypes.string ).isRequired,
+	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
 	steps: PropTypes.arrayOf( PropTypes.string ),
 	workout: PropTypes.element,
 	badges: PropTypes.arrayOf( PropTypes.element ),
@@ -76,6 +69,7 @@ CornerstoneWorkoutCard.propTypes = {
 
 CornerstoneWorkoutCard.defaultProps = {
 	steps: [],
+	finishedSteps: null,
 	workout: null,
 	badges: [],
 };

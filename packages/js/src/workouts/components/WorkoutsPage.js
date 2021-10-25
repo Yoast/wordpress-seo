@@ -1,17 +1,31 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { NewBadge, PremiumBadge } from "@yoast/components";
-import { useEffect } from "@wordpress/element";
-import { Button } from "@yoast/components";
+import { Slot } from "@wordpress/components";
+import { useEffect, useMemo } from "@wordpress/element";
+import { Button, NewBadge } from "@yoast/components";
+import { sortBy } from "lodash";
 import SlotWithDefault from "../../components/slots/SlotWithDefault";
-import WorkoutCard from "./WorkoutCard";
-import { FINISHABLE_STEPS } from "../config";
 import CornerstoneWorkoutCard from "./CornerstoneWorkoutCard";
 import OrphanedWorkoutCard from "./OphanedWorkoutCard";
+import { WORKOUTS } from "../config";
 
 const {
 	workouts: workoutsSetting,
 } = window.wpseoWorkoutsData;
+
+const CornerstoneCard = () => {
+	return <CornerstoneWorkoutCard />;
+};
+const OrphanedContentCard = () => {
+	return <OrphanedWorkoutCard
+		badges={ [ <NewBadge key={ "new-badge" } /> ] }
+	/>;
+};
+
+const upsellWorkouts = {
+	[ WORKOUTS.cornerstone ]: CornerstoneCard,
+	[ WORKOUTS.orphaned ]: OrphanedContentCard,
+};
 
 /**
  * Renders the workouts page.
@@ -45,6 +59,26 @@ export default function WorkoutsPage( props ) {
 		saveWorkouts( workouts );
 	}, [ workouts, loading ] );
 
+	/**
+	 * Generate slots based on the workout key, and sort by priority.
+	 */
+	 const slots = useMemo( () => {
+		const slotIds = Object.keys( workouts );
+		const sortedWorkouts = sortBy( slotIds.map( id => {
+			return { ...workouts[ id ], id };
+		} ), "priority" );
+
+		return sortedWorkouts.map( workout => {
+			if ( upsellWorkouts[ workout.id ] ) {
+				const DefaultCard = upsellWorkouts[ workout.id ];
+				return <SlotWithDefault key={ workout.id } name={ `${ workout.id }` }>
+					<DefaultCard />
+				</SlotWithDefault>;
+			}
+			return <Slot key={ workout.id } name={ `${ workout.id }` } />;
+		} );
+	}, [ workouts ] );
+
 	return (
 		<div>
 			<h1>
@@ -58,14 +92,9 @@ export default function WorkoutsPage( props ) {
 				) }
 			</p>
 			{ activeWorkout && <Button onClick={ clearActiveWorkout }>{ __( "← Back to all workouts", "worpdress-seo" ) }</Button> }
-			{ ! activeWorkout && <div className="workflows__index__grid">
-				<SlotWithDefault name="cornerstone-workout">
-					<CornerstoneWorkoutCard finishedSteps={ [] } />
-				</SlotWithDefault>
-				<SlotWithDefault name="orphaned-workout">
-					<OrphanedWorkoutCard finishedSteps={ [] } badges={ [ <NewBadge key={ "new-badge" } /> ] } />
-				</SlotWithDefault>
-			</div> }
+			 <div className="workflows__index__grid">
+				{ slots }
+			</div>
 		</div>
 	);
 }

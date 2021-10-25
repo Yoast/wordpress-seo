@@ -7,7 +7,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { makeOutboundLink } from "@yoast/helpers";
 
 /**
- * The WorkoutUpsell component
+ * The WorkoutUpsell component.
  *
  * @param {object} props The props object.
  *

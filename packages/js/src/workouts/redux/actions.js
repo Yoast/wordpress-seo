@@ -9,6 +9,14 @@ export const MOVE_INDEXABLES = "MOVE_INDEXABLES";
 export const CLEAR_INDEXABLES = "CLEAR_INDEXABLES";
 export const CLEAR_INDEXABLES_IN_STEPS = "CLEAR_INDEXABLES_IN_STEPS";
 
+/**
+ * An action creator for registering a workout.
+ *
+ * @param {string} key      The identifier key for this workout.
+ * @param {number} priority The priority for the card belonging to this workout.
+ *
+ * @returns {Object} The REGISTER_WORKOUT action.
+ */
 export const registerWorkout = ( key, priority ) => {
 	return { type: REGISTER_WORKOUT, payload: { key, priority } };
 };
