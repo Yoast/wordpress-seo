@@ -38,13 +38,13 @@ export default function WorkoutCard( {
 	const WorkoutComponent = workout;
 
 	useEffect( () => {
-		if ( finishableSteps && finishedSteps.length === finishableSteps.length ) {
+		if ( finishableSteps && finishedSteps && finishedSteps.length === finishableSteps.length ) {
 			setToggle( true );
 		}
 	}, [ finishedSteps, finishableSteps ] );
 
 	const buttonText = useMemo( () => {
-		if ( ! finishableSteps || finishedSteps.length === 0 ) {
+		if ( ! finishedSteps || finishedSteps.length === 0 ) {
 			return __( "Start workout!", "wordpress-seo" );
 		} else if ( finishedSteps.length < finishableSteps.length ) {
 			return __( "Continue workout!", "wordpress-seo" );
@@ -81,7 +81,7 @@ export default function WorkoutCard( {
 
 			<span>
 				<Button onClick={ onClick }>{ buttonText }</Button>
-				{ finishableSteps &&
+				{ finishableSteps && finishedSteps &&
 				<>
 					<ProgressBar
 						id={ `${title}-workout-progress` }
