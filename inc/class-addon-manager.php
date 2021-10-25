@@ -216,7 +216,7 @@ class WPSEO_Addon_Manager {
 			return $data;
 		}
 
-		$data = $this->convert_subscription_to_plugin( $subscription );
+		$data = $this->convert_subscription_to_plugin( $subscription, false, true );
 
 		if ( $this->has_subscription_expired( $subscription ) ) {
 			unset( $data->package, $data->download_link );
@@ -460,7 +460,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @return stdClass The converted subscription.
 	 */
-	protected function convert_subscription_to_plugin( $subscription, $data = false ) {
+	protected function convert_subscription_to_plugin( $subscription, $data = false, $plugin_info = false ) {
 		// We need to replace h2's and h3's with h4's because the styling expects that.
 		$changelog = str_replace( '</h2', '</h4', str_replace( '<h2', '<h4', $subscription->product->changelog ) );
 		$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
@@ -482,6 +482,20 @@ class WPSEO_Addon_Manager {
 					break;
 				}
 			}
+		}
+
+		// If we're running this because we want to just show the plugin info in the version details modal, we can fallback to the Yoast Free constants, since that modal will not be accessible anyway in the event that the new Free version increases those constants.
+		$defaults = [
+			'tested'       => YOAST_SEO_WP_TESTED,
+			'requires'     => YOAST_SEO_WP_REQUIRED,
+			'requires_php' => YOAST_SEO_PHP_REQUIRED,
+		];
+		if ( ! $plugin_info ) {
+			$defaults = [
+				'tested'       => null,
+				'requires'     => null,
+				'requires_php' => null,
+			];			
 		}
 		
 		return (object) [
@@ -505,9 +519,9 @@ class WPSEO_Addon_Manager {
 			// For the next 3, check if the Yoast free plugin object exists,
 			// if so, if it contains the needed data.
 			// Set that data, and set the current as a failover if the update data does not exist.
-			'tested'           => ($latest_yoast_free && isset( $latest_yoast_free->tested ) ) ? $latest_yoast_free->tested : null,
-			'requires'         => ($latest_yoast_free && isset( $latest_yoast_free->requires ) ) ? $latest_yoast_free->requires : null,
-			'requires_php'     => ($latest_yoast_free && isset( $latest_yoast_free->requires_php ) ) ? $latest_yoast_free->requires_php : null,
+			'tested'           => ($latest_yoast_free && isset( $latest_yoast_free->tested ) ) ? $latest_yoast_free->tested : $defaults[ 'tested' ],
+			'requires'         => ($latest_yoast_free && isset( $latest_yoast_free->requires ) ) ? $latest_yoast_free->requires : $defaults[ 'requires' ],
+			'requires_php'     => ($latest_yoast_free && isset( $latest_yoast_free->requires_php ) ) ? $latest_yoast_free->requires_php : $defaults[ 'requires_php' ],
 		];
 	}
 
