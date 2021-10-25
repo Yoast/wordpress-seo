@@ -20,6 +20,7 @@ jobs:
 
       - name: Install composer dependencies
         run: |
+          composer update
           composer install
 
       - name: Install Node dependencies
