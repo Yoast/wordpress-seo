@@ -8,11 +8,12 @@ import getWords from "../word/getWords";
 /**
  * Gets all words found in the text, title, slug and meta description of a given paper.
  *
- * @param {Paper} paper     The paper for which to get the words.
+ * @param {Paper} paper                     The paper for which to get the words.
+ * @param {function} getContentWordsHelper  The helper function to get words from a text.
  *
  * @returns {string[]} All words found.
  */
-export default function( paper ) {
+export default function( paper, getContentWordsHelper = getWords ) {
 	const paperText = paper.getText();
 	const altTagsInText = imageInText( paperText ).map( image => getAlttagContent( image ) );
 
@@ -24,6 +25,6 @@ export default function( paper ) {
 		altTagsInText.join( " " ),
 	].join( " " );
 
-	return getWords( paperContent ).map(
+	return getContentWordsHelper( paperContent ).map(
 		word => normalizeSingle( escapeRegExp( word ) ) );
 }
