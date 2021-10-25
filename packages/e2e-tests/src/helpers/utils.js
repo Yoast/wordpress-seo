@@ -2,42 +2,52 @@
  * WordPress e2e utilities
  */
 import {
-	visitAdminPage,
-	pressKeyWithModifier,
+	__experimentalRest as rest,
 } from "@wordpress/e2e-test-utils";
 
-import { addQueryArgs } from '@wordpress/url';
+export const deleteAllPostsWithApi = async (post_type) => {
+	const response = await rest({
+		method: 'GET',
+		path: `/wp/v2/${post_type}`,
+	});
 
-export const deleteExistingTaxonomies = async ( taxonomySlug ) => {
-	const taxonomyPageQuery = addQueryArgs( '', {
-		taxonomy: taxonomySlug,
-	} );
-	
-	await visitAdminPage( 'edit-tags.php', taxonomyPageQuery );
-	
-	const noTaxonomyFoundRow = await page.$( 'tr.no-items' );
-	if( noTaxonomyFoundRow == null ) {
-		await page.click( '[id^=cb-select-all-]' );
-		await page.select( '#bulk-action-selector-top', 'delete' );
-		await page.focus( '#doaction' );
-		await page.keyboard.press( 'Enter' );
+	const ids = response.map((post) => post.id);
 
-		await page.waitForNavigation();
+	if (ids.length > 0) {
+		for (const id of ids) {
+			await rest({
+				method: 'DELETE',
+				path: `/wp/v2/${post_type}/${id}`,
+			});
+		}
 	}
 }
 
-export const createNewTaxonomy = async ( taxonomySlug, taxonomyTitle ) => {
-	const taxonomyPageQuery = addQueryArgs( '', {
-		taxonomy: taxonomySlug,
-	} );
-	
-	await visitAdminPage( 'edit-tags.php', taxonomyPageQuery );
+export const createNewTaxonomyTerm = async (taxonomySlug, taxonomyTermSlug, taxonomyTermTitle) => {
+	await rest({
+		method: 'POST',
+		path: `/wp/v2/${taxonomySlug}`,
+		data: {
+			slug: taxonomyTermSlug,
+			name: taxonomyTermTitle,
+		}
+	});
+}
 
-	await page.waitForSelector( '#tag-name' );
-	await page.focus( '#tag-name' );
-	await pressKeyWithModifier( 'primary', 'a' );
-	await page.type( '#tag-name', taxonomyTitle );
-	await page.click( '#submit' );
+export const deleteAllTaxonomyTerms = async (taxonomySlug) => {
+	const response = await rest({
+		method: 'GET',
+		path: `/wp/v2/${taxonomySlug}`,
+	});
 
-	await page.waitForSelector( '#the-list tr.level-0' );
+	const ids = response.map((term) => term.id);
+
+	if (ids.length > 0) {
+		for (const id of ids) {
+			await rest({
+				method: 'DELETE',
+				path: `/wp/v2/${taxonomySlug}/${id}/?force=true`,
+			});
+		}
+	}
 }
