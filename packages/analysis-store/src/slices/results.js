@@ -21,7 +21,7 @@ const fetchSeoResults = createAsyncThunk(
 	}
 );
 
-const analysisResultsSlice = createSlice( {
+const results = createSlice( {
 	name: SLICE_NAME,
 	initialState: {
 		seo: {
@@ -62,8 +62,8 @@ export const analysisResultsSelectors = {
 };
 
 export const analysisResultsActions = {
-	...analysisResultsSlice.actions,
+	...results.actions,
 	fetchSeoResults,
 };
 
-export default analysisResultsSlice.reducer;
+export default results.reducer;

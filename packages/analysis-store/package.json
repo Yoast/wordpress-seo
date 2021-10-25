@@ -25,6 +25,7 @@
     "@babel/eslint-parser": "^7.15.8",
     "@babel/eslint-plugin": "^7.14.5",
     "@wordpress/babel-preset-default": "^6.3.3",
+    "eslint": "^8.1.0",
     "eslint-config-yoast": "^5.0.17"
   }
 }

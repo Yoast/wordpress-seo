@@ -1,21 +1,17 @@
-import { identity } from "lodash";
 import { createReduxStore, register } from "@wordpress/data";
+import { identity } from "lodash";
+import { resultsActions, resultsSelectors } from "./slices/results";
+import dataReducer, { DATA_SLICE_NAME, dataActions, dataSelectors } from "./slices/data";
 
-// Import {createActions, createSelectors} from "./helpers";
-// Import createProvider from "./provider";
-//
-// Import analysisDataReducer, {analysisDataActions, analysisDataSelectors} from "./analysis-data-slice";
-// Import analysisResultsReducer, {analysisResultsActions, analysisResultsSelectors} from "./analysis-results-slice";
+export const actions = {
+	...dataActions,
+	...resultsActions,
+};
 
-// Export const actions = {
-// 	...analysisDataActions,
-// 	...analysisResultsActions,
-// };
-//
-// Export const selectors = {
-// 	...analysisDataSelectors,
-// 	...analysisResultsSelectors,
-// };
+export const selectors = {
+	...dataSelectors,
+	...resultsSelectors,
+};
 
 const createAnalysisStore = ( {
 	analyze,
@@ -24,8 +20,8 @@ const createAnalysisStore = ( {
 } ) => {
 	const store = createReduxStore( {
 		reducer: {
-			// analysisData: analysisDataReducer,
-		// analysisResults: analysisResultsReducer,
+			[ DATA_SLICE_NAME ]: dataReducer,
+			// analysisResults: analysisResultsReducer,
 		},
 	} );
 	register( store );
