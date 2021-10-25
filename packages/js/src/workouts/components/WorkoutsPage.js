@@ -16,15 +16,15 @@ const {
 const CornerstoneCard = () => {
 	return <CornerstoneWorkoutCard />;
 };
-const OrphanedContentCard = () => {
+const OrphanedCard = () => {
 	return <OrphanedWorkoutCard
-		badges={ [ <NewBadge key={ "new-badge" } /> ] }
+		badges={ [ <NewBadge key={ "new-badge-orphaned-workout" } /> ] }
 	/>;
 };
 
 const upsellWorkouts = {
 	[ WORKOUTS.cornerstone ]: CornerstoneCard,
-	[ WORKOUTS.orphaned ]: OrphanedContentCard,
+	[ WORKOUTS.orphaned ]: OrphanedCard,
 };
 
 /**

@@ -38,7 +38,7 @@ export default function OrphanedWorkoutCard( {
 	badges,
 } ) {
 	if ( ! workout ) {
-		badges.push( <PremiumBadge key={ "premium-badge" } /> );
+		badges.push( <PremiumBadge key={ "premium-badge-orphaned-workout" } /> );
 	}
 
 	return <WorkoutCard
@@ -62,7 +62,7 @@ export default function OrphanedWorkoutCard( {
 
 OrphanedWorkoutCard.propTypes = {
 	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
-	workout: PropTypes.element,
+	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
 };
 

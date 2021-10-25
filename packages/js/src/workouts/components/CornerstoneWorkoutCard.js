@@ -38,7 +38,7 @@ export default function CornerstoneWorkoutCard( {
 	badges,
 } ) {
 	if ( ! workout ) {
-		badges.push( <PremiumBadge key={ "premium-badge" } /> );
+		badges.push( <PremiumBadge key={ "premium-badge-cornerstone-workout" } /> );
 	}
 
 	return <WorkoutCard
@@ -60,7 +60,7 @@ export default function CornerstoneWorkoutCard( {
 
 CornerstoneWorkoutCard.propTypes = {
 	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
-	workout: PropTypes.element,
+	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
 };
 
