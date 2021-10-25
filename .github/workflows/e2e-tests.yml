@@ -33,10 +33,6 @@ jobs:
           composer update
           composer install
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
       - uses: actions/cache@v2
         with:
           path: '**/node_modules'
@@ -54,3 +50,11 @@ jobs:
         run: |
           chmod -R 767 ./
           yarn wp-env start
+
+      - name: Install and activate the yoast-simple-custom-post-type plugin
+        run: |
+          wp-env run tests-cli wp plugin install "https://github.com/Yoast/wordpress-seo/blob/try/e2e-tests-package/packages/e2e-tests/data/yoast-simple-custom-post-type.zip?raw=true" --activate
+
+      - name: Run the e2e tests
+        run: |
+          yarn test:e2e          
