@@ -20,6 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Importer_Action_Filter_Trait
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Importer_Action_Filter_Trait_Test extends TestCase {
 
@@ -110,7 +111,7 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 			Aioseo_Posts_Importing_Action::class,
 			$filtered_importers_no_filters[0]
 		);
-		
+
 		// Test filter_actions() with a plugin filter.
 		$filtered_importers_plugin_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], 'aioseo' );
 
@@ -120,7 +121,7 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 			Aioseo_Posts_Importing_Action::class,
 			$filtered_importers_plugin_filters[0]
 		);
-		
+
 		// Test filter_actions() with a type filter.
 		$filtered_importers_type_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], false, 'posts' );
 
@@ -130,7 +131,7 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 			Aioseo_Posts_Importing_Action::class,
 			$filtered_importers_type_filters[0]
 		);
-		
+
 		// Test filter_actions() with both a plugin and a type filter.
 		$filtered_importers_plugin_type_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], 'aioseo', 'posts' );
 
@@ -140,19 +141,19 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 			Aioseo_Posts_Importing_Action::class,
 			$filtered_importers_plugin_type_filters[0]
 		);
-		
+
 		// Test filter_actions() with a plugin filter that doesn't exist.
 		$no_filtered_importers_plugin_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], 'aioseo1' );
 
 		$this->assertTrue( \is_array( $no_filtered_importers_plugin_filters ) );
 		$this->assertTrue( \count( $no_filtered_importers_plugin_filters ) === 0 );
-		
+
 		// Test filter_actions() with a type filter that doesn't exist.
 		$no_filtered_importers_type_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], false, 'posts1' );
 
 		$this->assertTrue( \is_array( $no_filtered_importers_type_filters ) );
 		$this->assertTrue( \count( $no_filtered_importers_type_filters ) === 0 );
-		
+
 		// Test filter_actions() with both a plugin and a type filter that don't exist.
 		$no_filtered_importers_plugin_type_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], 'aioseo1', 'posts1' );
 
