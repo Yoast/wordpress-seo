@@ -24,9 +24,9 @@ jobs:
           php-version: '7.2'
           tools: composer:v2
 
-      - name: Install msgcat
+      - name: Install gettext (includes msgcat)
         run: |
-          sudo apt-get -y install msgcat
+          sudo apt-get -y install gettext
 
       - name: Install composer dependencies
         run: |
