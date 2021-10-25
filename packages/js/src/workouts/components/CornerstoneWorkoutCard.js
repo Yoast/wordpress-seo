@@ -49,7 +49,7 @@ export default function CornerstoneWorkoutCard( {
 			"On your site you have a few articles that are the most important. You want to rank highest in Google with these articles. At Yoast, we call these articles cornerstone articles. Take the following 4 steps in order to start ranking with your cornerstone articles!",
 			"wordpress-seo"
 		) ] }
-		image={ "image" }
+		image={ "" }
 		finishableSteps={ FINISHABLE_STEPS.cornerstone }
 		finishedSteps={ finishedSteps }
 		upsell={ upsell }
