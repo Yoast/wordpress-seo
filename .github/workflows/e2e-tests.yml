@@ -44,6 +44,7 @@ jobs:
 
       - name: Install Node dependencies
         run: |
+          if: steps.yarn-cache.outputs.cache-hit != 'true'
           yarn
 
       - name: Build the plugin
@@ -61,4 +62,5 @@ jobs:
 
       - name: Run the e2e tests
         run: |
+          cd packages/e2e-tests
           yarn test:e2e          
