@@ -19,8 +19,8 @@ export default function initTabs( jQuery ) {
 		}
 
 		// The tab is a DOM element: no need for jQuery methods.
-		tab.trigger( "focus" );
-		tab.trigger( "click" );
+		tab.focus();
+		tab.click();
 	}
 
 	/**

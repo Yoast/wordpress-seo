@@ -191,7 +191,7 @@ export default function initAdmin( jQuery ) {
 		}
 
 		jQuery( "#" + activeTabId ).addClass( "active" );
-		jQuery( "#" + activeTabId + "-tab" ).addClass( "nav-tab-active" ).click();
+		jQuery( "#" + activeTabId + "-tab" ).addClass( "nav-tab-active" ).trigger( "click" );
 	}
 
 	/**
@@ -372,7 +372,7 @@ export default function initAdmin( jQuery ) {
 		} ).trigger( "change" );
 
 		// Handle the settings pages tabs.
-		jQuery( "#wpseo-tabs" ).find( "a" ).click( function() {
+		jQuery( "#wpseo-tabs" ).find( "a" ).on( "click", function() {
 			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
 			jQuery( ".wpseotab" ).removeClass( "active" );
 
