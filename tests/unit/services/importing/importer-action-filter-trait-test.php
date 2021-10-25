@@ -132,13 +132,13 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 		);
 		
 		// Test filter_actions() with both a plugin and a type filter.
-		$filtered_importers_type_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], 'aioseo', 'posts' );
+		$filtered_importers_plugin_type_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], 'aioseo', 'posts' );
 
-		$this->assertTrue( \is_array( $filtered_importers_type_filters ) );
-		$this->assertTrue( \count( $filtered_importers_type_filters ) === 1 );
+		$this->assertTrue( \is_array( $filtered_importers_plugin_type_filters ) );
+		$this->assertTrue( \count( $filtered_importers_plugin_type_filters ) === 1 );
 		$this->assertInstanceOf(
 			Aioseo_Posts_Importing_Action::class,
-			$filtered_importers_type_filters[0]
+			$filtered_importers_plugin_type_filters[0]
 		);
 		
 		// Test filter_actions() with a plugin filter that doesn't exist.
