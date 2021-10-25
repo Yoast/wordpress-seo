@@ -3,13 +3,14 @@
  */
 import {
 	createNewPost,
-	trashAllPosts,
 } from "@wordpress/e2e-test-utils";
+
+import { deleteAllPostsWithApi } from "../src/helpers/utils";
 
 describe("Yoast SEO sidebar", () => {
 
 	it("shows correctly Yoast SEO sidebar when editing a post", async () => {
-		await trashAllPosts();
+		await deleteAllPostsWithApi('posts');
 		await createNewPost();
 
 		await page.waitForSelector("aria/Yoast SEO");
@@ -27,7 +28,7 @@ describe("Yoast SEO sidebar", () => {
 	});
 
 	it("shows correctly Yoast SEO sidebar when editing a page", async () => {
-		await trashAllPosts("page");
+		await deleteAllPostsWithApi('pages');
 		await createNewPost({ postType: "page" });
 
 		await page.waitForSelector("aria/Yoast SEO");
@@ -45,7 +46,7 @@ describe("Yoast SEO sidebar", () => {
 	});
 
 	it("shows correctly Yoast SEO sidebar when editing a custom post", async () => {
-		await trashAllPosts("yoast_post_type");
+		await deleteAllPostsWithApi('yoast_post_type');
 		await createNewPost({ postType: "yoast_post_type" });
 
 		await page.waitForSelector("aria/Yoast SEO");
