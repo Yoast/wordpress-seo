@@ -50,7 +50,7 @@ export default function CornerstoneWorkoutCard( {
 	};
 
 	if ( ! workout ) {
-		badges.push( <PremiumBadge /> );
+		badges.push( <PremiumBadge key={ "premium-badge" } /> );
 	}
 
 	return <WorkoutCard
