@@ -2,7 +2,6 @@
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { useCallback, useState, useMemo, useEffect } from "@wordpress/element";
-import { Modal } from "@wordpress/components";
 import { useDispatch } from "@wordpress/data";
 // Internal dependencies.
 import { Button, ProgressBar } from "@yoast/components";
@@ -95,14 +94,7 @@ export default function WorkoutCard( {
 				}
 			</em></label>
 		</span>
-		{ isUpsellOpen &&
-			<Modal
-				title={ title }
-				onRequestClose={ closeUpsell }
-			>
-				<p>Some upsell text</p>
-			</Modal>
-		}
+		{ isUpsellOpen && upsell( closeUpsell ) }
 	</div>;
 }
 
@@ -114,7 +106,7 @@ WorkoutCard.propTypes = {
 	finishedSteps: PropTypes.arrayOf( PropTypes.string ).isRequired,
 	image: PropTypes.string,
 	steps: PropTypes.arrayOf( PropTypes.string ),
-	upsell: PropTypes.element,
+	upsell: PropTypes.func,
 	workout: PropTypes.element,
 	badges: PropTypes.arrayOf( PropTypes.element ),
 };

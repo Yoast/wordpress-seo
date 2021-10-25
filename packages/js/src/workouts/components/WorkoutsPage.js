@@ -6,6 +6,7 @@ import { Button } from "@yoast/components";
 import SlotWithDefault from "../../components/slots/SlotWithDefault";
 import WorkoutCard from "./WorkoutCard";
 import { FINISHABLE_STEPS } from "../config";
+import CornerstoneWorkoutCard from "./CornerstoneWorkoutCard";
 
 const {
 	workouts: workoutsSetting,
@@ -58,20 +59,7 @@ export default function WorkoutsPage( props ) {
 			{ activeWorkout && <Button onClick={ clearActiveWorkout }>{ __( "← Back to all workouts", "worpdress-seo" ) }</Button> }
 			{ ! activeWorkout && <div className="workflows__index__grid">
 				<SlotWithDefault name="cornerstone-workout">
-					<WorkoutCard
-						title={ __( "The cornerstone approach", "wordpress-seo" ) }
-						badges={ [ <PremiumBadge key={ "premium-badge" } /> ] }
-						subtitle={ __( "Rank with articles you want to rank with", "wordpress-seo" ) }
-						usps={ [
-							__(
-								// eslint-disable-next-line max-len
-								"On your site you have a few articles that are the most important. You want to rank highest in Google with these articles. At Yoast, we call these articles cornerstone articles. Take the following 4 steps in order to start ranking with your cornerstone articles!",
-								"wordpress-seo"
-							),
-						] }
-						finishableSteps={ FINISHABLE_STEPS.cornerstone }
-						finishedSteps={ [] }
-					/>
+					<CornerstoneWorkoutCard finishedSteps={ [] } />
 				</SlotWithDefault>
 				<SlotWithDefault name="orphaned-workout">
 					<WorkoutCard
