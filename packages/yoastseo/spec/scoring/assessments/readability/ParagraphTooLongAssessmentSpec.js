@@ -3,7 +3,6 @@ import ParagraphTooLongAssessment from "../../../../src/scoring/assessments/read
 import Paper from "../../../../src/values/Paper.js";
 import factory from "../../../specHelpers/factory";
 import Factory from "../../../specHelpers/factory.js";
-const i18n = Factory.buildJed();
 import Mark from "../../../../src/values/Mark.js";
 import Researcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
@@ -12,14 +11,14 @@ const paragraphTooLongAssessment = new ParagraphTooLongAssessment();
 describe( "An assessment for scoring too long paragraphs.", function() {
 	const paper = new Paper();
 	it( "scores 1 paragraph with ok length", function() {
-		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 60, text: "" } ] ), i18n );
+		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 60, text: "" } ] ) );
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs" +
 			" are too long. Great job!" );
 		expect( assessment.hasMarks() ).toBe( false );
 	} );
 	it( "scores 1 slightly too long paragraph", function() {
-		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 160, text: "" } ] ), i18n );
+		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 160, text: "" } ] ) );
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs" +
 			" contains more than the recommended maximum of 150 words." +
@@ -27,7 +26,7 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "scores 1 extremely long paragraph", function() {
-		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 6000, text: "" } ] ), i18n );
+		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 6000, text: "" } ] ) );
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs" +
 			" contains more than the recommended maximum of 150 words." +
@@ -36,7 +35,7 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 	} );
 	it( "scores 3 paragraphs with ok length", function() {
 		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 60, text: "" },
-			{ wordCount: 71, text: "" }, { wordCount: 83, text: "" } ] ), i18n );
+			{ wordCount: 71, text: "" }, { wordCount: 83, text: "" } ] ) );
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs" +
 			" are too long. Great job!" );
@@ -44,7 +43,7 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 	} );
 	it( "scores 3 paragraphs, one of which is too long", function() {
 		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 60, text: "" },
-			{ wordCount: 71, text: "" }, { wordCount: 183, text: "" } ] ), i18n );
+			{ wordCount: 71, text: "" }, { wordCount: 183, text: "" } ] ) );
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs" +
 			" contains more than the recommended maximum of 150 words." +
@@ -53,7 +52,7 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 	} );
 	it( "scores 3 paragraphs, two of which are too long", function() {
 		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ { wordCount: 60, text: "" },
-			{ wordCount: 191, text: "" }, { wordCount: 183, text: "" } ] ), i18n );
+			{ wordCount: 191, text: "" }, { wordCount: 183, text: "" } ] ) );
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 2 of the paragraphs" +
 			" contain more than the recommended maximum of 150 words." +
@@ -61,7 +60,7 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "returns an empty assessment result for a paper without paragraphs.", function() {
-		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ ] ), i18n );
+		const assessment = paragraphTooLongAssessment.getResult( paper, Factory.buildMockResearcher( [ ] ) );
 		expect( assessment.getScore() ).toBe( 0 );
 		expect( assessment.getText() ).toBe( "" );
 	} );
@@ -71,13 +70,13 @@ describe( "Applicability of the assessment.", function() {
 	it( "returns true for isApplicable on a paper with text.", function() {
 		const paper = new Paper( "This is a very interesting paper.", { locale: "en_US" } );
 		const researcher = new Researcher( paper );
-		paragraphTooLongAssessment.getResult( paper, researcher, i18n );
+		paragraphTooLongAssessment.getResult( paper, researcher );
 		expect( paragraphTooLongAssessment.isApplicable( paper, researcher ) ).toBe( true );
 	} );
 	it( "returns false for isApplicable on a paper without text.", function() {
 		const paper = new Paper( "", { locale: "en_US" } );
 		const researcher = new Researcher( paper );
-		paragraphTooLongAssessment.getResult( paper, researcher, i18n );
+		paragraphTooLongAssessment.getResult( paper, researcher );
 		expect( paragraphTooLongAssessment.isApplicable( paper, researcher ) ).toBe( false );
 	} );
 } );
