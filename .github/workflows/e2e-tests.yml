@@ -1,9 +1,9 @@
 name: Yoast e2e tests
 
 on:
-  push:
+  pull_request:
     branches:
-      - integrate/e2e-tests-to-ci
+      - trunk
 
 jobs:
   e2e-tests:
