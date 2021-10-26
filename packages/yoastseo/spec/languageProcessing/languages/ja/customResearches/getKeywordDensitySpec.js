@@ -1,10 +1,7 @@
 import getKeywordDensity from "../../../../../src/languageProcessing/languages/ja/customResearches/getKeywordDensity";
 import Paper from "../../../../../src/values/Paper.js";
 import factory from "../../../../specHelpers/factory";
-import getMorphologyData from "../../../../specHelpers/getMorphologyData";
 import getStemmer from "../../../../../src/languageProcessing/languages/ja/helpers/getStemmer";
-
-const morphologyDataEL = getMorphologyData( "el" ).el;
 
 /**
  * Mocks Japanese Researcher.
