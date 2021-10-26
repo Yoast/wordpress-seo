@@ -4,7 +4,7 @@ e2e-tests implementation for Yoast SEO plugin.
 
 ## Usage
 
-### Installation
+## Installation
 
 To run the tests locally, do the folowing:
 
