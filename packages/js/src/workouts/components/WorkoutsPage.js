@@ -6,7 +6,7 @@ import { Button, NewBadge, PremiumBadge } from "@yoast/components";
 import { sortBy } from "lodash";
 import SlotWithDefault from "../../components/slots/SlotWithDefault";
 import CornerstoneWorkoutCard from "./CornerstoneWorkoutCard";
-import OrphanedWorkoutCard from "./OphanedWorkoutCard";
+import OrphanedWorkoutCard from "./OrphanedWorkoutCard";
 import { WORKOUTS } from "../config";
 
 const {

@@ -2,7 +2,6 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 // Internal dependencies.
-import { PremiumBadge } from "@yoast/components";
 import WorkoutCard from "./WorkoutCard";
 import WorkoutUpsell from "./WorkoutUpsell";
 import { FINISHABLE_STEPS } from "../config";
