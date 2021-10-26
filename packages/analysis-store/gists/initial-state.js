@@ -1,5 +1,3 @@
-import { ASYNC_STATUS } from "./constants";
-
 // Proposed state:
 export const state = {
 	data: {
@@ -19,7 +17,7 @@ export const state = {
 	targets: {
 		keyphrases: {
 			focus: "focus",
-			rej2oirj: "a keyphrase", // nanoid as key?
+			rej2oirj: "a keyphrase", // Have a nanoid as key?
 		},
 		synonyms: {
 			focus: "",
@@ -34,7 +32,7 @@ export const state = {
 		researches: [ "morphology" ],
 	},
 	results: {
-		status: ASYNC_STATUS.IDLE,
+		status: "idle",
 		error: "",
 		seo: {
 			focus: {},
