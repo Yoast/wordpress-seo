@@ -7,6 +7,7 @@ import { filter } from "lodash-es";
  * Gets all paragraphs and their character counts from the text.
  *
  * @param {Paper} paper The paper object to get the text from.
+ *
  * @returns {Array} The array containing an object with the paragraph character count and paragraph text.
  */
 export default function( paper ) {
