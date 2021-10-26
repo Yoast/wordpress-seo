@@ -4,7 +4,7 @@ import { __ } from "@wordpress/i18n";
 // Internal dependencies.
 import WorkoutCard from "./WorkoutCard";
 import WorkoutUpsell from "./WorkoutUpsell";
-import { FINISHABLE_STEPS } from "../config";
+import { WORKOUTS, FINISHABLE_STEPS } from "../config";
 
 /**
  * Creates a WorkoutUpsell component.
@@ -37,6 +37,7 @@ export default function CornerstoneWorkoutCard( {
 	badges,
 } ) {
 	return <WorkoutCard
+		name={ WORKOUTS.cornerstone }
 		title={ __( "The cornerstone approach", "wordpress-seo" ) }
 		subtitle={ __( "Rank with articles you want to rank with", "wordpress-seo" ) }
 		usps={ [ __(

@@ -4,7 +4,7 @@ import { __ } from "@wordpress/i18n";
 // Internal dependencies.
 import WorkoutCard from "./WorkoutCard";
 import WorkoutUpsell from "./WorkoutUpsell";
-import { FINISHABLE_STEPS } from "../config";
+import { FINISHABLE_STEPS, WORKOUTS } from "../config";
 
 /**
  * Creates a WorkoutUpsell component.
@@ -37,6 +37,7 @@ export default function OrphanedWorkoutCard( {
 	badges,
 } ) {
 	return <WorkoutCard
+		name={ WORKOUTS.orphaned }
 		title={ __( "Orphaned content", "wordpress-seo" ) }
 		subtitle={ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo" ) }
 		usps={ [

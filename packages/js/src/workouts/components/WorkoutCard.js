@@ -14,6 +14,7 @@ import { Button, ProgressBar } from "@yoast/components";
  * @returns {WPElement} The WorkoutCard component
  */
 export default function WorkoutCard( {
+	name,
 	title,
 	subtitle,
 	usps,
@@ -58,9 +59,9 @@ export default function WorkoutCard( {
 	const onClick = useCallback(
 		() => {
 			if ( workout ) {
-				openWorkout( workout.name );
+				openWorkout( name );
 				if ( isToggle ) {
-					toggleWorkout( workout.name );
+					toggleWorkout( name );
 				}
 			} else {
 				openUpsell();
@@ -105,11 +106,12 @@ export default function WorkoutCard( {
 			</span>
 			{ upsell && isUpsellOpen && <UpsellComponent onRequestClose={ closeUpsell } /> }
 		</div> }
-		{ workout && activeWorkout === workout.name && <WorkoutComponent onRequestClose={ closeUpsell } /> }
+		{ workout && activeWorkout === name && <WorkoutComponent onRequestClose={ closeUpsell } /> }
 	</>	);
 }
 
 WorkoutCard.propTypes = {
+	name: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	subtitle: PropTypes.string.isRequired,
 	usps: PropTypes.arrayOf( PropTypes.string ).isRequired,
