@@ -291,17 +291,22 @@ class WPSEO_Addon_Manager {
 				continue;
 			}
 
-			$plugin_data  = $this->convert_subscription_to_plugin( $subscription, $data );
-			$is_no_update = true;
+			// We have to figure out if we're safe to upgrade the add-on, based on what the latest Yoast Free requirements for the WP version is. 
+			$yoast_free_data = $this->extract_yoast_data( $data );
+			$plugin_data     = $this->convert_subscription_to_plugin( $subscription, $yoast_free_data );
+			$is_no_update    = true;
+
+			// If the add-on's version is the latest, we have to do no further checks.
 			if ( version_compare( $installed_plugin['Version'], $plugin_data->new_version, '<' ) ) {
 				$is_no_update = false;
 
-				// If we haven't retrieved the 'requires' info from Yoast Free yet, do nothing.
+				// If we haven't retrieved the Yoast Free requirements for the WP version yet, do nothing. The next run will probably get us that information.
 				if ( is_null( $plugin_data->requires ) ) {
 					continue;
 				} 
 				
 				if ( version_compare( $plugin_data->requires, $wp_version, '<=' ) ) {
+					// The add-on has an available update *and* the Yoast Free requirements for the WP version are also met, so go ahead and show the upgrade info to the user.
 					$data->response[ $plugin_file ] = $plugin_data;
 	
 					if ( $this->has_subscription_expired( $subscription ) ) {
@@ -323,6 +328,25 @@ class WPSEO_Addon_Manager {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Extracts Yoast Free's data from the data of all the plugins.
+	 *
+	 * @param object $data The data for all installed plugins.
+	 *
+	 * @return object Yoast Free's data from wp.org.
+	 */
+	protected function extract_yoast_data( $data ) {
+		if ( isset( $data->response[ WPSEO_BASENAME ] ) ) {
+			return $data->response[ WPSEO_BASENAME ];
+		}
+
+		if ( isset( $data->no_update[ WPSEO_BASENAME ] ) ) {
+			return $data->no_update[ WPSEO_BASENAME ];
+		}
+
+		return (object)[];
 	}
 
 	/**
@@ -465,38 +489,11 @@ class WPSEO_Addon_Manager {
 		$changelog = str_replace( '</h2', '</h4', str_replace( '<h2', '<h4', $subscription->product->changelog ) );
 		$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
 
-		$latest_yoast_free = false;
-
-        // Check if $data (which contains all plugin update details) exists, 
-        // and pull Yoast free from there for later use.
-		if ( $data ) {
-			foreach( $data->response as $response_plugin ) {
-				if ( $response_plugin->plugin === WPSEO_BASENAME ) {
-					$latest_yoast_free = $response_plugin;
-					break;
-				}
-			}
-			foreach( $data->no_update as $no_update_plugin ) {
-				if ( $no_update_plugin->plugin === WPSEO_BASENAME ) {
-					$latest_yoast_free = $no_update_plugin;
-					break;
-				}
-			}
-		}
-
 		// If we're running this because we want to just show the plugin info in the version details modal, we can fallback to the Yoast Free constants, since that modal will not be accessible anyway in the event that the new Free version increases those constants.
 		$defaults = [
-			'tested'       => YOAST_SEO_WP_TESTED,
-			'requires'     => YOAST_SEO_WP_REQUIRED,
-			'requires_php' => YOAST_SEO_PHP_REQUIRED,
+			// It can be expanded if we have the 'tested' and 'requires_php' data be returned from wp.org in the future.
+			'requires'     => ( $plugin_info ) ? YOAST_SEO_WP_REQUIRED : null,
 		];
-		if ( ! $plugin_info ) {
-			$defaults = [
-				'tested'       => null,
-				'requires'     => null,
-				'requires_php' => null,
-			];			
-		}
 		
 		return (object) [
 			'new_version'      => $subscription->product->version,
@@ -516,12 +513,10 @@ class WPSEO_Addon_Manager {
 			],
 			'update_supported' => true,
 			'banners'          => $this->get_banners( $subscription->product->slug ),
-			// For the next 3, check if the Yoast free plugin object exists,
-			// if so, if it contains the needed data.
-			// Set that data, and set the current as a failover if the update data does not exist.
-			'tested'           => ($latest_yoast_free && isset( $latest_yoast_free->tested ) ) ? $latest_yoast_free->tested : $defaults[ 'tested' ],
-			'requires'         => ($latest_yoast_free && isset( $latest_yoast_free->requires ) ) ? $latest_yoast_free->requires : $defaults[ 'requires' ],
-			'requires_php'     => ($latest_yoast_free && isset( $latest_yoast_free->requires_php ) ) ? $latest_yoast_free->requires_php : $defaults[ 'requires_php' ],
+			// If we have extracted Yoast Free's data before, use that. If not, resort to the defaults.
+			'tested'           => YOAST_SEO_WP_TESTED,
+			'requires'         => isset( $data->requires ) ? $data->requires : $defaults[ 'requires' ],
+			'requires_php'     => YOAST_SEO_PHP_REQUIRED,
 		];
 	}
 
