@@ -35,22 +35,24 @@ class YoastReusableBlocksPlugin {
 	parseReusableBlocks( content ) {
 		const reusableBlockRegex = /<!-- wp:block {"ref":(\d+)} \/-->/g;
 
-		if ( content.match( reusableBlockRegex ) ) {
-			const { __experimentalReusableBlocks } = this.blockEditorDataModule.getSettings();
-
-			if ( __experimentalReusableBlocks ) {
-				content = content.replace( reusableBlockRegex, ( match, blockId ) => {
-					const reusableBlockId = parseInt( blockId, 10 );
-					const reusableBlock = __experimentalReusableBlocks.find( item => item.id === reusableBlockId );
-
-					if ( reusableBlock ) {
-						return reusableBlock.content.raw;
-					}
-				} );
-			}
+		if ( ! content.match( reusableBlockRegex ) ) {
+			return content;
 		}
 
-		return content;
+		const { __experimentalReusableBlocks } = this.blockEditorDataModule.getSettings();
+
+		if ( ! __experimentalReusableBlocks ) {
+			return content;
+		}
+
+		return content.replace( reusableBlockRegex, ( match, blockId ) => {
+			const reusableBlockId = parseInt( blockId, 10 );
+			const reusableBlock = __experimentalReusableBlocks.find( item => item.id === reusableBlockId );
+
+			if ( reusableBlock ) {
+				return reusableBlock.content.raw;
+			}
+		} );
 	}
 }
 
