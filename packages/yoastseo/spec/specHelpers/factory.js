@@ -44,7 +44,7 @@ FactoryProto.prototype.buildMockElement = function() {
  */
 FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false, hasMorphologyData = false,
 	config = false, helpers = false ) {
-	if ( ( multiValue && typeof expectedValue === "object" ) || ( multiValue && typeof expectedValue === "object" ) ) {
+	if ( ( multiValue && typeof expectedValue === "object" ) || ( multiValue && typeof helpers === "object" ) ) {
 		return {
 			/**
 			 * Return research results by research name for multi-value mock researchers.
