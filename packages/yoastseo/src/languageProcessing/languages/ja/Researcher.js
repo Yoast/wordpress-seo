@@ -32,7 +32,7 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.findTransitionWords;
 		delete this.defaultResearches.getKeywordDensity;
 
-		// Add the Japanese custom helper to calculate the keyword density.
+		// Adds the Japanese custom research to calculate the keyword density.
 		this.addResearch( "getKeywordDensity", getKeywordDensity );
 
 		Object.assign( this.config, {
