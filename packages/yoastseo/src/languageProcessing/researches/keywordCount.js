@@ -70,7 +70,7 @@ export default function( paper, researcher ) {
 	const keywordCountObject = {
 		count: keywordsFound.count,
 		matches: matches,
-		markings: markWordsInSentences( matches, keywordsFound.sentencesWithKeywords, locale ),
+		markings: markWordsInSentences( matches, keywordsFound.sentencesWithKeywords, locale, matchWordCustomHelper ),
 		length: topicForms.keyphraseForms.length,
 	};
 
