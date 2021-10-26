@@ -291,7 +291,7 @@ class WPSEO_Addon_Manager {
 				continue;
 			}
 
-			// We have to figure out if we're safe to upgrade the add-on, based on what the latest Yoast Free requirements for the WP version is. 
+			// We have to figure out if we're safe to upgrade the add-on, based on what the latest Yoast Free requirements for the WP version is.
 			$yoast_free_data = $this->extract_yoast_data( $data );
 			$plugin_data     = $this->convert_subscription_to_plugin( $subscription, $yoast_free_data );
 			$is_no_update    = true;
@@ -303,20 +303,21 @@ class WPSEO_Addon_Manager {
 				// If we haven't retrieved the Yoast Free requirements for the WP version yet, do nothing. The next run will probably get us that information.
 				if ( is_null( $plugin_data->requires ) ) {
 					continue;
-				} 
-				
+				}
+
 				if ( version_compare( $plugin_data->requires, $wp_version, '<=' ) ) {
 					// The add-on has an available update *and* the Yoast Free requirements for the WP version are also met, so go ahead and show the upgrade info to the user.
 					$data->response[ $plugin_file ] = $plugin_data;
-	
+
 					if ( $this->has_subscription_expired( $subscription ) ) {
 						unset( $data->response[ $plugin_file ]->package, $data->response[ $plugin_file ]->download_link );
 					}
-				} else {
+				}
+				else {
 					$is_no_update = true;
 				}
 			}
-			
+
 			if ( $is_no_update ) {
 				// Still convert subscription when no updates is available.
 				$data->no_update[ $plugin_file ] = $plugin_data;
@@ -346,7 +347,7 @@ class WPSEO_Addon_Manager {
 			return $data->no_update[ WPSEO_BASENAME ];
 		}
 
-		return (object)[];
+		return (object) [];
 	}
 
 	/**
@@ -480,11 +481,13 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Converts a subscription to plugin based format.
 	 *
-	 * @param stdClass $subscription The subscription to convert.
+	 * @param stdClass $subscription    The subscription to convert.
+	 * @param stdClass $yoast_free_data The Yoast Free's data.
+	 * @param bool     $plugin_info     Whether we're in the plugin information modal.
 	 *
 	 * @return stdClass The converted subscription.
 	 */
-	protected function convert_subscription_to_plugin( $subscription, $data = false, $plugin_info = false ) {
+	protected function convert_subscription_to_plugin( $subscription, $yoast_free_data = false, $plugin_info = false ) {
 		// We need to replace h2's and h3's with h4's because the styling expects that.
 		$changelog = str_replace( '</h2', '</h4', str_replace( '<h2', '<h4', $subscription->product->changelog ) );
 		$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
@@ -494,7 +497,7 @@ class WPSEO_Addon_Manager {
 			// It can be expanded if we have the 'tested' and 'requires_php' data be returned from wp.org in the future.
 			'requires'     => ( $plugin_info ) ? YOAST_SEO_WP_REQUIRED : null,
 		];
-		
+
 		return (object) [
 			'new_version'      => $subscription->product->version,
 			'name'             => $subscription->product->name,
@@ -515,7 +518,7 @@ class WPSEO_Addon_Manager {
 			'banners'          => $this->get_banners( $subscription->product->slug ),
 			// If we have extracted Yoast Free's data before, use that. If not, resort to the defaults.
 			'tested'           => YOAST_SEO_WP_TESTED,
-			'requires'         => isset( $data->requires ) ? $data->requires : $defaults[ 'requires' ],
+			'requires'         => isset( $yoast_free_data->requires ) ? $yoast_free_data->requires : $defaults['requires'],
 			'requires_php'     => YOAST_SEO_PHP_REQUIRED,
 		];
 	}
