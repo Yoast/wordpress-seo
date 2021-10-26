@@ -5,80 +5,38 @@ import { useEffect, useMemo } from "@wordpress/element";
 import { Button, NewBadge, PremiumBadge } from "@yoast/components";
 import { sortBy } from "lodash";
 import SlotWithDefault from "../../components/slots/SlotWithDefault";
-import WorkoutCard from "./WorkoutCard";
-import { FINISHABLE_STEPS, WORKOUTS } from "../config";
-import WorkoutUpsell from "./WorkoutUpsell";
+import CornerstoneWorkoutCard from "./CornerstoneWorkoutCard";
+import OrphanedWorkoutCard from "./OrphanedWorkoutCard";
+import { WORKOUTS } from "../config";
 
 const {
 	workouts: workoutsSetting,
 } = window.wpseoWorkoutsData;
 
 /**
- * Temporary upsell.
- *
- * @param {Object} props The props object.
- *
- * @returns {wp.Element} A WorkoutUpsell for the Cornerstone workout.
- */
-const CornerstoneUpsell = ( props ) => {
-	return <WorkoutUpsell
-		addOn={ "Premium" }
-		onRequestClose={ props.onRequestClose }
-		upsellLink={ "https://yoast.com" }
-		title={ "An Upsell" }
-	>
-		You should definitely buy Premium
-	</WorkoutUpsell>;
-};
-
-/**
- * Temporary workoutcard.
+ * The Free (upsell) CornerstoneWorkoutCard.
  *
  * @returns {wp.Element} A WorkoutCard for the Cornerstone workout.
  */
-const CornerStoneCard = () => {
-	return <WorkoutCard
-		title={ __( "The cornerstone approach", "wordpress-seo" ) }
-		badges={ [ <PremiumBadge key={ "premium-badge" } /> ] }
-		subtitle={ __( "Rank with articles you want to rank with", "wordpress-seo" ) }
-		usps={ [
-			__(
-				// eslint-disable-next-line max-len
-				"On your site you have a few articles that are the most important. You want to rank highest in Google with these articles. At Yoast, we call these articles cornerstone articles. Take the following 4 steps in order to start ranking with your cornerstone articles!",
-				"wordpress-seo"
-			),
-		] }
-		upsell={ CornerstoneUpsell }
+const CornerstoneCard = () => {
+	return <CornerstoneWorkoutCard
+		badges={ [ <PremiumBadge key={ "premium-badge-cornerstone-workout" } /> ] }
 	/>;
 };
 
 /**
- * Temporary workoutcard.
+ * The Free (upsell) OrphanedWorkoutCard.
  *
  * @returns {wp.Element} A WorkoutCard for the Orphaned workout.
  */
 const OrphanedCard = () => {
-	return <WorkoutCard
-		title={ __( "Orphaned content", "wordpress-seo" ) }
-		badges={ [ <PremiumBadge key={ "premium-badge" } />, <NewBadge key={ "new-badge" } /> ] }
-		subtitle={ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo" ) }
-		usps={ [
-			__(
-				// eslint-disable-next-line max-len
-				"Orphaned content is content that doesn’t get any links from other posts or pages on your site. As a result of that, this content is hard to find, for both Google and visitors. Posts and pages need internal links to them, to fit into a site’s structure and to be findable. With this workout we'll help you update your orphaned content and make sure you have links pointing towards them!",
-				"wordpress-seo"
-			),
-		] }
-		workout={ () => {
-			return <p>Workout</p>;
-		} }
-		finishableSteps={ FINISHABLE_STEPS.orphaned }
-		finishedSteps={ [] }
+	return <OrphanedWorkoutCard
+		badges={ [ <NewBadge key={ "new-badge-orphaned-workout" } />, <PremiumBadge key={ "premium-badge-orphaned-workout" } /> ] }
 	/>;
 };
 
 const upsellWorkouts = {
-	[ WORKOUTS.cornerstone ]: CornerStoneCard,
+	[ WORKOUTS.cornerstone ]: CornerstoneCard,
 	[ WORKOUTS.orphaned ]: OrphanedCard,
 };
 

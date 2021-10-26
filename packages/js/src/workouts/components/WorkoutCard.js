@@ -18,7 +18,6 @@ export default function WorkoutCard( {
 	subtitle,
 	usps,
 	image,
-	steps,
 	finishableSteps,
 	finishedSteps,
 	upsell,
@@ -26,7 +25,9 @@ export default function WorkoutCard( {
 	badges,
 } ) {
 	const { openWorkout, toggleWorkout } = useDispatch( "yoast-seo/workouts" );
-	const activeWorkout = useSelect( ( select ) => { return select( "yoast-seo/workouts" ).getActiveWorkout(); }, [] );
+	const activeWorkout = useSelect( ( select ) => {
+		return select( "yoast-seo/workouts" ).getActiveWorkout();
+	}, [] );
 
 	const [ isUpsellOpen, setUpsellOpen ] = useState( false );
 	const [ isToggle, setToggle ] = useState( false );
@@ -77,8 +78,7 @@ export default function WorkoutCard( {
 					usps.map( ( usp, index ) => <li key={ `${ title }-${ index }` }>{ usp }</li> )
 				}
 			</ul>
-			<img src={ image } alt="" />
-
+			{ image && <img src={ image } alt="" /> }
 			<span>
 				<Button onClick={ onClick }>{ buttonText }</Button>
 				{ finishableSteps && finishedSteps &&
@@ -116,7 +116,6 @@ WorkoutCard.propTypes = {
 	finishableSteps: PropTypes.arrayOf( PropTypes.string ),
 	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
 	image: PropTypes.string,
-	steps: PropTypes.arrayOf( PropTypes.string ),
 	upsell: PropTypes.func,
 	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
@@ -127,7 +126,6 @@ WorkoutCard.defaultProps = {
 	upsell: null,
 	workout: null,
 	badges: [],
-	steps: [],
 	finishableSteps: null,
 	finishedSteps: null,
 };
