@@ -7,15 +7,15 @@ const createReplacementVariables = ( configs ) => {
 		regexp: new RegExp( `%%${ name }%%`, "g" ),
 	} ) );
 
-	const apply = ( string, ...args ) => {
-		let replaced = string;
-		replacementVariables.forEach( ( { regexp, getReplacement } ) => {
-			if ( regexp.test( string ) ) {
-				replaced = string.replace( regexp, getReplacement( ...args ) );
-			}
-		} );
-		return replaced;
-	};
+	const apply = ( string, ...args ) => reduce(
+		replacementVariables,
+		( replaced, { regexp, getReplacement } ) => (
+			regexp.test( replaced )
+				? replaced.replace( regexp, getReplacement( ...args ) )
+				: replaced
+		),
+		string,
+	);
 
 	return {
 		replacementVariables,
