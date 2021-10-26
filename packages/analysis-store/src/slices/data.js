@@ -1,5 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { reduce, upperFirst } from "lodash";
+import { createSimpleSelectors } from "../helpers";
 
 export const DATA_SLICE_NAME = "data";
 
@@ -26,15 +26,7 @@ const data = createSlice( {
 	},
 } );
 
-export const dataSelectors = reduce(
-	initialState,
-	( selectors, _, name ) => ( {
-		...selectors,
-		// E.g. selectSeoTitle: state => state.data.seoTitle
-		[ `select${ upperFirst( name ) }` ]: state => state[ DATA_SLICE_NAME ][ name ],
-	} ),
-	{},
-);
+export const dataSelectors = createSimpleSelectors( DATA_SLICE_NAME, initialState );
 dataSelectors.selectPaper = createSelector(
 	dataSelectors.selectSeoTitle,
 	dataSelectors.selectMetaDescription,

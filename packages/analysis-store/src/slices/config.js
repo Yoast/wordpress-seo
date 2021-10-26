@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { reduce, upperFirst } from "lodash";
+import { createSimpleSelectors } from "../helpers";
 
 export const CONFIG_SLICE_NAME = "config";
 
@@ -16,15 +16,7 @@ const config = createSlice( {
 	reducers: {},
 } );
 
-export const configSelectors = reduce(
-	initialState,
-	( selectors, _, name ) => ( {
-		...selectors,
-		[ `select${ upperFirst( name ) }` ]: state => state[ CONFIG_SLICE_NAME ][ name ],
-	} ),
-	{},
-);
-configSelectors.selectConfig = state => state;
+export const configSelectors = createSimpleSelectors( CONFIG_SLICE_NAME, initialState );
 
 export const configActions = config.actions;
 

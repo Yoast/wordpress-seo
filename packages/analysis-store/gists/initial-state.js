@@ -14,14 +14,16 @@ export const state = {
 		featuredImage: {},
 		// Fallbacks? Make a solution similar to replacevars.
 	},
-	targets: {
-		keyphrases: {
-			focus: "focus",
-			rej2oirj: "a keyphrase", // Have a nanoid as key?
+	keyphrases: {
+		focus: {
+			keyphrase: "focus",
+			synonyms: "",
 		},
-		synonyms: {
-			focus: "",
-			rej2oirj: "a synonym",
+		// Have a nanoid as key?
+		rej2oirj: {
+			id: "rej2oirj",
+			keyphrase: "a keyphrase",
+			synonyms: "a synonym",
 		},
 	},
 	config: {

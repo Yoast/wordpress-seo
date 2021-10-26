@@ -1,9 +1,11 @@
-import { createReduxStore } from "@wordpress/data";
+import { createReduxStore, createRegistry } from "@wordpress/data";
 import { identity } from "lodash";
+import { STORE_NAME } from "./constants";
 import { createActions, createSelectors } from "./helpers";
 import createProvider from "./provider";
 import configReducer, { CONFIG_SLICE_NAME, configActions, configSelectors } from "./slices/config";
 import dataReducer, { DATA_SLICE_NAME, dataActions, dataSelectors } from "./slices/data";
+import keyphrasesReducer, { KEYPHRASES_SLICE_NAME, keyphrasesActions, keyphrasesSelectors } from "./slices/keyphrases";
 import resultsReducer, {
 	ANALYZE_ACTION_NAME,
 	PREPARE_PAPER_ACTION_NAME,
@@ -12,20 +14,20 @@ import resultsReducer, {
 	resultsActions,
 	resultsSelectors,
 } from "./slices/results";
-import targetsReducer, { TARGETS_SLICE_NAME, targetsActions, targetsSelectors } from "./slices/targets";
 
-const STORE_NAME = "@yoast/analysis-store";
+export { default as useAnalyze } from "./hooks/use-analyze";
+export { STORE_NAME };
 
 export const actions = {
 	...dataActions,
-	...targetsActions,
+	...keyphrasesActions,
 	...configActions,
 	...resultsActions,
 };
 
 export const selectors = {
 	...dataSelectors,
-	...targetsSelectors,
+	...keyphrasesSelectors,
 	...configSelectors,
 	...resultsSelectors,
 };
@@ -34,12 +36,13 @@ const createAnalysisStore = ( {
 	analyze,
 	preparePaper = identity,
 	processResults = identity,
+	registry = createRegistry(),
 } ) => {
 	const store = createReduxStore( STORE_NAME, {
 		reducer: {
 			[ CONFIG_SLICE_NAME ]: configReducer,
 			[ DATA_SLICE_NAME ]: dataReducer,
-			[ TARGETS_SLICE_NAME ]: targetsReducer,
+			[ KEYPHRASES_SLICE_NAME ]: keyphrasesReducer,
 			[ RESULTS_SLICE_NAME ]: resultsReducer,
 		},
 		controls: {
@@ -48,8 +51,9 @@ const createAnalysisStore = ( {
 			[ PROCESS_RESULTS_ACTION_NAME ]: async ( { payload } ) => processResults( payload ),
 		},
 	} );
+	registry.register( store );
 
-	const Provider = createProvider( store );
+	const Provider = createProvider( registry );
 
 	return {
 		actions: createActions( store, actions ),

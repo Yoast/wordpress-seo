@@ -1,4 +1,4 @@
-import { reduce } from "lodash";
+import { get, reduce, upperFirst } from "lodash";
 
 export const createActions = ( store, actions ) => reduce(
 	actions,
@@ -16,4 +16,15 @@ export const createSelectors = ( store, selectors ) => reduce(
 		[ name ]: ( ...args ) => selector( store.getState(), ...args ),
 	} ),
 	{},
+);
+
+export const createSimpleSelectors = ( sliceName, initialState ) => reduce(
+	initialState,
+	( selectors, _, name ) => ( {
+		...selectors,
+		[ `select${ upperFirst( name ) }` ]: state => get( state, [ sliceName, name ] ),
+	} ),
+	{
+		[ `select${ upperFirst( sliceName ) }` ]: state => get( state, sliceName ),
+	},
 );
