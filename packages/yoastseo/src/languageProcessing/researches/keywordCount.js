@@ -21,6 +21,7 @@ export default function( paper, researcher ) {
 
 	// A helper to calculate the characters length of words in an array that is needed for some languages.
 	const keywordCharacterCount = researcher.getHelper( "wordsCharacterCount" );
+	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 
 	const text = paper.getText();
 	const locale = paper.getLocale();
@@ -44,13 +45,14 @@ export default function( paper, researcher ) {
 	 * that are found in the text.
 	 */
 	sentences.forEach( sentence => {
-		const matchesInSentence = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
+		const matchesInSentence = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence,
+			keywordForms, locale, matchWordCustomHelper ) );
+
 		const hasAllKeywords = matchesInSentence.every( keywordForm => keywordForm.count > 0 );
 
 		if ( hasAllKeywords ) {
 			const counts = matchesInSentence.map( match => match.count );
 			const foundWords = flattenDeep( matchesInSentence.map( match => match.matches ) );
-
 			// Check if a custom helper to calculate the characters length of all the keyword forms that are found is available.
 			if ( keywordCharacterCount ) {
 				// If the custom helper is available, also calculate the characters length of all the keyword forms that are found.
