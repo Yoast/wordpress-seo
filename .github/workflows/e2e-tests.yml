@@ -33,7 +33,8 @@ jobs:
           composer update
           composer install
 
-      - uses: actions/cache@v2
+      - name: Cache Node dependencies
+        uses: actions/cache@v2
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
