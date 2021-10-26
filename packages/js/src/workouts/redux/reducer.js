@@ -5,7 +5,7 @@ import {
 	FINISH_STEPS, MOVE_INDEXABLES, OPEN_WORKOUT,
 	SET_WORKOUTS, TOGGLE_STEP, TOGGLE_WORKOUT, REGISTER_WORKOUT,
 } from "./actions";
-import { FINISHABLE_STEPS } from "../config";
+import { FINISHABLE_STEPS, STEPS } from "../config";
 
 /**
  * Initial state
@@ -17,12 +17,26 @@ const initialState = {
 		cornerstone: {
 			priority: 50,
 			finishedSteps: [],
-			indexablesByStep: {},
+			indexablesByStep: {
+				[ STEPS.cornerstone.addLinks ]: [],
+				[ STEPS.cornerstone.checkLinks ]: [],
+				[ STEPS.cornerstone.chooseCornerstones ]: [],
+				[ STEPS.orphaned.improved ]: [],
+				[ STEPS.orphaned.skipped ]: [],
+			},
 		},
 		orphaned: {
 			priority: 50,
 			finishedSteps: [],
-			indexablesByStep: {},
+			indexablesByStep: {
+				[ STEPS.orphaned.improveRemove ]: window.wpseoPremiumWorkoutsData.orphaned || [],
+				[ STEPS.orphaned.update ]: [],
+				[ STEPS.orphaned.addLinks ]: [],
+				[ STEPS.orphaned.removed ]: [],
+				[ STEPS.orphaned.noindexed ]: [],
+				[ STEPS.orphaned.improved ]: [],
+				[ STEPS.orphaned.skipped ]: [],
+			},
 		},
 	},
 };
@@ -41,11 +55,7 @@ const workoutsReducer = ( state = initialState, action ) => {
 	const newState = cloneDeep( state );
 	switch ( action.type ) {
 		case REGISTER_WORKOUT:
-			newState.workouts[ action.payload.key ] = {
-				priority: action.payload.priority,
-				finishedSteps: [],
-				indexablesByStep: {},
-			};
+			newState.workouts[ action.payload.key ].priority = action.payload.priority;
 			return newState;
 		case FINISH_STEPS:
 			newState.workouts[ action.workout ].finishedSteps =  union( state.workouts[ action.workout ].finishedSteps, action.steps );
