@@ -1,7 +1,7 @@
 import { ASYNC_STATUS } from "./constants";
 
 // Proposed state:
-const state = {
+export const state = {
 	data: {
 		// Do we need to send locale here?
 		seoTitle: "Title",
@@ -10,6 +10,11 @@ const state = {
 		permalink: "",
 		slug: "",
 		content: "",
+		// Editor data we could use, for example in replacevars or for fallbacks.
+		title: "",
+		excerpt: "",
+		featuredImage: {},
+		// Fallbacks? Make a solution similar to replacevars.
 	},
 	targets: {
 		keyphrases: {

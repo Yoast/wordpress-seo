@@ -1,29 +1,35 @@
-import React, { useEffect } from "react";
-import { Provider as StoreProvider, useSelector, useDispatch } from "react-redux";
+//import React, { useEffect } from "react";
+//import { Provider as StoreProvider, useDispatch, useSelector } from "react-redux";
+import { configSelectors } from "./slices/config";
+import { RegistryProvider } from "@wordpress/data";
+import { dataSelectors } from "./slices/data";
+import { resultsActions } from "./slices/results";
+import { targetsSelectors } from "./slices/targets";
 
-import { analysisDataSelectors } from "./analysis-data-slice";
-import { analysisResultsActions } from "./analysis-results-slice";
-
+// Expose this separately, needed when WP provider is already present (e.g. block editor).
 const Effects = ( { children } ) => {
 	const dispatch = useDispatch();
-	const content = useSelector( analysisDataSelectors.selectContent );
+	const paper = useSelector( dataSelectors.selectPaper );
+	const targets = useSelector( targetsSelectors.selectTargets );
+	const config = useSelector( configSelectors.selectConfig );
 
 	useEffect( () => {
-		dispatch( analysisResultsActions.fetchSeoResults( {
-			key: "focus",
-			paper: content,
+		dispatch( resultsActions.analyze( {
+			paper,
+			targets,
+			config,
 		} ) );
-	}, [ dispatch, content ] );
+	}, [ dispatch, paper, targets, config ] );
 
 	return children;
 };
 
 const createProvider = ( store ) => ( { children } ) => (
-	<StoreProvider store={ store }>
+	<RegistryProvider>
 		<Effects>
 			{ children }
 		</Effects>
-	</StoreProvider>
+	</RegistryProvider>
 );
 
 export default createProvider;

@@ -1,69 +1,92 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { get } from "lodash";
+import { createSlice } from "@reduxjs/toolkit";
+import { get, reduce } from "lodash";
+import { ASYNC_ACTIONS, ASYNC_STATUS, FOCUS_ID } from "../constants";
 
-import { ASYNC_STATUS } from "./constants";
+export const RESULTS_SLICE_NAME = "results";
+export const ANALYZE_ACTION_NAME = "analyze";
+export const PREPARE_PAPER_ACTION_NAME = "preparePaper";
+export const PROCESS_RESULTS_ACTION_NAME = "processResults";
 
-const SLICE_NAME = "analysisResults";
-const INITIAL_RESULTS = {};
-
-const fetchSeoResults = createAsyncThunk(
-	`${SLICE_NAME}/fetchSeoResults`,
-	async( { key, paper }, { dispatch, getState, extra: service } ) => {
-		// NOTE: Pass key to worker here?
-		// Add seoTitleWidth to paper here in some smart way (after preparePaper/replaceVars)
-		const response = await service.fetchSeoResults(
-			service.preparePaper( paper, { dispatch, getState } )
-		);
-		return {
-			key,
-			results: response.data,
-		};
-	}
+const analyzeActions = reduce(
+	ASYNC_ACTIONS,
+	( actions, action ) => ( { ...actions, [ action ]: `${ ANALYZE_ACTION_NAME }/${ action }` } ),
+	{},
 );
 
-const results = createSlice( {
-	name: SLICE_NAME,
-	initialState: {
-		seo: {
-			status: ASYNC_STATUS.IDLE,
-			error: "",
-			results: {
-				// How to determine which keys are accepted here?
-				focus: INITIAL_RESULTS,
-				a: INITIAL_RESULTS,
-				b: INITIAL_RESULTS,
-				c: INITIAL_RESULTS,
-				d: INITIAL_RESULTS,
+function* preparePaper( payload ) {
+	return yield { type: PREPARE_PAPER_ACTION_NAME, payload };
+}
+
+function* processResults( payload ) {
+	return yield { type: PROCESS_RESULTS_ACTION_NAME, payload };
+}
+
+function* analyze( { paper, targets, config } ) {
+	yield { type: analyzeActions.request };
+
+	try {
+		const preparedPaper = yield { type: PREPARE_PAPER_ACTION_NAME, payload: paper };
+		// Add seoTitleWidth to paper here in some smart way (after preparePaper/replaceVars)
+
+		const response = yield {
+			type: ANALYZE_ACTION_NAME, payload: {
+				paper: preparedPaper,
+				targets,
+				config,
 			},
+		};
+
+		// Should we call process per type? E.g. seo, readability.
+		const processedResults = yield { type: PROCESS_RESULTS_ACTION_NAME, payload: response };
+
+		return { type: analyzeActions.success, payload: processedResults };
+	} catch ( error ) {
+		return { type: analyzeActions.error, payload: error };
+	}
+}
+
+const results = createSlice( {
+	name: RESULTS_SLICE_NAME,
+	initialState: {
+		status: ASYNC_STATUS.IDLE,
+		error: "",
+		seo: {
+			focus: {},
 		},
 		readability: {},
-		// research: "",
+		research: {
+			morphology: {},
+		},
 	},
 	reducers: {},
 	extraReducers: ( builder ) => {
-		builder.addCase( fetchSeoResults.pending, ( state ) => {
-			state.seo.status = ASYNC_STATUS.PENDING;
+		builder.addCase( analyzeActions.request, ( state ) => {
+			state.status = ASYNC_STATUS.LOADING;
 		} );
-		builder.addCase( fetchSeoResults.fulfilled, ( state, action ) => {
-			state.seo.status = ASYNC_STATUS.FULFILLED;
-			state.seo.results[ action.payload.key ] = action.payload.results;
+		builder.addCase( analyzeActions.success, ( state, action ) => {
+			state.status = ASYNC_STATUS.SUCCESS;
+			state.seo = action.payload.seo;
+			state.readability = action.payload.readability;
+			state.research = action.payload.research;
 		} );
-		builder.addCase( fetchSeoResults.rejected, ( state, action ) => {
-			state.seo.status = ASYNC_STATUS.REJECTED;
-			state.seo.error = action.payload;
+		builder.addCase( analyzeActions.error, ( state, action ) => {
+			state.status = ASYNC_STATUS.ERROR;
+			state.error = action.payload;
 		} );
 	},
 } );
 
-const selectSeoResults = ( state, key ) => get( state, `analysisResults.seo.results.${ key }`, INITIAL_RESULTS );
+const selectSeoResults = ( state, id = FOCUS_ID ) => get( state, `results.seo.${ id }`, {} );
 
-export const analysisResultsSelectors = {
+export const resultsSelectors = {
 	selectSeoResults,
 };
 
-export const analysisResultsActions = {
+export const resultsActions = {
 	...results.actions,
-	fetchSeoResults,
+	analyze,
+	preparePaper,
+	processResults,
 };
 
 export default results.reducer;

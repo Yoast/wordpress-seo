@@ -1,6 +1,14 @@
+export const ASYNC_ACTIONS = {
+	REQUEST: "request",
+	SUCCESS: "success",
+	ERROR: "error",
+};
+
 export const ASYNC_STATUS = {
 	IDLE: "idle",
-	PENDING: "pending",
-	FULFILLED: "fulfilled",
-	REJECTED: "rejected",
+	LOADING: "loading",
+	SUCCESS: "success",
+	ERROR: "error",
 };
+
+export const FOCUS_ID = "focus";
