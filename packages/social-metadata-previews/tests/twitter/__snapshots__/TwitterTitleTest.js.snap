@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`TwitterTitle matches the snapshot by default 1`] = `
-<p
-  className="TwitterTitle-sc-2h4g0v-0 bOSnZb"
-  title="My Twitter Title"
-/>
-`;

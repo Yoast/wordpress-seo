@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`FacebookDescription matches the snapshot by default 1`] = `
-<p
-  className="FacebookDescription-ulm5bh-0 iGSbsZ"
-/>
-`;

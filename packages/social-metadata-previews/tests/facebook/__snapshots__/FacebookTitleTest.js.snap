@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`FacebookTitle matches the snapshot by default 1`] = `
-<span
-  className="FacebookTitle-sc-1cm5c6b-0 cITNJw"
-  title="YoastCon Workshops"
-/>
-`;
