@@ -7,6 +7,7 @@ import getStemmer from "../../../../../src/languageProcessing/languages/ja/helpe
  * Mocks Japanese Researcher.
  * @param {Object} keywordCountObject The keywordCountObject to be added to the researcher.
  * @param {function} helper A helper needed for the assesment.
+ *
  * @returns {Researcher} The mock researcher with added morphological forms and custom helper.
  */
 const buildJapaneseMockResearcher = function( keywordCountObject, helper ) {

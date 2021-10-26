@@ -10,6 +10,7 @@ import matchWordsHelper from "../../../src/languageProcessing/languages/ja/helpe
  * Adds morphological forms to the mock researcher.
  *
  * @param {Array} keyphraseForms The morphological forms to be added to the researcher.
+ *
  * @returns {Researcher} The mock researcher with added morphological forms.
  */
 const buildMorphologyMockResearcher = function( keyphraseForms ) {
@@ -180,9 +181,10 @@ describe( "Test for counting the keyword in a text", function() {
 
 /**
  * Mocks Japanese Researcher.
- * @param {Array} keyphraseForms The morphological forms to be added to the researcher.
- * @param {function} helper1 A helper needed for the assesment.
- * @param {function} helper2 A helper needed for the assesment.
+ * @param {Array} keyphraseForms    The morphological forms to be added to the researcher.
+ * @param {function} helper1        A helper needed for the assesment.
+ * @param {function} helper2        A helper needed for the assesment.
+ *
  * @returns {Researcher} The mock researcher with added morphological forms and custom helper.
  */
 const buildJapaneseMockResearcher = function( keyphraseForms, helper1, helper2 ) {

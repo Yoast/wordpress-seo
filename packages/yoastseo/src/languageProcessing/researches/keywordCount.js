@@ -14,7 +14,7 @@ import { markWordsInSentences } from "../helpers/word/markWordsInSentences";
  * @param {object} researcher   The researcher.
  *
  * @returns {object} An object containing the count for the keyword occurrences, an array of all the matches,
- * markings and the keyphrase length. if the custom helper for it is available in the researcher.
+ * markings and the keyphrase length if the custom helper for it is available in the researcher.
  */
 export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
@@ -37,9 +37,9 @@ export default function( paper, researcher ) {
 	let charactersCount = 0;
 
 	/*
-	 * Count the amount of key phrase occurrences in the sentences.
-	 * An occurrence is counted when all keywords of the key phrase are contained within the sentence. Each sentence can contain multiple key phrases
-	 * (e.g. "The apple potato is an apple and a potato." has two occurrences of the key phrase "apple potato").
+	 * Count the amount of keyphrase occurrences in the sentences.
+	 * An occurrence is counted when all keywords of the keyphrase are contained within the sentence. Each sentence can contain multiple keyphrases.
+	 * (e.g. "The apple potato is an apple and a potato." has two occurrences of the keyphrase "apple potato").
 	 *
 	 * If a custom helper to calculate word characters is available, we also calculate the total characters of all the keyword forms
 	 * that are found in the text.

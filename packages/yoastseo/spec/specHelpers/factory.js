@@ -69,6 +69,7 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 			/**
 			 * Return the helper to be used for the assessment.
 			 * @param {string} name The name of the helper.
+			 *
 			 * @returns {function} The helper for the assessment.
 			 */
 			getHelper: function( name ) {
