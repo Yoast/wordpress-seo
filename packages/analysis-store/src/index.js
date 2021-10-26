@@ -1,7 +1,6 @@
 import { createReduxStore, createRegistry } from "@wordpress/data";
 import { identity } from "lodash";
 import { STORE_NAME } from "./constants";
-import { createActions, createSelectors } from "./helpers";
 import createProvider from "./provider";
 import configReducer, { CONFIG_SLICE_NAME, configActions, configSelectors } from "./slices/config";
 import dataReducer, { DATA_SLICE_NAME, dataActions, dataSelectors } from "./slices/data";
@@ -29,9 +28,15 @@ export const selectors = {
 	...dataSelectors,
 	...keyphrasesSelectors,
 	...configSelectors,
-	...resultsSelectors,
+	...resultsSelectors,	
 };
 
+/**
+ * Create a Redux store for managing analysis data, keyphrases and analysis results.
+ * 
+ * @param {AnalysisStoreConfig} config The configuration object.
+ * @returns {AnalysisStoreInterface}
+ */
 const createAnalysisStore = ( {
 	analyze,
 	preparePaper = identity,
@@ -51,15 +56,13 @@ const createAnalysisStore = ( {
 			[ PROCESS_RESULTS_ACTION_NAME ]: async ( { payload } ) => processResults( payload ),
 		},
 	} );
-	registry.register( store );
 
+	registry.register( store );
 	const Provider = createProvider( registry );
 
 	return {
-		actions: createActions( store, actions ),
-		selectors: createSelectors( store, selectors ),
-		Provider,
 		store,
+		Provider,
 	};
 };
 

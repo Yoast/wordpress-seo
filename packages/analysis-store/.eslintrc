@@ -14,8 +14,6 @@
     "jest": true
   },
   "rules": {
-    "require-jsdoc": "off",
-    "valid-jsdoc": "off",
     // We use 'wp.element.createElement' instead of the 'react' package directly.
     "react/react-in-jsx-scope": "off",
     "no-restricted-imports": [

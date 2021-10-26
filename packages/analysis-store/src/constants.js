@@ -13,4 +13,4 @@ export const ASYNC_STATUS = {
 
 export const STORE_NAME = "@yoast/analysis-store";
 
-export const FOCUS_ID = "focus";
+export const FOCUS_KEYPHRASE_ID = "focus";

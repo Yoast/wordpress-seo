@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get, reduce } from "lodash";
-import { ASYNC_ACTIONS, ASYNC_STATUS, FOCUS_ID } from "../constants";
+import { ASYNC_ACTIONS, ASYNC_STATUS, FOCUS_KEYPHRASE_ID } from "../constants";
 
 export const RESULTS_SLICE_NAME = "results";
 export const ANALYZE_ACTION_NAME = "analyze";
@@ -76,7 +76,7 @@ const results = createSlice( {
 	},
 } );
 
-const selectSeoResults = ( state, id = FOCUS_ID ) => get( state, `results.seo.${ id }`, {} );
+const selectSeoResults = ( state, id = FOCUS_KEYPHRASE_ID ) => get( state, `results.seo.${ id }`, {} );
 
 export const resultsSelectors = {
 	selectSeoResults,
