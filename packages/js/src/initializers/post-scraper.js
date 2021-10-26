@@ -478,8 +478,10 @@ export default function initPostScraper( $, store, editorData ) {
 			pluginReloaded: app.pluginReloaded,
 		} );
 
-		const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, blockEditorDataModule );
-		reusableBlocksPlugin.register();
+		if ( isBlockEditor() ) {
+			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, blockEditorDataModule );
+			reusableBlocksPlugin.register();
+		}
 
 		if ( wpseoScriptData.metabox.markdownEnabled ) {
 			const markdownPlugin = new YoastMarkdownPlugin( app.registerPlugin, app.registerModification );
