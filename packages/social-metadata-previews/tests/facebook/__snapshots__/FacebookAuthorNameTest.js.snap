@@ -1,14 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FacebookAuthorName matches the snapshot by default 1`] = `
-.c0 {
-  color: #3b5998;
-  font-size: 12px;
-  line-height: 11px;
-}
-
 <span
-  className="c0"
+  className="FacebookAuthorName__FacebookAuthorNameWrapper-sc-1vxuq8i-0 PPxVv"
 >
   John Doe
 </span>

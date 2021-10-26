@@ -7,59 +7,24 @@ Array [
   >
     sitename.com by John Doe
   </span>,
-  .c3 {
-  color: #3b5998;
-  font-size: 12px;
-  line-height: 11px;
-}
-
-.c0 {
-  color: #606770;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  font-size: 12px;
-  line-height: 20px;
-  overflow: hidden;
-  padding: 0;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
-  margin: 0;
-  position: static;
-}
-
-.c2 {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-.c1 {
-  color: #606770;
-  font-size: 12px;
-  line-height: 11px;
-  text-transform: uppercase;
-  overflow: hidden;
-}
-
-<p
+  <p
     aria-hidden="true"
-    className="c0"
+    className="FacebookSiteAndAuthorNames__FacebookSiteAndAuthorNamesWrapper-sc-1qo7jpl-0 gAHdzt"
   >
     <span
-      className="c1"
+      className="FacebookSiteAndAuthorNames__FacebookSiteUrl-sc-1qo7jpl-2 hSwXjH"
     >
       sitename.com
     </span>
     <span
-      className="c2"
+      className="FacebookSiteAndAuthorNames__FacebookSiteAndAuthorNamesSeparator-sc-1qo7jpl-1 hcFtdA"
     >
       |
     </span>
     By
      
     <span
-      className="c3"
+      className="FacebookAuthorName__FacebookAuthorNameWrapper-sc-1vxuq8i-0 PPxVv"
     >
       John Doe
     </span>
