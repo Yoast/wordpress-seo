@@ -38,11 +38,13 @@ FactoryProto.prototype.buildMockElement = function() {
  * @param {boolean} multiValue    		True if multiple values are expected.
  * @param {boolean} hasMorphologyData	True if the researcher has access to morphology data.
  * @param {Object|boolean} config		Optional config to be used for an assessment.
+ * @param {Object|boolean} helpers	Optional helpers to be used for an assessment.
  *
  * @returns {Researcher} Mock researcher.
  */
-FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false, hasMorphologyData = false, config = false ) {
-	if ( multiValue && typeof expectedValue === "object" ) {
+FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false, hasMorphologyData = false,
+	config = false, helpers = false ) {
+	if ( ( multiValue && typeof expectedValue === "object" ) || ( multiValue && typeof helpers === "object" ) ) {
 		return {
 			/**
 			 * Return research results by research name for multi-value mock researchers.
@@ -62,6 +64,16 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 			 */
 			getData: function() {
 				return hasMorphologyData;
+			},
+
+			/**
+			 * Return the helper to be used for the assessment.
+			 * @param {string} name The name of the helper.
+			 *
+			 * @returns {function} The helper for the assessment.
+			 */
+			getHelper: function( name ) {
+				return helpers[ name ];
 			},
 		};
 	}
