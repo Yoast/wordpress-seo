@@ -185,15 +185,16 @@ const computeProminentWordsMemoized = memoize( ( words, abbreviations, stemmer, 
  * @param {string[]} abbreviations  The abbreviations that occur in the text and attributes of the paper.
  * @param {Function} stemmer        The available stemmer.
  * @param {Array} functionWords     The available function words list.
+ * @param {function} getWordsCustomHelper   The custom helper to get words.
  *
  * @returns {ProminentWord[]} All prominent words sorted and filtered for this text.
  */
-function getProminentWords( text, abbreviations, stemmer, functionWords ) {
+function getProminentWords( text, abbreviations, stemmer, functionWords, getWordsCustomHelper = getWords ) {
 	if ( text === "" ) {
 		return [];
 	}
 
-	const words = getWords( normalizeSingle( text ).toLocaleLowerCase() );
+	const words = getWordsCustomHelper( normalizeSingle( text ).toLocaleLowerCase() );
 
 	return computeProminentWordsMemoized( words, abbreviations, stemmer, functionWords );
 }
@@ -205,11 +206,12 @@ function getProminentWords( text, abbreviations, stemmer, functionWords ) {
  * @param {string[]} abbreviations  The abbreviations that occur in the text and attributes of the paper.
  * @param {Function} stemmer        The available stemmer.
  * @param {Array} functionWords     The available function words list.
+ * @param {function} getWordsCustomHelper   The custom helper to get words.
  *
  * @returns {ProminentWord[]} Prominent words from the paper attributes.
  */
-function getProminentWordsFromPaperAttributes( attributes, abbreviations, stemmer, functionWords ) {
-	const wordsFromAttributes = getWords( attributes.join( " " ).toLocaleLowerCase() );
+function getProminentWordsFromPaperAttributes( attributes, abbreviations, stemmer, functionWords, getWordsCustomHelper = getWords ) {
+	const wordsFromAttributes = getWordsCustomHelper( attributes.join( " " ).toLocaleLowerCase() );
 
 	return computeProminentWords( wordsFromAttributes, abbreviations, stemmer, functionWords );
 }

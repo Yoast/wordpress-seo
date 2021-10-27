@@ -24,7 +24,9 @@ import baseStemmer from "../helpers/morphology/baseStemmer";
  */
 function getProminentWordsForInternalLinking( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
-	const stemmer = researcher.getHelper( "getStemmer" )( researcher );
+	const customStemmer = researcher.getHelper( "customGetStemmer" )( researcher );
+	const stemmer = customStemmer ? customStemmer : researcher.getHelper( "getStemmer" )( researcher );
+	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
 	const text = paper.getText();
 	const metadescription = paper.getDescription();
 	const title = paper.getTitle();
@@ -37,7 +39,7 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 	/**
 	 * We only want to return suggestions (and spend time calculating prominent words) if the text is at least 100 words.
  	 */
-	const textLength = countWords( text );
+	const textLength = getWordsCustomHelper ? getWordsCustomHelper( text ).length : countWords( text );
 	if ( textLength < 100 ) {
 		return result;
 	}
@@ -51,12 +53,13 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 		subheadings.join( " " ),
 	];
 
-	const abbreviations = retrieveAbbreviations( text.concat( attributes.join( " " ) ) );
+	const abbreviations = customStemmer ? [] : retrieveAbbreviations( text.concat( attributes.join( " " ) ) );
 
-	const prominentWordsFromText = getProminentWords( removeSubheadingsTopLevel( text ), abbreviations, stemmer, functionWords );
+	const removedSubheadingText = removeSubheadingsTopLevel( text );
+	const prominentWordsFromText = getProminentWords( removedSubheadingText, abbreviations, stemmer, functionWords, getWordsCustomHelper );
 
 	const prominentWordsFromPaperAttributes = getProminentWordsFromPaperAttributes(
-		attributes, abbreviations, stemmer, functionWords );
+		attributes, abbreviations, stemmer, functionWords, getWordsCustomHelper );
 
 	/*
 	 * If a word is used in any of the attributes, its weight is automatically high.
