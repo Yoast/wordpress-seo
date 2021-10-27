@@ -36,7 +36,7 @@ class SettingsReplacementVariableEditor extends Component {
 			hasPremiumBadge,
 		} = this.props;
 
-		const placeholder = descriptionPlaceholder || __( "Modify your meta description by editing it right here", "wordpress-seo" );
+		const placeholder = descriptionPlaceholder || "";
 
 		return (
 			<SnippetPreviewSection

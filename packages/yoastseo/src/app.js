@@ -47,9 +47,9 @@ var defaults = {
 	sampleText: {
 		baseUrl: "example.org/",
 		snippetCite: "example-post/",
-		title: "This is an example title - edit by clicking here",
+		title: "",
 		keyword: "Choose a focus keyword",
-		meta: "Modify your meta description by editing it right here",
+		meta: "",
 		text: "Start writing your text!",
 	},
 	queue: [ "wordCount",

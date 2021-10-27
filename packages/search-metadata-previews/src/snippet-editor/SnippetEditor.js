@@ -257,6 +257,7 @@ class SnippetEditor extends React.Component {
 	renderEditor() {
 		const {
 			data,
+			descriptionEditorFieldPlaceholder,
 			replacementVariables,
 			recommendedReplacementVariables,
 			hasPaperStyle,
@@ -264,18 +265,10 @@ class SnippetEditor extends React.Component {
 			idSuffix,
 		} = this.props;
 
-		let {
-			descriptionEditorFieldPlaceholder,
-		} = this.props;
-
 		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
 
 		if ( ! isOpen ) {
 			return null;
-		}
-
-		if ( descriptionEditorFieldPlaceholder === "" ) {
-			descriptionEditorFieldPlaceholder = __( "Modify your meta description by editing it right here", "yoast-components" );
 		}
 
 		return (
