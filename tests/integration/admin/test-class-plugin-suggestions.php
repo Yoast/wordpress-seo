@@ -29,8 +29,8 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Set up our double class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$plugin_availability = new WPSEO_Plugin_Availability_Double();
 
