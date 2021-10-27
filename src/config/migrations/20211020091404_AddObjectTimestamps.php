@@ -46,6 +46,18 @@ class AddObjectTimestamps extends Migration {
 				'default' => null,
 			]
 		);
+		$this->add_index(
+			$this->get_table_name(),
+			[
+				'object_published_at',
+				'is_robots_noindex',
+				'object_type',
+				'object_sub_type',
+			],
+			[
+				'name' => 'published_sitemap_index',
+			]
+		);
 	}
 
 	/**
@@ -56,6 +68,18 @@ class AddObjectTimestamps extends Migration {
 	public function down() {
 		$this->remove_column( $this->get_table_name(), 'object_last_modified' );
 		$this->remove_column( $this->get_table_name(), 'object_published_at' );
+		$this->remove_index(
+			$this->get_table_name(),
+			[
+				'object_published_at',
+				'is_robots_noindex',
+				'object_type',
+				'object_sub_type',
+			],
+			[
+				'name' => 'published_sitemap_index',
+			]
+		);
 	}
 
 	/**
