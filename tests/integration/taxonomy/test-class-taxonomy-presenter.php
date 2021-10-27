@@ -27,8 +27,8 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Adding a term and set the class instance.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->term           = $this->factory->term->create_and_get();
 		$this->class_instance = new WPSEO_Taxonomy_Fields_Presenter( $this->term );

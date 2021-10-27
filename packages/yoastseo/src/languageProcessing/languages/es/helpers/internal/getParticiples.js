@@ -1,27 +1,18 @@
-import { forEach, includes } from "lodash-es";
+import { includes } from "lodash-es";
 import { languageProcessing } from "yoastseo";
 const { getWords } = languageProcessing;
 
 import participles from "../../config/internal/passiveVoiceParticiples";
-import SpanishParticiple from "../../values/SpanishParticiple";
 
 /**
- * Creates participle objects for the participles found in a sentence part.
+ * Creates an array of the participles found in a clause.
  *
- * @param {string} sentencePartText     The sentence part to find participles in.
- * @param {Array} auxiliaries           The list of auxiliaries from the sentence part.
+ * @param {string} clauseText The clause to find participles in.
  *
- * @returns {Array} The list with participle objects.
+ * @returns {Array} The list with participles.
  */
-export default function getParticiples( sentencePartText, auxiliaries ) {
-	const words = getWords( sentencePartText );
-	const foundParticiples = [];
+export default function getParticiples( clauseText ) {
+	const words = getWords( clauseText );
 
-	forEach( words, function( word ) {
-		if ( includes( participles, word ) ) {
-			foundParticiples.push( new SpanishParticiple( word, sentencePartText,
-				{ auxiliaries: auxiliaries, type: "irregular", language: "es" } ) );
-		}
-	} );
-	return foundParticiples;
+	return words.filter( word => includes( participles, word ) );
 }

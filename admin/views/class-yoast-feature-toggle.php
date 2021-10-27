@@ -25,6 +25,13 @@ class Yoast_Feature_Toggle {
 	protected $setting = '';
 
 	/**
+	 * Whether the feature is premium or not.
+	 *
+	 * @var bool
+	 */
+	protected $premium = false;
+
+	/**
 	 * Feature toggle label.
 	 *
 	 * @var string
@@ -37,6 +44,13 @@ class Yoast_Feature_Toggle {
 	 * @var string
 	 */
 	protected $read_more_url = '';
+
+	/**
+	 * URL to learn more about the premium feature.
+	 *
+	 * @var string
+	 */
+	protected $premium_url = '';
 
 	/**
 	 * Label for the learn more link.

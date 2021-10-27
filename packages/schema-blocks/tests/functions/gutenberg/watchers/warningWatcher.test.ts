@@ -4,7 +4,7 @@ import { dispatch } from "@wordpress/data";
 import warningWatcher from "../../../../src/functions/gutenberg/watchers/warningWatcher";
 import InnerBlocks from "../../../../src/instructions/blocks/InnerBlocks";
 import { getBlockDefinition } from "../../../../src/core/blocks/BlockDefinitionRepository";
-import { RequiredBlock, RequiredBlockOption } from "../../../../src/core/validation";
+import { RequiredBlock } from "../../../../src/core/validation";
 
 jest.mock( "@wordpress/i18n", () => ( {
 	__: jest.fn( text => text ),
@@ -88,14 +88,14 @@ describe( "The warning watcher", () => {
 			} as BlockInstance,
 		];
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore -- This is mocked function, the original function does not have this method so TS complains.
 		getBlockDefinition.mockReturnValueOnce( {
 			instructions: {
 				32: new InnerBlocks( 32, {
 					name: "anyBlock",
 					requiredBlocks: [
-						{ name: "yoast/ingredients", option: RequiredBlockOption.One } as RequiredBlock,
+						{ name: "yoast/ingredients" } as RequiredBlock,
 					],
 					warnings: {
 						"yoast/ingredients": "a warning",
@@ -147,7 +147,7 @@ describe( "The warning watcher", () => {
 			} as BlockInstance,
 		];
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore 2339 -- This is a mocked function, the original class does not have this method, so TS complains.
 		getBlockDefinition.mockReturnValue( {
 			instructions: {
@@ -227,7 +227,7 @@ describe( "The warning watcher", () => {
 			} as BlockInstance,
 		];
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore -- This is mocked function, the original function does not have this method so TS complains.
 		getBlockDefinition.mockReturnValue( null );
 

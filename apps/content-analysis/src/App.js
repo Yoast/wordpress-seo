@@ -3,9 +3,9 @@ import { setLocaleData } from "@wordpress/i18n";
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { Suite } from "benchmark";
-import testPapers from "yoastseo/spec/fullTextTests/testTexts";
+import testPapers from "../../../packages/yoastseo/spec/fullTextTests/testTexts";
 import { Paper } from "yoastseo";
-import getMorphologyData from "yoastseo/spec/specHelpers/getMorphologyData";
+import getMorphologyData from "../../../packages/yoastseo/spec/specHelpers/getMorphologyData";
 import getLanguage from "yoastseo/src/languageProcessing/helpers/language/getLanguage";
 
 

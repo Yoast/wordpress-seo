@@ -190,10 +190,6 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			return;
 		}
 
-		if ( ! $this->post->is_post_indexable( $post_id ) ) {
-			return;
-		}
-
 		try {
 			$indexable = $this->repository->find_by_id_and_type( $post_id, 'post', false );
 			$indexable = $this->builder->build_for_id_and_type( $post_id, 'post', $indexable );

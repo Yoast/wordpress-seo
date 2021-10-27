@@ -1,3 +1,4 @@
+import { isFeatureEnabled } from "@yoast/feature-flag";
 import { filter, includes, isEmpty } from "lodash-es";
 import getWords from "../helpers/word/getWords";
 
@@ -11,15 +12,22 @@ import getWords from "../helpers/word/getWords";
  */
 export default function( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
+
+	// A helper to get words from the keyphrase for languages that don't use the default way.
+	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
 	const keyphrase = paper.getKeyword();
 
 	// Return false if there are double quotes around the keyphrase.
-	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
+	let doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
+	const japaneseQuotes = [ "「", "」", "『", "』" ];
+
+	doubleQuotes = isFeatureEnabled( "JAPANESE_SUPPORT" ) ? doubleQuotes.concat( japaneseQuotes ) : doubleQuotes;
+
 	if ( includes( doubleQuotes, keyphrase[ 0 ] ) && includes( doubleQuotes, keyphrase[ keyphrase.length - 1 ] ) ) {
 		return false;
 	}
 
-	let keyphraseWords = getWords( keyphrase );
+	let keyphraseWords = getWordsCustomHelper ? getWordsCustomHelper( keyphrase ) : getWords( keyphrase );
 
 	keyphraseWords = filter( keyphraseWords, function( word ) {
 		return ( ! includes( functionWords, word.trim().toLocaleLowerCase() ) );

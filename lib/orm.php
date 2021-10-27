@@ -2197,6 +2197,100 @@ class ORM implements \ArrayAccess {
 	}
 
 	/**
+	 * Extracts and gathers all dirty column names from the given model instances.
+	 *
+	 * @param array $models Array of model instances to be inserted.
+	 *
+	 * @return array The distinct set of columns that are dirty in at least one of the models.
+	 *
+	 * @throws \InvalidArgumentException Instance to be inserted is not a new one.
+	 */
+	public function get_dirty_column_names( $models ) {
+		$dirty_column_names = [];
+
+		foreach ( $models as $model ) {
+			if ( ! $model->orm->is_new() ) {
+				throw new \InvalidArgumentException( 'Instance to be inserted is not a new one' );
+			}
+
+			// Remove any expression fields as they are already baked into the query.
+			$dirty_fields       = \array_diff_key( $model->orm->dirty_fields, $model->orm->expr_fields );
+			$dirty_column_names = \array_merge( $dirty_column_names, $dirty_fields );
+		}
+
+		$dirty_column_names = \array_keys( $dirty_column_names );
+
+		return $dirty_column_names;
+	}
+
+	/**
+	 * Inserts multiple rows in a single query. Expects new rows as it's a strictly insert function, not an update one.
+	 *
+	 * @example From the Indexable_Link_Builder class: $this->seo_links_repository->query()->insert_many( $links );
+	 *
+	 * @param array $models Array of model instances to be inserted.
+	 *
+	 * @return bool True for successful insert, false for failed.
+	 *
+	 * @throws \InvalidArgumentException Invalid instances to be inserted.
+	 * @throws \InvalidArgumentException Instance to be inserted is not a new one.
+	 */
+	public function insert_many( $models ) {
+		// Validate the input first.
+		if ( ! \is_array( $models ) ) {
+			throw new \InvalidArgumentException( 'Invalid instances to be inserted' );
+		}
+
+		if ( empty( $models ) ) {
+			return true;
+		}
+
+		$success = true;
+
+		/**
+		 * Filter: 'wpseo_chunk_bulked_insert_queries' - Allow filtering the chunk size of each bulked INSERT query.
+		 *
+		 * @api int The chunk size of the bulked INSERT queries.
+		 */
+		$chunk = \apply_filters( 'wpseo_chunk_bulk_insert_queries', 100 );
+		$chunk = ! \is_int( $chunk ) ? 100 : $chunk;
+		$chunk = ( $chunk <= 0 ) ? 100 : $chunk;
+
+		$chunked_models = \array_chunk( $models, $chunk );
+		foreach ( $chunked_models as $models_chunk ) {
+			$values = [];
+
+			// First, we'll gather all the dirty fields throughout the models to be inserted.
+			$dirty_column_names = $this->get_dirty_column_names( $models_chunk );
+
+			// Now, we're creating all dirty fields throughout the models and
+			// setting them to null if they don't exist in each model.
+			foreach ( $models_chunk as $model ) {
+				$model_values = [];
+
+				foreach ( $dirty_column_names as $dirty_column ) {
+					// Set the value to null if it hasn't been set already.
+					if ( ! isset( $model->orm->dirty_fields[ $dirty_column ] ) ) {
+						$model->orm->dirty_fields[ $dirty_column ] = null;
+					}
+
+					// Only register the value if it is not null.
+					if ( ! is_null( $model->orm->dirty_fields[ $dirty_column ] ) ) {
+						$model_values[] = $model->orm->dirty_fields[ $dirty_column ];
+					}
+				}
+				$values = \array_merge( $values, $model_values );
+			}
+
+			// We now have the same set of dirty columns in all our models and also gathered all values.
+			$query   = $this->build_insert_many( $models_chunk, $dirty_column_names );
+			$success = $success && (bool) self::execute( $query, $values );
+		}
+
+		return $success;
+	}
+
+	/**
 	 * Updates many records in the database.
 	 *
 	 * @return int|bool The number of rows changed if the query was succesful. False otherwise.
@@ -2279,6 +2373,39 @@ class ORM implements \ArrayAccess {
 		$placeholders = $this->create_placeholders( $this->dirty_fields );
 		$query[]      = "({$placeholders})";
 
+		return \implode( ' ', $query );
+	}
+
+	/**
+	 * Builds a bulk INSERT query.
+	 *
+	 * @param array $models             Array of model instances to be inserted.
+	 * @param array $dirty_column_names Array of dirty fields to be used in INSERT.
+	 *
+	 * @return string The insert query.
+	 */
+	protected function build_insert_many( $models, $dirty_column_names ) {
+		$example_model      = $models[0];
+		$total_placeholders = '';
+
+		$query      = [];
+		$query[]    = 'INSERT INTO';
+		$query[]    = $this->quote_identifier( $example_model->orm->table_name );
+		$field_list = \array_map( [ $this, 'quote_identifier' ], $dirty_column_names );
+		$query[]    = '(' . \implode( ', ', $field_list ) . ')';
+		$query[]    = 'VALUES';
+
+		// We assign placeholders per model for dirty fields that have values and NULL for dirty fields that don't.
+		foreach ( $models as $model ) {
+			$placeholder = [];
+			foreach ( $dirty_column_names as $dirty_field ) {
+				$placeholder[] = ( $model->orm->dirty_fields[ $dirty_field ] === null ) ? 'NULL' : '%s';
+			}
+			$placeholders        = \implode( ', ', $placeholder );
+			$total_placeholders .= "({$placeholders}),";
+		}
+
+		$query[] = \rtrim( $total_placeholders, ',' );
 		return \implode( ' ', $query );
 	}
 

@@ -32,7 +32,7 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		$manager = WPSEO_Capability_Manager_Factory::get();
 
 		$manager->register( 'wpseo_bulk_edit', [ 'editor', 'wpseo_editor', 'wpseo_manager' ] );
-		$manager->register( 'wpseo_edit_advanced_metadata', [ 'wpseo_editor', 'wpseo_manager' ] );
+		$manager->register( 'wpseo_edit_advanced_metadata', [ 'editor', 'wpseo_editor', 'wpseo_manager' ] );
 
 		$manager->register( 'wpseo_manage_options', [ 'administrator', 'wpseo_manager' ] );
 		$manager->register( 'view_site_health_checks', [ 'wpseo_manager' ] );

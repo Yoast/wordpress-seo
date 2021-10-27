@@ -41,6 +41,7 @@ module.exports = function( grunt ) {
 			svnCheckoutDir: ".wordpress-svn",
 			assets: "svn-assets",
 			vendor: "vendor/",
+			vendorPrefixed: "vendor_prefixed/",
 		},
 		files: {
 			css: [
@@ -143,6 +144,8 @@ module.exports = function( grunt ) {
 				"update-changelog": "@yoast/grunt-plugin-tasks",
 				"build-qa-changelog": "@yoast/grunt-plugin-tasks",
 				"download-qa-changelog": "@yoast/grunt-plugin-tasks",
+				"extract-extra-pr-texts-from-yoast-cli-md": "@yoast/grunt-plugin-tasks",
+				"update-package-changelog": "@yoast/grunt-plugin-tasks",
 				"register-prompt": "grunt-prompt",
 				"notify-slack": "notify-slack",
 			},

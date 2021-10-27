@@ -45,7 +45,7 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance             = Mockery::mock( WPSEO_Sitemaps_Admin::class )->makePartial();
+		$this->instance             = new WPSEO_Sitemaps_Admin();
 		$this->options_mock         = Mockery::mock( WPSEO_Options::class )->shouldAllowMockingProtectedMethods();
 		$this->mock_post            = Mockery::mock( '\WP_Post' )->makePartial();
 		$this->mock_post->post_type = 'post';
@@ -74,7 +74,7 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 			->shouldReceive( 'is_multisite' )
 			->andReturn( false );
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_allow_xml_sitemap_ping' )
 			->never();
 
 		$this->instance->status_transition( 'publish', 'draft', $this->mock_post );
@@ -103,7 +103,7 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 			->shouldReceive( 'is_multisite' )
 			->andReturn( false );
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_allow_xml_sitemap_ping' )
 			->once()
 			->andReturn( true );
 

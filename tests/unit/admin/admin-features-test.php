@@ -54,14 +54,17 @@ class Admin_Features_Test extends TestCase {
 		$this->stubTranslationFunctions();
 
 		$current_page_helper = Mockery::mock( Current_Page_Helper::class );
-		$current_page_helper->expects( 'is_yoast_seo_page' )->twice()->andReturn( true );
+		$current_page_helper->expects( 'is_yoast_seo_page' )->once()->andReturn( true );
 
 		$product_helper = Mockery::mock( Product_Helper::class );
 		$product_helper->expects( 'is_premium' )->times( 5 )->andReturn( false );
+		$url_helper = Mockery::mock( Url_Helper::class );
+		$url_helper->expects( 'is_plugin_network_active' )->twice()->andReturn( false );
 
 		$helper_surface               = Mockery::mock( Helpers_Surface::class );
 		$helper_surface->current_page = $current_page_helper;
 		$helper_surface->product      = $product_helper;
+		$helper_surface->url          = $url_helper;
 
 		Monkey\Functions\expect( 'YoastSEO' )
 			->andReturn( (object) [ 'helpers' => $helper_surface ] );

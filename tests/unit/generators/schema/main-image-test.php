@@ -115,9 +115,6 @@ class Main_Image_Test extends TestCase {
 	 * Tests that generate call generate from url without a featured image but with a content image.
 	 *
 	 * @covers ::generate
-	 * @covers ::get_social_image
-	 * @covers ::get_featured_image
-	 * @covers ::get_first_content_image
 	 */
 	public function test_generate_from_url() {
 		$this->meta_tags_context->canonical      = 'https://example.com/canonical';
@@ -164,9 +161,6 @@ class Main_Image_Test extends TestCase {
 	 * Tests that generate returns the OpenGraph social image when available.
 	 *
 	 * @covers ::generate
-	 * @covers ::get_social_image
-	 * @covers ::get_featured_image
-	 * @covers ::get_first_content_image
 	 */
 	public function test_generate_from_open_graph_social_image() {
 		$this->meta_tags_context->canonical = 'https://example.com/canonical';
@@ -200,9 +194,6 @@ class Main_Image_Test extends TestCase {
 	 * an OpenGraph image is not available.
 	 *
 	 * @covers ::generate
-	 * @covers ::get_social_image
-	 * @covers ::get_featured_image
-	 * @covers ::get_first_content_image
 	 */
 	public function test_generate_from_twitter_social_image() {
 		$this->meta_tags_context->canonical = 'https://example.com/canonical';

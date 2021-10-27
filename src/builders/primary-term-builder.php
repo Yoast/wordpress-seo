@@ -78,7 +78,7 @@ class Primary_Term_Builder {
 		$term_selected = ! empty( $term_id );
 		$primary_term  = $this->repository->find_by_post_id_and_taxonomy( $post_id, $taxonomy, $term_selected );
 
-		// Removes the indexable when found.
+		// Removes the indexable when no term found.
 		if ( ! $term_selected ) {
 			if ( $primary_term ) {
 				$primary_term->delete();

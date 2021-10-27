@@ -172,18 +172,11 @@
 		<exclude-pattern>/lib/*</exclude-pattern>
 	</rule>
 
-	<!-- Exclude php-codeshift from being checked too roughly. -->
-	<rule ref="Yoast.NamingConventions.ObjectNameDepth">
+	<!-- Exclude select directories from the object depth naming convention check. -->
+	<rule ref="Yoast.NamingConventions.ObjectNameDepth.MaxExceeded">
 		<exclude-pattern>/config/php-codeshift/*</exclude-pattern>
-	</rule>
-
-	<!-- Exclude conditionals from being checked too roughly. -->
-	<rule ref="Yoast.NamingConventions.ObjectNameDepth.MaxExceeded">
 		<exclude-pattern>/src/conditionals/*</exclude-pattern>
-	</rule>
-
-	<!-- Exclude third-party from being checked too roughly. -->
-	<rule ref="Yoast.NamingConventions.ObjectNameDepth.MaxExceeded">
+		<exclude-pattern>/src/config/migrations/*</exclude-pattern>
 		<exclude-pattern>/src/generators/schema/third-party/*</exclude-pattern>
 	</rule>
 

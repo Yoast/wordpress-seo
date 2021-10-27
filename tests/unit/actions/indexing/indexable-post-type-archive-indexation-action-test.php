@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Indexable_Post_Type_Archive_Indexation_Action_Test class
@@ -52,6 +53,13 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * Contains the latest version of each indexable builder.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Builder_Versions
+	 */
+	protected $versions;
+
+	/**
 	 * Set up the mocks before each test.
 	 */
 	protected function set_up() {
@@ -60,11 +68,18 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 		$this->repository = Mockery::mock( Indexable_Repository::class );
 		$this->builder    = Mockery::mock( Indexable_Builder::class );
 		$this->post_type  = Mockery::mock( Post_Type_Helper::class );
+		$this->versions   = Mockery::mock( Indexable_Builder_Versions::class );
+
+		$this->versions
+			->expects( 'get_latest_version_for_type' )
+			->with( 'post-type-archive' )
+			->andReturn( 2 );
 
 		$this->instance = new Indexable_Post_Type_Archive_Indexation_Action(
 			$this->repository,
 			$this->builder,
-			$this->post_type
+			$this->post_type,
+			$this->versions
 		);
 	}
 
@@ -74,15 +89,12 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$instance = new Indexable_Post_Type_Archive_Indexation_Action(
-			$this->repository,
-			$this->builder,
-			$this->post_type
-		);
+		$instance = $this->instance;
 
 		$this->assertEquals( $this->repository, $this->getPropertyValue( $instance, 'repository' ) );
 		$this->assertEquals( $this->builder, $this->getPropertyValue( $instance, 'builder' ) );
 		$this->assertEquals( $this->post_type, $this->getPropertyValue( $instance, 'post_type' ) );
+		$this->assertEquals( 2, $this->getPropertyValue( $instance, 'version' ) );
 	}
 
 	/**
@@ -258,6 +270,43 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the transients are not deleted when no indexables have been created.
+	 *
+	 * @covers ::index
+	 * @covers ::get_limit
+	 * @covers ::get_unindexed_post_type_archives
+	 * @covers ::get_post_types_with_archive_pages
+	 * @covers ::get_indexed_post_type_archives
+	 */
+	public function test_index_no_indexables_created() {
+		$public_post_types = [
+			[
+				'name'        => 'movies',
+				'has_archive' => true,
+			],
+			[
+				'name'        => 'books',
+				'has_archive' => true,
+			],
+			[
+				'name'        => 'posts',
+				'has_archive' => true,
+			],
+		];
+
+		$indexed_post_types = [ 'movies', 'books', 'posts' ];
+
+		$this->set_expectations_for_post_type_helper( $public_post_types );
+		$this->set_expectations_for_repository( $indexed_post_types );
+
+		Monkey\Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
+			->with( 25 )
+			->andReturn( 25 );
+
+		$this->assertEquals( [], $this->instance->index() );
+	}
+
+	/**
 	 * Sets the expectations for the post type helper.
 	 *
 	 * @param array $public_post_types The public post types.
@@ -292,6 +341,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 		$query_mock = Mockery::mock( ORM::class );
 		$query_mock->expects( 'select' )->once()->with( 'object_sub_type' )->andReturn( $query_mock );
 		$query_mock->expects( 'where' )->once()->with( 'object_type', 'post-type-archive' )->andReturn( $query_mock );
+		$query_mock->expects( 'where_equal' )->once()->with( 'version', 2 )->andReturn( $query_mock );
 		$query_mock->expects( 'find_array' )->once()->andReturn( $results );
 
 		$this->repository->expects( 'query' )->once()->andReturn( $query_mock );

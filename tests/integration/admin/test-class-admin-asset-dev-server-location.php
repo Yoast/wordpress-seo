@@ -10,7 +10,7 @@ use Yoast\WPTestUtils\WPIntegration\TestCase;
 /**
  * Tests WPSEO_Admin_Asset_Dev_Server_Location.
  */
-final class Test_Admin_Asset_Dev_Server_Location extends TestCase {
+final class Admin_Asset_Dev_Server_Location_Test extends TestCase {
 
 	/**
 	 * Default arguments to use for creating a new Admin_Asset.

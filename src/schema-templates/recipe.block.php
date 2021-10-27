@@ -10,21 +10,25 @@ $yoast_seo_block_title = sprintf( __( '%1$s Recipe', 'wordpress-seo' ), 'Yoast' 
 
 $yoast_seo_block_template = [
 	[ 'yoast/recipe-name' ],
+	[ 'yoast/cooking-time' ],
+	[ 'yoast/preparation-time' ],
 	[ 'core/image' ],
-	[ 'yoast/ingredients' ],
-	[ 'yoast/steps' ],
+	[ 'yoast/recipe-description' ],
+	[ 'yoast/recipe-ingredients' ],
+	[ 'yoast/recipe-instructions' ],
 ];
 
 $yoast_seo_required_blocks = [
 	[ 'name' => 'yoast/recipe-name' ],
 	[ 'name' => 'core/image' ],
-	[ 'name' => 'yoast/ingredients' ],
-	[ 'name' => 'yoast/steps' ],
+	[ 'name' => 'yoast/recipe-ingredients' ],
+	[ 'name' => 'yoast/recipe-instructions' ],
 ];
 
 $yoast_seo_recommended_blocks = [
-	[ 'name' => 'core/paragraph' ],
 	[ 'name' => 'yoast/cooking-time' ],
+	[ 'name' => 'yoast/preparation-time' ],
+	[ 'name' => 'yoast/recipe-description' ],
 ];
 
 // phpcs:disable WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe.

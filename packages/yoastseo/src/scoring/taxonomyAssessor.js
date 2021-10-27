@@ -51,7 +51,13 @@ const TaxonomyAssessor = function( i18n, researcher, options ) {
 		new MetaDescriptionLengthAssessment(),
 		getTextLengthAssessment(),
 		new TitleKeywordAssessment(),
-		new PageTitleWidthAssessment(),
+		new PageTitleWidthAssessment(
+			{
+				scores: {
+					widthTooShort: 9,
+				},
+			}, true
+		),
 		new UrlKeywordAssessment(),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),

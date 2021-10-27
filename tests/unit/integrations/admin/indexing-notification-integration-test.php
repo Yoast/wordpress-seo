@@ -4,9 +4,11 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Environment_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -72,9 +74,23 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	/**
 	 * The notification helper.
 	 *
-	 * @var Notification_Helper
+	 * @var Mockery\MockInterface|Notification_Helper
 	 */
 	protected $notification_helper;
+
+	/**
+	 * The addon manager.
+	 *
+	 * @var Mockery\MockInterface|WPSEO_Addon_Manager
+	 */
+	protected $addon_manager;
+
+	/**
+	 * The environment Helper.
+	 *
+	 * @var Mockery\MockInterface|Environment_Helper
+	 */
+	protected $environment_helper;
 
 	/**
 	 * The instance under test.
@@ -95,6 +111,9 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		$this->short_link_helper   = Mockery::mock( Short_Link_Helper::class );
 		$this->notification_helper = Mockery::mock( Notification_Helper::class );
 		$this->indexing_helper     = Mockery::mock( Indexing_Helper::class );
+		$this->addon_manager       = Mockery::mock( WPSEO_Addon_Manager::class );
+		$this->environment_helper  = Mockery::mock( Environment_Helper::class );
+
 
 		$this->instance = new Indexing_Notification_Integration(
 			$this->notification_center,
@@ -102,7 +121,9 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			$this->page_helper,
 			$this->short_link_helper,
 			$this->notification_helper,
-			$this->indexing_helper
+			$this->indexing_helper,
+			$this->addon_manager,
+			$this->environment_helper
 		);
 	}
 
@@ -135,6 +156,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 		$this->assertInstanceOf(
 			Indexing_Helper::class,
 			$this->getPropertyValue( $this->instance, 'indexing_helper' )
+		);
+		$this->assertInstanceOf(
+			Environment_Helper::class,
+			$this->getPropertyValue( $this->instance, 'environment_helper' )
 		);
 	}
 
@@ -229,13 +254,18 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::should_show_notification
 	 */
 	public function test_create_notification_no_unindexed_items() {
+		$this->environment_helper
+			->expects( 'is_production_mode' )
+			->andReturn( true );
+
 		$this->indexing_helper
 			->expects( 'get_started' )
 			->andReturn( 0 );
 
 		$this->indexing_helper
-			->expects( 'get_filtered_unindexed_count' )
+			->expects( 'get_limited_filtered_unindexed_count' )
 			->once()
+			->with( 1 )
 			->andReturn( 0 );
 
 		$this->notification_center
@@ -253,6 +283,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::should_show_notification
 	 */
 	public function test_create_notification_with_having_indexing_started() {
+		$this->environment_helper
+			->expects( 'is_production_mode' )
+			->andReturn( true );
+
 		$this->indexing_helper
 			->expects( 'get_started' )
 			->andReturn( 123456789 );
@@ -276,14 +310,19 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::notification
 	 */
 	public function test_maybe_create_notification_with_indexing_failed_reason() {
+		$this->environment_helper
+			->expects( 'is_production_mode' )
+			->andReturn( true );
+
 		$this->indexing_helper
 			->expects( 'get_started' )
 			->andReturn( 0 );
 
 		$this->indexing_helper
-			->expects( 'get_filtered_unindexed_count' )
+			->expects( 'get_limited_filtered_unindexed_count' )
 			->once()
-			->andReturn( 40 );
+			->with( 1 )
+			->andReturn( 1 );
 
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
@@ -322,13 +361,23 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @param string $reason The reason for indexing.
 	 */
 	public function test_maybe_create_notification_with_indexing_reasons( $reason ) {
+		$this->environment_helper
+			->expects( 'is_production_mode' )
+			->andReturn( true );
+
 		$this->indexing_helper
 			->expects( 'get_started' )
 			->andReturn( 0 );
 
 		$this->indexing_helper
+			->expects( 'get_limited_filtered_unindexed_count' )
+			->once()
+			->with( 1 )
+			->andReturn( 1 );
+
+		$this->indexing_helper
 			->expects( 'get_filtered_unindexed_count' )
-			->twice()
+			->once()
 			->andReturn( 40 );
 
 		$this->notification_center
@@ -395,6 +444,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::should_show_notification
 	 */
 	public function test_maybe_cleanup_notification_when_there_is_something_to_index() {
+		$this->environment_helper
+			->expects( 'is_production_mode' )
+			->andReturn( true );
+
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
 			->once()
@@ -406,9 +459,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->andReturn( 0 );
 
 		$this->indexing_helper
-			->expects( 'get_filtered_unindexed_count' )
+			->expects( 'get_limited_filtered_unindexed_count' )
 			->once()
-			->andReturn( 40 );
+			->with( 1 )
+			->andReturn( 1 );
 
 		$this->notification_center
 			->expects( 'remove_notification_by_id' )
@@ -425,6 +479,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::should_show_notification
 	 */
 	public function test_maybe_cleanup_notification_when_the_user_has_started_indexing_without_finishing() {
+		$this->environment_helper
+			->expects( 'is_production_mode' )
+			->andReturn( true );
+
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
 			->once()
@@ -453,6 +511,10 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 * @covers ::maybe_cleanup_notification
 	 */
 	public function test_maybe_cleanup_notification() {
+		$this->environment_helper
+			->expects( 'is_production_mode' )
+			->andReturn( true );
+
 		$this->notification_center
 			->expects( 'get_notification_by_id' )
 			->once()
@@ -464,8 +526,9 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->andReturn( 0 );
 
 		$this->indexing_helper
-			->expects( 'get_filtered_unindexed_count' )
+			->expects( 'get_limited_filtered_unindexed_count' )
 			->once()
+			->with( 1 )
 			->andReturn( 0 );
 
 		$this->notification_center
@@ -474,5 +537,23 @@ class Indexing_Notification_Integration_Test extends TestCase {
 			->once();
 
 		$this->instance->maybe_cleanup_notification();
+	}
+
+	/**
+	 * Tests that no notification is created when it's not a prod site.
+	 *
+	 * @covers ::maybe_create_notification
+	 * @covers ::should_show_notification
+	 */
+	public function test_create_notification_no_prod_site() {
+		$this->environment_helper
+			->expects( 'is_production_mode' )
+			->andReturn( false );
+
+		$this->notification_center
+			->expects( 'add_notification' )
+			->never();
+
+		$this->instance->maybe_create_notification();
 	}
 }

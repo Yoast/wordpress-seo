@@ -115,35 +115,36 @@ class Meta {
 	/**
 	 * Returns the output as would be presented in the head.
 	 *
-	 * @return string The HTML output of the head.
+	 * @return object The HTML and JSON presentation of the head metadata.
 	 */
 	public function get_head() {
-		$presenters = $this->front_end->get_presenters( $this->context->page_type );
-
-		if ( $this->context->page_type === 'Date_Archive' ) {
-			$callback   = static function ( $presenter ) {
-				return ! \is_a( $presenter, Rel_Next_Presenter::class )
-					&& ! \is_a( $presenter, Rel_Prev_Presenter::class );
-			};
-			$presenters = \array_filter( $presenters, $callback );
-		}
-
-		$output = '';
+		$presenters = $this->get_presenters();
 
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $this->context->presentation, $this->context );
+
+		$html_output      = '';
+		$json_head_fields = [];
+
 		foreach ( $presenters as $presenter ) {
 			$presenter->presentation = $presentation;
-			$presenter->helpers      = $this->helpers;
 			$presenter->replace_vars = $this->replace_vars;
+			$presenter->helpers      = $this->helpers;
 
-			$presenter_output = $presenter->present();
-			if ( ! empty( $presenter_output ) ) {
-				$output .= $presenter_output . \PHP_EOL;
+			$html_output .= $this->create_html_presentation( $presenter );
+			$json_field   = $this->create_json_field( $presenter );
+
+			// Only use the output of presenters that could successfully present their data.
+			if ( $json_field !== null && ! empty( $json_field->key ) ) {
+				$json_head_fields[ $json_field->key ] = $json_field->value;
 			}
 		}
+		$html_output = \trim( $html_output );
 
-		return \trim( $output );
+		return (object) [
+			'html' => $html_output,
+			'json' => $json_head_fields,
+		];
 	}
 
 	/**
@@ -218,5 +219,69 @@ class Meta {
 	 */
 	public function __debugInfo() {
 		return [ 'context' => $this->context ];
+	}
+
+	/**
+	 * Returns all presenters.
+	 *
+	 * @return Abstract_Indexable_Presenter[]
+	 */
+	protected function get_presenters() {
+		$presenters = $this->front_end->get_presenters( $this->context->page_type, $this->context );
+
+		if ( $this->context->page_type === 'Date_Archive' ) {
+			/**
+			 * Define a filter that removes objects of type Rel_Next_Presenter or Rel_Prev_Presenter from a list.
+			 *
+			 * @param object $presenter The presenter to verify.
+			 *
+			 * @return bool True if the presenter is not a Rel_Next or Rel_Prev presenter.
+			 */
+			$callback   = static function ( $presenter ) {
+				return ! \is_a( $presenter, Rel_Next_Presenter::class )
+					&& ! \is_a( $presenter, Rel_Prev_Presenter::class );
+			};
+			$presenters = \array_filter( $presenters, $callback );
+		}
+
+		return $presenters;
+	}
+
+	/**
+	 * Uses the presenter to create a line of HTML.
+	 *
+	 * @param Abstract_Indexable_Presenter $presenter The presenter.
+	 *
+	 * @return string
+	 */
+	protected function create_html_presentation( $presenter ) {
+		$presenter_output = $presenter->present();
+		if ( ! empty( $presenter_output ) ) {
+			return $presenter_output . \PHP_EOL;
+		}
+		return '';
+	}
+
+	/**
+	 * Converts a presenter's key and value to JSON.
+	 *
+	 * @param Abstract_Indexable_Presenter $presenter The presenter whose key and value are to be converted to JSON.
+	 *
+	 * @return object|null
+	 */
+	protected function create_json_field( $presenter ) {
+		if ( $presenter->get_key() === 'NO KEY PROVIDED' ) {
+			return null;
+		}
+
+		$value = $presenter->get();
+		if ( empty( $value ) ) {
+			return null;
+		}
+
+		return (object) [
+			'key'   => $presenter->escape_key(),
+			'value' => $value,
+		];
 	}
 }

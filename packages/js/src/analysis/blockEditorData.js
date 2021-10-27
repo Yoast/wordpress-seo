@@ -5,6 +5,7 @@ import { select, subscribe } from "@wordpress/data";
 import {
 	updateReplacementVariable,
 	updateData,
+	hideReplacementVariables,
 } from "../redux/actions/snippetEditor";
 import {
 	setContentImage,
@@ -44,12 +45,15 @@ export default class BlockEditorData {
 	 * Initializes this Gutenberg data instance.
 	 *
 	 * @param {Object} replaceVars The replacevars.
+	 * @param {string[]} hiddenReplaceVars The replacement variables passed in the wp-seo-post-scraper args.
+	 *
 	 * @returns {void}
 	 */
-	initialize( replaceVars ) {
+	initialize( replaceVars, hiddenReplaceVars = [] ) {
 		// Fill data object on page load.
 		this._data = this.getInitialData( replaceVars );
 		fillReplacementVariables( this._data, this._store );
+		this._store.dispatch( hideReplacementVariables( hiddenReplaceVars ) );
 		this.subscribeToGutenberg();
 		this.subscribeToYoastSEO();
 	}
@@ -176,15 +180,19 @@ export default class BlockEditorData {
 	 * @returns {{content: string, title: string, slug: string, excerpt: string}} The content, title, slug and excerpt.
 	 */
 	collectGutenbergData() {
+		const content = this.getPostAttribute( "content" );
+		const contentImage = this.calculateContentImage( content );
+		const excerpt = this.getPostAttribute( "excerpt" ) || "";
+
 		return {
-			content: this.getPostAttribute( "content" ),
+			content,
 			title: this.getPostAttribute( "title" ) || "",
 			slug: this.getSlug(),
-			excerpt: this.getExcerpt(),
+			excerpt: excerpt || excerptFromContent( content ),
 			// eslint-disable-next-line camelcase
-			excerpt_only: this.getExcerpt( false ),
-			snippetPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
-			contentImage: this.getContentImage(),
+			excerpt_only: excerpt,
+			snippetPreviewImageURL: this.getFeaturedImage() || contentImage,
+			contentImage,
 		};
 	}
 
@@ -209,11 +217,11 @@ export default class BlockEditorData {
 	/**
 	 * Returns the image from the content.
 	 *
+	 * @param {string} content The content.
+	 *
 	 * @returns {string} The first image found in the content.
 	 */
-	getContentImage() {
-		const content = this._coreEditorSelect.getEditedPostContent();
-
+	calculateContentImage( content ) {
 		const images = languageProcessing.imageInText( content );
 		let image = "";
 
@@ -265,22 +273,6 @@ export default class BlockEditorData {
 		if ( this._data.contentImage !== newData.contentImage ) {
 			this._store.dispatch( setContentImage( newData.contentImage ) );
 		}
-	}
-
-	/**
-	 * Gets the excerpt from the post.
-	 *
-	 * @param {boolean} useFallBack Whether the fallback for content should be used.
-	 *
-	 * @returns {string} The excerpt.
-	 */
-	getExcerpt( useFallBack = true ) {
-		const excerpt = this.getPostAttribute( "excerpt" ) || "";
-		if ( excerpt !== "" || useFallBack === false ) {
-			return excerpt;
-		}
-
-		return excerptFromContent( this.getPostAttribute( "content" ) );
 	}
 
 	/**

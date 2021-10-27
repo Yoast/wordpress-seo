@@ -24,8 +24,8 @@ class WPSEO_Configuration_Storage_Test extends TestCase {
 	/**
 	 * Set up.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->storage = new WPSEO_Configuration_Storage_Mock();
 	}

@@ -22,23 +22,21 @@
 		"source": "https://github.com/Yoast/wordpress-seo"
 	},
 	"require": {
-		"php": "^5.6.20||^7.0",
+		"php": "^5.6.20 || ^7.0 || ^8.0",
 		"composer/installers": "^1.9.0",
 		"yoast/i18n-module": "^3.1.1"
 	},
 	"require-dev": {
 		"humbug/php-scoper": "^0.13.4",
 		"league/oauth2-client": "2.4.1",
-		"php-parallel-lint/php-console-highlighter": "^0.5",
-		"php-parallel-lint/php-parallel-lint": "^1.3.0",
 		"phpunit/phpunit": "^5.7",
 		"psr/container": "1.0.0",
 		"psr/log": "^1.0",
 		"symfony/config": "^3.4",
 		"symfony/dependency-injection": "^3.4",
 		"yoast/php-development-environment": "^1.0",
-		"yoast/wp-test-utils": "^0.2.1",
-		"yoast/yoastcs": "^2.1.0"
+		"yoast/wp-test-utils": "^1.0.0",
+		"yoast/yoastcs": "^2.2.0"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -80,8 +78,8 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=323",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=224",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=255",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=222",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs-summary": [

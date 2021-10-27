@@ -6,8 +6,6 @@ use Elementor\Controls_Manager;
 use Elementor\Core\DocumentTypes\PageBase;
 use WP_Post;
 use WP_Screen;
-use WPSEO_Admin_Asset;
-use WPSEO_Admin_Asset_Analysis_Worker_Location;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Asset_Yoast_Components_L10n;
 use WPSEO_Admin_Recommended_Replace_Vars;
@@ -17,6 +15,7 @@ use WPSEO_Metabox_Analysis_Readability;
 use WPSEO_Metabox_Analysis_SEO;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Post_Metabox_Formatter;
+use WPSEO_Replace_Vars;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
@@ -400,6 +399,7 @@ class Elementor implements Integration_Interface {
 				'no_parent_text'           => \__( '(no parent)', 'wordpress-seo' ),
 				'replace_vars'             => $this->get_replace_vars(),
 				'recommended_replace_vars' => $this->get_recommended_replace_vars(),
+				'hidden_replace_vars'      => $this->get_hidden_replace_vars(),
 				'scope'                    => $this->determine_scope(),
 				'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
 			],
@@ -410,9 +410,9 @@ class Elementor implements Integration_Interface {
 		];
 
 		$worker_script_data = [
-			'url'                     => YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-analysis-worker' ),
-			'dependencies'            => YoastSEO()->helpers->asset->get_dependency_urls_by_handle( 'yoast-seo-analysis-worker' ),
-			'keywords_assessment_url' => YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-used-keywords-assessment' ),
+			'url'                     => \YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-analysis-worker' ),
+			'dependencies'            => \YoastSEO()->helpers->asset->get_dependency_urls_by_handle( 'yoast-seo-analysis-worker' ),
+			'keywords_assessment_url' => \YoastSEO()->helpers->asset->get_asset_url( 'yoast-seo-used-keywords-assessment' ),
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 			// We need to make the feature flags separately available inside of the analysis web worker.
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
@@ -562,8 +562,12 @@ class Elementor implements Integration_Interface {
 			'sep',
 			'page',
 			'currentyear',
+			'currentdate',
+			'currentmonth',
+			'currentday',
 			'tag',
 			'category',
+			'category_title',
 			'primary_category',
 			'pt_single',
 			'pt_plural',
@@ -572,6 +576,13 @@ class Elementor implements Integration_Interface {
 			'user_description',
 			'pagetotal',
 			'pagenumber',
+			'post_year',
+			'post_month',
+			'post_day',
+			'author_first_name',
+			'author_last_name',
+			'permalink',
+			'post_content',
 		];
 
 		foreach ( $vars_to_cache as $var ) {
@@ -594,6 +605,15 @@ class Elementor implements Integration_Interface {
 		$post_type = $recommended_replace_vars->determine_for_post( $this->get_metabox_post() );
 
 		return $recommended_replace_vars->get_recommended_replacevars_for( $post_type );
+	}
+
+	/**
+	 * Returns the list of replace vars that should be hidden inside the editor.
+	 *
+	 * @return string[] The hidden replace vars.
+	 */
+	protected function get_hidden_replace_vars() {
+		return ( new WPSEO_Replace_Vars() )->get_hidden_replace_vars();
 	}
 
 	/**

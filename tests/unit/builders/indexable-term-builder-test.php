@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Term_Builder_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Class Indexable_Term_Builder_Test.
@@ -80,7 +81,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$this->taxonomy = Mockery::mock( Taxonomy_Helper::class );
 
 		$this->instance = new Indexable_Term_Builder_Double(
-			$this->taxonomy
+			$this->taxonomy,
+			new Indexable_Builder_Versions()
 		);
 
 		$this->image            = Mockery::mock( Image_Helper::class );
@@ -160,11 +162,11 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$instance = new Indexable_Term_Builder( $this->taxonomy );
+		$instance = new Indexable_Term_Builder( $this->taxonomy, new Indexable_Builder_Versions() );
 
 		$this->assertInstanceOf(
-			Taxonomy_Helper::class,
-			$this->getPropertyValue( $instance, 'taxonomy' )
+			Indexable_Term_Builder::class,
+			$instance
 		);
 	}
 
@@ -239,6 +241,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 			'primary_focus_keyword'       => 'focuskeyword',
 			'primary_focus_keyword_score' => 75,
 			'readability_score'           => 50,
+			'version'                     => 1,
 		];
 
 		$this->set_indexable_set_expectations( $indexable_mock, $indexable_expectations );

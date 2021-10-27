@@ -319,6 +319,8 @@ class WPSEO_Meta {
 		}
 		unset( $subset, $field_group, $key, $field_def );
 
+		self::filter_schema_article_types();
+
 		add_filter( 'update_post_metadata', [ __CLASS__, 'remove_meta_if_default' ], 10, 5 );
 		add_filter( 'add_post_metadata', [ __CLASS__, 'dont_save_meta_if_default' ], 10, 4 );
 	}
@@ -391,7 +393,15 @@ class WPSEO_Meta {
 
 				$article_helper = new Article_Helper();
 				if ( $post_type !== 'page' && $article_helper->is_author_supported( $post_type ) ) {
-					$field_defs['schema_article_type']['default'] = WPSEO_Options::get( 'schema-article-type-' . $post_type );
+					$default_schema_article_type = WPSEO_Options::get( 'schema-article-type-' . $post_type );
+
+					/** This filter is documented in inc/options/class-wpseo-option-titles.php */
+					$allowed_article_types = apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES );
+
+					if ( ! \array_key_exists( $default_schema_article_type, $allowed_article_types ) ) {
+						$default_schema_article_type = WPSEO_Options::get_default( 'wpseo_titles', 'schema-article-type-' . $post_type );
+					}
+					$field_defs['schema_article_type']['default'] = $default_schema_article_type;
 				}
 				else {
 					unset( $field_defs['schema_article_type'] );
@@ -1048,5 +1058,15 @@ class WPSEO_Meta {
 		}
 
 		return $post_ids;
+	}
+
+	/**
+	 * Filter the schema article types.
+	 *
+	 * @return void
+	 */
+	public static function filter_schema_article_types() {
+		/** This filter is documented in inc/options/class-wpseo-option-titles.php */
+		self::$meta_fields['schema']['schema_article_type']['options'] = apply_filters( 'wpseo_schema_article_types', self::$meta_fields['schema']['schema_article_type']['options'] );
 	}
 }

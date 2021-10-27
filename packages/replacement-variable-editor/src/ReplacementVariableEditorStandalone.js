@@ -227,6 +227,10 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		const value = searchValue.toLowerCase();
 
 		return suggestions.filter( function( suggestion ) {
+			if ( suggestion.hidden ) {
+				return false;
+			}
+
 			return ! value || suggestion.name.toLowerCase().indexOf( value ) === 0;
 		} );
 	}
@@ -486,7 +490,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 */
 	render() {
 		const { MentionSuggestions } = this.mentionsPlugin;
-		const { onFocus, onBlur, ariaLabelledBy, placeholder, theme } = this.props;
+		const { onFocus, onBlur, ariaLabelledBy, placeholder, theme, isDisabled } = this.props;
 		const { editorState, suggestions } = this.state;
 
 		return (
@@ -503,6 +507,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					ariaLabelledBy={ ariaLabelledBy }
 					placeholder={ placeholder }
 					spellCheck={ true }
+					readOnly={ isDisabled }
 				/>
 				<ZIndexOverride>
 					<MentionSuggestions
@@ -526,6 +531,7 @@ ReplacementVariableEditorStandalone.propTypes = {
 	theme: PropTypes.object,
 	placeholder: PropTypes.string,
 	fieldId: PropTypes.string.isRequired,
+	isDisabled: PropTypes.bool,
 };
 
 ReplacementVariableEditorStandalone.defaultProps = {
@@ -534,6 +540,7 @@ ReplacementVariableEditorStandalone.defaultProps = {
 	placeholder: "",
 	theme: { isRtl: false },
 	recommendedReplacementVariables: [],
+	isDisabled: false,
 };
 
 export { ReplacementVariableEditorStandalone as ReplacementVariableEditorStandaloneInnerComponent };

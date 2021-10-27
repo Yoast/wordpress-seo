@@ -57,7 +57,7 @@ export function mockSelectors( name, schemaBlocksValidations = null ) {
 		},
 	] );
 
-	const coreEditorSelectors = {
+	const coreBlockEditorSelectors = {
 		getBlocks,
 	};
 
@@ -65,8 +65,8 @@ export function mockSelectors( name, schemaBlocksValidations = null ) {
 		switch ( storeName ) {
 			case "yoast-seo/editor" :
 				return yoastSEOSelectors;
-			case "core/editor" :
-				return coreEditorSelectors;
+			case "core/block-editor" :
+				return coreBlockEditorSelectors;
 			case "yoast-seo/schema-blocks" :
 				return schemaBlocksSelectors;
 		}

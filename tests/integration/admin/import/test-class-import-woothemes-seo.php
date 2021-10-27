@@ -20,8 +20,8 @@ class WPSEO_Import_WooThemes_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		// These options need setting as otherwise Woo didn't handle the titles and meta desc and thus we cannot import.
 		update_option( 'seo_woo_wp_title', true );

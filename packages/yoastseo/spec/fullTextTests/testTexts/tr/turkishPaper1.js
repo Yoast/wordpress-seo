@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "tr_TR",
 	permalink: "https://tr.wikipedia.org/wiki/Nektar",
-	url: "Роти-буайя",
+	url: "Nektar",
 } );
 
 const expectedResults = {
@@ -50,11 +50,6 @@ const expectedResults = {
 		score: 0,
 		resultText: "",
 	},
-	textImages: {
-		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/33c' target='_blank'>Image alt attributes</a>: Images on this page do not have alt attributes that reflect the topic of your text. <a href='https://yoa.st/33d' target='_blank'>Add your keyphrase or synonyms to the alt tags of relevant images</a>!",
-	},
 	textLength: {
 		isApplicable: true,
 		score: -10,
@@ -82,8 +77,8 @@ const expectedResults = {
 	},
 	urlKeyword: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",
 	},
 	urlLength: {
 		isApplicable: true,
@@ -119,9 +114,8 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!",
 	},
 	textTransitionWords: {
-		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 27.8% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		// This assessment is not applicable to this paper as the text contains less than 200 words.
+		isApplicable: false,
 	},
 	passiveVoice: {
 		isApplicable: true,
@@ -137,6 +131,17 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. That's great!",
+	},
+	imageKeyphrase: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes with at least" +
+			" half of the words from your keyphrase. <a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!",
+	},
+	imageCount: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!",
 	},
 };
 

@@ -140,6 +140,9 @@ install:
       travis_retry composer install --no-interaction --ignore-platform-reqs
       travis_retry composer remove humbug/php-scoper --dev --ignore-platform-reqs
       travis_retry composer remove atanamo/php-codeshift --dev --ignore-platform-reqs
+      # Dependency injection compilation only works on PHP 7+.
+      # It makes use of reflection-based PHP code that only works on PHP 7+.
+      travis_retry composer du
       phpenv local --unset
       rm -rf vendor/*
     fi
@@ -153,9 +156,9 @@ install:
       travis_retry composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
     elif [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$PHPLINT" == "1" ]]; then
       # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
-      travis_retry composer update
-      travis_retry composer install --no-interaction
-      composer du
+      travis_retry composer update --no-interaction --no-scripts
+      travis_retry composer install --no-interaction --no-scripts
+      travis_retry composer du --no-scripts
     elif [[ "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
       travis_retry composer update
       travis_retry composer install --no-dev --no-interaction
@@ -166,7 +169,7 @@ install:
       yarn global add grunt-cli
       yarn install
     fi
-  - if [[ "$SECURITY" == "1" ]]; then wget -P $SECURITYCHECK_DIR https://github.com/fabpot/local-php-security-checker/releases/download/v1.0.0/local-php-security-checker_1.0.0_linux_amd64 && chmod +x $SECURITYCHECK_DIR/local-php-security-checker_1.0.0_linux_amd64;fi
+  - if [[ "$SECURITY" == "1" ]]; then wget -P $SECURITYCHECK_DIR https://github.com/fabpot/local-php-security-checker/releases/download/v1.2.0/local-php-security-checker_1.2.0_linux_amd64 && chmod +x $SECURITYCHECK_DIR/local-php-security-checker_1.2.0_linux_amd64;fi
 
 before_script:
   # Careful: The HTTPS version of the following URL is different, therefore we need to use HTTP.
@@ -287,7 +290,7 @@ script:
   - if [[ $TRAVIS_PHP_VERSION == "5.6" || $TRAVIS_PHP_VERSION == "7.4" ]]; then composer validate --no-check-all; fi
 
   # Check for known security vulnerabilities in the currently locked-in dependencies.
-  - if [[ "$SECURITY" == "1" ]]; then $SECURITYCHECK_DIR/local-php-security-checker_1.0.0_linux_amd64 --path=$(pwd)/composer.lock;fi
+  - if [[ "$SECURITY" == "1" ]]; then $SECURITYCHECK_DIR/local-php-security-checker_1.2.0_linux_amd64 --path=$(pwd)/composer.lock;fi
 
 after_script:
   - |

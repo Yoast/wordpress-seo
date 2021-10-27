@@ -13,6 +13,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\Asset_Helper          $asset
  * @property Helpers\Author_Archive_Helper $author_archive
  * @property Helpers\Blocks_Helper         $blocks
+ * @property Helpers\Capability_Helper     $capability
  * @property Helpers\Current_Page_Helper   $current_page
  * @property Helpers\Date_Helper           $date
  * @property Helpers\Environment_Helper    $environment
@@ -20,24 +21,29 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\Image_Helper          $image
  * @property Helpers\Indexable_Helper      $indexable
  * @property Helpers\Indexing_Helper       $indexing
+ * @property Helpers\Input_Helper          $input
  * @property Helpers\Language_Helper       $language
  * @property Helpers\Meta_Helper           $meta
  * @property Helpers\Notification_Helper   $notification
  * @property Helpers\Options_Helper        $options
  * @property Helpers\Pagination_Helper     $pagination
+ * @property Helpers\Permalink_Helper      $permalink
  * @property Helpers\Post_Helper           $post
  * @property Helpers\Post_Type_Helper      $post_type
  * @property Helpers\Primary_Term_Helper   $primary_term
  * @property Helpers\Product_Helper        $product
  * @property Helpers\Redirect_Helper       $redirect
- * @property Helpers\Request_Helper        $request
- * @property Helpers\Robots_Helper         $robots
- * @property Helpers\Site_Helper           $site
- * @property Helpers\String_Helper         $string
- * @property Helpers\Taxonomy_Helper       $taxonomy
- * @property Helpers\Url_Helper            $url
- * @property Helpers\User_Helper           $user
- * @property Helpers\Woocommerce_Helper    $woocommerce
+ * @property Helpers\Request_Helper      $request
+ * @property Helpers\Require_File_Helper $require_file
+ * @property Helpers\Robots_Helper       $robots
+ * @property Helpers\Short_Link_Helper   $short_link
+ * @property Helpers\Site_Helper         $site
+ * @property Helpers\String_Helper       $string
+ * @property Helpers\Taxonomy_Helper     $taxonomy
+ * @property Helpers\Url_Helper          $url
+ * @property Helpers\User_Helper         $user
+ * @property Helpers\Woocommerce_Helper  $woocommerce
+ * @property Helpers\Wordpress_Helper    $wordpress
  */
 class Helpers_Surface {
 

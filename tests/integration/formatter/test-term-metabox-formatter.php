@@ -27,8 +27,8 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Creates a post to use in the tests.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->term     = $this->factory->term->create_and_get();
 		$this->taxonomy = get_taxonomy( $this->term->taxonomy );
@@ -80,7 +80,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( trailingslashit( home_url( 'tag' ) ), $result['base_url'] );
 		$this->assertEquals( [ '' => [] ], $result['keyword_usage'] );
-		$this->assertEquals( '%%title%% %%sep%% %%sitename%%', $result['title_template'] );
+		$this->assertEquals( '%%term_title%% Archives %%page%% %%sep%% %%sitename%%', $result['title_template'] );
 		$this->assertEquals( '', $result['metadesc_template'] );
 	}
 
@@ -135,7 +135,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term );
 		$result   = $instance->get_values();
 
-		$this->assertEquals( '%%title%% %%sep%% %%sitename%%', $result['title_template'] );
+		$this->assertEquals( '%%term_title%% Archives %%page%% %%sep%% %%sitename%%', $result['title_template'] );
 		$this->assertEquals( 'This is a meta description', $result['metadesc_template'] );
 	}
 }

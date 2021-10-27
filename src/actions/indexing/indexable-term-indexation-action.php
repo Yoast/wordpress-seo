@@ -7,16 +7,26 @@ use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Reindexing action for term indexables.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
+class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 
 	/**
 	 * The transient cache key.
 	 */
-	const TRANSIENT_CACHE_KEY = 'wpseo_total_unindexed_terms';
+	const UNINDEXED_COUNT_TRANSIENT = 'wpseo_total_unindexed_terms';
+
+	/**
+	 * The transient cache key for limited counts.
+	 *
+	 * @var string
+	 */
+	const UNINDEXED_LIMITED_COUNT_TRANSIENT = self::UNINDEXED_COUNT_TRANSIENT . '_limited';
 
 	/**
 	 * The post type helper.
@@ -37,43 +47,33 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 *
 	 * @var wpdb
 	 */
-	private $wpdb;
+	protected $wpdb;
+
+	/**
+	 * The latest version of the Indexable term builder
+	 *
+	 * @var int
+	 */
+	protected $version;
 
 	/**
 	 * Indexable_Term_Indexation_Action constructor
 	 *
-	 * @param Taxonomy_Helper      $taxonomy   The taxonomy helper.
-	 * @param Indexable_Repository $repository The indexable repository.
-	 * @param wpdb                 $wpdb       The WordPress database instance.
+	 * @param Taxonomy_Helper            $taxonomy         The taxonomy helper.
+	 * @param Indexable_Repository       $repository       The indexable repository.
+	 * @param wpdb                       $wpdb             The WordPress database instance.
+	 * @param Indexable_Builder_Versions $builder_versions The latest versions of all indexable builders.
 	 */
-	public function __construct( Taxonomy_Helper $taxonomy, Indexable_Repository $repository, wpdb $wpdb ) {
+	public function __construct(
+		Taxonomy_Helper $taxonomy,
+		Indexable_Repository $repository,
+		wpdb $wpdb,
+		Indexable_Builder_Versions $builder_versions
+	) {
 		$this->taxonomy   = $taxonomy;
 		$this->repository = $repository;
 		$this->wpdb       = $wpdb;
-	}
-
-	/**
-	 * Returns the total number of unindexed terms.
-	 *
-	 * @return int|false The number of unindexed terms. False if the query fails.
-	 */
-	public function get_total_unindexed() {
-		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
-		if ( $transient !== false ) {
-			return (int) $transient;
-		}
-
-		$query = $this->get_query( true );
-
-		$result = $this->wpdb->get_var( $query );
-
-		if ( \is_null( $result ) ) {
-			return false;
-		}
-
-		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
-
-		return (int) $result;
+		$this->version    = $builder_versions->get_latest_version_for_type( 'term' );
 	}
 
 	/**
@@ -82,7 +82,9 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 * @return Indexable[] The created indexables.
 	 */
 	public function index() {
-		$query    = $this->get_query( false, $this->get_limit() );
+		$query = $this->get_select_query( $this->get_limit() );
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_select_query returns a prepared query.
 		$term_ids = $this->wpdb->get_col( $query );
 
 		$indexables = [];
@@ -90,7 +92,10 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 			$indexables[] = $this->repository->find_by_id_and_type( (int) $term_id, 'term' );
 		}
 
-		\delete_transient( static::TRANSIENT_CACHE_KEY );
+		if ( \count( $indexables ) > 0 ) {
+			\delete_transient( static::UNINDEXED_COUNT_TRANSIENT );
+			\delete_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT );
+		}
 
 		return $indexables;
 	}
@@ -116,38 +121,67 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * Queries the database for unindexed term IDs.
+	 * Builds a query for counting the number of unindexed terms.
 	 *
-	 * @param bool $count Whether or not it should be a count query.
-	 * @param int  $limit The maximum number of term IDs to return.
-	 *
-	 * @return string The query.
+	 * @return string The prepared query string.
 	 */
-	protected function get_query( $count, $limit = 1 ) {
-		$public_taxonomies = $this->taxonomy->get_public_taxonomies();
-		$indexable_table   = Model::get_table_name( 'Indexable' );
-		$replacements      = $public_taxonomies;
+	protected function get_count_query() {
+		$indexable_table         = Model::get_table_name( 'Indexable' );
+		$taxonomy_table          = $this->wpdb->term_taxonomy;
+		$public_taxonomies       = \array_keys( $this->taxonomy->get_public_taxonomies() );
+		$taxonomies_placeholders = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 
-		$select = 'term_id';
-		if ( $count ) {
-			$select = 'COUNT(term_id)';
-		}
+		$replacements = [ $this->version ];
+		\array_push( $replacements, ...$public_taxonomies );
+
+		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
+		return $this->wpdb->prepare(
+			"
+			SELECT COUNT(term_id)
+			FROM {$taxonomy_table} AS T
+			LEFT JOIN $indexable_table AS I
+				ON T.term_id = I.object_id
+				AND I.object_type = 'term'
+				AND I.version = %d
+			WHERE I.object_id IS NULL
+				AND taxonomy IN ($taxonomies_placeholders)",
+			$replacements
+		);
+	}
+
+	/**
+	 * Builds a query for selecting the ID's of unindexed terms.
+	 *
+	 * @param bool $limit The maximum number of term IDs to return.
+	 *
+	 * @return string The prepared query string.
+	 */
+	protected function get_select_query( $limit = false ) {
+		$indexable_table   = Model::get_table_name( 'Indexable' );
+		$taxonomy_table    = $this->wpdb->term_taxonomy;
+		$public_taxonomies = \array_keys( $this->taxonomy->get_public_taxonomies() );
+		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
+
+		$replacements = [ $this->version ];
+		\array_push( $replacements, ...$public_taxonomies );
+
 		$limit_query = '';
-		if ( ! $count ) {
+		if ( $limit ) {
 			$limit_query    = 'LIMIT %d';
 			$replacements[] = $limit;
 		}
 
+		// Warning: If this query is changed, makes sure to update the query in get_count_query as well.
 		return $this->wpdb->prepare(
 			"
-			SELECT $select
-			FROM {$this->wpdb->term_taxonomy} AS T
+			SELECT term_id
+			FROM {$taxonomy_table} AS T
 			LEFT JOIN $indexable_table AS I
 				ON T.term_id = I.object_id
 				AND I.object_type = 'term'
-				AND I.permalink_hash IS NOT NULL
+				AND I.version = %d
 			WHERE I.object_id IS NULL
-				AND taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")
+				AND taxonomy IN ($placeholders)
 			$limit_query",
 			$replacements
 		);

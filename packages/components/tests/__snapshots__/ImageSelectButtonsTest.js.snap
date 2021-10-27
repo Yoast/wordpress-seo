@@ -6,6 +6,7 @@ exports[`ImageSelectButtons ImageSelectButtons with image selected matches the s
 >
   <button
     className="yoast-button yoast-button--secondary"
+    disabled={false}
     id=""
     onClick={[Function]}
     type="button"
@@ -14,6 +15,7 @@ exports[`ImageSelectButtons ImageSelectButtons with image selected matches the s
   </button>
   <button
     className="yoast-remove"
+    disabled={false}
     id=""
     onClick={[Function]}
     type="button"
@@ -29,6 +31,7 @@ exports[`ImageSelectButtons ImageSelectButtons without image selected matches th
 >
   <button
     className="yoast-button yoast-button--secondary"
+    disabled={false}
     id=""
     onClick={[Function]}
     type="button"

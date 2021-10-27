@@ -33,7 +33,7 @@ describe( "running assessments in the assessor", function() {
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
+			"images",
 			"textLength",
 			"externalLinks",
 			"internalLinks",
@@ -49,7 +49,7 @@ describe( "running assessments in the assessor", function() {
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
+			"images",
 			"textLength",
 			"externalLinks",
 			"internalLinks",
@@ -67,7 +67,7 @@ describe( "running assessments in the assessor", function() {
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
+			"images",
 			"textLength",
 			"externalLinks",
 			"internalLinks",
@@ -97,7 +97,7 @@ describe( "running assessments in the assessor", function() {
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
+			"images",
 			"textLength",
 			"externalLinks",
 			"internalLinks",
@@ -116,7 +116,7 @@ describe( "running assessments in the assessor", function() {
 			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
-			"textImages",
+			"images",
 			"textLength",
 			"externalLinks",
 			"internalLinks",
@@ -132,7 +132,7 @@ describe( "running assessments in the assessor", function() {
 		expect( assessments ).toEqual( [
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
+			"images",
 			"textLength",
 			"externalLinks",
 			"internalLinks",
@@ -149,7 +149,7 @@ describe( "running assessments in the assessor", function() {
 			"introductionKeyword",
 			"keyphraseLength",
 			"metaDescriptionLength",
-			"textImages",
+			"images",
 			"textLength",
 			"externalLinks",
 			"internalLinks",
@@ -181,7 +181,7 @@ describe( "running assessments in the assessor", function() {
 			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
-			"textImages",
+			"images",
 			"textLength",
 			"externalLinks",
 			"internalLinks",
@@ -211,11 +211,22 @@ describe( "running assessments in the assessor", function() {
 			"keyphraseLength",
 			"keywordDensity",
 			"metaDescriptionLength",
-			"textImages",
+			"images",
 			"textLength",
 			"externalLinks",
 			"internalLinks",
 			"titleWidth",
 		] );
+	} );
+
+	describe( "has configuration overrides", () => {
+		test( "PageTitleWidthAssesment", () => {
+			const assessment = assessor.getAssessment( "titleWidth" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.scores ).toBeDefined();
+			expect( assessment._config.scores.widthTooShort ).toBe( 9 );
+		} );
 	} );
 } );

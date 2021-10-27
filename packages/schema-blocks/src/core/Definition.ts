@@ -5,12 +5,6 @@ import Instruction from "./Instruction";
 import Leaf from "./Leaf";
 import logger from "../functions/logger";
 
-export type DefinitionClass<T extends Definition> = {
-	new( separator: string, template?: string, instructions?: Record<string, Instruction>, tree?: Leaf ): T;
-	separatorCharacters: string[];
-	parser: ( definition: T ) => T;
-};
-
 /**
  * Definition class.
  */
@@ -51,7 +45,7 @@ export default abstract class Definition {
 	 *
 	 * @returns array The appended configurations.
 	 */
-	customizer( existingConfig: string[], newConfig: string[] ) {
+	customizer( existingConfig: string[], newConfig: string[] ): string[] {
 		if ( isArray( existingConfig ) ) {
 			return existingConfig.concat( newConfig );
 		}
@@ -106,3 +100,9 @@ export default abstract class Definition {
 	 */
 	abstract register(): void;
 }
+
+export type DefinitionClass<T extends Definition> = {
+	new( separator: string, template?: string, instructions?: Record<string, Instruction>, tree?: Leaf ): T;
+	separatorCharacters: string[];
+	parser: ( definition: T ) => T;
+};

@@ -10,8 +10,9 @@ What do we want to achieve with this PR? Why did we write this code?
 <!--
 Attach one of the following labels to the PR: `changelog: bugfix`, `changelog: enhancement`, `changelog: other`, `changelog: non-user-facing`.
 If the changelog item is a bugfix, please use the following sentence structure: Fixes a bug where ... would ... (when ...).
-If the changelog item is meant for the changelog of another repo, start you changelog item with the repo name between square brackets, for example: * [wordpress-seo-premium] Fixes a bug where ....
-If the same changelog item is applicable to multiple changelogs/repos, add a separate changelog item for all of them.
+If the changelog item is meant for the changelog of another add-on, start your changelog item with the name of that add-on's repo between square brackets, for example: * [wordpress-seo-premium] Fixes a bug where ....
+If the changelog items is meant for the changelog of a javascript package, specify between square brackets in which package changelog the item should be included, for example: * [@yoast/components] Fixes a bug where ....
+If the same changelog item is applicable to multiple changelogs/add-ons, add a separate changelog item for all of them.
 -->
 This PR can be summarized in the following changelog entry:
 
@@ -61,6 +62,10 @@ This PR affects the following parts of the plugin, which may require extra testi
 
 * [ ] This PR changes the UI in the plugin. I have added the 'UI change' label to this PR.
 
+## Other environments
+
+* [ ] This PR also affects other environments and needs to be tested there.
+
 ## Documentation
 
 * [ ] I have written documentation for this change.
@@ -69,5 +74,6 @@ This PR affects the following parts of the plugin, which may require extra testi
 
 * [ ] I have tested this code to the best of my abilities
 * [ ] I have added unittests to verify the code works as intended
+* [ ] If any part of the code is behind a feature flag, my test instructions also cover cases where the feature flag is switched off.
 
 Fixes #

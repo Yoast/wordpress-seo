@@ -268,7 +268,7 @@ class WPSEO_Options {
 	 * @param string $key     The key it should return.
 	 * @param mixed  $default The default value that should be returned if the key isn't set.
 	 *
-	 * @return mixed|null Returns value if found, $default if not.
+	 * @return mixed Returns value if found, $default if not.
 	 */
 	public static function get( $key, $default = null ) {
 		if ( static::$option_values === null ) {
@@ -324,10 +324,10 @@ class WPSEO_Options {
 	/**
 	 * Get an option only if it's been auto-loaded.
 	 *
-	 * @param string     $option  The option to retrieve.
-	 * @param bool|mixed $default A default value to return.
+	 * @param string $option  The option to retrieve.
+	 * @param mixed  $default A default value to return.
 	 *
-	 * @return bool|mixed
+	 * @return mixed
 	 */
 	public static function get_autoloaded_option( $option, $default = false ) {
 		$value = wp_cache_get( $option, 'options' );

@@ -155,6 +155,7 @@ class WPSEO_Admin_Pages {
 			'recommended_replace_vars'     => $recommended_replace_vars->get_recommended_replacevars(),
 			'editor_specific_replace_vars' => $editor_specific_replace_vars->get(),
 			'shared_replace_vars'          => $editor_specific_replace_vars->get_generic( $replace_vars_list ),
+			'hidden_replace_vars'          => $replace_vars->get_hidden_replace_vars(),
 		];
 	}
 

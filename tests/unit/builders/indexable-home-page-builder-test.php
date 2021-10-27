@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Class Indexable_Author_Test.
@@ -97,10 +98,10 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$this->options_mock = Mockery::mock( Options_Helper::class );
 		$this->options_mock->expects( 'get' )->with( 'title-home-wpseo' )->andReturn( 'home_title' );
 		$this->options_mock->expects( 'get' )->with( 'breadcrumbs-home' )->andReturn( 'home_breadcrumb_title' );
-		$this->options_mock->expects( 'get' )->with( 'og_frontpage_title' )->andReturn( 'home_og_title' );
-		$this->options_mock->expects( 'get' )->with( 'og_frontpage_desc' )->andReturn( 'home_og_description' );
-		$this->options_mock->expects( 'get' )->with( 'og_frontpage_image' )->andReturn( 'home_og_image' );
-		$this->options_mock->expects( 'get' )->with( 'og_frontpage_image_id' )->andReturn( 1337 );
+		$this->options_mock->expects( 'get' )->with( 'open_graph_frontpage_title' )->andReturn( 'home_og_title' );
+		$this->options_mock->expects( 'get' )->with( 'open_graph_frontpage_desc' )->andReturn( 'home_og_description' );
+		$this->options_mock->expects( 'get' )->with( 'open_graph_frontpage_image' )->andReturn( 'home_og_image' );
+		$this->options_mock->expects( 'get' )->with( 'open_graph_frontpage_image_id' )->andReturn( 1337 );
 
 		// Setup the Indexable mock and its ORM layer.
 		$this->indexable_mock      = Mockery::mock( Indexable::class );
@@ -119,6 +120,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_description', 'home_og_description' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', null );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'version', 1 );
 
 		// Mock offsetExists.
 		$this->indexable_mock->orm->expects( 'offsetExists' )->with( 'description' )->andReturn( true );
@@ -161,7 +163,11 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 
-		$builder = new Indexable_Home_Page_Builder( $this->options_mock, $this->url_mock );
+		$builder = new Indexable_Home_Page_Builder(
+			$this->options_mock,
+			$this->url_mock,
+			new Indexable_Builder_Versions()
+		);
 		$builder->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );
 		$builder->build( $this->indexable_mock );
 	}
@@ -185,7 +191,11 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 
-		$builder = new Indexable_Home_Page_Builder( $this->options_mock, $this->url_mock );
+		$builder = new Indexable_Home_Page_Builder(
+			$this->options_mock,
+			$this->url_mock,
+			new Indexable_Builder_Versions()
+		);
 		$builder->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );
 		$builder->build( $this->indexable_mock );
 	}
@@ -208,7 +218,11 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 
-		$builder = new Indexable_Home_Page_Builder( $this->options_mock, $this->url_mock );
+		$builder = new Indexable_Home_Page_Builder(
+			$this->options_mock,
+			$this->url_mock,
+			new Indexable_Builder_Versions()
+		);
 		$builder->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );
 		$builder->build( $this->indexable_mock );
 	}

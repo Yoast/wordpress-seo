@@ -8,6 +8,7 @@ import altTagCount from "./researches/altTagCount.js";
 import countSentencesFromText from "./researches/countSentencesFromText.js";
 import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
 import findKeywordInPageTitle from "./researches/findKeywordInPageTitle";
+import findList from "./researches/findList";
 import findTransitionWords from "./researches/findTransitionWords";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
 import getFleschReadingScore from "./researches/getFleschReadingScore";
@@ -15,7 +16,6 @@ import getKeywordDensity from "./researches/getKeywordDensity.js";
 import getLinks from "./researches/getLinks.js";
 import getLinkStatistics from "./researches/getLinkStatistics";
 import getParagraphLength from "./researches/getParagraphLength.js";
-import getPassiveVoice from "./researches/getPassiveVoice";
 import getProminentWordsForInsights from "./researches/getProminentWordsForInsights";
 import getProminentWordsForInternalLinking from "./researches/getProminentWordsForInternalLinking";
 import getSentenceBeginnings from "./researches/getSentenceBeginnings";
@@ -33,7 +33,9 @@ import morphology from "./researches/getWordForms";
 import pageTitleWidth from "./researches/pageTitleWidth.js";
 import readingTime from "./researches/readingTime";
 import sentences from "./researches/sentences";
+import videoCount from "./researches/videoCount";
 import wordCountInText from "./researches/wordCountInText.js";
+import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
 
 /**
  * The researches contains all the researches
@@ -53,6 +55,7 @@ export default class AbstractResearcher {
 			countSentencesFromText,
 			findKeywordInFirstParagraph,
 			findKeywordInPageTitle,
+			findList,
 			findTransitionWords,
 			functionWordsInKeyphrase,
 			getFleschReadingScore,
@@ -60,7 +63,6 @@ export default class AbstractResearcher {
 			getLinks,
 			getLinkStatistics,
 			getParagraphLength,
-			getPassiveVoice,
 			getProminentWordsForInsights,
 			getProminentWordsForInternalLinking,
 			getSentenceBeginnings,
@@ -79,6 +81,8 @@ export default class AbstractResearcher {
 			readingTime,
 			sentences,
 			wordCountInText,
+			videoCount,
+			getPassiveVoiceResult,
 		};
 
 		this._data = {};

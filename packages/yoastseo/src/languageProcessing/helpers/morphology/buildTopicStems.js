@@ -108,25 +108,47 @@ const collectKeyphraseAndSynonymsStems = function( keyphrase, synonyms, stemmer,
 };
 
 /**
- * Retrieves stems of words of the keyphrase and of each synonym phrase using the function that caches
- * the results of previous calls of this function.
+ * Caches stems depending on the currently available stemmer and functionWords and (separately) keyphrase and synonyms.
+ * In this way, if the stemmer and functionWords remain the same in multiple calls of this function, the function
+ * that collects actual stems only needs to check if the keyphrase and synonyms also remain the
+ * same to return the cached result. The joining of keyphrase and synonyms for this function is needed,
+ * because by default memoize caches by the first key only, which in the current case would mean that the function would
+ * return the cached forms if the keyphrase has not changed (without checking if synonyms were changed).
  *
- * @param {string}   keyphrase     The keyphrase.
- * @param {string[]} synonyms      The synonyms.
  * @param {Function} stemmer       The language-specific stemmer (if available).
  * @param {string[]} functionWords The language-specific function words.
  *
+ * @returns {function} The function that collects the stems for a given set of keyphrase, synonyms, stemmer and functionWords.
+ */
+const primeLanguageSpecificData = memoize( ( stemmer, functionWords ) => {
+	return memoize( ( keyphrase, synonyms ) => {
+		return collectKeyphraseAndSynonymsStems( keyphrase, synonyms, stemmer, functionWords );
+	}, ( keyphrase, synonyms ) => {
+		return keyphrase + "," + synonyms.join( "," );
+	} );
+} );
+
+/**
+ * Retrieves stems of words of the keyphrase and of each synonym phrase using the function that caches
+ * the results of previous calls of this function.
+ *
+ * @param {string}      keyphrase       The paper's keyphrase.
+ * @param {string}      synonyms        The paper's synonyms.
+ * @param {Function}    stemmer         The language-specific stemmer (if available).
+ * @param {string[]}    functionWords   The language-specific function words.
+ *
  * @returns {Object} Object with an array of stems of words in the keyphrase and an array of arrays of stems of words in the synonyms.
  */
-const collectStems = memoize( ( keyphrase, synonyms, stemmer, functionWords ) => {
-	return collectKeyphraseAndSynonymsStems( keyphrase, synonyms, stemmer, functionWords );
-}, ( keyphrase, synonyms ) => {
-	return keyphrase + "," + synonyms.join( "," );
-} );
+function collectStems( keyphrase, synonyms, stemmer, functionWords ) {
+	const collectStemsWithLanguageSpecificData = primeLanguageSpecificData( stemmer, functionWords );
+
+	return collectStemsWithLanguageSpecificData( keyphrase, synonyms );
+}
 
 export {
 	buildStems,
 	collectStems,
 	TopicPhrase,
 	StemOriginalPair,
+	primeLanguageSpecificData,
 };

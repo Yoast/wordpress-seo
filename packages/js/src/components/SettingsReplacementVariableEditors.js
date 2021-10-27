@@ -2,7 +2,7 @@
 import { withSelect } from "@wordpress/data";
 import { Component, Fragment } from "@wordpress/element";
 import { replacementVariablesShape } from "@yoast/replacement-variable-editor";
-import { includes, map } from "lodash";
+import { includes, map, get } from "lodash";
 import PropTypes from "prop-types";
 import SettingsEditorPortal from "./portals/SettingsEditorPortal";
 import SettingsFieldPortal from "./portals/SettingsFieldPortal";
@@ -17,7 +17,7 @@ class SettingsReplacementVariableEditors extends Component {
 	/**
 	 * Constructs the SettingsReplacementVariableEditors
 	 *
-	 * @param {Obj} props The props.
+	 * @param {object} props The props.
 	 */
 	constructor( props ) {
 		super( props );
@@ -71,11 +71,17 @@ class SettingsReplacementVariableEditors extends Component {
 				reactReplacevarLabelDescription,
 				reactReplacevarDescriptionPlaceholder,
 				reactReplacevarHasNewBadge,
+				reactReplacevarIsDisabled,
+				reactReplacevarHasPremiumBadge,
 			} = targetElement.dataset;
 
-			const filteredReplacementVariables = this.filterEditorSpecificReplaceVars(
+			let filteredReplacementVariables = this.filterEditorSpecificReplaceVars(
 				this.props.replacementVariables,
 				reactReplacevarPageTypeSpecific
+			);
+
+			filteredReplacementVariables = this.setHiddenReplaceVars(
+				filteredReplacementVariables
 			);
 
 			const labels = {
@@ -95,8 +101,29 @@ class SettingsReplacementVariableEditors extends Component {
 					labels={ labels }
 					descriptionPlaceholder={ reactReplacevarDescriptionPlaceholder }
 					hasNewBadge={ reactReplacevarHasNewBadge === "1" }
+					isDisabled={ reactReplacevarIsDisabled === "1" }
+					hasPremiumBadge={ reactReplacevarHasPremiumBadge === "1" }
 				/>
 			);
+		} );
+	}
+
+	/**
+	 * Sets any replacement variables from the given list to hidden if are
+	 * included in the list of hidden replacement variables.
+	 *
+	 * E.g. replace vars that *should* work, but should not be shown as an option.
+	 *
+	 * @param {Object[]} replaceVars The replacement variables.
+	 *
+	 * @returns {Object[]} The list of replacement variables with the hidden ones set to hidden.
+	 */
+	setHiddenReplaceVars( replaceVars ) {
+		const hiddenReplaceVars = get( window, "wpseoScriptData.analysis.plugins.replaceVars.hidden_replace_vars", [] );
+
+		return replaceVars.map( replaceVar => {
+			replaceVar.hidden = includes( hiddenReplaceVars, replaceVar.name );
+			return replaceVar;
 		} );
 	}
 

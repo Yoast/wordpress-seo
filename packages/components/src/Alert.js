@@ -30,6 +30,10 @@ const AlertContent = styled.div`
 	a {
 		color: ${ colors.$color_alert_link_text };
 	}
+	
+	p {
+		margin-top: 0;
+	}
 `;
 
 const AlertIcon = styled( SvgIcon )`

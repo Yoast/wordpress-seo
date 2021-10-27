@@ -8,11 +8,11 @@ import stopWords from "./config/stopWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 import syllables from "./config/syllables.json";
+import keyphraseLength from "./config/keyphraseLength";
 
 // All helpers
-import getSentenceParts from "./helpers/getSentenceParts";
+import getClauses from "./helpers/getClauses";
 import getStemmer from "./helpers/getStemmer";
-import isPassiveSentencePart from "./helpers/isPassiveSentencePart";
 import fleschReadingScore from "./helpers/calculateFleschReadingScore";
 
 /**
@@ -36,12 +36,12 @@ export default class Researcher extends AbstractResearcher {
 			transitionWords,
 			twoPartTransitionWords,
 			syllables,
+			keyphraseLength,
 		} );
 
 		Object.assign( this.helpers, {
-			getSentenceParts,
+			getClauses,
 			getStemmer,
-			isPassiveSentencePart,
 			fleschReadingScore,
 		} );
 	}

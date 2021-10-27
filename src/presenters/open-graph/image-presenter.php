@@ -11,6 +11,13 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 class Image_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'og:image';
+
+	/**
 	 * Image tags that we output for each image.
 	 *
 	 * @var array
@@ -60,7 +67,12 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		$images = [];
 
 		foreach ( $this->presentation->open_graph_images as $open_graph_image ) {
-			$images[] = $this->filter( $open_graph_image );
+			$images[] = \array_intersect_key(
+				// First filter the object.
+				$this->filter( $open_graph_image ),
+				// Then strip all keys that aren't in the image tags or the url.
+				\array_flip( \array_merge( static::$image_tags, [ 'url' ] ) )
+			);
 		}
 
 		return \array_filter( $images );

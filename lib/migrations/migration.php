@@ -171,7 +171,7 @@ abstract class Migration {
 	 * Adds an index.
 	 *
 	 * @param string       $table_name  The name of the table.
-	 * @param string       $column_name The column name.
+	 * @param array|string $column_name The column name.
 	 * @param array|string $options     The options.
 	 *
 	 * @return bool
@@ -184,7 +184,7 @@ abstract class Migration {
 	 * Removes an index.
 	 *
 	 * @param string       $table_name  The name of the table.
-	 * @param string       $column_name The column name.
+	 * @param array|string $column_name The column name.
 	 * @param array|string $options     The options.
 	 *
 	 * @return bool
