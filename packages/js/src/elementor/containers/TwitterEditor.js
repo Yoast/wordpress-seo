@@ -1,7 +1,6 @@
 /* External dependencies */
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
-import { __, sprintf } from "@wordpress/i18n";
 import { validateTwitterImage } from "@yoast/helpers";
 
 /* Internal dependencies */
