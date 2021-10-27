@@ -294,12 +294,12 @@ class WPSEO_Addon_Manager {
 			// We have to figure out if we're safe to upgrade the add-on, based on what the latest Yoast Free requirements for the WP version is.
 			$yoast_free_data = $this->extract_yoast_data( $data );
 			$plugin_data     = $this->convert_subscription_to_plugin( $subscription, $yoast_free_data );
+
+			// Let's assume for now that it will get added in the 'no_update' key that we'll return to the WP API.
 			$is_no_update    = true;
 
 			// If the add-on's version is the latest, we have to do no further checks.
 			if ( version_compare( $installed_plugin['Version'], $plugin_data->new_version, '<' ) ) {
-				$is_no_update = false;
-
 				// If we haven't retrieved the Yoast Free requirements for the WP version yet, do nothing. The next run will probably get us that information.
 				if ( is_null( $plugin_data->requires ) ) {
 					continue;
@@ -307,14 +307,12 @@ class WPSEO_Addon_Manager {
 
 				if ( version_compare( $plugin_data->requires, $wp_version, '<=' ) ) {
 					// The add-on has an available update *and* the Yoast Free requirements for the WP version are also met, so go ahead and show the upgrade info to the user.
+					$is_no_update = false;
 					$data->response[ $plugin_file ] = $plugin_data;
 
 					if ( $this->has_subscription_expired( $subscription ) ) {
 						unset( $data->response[ $plugin_file ]->package, $data->response[ $plugin_file ]->download_link );
 					}
-				}
-				else {
-					$is_no_update = true;
 				}
 			}
 
