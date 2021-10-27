@@ -16,6 +16,7 @@ import getContentWords from "../helpers/getContentWords";
 function getKeyphraseForms( keyphrase, morphologyData, allWordsFromPaper ) {
 	let keyphraseWords = getContentWords( keyphrase );
 
+	// The keyphrase is in double quotes: use it as an exact match keyphrase.
 	const doubleQuotes = [ "「", "」", "『", "』", "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
 	if ( includes( doubleQuotes, keyphrase[ 0 ] ) && includes( doubleQuotes, keyphrase[ keyphrase.length - 1 ] ) ) {
 		keyphrase = keyphrase.substring( 1, keyphrase.length - 1 );
