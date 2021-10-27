@@ -4,6 +4,7 @@ const { AbstractResearcher } = languageProcessing;
 // All helpers
 import getStemmer from "./helpers/getStemmer";
 import matchWordCustomHelper from "./helpers/matchTextWithWord";
+import getWordsCustomHelper from "./helpers/getWords";
 
 // All config
 import functionWords from "./config/functionWords";
@@ -25,7 +26,6 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getPassiveVoiceResult;
 		delete this.defaultResearches.getSentenceBeginnings;
 		delete this.defaultResearches.findTransitionWords;
-		delete this.defaultResearches.functionWordsInKeyphrase;
 
 		Object.assign( this.config, {
 			language: "ja",
@@ -35,6 +35,7 @@ export default class Researcher extends AbstractResearcher {
 		Object.assign( this.helpers, {
 			getStemmer,
 			matchWordCustomHelper,
+			getWordsCustomHelper,
 		} );
 	}
 }

@@ -25,7 +25,7 @@ jobs:
   fast_finish: true
   include:
     - php: 7.2
-      env: PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=lts/*
+      env: PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=14
     - php: 7.4
       name: "PHP 7.4: Check CS"
       before_install: skip
