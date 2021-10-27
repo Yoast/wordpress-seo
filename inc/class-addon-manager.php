@@ -332,9 +332,9 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
-	 * Extracts Yoast Free's data from the data of all the plugins.
+	 * Extracts Yoast SEO Free's data from the wp.org API response.
 	 *
-	 * @param object $data The data for all installed plugins.
+	 * @param object $data The wp.org API response.
 	 *
 	 * @return object Yoast Free's data from wp.org.
 	 */
