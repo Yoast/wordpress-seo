@@ -283,6 +283,9 @@ class WPSEO_Addon_Manager {
 			return $data;
 		}
 
+		// We have to figure out if we're safe to upgrade the add-ons, based on what the latest Yoast Free requirements for the WP version is.
+		$yoast_free_data = $this->extract_yoast_data( $data );
+
 		foreach ( $this->get_installed_addons() as $plugin_file => $installed_plugin ) {
 			$subscription_slug = $this->get_slug_by_plugin_file( $plugin_file );
 			$subscription      = $this->get_subscription( $subscription_slug );
@@ -291,9 +294,7 @@ class WPSEO_Addon_Manager {
 				continue;
 			}
 
-			// We have to figure out if we're safe to upgrade the add-on, based on what the latest Yoast Free requirements for the WP version is.
-			$yoast_free_data = $this->extract_yoast_data( $data );
-			$plugin_data     = $this->convert_subscription_to_plugin( $subscription, $yoast_free_data );
+			$plugin_data = $this->convert_subscription_to_plugin( $subscription, $yoast_free_data );
 
 			// Let's assume for now that it will get added in the 'no_update' key that we'll return to the WP API.
 			$is_no_update = true;
