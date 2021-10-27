@@ -261,7 +261,7 @@ PostDataCollector.prototype.getPermalink = function() {
 PostDataCollector.prototype.getCategoryName = function( li ) {
 	var clone = li.clone();
 	clone.children().remove();
-	return $.trim( clone.text() );
+	return clone.text().trim();
 };
 
 /**
