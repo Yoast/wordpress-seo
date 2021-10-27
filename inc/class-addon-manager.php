@@ -216,7 +216,7 @@ class WPSEO_Addon_Manager {
 			return $data;
 		}
 
-		$data = $this->convert_subscription_to_plugin( $subscription, false, true );
+		$data = $this->convert_subscription_to_plugin( $subscription, null, true );
 
 		if ( $this->has_subscription_expired( $subscription ) ) {
 			unset( $data->package, $data->download_link );
@@ -296,7 +296,7 @@ class WPSEO_Addon_Manager {
 			$plugin_data     = $this->convert_subscription_to_plugin( $subscription, $yoast_free_data );
 
 			// Let's assume for now that it will get added in the 'no_update' key that we'll return to the WP API.
-			$is_no_update    = true;
+			$is_no_update = true;
 
 			// If the add-on's version is the latest, we have to do no further checks.
 			if ( version_compare( $installed_plugin['Version'], $plugin_data->new_version, '<' ) ) {
@@ -307,7 +307,7 @@ class WPSEO_Addon_Manager {
 
 				if ( version_compare( $plugin_data->requires, $wp_version, '<=' ) ) {
 					// The add-on has an available update *and* the Yoast Free requirements for the WP version are also met, so go ahead and show the upgrade info to the user.
-					$is_no_update = false;
+					$is_no_update                   = false;
 					$data->response[ $plugin_file ] = $plugin_data;
 
 					if ( $this->has_subscription_expired( $subscription ) ) {
@@ -485,7 +485,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @return stdClass The converted subscription.
 	 */
-	protected function convert_subscription_to_plugin( $subscription, $yoast_free_data = false, $plugin_info = false ) {
+	protected function convert_subscription_to_plugin( $subscription, $yoast_free_data = null, $plugin_info = false ) {
 		// We need to replace h2's and h3's with h4's because the styling expects that.
 		$changelog = str_replace( '</h2', '</h4', str_replace( '<h2', '<h4', $subscription->product->changelog ) );
 		$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
