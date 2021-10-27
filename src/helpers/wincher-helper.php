@@ -36,4 +36,19 @@ class Wincher_Helper {
 
 		return $wincher->has_valid_tokens();
 	}
+
+	/**
+	 * Returns the Wincher links that can be used to localize the global admin
+	 * script. Mainly exists to avoid duplicating these links in multiple places
+	 * around the code base.
+	 *
+	 * @return string[]
+	 */
+	public function get_admin_global_links() {
+		return [
+			'links.wincher.website'   => 'https://www.wincher.com?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
+			'links.wincher.pricing'   => 'https://www.wincher.com/pricing?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
+			'links.wincher.login'     => 'https://app.wincher.com/login?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
+		];
+	}
 }
