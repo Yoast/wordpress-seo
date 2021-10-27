@@ -121,6 +121,11 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	 */
 	public function build_indexable( $post_type ) {
 		$indexable = $this->repository->find_for_post_type_archive( $post_type, false );
-		$this->builder->build_for_post_type_archive( $post_type, $indexable );
+		$indexable = $this->builder->build_for_post_type_archive( $post_type, $indexable );
+
+		if ( $indexable ) {
+			$indexable->object_last_modified = \max( $indexable->object_last_modified, \current_time( 'mysql' ) );
+			$indexable->save();
+		}
 	}
 }
