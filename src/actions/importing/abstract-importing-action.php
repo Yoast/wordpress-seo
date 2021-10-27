@@ -55,25 +55,6 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	}
 
 	/**
-	 * Check if table exists.
-	 *
-	 * @param wpdb $wpdb The wpdb instance.
-	 *
-	 * @return bool Whether the table exists.
-	 */
-	protected function table_exists( $wpdb ) {
-		$table = $this->get_table();
-
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
-		$table_exists = $wpdb->get_var( "SHOW TABLES LIKE '{$table}'" );
-		if ( is_wp_error( $table_exists ) || is_null( $table_exists ) ) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Retrieves the table name along with the db prefix.
 	 *
 	 * @return string The table name along with the db prefix.

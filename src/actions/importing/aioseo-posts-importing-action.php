@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 
 /**
  * Importing action for AIOSEO post data.
@@ -56,6 +57,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	protected $options;
 
 	/**
+	 * The wpdb helper.
+	 *
+	 * @var Wpdb_Helper
+	 */
+	protected $wpdb_helper;
+
+	/**
 	 * The map of aioseo to yoast meta.
 	 *
 	 * @var array
@@ -76,16 +84,19 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @param wpdb                         $wpdb                  The WordPress database instance.
 	 * @param Indexable_To_Postmeta_Helper $indexable_to_postmeta The indexable_to_postmeta helper.
 	 * @param Options_Helper               $options               The options helper.
+	 * @param Wpdb_Helper                  $wpdb_helper           The wpdb_helper helper.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
 		wpdb $wpdb,
 		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
-		Options_Helper $options ) {
+		Options_Helper $options,
+		Wpdb_Helper $wpdb_helper ) {
 		$this->indexable_repository  = $indexable_repository;
 		$this->wpdb                  = $wpdb;
 		$this->indexable_to_postmeta = $indexable_to_postmeta;
 		$this->options               = $options;
+		$this->wpdb_helper           = $wpdb_helper;
 	}
 
 	/**
@@ -105,7 +116,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return int The total number of unimported objects.
 	 */
 	public function get_total_unindexed() {
-		if ( ! $this->table_exists( $this->wpdb ) ) {
+		if ( ! $this->wpdb_helper->table_exists( $this->get_table() ) ) {
 			return 0;
 		}
 
@@ -124,7 +135,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return int|false The limited number of unindexed posts. False if the query fails.
 	 */
 	public function get_limited_unindexed_count( $limit ) {
-		if ( ! $this->table_exists( $this->wpdb ) ) {
+		if ( ! $this->wpdb_helper->table_exists( $this->get_table() ) ) {
 			return 0;
 		}
 
@@ -140,7 +151,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return void
 	 */
 	public function index() {
-		if ( ! $this->table_exists( $this->wpdb ) ) {
+		if ( ! $this->wpdb_helper->table_exists( $this->get_table() ) ) {
 			return;
 		}
 
