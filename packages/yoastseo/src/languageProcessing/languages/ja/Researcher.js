@@ -10,6 +10,9 @@ import getContentWords from "./helpers/getContentWords";
 // All config
 import functionWords from "./config/functionWords";
 
+// All custom researches
+import morphology from "./customResearches/getWordForms";
+
 /**
  * The researches contains all the researches
  */
@@ -38,6 +41,10 @@ export default class Researcher extends AbstractResearcher {
 			matchWordCustomHelper,
 			getWordsCustomHelper,
 			getContentWords,
+		} );
+
+		Object.assign( this.defaultResearches, {
+			morphology,
 		} );
 	}
 }
