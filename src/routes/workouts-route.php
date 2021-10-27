@@ -30,6 +30,34 @@ class Workouts_Route implements Route_Interface {
 	const WORKOUTS_ROUTE = '/workouts';
 
 	/**
+	 * Allowed cornerstone steps.
+	 *
+	 * @var array
+	 */
+	const ALLOWED_CORNERSTONE_STEPS = [
+		'chooseCornerstones',
+		'checkLinks',
+		'addLinks',
+		'improved',
+		'skipped',
+	];
+
+	/**
+	 * Allowed orphaned steps.
+	 *
+	 * @var array
+	 */
+	const ALLOWED_ORPHANED_STEPS = [
+		'improveRemove',
+		'update',
+		'addLinks',
+		'removed',
+		'noindexed',
+		'improved',
+		'skipped',
+	];
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository

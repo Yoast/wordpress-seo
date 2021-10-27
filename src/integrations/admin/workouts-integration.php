@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Routes\Workouts_Route;
 
 /**
  * WorkoutsIntegration class
@@ -121,7 +122,7 @@ class Workouts_Integration implements Integration_Interface {
 
 		$this->admin_asset_manager->enqueue_style( 'workouts' );
 
-		$workouts_option = $this->options_helper->get( 'workouts' );
+		$workouts_option = $this->get_workouts_option();
 
 		$this->admin_asset_manager->enqueue_script( 'workouts' );
 		$this->admin_asset_manager->localize_script(
@@ -180,24 +181,82 @@ class Workouts_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Gets the orphaned indexables.
+	 * Gets the workouts option and extends it with indexable data.
 	 *
-	 * @param array $indexable_ids_in_orphaned_workout The orphaned indexable ids.
-	 * @param int   $limit                             The limit.
-	 * @return array The orphaned indexables.
+	 * @return mixed|null Returns workouts option if found, null if not.
 	 */
-	protected function get_orphaned( array $indexable_ids_in_orphaned_workout, $limit = 10 ) {
-		$orphaned = $this->indexable_repository->query()
-			->where_raw( '( incoming_link_count is NULL OR incoming_link_count < 3 )' )
-			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
-			->where_raw( '( is_robots_noindex = FALSE OR is_robots_noindex IS NULL )' )
-			->where_in( 'object_sub_type', $this->get_public_sub_types() )
-			->where_in( 'object_type', [ 'post' ] )
-			->where_not_in( 'id', $indexable_ids_in_orphaned_workout )
-			->order_by_asc( 'created_at' )
-			->limit( $limit )
-			->find_many();
-		$orphaned = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $orphaned );
-		return $orphaned;
+	private function get_workouts_option() {
+		$workouts_option = $this->options_helper->get( 'workouts' );
+
+		if ( ! ( isset( $workouts_option['orphaned']['indexablesByStep'] )
+			&& \is_array( $workouts_option['orphaned']['indexablesByStep'] )
+			&& isset( $workouts_option['cornerstone']['indexablesByStep'] )
+			&& \is_array( $workouts_option['cornerstone']['indexablesByStep'] ) )
+		) {
+			return $workouts_option;
+		}
+
+		// Get all indexable ids from all workouts and all steps.
+		$indexable_ids_in_workouts = [ 0 ];
+		foreach ( [ 'orphaned', 'cornerstone' ] as $workout ) {
+			foreach ( $workouts_option[ $workout ]['indexablesByStep'] as $step => $indexables ) {
+				if ( $step === 'removed' ) {
+					continue;
+				}
+				foreach ( $indexables as $indexable_id ) {
+					$indexable_ids_in_workouts[] = $indexable_id;
+				}
+			}
+		}
+
+		// Get all indexables corresponding to the indexable ids.
+		$indexables_in_workouts = $this->indexable_repository->find_by_ids( $indexable_ids_in_workouts );
+
+		// Extend the workouts option with the indexables data.
+		foreach ( [ 'orphaned', 'cornerstone' ] as $workout ) {
+			// Don't add indexables for steps that are not allowed.
+			$workouts_option[ $workout ]['finishedSteps'] = \array_values(
+				\array_intersect(
+					$workouts_option[ $workout ]['finishedSteps'],
+					[
+						'orphaned'    => Workouts_Route::ALLOWED_ORPHANED_STEPS,
+						'cornerstone' => Workouts_Route::ALLOWED_CORNERSTONE_STEPS,
+					][ $workout ]
+				)
+			);
+
+			// Don't add indexables that are not published or are no-indexed.
+			foreach ( $workouts_option[ $workout ]['indexablesByStep'] as $step => $indexables ) {
+				if ( $step === 'removed' ) {
+					continue;
+				}
+				$workouts_option[ $workout ]['indexablesByStep'][ $step ] = \array_values(
+					\array_filter(
+						\array_map(
+							static function( $indexable_id ) use ( $indexables_in_workouts ) {
+								foreach ( $indexables_in_workouts as $updated_indexable ) {
+									if ( \is_array( $indexable_id ) ) {
+										$indexable_id = $indexable_id['id'];
+									}
+									if ( (int) $indexable_id === $updated_indexable->id ) {
+										if ( $updated_indexable->post_status !== 'publish' && $updated_indexable->post_status !== null ) {
+											return false;
+										}
+										if ( $updated_indexable->is_robots_noindex ) {
+											return false;
+										}
+										return $updated_indexable;
+									}
+								}
+								return false;
+							},
+							$indexables
+						)
+					)
+				);
+			}
+		}
+
+		return $workouts_option;
 	}
 }
