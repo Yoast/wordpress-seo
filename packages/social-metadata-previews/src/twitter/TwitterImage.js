@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
+import { StyledSocialImage } from "../components/StyledSocialImage";
 import {
 	handleImage,
 	TWITTER_IMAGE_SIZES,
@@ -44,16 +45,6 @@ const TwitterImageContainer = styled.div`
 	background-color: #e1e8ed;
 	flex-shrink: 0;
 	${ props => injectCardDependentStyles( props.isLarge ) }
-`;
-
-const StyledImage = styled.div`
-	&& {
-		background-image: url(${ props => props.imageSrc });
-		background-size: cover;
-		background-repeat: no-repeat;
-		background-position: center;
-    	padding-bottom: ${ TWITTER_IMAGE_SIZES.aspectRatio }%;
-	}
 `;
 
 const BaseImage = styled.div`
@@ -170,11 +161,12 @@ export default class TwitterImage extends React.Component {
 			onMouseEnter={ this.props.onMouseEnter }
 			onMouseLeave={ this.props.onMouseLeave }
 		>
-			<StyledImage
-				imageSrc={ this.props.src }
-
-				role="img"
-				aria-label={ this.props.alt }
+			<StyledSocialImage
+				imageProps={ {
+					src: this.props.src,
+					alt: this.props.alt,
+					aspectRatio: TWITTER_IMAGE_SIZES.aspectRatio,
+				} }
 			/>
 		</TwitterImageContainer>;
 	}

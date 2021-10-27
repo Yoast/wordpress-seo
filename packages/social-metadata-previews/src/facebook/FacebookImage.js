@@ -8,6 +8,7 @@ import { __ } from "@wordpress/i18n";
 import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
+import { StyledSocialImage } from "../components/StyledSocialImage";
 import {
 	handleImage,
 	FACEBOOK_IMAGE_SIZES,
@@ -18,17 +19,6 @@ const FacebookImageContainer = styled.div`
 	${ props => props.mode === "landscape" ? `max-width: ${ props.dimensions.width }` : `min-width: ${ props.dimensions.width }` };
 	overflow: hidden;
 	background-color: ${ colors.$color_white };
-`;
-
-// Adding && for specificity, competing styles coming from blockeditor
-const StyledImage = styled.div`
-	&& {
-		background-image: url(${ props => props.imageSrc });
-		background-size: cover;
-		background-repeat: no-repeat;
-		background-position: center;
-    	padding-bottom: ${ FACEBOOK_IMAGE_SIZES.aspectRatio }%;
-	}
 `;
 
 const PlaceholderImage = styled.div`
@@ -170,11 +160,12 @@ class FacebookImage extends Component {
 			onMouseLeave={ this.props.onMouseLeave }
 			onClick={ this.props.onImageClick }
 		>
-			<StyledImage
-				imageSrc={ this.props.src }
-
-				role="img"
-				aria-label={ this.props.alt }
+			<StyledSocialImage
+				imageProps={ {
+					src: this.props.src,
+					alt: this.props.alt,
+					aspectRatio: FACEBOOK_IMAGE_SIZES.aspectRatio,
+				} }
 			/>
 		</FacebookImageContainer>;
 	}
