@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Exception;
 use Mockery;
 use WP_Post;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
@@ -486,13 +487,17 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 */
 	public function test_update_relations() {
 		$post = (object) [
-			'post_author' => 1,
-			'post_type'   => 'post',
-			'ID'          => 1,
+			'post_author'       => 1,
+			'post_type'         => 'post',
+			'ID'                => 1,
+			'post_modified_gmt' => '1234-12-12 12:12:12',
 		];
 
 		$indexable            = Mockery::mock( Indexable_Mock::class );
+		$indexable->orm       = Mockery::mock( ORM::class );
 		$indexable->is_public = true;
+		$indexable->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
+		$indexable->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
 		$indexable->expects( 'save' )->once();
 
 		$this->instance
@@ -601,6 +606,21 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->with( 1, 'another-taxonomy' )
 			->andReturnNull();
 
+		Monkey\Functions\expect( 'wp_list_pluck' )
+			->once()
+			->with(
+				[
+					(object) [
+						'term_id' => 1337,
+					],
+					(object) [
+						'term_id' => 1414,
+					],
+				],
+				'term_id'
+			)
+			->andReturn( [ 1337, 1414 ] );
+
 		$indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->repository
@@ -622,16 +642,10 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->andReturn( $indexable );
 
 		$this->repository
-			->expects( 'find_by_id_and_type' )
+			->expects( 'find_by_multiple_ids_and_type' )
 			->once()
-			->with( 1337, 'term', false )
-			->andReturn( $indexable );
-
-		$this->repository
-			->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 1414, 'term', false )
-			->andReturnNull();
+			->with( [ 1337, 1414 ], 'term', false )
+			->andReturn( [ $indexable, null ] );
 
 		$this->assertEquals(
 			[ $indexable, $indexable, $indexable, $indexable ],

@@ -235,6 +235,9 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		$related_indexables = $this->get_related_indexables( $post );
 
 		foreach ( $related_indexables as $indexable ) {
+			if ( ! $indexable->is_public ) {
+				continue;
+			}
 			$indexable->object_last_modified = max( $indexable->object_last_modified, $post->post_modified_gmt );
 			$indexable->save();
 		}
