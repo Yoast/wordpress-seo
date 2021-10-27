@@ -92,8 +92,49 @@ const wrapperConfig = {
 	locale: "en_US",
 //	customAnalysisType: "",
 	translations: {},
-	assessorOptions: {}, // mostly used for shortlinks per analysisType.
+	assessorOptions: {
+		[ analysisType ]: {
+
+		},
+	}, // mostly used for shortlinks per analysisType.
 	defaultQueryParams: {},
 	logLevel: "",
 	enabledFeatures: [],
+};
+
+
+// Assessments config
+const assessments = {
+	introductionKeyword: {
+		urlTitle: "",
+		urlCallToAction: "",
+	},
+	keyphraseLength: {
+		urlTitle: "",
+		urlCallToAction: "",
+	},
+	metaDescriptionKeyword: {
+		parameters: { recommendedMinimum: 1 },
+		urlTitle: "",
+		urlCallToAction: "",
+	},
+};
+const analysisTypes = {
+	product: {
+		readabilityAssessments: {
+			standard: [ "introduction", "keyphraseLength" ],
+			cornerstone: [
+				{ introductionKeyword: { isRelatedKeyphrase: true } },
+				{ metaDescriptionKeyword: { scores: { good: 9, bad: 3 } } },
+			],
+		},
+		focusKeyphraseAssessments: {
+			standard: [],
+			cornerstone: [],
+		},
+		relatedKeyphraseAssessments: {
+			standard: [],
+			cornerstone: [],
+		},
+	}
 };
