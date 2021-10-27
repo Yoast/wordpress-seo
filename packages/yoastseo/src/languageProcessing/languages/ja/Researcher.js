@@ -5,6 +5,7 @@ const { AbstractResearcher } = languageProcessing;
 import getStemmer from "./helpers/getStemmer";
 import matchWordCustomHelper from "./helpers/matchTextWithWord";
 import getWordsCustomHelper from "./helpers/getWords";
+import customGetStemmer from "./helpers/customGetStemmer";
 
 // All config
 import functionWords from "./config/functionWords";
@@ -36,6 +37,7 @@ export default class Researcher extends AbstractResearcher {
 			getStemmer,
 			matchWordCustomHelper,
 			getWordsCustomHelper,
+			customGetStemmer,
 		} );
 	}
 }
