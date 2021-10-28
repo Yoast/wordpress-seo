@@ -3,13 +3,11 @@
 namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
-use Exception;
 use Mockery;
-use PHPUnit_Framework_Exception;
-use PHPUnit_Framework_ExpectationFailedException;
-use WP_REST_Response;
+use Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Routes\Importing_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
 
 /**
  * Class Importing_Route_Test.
@@ -24,7 +22,7 @@ class Importing_Route_Test extends TestCase {
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var Indexing_Route
+	 * @var Importing_Route
 	 */
 	protected $instance;
 
@@ -34,7 +32,32 @@ class Importing_Route_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Importing_Route();
+		Mockery::mock( '\WP_Error' );
+
+		$importers = [
+			$this->mockImporter( Aioseo_Posts_Importing_Action::class, 'aioseo', 'posts' ),
+		];
+
+		$this->instance = new Importing_Route( ...$importers );
+	}
+
+	/**
+	 * Creates a mock importing action.
+	 * 
+	 * @param string $class  The class.
+	 * @param string $plugin The plugin.
+	 * @param string $type   The type.
+	 *
+	 * @return Importing_Action_Interface The indexing action.
+	 */
+	private function mockImporter( $class, $plugin, $type ) {
+		$importing_action = Mockery::mock( $class )
+			->shouldAllowMockingProtectedMethods();
+
+		$importing_action->allows( 'get_plugin' )->andReturn( $plugin );
+		$importing_action->allows( 'get_type' )->andReturn( $type );
+
+		return $importing_action;
 	}
 
 	/**
@@ -108,6 +131,6 @@ class Importing_Route_Test extends TestCase {
 			]
 		);
 
-		$this->assertEquals( false, $response );
+		$this->assertInstanceOf( 'WP_Error', $response );
 	}
 }
