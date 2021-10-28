@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
+// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 /**
  * Class Indexable_Post_Type_Archive_Watcher_Test.
  *
@@ -196,7 +197,7 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
 		$indexable_mock->expects( 'save' )->once();
 
-		$other_indexable_mock = Mockery::mock( Indexable::class );
+		$other_indexable_mock      = Mockery::mock( Indexable::class );
 		$other_indexable_mock->orm = Mockery::mock( ORM::class );
 		$other_indexable_mock->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
 		$other_indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
