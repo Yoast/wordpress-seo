@@ -298,6 +298,24 @@ function stemWordStep6( word, morphologyData ) {
 }
 
 /**
+ * Normalizes Greek by removing accents.
+ *
+ * @param {string} text The text that should be normalized.
+ *
+ * @returns {string} The normalized text.
+ */
+function normalizeGreek( text ) {
+	return text.replace( /[ΆΑά]/g, "α" )
+		.replace( /[ΈΕέ]/g, "ε" )
+		.replace( /[ΉΗή]/g, "η" )
+		.replace( /[ΊΪΙίΐϊ]/g, "ι" )
+		.replace( /[ΌΟό]/g, "ο" )
+		.replace( /[ΎΫΥύΰϋ]/g, "υ" )
+		.replace( /[ΏΩώ]/g, "ω" )
+		.replace( /[Σς]/g, "σ" );
+}
+
+/**
  * Stems Greek words
  *
  * @param {string} word           The word to stem.
@@ -306,6 +324,8 @@ function stemWordStep6( word, morphologyData ) {
  * @returns {string} The stem of a Greek word.
  */
 export default function stem( word, morphologyData ) {
+	word = normalizeGreek( word );
+
 	// We process the word in uppercase to account for the character changing in lowercase depending on its position in the word.
 	word = word.toLocaleUpperCase( "el" );
 
