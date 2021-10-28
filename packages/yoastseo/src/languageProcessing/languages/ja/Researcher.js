@@ -5,9 +5,11 @@ const { AbstractResearcher } = languageProcessing;
 import getStemmer from "./helpers/getStemmer";
 import matchWordCustomHelper from "./helpers/matchTextWithWord";
 import getWordsCustomHelper from "./helpers/getWords";
+import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
 
 // All config
 import functionWords from "./config/functionWords";
+import transitionWords from "./config/transitionWords";
 
 /**
  * The researches contains all the researches
@@ -25,17 +27,18 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
 		delete this.defaultResearches.getSentenceBeginnings;
-		delete this.defaultResearches.findTransitionWords;
 
 		Object.assign( this.config, {
 			language: "ja",
 			functionWords,
+			transitionWords,
 		} );
 
 		Object.assign( this.helpers, {
 			getStemmer,
 			matchWordCustomHelper,
 			getWordsCustomHelper,
+			matchTransitionWordsHelper,
 		} );
 	}
 }
