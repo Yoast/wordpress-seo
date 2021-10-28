@@ -106,7 +106,7 @@ export default function WorkoutCard( {
 			</span>
 			{ upsell && isUpsellOpen && <UpsellComponent onRequestClose={ closeUpsell } /> }
 		</div> }
-		{ workout && activeWorkout === name && <WorkoutComponent onRequestClose={ closeUpsell } /> }
+		{ workout && activeWorkout === name && <WorkoutComponent /> }
 	</>	);
 }
 
