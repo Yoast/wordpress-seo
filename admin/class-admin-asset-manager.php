@@ -325,7 +325,6 @@ class WPSEO_Admin_Asset_Manager {
 				'wp-element',
 				'wp-i18n',
 				self::PREFIX . 'analysis',
-				self::PREFIX . 'editor-modules',
 				self::PREFIX . 'react-select',
 				self::PREFIX . 'yoast-components',
 			],
