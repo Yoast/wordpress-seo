@@ -472,7 +472,7 @@ YoastReplaceVarPlugin.prototype.getTaxonomyReplaceVar = function( taxonomyName )
 
 		filtered.push( item.label );
 	} );
-	return jQuery.unique( filtered ).join( ", " );
+	return jQuery.uniqueSort( filtered ).join( ", " );
 };
 
 /*
