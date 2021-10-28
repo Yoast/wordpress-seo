@@ -3,9 +3,15 @@ const { AbstractResearcher } = languageProcessing;
 
 // All helpers
 import getStemmer from "./helpers/getStemmer";
+import matchWordCustomHelper from "./helpers/matchTextWithWord";
+import getWordsCustomHelper from "./helpers/getWords";
+import wordsCharacterCount from "./helpers/wordsCharacterCount";
 
 // All config
 import functionWords from "./config/functionWords";
+
+// All custom researches
+import getKeywordDensity from "./customResearches/getKeywordDensity";
 
 /**
  * The researches contains all the researches
@@ -24,7 +30,10 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getPassiveVoiceResult;
 		delete this.defaultResearches.getSentenceBeginnings;
 		delete this.defaultResearches.findTransitionWords;
-		delete this.defaultResearches.functionWordsInKeyphrase;
+		delete this.defaultResearches.getKeywordDensity;
+
+		// Adds the Japanese custom research to calculate the keyword density.
+		this.addResearch( "getKeywordDensity", getKeywordDensity );
 
 		Object.assign( this.config, {
 			language: "ja",
@@ -33,6 +42,9 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.helpers, {
 			getStemmer,
+			matchWordCustomHelper,
+			getWordsCustomHelper,
+			wordsCharacterCount,
 		} );
 	}
 }

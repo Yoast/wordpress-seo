@@ -20,8 +20,8 @@ class WPSEO_Gutenberg_Compatibility_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Set up our double class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$mock = $this
 			->getMockBuilder( 'WPSEO_Gutenberg_Compatibility_Double' )

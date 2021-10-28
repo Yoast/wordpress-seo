@@ -20,8 +20,8 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Set up.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		do_action( 'rest_api_init' );
 
