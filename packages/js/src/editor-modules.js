@@ -22,8 +22,6 @@ import * as ajaxHelper from "./helpers/ajaxHelper";
 import EditorModal from "./containers/EditorModal";
 import ImageSelectPortal from "./components/portals/ImageSelectPortal";
 import PersistentDismissableAlert from "./containers/PersistentDismissableAlert";
-import CornerstoneWorkoutCard from "./workouts/components/CornerstoneWorkoutCard";
-import OrphanedWorkoutCard from "./workouts/components/OrphanedWorkoutCard";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -52,10 +50,6 @@ window.yoast.editorModules = {
 		Modal,
 		portals: {
 			ImageSelectPortal,
-		},
-		workouts: {
-			CornerstoneWorkoutCard,
-			OrphanedWorkoutCard,
 		},
 	},
 	containers: {
