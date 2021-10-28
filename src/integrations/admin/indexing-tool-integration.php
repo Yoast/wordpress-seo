@@ -128,9 +128,9 @@ class Indexing_Tool_Integration implements Integration_Interface {
 			'firstTime'                   => ( $this->indexing_helper->is_initial_indexing() === true ),
 			'errorMessage'                => $this->render_indexing_error(),
 			'restApi'                     => [
-				'root'      => \esc_url_raw( \rest_url() ),
-				'endpoints' => $this->get_endpoints(),
-				'nonce'     => \wp_create_nonce( 'wp_rest' ),
+				'root'               => \esc_url_raw( \rest_url() ),
+				'indexing_endpoints' => $this->get_endpoints(),
+				'nonce'              => \wp_create_nonce( 'wp_rest' ),
 			],
 		];
 
