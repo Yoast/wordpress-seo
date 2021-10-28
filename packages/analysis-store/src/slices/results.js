@@ -13,21 +13,12 @@ const analyzeActions = reduce(
 	{},
 );
 
-function* preparePaper( payload ) {
-	return yield { type: PREPARE_PAPER_ACTION_NAME, payload };
-}
-
-function* processResults( payload ) {
-	return yield { type: PROCESS_RESULTS_ACTION_NAME, payload };
-}
-
 function* analyze( { paper, targets, config } ) {
 	yield { type: analyzeActions.request };
 
 	try {
 		const preparedPaper = yield { type: PREPARE_PAPER_ACTION_NAME, payload: paper };
 		// Add seoTitleWidth to paper here in some smart way (after preparePaper/replaceVars)
-
 		const response = yield {
 			type: ANALYZE_ACTION_NAME, payload: {
 				paper: preparedPaper,
@@ -85,8 +76,6 @@ export const resultsSelectors = {
 export const resultsActions = {
 	...results.actions,
 	analyze,
-	preparePaper,
-	processResults,
 };
 
 export default results.reducer;

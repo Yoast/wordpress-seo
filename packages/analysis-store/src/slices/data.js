@@ -11,7 +11,7 @@ const initialState = {
 	slug: "",
 	content: "",
 	// Editor data we could use, for example in replacevars or for fallbacks.
-	title: "",
+	title: "HOI HAI",
 	excerpt: "",
 	featuredImage: {},
 };

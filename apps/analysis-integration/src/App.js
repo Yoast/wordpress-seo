@@ -1,5 +1,6 @@
+import { register, useDispatch, select } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
-import createAnalysisStore, { selectors as analysisStoreSelectors } from "@yoast/analysis-store";
+import createAnalysisStore, { ANALYSIS_STORE_NAME, useAnalyze } from "@yoast/analysis-store";
 import createReplacementVariables from "@yoast/replacement-variables";
 import { reduce } from "lodash";
 
@@ -8,16 +9,18 @@ import { reduce } from "lodash";
 // Add wrapper around these packages that exports a magic createYoastSeoIntegration function
 // First candidate classic editor with WooCommerce
 
-const preparePaper = ( paper, { getState } ) => {
+const preparePaper = ( paper ) => {
 	const replacementVariables = createReplacementVariables( [
 		{
 			name: "title",
 			getReplacement: () => {
-				console.warn( "getReplacement", analysisStoreSelectors.selectTitle( getState() ) );
-				return analysisStoreSelectors.selectTitle( getState() );
+				console.warn( "getReplacement", select( ANALYSIS_STORE_NAME ) );
+				// return select( ANALYSIS_STORE_NAME ).selectTitle();
+				return "HOIHAI"
 			},
 		},
 	] );
+
 
 	return reduce(
 		paper,
@@ -29,25 +32,32 @@ const preparePaper = ( paper, { getState } ) => {
 	);
 };
 
-const { Provider, actions: analysisActions } = createAnalysisStore( {
+const analysisStore = createAnalysisStore( {
 	preparePaper,
 	analyze: async ( paper, config ) => {
 		console.warn( "analyze triggered with paper", paper );
 		await new Promise( resolve => setTimeout( resolve, 1000 ) );
 		return { data: "seoResults" };
 	},
-	middleware: [],
 } );
+register( analysisStore );
 
+const Editor = () => {
+	const { updateContent } = useDispatch( ANALYSIS_STORE_NAME );
+	const handleChange = useCallback( ( event ) => {
+		updateContent( event.target.value );
+	}, [ updateContent ] );
+	return (
+		<textarea name="editor" rows="16" onChange={ handleChange } />
+	);
+};
 
 function App() {
-	const handleChange = useCallback( ( event ) => {
-		analysisActions.updateContent( event.target.value );
-	}, [] );
+	useAnalyze();
 	return (
-		<Provider>
-			<div style={ { margin: "80px" } }>
-				<textarea name="editor" rows="16" onChange={ handleChange } />
+		<>
+		<div style={ { margin: "80px" } }>
+				<Editor />
 			</div>
 			<div>
 				<h2>Sidebar</h2>
@@ -58,7 +68,8 @@ function App() {
 				<h4>Research Results</h4>
 				<div>...</div>
 			</div>
-		</Provider>
+		</>
+			
 	);
 }
 

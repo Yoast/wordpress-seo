@@ -1,7 +1,6 @@
-import { createReduxStore, createRegistry } from "@wordpress/data";
+import { createReduxStore, combineReducers, register } from "@wordpress/data";
 import { identity } from "lodash";
 import { STORE_NAME } from "./constants";
-import createProvider from "./provider";
 import configReducer, { CONFIG_SLICE_NAME, configActions, configSelectors } from "./slices/config";
 import dataReducer, { DATA_SLICE_NAME, dataActions, dataSelectors } from "./slices/data";
 import keyphrasesReducer, { KEYPHRASES_SLICE_NAME, keyphrasesActions, keyphrasesSelectors } from "./slices/keyphrases";
@@ -14,8 +13,10 @@ import resultsReducer, {
 	resultsSelectors,
 } from "./slices/results";
 
+export { STORE_NAME as ANALYSIS_STORE_NAME };
+
 export { default as useAnalyze } from "./hooks/use-analyze";
-export { STORE_NAME };
+export { default as AnalysisStoreProvider } from "./components/provider";
 
 export const actions = {
 	...dataActions,
@@ -41,15 +42,16 @@ const createAnalysisStore = ( {
 	analyze,
 	preparePaper = identity,
 	processResults = identity,
-	registry = createRegistry(),
 } ) => {
 	const store = createReduxStore( STORE_NAME, {
-		reducer: {
+		actions,
+		selectors,
+		reducer: combineReducers( {
 			[ CONFIG_SLICE_NAME ]: configReducer,
 			[ DATA_SLICE_NAME ]: dataReducer,
 			[ KEYPHRASES_SLICE_NAME ]: keyphrasesReducer,
 			[ RESULTS_SLICE_NAME ]: resultsReducer,
-		},
+		} ),
 		controls: {
 			[ ANALYZE_ACTION_NAME ]: async ( { payload: { paper, targets, config } } ) => analyze( paper, targets, config ),
 			[ PREPARE_PAPER_ACTION_NAME ]: async ( { payload } ) => preparePaper( payload ),
@@ -57,13 +59,9 @@ const createAnalysisStore = ( {
 		},
 	} );
 
-	registry.register( store );
-	const Provider = createProvider( registry );
+	register( store );
 
-	return {
-		store,
-		Provider,
-	};
+	return store;
 };
 
 export default createAnalysisStore;

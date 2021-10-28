@@ -27,6 +27,7 @@
     "eslint-config-yoast": "^5.0.17"
   },
   "peerDependencies": {
+    "react": "^17.0.1",
     "@wordpress/data": "^6.1.2",
     "@wordpress/element": "^4.0.3"
   }
