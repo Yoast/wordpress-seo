@@ -1,4 +1,6 @@
+import { get } from "lodash";
 import { FINISHABLE_STEPS } from "../config";
+
 /**
  * Gets the workouts data from the state.
  *
@@ -8,6 +10,17 @@ import { FINISHABLE_STEPS } from "../config";
  */
 export const getWorkouts = ( state ) => {
 	return state.workouts;
+};
+
+/**
+ * Gets the finished steps for a workout from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {Array} the finished steps for a workout.
+ */
+export const getFinishedSteps = ( state, workout ) => {
+	return get( state, `workouts.${ workout }.finishedSteps`, [] );
 };
 
 /**
