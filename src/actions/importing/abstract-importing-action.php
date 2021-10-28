@@ -55,13 +55,6 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	}
 
 	/**
-	 * Retrieves the table name along with the db prefix.
-	 *
-	 * @return string The table name along with the db prefix.
-	 */
-	abstract protected function get_table();
-
-	/**
 	 * Creates a query for gathering to-be-imported data from the database.
 	 *
 	 * @return string The query to use for importing or counting the number of items to import.
