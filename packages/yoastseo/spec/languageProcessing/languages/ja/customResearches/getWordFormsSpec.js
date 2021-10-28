@@ -40,4 +40,46 @@ describe( "The getWordForms function", () => {
 			synonymForms: [],
 		} );
 	} );
+	it( "creates word forms for synonyms based on the word forms found in the paper.", () => {
+		const paper = new Paper(
+			"話せる及ん",
+			{
+				keyword: "話さ",
+				synonyms: "休め, 及ぼ",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms: [ [ "話せる", "話さ" ] ],
+			synonymForms: [
+				[ [ "休め" ] ],
+				[ [ "及ん", "及ぼ" ] ],
+			],
+		} );
+	} );
+	it( "creates word forms for exact matching synonyms based on the word forms found in the paper.", () => {
+		const paper = new Paper(
+			"話せる及ん",
+			{
+				keyword: "話さ",
+				synonyms: "『休め』, 及ぼ",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms: [ [ "話せる", "話さ" ] ],
+			synonymForms: [
+				[ [ "休め" ] ],
+				[ [ "及ん", "及ぼ" ] ],
+			],
+		} );
+	} );
 } );
