@@ -193,8 +193,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	 */
 	public function test_build() {
 		// Provide stubs.
-		$image_meta_mthis->
-		this->ock_json = WPSEO_Utils::format_json_encode( $this->image_meta_mock );
+		$image_meta_mock_json = WPSEO_Utils::format_json_encode( $this->image_meta_mock );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
 		$this->open_graph_image_mock->allows( 'get_image_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
 
