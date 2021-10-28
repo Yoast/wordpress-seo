@@ -1,16 +1,16 @@
 import { RegistryProvider } from "@wordpress/data";
 import useAnalyze from "./hooks/use-analyze";
 
-const Analyse = ( { children } ) => {
+const Analyze = ( { children } ) => {
 	useAnalyze();
 	return children;
 };
 
 const createProvider = ( registry ) => ( { children } ) => (
 	<RegistryProvider value={ registry }>
-		<Analyse>
+		<Analyze>
 			{ children }
-		</Analyse>
+		</Analyze>
 	</RegistryProvider>
 );
 

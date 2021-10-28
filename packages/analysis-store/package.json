@@ -1,5 +1,5 @@
 {
-  "name": "@yoast/analyis-store",
+  "name": "@yoast/analysis-store",
   "version": "1.0.0",
   "main": "build/index.js",
   "repository": {
@@ -15,8 +15,6 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",
-    "@wordpress/data": "^6.1.1",
-    "@wordpress/element": "^4.0.2",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
@@ -27,5 +25,9 @@
     "@wordpress/babel-preset-default": "^6.3.3",
     "eslint": "^8.1.0",
     "eslint-config-yoast": "^5.0.17"
+  },
+  "peerDependencies": {
+    "@wordpress/data": "^6.1.2",
+    "@wordpress/element": "^4.0.3"
   }
 }

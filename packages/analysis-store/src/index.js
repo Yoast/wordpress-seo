@@ -28,12 +28,12 @@ export const selectors = {
 	...dataSelectors,
 	...keyphrasesSelectors,
 	...configSelectors,
-	...resultsSelectors,	
+	...resultsSelectors,
 };
 
 /**
  * Create a Redux store for managing analysis data, keyphrases and analysis results.
- * 
+ *
  * @param {AnalysisStoreConfig} config The configuration object.
  * @returns {AnalysisStoreInterface}
  */
