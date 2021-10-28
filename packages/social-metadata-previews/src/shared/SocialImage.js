@@ -2,13 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 
 /**
- * Renders the StyledSocialImage.
+ * Renders the SocialImage.
  *
  * @param {Object} props The component's props.
  *
- * @returns {StyledSocialImage} The StyledSocialImage component.
+ * @returns {SocialImage} The SocialImage component.
  */
-export const StyledSocialImage = ( props ) => {
+export const SocialImage = ( props ) => {
 	const { imageProps } = props;
 
 	const imageStyle = {
@@ -23,7 +23,7 @@ export const StyledSocialImage = ( props ) => {
 	/>;
 };
 
-StyledSocialImage.propTypes = {
+SocialImage.propTypes = {
 	imageProps: PropTypes.shape( {
 		src: PropTypes.string.isRequired,
 		alt: PropTypes.string.isRequired,

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
-import { StyledSocialImage } from "../components/StyledSocialImage";
+import { SocialImage } from "../shared/SocialImage";
 import {
 	handleImage,
 	TWITTER_IMAGE_SIZES,
@@ -161,7 +161,7 @@ export default class TwitterImage extends React.Component {
 			onMouseEnter={ this.props.onMouseEnter }
 			onMouseLeave={ this.props.onMouseLeave }
 		>
-			<StyledSocialImage
+			<SocialImage
 				imageProps={ {
 					src: this.props.src,
 					alt: this.props.alt,

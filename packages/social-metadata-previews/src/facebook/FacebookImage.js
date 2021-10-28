@@ -8,7 +8,7 @@ import { __ } from "@wordpress/i18n";
 import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
-import { StyledSocialImage } from "../components/StyledSocialImage";
+import { SocialImage } from "../shared/SocialImage";
 import {
 	handleImage,
 	FACEBOOK_IMAGE_SIZES,
@@ -160,7 +160,7 @@ class FacebookImage extends Component {
 			onMouseLeave={ this.props.onMouseLeave }
 			onClick={ this.props.onImageClick }
 		>
-			<StyledSocialImage
+			<SocialImage
 				imageProps={ {
 					src: this.props.src,
 					alt: this.props.alt,
