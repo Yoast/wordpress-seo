@@ -444,7 +444,8 @@ class WPSEO_Sitemaps {
 	 */
 	public function output() {
 		$this->send_headers();
-		echo $this->renderer->get_output( $this->sitemap, $this->transient );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping sitemap as either xml or html results in empty document.
+		echo $this->renderer->get_output( $this->sitemap );
 	}
 
 	/**
