@@ -1,4 +1,4 @@
-import { union, merge, cloneDeep } from "lodash";
+import { union, merge, get, cloneDeep } from "lodash";
 import {
 	CLEAR_ACTIVE_WORKOUT, CLEAR_INDEXABLES,
 	CLEAR_INDEXABLES_IN_STEPS,
@@ -29,7 +29,7 @@ const initialState = {
 			priority: 50,
 			finishedSteps: [],
 			indexablesByStep: {
-				[ STEPS.orphaned.improveRemove ]: window.wpseoPremiumWorkoutsData.orphaned || [],
+				[ STEPS.orphaned.improveRemove ]: get( window, "wpseoPremiumWorkoutsData.orphaned", [] ),
 				[ STEPS.orphaned.update ]: [],
 				[ STEPS.orphaned.addLinks ]: [],
 				[ STEPS.orphaned.removed ]: [],
