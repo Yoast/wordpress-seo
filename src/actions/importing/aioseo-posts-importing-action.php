@@ -100,9 +100,9 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	}
 
 	/**
-	 * Retrieves the table name along with the db prefix.
+	 * Retrieves the AIOSEO table name along with the db prefix.
 	 *
-	 * @return string The table name along with the db prefix.
+	 * @return string The AIOSEO table name along with the db prefix.
 	 */
 	protected function get_table() {
 		return $this->wpdb->prefix . 'aioseo_posts';
