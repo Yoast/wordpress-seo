@@ -148,15 +148,16 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	/**
 	 * Imports AIOSEO meta data and creates the respective Yoast indexables and postmeta.
 	 *
-	 * @return void
+	 * @return Indexable[]|false An array of created indexables or false if aioseo data was not found.
 	 */
 	public function index() {
 		if ( ! $this->wpdb_helper->table_exists( $this->get_table() ) ) {
-			return;
+			return false;
 		}
 
-		$limit             = $this->get_limit();
-		$aioseo_indexables = $this->wpdb->get_results( $this->query( $limit ), ARRAY_A );
+		$limit              = $this->get_limit();
+		$aioseo_indexables  = $this->wpdb->get_results( $this->query( $limit ), ARRAY_A );
+		$created_indexables = [];
 
 		$last_indexed_aioseo_id = 0;
 		foreach ( $aioseo_indexables as $aioseo_indexable ) {
@@ -174,10 +175,14 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			$this->indexable_to_postmeta->map_to_postmeta( $indexable );
 
 			$last_indexed_aioseo_id = $aioseo_indexable['id'];
+
+			$created_indexables[] = $indexable;
 		}
 
 		$cursor_id = $this->get_cursor_id();
 		$this->set_cursor( $this->options, $cursor_id, $last_indexed_aioseo_id );
+
+		return $created_indexables;
 	}
 
 	// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared

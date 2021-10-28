@@ -2,12 +2,12 @@
 
 namespace Yoast\WP\SEO\Routes;
 
-use Exception;
 use WP_Error;
 use WP_REST_Response;
-use Yoast\WP\SEO\Actions\Importing\Abstract_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
+use Yoast\WP\SEO\Services\Importing\Importer_Action_Filter_Trait;
 
 /**
  * Importing_Route class.
@@ -17,6 +17,8 @@ use Yoast\WP\SEO\Main;
 class Importing_Route extends Abstract_Action_Route {
 
 	use No_Conditionals;
+
+	use Importer_Action_Filter_Trait;
 
 	/**
 	 * The import route constant.
@@ -28,17 +30,17 @@ class Importing_Route extends Abstract_Action_Route {
 	/**
 	 * List of available importers.
 	 *
-	 * @var Abstract_Importing_Action[]
+	 * @var Importing_Action_Interface[]
 	 */
-	protected $importers;
+	protected $importers = [];
 
 	/**
 	 * Importing_Route constructor.
 	 *
-	 * @param Abstract_Importing_Action[] $importers All available importers.
+	 * @param Importing_Action_Interface $importers All available importers.
 	 */
-	public function __construct( Abstract_Importing_Action ...$importers ) {
-		$this->$importers = $importers;
+	public function __construct( Importing_Action_Interface ...$importers ) {
+		$this->importers = $importers;
 	}
 
 	/**
@@ -86,7 +88,7 @@ class Importing_Route extends Abstract_Action_Route {
 
 			$result = $importer->index();
 
-			if ( count( $result ) === 0 ) {
+			if ( $result === false || count( $result ) === 0 ) {
 				$next_url = false;
 			}
 
@@ -109,15 +111,16 @@ class Importing_Route extends Abstract_Action_Route {
 	 * @param string $plugin The plugin to import from.
 	 * @param string $type   The type of entity to import.
 	 *
-	 * @return Abstract_Importing_Action|false The importer, or false if no importer was found.
+	 * @return Importing_Action_Interface|false The importer, or false if no importer was found.
 	 */
 	protected function get_importer( $plugin, $type ) {
-		foreach ( $this->importers as $importer ) {
-			if ( $importer::PLUGIN === $plugin && $importer::TYPE === $type ) {
-				return $importer;
-			}
+		$importers = $this->filter_actions( $this->importers, $plugin, $type );
+
+		if ( count( $importers ) !== 1 ) {
+			return false;
 		}
-		return false;
+
+		return \current( $importers );
 	}
 
 	/**
