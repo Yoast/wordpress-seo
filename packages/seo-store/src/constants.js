@@ -11,7 +11,7 @@ export const ASYNC_STATUS = {
 	ERROR: "error",
 };
 
-export const STORE_NAME = "@yoast/analysis-store";
+export const STORE_NAME = "@yoast/seo";
 
 export const FOCUS_KEYPHRASE_ID = "focus";
 

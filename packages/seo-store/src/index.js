@@ -32,12 +32,12 @@ export const selectors = {
 };
 
 /**
- * Creates a WP data store for managing analysis data, keyphrases and analysis results.
+ * Creates a WP data store for managing SEO data.
  *
- * @param {AnalysisStoreConfig} config The configuration object.
+ * @param {function} analyze The function to analyze paper data based on keyphrases and configuration.
  * @returns {WPDataStore} The WP data store.
  */
-export const createAnalysisStore = ( {
+export const createSeoStore = ( {
 	analyze,
 	preparePaper = identity,
 	processResults = identity,
@@ -64,7 +64,7 @@ const registerAnalysisStore = ( {
 	preparePaper = identity,
 	processResults = identity,
 } ) => {
-	register( createAnalysisStore( { analyze, preparePaper, processResults } ) );
+	register( createSeoStore( { analyze, preparePaper, processResults } ) );
 };
 
 export default registerAnalysisStore;

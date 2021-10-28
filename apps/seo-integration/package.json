@@ -1,7 +1,13 @@
 {
-  "name": "client",
+  "name": "@yoast/seo-integration-app",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yoast/wordpress-seo",
+    "directory": "apps/seo-integration"
+  },
+  "author": "Team Yoast",
   "scripts": {
     "start": "craco start",
     "build": "craco build",

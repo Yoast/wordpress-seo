@@ -1,11 +1,11 @@
 {
-  "name": "@yoast/analysis-store",
+  "name": "@yoast/seo-store",
   "version": "1.0.0",
   "main": "build/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/yoast/wordpress-seo",
-    "directory": "packages/analysis-store"
+    "directory": "packages/seo-store"
   },
   "author": "Team Yoast",
   "license": "GPL-3.0",
