@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { select } from "@wordpress/data";
 import { get, reduce } from "lodash";
-import { ASYNC_ACTIONS, ASYNC_STATUS, FOCUS_KEYPHRASE_ID } from "../constants";
+import { ASYNC_ACTIONS, ASYNC_STATUS, FOCUS_KEYPHRASE_ID, STORE_NAME } from "../constants";
 
 export const RESULTS_SLICE_NAME = "results";
 export const ANALYZE_ACTION_NAME = "analyze";
@@ -13,16 +14,20 @@ const analyzeActions = reduce(
 	{},
 );
 
-function* analyze( { paper, targets, config } ) {
+function* analyze() {
 	yield { type: analyzeActions.request };
 
 	try {
+		const paper = yield select( STORE_NAME ).selectPaper();
+		const keyphrases = yield select( STORE_NAME ).selectKeyphrases();
+		const config = yield select( STORE_NAME ).selectConfig();
+
 		const preparedPaper = yield { type: PREPARE_PAPER_ACTION_NAME, payload: paper };
 		// Add seoTitleWidth to paper here in some smart way (after preparePaper/replaceVars)
 		const response = yield {
 			type: ANALYZE_ACTION_NAME, payload: {
 				paper: preparedPaper,
-				targets,
+				keyphrases,
 				config,
 			},
 		};

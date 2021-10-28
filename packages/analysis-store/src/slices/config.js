@@ -16,7 +16,7 @@ const config = createSlice( {
 	reducers: {},
 } );
 
-export const configSelectors = createSimpleSelectors( CONFIG_SLICE_NAME, initialState );
+export const configSelectors = createSimpleSelectors( CONFIG_SLICE_NAME, Object.keys( initialState ) );
 
 export const configActions = config.actions;
 

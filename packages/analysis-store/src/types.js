@@ -1,6 +1,6 @@
 /**
  * @typedef {object} PaperData
- * @property {string} 
+ * @property {string}
  */
 
 /**
@@ -15,8 +15,4 @@
  * @property {function} processResults - The function to process/transform analysis results.
  */
 
-/**
- * @typedef {object} AnalysisStoreInterface
- * @property {object} store - The Redux Store.
- * @property {React.ReactElement} Provider - The registry Provider.
- */
+/** @typedef {import('@wordpress/data/src/types').WPDataStore} WPDataStore */

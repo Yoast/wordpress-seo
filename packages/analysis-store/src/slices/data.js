@@ -1,5 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { createSimpleSelectors } from "../helpers";
+import { createSimpleReducers, createSimpleSelectors } from "../helpers";
 
 export const DATA_SLICE_NAME = "data";
 
@@ -11,7 +11,7 @@ const initialState = {
 	slug: "",
 	content: "",
 	// Editor data we could use, for example in replacevars or for fallbacks.
-	title: "HOI HAI",
+	title: "",
 	excerpt: "",
 	featuredImage: {},
 };
@@ -19,14 +19,10 @@ const initialState = {
 const data = createSlice( {
 	name: DATA_SLICE_NAME,
 	initialState,
-	reducers: {
-		updateContent: ( state, action ) => {
-			state.content = action.payload;
-		},
-	},
+	reducers: createSimpleReducers( DATA_SLICE_NAME, Object.keys( initialState ) ),
 } );
 
-export const dataSelectors = createSimpleSelectors( DATA_SLICE_NAME, initialState );
+export const dataSelectors = createSimpleSelectors( DATA_SLICE_NAME, Object.keys( initialState ) );
 dataSelectors.selectPaper = createSelector(
 	dataSelectors.selectSeoTitle,
 	dataSelectors.selectMetaDescription,

@@ -18,13 +18,24 @@ export const createSelectors = ( store, selectors ) => reduce(
 	{},
 );
 
-export const createSimpleSelectors = ( sliceName, initialState ) => reduce(
-	initialState,
-	( selectors, _, name ) => ( {
+export const createSimpleSelectors = ( sliceName, names ) => reduce(
+	names,
+	( selectors, name ) => ( {
 		...selectors,
 		[ `select${ upperFirst( name ) }` ]: state => get( state, [ sliceName, name ] ),
 	} ),
 	{
 		[ `select${ upperFirst( sliceName ) }` ]: state => get( state, sliceName ),
 	},
+);
+
+export const createSimpleReducers = ( sliceName, names ) => reduce(
+	names,
+	( selectors, name ) => ( {
+		...selectors,
+		[ `update${ upperFirst( name ) }` ]: ( state, action ) => {
+			state[ name ] = action.payload;
+		},
+	} ),
+	{},
 );

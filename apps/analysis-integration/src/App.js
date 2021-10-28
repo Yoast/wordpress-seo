@@ -1,6 +1,6 @@
-import { register, useDispatch, select } from "@wordpress/data";
+import { select, useDispatch } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
-import createAnalysisStore, { ANALYSIS_STORE_NAME, useAnalyze } from "@yoast/analysis-store";
+import registerAnalysisStore, { ANALYSIS_STORE_NAME, useAnalyze } from "@yoast/analysis-store";
 import createReplacementVariables from "@yoast/replacement-variables";
 import { reduce } from "lodash";
 
@@ -14,13 +14,12 @@ const preparePaper = ( paper ) => {
 		{
 			name: "title",
 			getReplacement: () => {
-				console.warn( "getReplacement", select( ANALYSIS_STORE_NAME ) );
-				// return select( ANALYSIS_STORE_NAME ).selectTitle();
-				return "HOIHAI"
+				const replacement = select( ANALYSIS_STORE_NAME ).selectTitle();
+				console.log( "getReplacement", replacement );
+				return replacement;
 			},
 		},
 	] );
-
 
 	return reduce(
 		paper,
@@ -32,33 +31,39 @@ const preparePaper = ( paper ) => {
 	);
 };
 
-const analysisStore = createAnalysisStore( {
+registerAnalysisStore( {
 	preparePaper,
-	analyze: async ( paper, config ) => {
-		console.warn( "analyze triggered with paper", paper );
+	analyze: async ( paper, keyphrases, config ) => {
+		console.log( "analyze", paper, keyphrases, config );
 		await new Promise( resolve => setTimeout( resolve, 1000 ) );
 		return { data: "seoResults" };
 	},
 } );
-register( analysisStore );
 
 const Editor = () => {
-	const { updateContent } = useDispatch( ANALYSIS_STORE_NAME );
-	const handleChange = useCallback( ( event ) => {
+	const { updateContent, updateTitle, analyze } = useDispatch( ANALYSIS_STORE_NAME );
+	const handleContentChange = useCallback( ( event ) => {
 		updateContent( event.target.value );
 	}, [ updateContent ] );
+	const handleTitleChange = useCallback( ( event ) => {
+		updateTitle( event.target.value );
+		analyze();
+	}, [ updateTitle ] );
+
 	return (
-		<textarea name="editor" rows="16" onChange={ handleChange } />
+		<>
+			<input name="title" onChange={ handleTitleChange } />
+			<textarea name="editor" rows="16" onChange={ handleContentChange } />
+		</>
 	);
 };
 
 function App() {
 	useAnalyze();
+
 	return (
 		<>
-		<div style={ { margin: "80px" } }>
-				<Editor />
-			</div>
+			<Editor />
 			<div>
 				<h2>Sidebar</h2>
 				<h4>SEO Results</h4>
@@ -69,7 +74,6 @@ function App() {
 				<div>...</div>
 			</div>
 		</>
-			
 	);
 }
 
