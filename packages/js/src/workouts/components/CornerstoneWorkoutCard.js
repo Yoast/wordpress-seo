@@ -1,6 +1,7 @@
 // External dependencies.
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import { useSelect } from "@wordpress/data";
 // Internal dependencies.
 import WorkoutCard from "./WorkoutCard";
 import WorkoutUpsell from "./WorkoutUpsell";
@@ -32,10 +33,10 @@ const upsell = ( props ) => {
  * @returns {WPElement} The CornerstoneWorkoutCard component.
  */
 export default function CornerstoneWorkoutCard( {
-	finishedSteps,
 	workout,
 	badges,
 } ) {
+	const finishedSteps = useSelect( "yoast-seo/workouts" ).getFinishedSteps( WORKOUTS.cornerstone );
 	return <WorkoutCard
 		name={ WORKOUTS.cornerstone }
 		title={ __( "The cornerstone approach", "wordpress-seo" ) }
@@ -55,13 +56,11 @@ export default function CornerstoneWorkoutCard( {
 }
 
 CornerstoneWorkoutCard.propTypes = {
-	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
 	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
 };
 
 CornerstoneWorkoutCard.defaultProps = {
-	finishedSteps: null,
 	workout: null,
 	badges: [],
 };
