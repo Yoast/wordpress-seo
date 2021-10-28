@@ -6,12 +6,10 @@ import getStemmer from "./helpers/getStemmer";
 import matchWordCustomHelper from "./helpers/matchTextWithWord";
 import getWordsCustomHelper from "./helpers/getWords";
 import wordsCharacterCount from "./helpers/wordsCharacterCount";
+import countCharacters from "./helpers/countCharacters";
 
 // All config
 import functionWords from "./config/functionWords";
-
-// Custom Researches
-import getParagraphLength from "./customResearches/getParagraphLength";
 
 // All custom researches
 import getKeywordDensity from "./customResearches/getKeywordDensity";
@@ -33,7 +31,6 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getPassiveVoiceResult;
 		delete this.defaultResearches.getSentenceBeginnings;
 		delete this.defaultResearches.findTransitionWords;
-		delete this.defaultResearches.getParagraphLength;
 		delete this.defaultResearches.getKeywordDensity;
 
 		// Adds the Japanese custom research to calculate the keyword density.
@@ -49,7 +46,7 @@ export default class Researcher extends AbstractResearcher {
 			matchWordCustomHelper,
 			getWordsCustomHelper,
 			wordsCharacterCount,
+			countCharacters,
 		} );
-		this.addResearch( "getParagraphLength", getParagraphLength );
 	}
 }
