@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Services\Importing\Importable_Detector;
@@ -67,6 +68,13 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 	protected $options;
 
 	/**
+	 * The wpdb helper.
+	 *
+	 * @var Wpdb_Helper
+	 */
+	protected $wpdb_helper;
+
+	/**
 	 * Set up the test fixtures.
 	 */
 	protected function set_up() {
@@ -77,6 +85,7 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 		$this->meta                  = Mockery::mock( Meta_Helper::class );
 		$this->indexable_to_postmeta = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
 		$this->options               = Mockery::mock( Options_Helper::class );
+		$this->wpdb_helper           = Mockery::mock( Wpdb_Helper::class );
 
 		$this->importing_action = Mockery::mock(
 			Aioseo_Posts_Importing_Action_Double::class,
@@ -85,6 +94,7 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 				$this->wpdb,
 				$this->indexable_to_postmeta,
 				$this->options,
+				$this->wpdb_helper,
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
@@ -99,7 +109,7 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 	/**
 	 * Tests if the detector detects when there are no unimported data.
 	 *
-	 * @covers ::detect
+	 * @covers ::filter_actions
 	 */
 	public function test_filter_actions() {
 		// Test filter_actions() with no filters.
