@@ -101,8 +101,7 @@ class HTML_Helper_Test extends TestCase {
 				'expected' => 'Test word',
 			],
 			'Test adding a space when replacing heading close tags' => [
-				'input'    => '<h1>Heading</h1>
-First words',
+				'input'    => '<h1>Heading</h1>First words',
 				'expected' => 'Heading First words',
 			],
 			'Test replacing tags li with • and new lines with spaces' => [
