@@ -52,13 +52,25 @@ class HTML_Helper_Test extends TestCase {
 	 */
 	public function data_sanitize() {
 		return [
-			'Text containing script tags should have the script tags stripped' => [
+			'Empty text string' => [
+				'input'    => '',
+				'expected' => '',
+			],
+			'Text without any HTML' => [
+				'input'    => 'This is just a simple text string',
+				'expected' => 'This is just a simple text string',
+			],
+			'Text containing tags not on the allowed list should have those tags stripped' => [
 				'input'    => 'Test <script>alert(0)</script> bla',
 				'expected' => 'Test alert(0) bla',
 			],
 			'Text containing allowed tag should be returned unchanged' => [
 				'input'    => 'Test <p>Paragraph</p> bla',
 				'expected' => 'Test <p>Paragraph</p> bla',
+			],
+			'Text containing both allowed tag and disallowed tag should have the disallowed tag stripped' => [
+				'input'    => 'Test <p>Paragraph</p> bla <marque>stuck in the 80s</marque>',
+				'expected' => 'Test <p>Paragraph</p> bla stuck in the 80s',
 			],
 		];
 	}
