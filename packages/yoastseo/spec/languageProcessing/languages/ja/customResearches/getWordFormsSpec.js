@@ -19,7 +19,7 @@ describe( "The getWordForms function", () => {
 
 		const forms = getWordForms( paper, researcher );
 		expect( forms ).toEqual( {
-			keyphraseForms: [ [ "休ま", "休め" ] ],
+			keyphraseForms: [ [ "休む", "休み", "休ま", "休め", "休も", "休ん", "休める", "休ませ", "休ませる", "休まれ", "休まれる", "休もう" ] ],
 			synonymForms: [],
 		} );
 	} );
@@ -36,7 +36,7 @@ describe( "The getWordForms function", () => {
 
 		const forms = getWordForms( paper, researcher );
 		expect( forms ).toEqual( {
-			keyphraseForms: [ [ "頑張ら", "頑張り" ] ],
+			keyphraseForms: [ [ "頑張る", "頑張り", "頑張ら", "頑張れ", "頑張ろ", "頑張っ", "頑張れる", "頑張らせ", "頑張らせる", "頑張られ", "頑張られる", "頑張ろう" ] ],
 			synonymForms: [],
 		} );
 	} );
@@ -54,10 +54,10 @@ describe( "The getWordForms function", () => {
 
 		const forms = getWordForms( paper, researcher );
 		expect( forms ).toEqual( {
-			keyphraseForms: [ [ "話せる", "話さ" ] ],
+			keyphraseForms: [ [ "話す", "話し", "話さ", "話せ", "話そ", "話せる", "話させ", "話させる", "話され", "話される", "話そう" ] ],
 			synonymForms: [
-				[ [ "休め" ] ],
-				[ [ "及ん", "及ぼ" ] ],
+				[ [ "休む", "休み", "休ま", "休め", "休も", "休ん", "休める", "休ませ", "休ませる", "休まれ", "休まれる", "休もう" ] ],
+				[ [ "及ぶ", "及び", "及ば", "及べ", "及ぼ", "及ん", "及べる", "及ばせ", "及ばせる", "及ばれ", "及ばれる", "及ぼう" ] ],
 			],
 		} );
 	} );
@@ -75,10 +75,10 @@ describe( "The getWordForms function", () => {
 
 		const forms = getWordForms( paper, researcher );
 		expect( forms ).toEqual( {
-			keyphraseForms: [ [ "話せる", "話さ" ] ],
+			keyphraseForms: [ [ "話す", "話し", "話さ", "話せ", "話そ", "話せる", "話させ", "話させる", "話され", "話される", "話そう" ] ],
 			synonymForms: [
-				[ [ "休め" ] ],
-				[ [ "及ん", "及ぼ" ] ],
+				[ [ "休む", "休み", "休ま", "休め", "休も", "休ん", "休める", "休ませ", "休ませる", "休まれ", "休まれる", "休もう" ] ],
+				[ [ "及ぶ", "及び", "及ば", "及べ", "及ぼ", "及ん", "及べる", "及ばせ", "及ばせる", "及ばれ", "及ばれる", "及ぼう" ] ],
 			],
 		} );
 	} );
