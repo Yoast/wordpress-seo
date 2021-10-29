@@ -164,18 +164,31 @@ class Date_Helper_Test extends TestCase {
 	/**
 	 * Test the datetime with a valid date string.
 	 *
-	 * @covers ::is_valid_datetime
+	 * @dataProvider data_is_valid_datetime
+	 * @covers       ::is_valid_datetime
+	 *
+	 * @param mixed $input    The date to validate.
+	 * @param bool  $expected The expected function return value.
 	 */
-	public function test_is_valid_datetime_WITH_valid_datetime() {
-		static::assertTrue( $this->instance->is_valid_datetime( '2015-02-25T04:44:44+00:00' ) );
+	public function test_is_valid_datetime( $input, $expected ) {
+		static::assertSame( $expected, $this->instance->is_valid_datetime( $input ) );
 	}
 
 	/**
-	 * Test the datetime with an invalid date string.
+	 * Data Provider.
 	 *
-	 * @covers ::is_valid_datetime
+	 * @return array
 	 */
-	public function test_is_valid_datetime_WITH_invalid_datetime() {
-		static::assertFalse( $this->instance->is_valid_datetime( '-0001-11-30T00:00:00+00:00' ) );
+	public function data_is_valid_datetime() {
+		return [
+			'Valid datetime string' => [
+				'input'    => '2015-02-25T04:44:44+00:00',
+				'expected' => true,
+			],
+			'Invalid datetime string' => [
+				'input'    => '-0001-11-30T00:00:00+00:00',
+				'expected' => false,
+			],
+		];
 	}
 }
