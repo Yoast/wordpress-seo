@@ -142,9 +142,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			return;
 		}
 
-		if ( $indexable->is_public ) {
-			$this->update_relations( $this->post->get_post( $post_id ) );
-		}
+		$this->update_relations( $this->post->get_post( $post_id ) );
 
 		$this->update_has_public_posts( $indexable );
 
@@ -167,11 +165,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 
 		$post = $this->post->get_post( $updated_indexable->object_id );
 
-		// When the indexable is public or has a change in its public state.
-		if ( $updated_indexable->is_public || $updated_indexable->is_public !== $old_indexable->is_public ) {
-			$this->update_relations( $post );
-		}
-
+		$this->update_relations( $post );
 		$this->update_has_public_posts( $updated_indexable );
 
 		$updated_indexable->save();
@@ -235,9 +229,6 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		$related_indexables = $this->get_related_indexables( $post );
 
 		foreach ( $related_indexables as $indexable ) {
-			if ( ! $indexable->is_public ) {
-				continue;
-			}
 			$indexable->object_last_modified = max( $indexable->object_last_modified, $post->post_modified_gmt );
 			$indexable->save();
 		}

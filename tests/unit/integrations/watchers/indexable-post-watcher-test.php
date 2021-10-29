@@ -347,79 +347,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the updated indexable method with no transition in status.
-	 *
-	 * @covers ::updated_indexable
-	 */
-	public function test_updated_indexable_not_public_and_no_transition() {
-		$this->instance
-			->expects( 'update_relations' )
-			->never();
-
-		$old_indexable            = Mockery::mock( Indexable_Mock::class );
-		$old_indexable->is_public = false;
-
-		$updated_indexable              = Mockery::mock( Indexable_Mock::class );
-		$updated_indexable->object_type = 'post';
-		$updated_indexable->object_id   = 23;
-		$updated_indexable->is_public   = false;
-
-		$this->instance
-			->expects( 'update_has_public_posts' )
-			->with( $updated_indexable )
-			->once();
-
-		$post = Mockery::mock( WP_Post::class );
-
-		$this->post
-			->expects( 'get_post' )
-			->with( 23 )
-			->andReturn( $post );
-
-		$updated_indexable
-			->expects( 'save' )
-			->once();
-
-		$this->instance->updated_indexable( $updated_indexable, $old_indexable );
-	}
-
-	/**
-	 * Tests the updated indexable method with a transition in status.
-	 *
-	 * @covers ::updated_indexable
-	 */
-	public function test_updated_indexable_public_transition() {
-		$this->instance
-			->expects( 'update_relations' )
-			->with( [] )
-			->once();
-
-		$old_indexable            = Mockery::mock( Indexable_Mock::class );
-		$old_indexable->is_public = true;
-
-		$updated_indexable              = Mockery::mock( Indexable_Mock::class );
-		$updated_indexable->object_type = 'post';
-		$updated_indexable->is_public   = false;
-		$updated_indexable->object_id   = 1;
-
-		$this->post
-			->expects( 'get_post' )
-			->once()
-			->with( 1 )->andReturn( [] );
-
-		$this->instance
-			->expects( 'update_has_public_posts' )
-			->with( $updated_indexable )
-			->once();
-
-		$updated_indexable
-			->expects( 'save' )
-			->once();
-
-		$this->instance->updated_indexable( $updated_indexable, $old_indexable );
-	}
-
-	/**
 	 * Tests that update_has_public_posts updates the author archive too.
 	 *
 	 * @covers ::update_has_public_posts
@@ -495,35 +422,9 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->orm       = Mockery::mock( ORM::class );
-		$indexable->is_public = true;
 		$indexable->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
 		$indexable->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
 		$indexable->expects( 'save' )->once();
-
-		$this->instance
-			->expects( 'get_related_indexables' )
-			->once()
-			->with( $post )
-			->andReturn( [ $indexable ] );
-
-		$this->instance->update_relations( $post );
-	}
-
-	/**
-	 * Tests the routine for updating the relations.
-	 *
-	 * @covers ::update_relations
-	 */
-	public function test_update_relations_with_a_non_public_indexable() {
-		$post = (object) [
-			'post_author' => 1,
-			'post_type'   => 'post',
-			'ID'          => 1,
-		];
-
-		$indexable            = Mockery::mock( Indexable_Mock::class );
-		$indexable->is_public = false;
-		$indexable->expects( 'save' )->never();
 
 		$this->instance
 			->expects( 'get_related_indexables' )
