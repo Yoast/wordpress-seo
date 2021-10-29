@@ -420,8 +420,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			'post_modified_gmt' => '1234-12-12 12:12:12',
 		];
 
-		$indexable            = Mockery::mock( Indexable_Mock::class );
-		$indexable->orm       = Mockery::mock( ORM::class );
+		$indexable      = Mockery::mock( Indexable_Mock::class );
+		$indexable->orm = Mockery::mock( ORM::class );
 		$indexable->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
 		$indexable->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
 		$indexable->expects( 'save' )->once();
