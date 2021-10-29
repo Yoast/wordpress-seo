@@ -49,20 +49,6 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	protected $indexable_repository;
 
 	/**
-	 * Placeholder for the start date.
-	 *
-	 * @var string
-	 */
-	private $start_date;
-
-	/**
-	 * Placeholder for the end date.
-	 *
-	 * @var string
-	 */
-	private $end_date;
-
-	/**
 	 * Set up the test fixtures.
 	 */
 	protected function set_up() {
@@ -135,13 +121,12 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			)
 			->andReturns(
 				[
-					'data'   => [
+					'data' => [
 						[
 							'keyword' => 'yoast seo',
 							'id'      => 12345,
 						],
 					],
-					'status' => 200,
 				]
 			);
 
@@ -153,7 +138,6 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 						'id'      => 12345,
 					],
 				],
-				'status'  => 200,
 			],
 			$this->instance->track_keyphrases( [ 'yoast seo' ], $limits )
 		);
@@ -266,20 +250,43 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->once()
 			->andReturns( '12345' );
 
+		$this->indexable_repository
+			->expects( 'query->select->where_not_null->find_array' )
+			->andReturns(
+				[
+					[ 'primary_focus_keyword' => 'yoast seo' ],
+					[ 'primary_focus_keyword' => 'wincher' ],
+				]
+			);
+
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+
+		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
+			(object) [
+				'helpers' => $helpers_mock,
+			]
+		);
+
 		$this->client_instance
-			->expects( 'get' )
+			->expects( 'post' )
 			->once()
 			->with(
-				'https://api.wincher.com/beta/websites/12345/keywords',
+				'https://api.wincher.com/beta/yoast/12345',
+				\WPSEO_Utils::format_json_encode(
+					[
+						'keywords' => [ 'yoast seo', 'wincher' ],
+						'url'      => null,
+					]
+				),
 				[
-					'params' => [
-						'include_ranking' => 'false',
-					],
+					'timeout' => 60,
 				]
 			)
 			->andReturns(
 				[
-					'data'   => [
+					'data' => [
 						[
 							'keyword' => 'yoast seo',
 							'id'      => 12345,
@@ -290,7 +297,6 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 						],
 
 					],
-					'status' => 200,
 				]
 			);
 
@@ -306,7 +312,6 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 						'id'      => 12346,
 					],
 				],
-				'status'  => 200,
 			],
 			$this->instance->get_tracked_keyphrases()
 		);
@@ -325,29 +330,31 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->andReturns( '12345' );
 
 		$this->client_instance
-			->expects( 'get' )
+			->expects( 'post' )
 			->once()
 			->with(
-				'https://api.wincher.com/beta/websites/12345/keywords',
+				'https://api.wincher.com/beta/yoast/12345',
+				\WPSEO_Utils::format_json_encode(
+					[
+						'keywords' => [ 'yoast seo' ],
+						'url'      => null,
+					]
+				),
 				[
-					'params' => [
-						'include_ranking' => 'false',
-					],
+					'timeout' => 60,
 				]
 			)
 			->andReturns(
 				[
 					'some_other_key' => [],
-					'status'         => 200,
 				]
 			);
 
 		$this->assertEquals(
 			(object) [
 				'some_other_key' => [],
-				'status'         => 200,
 			],
-			$this->instance->get_tracked_keyphrases()
+			$this->instance->get_tracked_keyphrases( [ 'yoast seo' ] )
 		);
 	}
 
@@ -364,19 +371,23 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->andReturns( '12345' );
 
 		$this->client_instance
-			->expects( 'get' )
+			->expects( 'post' )
 			->once()
 			->with(
-				'https://api.wincher.com/beta/websites/12345/keywords',
+				'https://api.wincher.com/beta/yoast/12345',
+				\WPSEO_Utils::format_json_encode(
+					[
+						'keywords' => [ 'yoast seo' ],
+						'url'      => null,
+					]
+				),
 				[
-					'params' => [
-						'include_ranking' => 'false',
-					],
+					'timeout' => 60,
 				]
 			)
 			->andReturns(
 				[
-					'data'   => [
+					'data' => [
 						[
 							'keyword' => 'yoast seo',
 							'id'      => 12345,
@@ -387,7 +398,6 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 						],
 
 					],
-					'status' => 200,
 				]
 			);
 
@@ -399,248 +409,8 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 						'id'      => 12345,
 					],
 				],
-				'status'  => 200,
 			],
 			$this->instance->get_tracked_keyphrases( [ 'yoast seo' ] )
-		);
-	}
-
-	/**
-	 * Tests retrieval of tracked keyphrases including their ranking.
-	 *
-	 * @covers ::get_tracked_keyphrases
-	 */
-	public function test_get_tracked_keyphrases_including_ranking() {
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'wincher_website_id' )
-			->once()
-			->andReturns( '12345' );
-
-		$this->client_instance
-			->expects( 'get' )
-			->once()
-			->with(
-				'https://api.wincher.com/beta/websites/12345/keywords',
-				[
-					'params' => [
-						'include_ranking' => 'true',
-					],
-				]
-			)
-			->andReturns(
-				[
-					'data'   => [
-						[
-							'keyword' => 'yoast seo',
-							'id'      => 12345,
-							'ranking' => [],
-						],
-						[
-							'keyword' => 'wincher',
-							'id'      => 12346,
-							'ranking' => [],
-						],
-
-					],
-					'status' => 200,
-				]
-			);
-
-		$this->assertEquals(
-			(object) [
-				'results' => [
-					'yoast seo' => [
-						'keyword' => 'yoast seo',
-						'id'      => 12345,
-						'ranking' => [],
-					],
-					'wincher'   => [
-						'keyword' => 'wincher',
-						'id'      => 12346,
-						'ranking' => [],
-					],
-				],
-				'status'  => 200,
-			],
-			$this->instance->get_tracked_keyphrases( [], true )
-		);
-	}
-
-	/**
-	 * Tests retrieval of tracked keyphrases chart data.
-	 *
-	 * @covers ::get_keyphrase_chart_data
-	 */
-	public function test_get_tracked_keyphrases_chart_data() {
-		$this->start_date = \gmdate( 'Y-m-d\T00:00:00\Z', strtotime( '-90 days' ) );
-		$this->end_date   = \gmdate( 'Y-m-d\TH:i:s\Z' );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'wincher_website_id' )
-			->once()
-			->andReturns( '12345' );
-
-		Monkey\Functions\expect( 'get_site_url' )
-			->once()
-			->with( null, '/' )
-			->andReturn( 'https://yoast.com/' );
-
-		$this->client_instance
-			->expects( 'get' )
-			->once()
-			->with(
-				'https://api.wincher.com/beta/int/websites/12345/pages',
-				[
-					'query'   => [
-						'start_at' => $this->start_date,
-						'end_at'   => $this->end_date,
-					],
-					'timeout' => 60,
-				]
-			)
-			->andReturns(
-				[
-					'data'   => [
-						[
-							'url'      => 'https://yoast.com/',
-							'keywords' => [
-								[
-									'keyword'  => 'yoast seo',
-									'id'       => 12345,
-									'position' => 1,
-								],
-								[
-									'keyword'  => 'seo expertise',
-									'id'       => 12346,
-									'position' => 22,
-								],
-							],
-						],
-						[
-							'url'      => 'https://yoast.com/blog/',
-							'keywords' => [
-								[
-									'keyword'  => 'yoast seo',
-									'id'       => 22345,
-									'position' => 20,
-								],
-								[
-									'keyword'  => 'blog seo',
-									'id'       => 22346,
-									'position' => 22,
-								],
-							],
-						],
-					],
-					'status' => 200,
-				]
-			);
-
-		$this->assertEquals(
-			(object) [
-				'results' => [
-					'yoast seo'     => [
-						'keyword'  => 'yoast seo',
-						'id'       => 12345,
-						'position' => 1,
-					],
-					'seo expertise' => [
-						'keyword'  => 'seo expertise',
-						'id'       => 12346,
-						'position' => 22,
-					],
-				],
-				'status'  => 200,
-			],
-			$this->instance->get_keyphrase_chart_data()
-		);
-	}
-
-	/**
-	 * Tests retrieval of tracked keyphrases chart data filtered by the passed keyphrases.
-	 *
-	 * @covers ::get_keyphrase_chart_data
-	 */
-	public function test_get_tracked_keyphrases_chart_data_with_filter() {
-		$this->start_date = \gmdate( 'Y-m-d\T00:00:00\Z', strtotime( '-90 days' ) );
-		$this->end_date   = \gmdate( 'Y-m-d\TH:i:s\Z' );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'wincher_website_id' )
-			->once()
-			->andReturns( '12345' );
-
-		Monkey\Functions\expect( 'get_site_url' )
-			->once()
-			->with( null, '/' )
-			->andReturn( 'https://yoast.com/' );
-
-		$this->client_instance
-			->expects( 'get' )
-			->once()
-			->with(
-				'https://api.wincher.com/beta/int/websites/12345/pages',
-				[
-					'query'   => [
-						'start_at' => $this->start_date,
-						'end_at'   => $this->end_date,
-					],
-					'timeout' => 60,
-				]
-			)
-			->andReturns(
-				[
-					'data'   => [
-						[
-							'url'      => 'https://yoast.com/',
-							'keywords' => [
-								[
-									'keyword'  => 'yoast seo',
-									'id'       => 12345,
-									'position' => 1,
-								],
-								[
-									'keyword'  => 'seo expertise',
-									'id'       => 12346,
-									'position' => 22,
-								],
-							],
-						],
-						[
-							'url'      => 'https://yoast.com/blog/',
-							'keywords' => [
-								[
-									'keyword'  => 'yoast seo',
-									'id'       => 22345,
-									'position' => 20,
-								],
-								[
-									'keyword'  => 'blog seo',
-									'id'       => 22346,
-									'position' => 22,
-								],
-							],
-						],
-					],
-					'status' => 200,
-				]
-			);
-
-		$this->assertEquals(
-			(object) [
-				'results' => [
-					'seo expertise' => [
-						'keyword'  => 'seo expertise',
-						'id'       => 12346,
-						'position' => 22,
-					],
-				],
-				'status'  => 200,
-			],
-			$this->instance->get_keyphrase_chart_data( [ 'seo expertise' ] )
 		);
 	}
 
@@ -649,10 +419,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	 *
 	 * @covers ::get_keyphrase_chart_data
 	 */
-	public function test_get_tracked_keyphrases_chart_data_with_permalink() {
-		$this->start_date = \gmdate( 'Y-m-d\T00:00:00\Z', strtotime( '-90 days' ) );
-		$this->end_date   = \gmdate( 'Y-m-d\TH:i:s\Z' );
-
+	public function test_get_tracked_keyphrases_with_permalink() {
 		$this->options_helper
 			->expects( 'get' )
 			->with( 'wincher_website_id' )
@@ -660,53 +427,34 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->andReturns( '12345' );
 
 		$this->client_instance
-			->expects( 'get' )
+			->expects( 'post' )
 			->once()
 			->with(
-				'https://api.wincher.com/beta/int/websites/12345/pages',
+				'https://api.wincher.com/beta/yoast/12345',
+				\WPSEO_Utils::format_json_encode(
+					[
+						'keywords' => [ 'yoast seo', 'blog seo' ],
+						'url'      => 'https://yoast.com/blog/',
+					]
+				),
 				[
-					'query'   => [
-						'start_at' => $this->start_date,
-						'end_at'   => $this->end_date,
-					],
 					'timeout' => 60,
 				]
 			)
 			->andReturns(
 				[
-					'data'   => [
+					'data' => [
 						[
-							'url'      => 'https://yoast.com/',
-							'keywords' => [
-								[
-									'keyword'  => 'yoast seo',
-									'id'       => 12345,
-									'position' => 1,
-								],
-								[
-									'keyword'  => 'seo expertise',
-									'id'       => 12346,
-									'position' => 22,
-								],
-							],
+							'keyword'  => 'yoast seo',
+							'id'       => 22345,
+							'position' => 20,
 						],
 						[
-							'url'      => 'https://yoast.com/blog/',
-							'keywords' => [
-								[
-									'keyword'  => 'yoast seo',
-									'id'       => 22345,
-									'position' => 20,
-								],
-								[
-									'keyword'  => 'blog seo',
-									'id'       => 22346,
-									'position' => 22,
-								],
-							],
+							'keyword'  => 'blog seo',
+							'id'       => 22346,
+							'position' => 22,
 						],
 					],
-					'status' => 200,
 				]
 			);
 
@@ -724,9 +472,8 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 						'position' => 22,
 					],
 				],
-				'status'  => 200,
 			],
-			$this->instance->get_keyphrase_chart_data( [], 'https://yoast.com/blog/' )
+			$this->instance->get_tracked_keyphrases( [ 'yoast seo', 'blog seo' ], 'https://yoast.com/blog/' )
 		);
 	}
 
@@ -771,7 +518,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->client_instance->expects( 'post' )->once()->andReturn(
 			[
-				'data'   => [
+				'data' => [
 					[
 						'keyword' => 'yoast seo',
 						'id'      => 12345,
@@ -781,7 +528,6 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 						'id'      => 12346,
 					],
 				],
-				'status' => 200,
 			]
 		);
 
@@ -797,7 +543,6 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 						'id'      => 12346,
 					],
 				],
-				'status'  => 200,
 			],
 			$this->instance->track_all( $limits )
 		);

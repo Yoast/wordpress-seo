@@ -27,7 +27,7 @@ class Wincher_Keyphrases_Action {
 	 *
 	 * @var string
 	 */
-	const KEYPHRASES_URL = 'https://api.wincher.com/beta/websites/%s/keywords';
+	const KEYPHRASES_URL = 'https://api.wincher.com/beta/yoast/%s';
 
 	/**
 	 * The Wincher delete tracked keyphrase URL.
@@ -35,13 +35,6 @@ class Wincher_Keyphrases_Action {
 	 * @var string
 	 */
 	const KEYPHRASE_DELETE_URL = 'https://api.wincher.com/beta/websites/%s/keywords/%s';
-
-	/**
-	 * The Wincher tracked keyphrase chart data retrieval URL.
-	 *
-	 * @var string
-	 */
-	const KEYPHRASES_CHART_URL = 'https://api.wincher.com/beta/int/websites/%s/pages';
 
 	/**
 	 * The Wincher_Client instance.
@@ -135,6 +128,17 @@ class Wincher_Keyphrases_Action {
 				return $this->to_result_object( $results );
 			}
 
+			// The endpoint returns a lot of stuff that we don't want/need.
+			$results['data'] = array_map(
+				function( $keyphrase ) {
+					return [
+						'id'         => $keyphrase['id'],
+						'keyword'    => $keyphrase['keyword'],
+					];
+				},
+				$results['data']
+			);
+
 			$results['data'] = \array_combine(
 				\array_column( $results['data'], 'keyword' ),
 				\array_values( $results['data'] )
@@ -178,26 +182,35 @@ class Wincher_Keyphrases_Action {
 	}
 
 	/**
-	 * Gets the tracked keyphrases.
+	 * Gets the keyphrase data for the passed keyphrases.
+	 * Retrieves all available data if no keyphrases are provided.
 	 *
-	 * @param array $used_keyphrases The keyphrases used in the current post.
-	 * @param bool  $include_ranking Whether to include ranking data in the response..
+	 * @param array  $used_keyphrases The currently used keyphrases. Optional.
+	 * @param string $permalink       The current permalink. Optional.
 	 *
-	 * @return object The response object.
+	 * @return object The keyphrase chart data.
 	 */
-	public function get_tracked_keyphrases( $used_keyphrases = [], $include_ranking = false ) {
+	public function get_tracked_keyphrases( $used_keyphrases = null, $permalink = null ) {
 		try {
+			if ( $used_keyphrases === null ) {
+				$used_keyphrases = $this->collect_all_keyphrases();
+			}
+
 			$endpoint = \sprintf(
 				self::KEYPHRASES_URL,
 				$this->options_helper->get( 'wincher_website_id' )
 			);
 
-			$results = $this->client->get(
+			$results = $this->client->post(
 				$endpoint,
+				\WPSEO_Utils::format_json_encode(
+					[
+						'keywords' => $used_keyphrases,
+						'url'      => $permalink,
+					]
+				),
 				[
-					'params' => [
-						'include_ranking' => ( $include_ranking ) ? 'true' : 'false',
-					],
+					'timeout' => 60,
 				]
 			);
 
@@ -209,71 +222,10 @@ class Wincher_Keyphrases_Action {
 				$results['data'] = $this->filter_results_by_used_keyphrases( $results['data'], $used_keyphrases );
 			}
 
+			// Extract the positional data and assign it to the keyphrase.
 			$results['data'] = \array_combine(
 				\array_column( $results['data'], 'keyword' ),
 				\array_values( $results['data'] )
-			);
-
-			return $this->to_result_object( $results );
-		} catch ( Exception $e ) {
-			return (object) [
-				'error'  => $e->getMessage(),
-				'status' => $e->getCode(),
-			];
-		}
-	}
-
-	/**
-	 * Gets the keyphrase chart data for the passed keyphrases.
-	 * Retrieves all available chart data if no keyphrases are provided.
-	 *
-	 * @param array  $used_keyphrases The currently used keyphrases. Optional.
-	 * @param string $permalink       The current permalink. Optional.
-	 *
-	 * @return object The keyphrase chart data.
-	 */
-	public function get_keyphrase_chart_data( $used_keyphrases = [], $permalink = '' ) {
-		try {
-			$endpoint = \sprintf(
-				self::KEYPHRASES_CHART_URL,
-				$this->options_helper->get( 'wincher_website_id' )
-			);
-
-			$results = $this->client->get(
-				$endpoint,
-				[
-					'query'   => [
-						'start_at' => gmdate( 'Y-m-d\T00:00:00\Z', strtotime( '-90 days' ) ),
-						'end_at'   => gmdate( 'Y-m-d\TH:i:s\Z' ),
-					],
-					'timeout' => 60,
-				]
-			);
-
-			$permalink = empty( $permalink ) ? \get_site_url( null, '/' ) : $permalink;
-
-			$site_chart = \array_filter(
-				$results['data'],
-				function( $entry ) use ( $permalink ) {
-					return $entry['url'] === $permalink;
-				}
-			);
-
-			$results['data']['keywords'] = [];
-
-			if ( ! empty( $site_chart ) ) {
-				// Ensure we have a proper zero-indexed data set.
-				$results['data'] = \reset( $site_chart );
-			}
-
-			if ( ! empty( $used_keyphrases ) ) {
-				$results['data']['keywords'] = $this->filter_results_by_used_keyphrases( $results['data']['keywords'], $used_keyphrases );
-			}
-
-			// Extract the positional data and assign it to the keyphrase.
-			$results['data'] = \array_combine(
-				\array_column( $results['data']['keywords'], 'keyword' ),
-				\array_values( $results['data']['keywords'] )
 			);
 
 			return $this->to_result_object( $results );
@@ -293,28 +245,7 @@ class Wincher_Keyphrases_Action {
 	 * @return object The tracked keyphrases response object.
 	 */
 	public function track_all( $limits ) {
-		// Collect primary keyphrases first.
-		$keyphrases = \array_column(
-			$this->indexable_repository
-				->query()
-				->select( 'primary_focus_keyword' )
-				->where_not_null( 'primary_focus_keyword' )
-				->find_array(),
-			'primary_focus_keyword'
-		);
-
-		if ( YoastSEO()->helpers->product->is_premium() ) {
-			// Collect all related keyphrases.
-			$query_posts = new WP_Query( 'post_type=any&nopaging=true' );
-
-			foreach ( $query_posts->posts as $post ) {
-				$additional_keywords = \json_decode( WPSEO_Meta::get_value( 'focuskeywords', $post->ID ), true );
-				$keyphrases          = \array_merge( $keyphrases, $additional_keywords );
-			}
-		}
-
-		// Filter out empty entries.
-		$keyphrases = \array_filter( $keyphrases );
+		$keyphrases = $this->collect_all_keyphrases();
 
 		if ( empty( $keyphrases ) ) {
 			return $this->to_result_object(
@@ -354,6 +285,39 @@ class Wincher_Keyphrases_Action {
 		}
 
 		return $keyphrases;
+	}
+
+	/**
+	 * Collects all keyphrases known to Yoast.
+	 *
+	 * @return array
+	 */
+	protected function collect_all_keyphrases() {
+		// Collect primary keyphrases first.
+		$keyphrases = \array_column(
+			$this->indexable_repository
+				->query()
+				->select( 'primary_focus_keyword' )
+				->where_not_null( 'primary_focus_keyword' )
+				->find_array(),
+			'primary_focus_keyword'
+		);
+
+		if ( YoastSEO()->helpers->product->is_premium() ) {
+			// Collect all related keyphrases.
+			$query_posts = new WP_Query( 'post_type=any&nopaging=true' );
+
+			foreach ( $query_posts->posts as $post ) {
+				$additional_keywords = \json_decode( WPSEO_Meta::get_value( 'focuskeywords', $post->ID ), true );
+				if ( $additional_keywords !== null ) {
+					$additional_keywords = \array_column( $additional_keywords, 'keyword' );
+					$keyphrases          = \array_merge( $keyphrases, $additional_keywords );
+				}
+			}
+		}
+
+		// Filter out empty entries.
+		return \array_filter( $keyphrases );
 	}
 
 	/**

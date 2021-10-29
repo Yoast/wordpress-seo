@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Routes;
 use WP_Query;
 use WP_REST_Request;
 use WP_REST_Response;
-use WPSEO_Meta;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Login_Action;
@@ -65,13 +64,6 @@ class Wincher_Route implements Route_Interface {
 	 * @var string
 	 */
 	const UNTRACK_KEYPHRASE_ROUTE = self::ROUTE_PREFIX . '/keyphrases/untrack';
-
-	/**
-	 * The keyphrases chart data route constant.
-	 *
-	 * @var string
-	 */
-	const KEYPHRASE_CHART_ROUTE = self::ROUTE_PREFIX . '/keyphrases/chart';
 
 	/**
 	 * The track all keyphrases route constant.
@@ -184,11 +176,10 @@ class Wincher_Route implements Route_Interface {
 			'permission_callback' => [ $this, 'can_use_wincher' ],
 			'args'                => [
 				'keyphrases' => [
-					'required' => true,
-				],
-				'includeRanking' => [
 					'required' => false,
-					'default'  => false,
+				],
+				'permalink' => [
+					'required' => false,
 				],
 			],
 		];
@@ -202,19 +193,6 @@ class Wincher_Route implements Route_Interface {
 		];
 
 		\register_rest_route( Main::API_V1_NAMESPACE, self::UNTRACK_KEYPHRASE_ROUTE, $delete_keyphrase_route_args );
-
-		$get_keyphrase_chart_route_args = [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'get_keyphrase_chart_data' ],
-			'permission_callback' => [ $this, 'can_use_wincher' ],
-			'args'                => [
-				'keyphrases' => [
-					'required' => true,
-				],
-			],
-		];
-
-		\register_rest_route( Main::API_V1_NAMESPACE, self::KEYPHRASE_CHART_ROUTE, $get_keyphrase_chart_route_args );
 
 		$track_all_route_args = [
 			'methods'             => 'POST',
@@ -286,7 +264,7 @@ class Wincher_Route implements Route_Interface {
 	 * @return WP_REST_Response The response.
 	 */
 	public function get_tracked_keyphrases( WP_REST_Request $request ) {
-		$data = $this->keyphrases_action->get_tracked_keyphrases( $request['keyphrases'], $request['includeRanking'] );
+		$data = $this->keyphrases_action->get_tracked_keyphrases( $request['keyphrases'], $request['permalink'] );
 
 		return new WP_REST_Response( $data, $data->status );
 	}
@@ -300,20 +278,6 @@ class Wincher_Route implements Route_Interface {
 	 */
 	public function untrack_keyphrase( WP_REST_Request $request ) {
 		$data = $this->keyphrases_action->untrack_keyphrase( $request['keyphraseID'] );
-
-		return new WP_REST_Response( $data, $data->status );
-	}
-
-	/**
-	 * Gets the tracked keyphrases chart data via POST.
-	 * This is done via POST, so we don't potentially run into URL limit issues when a lot of long keyphrases are tracked.
-	 *
-	 * @param WP_REST_Request $request The request. This request should have a code param set.
-	 *
-	 * @return WP_REST_Response The response.
-	 */
-	public function get_keyphrase_chart_data( WP_REST_Request $request ) {
-		$data = $this->keyphrases_action->get_keyphrase_chart_data( $request['keyphrases'], $request['permalink'] );
 
 		return new WP_REST_Response( $data, $data->status );
 	}

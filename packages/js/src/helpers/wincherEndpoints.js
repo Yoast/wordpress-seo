@@ -71,39 +71,20 @@ export async function authenticate( responseData ) {
 }
 
 /**
- * Gets the chart data for the tracked keyphrases.
- *
- * @param {Array}  keyphrases The keyphrases used in the post.
- * @param {string} permalink  The post's/page's permalink. Optional.
- *
- * @returns {Promise} The API response promise.
- */
-export async function getKeyphrasesChartData( keyphrases = [], permalink = "" ) {
-	return await callEndpoint( {
-		path: "yoast/v1/wincher/keyphrases/chart",
-		method: "POST",
-		data: {
-			keyphrases,
-			permalink,
-		},
-	} );
-}
-
-/**
  * Gets the tracked keyphrases data via POST.
  *
  * @param {Array}   keyphrases     The keyphrases to get the data for.
- * @param {boolean} includeRanking Whether ranking data should be included.
+ * @param {String}  permalink  The post's/page's permalink. Optional.
  *
  * @returns {Promise} The API response promise.
  */
-export async function getKeyphrases( keyphrases = [], includeRanking = false ) {
+export async function getKeyphrases( keyphrases = null, permalink = null ) {
 	return await callEndpoint( {
 		path: "yoast/v1/wincher/keyphrases",
 		method: "POST",
 		data: {
 			keyphrases,
-			includeRanking,
+			permalink,
 		},
 	} );
 }

@@ -4,7 +4,6 @@ export const WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE = "WINCHER_SET_S
 export const WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE = "WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE";
 
 export const WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES = "WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES";
-export const WINCHER_SET_SEO_PERFORMANCE_CHART_DATA = "WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES_CHART_DATA";
 
 /**
  * Sets the current website id.
@@ -59,19 +58,5 @@ export function setWincherTrackedKeyphrases( trackedKeyphrases ) {
 	return {
 		type: WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES,
 		trackedKeyphrases,
-	};
-}
-
-/**
- * Sets the keyphrases that are being tracked for the current article.
- *
- * @param {Object} chartData The chart Data for the tracked keyphrases.
- *
- * @returns {Object} Action object.
- */
-export function setWincherChartData( chartData ) {
-	return {
-		type: WINCHER_SET_SEO_PERFORMANCE_CHART_DATA,
-		chartData,
 	};
 }

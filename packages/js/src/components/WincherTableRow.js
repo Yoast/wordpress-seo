@@ -84,11 +84,11 @@ export function PositionOverTimeChart( { chartData } ) {
 }
 
 PositionOverTimeChart.propTypes = {
-	chartData: PropTypes.object,
+	keyphrase: PropTypes.object,
 };
 
 PositionOverTimeChart.defaultProps = {
-	chartData: {},
+	keyphrase: {},
 };
 
 /**
@@ -120,16 +120,16 @@ export function renderToggleState( { keyphrase, isEnabled, toggleAction, isLoadi
 /**
  * Gets the keyphrase position.
  *
- * @param {Object} chartData The chart data to extract the keyphrase position from.
+ * @param {Object} keyphrase The keyphrase data to extract the position from.
  *
  * @returns {string} The keyphrase position.
  */
-export function getKeyphrasePosition( chartData ) {
-	if ( ! chartData || chartData.position.value > 100 ) {
+export function getKeyphrasePosition( keyphrase ) {
+	if ( ! keyphrase || ! keyphrase.position || keyphrase.position.value > 100 ) {
 		return "> 100";
 	}
 
-	return chartData.position.value;
+	return keyphrase.position.value;
 }
 
 /**
@@ -140,13 +140,10 @@ export function getKeyphrasePosition( chartData ) {
  * @returns {wp.Element} The rendered element.
  */
 export function getPositionalDataByState( props ) {
-	const { rowData, chartData, chartDataTs, websiteId } = props;
+	const { rowData, websiteId } = props;
 
 	const isEnabled          = ! isEmpty( rowData );
-	const hasChartData       = ! isEmpty( chartData );
-	const isChartDataFresh   = rowData && chartDataTs >= new Date( rowData.created_at ).getTime();
-	const updated            = rowData && rowData.ranking_updated_at;
-	const isRankingDataFresh = updated && moment( updated ) >= moment().subtract( 7, "days" );
+	const hasFreshData = rowData && rowData.updated_at && moment( rowData.updated_at ) >= moment().subtract( 7, "days" );
 	const viewLinkURL        = ( rowData ) ? sprintf(
 		"https://app.wincher.com/websites/%s/keywords?serp=%s&utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast",
 		websiteId,
@@ -162,7 +159,7 @@ export function getPositionalDataByState( props ) {
 			</Fragment>
 		);
 	}
-	if ( ! hasChartData && ( ! isRankingDataFresh || ! isChartDataFresh ) ) {
+	if ( ! hasFreshData ) {
 		return (
 			<Fragment>
 				<td className="yoast-table--nopadding" colSpan="3">
@@ -174,8 +171,8 @@ export function getPositionalDataByState( props ) {
 
 	return (
 		<Fragment>
-			<td>{ getKeyphrasePosition( chartData ) }</td>
-			<td className="yoast-table--nopadding">{ <PositionOverTimeChart chartData={ chartData } /> }</td>
+			<td>{ getKeyphrasePosition( rowData ) }</td>
+			<td className="yoast-table--nopadding">{ <PositionOverTimeChart chartData={ rowData } /> }</td>
 			<td className="yoast-table--nobreak">
 				{
 					<ViewLink href={ viewLinkURL }>

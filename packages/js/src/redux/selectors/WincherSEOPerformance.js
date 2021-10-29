@@ -57,28 +57,6 @@ export function getWincherTrackableKeyphrases( state ) {
 }
 
 /**
- * Gets the chart data.
- *
- * @param {Object} state The state.
- *
- * @returns {array} The chart data.
- */
-export function getWincherChartData( state ) {
-	return state.WincherSEOPerformance.chartData;
-}
-
-/**
- * Gets the chart data timestamp.
- *
- * @param {Object} state The state.
- *
- * @returns {number} The chart data timestamp.
- */
-export function getWincherChartDataTs( state ) {
-	return state.WincherSEOPerformance.chartDataTs;
-}
-
-/**
  * Determines whether all keyphrases being tracked are still missing ranking data.
  *
  * @param {Object} state The state.
@@ -93,7 +71,7 @@ export function getWincherAllKeyphrasesMissRanking( state ) {
 	}
 
 	const withoutRanking = filter( trackedKeyphrases, ( trackedKeyphrase ) => {
-		return isEmpty( trackedKeyphrase.ranking_updated_at );
+		return isEmpty( trackedKeyphrase.updated_at );
 	} );
 
 	return withoutRanking.length === Object.keys( trackedKeyphrases ).length;

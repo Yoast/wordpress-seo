@@ -12,8 +12,6 @@ export default compose( [
 			getWincherTrackedKeyphrases,
 			getWincherTrackableKeyphrases,
 			getWincherLoginStatus,
-			getWincherChartData,
-			getWincherChartDataTs,
 			isWincherNewlyAuthenticated,
 			shouldWincherTrackAll,
 			getPermalink,
@@ -22,10 +20,8 @@ export default compose( [
 		return {
 			keyphrases: getWincherTrackableKeyphrases(),
 			trackedKeyphrases: getWincherTrackedKeyphrases(),
-			trackedKeyphrasesChartData: getWincherChartData(),
 			isLoggedIn: getWincherLoginStatus(),
 			trackAll: shouldWincherTrackAll(),
-			chartDataTs: getWincherChartDataTs(),
 			websiteId: getWincherWebsiteId(),
 			isNewlyAuthenticated: isWincherNewlyAuthenticated(),
 			permalink: getPermalink(),
@@ -37,7 +33,6 @@ export default compose( [
 			setWincherRequestSucceeded,
 			setWincherRequestFailed,
 			setWincherSetKeyphraseLimitReached,
-			setWincherChartData,
 			setWincherTrackedKeyphrases,
 			setWincherTrackingForKeyphrase,
 			unsetWincherTrackingForKeyphrase,
@@ -64,9 +59,6 @@ export default compose( [
 			},
 			setTrackedKeyphrases: ( keyphrases ) => {
 				setWincherTrackedKeyphrases( keyphrases );
-			},
-			setChartData: ( chartData ) => {
-				setWincherChartData( chartData );
 			},
 		};
 	} ),

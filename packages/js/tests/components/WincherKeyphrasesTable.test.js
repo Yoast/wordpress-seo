@@ -16,23 +16,7 @@ const keyphrasesData = {
 		id: "12345",
 		keyword: "yoast seo",
 		// eslint-disable-next-line camelcase
-		ranking_updated_at: new Date().toISOString(),
-		ranking: {
-			position: {
-				value: 10,
-			},
-		},
-	},
-	"woocommerce seo": {
-		id: "54321",
-		keyword: "woocommerce seo",
-	},
-};
-
-const chartData = {
-	"yoast seo": {
-		id: "12345",
-		keyword: "yoast seo",
+		updated_at: new Date().toISOString(),
 		position: {
 			value: 10,
 			history: [
@@ -47,6 +31,10 @@ const chartData = {
 			],
 		},
 	},
+	"woocommerce seo": {
+		id: "54321",
+		keyword: "woocommerce seo",
+	},
 };
 
 describe( "WincherKeyphrasesTable", () => {
@@ -60,7 +48,6 @@ describe( "WincherKeyphrasesTable", () => {
 			setTrackedKeyphrases={ noop }
 			setRequestFailed={ noop }
 			setRequestSucceeded={ noop }
-			setChartData={ noop }
 			removeTrackedKeyphrase={ noop }
 		/> );
 
@@ -71,7 +58,6 @@ describe( "WincherKeyphrasesTable", () => {
 		const component = shallow( <WincherKeyphrasesTable
 			keyphrases={ keyphrases }
 			trackedKeyphrases={ keyphrasesData }
-			trackedKeyphrasesChartData={ chartData }
 			onAuthentication={ noop }
 			addTrackingKeyphrase={ noop }
 			newRequest={ noop }
@@ -79,22 +65,17 @@ describe( "WincherKeyphrasesTable", () => {
 			setTrackedKeyphrases={ noop }
 			setRequestFailed={ noop }
 			setRequestSucceeded={ noop }
-			setChartData={ noop }
 			removeTrackedKeyphrase={ noop }
 		/> );
 
 		expect( component.find( WincherTableRow ).length ).toEqual( 1 );
-
-		expect( component.instance().noKeyphrasesHaveRankingData() ).toEqual( false );
 		expect( component.instance().getKeyphraseData( "yoast seo" ) ).toEqual( keyphrasesData[ "yoast seo" ] );
-		expect( component.instance().getKeyphraseChartData( "yoast seo" ) ).toEqual( chartData[ "yoast seo" ] );
 	} );
 
 	it( "should track all keyphrases", () => {
 		const component = shallow( <WincherKeyphrasesTable
 			keyphrases={ keyphrases }
 			trackedKeyphrases={ keyphrasesData }
-			trackedKeyphrasesChartData={ chartData }
 			onAuthentication={ noop }
 			addTrackingKeyphrase={ noop }
 			newRequest={ noop }
@@ -102,7 +83,6 @@ describe( "WincherKeyphrasesTable", () => {
 			setTrackedKeyphrases={ noop }
 			setRequestFailed={ noop }
 			setRequestSucceeded={ noop }
-			setChartData={ noop }
 			removeTrackedKeyphrase={ noop }
 			isLoggedIn={ true }
 			trackAll={ true }

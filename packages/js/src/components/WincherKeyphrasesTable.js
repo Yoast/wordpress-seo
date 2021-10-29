@@ -15,7 +15,6 @@ import WincherTableRow from "./WincherTableRow";
 import {
 	getAccountLimits,
 	getKeyphrases,
-	getKeyphrasesChartData,
 	handleAPIResponse,
 	trackKeyphrases,
 	untrackKeyphrase,
@@ -111,7 +110,7 @@ class WincherKeyphrasesTable extends Component {
 		newRequest();
 
 		await this.performTrackingRequest( keyphrase );
-		await this.getTrackedKeyphrasesChartData( Object.keys( this.props.trackedKeyphrases ) );
+		await this.getTrackedKeyphrases( Object.keys( this.props.trackedKeyphrases ) );
 	}
 
 	/**
@@ -159,10 +158,11 @@ class WincherKeyphrasesTable extends Component {
 			setRequestSucceeded,
 			setTrackedKeyphrases,
 			setRequestFailed,
+			permalink,
 		} = this.props;
 
 		await handleAPIResponse(
-			() => getKeyphrases( keyphrases ),
+			() => getKeyphrases( keyphrases, permalink ),
 			async( response ) => {
 				setRequestSucceeded( response );
 				setTrackedKeyphrases( response.results );
@@ -171,36 +171,6 @@ class WincherKeyphrasesTable extends Component {
 					clearInterval( this.interval );
 					return;
 				}
-
-				// Get the chart data.
-				await this.getTrackedKeyphrasesChartData( keyphrases );
-			},
-			async( response ) => {
-				setRequestFailed( response );
-			}
-		);
-	}
-
-	/**
-	 * Gets the chart data for the tracked keyphrases.
-	 *
-	 * @param {Array} keyphrases The keyphrases used in the post.
-	 *
-	 * @returns {void}
-	 */
-	async getTrackedKeyphrasesChartData( keyphrases = [] ) {
-		const {
-			setRequestSucceeded,
-			setChartData,
-			setRequestFailed,
-			permalink,
-		} = this.props;
-
-		await handleAPIResponse(
-			() => getKeyphrasesChartData( keyphrases, permalink ),
-			async( response ) => {
-				setRequestSucceeded( response );
-				setChartData( response.results );
 			},
 			async( response ) => {
 				setRequestFailed( response );
@@ -222,27 +192,8 @@ class WincherKeyphrasesTable extends Component {
 		}
 
 		return filter( trackedKeyphrases, ( trackedKeyphrase ) => {
-			return isEmpty( trackedKeyphrase.ranking_updated_at );
+			return isEmpty( trackedKeyphrase.updated_at );
 		} ).length > 0;
-	}
-
-	/**
-	 * Determines whether the amount of tracked keyphrases is equal to the amount of keyphrases without ranking data.
-	 *
-	 * @returns {boolean} Whether there are equal amounts of keyphrases and missing ranking data
-	 */
-	noKeyphrasesHaveRankingData() {
-		const { trackedKeyphrases } = this.props;
-
-		if ( isEmpty( trackedKeyphrases ) ) {
-			return false;
-		}
-
-		const positionalData = filter( trackedKeyphrases, ( trackedKeyphrase ) => {
-			return isEmpty( trackedKeyphrase.ranking_updated_at );
-		} );
-
-		return positionalData.length === Object.keys( trackedKeyphrases ).length;
 	}
 
 	/**
@@ -327,24 +278,6 @@ class WincherKeyphrasesTable extends Component {
 	}
 
 	/**
-	 * Gets the passed keyphrase from the tracked keyphrases data object.
-	 *
-	 * @param {string} keyphrase The keyphrase to search for.
-	 *
-	 * @returns {Object|null} The keyphrase object. Returns null if it can't be found.
-	 */
-	getKeyphraseChartData( keyphrase ) {
-		const { trackedKeyphrasesChartData } = this.props;
-		const targetKeyphrase = keyphrase.toLowerCase();
-
-		if ( trackedKeyphrasesChartData && ! isEmpty( trackedKeyphrasesChartData ) && trackedKeyphrasesChartData.hasOwnProperty( targetKeyphrase ) ) {
-			return trackedKeyphrasesChartData[ targetKeyphrase ];
-		}
-
-		return null;
-	}
-
-	/**
 	 * Renders the table.
 	 *
 	 * @returns {React.Element} The table.
@@ -353,7 +286,6 @@ class WincherKeyphrasesTable extends Component {
 		const {
 			websiteId,
 			keyphrases,
-			chartDataTs,
 			isLoggedIn,
 			trackedKeyphrases,
 		} = this.props;
@@ -402,8 +334,6 @@ class WincherKeyphrasesTable extends Component {
 									onTrackKeyphrase={ this.onTrackKeyphrase }
 									onUntrackKeyphrase={ this.onUntrackKeyphrase }
 									rowData={ this.getKeyphraseData( keyphrase ) }
-									chartData={ this.getKeyphraseChartData( keyphrase ) }
-									chartDataTs={ chartDataTs }
 									isFocusKeyphrase={ index === 0 }
 									websiteId={ websiteId }
 									isDisabled={ isDisabled }
@@ -434,7 +364,6 @@ class WincherKeyphrasesTable extends Component {
 
 WincherKeyphrasesTable.propTypes = {
 	addTrackedKeyphrase: PropTypes.func.isRequired,
-	chartDataTs: PropTypes.number,
 	isLoggedIn: PropTypes.bool,
 	isNewlyAuthenticated: PropTypes.bool,
 	keyphrases: PropTypes.array,
@@ -443,23 +372,19 @@ WincherKeyphrasesTable.propTypes = {
 	setRequestFailed: PropTypes.func.isRequired,
 	setKeyphraseLimitReached: PropTypes.func.isRequired,
 	setRequestSucceeded: PropTypes.func.isRequired,
-	setChartData: PropTypes.func.isRequired,
 	setTrackedKeyphrases: PropTypes.func.isRequired,
 	trackAll: PropTypes.bool,
 	trackedKeyphrases: PropTypes.object,
-	trackedKeyphrasesChartData: PropTypes.object,
 	websiteId: PropTypes.string,
 	permalink: PropTypes.string.isRequired,
 };
 
 WincherKeyphrasesTable.defaultProps = {
-	chartDataTs: 0,
 	isLoggedIn: false,
 	isNewlyAuthenticated: false,
 	keyphrases: [],
 	trackAll: false,
 	trackedKeyphrases: {},
-	trackedKeyphrasesChartData: {},
 	websiteId: "",
 };
 

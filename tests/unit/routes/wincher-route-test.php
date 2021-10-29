@@ -127,6 +127,16 @@ class Wincher_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
+				'wincher/authorization-url',
+				[
+					'methods'             => 'GET',
+					'callback'            => [ $this->instance, 'get_authorization_url' ],
+				]
+			);
+
+		Monkey\Functions\expect( 'register_rest_route' )
+			->with(
+				'yoast/v1',
 				'wincher/limits',
 				[
 					'methods'             => 'GET',
@@ -161,11 +171,10 @@ class Wincher_Route_Test extends TestCase {
 					'permission_callback' => [ $this->instance, 'can_use_wincher' ],
 					'args'                => [
 						'keyphrases' => [
-							'required' => true,
-						],
-						'includeRanking' => [
 							'required' => false,
-							'default'  => false,
+						],
+						'permalink' => [
+							'required' => false,
 						],
 					],
 				]
@@ -179,22 +188,6 @@ class Wincher_Route_Test extends TestCase {
 					'methods'             => 'DELETE',
 					'callback'            => [ $this->instance, 'untrack_keyphrase' ],
 					'permission_callback' => [ $this->instance, 'can_use_wincher' ],
-				]
-			);
-
-		Monkey\Functions\expect( 'register_rest_route' )
-			->with(
-				'yoast/v1',
-				'wincher/keyphrases/chart',
-				[
-					'methods'             => 'POST',
-					'callback'            => [ $this->instance, 'get_keyphrase_chart_data' ],
-					'permission_callback' => [ $this->instance, 'can_use_wincher' ],
-					'args'                => [
-						'keyphrases' => [
-							'required' => true,
-						],
-					],
 				]
 			);
 
@@ -375,8 +368,8 @@ class Wincher_Route_Test extends TestCase {
 		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
-			->with( 'includeRanking' )
-			->andReturnFalse();
+			->with( 'permalink' )
+			->andReturn( 'https://example.com' );
 
 		$request
 			->expects( 'offsetGet' )
@@ -387,7 +380,7 @@ class Wincher_Route_Test extends TestCase {
 			->expects( 'get_tracked_keyphrases' )
 			->with(
 				[ 'seo' ],
-				false
+				'https://example.com'
 			)
 			->andReturn( (object) [ 'status' => '200' ] );
 
@@ -401,12 +394,12 @@ class Wincher_Route_Test extends TestCase {
 	 *
 	 * @covers ::get_tracked_keyphrases
 	 */
-	public function test_get_tracked_keyphrases_with_ranking() {
+	public function test_get_tracked_keyphrases_without_permalink() {
 		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
 		$request
 			->expects( 'offsetGet' )
-			->with( 'includeRanking' )
-			->andReturnTrue();
+			->with( 'permalink' )
+			->andReturn( '' );
 
 		$request
 			->expects( 'offsetGet' )
@@ -417,7 +410,7 @@ class Wincher_Route_Test extends TestCase {
 			->expects( 'get_tracked_keyphrases' )
 			->with(
 				[ 'seo' ],
-				true
+				''
 			)
 			->andReturn( (object) [ 'status' => '200' ] );
 
@@ -451,38 +444,6 @@ class Wincher_Route_Test extends TestCase {
 		Mockery::mock( 'overload:WP_REST_Response' );
 
 		$this->assertIsObject( $this->instance->untrack_keyphrase( $request ) );
-	}
-
-	/**
-	 * Tests the get_keyphrase_chart_data route.
-	 *
-	 * @covers ::get_keyphrase_chart_data
-	 */
-	public function test_get_keyphrase_chart_data() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
-		$request
-			->expects( 'offsetGet' )
-			->with( 'keyphrases' )
-			->andReturn( [ 'seo' ] );
-
-		$request
-			->expects( 'offsetGet' )
-			->with( 'permalink' )
-			->andReturn( 'https://yoast.com/page' );
-
-		$this->keyphrases_action
-			->expects( 'get_keyphrase_chart_data' )
-			->with( [ 'seo' ], 'https://yoast.com/page' )
-			->andReturn(
-				(object) [
-					'results' => [],
-					'status'  => '200',
-				]
-			);
-
-		Mockery::mock( 'overload:WP_REST_Response' );
-
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->get_keyphrase_chart_data( $request ) );
 	}
 
 	/**

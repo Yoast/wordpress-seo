@@ -8,17 +8,6 @@ const keyphrasesData = {
 	"yoast seo": {
 		id: "12345",
 		keyword: "yoast seo",
-	},
-	"woocommerce seo": {
-		id: "54321",
-		keyword: "woocommerce seo",
-	},
-};
-
-const chartData = {
-	"yoast seo": {
-		id: "12345",
-		keyword: "yoast seo",
 		position: {
 			value: 10,
 			history: [
@@ -32,25 +21,33 @@ const chartData = {
 				},
 			],
 		},
+		// eslint-disable-next-line camelcase
+		updated_at: new Date(),
+	},
+	"woocommerce seo": {
+		id: "54321",
+		keyword: "woocommerce seo",
+		position: null,
+		// eslint-disable-next-line camelcase
+		updated_at: null,
 	},
 };
 
 describe( "WincherTableRow", () => {
 	it( "should render a row with the available data but without chart data", () => {
 		const component = shallow( <WincherTableRow
-			rowData={ keyphrasesData[ "yoast seo" ] }
-			keyphrase="yoast seo"
+			rowData={ keyphrasesData[ "woocommerce seo" ] }
+			keyphrase="woocommerce seo"
 		/> );
 
 		expect( component.find( "td" ).length ).toEqual( 3 );
-		expect( component.find( "td" ).at( 1 ).text() ).toEqual( "yoast seo" );
+		expect( component.find( "td" ).at( 1 ).text() ).toEqual( "woocommerce seo" );
 		expect( component.find( "td" ).at( 2 ).getElement().props.children ).toEqual( <WincherSEOPerformanceLoading /> );
 	} );
 
 	it( "should render a row with the available data and with chart data", () => {
 		const component = shallow( <WincherTableRow
 			rowData={ keyphrasesData[ "yoast seo" ] }
-			chartData={ chartData[ "yoast seo" ] }
 			keyphrase="yoast seo"
 		/> );
 

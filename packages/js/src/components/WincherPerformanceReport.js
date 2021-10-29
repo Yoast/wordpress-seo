@@ -147,19 +147,18 @@ NoTrackedKeyphrasesMessage.defaultProps = {
 /**
  * Creates a new row to be displayed in the table.
  *
- * @param {int}    id        The keyphrase ID.
- * @param {string} keyphrase The keyphrase to be used in the row.
- * @param {Object} chartData The associated chart data to be displayed.
+ * @param {string} keyphrase The keyphrase data to be used in the row.
  * @param {number} websiteId The website ID to link to.
  *
  * @returns {wp.Element} The row.
  */
-const Row = ( { id, keyphrase, chartData, websiteId } ) => {
+const Row = ( { keyphrase, websiteId } ) => {
+	const { id, keyword } = keyphrase;
 	return (
-		<tr key={ `trackable-keyphrase-${keyphrase}` }>
-			<td>{ keyphrase }</td>
-			<td>{ getKeyphrasePosition( chartData ) }</td>
-			<td className="yoast-table--nopadding">{ <PositionOverTimeChart chartData={ chartData } /> }</td>
+		<tr key={ `trackable-keyphrase-${keyword}` }>
+			<td>{ keyword }</td>
+			<td>{ getKeyphrasePosition( keyphrase ) }</td>
+			<td className="yoast-table--nopadding">{ <PositionOverTimeChart chartData={ keyphrase } /> }</td>
 			<td className="yoast-table--nobreak">
 				{
 					<ViewLink href={ viewLinkUrl( { websiteId, id } ) }>
@@ -172,14 +171,8 @@ const Row = ( { id, keyphrase, chartData, websiteId } ) => {
 };
 
 Row.propTypes = {
-	id: PropTypes.number.isRequired,
-	keyphrase: PropTypes.string.isRequired,
-	chartData: PropTypes.object,
+	keyphrase: PropTypes.object.isRequired,
 	websiteId: PropTypes.string.isRequired,
-};
-
-Row.defaultProps = {
-	chartData: {},
 };
 
 /**
@@ -270,9 +263,7 @@ const WincherPerformanceReport = ( props ) => {
 						{
 							map( data.results, ( entry ) => {
 								return <Row
-									id={ entry.id }
-									keyphrase={ entry.keyword }
-									chartData={ entry.ranking }
+									keyphrase={ entry }
 									websiteId={ websiteId }
 								/>;
 							} )

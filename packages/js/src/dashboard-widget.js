@@ -151,15 +151,15 @@ class DashboardWidget extends Component {
 	 * @returns {void}
 	 */
 	async getWincherData() {
-		const keyphraseChartData = await getKeyphrases( [], true );
+		const keyphraseChartData = await getKeyphrases();
 
 		if ( keyphraseChartData.status === 200 ) {
 			const filteredResults = filter( keyphraseChartData.results, ( entry ) => {
-				return ! isEmpty( entry.ranking );
+				return ! isEmpty( entry.position );
 			} );
 
 			const results = sortBy( filteredResults, ( entry ) => {
-				return entry.ranking.position.value;
+				return entry.position.value;
 			} ).splice( 0, 10 );
 
 			this.setState( {

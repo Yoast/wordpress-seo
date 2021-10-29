@@ -2,7 +2,6 @@ import {
 	WINCHER_SET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
 	WINCHER_SET_SEO_PERFORMANCE_TRACKED_KEYPHRASES,
 	WINCHER_UNSET_SEO_PERFORMANCE_TRACKING_FOR_KEYPHRASE,
-	WINCHER_SET_SEO_PERFORMANCE_CHART_DATA,
 	WINCHER_SET_WEBSITE_ID,
 } from "../actions";
 
@@ -12,8 +11,6 @@ const INITIAL_STATE = {
 	websiteId: "",
 	trackedKeyphrases: null,
 	trackAll: false,
-	chartData: {},
-	chartDataTs: 0,
 };
 
 /**
@@ -47,12 +44,6 @@ function WincherSEOPerformanceReducer( state = INITIAL_STATE, action ) {
 			return {
 				...state,
 				trackedKeyphrases: action.trackedKeyphrases,
-			};
-		case WINCHER_SET_SEO_PERFORMANCE_CHART_DATA:
-			return {
-				...state,
-				chartData: action.chartData,
-				chartDataTs: Date.now(),
 			};
 	}
 	return state;
