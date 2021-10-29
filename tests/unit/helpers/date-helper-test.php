@@ -82,6 +82,11 @@ class Date_Helper_Test extends TestCase {
 				'format'   => \DATE_W3C,
 				'expected' => true,
 			],
+			'Test formatting the date with an integer as date' => [
+				'date'     => 123456789,
+				'format'   => \DATE_W3C,
+				'expected' => 123456789,
+			],
 			'Test formatting the date with a string as date' => [
 				'date'     => 'this is a date',
 				'format'   => \DATE_W3C,
