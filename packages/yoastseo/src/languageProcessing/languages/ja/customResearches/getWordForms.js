@@ -40,7 +40,7 @@ export default function( paper, researcher ) {
 	const morphologyData = get( researcher.getData( "morphology" ), "ja", false );
 
 	const keyphraseForms = getKeyphraseForms( keyphrase, morphologyData );
-	const synonymForms = synonyms.map( synonym => getKeyphraseForms( synonym, morphologyData ) );
+	const synonymsForms = synonyms.map( synonym => getKeyphraseForms( synonym, morphologyData ) );
 
-	return { keyphraseForms, synonymForms };
+	return { keyphraseForms, synonymsForms };
 }
