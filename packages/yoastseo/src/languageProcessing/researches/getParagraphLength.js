@@ -21,7 +21,6 @@ export default function( paper, researcher ) {
 
 	paragraphs.map( function( paragraph ) {
 		paragraphsLength.push( {
-			// wordCount: countWords( paragraph ),
 			countLength: countCharacters ? countCharacters( paragraph ) : countWords( paragraph ),
 			text: paragraph,
 		} );
