@@ -50,7 +50,7 @@ class Importing_Route_Test extends TestCase {
 
 	/**
 	 * Creates a mock importing action.
-	 * 
+	 *
 	 * @param string $class  The class.
 	 * @param string $plugin The plugin.
 	 * @param string $type   The type.
@@ -103,7 +103,7 @@ class Importing_Route_Test extends TestCase {
 		$importer = array_values( $this->importers )[0];
 		$importer->expects( 'index' )
 			->once()
-			->andReturn( [ "test" ] );
+			->andReturn( [ 'test' ] );
 
 		$wp_rest_response = $this->instance->execute(
 			[

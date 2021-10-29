@@ -37,7 +37,7 @@ class Importing_Route extends Abstract_Action_Route {
 	/**
 	 * Importing_Route constructor.
 	 *
-	 * @param Importing_Action_Interface $importers All available importers.
+	 * @param Importing_Action_Interface ...$importers All available importers.
 	 */
 	public function __construct( Importing_Action_Interface ...$importers ) {
 		$this->importers = $importers;
