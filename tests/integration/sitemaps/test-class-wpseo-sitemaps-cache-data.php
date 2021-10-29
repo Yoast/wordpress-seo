@@ -22,8 +22,8 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Create subject instance.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->subject = new WPSEO_Sitemap_Cache_Data();
 	}
 

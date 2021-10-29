@@ -6,15 +6,6 @@ import renderer from "react-test-renderer";
 import FacebookSiteAndAuthorNames from "../../src/facebook/FacebookSiteAndAuthorNames";
 
 describe( "FacebookSiteAndAuthorNames", () => {
-	it( "matches the snapshot by default", () => {
-		const component = renderer.create(
-			<FacebookSiteAndAuthorNames siteUrl="sitename.com" authorName="John Doe" />
-		);
-
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
-	} );
-
 	it( "does not contain the author name when no author name was given", () => {
 		const component = renderer.create(
 			<FacebookSiteAndAuthorNames siteUrl="sitename.com" />

@@ -15,11 +15,10 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Clean up.
 	 */
-	public function tearDown() {
-
-		parent::tearDown();
-
+	public function tear_down() {
 		remove_action( 'update_option', [ 'WPSEO_Sitemaps_Cache', 'clear_on_option_update' ] );
+
+		parent::tear_down();
 	}
 
 	/**

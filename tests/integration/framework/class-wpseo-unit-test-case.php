@@ -20,8 +20,8 @@ abstract class WPSEO_UnitTestCase extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		// Run migrations.
 		$migration_runner = YoastSEO()->classes->get( Migration_Runner::class );

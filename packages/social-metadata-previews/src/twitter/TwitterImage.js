@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
+import { SocialImage } from "../shared/SocialImage";
 import {
 	handleImage,
 	TWITTER_IMAGE_SIZES,
@@ -22,7 +23,6 @@ const injectCardDependentStyles = ( isLarge, border = true ) => {
 	if ( isLarge ) {
 		return (
 			`
-			height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;
 			max-width: ${ TWITTER_IMAGE_SIZES.landscapeWidth }px;
 			${ border ? "border-bottom: 1px solid #E1E8ED;" : "" }
 			border-radius: 14px 14px 0 0;
@@ -47,17 +47,6 @@ const TwitterImageContainer = styled.div`
 	${ props => injectCardDependentStyles( props.isLarge ) }
 `;
 
-const StyledImage = styled.img`
-	&& {
-		max-width: ${ props => props.imageProperties.width }px;
-		height: ${ props => props.imageProperties.height }px;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-	}
-`;
-
 const BaseImage = styled.div`
 	display: flex;
 	justify-content: center;
@@ -72,6 +61,7 @@ const BaseImage = styled.div`
 `;
 
 const PlaceholderImage = styled( BaseImage )`
+	height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;
 	border-top-left-radius: 14px;
 	${ props => props.isLarge ? "border-top-right-radius" : "border-bottom-left-radius" }: 14px;
 	border-style: dashed;
@@ -101,7 +91,6 @@ export default class TwitterImage extends React.Component {
 	constructor( props ) {
 		super( props );
 		this.state = {
-			imageProperties: null,
 			status: "loading",
 		};
 
@@ -153,7 +142,7 @@ export default class TwitterImage extends React.Component {
 	 * the TwitterImageContainer.
 	 */
 	render() {
-		const { imageProperties, status } = this.state;
+		const { status } = this.state;
 
 		if ( status === "loading" || this.props.src === "" || status === "errored" ) {
 			return <PlaceholderImage
@@ -172,10 +161,12 @@ export default class TwitterImage extends React.Component {
 			onMouseEnter={ this.props.onMouseEnter }
 			onMouseLeave={ this.props.onMouseLeave }
 		>
-			<StyledImage
-				src={ this.props.src }
-				alt={ this.props.alt }
-				imageProperties={ imageProperties }
+			<SocialImage
+				imageProps={ {
+					src: this.props.src,
+					alt: this.props.alt,
+					aspectRatio: TWITTER_IMAGE_SIZES.aspectRatio,
+				} }
 			/>
 		</TwitterImageContainer>;
 	}
