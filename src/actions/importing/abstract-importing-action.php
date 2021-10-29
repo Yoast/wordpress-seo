@@ -62,13 +62,22 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	}
 
 	/**
-	 * Gets the cursor id.
+	 * Gets the cursor id (to be used as a key for the import_cursors option).
 	 *
 	 * @return string The cursor id.
 	 */
 	protected function get_cursor_id() {
 		$class = get_class( $this );
 		return $class::PLUGIN . '_' . $class::TYPE;
+	}
+
+	/**
+	 * Gets the completed id (to be used as a key for the importing_completed option).
+	 *
+	 * @return string The completed id.
+	 */
+	public function get_completed_id() {
+		return $this->get_cursor_id;
 	}
 
 	/**

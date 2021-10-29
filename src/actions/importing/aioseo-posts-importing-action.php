@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Helpers\Wpdb_Helper;
  */
 class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
-	use Import_Cursor_Manager_Trait;
+	use Persistent_State_Manager_Trait;
 
 	/**
 	 * The plugin of the action.
