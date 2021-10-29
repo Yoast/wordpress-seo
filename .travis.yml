@@ -75,6 +75,7 @@ jobs:
     - stage: 🚀 deployment
       name: "Deploy to Yoast-dist"
       php: 7.2
+      env: TRAVIS_NODE_VERSION=14
       install:
         - yarn global add grunt-cli
         - yarn install
