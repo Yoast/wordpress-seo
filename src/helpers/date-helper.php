@@ -35,6 +35,10 @@ class Date_Helper {
 	 * @return string The formatted date.
 	 */
 	public function format( $date, $format = \DATE_W3C ) {
+		if ( ! \is_string( $date ) ) {
+			return $date;
+		}
+
 		$immutable_date = \date_create_immutable_from_format( 'Y-m-d H:i:s', $date, new DateTimeZone( 'UTC' ) );
 
 		if ( ! $immutable_date ) {
@@ -53,6 +57,10 @@ class Date_Helper {
 	 * @return string The formatted date.
 	 */
 	public function format_timestamp( $timestamp, $format = \DATE_W3C ) {
+		if ( ! \is_string( $timestamp ) && ! \is_int( $timestamp ) ) {
+			return $timestamp;
+		}
+
 		$immutable_date = \date_create_immutable_from_format( 'U', $timestamp, new DateTimeZone( 'UTC' ) );
 
 		if ( ! $immutable_date ) {
