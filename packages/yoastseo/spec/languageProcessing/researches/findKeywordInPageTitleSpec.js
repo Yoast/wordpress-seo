@@ -357,7 +357,6 @@ describe( "Matches keywords in string", function() {
 	} );
 
 	it( "returns allWordsFound as false for a keyphrase enclosed in Japanese quotes containing a function word", function() {
-		// TODO: change to Japanese example when JP morphology is working
 		const mockPaper = new Paper( "", {
 			keyword: "『un chat』",
 			title: "chat",

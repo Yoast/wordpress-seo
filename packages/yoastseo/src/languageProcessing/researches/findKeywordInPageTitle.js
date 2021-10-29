@@ -123,7 +123,7 @@ const findKeyphraseInPageTitle = function( paper, researcher ) {
 	// If no match was found, check if the language has a custom helper for matching multi-word keyphrases.
 	if ( matchMultiWordKeyphraseCustomHelper ) {
 		const multiWordKeywordMatches = matchMultiWordKeyphraseCustomHelper( title, keyword, functionWords );
-		if (! isEmpty( multiWordKeywordMatches ) ) {
+		if ( ! isEmpty( multiWordKeywordMatches ) ) {
 			return Object.assign( result, multiWordKeywordMatches );
 		}
 	}

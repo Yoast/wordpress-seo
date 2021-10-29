@@ -31,7 +31,7 @@ describe( "a test for Japanese Researcher", function() {
 
 	it( "checks whether there is an exact match of a multiword keyphrase in title", function() {
 		expect( researcher.getHelper( "findMultiWordKeyphraseInPageTitle" )( "東海道新幹線", "さらに東海道新幹線の駅構内および列車内に広告を掲出することを。",
-			functionWords) ).toEqual( {
+			functionWords ) ).toEqual( {
 			exactMatchFound: true,
 			allWordsFound: true,
 			position: 0,
