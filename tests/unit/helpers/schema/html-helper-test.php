@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers\Schema;
 
+use stdClass;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -36,6 +37,7 @@ class HTML_Helper_Test extends TestCase {
 	 *
 	 * @covers ::sanitize
 	 *
+	 * @dataProvider data_incorrect_input_types
 	 * @dataProvider data_sanitize
 	 *
 	 * @param mixed  $input    The input to sanitize.
@@ -80,6 +82,7 @@ class HTML_Helper_Test extends TestCase {
 	 *
 	 * @covers ::smart_strip_tags
 	 *
+	 * @dataProvider data_incorrect_input_types
 	 * @dataProvider data_smart_strip_tags
 	 *
 	 * @param mixed  $input    The input to sanitize.
@@ -154,6 +157,44 @@ text string',
 			'Test trimming surrounding whitespace and extraneous whitespace within string' => [
 				'input'    => '   This is 	just a     simple text string   ',
 				'expected' => 'This is just a simple text string',
+			],
+		];
+	}
+
+	/**
+	 * Data provider.
+	 *
+	 * @return array
+	 */
+	public function data_incorrect_input_types() {
+		return [
+			'null' => [
+				'input'    => null,
+				'expected' => '',
+			],
+			'boolean false' => [
+				'input'    => false,
+				'expected' => '',
+			],
+			'boolean true' => [
+				'input'    => true,
+				'expected' => '',
+			],
+			'integer' => [
+				'input'    => -25,
+				'expected' => '-25',
+			],
+			'float' => [
+				'input'    => -2.5,
+				'expected' => '-2.5',
+			],
+			'array' => [
+				'input'    => [],
+				'expected' => '',
+			],
+			'plain object' => [
+				'input'    => new stdClass(),
+				'expected' => '',
 			],
 		];
 	}
