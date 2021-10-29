@@ -133,12 +133,8 @@ var FacebookPreview = function( opts, i18n ) {
 	this.i18n = i18n || this.constructI18n();
 
 	facebookDefaults.placeholder = {
-		title: this.i18n.dgettext( "yoast-social-previews", "This is an example title - edit by clicking here" ),
-		description: this.i18n.sprintf(
-			/** translators: %1$s expands to facebook */
-			this.i18n.dgettext( "yoast-social-previews", "Modify your %1$s description by editing it right here" ),
-			"facebook"
-		),
+		title: "",
+		description: "",
 		imageUrl: "",
 	};
 
