@@ -1,9 +1,9 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { identity } from "lodash";
 import { STORE_NAME } from "./constants";
-import configReducer, { CONFIG_SLICE_NAME, configActions, configSelectors } from "./slices/config";
-import dataReducer, { DATA_SLICE_NAME, dataActions, dataSelectors } from "./slices/data";
-import keyphrasesReducer, { KEYPHRASES_SLICE_NAME, keyphrasesActions, keyphrasesSelectors } from "./slices/keyphrases";
+import configReducer, { CONFIG_SLICE_NAME, configActions, configSelectors } from "./slices/analysis-config";
+import dataReducer, { DATA_SLICE_NAME, dataActions, dataSelectors } from "./slices/analysis-data";
+import keyphrasesReducer, { KEYPHRASES_SLICE_NAME, keyphrasesActions, keyphrasesSelectors } from "./slices/analysis-keyphrases";
 import resultsReducer, {
 	ANALYZE_ACTION_NAME,
 	PREPARE_PAPER_ACTION_NAME,
@@ -11,7 +11,7 @@ import resultsReducer, {
 	RESULTS_SLICE_NAME,
 	resultsActions,
 	resultsSelectors,
-} from "./slices/results";
+} from "./slices/analysis-results";
 
 export { STORE_NAME as ANALYSIS_STORE_NAME };
 

@@ -22,7 +22,7 @@
     "@testing-library/user-event": "^12.1.10",
     "@wordpress/data": "^6.1.2",
     "@wordpress/element": "^4.0.3",
-    "@yoast/analysis-store": "file:../../packages/analysis-store",
+    "@yoast/seo-store": "file:../../packages/seo-store",
     "@yoast/replacement-variables": "file:../../packages/replacement-variables",
     "react-scripts": "4.0.3"
   },

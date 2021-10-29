@@ -1,6 +1,6 @@
 import { select, useDispatch } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
-import registerAnalysisStore, { ANALYSIS_STORE_NAME, useAnalyze } from "@yoast/analysis-store";
+import registerAnalysisStore, { ANALYSIS_STORE_NAME, useAnalyze } from "@yoast/seo-store";
 import createReplacementVariables from "@yoast/replacement-variables";
 import { reduce } from "lodash";
 

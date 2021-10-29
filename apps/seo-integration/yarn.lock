@@ -2358,7 +2358,7 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@yoast/analysis-store@file:../../packages/analysis-store":
+"@yoast/seo-store@file:../../packages/seo-store":
   version "1.0.0"
   dependencies:
     "@reduxjs/toolkit" "^1.6.2"
