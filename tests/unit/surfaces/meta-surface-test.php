@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Surfaces;
 
 use Brain\Monkey;
+use Brain\Monkey\Filters;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
@@ -433,38 +434,64 @@ class Meta_Surface_Test extends TestCase {
 	 * @param string $object_sub_type The object sub type.
 	 * @param int    $object_id       The object id.
 	 * @param string $page_type       The page type.
+	 * @param bool   $is_date_archive Optional. Whether the page is a date archive. Defaults to false.
 	 */
-	public function test_for_url( $object_type, $object_sub_type, $object_id, $page_type ) {
+	public function test_for_url( $object_type, $object_sub_type, $object_id, $page_type, $is_date_archive = false ) {
 		$wp_rewrite = Mockery::mock( 'WP_Rewrite' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->once()
-			->with( 'url' )
-			->andReturn(
-				[
-					'host' => 'host',
-					'path' => '/path',
-				]
-			);
+			->times( 3 )
+			->andReturnUsing(
+				static function( $url, $component = -1 ) use ( $page_type, $is_date_archive ) {
+					switch ( $url ) {
+						case 'url':
+							$path = '';
+							if ( $is_date_archive ) {
+								$path = '/2021/08/';
+							}
+							elseif ( \strpos( $page_type, 'Home_Page' ) === false ) {
+								$path = '/path';
+							}
 
-		Monkey\Functions\expect( 'wp_parse_url' )
-			->once()
-			->with( 'https://www.example.org' )
-			->andReturn(
-				[
-					'scheme' => 'scheme',
-					'host'   => 'host',
-				]
+							return [
+								'host' => 'host',
+								'path' => $path,
+							];
+
+						case 'https://www.example.org':
+							return [
+								'scheme' => 'scheme',
+								'host'   => 'host',
+							];
+
+						default:
+							// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- Test mock.
+							return \parse_url( $url, $component );
+					}
+				}
 			);
 
 		$this->container->expects( 'get' )
 			->times( 3 )
 			->andReturn( null );
 
-		$this->repository->expects( 'find_by_permalink' )
-			->once()
-			->with( 'scheme://host/path' )
-			->andReturn( $this->indexable );
+		if ( $is_date_archive ) {
+			$this->repository->expects( 'find_for_date_archive' )
+				->once()
+				->andReturn( $this->indexable );
+		}
+		elseif ( \strpos( $page_type, 'Home_Page' ) === false ) {
+			$this->repository->expects( 'find_by_permalink' )
+				->once()
+				->with( 'scheme://host/path' )
+				->andReturn( $this->indexable );
+		}
+		else {
+			$this->repository->expects( 'find_by_permalink' )
+				->once()
+				->with( 'scheme://host' )
+				->andReturn( $this->indexable );
+		}
 
 		$this->wp_rewrite_wrapper->expects( 'get' )
 			->once()
@@ -478,6 +505,16 @@ class Meta_Surface_Test extends TestCase {
 			->once()
 			->with( 'date_permastruct', \EP_DATE )
 			->andReturn( [] );
+
+		Filters\expectApplied( 'date_rewrite_rules' )
+			->once()
+			->andReturn(
+				[
+					'([0-9]{4})/page/?([0-9]{1,})/?$' => 'index.php?year=$matches[1]&paged=$matches[2]',
+					'([0-9]{4})/([0-9]{1,2})/?$'      => 'index.php?year=$matches[1]&monthnum=$matches[2]',
+					'([0-9]{4})/?$'                   => 'index.php?year=$matches[1]',
+				]
+			);
 
 		$this->indexable->object_type     = $object_type;
 		$this->indexable->object_id       = $object_id;
@@ -506,6 +543,7 @@ class Meta_Surface_Test extends TestCase {
 			'Author_Archive'     => [ 'user', null, 1, 'Author_Archive' ],
 			'Home_Page'          => [ 'home-page', null, 1, 'Home_Page' ],
 			'Post_Type_Archive'  => [ 'post-type-archive', 'book', 1, 'Post_Type_Archive' ],
+			'Date_Archive'       => [ 'date-archive', null, 1, 'Date_Archive', true ],
 			'Search_Result_Page' => [ 'system-page', 'search-result', 1, 'Search_Result_Page' ],
 			'Error_Page'         => [ 'system-page', '404', 1, 'Error_Page' ],
 		];
