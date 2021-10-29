@@ -3,6 +3,10 @@ import Paper from "../../../../src/values/Paper.js";
 import firstWordExceptions from "../../../../src/languageProcessing/languages/el/config/firstWordExceptions";
 import transitionWords from "../../../../src/languageProcessing/languages/el/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/el/config/twoPartTransitionWords";
+import functionWords from "../../../../src/languageProcessing/languages/el/config/functionWords";
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
+
+const morphologyDataEL = getMorphologyData( "el" );
 
 describe( "a test for Greek Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );
@@ -31,8 +35,9 @@ describe( "a test for Greek Researcher", function() {
 		expect( researcher.getConfig( "secondWordExceptions" ) ).toEqual( firstWordExceptions.secondWords );
 	} );
 
-	it( "doesn't stem word if the basic stemmer is used in the Researcher", function() {
-		expect( researcher.getHelper( "getStemmer" )()( "γάτες" ) ).toBe( "γάτες" );
+	it( "stems the Greek word using the Greek stemmer", function() {
+		researcher.addResearchData( "morphology", morphologyDataEL );
+		expect( researcher.getHelper( "getStemmer" )( researcher )( "αγαπάς" ) ).toEqual( "αγαπ" );
 	} );
 
 	it( "returns the Greek transition words", function() {
@@ -41,5 +46,26 @@ describe( "a test for Greek Researcher", function() {
 
 	it( "returns the Greek two part transition word", function() {
 		expect( researcher.getConfig( "twoPartTransitionWords" ) ).toEqual( twoPartTransitionWords );
+	} );
+
+	it( "returns Greek function words", function() {
+		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
+	} );
+
+	it( "returns the Greek passive construction type", function() {
+		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "morphologicalAndPeriphrastic" );
+	} );
+
+	it( "splits Greek sentence into clauses", function() {
+		const sentence = "Το άρθρο είναι γραμμένο και ο συγγραφέας είναι ευχαριστημένος.";
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].getClauseText() ).toBe( "Το άρθρο είναι γραμμένο" );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 0 ].isPassive() ).toBe( true );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].getClauseText() ).toBe( "ο συγγραφέας είναι ευχαριστημένος." );
+		expect( researcher.getHelper( "getClauses" )( sentence )[ 1 ].isPassive() ).toBe( true );
+	} );
+
+	it( "checks if a Greek sentence is passive or not", function() {
+		expect( researcher.getHelper( "isPassiveSentence" )( "Το σπίτι χτίστηκε από τον πατέρα μου." ) ).toEqual( true );
+		expect( researcher.getHelper( "isPassiveSentence" )( "Εγώ διπλώνω τα ρούχα." ) ).toEqual( false );
 	} );
 } );

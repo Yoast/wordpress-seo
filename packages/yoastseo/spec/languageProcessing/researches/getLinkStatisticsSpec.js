@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import FarsiResearcher from "../../../src/languageProcessing/languages/fa/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
@@ -99,6 +96,23 @@ describe( "Tests a string for anchors and its attributes", function() {
 		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.internalTotal ).toBe( 1 );
+		expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
+	} );
+
+	it( "should not detect the keyword in link text which links to a fragment on the same page", function() {
+		const attributes = {
+			keyword: "focuskeyword",
+			url: "http://yoast.com/this-page/",
+			permalink: "http://yoast.com/this-page/",
+		};
+
+		const mockPaper = new Paper( "string <a href='#some-fragment'>focuskeyword</a>", attributes );
+		const researcher = new EnglishResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toBe( 1 );
+		expect( foundLinks.otherTotal ).toBe( 1 );
 		expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
 	} );
 

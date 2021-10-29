@@ -19,9 +19,11 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Expands the list of function words for Farsi.
 * Removes the Farsi feature flag.
 * Removes hyphens from a keyphrase for the Keyphrase in slug assessment. Also removes the functionality that would look for the keyphrase in the unparsed slug if it was not found in the parsed slug, as it is made redundant by the new functionality.
+* Removes feature flag for Greek support to prepare Greek for release.
 
 ### Bugfixes
 * Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
+* Counts relative fragment links (`#some-id`) as a link to the same page.
 
 ### Non user facing
 * Fixes a typo that caused the `findList` research to not be used in the `ListAssessment`.
@@ -48,6 +50,14 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds Greek transition words and activates the transition words assessment.
 * Adds a language folder and Researcher for Greek. 
 * Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
+* Makes passive voice and function words in keyphrase assessments available for Greek.
+* Adds a paper and unit tests to test the assessments for Greek and edits a typo in the Greek morphologyData file path in `getMorphologyData.js`.
+* Adds a `getContentWords` helper and adds function words list for Japanese.
+* Updates README.md for Greek support.
+* Creates a helper for splitting a Japanese text into words using the TinySegmenter package, and adds Japanese punctuation to the removePunctuation helper. Also changes the global Jest testing environment from `node` to `jsdom`. 
+* Adds external stemmer for Greek.
+* Improves keyphrase recognition in Greek by filtering out function words such as `στον`, `τρίτος`, `τέτοιους`, `ποιανής`.
+* Implements passive voice assessment for Greek.
 
 
 ## 1.92.0

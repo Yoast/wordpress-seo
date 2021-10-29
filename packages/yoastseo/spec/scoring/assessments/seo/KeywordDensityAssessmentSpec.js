@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import KeywordDensityAssessment from "../../../../src/scoring/assessments/seo/KeywordDensityAssessment";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import GermanResearcher from "../../../../src/languageProcessing/languages/de/Researcher";
@@ -9,7 +6,6 @@ import Paper from "../../../../src/values/Paper.js";
 import Mark from "../../../../src/values/Mark.js";
 import factory from "../../../specHelpers/factory.js";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
-
 
 const i18n = factory.buildJed();
 const morphologyData = getMorphologyData( "en" );

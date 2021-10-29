@@ -42,6 +42,7 @@ import { refreshSnippetEditor, updateData } from "../redux/actions/snippetEditor
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
 import { setFocusKeyword } from "../redux/actions/focusKeyword";
 import { setCornerstoneContent } from "../redux/actions/cornerstoneContent";
+import { setMarkerStatus } from "../redux/actions/markerButtons";
 import initializeUsedKeywords from "./used-keywords-assessment";
 
 setYoastComponentsL10n();
@@ -290,6 +291,9 @@ export default function initTermScraper( $, store, editorData ) {
 		}
 
 		if ( isContentAnalysisActive() ) {
+			// Hide marker buttons.
+			store.dispatch( setMarkerStatus( "hidden" ) );
+
 			args.callbacks.saveContentScore = termScraper.saveContentScore.bind( termScraper );
 			args.callbacks.updatedContentResults = function( results ) {
 				store.dispatch( setReadabilityResults( results ) );
