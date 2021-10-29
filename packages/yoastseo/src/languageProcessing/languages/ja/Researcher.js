@@ -4,6 +4,8 @@ const { AbstractResearcher } = languageProcessing;
 // All helpers
 import getStemmer from "./helpers/getStemmer";
 import matchWordCustomHelper from "./helpers/matchTextWithWord";
+import getWords from "./helpers/getWords";
+import findMultiWordKeyphraseInPageTitle from "./helpers/findExactMatchMultiWordKeyphraseInTitle"
 
 // All config
 import functionWords from "./config/functionWords";
@@ -35,6 +37,8 @@ export default class Researcher extends AbstractResearcher {
 		Object.assign( this.helpers, {
 			getStemmer,
 			matchWordCustomHelper,
+			getWords,
+			findMultiWordKeyphraseInPageTitle,
 		} );
 	}
 }

@@ -29,6 +29,15 @@ describe( "a test for Japanese Researcher", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
 	} );
 
+	it( "checks whether there is an exact match of a multiword keyphrase in title", function() {
+		expect( researcher.getHelper( "findMultiWordKeyphraseInPageTitle" )( "東海道新幹線", "さらに東海道新幹線の駅構内および列車内に広告を掲出することを。",
+			functionWords) ).toEqual( {
+			exactMatchFound: true,
+			allWordsFound: true,
+			position: 0,
+		} );
+	} );
+
 	it( "creates the word forms when the Japanese morphology data is available", function() {
 		researcher.addResearchData( "morphology", morphologyDataJA );
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "日帰り" ) ).toEqual(
