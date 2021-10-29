@@ -131,6 +131,11 @@ class Date_Helper_Test extends TestCase {
 				'format'    => \DATE_W3C,
 				'expected'  => '1973-11-29T21:33:09+00:00',
 			],
+			'Test formatting a string timestamp to a date' => [
+				'timestamp' => '123456789',
+				'format'    => \DATE_W3C,
+				'expected'  => '1973-11-29T21:33:09+00:00',
+			],
 			'Test formatting the date with null as timestamp' => [
 				'date'     => null,
 				'format'   => \DATE_W3C,
