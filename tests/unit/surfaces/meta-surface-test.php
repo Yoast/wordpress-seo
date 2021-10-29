@@ -493,21 +493,22 @@ class Meta_Surface_Test extends TestCase {
 				->andReturn( $this->indexable );
 		}
 
+		$times = ( \strpos( $page_type, 'Home_Page' ) === false ) ? 1 : 0;
 		$this->wp_rewrite_wrapper->expects( 'get' )
-			->once()
+			->times( $times )
 			->andReturn( $wp_rewrite );
 
 		$wp_rewrite->expects( 'get_date_permastruct' )
-			->once()
+			->times( $times )
 			->andReturn( 'date_permastruct' );
 
 		$wp_rewrite->expects( 'generate_rewrite_rules' )
-			->once()
+			->times( $times )
 			->with( 'date_permastruct', \EP_DATE )
 			->andReturn( [] );
 
 		Filters\expectApplied( 'date_rewrite_rules' )
-			->once()
+			->times( $times )
 			->andReturn(
 				[
 					'([0-9]{4})/page/?([0-9]{1,})/?$' => 'index.php?year=$matches[1]&paged=$matches[2]',
