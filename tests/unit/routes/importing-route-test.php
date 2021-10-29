@@ -27,6 +27,13 @@ class Importing_Route_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * Represents the importers to use.
+	 *
+	 * @var Importing_Action_Interface
+	 */
+	protected $importers;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
@@ -34,11 +41,11 @@ class Importing_Route_Test extends TestCase {
 
 		Mockery::mock( '\WP_Error' );
 
-		$importers = [
+		$this->importers = [
 			$this->mockImporter( Aioseo_Posts_Importing_Action::class, 'aioseo', 'posts' ),
 		];
 
-		$this->instance = new Importing_Route( ...$importers );
+		$this->instance = new Importing_Route( ...$this->importers );
 	}
 
 	/**
@@ -89,10 +96,14 @@ class Importing_Route_Test extends TestCase {
 	 * @dataProvider all_routes
 	 *
 	 * @covers ::execute
-	 * @covers ::import_aioseo_posts
 	 */
 	public function test_execute_import_aioseo_posts( $plugin, $type ) {
 		Mockery::mock( 'overload:WP_REST_Response' );
+
+		$importer = array_values( $this->importers )[0];
+		$importer->expects( 'index' )
+			->once()
+			->andReturn( [ "test" ] );
 
 		$wp_rest_response = $this->instance->execute(
 			[
