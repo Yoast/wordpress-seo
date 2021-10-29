@@ -139,7 +139,7 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 * @return string The completed id.
 	 */
 	public function get_completed_id() {
-		return $this->get_cursor_id;
+		return $this->get_cursor_id();
 	}
 
 	/**
@@ -149,7 +149,7 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 */
 	public function get_if_completed() {
 		$completed_id          = $this->get_completed_id();
-		$importers_completions = $this->options_helper->get( 'importing_completed', [] );
+		$importers_completions = $this->options->get( 'importing_completed', [] );
 
 		return ( isset( $importers_completions[ $completed_id ] ) ) ? $importers_completions[ $completed_id ] : false;
 	}
@@ -163,10 +163,10 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 */
 	public function set_if_completed( $completed ) {
 		$completed_id                  = $this->get_completed_id();
-		$current_importers_completions = $this->options_helper->get( 'importing_completed', [] );
+		$current_importers_completions = $this->options->get( 'importing_completed', [] );
 
 		$current_importers_completions[ $completed_id ] = $completed;
-		$this->options_helper->set( 'importing_completed', $current_importers_completions );
+		$this->options->set( 'importing_completed', $current_importers_completions );
 	}
 
 	/**
