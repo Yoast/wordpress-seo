@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers\Schema;
 
 use stdClass;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Stringable_Object_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -36,6 +37,7 @@ class HTML_Helper_Test extends TestCase {
 	 * Test whether sanitize sanitizes properly.
 	 *
 	 * @covers ::sanitize
+	 * @covers ::is_non_empty_string_or_stringable
 	 *
 	 * @dataProvider data_incorrect_input_types
 	 * @dataProvider data_sanitize
@@ -74,6 +76,10 @@ class HTML_Helper_Test extends TestCase {
 				'input'    => 'Test <p>Paragraph</p> bla <marque>stuck in the 80s</marque>',
 				'expected' => 'Test <p>Paragraph</p> bla stuck in the 80s',
 			],
+			'Test passing the parameter as a stringable object (plain string)' => [
+				'input'    => new Stringable_Object_Mock( 'This is just a simple text string' ),
+				'expected' => 'This is just a simple text string',
+			],
 		];
 	}
 
@@ -81,6 +87,7 @@ class HTML_Helper_Test extends TestCase {
 	 * Test whether smart strips tags strips tags in a smart way.
 	 *
 	 * @covers ::smart_strip_tags
+	 * @covers ::is_non_empty_string_or_stringable
 	 *
 	 * @dataProvider data_incorrect_input_types
 	 * @dataProvider data_smart_strip_tags
@@ -156,6 +163,10 @@ text string',
 			],
 			'Test trimming surrounding whitespace and extraneous whitespace within string' => [
 				'input'    => '   This is 	just a     simple text string   ',
+				'expected' => 'This is just a simple text string',
+			],
+			'Test passing the parameter as a stringable object (plain string)' => [
+				'input'    => new Stringable_Object_Mock( 'This is just a simple text string' ),
 				'expected' => 'This is just a simple text string',
 			],
 		];
