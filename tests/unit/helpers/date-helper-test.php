@@ -40,10 +40,9 @@ class Date_Helper_Test extends TestCase {
 	 * @param string $date     The date to format.
 	 * @param string $format   The format.
 	 * @param string $expected The expected value.
-	 * @param string $message  Message to show when test fails.
 	 */
-	public function test_format( $date, $format, $expected, $message ) {
-		static::assertEquals( $expected, $this->instance->format( $date, $format ), $message );
+	public function test_format( $date, $format, $expected ) {
+		static::assertSame( $expected, $this->instance->format( $date, $format ) );
 	}
 
 	/**
@@ -53,53 +52,45 @@ class Date_Helper_Test extends TestCase {
 	 */
 	public function format_provider() {
 		return [
-			[
+			'Test formatting the date, the default way' => [
 				'date'     => '2020-12-31 13:37:00',
 				'format'   => \DATE_W3C,
 				'expected' => '2020-12-31T13:37:00+00:00',
-				'message'  => 'Test formatting the date, the default way',
 			],
-			[
+			'Test formatting the date to a timestamp' => [
 				'date'     => '1973-11-29 21:33:09',
 				'format'   => 'U',
-				'expected' => 123456789,
-				'message'  => 'Test formatting the date to a timestamp',
+				'expected' => '123456789',
 			],
-			[
+			'Test formatting the date with no given date' => [
 				'date'     => '',
 				'format'   => \DATE_W3C,
 				'expected' => '',
-				'message'  => 'Test formatting the date with no given date',
 			],
-			[
+			'Test formatting the date with null as date' => [
 				'date'     => null,
 				'format'   => \DATE_W3C,
 				'expected' => null,
-				'message'  => 'Test formatting the date with null as date',
 			],
-			[
+			'Test formatting the date with false as date' => [
 				'date'     => false,
 				'format'   => \DATE_W3C,
 				'expected' => false,
-				'message'  => 'Test formatting the date with false as date',
 			],
-			[
+			'Test formatting the date with true as date' => [
 				'date'     => true,
 				'format'   => \DATE_W3C,
 				'expected' => true,
-				'message'  => 'Test formatting the date with true as date',
 			],
-			[
+			'Test formatting the date with a string as date' => [
 				'date'     => 'this is a date',
 				'format'   => \DATE_W3C,
 				'expected' => 'this is a date',
-				'message'  => 'Test formatting the date with a string as date',
 			],
-			[
+			'Test formatting the date with date in wrong format being given' => [
 				'date'     => '2020-12-31',
 				'format'   => \DATE_W3C,
 				'expected' => '2020-12-31',
-				'message'  => 'Test formatting the date with date in wrong format being given',
 			],
 		];
 	}
@@ -113,10 +104,9 @@ class Date_Helper_Test extends TestCase {
 	 * @param string $timestamp The timestamp to format.
 	 * @param string $format    The format.
 	 * @param string $expected  The expected value.
-	 * @param string $message   Message to show when test fails.
 	 */
-	public function test_format_timestamp( $timestamp, $format, $expected, $message ) {
-		static::assertEquals( $expected, $this->instance->format_timestamp( $timestamp, $format ), $message );
+	public function test_format_timestamp( $timestamp, $format, $expected ) {
+		static::assertSame( $expected, $this->instance->format_timestamp( $timestamp, $format ) );
 	}
 
 	/**
@@ -126,23 +116,20 @@ class Date_Helper_Test extends TestCase {
 	 */
 	public function format_timestamp_provider() {
 		return [
-			[
+			'Test formatting a date given as timestamp' => [
 				'timestamp' => '1973-11-29 21:33:09',
 				'format'    => \DATE_W3C,
 				'expected'  => '1973-11-29 21:33:09',
-				'message'   => 'Test formatting a date given as timestamp',
 			],
-			[
+			'Test formatting an integer timestamp to a date' => [
 				'timestamp' => 123456789,
 				'format'    => \DATE_W3C,
 				'expected'  => '1973-11-29T21:33:09+00:00',
-				'message'   => 'Test formatting the timestamp to a date',
 			],
-			[
+			'Test formatting the date with null as timestamp' => [
 				'date'     => null,
 				'format'   => \DATE_W3C,
 				'expected' => null,
-				'message'  => 'Test formatting the date with null as timestamp',
 			],
 		];
 	}
@@ -158,7 +145,7 @@ class Date_Helper_Test extends TestCase {
 			->with( \DATE_W3C, '1609421820' )
 			->andReturn( '2020-12-31' );
 
-		static::assertEquals(
+		static::assertSame(
 			'2020-12-31',
 			$this->instance->format_translated( '2020-12-31 13:37:00' )
 		);
