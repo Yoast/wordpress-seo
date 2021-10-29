@@ -42,7 +42,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 
 * **SEO analysis**: an invaluable tool while writing SEO-friendly content with the right (focus) keyphrases in mind.
 * **Readability analysis**: ensures that humans and search engines can read and understand your content.
-* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian, Turkish, Czech, Norwegian and Slovak.
+* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian, Turkish, Czech, Norwegian, Slovak and Greek.
 * **A Google preview**, which shows what your listings will look like in the search results. Even on mobile devices!
 * **Innovative Schema blocks** for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results. Plus a breadcrumbs block to guide your users.
 * **[Premium] Internal linking blocks** to easily improve the structure of your content. Easily add a **table of contents block**, a **related links block**, a **subpages** block, or **siblings block**! Plus, we’ll keep adding these easy-to-add blocks to improve your site structure.
@@ -238,6 +238,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 17.5 =
 Release Date: November 2nd, 2021
+
+Say hello to Yoast SEO 17.5! Or maybe γεια would fit better, as this release introduces Greek readability support. Plus: you’ll also be able to find | and ~ title separators again. Happy updating! Read more about what's new in Yoast SEO 17.5 in [our release post](https://yoa.st/release-17-5)!
 
 Enhancements:
 
