@@ -96,19 +96,50 @@ class HTML_Helper_Test extends TestCase {
 	 */
 	public function data_smart_strip_tags() {
 		return [
+			'Empty text string' => [
+				'input'    => '',
+				'expected' => '',
+			],
+			'Text without HTML' => [
+				'input'    => 'This is just a simple text string',
+				'expected' => 'This is just a simple text string',
+			],
+			'Multi-line text without HTML' => [
+				'input'    => 'This is
+just a simple
+text string',
+				'expected' => 'This is just a simple text string',
+			],
+			'String containing only whitespace' => [
+				'input'    => '
+
+
+
+
+   				 ',
+				'expected' => '',
+			],
 			'Test replacing `<br>` tag with space' => [
 				'input'    => 'Test<br>word',
+				'expected' => 'Test word',
+			],
+			'Test replacing `<BR />` tag (uppercase and with self-closing slash) with space' => [
+				'input'    => 'Test<BR />word',
 				'expected' => 'Test word',
 			],
 			'Test adding a space when replacing heading close tags' => [
 				'input'    => '<h1>Heading</h1>First words',
 				'expected' => 'Heading First words',
 			],
+			'Test adding a space when replacing select close tags' => [
+				'input'    => 'End of previous</Div>This safeguards the case insensitivity',
+				'expected' => 'End of previous This safeguards the case insensitivity',
+			],
 			'Test replacing tags li with • and new lines with spaces' => [
 				'input'    => 'I am:
 <ul>
 <li>smart</li>
-<li>beautiful</li>
+<LI>beautiful</LI>
 </ul>',
 				'expected' => 'I am: • smart • beautiful',
 			],
@@ -119,6 +150,10 @@ class HTML_Helper_Test extends TestCase {
 			'Test removing incomplete + complete set of script tags' => [
 				'input'    => 'Test </script ><script>alert(0)</script><script>',
 				'expected' => 'Test',
+			],
+			'Test trimming surrounding whitespace and extraneous whitespace within string' => [
+				'input'    => '   This is 	just a     simple text string   ',
+				'expected' => 'This is just a simple text string',
 			],
 		];
 	}
