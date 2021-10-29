@@ -96,10 +96,18 @@ class Date_Helper {
 	 *
 	 * @param string $datetime String input to check as valid input for DateTime class.
 	 *
-	 * @return bool True when datatime is valid.
+	 * @return bool True when datetime is valid.
 	 */
 	public function is_valid_datetime( $datetime ) {
-		if ( \substr( $datetime, 0, 1 ) === '-' ) {
+		if ( $datetime === null ) {
+			/*
+			 * While not "officially" supported, `null` will be handled as `"now"` until PHP 9.0.
+			 * @link https://3v4l.org/tYp2k
+			 */
+			return true;
+		}
+
+		if ( \is_string( $datetime ) && \substr( $datetime, 0, 1 ) === '-' ) {
 			return false;
 		}
 
