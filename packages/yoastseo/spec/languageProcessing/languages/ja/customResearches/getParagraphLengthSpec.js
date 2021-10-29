@@ -1,20 +1,20 @@
-import getParagraphLength from "../../../../../src/languageProcessing/languages/ja/customResearches/getParagraphLength.js";
+import getParagraphLength from "../../../../../src/languageProcessing/researches/getParagraphLength.js";
 import Paper from "../../../../../src/values/Paper.js";
-
+import JapaneseResearcher from "../../../../../src/languageProcessing/languages/ja/Researcher.js"
+import EnglishResearcher from "../../../../../src/languageProcessing/languages/en/Researcher.js"
 
 describe( "a test for getting paragraph length", function() {
 	it( "returns the paragraph length of a paragraph between p tags", function() {
 		const mockPaper = new Paper( "<p>Lorem ipsum</p>" );
-		expect( getParagraphLength( mockPaper )[ 0 ].characterCount ).toBe( 11 );
+		expect( getParagraphLength( mockPaper, new EnglishResearcher() )[ 0 ].countLength ).toBe( 2 );
 	} );
 
-	it( "returns the paragraph length of two paragraphs divided by double linebreaks and ends with double linebreak", function() {
-		const mockPaper = new Paper( "Lorem \n\n ipsum two \n\n" );
-		expect( getParagraphLength( mockPaper )[ 0 ].characterCount ).toBe( 5 );
-		expect( getParagraphLength( mockPaper )[ 1 ].characterCount ).toBe( 9 );
+	it( "returns the paragraph length of a Japanese paragraph between p tags", function() {
+		const mockPaper = new Paper( "<p>これに対し日本国有鉄道</p>" );
+		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 0 ].countLength ).toBe( 11 );
 	} );
 
-	it( "returns the paragraph length of two paragraphs divided by double linebreaks and don't end with double linebreak", function() {
+	/*it( "returns the paragraph length of two paragraphs divided by double linebreaks and don't end with double linebreak", function() {
 		const mockPaper = new Paper( "Lorem \n\n ipsum two" );
 		expect( getParagraphLength( mockPaper )[ 0 ].characterCount ).toBe( 5 );
 		expect( getParagraphLength( mockPaper )[ 1 ].characterCount ).toBe( 9 );
@@ -77,5 +77,5 @@ describe( "a test for getting paragraph length", function() {
 	xit( "returns the paragraph length of an empty paragraph without p tags or double line breaks", function() {
 		const mockPaper = new Paper( "" );
 		expect( getParagraphLength( mockPaper ).characterCount ).not.toContain( 0 );
-	} );
+	} );*/
 } );
