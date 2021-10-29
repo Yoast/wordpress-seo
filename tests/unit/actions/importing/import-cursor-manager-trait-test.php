@@ -3,22 +3,22 @@
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
-use Yoast\WP\SEO\Actions\Importing\Persistent_State_Manager_Trait;
+use Yoast\WP\SEO\Actions\Importing\Import_Cursor_Manager_Trait;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 // phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 /**
- * Class Persistent_State_Manager_Trait_Test
+ * Class Import_Cursor_Manager_Trait_Test
  *
  * @package Yoast\WP\SEO\Tests\Unit\Actions\Importing
  *
- * @coversDefaultClass Yoast\WP\SEO\Actions\Importing\Persistent_State_Manager_Trait
+ * @coversDefaultClass Yoast\WP\SEO\Actions\Importing\Import_Cursor_Manager_Trait
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Persistent_State_Manager_Trait_Test extends TestCase {
+class Import_Cursor_Manager_Trait_Test extends TestCase {
 
-	use Persistent_State_Manager_Trait;
+	use Import_Cursor_Manager_Trait;
 
 	const CURSOR_ID = 'MY_CURSOR_IS_COOL';
 
