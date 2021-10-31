@@ -162,7 +162,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
-		$steps  = min( 50, $max_entries );
+		$steps  = min( 100, $max_entries );
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
 
 		// By only checking object-sub-type, we automatically include post type archives if they're indexable.
