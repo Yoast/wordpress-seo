@@ -14,20 +14,6 @@ use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 	/**
-	 * Holds image parser instance.
-	 *
-	 * @var WPSEO_Sitemap_Image_Parser
-	 */
-	protected static $image_parser;
-
-	/**
-	 * Holds the parsed home url.
-	 *
-	 * @var array
-	 */
-	protected static $parsed_home_url;
-
-	/**
 	 * Determines whether images should be included in the XML sitemap.
 	 *
 	 * @var bool
@@ -37,21 +23,21 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * The indexable repository.
 	 *
-	 * @var $repository Indexable_Repository
+	 * @var Indexable_Repository
 	 */
 	private $repository;
 
 	/**
-	 * @var $links SEO_Links_Repository
+	 * @var SEO_Links_Repository
 	 */
-	private $links;
+	private $links_repository;
 
 	/**
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
-		$this->repository = YoastSEO()->classes->get( 'Yoast\WP\SEO\Repositories\Indexable_Repository' );
-		$this->links      = YoastSEO()->classes->get( 'Yoast\WP\SEO\Repositories\SEO_Links_Repository' );
+		$this->repository       = YoastSEO()->classes->get( 'Yoast\WP\SEO\Repositories\Indexable_Repository' );
+		$this->links_repository = YoastSEO()->classes->get( 'Yoast\WP\SEO\Repositories\SEO_Links_Repository' );
 
 		add_filter( 'save_post', [ $this, 'save_post' ] );
 
@@ -61,32 +47,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 * @param bool $include True to include, false to exclude.
 		 */
 		$this->include_images = apply_filters( 'wpseo_xml_sitemap_include_images', true );
-	}
-
-	/**
-	 * Get the Image Parser.
-	 *
-	 * @return WPSEO_Sitemap_Image_Parser
-	 */
-	protected function get_image_parser() {
-		if ( ! isset( self::$image_parser ) ) {
-			self::$image_parser = new WPSEO_Sitemap_Image_Parser();
-		}
-
-		return self::$image_parser;
-	}
-
-	/**
-	 * Gets the parsed home url.
-	 *
-	 * @return array The home url, as parsed by wp_parse_url.
-	 */
-	protected function get_parsed_home_url() {
-		if ( ! isset( self::$parsed_home_url ) ) {
-			self::$parsed_home_url = wp_parse_url( home_url() );
-		}
-
-		return self::$parsed_home_url;
 	}
 
 	/**
@@ -238,27 +198,30 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		foreach ( $indexables as $indexable ) {
 			$indexable_ids[] = $indexable->id;
 		}
-		$images = $this->links->query()
-							  ->select_many( 'indexable_id', 'url' )
-							  ->where( 'type', 'image-in' )
-							  ->where_in( 'indexable_id', $indexable_ids )
-							  ->find_many();
 
 		$images_by_id = [];
-		foreach ( $images as $image ) {
-			if ( ! is_array( $images_by_id[ $image->indexable_id ] ) ) {
-				$images_by_id[ $image->indexable_id ] = [];
+
+		if ( $this->include_images ) {
+			$images = $this->links_repository->query()
+											 ->select_many( 'indexable_id', 'url' )
+											 ->where( 'type', 'image-in' )
+											 ->where_in( 'indexable_id', $indexable_ids )
+											 ->find_many();
+			foreach ( $images as $image ) {
+				if ( ! is_array( $images_by_id[ $image->indexable_id ] ) ) {
+					$images_by_id[ $image->indexable_id ] = [];
+				}
+				$images_by_id[ $image->indexable_id ][] = [
+					'src' => $image->url
+				];
 			}
-			$images_by_id[ $image->indexable_id ][] = [
-				'src' => $image->url
-			];
 		}
 
 		foreach ( $indexables as $indexable ) {
 			$links[] = [
 				'loc'    => $indexable->permalink,
 				'mod'    => $indexable->object_last_modified,
-				'images' => $images_by_id[ $indexable->id ]
+				'images' => isset( $images_by_id[ $indexable->id ] ) ? $images_by_id[ $indexable->id ] : [],
 			];
 		}
 
@@ -325,27 +288,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$excluded_posts_ids = array_map( 'intval', $excluded_posts_ids );
 
 		return array_unique( $excluded_posts_ids );
-	}
-
-	/**
-	 * Produces set of links to prepend at start of first sitemap page.
-	 *
-	 * @param string $post_type Post type to produce links for.
-	 *
-	 * @return array
-	 */
-	protected function get_first_links( $post_type ) {
-		$links = [];
-
-		if ( $post_type === 'page' ) {
-			$front_page = [
-				'loc' => YoastSEO()->meta->for_home_page()->canonical,
-				'mod' => YoastSEO()->meta->for_home_page()->open_graph_article_modified_time,
-			];
-			$links[]    = $front_page;
-		}
-
-		return $links;
 	}
 
 }
