@@ -124,6 +124,8 @@ class WPSEO_Sitemaps_Renderer {
 
 		$xml .= '</urlset>';
 
+		global $wpdb;
+		$xml .= '<!-- ' . $wpdb->num_queries . ' queries, ' . number_format( memory_get_peak_usage() / 1024 / 1024, 2 ) . 'MB -->';
 		return $xml;
 	}
 

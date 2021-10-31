@@ -5,7 +5,8 @@
  * @package WPSEO\XML_Sitemaps
  */
 
-use Yoast\WP\SEO\Models\SEO_Links;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 
 /**
  * Sitemap provider for author archives.
@@ -34,9 +35,24 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	private $include_images;
 
 	/**
+	 * The indexable repository.
+	 *
+	 * @var $repository Indexable_Repository
+	 */
+	private $repository;
+
+	/**
+	 * @var $links SEO_Links_Repository
+	 */
+	private $links;
+
+	/**
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
+		$this->repository = YoastSEO()->classes->get( 'Yoast\WP\SEO\Repositories\Indexable_Repository' );
+		$this->links      = YoastSEO()->classes->get( 'Yoast\WP\SEO\Repositories\SEO_Links_Repository' );
+
 		add_filter( 'save_post', [ $this, 'save_post' ] );
 
 		/**
@@ -127,7 +143,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				$all_dates = $wpdb->get_col( $wpdb->prepare( $sql, $post_type, $max_entries ) );
 			}
 
-			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter++ ) {
+			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter ++ ) {
 
 				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
 				$date         = false;
@@ -137,8 +153,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 					if ( ! empty( $last_modified_times[ $post_type ] ) ) {
 						$date = $last_modified_times[ $post_type ];
 					}
-				}
-				else {
+				} else {
 					$date = $all_dates[ $page_counter ];
 				}
 
@@ -153,9 +168,28 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
+	 * Retrieves a count of URLs for a post type.
+	 *
+	 * @param string $post_type The post type to get a count for.
+	 *
+	 * @return int
+	 */
+	public function get_post_type_count( $post_type ) {
+		$result = $this->repository
+			->query()
+			->select_expr( 'COUNT("id") AS count' )
+			->where( 'object_sub_type', $post_type ) // by only checking object-sub-type, we automatically include post type archives if they're indexable.
+			->where_raw( '( post_status = "publish" OR post_status IS NULL )' )
+			->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
+			->find_one();
+
+		return (int) $result->count;
+	}
+
+	/**
 	 * Get set of sitemap link data.
 	 *
-	 * @param string $type         Sitemap type.
+	 * @param string $post_type    Sitemap type.
 	 * @param int    $max_entries  Entries per sitemap.
 	 * @param int    $current_page Current page of the sitemap.
 	 *
@@ -163,81 +197,69 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 *
 	 * @throws OutOfBoundsException When an invalid page is requested.
 	 */
-	public function get_sitemap_links( $type, $max_entries, $current_page ) {
-
-		$links     = [];
-		$post_type = $type;
-
+	public function get_sitemap_links( $post_type, $max_entries, $current_page ) {
 		if ( ! $this->is_valid_post_type( $post_type ) ) {
 			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
-		$steps  = min( 100, $max_entries );
+		$steps  = min( 50, $max_entries );
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
-		$total  = ( $offset + $max_entries );
 
-		$post_type_entries = $this->get_post_type_count( $post_type );
+		// By only checking object-sub-type, we automatically include post type archives if they're indexable.
+		// By ordering on object-type, we'll get the archive first.
+		$query = $this->repository
+			->query()
+			->select_many( 'id', 'permalink', 'object_last_modified' )
+			->where_raw( '( post_status = "publish" OR post_status IS NULL )' )
+			->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
+			->order_by_desc( 'object_last_modified' )
+			->offset( $offset )
+			->limit( $steps );
 
-		if ( $total > $post_type_entries ) {
-			$total = $post_type_entries;
+		if ( $post_type === 'page' ) {
+			$query->where_raw( '( object_sub_type = "page" OR object_sub_type IS NULL )' )
+				  ->where_in( 'object_type', [ 'home-page', 'post' ] );
+		} else {
+			$query->where( 'object_sub_type', $post_type );
+		}
+		$posts_to_exclude = $this->get_excluded_posts( $post_type );
+		if ( count( $posts_to_exclude ) > 0 ) {
+			$query->where_not_in( 'object_id', $posts_to_exclude );
 		}
 
-		if ( $current_page === 1 ) {
-			$links = array_merge( $links, $this->get_first_links( $post_type ) );
-		}
+		$indexables = $query->find_many();
 
 		// If total post type count is lower than the offset, an invalid page is requested.
-		if ( $post_type_entries < $offset ) {
+		if ( count( $indexables ) === 0 ) {
 			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
-		if ( $post_type_entries === 0 ) {
-			return $links;
+		$indexable_ids = [];
+		foreach ( $indexables as $indexable ) {
+			$indexable_ids[] = $indexable->id;
+		}
+		$images = $this->links->query()
+							  ->select_many( 'indexable_id', 'url' )
+							  ->where( 'type', 'image-in' )
+							  ->where_in( 'indexable_id', $indexable_ids )
+							  ->find_many();
+
+		$images_by_id = [];
+		foreach ( $images as $image ) {
+			if ( ! is_array( $images_by_id[ $image->indexable_id ] ) ) {
+				$images_by_id[ $image->indexable_id ] = [];
+			}
+			$images_by_id[ $image->indexable_id ][] = [
+				'src' => $image->url
+			];
 		}
 
-		$posts_to_exclude = $this->get_excluded_posts( $type );
-
-		while ( $total > $offset ) {
-
-			$posts = $this->get_posts( $post_type, $steps, $offset );
-
-			$offset += $steps;
-
-			if ( empty( $posts ) ) {
-				continue;
-			}
-
-			foreach ( $posts as $post ) {
-
-				if ( in_array( $post->ID, $posts_to_exclude, true ) ) {
-					continue;
-				}
-
-				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
-					continue;
-				}
-
-				$url = $this->get_url( $post );
-
-				if ( ! isset( $url['loc'] ) ) {
-					continue;
-				}
-
-				/**
-				 * Filter URL entry before it gets added to the sitemap.
-				 *
-				 * @param array  $url  Array of URL parts.
-				 * @param string $type URL type.
-				 * @param object $post Data object for the URL.
-				 */
-				$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $post );
-
-				if ( ! empty( $url ) ) {
-					$links[] = $url;
-				}
-			}
-
-			unset( $post, $url );
+		foreach ( $indexables as $indexable ) {
+			$links[] = [
+				'loc'    => $indexable->permalink,
+				'mod'    => $indexable->object_last_modified,
+				'images' => $images_by_id[ $indexable->id ]
+			];
 		}
 
 		return $links;
@@ -290,11 +312,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	protected function get_excluded_posts( $post_type ) {
 		$excluded_posts_ids = [];
 
-		$page_on_front_id = ( $post_type === 'page' ) ? (int) get_option( 'page_on_front' ) : 0;
-		if ( $page_on_front_id > 0 ) {
-			$excluded_posts_ids[] = $page_on_front_id;
-		}
-
 		/**
 		 * Filter: 'wpseo_exclude_from_sitemap_by_post_ids' - Allow extending and modifying the posts to exclude.
 		 *
@@ -307,52 +324,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$excluded_posts_ids = array_map( 'intval', $excluded_posts_ids );
 
-		$page_for_posts_id = ( $post_type === 'page' ) ? (int) get_option( 'page_for_posts' ) : 0;
-		if ( $page_for_posts_id > 0 ) {
-			$excluded_posts_ids[] = $page_for_posts_id;
-		}
-
 		return array_unique( $excluded_posts_ids );
-	}
-
-	/**
-	 * Get count of posts for post type.
-	 *
-	 * @param string $post_type Post type to retrieve count for.
-	 *
-	 * @return int
-	 */
-	protected function get_post_type_count( $post_type ) {
-
-		global $wpdb;
-
-		/**
-		 * Filter JOIN query part for type count of post type.
-		 *
-		 * @param string $join      SQL part, defaults to empty string.
-		 * @param string $post_type Post type name.
-		 */
-		$join_filter = apply_filters( 'wpseo_typecount_join', '', $post_type );
-
-		/**
-		 * Filter WHERE query part for type count of post type.
-		 *
-		 * @param string $where     SQL part, defaults to empty string.
-		 * @param string $post_type Post type name.
-		 */
-		$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
-
-		$where = $this->get_sql_where_clause( $post_type );
-
-		$sql = "
-			SELECT COUNT({$wpdb->posts}.ID)
-			FROM {$wpdb->posts}
-			{$join_filter}
-			{$where}
-				{$where_filter}
-		";
-
-		return (int) $wpdb->get_var( $sql );
 	}
 
 	/**
@@ -363,295 +335,17 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return array
 	 */
 	protected function get_first_links( $post_type ) {
-
-		$links       = [];
-		$archive_url = false;
+		$links = [];
 
 		if ( $post_type === 'page' ) {
-
-			$page_on_front_id = (int) get_option( 'page_on_front' );
-			if ( $page_on_front_id > 0 ) {
-				$front_page = $this->get_url(
-					get_post( $page_on_front_id )
-				);
-			}
-
-			if ( empty( $front_page ) ) {
-				$front_page = [
-					'loc' => YoastSEO()->helpers->url->home(),
-				];
-			}
-
-			// Deprecated, kept for backwards data compat. R.
-			$front_page['chf'] = 'daily';
-			$front_page['pri'] = 1;
-
-			$links[] = $front_page;
-		}
-		elseif ( $post_type !== 'page' ) {
-			/**
-			 * Filter the URL Yoast SEO uses in the XML sitemap for this post type archive.
-			 *
-			 * @param string $archive_url The URL of this archive
-			 * @param string $post_type   The post type this archive is for.
-			 */
-			$archive_url = apply_filters(
-				'wpseo_sitemap_post_type_archive_link',
-				$this->get_post_type_archive_link( $post_type ),
-				$post_type
-			);
-		}
-
-		if ( $archive_url ) {
-
-			$links[] = [
-				'loc' => $archive_url,
-				'mod' => WPSEO_Sitemaps::get_last_modified_gmt( $post_type ),
-
-				// Deprecated, kept for backwards data compat. R.
-				'chf' => 'daily',
-				'pri' => 1,
+			$front_page = [
+				'loc' => YoastSEO()->meta->for_home_page()->canonical,
+				'mod' => YoastSEO()->meta->for_home_page()->open_graph_article_modified_time,
 			];
+			$links[]    = $front_page;
 		}
 
 		return $links;
 	}
 
-	/**
-	 * Get URL for a post type archive.
-	 *
-	 * @since 5.3
-	 *
-	 * @param string $post_type Post type.
-	 *
-	 * @return string|bool URL or false if it should be excluded.
-	 */
-	protected function get_post_type_archive_link( $post_type ) {
-
-		$pt_archive_page_id = -1;
-
-		if ( $post_type === 'post' ) {
-
-			if ( get_option( 'show_on_front' ) === 'posts' ) {
-				return YoastSEO()->helpers->url->home();
-			}
-
-			$pt_archive_page_id = (int) get_option( 'page_for_posts' );
-
-			// Post archive should be excluded if posts page isn't set.
-			if ( $pt_archive_page_id <= 0 ) {
-				return false;
-			}
-		}
-
-		if ( ! $this->is_post_type_archive_indexable( $post_type, $pt_archive_page_id ) ) {
-			return false;
-		}
-
-		return get_post_type_archive_link( $post_type );
-	}
-
-	/**
-	 * Determines whether a post type archive is indexable.
-	 *
-	 * @since 11.5
-	 *
-	 * @param string $post_type       Post type.
-	 * @param int    $archive_page_id The page id.
-	 *
-	 * @return bool True when post type archive is indexable.
-	 */
-	protected function is_post_type_archive_indexable( $post_type, $archive_page_id = -1 ) {
-
-		if ( WPSEO_Options::get( 'noindex-ptarchive-' . $post_type, false ) ) {
-			return false;
-		}
-
-		/**
-		 * Filter the page which is dedicated to this post type archive.
-		 *
-		 * @since 9.3
-		 *
-		 * @param string $archive_page_id The post_id of the page.
-		 * @param string $post_type       The post type this archive is for.
-		 */
-		$archive_page_id = (int) apply_filters( 'wpseo_sitemap_page_for_post_type_archive', $archive_page_id, $post_type );
-
-		if ( $archive_page_id > 0 && WPSEO_Meta::get_value( 'meta-robots-noindex', $archive_page_id ) === '1' ) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Retrieve set of posts with optimized query routine.
-	 *
-	 * @param string $post_type Post type to retrieve.
-	 * @param int    $count     Count of posts to retrieve.
-	 * @param int    $offset    Starting offset.
-	 *
-	 * @return object[]
-	 */
-	protected function get_posts( $post_type, $count, $offset ) {
-
-		global $wpdb;
-
-		static $filters = [];
-
-		if ( ! isset( $filters[ $post_type ] ) ) {
-			// Make sure you're wpdb->preparing everything you throw into this!!
-			$filters[ $post_type ] = [
-				/**
-				 * Filter JOIN query part for the post type.
-				 *
-				 * @param string $join      SQL part, defaults to false.
-				 * @param string $post_type Post type name.
-				 */
-				'join'  => apply_filters( 'wpseo_posts_join', false, $post_type ),
-
-				/**
-				 * Filter WHERE query part for the post type.
-				 *
-				 * @param string $where     SQL part, defaults to false.
-				 * @param string $post_type Post type name.
-				 */
-				'where' => apply_filters( 'wpseo_posts_where', false, $post_type ),
-			];
-		}
-
-		$join_filter  = $filters[ $post_type ]['join'];
-		$where_filter = $filters[ $post_type ]['where'];
-		$where        = $this->get_sql_where_clause( $post_type );
-
-		/*
-		 * Optimized query per this thread:
-		 * {@link http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion}.
-		 * Also see {@link http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/}.
-		 */
-		$sql = "
-			SELECT l.ID, post_title, post_content, post_name, post_parent, post_author, post_status, post_modified_gmt, post_date, post_date_gmt
-			FROM (
-				SELECT {$wpdb->posts}.ID
-				FROM {$wpdb->posts}
-				{$join_filter}
-				{$where}
-					{$where_filter}
-				ORDER BY {$wpdb->posts}.post_modified ASC LIMIT %d OFFSET %d
-			)
-			o JOIN {$wpdb->posts} l ON l.ID = o.ID
-		";
-
-		$posts = $wpdb->get_results( $wpdb->prepare( $sql, $count, $offset ) );
-
-		$post_ids = [];
-
-		foreach ( $posts as $post_index => $post ) {
-			$post->post_type      = $post_type;
-			$sanitized_post       = sanitize_post( $post, 'raw' );
-			$posts[ $post_index ] = new WP_Post( $sanitized_post );
-
-			$post_ids[] = $sanitized_post->ID;
-		}
-
-		update_meta_cache( 'post', $post_ids );
-
-		return $posts;
-	}
-
-	/**
-	 * Constructs an SQL where clause for a given post type.
-	 *
-	 * @param string $post_type Post type slug.
-	 *
-	 * @return string
-	 */
-	protected function get_sql_where_clause( $post_type ) {
-
-		global $wpdb;
-
-		$join          = '';
-		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
-		$status_where  = "{$wpdb->posts}.post_status IN ('" . implode( "','", $post_statuses ) . "')";
-
-		// Based on WP_Query->get_posts(). R.
-		if ( $post_type === 'attachment' ) {
-			$join            = " LEFT JOIN {$wpdb->posts} AS p2 ON ({$wpdb->posts}.post_parent = p2.ID) ";
-			$parent_statuses = array_diff( $post_statuses, [ 'inherit' ] );
-			$status_where    = "p2.post_status IN ('" . implode( "','", $parent_statuses ) . "') AND p2.post_password = ''";
-		}
-
-		$where_clause = "
-			{$join}
-			WHERE {$status_where}
-				AND {$wpdb->posts}.post_type = %s
-				AND {$wpdb->posts}.post_password = ''
-				AND {$wpdb->posts}.post_date != '0000-00-00 00:00:00'
-		";
-
-		return $wpdb->prepare( $where_clause, $post_type );
-	}
-
-	/**
-	 * Produce array of URL parts for given post object.
-	 *
-	 * @param object $post Post object to get URL parts for.
-	 *
-	 * @return array|bool
-	 */
-	protected function get_url( $post ) {
-
-		$url = [];
-
-		/**
-		 * Filter the URL Yoast SEO uses in the XML sitemap.
-		 *
-		 * Note that only absolute local URLs are allowed as the check after this removes external URLs.
-		 *
-		 * @param string $url  URL to use in the XML sitemap
-		 * @param object $post Post object for the URL.
-		 */
-		$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', get_permalink( $post ), $post );
-		$link_type  = YoastSEO()->helpers->url->get_link_type(
-			wp_parse_url( $url['loc'] ),
-			$this->get_parsed_home_url()
-		);
-
-		/*
-		 * Do not include external URLs.
-		 *
-		 * {@link https://wordpress.org/plugins/page-links-to/} can rewrite permalinks to external URLs.
-		 */
-		if ( $link_type === SEO_Links::TYPE_EXTERNAL ) {
-			return false;
-		}
-
-		$modified = max( $post->post_modified_gmt, $post->post_date_gmt );
-
-		if ( $modified !== '0000-00-00 00:00:00' ) {
-			$url['mod'] = $modified;
-		}
-
-		$url['chf'] = 'daily'; // Deprecated, kept for backwards data compat. R.
-
-		$canonical = WPSEO_Meta::get_value( 'canonical', $post->ID );
-
-		if ( $canonical !== '' && $canonical !== $url['loc'] ) {
-			/*
-			 * Let's assume that if a canonical is set for this page and it's different from
-			 * the URL of this post, that page is either already in the XML sitemap OR is on
-			 * an external site, either way, we shouldn't include it here.
-			 */
-			return false;
-		}
-		unset( $canonical );
-
-		$url['pri'] = 1; // Deprecated, kept for backwards data compat. R.
-
-		if ( $this->include_images ) {
-			$url['images'] = $this->get_image_parser()->get_images( $post );
-		}
-
-		return $url;
-	}
 }
