@@ -45,7 +45,7 @@ $time_end	= gmmktime( 11, 00, 00, 11, 30, 2021 );
 				<span class="yoast-badge yoast-badge--sale">
 					<?php esc_html_e( '30% off!', 'wordpress-seo' ); ?>
 				</span>
-			<?php endif ?>
+			<?php endif; ?>
 			<a id="wpseo-premium-button" class="yoast-button-upsell"
 				href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jj' ); ?>" target="_blank">
 				<?php
