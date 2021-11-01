@@ -46,6 +46,7 @@ include __DIR__ . '/renamed-classes.php';
 
 $yoast_seo_excluded_files = [
 	'main.php',
+	'config/wincher-pkce-provider.php',
 ];
 
 $yoast_seo_excluded_directories = [
