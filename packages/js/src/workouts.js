@@ -7,8 +7,8 @@ import * as actions from "./workouts/redux/actions";
 import * as selectors from "./workouts/redux/selectors";
 import workoutsReducer from "./workouts/redux/reducer";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
+import { setWordPressSeoL10n } from "./helpers/i18n";
 
-const { setWordPressSeoL10n } = window.yoast.editorModules.helpers.i18n;
 setWordPressSeoL10n();
 
 const store = createReduxStore( "yoast-seo/workouts", {

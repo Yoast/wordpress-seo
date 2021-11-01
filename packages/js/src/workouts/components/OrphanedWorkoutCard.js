@@ -1,10 +1,11 @@
 // External dependencies.
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import { useSelect } from "@wordpress/data";
 // Internal dependencies.
 import WorkoutCard from "./WorkoutCard";
 import WorkoutUpsell from "./WorkoutUpsell";
-import { FINISHABLE_STEPS } from "../config";
+import { FINISHABLE_STEPS, WORKOUTS } from "../config";
 
 /**
  * Creates a WorkoutUpsell component.
@@ -32,11 +33,12 @@ const upsell = ( props ) => {
  * @returns {WPElement} The CornerstoneWorkoutCard component.
  */
 export default function OrphanedWorkoutCard( {
-	finishedSteps,
 	workout,
 	badges,
 } ) {
+	const finishedSteps = useSelect( "yoast-seo/workouts" ).getFinishedSteps( WORKOUTS.orphaned );
 	return <WorkoutCard
+		name={ WORKOUTS.orphaned }
 		title={ __( "Orphaned content", "wordpress-seo" ) }
 		subtitle={ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo" ) }
 		usps={ [
@@ -56,13 +58,11 @@ export default function OrphanedWorkoutCard( {
 }
 
 OrphanedWorkoutCard.propTypes = {
-	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
 	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
 };
 
 OrphanedWorkoutCard.defaultProps = {
-	finishedSteps: null,
 	workout: null,
 	badges: [],
 };

@@ -6,6 +6,7 @@ import { useDispatch, useSelect } from "@wordpress/data";
 // Internal dependencies.
 import { Button, ProgressBar } from "@yoast/components";
 
+/* eslint-disable complexity */
 /**
  * The WorkoutCard component
  *
@@ -14,6 +15,7 @@ import { Button, ProgressBar } from "@yoast/components";
  * @returns {WPElement} The WorkoutCard component
  */
 export default function WorkoutCard( {
+	name,
 	title,
 	subtitle,
 	usps,
@@ -41,6 +43,8 @@ export default function WorkoutCard( {
 	useEffect( () => {
 		if ( finishableSteps && finishedSteps && finishedSteps.length === finishableSteps.length ) {
 			setToggle( true );
+		} else {
+			setToggle( false );
 		}
 	}, [ finishedSteps, finishableSteps ] );
 
@@ -58,9 +62,9 @@ export default function WorkoutCard( {
 	const onClick = useCallback(
 		() => {
 			if ( workout ) {
-				openWorkout( workout.name );
+				openWorkout( name );
 				if ( isToggle ) {
-					toggleWorkout( workout.name );
+					toggleWorkout( name );
 				}
 			} else {
 				openUpsell();
@@ -105,11 +109,12 @@ export default function WorkoutCard( {
 			</span>
 			{ upsell && isUpsellOpen && <UpsellComponent onRequestClose={ closeUpsell } /> }
 		</div> }
-		{ workout && activeWorkout === workout.name && <WorkoutComponent onRequestClose={ closeUpsell } /> }
+		{ workout && activeWorkout === name && <WorkoutComponent /> }
 	</>	);
 }
 
 WorkoutCard.propTypes = {
+	name: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	subtitle: PropTypes.string.isRequired,
 	usps: PropTypes.arrayOf( PropTypes.string ).isRequired,
@@ -129,3 +134,4 @@ WorkoutCard.defaultProps = {
 	finishableSteps: null,
 	finishedSteps: null,
 };
+/* eslint-enable complexity */
