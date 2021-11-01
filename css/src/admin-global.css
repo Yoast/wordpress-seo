@@ -599,12 +599,14 @@ body.folded .wpseo-admin-submit-fixed {
 }
 
 .yoast-badge--sale {
-  float: right;
-  margin-top: -16px;
-  margin-bottom: 10px;
-  transform: rotate( 20deg );
-  background-color: #a4286a;
-  color: white;
+	float: right;
+	margin-top: -16px;
+	margin-bottom: 10px;
+	transform: rotate(14deg);
+	background-color: #a4286a;
+	color: white;
+	font-size: 12px;
+	border-radius: 999px;
 }
 
 .yoast-badge__is-link:hover,
