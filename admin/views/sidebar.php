@@ -42,9 +42,7 @@ $time_end	= gmmktime( 11, 00, 00, 11, 30, 2021 );
 				<li><strong><?php esc_html_e( 'No ads!', 'wordpress-seo' ); ?></strong></li>
 			</ul>
 			<?php if ( ( $time > $time_start ) && ( $time < $time_end ) ) : ?>
-				<span class="yoast-badge yoast-badge--sale">
-					<?php esc_html_e( '30% off!', 'wordpress-seo' ); ?>
-				</span>
+				<span class="yoast-badge yoast-badge--sale"><?php esc_html_e( '30% off!', 'wordpress-seo' ); ?></span>
 			<?php endif; ?>
 			<a id="wpseo-premium-button" class="yoast-button-upsell"
 				href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jj' ); ?>" target="_blank">
