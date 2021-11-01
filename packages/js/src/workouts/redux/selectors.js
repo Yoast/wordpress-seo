@@ -16,6 +16,7 @@ export const getWorkouts = ( state ) => {
  * Gets the finished steps for a workout from the state.
  *
  * @param {Object} state The state.
+ * @param {string} workout The name of the workout.
  *
  * @returns {Array} the finished steps for a workout.
  */

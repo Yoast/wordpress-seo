@@ -6,6 +6,7 @@ import { useDispatch, useSelect } from "@wordpress/data";
 // Internal dependencies.
 import { Button, ProgressBar } from "@yoast/components";
 
+/* eslint-disable complexity */
 /**
  * The WorkoutCard component
  *
@@ -131,3 +132,4 @@ WorkoutCard.defaultProps = {
 	finishableSteps: null,
 	finishedSteps: null,
 };
+/* eslint-enable complexity */
