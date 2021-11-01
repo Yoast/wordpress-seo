@@ -10,25 +10,24 @@
   "author": "Team Yoast",
   "license": "GPL-3.0",
   "scripts": {
-    "build": "babel src --out-dir build",
-    "watch": "babel src --watch --out-dir build"
+    "build": "tsc",
+    "watch": "tsc --watch"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@babel/cli": "^7.15.7",
-    "@babel/core": "^7.15.8",
-    "@babel/eslint-parser": "^7.15.8",
-    "@babel/eslint-plugin": "^7.14.5",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
     "@wordpress/babel-preset-default": "^6.3.4",
     "eslint": "^8.1.0",
-    "eslint-config-yoast": "^5.0.17"
+    "eslint-config-yoast": "^5.0.17",
+    "typescript": "^4.4.4"
   },
   "peerDependencies": {
-    "react": "^17.0.1",
     "@wordpress/data": "^6.1.2",
-    "@wordpress/element": "^4.0.3"
+    "@wordpress/element": "^4.0.3",
+    "react": "^17.0.1"
   }
 }

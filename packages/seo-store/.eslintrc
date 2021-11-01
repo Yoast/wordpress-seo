@@ -1,19 +1,17 @@
 {
+  "root": true,
   "extends": [
-    "yoast"
+    "yoast",
+    "plugin:@typescript-eslint/recommended"
   ],
-  "parser": "@babel/eslint-parser",
-  "parserOptions": {
-    "ecmaVersion": 2019,
-    "sourceType": "module"
-  },
-  "plugins": [
-    "@babel"
-  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [ "@typescript-eslint" ],
   "env": {
     "jest": true
   },
   "rules": {
+    "require-jsdoc": "off",
+    "valid-jsdoc": "off",
     // We use 'wp.element.createElement' instead of the 'react' package directly.
     "react/react-in-jsx-scope": "off",
     "no-restricted-imports": [
@@ -25,6 +23,10 @@
       {
         "name": "react-dom",
         "message": "Please use @wordpress/element instead."
+      },
+      {
+        "name": "react-redux",
+        "message": "Please use @wordpress/data instead."
       }
     ],
     "max-len": [

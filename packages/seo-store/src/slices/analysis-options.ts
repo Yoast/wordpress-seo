@@ -3,7 +3,12 @@ import { createSimpleSelectors } from "../helpers";
 
 export const CONFIG_SLICE_NAME = "config";
 
-const initialState = {
+const initialState: {
+	analysisType: string;
+	isSeoActive: boolean;
+	isReadabilityActive: boolean;
+	researches: string[];
+} = {
 	analysisType: "post",
 	isSeoActive: true,
 	isReadabilityActive: true,

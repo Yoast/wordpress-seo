@@ -1,19 +1,18 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { createSimpleReducers, createSimpleSelectors } from "../helpers";
 
-export const DATA_SLICE_NAME = "data";
+export const DATA_SLICE_NAME = "formSeo";
 
-const initialState = {
-	seoTitle: "",
-	metaDescription: "",
-	date: "",
-	permalink: "",
-	slug: "",
-	content: "",
-	// Editor data we could use, for example in replacevars or for fallbacks.
+export type FormSeoState = {
+	title: string;
+	description: string;
+	slug: string;
+};
+
+const initialState: FormSeoState = {
 	title: "",
-	excerpt: "",
-	featuredImage: {},
+	description: "",
+	slug: "",
 };
 
 const data = createSlice( {
