@@ -9,8 +9,8 @@ $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 
 $time       = time();
-$time_start	= gmmktime( 11, 00, 00, 11, 25, 2021 );
-$time_end	= gmmktime( 11, 00, 00, 11, 30, 2021 );
+$time_start = gmmktime( 11, 00, 00, 11, 25, 2021 );
+$time_end   = gmmktime( 11, 00, 00, 11, 30, 2021 );
 ?>
 <div class="wpseo_content_cell" id="sidebar-container">
 	<div id="sidebar" class="yoast-sidebar">
