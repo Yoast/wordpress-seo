@@ -43,6 +43,8 @@ export default function WorkoutCard( {
 	useEffect( () => {
 		if ( finishableSteps && finishedSteps && finishedSteps.length === finishableSteps.length ) {
 			setToggle( true );
+		} else {
+			setToggle( false );
 		}
 	}, [ finishedSteps, finishableSteps ] );
 
