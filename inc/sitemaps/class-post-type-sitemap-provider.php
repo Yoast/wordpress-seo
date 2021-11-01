@@ -5,6 +5,7 @@
  * @package WPSEO\XML_Sitemaps
  */
 
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 
@@ -88,17 +89,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$all_dates = [];
 
 			if ( $max_pages > 1 ) {
-				$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
-
-				$sql = "
-				SELECT post_modified_gmt
+				$sql = "SELECT object_last_modified
 				    FROM ( SELECT @rownum:=0 ) init
-				    JOIN {$wpdb->posts} USE INDEX( type_status_date )
-				    WHERE post_status IN ('" . implode( "','", $post_statuses ) . "')
-				      AND post_type = %s
+				    JOIN " . Model::get_table_name( 'Indexable' ) . "
+				    WHERE ( post_status = 'publish' OR post_status IS NULL )
+				      AND object_sub_type = %s
 				      AND ( @rownum:=@rownum+1 ) %% %d = 0
-				    ORDER BY post_modified_gmt ASC
-				";
+				    ORDER BY object_last_modified ASC";
 
 				$all_dates = $wpdb->get_col( $wpdb->prepare( $sql, $post_type, $max_entries ) );
 			}
