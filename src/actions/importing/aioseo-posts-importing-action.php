@@ -80,6 +80,10 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		$just_detect          = true;
 		$indexables_to_create = $this->wpdb->get_col( $this->query( $limit, $just_detect ) );
 
+		$number_of_indexables_to_create = \count( $indexables_to_create );
+		$completed                      = $number_of_indexables_to_create === 0;
+		$this->set_if_completed( $completed );
+
 		return \count( $indexables_to_create );
 	}
 
