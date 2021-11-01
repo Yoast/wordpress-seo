@@ -64,7 +64,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
 		$number_of_indexables_to_create = \count( $indexables_to_create );
 		$completed                      = $number_of_indexables_to_create === 0;
-		$this->set_if_completed( $completed );
+		$this->set_completed( $completed );
 
 		return $number_of_indexables_to_create;
 	}
@@ -86,7 +86,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
 		$number_of_indexables_to_create = \count( $indexables_to_create );
 		$completed                      = $number_of_indexables_to_create === 0;
-		$this->set_if_completed( $completed );
+		$this->set_completed( $completed );
 
 		return $number_of_indexables_to_create;
 	}
@@ -105,7 +105,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		$aioseo_indexables = $this->wpdb->get_results( $this->query( $limit ), ARRAY_A );
 
 		$completed = \count( $aioseo_indexables ) === 0;
-		$this->set_if_completed( $completed );
+		$this->set_completed( $completed );
 
 		$last_indexed_aioseo_id = 0;
 		foreach ( $aioseo_indexables as $aioseo_indexable ) {

@@ -147,7 +147,7 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 *
 	 * @return int The stored state of completedness.
 	 */
-	public function get_if_completed() {
+	public function get_completed() {
 		$completed_id          = $this->get_completed_id();
 		$importers_completions = $this->options->get( 'importing_completed', [] );
 
@@ -161,7 +161,7 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 *
 	 * @return void.
 	 */
-	public function set_if_completed( $completed ) {
+	public function set_completed( $completed ) {
 		$completed_id                  = $this->get_completed_id();
 		$current_importers_completions = $this->options->get( 'importing_completed', [] );
 
