@@ -19,6 +19,8 @@ abstract class OAuth_Client {
 
 	/**
 	 * The option's key.
+	 *
+	 * @var string
 	 */
 	protected $token_option = null;
 

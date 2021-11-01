@@ -16,6 +16,7 @@ use YoastSEO_Vendor\Psr\Log\InvalidArgumentException;
  * Class Wincher_PKCE_Provider
  *
  * @codeCoverageIgnore Ignoring as this class is purely a temporary wrapper until https://github.com/thephpleague/oauth2-client/pull/901 is merged.
+ * @codingStandardsIgnoreStart
  */
 class Wincher_PKCE_Provider extends GenericProvider {
 	use BearerAuthorizationTrait;
@@ -93,11 +94,12 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	/**
 	 * Returns authorization parameters based on provided options.
 	 *
-	 * @param  array $options The options to use in the authorization parameters.
+	 * @param  array  $options  The options to use in the authorization parameters.
 	 *
 	 * @return array The authorization parameters
 	 *
-	 * @throws InvalidArgumentException|\Exception Throws exception if an invalid PCKE method is passed in the options.
+	 * @throws InvalidArgumentException Throws exception if an invalid PCKE method is passed in the options.
+	 * @throws \Exception When something goes wrong with generating the PKCE code.
 	 */
 	protected function getAuthorizationParameters( array $options ) {
 		if ( empty( $options['state'] ) ) {

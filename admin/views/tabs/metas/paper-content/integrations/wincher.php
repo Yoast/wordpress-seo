@@ -26,7 +26,7 @@ $wincher_is_logged_in = YoastSEO()->helpers->wincher->login_status();
 		if ( ! $wincher_is_active ) {
 			printf(
 				/* translators: %s: Expands to "Wincher". */
-				__( 'Please save your changes before configuring the %s integration.', 'wordpress-seo' ),
+				esc_html__( 'Please save your changes before configuring the %s integration.', 'wordpress-seo' ),
 				'Wincher'
 			);
 		}

@@ -2,10 +2,14 @@
 
 namespace Yoast\WP\SEO\Config;
 
+use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
 use Yoast\WP\SEO\Wrappers\WP_Remote_Handler;
 use YoastSEO_Vendor\GuzzleHttp\Client;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 
 /**
  * Class Wincher_Client
@@ -23,6 +27,8 @@ class Wincher_Client extends OAuth_Client {
 	const PKCE_COOKIE_NAME = 'yoast_wincher_pkce';
 
 	/**
+	 * The WP_Remote_Handler instance.
+	 *
 	 * @var WP_Remote_Handler
 	 */
 	protected $wp_remote_handler;
@@ -33,7 +39,7 @@ class Wincher_Client extends OAuth_Client {
 	 * @param Options_Helper    $options_helper    The Options_Helper instance.
 	 * @param WP_Remote_Handler $wp_remote_handler The request handler.
 	 *
-	 * @throws Empty_Property_Exception
+	 * @throws Empty_Property_Exception Exception thrown if a token property is empty.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
@@ -77,27 +83,46 @@ class Wincher_Client extends OAuth_Client {
 			]
 		);
 
-		$pkceCode = $this->provider->getPkceCode();
+		$pkce_code = $this->provider->getPkceCode();
 
 		// Store a session cookie with the PKCE code that we need in order to
 		// exchange the returned code for a token after authorization.
-		setcookie( self::PKCE_COOKIE_NAME, $pkceCode, 0, '/', '', ! ! $_SERVER['HTTPS'], true );
+		$secure = ! empty( $_SERVER['HTTPS'] );
+		setcookie( self::PKCE_COOKIE_NAME, $pkce_code, 0, '/', '', $secure, true );
 
 		return $url;
 	}
 
 	/**
-	 * @inheritDoc
+	 * Requests the access token and refresh token based on the passed code.
+	 *
+	 * @param string $code The code to send.
+	 *
+	 * @return OAuth_Token The requested tokens.
+	 *
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 */
 	public function request_tokens( $code ) {
-		if ( $pkceCode = $_COOKIE[ self::PKCE_COOKIE_NAME ] ) {
-			$this->provider->setPkceCode( $pkceCode );
+		$pkce_code = ! empty( $_COOKIE[ self::PKCE_COOKIE_NAME ] ) ? \sanitize_text_field( \wp_unslash( $_COOKIE[ self::PKCE_COOKIE_NAME ] ) ) : null;
+		if ( $pkce_code ) {
+			$this->provider->setPkceCode( $pkce_code );
 		}
 		return parent::request_tokens( $code );
 	}
 
 	/**
-	 * @inheritDoc
+	 * Performs the specified request.
+	 *
+	 * @param string $method  The HTTP method to use.
+	 * @param string $url     The URL to send the request to.
+	 * @param array  $options The options to pass along to the request.
+	 *
+	 * @return mixed The parsed API response.
+	 *
+	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
+	 * @throws Empty_Token_Exception Exception thrown if the token is empty.
+	 *
 	 * @codeCoverageIgnore
 	 */
 	protected function do_request( $method, $url, array $options ) {
