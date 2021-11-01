@@ -126,8 +126,9 @@ class Wincher_Route implements Route_Interface {
 	 */
 	public function register_routes() {
 		$authorize_route_args = [
-			'methods'   => 'GET',
-			'callback'  => [ $this, 'get_authorization_url' ],
+			'methods'             => 'GET',
+			'callback'            => [ $this, 'get_authorization_url' ],
+			'permission_callback' => [ $this, 'can_use_wincher' ],
 		];
 		\register_rest_route( Main::API_V1_NAMESPACE, self::AUTHORIZATION_URL_ROUTE, $authorize_route_args );
 

@@ -131,6 +131,7 @@ class Wincher_Route_Test extends TestCase {
 				[
 					'methods'             => 'GET',
 					'callback'            => [ $this->instance, 'get_authorization_url' ],
+					'permission_callback' => [ $this->instance, 'can_use_wincher' ],
 				]
 			);
 
