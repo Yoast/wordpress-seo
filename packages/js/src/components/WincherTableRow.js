@@ -84,11 +84,11 @@ export function PositionOverTimeChart( { chartData } ) {
 }
 
 PositionOverTimeChart.propTypes = {
-	keyphrase: PropTypes.object,
+	chartData: PropTypes.object,
 };
 
 PositionOverTimeChart.defaultProps = {
-	keyphrase: {},
+	chartData: {},
 };
 
 /**
@@ -236,6 +236,7 @@ WincherTableRow.propTypes = {
 	isFocusKeyphrase: PropTypes.bool,
 	isDisabled: PropTypes.bool,
 	isLoading: PropTypes.bool,
+	// eslint-disable-next-line react/no-unused-prop-types
 	websiteId: PropTypes.string,
 };
 
@@ -246,4 +247,5 @@ WincherTableRow.defaultProps = {
 	isFocusKeyphrase: false,
 	isDisabled: false,
 	isLoading: false,
+	websiteId: "",
 };
