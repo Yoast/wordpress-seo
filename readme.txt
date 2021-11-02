@@ -241,21 +241,20 @@ Release Date: November 16th, 2021
 
 Enhancements:
 
-* Removes the placeholder texts for title and description inputs since they have no semantic value.
 * Enhances the upgrade flow for add-ons, to consider the minimum required WP version before showing any available updates.
-* Replaces deprecated jQuery calls
+* Enables the Schema Article type for any post type supporting authors.
+* Removes the placeholder texts for title and description inputs since they have no semantic value.
 
 Bugfixes:
 
 * Fixes a bug where the `page` post type wasn't allowed to display an `Article` piece in the Schema.
-* Makes sure that the Schema Article type is enabled for any post type supporting authors.
-* Deprecates `wpseo_schema_article_post_types` filter.
-* Updated the social media share previews images to match the aspect ratio of their respective platform.
-* Content inside of reusable blocks will be analyzed correctly now by the use of the `YoastReusableBlocksPlugin`  
+* Fixes a bug where the social media share previews images did not match the aspect ratio of their respective platform.
+* Fixes a bug where the content inside of reusable blocks would not be analyzed correctly.
 
 Other:
 
 * The plugin will no longer block installation on PHP 8.0+ when installed via Composer.
+* Deprecates `wpseo_schema_article_post_types` filter.
 
 = 17.5 =
 Release Date: November 2nd, 2021
