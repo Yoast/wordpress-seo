@@ -8,7 +8,7 @@ import { isEmpty } from "lodash-es";
 import styled from "styled-components";
 
 /* Yoast dependencies */
-import { NewButton, FieldGroup } from "@yoast/components";
+import { NewButton, HelpIcon } from "@yoast/components";
 
 /* Internal dependencies */
 import WincherLimitReached from "./modals/WincherLimitReached";
@@ -202,6 +202,12 @@ const ContentWrapper = styled.div`
 	`};
 `;
 
+const Title = styled.div`
+	font-weight: var(--yoast-font-weight-bold);
+	color: var(--yoast-color-label);
+	font-size: var(--yoast-font-size-default);
+`;
+
 /**
  * Renders the Wincher SEO Performance modal content.
  *
@@ -225,11 +231,14 @@ export default function WincherSEOPerformance( props ) {
 		<Fragment>
 			{ isNewlyAuthenticated && <WincherConnectedAlert /> }
 
-			<FieldGroup
-				label={ __( "SEO performance", "wordpress-seo" ) }
-				linkTo={ wpseoAdminL10n[ "shortlinks.wincher.seo_performance" ] }
-				linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
-			/>
+			<Title>
+				{ __( "SEO performance", "wordpress-seo" ) }
+				<HelpIcon
+					linkTo={ wpseoAdminL10n[ "shortlinks.wincher.seo_performance" ] }
+					linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
+				/>
+			</Title>
+
 			<WincherExplanation />
 
 			<ConnectToWincher { ...props } />
