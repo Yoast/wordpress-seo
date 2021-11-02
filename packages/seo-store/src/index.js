@@ -1,8 +1,8 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { identity } from "lodash";
 import { STORE_NAME } from "./constants";
-import configReducer, { CONFIG_SLICE_NAME, configActions, configSelectors } from "./slices/analysis-options";
-import dataReducer, { DATA_SLICE_NAME, dataActions, dataSelectors } from "./slices/form-seo";
+import configReducer, { CONFIG_SLICE_NAME, configActions, configSelectors } from "./slices/analysis-config";
+import dataReducer, { DATA_SLICE_NAME, dataActions, dataSelectors } from "./slices/analysis-data";
 import keyphrasesReducer, { KEYPHRASES_SLICE_NAME, keyphrasesActions, keyphrasesSelectors } from "./slices/analysis-keyphrases";
 import resultsReducer, {
 	ANALYZE_ACTION_NAME,
@@ -31,6 +31,12 @@ export const selectors = {
 	...resultsSelectors,
 };
 
+/**
+ * Creates a WP data store for managing SEO data.
+ *
+ * @param {function} analyze The function to analyze paper data based on keyphrases and configuration.
+ * @returns {WPDataStore} The WP data store.
+ */
 export const createSeoStore = ( {
 	analyze,
 	preparePaper = identity,
