@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useCallback, Fragment } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { isEmpty } from "lodash-es";
+import moment from "moment";
 
 /* Yoast dependencies */
 import { SvgIcon, Toggle } from "@yoast/components";
@@ -11,7 +12,6 @@ import { makeOutboundLink } from "@yoast/helpers";
 /* Internal dependencies */
 import AreaChart from "./AreaChart";
 import WincherSEOPerformanceLoading from "./modals/WincherSEOPerformanceLoading";
-import moment from "moment";
 
 const ViewLink = makeOutboundLink();
 

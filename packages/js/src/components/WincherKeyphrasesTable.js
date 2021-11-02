@@ -28,6 +28,10 @@ const FocusKeyphraseFootnote = styled.span`
 	font-style: italic;
 `;
 
+const ViewColumn = styled.th`
+	min-width: 60px;
+`;
+
 /**
  * The WincherKeyphrasesTable component.
  */
@@ -322,7 +326,7 @@ class WincherKeyphrasesTable extends Component {
 							>
 								{ __( "Position over time", "wordpress-seo" ) }
 							</th>
-							<td className="yoast-table--nobreak" />
+							<ViewColumn className="yoast-table--nobreak" />
 						</tr>
 					</thead>
 					<tbody>
