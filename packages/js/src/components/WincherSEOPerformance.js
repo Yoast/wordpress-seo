@@ -197,7 +197,7 @@ ConnectToWincher.defaultProps = {
 
 const ContentWrapper = styled.div`
 	${ props => props.isDisabled && `
-		opacity: .4;
+		opacity: .5;
 		pointer-events: none;
 	`};
 `;
