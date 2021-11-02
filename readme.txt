@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.8
-Stable tag: 17.4
+Stable tag: 17.5
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -236,6 +236,26 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 17.6 =
+Release Date: November 16th, 2021
+
+Enhancements:
+
+* Enhances the upgrade flow for add-ons, to consider the minimum required WP version before showing any available updates.
+* Enables the Schema Article type for any post type supporting authors.
+* Removes the placeholder texts for title and description inputs since they have no semantic value.
+
+Bugfixes:
+
+* Fixes a bug where the `page` post type wasn't allowed to display an `Article` piece in the Schema.
+* Fixes a bug where the social media share previews images did not match the aspect ratio of their respective platform.
+* Fixes a bug where the content inside of reusable blocks would not be analyzed correctly.
+
+Other:
+
+* The plugin will no longer block installation on PHP 8.0+ when installed via Composer.
+* Deprecates `wpseo_schema_article_post_types` filter.
+
 = 17.5 =
 Release Date: November 2nd, 2021
 
@@ -253,21 +273,6 @@ Bugfixes:
 
 * Fixes a bug where the analysis highlight button would be visible on tags, categories, and custom taxonomies even though we don't support highlighting for those types.
 * Fixes a bug where links to items on the same page were incorrectly identified as links to other pages, leading to an incorrect result on the Link keyphrase assessment.
-
-= 17.4 =
-Release Date: October 19th, 2021
-
-Yoast SEO 17.4 is out today! This release comes with several fixes and enhancements to help database performance on larger sites by cleaning up data and streamlining retrieval. Happy updating! Read more about what's new in Yoast SEO 17.4 in [our release post](https://yoa.st/release-17-4)!
-
-Enhancements:
-
-* Improves two queries used to determine whether or not a site has been fully processed using our SEO data optimization. This should prevent potential slowdowns in extremely large sites.
-
-Bugfixes:
-
-* Fixes a bug where the `url` property in the search page schema would be empty.
-* Fixes a bug where a duplicate canonical tag was output for web stories created with the Web Stories plugin. Props to [swissspidey](https://github.com/swissspidy).
-* Fixes a bug where a race condition could occur that caused the rewrite rules to be flushed on every page request when using a persistent cache like Redis. This may speed up your site’s load times if it’s using persistent caching.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
