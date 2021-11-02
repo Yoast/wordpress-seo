@@ -503,6 +503,7 @@ class WPSEO_Sitemaps {
 					GROUP BY post_type
 					ORDER BY date DESC";
 
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 				foreach ( $wpdb->get_results( $sql ) as $obj ) {
 					$post_type_dates[ $obj->post_type ] = $obj->date;
 				}

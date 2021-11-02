@@ -57,9 +57,7 @@ class Author_Archive_Helper {
 	 */
 	protected function author_has_a_public_post( $author_id ) {
 		$cache_key        = 'author_has_a_public_post_' . $author_id;
-//		$indexable_exists = \wp_cache_get( $cache_key );
-
-		$indexable_exists = false;
+		$indexable_exists = \wp_cache_get( $cache_key );
 
 		if ( $indexable_exists === false ) {
 			$indexable_exists = Model::of_type( 'Indexable' )
@@ -67,7 +65,7 @@ class Author_Archive_Helper {
 				->where( 'object_type', 'post' )
 				->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
 				->where( 'author_id', $author_id )
-				->where_raw( '( is_public = 0 OR is_public IS NULL )' )
+				->where( 'is_public', 1 )
 				->find_one();
 
 			if ( $indexable_exists === false ) {

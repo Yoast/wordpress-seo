@@ -9,7 +9,10 @@ use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
  * A helper object for the user.
  */
 class XML_Sitemap_Helper {
+
 	/**
+	 * The Links repository
+	 *
 	 * @var SEO_Links_Repository
 	 */
 	private $links_repository;
@@ -17,7 +20,7 @@ class XML_Sitemap_Helper {
 	/**
 	 * XML_Sitemap_Helper constructor.
 	 *
-	 * @param SEO_Links_Repository $links_repository
+	 * @param SEO_Links_Repository $links_repository The links repository.
 	 */
 	public function __construct(
 		SEO_Links_Repository $links_repository
@@ -26,11 +29,14 @@ class XML_Sitemap_Helper {
 	}
 
 	/**
+	 * Find images for a given set of indexables.
+	 *
 	 * @param Indexable[] $indexables Array of indexables.
+	 * @param string      $type       The type of link to retrieve, defaults to image internal.
 	 *
 	 * @return array $images_by_id Array of images for the indexable, in XML sitemap format.
 	 */
-	public function find_images_for_links( $indexables, $type = 'image-in' ) {
+	public function find_images_for_indexables( $indexables, $type = 'image-in' ) {
 		$images_by_id  = [];
 		$indexable_ids = [];
 
@@ -39,17 +45,17 @@ class XML_Sitemap_Helper {
 		}
 
 		$images = $this->links_repository->query()
-										 ->select_many( 'indexable_id', 'url' )
-										 ->where( 'type', $type )
-										 ->where_in( 'indexable_id', $indexable_ids )
-										 ->find_many();
+			->select_many( 'indexable_id', 'url' )
+			->where( 'type', $type )
+			->where_in( 'indexable_id', $indexable_ids )
+			->find_many();
 
 		foreach ( $images as $image ) {
 			if ( ! is_array( $images_by_id[ $image->indexable_id ] ) ) {
 				$images_by_id[ $image->indexable_id ] = [];
 			}
 			$images_by_id[ $image->indexable_id ][] = [
-				'src' => $image->url
+				'src' => $image->url,
 			];
 		}
 
@@ -72,7 +78,7 @@ class XML_Sitemap_Helper {
 		$include_images = apply_filters( 'wpseo_xml_sitemap_include_images', true );
 
 		if ( $include_images ) {
-			$images_by_id = $this->find_images_for_links( $indexables );
+			$images_by_id = $this->find_images_for_indexables( $indexables );
 		}
 
 		$links = [];

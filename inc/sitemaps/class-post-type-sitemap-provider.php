@@ -24,7 +24,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
-		$this->repository       = YoastSEO()->classes->get( 'Yoast\WP\SEO\Repositories\Indexable_Repository' );
+		$this->repository = YoastSEO()->classes->get( 'Yoast\WP\SEO\Repositories\Indexable_Repository' );
 
 		add_filter( 'save_post', [ $this, 'save_post' ] );
 	}
@@ -70,16 +70,17 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			if ( $max_pages > 1 ) {
 				$sql = "SELECT object_last_modified
 				    FROM ( SELECT @rownum:=0 ) init
-				    JOIN " . Model::get_table_name( 'Indexable' ) . "
+				    JOIN ' . Model::get_table_name( 'Indexable' ) . '
 				    WHERE ( post_status = 'publish' OR post_status IS NULL )
 				      AND object_sub_type = %s
 				      AND ( @rownum:=@rownum+1 ) %% %d = 0
 				    ORDER BY object_last_modified ASC";
 
+				// phpcs:ignore WordPress.DB
 				$all_dates = $wpdb->get_col( $wpdb->prepare( $sql, $post_type, $max_entries ) );
 			}
 
-			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter ++ ) {
+			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter++ ) {
 
 				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
 				$date         = false;
@@ -89,7 +90,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 					if ( ! empty( $last_modified_times[ $post_type ] ) ) {
 						$date = $last_modified_times[ $post_type ];
 					}
-				} else {
+				}
+				else {
 					$date = $all_dates[ $page_counter ];
 				}
 
@@ -151,8 +153,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		if ( $post_type === 'page' ) {
 			$query->where_raw( '( object_sub_type = "page" OR object_sub_type IS NULL )' )
-				  ->where_in( 'object_type', [ 'home-page', 'post' ] );
-		} else {
+				->where_in( 'object_type', [ 'home-page', 'post' ] );
+		}
+		else {
 			$query->where( 'object_sub_type', $post_type );
 		}
 		$posts_to_exclude = $this->get_excluded_posts( $post_type );
@@ -231,5 +234,4 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		return array_unique( $excluded_posts_ids );
 	}
-
 }
