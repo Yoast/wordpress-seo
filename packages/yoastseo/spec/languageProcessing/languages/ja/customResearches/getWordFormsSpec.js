@@ -82,4 +82,91 @@ describe( "The getWordForms function", () => {
 			],
 		} );
 	} );
+	it( "creates forms for keyphrases consisting of multiple words.", () => {
+		const paper = new Paper(
+			"犬です。",
+			{
+				/*
+				 * 猫 - noun, no forms required
+				 * が - function word, is deleted
+				 * 遊んでいる - verb, forms are created
+				 */
+				keyword: "猫が遊んでいる",
+				synonyms: "",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms:
+				[ [ "猫" ],
+					[ "遊ぬ", "遊に", "遊な", "遊ね", "遊の", "遊ん", "遊ねる", "遊なせ", "遊なせる",
+						"遊なれ", "遊なれる", "遊のう", "遊む", "遊み", "遊ま", "遊め", "遊も",
+						"遊める", "遊ませ", "遊ませる", "遊まれ", "遊まれる", "遊もう", "遊ぶ",
+						"遊び", "遊ば", "遊べ", "遊ぼ", "遊べる", "遊ばせ", "遊ばせる",
+						"遊ばれ", "遊ばれる", "遊ぼう" ] ],
+			synonymsForms: [],
+		} )
+		;
+	} );
+	it( "creates forms for keyphrases consisting of multiple words separated by spaces.", () => {
+		const paper = new Paper(
+			"文章です。",
+			{
+				/*
+				 * レシピ - noun, no forms required
+				 * 美味しい - adjective, forms are created
+				 */
+				keyword: "レシピ　美味しい",
+				synonyms: "",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms:
+				[ [ "レシピ" ],
+					[ "美味しう",
+						"美味しい",
+						"美味しわ",
+						"美味しえ",
+						"美味しお",
+						"美味しっ",
+						"美味しえる",
+						"美味しわせ",
+						"美味しわせる",
+						"美味しわれ",
+						"美味しわれる",
+						"美味しおう",
+						"美味しく",
+						"美味しき",
+						"美味しか",
+						"美味しけ",
+						"美味しこ",
+						"美味しける",
+						"美味しかせ",
+						"美味しかせる",
+						"美味しかれ",
+						"美味しかれる",
+						"美味しこう",
+						"美味しかっ",
+						"美味しぐ",
+						"美味しぎ",
+						"美味しが",
+						"美味しげ",
+						"美味しご",
+						"美味しげる",
+						"美味しがせ",
+						"美味しがせる",
+						"美味しがれ",
+						"美味しがれる",
+						"美味しごう" ] ],
+			synonymsForms: [],
+		} )
+		;
+	} );
 } );
