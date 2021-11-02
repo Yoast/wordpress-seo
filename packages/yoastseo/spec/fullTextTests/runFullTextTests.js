@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import factory from "../specHelpers/factory.js";
 const i18n = factory.buildJed();

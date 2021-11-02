@@ -42,7 +42,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 
 * **SEO analysis**: an invaluable tool while writing SEO-friendly content with the right (focus) keyphrases in mind.
 * **Readability analysis**: ensures that humans and search engines can read and understand your content.
-* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian, Turkish, Czech, Norwegian and Slovak.
+* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian, Turkish, Czech, Norwegian, Slovak and Greek.
 * **A Google preview**, which shows what your listings will look like in the search results. Even on mobile devices!
 * **Innovative Schema blocks** for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results. Plus a breadcrumbs block to guide your users.
 * **[Premium] Internal linking blocks** to easily improve the structure of your content. Easily add a **table of contents block**, a **related links block**, a **subpages** block, or **siblings block**! Plus, we’ll keep adding these easy-to-add blocks to improve your site structure.
@@ -236,6 +236,24 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 17.5 =
+Release Date: November 2nd, 2021
+
+Say hello to Yoast SEO 17.5! Or maybe γεια would fit better, as this release introduces Greek readability support. Plus: you’ll also be able to find | and ~ title separators again. Happy updating! Read more about what's new in Yoast SEO 17.5 in [our release post in English](https://yoa.st/release-17-5) or [our release post in Spanish](https://yoa.st/release-17-5-spanish)!
+
+Enhancements:
+
+* Completes the readability analysis for Greek by adding the transition words, sentence beginnings and passive voice assessments.
+* Improves keyword detection for Greek by adding a function words list.
+* Reduces the right padding of the collapsible sidebar buttons to match the block editor's new styling.
+* Restores the `|` and `~` separators.
+* Reduces the right padding of the collapsible sidebar buttons to match Gutenberg's new styling.
+
+Bugfixes:
+
+* Fixes a bug where the analysis highlight button would be visible on tags, categories, and custom taxonomies even though we don't support highlighting for those types.
+* Fixes a bug where links to items on the same page were incorrectly identified as links to other pages, leading to an incorrect result on the Link keyphrase assessment.
+
 = 17.4 =
 Release Date: October 19th, 2021
 
@@ -250,26 +268,6 @@ Bugfixes:
 * Fixes a bug where the `url` property in the search page schema would be empty.
 * Fixes a bug where a duplicate canonical tag was output for web stories created with the Web Stories plugin. Props to [swissspidey](https://github.com/swissspidy).
 * Fixes a bug where a race condition could occur that caused the rewrite rules to be flushed on every page request when using a persistent cache like Redis. This may speed up your site’s load times if it’s using persistent caching.
-
-= 17.3 =
-Release Date: October 5th, 2021
-
-Yoast SEO 17.3 is out today! This release includes general bug fixes to some SEO assessments and improvements to indexables data management. Now is as good a time as any to start optimizing your content with Yoast SEO! Read more about what's new in Yoast SEO 17.3 in [our release post](https://yoa.st/release-17-3)!
-
-Enhancements:
-
-* Improves the accuracy of the Keyphrase in slug assessment by correctly detecting multi-word keyphrases with at least one hyphenated word in the slug.
-* Changes the default color for overall scores to red.
-
-Bugfixes:
-
-* Fixes a bug where the meta description bar indicator color would not always match the color of the assessment bullet.
-* Fixes a bug where the placement variables Category, Name and Tag would not show up in the snippet preview.
-* Fixes a bug where the `path` of open graph images of the JSON head would be incorrect.
-
-Other:
-
-* Adds version management to our indexables framework; this makes the SEO Optimization process more robust, and prepares for future features.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

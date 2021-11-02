@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import sentenceCount from "../../../../src/languageProcessing/helpers/sentence/countSentences.js";
 
 describe( "Counting of sentences", function() {

@@ -5,16 +5,11 @@ import { isFeatureEnabled } from "@yoast/feature-flag";
  * @returns {string[]} A list of languages that have morphology support.
  */
 export function getLanguagesWithWordFormSupport() {
-	const supportedLanguages = [ "en", "de", "es", "fr", "it", "nl", "ru", "id", "pt", "pl", "ar", "sv", "he", "hu", "nb", "tr", "cs", "sk" ];
+	const supportedLanguages = [ "en", "de", "es", "fr", "it", "nl", "ru", "id", "pt", "pl", "ar", "sv", "he", "hu", "nb", "tr", "cs", "sk", "el" ];
 
 	// Add Japanese to the supported languages list if the feature is enabled.
 	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
 		supportedLanguages.push( "ja" );
-	}
-
-	// Add Greek to the supported languages list if the feature is enabled.
-	if ( isFeatureEnabled( "GREEK_SUPPORT" ) ) {
-		supportedLanguages.push( "el" );
 	}
 
 	return supportedLanguages;

@@ -24,6 +24,11 @@ let functionWords = [];
 const linkToSelf = function( anchor, permalink ) {
 	const anchorLink = urlHelper.getFromAnchorTag( anchor );
 
+	// Relative fragment links always point to the page itself.
+	if ( urlHelper.isRelativeFragmentURL( anchorLink ) ) {
+		return true;
+	}
+
 	return urlHelper.areEqual( anchorLink, permalink );
 };
 

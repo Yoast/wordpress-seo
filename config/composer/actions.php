@@ -378,68 +378,68 @@ TPL;
 		$error_threshold   = (int) \getenv( 'YOASTCS_THRESHOLD_ERRORS' );
 		$warning_threshold = (int) \getenv( 'YOASTCS_THRESHOLD_WARNINGS' );
 
-		echo "Running coding standards checks, this may take some time.\n";
+		echo 'Running coding standards checks, this may take some time.', \PHP_EOL;
 		$command = 'composer check-cs-summary';
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Non-WP context, this is fine.
 		@\exec( $command, $phpcs_output, $return );
 
 		$statistics = self::extract_cs_statistics( $phpcs_output );
 		if ( ! $statistics ) {
-			echo 'Error occurred when parsing the coding standards results.' . \PHP_EOL;
+			echo 'Error occurred when parsing the coding standards results.', \PHP_EOL;
 			exit( 1 );
 		}
 
 		echo \PHP_EOL;
-		echo 'CODE SNIFFER RESULTS' . \PHP_EOL;
-		echo '--------------------' . \PHP_EOL;
+		echo 'CODE SNIFFER RESULTS', \PHP_EOL;
+		echo '--------------------', \PHP_EOL;
 
 		$error_count   = $statistics['error_count'];
 		$warning_count = $statistics['warning_count'];
 
 		self::color_line_success(
-			"Coding standards errors: $error_count/$error_threshold.",
+			"Coding standards errors: $error_count/$error_threshold." . \PHP_EOL,
 			( $error_count <= $error_threshold )
 		);
 
 		self::color_line_success(
-			"Coding standards warnings: $warning_count/$warning_threshold.",
+			"Coding standards warnings: $warning_count/$warning_threshold." . \PHP_EOL,
 			( $warning_count <= $warning_threshold )
 		);
 
 		$above_threshold = false;
 
 		if ( $error_count > $error_threshold ) {
-			echo "Please fix any errors introduced in your code and run composer check-cs-warnings to verify.\n";
+			echo 'Please fix any errors introduced in your code and run composer check-cs-warnings to verify.', \PHP_EOL;
 			$above_threshold = true;
 		}
 
 		if ( $error_count < $error_threshold ) {
 			echo \PHP_EOL;
-			echo "Found less errors than the threshold, great job!\n";
-			echo "Please update the error threshold in the composer.json file to $error_count.\n";
+			echo 'Found less errors than the threshold, great job!', \PHP_EOL;
+			echo "Please update the error threshold in the composer.json file to $error_count.", \PHP_EOL;
 		}
 
 		if ( $warning_count > $warning_threshold ) {
-			echo "Please fix any warnings introduced in your code and run check-cs-thresholds to verify.\n";
+			echo 'Please fix any warnings introduced in your code and run check-cs-thresholds to verify.', \PHP_EOL;
 			$above_threshold = true;
 		}
 
 		if ( $warning_count < $warning_threshold ) {
 			echo \PHP_EOL;
-			echo "Found less warnings than the threshold, great job!\n";
-			echo "Please update the warning threshold in the composer.json file to $warning_count.\n";
+			echo 'Found less warnings than the threshold, great job!', \PHP_EOL;
+			echo "Please update the warning threshold in the composer.json file to $warning_count.", \PHP_EOL;
 		}
 
 		if ( ! $above_threshold ) {
 			echo \PHP_EOL;
-			echo "Coding standards checks have passed!\n";
+			echo 'Coding standards checks have passed!', \PHP_EOL;
 		}
 
 		if ( $above_threshold ) {
-			echo "\n";
-			echo "Running check-branch-cs.\n";
-			echo "This might show problems on untouched lines. Focus on the lines you've changed first.\n";
-			echo "\n";
+			echo \PHP_EOL;
+			echo 'Running check-branch-cs.', \PHP_EOL;
+			echo 'This might show problems on untouched lines. Focus on the lines you\'ve changed first.', \PHP_EOL;
+			echo \PHP_EOL;
 
 			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Non-WP context, this is fine.
 			@\passthru( 'composer check-branch-cs' );
@@ -457,7 +457,7 @@ TPL;
 	 * @return void
 	 */
 	private static function color_line( $line, $color ) {
-		echo $color . $line . "\e[0m\n";
+		echo $color . $line . "\e[0m";
 	}
 
 	/**
@@ -493,12 +493,12 @@ TPL;
 
 		$fqn = $args[0];
 
-		echo 'Generating unit test for ', $fqn . "\n";
+		echo 'Generating unit test for ', $fqn, \PHP_EOL;
 
 		$generator = new Unit_Test_Generator();
 		try {
 			$path = $generator->generate( $fqn );
-			\printf( 'Unit test generated at \'%s\'' . "\n", $path );
+			\printf( 'Unit test generated at \'%s\'' . \PHP_EOL, $path );
 		}
 		catch ( Exception $exception ) {
 			throw $exception;

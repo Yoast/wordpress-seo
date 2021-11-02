@@ -64,7 +64,7 @@ class Workouts_Integration implements Integration_Interface {
 	 * @return array The filtered submenu pages.
 	 */
 	public function add_submenu_page( $submenu_pages ) {
-		// this inserts the workouts menu page at the correct place in the array without overriding that position.
+		// This inserts the workouts menu page at the correct place in the array without overriding that position.
 		$submenu_pages[] = [
 			'wpseo_dashboard',
 			'',

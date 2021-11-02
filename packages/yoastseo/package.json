@@ -71,7 +71,8 @@
     "loglevel": "^1.6.1",
     "parse5": "^5.1.0",
     "sassdash": "0.9.0",
-    "tokenizer2": "^2.0.1"
+    "tokenizer2": "^2.0.1",
+    "tiny-segmenter": "^0.2.0"
   },
   "browserify": {
     "transform": [
@@ -94,7 +95,7 @@
       "<rootDir>/spec/scoring/productPages/fullTextTests/testTexts/*/*\\.html"
     ],
     "testRegex": "/spec/.*\\.(js)$",
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
     "moduleDirectories": [
       "node_modules"
     ],
@@ -147,7 +148,10 @@
       "/spec/languageProcessing/languages/cs/helpers/internal/stemmerCoverage/generateStems.js",
       "/spec/languageProcessing/languages/sk/helpers/internal/stemmerCoverage/goldStandardStems.json",
       "/spec/languageProcessing/languages/sk/helpers/internal/stemmerCoverage/sampleVocabulary.json",
-      "/spec/languageProcessing/languages/sk/helpers/internal/stemmerCoverage/generateStems.js"
+      "/spec/languageProcessing/languages/sk/helpers/internal/stemmerCoverage/generateStems.js",
+      "/spec/languageProcessing/languages/el/helpers/internal/stemmerCoverage/goldStandardStems.json",
+      "/spec/languageProcessing/languages/el/helpers/internal/stemmerCoverage/sampleVocabulary.json",
+      "/spec/languageProcessing/languages/el/helpers/internal/stemmerCoverage/generateStems.js"
     ],
     "coveragePathIgnorePatterns": [
       "js/templates.js"
