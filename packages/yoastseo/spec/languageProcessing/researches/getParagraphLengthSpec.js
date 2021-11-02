@@ -1,7 +1,7 @@
 import getParagraphLength from "../../../src/languageProcessing/researches/getParagraphLength.js";
 import Paper from "../../../src/values/Paper.js";
-import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher.js"
-import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher.js"
+import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher.js";
+import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher.js";
 
 describe( "a test for getting paragraph length", function() {
 	it( "returns the paragraph length of a paragraph between p tags", function() {
