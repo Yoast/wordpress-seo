@@ -7,19 +7,11 @@
 
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 
 /**
  * Sitemap provider for author archives.
  */
 class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
-
-	/**
-	 * Determines whether images should be included in the XML sitemap.
-	 *
-	 * @var bool
-	 */
-	private $include_images;
 
 	/**
 	 * The indexable repository.
@@ -29,25 +21,12 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	private $repository;
 
 	/**
-	 * @var SEO_Links_Repository
-	 */
-	private $links_repository;
-
-	/**
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
 		$this->repository       = YoastSEO()->classes->get( 'Yoast\WP\SEO\Repositories\Indexable_Repository' );
-		$this->links_repository = YoastSEO()->classes->get( 'Yoast\WP\SEO\Repositories\SEO_Links_Repository' );
 
 		add_filter( 'save_post', [ $this, 'save_post' ] );
-
-		/**
-		 * Filter - Allows excluding images from the XML sitemap.
-		 *
-		 * @param bool $include True to include, false to exclude.
-		 */
-		$this->include_images = apply_filters( 'wpseo_xml_sitemap_include_images', true );
 	}
 
 	/**
@@ -132,15 +111,12 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return int
 	 */
 	public function get_post_type_count( $post_type ) {
-		$result = $this->repository
+		return $this->repository
 			->query()
-			->select_expr( 'COUNT("id") AS count' )
 			->where( 'object_sub_type', $post_type ) // by only checking object-sub-type, we automatically include post type archives if they're indexable.
 			->where_raw( '( post_status = "publish" OR post_status IS NULL )' )
 			->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
-			->find_one();
-
-		return (int) $result->count;
+			->count();
 	}
 
 	/**
@@ -191,38 +167,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
-		$indexable_ids = [];
-		foreach ( $indexables as $indexable ) {
-			$indexable_ids[] = $indexable->id;
-		}
-
-		$images_by_id = [];
-
-		if ( $this->include_images ) {
-			$images = $this->links_repository->query()
-											 ->select_many( 'indexable_id', 'url' )
-											 ->where( 'type', 'image-in' )
-											 ->where_in( 'indexable_id', $indexable_ids )
-											 ->find_many();
-			foreach ( $images as $image ) {
-				if ( ! is_array( $images_by_id[ $image->indexable_id ] ) ) {
-					$images_by_id[ $image->indexable_id ] = [];
-				}
-				$images_by_id[ $image->indexable_id ][] = [
-					'src' => $image->url
-				];
-			}
-		}
-
-		foreach ( $indexables as $indexable ) {
-			$links[] = [
-				'loc'    => $indexable->permalink,
-				'mod'    => $indexable->object_last_modified,
-				'images' => isset( $images_by_id[ $indexable->id ] ) ? $images_by_id[ $indexable->id ] : [],
-			];
-		}
-
-		return $links;
+		return YoastSEO()->helpers->xml_sitemap->convert_indexables_to_sitemap_links( $indexables );
 	}
 
 	/**

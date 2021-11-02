@@ -21,13 +21,6 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	protected static $image_parser;
 
 	/**
-	 * Determines whether images should be included in the XML sitemap.
-	 *
-	 * @var bool
-	 */
-	private $include_images;
-
-	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -38,14 +31,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
-		$this->repository       = YoastSEO()->classes->get( 'Yoast\WP\SEO\Repositories\Indexable_Repository' );
-
-		/**
-		 * Filter - Allows excluding images from the XML sitemap.
-		 *
-		 * @param bool $include True to include, false to exclude.
-		 */
-		$this->include_images = apply_filters( 'wpseo_xml_sitemap_include_images', true );
+		$this->repository = YoastSEO()->classes->get( 'Yoast\WP\SEO\Repositories\Indexable_Repository' );
 	}
 
 	/**
@@ -133,7 +119,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$last_modified_gmt = WPSEO_Sitemaps::get_last_modified_gmt( $tax->object_type );
 
-			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter++ ) {
+			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter ++ ) {
 
 				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
 
@@ -163,8 +149,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				if ( $query->have_posts() ) {
 					$date = $query->posts[0]->post_modified_gmt;
-				}
-				else {
+				} else {
 					$date = $last_modified_gmt;
 				}
 
@@ -224,16 +209,9 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$query->where_not_in( 'object_id', $terms_to_exclude );
 		}
 
-		$results = $query->find_many();
+		$indexables = $query->find_many();
 
-		$links = [];
-		foreach ( $results as $result ) {
-			$links[] = [
-				'loc' => $result->permalink,
-				'mod' => $result->object_last_modified,
-			];
-		}
-		return $links;
+		return YoastSEO()->helpers->xml_sitemap->convert_indexables_to_sitemap_links( $indexables );
 	}
 
 	/**
