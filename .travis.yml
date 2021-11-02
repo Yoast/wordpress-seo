@@ -75,6 +75,7 @@ jobs:
     - stage: 🚀 deployment
       name: "Deploy to Yoast-dist"
       php: 7.2
+      env: TRAVIS_NODE_VERSION=14
       install:
         - yarn global add grunt-cli
         - yarn install
@@ -88,7 +89,7 @@ jobs:
         - grunt artifact
       if: ( tag IS present OR branch =~ /^feature\// OR branch =~ /^release\// OR branch =~ /^hotfix\// OR branch = trunk ) AND type != pull_request
       before_install:
-        - nvm install lts/*
+        - nvm install $TRAVIS_NODE_VERSION
         - curl -o- -L https://yarnpkg.com/install.sh | bash
         - export PATH=$HOME/.yarn/bin:$PATH
         - openssl aes-256-cbc -K $encrypted_e268719177eb_key -iv $encrypted_e268719177eb_iv -in config/travis/deploy_keys/id_rsa_yoast_dist.enc -out config/travis/deploy_keys/id_rsa_yoast_dist -d

@@ -28,8 +28,8 @@ var defaults = {
 		metaHeight: 0,
 	},
 	placeholder: {
-		title: "This is an example title - edit by clicking here",
-		metaDesc: "Modify your meta description by editing it right here",
+		title: "",
+		metaDesc: "",
 		urlPath: "example-post/",
 	},
 	defaultValue: {

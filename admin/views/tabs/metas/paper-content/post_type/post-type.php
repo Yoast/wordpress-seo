@@ -56,7 +56,7 @@ $article_helper             = new Article_Helper();
 $schema_page_type_option    = 'schema-page-type-' . $wpseo_post_type->name;
 $schema_article_type_option = 'schema-article-type-' . $wpseo_post_type->name;
 $yform->hidden( $schema_page_type_option );
-if ( $wpseo_post_type->name !== 'page' && $article_helper->is_author_supported( $wpseo_post_type->name ) ) {
+if ( $article_helper->is_article_post_type( $wpseo_post_type->name ) ) {
 	$schema_article_type_option_value = WPSEO_Options::get( $schema_article_type_option );
 
 	/** This filter is documented in inc/options/class-wpseo-option-titles.php */
