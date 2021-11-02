@@ -6,7 +6,7 @@ import getMorphologyData from "../../../../specHelpers/getMorphologyData";
 const morphologyData = getMorphologyData( "ja" );
 
 describe( "The getWordForms function", () => {
-	it( "creates word forms based on the word forms found in the paper.", () => {
+	it( "creates word forms for a Japanese keyphrase.", () => {
 		const paper = new Paper(
 			"休ま",
 			{
@@ -23,7 +23,7 @@ describe( "The getWordForms function", () => {
 			synonymsForms: [],
 		} );
 	} );
-	it( "creates word forms for an exact match keyphrase based on the word forms found in the paper.", () => {
+	it( "creates word forms for a Japanese keyphrase between Japanese-specific quotation marks.", () => {
 		const paper = new Paper(
 			"頑張ら",
 			{
@@ -40,7 +40,7 @@ describe( "The getWordForms function", () => {
 			synonymsForms: [],
 		} );
 	} );
-	it( "creates word forms for synonyms based on the word forms found in the paper.", () => {
+	it( "creates word forms for Japanese keyphrase and synonyms.", () => {
 		const paper = new Paper(
 			"話せる及ん",
 			{
@@ -61,7 +61,7 @@ describe( "The getWordForms function", () => {
 			],
 		} );
 	} );
-	it( "creates word forms for exact matching synonyms based on the word forms found in the paper.", () => {
+	it( "creates word forms for Japanese keyphrase and synonyms, where one of the synonyms is between Japanese-specific quotation marks.", () => {
 		const paper = new Paper(
 			"話せる及ん",
 			{
