@@ -57,9 +57,11 @@ class XML_Sitemap_Helper {
 	}
 
 	/**
-	 * @param $indexables
+	 * Convert an array of indexables to an array that can be used by the XML sitemap renderer.
 	 *
-	 * @return array
+	 * @param Indexable[] $indexables Array of indexables.
+	 *
+	 * @return array Array to be used by the XML sitemap renderer.
 	 */
 	public function convert_indexables_to_sitemap_links( $indexables ) {
 		/**
@@ -85,4 +87,3 @@ class XML_Sitemap_Helper {
 		return $links;
 	}
 }
-

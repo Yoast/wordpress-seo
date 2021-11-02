@@ -496,14 +496,12 @@ class WPSEO_Sitemaps {
 			if ( ! empty( $post_type_names ) ) {
 				$post_statuses = array_map( 'esc_sql', self::get_post_statuses() );
 
-				$sql = "
-					SELECT post_type, MAX(post_modified_gmt) AS date
+				$sql = "SELECT post_type, MAX(post_modified_gmt) AS date
 					FROM $wpdb->posts
 					WHERE post_status IN ('" . implode( "','", $post_statuses ) . "')
 						AND post_type IN ('" . implode( "','", $post_type_names ) . "')
 					GROUP BY post_type
-					ORDER BY date DESC
-				";
+					ORDER BY date DESC";
 
 				foreach ( $wpdb->get_results( $sql ) as $obj ) {
 					$post_type_dates[ $obj->post_type ] = $obj->date;
