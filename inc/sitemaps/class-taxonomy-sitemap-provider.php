@@ -5,6 +5,9 @@
  * @package WPSEO\XML_Sitemaps
  */
 
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
+
 /**
  * Sitemap provider for author archives.
  */
@@ -25,9 +28,18 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	private $include_images;
 
 	/**
+	 * The indexable repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	private $repository;
+
+	/**
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
+		$this->repository       = YoastSEO()->classes->get( 'Yoast\WP\SEO\Repositories\Indexable_Repository' );
+
 		/**
 		 * Filter - Allows excluding images from the XML sitemap.
 		 *
@@ -178,11 +190,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @throws OutOfBoundsException When an invalid page is requested.
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
-		global $wpdb;
-
-		$links = [];
 		if ( ! $this->handles_type( $type ) ) {
-			return $links;
+			return [];
 		}
 
 		$taxonomy = get_taxonomy( $type );
@@ -194,36 +203,15 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, [ $taxonomy->name ] );
 		/** This filter is documented in inc/sitemaps/class-taxonomy-sitemap-provider.php */
 		$hide_empty_tax = apply_filters( 'wpseo_sitemap_exclude_empty_terms_taxonomy', $hide_empty, $taxonomy->name );
-		$terms          = get_terms(
-			[
-				'taxonomy'               => $taxonomy->name,
-				'hide_empty'             => $hide_empty_tax,
-				'update_term_meta_cache' => false,
-				'offset'                 => $offset,
-				'number'                 => $steps,
-			]
-		);
 
-		// If there are no terms fetched for this range, we are on an invalid page.
-		if ( empty( $terms ) ) {
-			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
-		}
-
-		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses() );
-
-		// Grab last modified date.
-		$sql = "
-			SELECT MAX(p.post_modified_gmt) AS lastmod
-			FROM	$wpdb->posts AS p
-			INNER JOIN $wpdb->term_relationships AS term_rel
-				ON		term_rel.object_id = p.ID
-			INNER JOIN $wpdb->term_taxonomy AS term_tax
-				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
-				AND		term_tax.taxonomy = %s
-				AND		term_tax.term_id = %d
-			WHERE	p.post_status IN ('" . implode( "','", $post_statuses ) . "')
-				AND		p.post_password = ''
-		";
+		$query = $this->repository
+			->query()
+			->select_many( 'id', 'permalink', 'object_last_modified' )
+			->where( 'object_sub_type', $type )
+			->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
+			->order_by_desc( 'object_last_modified' )
+			->offset( $offset )
+			->limit( $steps );
 
 		/**
 		 * Filter: 'wpseo_exclude_from_sitemap_by_term_ids' - Allow excluding terms by ID.
@@ -232,44 +220,19 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 */
 		$terms_to_exclude = apply_filters( 'wpseo_exclude_from_sitemap_by_term_ids', [] );
 
-		foreach ( $terms as $term ) {
-
-			if ( in_array( $term->term_id, $terms_to_exclude, true ) ) {
-				continue;
-			}
-
-			$url = [];
-
-			$tax_noindex = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' );
-
-			if ( $tax_noindex === 'noindex' ) {
-				continue;
-			}
-
-			$url['loc'] = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
-
-			if ( ! is_string( $url['loc'] ) || $url['loc'] === '' ) {
-				$url['loc'] = get_term_link( $term, $term->taxonomy );
-			}
-
-			$url['mod'] = $wpdb->get_var( $wpdb->prepare( $sql, $term->taxonomy, $term->term_id ) );
-
-			if ( $this->include_images ) {
-				$url['images'] = $this->get_image_parser()->get_term_images( $term );
-			}
-
-			// Deprecated, kept for backwards data compat. R.
-			$url['chf'] = 'daily';
-			$url['pri'] = 1;
-
-			/** This filter is documented at inc/sitemaps/class-post-type-sitemap-provider.php */
-			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $term );
-
-			if ( ! empty( $url ) ) {
-				$links[] = $url;
-			}
+		if ( count( $terms_to_exclude ) > 0 ) {
+			$query->where_not_in( 'object_id', $terms_to_exclude );
 		}
 
+		$results = $query->find_many();
+
+		$links = [];
+		foreach ( $results as $result ) {
+			$links[] = [
+				'loc' => $result->permalink,
+				'mod' => $result->object_last_modified,
+			];
+		}
 		return $links;
 	}
 
@@ -305,18 +268,5 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Get the Image Parser.
-	 *
-	 * @return WPSEO_Sitemap_Image_Parser
-	 */
-	protected function get_image_parser() {
-		if ( ! isset( self::$image_parser ) ) {
-			self::$image_parser = new WPSEO_Sitemap_Image_Parser();
-		}
-
-		return self::$image_parser;
 	}
 }

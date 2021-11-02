@@ -44,6 +44,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\User_Helper         $user
  * @property Helpers\Woocommerce_Helper  $woocommerce
  * @property Helpers\Wordpress_Helper    $wordpress
+ * @property Helpers\XM§L_Sitemap_Helper  $xml_sitemap
  */
 class Helpers_Surface {
 
@@ -97,7 +98,7 @@ class Helpers_Surface {
 
 	/**
 	 * Magic getter for getting helper classes.
-	 *
+	 *§
 	 * @param string $helper The helper to get.
 	 *
 	 * @return mixed The helper class.
