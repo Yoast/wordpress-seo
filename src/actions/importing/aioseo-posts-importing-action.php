@@ -108,6 +108,15 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		return $this->wpdb->prefix . 'aioseo_posts';
 	}
 
+	/**
+	 * Determines if the AIOSEO database table exists.
+	 *
+	 * @return bool True if the table is found.
+	 */
+	protected function aioseo_exists() {
+		return $this->wpdb_helper->table_exists( $this->get_table() ) === true;
+	}
+
 	// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: They are already prepared.
 
 	/**
@@ -116,7 +125,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return int The total number of unimported objects.
 	 */
 	public function get_total_unindexed() {
-		if ( ! $this->wpdb_helper->table_exists( $this->get_table() ) ) {
+		if ( ! $this->aioseo_exists() ) {
 			return 0;
 		}
 
@@ -135,7 +144,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return int|false The limited number of unindexed posts. False if the query fails.
 	 */
 	public function get_limited_unindexed_count( $limit ) {
-		if ( ! $this->wpdb_helper->table_exists( $this->get_table() ) ) {
+		if ( ! $this->aioseo_exists() ) {
 			return 0;
 		}
 
@@ -151,7 +160,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return Indexable[]|false An array of created indexables or false if aioseo data was not found.
 	 */
 	public function index() {
-		if ( ! $this->wpdb_helper->table_exists( $this->get_table() ) ) {
+		if ( ! $this->aioseo_exists() ) {
 			return false;
 		}
 
