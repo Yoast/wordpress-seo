@@ -109,6 +109,8 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
 		$last_indexed_aioseo_id = 0;
 		foreach ( $aioseo_indexables as $aioseo_indexable ) {
+			$last_indexed_aioseo_id = $aioseo_indexable['id'];
+
 			$indexable = $this->indexable_repository->find_by_id_and_type( $aioseo_indexable['post_id'], 'post' );
 
 			// Let's ensure that the current post id represents something that we want to index (eg. *not* shop_order).
@@ -121,8 +123,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
 			// To ensure that indexables can be rebuild after a reset, we have to store the data in the postmeta table too.
 			$this->indexable_to_postmeta->map_to_postmeta( $indexable );
-
-			$last_indexed_aioseo_id = $aioseo_indexable['id'];
 		}
 
 		$cursor_id = $this->get_cursor_id();
