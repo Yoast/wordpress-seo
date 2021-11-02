@@ -195,8 +195,6 @@ class Importable_Detector_Test extends TestCase {
 		$detected = $this->mock_instance->detect();
 
 		$this->assertTrue( \is_array( $detected ) );
-
-		$this->assertTrue( \is_array( $detected ) );
 		$this->assertTrue( \count( $detected ) === 0 );
 	}
 
