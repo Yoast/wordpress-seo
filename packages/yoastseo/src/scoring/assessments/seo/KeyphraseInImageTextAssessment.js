@@ -128,8 +128,7 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
-						"%1$sImage Keyphrase%3$s: " +
-						"Images on this page have alt attributes, but you have not set your keyphrase. %2$sFix that%3$s!",
+						"%1$sImage Keyphrase%3$s: Images on this page have alt attributes, but you have not set your keyphrase. %2$sFix that%3$s!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -146,9 +145,8 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
-						"%1$sImage Keyphrase%3$s: " +
-						"Images on this page do not have alt attributes with at least half of the words from your keyphrase. " +
-						"%2$sFix that%3$s!",
+						// eslint-disable-next-line max-len
+						"%1$sImage Keyphrase%3$s: Images on this page do not have alt attributes with at least half of the words from your keyphrase. %2$sFix that%3$s!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -211,9 +209,8 @@ export default class KeyphraseInImagesAssessment extends Assessment {
                      * %2$d expands to the total number of images, %3$s and %4$s expand to a link on yoast.com,
 					 * %5$s expands to the anchor end tag. */
 					__(
-						"%3$sImage Keyphrase%5$s: Out of %2$d images on this page, %1$d have alt attributes with " +
-						"words from your keyphrase or synonyms. " +
-						"That's a bit much. %4$sOnly include the keyphrase or its synonyms when it really fits the image%5$s.",
+						// eslint-disable-next-line max-len
+						"%3$sImage Keyphrase%5$s: Out of %2$d images on this page, %1$d have alt attributes with words from your keyphrase or synonyms. That's a bit much. %4$sOnly include the keyphrase or its synonyms when it really fits the image%5$s.",
 						"wordpress-seo"
 					),
 					this.altProperties.withAltKeyword,
@@ -231,9 +228,8 @@ export default class KeyphraseInImagesAssessment extends Assessment {
 			resultText: sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 				__(
-					"%1$sImage Keyphrase%3$s: " +
-					"Images on this page do not have alt attributes that reflect the topic of your text. " +
-					"%2$sAdd your keyphrase or synonyms to the alt tags of relevant images%3$s!",
+					// eslint-disable-next-line max-len
+					"%1$sImage Keyphrase%3$s: Images on this page do not have alt attributes that reflect the topic of your text. %2$sAdd your keyphrase or synonyms to the alt tags of relevant images%3$s!",
 					"wordpress-seo"
 				),
 				this._config.urlTitle,

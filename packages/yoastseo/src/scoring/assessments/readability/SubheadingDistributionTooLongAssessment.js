@@ -193,8 +193,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 				resultText: sprintf(
 					/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 					__(
-						"%1$sSubheading distribution%2$s: You are not using any subheadings, although your text is rather long." +
-						" %3$sTry and add some subheadings%2$s.",
+						// eslint-disable-next-line max-len
+						"%1$sSubheading distribution%2$s: You are not using any subheadings, although your text is rather long. %3$sTry and add some subheadings%2$s.",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -224,8 +224,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 			resultText: sprintf(
 				/* Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
 				__(
-					"%1$sSubheading distribution%2$s: You are not using any subheadings, but your text is short enough" +
-					" and probably doesn't need them.",
+					// eslint-disable-next-line max-len
+					"%1$sSubheading distribution%2$s: You are not using any subheadings, but your text is short enough and probably doesn't need them.",
 					"wordpress-seo"
 				),
 				this._config.urlTitle,

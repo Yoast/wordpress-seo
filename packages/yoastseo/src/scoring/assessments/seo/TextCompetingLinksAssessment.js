@@ -86,9 +86,7 @@ class TextCompetingLinksAssessment extends Assessment {
 				resultText: sprintf(
 					/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
-						"%1$sLink keyphrase%3$s: " +
-						"You're linking to another page with the words you want this page to rank for. " +
-						"%2$sDon't do that%3$s!",
+						"%1$sLink keyphrase%3$s: You're linking to another page with the words you want this page to rank for. 2$sDon't do that%3$s!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,

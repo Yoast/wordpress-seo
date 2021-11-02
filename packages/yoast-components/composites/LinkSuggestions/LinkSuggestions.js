@@ -18,12 +18,15 @@ const LinkSuggestionsWrapper = styled.div`
 `;
 
 const noRelevantPostsMessage = __(
-	"We could not find any relevant articles on your website that you could link to from your post.", "wordpress-seo" );
+	"We could not find any relevant articles on your website that you could link to from your post.",
+	"wordpress-seo"
+);
 
 // Translators: Text between {{a}} and {{/a}} will be a link to an article about site structure.
 const articleLinkString = __(
-	"{{a}}Read our article about site structure{{/a}} " +
-	"to learn more about how internal linking can help improve your SEO.", "wordpress-seo" );
+	"{{a}}Read our article about site structure{{/a}} to learn more about how internal linking can help improve your SEO.",
+	"wordpress-seo"
+);
 
 // Translators: Text between {{a}} and {{/a}} will be a link to an article about cornerstone content.
 const cornerstoneLinkString = __( "Consider linking to these {{a}}cornerstone articles:{{/a}}", "wordpress-seo" );

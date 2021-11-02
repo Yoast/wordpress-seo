@@ -189,9 +189,8 @@ class KeywordDensityAssessment extends Assessment {
 					%2$s expands to the anchor end tag,
 					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text. */
 					__(
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found 0 times. " +
-						"That's less than the recommended minimum of %3$d times for a text of this length. " +
-						"%4$sFocus on your keyphrase%2$s!",
+						// eslint-disable-next-line max-len
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found 0 times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,

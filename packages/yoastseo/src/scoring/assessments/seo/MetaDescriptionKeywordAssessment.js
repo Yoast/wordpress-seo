@@ -93,8 +93,8 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 					 * %4$s expands to a link on yoast.com, %5$s expands to the anchor end tag.
 					 */
 					__(
-						"%1$sKeyphrase in meta description%2$s: The meta description contains the keyphrase %3$s times, " +
-						"which is over the advised maximum of 2 times. %4$sLimit that%5$s!",
+						// eslint-disable-next-line max-len
+						"%1$sKeyphrase in meta description%2$s: The meta description contains the keyphrase %3$s times, which is over the advised maximum of 2 times. %4$sLimit that%5$s!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -116,8 +116,8 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 				 * %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag.
 				 */
 				__(
-					"%1$sKeyphrase in meta description%2$s: The meta description has been specified, " +
-					"but it does not contain the keyphrase. %3$sFix that%4$s!",
+					// eslint-disable-next-line max-len
+					"%1$sKeyphrase in meta description%2$s: The meta description has been specified, but it does not contain the keyphrase. %3$sFix that%4$s!",
 					"wordpress-seo"
 				),
 				this._config.urlTitle,

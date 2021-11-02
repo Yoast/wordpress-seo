@@ -157,8 +157,8 @@ class SentenceLengthInTextAssessment extends Assessment {
 			%3$d expands to percentage of sentences, %4$s expands to the recommended maximum sentence length,
 			%5$s expands to the recommended maximum percentage. */
 			__(
-				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s words, which is more than the recommended maximum of %5$s." +
-				" %6$sTry to shorten the sentences%2$s.",
+				// eslint-disable-next-line max-len
+				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s words, which is more than the recommended maximum of %5$s. %6$sTry to shorten the sentences%2$s.",
 				"wordpress-seo"
 			),
 			this._config.urlTitle,

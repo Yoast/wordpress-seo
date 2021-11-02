@@ -59,8 +59,7 @@ const calculateComplexity = function( wordCount, wordComplexity ) {
 				// %3$d expands to the recommended maximum number of syllables,
 				// %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
 				__(
-					"%1$s of the words contain %2$sover %3$s syllables%4$s, " +
-					"which is less than or equal to the recommended maximum of %5$s.",
+					"%1$s of the words contain %2$sover %3$s syllables%4$s, which is less than or equal to the recommended maximum of %5$s.",
 					"wordpress-seo"
 				),
 				percentage + "%", wordComplexityURL, recommendedValue, "</a>", recommendedMaximum + "%"  ),
@@ -75,8 +74,7 @@ const calculateComplexity = function( wordCount, wordComplexity ) {
 			// %3$d expands to the recommended maximum number of syllables,
 			// %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
 			__(
-				"%1$s of the words contain %2$sover %3$s syllables%4$s, " +
-				"which is more than the recommended maximum of %5$s.",
+				"%1$s of the words contain %2$sover %3$s syllables%4$s, which is more than the recommended maximum of %5$s.",
 				"wordpress-seo"
 			),
 			percentage + "%", wordComplexityURL, recommendedValue, "</a>", recommendedMaximum + "%"  ),
