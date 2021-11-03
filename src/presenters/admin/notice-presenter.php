@@ -25,6 +25,20 @@ class Notice_Presenter extends Abstract_Presenter {
 	private $content;
 
 	/**
+	 * The filename of the image for the notice.
+	 *
+	 * @var string
+	 */
+	private $image_filename;
+
+	/**
+	 * Whether the notice should be dismissible.
+	 *
+	 * @var bool
+	 */
+	private $is_dismissible;
+
+	/**
 	 * An instance of the WPSEO_Admin_Asset_Manager class.
 	 *
 	 * @var WPSEO_Admin_Asset_Manager
@@ -34,12 +48,16 @@ class Notice_Presenter extends Abstract_Presenter {
 	/**
 	 * Notice_Presenter constructor.
 	 *
-	 * @param string $title   Title of the Notice.
-	 * @param string $content Content of the Notice.
+	 * @param string $title          Title of the admin notice.
+	 * @param string $content        Content of the admin notice.
+	 * @param string $image_filename Optional. The filename of the image of the admin notice, should be inside the 'images' folder.
+	 * @param bool   $is_dismissible Optional. Whether the admin notice should be dismissible.
 	 */
-	public function __construct( $title, $content ) {
-		$this->title   = $title;
-		$this->content = $content;
+	public function __construct( $title, $content, $image_filename = null, $is_dismissible = false ) {
+		$this->title          = $title;
+		$this->content        = $content;
+		$this->image_filename = $image_filename;
+		$this->is_dismissible = $is_dismissible;
 
 		if ( ! $this->asset_manager ) {
 			$this->asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -54,8 +72,10 @@ class Notice_Presenter extends Abstract_Presenter {
 	 * @return string The styled Notice.
 	 */
 	public function present() {
+		$dismissible = ( $this->is_dismissible ) ? 'is-dismissible' : '';
+
 		// WordPress admin notice.
-		$out  = '<div class="notice notice-yoast">';
+		$out  = '<div class="notice notice-yoast ' . $dismissible . '">';
 		$out .= '<div class="notice-yoast__container">';
 
 		// Header.
@@ -70,7 +90,9 @@ class Notice_Presenter extends Abstract_Presenter {
 		// Content.
 		$out .= '<div class="notice-yoast__content">';
 		$out .= '<p>' . $this->content . '</p>';
-		$out .= '<img src="' . \esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/Assistent_Time_bubble_500x570.png' ) . '" alt="" />';
+		if ( ! \is_null( $this->image_filename ) ) {
+			$out .= '<img src="' . \esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/' . $this->image_filename ) . '" alt="" />';
+		}
 		$out .= '</div>';
 
 		$out .= '</div>';
