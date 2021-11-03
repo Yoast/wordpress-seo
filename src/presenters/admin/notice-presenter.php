@@ -25,7 +25,7 @@ class Notice_Presenter extends Abstract_Presenter {
 	private $content;
 
 	/**
-	 * The filename of the image for the notice.
+	 * The filename of the image for the notice. Should be a file in the 'images' folder.
 	 *
 	 * @var string
 	 */
