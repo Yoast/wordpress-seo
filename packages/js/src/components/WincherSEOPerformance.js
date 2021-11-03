@@ -195,7 +195,14 @@ ConnectToWincher.defaultProps = {
 	response: {},
 };
 
-const ContentWrapper = styled.div`
+// We need this wrapper to get consistent paragraph margins in both Elementor and Gutenberg.
+const Wrapper = styled.div`
+	p {
+		margin: 1em 0;
+	}
+`;
+
+const TableWrapper = styled.div`
 	${ props => props.isDisabled && `
 		opacity: .5;
 		pointer-events: none;
@@ -228,7 +235,7 @@ export default function WincherSEOPerformance( props ) {
 	const noKeyphrases = keyphrases.length === 0;
 
 	return (
-		<Fragment>
+		<Wrapper>
 			{ isNewlyAuthenticated && <WincherConnectedAlert /> }
 
 			<Title>
@@ -247,14 +254,14 @@ export default function WincherSEOPerformance( props ) {
 
 			{ noKeyphrases
 				? <WincherNoKeyphraseSet />
-				: <ContentWrapper isDisabled={ ! isLoggedIn }>
+				: <TableWrapper isDisabled={ ! isLoggedIn }>
 					<p>{ __( "You can enable / disable tracking the SEO performance for each keyphrase below.", "wordpress-seo" ) }</p>
 
 					{ isLoggedIn && shouldTrackAll && <WincherAutoTrackingEnabledAlert /> }
 
 					<WincherKeyphrasesTable />
-				</ContentWrapper> }
-		</Fragment>
+				</TableWrapper> }
+		</Wrapper>
 	);
 }
 
