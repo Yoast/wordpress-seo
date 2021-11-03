@@ -12,13 +12,13 @@ import getContentWords from "../helpers/getContentWords";
  * @returns {Array<string[]>} The word forms for each word in the keyphrase.
  */
 function getKeyphraseForms( keyphrase, morphologyData ) {
-	let keyphraseWords = getContentWords( keyphrase );
+	const keyphraseWords = getContentWords( keyphrase );
 
 	// The keyphrase is in double quotes: use it as an exact match keyphrase.
 	const doubleQuotes = [ "「", "」", "『", "』", "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
 	if ( includes( doubleQuotes, keyphrase[ 0 ] ) && includes( doubleQuotes, keyphrase[ keyphrase.length - 1 ] ) ) {
 		keyphrase = keyphrase.substring( 1, keyphrase.length - 1 );
-		keyphraseWords = [ keyphrase ];
+		return [ [ keyphrase ] ];
 	}
 
 	return keyphraseWords.map( word => createWordForms( word, morphologyData ) );
