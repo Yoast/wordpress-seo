@@ -26,7 +26,7 @@ class Article_Helper {
 		 *
 		 * @api string[] $post_types The post types for which we output Article.
 		 */
-		\apply_filters_deprecated( 'wpseo_schema_article_post_types', [ [ 'post' ] ], 'WPSEO 17.6', '' );
+		\apply_filters_deprecated( 'wpseo_schema_article_post_types', [ 'post' ], 'WPSEO 17.6', '' );
 
 		return $this->is_author_supported( $post_type );
 	}
