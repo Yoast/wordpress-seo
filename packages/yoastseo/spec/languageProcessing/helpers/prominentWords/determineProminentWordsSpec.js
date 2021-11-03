@@ -184,6 +184,25 @@ describe( "collapseProminentWordsOnStem collapses over duplicates by stem", func
 		expect( result ).toEqual( expectedResult );
 	} );
 
+	it( "properly sorts the input array by stem before collapsing in Japanese", function() {
+		const wordCombinations = [
+			new ProminentWord( "猫", "猫", 2 ),
+			new ProminentWord( " 読まれ", "読ん", 11 ),
+			new ProminentWord( "手紙", "手紙", 2 ),
+			new ProminentWord( "読ん", "読ん", 10 ),
+		];
+
+		const expectedResult = [
+			new ProminentWord( "猫", "猫", 2 ),
+			new ProminentWord( "手紙", "手紙", 2 ),
+			new ProminentWord( "読ん", "読ん", 21 ),
+		];
+
+		const result = collapseProminentWordsOnStem( wordCombinations );
+
+		expect( result ).toEqual( expectedResult );
+	} );
+
 	it( "properly sorts the input array by stem before collapsing: Also with abbreviations", function() {
 		const wordCombinations = [
 			new ProminentWord( "sentence", "sentence", 2 ),
@@ -231,6 +250,41 @@ describe( "collapseProminentWordsOnStem collapses over duplicates by stem", func
 			new ProminentWord( "site", "site", 4 ),
 			new ProminentWord( "update", "update", 1 ),
 			new ProminentWord( "yoast", "yoast", 6 ),
+		];
+
+		const result = collapseProminentWordsOnStem( wordCombinations );
+
+		expect( result ).toEqual( expectedResult );
+	} );
+
+	it( "deals with multiple repetitions of forms of the same stem in Japanese", function() {
+		const wordCombinations = [
+			new ProminentWord( "休め", "休め", 6 ),
+			new ProminentWord( "木材", "木材", 6 ),
+			new ProminentWord( "含む全て", "含む全た", 3 ),
+			new ProminentWord( "休ま", "休め", 3 ),
+			new ProminentWord( "予定", "予定", 3 ),
+			new ProminentWord( "話せる", "話さ", 3 ),
+			new ProminentWord( "休め", "休め", 3 ),
+			new ProminentWord( "休ませる", "休め", 2 ),
+			new ProminentWord( "話", "話", 2 ),
+			new ProminentWord( "天気", "天気", 2 ),
+			new ProminentWord( "木材", "木材", 2 ),
+			new ProminentWord( "休め", "休め", 1 ),
+			new ProminentWord( "話さ", "話さ", 1 ),
+			new ProminentWord( "ブログ", "ブログ", 1 ),
+		];
+
+		const expectedResult = [
+			new ProminentWord( "含む全て", "含む全た", 3 ),
+			new ProminentWord( "話", "話", 2 ),
+			new ProminentWord( "天気", "天気", 2 ),
+			new ProminentWord( "休め", "休め", 9 ),
+			new ProminentWord( "木材", "木材", 8 ),
+			new ProminentWord( "予定", "予定", 3 ),
+			new ProminentWord( "話さ", "話さ", 4 ),
+			new ProminentWord( "ブログ", "ブログ", 1 ),
+			new ProminentWord( "休め", "休め", 6 ),
 		];
 
 		const result = collapseProminentWordsOnStem( wordCombinations );
