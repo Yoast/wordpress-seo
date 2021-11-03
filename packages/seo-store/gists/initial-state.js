@@ -1,7 +1,7 @@
 // Proposed state:
 export const state = {
 	analysis: {
-		options: {
+		config: {
 			analysisType: "post",
 			isSeoActive: true,
 			isReadabilityActive: true,

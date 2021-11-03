@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
-import { FOCUS_KEYPHRASE_ID } from "../constants";
+import { FOCUS_KEYPHRASE_ID } from "../../constants";
 
 export const KEYPHRASES_SLICE_NAME = "keyphrases";
 
@@ -16,7 +16,10 @@ const keyphrases = createSlice( {
 	initialState,
 	reducers: {
 		updateKeyphrase: ( state, action ) => {
-			state[ action.payload.id || FOCUS_KEYPHRASE_ID ] = action.payload.keyphrase;
+			state[ action.payload.id || FOCUS_KEYPHRASE_ID ].keyphrase = action.payload.keyphrase;
+		},
+		updateSynonyms: ( state, action ) => {
+			state[ action.payload.id || FOCUS_KEYPHRASE_ID ].synonyms = action.payload.keyphrase;
 		},
 	},
 } );
