@@ -36,6 +36,7 @@ describe( "retrieveExpectedDimensions", () => {
 			squareHeight: 125,
 			landscapeWidth: 506,
 			landscapeHeight: 265,
+			aspectRatio: 50.2,
 		};
 
 		expect( actual ).toEqual( expected );
@@ -50,6 +51,7 @@ describe( "retrieveExpectedDimensions", () => {
 			landscapeHeight: 273,
 			portraitWidth: 158,
 			portraitHeight: 237,
+			aspectRatio: 52.2,
 		};
 
 		expect( actual ).toEqual( expected );

@@ -15,6 +15,7 @@ import { select, subscribe } from "@wordpress/data";
 
 // Internal dependencies.
 import YoastReplaceVarPlugin from "../analysis/plugins/replacevar-plugin";
+import YoastReusableBlocksPlugin from "../analysis/plugins/reusable-blocks-plugin";
 import YoastShortcodePlugin from "../analysis/plugins/shortcode-plugin";
 import YoastMarkdownPlugin from "../analysis/plugins/markdown-plugin";
 import * as tinyMCEHelper from "../lib/tinymce";
@@ -419,6 +420,8 @@ export default function initPostScraper( $, store, editorData ) {
 		const appArgs = getAppArgs( store );
 		app = new App( appArgs );
 
+		const blockEditorDataModule = select( "core/block-editor" );
+
 		// Content analysis
 		window.YoastSEO = window.YoastSEO || {};
 		window.YoastSEO.app = app;
@@ -430,7 +433,7 @@ export default function initPostScraper( $, store, editorData ) {
 			store,
 			customAnalysisData,
 			app.pluggable,
-			select( "core/block-editor" )
+			blockEditorDataModule
 		);
 		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks()( paper, marks );
 
@@ -474,6 +477,11 @@ export default function initPostScraper( $, store, editorData ) {
 			pluginReady: app.pluginReady,
 			pluginReloaded: app.pluginReloaded,
 		} );
+
+		if ( isBlockEditor() ) {
+			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, blockEditorDataModule );
+			reusableBlocksPlugin.register();
+		}
 
 		if ( wpseoScriptData.metabox.markdownEnabled ) {
 			const markdownPlugin = new YoastMarkdownPlugin( app.registerPlugin, app.registerModification );

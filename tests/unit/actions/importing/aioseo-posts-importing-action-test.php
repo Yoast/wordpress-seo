@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Posts_Importing_Action_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -74,6 +75,13 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
+	 * The wpdb helper.
+	 *
+	 * @var Wpdb_Helper
+	 */
+	protected $wpdb_helper;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
@@ -84,7 +92,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->meta                  = Mockery::mock( Meta_Helper::class );
 		$this->indexable_to_postmeta = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
 		$this->options               = Mockery::mock( Options_Helper::class );
-		$this->instance              = new Aioseo_Posts_Importing_Action( $this->indexable_repository, $this->wpdb, $this->indexable_to_postmeta, $this->options );
+		$this->wpdb_helper           = Mockery::mock( Wpdb_Helper::class );
+		$this->instance              = new Aioseo_Posts_Importing_Action( $this->indexable_repository, $this->wpdb, $this->indexable_to_postmeta, $this->options, $this->wpdb_helper );
 		$this->mock_instance         = Mockery::mock(
 			Aioseo_Posts_Importing_Action_Double::class,
 			[
@@ -92,8 +101,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				$this->wpdb,
 				$this->indexable_to_postmeta,
 				$this->options,
+				$this->wpdb_helper,
 			]
-		)->makePartial();
+		)->makePartial()->shouldAllowMockingProtectedMethods();
 
 		$this->wpdb->prefix = 'wp_';
 	}
@@ -124,6 +134,14 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				ORDER BY id
 				LIMIT 25'
 			);
+
+		$this->mock_instance->expects( 'get_table' )
+			->twice()
+			->andReturn( 'wp_aioseo_posts' );
+
+		$this->wpdb_helper->expects( 'table_exists' )
+			->once()
+			->andReturn( true );
 
 		$this->wpdb->expects( 'get_col' )
 			->once()
@@ -170,6 +188,14 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				ORDER BY id
 				LIMIT 25'
 			);
+
+			$this->mock_instance->expects( 'get_table' )
+				->twice()
+				->andReturn( 'wp_aioseo_posts' );
+
+			$this->wpdb_helper->expects( 'table_exists' )
+				->once()
+				->andReturn( true );
 
 			// Return 0 importables.
 			$this->wpdb->expects( 'get_results' )
