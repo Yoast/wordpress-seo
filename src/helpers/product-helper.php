@@ -39,9 +39,9 @@ class Product_Helper {
 	}
 
 	/**
-	 * Gets the Premium version if defined, returns false otherwise.
+	 * Gets the Premium version if defined, returns null otherwise.
 	 *
-	 * @return string|null The Premium version or false when premium is not active.
+	 * @return string|null The Premium version or null when premium version is not defined.
 	 */
 	public function get_premium_version() {
 		if ( \defined( 'WPSEO_PREMIUM_VERSION' ) ) {
