@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Routes\Workouts_Route;
 
@@ -86,8 +87,8 @@ class Workouts_Integration implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
-		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], 8 );
-		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], 9 );
+		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ], 11 );
 	}
 
 	/**
@@ -98,6 +99,16 @@ class Workouts_Integration implements Integration_Interface {
 	 * @return array the filtered submenu pages.
 	 */
 	public function add_submenu_page( $submenu_pages ) {
+		// If Premium has an outdated version, which also adds a 'workouts' submenu, don't show the Premium submenu.
+		if ( $this->should_update_premium() ) {
+			$submenu_pages = array_filter(
+				$submenu_pages,
+				function ( $item ) {
+					return $item[4] !== 'wpseo_workouts';
+				}
+			);
+		}
+
 		// This inserts the workouts menu page at the correct place in the array without overriding that position.
 		$submenu_pages[] = [
 			'wpseo_dashboard',
@@ -118,6 +129,10 @@ class Workouts_Integration implements Integration_Interface {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
 		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_workouts' ) {
 			return;
+		}
+
+		if ( $this->should_update_premium() ) {
+			\wp_dequeue_script( 'yoast-seo-premium-workouts' );
 		}
 
 		$this->admin_asset_manager->enqueue_style( 'workouts' );
@@ -159,6 +174,11 @@ class Workouts_Integration implements Integration_Interface {
 	 * Renders the target for the React to mount to.
 	 */
 	public function render_target() {
+		if ( $this->should_update_premium() ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in get_update_premium_notice.
+			echo $this->get_update_premium_notice();
+		}
+
 		echo '<div id="wpseo-workouts-container-free"></div>';
 	}
 
@@ -258,5 +278,32 @@ class Workouts_Integration implements Integration_Interface {
 		}
 
 		return $workouts_option;
+	}
+
+	/**
+	 * Returns the notification to show when Premium needs to be updated.
+	 *
+	 * @return string The notification to update Premium.
+	 */
+	private function get_update_premium_notice() {
+		$title   = \__( 'Update to the latest version of Yoast SEO Premium', 'wordpress-seo' );
+		$content = \sprintf(
+			/* translators: 1: Link start tag to the page to update Premium, 2: Link closing tag. */
+			__( 'It looks like you\'re running an outdated version of Yoast SEO Premium, please %1$supdate to the latest version%2$s to gain access to our updated workouts section, including the all new configuration workout.', 'wordpress-seo' ),
+			'<a href="' . \esc_url( admin_url( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php&_wpnonce=' ) ) . '">',
+			'</a>'
+		);
+
+		return new Notice_Presenter( $title, $content, 'Assistent_Time_bubble_500x570.png' );
+	}
+
+	/**
+	 * Check whether Premium should be updated.
+	 *
+	 * @return bool Returns true when Premium is enabled and the version is below 17.7.
+	 */
+	private function should_update_premium() {
+		$premium_version = YoastSEO()->helpers->product->get_premium_version();
+		return $premium_version !== null && $premium_version < 17.7;
 	}
 }
