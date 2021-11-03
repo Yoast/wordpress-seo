@@ -23,7 +23,43 @@ describe( "The getWordForms function", () => {
 			synonymsForms: [],
 		} );
 	} );
-	it( "returns the exact match of a keyphrase.", () => {
+	it( "returns empty structure if no keyword or synonyms are supplied.", () => {
+		const paper = new Paper(
+			"休ま",
+			{
+				keyword: "",
+				synonyms: "",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms: [],
+			synonymsForms: [],
+		} );
+	} );
+	it( "returns an empty keyphrase field if only synonyms are supplied.", () => {
+		const paper = new Paper(
+			"休ま",
+			{
+				keyword: "",
+				synonyms: "休め",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms: [],
+			synonymsForms: [ [ [ "休む", "休み", "休ま", "休め", "休も", "休ん", "休める", "休ませ", "休ませる", "休まれ", "休まれる", "休もう" ] ] ],
+		} );
+	} );
+	it( "returns the exact match of a Japanese keyphrase using double quotation marks.", () => {
 		const paper = new Paper(
 			"休ま",
 			{
@@ -40,7 +76,7 @@ describe( "The getWordForms function", () => {
 			synonymsForms: [],
 		} );
 	} );
-	it( "returns the exact match of a keyphrase.", () => {
+	it( "returns the exact match of a Japanese keyphrase using Japanese-specific quotation marks.", () => {
 		const paper = new Paper(
 			"頑張ら",
 			{
@@ -99,7 +135,7 @@ describe( "The getWordForms function", () => {
 			],
 		} );
 	} );
-	it( "creates forms for keyphrases consisting of multiple words.", () => {
+	it( "creates forms for a Japanese keyphrase consisting of multiple words.", () => {
 		const paper = new Paper(
 			"犬です。",
 			{
@@ -128,7 +164,7 @@ describe( "The getWordForms function", () => {
 		} )
 		;
 	} );
-	it( "creates forms for keyphrases consisting of multiple words separated by spaces.", () => {
+	it( "creates forms for a Japanese keyphrase consisting of multiple words separated by spaces.", () => {
 		const paper = new Paper(
 			"文章です。",
 			{
