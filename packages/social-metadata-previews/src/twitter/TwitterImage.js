@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import { noop } from "lodash";
 
 /* Internal dependencies */
 import { SocialImage } from "../shared/SocialImage";
@@ -187,7 +188,7 @@ TwitterImage.propTypes = {
 TwitterImage.defaultProps = {
 	src: "",
 	alt: "",
-	onMouseEnter: () => {},
-	onImageClick: () => {},
-	onMouseLeave: () => {},
+	onMouseEnter: noop,
+	onImageClick: noop,
+	onMouseLeave: noop,
 };

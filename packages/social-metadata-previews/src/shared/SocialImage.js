@@ -1,5 +1,6 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
+import styled from "styled-components";
 
 // Adding && for specificity, competing styles coming from blockeditor.
 const StyledImage = styled.img`
@@ -19,7 +20,7 @@ const StyledImage = styled.img`
  *
  * @param {Object} props The component's props.
  *
- * @returns {SocialImage} The SocialImage component.
+ * @returns {JSX.Element} The SocialImage component.
  */
 export const SocialImage = ( props ) => {
 	const { imageProps, width, height, imageMode } = props;

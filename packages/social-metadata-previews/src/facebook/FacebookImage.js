@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import { noop } from "lodash";
 
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
@@ -186,10 +187,10 @@ FacebookImage.propTypes = {
 FacebookImage.defaultProps = {
 	src: "",
 	alt: "",
-	onImageLoaded: () => {},
-	onImageClick: () => {},
-	onMouseEnter: () => {},
-	onMouseLeave: () => {},
+	onImageLoaded: noop,
+	onImageClick: noop,
+	onMouseEnter: noop,
+	onMouseLeave: noop,
 };
 
 export default FacebookImage;
