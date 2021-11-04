@@ -118,25 +118,7 @@ module.exports = function( grunt ) {
 		},
 
 		"makepot-yoastseojs": {
-			potFile: "languages/yoast-seo-js.pot",
-			textdomain: "js-text-analysis",
-			command: function() {
-				var files;
-
-				files = [ "./node_modules/yoastseo/src/**/*.js" ];
-				files = grunt.file.expand( files );
-
-				grunt.file.write( "languages/yoastseojsfiles.txt", files.join( "\n" ) );
-
-				return "xgettext" +
-					" --default-domain=js-text-analysis" +
-					" -o <%= files.pot.yoastseojs %>" +
-					" --force-po" +
-					" --from-code=UTF-8" +
-					" --add-comments=\"translators: \"" +
-					" --add-comments=\"Translators: \"" +
-					" --files-from=languages/yoastseojsfiles.txt";
-			},
+			command: "yarn i18n-yoastseo-js",
 		},
 
 		webpack: {
