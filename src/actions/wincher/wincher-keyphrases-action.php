@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Actions\Wincher;
 
 use Exception;
 use WP_Post;
-use WP_Query;
 use WPSEO_Meta;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -293,25 +292,39 @@ class Wincher_Keyphrases_Action {
 	 * @return array
 	 */
 	protected function collect_all_keyphrases() {
+		global $wpdb;
+
 		// Collect primary keyphrases first.
 		$keyphrases = \array_column(
 			$this->indexable_repository
 				->query()
 				->select( 'primary_focus_keyword' )
 				->where_not_null( 'primary_focus_keyword' )
+				->distinct()
 				->find_array(),
 			'primary_focus_keyword'
 		);
 
 		if ( YoastSEO()->helpers->product->is_premium() ) {
 			// Collect all related keyphrases.
-			$query_posts = new WP_Query( 'post_type=any&nopaging=true' );
+			$meta_key = WPSEO_Meta::$meta_prefix . 'focuskeywords';
 
-			foreach ( $query_posts->posts as $post ) {
-				$additional_keywords = \json_decode( WPSEO_Meta::get_value( 'focuskeywords', $post->ID ), true );
-				if ( $additional_keywords !== null ) {
-					$additional_keywords = \array_column( $additional_keywords, 'keyword' );
-					$keyphrases          = \array_merge( $keyphrases, $additional_keywords );
+			$query = "
+				SELECT meta_value
+				FROM $wpdb->postmeta
+				WHERE meta_key = '$meta_key'
+			";
+
+			// phpcs:ignore -- ignoring since it's complaining about not using prepare when it's perfectly safe here.
+			$results = $wpdb->get_results( $query );
+
+			if ( $results ) {
+				foreach ( $results as $row ) {
+					$additional_keywords = \json_decode( $row->meta_value, true );
+					if ( $additional_keywords !== null ) {
+						$additional_keywords = \array_column( $additional_keywords, 'keyword' );
+						$keyphrases          = \array_merge( $keyphrases, $additional_keywords );
+					}
 				}
 			}
 		}
