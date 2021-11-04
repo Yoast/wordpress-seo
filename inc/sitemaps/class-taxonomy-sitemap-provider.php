@@ -64,10 +64,10 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$taxonomies = $this->repository->query()
 									   ->select( 'object_sub_type' )
-									   ->select_expr( 'MAX( object_last_modified ) AS max_object_last_modified' )
+									   ->select_expr( 'MAX( `object_last_modified` ) AS max_object_last_modified' )
 									   ->select_expr( 'COUNT(*) AS count' )
 									   ->where( 'object_type', 'term' )
-									   ->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
+									   ->where_raw( '( `is_robots_noindex` = 0 OR `is_robots_noindex` IS NULL )' )
 									   ->group_by( 'object_sub_type' )
 									   ->find_many();
 
@@ -93,9 +93,9 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				$sql = 'SELECT object_last_modified
 				    FROM ( SELECT @rownum:=0 ) init
 				    JOIN ' . Model::get_table_name( 'Indexable' ) . '
-				    WHERE ( `object_type` = "term" )
-				      AND object_sub_type = %s
-				      AND ( is_robots_noindex = 0 OR is_robots_noindex IS NULL )
+				    WHERE `object_type` = "term"
+				      AND `object_sub_type` = %s
+				      AND ( `is_robots_noindex` = 0 OR `is_robots_noindex` IS NULL )
 				      AND ( @rownum:=@rownum+1 ) %% %d = 0
 				    ORDER BY object_last_modified ASC';
 

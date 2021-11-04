@@ -49,25 +49,40 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return array
 	 */
 	public function get_index_links( $max_entries ) {
-		global $wpdb;
+		$post_types = $this->repository->query()
+									   ->select( 'object_sub_type' )
+									   ->select_expr( 'MAX( `object_last_modified` ) AS max_object_last_modified' )
+									   ->select_expr( 'COUNT(*) AS count' )
+									   ->where( 'object_type', 'post' )
+									   ->where_raw( '( `is_robots_noindex` = 0 OR `is_robots_noindex` IS NULL )' )
+									   ->group_by( 'object_sub_type' )
+									   ->find_many();
 
-		$post_types          = WPSEO_Post_Type::get_accessible_post_types();
-		$post_types          = array_filter( $post_types, [ $this, 'is_valid_post_type' ] );
-		$last_modified_times = WPSEO_Sitemaps::get_last_modified_gmt( $post_types, true );
-		$index               = [];
+		$index = [];
 
 		foreach ( $post_types as $post_type ) {
-
-			$total_count = $this->get_post_type_count( $post_type );
-
-			$max_pages = 1;
-			if ( $total_count > $max_entries ) {
-				$max_pages = (int) ceil( $total_count / $max_entries );
+			/**
+			 * Filter decision if post type is excluded from the XML sitemap.
+			 *
+			 * @param bool   $exclude   Default false.
+			 * @param string $post_type Post type name.
+			 */
+			if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type->object_sub_type ) ) {
+				continue;
 			}
 
-			$all_dates = [];
+			if ( ! WPSEO_Post_Type::is_post_type_accessible( $post_type->object_sub_type ) || ! WPSEO_Post_Type::is_post_type_indexable( $post_type->object_sub_type ) ) {
+				continue;
+			}
+
+			$max_pages = 1;
+			if ( $post_type->count > $max_entries ) {
+				$max_pages = (int) ceil( $post_type->count / $max_entries );
+			}
 
 			if ( $max_pages > 1 ) {
+				global $wpdb;
+
 				$sql = 'SELECT object_last_modified
 				    FROM ( SELECT @rownum:=0 ) init
 				    JOIN ' . Model::get_table_name( 'Indexable' ) . '
@@ -78,27 +93,20 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				    ORDER BY object_last_modified ASC';
 
 				// phpcs:ignore WordPress.DB
-				$all_dates = $wpdb->get_col( $wpdb->prepare( $sql, $post_type, $max_entries ) );
+				$all_dates    = array_merge( $wpdb->get_col( $wpdb->prepare( $sql, $post_type->object_sub_type, $max_entries ) ), [ $post_type->max_object_last_modified ] );
+				$page_counter = 1;
+				foreach ( $all_dates as $date ) {
+					$index[] = [
+						'loc'     => WPSEO_Sitemaps_Router::get_base_url( $post_type->object_sub_type . '-sitemap' . $page_counter . '.xml' ),
+						'lastmod' => $date,
+					];
+					$page_counter ++;
+				}
 			}
-
-			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter++ ) {
-
-				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
-				$date         = false;
-
-				if ( empty( $current_page ) || $current_page === $max_pages ) {
-
-					if ( ! empty( $last_modified_times[ $post_type ] ) ) {
-						$date = $last_modified_times[ $post_type ];
-					}
-				}
-				else {
-					$date = $all_dates[ $page_counter ];
-				}
-
+			else {
 				$index[] = [
-					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $post_type . '-sitemap' . $current_page . '.xml' ),
-					'lastmod' => $date,
+					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $post_type->object_sub_type . '-sitemap.xml' ),
+					'lastmod' => $post_type->max_object_last_modified,
 				];
 			}
 		}
@@ -107,25 +115,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Retrieves a count of URLs for a post type.
-	 *
-	 * @param string $post_type The post type to get a count for.
-	 *
-	 * @return int
-	 */
-	public function get_post_type_count( $post_type ) {
-		return $this->repository
-			->query()
-			->where( 'object_sub_type', $post_type ) // by only checking object-sub-type, we automatically include post type archives if they're indexable.
-			->where_raw( '( post_status = "publish" OR post_status IS NULL )' )
-			->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
-			->count();
-	}
-
-	/**
 	 * Get set of sitemap link data.
 	 *
-	 * @param string $post_type    Sitemap type.
+	 * @param string $type         Sitemap type.
 	 * @param int    $max_entries  Entries per sitemap.
 	 * @param int    $current_page Current page of the sitemap.
 	 *
@@ -133,8 +125,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 *
 	 * @throws OutOfBoundsException When an invalid page is requested.
 	 */
-	public function get_sitemap_links( $post_type, $max_entries, $current_page ) {
-		if ( ! $this->is_valid_post_type( $post_type ) ) {
+	public function get_sitemap_links( $type, $max_entries, $current_page ) {
+		if ( ! $this->is_valid_post_type( $type ) ) {
 			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
@@ -152,14 +144,14 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			->offset( $offset )
 			->limit( $steps );
 
-		if ( $post_type === 'page' ) {
+		if ( $type === 'page' ) {
 			$query->where_raw( '( object_sub_type = "page" OR object_sub_type IS NULL )' )
 				->where_in( 'object_type', [ 'home-page', 'post' ] );
 		}
 		else {
-			$query->where( 'object_sub_type', $post_type );
+			$query->where( 'object_sub_type', $type );
 		}
-		$posts_to_exclude = $this->get_excluded_posts( $post_type );
+		$posts_to_exclude = $this->get_excluded_posts( $type );
 		if ( count( $posts_to_exclude ) > 0 ) {
 			$query->where_not_in( 'object_id', $posts_to_exclude );
 		}
@@ -180,7 +172,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @param int $post_id Post ID to possibly invalidate for.
 	 */
 	public function save_post( $post_id ) {
-
 		if ( $this->is_valid_post_type( get_post_type( $post_id ) ) ) {
 			WPSEO_Sitemaps_Cache::invalidate_post( $post_id );
 		}
