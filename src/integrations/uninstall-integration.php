@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Class to manage the integration with the WP uninstall flow.
