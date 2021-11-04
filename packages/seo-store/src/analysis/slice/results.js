@@ -53,8 +53,7 @@ const initialState = {
 	},
 };
 
-
-const results = createSlice( {
+const resultsSlice = createSlice( {
 	name: RESULTS_SLICE_NAME,
 	initialState,
 	reducers: {},
@@ -75,17 +74,15 @@ const results = createSlice( {
 	},
 } );
 
-const selectSeoResults = ( state, id = FOCUS_KEYPHRASE_ID ) => get( state, `results.seo.${ id }`, {} );
-const selectReadabilityResults = ( state ) => get( state, "results.readability", {} );
-const selectResearchResults = ( state, id = FOCUS_KEYPHRASE_ID ) => get( state, `results.seo.${ id }`, {} );
-
 export const resultsSelectors = {
-	selectSeoResults,
+	selectSeoResults: ( state, id = FOCUS_KEYPHRASE_ID ) => get( state, `results.seo.${ id }`, {} ),
+	selectReadabilityResults: ( state ) => get( state, "results.readability", {} ),
+	selectResearchResults: ( state, id ) => get( state, `results.research.${ id }`, {} ),
 };
 
 export const resultsActions = {
-	...results.actions,
+	...resultsSlice.actions,
 	analyze,
 };
 
-export default results.reducer;
+export default resultsSlice.reducer;

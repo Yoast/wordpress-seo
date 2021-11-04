@@ -10,8 +10,9 @@
   "author": "Team Yoast",
   "license": "GPL-3.0",
   "scripts": {
-    "build": "babel src --out-dir build",
-    "watch": "babel src --watch --out-dir build"
+    "build": "yarn clean && babel src --out-dir build",
+    "watch": "yarn clean && babel src --watch --out-dir build",
+    "clean": "rimraf build"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",
@@ -24,11 +25,12 @@
     "@babel/eslint-plugin": "^7.14.5",
     "@wordpress/babel-preset-default": "^6.3.4",
     "eslint": "^8.1.0",
-    "eslint-config-yoast": "^5.0.17"
+    "eslint-config-yoast": "^5.0.17",
+    "rimraf": "^3.0.2"
   },
   "peerDependencies": {
-    "react": "^17.0.1",
     "@wordpress/data": "^6.1.2",
-    "@wordpress/element": "^4.0.3"
+    "@wordpress/element": "^4.0.3",
+    "react": "^17.0.1"
   }
 }

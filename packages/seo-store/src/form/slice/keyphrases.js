@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
-import { FOCUS_KEYPHRASE_ID } from "../../constants";
+import { FOCUS_KEYPHRASE_ID } from "../../common/constants";
 
 export const KEYPHRASES_SLICE_NAME = "keyphrases";
 
@@ -11,7 +11,7 @@ const initialState = {
 	},
 };
 
-const keyphrases = createSlice( {
+const keyphrasesSlice = createSlice( {
 	name: KEYPHRASES_SLICE_NAME,
 	initialState,
 	reducers: {
@@ -30,6 +30,6 @@ export const keyphrasesSelectors = {
 	selectSynonyms: ( state, id = FOCUS_KEYPHRASE_ID ) => get( state, [ KEYPHRASES_SLICE_NAME, id, "synonyms" ], "" ),
 };
 
-export const keyphrasesActions = keyphrases.actions;
+export const keyphrasesActions = keyphrasesSlice.actions;
 
-export default keyphrases.reducer;
+export default keyphrasesSlice.reducer;

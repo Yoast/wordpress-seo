@@ -12,7 +12,7 @@ import { isEqual } from "lodash";
  *
  * @returns {void}
  */
-const useEffectWithCompare = ( callback, dependencies, compare = isEqual ) => {
+export const useEffectWithCompare = ( callback, dependencies, compare = isEqual ) => {
 	const ref = useRef();
 
 	if ( ! compare( dependencies, ref.current ) ) {
@@ -21,5 +21,3 @@ const useEffectWithCompare = ( callback, dependencies, compare = isEqual ) => {
 
 	useEffect( callback, ref.current );
 };
-
-export default useEffectWithCompare;

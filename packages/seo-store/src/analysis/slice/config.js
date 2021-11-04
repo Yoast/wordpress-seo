@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createSimpleReducers, createSimpleSelectors } from "../../helpers";
+import { createSimpleReducers, createSimpleSelectors } from "../../common/helpers";
 
 export const CONFIG_SLICE_NAME = "config";
 
@@ -10,7 +10,7 @@ const initialState = {
 	researches: [ "morphology" ],
 };
 
-const config = createSlice( {
+const configSlice = createSlice( {
 	name: CONFIG_SLICE_NAME,
 	initialState,
 	reducers: {
@@ -26,6 +26,6 @@ const config = createSlice( {
 
 export const configSelectors = createSimpleSelectors( CONFIG_SLICE_NAME, Object.keys( initialState ) );
 
-export const configActions = config.actions;
+export const configActions = configSlice.actions;
 
-export default config.reducer;
+export default configSlice.reducer;

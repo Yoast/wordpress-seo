@@ -9,7 +9,7 @@ const initialState = {
 	slug: "",
 };
 
-const seo = createSlice( {
+const seoSlice = createSlice( {
 	name: SEO_SLICE_NAME,
 	initialState,
 	reducers: createSimpleReducers( SEO_SLICE_NAME, Object.keys( initialState ) ),
@@ -17,6 +17,6 @@ const seo = createSlice( {
 
 export const seoSelectors = createSimpleSelectors( SEO_SLICE_NAME, Object.keys( initialState ) );
 
-export const seoActions = seo.actions;
+export const seoActions = seoSlice.actions;
 
-export default seo.reducer;
+export default seoSlice.reducer;
