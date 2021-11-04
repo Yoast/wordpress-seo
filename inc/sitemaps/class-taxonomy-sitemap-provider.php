@@ -5,8 +5,8 @@
  * @package WPSEO\XML_Sitemaps
  */
 
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 
 /**
  * Sitemap provider for author archives.
@@ -71,10 +71,17 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 									   ->group_by( 'object_sub_type' )
 									   ->find_many();
 
-		global $wpdb;
-		echo '<!--', $wpdb->last_query, print_r( $taxonomies, 1 ), '-->';
-
 		foreach ( $taxonomies as $taxonomy ) {
+			/**
+			 * Filter to exclude the taxonomy from the XML sitemap.
+			 *
+			 * @param bool   $exclude       Defaults to false.
+			 * @param string $taxonomy_name Name of the taxonomy to exclude..
+			 */
+			if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy->object_sub_type ) ) {
+				continue;
+			}
+
 			$max_pages = 1;
 
 			if ( $taxonomy->count > $max_entries ) {
@@ -93,8 +100,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				    ORDER BY object_last_modified ASC';
 
 				// phpcs:ignore WordPress.DB
-				$all_dates    = $wpdb->get_col( $wpdb->prepare( $sql, $taxonomy->object_sub_type, $max_entries ) );
-				$page_counter = 0;
+				$all_dates    = array_merge( $wpdb->get_col( $wpdb->prepare( $sql, $taxonomy->object_sub_type, $max_entries ) ), [ $taxonomy->max_object_last_modified ] );
+				$page_counter = 1;
 				foreach ( $all_dates as $date ) {
 					$index[] = [
 						'loc'     => WPSEO_Sitemaps_Router::get_base_url( $taxonomy->object_sub_type . '-sitemap' . $page_counter . '.xml' ),
@@ -182,7 +189,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 * Filter to exclude the taxonomy from the XML sitemap.
 		 *
 		 * @param bool   $exclude       Defaults to false.
-		 * @param string $taxonomy_name Name of the taxonomy to exclude..
+		 * @param string $taxonomy_name Name of the taxonomy to exclude.
 		 */
 		if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy_name ) ) {
 			return false;

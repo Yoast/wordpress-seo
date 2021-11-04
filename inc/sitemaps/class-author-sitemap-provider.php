@@ -60,7 +60,6 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			->select_many( 'id', 'permalink', 'object_last_modified' )
 			->where( 'object_type', 'user' )
 			->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
-			->where_raw( '( has_public_posts = 1 OR has_public_posts IS NULL )' )
 			->order_by_desc( 'object_last_modified' );
 
 		$users_to_exclude = $this->exclude_users( [] );
@@ -113,7 +112,6 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			->select_many( 'id', 'permalink', 'object_last_modified' )
 			->where( 'object_type', 'user' )
 			->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
-			->where_raw( '( has_public_posts = 1 OR has_public_posts IS NULL )' )
 			->order_by_desc( 'object_last_modified' )
 			->offset( $offset )
 			->limit( $max_entries );
