@@ -6,6 +6,7 @@ import getStemmer from "./helpers/getStemmer";
 import matchWordCustomHelper from "./helpers/matchTextWithWord";
 import getWordsCustomHelper from "./helpers/getWords";
 import wordsCharacterCount from "./helpers/wordsCharacterCount";
+import countCharacters from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
 
 // All config
@@ -46,6 +47,7 @@ export default class Researcher extends AbstractResearcher {
 			matchWordCustomHelper,
 			getWordsCustomHelper,
 			wordsCharacterCount,
+			countCharacters,
 			matchTransitionWordsHelper,
 		} );
 	}
