@@ -142,7 +142,7 @@ export default class TwitterImage extends React.Component {
 	 * the TwitterImageContainer.
 	 */
 	render() {
-		const { status } = this.state;
+		const { status, imageProperties } = this.state;
 
 		if ( status === "loading" || this.props.src === "" || status === "errored" ) {
 			return <PlaceholderImage
@@ -167,6 +167,9 @@ export default class TwitterImage extends React.Component {
 					alt: this.props.alt,
 					aspectRatio: TWITTER_IMAGE_SIZES.aspectRatio,
 				} }
+				width={ imageProperties.width }
+				height={ imageProperties.height }
+				imageMode={ imageProperties.mode }
 			/>
 		</TwitterImageContainer>;
 	}

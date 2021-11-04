@@ -166,6 +166,9 @@ class FacebookImage extends Component {
 					alt: this.props.alt,
 					aspectRatio: FACEBOOK_IMAGE_SIZES.aspectRatio,
 				} }
+				width={ imageProperties.width }
+				height={ imageProperties.height }
+				imageMode={ imageProperties.mode }
 			/>
 		</FacebookImageContainer>;
 	}
