@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
-use Mockery;
 use Yoast\WP\SEO\Integrations\Uninstall_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
