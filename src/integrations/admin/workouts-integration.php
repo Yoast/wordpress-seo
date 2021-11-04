@@ -286,15 +286,20 @@ class Workouts_Integration implements Integration_Interface {
 	 * @return string The notification to update Premium.
 	 */
 	private function get_update_premium_notice() {
-		$title   = \__( 'Update to the latest version of Yoast SEO Premium', 'wordpress-seo' );
-		$content = \sprintf(
+		$url = \wp_nonce_url( \self_admin_url( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium/wp-seo-premium.php' ), 'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php' );
+
+		$notice = new Notice_Presenter(
+			\__( 'Update to the latest version of Yoast SEO Premium', 'wordpress-seo' ),
+			\sprintf(
 			/* translators: 1: Link start tag to the page to update Premium, 2: Link closing tag. */
-			__( 'It looks like you\'re running an outdated version of Yoast SEO Premium, please %1$supdate to the latest version%2$s to gain access to our updated workouts section, including the all new configuration workout.', 'wordpress-seo' ),
-			'<a href="' . \esc_url( admin_url( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium%2Fwp-seo-premium.php&_wpnonce=' ) ) . '">',
-			'</a>'
+				__( 'It looks like you\'re running an outdated version of Yoast SEO Premium, please %1$supdate to the latest version%2$s to gain access to our updated workouts section, including the all new configuration workout.', 'wordpress-seo' ),
+				'<a href="' . \esc_url( $url ) . '">',
+				'</a>'
+			),
+			'Assistent_Time_bubble_500x570.png'
 		);
 
-		return new Notice_Presenter( $title, $content, 'Assistent_Time_bubble_500x570.png' );
+		return $notice->present();
 	}
 
 	/**
