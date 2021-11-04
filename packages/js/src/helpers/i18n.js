@@ -17,9 +17,9 @@ export function setTextdomainL10n( textdomain, l10nNamespace = "wpseoYoastJSL10n
 
 	if ( translations === false ) {
 		// Jed needs to have meta information in the object keyed by an empty string.
-		setLocaleData( { "": {} }, textdomain );
+		setLocaleData( { "": {} }, "wordpress-seo" );
 	} else {
-		setLocaleData( translations, textdomain );
+		setLocaleData( translations, "wordpress-seo" );
 	}
 }
 
