@@ -1,0 +1,36 @@
+{
+  "name": "@yoast/seo-store",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yoast/wordpress-seo",
+    "directory": "packages/seo-store"
+  },
+  "author": "Team Yoast",
+  "license": "GPL-3.0",
+  "scripts": {
+    "build": "yarn clean && babel src --out-dir build",
+    "watch": "yarn clean && babel src --watch --out-dir build",
+    "clean": "rimraf build"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.6.2",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/eslint-parser": "^7.15.8",
+    "@babel/eslint-plugin": "^7.14.5",
+    "@wordpress/babel-preset-default": "^6.3.4",
+    "eslint": "^8.1.0",
+    "eslint-config-yoast": "^5.0.17",
+    "rimraf": "^3.0.2"
+  },
+  "peerDependencies": {
+    "@wordpress/data": "^6.1.2",
+    "@wordpress/element": "^4.0.3",
+    "react": "^17.0.1"
+  }
+}
