@@ -382,14 +382,6 @@ function wpseo_init_rest_api() {
 	foreach ( $endpoints as $endpoint ) {
 		$endpoint->register();
 	}
-
-	$wincher_routes = new Wincher_Route(
-		YoastSEO()->classes->get( Wincher_Login_Action::class ),
-		YoastSEO()->classes->get( Wincher_Account_Action::class ),
-		YoastSEO()->classes->get( Wincher_Keyphrases_Action::class )
-	);
-
-	$wincher_routes->register_routes();
 }
 
 /**
