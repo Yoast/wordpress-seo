@@ -72,10 +72,10 @@ class Notice_Presenter extends Abstract_Presenter {
 	 * @return string The styled Notice.
 	 */
 	public function present() {
-		$dismissible = ( $this->is_dismissible ) ? 'is-dismissible' : '';
+		$dismissible = ( $this->is_dismissible ) ? ' is-dismissible' : '';
 
 		// WordPress admin notice.
-		$out  = '<div class="notice notice-yoast ' . $dismissible . '">';
+		$out  = '<div class="notice notice-yoast' . $dismissible . '">';
 		$out .= '<div class="notice-yoast__container">';
 
 		// Header.
