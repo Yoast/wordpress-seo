@@ -12,6 +12,7 @@ import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
 // All config
 import functionWords from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
+import topicLength from "./config/topicLength";
 
 // All custom researches
 import getKeywordDensity from "./customResearches/getKeywordDensity";
@@ -40,6 +41,7 @@ export default class Researcher extends AbstractResearcher {
 			language: "ja",
 			functionWords,
 			transitionWords,
+			topicLength,
 		} );
 
 		Object.assign( this.helpers, {
