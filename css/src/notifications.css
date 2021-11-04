@@ -310,8 +310,8 @@
 	mask-size: 100% 100%;
 	-webkit-mask-size: 100% 100%;
 	display: inline-block;
-	width: 20px;
-	height: 20px;
+	width: 14px;
+	height: 14px;
 	margin-right: 8px;
 }
 
@@ -322,7 +322,7 @@
 
 .notice-yoast__content img {
 	line-height: 1;
-	margin: 0;
+	margin-left: 10px;
 	height: 60px;
 }
 
