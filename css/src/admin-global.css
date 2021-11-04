@@ -599,7 +599,7 @@ body.folded .wpseo-admin-submit-fixed {
 }
 
 .yoast-badge--sale {
-  position: absolute;
+	position: absolute;
 	margin-top: -24px;
 	right: 30px;
 	transform: rotate(14deg);
@@ -609,12 +609,12 @@ body.folded .wpseo-admin-submit-fixed {
 	border-radius: 999px !important;
 }
 
-@media(max-width: 1024px) {
-  .yoast-badge--sale {
-    display: inline-block;
-    position: unset;
-    vertical-align: top;
-  }
+@media (max-width: 1024px) {
+	.yoast-badge--sale {
+		display: inline-block;
+		position: unset;
+		vertical-align: top;
+	}
 }
 
 .yoast-badge__is-link:hover,
