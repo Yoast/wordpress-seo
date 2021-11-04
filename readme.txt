@@ -249,6 +249,8 @@ Bugfixes:
 
 * Fixes a bug where the `page` post type wasn't allowed to display an `Article` piece in the Schema.
 * Fixes a bug where the content inside of reusable blocks would not be analyzed correctly.
+* Enables the Schema Article type for any post type supporting authors.
+* Deprecates the `wpseo_schema_article_post_types` filter.
 
 Other:
 
