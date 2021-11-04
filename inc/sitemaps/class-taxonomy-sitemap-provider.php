@@ -64,30 +64,18 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$taxonomies = $this->repository->query()
 									   ->select( 'object_sub_type' )
+									   ->select_expr( 'MAX( object_last_modified ) AS max_object_last_modified' )
 									   ->select_expr( 'COUNT(*) AS count' )
 									   ->where( 'object_type', 'term' )
 									   ->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
 									   ->group_by( 'object_sub_type' )
 									   ->find_many();
 
-		/**
-		 * Filter the setting of excluding empty terms from the XML sitemap.
-		 *
-		 * @param bool  $exclude        Defaults to true.
-		 * @param array $taxonomy_names Array of names for the taxonomies being processed.
-		 */
-		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomies );
+		global $wpdb;
+		echo '<!--', $wpdb->last_query, print_r( $taxonomies, 1 ), '-->';
 
 		foreach ( $taxonomies as $taxonomy ) {
-			/**
-			 * Filter the setting of excluding empty terms from the XML sitemap for a specific taxonomy.
-			 *
-			 * @param bool   $exclude       Defaults to the sitewide setting.
-			 * @param string $taxonomy_name The name of the taxonomy being processed.
-			 */
-			$hide_empty_tax = apply_filters( 'wpseo_sitemap_exclude_empty_terms_taxonomy', $hide_empty, $taxonomy->object_sub_type );
-
-			$max_pages   = 1;
+			$max_pages = 1;
 
 			if ( $taxonomy->count > $max_entries ) {
 				$max_pages = (int) ceil( $taxonomy->count / $max_entries );
@@ -95,7 +83,6 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			if ( $max_pages > 1 ) {
 				global $wpdb;
-				// @todo add empty term check here, based on $hide_empty_tax above
 				$sql = 'SELECT object_last_modified
 				    FROM ( SELECT @rownum:=0 ) init
 				    JOIN ' . Model::get_table_name( 'Indexable' ) . '
@@ -106,28 +93,19 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				    ORDER BY object_last_modified ASC';
 
 				// phpcs:ignore WordPress.DB
-				$all_dates = $wpdb->get_col( $wpdb->prepare( $sql, $taxonomy->object_sub_type, $max_entries ) );
+				$all_dates    = $wpdb->get_col( $wpdb->prepare( $sql, $taxonomy->object_sub_type, $max_entries ) );
 				$page_counter = 0;
-				foreach( $all_dates as $date ) {
+				foreach ( $all_dates as $date ) {
 					$index[] = [
 						'loc'     => WPSEO_Sitemaps_Router::get_base_url( $taxonomy->object_sub_type . '-sitemap' . $page_counter . '.xml' ),
 						'lastmod' => $date,
 					];
-					$page_counter++;
+					$page_counter ++;
 				}
-			}
-			else {
-				// @todo add empty term check here, based on $hide_empty_tax above
-				$term = $this->repository->query()
-										  ->select( 'object_last_modified' )
-										  ->where( 'object_sub_type', $taxonomy->object_sub_type )
-										  ->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
-										  ->order_by_desc( 'object_last_modified' )
-										  ->find_one();
-
+			} else {
 				$index[] = [
 					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $taxonomy->object_sub_type . '-sitemap.xml' ),
-					'lastmod' => $term->object_last_modified,
+					'lastmod' => $taxonomy->max_object_last_modified,
 				];
 			}
 		}
@@ -151,15 +129,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return [];
 		}
 
-		$taxonomy = get_taxonomy( $type );
-
 		$steps  = $max_entries;
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
-
-		/** This filter is documented in inc/sitemaps/class-taxonomy-sitemap-provider.php */
-		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, [ $taxonomy->name ] );
-		/** This filter is documented in inc/sitemaps/class-taxonomy-sitemap-provider.php */
-		$hide_empty_tax = apply_filters( 'wpseo_sitemap_exclude_empty_terms_taxonomy', $hide_empty, $taxonomy->name );
 
 		$query = $this->repository
 			->query()
