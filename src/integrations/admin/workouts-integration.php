@@ -281,7 +281,7 @@ class Workouts_Integration implements Integration_Interface {
 			\__( 'Update to the latest version of Yoast SEO Premium', 'wordpress-seo' ),
 			\sprintf(
 			/* translators: 1: Link start tag to the page to update Premium, 2: Link closing tag. */
-				__( 'It looks like you\'re running an outdated version of Yoast SEO Premium, please %1$supdate to the latest version%2$s to gain access to our updated workouts section, including the all new configuration workout.', 'wordpress-seo' ),
+				__( 'It looks like you\'re running an outdated version of Yoast SEO Premium, please %1$supdate to the latest version%2$s to gain access to our updated workouts section.', 'wordpress-seo' ),
 				'<a href="' . \esc_url( $url ) . '">',
 				'</a>'
 			),
