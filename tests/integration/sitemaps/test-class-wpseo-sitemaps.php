@@ -123,42 +123,4 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 		$this->expectOutputContains( '<loc>test-sitemap.xml</loc>' );
 	}
-
-	/**
-	 * Test for last modified date.
-	 *
-	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
-	 */
-	public function test_last_modified_post_type() {
-
-		$older_date  = '2015-01-01 12:00:00';
-		$newest_date = '2016-01-01 12:00:00';
-
-		$post_type_args = [
-			'public'      => true,
-			'has_archive' => true,
-		];
-		register_post_type( 'yoast', $post_type_args );
-
-		$post_args = [
-			'post_status' => 'publish',
-			'post_type'   => 'yoast',
-			'post_date'   => $newest_date,
-		];
-		$this->factory->post->create( $post_args );
-
-		$post_args['post_date'] = $older_date;
-		$this->factory->post->create( $post_args );
-
-		$this->assertEquals( $newest_date, WPSEO_Sitemaps::get_last_modified_gmt( [ 'yoast' ] ) );
-	}
-
-	/**
-	 * Test for last modified date with invalid post types.
-	 *
-	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
-	 */
-	public function test_last_modified_with_invalid_post_type() {
-		$this->assertFalse( WPSEO_Sitemaps::get_last_modified_gmt( [ 'invalid_post_type' ] ) );
-	}
 }
