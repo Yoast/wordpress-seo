@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
-use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
@@ -33,13 +32,6 @@ class Workouts_Integration implements Integration_Interface {
 	private $admin_asset_manager;
 
 	/**
-	 * The shortlinker.
-	 *
-	 * @var WPSEO_Shortlinker
-	 */
-	private $shortlinker;
-
-	/**
 	 * The options helper.
 	 *
 	 * @var Options_Helper
@@ -65,20 +57,17 @@ class Workouts_Integration implements Integration_Interface {
 	 *
 	 * @param Indexable_Repository      $indexable_repository    The indexables repository.
 	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager     The admin asset manager.
-	 * @param WPSEO_Shortlinker         $shortlinker             The shortlinker.
 	 * @param Options_Helper            $options_helper          The options helper.
 	 * @param Post_Type_Helper          $post_type_helper        The post type helper.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
-		WPSEO_Shortlinker $shortlinker,
 		Options_Helper $options_helper,
 		Post_Type_Helper $post_type_helper
 	) {
 		$this->indexable_repository = $indexable_repository;
 		$this->admin_asset_manager  = $admin_asset_manager;
-		$this->shortlinker          = $shortlinker;
 		$this->options_helper       = $options_helper;
 		$this->post_type_helper     = $post_type_helper;
 	}
