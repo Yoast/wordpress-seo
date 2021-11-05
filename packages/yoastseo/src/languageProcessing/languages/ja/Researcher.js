@@ -7,6 +7,7 @@ import matchWordCustomHelper from "./helpers/matchTextWithWord";
 import getWordsCustomHelper from "./helpers/getWords";
 import getContentWords from "./helpers/getContentWords";
 import wordsCharacterCount from "./helpers/wordsCharacterCount";
+import countCharacters from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
 
 // All config
@@ -55,6 +56,7 @@ export default class Researcher extends AbstractResearcher {
 		Object.assign( this.defaultResearches, {
 			morphology,
 			wordsCharacterCount,
+			countCharacters,
 			matchTransitionWordsHelper,
 		} );
 	}

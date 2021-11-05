@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import { noop } from "lodash";
 
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
@@ -147,7 +148,7 @@ class FacebookImage extends Component {
 					onMouseEnter={ this.props.onMouseEnter }
 					onMouseLeave={ this.props.onMouseLeave }
 				>
-					{ __( "Select image", "yoast-components" ) }
+					{ __( "Select image", "wordpress-seo" ) }
 				</PlaceholderImage>
 			);
 		}
@@ -166,6 +167,9 @@ class FacebookImage extends Component {
 					alt: this.props.alt,
 					aspectRatio: FACEBOOK_IMAGE_SIZES.aspectRatio,
 				} }
+				width={ imageProperties.width }
+				height={ imageProperties.height }
+				imageMode={ imageProperties.mode }
 			/>
 		</FacebookImageContainer>;
 	}
@@ -183,10 +187,10 @@ FacebookImage.propTypes = {
 FacebookImage.defaultProps = {
 	src: "",
 	alt: "",
-	onImageLoaded: () => {},
-	onImageClick: () => {},
-	onMouseEnter: () => {},
-	onMouseLeave: () => {},
+	onImageLoaded: noop,
+	onImageClick: noop,
+	onMouseEnter: noop,
+	onMouseLeave: noop,
 };
 
 export default FacebookImage;

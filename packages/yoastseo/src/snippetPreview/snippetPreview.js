@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import { isEmpty } from "lodash-es";
 import { isElement } from "lodash-es";
 import { isUndefined } from "lodash-es";
@@ -265,12 +266,9 @@ function updateProgressBar( element, value, maximum, rating ) {
  * @param {boolean}        opts.addTrailingSlash          - Whether or not to add a trailing slash to the URL.
  * @param {string}         opts.metaDescriptionDate       - The date to display before the meta description.
  *
- * @param {Jed}            opts.i18n                      - The translation object.
- *
  * @param {string}         opts.previewMode               - The current preview mode.
  *
  * @property {App}         refObj                         - The connected app object.
- * @property {Jed}         i18n                           - The translation object.
  *
  * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
  *
@@ -313,7 +311,6 @@ var SnippetPreview = function( opts ) {
 
 	if ( ! isUndefined( opts.analyzerApp ) ) {
 		this.refObj = opts.analyzerApp;
-		this.i18n = this.refObj.i18n;
 
 		this.data = {
 			title: this.refObj.rawData.snippetTitle || "",
@@ -325,10 +322,6 @@ var SnippetPreview = function( opts ) {
 		if ( ! isEmpty( this.refObj.rawData.metaTitle ) ) {
 			opts.placeholder.title = this.refObj.rawData.metaTitle;
 		}
-	}
-
-	if ( ! isUndefined( opts.i18n ) ) {
-		this.i18n = opts.i18n;
 	}
 
 	if ( ! isElement( opts.targetElement ) ) {
@@ -377,22 +370,22 @@ SnippetPreview.prototype.renderTemplate = function() {
 		metaDescriptionDate: this.opts.metaDescriptionDate,
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
-			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
-			slug: this.i18n.dgettext( "js-text-analysis", "Slug" ),
-			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
-			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Google preview" ),
-			titleLabel: this.i18n.dgettext( "js-text-analysis", "SEO title preview:" ),
-			slugLabel: this.i18n.dgettext( "js-text-analysis", "Slug preview:" ),
-			metaDescriptionLabel: this.i18n.dgettext( "js-text-analysis", "Meta description preview:" ),
-			snippetPreviewDescription: this.i18n.dgettext(
-				"js-text-analysis",
-				"You can click on each element in the preview to jump to the Snippet Editor."
+			edit: __( "Edit snippet", "wordpress-seo" ),
+			title: __( "SEO title", "wordpress-seo" ),
+			slug: __( "Slug", "wordpress-seo" ),
+			metaDescription: __( "Meta description", "wordpress-seo" ),
+			save: __( "Close snippet editor", "wordpress-seo" ),
+			snippetPreview: __( "Google preview", "wordpress-seo" ),
+			titleLabel: __( "SEO title preview:", "wordpress-seo" ),
+			slugLabel: __( "Slug preview:", "wordpress-seo" ),
+			metaDescriptionLabel: __( "Meta description preview:", "wordpress-seo" ),
+			snippetPreviewDescription: __(
+				"You can click on each element in the preview to jump to the Snippet Editor.",
+				"wordpress-seo"
 			),
-			desktopPreviewMode: this.i18n.dgettext( "js-text-analysis", "Desktop preview" ),
-			mobilePreviewMode: this.i18n.dgettext( "js-text-analysis", "Mobile preview" ),
-			isScrollableHint: this.i18n.dgettext( "js-text-analysis", "Scroll to see the preview content." ),
+			desktopPreviewMode: __( "Desktop preview", "wordpress-seo" ),
+			mobilePreviewMode: __( "Mobile preview", "wordpress-seo" ),
+			isScrollableHint: __( "Scroll to see the preview content.", "wordpress-seo" ),
 		},
 	} );
 
@@ -607,7 +600,7 @@ SnippetPreview.prototype.formatTitle = function() {
 
 	// As an ultimate fallback provide the user with a helpful message.
 	if ( isEmpty( title ) ) {
-		title = this.i18n.dgettext( "js-text-analysis", "Please provide an SEO title by editing the snippet below." );
+		title = __( "Please provide an SEO title by editing the snippet below.", "wordpress-seo" );
 	}
 
 	return title;
@@ -685,7 +678,7 @@ SnippetPreview.prototype.formatMeta = function() {
 
 	// As an ultimate fallback provide the user with a helpful message.
 	if ( isEmpty( meta ) ) {
-		meta = this.i18n.dgettext( "js-text-analysis", "Please provide a meta description by editing the snippet below." );
+		meta = __( "Please provide a meta description by editing the snippet below.", "wordpress-seo" );
 	}
 
 	return meta;
