@@ -1,6 +1,6 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { identity } from "lodash";
-import { ANALYZE_ACTION_NAME, PREPARE_PAPER_ACTION_NAME, PROCESS_RESULTS_ACTION_NAME } from "./analysis/results-slice";
+import { ANALYZE_ACTION_NAME, PREPARE_PAPER_ACTION_NAME, PROCESS_RESULTS_ACTION_NAME } from "./analysis/slice/results";
 import analysisReducer, { ANALYSIS_SLICE_NAME, analysisActions, analysisSelectors } from "./analysis/slice";
 import { STORE_NAME } from "./common/constants";
 import editorReducer, { EDITOR_SLICE_NAME, editorActions, editorSelectors } from "./editor/slice";

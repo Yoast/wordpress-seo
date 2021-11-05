@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { select } from "@wordpress/data";
 import { get, reduce } from "lodash";
-import { ASYNC_ACTIONS, ASYNC_STATUS, FOCUS_KEYPHRASE_ID, STORE_NAME } from "../../constants";
+import { ASYNC_ACTIONS, ASYNC_STATUS, FOCUS_KEYPHRASE_ID, STORE_NAME } from "../../common/constants";
 
 export const RESULTS_SLICE_NAME = "results";
 export const ANALYZE_ACTION_NAME = "analyze";

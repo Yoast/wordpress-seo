@@ -1,6 +1,6 @@
 import { select, useDispatch } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
-import registerAnalysisStore, { ANALYSIS_STORE_NAME, useAnalyze } from "@yoast/seo-store";
+import registerAnalysisStore, { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
 import createReplacementVariables from "@yoast/replacement-variables";
 import { reduce } from "lodash";
 
@@ -14,7 +14,7 @@ const preparePaper = ( paper ) => {
 		{
 			name: "title",
 			getReplacement: () => {
-				const replacement = select( ANALYSIS_STORE_NAME ).selectTitle();
+				const replacement = select( SEO_STORE_NAME ).selectTitle();
 				console.log( "getReplacement", replacement );
 				return replacement;
 			},
@@ -41,7 +41,7 @@ registerAnalysisStore( {
 } );
 
 const Editor = () => {
-	const { updateContent, updateTitle, analyze } = useDispatch( ANALYSIS_STORE_NAME );
+	const { updateContent, updateTitle, analyze } = useDispatch( SEO_STORE_NAME );
 	const handleContentChange = useCallback( ( event ) => {
 		updateContent( event.target.value );
 	}, [ updateContent ] );

@@ -29,7 +29,7 @@ export const createSimpleSelectors = ( sliceName, names ) => reduce(
 	},
 );
 
-export const createSimpleReducers = ( sliceName, names ) => reduce(
+export const createSimpleReducers = ( names ) => reduce(
 	names,
 	( selectors, name ) => ( {
 		...selectors,
