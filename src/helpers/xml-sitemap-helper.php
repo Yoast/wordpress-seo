@@ -44,6 +44,10 @@ class XML_Sitemap_Helper {
 			$indexable_ids[] = $indexable->id;
 		}
 
+		if ($indexable_ids === [] ) {
+			return [];
+		}
+
 		$images = $this->links_repository->query()
 			->select_many( 'indexable_id', 'url' )
 			->where( 'type', $type )
