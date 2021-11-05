@@ -141,7 +141,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$query = $this->repository
 			->query()
-			->select_many( 'id', 'permalink', 'object_last_modified' )
+			->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
 			->where( 'object_sub_type', $type )
 			->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
 			->order_by_desc( 'object_last_modified' )
@@ -161,7 +161,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$indexables = $query->find_many();
 
-		return YoastSEO()->helpers->xml_sitemap->convert_indexables_to_sitemap_links( $indexables );
+		return YoastSEO()->helpers->xml_sitemap->convert_indexables_to_sitemap_links( $indexables, 'term' );
 	}
 
 	/**

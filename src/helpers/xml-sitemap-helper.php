@@ -45,10 +45,10 @@ class XML_Sitemap_Helper {
 		}
 
 		$images = $this->links_repository->query()
-			->select_many( 'indexable_id', 'url' )
-			->where( 'type', $type )
-			->where_in( 'indexable_id', $indexable_ids )
-			->find_many();
+										 ->select_many( 'indexable_id', 'url' )
+										 ->where( 'type', $type )
+										 ->where_in( 'indexable_id', $indexable_ids )
+										 ->find_many();
 
 		foreach ( $images as $image ) {
 			if ( ! is_array( $images_by_id[ $image->indexable_id ] ) ) {
@@ -65,11 +65,12 @@ class XML_Sitemap_Helper {
 	/**
 	 * Convert an array of indexables to an array that can be used by the XML sitemap renderer.
 	 *
-	 * @param Indexable[] $indexables Array of indexables.
+	 * @param Indexable[] $indexables  Array of indexables.
+	 * @param string      $object_type The Indexable object type.
 	 *
 	 * @return array Array to be used by the XML sitemap renderer.
 	 */
-	public function convert_indexables_to_sitemap_links( $indexables ) {
+	public function convert_indexables_to_sitemap_links( $indexables, $object_type ) {
 		/**
 		 * Filter - Allows excluding images from the XML sitemap.
 		 *
@@ -83,11 +84,22 @@ class XML_Sitemap_Helper {
 
 		$links = [];
 		foreach ( $indexables as $indexable ) {
-			$links[] = [
+			$url = [
 				'loc'    => $indexable->permalink,
 				'mod'    => $indexable->object_last_modified,
 				'images' => isset( $images_by_id[ $indexable->id ] ) ? $images_by_id[ $indexable->id ] : [],
 			];
+
+			/**
+			 * Filter URL entry before it gets added to the sitemap.
+			 *
+			 * @param array  $url       Array of URL parts.
+			 * @param string $type      URL type.
+			 * @param int    $object_id WordPress ID of the object.
+			 */
+			$url = apply_filters( 'wpseo_sitemap_entry', $url, $object_type, $indexable->object_id );
+
+			$links[] = $url;
 		}
 
 		return $links;

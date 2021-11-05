@@ -137,7 +137,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		// By ordering on object-type, we'll get the archive first.
 		$query = $this->repository
 			->query()
-			->select_many( 'id', 'permalink', 'object_last_modified' )
+			->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
 			->where_raw( '( post_status = "publish" OR post_status IS NULL )' )
 			->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
 			->order_by_desc( 'object_last_modified' )
@@ -163,7 +163,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
-		return YoastSEO()->helpers->xml_sitemap->convert_indexables_to_sitemap_links( $indexables );
+		return YoastSEO()->helpers->xml_sitemap->convert_indexables_to_sitemap_links( $indexables, 'post' );
 	}
 
 	/**
