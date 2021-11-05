@@ -1,16 +1,13 @@
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import Assessor from "../../../../src/scoring/storeBlog/cornerstone/seoAssessor.js";
 import Paper from "../../../../src/values/Paper.js";
-import factory from "../../../specHelpers/factory.js";
 import getResults from "../../../specHelpers/getAssessorResults";
-
-const i18n = factory.buildJed();
 
 describe( "running assessments in the store blog SEO assessor", function() {
 	let assessor;
 
 	beforeEach( () => {
-		assessor = new Assessor( i18n, new EnglishResearcher() );
+		assessor = new Assessor( new EnglishResearcher() );
 	} );
 
 	it( "runs assessments without any specific requirements", function() {

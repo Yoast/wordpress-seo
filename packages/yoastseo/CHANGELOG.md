@@ -58,6 +58,13 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds external stemmer for Greek.
 * Improves keyphrase recognition in Greek by filtering out function words such as `στον`, `τρίτος`, `τέτοιους`, `ποιανής`.
 * Implements passive voice assessment for Greek.
+* Adapts `findTransitionWords` research for Japanese.
+* Adds Japanese transition words and activates the transition words assessment.
+* Adapts `getKeywordDensity` research for Japanese.
+* Adapts `functionWordsInKeyphrase` research for Japanese.
+* Creates Japanese helper file for matching word in text.
+* Changes the helper to match word in text for Japanese in `altTagCount`.
+* Adds a helper to create word forms for Japanese.
 
 
 ## 1.92.0
