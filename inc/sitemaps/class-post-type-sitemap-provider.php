@@ -25,8 +25,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function __construct() {
 		$this->repository = YoastSEO()->classes->get( 'Yoast\WP\SEO\Repositories\Indexable_Repository' );
-
-		add_filter( 'save_post', [ $this, 'save_post' ] );
 	}
 
 	/**
@@ -164,17 +162,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return YoastSEO()->helpers->xml_sitemap->convert_indexables_to_sitemap_links( $indexables, 'post' );
-	}
-
-	/**
-	 * Check for relevant post type before invalidation.
-	 *
-	 * @param int $post_id Post ID to possibly invalidate for.
-	 */
-	public function save_post( $post_id ) {
-		if ( $this->is_valid_post_type( get_post_type( $post_id ) ) ) {
-			WPSEO_Sitemaps_Cache::invalidate_post( $post_id );
-		}
 	}
 
 	/**

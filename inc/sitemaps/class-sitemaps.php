@@ -75,15 +75,6 @@ class WPSEO_Sitemaps {
 	public $renderer;
 
 	/**
-	 * The sitemap cache.
-	 *
-	 * @since 3.2
-	 *
-	 * @var WPSEO_Sitemaps_Cache
-	 */
-	public $cache;
-
-	/**
 	 * The sitemap providers.
 	 *
 	 * @since 3.2
@@ -100,12 +91,10 @@ class WPSEO_Sitemaps {
 		add_action( 'after_setup_theme', [ $this, 'init_sitemaps_providers' ] );
 		add_action( 'after_setup_theme', [ $this, 'reduce_query_load' ], 99 );
 		add_action( 'pre_get_posts', [ $this, 'redirect' ], 1 );
-		add_action( 'wpseo_hit_sitemap_index', [ $this, 'hit_sitemap_index' ] );
 		add_action( 'wpseo_ping_search_engines', [ __CLASS__, 'ping_search_engines' ] );
 
 		$this->router   = new WPSEO_Sitemaps_Router();
 		$this->renderer = new WPSEO_Sitemaps_Renderer();
-		$this->cache    = new WPSEO_Sitemaps_Cache();
 
 		if ( ! empty( $_SERVER['SERVER_PROTOCOL'] ) ) {
 			$this->http_protocol = sanitize_text_field( wp_unslash( $_SERVER['SERVER_PROTOCOL'] ) );
@@ -253,9 +242,7 @@ class WPSEO_Sitemaps {
 
 		$this->set_n( get_query_var( 'sitemap_n' ) );
 
-		if ( ! $this->get_sitemap_from_cache( $type, $this->current_page ) ) {
-			$this->build_sitemap( $type );
-		}
+		$this->build_sitemap( $type );
 
 		if ( $this->bad_sitemap ) {
 			$query->set_404();
@@ -266,60 +253,6 @@ class WPSEO_Sitemaps {
 
 		$this->output();
 		$this->sitemap_close();
-	}
-
-	/**
-	 * Try to get the sitemap from cache.
-	 *
-	 * @param string $type        Sitemap type.
-	 * @param int    $page_number The page number to retrieve.
-	 *
-	 * @return bool If the sitemap has been retrieved from cache.
-	 */
-	private function get_sitemap_from_cache( $type, $page_number ) {
-
-		$this->transient = false;
-
-		if ( $this->cache->is_enabled() !== true ) {
-			return false;
-		}
-
-		/**
-		 * Fires before the attempt to retrieve XML sitemap from the transient cache.
-		 *
-		 * @param WPSEO_Sitemaps $sitemaps Sitemaps object.
-		 */
-		do_action( 'wpseo_sitemap_stylesheet_cache_' . $type, $this );
-
-		$sitemap_cache_data = $this->cache->get_sitemap_data( $type, $page_number );
-
-		// No cache was found, refresh it because cache is enabled.
-		if ( empty( $sitemap_cache_data ) ) {
-			return $this->refresh_sitemap_cache( $type, $page_number );
-		}
-
-		// Cache object was found, parse information.
-		$this->transient = true;
-
-		$this->sitemap     = $sitemap_cache_data->get_sitemap();
-		$this->bad_sitemap = ! $sitemap_cache_data->is_usable();
-
-		return true;
-	}
-
-	/**
-	 * Build and save sitemap to cache.
-	 *
-	 * @param string $type        Sitemap type.
-	 * @param int    $page_number The page number to save to.
-	 *
-	 * @return bool
-	 */
-	private function refresh_sitemap_cache( $type, $page_number ) {
-		$this->set_n( $page_number );
-		$this->build_sitemap( $type );
-
-		return $this->cache->store_sitemap( $type, $page_number, $this->sitemap, ! $this->bad_sitemap );
 	}
 
 	/**
@@ -446,19 +379,6 @@ class WPSEO_Sitemaps {
 		$this->send_headers();
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping sitemap as either xml or html results in empty document.
 		echo $this->renderer->get_output( $this->sitemap );
-	}
-
-	/**
-	 * Makes a request to the sitemap index to cache it before the arrival of the search engines.
-	 *
-	 * @return void
-	 */
-	public function hit_sitemap_index() {
-		if ( ! $this->cache->is_enabled() ) {
-			return;
-		}
-
-		wp_remote_get( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
 	}
 
 	/**

@@ -14,13 +14,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 	/**
-	 * Holds image parser instance.
-	 *
-	 * @var WPSEO_Sitemap_Image_Parser
-	 */
-	protected static $image_parser;
-
-	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository

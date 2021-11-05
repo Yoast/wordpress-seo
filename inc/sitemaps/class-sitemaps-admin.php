@@ -23,9 +23,6 @@ class WPSEO_Sitemaps_Admin {
 	public function __construct() {
 		add_action( 'transition_post_status', [ $this, 'status_transition' ], 10, 3 );
 		add_action( 'admin_footer', [ $this, 'status_transition_bulk_finished' ] );
-
-		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo_titles', '' );
-		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo', '' );
 	}
 
 	/**
@@ -49,8 +46,6 @@ class WPSEO_Sitemaps_Admin {
 		}
 
 		$post_type = get_post_type( $post );
-
-		wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
 
 		// Not something we're interested in.
 		if ( $post_type === 'nav_menu_item' ) {
@@ -113,9 +108,7 @@ class WPSEO_Sitemaps_Admin {
 		$ping_search_engines = false;
 
 		foreach ( $this->importing_post_types as $post_type ) {
-			wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
-
-			// Just have the cache deleted for nav_menu_item.
+			// Don't ping for nav_menu_items.
 			if ( $post_type === 'nav_menu_item' ) {
 				continue;
 			}
@@ -128,10 +121,6 @@ class WPSEO_Sitemaps_Admin {
 		// Nothing to do.
 		if ( $ping_search_engines === false ) {
 			return;
-		}
-
-		if ( WP_CACHE ) {
-			do_action( 'wpseo_hit_sitemap_index' );
 		}
 
 		WPSEO_Sitemaps::ping_search_engines();
