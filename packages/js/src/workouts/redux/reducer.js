@@ -55,7 +55,12 @@ const workoutsReducer = ( state = initialState, action ) => {
 	const newState = cloneDeep( state );
 	switch ( action.type ) {
 		case REGISTER_WORKOUT:
-			newState.workouts[ action.payload.key ].priority = action.payload.priority;
+			newState.workouts[ action.payload.key ] = {
+				finishedSteps: [],
+				indexablesByStep: {},
+				...newState.workouts[ action.payload.key ],
+				priority: action.payload.priority,
+			};
 			return newState;
 		case FINISH_STEPS:
 			newState.workouts[ action.workout ].finishedSteps =  union( state.workouts[ action.workout ].finishedSteps, action.steps );
