@@ -15,7 +15,7 @@ const initialState = {
 const editorSlice = createSlice( {
 	name: EDITOR_SLICE_NAME,
 	initialState,
-	reducers: createSimpleReducers( EDITOR_SLICE_NAME, Object.keys( initialState ) ),
+	reducers: createSimpleReducers( Object.keys( initialState ) ),
 } );
 
 export const editorSelectors = createSimpleSelectors( EDITOR_SLICE_NAME, Object.keys( initialState ) );

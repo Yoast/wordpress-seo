@@ -14,7 +14,7 @@ const configSlice = createSlice( {
 	name: CONFIG_SLICE_NAME,
 	initialState,
 	reducers: {
-		...createSimpleReducers( CONFIG_SLICE_NAME, Object.keys( initialState ) ),
+		...createSimpleReducers( Object.keys( initialState ) ),
 		addResearch: ( state, payload ) => {
 			state.researches.push( payload );
 		},
