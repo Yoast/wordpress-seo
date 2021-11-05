@@ -44,7 +44,7 @@ class XML_Sitemap_Helper {
 			$indexable_ids[] = $indexable->id;
 		}
 
-		if ($indexable_ids === [] ) {
+		if ( $indexable_ids === [] ) {
 			return [];
 		}
 
