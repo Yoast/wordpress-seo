@@ -12,7 +12,7 @@ const initialState = {
 const seoSlice = createSlice( {
 	name: SEO_SLICE_NAME,
 	initialState,
-	reducers: createSimpleReducers( Object.keys( initialState ) ),
+	reducers: createSimpleReducers( SEO_SLICE_NAME, Object.keys( initialState ) ),
 } );
 
 export const seoSelectors = createSimpleSelectors( SEO_SLICE_NAME, Object.keys( initialState ) );

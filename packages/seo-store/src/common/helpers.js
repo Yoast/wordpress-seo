@@ -19,7 +19,7 @@ export const createSelectors = ( store, selectors ) => reduce(
 );
 
 /**
- * @param {String} sliceName The name of the slice.
+ * @param {String|Array} sliceName The name of the slice.
  * @param {Array}  names The keys of the slice its initialState.
  *
  * @returns {Object} An object containing Redux selector functions.
@@ -36,11 +36,12 @@ export const createSimpleSelectors = ( sliceName, names ) => reduce(
 );
 
 /**
+ * @param {String|Array} sliceName The keys of the slice its initialState.
  * @param {Array} names The keys of the slice its initialState.
  *
  * @returns {Object} An object containing Redux reducer functions.
  */
-export const createSimpleReducers = ( names ) => reduce(
+export const createSimpleReducers = ( sliceName, names ) => reduce(
 	names,
 	( selectors, name ) => ( {
 		...selectors,
