@@ -84,8 +84,6 @@ class WPSEO_Sitemaps_Renderer {
 		if ( WP_DEBUG ) {
 			global $wpdb;
 			$xml .= '<!-- ' . $wpdb->num_queries . ' queries, ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB -->';
-			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
-			$xml .= '<!-- ' . print_r( $wpdb->queries, 1 ) . '-->';
 		}
 
 		return $xml;
@@ -134,8 +132,6 @@ class WPSEO_Sitemaps_Renderer {
 		if ( WP_DEBUG ) {
 			global $wpdb;
 			$xml .= '<!-- ' . $wpdb->num_queries . ' queries, ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB -->';
-			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
-			$xml .= '<!-- ' . print_r( $wpdb->queries, 1 ) . '-->';
 		}
 
 		return $xml;
