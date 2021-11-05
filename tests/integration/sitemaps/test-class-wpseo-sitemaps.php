@@ -113,7 +113,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 			static function( $links ) {
 				$links[] = [
 					'loc'     => 'test-sitemap.xml',
-					'lastmod' => date( '1' ),
+					'lastmod' => gmdate( '1' ),
 				];
 				return $links;
 			}

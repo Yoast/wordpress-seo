@@ -84,6 +84,7 @@ class WPSEO_Sitemaps_Renderer {
 		if ( WP_DEBUG ) {
 			global $wpdb;
 			$xml .= '<!-- ' . $wpdb->num_queries . ' queries, ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB -->';
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 			$xml .= '<!-- ' . print_r( $wpdb->queries, 1 ) . '-->';
 		}
 
@@ -133,15 +134,17 @@ class WPSEO_Sitemaps_Renderer {
 		if ( WP_DEBUG ) {
 			global $wpdb;
 			$xml .= '<!-- ' . $wpdb->num_queries . ' queries, ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB -->';
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 			$xml .= '<!-- ' . print_r( $wpdb->queries, 1 ) . '-->';
 		}
+
 		return $xml;
 	}
 
 	/**
 	 * Produce final XML output with debug information.
 	 *
-	 * @param string $sitemap   Sitemap XML.
+	 * @param string $sitemap Sitemap XML.
 	 *
 	 * @return string
 	 */
@@ -278,9 +281,9 @@ class WPSEO_Sitemaps_Renderer {
 		/**
 		 * Filters the output for the sitemap URL tag.
 		 *
-		 * @api   string $output The output for the sitemap url tag.
-		 *
 		 * @param array $url The sitemap URL array on which the output is based.
+		 *
+		 * @api   string $output The output for the sitemap url tag.
 		 */
 		return apply_filters( 'wpseo_sitemap_url', $output, $url );
 	}

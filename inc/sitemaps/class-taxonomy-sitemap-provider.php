@@ -56,13 +56,13 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$index = [];
 
 		$taxonomies = $this->repository->query()
-									   ->select( 'object_sub_type' )
-									   ->select_expr( 'MAX( `object_last_modified` ) AS max_object_last_modified' )
-									   ->select_expr( 'COUNT(*) AS count' )
-									   ->where( 'object_type', 'term' )
-									   ->where_raw( '( `is_robots_noindex` = 0 OR `is_robots_noindex` IS NULL )' )
-									   ->group_by( 'object_sub_type' )
-									   ->find_many();
+			->select( 'object_sub_type' )
+			->select_expr( 'MAX( `object_last_modified` ) AS max_object_last_modified' )
+			->select_expr( 'COUNT(*) AS count' )
+			->where( 'object_type', 'term' )
+			->where_raw( '( `is_robots_noindex` = 0 OR `is_robots_noindex` IS NULL )' )
+			->group_by( 'object_sub_type' )
+			->find_many();
 
 		foreach ( $taxonomies as $taxonomy ) {
 			/**
@@ -100,9 +100,10 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 						'loc'     => WPSEO_Sitemaps_Router::get_base_url( $taxonomy->object_sub_type . '-sitemap' . $page_counter . '.xml' ),
 						'lastmod' => $date,
 					];
-					$page_counter ++;
+					$page_counter++;
 				}
-			} else {
+			}
+			else {
 				$index[] = [
 					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $taxonomy->object_sub_type . '-sitemap.xml' ),
 					'lastmod' => $taxonomy->max_object_last_modified,
