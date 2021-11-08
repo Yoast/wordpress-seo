@@ -10,6 +10,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 // phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 /**
  * Class Import_Cursor_Manager_Trait_Test
+ * 
+ * @group actions
+ * @group importing
  *
  * @package Yoast\WP\SEO\Tests\Unit\Actions\Importing
  *

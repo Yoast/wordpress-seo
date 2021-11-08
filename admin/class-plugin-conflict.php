@@ -14,7 +14,9 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	/**
 	 * The plugins must be grouped per section.
 	 *
-	 * It's possible to check for each section if there are conflicting plugin
+	 * It's possible to check for each section if there are conflicting plugin.
+	 *
+	 * NOTE: when changing this array, be sure to update the array in Conflicting_Plugins_Service too.
 	 *
 	 * @var array
 	 */
@@ -125,13 +127,11 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	 * @param string|bool $plugin Optional plugin basename to check.
 	 */
 	public static function hook_check_for_plugin_conflicts( $plugin = false ) {
-
-		// The instance of itself.
+		// The instance of the plugin.
 		$instance = self::get_instance();
 
-		// Only add plugin as active plugin if $plugin isn't false.
+		// Only add the plugin as an active plugin if $plugin isn't false.
 		if ( $plugin && is_string( $plugin ) ) {
-			// Because it's just activated.
 			$instance->add_active_plugin( $instance->find_plugin_category( $plugin ), $plugin );
 		}
 
