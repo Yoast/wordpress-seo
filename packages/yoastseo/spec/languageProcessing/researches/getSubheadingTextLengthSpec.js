@@ -51,7 +51,7 @@ describe( "gets the length of text segments", function() {
 
 describe( "gets the length of text segments expressed in characters " +
 	"when there is a character count function helper available on the researcher", function() {
-	// The Japanese researcher has a charachterCount help function that overwrites the default word count help function.
+	// The Japanese researcher has a customCountLength help function that overwrites the default word count help function.
 	const japaneseResearcher = new JapaneseResearcher();
 
 	it( "returns an array with lengths for a text with one subheading", function() {

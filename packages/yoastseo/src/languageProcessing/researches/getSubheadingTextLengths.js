@@ -15,14 +15,14 @@ export default function( paper, researcher ) {
 	const text = excludeTableOfContentsTag( paper.getText() );
 	const matches = getSubheadingTexts( text );
 
-	// A helper to count characters for languages that don't count number of words for text length.
-	const countCharacters = researcher.getHelper( "countCharacters" );
+	// An optional custom helper to count length to use instead of countWords.
+	const customCountLength = researcher.getHelper( "customCountLength" );
 
 	const subHeadingTexts = [];
 	forEach( matches, function( subHeading ) {
 		subHeadingTexts.push( {
 			text: subHeading,
-			countLength: countCharacters ? countCharacters( subHeading ) : countWords( subHeading ),
+			countLength: customCountLength ? customCountLength( subHeading ) : countWords( subHeading ),
 		} );
 	} );
 	return subHeadingTexts;
