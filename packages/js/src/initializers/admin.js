@@ -351,6 +351,8 @@ export default function initAdmin( jQuery ) {
 		}
 
 		jQuery( "#wincher-login-success" ).show();
+		// We need to set the value so that it's not reset on save.
+		jQuery( "#hidden_wincher_website_id" ).val( data.websiteId );
 
 		await addExistingKeyphrasesRequest();
 	}
