@@ -13,8 +13,8 @@
     "build": "yarn clean && babel src --out-dir build",
     "watch": "yarn clean && babel src --watch --out-dir build",
     "clean": "rimraf build",
-    "lint": "eslint . --max-warnings=0",
-    "lint:watch": "esw . --max-warnings=0 --watch"
+    "lint": "eslint src --max-warnings=0",
+    "lint:watch": "esw src --max-warnings=0 --watch"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",
