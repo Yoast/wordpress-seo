@@ -62,7 +62,7 @@ const BaseImage = styled.div`
 `;
 
 const PlaceholderImage = styled( BaseImage )`
-	height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;
+	${ props => props.isLarge && `height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;` }
 	border-top-left-radius: 14px;
 	${ props => props.isLarge ? "border-top-right-radius" : "border-bottom-left-radius" }: 14px;
 	border-style: dashed;
