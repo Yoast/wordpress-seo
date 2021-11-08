@@ -2,18 +2,13 @@
 
 namespace Yoast\WP\SEO\Routes;
 
+use WP_REST_Request;
 use WP_REST_Response;
-use WPSEO_Meta;
-use WPSEO_Redirect;
-use WPSEO_Redirect_Manager;
-use WPSEO_Taxonomy_Meta;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Main;
-use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
  * Workouts_Route class.
@@ -169,6 +164,26 @@ class Workouts_Route implements Route_Interface {
 		return new WP_REST_Response(
 			[ 'json' => \YoastSEO()->helpers->options->set( 'workouts', $value ) ]
 		);
+	}
+
+	/**
+	 * Validates the cornerstone attribute
+	 *
+	 * @param array $workout The cornerstone workout.
+	 * @return bool If the payload is valid or not.
+	 */
+	public function cornerstone_is_allowed( $workout ) {
+		return $this->is_allowed( $workout, self::ALLOWED_CORNERSTONE_STEPS );
+	}
+
+	/**
+	 * Validates the orphaned attribute
+	 *
+	 * @param array $workout The orphaned workout.
+	 * @return bool If the payload is valid or not.
+	 */
+	public function orphaned_is_allowed( $workout ) {
+		return $this->is_allowed( $workout, self::ALLOWED_ORPHANED_STEPS );
 	}
 
 	/**
