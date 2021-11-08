@@ -12,8 +12,21 @@ export async function callEndpoint( endpoint  ) {
 	try {
 		return await apiFetch( endpoint );
 	} catch ( e ) {
-		// Assume it's a valid API call.
-		return e;
+		// If the error object looks like what we expect, return it.
+		if ( e.error && e.status ) {
+			return e;
+		}
+
+		// Sometimes we get a Response instance back instead of the data itself.
+		if ( e instanceof Response ) {
+			return await e.json();
+		}
+
+		// Likely some type of connection error.
+		return {
+			status: 0,
+			error: e.message,
+		};
 	}
 }
 

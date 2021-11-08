@@ -325,7 +325,7 @@ export default function initAdmin( jQuery ) {
 			jQuery( "#wincher-track-all-keyphrases-error" ).show();
 		}
 
-		if ( data.status === 404 ) {
+		if ( data.status === 403 || data.status === 404 ) {
 			jQuery( "#wincher-website-error" ).show();
 		}
 	}

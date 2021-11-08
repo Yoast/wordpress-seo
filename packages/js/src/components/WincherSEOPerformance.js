@@ -1,7 +1,7 @@
 /* global wpseoAdminL10n */
 
 /* External dependencies */
-import { Fragment, useCallback } from "@wordpress/element";
+import { useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash-es";
@@ -24,28 +24,22 @@ import { authenticate, getAuthorizationUrl, handleAPIResponse } from "../helpers
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
 
 /**
- * Determines whether the error property is present in the passed response object.
- *
- * @param {Object} response The response object.
- *
- * @returns {boolean} Whether or not the error property is present.
- */
-export function hasError( response ) {
-	return ! isEmpty( response ) && "error" in response;
-}
-
-/**
  * Gets the proper error message component.
  *
  * @param {Object} response The response object to base the error message on.
+ * @param {Function} onLogin The onLogin callback used when reconnecting.
  *
  * @returns {wp.Element} The error message component.
  */
-const GetErrorMessage = ( { response } ) => {
-	if ( response.status === 400 && response.data && response.data.canTrack === false ) {
+const GetErrorMessage = ( { response, onLogin } ) => {
+	if ( response.status === 400 && response.results && response.results.canTrack === false ) {
 		return <WincherLimitReached
-			limit={ response.data.limit }
+			limit={ response.results.limit }
 		/>;
+	}
+
+	if ( response.status === 403 || response.status === 404 ) {
+		return <WincherReconnectAlert onReconnect={ onLogin } />;
 	}
 
 	return <WincherRequestFailed />;
@@ -53,6 +47,7 @@ const GetErrorMessage = ( { response } ) => {
 
 GetErrorMessage.propTypes = {
 	response: PropTypes.object.isRequired,
+	onLogin: PropTypes.func.isRequired,
 };
 
 /**
@@ -62,9 +57,9 @@ GetErrorMessage.propTypes = {
  *
  * @returns {void|wp.Element} The user message.
  */
-const GetUserMessage = ( { isSuccess, response, allKeyphrasesMissRanking } ) => {
-	if ( ! isEmpty( response ) && ! isSuccess && hasError( response ) ) {
-		return <GetErrorMessage response={ response } />;
+const GetUserMessage = ( { isSuccess, response, allKeyphrasesMissRanking, onLogin } ) => {
+	if ( ! isEmpty( response ) && ! isSuccess ) {
+		return <GetErrorMessage response={ response } onLogin={ onLogin } />;
 	}
 
 	if ( allKeyphrasesMissRanking ) {
@@ -78,6 +73,7 @@ GetUserMessage.propTypes = {
 	isSuccess: PropTypes.bool.isRequired,
 	allKeyphrasesMissRanking: PropTypes.bool.isRequired,
 	response: PropTypes.object,
+	onLogin: PropTypes.func.isRequired,
 };
 
 GetUserMessage.defaultProps = {
@@ -156,7 +152,7 @@ const onLoginOpen = async( props ) => {
 };
 
 /**
- * Creates the Connect to Wincher button or displays the reconnect alert if something has gone wrong.
+ * Creates the Connect to Wincher button.
  *
  * @param {Object} props The props to use.
  *
@@ -167,16 +163,8 @@ const ConnectToWincher = ( props ) => {
 		return null;
 	}
 
-	const onLoginCallback = useCallback( () => {
-		onLoginOpen( props );
-	}, [ onLoginOpen, props ] );
-
-	if ( ! isEmpty( props.response ) && props.response.status === 404 ) {
-		return <WincherReconnectAlert onReconnect={ onLoginCallback } />;
-	}
-
 	return <p>
-		<NewButton onClick={ onLoginCallback } variant="primary">
+		<NewButton onClick={ props.onLogin } variant="primary">
 			{ sprintf(
 			/* translators: %s expands to Wincher */
 				__( "Connect with %s", "wordpress-seo" ),
@@ -187,12 +175,8 @@ const ConnectToWincher = ( props ) => {
 };
 
 ConnectToWincher.propTypes = {
-	response: PropTypes.object,
 	isLoggedIn: PropTypes.bool.isRequired,
-};
-
-ConnectToWincher.defaultProps = {
-	response: {},
+	onLogin: PropTypes.func.isRequired,
 };
 
 // We need this wrapper to get consistent paragraph margins in both Elementor and Gutenberg.
@@ -234,6 +218,10 @@ export default function WincherSEOPerformance( props ) {
 
 	const noKeyphrases = keyphrases.length === 0;
 
+	const onLoginCallback = useCallback( () => {
+		onLoginOpen( props );
+	}, [ onLoginOpen, props ] );
+
 	return (
 		<Wrapper>
 			{ isNewlyAuthenticated && <WincherConnectedAlert /> }
@@ -248,8 +236,8 @@ export default function WincherSEOPerformance( props ) {
 
 			<WincherExplanation />
 
-			<ConnectToWincher { ...props } />
-			<GetUserMessage { ...props } />
+			<ConnectToWincher isLoggedIn={ isLoggedIn } onLogin={ onLoginCallback } />
+			<GetUserMessage { ...props } onLogin={ onLoginCallback } />
 			{ keyphraseLimitReached && <WincherLimitReached limit={ limit } /> }
 
 			{ noKeyphrases

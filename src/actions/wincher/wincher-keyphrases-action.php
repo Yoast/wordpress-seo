@@ -384,6 +384,12 @@ class Wincher_Keyphrases_Action {
 			unset( $result['data'] );
 		}
 
+		if ( \array_key_exists( 'message', $result ) ) {
+			$result['error'] = $result['message'];
+
+			unset( $result['message'] );
+		}
+
 		return (object) $result;
 	}
 }

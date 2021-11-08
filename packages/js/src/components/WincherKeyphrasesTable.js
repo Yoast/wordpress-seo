@@ -79,7 +79,7 @@ class WincherKeyphrasesTable extends Component {
 
 		const trackLimits = await getAccountLimits();
 
-		if ( ! trackLimits.canTrack ) {
+		if ( trackLimits.status === 200 && ! trackLimits.canTrack ) {
 			keyphrasesArray.map( k => removeTrackedKeyphrase( k ) );
 			setKeyphraseLimitReached( trackLimits.limit );
 
@@ -91,6 +91,7 @@ class WincherKeyphrasesTable extends Component {
 			async( response ) => {
 				setRequestSucceeded( response );
 				addTrackedKeyphrase( response.results );
+				await this.getTrackedKeyphrases( Object.keys( this.props.trackedKeyphrases ) );
 			},
 			async( response ) => {
 				setRequestFailed( response );
@@ -114,7 +115,6 @@ class WincherKeyphrasesTable extends Component {
 		newRequest();
 
 		await this.performTrackingRequest( keyphrase );
-		await this.getTrackedKeyphrases( Object.keys( this.props.trackedKeyphrases ) );
 	}
 
 	/**
