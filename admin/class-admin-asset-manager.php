@@ -150,6 +150,17 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
+	 * Adds an inline script.
+	 *
+	 * @param string $handle   The script handle.
+	 * @param string $data     The l10n data.
+	 * @param string $position Optional. Whether to add the inline script before the handle or after.
+	 */
+	public function add_inline_script( $handle, $data, $position = 'after' ) {
+		\wp_add_inline_script( $this->prefix . $handle, $data, $position );
+	}
+
+	/**
 	 * A list of styles that shouldn't be registered but are needed in other locations in the plugin.
 	 *
 	 * @return array
