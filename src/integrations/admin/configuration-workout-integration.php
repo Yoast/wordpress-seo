@@ -72,7 +72,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 				"isOrganization": "%d",
 				"organizationName": "%s",
 				"organizationLogo": "%s",
-				"personName": "%s",
+				"personId": %d,
 				"personLogo": "%s",
 				"siteTagline": "%s",
 				"socialProfiles": {
@@ -90,7 +90,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 				$this->is_organization(),
 				$this->get_organization_name(),
 				$this->get_organization_logo(),
-				$this->get_person_name(),
+				$this->get_person_id(),
 				$this->get_person_logo(),
 				$this->get_site_tagline(),
 				$social_profiles['facebook_url'],
@@ -137,12 +137,12 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Gets the person name from the option in the database.
+	 * Gets the person id from the option in the database.
 	 *
-	 * @return string The person name.
+	 * @return int|null The person id, null if empty.
 	 */
-	private function get_person_name() {
-		return $this->options_helper->get( 'person_name', '' );
+	private function get_person_id() {
+		return $this->options_helper->get( 'company_or_person_user_id' );
 	}
 
 	/**
