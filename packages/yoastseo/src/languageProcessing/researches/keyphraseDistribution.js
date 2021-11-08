@@ -1,3 +1,4 @@
+import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 import getSentences from "../helpers/sentence/getSentences";
 import { mergeListItems } from "../helpers/sanitize/mergeListItems";
 import { findWordFormsInString } from "../helpers/match/findKeywordFormsInString";
@@ -134,10 +135,13 @@ const getDistraction = function( sentenceScores ) {
  * @param {function}    matchWordCustomHelper 	The language-specific helper function to match word in text.
  * @param {int}         topicLengthCriteria     The topic length criteria. The default value is 4, where a topic is considered short
  *                                              if it's less than 4 word long, and otherwise long.
+ * @param {Array}       originalTopic           The array of the original form of the topic with function words filtered out.
+ * @param {function}    wordsCharacterCount     The helper to calculate the characters length of all the words in the array.
  *
  * @returns {Object} An array with maximized score per sentence and an array with all sentences that do not contain the topic.
  */
-const getSentenceScores = function( sentences, topicFormsInOneArray, locale, functionWords, matchWordCustomHelper, topicLengthCriteria = 4 ) {
+const getSentenceScores = function( sentences, topicFormsInOneArray, locale, functionWords, matchWordCustomHelper,
+	topicLengthCriteria = 4, originalTopic, wordsCharacterCount ) {
 	// Compute per-sentence scores of topic-relatedness.
 	const topicNumber = topicFormsInOneArray.length;
 
@@ -147,7 +151,13 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale, fun
 	if ( functionWords.length > 0 ) {
 		for ( let i = 0; i < topicNumber; i++ ) {
 			const topic = topicFormsInOneArray[ i ];
-			if ( topic.length < topicLengthCriteria ) {
+			/*
+			 * If the helper to calculate the characters length of all the words in the array is available,
+			 * we use this helper to calculate the characters length of the original topic form.
+			 * We then use the result and compare it with the topicLengthCriteria.
+			 */
+			const topicLength = wordsCharacterCount ? wordsCharacterCount( originalTopic[ i ] ) : topic.length;
+			if ( topicLength < topicLengthCriteria ) {
 				sentenceScores[ i ] = computeScoresPerSentenceShortTopic( topic, sentences, locale, matchWordCustomHelper );
 			} else {
 				sentenceScores[ i ] = computeScoresPerSentenceLongTopic( topic, sentences, locale, matchWordCustomHelper );
@@ -190,13 +200,23 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale, fun
 const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
+	const getContentWordsHelper = researcher.getHelper( "getContentWords" );
+	const wordsCharacterCount = researcher.getResearch( "wordsCharacterCount" );
 
 	// Custom topic length criteria for languages that don't use the default value to determine whether a topic is long or short.
-	const topicLengthCriteria = researcher.getConfig( "topicLength" );
+	const topicLengthCriteria = researcher.getConfig( "topicLength" ).lengthCriteria;
+
 	let text = paper.getText();
 	text = mergeListItems( text );
 	const sentences = getSentences( text );
 	const topicForms = researcher.getResearch( "morphology" );
+
+	const originalTopic = [];
+	if ( getContentWordsHelper ) {
+		originalTopic.push( getContentWordsHelper( paper.getKeyword() ) );
+		parseSynonyms( paper.getSynonyms() ).forEach( synonym => originalTopic.push( getContentWordsHelper( synonym ) ) );
+	}
+
 	const locale = paper.getLocale();
 	const topicFormsInOneArray = [ topicForms.keyphraseForms ];
 
@@ -207,7 +227,8 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const allTopicWords = unique( flattenDeep( topicFormsInOneArray ) ).sort( ( a, b ) => b.length - a.length );
 
 	// Get per-sentence scores and sentences that have topic.
-	const sentenceScores = getSentenceScores( sentences, topicFormsInOneArray, locale, functionWords, matchWordCustomHelper, topicLengthCriteria );
+	const sentenceScores = getSentenceScores( sentences, topicFormsInOneArray, locale, functionWords, matchWordCustomHelper,
+		topicLengthCriteria, originalTopic, wordsCharacterCount );
 	const maximizedSentenceScores = sentenceScores.maximizedSentenceScores;
 	const maxLengthDistraction = getDistraction( maximizedSentenceScores );
 
