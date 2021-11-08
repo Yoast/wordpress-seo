@@ -69,7 +69,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 			'workouts',
 			\sprintf(
 				'window.wpseoWorkoutsData["configuration"] = {
-				"isOrganization": "%d",
+				"isOrganization": %d,
 				"organizationName": "%s",
 				"organizationLogo": "%s",
 				"personId": %d,
@@ -85,7 +85,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 					"youtubeUrl": "%s",
 					"wikipediaUrl": "%s",
 				},
-				"tracking": "%d",
+				"tracking": %d,
 				};',
 				$this->is_organization(),
 				$this->get_organization_name(),
