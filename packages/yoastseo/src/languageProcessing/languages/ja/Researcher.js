@@ -8,6 +8,7 @@ import getWordsCustomHelper from "./helpers/getWords";
 import wordsCharacterCount from "./helpers/wordsCharacterCount";
 import countCharacters from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
+import getContentWords from "./helpers/getContentWords";
 
 // All config
 import functionWords from "./config/functionWords";
@@ -51,6 +52,7 @@ export default class Researcher extends AbstractResearcher {
 			wordsCharacterCount,
 			countCharacters,
 			matchTransitionWordsHelper,
+			getContentWords,
 		} );
 	}
 }
