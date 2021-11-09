@@ -18,11 +18,11 @@ const seoSlice = createSlice( {
 		updateSeoDescription: ( state, action ) => {
 			state.description = action.payload;
 		},
-		updateSeoSlug: ( state, action ) => {
+		updateSlug: ( state, action ) => {
 			state.slug = action.payload;
 		},
 		updateIsCornerstone: ( state, action ) => {
-			state.slug = action.payload;
+			state.isCornerstone = Boolean( action.payload );
 		},
 	},
 } );
@@ -31,7 +31,7 @@ export const seoSelectors = {
 	selectSeo: state => get( state, "form.seo" ),
 	selectSeoTitle: state => get( state, "form.seo.title" ),
 	selectSeoDescription: state => get( state, "form.seo.description" ),
-	selectSeoSlug: state => get( state, "form.seo.slug" ),
+	selectSlug: state => get( state, "form.seo.slug" ),
 	selectIsCornerstone: state => get( state, "form.seo.isCornerstone" ),
 };
 

@@ -45,14 +45,14 @@ const Editor = () => {
 	const handleContentChange = useCallback( ( event ) => {
 		updateContent( event.target.value );
 	}, [ updateContent ] );
-	const handleTitleChange = useCallback( ( event ) => {
+	const handleSeoTitleChange = useCallback( ( event ) => {
 		updateSeoTitle( event.target.value );
 		analyze();
 	}, [ updateSeoTitle ] );
 
 	return (
 		<>
-			<input name="title" onChange={ handleTitleChange } />
+			<input name="title" onChange={ handleSeoTitleChange } />
 			<textarea name="editor" rows="16" onChange={ handleContentChange } />
 		</>
 	);
