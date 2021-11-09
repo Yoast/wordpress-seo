@@ -903,6 +903,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'           => true,
 			'isBlockEditor'    => $is_block_editor,
+			'postStatus'       => get_post_status( $post_id ),
 			'analysis'         => [
 				'plugins'                     => $plugins_script_data,
 				'worker'                      => $worker_script_data,

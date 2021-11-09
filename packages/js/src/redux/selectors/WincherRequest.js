@@ -1,3 +1,5 @@
+import { getIsDraft } from "./editorContext";
+
 /**
  * Gets the request return state (success or failed).
  *
@@ -83,5 +85,5 @@ export function shouldWincherTrackAll( state ) {
  * @returns {boolean} Whether all keyphrases should automatically be tracked.
  */
 export function shouldWincherAutomaticallyTrackAll( state ) {
-	return state.WincherRequest.automaticallyTrack;
+	return state.WincherRequest.automaticallyTrack && getIsDraft( state );
 }

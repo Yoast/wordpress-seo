@@ -431,6 +431,7 @@ class Elementor implements Integration_Interface {
 			'isPost'            => true,
 			'isBlockEditor'     => WP_Screen::get()->is_block_editor(),
 			'isElementorEditor' => true,
+			'postStatus'        => get_post_status( $post_id ),
 			'analysis'          => [
 				'plugins'                     => $plugins_script_data,
 				'worker'                      => $worker_script_data,
