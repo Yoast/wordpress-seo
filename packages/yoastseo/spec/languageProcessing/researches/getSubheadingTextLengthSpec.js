@@ -89,6 +89,7 @@ describe( "gets the length of text segments expressed in characters " +
 		expect( subHeadingTextLength( mockPaper, japaneseResearcher ).length ).toBe( 3 );
 		// Check the length of each individual text segment.
 		expect( subHeadingTextLength( mockPaper, japaneseResearcher )[ 0 ].text ).toBe( "トピックは犬です。" );
+		expect( subHeadingTextLength( mockPaper, japaneseResearcher )[ 0 ].countLength ).toBe( 9 );
 		expect( subHeadingTextLength( mockPaper, japaneseResearcher )[ 1 ].text ).toBe( "犬はかわいいです。" );
 		expect( subHeadingTextLength( mockPaper, japaneseResearcher )[ 1 ].countLength ).toBe( 9 );
 		expect( subHeadingTextLength( mockPaper, japaneseResearcher )[ 2 ].text ).toBe( "子犬が特にかわいいです。" );
