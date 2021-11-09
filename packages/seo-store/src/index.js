@@ -3,7 +3,7 @@ import { identity } from "lodash";
 import analysisReducer, { ANALYSIS_SLICE_NAME, analysisActions, analysisSelectors } from "./analysis/slice";
 import { ANALYZE_ACTION_NAME, PREPARE_PAPER_ACTION_NAME, PROCESS_RESULTS_ACTION_NAME } from "./analysis/slice/results";
 import { STORE_NAME } from "./common/constants";
-import editorReducer, { EDITOR_SLICE_NAME, editorActions, editorSelectors } from "./editor/slice";
+import editorReducer, { editorActions, editorSelectors } from "./editor/slice";
 import formReducer, { FORM_SLICE_NAME, formActions, formSelectors } from "./form/slice";
 
 export { STORE_NAME as SEO_STORE_NAME };
@@ -40,7 +40,7 @@ const createSeoStore = ( {
 		selectors,
 		reducer: combineReducers( {
 			[ ANALYSIS_SLICE_NAME ]: analysisReducer,
-			[ EDITOR_SLICE_NAME ]: editorReducer,
+			editor: editorReducer,
 			[ FORM_SLICE_NAME ]: formReducer,
 		} ),
 		controls: {
