@@ -67,14 +67,14 @@ class Custom_Loader extends PhpFileLoader {
 	 *
 	 * @param Definition  $prototype        A definition to use as template.
 	 * @param string      $namespace_prefix The namespace prefix of classes in the scanned directory.
-	 * @param string      $resource         The directory to look for classes, glob-patterns allowed.
+	 * @param string      $search_directory The directory to look for classes, glob-patterns allowed.
 	 * @param string|null $exclude          A globed path of files to exclude.
 	 *
 	 * @return void
 	 *
 	 * @throws InvalidArgumentException If invalid arguments are supplied.
 	 */
-	public function registerClasses( Definition $prototype, $namespace_prefix, $resource, $exclude = null ) {
+	public function registerClasses( Definition $prototype, $namespace_prefix, $search_directory, $exclude = null ) {
 		if ( \substr( $namespace_prefix, -1 ) !== '\\' ) {
 			throw new InvalidArgumentException( \sprintf( 'Namespace prefix must end with a "\\": %s.', $namespace_prefix ) );
 		}
@@ -82,7 +82,7 @@ class Custom_Loader extends PhpFileLoader {
 			throw new InvalidArgumentException( \sprintf( 'Namespace is not a valid PSR-4 prefix: %s.', $namespace_prefix ) );
 		}
 
-		$classes = $this->findClasses( $namespace_prefix, $resource, $exclude );
+		$classes = $this->findClasses( $namespace_prefix, $search_directory, $exclude );
 		// Prepare for deep cloning.
 		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Reason: There's no way for user input to get in between serialize and unserialize.
 		$serialized_prototype = \serialize( $prototype );
