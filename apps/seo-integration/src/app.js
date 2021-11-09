@@ -1,8 +1,14 @@
-import { select, useDispatch } from "@wordpress/data";
+import { select, useDispatch, useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
-import registerAnalysisStore, { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
 import createReplacementVariables from "@yoast/replacement-variables";
-import { reduce } from "lodash";
+import registerAnalysisStore, { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
+import { debounce, reduce } from "lodash";
+import "./app.css";
+
+const useDebounce = ( callback, dependencies, debounceTimeInMs = 500 ) => {
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	return useCallback( debounce( callback, debounceTimeInMs ), [ callback, ...dependencies, debounceTimeInMs ] );
+};
 
 // Include analysis worker in analyzer?
 // Send accessor type with analyze requests next to paper, how to handle?
@@ -41,20 +47,70 @@ registerAnalysisStore( {
 } );
 
 const Editor = () => {
-	const { updateContent, updateSeoTitle, analyze } = useDispatch( SEO_STORE_NAME );
-	const handleContentChange = useCallback( ( event ) => {
+	const { updateContent, updateSeoTitle } = useDispatch( SEO_STORE_NAME );
+	const handleContentChange = useDebounce( ( event ) => {
 		updateContent( event.target.value );
 	}, [ updateContent ] );
-	const handleSeoTitleChange = useCallback( ( event ) => {
+	const handleSeoTitleChange = useDebounce( ( event ) => {
 		updateSeoTitle( event.target.value );
-		analyze();
 	}, [ updateSeoTitle ] );
 
 	return (
-		<>
-			<input name="title" onChange={ handleSeoTitleChange } />
-			<textarea name="editor" rows="16" onChange={ handleContentChange } />
-		</>
+		<main className="editor">
+			<label htmlFor="editor-title">Title</label>
+			<input id="editor-title" name="title" onChange={ handleSeoTitleChange } />
+			<label htmlFor="editor-content">Content</label>
+			<textarea id="editor-content" name="editor" rows="16" onChange={ handleContentChange } />
+		</main>
+	);
+};
+
+const Keyphrases = () => {
+	const ids = useSelect( select => select( SEO_STORE_NAME ).selectKeyphraseIds() );
+	const { addKeyphraseEntry } = useDispatch( SEO_STORE_NAME );
+	const handleAddKeyphraseEntry = useCallback( () => {
+		addKeyphraseEntry();
+	}, [ addKeyphraseEntry ] );
+
+	return (
+		<div className="keyphrases">
+			{ ids.map( id => <Keyphrase key={ `keyphrase-entry-${ id }` } id={ id } /> ) }
+			<button onClick={ handleAddKeyphraseEntry }>Add keyphrase</button>
+		</div>
+	);
+};
+
+const Keyphrase = ( props ) => {
+	const initialKeyphrase = useSelect( select => select( SEO_STORE_NAME ).selectKeyphrase( props.id ) );
+	const initialSynonyms = useSelect( select => select( SEO_STORE_NAME ).selectSynonyms( props.id ) );
+	const { updateKeyphrase, updateSynonyms } = useDispatch( SEO_STORE_NAME );
+
+	const handleKeyphraseChange = useDebounce( ( event ) => {
+		updateKeyphrase( { id: props.id, keyphrase: event.target.value } );
+	}, [ props.id, updateKeyphrase ] );
+	const handleSynonymsChange = useDebounce( ( event ) => {
+		updateSynonyms( { id: props.id, synonyms: event.target.value } );
+	}, [ props.id, updateSynonyms ] );
+
+	return (
+		<fieldset className="keyphrase-entry">
+			<label htmlFor={ `keyphrase-${ props.id }` }>
+				{ props.id === "focus" ? "Focus keyphrase" : "Related keyphrase" }
+			</label>
+			<input
+				id={ `keyphrase-${ props.id }` }
+				name={ `keyphrase-${ props.id }` }
+				onChange={ handleKeyphraseChange }
+				defaultValue={ initialKeyphrase }
+			/>
+			<label htmlFor={ `synonyms-${ props.id }` }>Synonyms</label>
+			<input
+				id={ `synonyms-${ props.id }` }
+				name={ `synonyms-${ props.id }` }
+				onChange={ handleSynonymsChange }
+				defaultValue={ initialSynonyms }
+			/>
+		</fieldset>
 	);
 };
 
@@ -64,15 +120,15 @@ function App() {
 	return (
 		<>
 			<Editor />
-			<div>
-				<h2>Sidebar</h2>
+			<aside className="sidebar">
+				<Keyphrases />
 				<h4>SEO Results</h4>
 				<div>...</div>
 				<h4>Readability Results</h4>
 				<div>...</div>
 				<h4>Research Results</h4>
 				<div>...</div>
-			</div>
+			</aside>
 		</>
 	);
 }

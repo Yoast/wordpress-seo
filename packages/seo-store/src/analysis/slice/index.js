@@ -14,7 +14,7 @@ export const analysisSelectors = {
 		editorSelectors.selectContent,
 		formSelectors.selectSeoTitle,
 		formSelectors.selectSeoDescription,
-		formSelectors.selectSeoSlug,
+		formSelectors.selectSlug,
 		editorSelectors.selectPermalink,
 		editorSelectors.selectDate,
 		( content, title, description, slug, permalink, date ) => ( { content, title, description, slug, permalink, date } ),
