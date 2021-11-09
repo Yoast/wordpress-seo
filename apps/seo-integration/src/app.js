@@ -20,7 +20,7 @@ const preparePaper = ( paper ) => {
 		{
 			name: "title",
 			getReplacement: () => {
-				const replacement = select( SEO_STORE_NAME ).selectSeoTitle();
+				const replacement = select( SEO_STORE_NAME ).selectTitle();
 				console.log( "getReplacement", replacement );
 				return replacement;
 			},
@@ -47,18 +47,18 @@ registerAnalysisStore( {
 } );
 
 const Editor = () => {
-	const { updateContent, updateSeoTitle } = useDispatch( SEO_STORE_NAME );
+	const { updateContent, updateTitle } = useDispatch( SEO_STORE_NAME );
 	const handleContentChange = useDebounce( ( event ) => {
 		updateContent( event.target.value );
 	}, [ updateContent ] );
-	const handleSeoTitleChange = useDebounce( ( event ) => {
-		updateSeoTitle( event.target.value );
-	}, [ updateSeoTitle ] );
+	const handleTitleChange = useDebounce( ( event ) => {
+		updateTitle( event.target.value );
+	}, [ updateTitle ] );
 
 	return (
 		<main className="editor">
 			<label htmlFor="editor-title">Title</label>
-			<input id="editor-title" name="title" onChange={ handleSeoTitleChange } />
+			<input id="editor-title" name="title" onChange={ handleTitleChange } />
 			<label htmlFor="editor-content">Content</label>
 			<textarea id="editor-content" name="editor" rows="16" onChange={ handleContentChange } />
 		</main>
