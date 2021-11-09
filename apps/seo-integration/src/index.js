@@ -1,5 +1,5 @@
 import { render, StrictMode } from "@wordpress/element";
-import App from "./App";
+import App from "./app";
 import "./index.css";
 
 render(
