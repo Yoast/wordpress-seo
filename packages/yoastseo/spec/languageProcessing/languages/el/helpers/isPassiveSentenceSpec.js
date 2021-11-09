@@ -24,4 +24,10 @@ describe( "a test for detecting passive voice in sentences", function() {
 		// Passive infinitive: γραφθεί.
 		expect( isPassiveSentence( "Το άρθρο έχει να γραφθεί." ) ).toBe( false );
 	} );
+
+	it( "returns false for a sentence with words ending in -ου", function() {
+		// Non passives: Δημαρχείου, Λεωφόρου, Νοεμβρίου.
+		expect( isPassiveSentence( "Την Κυριακή, 7 Νοεμβρίου 2021, στον εξωτερικό χώρο του Δημαρχείου της Αρτέμιδας" +
+			"(επί της Λεωφόρου Καραμανλή), από τις 8 το πρωί έως τις 2 το μεσημέρι." ) ).toBe( false );
+	} );
 } );
