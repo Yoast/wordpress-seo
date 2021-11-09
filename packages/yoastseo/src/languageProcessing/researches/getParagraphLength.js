@@ -16,12 +16,12 @@ export default function( paper, researcher ) {
 	const paragraphs = matchParagraphs( text );
 	const paragraphsLength = [];
 
-	// A helper to count characters for languages that don't count number of words for text length.
-	const countCharacters = researcher.getHelper( "countCharacters" );
+	// An optional custom helper to count length to use instead of countWords.
+	const customCountLength = researcher.getHelper( "customCountLength" );
 
 	paragraphs.map( function( paragraph ) {
 		paragraphsLength.push( {
-			countLength: countCharacters ? countCharacters( paragraph ) : countWords( paragraph ),
+			countLength: customCountLength ? customCountLength( paragraph ) : countWords( paragraph ),
 			text: paragraph,
 		} );
 	} );
