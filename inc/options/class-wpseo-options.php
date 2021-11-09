@@ -265,12 +265,12 @@ class WPSEO_Options {
 	/**
 	 * Retrieve a single field from any option for the SEO plugin. Keys are always unique.
 	 *
-	 * @param string $key     The key it should return.
-	 * @param mixed  $default The default value that should be returned if the key isn't set.
+	 * @param string $key           The key it should return.
+	 * @param mixed  $default_value The default value that should be returned if the key isn't set.
 	 *
-	 * @return mixed Returns value if found, $default if not.
+	 * @return mixed Returns value if found, $default_value if not.
 	 */
-	public static function get( $key, $default = null ) {
+	public static function get( $key, $default_value = null ) {
 		if ( static::$option_values === null ) {
 			static::prime_cache();
 		}
@@ -278,7 +278,7 @@ class WPSEO_Options {
 			return static::$option_values[ $key ];
 		}
 
-		return $default;
+		return $default_value;
 	}
 
 	/**
@@ -324,18 +324,18 @@ class WPSEO_Options {
 	/**
 	 * Get an option only if it's been auto-loaded.
 	 *
-	 * @param string $option  The option to retrieve.
-	 * @param mixed  $default A default value to return.
+	 * @param string $option        The option to retrieve.
+	 * @param mixed  $default_value A default value to return.
 	 *
 	 * @return mixed
 	 */
-	public static function get_autoloaded_option( $option, $default = false ) {
+	public static function get_autoloaded_option( $option, $default_value = false ) {
 		$value = wp_cache_get( $option, 'options' );
 		if ( $value === false ) {
 			$passed_default = func_num_args() > 1;
 
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- Using WP native filter.
-			return apply_filters( "default_option_{$option}", $default, $option, $passed_default );
+			return apply_filters( "default_option_{$option}", $default_value, $option, $passed_default );
 		}
 
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- Using WP native filter.
