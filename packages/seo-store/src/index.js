@@ -4,7 +4,7 @@ import analysisReducer, { ANALYSIS_SLICE_NAME, analysisActions, analysisSelector
 import { ANALYZE_ACTION_NAME, PREPARE_PAPER_ACTION_NAME, PROCESS_RESULTS_ACTION_NAME } from "./analysis/slice/results";
 import { STORE_NAME } from "./common/constants";
 import editorReducer, { EDITOR_SLICE_NAME, editorActions, editorSelectors } from "./editor/slice";
-import formReducer, { FORM_SLICE_NAME, formActions, formSelectors } from "./form/slice";
+import formReducer, { formActions, formSelectors } from "./form/slice";
 
 export { STORE_NAME as SEO_STORE_NAME };
 
@@ -41,7 +41,7 @@ const createSeoStore = ( {
 		reducer: combineReducers( {
 			[ ANALYSIS_SLICE_NAME ]: analysisReducer,
 			[ EDITOR_SLICE_NAME ]: editorReducer,
-			[ FORM_SLICE_NAME ]: formReducer,
+			form: formReducer,
 		} ),
 		controls: {
 			[ ANALYZE_ACTION_NAME ]: async ( { payload: { paper, keyphrases, config } } ) => analyze( paper, keyphrases, config ),

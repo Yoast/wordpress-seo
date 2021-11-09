@@ -2,7 +2,6 @@ import { createSlice, nanoid } from "@reduxjs/toolkit";
 import { get, keys } from "lodash";
 import { FOCUS_KEYPHRASE_ID } from "../../common/constants";
 
-export const KEYPHRASES_SLICE_NAME = "keyphrases";
 export const MAX_RELATED_KEYPHRASES = 4;
 
 const initialState = {
@@ -26,7 +25,7 @@ const prepareWithFocusKeyphraseIdFallback = ( payload ) => ( {
 } );
 
 const keyphrasesSlice = createSlice( {
-	name: KEYPHRASES_SLICE_NAME,
+	name: "keyphrases",
 	initialState,
 	reducers: {
 		updateKeyphrase: {
