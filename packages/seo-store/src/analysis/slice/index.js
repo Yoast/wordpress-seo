@@ -12,9 +12,9 @@ export const analysisSelectors = {
 	...configSelectors,
 	selectPaper: createSelector(
 		editorSelectors.selectContent,
-		formSelectors.selectTitle,
-		formSelectors.selectDescription,
-		formSelectors.selectSlug,
+		formSelectors.selectSeoTitle,
+		formSelectors.selectSeoDescription,
+		formSelectors.selectSeoSlug,
 		editorSelectors.selectPermalink,
 		editorSelectors.selectDate,
 		( content, title, description, slug, permalink, date ) => ( { content, title, description, slug, permalink, date } ),
