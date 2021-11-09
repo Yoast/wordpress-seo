@@ -85,5 +85,4 @@ export const passiveSuffixes = [
 	"ηθώ",
 	"θώ",
 	"τώ",
-	"ου",
 ];
