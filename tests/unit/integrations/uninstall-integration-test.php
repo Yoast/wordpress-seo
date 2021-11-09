@@ -22,6 +22,9 @@ class Uninstall_Integration_Test extends TestCase {
 	 */
 	protected $instance;
 
+	/**
+	 * Runs the setup to prepare the needed instance
+	 */
 	public function set_up() {
 		$this->instance = new Uninstall_Integration();
 	}
