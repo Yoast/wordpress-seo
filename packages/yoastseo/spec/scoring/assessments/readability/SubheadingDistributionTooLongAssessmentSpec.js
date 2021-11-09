@@ -2,6 +2,7 @@ import SubheadingDistributionTooLong from "../../../../src/scoring/assessments/r
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 
 const subheadingDistributionTooLong = new SubheadingDistributionTooLong();
 
@@ -97,6 +98,45 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
+	it( "Replaces 'words' with 'characters' in the feedback string for Japanese when one section of the text is slightly too long.", function() {
+		const paper = new Paper( shortText + subheading + longText + subheading + shortText );
+		const assessment = subheadingDistributionTooLong.getResult( paper, new JapaneseResearcher( paper ) );
+
+		expect( assessment.getScore() ).toBe( 6 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+			"1 section of your text is longer than 300 characters and is not separated by any subheadings." +
+			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
+	} );
+
+	it( "Replaces 'words' with 'characters' in the feedback string for Japanese when multiple sections of the text are slightly too long.", function() {
+		const paper = new Paper( shortText + subheading + longText + subheading + longText );
+		const assessment = subheadingDistributionTooLong.getResult( paper, new JapaneseResearcher( paper ) );
+
+		expect( assessment.getScore() ).toBe( 6 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+			"2 sections of your text are longer than 300 characters and are not separated by any subheadings." +
+			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
+	} );
+
+	it( "Replaces 'words' with 'characters' in the feedback string for Japanese when one section of the text is too long.", function() {
+		const paper = new Paper( shortText + subheading + veryLongText + subheading + shortText );
+		const assessment = subheadingDistributionTooLong.getResult( paper, new JapaneseResearcher( paper ) );
+
+		expect( assessment.getScore() ).toBe( 3 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+			"1 section of your text is longer than 300 characters and is not separated by any subheadings." +
+			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
+	} );
+
+	it( "Replaces 'words' with 'characters' in the feedback string for Japanese when multiple sections of the text are too long.", function() {
+		const paper = new Paper( shortText + subheading + veryLongText + subheading + veryLongText );
+		const assessment = subheadingDistributionTooLong.getResult( paper, new JapaneseResearcher( paper ) );
+
+		expect( assessment.getScore() ).toBe( 3 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+			"2 sections of your text are longer than 300 characters and are not separated by any subheadings." +
+			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
+	} );
 
 	it( "Returns false from isApplicable to the paper without text", function() {
 		const paper = new Paper( "" );

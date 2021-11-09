@@ -40,6 +40,7 @@ export default class Researcher extends AbstractResearcher {
 			language: "ja",
 			functionWords,
 			transitionWords,
+			countCharacters: true,
 		} );
 
 		Object.assign( this.helpers, {
