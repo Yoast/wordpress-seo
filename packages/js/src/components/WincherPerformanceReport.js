@@ -113,7 +113,7 @@ const NoTrackedKeyphrasesMessage = ( props ) => {
 		<WincherSEOPerformanceReportText
 			className={ `${ className }__text` }
 		>
-			{ ! isEmpty( limits ) && ! limits.canTrack && <WincherLimitReached limit={ limits.limit } /> }
+			{ ! isEmpty( limits ) && <WincherLimitReached limit={ limits.limit } /> }
 			{ isEmpty( limits )  && <WincherNoTrackedKeyphrasesAlert /> }
 
 			<div className={ "yoast" }>
