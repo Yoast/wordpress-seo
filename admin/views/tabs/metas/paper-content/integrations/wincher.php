@@ -31,33 +31,6 @@ $wincher_is_logged_in = YoastSEO()->helpers->wincher->login_status();
 			);
 		}
 
-		if ( $wincher_is_logged_in ) {
-			echo '<div id="wincher-automatic-tracking-upsell">';
-
-			$upsell_message = sprintf(
-				/* translators: 1: Link start tag to the Wincher pricing page, 2: expands to Wincher, 3: Link closing tag. */
-				esc_html__( 'Enabling automatic tracking of your keyphrases by %2$s can quickly exceed account limits. If you want to ensure all your keyphrases can be tracked, please %1$supgrade your plan%3$s.', 'wordpress-seo' ),
-				'<a href="https://www.wincher.com/pricing?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast" target="_blank" rel="noopener noreferrer">',
-				'Wincher',
-				'</a>'
-			);
-
-			$upsell_alert = new Alert_Presenter( $upsell_message, 'info' );
-
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.
-			echo '<div class="yoast-measure">' . $upsell_alert->present() . '</div>';
-			echo '</div>';
-
-			$yform->checkbox(
-				'wincher_automatically_add_keyphrases',
-				sprintf(
-					/* translators: %s expands to Wincher */
-					esc_html__( 'Automatically add new keyphrases to %s', 'wordpress-seo' ),
-					'Wincher'
-				)
-			);
-		}
-
 		echo '<br />';
 
 		echo '<div id="wincher-login-success" style="display: none;">';
