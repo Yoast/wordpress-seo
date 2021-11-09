@@ -12,8 +12,8 @@ export const analysisSelectors = {
 	...configSelectors,
 	selectPaper: createSelector(
 		editorSelectors.selectContent,
-		formSelectors.selectTitle,
-		formSelectors.selectDescription,
+		formSelectors.selectSeoTitle,
+		formSelectors.selectSeoDescription,
 		formSelectors.selectSlug,
 		editorSelectors.selectPermalink,
 		editorSelectors.selectDate,
