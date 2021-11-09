@@ -10,6 +10,7 @@ import customCountLength from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
 
 // All config
+import firstWordExceptions from "./config/firstWordExceptions";
 import functionWords from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 
@@ -31,13 +32,13 @@ export default class Researcher extends AbstractResearcher {
 		// Deletes researches that are not available for languages that we haven't supported yet.
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
-		delete this.defaultResearches.getSentenceBeginnings;
 
 		// Adds the Japanese custom research to calculate the keyword density.
 		this.addResearch( "getKeywordDensity", getKeywordDensity );
 
 		Object.assign( this.config, {
 			language: "ja",
+			firstWordExceptions,
 			functionWords,
 			transitionWords,
 		} );
