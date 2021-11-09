@@ -6,11 +6,12 @@ import getStemmer from "./helpers/getStemmer";
 import matchWordCustomHelper from "./helpers/matchTextWithWord";
 import getWordsCustomHelper from "./helpers/getWords";
 import wordsCharacterCount from "./helpers/wordsCharacterCount";
-import countCharacters from "./helpers/countCharacters";
+import customCountLength from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
 import getContentWords from "./helpers/getContentWords";
 
 // All config
+import firstWordExceptions from "./config/firstWordExceptions";
 import functionWords from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import topicLength from "./config/topicLength";
@@ -33,13 +34,13 @@ export default class Researcher extends AbstractResearcher {
 		// Deletes researches that are not available for languages that we haven't supported yet.
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
-		delete this.defaultResearches.getSentenceBeginnings;
 
 		// Adds the Japanese custom research to calculate the keyword density.
 		this.addResearch( "getKeywordDensity", getKeywordDensity );
 
 		Object.assign( this.config, {
 			language: "ja",
+			firstWordExceptions,
 			functionWords,
 			transitionWords,
 			topicLength,
@@ -50,7 +51,7 @@ export default class Researcher extends AbstractResearcher {
 			matchWordCustomHelper,
 			getWordsCustomHelper,
 			wordsCharacterCount,
-			countCharacters,
+			customCountLength,
 			matchTransitionWordsHelper,
 			getContentWords,
 		} );

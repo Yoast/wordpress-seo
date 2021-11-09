@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import { noop } from "lodash";
 
 /* Internal dependencies */
 import { SocialImage } from "../shared/SocialImage";
@@ -61,7 +62,7 @@ const BaseImage = styled.div`
 `;
 
 const PlaceholderImage = styled( BaseImage )`
-	height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;
+	${ props => props.isLarge && `height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;` }
 	border-top-left-radius: 14px;
 	${ props => props.isLarge ? "border-top-right-radius" : "border-bottom-left-radius" }: 14px;
 	border-style: dashed;
@@ -142,7 +143,7 @@ export default class TwitterImage extends React.Component {
 	 * the TwitterImageContainer.
 	 */
 	render() {
-		const { status } = this.state;
+		const { status, imageProperties } = this.state;
 
 		if ( status === "loading" || this.props.src === "" || status === "errored" ) {
 			return <PlaceholderImage
@@ -167,6 +168,9 @@ export default class TwitterImage extends React.Component {
 					alt: this.props.alt,
 					aspectRatio: TWITTER_IMAGE_SIZES.aspectRatio,
 				} }
+				width={ imageProperties.width }
+				height={ imageProperties.height }
+				imageMode={ imageProperties.mode }
 			/>
 		</TwitterImageContainer>;
 	}
@@ -184,7 +188,7 @@ TwitterImage.propTypes = {
 TwitterImage.defaultProps = {
 	src: "",
 	alt: "",
-	onMouseEnter: () => {},
-	onImageClick: () => {},
-	onMouseLeave: () => {},
+	onMouseEnter: noop,
+	onImageClick: noop,
+	onMouseLeave: noop,
 };
