@@ -48,7 +48,9 @@ describe( "WincherKeyphrasesTable", () => {
 			setTrackedKeyphrases={ noop }
 			setRequestFailed={ noop }
 			setRequestSucceeded={ noop }
+			addTrackedKeyphrase={ noop }
 			removeTrackedKeyphrase={ noop }
+			permalink=""
 		/> );
 
 		expect( component.find( "tbody" ).getElement().props.children.length ).toEqual( 1 );
@@ -65,7 +67,9 @@ describe( "WincherKeyphrasesTable", () => {
 			setTrackedKeyphrases={ noop }
 			setRequestFailed={ noop }
 			setRequestSucceeded={ noop }
+			addTrackedKeyphrase={ noop }
 			removeTrackedKeyphrase={ noop }
+			permalink=""
 		/> );
 
 		expect( component.find( WincherTableRow ).length ).toEqual( 1 );
@@ -83,9 +87,11 @@ describe( "WincherKeyphrasesTable", () => {
 			setTrackedKeyphrases={ noop }
 			setRequestFailed={ noop }
 			setRequestSucceeded={ noop }
+			addTrackedKeyphrase={ noop }
 			removeTrackedKeyphrase={ noop }
 			isLoggedIn={ true }
 			trackAll={ true }
+			permalink=""
 		/> );
 
 		const spy = jest.spyOn( component.instance(), "performTrackingRequest" );
