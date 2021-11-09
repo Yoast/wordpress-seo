@@ -14,7 +14,7 @@ export default compose( [
 			getWincherLoginStatus,
 			isWincherNewlyAuthenticated,
 			shouldWincherTrackAll,
-			getPermalink,
+			getAnalysisData,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -24,7 +24,7 @@ export default compose( [
 			trackAll: shouldWincherTrackAll(),
 			websiteId: getWincherWebsiteId(),
 			isNewlyAuthenticated: isWincherNewlyAuthenticated(),
-			permalink: getPermalink(),
+			permalink: getAnalysisData().permalink,
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
