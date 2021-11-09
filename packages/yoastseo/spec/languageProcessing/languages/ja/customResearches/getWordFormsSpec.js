@@ -1,3 +1,5 @@
+import { primeLanguageSpecificData } from "../../../../../src/languageProcessing/helpers/morphology/buildTopicStems";
+import ItalianResearcher from "../../../../../src/languageProcessing/languages/it/Researcher";
 import getWordForms from "../../../../../src/languageProcessing/languages/ja/customResearches/getWordForms";
 import { Paper } from "../../../../../index";
 import Researcher from "../../../../../src/languageProcessing/languages/ja/Researcher";
@@ -161,8 +163,7 @@ describe( "The getWordForms function", () => {
 						"遊び", "遊ば", "遊べ", "遊ぼ", "遊べる", "遊ばせ", "遊ばせる",
 						"遊ばれ", "遊ばれる", "遊ぼう" ] ],
 			synonymsForms: [],
-		} )
-		;
+		} );
 	} );
 	it( "creates forms for a Japanese keyphrase consisting of multiple words separated by spaces.", () => {
 		const paper = new Paper(
@@ -219,7 +220,23 @@ describe( "The getWordForms function", () => {
 						"美味しがれる",
 						"美味しごう" ] ],
 			synonymsForms: [],
-		} )
-		;
+		} );
+	} );
+	it( "returns the keyphrase and synonyms unaltered when we have a stemmer," +
+		"and function word support, but no morphology data is available (e.g., in Free)", () => {
+		const paper = new Paper(
+			"話せる及ん",
+			{
+				keyword: "話さ",
+				synonyms: "及ぼ",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms: [ [ "話さ" ] ],
+			synonymsForms: [ [ [ "及ぼ" ] ] ],
+		} );
 	} );
 } );
