@@ -203,8 +203,8 @@ class WPSEO_Replace_Vars {
 
 		// Undouble separators which have nothing between them, i.e. where a non-replaced variable was removed.
 		if ( isset( $replacements['%%sep%%'] ) && ( is_string( $replacements['%%sep%%'] ) && $replacements['%%sep%%'] !== '' ) ) {
-			$q_sep  = preg_quote( $replacements['%%sep%%'], '`' );
-			$text   = preg_replace( '`' . $q_sep . '(?:\s*' . $q_sep . ')*`u', $replacements['%%sep%%'], $text );
+			$q_sep = preg_quote( $replacements['%%sep%%'], '`' );
+			$text  = preg_replace( '`' . $q_sep . '(?:\s*' . $q_sep . ')*`u', $replacements['%%sep%%'], $text );
 		}
 
 		// Remove superfluous whitespace.
