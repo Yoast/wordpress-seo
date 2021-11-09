@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createSimpleReducers, createSimpleSelectors } from "../../common/helpers";
-
-export const SEO_SLICE_NAME = "seo";
+import { get } from "lodash";
 
 const initialState = {
 	title: "",
@@ -10,12 +8,27 @@ const initialState = {
 };
 
 const seoSlice = createSlice( {
-	name: SEO_SLICE_NAME,
+	name: "seo",
 	initialState,
-	reducers: createSimpleReducers( SEO_SLICE_NAME, Object.keys( initialState ) ),
+	reducers: {
+		updateSeoTitle: ( state, action ) => {
+			state.title = action.payload;
+		},
+		updateSeoDescription: ( state, action ) => {
+			state.description = action.payload;
+		},
+		updateSeoSlug: ( state, action ) => {
+			state.slug = action.payload;
+		},
+	},
 } );
 
-export const seoSelectors = createSimpleSelectors( SEO_SLICE_NAME, Object.keys( initialState ) );
+export const seoSelectors = {
+	selectSeo: state => get( state, "form.seo" ),
+	selectSeoTitle: state => get( state, "form.seo.title" ),
+	selectSeoDescription: state => get( state, "form.seo.description" ),
+	selectSeoSlug: state => get( state, "form.seo.slug" ),
+};
 
 export const seoActions = seoSlice.actions;
 
