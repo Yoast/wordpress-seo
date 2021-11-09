@@ -12,7 +12,7 @@ describe( "a test for Arabic Researcher", function() {
 	const researcher = new Researcher( new Paper( "This is another paper!" ) );
 
 	it( "checks if the Arabic Researcher still inherit the Abstract Researcher", function() {
-		expect( researcher.getResearch( "getParagraphLength" ) ).toEqual( [ { text: "This is another paper!", wordCount: 4 } ] );
+		expect( researcher.getResearch( "getParagraphLength" ) ).toEqual( [ { text: "This is another paper!", countLength: 4 } ] );
 	} );
 
 	it( "returns false if the default research is deleted in Arabic Researcher", function() {

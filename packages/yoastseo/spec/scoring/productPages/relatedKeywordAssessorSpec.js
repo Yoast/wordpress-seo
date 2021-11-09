@@ -1,10 +1,9 @@
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import Assessor from "../../../src/scoring/productPages/relatedKeywordAssessor";
 import Paper from "../../../src/values/Paper";
-import factory from "../../specHelpers/factory";
 import getResults from "../../specHelpers/getListOfAssessmentResults";
-const i18n = factory.buildJed();
-const assessor = new Assessor( i18n, new EnglishResearcher(), {
+
+const assessor = new Assessor( new EnglishResearcher(), {
 	introductionKeyphraseUrlTitle: "https://yoast.com/1",
 	introductionKeyphraseCTAUrl: "https://yoast.com/2",
 	keyphraseLengthUrlTitle: "https://yoast.com/3",
