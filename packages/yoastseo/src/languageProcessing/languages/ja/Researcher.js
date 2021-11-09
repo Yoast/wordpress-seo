@@ -8,11 +8,13 @@ import getWordsCustomHelper from "./helpers/getWords";
 import wordsCharacterCount from "./helpers/wordsCharacterCount";
 import customCountLength from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
+import getContentWords from "./helpers/getContentWords";
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
 import functionWords from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
+import topicLength from "./config/topicLength";
 
 // All custom researches
 import getKeywordDensity from "./customResearches/getKeywordDensity";
@@ -41,6 +43,7 @@ export default class Researcher extends AbstractResearcher {
 			firstWordExceptions,
 			functionWords,
 			transitionWords,
+			topicLength,
 		} );
 
 		Object.assign( this.helpers, {
@@ -50,6 +53,7 @@ export default class Researcher extends AbstractResearcher {
 			wordsCharacterCount,
 			customCountLength,
 			matchTransitionWordsHelper,
+			getContentWords,
 		} );
 	}
 }
