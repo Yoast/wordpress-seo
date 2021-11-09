@@ -14,6 +14,14 @@ const analysisActions = reduce(
 	{},
 );
 
+/**
+ * Analyzes the current data.
+ *
+ * This is a generator function that iterates over the steps to analyze.
+ * @see [WP data controls]{@link https://developer.wordpress.org/block-editor/reference-guides/packages/packages-data/#controls-2}
+ *
+ * @returns {Generator} Analyze steps.
+ */
 function* analyze() {
 	yield { type: analysisActions.request };
 

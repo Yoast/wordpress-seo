@@ -1,5 +1,13 @@
 import { get, reduce, upperFirst } from "lodash";
 
+/**
+ * Binds actions to a store.
+ *
+ * @param {Object} store The Redux store.
+ * @param {Object} actions The actions.
+ *
+ * @returns {Object} Bound actions.
+ */
 export const createActions = ( store, actions ) => reduce(
 	actions,
 	( acc, action, name ) => ( {
@@ -9,6 +17,14 @@ export const createActions = ( store, actions ) => reduce(
 	{},
 );
 
+/**
+ * Binds selectors to a store.
+ *
+ * @param {Object} store The Redux store.
+ * @param {Object} selectors The actions.
+ *
+ * @returns {Object} Bound selectors.
+ */
 export const createSelectors = ( store, selectors ) => reduce(
 	selectors,
 	( acc, selector, name ) => ( {
