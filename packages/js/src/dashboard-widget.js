@@ -160,7 +160,7 @@ class DashboardWidget extends Component {
 
 			const results = sortBy( filteredResults, ( entry ) => {
 				return entry.position.value;
-			} ).splice( 0, 10 );
+			} ).splice( 0, 5 );
 
 			this.setState( {
 				wincherData: {
