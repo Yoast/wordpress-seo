@@ -66,18 +66,21 @@ export default function WorkoutCard( {
 	);
 
 	const UpsellButton = makeOutboundLink();
+	const disabled = workout ? "" : " card-disabled";
+
 	return ( <>
-		{ ! activeWorkout && <div className={ "card card-small" }>
+		{ ! activeWorkout && <div className={ `card card-small${ disabled }` }>
 			<h2>{ title } { badges }</h2>
 			<h3>{ subtitle }</h3>
-			<ul>
-				{
-					usps.map( ( usp, index ) => <li key={ `${ title }-${ index }` }>{ usp }</li> )
-				}
-			</ul>
+			<div className="workout-card-content-flex">
+				<ul className="yoast-list--usp">
+					{
+						usps.map( ( usp, index ) => <li key={ `${ title }-${ index }` }>{ usp }</li> )
+					}
+				</ul>
 				{ image && <img src={ `../wp-content/plugins/wordpress-seo/images/${image}` } alt="" /> }
+			</div>
 			<span>
-				<Button onClick={ onClick }>{ buttonText }</Button>
 				{ workout && <Button onClick={ onClick }>{ buttonText }</Button> }
 				{ ! workout &&
 					<UpsellButton href={ upsellLink } className="yoast-button yoast-button-upsell">
@@ -92,7 +95,7 @@ export default function WorkoutCard( {
 					</UpsellButton>
 				}
 				{ finishableSteps && finishedSteps &&
-				<>
+				<div className="workout-card-progress">
 					<ProgressBar
 						id={ `${title}-workout-progress` }
 						max={ finishableSteps.length }
@@ -111,7 +114,7 @@ export default function WorkoutCard( {
 							)
 						}
 					</em></label>
-				</> }
+				</div> }
 			</span>
 		</div> }
 		{ workout && activeWorkout === name && <WorkoutComponent /> }

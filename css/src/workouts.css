@@ -3,6 +3,12 @@
 	color: #a4286a;
 	font-weight: 500;
 }
+
+#wpseo-workouts-container-free h3 {
+	font-size: 18px;
+	line-height: 24px;
+}
+
 #wpseo-workouts-container-free h2 {
 	font-size: 12px;
 	text-transform: uppercase;
@@ -30,13 +36,18 @@
 }
 
 #wpseo-workouts-container-free div.card>h2 {
-	margin: 0 0 1em 0;
+	margin: 0;
 }
 
 #wpseo-workouts-container-free div.card.card-small {
 	max-width: 320px;
 	display: flex;
 	flex-direction: column;
+}
+
+#wpseo-workouts-container-free div.card.card-small img {
+	max-width: 120px;
+	max-height: 120px;
 }
 
 #wpseo-workouts-container-free div.card.card-small>span {
@@ -118,6 +129,10 @@
 	display: grid;
 	grid-template-columns: 320px 320px;
 	gap: 16px;
+}
+
+.workflows__index__grid .yoast-button {
+	width: 100%;
 }
 
 .workflow__grid {
@@ -321,4 +336,60 @@ table.yoast_help th.divider {
 	.components-modal__content {
 		padding-top: 60px;
 	}
+}
+
+.yoast-list--usp {
+	padding-left: 24px;
+}
+
+.yoast-list--usp li {
+	position:relative;
+	margin-bottom: 16px;
+}
+
+.yoast-list--usp li::before {
+	position: absolute;
+	content: "";
+	background: var(--yoast-svg-icon-check);
+	background-size: 18px 13px;
+	width: 18px;
+	height: 13px;
+	left: -24px;
+	top: 3px;
+}
+
+.workout-card-content-flex {
+	display: flex;
+}
+
+.workout-card-content-flex ul {
+	margin-right: 8px;
+}
+
+.workout-card-content-flex img {
+	max-width: 120px;
+}
+
+.workout-card-upsell-button {
+	opacity: 1;
+}
+
+#wpseo-workouts-container-free div.card.card-small.card-disabled {
+	background-color: rgba(255,255,255,0.5);
+}
+
+#wpseo-workouts-container-free div.card.card-small.card-disabled h2 {
+	opacity: 0.5;
+}
+
+#wpseo-workouts-container-free div.card.card-small.card-disabled h3 {
+	opacity: 0.5;
+}
+
+#wpseo-workouts-container-free div.card.card-small.card-disabled .workout-card-content-flex {
+	opacity: 0.5;
+}
+
+#wpseo-workouts-container-free div.card.card-small.card-disabled .workout-card-progress {
+	opacity: 0.5;
 }

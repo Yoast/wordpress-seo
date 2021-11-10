@@ -168,7 +168,7 @@ class Workouts_Integration implements Integration_Interface {
 			echo $this->get_update_premium_notice();
 		}
 
-		echo '<div id="wpseo-workouts-container-free"></div>';
+		echo '<div id="wpseo-workouts-container-free" class="yoast"></div>';
 	}
 
 	/**
