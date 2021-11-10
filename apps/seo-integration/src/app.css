@@ -1,0 +1,16 @@
+#root {
+	display: flex;
+}
+
+main {
+	flex-grow: 1;
+}
+
+.editor, .keyphrases, .keyphrase-entry {
+	display: inline-flex;
+	flex-direction: column;
+}
+
+.editor, .sidebar {
+	margin: 1em;
+}
