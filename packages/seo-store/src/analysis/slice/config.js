@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createSimpleReducers, createSimpleSelectors } from "../../common/helpers";
-
-export const CONFIG_SLICE_NAME = "config";
+import { get } from "lodash";
 
 const initialState = {
 	analysisType: "post",
@@ -11,10 +9,18 @@ const initialState = {
 };
 
 const configSlice = createSlice( {
-	name: CONFIG_SLICE_NAME,
+	name: "config",
 	initialState,
 	reducers: {
-		...createSimpleReducers( CONFIG_SLICE_NAME, Object.keys( initialState ) ),
+		updateAnalysisType: ( state, action ) => {
+			state.analysisType = action.payload;
+		},
+		updateIsSeoActive: ( state, action ) => {
+			state.isSeoActive = Boolean( action.payload );
+		},
+		updateIsReadabilityActive: ( state, action ) => {
+			state.isReadabilityActive = Boolean( action.payload );
+		},
 		addResearch: ( state, payload ) => {
 			state.researches.push( payload );
 		},
@@ -24,7 +30,13 @@ const configSlice = createSlice( {
 	},
 } );
 
-export const configSelectors = createSimpleSelectors( CONFIG_SLICE_NAME, Object.keys( initialState ) );
+export const configSelectors = {
+	selectConfig: state => get( state, "analysis.config" ),
+	selectIsSeoActive: state => get( state, "analysis.config.isSeoActive" ),
+	selectAnalysisType: state => get( state, "analysis.config.analysisType" ),
+	selectIsReadabilityActive: state => get( state, "analysis.config.isReadabilityActive" ),
+	selectResearches: state => get( state, "analysis.config.researches" ),
+};
 
 export const configActions = configSlice.actions;
 
