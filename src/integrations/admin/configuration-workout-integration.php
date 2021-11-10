@@ -69,7 +69,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 			'workouts',
 			\sprintf(
 				'window.wpseoWorkoutsData["configuration"] = {
-					"iscompany": %d,
+					"companyOrPerson": "%s",
 					"companyName": "%s",
 					"companyLogo": "%s",
 					"companyLogoId": %d,
@@ -89,7 +89,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 					},
 					"tracking": %d,
 				};',
-				$this->is_company(),
+				$this->is_company_or_person(),
 				$this->get_company_name(),
 				$this->get_company_logo(),
 				$this->get_company_logo_id(),
@@ -114,12 +114,12 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	// ** Private functions ** //
 
 	/**
-	 * Checks if the site represents an company.
+	 * Returns the entity represented by the site.
 	 *
-	 * @return bool True if the site represents an company, false if the site represents a person.
+	 * @return string The entity represented by the site.
 	 */
-	private function is_company() {
-		return $this->options_helper->get( 'company_or_person', '' ) === 'company';
+	private function is_company_or_person() {
+		return $this->options_helper->get( 'company_or_person', '' );
 	}
 
 	/**
