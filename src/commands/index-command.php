@@ -234,6 +234,8 @@ class Index_Command implements Command_Interface {
 				$indexables = $indexation_action->index();
 				$count      = \count( $indexables );
 				$progress->tick( $count );
+				sleep( 1 );
+				Utils\wp_clear_object_cache();
 			} while ( $count >= $limit );
 			$progress->finish();
 		}
