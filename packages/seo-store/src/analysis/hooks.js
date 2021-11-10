@@ -28,7 +28,10 @@ export const useAnalyze = ( debounceTimeInMs = ANALYZE_DEBOUNCE_TIME_IN_MS ) => 
 	const keyphrases = useSelect( select => select( STORE_NAME ).selectKeyphrases() );
 	const config = useSelect( select => select( STORE_NAME ).selectConfig() );
 	const editor = useSelect( select => select( STORE_NAME ).selectEditor() );
-	const debouncedAnalyze = useCallback( () => debounce( analyze, debounceTimeInMs ), [ analyze, debounceTimeInMs ] );
+	const debouncedAnalyze = useCallback(
+		debounce( analyze, debounceTimeInMs ),
+		[ analyze, debounceTimeInMs ],
+	);
 
 	useEffectWithCompare( () => {
 		debouncedAnalyze();
