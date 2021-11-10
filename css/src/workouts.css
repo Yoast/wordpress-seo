@@ -66,6 +66,21 @@
 	top: 0;
 	bottom: -20px;
 }
+
+.workflow .extra-list-content {
+	position: relative;
+};
+
+.workflow .extra-list-content::before {
+	content: "";
+	position: absolute;
+	width: 2px;
+	background: #a4286a;
+	left: -33px;
+	top: 0;
+	bottom: -20px;
+}
+
 .workflow > li:last-of-type::before {
 	display: none;
 }
@@ -112,6 +127,20 @@
 
 .workflow li #react-select-2-input {
 	box-shadow: none !important;
+}
+
+.workflow li h4 {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.workflow .yoast-field-group {
+	font-size: 13px;
+	color: rgb(60, 67, 74);
+}
+
+.workflow .yoast-social-profiles-input-fields {
+	margin: 30px 0 20px 0;
 }
 
 .workflows__index__grid {

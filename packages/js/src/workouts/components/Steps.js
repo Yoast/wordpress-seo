@@ -1,3 +1,5 @@
+import { NewButton as Button } from "@yoast/components";
+
 /**
  * The Steps component
  *
@@ -26,7 +28,8 @@ export function Step( { title, subtitle, finishText, onFinishClick, isFinished, 
 			<h4>{ title }</h4>
 			{ subtitle && <p>{ subtitle }</p> }
 			{ children }
-			<button onClick={ onFinishClick }>{ finishText }</button>
+			<hr />
+			<Button variant="secondary" onClick={ onFinishClick }>{ finishText }</Button>
 		</li>
 	);
 }
