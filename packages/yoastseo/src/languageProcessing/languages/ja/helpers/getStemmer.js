@@ -8,7 +8,7 @@ import createWordForms from "./internal/createWordForms";
  *
  * @param {Researcher} researcher    The Japanese researcher.
  *
- * @returns {Function} The stemmer.
+ * @returns {Function} The function creating word forms in Japanese or the baseStemmer.
  */
 export default function getStemmer( researcher ) {
 	const morphologyData = get( researcher.getData( "morphology" ), "ja", false );
