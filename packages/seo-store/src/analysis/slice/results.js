@@ -1,12 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { select } from "@wordpress/data";
+import { applyFilters } from "@wordpress/hooks";
 import { get, reduce } from "lodash";
 import { ASYNC_ACTIONS, ASYNC_STATUS, FOCUS_KEYPHRASE_ID, STORE_NAME } from "../../common/constants";
 
 export const RESULTS_SLICE_NAME = "results";
 export const ANALYZE_ACTION_NAME = "analyze";
-export const PREPARE_PAPER_ACTION_NAME = "preparePaper";
-export const PROCESS_RESULTS_ACTION_NAME = "processResults";
 
 const analysisActions = reduce(
 	ASYNC_ACTIONS,
@@ -20,7 +19,7 @@ const analysisActions = reduce(
  * This is a generator function that iterates over the steps to analyze.
  * @see [WP data controls]{@link https://developer.wordpress.org/block-editor/reference-guides/packages/packages-data/#controls-2}
  *
- * @returns {Generator} Analyze steps.
+ * @returns {Generator<Object>} Analyze steps.
  */
 function* analyze() {
 	yield { type: analysisActions.request };
@@ -30,18 +29,19 @@ function* analyze() {
 		const keyphrases = yield select( STORE_NAME ).selectKeyphrases();
 		const config = yield select( STORE_NAME ).selectConfig();
 
-		const preparedPaper = yield { type: PREPARE_PAPER_ACTION_NAME, payload: paper };
+		const preparedPaper = yield applyFilters( "yoast.seoStore.analysis.preparePaper", paper );
 		// Add seoTitleWidth to paper here in some smart way (after preparePaper/replaceVars)
-		const response = yield {
-			type: ANALYZE_ACTION_NAME, payload: {
+
+		const results = yield {
+			type: ANALYZE_ACTION_NAME,
+			payload: {
 				paper: preparedPaper,
 				keyphrases,
 				config,
 			},
 		};
 
-		// Should we call process per type? E.g. seo, readability.
-		const processedResults = yield { type: PROCESS_RESULTS_ACTION_NAME, payload: response };
+		const processedResults = yield applyFilters( "yoast.seoStore.analysis.processResults", results );
 
 		return { type: analysisActions.success, payload: processedResults };
 	} catch ( error ) {

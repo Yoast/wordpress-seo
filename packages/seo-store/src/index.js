@@ -1,7 +1,6 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
-import { identity } from "lodash";
 import analysisReducer, { ANALYSIS_SLICE_NAME, analysisActions, analysisSelectors } from "./analysis/slice";
-import { ANALYZE_ACTION_NAME, PREPARE_PAPER_ACTION_NAME, PROCESS_RESULTS_ACTION_NAME } from "./analysis/slice/results";
+import { ANALYZE_ACTION_NAME } from "./analysis/slice/results";
 import { STORE_NAME } from "./common/constants";
 import editorReducer, { EDITOR_SLICE_NAME, editorActions, editorSelectors } from "./editor/slice";
 import formReducer, { formActions, formSelectors } from "./form/slice";
@@ -29,17 +28,10 @@ export const selectors = {
  *
  * @param {Object} initialState Initial state.
  * @param {function} analyze Runs an analysis.
- * @param {function} preparePaper Prepares the paper data for analysis.
- * @param {function} processResults Processes the analysis results for storing.
  *
  * @returns {WPDataStore} The WP data store.
  */
-const createSeoStore = ( {
-	initialState,
-	analyze,
-	preparePaper = identity,
-	processResults = identity,
-} ) => {
+const createSeoStore = ( { initialState, analyze } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions,
 		selectors,
@@ -51,8 +43,6 @@ const createSeoStore = ( {
 		} ),
 		controls: {
 			[ ANALYZE_ACTION_NAME ]: async ( { payload: { paper, keyphrases, config } } ) => analyze( paper, keyphrases, config ),
-			[ PREPARE_PAPER_ACTION_NAME ]: async ( { payload } ) => preparePaper( payload ),
-			[ PROCESS_RESULTS_ACTION_NAME ]: async ( { payload } ) => processResults( payload ),
 		},
 	} );
 };
@@ -62,18 +52,11 @@ const createSeoStore = ( {
  *
  * @param {Object} [initialState] Initial state.
  * @param {function} analyze Runs an analysis.
- * @param {function} [preparePaper] Prepares the paper data for analysis.
- * @param {function} [processResults] Processes the analysis results for storing.
  *
  * @returns {void}
  */
-const registerSeoStore = ( {
-	initialState = {},
-	analyze,
-	preparePaper = identity,
-	processResults = identity,
-} = {} ) => {
-	register( createSeoStore( { initialState, analyze, preparePaper, processResults } ) );
+const registerSeoStore = ( { initialState = {}, analyze } = {} ) => {
+	register( createSeoStore( { initialState, analyze } ) );
 };
 
 export default registerSeoStore;
