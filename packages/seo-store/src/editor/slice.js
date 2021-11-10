@@ -36,12 +36,12 @@ const editorSlice = createSlice( {
 } );
 
 export const editorSelectors = {
-	updateContent: ( state ) => get( state, "editor.content" ),
-	updateTitle: ( state ) => get( state, "editor.title" ),
-	updatePermalink: ( state ) => get( state, "editor.permalink" ),
-	updateExcerpt: ( state ) => get( state, "editor.excerpt" ),
-	updateDate: ( state ) => get( state, "editor.date" ),
-	updateFeaturedImage: ( state ) => get( state, "editor.featuredImage" ),
+	selectContent: ( state ) => get( state, "editor.content" ),
+	selectTitle: ( state ) => get( state, "editor.title" ),
+	selectPermalink: ( state ) => get( state, "editor.permalink" ),
+	selectExcerpt: ( state ) => get( state, "editor.excerpt" ),
+	selectDate: ( state ) => get( state, "editor.date" ),
+	selectFeaturedImage: ( state ) => get( state, "editor.featuredImage" ),
 };
 
 export const editorActions = editorSlice.actions;
