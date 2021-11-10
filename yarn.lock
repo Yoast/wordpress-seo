@@ -3868,24 +3868,6 @@
     "@wordpress/warning" "^1.4.2"
     core-js "^3.6.4"
 
-"@wordpress/babel-preset-default@^6.3.3":
-  version "6.3.3"
-  resolved "https://registry.yarnpkg.com/@wordpress/babel-preset-default/-/babel-preset-default-6.3.3.tgz#103eea2f1f36c0ae44a0fbf4784fb6190a8f5751"
-  integrity sha512-sMP7LgBmYaF5Cz+FZ4EXS5Qu4Tecv3JFIYEVbPLmn+/AIA+fzrEELn2BuEcHmd0q7VogAAmhU1iw2Fndj29bgw==
-  dependencies:
-    "@babel/core" "^7.13.10"
-    "@babel/plugin-transform-react-jsx" "^7.12.7"
-    "@babel/plugin-transform-runtime" "^7.13.10"
-    "@babel/preset-env" "^7.13.10"
-    "@babel/preset-typescript" "^7.13.0"
-    "@babel/runtime" "^7.13.10"
-    "@wordpress/babel-plugin-import-jsx-pragma" "^3.1.0"
-    "@wordpress/browserslist-config" "^4.1.0"
-    "@wordpress/element" "^4.0.2"
-    "@wordpress/warning" "^2.2.2"
-    browserslist "^4.16.6"
-    core-js "^3.12.1"
-
 "@wordpress/babel-preset-default@^6.3.4":
   version "6.3.4"
   resolved "https://registry.yarnpkg.com/@wordpress/babel-preset-default/-/babel-preset-default-6.3.4.tgz#65beaebce19bdc854d2d2752a5aa67cc59b18b71"
@@ -4352,19 +4334,6 @@
     lodash "^4.17.21"
     react "^16.13.1"
     react-dom "^16.13.1"
-
-"@wordpress/element@^4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@wordpress/element/-/element-4.0.2.tgz#6bdd1fc8763e333df0d630573af7a35ea508dd4b"
-  integrity sha512-qBNpkLb7Hh3r9aSwBOBMwRUevScbN5iR1M5B8/ZOuSZbeXYNcgWxX4WqVrt5Y52CNm8WwoQTdqcuIziNN6lhig==
-  dependencies:
-    "@babel/runtime" "^7.13.10"
-    "@types/react" "^16.9.0"
-    "@types/react-dom" "^16.9.0"
-    "@wordpress/escape-html" "^2.2.2"
-    lodash "^4.17.21"
-    react "^17.0.1"
-    react-dom "^17.0.1"
 
 "@wordpress/element@^4.0.3":
   version "4.0.3"
