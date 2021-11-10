@@ -69,11 +69,13 @@ class Configuration_Workout_Integration implements Integration_Interface {
 			'workouts',
 			\sprintf(
 				'window.wpseoWorkoutsData["configuration"] = {
-				"isOrganization": %d,
-				"organizationName": "%s",
-				"organizationLogo": "%s",
+				"iscompany": %d,
+				"companyName": "%s",
+				"companyLogo": "%s",
+				"companyLogoId": %d,
 				"personId": %d,
 				"personLogo": "%s",
+				"personLogoId": %d,
 				"siteTagline": "%s",
 				"socialProfiles": {
 					"facebookUrl": "%s",
@@ -87,11 +89,13 @@ class Configuration_Workout_Integration implements Integration_Interface {
 				},
 				"tracking": %d,
 				};',
-				$this->is_organization(),
-				$this->get_organization_name(),
-				$this->get_organization_logo(),
+				$this->is_company(),
+				$this->get_company_name(),
+				$this->get_company_logo(),
+				$this->get_company_logo_id(),
 				$this->get_person_id(),
 				$this->get_person_logo(),
+				$this->get_person_logo_id(),
 				$this->get_site_tagline(),
 				$social_profiles['facebook_url'],
 				$social_profiles['twitter_username'],
@@ -110,30 +114,39 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	// ** Private functions ** //
 
 	/**
-	 * Checks if the site represents an organization.
+	 * Checks if the site represents an company.
 	 *
-	 * @return bool True if the site represents an organization, false if the site represents a person.
+	 * @return bool True if the site represents an company, false if the site represents a person.
 	 */
-	private function is_organization() {
+	private function is_company() {
 		return $this->options_helper->get( 'company_or_person', '' ) === 'company';
 	}
 
 	/**
-	 * Gets the organization name from the option in the database.
+	 * Gets the company name from the option in the database.
 	 *
-	 * @return string The organization name.
+	 * @return string The company name.
 	 */
-	private function get_organization_name() {
+	private function get_company_name() {
 		return $this->options_helper->get( 'company_name', '' );
 	}
 
 	/**
-	 * Gets the organization logo from the option in the database.
+	 * Gets the company logo from the option in the database.
 	 *
-	 * @return string The organization logo.
+	 * @return string The company logo.
 	 */
-	private function get_organization_logo() {
+	private function get_company_logo() {
 		return $this->options_helper->get( 'company_logo', '' );
+	}
+
+	/**
+	 * Gets the company logo id from the option in the database.
+	 *
+	 * @return string The company logo id.
+	 */
+	private function get_company_logo_id() {
+		return $this->options_helper->get( 'company_logo_id', '' );
 	}
 
 	/**
@@ -152,6 +165,15 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	 */
 	private function get_person_logo() {
 		return $this->options_helper->get( 'person_logo', '' );
+	}
+
+	/**
+	 * Gets the person logo id from the option in the database.
+	 *
+	 * @return string The person logo id.
+	 */
+	private function get_person_logo_id() {
+		return $this->options_helper->get( 'person_logo_id', '' );
 	}
 
 	/**
