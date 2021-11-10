@@ -145,15 +145,4 @@ class Configuration_Workout_Route implements Route_Interface {
 
 		return new \WP_REST_Response( $data, $data->status );
 	}
-
-	/**
-	 * Validates the tracking parameter.
-	 *
-	 * @param string $tracking The tracking option.
-	 *
-	 * @return bool If the payload is valid or not.
-	 */
-	public function validate_enable_tracking( $tracking ) {
-		return \in_array( $tracking, [ 'yes', 'no' ], true );
-	}
 }

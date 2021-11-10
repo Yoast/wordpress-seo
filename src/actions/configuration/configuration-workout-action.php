@@ -33,7 +33,7 @@ class Configuration_Workout_Action {
 	 * @return object The response object.
 	 */
 	public function set_site_representation( $params ) {
-		$success = true;
+		$failures = [];
 
 		$field_list = [
 			'company_or_person',
@@ -47,26 +47,30 @@ class Configuration_Workout_Action {
 		];
 
 		foreach ( $field_list as $field_name ) {
-			if ( isset( $params[ $field_name ] ) ) {
+			if ( isset( $params[ $field_name ] ) && \is_string( $params[ $field_name ] ) ) {
 				if ( $field_name === 'description' ) {
-					$success &= \update_option( 'blogdescription', $params['description'] );
+					$result = \update_option( 'blogdescription', $params['description'] );
 				}
 				else {
-					$success &= $this->options_helper->set( $field_name, $params[ $field_name ] );
+					$result = $this->options_helper->set( $field_name, $params[ $field_name ] );
+				}
+				if ( ! $result ) {
+					$failures[] = $field_name;
 				}
 			}
 		}
 
-		if ( $success ) {
+		if ( count( $failures ) === 0 ) {
 			return (object) [
 				'success' => true,
 				'status'  => 200,
 			];
 		}
 		return (object) [
-			'success' => false,
-			'status'  => 500,
-			'error'   => 'Could not save options in the database',
+			'success'  => false,
+			'status'   => 500,
+			'error'    => 'Could not save some options in the database',
+			'failures' => $failures,
 		];
 	}
 
@@ -78,7 +82,7 @@ class Configuration_Workout_Action {
 	 * @return object The response object.
 	 */
 	public function set_social_profiles( $params ) {
-		$success = true;
+		$failures = [];
 
 		$field_list = [
 			'facebook_site',
@@ -92,21 +96,25 @@ class Configuration_Workout_Action {
 		];
 
 		foreach ( $field_list as $field_name ) {
-			if ( isset( $params[ $field_name ] ) ) {
-				$success &= $this->options_helper->set( $field_name, $params[ $field_name ] );
+			if ( isset( $params[ $field_name ] ) && \is_string( $params[ $field_name ] ) ) {
+				$result = $this->options_helper->set( $field_name, $params[ $field_name ] );
+				if ( ! $result ) {
+					$failures[] = $field_name;
+				}
 			}
 		}
 
-		if ( $success ) {
+		if ( count( $failures ) === 0 ) {
 			return (object) [
 				'success' => true,
 				'status'  => 200,
 			];
 		}
 		return (object) [
-			'success' => false,
-			'status'  => 500,
-			'error'   => 'Could not save options in the database',
+			'success'  => false,
+			'status'   => 500,
+			'error'    => 'Could not save some options in the database',
+			'failures' => $failures,
 		];
 	}
 
@@ -134,7 +142,7 @@ class Configuration_Workout_Action {
 		return (object) [
 			'success' => false,
 			'status'  => 500,
-			'error'   => 'Could not save options in the database',
+			'error'   => 'Could not save the option in the database',
 		];
 	}
 }
