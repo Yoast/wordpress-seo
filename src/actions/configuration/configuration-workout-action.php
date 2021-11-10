@@ -34,15 +34,15 @@ class Configuration_Workout_Action {
 	 * The fields for the social profiles payload.
 	 */
 	const SOCIAL_PROFILES_FIELDS = [
-			'facebook_site',
-			'twitter_site',
-			'instagram_url',
-			'linkedin_url',
-			'myspace_url',
-			'pinterest_url',
-			'youtube_url',
-			'wikipedia_url',
-		];
+		'facebook_site',
+		'twitter_site',
+		'instagram_url',
+		'linkedin_url',
+		'myspace_url',
+		'pinterest_url',
+		'youtube_url',
+		'wikipedia_url',
+	];
 
 	/**
 	 * Configuration_Workout_Action constructor.
