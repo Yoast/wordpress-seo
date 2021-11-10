@@ -11,7 +11,7 @@ describe( "a test for getting paragraph length", function() {
 
 	it( "returns the paragraph length of a paragraph in Japanese between p tags", function() {
 		const mockPaper = new Paper( "<p>これに対し日本国有鉄道</p>" );
-		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 0 ].countLength ).toBe( 1 );
+		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 0 ].countLength ).toBe( 11 );
 	} );
 
 	it( "returns the paragraph length of two paragraphs divided by double linebreaks and ends with a double linebreak", function() {
@@ -22,8 +22,8 @@ describe( "a test for getting paragraph length", function() {
 
 	it( "returns the paragraph length of two paragraphs in Japanese divided by double linebreaks and ends with a double linebreak", function() {
 		const mockPaper = new Paper( "1964年 \n\n （昭和39年） \n\n" );
-		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 0 ].countLength ).toBe( 1 );
-		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 1 ].countLength ).toBe( 1 );
+		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 0 ].countLength ).toBe( 5 );
+		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 1 ].countLength ).toBe( 7 );
 	} );
 
 	it( "returns the paragraph length of two paragraphs divided by double linebreaks that don't end with a double linebreak", function() {
@@ -34,8 +34,8 @@ describe( "a test for getting paragraph length", function() {
 
 	it( "returns the paragraph length of two paragraphs in Japanese divided by double linebreaks that don't end with a double linebreak", function() {
 		const mockPaper = new Paper( "1964年 \n\n （昭和39年）" );
-		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 0 ].countLength ).toBe( 1 );
-		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 1 ].countLength ).toBe( 1 );
+		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 0 ].countLength ).toBe( 5 );
+		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 1 ].countLength ).toBe( 7 );
 	} );
 
 	it( "returns the paragraph length of a paragraph without tags or double linebreaks", function() {
@@ -45,7 +45,7 @@ describe( "a test for getting paragraph length", function() {
 
 	it( "returns the paragraph length of a paragraph in Japanese without tags or double linebreaks", function() {
 		const mockPaper = new Paper( "東京オリンピック開会直前の1964年（昭和39年）10月1日に開業した。" );
-		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 0 ].countLength ).toBe( 1 );
+		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 0 ].countLength ).toBe( 36 );
 	} );
 
 	it( "returns the paragraph length of 2 paragraphs, both between p tags", function() {
@@ -56,8 +56,8 @@ describe( "a test for getting paragraph length", function() {
 
 	it( "returns the paragraph length of 2 paragraphs in Japanese, both between p tags", function() {
 		const mockPaper = new Paper( "<p>東京オリンピック開会直前の1964年</p><p>（昭和39年）10月1日に開業した。</p>" );
-		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 0 ].countLength ).toBe( 1 );
-		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 1 ].countLength ).toBe( 1 );
+		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 0 ].countLength ).toBe( 18 );
+		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 1 ].countLength ).toBe( 18 );
 	} );
 
 	it( "returns the paragraph length of 2 paragraphs, both between p tags, divided by double linebreaks", function() {
@@ -68,8 +68,8 @@ describe( "a test for getting paragraph length", function() {
 
 	it( "returns the paragraph length of 2 paragraphs in Japanese, both between p tags, divided by double linebreaks", function() {
 		const mockPaper = new Paper( "<p>東京オリンピック開会直前の1964年</p> \n\n <p>（昭和39年）10月1日に開業した。</p>" );
-		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 0 ].countLength ).toBe( 1 );
-		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 1 ].countLength ).toBe( 1 );
+		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 0 ].countLength ).toBe( 18 );
+		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 1 ].countLength ).toBe( 18 );
 	} );
 
 	it( "returns the paragraph length, with empty paragraphs", function() {
@@ -106,7 +106,7 @@ describe( "a test for getting paragraph length", function() {
 
 	it( "returns the paragraph length of paragraph in Japanese without p tags or double linebreaks, but with h2 tags", function() {
 		const mockPaper = new Paper( "<h2>（昭和39年）10月1日に開業した。</h2>" );
-		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 0 ].countLength ).toBe( 1 );
+		expect( getParagraphLength( mockPaper, new JapaneseResearcher() )[ 0 ].countLength ).toBe( 18 );
 	} );
 
 	xit( "returns the paragraph length of an empty paragraph with p tags", function() {
