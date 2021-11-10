@@ -30,7 +30,6 @@ function* analyze() {
 		const config = yield select( STORE_NAME ).selectConfig();
 
 		const preparedPaper = yield applyFilters( "yoast.seoStore.analysis.preparePaper", paper );
-		// Add seoTitleWidth to paper here in some smart way (after preparePaper/replaceVars)
 
 		const results = yield {
 			type: ANALYZE_ACTION_NAME,
