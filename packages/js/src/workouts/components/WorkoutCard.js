@@ -4,7 +4,8 @@ import { __, sprintf } from "@wordpress/i18n";
 import { useCallback, useState, useMemo, useEffect } from "@wordpress/element";
 import { useDispatch, useSelect } from "@wordpress/data";
 // Internal dependencies.
-import { Button, ProgressBar } from "@yoast/components";
+import { NewButton as Button, ProgressBar } from "@yoast/components";
+import { makeOutboundLink } from "@yoast/helpers";
 
 /* eslint-disable complexity */
 /**
@@ -22,6 +23,7 @@ export default function WorkoutCard( {
 	image,
 	finishableSteps,
 	finishedSteps,
+	upsellLink,
 	workout,
 	badges,
 } ) {
@@ -63,6 +65,7 @@ export default function WorkoutCard( {
 		[ workout, isToggle, openWorkout, toggleWorkout ]
 	);
 
+	const UpsellButton = makeOutboundLink();
 	return ( <>
 		{ ! activeWorkout && <div className={ "card card-small" }>
 			<h2>{ title } { badges }</h2>
@@ -72,9 +75,22 @@ export default function WorkoutCard( {
 					usps.map( ( usp, index ) => <li key={ `${ title }-${ index }` }>{ usp }</li> )
 				}
 			</ul>
-			{ image && <img src={ image } alt="" /> }
+				{ image && <img src={ `../wp-content/plugins/wordpress-seo/images/${image}` } alt="" /> }
 			<span>
 				<Button onClick={ onClick }>{ buttonText }</Button>
+				{ workout && <Button onClick={ onClick }>{ buttonText }</Button> }
+				{ ! workout &&
+					<UpsellButton href={ upsellLink } className="yoast-button yoast-button-upsell">
+						{
+							sprintf(
+							/* translators: %s : Expands to the add-on name. */
+								__( "Unlock with %s!", "wordpress-seo" ),
+								"Premium"
+							)
+						}
+						<span aria-hidden="true" className="yoast-button-upsell__caret" />
+					</UpsellButton>
+				}
 				{ finishableSteps && finishedSteps &&
 				<>
 					<ProgressBar
@@ -110,12 +126,14 @@ WorkoutCard.propTypes = {
 	finishableSteps: PropTypes.arrayOf( PropTypes.string ),
 	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
 	image: PropTypes.string,
+	upsellLink: PropTypes.string,
 	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
 };
 
 WorkoutCard.defaultProps = {
 	image: null,
+	upsellLink: null,
 	workout: null,
 	badges: [],
 	finishableSteps: null,

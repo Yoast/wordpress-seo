@@ -29,6 +29,7 @@ export default function CornerstoneWorkoutCard( {
 		image={ "mirrored_fit_bubble_man_1_optim.svg" }
 		finishableSteps={ FINISHABLE_STEPS.cornerstone }
 		finishedSteps={ finishedSteps }
+		upsellLink={ "https://yoa.st/workout-cornerstone-upsell" }
 		workout={ workout }
 		badges={ badges }
 	/>;

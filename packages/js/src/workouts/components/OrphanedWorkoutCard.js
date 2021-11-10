@@ -29,6 +29,7 @@ export default function OrphanedWorkoutCard( {
 		image={ "mirrored_fit_bubble_woman_2_optim.svg" }
 		finishableSteps={ FINISHABLE_STEPS.orphaned }
 		finishedSteps={ finishedSteps }
+		upsellLink={ "https://yoa.st/workout-orphaned-content-upsell" }
 		workout={ workout }
 		badges={ badges }
 	/>;
