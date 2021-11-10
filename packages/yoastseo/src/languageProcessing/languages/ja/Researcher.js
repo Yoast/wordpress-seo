@@ -5,7 +5,6 @@ const { AbstractResearcher } = languageProcessing;
 import getStemmer from "./helpers/getStemmer";
 import matchWordCustomHelper from "./helpers/matchTextWithWord";
 import getWordsCustomHelper from "./helpers/getWords";
-import getContentWords from "./helpers/getContentWords";
 import wordsCharacterCount from "./helpers/wordsCharacterCount";
 import customCountLength from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
@@ -19,8 +18,6 @@ import topicLength from "./config/topicLength";
 
 // All custom researches
 import morphology from "./customResearches/getWordForms";
-
-// All custom researches
 import getKeywordDensity from "./customResearches/getKeywordDensity";
 
 /**
