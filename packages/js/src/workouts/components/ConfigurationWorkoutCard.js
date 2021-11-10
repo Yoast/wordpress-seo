@@ -4,6 +4,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
 // Internal dependencies.
 import WorkoutCard from "./WorkoutCard";
+import ConfigurationWorkout from "./ConfigurationWorkout";
 
 /**
  * The ConfigurationWorkoutCard component.
@@ -13,7 +14,6 @@ import WorkoutCard from "./WorkoutCard";
  * @returns {WPElement} The ConfigurationWorkoutCard component.
  */
 export default function ConfigurationWorkoutCard( {
-	workout,
 	badges,
 } ) {
 	const finishedSteps = useSelect( "yoast-seo/workouts" ).getFinishedSteps( "configuration" );
@@ -36,17 +36,15 @@ export default function ConfigurationWorkoutCard( {
 		finishableSteps={ [ "step1", "step2", "step3", "step4", "step5" ] }
 		finishedSteps={ finishedSteps }
 		upsell={ null }
-		workout={ workout }
+		workout={ ConfigurationWorkout }
 		badges={ badges }
 	/>;
 }
 
 ConfigurationWorkoutCard.propTypes = {
-	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
 };
 
 ConfigurationWorkoutCard.defaultProps = {
-	workout: null,
 	badges: [],
 };
