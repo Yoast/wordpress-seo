@@ -22,7 +22,6 @@ export default function WorkoutCard( {
 	image,
 	finishableSteps,
 	finishedSteps,
-	upsell,
 	workout,
 	badges,
 } ) {
@@ -31,12 +30,7 @@ export default function WorkoutCard( {
 		return select( "yoast-seo/workouts" ).getActiveWorkout();
 	}, [] );
 
-	const [ isUpsellOpen, setUpsellOpen ] = useState( false );
 	const [ isToggle, setToggle ] = useState( false );
-
-	const UpsellComponent = upsell;
-	const closeUpsell = useCallback( () => setUpsellOpen( false ), [] );
-	const openUpsell = useCallback( () => setUpsellOpen( true ), [] );
 
 	const WorkoutComponent = workout;
 
@@ -61,13 +55,9 @@ export default function WorkoutCard( {
 
 	const onClick = useCallback(
 		() => {
-			if ( workout ) {
-				openWorkout( name );
-				if ( isToggle ) {
-					toggleWorkout( name );
-				}
-			} else {
-				openUpsell();
+			openWorkout( name );
+			if ( isToggle ) {
+				toggleWorkout( name );
 			}
 		},
 		[ workout, isToggle, openWorkout, toggleWorkout ]
@@ -107,7 +97,6 @@ export default function WorkoutCard( {
 					</em></label>
 				</> }
 			</span>
-			{ upsell && isUpsellOpen && <UpsellComponent onRequestClose={ closeUpsell } /> }
 		</div> }
 		{ workout && activeWorkout === name && <WorkoutComponent /> }
 	</>	);
@@ -121,14 +110,12 @@ WorkoutCard.propTypes = {
 	finishableSteps: PropTypes.arrayOf( PropTypes.string ),
 	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
 	image: PropTypes.string,
-	upsell: PropTypes.func,
 	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
 };
 
 WorkoutCard.defaultProps = {
 	image: null,
-	upsell: null,
 	workout: null,
 	badges: [],
 	finishableSteps: null,

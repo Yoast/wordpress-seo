@@ -4,26 +4,7 @@ import { __ } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
 // Internal dependencies.
 import WorkoutCard from "./WorkoutCard";
-import WorkoutUpsell from "./WorkoutUpsell";
 import { FINISHABLE_STEPS, WORKOUTS } from "../config";
-
-/**
- * Creates a WorkoutUpsell component.
- *
- * @param {Object} props The props object.
- *
- * @returns {wp.Element} The WorkoutUpsell component.
- */
-const upsell = ( props ) => {
-	return <WorkoutUpsell
-		title={ "Get Yoast SEO Premium!" }
-		addOn={ "Premium" }
-		upsellLink={ "https://www.yoast.com" }
-		onRequestClose={ props.onRequestClose }
-	>
-		<p>You should definitely buy Premium</p>
-	</WorkoutUpsell>;
-};
 
 /**
  * The CornerstoneWorkoutCard component.
@@ -51,7 +32,6 @@ export default function OrphanedWorkoutCard( {
 		image={ "" }
 		finishableSteps={ FINISHABLE_STEPS.orphaned }
 		finishedSteps={ finishedSteps }
-		upsell={ upsell }
 		workout={ workout }
 		badges={ badges }
 	/>;
