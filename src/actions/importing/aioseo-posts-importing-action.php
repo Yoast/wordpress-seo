@@ -2,12 +2,7 @@
 
 namespace Yoast\WP\SEO\Actions\Importing;
 
-use wpdb;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 
 /**
  * Importing action for AIOSEO post data.
@@ -29,41 +24,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	const TYPE = 'posts';
 
 	/**
-	 * Represents the indexables repository.
-	 *
-	 * @var Indexable_Repository
-	 */
-	protected $indexable_repository;
-
-	/**
-	 * The WordPress database instance.
-	 *
-	 * @var wpdb
-	 */
-	protected $wpdb;
-
-	/**
-	 * The indexable_to_postmeta helper.
-	 *
-	 * @var Indexable_To_Postmeta_Helper
-	 */
-	protected $indexable_to_postmeta;
-
-	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	protected $options;
-
-	/**
-	 * The wpdb helper.
-	 *
-	 * @var Wpdb_Helper
-	 */
-	protected $wpdb_helper;
-
-	/**
 	 * The map of aioseo to yoast meta.
 	 *
 	 * @var array
@@ -76,28 +36,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		'twitter_title'       => 'twitter_title',
 		'twitter_description' => 'twitter_description',
 	];
-
-	/**
-	 * Aioseo_Posts_Import_Action constructor.
-	 *
-	 * @param Indexable_Repository         $indexable_repository  The indexables repository.
-	 * @param wpdb                         $wpdb                  The WordPress database instance.
-	 * @param Indexable_To_Postmeta_Helper $indexable_to_postmeta The indexable_to_postmeta helper.
-	 * @param Options_Helper               $options               The options helper.
-	 * @param Wpdb_Helper                  $wpdb_helper           The wpdb_helper helper.
-	 */
-	public function __construct(
-		Indexable_Repository $indexable_repository,
-		wpdb $wpdb,
-		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
-		Options_Helper $options,
-		Wpdb_Helper $wpdb_helper ) {
-		$this->indexable_repository  = $indexable_repository;
-		$this->wpdb                  = $wpdb;
-		$this->indexable_to_postmeta = $indexable_to_postmeta;
-		$this->options               = $options;
-		$this->wpdb_helper           = $wpdb_helper;
-	}
 
 	/**
 	 * Retrieves the AIOSEO table name along with the db prefix.
@@ -124,7 +62,11 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		$just_detect          = true;
 		$indexables_to_create = $this->wpdb->get_col( $this->query( $limit, $just_detect ) );
 
-		return \count( $indexables_to_create );
+		$number_of_indexables_to_create = \count( $indexables_to_create );
+		$completed                      = $number_of_indexables_to_create === 0;
+		$this->set_completed( $completed );
+
+		return $number_of_indexables_to_create;
 	}
 
 	/**
@@ -142,7 +84,11 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		$just_detect          = true;
 		$indexables_to_create = $this->wpdb->get_col( $this->query( $limit, $just_detect ) );
 
-		return \count( $indexables_to_create );
+		$number_of_indexables_to_create = \count( $indexables_to_create );
+		$completed                      = $number_of_indexables_to_create === 0;
+		$this->set_completed( $completed );
+
+		return $number_of_indexables_to_create;
 	}
 
 	/**
@@ -158,8 +104,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		$limit             = $this->get_limit();
 		$aioseo_indexables = $this->wpdb->get_results( $this->query( $limit ), ARRAY_A );
 
+		$completed = \count( $aioseo_indexables ) === 0;
+		$this->set_completed( $completed );
+
 		$last_indexed_aioseo_id = 0;
 		foreach ( $aioseo_indexables as $aioseo_indexable ) {
+			$last_indexed_aioseo_id = $aioseo_indexable['id'];
+
 			$indexable = $this->indexable_repository->find_by_id_and_type( $aioseo_indexable['post_id'], 'post' );
 
 			// Let's ensure that the current post id represents something that we want to index (eg. *not* shop_order).
@@ -172,8 +123,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
 			// To ensure that indexables can be rebuild after a reset, we have to store the data in the postmeta table too.
 			$this->indexable_to_postmeta->map_to_postmeta( $indexable );
-
-			$last_indexed_aioseo_id = $aioseo_indexable['id'];
 		}
 
 		$cursor_id = $this->get_cursor_id();
