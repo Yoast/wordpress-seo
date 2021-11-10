@@ -47,7 +47,7 @@ class Configuration_Workout_Action {
 		];
 
 		foreach ( $field_list as $field_name ) {
-			if ( isset( $params[ $field_name ] ) && \is_string( $params[ $field_name ] ) ) {
+			if ( isset( $params[ $field_name ] ) ) {
 				if ( $field_name === 'description' ) {
 					$result = \update_option( 'blogdescription', $params['description'] );
 				}
@@ -96,7 +96,7 @@ class Configuration_Workout_Action {
 		];
 
 		foreach ( $field_list as $field_name ) {
-			if ( isset( $params[ $field_name ] ) && \is_string( $params[ $field_name ] ) ) {
+			if ( isset( $params[ $field_name ] ) ) {
 				$result = $this->options_helper->set( $field_name, $params[ $field_name ] );
 				if ( ! $result ) {
 					$failures[] = $field_name;

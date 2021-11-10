@@ -69,6 +69,33 @@ class Configuration_Workout_Route implements Route_Interface {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'set_site_representation' ],
 				'permission_callback' => $manage_options,
+				'args'                => [
+					'company_or_person' => [
+						'type'     => 'string',
+						'required' => true,
+					],
+					'company_name' => [
+						'type'     => 'string',
+					],
+					'company_logo' => [
+						'type'     => 'string',
+					],
+					'company_logo_id' => [
+						'type'     => 'integer',
+					],
+					'person_logo' => [
+						'type'     => 'string',
+					],
+					'person_logo_id' => [
+						'type'     => 'integer',
+					],
+					'company_or_person_user_id' => [
+						'type'     => 'integer',
+					],
+					'description' => [
+						'type'     => 'string',
+					],
+				],
 			],
 		];
 
@@ -79,6 +106,32 @@ class Configuration_Workout_Route implements Route_Interface {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'set_social_profiles' ],
 				'permission_callback' => $manage_options,
+				'args'                => [
+					'facebook_site' => [
+						'type'     => 'string',
+					],
+					'twitter_site' => [
+						'type'     => 'string',
+					],
+					'instagram_url' => [
+						'type'     => 'string',
+					],
+					'linkedin_url' => [
+						'type'     => 'string',
+					],
+					'myspace_url' => [
+						'type'     => 'string',
+					],
+					'pinterest_url' => [
+						'type'     => 'string',
+					],
+					'youtube_url' => [
+						'type'     => 'string',
+					],
+					'wikipedia_url' => [
+						'type'     => 'string',
+					],
+				],
 			],
 		];
 
