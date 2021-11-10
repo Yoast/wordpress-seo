@@ -352,3 +352,48 @@ table.yoast_help th.divider {
 	font-size: 14px;
 	font-weight: 600;
 }
+
+.workflow .yoast-field-group {
+	font-size: 13px;
+	color: rgb(60, 67, 74);
+}
+
+.workflow .yoast-social-profiles-input-fields {
+	margin: 30px 0 20px 0;
+}
+
+.workflow .yoast-tracking {
+	list-style-type: disc;
+	list-style-position: inside;
+	padding: inherit;
+}
+
+.workflow .yoast-field-group b {
+	font-size: 13px;
+	color: rgb(60, 67, 74);
+}
+
+/* duplicate */
+.yoast-list--usp {
+	padding-left: 24px;
+}
+
+.yoast-list--usp li {
+	position:relative;
+	margin-bottom: 16px;
+}
+
+.yoast-list--usp li::before {
+	position: absolute;
+	content: "";
+	background: var(--yoast-svg-icon-check);
+	background-size: 18px 13px;
+	width: 18px;
+	height: 13px;
+	left: -24px;
+	top: 3px;
+}
+
+.workflow .yoast-newsletter-signup {
+	display: flex;
+}

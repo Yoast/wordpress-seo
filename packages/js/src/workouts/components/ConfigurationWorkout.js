@@ -1,12 +1,12 @@
 import { createInterpolateElement, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-
-import { TextInput, ImageSelect, SingleSelect } from "@yoast/components";
+import { NewButton as Button, TextInput, ImageSelect, SingleSelect } from "@yoast/components";
 import { ReactComponent as WorkoutImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
 import { Step, Steps } from "./Steps";
 import Indexation from "../../components/Indexation";
 import WordPressUserSelectorSearchAppearance from "../../components/WordPressUserSelectorSearchAppearance";
+import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
 
 // TEMPORARY
 window.yoastIndexingData = {};
@@ -290,7 +290,67 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 						/>
 					</div>
 				</Step>
-				<Step />
+				<Step
+					title={ __( "Help us improve Yoast SEO", "wordpress-seo" ) }
+					finishText={ "Save and continue" }
+					onFinishClick={ () => { console.log( "Tracking finished" ); } }
+					isFinished={ isStepFinished( "configuration", "tracking" ) }
+				>
+					<p>
+						{
+							__( "To provide the best experience for you, we need your permission to do the following things:", "wordpress-seo" )
+						}
+					</p>
+					<ul className="yoast-tracking">
+						<li> { __( "collect info about the plugins and themes you have installed;", "wordpress-seo" ) } </li>
+						<li> {
+							sprintf(
+								// translators: translates to Yoast SEO.
+								__( "see which %s features you use or don't use;", "wordpress-seo" ),
+								"Yoast SEO"
+							)
+						} </li>
+						<li> { __( "always load our customer support window so we can immediately assist you when you need help.", "wordpress-seo" ) } </li>
+					</ul>
+					<RadioButtonGroup
+						label={ __( "Can we collect anonymous information about your website and how you use it?", "wordpress-seo" ) }
+						groupName="yoast-configuration-workout-tracking"
+						selected={ 0 }
+						onChange={ null }
+						vertical={ true }
+						options={ [
+							{
+								value: 0,
+								label: __( "No, I don’t want to allow you to track my site data", "wordpress-seo" ),
+								checked: false,
+							},
+							{
+								value: 1,
+								label: __( "Yes, you can track my site data", "wordpress-seo" ),
+								checked: true,
+							},
+						] }
+					/>
+				</Step>
+				<Step
+					title={ __( "Sign up for the Yoast newsletter!", "wordpress-seo" ) }
+					finishText={ "Finish this workout" }
+					onFinishClick={ () => { console.log( "Sign up finished" ); } }
+					isFinished={ isStepFinished( "configuration", "newsletter-signup" ) }
+				>
+					<ul className="yoast-list--usp">
+						<li>{ __( "Receive best-practice tips and learn how to rank on search engines", "wordpress-seo" ) }</li>
+						<li>{ __( "Stay up-to-date with the latest SEO news", "wordpress-seo" ) }</li>
+						<li>{ __( "Get guidance on how to use Yoast SEO to the fullest", "wordpress-seo" ) }</li>
+					</ul>
+					<div className="yoast-newsletter-signup">
+						<TextInput
+							label={ __( "Email address", "wordpress-seo" ) }
+							value={ "" }
+						/>
+						<Button variant="secondary">{ __( "Sign up!", "wordpress-seo" ) }</Button>
+					</div>
+				</Step>
 			</Steps>
 		</div>
 		/* eslint-enable max-len */
