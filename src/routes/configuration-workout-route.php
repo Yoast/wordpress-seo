@@ -66,7 +66,7 @@ class Configuration_Workout_Route implements Route_Interface {
 
 		$site_representation_route = [
 			[
-				'methods'             => 'PUT',
+				'methods'             => 'POST',
 				'callback'            => [ $this, 'set_site_representation' ],
 				'permission_callback' => $manage_options,
 			],
@@ -76,7 +76,7 @@ class Configuration_Workout_Route implements Route_Interface {
 
 		$social_profiles_route = [
 			[
-				'methods'             => 'PUT',
+				'methods'             => 'POST',
 				'callback'            => [ $this, 'set_social_profiles' ],
 				'permission_callback' => $manage_options,
 			],
@@ -86,7 +86,7 @@ class Configuration_Workout_Route implements Route_Interface {
 
 		$enable_tracking_route = [
 			[
-				'methods'             => 'PUT',
+				'methods'             => 'POST',
 				'callback'            => [ $this, 'set_enable_tracking' ],
 				'permission_callback' => $manage_options,
 				'args'                => [
