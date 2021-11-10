@@ -186,14 +186,11 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 						),
 						"https://yoast.com"
 					) }
+					ImageComponent={ WorkoutImage }
 					finishText={ __( "Continue", "wordpress-seo" ) }
 					onFinishClick={ () => { console.log( "you clicked continue" ); } }
 					isFinished={ isStepFinished( "configuration", "one" ) }
 				>
-					<WorkoutImage
-						className="workflow__image"
-						style={ { "float": "right", "height": "24px", "width": "24px" } }
-					/>
 					<Indexation />
 				</Step>
 				<p className="extra-list-content">
