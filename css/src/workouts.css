@@ -52,12 +52,13 @@
 	counter-reset: line-number;
 	margin-left:48px;
 }
-.workflow li {
+
+.workflow li.step {
 	position: relative;
 	counter-increment: line-number;
 	padding-bottom: 16px;
 }
-.workflow > li::before {
+.workflow > li.step::before {
 	content: "";
 	position: absolute;
 	width: 2px;
@@ -69,7 +70,7 @@
 
 .workflow .extra-list-content {
 	position: relative;
-};
+}
 
 .workflow .extra-list-content::before {
 	content: "";
@@ -81,10 +82,10 @@
 	bottom: -20px;
 }
 
-.workflow > li:last-of-type::before {
+.workflow > li.step:last-of-type::before {
 	display: none;
 }
-.workflow > li::after {
+.workflow > li.step::after {
 	content: counter(line-number);
 	width: 28px;
 	height: 28px;
@@ -99,7 +100,7 @@
 	top:-8px;
 	left: -48px;
 }
-.workflow li.finished::after {
+.workflow li.step.finished::after {
 	content: "";
 	background: url("data:image/svg+xml,<svg width='24' fill='none' stroke='%23FFFFFF' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' role='img' aria-hidden='true' focusable='false'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 13l4 4L19 7'></path></svg>") #a4286a;
 	background-size: 20px 20px;
@@ -107,31 +108,26 @@
 	background-position: center center;
 }
 
-.workflow li.finished p, .workflow li.finished table {
+.workflow li.step.finished p, .workflow li.finished table {
 	opacity: 0.5;
 }
 
-.workflow li img {
+.workflow li.step img {
 	max-width: 100%;
 }
 
-.workflow li img.workflow__image{
+.workflow li.step img.workflow__image{
 	max-height: 100px;
 	max-width: 100px;
 }
 
-.workflow li.yoast-fadeout::before {
+.workflow li.step.yoast-fadeout::before {
 	background: linear-gradient(180deg, rgba(164,40,106,1) 0%, rgba(255,255,255,1) 75%);
 	display: block;
 }
 
-.workflow li #react-select-2-input {
+.workflow li.step #react-select-2-input {
 	box-shadow: none !important;
-}
-
-.workflow li h4 {
-	font-size: 14px;
-	font-weight: 600;
 }
 
 .workflow .yoast-field-group {
@@ -350,4 +346,9 @@ table.yoast_help th.divider {
 	.components-modal__content {
 		padding-top: 60px;
 	}
+}
+
+.workflow li.step h4 {
+	font-size: 14px;
+	font-weight: 600;
 }

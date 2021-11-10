@@ -23,8 +23,10 @@ export function Steps( props ) {
  * @returns {WPElement} The Step component.
  */
 export function Step( { title, subtitle, finishText, onFinishClick, isFinished, children } ) {
+	const finished = isFinished ? " finished" : "";
+
 	return (
-		<li className={ isFinished ? "finished" : "" }>
+		<li className={ `step${finished}` }>
 			<h4>{ title }</h4>
 			{ subtitle && <p>{ subtitle }</p> }
 			{ children }
