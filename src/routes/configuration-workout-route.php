@@ -72,6 +72,10 @@ class Configuration_Workout_Route implements Route_Interface {
 				'args'                => [
 					'company_or_person' => [
 						'type'     => 'string',
+						'enum'     => [
+							'company',
+							'person',
+						],
 						'required' => true,
 					],
 					'company_name' => [
