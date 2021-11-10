@@ -23,13 +23,10 @@ export default function OrphanedWorkoutCard( {
 		title={ __( "Orphaned content", "wordpress-seo" ) }
 		subtitle={ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo" ) }
 		usps={ [
-			__(
-				// eslint-disable-next-line max-len
-				"Orphaned content is content that doesn’t get any links from other posts or pages on your site. As a result of that, this content is hard to find, for both Google and visitors. Posts and pages need internal links to them, to fit into a site’s structure and to be findable. With this workout we'll help you update your orphaned content and make sure you have links pointing towards them!",
-				"wordpress-seo"
-			),
+			__( "Make pages easier for Google and visitors to find", "wordpress-seo" ),
+			__( "Add internal links to your posts and pages", "wordpress-seo" ),
 		] }
-		image={ "" }
+		image={ "mirrored_fit_bubble_woman_2_optim.svg" }
 		finishableSteps={ FINISHABLE_STEPS.orphaned }
 		finishedSteps={ finishedSteps }
 		workout={ workout }

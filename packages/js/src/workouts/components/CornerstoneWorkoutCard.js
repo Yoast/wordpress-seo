@@ -22,12 +22,11 @@ export default function CornerstoneWorkoutCard( {
 		name={ WORKOUTS.cornerstone }
 		title={ __( "The cornerstone approach", "wordpress-seo" ) }
 		subtitle={ __( "Rank with articles you want to rank with", "wordpress-seo" ) }
-		usps={ [ __(
-			// eslint-disable-next-line max-len
-			"On your site you have a few articles that are the most important. You want to rank highest in Google with these articles. At Yoast, we call these articles cornerstone articles. Take the following 4 steps in order to start ranking with your cornerstone articles!",
-			"wordpress-seo"
-		) ] }
-		image={ "" }
+		usps={ [
+			__( "Make your important articles rank higher", "wordpress-seo" ),
+			__( "Bring more visitors to your articles", "wordpress-seo" ),
+		] }
+		image={ "mirrored_fit_bubble_man_1_optim.svg" }
 		finishableSteps={ FINISHABLE_STEPS.cornerstone }
 		finishedSteps={ finishedSteps }
 		workout={ workout }
