@@ -17,7 +17,7 @@ export const analysisSelectors = {
 		formSelectors.selectSlug,
 		editorSelectors.selectPermalink,
 		editorSelectors.selectDate,
-		( content, title, description, slug, permalink, date ) => ( { content, title, description, slug, permalink, date } ),
+		( content, seoTitle, metaDescription, slug, permalink, date ) => ( { content, seoTitle, metaDescription, slug, permalink, date } ),
 	),
 };
 

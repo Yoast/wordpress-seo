@@ -9,7 +9,8 @@ const paper = {
 	content: "",
 	// No more locale here: needs analysis worker adaptation.
 	isCornerstone: false,
-//	IsTaxonomy: false,  -- Replaced by analysisType.
+	// IsTaxonomy: false,  -- Replaced by analysisType.
+	seoTitleWidth: 0,
 };
 const keyphrases = {
 	focus: {
@@ -93,9 +94,7 @@ const wrapperConfig = {
 	//	CustomAnalysisType: "",
 	translations: {},
 	assessorOptions: {
-		[ analysisType ]: {
-
-		},
+		[ analysisType ]: {},
 	}, // Mostly used for shortlinks per analysisType.
 	defaultQueryParams: {},
 	logLevel: "",
