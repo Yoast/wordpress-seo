@@ -142,7 +142,7 @@ describe( "The getWordForms function", () => {
 			"犬です。",
 			{
 				/*
-				 * 猫 - noun, no forms required
+				 * 猫 - one character noun, no forms required
 				 * が - function word, is deleted
 				 * 遊んでいる - verb, forms are created
 				 */
@@ -237,6 +237,45 @@ describe( "The getWordForms function", () => {
 		expect( forms ).toEqual( {
 			keyphraseForms: [ [ "話さ" ] ],
 			synonymsForms: [ [ [ "及ぼ" ] ] ],
+		} );
+	} );
+	it( "a test to make sure that createWordForms is not accessed when there is no morpohlogyData file available (using a word that ends in る)", () => {
+		const paper = new Paper(
+			"話せる及ん",
+			{
+				keyword: "話さる",
+				synonyms: "及ぼ",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms: [ [ "話さる" ] ],
+			synonymsForms: [ [ [ "及ぼ" ] ] ],
+		} );
+	} );
+	it( "creates forms for a Japanese keyphrase consisting of multiple words, including function words, when no morphologyData file is available.", () => {
+		const paper = new Paper(
+			"犬です。",
+			{
+				/*
+				 * 猫 - one character noun, no forms required
+				 * が - function word, is deleted
+				 * 及ぼ - noun, forms would be created in Premium, but not Free
+				 */
+				keyword: "猫が及ぼ",
+				synonyms: "",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms:
+				[ [ "猫" ],
+					[ "及ぼ" ] ],
+			synonymsForms: [],
 		} );
 	} );
 } );

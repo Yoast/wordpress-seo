@@ -1,17 +1,18 @@
-import { get, includes } from "lodash-es";
+import { includes } from "lodash-es";
 import parseSynonyms from "../../../helpers/sanitize/parseSynonyms";
-import createWordForms from "../helpers/internal/createWordForms";
 import getContentWords from "../helpers/getContentWords";
+import { languageProcessing } from "yoastseo";
+const { baseStemmer } = languageProcessing;
 
 /**
  * Creates word forms for each word in the given keyphrase.
  *
  * @param {string}   keyphrase         The keyphrase to generate word forms for.
- * @param {Object}   morphologyData    The morphology data to use when generating keyphrase word forms.
+ * @param {function} createForms       The function to create word forms in Japanese when the morphologyData is available or baseStemmer otherwise.
  *
  * @returns {Array<string[]>} The word forms for each word in the keyphrase.
  */
-function getKeyphraseForms( keyphrase, morphologyData ) {
+function getKeyphraseForms( keyphrase, createForms ) {
 	const keyphraseWords = getContentWords( keyphrase );
 
 	// The keyphrase is in double quotes: use it as an exact match keyphrase.
@@ -21,7 +22,7 @@ function getKeyphraseForms( keyphrase, morphologyData ) {
 		return [ [ keyphrase ] ];
 	}
 
-	return keyphraseWords.map( word => createWordForms( word, morphologyData ) );
+	return keyphraseWords.map( word => createForms === baseStemmer ? [ createForms( word ) ] : createForms( word ) );
 }
 
 /**
@@ -34,13 +35,11 @@ function getKeyphraseForms( keyphrase, morphologyData ) {
  * found in the text or created forms.
  */
 export default function( paper, researcher ) {
+	const createForms = researcher.getHelper( "getStemmer" )( researcher );
 	const keyphrase = paper.getKeyword().toLocaleLowerCase( "ja" ).trim();
 	const synonyms = parseSynonyms( paper.getSynonyms().toLocaleLowerCase( "ja" ).trim() );
-
-	const morphologyData = get( researcher.getData( "morphology" ), "ja", false );
-
-	const keyphraseForms = getKeyphraseForms( keyphrase, morphologyData );
-	const synonymsForms = synonyms.map( synonym => getKeyphraseForms( synonym, morphologyData ) );
+	const keyphraseForms = getKeyphraseForms( keyphrase, createForms );
+	const synonymsForms = synonyms.map( synonym => getKeyphraseForms( synonym, createForms ) );
 
 	return { keyphraseForms, synonymsForms };
 }
