@@ -36,6 +36,7 @@ const editorSlice = createSlice( {
 } );
 
 export const editorSelectors = {
+	selectEditor: ( state ) => get( state, "editor" ),
 	selectContent: ( state ) => get( state, "editor.content" ),
 	selectTitle: ( state ) => get( state, "editor.title" ),
 	selectPermalink: ( state ) => get( state, "editor.permalink" ),
