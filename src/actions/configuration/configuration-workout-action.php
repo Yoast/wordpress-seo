@@ -17,6 +17,34 @@ class Configuration_Workout_Action {
 	protected $options_helper;
 
 	/**
+	 * The fields for the site representation payload.
+	 */
+	const SITE_REPRESENTATION_FIELDS = [
+		'company_or_person',
+		'company_name',
+		'company_logo',
+		'company_logo_id',
+		'person_logo',
+		'person_logo_id',
+		'company_or_person_user_id',
+		'description',
+	];
+
+	/**
+	 * The fields for the social profiles payload.
+	 */
+	const SOCIAL_PROFILES_FIELDS = [
+			'facebook_site',
+			'twitter_site',
+			'instagram_url',
+			'linkedin_url',
+			'myspace_url',
+			'pinterest_url',
+			'youtube_url',
+			'wikipedia_url',
+		];
+
+	/**
 	 * Configuration_Workout_Action constructor.
 	 *
 	 * @param Options_Helper $options_helper The WPSEO options helper.
@@ -35,18 +63,7 @@ class Configuration_Workout_Action {
 	public function set_site_representation( $params ) {
 		$failures = [];
 
-		$field_list = [
-			'company_or_person',
-			'company_name',
-			'company_logo',
-			'company_logo_id',
-			'person_logo',
-			'person_logo_id',
-			'company_or_person_user_id',
-			'description',
-		];
-
-		foreach ( $field_list as $field_name ) {
+		foreach ( self::SITE_REPRESENTATION_FIELDS as $field_name ) {
 			if ( isset( $params[ $field_name ] ) ) {
 				if ( $field_name === 'description' ) {
 					$result = \update_option( 'blogdescription', $params['description'] );
@@ -84,18 +101,7 @@ class Configuration_Workout_Action {
 	public function set_social_profiles( $params ) {
 		$failures = [];
 
-		$field_list = [
-			'facebook_site',
-			'twitter_site',
-			'instagram_url',
-			'linkedin_url',
-			'myspace_url',
-			'pinterest_url',
-			'youtube_url',
-			'wikipedia_url',
-		];
-
-		foreach ( $field_list as $field_name ) {
+		foreach ( self::SOCIAL_PROFILES_FIELDS as $field_name ) {
 			if ( isset( $params[ $field_name ] ) ) {
 				$result = $this->options_helper->set( $field_name, $params[ $field_name ] );
 				if ( ! $result ) {
