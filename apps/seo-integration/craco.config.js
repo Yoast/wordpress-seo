@@ -7,6 +7,8 @@ module.exports = {
 		alias: {
 			"react": path.resolve( "./node_modules/react" ),
 			"@wordpress/data": path.resolve( "./node_modules/@wordpress/data" ),
+			"@wordpress/element": path.resolve( "./node_modules/@wordpress/element" ),
+			"@wordpress/hooks": path.resolve( "./node_modules/@wordpress/hooks" ),
 		},
 		configure: ( webpackConfig, { env, paths } ) => {
 			// const { hasFoundAny, matches } = getLoaders( webpackConfig, loaderByName( "babel-loader" ) );

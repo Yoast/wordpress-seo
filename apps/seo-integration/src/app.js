@@ -1,5 +1,6 @@
 import { select, useDispatch, useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
+import { addFilter } from "@wordpress/hooks";
 import createReplacementVariables from "@yoast/replacement-variables";
 import registerAnalysisStore, { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
 import { debounce, reduce } from "lodash";
@@ -15,7 +16,7 @@ const useDebounce = ( callback, dependencies, debounceTimeInMs = 500 ) => {
 // Add wrapper around these packages that exports a magic createYoastSeoIntegration function
 // First candidate classic editor with WooCommerce
 
-const preparePaper = ( paper ) => {
+const applyReplacevars = ( paper ) => {
 	const replacementVariables = createReplacementVariables( [
 		{
 			name: "title",
@@ -37,8 +38,10 @@ const preparePaper = ( paper ) => {
 	);
 };
 
+// Applying the replacevars with a prio of 10, so that other functions can go before (< 10) or after (> 10) the replaced variables.
+addFilter( "yoast.seoStore.analysis.preparePaper", "yoast/seo-integration-app/applyReplacevars", applyReplacevars, 10 );
+
 registerAnalysisStore( {
-	preparePaper,
 	analyze: async ( paper, keyphrases, config ) => {
 		console.log( "analyze", paper, keyphrases, config );
 		await new Promise( resolve => setTimeout( resolve, 1000 ) );
