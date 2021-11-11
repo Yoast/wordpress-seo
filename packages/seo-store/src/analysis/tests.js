@@ -5,7 +5,8 @@ describe( "Config slice", () => {
 	const { updateAnalysisType } = configActions;
 
 	test( "should return the analysis config initial state", () => {
-		expect( configReducer( initialState, {} ) ).toEqual( initialState );
+		// eslint-disable-next-line no-undefined
+		expect( configReducer( undefined, {} ) ).toEqual( initialState );
 	} );
 
 	test( "should update the analysisType", () => {
