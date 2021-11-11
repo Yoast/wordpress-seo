@@ -21,8 +21,8 @@ if ( ! function_exists( '_yoast_display_notifications' ) ) {
 	/**
 	 * Create the notifications HTML with restore/dismiss button.
 	 *
-	 * @param array  $notifications_list   List of notifications.
-	 * @param string $status               Status of the notifications (active/dismissed).
+	 * @param array  $notifications_list List of notifications.
+	 * @param string $status             Status of the notifications (active/dismissed).
 	 *
 	 * @return string The output to render.
 	 */
