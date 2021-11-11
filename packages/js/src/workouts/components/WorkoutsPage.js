@@ -105,7 +105,7 @@ export default function WorkoutsPage( props ) {
 				) }
 			</p>
 			{ activeWorkout && <Button onClick={ clearActiveWorkout }>{ __( "← Back to all workouts", "worpdress-seo" ) }</Button> }
-			 <div className={ activeWorkout ? "" : "workflows__index__grid" }>
+			 <div className={ activeWorkout ? "" : "workflows__index" }>
 				{ slots }
 			</div>
 		</div>

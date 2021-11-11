@@ -63,9 +63,7 @@ export const initWorkouts = ( workouts ) => {
  * @returns {object} The action object.
  */
 export const openWorkout = ( workout ) => {
-	console.log( workout, window.location.hash );
 	window.location.hash = workout;
-	console.log( window.location.hash );
 	return { type: OPEN_WORKOUT, workout };
 };
 

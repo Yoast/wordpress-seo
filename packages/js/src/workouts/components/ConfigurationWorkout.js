@@ -10,37 +10,12 @@ import Indexation from "../../components/Indexation";
 import WordPressUserSelectorSearchAppearance from "../../components/WordPressUserSelectorSearchAppearance";
 import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
 
-// TEMPORARY
 window.yoastIndexingData = {};
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
 	...window.wpseoScriptData.searchAppearance,
 	userEditUrl: "/wp-admin/user-edit.php?user_id={user_id}",
 };
-window.wpseoWorkoutsData = {
-	configuration: {
-		isCompany: 1,
-		companyName: "",
-		companyLogo: "",
-		companyLogoId: "",
-		personId: 1,
-		personLogo: "",
-		personLogoId: 1,
-		siteTagline: "",
-		socialProfiles: {
-			facebookUrl: "facebook",
-			twitterUsername: "twitter",
-			instagramUrl: "instagram",
-			linkedinUrl: "linkedin",
-			myspaceUrl: "myspace",
-			pinterestUrl: "pinterest",
-			youtubeUrl: "youtube",
-			wikipediaUrl: "wikipedia",
-		},
-		tracking: 1,
-	},
-};
-// END TEMPORARY
 
 /**
  * A reducer for the configuration workout's internal state.
@@ -51,14 +26,16 @@ window.wpseoWorkoutsData = {
  * @returns {Object} The state as altered by the action.
  */
 function configurationWorkoutReducer( state, action ) {
-	console.log( action );
 	const newState = cloneDeep( state );
 	switch ( action.type ) {
 		case "SET_COMPANY_OR_PERSON":
-			newState.isCompany = action.payload === "organization";
+			newState.companyOrPerson = action.payload;
 			return newState;
 		case "CHANGE_SOCIAL_PROFILE":
 			newState.socialProfiles[ action.payload.socialMedium ] = action.payload.value;
+			return newState;
+		case "CHANGE_SITE_TAGLINE":
+			newState.siteTagline = action.payload;
 			return newState;
 		default:
 			return newState;
@@ -135,16 +112,16 @@ function SocialInput( { dispatch, socialMedium, ...restProps } ) {
  */
 export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1", isStepFinished = () => {} } ) {
 	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, window.wpseoWorkoutsData.configuration );
-	const [ siteTagline, setSiteTagline ] = useState( "SEO for everyone" );
 
-	const SiteRepresentationSection = state.isCompany ? OrganizationSection : PersonSection;
+	const SiteRepresentationSection = state.companyOrPerson === "company" ? OrganizationSection : PersonSection;
+
 	/* eslint-disable max-len */
 	return (
 		<div className="card">
+			<input id="person_id" value={ state.personId } style={ { display: "none" } } readOnly={ true } />
 			<h2>{ __( "Configuration", "wordpress-seo" ) }</h2>
 			<h3>{ __( "Configure Yoast SEO with optimal SEO settings for your site", "wordpress-seo" ) }</h3>
 			{ seoDataOptimizationNeeded === "1" && <div>seoDataoptimization alert</div> }
-			<input id="person_id" value={ 1 } style={ { display: "none" } } readOnly={ true } />
 			<p>
 				{
 					__(
@@ -245,11 +222,11 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 						htmlFor="organization-person-select"
 						name="organization"
 						label={ __( "Does you site represent an Organization or Person?", "wordpress-seo" ) }
-						selected={ state.isCompany ? "organization" : "person" }
+						selected={ state.companyOrPerson }
 						onChange={ ( value ) => dispatch( { type: "SET_COMPANY_OR_PERSON", payload: value } ) }
 						options={ [ {
 							name: "Organization",
-							value: "organization",
+							value: "company",
 						},
 						{
 							name: "Person",
@@ -263,8 +240,8 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 						label={ __( "Site tagline", "wordpress-seo" ) }
 						// translators: %1$s expands to Yoast
 						description={ sprintf( __( "Add a catchy tagline that describes your site in the best light. Use the keywords you want people to find your site with. Example: %1$s’s tagline is ‘SEO for everyone.’", "wordpress-seo" ), "Yoast" ) }
-						value={ siteTagline }
-						onChange={ setSiteTagline }
+						value={ state.siteTagline }
+						onChange={ ( value ) => dispatch( { type: "CHANGE_SITE_TAGLINE", payload: value } ) }
 					/>
 				</Step>
 				<Step

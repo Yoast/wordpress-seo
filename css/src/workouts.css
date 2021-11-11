@@ -95,10 +95,6 @@
 }
 
 .workflow .indexation-container {
-	height: 128px;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
 	padding: 8px 0;
 }
 
@@ -173,26 +169,13 @@
 	margin: 30px 0 20px 0;
 }
 
-.workflows__index__grid {
-	display: grid;
-	grid-template-columns: 320px 320px;
+.workflows__index {
+	display: flex;
 	gap: 16px;
 }
 
-.workflows__index__grid .yoast-button {
+.workflows__index .yoast-button {
 	width: 100%;
-}
-
-.workflow__grid {
-	display: grid;
-	grid-template-columns: auto 100px;
-	gap: 8px;
-}
-
-.workflow__grid > div:last-of-type {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-end;
 }
 
 table.yoast_help.yoast_link_suggestions thead td {
