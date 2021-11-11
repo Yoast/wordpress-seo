@@ -67,6 +67,9 @@ class Configuration_Workout_Action {
 			if ( isset( $params[ $field_name ] ) ) {
 				if ( $field_name === 'description' ) {
 					$result = \update_option( 'blogdescription', $params['description'] );
+					if ( ! $result && $params['description'] === \get_option( 'blogdescription' ) ) {
+						$result = true;
+					}
 				}
 				else {
 					$result = $this->options_helper->set( $field_name, $params[ $field_name ] );
