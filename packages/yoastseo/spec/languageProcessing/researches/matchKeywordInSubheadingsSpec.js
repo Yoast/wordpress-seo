@@ -102,7 +102,7 @@ describe( "Matching keyphrase in subheadings with custom helper to match word in
 		expect( result.percentReflectingTopic ).toBe( 100 );
 	} );
 
-	it( "matches keyphrase and synonyms in subheading, where the synonyms has better results", () => {
+	it( "matches keyphrase and synonym in subheading, where the synonym has better result", () => {
 		const paper = new Paper( "<h2>長いコートを持っている猫の品種</h2><p>覧ゆくば義界ゅ在遊カヨミ仙交ぼそはク迷男質よ質成シロヘキ街意ヘラケノ分8真めけは者横れげみ暮双ルそりか連跡弟宣獲析毛はそぐ。</p>" +
 			"<h3>短い髪の猫の品種</h3><p>国イヌチレ成授帳ぴゃ併実ムフ覧勇んド写側部実ヘ草幅能カ著焼タミイル人図ワロ読環ヲヌ新上ふげ入持ヌカクハ氏負ロカテネ遂当報えがへそ選示リー掲13因地余ルどく。</p>" +
 			"<h3>ぶち猫の種類</h3><p>会せルもよ結相ケスミヤ彩壊むは裁者りづは特派つラ出指提けぴ今紀シイエ源4京テヌ写府レリび状右落博みえごす。</p>", {
@@ -119,7 +119,7 @@ describe( "Matching keyphrase in subheadings with custom helper to match word in
 		expect( result.percentReflectingTopic ).toBe( 66.66666666666666 );
 	} );
 
-	it( "matches keyphrase and synonyms in subheading, where the keyphrase has better results", () => {
+	it( "matches keyphrase and synonym in subheading, where the keyphrase has better result", () => {
 		const paper = new Paper( "<h2>さまざまな低照度植物</h2><p>覧ゆくば義界ゅ在遊カヨミ仙交ぼそはク迷男質よ質成シロヘキ街意ヘラケノ分8真めけは者横れげみ暮双ルそりか連跡弟宣獲析毛はそぐ。</p>" +
 			"<h3>サンセベリア植物</h3><p>会せルもよ結相ケスミヤ彩壊むは裁者りづは特派つラ出指提けぴ今紀シイエ源4京テヌ写府レリび状右落博みえごす。</p>", {
 			keyword: "低照度植物",
