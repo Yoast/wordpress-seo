@@ -175,17 +175,13 @@ class Index_Command_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_cli_index_usleep_interval' )
 			->with( 1000000 )
 			->once()
-			->andReturn( 5000 );
+			->andReturn( 1000000 );
 
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
 		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
 			->times( 6 )
 			->with( Mockery::type( 'string' ), 30 )
 			->andReturn( $progress_bar_mock );
-		Monkey\Functions\expect( 'usleep' )
-			->times( 12 )
-			->with( 5000 )
-			->justReturn();
 		Monkey\Functions\expect( '\WP_CLI\Utils\wp_clear_object_cache' )
 			->times( 12 )
 			->withNoArgs()
@@ -229,17 +225,13 @@ class Index_Command_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_cli_index_usleep_interval' )
 			->with( 1000000 )
 			->once()
-			->andReturn( 5000 );
+			->andReturn( 1000000 );
 
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
 		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
 			->times( 6 )
 			->with( Mockery::type( 'string' ), 30 )
 			->andReturn( $progress_bar_mock );
-		Monkey\Functions\expect( 'usleep' )
-			->times( 12 )
-			->with( 5000 )
-			->justReturn();
 		Monkey\Functions\expect( '\WP_CLI\Utils\wp_clear_object_cache' )
 			->times( 12 )
 			->withNoArgs()
@@ -347,17 +339,13 @@ class Index_Command_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_cli_index_usleep_interval' )
 			->with( 1000000 )
 			->once()
-			->andReturn( 5000 );
+			->andReturn( 1000000 );
 
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
 		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
 			->times( 12 )
 			->with( Mockery::type( 'string' ), 30 )
 			->andReturn( $progress_bar_mock );
-		Monkey\Functions\expect( 'usleep' )
-			->times( 24 )
-			->with( 5000 )
-			->justReturn();
 		Monkey\Functions\expect( '\WP_CLI\Utils\wp_clear_object_cache' )
 			->times( 24 )
 			->withNoArgs()
