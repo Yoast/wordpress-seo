@@ -91,6 +91,23 @@ function OrganizationSection() {
 }
 
 /**
+ * The Person section.
+ * @returns {WPElement} The person section.
+ */
+function PersonSection() {
+	return (
+		<>
+			<WordPressUserSelectorSearchAppearance />
+			<ImageSelect
+				imageAltText=""
+				hasPreview={ true }
+				label={ __( "Person logo / avatar *", "wordpress-seo" ) }
+			/>
+		</>
+	);
+}
+
+/**
  * A wrapped TextInput for the social inputs
  *
  * @param {Object} dispatch The props for the SocialInput.
@@ -107,23 +124,6 @@ function SocialInput( { dispatch, socialMedium, ...restProps } ) {
 		onChange={ onChangeHandler }
 		{ ...restProps }
 	/>;
-}
-
-/**
- * The Person section.
- * @returns {WPElement} The person section.
- */
-function PersonSection() {
-	return (
-		<>
-			<WordPressUserSelectorSearchAppearance />
-			<ImageSelect
-				imageAltText=""
-				hasPreview={ true }
-				label={ __( "Person logo / avatar *", "wordpress-seo" ) }
-			/>
-		</>
-	);
 }
 
 /**
@@ -388,6 +388,22 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 						/>
 						<Button variant="secondary">{ __( "Sign up!", "wordpress-seo" ) }</Button>
 					</div>
+					<p className="yoast-privacy-policy">
+						{
+							addLinkToString(
+								sprintf(
+									// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
+									__(
+										"Yoast respects your privacy. Read %1$sour privacy policy%2$s on how we handle your personal information.",
+										"wordpress-seo"
+									),
+									"<a>",
+									"</a>"
+								),
+								"https://yoast.com"
+							)
+						}
+					</p>
 				</Step>
 			</Steps>
 		</div>

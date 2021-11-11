@@ -414,4 +414,21 @@ table.yoast_help th.divider {
 
 .workflow .yoast-newsletter-signup {
 	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+	margin-bottom: 10px;
+}
+
+.workflow .yoast-newsletter-signup .yoast-field-group {
+	flex-grow: 6;
+	margin: 0;
+}
+
+.workflow .yoast-newsletter-signup button {
+	align-self: end;
+	flex-grow: 1;
+}
+
+.workflow .yoast-privacy-policy {
+	font-size: 10px;
 }
