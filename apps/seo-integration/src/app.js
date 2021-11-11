@@ -104,10 +104,10 @@ const Keyphrase = ( props ) => {
 };
 
 const GooglePreview = () => {
-	const { updateSeoTitle, updateSeoDescription, updateSlug } = useDispatch( SEO_STORE_NAME );
+	const { updateSeoTitle, updateMetaDescription, updateSlug } = useDispatch( SEO_STORE_NAME );
 
 	const handleSeoTitleChange = useDebounce( event => updateSeoTitle( event.target.value ), [ updateSeoTitle ] );
-	const handleSeoDescriptionChange = useDebounce( event => updateSeoDescription( event.target.value ), [ updateSeoDescription ] );
+	const handleSeoDescriptionChange = useDebounce( event => updateMetaDescription( event.target.value ), [ updateMetaDescription ] );
 	const handleSlugChange = useDebounce( event => updateSlug( event.target.value ), [ updateSlug ] );
 
 	return (
