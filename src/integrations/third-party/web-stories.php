@@ -52,7 +52,6 @@ class Web_Stories implements Integration_Interface {
 		\add_action( 'web_stories_enable_twitter_metadata', '__return_false' );
 
 		\add_action( 'web_stories_story_head', [ $this, 'web_stories_story_head' ], 1 );
-		\add_filter( 'wpseo_schema_article_post_types', [ $this, 'filter_schema_article_post_types' ] );
 		\add_filter( 'wpseo_schema_article_type', [ $this, 'filter_schema_article_type' ], 10, 2 );
 		\add_filter( 'wpseo_metadesc', [ $this, 'filter_meta_description' ], 10, 2 );
 	}
@@ -65,17 +64,6 @@ class Web_Stories implements Integration_Interface {
 	public function web_stories_story_head() {
 		\remove_action( 'web_stories_story_head', 'rel_canonical' );
 		\add_action( 'web_stories_story_head', [ $this->front_end, 'call_wpseo_head' ], 9 );
-	}
-
-	/**
-	 * Adds web story post type to list of which post types to output Article schema  for.
-	 *
-	 * @param string[] $post_types Array of post types.
-	 * @return string[] Array of post types.
-	 */
-	public function filter_schema_article_post_types( $post_types ) {
-		$post_types[] = 'web-story';
-		return $post_types;
 	}
 
 	/**

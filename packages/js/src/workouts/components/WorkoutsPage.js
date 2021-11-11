@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { Slot } from "@wordpress/components";
 import { useEffect, useMemo } from "@wordpress/element";
-import { Button, NewBadge, PremiumBadge } from "@yoast/components";
+import { Button, PremiumBadge } from "@yoast/components";
 import { sortBy } from "lodash";
 import SlotWithDefault from "../../components/slots/SlotWithDefault";
 import CornerstoneWorkoutCard from "./CornerstoneWorkoutCard";
@@ -31,7 +31,7 @@ const CornerstoneCard = () => {
  */
 const OrphanedCard = () => {
 	return <OrphanedWorkoutCard
-		badges={ [ <NewBadge key={ "new-badge-orphaned-workout" } />, <PremiumBadge key={ "premium-badge-orphaned-workout" } /> ] }
+		badges={ [ <PremiumBadge key={ "premium-badge-orphaned-workout" } /> ] }
 	/>;
 };
 

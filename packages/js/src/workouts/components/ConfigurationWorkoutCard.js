@@ -32,7 +32,6 @@ export default function ConfigurationWorkoutCard( {
 				"wordpress-seo"
 			),
 		] }
-		image={ "" }
 		finishableSteps={ [ "step1", "step2", "step3", "step4", "step5" ] }
 		finishedSteps={ finishedSteps }
 		upsell={ null }

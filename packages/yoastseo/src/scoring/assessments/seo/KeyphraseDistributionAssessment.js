@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -53,16 +54,15 @@ class KeyphraseDistributionAssessment extends Assessment {
 	 *
 	 * @param {Paper}      paper      The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {Jed}        i18n       The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		this._keyphraseDistribution = researcher.getResearch( "keyphraseDistribution" );
 
 		const assessmentResult = new AssessmentResult();
 
-		const calculatedResult = this.calculateResult( i18n );
+		const calculatedResult = this.calculateResult();
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -74,23 +74,21 @@ class KeyphraseDistributionAssessment extends Assessment {
 	/**
 	 * Calculates the result based on the keyphraseDistribution research.
 	 *
-	 * @param {Jed} i18n The object used for translations.
-	 *
 	 * @returns {Object} Object with score and feedback text.
 	 */
-	calculateResult( i18n ) {
+	calculateResult() {
 		const distributionScore = this._keyphraseDistribution.keyphraseDistributionScore;
 
 		if ( distributionScore === 100 ) {
 			return {
 				score: this._config.scores.consideration,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sKeyphrase distribution%3$s: " +
-						"%2$sInclude your keyphrase or its synonyms in the text so that we can check keyphrase distribution%3$s."
+					__(
+						// eslint-disable-next-line max-len
+						"%1$sKeyphrase distribution%3$s: %2$sInclude your keyphrase or its synonyms in the text so that we can check keyphrase distribution%3$s.",
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -102,13 +100,13 @@ class KeyphraseDistributionAssessment extends Assessment {
 		if ( distributionScore > this._config.parameters.acceptableDistributionScore ) {
 			return {
 				score: this._config.scores.bad,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sKeyphrase distribution%3$s: " +
-						"Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s."
+					__(
+						// eslint-disable-next-line max-len
+						"%1$sKeyphrase distribution%3$s: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -122,13 +120,13 @@ class KeyphraseDistributionAssessment extends Assessment {
 		) {
 			return {
 				score: this._config.scores.okay,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
 					%3$s expands to the anchor end tag */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sKeyphrase distribution%3$s: " +
-						"Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s."
+					__(
+						// eslint-disable-next-line max-len
+						"%1$sKeyphrase distribution%3$s: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.",
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -139,11 +137,11 @@ class KeyphraseDistributionAssessment extends Assessment {
 
 		return {
 			score: this._config.scores.good,
-			resultText: i18n.sprintf(
+			resultText: sprintf(
 				/* Translators: %1$s expands to links to Yoast.com articles, %2$s expands to the anchor end tag */
-				i18n.dgettext(
-					"js-text-analysis",
-					"%1$sKeyphrase distribution%2$s: Good job!"
+				__(
+					"%1$sKeyphrase distribution%2$s: Good job!",
+					"wordpress-seo"
 				),
 				this._config.urlTitle,
 				"</a>"

@@ -17,7 +17,7 @@ const purgeIndexables = function( workouts ) {
 	Object.keys( workouts ).forEach( function( workout ) {
 		Object.keys( workouts[ workout ].indexablesByStep ).forEach( function( step ) {
 			purgedWorkouts[ workout ].indexablesByStep[ step ] = purgedWorkouts[ workout ].indexablesByStep[ step ].filter( function( indexable ) {
-				return typeof indexable.purge === "undefined";
+				return ! indexable.purge;
 			} );
 		} );
 	} );

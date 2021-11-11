@@ -63,7 +63,7 @@ const workoutsReducer = ( state = initialState, action ) => {
 			};
 			return newState;
 		case FINISH_STEPS:
-			newState.workouts[ action.workout ].finishedSteps =  union( state.workouts[ action.workout ].finishedSteps, action.steps );
+			newState.workouts[ action.workout ].finishedSteps = union( state.workouts[ action.workout ].finishedSteps, action.steps );
 			return newState;
 		case TOGGLE_STEP:
 			if ( state.workouts[ action.workout ].finishedSteps.includes( action.step ) ) {
@@ -106,7 +106,16 @@ const workoutsReducer = ( state = initialState, action ) => {
 					newState.workouts[ action.workout ].indexablesByStep[ action.fromStep ][ oldLocation ].movedTo = action.toStep;
 				}
 				if ( action.toStep !== "" ) {
-					newState.workouts[ action.workout ].indexablesByStep[ action.toStep ].push( indexable );
+					const oldLocation = newState.workouts[ action.workout ].indexablesByStep[ action.toStep ].findIndex(
+						storedIndexable => storedIndexable.id === indexable.id
+					);
+					// If the indexable is not yet in the toStep, add it. Else, simply reactivate it.
+					if ( oldLocation === -1 ) {
+						newState.workouts[ action.workout ].indexablesByStep[ action.toStep ].push( indexable );
+					} else {
+						newState.workouts[ action.workout ].indexablesByStep[ action.toStep ][ oldLocation ].purge = false;
+						newState.workouts[ action.workout ].indexablesByStep[ action.toStep ][ oldLocation ].movedTo = "";
+					}
 				}
 			} );
 			return newState;

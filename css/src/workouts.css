@@ -3,6 +3,12 @@
 	color: #a4286a;
 	font-weight: 500;
 }
+
+#wpseo-workouts-container-free h3 {
+	font-size: 18px;
+	line-height: 24px;
+}
+
 #wpseo-workouts-container-free h2 {
 	font-size: 12px;
 	text-transform: uppercase;
@@ -30,13 +36,23 @@
 }
 
 #wpseo-workouts-container-free div.card>h2 {
-	margin: 0 0 1em 0;
+	margin: 0;
 }
 
 #wpseo-workouts-container-free div.card.card-small {
 	max-width: 320px;
 	display: flex;
 	flex-direction: column;
+}
+
+#wpseo-workouts-container-free div.card.card-small svg {
+	width: 204px;
+	height: 146px;
+}
+
+#wpseo-workouts-container-free div.card.card-small svg *{
+	width: 100%;
+	height: 100%;
 }
 
 #wpseo-workouts-container-free div.card.card-small>span {
@@ -161,6 +177,10 @@
 	display: grid;
 	grid-template-columns: 320px 320px;
 	gap: 16px;
+}
+
+.workflows__index__grid .yoast-button {
+	width: 100%;
 }
 
 .workflow__grid {
@@ -431,4 +451,53 @@ table.yoast_help th.divider {
 
 .workflow .yoast-privacy-policy {
 	font-size: 10px;
+}
+
+.workout-card-content-flex {
+	display: flex;
+}
+
+.card.card-small .yoast-button-upsell {
+	box-shadow: inset 0 -2px 0 rgb(0 0 0 / 20%);
+	filter: none;
+	min-height: 40px;
+	font-family: inherit;
+}
+
+.card.card-small button {
+	box-shadow: inset 0 -2px 0 rgb(0 0 0 / 30%);
+	filter: none;
+	min-height: 40px;
+}
+
+.workout-card-content-flex ul {
+	margin-right: 8px;
+}
+
+.workout-card-content-flex img {
+	max-width: 120px;
+}
+
+.workout-card-upsell-button {
+	opacity: 1;
+}
+
+#wpseo-workouts-container-free div.card.card-small.card-disabled {
+	background-color: rgba(255,255,255,0.5);
+}
+
+#wpseo-workouts-container-free div.card.card-small.card-disabled h2 {
+	opacity: 0.5;
+}
+
+#wpseo-workouts-container-free div.card.card-small.card-disabled h3 {
+	opacity: 0.5;
+}
+
+#wpseo-workouts-container-free div.card.card-small.card-disabled .workout-card-content-flex {
+	opacity: 0.5;
+}
+
+#wpseo-workouts-container-free div.card.card-small.card-disabled .workout-card-progress {
+	opacity: 0.5;
 }

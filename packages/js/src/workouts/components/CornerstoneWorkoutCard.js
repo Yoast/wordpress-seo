@@ -4,26 +4,8 @@ import { __ } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
 // Internal dependencies.
 import WorkoutCard from "./WorkoutCard";
-import WorkoutUpsell from "./WorkoutUpsell";
+import { ReactComponent as CornerstoneImageBubble } from "../../../../../images/mirrored_fit_bubble_man_1_optim.svg";
 import { WORKOUTS, FINISHABLE_STEPS } from "../config";
-
-/**
- * Creates a WorkoutUpsell component.
- *
- * @param {Object} props The props object.
- *
- * @returns {wp.Element} The WorkoutUpsell component.
- */
-const upsell = ( props ) => {
-	return <WorkoutUpsell
-		title={ "Get Yoast SEO Premium!" }
-		addOn={ "Premium" }
-		upsellLink={ "https://www.yoast.com" }
-		onRequestClose={ props.onRequestClose }
-	>
-		<p>You should definitely buy Premium</p>
-	</WorkoutUpsell>;
-};
 
 /**
  * The CornerstoneWorkoutCard component.
@@ -41,15 +23,14 @@ export default function CornerstoneWorkoutCard( {
 		name={ WORKOUTS.cornerstone }
 		title={ __( "The cornerstone approach", "wordpress-seo" ) }
 		subtitle={ __( "Rank with articles you want to rank with", "wordpress-seo" ) }
-		usps={ [ __(
-			// eslint-disable-next-line max-len
-			"On your site you have a few articles that are the most important. You want to rank highest in Google with these articles. At Yoast, we call these articles cornerstone articles. Take the following 4 steps in order to start ranking with your cornerstone articles!",
-			"wordpress-seo"
-		) ] }
-		image={ "" }
+		usps={ [
+			__( "Make your important articles rank higher", "wordpress-seo" ),
+			__( "Bring more visitors to your articles", "wordpress-seo" ),
+		] }
+		image={ CornerstoneImageBubble }
 		finishableSteps={ FINISHABLE_STEPS.cornerstone }
 		finishedSteps={ finishedSteps }
-		upsell={ upsell }
+		upsellLink={ "https://yoa.st/workout-cornerstone-upsell" }
 		workout={ workout }
 		badges={ badges }
 	/>;
