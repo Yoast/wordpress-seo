@@ -1,11 +1,8 @@
-import { select, useDispatch, useSelect } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
-import { addFilter } from "@wordpress/hooks";
-import createReplacementVariables from "@yoast/replacement-variables";
-import registerAnalysisStore, { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
-import { debounce, reduce } from "lodash";
+import { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
+import { debounce } from "lodash";
 import "./app.css";
-import { measureTextWidth } from "./helpers";
 
 const useDebounce = ( callback, dependencies, debounceTimeInMs = 500 ) => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -16,42 +13,6 @@ const useDebounce = ( callback, dependencies, debounceTimeInMs = 500 ) => {
 // Send accessor type with analyze requests next to paper, how to handle?
 // Add wrapper around these packages that exports a magic createYoastSeoIntegration function
 // First candidate classic editor with WooCommerce
-
-const applyReplacevars = ( paper ) => {
-	const replacementVariables = createReplacementVariables( [
-		{
-			name: "title",
-			getReplacement: () => {
-				const replacement = select( SEO_STORE_NAME ).selectTitle();
-				return replacement;
-			},
-		},
-	] );
-
-	return reduce(
-		paper,
-		( acc, value, key ) => ( {
-			...acc,
-			[ key ]: replacementVariables.apply( value ),
-		} ),
-		{},
-	);
-};
-
-// Applying the replacevars with a prio of 10, so that other functions can go before (< 10) or after (> 10) the replaced variables.
-addFilter( "yoast.seoStore.analysis.preparePaper", "yoast/seo-integration-app/applyReplacevars", applyReplacevars, 10 );
-addFilter( "yoast.seoStore.analysis.preparePaper", "yoast/seo-integration-app/measureSeoTitleWidth", paper => ( {
-	...paper,
-	seoTitleWidth: measureTextWidth( paper.seoTitle ),
-} ), 11 );
-
-registerAnalysisStore( {
-	analyze: async ( paper, keyphrases, config ) => {
-		console.log( "analyze", paper, keyphrases, config );
-		await new Promise( resolve => setTimeout( resolve, 1000 ) );
-		return { data: "seoResults" };
-	},
-} );
 
 const Editor = () => {
 	const { updateContent, updateTitle } = useDispatch( SEO_STORE_NAME );
