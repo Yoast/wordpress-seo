@@ -1,3 +1,5 @@
+import { addFilter } from "@wordpress/hooks";
+
 const MEASUREMENT_ELEMENT_ID = "yoast-measurement-element";
 
 /**
@@ -33,7 +35,7 @@ const createMeasurementElement = ( elementId = MEASUREMENT_ELEMENT_ID ) => {
  *
  * @returns {number} The width in pixels.
  */
-export const measureTextWidth = ( text, elementId = MEASUREMENT_ELEMENT_ID ) => {
+const measureTextWidth = ( text, elementId = MEASUREMENT_ELEMENT_ID ) => {
 	let element = document.getElementById( elementId );
 	if ( ! element ) {
 		element = createMeasurementElement();
@@ -43,3 +45,20 @@ export const measureTextWidth = ( text, elementId = MEASUREMENT_ELEMENT_ID ) => 
 
 	return element.offsetWidth;
 };
+
+const measureSeoTitleWidth = paper => ( {
+	...paper,
+	seoTitleWidth: measureTextWidth( paper.seoTitle ),
+} );
+
+const registerSeoTitleWidth = () => {
+	// Prio of 11, because no replacevars are used in the SEO title width.
+	addFilter(
+		"yoast.seoStore.analysis.preparePaper",
+		"yoast/seo-integration-app/measureSeoTitleWidth",
+		measureSeoTitleWidth,
+		11,
+	);
+};
+
+export default registerSeoTitleWidth;
