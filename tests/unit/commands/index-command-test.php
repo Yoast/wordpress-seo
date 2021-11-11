@@ -183,9 +183,7 @@ class Index_Command_Test extends TestCase {
 			->with( Mockery::type( 'string' ), 30 )
 			->andReturn( $progress_bar_mock );
 		Monkey\Functions\expect( '\WP_CLI\Utils\wp_clear_object_cache' )
-			->times( 12 )
-			->withNoArgs()
-			->justReturn();
+			->times( 12 );
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 25 );
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 5 );
 		$progress_bar_mock->expects( 'finish' )->times( 6 );
@@ -233,9 +231,7 @@ class Index_Command_Test extends TestCase {
 			->with( Mockery::type( 'string' ), 30 )
 			->andReturn( $progress_bar_mock );
 		Monkey\Functions\expect( '\WP_CLI\Utils\wp_clear_object_cache' )
-			->times( 12 )
-			->withNoArgs()
-			->justReturn();
+			->times( 12 );
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 25 );
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 5 );
 		$progress_bar_mock->expects( 'finish' )->times( 6 );
@@ -347,9 +343,7 @@ class Index_Command_Test extends TestCase {
 			->with( Mockery::type( 'string' ), 30 )
 			->andReturn( $progress_bar_mock );
 		Monkey\Functions\expect( '\WP_CLI\Utils\wp_clear_object_cache' )
-			->times( 24 )
-			->withNoArgs()
-			->justReturn();
+			->times( 24 );
 		$progress_bar_mock->expects( 'tick' )->times( 12 )->with( 25 );
 		$progress_bar_mock->expects( 'tick' )->times( 12 )->with( 5 );
 		$progress_bar_mock->expects( 'finish' )->times( 12 );
