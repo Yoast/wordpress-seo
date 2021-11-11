@@ -367,6 +367,19 @@ table.yoast_help th.divider {
 	display: flex;
 }
 
+.card.card-small .yoast-button-upsell {
+	box-shadow: inset 0 -2px 0 rgb(0 0 0 / 20%);
+	filter: none;
+	min-height: 40px;
+	font-family: inherit;
+}
+
+.card.card-small button {
+	box-shadow: inset 0 -2px 0 rgb(0 0 0 / 30%);
+	filter: none;
+	min-height: 40px;
+}
+
 .workout-card-content-flex ul {
 	margin-right: 8px;
 }
