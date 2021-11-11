@@ -38,7 +38,7 @@ export default function matchKeywordInSubheadings( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
 
 	// A custom helper to match word in text.
-	const matchWordCustomHelper = researcher.getResearch( "matchWordCustomHelper" );
+	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 
 	const text = stripSomeTags( excludeTableOfContentsTag( paper.getText() ) );
 	const topicForms = researcher.getResearch( "morphology" );
