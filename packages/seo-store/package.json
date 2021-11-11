@@ -21,7 +21,8 @@
 		"clean": "rimraf build",
 		"lint": "eslint src --max-warnings=0",
 		"lint:watch": "esw src --max-warnings=0 --watch",
-		"test": "jest"
+		"test": "jest",
+		"test:watch": "npm test -- --watch"
 	},
 	"dependencies": {
 		"@reduxjs/toolkit": "^1.6.2",
