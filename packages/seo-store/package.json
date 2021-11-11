@@ -34,6 +34,7 @@
   "peerDependencies": {
     "@wordpress/data": "^6.1.2",
     "@wordpress/element": "^4.0.3",
+    "@wordpress/hooks": "^3.2.1",
     "react": "^17.0.1"
   }
 }
