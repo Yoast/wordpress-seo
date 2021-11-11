@@ -69,7 +69,7 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Importing_Action {
 	 * {@inheritDoc}
 	 */
 	public function index() {
-		$detected_plugins = $this->query();
+		$detected_plugins = $this->get_detected_plugins();
 		$this->conflicting_plugins->deactivate_conflicting_plugins( $detected_plugins );
 
 		// We need to conform to the interface, so we report that no indexables were created.
