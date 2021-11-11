@@ -1,7 +1,6 @@
 import ImageCountAssessment from "../../../../src/scoring/assessments/seo/ImageCountAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
-const i18n = Factory.buildJed();
 
 const imageCountAssessment = new ImageCountAssessment();
 
@@ -11,7 +10,7 @@ describe( "An image count assessment, including videos in product pages", functi
 
 		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 0,
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: " +
@@ -23,7 +22,7 @@ describe( "An image count assessment, including videos in product pages", functi
 
 		const assessment = imageCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 1,
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!" );
@@ -40,7 +39,7 @@ describe( "An image count assessment, including videos in product pages", functi
 		};
 		const assessment = new ImageCountAssessment( config ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 1,
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Only 1 image " +
@@ -59,7 +58,7 @@ describe( "An image count assessment, including videos in product pages", functi
 		};
 		const assessment = new ImageCountAssessment( config ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 2,
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Only 2 images " +
@@ -81,7 +80,7 @@ describe( "An image count assessment, including videos in product pages", functi
 		};
 		const assessment = new ImageCountAssessment( config ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 5,
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!" );
@@ -103,7 +102,7 @@ describe( "An image count assessment, including videos in product pages", functi
 		const assessment = new ImageCountAssessment( productPagesConfig, true ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 0,
 			videoCount: 1,
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f4' target='_blank'>Images and videos</a>: " +
@@ -128,7 +127,7 @@ describe( "An image count assessment, including videos in product pages", functi
 		const assessment = new ImageCountAssessment( productPagesConfig, true ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 1,
 			videoCount: 1,
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f4' target='_blank'>Images and videos</a>: " +
@@ -157,7 +156,7 @@ describe( "An image count assessment, including videos in product pages", functi
 		const assessment = new ImageCountAssessment( productPagesConfig, true ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 5,
 			videoCount: 1,
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f4' target='_blank'>Images and videos</a>: Good job!" );
@@ -168,7 +167,7 @@ describe( "An image count assessment, including videos in product pages", functi
 		const assessment = new ImageCountAssessment( {}, true ).getResult( mockPaper, Factory.buildMockResearcher( {
 			imageCount: 0,
 			videoCount: 0,
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f4' target='_blank'>Images and videos</a>: " +

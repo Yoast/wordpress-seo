@@ -2,7 +2,7 @@ import { languageProcessing } from "yoastseo";
 const { getWords, directPrecedenceException } = languageProcessing;
 
 import nonPassiveVerbStems from "../config/internal/nonPassiveVerbStems";
-import { passiveSuffixes } from "../config/internal/mophologicalPassiveSuffixes.js";
+import { passiveSuffixes } from "../config/internal/morphologicalPassiveSuffixes.js";
 
 const directPrecedenceExceptionList = [ "να" ];
 

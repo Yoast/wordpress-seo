@@ -2,8 +2,6 @@ import TitleKeywordAssessment from "../../../../src/scoring/assessments/seo/Titl
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
 
-const i18n = Factory.buildJed();
-
 describe( "an assessment to check if the keyword is in the pageTitle", function() {
 	it( "returns an assementresult with keyword not found", function() {
 		const paper = new Paper( "", {
@@ -13,7 +11,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
 			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false } ),
-			i18n );
+		);
 
 		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe(
@@ -31,7 +29,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
 			Factory.buildMockResearcher( { exactMatchFound: true, allWordsFound: true, position: 0, exactMatchKeyphrase: false } ),
-			i18n );
+		);
 
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe(
@@ -48,7 +46,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
 			Factory.buildMockResearcher( { exactMatchFound: true, allWordsFound: true, position: 41, exactMatchKeyphrase: false } ),
-			i18n );
+		);
 
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe(
@@ -66,7 +64,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
 			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: true, position: -1, exactMatchKeyphrase: false  } ),
-			i18n );
+		);
 
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe(
@@ -84,7 +82,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
 			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: false, position: 0, exactMatchKeyphrase: true } ),
-			i18n );
+		);
 
 		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe(
