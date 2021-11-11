@@ -23,7 +23,7 @@ import { reduce } from "lodash";
  *
  * @param {ReplacementVariableConfiguration[]} configurations The replacement variable configurations.
  *
- * @returns {{apply: function, replacementVariables: ReplacementVariable[]}} The replacement variables and an apply function.
+ * @returns {{replacementVariables: ReplacementVariable[], apply: function}} The replacement variables and an apply function.
  */
 const createReplacementVariables = ( configurations ) => {
 	const replacementVariables = configurations.map( ( { name, label, getReplacement, regexp = null } = {} ) => ( {
