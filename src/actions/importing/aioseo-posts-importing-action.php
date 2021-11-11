@@ -46,6 +46,15 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		return $this->wpdb->prefix . 'aioseo_posts';
 	}
 
+	/**
+	 * Determines if the AIOSEO database table exists.
+	 *
+	 * @return bool True if the table is found.
+	 */
+	protected function aioseo_exists() {
+		return $this->wpdb_helper->table_exists( $this->get_table() ) === true;
+	}
+
 	// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: They are already prepared.
 
 	/**
@@ -54,7 +63,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return int The total number of unimported objects.
 	 */
 	public function get_total_unindexed() {
-		if ( ! $this->wpdb_helper->table_exists( $this->get_table() ) ) {
+		if ( ! $this->aioseo_exists() ) {
 			return 0;
 		}
 
@@ -77,7 +86,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return int|false The limited number of unindexed posts. False if the query fails.
 	 */
 	public function get_limited_unindexed_count( $limit ) {
-		if ( ! $this->wpdb_helper->table_exists( $this->get_table() ) ) {
+		if ( ! $this->aioseo_exists() ) {
 			return 0;
 		}
 
@@ -94,15 +103,16 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	/**
 	 * Imports AIOSEO meta data and creates the respective Yoast indexables and postmeta.
 	 *
-	 * @return void
+	 * @return Indexable[]|false An array of created indexables or false if aioseo data was not found.
 	 */
 	public function index() {
-		if ( ! $this->wpdb_helper->table_exists( $this->get_table() ) ) {
-			return;
+		if ( ! $this->aioseo_exists() ) {
+			return false;
 		}
 
-		$limit             = $this->get_limit();
-		$aioseo_indexables = $this->wpdb->get_results( $this->query( $limit ), ARRAY_A );
+		$limit              = $this->get_limit();
+		$aioseo_indexables  = $this->wpdb->get_results( $this->query( $limit ), ARRAY_A );
+		$created_indexables = [];
 
 		$completed = \count( $aioseo_indexables ) === 0;
 		$this->set_completed( $completed );
@@ -123,10 +133,16 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
 			// To ensure that indexables can be rebuild after a reset, we have to store the data in the postmeta table too.
 			$this->indexable_to_postmeta->map_to_postmeta( $indexable );
+
+			$last_indexed_aioseo_id = $aioseo_indexable['id'];
+
+			$created_indexables[] = $indexable;
 		}
 
 		$cursor_id = $this->get_cursor_id();
 		$this->set_cursor( $this->options, $cursor_id, $last_indexed_aioseo_id );
+
+		return $created_indexables;
 	}
 
 	// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
