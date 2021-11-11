@@ -129,7 +129,7 @@ WorkoutCard.propTypes = {
 	usps: PropTypes.arrayOf( PropTypes.string ).isRequired,
 	finishableSteps: PropTypes.arrayOf( PropTypes.string ),
 	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
-	image: PropTypes.string,
+	image: PropTypes.func,
 	upsellLink: PropTypes.string,
 	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
