@@ -22,6 +22,8 @@ interface Importing_Action_Interface extends Indexation_Action_Interface, Limite
 	public function get_type();
 
 	/**
+	 * Whether or not this action is capable of importing given a specific plugin and type.
+	 *
 	 * @param string $plugin The name of the plugin being imported.
 	 * @param string $type   The component of the plugin being imported.
 	 *

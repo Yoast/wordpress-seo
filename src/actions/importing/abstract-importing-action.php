@@ -3,8 +3,6 @@
 namespace Yoast\WP\SEO\Actions\Importing;
 
 use Exception;
-use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
-use Yoast\WP\SEO\Actions\Indexing\Limited_Indexing_Action_Interface;
 
 /**
  * Importing action interface.
@@ -71,8 +69,7 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 *
 	 * @throws Exception If the TYPE constant is not set in the child class.
 	 */
-	public function can_import( $plugin = null, $type = null )
-	{
+	public function can_import( $plugin = null, $type = null ) {
 		// Either value must be set, and match the current action.
 		return ( $plugin || $type ) &&
 			( $plugin && $plugin === $this->get_plugin() ) &&
@@ -83,17 +80,8 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 * Gets the cursor id.
 	 *
 	 * @return string The cursor id.
-	 *
-	 * @throws Exception
 	 */
 	protected function get_cursor_id() {
 		return $this->get_plugin() . '_' . $this->get_type();
 	}
-
-	/**
-	 * Creates a query for gathering to-be-imported data from the database.
-	 *
-	 * @return string The query to use for importing or counting the number of items to import.
-	 */
-	abstract public function query();
 }
