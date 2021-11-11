@@ -4,26 +4,8 @@ import { __ } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
 // Internal dependencies.
 import WorkoutCard from "./WorkoutCard";
-import WorkoutUpsell from "./WorkoutUpsell";
+import { ReactComponent as OrphanedImageBubble } from "../../../../../images/mirrored_fit_bubble_woman_2_optim.svg";
 import { FINISHABLE_STEPS, WORKOUTS } from "../config";
-
-/**
- * Creates a WorkoutUpsell component.
- *
- * @param {Object} props The props object.
- *
- * @returns {wp.Element} The WorkoutUpsell component.
- */
-const upsell = ( props ) => {
-	return <WorkoutUpsell
-		title={ "Get Yoast SEO Premium!" }
-		addOn={ "Premium" }
-		upsellLink={ "https://www.yoast.com" }
-		onRequestClose={ props.onRequestClose }
-	>
-		<p>You should definitely buy Premium</p>
-	</WorkoutUpsell>;
-};
 
 /**
  * The CornerstoneWorkoutCard component.
@@ -42,16 +24,13 @@ export default function OrphanedWorkoutCard( {
 		title={ __( "Orphaned content", "wordpress-seo" ) }
 		subtitle={ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo" ) }
 		usps={ [
-			__(
-				// eslint-disable-next-line max-len
-				"Orphaned content is content that doesn’t get any links from other posts or pages on your site. As a result of that, this content is hard to find, for both Google and visitors. Posts and pages need internal links to them, to fit into a site’s structure and to be findable. With this workout we'll help you update your orphaned content and make sure you have links pointing towards them!",
-				"wordpress-seo"
-			),
+			__( "Make pages easier for Google and visitors to find", "wordpress-seo" ),
+			__( "Add internal links to your posts and pages", "wordpress-seo" ),
 		] }
-		image={ "" }
+		image={ OrphanedImageBubble }
 		finishableSteps={ FINISHABLE_STEPS.orphaned }
 		finishedSteps={ finishedSteps }
-		upsell={ upsell }
+		upsellLink={ "https://yoa.st/workout-orphaned-content-upsell" }
 		workout={ workout }
 		badges={ badges }
 	/>;

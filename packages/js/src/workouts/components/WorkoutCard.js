@@ -4,7 +4,8 @@ import { __, sprintf } from "@wordpress/i18n";
 import { useCallback, useState, useMemo, useEffect } from "@wordpress/element";
 import { useDispatch, useSelect } from "@wordpress/data";
 // Internal dependencies.
-import { Button, ProgressBar } from "@yoast/components";
+import { NewButton as Button, ProgressBar } from "@yoast/components";
+import { makeOutboundLink } from "@yoast/helpers";
 
 /* eslint-disable complexity */
 /**
@@ -22,7 +23,7 @@ export default function WorkoutCard( {
 	image,
 	finishableSteps,
 	finishedSteps,
-	upsell,
+	upsellLink,
 	workout,
 	badges,
 } ) {
@@ -31,14 +32,10 @@ export default function WorkoutCard( {
 		return select( "yoast-seo/workouts" ).getActiveWorkout();
 	}, [] );
 
-	const [ isUpsellOpen, setUpsellOpen ] = useState( false );
 	const [ isToggle, setToggle ] = useState( false );
 
-	const UpsellComponent = upsell;
-	const closeUpsell = useCallback( () => setUpsellOpen( false ), [] );
-	const openUpsell = useCallback( () => setUpsellOpen( true ), [] );
-
 	const WorkoutComponent = workout;
+	const ImageComponent = image;
 
 	useEffect( () => {
 		if ( finishableSteps && finishedSteps && finishedSteps.length === finishableSteps.length ) {
@@ -61,32 +58,45 @@ export default function WorkoutCard( {
 
 	const onClick = useCallback(
 		() => {
-			if ( workout ) {
-				openWorkout( name );
-				if ( isToggle ) {
-					toggleWorkout( name );
-				}
-			} else {
-				openUpsell();
+			openWorkout( name );
+			if ( isToggle ) {
+				toggleWorkout( name );
 			}
 		},
 		[ workout, isToggle, openWorkout, toggleWorkout ]
 	);
 
+	const UpsellButton = makeOutboundLink();
+	const disabled = workout ? "" : " card-disabled";
+
 	return ( <>
-		{ ! activeWorkout && <div className={ "card card-small" }>
+		{ ! activeWorkout && <div className={ `card card-small${ disabled }` }>
 			<h2>{ title } { badges }</h2>
 			<h3>{ subtitle }</h3>
-			<ul>
-				{
-					usps.map( ( usp, index ) => <li key={ `${ title }-${ index }` }>{ usp }</li> )
-				}
-			</ul>
-			{ image && <img src={ image } alt="" /> }
+			<div className="workout-card-content-flex">
+				<ul className="yoast-list--usp">
+					{
+						usps.map( ( usp, index ) => <li key={ `${ title }-${ index }` }>{ usp }</li> )
+					}
+				</ul>
+				<ImageComponent />
+			</div>
 			<span>
-				<Button onClick={ onClick }>{ buttonText }</Button>
+				{ workout && <Button onClick={ onClick }>{ buttonText }</Button> }
+				{ ! workout &&
+					<UpsellButton href={ upsellLink } className="yoast-button yoast-button-upsell">
+						{
+							sprintf(
+							/* translators: %s : Expands to the add-on name. */
+								__( "Unlock with %s!", "wordpress-seo" ),
+								"Premium"
+							)
+						}
+						<span aria-hidden="true" className="yoast-button-upsell__caret" />
+					</UpsellButton>
+				}
 				{ finishableSteps && finishedSteps &&
-				<>
+				<div className="workout-card-progress">
 					<ProgressBar
 						id={ `${title}-workout-progress` }
 						max={ finishableSteps.length }
@@ -105,9 +115,8 @@ export default function WorkoutCard( {
 							)
 						}
 					</em></label>
-				</> }
+				</div> }
 			</span>
-			{ upsell && isUpsellOpen && <UpsellComponent onRequestClose={ closeUpsell } /> }
 		</div> }
 		{ workout && activeWorkout === name && <WorkoutComponent /> }
 	</>	);
@@ -120,15 +129,15 @@ WorkoutCard.propTypes = {
 	usps: PropTypes.arrayOf( PropTypes.string ).isRequired,
 	finishableSteps: PropTypes.arrayOf( PropTypes.string ),
 	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
-	image: PropTypes.string,
-	upsell: PropTypes.func,
+	image: PropTypes.func,
+	upsellLink: PropTypes.string,
 	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
 };
 
 WorkoutCard.defaultProps = {
 	image: null,
-	upsell: null,
+	upsellLink: null,
 	workout: null,
 	badges: [],
 	finishableSteps: null,
