@@ -20,7 +20,7 @@ main {
 .editor > h1, .sidebar > h2 {
 	margin-top: 0;
 }
-.editor label:not(:first-of-type) {
+.editor label:not(:first-of-type), fieldset:not(:first-child) {
 	margin-top: 0.5em;
 }
 

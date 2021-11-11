@@ -103,15 +103,39 @@ const Keyphrase = ( props ) => {
 	);
 };
 
+const GooglePreview = () => {
+	const { updateSeoTitle, updateSeoDescription, updateSlug } = useDispatch( SEO_STORE_NAME );
+
+	const handleSeoTitleChange = useDebounce( event => updateSeoTitle( event.target.value ), [ updateSeoTitle ] );
+	const handleSeoDescriptionChange = useDebounce( event => updateSeoDescription( event.target.value ), [ updateSeoDescription ] );
+	const handleSlugChange = useDebounce( event => updateSlug( event.target.value ), [ updateSlug ] );
+
+	return (
+		<fieldset className="inline-flex flex-column">
+			<legend>Google preview</legend>
+			<label htmlFor="seo-title">SEO title</label>
+			<input id="seo-title" name="title" onChange={ handleSeoTitleChange } />
+			<label htmlFor="seo-title">Meta description</label>
+			<textarea id="seo-description" name="description" rows="8" onChange={ handleSeoDescriptionChange } />
+			<label htmlFor="seo-slug">Slug</label>
+			<div className="inline-flex">
+				<input id="seo-slug" name="slug" type="url" pattern="https?://.*" onChange={ handleSlugChange } />
+				<span className="validity" />
+			</div>
+		</fieldset>
+	);
+};
+
 function App() {
 	useAnalyze();
 
 	return (
 		<>
 			<Editor />
-			<aside className="sidebar">
+			<aside className="sidebar inline-flex flex-column">
 				<h2>Sidebar</h2>
 				<Keyphrases />
+				<GooglePreview />
 				<h4>SEO Results</h4>
 				<div>...</div>
 				<h4>Readability Results</h4>
