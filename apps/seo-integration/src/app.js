@@ -23,7 +23,6 @@ const applyReplacevars = ( paper ) => {
 			name: "title",
 			getReplacement: () => {
 				const replacement = select( SEO_STORE_NAME ).selectTitle();
-				console.log( "getReplacement", replacement );
 				return replacement;
 			},
 		},
