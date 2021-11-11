@@ -1,6 +1,8 @@
-import { createInterpolateElement, useState } from "@wordpress/element";
+import { createInterpolateElement, useState, useReducer, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { NewButton as Button, TextInput, ImageSelect, SingleSelect } from "@yoast/components";
+import { cloneDeep } from "lodash";
+
 import { ReactComponent as WorkoutImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
 import { Step, Steps } from "./Steps";
@@ -40,29 +42,28 @@ window.wpseoWorkoutsData = {
 };
 // END TEMPORARY
 
-const {
-	configuration: {
-		// isCompany: isCompany,
-		// companyName: companyName,
-		// companyLogo: companyLogo,
-		// companyLogoId: companyLogoId,
-		// personId: personId,
-		// personLogo: personLogo,
-		// personLogoId: personLogoId,
-		// siteTagline: siteTagline,
-		socialProfiles: {
-			facebookUrl: facebookUrl,
-			twitterUsername: twitterUsername,
-			instagramUrl: instagramUrl,
-			linkedinUrl: linkedinUrl,
-			myspaceUrl: myspaceUrl,
-			pinterestUrl: pinterestUrl,
-			youtubeUrl: youtubeUrl,
-			wikipediaUrl: wikipediaUrl,
-		},
-		// tracking: trackingOn,
-	},
-} = window.wpseoWorkoutsData;
+/**
+ * A reducer for the configuration workout's internal state.
+ *
+ * @param {Object} state  The "current" state.
+ * @param {Object} action The action with which to mutate the state.
+ *
+ * @returns {Object} The state as altered by the action.
+ */
+function configurationWorkoutReducer( state, action ) {
+	console.log( action );
+	const newState = cloneDeep( state );
+	switch ( action.type ) {
+		case "SET_COMPANY_OR_PERSON":
+			newState.isCompany = action.payload === "organization";
+			return newState;
+		case "CHANGE_SOCIAL_PROFILE":
+			newState.socialProfiles[ action.payload.socialMedium ] = action.payload.value;
+			return newState;
+		default:
+			return newState;
+	}
+}
 
 /**
  * The Organization section.
@@ -90,6 +91,25 @@ function OrganizationSection() {
 }
 
 /**
+ * A wrapped TextInput for the social inputs
+ *
+ * @param {Object} dispatch The props for the SocialInput.
+ *
+ * @returns {WPElement} A wrapped TextInput for the social inputs.
+ */
+function SocialInput( { dispatch, socialMedium, ...restProps } ) {
+	const onChangeHandler = useCallback(
+		( newValue ) => dispatch( { type: "CHANGE_SOCIAL_PROFILE", payload: { socialMedium, value: newValue } } ),
+		[ socialMedium ]
+	);
+
+	return <TextInput
+		onChange={ onChangeHandler }
+		{ ...restProps }
+	/>;
+}
+
+/**
  * The Person section.
  * @returns {WPElement} The person section.
  */
@@ -114,10 +134,10 @@ function PersonSection() {
  * @returns {WPElement} The ConfigurationWorkout compoinent.
  */
 export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1", isStepFinished = () => {} } ) {
-	const [ organizationOrPerson, setOrganizationOrPerson ] = useState( "organization" );
+	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, window.wpseoWorkoutsData.configuration );
 	const [ siteTagline, setSiteTagline ] = useState( "SEO for everyone" );
 
-	const SiteRepresentationSection = organizationOrPerson === "organization" ? OrganizationSection : PersonSection;
+	const SiteRepresentationSection = state.isCompany ? OrganizationSection : PersonSection;
 	/* eslint-disable max-len */
 	return (
 		<div className="card">
@@ -225,8 +245,8 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 						htmlFor="organization-person-select"
 						name="organization"
 						label={ __( "Does you site represent an Organization or Person?", "wordpress-seo" ) }
-						selected={ organizationOrPerson }
-						onChange={ setOrganizationOrPerson }
+						selected={ state.isCompany ? "organization" : "person" }
+						onChange={ ( value ) => dispatch( { type: "SET_COMPANY_OR_PERSON", payload: value } ) }
 						options={ [ {
 							name: "Organization",
 							value: "organization",
@@ -255,37 +275,53 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 					isFinished={ isStepFinished( "configuration", "social-profiles" ) }
 				>
 					<div className="yoast-social-profiles-input-fields">
-						<TextInput
+						<SocialInput
 							label={ __( "Facebook URL", "wordpress-seo" ) }
-							value={ facebookUrl }
+							value={ state.socialProfiles.facebookUrl }
+							socialMedium="facebookUrl"
+							dispatch={ dispatch }
 						/>
-						<TextInput
+						<SocialInput
 							label={ __( "Twitter URL", "wordpress-seo" ) }
-							value={ twitterUsername }
+							value={ state.socialProfiles.twitterUsername }
+							socialMedium="twitterUsername"
+							dispatch={ dispatch }
 						/>
-						<TextInput
+						<SocialInput
 							label={ __( "Instagram URL", "wordpress-seo" ) }
-							value={ instagramUrl }
+							value={ state.socialProfiles.instagramUrl }
+							socialMedium="instagramUrl"
+							dispatch={ dispatch }
 						/>
-						<TextInput
+						<SocialInput
 							label={ __( "LinkedIn URL", "wordpress-seo" ) }
-							value={ linkedinUrl }
+							value={ state.socialProfiles.linkedinUrl }
+							socialMedium="linkedinUrl"
+							dispatch={ dispatch }
 						/>
-						<TextInput
+						<SocialInput
 							label={ __( "MySpace URL", "wordpress-seo" ) }
-							value={ myspaceUrl }
+							value={ state.socialProfiles.myspaceUrl }
+							socialMedium="myspaceUrl"
+							dispatch={ dispatch }
 						/>
-						<TextInput
+						<SocialInput
 							label={ __( "Pinterest URL", "wordpress-seo" ) }
-							value={ pinterestUrl }
+							value={ state.socialProfiles.pinterestUrl }
+							socialMedium="pinterestUrl"
+							dispatch={ dispatch }
 						/>
-						<TextInput
+						<SocialInput
 							label={ __( "YouTube URL", "wordpress-seo" ) }
-							value={ youtubeUrl }
+							value={ state.socialProfiles.youtubeUrl }
+							socialMedium="youtubeUrl"
+							dispatch={ dispatch }
 						/>
-						<TextInput
+						<SocialInput
 							label={ __( "Wikipedia URL", "wordpress-seo" ) }
-							value={ wikipediaUrl }
+							value={ state.socialProfiles.wikipediaUrl }
+							socialMedium="wikipediaUrl"
+							dispatch={ dispatch }
 						/>
 					</div>
 				</Step>
