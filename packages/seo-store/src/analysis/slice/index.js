@@ -5,8 +5,6 @@ import { formSelectors } from "../../form/slice";
 import configReducer, { configActions, configSelectors } from "./config";
 import resultsReducer, { resultsActions, resultsSelectors } from "./results";
 
-export const ANALYSIS_SLICE_NAME = "analysis";
-
 export const analysisSelectors = {
 	...resultsSelectors,
 	...configSelectors,

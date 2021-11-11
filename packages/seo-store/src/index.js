@@ -1,12 +1,15 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
-import analysisReducer, { ANALYSIS_SLICE_NAME, analysisActions, analysisSelectors } from "./analysis/slice";
-import { ANALYZE_ACTION_NAME } from "./analysis/slice/results";
+
 import { STORE_NAME } from "./common/constants";
+
+import analysisReducer, { analysisActions, analysisSelectors } from "./analysis/slice";
 import editorReducer, { editorActions, editorSelectors } from "./editor/slice";
 import formReducer, { formActions, formSelectors } from "./form/slice";
+import { ANALYZE_ACTION_NAME } from "./analysis/slice/results";
 
 export { STORE_NAME as SEO_STORE_NAME };
 
+export { ANALYSIS_RATINGS } from "./common/constants";
 export { useAnalyze } from "./analysis/hooks";
 
 export const actions = {
@@ -37,7 +40,7 @@ const createSeoStore = ( { initialState, analyze } ) => {
 		selectors,
 		initialState,
 		reducer: combineReducers( {
-			[ ANALYSIS_SLICE_NAME ]: analysisReducer,
+			analysis: analysisReducer,
 			editor: editorReducer,
 			form: formReducer,
 		} ),
