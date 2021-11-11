@@ -182,9 +182,6 @@ class Index_Command_Test extends TestCase {
 			->times( 6 )
 			->with( Mockery::type( 'string' ), 30 )
 			->andReturn( $progress_bar_mock );
-		Monkey\Functions\expect( 'usleep' )
-			->times( 12 )
-			->with( 5000 );
 		Monkey\Functions\expect( '\WP_CLI\Utils\wp_clear_object_cache' )
 			->times( 12 );
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 25 );
@@ -233,9 +230,6 @@ class Index_Command_Test extends TestCase {
 			->times( 6 )
 			->with( Mockery::type( 'string' ), 30 )
 			->andReturn( $progress_bar_mock );
-		Monkey\Functions\expect( 'usleep' )
-			->times( 12 )
-			->with( 5000 );
 		Monkey\Functions\expect( '\WP_CLI\Utils\wp_clear_object_cache' )
 			->times( 12 );
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 25 );
@@ -350,9 +344,6 @@ class Index_Command_Test extends TestCase {
 			->andReturn( $progress_bar_mock );
 		Monkey\Functions\expect( '\WP_CLI\Utils\wp_clear_object_cache' )
 			->times( 24 );
-		Monkey\Functions\expect( 'usleep' )
-			->times( 24 )
-			->with( 5000 );
 		$progress_bar_mock->expects( 'tick' )->times( 12 )->with( 25 );
 		$progress_bar_mock->expects( 'tick' )->times( 12 )->with( 5 );
 		$progress_bar_mock->expects( 'finish' )->times( 12 );

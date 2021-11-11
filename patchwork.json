@@ -1,5 +1,0 @@
-{
-    "redefinable-internals": [
-        "usleep"
-    ]
-}
