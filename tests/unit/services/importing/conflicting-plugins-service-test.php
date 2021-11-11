@@ -72,6 +72,8 @@ class Conflicting_Plugins_Service_Test extends TestCase {
 
 
 		=>>>>> Patchwork\Exceptions\NotUserDefined : Please include {"redefinable-internals": ["filter_input"]} in your patchwork.json.
+
+
 		// Act.
 		$result = $this->conflicting_plugins_service->detect_conflicting_plugins();
 
