@@ -135,6 +135,9 @@ function wpseo_activate( $networkwide = false ) {
 		/* Multi-site network activation - activate the plugin for all blogs. */
 		wpseo_network_activate_deactivate( true );
 	}
+
+	// This is done so that the 'uninstall_{$file}' is triggered.
+	register_uninstall_hook( WPSEO_FILE, '__return_false' );
 }
 
 /**
