@@ -232,6 +232,7 @@ class Index_Command implements Command_Interface {
 		 * @api int $sleep Number of microseconds (millionths of a second) to wait between index actions.
 		 */
 		$interval = (int) apply_filters( 'wpseo_cli_index_usleep_interval', 1000000 );
+
 		$total = $indexation_action->get_total_unindexed();
 		if ( $total > 0 ) {
 			$limit    = $indexation_action->get_limit();
