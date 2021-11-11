@@ -57,10 +57,7 @@ class Conflicting_Plugins_Service {
 
 		foreach ( Conflicting_Plugins::all_plugins() as $plugin ) {
 			if ( \in_array( $plugin, $all_active_plugins, true ) ) {
-
-				if ( ! \in_array( $plugin, $active_conflicting_plugins, true ) ) {
-					$active_conflicting_plugins[] = $plugin;
-				}
+				$active_conflicting_plugins[] = $plugin;
 			}
 		}
 
@@ -87,11 +84,13 @@ class Conflicting_Plugins_Service {
 	 * @return array The remaining active plugins.
 	 */
 	protected function ignore_deactivating_plugin( $all_active_plugins ) {
-		if ( \filter_input( INPUT_GET, 'action' ) === 'deactivate' ) {
-			$deactivated_plugin = \filter_input( INPUT_GET, 'plugin' );
-			$key_to_remove      = \array_search( $deactivated_plugin, $all_active_plugins, true );
+		if ( isset( $_GET['action'] ) && isset( $_GET['plugin'] ) && \filter_var( \wp_unslash( $_GET['action'] ) ) === 'deactivate' ) {
+			$deactivated_plugin = \filter_var( \wp_unslash( $_GET['plugin'] ) );
 
-			if ( $key_to_remove ) {
+			\check_admin_referer( 'deactivate-plugin_' . $deactivated_plugin );
+
+			$key_to_remove = \array_search( $deactivated_plugin, $all_active_plugins, true );
+			if ( $key_to_remove !== false ) {
 				unset( $all_active_plugins[ $key_to_remove ] );
 			}
 		}

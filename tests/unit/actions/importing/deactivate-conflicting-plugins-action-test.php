@@ -17,8 +17,10 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
+
 	/**
 	 * The class under test.
+	 *
 	 * @var Deactivate_Conflicting_Plugins_Action
 	 */
 	protected $deactivate_conflicting_plugins_action;
@@ -30,8 +32,10 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 */
 	protected $conflicting_plugins_service;
 
-	public function set_up()
-	{
+	/**
+	 * {@inheritDoc}
+	 */
+	public function set_up() {
 		$this->conflicting_plugins_service = Mockery::mock( Conflicting_Plugins_Service::class );
 
 		$this->deactivate_conflicting_plugins_action = new Deactivate_Conflicting_Plugins_Action(
@@ -41,6 +45,9 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 
 	/**
 	 * Tests wether the tested class can import all data it should be able to handle
+	 *
+	 * @param string $plugin The plugin that's being imported.
+	 * @param string $type   The type of data being imported.
 	 *
 	 * @dataProvider can_import_testdata
 	 *
@@ -71,46 +78,24 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 
 			[
 				null,
-				'type'
+				'type',
 			],
 
 			[
 				'plugin',
-				null
+				null,
 			],
 
 			[
 				'plugin',
-				'type'
+				'type',
 			],
 
 			[
 				1,
-				-1
-			]
+				-1,
+			],
 		];
-	}
-
-	/**
-	 * Test the query, and that the query result is cached
-	 *
-	 * @covers ::query
-	 */
-	public function test_query_is_cached() {
-		// Arrange.
-		$data = [ 'a', 'b', 'c', 'd' ];
-		$this->conflicting_plugins_service
-			->expects( 'detect_conflicting_plugins' )
-			->once()
-			->andReturn( $data );
-
-		// Act.
-		$result  = $this->deactivate_conflicting_plugins_action->query();
-		$result2 = $this->deactivate_conflicting_plugins_action->query();
-
-		// Assert.
-		$this->assertEquals( $data, $result );
-		$this->assertEquals( $data, $result2 );
 	}
 
 	/**
@@ -149,7 +134,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 			->andReturn( $data );
 		$this->conflicting_plugins_service
 			->expects( 'deactivate_conflicting_plugins' )
-			->with ( $data )
+			->with( $data )
 			->once()
 			->andReturn( [] );
 
@@ -170,7 +155,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 		$result = $this->deactivate_conflicting_plugins_action->get_limit();
 
 		// Assert.
-		$this->assertEquals( 1, $result );
+		$this->assertEquals( 52, $result );
 	}
 
 	/**
@@ -209,7 +194,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 			[ 5, 4 ],
 			[ 4, 4 ],
 			[ 3, 3 ],
-			[ -1, -1 ]
+			[ -1, -1 ],
 		];
 	}
 }
