@@ -58,6 +58,12 @@
 	counter-increment: line-number;
 	padding-bottom: 16px;
 }
+
+.workflow li.step > .yoast-button {
+	margin: 0 auto;
+	display: block;
+}
+
 .workflow > li.step::before {
 	content: "";
 	position: absolute;
@@ -70,6 +76,18 @@
 
 .workflow .extra-list-content {
 	position: relative;
+}
+
+.workflow .indexation-container {
+	height: 128px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	padding: 8px 0;
+}
+
+.workflow .indexation-container > .yoast-button {
+	align-self: flex-start;
 }
 
 .workflow .extra-list-content::before {

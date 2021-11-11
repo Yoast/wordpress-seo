@@ -92,7 +92,7 @@ export default function WorkoutCard( {
 						max={ finishableSteps.length }
 						value={ finishedSteps.length }
 					/>
-					<label htmlFor={ `${title}-workout-progress` }><em>
+					<label htmlFor={ `${title}-workout-progress` }><i>
 						{
 							sprintf(
 								// translators: %1$s: number of finished steps, %2$s: number of finishable steps
@@ -104,7 +104,7 @@ export default function WorkoutCard( {
 								finishableSteps.length
 							)
 						}
-					</em></label>
+					</i></label>
 				</> }
 			</span>
 			{ upsell && isUpsellOpen && <UpsellComponent onRequestClose={ closeUpsell } /> }

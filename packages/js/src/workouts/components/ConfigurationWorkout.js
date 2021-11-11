@@ -134,7 +134,7 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 				}
 			</p>
 			<p>
-				<em>
+				<i>
 					{
 						addLinkToString(
 							sprintf(
@@ -149,7 +149,7 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 							"https://yoast.com"
 						)
 					}
-				</em>
+				</i>
 			</p>
 			<hr />
 			<p>
@@ -191,7 +191,9 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 					onFinishClick={ () => { console.log( "you clicked continue" ); } }
 					isFinished={ isStepFinished( "configuration", "one" ) }
 				>
-					<Indexation />
+					<div className="indexation-container">
+						<Indexation />
+					</div>
 				</Step>
 				<p className="extra-list-content">
 					{
@@ -328,6 +330,9 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 							},
 						] }
 					/>
+					<i> {
+						__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors!", "wordpress-seo" )
+					} </i>
 				</Step>
 				<Step
 					title={ __( "Sign up for the Yoast newsletter!", "wordpress-seo" ) }
