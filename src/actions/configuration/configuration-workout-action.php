@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Actions\Configuration;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Class Configuration_Workout_Action
+ * Class Configuration_Workout_Action.
  */
 class Configuration_Workout_Action {
 
