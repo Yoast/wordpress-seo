@@ -4,6 +4,7 @@ import { __ } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
 // Internal dependencies.
 import WorkoutCard from "./WorkoutCard";
+import { ReactComponent as CornerstoneImageBubble } from "../../../../../images/mirrored_fit_bubble_man_1_optim.svg";
 import { WORKOUTS, FINISHABLE_STEPS } from "../config";
 
 /**
@@ -26,7 +27,7 @@ export default function CornerstoneWorkoutCard( {
 			__( "Make your important articles rank higher", "wordpress-seo" ),
 			__( "Bring more visitors to your articles", "wordpress-seo" ),
 		] }
-		image={ "mirrored_fit_bubble_man_1_optim.svg" }
+		image={ CornerstoneImageBubble }
 		finishableSteps={ FINISHABLE_STEPS.cornerstone }
 		finishedSteps={ finishedSteps }
 		upsellLink={ "https://yoa.st/workout-cornerstone-upsell" }

@@ -35,6 +35,7 @@ export default function WorkoutCard( {
 	const [ isToggle, setToggle ] = useState( false );
 
 	const WorkoutComponent = workout;
+	const ImageComponent = image;
 
 	useEffect( () => {
 		if ( finishableSteps && finishedSteps && finishedSteps.length === finishableSteps.length ) {
@@ -78,7 +79,7 @@ export default function WorkoutCard( {
 						usps.map( ( usp, index ) => <li key={ `${ title }-${ index }` }>{ usp }</li> )
 					}
 				</ul>
-				{ image && <img src={ `../wp-content/plugins/wordpress-seo/images/${image}` } alt="" /> }
+				<ImageComponent />
 			</div>
 			<span>
 				{ workout && <Button onClick={ onClick }>{ buttonText }</Button> }
