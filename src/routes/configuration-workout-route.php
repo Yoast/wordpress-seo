@@ -60,45 +60,39 @@ class Configuration_Workout_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function register_routes() {
-		$manage_options = static function() {
-			return \current_user_can( 'wpseo_manage_options' );
-		};
-
 		$site_representation_route = [
-			[
-				'methods'             => 'POST',
-				'callback'            => [ $this, 'set_site_representation' ],
-				'permission_callback' => $manage_options,
-				'args'                => [
-					'company_or_person' => [
-						'type'     => 'string',
-						'enum'     => [
-							'company',
-							'person',
-						],
-						'required' => true,
+			'methods'             => 'POST',
+			'callback'            => [ $this, 'set_site_representation' ],
+			'permission_callback' => [ $this, 'can_manage_options' ],
+			'args'                => [
+				'company_or_person' => [
+					'type'     => 'string',
+					'enum'     => [
+						'company',
+						'person',
 					],
-					'company_name' => [
-						'type'     => 'string',
-					],
-					'company_logo' => [
-						'type'     => 'string',
-					],
-					'company_logo_id' => [
-						'type'     => 'integer',
-					],
-					'person_logo' => [
-						'type'     => 'string',
-					],
-					'person_logo_id' => [
-						'type'     => 'integer',
-					],
-					'company_or_person_user_id' => [
-						'type'     => 'integer',
-					],
-					'description' => [
-						'type'     => 'string',
-					],
+					'required' => true,
+				],
+				'company_name' => [
+					'type'     => 'string',
+				],
+				'company_logo' => [
+					'type'     => 'string',
+				],
+				'company_logo_id' => [
+					'type'     => 'integer',
+				],
+				'person_logo' => [
+					'type'     => 'string',
+				],
+				'person_logo_id' => [
+					'type'     => 'integer',
+				],
+				'company_or_person_user_id' => [
+					'type'     => 'integer',
+				],
+				'description' => [
+					'type'     => 'string',
 				],
 			],
 		];
@@ -106,35 +100,33 @@ class Configuration_Workout_Route implements Route_Interface {
 		\register_rest_route( Main::API_V1_NAMESPACE, Workouts_Route::WORKOUTS_ROUTE . self::SITE_REPRESENTATION_ROUTE, $site_representation_route );
 
 		$social_profiles_route = [
-			[
-				'methods'             => 'POST',
-				'callback'            => [ $this, 'set_social_profiles' ],
-				'permission_callback' => $manage_options,
-				'args'                => [
-					'facebook_site' => [
-						'type'     => 'string',
-					],
-					'twitter_site' => [
-						'type'     => 'string',
-					],
-					'instagram_url' => [
-						'type'     => 'string',
-					],
-					'linkedin_url' => [
-						'type'     => 'string',
-					],
-					'myspace_url' => [
-						'type'     => 'string',
-					],
-					'pinterest_url' => [
-						'type'     => 'string',
-					],
-					'youtube_url' => [
-						'type'     => 'string',
-					],
-					'wikipedia_url' => [
-						'type'     => 'string',
-					],
+			'methods'             => 'POST',
+			'callback'            => [ $this, 'set_social_profiles' ],
+			'permission_callback' => [ $this, 'can_manage_options' ],
+			'args'                => [
+				'facebook_site' => [
+					'type'     => 'string',
+				],
+				'twitter_site' => [
+					'type'     => 'string',
+				],
+				'instagram_url' => [
+					'type'     => 'string',
+				],
+				'linkedin_url' => [
+					'type'     => 'string',
+				],
+				'myspace_url' => [
+					'type'     => 'string',
+				],
+				'pinterest_url' => [
+					'type'     => 'string',
+				],
+				'youtube_url' => [
+					'type'     => 'string',
+				],
+				'wikipedia_url' => [
+					'type'     => 'string',
 				],
 			],
 		];
@@ -142,15 +134,13 @@ class Configuration_Workout_Route implements Route_Interface {
 		\register_rest_route( Main::API_V1_NAMESPACE, Workouts_Route::WORKOUTS_ROUTE . self::SOCIAL_PROFILES_ROUTE, $social_profiles_route );
 
 		$enable_tracking_route = [
-			[
-				'methods'             => 'POST',
-				'callback'            => [ $this, 'set_enable_tracking' ],
-				'permission_callback' => $manage_options,
-				'args'                => [
-					'tracking' => [
-						'type'     => 'boolean',
-						'required' => true,
-					],
+			'methods'             => 'POST',
+			'callback'            => [ $this, 'set_enable_tracking' ],
+			'permission_callback' => [ $this, 'can_manage_options' ],
+			'args'                => [
+				'tracking' => [
+					'type'     => 'boolean',
+					'required' => true,
 				],
 			],
 		];
@@ -201,5 +191,14 @@ class Configuration_Workout_Route implements Route_Interface {
 			->set_enable_tracking( $request->get_json_params() );
 
 		return new \WP_REST_Response( $data, $data->status );
+	}
+
+	/**
+	 * Checks if the current user has the right capability.
+	 *
+	 * @return bool
+	 */
+	public function can_manage_options() {
+		return \current_user_can( 'wpseo_manage_options' );
 	}
 }

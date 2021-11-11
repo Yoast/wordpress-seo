@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Configuration_Workout_Action_Test
  *
  * @group actions
+ * @group workout
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Configuration\Configuration_Workout_Action
  */
