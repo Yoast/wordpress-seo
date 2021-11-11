@@ -4,7 +4,7 @@
 import PropTypes from "prop-types";
 import { Fragment, Component } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { isEmpty, filter } from "lodash-es";
+import { isEmpty, filter, debounce } from "lodash-es";
 import styled from "styled-components";
 
 /* Yoast dependencies */
@@ -48,7 +48,10 @@ class WincherKeyphrasesTable extends Component {
 
 		this.onTrackKeyphrase     = this.onTrackKeyphrase.bind( this );
 		this.onUntrackKeyphrase   = this.onUntrackKeyphrase.bind( this );
-		this.getTrackedKeyphrases = this.getTrackedKeyphrases.bind( this );
+		// This is debounced since the permalink might change rapidly when typing.
+		this.getTrackedKeyphrases = debounce( this.getTrackedKeyphrases, 500, {
+			leading: true,
+		} ).bind( this );
 
 		this.interval = null;
 		this.hasFetchedKeyphrasesAfterConnect = false;
@@ -206,7 +209,7 @@ class WincherKeyphrasesTable extends Component {
 	 * @returns {void}
 	 */
 	async componentDidMount() {
-		const { trackAll, isLoggedIn, keyphrases } = this.props;
+		const { trackAll, isLoggedIn, keyphrases, permalink } = this.props;
 
 		if ( ! isLoggedIn ) {
 			return;
@@ -218,34 +221,46 @@ class WincherKeyphrasesTable extends Component {
 			return;
 		}
 
-		this.interval = setInterval( async() => {
-			await this.getTrackedKeyphrases( keyphrases );
-		}, 10000 );
+		if ( permalink ) {
+			this.interval = setInterval( async() => {
+				await this.getTrackedKeyphrases( keyphrases );
+			}, 10000 );
 
-		await this.getTrackedKeyphrases( keyphrases );
+			await this.getTrackedKeyphrases( keyphrases );
+		}
 	}
 
 	/**
-	 * Reset the interval if component changed.
+	 * Re-fetches data in certain cases and resets the interval.
+	 *
+	 * @param {Object} prevProps The previous props.
 	 *
 	 * @returns {void}
 	 */
-	componentDidUpdate() {
+	componentDidUpdate( prevProps ) {
 		const {
 			keyphrases,
 			isLoggedIn,
 			isNewlyAuthenticated,
+			permalink,
 		} = this.props;
 
 		if ( ! isLoggedIn ) {
 			return;
 		}
 
+		// Re-fetch data when the permalink changes
+		if ( permalink && prevProps.permalink !== permalink ) {
+			this.getTrackedKeyphrases( keyphrases );
+		}
+
+		// Fetch data after authentication
 		if ( isNewlyAuthenticated && ! this.hasFetchedKeyphrasesAfterConnect ) {
 			this.getTrackedKeyphrases( keyphrases );
 			this.hasFetchedKeyphrasesAfterConnect = true;
 		}
 
+		// Reset the interval if need be.
 		clearInterval( this.interval );
 		if ( this.someKeyphrasesHaveNoRankingData() ) {
 			this.interval = setInterval( async() => {

@@ -3,6 +3,7 @@ import { isEmpty, filter } from "lodash-es";
 
 /* Internal dependencies */
 import getL10nObject from "../../analysis/getL10nObject";
+import { getAnalysisData } from "./analysis";
 
 /**
  * Gets the current website id.
@@ -75,4 +76,22 @@ export function getWincherAllKeyphrasesMissRanking( state ) {
 	} );
 
 	return withoutRanking.length === Object.keys( trackedKeyphrases ).length;
+}
+
+/**
+ * Returns the current permalink for the the edited post.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String} The permalink of the post or empty if not ready yet.
+ */
+export function getWincherPermalink( state ) {
+	const analysisData = getAnalysisData( state );
+
+	// Workaround for the fact that analysisData.permalink is initialized before the slug/url is ready.
+	if ( ! analysisData.url ) {
+		return "";
+	}
+
+	return analysisData.permalink;
 }
