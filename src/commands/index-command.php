@@ -226,6 +226,12 @@ class Index_Command implements Command_Interface {
 	 * @return void
 	 */
 	protected function run_indexation_action( $name, Indexation_Action_Interface $indexation_action ) {
+		/**
+		 * Filter: Allows for modifying the cool off interval between indexing actions on the CLI.
+		 *
+		 * @api int $sleep Number of microseconds (millionths of a second) to wait between index actions.
+		 */
+		$interval = (int) apply_filters( 'wpseo_cli_index_usleep_interval', 1000000 );
 		$total = $indexation_action->get_total_unindexed();
 		if ( $total > 0 ) {
 			$limit    = $indexation_action->get_limit();
@@ -234,7 +240,7 @@ class Index_Command implements Command_Interface {
 				$indexables = $indexation_action->index();
 				$count      = \count( $indexables );
 				$progress->tick( $count );
-				sleep( 1 );
+				usleep( $interval );
 				Utils\wp_clear_object_cache();
 			} while ( $count >= $limit );
 			$progress->finish();
