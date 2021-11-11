@@ -12,8 +12,8 @@ describe( "Apply function", () => {
 			},
 		] );
 
-		const string = "this is a %%test%%";
+		const result = replacementVariables.apply( "this is a %%test%%" );
 
-		expect( replacementVariables.apply( string ) ).toEqual( "this is a test" );
+		expect( result ).toEqual( "this is a test" );
 	} );
 } );
