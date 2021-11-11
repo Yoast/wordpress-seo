@@ -5,10 +5,7 @@ describe( "Apply function", () => {
 		const replacementVariables = createReplacementVariables( [
 			{
 				name: "test",
-				getReplacement: () => {
-					const replacement = "test";
-					return replacement;
-				},
+				getReplacement: () => "test",
 			},
 		] );
 
