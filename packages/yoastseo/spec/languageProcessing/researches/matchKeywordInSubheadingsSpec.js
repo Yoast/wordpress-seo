@@ -134,4 +134,35 @@ describe( "Matching keyphrase in subheadings with custom helper to match word in
 		expect( result.matches ).toBe( 1 );
 		expect( result.percentReflectingTopic ).toBe( 50 );
 	} );
+
+	it( "matches three word-long keyphrase in subheading, where two words of the keyphrase are found" +
+		" in the subheading (67% percentWordMatches)", () => {
+		const paper = new Paper( "<h2>猫の品種は国の出身に基づいています</h2><p>覧ゆくば義界ゅ在遊カヨミ仙交ぼそはク迷男質よ質成シロヘキ街意ヘラケノ分8真めけは者横れげみ暮双ルそりか連跡弟宣獲析毛はそぐ。</p>" +
+			"<h3>サンセベリア植物</h3><p>会せルもよ結相ケスミヤ彩壊むは裁者りづは特派つラ出指提けぴ今紀シイエ源4京テヌ写府レリび状右落博みえごす。</p>", {
+			keyword: "猫の品種の種類",
+			locale: "ja",
+		} );
+		const keyphraseForms = [ [ "猫" ], [ "品種" ], [ "種類" ] ];
+		const synonymForms = [];
+		const mockResearcher = buildJapaneseMockResearcher( keyphraseForms, synonymForms, matchWordsHelper, japaneseFunctionWords );
+		const result = matchKeywordInSubheadings( paper, mockResearcher );
+
+		expect( result.matches ).toBe( 1 );
+		expect( result.percentReflectingTopic ).toBe( 50 );
+	} );
+
+	it( "matches three word-long keyphrase in subheading, where only one word of the keyphrase is found" +
+		" in the subheading (33% percentWordMatches)", () => {
+		const paper = new Paper( "<h2>あなたが望む最も忠実な猫</h2><p>覧ゆくば義界ゅ在遊カヨミ仙交ぼそはク迷男質よ質成シロヘキ街意ヘラケノ分8真めけは者横れげみ暮双ルそりか連跡弟宣獲析毛はそぐ。</p>", {
+			keyword: "猫の品種の種類",
+			locale: "ja",
+		} );
+		const keyphraseForms = [ [ "猫" ], [ "品種" ], [ "種類" ] ];
+		const synonymForms = [];
+		const mockResearcher = buildJapaneseMockResearcher( keyphraseForms, synonymForms, matchWordsHelper, japaneseFunctionWords );
+		const result = matchKeywordInSubheadings( paper, mockResearcher );
+
+		expect( result.matches ).toBe( 0 );
+		expect( result.percentReflectingTopic ).toBe( 0 );
+	} );
 } );
