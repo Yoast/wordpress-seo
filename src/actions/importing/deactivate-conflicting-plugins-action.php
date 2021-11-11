@@ -17,7 +17,7 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Importing_Action {
 	 *
 	 * @var string
 	 */
-	const PLUGIN = 'conflicting plugins';
+	const PLUGIN = 'conflicting-plugins';
 
 	/**
 	 * The type the class deals with.
