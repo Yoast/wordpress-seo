@@ -1,15 +1,12 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
-
 import { STORE_NAME } from "./common/constants";
-
+import { ANALYZE_ACTION_NAME } from "./analysis/constants";
 import analysisReducer, { analysisActions, analysisSelectors } from "./analysis/slice";
 import editorReducer, { editorActions, editorSelectors } from "./editor/slice";
 import formReducer, { formActions, formSelectors } from "./form/slice";
-import { ANALYZE_ACTION_NAME } from "./analysis/slice/results";
 
 export { STORE_NAME as SEO_STORE_NAME };
 
-export { ANALYSIS_RATINGS } from "./common/constants";
 export { useAnalyze } from "./analysis/hooks";
 
 export const actions = {

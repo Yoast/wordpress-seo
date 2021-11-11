@@ -1,8 +1,9 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
 import { debounce } from "lodash";
-import { ANALYZE_DEBOUNCE_TIME_IN_MS, STORE_NAME } from "../common/constants";
+import { STORE_NAME } from "../common/constants";
 import { useEffectWithCompare } from "../common/hooks";
+import { ANALYZE_DEBOUNCE_TIME_IN_MS } from "./constants";
 
 /**
  * Analyzes whenever data changes.
