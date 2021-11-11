@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
 
-const initialState = {
+export const initialState = {
 	analysisType: "post",
 	isSeoActive: true,
 	isReadabilityActive: true,
