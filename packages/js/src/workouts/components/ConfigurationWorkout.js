@@ -2,13 +2,13 @@ import { createInterpolateElement, useState, useReducer, useCallback } from "@wo
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
 
+import { NewButton as Button, TextInput, ImageSelect, SingleSelect, RadioButtonGroup } from "@yoast/components";
 import { ReactComponent as WorkoutImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
+import { openMedia } from "../../helpers/selectMedia.js";
 import { Step, Steps } from "./Steps";
 import Indexation from "../../components/Indexation";
 import WordPressUserSelectorSearchAppearance from "../../components/WordPressUserSelectorSearchAppearance";
-import { NewButton as Button, TextInput, ImageSelect, SingleSelect } from "@yoast/components";
-import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
 
 window.yoastIndexingData = {};
 window.wpseoScriptData = window.wpseoScriptData || {};
@@ -127,6 +127,14 @@ function configurationWorkoutReducer( state, action ) {
 		case "SET_COMPANY_OR_PERSON":
 			newState.companyOrPerson = action.payload;
 			return newState;
+		case "SET_COMPANY_LOGO":
+			newState.companyLogo = action.payload.url;
+			newState.companyLogoId = action.payload.id;
+			return newState;
+		case "REMOVE_COMPANY_LOGO":
+			newState.companyLogo = "";
+			newState.companyLogoId = "";
+			return newState;
 		case "CHANGE_SOCIAL_PROFILE":
 			newState.socialProfiles[ action.payload.socialMedium ] = action.payload.value;
 			return newState;
@@ -134,7 +142,6 @@ function configurationWorkoutReducer( state, action ) {
 			newState.siteTagline = action.payload;
 			return newState;
 		case "SET_TRACKING":
-			console.log( action );
 			newState.tracking = action.payload;
 			return newState;
 		default:
@@ -144,10 +151,20 @@ function configurationWorkoutReducer( state, action ) {
 
 /**
  * The Organization section.
+ *
  * @returns {WPElement} The organization section.
  */
-function OrganizationSection() {
+function OrganizationSection( { dispatch, imageUrl } ) {
 	const [ organizationName, setOrganizationName ] = useState( "" );
+	const openImageSelect = useCallback( () => {
+		openMedia( ( selectedImage ) => {
+			dispatch( { type: "SET_COMPANY_LOGO", payload: { ...selectedImage } } );
+		} );
+	}, [ openMedia ] );
+
+	const removeImage = useCallback( () => {
+		dispatch( { type: "REMOVE_COMPANY_LOGO" } );
+	} );
 
 	return (
 		<>
@@ -159,6 +176,9 @@ function OrganizationSection() {
 				onChange={ setOrganizationName }
 			/>
 			<ImageSelect
+				imageUrl={ imageUrl }
+				onClick={ openImageSelect }
+				onRemoveImageClick={ removeImage }
 				imageAltText=""
 				hasPreview={ true }
 				label={ __( "Organization logo", "wordpress-seo" ) }
@@ -216,8 +236,6 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 	const setTracking = useCallback( ( value ) => {
 		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
 	} );
-
-	const SiteRepresentationSection = state.companyOrPerson === "company" ? OrganizationSection : PersonSection;
 
 	/* eslint-disable max-len */
 	return (
@@ -339,7 +357,8 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 							value: "person",
 						} ] }
 					/>
-					<SiteRepresentationSection />
+					{ state.companyOrPerson === "company" && <OrganizationSection dispatch={ dispatch } imageUrl={ state.companyLogo } /> }
+					{ state.companyOrPerson === "person" && <PersonSection dispatch={ dispatch } imageUrl={ state.personLogo } /> }
 					<TextInput
 						id="site-tagline-input"
 						name="site-tagline"
