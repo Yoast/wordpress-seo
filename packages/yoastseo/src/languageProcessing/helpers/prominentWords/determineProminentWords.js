@@ -189,12 +189,14 @@ const computeProminentWordsMemoized = memoize( ( words, abbreviations, stemmer, 
  *
  * @returns {ProminentWord[]} All prominent words sorted and filtered for this text.
  */
-function getProminentWords( text, abbreviations, stemmer, functionWords, getWordsCustomHelper = getWords ) {
+function getProminentWords( text, abbreviations, stemmer, functionWords, getWordsCustomHelper ) {
 	if ( text === "" ) {
 		return [];
 	}
 
-	const words = getWordsCustomHelper( normalizeSingle( text ).toLocaleLowerCase() );
+	const words = getWordsCustomHelper
+		? getWordsCustomHelper( normalizeSingle( text ).toLocaleLowerCase() )
+		: getWords( normalizeSingle( text ).toLocaleLowerCase() );
 
 	return computeProminentWordsMemoized( words, abbreviations, stemmer, functionWords );
 }
@@ -210,8 +212,10 @@ function getProminentWords( text, abbreviations, stemmer, functionWords, getWord
  *
  * @returns {ProminentWord[]} Prominent words from the paper attributes.
  */
-function getProminentWordsFromPaperAttributes( attributes, abbreviations, stemmer, functionWords, getWordsCustomHelper = getWords ) {
-	const wordsFromAttributes = getWordsCustomHelper( attributes.join( " " ).toLocaleLowerCase() );
+function getProminentWordsFromPaperAttributes( attributes, abbreviations, stemmer, functionWords, getWordsCustomHelper ) {
+	const wordsFromAttributes = getWordsCustomHelper
+		? getWordsCustomHelper( attributes.join( " " ).toLocaleLowerCase() )
+		: getWords( attributes.join( " " ).toLocaleLowerCase() );
 
 	return computeProminentWords( wordsFromAttributes, abbreviations, stemmer, functionWords );
 }

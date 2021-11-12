@@ -25,8 +25,8 @@ import baseStemmer from "../helpers/morphology/baseStemmer";
 function getProminentWordsForInternalLinking( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
 	// An optional custom helper to return custom function to return the stem of a word.
-	const customStemmer = researcher.getHelper( "customGetStemmer" )( researcher );
-	const stemmer = customStemmer ? customStemmer : researcher.getHelper( "getStemmer" )( researcher );
+	const customStemmer = researcher.getHelper( "customGetStemmer" );
+	const stemmer = customStemmer ? customStemmer( researcher ) : researcher.getHelper( "getStemmer" )( researcher );
 	// An optional custom helper to get words from the text.
 	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
 	// An optional custom helper to count length to use instead of countWords.
