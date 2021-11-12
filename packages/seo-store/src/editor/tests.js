@@ -1,5 +1,4 @@
 import editorReducer, { editorActions } from "./slice";
-console.log( "🚀 ~ file: tests.js ~ line 2 ~ editorActions", editorActions );
 
 describe( "Editor slice", () => {
 	// eslint-disable-next-line no-undefined
