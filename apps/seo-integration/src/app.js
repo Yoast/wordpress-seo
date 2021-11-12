@@ -1,11 +1,8 @@
-import { select, useDispatch, useSelect } from "@wordpress/data";
+import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
-import { addFilter } from "@wordpress/hooks";
-import createReplacementVariables from "@yoast/replacement-variables";
-import registerAnalysisStore, { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
-import { debounce, reduce } from "lodash";
+import { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
+import { debounce } from "lodash";
 import "./app.css";
-import { measureTextWidth } from "./helpers";
 
 const useDebounce = ( callback, dependencies, debounceTimeInMs = 500 ) => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -17,58 +14,42 @@ const useDebounce = ( callback, dependencies, debounceTimeInMs = 500 ) => {
 // Add wrapper around these packages that exports a magic createYoastSeoIntegration function
 // First candidate classic editor with WooCommerce
 
-const applyReplacevars = ( paper ) => {
-	const replacementVariables = createReplacementVariables( [
-		{
-			name: "title",
-			getReplacement: () => {
-				const replacement = select( SEO_STORE_NAME ).selectTitle();
-				console.log( "getReplacement", replacement );
-				return replacement;
-			},
-		},
-	] );
-
-	return reduce(
-		paper,
-		( acc, value, key ) => ( {
-			...acc,
-			[ key ]: replacementVariables.apply( value ),
-		} ),
-		{},
-	);
-};
-
-// Applying the replacevars with a prio of 10, so that other functions can go before (< 10) or after (> 10) the replaced variables.
-addFilter( "yoast.seoStore.analysis.preparePaper", "yoast/seo-integration-app/applyReplacevars", applyReplacevars, 10 );
-addFilter( "yoast.seoStore.analysis.preparePaper", "yoast/seo-integration-app/measureSeoTitleWidth", paper => ( {
-	...paper,
-	seoTitleWidth: measureTextWidth( paper.seoTitle ),
-} ), 11 );
-
-registerAnalysisStore( {
-	analyze: async ( paper, keyphrases, config ) => {
-		console.log( "analyze", paper, keyphrases, config );
-		await new Promise( resolve => setTimeout( resolve, 1000 ) );
-		return { data: "seoResults" };
-	},
-} );
-
 const Editor = () => {
-	const { updateContent, updateTitle } = useDispatch( SEO_STORE_NAME );
-	const handleContentChange = useDebounce( ( event ) => {
-		updateContent( event.target.value );
-	}, [ updateContent ] );
-	const handleTitleChange = useDebounce( ( event ) => {
-		updateTitle( event.target.value );
-	}, [ updateTitle ] );
+	const { updateContent, updateTitle, updatePermalink, updateExcerpt, updateDate, updateFeaturedImage } = useDispatch( SEO_STORE_NAME );
+
+	const handleContentChange = useDebounce( event => updateContent( event.target.value ), [ updateContent ] );
+	const handleTitleChange = useDebounce( event => updateTitle( event.target.value ), [ updateTitle ] );
+	const handlePermalinkChange = useDebounce( event => updatePermalink( event.target.value ), [ updatePermalink ] );
+	const handleExcerptChange = useDebounce( event => updateExcerpt( event.target.value ), [ updateExcerpt ] );
+	const handleDateChange = useDebounce( event => updateDate( event.target.value ), [ updateDate ] );
+	const handleFeaturedImageChange = useDebounce( event => updateFeaturedImage( { url: event.target.value } ), [ updateFeaturedImage ] );
 
 	return (
-		<main className="editor">
+		<main className="editor inline-flex flex-column">
+			<h1>Editor</h1>
 			<label htmlFor="editor-title">Title</label>
-			<input id="editor-title" name="title" onChange={ handleTitleChange } />
+			<div className="inline-flex">
+				<input id="editor-title" name="title" onChange={ handleTitleChange } />
+			</div>
 			<label htmlFor="editor-content">Content</label>
-			<textarea id="editor-content" name="editor" rows="16" onChange={ handleContentChange } />
+			<textarea id="editor-content" name="content" rows="16" onChange={ handleContentChange } />
+			<label htmlFor="editor-permalink">Permalink</label>
+			<div className="inline-flex">
+				<input id="editor-permalink" name="permalink" type="url" pattern="https?://.*" onChange={ handlePermalinkChange } />
+				<span className="validity" />
+			</div>
+			<label htmlFor="editor-excerpt">Excerpt</label>
+			<textarea id="editor-excerpt" name="excerpt" rows="3" onChange={ handleExcerptChange } />
+			<label htmlFor="editor-date">Date</label>
+			<div className="inline-flex">
+				<input id="editor-date" name="date" type="datetime-local" onChange={ handleDateChange } />
+				<span className="validity" />
+			</div>
+			<label htmlFor="editor-featured-image">Featured image URL</label>
+			<div className="inline-flex">
+				<input id="editor-featured-image" name="featured-image" type="url" pattern="https?://.*" onChange={ handleFeaturedImageChange } />
+				<span className="validity" />
+			</div>
 		</main>
 	);
 };
@@ -81,7 +62,7 @@ const Keyphrases = () => {
 	}, [ addKeyphraseEntry ] );
 
 	return (
-		<div className="keyphrases">
+		<div className="inline-flex flex-column">
 			{ ids.map( id => <Keyphrase key={ `keyphrase-entry-${ id }` } id={ id } /> ) }
 			<button onClick={ handleAddKeyphraseEntry }>Add keyphrase</button>
 		</div>
@@ -101,7 +82,7 @@ const Keyphrase = ( props ) => {
 	}, [ props.id, updateSynonyms ] );
 
 	return (
-		<fieldset className="keyphrase-entry">
+		<fieldset className="inline-flex flex-column">
 			<label htmlFor={ `keyphrase-${ props.id }` }>
 				{ props.id === "focus" ? "Focus keyphrase" : "Related keyphrase" }
 			</label>
@@ -122,14 +103,39 @@ const Keyphrase = ( props ) => {
 	);
 };
 
+const GooglePreview = () => {
+	const { updateSeoTitle, updateSeoDescription, updateSlug } = useDispatch( SEO_STORE_NAME );
+
+	const handleSeoTitleChange = useDebounce( event => updateSeoTitle( event.target.value ), [ updateSeoTitle ] );
+	const handleSeoDescriptionChange = useDebounce( event => updateSeoDescription( event.target.value ), [ updateSeoDescription ] );
+	const handleSlugChange = useDebounce( event => updateSlug( event.target.value ), [ updateSlug ] );
+
+	return (
+		<fieldset className="inline-flex flex-column">
+			<legend>Google preview</legend>
+			<label htmlFor="seo-title">SEO title</label>
+			<input id="seo-title" name="title" onChange={ handleSeoTitleChange } />
+			<label htmlFor="seo-title">Meta description</label>
+			<textarea id="seo-description" name="description" rows="8" onChange={ handleSeoDescriptionChange } />
+			<label htmlFor="seo-slug">Slug</label>
+			<div className="inline-flex">
+				<input id="seo-slug" name="slug" type="url" pattern="https?://.*" onChange={ handleSlugChange } />
+				<span className="validity" />
+			</div>
+		</fieldset>
+	);
+};
+
 function App() {
 	useAnalyze();
 
 	return (
 		<>
 			<Editor />
-			<aside className="sidebar">
+			<aside className="sidebar inline-flex flex-column">
+				<h2>Sidebar</h2>
 				<Keyphrases />
+				<GooglePreview />
 				<h4>SEO Results</h4>
 				<div>...</div>
 				<h4>Readability Results</h4>

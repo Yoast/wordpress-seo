@@ -23,8 +23,8 @@
     "@wordpress/data": "^6.1.2",
     "@wordpress/element": "^4.0.3",
     "@wordpress/hooks": "^3.2.1",
-    "@yoast/seo-store": "file:../../packages/seo-store",
     "@yoast/replacement-variables": "file:../../packages/replacement-variables",
+    "@yoast/seo-store": "file:../../packages/seo-store",
     "react-scripts": "4.0.3"
   },
   "devDependencies": {
