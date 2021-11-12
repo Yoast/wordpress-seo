@@ -58,9 +58,9 @@ function getDefaultWarningMessage( blockTitle: string, warningType: WarningType 
 			/* translators: %1$s: the block name that is removed, %2$s: the anchor to a page about required blocks, %3$s the closing anchor tag. */
 			return sprintf(
 				__(
-					"You've just removed the ‘%1$s’ block, but this is a %2$srequired block for Schema output%3$s. " +
-					"Without this block no Schema will be generated. Are you sure you want to do this?",
-					"yoast-schema-blocks",
+					// eslint-disable-next-line max-len
+					"You've just removed the ‘%1$s’ block, but this is a %2$srequired block for Schema output%3$s. Without this block no Schema will be generated. Are you sure you want to do this?",
+					"wordpress-seo",
 				),
 				blockTitle,
 				'<a href="' + ( window as unknown as yoastLinks ).yoastSchemaBlocks.requiredLink + '" target="_blank">',
@@ -71,9 +71,9 @@ function getDefaultWarningMessage( blockTitle: string, warningType: WarningType 
 			/* translators: %1$s: the block name that is removed, %2$s: the anchor to a page about recommended blocks, %3$s the closing anchor tag. */
 			return sprintf(
 				__(
-					"You've just removed the ‘%1$s’ block, but this is a %2$srecommended block for Schema output%3$s. " +
-					"Are you sure you want to do this?",
-					"yoast-schema-blocks",
+					// eslint-disable-next-line max-len
+					"You've just removed the ‘%1$s’ block, but this is a %2$srecommended block for Schema output%3$s. Are you sure you want to do this?",
+					"wordpress-seo",
 				),
 				blockTitle,
 				'<a href="' + ( window as unknown as yoastLinks ).yoastSchemaBlocks.recommendedLink + '" target="_blank">',

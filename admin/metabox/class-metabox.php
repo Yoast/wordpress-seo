@@ -1088,6 +1088,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$custom_fields = get_post_custom( $post->ID );
 
+		// If $custom_fields is an empty string or generally not an array, return early.
+		if ( ! is_array( $custom_fields ) ) {
+			return $custom_replace_vars;
+		}
+
 		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
 			// Skip private custom fields.
 			if ( substr( $custom_field_name, 0, 1 ) === '_' ) {

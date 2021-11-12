@@ -19,11 +19,11 @@ class Indexable_Builder_Versions {
 	protected $indexable_builder_versions_by_type = [
 		'date-archive'      => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
 		'general'           => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
-		'home-page'         => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
-		'post'              => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
-		'post-type-archive' => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
-		'term'              => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
-		'user'              => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
+		'home-page'         => 2,
+		'post'              => 2,
+		'post-type-archive' => 2,
+		'term'              => 2,
+		'user'              => 2,
 		'system-page'       => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
 	];
 
