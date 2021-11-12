@@ -44,8 +44,8 @@ class Workouts_Integration implements Integration_Interface {
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		Options_Helper $options_helper
 	) {
-		$this->admin_asset_manager  = $admin_asset_manager;
-		$this->options_helper       = $options_helper;
+		$this->admin_asset_manager = $admin_asset_manager;
+		$this->options_helper      = $options_helper;
 	}
 
 	/**
