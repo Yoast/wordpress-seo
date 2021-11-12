@@ -133,6 +133,10 @@ function configurationWorkoutReducer( state, action ) {
 		case "CHANGE_SITE_TAGLINE":
 			newState.siteTagline = action.payload;
 			return newState;
+		case "SET_TRACKING":
+			console.log( action );
+			newState.tracking = action.payload;
+			return newState;
 		default:
 			return newState;
 	}
@@ -208,6 +212,10 @@ function SocialInput( { dispatch, socialMedium, ...restProps } ) {
  */
 export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1", isStepFinished = () => {} } ) {
 	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, window.wpseoWorkoutsData.configuration );
+
+	const setTracking = useCallback( ( value ) => {
+		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
+	} );
 
 	const SiteRepresentationSection = state.companyOrPerson === "company" ? OrganizationSection : PersonSection;
 
@@ -427,19 +435,17 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 					<RadioButtonGroup
 						label={ __( "Can we collect anonymous information about your website and how you use it?", "wordpress-seo" ) }
 						groupName="yoast-configuration-workout-tracking"
-						selected={ 0 }
-						onChange={ null }
+						selected={ state.tracking }
+						onChange={ setTracking }
 						vertical={ true }
 						options={ [
 							{
 								value: 0,
 								label: __( "No, I don’t want to allow you to track my site data", "wordpress-seo" ),
-								checked: false,
 							},
 							{
 								value: 1,
 								label: __( "Yes, you can track my site data", "wordpress-seo" ),
-								checked: true,
 							},
 						] }
 					/>

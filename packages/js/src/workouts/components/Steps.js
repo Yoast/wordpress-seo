@@ -30,7 +30,7 @@ export function Step( { title, subtitle, finishText, hasDownArrow, onFinishClick
 			<h4>{ title }</h4>
 			<div style={ { display: "flex" } }>
 				{ subtitle && <p>{ subtitle }</p> }
-				{ ImageComponent && <ImageComponent style={ { height: "119px", width: "100px", "flex-shrink": 0 } } /> }
+				{ ImageComponent && <ImageComponent style={ { height: "119px", width: "100px", flexShrink: 0 } } /> }
 			</div>
 			{ children }
 			<hr />
