@@ -4,11 +4,9 @@ namespace Yoast\WP\SEO\Routes;
 
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Main;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Workouts_Route class.
@@ -25,69 +23,21 @@ class Workouts_Route implements Route_Interface {
 	const WORKOUTS_ROUTE = '/workouts';
 
 	/**
-	 * Allowed cornerstone steps.
+	 * The Options helper.
 	 *
-	 * @var array
+	 * @var Options_Helper
 	 */
-	const ALLOWED_CORNERSTONE_STEPS = [
-		'chooseCornerstones',
-		'checkLinks',
-		'addLinks',
-		'improved',
-		'skipped',
-	];
-
-	/**
-	 * Allowed orphaned steps.
-	 *
-	 * @var array
-	 */
-	const ALLOWED_ORPHANED_STEPS = [
-		'improveRemove',
-		'update',
-		'addLinks',
-		'removed',
-		'noindexed',
-		'improved',
-		'skipped',
-	];
-
-	/**
-	 * The indexable repository.
-	 *
-	 * @var Indexable_Repository
-	 */
-	private $indexable_repository;
-
-	/**
-	 * The link suggestions action.
-	 *
-	 * @var Indexable_Term_Builder
-	 */
-	private $indexable_term_builder;
-
-	/**
-	 * The post type helper.
-	 *
-	 * @var Post_Type_Helper
-	 */
-	private $post_type_helper;
+	private $options_helper;
 
 	/**
 	 * Workouts_Route constructor.
 	 *
-	 * @param Indexable_Repository   $indexable_repository    The indexable repository.
-	 * @param Indexable_Term_Builder $indexable_term_builder  The indexable term builder.
-	 * @param Post_Type_Helper       $post_type_helper        The post type helper.
+	 * @param Options_Helper $options_helper The options helper.
 	 */
 	public function __construct(
-		Indexable_Repository $indexable_repository,
-		Indexable_Term_Builder $indexable_term_builder,
-		Post_Type_Helper $post_type_helper
+		Options_Helper $options_helper
 	) {
-		$this->indexable_repository   = $indexable_repository;
-		$this->indexable_term_builder = $indexable_term_builder;
-		$this->post_type_helper       = $post_type_helper;
+		$this->options_helper = $options_helper;
 	}
 
 	/**
@@ -110,16 +60,7 @@ class Workouts_Route implements Route_Interface {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'set_workouts' ],
 				'permission_callback' => $edit_others_posts,
-				'args'                => [
-					'cornerstone' => [
-						'validate_callback' => [ $this, 'cornerstone_is_allowed' ],
-						'required'          => true,
-					],
-					'orphaned' => [
-						'validate_callback' => [ $this, 'orphaned_is_allowed' ],
-						'required'          => true,
-					],
-				],
+				'args'                => $this->get_workouts_routes_args(),
 			],
 		];
 
@@ -132,8 +73,17 @@ class Workouts_Route implements Route_Interface {
 	 * @return WP_REST_Response the configuration of the workouts.
 	 */
 	public function get_workouts() {
+		$workouts_option = $this->options_helper->get( 'workouts_data' );
+
+		/**
+		 * Filter: 'Yoast\WP\SEO\workouts_options' - Allows adding workouts options by the add-ons.
+		 *
+		 * @api array $workouts_option The content of the `workouts_data` option in Free.
+		 */
+		$workouts_option = \apply_filters( 'Yoast\WP\SEO\workouts_options', $workouts_option );
+
 		return new WP_REST_Response(
-			[ 'json' => \YoastSEO()->helpers->options->get( 'workouts' ) ]
+			[ 'json' => $workouts_option ]
 		);
 	}
 
@@ -145,68 +95,44 @@ class Workouts_Route implements Route_Interface {
 	 * @return WP_REST_Response the configuration of the workouts.
 	 */
 	public function set_workouts( $request ) {
-		$value = [
-			'cornerstone' => $request['cornerstone'],
-			'orphaned'    => $request['orphaned'],
-		];
+		$workouts_data = $request->get_json_params();
 
-		foreach ( $value as $workout => $data ) {
-			if ( isset( $data['indexablesByStep'] ) && \is_array( $data['indexablesByStep'] ) ) {
-				foreach ( $data['indexablesByStep'] as $step => $indexables ) {
-					if ( $step === 'removed' ) {
-						continue;
-					}
-					$value[ $workout ]['indexablesByStep'][ $step ] = \wp_list_pluck( $indexables, 'id' );
-				}
-			}
-		}
+		$free_workouts_data                  = [];
+		$free_workouts_data['configuration'] = $workouts_data['configuration'];
+
+		$result = $this->options_helper->set( 'workouts_data', $free_workouts_data );
+
+		/**
+		 * Filter: 'Yoast\WP\SEO\workouts_route_save' - Allows the add-ons to save the options data in their own options.
+		 *
+		 * @api mixed|null $result The result of the previous saving operation.
+		 *
+		 * @param array $workouts_data The full set of workouts option data to save.
+		 */
+		$result = \apply_filters( 'Yoast\WP\SEO\workouts_route_save', $result, $workouts_data );
 
 		return new WP_REST_Response(
-			[ 'json' => \YoastSEO()->helpers->options->set( 'workouts', $value ) ]
+			[ 'json' => $result ]
 		);
 	}
 
 	/**
-	 * Validates the cornerstone attribute
+	 * Gets the args for all the registered workouts.
 	 *
-	 * @param array $workout The cornerstone workout.
-	 * @return bool If the payload is valid or not.
+	 * @return array
 	 */
-	public function cornerstone_is_allowed( $workout ) {
-		return $this->is_allowed( $workout, self::ALLOWED_CORNERSTONE_STEPS );
-	}
+	private function get_workouts_routes_args() {
+		$args_array = [
+			'configuration' => [
+				'required' => true,
+			],
+		];
 
-	/**
-	 * Validates the orphaned attribute
-	 *
-	 * @param array $workout The orphaned workout.
-	 * @return bool If the payload is valid or not.
-	 */
-	public function orphaned_is_allowed( $workout ) {
-		return $this->is_allowed( $workout, self::ALLOWED_ORPHANED_STEPS );
-	}
-
-	/**
-	 * Validates a workout.
-	 *
-	 * @param array $workout       The workout.
-	 * @param array $allowed_steps The allowed steps for this workout.
-	 * @return bool If the payload is valid or not.
-	 */
-	public function is_allowed( $workout, $allowed_steps ) {
-		// Only 2 properties are allowed, the below validated finishedSteps property.
-		if ( \count( $workout ) !== 2 ) {
-			return false;
-		}
-
-		if ( isset( $workout['finishedSteps'] ) && \is_array( $workout['finishedSteps'] ) ) {
-			foreach ( $workout['finishedSteps'] as $step ) {
-				if ( ! \in_array( $step, $allowed_steps, true ) ) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
+		/**
+		 * Filter: 'Yoast\WP\SEO\workouts_route_args' - Allows the add-ons add their own arguments to the route registration.
+		 *
+		 * @api array $args_array The array of arguments for the route registration.
+		 */
+		return \apply_filters( 'Yoast\WP\SEO\workouts_route_args', $args_array );
 	}
 }
