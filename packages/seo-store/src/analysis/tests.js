@@ -1,8 +1,14 @@
-import * as configSlice from "./slice/config";
+import configReducer, { configActions } from "./slice/config";
 
 describe( "Config slice", () => {
-	const { initialState, configActions, "default": configReducer } = configSlice;
 	const { updateAnalysisType } = configActions;
+
+	const initialState = {
+		analysisType: "post",
+		isSeoActive: true,
+		isReadabilityActive: true,
+		researches: [ "morphology" ],
+	};
 
 	test( "should return the analysis config initial state", () => {
 		// eslint-disable-next-line no-undefined
