@@ -128,6 +128,9 @@ function configurationWorkoutReducer( state, action ) {
 		case "SET_COMPANY_OR_PERSON":
 			newState.companyOrPerson = action.payload;
 			return newState;
+		case "CHANGE_COMPANY_NAME":
+			newState.companyName = action.payload;
+			return newState;
 		case "SET_COMPANY_LOGO":
 			newState.companyLogo = action.payload.url;
 			newState.companyLogoId = action.payload.id;
@@ -167,8 +170,7 @@ function configurationWorkoutReducer( state, action ) {
  *
  * @returns {WPElement} The organization section.
  */
-function OrganizationSection( { dispatch, imageUrl } ) {
-	const [ organizationName, setOrganizationName ] = useState( "" );
+function OrganizationSection( { dispatch, imageUrl, organizationName } ) {
 	const openImageSelect = useCallback( () => {
 		openMedia( ( selectedImage ) => {
 			dispatch( { type: "SET_COMPANY_LOGO", payload: { ...selectedImage } } );
@@ -179,6 +181,10 @@ function OrganizationSection( { dispatch, imageUrl } ) {
 		dispatch( { type: "REMOVE_COMPANY_LOGO" } );
 	} );
 
+	const handleChange = useCallback( ( value ) => {
+		dispatch( { type: "CHANGE_COMPANY_NAME", payload: value } );
+	} );
+
 	return (
 		<>
 			<TextInput
@@ -186,7 +192,7 @@ function OrganizationSection( { dispatch, imageUrl } ) {
 				name="organization-name"
 				label={ __( "Organization name", "wordpress-seo" ) }
 				value={ organizationName }
-				onChange={ setOrganizationName }
+				onChange={ handleChange }
 			/>
 			<ImageSelect
 				imageUrl={ imageUrl }
@@ -382,7 +388,7 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 							value: "person",
 						} ] }
 					/>
-					{ state.companyOrPerson === "company" && <OrganizationSection dispatch={ dispatch } imageUrl={ state.companyLogo } /> }
+					{ state.companyOrPerson === "company" && <OrganizationSection dispatch={ dispatch } imageUrl={ state.companyLogo } organizationName={ state.companyName } /> }
 					{ state.companyOrPerson === "person" && <PersonSection dispatch={ dispatch } imageUrl={ state.personLogo } /> }
 					<TextInput
 						id="site-tagline-input"
