@@ -104,7 +104,10 @@ export default function WorkoutsPage( props ) {
 					"wordpress-seo"
 				) }
 			</p>
-			{ activeWorkout && <Button onClick={ clearActiveWorkout }>{ __( "← Back to all workouts", "worpdress-seo" ) }</Button> }
+			{ activeWorkout && <Button onClick={ clearActiveWorkout }>{
+				// translators: %1$s translates to a leftward pointing arrow ( ← )
+				sprintf( __( "%1$sBack to all workouts", "worpdress-seo" ), "← " )
+			}</Button> }
 			 <div className={ activeWorkout ? "" : "workflows__index" }>
 				{ slots }
 			</div>
