@@ -736,11 +736,11 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 			paragraphWithSentenceMatchJA, {
 				keyword: keyphraseJA,
 				locale: "ja_JA",
-				synonyms: "自然の中をお散歩します",
 			}
 		);
-		const keyphraseForms = [ [ "自然の中を歩きます" ], [ "自然の中を歩かせた" ] ];
-		const synonymsForms = [ [ "自然の中をお散歩する" ], [ "自然の中を散歩した" ] ];
+		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
+			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
+		const synonymsForms = [ [ "自然" ], [ "歩く" ] ];
 		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
 		primeLanguageSpecificData.cache.clear();
 
@@ -756,11 +756,11 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 			paragraphWithParagraphMatchJA, {
 				keyword: keyphraseJA,
 				locale: "ja_JA",
-				synonyms: "",
 			}
 		);
-		const keyphraseForms = [ [ "自然の中を歩きます" ], [ "自然の中を歩かせた" ] ];
-		const synonymsForms = [ "" ];
+		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
+			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
+		const synonymsForms = [ [ "自然" ], [ "歩く" ] ];
 		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
 		primeLanguageSpecificData.cache.clear();
 
@@ -776,11 +776,11 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 			paragraphWithoutMatchJA, {
 				keyword: keyphraseJA,
 				locale: "ja_JA",
-				synonyms: "",
 			}
 		);
-		const keyphraseForms = [ [ "自然の中を歩きます" ], [ "自然の中を歩かせた" ] ];
-		const synonymsForms = [ "" ];
+		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
+			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
+		const synonymsForms = [ [ "自然" ], [ "歩く" ] ];
 		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
 		primeLanguageSpecificData.cache.clear();
 
@@ -796,15 +796,16 @@ describe( "checks for the content words from a synonym phrase in the first parag
 	it( "returns whether all keywords were matched in one sentence", function() {
 		const paper = new Paper(
 			paragraphWithSentenceMatchJA, {
-				keyword: "keyphraseJA",
-				synonyms: "自然の中をお散歩します",
+				keyword: "生活",
+				synonyms: keyphraseJA,
 				locale: "ja_JA",
 			}
 		);
 
-		const keyphraseForms = [ [ "自然の中を歩きます" ], [ "自然の中を歩かせた" ] ];
-		const synonymsForms = [ [ "自然の中をお散歩する" ], [ "自然の中を散歩した" ] ];
-		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordCustomHelper );
+		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
+			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
+		const synonymsForms = [ [ "自然" ], [ "歩く" ] ];
+		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
 		primeLanguageSpecificData.cache.clear();
 
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
@@ -818,19 +819,19 @@ describe( "checks for the content words from a synonym phrase in the first parag
 		const paper = new Paper(
 			paragraphWithParagraphMatchJA, {
 				keyword: keyphraseJA,
-				synonyms: "自然の中をお散歩します",
 				locale: "ja_JA",
 			}
 		);
-		const keyphraseForms = [ [ "自然の中を歩きます" ], [ "自然の中を歩かせた" ] ];
-		const synonymsForms = [ [ "自然の中をお散歩する" ], [ "自然の中を散歩した" ] ];
-		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordCustomHelper );
+		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
+			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
+		const synonymsForms = [ [ "自然" ], [ "歩く" ] ];
+		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
 		primeLanguageSpecificData.cache.clear();
 
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: true,
-			keyphraseOrSynonym: "synonym",
+			keyphraseOrSynonym: "keyphrase",
 		} );
 	} );
 
