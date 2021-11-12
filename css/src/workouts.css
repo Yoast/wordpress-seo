@@ -77,7 +77,16 @@
 
 .workflow li.step > .yoast-button {
 	margin: 0 auto;
-	display: block;
+	display: flex;
+}
+
+.yoast .yoast-button--arrow-down {
+	flex-shrink: 0;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	/*Negative margin to compensate the icon white space within its viewbox.*/
+	margin: 0 -2px 0 6px;
 }
 
 .workflow > li.step::before {

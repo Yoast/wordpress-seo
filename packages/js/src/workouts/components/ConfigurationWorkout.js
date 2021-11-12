@@ -266,6 +266,7 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 			<br />
 			<Steps>
 				<Step
+					hasDownArrow={ true }
 					title={ __( "Optimize SEO data", "wordpress-seo" ) }
 					subtitle={ addLinkToString(
 						sprintf(
@@ -307,6 +308,7 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 					}
 				</p>
 				<Step
+					hasDownArrow={ true }
 					title={ __( "Site representation", "wordpress-seo" ) }
 					subtitle={ __( "Tell Google what kind of site you have. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
 					finishText={ __( "Continue and save", "wordpress-seo" ) }
@@ -341,6 +343,7 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 					/>
 				</Step>
 				<Step
+					hasDownArrow={ true }
 					title={ __( "Social profiles", "wordpress-seo" ) }
 					subtitle={ __( "Do you have profiles for your site on social media? Then, add all of their URLs here.", "wordpress-seo" ) }
 					finishText={ "Save and continue" }
@@ -399,6 +402,7 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 					</div>
 				</Step>
 				<Step
+					hasDownArrow={ true }
 					title={ __( "Help us improve Yoast SEO", "wordpress-seo" ) }
 					finishText={ "Save and continue" }
 					onFinishClick={ () => { console.log( "Tracking finished" ); } }
