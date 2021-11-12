@@ -71,7 +71,7 @@ class Importing_Route extends Abstract_Action_Route {
 		$plugin = (string) $data['plugin'];
 		$type   = (string) $data['type'];
 
-		$next_url = "import/{$plugin}/{$type}";
+		$next_url = $this->get_endpoint($plugin, $type );
 
 		try {
 			$importer = $this->get_importer( $plugin, $type );
@@ -121,6 +121,22 @@ class Importing_Route extends Abstract_Action_Route {
 		}
 
 		return \current( $importers );
+	}
+
+	/**
+	 * Gets the right endpoint for the given arguments.
+	 *
+	 * @param string $plugin The plugin to import from.
+	 * @param string $type   The type of entity to import.
+	 *
+	 * @return string|false The endpoint for the given action or false on failure of finding the one.
+	 */
+	public function get_endpoint( $plugin, $type ) {
+		if ( empty( $plugin ) || empty( $type ) ) {
+			return false;
+		}
+
+		return Main::API_V1_NAMESPACE . '/' . "import/{$plugin}/{$type}";
 	}
 
 	/**
