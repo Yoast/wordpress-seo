@@ -113,6 +113,7 @@ function NewsletterSignup() {
 	);
 }
 
+/* eslint-disable complexity */
 /**
  * A reducer for the configuration workout's internal state.
  *
@@ -135,6 +136,17 @@ function configurationWorkoutReducer( state, action ) {
 			newState.companyLogo = "";
 			newState.companyLogoId = "";
 			return newState;
+		case "SET_PERSON_LOGO":
+			newState.personLogo = action.payload.url;
+			newState.personLogoId = action.payload.id;
+			return newState;
+		case "REMOVE_PERSON_LOGO":
+			newState.personLogo = "";
+			newState.personLogoId = "";
+			return newState;
+		case "SET_PERSON_ID":
+			newState.personId = action.payload;
+			return newState;
 		case "CHANGE_SOCIAL_PROFILE":
 			newState.socialProfiles[ action.payload.socialMedium ] = action.payload.value;
 			return newState;
@@ -148,6 +160,7 @@ function configurationWorkoutReducer( state, action ) {
 			return newState;
 	}
 }
+/* eslint-enable complexity */
 
 /**
  * The Organization section.
@@ -191,11 +204,23 @@ function OrganizationSection( { dispatch, imageUrl } ) {
  * The Person section.
  * @returns {WPElement} The person section.
  */
-function PersonSection() {
+function PersonSection( { dispatch, imageUrl } ) {
+	const openImageSelect = useCallback( () => {
+		openMedia( ( selectedImage ) => {
+			dispatch( { type: "SET_PERSON_LOGO", payload: { ...selectedImage } } );
+		} );
+	}, [ openMedia ] );
+
+	const removeImage = useCallback( () => {
+		dispatch( { type: "REMOVE_PERSON_LOGO" } );
+	} );
 	return (
 		<>
 			<WordPressUserSelectorSearchAppearance />
 			<ImageSelect
+				imageUrl={ imageUrl }
+				onClick={ openImageSelect }
+				onRemoveImageClick={ removeImage }
 				imageAltText=""
 				hasPreview={ true }
 				label={ __( "Person logo / avatar *", "wordpress-seo" ) }
