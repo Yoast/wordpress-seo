@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -47,15 +48,14 @@ class InternalLinksAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		this.linkStatistics = researcher.getResearch( "getLinkStatistics" );
 		const assessmentResult = new AssessmentResult();
 
-		const calculatedResult = this.calculateResult( i18n );
+		const calculatedResult = this.calculateResult();
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 
@@ -76,18 +76,18 @@ class InternalLinksAssessment extends Assessment {
 	/**
 	 * Returns a score and text based on the linkStatistics object.
 	 *
-	 * @param {Jed} i18n The object used for translations.
-	 *
 	 * @returns {Object} ResultObject with score and text
 	 */
-	calculateResult( i18n ) {
+	calculateResult() {
 		if ( this.linkStatistics.internalTotal === 0 ) {
 			return {
 				score: this._config.scores.noInternal,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					i18n.dgettext( "js-text-analysis", "%1$sInternal links%3$s: " +
-						"No internal links appear in this page, %2$smake sure to add some%3$s!" ),
+					__(
+						"%1$sInternal links%3$s: No internal links appear in this page, %2$smake sure to add some%3$s!",
+						"wordpress-seo"
+					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
 					"</a>"
@@ -98,10 +98,12 @@ class InternalLinksAssessment extends Assessment {
 		if ( this.linkStatistics.internalNofollow === this.linkStatistics.internalTotal ) {
 			return {
 				score: this._config.scores.noneInternalFollow,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					i18n.dgettext( "js-text-analysis", "%1$sInternal links%3$s: " +
-						"The internal links in this page are all nofollowed. %2$sAdd some good internal links%3$s." ),
+					__(
+						"%1$sInternal links%3$s: The internal links in this page are all nofollowed. %2$sAdd some good internal links%3$s.",
+						"wordpress-seo"
+					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
 					"</a>"
@@ -112,9 +114,9 @@ class InternalLinksAssessment extends Assessment {
 		if ( this.linkStatistics.internalDofollow === this.linkStatistics.internalTotal ) {
 			return {
 				score: this._config.scores.allInternalFollow,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-					i18n.dgettext( "js-text-analysis", "%1$sInternal links%2$s: You have enough internal links. Good job!" ),
+					__( "%1$sInternal links%2$s: You have enough internal links. Good job!", "wordpress-seo" ),
 					this._config.urlTitle,
 					"</a>"
 				),
@@ -122,11 +124,11 @@ class InternalLinksAssessment extends Assessment {
 		}
 		return {
 			score: this._config.scores.someInternalFollow,
-			resultText: i18n.sprintf(
+			resultText: sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				i18n.dgettext(
-					"js-text-analysis",
-					"%1$sInternal links%2$s: There are both nofollowed and normal internal links on this page. Good job!"
+				__(
+					"%1$sInternal links%2$s: There are both nofollowed and normal internal links on this page. Good job!",
+					"wordpress-seo"
 				),
 				this._config.urlTitle,
 				"</a>"
