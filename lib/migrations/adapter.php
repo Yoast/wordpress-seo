@@ -331,7 +331,7 @@ class Adapter {
 				return false;
 			}
 
-			return $wpdb->last_result[0];
+			return (array) $wpdb->last_result[0];
 		}
 
 		return false;
