@@ -1,16 +1,19 @@
-import { createInterpolateElement, useState, useReducer, useCallback } from "@wordpress/element";
+import { compose } from "@wordpress/compose";
+import { withDispatch, withSelect } from "@wordpress/data";
+import { createInterpolateElement, useCallback, useReducer, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
 
-import { NewButton as Button, TextInput, ImageSelect, SingleSelect, RadioButtonGroup } from "@yoast/components";
+import { NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
-import { openMedia } from "../../helpers/selectMedia.js";
 import { Step, Steps } from "./Steps";
 import Indexation from "../../components/Indexation";
-import WordPressUserSelectorSearchAppearance from "../../components/WordPressUserSelectorSearchAppearance";
+import { STEPS, WORKOUTS } from "../config";
+import { OrganizationSection } from "./OrganizationSection";
+import { PersonSection } from "./PersonSection";
+import { SocialInput } from "./SocialInput";
 
-window.yoastIndexingData = {};
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
 	...window.wpseoScriptData.searchAppearance,
@@ -166,107 +169,40 @@ function configurationWorkoutReducer( state, action ) {
 /* eslint-enable complexity */
 
 /**
- * The Organization section.
- *
- * @returns {WPElement} The organization section.
- */
-function OrganizationSection( { dispatch, imageUrl, organizationName } ) {
-	const openImageSelect = useCallback( () => {
-		openMedia( ( selectedImage ) => {
-			dispatch( { type: "SET_COMPANY_LOGO", payload: { ...selectedImage } } );
-		} );
-	}, [ openMedia ] );
-
-	const removeImage = useCallback( () => {
-		dispatch( { type: "REMOVE_COMPANY_LOGO" } );
-	} );
-
-	const handleChange = useCallback( ( value ) => {
-		dispatch( { type: "CHANGE_COMPANY_NAME", payload: value } );
-	} );
-
-	return (
-		<>
-			<TextInput
-				id="organization-name-input"
-				name="organization-name"
-				label={ __( "Organization name", "wordpress-seo" ) }
-				value={ organizationName }
-				onChange={ handleChange }
-			/>
-			<ImageSelect
-				imageUrl={ imageUrl }
-				onClick={ openImageSelect }
-				onRemoveImageClick={ removeImage }
-				imageAltText=""
-				hasPreview={ true }
-				label={ __( "Organization logo", "wordpress-seo" ) }
-			/>
-		</>
-	);
-}
-
-/**
- * The Person section.
- * @returns {WPElement} The person section.
- */
-function PersonSection( { dispatch, imageUrl } ) {
-	const openImageSelect = useCallback( () => {
-		openMedia( ( selectedImage ) => {
-			dispatch( { type: "SET_PERSON_LOGO", payload: { ...selectedImage } } );
-		} );
-	}, [ openMedia ] );
-
-	const removeImage = useCallback( () => {
-		dispatch( { type: "REMOVE_PERSON_LOGO" } );
-	} );
-	return (
-		<>
-			<WordPressUserSelectorSearchAppearance />
-			<ImageSelect
-				imageUrl={ imageUrl }
-				onClick={ openImageSelect }
-				onRemoveImageClick={ removeImage }
-				imageAltText=""
-				hasPreview={ true }
-				label={ __( "Person logo / avatar *", "wordpress-seo" ) }
-			/>
-		</>
-	);
-}
-
-/**
- * A wrapped TextInput for the social inputs
- *
- * @param {Object} dispatch The props for the SocialInput.
- *
- * @returns {WPElement} A wrapped TextInput for the social inputs.
- */
-function SocialInput( { dispatch, socialMedium, ...restProps } ) {
-	const onChangeHandler = useCallback(
-		( newValue ) => dispatch( { type: "CHANGE_SOCIAL_PROFILE", payload: { socialMedium, value: newValue } } ),
-		[ socialMedium ]
-	);
-
-	return <TextInput
-		onChange={ onChangeHandler }
-		{ ...restProps }
-	/>;
-}
-
-/**
  * The configuration workout.
  *
  * @param {Object} props The props.
  *
  * @returns {WPElement} The ConfigurationWorkout compoinent.
  */
-export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1", isStepFinished = () => {} } ) {
+export function ConfigurationWorkout( { toggleStep, toggleWorkout, seoDataOptimizationNeeded = "1", isStepFinished = () => {} } ) {
 	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, window.wpseoWorkoutsData.configuration );
 
 	const setTracking = useCallback( ( value ) => {
 		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
 	} );
+
+	const steps = STEPS.configuration;
+	const onFinishOptimizeSeoData = useCallback(
+		toggleStep.bind( null, "configuration", steps.optimizeSeoData ),
+		[ toggleStep, steps.optimizeSeoData ]
+	);
+	const onFinishSiteRepresentation = useCallback(
+		toggleStep.bind( null, "configuration", steps.siteRepresentation ),
+		[ toggleStep, steps.siteRepresentation ]
+	);
+	const onFinishSocialProfiles = useCallback(
+		toggleStep.bind( null, "configuration", steps.socialProfiles ),
+		[ toggleStep, steps.socialProfiles ]
+	);
+	const onFinishEnableTracking = useCallback(
+		toggleStep.bind( null, "configuration", steps.enableTracking ),
+		[ toggleStep, steps.enableTracking ]
+	);
+	const toggleConfigurationWorkout = useCallback(
+		toggleWorkout.bind( null, "configuration" ),
+		[ toggleWorkout ]
+	);
 
 	/* eslint-disable max-len */
 	return (
@@ -339,8 +275,8 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 					) }
 					ImageComponent={ WorkoutImage }
 					finishText={ __( "Continue", "wordpress-seo" ) }
-					onFinishClick={ () => { console.log( "you clicked continue" ); } }
-					isFinished={ isStepFinished( "configuration", "one" ) }
+					onFinishClick={ onFinishOptimizeSeoData }
+					isFinished={ isStepFinished( "configuration", steps.optimizeSeoData ) }
 				>
 					<div className="indexation-container">
 						<Indexation />
@@ -369,8 +305,8 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 					title={ __( "Site representation", "wordpress-seo" ) }
 					subtitle={ __( "Tell Google what kind of site you have. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
 					finishText={ __( "Continue and save", "wordpress-seo" ) }
-					onFinishClick={ () => { console.log( "you clicked continue" ); } }
-					isFinished={ isStepFinished( "configuration", "one" ) }
+					onFinishClick={ onFinishSiteRepresentation }
+					isFinished={ isStepFinished( "configuration", steps.siteRepresentation ) }
 				>
 					<SingleSelect
 						id="organization-person-select"
@@ -387,9 +323,20 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 							name: "Person",
 							value: "person",
 						} ] }
+						readOnly={ isStepFinished( "configuration", steps.siteRepresentation ) }
+
 					/>
-					{ state.companyOrPerson === "company" && <OrganizationSection dispatch={ dispatch } imageUrl={ state.companyLogo } organizationName={ state.companyName } /> }
-					{ state.companyOrPerson === "person" && <PersonSection dispatch={ dispatch } imageUrl={ state.personLogo } /> }
+					{ state.companyOrPerson === "company" && <OrganizationSection
+						dispatch={ dispatch }
+						imageUrl={ state.companyLogo }
+						organizationName={ state.companyName }
+						isDisabled={ isStepFinished( "configuration", steps.siteRepresentation ) }
+					/> }
+					{ state.companyOrPerson === "person" && <PersonSection
+						dispatch={ dispatch }
+						imageUrl={ state.personLogo }
+						isDisabled={ isStepFinished( "configuration", steps.siteRepresentation ) }
+					/> }
 					<TextInput
 						id="site-tagline-input"
 						name="site-tagline"
@@ -398,6 +345,7 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 						description={ sprintf( __( "Add a catchy tagline that describes your site in the best light. Use the keywords you want people to find your site with. Example: %1$s’s tagline is ‘SEO for everyone.’", "wordpress-seo" ), "Yoast" ) }
 						value={ state.siteTagline }
 						onChange={ ( value ) => dispatch( { type: "CHANGE_SITE_TAGLINE", payload: value } ) }
+						readOnly={ isStepFinished( "configuration", steps.siteRepresentation ) }
 					/>
 				</Step>
 				<Step
@@ -405,8 +353,8 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 					title={ __( "Social profiles", "wordpress-seo" ) }
 					subtitle={ __( "Do you have profiles for your site on social media? Then, add all of their URLs here.", "wordpress-seo" ) }
 					finishText={ "Save and continue" }
-					onFinishClick={ () => { console.log( "Social profiles finished" ); } }
-					isFinished={ isStepFinished( "configuration", "social-profiles" ) }
+					onFinishClick={ onFinishSocialProfiles }
+					isFinished={ isStepFinished( "configuration", steps.socialProfiles ) }
 				>
 					<div className="yoast-social-profiles-input-fields">
 						<SocialInput
@@ -414,48 +362,56 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 							value={ state.socialProfiles.facebookUrl }
 							socialMedium="facebookUrl"
 							dispatch={ dispatch }
+							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
 						/>
 						<SocialInput
 							label={ __( "Twitter URL", "wordpress-seo" ) }
 							value={ state.socialProfiles.twitterUsername }
 							socialMedium="twitterUsername"
 							dispatch={ dispatch }
+							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
 						/>
 						<SocialInput
 							label={ __( "Instagram URL", "wordpress-seo" ) }
 							value={ state.socialProfiles.instagramUrl }
 							socialMedium="instagramUrl"
 							dispatch={ dispatch }
+							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
 						/>
 						<SocialInput
 							label={ __( "LinkedIn URL", "wordpress-seo" ) }
 							value={ state.socialProfiles.linkedinUrl }
 							socialMedium="linkedinUrl"
 							dispatch={ dispatch }
+							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
 						/>
 						<SocialInput
 							label={ __( "MySpace URL", "wordpress-seo" ) }
 							value={ state.socialProfiles.myspaceUrl }
 							socialMedium="myspaceUrl"
 							dispatch={ dispatch }
+							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
 						/>
 						<SocialInput
 							label={ __( "Pinterest URL", "wordpress-seo" ) }
 							value={ state.socialProfiles.pinterestUrl }
 							socialMedium="pinterestUrl"
 							dispatch={ dispatch }
+							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
 						/>
 						<SocialInput
 							label={ __( "YouTube URL", "wordpress-seo" ) }
 							value={ state.socialProfiles.youtubeUrl }
 							socialMedium="youtubeUrl"
 							dispatch={ dispatch }
+							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
 						/>
 						<SocialInput
 							label={ __( "Wikipedia URL", "wordpress-seo" ) }
 							value={ state.socialProfiles.wikipediaUrl }
 							socialMedium="wikipediaUrl"
 							dispatch={ dispatch }
+							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
 						/>
 					</div>
 				</Step>
@@ -463,8 +419,8 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 					hasDownArrow={ true }
 					title={ __( "Help us improve Yoast SEO", "wordpress-seo" ) }
 					finishText={ "Save and continue" }
-					onFinishClick={ () => { console.log( "Tracking finished" ); } }
-					isFinished={ isStepFinished( "configuration", "tracking" ) }
+					onFinishClick={ onFinishEnableTracking }
+					isFinished={ isStepFinished( "configuration", steps.enableTracking ) }
 				>
 					<p>
 						{
@@ -506,8 +462,8 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 				<Step
 					title={ __( "Sign up for the Yoast newsletter!", "wordpress-seo" ) }
 					finishText={ "Finish this workout" }
-					onFinishClick={ () => { console.log( "Sign up finished" ); } }
-					isFinished={ isStepFinished( "configuration", "newsletter-signup" ) }
+					onFinishClick={ toggleConfigurationWorkout }
+					isFinished={ isStepFinished( "configuration", steps.newsletterSignup ) }
 				>
 					<NewsletterSignup />
 				</Step>
@@ -516,3 +472,40 @@ export default function ConfigurationWorkout( { seoDataOptimizationNeeded = "1",
 		/* eslint-enable max-len */
 	);
 }
+
+
+export default compose(
+	[
+		withSelect( ( select ) => {
+			const workouts = select( "yoast-seo/workouts" ).getWorkouts();
+			const finishedWorkouts = select( "yoast-seo/workouts" ).getFinishedWorkouts();
+			/**
+			 * Determines if a step for a particular workout is finished.
+			 * @param {string} workout The name of the workout.
+			 * @param {string} step The name of the step.
+			 * @returns {boolean} Whether or not the step is finished.
+			 */
+			const isStepFinished = ( workout, step ) => {
+				return workouts[ workout ].finishedSteps.includes( step );
+			};
+			const isWorkoutFinished = finishedWorkouts.includes( WORKOUTS.cornerstone );
+			const getIndexablesByStep = select( "yoast-seo/workouts" ).getIndexablesByStep;
+			return { finishedWorkouts, isStepFinished, isWorkoutFinished, getIndexablesByStep };
+		} ),
+		withDispatch(
+			( dispatch ) => {
+				const {
+					toggleStep,
+					toggleWorkout,
+					moveIndexables,
+				} = dispatch( "yoast-seo/workouts" );
+
+				return {
+					toggleStep,
+					toggleWorkout,
+					moveIndexables,
+				};
+			}
+		),
+	]
+)( ConfigurationWorkout );
