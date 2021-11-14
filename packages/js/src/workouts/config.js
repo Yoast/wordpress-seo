@@ -3,6 +3,7 @@
  * @type {{orphaned: string, cornerstone: string}}
  */
 export const WORKOUTS = {
+	configuration: "configuration",
 	cornerstone: "cornerstone",
 	orphaned: "orphaned",
 };
@@ -25,6 +26,13 @@ export const WORKOUTS = {
  *       }
  */
 export const STEPS = {
+	configuration: {
+		optimizeSeoData: "optimizeSeoData",
+		siteRepresentation: "siteRepresentation",
+		socialProfiles: "socialProfiles",
+		enableTracking: "enableTracking",
+		newsletterSignup: "newsletterSignup",
+	},
 	cornerstone: {
 		chooseCornerstones: "chooseCornerstones",
 		checkLinks: "checkLinks",
@@ -48,6 +56,13 @@ export const STEPS = {
  * @type {{orphaned: [string, string, string], cornerstone: [string, string, string, string, string]}}
  */
 export const FINISHABLE_STEPS = {
+	configuration: [
+		STEPS.configuration.optimizeSeoData,
+		STEPS.configuration.siteRepresentation,
+		STEPS.configuration.socialProfiles,
+		STEPS.configuration.enableTracking,
+		STEPS.configuration.newsletterSignup,
+	],
 	cornerstone: [
 		STEPS.cornerstone.chooseCornerstones,
 		STEPS.cornerstone.checkLinks,

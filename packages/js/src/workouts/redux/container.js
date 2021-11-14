@@ -15,11 +15,14 @@ const purgeIndexables = function( workouts ) {
 	const purgedWorkouts = cloneDeep( workouts );
 
 	Object.keys( workouts ).forEach( function( workout ) {
-		Object.keys( workouts[ workout ].indexablesByStep ).forEach( function( step ) {
-			purgedWorkouts[ workout ].indexablesByStep[ step ] = purgedWorkouts[ workout ].indexablesByStep[ step ].filter( function( indexable ) {
-				return ! indexable.purge;
+		if ( workouts[ workout ].indexablesByStep ) {
+			Object.keys( workouts[ workout ].indexablesByStep ).forEach( function( step ) {
+				purgedWorkouts[ workout ].indexablesByStep[ step ] = purgedWorkouts[ workout ].indexablesByStep[ step ].filter(
+					function( indexable ) {
+						return ! indexable.purge;
+					} );
 			} );
-		} );
+		}
 	} );
 
 	return purgedWorkouts;

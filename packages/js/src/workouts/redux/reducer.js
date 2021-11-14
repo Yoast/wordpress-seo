@@ -14,6 +14,11 @@ const initialState = {
 	loading: true,
 	activeWorkout: "",
 	workouts: {
+		configuration: {
+			priority: 50,
+			finishedSteps: [],
+			indexablesByStep: [],
+		},
 		cornerstone: {
 			priority: 50,
 			finishedSteps: [],
