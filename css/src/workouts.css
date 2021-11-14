@@ -147,7 +147,10 @@
 	background-position: center center;
 }
 
-.workflow li.step.finished p, .workflow li.finished table {
+.workflow li.step.finished p,
+.workflow li.step.finished ul,
+.workflow li.step.finished .yoast-field-group__title,
+.workflow li.finished table {
 	opacity: 0.5;
 }
 
