@@ -492,3 +492,15 @@ table.yoast_help th.divider {
 #wpseo-workouts-container-free div.card.card-small.card-disabled .workout-card-progress {
 	opacity: 0.5;
 }
+
+.workflow__grid {
+	display: grid;
+	grid-template-columns: auto 100px;
+	gap: 8px;
+}
+
+.workflow__grid > div:last-of-type {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
