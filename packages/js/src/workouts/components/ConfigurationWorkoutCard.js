@@ -4,6 +4,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
 // Internal dependencies.
 import WorkoutCard from "./WorkoutCard";
+import { ReactComponent as ConfigurationImageBubble } from "../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
 import ConfigurationWorkout from "./ConfigurationWorkout";
 
 /**
@@ -32,6 +33,7 @@ export default function ConfigurationWorkoutCard( {
 				"wordpress-seo"
 			),
 		] }
+		image={ ConfigurationImageBubble }
 		finishableSteps={ [ "step1", "step2", "step3", "step4", "step5" ] }
 		finishedSteps={ finishedSteps }
 		upsell={ null }
