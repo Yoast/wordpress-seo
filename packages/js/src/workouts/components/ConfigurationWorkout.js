@@ -406,7 +406,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 				<Step
 					hasDownArrow={ true }
 					title={ __( "Social profiles", "wordpress-seo" ) }
-					subtitle={ __( "Do you have profiles for your site on social media? Then, add all of their URLs here.", "wordpress-seo" ) }
+					subtitle={ state.companyOrPerson === "company" ?  __( "Do you have profiles for your site on social media? Then, add all of their URLs here.", "wordpress-seo" ) : '' }
 					finishText={ "Save and continue" }
 					onFinishClick={ updateOnFinishSocialProfiles }
 					isFinished={ isStepFinished( "configuration", steps.socialProfiles ) }
@@ -469,7 +469,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
 						/>
 					</div> }
-					{ state.companyOrPerson === "person" && <div className="yoast-social-profiles-input-fields">
+					{ state.companyOrPerson === "person" && <div>
 						<p>
 							{
 								createInterpolateElement(
