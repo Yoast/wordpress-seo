@@ -62,7 +62,7 @@ function NewsletterSignup() {
 	const [ signUpState, setSignUpState ] = useState( "ready" );
 
 	const onSignUpClick = useCallback(
-		async () => {
+		async function() {
 			setSignUpState( "loading" );
 			await postSignUp( newsletterEmail );
 			setSignUpState( "ready" );
@@ -204,6 +204,16 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		[ toggleWorkout ]
 	);
 
+	const onOrganizationOrPersonChange = useCallback(
+		( value ) => dispatch( { type: "SET_COMPANY_OR_PERSON", payload: value } ),
+		[ dispatch ]
+	);
+
+	const onSiteTaglineChange = useCallback(
+		( value ) => dispatch( { type: "CHANGE_SITE_TAGLINE", payload: value } ),
+		[ dispatch ]
+	);
+
 	/* eslint-disable max-len */
 	return (
 		<div className="card">
@@ -313,7 +323,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						name="organization"
 						label={ __( "Does you site represent an Organization or Person?", "wordpress-seo" ) }
 						selected={ state.companyOrPerson }
-						onChange={ ( value ) => dispatch( { type: "SET_COMPANY_OR_PERSON", payload: value } ) }
+						onChange={ onOrganizationOrPersonChange }
 						options={ [ {
 							name: "Organization",
 							value: "company",
@@ -344,7 +354,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						// translators: %1$s expands to Yoast
 						description={ sprintf( __( "Add a catchy tagline that describes your site in the best light. Use the keywords you want people to find your site with. Example: %1$s’s tagline is ‘SEO for everyone.’", "wordpress-seo" ), "Yoast" ) }
 						value={ state.siteTagline }
-						onChange={ ( value ) => dispatch( { type: "CHANGE_SITE_TAGLINE", payload: value } ) }
+						onChange={ onSiteTaglineChange }
 						readOnly={ isStepFinished( "configuration", steps.siteRepresentation ) }
 					/>
 				</Step>
