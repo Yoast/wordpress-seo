@@ -49,7 +49,7 @@ export function Step( { title, subtitle, finishText, hasDownArrow, onFinishClick
 
 Step.propTypes = {
 	title: PropTypes.string.isRequired,
-	subtitle: PropTypes.string,
+	subtitle: PropTypes.object,
 	finishText: PropTypes.string.isRequired,
 	hasDownArrow: PropTypes.bool,
 	onFinishClick: PropTypes.func.isRequired,
