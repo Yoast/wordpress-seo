@@ -79,6 +79,7 @@ class Notice_Presenter extends Abstract_Presenter {
 		$out .= '<div class="notice-yoast__container">';
 
 		// Header.
+		$out .= '<div>';
 		$out .= '<div class="notice-yoast__header">';
 		$out .= '<span class="yoast-icon"></span>';
 		$out .= \sprintf(
@@ -86,14 +87,12 @@ class Notice_Presenter extends Abstract_Presenter {
 			\esc_html( $this->title )
 		);
 		$out .= '</div>';
-
-		// Content.
-		$out .= '<div class="notice-yoast__content">';
 		$out .= '<p>' . $this->content . '</p>';
+		$out .= '</div>';
+
 		if ( ! \is_null( $this->image_filename ) ) {
 			$out .= '<img src="' . \esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/' . $this->image_filename ) . '" alt="" />';
 		}
-		$out .= '</div>';
 
 		$out .= '</div>';
 		$out .= '</div>';

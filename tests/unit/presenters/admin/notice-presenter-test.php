@@ -58,11 +58,11 @@ class Notice_Presenter_Test extends TestCase {
 		$test = new Notice_Presenter( 'title', 'content' );
 
 		$expected = '<div class="notice notice-yoast"><div class="notice-yoast__container">'
+			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
 			. '<h1 class="notice-yoast__header-heading">title</h1>'
 			. '</div>'
-			. '<div class="notice-yoast__content">'
 			. '<p>content</p>'
 			. '</div>'
 			. '</div></div>';
@@ -84,14 +84,14 @@ class Notice_Presenter_Test extends TestCase {
 		$test = new Notice_Presenter( 'title', 'content', 'image.png' );
 
 		$expected = '<div class="notice notice-yoast"><div class="notice-yoast__container">'
+			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
 			. '<h1 class="notice-yoast__header-heading">title</h1>'
 			. '</div>'
-			. '<div class="notice-yoast__content">'
 			. '<p>content</p>'
-			. '<img src="images/image.png" alt="" />'
 			. '</div>'
+			. '<img src="images/image.png" alt="" />'
 			. '</div></div>';
 
 		Monkey\Functions\expect( 'esc_html' )->andReturn( '' );
@@ -112,11 +112,11 @@ class Notice_Presenter_Test extends TestCase {
 		$test = new Notice_Presenter( 'title', 'content', null, true );
 
 		$expected = '<div class="notice notice-yoast is-dismissible"><div class="notice-yoast__container">'
+			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
 			. '<h1 class="notice-yoast__header-heading">title</h1>'
 			. '</div>'
-			. '<div class="notice-yoast__content">'
 			. '<p>content</p>'
 			. '</div>'
 			. '</div></div>';
@@ -139,14 +139,14 @@ class Notice_Presenter_Test extends TestCase {
 		$test = new Notice_Presenter( 'title', 'content', 'image.png', true );
 
 		$expected = '<div class="notice notice-yoast is-dismissible"><div class="notice-yoast__container">'
+			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
 			. '<h1 class="notice-yoast__header-heading">title</h1>'
 			. '</div>'
-			. '<div class="notice-yoast__content">'
 			. '<p>content</p>'
-			. '<img src="images/image.png" alt="" />'
 			. '</div>'
+			. '<img src="images/image.png" alt="" />'
 			. '</div></div>';
 
 		Monkey\Functions\expect( 'esc_html' )->andReturn( '' );

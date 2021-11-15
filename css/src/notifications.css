@@ -277,10 +277,12 @@
 
 .notice-yoast__container {
 	padding: 10px 0 5px 0;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
 
 .notice-yoast__header {
-	/*margin: 1em 0 4px 0;*/
 	padding: 0;
 	box-sizing: border-box;
 	display: flex;
@@ -293,6 +295,7 @@
 .notice-yoast__header .notice-yoast__header-heading {
 	line-height: 1.2;
 	margin: 0;
+	padding: 0;
 }
 
 .notice-yoast__header h1 {
@@ -320,13 +323,13 @@
 	display: flex;
 }
 
-.notice-yoast__content img {
+.notice-yoast img {
 	line-height: 1;
 	margin-left: 10px;
 	height: 60px;
 }
 
-.notice-yoast__content p {
+.notice-yoast p {
 	font-size: 13px;
 	font-weight: 400;
 	max-width: 600px;
