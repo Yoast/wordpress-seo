@@ -61,7 +61,9 @@ use Yoast\WP\Lib\Model;
  *
  * @property bool   $is_protected
  * @property string $post_status
- * @property int    $number_of_public_posts
+ *
+ * @property int    $number_of_publicly_viewable_posts
+ * @property bool   $is_publicly_viewable
  *
  * @property int    $blog_id
  *
@@ -108,6 +110,7 @@ class Indexable extends Model {
 		'is_robots_noimageindex',
 		'is_robots_nosnippet',
 		'is_cornerstone',
+		'is_publicly_viewable',
 		'is_protected',
 		'calculated_no_index',
 	];
@@ -131,12 +134,12 @@ class Indexable extends Model {
 		'blog_id',
 		'estimated_reading_time_minutes',
 		'version',
-		'number_of_public_posts',
+		'number_of_publicly_viewable_posts',
 	];
 
 	protected $deprecated_columns = [
-		'has_public_posts' => 'number_of_public_posts',
-		'is_public',
+		'has_public_posts' => 'number_of_publicly_viewable_posts',
+		'is_public'        => 'is_publicly_viewable',
 	];
 
 	/**

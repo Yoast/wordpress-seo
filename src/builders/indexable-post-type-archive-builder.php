@@ -83,6 +83,11 @@ class Indexable_Post_Type_Archive_Builder {
 		$indexable->is_robots_noindex = (bool) $this->options->get( 'noindex-ptarchive-' . $post_type );
 		$indexable->blog_id           = \get_current_blog_id();
 
+		$post_type_object = get_post_type_object( $post_type );
+		if ( $post_type_object !== null ) {
+			$indexable->is_publicly_viewable = $post_type_object->has_archive && $post_type_object->rewrite !== false;
+		}
+
 		$indexable = $this->set_aggregate_values( $indexable );
 
 		$indexable->version = $this->version;
@@ -91,10 +96,10 @@ class Indexable_Post_Type_Archive_Builder {
 	}
 
 	public function set_aggregate_values( Indexable $indexable ) {
-		$aggregates                        = $this->get_public_post_archive_aggregates( $indexable->object_sub_type );
-		$indexable->object_published_at    = $aggregates->published_at;
-		$indexable->object_last_modified   = $aggregates->last_modified;
-		$indexable->number_of_public_posts = $aggregates->number_of_public_posts;
+		$aggregates                                   = $this->get_public_post_archive_aggregates( $indexable->object_sub_type );
+		$indexable->object_published_at               = $aggregates->published_at;
+		$indexable->object_last_modified              = $aggregates->last_modified;
+		$indexable->number_of_publicly_viewable_posts = $aggregates->number_of_public_posts;
 
 		return $indexable;
 	}

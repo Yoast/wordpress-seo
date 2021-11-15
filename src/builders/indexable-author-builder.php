@@ -100,10 +100,10 @@ class Indexable_Author_Builder {
 	}
 
 	public function set_aggregate_values( Indexable $indexable ) {
-		$aggregates                        = $this->get_public_post_archive_aggregates( $indexable->object_id );
-		$indexable->object_published_at    = $aggregates->first_published_at;
-		$indexable->object_last_modified   = max($indexable->object_last_modified, $aggregates->most_recent_last_modified);
-		$indexable->number_of_public_posts = $aggregates->number_of_public_posts;
+		$aggregates                                   = $this->get_public_post_archive_aggregates( $indexable->object_id );
+		$indexable->object_published_at               = $aggregates->first_published_at;
+		$indexable->object_last_modified              = max( $indexable->object_last_modified, $aggregates->most_recent_last_modified );
+		$indexable->number_of_publicly_viewable_posts = $aggregates->number_of_public_posts;
 
 		return $indexable;
 	}
@@ -181,7 +181,7 @@ class Indexable_Author_Builder {
 	 */
 	protected function get_public_post_archive_aggregates( $author_id ) {
 		$post_statuses = $this->post_helper->get_public_post_statuses();
-		$post_types = $this->author_archive->get_author_archive_post_types();
+		$post_types    = $this->author_archive->get_author_archive_post_types();
 		// TODO DIEDE: Protected pages krijgen _geen_ noindex. en staan gewoon in het author archive. moeten die meegeteld worden?
 		// Private werkt wel zoals verwacht.
 

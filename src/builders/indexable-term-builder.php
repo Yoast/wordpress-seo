@@ -97,11 +97,12 @@ class Indexable_Term_Builder {
 
 		$term_meta = $this->taxonomy_helper->get_term_meta( $term );
 
-		$indexable->object_id       = $term_id;
-		$indexable->object_type     = 'term';
-		$indexable->object_sub_type = $term->taxonomy;
-		$indexable->permalink       = $term_link;
-		$indexable->blog_id         = \get_current_blog_id();
+		$indexable->object_id            = $term_id;
+		$indexable->object_type          = 'term';
+		$indexable->object_sub_type      = $term->taxonomy;
+		$indexable->permalink            = $term_link;
+		$indexable->blog_id              = \get_current_blog_id();
+		$indexable->is_publicly_viewable = is_taxonomy_viewable( $term->taxonomy );
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( 'wpseo_focuskw', $term_meta ),
@@ -138,10 +139,10 @@ class Indexable_Term_Builder {
 	}
 
 	public function set_aggregate_values( Indexable $indexable ) {
-		$aggregates                        = $this->get_public_post_archive_aggregates( $indexable->object_id, $indexable->object_sub_type );
-		$indexable->object_published_at    = $aggregates->first_published_at;
-		$indexable->object_last_modified   = $aggregates->most_recent_last_modified;
-		$indexable->number_of_public_posts = $aggregates->number_of_public_posts;
+		$aggregates                                   = $this->get_public_post_archive_aggregates( $indexable->object_id, $indexable->object_sub_type );
+		$indexable->object_published_at               = $aggregates->first_published_at;
+		$indexable->object_last_modified              = $aggregates->most_recent_last_modified;
+		$indexable->number_of_publicly_viewable_posts = $aggregates->number_of_public_posts;
 
 		return $indexable;
 	}

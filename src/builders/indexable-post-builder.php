@@ -154,7 +154,8 @@ class Indexable_Post_Builder {
 		$indexable->object_last_modified = $post->post_modified_gmt;
 		$indexable->object_published_at  = $post->post_date_gmt;
 
-		$indexable->number_of_public_posts = 0;
+		$indexable->number_of_publicly_viewable_posts = 0;
+		$indexable->is_publicly_viewable              = \is_post_publicly_viewable( $post );
 
 		$indexable->version = $this->version;
 
@@ -175,34 +176,6 @@ class Indexable_Post_Builder {
 		}
 
 		return \wp_get_attachment_url( $post_id );
-	}
-
-	/**
-	 * Determines the value of is_public.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return bool|null Whether the post type is public. Null if no override is set.
-	 */
-	protected function is_accessible_post( $indexable ) {
-		return is_post_type_viewable($indexable->object_sub_type) && is_post_status_viewable($indexable->post_status);
-	}
-
-	/**
-	 * Determines the value of is_public for attachments.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return bool|null False when it has no parent. Null when it has a parent.
-	 */
-	protected function is_public_attachment( $indexable ) {
-		// If the attachment has no parent, it should not be public.
-		if ( empty( $indexable->post_parent ) ) {
-			return false;
-		}
-
-		// If the attachment has a parent, the is_public should be NULL.
-		return null;
 	}
 
 	/**
