@@ -93,7 +93,7 @@ class Yoast_Plugin_Conflict {
 		static $sections_checked;
 
 		// Return early if there are no active conflicting plugins at all.
-		if ( \empty( $this->active_conflicting_plugins ) ) {
+		if ( empty( $this->active_conflicting_plugins ) ) {
 			return false;
 		}
 
@@ -103,7 +103,7 @@ class Yoast_Plugin_Conflict {
 
 		if ( ! \in_array( $plugin_section, $sections_checked, true ) ) {
 			$sections_checked[] = $plugin_section;
-			$has_conflicts      = ( ! \empty( $this->active_conflicting_plugins[ $plugin_section ] ) );
+			$has_conflicts      = ( ! empty( $this->active_conflicting_plugins[ $plugin_section ] ) );
 
 			return $has_conflicts;
 		}
