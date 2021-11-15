@@ -5,24 +5,13 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Routes\Workouts_Route;
 
 /**
  * WorkoutsIntegration class
  */
 class Workouts_Integration implements Integration_Interface {
-
-	/**
-	 * The indexable repository.
-	 *
-	 * @var Indexable_Repository The indexable repository.
-	 */
-	private $indexable_repository;
 
 	/**
 	 * The admin asset manager.
@@ -39,13 +28,6 @@ class Workouts_Integration implements Integration_Interface {
 	private $options_helper;
 
 	/**
-	 * The post type helper.
-	 *
-	 * @var Post_Type_Helper
-	 */
-	private $post_type_helper;
-
-	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -55,21 +37,15 @@ class Workouts_Integration implements Integration_Interface {
 	/**
 	 * Workouts_Integration constructor.
 	 *
-	 * @param Indexable_Repository      $indexable_repository    The indexables repository.
-	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager     The admin asset manager.
-	 * @param Options_Helper            $options_helper          The options helper.
-	 * @param Post_Type_Helper          $post_type_helper        The post type helper.
+	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
+	 * @param Options_Helper            $options_helper      The options helper.
 	 */
 	public function __construct(
-		Indexable_Repository $indexable_repository,
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
-		Options_Helper $options_helper,
-		Post_Type_Helper $post_type_helper
+		Options_Helper $options_helper
 	) {
-		$this->indexable_repository = $indexable_repository;
-		$this->admin_asset_manager  = $admin_asset_manager;
-		$this->options_helper       = $options_helper;
-		$this->post_type_helper     = $post_type_helper;
+		$this->admin_asset_manager = $admin_asset_manager;
+		$this->options_helper      = $options_helper;
 	}
 
 	/**
@@ -142,24 +118,6 @@ class Workouts_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Maps an array of indexables and replaces the object_sub_type with the singular name of that type.
-	 *
-	 * @param Indexable $indexable An Indexable in array format.
-	 * @return array The new array.
-	 */
-	public function map_subtypes_to_singular_name( Indexable $indexable ) {
-		if ( $indexable->object_type === 'post' ) {
-			$post_type_labels           = \get_post_type_labels( \get_post_type_object( \get_post_type( $indexable->object_id ) ) );
-			$indexable->object_sub_type = $post_type_labels->singular_name;
-		}
-		else {
-			$taxonomy_labels            = \get_taxonomy_labels( \get_taxonomy( $indexable->object_sub_type ) );
-			$indexable->object_sub_type = $taxonomy_labels->singular_name;
-		}
-		return $indexable;
-	}
-
-	/**
 	 * Renders the target for the React to mount to.
 	 */
 	public function render_target() {
@@ -172,101 +130,15 @@ class Workouts_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Retrieves the public indexable sub types.
-	 *
-	 * @return array The sub types.
-	 */
-	protected function get_public_sub_types() {
-		$object_sub_types = \array_values(
-			\array_merge(
-				$this->post_type_helper->get_public_post_types(),
-				\get_taxonomies( [ 'public' => true ] )
-			)
-		);
-
-		$excluded_post_types = \apply_filters( 'wpseo_indexable_excluded_post_types', [ 'attachment' ] );
-		$object_sub_types    = \array_diff( $object_sub_types, $excluded_post_types );
-		return $object_sub_types;
-	}
-
-	/**
-	 * Gets the workouts option and extends it with indexable data.
+	 * Gets the workouts option.
 	 *
 	 * @return mixed|null Returns workouts option if found, null if not.
 	 */
 	private function get_workouts_option() {
-		$workouts_option = $this->options_helper->get( 'workouts' );
+		$workouts_option = $this->options_helper->get( 'workouts_data' );
 
-		if ( ! ( isset( $workouts_option['orphaned']['indexablesByStep'] )
-			&& \is_array( $workouts_option['orphaned']['indexablesByStep'] )
-			&& isset( $workouts_option['cornerstone']['indexablesByStep'] )
-			&& \is_array( $workouts_option['cornerstone']['indexablesByStep'] ) )
-		) {
-			return $workouts_option;
-		}
-
-		// Get all indexable ids from all workouts and all steps.
-		$indexable_ids_in_workouts = [ 0 ];
-		foreach ( [ 'orphaned', 'cornerstone' ] as $workout ) {
-			foreach ( $workouts_option[ $workout ]['indexablesByStep'] as $step => $indexables ) {
-				if ( $step === 'removed' ) {
-					continue;
-				}
-				foreach ( $indexables as $indexable_id ) {
-					$indexable_ids_in_workouts[] = $indexable_id;
-				}
-			}
-		}
-
-		// Get all indexables corresponding to the indexable ids.
-		$indexables_in_workouts = $this->indexable_repository->find_by_ids( $indexable_ids_in_workouts );
-
-		// Extend the workouts option with the indexables data.
-		foreach ( [ 'orphaned', 'cornerstone' ] as $workout ) {
-			// Don't add indexables for steps that are not allowed.
-			$workouts_option[ $workout ]['finishedSteps'] = \array_values(
-				\array_intersect(
-					$workouts_option[ $workout ]['finishedSteps'],
-					[
-						'orphaned'    => Workouts_Route::ALLOWED_ORPHANED_STEPS,
-						'cornerstone' => Workouts_Route::ALLOWED_CORNERSTONE_STEPS,
-					][ $workout ]
-				)
-			);
-
-			// Don't add indexables that are not published or are no-indexed.
-			foreach ( $workouts_option[ $workout ]['indexablesByStep'] as $step => $indexables ) {
-				if ( $step === 'removed' ) {
-					continue;
-				}
-				$workouts_option[ $workout ]['indexablesByStep'][ $step ] = \array_values(
-					\array_filter(
-						\array_map(
-							static function( $indexable_id ) use ( $indexables_in_workouts ) {
-								foreach ( $indexables_in_workouts as $updated_indexable ) {
-									if ( \is_array( $indexable_id ) ) {
-										$indexable_id = $indexable_id['id'];
-									}
-									if ( (int) $indexable_id === $updated_indexable->id ) {
-										if ( $updated_indexable->post_status !== 'publish' && $updated_indexable->post_status !== null ) {
-											return false;
-										}
-										if ( $updated_indexable->is_robots_noindex ) {
-											return false;
-										}
-										return $updated_indexable;
-									}
-								}
-								return false;
-							},
-							$indexables
-						)
-					)
-				);
-			}
-		}
-
-		return $workouts_option;
+		// This filter is documented in src/routes/workouts-route.php.
+		return \apply_filters( 'Yoast\WP\SEO\workouts_options', $workouts_option );
 	}
 
 	/**

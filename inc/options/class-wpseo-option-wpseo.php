@@ -80,6 +80,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_link_suggestions'                  => true,
 		'algolia_integration_active'               => false,
 		'import_cursors'                           => [],
+		'workouts_data'                            => [ 'configuration' => [ 'finishedSteps' => [] ] ],
 	];
 
 	/**
@@ -360,6 +361,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				case 'import_cursors':
+				case 'workouts_data':
 					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
