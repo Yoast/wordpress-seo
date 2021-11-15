@@ -11,7 +11,21 @@ registerAnalysisStore( {
 	analyze: async ( paper, keyphrases, config ) => {
 		console.log( "analyze", paper, keyphrases, config );
 		await new Promise( resolve => setTimeout( resolve, 1000 ) );
-		return { data: "seoResults" };
+		return {
+			seo: {
+				focus: {
+					score: 10,
+					results: [],
+				},
+			},
+			readability: {
+				score: 10,
+				results: [],
+			},
+			research: {
+				morphology: {},
+			},
+		};
 	},
 } );
 
