@@ -106,7 +106,7 @@ function NewsletterSignup() {
 							"<a>",
 							"</a>"
 						),
-						"https://yoast.com"
+						"https://yoa.st/gdpr-config-workout"
 					)
 				}
 			</p>
@@ -241,7 +241,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 								"<a>",
 								"</a>"
 							),
-							"https://yoast.com"
+							"https://yoa.st/config-workout-guide"
 						)
 					}
 				</i>
@@ -280,7 +280,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							"<a>",
 							"</a>"
 						),
-						"https://yoast.com"
+						"https://yoa.st/config-workout-index-data"
 					) }
 					ImageComponent={ WorkoutImage }
 					finishText={ __( "Continue", "wordpress-seo" ) }
