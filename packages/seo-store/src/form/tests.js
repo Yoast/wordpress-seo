@@ -1,5 +1,4 @@
-import { merge } from "lodash";
-import { createStoreState } from "../common/test-helpers";
+import { curry, merge, set } from "lodash";
 import keyphrasesReducer, { keyphrasesActions, keyphrasesSelectors } from "./slice/keyphrases";
 import seoReducer, { seoActions } from "./slice/seo";
 
@@ -186,12 +185,12 @@ describe( "Keyphrases slice", () => {
 	} );
 
 	describe( "Selectors", () => {
-		const getStoreState = createStoreState( "form.keyphrases" );
+		const createStoreState = curry( set )( {}, "form.keyphrases" );
 
 		test( "should select the keyphrases", () => {
 			const { selectKeyphrases } = keyphrasesSelectors;
 
-			const result = selectKeyphrases( getStoreState( initialState ) );
+			const result = selectKeyphrases( createStoreState( initialState ) );
 
 			expect( result ).toEqual( initialState );
 		} );
@@ -204,7 +203,7 @@ describe( "Keyphrases slice", () => {
 					keyphrase: "test",
 				},
 			} );
-			const result = selectKeyphrase( getStoreState( state ) );
+			const result = selectKeyphrase( createStoreState( state ) );
 
 			expect( result ).toEqual( "test" );
 		} );
@@ -217,7 +216,7 @@ describe( "Keyphrases slice", () => {
 					keyphrase: "test",
 				},
 			} );
-			const result = selectKeyphrase( getStoreState( state ), "a" );
+			const result = selectKeyphrase( createStoreState( state ), "a" );
 
 			expect( result ).toEqual( "test" );
 		} );
@@ -230,7 +229,7 @@ describe( "Keyphrases slice", () => {
 					synonyms: "test",
 				},
 			} );
-			const result = selectSynonyms( getStoreState( state ) );
+			const result = selectSynonyms( createStoreState( state ) );
 
 			expect( result ).toEqual( "test" );
 		} );
@@ -243,7 +242,7 @@ describe( "Keyphrases slice", () => {
 					synonyms: "test",
 				},
 			} );
-			const result = selectSynonyms( getStoreState( state ), "a" );
+			const result = selectSynonyms( createStoreState( state ), "a" );
 
 			expect( result ).toEqual( "test" );
 		} );
@@ -257,7 +256,7 @@ describe( "Keyphrases slice", () => {
 				c: { id: "c" },
 				d: { id: "d" },
 			} );
-			const result = selectKeyphraseIds( getStoreState( state ) );
+			const result = selectKeyphraseIds( createStoreState( state ) );
 
 			expect( result.length ).toEqual( 5 );
 			expect( result ).toContain( "focus" );
