@@ -35,7 +35,7 @@ describe( "Indexation", () => {
 			amount: 5,
 			restApi: {
 				root: "https://example.com/",
-				endpoints: {
+				indexing_endpoints: {
 					prepare: "indexing-endpoint",
 				},
 				nonce: "nonsense",
@@ -89,7 +89,7 @@ describe( "Indexation", () => {
 			amount: 5,
 			restApi: {
 				root: "https://example.com/",
-				endpoints: {
+				indexing_endpoints: {
 					prepare: "indexing-endpoint",
 				},
 				nonce: "nonsense",
@@ -123,7 +123,7 @@ describe( "Indexation", () => {
 			amount: 5,
 			restApi: {
 				root: "https://example.com/",
-				endpoints: {
+				indexing_endpoints: {
 					indexation: "indexing-endpoint",
 				},
 				nonce: "nonsense",
