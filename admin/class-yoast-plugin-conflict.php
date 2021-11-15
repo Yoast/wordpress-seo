@@ -120,6 +120,7 @@ class Yoast_Plugin_Conflict {
 	 * @param string $plugin_section Plugin conflict type (such as Open Graph or sitemap).
 	 *
 	 * @deprecated 17.7 This method is unused and will be removed in the future
+	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
@@ -200,7 +201,7 @@ class Yoast_Plugin_Conflict {
 
 		$notification_center = Yoast_Notification_Center::get();
 
-		foreach ($this->active_conflicting_plugins[ $plugin_section ] as $plugin_file ) {
+		foreach ( $this->active_conflicting_plugins[ $plugin_section ] as $plugin_file ) {
 
 			$plugin_name = $this->get_plugin_name( $plugin_file );
 

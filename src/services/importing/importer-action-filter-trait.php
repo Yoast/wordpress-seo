@@ -21,7 +21,8 @@ trait Importer_Action_Filter_Trait {
 	 * @return array
 	 */
 	public function filter_actions( $all_actions, $plugin = null, $type = null ) {
-		return \array_filter( $all_actions,
+		return \array_filter(
+			$all_actions,
 			function( $action ) use ( $plugin, $type ) {
 				return $action->can_import( $plugin, $type );
 			}
