@@ -62,6 +62,17 @@ describe( "Editor slice", () => {
 			} );
 		} );
 
+		test( "should update the date", () => {
+			const { updateDate } = editorActions;
+
+			const result = editorReducer( initialState, updateDate( new Date( Date.UTC( 2021, 11, 15, 12 ) ).toISOString() ) );
+
+			expect( result ).toEqual( {
+				...initialState,
+				date: "2021-12-15T12:00:00.000Z",
+			} );
+		} );
+
 		test( "should update the featured image", () => {
 			const { updateFeaturedImage } = editorActions;
 
