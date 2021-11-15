@@ -103,9 +103,11 @@ const resultsSlice = createSlice( {
 } );
 
 export const resultsSelectors = {
-	selectSeoResults: ( state, id = FOCUS_KEYPHRASE_ID ) => get( state, `analysis.results.seo.${ id }` ),
-	selectReadabilityResults: ( state ) => get( state, "analysis.results.readability" ),
-	selectResearchResults: ( state, id ) => get( state, `analysis.results.research.${ id }` ),
+	selectSeoScore: ( state, id = FOCUS_KEYPHRASE_ID ) => get( state, `analysis.results.seo.${ id }.score` ),
+	selectSeoResults: ( state, id = FOCUS_KEYPHRASE_ID ) => get( state, `analysis.results.seo.${ id }.results` ),
+	selectReadabilityScore: ( state ) => get( state, "analysis.results.readability.score" ),
+	selectReadabilityResults: ( state ) => get( state, "analysis.results.readability.results" ),
+	selectResearchResults: ( state, id ) => get( state, `analysis.results.research.${ id }.results` ),
 	selectActiveMarker: ( state ) => get( state, "analysis.results.activeMarker" ),
 	selectActiveMarkerId: ( state ) => get( state, "analysis.results.activeMarker.id" ),
 	selectActiveMarks: ( state ) => get( state, "analysis.results.activeMarker.marks" ),
