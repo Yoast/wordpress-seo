@@ -5,7 +5,7 @@ import { createInterpolateElement, useCallback, useReducer, useState } from "@wo
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
 
-import { NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
+import { Alert, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
 import { Step, Steps } from "./Steps";
@@ -86,6 +86,7 @@ function configurationWorkoutReducer( state, action ) {
  */
 export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinished, seoDataOptimizationNeeded } ) {
 	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, window.wpseoWorkoutsData.configuration );
+	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 
 	const setTracking = useCallback( ( value ) => {
 		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
@@ -98,9 +99,9 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 			company_or_person: state.companyOrPerson,
 			company_name: state.companyName,
 			company_logo: state.companyLogo,
-			company_logo_id: state.companyLogoId,
+			company_logo_id: state.companyLogoId ? state.companyLogoId : 0,
 			person_logo: state.personLogo,
-			person_logo_id: state.personLogoId,
+			person_logo_id: state.personLogoId ? state.personLogoId : 0,
 			company_or_person_user_id: state.personId,
 			description: state.siteTagline,
 		};
@@ -177,7 +178,18 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		if ( isStepFinished( "configuration", steps.siteRepresentation ) ) {
 			toggleStepSiteRepresentation();
 		} else {
-			updateSiteRepresentation().then( toggleStepSiteRepresentation );
+			if ( ! siteRepresentationEmpty &&
+				state.companyOrPerson === "company" &&
+				( ! state.companyName || ! state.companyLogo ) ) {
+				setSiteRepresentationEmpty( true );
+			} else if (  ! siteRepresentationEmpty &&
+				state.companyOrPerson === "person" &&
+				( ! state.personId || ! state.personLogo ) ) {
+				setSiteRepresentationEmpty( true );
+			} else {
+				setSiteRepresentationEmpty( false );
+				updateSiteRepresentation().then( toggleStepSiteRepresentation );
+			}
 		}
 	}
 
@@ -343,18 +355,36 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						readOnly={ isStepFinished( "configuration", steps.siteRepresentation ) }
 
 					/>
-					{ state.companyOrPerson === "company" && <OrganizationSection
-						dispatch={ dispatch }
-						imageUrl={ state.companyLogo }
-						organizationName={ state.companyName }
-						isDisabled={ isStepFinished( "configuration", steps.siteRepresentation ) }
-					/> }
-					{ state.companyOrPerson === "person" && <PersonSection
-						dispatch={ dispatch }
-						imageUrl={ state.personLogo }
-						personId={ state.personId }
-						isDisabled={ isStepFinished( "configuration", steps.siteRepresentation ) }
-					/> }
+					{ state.companyOrPerson === "company" && <>
+						<Alert type="warning">
+							{ __(
+								// eslint-disable-next-line max-len
+								"You need to set an organization name and logo for structured data to work properly.",
+								"wordpress-seo"
+							) }
+						</Alert>
+						<OrganizationSection
+							dispatch={ dispatch }
+							imageUrl={ state.companyLogo }
+							organizationName={ state.companyName }
+							isDisabled={ isStepFinished( "configuration", steps.siteRepresentation ) }
+						/>
+					</> }
+					{ state.companyOrPerson === "person" && <>
+						<Alert type="warning">
+							{ __(
+								// eslint-disable-next-line max-len
+								"You need to set a person name and logo for structured data to work properly.",
+								"wordpress-seo"
+							) }
+						</Alert>
+						<PersonSection
+							dispatch={ dispatch }
+							imageUrl={ state.personLogo }
+							personId={ state.personId }
+							isDisabled={ isStepFinished( "configuration", steps.siteRepresentation ) }
+						/>
+					</> }
 					<TextInput
 						id="site-tagline-input"
 						name="site-tagline"
@@ -365,6 +395,13 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						onChange={ onSiteTaglineChange }
 						readOnly={ isStepFinished( "configuration", steps.siteRepresentation ) }
 					/>
+					{ siteRepresentationEmpty && <Alert type="warning">
+						{ __(
+							// eslint-disable-next-line max-len
+							"Please be aware that you need to set a name and logo in step 2 for structured data to work properly.",
+							"wordpress-seo"
+						) }
+					</Alert> }
 				</Step>
 				<Step
 					hasDownArrow={ true }
