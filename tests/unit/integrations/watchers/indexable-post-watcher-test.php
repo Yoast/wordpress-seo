@@ -349,7 +349,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	/**
 	 * Tests that update_has_public_posts updates the author archive too.
 	 *
-	 * @covers ::update_has_public_posts
+	 * @covers ::update_number_of_public_posts
 	 */
 	public function test_update_has_public_posts_with_post() {
 		$post_indexable                  = Mockery::mock();
@@ -376,7 +376,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 		$this->post->expects( 'update_has_public_posts_on_attachments' )->once()->with( 33, null )->andReturnTrue();
 
-		$this->instance->update_has_public_posts( $post_indexable );
+		$this->instance->update_number_of_public_posts( $post_indexable );
 
 		$this->assertTrue( $author_indexable->has_public_posts );
 	}
@@ -384,7 +384,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	/**
 	 * Tests that update_has_public_posts updates the author archive .
 	 *
-	 * @covers ::update_has_public_posts
+	 * @covers ::update_number_of_public_posts
 	 */
 	public function test_update_has_public_posts_with_post_throwing_exceptions() {
 		$post_indexable                  = Mockery::mock();
@@ -404,7 +404,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->andReturnTrue();
 		$this->logger->expects( 'log' )->once()->with( 'error', 'an error' );
 
-		$this->instance->update_has_public_posts( $post_indexable );
+		$this->instance->update_number_of_public_posts( $post_indexable );
 	}
 
 	/**

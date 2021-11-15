@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use WP_Post;
+use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -25,6 +26,13 @@ class Post_Helper {
 	private $repository;
 
 	/**
+	 * A builder that creates and updates indexables.
+	 *
+	 * @var Indexable_Builder
+	 */
+	private $indexable_builder;
+
+	/**
 	 * Post_Helper constructor.
 	 *
 	 * @codeCoverageIgnore It only sets dependencies.
@@ -33,6 +41,19 @@ class Post_Helper {
 	 */
 	public function __construct( String_Helper $string ) {
 		$this->string = $string;
+	}
+
+	/**
+	 * Sets the indexable builder. Done to avoid circular dependencies.
+	 *
+	 * @param Indexable_Builder $indexable_builder A builder that creates and updates indexables.
+	 *
+	 * @required
+	 *
+	 * @return void
+	 */
+	public function setIndexableBuilder( Indexable_Builder $indexable_builder ) {
+		$this->indexable_builder = $indexable_builder;
 	}
 
 	/**
@@ -115,7 +136,7 @@ class Post_Helper {
 	}
 
 	/**
-	 * Updates the has_public_posts field on attachments for a post_parent.
+	 * Updates the number_of_public_posts field on attachments for a post_parent.
 	 *
 	 * An attachment is represented by their post parent when:
 	 * - The attachment has a post parent.
@@ -123,37 +144,19 @@ class Post_Helper {
 	 *
 	 * @codeCoverageIgnore It relies too much on dependencies.
 	 *
-	 * @param int $post_parent      Post ID.
-	 * @param int $has_public_posts Whether the parent is public.
+	 * @param int $post_parent            Post ID.
+	 * @param int $number_of_public_posts The number of public posts
 	 *
 	 * @return bool Whether the update was successful.
 	 */
-	public function update_has_public_posts_on_attachments( $post_parent, $has_public_posts ) {
-		$query = $this->repository->query()
-			->select( 'id' )
-			->where( 'object_type', 'post' )
-			->where( 'object_sub_type', 'attachment' )
-			->where( 'post_status', 'inherit' )
-			->where( 'post_parent', $post_parent );
+	public function update_number_of_public_posts_on_attachments( $post_parent, $number_of_public_posts ) {
+		// TODO DIEDE no alternative? builders zijn geen publieke API.
+		_deprecated_function( __METHOD__, '17.7' );
+		$indexable = $this->repository->find_by_id_and_type( $post_parent, 'post' );
 
-		if ( $has_public_posts !== null ) {
-			$query->where_raw( '( has_public_posts IS NULL OR has_public_posts <> %s )', [ $has_public_posts ] );
-		}
-		else {
-			$query->where_not_null( 'has_public_posts' );
-		}
-		$results = $query->find_array();
+		$this->indexable_builder->recalculate_aggregates( $indexable );
 
-		if ( empty( $results ) ) {
-			return true;
-		}
-
-		$updated = $this->repository->query()
-			->set( 'has_public_posts', $has_public_posts )
-			->where_id_in( \wp_list_pluck( $results, 'id' ) )
-			->update_many();
-
-		return $updated !== false;
+		return true;
 	}
 
 	/**

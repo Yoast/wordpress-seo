@@ -3,11 +3,30 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * A helper object for author archives.
  */
 class Author_Archive_Helper {
+
+	/**
+	 * @var Indexable_Repository
+	 */
+	private $indexable_repository;
+
+	/**
+	 * Sets the indexable repository. Done to avoid circular dependencies.
+	 *
+	 * @required
+	 *
+	 * @param Indexable_Repository $indexable_repository
+	 *
+	 * @return void
+	 */
+	public function setIndexableRepository( Indexable_Repository $indexable_repository ) {
+		$this->indexable_repository = $indexable_repository;
+	}
 
 	/**
 	 * Gets the array of post types that are shown on an author's archive.
@@ -21,6 +40,20 @@ class Author_Archive_Helper {
 		 * @param array $args The post types that are shown on an author archive.
 		 */
 		return \apply_filters( 'wpseo_author_archive_post_types', [ 'post' ] );
+	}
+
+	/**
+	 * Gets the number of public posts an author has.
+	 * Depends on the post indexables to be fully indexed.
+	 *
+	 * @param int $author_id The id of the author to get the number of public posts for.
+	 *
+	 * @return int The number of public posts an author has.
+	 */
+	public function get_number_of_public_posts( $author_id ) {
+		$author_indexable = $this->indexable_repository->find_by_id_and_type( $author_id, 'user' );
+
+		return $author_indexable->number_of_public_posts;
 	}
 
 	/**

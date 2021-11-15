@@ -142,18 +142,19 @@ class Indexable_Post_Builder {
 		$indexable->author_id   = $post->post_author;
 		$indexable->post_parent = $post->post_parent;
 
-		$indexable->number_of_pages  = $this->get_number_of_pages_for_post( $post );
-		$indexable->post_status      = $post->post_status;
-		$indexable->is_protected     = $post->post_password !== '';
-		$indexable->is_public        = $this->is_public( $indexable );
-		$indexable->has_public_posts = $this->has_public_posts( $indexable );
-		$indexable->blog_id          = \get_current_blog_id();
+		$indexable->number_of_pages = $this->get_number_of_pages_for_post( $post );
+		$indexable->post_status     = $post->post_status;
+		$indexable->is_protected    = $post->post_password !== '';
+
+		$indexable->blog_id = \get_current_blog_id();
 
 		$indexable->schema_page_type    = $this->get_meta_value( $post_id, 'schema_page_type' );
 		$indexable->schema_article_type = $this->get_meta_value( $post_id, 'schema_article_type' );
 
 		$indexable->object_last_modified = $post->post_modified_gmt;
 		$indexable->object_published_at  = $post->post_date_gmt;
+
+		$indexable->number_of_public_posts = 0;
 
 		$indexable->version = $this->version;
 
@@ -181,31 +182,10 @@ class Indexable_Post_Builder {
 	 *
 	 * @param Indexable $indexable The indexable.
 	 *
-	 * @return bool|null Whether or not the post type is public. Null if no override is set.
+	 * @return bool|null Whether the post type is public. Null if no override is set.
 	 */
-	protected function is_public( $indexable ) {
-		if ( $indexable->is_protected === true ) {
-			return false;
-		}
-
-		if ( $indexable->is_robots_noindex === true ) {
-			return false;
-		}
-
-		// Attachments behave differently than the other post types, since they inherit from their parent.
-		if ( $indexable->object_sub_type === 'attachment' ) {
-			return $this->is_public_attachment( $indexable );
-		}
-
-		if ( ! \in_array( $indexable->post_status, $this->post_helper->get_public_post_statuses(), true ) ) {
-			return false;
-		}
-
-		if ( $indexable->is_robots_noindex === false ) {
-			return true;
-		}
-
-		return null;
+	protected function is_accessible_post( $indexable ) {
+		return is_post_type_viewable($indexable->object_sub_type) && is_post_status_viewable($indexable->post_status);
 	}
 
 	/**
@@ -223,38 +203,6 @@ class Indexable_Post_Builder {
 
 		// If the attachment has a parent, the is_public should be NULL.
 		return null;
-	}
-
-	/**
-	 * Determines the value of has_public_posts.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return bool|null Whether the attachment has a public parent, can be true, false and null. Null when it is not an attachment.
-	 */
-	protected function has_public_posts( $indexable ) {
-		// Only attachments (and authors) have this value.
-		if ( $indexable->object_sub_type !== 'attachment' ) {
-			return null;
-		}
-
-		// The attachment should have a post parent.
-		if ( empty( $indexable->post_parent ) ) {
-			return false;
-		}
-
-		// The attachment should inherit the post status.
-		if ( $indexable->post_status !== 'inherit' ) {
-			return false;
-		}
-
-		// The post parent should be public.
-		$post_parent_indexable = $this->indexable_repository->find_by_id_and_type( $indexable->post_parent, 'post' );
-		if ( $post_parent_indexable !== false ) {
-			return $post_parent_indexable->is_public;
-		}
-
-		return false;
 	}
 
 	/**

@@ -18,13 +18,13 @@ class Indexable_Builder_Versions {
 	 */
 	protected $indexable_builder_versions_by_type = [
 		'date-archive'      => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
-		'general'           => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
+		'general'           => 2,
 		'home-page'         => 2,
-		'post'              => 2,
-		'post-type-archive' => 2,
-		'term'              => 2,
-		'user'              => 2,
-		'system-page'       => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
+		'post'              => 3,
+		'post-type-archive' => 3,
+		'term'              => 3,
+		'user'              => 3,
+		'system-page'       => 2,
 	];
 
 	/**

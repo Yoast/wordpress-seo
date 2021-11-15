@@ -80,14 +80,21 @@ class Indexable_Post_Type_Archive_Builder {
 		$indexable->description       = $this->options->get( 'metadesc-ptarchive-' . $post_type );
 		$indexable->breadcrumb_title  = $this->get_breadcrumb_title( $post_type );
 		$indexable->permalink         = \get_post_type_archive_link( $post_type );
-		$indexable->is_robots_noindex = $this->options->get( 'noindex-ptarchive-' . $post_type );
-		$indexable->is_public         = ( (int) $indexable->is_robots_noindex !== 1 );
+		$indexable->is_robots_noindex = (bool) $this->options->get( 'noindex-ptarchive-' . $post_type );
 		$indexable->blog_id           = \get_current_blog_id();
-		$indexable->version           = $this->version;
 
-		$timestamps                      = $this->get_object_timestamps( $post_type );
-		$indexable->object_published_at  = $timestamps->published_at;
-		$indexable->object_last_modified = $timestamps->last_modified;
+		$indexable = $this->set_aggregate_values( $indexable );
+
+		$indexable->version = $this->version;
+
+		return $indexable;
+	}
+
+	public function set_aggregate_values( Indexable $indexable ) {
+		$aggregates                        = $this->get_public_post_archive_aggregates( $indexable->object_sub_type );
+		$indexable->object_published_at    = $aggregates->published_at;
+		$indexable->object_last_modified   = $aggregates->last_modified;
+		$indexable->number_of_public_posts = $aggregates->number_of_public_posts;
 
 		return $indexable;
 	}
@@ -124,17 +131,20 @@ class Indexable_Post_Type_Archive_Builder {
 	}
 
 	/**
-	 * Returns the timestamps for a given post type.
+	 * Returns public post aggregates for a given post type.
 	 *
 	 * @param string $post_type The post type.
 	 *
-	 * @return object An object with last_modified and published_at timestamps.
+	 * @return object An object with the number of posts, most recent last modified and first published at timestamps.
 	 */
-	protected function get_object_timestamps( $post_type ) {
+	protected function get_public_post_archive_aggregates( $post_type ) {
 		$post_statuses = $this->post_helper->get_public_post_statuses();
 
 		$sql = "
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			SELECT 
+				COUNT(p.ID) as number_of_public_posts,
+				MAX(p.post_modified_gmt) AS most_recent_last_modified,
+				MIN(p.post_date_gmt) AS first_published_at
 			FROM {$this->wpdb->posts} AS p
 			WHERE p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ")
 				AND p.post_password = ''

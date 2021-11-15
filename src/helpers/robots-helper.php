@@ -8,6 +8,18 @@ namespace Yoast\WP\SEO\Helpers;
 class Robots_Helper {
 
 	/**
+	 * @var Options_Helper
+	 */
+	private $options_helper;
+
+	/**
+	 * @param Options_Helper $options_helper The indexable version manager.
+	 */
+	public function __construct( Options_Helper $options_helper ) {
+		$this->options_helper = $options_helper;
+	}
+
+	/**
 	 * Sets the robots index to noindex.
 	 *
 	 * @param array $robots The current robots value.
@@ -23,5 +35,26 @@ class Robots_Helper {
 		$robots['index'] = 'noindex';
 
 		return $robots;
+	}
+
+	/**
+	 * Gets the site default noindex value for an object type.
+	 *
+	 * @param string $object_type The object type.
+	 * @param string $object_sub_type The object subtype. Used for post_types.
+	 *
+	 * @return bool Whether the site default is set to noindex for the requested object type.
+	 */
+	public function get_default_noindex_for_object( $object_type, $object_sub_type = "" ) {
+		switch ( $object_type ) {
+			case 'post':
+				return (bool) $this->options_helper->get( 'noindex-' . $object_sub_type );
+			case 'user':
+				return (bool) $this->options_helper->get( 'noindex-author-wpseo' );
+			case 'term':
+				return (bool) $this->options_helper->get( 'noindex-tax-' . $object_sub_type );
+			default:
+				return false;
+		}
 	}
 }

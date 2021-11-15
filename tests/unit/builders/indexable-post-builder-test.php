@@ -672,43 +672,43 @@ class Indexable_Post_Builder_Test extends TestCase {
 	/**
 	 * Tests is_public for when the post is protected.
 	 *
-	 * @covers ::is_public
+	 * @covers ::is_accessible_post
 	 */
 	public function test_is_public_post_protected() {
 		$this->indexable->is_protected = true;
 
-		$this->assertFalse( $this->instance->is_public( $this->indexable ) );
+		$this->assertFalse( $this->instance->is_accessible_post( $this->indexable ) );
 	}
 
 	/**
 	 * Tests is_public for when the post is noindex.
 	 *
-	 * @covers ::is_public
+	 * @covers ::is_accessible_post
 	 */
 	public function test_is_public_post_noindex() {
 		$this->indexable->is_protected      = false;
 		$this->indexable->is_robots_noindex = true;
 
-		$this->assertFalse( $this->instance->is_public( $this->indexable ) );
+		$this->assertFalse( $this->instance->is_accessible_post( $this->indexable ) );
 	}
 
 	/**
 	 * Tests is_public for when the post is an attachment.
 	 *
-	 * @covers ::is_public
+	 * @covers ::is_accessible_post
 	 */
 	public function test_is_public_post_is_attachment() {
 		$this->indexable->is_protected      = false;
 		$this->indexable->is_robots_noindex = false;
 		$this->indexable->object_sub_type   = 'attachment';
 
-		$this->assertFalse( $this->instance->is_public( $this->indexable ) );
+		$this->assertFalse( $this->instance->is_accessible_post( $this->indexable ) );
 	}
 
 	/**
 	 * Tests is_public for when the post status is not public.
 	 *
-	 * @covers ::is_public
+	 * @covers ::is_accessible_post
 	 */
 	public function test_is_public_post_status_is_not_public() {
 		$this->indexable->is_protected      = false;
@@ -718,13 +718,13 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$this->post->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
-		$this->assertFalse( $this->instance->is_public( $this->indexable ) );
+		$this->assertFalse( $this->instance->is_accessible_post( $this->indexable ) );
 	}
 
 	/**
 	 * Tests is_public for when the post noindex is false.
 	 *
-	 * @covers ::is_public
+	 * @covers ::is_accessible_post
 	 */
 	public function test_is_public_post_noindex_false() {
 		$this->indexable->is_protected      = false;
@@ -734,13 +734,13 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$this->post->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
-		$this->assertTrue( $this->instance->is_public( $this->indexable ) );
+		$this->assertTrue( $this->instance->is_accessible_post( $this->indexable ) );
 	}
 
 	/**
 	 * Tests is_public for when the post noindex is null.
 	 *
-	 * @covers ::is_public
+	 * @covers ::is_accessible_post
 	 */
 	public function test_is_public_post_noindex_null() {
 		$this->indexable->is_protected      = false;
@@ -750,7 +750,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$this->post->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
-		$this->assertNull( $this->instance->is_public( $this->indexable ) );
+		$this->assertNull( $this->instance->is_accessible_post( $this->indexable ) );
 	}
 
 	/**

@@ -16,8 +16,8 @@ class Indexable_Post_Watcher_Double extends Indexable_Post_Watcher {
 	 *
 	 * @param Indexable $indexable The indexable to check.
 	 */
-	public function update_has_public_posts( $indexable ) {
-		parent::update_has_public_posts( $indexable );
+	public function update_number_of_public_posts( $indexable ) {
+		parent::update_number_of_public_posts( $indexable );
 	}
 
 	/**

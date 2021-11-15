@@ -114,25 +114,35 @@ class Indexable_Home_Page_Builder {
 			$this->set_open_graph_image_meta_data( $indexable );
 		}
 
-		$timestamps                      = $this->get_object_timestamps();
-		$indexable->object_published_at  = $timestamps->published_at;
-		$indexable->object_last_modified = $timestamps->last_modified;
+		$indexable = $this->set_aggregate_values( $indexable );
 
 		$indexable->version = $this->version;
 
 		return $indexable;
 	}
 
+	public function set_aggregate_values( Indexable $indexable ) {
+		$aggregates                        = $this->get_public_post_archive_aggregates();
+		$indexable->object_published_at    = $aggregates->first_published_at;
+		$indexable->object_last_modified   = $aggregates->most_recent_last_modified;
+		$indexable->number_of_public_posts = $aggregates->number_of_public_posts;
+
+		return $indexable;
+	}
+
 	/**
-	 * Returns the timestamps for the homepage.
+	 * Returns public post aggregates for the homepage.
 	 *
-	 * @return object An object with last_modified and published_at timestamps.
+	 * @return object An object with the number of posts, most recent last modified and first published at timestamps.
 	 */
-	protected function get_object_timestamps() {
+	protected function get_public_post_archive_aggregates() {
 		$post_statuses = $this->post_helper->get_public_post_statuses();
 
 		$sql = "
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			SELECT 
+				COUNT(p.ID) as number_of_public_posts, 
+				MAX(p.post_modified_gmt) AS most_recent_last_modified, 
+				MIN(p.post_date_gmt) AS first_published_at 
 			FROM {$this->wpdb->posts} AS p
 			WHERE p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ")
 				AND p.post_password = ''

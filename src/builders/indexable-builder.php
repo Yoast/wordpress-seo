@@ -219,6 +219,7 @@ class Indexable_Builder {
 			'object_type'     => 'post-type-archive',
 			'object_sub_type' => $post_type,
 		];
+
 		return $this->build( $indexable, $defaults );
 	}
 
@@ -235,6 +236,7 @@ class Indexable_Builder {
 			'object_type'     => 'system-page',
 			'object_sub_type' => $page_type,
 		];
+
 		return $this->build( $indexable, $defaults );
 	}
 
@@ -372,8 +374,7 @@ class Indexable_Builder {
 			}
 
 			return $this->save_indexable( $indexable, $indexable_before );
-		}
-		catch ( Source_Exception $exception ) {
+		} catch ( Source_Exception $exception ) {
 			/**
 			 * The current indexable could not be indexed. Create a placeholder indexable, so we can
 			 * skip this indexable in future indexing runs.
@@ -396,4 +397,43 @@ class Indexable_Builder {
 			return $this->save_indexable( $indexable, $indexable_before );
 		}
 	}
+
+	/**
+	 * Recalculates indexable aggregates.
+	 *
+	 * @param Indexable $indexable The Indexable to (re)build.
+	 *
+	 * @return Indexable The resulting Indexable.
+	 */
+	public function recalculate_aggregates( Indexable $indexable ) {
+		// Backup the previous Indexable, if there was one.
+		$indexable_before = $this->deep_copy_indexable( $indexable );
+
+		switch ( $indexable->object_type ) {
+			case 'system-page':
+			case 'date-archive':
+			case 'post':
+				// Nothing to recalculate.
+				break;
+
+			case 'user':
+				$indexable = $this->author_builder->set_aggregate_values( $indexable );
+				break;
+
+			case 'term':
+				$indexable = $this->term_builder->set_aggregate_values( $indexable );
+				break;
+
+			case 'home-page':
+				$indexable = $this->home_page_builder->set_aggregate_values( $indexable );
+				break;
+
+			case 'post-type-archive':
+				$indexable = $this->post_type_archive_builder->set_aggregate_values( $indexable );
+				break;
+		}
+
+		return $this->save_indexable( $indexable, $indexable_before );
+	}
 }
+

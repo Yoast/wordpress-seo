@@ -87,18 +87,23 @@ class Indexable_Author_Builder {
 		$indexable->is_robots_noarchive    = null;
 		$indexable->is_robots_noimageindex = null;
 		$indexable->is_robots_nosnippet    = null;
-		$indexable->is_public              = ( $indexable->is_robots_noindex ) ? false : null;
-		$indexable->has_public_posts       = $this->author_archive->author_has_public_posts( $user_id );
 		$indexable->blog_id                = \get_current_blog_id();
 
 		$this->reset_social_images( $indexable );
 		$this->handle_social_images( $indexable );
 
-		$timestamps                      = $this->get_object_timestamps( $user_id );
-		$indexable->object_published_at  = $timestamps->published_at;
-		$indexable->object_last_modified = $timestamps->last_modified;
+		$indexable = $this->set_aggregate_values( $indexable );
 
 		$indexable->version = $this->version;
+
+		return $indexable;
+	}
+
+	public function set_aggregate_values( Indexable $indexable ) {
+		$aggregates                        = $this->get_public_post_archive_aggregates( $indexable->object_id );
+		$indexable->object_published_at    = $aggregates->first_published_at;
+		$indexable->object_last_modified   = max($indexable->object_last_modified, $aggregates->most_recent_last_modified);
+		$indexable->number_of_public_posts = $aggregates->number_of_public_posts;
 
 		return $indexable;
 	}
@@ -168,24 +173,31 @@ class Indexable_Author_Builder {
 	}
 
 	/**
-	 * Returns the timestamps for a given author.
+	 * Returns public post aggregates for a given author.
 	 *
-	 * @param int $author_id  The author ID.
+	 * @param int $author_id The author ID.
 	 *
-	 * @return object An object with last_modified and published_at timestamps.
+	 * @return object  An object with the number of public posts, most recent last modified and first published at timestamps.
 	 */
-	protected function get_object_timestamps( $author_id ) {
+	protected function get_public_post_archive_aggregates( $author_id ) {
 		$post_statuses = $this->post_helper->get_public_post_statuses();
+		$post_types = $this->author_archive->get_author_archive_post_types();
+		// TODO DIEDE: Protected pages krijgen _geen_ noindex. en staan gewoon in het author archive. moeten die meegeteld worden?
+		// Private werkt wel zoals verwacht.
 
 		$sql = "
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			SELECT 
+				COUNT(p.ID) as number_of_public_posts,
+				MAX(p.post_modified_gmt) AS most_recent_last_modified,
+				MIN(p.post_date_gmt) AS first_published_at
 			FROM {$this->wpdb->posts} AS p
 			WHERE p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ")
 				AND p.post_password = ''
 				AND p.post_author = %d
+				AND p.post_type IN (" . implode( ', ', array_fill( 0, count( $post_types ), '%s' ) ) . ")
 		";
 
-		$replacements = \array_merge( $post_statuses, [ $author_id ] );
+		$replacements = \array_merge( $post_statuses, [ $author_id ], $post_types );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We are using wpdb prepare.
 		return $this->wpdb->get_row( $this->wpdb->prepare( $sql, $replacements ) );

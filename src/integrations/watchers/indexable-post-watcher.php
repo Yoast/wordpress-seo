@@ -142,13 +142,10 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$this->update_relations( $this->post->get_post( $post_id ) );
-
-		$this->update_has_public_posts( $indexable );
-
 		$this->hierarchy_repository->clear_ancestors( $indexable->id );
 		$this->link_builder->delete( $indexable );
 		$indexable->delete();
+		$this->update_relations( $this->post->get_post( $post_id ) );
 	}
 
 	/**
@@ -165,10 +162,8 @@ class Indexable_Post_Watcher implements Integration_Interface {
 
 		$post = $this->post->get_post( $updated_indexable->object_id );
 
-		$this->update_relations( $post );
-		$this->update_has_public_posts( $updated_indexable );
-
 		$updated_indexable->save();
+		$this->update_relations( $post );
 	}
 
 	/**
@@ -202,35 +197,16 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Updates the has_public_posts when the post indexable is built.
-	 *
-	 * @param Indexable $indexable The indexable to check.
-	 */
-	protected function update_has_public_posts( $indexable ) {
-		// Update the author indexable's has public posts value.
-		try {
-			$author_indexable                   = $this->repository->find_by_id_and_type( $indexable->author_id, 'user' );
-			$author_indexable->has_public_posts = $this->author_archive->author_has_public_posts( $author_indexable->object_id );
-			$author_indexable->save();
-		} catch ( Exception $exception ) {
-			$this->logger->log( LogLevel::ERROR, $exception->getMessage() );
-		}
-
-		// Update possible attachment's has public posts value.
-		$this->post->update_has_public_posts_on_attachments( $indexable->object_id, $indexable->is_public );
-	}
-
-	/**
 	 * Updates the relations on post save or post status change.
 	 *
 	 * @param WP_Post $post The post that has been updated.
 	 */
 	protected function update_relations( $post ) {
 		$related_indexables = $this->get_related_indexables( $post );
-
-		foreach ( $related_indexables as $indexable ) {
-			$indexable->object_last_modified = max( $indexable->object_last_modified, $post->post_modified_gmt );
-			$indexable->save();
+		$now = current_time( 'mysql' );
+		foreach ( $related_indexables as $related_indexable ) {
+			$related_indexable->object_last_modified = $now;
+			$this->builder->recalculate_aggregates( $related_indexable );
 		}
 	}
 
@@ -251,12 +227,27 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		$related_indexables[] = $this->repository->find_by_id_and_type( $post->post_author, 'user', false );
 		$related_indexables[] = $this->repository->find_for_post_type_archive( $post->post_type, false );
 		$related_indexables[] = $this->repository->find_for_home_page( false );
+		$related_indexables   = \array_merge(
+			$related_indexables,
+			$this->get_related_term_indexables( $post->ID )
+		);
 
-		$taxonomies = \get_post_taxonomies( $post->ID );
+		return \array_filter( $related_indexables );
+	}
+
+	/**
+	 * Retrieves the related term indexables for a given post.
+	 *
+	 * @param int $post_id The id of the post to get the related term indexables for.
+	 *
+	 * @return Indexable[] The term indexables related to the post.
+	 */
+	protected function get_related_term_indexables( $post_id ) {
+		$taxonomies = \get_post_taxonomies( $post_id );
 		$taxonomies = \array_filter( $taxonomies, 'is_taxonomy_viewable' );
 		$term_ids   = [];
 		foreach ( $taxonomies as $taxonomy ) {
-			$terms = \get_the_terms( $post->ID, $taxonomy );
+			$terms = \get_the_terms( $post_id, $taxonomy );
 
 			if ( empty( $terms ) || \is_wp_error( $terms ) ) {
 				continue;
@@ -264,13 +255,10 @@ class Indexable_Post_Watcher implements Integration_Interface {
 
 			$term_ids = \array_merge( $term_ids, \wp_list_pluck( $terms, 'term_id' ) );
 		}
-		$related_indexables = \array_merge(
-			$related_indexables,
-			$this->repository->find_by_multiple_ids_and_type( $term_ids, 'term', false )
-		);
 
-		return \array_filter( $related_indexables );
+		return $this->repository->find_by_multiple_ids_and_type( $term_ids, 'term', false );
 	}
+
 
 	/**
 	 * Tests if the site is multisite and switched.
