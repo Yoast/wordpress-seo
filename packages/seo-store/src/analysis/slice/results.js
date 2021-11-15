@@ -52,32 +52,12 @@ const initialState = {
 	seo: {
 		focus: {
 			score: 0,
-			results: [
-				{
-					score: -10,
-					rating: "bad",
-					hasMarks: false,
-					marker: [],
-					id: "test",
-					text: "Bad result text",
-					markerId: "testMarker",
-				},
-			],
+			results: [],
 		},
 	},
 	readability: {
 		score: 0,
-		results: [
-			{
-				score: -10,
-				rating: "bad",
-				hasMarks: false,
-				marker: [],
-				id: "test",
-				text: "Bad result text",
-				markerId: "testMarker",
-			},
-		],
+		results: [],
 	},
 	research: {},
 	activeMarker: {
