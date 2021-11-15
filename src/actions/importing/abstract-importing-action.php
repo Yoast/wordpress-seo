@@ -170,6 +170,13 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	}
 
 	/**
+	 * Returns whether the importing action is enabled.
+	 *
+	 * @return bool True if the importing action is enabled.
+	 */
+	abstract public function is_enabled();
+
+	/**
 	 * Creates a query for gathering to-be-imported data from the database.
 	 *
 	 * @return string The query to use for importing or counting the number of items to import.
