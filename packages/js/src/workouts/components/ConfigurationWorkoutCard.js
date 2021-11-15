@@ -6,6 +6,7 @@ import { useSelect } from "@wordpress/data";
 import WorkoutCard from "./WorkoutCard";
 import { ReactComponent as ConfigurationImageBubble } from "../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
 import ConfigurationWorkout from "./ConfigurationWorkout";
+import { FINISHABLE_STEPS } from "../config";
 
 /**
  * The ConfigurationWorkoutCard component.
@@ -34,7 +35,7 @@ export default function ConfigurationWorkoutCard( {
 			),
 		] }
 		image={ ConfigurationImageBubble }
-		finishableSteps={ [ "step1", "step2", "step3", "step4", "step5" ] }
+		finishableSteps={ FINISHABLE_STEPS.configuration }
 		finishedSteps={ finishedSteps }
 		upsell={ null }
 		workout={ ConfigurationWorkout }

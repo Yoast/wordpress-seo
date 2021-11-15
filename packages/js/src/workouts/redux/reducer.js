@@ -15,7 +15,7 @@ const initialState = {
 	activeWorkout: "",
 	workouts: {
 		configuration: {
-			priority: 50,
+			priority: 10,
 			finishedSteps: [],
 		},
 		cornerstone: {
