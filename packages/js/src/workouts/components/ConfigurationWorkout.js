@@ -411,7 +411,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					onFinishClick={ updateOnFinishSocialProfiles }
 					isFinished={ isStepFinished( "configuration", steps.socialProfiles ) }
 				>
-					<div className="yoast-social-profiles-input-fields">
+					{ state.companyOrPerson === "company" && <div className="yoast-social-profiles-input-fields">
 						<SocialInput
 							label={ __( "Facebook URL", "wordpress-seo" ) }
 							value={ state.socialProfiles.facebookUrl }
@@ -468,7 +468,55 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							dispatch={ dispatch }
 							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
 						/>
+					</div> }
+					{ state.companyOrPerson === "person" && <div className="yoast-social-profiles-input-fields">
+						<p>
+							{
+								createInterpolateElement(
+									sprintf(
+										__(
+											// translators: %1$s and %2$s are replaced by opening and closing <b> tags, %3$s and %4$s are replaced by opening and closing anchor tags
+											"%1$sNote%2$s: In this step, you need to add the personal social profiles of the person your site represents. To do that, you should go to the %3$sUsers%4$s > Profile page in a new browser tab.",
+											"wordpress-seo"
+										),
+										"<b>",
+										"</b>",
+										"<a>",
+										"</a>"
+									),
+									{
+										b: <b />,
+										// eslint-disable-next-line jsx-a11y/anchor-has-content
+										a: <a href={ window.wpseoWorkoutsData.usersPageUrl } target="_blank" rel="noopener noreferrer" />,
+									}
+								)
+							}
+						</p>
+						<p>
+							{
+								addLinkToString(
+									sprintf(
+										__(
+											// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
+											"On the %1$sUsers%2$s page, hover your mouse over the username you want to edit. Click ‘Edit’ to access the user’s profile. Then, scroll down to the ‘Contact info’ section and fill in the URLs of the personal social profiles you want to add.",
+											"wordpress-seo"
+										),
+										"<a>",
+										"</a>"
+									),
+									window.wpseoWorkoutsData.usersPageUrl
+								)
+							}
+						</p>
+						<p>
+							<b>{ __( "Screenshot:", "wordpress-seo" ) }</b>
+							<img
+								src={ window.wpseoWorkoutsData.pluginUrl + "/images/profile-social-fields.png" }
+								alt={ __( "A screenshot of the Contact Info section of a user's Profile page", "wordpress-seo" ) }
+							/>
+						</p>
 					</div>
+					}
 				</Step>
 				<Step
 					hasDownArrow={ true }

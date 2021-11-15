@@ -111,7 +111,9 @@ class Workouts_Integration implements Integration_Interface {
 			[
 				'workouts'     => $workouts_option,
 				'homeUrl'      => \home_url(),
+				'pluginUrl'    => \esc_url( \plugins_url( '', WPSEO_FILE ) ),
 				'toolsPageUrl' => \esc_url( \admin_url( 'admin.php?page=wpseo_tools' ) ),
+				'usersPageUrl' => \esc_url( \admin_url( 'users.php' ) ),
 				'isPremium'    => YoastSEO()->helpers->product->is_premium(),
 			]
 		);
@@ -170,6 +172,6 @@ class Workouts_Integration implements Integration_Interface {
 	 */
 	private function should_update_premium() {
 		$premium_version = YoastSEO()->helpers->product->get_premium_version();
-		return $premium_version !== null && version_compare( $premium_version, '17.7-RC1', '<' );
+		return $premium_version !== null && version_compare( $premium_version, '17.6-RC1', '<' );
 	}
 }
