@@ -1,3 +1,4 @@
+import apiFetch from "@wordpress/api-fetch";
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
 import { createInterpolateElement, useCallback, useReducer, useState } from "@wordpress/element";
@@ -183,22 +184,121 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	} );
 
 	const steps = STEPS.configuration;
+
+	const updateSiteRepresentation = async function() {
+		const siteRepresentation = {
+			company_or_person: state.companyOrPerson,
+			company_name: state.companyName,
+			company_logo: state.companyLogo,
+			company_logo_id: state.companyLogoId,
+			person_logo: state.personLogo,
+			person_logo_id: state.personLogoId,
+			company_or_person_user_id: state.personId,
+			description: state.siteTagline,
+		};
+
+		try {
+			const response = await apiFetch( {
+				path: "yoast/v1/workouts/site_representation",
+				method: "POST",
+				data: siteRepresentation,
+			} );
+			return await response.json;
+		} catch ( e ) {
+			// URL() constructor throws a TypeError exception if url is malformed.
+			console.error( e.message );
+			return false;
+		}
+	};
+
+	const updateSocialProfiles = async function() {
+		const socialProfiles = {
+			facebook_site: state.socialProfiles.facebookUrl,
+			twitter_site: state.socialProfiles.twitterUsername,
+			instagram_url: state.socialProfiles.instagramUrl,
+			linkedin_url: state.socialProfiles.linkedinUrl,
+			myspace_url: state.socialProfiles.myspaceUrl,
+			pinterest_url: state.socialProfiles.pinterestUrl,
+			youtube_url: state.socialProfiles.youtubeUrl,
+			wikipedia_url: state.socialProfiles.wikipediaUrl,
+		};
+
+		try {
+			const response = await apiFetch( {
+				path: "yoast/v1/workouts/social_profiles",
+				method: "POST",
+				data: socialProfiles,
+			} );
+			return await response.json;
+		} catch ( e ) {
+			// URL() constructor throws a TypeError exception if url is malformed.
+			console.error( e.message );
+			return false;
+		}
+	};
+
+	const updateTracking = async function() {
+		const tracking = {
+			tracking: state.tracking,
+		};
+
+		try {
+			const response = await apiFetch( {
+				path: "yoast/v1/workouts/enable_tracking",
+				method: "POST",
+				data: tracking,
+			} );
+			return await response.json;
+		} catch ( e ) {
+			// URL() constructor throws a TypeError exception if url is malformed.
+			console.error( e.message );
+			return false;
+		}
+	};
+
 	const onFinishOptimizeSeoData = useCallback(
 		toggleStep.bind( null, "configuration", steps.optimizeSeoData ),
 		[ toggleStep, steps.optimizeSeoData ]
 	);
-	const onFinishSiteRepresentation = useCallback(
+	const toggleStepSiteRepresentation = useCallback(
 		toggleStep.bind( null, "configuration", steps.siteRepresentation ),
 		[ toggleStep, steps.siteRepresentation ]
 	);
-	const onFinishSocialProfiles = useCallback(
+
+	function updateOnFinishSiteRepresentation() {
+		if ( isStepFinished( "configuration", steps.siteRepresentation ) ) {
+			toggleStepSiteRepresentation();
+		} else {
+			updateSiteRepresentation().then( toggleStepSiteRepresentation );
+		}
+	}
+
+	const toggleStepSocialProfiles = useCallback(
 		toggleStep.bind( null, "configuration", steps.socialProfiles ),
 		[ toggleStep, steps.socialProfiles ]
 	);
-	const onFinishEnableTracking = useCallback(
+
+	function updateOnFinishSocialProfiles() {
+		if ( isStepFinished( "configuration", steps.socialProfiles ) ) {
+			toggleStepSocialProfiles();
+		} else {
+			updateSocialProfiles().then( toggleStepSocialProfiles );
+		}
+	}
+
+	const toggleStepEnableTracking = useCallback(
 		toggleStep.bind( null, "configuration", steps.enableTracking ),
 		[ toggleStep, steps.enableTracking ]
 	);
+
+	function updateOnFinishEnableTracking() {
+		if ( isStepFinished( "configuration", steps.enableTracking ) ) {
+			toggleStepEnableTracking();
+		} else {
+			updateTracking().then( toggleStepEnableTracking );
+		}
+	}
+
 	const toggleConfigurationWorkout = useCallback(
 		toggleWorkout.bind( null, "configuration" ),
 		[ toggleWorkout ]
@@ -314,7 +414,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					title={ __( "Site representation", "wordpress-seo" ) }
 					subtitle={ __( "Tell Google what kind of site you have. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
 					finishText={ __( "Continue and save", "wordpress-seo" ) }
-					onFinishClick={ onFinishSiteRepresentation }
+					onFinishClick={ updateOnFinishSiteRepresentation }
 					isFinished={ isStepFinished( "configuration", steps.siteRepresentation ) }
 				>
 					<SingleSelect
@@ -363,7 +463,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					title={ __( "Social profiles", "wordpress-seo" ) }
 					subtitle={ __( "Do you have profiles for your site on social media? Then, add all of their URLs here.", "wordpress-seo" ) }
 					finishText={ "Save and continue" }
-					onFinishClick={ onFinishSocialProfiles }
+					onFinishClick={ updateOnFinishSocialProfiles }
 					isFinished={ isStepFinished( "configuration", steps.socialProfiles ) }
 				>
 					<div className="yoast-social-profiles-input-fields">
@@ -429,7 +529,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					hasDownArrow={ true }
 					title={ __( "Help us improve Yoast SEO", "wordpress-seo" ) }
 					finishText={ "Save and continue" }
-					onFinishClick={ onFinishEnableTracking }
+					onFinishClick={ updateOnFinishEnableTracking }
 					isFinished={ isStepFinished( "configuration", steps.enableTracking ) }
 				>
 					<p>
