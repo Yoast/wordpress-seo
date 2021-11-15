@@ -79,7 +79,7 @@ export default function WorkoutCard( {
 						usps.map( ( usp, index ) => <li key={ `${ title }-${ index }` }>{ usp }</li> )
 					}
 				</ul>
-				<ImageComponent />
+				{ image && <ImageComponent /> }
 			</div>
 			<span>
 				{ workout && <Button onClick={ onClick }>{ buttonText }</Button> }
@@ -102,7 +102,7 @@ export default function WorkoutCard( {
 						max={ finishableSteps.length }
 						value={ finishedSteps.length }
 					/>
-					<label htmlFor={ `${title}-workout-progress` }><em>
+					<label htmlFor={ `${title}-workout-progress` }><i>
 						{
 							sprintf(
 								// translators: %1$s: number of finished steps, %2$s: number of finishable steps
@@ -114,7 +114,7 @@ export default function WorkoutCard( {
 								finishableSteps.length
 							)
 						}
-					</em></label>
+					</i></label>
 				</div> }
 			</span>
 		</div> }

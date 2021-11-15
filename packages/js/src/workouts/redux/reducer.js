@@ -14,6 +14,10 @@ const initialState = {
 	loading: true,
 	activeWorkout: "",
 	workouts: {
+		configuration: {
+			priority: 10,
+			finishedSteps: [],
+		},
 		cornerstone: {
 			priority: 50,
 			finishedSteps: [],
@@ -55,7 +59,12 @@ const workoutsReducer = ( state = initialState, action ) => {
 	const newState = cloneDeep( state );
 	switch ( action.type ) {
 		case REGISTER_WORKOUT:
-			newState.workouts[ action.payload.key ].priority = action.payload.priority;
+			newState.workouts[ action.payload.key ] = {
+				finishedSteps: [],
+				indexablesByStep: {},
+				...newState.workouts[ action.payload.key ],
+				priority: action.payload.priority,
+			};
 			return newState;
 		case FINISH_STEPS:
 			newState.workouts[ action.workout ].finishedSteps = union( state.workouts[ action.workout ].finishedSteps, action.steps );
@@ -75,7 +84,11 @@ const workoutsReducer = ( state = initialState, action ) => {
 			if ( FINISHABLE_STEPS[ action.workout ].length === state.workouts[ action.workout ].finishedSteps.length ) {
 				newState.workouts[ action.workout ].finishedSteps = [];
 				for ( const step of FINISHABLE_STEPS[ action.workout ] ) {
-					newState.workouts[ action.workout ].indexablesByStep[ step ] = initialState.workouts[ action.workout ].indexablesByStep[ step ];
+					if ( initialState.workouts[ action.workout ].indexablesByStep ) {
+						newState.workouts[ action.workout ].indexablesByStep[ step ] = initialState
+							.workouts[ action.workout ]
+							.indexablesByStep[ step ];
+					}
 				}
 			} else {
 				newState.workouts[ action.workout ].finishedSteps = FINISHABLE_STEPS[ action.workout ];

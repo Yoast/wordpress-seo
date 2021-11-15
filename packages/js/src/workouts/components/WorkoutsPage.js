@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { Slot } from "@wordpress/components";
 import { useEffect, useMemo } from "@wordpress/element";
-import { Button, PremiumBadge } from "@yoast/components";
 import { sortBy } from "lodash";
+
+import { Button, PremiumBadge } from "@yoast/components";
 import SlotWithDefault from "../../components/slots/SlotWithDefault";
 import CornerstoneWorkoutCard from "./CornerstoneWorkoutCard";
 import OrphanedWorkoutCard from "./OrphanedWorkoutCard";
@@ -104,8 +105,11 @@ export default function WorkoutsPage( props ) {
 					"wordpress-seo"
 				) }
 			</p>
-			{ activeWorkout && <Button onClick={ clearActiveWorkout }>{ __( "← Back to all workouts", "worpdress-seo" ) }</Button> }
-			 <div className={ activeWorkout ? "" : "workflows__index__grid" }>
+			{ activeWorkout && <Button onClick={ clearActiveWorkout }>{
+				// translators: %1$s translates to a leftward pointing arrow ( ← )
+				sprintf( __( "%1$sBack to all workouts", "worpdress-seo" ), "← " )
+			}</Button> }
+			 <div className={ activeWorkout ? "" : "workflows__index" }>
 				{ slots }
 			</div>
 		</div>
