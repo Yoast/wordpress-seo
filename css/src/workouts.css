@@ -423,6 +423,10 @@ table.yoast_help th.divider {
 	top: 3px;
 }
 
+.yoast-list--usp.yoast-newsletter-result li{
+	color: rgb(110, 160, 41);
+}
+
 .workflow .yoast-newsletter-signup {
 	display: flex;
 	justify-content: space-between;
