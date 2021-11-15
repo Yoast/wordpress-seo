@@ -37,8 +37,8 @@ class Workouts_Integration implements Integration_Interface {
 	/**
 	 * Workouts_Integration constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager     The admin asset manager.
-	 * @param Options_Helper            $options_helper          The options helper.
+	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
+	 * @param Options_Helper            $options_helper      The options helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
@@ -130,7 +130,7 @@ class Workouts_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Gets the workouts option and extends it with indexable data.
+	 * Gets the workouts option.
 	 *
 	 * @return mixed|null Returns workouts option if found, null if not.
 	 */
