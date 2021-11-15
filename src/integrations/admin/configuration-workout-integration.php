@@ -72,7 +72,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 			'disabled'                    => ! YoastSEO()->helpers->indexable->should_index_indexables(),
 			'amount'                      => YoastSEO()->helpers->indexing->get_filtered_unindexed_count(),
 			'firstTime'                   => ( YoastSEO()->helpers->indexing->is_initial_indexing() === true ),
-			'errorMessage'                => '', //$this->render_indexing_error(),
+			'errorMessage'                => '',
 			'restApi'                     => [
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => $this->get_endpoints(),
@@ -136,7 +136,6 @@ class Configuration_Workout_Integration implements Integration_Interface {
 			'before'
 		);
 	}
-
 
 	/**
 	 * Retrieves a list of the endpoints to use.
