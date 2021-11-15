@@ -12,20 +12,20 @@ const configSlice = createSlice( {
 	name: "config",
 	initialState,
 	reducers: {
-		updateAnalysisType: ( state, action ) => {
-			state.analysisType = action.payload;
+		updateAnalysisType: ( state, { payload } ) => {
+			state.analysisType = payload;
 		},
-		updateIsSeoActive: ( state, action ) => {
-			state.isSeoActive = Boolean( action.payload );
+		updateIsSeoActive: ( state, { payload } ) => {
+			state.isSeoActive = Boolean( payload );
 		},
-		updateIsReadabilityActive: ( state, action ) => {
-			state.isReadabilityActive = Boolean( action.payload );
+		updateIsReadabilityActive: ( state, { payload } ) => {
+			state.isReadabilityActive = Boolean( payload );
 		},
-		addResearch: ( state, payload ) => {
+		addResearch: ( state, { payload } ) => {
 			state.researches.push( payload );
 		},
-		removeResearch: ( state, payload ) => {
-			state.researches.filter( research => research !== payload );
+		removeResearch: ( state, { payload } ) => {
+			state.researches = state.researches.filter( research => research !== payload );
 		},
 	},
 } );
