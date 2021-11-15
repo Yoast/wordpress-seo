@@ -17,7 +17,6 @@ const initialState = {
 		configuration: {
 			priority: 50,
 			finishedSteps: [],
-			indexablesByStep: [],
 		},
 		cornerstone: {
 			priority: 50,
@@ -85,7 +84,11 @@ const workoutsReducer = ( state = initialState, action ) => {
 			if ( FINISHABLE_STEPS[ action.workout ].length === state.workouts[ action.workout ].finishedSteps.length ) {
 				newState.workouts[ action.workout ].finishedSteps = [];
 				for ( const step of FINISHABLE_STEPS[ action.workout ] ) {
-					newState.workouts[ action.workout ].indexablesByStep[ step ] = initialState.workouts[ action.workout ].indexablesByStep[ step ];
+					if ( initialState.workouts[ action.workout ].indexablesByStep ) {
+						newState.workouts[ action.workout ].indexablesByStep[ step ] = initialState
+							.workouts[ action.workout ]
+							.indexablesByStep[ step ];
+					}
 				}
 			} else {
 				newState.workouts[ action.workout ].finishedSteps = FINISHABLE_STEPS[ action.workout ];
