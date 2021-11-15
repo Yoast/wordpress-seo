@@ -71,7 +71,7 @@ class Importing_Route extends Abstract_Action_Route {
 		$plugin = (string) $data['plugin'];
 		$type   = (string) $data['type'];
 
-		$next_url = $this->get_endpoint($plugin, $type );
+		$next_url = $this->get_endpoint( $plugin, $type );
 
 		try {
 			$importer = $this->get_importer( $plugin, $type );
