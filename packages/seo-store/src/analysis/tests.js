@@ -13,8 +13,7 @@ describe( "Config slice", () => {
 
 	describe( "Reducer", () => {
 		test( "should return the analysis config initial state", () => {
-		// eslint-disable-next-line no-undefined
-			expect( configReducer( undefined, {} ) ).toEqual( initialState );
+			expect( configReducer( previousState, {} ) ).toEqual( initialState );
 		} );
 
 		test( "should update the analysisType", () => {
