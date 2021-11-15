@@ -1,4 +1,5 @@
-import configReducer, { configActions } from "./slice/config";
+import { curry, set } from "lodash";
+import configReducer, { configActions, configSelectors } from "./slice/config";
 
 describe( "Config slice", () => {
 	// eslint-disable-next-line no-undefined
@@ -69,6 +70,54 @@ describe( "Config slice", () => {
 				...initialState,
 				researches: [],
 			} );
+		} );
+	} );
+
+	describe( "Selectors", () => {
+		const createStoreState = curry( set )( {}, "analysis.config" );
+
+		test( "should select the configuration", () => {
+			const { selectAnalysisConfig } = configSelectors;
+
+			const result = selectAnalysisConfig( createStoreState( initialState ) );
+
+			expect( result ).toEqual( initialState );
+		} );
+
+		test( "should select the analysis type", () => {
+			const { selectAnalysisType } = configSelectors;
+
+			const state = { ...initialState, analysisType: "category" };
+			const result = selectAnalysisType( createStoreState( state ) );
+
+			expect( result ).toBe( "category" );
+		} );
+
+		test( "should select the is SEO active", () => {
+			const { isSeoAnalysisActive } = configSelectors;
+
+			const state = { ...initialState, isSeoActive: false };
+			const result = isSeoAnalysisActive( createStoreState( state ) );
+
+			expect( result ).toBe( false );
+		} );
+
+		test( "should select the is readability active", () => {
+			const { isReadabilityAnalysisActive } = configSelectors;
+
+			const state = { ...initialState, isReadabilityActive: false };
+			const result = isReadabilityAnalysisActive( createStoreState( state ) );
+
+			expect( result ).toBe( false );
+		} );
+
+		test( "should select the researches", () => {
+			const { selectResearches } = configSelectors;
+
+			const state = { ...initialState, researches: [ "morphology", "test" ] };
+			const result = selectResearches( createStoreState( state ) );
+
+			expect( result ).toEqual( [ "morphology", "test" ] );
 		} );
 	} );
 } );
