@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { Slot } from "@wordpress/components";
 import { useEffect, useMemo } from "@wordpress/element";
-import { Button, PremiumBadge } from "@yoast/components";
 import { sortBy } from "lodash";
+
+import { Button, PremiumBadge } from "@yoast/components";
 import SlotWithDefault from "../../components/slots/SlotWithDefault";
 import CornerstoneWorkoutCard from "./CornerstoneWorkoutCard";
 import OrphanedWorkoutCard from "./OrphanedWorkoutCard";
