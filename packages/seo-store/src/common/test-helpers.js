@@ -23,6 +23,6 @@ import { set } from "lodash";
  *
  * @param {string|string[]} path The path of the reducer state.
  *
- * @returns {function} The function to get the store state, given a reducer state.
+ * @returns {function(*=): Object} The function to get the store state, given a reducer state.
  */
 export const createStoreState = path => reducerState => set( {}, path, reducerState );
