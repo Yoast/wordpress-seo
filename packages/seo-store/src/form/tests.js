@@ -28,9 +28,9 @@ describe( "Seo slice", () => {
 		} );
 
 		test( "should update the description", () => {
-			const { updateSeoDescription } = seoActions;
+			const { updateMetaDescription } = seoActions;
 
-			const result = seoReducer( initialState, updateSeoDescription( "test" ) );
+			const result = seoReducer( initialState, updateMetaDescription( "test" ) );
 
 			expect( result ).toEqual( {
 				...initialState,
