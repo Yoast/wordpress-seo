@@ -54,9 +54,6 @@ async function postSignUp( email ) {
 /**
  * The newsletter signup section.
  *
- * @param {object} props        The props object.
- * @param {bool} props.signedUp Whether or not the user has signed up.
- *
  * @returns {WPElement} A newslettersignup element.
  */
 function NewsletterSignup() {
@@ -171,11 +168,13 @@ function configurationWorkoutReducer( state, action ) {
 /**
  * The configuration workout.
  *
- * @param {Object} props The props.
- *
- * @returns {WPElement} The ConfigurationWorkout compoinent.
+ * @param {function}  toggleStep                The function to toggle the step state.
+ * @param {function}  toggleWorkout             The function to toggle the workout state.
+ * @param {function}  isStepFinished            The function to check whether a step is finished.
+ * @param {string}    seoDataOptimizationNeeded The flag signaling if SEO optimization is needed.
+ * @returns {WPElement} The ConfigurationWorkout component.
  */
-export function ConfigurationWorkout( { toggleStep, toggleWorkout, seoDataOptimizationNeeded = "1", isStepFinished = () => {} } ) {
+export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinished, seoDataOptimizationNeeded } ) {
 	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, window.wpseoWorkoutsData.configuration );
 
 	const setTracking = useCallback( ( value ) => {
@@ -207,7 +206,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, seoDataOptimi
 	/* eslint-disable max-len */
 	return (
 		<div className="card">
-			<input id="person_id" value={ state.personId } style={ { display: "none" } } readOnly={ true } />
 			<h2>{ __( "Configuration", "wordpress-seo" ) }</h2>
 			<h3>{ __( "Configure Yoast SEO with optimal SEO settings for your site", "wordpress-seo" ) }</h3>
 			{ seoDataOptimizationNeeded === "1" && <div>seoDataoptimization alert</div> }
@@ -335,6 +333,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, seoDataOptimi
 					{ state.companyOrPerson === "person" && <PersonSection
 						dispatch={ dispatch }
 						imageUrl={ state.personLogo }
+						personId={ state.personId }
 						isDisabled={ isStepFinished( "configuration", steps.siteRepresentation ) }
 					/> }
 					<TextInput
