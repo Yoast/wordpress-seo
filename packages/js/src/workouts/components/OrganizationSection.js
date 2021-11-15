@@ -3,11 +3,15 @@ import { __ } from "@wordpress/i18n";
 
 import { openMedia } from "../../helpers/selectMedia";
 import { ImageSelect, TextInput } from "@yoast/components";
-
+import PropTypes from "prop-types";
 
 /**
  * The Organization section.
  *
+ * @param {function} dispatch     The function to update the container's state.
+ * @param {string}   imageUrl         The image URL.
+ * @param {string}   organizationName The name of the organization.
+ * @param {bool}     isDisabled       A flag to disable the field.
  * @returns {WPElement} The organization section.
  */
 export function OrganizationSection( { dispatch, imageUrl, organizationName, isDisabled } ) {
@@ -47,3 +51,16 @@ export function OrganizationSection( { dispatch, imageUrl, organizationName, isD
 		</>
 	);
 }
+
+OrganizationSection.propTypes = {
+	dispatch: PropTypes.func.isRequired,
+	imageUrl: PropTypes.string,
+	organizationName: PropTypes.string,
+	isDisabled: PropTypes.bool,
+};
+
+OrganizationSection.defaultProps = {
+	imageUrl: "",
+	organizationName: "",
+	isDisabled: false,
+};

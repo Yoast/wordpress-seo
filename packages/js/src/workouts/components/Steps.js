@@ -1,5 +1,6 @@
 import { NewButton as Button } from "@yoast/components";
 import { ReactComponent as ArrowDown } from "../../../images/icon-arrow-down.svg";
+import PropTypes from "prop-types";
 
 /**
  * The Steps component
@@ -15,6 +16,10 @@ export function Steps( props ) {
 		</ol>
 	);
 }
+
+Steps.propTypes = {
+	children: PropTypes.any.isRequired,
+};
 
 /**
  * The Step component
@@ -41,3 +46,21 @@ export function Step( { title, subtitle, finishText, hasDownArrow, onFinishClick
 		</li>
 	);
 }
+
+Step.propTypes = {
+	title: PropTypes.string.isRequired,
+	subtitle: PropTypes.string,
+	finishText: PropTypes.string.isRequired,
+	hasDownArrow: PropTypes.bool,
+	onFinishClick: PropTypes.func.isRequired,
+	isFinished: PropTypes.bool,
+	ImageComponent: PropTypes.func,
+	children: PropTypes.any.isRequired,
+};
+
+Step.defaultProps = {
+	subtitle: null,
+	hasDownArrow: true,
+	isFinished: false,
+	ImageComponent: null,
+};

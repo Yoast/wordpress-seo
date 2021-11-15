@@ -13,6 +13,7 @@ import { STEPS, WORKOUTS } from "../config";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
 import { SocialInput } from "./SocialInput";
+import PropTypes from "prop-types";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
@@ -472,6 +473,16 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	);
 }
 
+ConfigurationWorkout.propTypes = {
+	toggleStep: PropTypes.func.isRequired,
+	toggleWorkout: PropTypes.func.isRequired,
+	isStepFinished: PropTypes.func.isRequired,
+	seoDataOptimizationNeeded: PropTypes.string,
+};
+
+ConfigurationWorkout.defaultProps = {
+	seoDataOptimizationNeeded: "1",
+};
 
 export default compose(
 	[
