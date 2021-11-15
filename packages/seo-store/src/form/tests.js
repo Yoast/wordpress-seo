@@ -1,5 +1,6 @@
 import { merge } from "lodash";
-import keyphrasesReducer, { keyphrasesActions } from "./slice/keyphrases";
+import { createStoreState } from "../common/test-helpers";
+import keyphrasesReducer, { keyphrasesActions, keyphrasesSelectors } from "./slice/keyphrases";
 import seoReducer, { seoActions } from "./slice/seo";
 
 describe( "Keyphrases slice", () => {
@@ -181,6 +182,89 @@ describe( "Keyphrases slice", () => {
 					synonyms: "test",
 				},
 			} ) );
+		} );
+	} );
+
+	describe( "Selectors", () => {
+		const getStoreState = createStoreState( "form.keyphrases" );
+
+		test( "should select the keyphrases", () => {
+			const { selectKeyphrases } = keyphrasesSelectors;
+
+			const result = selectKeyphrases( getStoreState( initialState ) );
+
+			expect( result ).toEqual( initialState );
+		} );
+
+		test( "should select the focus keyphrase", () => {
+			const { selectKeyphrase } = keyphrasesSelectors;
+
+			const state = merge( {}, initialState, {
+				focus: {
+					keyphrase: "test",
+				},
+			} );
+			const result = selectKeyphrase( getStoreState( state ) );
+
+			expect( result ).toEqual( "test" );
+		} );
+
+		test( "should select a keyphrase", () => {
+			const { selectKeyphrase } = keyphrasesSelectors;
+
+			const state = merge( {}, initialState, {
+				a: {
+					keyphrase: "test",
+				},
+			} );
+			const result = selectKeyphrase( getStoreState( state ), "a" );
+
+			expect( result ).toEqual( "test" );
+		} );
+
+		test( "should select the focus synonyms", () => {
+			const { selectSynonyms } = keyphrasesSelectors;
+
+			const state = merge( {}, initialState, {
+				focus: {
+					synonyms: "test",
+				},
+			} );
+			const result = selectSynonyms( getStoreState( state ) );
+
+			expect( result ).toEqual( "test" );
+		} );
+
+		test( "should select synonyms", () => {
+			const { selectSynonyms } = keyphrasesSelectors;
+
+			const state = merge( {}, initialState, {
+				a: {
+					synonyms: "test",
+				},
+			} );
+			const result = selectSynonyms( getStoreState( state ), "a" );
+
+			expect( result ).toEqual( "test" );
+		} );
+
+		test( "should select the keyphrase IDs", () => {
+			const { selectKeyphraseIds } = keyphrasesSelectors;
+
+			const state = merge( {}, initialState, {
+				a: { id: "a" },
+				b: { id: "b" },
+				c: { id: "c" },
+				d: { id: "d" },
+			} );
+			const result = selectKeyphraseIds( getStoreState( state ) );
+
+			expect( result.length ).toEqual( 5 );
+			expect( result ).toContain( "focus" );
+			expect( result ).toContain( "a" );
+			expect( result ).toContain( "b" );
+			expect( result ).toContain( "c" );
+			expect( result ).toContain( "d" );
 		} );
 	} );
 } );
