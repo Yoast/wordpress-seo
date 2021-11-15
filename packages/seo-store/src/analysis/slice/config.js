@@ -31,10 +31,10 @@ const configSlice = createSlice( {
 } );
 
 export const configSelectors = {
-	selectConfig: state => get( state, "analysis.config" ),
-	selectIsSeoActive: state => get( state, "analysis.config.isSeoActive" ),
+	selectAnalysisConfig: state => get( state, "analysis.config" ),
 	selectAnalysisType: state => get( state, "analysis.config.analysisType" ),
-	selectIsReadabilityActive: state => get( state, "analysis.config.isReadabilityActive" ),
+	isSeoAnalysisActive: state => get( state, "analysis.config.isSeoActive" ),
+	isReadabilityAnalysisActive: state => get( state, "analysis.config.isReadabilityActive" ),
 	selectResearches: state => get( state, "analysis.config.researches" ),
 };
 
