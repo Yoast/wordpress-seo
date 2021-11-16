@@ -28,10 +28,11 @@ Steps.propTypes = {
  *
  * @returns {WPElement} The FinishStepSection element.
  */
-export function FinishStepSection( { onFinishClick, finishText, hasDownArrow, isFinished } ) {
+export function FinishStepSection( { onFinishClick, finishText, hasDownArrow, isFinished, children } ) {
 	return (
 		<>
 			<hr />
+			{ children }
 			<Button className={ `yoast-button yoast-button--secondary${ isFinished ? " yoast-button--finished" : "" }` } onClick={ onFinishClick }>
 				{ finishText }
 				{ hasDownArrow && <ArrowDown className="yoast-button--arrow-down" /> }
@@ -45,11 +46,13 @@ FinishStepSection.propTypes = {
 	onFinishClick: PropTypes.func.isRequired,
 	hasDownArrow: PropTypes.bool,
 	isFinished: PropTypes.bool,
+	children: PropTypes.any,
 };
 
 FinishStepSection.defaultProps = {
 	hasDownArrow: false,
 	isFinished: false,
+	children: null,
 };
 
 /**

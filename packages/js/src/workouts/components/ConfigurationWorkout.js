@@ -581,14 +581,15 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					isFinished={ isStepFinished( "configuration", steps.newsletterSignup ) }
 				>
 					<NewsletterSignup />
-					{ indexingState !== "completed" && <Alert type="warning">
-						{ __( "Before you finish this workout, please wait on this page until the SEO data optimization in step 1 is completed...", "wordpress-seo" ) }
-					</Alert> }
 					<FinishStepSection
 						finishText={ "Finish this workout" }
 						onFinishClick={ toggleConfigurationWorkout }
 						isFinished={ isStepFinished( "configuration", steps.newsletterSignup ) }
-					/>
+					>
+						{ indexingState !== "completed" && <Alert type="warning">
+							{ __( "Before you finish this workout, please wait on this page until the SEO data optimization in step 1 is completed...", "wordpress-seo" ) }
+						</Alert> }
+					</FinishStepSection>
 				</Step>
 			</Steps>
 		</div>
