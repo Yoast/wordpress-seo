@@ -601,6 +601,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						selected={ state.tracking }
 						onChange={ setTracking }
 						vertical={ true }
+						wrapperClassName={ "tracking-radiobuttons" }
 						options={ [
 							{
 								value: 0,

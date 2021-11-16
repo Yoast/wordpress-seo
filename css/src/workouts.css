@@ -154,6 +154,10 @@
 	opacity: 0.5;
 }
 
+.workflow li.step.finished .tracking-radiobuttons {
+	opacity: 0.5;
+}
+
 .workflow li.step img {
 	max-width: 100%;
 }
