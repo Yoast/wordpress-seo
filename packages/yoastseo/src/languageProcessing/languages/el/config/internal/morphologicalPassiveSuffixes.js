@@ -68,7 +68,6 @@ export const passiveSuffixes = [
 	"μουν",
 	"σουν",
 	"νταν",
-	"είτε",
 	"ομαι",
 	"εσαι",
 	"εται",
@@ -85,5 +84,4 @@ export const passiveSuffixes = [
 	"ηθώ",
 	"θώ",
 	"τώ",
-	"ου",
 ];
