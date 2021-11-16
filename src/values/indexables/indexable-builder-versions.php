@@ -19,7 +19,7 @@ class Indexable_Builder_Versions {
 	protected $indexable_builder_versions_by_type = [
 		'date-archive'      => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
 		'general'           => 2,
-		'home-page'         => 2,
+		'home-page'         => 3,
 		'post'              => 3,
 		'post-type-archive' => 3,
 		'term'              => 3,
