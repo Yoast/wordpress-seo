@@ -34,8 +34,6 @@ const paragraphWithExactParagraphMatchEN = "<p>" + sentenceWithExactMatchOfSomeK
 	sentenceWithSomeKeywordsEN + sentenceWithoutKeywordsEN + "/<p>";
 const paragraphWithoutMatchEN = "<p>" + sentenceWithoutKeywordsEN + sentenceWithoutKeywordsEN + sentenceWithoutKeywordsEN + "/<p>";
 
-
-
 describe( "checks for the content words from the keyphrase in the first paragraph (English)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
 		const paper = new Paper(
@@ -640,6 +638,30 @@ const paragraphWithParagraphMatchJA = "<p>" + sentenceWithSomeKeywordsJA + sente
 	sentenceWithSomeKeywordsJA + sentenceWithoutKeywordsJA + "/<p>";
 const paragraphWithoutMatchJA = "<p>" + sentenceWithoutKeywordsJA + sentenceWithoutKeywordsJA + sentenceWithoutKeywordsJA + "/<p>";
 
+/**
+ * Mocks Japanese Researcher.
+ * @param {Array} keyphraseForms        The morphological forms of the kyphrase to be added to the researcher.
+ * @param {Array} synonymsForms         The morphological forms of the synonyms to be added to the researcher.
+ * @param {function} helper1    A helper needed for the assesment.
+ * @returns {Researcher} The mock researcher with added morphological forms and custom helper.
+ */
+const buildJapaneseMockResearcher = function( keyphraseForms, synonymsForms, helper1 ) {
+	return factory.buildMockResearcher( {
+		morphology: {
+			keyphraseForms: keyphraseForms,
+			synonymsForms: synonymsForms,
+		},
+	},
+	true,
+	true,
+	false,
+	{
+		matchWordCustomHelper: helper1,
+	} );
+};
+
+enableFeatures( [ "JAPANESE_SUPPORT" ] );
+
 describe( "checks for the content words from the keyphrase in the first paragraph (Japanese, but no morphology data provided)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
 		const paper = new Paper(
@@ -706,30 +728,6 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 	} );
 } );
 
-/**
- * Mocks Japanese Researcher.
- * @param {Array} keyphraseForms        The morphological forms of the kyphrase to be added to the researcher.
- * @param {Array} synonymsForms         The morphological forms of the synonyms to be added to the researcher.
- * @param {function} helper1    A helper needed for the assesment.
- * @returns {Researcher} The mock researcher with added morphological forms and custom helper.
- */
-const buildJapaneseMockResearcher = function( keyphraseForms, synonymsForms, helper1 ) {
-	return factory.buildMockResearcher( {
-		morphology: {
-			keyphraseForms: keyphraseForms,
-			synonymsForms: synonymsForms,
-		},
-	},
-	true,
-	true,
-	false,
-	{
-		matchWordCustomHelper: helper1,
-	} );
-};
-
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
-
 describe( "checks for the content words from the keyphrase in the first paragraph (Japanese)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
 		const paper = new Paper(
@@ -740,7 +738,7 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 		);
 		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
 			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
-		const synonymsForms = [ [ "自然" ], [ "歩く" ] ];
+		const synonymsForms = [ [ [ "自然" ], [ "歩く" ] ] ];
 		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
 		primeLanguageSpecificData.cache.clear();
 
@@ -760,7 +758,7 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 		);
 		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
 			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
-		const synonymsForms = [ [ "自然" ], [ "歩く" ] ];
+		const synonymsForms = [ [ [ "自然" ], [ "歩く" ] ] ];
 		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
 		primeLanguageSpecificData.cache.clear();
 
@@ -780,7 +778,7 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 		);
 		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
 			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
-		const synonymsForms = [ [ "自然" ], [ "歩く" ] ];
+		const synonymsForms = [ [ [ "自然" ], [ "歩く" ] ] ];
 		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
 		primeLanguageSpecificData.cache.clear();
 
@@ -804,7 +802,7 @@ describe( "checks for the content words from a synonym phrase in the first parag
 
 		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
 			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
-		const synonymsForms = [ [ "自然" ], [ "歩く" ] ];
+		const synonymsForms = [ [ [ "自然" ], [ "歩く" ] ] ];
 		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
 		primeLanguageSpecificData.cache.clear();
 
@@ -824,7 +822,7 @@ describe( "checks for the content words from a synonym phrase in the first parag
 		);
 		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
 			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
-		const synonymsForms = [ [ "自然" ], [ "歩く" ] ];
+		const synonymsForms = [ [ [ "自然" ], [ "歩く" ] ] ];
 		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
 		primeLanguageSpecificData.cache.clear();
 
