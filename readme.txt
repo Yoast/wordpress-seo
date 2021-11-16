@@ -243,12 +243,11 @@ Enhancements:
 
 * Introduces the configuration workout.
 * Adds a link to the archive page for the content types in the search appearance settings. Props to [felipelousantos](https://github.com/felipelousantos).
-* Adds a few more French transition words to be recognised by the transition words assessment. Props to @Cellophile! 🎉 
-* Adds links to Post Type archives in the Search Appearance page.
+* Adds a few more French transition words to be recognised by the transition words assessment. Props to [Cellophile](https://github.com/Cellophile).
 
 Bugfixes:
 
-* Fixes a bug where non-passive Greek words ending in -ου or -είτε were previously recognized as passive. Props to @artemidaspatanews!
+* Fixes a bug where non-passive Greek words ending in -ου or -είτε were previously recognized as passive. Props to [artemidaspatanews](https://github.com/artemidaspatanews).
 * Fixes a bug where some post types would cause a PHP warning about custom fields.
 
 = 17.6 =
