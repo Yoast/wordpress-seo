@@ -83,12 +83,12 @@ class WPSEO_Option_Tab {
 	/**
 	 * Retrieves the variable from the supplied arguments.
 	 *
-	 * @param string       $variable Variable to retrieve.
-	 * @param string|mixed $default  Default to use when variable not found.
+	 * @param string       $variable       Variable to retrieve.
+	 * @param string|mixed $default_value  Default to use when variable not found.
 	 *
 	 * @return mixed|string The retrieved variable.
 	 */
-	protected function get_argument( $variable, $default = '' ) {
-		return array_key_exists( $variable, $this->arguments ) ? $this->arguments[ $variable ] : $default;
+	protected function get_argument( $variable, $default_value = '' ) {
+		return array_key_exists( $variable, $this->arguments ) ? $this->arguments[ $variable ] : $default_value;
 	}
 }
