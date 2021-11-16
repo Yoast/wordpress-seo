@@ -38,6 +38,6 @@ describe( "a test for Japanese Researcher", function() {
 	} );
 	it( "returns the keyphrase unaltered when the Japanese morphology data is not available", function() {
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "日帰り" ) ).toEqual(
-			  "日帰り" );
+			  [ "日帰り" ] );
 	} );
 } );

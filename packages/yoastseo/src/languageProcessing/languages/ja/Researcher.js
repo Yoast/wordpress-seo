@@ -52,14 +52,13 @@ export default class Researcher extends AbstractResearcher {
 			matchWordCustomHelper,
 			getWordsCustomHelper,
 			getContentWords,
+			customCountLength,
+			wordsCharacterCount,
+			matchTransitionWordsHelper,
 		} );
 
 		Object.assign( this.defaultResearches, {
 			morphology,
-			wordsCharacterCount,
-			customCountLength,
-			matchTransitionWordsHelper,
-			getContentWords,
 		} );
 	}
 }
