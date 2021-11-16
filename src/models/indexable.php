@@ -110,9 +110,9 @@ class Indexable extends Model {
 		'is_robots_noimageindex',
 		'is_robots_nosnippet',
 		'is_cornerstone',
+		'is_public',
 		'is_publicly_viewable',
 		'is_protected',
-		'calculated_no_index',
 	];
 
 	/**
@@ -138,8 +138,16 @@ class Indexable extends Model {
 	];
 
 	protected $deprecated_columns = [
-		'has_public_posts' => 'number_of_publicly_viewable_posts',
-		'is_public'        => 'is_publicly_viewable',
+		'has_public_posts' => [
+			'since'                         => '17.7',
+			'replacement'                   => 'number_of_publicly_viewable_posts',
+			'automatically_use_replacement' => true,
+		],
+		'is_public'        => [
+			'since'                         => '17.7',
+			'replacement'                   => 'is_publicly_viewable',
+			'automatically_use_replacement' => false,
+		],
 	];
 
 	/**

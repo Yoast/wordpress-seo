@@ -95,7 +95,7 @@ class Model implements JsonSerializable {
 	protected $float_columns = [];
 
 	/**
-	 * Which columns are deprecated and optionally: what are their replacements.
+	 * Which columns are deprecated.
 	 *
 	 * @var array
 	 */
@@ -599,6 +599,7 @@ class Model implements JsonSerializable {
 	 */
 	public function get( $property ) {
 		$property = $this->handleDeprecation( $property );
+
 		return $this->orm->get( $property );
 	}
 
@@ -743,13 +744,17 @@ class Model implements JsonSerializable {
 		if ( ! array_key_exists( $property, $this->deprecated_columns ) ) {
 			return $property;
 		}
-		$replacement = $this->deprecated_columns[ $property ];
+		$deprecation = $this->deprecated_columns[ $property ];
 
-		if ( ! empty( $replacement ) ) {
+		if ( ! empty( $deprecation['replacement'] ) ) {
 			// There is no _deprecated_property. This matches our usecase best.
-			_deprecated_argument( __FUNCTION__, '17.7', 'Use the \"' . $replacement . '\" property instead of \"' . $property . '\" ' );
+			_deprecated_argument( __FUNCTION__, '17.7', 'Use the \"' . $deprecation['replacement'] . '\" property instead of \"' . $property . '\" ' );
 
-			return $replacement;
+			if ( $deprecation['automatically_use_replacement'] === true ) {
+				return $deprecation['replacement'];
+			}
+
+			return $property;
 		}
 		// There is no _deprecated_property. This matches our usecase best.
 		_deprecated_argument( __FUNCTION__, '17.7', 'The \"' . $property . '\" property will be removed in a future version' );

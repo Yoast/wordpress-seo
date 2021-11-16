@@ -119,7 +119,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'wp_insert_post', [ $this, 'build_indexable' ], \PHP_INT_MAX );
-		\add_action( 'delete_post', [ $this, 'delete_indexable' ] );
+		\add_action( 'delete_post', [ $this, 'delete_indexable' ], 10, 2 );
 		\add_action( 'wpseo_save_indexable', [ $this, 'updated_indexable' ], \PHP_INT_MAX, 2 );
 
 		\add_action( 'edit_attachment', [ $this, 'build_indexable' ], \PHP_INT_MAX );
@@ -130,11 +130,12 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	/**
 	 * Deletes the meta when a post is deleted.
 	 *
-	 * @param int $post_id Post ID.
+	 * @param int      $post_id Post ID.
+	 * @param \WP_Post $post    The to be deleted post.
 	 *
 	 * @return void
 	 */
-	public function delete_indexable( $post_id ) {
+	public function delete_indexable( $post_id, $post ) {
 		$indexable = $this->repository->find_by_id_and_type( $post_id, 'post', false );
 
 		// Only interested in post indexables.
@@ -145,7 +146,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		$this->hierarchy_repository->clear_ancestors( $indexable->id );
 		$this->link_builder->delete( $indexable );
 		$indexable->delete();
-		$this->update_relations( $this->post->get_post( $post_id ) );
+		$this->update_relations( $post );
 	}
 
 	/**
@@ -203,7 +204,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 */
 	protected function update_relations( $post ) {
 		$related_indexables = $this->get_related_indexables( $post );
-		$now = current_time( 'mysql' );
+		$now                = current_time( 'mysql' );
 		foreach ( $related_indexables as $related_indexable ) {
 			$related_indexable->object_last_modified = $now;
 			$this->builder->recalculate_aggregates( $related_indexable );

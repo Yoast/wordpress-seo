@@ -30,13 +30,14 @@ class ReplaceIsPublicOnIndexables extends Migration {
 	 */
 	public function up() {
 		$table_name = $this->get_table_name();
-
-		$this->rename_column(
+		$this->add_column(
 			$table_name,
-			'is_public',
-			'is_publicly_viewable'
-		);
-
+			'is_publicly_viewable',
+			'boolean',
+			[
+				'null'    => true,
+				'default' => null,
+			] );
 	}
 
 	/**
@@ -48,10 +49,9 @@ class ReplaceIsPublicOnIndexables extends Migration {
 	public function down() {
 		$table_name = $this->get_table_name();
 
-		$this->rename_column(
+		$this->remove_column(
 			$table_name,
-			'calculated_no_index',
-			'is_public'
+			'is_publicly_viewable',
 		);
 	}
 
