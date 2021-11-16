@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
+
 /**
  * Performs the load on admin side.
  */
@@ -48,6 +50,9 @@ class WPSEO_Admin_Init {
 		 * `user_admin_notices` which fires on multisite user admin pagss.
 		 */
 		add_action( 'admin_notices', [ $this, 'search_engines_discouraged_notice' ] );
+
+		\add_action( 'admin_notices', [ $this, 'configuration_workout_notice' ] );
+		\add_action( 'wp_ajax_dismiss_configuration_workout_notice', 'dismiss_configuration_workout_notice' );
 
 		$health_checks = [
 			new WPSEO_Health_Check_Page_Comments(),
@@ -409,6 +414,77 @@ class WPSEO_Admin_Init {
 			esc_js( wp_create_nonce( 'wpseo-ignore' ) ),
 			esc_html__( 'I don\'t want this site to show in the search results.', 'wordpress-seo' )
 		);
+	}
+
+	/**
+	 * Determines whether and where the "First-time SEO Configuration workout" admin notice should be displayed.
+	 *
+	 * @return bool Whether the "First-time SEO Configuration workout" admin notice should be displayed.
+	 */
+	public function should_display_configuration_workout_notice() {
+		$workouts_option = WPSEO_Options::get( 'workouts_data', [] );
+		$finished_steps  = $workouts_option['configuration']['finishedSteps'];
+
+		return is_admin()
+			&& count( $finished_steps ) < 5
+			&& ( $this->on_wpseo_admin_page() || $this->pagenow === 'index.php' )
+			&& WPSEO_Options::get( 'dismiss_configuration_workout_notice', false ) === false;
+	}
+
+	/**
+	 * Displays an admin notice when the configuration workout has not been finished yet.
+	 *
+	 * @return void
+	 */
+	public function configuration_workout_notice() {
+		if ( ! $this->should_display_configuration_workout_notice() ) {
+			return;
+		}
+
+		$notice = new Notice_Presenter(
+			\__( 'First-time SEO configuration', 'wordpress-seo' ),
+			\sprintf(
+			/* translators: 1: Link start tag to the configuration workout, 2: Yoast SEO, 3: Link closing tag. */
+				__( 'Get started quickly with the %1$s%2$s Configuration workout%3$s and configure Yoast SEO with the optimal SEO settings for your site!', 'wordpress-seo' ),
+				'<a href="' . \esc_url( \self_admin_url( 'admin.php?page=wpseo_workouts' ) ) . '">',
+				'Yoast SEO',
+				'</a>'
+			),
+			'mirrored_fit_bubble_woman_1_optim.svg',
+			true,
+			'yoast-configuration-workout-notice'
+		);
+
+		//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.
+		echo $notice->present();
+
+		// Enable permanently dismissing the notice.
+		echo "<script>
+			function dismiss_configuration_workout_notice(){
+				var data = {
+				'action': 'dismiss_configuration_workout_notice',
+				};
+
+				jQuery.post( ajaxurl, data, function( response ) {
+					jQuery( '#yoast-configuration-workout-notice' ).hide();
+				});
+			}
+
+			jQuery( document ).ready( function() {
+				jQuery( 'body' ).on( 'click', '.notice-dismiss', function() {
+					dismiss_configuration_workout_notice();
+				} );
+			} );
+			</script>";
+	}
+
+	/**
+	 * Dismisses the First-time configuration workout notice.
+	 *
+	 * @return bool
+	 */
+	public function dismiss_configuration_workout_notice() {
+		return WPSEO_Options::set( 'dismiss_configuration_workout_notice', true );
 	}
 
 	/**
