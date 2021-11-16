@@ -11,9 +11,9 @@ use Yoast\WP\Lib\Migrations\Migration;
 use Yoast\WP\Lib\Model;
 
 /**
- * ReplaceHasPublicPostsOnIndexables class.
+ * ReplaceIsPublicOnIndexables class.
  */
-class ReplaceHasPublicPostsOnIndexables extends Migration {
+class ReplaceIsPublicOnIndexables extends Migration {
 
 	/**
 	 * The plugin this migration belongs to.
@@ -24,48 +24,37 @@ class ReplaceHasPublicPostsOnIndexables extends Migration {
 
 	/**
 	 * Migration up.
+	 * Requires a reindex of indexables.
 	 *
 	 * @return void
 	 */
 	public function up() {
 		$table_name = $this->get_table_name();
+
 		$this->rename_column(
 			$table_name,
-			'has_public_posts',
-			'number_of_publicly_viewable_posts'
-		);
-
-		$this->change_column(
-			$table_name,
-			'number_of_publicly_viewable_posts',
-			'integer'
+			'is_public',
+			'is_publicly_viewable'
 		);
 
 	}
 
 	/**
 	 * Migration down.
+	 * Requires a reindex of indexables.
 	 *
 	 * @return void
 	 */
 	public function down() {
 		$table_name = $this->get_table_name();
-		$this->change_column(
-			$table_name,
-			'number_of_publicly_viewable_posts',
-			'boolean',
-			[
-				'null'    => true,
-				'default' => null,
-			]
-		);
 
 		$this->rename_column(
 			$table_name,
-			'number_of_publicly_viewable_posts',
-			'has_public_posts'
+			'calculated_no_index',
+			'is_public'
 		);
 	}
+
 
 	/**
 	 * Retrieves the table name to use.
@@ -76,3 +65,6 @@ class ReplaceHasPublicPostsOnIndexables extends Migration {
 		return Model::get_table_name( 'Indexable' );
 	}
 }
+
+
+
