@@ -163,7 +163,7 @@ class Workouts_Integration implements Integration_Interface {
 			),
 			'mirrored_fit_bubble_woman_1_optim.svg',
 			true,
-			"yoast-first-time-configuration-workout-notice"
+			'yoast-first-time-configuration-workout-notice'
 		);
 
 		//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.

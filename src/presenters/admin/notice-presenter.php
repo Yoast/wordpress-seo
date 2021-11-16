@@ -61,7 +61,7 @@ class Notice_Presenter extends Abstract_Presenter {
 	 * @param bool   $is_dismissible Optional. Whether the admin notice should be dismissible.
 	 * @param string $id             Optional. The id of the notice.
 	 */
-	public function __construct( $title, $content, $image_filename = null, $is_dismissible = false, $id = "" ) {
+	public function __construct( $title, $content, $image_filename = null, $is_dismissible = false, $id = '' ) {
 		$this->title          = $title;
 		$this->content        = $content;
 		$this->image_filename = $image_filename;
@@ -82,7 +82,7 @@ class Notice_Presenter extends Abstract_Presenter {
 	 */
 	public function present() {
 		$dismissible = ( $this->is_dismissible ) ? ' is-dismissible' : '';
-		$id = ( $this->id ) ? ' id="' . $this->id . '"' : "";
+		$id          = ( $this->id ) ? ' id="' . $this->id . '"' : '';
 
 		// WordPress admin notice.
 		$out  = '<div' . $id . ' class="notice notice-yoast' . $dismissible . '">';
