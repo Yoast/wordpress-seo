@@ -157,6 +157,10 @@ class Importable_Detector_Test extends TestCase {
 			->once()
 			->andReturn( self::getPropertyValue( $this->instance, 'importers' ) );
 
+		$this->importing_action->expects( 'is_enabled' )
+				->once()
+				->andReturn( true );
+
 		$this->importing_action->expects( 'get_completed' )
 			->once()
 			->andReturn( false ); // Any number between 1-25.
@@ -185,6 +189,10 @@ class Importable_Detector_Test extends TestCase {
 			->once()
 			->andReturn( self::getPropertyValue( $this->instance, 'importers' ) );
 
+		$this->importing_action->expects( 'is_enabled' )
+			->once()
+			->andReturn( true );
+
 		$this->importing_action->expects( 'get_completed' )
 			->once()
 			->andReturn( true );
@@ -207,6 +215,10 @@ class Importable_Detector_Test extends TestCase {
 		$this->mock_instance->expects( 'filter_actions' )
 			->once()
 			->andReturn( self::getPropertyValue( $this->instance, 'importers' ) );
+
+		$this->importing_action->expects( 'is_enabled' )
+			->once()
+			->andReturn( true );
 
 		$this->importing_action->expects( 'get_completed' )
 			->once()
