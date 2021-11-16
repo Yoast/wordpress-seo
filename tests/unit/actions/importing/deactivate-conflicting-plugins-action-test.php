@@ -49,27 +49,27 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 * @param string $plugin The plugin that's being imported.
 	 * @param string $type   The type of data being imported.
 	 *
-	 * @dataProvider can_import_testdata
+	 * @dataProvider is_compatible_with_testdata
 	 *
-	 * @covers ::can_import
+	 * @covers ::is_compatible_with
 	 * @covers ::__construct
 	 */
-	public function test_can_import( $plugin, $type ) {
+	public function test_is_compatible_with( $plugin, $type ) {
 		// Arrange.
 
 		// Act.
-		$result = $this->deactivate_conflicting_plugins_action->can_import( $plugin, $type );
+		$result = $this->deactivate_conflicting_plugins_action->is_compatible_with( $plugin, $type );
 
 		// Assert.
 		$this->assertTrue( $result );
 	}
 
 	/**
-	 * Testdata for test_can_import.
+	 * Testdata for test_is_compatible_with
 	 *
 	 * @return array
 	 */
-	public function can_import_testdata() {
+	public function is_compatible_with_testdata() {
 		return [
 			[
 				null,

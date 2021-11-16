@@ -24,7 +24,7 @@ trait Importer_Action_Filter_Trait {
 		return \array_filter(
 			$all_actions,
 			function( $action ) use ( $plugin, $type ) {
-				return $action->can_import( $plugin, $type );
+				return $action->is_compatible_with( $plugin, $type );
 			}
 		);
 	}

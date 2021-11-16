@@ -58,7 +58,7 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Importing_Action {
 	 *
 	 * @return bool True if this action can handle the combination of Plugin and Type.
 	 */
-	public function can_import( $plugin = null, $type = null ) {
+	public function is_compatible_with( $plugin = null, $type = null ) {
 		// This action can run on any plugin.
 		return true;
 	}

@@ -29,5 +29,5 @@ interface Importing_Action_Interface extends Indexation_Action_Interface, Limite
 	 *
 	 * @return bool True if the action can import the given plugin's data of the given type.
 	 */
-	public function can_import( $plugin = null, $type = null );
+	public function is_compatible_with( $plugin = null, $type = null );
 }

@@ -131,11 +131,24 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 *
 	 * @throws Exception If the TYPE constant is not set in the child class.
 	 */
-	public function can_import( $plugin = null, $type = null ) {
-		// Either value must be set, and match the current action.
-		return ( $plugin || $type ) &&
-			( $plugin && $plugin === $this->get_plugin() ) &&
-			( $type && $type === $this->get_type() );
+	public function is_compatible_with( $plugin = null, $type = null ) {
+		if ( empty( $plugin ) && empty( $type ) ) {
+			return true;
+		}
+
+		if ( $plugin === $this->get_plugin() && empty( $type ) ) {
+			return true;
+		}
+
+		if ( empty( $plugin ) && $type === $this->get_type() ) {
+			return true;
+		}
+
+		if ( $plugin === $this->get_plugin() && $type === $this->get_type() ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
