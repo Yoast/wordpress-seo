@@ -101,7 +101,7 @@ export default function WorkoutsPage( props ) {
 			<p>
 				{ __(
 					// eslint-disable-next-line max-len
-					"Getting your site in shape and keeping it SEO fit can be challenging. Let us help you get started by taking on the most common SEO challenges, with these step by step SEO workouts.",
+					"Getting your site in shape and keeping it SEO fit can be hard. We can help you get started! Take these step-by-step workouts, and you’ll be tackling some of the most fundamental SEO challenges!",
 					"wordpress-seo"
 				) }
 			</p>

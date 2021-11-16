@@ -288,7 +288,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 			<p>
 				{
 					__(
-						"This workout will guide you through the most important steps you need to take to configure the Yoast SEO plugin on your site.",
+						"Do the five steps in this workout to configure the essential Yoast SEO settings!",
 						"wordpress-seo"
 					)
 				}
@@ -337,8 +337,9 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					subtitle={ addLinkToString(
 						sprintf(
 							__(
-								"Speed up your site and get internal linking insights by clicking the button below! It will let us optimize how your SEO data is stored. Do you have a lot of content? " +
-								"Then the optimization might take a while. But trust us, it's worth it. %1$sLearn more about the benefits of optimized SEO data.%2$s",
+								"Click the button below to optimize your SEO data. It will let us see your site as Google does, so we can give " +
+								"you the best SEO tips and improve technical SEO issues in the background! If you have a lot of content the " +
+								"optimization might take a while. But trust us, it's worth it! Learn more about the benefits of optimized SEO data.",
 								"wordpress-seo"
 							),
 							"<a>",
@@ -381,7 +382,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 				</p>
 				<Step
 					title={ __( "Site representation", "wordpress-seo" ) }
-					subtitle={ __( "Tell Google what kind of site you have. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
+					subtitle={ __( "Tell Google what kind of site you have and increase the chance it gets features in a Google Knowledge Panel. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
 					isFinished={ isStepFinished( "configuration", steps.siteRepresentation ) }
 				>
 					<SingleSelect
@@ -458,7 +459,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 				</Step>
 				<Step
 					title={ __( "Social profiles", "wordpress-seo" ) }
-					subtitle={ state.companyOrPerson === "company" ?  __( "Do you have profiles for your site on social media? Then, add all of their URLs here.", "wordpress-seo" ) : "" }
+					subtitle={ state.companyOrPerson === "company" ?  __( "Do you have profiles for your site on social media? Then, add all of their URLs here, so your social profiles may also appear in a Google Knowledge Panel.", "wordpress-seo" ) : "" }
 					isFinished={ isStepFinished( "configuration", steps.socialProfiles ) }
 				>
 					{ state.companyOrPerson === "company" && <div className="yoast-social-profiles-input-fields">
