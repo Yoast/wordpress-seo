@@ -1,7 +1,6 @@
 import ImageAltTagsAssessment from "../../../../src/scoring/assessments/seo/ImageAltTagsAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
-const i18n = Factory.buildJed();
 
 const imageAltTagsAssessment = new ImageAltTagsAssessment();
 
@@ -15,7 +14,7 @@ describe( "test to check if all images have alt tags", function() {
 				noAlt: 4,
 				withAlt: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='' target='_blank'>Image alt tags</a>: None of the images " +
@@ -31,7 +30,7 @@ describe( "test to check if all images have alt tags", function() {
 				noAlt: 1,
 				withAlt: 3,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='' target='_blank'>Image alt tags</a>: 1 image out of 4 " +
@@ -47,7 +46,7 @@ describe( "test to check if all images have alt tags", function() {
 				noAlt: 2,
 				withAlt: 2,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='' target='_blank'>Image alt tags</a>: 2 images out of 4 " +
@@ -63,7 +62,7 @@ describe( "test to check if all images have alt tags", function() {
 				noAlt: 0,
 				withAlt: 4,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='' target='_blank'>Image alt tags</a>: All images have alt attributes. Good job!" );

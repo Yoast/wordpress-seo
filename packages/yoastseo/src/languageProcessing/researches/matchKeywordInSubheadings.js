@@ -11,12 +11,13 @@ import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInStrin
  * @param {boolean}     useSynonyms     Whether to match synonyms or only main keyphrase.
  * @param {string}      locale          The current locale.
  * @param {Array}       functionWords	The function words list.
+ * @param {function}    matchWordCustomHelper   The language-specific helper function to match word in text.
  *
  * @returns {number} The amount of subheadings reflecting the topic.
  */
-const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, useSynonyms, locale, functionWords ) {
+const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, useSynonyms, locale, functionWords, matchWordCustomHelper ) {
 	return subheadings.filter( subheading => {
-		const matchedTopicForms = findTopicFormsInString( topicForms, subheading, useSynonyms, locale );
+		const matchedTopicForms = findTopicFormsInString( topicForms, subheading, useSynonyms, locale, matchWordCustomHelper );
 
 		if ( functionWords.length === 0 ) {
 			return matchedTopicForms.percentWordMatches === 100;
@@ -35,6 +36,10 @@ const numberOfSubheadingsReflectingTopic = function( topicForms, subheadings, us
  */
 export default function matchKeywordInSubheadings( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
+
+	// A custom helper to match word in text.
+	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
+
 	const text = stripSomeTags( excludeTableOfContentsTag( paper.getText() ) );
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
@@ -44,7 +49,7 @@ export default function matchKeywordInSubheadings( paper, researcher ) {
 
 	if ( subheadings.length !== 0 ) {
 		result.count = subheadings.length;
-		result.matches = numberOfSubheadingsReflectingTopic( topicForms, subheadings, useSynonyms, locale, functionWords );
+		result.matches = numberOfSubheadingsReflectingTopic( topicForms, subheadings, useSynonyms, locale, functionWords, matchWordCustomHelper );
 		result.percentReflectingTopic = result.matches / result.count * 100;
 	}
 

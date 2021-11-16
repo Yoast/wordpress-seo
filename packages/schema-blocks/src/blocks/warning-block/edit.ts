@@ -47,7 +47,7 @@ export function edit( props: RenderEditProps ): JSX.Element {
 								removeBlock( clientId );
 							},
 						},
-						__( "Yes", "yoast-schema-blocks" ),
+						__( "Yes", "wordpress-seo" ),
 					),
 					createElement(
 						"button",
@@ -57,7 +57,7 @@ export function edit( props: RenderEditProps ): JSX.Element {
 								restoreBlock( clientId, removedBlock as BlockInstance );
 							},
 						},
-						__( "No, please undo this", "yoast-schema-blocks" ),
+						__( "No, please undo this", "wordpress-seo" ),
 					),
 				],
 			),

@@ -392,7 +392,7 @@ class WPSEO_Meta {
 				$field_defs['schema_page_type']['default'] = WPSEO_Options::get( 'schema-page-type-' . $post_type );
 
 				$article_helper = new Article_Helper();
-				if ( $post_type !== 'page' && $article_helper->is_author_supported( $post_type ) ) {
+				if ( $article_helper->is_article_post_type( $post_type ) ) {
 					$default_schema_article_type = WPSEO_Options::get( 'schema-article-type-' . $post_type );
 
 					/** This filter is documented in inc/options/class-wpseo-option-titles.php */
