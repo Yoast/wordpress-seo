@@ -22,13 +22,44 @@ Steps.propTypes = {
 };
 
 /**
+ * Returns a finish step section.
+ *
+ * @param {Object} props The props.
+ *
+ * @returns {WPElement} The FinishStepSection element.
+ */
+export function FinishStepSection( { onFinishClick, finishText, hasDownArrow, isFinished } ) {
+	return (
+		<>
+			<hr />
+			<Button className={ `yoast-button yoast-button--secondary${ isFinished ? " yoast-button--finished" : "" }` } onClick={ onFinishClick }>
+				{ finishText }
+				{ hasDownArrow && <ArrowDown className="yoast-button--arrow-down" /> }
+			</Button>
+		</>
+	);
+}
+
+FinishStepSection.propTypes = {
+	finishText: PropTypes.string.isRequired,
+	onFinishClick: PropTypes.func.isRequired,
+	hasDownArrow: PropTypes.bool,
+	isFinished: PropTypes.bool,
+};
+
+FinishStepSection.defaultProps = {
+	hasDownArrow: false,
+	isFinished: false,
+};
+
+/**
  * The Step component
  *
  * @param {Object} props The props.
  *
  * @returns {WPElement} The Step component.
  */
-export function Step( { title, subtitle, finishText, hasDownArrow, onFinishClick, isFinished, ImageComponent, children } ) {
+export function Step( { title, subtitle, isFinished, ImageComponent, children } ) {
 	const finished = isFinished ? " finished" : "";
 	return (
 		<li className={ `step${finished}` }>
@@ -38,11 +69,6 @@ export function Step( { title, subtitle, finishText, hasDownArrow, onFinishClick
 				{ ImageComponent && <ImageComponent style={ { height: "119px", width: "100px", flexShrink: 0 } } /> }
 			</div>
 			{ children }
-			<hr />
-			<Button variant="secondary" onClick={ onFinishClick }>
-				{ finishText }
-				{ hasDownArrow && <ArrowDown className="yoast-button--arrow-down" /> }
-			</Button>
 		</li>
 	);
 }
@@ -50,9 +76,6 @@ export function Step( { title, subtitle, finishText, hasDownArrow, onFinishClick
 Step.propTypes = {
 	title: PropTypes.string.isRequired,
 	subtitle: PropTypes.oneOfType( [ PropTypes.string, PropTypes.object ] ),
-	finishText: PropTypes.string.isRequired,
-	hasDownArrow: PropTypes.bool,
-	onFinishClick: PropTypes.func.isRequired,
 	isFinished: PropTypes.bool,
 	ImageComponent: PropTypes.func,
 	children: PropTypes.any.isRequired,
@@ -60,7 +83,6 @@ Step.propTypes = {
 
 Step.defaultProps = {
 	subtitle: null,
-	hasDownArrow: true,
-	isFinished: false,
 	ImageComponent: null,
+	isFinished: false,
 };
