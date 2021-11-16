@@ -11,24 +11,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Author_Archive_Helper {
 
 	/**
-	 * @var Indexable_Repository
-	 */
-	private $indexable_repository;
-
-	/**
-	 * Sets the indexable repository. Done to avoid circular dependencies.
-	 *
-	 * @required
-	 *
-	 * @param Indexable_Repository $indexable_repository
-	 *
-	 * @return void
-	 */
-	public function setIndexableRepository( Indexable_Repository $indexable_repository ) {
-		$this->indexable_repository = $indexable_repository;
-	}
-
-	/**
 	 * Gets the array of post types that are shown on an author's archive.
 	 *
 	 * @return array The post types that are shown on an author's archive.
@@ -49,10 +31,11 @@ class Author_Archive_Helper {
 	 *
 	 * @return bool|null Whether the author has at least one public post.
 	 *
+	 * @codeCoverageIgnore
 	 * @deprecated 17.7
 	 */
 	public function author_has_public_posts( $author_id ) {
-		_deprecated_function( __METHOD__, '17.7',Indexable_Repository::class.'::noindex_query');
+		_deprecated_function( __METHOD__, '17.7', esc_html( Indexable_Repository::class ) . '::noindex_query' );
 		// First check if the author has at least one public post.
 		$has_public_post = $this->author_has_a_public_post( $author_id );
 		if ( $has_public_post ) {
@@ -110,7 +93,7 @@ class Author_Archive_Helper {
 	 *
 	 * @return bool Whether the author has at least one post with the is public null.
 	 *
-	 * @deprecated 17.7
+	 * @deprecated         17.7
 	 */
 	protected function author_has_a_post_with_is_public_null( $author_id ) {
 		$cache_key        = 'author_has_a_post_with_is_public_null_' . $author_id;

@@ -512,7 +512,7 @@ class Model implements JsonSerializable {
 	 */
 	public function __get( $property ) {
 		$property = $this->handleDeprecation( $property );
-		$value = $this->orm->get( $property );
+		$value    = $this->orm->get( $property );
 
 		if ( $value !== null && \in_array( $property, $this->boolean_columns, true ) ) {
 			return (bool) $value;
@@ -748,7 +748,11 @@ class Model implements JsonSerializable {
 
 		if ( ! empty( $deprecation['replacement'] ) ) {
 			// There is no _deprecated_property. This matches our usecase best.
-			_deprecated_argument( __FUNCTION__, '17.7', 'Use the \"' . $deprecation['replacement'] . '\" property instead of \"' . $property . '\" ' );
+			_deprecated_argument(
+				__FUNCTION__,
+				'17.7',
+				'Use the \"' . esc_html( $deprecation['replacement'] ) . '\" property instead of \"' . esc_html( $property ) . '\" '
+			);
 
 			if ( $deprecation['automatically_use_replacement'] === true ) {
 				return $deprecation['replacement'];
@@ -757,7 +761,7 @@ class Model implements JsonSerializable {
 			return $property;
 		}
 		// There is no _deprecated_property. This matches our usecase best.
-		_deprecated_argument( __FUNCTION__, '17.7', 'The \"' . $property . '\" property will be removed in a future version' );
+		_deprecated_argument( __FUNCTION__, '17.7', 'The \"' . esc_html( $property ) . '\" property will be removed in a future version' );
 
 		return $property;
 	}

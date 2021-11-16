@@ -137,6 +137,11 @@ class Indexable extends Model {
 		'number_of_publicly_viewable_posts',
 	];
 
+	/**
+	 * Which columns are deprecated.
+	 *
+	 * @var array
+	 */
 	protected $deprecated_columns = [
 		'has_public_posts' => [
 			'since'                         => '17.7',

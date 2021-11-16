@@ -52,7 +52,7 @@ class Post_Helper {
 	 *
 	 * @return void
 	 */
-	public function setIndexableBuilder( Indexable_Builder $indexable_builder ) {
+	public function set_indexable_builder( Indexable_Builder $indexable_builder ) {
 		$this->indexable_builder = $indexable_builder;
 	}
 
@@ -135,6 +135,8 @@ class Post_Helper {
 		return \get_post( $post_id );
 	}
 
+	// phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- Signature kept the same after deprecation.
+
 	/**
 	 * Updates the number_of_publicly_viewable_posts field on attachments for a post_parent.
 	 *
@@ -158,6 +160,8 @@ class Post_Helper {
 		$this->indexable_builder->recalculate_aggregates( $indexable );
 		return true;
 	}
+
+	// phpcs:enable
 
 	/**
 	 * Determines if the post can be indexed.

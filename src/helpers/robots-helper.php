@@ -8,12 +8,16 @@ namespace Yoast\WP\SEO\Helpers;
 class Robots_Helper {
 
 	/**
+	 * A helper to get and set plugin options.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options_helper;
 
 	/**
-	 * @param Options_Helper $options_helper The indexable version manager.
+	 * Robots_Helper constructor.
+	 *
+	 * @param Options_Helper $options_helper A helper to get and set plugin options.
 	 */
 	public function __construct( Options_Helper $options_helper ) {
 		$this->options_helper = $options_helper;
@@ -45,7 +49,7 @@ class Robots_Helper {
 	 *
 	 * @return bool Whether the site default is set to noindex for the requested object type.
 	 */
-	public function get_default_noindex_for_object( $object_type, $object_sub_type = "" ) {
+	public function get_default_noindex_for_object( $object_type, $object_sub_type = '' ) {
 		switch ( $object_type ) {
 			case 'post':
 				return (bool) $this->options_helper->get( 'noindex-' . $object_sub_type );

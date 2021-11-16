@@ -75,7 +75,6 @@ class Indexable_Repository {
 	 */
 	private $robots_helper;
 
-
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
@@ -178,9 +177,10 @@ class Indexable_Repository {
 	 * @return ORM The query object.
 	 */
 	public function noindex_query( $object_type, $object_sub_type = null, $noindex = true ) {
-		$query = $this->query()
-		              ->where( 'object_type', $object_type )
-		              ->where( 'object_sub_type', $object_sub_type );
+		$query = $this
+			->query()
+			->where( 'object_type', $object_type )
+			->where( 'object_sub_type', $object_sub_type );
 
 		$default_noindex = $this->robots_helper->get_default_noindex_for_object( $object_type, $object_sub_type );
 
@@ -215,10 +215,11 @@ class Indexable_Repository {
 		$permalink_hash = \strlen( $permalink ) . ':' . \md5( $permalink );
 
 		// Find by both permalink_hash and permalink, permalink_hash is indexed so will be used first by the DB to optimize the query.
-		return $this->query()
-		            ->where( 'permalink_hash', $permalink_hash )
-		            ->where( 'permalink', $permalink )
-		            ->find_one();
+		return $this
+			->query()
+			->where( 'permalink_hash', $permalink_hash )
+			->where( 'permalink', $permalink )
+			->find_one();
 	}
 
 	/**
@@ -330,10 +331,11 @@ class Indexable_Repository {
 		 *
 		 * @var Indexable $indexable
 		 */
-		$indexable = $this->query()
-		                  ->where( 'object_type', 'post-type-archive' )
-		                  ->where( 'object_sub_type', $post_type )
-		                  ->find_one();
+		$indexable = $this
+			->query()
+			->where( 'object_type', 'post-type-archive' )
+			->where( 'object_sub_type', $post_type )
+			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->builder->build_for_post_type_archive( $post_type );
@@ -356,10 +358,11 @@ class Indexable_Repository {
 		 *
 		 * @var Indexable $indexable
 		 */
-		$indexable = $this->query()
-		                  ->where( 'object_type', 'system-page' )
-		                  ->where( 'object_sub_type', $object_sub_type )
-		                  ->find_one();
+		$indexable = $this
+			->query()
+			->where( 'object_type', 'system-page' )
+			->where( 'object_sub_type', $object_sub_type )
+			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->builder->build_for_system_page( $object_sub_type );
@@ -367,7 +370,6 @@ class Indexable_Repository {
 
 		return $this->upgrade_indexable( $indexable );
 	}
-
 
 	/**
 	 * Retrieves a list of attachment indexables that belong to a parent post.
@@ -382,12 +384,13 @@ class Indexable_Repository {
 		 *
 		 * @var Indexable[] $indexables
 		 */
-		$indexables = $this->query()
-		                   ->where( 'object_type', 'post' )
-		                   ->where( 'object_sub_type', 'attachment' )
-		                   ->where( 'post_status', 'inherit' )
-		                   ->where( 'post_parent', $parent_post_id )
-		                   ->find_many();
+		$indexables = $this
+			->query()
+			->where( 'object_type', 'post' )
+			->where( 'object_sub_type', 'attachment' )
+			->where( 'post_status', 'inherit' )
+			->where( 'post_parent', $parent_post_id )
+			->find_many();
 
 		return \array_map( [ $this, 'upgrade_indexable' ], $indexables );
 	}
@@ -402,10 +405,11 @@ class Indexable_Repository {
 	 * @return bool|Indexable Instance of indexable.
 	 */
 	public function find_by_id_and_type( $object_id, $object_type, $auto_create = true ) {
-		$indexable = $this->query()
-		                  ->where( 'object_id', $object_id )
-		                  ->where( 'object_type', $object_type )
-		                  ->find_one();
+		$indexable = $this
+			->query()
+			->where( 'object_id', $object_id )
+			->where( 'object_type', $object_type )
+			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->builder->build_for_id_and_type( $object_id, $object_type );
@@ -436,10 +440,11 @@ class Indexable_Repository {
 		 *
 		 * @var Indexable[] $indexables
 		 */
-		$indexables = $this->query()
-		                   ->where_in( 'object_id', $object_ids )
-		                   ->where( 'object_type', $object_type )
-		                   ->find_many();
+		$indexables = $this
+			->query()
+			->where_in( 'object_id', $object_ids )
+			->where( 'object_type', $object_type )
+			->find_many();
 
 		if ( $auto_create ) {
 			$indexables_available = [];
@@ -505,10 +510,11 @@ class Indexable_Repository {
 			return [];
 		}
 
-		$indexables = $this->query()
-		                   ->where_in( 'id', $indexable_ids )
-		                   ->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
-		                   ->find_many();
+		$indexables = $this
+			->query()
+			->where_in( 'id', $indexable_ids )
+			->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
+			->find_many();
 
 		return \array_map( [ $this, 'upgrade_indexable' ], $indexables );
 	}
@@ -522,10 +528,11 @@ class Indexable_Repository {
 	 * @return Indexable[] array of indexables.
 	 */
 	public function get_subpages_by_post_parent( $post_parent, $exclude_ids = [] ) {
-		$query = $this->query()
-		              ->where( 'post_parent', $post_parent )
-		              ->where( 'object_type', 'post' )
-		              ->where( 'post_status', 'publish' );
+		$query = $this
+			->query()
+			->where( 'post_parent', $post_parent )
+			->where( 'object_type', 'post' )
+			->where( 'post_status', 'publish' );
 
 		if ( ! empty( $exclude_ids ) ) {
 			$query->where_not_in( 'object_id', $exclude_ids );
@@ -543,10 +550,11 @@ class Indexable_Repository {
 	 * @return bool Whether or not the update was succeful.
 	 */
 	public function update_incoming_link_count( $indexable_id, $count ) {
-		return (bool) $this->query()
-		                   ->set( 'incoming_link_count', $count )
-		                   ->where( 'id', $indexable_id )
-		                   ->update_many();
+		return (bool) $this
+			->query()
+			->set( 'incoming_link_count', $count )
+			->where( 'id', $indexable_id )
+			->update_many();
 	}
 
 	/**

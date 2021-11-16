@@ -100,6 +100,13 @@ class Indexable_Author_Builder {
 		return $indexable;
 	}
 
+	/**
+	 * Sets the aggregate values for an author indexable.
+	 *
+	 * @param Indexable $indexable The indexable to set the aggregates for.
+	 *
+	 * @return Indexable The indexable with set aggregates.
+	 */
 	public function set_aggregate_values( Indexable $indexable ) {
 		$aggregates                                   = $this->get_public_post_archive_aggregates( $indexable->object_id );
 		$indexable->object_published_at               = $aggregates->first_published_at;
@@ -183,8 +190,6 @@ class Indexable_Author_Builder {
 	protected function get_public_post_archive_aggregates( $author_id ) {
 		$post_statuses = $this->post_helper->get_public_post_statuses();
 		$post_types    = $this->author_archive->get_author_archive_post_types();
-		// TODO DIEDE: Protected pages krijgen _geen_ noindex. en staan gewoon in het author archive. moeten die meegeteld worden?
-		// Private werkt wel zoals verwacht.
 
 		$sql = "
 			SELECT 
@@ -192,11 +197,11 @@ class Indexable_Author_Builder {
 				MAX(p.post_modified_gmt) AS most_recent_last_modified,
 				MIN(p.post_date_gmt) AS first_published_at
 			FROM {$this->wpdb->posts} AS p
-			WHERE p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ")
-				AND p.post_password = ''
+			WHERE p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ')
+				AND p.post_password = \'\'
 				AND p.post_author = %d
-				AND p.post_type IN (" . implode( ', ', array_fill( 0, count( $post_types ), '%s' ) ) . ")
-		";
+				AND p.post_type IN (' . implode( ', ', array_fill( 0, count( $post_types ), '%s' ) ) . ')
+		';
 
 		$replacements = \array_merge( $post_statuses, [ $author_id ], $post_types );
 

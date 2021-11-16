@@ -185,6 +185,7 @@ class Indexable_Post_Builder {
 	 *
 	 * @return bool|null Whether the post type is public. Null if no override is set.
 	 *
+	 * @codeCoverageIgnore
 	 * @deprecated 17.7
 	 */
 	protected function is_public( $indexable ) {
@@ -219,6 +220,7 @@ class Indexable_Post_Builder {
 	 *
 	 * @return bool|null False when it has no parent. Null when it has a parent.
 	 *
+	 * @codeCoverageIgnore
 	 * @deprecated 17.7
 	 */
 	protected function is_public_attachment( $indexable ) {

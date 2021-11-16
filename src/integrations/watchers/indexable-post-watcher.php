@@ -260,7 +260,6 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		return $this->repository->find_by_multiple_ids_and_type( $term_ids, 'term', false );
 	}
 
-
 	/**
 	 * Tests if the site is multisite and switched.
 	 *

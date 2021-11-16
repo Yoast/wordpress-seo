@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\WP\SEO\Config\Migrations
- */
 
 namespace Yoast\WP\SEO\Config\Migrations;
 
@@ -37,7 +32,8 @@ class ReplaceIsPublicOnIndexables extends Migration {
 			[
 				'null'    => true,
 				'default' => null,
-			] );
+			]
+		);
 	}
 
 	/**
@@ -51,10 +47,9 @@ class ReplaceIsPublicOnIndexables extends Migration {
 
 		$this->remove_column(
 			$table_name,
-			'is_publicly_viewable',
+			'is_publicly_viewable'
 		);
 	}
-
 
 	/**
 	 * Retrieves the table name to use.

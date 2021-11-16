@@ -122,6 +122,13 @@ class Indexable_Home_Page_Builder {
 		return $indexable;
 	}
 
+	/**
+	 * Sets the aggregate values for a home page indexable.
+	 *
+	 * @param Indexable $indexable The indexable to set the aggregates for.
+	 *
+	 * @return Indexable The indexable with set aggregates.
+	 */
 	public function set_aggregate_values( Indexable $indexable ) {
 		$aggregates                                   = $this->get_public_post_archive_aggregates();
 		$indexable->object_published_at               = $aggregates->first_published_at;

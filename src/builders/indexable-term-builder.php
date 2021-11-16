@@ -139,6 +139,13 @@ class Indexable_Term_Builder {
 		return $indexable;
 	}
 
+	/**
+	 * Sets the aggregate values for a term indexable.
+	 *
+	 * @param Indexable $indexable The indexable to set the aggregates for.
+	 *
+	 * @return Indexable The indexable with set aggregates.
+	 */
 	public function set_aggregate_values( Indexable $indexable ) {
 		$aggregates                                   = $this->get_public_post_archive_aggregates( $indexable->object_id, $indexable->object_sub_type );
 		$indexable->object_published_at               = $aggregates->first_published_at;

@@ -1,9 +1,4 @@
 <?php
-/**
- * Yoast SEO Plugin File.
- *
- * @package Yoast\WP\SEO\Config\Migrations
- */
 
 namespace Yoast\WP\SEO\Config\Migrations;
 
@@ -40,7 +35,6 @@ class ReplaceHasPublicPostsOnIndexables extends Migration {
 			'number_of_publicly_viewable_posts',
 			'integer'
 		);
-
 	}
 
 	/**
