@@ -94,7 +94,7 @@ class Indexable_Repository {
 		Indexable_Hierarchy_Repository $hierarchy_repository,
 		wpdb $wpdb,
 		Indexable_Version_Manager $version_manager,
-		Robots_Helper $robots_helper,
+		Robots_Helper $robots_helper
 	) {
 		$this->builder              = $builder;
 		$this->current_page_helper  = $current_page_helper;
