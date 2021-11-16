@@ -157,6 +157,8 @@ class Workouts_Integration implements Integration_Interface {
 			return;
 		}
 
+		$this->admin_asset_manager->enqueue_style( 'monorepo' );
+
 		$notice = new Notice_Presenter(
 			\__( 'First-time SEO configuration', 'wordpress-seo' ),
 			\sprintf(
