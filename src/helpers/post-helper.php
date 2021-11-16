@@ -148,14 +148,14 @@ class Post_Helper {
 	 * @param int $number_of_public_posts The number of public posts
 	 *
 	 * @return bool Whether the update was successful.
+	 *
+	 * @deprecated 17.7
 	 */
-	public function update_number_of_public_posts_on_attachments( $post_parent, $number_of_public_posts ) {
-		// TODO DIEDE no alternative? builders zijn geen publieke API.
+	public function update_has_public_posts_on_attachments( $post_parent, $number_of_public_posts ) {
 		_deprecated_function( __METHOD__, '17.7' );
 		$indexable = $this->repository->find_by_id_and_type( $post_parent, 'post' );
 
 		$this->indexable_builder->recalculate_aggregates( $indexable );
-
 		return true;
 	}
 
