@@ -42,10 +42,14 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 	result.prominentWords = [];
 
 	/**
-	 * We only want to return suggestions (and spend time calculating prominent words) if the text is at least 100 words/characters.
+	 * We only want to return suggestions (and spend time calculating prominent words) if the text is at least 100 words.
+	 * And when a customCountLength is available, we only want to return the suggestions if the text has at least 200 characters.
  	 */
-	const textLength = customCountLength ? customCountLength( text ) : countWords( text );
-	if ( textLength < 100 ) {
+	if ( customCountLength ) {
+		if ( customCountLength( text ) < 200 ) {
+			return result;
+		}
+	} else if ( countWords( text ) < 100 ) {
 		return result;
 	}
 

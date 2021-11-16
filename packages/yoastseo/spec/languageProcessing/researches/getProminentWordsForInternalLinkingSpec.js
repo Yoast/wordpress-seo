@@ -224,7 +224,7 @@ enableFeatures( [ "JAPANESE_SUPPORT" ] );
 describe( "test for prominent words research for languages that have custom helpers", function() {
 	// Japanese has custom helpers for getting words from the text, for counting text length
 	// And for returning custom function to return the stem of a word.
-	it( "returns no prominent words for texts under 100 words", function() {
+	it( "returns no prominent words for texts under 200 characters", function() {
 		const paper = new Paper( "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた。" );
 
 		const researcher = new JapaneseResearcher( paper );
