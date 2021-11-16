@@ -136,7 +136,7 @@ class Post_Helper {
 	}
 
 	/**
-	 * Updates the number_of_public_posts field on attachments for a post_parent.
+	 * Updates the number_of_publicly_viewable_posts field on attachments for a post_parent.
 	 *
 	 * An attachment is represented by their post parent when:
 	 * - The attachment has a post parent.
@@ -145,13 +145,13 @@ class Post_Helper {
 	 * @codeCoverageIgnore It relies too much on dependencies.
 	 *
 	 * @param int $post_parent            Post ID.
-	 * @param int $number_of_public_posts The number of public posts
+	 * @param int $has_public_posts       Unused.
 	 *
 	 * @return bool Whether the update was successful.
 	 *
 	 * @deprecated 17.7
 	 */
-	public function update_has_public_posts_on_attachments( $post_parent, $number_of_public_posts ) {
+	public function update_has_public_posts_on_attachments( $post_parent, $has_public_posts ) {
 		_deprecated_function( __METHOD__, '17.7' );
 		$indexable = $this->repository->find_by_id_and_type( $post_parent, 'post' );
 

@@ -43,27 +43,16 @@ class Author_Archive_Helper {
 	}
 
 	/**
-	 * Gets the number of public posts an author has.
-	 * Depends on the post indexables to be fully indexed.
-	 *
-	 * @param int $author_id The id of the author to get the number of public posts for.
-	 *
-	 * @return int The number of public posts an author has.
-	 */
-	public function get_number_of_public_posts( $author_id ) {
-		$author_indexable = $this->indexable_repository->find_by_id_and_type( $author_id, 'user' );
-
-		return $author_indexable->number_of_public_posts;
-	}
-
-	/**
 	 * Returns whether the author has at least one public post.
 	 *
 	 * @param int $author_id The author ID.
 	 *
 	 * @return bool|null Whether the author has at least one public post.
+	 *
+	 * @deprecated 17.7
 	 */
 	public function author_has_public_posts( $author_id ) {
+		_deprecated_function( __METHOD__, '17.7',Indexable_Repository::class.'::noindex_query');
 		// First check if the author has at least one public post.
 		$has_public_post = $this->author_has_a_public_post( $author_id );
 		if ( $has_public_post ) {
@@ -87,6 +76,8 @@ class Author_Archive_Helper {
 	 * @param int $author_id The author ID.
 	 *
 	 * @return bool Whether the author has at least one public post.
+	 *
+	 * @deprecated 17.7
 	 */
 	protected function author_has_a_public_post( $author_id ) {
 		$cache_key        = 'author_has_a_public_post_' . $author_id;
@@ -118,6 +109,8 @@ class Author_Archive_Helper {
 	 * @param int $author_id The author ID.
 	 *
 	 * @return bool Whether the author has at least one post with the is public null.
+	 *
+	 * @deprecated 17.7
 	 */
 	protected function author_has_a_post_with_is_public_null( $author_id ) {
 		$cache_key        = 'author_has_a_post_with_is_public_null_' . $author_id;
