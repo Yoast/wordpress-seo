@@ -1,7 +1,7 @@
 // External dependencies.
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
-import { useCallback, useState, useMemo, useEffect } from "@wordpress/element";
+import { useCallback, useState, useMemo, useEffect, Fragment } from "@wordpress/element";
 import { useDispatch, useSelect } from "@wordpress/data";
 // Internal dependencies.
 import { NewButton as Button, ProgressBar } from "@yoast/components";
@@ -69,7 +69,7 @@ export default function WorkoutCard( {
 	const UpsellButton = makeOutboundLink();
 	const disabled = workout ? "" : " card-disabled";
 
-	return ( <>
+	return ( <Fragment>
 		{ ! activeWorkout && <div className={ `card card-small${ disabled }` }>
 			<h2>{ title } { badges }</h2>
 			<h3>{ subtitle }</h3>
@@ -119,7 +119,7 @@ export default function WorkoutCard( {
 			</span>
 		</div> }
 		{ workout && activeWorkout === name && <WorkoutComponent /> }
-	</>	);
+	</Fragment>	);
 }
 
 WorkoutCard.propTypes = {

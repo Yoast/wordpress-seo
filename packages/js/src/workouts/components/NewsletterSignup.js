@@ -1,4 +1,4 @@
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback, useState, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 
 import { NewButton as Button, TextInput } from "@yoast/components";
@@ -54,7 +54,7 @@ export function NewsletterSignup() {
 	);
 
 	return (
-		<>
+		<Fragment>
 			<ul className="yoast-list--usp">
 				<li>{ __( "Receive best-practice tips and learn how to rank on search engines", "wordpress-seo" ) }</li>
 				<li>{ __( "Stay up-to-date with the latest SEO news", "wordpress-seo" ) }</li>
@@ -96,6 +96,6 @@ export function NewsletterSignup() {
 			{ signUpState === "ready" && <ul className="yoast-list--usp yoast-newsletter-result">
 				<li>{ __( "Thanks! Check your inbox for the confirmation email.", "wordpress-seo" ) }</li>
 			</ul> }
-		</>
+		</Fragment>
 	);
 }

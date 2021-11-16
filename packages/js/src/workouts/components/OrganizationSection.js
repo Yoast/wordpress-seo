@@ -1,4 +1,4 @@
-import { useCallback } from "@wordpress/element";
+import { useCallback, Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 
 import { openMedia } from "../../helpers/selectMedia";
@@ -30,7 +30,7 @@ export function OrganizationSection( { dispatch, imageUrl, organizationName, isD
 	} );
 
 	return (
-		<>
+		<Fragment>
 			<TextInput
 				id="organization-name-input"
 				name="organization-name"
@@ -48,7 +48,7 @@ export function OrganizationSection( { dispatch, imageUrl, organizationName, isD
 				label={ __( "Organization logo (important)", "wordpress-seo" ) }
 				isDisabled={ isDisabled }
 			/>
-		</>
+		</Fragment>
 	);
 }
 

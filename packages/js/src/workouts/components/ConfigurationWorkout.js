@@ -1,7 +1,7 @@
 import apiFetch from "@wordpress/api-fetch";
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
-import { createInterpolateElement, useCallback, useReducer, useState } from "@wordpress/element";
+import { createInterpolateElement, useCallback, useReducer, useState, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
 import PropTypes from "prop-types";
@@ -403,7 +403,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						readOnly={ isStepFinished( "configuration", steps.siteRepresentation ) }
 
 					/>
-					{ state.companyOrPerson === "company" && <>
+					{ state.companyOrPerson === "company" && <Fragment>
 						{ ( ! state.companyName || ! state.companyLogo ) && <Alert type="warning">
 							{ __(
 								// eslint-disable-next-line max-len
@@ -417,8 +417,8 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							organizationName={ state.companyName }
 							isDisabled={ isStepFinished( "configuration", steps.siteRepresentation ) }
 						/>
-					</> }
-					{ state.companyOrPerson === "person" && <>
+					</Fragment> }
+					{ state.companyOrPerson === "person" && <Fragment>
 						{ ( ! state.personLogo || state.personId === 0 ) && <Alert type="warning">
 							{ __(
 								// eslint-disable-next-line max-len
@@ -432,7 +432,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							personId={ state.personId }
 							isDisabled={ isStepFinished( "configuration", steps.siteRepresentation ) }
 						/>
-					</> }
+					</Fragment> }
 					<TextInput
 						id="site-tagline-input"
 						name="site-tagline"

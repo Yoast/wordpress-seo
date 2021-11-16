@@ -1,3 +1,4 @@
+import { Fragment } from "@wordpress/element";
 import { NewButton as Button } from "@yoast/components";
 import { ReactComponent as ArrowDown } from "../../../images/icon-arrow-down.svg";
 import PropTypes from "prop-types";
@@ -30,14 +31,14 @@ Steps.propTypes = {
  */
 export function FinishStepSection( { onFinishClick, finishText, hasDownArrow, isFinished, children } ) {
 	return (
-		<>
+		<Fragment>
 			<hr />
 			{ children }
 			<Button className={ `yoast-button yoast-button--secondary${ isFinished ? " yoast-button--finished" : "" }` } onClick={ onFinishClick }>
 				{ finishText }
 				{ hasDownArrow && <ArrowDown className="yoast-button--arrow-down" /> }
 			</Button>
-		</>
+		</Fragment>
 	);
 }
 
