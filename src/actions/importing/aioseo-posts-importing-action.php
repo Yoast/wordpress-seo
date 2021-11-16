@@ -63,11 +63,8 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 */
 	public function is_enabled() {
 		$aioseo_importer_conditional = \YoastSEO()->classes->get( AIOSEO_V4_Importer_Conditional::class );
-		if ( $aioseo_importer_conditional->is_met() ) {
-			return true;
-		}
 
-		return false;
+		return $aioseo_importer_conditional->is_met();
 	}
 
 	// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: They are already prepared.
