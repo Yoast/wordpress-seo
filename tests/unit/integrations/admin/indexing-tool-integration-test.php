@@ -194,6 +194,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	 *
 	 * @covers ::enqueue_scripts
 	 * @covers ::get_indexing_endpoints
+	 * @covers ::get_importing_endpoints
 	 */
 	public function test_enqueue_scripts() {
 		$this->indexing_helper
