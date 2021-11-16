@@ -25,10 +25,6 @@ class WPSEO_Configuration_Page {
 			return;
 		}
 
-		if ( $this->should_add_notification() ) {
-			$this->add_notification();
-		}
-
 		// Register the page for the wizard.
 		add_action( 'admin_menu', [ $this, 'add_wizard_page' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
@@ -42,12 +38,12 @@ class WPSEO_Configuration_Page {
 		$configuration_page = filter_input( INPUT_GET, 'configuration' );
 		$page               = filter_input( INPUT_GET, 'page' );
 
+		$this->remove_notification();
+		$this->remove_notification_option();
+
 		if ( ! ( $configuration_page === 'finished' && ( $page === WPSEO_Admin::PAGE_IDENTIFIER ) ) ) {
 			return;
 		}
-
-		$this->remove_notification();
-		$this->remove_notification_option();
 
 		wp_safe_redirect( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) );
 		exit;
