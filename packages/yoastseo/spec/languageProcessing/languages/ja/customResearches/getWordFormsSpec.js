@@ -260,7 +260,7 @@ describe( "The getWordForms function", () => {
 				/*
 				 * 猫 - one character noun, no forms required
 				 * が - function word, is deleted
-				 * 及ぼ - noun, forms would be created in Premium, but not Free
+				 * 及ぼ - verb, forms would be created in Premium, but not Free
 				 */
 				keyword: "猫が及ぼ",
 				synonyms: "",
