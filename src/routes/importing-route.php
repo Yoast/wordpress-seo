@@ -136,7 +136,7 @@ class Importing_Route extends Abstract_Action_Route {
 			return false;
 		}
 
-		return Main::API_V1_NAMESPACE . '/' . "import/{$plugin}/{$type}";
+		return Main::API_V1_NAMESPACE . "/import/{$plugin}/{$type}";
 	}
 
 	/**
