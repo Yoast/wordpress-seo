@@ -80,6 +80,11 @@
 	display: flex;
 }
 
+.workflow li.step > .yoast-button.orphaned-summary {
+	margin: 0;
+	display: initial;
+}
+
 .yoast .yoast-button--arrow-down {
 	flex-shrink: 0;
 	display: inline-block;
