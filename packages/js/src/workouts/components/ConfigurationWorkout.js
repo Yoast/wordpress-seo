@@ -1,3 +1,4 @@
+/* global yoastIndexingData */
 import apiFetch from "@wordpress/api-fetch";
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
@@ -8,7 +9,7 @@ import { cloneDeep } from "lodash";
 import { Alert, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
-import { Step, Steps } from "./Steps";
+import { Step, Steps, FinishStepSection } from "./Steps";
 import Indexation from "../../components/Indexation";
 import { STEPS, WORKOUTS } from "../config";
 import { OrganizationSection } from "./OrganizationSection";
@@ -73,7 +74,6 @@ function configurationWorkoutReducer( state, action ) {
 			return newState;
 	}
 }
-/* eslint-enable complexity */
 
 /**
  * The configuration workout.
@@ -84,8 +84,9 @@ function configurationWorkoutReducer( state, action ) {
  * @param {string}    seoDataOptimizationNeeded The flag signaling if SEO optimization is needed.
  * @returns {WPElement} The ConfigurationWorkout component.
  */
-export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinished, seoDataOptimizationNeeded } ) {
+export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinished } ) {
 	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, window.wpseoWorkoutsData.configuration );
+	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "completed" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 
 	const setTracking = useCallback( ( value ) => {
@@ -239,7 +240,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		<div className="card">
 			<h2>{ __( "Configuration", "wordpress-seo" ) }</h2>
 			<h3>{ __( "Configure Yoast SEO with optimal SEO settings for your site", "wordpress-seo" ) }</h3>
-			{ seoDataOptimizationNeeded === "1" && <div>seoDataoptimization alert</div> }
 			<p>
 				{
 					__(
@@ -288,7 +288,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 			<br />
 			<Steps>
 				<Step
-					hasDownArrow={ true }
 					title={ __( "Optimize SEO data", "wordpress-seo" ) }
 					subtitle={ addLinkToString(
 						sprintf(
@@ -303,12 +302,18 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						"https://yoa.st/config-workout-index-data"
 					) }
 					ImageComponent={ WorkoutImage }
-					finishText={ __( "Continue", "wordpress-seo" ) }
-					onFinishClick={ onFinishOptimizeSeoData }
 					isFinished={ isStepFinished( "configuration", steps.optimizeSeoData ) }
 				>
 					<div className="indexation-container">
-						<Indexation />
+						<Indexation
+							indexingStateCallback={ setIndexingState }
+						/>
+						<FinishStepSection
+							hasDownArrow={ true }
+							finishText={ __( "Continue", "wordpress-seo" ) }
+							onFinishClick={ onFinishOptimizeSeoData }
+							isFinished={ isStepFinished( "configuration", steps.optimizeSeoData ) }
+						/>
 					</div>
 				</Step>
 				<p className="extra-list-content">
@@ -330,11 +335,8 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					}
 				</p>
 				<Step
-					hasDownArrow={ true }
 					title={ __( "Site representation", "wordpress-seo" ) }
 					subtitle={ __( "Tell Google what kind of site you have. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
-					finishText={ __( "Continue and save", "wordpress-seo" ) }
-					onFinishClick={ updateOnFinishSiteRepresentation }
 					isFinished={ isStepFinished( "configuration", steps.siteRepresentation ) }
 				>
 					<SingleSelect
@@ -356,13 +358,13 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 
 					/>
 					{ state.companyOrPerson === "company" && <>
-						<Alert type="warning">
+						{ ( ! state.companyName || ! state.companyLogo ) && <Alert type="warning">
 							{ __(
 								// eslint-disable-next-line max-len
 								"You need to set an organization name and logo for structured data to work properly.",
 								"wordpress-seo"
 							) }
-						</Alert>
+						</Alert> }
 						<OrganizationSection
 							dispatch={ dispatch }
 							imageUrl={ state.companyLogo }
@@ -371,13 +373,13 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						/>
 					</> }
 					{ state.companyOrPerson === "person" && <>
-						<Alert type="warning">
+						{ ( ! state.personLogo || state.personId === 0 ) && <Alert type="warning">
 							{ __(
 								// eslint-disable-next-line max-len
 								"You need to set a person name and logo for structured data to work properly.",
 								"wordpress-seo"
 							) }
-						</Alert>
+						</Alert> }
 						<PersonSection
 							dispatch={ dispatch }
 							imageUrl={ state.personLogo }
@@ -402,13 +404,16 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							"wordpress-seo"
 						) }
 					</Alert> }
+					<FinishStepSection
+						hasDownArrow={ true }
+						finishText={ __( "Continue and save", "wordpress-seo" ) }
+						onFinishClick={ updateOnFinishSiteRepresentation }
+						isFinished={ isStepFinished( "configuration", steps.siteRepresentation ) }
+					/>
 				</Step>
 				<Step
-					hasDownArrow={ true }
 					title={ __( "Social profiles", "wordpress-seo" ) }
 					subtitle={ state.companyOrPerson === "company" ?  __( "Do you have profiles for your site on social media? Then, add all of their URLs here.", "wordpress-seo" ) : '' }
-					finishText={ "Save and continue" }
-					onFinishClick={ updateOnFinishSocialProfiles }
 					isFinished={ isStepFinished( "configuration", steps.socialProfiles ) }
 				>
 					{ state.companyOrPerson === "company" && <div className="yoast-social-profiles-input-fields">
@@ -517,12 +522,15 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						</p>
 					</div>
 					}
+					<FinishStepSection
+						hasDownArrow={ true }
+						finishText={ "Save and continue" }
+						onFinishClick={ updateOnFinishSocialProfiles }
+						isFinished={ isStepFinished( "configuration", steps.socialProfiles ) }
+					/>
 				</Step>
 				<Step
-					hasDownArrow={ true }
 					title={ __( "Help us improve Yoast SEO", "wordpress-seo" ) }
-					finishText={ "Save and continue" }
-					onFinishClick={ updateOnFinishEnableTracking }
 					isFinished={ isStepFinished( "configuration", steps.enableTracking ) }
 				>
 					<p>
@@ -561,14 +569,26 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					<i> {
 						__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors!", "wordpress-seo" )
 					} </i>
+					<FinishStepSection
+						hasDownArrow={ true }
+						finishText={ "Save and continue" }
+						onFinishClick={ updateOnFinishEnableTracking }
+						isFinished={ isStepFinished( "configuration", steps.enableTracking ) }
+					/>
 				</Step>
 				<Step
 					title={ __( "Sign up for the Yoast newsletter!", "wordpress-seo" ) }
-					finishText={ "Finish this workout" }
-					onFinishClick={ toggleConfigurationWorkout }
 					isFinished={ isStepFinished( "configuration", steps.newsletterSignup ) }
 				>
 					<NewsletterSignup />
+					{ indexingState !== "completed" && <Alert type="warning">
+						{ __( "Before you finish this workout, please wait on this page until the SEO data optimization in step 1 is completed...", "wordpress-seo" ) }
+					</Alert> }
+					<FinishStepSection
+						finishText={ "Finish this workout" }
+						onFinishClick={ toggleConfigurationWorkout }
+						isFinished={ isStepFinished( "configuration", steps.newsletterSignup ) }
+					/>
 				</Step>
 			</Steps>
 		</div>
@@ -586,6 +606,7 @@ ConfigurationWorkout.propTypes = {
 ConfigurationWorkout.defaultProps = {
 	seoDataOptimizationNeeded: "1",
 };
+/* eslint-enable complexity */
 
 export default compose(
 	[
