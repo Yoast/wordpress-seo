@@ -601,11 +601,6 @@ ConfigurationWorkout.propTypes = {
 	toggleStep: PropTypes.func.isRequired,
 	toggleWorkout: PropTypes.func.isRequired,
 	isStepFinished: PropTypes.func.isRequired,
-	seoDataOptimizationNeeded: PropTypes.string,
-};
-
-ConfigurationWorkout.defaultProps = {
-	seoDataOptimizationNeeded: "1",
 };
 /* eslint-enable complexity */
 
