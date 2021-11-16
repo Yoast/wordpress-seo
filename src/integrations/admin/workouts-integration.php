@@ -112,7 +112,9 @@ class Workouts_Integration implements Integration_Interface {
 			[
 				'workouts'     => $workouts_option,
 				'homeUrl'      => \home_url(),
+				'pluginUrl'    => \esc_url( \plugins_url( '', WPSEO_FILE ) ),
 				'toolsPageUrl' => \esc_url( \admin_url( 'admin.php?page=wpseo_tools' ) ),
+				'usersPageUrl' => \esc_url( \admin_url( 'users.php' ) ),
 				'isPremium'    => YoastSEO()->helpers->product->is_premium(),
 			]
 		);

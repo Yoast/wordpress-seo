@@ -4,116 +4,24 @@ import { withDispatch, withSelect } from "@wordpress/data";
 import { createInterpolateElement, useCallback, useReducer, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
+import PropTypes from "prop-types";
 
-import { NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
+import { Alert, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
-import { Step, Steps } from "./Steps";
+import { Step, Steps, FinishStepSection } from "./Steps";
 import Indexation from "../../components/Indexation";
 import { STEPS, WORKOUTS } from "../config";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
 import { SocialInput } from "./SocialInput";
-import PropTypes from "prop-types";
+import { NewsletterSignup } from "./NewsletterSignup";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
 	...window.wpseoScriptData.searchAppearance,
 	userEditUrl: "/wp-admin/user-edit.php?user_id={user_id}",
 };
-
-/**
- * A function to request a sign up to the newsletter.
- *
- * @param {string} email The email to signup to the newsletter.
- *
- * @returns {Object} The request's response.
- */
-async function postSignUp( email ) {
-	const response = await fetch( "https://my.yoast.com/api/Mailing-list/subscribe", {
-		method: "POST",
-		mode: "cors",
-		cache: "no-cache",
-		credentials: "same-origin",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		redirect: "follow",
-		referrerPolicy: "no-referrer",
-		body: JSON.stringify(
-			{
-				customerDetails: {
-					firstName: "",
-					email,
-				},
-				list: "Yoast newsletter",
-			}
-		),
-	} );
-	return response.json();
-}
-
-/**
- * The newsletter signup section.
- *
- * @returns {WPElement} A newslettersignup element.
- */
-function NewsletterSignup() {
-	const [ newsletterEmail, setNewsletterEmail ] = useState( "" );
-	const [ signUpState, setSignUpState ] = useState( "ready" );
-
-	const onSignUpClick = useCallback(
-		async function() {
-			setSignUpState( "loading" );
-			await postSignUp( newsletterEmail );
-			setSignUpState( "ready" );
-		},
-		[ newsletterEmail ]
-	);
-
-	return (
-		<>
-			<ul className="yoast-list--usp">
-				<li>{ __( "Receive best-practice tips and learn how to rank on search engines", "wordpress-seo" ) }</li>
-				<li>{ __( "Stay up-to-date with the latest SEO news", "wordpress-seo" ) }</li>
-				<li>{ __( "Get guidance on how to use Yoast SEO to the fullest", "wordpress-seo" ) }</li>
-			</ul>
-			<div className="yoast-newsletter-signup">
-				<TextInput
-					label={ __( "Email address", "wordpress-seo" ) }
-					id="newsletter-email"
-					name="newsletter email"
-					value={ newsletterEmail }
-					onChange={ setNewsletterEmail }
-					type="email"
-				/>
-				<Button
-					variant="primary"
-					onClick={ onSignUpClick }
-					disabled={ signUpState === "loading" }
-				>
-					{ __( "Sign up!", "wordpress-seo" ) }
-				</Button>
-			</div>
-			<p className="yoast-privacy-policy">
-				{
-					addLinkToString(
-						sprintf(
-							// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
-							__(
-								"Yoast respects your privacy. Read %1$sour privacy policy%2$s on how we handle your personal information.",
-								"wordpress-seo"
-							),
-							"<a>",
-							"</a>"
-						),
-						"https://yoa.st/gdpr-config-workout"
-					)
-				}
-			</p>
-		</>
-	);
-}
 
 /* eslint-disable complexity */
 /**
@@ -165,7 +73,6 @@ function configurationWorkoutReducer( state, action ) {
 			return newState;
 	}
 }
-/* eslint-enable complexity */
 
 /**
  * The configuration workout.
@@ -176,8 +83,10 @@ function configurationWorkoutReducer( state, action ) {
  * @param {string}    seoDataOptimizationNeeded The flag signaling if SEO optimization is needed.
  * @returns {WPElement} The ConfigurationWorkout component.
  */
-export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinished, seoDataOptimizationNeeded } ) {
+export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinished } ) {
 	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, window.wpseoWorkoutsData.configuration );
+	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "completed" : "idle" );
+	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 
 	const setTracking = useCallback( ( value ) => {
 		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
@@ -185,14 +94,26 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 
 	const steps = STEPS.configuration;
 
+	/**
+	 * Updates the site representation in the database.
+	 *
+	 * @returns {Promise|bool} A promise, or false if the call fails.
+	 */
 	const updateSiteRepresentation = async function() {
 		const siteRepresentation = {
+			// eslint-disable-next-line camelcase
 			company_or_person: state.companyOrPerson,
+			// eslint-disable-next-line camelcase
 			company_name: state.companyName,
+			// eslint-disable-next-line camelcase
 			company_logo: state.companyLogo,
-			company_logo_id: state.companyLogoId,
+			// eslint-disable-next-line camelcase
+			company_logo_id: state.companyLogoId ? state.companyLogoId : 0,
+			// eslint-disable-next-line camelcase
 			person_logo: state.personLogo,
-			person_logo_id: state.personLogoId,
+			// eslint-disable-next-line camelcase
+			person_logo_id: state.personLogoId ? state.personLogoId : 0,
+			// eslint-disable-next-line camelcase
 			company_or_person_user_id: state.personId,
 			description: state.siteTagline,
 		};
@@ -211,16 +132,30 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		}
 	};
 
+	/**
+	 * Updates the social profiles in the database.
+	 *
+	 * @returns {Promise|bool} A promise, or false if the call fails.
+	 */
 	const updateSocialProfiles = async function() {
 		const socialProfiles = {
+			// eslint-disable-next-line camelcase
 			facebook_site: state.socialProfiles.facebookUrl,
+			// eslint-disable-next-line camelcase
 			twitter_site: state.socialProfiles.twitterUsername,
+			// eslint-disable-next-line camelcase
 			instagram_url: state.socialProfiles.instagramUrl,
+			// eslint-disable-next-line camelcase
 			linkedin_url: state.socialProfiles.linkedinUrl,
+			// eslint-disable-next-line camelcase
 			myspace_url: state.socialProfiles.myspaceUrl,
+			// eslint-disable-next-line camelcase
 			pinterest_url: state.socialProfiles.pinterestUrl,
+			// eslint-disable-next-line camelcase
 			youtube_url: state.socialProfiles.youtubeUrl,
+			// eslint-disable-next-line camelcase
 			wikipedia_url: state.socialProfiles.wikipediaUrl,
+			// eslint-enable camelcase
 		};
 
 		try {
@@ -237,6 +172,11 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		}
 	};
 
+	/**
+	 * Updates the tracking option in the database.
+	 *
+	 * @returns {Promise|bool} A promise, or false if the call fails.
+	 */
 	const updateTracking = async function() {
 		const tracking = {
 			tracking: state.tracking,
@@ -265,11 +205,27 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		[ toggleStep, steps.siteRepresentation ]
 	);
 
+	/**
+	 * Runs checks of finishing the site representation step.
+	 *
+	 * @returns {void}
+	 */
 	function updateOnFinishSiteRepresentation() {
 		if ( isStepFinished( "configuration", steps.siteRepresentation ) ) {
 			toggleStepSiteRepresentation();
 		} else {
-			updateSiteRepresentation().then( toggleStepSiteRepresentation );
+			if ( ! siteRepresentationEmpty &&
+				state.companyOrPerson === "company" &&
+				( ! state.companyName || ! state.companyLogo ) ) {
+				setSiteRepresentationEmpty( true );
+			} else if (  ! siteRepresentationEmpty &&
+				state.companyOrPerson === "person" &&
+				( ! state.personId || ! state.personLogo ) ) {
+				setSiteRepresentationEmpty( true );
+			} else {
+				setSiteRepresentationEmpty( false );
+				updateSiteRepresentation().then( toggleStepSiteRepresentation );
+			}
 		}
 	}
 
@@ -278,6 +234,11 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		[ toggleStep, steps.socialProfiles ]
 	);
 
+	/**
+	 * Runs checks of finishing the social profiles step.
+	 *
+	 * @returns {void}
+	 */
 	function updateOnFinishSocialProfiles() {
 		if ( isStepFinished( "configuration", steps.socialProfiles ) ) {
 			toggleStepSocialProfiles();
@@ -291,6 +252,11 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		[ toggleStep, steps.enableTracking ]
 	);
 
+	/**
+	 * Runs checks of finishing the enable tracking step.
+	 *
+	 * @returns {void}
+	 */
 	function updateOnFinishEnableTracking() {
 		if ( isStepFinished( "configuration", steps.enableTracking ) ) {
 			toggleStepEnableTracking();
@@ -319,11 +285,10 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		<div className="card">
 			<h2>{ __( "Configuration", "wordpress-seo" ) }</h2>
 			<h3>{ __( "Configure Yoast SEO with optimal SEO settings for your site", "wordpress-seo" ) }</h3>
-			{ seoDataOptimizationNeeded === "1" && <div>seoDataoptimization alert</div> }
 			<p>
 				{
 					__(
-						"This workout will guide you through the most important steps you need to take to configure the Yoast SEO plugin on your site.",
+						"Do the five steps in this workout to configure the essential Yoast SEO settings!",
 						"wordpress-seo"
 					)
 				}
@@ -368,13 +333,13 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 			<br />
 			<Steps>
 				<Step
-					hasDownArrow={ true }
 					title={ __( "Optimize SEO data", "wordpress-seo" ) }
 					subtitle={ addLinkToString(
 						sprintf(
 							__(
-								"Speed up your site and get internal linking insights by clicking the button below! It will let us optimize how your SEO data is stored. Do you have a lot of content? " +
-								"Then the optimization might take a while. But trust us, it's worth it. %1$sLearn more about the benefits of optimized SEO data.%2$s",
+								"Click the button below to optimize your SEO data. It will let us see your site as Google does, so we can give " +
+								"you the best SEO tips and improve technical SEO issues in the background! If you have a lot of content the " +
+								"optimization might take a while. But trust us, it's worth it! Learn more about the benefits of optimized SEO data.",
 								"wordpress-seo"
 							),
 							"<a>",
@@ -383,12 +348,18 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						"https://yoa.st/config-workout-index-data"
 					) }
 					ImageComponent={ WorkoutImage }
-					finishText={ __( "Continue", "wordpress-seo" ) }
-					onFinishClick={ onFinishOptimizeSeoData }
 					isFinished={ isStepFinished( "configuration", steps.optimizeSeoData ) }
 				>
 					<div className="indexation-container">
-						<Indexation />
+						<Indexation
+							indexingStateCallback={ setIndexingState }
+						/>
+						<FinishStepSection
+							hasDownArrow={ true }
+							finishText={ __( "Continue", "wordpress-seo" ) }
+							onFinishClick={ onFinishOptimizeSeoData }
+							isFinished={ isStepFinished( "configuration", steps.optimizeSeoData ) }
+						/>
 					</div>
 				</Step>
 				<p className="extra-list-content">
@@ -410,11 +381,8 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					}
 				</p>
 				<Step
-					hasDownArrow={ true }
 					title={ __( "Site representation", "wordpress-seo" ) }
-					subtitle={ __( "Tell Google what kind of site you have. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
-					finishText={ __( "Continue and save", "wordpress-seo" ) }
-					onFinishClick={ updateOnFinishSiteRepresentation }
+					subtitle={ __( "Tell Google what kind of site you have and increase the chance it gets features in a Google Knowledge Panel. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
 					isFinished={ isStepFinished( "configuration", steps.siteRepresentation ) }
 				>
 					<SingleSelect
@@ -435,18 +403,36 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						readOnly={ isStepFinished( "configuration", steps.siteRepresentation ) }
 
 					/>
-					{ state.companyOrPerson === "company" && <OrganizationSection
-						dispatch={ dispatch }
-						imageUrl={ state.companyLogo }
-						organizationName={ state.companyName }
-						isDisabled={ isStepFinished( "configuration", steps.siteRepresentation ) }
-					/> }
-					{ state.companyOrPerson === "person" && <PersonSection
-						dispatch={ dispatch }
-						imageUrl={ state.personLogo }
-						personId={ state.personId }
-						isDisabled={ isStepFinished( "configuration", steps.siteRepresentation ) }
-					/> }
+					{ state.companyOrPerson === "company" && <>
+						{ ( ! state.companyName || ! state.companyLogo ) && <Alert type="warning">
+							{ __(
+								// eslint-disable-next-line max-len
+								"You need to set an organization name and logo for structured data to work properly.",
+								"wordpress-seo"
+							) }
+						</Alert> }
+						<OrganizationSection
+							dispatch={ dispatch }
+							imageUrl={ state.companyLogo }
+							organizationName={ state.companyName }
+							isDisabled={ isStepFinished( "configuration", steps.siteRepresentation ) }
+						/>
+					</> }
+					{ state.companyOrPerson === "person" && <>
+						{ ( ! state.personLogo || state.personId === 0 ) && <Alert type="warning">
+							{ __(
+								// eslint-disable-next-line max-len
+								"You need to set a person name and logo for structured data to work properly.",
+								"wordpress-seo"
+							) }
+						</Alert> }
+						<PersonSection
+							dispatch={ dispatch }
+							imageUrl={ state.personLogo }
+							personId={ state.personId }
+							isDisabled={ isStepFinished( "configuration", steps.siteRepresentation ) }
+						/>
+					</> }
 					<TextInput
 						id="site-tagline-input"
 						name="site-tagline"
@@ -457,16 +443,26 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						onChange={ onSiteTaglineChange }
 						readOnly={ isStepFinished( "configuration", steps.siteRepresentation ) }
 					/>
+					{ siteRepresentationEmpty && <Alert type="warning">
+						{ __(
+							// eslint-disable-next-line max-len
+							"Please be aware that you need to set a name and logo in step 2 for structured data to work properly.",
+							"wordpress-seo"
+						) }
+					</Alert> }
+					<FinishStepSection
+						hasDownArrow={ true }
+						finishText={ __( "Continue and save", "wordpress-seo" ) }
+						onFinishClick={ updateOnFinishSiteRepresentation }
+						isFinished={ isStepFinished( "configuration", steps.siteRepresentation ) }
+					/>
 				</Step>
 				<Step
-					hasDownArrow={ true }
 					title={ __( "Social profiles", "wordpress-seo" ) }
-					subtitle={ __( "Do you have profiles for your site on social media? Then, add all of their URLs here.", "wordpress-seo" ) }
-					finishText={ "Save and continue" }
-					onFinishClick={ updateOnFinishSocialProfiles }
+					subtitle={ state.companyOrPerson === "company" ?  __( "Do you have profiles for your site on social media? Then, add all of their URLs here, so your social profiles may also appear in a Google Knowledge Panel.", "wordpress-seo" ) : "" }
 					isFinished={ isStepFinished( "configuration", steps.socialProfiles ) }
 				>
-					<div className="yoast-social-profiles-input-fields">
+					{ state.companyOrPerson === "company" && <div className="yoast-social-profiles-input-fields">
 						<SocialInput
 							label={ __( "Facebook URL", "wordpress-seo" ) }
 							value={ state.socialProfiles.facebookUrl }
@@ -523,13 +519,64 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							dispatch={ dispatch }
 							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
 						/>
+					</div> }
+					{ state.companyOrPerson === "person" && <div>
+						<p>
+							{
+								createInterpolateElement(
+									sprintf(
+										__(
+											// translators: %1$s and %2$s are replaced by opening and closing <b> tags, %3$s and %4$s are replaced by opening and closing anchor tags
+											"%1$sNote%2$s: In this step, you need to add the personal social profiles of the person your site represents. To do that, you should go to the %3$sUsers%4$s > Profile page in a new browser tab.",
+											"wordpress-seo"
+										),
+										"<b>",
+										"</b>",
+										"<a>",
+										"</a>"
+									),
+									{
+										b: <b />,
+										// eslint-disable-next-line jsx-a11y/anchor-has-content
+										a: <a href={ window.wpseoWorkoutsData.usersPageUrl } target="_blank" rel="noopener noreferrer" />,
+									}
+								)
+							}
+						</p>
+						<p>
+							{
+								addLinkToString(
+									sprintf(
+										__(
+											// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
+											"On the %1$sUsers%2$s page, hover your mouse over the username you want to edit. Click ‘Edit’ to access the user’s profile. Then, scroll down to the ‘Contact info’ section and fill in the URLs of the personal social profiles you want to add.",
+											"wordpress-seo"
+										),
+										"<a>",
+										"</a>"
+									),
+									window.wpseoWorkoutsData.usersPageUrl
+								)
+							}
+						</p>
+						<p>
+							<b>{ __( "Screenshot:", "wordpress-seo" ) }</b>
+							<img
+								src={ window.wpseoWorkoutsData.pluginUrl + "/images/profile-social-fields.png" }
+								alt={ __( "A screenshot of the Contact Info section of a user's Profile page", "wordpress-seo" ) }
+							/>
+						</p>
 					</div>
+					}
+					<FinishStepSection
+						hasDownArrow={ true }
+						finishText={ "Save and continue" }
+						onFinishClick={ updateOnFinishSocialProfiles }
+						isFinished={ isStepFinished( "configuration", steps.socialProfiles ) }
+					/>
 				</Step>
 				<Step
-					hasDownArrow={ true }
 					title={ __( "Help us improve Yoast SEO", "wordpress-seo" ) }
-					finishText={ "Save and continue" }
-					onFinishClick={ updateOnFinishEnableTracking }
 					isFinished={ isStepFinished( "configuration", steps.enableTracking ) }
 				>
 					<p>
@@ -554,6 +601,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						selected={ state.tracking }
 						onChange={ setTracking }
 						vertical={ true }
+						wrapperClassName={ "tracking-radiobuttons" }
 						options={ [
 							{
 								value: 0,
@@ -565,17 +613,32 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							},
 						] }
 					/>
-					<i> {
-						__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors!", "wordpress-seo" )
-					} </i>
+					<p>
+						<i>{
+							__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors!", "wordpress-seo" )
+						}</i>
+					</p>
+					<FinishStepSection
+						hasDownArrow={ true }
+						finishText={ "Save and continue" }
+						onFinishClick={ updateOnFinishEnableTracking }
+						isFinished={ isStepFinished( "configuration", steps.enableTracking ) }
+					/>
 				</Step>
 				<Step
 					title={ __( "Sign up for the Yoast newsletter!", "wordpress-seo" ) }
-					finishText={ "Finish this workout" }
-					onFinishClick={ toggleConfigurationWorkout }
 					isFinished={ isStepFinished( "configuration", steps.newsletterSignup ) }
 				>
 					<NewsletterSignup />
+					<FinishStepSection
+						finishText={ "Finish this workout" }
+						onFinishClick={ toggleConfigurationWorkout }
+						isFinished={ isStepFinished( "configuration", steps.newsletterSignup ) }
+					>
+						{ indexingState !== "completed" && <Alert type="warning">
+							{ __( "Before you finish this workout, please wait on this page until the SEO data optimization in step 1 is completed...", "wordpress-seo" ) }
+						</Alert> }
+					</FinishStepSection>
 				</Step>
 			</Steps>
 		</div>
@@ -587,12 +650,8 @@ ConfigurationWorkout.propTypes = {
 	toggleStep: PropTypes.func.isRequired,
 	toggleWorkout: PropTypes.func.isRequired,
 	isStepFinished: PropTypes.func.isRequired,
-	seoDataOptimizationNeeded: PropTypes.string,
 };
-
-ConfigurationWorkout.defaultProps = {
-	seoDataOptimizationNeeded: "1",
-};
+/* eslint-enable complexity */
 
 export default compose(
 	[

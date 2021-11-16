@@ -2,7 +2,7 @@ import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 
 import { openMedia } from "../../helpers/selectMedia";
-import { ImageSelect } from "@yoast/components";
+import { FieldGroup, ImageSelect } from "@yoast/components";
 import WordPressUserSelector from "../../components/WordPressUserSelector";
 import PropTypes from "prop-types";
 
@@ -32,18 +32,23 @@ export function PersonSection( { dispatch, imageUrl, personId, isDisabled } ) {
 
 	return (
 		<>
-			<WordPressUserSelector
-				value={ personId }
-				onChange={ onUserChange }
-				name={ "person_id" }
-			/>
+			<FieldGroup
+				label={ __( "Name (important)", "wordpress-seo" ) }
+				htmlFor={ "person_id" }
+			>
+				<WordPressUserSelector
+					value={ personId }
+					onChange={ onUserChange }
+					name={ "person_id" }
+				/>
+			</FieldGroup>
 			<ImageSelect
 				imageUrl={ imageUrl }
 				onClick={ openImageSelect }
 				onRemoveImageClick={ removeImage }
 				imageAltText=""
 				hasPreview={ true }
-				label={ __( "Person logo / avatar *", "wordpress-seo" ) }
+				label={ __( "Person logo / avatar (important)", "wordpress-seo" ) }
 				isDisabled={ isDisabled }
 			/>
 		</>

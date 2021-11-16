@@ -34,7 +34,7 @@ export function OrganizationSection( { dispatch, imageUrl, organizationName, isD
 			<TextInput
 				id="organization-name-input"
 				name="organization-name"
-				label={ __( "Organization name", "wordpress-seo" ) }
+				label={ __( "Organization name (important)", "wordpress-seo" ) }
 				value={ organizationName }
 				onChange={ handleChange }
 				readOnly={ isDisabled }
@@ -45,7 +45,7 @@ export function OrganizationSection( { dispatch, imageUrl, organizationName, isD
 				onRemoveImageClick={ removeImage }
 				imageAltText=""
 				hasPreview={ true }
-				label={ __( "Organization logo", "wordpress-seo" ) }
+				label={ __( "Organization logo (important)", "wordpress-seo" ) }
 				isDisabled={ isDisabled }
 			/>
 		</>
