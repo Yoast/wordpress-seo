@@ -194,10 +194,10 @@ class Indexable_Repository {
 		// Let the number of posts in an archive determine the noindex value.
 		if ( in_array( $object_type, [ 'post-type-archive', 'term', 'user', 'home-page' ], true ) ) {
 			if ( $noindex === true ) {
-				$condition .= ' OR number_of_public_posts = 0';
+				$condition .= ' OR number_of_publicly_viewable_posts = 0';
 			}
 			else {
-				$condition = '(' . $condition . ') AND number_public_posts > 0';
+				$condition = '(' . $condition . ') AND number_of_publicly_viewable_posts > 0';
 			}
 		}
 
