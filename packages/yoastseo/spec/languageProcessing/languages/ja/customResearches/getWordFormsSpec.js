@@ -1,5 +1,3 @@
-import { primeLanguageSpecificData } from "../../../../../src/languageProcessing/helpers/morphology/buildTopicStems";
-import ItalianResearcher from "../../../../../src/languageProcessing/languages/it/Researcher";
 import getWordForms from "../../../../../src/languageProcessing/languages/ja/customResearches/getWordForms";
 import { Paper } from "../../../../../index";
 import Researcher from "../../../../../src/languageProcessing/languages/ja/Researcher";

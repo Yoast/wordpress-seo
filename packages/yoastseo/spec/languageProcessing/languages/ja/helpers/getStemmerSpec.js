@@ -2,7 +2,7 @@ import Researcher from "../../../../../src/languageProcessing/languages/it/Resea
 import getStemmer from "../../../../../src/languageProcessing/languages/ja/helpers/getStemmer";
 import Paper from "../../../../../src/values/Paper";
 import getMorphologyData from "../../../../specHelpers/getMorphologyData";
-const morphologyDataJA = getMorphologyData( "ja" )
+const morphologyDataJA = getMorphologyData( "ja" );
 
 
 const paper = new Paper(  "これは日本語のテキストです。", { keyword: "日本語のテキスト", locale: "ja" }  );
