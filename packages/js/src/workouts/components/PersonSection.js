@@ -31,7 +31,7 @@ export function PersonSection( { dispatch, imageUrl, personId, isDisabled } ) {
 		[ dispatch ] );
 
 	return (
-		,<Fragment >
+		<Fragment>
 			<FieldGroup
 				label={ __( "Name (important)", "wordpress-seo" ) }
 				htmlFor={ "person_id" }
@@ -51,7 +51,7 @@ export function PersonSection( { dispatch, imageUrl, personId, isDisabled } ) {
 				label={ __( "Person logo / avatar (important)", "wordpress-seo" ) }
 				isDisabled={ isDisabled }
 			/>
-		<,/Fragment >
+		</Fragment>
 	);
 }
 
