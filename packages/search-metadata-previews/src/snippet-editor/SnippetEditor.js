@@ -125,6 +125,7 @@ class SnippetEditor extends React.Component {
 	 * @param {Object}   props.descriptionLengthProgress         The values for the description length assessment.
 	 * @param {Function} props.mapEditorDataToPreview            Function to map the editor data to data for the preview.
 	 * @param {string}   props.locale                            The locale of the page.
+	 * @param {string}   props.mobileImageSrc                    Mobile Image source for snippet preview.
 	 * @param {bool}     props.hasPaperStyle                     Whether or not it has paper style.
 	 * @param {string}   props.descriptionEditorFieldPlaceholder The placeholder value for the description field.
 	 * @param {bool}     props.showCloseButton                   Whether or not users have the option to open and close
@@ -256,6 +257,7 @@ class SnippetEditor extends React.Component {
 	renderEditor() {
 		const {
 			data,
+			descriptionEditorFieldPlaceholder,
 			replacementVariables,
 			recommendedReplacementVariables,
 			hasPaperStyle,
@@ -263,18 +265,10 @@ class SnippetEditor extends React.Component {
 			idSuffix,
 		} = this.props;
 
-		let {
-			descriptionEditorFieldPlaceholder,
-		} = this.props;
-
 		const { activeField, hoveredField, isOpen, titleLengthProgress, descriptionLengthProgress } = this.state;
 
 		if ( ! isOpen ) {
 			return null;
-		}
-
-		if ( descriptionEditorFieldPlaceholder === "" ) {
-			descriptionEditorFieldPlaceholder = __( "Modify your meta description by editing it right here", "yoast-components" );
 		}
 
 		return (
