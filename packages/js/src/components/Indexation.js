@@ -129,7 +129,7 @@ export class Indexation extends Component {
 	 * @returns {Promise} The indexing promise.
 	 */
 	async doIndexing( endpoint ) {
-		let url = this.settings.restApi.root + this.settings.restApi.endpoints[ endpoint ];
+		let url = this.settings.restApi.root + this.settings.restApi.indexing_endpoints[ endpoint ];
 
 		while ( this.isState( STATE.IN_PROGRESS ) && url !== false ) {
 			try {
@@ -161,7 +161,7 @@ export class Indexation extends Component {
 	 * @returns {Promise<void>} The indexing promise.
 	 */
 	async index() {
-		for ( const endpoint of Object.keys( this.settings.restApi.endpoints ) ) {
+		for ( const endpoint of Object.keys( this.settings.restApi.indexing_endpoints ) ) {
 			await this.doIndexing( endpoint );
 		}
 		/*
