@@ -16,6 +16,10 @@ build:
   - 'postcss:build'
 'build:translations':
   - 'shell:makepot'
+
+'build:js':
+  - 'shell:webpack'
+
 # Check health of the project
 check:
   - 'eslint'

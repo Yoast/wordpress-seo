@@ -135,5 +135,8 @@ module.exports = function( grunt ) {
 		"pull-premium-configuration": {
 			command: pullPremiumConfigurationCommand,
 		},
+		webpack: {
+			command: "webpack --mode production --config webpack/webpack.config.js",
+		},
 	};
 };
