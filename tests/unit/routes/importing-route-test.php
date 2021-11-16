@@ -76,7 +76,7 @@ class Importing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'/import/(?P<plugin>\w+)/(?P<type>\w+)',
+				'/import/(?P<plugin>[\w-]+)/(?P<type>[\w-]+)',
 				[
 					'methods'             => [ 'POST' ],
 					'callback'            => [ $this->instance, 'execute' ],
