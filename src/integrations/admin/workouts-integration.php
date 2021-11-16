@@ -172,6 +172,6 @@ class Workouts_Integration implements Integration_Interface {
 	 */
 	private function should_update_premium() {
 		$premium_version = YoastSEO()->helpers->product->get_premium_version();
-		return $premium_version !== null && version_compare( $premium_version, '17.6-RC1', '<' );
+		return $premium_version !== null && version_compare( $premium_version, '17.7-RC1', '<' );
 	}
 }
