@@ -54,6 +54,7 @@ class Workouts_Integration implements Integration_Interface {
 	public function register_hooks() {
 		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], 9 );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ], 11 );
+		\add_action( 'admin_notices', [ $this, 'configuration_workout_notice' ] );
 	}
 
 	/**
@@ -130,6 +131,72 @@ class Workouts_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Determines whether and where the "First-time SEO Configuration workout" admin notice should be displayed.
+	 *
+	 * @return bool Whether the "First-time SEO Configuration workout" admin notice should be displayed.
+	 */
+	public function should_display_configuration_workout_notice() {
+		if ( ! $this->options_helper->get( 'dismiss_configuration_workout_notice', false ) === false ) {
+			return false;
+		}
+
+		$workouts_option = $this->options_helper->get( 'workouts_data', [] );
+		$finished_steps  = $workouts_option['configuration']['finishedSteps'];
+
+		return count( $finished_steps ) < 5 &&
+			$this->on_wpseo_admin_page_or_dashboard();
+	}
+
+	/**
+	 * Displays an admin notice when the configuration workout has not been finished yet.
+	 *
+	 * @return void
+	 */
+	public function configuration_workout_notice() {
+		if ( ! $this->should_display_configuration_workout_notice() ) {
+			return;
+		}
+
+		$this->admin_asset_manager->enqueue_style( 'monorepo' );
+
+		$notice = new Notice_Presenter(
+			\__( 'First-time SEO configuration', 'wordpress-seo' ),
+			\sprintf(
+			/* translators: 1: Link start tag to the configuration workout, 2: Yoast SEO, 3: Link closing tag. */
+				__( 'Get started quickly with the %1$s%2$s Configuration workout%3$s and configure Yoast SEO with the optimal SEO settings for your site!', 'wordpress-seo' ),
+				'<a href="' . \esc_url( \self_admin_url( 'admin.php?page=wpseo_workouts' ) ) . '">',
+				'Yoast SEO',
+				'</a>'
+			),
+			'mirrored_fit_bubble_woman_1_optim.svg',
+			true,
+			'yoast-configuration-workout-notice'
+		);
+
+		//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.
+		echo $notice->present();
+
+		// Enable permanently dismissing the notice.
+		echo "<script>
+			function dismiss_configuration_workout_notice(){
+				var data = {
+				'action': 'dismiss_configuration_workout_notice',
+				};
+
+				jQuery.post( ajaxurl, data, function( response ) {
+					jQuery( '#yoast-configuration-workout-notice' ).hide();
+				});
+			}
+
+			jQuery( document ).ready( function() {
+				jQuery( 'body' ).on( 'click', '.notice-dismiss', function() {
+					dismiss_configuration_workout_notice();
+				} );
+			} );
+			</script>";
+	}
+
+	/**
 	 * Gets the workouts option.
 	 *
 	 * @return mixed|null Returns workouts option if found, null if not.
@@ -171,5 +238,15 @@ class Workouts_Integration implements Integration_Interface {
 	private function should_update_premium() {
 		$premium_version = YoastSEO()->helpers->product->get_premium_version();
 		return $premium_version !== null && version_compare( $premium_version, '17.7-RC1', '<' );
+	}
+
+	/**
+	 * Whether the user is currently visiting one of our admin pages or the WordPress dashboard.
+	 *
+	 * @return bool Whether the current page is a Yoast SEO admin page
+	 */
+	private function on_wpseo_admin_page_or_dashboard() {
+		$pagenow = $GLOBALS['pagenow'];
+		return ( $pagenow === 'admin.php' && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0 ) || $pagenow === 'index.php';
 	}
 }
