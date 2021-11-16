@@ -613,9 +613,11 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							},
 						] }
 					/>
-					<i> {
-						__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors!", "wordpress-seo" )
-					} </i>
+					<p>
+						<i>{
+							__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors!", "wordpress-seo" )
+						}</i>
+					</p>
 					<FinishStepSection
 						hasDownArrow={ true }
 						finishText={ "Save and continue" }
