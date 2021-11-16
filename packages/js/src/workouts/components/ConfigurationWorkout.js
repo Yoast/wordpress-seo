@@ -1,10 +1,10 @@
-/* global yoastIndexingData */
 import apiFetch from "@wordpress/api-fetch";
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
 import { createInterpolateElement, useCallback, useReducer, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
+import PropTypes from "prop-types";
 
 import { Alert, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
@@ -15,7 +15,6 @@ import { STEPS, WORKOUTS } from "../config";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
 import { SocialInput } from "./SocialInput";
-import PropTypes from "prop-types";
 import { NewsletterSignup } from "./NewsletterSignup";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
@@ -95,14 +94,26 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 
 	const steps = STEPS.configuration;
 
+	/**
+	 * Updates the site representation in the database.
+	 *
+	 * @returns {Promise|bool} A promise, or false if the call fails.
+	 */
 	const updateSiteRepresentation = async function() {
 		const siteRepresentation = {
+			// eslint-disable-next-line camelcase
 			company_or_person: state.companyOrPerson,
+			// eslint-disable-next-line camelcase
 			company_name: state.companyName,
+			// eslint-disable-next-line camelcase
 			company_logo: state.companyLogo,
+			// eslint-disable-next-line camelcase
 			company_logo_id: state.companyLogoId ? state.companyLogoId : 0,
+			// eslint-disable-next-line camelcase
 			person_logo: state.personLogo,
+			// eslint-disable-next-line camelcase
 			person_logo_id: state.personLogoId ? state.personLogoId : 0,
+			// eslint-disable-next-line camelcase
 			company_or_person_user_id: state.personId,
 			description: state.siteTagline,
 		};
@@ -121,16 +132,30 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		}
 	};
 
+	/**
+	 * Updates the social profiles in the database.
+	 *
+	 * @returns {Promise|bool} A promise, or false if the call fails.
+	 */
 	const updateSocialProfiles = async function() {
 		const socialProfiles = {
+			// eslint-disable-next-line camelcase
 			facebook_site: state.socialProfiles.facebookUrl,
+			// eslint-disable-next-line camelcase
 			twitter_site: state.socialProfiles.twitterUsername,
+			// eslint-disable-next-line camelcase
 			instagram_url: state.socialProfiles.instagramUrl,
+			// eslint-disable-next-line camelcase
 			linkedin_url: state.socialProfiles.linkedinUrl,
+			// eslint-disable-next-line camelcase
 			myspace_url: state.socialProfiles.myspaceUrl,
+			// eslint-disable-next-line camelcase
 			pinterest_url: state.socialProfiles.pinterestUrl,
+			// eslint-disable-next-line camelcase
 			youtube_url: state.socialProfiles.youtubeUrl,
+			// eslint-disable-next-line camelcase
 			wikipedia_url: state.socialProfiles.wikipediaUrl,
+			// eslint-enable camelcase
 		};
 
 		try {
@@ -147,6 +172,11 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		}
 	};
 
+	/**
+	 * Updates the tracking option in the database.
+	 *
+	 * @returns {Promise|bool} A promise, or false if the call fails.
+	 */
 	const updateTracking = async function() {
 		const tracking = {
 			tracking: state.tracking,
@@ -175,6 +205,11 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		[ toggleStep, steps.siteRepresentation ]
 	);
 
+	/**
+	 * Runs checks of finishing the site representation step.
+	 *
+	 * @returns {void}
+	 */
 	function updateOnFinishSiteRepresentation() {
 		if ( isStepFinished( "configuration", steps.siteRepresentation ) ) {
 			toggleStepSiteRepresentation();
@@ -199,6 +234,11 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		[ toggleStep, steps.socialProfiles ]
 	);
 
+	/**
+	 * Runs checks of finishing the social profiles step.
+	 *
+	 * @returns {void}
+	 */
 	function updateOnFinishSocialProfiles() {
 		if ( isStepFinished( "configuration", steps.socialProfiles ) ) {
 			toggleStepSocialProfiles();
@@ -212,6 +252,11 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		[ toggleStep, steps.enableTracking ]
 	);
 
+	/**
+	 * Runs checks of finishing the enable tracking step.
+	 *
+	 * @returns {void}
+	 */
 	function updateOnFinishEnableTracking() {
 		if ( isStepFinished( "configuration", steps.enableTracking ) ) {
 			toggleStepEnableTracking();
@@ -413,7 +458,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 				</Step>
 				<Step
 					title={ __( "Social profiles", "wordpress-seo" ) }
-					subtitle={ state.companyOrPerson === "company" ?  __( "Do you have profiles for your site on social media? Then, add all of their URLs here.", "wordpress-seo" ) : '' }
+					subtitle={ state.companyOrPerson === "company" ?  __( "Do you have profiles for your site on social media? Then, add all of their URLs here.", "wordpress-seo" ) : "" }
 					isFinished={ isStepFinished( "configuration", steps.socialProfiles ) }
 				>
 					{ state.companyOrPerson === "company" && <div className="yoast-social-profiles-input-fields">
