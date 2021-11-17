@@ -18,6 +18,7 @@ build:
   - 'shell:makepot'
 
 'build:js':
+  - 'clean:publish'
   - 'shell:webpack'
 
 # Check health of the project
