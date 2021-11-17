@@ -68,15 +68,15 @@ const resultsSlice = createSlice( {
 		builder.addCase( analysisActions.request, ( state ) => {
 			state.status = ASYNC_STATUS.LOADING;
 		} );
-		builder.addCase( analysisActions.success, ( state, action ) => {
+		builder.addCase( analysisActions.success, ( state, { payload } ) => {
 			state.status = ASYNC_STATUS.SUCCESS;
-			state.seo = action.payload.seo;
-			state.readability = action.payload.readability;
-			state.research = action.payload.research;
+			state.seo = payload.seo;
+			state.readability = payload.readability;
+			state.research = payload.research;
 		} );
-		builder.addCase( analysisActions.error, ( state, action ) => {
+		builder.addCase( analysisActions.error, ( state, { payload } ) => {
 			state.status = ASYNC_STATUS.ERROR;
-			state.error = action.payload;
+			state.error = payload;
 		} );
 	},
 } );
