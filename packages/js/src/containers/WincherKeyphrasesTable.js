@@ -13,11 +13,13 @@ export default compose( [
 			getWincherTrackableKeyphrases,
 			getWincherLoginStatus,
 			getWincherPermalink,
+			getFocusKeyphrase,
 			isWincherNewlyAuthenticated,
 			shouldWincherTrackAll,
 		} = select( "yoast-seo/editor" );
 
 		return {
+			focusKeyphrase: getFocusKeyphrase(),
 			keyphrases: getWincherTrackableKeyphrases(),
 			trackedKeyphrases: getWincherTrackedKeyphrases(),
 			isLoggedIn: getWincherLoginStatus(),

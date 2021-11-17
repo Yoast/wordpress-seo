@@ -329,6 +329,7 @@ class WincherKeyphrasesTable extends Component {
 			keyphrases,
 			isLoggedIn,
 			trackedKeyphrases,
+			focusKeyphrase,
 		} = this.props;
 
 		const isLoading = isLoggedIn && trackedKeyphrases === null;
@@ -375,7 +376,7 @@ class WincherKeyphrasesTable extends Component {
 									onTrackKeyphrase={ this.onTrackKeyphrase }
 									onUntrackKeyphrase={ this.onUntrackKeyphrase }
 									rowData={ this.getKeyphraseData( keyphrase ) }
-									isFocusKeyphrase={ index === 0 }
+									isFocusKeyphrase={ keyphrase === focusKeyphrase.trim() }
 									websiteId={ websiteId }
 									isDisabled={ isDisabled }
 									isLoading={ isLoading }
@@ -418,6 +419,7 @@ WincherKeyphrasesTable.propTypes = {
 	trackedKeyphrases: PropTypes.object,
 	websiteId: PropTypes.string,
 	permalink: PropTypes.string.isRequired,
+	focusKeyphrase: PropTypes.string,
 };
 
 WincherKeyphrasesTable.defaultProps = {
@@ -427,6 +429,7 @@ WincherKeyphrasesTable.defaultProps = {
 	trackAll: false,
 	trackedKeyphrases: {},
 	websiteId: "",
+	focusKeyphrase: "",
 };
 
 export default WincherKeyphrasesTable;
