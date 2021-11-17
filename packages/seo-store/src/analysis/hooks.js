@@ -2,7 +2,7 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
 import { debounce } from "lodash";
 import { STORE_NAME } from "../common/constants";
-import { useEffectWithCompare } from "../common/hooks";
+import { useEffectWithDeepCompare } from "../common/hooks";
 import { ANALYZE_DEBOUNCE_TIME_IN_MS } from "./constants";
 
 /**
@@ -34,7 +34,7 @@ export const useAnalyze = ( debounceTimeInMs = ANALYZE_DEBOUNCE_TIME_IN_MS ) => 
 		[ analyze, debounceTimeInMs ],
 	);
 
-	useEffectWithCompare( () => {
+	useEffectWithDeepCompare( () => {
 		debouncedAnalyze();
 	}, [ debouncedAnalyze, paper, keyphrases, config, editor ] );
 };
