@@ -1,4 +1,5 @@
 import { TextInput } from "@yoast/components";
+import PropTypes from "prop-types";
 
 /**
  * A wrapper for the TextInput that can handle validation feedback.
@@ -25,3 +26,15 @@ export default function ValidatedTextInput( { inputExplanation, feedbackState, f
 		</div>
 	);
 }
+
+ValidatedTextInput.propTypes = {
+	inputExplanation: PropTypes.string,
+	feedbackState: PropTypes.string,
+	feedbackMessage: PropTypes.string,
+};
+
+ValidatedTextInput.defaultProps = {
+	inputExplanation: "",
+	feedbackState: "",
+	feedbackMessage: "",
+};
