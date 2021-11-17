@@ -1,5 +1,6 @@
+import { curry, set } from "lodash";
 import configReducer, { configActions } from "./slice/config";
-import resultsReducer, { analysisActions } from "./slice/results";
+import resultsReducer, { analysisActions, resultsSelectors } from "./slice/results";
 
 describe( "Config slice", () => {
 	const { updateAnalysisType } = configActions;
@@ -86,6 +87,37 @@ describe( "Results slice", () => {
 				status: "error",
 				error: "test error",
 			} );
+		} );
+	} );
+
+	describe( "Selectors", () => {
+		const createStoreState = curry( set )( {}, "results" );
+
+		test( "should select the seo results", () => {
+			const { selectSeoResults } = resultsSelectors;
+
+			const state = { seo: { focus: "test" } };
+			const result = selectSeoResults( createStoreState( state ) );
+
+			expect( result ).toEqual( "test" );
+		} );
+
+		test( "should select the readability results", () => {
+			const { selectReadabilityResults } = resultsSelectors;
+
+			const state = { readability: { test: "test" } };
+			const result = selectReadabilityResults( createStoreState( state ) );
+
+			expect( result ).toEqual( { test: "test" } );
+		} );
+
+		test( "should select the research results", () => {
+			const { selectResearchResults } = resultsSelectors;
+
+			const state = { research: { morphology: "test" } };
+			const result = selectResearchResults( createStoreState( state ), "morphology" );
+
+			expect( result ).toEqual( "test" );
 		} );
 	} );
 } );
