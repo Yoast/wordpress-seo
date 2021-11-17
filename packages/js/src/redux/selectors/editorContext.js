@@ -63,7 +63,7 @@ export function getIsTerm( state ) {
  * @returns {Boolean} Whether this is a draft post.
  */
 export function getIsDraft( state ) {
-	return get( state, "editorContext.postStatus" ) === "draft";
+	return [ "draft", "auto-draft" ].includes( get( state, "editorContext.postStatus", "" ) );
 }
 
 /**
