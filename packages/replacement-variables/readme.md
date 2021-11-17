@@ -14,7 +14,7 @@ yarn add @yoast/replacement-variables
 npm install @yoast/replacement-variables
 ```
 
-## Configuration using `createReplacementVariables`
+## Using `createReplacementVariables`
 
 This package exports a single factory function called `createReplacementVariables` which accepts an array of replacement variable configuratinos and return an interface for applying the variables to a text.
 
@@ -89,7 +89,7 @@ const string3 = "There is no {{title}} without {{custom_template_tag}}";
 
 console.log(
     replacementVariables.apply( string1 ),
-    replacementVariables.apply( string1, { globalKey: fooBar } ),
+    replacementVariables.apply( string1, { globalKey: "fooBar" } ),
     replacementVariables.apply( string2 ),
     replacementVariables.apply( string3 ),
 );
