@@ -1,11 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { select } from "@wordpress/data";
 import { applyFilters } from "@wordpress/hooks";
-import { get, reduce } from "lodash";
+import { get, reduce, forEach } from "lodash";
 import { ASYNC_ACTIONS, ASYNC_STATUS, FOCUS_KEYPHRASE_ID, STORE_NAME } from "../../common/constants";
-
-export const RESULTS_SLICE_NAME = "results";
-export const ANALYZE_ACTION_NAME = "analyze";
+import { ANALYZE_ACTION_NAME } from "../constants";
 
 export const analysisActions = reduce(
 	ASYNC_ACTIONS,
@@ -52,26 +50,47 @@ const initialState = {
 	status: ASYNC_STATUS.IDLE,
 	error: "",
 	seo: {
-		focus: {},
+		focus: {
+			score: 0,
+			results: [],
+		},
 	},
-	readability: {},
-	research: {
-		morphology: {},
+	readability: {
+		score: 0,
+		results: [],
+	},
+	research: {},
+	activeMarker: {
+		id: "",
+		marks: [],
 	},
 };
 
 const resultsSlice = createSlice( {
-	name: RESULTS_SLICE_NAME,
+	name: "results",
 	initialState,
-	reducers: {},
+	reducers: {
+		updateActiveMarker: ( state, { payload } ) => {
+			state.activeMarker.id = payload.id;
+			state.activeMarker.marks = payload.marks;
+		},
+	},
 	extraReducers: ( builder ) => {
 		builder.addCase( analysisActions.request, ( state ) => {
 			state.status = ASYNC_STATUS.LOADING;
 		} );
 		builder.addCase( analysisActions.success, ( state, { payload } ) => {
 			state.status = ASYNC_STATUS.SUCCESS;
-			state.seo = payload.seo;
-			state.readability = payload.readability;
+
+			// Update SEO results state for each keyphrase
+			forEach( payload.seo, ( keyphrasePayload, keyphraseId ) => {
+				state.seo[ keyphraseId ].score = keyphrasePayload.score;
+				state.seo[ keyphraseId ].results = keyphrasePayload.results;
+			} );
+
+			state.readability.score = payload.readability.score;
+			state.readability.results = payload.readability.results;
+
 			state.research = payload.research;
 		} );
 		builder.addCase( analysisActions.error, ( state, { payload } ) => {
@@ -82,9 +101,14 @@ const resultsSlice = createSlice( {
 } );
 
 export const resultsSelectors = {
-	selectSeoResults: ( state, id = FOCUS_KEYPHRASE_ID ) => get( state, `results.seo.${ id }`, {} ),
-	selectReadabilityResults: ( state ) => get( state, "results.readability", {} ),
-	selectResearchResults: ( state, id ) => get( state, `results.research.${ id }`, {} ),
+	selectSeoScore: ( state, id = FOCUS_KEYPHRASE_ID ) => get( state, `analysis.results.seo.${ id }.score` ),
+	selectSeoResults: ( state, id = FOCUS_KEYPHRASE_ID ) => get( state, `analysis.results.seo.${ id }.results` ),
+	selectReadabilityScore: ( state ) => get( state, "analysis.results.readability.score" ),
+	selectReadabilityResults: ( state ) => get( state, "analysis.results.readability.results" ),
+	selectResearchResults: ( state, id ) => get( state, `analysis.results.research.${ id }` ),
+	selectActiveMarker: ( state ) => get( state, "analysis.results.activeMarker" ),
+	selectActiveMarkerId: ( state ) => get( state, "analysis.results.activeMarker.id" ),
+	selectActiveMarks: ( state ) => get( state, "analysis.results.activeMarker.marks" ),
 };
 
 export const resultsActions = {

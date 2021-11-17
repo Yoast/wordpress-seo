@@ -3,7 +3,8 @@ import configReducer, { configActions } from "./slice/config";
 import resultsReducer, { analysisActions, resultsSelectors } from "./slice/results";
 
 describe( "Config slice", () => {
-	const { updateAnalysisType } = configActions;
+	// eslint-disable-next-line no-undefined
+	const previousState = undefined;
 
 	const initialState = {
 		analysisType: "post",
@@ -12,17 +13,20 @@ describe( "Config slice", () => {
 		researches: [ "morphology" ],
 	};
 
-	test( "should return the analysis config initial state", () => {
-		// eslint-disable-next-line no-undefined
-		expect( configReducer( undefined, {} ) ).toEqual( initialState );
-	} );
+	describe( "Reducer", () => {
+		test( "should return the analysis config initial state", () => {
+			expect( configReducer( previousState, {} ) ).toEqual( initialState );
+		} );
 
-	test( "should update the analysisType", () => {
-		const result = configReducer( initialState, updateAnalysisType( "term" ) );
+		test( "should update the analysisType", () => {
+			const { updateAnalysisType } = configActions;
 
-		expect( result ).toEqual( {
-			...initialState,
-			analysisType: "term",
+			const result = configReducer( previousState, updateAnalysisType( "term" ) );
+
+			expect( result ).toEqual( {
+				...initialState,
+				analysisType: "term",
+			} );
 		} );
 	} );
 } );

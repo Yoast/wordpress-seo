@@ -14,5 +14,3 @@ export const ASYNC_STATUS = {
 export const STORE_NAME = "@yoast/seo";
 
 export const FOCUS_KEYPHRASE_ID = "focus";
-
-export const ANALYZE_DEBOUNCE_TIME_IN_MS = 500;
