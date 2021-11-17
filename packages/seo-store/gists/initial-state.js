@@ -15,12 +15,18 @@ export const state = {
 					score: 0,
 					results: [],
 				},
+				rej2oirj: {
+					score: 0,
+					results: [],
+				},
 			},
 			readability: {
 				score: 0,
 				results: [],
 			},
-			research: {},
+			research: {
+				morphology: {},
+			},
 			activeMarker: {
 				id: "",
 				marks: [],
