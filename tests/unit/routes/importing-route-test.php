@@ -116,6 +116,25 @@ class Importing_Route_Test extends TestCase {
 	}
 
 	/**
+	 * Tests getting the right endpoint for a given plugin and type.
+	 *
+	 * @covers ::get_endpoint
+	 */
+	public function test_get_endpoints() {
+		$aioseo_posts_endpoint = $this->instance->get_endpoint( 'aioseo', 'posts' );
+		$this->assertEquals( 'yoast/v1/import/aioseo/posts', $aioseo_posts_endpoint );
+
+		$no_type_endpoint = $this->instance->get_endpoint( 'aioseo', false );
+		$this->assertFalse( $no_type_endpoint );
+
+		$no_plugin_endpoint = $this->instance->get_endpoint( false, 'posts' );
+		$this->assertFalse( $no_plugin_endpoint );
+
+		$no_plugin_no_type_endpoint = $this->instance->get_endpoint( false, false );
+		$this->assertFalse( $no_plugin_no_type_endpoint );
+	}
+
+	/**
 	 * Data provider for test_execute_import_aioseo_posts.
 	 *
 	 * @return array

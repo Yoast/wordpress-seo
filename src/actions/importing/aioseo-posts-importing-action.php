@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Actions\Importing;
 
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 
 /**
  * Importing action for AIOSEO post data.
@@ -53,6 +54,17 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 */
 	protected function aioseo_exists() {
 		return $this->wpdb_helper->table_exists( $this->get_table() ) === true;
+	}
+
+	/**
+	 * Returns whether the AISOEO post importing action is enabled.
+	 *
+	 * @return bool True if the AISOEO post importing action is enabled.
+	 */
+	public function is_enabled() {
+		$aioseo_importer_conditional = \YoastSEO()->classes->get( AIOSEO_V4_Importer_Conditional::class );
+
+		return $aioseo_importer_conditional->is_met();
 	}
 
 	// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: They are already prepared.
