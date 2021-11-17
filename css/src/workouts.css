@@ -432,6 +432,10 @@ table.yoast_help th.divider {
 	top: 3px;
 }
 
+.workflow .yoast-validated-text-input {
+	flex-grow: 1;
+}
+
 .yoast-validated-text-input--explanation {
 	font-size: 10px;
 }
@@ -478,7 +482,7 @@ table.yoast_help th.divider {
 .workflow .yoast-newsletter-signup button {
 	margin-top: 1.8rem;
 	align-self: flex-start;
-	flex-grow: 1;
+	flex-grow: 0;
 	flex-shrink: 0;
 }
 

@@ -28,7 +28,7 @@ export default function ValidatedTextInput( { inputExplanation, feedbackState, f
 }
 
 ValidatedTextInput.propTypes = {
-	inputExplanation: PropTypes.string,
+	inputExplanation: PropTypes.any,
 	feedbackState: PropTypes.string,
 	feedbackMessage: PropTypes.string,
 };
