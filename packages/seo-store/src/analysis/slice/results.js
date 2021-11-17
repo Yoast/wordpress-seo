@@ -7,7 +7,7 @@ import { ASYNC_ACTIONS, ASYNC_STATUS, FOCUS_KEYPHRASE_ID, STORE_NAME } from "../
 export const RESULTS_SLICE_NAME = "results";
 export const ANALYZE_ACTION_NAME = "analyze";
 
-const analysisActions = reduce(
+export const analysisActions = reduce(
 	ASYNC_ACTIONS,
 	( actions, action ) => ( { ...actions, [ action ]: `${ ANALYZE_ACTION_NAME }/${ action }` } ),
 	{},
