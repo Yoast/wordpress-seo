@@ -172,11 +172,6 @@ class Index_Command_Test extends TestCase {
 
 		$this->complete_indexation_action->expects( 'complete' )->once();
 
-		Monkey\Filters\expectApplied( 'wpseo_cli_index_usleep_interval' )
-			->with( 1000000 )
-			->times( 6 )
-			->andReturn( 5000 );
-
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
 		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
 			->times( 6 )
@@ -188,7 +183,7 @@ class Index_Command_Test extends TestCase {
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 5 );
 		$progress_bar_mock->expects( 'finish' )->times( 6 );
 
-		$this->instance->index();
+		$this->instance->index( null, [ 'interval' => 500 ] );
 	}
 
 	/**
@@ -219,11 +214,6 @@ class Index_Command_Test extends TestCase {
 		$this->complete_indexation_action->expects( 'complete' )->once();
 
 		$this->prepare_indexing_action->expects( 'prepare' )->once();
-
-		Monkey\Filters\expectApplied( 'wpseo_cli_index_usleep_interval' )
-			->with( 1000000 )
-			->times( 6 )
-			->andReturn( 5000 );
 
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
 		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
@@ -279,7 +269,13 @@ class Index_Command_Test extends TestCase {
 			->once()
 			->with( 'wpseo_total_unindexed_terms' );
 
-		$this->instance->index( null, [ 'reindex' => true ] );
+		$this->instance->index(
+			null,
+			[
+				'reindex'  => true,
+				'interval' => 500,
+			]
+		);
 	}
 
 	/**
@@ -332,11 +328,6 @@ class Index_Command_Test extends TestCase {
 		$this->complete_indexation_action->expects( 'complete' )->twice();
 		$this->prepare_indexing_action->expects( 'prepare' )->twice();
 
-		Monkey\Filters\expectApplied( 'wpseo_cli_index_usleep_interval' )
-			->with( 1000000 )
-			->times( 12 )
-			->andReturn( 5000 );
-
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
 		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
 			->times( 12 )
@@ -348,7 +339,13 @@ class Index_Command_Test extends TestCase {
 		$progress_bar_mock->expects( 'tick' )->times( 12 )->with( 5 );
 		$progress_bar_mock->expects( 'finish' )->times( 12 );
 
-		$this->instance->index( null, [ 'network' => true ] );
+		$this->instance->index(
+			null,
+			[
+				'network'  => true,
+				'interval' => 500,
+			]
+		);
 	}
 
 	/**
