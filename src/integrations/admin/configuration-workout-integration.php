@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Routes\Indexing_Route;
 
@@ -28,6 +29,13 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	private $options_helper;
 
 	/**
+	 * The product helper.
+	 *
+	 * @var \Yoast\WP\SEO\Helpers\Product_Helper
+	 */
+	private $product_helper;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -39,13 +47,16 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
 	 * @param Options_Helper            $options_helper      The options helper.
+	 * @param Product_Helper            $product_helper      The product helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		Product_Helper $product_helper
 	) {
 		$this->admin_asset_manager = $admin_asset_manager;
 		$this->options_helper      = $options_helper;
+		$this->product_helper      = $product_helper;
 	}
 
 	/**
@@ -256,9 +267,26 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	/**
 	 * Checks whether tracking is enabled.
 	 *
-	 * @return bool True if tracking is enabled, false otherwise.
+	 * @return int True if tracking is enabled, false otherwise, null if in Free and conf. workout step not finished.
 	 */
 	private function has_tracking_enabled() {
-		return $this->options_helper->get( 'tracking', false );
+		$tracking = -1;
+		// If in Premium, use the current setting.
+		if ( $this->product_helper->is_premium() ) {
+			$tracking = $this->options_helper->get( 'tracking', false );
+		}
+
+		// If in Free and the "tracking" step of the configuration workout is marked as finished, use the current setting.
+		$workouts_option = $this->options_helper->get( 'workouts_data' );
+		$finished_steps  = (array) $workouts_option['configuration']['finishedSteps'];
+		if ( \in_array( 'enableTracking', $finished_steps, true ) ) {
+			$tracking = $this->options_helper->get( 'tracking', false );
+		}
+
+		if ( \is_bool( $tracking ) ) {
+			$tracking = (int) $tracking;
+		}
+
+		return $tracking;
 	}
 }
