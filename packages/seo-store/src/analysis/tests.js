@@ -39,11 +39,19 @@ describe( "Results slice", () => {
 		status: "idle",
 		error: "",
 		seo: {
-			focus: {},
+			focus: {
+				score: 0,
+				results: [],
+			},
 		},
-		readability: {},
-		research: {
-			morphology: {},
+		readability: {
+			score: 0,
+			results: [],
+		},
+		research: {},
+		activeMarker: {
+			id: "",
+			marks: [],
 		},
 	};
 
@@ -66,18 +74,11 @@ describe( "Results slice", () => {
 		test( "should update the analysis status to success", () => {
 			const { success } = analysisActions;
 
-			const payload = {
-				seo: { focus: "test" },
-				readability: { test: "test" },
-				research: { morphology: { test: "test" } },
-			};
-
-			const result = resultsReducer( previousState, { type: success, payload } );
+			const result = resultsReducer( previousState, { type: success, payload: initialState } );
 
 			expect( result ).toEqual( {
-				...payload,
+				...initialState,
 				status: "success",
-				error: "",
 			} );
 		} );
 
@@ -95,12 +96,16 @@ describe( "Results slice", () => {
 	} );
 
 	describe( "Selectors", () => {
-		const createStoreState = curry( set )( {}, "results" );
+		const createStoreState = curry( set )( {}, "analysis.results" );
 
 		test( "should select the seo results", () => {
 			const { selectSeoResults } = resultsSelectors;
 
-			const state = { seo: { focus: "test" } };
+			const state = {
+				seo: {
+					focus: { results: "test" },
+				},
+			};
 			const result = selectSeoResults( createStoreState( state ) );
 
 			expect( result ).toEqual( "test" );
@@ -109,7 +114,11 @@ describe( "Results slice", () => {
 		test( "should select the readability results", () => {
 			const { selectReadabilityResults } = resultsSelectors;
 
-			const state = { readability: { test: "test" } };
+			const state = {
+				readability: {
+					results: { test: "test" },
+				},
+			};
 			const result = selectReadabilityResults( createStoreState( state ) );
 
 			expect( result ).toEqual( { test: "test" } );
@@ -118,7 +127,9 @@ describe( "Results slice", () => {
 		test( "should select the research results", () => {
 			const { selectResearchResults } = resultsSelectors;
 
-			const state = { research: { morphology: "test" } };
+			const state = {
+				research: { morphology: "test" },
+			};
 			const result = selectResearchResults( createStoreState( state ), "morphology" );
 
 			expect( result ).toEqual( "test" );
