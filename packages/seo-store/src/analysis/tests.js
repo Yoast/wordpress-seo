@@ -1,6 +1,6 @@
 import { curry, set } from "lodash";
 import configReducer, { configActions } from "./slice/config";
-import resultsReducer, { analysisActions, resultsSelectors } from "./slice/results";
+import resultsReducer, { analysisActions, resultsActions, resultsSelectors } from "./slice/results";
 
 describe( "Config slice", () => {
 	// eslint-disable-next-line no-undefined
@@ -60,6 +60,21 @@ describe( "Results slice", () => {
 			expect( resultsReducer( previousState, {} ) ).toEqual( initialState );
 		} );
 
+		test( "should update the analysis active marker", () => {
+			const { updateActiveMarker } = resultsActions;
+
+			const payload = {
+				id: "1",
+				marks: [ "test" ],
+			};
+			const result = resultsReducer( previousState, updateActiveMarker( payload ) );
+
+			expect( result ).toEqual( {
+				...initialState,
+				activeMarker: { ...payload },
+			} );
+		} );
+
 		test( "should update the analysis status to loading", () => {
 			const { request } = analysisActions;
 
@@ -98,33 +113,59 @@ describe( "Results slice", () => {
 	describe( "Selectors", () => {
 		const createStoreState = curry( set )( {}, "analysis.results" );
 
-		test( "should select the seo results", () => {
+		test( "should select the analysis seo score", () => {
+			const { selectSeoScore } = resultsSelectors;
+
+			const state = {
+				seo: {
+					focus: { score: 9000 },
+				},
+			};
+			const result = selectSeoScore( createStoreState( state ) );
+
+			expect( result ).toEqual( 9000 );
+		} );
+
+		test( "should select the analysis seo results", () => {
 			const { selectSeoResults } = resultsSelectors;
 
 			const state = {
 				seo: {
-					focus: { results: "test" },
+					focus: { results: [ "test" ] },
 				},
 			};
 			const result = selectSeoResults( createStoreState( state ) );
 
-			expect( result ).toEqual( "test" );
+			expect( result ).toEqual( [ "test" ] );
 		} );
 
-		test( "should select the readability results", () => {
+		test( "should select the analysis readability score", () => {
+			const { selectReadabilityScore } = resultsSelectors;
+
+			const state = {
+				readability: {
+					score: 9000,
+				},
+			};
+			const result = selectReadabilityScore( createStoreState( state ) );
+
+			expect( result ).toEqual( 9000 );
+		} );
+
+		test( "should select the analysis readability results", () => {
 			const { selectReadabilityResults } = resultsSelectors;
 
 			const state = {
 				readability: {
-					results: { test: "test" },
+					results: [ "test" ],
 				},
 			};
 			const result = selectReadabilityResults( createStoreState( state ) );
 
-			expect( result ).toEqual( { test: "test" } );
+			expect( result ).toEqual( [ "test" ] );
 		} );
 
-		test( "should select the research results", () => {
+		test( "should select the analysis research results", () => {
 			const { selectResearchResults } = resultsSelectors;
 
 			const state = {
@@ -133,6 +174,46 @@ describe( "Results slice", () => {
 			const result = selectResearchResults( createStoreState( state ), "morphology" );
 
 			expect( result ).toEqual( "test" );
+		} );
+
+		test( "should select the analysis active marker", () => {
+			const { selectActiveMarker } = resultsSelectors;
+
+			const state = {
+				activeMarker: {
+					id: "1",
+					marks: [ "test" ],
+				},
+			};
+			const result = selectActiveMarker( createStoreState( state ) );
+
+			expect( result ).toEqual( { id: "1", marks: [ "test" ] } );
+		} );
+
+		test( "should select the analysis active marker id", () => {
+			const { selectActiveMarkerId } = resultsSelectors;
+
+			const state = {
+				activeMarker: {
+					id: "1",
+				},
+			};
+			const result = selectActiveMarkerId( createStoreState( state ) );
+
+			expect( result ).toEqual( "1" );
+		} );
+
+		test( "should select the analysis active marks", () => {
+			const { selectActiveMarks } = resultsSelectors;
+
+			const state = {
+				activeMarker: {
+					marks: [ "test" ],
+				},
+			};
+			const result = selectActiveMarks( createStoreState( state ) );
+
+			expect( result ).toEqual( [ "test" ] );
 		} );
 	} );
 } );
