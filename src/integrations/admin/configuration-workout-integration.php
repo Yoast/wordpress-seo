@@ -74,9 +74,9 @@ class Configuration_Workout_Integration implements Integration_Interface {
 			'firstTime'    => ( YoastSEO()->helpers->indexing->is_initial_indexing() === true ),
 			'errorMessage' => '',
 			'restApi'      => [
-				'root'      => \esc_url_raw( \rest_url() ),
-				'endpoints' => $this->get_endpoints(),
-				'nonce'     => \wp_create_nonce( 'wp_rest' ),
+				'root'               => \esc_url_raw( \rest_url() ),
+				'indexing_endpoints' => $this->get_endpoints(),
+				'nonce'              => \wp_create_nonce( 'wp_rest' ),
 			],
 		];
 
