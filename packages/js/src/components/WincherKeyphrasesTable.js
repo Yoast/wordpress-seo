@@ -231,23 +231,35 @@ class WincherKeyphrasesTable extends Component {
 	}
 
 	/**
-	 * Re-fetches data in certain cases and resets the interval.
+	 * Sets up the interval that refreshes the data when some keyphrases are
+	 * missing ranking data.
+	 *
+	 * @returns {void}
+	 */
+	setupInterval() {
+		const { keyphrases } = this.props;
+
+		clearInterval( this.interval );
+		if ( this.someKeyphrasesHaveNoRankingData() ) {
+			this.interval = setInterval( async() => {
+				await this.getTrackedKeyphrases( keyphrases );
+			}, 10000 );
+		}
+	}
+
+	/**
+	 * Fetches keyword data if necessary according to the current state.
 	 *
 	 * @param {Object} prevProps The previous props.
 	 *
 	 * @returns {void}
 	 */
-	componentDidUpdate( prevProps ) {
+	fetchKeyphraseDataIfNeeded( prevProps ) {
 		const {
 			keyphrases,
-			isLoggedIn,
 			isNewlyAuthenticated,
 			permalink,
 		} = this.props;
-
-		if ( ! isLoggedIn ) {
-			return;
-		}
 
 		// Re-fetch data when the permalink changes
 		if ( permalink && prevProps.permalink !== permalink ) {
@@ -259,14 +271,24 @@ class WincherKeyphrasesTable extends Component {
 			this.getTrackedKeyphrases( keyphrases );
 			this.hasFetchedKeyphrasesAfterConnect = true;
 		}
+	}
 
-		// Reset the interval if need be.
-		clearInterval( this.interval );
-		if ( this.someKeyphrasesHaveNoRankingData() ) {
-			this.interval = setInterval( async() => {
-				await this.getTrackedKeyphrases( keyphrases );
-			}, 10000 );
+	/**
+	 * Re-fetches data in certain cases and resets the interval.
+	 *
+	 * @param {Object} prevProps The previous props.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate( prevProps ) {
+		const { isLoggedIn } = this.props;
+
+		if ( ! isLoggedIn ) {
+			return;
 		}
+
+		this.fetchKeyphraseDataIfNeeded( prevProps );
+		this.setupInterval();
 	}
 
 	/**
