@@ -11,12 +11,19 @@ export const state = {
 			status: "idle",
 			error: "",
 			seo: {
-				focus: {},
-				rej2oirj: {},
+				focus: {
+					score: 0,
+					results: [],
+				},
 			},
-			readability: {},
-			research: {
-				morphology: {},
+			readability: {
+				score: 0,
+				results: [],
+			},
+			research: {},
+			activeMarker: {
+				id: "",
+				marks: [],
 			},
 		},
 	},
