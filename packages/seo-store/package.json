@@ -5,7 +5,8 @@
     "testRegex": "src/.+/tests.js",
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
-    }
+    },
+    "timers": "fake"
   },
   "main": "build/index.js",
   "repository": {
