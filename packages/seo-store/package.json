@@ -2,10 +2,11 @@
   "name": "@yoast/seo-store",
   "version": "1.0.0",
   "jest": {
-    "testRegex": "src/.+/tests.js",
+    "testRegex": "src\\/.+\\/(?:.*[-.])?tests?\\.js$",
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
-    }
+    },
+    "timers": "fake"
   },
   "main": "build/index.js",
   "repository": {

@@ -50,13 +50,12 @@ const keyphrasesSlice = createSlice( {
 				state[ action.payload.id ].synonyms = action.payload.synonyms;
 			},
 		},
-		addKeyphraseEntry: {
+		addRelatedKeyphrase: {
 			// Generate an ID if missing.
 			prepare: ( payload = {} ) => ( {
 				payload: {
+					...payload,
 					id: payload.id || nanoid(),
-					keyphrase: payload.keyphrase,
-					synonyms: payload.synonyms,
 				},
 			} ),
 			reducer: ( state, action ) => {
@@ -67,8 +66,8 @@ const keyphrasesSlice = createSlice( {
 
 				state[ action.payload.id ] = {
 					id: action.payload.id,
-					keyphrase: action.payload.keyphrase,
-					synonyms: action.payload.synonyms,
+					keyphrase: action.payload.keyphrase ?? "",
+					synonyms: action.payload.synonyms ?? "",
 				};
 			},
 		},

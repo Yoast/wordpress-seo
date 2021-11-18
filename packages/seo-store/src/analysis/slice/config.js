@@ -12,29 +12,29 @@ const configSlice = createSlice( {
 	name: "config",
 	initialState,
 	reducers: {
-		updateAnalysisType: ( state, action ) => {
-			state.analysisType = action.payload;
+		updateAnalysisType: ( state, { payload } ) => {
+			state.analysisType = payload;
 		},
-		updateIsSeoActive: ( state, action ) => {
-			state.isSeoActive = Boolean( action.payload );
+		updateIsSeoActive: ( state, { payload } ) => {
+			state.isSeoActive = Boolean( payload );
 		},
-		updateIsReadabilityActive: ( state, action ) => {
-			state.isReadabilityActive = Boolean( action.payload );
+		updateIsReadabilityActive: ( state, { payload } ) => {
+			state.isReadabilityActive = Boolean( payload );
 		},
-		addResearch: ( state, payload ) => {
+		addResearch: ( state, { payload } ) => {
 			state.researches.push( payload );
 		},
-		removeResearch: ( state, payload ) => {
-			state.researches.filter( research => research !== payload );
+		removeResearch: ( state, { payload } ) => {
+			state.researches = state.researches.filter( research => research !== payload );
 		},
 	},
 } );
 
 export const configSelectors = {
-	selectConfig: state => get( state, "analysis.config" ),
-	selectIsSeoActive: state => get( state, "analysis.config.isSeoActive" ),
+	selectAnalysisConfig: state => get( state, "analysis.config" ),
 	selectAnalysisType: state => get( state, "analysis.config.analysisType" ),
-	selectIsReadabilityActive: state => get( state, "analysis.config.isReadabilityActive" ),
+	isSeoAnalysisActive: state => get( state, "analysis.config.isSeoActive" ),
+	isReadabilityAnalysisActive: state => get( state, "analysis.config.isReadabilityActive" ),
 	selectResearches: state => get( state, "analysis.config.researches" ),
 };
 
