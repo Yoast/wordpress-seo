@@ -1,15 +1,17 @@
 {
-	"presets": [
-		[
-			"env",
-			{
-				"targets": {
-					"browsers": [ "extends @yoast/browserslist-config" ]
-				}
-			}
-		]
-	],
-	"plugins": [
-		"transform-object-rest-spread"
-	]
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": [
+            "extends @yoast/browserslist-config"
+          ]
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-object-rest-spread"
+  ]
 }

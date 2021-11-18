@@ -10,10 +10,23 @@ const wordPressExternals = require( "./externals/wordpress" );
  */
 module.exports = {
 	entry: "./index.js",
+	devtool: false,
 	externals: [ externals, wordPressExternals ],
 	output: {
-		path: path.resolve( "dist" ),
+		path: path.resolve( "dist", "dist" ),
 		filename: "analysis.js",
+		library: [ "yoast", "analysis" ],
+		libraryTarget: "window",
 	},
-	plugins: [],
+	module: {
+		rules: [
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				use: {
+					loader: "babel-loader",
+				},
+			},
+		],
+	},
 };
