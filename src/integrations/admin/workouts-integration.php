@@ -263,9 +263,26 @@ class Workouts_Integration implements Integration_Interface {
 	 */
 	private function on_wpseo_admin_page_or_dashboard() {
 		$pagenow = $GLOBALS['pagenow'];
-		return ( ( $pagenow === 'index.php' ) ||
-				( $pagenow === 'admin.php' &&
-				strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0 &&
-				filter_input( INPUT_GET, 'page' ) !== 'wpseo_workouts' ) );
+
+		// Show on the WP Dashboard.
+		if ( $pagenow === 'index.php' ) {
+			return true;
+		}
+
+		$page_from_get = filter_input( INPUT_GET, 'page' );
+
+		// Show on Yoast SEO pages, with some exceptions.
+		if ( $pagenow === 'admin.php' && strpos( $page_from_get, 'wpseo' ) === 0 ) {
+			$exceptions = [
+				'wpseo_workouts',
+				'wpseo_installation_successful',
+			];
+
+			if ( ! \in_array( $page_from_get, $exceptions, true ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
