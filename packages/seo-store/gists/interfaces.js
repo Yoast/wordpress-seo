@@ -9,7 +9,8 @@ const paper = {
 	content: "",
 	// No more locale here: needs analysis worker adaptation.
 	isCornerstone: false,
-//	isTaxonomy: false,  -- Replaced by analysisType.
+	// IsTaxonomy: false,  -- Replaced by analysisType.
+	seoTitleWidth: 0,
 };
 const keyphrases = {
 	focus: {
@@ -86,17 +87,15 @@ const wrapperConfig = {
 	morphologyUrl: "", // -> fetches the morphology data and passes it to the worker as researchData.
 	locale: "en_US", // Needed to determine the morphology URL
 	// Worker.initialize
-//	contentAnalysisActive: true,
-//	keywordAnalysisActive: true,
+	//	ContentAnalysisActive: true,
+	//	KeywordAnalysisActive: true,
 	useKeywordDistribution: false,
 	locale: "en_US",
-//	customAnalysisType: "",
+	//	CustomAnalysisType: "",
 	translations: {},
 	assessorOptions: {
-		[ analysisType ]: {
-
-		},
-	}, // mostly used for shortlinks per analysisType.
+		[ analysisType ]: {},
+	}, // Mostly used for shortlinks per analysisType.
 	defaultQueryParams: {},
 	logLevel: "",
 	enabledFeatures: [],
@@ -136,5 +135,5 @@ const analysisTypes = {
 			standard: [],
 			cornerstone: [],
 		},
-	}
+	},
 };

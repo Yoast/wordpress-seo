@@ -22,8 +22,9 @@
     "@testing-library/user-event": "^12.1.10",
     "@wordpress/data": "^6.1.2",
     "@wordpress/element": "^4.0.3",
-    "@yoast/seo-store": "file:../../packages/seo-store",
+    "@wordpress/hooks": "^3.2.1",
     "@yoast/replacement-variables": "file:../../packages/replacement-variables",
+    "@yoast/seo-store": "file:../../packages/seo-store",
     "react-scripts": "4.0.3"
   },
   "devDependencies": {

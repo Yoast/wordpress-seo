@@ -1,0 +1,42 @@
+#root {
+	display: flex;
+}
+
+main {
+	flex-grow: 1;
+}
+
+.inline-flex {
+	display: inline-flex;
+}
+.flex-column {
+	flex-direction: column;
+}
+
+.editor, .sidebar {
+	margin: 1em;
+}
+
+.editor > h1, .sidebar > h2 {
+	margin-top: 0;
+}
+.editor label:not(:first-of-type), fieldset:not(:first-child) {
+	margin-top: 0.5em;
+}
+
+input:invalid, input:valid {
+	flex-grow: 1;
+}
+input:invalid + span, input:valid + span {
+	align-self: center;
+}
+
+input:invalid + span:after {
+	content: '✖';
+	padding-left: 5px;
+}
+
+input:valid + span:after {
+	content: '✓';
+	padding-left: 0.4em;
+}

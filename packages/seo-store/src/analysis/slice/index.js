@@ -5,19 +5,17 @@ import { formSelectors } from "../../form/slice";
 import configReducer, { configActions, configSelectors } from "./config";
 import resultsReducer, { resultsActions, resultsSelectors } from "./results";
 
-export const ANALYSIS_SLICE_NAME = "analysis";
-
 export const analysisSelectors = {
 	...resultsSelectors,
 	...configSelectors,
 	selectPaper: createSelector(
-		editorSelectors.selectContent,
-		formSelectors.selectTitle,
-		formSelectors.selectDescription,
+		formSelectors.selectSeoTitle,
+		formSelectors.selectMetaDescription,
 		formSelectors.selectSlug,
+		editorSelectors.selectContent,
 		editorSelectors.selectPermalink,
 		editorSelectors.selectDate,
-		( content, title, description, slug, permalink, date ) => ( { content, title, description, slug, permalink, date } ),
+		( seoTitle, metaDescription, slug, content, permalink, date ) => ( { seoTitle, metaDescription, slug, content, permalink, date } ),
 	),
 };
 

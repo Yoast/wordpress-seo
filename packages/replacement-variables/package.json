@@ -1,12 +1,22 @@
 {
   "name": "@yoast/replacement-variables",
   "version": "1.0.0",
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
+  },
   "main": "build/index.js",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "babel src -d build",
-    "watch": "babel src -w -d build"
+    "build": "yarn clean && babel src --out-dir build",
+    "watch": "yarn clean && babel src --watch --out-dir build",
+    "clean": "rimraf build",
+    "lint": "eslint src --max-warnings=0",
+    "lint:watch": "esw src --max-warnings=0 --watch",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "lodash": "^4.17.21"
@@ -16,7 +26,12 @@
     "@babel/core": "^7.15.8",
     "@babel/eslint-parser": "^7.15.8",
     "@babel/eslint-plugin": "^7.14.5",
-    "@wordpress/babel-preset-default": "^6.3.3",
-    "eslint-config-yoast": "^5.0.17"
+    "@wordpress/babel-preset-default": "^6.3.4",
+    "babel-jest": "^27.3.1",
+    "eslint": "^8.1.0",
+    "eslint-config-yoast": "^5.0.17",
+    "eslint-watch": "^8.0.0",
+    "jest": "^27.3.1",
+    "rimraf": "^3.0.2"
   }
 }

@@ -33,6 +33,7 @@ export const state = {
 			title: "Title",
 			description: "",
 			slug: "",
+			isCornerstone: false,
 		},
 		keyphrases: {
 			focus: {
