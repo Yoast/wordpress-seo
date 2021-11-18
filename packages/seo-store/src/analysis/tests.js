@@ -56,11 +56,11 @@ describe( "Results slice", () => {
 	};
 
 	describe( "Reducer", () => {
-		test( "should return the analysis results initial state", () => {
+		test( "should return the initial state", () => {
 			expect( resultsReducer( previousState, {} ) ).toEqual( initialState );
 		} );
 
-		test( "should update the analysis active marker", () => {
+		test( "should update the active marker", () => {
 			const { updateActiveMarker } = resultsActions;
 
 			const payload = {
@@ -75,7 +75,7 @@ describe( "Results slice", () => {
 			} );
 		} );
 
-		test( "should update the analysis status to loading", () => {
+		test( "should update the status to loading", () => {
 			const { request } = analysisActions;
 
 			const result = resultsReducer( previousState, { type: request } );
@@ -86,7 +86,7 @@ describe( "Results slice", () => {
 			} );
 		} );
 
-		test( "should update the analysis status to success", () => {
+		test( "should update the status to success", () => {
 			const { success } = analysisActions;
 
 			const result = resultsReducer( previousState, { type: success, payload: initialState } );
@@ -97,7 +97,7 @@ describe( "Results slice", () => {
 			} );
 		} );
 
-		test( "should update the analysis status to error", () => {
+		test( "should update the status to error", () => {
 			const { error } = analysisActions;
 
 			const result = resultsReducer( previousState, { type: error, payload: "test error" } );
@@ -113,7 +113,7 @@ describe( "Results slice", () => {
 	describe( "Selectors", () => {
 		const createStoreState = curry( set )( {}, "analysis.results" );
 
-		test( "should select the analysis seo score", () => {
+		test( "should select the seo score", () => {
 			const { selectSeoScore } = resultsSelectors;
 
 			const state = {
@@ -126,7 +126,7 @@ describe( "Results slice", () => {
 			expect( result ).toEqual( 9000 );
 		} );
 
-		test( "should select the analysis seo results", () => {
+		test( "should select the seo results", () => {
 			const { selectSeoResults } = resultsSelectors;
 
 			const state = {
@@ -139,7 +139,7 @@ describe( "Results slice", () => {
 			expect( result ).toEqual( [ "test" ] );
 		} );
 
-		test( "should select the analysis readability score", () => {
+		test( "should select the readability score", () => {
 			const { selectReadabilityScore } = resultsSelectors;
 
 			const state = {
@@ -152,7 +152,7 @@ describe( "Results slice", () => {
 			expect( result ).toEqual( 9000 );
 		} );
 
-		test( "should select the analysis readability results", () => {
+		test( "should select the readability results", () => {
 			const { selectReadabilityResults } = resultsSelectors;
 
 			const state = {
@@ -165,7 +165,7 @@ describe( "Results slice", () => {
 			expect( result ).toEqual( [ "test" ] );
 		} );
 
-		test( "should select the analysis research results", () => {
+		test( "should select the research results", () => {
 			const { selectResearchResults } = resultsSelectors;
 
 			const state = {
@@ -176,7 +176,7 @@ describe( "Results slice", () => {
 			expect( result ).toEqual( "test" );
 		} );
 
-		test( "should select the analysis active marker", () => {
+		test( "should select the active marker", () => {
 			const { selectActiveMarker } = resultsSelectors;
 
 			const state = {
@@ -190,7 +190,7 @@ describe( "Results slice", () => {
 			expect( result ).toEqual( { id: "1", marks: [ "test" ] } );
 		} );
 
-		test( "should select the analysis active marker id", () => {
+		test( "should select the active marker id", () => {
 			const { selectActiveMarkerId } = resultsSelectors;
 
 			const state = {
@@ -203,7 +203,7 @@ describe( "Results slice", () => {
 			expect( result ).toEqual( "1" );
 		} );
 
-		test( "should select the analysis active marks", () => {
+		test( "should select the active marks", () => {
 			const { selectActiveMarks } = resultsSelectors;
 
 			const state = {
