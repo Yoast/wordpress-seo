@@ -4,8 +4,6 @@ namespace Yoast\WP\SEO\Actions\Importing;
 
 use Exception;
 use wpdb;
-use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
-use Yoast\WP\SEO\Actions\Indexing\Limited_Indexing_Action_Interface;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
@@ -124,13 +122,33 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	}
 
 	/**
-	 * Gets the cursor id (to be used as a key for the import_cursors option).
+	 * Can the current action import the data from plugin $plugin of type $type?
 	 *
-	 * @return string The cursor id.
+	 * @param string $plugin The plugin to import from.
+	 * @param string $type   The type of data to import.
+	 *
+	 * @return bool True if this action can handle the combination of Plugin and Type.
+	 *
+	 * @throws Exception If the TYPE constant is not set in the child class.
 	 */
-	protected function get_cursor_id() {
-		$class = get_class( $this );
-		return $class::PLUGIN . '_' . $class::TYPE;
+	public function is_compatible_with( $plugin = null, $type = null ) {
+		if ( empty( $plugin ) && empty( $type ) ) {
+			return true;
+		}
+
+		if ( $plugin === $this->get_plugin() && empty( $type ) ) {
+			return true;
+		}
+
+		if ( empty( $plugin ) && $type === $this->get_type() ) {
+			return true;
+		}
+
+		if ( $plugin === $this->get_plugin() && $type === $this->get_type() ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -179,9 +197,11 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	}
 
 	/**
-	 * Creates a query for gathering to-be-imported data from the database.
+	 * Gets the cursor id.
 	 *
-	 * @return string The query to use for importing or counting the number of items to import.
+	 * @return string The cursor id.
 	 */
-	abstract public function query();
+	protected function get_cursor_id() {
+		return $this->get_plugin() . '_' . $this->get_type();
+	}
 }
