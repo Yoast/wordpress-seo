@@ -42,7 +42,7 @@ class Conflicting_Plugins_Service {
 		}
 
 		// Deactivate all specified plugins across the network, while retaining their deactivation hook.
-		\deactivate_plugins( $plugins, false, true );
+		\deactivate_plugins( $plugins );
 	}
 
 	/**
