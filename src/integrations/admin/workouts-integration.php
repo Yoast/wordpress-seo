@@ -110,12 +110,13 @@ class Workouts_Integration implements Integration_Interface {
 			'workouts',
 			'wpseoWorkoutsData',
 			[
-				'workouts'     => $workouts_option,
-				'homeUrl'      => \home_url(),
-				'pluginUrl'    => \esc_url( \plugins_url( '', WPSEO_FILE ) ),
-				'toolsPageUrl' => \esc_url( \admin_url( 'admin.php?page=wpseo_tools' ) ),
-				'usersPageUrl' => \esc_url( \admin_url( 'users.php' ) ),
-				'isPremium'    => YoastSEO()->helpers->product->is_premium(),
+				'workouts'                  => $workouts_option,
+				'homeUrl'                   => \home_url(),
+				'pluginUrl'                 => \esc_url( \plugins_url( '', WPSEO_FILE ) ),
+				'toolsPageUrl'              => \esc_url( \admin_url( 'admin.php?page=wpseo_tools' ) ),
+				'usersPageUrl'              => \esc_url( \admin_url( 'users.php' ) ),
+				'isPremium'                 => YoastSEO()->helpers->product->is_premium(),
+				'canDoConfigurationWorkout' => $this->user_can_do_configuration_workout(),
 			]
 		);
 	}
@@ -139,6 +140,10 @@ class Workouts_Integration implements Integration_Interface {
 	 */
 	public function should_display_configuration_workout_notice() {
 		if ( ! $this->options_helper->get( 'dismiss_configuration_workout_notice', false ) === false ) {
+			return false;
+		}
+
+		if ( ! $this->user_can_do_configuration_workout() ) {
 			return false;
 		}
 
@@ -243,12 +248,41 @@ class Workouts_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Whether the user can do the configuration workout.
+	 *
+	 * @return bool Whether the current user can do the configuration workout.
+	 */
+	private function user_can_do_configuration_workout() {
+		return \current_user_can( 'wpseo_manage_options' );
+	}
+
+	/**
 	 * Whether the user is currently visiting one of our admin pages or the WordPress dashboard.
 	 *
 	 * @return bool Whether the current page is a Yoast SEO admin page
 	 */
 	private function on_wpseo_admin_page_or_dashboard() {
 		$pagenow = $GLOBALS['pagenow'];
-		return ( $pagenow === 'admin.php' && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0 ) || $pagenow === 'index.php';
+
+		// Show on the WP Dashboard.
+		if ( $pagenow === 'index.php' ) {
+			return true;
+		}
+
+		$page_from_get = filter_input( INPUT_GET, 'page' );
+
+		// Show on Yoast SEO pages, with some exceptions.
+		if ( $pagenow === 'admin.php' && strpos( $page_from_get, 'wpseo' ) === 0 ) {
+			$exceptions = [
+				'wpseo_workouts',
+				'wpseo_installation_successful',
+			];
+
+			if ( ! \in_array( $page_from_get, $exceptions, true ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

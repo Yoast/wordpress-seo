@@ -37,7 +37,9 @@ function registerWorkout( key, priority, Component ) {
 window.wpseoWorkoutsData = window.wpseoWorkoutsData || {};
 window.wpseoWorkoutsData.registerWorkout = registerWorkout;
 
-registerWorkout( "configuration", 1, () => <ConfigurationWorkoutCard /> );
+if ( window.wpseoWorkoutsData.canDoConfigurationWorkout ) {
+	registerWorkout( "configuration", 1, () => <ConfigurationWorkoutCard /> );
+}
 
 domReady( () => {
 	renderReactRoot( "wpseo-workouts-container-free", <Workouts /> );
