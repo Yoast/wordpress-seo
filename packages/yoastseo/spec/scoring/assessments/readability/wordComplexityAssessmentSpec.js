@@ -3,11 +3,12 @@ import DefaultResearcher from "../../../../src/languageProcessing/languages/_def
 import wordComplexityAssessment from "../../../../src/scoring/assessments/readability/wordComplexityAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import factory from "../../../specHelpers/factory.js";
+const i18n = factory.buildJed();
 
 describe( "an assessment returning complex words", function() {
 	it( "runs a test with an empty text", function() {
 		const mockPaper = new Paper( "" );
-		const result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher( [] ) );
+		const result = wordComplexityAssessment.getResult( mockPaper, factory.buildMockResearcher( [] ), i18n );
 
 		expect( result.getScore() ).toBe( 9 );
 		expect( result.getText() ).toBe( "0% of the words contain <a href='https://yoa.st/difficult-words' target='_blank'>" +
@@ -30,7 +31,7 @@ describe( "an assessment returning complex words", function() {
 				{ word: "", complexity: 1 },
 				{ word: "", complexity: 10 } ],
 			} ]
-		) );
+		), i18n );
 
 		expect( result.getScore() ).toBe( 3 );
 		expect( result.getText() ).toBe( "30% of the words contain <a href='https://yoa.st/difficult-words' target='_blank'>over 3 syllables</a>, " +
@@ -62,7 +63,7 @@ describe( "an assessment returning complex words", function() {
 				{ word: "", complexity: 1 },
 				{ word: "", complexity: 10 },
 			] } ]
-		) );
+		), i18n );
 		expect( result.getScore() ).toBe( 6.8 );
 		expect( result.getText() ).toBe( "5.3% of the words contain <a href='https://yoa.st/difficult-words' target='_blank'>over 3 syllables</a>, " +
 			"which is more than the recommended maximum of 5%." );
@@ -94,7 +95,7 @@ describe( "an assessment returning complex words", function() {
 				{ word: "", complexity: 1 },
 				{ word: "", complexity: 10 } ] },
 		]
-		) );
+		), i18n );
 		expect( result.getScore() ).toBe( 7 );
 		expect( result.getText() ).toBe( "5% of the words contain <a href='https://yoa.st/difficult-words' target='_blank'>over 3 syllables</a>, " +
 			"which is less than or equal to the recommended maximum of 5%." );
@@ -140,7 +141,7 @@ describe( "an assessment returning complex words", function() {
 				{ word: "", complexity: 3 },
 				{ word: "", complexity: 10 } ],
 			} ]
-		) );
+		), i18n );
 		expect( result.getScore() ).toBe( 8.3 );
 		expect( result.getText() ).toBe( "2.9% of the words contain <a href='https://yoa.st/difficult-words' target='_blank'>over 3 syllables</a>, " +
 			"which is less than or equal to the recommended maximum of 5%." );
@@ -162,7 +163,7 @@ describe( "an assessment returning complex words", function() {
 				{ word: "", complexity: 1 },
 				{ word: "", complexity: 1 } ],
 			} ]
-		) );
+		), i18n );
 		expect( result.getScore() ).toBe( 9 );
 		expect( result.getText() ).toBe( "0% of the words contain <a href='https://yoa.st/difficult-words' target='_blank'>over 3 syllables</a>, " +
 			"which is less than or equal to the recommended maximum of 5%." );

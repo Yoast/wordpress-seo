@@ -61,11 +61,11 @@ export default function HeadingLevelDropdown( { selectedLevel, onChange }: Headi
 				icon={ <HeadingLevelIcon level={ selectedLevel } /> as unknown as Dashicon.Icon }
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore -- Attribute is available.
-				label={ __( "Change heading level", "wordpress-seo" ) }
+				label={ __( "Change heading level", "yoast-schema-blocks" ) }
 				onClick={ onToggle }
 				onKeyDown={ openOnArrowDown }
 				showTooltip={ true }
-				title={ __( "Change heading level", "wordpress-seo" ) }
+				title={ __( "Change heading level", "yoast-schema-blocks" ) }
 			/>
 		);
 	}, [] );
@@ -78,7 +78,7 @@ export default function HeadingLevelDropdown( { selectedLevel, onChange }: Headi
 	const renderContent = useCallback( (): JSX.Element => (
 		<Toolbar
 			className="block-library-heading-level-toolbar"
-			label={ __( "Change heading level", "wordpress-seo" ) }
+			label={ __( "Change heading level", "yoast-schema-blocks" ) }
 		>
 			<ToolbarGroup
 				isCollapsed={ false }
@@ -92,7 +92,7 @@ export default function HeadingLevelDropdown( { selectedLevel, onChange }: Headi
 						),
 						title: sprintf(
 							// translators: %s: heading level e.g: "1", "2", "3"
-							__( "Heading %d", "wordpress-seo" ),
+							__( "Heading %d", "yoast-schema-blocks" ),
 							targetLevel,
 						),
 						isActive,

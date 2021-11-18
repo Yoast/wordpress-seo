@@ -1,4 +1,3 @@
-import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -45,13 +44,14 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 *
 	 * @param {Paper}      paper      The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
+	 * @param {Jed}        i18n       The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
-	getResult( paper, researcher ) {
+	getResult( paper, researcher, i18n ) {
 		this._keyphraseCounts = researcher.getResearch( "metaDescriptionKeyword" );
 		const assessmentResult = new AssessmentResult();
-		const calculatedResult = this.calculateResult();
+		const calculatedResult = this.calculateResult( i18n );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -62,18 +62,20 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	/**
 	 * Returns the result object based on the number of keyword matches in the meta description.
 	 *
+	 * @param {Jed} i18n The object used for translations.
+	 *
 	 * @returns {Object} Result object with score and text.
 	 */
-	calculateResult() {
+	calculateResult( i18n ) {
 		// GOOD result when the meta description contains a keyphrase or synonym 1 or 2 times.
 		if ( this._keyphraseCounts === 1 || this._keyphraseCounts === 2 ) {
 			return {
 				score: this._config.scores.good,
-				resultText: sprintf(
+				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
-					__(
-						"%1$sKeyphrase in meta description%2$s: Keyphrase or synonym appear in the meta description. Well done!",
-						"wordpress-seo"
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sKeyphrase in meta description%2$s: Keyphrase or synonym appear in the meta description. Well done!"
 					),
 					this._config.urlTitle,
 					"</a>"
@@ -85,17 +87,17 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 		if ( this._keyphraseCounts >= 3 ) {
 			return {
 				score: this._config.scores.bad,
-				resultText: sprintf(
+				resultText: i18n.sprintf(
 					/**
 					 * Translators:
 					 * %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
 					 * %3$s expands to the number of sentences containing the keyphrase,
 					 * %4$s expands to a link on yoast.com, %5$s expands to the anchor end tag.
 					 */
-					__(
-						// eslint-disable-next-line max-len
-						"%1$sKeyphrase in meta description%2$s: The meta description contains the keyphrase %3$s times, which is over the advised maximum of 2 times. %4$sLimit that%5$s!",
-						"wordpress-seo"
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sKeyphrase in meta description%2$s: The meta description contains the keyphrase %3$s times, " +
+						"which is over the advised maximum of 2 times. %4$sLimit that%5$s!"
 					),
 					this._config.urlTitle,
 					"</a>",
@@ -109,16 +111,16 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 		// BAD if the keyphrases is not contained in the meta description.
 		return {
 			score: this._config.scores.bad,
-			resultText: sprintf(
+			resultText: i18n.sprintf(
 				/**
 				 * Translators:
 				 * %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 				 * %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag.
 				 */
-				__(
-					// eslint-disable-next-line max-len
-					"%1$sKeyphrase in meta description%2$s: The meta description has been specified, but it does not contain the keyphrase. %3$sFix that%4$s!",
-					"wordpress-seo"
+				i18n.dgettext(
+					"js-text-analysis",
+					"%1$sKeyphrase in meta description%2$s: The meta description has been specified, " +
+					"but it does not contain the keyphrase. %3$sFix that%4$s!"
 				),
 				this._config.urlTitle,
 				"</a>",

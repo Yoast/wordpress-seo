@@ -1,4 +1,3 @@
-import { __, sprintf } from "@wordpress/i18n";
 import { map, merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -48,10 +47,10 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 *
+	 * @param {object} i18n The object used for translations.
 	 * @returns {AssessmentResult} The Assessment result.
 	 */
-	getResult( paper, researcher ) {
+	getResult( paper, researcher, i18n ) {
 		const sentences = researcher.getResearch( "countSentencesFromText" );
 		if	( researcher.getConfig( "sentenceLength" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
@@ -63,7 +62,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( score );
-		assessmentResult.setText( this.translateScore( score, percentage ) );
+		assessmentResult.setText( this.translateScore( score, percentage, i18n ) );
 		assessmentResult.setHasMarks( ( percentage > 0 ) );
 
 		return assessmentResult;
@@ -136,31 +135,28 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 *
 	 * @param {number} score The score.
 	 * @param {number} percentage The percentage.
+	 * @param {object} i18n The object used for translations.
 	 *
 	 * @returns {string} A string.
 	 */
-	translateScore( score, percentage ) {
+	translateScore( score, percentage,  i18n ) {
 		if ( score >= 7 ) {
-			return sprintf(
+			return i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				__(
-					"%1$sSentence length%2$s: Great!",
-					"wordpress-seo"
-				),
+				i18n.dgettext( "js-text-analysis",
+					"%1$sSentence length%2$s: Great!" ),
 				this._config.urlTitle,
 				"</a>"
 			);
 		}
 
-		return sprintf(
+		return i18n.sprintf(
 			/* Translators: %1$s and %6$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
 			%3$d expands to percentage of sentences, %4$s expands to the recommended maximum sentence length,
 			%5$s expands to the recommended maximum percentage. */
-			__(
-				// eslint-disable-next-line max-len
-				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s words, which is more than the recommended maximum of %5$s. %6$sTry to shorten the sentences%2$s.",
-				"wordpress-seo"
-			),
+			i18n.dgettext( "js-text-analysis",
+				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s words, which is more than the recommended maximum of %5$s." +
+				" %6$sTry to shorten the sentences%2$s." ),
 			this._config.urlTitle,
 			"</a>",
 			percentage + "%",

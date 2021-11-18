@@ -69,17 +69,17 @@ export function SchemaAnalysis(): ReactElement {
 
 	return <div key={ "schema-analysis" } className={ "yoast-schema-analysis" }>
 		<LabelWithHelpLink
-			text={ __( "JobPosting schema", "wordpress-seo" ) }
+			text={ __( "JobPosting schema", "yoast-schema-blocks" ) }
 			URL={ "https://yoa.st/4dk" }
 		/>
 		<TextControl onChange={ onChange } value={ jobTitle } label={ "Job title" } />
 		<WarningList warnings={ warnings } />
 		<BlockSuggestions
-			heading={ __( "Required information", "wordpress-seo" ) }
+			heading={ __( "Required information", "yoast-schema-blocks" ) }
 			blockNames={ requiredBlocks }
 		/>
 		<BlockSuggestions
-			heading={ __( "Recommended information", "wordpress-seo" ) }
+			heading={ __( "Recommended information", "yoast-schema-blocks" ) }
 			blockNames={ recommendedBlocks }
 		/>
 	</div>;
@@ -100,7 +100,7 @@ function WarningList( props: WarningListProps ): ReactElement {
 	return (
 		<Fragment>
 			<div className="yoast-block-sidebar-warnings">
-				<div className="yoast-block-sidebar-title">{ __( "Analysis", "wordpress-seo" ) }</div>
+				<div className="yoast-block-sidebar-title">{ __( "Analysis", "yoast-schema-blocks" ) }</div>
 				<ul className="yoast-block-sidebar-warnings">
 					{ ...props.warnings.map( warning => <Warning warning={ warning } key={ warning.text } /> ) }
 				</ul>

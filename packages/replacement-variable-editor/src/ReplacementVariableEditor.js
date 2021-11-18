@@ -94,7 +94,7 @@ class ReplacementVariableEditor extends React.Component {
 			onClick={ this.triggerReplacementVariableSuggestions }
 			disabled={ isDisabled }
 		>
-			{ __( "Insert variable", "wordpress-seo" ) }
+			{ __( "Insert variable", "yoast-components" ) }
 		</TriggerReplacementVariableSuggestionsButton>;
 
 		return (

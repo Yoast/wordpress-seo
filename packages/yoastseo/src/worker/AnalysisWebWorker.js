@@ -1,8 +1,8 @@
 // External dependencies.
 import { autop } from "@wordpress/autop";
 import { enableFeatures } from "@yoast/feature-flag";
-import { __, setLocaleData, sprintf } from "@wordpress/i18n";
-import { forEach, has, includes, isEmpty, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash-es";
+import Jed from "jed";
+import { forEach, has, includes, isNull, isObject, isString, isUndefined, merge, pickBy, isEmpty } from "lodash-es";
 import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.
@@ -67,6 +67,7 @@ export default class AnalysisWebWorker {
 		this._paper = null;
 		this._relatedKeywords = {};
 
+		this._i18n = AnalysisWebWorker.createI18n();
 		this._researcher = researcher;
 
 		this._contentAssessor = null;
@@ -382,6 +383,29 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
+	 * Initializes i18n object based on passed configuration.
+	 *
+	 * @param {Object} [translations] The translations to be used in the current
+	 *                                instance.
+	 *
+	 * @returns {Jed} Jed instance.
+	 */
+	static createI18n( translations ) {
+		// Use default object to prevent Jed from erroring out.
+		translations = translations || {
+			domain: "js-text-analysis",
+			// eslint-disable-next-line camelcase
+			locale_data: {
+				"js-text-analysis": {
+					"": {},
+				},
+			},
+		};
+
+		return new Jed( translations );
+	}
+
+	/**
 	 * Initializes the appropriate content assessor.
 	 *
 	 * @returns {null|Assessor} The chosen content assessor.
@@ -406,9 +430,10 @@ export default class AnalysisWebWorker {
 			 */
 			assessor = this._CustomCornerstoneContentAssessorClasses[ customAnalysisType ]
 				? new this._CustomCornerstoneContentAssessorClasses[ customAnalysisType ](
+					this._i18n,
 					this._researcher,
 					this._CustomCornerstoneContentAssessorOptions[ customAnalysisType ] )
-				: new CornerstoneContentAssessor( this._researcher );
+				: new CornerstoneContentAssessor( this._i18n, this._researcher );
 		} else {
 			/*
 			 * For non-cornerstone content, use a custom SEO assessor if available,
@@ -416,9 +441,10 @@ export default class AnalysisWebWorker {
 			 */
 			assessor = this._CustomContentAssessorClasses[ customAnalysisType ]
 				? new this._CustomContentAssessorClasses[ customAnalysisType ](
+					this._i18n,
 					this._researcher,
 					this._CustomContentAssessorOptions[ customAnalysisType ] )
-				: new ContentAssessor( this._researcher );
+				: new ContentAssessor( this._i18n, this._researcher );
 		}
 
 		return assessor;
@@ -446,16 +472,17 @@ export default class AnalysisWebWorker {
 		let assessor;
 
 		if ( useTaxonomy === true ) {
-			assessor = new TaxonomyAssessor( this._researcher );
+			assessor = new TaxonomyAssessor( this._i18n, this._researcher );
 		} else {
 			// Set cornerstone SEO assessor for cornerstone content.
 			if ( useCornerstone === true ) {
 				// Use a custom cornerstone SEO assessor if available, otherwise set the default cornerstone SEO assessor.
 				assessor = this._CustomCornerstoneSEOAssessorClasses[ customAnalysisType ]
 					? new this._CustomCornerstoneSEOAssessorClasses[ customAnalysisType ](
+						this._i18n,
 						this._researcher,
 						this._CustomCornerstoneSEOAssessorOptions[ customAnalysisType ] )
-					: new CornerstoneSEOAssessor( this._researcher );
+					: new CornerstoneSEOAssessor( this._i18n, this._researcher );
 			} else {
 			/*
 			 * For non-cornerstone content, use a custom SEO assessor if available,
@@ -463,9 +490,10 @@ export default class AnalysisWebWorker {
 			 */
 				assessor = this._CustomSEOAssessorClasses[ customAnalysisType ]
 					? new this._CustomSEOAssessorClasses[ customAnalysisType ](
+						this._i18n,
 						this._researcher,
 						this._CustomSEOAssessorOptions[ customAnalysisType ] )
-					: new SEOAssessor( this._researcher );
+					: new SEOAssessor( this._i18n, this._researcher );
 			}
 		}
 
@@ -502,16 +530,17 @@ export default class AnalysisWebWorker {
 		let assessor;
 
 		if ( useTaxonomy === true ) {
-			assessor = new RelatedKeywordTaxonomyAssessor( this._researcher );
+			assessor = new RelatedKeywordTaxonomyAssessor( this._i18n, this._researcher );
 		} else {
 			// Set cornerstone related keyword assessor for cornerstone content.
 			if ( useCornerstone === true ) {
 				// Use a custom related keyword assessor if available, otherwise use the default related keyword assessor.
 				assessor = this._CustomCornerstoneRelatedKeywordAssessorClasses[ customAnalysisType ]
 					? new this._CustomCornerstoneRelatedKeywordAssessorClasses[ customAnalysisType ](
+						this._i18n,
 						this._researcher,
 						this._CustomCornerstoneRelatedKeywordAssessorOptions[ customAnalysisType ] )
-					: new CornerstoneRelatedKeywordAssessor( this._researcher );
+					: new CornerstoneRelatedKeywordAssessor( this._i18n, this._researcher );
 			} else {
 			/*
 			 * For non-cornerstone content, use a custom related keyword assessor if available,
@@ -519,9 +548,10 @@ export default class AnalysisWebWorker {
 			 */
 				assessor = this._CustomRelatedKeywordAssessorClasses[ customAnalysisType ]
 					? new this._CustomRelatedKeywordAssessorClasses[ customAnalysisType ](
+						this._i18n,
 						this._researcher,
 						this._CustomRelatedKeywordAssessorOptions[ customAnalysisType ] )
-					: new RelatedKeywordAssessor( this._researcher );
+					: new RelatedKeywordAssessor( this._i18n, this._researcher );
 			}
 		}
 
@@ -547,7 +577,7 @@ export default class AnalysisWebWorker {
 	/*
 	 * Disabled code:
 	 * createSEOTreeAssessor( assessorConfig ) {
-	 * 	 return constructSEOAssessor( this._treeResearcher, assessorConfig );
+	 * 	 return constructSEOAssessor( this._i18n, this._treeResearcher, assessorConfig );
 	 * }
 	 */
 
@@ -629,8 +659,9 @@ export default class AnalysisWebWorker {
 	initialize( id, configuration ) {
 		const update = AnalysisWebWorker.shouldAssessorsUpdate( configuration, this._contentAssessor, this._seoAssessor );
 
-		if ( has( configuration, "translations.locale_data.wordpress-seo" ) ) {
-			setLocaleData( configuration.translations.locale_data[ "wordpress-seo" ], "wordpress-seo" );
+		if ( has( configuration, "translations" ) ) {
+			this._i18n = AnalysisWebWorker.createI18n( configuration.translations );
+			delete configuration.translations;
 		}
 
 		if ( has( configuration, "researchData" ) ) {
@@ -662,7 +693,7 @@ export default class AnalysisWebWorker {
 			this._contentAssessor = this.createContentAssessor();
 			/*
 			 * Disabled code:
-			 * this._contentTreeAssessor = constructReadabilityAssessor( this._treeResearcher, configuration.useCornerstone );
+			 * this._contentTreeAssessor = constructReadabilityAssessor( this._i18n, this._treeResearcher, configuration.useCornerstone );
 			 */
 			this._contentTreeAssessor = null;
 		}
@@ -1025,9 +1056,9 @@ export default class AnalysisWebWorker {
 		const result = new AssessmentResult();
 
 		result.setScore( -1 );
-		result.setText( sprintf(
+		result.setText( this._i18n.sprintf(
 			/* Translators: %1$s expands to the name of the assessment. */
-			__( "An error occurred in the '%1$s' assessment", "wordpress-seo" ),
+			this._i18n.dgettext( "js-text-analysis", "An error occurred in the '%1$s' assessment" ),
 			assessment.name
 		) );
 

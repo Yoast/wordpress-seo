@@ -33,7 +33,7 @@ export default class Duration extends BlockInstruction {
 		const value = props.attributes.value as number || 0;
 
 		/* translators: %d will be replaced with the number of minutes. */
-		return <p className={ props.className }>{ sprintf( __( "%d minutes", "wordpress-seo" ), value ) }</p>;
+		return <p className={ props.className }>{ sprintf( __( "%d minutes", "yoast-schema-blocks" ), value ) }</p>;
 	}
 
 	/**
@@ -62,12 +62,12 @@ export default class Duration extends BlockInstruction {
 					type="number"
 					min={ 0 }
 					placeholder="#"
-					aria-label={ __( "Cooking time", "wordpress-seo" ) }
+					aria-label={ __( "Cooking time", "yoast-schema-blocks" ) }
 					className="minutes-input"
 					onChange={ onChange }
 					value={ props.attributes.value as string }
 				/>
-				<p> { __( "minutes", "wordpress-seo" ) }</p>
+				<p> { __( "minutes", "yoast-schema-blocks" ) }</p>
 			</div>
 		);
 	}

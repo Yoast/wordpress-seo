@@ -72,7 +72,7 @@ export const makeOutboundLink = ( Component = "a" ) => {
 				React.createElement(
 					A11yNotice,
 					null,
-					__( "(Opens in a new browser tab)", "wordpress-seo" )
+					__( "(Opens in a new browser tab)", "yoast-components" )
 				)
 			);
 		}

@@ -40,8 +40,8 @@ function ImageSelect( props ) {
 			<span className="screen-reader-text">
 				{
 					imageSelected
-						? __( "Replace image", "wordpress-seo" )
-						: __( "Select image", "wordpress-seo" )
+						? __( "Replace image", "yoast-components" )
+						: __( "Select image", "yoast-components" )
 				}
 			</span>
 		);

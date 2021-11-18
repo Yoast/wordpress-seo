@@ -1,4 +1,3 @@
-import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -42,14 +41,15 @@ class IntroductionKeywordAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
+	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The result of this assessment.
 	 */
-	getResult( paper, researcher ) {
+	getResult( paper, researcher, i18n ) {
 		const assessmentResult = new AssessmentResult();
 
 		this._firstParagraphMatches = researcher.getResearch( "findKeywordInFirstParagraph" );
-		const calculatedResult = this.calculateResult();
+		const calculatedResult = this.calculateResult( i18n );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -71,17 +71,19 @@ class IntroductionKeywordAssessment extends Assessment {
 	/**
 	 * Returns a result based on the number of occurrences of keyphrase in the first paragraph.
 	 *
+	 * @param {Jed} i18n The object used for translations.
+	 *
 	 * @returns {Object} result object with a score and translation text.
 	 */
-	calculateResult() {
+	calculateResult( i18n ) {
 		if ( this._firstParagraphMatches.foundInOneSentence ) {
 			return {
 				score: this._config.scores.good,
-				resultText: sprintf(
+				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
-					__(
-						"%1$sKeyphrase in introduction%2$s: Well done!",
-						"wordpress-seo"
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sKeyphrase in introduction%2$s: Well done!"
 					),
 					this._config.urlTitle,
 					"</a>"
@@ -92,12 +94,12 @@ class IntroductionKeywordAssessment extends Assessment {
 		if ( this._firstParagraphMatches.foundInParagraph ) {
 			return {
 				score: this._config.scores.okay,
-				resultText: sprintf(
+				resultText: i18n.sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
-					__(
-						// eslint-disable-next-line max-len
-						"%1$sKeyphrase in introduction%3$s: Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. %2$sFix that%3$s!",
-						"wordpress-seo"
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sKeyphrase in introduction%3$s:" +
+						" Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. %2$sFix that%3$s!"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -108,12 +110,12 @@ class IntroductionKeywordAssessment extends Assessment {
 
 		return {
 			score: this._config.scores.bad,
-			resultText: sprintf(
+			resultText: i18n.sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag. */
-				__(
-					// eslint-disable-next-line max-len
-					"%1$sKeyphrase in introduction%3$s: Your keyphrase or its synonyms do not appear in the first paragraph. %2$sMake sure the topic is clear immediately%3$s.",
-					"wordpress-seo"
+				i18n.dgettext(
+					"js-text-analysis",
+					"%1$sKeyphrase in introduction%3$s: Your keyphrase or its synonyms do not appear in the first paragraph. " +
+					"%2$sMake sure the topic is clear immediately%3$s."
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,

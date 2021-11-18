@@ -23,7 +23,7 @@ class CornerstoneToggle extends React.Component {
 			<Cornerstone>
 				<Toggle
 					id={ this.props.id }
-					labelText={ __( "Mark as cornerstone content", "wordpress-seo" ) }
+					labelText={ __( "Mark as cornerstone content", "yoast-components" ) }
 					isEnabled={ this.props.isEnabled }
 					onSetToggleState={ this.props.onToggle }
 					onToggleDisabled={ this.props.onToggleDisabled }

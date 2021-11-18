@@ -40,7 +40,7 @@ function ProductDataMobile( props ) {
 		<ProductData>
 			{ ( shoppingData.rating > 0 ) &&
 				<ProductDataCell50 className="yoast-shopping-data-preview__column">
-					<div className="yoast-shopping-data-preview__upper">{ __( "Rating", "wordpress-seo" ) }</div>
+					<div className="yoast-shopping-data-preview__upper">{ __( "Rating", "yoast-components" ) }</div>
 					<ProductDataInnerLower className="yoast-shopping-data-preview__lower">
 						<span>{ round( ( shoppingData.rating * 2 ), 1 ) }/10 </span>
 						<StarRating rating={ shoppingData.rating } />
@@ -50,7 +50,7 @@ function ProductDataMobile( props ) {
 			}
 			{ ( shoppingData.price ) &&
 				<ProductDataCell25 className="yoast-shopping-data-preview__column">
-					<div className="yoast-shopping-data-preview__upper">{ __( "Price", "wordpress-seo" ) }</div>
+					<div className="yoast-shopping-data-preview__upper">{ __( "Price", "yoast-components" ) }</div>
 					<ProductDataInnerLower
 						className="yoast-shopping-data-preview__lower"
 						dangerouslySetInnerHTML={ { __html: shoppingData.price } }
@@ -59,7 +59,7 @@ function ProductDataMobile( props ) {
 			}
 			{ ( shoppingData.availability ) &&
 				<ProductDataCell25 className="yoast-shopping-data-preview__column">
-					<div className="yoast-shopping-data-preview__upper">{ __( "Availability", "wordpress-seo" ) }</div>
+					<div className="yoast-shopping-data-preview__upper">{ __( "Availability", "yoast-components" ) }</div>
 					<ProductDataInnerLower className="yoast-shopping-data-preview__lower">
 						{ capitalize( shoppingData.availability ) }
 					</ProductDataInnerLower>

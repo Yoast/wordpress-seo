@@ -313,14 +313,14 @@ class ReplacementVariableEditorStandalone extends React.Component {
 						"%d result found, use up and down arrow keys to navigate",
 						"%d results found, use up and down arrow keys to navigate",
 						suggestions.length,
-						"wordpress-seo"
+						"yoast-components"
 					),
 					suggestions.length
 				),
 				"assertive"
 			);
 		} else {
-			this.debouncedA11ySpeak( __( "No results", "wordpress-seo" ), "assertive" );
+			this.debouncedA11ySpeak( __( "No results", "yoast-components" ), "assertive" );
 		}
 	}
 
