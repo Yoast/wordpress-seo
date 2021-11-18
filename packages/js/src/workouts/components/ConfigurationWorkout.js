@@ -155,7 +155,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 			youtube_url: state.socialProfiles.youtubeUrl,
 			// eslint-disable-next-line camelcase
 			wikipedia_url: state.socialProfiles.wikipediaUrl,
-			// eslint-enable camelcase
 		};
 
 		try {
@@ -354,13 +353,13 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						<WorkoutIndexation
 							indexingStateCallback={ setIndexingState }
 						/>
-						<FinishStepSection
-							hasDownArrow={ true }
-							finishText={ __( "Continue", "wordpress-seo" ) }
-							onFinishClick={ onFinishOptimizeSeoData }
-							isFinished={ isStepFinished( "configuration", steps.optimizeSeoData ) }
-						/>
 					</div>
+					<FinishStepSection
+						hasDownArrow={ true }
+						finishText={ __( "Continue", "wordpress-seo" ) }
+						onFinishClick={ onFinishOptimizeSeoData }
+						isFinished={ isStepFinished( "configuration", steps.optimizeSeoData ) }
+					/>
 				</Step>
 				<p className="extra-list-content">
 					{
