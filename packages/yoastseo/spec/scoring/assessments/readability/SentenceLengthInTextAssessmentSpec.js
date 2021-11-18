@@ -21,37 +21,6 @@ const longSentence15WordsLimit = "Word ".repeat( 15 ) + "word. ";
 const shortSentence25WordsLimit = "Word ".repeat( 23 ) + "word. ";
 const longSentence25WordsLimit = "Word ".repeat( 25 ) + "word. ";
 
-const spanishConfig = {
-	recommendedWordCount: 25,
-	slightlyTooMany: 25,
-	farTooMany: 30,
-};
-const hebrewConfig = {
-	recommendedWordCount: 15,
-	slightlyTooMany: 25,
-	farTooMany: 30,
-};
-const russianConfig = {
-	recommendedWordCount: 15,
-	slightlyTooMany: 25,
-	farTooMany: 30,
-};
-const italianConfig = {
-	recommendedWordCount: 25,
-	slightlyTooMany: 25,
-	farTooMany: 30,
-};
-const portugueseConfig = {
-	recommendedWordCount: 25,
-	slightlyTooMany: 25,
-	farTooMany: 30,
-};
-const catalanConfig = {
-	recommendedWordCount: 25,
-	slightlyTooMany: 25,
-	farTooMany: 30,
-};
-
 // eslint-disable-next-line max-statements
 describe( "An assessment for sentence length", function() {
 	it( "returns the score for all short sentences using the default config", function() {
