@@ -117,7 +117,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 				tooLongParagraphs.length,
 				this._config.parameters.recommendedLength,
 				this._config.urlCallToAction,
-				this._config.countTextIn,
+				this._config.countTextIn
 			),
 		};
 	}
