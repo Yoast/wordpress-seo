@@ -37,11 +37,11 @@ const createReplacementVariables = ( configurations ) => {
 	 * Applies the replacement variables to a string.
 	 *
 	 * @param {string} input The input string.
-	 * @param {Object} context The single context argument for the `getReplacement` functions.
+	 * @param {Object} [context] Optional single context argument for the `getReplacement` functions.
 	 *
 	 * @returns {string} The input, but with any replacement variables replaced.
 	 */
-	const apply = ( input, context ) => reduce(
+	const apply = ( input, context = {} ) => reduce(
 		variables,
 		( replaced, { regexp, getReplacement } ) => (
 			regexp.test( replaced )
