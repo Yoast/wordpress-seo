@@ -10,12 +10,12 @@ import { Alert, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/compone
 import { ReactComponent as WorkoutImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
 import { Step, Steps, FinishStepSection } from "./Steps";
-import Indexation from "../../components/Indexation";
 import { STEPS, WORKOUTS } from "../config";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
 import { SocialInput } from "./SocialInput";
 import { NewsletterSignup } from "./NewsletterSignup";
+import { WorkoutIndexation } from "./WorkoutIndexation";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
@@ -351,7 +351,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					isFinished={ isStepFinished( "configuration", steps.optimizeSeoData ) }
 				>
 					<div className="indexation-container">
-						<Indexation
+						<WorkoutIndexation
 							indexingStateCallback={ setIndexingState }
 						/>
 						<FinishStepSection
