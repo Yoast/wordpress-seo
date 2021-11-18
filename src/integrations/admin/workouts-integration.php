@@ -253,7 +253,7 @@ class Workouts_Integration implements Integration_Interface {
 	 * @return bool Whether the current user can do the configuration workout.
 	 */
 	private function user_can_do_configuration_workout() {
-		return \current_user_can( 'wpseo_manage_options' );;
+		return \current_user_can( 'wpseo_manage_options' );
 	}
 
 	/**
@@ -263,6 +263,9 @@ class Workouts_Integration implements Integration_Interface {
 	 */
 	private function on_wpseo_admin_page_or_dashboard() {
 		$pagenow = $GLOBALS['pagenow'];
-		return ( $pagenow === 'admin.php' && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0 ) || $pagenow === 'index.php';
+		return ( ( $pagenow === 'index.php' ) ||
+				( $pagenow === 'admin.php' &&
+				strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0 &&
+				filter_input( INPUT_GET, 'page' ) !== 'wpseo_workouts' ) );
 	}
 }
