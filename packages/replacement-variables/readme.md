@@ -29,7 +29,7 @@ The name of the replacement variable. The convention here is to use `snake_case`
 - **`label`** `String`\
 The label of the replacement variable to display in user interface if needed.
 
-- **`getReplacement`** `Function` \
+- **`getReplacement`** `Function`\
 A pure function that returns the replacement value for the variable. The function can accept a single **`context`** `Object` argument and must return a `String`. This function can get data from anyhwere, ie. a Redux store selector, a global variable or just a static string.
 
 - **`regexp`** `RegExp` - *Optional*\
@@ -52,9 +52,6 @@ In this example we'll configure a set of three replacement variables and apply t
 
 ```js
 import createReplacementVariables from "@yoast/replacement-variables";
-
-// Some utilities from Lodash
-import { get, map } from "lodash";
 
 // Some state
 window.fooBar = "Foo Bar";
