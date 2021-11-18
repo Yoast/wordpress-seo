@@ -86,12 +86,41 @@ describe( "Apply function", () => {
 		// The first replacement makes it so the second will no longer match, due to the singular `%`.
 		expect( result ).toEqual( "%%hello%TEST" );
 	} );
+
+	test( "should replace differently based on context.", () => {
+		const { apply } = createReplacementVariables( [
+			{
+				name: "test",
+				label: "Test",
+				getReplacement: ( { replacement } ) => replacement,
+			},
+		] );
+
+		const result1 = apply( "this is %%test%%", { replacement: "replacement 1" } );
+		expect( result1 ).toEqual( "this is replacement 1" );
+
+		const result2 = apply( "this is %%test%%", { replacement: "replacement 2" } );
+		expect( result2 ).toEqual( "this is replacement 2" );
+	} );
+
+	test( "should replace with undefined on missing context.", () => {
+		const { apply } = createReplacementVariables( [
+			{
+				name: "test",
+				label: "Test",
+				getReplacement: ( { replacement } ) => replacement,
+			},
+		] );
+
+		const result = apply( "this is %%test%%" );
+		expect( result ).toEqual( "this is undefined" );
+	} );
 } );
 
 describe( "Replacement variables", () => {
 	test( "should create multiple replacement variables", () => {
 		const getReplacement = () => {};
-		const { replacementVariables } = createReplacementVariables( [
+		const { variables } = createReplacementVariables( [
 			{
 				name: "test1",
 				label: "Test 1",
@@ -104,12 +133,12 @@ describe( "Replacement variables", () => {
 			},
 		] );
 
-		expect( replacementVariables.length ).toBe( 2 );
+		expect( variables.length ).toBe( 2 );
 	} );
 
 	test( "should create a regexp", () => {
 		const getReplacement = () => {};
-		const { replacementVariables } = createReplacementVariables( [
+		const { variables } = createReplacementVariables( [
 			{
 				name: "test",
 				label: "Test",
@@ -117,6 +146,6 @@ describe( "Replacement variables", () => {
 			},
 		] );
 
-		expect( replacementVariables ).toContainEqual( { name: "test", label: "Test", getReplacement, regexp: /%%test%%/g } );
+		expect( variables ).toContainEqual( { name: "test", label: "Test", getReplacement, regexp: /%%test%%/g } );
 	} );
 } );
