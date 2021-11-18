@@ -4,12 +4,13 @@ import TransitionWordsAssessment from "../../../../src/scoring/assessments/reada
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
+const i18n = Factory.buildJed();
 
 describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 0% of the sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
-			transitionWordSentences: 0 } ) );
+			transitionWordSentences: 0 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
@@ -20,7 +21,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for a paper with text but no sentences (e.g. only images)", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 0,
-			transitionWordSentences: 0 } ) );
+			transitionWordSentences: 0 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
@@ -31,7 +32,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 10.0% of the sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
-			transitionWordSentences: 1 } ) );
+			transitionWordSentences: 1 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
@@ -42,7 +43,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 20.0% of the sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 5,
-			transitionWordSentences: 1 } ) );
+			transitionWordSentences: 1 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
@@ -53,7 +54,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 25.0% of the sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 4,
-			transitionWordSentences: 1 } ) );
+			transitionWordSentences: 1 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
@@ -64,7 +65,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 35.0% of the sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 20,
-			transitionWordSentences: 7 } ) );
+			transitionWordSentences: 7 } ), i18n );
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
 		expect( assessment.hasMarks() ).toBe( true );
@@ -72,7 +73,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 40% sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
-			transitionWordSentences: 4 } ) );
+			transitionWordSentences: 4 } ), i18n );
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
 		expect( assessment.hasMarks() ).toBe( true );
@@ -81,7 +82,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 47% sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 100,
-			transitionWordSentences: 47 } ) );
+			transitionWordSentences: 47 } ), i18n );
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
 		expect( assessment.hasMarks() ).toBe( true );
@@ -90,7 +91,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 66.7% of the sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 3,
-			transitionWordSentences: 2 } ) );
+			transitionWordSentences: 2 } ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );

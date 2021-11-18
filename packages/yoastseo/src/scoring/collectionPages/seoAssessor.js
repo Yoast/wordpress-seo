@@ -35,12 +35,13 @@ export const getTextLengthAssessment = function() {
 /**
  * Creates the Assessor used for collection pages.
  *
+ * @param {object} i18n         The i18n object used for translations.
  * @param {object} researcher   The researcher used for the analysis.
  * @param {Object} options      The options for this assessor.
  * @constructor
  */
-const CollectionSEOAssessor = function( researcher, options ) {
-	Assessor.call( this, researcher, options );
+const CollectionSEOAssessor = function( i18n, researcher, options ) {
+	Assessor.call( this, i18n, researcher, options );
 	this.type = "CollectionSEOAssessor";
 
 	this._assessments = [

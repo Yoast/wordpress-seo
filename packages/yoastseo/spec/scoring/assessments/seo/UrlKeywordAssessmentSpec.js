@@ -1,6 +1,7 @@
 import UrlKeywordAssessment from "../../../../src/scoring/assessments/seo/UrlKeywordAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
+const i18n = Factory.buildJed();
 
 const keywordInUrl = new UrlKeywordAssessment();
 
@@ -13,7 +14,8 @@ describe( "A keyword in url count assessment", function() {
 	it( "assesses no keyword was found in the url: short keyphrase", function() {
 		const assessment = keywordInUrl.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { keyphraseLength: 1, percentWordMatches: 0 } )
+			Factory.buildMockResearcher( { keyphraseLength: 1, percentWordMatches: 0 } ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -24,7 +26,8 @@ describe( "A keyword in url count assessment", function() {
 	it( "assesses a keyword was found in the url: short keyphrase", function() {
 		const assessment = keywordInUrl.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { keyphraseLength: 1, percentWordMatches: 100 } )
+			Factory.buildMockResearcher( { keyphraseLength: 1, percentWordMatches: 100 } ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -34,7 +37,8 @@ describe( "A keyword in url count assessment", function() {
 	it( "assesses no keyword was found in the url: long keyphrase", function() {
 		const assessment = keywordInUrl.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { keyphraseLength: 3, percentWordMatches: 0 } )
+			Factory.buildMockResearcher( { keyphraseLength: 3, percentWordMatches: 0 } ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -45,7 +49,8 @@ describe( "A keyword in url count assessment", function() {
 	it( "assesses a keyword was found in the url: long keyphrase", function() {
 		const assessment = keywordInUrl.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { keyphraseLength: 3, percentWordMatches: 100 } )
+			Factory.buildMockResearcher( { keyphraseLength: 3, percentWordMatches: 100 } ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -56,7 +61,8 @@ describe( "A keyword in url count assessment", function() {
 	it( "assesses part of the keyphrase was found in the url: long keyphrase", function() {
 		const assessment = keywordInUrl.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { keyphraseLength: 3, percentWordMatches: 67 } )
+			Factory.buildMockResearcher( { keyphraseLength: 3, percentWordMatches: 67 } ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -67,7 +73,8 @@ describe( "A keyword in url count assessment", function() {
 	it( "assesses a keyword was found in the url: in double quotes", function() {
 		const assessment = keywordInUrl.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { keyphraseLength: 1, percentWordMatches: 100 } )
+			Factory.buildMockResearcher( { keyphraseLength: 1, percentWordMatches: 100 } ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -77,7 +84,8 @@ describe( "A keyword in url count assessment", function() {
 	it( "assesses part of the keyphrase was not found in the url: in double quotes", function() {
 		const assessment = keywordInUrl.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { keyphraseLength: 1, percentWordMatches: 0 } )
+			Factory.buildMockResearcher( { keyphraseLength: 1, percentWordMatches: 0 } ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 6 );

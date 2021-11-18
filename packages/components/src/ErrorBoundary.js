@@ -48,7 +48,7 @@ export default class ErrorBoundary extends React.Component {
 	render() {
 		if ( this.state.hasError ) {
 			// Render any custom fallback UI.
-			const errorMessage = __( "Something went wrong. Please reload the page.", "wordpress-seo" );
+			const errorMessage = __( "Something went wrong. Please reload the page.", "yoast-components" );
 			a11ySpeak( errorMessage, "assertive" );
 
 			return <ErrorContainer>{ errorMessage }</ErrorContainer>;

@@ -152,7 +152,7 @@ export default class TwitterImage extends React.Component {
 				onMouseEnter={ this.props.onMouseEnter }
 				onMouseLeave={ this.props.onMouseLeave }
 			>
-				{ __( "Select image", "wordpress-seo" ) }
+				{ __( "Select image", "yoast-components" ) }
 			</PlaceholderImage>;
 		}
 

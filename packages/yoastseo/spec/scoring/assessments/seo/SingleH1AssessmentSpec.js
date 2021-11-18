@@ -1,6 +1,7 @@
 import SingleH1Assessment from "../../../../src/scoring/assessments/seo/SingleH1Assessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
+const i18n = Factory.buildJed();
 import Mark from "../../../../src/values/Mark.js";
 
 const h1Assessment = new SingleH1Assessment();
@@ -8,7 +9,7 @@ const h1Assessment = new SingleH1Assessment();
 describe( "An assessment to check whether there is more than one H1 in the text", function() {
 	it( "returns the default result when the paper doesn't contain an H1", function() {
 		const mockPaper = new Paper( "<p>a paragraph</p>" );
-		const assessment = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [] ) );
+		const assessment = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [] ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 0 );
 		expect( assessment.getText() ).toEqual( "" );
@@ -18,7 +19,7 @@ describe( "An assessment to check whether there is more than one H1 in the text"
 	it( "returns the default result when there's an H1 at the beginning of the body", function() {
 		const mockPaper = new Paper( "<h1>heading</h1><p>a paragraph</p>" );
 		const assessment = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher(
-			[ { tag: "h1", content: "heading", position: 0 } ] ) );
+			[ { tag: "h1", content: "heading", position: 0 } ] ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 0 );
 		expect( assessment.getText() ).toEqual( "" );
@@ -28,7 +29,7 @@ describe( "An assessment to check whether there is more than one H1 in the text"
 	it( "returns a bad score and appropriate feedback when there is one superfluous (i.e., non-title) H1s in the body of the text", function() {
 		const mockPaper = new Paper( "<p>a paragraph</p><h1>heading</h1>" );
 		const assessment = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher(
-			[ { tag: "h1", content: "heading", position: 2 } ] ) );
+			[ { tag: "h1", content: "heading", position: 2 } ] ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
 		expect( assessment.getText() ).toEqual(  "<a href='https://yoa.st/3a6' target='_blank'>Single title</a>: " +
@@ -42,7 +43,7 @@ describe( "An assessment to check whether there is more than one H1 in the text"
 		const assessment = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [
 			{ tag: "h1", content: "heading 1", position: 2 },
 			{ tag: "h1", content: "heading 2", position: 4 },
-		] ) );
+		] ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
 		expect( assessment.getText() ).toEqual(  "<a href='https://yoa.st/3a6' target='_blank'>Single title</a>: " +
@@ -55,7 +56,7 @@ describe( "A test for marking incorrect H1s in the body", function() {
 	it( "returns markers for incorrect H1s in the body", function() {
 		const mockPaper = new Paper( "<p>a paragraph</p><h1>heading</h1>" );
 		const assessment = h1Assessment;
-		assessment.getResult( mockPaper, Factory.buildMockResearcher( [ { tag: "h1", content: "heading", position: 2 } ] ) );
+		assessment.getResult( mockPaper, Factory.buildMockResearcher( [ { tag: "h1", content: "heading", position: 2 } ] ), i18n );
 
 		const expected = [
 			new Mark( { original: "<h1>heading</h1>",
@@ -67,7 +68,7 @@ describe( "A test for marking incorrect H1s in the body", function() {
 
 	it( "doesn't return markers for H1s in the first position of the body", function() {
 		const mockPaper = new Paper( "<h1>heading</h1><p>a paragraph</p>" );
-		const results = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [ { tag: "h1", content: "heading", position: 0 } ] ) );
+		const results = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [ { tag: "h1", content: "heading", position: 0 } ] ), i18n );
 
 		expect( results._hasMarks ).toEqual( false );
 		expect( h1Assessment.getMarks() ).toEqual( [] );
@@ -75,7 +76,7 @@ describe( "A test for marking incorrect H1s in the body", function() {
 
 	it( "doesn't return markers when there are no H1s in the body", function() {
 		const mockPaper = new Paper( "<p>a paragraph</p>" );
-		const results = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [] ) );
+		const results = h1Assessment.getResult( mockPaper, Factory.buildMockResearcher( [] ), i18n );
 
 		expect( results._hasMarks ).toEqual( false );
 	} );
