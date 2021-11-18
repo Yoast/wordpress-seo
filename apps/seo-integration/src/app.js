@@ -56,15 +56,15 @@ const Editor = () => {
 
 const Keyphrases = () => {
 	const ids = useSelect( select => select( SEO_STORE_NAME ).selectKeyphraseIds() );
-	const { addKeyphraseEntry } = useDispatch( SEO_STORE_NAME );
-	const handleAddKeyphraseEntry = useCallback( () => {
-		addKeyphraseEntry();
-	}, [ addKeyphraseEntry ] );
+	const { addRelatedKeyphrase } = useDispatch( SEO_STORE_NAME );
+	const handleAddRelatedKeyphrase = useCallback( () => {
+		addRelatedKeyphrase();
+	}, [ addRelatedKeyphrase ] );
 
 	return (
 		<div className="inline-flex flex-column">
 			{ ids.map( id => <Keyphrase key={ `keyphrase-entry-${ id }` } id={ id } /> ) }
-			<button onClick={ handleAddKeyphraseEntry }>Add keyphrase</button>
+			<button onClick={ handleAddRelatedKeyphrase }>Add keyphrase</button>
 		</div>
 	);
 };
@@ -104,10 +104,10 @@ const Keyphrase = ( props ) => {
 };
 
 const GooglePreview = () => {
-	const { updateSeoTitle, updateSeoDescription, updateSlug } = useDispatch( SEO_STORE_NAME );
+	const { updateSeoTitle, updateMetaDescription, updateSlug } = useDispatch( SEO_STORE_NAME );
 
 	const handleSeoTitleChange = useDebounce( event => updateSeoTitle( event.target.value ), [ updateSeoTitle ] );
-	const handleSeoDescriptionChange = useDebounce( event => updateSeoDescription( event.target.value ), [ updateSeoDescription ] );
+	const handleSeoDescriptionChange = useDebounce( event => updateMetaDescription( event.target.value ), [ updateMetaDescription ] );
 	const handleSlugChange = useDebounce( event => updateSlug( event.target.value ), [ updateSlug ] );
 
 	return (
