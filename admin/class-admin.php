@@ -75,12 +75,6 @@ class WPSEO_Admin {
 			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		}
 
-		if ( WPSEO_Utils::is_api_available() ) {
-			$configuration = new WPSEO_Configuration_Page();
-			$configuration->set_hooks();
-			$configuration->catch_configuration_request();
-		}
-
 		$this->set_upsell_notice();
 
 		$this->initialize_cornerstone_content();
