@@ -45,11 +45,12 @@
     "rimraf": "^3.0.2"
   },
   "peerDependencies": {
-    "@yoast/analysis-report": "^1.21.0",
-    "@yoast/social-metadata-previews": "^1.17.0",
     "@wordpress/data": "^6.1.2",
     "@wordpress/element": "^4.0.3",
     "@wordpress/hooks": "^3.2.1",
-    "react": "^17.0.1"
+    "@yoast/analysis-report": "^1.21.0",
+    "@yoast/social-metadata-previews": "^1.17.0",
+    "react": "^17.0.1",
+    "yoastseo": "^1.91.0"
   }
 }
