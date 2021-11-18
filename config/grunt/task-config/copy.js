@@ -79,6 +79,10 @@ module.exports = {
 		src: "gettext.pot",
 		dest: "<%= files.pot.yoastJsSearchMetadataPreviews %>",
 	},
+	"makepot-yoast-js-social-metadata-forms": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsSocialMetadataForms %>",
+	},
 	"makepot-yoastseojs": {
 		src: "gettext.pot",
 		dest: "<%= files.pot.yoastseojs %>",
