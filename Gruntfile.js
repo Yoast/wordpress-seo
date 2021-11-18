@@ -82,6 +82,7 @@ module.exports = function( grunt ) {
 				yoastJsHelpers: "<%= paths.languages %>yoast-js-helpers.pot",
 				yoastJsSearchMetadataPreviews: "<%= paths.languages %>yoast-js-search-metadata-previews.pot",
 				yoastJsSocialMetadataForms: "<%= paths.languages %>yoast-js-social-metadata-forms.pot",
+				yoastJsReplacementVariableEditor: "<%= paths.languages %>yoast-js-replacement-variable-editor.pot",
 
 				yoastseojs: "<%= paths.languages %>yoast-seo-js.pot",
 				yoastComponents: "<%= paths.languages %>yoast-components.pot",

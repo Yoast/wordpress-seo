@@ -83,6 +83,10 @@ module.exports = {
 		src: "gettext.pot",
 		dest: "<%= files.pot.yoastJsSocialMetadataForms %>",
 	},
+	"makepot-yoast-js-replacement-variable-editor": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsReplacementVariableEditor %>",
+	},
 	"makepot-yoastseojs": {
 		src: "gettext.pot",
 		dest: "<%= files.pot.yoastseojs %>",
