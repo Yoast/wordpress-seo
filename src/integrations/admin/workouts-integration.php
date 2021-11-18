@@ -110,12 +110,13 @@ class Workouts_Integration implements Integration_Interface {
 			'workouts',
 			'wpseoWorkoutsData',
 			[
-				'workouts'     => $workouts_option,
-				'homeUrl'      => \home_url(),
-				'pluginUrl'    => \esc_url( \plugins_url( '', WPSEO_FILE ) ),
-				'toolsPageUrl' => \esc_url( \admin_url( 'admin.php?page=wpseo_tools' ) ),
-				'usersPageUrl' => \esc_url( \admin_url( 'users.php' ) ),
-				'isPremium'    => YoastSEO()->helpers->product->is_premium(),
+				'workouts'                  => $workouts_option,
+				'homeUrl'                   => \home_url(),
+				'pluginUrl'                 => \esc_url( \plugins_url( '', WPSEO_FILE ) ),
+				'toolsPageUrl'              => \esc_url( \admin_url( 'admin.php?page=wpseo_tools' ) ),
+				'usersPageUrl'              => \esc_url( \admin_url( 'users.php' ) ),
+				'isPremium'                 => YoastSEO()->helpers->product->is_premium(),
+				'canDoConfigurationWorkout' => $this->user_can_do_configuration_workout(),
 			]
 		);
 	}
@@ -139,6 +140,10 @@ class Workouts_Integration implements Integration_Interface {
 	 */
 	public function should_display_configuration_workout_notice() {
 		if ( ! $this->options_helper->get( 'dismiss_configuration_workout_notice', false ) === false ) {
+			return false;
+		}
+
+		if ( ! $this->user_can_do_configuration_workout() ) {
 			return false;
 		}
 
@@ -240,6 +245,15 @@ class Workouts_Integration implements Integration_Interface {
 	private function should_update_premium() {
 		$premium_version = YoastSEO()->helpers->product->get_premium_version();
 		return $premium_version !== null && version_compare( $premium_version, '17.7-RC1', '<' );
+	}
+
+	/**
+	 * Whether the user can do the configuration workout.
+	 *
+	 * @return bool Whether the current user can do the configuration workout.
+	 */
+	private function user_can_do_configuration_workout() {
+		return \current_user_can( 'wpseo_manage_options' );;
 	}
 
 	/**
