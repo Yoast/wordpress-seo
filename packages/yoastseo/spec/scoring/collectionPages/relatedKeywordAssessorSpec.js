@@ -1,9 +1,10 @@
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import Assessor from "../../../src/scoring/collectionPages/relatedKeywordAssessor";
 import Paper from "../../../src/values/Paper";
+import factory from "../../specHelpers/factory";
 import getResults from "../../specHelpers/getListOfAssessmentResults";
-
-const assessor = new Assessor( new EnglishResearcher() );
+const i18n = factory.buildJed();
+const assessor = new Assessor( i18n, new EnglishResearcher() );
 
 describe( "running assessments in the related keyword collection assessor", function() {
 	it( "runs assessments without any specific requirements", function() {

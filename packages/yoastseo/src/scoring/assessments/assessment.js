@@ -8,10 +8,11 @@ class Assessment {
 	 *
 	 * @param {Paper}       paper       The paper to run this assessment on.
 	 * @param {Researcher}  researcher  The researcher used for the assessment.
+	 * @param {object}      i18n        The i18n-object used for parsing translations.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
-	getResult( paper, researcher ) {
+	getResult( paper, researcher, i18n ) {
 		throw "The method getResult is not implemented";
 	}
 

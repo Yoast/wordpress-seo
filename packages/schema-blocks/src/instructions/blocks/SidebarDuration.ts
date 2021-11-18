@@ -53,7 +53,7 @@ class SidebarDuration extends SidebarBase {
 		const minutes = duration.minutes();
 
 		const hourAttributes: TextControl.Props = {
-			label: labelPrefix + __( "hours", "wordpress-seo" ),
+			label: labelPrefix + __( "hours", "yoast-schema-blocks" ),
 			value: isNaN( hours ) || hours === 0 ? "" : hours,
 			onChange: value => {
 				const newDuration = moment.duration( { hours: parseInt( value, 10 ), minutes: minutes || 0 } );
@@ -63,7 +63,7 @@ class SidebarDuration extends SidebarBase {
 			key: "hours",
 		};
 		const minuteAttributes: TextControl.Props = {
-			label: labelPrefix + __( "minutes", "wordpress-seo" ),
+			label: labelPrefix + __( "minutes", "yoast-schema-blocks" ),
 			value: isNaN( minutes ) || minutes === 0 ? "" : minutes,
 			onChange: value => {
 				const newDuration = moment.duration( { hours: hours || 0, minutes: parseInt( value, 10 ) } );

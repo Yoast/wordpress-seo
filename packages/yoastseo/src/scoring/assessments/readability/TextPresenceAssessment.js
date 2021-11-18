@@ -1,4 +1,3 @@
-import { __, sprintf } from "@wordpress/i18n";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import excludeTableOfContentsTag from "../../../languageProcessing/helpers/sanitize/excludeTableOfContentsTag";
 import { stripFullTags as stripHTMLTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
@@ -34,23 +33,21 @@ export default class TextPresenceAssessment extends Assessment {
 	 *
 	 * @param {Paper}       paper       The paper to assess.
 	 * @param {Researcher}  researcher  The researcher.
+	 * @param {Jed}         i18n        The translations object.
 	 *
 	 * @returns {AssessmentResult} The result of this assessment.
 	 */
-	// eslint-disable-next-line no-unused-vars
-	getResult( paper, researcher ) {
+	getResult( paper, researcher, i18n ) {
 		const text = stripHTMLTags( excludeTableOfContentsTag( paper.getText() ) );
 
 		if ( text.length < 50 ) {
 			const result = new AssessmentResult();
 
-			result.setText( sprintf(
+			result.setText( i18n.sprintf(
 				/* Translators: %1$s and %3$s expand to links to articles on Yoast.com,
 				%2$s expands to the anchor end tag*/
-				__(
-					"%1$sNot enough content%2$s: %3$sPlease add some content to enable a good analysis%2$s.",
-					"wordpress-seo"
-				),
+				i18n.dgettext( "js-text-analysis",
+					"%1$sNot enough content%2$s: %3$sPlease add some content to enable a good analysis%2$s." ),
 				this._config.urlTitle,
 				"</a>",
 				this._config.urlCallToAction ) );
