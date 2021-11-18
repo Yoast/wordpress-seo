@@ -56,15 +56,15 @@ const Editor = () => {
 
 const Keyphrases = () => {
 	const ids = useSelect( select => select( SEO_STORE_NAME ).selectKeyphraseIds() );
-	const { addKeyphraseEntry } = useDispatch( SEO_STORE_NAME );
-	const handleAddKeyphraseEntry = useCallback( () => {
-		addKeyphraseEntry();
-	}, [ addKeyphraseEntry ] );
+	const { addRelatedKeyphrase } = useDispatch( SEO_STORE_NAME );
+	const handleAddRelatedKeyphrase = useCallback( () => {
+		addRelatedKeyphrase();
+	}, [ addRelatedKeyphrase ] );
 
 	return (
 		<div className="inline-flex flex-column">
 			{ ids.map( id => <Keyphrase key={ `keyphrase-entry-${ id }` } id={ id } /> ) }
-			<button onClick={ handleAddKeyphraseEntry }>Add keyphrase</button>
+			<button onClick={ handleAddRelatedKeyphrase }>Add keyphrase</button>
 		</div>
 	);
 };
