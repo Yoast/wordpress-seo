@@ -188,6 +188,15 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	}
 
 	/**
+	 * Returns whether the importing action is enabled.
+	 *
+	 * @return bool True by default unless a child class overrides it.
+	 */
+	public function is_enabled() {
+		return true;
+	}
+
+	/**
 	 * Gets the cursor id.
 	 *
 	 * @return string The cursor id.
