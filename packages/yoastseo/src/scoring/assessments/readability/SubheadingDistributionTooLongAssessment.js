@@ -62,7 +62,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 		}
 
 		this._subheadingTextsLength = this._subheadingTextsLength.sort( function( a, b ) {
-			return b.wordCount - a.wordCount;
+			return b.countLength - a.countLength;
 		} );
 
 		this._tooLongTextsNumber = this.getTooLongSubheadingTexts().length;
@@ -113,7 +113,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 */
 	getTooLongSubheadingTexts() {
 		return filter( this._subheadingTextsLength, function( subheading ) {
-			return subheading.wordCount > this._config.parameters.recommendedMaximumWordCount;
+			return subheading.countLength > this._config.parameters.recommendedMaximumWordCount;
 		}.bind( this ) );
 	}
 
@@ -125,7 +125,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	calculateResult() {
 		if ( this._textLength > 300 ) {
 			if ( this._hasSubheadings ) {
-				const longestSubheadingTextLength = this._subheadingTextsLength[ 0 ].wordCount;
+				const longestSubheadingTextLength = this._subheadingTextsLength[ 0 ].countLength;
 				if ( longestSubheadingTextLength <= this._config.parameters.slightlyTooMany ) {
 					// Green indicator.
 					return {
