@@ -22,6 +22,7 @@ import WincherAutoTrackingEnabledAlert from "./modals/WincherAutoTrackingEnabled
 import LoginPopup from "../helpers/loginPopup";
 import { authenticate, getAuthorizationUrl, handleAPIResponse } from "../helpers/wincherEndpoints";
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
+import WincherNoPermalinkAlert from "./modals/WincherNoPermalinkAlert";
 
 /**
  * Gets the proper error message component.
@@ -200,6 +201,45 @@ const Title = styled.div`
 `;
 
 /**
+ * Creates the table content.
+ *
+ * @param {Object} props The props to use.
+ *
+ * @returns {void|wp.Element} The table content.
+ */
+const TableContent = ( props ) => {
+	const {
+		isLoggedIn,
+		keyphrases,
+		shouldTrackAll,
+		permalink,
+	} = props;
+
+	if ( ! permalink && isLoggedIn ) {
+		return <WincherNoPermalinkAlert />;
+	}
+
+	if ( keyphrases.length === 0 ) {
+		return <WincherNoKeyphraseSet />;
+	}
+
+	return <TableWrapper isDisabled={ ! isLoggedIn }>
+		<p>{ __( "You can enable / disable tracking the SEO performance for each keyphrase below.", "wordpress-seo" ) }</p>
+
+		{ isLoggedIn && shouldTrackAll && <WincherAutoTrackingEnabledAlert /> }
+
+		<WincherKeyphrasesTable />
+	</TableWrapper>;
+};
+
+TableContent.propTypes = {
+	keyphrases: PropTypes.array.isRequired,
+	isLoggedIn: PropTypes.bool.isRequired,
+	shouldTrackAll: PropTypes.bool.isRequired,
+	permalink: PropTypes.string.isRequired,
+};
+
+/**
  * Renders the Wincher SEO Performance modal content.
  *
  * @param {Object} props The props to use within the content.
@@ -208,15 +248,11 @@ const Title = styled.div`
  */
 export default function WincherSEOPerformance( props ) {
 	const {
-		keyphrases,
 		isNewlyAuthenticated,
 		keyphraseLimitReached,
 		limit,
-		shouldTrackAll,
 		isLoggedIn,
 	} = props;
-
-	const noKeyphrases = keyphrases.length === 0;
 
 	const onLoginCallback = useCallback( () => {
 		onLoginOpen( props );
@@ -239,16 +275,7 @@ export default function WincherSEOPerformance( props ) {
 			<ConnectToWincher isLoggedIn={ isLoggedIn } onLogin={ onLoginCallback } />
 			<GetUserMessage { ...props } onLogin={ onLoginCallback } />
 			{ keyphraseLimitReached && <WincherLimitReached limit={ limit } /> }
-
-			{ noKeyphrases
-				? <WincherNoKeyphraseSet />
-				: <TableWrapper isDisabled={ ! isLoggedIn }>
-					<p>{ __( "You can enable / disable tracking the SEO performance for each keyphrase below.", "wordpress-seo" ) }</p>
-
-					{ isLoggedIn && shouldTrackAll && <WincherAutoTrackingEnabledAlert /> }
-
-					<WincherKeyphrasesTable />
-				</TableWrapper> }
+			<TableContent { ...props } />
 		</Wrapper>
 	);
 }
@@ -261,6 +288,7 @@ WincherSEOPerformance.propTypes = {
 	keyphraseLimitReached: PropTypes.bool,
 	response: PropTypes.object,
 	shouldTrackAll: PropTypes.bool,
+	permalink: PropTypes.string,
 };
 
 WincherSEOPerformance.defaultProps = {
@@ -271,4 +299,5 @@ WincherSEOPerformance.defaultProps = {
 	keyphraseLimitReached: false,
 	response: {},
 	shouldTrackAll: false,
+	permalink: "",
 };

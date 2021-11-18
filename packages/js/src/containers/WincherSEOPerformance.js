@@ -16,6 +16,7 @@ export default compose( [
 			getWincherRequestResponse,
 			getWincherTrackableKeyphrases,
 			getWincherAllKeyphrasesMissRanking,
+			getWincherPermalink,
 			shouldWincherAutomaticallyTrackAll,
 		} = select( "yoast-seo/editor" );
 
@@ -29,6 +30,7 @@ export default compose( [
 			limit: getWincherLimit(),
 			response: getWincherRequestResponse(),
 			shouldTrackAll: shouldWincherAutomaticallyTrackAll(),
+			permalink: getWincherPermalink(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
