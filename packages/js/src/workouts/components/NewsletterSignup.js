@@ -1,8 +1,8 @@
-import { useCallback, useState, useEffect, Fragment } from "@wordpress/element";
+import { useCallback, useState, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { isURL, isEmail } from "@wordpress/url";
+import { isEmail } from "@wordpress/url";
 
-import { NewButton as Button, TextInput } from "@yoast/components";
+import { NewButton as Button } from "@yoast/components";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import ValidatedTextInput from "../components/ValidatedTextInput";
 
