@@ -26,6 +26,8 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@yoast/replacement-variables": "file:..//replacement-variables",
+    "@yoast/seo-store": "file:..//seo-store",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
@@ -43,6 +45,8 @@
     "rimraf": "^3.0.2"
   },
   "peerDependencies": {
+    "@yoast/analysis-report": "^1.21.0",
+    "@yoast/social-metadata-previews": "^1.17.0",
     "@wordpress/data": "^6.1.2",
     "@wordpress/element": "^4.0.3",
     "@wordpress/hooks": "^3.2.1",
