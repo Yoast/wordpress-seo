@@ -1,5 +1,5 @@
 /** @module analyses/findKeywordInPageTitle */
-
+import { isFeatureEnabled } from "@yoast/feature-flag";
 import wordMatch from "../helpers/match/matchTextWithWord.js";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
 
@@ -38,7 +38,10 @@ const processExactMatchRequest = function( keyword ) {
 	const exactMatchRequest = { exactMatchRequested: false, keyword: keyword };
 
 	// Check if morphology is suppressed. If so, strip the quotation marks from the keyphrase.
-	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"", "\u300c", "\u300d", "\u300e", "\u300f" ];
+	let doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
+	const japaneseQuotes = [ "\u300c", "\u300d", "\u300e", "\u300f" ];
+	doubleQuotes = isFeatureEnabled( "JAPANESE_SUPPORT" ) ? doubleQuotes.concat( japaneseQuotes ) : doubleQuotes;
+	console.log( doubleQuotes );
 	if ( includes( doubleQuotes, keyword[ 0 ] ) && includes( doubleQuotes, keyword[ keyword.length - 1 ] ) ) {
 		exactMatchRequest.keyword = keyword.substring( 1, keyword.length - 1 );
 		exactMatchRequest.exactMatchRequested = true;
