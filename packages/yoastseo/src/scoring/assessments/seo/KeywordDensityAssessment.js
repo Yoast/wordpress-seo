@@ -8,7 +8,6 @@ import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } 
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
 import countWords from "./../../../languageProcessing/helpers/word/countWords";
-import baseStemmer from "../../../languageProcessing/helpers/morphology/baseStemmer";
 
 /**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.
@@ -104,14 +103,13 @@ class KeywordDensityAssessment extends Assessment {
 
 		const assessmentResult = new AssessmentResult();
 
-		this._keywordDensityData = researcher.getResearch( "getKeywordDensity" );
+		this._keywordDensity = researcher.getResearch( "getKeywordDensity" );
 
-		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false &&
-			this._keywordDensityData.stemmer !== baseStemmer;
+		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
 		this.setBoundaries( paper.getText(), keyphraseLength );
 
-		this._keywordDensity = this._keywordDensityData.keywordDensity * keyphraseLengthFactor( keyphraseLength );
+		this._keywordDensity = this._keywordDensity * keyphraseLengthFactor( keyphraseLength );
 		const calculatedScore = this.calculateResult();
 
 		assessmentResult.setScore( calculatedScore.score );

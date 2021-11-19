@@ -2,7 +2,6 @@ import { languageProcessing } from "yoastseo";
 const { AbstractResearcher } = languageProcessing;
 
 // All helpers
-import getStemmer from "./helpers/getStemmer";
 import matchWordCustomHelper from "./helpers/matchTextWithWord";
 import getWordsCustomHelper from "./helpers/getWords";
 import wordsCharacterCount from "./helpers/wordsCharacterCount";
@@ -48,7 +47,6 @@ export default class Researcher extends AbstractResearcher {
 		} );
 
 		Object.assign( this.helpers, {
-			getStemmer,
 			matchWordCustomHelper,
 			getWordsCustomHelper,
 			getContentWords,
