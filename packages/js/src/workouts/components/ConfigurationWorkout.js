@@ -13,9 +13,9 @@ import { Step, Steps, FinishStepSection } from "./Steps";
 import { STEPS, WORKOUTS } from "../config";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
-import { SocialInput } from "./SocialInput";
 import { NewsletterSignup } from "./NewsletterSignup";
 import { WorkoutIndexation } from "./WorkoutIndexation";
+import SocialInputSection from "./SocialInputSection";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
@@ -63,6 +63,9 @@ function configurationWorkoutReducer( state, action ) {
 		case "CHANGE_SOCIAL_PROFILE":
 			newState.socialProfiles[ action.payload.socialMedium ] = action.payload.value;
 			return newState;
+		case "SET_ERROR_FIELDS":
+			newState.errorFields = action.payload;
+			return newState;
 		case "CHANGE_SITE_TAGLINE":
 			newState.siteTagline = action.payload;
 			return newState;
@@ -84,12 +87,16 @@ function configurationWorkoutReducer( state, action ) {
  * @returns {WPElement} The ConfigurationWorkout component.
  */
 export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinished } ) {
-	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, window.wpseoWorkoutsData.configuration );
+	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, { ...window.wpseoWorkoutsData.configuration, errorFields: [] } );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "completed" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 
 	const setTracking = useCallback( ( value ) => {
 		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
+	} );
+
+	const setErrorFields = useCallback( ( value ) => {
+		dispatch( { type: "SET_ERROR_FIELDS", payload: value } );
 	} );
 
 	const steps = STEPS.configuration;
@@ -101,21 +108,16 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	 */
 	const updateSiteRepresentation = async function() {
 		const siteRepresentation = {
-			// eslint-disable-next-line camelcase
+			/* eslint-disable camelcase */
 			company_or_person: state.companyOrPerson,
-			// eslint-disable-next-line camelcase
 			company_name: state.companyName,
-			// eslint-disable-next-line camelcase
 			company_logo: state.companyLogo,
-			// eslint-disable-next-line camelcase
 			company_logo_id: state.companyLogoId ? state.companyLogoId : 0,
-			// eslint-disable-next-line camelcase
 			person_logo: state.personLogo,
-			// eslint-disable-next-line camelcase
 			person_logo_id: state.personLogoId ? state.personLogoId : 0,
-			// eslint-disable-next-line camelcase
 			company_or_person_user_id: state.personId,
 			description: state.siteTagline,
+			/* eslint-enable camelcase */
 		};
 
 		try {
@@ -139,36 +141,24 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	 */
 	const updateSocialProfiles = async function() {
 		const socialProfiles = {
-			// eslint-disable-next-line camelcase
+			/* eslint-disable camelcase */
 			facebook_site: state.socialProfiles.facebookUrl,
-			// eslint-disable-next-line camelcase
 			twitter_site: state.socialProfiles.twitterUsername,
-			// eslint-disable-next-line camelcase
 			instagram_url: state.socialProfiles.instagramUrl,
-			// eslint-disable-next-line camelcase
 			linkedin_url: state.socialProfiles.linkedinUrl,
-			// eslint-disable-next-line camelcase
 			myspace_url: state.socialProfiles.myspaceUrl,
-			// eslint-disable-next-line camelcase
 			pinterest_url: state.socialProfiles.pinterestUrl,
-			// eslint-disable-next-line camelcase
 			youtube_url: state.socialProfiles.youtubeUrl,
-			// eslint-disable-next-line camelcase
 			wikipedia_url: state.socialProfiles.wikipediaUrl,
+			/* eslint-enable camelcase */
 		};
 
-		try {
-			const response = await apiFetch( {
-				path: "yoast/v1/workouts/social_profiles",
-				method: "POST",
-				data: socialProfiles,
-			} );
-			return await response.json;
-		} catch ( e ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
-			console.error( e.message );
-			return false;
-		}
+		const response = await apiFetch( {
+			path: "yoast/v1/workouts/social_profiles",
+			method: "POST",
+			data: socialProfiles,
+		} );
+		return await response.json;
 	};
 
 	/**
@@ -242,7 +232,19 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		if ( isStepFinished( "configuration", steps.socialProfiles ) ) {
 			toggleStepSocialProfiles();
 		} else {
-			updateSocialProfiles().then( toggleStepSocialProfiles );
+			updateSocialProfiles()
+				.then( () => {
+					setErrorFields( [] );
+					toggleStepSocialProfiles();
+				} )
+				.catch(
+					( e ) => {
+						if ( e.failures ) {
+							setErrorFields( e.failures );
+						}
+						return false;
+					}
+				);
 		}
 	}
 
@@ -461,64 +463,13 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					subtitle={ state.companyOrPerson === "company" ?  __( "Do you have profiles for your site on social media? Then, add all of their URLs here, so your social profiles may also appear in a Google Knowledge Panel.", "wordpress-seo" ) : "" }
 					isFinished={ isStepFinished( "configuration", steps.socialProfiles ) }
 				>
-					{ state.companyOrPerson === "company" && <div className="yoast-social-profiles-input-fields">
-						<SocialInput
-							label={ __( "Facebook URL", "wordpress-seo" ) }
-							value={ state.socialProfiles.facebookUrl }
-							socialMedium="facebookUrl"
-							dispatch={ dispatch }
-							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
-						/>
-						<SocialInput
-							label={ __( "Twitter URL", "wordpress-seo" ) }
-							value={ state.socialProfiles.twitterUsername }
-							socialMedium="twitterUsername"
-							dispatch={ dispatch }
-							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
-						/>
-						<SocialInput
-							label={ __( "Instagram URL", "wordpress-seo" ) }
-							value={ state.socialProfiles.instagramUrl }
-							socialMedium="instagramUrl"
-							dispatch={ dispatch }
-							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
-						/>
-						<SocialInput
-							label={ __( "LinkedIn URL", "wordpress-seo" ) }
-							value={ state.socialProfiles.linkedinUrl }
-							socialMedium="linkedinUrl"
-							dispatch={ dispatch }
-							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
-						/>
-						<SocialInput
-							label={ __( "MySpace URL", "wordpress-seo" ) }
-							value={ state.socialProfiles.myspaceUrl }
-							socialMedium="myspaceUrl"
-							dispatch={ dispatch }
-							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
-						/>
-						<SocialInput
-							label={ __( "Pinterest URL", "wordpress-seo" ) }
-							value={ state.socialProfiles.pinterestUrl }
-							socialMedium="pinterestUrl"
-							dispatch={ dispatch }
-							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
-						/>
-						<SocialInput
-							label={ __( "YouTube URL", "wordpress-seo" ) }
-							value={ state.socialProfiles.youtubeUrl }
-							socialMedium="youtubeUrl"
-							dispatch={ dispatch }
-							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
-						/>
-						<SocialInput
-							label={ __( "Wikipedia URL", "wordpress-seo" ) }
-							value={ state.socialProfiles.wikipediaUrl }
-							socialMedium="wikipediaUrl"
-							dispatch={ dispatch }
-							isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
-						/>
-					</div> }
+					{ state.companyOrPerson === "company" && <SocialInputSection
+						socialProfiles={ state.socialProfiles }
+						dispatch={ dispatch }
+						errorFields={ state.errorFields }
+						setErrorFields={ setErrorFields }
+						isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
+					/> }
 					{ state.companyOrPerson === "person" && <div>
 						<p>
 							{
