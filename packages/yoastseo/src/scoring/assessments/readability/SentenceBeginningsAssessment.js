@@ -1,5 +1,4 @@
 import { filter, flatten, map, merge, partition, sortBy } from "lodash-es";
-import { _n, __, sprintf } from "@wordpress/i18n";
 
 import marker from "../../../markers/addMark";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
@@ -60,25 +59,25 @@ export default class SentenceBeginningsAssessment extends Assessment {
 	 * Calculates the score based on sentence beginnings.
 	 *
 	 * @param {object} groupedSentenceBeginnings    The object with grouped sentence beginnings.
+	 * @param {object} i18n                         The object used for translations.
 	 *
 	 * @returns {{score: number, text: string, hasMarks: boolean}} result object with score and text.
 	 */
-	calculateSentenceBeginningsResult( groupedSentenceBeginnings ) {
+	calculateSentenceBeginningsResult( groupedSentenceBeginnings, i18n ) {
 		if ( groupedSentenceBeginnings.total > 0 ) {
 			return {
 				score: 3,
 				hasMarks: true,
-				text: sprintf(
+				text: i18n.sprintf(
 					/* Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
 					%3$d expands to the number of consecutive sentences starting with the same word,
 					%4$d expands to the number of instances where 3 or more consecutive sentences start with the same word. */
-					_n(
-						// eslint-disable-next-line max-len
-						"%1$sConsecutive sentences%2$s: The text contains %3$d consecutive sentences starting with the same word. %5$sTry to mix things up%2$s!",
-						// eslint-disable-next-line max-len
-						"%1$sConsecutive sentences%2$s: The text contains %4$d instances where %3$d or more consecutive sentences start with the same word. %5$sTry to mix things up%2$s!",
-						groupedSentenceBeginnings.total,
-						"wordpress-seo"
+					i18n.dngettext(
+						"js-text-analysis",
+						"%1$sConsecutive sentences%2$s: The text contains %3$d consecutive sentences starting with the same word." +
+						" %5$sTry to mix things up%2$s!", "%1$sConsecutive sentences%2$s: The text contains %4$d instances where" +
+						" %3$d or more consecutive sentences start with the same word. %5$sTry to mix things up%2$s!",
+						groupedSentenceBeginnings.total
 					),
 					this._config.urlTitle,
 					"</a>",
@@ -91,12 +90,10 @@ export default class SentenceBeginningsAssessment extends Assessment {
 		return {
 			score: 9,
 			hasMarks: false,
-			text: sprintf(
+			text: i18n.sprintf(
 				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				__(
-					"%1$sConsecutive sentences%2$s: There is enough variety in your sentences. That's great!",
-					"wordpress-seo"
-				),
+				i18n.dgettext( "js-text-analysis",
+					"%1$sConsecutive sentences%2$s: There is enough variety in your sentences. That's great!" ),
 				this._config.urlTitle,
 				"</a>"
 			),
@@ -136,13 +133,14 @@ export default class SentenceBeginningsAssessment extends Assessment {
 	 *
 	 * @param {object} paper        The paper to use for the assessment.
 	 * @param {object} researcher   The researcher used for calling research.
+	 * @param {object} i18n         The object used for translations.
 	 *
 	 * @returns {object} The Assessment result
 	 */
-	getResult( paper, researcher ) {
+	getResult( paper, researcher, i18n ) {
 		const sentenceBeginnings = researcher.getResearch( "getSentenceBeginnings" );
 		const groupedSentenceBeginnings = this.groupSentenceBeginnings( sentenceBeginnings );
-		const sentenceBeginningsResult = this.calculateSentenceBeginningsResult( groupedSentenceBeginnings );
+		const sentenceBeginningsResult = this.calculateSentenceBeginningsResult( groupedSentenceBeginnings, i18n );
 		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( sentenceBeginningsResult.score );

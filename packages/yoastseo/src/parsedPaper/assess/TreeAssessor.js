@@ -1,4 +1,3 @@
-import { __, sprintf } from "@wordpress/i18n";
 import AssessmentResult from "../../values/AssessmentResult";
 
 /**
@@ -14,12 +13,18 @@ class TreeAssessor {
 	 * Creates a new assessor.
 	 *
 	 * @param {Object}                                     options                 Assessor options.
+	 * @param {Jed}                                        options.i18n            A Jed object to use for translations.
 	 * @param {module:parsedPaper/research.TreeResearcher} options.researcher      Supplies the assessments with researches and their
 	 *                                                                             (cached) results.
 	 * @param {module:parsedPaper/assess.ScoreAggregator}  options.scoreAggregator Aggregates the scores on the individual assessments into one.
 	 * @param {module:parsedPaper/assess.Assessment[]}     [options.assessments]   The list of assessments to apply.
 	 */
 	constructor( options ) {
+		/**
+		 * A Jed object to use for translations.
+		 * @type {Jed}
+		 */
+		this.i18n = options.i18n;
 		/**
 		 * Supplies the assessments with researches and their (cached) results.
 		 * @type {module:parsedPaper/research.TreeResearcher}
@@ -88,9 +93,9 @@ class TreeAssessor {
 		return assessment.apply( paper, node ).catch(
 			() => {
 				return new AssessmentResult( {
-					text: sprintf(
+					text: this.i18n.sprintf(
 						/* Translators: %1$s expands to the name of the assessment. */
-						__( "An error occurred in the '%1$s' assessment", "wordpress-seo" ),
+						this.i18n.dgettext( "js-text-analysis", "An error occurred in the '%1$s' assessment" ),
 						assessment.name
 					),
 					score: -1,

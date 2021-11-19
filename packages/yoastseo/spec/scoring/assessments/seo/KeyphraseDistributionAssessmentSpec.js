@@ -1,6 +1,7 @@
 import KeyphraseDistributionAssessment from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
+const i18n = Factory.buildJed();
 import Mark from "../../../../src/values/Mark.js";
 
 const keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();
@@ -13,7 +14,8 @@ describe( "An assessment to check your keyphrase distribution", function() {
 			Factory.buildMockResearcher( {
 				keyphraseDistributionScore: 100,
 				sentencesToHighlight: [],
-			} )
+			} ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 0 );
@@ -29,7 +31,8 @@ describe( "An assessment to check your keyphrase distribution", function() {
 			Factory.buildMockResearcher( {
 				keyphraseDistributionScore: 60,
 				sentencesToHighlight: [],
-			} )
+			} ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 1 );
@@ -45,7 +48,8 @@ describe( "An assessment to check your keyphrase distribution", function() {
 			Factory.buildMockResearcher( {
 				keyphraseDistributionScore: 40,
 				sentencesToHighlight: [],
-			} )
+			} ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 6 );
@@ -61,7 +65,8 @@ describe( "An assessment to check your keyphrase distribution", function() {
 			Factory.buildMockResearcher( {
 				keyphraseDistributionScore: 25,
 				sentencesToHighlight: [],
-			} )
+			} ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -135,7 +140,8 @@ describe( "A test for marking keywords in the text", function() {
 							marked: "<yoastmark class='yoast-text-mark'>Another sentence.</yoastmark>",
 						} ),
 					],
-				} )
+				} ),
+			i18n
 		);
 		const expected = [
 			new Mark( {

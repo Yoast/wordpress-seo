@@ -1,4 +1,3 @@
-import { __, sprintf } from "@wordpress/i18n";
 import { isEmpty, merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -39,15 +38,16 @@ export default class OutboundLinksAssessment extends Assessment {
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 * @param {Researcher}  researcher  The researcher used for calling research.
+	 * @param {Jed}         i18n        The object used for translations
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
-	getResult( paper, researcher ) {
+	getResult( paper, researcher, i18n ) {
 		const linkStatistics = researcher.getResearch( "getLinkStatistics" );
 		const assessmentResult = new AssessmentResult();
 		if ( ! isEmpty( linkStatistics ) ) {
 			assessmentResult.setScore( this.calculateScore( linkStatistics ) );
-			assessmentResult.setText( this.translateScore( linkStatistics ) );
+			assessmentResult.setText( this.translateScore( linkStatistics, i18n ) );
 		}
 		return assessmentResult;
 	}
@@ -94,17 +94,17 @@ export default class OutboundLinksAssessment extends Assessment {
 	 * Translates the score to a message the user can understand.
 	 *
 	 * @param {Object}  linkStatistics  The object with all link statistics.
+	 * @param {Jed}     i18n            The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
-	translateScore( linkStatistics ) {
+	translateScore( linkStatistics, i18n ) {
 		if ( linkStatistics.externalTotal === 0 ) {
-			return sprintf(
+			return i18n.sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-				__(
-					"%1$sOutbound links%3$s: No outbound links appear in this page. %2$sAdd some%3$s!",
-					"wordpress-seo"
-				),
+				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%3$s: " +
+					"No outbound links appear in this page. " +
+					"%2$sAdd some%3$s!" ),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
 				"</a>"
@@ -112,12 +112,11 @@ export default class OutboundLinksAssessment extends Assessment {
 		}
 
 		if ( linkStatistics.externalNofollow === linkStatistics.externalTotal ) {
-			return sprintf(
+			return i18n.sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-				__(
-					"%1$sOutbound links%3$s: All outbound links on this page are nofollowed. %2$sAdd some normal links%3$s.",
-					"wordpress-seo"
-				),
+				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%3$s: " +
+					"All outbound links on this page are nofollowed. " +
+					"%2$sAdd some normal links%3$s." ),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
 				"</a>"
@@ -125,24 +124,21 @@ export default class OutboundLinksAssessment extends Assessment {
 		}
 
 		if ( linkStatistics.externalDofollow === linkStatistics.externalTotal ) {
-			return sprintf(
+			return i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				__(
-					"%1$sOutbound links%2$s: Good job!",
-					"wordpress-seo"
-				),
+				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%2$s: " +
+					"Good job!" ),
 				this._config.urlTitle,
 				"</a>"
 			);
 		}
 
 		if ( linkStatistics.externalDofollow < linkStatistics.externalTotal ) {
-			return sprintf(
+			return i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				__(
-					"%1$sOutbound links%2$s: There are both nofollowed and normal outbound links on this page. Good job!",
-					"wordpress-seo"
-				),
+				i18n.dgettext( "js-text-analysis", "%1$sOutbound links%2$s: " +
+					"There are both nofollowed and normal outbound links on this page. " +
+					"Good job!" ),
 				this._config.urlTitle,
 				"</a>"
 			);

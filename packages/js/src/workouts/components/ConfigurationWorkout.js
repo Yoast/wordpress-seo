@@ -10,12 +10,12 @@ import { Alert, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/compone
 import { ReactComponent as WorkoutImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
 import { Step, Steps, FinishStepSection } from "./Steps";
-import Indexation from "../../components/Indexation";
 import { STEPS, WORKOUTS } from "../config";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
 import { SocialInput } from "./SocialInput";
 import { NewsletterSignup } from "./NewsletterSignup";
+import { WorkoutIndexation } from "./WorkoutIndexation";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
@@ -155,7 +155,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 			youtube_url: state.socialProfiles.youtubeUrl,
 			// eslint-disable-next-line camelcase
 			wikipedia_url: state.socialProfiles.wikipediaUrl,
-			// eslint-enable camelcase
 		};
 
 		try {
@@ -351,16 +350,16 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					isFinished={ isStepFinished( "configuration", steps.optimizeSeoData ) }
 				>
 					<div className="indexation-container">
-						<Indexation
+						<WorkoutIndexation
 							indexingStateCallback={ setIndexingState }
 						/>
-						<FinishStepSection
-							hasDownArrow={ true }
-							finishText={ __( "Continue", "wordpress-seo" ) }
-							onFinishClick={ onFinishOptimizeSeoData }
-							isFinished={ isStepFinished( "configuration", steps.optimizeSeoData ) }
-						/>
 					</div>
+					<FinishStepSection
+						hasDownArrow={ true }
+						finishText={ __( "Continue", "wordpress-seo" ) }
+						onFinishClick={ onFinishOptimizeSeoData }
+						isFinished={ isStepFinished( "configuration", steps.optimizeSeoData ) }
+					/>
 				</Step>
 				<p className="extra-list-content">
 					{
@@ -634,9 +633,11 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						finishText={ "Finish this workout" }
 						onFinishClick={ toggleConfigurationWorkout }
 						isFinished={ isStepFinished( "configuration", steps.newsletterSignup ) }
+						additionalButtonProps={ { disabled: indexingState !== "completed" } }
 					>
 						{ indexingState !== "completed" && <Alert type="warning">
-							{ __( "Before you finish this workout, please wait on this page until the SEO data optimization in step 1 is completed...", "wordpress-seo" ) }
+							{ indexingState === "idle" && __( "Before you finish this workout, please start the SEO data optimization in step 1 and wait until it is completed...", "wordpress-seo" ) }
+							{ indexingState === "in_progress" && __( "Before you finish this workout, please wait on this page until the SEO data optimization in step 1 is completed...", "wordpress-seo" ) }
 						</Alert> }
 					</FinishStepSection>
 				</Step>

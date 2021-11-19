@@ -79,8 +79,8 @@ const LocalSEOUpsell = props => {
 					{ sprintf(
 						/* translators: %s expands to Local SEO */
 						__(
-							// eslint-disable-next-line max-len
-							"Truly optimize your site for a local audience with our %s plugin! Optimized address details, opening hours, store locator and pickup option!",
+							"Truly optimize your site for a local audience with our %s plugin! Optimized address details, opening hours, " +
+							"store locator and pickup option!",
 							"wordpress-seo"
 						),
 						"Local SEO"

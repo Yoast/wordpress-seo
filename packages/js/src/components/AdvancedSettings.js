@@ -73,8 +73,9 @@ const MetaRobotsNoIndex = ( { noIndex, onNoIndexChange, editorContext, isPrivate
 					isPrivateBlog &&
 					<Alert type="warning">
 						{ __(
-							// eslint-disable-next-line max-len
-							"Even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won't have an effect.",
+							"Even though you can set the meta robots setting here, " +
+							"the entire site is set to noindex in the sitewide privacy settings, " +
+							"so these settings won't have an effect.",
 							"wordpress-seo"
 						) }
 					</Alert>

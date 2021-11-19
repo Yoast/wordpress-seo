@@ -1,8 +1,10 @@
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import ContentAssessor from "../../../src/scoring/productPages/contentAssessor.js";
+import Factory from "../../specHelpers/factory.js";
 import Paper from "../../../src/values/Paper.js";
 
+const i18n = Factory.buildJed();
 const options = {
 	subheadingUrlTitle: "https://yoast.com/1",
 	subheadingCTAUrl: "https://yoast.com/2",
@@ -36,7 +38,7 @@ describe( "A product page content assessor", function() {
 				"accommodare. Mutat gloriatur ex cum, rebum salutandi ei his, vis delenit quaestio ne. Iisque qualisque duo ei. " +
 				"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
 				"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod.", { locale: "en_US" } );
-			const contentAssessor = new ContentAssessor( new EnglishResearcher( paper ), options );
+			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ), options );
 
 			contentAssessor.getPaper = function() {
 				return paper;
@@ -55,7 +57,7 @@ describe( "A product page content assessor", function() {
 
 		it( "Should have 4 available assessments for a basic supported language", function() {
 			const paper = new Paper( "test", { locale: "xx_XX" } );
-			const contentAssessor = new ContentAssessor( new DefaultResearcher( paper ), options );
+			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ), options );
 
 			contentAssessor.getPaper = function() {
 				return paper;
@@ -75,7 +77,7 @@ describe( "A product page content assessor", function() {
 	describe( "Checks the applicable assessments for text containing more than 300 words", function() {
 		it( "Should have 7 available assessments for a fully supported language", function() {
 			const paper = new Paper( "beautiful cats ".repeat( 200 ), { locale: "en_US" } );
-			const contentAssessor = new ContentAssessor( new EnglishResearcher( paper ), options );
+			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ), options );
 
 			contentAssessor.getPaper = function() {
 				return paper;
@@ -95,7 +97,7 @@ describe( "A product page content assessor", function() {
 
 		it( "Should have 5 available assessments for a basic supported language", function() {
 			const paper = new Paper( "test ".repeat( 310 ), { locale: "xx_XX" } );
-			const contentAssessor = new ContentAssessor( new DefaultResearcher( paper ), options );
+			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ), options );
 
 			contentAssessor.getPaper = function() {
 				return paper;
@@ -115,7 +117,7 @@ describe( "A product page content assessor", function() {
 	describe( "has configuration overrides", () => {
 		const paper = new Paper( "a tortie cat ".repeat( 150 ) );
 
-		const assessor = new ContentAssessor( new DefaultResearcher( paper ), {
+		const assessor = new ContentAssessor( i18n, new DefaultResearcher( paper ), {
 			subheadingUrlTitle: "https://yoast.com/1",
 			subheadingCTAUrl: "https://yoast.com/2",
 			paragraphUrlTitle: "https://yoast.com/3",

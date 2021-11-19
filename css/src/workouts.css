@@ -432,8 +432,39 @@ table.yoast_help th.divider {
 	top: 3px;
 }
 
-.yoast-list--usp.yoast-newsletter-result li {
+.workflow .yoast-validated-text-input {
+	flex-grow: 1;
+}
+
+.yoast-validated-text-input--explanation {
+	font-size: 10px;
+}
+
+.yoast-validated-text-input--feedback::before {
+	display: inline-block;
+	content: "";
+	width: 18px;
+	height: 13px;
+}
+
+.yoast-validated-text-input--feedback.success::before {
+	background: var(--yoast-svg-icon-check);
+	background-size: 18px 13px;
+}
+
+.yoast-validated-text-input--feedback.success {
+	position: relative;
 	color: rgb(110, 160, 41);
+}
+
+.yoast-validated-text-input--feedback.error::before {
+	background: url( "../../images/error-icon.svg" );
+	background-size: 18px 16px;
+}
+
+.yoast-validated-text-input--feedback.error {
+	position: relative;
+	color: rgb(204, 0, 0);
 }
 
 .workflow .yoast-newsletter-signup {
@@ -444,13 +475,15 @@ table.yoast_help th.divider {
 }
 
 .workflow .yoast-newsletter-signup .yoast-field-group {
-	flex-grow: 6;
+	flex-grow: 0;
 	margin: 0;
 }
 
 .workflow .yoast-newsletter-signup button {
-	align-self: end;
-	flex-grow: 1;
+	margin-top: 1.8rem;
+	align-self: flex-start;
+	flex-grow: 0;
+	flex-shrink: 0;
 }
 
 .workflow .yoast-privacy-policy {

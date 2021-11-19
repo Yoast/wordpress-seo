@@ -1,4 +1,3 @@
-import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -37,14 +36,15 @@ export default class ImageAltTagsAssessment extends Assessment {
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
 	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
+	 * @param {Jed}         i18n        The locale object.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
-	getResult( paper, researcher ) {
+	getResult( paper, researcher, i18n ) {
 		this.altTagsProperties = researcher.getResearch( "altTagCount" );
 		this.imageCount = researcher.getResearch( "imageCount" );
 
-		const calculatedScore = this.calculateResult();
+		const calculatedScore = this.calculateResult( i18n );
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedScore.score );
@@ -69,9 +69,11 @@ export default class ImageAltTagsAssessment extends Assessment {
 	/**
 	 * Calculate the result based on the availability of images in the text, including videos in product pages.
 	 *
+	 * @param {Object} i18n The object used for translations.
+	 *
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult() {
+	calculateResult( i18n ) {
 		// The number of images with no alt tags.
 		const imagesNoAlt = this.altTagsProperties.noAlt;
 
@@ -79,11 +81,11 @@ export default class ImageAltTagsAssessment extends Assessment {
 		if ( imagesNoAlt === this.imageCount ) {
 			return {
 				score: this._config.scores.bad,
-				resultText: sprintf(
+				resultText: i18n.sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					__(
-						"%1$sImage alt tags%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!",
-						"wordpress-seo"
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sImage alt tags%3$s: None of the images has alt attributes. %2$sAdd alt attributes to your images%3$s!"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -96,15 +98,17 @@ export default class ImageAltTagsAssessment extends Assessment {
 		if ( imagesNoAlt > 0 ) {
 			return {
 				score: this._config.scores.bad,
-				resultText: sprintf(
+				resultText: i18n.sprintf(
 					/* Translators: %3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
 					* %1$d expands to the number of images without alt tags,
 					* %2$d expands to the number of images found in the text, */
-					_n(
-						"%3$sImage alt tags%5$s: %1$d image out of %2$d doesn't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
-						"%3$sImage alt tags%5$s: %1$d images out of %2$d don't have alt attributes. %4$sAdd alt attributes to your images%5$s!",
-						imagesNoAlt,
-						"wordpress-seo"
+					i18n.dngettext(
+						"js-text-analysis",
+						"%3$sImage alt tags%5$s: %1$d image out of %2$d doesn't have alt attributes. " +
+						"%4$sAdd alt attributes to your images%5$s!",
+						"%3$sImage alt tags%5$s: %1$d images out of %2$d don't have alt attributes. " +
+						"%4$sAdd alt attributes to your images%5$s!",
+						imagesNoAlt
 					),
 					imagesNoAlt,
 					this.imageCount,
@@ -118,12 +122,12 @@ export default class ImageAltTagsAssessment extends Assessment {
 		// All images have alt tags.
 		return {
 			score: this._config.scores.good,
-			resultText: sprintf(
+			resultText: i18n.sprintf(
 				/* Translators: %1$s expands to a link on yoast.com,
 				 * %2$s expands to the anchor end tag. */
-				__(
-					"%1$sImage alt tags%2$s: All images have alt attributes. Good job!",
-					"wordpress-seo"
+				i18n.dgettext(
+					"js-text-analysis",
+					"%1$sImage alt tags%2$s: All images have alt attributes. Good job!"
 				),
 				this._config.urlTitle,
 				"</a>"

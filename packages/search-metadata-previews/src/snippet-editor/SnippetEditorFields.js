@@ -289,7 +289,7 @@ class SnippetEditorFields extends React.Component {
 			>
 				<ReplacementVariableEditor
 					withCaret={ true }
-					label={ __( "SEO title", "wordpress-seo" ) }
+					label={ __( "SEO title", "yoast-components" ) }
 					onFocus={ this.onFocusTitle }
 					onBlur={ onBlur }
 					isActive={ activeField === "title" }
@@ -311,7 +311,7 @@ class SnippetEditorFields extends React.Component {
 					id={ slugLabelId }
 					onClick={ this.onFocusSlug }
 				>
-					{ __( "Slug", "wordpress-seo" ) }
+					{ __( "Slug", "yoast-components" ) }
 				</SimulatedLabel>
 				<InputContainerWithCaretStyles
 					onClick={ this.focusSlug }
@@ -332,7 +332,7 @@ class SnippetEditorFields extends React.Component {
 					withCaret={ true }
 					type="description"
 					placeholder={ descriptionEditorFieldPlaceholder }
-					label={ __( "Meta description", "wordpress-seo" ) }
+					label={ __( "Meta description", "yoast-components" ) }
 					onFocus={ this.onFocusDescription }
 					onBlur={ onBlur }
 					isActive={ activeField === "description" }
