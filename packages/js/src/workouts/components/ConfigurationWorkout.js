@@ -37,7 +37,7 @@ function configurationWorkoutReducer( state, action ) {
 	switch ( action.type ) {
 		case "SET_COMPANY_OR_PERSON":
 			newState.companyOrPerson = action.payload;
-			newState.companyOrPersonLabel = state.companyOrPersonOptions.filter( ( item ) => {
+			newState.companyOrPersonLabel = window.wpseoWorkoutsData.configuration.companyOrPersonOptions.filter( ( item ) => {
 				return item.value === action.payload;
 			} ).pop().name;
 			return newState;
@@ -387,8 +387,8 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					subtitle={ __( "Tell Google what kind of site you have and increase the chance it gets features in a Google Knowledge Panel. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
 					isFinished={ isStepFinished( "configuration", steps.siteRepresentation ) }
 				>
-					{ state.knowledgeGraphMessage &&  <Alert type="warning">
-						{ state.knowledgeGraphMessage }
+					{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
+						{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
 					</Alert> }
 					{ ! state.shouldForceCompany && ! isStepFinished( "configuration", steps.siteRepresentation ) &&
 					<SingleSelect
@@ -398,9 +398,9 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						label={ __( "Does you site represent an Organization or Person?", "wordpress-seo" ) }
 						selected={ state.companyOrPerson }
 						onChange={ onOrganizationOrPersonChange }
-						options={ state.companyOrPersonOptions }
+						options={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
 					/> }
-					{ ( state.shouldForceCompany || isStepFinished( "configuration", steps.siteRepresentation ) ) &&
+					{ (  window.wpseoWorkoutsData.configuration.shouldForceCompany || isStepFinished( "configuration", steps.siteRepresentation ) ) &&
 					<TextInput
 						id="organization-forced-readonly-text"
 						name="organization"
