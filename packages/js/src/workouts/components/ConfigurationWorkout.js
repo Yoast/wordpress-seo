@@ -37,6 +37,9 @@ function configurationWorkoutReducer( state, action ) {
 	switch ( action.type ) {
 		case "SET_COMPANY_OR_PERSON":
 			newState.companyOrPerson = action.payload;
+			newState.companyOrPersonLabel = state.companyOrPersonOptions.filter( ( item ) => {
+				return item.value === action.payload;
+			} ).pop().name;
 			return newState;
 		case "CHANGE_COMPANY_NAME":
 			newState.companyName = action.payload;
@@ -384,6 +387,10 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					subtitle={ __( "Tell Google what kind of site you have and increase the chance it gets features in a Google Knowledge Panel. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
 					isFinished={ isStepFinished( "configuration", steps.siteRepresentation ) }
 				>
+					{ state.knowledgeGraphMessage &&  <Alert type="warning">
+						{ state.knowledgeGraphMessage }
+					</Alert> }
+					{ ! state.shouldForceCompany && ! isStepFinished( "configuration", steps.siteRepresentation ) &&
 					<SingleSelect
 						id="organization-person-select"
 						htmlFor="organization-person-select"
@@ -391,17 +398,17 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						label={ __( "Does you site represent an Organization or Person?", "wordpress-seo" ) }
 						selected={ state.companyOrPerson }
 						onChange={ onOrganizationOrPersonChange }
-						options={ [ {
-							name: "Organization",
-							value: "company",
-						},
-						{
-							name: "Person",
-							value: "person",
-						} ] }
-						readOnly={ isStepFinished( "configuration", steps.siteRepresentation ) }
-
-					/>
+						options={ state.companyOrPersonOptions }
+					/> }
+					{ ( state.shouldForceCompany || isStepFinished( "configuration", steps.siteRepresentation ) ) &&
+					<TextInput
+						id="organization-forced-readonly-text"
+						name="organization"
+						label={ __( "Does you site represent an Organization or Person?", "wordpress-seo" ) }
+						// translators: %1$s expands to Yoast
+						value={ state.companyOrPersonLabel }
+						readOnly={ true }
+					/> }
 					{ state.companyOrPerson === "company" && <Fragment>
 						{ ( ! state.companyName || ! state.companyLogo ) && <Alert type="warning">
 							{ __(
