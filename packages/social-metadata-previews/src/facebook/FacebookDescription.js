@@ -35,7 +35,7 @@ const FacebookDescription = styled.p`
 	line-height: ${ height };
 	min-height : ${ height };
 	color: #606770;
-	font-size: 12px;
+	font-size: 14px;
 	padding: 0;
 	text-overflow: ellipsis;
 	margin: 3px 0 0 0;
