@@ -31,7 +31,7 @@ abstract class Abstract_Option_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'update_option_' . $this->get_option_group_name(), [ $this, 'watch_option'], 10, 2 );
+		\add_action( 'update_option_' . $this->get_option_group_name(), [ $this, 'watch_option' ], 10, 2 );
 	}
 
 	/**
@@ -53,7 +53,8 @@ abstract class Abstract_Option_Watcher implements Integration_Interface {
 	 * @return bool True if the option value has changed.
 	 */
 	public function check_option( $old_value, $new_value ) {
-		// If this is the first time saving the option, in which case its value would be false.
+		// If this is the first time saving the option, its value would be false.
+		// todo do actual input validation before passing the raw result to another function that expects an array.
 		if ( $old_value === false ) {
 			$old_value = [];
 		}
@@ -63,16 +64,19 @@ abstract class Abstract_Option_Watcher implements Integration_Interface {
 			return false;
 		}
 
-		// The field of this option
-		$option_name = $this->get_option_field_name();
+		// Get the subfield of this option.
+		$option = $this->get_option_field_name();
 
-		// If both values aren't set, they haven't changed.
-		if ( ! isset( $old_value[ $option_name ] ) && ! isset( $new_value[ $option_name ] ) ) {
+		// If neither value is set, they haven't changed.
+		if ( ! isset( $old_value[ $option ] ) && ! isset( $new_value[ $option ] ) ) {
 			return false;
 		}
-
-		// If a new value has been set for the option name, return true.
-		return ( $old_value[ $option_name ] !== $new_value[ $option_name ] );
+		// If only one of the options is set, it changed.
+		if ( isset( $old_value[ $option ] ) xor isset( $new_value[ $option ] ) ) {
+			return true;
+		}
+		// If the value of the option differs, it changed.
+		return ( $old_value[ $option ] !== $new_value[ $option ] );
 	}
 
 	/**
