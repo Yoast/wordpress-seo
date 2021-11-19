@@ -1,3 +1,4 @@
+import { isFeatureEnabled } from "@yoast/feature-flag";
 import getLanguage from "../../languageProcessing/helpers/language/getLanguage";
 import wordCountInText from "./wordCountInText.js";
 import imageCount from "./imageCount.js";
@@ -6,13 +7,16 @@ import imageCount from "./imageCount.js";
  * Calculates the expected reading time of a text.
  *
  * @param {Paper} paper The paper to calculate the reading time for.
- * @returns {number|null} The expected reading time in minutes or null if we don't have reading time configuration for a given language.
+ * @param {Researcher} researcher The researcher.
+ *
+ * @returns {number} The expected reading time in minutes for a given language.
  */
-export default function( paper ) {
+export default function( paper, researcher ) {
 	const language = getLanguage( paper.getLocale() );
+	const customCountLength = researcher.getHelper( "customCountLength" );
 
 	/*
-	 * These numbers are based on research into average reading times:
+	 * These numbers (both in `wordsPerMinute` and `charactersPerMinute`) are based on research into average reading times:
 	 * Susanne Trauzettel-Klosinski, Klaus Dietz, the IReST Study Group;
 	 * Standardized Assessment of Reading Performance: The New International Reading Speed Texts IReST.
 	 * Invest. Ophthalmol. Vis. Sci. 2012;53(9):5452-5461
@@ -27,7 +31,6 @@ export default function( paper ) {
 		fr: 195,
 		he: 187,
 		it: 188,
-		ja: 193,
 		nl: 202,
 		pl: 166,
 		pt: 181,
@@ -36,24 +39,38 @@ export default function( paper ) {
 		sv: 199,
 		tr: 166,
 	};
-	const minutesPerImage = 0.2;
 
-	let wordsPerMinuteScore = wordsPerMinute[ language ];
+	const charactersPerMinute = {
+		ja: 357,
+	};
 
-	// If the language is not on the list, assign the average of all language-dependent reading times as the score.
-	if ( ! wordsPerMinuteScore ) {
+
+	const wordsPerMinuteScore = wordsPerMinute[ language ];
+	const charactersPerMinuteScore = charactersPerMinute[ language ];
+
+	let wordsOrCharsPerMinuteScore;
+
+	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) && charactersPerMinuteScore ) {
+		wordsOrCharsPerMinuteScore = charactersPerMinuteScore;
+	} else if ( wordsPerMinuteScore ) {
+		wordsOrCharsPerMinuteScore = wordsPerMinuteScore;
+	} else {
+		// If the language is not on both lists, assign the average of all language-dependent reading times as the score.
 		const sumWordsPerMinute = Object.values( wordsPerMinute ).reduce( ( a, b ) => a + b );
 		const sumNumberOfLanguages = Object.keys( wordsPerMinute ).length;
-		wordsPerMinuteScore = sumWordsPerMinute / sumNumberOfLanguages;
+		wordsOrCharsPerMinuteScore = sumWordsPerMinute / sumNumberOfLanguages;
 	}
 
-	const numberOfWords = wordCountInText( paper );
+	const minutesPerImage = 0.2;
 	const numberOfImages = imageCount( paper );
+
+	const textLength = customCountLength ? customCountLength( paper.getText() ) : wordCountInText( paper );
+	const minutesToReadText = textLength / wordsOrCharsPerMinuteScore;
 
 	/*
 	 * This formula is based on the average number of words a person is expected to read per minute,
 	 * plus extra time for each image in the text. It returns the expected reading time in whole minutes,
 	 * rounded up to the nearest minute.
 	 */
-	return Math.ceil( ( numberOfWords / wordsPerMinuteScore ) + ( numberOfImages * minutesPerImage ) );
+	return Math.ceil( minutesToReadText + ( numberOfImages * minutesPerImage ) );
 }
