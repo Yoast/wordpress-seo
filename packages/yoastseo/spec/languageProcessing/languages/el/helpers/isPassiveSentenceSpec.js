@@ -24,4 +24,20 @@ describe( "a test for detecting passive voice in sentences", function() {
 		// Passive infinitive: γραφθεί.
 		expect( isPassiveSentence( "Το άρθρο έχει να γραφθεί." ) ).toBe( false );
 	} );
+
+	it( "returns false for a sentence with words ending in -ου", function() {
+		// Non-passives: Δημαρχείου, Λεωφόρου, Νοεμβρίου.
+		expect( isPassiveSentence( "Την Κυριακή, 7 Νοεμβρίου 2021, στον εξωτερικό χώρο του Δημαρχείου της Αρτέμιδας" +
+			"(επί της Λεωφόρου Καραμανλή), από τις 8 το πρωί έως τις 2 το μεσημέρι." ) ).toBe( false );
+	} );
+
+	it( "returns false for a sentence with words ending in -είτε ...", function() {
+		// Non-passives: οδηγείτε
+		expect( isPassiveSentence( "Μη με οδηγείτε στον πειρασμό, μπορώ να τον βρω και μόνη μου." ) ).toBe( false );
+	} );
+
+	it( "... but returns true for a sentence with words ending in -ηθείτε and -τείτε", function() {
+		// Passives: αγαπηθείτε, σκεφτείτε.
+		expect( isPassiveSentence( "Κάντε έρωτα, αγαπηθείτε κάντε τις παρέες σας, σκεφτείτε, αναπτύξτε την κριτική σας σκέψη." ) ).toBe( true );
+	} );
 } );

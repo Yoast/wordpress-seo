@@ -152,6 +152,9 @@ class Indexable_Post_Builder {
 		$indexable->schema_page_type    = $this->get_meta_value( $post_id, 'schema_page_type' );
 		$indexable->schema_article_type = $this->get_meta_value( $post_id, 'schema_article_type' );
 
+		$indexable->object_last_modified = $post->post_modified_gmt;
+		$indexable->object_published_at  = $post->post_date_gmt;
+
 		$indexable->version = $this->version;
 
 		return $indexable;

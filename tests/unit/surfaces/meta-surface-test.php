@@ -173,6 +173,23 @@ class Meta_Surface_Test extends TestCase {
 	 *
 	 * @covers ::for_home_page
 	 */
+	public function test_for_home_page_0_page_on_front() {
+		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
+		Monkey\Functions\expect( 'get_option' )->once()->with( 'page_on_front' )->andReturn( '0' );
+		Monkey\Functions\expect( 'get_option' )->once()->with( 'show_on_front' )->andReturn( 'page' );
+		$this->repository->expects( 'find_for_home_page' )->once()->andReturn( $this->indexable );
+		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Home_Page' )->andReturn( $this->context );
+
+		$meta = $this->instance->for_home_page();
+
+		$this->assertEquals( 'succeeds', $meta->test );
+	}
+
+	/**
+	 * Tests the current page function.
+	 *
+	 * @covers ::for_home_page
+	 */
 	public function test_for_home_page_static_page_no_indexable() {
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'page_on_front' )->andReturn( 1 );
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'show_on_front' )->andReturn( 'page' );

@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import { noop } from "lodash";
 
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
@@ -16,7 +17,9 @@ import {
 
 const FacebookImageContainer = styled.div`
 	position: relative;
-	${ props => props.mode === "landscape" ? `max-width: ${ props.dimensions.width }` : `min-width: ${ props.dimensions.width }` };
+	${ props => props.mode === "landscape"
+		? `max-width: ${props.dimensions.width}`
+		: `min-width: ${props.dimensions.width}; height: ${props.dimensions.height}` };
 	overflow: hidden;
 	background-color: ${ colors.$color_white };
 `;
@@ -166,6 +169,9 @@ class FacebookImage extends Component {
 					alt: this.props.alt,
 					aspectRatio: FACEBOOK_IMAGE_SIZES.aspectRatio,
 				} }
+				width={ imageProperties.width }
+				height={ imageProperties.height }
+				imageMode={ imageProperties.mode }
 			/>
 		</FacebookImageContainer>;
 	}
@@ -183,10 +189,10 @@ FacebookImage.propTypes = {
 FacebookImage.defaultProps = {
 	src: "",
 	alt: "",
-	onImageLoaded: () => {},
-	onImageClick: () => {},
-	onMouseEnter: () => {},
-	onMouseLeave: () => {},
+	onImageLoaded: noop,
+	onImageClick: noop,
+	onMouseEnter: noop,
+	onMouseLeave: noop,
 };
 
 export default FacebookImage;

@@ -1,9 +1,15 @@
-#wpseo-workouts-container h1,
-#wpseo-workouts-container h3 {
+#wpseo-workouts-container-free h1,
+#wpseo-workouts-container-free h3 {
 	color: #a4286a;
 	font-weight: 500;
 }
-#wpseo-workouts-container h2 {
+
+#wpseo-workouts-container-free h3 {
+	font-size: 18px;
+	line-height: 24px;
+}
+
+#wpseo-workouts-container-free h2 {
 	font-size: 12px;
 	text-transform: uppercase;
 }
@@ -11,25 +17,84 @@
 .workflow tr.cornerstone {
 	font-weight: 700;
 }
-#wpseo-workouts-container div.card {
-	max-width: 600px;
+
+#wpseo-workouts-container-free hr {
+	margin-bottom: 24px;
+}
+
+#wpseo-workouts-container-free progress {
+	margin: 16px 0 8px 0;
+}
+
+#wpseo-workouts-container-free div.card {
+	max-width: 720px;
 	width: 100%;
 	padding: 24px;
 	border-radius: 8px;
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 	border: 0;
 }
+
+#wpseo-workouts-container-free div.card>h2 {
+	margin: 0;
+}
+
+#wpseo-workouts-container-free div.card.card-small {
+	max-width: 320px;
+	display: flex;
+	flex-direction: column;
+}
+
+#wpseo-workouts-container-free div.card.card-small svg {
+	width: 204px;
+	height: 146px;
+}
+
+#wpseo-workouts-container-free div.card.card-small svg *{
+	width: 100%;
+	height: 100%;
+}
+
+#wpseo-workouts-container-free div.card.card-small>span {
+	margin-top: auto;
+}
+
+#wpseo-workouts-container-free table button {
+	margin: 2px;
+}
+
 .workflow {
 	list-style: none;
 	counter-reset: line-number;
 	margin-left:48px;
 }
-.workflow li {
+
+.workflow li.step {
 	position: relative;
 	counter-increment: line-number;
 	padding-bottom: 16px;
 }
-.workflow > li::before {
+
+.workflow li.step > .yoast-button {
+	margin: 0 auto;
+	display: flex;
+}
+
+.workflow li.step > .yoast-button.orphaned-summary {
+	margin: 0;
+	display: initial;
+}
+
+.yoast .yoast-button--arrow-down {
+	flex-shrink: 0;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	/*Negative margin to compensate the icon white space within its viewbox.*/
+	margin: 0 -2px 0 6px;
+}
+
+.workflow > li.step::before {
 	content: "";
 	position: absolute;
 	width: 2px;
@@ -38,10 +103,33 @@
 	top: 0;
 	bottom: -20px;
 }
-.workflow > li:last-of-type::before {
+
+.workflow .extra-list-content {
+	position: relative;
+}
+
+.workflow .indexation-container {
+	padding: 8px 0;
+}
+
+.workflow .indexation-container > .yoast-button {
+	align-self: flex-start;
+}
+
+.workflow .extra-list-content::before {
+	content: "";
+	position: absolute;
+	width: 2px;
+	background: #a4286a;
+	left: -33px;
+	top: 0;
+	bottom: -20px;
+}
+
+.workflow > li.step:last-of-type::before {
 	display: none;
 }
-.workflow > li::after {
+.workflow > li.step::after {
 	content: counter(line-number);
 	width: 28px;
 	height: 28px;
@@ -56,7 +144,7 @@
 	top:-8px;
 	left: -48px;
 }
-.workflow li.finished::after {
+.workflow li.step.finished::after {
 	content: "";
 	background: url("data:image/svg+xml,<svg width='24' fill='none' stroke='%23FFFFFF' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' role='img' aria-hidden='true' focusable='false'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 13l4 4L19 7'></path></svg>") #a4286a;
 	background-size: 20px 20px;
@@ -64,22 +152,391 @@
 	background-position: center center;
 }
 
-.workflow li.finished p, .workflow li.finished table {
+.workflow li.step.finished p,
+.workflow li.step.finished ul,
+.workflow li.step.finished .yoast-field-group__title,
+.workflow li.finished table {
 	opacity: 0.5;
 }
 
-.workflow li img {
+.workflow li.step.finished .tracking-radiobuttons {
+	opacity: 0.5;
+}
+
+.workflow li.step img {
 	max-width: 100%;
 }
 
-.workflow li img.workflow__image{
+.workflow li.step img.workflow__image{
 	max-height: 100px;
 	max-width: 100px;
 }
 
-.workflow li.yoast-fadeout::before {
+.workflow li.step.yoast-fadeout::before {
 	background: linear-gradient(180deg, rgba(164,40,106,1) 0%, rgba(255,255,255,1) 75%);
 	display: block;
+}
+
+.workflow li.step #react-select-2-input {
+	box-shadow: none !important;
+}
+
+.workflow .yoast-field-group {
+	font-size: 13px;
+	color: rgb(60, 67, 74);
+}
+
+.workflows__index {
+	display: flex;
+	gap: 16px;
+}
+
+.workflows__index .yoast-button {
+	width: 100%;
+}
+
+table.yoast_help.yoast_link_suggestions thead td {
+	padding: 16px 8px;
+}
+
+table.yoast_help.yoast_link_suggestions td {
+	vertical-align: middle;
+}
+
+table.yoast_help th.divider {
+	text-align: center;
+}
+
+.workflow table.yoast_help td {
+	vertical-align: middle;
+}
+
+.workflow table.yoast_help.yoast_link_suggestions td div {
+	display: inline-block;
+}
+
+.workflow table.yoast_help.yoast_link_suggestions td strong {
+	display: inline-block;
+	margin-right: 8px;
+}
+
+.components-modal__header {
+	height: 72px;
+	padding: 0 24px;
+}
+
+.components-modal__header .components-modal__header-heading {
+	font-size: 20px;
+	font-weight: 400;
+	color: #a4286a;
+	line-height: 1.2;
+	margin: 0;
+}
+
+.components-modal__header .yoast-icon {
+	background-color: var(--yoast-color-primary);
+	mask-image: var(--yoast-svg-icon-yoast);
+	-webkit-mask-image: var(--yoast-svg-icon-yoast);
+	mask-size: 100% 100%;
+	-webkit-mask-size: 100% 100%;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-right: 8px;
+}
+
+.components-modal__content {
+	padding: 0 24px 24px;
+}
+
+.components-modal__content input[type=text] {
+	width: 100%;
+	max-width: 400px;
+}
+
+.components-modal__frame.yoast__workout {
+	max-width: 720px;
+}
+
+.yoast__redirect-suggestions {
+	line-height: 2;
+}
+
+/* Duplicated from style.css?ver=5.8.1 (from the block editor) in order to apply styling to the WorkoutUpsell modal. */
+.components-modal__screen-overlay {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.35);
+	z-index: 100000;
+	animation: edit-post__fade-in-animation 0.2s ease-out 0s;
+	animation-fill-mode: forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+	.components-modal__screen-overlay {
+		animation-duration: 1ms;
+		animation-delay: 0s;
+	}
+}
+
+.components-modal__frame {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	box-sizing: border-box;
+	margin: 0;
+	background: #fff;
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+	border-radius: 2px;
+	overflow: auto;
+}
+@media (min-width: 600px) {
+	.components-modal__frame {
+		top: 50%;
+		right: auto;
+		bottom: auto;
+		left: 50%;
+		min-width: 360px;
+		max-width: calc(100% - 16px - 16px);
+		max-height: 90%;
+		transform: translate(-50%, -50%);
+		animation: components-modal__appear-animation 0.1s ease-out;
+		animation-fill-mode: forwards;
+	}
+}
+@media (min-width: 600px) and (prefers-reduced-motion: reduce) {
+	.components-modal__frame {
+		animation-duration: 1ms;
+		animation-delay: 0s;
+	}
+}
+
+@keyframes components-modal__appear-animation {
+	from {
+		margin-top: 32px;
+	}
+	to {
+		margin-top: 0;
+	}
+}
+.components-modal__header {
+	box-sizing: border-box;
+	border-bottom: 1px solid #ddd;
+	padding: 0 32px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	background: #fff;
+	align-items: center;
+	height: 60px;
+	z-index: 10;
+	position: relative;
+	position: sticky;
+	top: 0;
+	margin: 0 -32px 24px;
+}
+@supports (-ms-ime-align: auto) {
+	.components-modal__header {
+		position: fixed;
+		width: 100%;
+	}
+}
+.components-modal__header .components-modal__header-heading {
+	font-size: 1rem;
+	font-weight: 600;
+}
+.components-modal__header h1 {
+	line-height: 1;
+	margin: 0;
+}
+.components-modal__header .components-button {
+	position: relative;
+	left: 8px;
+}
+
+.components-modal__header-heading-container {
+	align-items: center;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: row;
+	justify-content: left;
+}
+
+.components-modal__header-icon-container {
+	display: inline-block;
+}
+.components-modal__header-icon-container svg {
+	max-width: 36px;
+	max-height: 36px;
+	padding: 8px;
+}
+
+.components-modal__content {
+	box-sizing: border-box;
+	height: 100%;
+	padding: 0 32px 24px;
+}
+@supports (-ms-ime-align: auto) {
+	.components-modal__content {
+		padding-top: 60px;
+	}
+}
+
+.workflow li.step h4 {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.workflow .yoast-field-group {
+	font-size: 13px;
+	color: rgb(60, 67, 74);
+}
+
+.workflow .yoast-social-profiles-input-fields {
+	margin: 30px 0 20px 0;
+}
+
+.workflow .yoast-tracking {
+	list-style-type: disc;
+	list-style-position: inside;
+	padding: inherit;
+}
+
+.workflow .yoast-field-group b {
+	font-size: 13px;
+	color: rgb(60, 67, 74);
+}
+
+/* duplicate */
+.yoast-list--usp {
+	padding-left: 24px;
+}
+
+.yoast-list--usp li {
+	position:relative;
+	margin-bottom: 16px;
+}
+
+.yoast-list--usp li::before {
+	position: absolute;
+	content: "";
+	background: var(--yoast-svg-icon-check);
+	background-size: 18px 13px;
+	width: 18px;
+	height: 13px;
+	left: -24px;
+	top: 3px;
+}
+
+.workflow .yoast-validated-text-input {
+	flex-grow: 1;
+}
+
+.yoast-validated-text-input--explanation {
+	font-size: 10px;
+}
+
+.yoast-validated-text-input--feedback::before {
+	display: inline-block;
+	content: "";
+	width: 18px;
+	height: 13px;
+}
+
+.yoast-validated-text-input--feedback.success::before {
+	background: var(--yoast-svg-icon-check);
+	background-size: 18px 13px;
+}
+
+.yoast-validated-text-input--feedback.success {
+	position: relative;
+	color: rgb(110, 160, 41);
+}
+
+.yoast-validated-text-input--feedback.error::before {
+	background: url( "../../images/error-icon.svg" );
+	background-size: 18px 16px;
+}
+
+.yoast-validated-text-input--feedback.error {
+	position: relative;
+	color: rgb(204, 0, 0);
+}
+
+.workflow .yoast-newsletter-signup {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+	margin-bottom: 10px;
+}
+
+.workflow .yoast-newsletter-signup .yoast-field-group {
+	flex-grow: 0;
+	margin: 0;
+}
+
+.workflow .yoast-newsletter-signup button {
+	margin-top: 1.8rem;
+	align-self: flex-start;
+	flex-grow: 0;
+	flex-shrink: 0;
+}
+
+.workflow .yoast-privacy-policy {
+	font-size: 10px;
+}
+
+.workout-card-content-flex {
+	display: flex;
+}
+
+.card.card-small .yoast-button-upsell {
+	box-shadow: inset 0 -2px 0 rgb(0 0 0 / 20%);
+	filter: none;
+	min-height: 40px;
+	font-family: inherit;
+}
+
+.card.card-small button {
+	box-shadow: inset 0 -2px 0 rgb(0 0 0 / 30%);
+	filter: none;
+	min-height: 40px;
+}
+
+.workout-card-content-flex ul {
+	margin-right: 8px;
+}
+
+.workout-card-content-flex img {
+	max-width: 120px;
+}
+
+.workout-card-upsell-button {
+	opacity: 1;
+}
+
+#wpseo-workouts-container-free div.card.card-small.card-disabled {
+	background-color: rgba(255,255,255,0.5);
+}
+
+#wpseo-workouts-container-free div.card.card-small.card-disabled h2 {
+	opacity: 0.5;
+}
+
+#wpseo-workouts-container-free div.card.card-small.card-disabled h3 {
+	opacity: 0.5;
+}
+
+#wpseo-workouts-container-free div.card.card-small.card-disabled .workout-card-content-flex {
+	opacity: 0.5;
+}
+
+#wpseo-workouts-container-free div.card.card-small.card-disabled .workout-card-progress {
+	opacity: 0.5;
 }
 
 .workflow__grid {
@@ -92,12 +549,4 @@
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: flex-end;
-}
-
-table.yoast_help.yoast_link_suggestions thead td {
-	padding: 16px 8px;
-}
-
-table.yoast_help.yoast_link_suggestions td {
-	vertical-align: middle;
 }

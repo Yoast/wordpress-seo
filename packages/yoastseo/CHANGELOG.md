@@ -20,10 +20,12 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Removes the Farsi feature flag.
 * Removes hyphens from a keyphrase for the Keyphrase in slug assessment. Also removes the functionality that would look for the keyphrase in the unparsed slug if it was not found in the parsed slug, as it is made redundant by the new functionality.
 * Removes feature flag for Greek support to prepare Greek for release.
+* Adds a few entries to the list of `multipleWords` for French transition words.
 
 ### Bugfixes
 * Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
 * Counts relative fragment links (`#some-id`) as a link to the same page.
+* Removes two items from the list of morphological passive suffixes for Greek due to their overlap with bigger word groups causing false positives detection.
 
 ### Non user facing
 * Fixes a typo that caused the `findList` research to not be used in the `ListAssessment`.
@@ -58,6 +60,20 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds external stemmer for Greek.
 * Improves keyphrase recognition in Greek by filtering out function words such as `στον`, `τρίτος`, `τέτοιους`, `ποιανής`.
 * Implements passive voice assessment for Greek.
+* Adapts `findTransitionWords` research for Japanese.
+* Adds Japanese transition words and activates the transition words assessment.
+* Adapts `getKeywordDensity` research for Japanese.
+* Adapts `functionWordsInKeyphrase` research for Japanese.
+* Creates Japanese helper file for matching word in text.
+* Changes the helper to match word in text for Japanese in `altTagCount`.
+* Adds a helper to create word forms for Japanese.
+* Adapts `matchKeywordInSubheadings` research for Japanese.
+* Adapts `keyphraseDistribution` research for Japanese and adds Japanese topic length criteria config.
+* Adapts `getSubheadingTextLengths` for Japanese.
+* Adds the option to pass a language-specific `getWords` helper to the `getSentenceBeginnings` research. 
+* Adds Japanese sentence beginning exceptions. 
+* Activates the consecutive sentences assessment for Japanese.
+* Adapts `getParagraphLength` research for Japanese.
 
 
 ## 1.92.0
