@@ -13,6 +13,7 @@ const morphologyData = getMorphologyData( "en" );
 const morphologyDataDE = getMorphologyData( "de" ).de;
 const morphologyDataFR = getMorphologyData( "fr" ).fr;
 const morphologyDataRU = getMorphologyData( "ru" ).ru;
+const morphologyDataJA = getMorphologyData( "ja" ).ja;
 let result;
 
 describe( "Matches keywords in string", function() {
@@ -321,7 +322,7 @@ describe( "Matches keywords in string", function() {
 			locale: "ja",
 		} );
 		const researcher = new JapaneseResearcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyDataJA );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
@@ -335,7 +336,7 @@ describe( "Matches keywords in string", function() {
 			locale: "ja",
 		} );
 		const researcher = new JapaneseResearcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyDataJA );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
@@ -349,7 +350,7 @@ describe( "Matches keywords in string", function() {
 			locale: "ja",
 		} );
 		const researcher = new JapaneseResearcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyDataJA );
 
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
