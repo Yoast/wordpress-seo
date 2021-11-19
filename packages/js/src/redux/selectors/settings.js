@@ -1,20 +1,11 @@
 import { get } from "lodash";
 
 /**
- * Gets the authorName from the state.
- *
- * @param {Object} state The state object.
- *
- * @returns {string} The authorName
- */
-export const getAuthorName = state => get( state, "settings.socialPreviews.authorName", "" );
-
-/**
  * Gets the siteName from the state.
  *
  * @param {Object} state The state object.
  *
- * @returns {string} The authorName
+ * @returns {string} The site name
  */
 export const getSiteName = state => get( state, "settings.socialPreviews.siteName", "" );
 

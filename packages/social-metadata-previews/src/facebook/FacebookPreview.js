@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /* Internal dependencies */
-import FacebookSiteAndAuthorNames from "./FacebookSiteAndAuthorNames";
+import FacebookSiteUrlComponent from "./FacebookSiteUrl";
 import FacebookImage from "./FacebookImage";
 import FacebookTitle from "./FacebookTitle";
 import FacebookDescription from "./FacebookDescription";
@@ -122,9 +122,8 @@ class FacebookPreview extends Component {
 					onMouseLeave={ this.onLeave }
 				/>
 				<FacebookTextWrapper mode={ imageMode }>
-					<FacebookSiteAndAuthorNames
+					<FacebookSiteUrlComponent
 						siteUrl={ this.props.siteUrl }
-						authorName={ this.props.authorName }
 						mode={ imageMode }
 					/>
 					<FacebookTitle
@@ -152,7 +151,6 @@ class FacebookPreview extends Component {
 FacebookPreview.propTypes = {
 	siteUrl: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
-	authorName: PropTypes.string,
 	description: PropTypes.string,
 	imageUrl: PropTypes.string,
 	imageFallbackUrl: PropTypes.string,
@@ -163,7 +161,6 @@ FacebookPreview.propTypes = {
 };
 
 FacebookPreview.defaultProps = {
-	authorName: "",
 	description: "",
 	alt: "",
 	imageUrl: "",
