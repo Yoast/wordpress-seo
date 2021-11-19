@@ -1,4 +1,4 @@
-import { enableFeatures, isFeatureEnabled } from "@yoast/feature-flag";
+import { isFeatureEnabled } from "@yoast/feature-flag";
 import prominentWordsResearch from "../../../src/languageProcessing/researches/getProminentWordsForInternalLinking";
 import Paper from "../../../src/values/Paper";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
@@ -220,7 +220,6 @@ describe( "relevantWords research", function() {
 	} );
 } );
 
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
 describe( "test for prominent words research for languages that have custom helpers", function() {
 	// Japanese has custom helpers for getting words from the text, for counting text length
 	// And for returning custom function to return the stem of a word.
