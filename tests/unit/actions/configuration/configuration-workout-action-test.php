@@ -245,12 +245,12 @@ class Configuration_Workout_Action_Test extends TestCase {
 				'wikipedia_url' => 'https://en.wikipedia.org/somepage',
 			],
 			'times'                 => 8,
-			'yoast_options_results' => [ true, false, true, false, true, false, true, false ],
+			'yoast_options_results' => [ true, true, false, false, true, false, true, false ],
 			'expected'              => (object) [
 				'success'  => false,
 				'status'   => 500,
 				'error'    => 'Could not save some options in the database',
-				'failures' => [ 'twitter_site', 'linkedin_url', 'pinterest_url', 'wikipedia_url' ],
+				'failures' => [ 'instagram_url', 'linkedin_url', 'pinterest_url', 'wikipedia_url' ],
 			],
 		];
 
@@ -259,6 +259,86 @@ class Configuration_Workout_Action_Test extends TestCase {
 			'Successful call with some params' => $success_some,
 			'Some failures'                    => $some_failures,
 		];
+	}
+
+	/**
+	 * Tests setting the social profiles options in the database when Twitter value is a URL.
+	 *
+	 * @covers ::set_social_profiles
+	 */
+	public function test_set_social_profiles_twitter_url() {
+		$params = [
+			'facebook_site' => 'https://facebook.com/somepage',
+			'twitter_site'  => 'https://twitter.com/somenick',
+			'instagram_url' => 'https://instagram.com/somepage',
+			'linkedin_url'  => 'https://linked.in/somepage',
+			'myspace_url'   => 'https://myspace.com/somepage',
+			'pinterest_url' => 'https://pinterest.com/somepage',
+			'youtube_url'   => 'https://youtube.com/somepage',
+			'wikipedia_url' => 'https://en.wikipedia.org/somepage',
+		];
+
+		$yoast_options_results = [ true, false, false, false, true, false, true, false ];
+
+		$this->options_helper
+			->expects( 'set' )
+			->times( 8 )
+			->andReturn( ...$yoast_options_results );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'twitter_site' )
+			->andReturn( 'somenick' );
+
+		$this->assertEquals(
+			(object) [
+				'success'  => false,
+				'status'   => 500,
+				'error'    => 'Could not save some options in the database',
+				'failures' => [ 'instagram_url', 'linkedin_url', 'pinterest_url', 'wikipedia_url' ],
+			],
+			$this->instance->set_social_profiles( $params )
+		);
+	}
+
+	/**
+	 * Tests setting the social profiles options in the database when Twitter value is a URL and saving fails.
+	 *
+	 * @covers ::set_social_profiles
+	 */
+	public function test_set_social_profiles_twitter_url_failure() {
+		$params = [
+			'facebook_site' => 'https://facebook.com/somepage',
+			'twitter_site'  => 'https://twitter.com/somenick',
+			'instagram_url' => 'https://instagram.com/somepage',
+			'linkedin_url'  => 'https://linked.in/somepage',
+			'myspace_url'   => 'https://myspace.com/somepage',
+			'pinterest_url' => 'https://pinterest.com/somepage',
+			'youtube_url'   => 'https://youtube.com/somepage',
+			'wikipedia_url' => 'https://en.wikipedia.org/somepage',
+		];
+
+		$yoast_options_results = [ true, false, false, false, true, false, true, false ];
+
+		$this->options_helper
+			->expects( 'set' )
+			->times( 8 )
+			->andReturn( ...$yoast_options_results );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'twitter_site' )
+			->andReturn( 'someothernick' );
+
+		$this->assertEquals(
+			(object) [
+				'success'  => false,
+				'status'   => 500,
+				'error'    => 'Could not save some options in the database',
+				'failures' => [ 'twitter_site', 'instagram_url', 'linkedin_url', 'pinterest_url', 'wikipedia_url' ],
+			],
+			$this->instance->set_social_profiles( $params )
+		);
 	}
 
 	/**
