@@ -75,8 +75,11 @@ class FacebookPreview extends Component {
 		super( props );
 		this.state = {
 			imageMode: null,
+			titleHeight: 0,
 		};
+		this.facebookTitleRef = React.createRef();
 		this.onImageLoaded = this.onImageLoaded.bind( this );
+		this.setTitleHeight = this.setTitleHeight.bind( this );
 
 		// Binding fields to onMouseHover to prevent arrow functions in JSX props.
 		this.onImageEnter = this.props.onMouseHover.bind( this, "image" );
@@ -101,13 +104,43 @@ class FacebookPreview extends Component {
 	}
 
 	/**
+	 * Sets the title height if it changes.
+	 *
+	 * @param {Object} _prevProps The previous props, unused in the current implementation.
+	 * @param {Object} prevState  The previous state.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate( _prevProps, prevState ) {
+		const { titleHeight } = prevState;
+		const facebookTitleRefHeight = this.facebookTitleRef.current.offsetHeight;
+
+		if ( titleHeight !== facebookTitleRefHeight ) {
+			this.setTitleHeight( facebookTitleRefHeight );
+		}
+	}
+
+	/**
+	 * Sets the titleHeight from the Facebook title component.
+	 *
+	 * @param {number} height The height of the facebook title component.
+	 *
+	 * @returns {void} Void.
+	 */
+	setTitleHeight( height ) {
+		this.setState( { titleHeight: height } );
+	}
+
+	/**
 	 * Renders the FacebookPreview.
 	 *
 	 * @returns {ReactComponent} Either the PlaceholderImage component, the ErrorImage component or
 	 * the TwitterImageContainer.
 	 */
 	render() {
-		const { imageMode } = this.state;
+		const { imageMode, titleHeight } = this.state;
+		const showDescription = titleHeight  === 20;
+
 		return (
 			<FacebookPreviewWrapper
 				id="facebookPreview"
@@ -127,21 +160,24 @@ class FacebookPreview extends Component {
 						mode={ imageMode }
 					/>
 					<FacebookTitle
+						ref={ this.facebookTitleRef }
 						onMouseEnter={ this.onTitleEnter }
 						onMouseLeave={ this.onLeave }
 						onClick={ this.onSelectTitle }
 					>
 						{ this.props.title }
 					</FacebookTitle>
-					<FacebookDescription
-						maxWidth={ determineTextContainerWidth( imageMode ) }
-						onMouseEnter={ this.onDescriptionEnter }
-						onMouseLeave={ this.onLeave }
-						onClick={ this.onSelectDescription }
-						mode={ imageMode }
-					>
-						{ this.props.description }
-					</FacebookDescription>
+					{ showDescription &&
+						<FacebookDescription
+							maxWidth={ determineTextContainerWidth( imageMode ) }
+							onMouseEnter={ this.onDescriptionEnter }
+							onMouseLeave={ this.onLeave }
+							onClick={ this.onSelectDescription }
+							mode={ imageMode }
+						>
+							{ this.props.description }
+						</FacebookDescription>
+					}
 				</FacebookTextWrapper>
 			</FacebookPreviewWrapper>
 		);
