@@ -662,17 +662,7 @@ const buildJapaneseMockResearcher = function( keyphraseForms, synonymsForms, hel
 };
 
 enableFeatures( [ "JAPANESE_SUPPORT" ] );
-// * (1) Tries to find all (content) words from the keyphrase or a synonym phrase within one sentence.
-// * If found all words within one sentence, returns an object with foundInOneSentence = true and keyphraseOrSynonym = "keyphrase"
-// 	* or "synonym".
-// * If it did not find all words within one sentence, goes ahead with matching the keyphrase with the entire first paragraph.
-// * (2) Tries to find all (content) words from the keyphrase or a synonym phrase within the paragraph.
-// * If found all words within the paragraph, returns an object with foundInOneSentence = false, foundInParagraph = true,
-// 	* and keyphraseOrSynonym = "keyphrase" or "synonym".
-// * If found not all words within the paragraph of nothing at all, returns an object with foundInOneSentence = false,
-// 	* foundInParagraph = false, and keyphraseOrSynonym = "".
-// In condition of no morphology data, a non-splitabble segmented word is used that is in all conditions found both in the sentence and paragraph
-// Because it cannot be segmented
+
 describe( "checks for the content words from the keyphrase in the first paragraph (Japanese, but no morphology data provided)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
 		const paper = new Paper(
@@ -807,7 +797,8 @@ describe( "checks for the content words from a synonym phrase in the first parag
 	it( "returns whether all keywords were matched in the paragraph", function() {
 		const paper = new Paper(
 			paragraphWithParagraphMatchJA, {
-				keyword: keyphraseJA,
+				keyword: "生活",
+				synonyms: keyphraseJA,
 				locale: "ja_JA",
 			}
 		);
@@ -827,7 +818,7 @@ describe( "checks for the content words from a synonym phrase in the first parag
 	it( "returns whether all keywords were matched in the paragraph", function() {
 		const paper = new Paper(
 			paragraphWithoutMatchJA, {
-				keyword: keyphraseJA,
+				keyword: "生活",
 				synonyms: keyphraseJA,
 				locale: "ja_JA",
 			}
