@@ -37,6 +37,9 @@ function configurationWorkoutReducer( state, action ) {
 	switch ( action.type ) {
 		case "SET_COMPANY_OR_PERSON":
 			newState.companyOrPerson = action.payload;
+			newState.companyOrPersonLabel = window.wpseoWorkoutsData.configuration.companyOrPersonOptions.filter( ( item ) => {
+				return item.value === action.payload;
+			} ).pop().name;
 			return newState;
 		case "CHANGE_COMPANY_NAME":
 			newState.companyName = action.payload;
@@ -386,6 +389,10 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					subtitle={ __( "Tell Google what kind of site you have and increase the chance it gets features in a Google Knowledge Panel. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
 					isFinished={ isStepFinished( "configuration", steps.siteRepresentation ) }
 				>
+					{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
+						{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
+					</Alert> }
+					{ ! window.wpseoWorkoutsData.configuration.shouldForceCompany && ! isStepFinished( "configuration", steps.siteRepresentation ) &&
 					<SingleSelect
 						id="organization-person-select"
 						htmlFor="organization-person-select"
@@ -393,17 +400,16 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						label={ __( "Does you site represent an Organization or Person?", "wordpress-seo" ) }
 						selected={ state.companyOrPerson }
 						onChange={ onOrganizationOrPersonChange }
-						options={ [ {
-							name: "Organization",
-							value: "company",
-						},
-						{
-							name: "Person",
-							value: "person",
-						} ] }
-						readOnly={ isStepFinished( "configuration", steps.siteRepresentation ) }
-
-					/>
+						options={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
+					/> }
+					{ (  window.wpseoWorkoutsData.configuration.shouldForceCompany || isStepFinished( "configuration", steps.siteRepresentation ) ) &&
+					<TextInput
+						id="organization-forced-readonly-text"
+						name="organization"
+						label={ __( "Does you site represent an Organization or Person?", "wordpress-seo" ) }
+						value={ state.companyOrPersonLabel }
+						readOnly={ true }
+					/> }
 					{ state.companyOrPerson === "company" && <Fragment>
 						{ ( ! state.companyName || ! state.companyLogo ) && <Alert type="warning">
 							{ __(
@@ -438,7 +444,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						id="site-tagline-input"
 						name="site-tagline"
 						label={ __( "Site tagline", "wordpress-seo" ) }
-						// translators: %1$s expands to Yoast
 						description={ sprintf( __( "Add a catchy tagline that describes your site in the best light. Use the keywords you want people to find your site with. Example: %1$s’s tagline is ‘SEO for everyone.’", "wordpress-seo" ), "Yoast" ) }
 						value={ state.siteTagline }
 						onChange={ onSiteTaglineChange }
