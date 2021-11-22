@@ -405,7 +405,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						id="organization-forced-readonly-text"
 						name="organization"
 						label={ __( "Does you site represent an Organization or Person?", "wordpress-seo" ) }
-						// translators: %1$s expands to Yoast
 						value={ state.companyOrPersonLabel }
 						readOnly={ true }
 					/> }
@@ -443,7 +442,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						id="site-tagline-input"
 						name="site-tagline"
 						label={ __( "Site tagline", "wordpress-seo" ) }
-						// translators: %1$s expands to Yoast
 						description={ sprintf( __( "Add a catchy tagline that describes your site in the best light. Use the keywords you want people to find your site with. Example: %1$s’s tagline is ‘SEO for everyone.’", "wordpress-seo" ), "Yoast" ) }
 						value={ state.siteTagline }
 						onChange={ onSiteTaglineChange }
