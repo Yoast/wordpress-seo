@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
@@ -28,11 +29,11 @@ class Workouts_Integration implements Integration_Interface {
 	private $options_helper;
 
 	/**
-	 * The indexing tool integration.
+	 * The indexing helper.
 	 *
-	 * @var Indexing_Tool_Integration
+	 * @var Indexing_Helper
 	 */
-	private $indexing_integration;
+	private $indexing_helper;
 
 	/**
 	 * {@inheritDoc}
@@ -46,16 +47,16 @@ class Workouts_Integration implements Integration_Interface {
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager  The admin asset manager.
 	 * @param Options_Helper            $options_helper       The options helper.
-	 * @param Indexing_Tool_Integration $indexing_integration The indexing tool integration.
+	 * @param Indexing_Helper           $indexing_helper The indexing tool integration.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		Options_Helper $options_helper,
-		Indexing_Tool_Integration $indexing_integration
+		Indexing_Helper $indexing_helper
 	) {
-		$this->admin_asset_manager  = $admin_asset_manager;
-		$this->options_helper       = $options_helper;
-		$this->indexing_integration = $indexing_integration;
+		$this->admin_asset_manager = $admin_asset_manager;
+		$this->options_helper      = $options_helper;
+		$this->indexing_helper     = $indexing_helper;
 	}
 
 	/**
@@ -165,7 +166,7 @@ class Workouts_Integration implements Integration_Interface {
 			return false;
 		}
 
-		return ! $this->are_site_representation_name_and_logo_set() || $this->indexing_integration->get_unindexed_count() > 0;
+		return ! $this->are_site_representation_name_and_logo_set() || $this->indexing_helper->get_unindexed_count() > 0;
 	}
 
 	/**
