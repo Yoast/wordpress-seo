@@ -70,10 +70,10 @@ describe( "Analysis slice", () => {
 		// No need to test beyond the structure, as that is covered in their own tests.
 		test( "should include config and results selectors", () => {
 			[
-				"selectConfig",
-				"selectIsSeoActive",
+				"selectAnalysisConfig",
 				"selectAnalysisType",
-				"selectIsReadabilityActive",
+				"isSeoAnalysisActive",
+				"isReadabilityAnalysisActive",
 				"selectResearches",
 				"selectSeoScore",
 				"selectSeoResults",
