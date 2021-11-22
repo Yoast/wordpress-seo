@@ -390,7 +390,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
 						{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
 					</Alert> }
-					{ ! state.shouldForceCompany && ! isStepFinished( "configuration", steps.siteRepresentation ) &&
+					{ ! window.wpseoWorkoutsData.configuration.shouldForceCompany && ! isStepFinished( "configuration", steps.siteRepresentation ) &&
 					<SingleSelect
 						id="organization-person-select"
 						htmlFor="organization-person-select"
