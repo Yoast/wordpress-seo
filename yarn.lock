@@ -5384,6 +5384,9 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+"@yoast/browserslist-config@file:packages/browserslist-config":
+  version "1.2.2"
+
 "@yoast/grunt-plugin-tasks@^2.2":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-2.2.0.tgz#9831a05cfa80f08af327880352e77eeb8cc5b332"
@@ -5416,6 +5419,17 @@
     grunt-wp-i18n "^1.0.3"
     load-grunt-config "^1.0.1"
     time-grunt "^1.0.0"
+
+"@yoast/replacement-variables@file:packages/replacement-variables":
+  version "1.0.0"
+  dependencies:
+    lodash "^4.17.21"
+
+"@yoast/seo-store@file:packages/seo-store":
+  version "1.0.0"
+  dependencies:
+    "@reduxjs/toolkit" "^1.6.2"
+    lodash "^4.17.21"
 
 JSONStream@^0.10.0:
   version "0.10.0"
@@ -11056,6 +11070,11 @@ eslint-config-prettier@^7.1.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-7.2.0.tgz#f4a4bd2832e810e8cc7c1411ec85b3e85c0c53f9"
   integrity sha512-rV4Qu0C3nfJKPOAhFujFxB7RMP+URFyQqqOZW9DMRD7ZDTFyjaIlETU3xzHELt++4ugC0+Jm084HQYkkJe+Ivg==
+
+"eslint-config-yoast@file:packages/eslint":
+  version "5.0.17"
+  dependencies:
+    js-yaml "^3.6.0"
 
 eslint-import-resolver-node@^0.3.4:
   version "0.3.4"

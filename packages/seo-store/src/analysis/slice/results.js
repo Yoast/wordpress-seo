@@ -25,7 +25,7 @@ function* analyze() {
 	try {
 		const paper = yield select( STORE_NAME ).selectPaper();
 		const keyphrases = yield select( STORE_NAME ).selectKeyphrases();
-		const config = yield select( STORE_NAME ).selectConfig();
+		const config = yield select( STORE_NAME ).selectAnalysisConfig();
 
 		const preparedPaper = yield applyFilters( "yoast.seoStore.analysis.preparePaper", paper );
 
