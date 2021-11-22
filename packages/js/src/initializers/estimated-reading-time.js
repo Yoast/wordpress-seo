@@ -6,11 +6,12 @@ import { Paper } from "yoastseo";
  * Retrieves the estimated reading time.
  *
  * @param {string} content The content.
+ * @param {string} locale The content locale.
  *
  * @returns {void}
  */
-function getEstimatedReadingTime( content ) {
-	window.YoastSEO.analysis.worker.runResearch( "readingTime", new Paper( content, {} ) )
+function getEstimatedReadingTime( content, locale ) {
+	window.YoastSEO.analysis.worker.runResearch( "readingTime", new Paper( content, { locale: locale } ) )
 		.then( ( response ) => {
 			dispatch( "yoast-seo/editor" ).setEstimatedReadingTime( response.result );
 		} );
