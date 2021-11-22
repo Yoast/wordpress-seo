@@ -244,7 +244,6 @@ Enhancements:
 * Introduces the configuration workout.
 * Adds a link to the archive page for the content types in the search appearance settings. Props to [felipelousantos](https://github.com/felipelousantos).
 * Adds a few more French transition words to be recognised by the transition words assessment. Props to [Cellophile](https://github.com/Cellophile).
-* Adds a link to the archive page for the content types in the search appearance settings. Props to [felipelousantos](https://github.com/felipelousantos). [#17174](https://github.com/Yoast/wordpress-seo/pull/17174)
 
 Bugfixes:
 
