@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
@@ -28,6 +29,13 @@ class Workouts_Integration implements Integration_Interface {
 	private $options_helper;
 
 	/**
+	 * The indexing helper.
+	 *
+	 * @var Indexing_Helper
+	 */
+	private $indexing_helper;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -37,15 +45,18 @@ class Workouts_Integration implements Integration_Interface {
 	/**
 	 * Workouts_Integration constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
-	 * @param Options_Helper            $options_helper      The options helper.
+	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager  The admin asset manager.
+	 * @param Options_Helper            $options_helper       The options helper.
+	 * @param Indexing_Helper           $indexing_helper The indexing tool integration.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		Indexing_Helper $indexing_helper
 	) {
 		$this->admin_asset_manager = $admin_asset_manager;
 		$this->options_helper      = $options_helper;
+		$this->indexing_helper     = $indexing_helper;
 	}
 
 	/**
@@ -147,11 +158,15 @@ class Workouts_Integration implements Integration_Interface {
 			return false;
 		}
 
-		$workouts_option = $this->options_helper->get( 'workouts_data', [] );
-		$finished_steps  = $workouts_option['configuration']['finishedSteps'];
+		if ( ! $this->on_wpseo_admin_page_or_dashboard() ) {
+			return false;
+		}
 
-		return count( $finished_steps ) < 5 &&
-			$this->on_wpseo_admin_page_or_dashboard();
+		if ( $this->is_configuration_workout_finished() ) {
+			return false;
+		}
+
+		return ! $this->are_site_representation_name_and_logo_set() || $this->indexing_helper->get_unindexed_count() > 0;
 	}
 
 	/**
@@ -284,5 +299,37 @@ class Workouts_Integration implements Integration_Interface {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Whether all steps of the configuration workout have been finished.
+	 *
+	 * @return bool Whether the configuration workout has been finished.
+	 */
+	private function is_configuration_workout_finished() {
+		$workouts_option = $this->options_helper->get( 'workouts_data', [] );
+
+		return count( $workouts_option['configuration']['finishedSteps'] ) === 5;
+	}
+
+	/**
+	 * Whether the site representation name and logo have been set.
+	 *
+	 * @return bool  Whether the site representation name and logo have been set.
+	 */
+	private function are_site_representation_name_and_logo_set() {
+		$company_or_person = $this->options_helper->get( 'company_or_person', '' );
+
+		if ( $company_or_person === '' ) {
+			return false;
+		}
+
+		if ( $company_or_person === 'company' ) {
+			return ! empty( $this->options_helper->get( 'company_name' ) )
+				&& ! empty( $this->options_helper->get( 'company_logo', '' ) );
+		}
+
+		return ! empty( $this->options_helper->get( 'company_or_person_user_id' ) )
+			&& ! empty( $this->options_helper->get( 'person_logo', '' ) );
 	}
 }
