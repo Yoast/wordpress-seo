@@ -629,7 +629,6 @@ describe( "tests for edge cases", function() {
 
 const keyphraseJA = "自然の中を歩く";
 const sentenceWithAllKeywordsJA = "人によって心地よく感じるポイントは異なりますが、自然の中で本来あるべき場所に、明るく爽やかな森の中を歩く時間は、それだけで心と体を癒してくれるものです。";
-// to investigate: how come adding 歩く and 自然 (two of the keyphrase forms for segmented 自然 - nature, makes this sentencewithsomekeywords a sentence with all keywords?
 const sentenceWithSomeKeywordsJA = "自然とは、人為によってではなく、おのずから存在しているもの。";
 const sentenceWithTheOtherKeywordsJA = "歩くさわやかな森の中で時間が速くなります。";
 const sentenceWithoutKeywordsJA = "会議は時間通りです。";
