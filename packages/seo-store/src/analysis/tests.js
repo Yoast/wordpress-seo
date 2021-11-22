@@ -5,7 +5,7 @@ import registerSeoStore, { SEO_STORE_NAME } from "../index";
 import { useAnalyze } from "./hooks";
 import analysisReducer, { analysisActions, analysisSelectors } from "./slice";
 import configReducer, { configActions, configSelectors } from "./slice/config";
-import resultsReducer, { resultsActions, resultsSelectors } from "./slice/results";
+import resultsReducer, { analysisAsyncActions, resultsActions, resultsSelectors } from "./slice/results";
 
 describe( "Analysis slice", () => {
 	// eslint-disable-next-line no-undefined
@@ -360,7 +360,7 @@ describe( "Results slice", () => {
 		} );
 
 		test( "should update the status to loading", () => {
-			const { request } = analysisActions;
+			const { request } = analysisAsyncActions;
 
 			const result = resultsReducer( previousState, { type: request } );
 
@@ -371,7 +371,7 @@ describe( "Results slice", () => {
 		} );
 
 		test( "should update the status to success", () => {
-			const { success } = analysisActions;
+			const { success } = analysisAsyncActions;
 
 			const result = resultsReducer( previousState, { type: success, payload: initialState } );
 
@@ -382,7 +382,7 @@ describe( "Results slice", () => {
 		} );
 
 		test( "should update the status to error", () => {
-			const { error } = analysisActions;
+			const { error } = analysisAsyncActions;
 
 			const result = resultsReducer( previousState, { type: error, payload: "test error" } );
 
