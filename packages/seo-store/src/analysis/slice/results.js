@@ -19,7 +19,7 @@ export const analysisAsyncActions = reduce(
  *
  * @returns {Generator<Object>} Analyze steps.
  */
-function* analyze() {
+export function* analyze() {
 	yield { type: analysisAsyncActions.request };
 
 	try {

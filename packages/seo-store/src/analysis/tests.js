@@ -5,7 +5,7 @@ import registerSeoStore, { SEO_STORE_NAME } from "../index";
 import { useAnalyze } from "./hooks";
 import analysisReducer, { analysisActions, analysisSelectors } from "./slice";
 import configReducer, { configActions, configSelectors } from "./slice/config";
-import resultsReducer, { analysisAsyncActions, resultsActions, resultsSelectors } from "./slice/results";
+import resultsReducer, { analysisAsyncActions, analyze as analyzeGenerator, resultsActions, resultsSelectors } from "./slice/results";
 
 describe( "Analysis slice", () => {
 	// eslint-disable-next-line no-undefined
@@ -498,6 +498,86 @@ describe( "Results slice", () => {
 			const result = selectActiveMarks( createStoreState( state ) );
 
 			expect( result ).toEqual( [ "test" ] );
+		} );
+	} );
+
+	describe( "Analyze generator", () => {
+		beforeAll( () => {
+			registerSeoStore( {
+				analyze: () => ( {
+					seo: {
+						focus: {
+							score: 0,
+							results: [],
+						},
+					},
+					readability: {
+						score: 0,
+						results: [],
+					},
+					research: {
+						morphology: {},
+					},
+				} ),
+			} );
+		} );
+
+		test( "should perform the required analyze steps", () => {
+			const generator = analyzeGenerator();
+			const paper = {
+				content: "",
+				seoTitle: "",
+				metaDescription: "",
+				slug: "",
+				permalink: "",
+				date: "",
+			};
+			const results = { paper: {}, keyphrases: {}, config: {} };
+			let result;
+
+			// 1. Request action.
+			result = generator.next();
+			expect( result.value ).toEqual( { type: analysisAsyncActions.request } );
+
+			// 2. Select paper.
+			result = generator.next( result.value );
+			expect( result.value ).toEqual( paper );
+
+			// 3. Select keyphrases.
+			result = generator.next( result.value );
+			expect( result.value ).toEqual( {
+				focus: {
+					id: "focus",
+					keyphrase: "",
+					synonyms: "",
+				},
+			} );
+
+			// 4. Select config.
+			result = generator.next( result.value );
+			expect( result.value ).toEqual( {
+				analysisType: "post",
+				isSeoActive: true,
+				isReadabilityActive: true,
+				researches: [ "morphology" ],
+			} );
+
+			// 5. Prepared paper.
+			result = generator.next( result.value );
+			expect( result.value ).toEqual( paper );
+
+			// 6. Analyze results.
+			result = generator.next( result.value );
+			expect( result.value ).toMatchObject( { type: "analyze", payload: results } );
+
+			// 7. Processed results.
+			result = generator.next( results );
+			expect( result.value ).toMatchObject( results );
+
+			// 8. Success action.
+			result = generator.next();
+			expect( result.value ).toEqual( { type: analysisAsyncActions.success } );
+			expect( result.done ).toBe( true );
 		} );
 	} );
 } );
