@@ -299,9 +299,10 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Return a JSON string with the
+	 * Gets the options for the Company or Person select.
+	 * Returns only the company option if it is forced (by Local SEO), otherwise returns company and person option.
 	 *
-	 * @return array True if tracking is enabled, false otherwise.
+	 * @return array The options for the company-or-person select.
 	 */
 	private function get_company_or_person_options() {
 		$options = [
