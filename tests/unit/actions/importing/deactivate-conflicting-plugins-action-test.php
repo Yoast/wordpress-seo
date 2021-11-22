@@ -43,11 +43,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 		$this->conflicting_plugins_service = Mockery::mock( Conflicting_Plugins_Service::class );
 
 		$this->deactivate_conflicting_plugins_action = new Deactivate_Conflicting_Plugins_Action(
-			Mockery::mock( Indexable_Repository::class ),
-			Mockery::mock( \wpdb::class ),
-			Mockery::mock( Indexable_To_Postmeta_Helper::class ),
 			Mockery::mock( Options_Helper::class ),
-			Mockery::mock( Wpdb_Helper::class ),
 			$this->conflicting_plugins_service
 		);
 	}

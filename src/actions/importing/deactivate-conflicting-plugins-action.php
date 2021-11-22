@@ -5,10 +5,7 @@ namespace Yoast\WP\SEO\Actions\Importing;
 use wpdb;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Config\Conflicting_Plugins;
-use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Wpdb_Helper;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Importing\Conflicting_Plugins_Service;
 
 /**
@@ -49,21 +46,12 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Importing_Action {
 	/**
 	 * Class constructor.
 	 *
-	 * @param Indexable_Repository         $indexable_repository        The indexables repository.
-	 * @param wpdb                         $wpdb                        The WordPress database instance.
-	 * @param Indexable_To_Postmeta_Helper $indexable_to_postmeta       The indexable_to_postmeta helper.
-	 * @param Options_Helper               $options                     The options helper.
-	 * @param Wpdb_Helper                  $wpdb_helper                 The wpdb_helper helper.
-	 * @param Conflicting_Plugins_Service  $conflicting_plugins_service The Conflicting plugins Service.
+	 * @param Options_Helper              $options                     The options helper.
+	 * @param Conflicting_Plugins_Service $conflicting_plugins_service The Conflicting plugins Service.
 	 */
-	public function __construct(
-		Indexable_Repository $indexable_repository,
-		wpdb $wpdb,
-		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
-		Options_Helper $options,
-		Wpdb_Helper $wpdb_helper,
-		Conflicting_Plugins_Service $conflicting_plugins_service ) {
-		parent::__construct( $indexable_repository, $wpdb, $indexable_to_postmeta, $options, $wpdb_helper );
+	public function __construct( Options_Helper $options, Conflicting_Plugins_Service $conflicting_plugins_service ) {
+		parent::__construct( $options );
+
 		$this->conflicting_plugins = $conflicting_plugins_service;
 		$this->detected_plugins    = [];
 	}
