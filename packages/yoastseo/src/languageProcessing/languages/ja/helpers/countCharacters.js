@@ -1,4 +1,5 @@
-import sanitizeString from "../../../helpers/sanitize/sanitizeString";
+import { languageProcessing } from "yoastseo";
+const { sanitizeString } = languageProcessing;
 
 /**
  * Calculates the character count of a text, including punctuation and numbers. Is used to determine length of text.
