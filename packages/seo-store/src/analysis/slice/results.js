@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { select } from "@wordpress/data";
 import { applyFilters } from "@wordpress/hooks";
-import { get, reduce, forEach } from "lodash";
+import { forEach, get, reduce } from "lodash";
 import { ASYNC_ACTIONS, ASYNC_STATUS, FOCUS_KEYPHRASE_ID, STORE_NAME } from "../../common/constants";
 import { ANALYZE_ACTION_NAME } from "../constants";
 
-const analysisActions = reduce(
+export const analysisAsyncActions = reduce(
 	ASYNC_ACTIONS,
 	( actions, action ) => ( { ...actions, [ action ]: `${ ANALYZE_ACTION_NAME }/${ action }` } ),
 	{},
@@ -19,8 +19,8 @@ const analysisActions = reduce(
  *
  * @returns {Generator<Object>} Analyze steps.
  */
-function* analyze() {
-	yield { type: analysisActions.request };
+export function* analyze() {
+	yield { type: analysisAsyncActions.request };
 
 	try {
 		const paper = yield select( STORE_NAME ).selectPaper();
@@ -40,9 +40,9 @@ function* analyze() {
 
 		const processedResults = yield applyFilters( "yoast.seoStore.analysis.processResults", results );
 
-		return { type: analysisActions.success, payload: processedResults };
+		return { type: analysisAsyncActions.success, payload: processedResults };
 	} catch ( error ) {
-		return { type: analysisActions.error, payload: error };
+		return { type: analysisAsyncActions.error, payload: error };
 	}
 }
 
@@ -76,10 +76,10 @@ const resultsSlice = createSlice( {
 		},
 	},
 	extraReducers: ( builder ) => {
-		builder.addCase( analysisActions.request, ( state ) => {
+		builder.addCase( analysisAsyncActions.request, ( state ) => {
 			state.status = ASYNC_STATUS.LOADING;
 		} );
-		builder.addCase( analysisActions.success, ( state, { payload } ) => {
+		builder.addCase( analysisAsyncActions.success, ( state, { payload } ) => {
 			state.status = ASYNC_STATUS.SUCCESS;
 
 			// Update SEO results state for each keyphrase
@@ -93,7 +93,7 @@ const resultsSlice = createSlice( {
 
 			state.research = payload.research;
 		} );
-		builder.addCase( analysisActions.error, ( state, { payload } ) => {
+		builder.addCase( analysisAsyncActions.error, ( state, { payload } ) => {
 			state.status = ASYNC_STATUS.ERROR;
 			state.error = payload;
 		} );
