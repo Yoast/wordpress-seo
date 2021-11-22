@@ -23,10 +23,10 @@ import { reduce } from "lodash";
  *
  * @param {ReplacementVariableConfiguration[]} configurations The replacement variable configurations.
  *
- * @returns {{replacementVariables: ReplacementVariable[], apply: function}} The replacement variables and an apply function.
+ * @returns {{variables: ReplacementVariable[], apply: function}} The replacement variables and an apply function.
  */
 const createReplacementVariables = ( configurations ) => {
-	const replacementVariables = configurations.map( ( { name, label, getReplacement, regexp = null } = {} ) => ( {
+	const variables = configurations.map( ( { name, label, getReplacement, regexp = null } = {} ) => ( {
 		name,
 		label,
 		getReplacement,
@@ -37,22 +37,22 @@ const createReplacementVariables = ( configurations ) => {
 	 * Applies the replacement variables to a string.
 	 *
 	 * @param {string} input The input string.
-	 * @param {*} getReplacementArguments The arguments for the `getReplacement` function.
+	 * @param {Object} [context] Optional single context argument for the `getReplacement` functions.
 	 *
 	 * @returns {string} The input, but with any replacement variables replaced.
 	 */
-	const apply = ( input, ...getReplacementArguments ) => reduce(
-		replacementVariables,
+	const apply = ( input, context = {} ) => reduce(
+		variables,
 		( replaced, { regexp, getReplacement } ) => (
 			regexp.test( replaced )
-				? replaced.replace( regexp, getReplacement( ...getReplacementArguments ) )
+				? replaced.replace( regexp, getReplacement( context ) )
 				: replaced
 		),
 		input,
 	);
 
 	return {
-		replacementVariables,
+		variables,
 		apply,
 	};
 };

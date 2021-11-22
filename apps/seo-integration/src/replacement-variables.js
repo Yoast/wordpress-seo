@@ -5,7 +5,7 @@ import { SEO_STORE_NAME } from "@yoast/seo-store";
 import { reduce } from "lodash";
 
 const registerReplacementVariables = () => {
-	const { replacementVariables, apply } = createReplacementVariables( [
+	const { variables, apply } = createReplacementVariables( [
 		{
 			name: "title",
 			label: "Title",
@@ -97,7 +97,7 @@ const registerReplacementVariables = () => {
 			},
 		},
 	] );
-	console.log("you can try the following replacement variables:", replacementVariables.map( replacevar => replacevar.name ) );
+	console.log("you can try the following replacement variables:", variables.map( variable => variable.name ) );
 
 	const applyReplacementVariables = ( paper ) => {
 		return reduce(
