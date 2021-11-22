@@ -8,6 +8,7 @@ import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Res
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import pageTitleKeyword from "../../../src/languageProcessing/researches/findKeywordInPageTitle.js";
 import Paper from "../../../src/values/Paper.js";
+import { isFeatureEnabled } from "@yoast/feature-flag";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataDE = getMorphologyData( "de" ).de;
@@ -315,47 +316,49 @@ describe( "Matches keywords in string", function() {
 		expect( result.position ).toBe( 3 );
 	} );
 
-	xit( "returns the exact match as false for a Japanese multi-word keyphrase containing a function word", function() {
-		const mockPaper = new Paper( "", {
-			keyword: "東海道を新幹線",
-			title: "東海道新幹線の駅構内および列車内に広告を掲出することを。",
-			locale: "ja",
+	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
+		xit( "returns the exact match as false for a Japanese multi-word keyphrase containing a function word", function() {
+			const mockPaper = new Paper( "", {
+				keyword: "東海道を新幹線",
+				title: "東海道新幹線の駅構内および列車内に広告を掲出することを。",
+				locale: "ja",
+			} );
+			const researcher = new JapaneseResearcher( mockPaper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
+
+			result = pageTitleKeyword( mockPaper, researcher );
+			expect( result.exactMatchFound ).toBe( false );
+			expect( result.allWordsFound ).toBe( true );
 		} );
-		const researcher = new JapaneseResearcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyDataJA );
 
-		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatchFound ).toBe( false );
-		expect( result.allWordsFound ).toBe( true );
-	} );
+		xit( "returns the exact match as false for a Japanese multi-word keyphrase with a function word in the title", function() {
+			const mockPaper = new Paper( "", {
+				keyword: "東海道新幹線",
+				title: "東海道を新幹線の駅構内および列車内に広告を掲出することを。",
+				locale: "ja",
+			} );
+			const researcher = new JapaneseResearcher( mockPaper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
 
-	xit( "returns the exact match as false for a Japanese multi-word keyphrase with a function word in the title", function() {
-		const mockPaper = new Paper( "", {
-			keyword: "東海道新幹線",
-			title: "東海道を新幹線の駅構内および列車内に広告を掲出することを。",
-			locale: "ja",
+			result = pageTitleKeyword( mockPaper, researcher );
+			expect( result.exactMatchFound ).toBe( false );
+			expect( result.allWordsFound ).toBe( true );
 		} );
-		const researcher = new JapaneseResearcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyDataJA );
 
-		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatchFound ).toBe( false );
-		expect( result.allWordsFound ).toBe( true );
-	} );
+		xit( "returns the exact match as false for a Japanese keyphrase using a different form in the title", function() {
+			const mockPaper = new Paper( "", {
+				keyword: "頑張ら",
+				title: "頑張ります",
+				locale: "ja",
+			} );
+			const researcher = new JapaneseResearcher( mockPaper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
 
-	xit( "returns the exact match as false for a Japanese keyphrase using a different form in the title", function() {
-		const mockPaper = new Paper( "", {
-			keyword: "頑張ら",
-			title: "頑張ります",
-			locale: "ja",
+			result = pageTitleKeyword( mockPaper, researcher );
+			expect( result.exactMatchFound ).toBe( false );
+			expect( result.allWordsFound ).toBe( true );
 		} );
-		const researcher = new JapaneseResearcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyDataJA );
-
-		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatchFound ).toBe( false );
-		expect( result.allWordsFound ).toBe( true );
-	} );
+	}
 
 	it( "returns allWordsFound as false for a keyphrase enclosed in Japanese quotes containing a function word", function() {
 		const mockPaper = new Paper( "", {
