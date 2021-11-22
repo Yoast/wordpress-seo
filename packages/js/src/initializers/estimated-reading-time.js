@@ -6,11 +6,12 @@ import { Paper } from "yoastseo";
  * Retrieves the estimated reading time.
  *
  * @param {string} content The content.
+ * @param {string} locale The content locale.
  *
  * @returns {void}
  */
-function getEstimatedReadingTime( content ) {
-	window.YoastSEO.analysis.worker.runResearch( "readingTime", new Paper( content, {} ) )
+function getEstimatedReadingTime( content, locale ) {
+	window.YoastSEO.analysis.worker.runResearch( "readingTime", new Paper( content, { locale: locale } ) )
 		.then( ( response ) => {
 			dispatch( "yoast-seo/editor" ).setEstimatedReadingTime( response.result );
 		} );
@@ -45,6 +46,7 @@ function initializeEstimatedReadingTimeClassic() {
 // Used to trigger the initial reading time calculation for the block and Elementor editors.
 let previousContent = "";
 let previousRecord = null;
+let previousLocale = "";
 
 /**
  * Gets the estimated reading time in the block editor if the content has changed.
@@ -63,9 +65,12 @@ function getEstimatedReadingTimeBlockEditor() {
 	previousRecord = record;
 
 	const content = select( "core/editor" ).getEditedPostAttribute( "content" );
-	if ( previousContent !== content ) {
+	const locale = select( "yoast-seo/editor" ).getContentLocale();
+
+	if ( previousContent !== content || previousLocale !== locale ) {
 		previousContent = content;
-		getEstimatedReadingTime( content );
+		previousLocale = locale;
+		getEstimatedReadingTime( content, locale );
 	}
 }
 
@@ -76,9 +81,12 @@ function getEstimatedReadingTimeBlockEditor() {
  */
 function getEstimatedReadingTimeElementor() {
 	const content = select( "yoast-seo/editor" ).getEditorDataContent();
-	if ( previousContent !== content ) {
+	const locale = select( "yoast-seo/editor" ).getContentLocale();
+
+	if ( previousContent !== content || previousLocale !== locale ) {
 		previousContent = content;
-		getEstimatedReadingTime( content );
+		previousLocale = locale;
+		getEstimatedReadingTime( content, locale );
 	}
 }
 
