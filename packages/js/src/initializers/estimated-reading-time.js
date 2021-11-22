@@ -5,8 +5,8 @@ import { Paper } from "yoastseo";
 /**
  * Retrieves the estimated reading time.
  *
- * @param {string} content The content.
- * @param {string} locale The content locale.
+ * @param {string} content  The content.
+ * @param {string} locale   The content locale.
  *
  * @returns {void}
  */
@@ -28,6 +28,7 @@ const debouncedGetEstimatedReadingTime = debounce( getEstimatedReadingTime, 1500
 function initializeEstimatedReadingTimeClassic() {
 	const tmceEvents = [ "input", "change", "cut", "paste" ];
 	const editorHandle = get( window, "wpseoScriptData.isPost", "0" ) === "1" ? "content" : "description";
+	const locale = select( "yoast-seo/editor" ).getContentLocale();
 
 	// Once tinyMCE is initialized, add the listeners.
 	jQuery( document ).on( "tinymce-editor-init", ( event, editor ) => {
@@ -37,7 +38,7 @@ function initializeEstimatedReadingTimeClassic() {
 
 		tmceEvents.forEach( ( eventName ) => {
 			editor.on( eventName, () => {
-				debouncedGetEstimatedReadingTime( editor.getContent() );
+				debouncedGetEstimatedReadingTime( editor.getContent(), locale );
 			} );
 		} );
 	} );
@@ -45,8 +46,8 @@ function initializeEstimatedReadingTimeClassic() {
 
 // Used to trigger the initial reading time calculation for the block and Elementor editors.
 let previousContent = "";
-let previousRecord = null;
 let previousLocale = "";
+let previousRecord = null;
 
 /**
  * Gets the estimated reading time in the block editor if the content has changed.
@@ -65,9 +66,12 @@ function getEstimatedReadingTimeBlockEditor() {
 	previousRecord = record;
 
 	const content = select( "core/editor" ).getEditedPostAttribute( "content" );
-	if ( previousContent !== content ) {
+	const locale = select( "yoast-seo/editor" ).getContentLocale();
+
+	if ( previousContent !== content || previousLocale !== locale ) {
 		previousContent = content;
-		getEstimatedReadingTime( content );
+		previousLocale = locale;
+		getEstimatedReadingTime( content, locale );
 	}
 }
 
