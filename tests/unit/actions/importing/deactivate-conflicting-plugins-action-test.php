@@ -4,6 +4,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
 use Yoast\WP\SEO\Actions\Importing\Deactivate_Conflicting_Plugins_Action;
+use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Wpdb_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Importing\Conflicting_Plugins_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -28,7 +32,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	/**
 	 * The service responsible for detecting conflicting plugins
 	 *
-	 * @var Mockery\MockInterface|Conflicting_Plugins_Service
+	 * @var Mockery::mockInterface|Conflicting_Plugins_Service
 	 */
 	protected $conflicting_plugins_service;
 
@@ -39,6 +43,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 		$this->conflicting_plugins_service = Mockery::mock( Conflicting_Plugins_Service::class );
 
 		$this->deactivate_conflicting_plugins_action = new Deactivate_Conflicting_Plugins_Action(
+			Mockery::mock( Options_Helper::class ),
 			$this->conflicting_plugins_service
 		);
 	}
