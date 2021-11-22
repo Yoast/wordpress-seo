@@ -3,13 +3,7 @@
 namespace Yoast\WP\SEO\Actions\Importing;
 
 use Exception;
-use wpdb;
-use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
-use Yoast\WP\SEO\Actions\Indexing\Limited_Indexing_Action_Interface;
-use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Wpdb_Helper;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Importing action interface.
@@ -31,27 +25,6 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	const TYPE = null;
 
 	/**
-	 * Represents the indexables repository.
-	 *
-	 * @var Indexable_Repository
-	 */
-	protected $indexable_repository;
-
-	/**
-	 * The WordPress database instance.
-	 *
-	 * @var wpdb
-	 */
-	protected $wpdb;
-
-	/**
-	 * The indexable_to_postmeta helper.
-	 *
-	 * @var Indexable_To_Postmeta_Helper
-	 */
-	protected $indexable_to_postmeta;
-
-	/**
 	 * The options helper.
 	 *
 	 * @var Options_Helper
@@ -59,32 +32,12 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	protected $options;
 
 	/**
-	 * The wpdb helper.
-	 *
-	 * @var Wpdb_Helper
-	 */
-	protected $wpdb_helper;
-
-	/**
 	 * Abstract_Importing_Action constructor.
 	 *
-	 * @param Indexable_Repository         $indexable_repository  The indexables repository.
-	 * @param wpdb                         $wpdb                  The WordPress database instance.
-	 * @param Indexable_To_Postmeta_Helper $indexable_to_postmeta The indexable_to_postmeta helper.
-	 * @param Options_Helper               $options               The options helper.
-	 * @param Wpdb_Helper                  $wpdb_helper           The wpdb_helper helper.
+	 * @param Options_Helper $options The options helper.
 	 */
-	public function __construct(
-		Indexable_Repository $indexable_repository,
-		wpdb $wpdb,
-		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
-		Options_Helper $options,
-		Wpdb_Helper $wpdb_helper ) {
-		$this->indexable_repository  = $indexable_repository;
-		$this->wpdb                  = $wpdb;
-		$this->indexable_to_postmeta = $indexable_to_postmeta;
-		$this->options               = $options;
-		$this->wpdb_helper           = $wpdb_helper;
+	public function __construct( Options_Helper $options ) {
+		$this->options = $options;
 	}
 
 	/**
@@ -124,13 +77,33 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	}
 
 	/**
-	 * Gets the cursor id (to be used as a key for the import_cursors option).
+	 * Can the current action import the data from plugin $plugin of type $type?
 	 *
-	 * @return string The cursor id.
+	 * @param string $plugin The plugin to import from.
+	 * @param string $type   The type of data to import.
+	 *
+	 * @return bool True if this action can handle the combination of Plugin and Type.
+	 *
+	 * @throws Exception If the TYPE constant is not set in the child class.
 	 */
-	protected function get_cursor_id() {
-		$class = get_class( $this );
-		return $class::PLUGIN . '_' . $class::TYPE;
+	public function is_compatible_with( $plugin = null, $type = null ) {
+		if ( empty( $plugin ) && empty( $type ) ) {
+			return true;
+		}
+
+		if ( $plugin === $this->get_plugin() && empty( $type ) ) {
+			return true;
+		}
+
+		if ( empty( $plugin ) && $type === $this->get_type() ) {
+			return true;
+		}
+
+		if ( $plugin === $this->get_plugin() && $type === $this->get_type() ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -179,9 +152,11 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	}
 
 	/**
-	 * Creates a query for gathering to-be-imported data from the database.
+	 * Gets the cursor id.
 	 *
-	 * @return string The query to use for importing or counting the number of items to import.
+	 * @return string The cursor id.
 	 */
-	abstract public function query();
+	protected function get_cursor_id() {
+		return $this->get_plugin() . '_' . $this->get_type();
+	}
 }

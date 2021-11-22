@@ -11,6 +11,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Import_Cursor_Manager_Trait_Test
  *
+ * @group actions
+ * @group importing
+ *
  * @package Yoast\WP\SEO\Tests\Unit\Actions\Importing
  *
  * @coversDefaultClass Yoast\WP\SEO\Actions\Importing\Import_Cursor_Manager_Trait

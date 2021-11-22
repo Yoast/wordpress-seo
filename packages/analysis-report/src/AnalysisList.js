@@ -62,11 +62,11 @@ export default function AnalysisList( { results, marksButtonActivatedResult, mar
 
 			let ariaLabel = "";
 			if ( marksButtonStatus === "disabled" ) {
-				ariaLabel = __( "Marks are disabled in current view", "wordpress-seo" );
+				ariaLabel = __( "Marks are disabled in current view", "yoast-components" );
 			} else if ( isMarkButtonPressed ) {
-				ariaLabel = __( "Remove highlight from the text", "wordpress-seo" );
+				ariaLabel = __( "Remove highlight from the text", "yoast-components" );
 			} else {
-				ariaLabel = __( "Highlight this result in the text", "wordpress-seo" );
+				ariaLabel = __( "Highlight this result in the text", "yoast-components" );
 			}
 
 			return <AnalysisResult

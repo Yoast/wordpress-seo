@@ -236,6 +236,21 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 17.7 =
+Release Date: November 30th, 2021
+
+Enhancements:
+
+* Introduces the configuration workout.
+* Adds a link to the archive page for the content types in the search appearance settings. Props to [felipelousantos](https://github.com/felipelousantos).
+* Adds a few more French transition words to be recognised by the transition words assessment. Props to [Cellophile](https://github.com/Cellophile).
+* Adds a link to the archive page for the content types in the search appearance settings. Props to [felipelousantos](https://github.com/felipelousantos). [#17174](https://github.com/Yoast/wordpress-seo/pull/17174)
+
+Bugfixes:
+
+* Fixes a bug where non-passive Greek words ending in -ου or -είτε were previously recognized as passive. Props to [artemidaspatanews](https://github.com/artemidaspatanews).
+* Fixes a bug where some post types would cause a PHP warning about custom fields.
+
 = 17.6 =
 Release Date: November 16th, 2021
 
@@ -256,24 +271,6 @@ Other:
 
 * The plugin will no longer block installation on PHP 8.0+ when installed via Composer.
 * Deprecates the `wpseo_schema_article_post_types` filter.
-
-= 17.5 =
-Release Date: November 2nd, 2021
-
-Say hello to Yoast SEO 17.5! Or maybe γεια would fit better, as this release introduces Greek readability support. Plus: you’ll also be able to find | and ~ title separators again. Happy updating! Read more about what's new in Yoast SEO 17.5 in [our release post in English](https://yoa.st/release-17-5) or [our release post in Spanish](https://yoa.st/release-17-5-spanish)!
-
-Enhancements:
-
-* Completes the readability analysis for Greek by adding the transition words, sentence beginnings and passive voice assessments.
-* Improves keyword detection for Greek by adding a function words list.
-* Reduces the right padding of the collapsible sidebar buttons to match the block editor's new styling.
-* Restores the `|` and `~` separators.
-* Reduces the right padding of the collapsible sidebar buttons to match Gutenberg's new styling.
-
-Bugfixes:
-
-* Fixes a bug where the analysis highlight button would be visible on tags, categories, and custom taxonomies even though we don't support highlighting for those types.
-* Fixes a bug where links to items on the same page were incorrectly identified as links to other pages, leading to an incorrect result on the Link keyphrase assessment.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

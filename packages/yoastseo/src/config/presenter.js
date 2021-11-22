@@ -1,35 +1,34 @@
-import { __ } from "@wordpress/i18n";
-
 /**
  * Returns the configuration used for score ratings and the AssessorPresenter.
+ * @param {Jed} i18n The translator object.
  * @returns {Object} The config object.
  */
-export default function() {
-	const contentOptimizationLabel = __( "Content optimization:", "wordpress-seo" );
+export default function( i18n ) {
+	const contentOptimizationLabel = i18n.dgettext( "js-text-analysis", "Content optimization:" );
 	return {
 		feedback: {
 			className: "na",
-			screenReaderText: __( "Feedback", "wordpress-seo" ),
-			fullText: `${ contentOptimizationLabel } ${ __( "Has feedback", "wordpress-seo" ) }`,
+			screenReaderText: i18n.dgettext( "js-text-analysis", "Feedback" ),
+			fullText: `${ contentOptimizationLabel } ${ i18n.dgettext( "js-text-analysis", "Has feedback" ) }`,
 			screenReaderReadabilityText: "",
 		},
 		bad: {
 			className: "bad",
-			screenReaderText: __( "Needs improvement", "wordpress-seo" ),
-			fullText: `${ contentOptimizationLabel } ${ __( "Needs improvement", "wordpress-seo" ) }`,
-			screenReaderReadabilityText: __( "Needs improvement", "wordpress-seo" ),
+			screenReaderText: i18n.dgettext( "js-text-analysis", "Needs improvement" ),
+			fullText: `${ contentOptimizationLabel } ${ i18n.dgettext( "js-text-analysis", "Needs improvement" ) }`,
+			screenReaderReadabilityText: i18n.dgettext( "js-text-analysis", "Needs improvement" ),
 		},
 		ok: {
 			className: "ok",
-			screenReaderText: __( "OK SEO score", "wordpress-seo" ),
-			fullText: `${ contentOptimizationLabel } ${ __( "OK SEO score", "wordpress-seo" ) }`,
-			screenReaderReadabilityText: __( "OK", "wordpress-seo" ),
+			screenReaderText: i18n.dgettext( "js-text-analysis", "OK SEO score" ),
+			fullText: `${ contentOptimizationLabel } ${ i18n.dgettext( "js-text-analysis", "OK SEO score" ) }`,
+			screenReaderReadabilityText: i18n.dgettext( "js-text-analysis", "OK" ),
 		},
 		good: {
 			className: "good",
-			screenReaderText: __( "Good SEO score", "wordpress-seo" ),
-			fullText: `${ contentOptimizationLabel } ${ __( "Good SEO score", "wordpress-seo" ) }`,
-			screenReaderReadabilityText: __( "Good", "wordpress-seo" ),
+			screenReaderText: i18n.dgettext( "js-text-analysis", "Good SEO score" ),
+			fullText: `${ contentOptimizationLabel } ${ i18n.dgettext( "js-text-analysis", "Good SEO score" ) }`,
+			screenReaderReadabilityText: i18n.dgettext( "js-text-analysis", "Good" ),
 		},
 	};
 }

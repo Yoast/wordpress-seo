@@ -143,7 +143,7 @@ class Toggle extends React.Component {
 					<ToggleBullet isEnabled={ this.props.isEnabled } />
 				</ToggleBar>
 				{ this.props.showToggleStateLabel && <ToggleVisualLabel aria-hidden="true">
-					{ this.props.isEnabled ? __( "On", "wordpress-seo" ) : __( "Off", "wordpress-seo" ) }
+					{ this.props.isEnabled ? __( "On", "yoast-components" ) : __( "Off", "yoast-components" ) }
 				</ToggleVisualLabel> }
 			</ToggleDiv>
 		);

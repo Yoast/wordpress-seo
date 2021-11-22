@@ -1,4 +1,3 @@
-import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
@@ -49,15 +48,16 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 * @param {Researcher}  researcher  The researcher used for calling research.
+	 * @param {Jed}         i18n        The object used for translations
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
-	getResult( paper, researcher ) {
+	getResult( paper, researcher, i18n ) {
 		const descriptionLength = researcher.getResearch( "metaDescriptionLength" );
 		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( this.calculateScore( descriptionLength ) );
-		assessmentResult.setText( this.translateScore( descriptionLength ) );
+		assessmentResult.setText( this.translateScore( descriptionLength, i18n ) );
 
 		// Max and actual are used in the snippet editor progress bar.
 		assessmentResult.max = this._config.maximumLength;
@@ -93,18 +93,16 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 	 * Translates the descriptionLength to a message the user can understand.
 	 *
 	 * @param {number} descriptionLength    The length of the metadescription.
+	 * @param {object} i18n                 The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
-	translateScore( descriptionLength ) {
+	translateScore( descriptionLength, i18n ) {
 		if ( descriptionLength === 0 ) {
-			return sprintf(
+			return i18n.sprintf(
 				/* Translators:  %1$s and %2$s expand to a links on yoast.com, %3$s expands to the anchor end tag */
-				__(
-					// eslint-disable-next-line max-len
-					"%1$sMeta description length%3$s:  No meta description has been specified. Search engines will display copy from the page instead. %2$sMake sure to write one%3$s!",
-					"wordpress-seo"
-				),
+				i18n.dgettext( "js-text-analysis", "%1$sMeta description length%3$s:  No meta description has been specified. " +
+					"Search engines will display copy from the page instead. %2$sMake sure to write one%3$s!" ),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
 				"</a>"
@@ -112,15 +110,12 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 		}
 
 		if ( descriptionLength <= this._config.recommendedMaximumLength ) {
-			return sprintf(
+			return i18n.sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 				%4$d expands to the number of characters in the meta description, %5$d expands to
 				the total available number of characters in the meta description */
-				__(
-					// eslint-disable-next-line max-len
-					"%1$sMeta description length%3$s: The meta description is too short (under %4$d characters). Up to %5$d characters are available. %2$sUse the space%3$s!",
-					"wordpress-seo"
-				),
+				i18n.dgettext( "js-text-analysis", "%1$sMeta description length%3$s: The meta description is too short (under %4$d characters). " +
+				"Up to %5$d characters are available. %2$sUse the space%3$s!" ),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
 				"</a>",
@@ -130,14 +125,11 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 		}
 
 		if ( descriptionLength > this._config.maximumLength ) {
-			return sprintf(
+			return i18n.sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag,
 				%4$d expands to	the total available number of characters in the meta description */
-				__(
-					// eslint-disable-next-line max-len
-					"%1$sMeta description length%3$s: The meta description is over %4$d characters. To ensure the entire description will be visible, %2$syou should reduce the length%3$s!",
-					"wordpress-seo"
-				),
+				i18n.dgettext( "js-text-analysis", "%1$sMeta description length%3$s: The meta description is over %4$d characters. " +
+				"To ensure the entire description will be visible, %2$syou should reduce the length%3$s!" ),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
 				"</a>",
@@ -145,9 +137,9 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 			);
 		}
 
-		return sprintf(
+		return i18n.sprintf(
 			/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-			__( "%1$sMeta description length%2$s: Well done!", "wordpress-seo" ),
+			i18n.dgettext( "js-text-analysis", "%1$sMeta description length%2$s: Well done!" ),
 			this._config.urlTitle,
 			"</a>"
 		);

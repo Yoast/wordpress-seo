@@ -1,4 +1,3 @@
-import { _n, sprintf } from "@wordpress/i18n";
 import { inRange, merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -47,13 +46,14 @@ export default class TextLengthAssessment extends Assessment {
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
 	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
+	 * @param {Jed}         i18n        The locale object.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
-	getResult( paper, researcher ) {
+	getResult( paper, researcher, i18n ) {
 		const wordCount = researcher.getResearch( "wordCountInText" );
 		const assessmentResult = new AssessmentResult();
-		const calculatedResult = this.calculateResult( wordCount );
+		const calculatedResult = this.calculateResult( wordCount, i18n );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -65,22 +65,22 @@ export default class TextLengthAssessment extends Assessment {
 	 * Returns the score and the appropriate feedback string based on the current word count.
 	 *
 	 * @param {number}  wordCount   The amount of words to be checked against.
+	 * @param {Jed}     i18n        The locale object.
 	 *
 	 * @returns {Object} The score and the feedback string.
 	 */
-	calculateResult( wordCount ) {
+	calculateResult( wordCount, i18n ) {
 		if ( wordCount >= this._config.recommendedMinimum ) {
 			return {
 				score: this._config.scores.recommendedMinimum,
-				resultText: sprintf(
-					/* Translators: %1$d expands to the number of words in the text,
-					%2$s expands to a link on yoast.com, %3$s expands to the anchor end tag */
-					_n(
+				resultText: i18n.sprintf(
+					i18n.dngettext(
+						"js-text-analysis",
+						/* Translators: %1$d expands to the number of words in the text,
+						%2$s expands to a link on yoast.com, %3$s expands to the anchor end tag */
 						"%2$sText length%3$s: The text contains %1$d word. Good job!",
 						"%2$sText length%3$s: The text contains %1$d words. Good job!",
-						wordCount,
-						"wordpress-seo"
-					),
+						wordCount ),
 					wordCount,
 					this._config.urlTitle,
 					"</a>"
@@ -97,24 +97,23 @@ export default class TextLengthAssessment extends Assessment {
 
 			return {
 				score: badScore,
-				resultText: sprintf(
-					/* Translators: %1$d expands to the number of words in the text,
-					%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
-					_n(
+				resultText: i18n.sprintf(
+					i18n.dngettext(
+						"js-text-analysis",
+						/* Translators: %1$d expands to the number of words in the text,
+						%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 						"%2$sText length%4$s: The text contains %1$d word.",
 						"%2$sText length%4$s: The text contains %1$d words.",
-						wordCount,
-						"wordpress-seo"
-					) + " " +
-					/* Translators: The preceding sentence is "Text length: The text contains x words.",
-					%3$s expands to a link on yoast.com,
-					%4$s expands to the anchor end tag,
-					%5$d expands to the recommended minimum of words. */
-					_n(
+						wordCount
+					) + " " + i18n.dngettext(
+						"js-text-analysis",
+						/* Translators: The preceding sentence is "Text length: The text contains x words.",
+						%3$s expands to a link on yoast.com,
+						%4$s expands to the anchor end tag,
+						%5$d expands to the recommended minimum of words. */
 						"This is far below the recommended minimum of %5$d word. %3$sAdd more content%4$s.",
 						"This is far below the recommended minimum of %5$d words. %3$sAdd more content%4$s.",
-						this._config.recommendedMinimum,
-						"wordpress-seo"
+						this._config.recommendedMinimum
 					),
 					wordCount,
 					this._config.urlTitle,
@@ -129,24 +128,23 @@ export default class TextLengthAssessment extends Assessment {
 			if ( this._config.cornerstoneContent === false ) {
 				return {
 					score: this._config.scores.slightlyBelowMinimum,
-					resultText: sprintf(
-						/* Translators: %1$d expands to the number of words in the text,
-						%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
-						_n(
+					resultText: i18n.sprintf(
+						i18n.dngettext(
+							"js-text-analysis",
+							/* Translators: %1$d expands to the number of words in the text,
+							%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 							"%2$sText length%4$s: The text contains %1$d word.",
 							"%2$sText length%4$s: The text contains %1$d words.",
-							wordCount,
-							"wordpress-seo"
-						) + " " +
-						/* Translators: The preceding sentence is "Text length: The text contains x words.",
-						%3$s expands to a link on yoast.com,
-						%4$s expands to the anchor end tag,
-						%5$d expands to the recommended minimum of words. */
-						_n(
+							wordCount
+						) + " " + i18n.dngettext(
+							"js-text-analysis",
+							/* Translators: The preceding sentence is "Text length: The text contains x words.",
+							%3$s expands to a link on yoast.com,
+							%4$s expands to the anchor end tag,
+							%5$d expands to the recommended minimum of words. */
 							"This is slightly below the recommended minimum of %5$d word. %3$sAdd a bit more copy%4$s.",
 							"This is slightly below the recommended minimum of %5$d words. %3$sAdd a bit more copy%4$s.",
-							this._config.recommendedMinimum,
-							"wordpress-seo"
+							this._config.recommendedMinimum
 						),
 						wordCount,
 						this._config.urlTitle,
@@ -159,24 +157,23 @@ export default class TextLengthAssessment extends Assessment {
 
 			return {
 				score: this._config.scores.slightlyBelowMinimum,
-				resultText: sprintf(
-					/* Translators: %1$d expands to the number of words in the text,
-					%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
-					_n(
+				resultText: i18n.sprintf(
+					i18n.dngettext(
+						"js-text-analysis",
+						/* Translators: %1$d expands to the number of words in the text,
+						%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 						"%2$sText length%4$s: The text contains %1$d word.",
 						"%2$sText length%4$s: The text contains %1$d words.",
-						wordCount,
-						"wordpress-seo"
-					) + " " +
-					/* Translators: The preceding sentence is "Text length: The text contains x words.",
-					%3$s expands to a link on yoast.com,
-					%4$s expands to the anchor end tag,
-					%5$d expands to the recommended minimum of words. */
-					_n(
+						wordCount
+					) + " " + i18n.dngettext(
+						"js-text-analysis",
+						/* Translators: The preceding sentence is "Text length: The text contains x words.",
+						%3$s expands to a link on yoast.com,
+						%4$s expands to the anchor end tag,
+						%5$d expands to the recommended minimum of words. */
 						"This is below the recommended minimum of %5$d word. %3$sAdd more content%4$s.",
 						"This is below the recommended minimum of %5$d words. %3$sAdd more content%4$s.",
-						this._config.recommendedMinimum,
-						"wordpress-seo"
+						this._config.recommendedMinimum
 					),
 					wordCount,
 					this._config.urlTitle,
@@ -189,24 +186,23 @@ export default class TextLengthAssessment extends Assessment {
 
 		return {
 			score: this._config.scores.belowMinimum,
-			resultText: sprintf(
-				_n(
+			resultText: i18n.sprintf(
+				i18n.dngettext(
+					"js-text-analysis",
 					/* Translators: %1$d expands to the number of words in the text,
 					%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
 					"%2$sText length%4$s: The text contains %1$d word.",
 					"%2$sText length%4$s: The text contains %1$d words.",
-					wordCount,
-					"wordpress-seo"
-				) + " " +
-				/* Translators: The preceding sentence is "Text length: The text contains x words.",
-				%3$s expands to a link on yoast.com,
-				%4$s expands to the anchor end tag,
-				%5$d expands to the recommended minimum of words. */
-				_n(
+					wordCount
+				) + " " + i18n.dngettext(
+					"js-text-analysis",
+					/* Translators: The preceding sentence is "Text length: The text contains x words.",
+					%3$s expands to a link on yoast.com,
+					%4$s expands to the anchor end tag,
+					%5$d expands to the recommended minimum of words. */
 					"This is below the recommended minimum of %5$d word. %3$sAdd more content%4$s.",
 					"This is below the recommended minimum of %5$d words. %3$sAdd more content%4$s.",
-					this._config.recommendedMinimum,
-					"wordpress-seo"
+					this._config.recommendedMinimum
 				),
 				wordCount,
 				this._config.urlTitle,

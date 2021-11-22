@@ -229,8 +229,8 @@ function loadHelpScoutConsent( beaconId, sessionData = null ) {
 		 */
 		function onClick() {
 			const askConsentText = __(
-				// eslint-disable-next-line max-len
-				"When you click OK we will open our HelpScout beacon where you can find answers to your questions. This beacon will load our support data and also potentially set cookies.",
+				"When you click OK we will open our HelpScout beacon where you can find answers to your questions. " +
+				"This beacon will load our support data and also potentially set cookies.",
 				"wordpress-seo"
 			);
 

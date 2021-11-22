@@ -132,7 +132,7 @@ class Alert extends React.Component {
 		}
 
 		const options          = this.getTypeDisplayOptions( this.props.type );
-		const dismissAriaLabel = this.props.dismissAriaLabel || __( "Dismiss this alert", "wordpress-seo" );
+		const dismissAriaLabel = this.props.dismissAriaLabel || __( "Dismiss this alert", "yoast-components" );
 
 		return <AlertContainer alertColor={ options.color } alertBackground={ options.background } className={ this.props.className }>
 			<AlertIcon icon={ options.icon } color={ options.color } />

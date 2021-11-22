@@ -198,7 +198,7 @@ class SettingsSnippetEditorFields extends React.Component {
 			>
 				<ReplacementVariableEditor
 					type="title"
-					label={ labels.title || __( "SEO title", "wordpress-seo" ) }
+					label={ labels.title || __( "SEO title", "yoast-components" ) }
 					onFocus={ this.onFocusTitle }
 					onBlur={ onBlur }
 					isActive={ activeField === "title" }
@@ -216,7 +216,7 @@ class SettingsSnippetEditorFields extends React.Component {
 				<ReplacementVariableEditor
 					type="description"
 					placeholder={ descriptionEditorFieldPlaceholder }
-					label={ labels.description ||  __( "Meta description", "wordpress-seo" ) }
+					label={ labels.description ||  __( "Meta description", "yoast-components" ) }
 					onFocus={ this.onFocusDescription }
 					onBlur={ onBlur }
 					isActive={ activeField === "description" }

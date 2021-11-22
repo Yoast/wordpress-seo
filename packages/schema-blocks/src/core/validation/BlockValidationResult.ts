@@ -78,7 +78,7 @@ export class BlockValidationResult {
 				blockValidation = BlockValidation.MissingRequiredAttribute;
 				message = sprintf(
 					/* Translators: %1$s expands to the block name. */
-					__( "The `%1$s` attribute is required but missing.", "wordpress-seo" ),
+					__( "The `%1$s` attribute is required but missing.", "yoast-schema-blocks" ),
 					getHumanReadableBlockName( name ),
 				);
 				break;
@@ -87,7 +87,7 @@ export class BlockValidationResult {
 				blockValidation = BlockValidation.MissingRecommendedAttribute;
 				message = sprintf(
 					/* Translators: %1$s expands to the block name. */
-					__( "The `%1$s` attribute is recommended but missing.", "wordpress-seo" ),
+					__( "The `%1$s` attribute is recommended but missing.", "yoast-schema-blocks" ),
 					getHumanReadableBlockName( name ),
 				);
 				break;
@@ -122,7 +122,7 @@ export class BlockValidationResult {
 			blockPresence || BlockPresence.Unknown,
 			sprintf(
 				/* Translators: %1$s expands to the block name. */
-				__( "The `%1$s` block is required but missing.", "wordpress-seo" ),
+				__( "The `%1$s` block is required but missing.", "yoast-schema-blocks" ),
 				getHumanReadableBlockName( name ),
 			),
 		);
@@ -144,7 +144,7 @@ export class BlockValidationResult {
 			recommended ? BlockPresence.Recommended : BlockPresence.Unknown,
 			sprintf(
 				/* Translators: %1$s expands to the block name. */
-				__( "The `%1$s` block is recommended but missing.", "wordpress-seo" ),
+				__( "The `%1$s` block is recommended but missing.", "yoast-schema-blocks" ),
 				getHumanReadableBlockName( name ),
 			),
 		);

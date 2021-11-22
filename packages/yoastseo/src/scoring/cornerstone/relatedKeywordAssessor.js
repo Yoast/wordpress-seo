@@ -12,14 +12,15 @@ import ImageKeyphrase from "../assessments/seo/KeyphraseInImageTextAssessment";
 /**
  * Creates the Assessor
  *
+ * @param {object} i18n             The i18n object used for translations.
  * @param {object} researcher       The researcher used for the analysis.
  * @param {Object} options          The options for this assessor.
  * @param {Object} options.marker   The marker to pass the list of marks to.
  *
  * @constructor
  */
-const relatedKeywordAssessor = function( researcher, options ) {
-	Assessor.call( this, researcher, options );
+const relatedKeywordAssessor = function( i18n, researcher, options ) {
+	Assessor.call( this, i18n, researcher, options );
 	this.type = "cornerstoneRelatedKeywordAssessor";
 
 	this._assessments = [

@@ -26,14 +26,15 @@ import KeyphraseDistribution from "../../assessments/seo/KeyphraseDistributionAs
 /**
  * Creates the Assessor
  *
+ * @param {Object} i18n             The i18n object used for translations.
  * @param {object} researcher       The researcher used for the analysis.
  * @param {Object} options          The options for this assessor.
  * @param {Object} options.marker   The marker to pass the list of marks to.
  *
  * @constructor
  */
-const StorePostsAndPagesCornerstoneSEOAssessor = function( researcher, options ) {
-	Assessor.call( this, researcher, options );
+const StorePostsAndPagesCornerstoneSEOAssessor = function( i18n, researcher, options ) {
+	Assessor.call( this, i18n, researcher,  options );
 	this.type = "storePostsAndPagesCornerstoneSEOAssessor";
 
 	this._assessments = [

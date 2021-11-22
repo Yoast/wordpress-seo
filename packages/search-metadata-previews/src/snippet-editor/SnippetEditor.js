@@ -291,7 +291,7 @@ class SnippetEditor extends React.Component {
 					descriptionInputId={ join( [ "yoast-google-preview-description", idSuffix ] ) }
 				/>
 				{ showCloseButton &&
-					<CloseEditorButton onClick={ this.close }>{ __( "Close snippet editor", "wordpress-seo" ) }</CloseEditorButton>
+					<CloseEditorButton onClick={ this.close }>{ __( "Close snippet editor", "yoast-components" ) }</CloseEditorButton>
 				}
 			</React.Fragment>
 		);
@@ -582,7 +582,7 @@ class SnippetEditor extends React.Component {
 						ref={ this.setEditButtonRef }
 					>
 						<SvgIcon icon="edit" />
-						{ __( "Edit snippet", "wordpress-seo" ) }
+						{ __( "Edit snippet", "yoast-components" ) }
 					</EditSnippetButton> }
 
 					{ this.renderEditor() }
