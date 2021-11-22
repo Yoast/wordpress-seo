@@ -41,7 +41,6 @@ const processExactMatchRequest = function( keyword ) {
 	let doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
 	const japaneseQuotes = [ "\u300c", "\u300d", "\u300e", "\u300f" ];
 	doubleQuotes = isFeatureEnabled( "JAPANESE_SUPPORT" ) ? doubleQuotes.concat( japaneseQuotes ) : doubleQuotes;
-	console.log( doubleQuotes );
 	if ( includes( doubleQuotes, keyword[ 0 ] ) && includes( doubleQuotes, keyword[ keyword.length - 1 ] ) ) {
 		exactMatchRequest.keyword = keyword.substring( 1, keyword.length - 1 );
 		exactMatchRequest.exactMatchRequested = true;
