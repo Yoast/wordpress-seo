@@ -629,8 +629,9 @@ describe( "tests for edge cases", function() {
 
 const keyphraseJA = "自然の中を歩く";
 const sentenceWithAllKeywordsJA = "人によって心地よく感じるポイントは異なりますが、自然の中で本来あるべき場所に、明るく爽やかな森の中を歩く時間は、それだけで心と体を癒してくれるものです。";
+// to investigate: how come adding 歩く and 自然 (two of the keyphrase forms for segmented 自然 - nature, makes this sentencewithsomekeywords a sentence with all keywords?
 const sentenceWithSomeKeywordsJA = "自然とは、人為によってではなく、おのずから存在しているもの。";
-const sentenceWithTheOtherKeywordsJA = "人によって心地よく感じるポイントは異なりますが、明るく爽やかな森で時間を過ごすのは、それだけで心と体を癒してくれるものです。";
+const sentenceWithTheOtherKeywordsJA = "歩くさわやかな森の中で時間が速くなります。";
 const sentenceWithoutKeywordsJA = "会議は時間通りです。";
 
 const paragraphWithSentenceMatchJA = "<p>" + sentenceWithAllKeywordsJA + sentenceWithSomeKeywordsJA + sentenceWithoutKeywordsJA + "/<p>";
@@ -661,12 +662,22 @@ const buildJapaneseMockResearcher = function( keyphraseForms, synonymsForms, hel
 };
 
 enableFeatures( [ "JAPANESE_SUPPORT" ] );
-
+// * (1) Tries to find all (content) words from the keyphrase or a synonym phrase within one sentence.
+// * If found all words within one sentence, returns an object with foundInOneSentence = true and keyphraseOrSynonym = "keyphrase"
+// 	* or "synonym".
+// * If it did not find all words within one sentence, goes ahead with matching the keyphrase with the entire first paragraph.
+// * (2) Tries to find all (content) words from the keyphrase or a synonym phrase within the paragraph.
+// * If found all words within the paragraph, returns an object with foundInOneSentence = false, foundInParagraph = true,
+// 	* and keyphraseOrSynonym = "keyphrase" or "synonym".
+// * If found not all words within the paragraph of nothing at all, returns an object with foundInOneSentence = false,
+// 	* foundInParagraph = false, and keyphraseOrSynonym = "".
+// In condition of no morphology data, a non-splitabble segmented word is used that is in all conditions found both in the sentence and paragraph
+// Because it cannot be segmented
 describe( "checks for the content words from the keyphrase in the first paragraph (Japanese, but no morphology data provided)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
 		const paper = new Paper(
 			paragraphWithSentenceMatchJA, {
-				keyword: keyphraseJA,
+				keyword: "自然",
 				locale: "ja_JA",
 			}
 		);
@@ -677,24 +688,21 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 			keyphraseOrSynonym: "keyphrase",
 		} );
 	} );
-
 	it( "returns whether all keywords were matched in the paragraph", function() {
 		const paper = new Paper(
-			paragraphWithSentenceMatchJA, {
-				keyword: keyphraseJA,
+			paragraphWithParagraphMatchJA, {
+				keyword: "自然",
 				locale: "ja_JA",
 			}
 		);
 
 		const researcher = new JapaneseResearcher( paper );
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
-			foundInOneSentence: false,
+			foundInOneSentence: true,
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
 		} );
 	} );
-
-	// Test that does not require word segmentation because keyphrase is not found
 	it( "returns whether all keywords were matched in the paragraph", function() {
 		const paper = new Paper(
 			paragraphWithoutMatchJA, {
@@ -709,23 +717,6 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 			keyphraseOrSynonym: "",
 		} );
 	} );
-	// Test with keyphrase that does not require word segmentation because the keyphrase is unsplittable
-	it( "returns whether all keywords were matched in the paragraph", function() {
-		const paper = new Paper(
-			paragraphWithParagraphMatchJA, {
-				keyword: "自然",
-				locale: "ja_JA",
-			}
-		);
-		const researcher = new JapaneseResearcher( paper );
-		primeLanguageSpecificData.cache.clear();
-
-		expect( firstParagraph( paper, researcher ) ).toEqual( {
-			foundInOneSentence: true,
-			foundInParagraph: true,
-			keyphraseOrSynonym: "keyphrase",
-		} );
-	} );
 } );
 
 describe( "checks for the content words from the keyphrase in the first paragraph (Japanese)", function() {
@@ -738,7 +729,7 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 		);
 		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
 			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
-		const synonymsForms = [ [ [ "自然" ], [ "歩く" ] ] ];
+		const synonymsForms = [ [ [ "自然" ], [ "散歩" ] ] ];
 		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
 		primeLanguageSpecificData.cache.clear();
 
