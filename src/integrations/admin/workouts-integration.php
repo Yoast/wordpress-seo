@@ -165,7 +165,7 @@ class Workouts_Integration implements Integration_Interface {
 			return false;
 		}
 
-		return $this->are_site_representation_name_and_logo_set() || $this->indexing_integration->get_unindexed_count() > 0;
+		return ! $this->are_site_representation_name_and_logo_set() || $this->indexing_integration->get_unindexed_count() > 0;
 	}
 
 	/**
