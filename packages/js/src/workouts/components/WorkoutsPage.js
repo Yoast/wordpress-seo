@@ -12,6 +12,7 @@ import { WORKOUTS } from "../config";
 
 const {
 	workouts: workoutsSetting,
+	isPremiumUnactivated,
 } = window.wpseoWorkoutsData;
 
 /**
@@ -22,6 +23,7 @@ const {
 const CornerstoneCard = () => {
 	return <CornerstoneWorkoutCard
 		badges={ [ <PremiumBadge key={ "premium-badge-cornerstone-workout" } /> ] }
+		isPremiumUnactivated={ isPremiumUnactivated }
 	/>;
 };
 
@@ -33,6 +35,7 @@ const CornerstoneCard = () => {
 const OrphanedCard = () => {
 	return <OrphanedWorkoutCard
 		badges={ [ <PremiumBadge key={ "premium-badge-orphaned-workout" } /> ] }
+		isPremiumUnactivated={ isPremiumUnactivated }
 	/>;
 };
 

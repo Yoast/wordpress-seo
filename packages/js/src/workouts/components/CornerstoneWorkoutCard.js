@@ -17,6 +17,7 @@ import { WORKOUTS, FINISHABLE_STEPS } from "../config";
 export default function CornerstoneWorkoutCard( {
 	workout,
 	badges,
+	isPremiumUnactivated,
 } ) {
 	const finishedSteps = useSelect( "yoast-seo/workouts" ).getFinishedSteps( WORKOUTS.cornerstone );
 	return <WorkoutCard
@@ -30,7 +31,7 @@ export default function CornerstoneWorkoutCard( {
 		image={ CornerstoneImageBubble }
 		finishableSteps={ FINISHABLE_STEPS.cornerstone }
 		finishedSteps={ finishedSteps }
-		upsellLink={ "https://yoa.st/workout-cornerstone-upsell" }
+		upsellLink={ isPremiumUnactivated ? "https://yoa.st/workouts-activate-notice-myyoast" : "https://yoa.st/workout-cornerstone-upsell" }
 		workout={ workout }
 		badges={ badges }
 	/>;
@@ -39,9 +40,11 @@ export default function CornerstoneWorkoutCard( {
 CornerstoneWorkoutCard.propTypes = {
 	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
+	isPremiumUnactivated: PropTypes.bool,
 };
 
 CornerstoneWorkoutCard.defaultProps = {
 	workout: null,
 	badges: [],
+	isPremiumUnactivated: false,
 };

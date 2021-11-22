@@ -32,6 +32,13 @@ class Notice_Presenter extends Abstract_Presenter {
 	private $image_filename;
 
 	/**
+	 * The filename of the image for the notice. Should be a file in the 'images' folder.
+	 *
+	 * @var string
+	 */
+	private $button;
+
+	/**
 	 * Whether the notice should be dismissible.
 	 *
 	 * @var bool
@@ -61,10 +68,11 @@ class Notice_Presenter extends Abstract_Presenter {
 	 * @param bool   $is_dismissible Optional. Whether the admin notice should be dismissible.
 	 * @param string $id             Optional. The id of the notice.
 	 */
-	public function __construct( $title, $content, $image_filename = null, $is_dismissible = false, $id = '' ) {
+	public function __construct( $title, $content, $image_filename = null, $button = null, $is_dismissible = false, $id = '' ) {
 		$this->title          = $title;
 		$this->content        = $content;
 		$this->image_filename = $image_filename;
+		$this->button         = $button;
 		$this->is_dismissible = $is_dismissible;
 		$this->id             = $id;
 
@@ -85,7 +93,7 @@ class Notice_Presenter extends Abstract_Presenter {
 		$id          = ( $this->id ) ? ' id="' . $this->id . '"' : '';
 
 		// WordPress admin notice.
-		$out  = '<div' . $id . ' class="notice notice-yoast' . $dismissible . '">';
+		$out  = '<div' . $id . ' class="notice notice-yoast yoast' . $dismissible . '">';
 		$out .= '<div class="notice-yoast__container">';
 
 		// Header.
@@ -98,10 +106,13 @@ class Notice_Presenter extends Abstract_Presenter {
 		);
 		$out .= '</div>';
 		$out .= '<p>' . $this->content . '</p>';
+		if ( ! \is_null( $this->button ) ) {
+			$out .= '<p>' . $this->button . '</p>';
+		}
 		$out .= '</div>';
 
 		if ( ! \is_null( $this->image_filename ) ) {
-			$out .= '<img src="' . \esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/' . $this->image_filename ) . '" alt="" />';
+			$out .= '<img src="' . \esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/' . $this->image_filename ) . '" alt="" height="60" width="75"/>';
 		}
 
 		$out .= '</div>';

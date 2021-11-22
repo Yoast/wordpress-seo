@@ -17,6 +17,7 @@ import { FINISHABLE_STEPS, WORKOUTS } from "../config";
 export default function OrphanedWorkoutCard( {
 	workout,
 	badges,
+	isPremiumUnactivated,
 } ) {
 	const finishedSteps = useSelect( "yoast-seo/workouts" ).getFinishedSteps( WORKOUTS.orphaned );
 	return <WorkoutCard
@@ -30,7 +31,7 @@ export default function OrphanedWorkoutCard( {
 		image={ OrphanedImageBubble }
 		finishableSteps={ FINISHABLE_STEPS.orphaned }
 		finishedSteps={ finishedSteps }
-		upsellLink={ "https://yoa.st/workout-orphaned-content-upsell" }
+		upsellLink={ isPremiumUnactivated ? "https://yoa.st/workouts-activate-notice-myyoast" : "https://yoa.st/workout-orphaned-content-upsell" }
 		workout={ workout }
 		badges={ badges }
 	/>;
@@ -39,9 +40,11 @@ export default function OrphanedWorkoutCard( {
 OrphanedWorkoutCard.propTypes = {
 	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
+	isPremiumUnactivated: PropTypes.bool,
 };
 
 OrphanedWorkoutCard.defaultProps = {
 	workout: null,
 	badges: [],
+	isPremiumUnactivated: false,
 };
