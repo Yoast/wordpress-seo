@@ -781,9 +781,9 @@ describe( "checks for the content words from a synonym phrase in the first parag
 			}
 		);
 
-		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
-			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
-		const synonymsForms = [ [ [ "自然" ], [ "歩く" ] ] ];
+		const keyphraseForms = [ [ "自然" ], [ "散歩" ] ];
+		const synonymsForms = [ [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
+			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ] ];
 		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
 		primeLanguageSpecificData.cache.clear();
 
@@ -802,16 +802,16 @@ describe( "checks for the content words from a synonym phrase in the first parag
 				locale: "ja_JA",
 			}
 		);
-		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
-			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
-		const synonymsForms = [ [ [ "自然" ], [ "歩く" ] ] ];
+		const keyphraseForms = [ [ "自然" ], [ "散歩" ] ];
+		const synonymsForms = [ [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
+			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ] ];
 		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
 		primeLanguageSpecificData.cache.clear();
 
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: true,
-			keyphraseOrSynonym: "keyphrase",
+			keyphraseOrSynonym: "synonym",
 		} );
 	} );
 
