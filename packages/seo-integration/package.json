@@ -48,6 +48,7 @@
     "@wordpress/data": "^6.1.2",
     "@wordpress/element": "^4.0.3",
     "@wordpress/hooks": "^3.2.1",
+    "@wordpress/i18n": "^4.2.4",
     "@yoast/analysis-report": "^1.21.0",
     "@yoast/social-metadata-previews": "^1.17.0",
     "react": "^17.0.1",
