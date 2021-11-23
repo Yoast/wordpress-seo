@@ -18,7 +18,7 @@ export default function CornerstoneWorkoutCard( {
 	workout,
 	badges,
 } ) {
-	const finishedSteps = useSelect( "yoast-seo/workouts" ).getFinishedSteps( WORKOUTS.cornerstone );
+	const finishedSteps = useSelect( select => select( "yoast-seo/workouts" ).getFinishedSteps( WORKOUTS.cornerstone ) );
 	return <WorkoutCard
 		name={ WORKOUTS.cornerstone }
 		title={ __( "The cornerstone approach", "wordpress-seo" ) }
