@@ -121,7 +121,11 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	const steps = STEPS.configuration;
 
 	const isTrackingOptionSelected = state.tracking === 0 || state.tracking === 1;
-	const step4IsFinished = isStepFinished( "configuration", steps.enableTracking );
+	const isStep1Finished = isStepFinished( "configuration", steps.optimizeSeoData );
+	const isStep2Finished = isStepFinished( "configuration", steps.siteRepresentation );
+	const isStep3Finished = isStepFinished( "configuration", steps.socialProfiles );
+	const isStep4Finished = isStepFinished( "configuration", steps.enableTracking );
+	const isStep5Finished = isStepFinished( "configuration", steps.newsletterSignup );
 
 	/**
 	 * Updates the site representation in the database.
@@ -205,7 +209,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		return await response.json;
 	};
 
-	const isStep1Finished = isStepFinished( "configuration", steps.optimizeSeoData );
 	const onFinishOptimizeSeoData = useCallback(
 		() => {
 			if ( ! isStep1Finished ) {
@@ -227,7 +230,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	 * @returns {void}
 	 */
 	function updateOnFinishSiteRepresentation() {
-		if ( isStepFinished( "configuration", steps.siteRepresentation ) ) {
+		if ( isStep2Finished ) {
 			toggleStepSiteRepresentation();
 		} else {
 			if ( ! siteRepresentationEmpty &&
@@ -259,7 +262,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	 * @returns {void}
 	 */
 	function updateOnFinishSocialProfiles() {
-		if ( isStepFinished( "configuration", steps.socialProfiles ) ) {
+		if ( isStep3Finished ) {
 			toggleStepSocialProfiles();
 		} else {
 			updateSocialProfiles()
@@ -291,7 +294,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	 * @returns {void}
 	 */
 	function updateOnFinishEnableTracking() {
-		if ( isStepFinished( "configuration", steps.enableTracking ) ) {
+		if ( isStep4Finished ) {
 			setSavedSteps( prevState => prevState.filter( step => step !== 4 ) );
 			toggleStepEnableTracking();
 		} else {
@@ -421,12 +424,12 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 				<Step
 					title={ __( "Site representation", "wordpress-seo" ) }
 					subtitle={ __( "Tell Google what kind of site you have and increase the chance it gets features in a Google Knowledge Panel. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
-					isFinished={ isStepFinished( "configuration", steps.siteRepresentation ) }
+					isFinished={ isStep2Finished }
 				>
 					{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
 						{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
 					</Alert> }
-					{ ! window.wpseoWorkoutsData.configuration.shouldForceCompany && ! isStepFinished( "configuration", steps.siteRepresentation ) &&
+					{ ! window.wpseoWorkoutsData.configuration.shouldForceCompany && ! isStep2Finished &&
 					<SingleSelect
 						id="organization-person-select"
 						htmlFor="organization-person-select"
@@ -436,7 +439,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						onChange={ onOrganizationOrPersonChange }
 						options={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
 					/> }
-					{ (  window.wpseoWorkoutsData.configuration.shouldForceCompany || isStepFinished( "configuration", steps.siteRepresentation ) ) &&
+					{ (  window.wpseoWorkoutsData.configuration.shouldForceCompany || isStep2Finished ) &&
 					<TextInput
 						id="organization-forced-readonly-text"
 						name="organization"
@@ -456,7 +459,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							dispatch={ dispatch }
 							imageUrl={ state.companyLogo }
 							organizationName={ state.companyName }
-							isDisabled={ isStepFinished( "configuration", steps.siteRepresentation ) }
+							isDisabled={ isStep2Finished }
 						/>
 					</Fragment> }
 					{ state.companyOrPerson === "person" && <Fragment>
@@ -471,7 +474,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							dispatch={ dispatch }
 							imageUrl={ state.personLogo }
 							personId={ state.personId }
-							isDisabled={ isStepFinished( "configuration", steps.siteRepresentation ) }
+							isDisabled={ isStep2Finished }
 						/>
 					</Fragment> }
 					<TextInput
@@ -481,7 +484,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						description={ sprintf( __( "Add a catchy tagline that describes your site in the best light. Use the keywords you want people to find your site with. Example: %1$s’s tagline is ‘SEO for everyone.’", "wordpress-seo" ), "Yoast" ) }
 						value={ state.siteTagline }
 						onChange={ onSiteTaglineChange }
-						readOnly={ isStepFinished( "configuration", steps.siteRepresentation ) }
+						readOnly={ isStep2Finished }
 					/>
 					{ siteRepresentationEmpty && <Alert type="warning">
 						{ __(
@@ -493,23 +496,23 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					<FinishStepSection
 						stepNumber={ 2 }
 						isSaved={ savedSteps.includes( 2 ) }
-						hasDownArrow={ true }
-						finishText={ __( "Save and continue", "wordpress-seo" ) }
+						hasDownArrow={ ! isStep2Finished }
+						finishText={ isStep2Finished ? __( "Revise the step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishSiteRepresentation }
-						isFinished={ isStepFinished( "configuration", steps.siteRepresentation ) }
+						isFinished={ isStep2Finished }
 					/>
 				</Step>
 				<Step
 					title={ __( "Social profiles", "wordpress-seo" ) }
 					subtitle={ state.companyOrPerson === "company" ?  __( "Do you have profiles for your site on social media? Then, add all of their URLs here, so your social profiles may also appear in a Google Knowledge Panel.", "wordpress-seo" ) : "" }
-					isFinished={ isStepFinished( "configuration", steps.socialProfiles ) }
+					isFinished={ isStep3Finished }
 				>
 					{ state.companyOrPerson === "company" && <SocialInputSection
 						socialProfiles={ state.socialProfiles }
 						dispatch={ dispatch }
 						errorFields={ state.errorFields }
 						setErrorFields={ setErrorFields }
-						isDisabled={ isStepFinished( "configuration", steps.socialProfiles ) }
+						isDisabled={ isStep3Finished }
 					/> }
 					{ state.companyOrPerson === "person" && <div>
 						<p>
@@ -562,15 +565,15 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					<FinishStepSection
 						stepNumber={ 3 }
 						isSaved={ savedSteps.includes( 3 ) }
-						hasDownArrow={ true }
-						finishText={ "Save and continue" }
+						hasDownArrow={ ! isStep3Finished }
+						finishText={ isStep3Finished ? __( "Revise the step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishSocialProfiles }
-						isFinished={ isStepFinished( "configuration", steps.socialProfiles ) }
+						isFinished={ isStep3Finished }
 					/>
 				</Step>
 				<Step
 					title={ __( "Help us improve Yoast SEO", "wordpress-seo" ) }
-					isFinished={ isStepFinished( "configuration", steps.enableTracking ) }
+					isFinished={ isStep4Finished }
 				>
 					<p>
 						{
@@ -621,24 +624,23 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					<FinishStepSection
 						stepNumber={ 4 }
 						isSaved={ savedSteps.includes( 4 ) }
-						hasDownArrow={ ! step4IsFinished }
-						finishText={ step4IsFinished ? "Revise the step" : "Save and continue" }
+						hasDownArrow={ ! isStep4Finished }
+						finishText={ isStep4Finished ? __( "Revise the step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishEnableTracking }
-						additionalButtonProps={ { disabled: ! isTrackingOptionSelected } }
-						isFinished={ step4IsFinished }
+						isFinished={ isStep4Finished }
 					/>
 				</Step>
 				<Step
 					title={ __( "Sign up for the Yoast newsletter!", "wordpress-seo" ) }
-					isFinished={ isStepFinished( "configuration", steps.newsletterSignup ) }
+					isFinished={ isStep5Finished }
 				>
 					<NewsletterSignup />
 					<FinishStepSection
 						stepNumber={ 5 }
-						finishText={ "Finish this workout" }
+						finishText={ isStep5Finished ? __( "Reset this workout", "wordpress-seo" ) : __( "Finish this workout", "wordpress-seo" ) }
 						onFinishClick={ toggleConfigurationWorkout }
-						isFinished={ isStepFinished( "configuration", steps.newsletterSignup ) }
 						additionalButtonProps={ { disabled: indexingState !== "completed" || ! isTrackingOptionSelected } }
+						isFinished={ isStep5Finished }
 					>
 						{ indexingState !== "completed" && <Alert type="warning">
 							{ indexingState === "idle" && __( "Before you finish this workout, please start the SEO data optimization in step 1 and wait until it is completed...", "wordpress-seo" ) }
