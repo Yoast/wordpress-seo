@@ -65,6 +65,7 @@ class Notice_Presenter extends Abstract_Presenter {
 	 * @param string $title          Title of the admin notice.
 	 * @param string $content        Content of the admin notice.
 	 * @param string $image_filename Optional. The filename of the image of the admin notice, should be inside the 'images' folder.
+	 * @param string $button         Optional. An HTML string to be displayed after the main content, usually a button.
 	 * @param bool   $is_dismissible Optional. Whether the admin notice should be dismissible.
 	 * @param string $id             Optional. The id of the notice.
 	 */
