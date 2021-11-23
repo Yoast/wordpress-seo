@@ -94,6 +94,21 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, { ...window.wpseoWorkoutsData.configuration, errorFields: [] } );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "completed" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
+	const [ savedSteps, setSavedSteps ] = useState( [] );
+
+	/**
+	 * Sets the step to isSaved.
+	 *
+	 * @param {number} stepNumber The number of the step to save.
+	 *
+	 * @returns {void}
+	 */
+	const setStepIsSaved = ( stepNumber ) => {
+		setSavedSteps( ( prevState ) => {
+			return [ stepNumber, ...prevState ];
+		} );
+		return;
+	};
 
 	const setTracking = useCallback( ( value ) => {
 		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
@@ -224,7 +239,9 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 				setSiteRepresentationEmpty( true );
 			} else {
 				setSiteRepresentationEmpty( false );
-				updateSiteRepresentation().then( toggleStepSiteRepresentation );
+				updateSiteRepresentation()
+					.then( () => setStepIsSaved( 2 ) )
+					.then( toggleStepSiteRepresentation );
 				scrollToStep( 3 );
 			}
 		}
@@ -243,9 +260,9 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	function updateOnFinishSocialProfiles() {
 		if ( isStepFinished( "configuration", steps.socialProfiles ) ) {
 			toggleStepSocialProfiles();
-			scrollToStep( 3 );
 		} else {
 			updateSocialProfiles()
+				.then( () => setStepIsSaved( 3 ) )
 				.then( () => {
 					setErrorFields( [] );
 					toggleStepSocialProfiles();
@@ -276,7 +293,9 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		if ( isStepFinished( "configuration", steps.enableTracking ) ) {
 			toggleStepEnableTracking();
 		} else {
-			updateTracking().then( toggleStepEnableTracking );
+			updateTracking()
+				.then( () => setStepIsSaved( 4 ) )
+				.then( toggleStepEnableTracking );
 			scrollToStep( 5 );
 		}
 	}
@@ -471,6 +490,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					</Alert> }
 					<FinishStepSection
 						stepNumber={ 2 }
+						isSaved={ savedSteps.includes( 2 ) }
 						hasDownArrow={ true }
 						finishText={ __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishSiteRepresentation }
@@ -539,6 +559,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					}
 					<FinishStepSection
 						stepNumber={ 3 }
+						isSaved={ savedSteps.includes( 3 ) }
 						hasDownArrow={ true }
 						finishText={ "Save and continue" }
 						onFinishClick={ updateOnFinishSocialProfiles }
@@ -597,6 +618,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					</Alert> }
 					<FinishStepSection
 						stepNumber={ 4 }
+						isSaved={ savedSteps.includes( 4 ) }
 						hasDownArrow={ true }
 						finishText={ "Save and continue" }
 						onFinishClick={ updateOnFinishEnableTracking }

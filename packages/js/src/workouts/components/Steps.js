@@ -30,7 +30,7 @@ Steps.propTypes = {
  *
  * @returns {WPElement} The FinishStepSection element.
  */
-export function FinishStepSection( { stepNumber, onFinishClick, finishText, hasDownArrow, isFinished, additionalButtonProps, children } ) {
+export function FinishStepSection( { stepNumber, onFinishClick, finishText, hasDownArrow, isFinished, additionalButtonProps, isSaved, children } ) {
 	return (
 		<Fragment>
 			<hr id={ stepNumber ? `hr-scroll-target-step-${ stepNumber + 1 }` : null } />
@@ -44,7 +44,7 @@ export function FinishStepSection( { stepNumber, onFinishClick, finishText, hasD
 					{ finishText }
 					{ hasDownArrow && <ArrowDown className="yoast-button--arrow-down" /> }
 				</Button>
-				<span className="finish-step-saved">{ __( "Saved!", "wordpress-seo" ) }</span>
+				{ isSaved && <span className="finish-step-saved">{ __( "Saved!", "wordpress-seo" ) }</span> }
 			</div>
 		</Fragment>
 	);
@@ -57,6 +57,7 @@ FinishStepSection.propTypes = {
 	hasDownArrow: PropTypes.bool,
 	isFinished: PropTypes.bool,
 	additionalButtonProps: PropTypes.object,
+	isSaved: PropTypes.bool,
 	children: PropTypes.any,
 };
 
@@ -64,6 +65,7 @@ FinishStepSection.defaultProps = {
 	hasDownArrow: false,
 	isFinished: false,
 	additionalButtonProps: {},
+	isSaved: false,
 	children: null,
 };
 
