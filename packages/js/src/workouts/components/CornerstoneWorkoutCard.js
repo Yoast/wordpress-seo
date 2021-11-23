@@ -17,8 +17,12 @@ import { WORKOUTS, FINISHABLE_STEPS } from "../config";
 export default function CornerstoneWorkoutCard( {
 	workout,
 	badges,
+	upsellLink,
+	upsellText,
 } ) {
 	const finishedSteps = useSelect( select => select( "yoast-seo/workouts" ).getFinishedSteps( WORKOUTS.cornerstone ) );
+	const actualUpsellLink = upsellLink ? upsellLink :  "https://yoa.st/workout-cornerstone-upsell";
+
 	return <WorkoutCard
 		name={ WORKOUTS.cornerstone }
 		title={ __( "The cornerstone approach", "wordpress-seo" ) }
@@ -30,7 +34,8 @@ export default function CornerstoneWorkoutCard( {
 		image={ CornerstoneImageBubble }
 		finishableSteps={ FINISHABLE_STEPS.cornerstone }
 		finishedSteps={ finishedSteps }
-		upsellLink={ "https://yoa.st/workout-cornerstone-upsell" }
+		upsellLink={ actualUpsellLink }
+		upsellText={ upsellText }
 		workout={ workout }
 		badges={ badges }
 	/>;
@@ -39,9 +44,13 @@ export default function CornerstoneWorkoutCard( {
 CornerstoneWorkoutCard.propTypes = {
 	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
+	upsellLink: PropTypes.string,
+	upsellText: PropTypes.string,
 };
 
 CornerstoneWorkoutCard.defaultProps = {
 	workout: null,
 	badges: [],
+	upsellLink: null,
+	upsellText: null,
 };
