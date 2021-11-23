@@ -18,7 +18,7 @@ export default function OrphanedWorkoutCard( {
 	workout,
 	badges,
 } ) {
-	const finishedSteps = useSelect( "yoast-seo/workouts" ).getFinishedSteps( WORKOUTS.orphaned );
+	const finishedSteps = useSelect( select => select( "yoast-seo/workouts" ).getFinishedSteps( WORKOUTS.orphaned ) );
 	return <WorkoutCard
 		name={ WORKOUTS.orphaned }
 		title={ __( "Orphaned content", "wordpress-seo" ) }
