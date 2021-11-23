@@ -192,7 +192,9 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	const isStep1Finished = isStepFinished( "configuration", steps.optimizeSeoData );
 	const onFinishOptimizeSeoData = useCallback(
 		() => {
-			scrollToStep( isStep1Finished ? 1 : 2 );
+			if ( ! isStep1Finished ) {
+				scrollToStep( 2 );
+			}
 			toggleStep( "configuration", steps.optimizeSeoData );
 		},
 		[ toggleStep, steps.optimizeSeoData, isStep1Finished ]
@@ -211,7 +213,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	function updateOnFinishSiteRepresentation() {
 		if ( isStepFinished( "configuration", steps.siteRepresentation ) ) {
 			toggleStepSiteRepresentation();
-			scrollToStep( 2 );
 		} else {
 			if ( ! siteRepresentationEmpty &&
 				state.companyOrPerson === "company" &&
@@ -274,7 +275,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	function updateOnFinishEnableTracking() {
 		if ( isStepFinished( "configuration", steps.enableTracking ) ) {
 			toggleStepEnableTracking();
-			scrollToStep( 4 );
 		} else {
 			updateTracking().then( toggleStepEnableTracking );
 			scrollToStep( 5 );
@@ -364,7 +364,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						"https://yoa.st/config-workout-index-data"
 					) }
 					ImageComponent={ WorkoutImage }
-					isFinished={ indexingState === "completed" }
+					isFinished={ isStep1Finished }
 				>
 					<div className="indexation-container">
 						<WorkoutIndexation
@@ -376,7 +376,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						hasDownArrow={ true }
 						finishText={ __( "Continue", "wordpress-seo" ) }
 						onFinishClick={	onFinishOptimizeSeoData }
-						isFinished={ indexingState === "completed" }
+						isFinished={ isStep1Finished }
 					/>
 				</Step>
 				<p className="extra-list-content">
