@@ -149,7 +149,8 @@ class Workouts_Integration implements Integration_Interface {
 				'toolsPageUrl'              => \esc_url( \admin_url( 'admin.php?page=wpseo_tools' ) ),
 				'usersPageUrl'              => \esc_url( \admin_url( 'users.php' ) ),
 				'isPremium'                 => $this->product_helper->is_premium(),
-				'isPremiumUnactivated'      => $this->has_premium_subscription_unactivated(),
+				'upsellText'                => $this->get_upsell_text(),
+				'upsellLink'                => $this->get_upsell_link(),
 				'canDoConfigurationWorkout' => $this->user_can_do_configuration_workout(),
 			]
 		);
@@ -261,22 +262,45 @@ class Workouts_Integration implements Integration_Interface {
 	 */
 	private function get_update_premium_notice() {
 		if ( $this->has_premium_subscription_expired() ) {
-			$title  = \__( 'Renew your subscription of Yoast SEO Premium', 'wordpress-seo' );
-			$url    = 'https://yoa.st/workout-renew-notice';
-			$copy   = \esc_html__( 'Accessing the latest workouts requires an updated version of Yoast SEO Premium, but it looks like your subscription has expired. Please renew your subscription to update and gain access to all the latest features.', 'wordpress-seo' );
+			/* translators: %s: expands to 'Yoast SEO Premium'. */
+			$title  = \sprintf( \__( 'Renew your subscription of %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+			$url    = $this->get_upsell_link();
+			$copy   = \sprintf(
+				\esc_html__(
+					/* translators: %s: expands to 'Yoast SEO Premium'. */
+					'Accessing the latest workouts requires an updated version of %s (at least 17.7), but it looks like your subscription has expired. Please renew your subscription to update and gain access to all the latest features.',
+					'wordpress-seo'
+				),
+				'Yoast SEO Premium'
+			);
 			$button = '<a class="yoast-button yoast-button-upsell yoast-button--small" href="' . \esc_url( $url ) . '" target="_blank">'
-					. esc_html__( 'Renew your subscription', 'wordpress-seo' )
-					. '<span class="screen-reader-text">' . __( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
+					. \esc_html__( 'Renew your subscription', 'wordpress-seo' )
+					. '<span class="screen-reader-text">' . \__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
 					. '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>'
 					. '</a>';
 		}
-		elseif ( $this->has_premium_subscription_unactivated() ) {
-			$title      = \__( 'Activate your subscription of Yoast SEO Premium', 'wordpress-seo' );
+		elseif ( $this->has_premium_subscription_activated() ) {
+			/* translators: %s: expands to 'Yoast SEO Premium'. */
+			$title =  \sprintf( \__( 'Update to the latest version of %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+			$url   = $this->get_upsell_link();
+			$copy  = \sprintf(
+			    /* translators: 1: expands to 'Yoast SEO Premium', 2: Link start tag to the page to update Premium, 3: Link closing tag. */
+				\esc_html__( 'It looks like you\'re running an outdated version of %1$s, please %2$supdate to the latest version (at least 17.7)%3$s to gain access to our updated workouts section.', 'wordpress-seo' ),
+				'Yoast SEO Premium',
+				'<a href="' . \esc_url( $url ) . '">',
+				'</a>'
+			);
+			$button = null;
+		}
+		else {
+			/* translators: %s: expands to 'Yoast SEO Premium'. */
+			$title      = \sprintf( \__( 'Activate your subscription of %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 			$url_button = 'https://yoa.st/workouts-activate-notice-help';
-			$url        = 'https://yoa.st/workouts-activate-notice-myyoast';
+			$url        = $this->get_upsell_link();
 			$copy       = \sprintf(
-				/* translators: 1: Link start tag to the page to MyYoast, 2: Link closing tag. */
-				\esc_html__( 'It looks like you’re running an outdated and unactivated version of Yoast SEO Premium, please activate your subscription in %1$sMyYoast%2$s and update to the latest version to gain access to our updated workouts section.', 'wordpress-seo' ),
+				/* translators: 1: expands to 'Yoast SEO Premium', 2: Link start tag to the page to update Premium, 3: Link closing tag. */
+				\esc_html__( 'It looks like you’re running an outdated and unactivated version of %1$s, please activate your subscription in %2$sMyYoast%3$s and update to the latest version (at least 17.7) to gain access to our updated workouts section.', 'wordpress-seo' ),
+				'Yoast SEO Premium',
 				'<a href="' . \esc_url( $url ) . '">',
 				'</a>'
 			);
@@ -284,17 +308,6 @@ class Workouts_Integration implements Integration_Interface {
 					. esc_html__( 'Get help activating your subscription', 'wordpress-seo' )
 					. '<span class="screen-reader-text">' . __( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
 					. '</a>';
-		}
-		else {
-			$title = \__( 'Update to the latest version of Yoast SEO Premium', 'wordpress-seo' );
-			$url   = \wp_nonce_url( \self_admin_url( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium/wp-seo-premium.php' ), 'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php' );
-			$copy  = \sprintf(
-				/* translators: 1: Link start tag to the page to update Premium, 2: Link closing tag. */
-				__( 'It looks like you\'re running an outdated version of Yoast SEO Premium, please %1$supdate to the latest version%2$s to gain access to our updated workouts section.', 'wordpress-seo' ),
-				'<a href="' . \esc_url( $url ) . '">',
-				'</a>'
-			);
-			$button = null;
 		}
 
 		$notice = new Notice_Presenter(
@@ -329,12 +342,64 @@ class Workouts_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Check whether the Premium subscription is unactivated.
+	 * Check whether the Premium subscription is activated.
 	 *
-	 * @return bool Returns true when Premium subscription is unactivated.
+	 * @return bool Returns true when Premium subscription is activated.
 	 */
-	private function has_premium_subscription_unactivated() {
-		return ! $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) && ! $this->has_premium_subscription_expired();
+	private function has_premium_subscription_activated() {
+		return $this->addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG );
+	}
+
+	/**
+	 * Returns the upsell/update copy to show in the card buttons.
+	 *
+	 * @return string Returns a string with the upsell/update copy for the card buttons.
+	 */
+	private function get_upsell_text() {
+		if ( $this->product_helper->is_premium() && $this->should_update_premium() ) {
+			if ( $this->has_premium_subscription_expired() ) {
+				return sprintf(
+					/* translators: %s: expands to 'Yoast SEO Premium'. */
+					__( 'Renew %s', 'wordpress-seo' ),
+					'Yoast SEO Premium'
+				);
+			}
+			if ( $this->has_premium_subscription_activated() ) {
+				return sprintf(
+					/* translators: %s: expands to 'Yoast SEO Premium'. */
+					__( 'Update %s', 'wordpress-seo' ),
+					'Yoast SEO Premium'
+				);
+			}
+			return sprintf(
+				/* translators: %s: expands to 'Yoast SEO Premium'. */
+				__( 'Activate %s', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			);
+		}
+
+		// Use the default defined in the component.
+		return '';
+	}
+
+	/**
+	 * Returns the upsell/update link to show in the card buttons.
+	 *
+	 * @return string Returns a string with the upsell/update link for the card buttons.
+	 */
+	private function get_upsell_link() {
+		if ( $this->product_helper->is_premium() && $this->should_update_premium() ) {
+			if ( $this->has_premium_subscription_expired() ) {
+				return 'https://yoa.st/workout-renew-notice';
+			}
+			if ( $this->has_premium_subscription_activated() ) {
+				return \wp_nonce_url( \self_admin_url( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium/wp-seo-premium.php' ), 'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php' );
+			}
+			return 'https://yoa.st/workouts-activate-notice-myyoast';
+		}
+
+		// Use the default defined in the component.
+		return '';
 	}
 
 	/**
