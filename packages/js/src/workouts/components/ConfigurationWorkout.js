@@ -16,6 +16,7 @@ import { PersonSection } from "./PersonSection";
 import { NewsletterSignup } from "./NewsletterSignup";
 import { WorkoutIndexation } from "./WorkoutIndexation";
 import SocialInputSection from "./SocialInputSection";
+import { scrollToStep } from "../helpers";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
@@ -188,10 +189,15 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		return await response.json;
 	};
 
+	const isStep1Finished = isStepFinished( "configuration", steps.optimizeSeoData );
 	const onFinishOptimizeSeoData = useCallback(
-		toggleStep.bind( null, "configuration", steps.optimizeSeoData ),
-		[ toggleStep, steps.optimizeSeoData ]
+		() => {
+			scrollToStep( isStep1Finished ? 1 : 2 );
+			toggleStep( "configuration", steps.optimizeSeoData );
+		},
+		[ toggleStep, steps.optimizeSeoData, isStep1Finished ]
 	);
+
 	const toggleStepSiteRepresentation = useCallback(
 		toggleStep.bind( null, "configuration", steps.siteRepresentation ),
 		[ toggleStep, steps.siteRepresentation ]
@@ -205,6 +211,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	function updateOnFinishSiteRepresentation() {
 		if ( isStepFinished( "configuration", steps.siteRepresentation ) ) {
 			toggleStepSiteRepresentation();
+			scrollToStep( 2 );
 		} else {
 			if ( ! siteRepresentationEmpty &&
 				state.companyOrPerson === "company" &&
@@ -217,6 +224,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 			} else {
 				setSiteRepresentationEmpty( false );
 				updateSiteRepresentation().then( toggleStepSiteRepresentation );
+				scrollToStep( 3 );
 			}
 		}
 	}
@@ -234,11 +242,13 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	function updateOnFinishSocialProfiles() {
 		if ( isStepFinished( "configuration", steps.socialProfiles ) ) {
 			toggleStepSocialProfiles();
+			scrollToStep( 3 );
 		} else {
 			updateSocialProfiles()
 				.then( () => {
 					setErrorFields( [] );
 					toggleStepSocialProfiles();
+					scrollToStep( 4 );
 				} )
 				.catch(
 					( e ) => {
@@ -264,12 +274,10 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	function updateOnFinishEnableTracking() {
 		if ( isStepFinished( "configuration", steps.enableTracking ) ) {
 			toggleStepEnableTracking();
+			scrollToStep( 4 );
 		} else {
-			updateTracking()
-				.then( toggleStepEnableTracking )
-				.catch( ( e ) => {
-					console.error( e );
-				} );
+			updateTracking().then( toggleStepEnableTracking );
+			scrollToStep( 5 );
 		}
 	}
 
@@ -356,7 +364,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						"https://yoa.st/config-workout-index-data"
 					) }
 					ImageComponent={ WorkoutImage }
-					isFinished={ isStepFinished( "configuration", steps.optimizeSeoData ) }
+					isFinished={ indexingState === "completed" }
 				>
 					<div className="indexation-container">
 						<WorkoutIndexation
@@ -364,10 +372,11 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						/>
 					</div>
 					<FinishStepSection
+						stepNumber={ 1 }
 						hasDownArrow={ true }
 						finishText={ __( "Continue", "wordpress-seo" ) }
-						onFinishClick={ onFinishOptimizeSeoData }
-						isFinished={ isStepFinished( "configuration", steps.optimizeSeoData ) }
+						onFinishClick={	onFinishOptimizeSeoData }
+						isFinished={ indexingState === "completed" }
 					/>
 				</Step>
 				<p className="extra-list-content">
@@ -461,6 +470,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						) }
 					</Alert> }
 					<FinishStepSection
+						stepNumber={ 2 }
 						hasDownArrow={ true }
 						finishText={ __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishSiteRepresentation }
@@ -528,6 +538,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					</div>
 					}
 					<FinishStepSection
+						stepNumber={ 3 }
 						hasDownArrow={ true }
 						finishText={ "Save and continue" }
 						onFinishClick={ updateOnFinishSocialProfiles }
@@ -585,6 +596,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						) }
 					</Alert> }
 					<FinishStepSection
+						stepNumber={ 4 }
 						hasDownArrow={ true }
 						finishText={ "Save and continue" }
 						onFinishClick={ updateOnFinishEnableTracking }
@@ -598,6 +610,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 				>
 					<NewsletterSignup />
 					<FinishStepSection
+						stepNumber={ 5 }
 						finishText={ "Finish this workout" }
 						onFinishClick={ toggleConfigurationWorkout }
 						isFinished={ isStepFinished( "configuration", steps.newsletterSignup ) }
