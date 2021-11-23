@@ -263,11 +263,11 @@ class Workouts_Integration implements Integration_Interface {
 	private function get_update_premium_notice() {
 		if ( $this->has_premium_subscription_expired() ) {
 			/* translators: %s: expands to 'Yoast SEO Premium'. */
-			$title  = \sprintf( \__( 'Renew your subscription of %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
-			$url    = $this->get_upsell_link();
-			$copy   = \sprintf(
+			$title = \sprintf( \__( 'Renew your subscription of %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+			$url   = $this->get_upsell_link();
+			$copy  = \sprintf(
+				/* translators: %s: expands to 'Yoast SEO Premium'. */
 				\esc_html__(
-					/* translators: %s: expands to 'Yoast SEO Premium'. */
 					'Accessing the latest workouts requires an updated version of %s (at least 17.7), but it looks like your subscription has expired. Please renew your subscription to update and gain access to all the latest features.',
 					'wordpress-seo'
 				),
@@ -281,10 +281,10 @@ class Workouts_Integration implements Integration_Interface {
 		}
 		elseif ( $this->has_premium_subscription_activated() ) {
 			/* translators: %s: expands to 'Yoast SEO Premium'. */
-			$title =  \sprintf( \__( 'Update to the latest version of %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+			$title = \sprintf( \__( 'Update to the latest version of %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 			$url   = $this->get_upsell_link();
 			$copy  = \sprintf(
-			    /* translators: 1: expands to 'Yoast SEO Premium', 2: Link start tag to the page to update Premium, 3: Link closing tag. */
+				/* translators: 1: expands to 'Yoast SEO Premium', 2: Link start tag to the page to update Premium, 3: Link closing tag. */
 				\esc_html__( 'It looks like you\'re running an outdated version of %1$s, please %2$supdate to the latest version (at least 17.7)%3$s to gain access to our updated workouts section.', 'wordpress-seo' ),
 				'Yoast SEO Premium',
 				'<a href="' . \esc_url( $url ) . '">',
