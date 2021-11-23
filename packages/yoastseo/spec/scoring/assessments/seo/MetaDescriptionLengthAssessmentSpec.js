@@ -1,13 +1,14 @@
 import MetaDescriptionLengthAssessment from "../../../../src/scoring/assessments/seo/MetaDescriptionLengthAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
+const i18n = Factory.buildJed();
 
 const descriptionLengthAssessment = new MetaDescriptionLengthAssessment();
 
 describe( "the meta description length assessment", function() {
 	it( "assesses an empty description", function() {
 		const mockPaper = new Paper();
-		const assessment = descriptionLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 0 ) );
+		const assessment = descriptionLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 0 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 1 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>Meta description length" +
@@ -17,7 +18,7 @@ describe( "the meta description length assessment", function() {
 
 	it( "assesses a short description", function() {
 		const mockPaper = new Paper();
-		const assessment = descriptionLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 20 ) );
+		const assessment = descriptionLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 20 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: " +
@@ -27,7 +28,7 @@ describe( "the meta description length assessment", function() {
 
 	it( "assesses a too long description", function() {
 		const mockPaper = new Paper();
-		const assessment = descriptionLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 400 ) );
+		const assessment = descriptionLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 400 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( descriptionLengthAssessment.getMaximumLength() ).toEqual( 156 );
@@ -38,7 +39,7 @@ describe( "the meta description length assessment", function() {
 
 	it( "assesses a good description", function() {
 		const mockPaper = new Paper();
-		const assessment = descriptionLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 140 ) );
+		const assessment = descriptionLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 140 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: Well done!" );

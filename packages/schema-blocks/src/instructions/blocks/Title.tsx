@@ -57,7 +57,7 @@ class Title extends Heading {
 			BlockPresence.Required,
 			sprintf(
 				/* Translators: %s expands to the label of the title field in the block sidebar. */
-				__( "%s has been left empty.", "wordpress-seo" ),
+				__( "%s has been left empty.", "yoast-schema-blocks" ),
 				this.options.fieldName,
 			),
 		);

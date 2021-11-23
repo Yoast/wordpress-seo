@@ -25,7 +25,7 @@ class Importing_Route extends Abstract_Action_Route {
 	 *
 	 * @var string
 	 */
-	const ROUTE = '/import/(?P<plugin>\w+)/(?P<type>\w+)';
+	const ROUTE = '/import/(?P<plugin>[\w-]+)/(?P<type>[\w-]+)';
 
 	/**
 	 * List of available importers.
@@ -54,7 +54,7 @@ class Importing_Route extends Abstract_Action_Route {
 			self::ROUTE,
 			[
 				'callback'            => [ $this, 'execute' ],
-				'permission_callback' => [ $this, 'can_import' ],
+				'permission_callback' => [ $this, 'is_user_permitted_to_import' ],
 				'methods'             => [ 'POST' ],
 			]
 		);
@@ -144,7 +144,7 @@ class Importing_Route extends Abstract_Action_Route {
 	 *
 	 * @return bool Whether or not the current user is allowed to import.
 	 */
-	public function can_import() {
+	public function is_user_permitted_to_import() {
 		return \current_user_can( 'edit_posts' );
 	}
 }

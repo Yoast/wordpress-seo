@@ -35,7 +35,7 @@ export default class Date extends BlockInstruction {
 
 		const [ selectedDate, setSelectedDate ] = useState( currentlySelectedDate );
 
-		let currentValue = __( "Select a date", "wordpress-seo" );
+		let currentValue = __( "Select a date", "yoast-schema-blocks" );
 		if ( attributes[ this.options.name ] ) {
 			currentValue = format( "Y-m-d", attributes[ this.options.name ] as string );
 		}

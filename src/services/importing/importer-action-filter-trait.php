@@ -21,26 +21,11 @@ trait Importer_Action_Filter_Trait {
 	 * @return array
 	 */
 	public function filter_actions( $all_actions, $plugin = null, $type = null ) {
-		$actions = $all_actions;
-
-		if ( $plugin ) {
-			$actions = array_filter(
-				$actions,
-				function( $action ) use ( $plugin ) {
-					return $action->get_plugin() === $plugin;
-				}
-			);
-		}
-
-		if ( $type ) {
-			$actions = array_filter(
-				$actions,
-				function( $action ) use ( $type ) {
-					return $action->get_type() === $type;
-				}
-			);
-		}
-
-		return $actions;
+		return \array_filter(
+			$all_actions,
+			function( $action ) use ( $plugin, $type ) {
+				return $action->is_compatible_with( $plugin, $type );
+			}
+		);
 	}
 }

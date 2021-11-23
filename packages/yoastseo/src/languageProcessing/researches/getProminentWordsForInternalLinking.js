@@ -24,7 +24,14 @@ import baseStemmer from "../helpers/morphology/baseStemmer";
  */
 function getProminentWordsForInternalLinking( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
-	const stemmer = researcher.getHelper( "getStemmer" )( researcher );
+	// An optional custom helper to return custom function to return the stem of a word.
+	const customStemmer = researcher.getHelper( "customGetStemmer" );
+	const stemmer = customStemmer ? customStemmer( researcher ) : researcher.getHelper( "getStemmer" )( researcher );
+	// An optional custom helper to get words from the text.
+	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
+	// An optional custom helper to count length to use instead of countWords.
+	const customCountLength = researcher.getHelper( "customCountLength" );
+
 	const text = paper.getText();
 	const metadescription = paper.getDescription();
 	const title = paper.getTitle();
@@ -36,9 +43,13 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 
 	/**
 	 * We only want to return suggestions (and spend time calculating prominent words) if the text is at least 100 words.
+	 * And when a customCountLength is available, we only want to return the suggestions if the text has at least 200 characters.
  	 */
-	const textLength = countWords( text );
-	if ( textLength < 100 ) {
+	if ( customCountLength ) {
+		if ( customCountLength( text ) < 200 ) {
+			return result;
+		}
+	} else if ( countWords( text ) < 100 ) {
 		return result;
 	}
 
@@ -51,12 +62,14 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 		subheadings.join( " " ),
 	];
 
-	const abbreviations = retrieveAbbreviations( text.concat( attributes.join( " " ) ) );
+	// If the language has a custom helper to get words from the text, we don't retrieve the abbreviation.
+	const abbreviations = getWordsCustomHelper ? [] : retrieveAbbreviations( text.concat( attributes.join( " " ) ) );
 
-	const prominentWordsFromText = getProminentWords( removeSubheadingsTopLevel( text ), abbreviations, stemmer, functionWords );
+	const removedSubheadingText = removeSubheadingsTopLevel( text );
+	const prominentWordsFromText = getProminentWords( removedSubheadingText, abbreviations, stemmer, functionWords, getWordsCustomHelper );
 
 	const prominentWordsFromPaperAttributes = getProminentWordsFromPaperAttributes(
-		attributes, abbreviations, stemmer, functionWords );
+		attributes, abbreviations, stemmer, functionWords, getWordsCustomHelper );
 
 	/*
 	 * If a word is used in any of the attributes, its weight is automatically high.

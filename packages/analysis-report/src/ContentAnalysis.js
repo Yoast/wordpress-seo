@@ -91,19 +91,19 @@ class ContentAnalysis extends React.Component {
 		return (
 			<ContentAnalysisContainer>
 				{ errorsFound > 0 &&
-					this.renderCollapsible( __( "Errors", "wordpress-seo" ), headingLevel, errorsResults )
+					this.renderCollapsible( __( "Errors", "yoast-components" ), headingLevel, errorsResults )
 				}
 				{ problemsFound > 0 &&
-					this.renderCollapsible( __( "Problems", "wordpress-seo" ), headingLevel, problemsResults )
+					this.renderCollapsible( __( "Problems", "yoast-components" ), headingLevel, problemsResults )
 				}
 				{ improvementsFound > 0 &&
-					this.renderCollapsible( __( "Improvements", "wordpress-seo" ), headingLevel, improvementsResults )
+					this.renderCollapsible( __( "Improvements", "yoast-components" ), headingLevel, improvementsResults )
 				}
 				{ considerationsFound > 0 &&
-					this.renderCollapsible( __( "Considerations", "wordpress-seo" ), headingLevel, considerationsResults )
+					this.renderCollapsible( __( "Considerations", "yoast-components" ), headingLevel, considerationsResults )
 				}
 				{ goodResultsFound > 0 &&
-					this.renderCollapsible( __( "Good results", "wordpress-seo" ), headingLevel, goodResults )
+					this.renderCollapsible( __( "Good results", "yoast-components" ), headingLevel, goodResults )
 				}
 			</ContentAnalysisContainer>
 		);

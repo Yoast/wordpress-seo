@@ -41,6 +41,7 @@ const SEO_ASSESSMENTS_MAP = {
 /**
  * Constructs a new SEO assessor.
  *
+ * @param {Jed}                                 i18n       The Jed object to use for localization / internalization.
  * @param {module:parsedPaper/research.TreeResearcher} researcher The researcher the assessments need to use to get information about the text.
  *
  * @param {Object}                              config                    The assessor configuration.
@@ -54,7 +55,7 @@ const SEO_ASSESSMENTS_MAP = {
  *
  * @memberOf module:parsedPaper/assess
  */
-const constructSEOAssessor = function( researcher, config ) {
+const constructSEOAssessor = function( i18n, researcher, config ) {
 	/*
 	 * Construct the key to retrieve the right assessment list factory.
 	 * E.g. "RelatedKeyphraseTaxonomy" for related keyphrase + taxonomy;
@@ -77,12 +78,13 @@ const constructSEOAssessor = function( researcher, config ) {
 	// Construct assessor.
 	const assessments = assessmentFactory();
 	const scoreAggregator = new SEOScoreAggregator();
-	return new TreeAssessor( { researcher, assessments, scoreAggregator } );
+	return new TreeAssessor( { i18n, researcher, assessments, scoreAggregator } );
 };
 
 /**
  * Constructs a new readability assessor.
  *
+ * @param {Jed}                                        i18n                 The Jed object to use for localization / internalization.
  * @param {module:parsedPaper/research.TreeResearcher} researcher           The researcher the assessments need to use to
  *                                                                          get information about the text.
  * @param {boolean}                                    isCornerstoneContent If the to be analyzed content is considered cornerstone content
@@ -92,10 +94,10 @@ const constructSEOAssessor = function( researcher, config ) {
  *
  * @memberOf module:parsedPaper/assess
  */
-const constructReadabilityAssessor = function( researcher, isCornerstoneContent = false ) {
+const constructReadabilityAssessor = function( i18n, researcher, isCornerstoneContent = false ) {
 	const assessments = isCornerstoneContent ? constructReadabilityAssessments() : constructCornerstoneReadabilityAssessments();
 	const scoreAggregator = new ReadabilityScoreAggregator();
-	return new TreeAssessor( { researcher, assessments, scoreAggregator } );
+	return new TreeAssessor( { i18n, researcher, assessments, scoreAggregator } );
 };
 
 export {

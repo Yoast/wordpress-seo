@@ -1,4 +1,4 @@
-import { register, dispatch, createReduxStore } from "@wordpress/data";
+import { register, dispatch, createReduxStore, registerStore } from "@wordpress/data";
 import { Fill } from "@wordpress/components";
 import domReady from "@wordpress/dom-ready";
 
@@ -12,13 +12,25 @@ import ConfigurationWorkoutCard from "./workouts/components/ConfigurationWorkout
 
 setWordPressSeoL10n();
 
-const store = createReduxStore( "yoast-seo/workouts", {
-	reducer: workoutsReducer,
-	actions,
-	selectors,
-} );
+if ( window.wp.data.createReduxStore ) {
+	const store = createReduxStore( "yoast-seo/workouts", {
+		reducer: workoutsReducer,
+		actions,
+		selectors,
+	} );
 
-register( store );
+	register( store );
+} else {
+	/*
+	* Compatibility fix for WP 5.6.
+	* Remove this and the related import when WP 5.6 is no longer supported.
+	*/
+	registerStore( "yoast-seo/workouts", {
+		reducer: workoutsReducer,
+		actions,
+		selectors,
+	} );
+}
 
 /**
  * Registers a workout-card component to render in free.
@@ -37,7 +49,9 @@ function registerWorkout( key, priority, Component ) {
 window.wpseoWorkoutsData = window.wpseoWorkoutsData || {};
 window.wpseoWorkoutsData.registerWorkout = registerWorkout;
 
-registerWorkout( "configuration", 1, () => <ConfigurationWorkoutCard /> );
+if ( window.wpseoWorkoutsData.canDoConfigurationWorkout ) {
+	registerWorkout( "configuration", 1, () => <ConfigurationWorkoutCard /> );
+}
 
 domReady( () => {
 	renderReactRoot( "wpseo-workouts-container-free", <Workouts /> );

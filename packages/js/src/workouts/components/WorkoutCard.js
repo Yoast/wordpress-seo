@@ -24,6 +24,7 @@ export default function WorkoutCard( {
 	finishableSteps,
 	finishedSteps,
 	upsellLink,
+	upsellText,
 	workout,
 	badges,
 } ) {
@@ -67,6 +68,11 @@ export default function WorkoutCard( {
 	);
 
 	const UpsellButton = makeOutboundLink();
+	const actualUpsellText = upsellText ? upsellText : sprintf(
+		/* translators: %s : Expands to the add-on name. */
+		__( "Unlock with %s!", "wordpress-seo" ),
+		"Premium"
+	);
 	const disabled = workout ? "" : " card-disabled";
 
 	return ( <Fragment>
@@ -85,13 +91,7 @@ export default function WorkoutCard( {
 				{ workout && <Button onClick={ onClick }>{ buttonText }</Button> }
 				{ ! workout &&
 					<UpsellButton href={ upsellLink } className="yoast-button yoast-button-upsell">
-						{
-							sprintf(
-							/* translators: %s : Expands to the add-on name. */
-								__( "Unlock with %s!", "wordpress-seo" ),
-								"Premium"
-							)
-						}
+						{ actualUpsellText }
 						<span aria-hidden="true" className="yoast-button-upsell__caret" />
 					</UpsellButton>
 				}
@@ -131,16 +131,18 @@ WorkoutCard.propTypes = {
 	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
 	image: PropTypes.func,
 	upsellLink: PropTypes.string,
+	upsellText: PropTypes.string,
 	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
 };
 
 WorkoutCard.defaultProps = {
-	image: null,
-	upsellLink: null,
-	workout: null,
-	badges: [],
 	finishableSteps: null,
 	finishedSteps: null,
+	image: null,
+	upsellLink: null,
+	upsellText: null,
+	workout: null,
+	badges: [],
 };
 /* eslint-enable complexity */

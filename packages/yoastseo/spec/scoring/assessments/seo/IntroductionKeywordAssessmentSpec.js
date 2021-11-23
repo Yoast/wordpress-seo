@@ -2,6 +2,8 @@ import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/s
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
 
+const i18n = Factory.buildJed();
+
 describe( "An assessment for finding the keyword in the first paragraph", function() {
 	it( "returns keyphrase words found in one sentence of the first paragraph", function() {
 		const assessment = new IntroductionKeywordAssessment().getResult(
@@ -10,7 +12,8 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 				foundInOneSentence: true,
 				foundInParagraph: true,
 				keyphraseOrSynonym: "keyphrase",
-			} )
+			} ),
+			i18n
 		);
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
@@ -23,7 +26,8 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 				foundInOneSentence: true,
 				foundInParagraph: true,
 				keyphraseOrSynonym: "synonym",
-			} )
+			} ),
+			i18n
 		);
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
@@ -36,7 +40,8 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 				foundInOneSentence: false,
 				foundInParagraph: true,
 				keyphraseOrSynonym: "keyphrase",
-			} )
+			} ),
+			i18n
 		);
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>:" +
@@ -52,7 +57,8 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 				foundInOneSentence: false,
 				foundInParagraph: true,
 				keyphraseOrSynonym: "synonym",
-			} )
+			} ),
+			i18n
 		);
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>:" +
@@ -68,7 +74,8 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 				foundInOneSentence: false,
 				foundInParagraph: false,
 				keyphraseOrSynonym: "",
-			} )
+			} ),
+			i18n
 		);
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>:" +

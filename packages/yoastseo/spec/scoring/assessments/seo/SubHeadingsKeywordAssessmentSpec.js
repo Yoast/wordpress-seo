@@ -2,6 +2,7 @@ import SubheadingsKeywordAssessment from "../../../../src/scoring/assessments/se
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
 
+const i18n = Factory.buildJed();
 const matchKeywordAssessment = new SubheadingsKeywordAssessment();
 
 describe( "An assessment for matching keywords in subheadings", () => {
@@ -9,7 +10,8 @@ describe( "An assessment for matching keywords in subheadings", () => {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { count: 1, matches: 0, percentReflectingTopic: 0 } )
+			Factory.buildMockResearcher( { count: 1, matches: 0, percentReflectingTopic: 0 } ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -23,7 +25,8 @@ describe( "An assessment for matching keywords in subheadings", () => {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { count: 8, matches: 2, percentReflectingTopic: 25 } )
+			Factory.buildMockResearcher( { count: 8, matches: 2, percentReflectingTopic: 25 } ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -38,7 +41,8 @@ describe( "An assessment for matching keywords in subheadings", () => {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { count: 1, matches: 1, percentReflectingTopic: 100 } )
+			Factory.buildMockResearcher( { count: 1, matches: 1, percentReflectingTopic: 100 } ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -53,7 +57,8 @@ describe( "An assessment for matching keywords in subheadings", () => {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { count: 2, matches: 1, percentReflectingTopic: 50 } )
+			Factory.buildMockResearcher( { count: 2, matches: 1, percentReflectingTopic: 50 } ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -68,7 +73,8 @@ describe( "An assessment for matching keywords in subheadings", () => {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { count: 4, matches: 2, percentReflectingTopic: 50 } )
+			Factory.buildMockResearcher( { count: 4, matches: 2, percentReflectingTopic: 50 } ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -83,7 +89,8 @@ describe( "An assessment for matching keywords in subheadings", () => {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { count: 8, matches: 7, percentReflectingTopic: 87.5 } )
+			Factory.buildMockResearcher( { count: 8, matches: 7, percentReflectingTopic: 87.5 } ),
+			i18n
 		);
 
 		expect( assessment.getScore() ).toEqual( 3 );

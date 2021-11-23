@@ -12,6 +12,7 @@ module.exports = {
 		"<%= paths.languages %>*.pot",
 		"<%= paths.languages %>yoast-components.json",
 		"<%= paths.languages %>yoast-seo.json",
+		"<%= paths.languages %>yoastseojsfiles.txt",
 	],
 	"build-assets-js": [
 		"js/dist",

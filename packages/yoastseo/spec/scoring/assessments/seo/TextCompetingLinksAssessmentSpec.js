@@ -3,6 +3,8 @@ import TextCompetingLinksAssessment from "../../../../src/scoring/assessments/se
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
 
+const i18n = Factory.buildJed();
+
 describe( "An assessment for competing links in the text", function() {
 	it( "returns a 'bad' score if a paper is referring to another paper with the same keyword", function() {
 		const paper = new Paper( "This is a very interesting paper", { keyword: "some keyword" } );
@@ -27,6 +29,7 @@ describe( "An assessment for competing links in the text", function() {
 					otherNofollow: 0,
 				}
 			),
+			i18n
 		);
 
 		expect( result.getScore() ).toBe( 2 );
@@ -37,8 +40,8 @@ describe( "An assessment for competing links in the text", function() {
 
 	it( "returns the score when the paper is empty", function() {
 		const paper = new Paper( "" );
-		const result = new TextCompetingLinksAssessment( {} ).getResult( paper, new DefaultResearcher( paper ) );
-		expect( result.score ).toBe( 0 );
+		const result = new TextCompetingLinksAssessment( {} ).getResult( paper, new DefaultResearcher( paper ), i18n );
+		expect( result.score ).toBe(  0 );
 	} );
 
 	it( "is not applicable for papers without text", function() {

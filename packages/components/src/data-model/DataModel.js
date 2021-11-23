@@ -22,7 +22,7 @@ const dataItemProps = {
  */
 const DataItem = ( props ) => {
 	/* Translators: %d expands to number of occurrences. */
-	const screenReaderText = sprintf( __( "%d occurrences", "wordpress-seo" ), props.number );
+	const screenReaderText = sprintf( __( "%d occurrences", "yoast-components" ), props.number );
 	return (
 		<li
 			key={ props.name + "_dataItem" }
@@ -47,7 +47,7 @@ DataItem.propTypes = dataItemProps;
 const DataModel = ( props ) => (
 	<ul
 		className="yoast-data-model"
-		aria-label={ __( "Prominent words", "wordpress-seo" ) }
+		aria-label={ __( "Prominent words", "yoast-components" ) }
 	>
 		{ props.items.map( DataItem ) }
 	</ul>
