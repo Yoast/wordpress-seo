@@ -13,7 +13,8 @@ import imageCount from "./imageCount.js";
  */
 export default function( paper, researcher ) {
 	const language = getLanguage( paper.getLocale() );
-	const customCountLength = researcher.getHelper( "customCountLength" );
+	const customGetWords = researcher.getHelper( "getWordsCustomHelper" );
+	const countCharactersFromArray = researcher.getHelper( "wordsCharacterCount" );
 
 	/*
 	 * These numbers (both in `wordsPerMinute` and `charactersPerMinute`) are based on research into average reading times:
@@ -64,7 +65,7 @@ export default function( paper, researcher ) {
 	const minutesPerImage = 0.2;
 	const numberOfImages = imageCount( paper );
 
-	const textLength = customCountLength ? customCountLength( paper.getText() ) : wordCountInText( paper );
+	const textLength = countCharactersFromArray ? countCharactersFromArray( customGetWords( paper.getText() ) ) : wordCountInText( paper );
 	const minutesToReadText = textLength / wordsOrCharsPerMinuteScore;
 
 	/*
