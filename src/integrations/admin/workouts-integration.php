@@ -261,10 +261,11 @@ class Workouts_Integration implements Integration_Interface {
 	 * @return string The notification to update Premium.
 	 */
 	private function get_update_premium_notice() {
+		$url = $this->get_upsell_link();
+
 		if ( $this->has_premium_subscription_expired() ) {
 			/* translators: %s: expands to 'Yoast SEO Premium'. */
 			$title = \sprintf( \__( 'Renew your subscription of %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
-			$url   = $this->get_upsell_link();
 			$copy  = \sprintf(
 				/* translators: %s: expands to 'Yoast SEO Premium'. */
 				\esc_html__(
@@ -282,7 +283,6 @@ class Workouts_Integration implements Integration_Interface {
 		elseif ( $this->has_premium_subscription_activated() ) {
 			/* translators: %s: expands to 'Yoast SEO Premium'. */
 			$title = \sprintf( \__( 'Update to the latest version of %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
-			$url   = $this->get_upsell_link();
 			$copy  = \sprintf(
 				/* translators: 1: expands to 'Yoast SEO Premium', 2: Link start tag to the page to update Premium, 3: Link closing tag. */
 				\esc_html__( 'It looks like you\'re running an outdated version of %1$s, please %2$supdate to the latest version (at least 17.7)%3$s to gain access to our updated workouts section.', 'wordpress-seo' ),
@@ -296,7 +296,6 @@ class Workouts_Integration implements Integration_Interface {
 			/* translators: %s: expands to 'Yoast SEO Premium'. */
 			$title      = \sprintf( \__( 'Activate your subscription of %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 			$url_button = 'https://yoa.st/workouts-activate-notice-help';
-			$url        = $this->get_upsell_link();
 			$copy       = \sprintf(
 				/* translators: 1: expands to 'Yoast SEO Premium', 2: Link start tag to the page to update Premium, 3: Link closing tag. */
 				\esc_html__( 'It looks like you’re running an outdated and unactivated version of %1$s, please activate your subscription in %2$sMyYoast%3$s and update to the latest version (at least 17.7) to gain access to our updated workouts section.', 'wordpress-seo' ),
@@ -356,30 +355,29 @@ class Workouts_Integration implements Integration_Interface {
 	 * @return string Returns a string with the upsell/update copy for the card buttons.
 	 */
 	private function get_upsell_text() {
-		if ( $this->product_helper->is_premium() && $this->should_update_premium() ) {
-			if ( $this->has_premium_subscription_expired() ) {
-				return sprintf(
-					/* translators: %s: expands to 'Yoast SEO Premium'. */
-					__( 'Renew %s', 'wordpress-seo' ),
-					'Yoast SEO Premium'
-				);
-			}
-			if ( $this->has_premium_subscription_activated() ) {
-				return sprintf(
-					/* translators: %s: expands to 'Yoast SEO Premium'. */
-					__( 'Update %s', 'wordpress-seo' ),
-					'Yoast SEO Premium'
-				);
-			}
+		if ( ! $this->product_helper->is_premium() || ! $this->should_update_premium() ) {
+			// Use the default defined in the component.
+			return '';
+		}
+		if ( $this->has_premium_subscription_expired() ) {
 			return sprintf(
 				/* translators: %s: expands to 'Yoast SEO Premium'. */
-				__( 'Activate %s', 'wordpress-seo' ),
+				__( 'Renew %s', 'wordpress-seo' ),
 				'Yoast SEO Premium'
 			);
 		}
-
-		// Use the default defined in the component.
-		return '';
+		if ( $this->has_premium_subscription_activated() ) {
+			return sprintf(
+				/* translators: %s: expands to 'Yoast SEO Premium'. */
+				__( 'Update %s', 'wordpress-seo' ),
+				'Yoast SEO Premium'
+			);
+		}
+		return sprintf(
+			/* translators: %s: expands to 'Yoast SEO Premium'. */
+			__( 'Activate %s', 'wordpress-seo' ),
+			'Yoast SEO Premium'
+		);
 	}
 
 	/**
@@ -388,18 +386,17 @@ class Workouts_Integration implements Integration_Interface {
 	 * @return string Returns a string with the upsell/update link for the card buttons.
 	 */
 	private function get_upsell_link() {
-		if ( $this->product_helper->is_premium() && $this->should_update_premium() ) {
-			if ( $this->has_premium_subscription_expired() ) {
-				return 'https://yoa.st/workout-renew-notice';
-			}
-			if ( $this->has_premium_subscription_activated() ) {
-				return \wp_nonce_url( \self_admin_url( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium/wp-seo-premium.php' ), 'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php' );
-			}
-			return 'https://yoa.st/workouts-activate-notice-myyoast';
+		if ( ! $this->product_helper->is_premium() || ! $this->should_update_premium() ) {
+			// Use the default defined in the component.
+			return '';
 		}
-
-		// Use the default defined in the component.
-		return '';
+		if ( $this->has_premium_subscription_expired() ) {
+			return 'https://yoa.st/workout-renew-notice';
+		}
+		if ( $this->has_premium_subscription_activated() ) {
+			return \wp_nonce_url( \self_admin_url( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium/wp-seo-premium.php' ), 'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php' );
+		}
+		return 'https://yoa.st/workouts-activate-notice-myyoast';
 	}
 
 	/**

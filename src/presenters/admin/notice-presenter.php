@@ -32,7 +32,7 @@ class Notice_Presenter extends Abstract_Presenter {
 	private $image_filename;
 
 	/**
-	 * The filename of the image for the notice. Should be a file in the 'images' folder.
+	 * HTML string to be displayed after the main content, usually a button.
 	 *
 	 * @var string
 	 */
