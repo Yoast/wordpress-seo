@@ -37,7 +37,7 @@ export function FinishStepSection( { stepNumber, onFinishClick, finishText, hasD
 			{ children }
 			<div className="finish-step-button-section">
 				<Button
-					className={ `yoast-button yoast-button--secondary${ isFinished ? " yoast-button--finished" : "" }` }
+					className={ `yoast-button yoast-button--${ isFinished ? "primary yoast-button--finished" : "secondary" }` }
 					onClick={ onFinishClick }
 					{ ...additionalButtonProps }
 				>

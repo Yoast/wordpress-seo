@@ -120,6 +120,8 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 
 	const steps = STEPS.configuration;
 
+	const step4IsFinished = isStepFinished( "configuration", steps.enableTracking );
+
 	/**
 	 * Updates the site representation in the database.
 	 *
@@ -291,6 +293,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	 */
 	function updateOnFinishEnableTracking() {
 		if ( isStepFinished( "configuration", steps.enableTracking ) ) {
+			setSavedSteps( prevState => prevState.filter( step => step !== 4 ) );
 			toggleStepEnableTracking();
 		} else {
 			updateTracking()
@@ -612,10 +615,10 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					<FinishStepSection
 						stepNumber={ 4 }
 						isSaved={ savedSteps.includes( 4 ) }
-						hasDownArrow={ true }
-						finishText={ "Save and continue" }
+						hasDownArrow={ ! step4IsFinished }
+						finishText={ step4IsFinished ? "Revise the step" : "Save and continue" }
 						onFinishClick={ updateOnFinishEnableTracking }
-						isFinished={ isStepFinished( "configuration", steps.enableTracking ) }
+						isFinished={ step4IsFinished }
 					/>
 				</Step>
 				<Step
