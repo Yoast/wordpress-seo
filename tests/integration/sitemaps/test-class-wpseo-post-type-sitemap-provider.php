@@ -257,31 +257,6 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if external URLs are not being included in the sitemap.
-	 *
-	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_url
-	 */
-	public function test_get_url() {
-		$current_home     = get_option( 'home' );
-		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
-
-		$post_object = $this->factory()->post->create_and_get();
-		$post_url    = $sitemap_provider->get_url( $post_object );
-
-		$this->assertStringContainsString( $current_home, $post_url['loc'] );
-
-		// Change home URL.
-		update_option( 'home', 'http://example.com' );
-		wp_cache_delete( 'alloptions', 'options' );
-
-		$this->assertFalse( $sitemap_provider->get_url( $post_object ) );
-
-		// Revert original home URL.
-		update_option( 'home', $current_home );
-		wp_cache_delete( 'alloptions', 'options' );
-	}
-
-	/**
 	 * Tests a regular post is added to the sitemap.
 	 *
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_sitemap_links

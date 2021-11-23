@@ -35,7 +35,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return bool
 	 */
 	public function handles_type( $type ) {
-
 		return post_type_exists( $type );
 	}
 
@@ -136,11 +135,18 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$query = $this->repository
 			->query()
 			->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
-			->where_raw( '( post_status = "publish" OR post_status IS NULL )' )
 			->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
+			->where_raw( '( is_public = 1 OR is_public IS NULL )' )
 			->order_by_desc( 'object_last_modified' )
 			->offset( $offset )
 			->limit( $steps );
+
+		if ( $type === 'attachment' ) {
+			$query->where_raw( '( post_status = "inherit" OR post_status = "publish" OR post_status IS NULL )' );
+		}
+		else {
+			$query->where_raw( '( post_status = "publish" OR post_status IS NULL )' );
+		}
 
 		if ( $type === 'page' ) {
 			$query->where_raw( '( object_sub_type = "page" OR object_sub_type IS NULL )' )
