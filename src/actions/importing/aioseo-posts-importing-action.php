@@ -2,8 +2,13 @@
 
 namespace Yoast\WP\SEO\Actions\Importing;
 
-use Yoast\WP\SEO\Models\Indexable;
+use wpdb;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Wpdb_Helper;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Importing action for AIOSEO post data.
@@ -37,6 +42,57 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		'twitter_title'       => 'twitter_title',
 		'twitter_description' => 'twitter_description',
 	];
+
+	/**
+	 * Represents the indexables repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	protected $indexable_repository;
+
+	/**
+	 * The WordPress database instance.
+	 *
+	 * @var wpdb
+	 */
+	protected $wpdb;
+
+	/**
+	 * The indexable_to_postmeta helper.
+	 *
+	 * @var Indexable_To_Postmeta_Helper
+	 */
+	protected $indexable_to_postmeta;
+
+	/**
+	 * The wpdb helper.
+	 *
+	 * @var Wpdb_Helper
+	 */
+	protected $wpdb_helper;
+
+	/**
+	 * Class constructor.
+	 *
+	 * @param Indexable_Repository         $indexable_repository        The indexables repository.
+	 * @param wpdb                         $wpdb                        The WordPress database instance.
+	 * @param Indexable_To_Postmeta_Helper $indexable_to_postmeta       The indexable_to_postmeta helper.
+	 * @param Options_Helper               $options                     The options helper.
+	 * @param Wpdb_Helper                  $wpdb_helper                 The wpdb_helper helper.
+	 */
+	public function __construct(
+		Indexable_Repository $indexable_repository,
+		wpdb $wpdb,
+		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
+		Options_Helper $options,
+		Wpdb_Helper $wpdb_helper ) {
+		parent::__construct( $options );
+
+		$this->indexable_repository  = $indexable_repository;
+		$this->wpdb                  = $wpdb;
+		$this->indexable_to_postmeta = $indexable_to_postmeta;
+		$this->wpdb_helper           = $wpdb_helper;
+	}
 
 	/**
 	 * Retrieves the AIOSEO table name along with the db prefix.
