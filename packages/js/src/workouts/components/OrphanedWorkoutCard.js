@@ -22,7 +22,7 @@ export default function OrphanedWorkoutCard( {
 } ) {
 	const finishedSteps = useSelect( select => select( "yoast-seo/workouts" ).getFinishedSteps( WORKOUTS.orphaned ) );
 	const actualUpsellLink = upsellLink ? upsellLink :  "https://yoa.st/workout-orphaned-content-upsell";
-  
+
 	return <WorkoutCard
 		name={ WORKOUTS.orphaned }
 		title={ __( "Orphaned content", "wordpress-seo" ) }
