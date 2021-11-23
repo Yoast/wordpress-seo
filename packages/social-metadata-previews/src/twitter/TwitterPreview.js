@@ -106,6 +106,9 @@ class TwitterPreview extends Component {
 					onMouseLeave={ this.onLeave }
 				/>
 				<TwitterTextWrapper>
+					<TwitterSiteUrl
+						siteUrl={ siteUrl }
+					/>
 					<TwitterTitle
 						onMouseEnter={ this.onTitleEnter }
 						onMouseLeave={ this.onLeave }
@@ -120,9 +123,6 @@ class TwitterPreview extends Component {
 					>
 						{ description }
 					</TwitterDescription>
-					<TwitterSiteUrl
-						siteUrl={ siteUrl }
-					/>
 				</TwitterTextWrapper>
 			</Wrapper>
 		);
