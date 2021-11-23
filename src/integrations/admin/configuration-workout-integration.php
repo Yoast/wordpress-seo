@@ -2,7 +2,9 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -19,6 +21,13 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
 	private $admin_asset_manager;
+
+	/**
+	 * The addon manager.
+	 *
+	 * @var WPSEO_Addon_Manager
+	 */
+	private $addon_manager;
 
 	/**
 	 * The options' helper.
@@ -38,13 +47,16 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	 * Configuration_Workout_Integration constructor.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
+	 * @param WPSEO_Addon_Manager       $addon_manager       The addon manager.
 	 * @param Options_Helper            $options_helper      The options helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
+		WPSEO_Addon_Manager $addon_manager,
 		Options_Helper $options_helper
 	) {
 		$this->admin_asset_manager = $admin_asset_manager;
+		$this->addon_manager       = $addon_manager;
 		$this->options_helper      = $options_helper;
 	}
 
@@ -91,11 +103,28 @@ class Configuration_Workout_Integration implements Integration_Interface {
 
 		$social_profiles = $this->get_social_profiles();
 
+		// This filter is documented in admin/views/tabs/metas/paper-content/general/knowledge-graph.php.
+		$knowledge_graph_message = apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );
+
+		$options               = $this->get_company_or_person_options();
+		$selected_option_label = '';
+		$filtered_options      = \array_filter(
+			$options,
+			function ( $item ) {
+				return $item['value'] === $this->is_company_or_person();
+			}
+		);
+		$selected_option       = \reset( $filtered_options );
+		if ( \is_array( $selected_option ) ) {
+			$selected_option_label = $selected_option['name'];
+		}
+
 		$this->admin_asset_manager->add_inline_script(
 			'workouts',
 			\sprintf(
 				'window.wpseoWorkoutsData["configuration"] = {
 					"companyOrPerson": "%s",
+					"companyOrPersonLabel": "%s",
 					"companyName": "%s",
 					"companyLogo": "%s",
 					"companyLogoId": %d,
@@ -114,8 +143,12 @@ class Configuration_Workout_Integration implements Integration_Interface {
 						"wikipediaUrl": "%s",
 					},
 					"tracking": %d,
+					"companyOrPersonOptions": %s,
+					"shouldForceCompany": %d,
+					"knowledgeGraphMessage": "%s",
 				};',
 				$this->is_company_or_person(),
+				$selected_option_label,
 				$this->get_company_name(),
 				$this->get_company_logo(),
 				$this->get_company_logo_id(),
@@ -131,7 +164,10 @@ class Configuration_Workout_Integration implements Integration_Interface {
 				$social_profiles['pinterest_url'],
 				$social_profiles['youtube_url'],
 				$social_profiles['wikipedia_url'],
-				$this->has_tracking_enabled()
+				$this->has_tracking_enabled(),
+				WPSEO_Utils::format_json_encode( $options ),
+				$this->should_force_company(),
+				$knowledge_graph_message
 			),
 			'before'
 		);
@@ -260,5 +296,37 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	 */
 	private function has_tracking_enabled() {
 		return $this->options_helper->get( 'tracking', false );
+	}
+
+	/**
+	 * Gets the options for the Company or Person select.
+	 * Returns only the company option if it is forced (by Local SEO), otherwise returns company and person option.
+	 *
+	 * @return array The options for the company-or-person select.
+	 */
+	private function get_company_or_person_options() {
+		$options = [
+			[
+				'name'  => __( 'Organization', 'wordpress-seo' ),
+				'value' => 'company',
+			],
+		];
+		if ( ! $this->should_force_company() ) {
+			$options[] = [
+				'name'  => __( 'Person', 'wordpress-seo' ),
+				'value' => 'person',
+			];
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Checks whether we should force "Organization".
+	 *
+	 * @return bool
+	 */
+	private function should_force_company() {
+		return $this->addon_manager->is_installed( WPSEO_Addon_Manager::LOCAL_SLUG );
 	}
 }
