@@ -18,7 +18,7 @@ import { FINISHABLE_STEPS } from "../config";
 export default function ConfigurationWorkoutCard( {
 	badges,
 } ) {
-	const finishedSteps = useSelect( "yoast-seo/workouts" ).getFinishedSteps( "configuration" );
+	const finishedSteps = useSelect( select => select( "yoast-seo/workouts" ).getFinishedSteps( "configuration" ) );
 	return <WorkoutCard
 		name={ "configuration" }
 		title={ __( "Configuration", "wordpress-seo" ) }

@@ -34,7 +34,7 @@ class Notice_Presenter_Test extends TestCase {
 	public function test_construct() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
 
-		$test = new Notice_Presenter( 'title', 'content', 'image.png', true );
+		$test = new Notice_Presenter( 'title', 'content', 'image.png', null, true );
 
 		$this->assertSame( 'title', $this->getPropertyValue( $test, 'title' ) );
 		$this->assertSame( 'content', $this->getPropertyValue( $test, 'content' ) );
@@ -57,7 +57,7 @@ class Notice_Presenter_Test extends TestCase {
 
 		$test = new Notice_Presenter( 'title', 'content' );
 
-		$expected = '<div class="notice notice-yoast"><div class="notice-yoast__container">'
+		$expected = '<div class="notice notice-yoast yoast"><div class="notice-yoast__container">'
 			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
@@ -83,7 +83,7 @@ class Notice_Presenter_Test extends TestCase {
 
 		$test = new Notice_Presenter( 'title', 'content', 'image.png' );
 
-		$expected = '<div class="notice notice-yoast"><div class="notice-yoast__container">'
+		$expected = '<div class="notice notice-yoast yoast"><div class="notice-yoast__container">'
 			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
@@ -91,7 +91,7 @@ class Notice_Presenter_Test extends TestCase {
 			. '</div>'
 			. '<p>content</p>'
 			. '</div>'
-			. '<img src="images/image.png" alt="" />'
+			. '<img src="images/image.png" alt="" height="60" width="75"/>'
 			. '</div></div>';
 
 		Monkey\Functions\expect( 'esc_html' )->andReturn( '' );
@@ -109,9 +109,9 @@ class Notice_Presenter_Test extends TestCase {
 	public function test_dismissble_notice() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
 
-		$test = new Notice_Presenter( 'title', 'content', null, true );
+		$test = new Notice_Presenter( 'title', 'content', null, null, true );
 
-		$expected = '<div class="notice notice-yoast is-dismissible"><div class="notice-yoast__container">'
+		$expected = '<div class="notice notice-yoast yoast is-dismissible"><div class="notice-yoast__container">'
 			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
@@ -136,9 +136,9 @@ class Notice_Presenter_Test extends TestCase {
 	public function test_dismissble_notice_with_image() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
 
-		$test = new Notice_Presenter( 'title', 'content', 'image.png', true );
+		$test = new Notice_Presenter( 'title', 'content', 'image.png', null, true );
 
-		$expected = '<div class="notice notice-yoast is-dismissible"><div class="notice-yoast__container">'
+		$expected = '<div class="notice notice-yoast yoast is-dismissible"><div class="notice-yoast__container">'
 			. '<div>'
 			. '<div class="notice-yoast__header">'
 			. '<span class="yoast-icon"></span>'
@@ -146,7 +146,38 @@ class Notice_Presenter_Test extends TestCase {
 			. '</div>'
 			. '<p>content</p>'
 			. '</div>'
-			. '<img src="images/image.png" alt="" />'
+			. '<img src="images/image.png" alt="" height="60" width="75"/>'
+			. '</div></div>';
+
+		Monkey\Functions\expect( 'esc_html' )->andReturn( '' );
+		Monkey\Functions\expect( 'esc_url' )->andReturn( '' );
+		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
+
+		$this->assertEquals( $expected, (string) $test );
+	}
+
+	/**
+	 * Test when the Notice is dismissible and has an image and a button.
+	 *
+	 * @covers ::present
+	 */
+	public function test_dismissble_notice_with_image_and_button() {
+		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
+
+		$button = '<a class="yoast-button yoast-button-upsell" href="https://yoa.st/somewhere">Some text</a>';
+
+		$test = new Notice_Presenter( 'title', 'content', 'image.png', $button, true );
+
+		$expected = '<div class="notice notice-yoast yoast is-dismissible"><div class="notice-yoast__container">'
+			. '<div>'
+			. '<div class="notice-yoast__header">'
+			. '<span class="yoast-icon"></span>'
+			. '<h1 class="notice-yoast__header-heading">title</h1>'
+			. '</div>'
+			. '<p>content</p>'
+			. '<p><a class="yoast-button yoast-button-upsell" href="https://yoa.st/somewhere">Some text</a></p>'
+			. '</div>'
+			. '<img src="images/image.png" alt="" height="60" width="75"/>'
 			. '</div></div>';
 
 		Monkey\Functions\expect( 'esc_html' )->andReturn( '' );

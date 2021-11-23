@@ -12,6 +12,8 @@ import { WORKOUTS } from "../config";
 
 const {
 	workouts: workoutsSetting,
+	upsellLink,
+	upsellText,
 } = window.wpseoWorkoutsData;
 
 /**
@@ -22,6 +24,8 @@ const {
 const CornerstoneCard = () => {
 	return <CornerstoneWorkoutCard
 		badges={ [ <PremiumBadge key={ "premium-badge-cornerstone-workout" } /> ] }
+		upsellLink={ upsellLink }
+		upsellText={ upsellText }
 	/>;
 };
 
@@ -33,6 +37,8 @@ const CornerstoneCard = () => {
 const OrphanedCard = () => {
 	return <OrphanedWorkoutCard
 		badges={ [ <PremiumBadge key={ "premium-badge-orphaned-workout" } /> ] }
+		upsellLink={ upsellLink }
+		upsellText={ upsellText }
 	/>;
 };
 
