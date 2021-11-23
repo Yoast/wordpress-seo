@@ -462,7 +462,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					</Alert> }
 					<FinishStepSection
 						hasDownArrow={ true }
-						finishText={ __( "Continue and save", "wordpress-seo" ) }
+						finishText={ __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishSiteRepresentation }
 						isFinished={ isStepFinished( "configuration", steps.siteRepresentation ) }
 					/>
