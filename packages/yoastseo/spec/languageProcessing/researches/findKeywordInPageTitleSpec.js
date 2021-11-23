@@ -8,7 +8,7 @@ import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Res
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import pageTitleKeyword from "../../../src/languageProcessing/researches/findKeywordInPageTitle.js";
 import Paper from "../../../src/values/Paper.js";
-import { isFeatureEnabled } from "@yoast/feature-flag";
+import { isFeatureEnabled, enableFeatures } from "@yoast/feature-flag";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataDE = getMorphologyData( "de" ).de;
@@ -358,22 +358,36 @@ describe( "Matches keywords in string", function() {
 			expect( result.exactMatchFound ).toBe( false );
 			expect( result.allWordsFound ).toBe( true );
 		} );
-	}
 
-	it( "returns allWordsFound as false for a keyphrase enclosed in Japanese quotes containing a function word", function() {
-		const mockPaper = new Paper( "", {
-			keyword: "『un chat』",
-			title: "chat",
-			locale: "fr",
+		it( "processes a keyphrase enclosed in Japanese quotes as an exact match keyphrase", function() {
+			const mockPaper = new Paper( "", {
+				keyword: "『猫について』",
+				title: "猫について",
+				locale: "ja",
+			} );
+			const researcher = new JapaneseResearcher( mockPaper );
+
+			result = pageTitleKeyword( mockPaper, researcher );
+			expect( result.exactMatchFound ).toBe( true );
+			expect( result.exactMatchKeyphrase ).toBe( true );
+			expect( result.allWordsFound ).toBe( true );
 		} );
-		const researcher = new FrenchResearcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatchFound ).toBe( false );
-		expect( result.exactMatchKeyphrase ).toBe( true );
-		expect( result.allWordsFound ).toBe( false );
-	} );
+		xit( "processes a keyphrase enclosed in Japanese quotes as an exact match keyphrase and returns allWordsFound as false when the key", function() {
+			const mockPaper = new Paper( "", {
+				keyword: "『猫について』",
+				title: "猫",
+				locale: "ja",
+			} );
+			const researcher = new JapaneseResearcher( mockPaper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
+
+			result = pageTitleKeyword( mockPaper, researcher );
+			expect( result.exactMatchFound ).toBe( false );
+			expect( result.exactMatchKeyphrase ).toBe( true );
+			expect( result.allWordsFound ).toBe( false );
+		} );
+	}
 
 	it( "returns an exact match at the beginning", function() {
 		const mockPaper = new Paper( "", {
