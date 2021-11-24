@@ -110,6 +110,19 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		return;
 	};
 
+	/**
+	 * Sets a step to not saved.
+	 *
+	 * @param {number} stepNumber The number of the step to unsave.
+	 *
+	 * @returns {void}
+	 */
+	const setStepIsNotSaved = ( stepNumber ) => {
+		setSavedSteps( prevState => {
+			return prevState.filter( step => step !== stepNumber );
+		} );
+	};
+
 	const setTracking = useCallback( ( value ) => {
 		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
 	} );
@@ -231,6 +244,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	 */
 	function updateOnFinishSiteRepresentation() {
 		if ( isStep2Finished ) {
+			setStepIsNotSaved( 2 );
 			toggleStepSiteRepresentation();
 		} else {
 			if ( ! siteRepresentationEmpty &&
@@ -263,6 +277,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	 */
 	function updateOnFinishSocialProfiles() {
 		if ( isStep3Finished ) {
+			setStepIsNotSaved( 3 );
 			toggleStepSocialProfiles();
 		} else {
 			updateSocialProfiles()
@@ -295,7 +310,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	 */
 	function updateOnFinishEnableTracking() {
 		if ( isStep4Finished ) {
-			setSavedSteps( prevState => prevState.filter( step => step !== 4 ) );
+			setStepIsNotSaved( 4 );
 			toggleStepEnableTracking();
 		} else {
 			updateTracking()
@@ -497,7 +512,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						stepNumber={ 2 }
 						isSaved={ savedSteps.includes( 2 ) }
 						hasDownArrow={ ! isStep2Finished }
-						finishText={ isStep2Finished ? __( "Revise the step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
+						finishText={ isStep2Finished ? __( "Revise this step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishSiteRepresentation }
 						isFinished={ isStep2Finished }
 					/>
@@ -566,7 +581,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						stepNumber={ 3 }
 						isSaved={ savedSteps.includes( 3 ) }
 						hasDownArrow={ ! isStep3Finished }
-						finishText={ isStep3Finished ? __( "Revise the step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
+						finishText={ isStep3Finished ? __( "Revise this step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishSocialProfiles }
 						isFinished={ isStep3Finished }
 					/>
@@ -625,7 +640,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						stepNumber={ 4 }
 						isSaved={ savedSteps.includes( 4 ) }
 						hasDownArrow={ ! isStep4Finished }
-						finishText={ isStep4Finished ? __( "Revise the step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
+						finishText={ isStep4Finished ? __( "Revise this step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishEnableTracking }
 						isFinished={ isStep4Finished }
 					/>
