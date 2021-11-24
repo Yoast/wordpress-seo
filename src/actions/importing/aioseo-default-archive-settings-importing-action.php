@@ -45,11 +45,11 @@ class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_S
 	 */
 	protected $aioseo_options_to_yoast_map = [
 		'title'           => [
-			'meta_name'      => 'title-'. self::META_NAME_PLACEHOLDER . '-wpseo',
+			'meta_name'      => 'title-' . self::META_NAME_PLACEHOLDER . '-wpseo',
 			'transform_data' => 'simple_import',
 		],
 		'metaDescription' => [
-			'meta_name'      => 'metadesc-'. self::META_NAME_PLACEHOLDER . '-wpseo',
+			'meta_name'      => 'metadesc-' . self::META_NAME_PLACEHOLDER . '-wpseo',
 			'transform_data' => 'simple_import',
 		],
 	];
