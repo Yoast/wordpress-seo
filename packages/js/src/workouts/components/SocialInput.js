@@ -1,7 +1,7 @@
+import PropTypes from "prop-types";
 import { useCallback } from "@wordpress/element";
 
-import { TextInput } from "@yoast/components";
-import PropTypes from "prop-types";
+import ValidatedTextInput from "./ValidatedTextInput";
 
 /**
  * A wrapped TextInput for the social inputs
@@ -12,13 +12,13 @@ import PropTypes from "prop-types";
  * @param {object}   restProps    The other props.
  * @returns {WPElement} A wrapped TextInput for the social inputs.
  */
-export function SocialInput( { dispatch, socialMedium, isDisabled, ...restProps } ) {
+export default function SocialInput( { onChange, socialMedium, isDisabled, ...restProps } ) {
 	const onChangeHandler = useCallback(
-		( newValue ) => dispatch( { type: "CHANGE_SOCIAL_PROFILE", payload: { socialMedium, value: newValue } } ),
+		( newValue ) => onChange( newValue, socialMedium ),
 		[ socialMedium ]
 	);
 
-	return <TextInput
+	return <ValidatedTextInput
 		onChange={ onChangeHandler }
 		readOnly={ isDisabled }
 		{ ...restProps }
@@ -26,7 +26,7 @@ export function SocialInput( { dispatch, socialMedium, isDisabled, ...restProps 
 }
 
 SocialInput.propTypes = {
-	dispatch: PropTypes.func.isRequired,
+	onChange: PropTypes.func.isRequired,
 	socialMedium: PropTypes.string,
 	isDisabled: PropTypes.bool,
 };

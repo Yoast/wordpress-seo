@@ -108,7 +108,19 @@ class Configuration_Workout_Action {
 			if ( isset( $params[ $field_name ] ) ) {
 				$result = $this->options_helper->set( $field_name, $params[ $field_name ] );
 				if ( ! $result ) {
-					$failures[] = $field_name;
+					/**
+					 * The value for Twitter might have been sanitised from URL to username.
+					 * If so, $result will be false. We should check if the option value is part of the received value.
+					 */
+					if ( $field_name === 'twitter_site' ) {
+						$current_option = $this->options_helper->get( $field_name );
+						if ( ! \strpos( $params[ $field_name ], 'twitter.com/' . $current_option ) ) {
+							$failures[] = $field_name;
+						}
+					}
+					else {
+						$failures[] = $field_name;
+					}
 				}
 			}
 		}

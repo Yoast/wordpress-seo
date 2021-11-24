@@ -31,6 +31,11 @@ describe( "a test for Japanese Researcher", function() {
 	} );
 
 	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
+		it( "returns the keyphrase unaltered when the Japanese morphology data is not available", function() {
+			expect( researcher.getHelper( "getStemmer" )( researcher )( "日帰り" ) ).toEqual(
+				"日帰り" );
+		} );
+
 		it( "creates the word forms when the Japanese morphology data is available", function() {
 			researcher.addResearchData( "morphology", morphologyDataJA );
 			expect( researcher.getHelper( "getStemmer" )( researcher )( "日帰り" ) ).toEqual(
