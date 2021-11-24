@@ -489,6 +489,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						/>
 					</div>
 					<FinishButtonSection
+						id="yoast-configuration-workout-step-optimize-seo-data-button"
 						stepNumber={ 1 }
 						hasDownArrow={ true }
 						finishText={ __( "Continue", "wordpress-seo" ) }
@@ -588,6 +589,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						) }
 					</Alert> }
 					<FinishButtonSection
+						id="yoast-configuration-workout-step-site-representation-button"
 						stepNumber={ 2 }
 						isSaved={ savedSteps.includes( 2 ) }
 						hasDownArrow={ ! isStep2Finished }
@@ -659,6 +661,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					</div>
 					}
 					<FinishButtonSection
+						id="yoast-configuration-workout-step-social-profiles-button"
 						stepNumber={ 3 }
 						isSaved={ savedSteps.includes( 3 ) }
 						hasDownArrow={ ! isStep3Finished }
@@ -719,6 +722,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						) }
 					</Alert> }
 					<FinishButtonSection
+						id="yoast-configuration-workout-step-tracking-button"
 						stepNumber={ 4 }
 						isSaved={ savedSteps.includes( 4 ) }
 						hasDownArrow={ ! isStep4Finished }
@@ -736,6 +740,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					<NewsletterSignup />
 				</Step>
 				<FinishButtonSection
+					id="yoast-configuration-workout-step-newsletter-button"
 					finishText={ isWorkoutFinished ? __( "Do workout again", "wordpress-seo" ) : __( "Finish this workout", "wordpress-seo" ) }
 					onFinishClick={ toggleConfigurationWorkout }
 					isFinished={ isWorkoutFinished }
