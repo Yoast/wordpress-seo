@@ -13,7 +13,7 @@ module.exports = {
 	devtool: false,
 	externals: [ externals, wordPressExternals ],
 	output: {
-		path: path.resolve( "dist", "dist" ),
+		path: path.resolve( "dist", "build" ),
 		filename: "analysis.js",
 		library: [ "yoast", "analysis" ],
 		libraryTarget: "window",

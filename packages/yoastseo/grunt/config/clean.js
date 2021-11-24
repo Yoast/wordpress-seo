@@ -6,6 +6,6 @@ module.exports = {
 		"dist",
 	],
 	js: [
-		path.resolve( "dist", "dist" ),
+		path.resolve( "dist", "build" ),
 	],
 };

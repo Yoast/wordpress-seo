@@ -39,7 +39,7 @@ module.exports = {
 	entry: languageMap,
 	externals: [ externals, wordPressExternals ],
 	output: {
-		path: path.resolve( "dist", "dist", "languages" ),
+		path: path.resolve( "dist", "build", "languages" ),
 		library: [ "yoast", "Researcher" ],
 		libraryTarget: "window",
 	},
