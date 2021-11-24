@@ -263,11 +263,13 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		if ( isStepFinished( "configuration", steps.enableTracking ) ) {
 			toggleStepEnableTracking();
 		} else {
-			updateTracking()
-				.then( toggleStepEnableTracking )
-				.catch( ( e ) => {
-					console.error( e );
-				} );
+			if ( ( state.tracking === 0 || state.tracking === 1 ) ) {
+				updateTracking()
+					.then( toggleStepEnableTracking )
+					.catch( ( e ) => {
+						console.error( e );
+					} );
+			}
 		}
 	}
 
@@ -575,11 +577,19 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors!", "wordpress-seo" )
 						}</i>
 					</p>
+					{ ( state.tracking !== 0 && state.tracking !== 1 ) && <Alert type="warning">
+						{ __(
+							// eslint-disable-next-line max-len
+							"In order to complete this step please select if we are allowed to improve Yoast SEO with your data.",
+							"wordpress-seo"
+						) }
+					</Alert> }
 					<FinishStepSection
 						hasDownArrow={ true }
 						finishText={ "Save and continue" }
 						onFinishClick={ updateOnFinishEnableTracking }
 						isFinished={ isStepFinished( "configuration", steps.enableTracking ) }
+						additionalButtonProps={ { disabled: state.tracking !== 0 && state.tracking !== 1 } }
 					/>
 				</Step>
 				<Step
@@ -591,7 +601,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						finishText={ "Finish this workout" }
 						onFinishClick={ toggleConfigurationWorkout }
 						isFinished={ isStepFinished( "configuration", steps.newsletterSignup ) }
-						additionalButtonProps={ { disabled: indexingState !== "completed" } }
+						additionalButtonProps={ { disabled: ( ( indexingState !== "completed" ) || ( state.tracking !== 0 && state.tracking !== 1 ) ) } }
 					>
 						{ indexingState !== "completed" && <Alert type="warning">
 							{ indexingState === "idle" && __( "Before you finish this workout, please start the SEO data optimization in step 1 and wait until it is completed...", "wordpress-seo" ) }
