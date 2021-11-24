@@ -3,7 +3,9 @@
 # Build everything
 build:
   - 'build:css'
+  - 'build:js'
   - 'build:translations'
+
 # Build JavaScript from assets to production
 'build:browserified':
   - 'build:js'
@@ -16,6 +18,11 @@ build:
   - 'postcss:build'
 'build:translations':
   - 'shell:makepot'
+# Build JavaScript
+'build:js':
+  - 'clean:js'
+  - 'shell:webpack'
+
 # Check health of the project
 check:
   - 'eslint'
@@ -32,4 +39,5 @@ default:
 publish:
   - 'clean:publish'
   - 'babel:publish'
+  - 'build'
   - 'copy:publish'
