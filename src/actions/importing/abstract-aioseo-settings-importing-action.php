@@ -53,11 +53,11 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	protected $settings_tab = '';
 
 	/**
-	 * The forbidden Yoast options.
+	 * The map that ties AIOSEO types to Yoast types.
 	 *
 	 * @var array
 	 */
-	protected $forbidden_options = [];
+	protected $types_map = [];
 
 	/**
 	 * Retrieves the meta_name placeholder.
@@ -96,20 +96,20 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	}
 
 	/**
-	 * Checks if the option we're trying to save is forbiden in Yoast.
+	 * Transform types (post, author, etc.) to yoast types.
 	 *
-	 * @param string $option The option.
+	 * @param string $type The type to be transformed.
 	 *
-	 * @return bool Whether the option is forbidden or not.
+	 * @return string The yoast type.
 	 */
-	public function is_forbidden_option( $option ) {
-		$forbidden_options = $this->forbidden_options;
+	public function transform_type( $type ) {
+		$types_map = $this->types_map;
 
-		if ( isset( $forbidden_options[ $option ] ) && $forbidden_options[ $option ] ) {
-			return true;
+		if ( isset( $types_map[ $type ] ) ) {
+			$type = $types_map[ $type ];
 		}
 
-		return false;
+		return $type;
 	}
 
 	/**
@@ -277,13 +277,14 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 		foreach ( $this->aioseo_options_to_yoast_map as $aioseo_key => $meta_data ) {
 			if ( isset( $type_settings[ $aioseo_key ] ) ) {
 				// First, lets make the yoast key into its final form, taking into account the type we're working on, eg. title-post, title-tax-movie-category, etc.
-				$yoast_key = str_replace( $this->get_placeholder(), $type, $meta_data['meta_name'] );
+				$yoast_key = str_replace( $this->get_placeholder(), $this->transform_type( $type ), $meta_data['meta_name'] );
 
-				// Then, do any needed data transfomation before actually saving the incoming data.
-				$transformed_data = \call_user_func( [ $this, $meta_data['transform_data'] ], $type_settings[ $aioseo_key ] );
+				// Check if we're supposed to save the setting.
+				if ( $this->options->get_default( 'wpseo_titles', $yoast_key ) !== null ) {
+					// Then, do any needed data transfomation before actually saving the incoming data.
+					$transformed_data = \call_user_func( [ $this, $meta_data['transform_data'] ], $type_settings[ $aioseo_key ] );
 
-				// Finally, store the data to the respective Yoast option, but only if it's not a forbidden option.
-				if ( ! $this->is_forbidden_option( $yoast_key ) ) {
+					// Finally, store the data to the respective Yoast option.
 					$this->options->set( $yoast_key, $transformed_data );
 				}
 			}

@@ -34,8 +34,8 @@ class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_S
 	 *
 	 * @var array
 	 */
-	protected $forbidden_options = [
-		'metadesc-search-wpseo' => true,
+	protected $types_map = [
+		'date' => 'archive',
 	];
 
 	/**
