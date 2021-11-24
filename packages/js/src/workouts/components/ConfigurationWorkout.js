@@ -396,12 +396,19 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	return (
 		<div className="card">
 			<h2>{ __( "Configuration", "wordpress-seo" ) }</h2>
-			<h3>{ __( "Configure Yoast SEO with optimal SEO settings for your site", "wordpress-seo" ) }</h3>
+			<h3>{
+				// translators: %1$s is replaced by "Yoast SEO"
+				sprintf( __( "Configure %1$s with optimal SEO settings for your site", "wordpress-seo" ), "Yoast SEO" )
+			}</h3>
 			<p>
 				{
-					__(
-						"Do the five steps in this workout to configure the essential Yoast SEO settings!",
-						"wordpress-seo"
+					sprintf(
+						// translators: %1$s is replaced by "Yoast SEO"
+						__(
+							"Do the five steps in this workout to configure the essential %1$s settings!",
+							"wordpress-seo"
+						),
+						"Yoast SEO"
 					)
 				}
 			</p>
@@ -411,11 +418,12 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						addLinkToString(
 							sprintf(
 								__(
-									// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
-									"Need more guidance? We've covered every step in more detail in the %1$sYoast SEO configuration workout guide.%2$s",
+									// translators: %1$s and %3$s are replaced by opening and closing anchor tags. %2$s is replaced by "Yoast SEO"
+									"Need more guidance? We've covered every step in more detail in the %1$s%2$s configuration workout guide.%3$s",
 									"wordpress-seo"
 								),
 								"<a>",
+								"Yoast SEO",
 								"</a>"
 							),
 							"https://yoa.st/config-workout-guide"
@@ -721,6 +729,16 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					</Alert> }
 				</FinishButtonSection>
 			</Steps>
+			{ isWorkoutFinished && <div>
+				<h3>{ __( "Congratulations", "wordpress-seo" ) }</h3>
+				<p>
+					{
+						// translators: %1$s is replaced by "Yoast SEO"
+						sprintf( __( "Amazing! You’ve successfully finished the Configuration workout! %1$s now outputs the essential structured data for your site.", "wordpress-seo" ), "Yoast SEO" )
+					}
+				</p>
+				<p>{ __( "Make sure to also check out our other SEO workouts to really get your site into shape!", "wordpress-seo" ) }</p>
+			</div> }
 		</div>
 		/* eslint-enable max-len */
 	);
