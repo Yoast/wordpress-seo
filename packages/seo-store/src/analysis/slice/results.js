@@ -27,18 +27,16 @@ export function* analyze() {
 		const keyphrases = yield select( STORE_NAME ).selectKeyphrases();
 		const config = yield select( STORE_NAME ).selectAnalysisConfig();
 
-		const preparedPaper = yield applyFilters( "yoast.seoStore.analysis.preparePaper", paper );
-
-		const results = yield {
-			type: ANALYZE_ACTION_NAME,
-			payload: {
-				paper: preparedPaper,
-				keyphrases,
-				config,
-			},
+		const preparedPaper = yield applyFilters( "yoast.seoStore.analysis.preparePaper", paper, { keyphrases, config } );
+		const payload = {
+			paper: preparedPaper,
+			keyphrases,
+			config,
 		};
 
-		const processedResults = yield applyFilters( "yoast.seoStore.analysis.processResults", results );
+		const results = yield { type: ANALYZE_ACTION_NAME, payload };
+
+		const processedResults = yield applyFilters( "yoast.seoStore.analysis.processResults", results, payload );
 
 		return { type: analysisAsyncActions.success, payload: processedResults };
 	} catch ( error ) {
