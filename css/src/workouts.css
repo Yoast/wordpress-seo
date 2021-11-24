@@ -32,7 +32,8 @@
 	padding: 24px;
 	border-radius: 8px;
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-	border: 0;
+	border-width: 1px;
+	border-color: rgba(0, 0, 0, .2);
 }
 
 #wpseo-workouts-container-free div.card>h2 {
@@ -75,9 +76,42 @@
 	padding-bottom: 16px;
 }
 
-.workflow li.step > .yoast-button {
+.workflow .finish-button-section {
+	display: inline-grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	width: 100%;
+	align-items: center;
+}
+
+.workflow .finish-button-section .yoast-button {
+	width: fit-content;
+	justify-self: center;
+	grid-column-start: 2;
+	grid-column-end: 2;
+}
+
+.workflow .finish-workout-button-section .yoast-button {
+	width: fit-content;
 	margin: 0 auto;
-	display: flex;
+}
+
+.workflow .finish-button-section .finish-button-saved {
+	grid-column-start: 3;
+	grid-column-end: 3;
+	position: relative;
+	color: #6EA029;
+	margin-left: 10px;
+}
+
+.workflow .finish-button-section .finish-button-saved::before {
+	position: absolute;
+	content: "";
+	background: var(--yoast-svg-icon-check);
+	background-size: 18px 13px;
+	width: 18px;
+	height: 13px;
+	left: -18px;
+	top: 2px;
 }
 
 .workflow li.step > .yoast-button.orphaned-summary {
@@ -411,13 +445,12 @@ table.yoast_help th.divider {
 	color: rgb(60, 67, 74);
 }
 
-/* duplicate */
 .yoast-list--usp {
 	padding-left: 24px;
 }
 
 .yoast-list--usp li {
-	position:relative;
+	position: relative;
 	margin-bottom: 16px;
 }
 

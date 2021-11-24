@@ -1,5 +1,6 @@
 export const REGISTER_WORKOUT = "REGISTER_WORKOUT";
 export const FINISH_STEPS = "FINISH_STEPS";
+export const REVISE_STEP = "REVISE_STEP";
 export const TOGGLE_WORKOUT = "TOGGLE_WORKOUT";
 export const SET_WORKOUTS = "SET_WORKOUTS";
 export const OPEN_WORKOUT = "OPEN_WORKOUT";
@@ -31,6 +32,18 @@ export const registerWorkout = ( key, priority ) => {
  */
 export const finishSteps = ( workout, steps ) => {
 	return { type: FINISH_STEPS, workout, steps };
+};
+
+/**
+ * An action creator for revising a finished workout step.
+ *
+ * @param {String} workout The workout key.
+ * @param {string} step The step key.
+ *
+ * @returns {object} The action object.
+ */
+export const reviseStep = ( workout, step ) => {
+	return { type: REVISE_STEP, workout, step };
 };
 
 /**
