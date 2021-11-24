@@ -43,4 +43,15 @@ module.exports = {
 		library: [ "yoast", "Researcher" ],
 		libraryTarget: "window",
 	},
+	module: {
+		rules: [
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				use: {
+					loader: "babel-loader",
+				},
+			},
+		],
+	},
 };
