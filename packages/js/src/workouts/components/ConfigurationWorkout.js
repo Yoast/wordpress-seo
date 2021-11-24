@@ -436,7 +436,8 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 								"Yoast SEO",
 								"</a>"
 							),
-							"https://yoa.st/config-workout-guide"
+							"https://yoa.st/config-workout-guide",
+							"yoast-configuration-workout-guide-link"
 						)
 					}
 				</i>
@@ -475,7 +476,8 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/config-workout-index-data"
+						"https://yoa.st/config-workout-index-data",
+						"yoast-configuration-workout-index-data-link"
 					) }
 					ImageComponent={ WorkoutStartImage }
 					isFinished={ isStep1Finished }
@@ -639,7 +641,8 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 										"<a>",
 										"</a>"
 									),
-									window.wpseoWorkoutsData.usersPageUrl
+									window.wpseoWorkoutsData.usersPageUrl,
+									"yoast-configuration-workout-user-page-link"
 								)
 							}
 						</p>
