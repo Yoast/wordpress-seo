@@ -104,6 +104,8 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 
 	const steps = STEPS.configuration;
 
+	const isTrackingOptionSelected = state.tracking === 0 || state.tracking === 1;
+
 	/**
 	 * Updates the site representation in the database.
 	 *
@@ -170,7 +172,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	 * @returns {Promise|bool} A promise, or false if the call fails.
 	 */
 	const updateTracking = async function() {
-		if ( state.tracking !== 0 && state.tracking !== 1 ) {
+		if ( ! isTrackingOptionSelected ) {
 			throw "Value not set!";
 		}
 
@@ -263,13 +265,11 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		if ( isStepFinished( "configuration", steps.enableTracking ) ) {
 			toggleStepEnableTracking();
 		} else {
-			if ( ( state.tracking === 0 || state.tracking === 1 ) ) {
-				updateTracking()
-					.then( toggleStepEnableTracking )
-					.catch( ( e ) => {
-						console.error( e );
-					} );
-			}
+			updateTracking()
+				.then( toggleStepEnableTracking )
+				.catch( ( e ) => {
+					console.error( e );
+				} );
 		}
 	}
 
@@ -577,7 +577,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors!", "wordpress-seo" )
 						}</i>
 					</p>
-					{ ( state.tracking !== 0 && state.tracking !== 1 ) && <Alert type="warning">
+					{ ! isTrackingOptionSelected && <Alert type="warning">
 						{ __(
 							// eslint-disable-next-line max-len
 							"In order to complete this step please select if we are allowed to improve Yoast SEO with your data.",
@@ -589,7 +589,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						finishText={ "Save and continue" }
 						onFinishClick={ updateOnFinishEnableTracking }
 						isFinished={ isStepFinished( "configuration", steps.enableTracking ) }
-						additionalButtonProps={ { disabled: state.tracking !== 0 && state.tracking !== 1 } }
+						additionalButtonProps={ { disabled: ! isTrackingOptionSelected } }
 					/>
 				</Step>
 				<Step
@@ -601,7 +601,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						finishText={ "Finish this workout" }
 						onFinishClick={ toggleConfigurationWorkout }
 						isFinished={ isStepFinished( "configuration", steps.newsletterSignup ) }
-						additionalButtonProps={ { disabled: ( ( indexingState !== "completed" ) || ( state.tracking !== 0 && state.tracking !== 1 ) ) } }
+						additionalButtonProps={ { disabled: indexingState !== "completed" || ! isTrackingOptionSelected } }
 					>
 						{ indexingState !== "completed" && <Alert type="warning">
 							{ indexingState === "idle" && __( "Before you finish this workout, please start the SEO data optimization in step 1 and wait until it is completed...", "wordpress-seo" ) }
