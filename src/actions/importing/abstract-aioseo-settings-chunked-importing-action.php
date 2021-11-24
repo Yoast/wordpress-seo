@@ -121,11 +121,11 @@ abstract class Abstract_Aioseo_Settings_Chunked_Importing_Action extends Abstrac
 	}
 
 	/**
-	 * Creates a query for gathering unimported AiOSEO settings from the database.
+	 * Creates a query for gathering unimported AiOSEO settings from the database (in chunks if a limit is applied).
 	 *
 	 * @param int $limit The maximum number of unimported objects to be returned.
 	 *
-	 * @return array The unimported AiOSEO settings to import.
+	 * @return array The (maybe chunked) unimported AiOSEO settings to import.
 	 */
 	public function query( $limit = null ) {
 		$aioseo_settings = \json_decode( \get_option( 'aioseo_options_dynamic', [] ), true );
@@ -145,6 +145,7 @@ abstract class Abstract_Aioseo_Settings_Chunked_Importing_Action extends Abstrac
 
 	/**
 	 * Retrieves (a chunk of, if limit is applied) the unimported AIOSEO settings.
+	 * To apply a chunk, we manipulate the cursor to the keys of the AIOSEO settings.
 	 *
 	 * @param array $importable_data All of the available AIOSEO settings.
 	 * @param int   $limit           The maximum number of unimported objects to be returned.
@@ -168,7 +169,7 @@ abstract class Abstract_Aioseo_Settings_Chunked_Importing_Action extends Abstrac
 			return \array_slice( $importable_data, 0, $limit, true );
 		}
 
-		// Let's find the position of the cursor in the alphabetically sorted importable data.
+		// Let's find the position of the cursor in the alphabetically sorted importable data, so we can return only the unimported data.
 		$keys = \array_flip( \array_keys( $importable_data ) );
 		// If the stored cursor now no longer exists in the data, we have no choice but to start over.
 		$position = ( isset( $keys[ $cursor ] ) ) ? ( $keys[ $cursor ] + 1 ) : 0;
