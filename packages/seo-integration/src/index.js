@@ -53,7 +53,7 @@ const createSeoIntegration = async ( {
 	const analysisWorker = await createAnalysisWorker( {
 		workerUrl: analysisWorkerUrl,
 		researcherUrl: analysisResearcherUrl,
-		config: analysisConfiguration,
+		configuration: analysisConfiguration,
 	} );
 
 	registerSeoStore( { analyze: analysisWorker.analyze } );

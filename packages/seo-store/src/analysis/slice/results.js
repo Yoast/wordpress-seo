@@ -28,15 +28,15 @@ export function* analyze() {
 		const config = yield select( STORE_NAME ).selectAnalysisConfig();
 
 		const preparedPaper = yield applyFilters( "yoast.seoStore.analysis.preparePaper", paper, { keyphrases, config } );
-		const payload = {
+
+		const results = yield { type: ANALYZE_ACTION_NAME, payload: { paper: preparedPaper, keyphrases, config } };
+
+		const processedResults = yield applyFilters( "yoast.seoStore.analysis.processResults", results.result, {
 			paper: preparedPaper,
 			keyphrases,
 			config,
-		};
-
-		const results = yield { type: ANALYZE_ACTION_NAME, payload };
-
-		const processedResults = yield applyFilters( "yoast.seoStore.analysis.processResults", results, payload );
+			resultData: results.data,
+		} );
 
 		return { type: analysisAsyncActions.success, payload: processedResults };
 	} catch ( error ) {
