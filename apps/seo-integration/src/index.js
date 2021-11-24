@@ -1,57 +1,32 @@
 import { render, StrictMode } from "@wordpress/element";
-import registerAnalysisStore from "@yoast/seo-store";
+import createSeoIntegration, { createDefaultReplacementVariableConfigurations } from "@yoast/seo-integration";
 import App from "./app";
 import "./index.css";
-import registerReplacementVariables from "./replacement-variables";
+import { createPostReplacementVariables } from "./replacement-variables";
 import registerSeoTitleWidth from "./seo-title-width";
 
-registerReplacementVariables();
-registerSeoTitleWidth();
-registerAnalysisStore( {
-	analyze: async ( paper, keyphrases, config ) => {
-		console.log( "analyze", paper, keyphrases, config );
-		await new Promise( resolve => setTimeout( resolve, 1000 ) );
-		return {
-			seo: {
-				focus: {
-					score: 10,
-					results: [
-						{
-							score: -10,
-							rating: "bad",
-							hasMarks: false,
-							marker: [],
-							id: "test",
-							text: "Bad result text",
-							markerId: "testMarker",
-						},
-					],
-				},
-			},
-			readability: {
-				score: 10,
-				results: [
-					{
-						score: -10,
-						rating: "bad",
-						hasMarks: false,
-						marker: [],
-						id: "test",
-						text: "Bad result text",
-						markerId: "testMarker",
-					},
-				],
-			},
-			research: {
-				morphology: {},
-			},
-		};
-	},
-} );
+const load = async () => {
+	registerSeoTitleWidth();
+	const defaultReplacementVariableConfigurations = createDefaultReplacementVariableConfigurations();
 
-render(
-	<StrictMode>
-		<App />
-	</StrictMode>,
-	document.getElementById( "root" ),
-);
+	const { analysisTypeReplacementVariables } = await createSeoIntegration( {
+		analysisWorkerUrl: "worker-mock.js",
+		analysisTypes: {
+			post: {
+				name: "post",
+				replacementVariableConfigurations: createPostReplacementVariables( defaultReplacementVariableConfigurations ),
+			},
+		},
+	} );
+
+	console.log( "replacement variables interface, per analysis type", analysisTypeReplacementVariables );
+};
+
+load().then( () => {
+	render(
+		<StrictMode>
+			<App />
+		</StrictMode>,
+		document.getElementById( "root" ),
+	);
+} );
