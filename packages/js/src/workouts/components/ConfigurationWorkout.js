@@ -562,7 +562,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						options={ [
 							{
 								value: 0,
-								label: __( "No, I don’t want to allow you to track my site data", "wordpress-seo" ),
+								label: __( "No, don’t track my site data", "wordpress-seo" ),
 							},
 							{
 								value: 1,
