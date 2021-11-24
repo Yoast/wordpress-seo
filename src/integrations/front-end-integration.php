@@ -232,6 +232,7 @@ class Front_End_Integration implements Integration_Interface {
 		\remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 		\remove_action( 'wp_head', 'noindex', 1 );
 		\remove_action( 'wp_head', '_wp_render_title_tag', 1 );
+		\remove_action( 'wp_head', '_block_template_render_title_tag', 1 );
 		\remove_action( 'wp_head', 'gutenberg_render_title_tag', 1 );
 	}
 
