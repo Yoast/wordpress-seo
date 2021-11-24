@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import { Alert, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
-import { Step, Steps, FinishStepSection } from "./Steps";
+import { Step, Steps, FinishButtonSection } from "./Steps";
 import { STEPS, WORKOUTS } from "../config";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
@@ -411,7 +411,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							indexingStateCallback={ setIndexingState }
 						/>
 					</div>
-					<FinishStepSection
+					<FinishButtonSection
 						stepNumber={ 1 }
 						hasDownArrow={ true }
 						finishText={ __( "Continue", "wordpress-seo" ) }
@@ -509,7 +509,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							"wordpress-seo"
 						) }
 					</Alert> }
-					<FinishStepSection
+					<FinishButtonSection
 						stepNumber={ 2 }
 						isSaved={ savedSteps.includes( 2 ) }
 						hasDownArrow={ ! isStep2Finished }
@@ -578,7 +578,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						</p>
 					</div>
 					}
-					<FinishStepSection
+					<FinishButtonSection
 						stepNumber={ 3 }
 						isSaved={ savedSteps.includes( 3 ) }
 						hasDownArrow={ ! isStep3Finished }
@@ -630,7 +630,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 							__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors!", "wordpress-seo" )
 						}</i>
 					</p>
-					<FinishStepSection
+					<FinishButtonSection
 						stepNumber={ 4 }
 						isSaved={ savedSteps.includes( 4 ) }
 						hasDownArrow={ ! isStep4Finished }
@@ -644,19 +644,18 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					isFinished={ isStep5Finished }
 				>
 					<NewsletterSignup />
-					<FinishStepSection
-						stepNumber={ 5 }
-						finishText={ isStep5Finished ? __( "Reset this workout", "wordpress-seo" ) : __( "Finish this workout", "wordpress-seo" ) }
-						onFinishClick={ toggleConfigurationWorkout }
-						isFinished={ isStep5Finished }
-						additionalButtonProps={ { disabled: indexingState !== "completed" } }
-					>
-						{ indexingState !== "completed" && <Alert type="warning">
-							{ indexingState === "idle" && __( "Before you finish this workout, please start the SEO data optimization in step 1 and wait until it is completed...", "wordpress-seo" ) }
-							{ indexingState === "in_progress" && __( "Before you finish this workout, please wait on this page until the SEO data optimization in step 1 is completed...", "wordpress-seo" ) }
-						</Alert> }
-					</FinishStepSection>
 				</Step>
+				<FinishButtonSection
+					finishText={ isStep5Finished ? __( "Do workout again", "wordpress-seo" ) : __( "Finish this workout", "wordpress-seo" ) }
+					onFinishClick={ toggleConfigurationWorkout }
+					isFinished={ isStep5Finished }
+					additionalButtonProps={ { disabled: indexingState !== "completed" } }
+				>
+					{ indexingState !== "completed" && <Alert type="warning">
+						{ indexingState === "idle" && __( "Before you finish this workout, please start the SEO data optimization in step 1 and wait until it is completed...", "wordpress-seo" ) }
+						{ indexingState === "in_progress" && __( "Before you finish this workout, please wait on this page until the SEO data optimization in step 1 is completed...", "wordpress-seo" ) }
+					</Alert> }
+				</FinishButtonSection>
 			</Steps>
 		</div>
 		/* eslint-enable max-len */
