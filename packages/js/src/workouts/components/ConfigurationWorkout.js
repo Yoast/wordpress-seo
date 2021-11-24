@@ -170,22 +170,20 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	 * @returns {Promise|bool} A promise, or false if the call fails.
 	 */
 	const updateTracking = async function() {
+		if ( state.tracking !== 0 || state.tracking !== 1 ) {
+			throw "Value not set!";
+		}
+
 		const tracking = {
 			tracking: state.tracking,
 		};
 
-		try {
-			const response = await apiFetch( {
-				path: "yoast/v1/workouts/enable_tracking",
-				method: "POST",
-				data: tracking,
-			} );
-			return await response.json;
-		} catch ( e ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
-			console.error( e.message );
-			return false;
-		}
+		const response = await apiFetch( {
+			path: "yoast/v1/workouts/enable_tracking",
+			method: "POST",
+			data: tracking,
+		} );
+		return await response.json;
 	};
 
 	const onFinishOptimizeSeoData = useCallback(
@@ -265,7 +263,11 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		if ( isStepFinished( "configuration", steps.enableTracking ) ) {
 			toggleStepEnableTracking();
 		} else {
-			updateTracking().then( toggleStepEnableTracking );
+			updateTracking()
+				.then( toggleStepEnableTracking )
+				.catch( ( e ) => {
+					console.error( e );
+				} );
 		}
 	}
 
