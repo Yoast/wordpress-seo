@@ -343,6 +343,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, clearActiveWo
 	const toggleConfigurationWorkout = useCallback(
 		() => {
 			if ( isWorkoutFinished ) {
+				setSavedSteps( [] );
 				toggleWorkout( "configuration" );
 				return;
 			}
