@@ -404,9 +404,9 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 
 	/* eslint-disable max-len */
 	return (
-		<div className="card">
-			<h2>{ __( "Configuration", "wordpress-seo" ) }</h2>
-			<h3>{
+		<div id="yoast-configuration-workout-card" className="card">
+			<h2 id="yoast-configuration-workout">{ __( "Configuration", "wordpress-seo" ) }</h2>
+			<h3 id="yoast-configuration-workout-title">{
 				// translators: %1$s is replaced by "Yoast SEO"
 				sprintf( __( "Configure %1$s with optimal SEO settings for your site", "wordpress-seo" ), "Yoast SEO" )
 			}</h3>
@@ -461,7 +461,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 				}
 			</p>
 			<br />
-			<Steps>
+			<Steps id="yoast-configuration-workout-steps">
 				<Step
 					title={ __( "Optimize SEO data", "wordpress-seo" ) }
 					subtitle={ addLinkToString(

@@ -13,7 +13,7 @@ import { __ } from "@wordpress/i18n";
  */
 export function Steps( props ) {
 	return (
-		<ol className="workflow yoast">
+		<ol id={ props.id } className="workflow yoast">
 			{ props.children }
 		</ol>
 	);
@@ -21,6 +21,11 @@ export function Steps( props ) {
 
 Steps.propTypes = {
 	children: PropTypes.any.isRequired,
+	id: PropTypes.string,
+};
+
+Steps.defaultProps = {
+	id: "",
 };
 
 /**
