@@ -170,7 +170,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	 * @returns {Promise|bool} A promise, or false if the call fails.
 	 */
 	const updateTracking = async function() {
-		if ( state.tracking !== 0 || state.tracking !== 1 ) {
+		if ( state.tracking !== 0 && state.tracking !== 1 ) {
 			throw "Value not set!";
 		}
 
