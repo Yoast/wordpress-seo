@@ -218,7 +218,6 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 		setSavedSteps( ( prevState ) => {
 			return [ stepNumber, ...prevState ];
 		} );
-		return;
 	};
 
 	/**
