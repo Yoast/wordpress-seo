@@ -225,6 +225,13 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	const isStep3Finished = isStepFinished( "configuration", steps.socialProfiles );
 	const isStep4Finished = isStepFinished( "configuration", steps.enableTracking );
 	const isStep5Finished = isStepFinished( "configuration", steps.newsletterSignup );
+	const isWorkoutFinished = [
+		isStep1Finished,
+		isStep2Finished,
+		isStep3Finished,
+		isStep4Finished,
+		isStep5Finished,
+	].every( Boolean );
 
 	/**
 	 * Returns a function that toggles a specific step (based on step name).
@@ -235,9 +242,11 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	 */
 	const makeStepToggle = ( stepName ) => () => toggleStep( "configuration", stepName );
 
+	const toggleOptimizeSeoData = makeStepToggle( steps.optimizeSeoData );
 	const toggleStepSiteRepresentation = makeStepToggle( steps.siteRepresentation );
 	const toggleStepSocialProfiles = makeStepToggle( steps.socialProfiles );
 	const toggleStepEnableTracking = makeStepToggle( steps.enableTracking );
+	const toggleStepNewsletterSignup = makeStepToggle( steps.newsletterSignup );
 
 	const setTracking = useCallback( ( value ) => {
 		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
@@ -252,9 +261,9 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 			if ( ! isStep1Finished ) {
 				scrollToStep( 2 );
 			}
-			toggleStep( "configuration", steps.optimizeSeoData );
+			toggleOptimizeSeoData();
 		},
-		[ toggleStep, steps.optimizeSeoData, isStep1Finished ]
+		[ isStep1Finished ]
 	);
 
 	/**
@@ -331,8 +340,46 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	}
 
 	const toggleConfigurationWorkout = useCallback(
-		toggleWorkout.bind( null, "configuration" ),
-		[ toggleWorkout ]
+		() => {
+			if ( isWorkoutFinished ) {
+				toggleWorkout( "configuration" );
+				return;
+			}
+			if ( ! isStep1Finished ) {
+				toggleOptimizeSeoData();
+			}
+			if ( ! isStep2Finished ) {
+				updateSiteRepresentation( state )
+					.then( () => setStepIsSaved( 2 ) )
+					.then( toggleStepSiteRepresentation );
+			}
+			if ( ! isStep3Finished ) {
+				updateSocialProfiles( state )
+					.then( () => setStepIsSaved( 3 ) )
+					.then( () => {
+						setErrorFields( [] );
+						toggleStepSocialProfiles();
+					} )
+					.catch(
+						( e ) => {
+							if ( e.failures ) {
+								setErrorFields( e.failures );
+							}
+							scrollToStep( 3 );
+							return false;
+						}
+					);
+			}
+			if ( ! isStep4Finished ) {
+				updateTracking( state )
+					.then( () => setStepIsSaved( 4 ) )
+					.then( toggleStepEnableTracking );
+			}
+			if ( ! isStep5Finished ) {
+				toggleStepNewsletterSignup();
+			}
+		},
+		[ toggleWorkout, isWorkoutFinished, isStep1Finished, isStep2Finished, isStep3Finished, isStep4Finished, isStep5Finished, state ]
 	);
 
 	const onOrganizationOrPersonChange = useCallback(
@@ -663,9 +710,9 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 					<NewsletterSignup />
 				</Step>
 				<FinishButtonSection
-					finishText={ isStep5Finished ? __( "Do workout again", "wordpress-seo" ) : __( "Finish this workout", "wordpress-seo" ) }
+					finishText={ isWorkoutFinished ? __( "Do workout again", "wordpress-seo" ) : __( "Finish this workout", "wordpress-seo" ) }
 					onFinishClick={ toggleConfigurationWorkout }
-					isFinished={ isStep5Finished }
+					isFinished={ isWorkoutFinished }
 					additionalButtonProps={ { disabled: indexingState !== "completed" || ! isTrackingOptionSelected } }
 				>
 					{ indexingState !== "completed" && <Alert type="warning">
