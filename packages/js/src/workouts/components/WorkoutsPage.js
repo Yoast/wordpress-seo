@@ -96,7 +96,7 @@ export default function WorkoutsPage( props ) {
 	return (
 		<div>
 			<h1>
-				{ __( "SEO workouts", "wordpress-seo-premium" ) }
+				{ __( "SEO workouts", "wordpress-seo" ) }
 			</h1>
 			<p>
 				{ __(
