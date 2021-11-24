@@ -6,8 +6,9 @@ import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
 import PropTypes from "prop-types";
 
-import { Alert, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
-import { ReactComponent as WorkoutImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
+import { Alert, NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
+import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
+import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
 import { Step, Steps, FinishButtonSection } from "./Steps";
 import { STEPS, WORKOUTS } from "../config";
@@ -184,7 +185,7 @@ async function updateTracking( state ) {
  * @param {string}    seoDataOptimizationNeeded The flag signaling if SEO optimization is needed.
  * @returns {WPElement} The ConfigurationWorkout component.
  */
-export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinished } ) {
+export function ConfigurationWorkout( { toggleStep, toggleWorkout, clearActiveWorkout, isStepFinished } ) {
 	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, { ...window.wpseoWorkoutsData.configuration, errorFields: [] } );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "completed" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
@@ -467,7 +468,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						),
 						"https://yoa.st/config-workout-index-data"
 					) }
-					ImageComponent={ WorkoutImage }
+					ImageComponent={ WorkoutStartImage }
 					isFinished={ isStep1Finished }
 				>
 					<div className="indexation-container">
@@ -730,14 +731,26 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 				</FinishButtonSection>
 			</Steps>
 			{ isWorkoutFinished && <div>
-				<h3>{ __( "Congratulations", "wordpress-seo" ) }</h3>
-				<p>
+				<hr />
+				<h3 style={ { marginBottom: 0 } }>{ __( "Congratulations!", "wordpress-seo" ) }</h3>
+				<div style={ { display: "flex" } }>
+					<div>
+						<p>
+							{
+								// translators: %1$s is replaced by "Yoast SEO"
+								sprintf( __( "Amazing! You’ve successfully finished the Configuration workout! %1$s now outputs the essential structured data for your site.", "wordpress-seo" ), "Yoast SEO" )
+							}
+						</p>
+						<p>{ __( "Make sure to also check out our other SEO workouts to really get your site into shape!", "wordpress-seo" ) }</p>
+					</div>
+					<WorkoutDoneImage style={ { height: "119px", width: "100px", flexShrink: 0 } } />
+				</div>
+				<Button onClick={ clearActiveWorkout } variant="primary">
 					{
-						// translators: %1$s is replaced by "Yoast SEO"
-						sprintf( __( "Amazing! You’ve successfully finished the Configuration workout! %1$s now outputs the essential structured data for your site.", "wordpress-seo" ), "Yoast SEO" )
+						// translators: %1$s translates to a rightward pointing arrow ( → )
+						sprintf( __( "View other SEO workouts%1$s", "wordpress-seo" ), " →" )
 					}
-				</p>
-				<p>{ __( "Make sure to also check out our other SEO workouts to really get your site into shape!", "wordpress-seo" ) }</p>
+				</Button>
 			</div> }
 		</div>
 		/* eslint-enable max-len */
@@ -748,6 +761,7 @@ ConfigurationWorkout.propTypes = {
 	toggleStep: PropTypes.func.isRequired,
 	toggleWorkout: PropTypes.func.isRequired,
 	isStepFinished: PropTypes.func.isRequired,
+	clearActiveWorkout: PropTypes.func.isRequired,
 };
 /* eslint-enable complexity */
 
@@ -775,12 +789,14 @@ export default compose(
 					toggleStep,
 					toggleWorkout,
 					moveIndexables,
+					clearActiveWorkout,
 				} = dispatch( "yoast-seo/workouts" );
 
 				return {
 					toggleStep,
 					toggleWorkout,
 					moveIndexables,
+					clearActiveWorkout,
 				};
 			}
 		),
