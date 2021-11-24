@@ -126,14 +126,16 @@ describe( "test for prominent words research for languages that have custom help
 		} );
 
 		it( "returns prominent words for texts with more than 300 words, in which the morphology data is available", function() {
-			const paper = new Paper( "私の美しい猫" + "のおやつが猫".repeat( 180 ) );
+			const paper = new Paper( "私の美しい猫のおやつが猫".repeat( 180 ) );
 
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
 			const expected = [
 				new ProminentWord( "猫", "猫", 181 ),
+				new ProminentWord( "美しい", "美しい", 180 ),
 				new ProminentWord( "おやつ", "おやた", 179 ),
+				new ProminentWord( "猫私", "猫私", 179 ),
 			];
 
 			const words = getProminentWordsForInsights( paper, researcher );
