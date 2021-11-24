@@ -10,7 +10,7 @@
  * @typedef {Object} SeoIntegrationInterface
  *
  * @property {AnalysisWorkerWrapper} analysisWorker The analysis worker wrapper.
- * @property {Object<string, ReplacementVariable[]>} analysisTypeReplacementVariables Replacement variables per analysis type.
+ * @property {Object<string, ReplacementVariablesInterface[]>} analysisTypeReplacementVariables Replacement variables per analysis type.
  * @property {function} unregisterReplacementVariables Unregisters the replacement variables from the analysis.
  */
 
@@ -21,9 +21,9 @@ import createAnalysisTypeReplacementVariables from "./replacement-variables";
 
 /*
  * The implementation is responsible for the replacement variable configurations per analysis type.
- * Provide a way to get the default configurations, as well as a helper to merge configurations.
+ * This provides a way to get the default configurations to pick from.
  */
-export { createDefaultReplacementVariableConfigurations, mergeReplacementVariableConfigurations } from "./replacement-variables";
+export { createDefaultReplacementVariableConfigurations } from "./replacement-variables";
 
 /**
  * Creates the SEO integration.

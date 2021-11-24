@@ -3,7 +3,7 @@ import { addFilter, removeFilter } from "@wordpress/hooks";
 import { __ } from "@wordpress/i18n";
 import createReplacementVariables from "@yoast/replacement-variables";
 import { SEO_STORE_NAME } from "@yoast/seo-store";
-import { curryRight, mapValues, noop, reduce, unionBy } from "lodash";
+import { curryRight, get, identity, mapValues } from "lodash";
 
 /**
  * Creates the default replacement variable configurations, for use within the SEO store context.
@@ -38,29 +38,6 @@ export const createDefaultReplacementVariableConfigurations = () => ( {
 } );
 
 /**
- * Merges two sets of replacement variable configurations, by name.
- *
- * @param {ReplacementVariableConfiguration[]} default Default set. An entry will be overriden whenever its name is not unique.
- * @param {ReplacementVariableConfiguration[]} preferred Preferred set. Possibly overrides the default set.
- *
- * @returns {ReplacementVariableConfiguration[]} Replacement variable configurations.
- */
-export const mergeReplacementVariableConfigurations = curryRight( unionBy )( "name" );
-
-/**
- * Creates an apply replacement variables function for objects.
- *
- * @param {function} apply The apply replacement variables function for strings.
- *
- * @returns {function(Object): string} The apply replacement variables function for objects.
- */
-const createApplyReplacementVariablesToObject = apply => source => reduce(
-	source,
-	( result, value, key ) => ( { ...result, [ key ]: apply( value ) } ),
-	{},
-);
-
-/**
  * Registers the replacement variables to be used inside the analysis.
  *
  * @param {Object.<string, function>} applies Apply functions, keyed per analysis type.
@@ -71,12 +48,13 @@ const registerReplacementVariables = ( applies ) => {
 	/**
 	 * Creates an apply replacement variables function for objects for the current analysis type.
 	 *
+	 * @param {Object} paper The paper to analyze.
+	 * @param {string} analysisType The current analysis type to apply the replacement variables for.
+	 *
 	 * @returns {function(Object): string} The apply replacement variables function for objects.
 	 */
-	const applyReplacementVariables = () => {
-		const analysisType = select( SEO_STORE_NAME ).selectAnalysisType();
-
-		return createApplyReplacementVariablesToObject( applies[ analysisType ] || noop );
+	const applyReplacementVariables = ( paper, { config: { analysisType } } ) => {
+		return curryRight( mapValues )( paper, get( applies, analysisType, identity ) );
 	};
 
 	addFilter(
@@ -94,15 +72,10 @@ const registerReplacementVariables = ( applies ) => {
  *
  * @param {Object.<string, ReplacementVariableConfiguration[]>} configurations The replacement variables configurations per analysis type.
  *
- * @returns {{set: Object.<string, ReplacementVariable[]>, unregister: function}} The replacement variables interface.
+ * @returns {{set: Object.<string, ReplacementVariablesInterface[]>, unregister: function}} The replacement variables interface.
  */
 const createAnalysisTypeReplacementVariables = ( configurations ) => {
-	const set = reduce(
-		configurations,
-		( acc, value, key ) => ( { ...acc, [ key ]: createReplacementVariables( value ) } ),
-		{},
-	);
-
+	const set = mapValues( configurations, createReplacementVariables );
 	const unregister = registerReplacementVariables( mapValues( set, "apply" ) );
 
 	return { set, unregister };
