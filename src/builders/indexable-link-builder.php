@@ -474,9 +474,19 @@ class Indexable_Link_Builder {
 			return;
 		}
 
-		$counts = $this->seo_links_repository->get_incoming_link_counts_for_indexable_ids( $related_indexable_ids );
-		foreach ( $counts as $count ) {
-			$this->indexable_repository->update_incoming_link_count( $count['target_indexable_id'], $count['incoming'] );
+		// Get the counts of all incoming links for every indexable passed to this method.
+		$indexable_counts = $this->seo_links_repository->get_incoming_link_counts_for_indexable_ids( $related_indexable_ids );
+		// Convert the $indexable_counts to a more workable array with incoming count per indexable ID.
+		$counts_by_id = array_column( $indexable_counts, 'incoming', 'target_indexable_id' );
+
+		// For every passed indexable, check if it exists in the $counts_by_id array. If it does not exist, its incoming count is 0.
+		foreach ( $related_indexable_ids as $indexable_id ) {
+			if ( array_key_exists( $indexable_id, $counts_by_id ) ) {
+				$this->indexable_repository->update_incoming_link_count( $indexable_id, $indexable_counts[ $indexable_id] );
+			}
+			else {
+				$this->indexable_repository->update_incoming_link_count( $indexable_id, 0 );
+			}
 		}
 	}
 }
