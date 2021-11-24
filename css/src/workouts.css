@@ -76,21 +76,26 @@
 	padding-bottom: 16px;
 }
 
-.workflow li.step > .finish-step-button-section {
+.workflow .finish-button-section {
 	display: inline-grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	width: 100%;
 	align-items: center;
 }
 
-.workflow li.step > .finish-step-button-section .yoast-button {
+.workflow .finish-button-section .yoast-button {
 	width: fit-content;
 	justify-self: center;
 	grid-column-start: 2;
 	grid-column-end: 2;
 }
 
-.workflow li.step > .finish-step-button-section .finish-step-saved {
+.workflow .finish-workout-button-section .yoast-button {
+	width: fit-content;
+	margin: 0 auto;
+}
+
+.workflow .finish-button-section .finish-button-saved {
 	grid-column-start: 3;
 	grid-column-end: 3;
 	position: relative;
@@ -98,7 +103,7 @@
 	margin-left: 10px;
 }
 
-.workflow li.step > .finish-step-button-section .finish-step-saved::before {
+.workflow .finish-button-section .finish-button-saved::before {
 	position: absolute;
 	content: "";
 	background: var(--yoast-svg-icon-check);

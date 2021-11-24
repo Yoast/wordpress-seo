@@ -24,18 +24,18 @@ Steps.propTypes = {
 };
 
 /**
- * Returns a finish step section.
+ * Returns a finish button section.
  *
  * @param {Object} props The props.
  *
- * @returns {WPElement} The FinishStepSection element.
+ * @returns {WPElement} The FinishButtonSection element.
  */
-export function FinishStepSection( { stepNumber, onFinishClick, finishText, hasDownArrow, isFinished, additionalButtonProps, isSaved, children } ) {
+export function FinishButtonSection( { stepNumber, onFinishClick, finishText, hasDownArrow, isFinished, additionalButtonProps, isSaved, children } ) {
 	return (
 		<Fragment>
 			<hr id={ stepNumber ? `hr-scroll-target-step-${ stepNumber + 1 }` : null } />
 			{ children }
-			<div className="finish-step-button-section">
+			<div className="finish-button-section">
 				<Button
 					className={ `yoast-button yoast-button--secondary${ isFinished ? " yoast-button--finished" : "" }` }
 					onClick={ onFinishClick }
@@ -44,16 +44,16 @@ export function FinishStepSection( { stepNumber, onFinishClick, finishText, hasD
 					{ finishText }
 					{ hasDownArrow && <ArrowDown className="yoast-button--arrow-down" /> }
 				</Button>
-				{ isSaved && <span className="finish-step-saved">{ __( "Saved!", "wordpress-seo" ) }</span> }
+				{ isSaved && <span className="finish-button-saved">{ __( "Saved!", "wordpress-seo" ) }</span> }
 			</div>
 		</Fragment>
 	);
 }
 
-FinishStepSection.propTypes = {
+FinishButtonSection.propTypes = {
 	finishText: PropTypes.string.isRequired,
 	onFinishClick: PropTypes.func.isRequired,
-	stepNumber: PropTypes.number.isRequired,
+	stepNumber: PropTypes.number,
 	hasDownArrow: PropTypes.bool,
 	isFinished: PropTypes.bool,
 	additionalButtonProps: PropTypes.object,
@@ -61,7 +61,8 @@ FinishStepSection.propTypes = {
 	children: PropTypes.any,
 };
 
-FinishStepSection.defaultProps = {
+FinishButtonSection.defaultProps = {
+	stepNumber: NaN,
 	hasDownArrow: false,
 	isFinished: false,
 	additionalButtonProps: {},
