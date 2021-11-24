@@ -70,3 +70,23 @@ export async function search( term, setSearchResult ) {
 		return false;
 	}
 }
+
+/**
+ * Scrolls a target into view.
+ *
+ * @param {Int} stepNumber The number of the step to scroll to.
+ *
+ * @returns { void }
+ */
+export function scrollToStep( stepNumber ) {
+	if ( stepNumber === 1 ) {
+		window.scrollTo( { top: 0, behavior: "smooth" } );
+		return;
+	}
+
+	const element = document.getElementById( `hr-scroll-target-step-${ stepNumber }` );
+	const yOffset = -50;
+	const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+	window.scrollTo( { top: y, behavior: "smooth", block: "start" } );
+}
