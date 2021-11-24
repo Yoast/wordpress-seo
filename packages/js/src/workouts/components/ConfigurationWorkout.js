@@ -397,7 +397,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						id="organization-person-select"
 						htmlFor="organization-person-select"
 						name="organization"
-						label={ __( "Does you site represent an Organization or Person?", "wordpress-seo" ) }
+						label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
 						selected={ state.companyOrPerson }
 						onChange={ onOrganizationOrPersonChange }
 						options={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
