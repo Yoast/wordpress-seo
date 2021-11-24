@@ -8,6 +8,7 @@ const cssDistPath = path.resolve( "css", "dist" );
 const entry = {
 	"addon-installation": "./packages/js/src/addon-installation.js",
 	"admin-global": "./packages/js/src/admin-global.js",
+	"admin-modules": "./packages/js/src/admin-modules.js",
 	"analysis-worker": "./packages/js/src/analysis-worker.js",
 	"api-client": "./packages/js/src/api-client.js",
 	"block-editor": "./packages/js/src/block-editor.js",
@@ -32,6 +33,7 @@ const entry = {
 	"term-edit": "./packages/js/src/term-edit.js",
 	"used-keywords-assessment": "./packages/js/src/used-keywords-assessment.js",
 	"react-select": "./packages/js/src/externals/react-select.js",
+	workouts: "./packages/js/src/workouts.js",
 };
 
 /**

@@ -130,7 +130,7 @@ export default class FixedWidthContainer extends Component {
 			{ this.state.showScrollHint &&
 				<ScrollHintContainer>
 					<ScrollHint>
-						{ __( "Scroll to see the preview content.", "wordpress-seo" ) }
+						{ __( "Scroll to see the preview content.", "yoast-components" ) }
 					</ScrollHint>
 				</ScrollHintContainer>
 			}

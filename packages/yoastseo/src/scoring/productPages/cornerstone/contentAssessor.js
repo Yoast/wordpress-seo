@@ -12,13 +12,14 @@ import ListsPresence from "../../assessments/readability/ListAssessment.js";
 /**
  * Creates the Assessor
  *
+ * @param {object} i18n         The i18n object used for translations.
  * @param {object} researcher   The researcher to use for the analysis.
  * @param {Object} options      The options for this assessor.
  *
  * @constructor
  */
-const ProductCornerstoneContentAssessor = function( researcher, options ) {
-	Assessor.call( this, researcher, options );
+const ProductCornerstoneContentAssessor = function( i18n, researcher, options ) {
+	Assessor.call( this, i18n, researcher, options );
 	this.type = "productCornerstoneContentAssessor";
 
 	this._assessments = [

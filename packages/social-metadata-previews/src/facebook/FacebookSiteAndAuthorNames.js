@@ -44,7 +44,7 @@ const FacebookSiteUrl = styled.span`
  */
 function renderFacebookAuthorName( authorName ) {
 	/* Translators: the context is: SITE | By AUTHOR */
-	const by = __( "By", "wordpress-seo" );
+	const by = __( "By", "yoast-components" );
 
 	return (
 		<Fragment>
@@ -69,7 +69,7 @@ const FacebookSiteAndAuthorNames = ( props ) => {
 	const hasAuthorName =  isString( props.authorName ) && props.authorName.length > 0;
 	const screenReaderText = hasAuthorName
 		/* Translators: 1: site name, 2: post author name */
-		? sprintf( __( "%1$s by %2$s", "wordpress-seo" ), props.siteUrl, props.authorName )
+		? sprintf( __( "%1$s by %2$s", "yoast-components" ), props.siteUrl, props.authorName )
 		: props.siteUrl;
 
 	return (

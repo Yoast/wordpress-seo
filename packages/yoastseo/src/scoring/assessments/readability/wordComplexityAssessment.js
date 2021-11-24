@@ -1,4 +1,3 @@
-import { __, sprintf } from "@wordpress/i18n";
 import { filter, flatMap, flatten, forEach, zip } from "lodash-es";
 
 import formatNumber from "../../../helpers/formatNumber";
@@ -29,10 +28,11 @@ const filterComplexity = function( words ) {
  *
  * @param {number}  wordCount       The number of words used.
  * @param {Array}   wordComplexity  The list of words with their syllable count.
+ * @param {Object}  i18n            The object used for translations.
  *
  * @returns {{score: number, text}} resultobject with score and text.
  */
-const calculateComplexity = function( wordCount, wordComplexity ) {
+const calculateComplexity = function( wordCount, wordComplexity, i18n ) {
 	let percentage = 0;
 	const tooComplexWords = filterComplexity( wordComplexity ).length;
 
@@ -54,14 +54,15 @@ const calculateComplexity = function( wordCount, wordComplexity ) {
 		return {
 			score: score,
 			hasMarks: hasMarks,
-			text: sprintf(
-				// Translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
-				// %3$d expands to the recommended maximum number of syllables,
-				// %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
-				__(
-					"%1$s of the words contain %2$sover %3$s syllables%4$s, which is less than or equal to the recommended maximum of %5$s.",
-					"wordpress-seo"
-				),
+			text: i18n.sprintf(
+				i18n.dgettext(
+					"js-text-analysis",
+
+					// Translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
+					// %3$d expands to the recommended maximum number of syllables,
+					// %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
+					"%1$s of the words contain %2$sover %3$s syllables%4$s, " +
+					"which is less than or equal to the recommended maximum of %5$s." ),
 				percentage + "%", wordComplexityURL, recommendedValue, "</a>", recommendedMaximum + "%"  ),
 		};
 	}
@@ -69,14 +70,15 @@ const calculateComplexity = function( wordCount, wordComplexity ) {
 	return {
 		score: score,
 		hasMarks: hasMarks,
-		text: sprintf(
-			// Translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
-			// %3$d expands to the recommended maximum number of syllables,
-			// %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
-			__(
-				"%1$s of the words contain %2$sover %3$s syllables%4$s, which is more than the recommended maximum of %5$s.",
-				"wordpress-seo"
-			),
+		text: i18n.sprintf(
+			i18n.dgettext(
+				"js-text-analysis",
+
+				// Translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
+				// %3$d expands to the recommended maximum number of syllables,
+				// %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
+				"%1$s of the words contain %2$sover %3$s syllables%4$s, " +
+				"which is more than the recommended maximum of %5$s." ),
 			percentage + "%", wordComplexityURL, recommendedValue, "</a>", recommendedMaximum + "%"  ),
 	};
 };
@@ -162,17 +164,18 @@ const wordComplexityMarker = function( paper, researcher ) {
  *
  * @param {Paper}       paper       The Paper object to assess.
  * @param {Researcher}  researcher  The Researcher object containing all available researches.
+ * @param {object}      i18n        The object used for translations.
  *
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
-const wordComplexityAssessment = function( paper, researcher ) {
+const wordComplexityAssessment = function( paper, researcher, i18n ) {
 	let wordComplexity = researcher.getResearch( "wordComplexity" );
 	wordComplexity = flatMap( wordComplexity, function( sentence ) {
 		return sentence.words;
 	} );
 	const wordCount = wordComplexity.length;
 
-	const complexityResult = calculateComplexity( wordCount, wordComplexity );
+	const complexityResult = calculateComplexity( wordCount, wordComplexity, i18n );
 	const assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( complexityResult.score );
 	assessmentResult.setText( complexityResult.text );

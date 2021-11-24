@@ -76,7 +76,7 @@ class ModeSwitcher extends Component {
 		const desktopInputId = desktopModeInputId.length > 0 ? desktopModeInputId : "yoast-google-preview-mode-desktop";
 
 		return ( <Switcher>
-			<SwitcherTitle>{ __( "Preview as:", "wordpress-seo" ) }</SwitcherTitle>
+			<SwitcherTitle>{ __( "Preview as:", "yoast-components" ) }</SwitcherTitle>
 			<ModeRadio
 				onChange={ this.switchToMobile }
 				type="radio"
@@ -88,7 +88,7 @@ class ModeSwitcher extends Component {
 				} }
 			/>
 			<ModeLabel for={ mobileInputId }>
-				{ __( "Mobile result", "wordpress-seo" ) }
+				{ __( "Mobile result", "yoast-components" ) }
 			</ModeLabel>
 			<ModeRadio
 				onChange={ this.switchToDesktop }
@@ -101,7 +101,7 @@ class ModeSwitcher extends Component {
 				} }
 			/>
 			<ModeLabel for={ desktopInputId }>
-				{ __( "Desktop result", "wordpress-seo" ) }
+				{ __( "Desktop result", "yoast-components" ) }
 			</ModeLabel>
 		</Switcher> );
 	}

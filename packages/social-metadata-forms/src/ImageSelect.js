@@ -69,8 +69,8 @@ const ImageSelectButtons = ( {
 		>
 			{
 				imageSelected
-					? __( "Replace image", "wordpress-seo" )
-					: __( "Select image", "wordpress-seo" )
+					? __( "Replace image", "yoast-components" )
+					: __( "Select image", "yoast-components" )
 			}
 		</StandardButton>
 		{
@@ -78,7 +78,7 @@ const ImageSelectButtons = ( {
 				id={ removeImageButtonId }
 				onClick={ onRemoveImageClick }
 			>
-				{ __( "Remove image", "wordpress-seo" ) }
+				{ __( "Remove image", "yoast-components" ) }
 			</UndoButton>
 		}
 	</Fragment>;

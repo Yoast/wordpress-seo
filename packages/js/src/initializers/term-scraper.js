@@ -351,7 +351,7 @@ export default function initTermScraper( $, store, editorData ) {
 		store.subscribe( handleStoreChange.bind( null, store, app.refresh ) );
 
 		if ( isKeywordAnalysisActive() ) {
-			app.seoAssessor = new TaxonomyAssessor( app.config.researcher );
+			app.seoAssessor = new TaxonomyAssessor( app.i18n, app.config.researcher );
 			app.seoAssessorPresenter.assessor = app.seoAssessor;
 		}
 

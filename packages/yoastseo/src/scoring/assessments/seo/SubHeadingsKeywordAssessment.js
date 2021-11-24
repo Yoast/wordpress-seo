@@ -1,4 +1,3 @@
-import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 import { getSubheadingsTopLevel } from "../../../languageProcessing/helpers/html/getSubheadings";
 import Assessment from "../assessment";
@@ -44,17 +43,18 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper             The paper to use for the assessment.
 	 * @param {Researcher} researcher   The researcher used for calling research.
+	 * @param {Object} i18n             The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
-	getResult( paper, researcher ) {
+	getResult( paper, researcher, i18n ) {
 		this._subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
 
 		const assessmentResult = new AssessmentResult();
 
 		this._minNumberOfSubheadings = Math.ceil( this._subHeadings.count * this._config.parameters.lowerBoundary );
 		this._maxNumberOfSubheadings = Math.floor( this._subHeadings.count * this._config.parameters.upperBoundary );
-		const calculatedResult = this.calculateResult();
+		const calculatedResult = this.calculateResult( i18n );
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -139,17 +139,19 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 	/**
 	 * Determines the score and the Result text for the subheadings.
 	 *
+	 * @param {Object} i18n The object used for translations.
+	 *
 	 * @returns {Object} The object with the calculated score and the result text.
 	 */
-	calculateResult() {
+	calculateResult( i18n ) {
 		if ( this.hasTooFewMatches() ) {
 			return {
 				score: this._config.scores.tooFewMatches,
-				resultText: sprintf(
+				resultText: i18n.sprintf(
 					/* Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
-					__(
-						"%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your H2 and H3 subheadings%3$s!",
-						"wordpress-seo"
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your H2 and H3 subheadings%3$s!"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -161,12 +163,12 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 		if ( this.hasTooManyMatches() ) {
 			return {
 				score: this._config.scores.tooManyMatches,
-				resultText: sprintf(
+				resultText: i18n.sprintf(
 					/* Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
-					__(
-						// eslint-disable-next-line max-len
-						"%1$sKeyphrase in subheading%3$s: More than 75%% of your H2 and H3 subheadings reflect the topic of your copy. That's too much. %2$sDon't over-optimize%3$s!",
-						"wordpress-seo"
+					i18n.dgettext(
+						"js-text-analysis",
+						"%1$sKeyphrase in subheading%3$s: More than 75%% of your H2 and H3 subheadings reflect the topic of your copy. " +
+						"That's too much. %2$sDon't over-optimize%3$s!"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -178,16 +180,16 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 		if ( this.isOneOfOne() ) {
 			return {
 				score: this._config.scores.goodNumberOfMatches,
-				resultText: sprintf(
+				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
 					%3$d expands to the number of subheadings containing the keyphrase. */
-					__(
+					i18n.dgettext(
+						"js-text-analysis",
 						"%1$sKeyphrase in subheading%2$s: Your H2 or H3 subheading reflects the topic of your copy. Good job!",
-						"wordpress-seo"
+						this._subHeadings.matches
 					),
 					this._config.urlTitle,
-					"</a>",
-					this._subHeadings.matches
+					"</a>"
 				),
 			};
 		}
@@ -195,14 +197,14 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 		if ( this.hasGoodNumberOfMatches() ) {
 			return {
 				score: this._config.scores.goodNumberOfMatches,
-				resultText: sprintf(
+				resultText: i18n.sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
 					%3$d expands to the number of subheadings containing the keyphrase. */
-					_n(
+					i18n.dngettext(
+						"js-text-analysis",
 						"%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflects the topic of your copy. Good job!",
 						"%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflect the topic of your copy. Good job!",
-						this._subHeadings.matches,
-						"wordpress-seo"
+						this._subHeadings.matches
 					),
 					this._config.urlTitle,
 					"</a>",
@@ -213,11 +215,11 @@ export default class SubHeadingsKeywordAssessment extends Assessment {
 
 		return {
 			score: this._config.scores.noMatches,
-			resultText: sprintf(
+			resultText: i18n.sprintf(
 				/* Translators: %1$s and %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
-				__(
-					"%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your H2 and H3 subheadings%3$s!",
-					"wordpress-seo"
+				i18n.dgettext(
+					"js-text-analysis",
+					"%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your H2 and H3 subheadings%3$s!"
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,

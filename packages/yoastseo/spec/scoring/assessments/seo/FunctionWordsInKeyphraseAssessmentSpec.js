@@ -4,11 +4,14 @@ import Factory from "../../../specHelpers/factory";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 
+const i18n = Factory.buildJed();
+
 describe( "An assessment for checking if the keyphrase contains function words only", function() {
 	it( "returns a consideration feedback if there are only function words in the keyphrase", function() {
 		const assessment = new FunctionWordsInKeyphraseAssessment().getResult(
 			new Paper( "", { keyword: "someone was here" } ),
 			Factory.buildMockResearcher( true ),
+			i18n
 		);
 		expect( assessment.getScore() ).toBe( 0 );
 		expect( assessment.getText() ).toBe(
@@ -21,7 +24,8 @@ describe( "An assessment for checking if the keyphrase contains function words o
 	it( "returns nothing if there are also content words in the keyphrase", function() {
 		const assessment = new FunctionWordsInKeyphraseAssessment().getResult(
 			new Paper( "", { keyword: "someone smart was here" } ),
-			Factory.buildMockResearcher( false )
+			Factory.buildMockResearcher( false ),
+			i18n
 		);
 		expect( assessment.hasScore() ).toBe( false );
 	} );
