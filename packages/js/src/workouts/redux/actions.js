@@ -35,7 +35,7 @@ export const finishSteps = ( workout, steps ) => {
 };
 
 /**
- * An action creator for finishing a workout step.
+ * An action creator for revising a finished workout step.
  *
  * @param {String} workout The workout key.
  * @param {string} step The step key.
