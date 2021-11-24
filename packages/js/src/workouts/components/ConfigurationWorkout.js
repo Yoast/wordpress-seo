@@ -1,7 +1,7 @@
 import apiFetch from "@wordpress/api-fetch";
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
-import { createInterpolateElement, useCallback, useReducer, useState, Fragment } from "@wordpress/element";
+import { createInterpolateElement, useCallback, useReducer, useState, useEffect, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
 import PropTypes from "prop-types";
@@ -180,16 +180,32 @@ async function updateTracking( state ) {
  * The configuration workout.
  *
  * @param {function}  toggleStep                The function to toggle the step state.
+ * @param {function}  finishSteps               The function to finish steps.
+ * @param {function}  reviseStep                The function to revise steps.
  * @param {function}  toggleWorkout             The function to toggle the workout state.
  * @param {function}  isStepFinished            The function to check whether a step is finished.
  * @param {string}    seoDataOptimizationNeeded The flag signaling if SEO optimization is needed.
  * @returns {WPElement} The ConfigurationWorkout component.
  */
-export function ConfigurationWorkout( { toggleStep, toggleWorkout, clearActiveWorkout, isStepFinished } ) {
+export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, toggleWorkout, clearActiveWorkout, isStepFinished } ) {
 	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, { ...window.wpseoWorkoutsData.configuration, errorFields: [] } );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "completed" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 	const [ savedSteps, setSavedSteps ] = useState( [] );
+	const steps = STEPS.configuration;
+
+	const isTrackingOptionSelected = state.tracking === 0 || state.tracking === 1;
+
+	/**
+	 * If indexing has been completed, finish step 1, else, unfinish it.
+	 */
+	useEffect( () => {
+		if ( indexingState === "completed" ) {
+			finishSteps( "configuration", [ steps.optimizeSeoData ] );
+		} else {
+			reviseStep( "configuration", steps.optimizeSeoData );
+		}
+	}, [ indexingState ] );
 
 	/**
 	 * Sets the step to isSaved.
@@ -218,9 +234,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, clearActiveWo
 		} );
 	};
 
-	const steps = STEPS.configuration;
-
-	const isTrackingOptionSelected = state.tracking === 0 || state.tracking === 1;
 	const isStep1Finished = isStepFinished( "configuration", steps.optimizeSeoData );
 	const isStep2Finished = isStepFinished( "configuration", steps.siteRepresentation );
 	const isStep3Finished = isStepFinished( "configuration", steps.socialProfiles );
@@ -243,7 +256,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, clearActiveWo
 	 */
 	const makeStepToggle = ( stepName ) => () => toggleStep( "configuration", stepName );
 
-	const toggleOptimizeSeoData = makeStepToggle( steps.optimizeSeoData );
 	const toggleStepSiteRepresentation = makeStepToggle( steps.siteRepresentation );
 	const toggleStepSocialProfiles = makeStepToggle( steps.socialProfiles );
 	const toggleStepEnableTracking = makeStepToggle( steps.enableTracking );
@@ -259,10 +271,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, clearActiveWo
 
 	const onFinishOptimizeSeoData = useCallback(
 		() => {
-			if ( ! isStep1Finished ) {
-				scrollToStep( 2 );
-			}
-			toggleOptimizeSeoData();
+			scrollToStep( 2 );
 		},
 		[ isStep1Finished ]
 	);
@@ -344,11 +353,11 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, clearActiveWo
 		() => {
 			if ( isWorkoutFinished ) {
 				setSavedSteps( [] );
-				toggleWorkout( "configuration" );
+				reviseStep( "configuration", steps.siteRepresentation );
+				reviseStep( "configuration", steps.socialProfiles );
+				reviseStep( "configuration", steps.enableTracking );
+				reviseStep( "configuration", steps.newsletterSignup );
 				return;
-			}
-			if ( ! isStep1Finished ) {
-				toggleOptimizeSeoData();
 			}
 			if ( ! isStep2Finished ) {
 				updateSiteRepresentation( state )
@@ -760,6 +769,8 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, clearActiveWo
 
 ConfigurationWorkout.propTypes = {
 	toggleStep: PropTypes.func.isRequired,
+	finishSteps: PropTypes.func.isRequired,
+	reviseStep: PropTypes.func.isRequired,
 	toggleWorkout: PropTypes.func.isRequired,
 	isStepFinished: PropTypes.func.isRequired,
 	clearActiveWorkout: PropTypes.func.isRequired,
@@ -788,6 +799,8 @@ export default compose(
 			( dispatch ) => {
 				const {
 					toggleStep,
+					finishSteps,
+					reviseStep,
 					toggleWorkout,
 					moveIndexables,
 					clearActiveWorkout,
@@ -795,6 +808,8 @@ export default compose(
 
 				return {
 					toggleStep,
+					finishSteps,
+					reviseStep,
 					toggleWorkout,
 					moveIndexables,
 					clearActiveWorkout,
