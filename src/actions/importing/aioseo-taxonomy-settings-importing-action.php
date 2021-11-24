@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Actions\Importing;
 
 /**
- * Importing action for AIOSEO posttype defaults settings data.
+ * Importing action for AIOSEO taxonomies settings data.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
@@ -20,7 +20,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 	const TYPE = 'taxonomy_settings';
 
 	/**
-	 * The placeholder of a posttype.
+	 * The placeholder of a taxonomy.
 	 */
 	const META_NAME_PLACEHOLDER = '[taxonomy]';
 
