@@ -82,10 +82,10 @@ FinishButtonSection.defaultProps = {
  *
  * @returns {WPElement} The Step component.
  */
-export function Step( { title, subtitle, isFinished, ImageComponent, children } ) {
+export function Step( { title, subtitle, isFinished, ImageComponent, id, children } ) {
 	const finished = isFinished ? " finished" : "";
 	return (
-		<li className={ `step${finished}` }>
+		<li id={ id } className={ `step${finished}` }>
 			<h4>{ title }</h4>
 			<div style={ { display: "flex" } }>
 				{ subtitle && <p>{ subtitle }</p> }
@@ -101,6 +101,7 @@ Step.propTypes = {
 	subtitle: PropTypes.oneOfType( [ PropTypes.string, PropTypes.object ] ),
 	isFinished: PropTypes.bool,
 	ImageComponent: PropTypes.func,
+	id: PropTypes.string,
 	children: PropTypes.any.isRequired,
 };
 
@@ -108,4 +109,5 @@ Step.defaultProps = {
 	subtitle: null,
 	ImageComponent: null,
 	isFinished: false,
+	id: "",
 };

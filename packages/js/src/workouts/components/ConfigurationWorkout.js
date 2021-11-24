@@ -464,6 +464,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 			<br />
 			<Steps id="yoast-configuration-workout-steps">
 				<Step
+					id="yoast-configuration-workout-step-optimize-seo-data"
 					title={ __( "Optimize SEO data", "wordpress-seo" ) }
 					subtitle={ addLinkToString(
 						sprintf(
@@ -514,6 +515,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					}
 				</p>
 				<Step
+					id="yoast-configuration-workout-step-site-representation"
 					title={ __( "Site representation", "wordpress-seo" ) }
 					subtitle={ __( "Tell Google what kind of site you have and increase the chance it gets features in a Google Knowledge Panel. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
 					isFinished={ isStep2Finished }
@@ -595,6 +597,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					/>
 				</Step>
 				<Step
+					id="yoast-configuration-workout-step-social-profiles"
 					title={ __( "Social profiles", "wordpress-seo" ) }
 					subtitle={ state.companyOrPerson === "company" ?  __( "Do you have profiles for your site on social media? Then, add all of their URLs here, so your social profiles may also appear in a Google Knowledge Panel.", "wordpress-seo" ) : "" }
 					isFinished={ isStep3Finished }
@@ -665,6 +668,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					/>
 				</Step>
 				<Step
+					id="yoast-configuration-workout-step-tracking"
 					title={ __( "Help us improve Yoast SEO", "wordpress-seo" ) }
 					isFinished={ isStep4Finished }
 				>
@@ -725,6 +729,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					/>
 				</Step>
 				<Step
+					id="yoast-configuration-workout-step-newsletter"
 					title={ __( "Sign up for the Yoast newsletter!", "wordpress-seo" ) }
 					isFinished={ isStep5Finished }
 				>
