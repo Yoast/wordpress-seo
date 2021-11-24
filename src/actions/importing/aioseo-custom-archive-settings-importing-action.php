@@ -7,7 +7,7 @@ namespace Yoast\WP\SEO\Actions\Importing;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Settings_Chunked_Importing_Action {
+class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Settings_Importing_Action {
 
 	/**
 	 * The plugin of the action.
@@ -23,6 +23,11 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 	 * The placeholder of a custom archive.
 	 */
 	const META_NAME_PLACEHOLDER = '[custom_archive]';
+
+	/**
+	 * The option_name of the AIOSEO option that contains the settings.
+	 */
+	const SOURCE_OPTION_NAME = 'aioseo_options_dynamic';
 
 	/**
 	 * The map of aioseo_options to yoast meta.

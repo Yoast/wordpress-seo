@@ -3,11 +3,11 @@
 namespace Yoast\WP\SEO\Actions\Importing;
 
 /**
- * Importing action for AIOSEO taxonomies settings data.
+ * Importing action for AIOSEO default archive settings data.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings_Importing_Action {
+class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_Settings_Importing_Action {
 
 	/**
 	 * The plugin of the action.
@@ -17,17 +17,26 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 	/**
 	 * The type of the action.
 	 */
-	const TYPE = 'taxonomy_settings';
+	const TYPE = 'default_archive_settings';
 
 	/**
-	 * The placeholder of a taxonomy.
+	 * The placeholder of a default archive.
 	 */
-	const META_NAME_PLACEHOLDER = '[taxonomy]';
+	const META_NAME_PLACEHOLDER = '[default_archive]';
 
 	/**
 	 * The option_name of the AIOSEO option that contains the settings.
 	 */
-	const SOURCE_OPTION_NAME = 'aioseo_options_dynamic';
+	const SOURCE_OPTION_NAME = 'aioseo_options';
+
+	/**
+	 * The forbidden Yoast options.
+	 *
+	 * @var array
+	 */
+	protected $forbidden_options = [
+		'metadesc-search-wpseo' => true,
+	];
 
 	/**
 	 * The map of aioseo_options to yoast meta.
@@ -36,11 +45,11 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 	 */
 	protected $aioseo_options_to_yoast_map = [
 		'title'           => [
-			'meta_name'      => 'title-tax-' . self::META_NAME_PLACEHOLDER,
+			'meta_name'      => 'title-'. self::META_NAME_PLACEHOLDER . '-wpseo',
 			'transform_data' => 'simple_import',
 		],
 		'metaDescription' => [
-			'meta_name'      => 'metadesc-tax-' . self::META_NAME_PLACEHOLDER,
+			'meta_name'      => 'metadesc-'. self::META_NAME_PLACEHOLDER . '-wpseo',
 			'transform_data' => 'simple_import',
 		],
 	];
@@ -50,5 +59,5 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 	 *
 	 * @var string
 	 */
-	protected $settings_tab = 'taxonomies';
+	protected $settings_tab = 'archives';
 }

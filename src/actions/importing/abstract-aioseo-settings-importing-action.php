@@ -6,11 +6,11 @@ use Exception;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 
 /**
- * Abstract class for importing AIOSEO settings in chunks.
+ * Abstract class for importing AIOSEO settings.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-abstract class Abstract_Aioseo_Settings_Chunked_Importing_Action extends Abstract_Importing_Action {
+abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Importing_Action {
 
 	use Import_Cursor_Manager_Trait;
 
@@ -34,6 +34,11 @@ abstract class Abstract_Aioseo_Settings_Chunked_Importing_Action extends Abstrac
 	const META_NAME_PLACEHOLDER = null;
 
 	/**
+	 * The option_name of the AIOSEO option that contains the settings.
+	 */
+	const SOURCE_OPTION_NAME = null;
+
+	/**
 	 * The map of aioseo_options to yoast meta.
 	 *
 	 * @var array
@@ -46,6 +51,66 @@ abstract class Abstract_Aioseo_Settings_Chunked_Importing_Action extends Abstrac
 	 * @var string
 	 */
 	protected $settings_tab = '';
+
+	/**
+	 * The forbidden Yoast options.
+	 *
+	 * @var array
+	 */
+	protected $forbidden_options = [];
+
+	/**
+	 * Retrieves the meta_name placeholder.
+	 *
+	 * @return string The meta_name placeholder.
+	 *
+	 * @throws Exception If the META_NAME_PLACEHOLDER constant is not set in the child class.
+	 */
+	public function get_placeholder() {
+		$class       = get_class( $this );
+		$placeholder = $class::META_NAME_PLACEHOLDER;
+
+		if ( empty( $placeholder ) ) {
+			throw new Exception( 'Importing settings action without explicit placeholder' );
+		}
+
+		return $placeholder;
+	}
+
+	/**
+	 * Retrieves the source option_name.
+	 *
+	 * @return string The source option_name.
+	 *
+	 * @throws Exception If the SOURCE_OPTION_NAME constant is not set in the child class.
+	 */
+	public function get_source_option_name() {
+		$class              = get_class( $this );
+		$source_option_name = $class::SOURCE_OPTION_NAME;
+
+		if ( empty( $source_option_name ) ) {
+			throw new Exception( 'Importing settings action without explicit source option_name' );
+		}
+
+		return $source_option_name;
+	}
+
+	/**
+	 * Checks if the option we're trying to save is forbiden in Yoast.
+	 *
+	 * @param string $option The option.
+	 *
+	 * @return bool Whether the option is forbidden or not.
+	 */
+	public function is_forbidden_option( $option ) {
+		$forbidden_options = $this->forbidden_options;
+
+		if ( isset( $forbidden_options[ $option ] ) && $forbidden_options[ $option ] ) {
+			return true;
+		}
+
+		return false;
+	}
 
 	/**
 	 * Returns whether the AISOEO settings importing action is enabled.
@@ -128,7 +193,7 @@ abstract class Abstract_Aioseo_Settings_Chunked_Importing_Action extends Abstrac
 	 * @return array The (maybe chunked) unimported AiOSEO settings to import.
 	 */
 	public function query( $limit = null ) {
-		$aioseo_settings = \json_decode( \get_option( 'aioseo_options_dynamic', [] ), true );
+		$aioseo_settings = \json_decode( \get_option( $this->get_source_option_name(), [] ), true );
 
 		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance'][ $this->settings_tab ] ) ) {
 			return [];
@@ -217,28 +282,12 @@ abstract class Abstract_Aioseo_Settings_Chunked_Importing_Action extends Abstrac
 				// Then, do any needed data transfomation before actually saving the incoming data.
 				$transformed_data = \call_user_func( [ $this, $meta_data['transform_data'] ], $type_settings[ $aioseo_key ] );
 
-				// Finally, store the data to the respective Yoast option.
-				$this->options->set( $yoast_key, $transformed_data );
+				// Finally, store the data to the respective Yoast option, but only if it's not a forbidden option.
+				if ( ! $this->is_forbidden_option( $yoast_key ) ) {
+					$this->options->set( $yoast_key, $transformed_data );
+				}
 			}
 		}
-	}
-
-	/**
-	 * Retrieves the meta_name placeholder.
-	 *
-	 * @return string The meta_name placeholder.
-	 *
-	 * @throws Exception If the META_NAME_PLACEHOLDER constant is not set in the child class.
-	 */
-	public function get_placeholder() {
-		$class       = get_class( $this );
-		$placeholder = $class::META_NAME_PLACEHOLDER;
-
-		if ( empty( $placeholder ) ) {
-			throw new Exception( 'Importing settings action without explicit placeholder' );
-		}
-
-		return $placeholder;
 	}
 
 	/**
