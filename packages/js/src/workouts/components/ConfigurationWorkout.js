@@ -82,6 +82,100 @@ function configurationWorkoutReducer( state, action ) {
 }
 
 /**
+ * Updates the site representation in the database.
+ *
+ * @param {Object} state The state to save.
+ *
+ * @returns {Promise|bool} A promise, or false if the call fails.
+ */
+async function updateSiteRepresentation( state ) {
+	const siteRepresentation = {
+		/* eslint-disable camelcase */
+		company_or_person: state.companyOrPerson,
+		company_name: state.companyName,
+		company_logo: state.companyLogo,
+		company_logo_id: state.companyLogoId ? state.companyLogoId : 0,
+		person_logo: state.personLogo,
+		person_logo_id: state.personLogoId ? state.personLogoId : 0,
+		company_or_person_user_id: state.personId,
+		description: state.siteTagline,
+		/* eslint-enable camelcase */
+	};
+
+	try {
+		const response = await apiFetch( {
+			path: "yoast/v1/workouts/site_representation",
+			method: "POST",
+			data: siteRepresentation,
+		} );
+		return await response.json;
+	} catch ( e ) {
+		// URL() constructor throws a TypeError exception if url is malformed.
+		console.error( e.message );
+		return false;
+	}
+}
+
+/**
+ * Updates the social profiles in the database.
+ *
+ * @param {Object} state The state to save.
+ *
+ * @returns {Promise|bool} A promise, or false if the call fails.
+ */
+async function updateSocialProfiles( state ) {
+	const socialProfiles = {
+		/* eslint-disable camelcase */
+		facebook_site: state.socialProfiles.facebookUrl,
+		twitter_site: state.socialProfiles.twitterUsername,
+		instagram_url: state.socialProfiles.instagramUrl,
+		linkedin_url: state.socialProfiles.linkedinUrl,
+		myspace_url: state.socialProfiles.myspaceUrl,
+		pinterest_url: state.socialProfiles.pinterestUrl,
+		youtube_url: state.socialProfiles.youtubeUrl,
+		wikipedia_url: state.socialProfiles.wikipediaUrl,
+		/* eslint-enable camelcase */
+	};
+
+	const response = await apiFetch( {
+		path: "yoast/v1/workouts/social_profiles",
+		method: "POST",
+		data: socialProfiles,
+	} );
+	return await response.json;
+}
+
+/**
+ * Updates the tracking option in the database.
+ *
+ * @param {Object} state The state to save.
+ *
+ * @returns {Promise|bool} A promise, or false if the call fails.
+ */
+async function updateTracking( state ) {
+	try {
+		if ( state.tracking !== 0 && state.tracking !== 1 ) {
+			throw "Value not set!";
+		}
+
+		const tracking = {
+			tracking: state.tracking,
+		};
+
+		const response = await apiFetch( {
+			path: "yoast/v1/workouts/enable_tracking",
+			method: "POST",
+			data: tracking,
+		} );
+		return await response.json;
+	} catch ( e ) {
+		// URL() constructor throws a TypeError exception if url is malformed.
+		console.error( e.message );
+		return false;
+	}
+}
+
+/**
  * The configuration workout.
  *
  * @param {function}  toggleStep                The function to toggle the step state.
@@ -123,14 +217,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		} );
 	};
 
-	const setTracking = useCallback( ( value ) => {
-		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
-	} );
-
-	const setErrorFields = useCallback( ( value ) => {
-		dispatch( { type: "SET_ERROR_FIELDS", payload: value } );
-	} );
-
 	const steps = STEPS.configuration;
 
 	const isTrackingOptionSelected = state.tracking === 0 || state.tracking === 1;
@@ -141,86 +227,25 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 	const isStep5Finished = isStepFinished( "configuration", steps.newsletterSignup );
 
 	/**
-	 * Updates the site representation in the database.
+	 * Returns a function that toggles a specific step (based on step name).
 	 *
-	 * @returns {Promise|bool} A promise, or false if the call fails.
-	 */
-	const updateSiteRepresentation = async function() {
-		const siteRepresentation = {
-			/* eslint-disable camelcase */
-			company_or_person: state.companyOrPerson,
-			company_name: state.companyName,
-			company_logo: state.companyLogo,
-			company_logo_id: state.companyLogoId ? state.companyLogoId : 0,
-			person_logo: state.personLogo,
-			person_logo_id: state.personLogoId ? state.personLogoId : 0,
-			company_or_person_user_id: state.personId,
-			description: state.siteTagline,
-			/* eslint-enable camelcase */
-		};
-
-		try {
-			const response = await apiFetch( {
-				path: "yoast/v1/workouts/site_representation",
-				method: "POST",
-				data: siteRepresentation,
-			} );
-			return await response.json;
-		} catch ( e ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
-			console.error( e.message );
-			return false;
-		}
-	};
-
-	/**
-	 * Updates the social profiles in the database.
+	 * @param {string} stepName The name of the step to toggle.
 	 *
-	 * @returns {Promise|bool} A promise, or false if the call fails.
+	 * @returns {func} A function that toggles a specific step.
 	 */
-	const updateSocialProfiles = async function() {
-		const socialProfiles = {
-			/* eslint-disable camelcase */
-			facebook_site: state.socialProfiles.facebookUrl,
-			twitter_site: state.socialProfiles.twitterUsername,
-			instagram_url: state.socialProfiles.instagramUrl,
-			linkedin_url: state.socialProfiles.linkedinUrl,
-			myspace_url: state.socialProfiles.myspaceUrl,
-			pinterest_url: state.socialProfiles.pinterestUrl,
-			youtube_url: state.socialProfiles.youtubeUrl,
-			wikipedia_url: state.socialProfiles.wikipediaUrl,
-			/* eslint-enable camelcase */
-		};
+	const makeStepToggle = ( stepName ) => () => toggleStep( "configuration", stepName );
 
-		const response = await apiFetch( {
-			path: "yoast/v1/workouts/social_profiles",
-			method: "POST",
-			data: socialProfiles,
-		} );
-		return await response.json;
-	};
+	const toggleStepSiteRepresentation = makeStepToggle( steps.siteRepresentation );
+	const toggleStepSocialProfiles = makeStepToggle( steps.socialProfiles );
+	const toggleStepEnableTracking = makeStepToggle( steps.enableTracking );
 
-	/**
-	 * Updates the tracking option in the database.
-	 *
-	 * @returns {Promise|bool} A promise, or false if the call fails.
-	 */
-	const updateTracking = async function() {
-		if ( ! isTrackingOptionSelected ) {
-			throw "Value not set!";
-		}
+	const setTracking = useCallback( ( value ) => {
+		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
+	} );
 
-		const tracking = {
-			tracking: state.tracking,
-		};
-
-		const response = await apiFetch( {
-			path: "yoast/v1/workouts/enable_tracking",
-			method: "POST",
-			data: tracking,
-		} );
-		return await response.json;
-	};
+	const setErrorFields = useCallback( ( value ) => {
+		dispatch( { type: "SET_ERROR_FIELDS", payload: value } );
+	} );
 
 	const onFinishOptimizeSeoData = useCallback(
 		() => {
@@ -230,11 +255,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 			toggleStep( "configuration", steps.optimizeSeoData );
 		},
 		[ toggleStep, steps.optimizeSeoData, isStep1Finished ]
-	);
-
-	const toggleStepSiteRepresentation = useCallback(
-		toggleStep.bind( null, "configuration", steps.siteRepresentation ),
-		[ toggleStep, steps.siteRepresentation ]
 	);
 
 	/**
@@ -257,18 +277,13 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 				setSiteRepresentationEmpty( true );
 			} else {
 				setSiteRepresentationEmpty( false );
-				updateSiteRepresentation()
+				updateSiteRepresentation( state )
 					.then( () => setStepIsSaved( 2 ) )
 					.then( toggleStepSiteRepresentation );
 				scrollToStep( 3 );
 			}
 		}
 	}
-
-	const toggleStepSocialProfiles = useCallback(
-		toggleStep.bind( null, "configuration", steps.socialProfiles ),
-		[ toggleStep, steps.socialProfiles ]
-	);
 
 	/**
 	 * Runs checks of finishing the social profiles step.
@@ -280,7 +295,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 			setStepIsNotSaved( 3 );
 			toggleStepSocialProfiles();
 		} else {
-			updateSocialProfiles()
+			updateSocialProfiles( state )
 				.then( () => setStepIsSaved( 3 ) )
 				.then( () => {
 					setErrorFields( [] );
@@ -298,11 +313,6 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 		}
 	}
 
-	const toggleStepEnableTracking = useCallback(
-		toggleStep.bind( null, "configuration", steps.enableTracking ),
-		[ toggleStep, steps.enableTracking ]
-	);
-
 	/**
 	 * Runs checks of finishing the enable tracking step.
 	 *
@@ -313,7 +323,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 			setStepIsNotSaved( 4 );
 			toggleStepEnableTracking();
 		} else {
-			updateTracking()
+			updateTracking( state )
 				.then( () => setStepIsSaved( 4 ) )
 				.then( toggleStepEnableTracking );
 			scrollToStep( 5 );
@@ -643,6 +653,7 @@ export function ConfigurationWorkout( { toggleStep, toggleWorkout, isStepFinishe
 						finishText={ isStep4Finished ? __( "Revise this step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishEnableTracking }
 						isFinished={ isStep4Finished }
+						additionalButtonProps={ { disabled: ! isTrackingOptionSelected } }
 					/>
 				</Step>
 				<Step
