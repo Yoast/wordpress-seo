@@ -345,6 +345,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'custom_taxonomy_slugs':
 				case 'zapier_subscription':
 				case 'wincher_tokens':
+				case 'workouts_data':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
