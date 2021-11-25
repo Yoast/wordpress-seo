@@ -339,11 +339,11 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'update_relations' )
 			->never();
 
-		$old_indexable                  = Mockery::mock( Indexable_Mock::class );
-		$updated_indexable              = Mockery::mock( Indexable_Mock::class );
-		$updated_indexable->object_type = 'term';
+		$post                   = Mockery::mock( 'WP_Post' );
+		$indexable              = Mockery::mock( Indexable_Mock::class );
+		$indexable->object_type = 'term';
 
-		$this->instance->updated_indexable( $updated_indexable, $old_indexable );
+		$this->instance->updated_indexable( $indexable, $post );
 	}
 
 	/**
