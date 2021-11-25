@@ -1,6 +1,5 @@
-import { get, isEqual, take } from "lodash-es";
+import { isEqual, take } from "lodash-es";
 import getLanguage from "yoastseo/src/languageProcessing/helpers/language/getLanguage";
-import getWords from "../../../../packages/yoastseo/src/languageProcessing/helpers/word/getWords";
 import {
 	collapseProminentWordsOnStem,
 	filterProminentWords,
@@ -12,8 +11,6 @@ import {
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "yoastseo/src/languageProcessing/helpers/html/getSubheadings";
 import getMorphologyData from "./getMorphologyData";
 import getResearcher from "yoastseo/spec/specHelpers/getResearcher";
-
-const morphologyData = getMorphologyData();
 
 // Cache the relevant words.
 let previousProminentWordsInternalLinking = {
@@ -58,8 +55,13 @@ function formatNumber( number ) {
 function calculateProminentWords( paper, internalLinking ) {
 	let text = paper.text;
 	const language = getLanguage( paper.locale );
+	const morphologyData = getMorphologyData( language );
 	const Researcher = getResearcher( language );
 	const languageResearcher = new Researcher( paper );
+	// We always provide the morphology data here as the prominent words functionality only available in Premium,
+	// Where we can assume that the data is always available in real world situation.
+	languageResearcher.addResearchData( "morphology", morphologyData );
+
 	const functionWords = languageResearcher.getConfig( "functionWords" );
 	// An optional custom helper to return custom function to return the stem of a word.
 	const customStemmer = languageResearcher.getHelper( "customGetStemmer" );
