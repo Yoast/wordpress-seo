@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
 
-export const initialEditorState = {
+export const defaultEditorState = {
 	content: "",
 	title: "",
 	permalink: "",
@@ -12,7 +12,7 @@ export const initialEditorState = {
 
 const editorSlice = createSlice( {
 	name: "editor",
-	initialState: initialEditorState,
+	initialState: defaultEditorState,
 	reducers: {
 		updateContent: ( state, action ) => {
 			state.content = action.payload;

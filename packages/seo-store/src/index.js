@@ -2,33 +2,33 @@ import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
 import { STORE_NAME } from "./common/constants";
 import { ANALYZE_ACTION_NAME } from "./analysis/constants";
-import analysisReducer, { analysisActions, analysisSelectors, initialAnalysisState } from "./analysis/slice";
-import editorReducer, { editorActions, editorSelectors, initialEditorState } from "./editor/slice";
-import formReducer, { formActions, formSelectors, initialFormState } from "./form/slice";
+import analysisReducer, { analysisActions, analysisSelectors, defaultAnalysisState } from "./analysis/slice";
+import editorReducer, { editorActions, editorSelectors, defaultEditorState } from "./editor/slice";
+import formReducer, { formActions, formSelectors, defaultFormState } from "./form/slice";
 
 export { STORE_NAME as SEO_STORE_NAME };
 
 export { useAnalyze } from "./analysis/hooks";
 
-export const defaultInitialState = {
-	analysis: initialAnalysisState,
-	editor: initialEditorState,
-	form: initialFormState,
+const defaultState = {
+	analysis: defaultAnalysisState,
+	editor: defaultEditorState,
+	form: defaultFormState,
 };
 
-export const actions = {
+const actions = {
 	...analysisActions,
 	...editorActions,
 	...formActions,
 };
 
-export const selectors = {
+const selectors = {
 	...analysisSelectors,
 	...editorSelectors,
 	...formSelectors,
 };
 
-export const reducers = {
+const reducers = {
 	analysis: analysisReducer,
 	editor: editorReducer,
 	form: formReducer,
@@ -48,7 +48,7 @@ const createSeoStore = ( { initialState, analyze } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions,
 		selectors,
-		initialState: merge( {}, defaultInitialState, initialState ),
+		initialState: merge( {}, defaultState, initialState ),
 		reducer: combineReducers( reducers ),
 		controls: {
 			[ ANALYZE_ACTION_NAME ]: async ( { payload: { paper, keyphrases, config } } ) => analyze( paper, keyphrases, config ),

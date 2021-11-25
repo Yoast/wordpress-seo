@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
 
-export const initialSeoState = {
+export const defaultSeoState = {
 	title: "",
 	description: "",
 	slug: "",
@@ -10,7 +10,7 @@ export const initialSeoState = {
 
 const seoSlice = createSlice( {
 	name: "seo",
-	initialState: initialSeoState,
+	initialState: defaultSeoState,
 	reducers: {
 		updateSeoTitle: ( state, action ) => {
 			state.title = action.payload;
