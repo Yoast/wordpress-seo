@@ -13,6 +13,8 @@ import imageCount from "./imageCount.js";
  */
 export default function( paper, researcher ) {
 	const language = getLanguage( paper.getLocale() );
+
+	// A helper to get words from the text for languages that don't use the default approach.
 	const customGetWords = researcher.getHelper( "getWordsCustomHelper" );
 	const countCharactersFromArray = researcher.getHelper( "wordsCharacterCount" );
 
@@ -49,24 +51,28 @@ export default function( paper, researcher ) {
 	const wordsPerMinuteScore = wordsPerMinute[ language ];
 	const charactersPerMinuteScore = charactersPerMinute[ language ];
 
-	let wordsOrCharsPerMinuteScore;
+	// The default approach of calculating the text length is by counting the words in the text.
+	let textLength = wordCountInText( paper );
+	let minutesToReadText;
 
 	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) && charactersPerMinuteScore ) {
-		wordsOrCharsPerMinuteScore = charactersPerMinuteScore;
+		/*
+		 * If a language has a characters per minute score, we assume that the language also uses a character count helper
+		 * for retrieving the text length and a custom helper to get words from the text.
+		 */
+		textLength = countCharactersFromArray( customGetWords( paper.getText() ) );
+		minutesToReadText = textLength / charactersPerMinuteScore;
 	} else if ( wordsPerMinuteScore ) {
-		wordsOrCharsPerMinuteScore = wordsPerMinuteScore;
+		minutesToReadText = textLength / wordsPerMinuteScore;
 	} else {
 		// If the language is not on both lists, assign the average of all language-dependent reading times as the score.
 		const sumWordsPerMinute = Object.values( wordsPerMinute ).reduce( ( a, b ) => a + b );
 		const sumNumberOfLanguages = Object.keys( wordsPerMinute ).length;
-		wordsOrCharsPerMinuteScore = sumWordsPerMinute / sumNumberOfLanguages;
+		minutesToReadText = textLength / ( sumWordsPerMinute / sumNumberOfLanguages );
 	}
 
 	const minutesPerImage = 0.2;
 	const numberOfImages = imageCount( paper );
-
-	const textLength = countCharactersFromArray ? countCharactersFromArray( customGetWords( paper.getText() ) ) : wordCountInText( paper );
-	const minutesToReadText = textLength / wordsOrCharsPerMinuteScore;
 
 	/*
 	 * This formula is based on the average number of words a person is expected to read per minute,
