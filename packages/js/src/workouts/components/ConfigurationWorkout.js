@@ -355,7 +355,6 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					stepsToFinish.push( steps.siteRepresentation );
 				} catch ( e ) {
 					console.error( e.message );
-					return false;
 				}
 			}
 			if ( ! isStep3Finished ) {
@@ -369,7 +368,6 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						setErrorFields( e.failures );
 					}
 					scrollToStep( 3 );
-					return false;
 				}
 			}
 			if ( ! isStep4Finished ) {
@@ -379,7 +377,6 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					stepsToFinish.push( steps.enableTracking );
 				} catch ( e ) {
 					console.error( e.message );
-					return false;
 				}
 			}
 			if ( ! isStep5Finished ) {
