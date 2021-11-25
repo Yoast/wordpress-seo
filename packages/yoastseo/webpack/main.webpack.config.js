@@ -16,7 +16,7 @@ module.exports = {
 		path: path.resolve( "dist", "build" ),
 		filename: "analysis.js",
 		library: [ "yoast", "analysis" ],
-		libraryTarget: "window",
+		libraryTarget: "self",
 	},
 	module: {
 		rules: [
