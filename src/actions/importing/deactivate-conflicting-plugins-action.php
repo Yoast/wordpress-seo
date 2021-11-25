@@ -2,8 +2,10 @@
 
 namespace Yoast\WP\SEO\Actions\Importing;
 
+use wpdb;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Config\Conflicting_Plugins;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Services\Importing\Conflicting_Plugins_Service;
 
 /**
@@ -44,9 +46,12 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Importing_Action {
 	/**
 	 * Class constructor.
 	 *
+	 * @param Options_Helper              $options                     The options helper.
 	 * @param Conflicting_Plugins_Service $conflicting_plugins_service The Conflicting plugins Service.
 	 */
-	public function __construct( Conflicting_Plugins_Service $conflicting_plugins_service ) {
+	public function __construct( Options_Helper $options, Conflicting_Plugins_Service $conflicting_plugins_service ) {
+		parent::__construct( $options );
+
 		$this->conflicting_plugins = $conflicting_plugins_service;
 		$this->detected_plugins    = [];
 	}

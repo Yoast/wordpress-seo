@@ -1,4 +1,4 @@
-import SchemaFields from "../../helpers/fields/SchemaFields";
+import SchemaFields from "../../helpers/SchemaFields";
 
 export const SET_PAGE_TYPE = "SET_PAGE_TYPE";
 export const SET_ARTICLE_TYPE = "SET_ARTICLE_TYPE";

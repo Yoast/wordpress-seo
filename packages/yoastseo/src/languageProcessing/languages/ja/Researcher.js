@@ -2,9 +2,9 @@ import { languageProcessing } from "yoastseo";
 const { AbstractResearcher } = languageProcessing;
 
 // All helpers
-import getStemmer from "./helpers/getStemmer";
 import matchWordCustomHelper from "./helpers/matchTextWithWord";
 import getWordsCustomHelper from "./helpers/getWords";
+import customGetStemmer from "./helpers/customGetStemmer";
 import wordsCharacterCount from "./helpers/wordsCharacterCount";
 import customCountLength from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
@@ -18,6 +18,7 @@ import transitionWords from "./config/transitionWords";
 import topicLength from "./config/topicLength";
 
 // All custom researches
+import morphology from "./customResearches/getWordForms";
 import getKeywordDensity from "./customResearches/getKeywordDensity";
 
 /**
@@ -48,14 +49,18 @@ export default class Researcher extends AbstractResearcher {
 		} );
 
 		Object.assign( this.helpers, {
-			getStemmer,
 			matchWordCustomHelper,
 			getWordsCustomHelper,
+			getContentWords,
+			customGetStemmer,
 			wordsCharacterCount,
 			customCountLength,
 			matchTransitionWordsHelper,
-			getContentWords,
 			findMultiWordKeyphraseInPageTitle,
+		} );
+
+		Object.assign( this.defaultResearches, {
+			morphology,
 		} );
 	}
 }

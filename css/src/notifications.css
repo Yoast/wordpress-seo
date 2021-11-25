@@ -327,6 +327,7 @@
 	line-height: 1;
 	margin-left: 10px;
 	height: 60px;
+	width: auto;
 }
 
 .notice-yoast p {
@@ -334,4 +335,8 @@
 	font-weight: 400;
 	max-width: 600px;
 	line-height: 19px;
+}
+
+.notice-yoast .yoast-button--small {
+	min-height: unset;
 }

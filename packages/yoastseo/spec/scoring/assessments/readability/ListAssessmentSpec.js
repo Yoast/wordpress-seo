@@ -1,7 +1,6 @@
 import ListAssessment from "../../../../src/scoring/assessments/readability/ListAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
-const i18n = Factory.buildJed();
 
 const listAssessment = new ListAssessment();
 
@@ -9,7 +8,7 @@ describe( "A list assessment", function() {
 	it( "assesses when there are no lists", function() {
 		const mockPaper = new Paper( "text with no list" );
 
-		const assessment = listAssessment.getResult( mockPaper, Factory.buildMockResearcher( false ), i18n );
+		const assessment = listAssessment.getResult( mockPaper, Factory.buildMockResearcher( false ) );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: " +
@@ -22,7 +21,7 @@ describe( "A list assessment", function() {
 			"  <li>Milk</li>\n" +
 			"</ol>" );
 
-		const assessment = listAssessment.getResult( mockPaper, Factory.buildMockResearcher( true ), i18n );
+		const assessment = listAssessment.getResult( mockPaper, Factory.buildMockResearcher( true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/shopify38' target='_blank'>Lists</a>: " +
