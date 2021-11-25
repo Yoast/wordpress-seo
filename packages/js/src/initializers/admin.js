@@ -2,6 +2,8 @@
 
 import a11ySpeak from "a11y-speak";
 import { debounce } from "lodash-es";
+import LoginPopup from "../helpers/loginPopup";
+import { getAuthorizationUrl, authenticate, trackAllKeyphrases } from "../helpers/wincherEndpoints";
 
 /**
  * @summary Initializes the admin script.
@@ -301,6 +303,111 @@ export default function initAdmin( jQuery ) {
 		}
 	}
 
+	// Variable to store the popup reference in.
+	let wincherPopup = null;
+
+	/**
+	 * Performs the adding of exisitng keywords to Wincher request.
+	 *
+	 * @returns {void}
+	 */
+	async function addExistingKeyphrasesRequest() {
+		jQuery( "#wincher-track-all-keyohrases-success, #wincher-track-all-keyohrases-error" ).hide();
+
+		const data = await trackAllKeyphrases();
+
+		if ( data.status === 201 ) {
+			jQuery( "#wincher-track-all-keyphrases-success" ).show();
+		}
+
+		if ( data.status === 400 ) {
+			jQuery( "#wincher-track-all-limit" ).text( data.results.limit );
+			jQuery( "#wincher-track-all-keyphrases-error" ).show();
+		}
+
+		if ( data.status === 403 || data.status === 404 ) {
+			jQuery( "#wincher-website-error" ).show();
+		}
+	}
+
+	/**
+	 * Get the tokens using the provided code after user has granted authorization.
+	 *
+	 * @param {Object} data The message data.
+	 *
+	 * @returns {void}
+	 */
+	async function performAuthenticationRequest( data ) {
+		const response = await authenticate( data );
+
+		if ( response.status !== 200 ) {
+			return;
+		}
+
+		const popup = wincherPopup.getPopup();
+
+		if ( popup ) {
+			popup.close();
+		}
+
+		jQuery( "#wincher-login-success" ).show();
+		// We need to set the value so that it's not reset on save.
+		jQuery( "#hidden_wincher_website_id" ).val( data.websiteId );
+
+		await addExistingKeyphrasesRequest();
+	}
+
+	/**
+	 * Fires when the user wants to connect to Wincher.
+	 *
+	 * @returns {void}
+	 */
+	async function onConnect() {
+		if ( wincherPopup && ! wincherPopup.isClosed() ) {
+			wincherPopup.focus();
+			return;
+		}
+
+		const { url } = await getAuthorizationUrl();
+
+		wincherPopup = new LoginPopup(
+			url,
+			{
+				success: {
+					type: "wincher:oauth:success",
+					callback: async( data ) => await performAuthenticationRequest( data ),
+				},
+				error: {
+					type: "wincher:oauth:error",
+					callback: () => {},
+				},
+			},
+			{
+				title: "Wincher_login",
+				width: 500,
+				height: 700,
+			}
+		);
+
+		wincherPopup.createPopup();
+	}
+
+	/**
+	 * Adds the existing keyphrases to Wincher.
+	 *
+	 * @returns {void}
+	 */
+	async function addExistingKeyphrasesToWincher() {
+		// Check if we're logged in first.
+		if ( ! wpseoAdminGlobalL10n.wincher_is_logged_in ) {
+			onConnect();
+
+			return;
+		}
+
+		await addExistingKeyphrasesRequest();
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
@@ -371,6 +478,14 @@ export default function initAdmin( jQuery ) {
 			}
 		} ).trigger( "change" );
 
+		// Toggle the Wincher section.
+		jQuery( "#wincher_integration_active input[type='radio']" ).change( function() {
+			// The value on is enabled, off is disabled.
+			if ( jQuery( this ).is( ":checked" ) ) {
+				jQuery( "#wincher-connection" ).toggle( jQuery( this ).val() === "on" );
+			}
+		} ).change();
+
 		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).on( "click", function() {
 			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
@@ -425,6 +540,18 @@ export default function initAdmin( jQuery ) {
 			target
 				.attr( "aria-expanded", ! toggleableContainer.hasClass( "toggleable-container-hidden" ) )
 				.find( "span" ).toggleClass( "dashicons-arrow-up-alt2 dashicons-arrow-down-alt2" );
+		} );
+
+		jQuery( "#wincher-track-all-keyphrases" ).on( "click", ( event ) => {
+			event.preventDefault();
+
+			addExistingKeyphrasesToWincher();
+		} );
+
+		jQuery( "#wincher-track-all-website-error-link" ).on( "click", ( event ) => {
+			event.preventDefault();
+
+			onConnect();
 		} );
 
 		const opengraphToggle = jQuery( "#opengraph" );

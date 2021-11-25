@@ -5,6 +5,11 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Config\Wincher_Client;
+use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
+
 /**
  * Class to change or add WordPress dashboard widgets.
  */
@@ -109,6 +114,7 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 		$yoast_components_l10n->localize_script( 'dashboard-widget' );
 		$this->asset_manager->enqueue_script( 'dashboard-widget' );
 		$this->asset_manager->enqueue_style( 'wp-dashboard' );
+		$this->asset_manager->enqueue_style( 'monorepo' );
 	}
 
 	/**
@@ -118,14 +124,17 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	 */
 	public function localize_dashboard_script() {
 		return [
-			'feed_header'      => sprintf(
+			'feed_header'          => sprintf(
 				/* translators: %1$s resolves to Yoast.com */
 				__( 'Latest blog posts on %1$s', 'wordpress-seo' ),
 				'Yoast.com'
 			),
-			'feed_footer'      => __( 'Read more like this on our SEO blog', 'wordpress-seo' ),
-			'wp_version'       => substr( $GLOBALS['wp_version'], 0, 3 ) . '-' . ( is_plugin_active( 'classic-editor/classic-editor.php' ) ? '1' : '0' ),
-			'php_version'      => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION,
+			'feed_footer'          => __( 'Read more like this on our SEO blog', 'wordpress-seo' ),
+			'wp_version'           => substr( $GLOBALS['wp_version'], 0, 3 ) . '-' . ( is_plugin_active( 'classic-editor/classic-editor.php' ) ? '1' : '0' ),
+			'php_version'          => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION,
+			'is_wincher_active'    => WPSEO_Options::get( 'wincher_integration_active', true ) ? 1 : 0,
+			'wincher_is_logged_in' => WPSEO_Options::get( 'wincher_integration_active', true ) ? YoastSEO()->helpers->wincher->login_status() : false,
+			'wincher_website_id'   => WPSEO_Options::get( 'wincher_website_id', '' ),
 		];
 	}
 

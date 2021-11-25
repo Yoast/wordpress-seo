@@ -1,14 +1,14 @@
 <?php
 
-namespace Yoast\WP\SEO\Values\SEMrush;
+namespace Yoast\WP\SEO\Values\OAuth;
 
-use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 
 /**
- * Class SEMrush_Token
+ * Class OAuth_Token
  */
-class SEMrush_Token {
+class OAuth_Token {
 
 	/**
 	 * The access token.
@@ -46,7 +46,7 @@ class SEMrush_Token {
 	public $created_at;
 
 	/**
-	 * SEMrush_Token constructor.
+	 * OAuth_Token constructor.
 	 *
 	 * @param string $access_token  The access token.
 	 * @param string $refresh_token The refresh token.
@@ -89,7 +89,7 @@ class SEMrush_Token {
 	 *
 	 * @param AccessTokenInterface $response The response object to create a new instance from.
 	 *
-	 * @return SEMrush_Token The token object.
+	 * @return OAuth_Token The token object.
 	 *
 	 * @throws Empty_Property_Exception Exception thrown if a token property is empty.
 	 */

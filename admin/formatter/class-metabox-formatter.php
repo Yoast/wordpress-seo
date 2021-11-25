@@ -7,9 +7,10 @@
 
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Config\SEMrush_Client;
+use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Token_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
 
 /**
  * This class forces needed methods for the metabox localization.
@@ -166,6 +167,10 @@ class WPSEO_Metabox_Formatter {
 			'analysisHeadingTitle'        => __( 'Analysis', 'wordpress-seo' ),
 			'zapierIntegrationActive'     => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
 			'zapierConnectedStatus'       => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
+			'wincherIntegrationActive'    => WPSEO_Options::get( 'wincher_integration_active', true ) ? 1 : 0,
+			'wincherLoginStatus'          => WPSEO_Options::get( 'wincher_integration_active', true ) ? YoastSEO()->helpers->wincher->login_status() : false,
+			'wincherWebsiteId'            => WPSEO_Options::get( 'wincher_website_id', '' ),
+			'wincherAutoAddKeyphrases'    => WPSEO_Options::get( 'wincher_automatically_add_keyphrases', false ),
 
 			/**
 			 * Filter to determine whether the PreviouslyUsedKeyword assessment should run.

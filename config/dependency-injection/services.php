@@ -46,6 +46,7 @@ include __DIR__ . '/renamed-classes.php';
 
 $yoast_seo_excluded_files = [
 	'main.php',
+	'config/wincher-pkce-provider.php',
 ];
 
 $yoast_seo_excluded_directories = [
@@ -58,6 +59,7 @@ $yoast_seo_excluded_directories = [
 	'values/semrush',
 	'surfaces/values',
 	'wordpress',
+	'values/oauth',
 ];
 
 $yoast_seo_excluded = \implode( ',', \array_merge( $yoast_seo_excluded_directories, $yoast_seo_excluded_files ) );
