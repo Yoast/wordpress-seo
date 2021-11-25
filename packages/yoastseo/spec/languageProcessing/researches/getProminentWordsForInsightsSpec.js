@@ -125,7 +125,7 @@ describe( "test for prominent words research for languages that have custom help
 			expect( words ).toEqual( expected );
 		} );
 
-		it( "returns prominent words for texts with more than 300 words, in which the morphology data is available", function() {
+		it( "returns prominent words for texts with more than 300 characters, in which the morphology data is available", function() {
 			const paper = new Paper( "私の美しい猫のおやつが猫".repeat( 180 ) );
 
 			const researcher = new JapaneseResearcher( paper );
