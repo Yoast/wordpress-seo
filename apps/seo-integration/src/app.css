@@ -1,3 +1,6 @@
+@import "draft-js-mention-plugin/lib/plugin.css";
+@import "draft-js/dist/Draft.css";
+
 #root {
 	display: flex;
 }

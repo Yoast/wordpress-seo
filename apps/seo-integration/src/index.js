@@ -26,12 +26,14 @@ const load = async () => {
 	} );
 
 	console.log( "replacement variables interface, per analysis type", analysisTypeReplacementVariables );
+
+	return analysisTypeReplacementVariables;
 };
 
-load().then( () => {
+load().then( ( analysisTypeReplacementVariables) => {
 	render(
 		<StrictMode>
-			<App />
+			<App analysisTypeReplacementVariables={ analysisTypeReplacementVariables } />
 		</StrictMode>,
 		document.getElementById( "root" ),
 	);

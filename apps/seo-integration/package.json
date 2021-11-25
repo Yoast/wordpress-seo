@@ -24,13 +24,10 @@
     "@wordpress/element": "^4.0.3",
     "@wordpress/hooks": "^3.2.1",
     "@wordpress/i18n": "^4.2.4",
-    "@yoast/analysis-report": "^1.21.0",
-    "@yoast/replacement-variables": "file:../../packages/replacement-variables",
+    "@yoast/search-metadata-previews": "file:../../packages/search-metadata-previews",
     "@yoast/seo-integration": "file:../../packages/seo-integration",
-    "@yoast/seo-store": "file:../../packages/seo-store",
-    "@yoast/social-metadata-previews": "^1.17.0",
     "react-scripts": "4.0.3",
-    "yoastseo": "^1.91.0"
+    "yoastseo": "file:../../packages/yoastseo"
   },
   "devDependencies": {
     "source-map-explorer": "^2.5.2",
