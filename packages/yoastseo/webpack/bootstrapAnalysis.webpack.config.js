@@ -1,7 +1,7 @@
 const path = require( "path" );
 
 /**
- * The main Webpack configuration for building the main analysis file.
+ * The Webpack configuration for building the file to bootstrap analysis within a web worker.
  *
  * @type {Object}
  */
