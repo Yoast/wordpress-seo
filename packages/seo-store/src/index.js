@@ -10,30 +10,6 @@ export { STORE_NAME as SEO_STORE_NAME };
 
 export { useAnalyze } from "./analysis/hooks";
 
-const defaultState = {
-	analysis: defaultAnalysisState,
-	editor: defaultEditorState,
-	form: defaultFormState,
-};
-
-const actions = {
-	...analysisActions,
-	...editorActions,
-	...formActions,
-};
-
-const selectors = {
-	...analysisSelectors,
-	...editorSelectors,
-	...formSelectors,
-};
-
-const reducers = {
-	analysis: analysisReducer,
-	editor: editorReducer,
-	form: formReducer,
-};
-
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
 /**
@@ -46,10 +22,30 @@ const reducers = {
  */
 const createSeoStore = ( { initialState, analyze } ) => {
 	return createReduxStore( STORE_NAME, {
-		actions,
-		selectors,
-		initialState: merge( {}, defaultState, initialState ),
-		reducer: combineReducers( reducers ),
+		actions: {
+			...analysisActions,
+			...editorActions,
+			...formActions,
+		},
+		selectors: {
+			...analysisSelectors,
+			...editorSelectors,
+			...formSelectors,
+		},
+		initialState: merge(
+			{},
+			{
+				analysis: defaultAnalysisState,
+				editor: defaultEditorState,
+				form: defaultFormState,
+			},
+			initialState,
+		),
+		reducer: combineReducers( {
+			analysis: analysisReducer,
+			editor: editorReducer,
+			form: formReducer,
+		} ),
 		controls: {
 			[ ANALYZE_ACTION_NAME ]: async ( { payload: { paper, keyphrases, config } } ) => analyze( paper, keyphrases, config ),
 		},
