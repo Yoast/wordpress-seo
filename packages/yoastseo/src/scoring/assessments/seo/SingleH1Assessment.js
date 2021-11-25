@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { map } from "lodash-es";
 import { merge } from "lodash-es";
 import { isUndefined } from "lodash-es";
@@ -40,16 +41,15 @@ class singleH1Assessment extends Assessment {
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 * @param {Researcher}  researcher  The researcher used for calling the research.
-	 * @param {Jed}         i18n        The object used for translations
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		this._h1s = researcher.getResearch( "h1s" );
 
 		const assessmentResult = new AssessmentResult();
 
-		const calculatedResult = this.calculateResult( i18n );
+		const calculatedResult = this.calculateResult();
 
 		if ( ! isUndefined( calculatedResult ) ) {
 			assessmentResult.setScore( calculatedResult.score );
@@ -72,11 +72,9 @@ class singleH1Assessment extends Assessment {
 	/**
 	 * Returns the score and the feedback string for the single H1 assessment.
 	 *
-	 * @param {Jed} i18n The object used for translations.
-	 *
 	 * @returns {Object|null} The calculated score and the feedback string.
 	 */
-	calculateResult( i18n ) {
+	calculateResult() {
 		// Returns the default assessment result if there are no H1s in the body.
 		if ( this._h1s.length === 0 ) {
 			return;
@@ -89,12 +87,12 @@ class singleH1Assessment extends Assessment {
 
 		return {
 			score: this._config.scores.textContainsSuperfluousH1,
-			resultText: i18n.sprintf(
+			resultText: sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-				i18n.dgettext(
-					"js-text-analysis",
-					"%1$sSingle title%3$s: H1s should only be used as your main title. Find all H1s in your text " +
-					"that aren't your main title and %2$schange them to a lower heading level%3$s!"
+				__(
+					// eslint-disable-next-line max-len
+					"%1$sSingle title%3$s: H1s should only be used as your main title. Find all H1s in your text that aren't your main title and %2$schange them to a lower heading level%3$s!",
+					"wordpress-seo"
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,

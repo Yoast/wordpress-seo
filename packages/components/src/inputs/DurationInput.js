@@ -135,7 +135,7 @@ class DurationInput extends React.Component {
 			<FieldGroup { ...props }>
 				<div className="duration-inputs__wrapper">
 					<div className="duration-inputs__input-wrapper">
-						<label htmlFor={ id + "-hours" }>{ __( "hours", "yoast-components" ) }</label>
+						<label htmlFor={ id + "-hours" }>{ __( "hours", "wordpress-seo" ) }</label>
 						<input
 							id={ id + "-hours" }
 							name={ "hours" }
@@ -149,7 +149,7 @@ class DurationInput extends React.Component {
 						/>
 					</div>
 					<div className="duration-inputs__input-wrapper">
-						<label htmlFor={ id + "-minutes" }>{ __( "minutes", "yoast-components" ) }</label>
+						<label htmlFor={ id + "-minutes" }>{ __( "minutes", "wordpress-seo" ) }</label>
 						<input
 							id={ id + "-minutes" }
 							name={ "minutes" }
@@ -164,7 +164,7 @@ class DurationInput extends React.Component {
 						/>
 					</div>
 					<div className="duration-inputs__input-wrapper">
-						<label htmlFor={ id + "-seconds" }>{ __( "seconds", "yoast-components" ) }</label>
+						<label htmlFor={ id + "-seconds" }>{ __( "seconds", "wordpress-seo" ) }</label>
 						<input
 							id={ id + "-seconds" }
 							name={ "seconds" }

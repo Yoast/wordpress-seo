@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -53,16 +54,15 @@ export default class PageTitleWidthAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {Jed} i18n The object used for translations
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		const pageTitleWidth = researcher.getResearch( "pageTitleWidth" );
 		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( this.calculateScore( pageTitleWidth ) );
-		assessmentResult.setText( this.translateScore( pageTitleWidth, i18n ) );
+		assessmentResult.setText( this.translateScore( pageTitleWidth ) );
 
 		// Max and actual are used in the snippet editor progress bar.
 		assessmentResult.max = this._config.maxLength;
@@ -97,29 +97,28 @@ export default class PageTitleWidthAssessment extends Assessment {
 	 * Translates the pageTitleWidth score to a message the user can understand.
 	 *
 	 * @param {number} pageTitleWidth The width of the pageTitle.
-	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {string} The translated string.
 	 */
-	translateScore( pageTitleWidth, i18n ) {
+	translateScore( pageTitleWidth ) {
 		if ( inRange( pageTitleWidth, 1, 400 ) ) {
 			if ( this._allowShortTitle ) {
-				return i18n.sprintf(
+				return sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sSEO title width%2$s: Good job!"
+					__(
+						"%1$sSEO title width%2$s: Good job!",
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>"
 				);
 			}
-			return i18n.sprintf(
+			return sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-				i18n.dgettext(
-					"js-text-analysis",
-					"%1$sSEO title width%3$s: The SEO title is too short. " +
-					"%2$sUse the space to add keyphrase variations or create compelling call-to-action copy%3$s."
+				__(
+					// eslint-disable-next-line max-len
+					"%1$sSEO title width%3$s: The SEO title is too short. %2$sUse the space to add keyphrase variations or create compelling call-to-action copy%3$s.",
+					"wordpress-seo"
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
@@ -128,11 +127,11 @@ export default class PageTitleWidthAssessment extends Assessment {
 		}
 
 		if ( inRange( pageTitleWidth, this._config.minLength, this._config.maxLength ) ) {
-			return i18n.sprintf(
+			return sprintf(
 				/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				i18n.dgettext(
-					"js-text-analysis",
-					"%1$sSEO title width%2$s: Good job!"
+				__(
+					"%1$sSEO title width%2$s: Good job!",
+					"wordpress-seo"
 				),
 				this._config.urlTitle,
 				"</a>"
@@ -140,11 +139,11 @@ export default class PageTitleWidthAssessment extends Assessment {
 		}
 
 		if ( pageTitleWidth > this._config.maxLength ) {
-			return i18n.sprintf(
+			return sprintf(
 				/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-				i18n.dgettext(
-					"js-text-analysis",
-					"%1$sSEO title width%3$s: The SEO title is wider than the viewable limit. %2$sTry to make it shorter%3$s."
+				__(
+					"%1$sSEO title width%3$s: The SEO title is wider than the viewable limit. %2$sTry to make it shorter%3$s.",
+					"wordpress-seo"
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
@@ -152,9 +151,9 @@ export default class PageTitleWidthAssessment extends Assessment {
 			);
 		}
 
-		return i18n.sprintf(
+		return sprintf(
 			/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-			i18n.dgettext( "js-text-analysis", "%1$sSEO title width%3$s: %2$sPlease create an SEO title%3$s." ),
+			__( "%1$sSEO title width%3$s: %2$sPlease create an SEO title%3$s.", "wordpress-seo" ),
 			this._config.urlTitle,
 			this._config.urlCallToAction,
 			"</a>"

@@ -30,6 +30,7 @@
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.js --progress",
     "webpack-analyze-bundle": "cross-env BUNDLE_ANALYZER=1 NODE_ENV=production webpack --config ./config/webpack/webpack.config.js --progress",
     "i18n-wordpress-seo": "cross-env NODE_ENV=production babel packages/js/src --plugins=@wordpress/babel-plugin-makepot | shusher",
+    "i18n-yoastseo-js": "cross-env NODE_ENV=production babel packages/yoastseo/src --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-yoast-components": "cross-env NODE_ENV=production babel packages/yoast-components --ignore packages/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-yoast-js-analysis-report": "cross-env NODE_ENV=production babel packages/analysis-report --ignore packages/analysis-report/node_modules --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-yoast-js-components": "cross-env NODE_ENV=production babel packages/yoast-components packages/components --ignore packages/yoast-components/node_modules,packages/components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot | shusher",

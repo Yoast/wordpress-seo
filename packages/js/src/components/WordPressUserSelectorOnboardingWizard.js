@@ -50,8 +50,11 @@ class WordPressUserSelectorOnboardingWizard extends Component {
 					{
 						sprintf(
 							/* translators: %1$s expands to WordPress */
-							__( "You can edit the details shown in meta data, like the social profiles, the name " +
-								"and the description of this user on their %1$s profile page.", "wordpress-seo" ),
+							__(
+								// eslint-disable-next-line max-len
+								"You can edit the details shown in meta data, like the social profiles, the name and the description of this user on their %1$s profile page.",
+								"wordpress-seo"
+							),
 							"WordPress"
 						)
 					}

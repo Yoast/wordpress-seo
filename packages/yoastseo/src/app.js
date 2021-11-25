@@ -1,19 +1,9 @@
 import SnippetPreview from "./snippetPreview/snippetPreview.js";
 
-import { defaultsDeep } from "lodash-es";
-import { isObject } from "lodash-es";
-import { isString } from "lodash-es";
+import { setLocaleData } from "@wordpress/i18n";
+import { debounce, defaultsDeep, forEach, isArray, isEmpty, isFunction, isObject, isString, isUndefined, merge, throttle } from "lodash-es";
 import MissingArgument from "./errors/missingArgument";
-import { isUndefined } from "lodash-es";
-import { isEmpty } from "lodash-es";
-import { isFunction } from "lodash-es";
-import { isArray } from "lodash-es";
-import { forEach } from "lodash-es";
-import { debounce } from "lodash-es";
-import { throttle } from "lodash-es";
-import { merge } from "lodash-es";
 
-import Jed from "jed";
 import SEOAssessor from "./scoring/seoAssessor.js";
 import KeyphraseDistributionAssessment from "./scoring/assessments/seo/KeyphraseDistributionAssessment.js";
 import ContentAssessor from "./scoring/contentAssessor.js";
@@ -72,10 +62,10 @@ var defaults = {
 	dynamicDelay: true,
 	locale: "en_US",
 	translations: {
-		domain: "js-text-analysis",
+		domain: "wordpress-seo",
 		// eslint-disable-next-line camelcase
 		locale_data: {
-			"js-text-analysis": {
+			"wordpress-seo": {
 				"": {},
 			},
 		},
@@ -265,7 +255,8 @@ var App = function( args ) {
 	this._pureRefresh = throttle( this._pureRefresh.bind( this ), this.config.typeDelay );
 
 	this.callbacks = this.config.callbacks;
-	this.i18n = this.constructI18n( this.config.translations );
+
+	setLocaleData( this.config.translations.locale_data[ "wordpress-seo" ], "wordpress-seo" );
 
 	this.initializeAssessors( args );
 
@@ -287,7 +278,6 @@ var App = function( args ) {
 		app.*/
 		if ( this.snippetPreview.refObj !== this ) {
 			this.snippetPreview.refObj = this;
-			this.snippetPreview._i18n = this.i18n;
 		}
 	} else if ( args.hasSnippetPreview ) {
 		this.snippetPreview = createDefaultSnippetPreview.call( this );
@@ -391,8 +381,8 @@ App.prototype.initializeSEOAssessor = function( args ) {
 		return;
 	}
 
-	this.defaultSeoAssessor = new SEOAssessor( this.i18n, { marker: this.config.marker } );
-	this.cornerStoneSeoAssessor = new CornerstoneSEOAssessor( this.i18n, { marker: this.config.marker } );
+	this.defaultSeoAssessor = new SEOAssessor( { marker: this.config.marker } );
+	this.cornerStoneSeoAssessor = new CornerstoneSEOAssessor( { marker: this.config.marker } );
 
 	// Set the assessor
 	if ( isUndefined( args.seoAssessor ) ) {
@@ -413,8 +403,8 @@ App.prototype.initializeContentAssessor = function( args ) {
 		return;
 	}
 
-	this.defaultContentAssessor = new ContentAssessor( this.i18n, { marker: this.config.marker, locale: this.config.locale }  );
-	this.cornerStoneContentAssessor = new CornerstoneContentAssessor( this.i18n, { marker: this.config.marker, locale: this.config.locale } );
+	this.defaultContentAssessor = new ContentAssessor( { marker: this.config.marker, locale: this.config.locale }  );
+	this.cornerStoneContentAssessor = new CornerstoneContentAssessor( { marker: this.config.marker, locale: this.config.locale } );
 
 	// Set the content assessor
 	if ( isUndefined( args._contentAssessor ) ) {
@@ -457,29 +447,6 @@ App.prototype.extendSampleText = function( sampleText ) {
 	}
 
 	return sampleText;
-};
-
-/**
- * Initializes i18n object based on passed configuration
- *
- * @param {Object}  translations    The translations to be used in the current instance.
- * @returns {void}
- */
-App.prototype.constructI18n = function( translations ) {
-	var defaultTranslations = {
-		domain: "js-text-analysis",
-		// eslint-disable-next-line camelcase
-		locale_data: {
-			"js-text-analysis": {
-				"": {},
-			},
-		},
-	};
-
-	// Use default object to prevent Jed from erroring out.
-	translations = translations || defaultTranslations;
-
-	return new Jed( translations );
 };
 
 /**
@@ -597,7 +564,6 @@ App.prototype.initAssessorPresenters = function() {
 				output: this.config.targets.output,
 			},
 			assessor: this.seoAssessor,
-			i18n: this.i18n,
 		} );
 	}
 
@@ -608,7 +574,6 @@ App.prototype.initAssessorPresenters = function() {
 				output: this.config.targets.contentOutput,
 			},
 			assessor: this.contentAssessor,
-			i18n: this.i18n,
 		} );
 	}
 };

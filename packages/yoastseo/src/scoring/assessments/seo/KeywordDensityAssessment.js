@@ -1,3 +1,4 @@
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
 import recommendedKeywordCount from "../../helpers/assessments/recommendedKeywordCount.js";
@@ -92,13 +93,11 @@ class KeywordDensityAssessment extends Assessment {
 	 * result with score.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
-	 * @param {Researcher} researcher The researcher used for calling the
-	 *                                research.
-	 * @param {Jed} i18n The object used for translations.
+	 * @param {Researcher} researcher The researcher used for calling the research.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		this._keywordCount = researcher.getResearch( "keywordCount" );
 		const keyphraseLength = this._keywordCount.length;
 
@@ -111,7 +110,7 @@ class KeywordDensityAssessment extends Assessment {
 		this.setBoundaries( paper.getText(), keyphraseLength );
 
 		this._keywordDensity = this._keywordDensity * keyphraseLengthFactor( keyphraseLength );
-		const calculatedScore = this.calculateResult( i18n );
+		const calculatedScore = this.calculateResult();
 
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
@@ -176,24 +175,21 @@ class KeywordDensityAssessment extends Assessment {
 	/**
 	 * Returns the score for the keyphrase density.
 	 *
-	 * @param {Jed} i18n The object used for translations.
-	 *
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
-	calculateResult( i18n ) {
+	calculateResult() {
 		if ( this.hasNoMatches() ) {
 			return {
 				score: this._config.scores.underMinimum,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators:
 					%1$s and %4$s expand to links to Yoast.com,
 					%2$s expands to the anchor end tag,
 					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text. */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found 0 times. " +
-						"That's less than the recommended minimum of %3$d times for a text of this length. " +
-						"%4$sFocus on your keyphrase%2$s!"
+					__(
+						// eslint-disable-next-line max-len
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found 0 times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
@@ -206,19 +202,19 @@ class KeywordDensityAssessment extends Assessment {
 		if ( this.hasTooFewMatches() ) {
 			return {
 				score: this._config.scores.underMinimum,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators:
 					%1$s and %4$s expand to links to Yoast.com,
 					%2$s expands to the anchor end tag,
 					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text,
 					%5$d expands to the number of times the keyphrase occurred in the text. */
-					i18n.dngettext(
-						"js-text-analysis",
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's less than the " +
-						"recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's less than the " +
-						"recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
-						this._keywordCount.count
+					_n(
+						// eslint-disable-next-line max-len
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						// eslint-disable-next-line max-len
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						this._keywordCount.count,
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
@@ -232,16 +228,16 @@ class KeywordDensityAssessment extends Assessment {
 		if ( this.hasGoodNumberOfMatches()  ) {
 			return {
 				score: this._config.scores.correctDensity,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators:
 					%1$s expands to a link to Yoast.com,
 					%2$s expands to the anchor end tag,
 					%3$d expands to the number of times the keyphrase occurred in the text. */
-					i18n.dngettext(
-						"js-text-analysis",
+					_n(
 						"%1$sKeyphrase density%2$s: The focus keyphrase was found %3$d time. This is great!",
 						"%1$sKeyphrase density%2$s: The focus keyphrase was found %3$d times. This is great!",
-						this._keywordCount.count
+						this._keywordCount.count,
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
@@ -253,19 +249,19 @@ class KeywordDensityAssessment extends Assessment {
 		if ( this.hasTooManyMatches() ) {
 			return {
 				score: this._config.scores.overMaximum,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators:
 					%1$s and %4$s expand to links to Yoast.com,
 					%2$s expands to the anchor end tag,
 					%3$d expands to the recommended maximal number of times the keyphrase should occur in the text,
 					%5$d expands to the number of times the keyphrase occurred in the text. */
-					i18n.dngettext(
-						"js-text-analysis",
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's more than the " +
-						"recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's more than the " +
-						"recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-						this._keywordCount.count
+					_n(
+						// eslint-disable-next-line max-len
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+						// eslint-disable-next-line max-len
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+						this._keywordCount.count,
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
@@ -279,19 +275,19 @@ class KeywordDensityAssessment extends Assessment {
 		// Implicitly returns this if the rounded keyphrase density is higher than overMaximum.
 		return {
 			score: this._config.scores.wayOverMaximum,
-			resultText: i18n.sprintf(
+			resultText: sprintf(
 				/* Translators:
 				%1$s and %4$s expand to links to Yoast.com,
 				%2$s expands to the anchor end tag,
 				%3$d expands to the recommended maximal number of times the keyphrase should occur in the text,
 				%5$d expands to the number of times the keyphrase occurred in the text. */
-				i18n.dngettext(
-					"js-text-analysis",
-					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's way more than the " +
-					"recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's way more than the " +
-					"recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-					this._keywordCount.count
+				_n(
+					// eslint-disable-next-line max-len
+					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+					// eslint-disable-next-line max-len
+					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+					this._keywordCount.count,
+					"wordpress-seo"
 				),
 				this._config.urlTitle,
 				"</a>",
