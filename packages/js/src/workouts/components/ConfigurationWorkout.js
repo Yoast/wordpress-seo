@@ -103,18 +103,12 @@ async function updateSiteRepresentation( state ) {
 		/* eslint-enable camelcase */
 	};
 
-	try {
-		const response = await apiFetch( {
-			path: "yoast/v1/workouts/site_representation",
-			method: "POST",
-			data: siteRepresentation,
-		} );
-		return await response.json;
-	} catch ( e ) {
-		// URL() constructor throws a TypeError exception if url is malformed.
-		console.error( e.message );
-		return false;
-	}
+	const response = await apiFetch( {
+		path: "yoast/v1/workouts/site_representation",
+		method: "POST",
+		data: siteRepresentation,
+	} );
+	return await response.json;
 }
 
 /**
@@ -154,26 +148,20 @@ async function updateSocialProfiles( state ) {
  * @returns {Promise|bool} A promise, or false if the call fails.
  */
 async function updateTracking( state ) {
-	try {
-		if ( state.tracking !== 0 && state.tracking !== 1 ) {
-			throw "Value not set!";
-		}
-
-		const tracking = {
-			tracking: state.tracking,
-		};
-
-		const response = await apiFetch( {
-			path: "yoast/v1/workouts/enable_tracking",
-			method: "POST",
-			data: tracking,
-		} );
-		return await response.json;
-	} catch ( e ) {
-		// URL() constructor throws a TypeError exception if url is malformed.
-		console.error( e.message );
-		return false;
+	if ( state.tracking !== 0 && state.tracking !== 1 ) {
+		throw "Value not set!";
 	}
+
+	const tracking = {
+		tracking: state.tracking,
+	};
+
+	const response = await apiFetch( {
+		path: "yoast/v1/workouts/enable_tracking",
+		method: "POST",
+		data: tracking,
+	} );
+	return await response.json;
 }
 
 /**
@@ -259,7 +247,6 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 	const toggleStepSiteRepresentation = makeStepToggle( steps.siteRepresentation );
 	const toggleStepSocialProfiles = makeStepToggle( steps.socialProfiles );
 	const toggleStepEnableTracking = makeStepToggle( steps.enableTracking );
-	const toggleStepNewsletterSignup = makeStepToggle( steps.newsletterSignup );
 
 	const setTracking = useCallback( ( value ) => {
 		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
@@ -350,7 +337,9 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 	}
 
 	const toggleConfigurationWorkout = useCallback(
-		() => {
+		async() => {
+			const stepsToFinish = [];
+
 			if ( isWorkoutFinished ) {
 				setSavedSteps( [] );
 				reviseStep( "configuration", steps.siteRepresentation );
@@ -360,35 +349,43 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 				return;
 			}
 			if ( ! isStep2Finished ) {
-				updateSiteRepresentation( state )
-					.then( () => setStepIsSaved( 2 ) )
-					.then( toggleStepSiteRepresentation );
+				try {
+					await updateSiteRepresentation( state );
+					setStepIsSaved( 2 );
+					stepsToFinish.push( steps.siteRepresentation );
+				} catch ( e ) {
+					console.error( e.message );
+					return false;
+				}
 			}
 			if ( ! isStep3Finished ) {
-				updateSocialProfiles( state )
-					.then( () => setStepIsSaved( 3 ) )
-					.then( () => {
-						setErrorFields( [] );
-						toggleStepSocialProfiles();
-					} )
-					.catch(
-						( e ) => {
-							if ( e.failures ) {
-								setErrorFields( e.failures );
-							}
-							scrollToStep( 3 );
-							return false;
-						}
-					);
+				try {
+					await updateSocialProfiles( state );
+					setStepIsSaved( 3 );
+					setErrorFields( [] );
+					stepsToFinish.push( steps.socialProfiles );
+				} catch ( e ) {
+					if ( e.failures ) {
+						setErrorFields( e.failures );
+					}
+					scrollToStep( 3 );
+					return false;
+				}
 			}
 			if ( ! isStep4Finished ) {
-				updateTracking( state )
-					.then( () => setStepIsSaved( 4 ) )
-					.then( toggleStepEnableTracking );
+				try {
+					await updateTracking( state );
+					setStepIsSaved( 4 );
+					stepsToFinish.push( steps.enableTracking );
+				} catch ( e ) {
+					console.error( e.message );
+					return false;
+				}
 			}
 			if ( ! isStep5Finished ) {
-				toggleStepNewsletterSignup();
+				stepsToFinish.push( steps.newsletterSignup );
 			}
+			finishSteps( "configuration", stepsToFinish );
 		},
 		[ toggleWorkout, isWorkoutFinished, isStep1Finished, isStep2Finished, isStep3Finished, isStep4Finished, isStep5Finished, state ]
 	);
