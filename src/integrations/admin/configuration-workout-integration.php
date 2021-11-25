@@ -303,27 +303,16 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	/**
 	 * Checks whether tracking is enabled.
 	 *
-	 * @return int True if tracking is enabled, false otherwise, null if in Free and conf. workout step not finished.
+	 * @return bool True if tracking is enabled, false otherwise, null if in Free and conf. workout step not finished.
 	 */
 	private function has_tracking_enabled() {
-		$tracking = -1;
-		// If in Premium, use the current setting.
+		$default = false;
+
 		if ( $this->product_helper->is_premium() ) {
-			$tracking = $this->options_helper->get( 'tracking', false );
+			$default = true;
 		}
 
-		// If in Free and the "tracking" step of the configuration workout is marked as finished, use the current setting.
-		$workouts_option = $this->options_helper->get( 'workouts_data' );
-		$finished_steps  = (array) $workouts_option['configuration']['finishedSteps'];
-		if ( \in_array( 'enableTracking', $finished_steps, true ) ) {
-			$tracking = $this->options_helper->get( 'tracking', false );
-		}
-
-		if ( \is_bool( $tracking ) ) {
-			$tracking = (int) $tracking;
-		}
-
-		return $tracking;
+		return $this->options_helper->get( 'tracking', $default );
 	}
 
 	/**
