@@ -24,6 +24,6 @@ describe( "A test to count the sentence length.", function() {
 
 		const lengths = sentencesLength( sentences, new JapaneseResearcher() );
 
-		expect( lengths ).toEqual( [ { sentence: "自然おのずから存在しているもの", countLength: 15 }, { sentence: "歩くさわやかな森自然", countLength: 10 } ] );
+		expect( lengths ).toEqual( [ { sentence: "自然おのずから存在しているもの", countLength: 15 }, { sentence: "歩くさわやかな森 自然", countLength: 11 } ] );
 	} );
 } );

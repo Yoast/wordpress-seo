@@ -16,7 +16,7 @@ export default function( sentences, researcher ) {
 		// For counting words we want to omit the HTMLtags.
 		const strippedSentence = stripHTMLTags( sentence );
 		// A helper to count characters for languages that don't count number of words for text length.
-		const countCharacters = researcher.getHelper( "countCharacters" );
+		const countCharacters = researcher.getHelper( "customCountLength" );
 		const length = countCharacters ? countCharacters( strippedSentence ) : wordCount( strippedSentence );
 		if ( length <= 0 ) {
 			return;
