@@ -62,6 +62,7 @@
   - 'shell:makepot-yoast-components-remaining'
   - 'shell:combine-pots-yoast-components'
   - 'shell:makepot-yoastseojs'
+  - 'copy:makepot-yoastseojs'
   - 'convert-pot-to-wp'
   - 'shell:combine-pot-files'
 # Download and build the latest translations

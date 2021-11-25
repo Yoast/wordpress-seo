@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Exceptions\SEMrush\Tokens;
+namespace Yoast\WP\SEO\Exceptions\OAuth\Tokens;
 
 use Exception;
 

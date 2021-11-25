@@ -11,7 +11,7 @@ import { Button } from "@yoast/components";
  * @constructor
  */
 export default function FinishButton( { onClick, isFinished } ) {
-	const copy = isFinished ? __( "Revise this step", "wordpress-seo-premium" ) : __( "I've finished this step", "wordpress-seo-premium" );
+	const copy = isFinished ? __( "Revise this step", "wordpress-seo" ) : __( "I've finished this step", "wordpress-seo" );
 
 	return <Button onClick={ onClick }>{ copy }</Button>;
 }

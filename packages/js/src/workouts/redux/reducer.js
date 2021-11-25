@@ -2,7 +2,7 @@ import { union, merge, get, cloneDeep } from "lodash";
 import {
 	CLEAR_ACTIVE_WORKOUT, CLEAR_INDEXABLES,
 	CLEAR_INDEXABLES_IN_STEPS,
-	FINISH_STEPS, MOVE_INDEXABLES, OPEN_WORKOUT,
+	FINISH_STEPS, REVISE_STEP, MOVE_INDEXABLES, OPEN_WORKOUT,
 	SET_WORKOUTS, TOGGLE_STEP, TOGGLE_WORKOUT, REGISTER_WORKOUT,
 } from "./actions";
 import { FINISHABLE_STEPS, STEPS } from "../config";
@@ -68,6 +68,11 @@ const workoutsReducer = ( state = initialState, action ) => {
 			return newState;
 		case FINISH_STEPS:
 			newState.workouts[ action.workout ].finishedSteps = union( state.workouts[ action.workout ].finishedSteps, action.steps );
+			return newState;
+		case REVISE_STEP:
+			newState.workouts[ action.workout ].finishedSteps = newState.workouts[ action.workout ].finishedSteps.filter(
+				step => step !== action.step
+			);
 			return newState;
 		case TOGGLE_STEP:
 			if ( state.workouts[ action.workout ].finishedSteps.includes( action.step ) ) {
