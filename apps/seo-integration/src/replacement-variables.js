@@ -1,5 +1,5 @@
 import { select } from "@wordpress/data";
-import { SEO_STORE_NAME } from "@yoast/seo-store";
+import { SEO_STORE_NAME } from "@yoast/seo-integration";
 
 const logReplacementVariable = config => ( {
 	...config,

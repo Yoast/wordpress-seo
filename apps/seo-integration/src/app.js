@@ -1,6 +1,6 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
-import { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
+import { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-integration";
 import { debounce } from "lodash";
 import "./app.css";
 
@@ -29,10 +29,21 @@ const Editor = () => {
 			<h1>Editor</h1>
 			<label htmlFor="editor-title">Title</label>
 			<div className="inline-flex">
-				<input id="editor-title" name="title" onChange={ handleTitleChange } />
+				<input
+					id="editor-title"
+					name="title"
+					onChange={ handleTitleChange }
+					defaultValue="This is the initial title"
+				/>
 			</div>
 			<label htmlFor="editor-content">Content</label>
-			<textarea id="editor-content" name="content" rows="16" onChange={ handleContentChange } />
+			<textarea
+				id="editor-content"
+				name="content"
+				rows="16"
+				onChange={ handleContentChange }
+				defaultValue="This is the initial content and the initial title is: %%title%%"
+			/>
 			<label htmlFor="editor-permalink">Permalink</label>
 			<div className="inline-flex">
 				<input id="editor-permalink" name="permalink" type="url" pattern="https?://.*" onChange={ handlePermalinkChange } />

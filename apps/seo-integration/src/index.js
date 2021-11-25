@@ -17,6 +17,12 @@ const load = async () => {
 				replacementVariableConfigurations: createPostReplacementVariables( defaultReplacementVariableConfigurations ),
 			},
 		},
+		initialState: {
+			editor: {
+				title: "This is the initial title",
+				content: "This is the initial content and the initial title is: %%title%%"
+			}
+		},
 	} );
 
 	console.log( "replacement variables interface, per analysis type", analysisTypeReplacementVariables );
