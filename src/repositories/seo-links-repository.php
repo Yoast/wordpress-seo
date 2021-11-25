@@ -117,14 +117,14 @@ class SEO_Links_Repository {
 			->group_by( 'target_indexable_id' )
 			->find_array();
 
-		// Get all ID's returned from the query for easy accessibility.
-		$returned_ids = array_column( $indexable_counts, 'target_indexable_id' );
+		// Get all ID's returned from the query and set them as keys for easy access.
+		$returned_ids = array_flip( array_column( $indexable_counts, 'target_indexable_id' ) );
 
 		// Loop over the original ID's and search them in the returned ID's. If they don't exist, add them with an incoming count of 0.
 		foreach ( $indexable_ids as $id ) {
 			// Cast the ID to string, as the arrays only contain stringified versions of the ID.
 			$id = strval( $id );
-			if ( array_search( $id, $returned_ids, true ) === false ) {
+			if ( isset( $returned_ids[ $id ] ) === false ) {
 				$indexable_counts[] = [
 					'incoming'            => '0',
 					'target_indexable_id' => $id,
