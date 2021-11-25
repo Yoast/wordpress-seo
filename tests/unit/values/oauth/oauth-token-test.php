@@ -1,22 +1,22 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Values\SEMrush;
+namespace Yoast\WP\SEO\Tests\Unit\Values\OAuth;
 
 use Mockery;
-use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
+use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 
 /**
- * Class SEMrush_Token_Test
+ * Class OAuth_Token_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Values\SEMrush\SEMrush_Token
+ * @coversDefaultClass \Yoast\WP\SEO\Values\OAuth\OAuth_Token
  *
  * @group values
- * @group semrush
+ * @group oauth
  */
-class SEMrush_Token_Test extends TestCase {
+class OAuth_Token_Test extends TestCase {
 
 	/**
 	 * The created_at property.
@@ -40,9 +40,9 @@ class SEMrush_Token_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_creating_new_instance() {
-		$instance = new SEMrush_Token( '000000', '000001', 604800, false, $this->created_at );
+		$instance = new OAuth_Token( '000000', '000001', 604800, false, $this->created_at );
 
-		$this->assertInstanceOf( SEMrush_Token::class, $instance );
+		$this->assertInstanceOf( OAuth_Token::class, $instance );
 	}
 
 	/**
@@ -53,7 +53,7 @@ class SEMrush_Token_Test extends TestCase {
 	public function test_creating_new_instance_empty_property() {
 		$this->expectException( Empty_Property_Exception::class );
 
-		$instance = new SEMrush_Token( '', '000001', 604800, true, $this->created_at );
+		$instance = new OAuth_Token( '', '000001', 604800, true, $this->created_at );
 	}
 
 	/**
@@ -62,7 +62,7 @@ class SEMrush_Token_Test extends TestCase {
 	 * @covers ::has_expired
 	 */
 	public function test_getters() {
-		$instance = new SEMrush_Token( '000000', '000001', ( $this->created_at + 604800 ), false, $this->created_at );
+		$instance = new OAuth_Token( '000000', '000001', ( $this->created_at + 604800 ), false, $this->created_at );
 
 		$this->assertEquals( '000000', $instance->access_token );
 		$this->assertEquals( '000001', $instance->refresh_token );
@@ -77,7 +77,7 @@ class SEMrush_Token_Test extends TestCase {
 	 * @covers ::to_array
 	 */
 	public function test_to_array() {
-		$instance = new SEMrush_Token(
+		$instance = new OAuth_Token(
 			'000000',
 			'000001',
 			( $this->created_at + 604800 ),
@@ -114,9 +114,9 @@ class SEMrush_Token_Test extends TestCase {
 			]
 		);
 
-		$instance = SEMrush_Token::from_response( $response );
+		$instance = OAuth_Token::from_response( $response );
 
-		$this->assertInstanceOf( SEMrush_Token::class, $instance );
+		$this->assertInstanceOf( OAuth_Token::class, $instance );
 		$this->assertEquals( '000000', $this->getPropertyValue( $instance, 'access_token' ) );
 		$this->assertEquals( '000001', $this->getPropertyValue( $instance, 'refresh_token' ) );
 		$this->assertEquals( 604800, $this->getPropertyValue( $instance, 'expires' ) );
