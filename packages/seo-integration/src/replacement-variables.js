@@ -3,7 +3,7 @@ import { addFilter, removeFilter } from "@wordpress/hooks";
 import { __ } from "@wordpress/i18n";
 import createReplacementVariables from "@yoast/replacement-variables";
 import { SEO_STORE_NAME } from "@yoast/seo-store";
-import { curryRight, get, identity, mapValues } from "lodash";
+import { get, identity, mapValues } from "lodash";
 
 /**
  * Creates the default replacement variable configurations, for use within the SEO store context.
@@ -53,9 +53,9 @@ const registerReplacementVariables = ( applies ) => {
 	 *
 	 * @returns {function(Object): string} The apply replacement variables function for objects.
 	 */
-	const applyReplacementVariables = ( paper, { config: { analysisType } } ) => {
-		return curryRight( mapValues )( paper, get( applies, analysisType, identity ) );
-	};
+	const applyReplacementVariables = ( paper, { config: { analysisType } } ) => (
+		mapValues( paper, get( applies, analysisType, identity ) )
+	);
 
 	addFilter(
 		"yoast.seoStore.analysis.preparePaper",

@@ -23,7 +23,7 @@
  * @property {function(string, Object?): string} apply Applies the replacement variables to a string.
  */
 
-import { reduce } from "lodash";
+import { reduce, map } from "lodash";
 
 /**
  * Creates replacement variables and provides an apply function.
@@ -33,7 +33,7 @@ import { reduce } from "lodash";
  * @returns {ReplacementVariablesInterface} The replacement variables and an apply function.
  */
 const createReplacementVariables = ( configurations ) => {
-	const variables = configurations.map( ( { name, label, getReplacement, regexp = null } = {} ) => ( {
+	const variables = map( configurations, ( { name, label, getReplacement, regexp = null } = {} ) => ( {
 		name,
 		label,
 		getReplacement,
