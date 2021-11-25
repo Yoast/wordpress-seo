@@ -483,7 +483,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					ImageComponent={ WorkoutStartImage }
 					isFinished={ isStep1Finished }
 				>
-					<div className="indexation-container">
+					<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
 						<WorkoutIndexation
 							indexingStateCallback={ setIndexingState }
 						/>
@@ -752,10 +752,10 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					</Alert> }
 				</FinishButtonSection>
 			</Steps>
-			{ isWorkoutFinished && <div>
+			{ isWorkoutFinished && <div id="yoast-configuration-workout-congratulations">
 				<hr />
-				<h3 style={ { marginBottom: 0 } }>{ __( "Congratulations!", "wordpress-seo" ) }</h3>
-				<div style={ { display: "flex" } }>
+				<h3 id="yoast-configuration-workout-congratulations-title" style={ { marginBottom: 0 } }>{ __( "Congratulations!", "wordpress-seo" ) }</h3>
+				<div id="yoast-configuration-workout-congratulations-content" style={ { display: "flex" } }>
 					<div>
 						<p>
 							{
@@ -767,7 +767,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					</div>
 					<WorkoutDoneImage style={ { height: "119px", width: "100px", flexShrink: 0 } } />
 				</div>
-				<Button onClick={ clearActiveWorkout } variant="primary">
+				<Button id="yoast-configuration-workout-congratulations-button" onClick={ clearActiveWorkout } variant="primary">
 					{
 						// translators: %1$s translates to a rightward pointing arrow ( → )
 						sprintf( __( "View other SEO workouts%1$s", "wordpress-seo" ), " →" )
