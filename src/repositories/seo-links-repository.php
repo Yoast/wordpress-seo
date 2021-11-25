@@ -109,6 +109,7 @@ class SEO_Links_Repository {
 	 * @return array An array of associative arrays, each containing a indexable id and incoming property.
 	 */
 	public function get_incoming_link_counts_for_indexable_ids( $indexable_ids ) {
+		// This query only returns ID's with an incoming count > 0. We need to restore any ID's with 0 incoming links later.
 		$indexable_counts = $this->query()
 			->select_expr( 'COUNT( id )', 'incoming' )
 			->select( 'target_indexable_id' )
@@ -116,20 +117,22 @@ class SEO_Links_Repository {
 			->group_by( 'target_indexable_id' )
 			->find_array();
 
-		// The query only returns ID's with an incoming count > 0. We need to restore any ID's with 0 incoming links.
-		// Get all ID's returned from the query:
-		$returned_ids = array_column($indexable_counts, 'target_indexable_id');
+		// Get all ID's returned from the query for easy accessibility.
+		$returned_ids = array_column( $indexable_counts, 'target_indexable_id' );
 
-		// Loop over the original ID's and search them in the returned ID's. If they don't exist, add them with an incoming count of 0:
-		foreach ( $indexable_ids as $id ){
-			// Cast the ID to string, as the arrays only contain stringified versions of the ID:
-			$id = strval($id);
-			if ( array_search($id, $returned_ids, true) === false ) {
-				$indexable_counts[] = [ 'incoming' => "0", 'target_indexable_id' => $id ];
+		// Loop over the original ID's and search them in the returned ID's. If they don't exist, add them with an incoming count of 0.
+		foreach ( $indexable_ids as $id ) {
+			// Cast the ID to string, as the arrays only contain stringified versions of the ID.
+			$id = strval( $id );
+			if ( array_search( $id, $returned_ids, true ) === false ) {
+				$indexable_counts[] = [
+					'incoming'            => '0',
+					'target_indexable_id' => $id,
+				];
 			}
 		}
 
-		return $indexable_counts;	
+		return $indexable_counts;
 	}
 
 	/**
