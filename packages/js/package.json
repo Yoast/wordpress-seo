@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "test": "jest -u",
-    "lint": "eslint src tests --max-warnings=164"
+    "lint": "eslint src tests --max-warnings=165"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
