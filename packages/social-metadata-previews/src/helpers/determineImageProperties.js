@@ -24,12 +24,18 @@ export const FACEBOOK_IMAGE_SIZES = {
  * @returns {string} The display mode of the image.
  */
 export function determineFacebookImageMode( originalDimensions ) {
-	if ( originalDimensions.height > originalDimensions.width ) {
-		return "portrait";
+	const largeThreshold = { height: 223, width: 446 };
+
+	if ( originalDimensions.height < largeThreshold.height || originalDimensions.width < largeThreshold.width ) {
+		return "square";
 	}
 
 	if ( originalDimensions.height === originalDimensions.width ) {
 		return "square";
+	}
+
+	if ( originalDimensions.height > originalDimensions.width ) {
+		return "portrait";
 	}
 
 	return "landscape";
