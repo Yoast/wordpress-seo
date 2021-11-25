@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get } from "lodash";
 
-const initialState = {
+export const initialConfigState = {
 	analysisType: "post",
 	isSeoActive: true,
 	isReadabilityActive: true,
@@ -10,7 +10,7 @@ const initialState = {
 
 const configSlice = createSlice( {
 	name: "config",
-	initialState,
+	initialState: initialConfigState,
 	reducers: {
 		updateAnalysisType: ( state, { payload } ) => {
 			state.analysisType = payload;

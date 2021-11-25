@@ -1,6 +1,11 @@
 import { combineReducers } from "@wordpress/data";
-import keyphrasesReducer, { keyphrasesActions, keyphrasesSelectors } from "./keyphrases";
-import seoReducer, { seoActions, seoSelectors } from "./seo";
+import seoReducer, { seoActions, seoSelectors, initialSeoState } from "./seo";
+import keyphrasesReducer, { keyphrasesActions, keyphrasesSelectors, initialKeyphrasesState } from "./keyphrases";
+
+export const initialFormState = {
+	seo: initialSeoState,
+	keyphrases: initialKeyphrasesState,
+};
 
 export const formSelectors = {
 	...seoSelectors,

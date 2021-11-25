@@ -4,7 +4,7 @@ import { FOCUS_KEYPHRASE_ID } from "../../common/constants";
 
 export const MAX_RELATED_KEYPHRASES = 4;
 
-const initialState = {
+export const initialKeyphrasesState = {
 	[ FOCUS_KEYPHRASE_ID ]: {
 		id: FOCUS_KEYPHRASE_ID,
 		keyphrase: "",
@@ -26,7 +26,7 @@ const prepareWithFocusKeyphraseIdFallback = ( payload ) => ( {
 
 const keyphrasesSlice = createSlice( {
 	name: "keyphrases",
-	initialState,
+	initialState: initialKeyphrasesState,
 	reducers: {
 		updateKeyphrase: {
 			// Fallback to focus keyphrase if no ID is given.
