@@ -692,6 +692,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						<li> { __( "always load our customer support window so we can immediately assist you when you need help.", "wordpress-seo" ) } </li>
 					</ul>
 					<RadioButtonGroup
+						id="yoast-configuration-workout-tracking-radio-button"
 						label={ __( "Can we collect anonymous information about your website and how you use it?", "wordpress-seo" ) }
 						groupName="yoast-configuration-workout-tracking"
 						selected={ state.tracking }
