@@ -22,7 +22,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 	/**
 	 * The placeholder of a taxonomy.
 	 */
-	const META_NAME_PLACEHOLDER = '[taxonomy]';
+	const YOAST_NAME_PLACEHOLDER = '[taxonomy]';
 
 	/**
 	 * The option_name of the AIOSEO option that contains the settings.
@@ -30,18 +30,18 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 	const SOURCE_OPTION_NAME = 'aioseo_options_dynamic';
 
 	/**
-	 * The map of aioseo_options to yoast meta.
+	 * The map of aioseo_options to yoast settings.
 	 *
 	 * @var array
 	 */
 	protected $aioseo_options_to_yoast_map = [
 		'title'           => [
-			'meta_name'      => 'title-tax-' . self::META_NAME_PLACEHOLDER,
-			'transform_data' => 'simple_import',
+			'yoast_name'       => 'title-tax-' . self::YOAST_NAME_PLACEHOLDER,
+			'transform_method' => 'simple_import',
 		],
 		'metaDescription' => [
-			'meta_name'      => 'metadesc-tax-' . self::META_NAME_PLACEHOLDER,
-			'transform_data' => 'simple_import',
+			'yoast_name'       => 'metadesc-tax-' . self::YOAST_NAME_PLACEHOLDER,
+			'transform_method' => 'simple_import',
 		],
 	];
 

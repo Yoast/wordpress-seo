@@ -29,9 +29,9 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	const TYPE = null;
 
 	/**
-	 * The placeholder in a meta_name.
+	 * The placeholder in a yoast_name.
 	 */
-	const META_NAME_PLACEHOLDER = null;
+	const YOAST_NAME_PLACEHOLDER = null;
 
 	/**
 	 * The option_name of the AIOSEO option that contains the settings.
@@ -39,7 +39,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	const SOURCE_OPTION_NAME = null;
 
 	/**
-	 * The map of aioseo_options to yoast meta.
+	 * The map of aioseo_options to yoast settings.
 	 *
 	 * @var array
 	 */
@@ -53,22 +53,22 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	protected $settings_tab = '';
 
 	/**
-	 * The map that ties AIOSEO types to Yoast types.
+	 * The map that ties AIOSEO setting types to Yoast types.
 	 *
 	 * @var array
 	 */
-	protected $types_map = [];
+	protected $setting_types_map = [];
 
 	/**
-	 * Retrieves the meta_name placeholder.
+	 * Retrieves the yoast_name placeholder.
 	 *
-	 * @return string The meta_name placeholder.
+	 * @return string The yoast_name placeholder.
 	 *
-	 * @throws Exception If the META_NAME_PLACEHOLDER constant is not set in the child class.
+	 * @throws Exception If the YOAST_NAME_PLACEHOLDER constant is not set in the child class.
 	 */
 	public function get_placeholder() {
 		$class       = get_class( $this );
-		$placeholder = $class::META_NAME_PLACEHOLDER;
+		$placeholder = $class::YOAST_NAME_PLACEHOLDER;
 
 		if ( empty( $placeholder ) ) {
 			throw new Exception( 'Importing settings action without explicit placeholder' );
@@ -96,20 +96,20 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	}
 
 	/**
-	 * Transform types (post, author, etc.) to yoast types.
+	 * Transform AIOSEO setting types (post, author, etc.) to yoast setting types.
 	 *
-	 * @param string $type The type to be transformed.
+	 * @param string $setting_type The setting type to be transformed.
 	 *
-	 * @return string The yoast type.
+	 * @return string The yoast setting type.
 	 */
-	public function transform_type( $type ) {
-		$types_map = $this->types_map;
+	public function transform_setting_type( $setting_type ) {
+		$setting_types_map = $this->setting_types_map;
 
-		if ( isset( $types_map[ $type ] ) ) {
-			$type = $types_map[ $type ];
+		if ( isset( $setting_types_map[ $setting_type ] ) ) {
+			$setting_type = $setting_types_map[ $setting_type ];
 		}
 
-		return $type;
+		return $setting_type;
 	}
 
 	/**
@@ -170,13 +170,13 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 		$this->set_completed( $completed );
 
 		$last_imported_setting = '';
-		foreach ( $aioseo_settings as $type => $type_settings ) {
-			$last_imported_setting = $type;
+		foreach ( $aioseo_settings as $setting => $setting_values ) {
+			$last_imported_setting = $setting;
 
-			// Map and import the AIOSEO settings of the type we're working with (eg. post, book-category, etc.) to the respective Yoast option.
-			$this->map( $type_settings, $type );
+			// Map and import the values of the setting we're working with (eg. post, book-category, etc.) to the respective Yoast option.
+			$this->map( $setting_values, $setting );
 
-			$created_settings[] = $type;
+			$created_settings[] = $setting;
 		}
 
 		$cursor_id = $this->get_cursor_id();
@@ -268,26 +268,49 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	/**
 	 * Maps/imports AIOSEO settings into the respective Yoast settings.
 	 *
-	 * @param array  $type_settings The AISOEO settings of the type at hand.
-	 * @param string $type          The type at hand, eg. post or movie-category, etc.
+	 * @param string|array $setting_values The values of the AIOSEO setting at hand.
+	 * @param string       $setting        The setting at hand, eg. post or movie-category, separator etc.
 	 *
 	 * @return void.
 	 */
-	public function map( $type_settings, $type ) {
-		foreach ( $this->aioseo_options_to_yoast_map as $aioseo_key => $meta_data ) {
-			if ( isset( $type_settings[ $aioseo_key ] ) ) {
-				// First, lets make the yoast key into its final form, taking into account the type we're working on, eg. title-post, title-tax-movie-category, etc.
-				$yoast_key = str_replace( $this->get_placeholder(), $this->transform_type( $type ), $meta_data['meta_name'] );
+	public function map( $setting_values, $setting ) {
+		$aioseo_options_to_yoast_map = $this->aioseo_options_to_yoast_map;
 
-				// Check if we're supposed to save the setting.
-				if ( $this->options->get_default( 'wpseo_titles', $yoast_key ) !== null ) {
-					// Then, do any needed data transfomation before actually saving the incoming data.
-					$transformed_data = \call_user_func( [ $this, $meta_data['transform_data'] ], $type_settings[ $aioseo_key ] );
-
-					// Finally, store the data to the respective Yoast option.
-					$this->options->set( $yoast_key, $transformed_data );
+		if ( \is_array( $setting_values ) ) {
+			foreach ( $aioseo_options_to_yoast_map as $aioseo_key => $yoast_mapping ) {
+				if ( isset( $setting_values[ $aioseo_key ] ) ) {
+					$this->import_single_setting( $setting, $setting_values[ $aioseo_key ], $yoast_mapping );
 				}
 			}
+
+			return;
+		}
+
+		// If here, then we're dealing with settings that have one less level of depth, eg. separator settings.
+		if ( isset( $aioseo_options_to_yoast_map[ $setting ] ) ) {
+			$this->import_single_setting( $setting, $setting_values, $aioseo_options_to_yoast_map[ $setting ] );
+		}
+	}
+
+	/**
+	 * Imports a single setting in the db after transforming it to adhere to Yoast conventions.
+	 *
+	 * @param string $setting         The name of the setting.
+	 * @param string $setting_value   The values of the setting.
+	 * @param array  $setting_mapping The mapping of the setting to Yoast formats.
+	 *
+	 * @return void
+	 */
+	public function import_single_setting( $setting, $setting_value, $setting_mapping ) {
+		// First, lets make the yoast key into its final form, taking into account the setting we're working on, eg. title-post, title-tax-movie-category, etc.
+		$yoast_key = str_replace( $this->get_placeholder(), $this->transform_setting_type( $setting ), $setting_mapping['yoast_name'] );
+
+		// Check if we're supposed to save the setting.
+		if ( $this->options->get_default( 'wpseo_titles', $yoast_key ) !== null ) {
+			// Then, do any needed data transfomation before actually saving the incoming data.
+			$transformed_data = \call_user_func( [ $this, $setting_mapping['transform_method'] ], $setting_value );
+
+			$this->options->set( $yoast_key, $transformed_data );
 		}
 	}
 

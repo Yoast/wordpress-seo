@@ -22,7 +22,7 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action extends Abstract_Aioseo
 	/**
 	 * The placeholder of a posttype.
 	 */
-	const META_NAME_PLACEHOLDER = '[posttype]';
+	const YOAST_NAME_PLACEHOLDER = '[posttype]';
 
 	/**
 	 * The option_name of the AIOSEO option that contains the settings.
@@ -30,22 +30,22 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action extends Abstract_Aioseo
 	const SOURCE_OPTION_NAME = 'aioseo_options_dynamic';
 
 	/**
-	 * The map of aioseo_options to yoast meta.
+	 * The map of aioseo_options to yoast settings.
 	 *
 	 * @var array
 	 */
 	protected $aioseo_options_to_yoast_map = [
 		'title'                  => [
-			'meta_name'      => 'title-' . self::META_NAME_PLACEHOLDER,
-			'transform_data' => 'simple_import',
+			'yoast_name'       => 'title-' . self::YOAST_NAME_PLACEHOLDER,
+			'transform_method' => 'simple_import',
 		],
 		'metaDescription'        => [
-			'meta_name'      => 'metadesc-' . self::META_NAME_PLACEHOLDER,
-			'transform_data' => 'simple_import',
+			'yoast_name'       => 'metadesc-' . self::YOAST_NAME_PLACEHOLDER,
+			'transform_method' => 'simple_import',
 		],
 		'redirectAttachmentUrls' => [
-			'meta_name'      => 'disable-attachment',
-			'transform_data' => 'import_redirect_attachment',
+			'yoast_name'       => 'disable-attachment',
+			'transform_method' => 'import_redirect_attachment',
 		],
 	];
 

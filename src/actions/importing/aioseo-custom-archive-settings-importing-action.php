@@ -22,7 +22,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 	/**
 	 * The placeholder of a custom archive.
 	 */
-	const META_NAME_PLACEHOLDER = '[custom_archive]';
+	const YOAST_NAME_PLACEHOLDER = '[custom_archive]';
 
 	/**
 	 * The option_name of the AIOSEO option that contains the settings.
@@ -30,18 +30,18 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 	const SOURCE_OPTION_NAME = 'aioseo_options_dynamic';
 
 	/**
-	 * The map of aioseo_options to yoast meta.
+	 * The map of aioseo_options to yoast settings.
 	 *
 	 * @var array
 	 */
 	protected $aioseo_options_to_yoast_map = [
 		'title'           => [
-			'meta_name'      => 'title-ptarchive-' . self::META_NAME_PLACEHOLDER,
-			'transform_data' => 'simple_import',
+			'yoast_name'       => 'title-ptarchive-' . self::YOAST_NAME_PLACEHOLDER,
+			'transform_method' => 'simple_import',
 		],
 		'metaDescription' => [
-			'meta_name'      => 'metadesc-ptarchive-' . self::META_NAME_PLACEHOLDER,
-			'transform_data' => 'simple_import',
+			'yoast_name'       => 'metadesc-ptarchive-' . self::YOAST_NAME_PLACEHOLDER,
+			'transform_method' => 'simple_import',
 		],
 	];
 

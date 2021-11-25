@@ -22,7 +22,7 @@ class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_S
 	/**
 	 * The placeholder of a default archive.
 	 */
-	const META_NAME_PLACEHOLDER = '[default_archive]';
+	const YOAST_NAME_PLACEHOLDER = '[default_archive]';
 
 	/**
 	 * The option_name of the AIOSEO option that contains the settings.
@@ -30,27 +30,27 @@ class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_S
 	const SOURCE_OPTION_NAME = 'aioseo_options';
 
 	/**
-	 * The forbidden Yoast options.
+	 * The map that ties AIOSEO setting types to Yoast types.
 	 *
 	 * @var array
 	 */
-	protected $types_map = [
+	protected $setting_types_map = [
 		'date' => 'archive',
 	];
 
 	/**
-	 * The map of aioseo_options to yoast meta.
+	 * The map of aioseo_options to yoast settings.
 	 *
 	 * @var array
 	 */
 	protected $aioseo_options_to_yoast_map = [
 		'title'           => [
-			'meta_name'      => 'title-' . self::META_NAME_PLACEHOLDER . '-wpseo',
-			'transform_data' => 'simple_import',
+			'yoast_name'       => 'title-' . self::YOAST_NAME_PLACEHOLDER . '-wpseo',
+			'transform_method' => 'simple_import',
 		],
 		'metaDescription' => [
-			'meta_name'      => 'metadesc-' . self::META_NAME_PLACEHOLDER . '-wpseo',
-			'transform_data' => 'simple_import',
+			'yoast_name'       => 'metadesc-' . self::YOAST_NAME_PLACEHOLDER . '-wpseo',
+			'transform_method' => 'simple_import',
 		],
 	];
 
