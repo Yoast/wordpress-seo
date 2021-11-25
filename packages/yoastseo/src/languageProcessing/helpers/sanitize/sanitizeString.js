@@ -1,8 +1,6 @@
 import excludeTableOfContentsTag from "./excludeTableOfContentsTag";
 import { stripFullTags as stripTags } from "./stripHTMLTags.js";
 
-import stripSpaces from "./stripSpaces.js";
-
 /**
  * Sanitizes the text before we use the text for the analysis.
  *
@@ -13,7 +11,6 @@ import stripSpaces from "./stripSpaces.js";
 export default function( text ) {
 	text = excludeTableOfContentsTag( text );
 	text = stripTags( text );
-	text = stripSpaces( text );
 
 	return text;
 }
