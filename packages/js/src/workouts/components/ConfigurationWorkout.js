@@ -25,6 +25,21 @@ window.wpseoScriptData.searchAppearance = {
 	userEditUrl: "/wp-admin/user-edit.php?user_id={user_id}",
 };
 
+/**
+ * Adds a step to editedSteps if not there already.
+ *
+ * @param {Array} editedSteps Steps that have been edited.
+ * @param {number} stepNumber  The number of the field that was edited.
+ *
+ * @returns {Array} The new array of editedSteps.
+ */
+function addStepToEditedSteps( editedSteps, stepNumber ) {
+	if ( editedSteps.includes( stepNumber ) ) {
+		return [ ...editedSteps ];
+	}
+	return [ ...editedSteps, stepNumber ];
+}
+
 /* eslint-disable complexity */
 /**
  * A reducer for the configuration workout's internal state.
@@ -38,43 +53,53 @@ function configurationWorkoutReducer( state, action ) {
 	const newState = cloneDeep( state );
 	switch ( action.type ) {
 		case "SET_COMPANY_OR_PERSON":
+			newState.editedSteps = addStepToEditedSteps( newState.editedSteps, 2 );
 			newState.companyOrPerson = action.payload;
 			newState.companyOrPersonLabel = window.wpseoWorkoutsData.configuration.companyOrPersonOptions.filter( ( item ) => {
 				return item.value === action.payload;
 			} ).pop().name;
 			return newState;
 		case "CHANGE_COMPANY_NAME":
+			newState.editedSteps = addStepToEditedSteps( newState.editedSteps, 2 );
 			newState.companyName = action.payload;
 			return newState;
 		case "SET_COMPANY_LOGO":
+			newState.editedSteps = addStepToEditedSteps( newState.editedSteps, 2 );
 			newState.companyLogo = action.payload.url;
 			newState.companyLogoId = action.payload.id;
 			return newState;
 		case "REMOVE_COMPANY_LOGO":
+			newState.editedSteps = addStepToEditedSteps( newState.editedSteps, 2 );
 			newState.companyLogo = "";
 			newState.companyLogoId = "";
 			return newState;
 		case "SET_PERSON_LOGO":
+			newState.editedSteps = addStepToEditedSteps( newState.editedSteps, 2 );
 			newState.personLogo = action.payload.url;
 			newState.personLogoId = action.payload.id;
 			return newState;
 		case "REMOVE_PERSON_LOGO":
+			newState.editedSteps = addStepToEditedSteps( newState.editedSteps, 2 );
 			newState.personLogo = "";
 			newState.personLogoId = "";
 			return newState;
 		case "SET_PERSON_ID":
+			newState.editedSteps = addStepToEditedSteps( newState.editedSteps, 2 );
 			newState.personId = action.payload;
 			return newState;
 		case "CHANGE_SOCIAL_PROFILE":
+			newState.editedSteps = addStepToEditedSteps( newState.editedSteps, 3 );
 			newState.socialProfiles[ action.payload.socialMedium ] = action.payload.value;
 			return newState;
 		case "SET_ERROR_FIELDS":
 			newState.errorFields = action.payload;
 			return newState;
 		case "CHANGE_SITE_TAGLINE":
+			newState.editedSteps = addStepToEditedSteps( newState.editedSteps, 2 );
 			newState.siteTagline = action.payload;
 			return newState;
 		case "SET_TRACKING":
+			newState.editedSteps = addStepToEditedSteps( newState.editedSteps, 4 );
 			newState.tracking = action.payload;
 			return newState;
 		default:
@@ -164,6 +189,7 @@ async function updateTracking( state ) {
 	return await response.json;
 }
 
+/* eslint-disable max-statements */
 /**
  * The configuration workout.
  *
@@ -176,11 +202,13 @@ async function updateTracking( state ) {
  * @returns {WPElement} The ConfigurationWorkout component.
  */
 export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, toggleWorkout, clearActiveWorkout, isStepFinished } ) {
-	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, { ...window.wpseoWorkoutsData.configuration, errorFields: [] } );
+	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, { ...window.wpseoWorkoutsData.configuration, errorFields: [], editedSteps: [] } );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "completed" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 	const [ savedSteps, setSavedSteps ] = useState( [] );
 	const steps = STEPS.configuration;
+
+	console.log( state.editedSteps );
 
 	const isTrackingOptionSelected = state.tracking === 0 || state.tracking === 1;
 
@@ -514,24 +542,26 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
 						{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
 					</Alert> }
-					{ ! window.wpseoWorkoutsData.configuration.shouldForceCompany && ! isStep2Finished &&
-					<SingleSelect
-						id="organization-person-select"
-						htmlFor="organization-person-select"
-						name="organization"
-						label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
-						selected={ state.companyOrPerson }
-						onChange={ onOrganizationOrPersonChange }
-						options={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
-					/> }
-					{ (  window.wpseoWorkoutsData.configuration.shouldForceCompany || isStep2Finished ) &&
-					<TextInput
-						id="organization-forced-readonly-text"
-						name="organization"
-						label={ __( "Does you site represent an Organization or Person?", "wordpress-seo" ) }
-						value={ state.companyOrPersonLabel }
-						readOnly={ true }
-					/> }
+					{
+						window.wpseoWorkoutsData.configuration.shouldForceCompany === 0 && <SingleSelect
+							id="organization-person-select"
+							htmlFor="organization-person-select"
+							name="organization"
+							label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
+							selected={ state.companyOrPerson }
+							onChange={ onOrganizationOrPersonChange }
+							options={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
+						/>
+					}
+					{
+						window.wpseoWorkoutsData.configuration.shouldForceCompany === 1 && <TextInput
+							id="organization-forced-readonly-text"
+							name="organization"
+							label={ __( "Does you site represent an Organization or Person?", "wordpress-seo" ) }
+							value={ state.companyOrPersonLabel }
+							readOnly={ true }
+						/>
+					}
 					{ state.companyOrPerson === "company" && <Fragment>
 						{ ( ! state.companyName || ! state.companyLogo ) && <Alert type="warning">
 							{ __(
@@ -544,7 +574,6 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 							dispatch={ dispatch }
 							imageUrl={ state.companyLogo }
 							organizationName={ state.companyName }
-							isDisabled={ isStep2Finished }
 						/>
 					</Fragment> }
 					{ state.companyOrPerson === "person" && <Fragment>
@@ -559,7 +588,6 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 							dispatch={ dispatch }
 							imageUrl={ state.personLogo }
 							personId={ state.personId }
-							isDisabled={ isStep2Finished }
 						/>
 					</Fragment> }
 					<TextInput
@@ -569,7 +597,6 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						description={ sprintf( __( "Add a catchy tagline that describes your site in the best light. Use the keywords you want people to find your site with. Example: %1$s’s tagline is ‘SEO for everyone.’", "wordpress-seo" ), "Yoast" ) }
 						value={ state.siteTagline }
 						onChange={ onSiteTaglineChange }
-						readOnly={ isStep2Finished }
 					/>
 					{ siteRepresentationEmpty && <Alert type="warning">
 						{ __(
@@ -582,7 +609,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						stepNumber={ 2 }
 						isSaved={ savedSteps.includes( 2 ) }
 						hasDownArrow={ ! isStep2Finished }
-						finishText={ isStep2Finished ? __( "Revise this step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
+						finishText={ __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishSiteRepresentation }
 						isFinished={ isStep2Finished }
 					/>
@@ -597,7 +624,6 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						dispatch={ dispatch }
 						errorFields={ state.errorFields }
 						setErrorFields={ setErrorFields }
-						isDisabled={ isStep3Finished }
 					/> }
 					{ state.companyOrPerson === "person" && <div>
 						<p>
@@ -651,7 +677,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						stepNumber={ 3 }
 						isSaved={ savedSteps.includes( 3 ) }
 						hasDownArrow={ ! isStep3Finished }
-						finishText={ isStep3Finished ? __( "Revise this step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
+						finishText={ __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishSocialProfiles }
 						isFinished={ isStep3Finished }
 					/>
@@ -710,7 +736,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						stepNumber={ 4 }
 						isSaved={ savedSteps.includes( 4 ) }
 						hasDownArrow={ ! isStep4Finished }
-						finishText={ isStep4Finished ? __( "Revise this step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
+						finishText={ __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishEnableTracking }
 						isFinished={ isStep4Finished }
 						additionalButtonProps={ { disabled: ! isTrackingOptionSelected } }
@@ -812,3 +838,4 @@ export default compose(
 		),
 	]
 )( ConfigurationWorkout );
+/* eslint-enable max-statements */
