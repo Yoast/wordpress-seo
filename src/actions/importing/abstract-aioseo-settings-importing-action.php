@@ -96,7 +96,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	}
 
 	/**
-	 * Transform AIOSEO setting types (post, author, etc.) to yoast setting types.
+	 * Transform AIOSEO setting types (date, etc.) to yoast setting types (archive, etc.).
 	 *
 	 * @param string $setting_type The setting type to be transformed.
 	 *
