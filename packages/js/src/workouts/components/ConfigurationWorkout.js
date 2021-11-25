@@ -741,7 +741,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					<NewsletterSignup />
 				</Step>
 				<FinishButtonSection
-					id="yoast-configuration-workout-step-newsletter-button"
+					id="yoast-configuration-workout-finish-workout-button"
 					finishText={ isWorkoutFinished ? __( "Do workout again", "wordpress-seo" ) : __( "Finish this workout", "wordpress-seo" ) }
 					onFinishClick={ toggleConfigurationWorkout }
 					isFinished={ isWorkoutFinished }
