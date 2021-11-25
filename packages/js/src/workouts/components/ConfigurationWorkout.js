@@ -467,7 +467,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 							__(
 								"Click the button below to optimize your SEO data. It will let us see your site as Google does, so we can give " +
 								"you the best SEO tips and improve technical SEO issues in the background! If you have a lot of content the " +
-								"optimization might take a while. But trust us, it's worth it! Learn more about the benefits of optimized SEO data.",
+								"optimization might take a while. But trust us, it's worth it! %1$sLearn more about the benefits of optimized SEO data.%2$s",
 								"wordpress-seo"
 							),
 							"<a>",
