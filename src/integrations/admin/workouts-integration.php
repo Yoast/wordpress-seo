@@ -86,6 +86,7 @@ class Workouts_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_page' ], 8 );
+		\add_filter( 'wpseo_submenu_pages', [ $this, 'remove_old_submenu_page' ], 10 );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ], 11 );
 		\add_action( 'admin_notices', [ $this, 'configuration_workout_notice' ] );
 	}
@@ -95,20 +96,9 @@ class Workouts_Integration implements Integration_Interface {
 	 *
 	 * @param array $submenu_pages The Yoast SEO submenu pages.
 	 *
-	 * @return array the filtered submenu pages.
+	 * @return array The filtered submenu pages.
 	 */
 	public function add_submenu_page( $submenu_pages ) {
-		// If Premium has an outdated version, which also adds a 'workouts' submenu, don't show the Premium submenu.
-		if ( $this->should_update_premium() ) {
-			$submenu_pages = array_filter(
-				$submenu_pages,
-				function ( $item ) {
-					return $item[4] !== 'wpseo_workouts';
-				}
-			);
-		}
-
-		// This inserts the workouts menu page at the correct place in the array without overriding that position.
 		$submenu_pages[] = [
 			'wpseo_dashboard',
 			'',
@@ -119,6 +109,33 @@ class Workouts_Integration implements Integration_Interface {
 		];
 
 		return $submenu_pages;
+	}
+
+	/**
+	 * Removes the workouts submenu page from older Premium versions
+	 *
+	 * @param array $submenu_pages The Yoast SEO submenu pages.
+	 *
+	 * @return array The filtered submenu pages.
+	 */
+	public function remove_old_submenu_page( $submenu_pages ) {
+		if ( ! $this->should_update_premium() ) {
+			return $submenu_pages;
+		}
+
+		// Copy only the Workouts page item that comes first in the array.
+		$result_submenu_pages = [];
+		$workouts_page_encountered = false;
+		foreach ( $submenu_pages as $item ) {
+			if ( $item[4] !== 'wpseo_workouts' || ! $workouts_page_encountered ) {
+				$result_submenu_pages[] = $item;
+			}
+			if ( $item[4] === 'wpseo_workouts' ) {
+				$workouts_page_encountered = true;
+			}
+		}
+
+		return $result_submenu_pages;
 	}
 
 	/**
