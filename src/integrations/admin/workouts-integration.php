@@ -166,6 +166,7 @@ class Workouts_Integration implements Integration_Interface {
 				'toolsPageUrl'              => \esc_url( \admin_url( 'admin.php?page=wpseo_tools' ) ),
 				'usersPageUrl'              => \esc_url( \admin_url( 'users.php' ) ),
 				'isPremium'                 => $this->product_helper->is_premium(),
+				'shouldUpdatePremium'       => $this->should_update_premium(),
 				'upsellText'                => $this->get_upsell_text(),
 				'upsellLink'                => $this->get_upsell_link(),
 				'canDoConfigurationWorkout' => $this->user_can_do_configuration_workout(),
