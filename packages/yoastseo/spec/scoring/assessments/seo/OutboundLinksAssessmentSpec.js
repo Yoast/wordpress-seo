@@ -1,8 +1,6 @@
 import OutboundLinksAssessment from "../../../../src/scoring/assessments/seo/OutboundLinksAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import factory from "../../../specHelpers/factory.js";
-const i18n = factory.buildJed();
-
 const linkStatisticAssessment = new OutboundLinksAssessment();
 
 const attributes = {
@@ -27,7 +25,7 @@ describe( "Tests outbound links assessment", function() {
 			totalKeyword: 0,
 			totalNaKeyword: 0 };
 
-		const assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ), i18n );
+		const assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: Good job!" );
@@ -49,7 +47,7 @@ describe( "Tests outbound links assessment", function() {
 			totalKeyword: 0,
 			totalNaKeyword: 1 };
 
-		const assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ), i18n );
+		const assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ) );
 
 		expect( assessment.getScore() ).toEqual( 8 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: " +
@@ -72,7 +70,7 @@ describe( "Tests outbound links assessment", function() {
 			totalKeyword: 0,
 			totalNaKeyword: 0 };
 
-		const assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ), i18n );
+		const assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ) );
 
 		expect( assessment.getScore() ).toEqual( 7 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: " +
@@ -96,20 +94,20 @@ describe( "Tests outbound links assessment", function() {
 			totalKeyword: 0,
 			totalNaKeyword: 0 };
 
-		const assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ), i18n );
+		const assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( mockResult ) );
 
 		expect( assessment.getScore() ).toEqual( 0 );
 	} );
 
 	it( "Tests a paper without outbound links", function() {
 		const mockPaper = new Paper( "" );
-		let assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( { externalTotal: 0 } ), i18n );
+		let assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( { externalTotal: 0 } ) );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>: " +
 			"No outbound links appear in this page. <a href='https://yoa.st/34g' target='_blank'>Add some</a>!" );
 
-		assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( {} ), i18n );
+		assessment = linkStatisticAssessment.getResult( mockPaper, factory.buildMockResearcher( {} ) );
 		expect( assessment.getScore() ).toEqual( 0 );
 	} );
 } );

@@ -22,6 +22,9 @@ import shoppingData from "./shoppingData";
 import snippetEditor from "./snippetEditor";
 import twitterEditor from "./twitterEditor";
 import warning from "./warning";
+import WincherModal from "./WincherModal";
+import WincherRequest from "./WincherRequest";
+import WincherSEOPerformance from "./WincherSEOPerformance";
 
 export default {
 	activeMarker,
@@ -48,4 +51,7 @@ export default {
 	snippetEditor,
 	twitterEditor,
 	warning,
+	WincherModal,
+	WincherRequest,
+	WincherSEOPerformance,
 };

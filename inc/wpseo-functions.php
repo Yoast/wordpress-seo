@@ -74,17 +74,17 @@ if ( ! function_exists( 'yoast_get_primary_term' ) ) {
 /**
  * Replace `%%variable_placeholders%%` with their real value based on the current requested page/post/cpt.
  *
- * @param string $string The string to replace the variables in.
- * @param object $args   The object some of the replacement values might come from,
- *                       could be a post, taxonomy or term.
- * @param array  $omit   Variables that should not be replaced by this function.
+ * @param string $text The string to replace the variables in.
+ * @param object $args The object some of the replacement values might come from,
+ *                     could be a post, taxonomy or term.
+ * @param array  $omit Variables that should not be replaced by this function.
  *
  * @return string
  */
-function wpseo_replace_vars( $string, $args, $omit = [] ) {
+function wpseo_replace_vars( $text, $args, $omit = [] ) {
 	$replacer = new WPSEO_Replace_Vars();
 
-	return $replacer->replace( $string, $args, $omit );
+	return $replacer->replace( $text, $args, $omit );
 }
 
 /**
@@ -120,7 +120,7 @@ function wpseo_replace_vars( $string, $args, $omit = [] ) {
  *
  * @since 1.5.4
  *
- * @param string $var              The name of the variable to replace, i.e. '%%var%%'.
+ * @param string $replacevar_name  The name of the variable to replace, i.e. '%%var%%'.
  *                                 Note: the surrounding %% are optional, name can only contain [A-Za-z0-9_-].
  * @param mixed  $replace_function Function or method to call to retrieve the replacement value for the variable.
  *                                 Uses the same format as add_filter/add_action function parameter and
@@ -130,8 +130,8 @@ function wpseo_replace_vars( $string, $args, $omit = [] ) {
  *
  * @return bool Whether the replacement function was successfully registered.
  */
-function wpseo_register_var_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
-	return WPSEO_Replace_Vars::register_replacement( $var, $replace_function, $type, $help_text );
+function wpseo_register_var_replacement( $replacevar_name, $replace_function, $type = 'advanced', $help_text = '' ) {
+	return WPSEO_Replace_Vars::register_replacement( $replacevar_name, $replace_function, $type, $help_text );
 }
 
 /**
@@ -202,13 +202,13 @@ if ( ! function_exists( 'ctype_digit' ) ) {
 	 * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*.
 	 * Only emulates the behaviour for when the input is a string, does not handle integer input as ascii value.
 	 *
-	 * @param string $string String input to validate.
+	 * @param string $text String input to validate.
 	 *
 	 * @return bool
 	 */
-	function ctype_digit( $string ) {
+	function ctype_digit( $text ) {
 		$return = false;
-		if ( ( is_string( $string ) && $string !== '' ) && preg_match( '`^\d+$`', $string ) === 1 ) {
+		if ( ( is_string( $text ) && $text !== '' ) && preg_match( '`^\d+$`', $text ) === 1 ) {
 			$return = true;
 		}
 
