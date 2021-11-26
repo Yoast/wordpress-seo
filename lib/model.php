@@ -748,7 +748,7 @@ class Model implements JsonSerializable {
 
 		if ( ! empty( $deprecation['replacement'] ) ) {
 			// There is no _deprecated_property. This matches our usecase best.
-			_deprecated_argument(
+			\_deprecated_argument(
 				__FUNCTION__,
 				'17.7',
 				'Use the \"' . esc_html( $deprecation['replacement'] ) . '\" property instead of \"' . esc_html( $property ) . '\" '
@@ -761,7 +761,7 @@ class Model implements JsonSerializable {
 			return $property;
 		}
 		// There is no _deprecated_property. This matches our usecase best.
-		_deprecated_argument( __FUNCTION__, '17.7', 'The \"' . esc_html( $property ) . '\" property will be removed in a future version' );
+		\_deprecated_argument( __FUNCTION__, '17.7', 'The \"' . esc_html( $property ) . '\" property will be removed in a future version' );
 
 		return $property;
 	}
