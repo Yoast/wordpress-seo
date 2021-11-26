@@ -1,26 +1,6 @@
 /* External dependencies */
 import styled from "styled-components";
 
-/**
- * Determines the number of lines depending on the imageMode.
- *
- * @param {String} mode The imageMode.
- *
- * @returns {Number} Number of lines the description shows.
- */
-const determineClamp = ( mode ) => {
-	switch ( mode ) {
-		case "landscape":
-			return 1;
-		case "square":
-			return 3;
-		case "portrait":
-			return 5;
-		default:
-			return 1;
-	}
-};
-
 // Used to make sure the element also has a height when empty by setting min-height equal to line-height.
 const height = "16px";
 
@@ -41,7 +21,7 @@ const FacebookDescription = styled.p`
 	margin: 3px 0 0 0;
 	display: -webkit-box;
 	cursor: pointer;
-	-webkit-line-clamp: ${ props => determineClamp( props.mode ) };
+	-webkit-line-clamp: ${ props => ( props.lineCount ) };
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 

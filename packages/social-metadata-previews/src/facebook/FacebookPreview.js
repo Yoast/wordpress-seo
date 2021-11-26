@@ -6,7 +6,7 @@ import styled from "styled-components";
 /* Internal dependencies */
 import FacebookSiteUrlComponent from "./FacebookSiteUrl";
 import FacebookImage from "./FacebookImage";
-import FacebookTitle from "./FacebookTitle";
+import FacebookTitle, { facebookTitleLineHeight } from "./FacebookTitle";
 import FacebookDescription from "./FacebookDescription";
 
 /**
@@ -75,11 +75,11 @@ class FacebookPreview extends Component {
 		super( props );
 		this.state = {
 			imageMode: null,
-			titleHeight: 0,
+			maxLineCount: 0,
+			descriptionLineCount: 0,
 		};
 		this.facebookTitleRef = React.createRef();
 		this.onImageLoaded = this.onImageLoaded.bind( this );
-		this.setTitleHeight = this.setTitleHeight.bind( this );
 
 		// Binding fields to onMouseHover to prevent arrow functions in JSX props.
 		this.onImageEnter = this.props.onMouseHover.bind( this, "image" );
@@ -103,32 +103,38 @@ class FacebookPreview extends Component {
 		this.setState( { imageMode: mode } );
 	}
 
+
 	/**
-	 * Sets the title height if it changes.
+	 * Calculates the amount of lines the title spans.
 	 *
-	 * @param {Object} _prevProps The previous props, unused in the current implementation.
-	 * @param {Object} prevState  The previous state.
-	 *
-	 * @returns {void}
+	 * @returns {number} The amount of lines the title spans.
 	 */
-	componentDidUpdate( _prevProps, prevState ) {
-		const { titleHeight } = prevState;
+	getTitleLineCount() {
 		const facebookTitleRefHeight = this.facebookTitleRef.current.offsetHeight;
 
-		if ( titleHeight !== facebookTitleRefHeight ) {
-			this.setTitleHeight( facebookTitleRefHeight );
-		}
+		return ( facebookTitleRefHeight / facebookTitleLineHeight );
 	}
 
 	/**
-	 * Sets the titleHeight from the Facebook title component.
+	 * Sets the max line count and max description line count if the image mode changes.
 	 *
-	 * @param {number} height The height of the facebook title component.
-	 *
-	 * @returns {void} Void.
+	 * @returns {void}
 	 */
-	setTitleHeight( height ) {
-		this.setState( { titleHeight: height } );
+	componentDidUpdate() {
+		const { imageMode, maxLineCount, descriptionLineCount } = this.state;
+
+		const currentMaxLineCount = imageMode === "landscape" ? 2 : 5;
+
+		if ( currentMaxLineCount !== maxLineCount ) {
+			this.setState( { maxLineCount: currentMaxLineCount } );
+		}
+
+		const currentTitleLineCount = this.getTitleLineCount();
+		const maxDescriptionLineCount = ( currentMaxLineCount - currentTitleLineCount );
+
+		if ( maxDescriptionLineCount !== descriptionLineCount ) {
+			this.setState( { descriptionLineCount: maxDescriptionLineCount } );
+		}
 	}
 
 	/**
@@ -138,8 +144,7 @@ class FacebookPreview extends Component {
 	 * the TwitterImageContainer.
 	 */
 	render() {
-		const { imageMode, titleHeight } = this.state;
-		const showDescription = titleHeight  === 20;
+		const { imageMode, maxLineCount, descriptionLineCount } = this.state;
 
 		return (
 			<FacebookPreviewWrapper
@@ -164,16 +169,17 @@ class FacebookPreview extends Component {
 						onMouseEnter={ this.onTitleEnter }
 						onMouseLeave={ this.onLeave }
 						onClick={ this.onSelectTitle }
+						lineCount={ maxLineCount }
 					>
 						{ this.props.title }
 					</FacebookTitle>
-					{ showDescription &&
+					{ descriptionLineCount > 0 &&
 						<FacebookDescription
 							maxWidth={ determineTextContainerWidth( imageMode ) }
 							onMouseEnter={ this.onDescriptionEnter }
 							onMouseLeave={ this.onLeave }
 							onClick={ this.onSelectDescription }
-							mode={ imageMode }
+							lineCount={ descriptionLineCount }
 						>
 							{ this.props.description }
 						</FacebookDescription>

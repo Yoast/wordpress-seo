@@ -7,7 +7,7 @@ const FacebookSiteUrlWrapper = styled.p`
 	color: #606770;
 	flex-shrink: 0;
 	font-size: 12px;
-	line-height: 20px;
+	line-height: 16px;
 	overflow: hidden;
 	padding: 0;
 	text-overflow: ellipsis;
@@ -15,14 +15,6 @@ const FacebookSiteUrlWrapper = styled.p`
 	white-space: nowrap;
 	margin: 0;
 	position: ${ props => props.mode === "landscape" ? "relative" : "static" };
-`;
-
-const FacebookSiteUrl = styled.span`
-	color: #606770;
-	font-size: 12px;
-	line-height: 11px;
-	text-transform: uppercase;
-	overflow: hidden;
 `;
 
 /**
@@ -40,7 +32,7 @@ const FacebookSiteUrlComponent = ( props ) => {
 		<Fragment>
 			<span className="screen-reader-text">{ siteUrl }</span>
 			<FacebookSiteUrlWrapper aria-hidden="true">
-				<FacebookSiteUrl>{ siteUrl }</FacebookSiteUrl>
+				<span>{ siteUrl }</span>
 			</FacebookSiteUrlWrapper>
 		</Fragment>
 	);
