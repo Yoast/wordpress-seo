@@ -173,6 +173,40 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the getting of the chunk of the unimported data.
+	 *
+	 * @param array  $importable_data All of the available AIOSEO settings.
+	 * @param int    $limit           The maximum number of unimported objects to be returned.
+	 * @param string $cursor          The current cursor indicating where the import has been left off.
+	 * @param array  $expected        The expected result.
+	 *
+	 * @dataProvider provider_get_unimported_chunk
+	 * @covers ::get_unimported_chunk
+	 */
+	public function test_get_unimported_chunk( $importable_data, $limit, $cursor, $expected ) {
+		$this->mock_instance->expects( 'get_cursor_id' )
+			->once()
+			->andReturn( 'chunk_id' );
+
+		$this->mock_instance->expects( 'get_cursor' )
+			->once()
+			->with( $this->options, 'chunk_id', '' )
+			->andReturn( $cursor );
+
+		$this->mock_instance->expects( 'get_type' )
+			->once()
+			->andReturn( 'type' );
+
+		Monkey\Functions\expect( 'apply_filters' )
+			->once()
+			->with( 'wpseo_aioseo_type_import_cursor', $cursor )
+			->andReturn( $cursor );
+
+		$unimported_chunk = $this->mock_instance->get_unimported_chunk( $importable_data, $limit );
+		$this->assertTrue( $unimported_chunk === $expected );
+	}
+
+	/**
 	 * Data provider for test_get_total_unindexed().
 	 *
 	 * @return array
@@ -219,6 +253,135 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 				],
 				false,
 			],
+		];
+	}
+
+	/**
+	 * Data provider for test_get_unimported_chunk().
+	 *
+	 * @return array
+	 */
+	public function provider_get_unimported_chunk() {
+		$aioseo_settings = [
+			'post'       => [
+				'title'           => 'title1',
+				'metaDescription' => 'desc1',
+			],
+			'page'       => [
+				'title'           => 'title2',
+				'metaDescription' => 'desc2',
+			],
+			'attachment' => [
+				'title'                  => 'title3',
+				'metaDescription'        => 'desc3',
+				'redirectAttachmentUrls' => false,
+			],
+		];
+
+		return [
+			[ [], 25, '', [] ], // No settings.
+			[
+				$aioseo_settings,
+				25,
+				'',
+				[
+					'attachment' => [
+						'title'                  => 'title3',
+						'metaDescription'        => 'desc3',
+						'redirectAttachmentUrls' => false,
+					],
+					'page'       => [
+						'title'           => 'title2',
+						'metaDescription' => 'desc2',
+					],
+					'post'       => [
+						'title'           => 'title1',
+						'metaDescription' => 'desc1',
+					],
+				],
+			], // No imported data yet, chunk big enough to return all of the settings.
+			[
+				$aioseo_settings,
+				2,
+				'',
+				[
+					'attachment' => [
+						'title'                  => 'title3',
+						'metaDescription'        => 'desc3',
+						'redirectAttachmentUrls' => false,
+					],
+					'page'       => [
+						'title'           => 'title2',
+						'metaDescription' => 'desc2',
+					],
+				],
+			], // No imported data yet, chunk small enough to return part of the settings.
+			[
+				$aioseo_settings,
+				1,
+				'page',
+				[
+					'post' => [
+						'title'           => 'title1',
+						'metaDescription' => 'desc1',
+					],
+				],
+			], // Already imported data from before, chunk small enough to return part of the yet unimported settings.
+			[
+				$aioseo_settings,
+				25,
+				'attachment',
+				[
+					'page' => [
+						'title'           => 'title2',
+						'metaDescription' => 'desc2',
+					],
+					'post' => [
+						'title'           => 'title1',
+						'metaDescription' => 'desc1',
+					],
+				],
+			], // Already imported data from before, chunk big enough to return all of the rest of the yet unimported settings.
+			[
+				$aioseo_settings,
+				25,
+				'attachment_misspelled',
+				[
+					'attachment' => [
+						'title'                  => 'title3',
+						'metaDescription'        => 'desc3',
+						'redirectAttachmentUrls' => false,
+					],
+					'page'       => [
+						'title'           => 'title2',
+						'metaDescription' => 'desc2',
+					],
+					'post'       => [
+						'title'           => 'title1',
+						'metaDescription' => 'desc1',
+					],
+				],
+			], // Already imported data from before, but cursor not found so we have to start over.
+			[
+				$aioseo_settings,
+				null,
+				'',
+				[
+					'attachment' => [
+						'title'                  => 'title3',
+						'metaDescription'        => 'desc3',
+						'redirectAttachmentUrls' => false,
+					],
+					'page'       => [
+						'title'           => 'title2',
+						'metaDescription' => 'desc2',
+					],
+					'post'       => [
+						'title'           => 'title1',
+						'metaDescription' => 'desc1',
+					],
+				],
+			], // No imported data yet, chunk size is null, so we get the whole settings.
 		];
 	}
 }
