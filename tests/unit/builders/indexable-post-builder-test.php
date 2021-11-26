@@ -98,7 +98,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->image                = Mockery::mock( Image_Helper::class );
 		$this->open_graph_image     = Mockery::mock( Open_Graph_Image_Helper::class );
 		$this->twitter_image        = Mockery::mock( Twitter_Image_Helper::class );
-		$this->post_helper                 = Mockery::mock( Post_Helper::class );
+		$this->post_helper          = Mockery::mock( Post_Helper::class );
 		$this->post_type_helper     = Mockery::mock( Post_Type_Helper::class );
 
 		$this->instance = new Indexable_Post_Builder_Double(
@@ -131,21 +131,25 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * Mocks a Twitter image that has been set by the user.
 	 */
 	protected function twitter_image_set_by_user() {
-		$this->indexable->orm->shouldReceive( 'get' )
-		                     ->with( 'twitter_image' )
-		                     ->andReturn( 'twitter-image' );
+		$this->indexable->orm
+			->shouldReceive( 'get' )
+			->with( 'twitter_image' )
+			->andReturn( 'twitter-image' );
 
-		$this->indexable->orm->shouldReceive( 'get' )
-		                     ->with( 'twitter_image_id' )
-		                     ->andReturn( 'twitter-image-id' );
+		$this->indexable->orm
+			->shouldReceive( 'get' )
+			->with( 'twitter_image_id' )
+			->andReturn( 'twitter-image-id' );
 
-		$this->twitter_image->shouldReceive( 'get_by_id' )
-		                    ->with( 'twitter-image-id' )
-		                    ->andReturn( 'twitter_image' );
+		$this->twitter_image
+			->shouldReceive( 'get_by_id' )
+			->with( 'twitter-image-id' )
+			->andReturn( 'twitter_image' );
 
-		$this->indexable->orm->shouldReceive( 'get' )
-		                     ->with( 'twitter_image_source' )
-		                     ->andReturn( 'set-by-user' );
+		$this->indexable->orm
+			->shouldReceive( 'get' )
+			->with( 'twitter_image_source' )
+			->andReturn( 'set-by-user' );
 	}
 
 	/**
@@ -154,22 +158,26 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * @param array $image_meta The mocked meta data of the image.
 	 */
 	protected function open_graph_image_set_by_user( $image_meta ) {
-		$this->indexable->orm->shouldReceive( 'get' )
-		                     ->with( 'open_graph_image' )
-		                     ->andReturn( 'open-graph-image' );
+		$this->indexable->orm
+			->shouldReceive( 'get' )
+			->with( 'open_graph_image' )
+			->andReturn( 'open-graph-image' );
 
-		$this->indexable->orm->shouldReceive( 'get' )
-		                     ->twice()
-		                     ->with( 'open_graph_image_id' )
-		                     ->andReturn( 'open-graph-image-id' );
+		$this->indexable->orm
+			->shouldReceive( 'get' )
+			->twice()
+			->with( 'open_graph_image_id' )
+			->andReturn( 'open-graph-image-id' );
 
-		$this->indexable->orm->shouldReceive( 'get' )
-		                     ->with( 'open_graph_image_source' )
-		                     ->andReturn( 'set-by-user' );
+		$this->indexable->orm
+			->shouldReceive( 'get' )
+			->with( 'open_graph_image_source' )
+			->andReturn( 'set-by-user' );
 
-		$this->open_graph_image->shouldReceive( 'get_image_by_id' )
-		                       ->with( 'open-graph-image-id' )
-		                       ->andReturn( $image_meta );
+		$this->open_graph_image
+			->shouldReceive( 'get_image_by_id' )
+			->with( 'open-graph-image-id' )
+			->andReturn( $image_meta );
 	}
 
 	/**
@@ -235,21 +243,22 @@ class Indexable_Post_Builder_Test extends TestCase {
 		);
 		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();
 
-		$this->post_helper->expects( 'get_post' )
-		           ->once()
-		           ->with( 1 )
-		           ->andReturn(
-			           (object) [
-				           'post_content'      => 'The content of the post',
-				           'post_type'         => 'post',
-				           'post_status'       => 'publish',
-				           'post_password'     => '',
-				           'post_author'       => '1',
-				           'post_parent'       => '0',
-				           'post_date_gmt'     => '1234-12-12 00:00:00',
-				           'post_modified_gmt' => '1234-12-12 00:00:00',
-			           ]
-		           );
+		$this->post_helper
+			->expects( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'post_content'      => 'The content of the post',
+					'post_type'         => 'post',
+					'post_status'       => 'publish',
+					'post_password'     => '',
+					'post_author'       => '1',
+					'post_parent'       => '0',
+					'post_date_gmt'     => '1234-12-12 00:00:00',
+					'post_modified_gmt' => '1234-12-12 00:00:00',
+				]
+			);
 
 		$this->post_type_helper
 			->expects( 'is_excluded' )
@@ -340,12 +349,18 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->twitter_image_set_by_user();
 
 		// We expect the open graph image, its source and its metadata to be set.
-		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_source', 'set-by-user' );
-		$this->indexable->orm->expects( 'set' )
-		                     ->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
-		$this->indexable->orm->expects( 'set' )
+		$this->indexable->orm
+			->expects( 'set' )
+			->with( 'open_graph_image_source', 'set-by-user' );
+
+		$this->indexable->orm
+			->expects( 'set' )
+			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
+
+		$this->indexable->orm
+			->expects( 'set' )
 			// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
-			                 ->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
 
 		// We expect the twitter image and its source to be set.
 		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_source', 'set-by-user' );
@@ -365,7 +380,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 		Monkey\Functions\expect( '_deprecated_argument' );
 		Monkey\Functions\expect( 'esc_html' );
 		Monkey\Functions\expect( 'is_post_publicly_viewable' )->andReturn( true );
-
 
 		// Blog ID.
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
@@ -398,17 +412,20 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable      = Mockery::mock( Indexable::class );
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
-		$this->indexable->orm->allows( 'get' )
-		                     ->with( 'object_sub_type' )
-		                     ->andReturn( 'attachment' );
+		$this->indexable->orm
+			->allows( 'get' )
+			->with( 'object_sub_type' )
+			->andReturn( 'attachment' );
 
-		$this->indexable->orm->allows( 'get' )
-		                     ->with( 'object_id' )
-		                     ->andReturn( 123 );
+		$this->indexable->orm
+			->allows( 'get' )
+			->with( 'object_id' )
+			->andReturn( 123 );
 
-		$this->image->allows( 'is_valid_attachment' )
-		            ->with( 123 )
-		            ->andReturn( true );
+		$this->image
+			->allows( 'is_valid_attachment' )
+			->with( 123 )
+			->andReturn( true );
 
 		$actual = $this->instance->find_alternative_image( $this->indexable );
 
@@ -429,17 +446,20 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable      = Mockery::mock( Indexable::class );
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
-		$this->indexable->orm->allows( 'get' )
-		                     ->with( 'object_sub_type' )
-		                     ->andReturn( 'post' );
+		$this->indexable->orm
+			->allows( 'get' )
+			->with( 'object_sub_type' )
+			->andReturn( 'post' );
 
-		$this->indexable->orm->allows( 'get' )
-		                     ->with( 'object_id' )
-		                     ->andReturn( 123 );
+		$this->indexable->orm
+			->allows( 'get' )
+			->with( 'object_id' )
+			->andReturn( 123 );
 
-		$this->image->allows( 'get_featured_image_id' )
-		            ->with( 123 )
-		            ->andReturn( 456 );
+		$this->image
+			->allows( 'get_featured_image_id' )
+			->with( 123 )
+			->andReturn( 456 );
 
 		$actual = $this->instance->find_alternative_image( $this->indexable );
 
@@ -461,17 +481,20 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable      = Mockery::mock( Indexable::class );
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
-		$this->indexable->orm->allows( 'get' )
-		                     ->with( 'object_sub_type' )
-		                     ->andReturn( 'post' );
+		$this->indexable->orm
+			->allows( 'get' )
+			->with( 'object_sub_type' )
+			->andReturn( 'post' );
 
-		$this->indexable->orm->allows( 'get' )
-		                     ->with( 'object_id' )
-		                     ->andReturn( 123 );
+		$this->indexable->orm
+			->allows( 'get' )
+			->with( 'object_id' )
+			->andReturn( 123 );
 
-		$this->image->allows( 'get_featured_image_id' )
-		            ->with( 123 )
-		            ->andReturn( false );
+		$this->image
+			->allows( 'get_featured_image_id' )
+			->with( 123 )
+			->andReturn( false );
 
 		$image_meta = [
 			'width'  => 640,
@@ -485,9 +508,10 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'type'   => 'image/jpeg',
 		];
 
-		$this->image->allows( 'get_gallery_image' )
-		            ->with( 123 )
-		            ->andReturn( $image_meta );
+		$this->image
+			->allows( 'get_gallery_image' )
+			->with( 123 )
+			->andReturn( $image_meta );
 
 		$actual = $this->instance->find_alternative_image( $this->indexable );
 
@@ -509,21 +533,25 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable      = Mockery::mock( Indexable::class );
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
-		$this->indexable->orm->allows( 'get' )
-		                     ->with( 'object_sub_type' )
-		                     ->andReturn( 'post' );
+		$this->indexable->orm
+			->allows( 'get' )
+			->with( 'object_sub_type' )
+			->andReturn( 'post' );
 
-		$this->indexable->orm->allows( 'get' )
-		                     ->with( 'object_id' )
-		                     ->andReturn( 123 );
+		$this->indexable->orm
+			->allows( 'get' )
+			->with( 'object_id' )
+			->andReturn( 123 );
 
-		$this->image->allows( 'get_featured_image_id' )
-		            ->with( 123 )
-		            ->andReturn( false );
+		$this->image
+			->allows( 'get_featured_image_id' )
+			->with( 123 )
+			->andReturn( false );
 
-		$this->image->allows( 'get_gallery_image' )
-		            ->with( 123 )
-		            ->andReturn( false );
+		$this->image
+			->allows( 'get_gallery_image' )
+			->with( 123 )
+			->andReturn( false );
 
 		$image_meta = [
 			'width'  => 640,
@@ -537,9 +565,10 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'type'   => 'image/jpeg',
 		];
 
-		$this->image->allows( 'get_post_content_image' )
-		            ->with( 123 )
-		            ->andReturn( $image_meta );
+		$this->image
+			->allows( 'get_post_content_image' )
+			->with( 123 )
+			->andReturn( $image_meta );
 
 		$actual = $this->instance->find_alternative_image( $this->indexable );
 
@@ -561,25 +590,30 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable      = Mockery::mock( Indexable::class );
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
-		$this->indexable->orm->allows( 'get' )
-		                     ->with( 'object_sub_type' )
-		                     ->andReturn( 'post' );
+		$this->indexable->orm
+			->allows( 'get' )
+			->with( 'object_sub_type' )
+			->andReturn( 'post' );
 
-		$this->indexable->orm->allows( 'get' )
-		                     ->with( 'object_id' )
-		                     ->andReturn( 123 );
+		$this->indexable->orm
+			->allows( 'get' )
+			->with( 'object_id' )
+			->andReturn( 123 );
 
-		$this->image->allows( 'get_featured_image_id' )
-		            ->with( 123 )
-		            ->andReturn( false );
+		$this->image
+			->allows( 'get_featured_image_id' )
+			->with( 123 )
+			->andReturn( false );
 
-		$this->image->allows( 'get_gallery_image' )
-		            ->with( 123 )
-		            ->andReturn( false );
+		$this->image
+			->allows( 'get_gallery_image' )
+			->with( 123 )
+			->andReturn( false );
 
-		$this->image->allows( 'get_post_content_image' )
-		            ->with( 123 )
-		            ->andReturn( false );
+		$this->image
+			->allows( 'get_post_content_image' )
+			->with( 123 )
+			->andReturn( false );
 
 		$this->assertFalse( $this->instance->find_alternative_image( $this->indexable ) );
 	}
@@ -822,18 +856,20 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->with( $post_id )
 			->andReturn( true );
 
-		$this->post_helper->expects( 'get_post' )
-		           ->once()
-		           ->with( $post_id )
-		           ->andReturn(
-			           (object) [
-				           'post_type' => 'excluded_post_type',
-			           ]
-		           );
+		$this->post_helper
+			->expects( 'get_post' )
+			->once()
+			->with( $post_id )
+			->andReturn(
+				(object) [
+					'post_type' => 'excluded_post_type',
+				]
+			);
 
-		$this->post_type_helper->expects( 'is_excluded' )
-		                       ->once()
-		                       ->andReturnTrue();
+		$this->post_type_helper
+			->expects( 'is_excluded' )
+			->once()
+			->andReturnTrue();
 
 		self::assertFalse( $this->instance->build( $post_id, false ) );
 	}

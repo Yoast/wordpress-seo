@@ -490,15 +490,17 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm = Mockery::mock( ORM::class );
 		$object_id           = 123;
 
-		$indexable_mock->orm->expects( 'get' )
-		                    ->with( 'object_id' )
-		                    ->andReturn( $object_id );
+		$indexable_mock->orm
+			->expects( 'get' )
+			->with( 'object_id' )
+			->andReturn( $object_id );
 
 		$image = 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg';
 
-		$this->image->expects( 'get_term_content_image' )
-		            ->with( $object_id )
-		            ->andReturn( $image );
+		$this->image
+			->expects( 'get_term_content_image' )
+			->with( $object_id )
+			->andReturn( $image );
 
 		$expected = [
 			'image'  => $image,
@@ -515,13 +517,15 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm = Mockery::mock( ORM::class );
 		$object_id           = 123;
 
-		$indexable_mock->orm->expects( 'get' )
-		                    ->with( 'object_id' )
-		                    ->andReturn( $object_id );
+		$indexable_mock->orm
+			->expects( 'get' )
+			->with( 'object_id' )
+			->andReturn( $object_id );
 
-		$this->image->expects( 'get_term_content_image' )
-		            ->with( $object_id )
-		            ->andReturn( null );
+		$this->image
+			->expects( 'get_term_content_image' )
+			->with( $object_id )
+			->andReturn( null );
 
 		$this->assertFalse( $this->instance->find_alternative_image( $indexable_mock ) );
 	}

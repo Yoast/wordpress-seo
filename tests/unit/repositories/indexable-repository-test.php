@@ -75,7 +75,6 @@ class Indexable_Repository_Test extends TestCase {
 	 */
 	protected $version_manager;
 
-
 	/**
 	 * A helper class for robots meta tags.
 	 *
@@ -95,7 +94,7 @@ class Indexable_Repository_Test extends TestCase {
 		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
 		$this->wpdb                 = Mockery::mock( wpdb::class );
 		$this->version_manager      = Mockery::mock( Indexable_Version_Manager::class );
-		$this->robots_helper        = Mockery::mock(Robots_Helper::class);
+		$this->robots_helper        = Mockery::mock( Robots_Helper::class );
 		$this->instance             = Mockery::mock(
 			Indexable_Repository::class,
 			[
@@ -105,7 +104,7 @@ class Indexable_Repository_Test extends TestCase {
 				$this->hierarchy_repository,
 				$this->wpdb,
 				$this->version_manager,
-				$this->robots_helper
+				$this->robots_helper,
 			]
 		)->makePartial();
 	}
