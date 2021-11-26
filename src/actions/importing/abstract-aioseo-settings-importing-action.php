@@ -186,7 +186,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	}
 
 	/**
-	 * Creates a query for gathering unimported AiOSEO settings from the database (in chunks if a limit is applied).
+	 * Queries the database and retrieves unimported AiOSEO settings (in chunks if a limit is applied).
 	 *
 	 * @param int $limit The maximum number of unimported objects to be returned.
 	 *
