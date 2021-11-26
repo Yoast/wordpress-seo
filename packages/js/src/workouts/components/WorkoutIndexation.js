@@ -22,7 +22,7 @@ window.yoast.indexing = window.yoast.indexing || {};
 export function WorkoutIndexation( { indexingStateCallback, indexingState, isEnabled } ) {
 	if ( ! isEnabled ) {
 		if ( indexingState === "completed" ) {
-			return <Alert style={ { opacity: "0.5" } }type="success">{ __( "SEO data optimization complete", "wordpress-seo" ) }</Alert>;
+			return <Alert type="success">{ __( "SEO data optimization complete", "wordpress-seo" ) }</Alert>;
 		}
 		return <button className="yoast-button yoast-button--primary" type="button" disabled={ true }>Start SEO data optimization</button>;
 	}
