@@ -153,10 +153,10 @@ class SubheadingsDistributionTooLong extends Assessment {
 							 * subheading, %6$s expands to the word 'words' or 'characters', %2$s expands to the link closing tag.
 							 */
 							_n(
-								"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d %6$s and" +
-								" is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
-								"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d %6$s " +
-								"and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+								// eslint-disable-next-line max-len
+								"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d %6$s and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+								// eslint-disable-next-line max-len
+								"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d %6$s and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 								this._tooLongTextsNumber,
 								"wordpress-seo"
 							),
@@ -178,10 +178,10 @@ class SubheadingsDistributionTooLong extends Assessment {
 						not separated by subheadings, %4$d expands to the recommended number of words following a
 						subheading, %6$s expands to the word 'words' or 'characters', %2$s expands to the link closing tag. */
 						_n(
-							"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d %6$s and" +
-							" is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
-							"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d %6$s " +
-							"and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+							// eslint-disable-next-line max-len
+							"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d %6$s and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+							// eslint-disable-next-line max-len
+							"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d %6$s and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 							this._tooLongTextsNumber,
 							"wordpress-seo"
 						),
