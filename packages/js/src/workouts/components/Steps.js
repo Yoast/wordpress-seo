@@ -30,14 +30,14 @@ Steps.propTypes = {
  *
  * @returns {WPElement} The FinishButtonSection element.
  */
-export function FinishButtonSection( { stepNumber, onFinishClick, finishText, hasDownArrow, isFinished, additionalButtonProps, isSaved, children } ) {
+export function FinishButtonSection( { stepNumber, onFinishClick, finishText, hasDownArrow, isFinished, additionalButtonProps, isSaved, isReady, children } ) {
 	return (
 		<Fragment>
 			<hr id={ stepNumber ? `hr-scroll-target-step-${ stepNumber + 1 }` : null } />
 			{ children }
 			<div className="finish-button-section">
 				<Button
-					className={ `yoast-button yoast-button--secondary${ isFinished ? " yoast-button--finished" : "" }` }
+					className={ `yoast-button yoast-button--${ isReady ? "primary" : "secondary" }${ isFinished ? " yoast-button--finished" : "" }` }
 					onClick={ onFinishClick }
 					{ ...additionalButtonProps }
 				>
@@ -58,6 +58,7 @@ FinishButtonSection.propTypes = {
 	isFinished: PropTypes.bool,
 	additionalButtonProps: PropTypes.object,
 	isSaved: PropTypes.bool,
+	isReady: PropTypes.bool,
 	children: PropTypes.any,
 };
 
@@ -68,6 +69,7 @@ FinishButtonSection.defaultProps = {
 	additionalButtonProps: {},
 	isSaved: false,
 	children: null,
+	isReady: false,
 };
 
 /**
