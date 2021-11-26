@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Builders;
 use wpdb;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
@@ -39,6 +40,13 @@ class Indexable_Post_Type_Archive_Builder {
 	protected $post_helper;
 
 	/**
+	 * A helper for post types.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
 	 * The WPDB instance.
 	 *
 	 * @var wpdb
@@ -57,11 +65,13 @@ class Indexable_Post_Type_Archive_Builder {
 		Options_Helper $options,
 		Indexable_Builder_Versions $versions,
 		Post_Helper $post_helper,
+		Post_Type_Helper $post_type_helper,
 		wpdb $wpdb
 	) {
 		$this->options     = $options;
 		$this->version     = $versions->get_latest_version_for_type( 'post-type-archive' );
 		$this->post_helper = $post_helper;
+		$this->post_type_helper = $post_type_helper;
 		$this->wpdb        = $wpdb;
 	}
 
@@ -83,11 +93,8 @@ class Indexable_Post_Type_Archive_Builder {
 		$indexable->is_robots_noindex = (bool) $this->options->get( 'noindex-ptarchive-' . $post_type );
 		$indexable->is_public         = ( (int) $indexable->is_robots_noindex !== 1 );
 		$indexable->blog_id           = \get_current_blog_id();
-
-		$post_type_object = get_post_type_object( $post_type );
-		if ( $post_type_object !== null ) {
-			$indexable->is_publicly_viewable = $post_type_object->has_archive && $post_type_object->rewrite !== false;
-		}
+		// TODO Diede Does the watcher post type changes this?
+		$indexable->is_publicly_viewable = $this->post_type_helper->has_publicly_viewable_archive( $post_type );
 
 		$indexable = $this->set_aggregate_values( $indexable );
 
