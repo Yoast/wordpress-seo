@@ -26,16 +26,16 @@ export const FACEBOOK_IMAGE_SIZES = {
 export function determineFacebookImageMode( originalDimensions ) {
 	const largeThreshold = { height: 233, width: 446 };
 
+	if ( originalDimensions.height > originalDimensions.width ) {
+		return "portrait";
+	}
+
 	if ( originalDimensions.height < largeThreshold.height || originalDimensions.width < largeThreshold.width ) {
 		return "square";
 	}
 
 	if ( originalDimensions.height === originalDimensions.width ) {
 		return "square";
-	}
-
-	if ( originalDimensions.height > originalDimensions.width ) {
-		return "portrait";
 	}
 
 	return "landscape";
