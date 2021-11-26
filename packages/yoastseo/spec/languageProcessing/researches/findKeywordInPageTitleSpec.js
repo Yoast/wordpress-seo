@@ -8,7 +8,7 @@ import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Res
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import pageTitleKeyword from "../../../src/languageProcessing/researches/findKeywordInPageTitle.js";
 import Paper from "../../../src/values/Paper.js";
-import { isFeatureEnabled, enableFeatures } from "@yoast/feature-flag";
+import { isFeatureEnabled } from "@yoast/feature-flag";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataDE = getMorphologyData( "de" ).de;
