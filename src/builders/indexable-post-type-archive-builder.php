@@ -56,10 +56,11 @@ class Indexable_Post_Type_Archive_Builder {
 	/**
 	 * Indexable_Post_Type_Archive_Builder constructor.
 	 *
-	 * @param Options_Helper             $options     The options helper.
-	 * @param Indexable_Builder_Versions $versions    The latest version of each Indexable builder.
-	 * @param Post_Helper                $post_helper The post helper.
-	 * @param wpdb                       $wpdb        The WPDB instance.
+	 * @param Options_Helper             $options          The options helper.
+	 * @param Indexable_Builder_Versions $versions         The latest version of each Indexable builder.
+	 * @param Post_Helper                $post_helper      The post helper.
+	 * @param Post_Type_Helper           $post_type_helper The post type helper.
+	 * @param wpdb                       $wpdb             The WPDB instance.
 	 */
 	public function __construct(
 		Options_Helper $options,
@@ -68,11 +69,11 @@ class Indexable_Post_Type_Archive_Builder {
 		Post_Type_Helper $post_type_helper,
 		wpdb $wpdb
 	) {
-		$this->options     = $options;
-		$this->version     = $versions->get_latest_version_for_type( 'post-type-archive' );
-		$this->post_helper = $post_helper;
+		$this->options          = $options;
+		$this->version          = $versions->get_latest_version_for_type( 'post-type-archive' );
+		$this->post_helper      = $post_helper;
 		$this->post_type_helper = $post_type_helper;
-		$this->wpdb        = $wpdb;
+		$this->wpdb             = $wpdb;
 	}
 
 	/**
@@ -84,16 +85,15 @@ class Indexable_Post_Type_Archive_Builder {
 	 * @return Indexable The extended indexable.
 	 */
 	public function build( $post_type, Indexable $indexable ) {
-		$indexable->object_type       = 'post-type-archive';
-		$indexable->object_sub_type   = $post_type;
-		$indexable->title             = $this->options->get( 'title-ptarchive-' . $post_type );
-		$indexable->description       = $this->options->get( 'metadesc-ptarchive-' . $post_type );
-		$indexable->breadcrumb_title  = $this->get_breadcrumb_title( $post_type );
-		$indexable->permalink         = \get_post_type_archive_link( $post_type );
-		$indexable->is_robots_noindex = (bool) $this->options->get( 'noindex-ptarchive-' . $post_type );
-		$indexable->is_public         = ( (int) $indexable->is_robots_noindex !== 1 );
-		$indexable->blog_id           = \get_current_blog_id();
-		// TODO Diede Does the watcher post type changes this?
+		$indexable->object_type          = 'post-type-archive';
+		$indexable->object_sub_type      = $post_type;
+		$indexable->title                = $this->options->get( 'title-ptarchive-' . $post_type );
+		$indexable->description          = $this->options->get( 'metadesc-ptarchive-' . $post_type );
+		$indexable->breadcrumb_title     = $this->get_breadcrumb_title( $post_type );
+		$indexable->permalink            = \get_post_type_archive_link( $post_type );
+		$indexable->is_robots_noindex    = (bool) $this->options->get( 'noindex-ptarchive-' . $post_type );
+		$indexable->is_public            = ( (int) $indexable->is_robots_noindex !== 1 );
+		$indexable->blog_id              = \get_current_blog_id();
 		$indexable->is_publicly_viewable = $this->post_type_helper->has_publicly_viewable_archive( $post_type );
 
 		$indexable = $this->set_aggregate_values( $indexable );
