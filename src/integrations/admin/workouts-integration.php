@@ -124,7 +124,7 @@ class Workouts_Integration implements Integration_Interface {
 		}
 
 		// Copy only the Workouts page item that comes first in the array.
-		$result_submenu_pages = [];
+		$result_submenu_pages      = [];
 		$workouts_page_encountered = false;
 		foreach ( $submenu_pages as $item ) {
 			if ( $item[4] !== 'wpseo_workouts' || ! $workouts_page_encountered ) {
