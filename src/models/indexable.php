@@ -110,7 +110,6 @@ class Indexable extends Model {
 		'is_robots_noimageindex',
 		'is_robots_nosnippet',
 		'is_cornerstone',
-		'is_public',
 		'is_publicly_viewable',
 		'is_protected',
 	];
