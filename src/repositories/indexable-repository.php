@@ -170,13 +170,14 @@ class Indexable_Repository {
 	 * Gets a query that finds all indexables of a type+subtype that match the noindex value
 	 * while taking site defaults into account.
 	 *
-	 * @param bool        $noindex         The noindex value of the posts to find.
-	 * @param string      $object_type     The indexable object type.
-	 * @param string|null $object_sub_type The indexable object subtype.
+	 * @param bool        $noindex                The noindex value of the posts to find.
+	 * @param string      $object_type            The indexable object type.
+	 * @param string|null $object_sub_type        The indexable object subtype.
+	 * @param boolean     $noindex_empty_archives Whether an archive should be considered as noindex if it has no public posts.
 	 *
 	 * @return ORM The query object.
 	 */
-	public function query_where_noindex( $noindex, $object_type, $object_sub_type = null ) {
+	public function query_where_noindex( $noindex, $object_type, $object_sub_type = null, $noindex_empty_archives = true ) {
 		$query = $this
 			->query()
 			->where( 'object_type', $object_type )
@@ -192,7 +193,8 @@ class Indexable_Repository {
 		}
 
 		// Let the number of posts in an archive determine the noindex value.
-		if ( in_array( $object_type, [ 'post-type-archive', 'term', 'user', 'home-page' ], true ) ) {
+		$is_archive_type = in_array( $object_type, [ 'post-type-archive', 'term', 'user', 'home-page' ], true );
+		if ( $is_archive_type && $noindex_empty_archives ) {
 			if ( $noindex === true ) {
 				$condition .= ' OR number_of_publicly_viewable_posts = 0';
 			}
