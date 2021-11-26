@@ -24,7 +24,7 @@ export const FACEBOOK_IMAGE_SIZES = {
  * @returns {string} The display mode of the image.
  */
 export function determineFacebookImageMode( originalDimensions ) {
-	const largeThreshold = { height: 223, width: 446 };
+	const largeThreshold = { height: 233, width: 446 };
 
 	if ( originalDimensions.height < largeThreshold.height || originalDimensions.width < largeThreshold.width ) {
 		return "square";
