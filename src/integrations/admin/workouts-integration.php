@@ -254,7 +254,7 @@ class Workouts_Integration implements Integration_Interface {
 			}
 
 			jQuery( document ).ready( function() {
-				jQuery( 'body' ).on( 'click', '.notice-dismiss', function() {
+				jQuery( 'body' ).on( 'click', '#yoast-configuration-workout-notice .notice-dismiss', function() {
 					dismiss_configuration_workout_notice();
 				} );
 			} );
