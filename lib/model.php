@@ -558,6 +558,7 @@ class Model implements JsonSerializable {
 	 * @return void
 	 */
 	public function __unset( $property ) {
+		$property = $this->handleDeprecation( $property );
 		$this->orm->__unset( $property );
 	}
 
@@ -587,6 +588,7 @@ class Model implements JsonSerializable {
 	 * @return bool True when value is set.
 	 */
 	public function __isset( $property ) {
+		$property = $this->handleDeprecation( $property );
 		return $this->orm->__isset( $property );
 	}
 
@@ -613,6 +615,36 @@ class Model implements JsonSerializable {
 	 */
 	public function set( $property, $value = null ) {
 		$property = $this->handleDeprecation( $property );
+		$this->orm->set( $property, $value );
+
+		return $this;
+	}
+
+	/**
+	 * Setter method for model properties that are deprecated, but still need to updated while they wait to be removed.
+	 *
+	 * @param string|array $property The property to set.
+	 * @param string|null  $value    The value to give.
+	 *
+	 * @return static Current object.
+	 *
+	 * @internal
+	 */
+	public function set_deprecated_property( $property, $value = null ) {
+		if ( ! array_key_exists( $property, $this->deprecated_columns ) ) {
+			return $this;
+		}
+
+		if ( $value !== null && \in_array( $property, $this->boolean_columns, true ) ) {
+			$value = ( $value ) ? '1' : '0';
+		}
+		if ( $value !== null && \in_array( $property, $this->int_columns, true ) ) {
+			$value = (string) $value;
+		}
+		if ( $value !== null && \in_array( $property, $this->float_columns, true ) ) {
+			$value = (string) $value;
+		}
+
 		$this->orm->set( $property, $value );
 
 		return $this;

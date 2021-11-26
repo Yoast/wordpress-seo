@@ -87,9 +87,9 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'my_post_type_meta_description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
-		$indexable_mock->orm->expects( 'set' )->with( 'is_public', true );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_publicly_viewable', true );
 		$indexable_mock->orm->expects( 'set' )->with( 'number_of_publicly_viewable_posts', 6 );
+		$indexable_mock->expects( 'set_deprecated_property' )->with( 'is_public', true );
 
 		$indexable_mock->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturnFalse();
 		$indexable_mock->orm->expects( 'get' )->with( 'object_sub_type' )->andReturn( 'my-post-type' );
@@ -99,9 +99,6 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'version', 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 23:59:59' );
-
-		Monkey\Functions\expect( '_deprecated_argument' );
-		Monkey\Functions\expect( 'esc_html' );
 
 		$builder = new Indexable_Post_Type_Archive_Builder( $options_mock, $versions, $post_helper, $post_type_helper, $wpdb );
 		$builder->build( 'my-post-type', $indexable_mock );

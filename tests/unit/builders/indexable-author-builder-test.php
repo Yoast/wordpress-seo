@@ -94,7 +94,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'twitter_image_id', null );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', null );
 
-		$this->indexable_mock->orm->expects( 'set' )->with( 'is_public', null );
+		$this->indexable_mock->expects( 'set_deprecated_property' )->with( 'is_public', null );
 
 		$this->indexable_mock->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturn( 0 );
 
@@ -139,9 +139,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 				'first_published_at'        => '1234-12-12 00:00:00',
 			]
 		);
-
-		Monkey\Functions\expect( '_deprecated_argument' );
-		Monkey\Functions\expect( 'esc_html' );
 
 		$this->instance = new Indexable_Author_Builder( $this->author_archive, $this->versions, $this->post_helper, $this->wpdb );
 	}

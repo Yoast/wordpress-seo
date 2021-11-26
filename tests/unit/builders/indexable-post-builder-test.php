@@ -297,7 +297,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'primary_focus_keyword_score'       => 100,
 			'readability_score'                 => 50,
 			'number_of_pages'                   => null,
-			'is_public'                         => 0,
 			'is_publicly_viewable'              => true,
 			'number_of_publicly_viewable_posts' => 0,
 			'post_status'                       => 'publish',
@@ -317,6 +316,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
 		$this->set_indexable_set_expectations( $this->indexable, $indexable_expectations );
+		$this->indexable->expects( 'set_deprecated_property' )->with( 'is_public', 0 );
 
 		// Reset all social images first.
 		$this->set_indexable_set_expectations(
@@ -377,8 +377,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_the_title' )->with( 1 )->andReturn( 'breadcrumb_title' );
 		Monkey\Functions\expect( 'wp_strip_all_tags' )->with( 'breadcrumb_title', true )->andReturn( 'breadcrumb_title' );
 
-		Monkey\Functions\expect( '_deprecated_argument' );
-		Monkey\Functions\expect( 'esc_html' );
 		Monkey\Functions\expect( 'is_post_publicly_viewable' )->andReturn( true );
 
 		// Blog ID.

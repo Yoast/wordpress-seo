@@ -41,18 +41,15 @@ class Indexable_Date_Archive_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'date-archive' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'date_archive_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'date_archive_meta_description' );
-		$indexable_mock->orm->expects( 'set' )->with( 'is_public', true );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
 		$indexable_mock->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturn( 0 );
+		$indexable_mock->expects( 'set_deprecated_property' )->with( 'is_public', true );
 
 		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'version', 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_publicly_viewable', 1 );
-
-		Functions\expect( '_deprecated_argument' );
-		Functions\expect( 'esc_html' );
 
 		$builder = new Indexable_Date_Archive_Builder( $options_mock, new Indexable_Builder_Versions() );
 		$builder->build( $indexable_mock );

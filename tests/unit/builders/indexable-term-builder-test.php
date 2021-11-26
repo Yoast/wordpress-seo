@@ -311,7 +311,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 			'is_robots_noarchive'         => null,
 			'is_robots_noimageindex'      => null,
 			'is_robots_nosnippet'         => null,
-			'is_public'                   => false,
 			'is_publicly_viewable'        => true,
 			'primary_focus_keyword'       => 'focuskeyword',
 			'primary_focus_keyword_score' => 75,
@@ -320,6 +319,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		];
 
 		$this->set_indexable_set_expectations( $indexable_mock, $indexable_expectations );
+		$indexable_mock->expects( 'set_deprecated_property' )->with( 'is_public', false );
 
 		// Reset all social images first.
 		$this->set_indexable_set_expectations(
@@ -374,10 +374,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		$indexable_mock->orm->expects( 'get' )->with( 'object_id' )->andReturn( 1 );
 		$indexable_mock->orm->expects( 'get' )->with( 'object_sub_type' )->andReturn( 'category' );
-
-
-		Monkey\Functions\expect( '_deprecated_argument' );
-		Monkey\Functions\expect( 'esc_html' );
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );

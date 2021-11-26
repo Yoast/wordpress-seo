@@ -145,10 +145,11 @@ class Indexable_Post_Builder {
 		$indexable->number_of_pages                   = $this->get_number_of_pages_for_post( $post );
 		$indexable->post_status                       = $post->post_status;
 		$indexable->is_protected                      = $post->post_password !== '';
-		$indexable->is_public                         = $this->is_public( $indexable );
 		$indexable->is_publicly_viewable              = \is_post_publicly_viewable( $post );
 		$indexable->number_of_publicly_viewable_posts = 0;
 		$indexable->blog_id                           = \get_current_blog_id();
+
+		$indexable->set_deprecated_property( 'is_public', $this->is_public( $indexable ) );
 
 		$indexable->schema_page_type    = $this->get_meta_value( $post_id, 'schema_page_type' );
 		$indexable->schema_article_type = $this->get_meta_value( $post_id, 'schema_article_type' );

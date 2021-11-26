@@ -92,9 +92,9 @@ class Indexable_Post_Type_Archive_Builder {
 		$indexable->breadcrumb_title     = $this->get_breadcrumb_title( $post_type );
 		$indexable->permalink            = \get_post_type_archive_link( $post_type );
 		$indexable->is_robots_noindex    = (bool) $this->options->get( 'noindex-ptarchive-' . $post_type );
-		$indexable->is_public            = ( (int) $indexable->is_robots_noindex !== 1 );
 		$indexable->blog_id              = \get_current_blog_id();
 		$indexable->is_publicly_viewable = $this->post_type_helper->has_publicly_viewable_archive( $post_type );
+		$indexable->set_deprecated_property( 'is_public', ( (int) $indexable->is_robots_noindex !== 1 ) );
 
 		$indexable = $this->set_aggregate_values( $indexable );
 
