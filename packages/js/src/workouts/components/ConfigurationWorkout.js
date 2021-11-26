@@ -485,6 +485,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					</div>
 					{ ( window.wpseoWorkoutsData.shouldUpdatePremium && indexingState !== "completed" ) && <Alert type="warning">
 						<p>{
+							// translators: %1$s is replaced by a version number.
 							sprintf( __( "This workout step is currently disabled, because you're not running the latest version of Yoast SEO Premium. " +
 							"Please update to the latest version (at least %1$s). ",
 							"wordpress-seo"
@@ -494,6 +495,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						<p>{
 							addLinkToString(
 								sprintf(
+									// translators: %1$s and %2$s are replaced by anchor tags to make a link to the tool section.
 									__( "You can still run the SEO data optimization in the %1$sTools section%2$s. " +
 									"Once that is finished, please refresh this workout.", "wordpress-seo" ),
 									"<a>",

@@ -35,8 +35,12 @@ export function WorkoutIndexation( { indexingStateCallback, indexingState, isEna
 
 WorkoutIndexation.propTypes = {
 	indexingStateCallback: PropTypes.func.isRequired,
-	indexingState: PropTypes.func.isRequired,
-	isEnabled: PropTypes.func.isRequired,
+	indexingState: PropTypes.string.isRequired,
+	isEnabled: PropTypes.bool,
+};
+
+WorkoutIndexation.defaultProps = {
+	isEnabled: true,
 };
 
 /**
