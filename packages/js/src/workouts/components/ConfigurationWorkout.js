@@ -249,7 +249,12 @@ const stepNumberNameMap = {
  * @returns {WPElement} The ConfigurationWorkout component.
  */
 export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, clearActiveWorkout, isStepFinished } ) {
-	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, { ...window.wpseoWorkoutsData.configuration, errorFields: [], editedSteps: [], savedSteps: [] } );
+	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, {
+		...window.wpseoWorkoutsData.configuration,
+		errorFields: [],
+		editedSteps: [],
+		savedSteps: [],
+	} );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "completed" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 	const steps = STEPS.configuration;
@@ -285,17 +290,6 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 		dispatch( { type: "SET_STEP_SAVED", payload: stepNumber } );
 	};
 
-	/**
-	 * Sets a step to not saved.
-	 *
-	 * @param {number} stepNumber The number of the step to unsave.
-	 *
-	 * @returns {void}
-	 */
-	const setStepIsNotSaved = ( stepNumber ) => {
-		dispatch( { type: "SET_STEP_NOT_SAVED", payload: stepNumber } );
-	};
-
 	const isStep1Finished = isStepFinished( "configuration", steps.optimizeSeoData );
 	const isStep2Finished = isStepFinished( "configuration", steps.siteRepresentation );
 	const isStep3Finished = isStepFinished( "configuration", steps.socialProfiles );
@@ -308,6 +302,32 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 		isStep4Finished,
 		isStep5Finished,
 	].every( Boolean );
+
+	/**
+	 * A function that tests whether criteria are met.
+	 *
+	 * @param {number} stepNumber The number of the step to verify readiness for.
+	 *
+	 * @returns {Boolean} Whether the step is ready to be saved.
+	 */
+	function isStepReady( stepNumber ) {
+		switch ( stepNumber ) {
+			case 1:
+				return [ "in_progress", "completed" ].includes( indexingState );
+			case 2:
+				if ( state.companyOrPerson === "company" ) {
+					return Boolean( state.companyLogo && state.companyName );
+				}
+				return Boolean( state.personLogo && state.personId );
+			case 3:
+			case 4:
+				return true;
+			case 5:
+				return [ isStep1Finished, isStep2Finished, isStep3Finished, isStep4Finished ].every( Boolean ) && indexingState === "completed";
+			default:
+				return false;
+		}
+	}
 
 	const setTracking = useCallback( ( value ) => {
 		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
@@ -531,7 +551,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 						finishText={ __( "Continue", "wordpress-seo" ) }
 						onFinishClick={	onFinishOptimizeSeoData }
 						isFinished={ isStep1Finished }
-						isReady={ indexingState === "in_progress" }
+						isReady={ isStepReady( 1 ) }
 					/>
 				</Step>
 				<p className="extra-list-content">
@@ -626,11 +646,11 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					<FinishButtonSection
 						stepNumber={ 2 }
 						isSaved={ state.savedSteps.includes( 2 ) }
-						hasDownArrow={ ! isStep2Finished }
+						hasDownArrow={ true }
 						finishText={ __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishSiteRepresentation }
 						isFinished={ isStep2Finished }
-						isReady={ state.editedSteps.includes( 2 ) }
+						isReady={ isStepReady( 2 ) }
 					/>
 				</Step>
 				<Step
@@ -695,11 +715,11 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					<FinishButtonSection
 						stepNumber={ 3 }
 						isSaved={ state.savedSteps.includes( 3 ) }
-						hasDownArrow={ ! isStep3Finished }
+						hasDownArrow={ true }
 						finishText={ __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishSocialProfiles }
 						isFinished={ isStep3Finished }
-						isReady={ state.editedSteps.includes( 3 ) }
+						isReady={ isStepReady( 3 ) }
 					/>
 				</Step>
 				<Step
@@ -755,12 +775,12 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					<FinishButtonSection
 						stepNumber={ 4 }
 						isSaved={ state.savedSteps.includes( 4 ) }
-						hasDownArrow={ ! isStep4Finished }
+						hasDownArrow={ true }
 						finishText={ __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishEnableTracking }
 						isFinished={ isStep4Finished }
 						additionalButtonProps={ { disabled: ! isTrackingOptionSelected } }
-						isReady={ state.editedSteps.includes( 4 ) }
+						isReady={ isStepReady( 4 ) }
 					/>
 				</Step>
 				<Step
@@ -773,6 +793,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					finishText={ isWorkoutFinished ? __( "Do workout again", "wordpress-seo" ) : __( "Finish this workout", "wordpress-seo" ) }
 					onFinishClick={ toggleConfigurationWorkout }
 					isFinished={ isWorkoutFinished }
+					isReady={ isStepReady( 5 ) }
 					additionalButtonProps={ { disabled: indexingState !== "completed" || ! isTrackingOptionSelected } }
 				>
 					{ indexingState !== "completed" && <Alert type="warning">
