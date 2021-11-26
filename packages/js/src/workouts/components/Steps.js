@@ -2,6 +2,7 @@ import { Fragment } from "@wordpress/element";
 import { NewButton as Button } from "@yoast/components";
 import { ReactComponent as ArrowDown } from "../../../images/icon-arrow-down.svg";
 import PropTypes from "prop-types";
+import { __ } from "@wordpress/i18n";
 
 /**
  * The Steps component
@@ -23,36 +24,49 @@ Steps.propTypes = {
 };
 
 /**
- * Returns a finish step section.
+ * Returns a finish button section.
  *
  * @param {Object} props The props.
  *
- * @returns {WPElement} The FinishStepSection element.
+ * @returns {WPElement} The FinishButtonSection element.
  */
-export function FinishStepSection( { onFinishClick, finishText, hasDownArrow, isFinished, children } ) {
+export function FinishButtonSection( { stepNumber, onFinishClick, finishText, hasDownArrow, isFinished, additionalButtonProps, isSaved, children } ) {
 	return (
 		<Fragment>
-			<hr />
+			<hr id={ stepNumber ? `hr-scroll-target-step-${ stepNumber + 1 }` : null } />
 			{ children }
-			<Button className={ `yoast-button yoast-button--secondary${ isFinished ? " yoast-button--finished" : "" }` } onClick={ onFinishClick }>
-				{ finishText }
-				{ hasDownArrow && <ArrowDown className="yoast-button--arrow-down" /> }
-			</Button>
+			<div className="finish-button-section">
+				<Button
+					className={ `yoast-button yoast-button--secondary${ isFinished ? " yoast-button--finished" : "" }` }
+					onClick={ onFinishClick }
+					{ ...additionalButtonProps }
+				>
+					{ finishText }
+					{ hasDownArrow && <ArrowDown className="yoast-button--arrow-down" /> }
+				</Button>
+				{ isSaved && <span className="finish-button-saved">{ __( "Saved!", "wordpress-seo" ) }</span> }
+			</div>
 		</Fragment>
 	);
 }
 
-FinishStepSection.propTypes = {
+FinishButtonSection.propTypes = {
 	finishText: PropTypes.string.isRequired,
 	onFinishClick: PropTypes.func.isRequired,
+	stepNumber: PropTypes.number,
 	hasDownArrow: PropTypes.bool,
 	isFinished: PropTypes.bool,
+	additionalButtonProps: PropTypes.object,
+	isSaved: PropTypes.bool,
 	children: PropTypes.any,
 };
 
-FinishStepSection.defaultProps = {
+FinishButtonSection.defaultProps = {
+	stepNumber: NaN,
 	hasDownArrow: false,
 	isFinished: false,
+	additionalButtonProps: {},
+	isSaved: false,
 	children: null,
 };
 
