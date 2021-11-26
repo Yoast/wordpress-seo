@@ -144,12 +144,12 @@ class Indexable extends Model {
 	 */
 	protected $deprecated_columns = [
 		'has_public_posts' => [
-			'since'                         => '17.7',
+			'since'                         => '17.9',
 			'replacement'                   => 'number_of_publicly_viewable_posts',
 			'automatically_use_replacement' => true,
 		],
 		'is_public'        => [
-			'since'                         => '17.7',
+			'since'                         => '17.9',
 			'replacement'                   => 'is_publicly_viewable',
 			'automatically_use_replacement' => false,
 		],
