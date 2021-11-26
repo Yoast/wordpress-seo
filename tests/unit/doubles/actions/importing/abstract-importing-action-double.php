@@ -2,12 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing;
 
-use wpdb;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Importing_Action;
-use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Wpdb_Helper;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Class Abstract_Importing_Action_Double
@@ -17,27 +13,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 abstract class Abstract_Importing_Action_Double extends Abstract_Importing_Action {
 
 	/**
-	 * Represents the indexables repository.
-	 *
-	 * @var Indexable_Repository
-	 */
-	protected $indexable_repository;
-
-	/**
-	 * The WordPress database instance.
-	 *
-	 * @var wpdb
-	 */
-	protected $wpdb;
-
-	/**
-	 * The indexable_to_postmeta helper.
-	 *
-	 * @var Indexable_To_Postmeta_Helper
-	 */
-	protected $indexable_to_postmeta;
-
-	/**
 	 * The options helper.
 	 *
 	 * @var Options_Helper
@@ -45,30 +20,12 @@ abstract class Abstract_Importing_Action_Double extends Abstract_Importing_Actio
 	protected $options;
 
 	/**
-	 * The wpdb helper.
-	 *
-	 * @var Wpdb_Helper
-	 */
-	protected $wpdb_helper;
-
-	/**
 	 * Gets the completed id (to be used as a key for the importing_completed option).
 	 *
 	 * @return string The completed id.
 	 */
-	public function __construct(
-		Indexable_Repository $indexable_repository,
-		wpdb $wpdb,
-		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
-		Options_Helper $options,
-		Wpdb_Helper $wpdb_helper ) {
-		return parent::__construct(
-			$indexable_repository,
-			$wpdb,
-			$indexable_to_postmeta,
-			$options,
-			$wpdb_helper
-		);
+	public function __construct( Options_Helper $options ) {
+		return parent::__construct( $options );
 	}
 
 	/**

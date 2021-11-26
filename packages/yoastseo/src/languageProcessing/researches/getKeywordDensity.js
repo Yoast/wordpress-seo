@@ -17,9 +17,6 @@ export default function( paper, researcher ) {
 	}
 
 	const keywordCount = researcher.getResearch( "keywordCount" );
-	const stemmer = researcher.getHelper( "getStemmer" );
-	return {
-		keywordDensity: ( keywordCount.count / wordCount ) * 100,
-		stemmer: stemmer,
-	};
+
+	return ( keywordCount.count / wordCount ) * 100;
 }

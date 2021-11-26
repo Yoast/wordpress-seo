@@ -1,3 +1,4 @@
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { filter, merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -49,11 +50,10 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 * @param {Researcher}  researcher  The researcher used for calling research.
-	 * @param {Object}      i18n        The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		this._subheadingTextsLength = researcher.getResearch( "getSubheadingTextLengths" );
 
 		this._subheadingTextsLength = this._subheadingTextsLength.sort( function( a, b ) {
@@ -69,7 +69,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		this._textLength = getWords( paper.getText() ).length;
 
-		const calculatedResult = this.calculateResult( i18n );
+		const calculatedResult = this.calculateResult();
 		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -115,11 +115,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 	/**
 	 * Calculates the score and creates a feedback string based on the subheading texts length.
 	 *
-	 * @param {Object} i18n The object used for translations.
-	 *
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult( i18n ) {
+	calculateResult() {
 		if ( this._textLength > 300 ) {
 			if ( this._hasSubheadings ) {
 				const longestSubheadingTextLength = this._subheadingTextsLength[ 0 ].countLength;
@@ -127,11 +125,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 					// Green indicator.
 					return {
 						score: this._config.scores.goodSubheadings,
-						resultText: i18n.sprintf(
+						resultText: sprintf(
 							// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
-							i18n.dgettext(
-								"js-text-analysis",
-								"%1$sSubheading distribution%2$s: Great job!"
+							__(
+								"%1$sSubheading distribution%2$s: Great job!",
+								"wordpress-seo"
 							),
 							this._config.urlTitle,
 							"</a>"
@@ -143,19 +141,20 @@ class SubheadingsDistributionTooLong extends Assessment {
 					// Orange indicator.
 					return {
 						score: this._config.scores.okSubheadings,
-						resultText: i18n.sprintf(
+						resultText: sprintf(
 							/*
 							 * Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
 							 * not separated by subheadings, %4$d expands to the recommended number of words following a
 							 * subheading, %2$s expands to the link closing tag.
 							 */
-							i18n.dngettext(
-								"js-text-analysis",
-								"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d words and" +
-								" is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
-								"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d words " +
-								"and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
-								this._tooLongTextsNumber ),
+							_n(
+								// eslint-disable-next-line max-len
+								"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d words and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+								// eslint-disable-next-line max-len
+								"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d words and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+								this._tooLongTextsNumber,
+								"wordpress-seo"
+							),
 							this._config.urlTitle,
 							"</a>",
 							this._tooLongTextsNumber,
@@ -168,17 +167,18 @@ class SubheadingsDistributionTooLong extends Assessment {
 				// Red indicator.
 				return {
 					score: this._config.scores.badSubheadings,
-					resultText: i18n.sprintf(
+					resultText: sprintf(
 						/* Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
 						not separated by subheadings, %4$d expands to the recommended number of words following a
 						subheading, %2$s expands to the link closing tag. */
-						i18n.dngettext(
-							"js-text-analysis",
-							"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d words and" +
-							" is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
-							"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d words " +
-							"and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
-							this._tooLongTextsNumber ),
+						_n(
+							// eslint-disable-next-line max-len
+							"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d words and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+							// eslint-disable-next-line max-len
+							"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d words and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+							this._tooLongTextsNumber,
+							"wordpress-seo"
+						),
 						this._config.urlTitle,
 						"</a>",
 						this._tooLongTextsNumber,
@@ -190,12 +190,12 @@ class SubheadingsDistributionTooLong extends Assessment {
 			// Red indicator, use '2' so we can differentiate in external analysis.
 			return {
 				score: this._config.scores.badLongTextNoSubheadings,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sSubheading distribution%2$s: You are not using any subheadings, although your text is rather long." +
-						" %3$sTry and add some subheadings%2$s."
+					__(
+						// eslint-disable-next-line max-len
+						"%1$sSubheading distribution%2$s: You are not using any subheadings, although your text is rather long. %3$sTry and add some subheadings%2$s.",
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
@@ -207,11 +207,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 			// Green indicator.
 			return {
 				score: this._config.scores.goodSubheadings,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sSubheading distribution%2$s: Great job!"
+					__(
+						"%1$sSubheading distribution%2$s: Great job!",
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>"
@@ -221,12 +221,12 @@ class SubheadingsDistributionTooLong extends Assessment {
 		// Green indicator.
 		return {
 			score: this._config.scores.goodShortTextNoSubheadings,
-			resultText: i18n.sprintf(
+			resultText: sprintf(
 				/* Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
-				i18n.dgettext(
-					"js-text-analysis",
-					"%1$sSubheading distribution%2$s: You are not using any subheadings, but your text is short enough" +
-					" and probably doesn't need them."
+				__(
+					// eslint-disable-next-line max-len
+					"%1$sSubheading distribution%2$s: You are not using any subheadings, but your text is short enough and probably doesn't need them.",
+					"wordpress-seo"
 				),
 				this._config.urlTitle,
 				"</a>"

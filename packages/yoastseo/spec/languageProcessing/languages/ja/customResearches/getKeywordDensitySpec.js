@@ -1,25 +1,21 @@
 import getKeywordDensity from "../../../../../src/languageProcessing/languages/ja/customResearches/getKeywordDensity";
 import Paper from "../../../../../src/values/Paper.js";
 import factory from "../../../../specHelpers/factory";
-import getStemmer from "../../../../../src/languageProcessing/languages/ja/helpers/getStemmer";
 
 /**
  * Mocks Japanese Researcher.
  * @param {Object} keywordCountObject The keywordCountObject to be added to the researcher.
- * @param {function} helper A helper needed for the assesment.
  *
  * @returns {Researcher} The mock researcher with added morphological forms and custom helper.
  */
-const buildJapaneseMockResearcher = function( keywordCountObject, helper ) {
+const buildJapaneseMockResearcher = function( keywordCountObject ) {
 	return factory.buildMockResearcher( {
 		keywordCount: keywordCountObject,
 	},
 	true,
 	true,
 	false,
-	{
-		getStemmer: helper,
-	} );
+	);
 };
 
 describe( "test for calculating the Japanese keyword density", function() {
@@ -30,7 +26,7 @@ describe( "test for calculating the Japanese keyword density", function() {
 			matches: [ "猫" ],
 			charactersCount: 1,
 		};
-		const mockResearcher = buildJapaneseMockResearcher( keywordCountObject, getStemmer );
+		const mockResearcher = buildJapaneseMockResearcher( keywordCountObject );
 		expect( getKeywordDensity( mockPaper, mockResearcher ).keywordDensity ).toBe( 9.090909090909092 );
 	} );
 
@@ -41,7 +37,7 @@ describe( "test for calculating the Japanese keyword density", function() {
 			matches: [ "猫", "かわいい" ],
 			charactersCount: 5,
 		};
-		const mockResearcher = buildJapaneseMockResearcher( keywordCountObject, getStemmer );
+		const mockResearcher = buildJapaneseMockResearcher( keywordCountObject );
 		expect( getKeywordDensity( mockPaper, mockResearcher ).keywordDensity ).toBe( 45.45454545454545 );
 	} );
 
@@ -52,7 +48,7 @@ describe( "test for calculating the Japanese keyword density", function() {
 			matches: [ "猫", "かわいい" ],
 			charactersCount: 5,
 		};
-		const mockResearcher = buildJapaneseMockResearcher( keywordCountObject, getStemmer );
+		const mockResearcher = buildJapaneseMockResearcher( keywordCountObject );
 		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 0 );
 	} );
 } );
