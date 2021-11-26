@@ -1,6 +1,5 @@
-import { get, isEqual, take } from "lodash-es";
+import { isEqual, take } from "lodash-es";
 import getLanguage from "yoastseo/src/languageProcessing/helpers/language/getLanguage";
-import getWords from "../../../../packages/yoastseo/src/languageProcessing/helpers/word/getWords";
 import {
 	collapseProminentWordsOnStem,
 	filterProminentWords,
@@ -8,11 +7,10 @@ import {
 	getProminentWordsFromPaperAttributes,
 	retrieveAbbreviations,
 	sortProminentWords,
-} from "../../../../packages/yoastseo/src/languageProcessing/helpers/prominentWords/determineProminentWords";
-import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../../../../packages/yoastseo/src/languageProcessing/helpers/html/getSubheadings";
+} from "yoastseo/src/languageProcessing/helpers/prominentWords/determineProminentWords";
+import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "yoastseo/src/languageProcessing/helpers/html/getSubheadings";
 import getMorphologyData from "./getMorphologyData";
-
-const morphologyData = getMorphologyData();
+import getResearcher from "yoastseo/spec/specHelpers/getResearcher";
 
 // Cache the relevant words.
 let previousProminentWordsInternalLinking = {
@@ -56,10 +54,21 @@ function formatNumber( number ) {
  */
 function calculateProminentWords( paper, internalLinking ) {
 	let text = paper.text;
-	const words = getWords( text );
-
 	const language = getLanguage( paper.locale );
-	const languageMorphologyData = get( morphologyData, language, false );
+	const morphologyData = getMorphologyData( language );
+	const Researcher = getResearcher( language );
+	const languageResearcher = new Researcher( paper );
+	// We always provide the morphology data here as the prominent words functionality only available in Premium,
+	// Where we can assume that the data is always available in real world situation.
+	languageResearcher.addResearchData( "morphology", morphologyData );
+
+	const functionWords = languageResearcher.getConfig( "functionWords" );
+	// An optional custom helper to return custom function to return the stem of a word.
+	const customStemmer = languageResearcher.getHelper( "customGetStemmer" );
+	const stemmer = customStemmer ? customStemmer( languageResearcher ) : languageResearcher.getHelper( "getStemmer" )( languageResearcher );
+	// An optional custom helper to get words from the text.
+	const getWordsCustomHelper = languageResearcher.getHelper( "getWordsCustomHelper" );
+
 	const subheadings = getSubheadingsTopLevel( text ).map( subheading => subheading[ 2 ] );
 
 	const attributes = internalLinking ? [
@@ -72,11 +81,11 @@ function calculateProminentWords( paper, internalLinking ) {
 
 	text = internalLinking ? removeSubheadingsTopLevel( text ) : text;
 
-	const abbreviations = retrieveAbbreviations( text.concat( attributes.join( " " ) ) );
+	const abbreviations = getWordsCustomHelper ? [] : retrieveAbbreviations( text.concat( attributes.join( " " ) ) );
 
 	const relevantWordsFromText = internalLinking
-		? getProminentWords( removeSubheadingsTopLevel( text ), abbreviations, language, languageMorphologyData )
-		: getProminentWords( text, abbreviations, language, languageMorphologyData );
+		? getProminentWords( removeSubheadingsTopLevel( text ), abbreviations, stemmer, functionWords, getWordsCustomHelper )
+		: getProminentWords( text, abbreviations, stemmer, functionWords, getWordsCustomHelper );
 
 	let relevantWordsFromPaperAttributes = [];
 
@@ -84,8 +93,9 @@ function calculateProminentWords( paper, internalLinking ) {
 		relevantWordsFromPaperAttributes = getProminentWordsFromPaperAttributes(
 			attributes,
 			abbreviations,
-			language,
-			languageMorphologyData,
+			stemmer,
+			functionWords,
+			getWordsCustomHelper,
 		);
 
 		/*

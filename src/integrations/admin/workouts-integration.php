@@ -166,6 +166,7 @@ class Workouts_Integration implements Integration_Interface {
 				'toolsPageUrl'              => \esc_url( \admin_url( 'admin.php?page=wpseo_tools' ) ),
 				'usersPageUrl'              => \esc_url( \admin_url( 'users.php' ) ),
 				'isPremium'                 => $this->product_helper->is_premium(),
+				'shouldUpdatePremium'       => $this->should_update_premium(),
 				'upsellText'                => $this->get_upsell_text(),
 				'upsellLink'                => $this->get_upsell_link(),
 				'canDoConfigurationWorkout' => $this->user_can_do_configuration_workout(),
@@ -253,7 +254,7 @@ class Workouts_Integration implements Integration_Interface {
 			}
 
 			jQuery( document ).ready( function() {
-				jQuery( 'body' ).on( 'click', '.notice-dismiss', function() {
+				jQuery( 'body' ).on( 'click', '#yoast-configuration-workout-notice .notice-dismiss', function() {
 					dismiss_configuration_workout_notice();
 				} );
 			} );

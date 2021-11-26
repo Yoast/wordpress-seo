@@ -17,12 +17,18 @@ import {
  */
 function getProminentWordsForInsights( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );
-	const stemmer = researcher.getHelper( "getStemmer" )( researcher );
+	// An optional custom helper to return custom function to return the stem of a word.
+	const customStemmer = researcher.getHelper( "customGetStemmer" );
+	const stemmer = customStemmer ? customStemmer( researcher ) : researcher.getHelper( "getStemmer" )( researcher );
+	// An optional custom helper to get words from the text.
+	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
+
 	const text = paper.getText();
 
-	const abbreviations = retrieveAbbreviations( text );
+	// If the language has a custom helper to get words from the text, we don't retrieve the abbreviation.
+	const abbreviations = getWordsCustomHelper ? [] : retrieveAbbreviations( text );
 
-	const prominentWordsFromText = getProminentWords( text, abbreviations, stemmer, functionWords );
+	const prominentWordsFromText = getProminentWords( text, abbreviations, stemmer, functionWords, getWordsCustomHelper );
 
 	const collapsedWords = collapseProminentWordsOnStem( prominentWordsFromText );
 	sortProminentWords( collapsedWords );

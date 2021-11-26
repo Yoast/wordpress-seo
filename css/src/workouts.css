@@ -70,6 +70,12 @@
 	margin-left:48px;
 }
 
+/* Override premium 17.6 workout styles */
+.workflow li li {
+	counter-increment: none;
+	padding-bottom: 0;
+}
+
 .workflow li.step {
 	position: relative;
 	counter-increment: line-number;
@@ -144,6 +150,7 @@
 
 .workflow .indexation-container {
 	padding: 8px 0;
+	margin-bottom: 8px;
 }
 
 .workflow .indexation-container > .yoast-button {
@@ -184,6 +191,10 @@
 	background-size: 20px 20px;
 	background-repeat: no-repeat;
 	background-position: center center;
+}
+
+.workflow li.step p.disabled {
+	opacity: 0.5;
 }
 
 .workflow li.step.finished p,
@@ -441,6 +452,11 @@ table.yoast_help th.divider {
 }
 
 .workflow .yoast-field-group b {
+	font-size: 13px;
+	color: rgb(60, 67, 74);
+}
+
+.workflow .yoast-field-group label {
 	font-size: 13px;
 	color: rgb(60, 67, 74);
 }
