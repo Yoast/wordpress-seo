@@ -160,9 +160,13 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->once()
 			->andReturn( 'cursor_id' );
 
+		end( $query_results );
+		$last_key = key( $query_results );
+		reset( $query_results );
+
 		$this->mock_instance->expects( 'set_cursor' )
 			->once()
-			->with( $this->options, 'cursor_id', \array_key_last( $query_results ) );
+			->with( $this->options, 'cursor_id', $last_key );
 
 		$created_settings = $this->mock_instance->index();
 		$this->assertEquals( $created_settings, \array_keys( $query_results ) );
