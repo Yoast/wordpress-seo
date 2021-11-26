@@ -14,7 +14,7 @@ const morphologyData = getMorphologyData( "en" );
 const morphologyDataDE = getMorphologyData( "de" ).de;
 const morphologyDataFR = getMorphologyData( "fr" ).fr;
 const morphologyDataRU = getMorphologyData( "ru" ).ru;
-const morphologyDataJA = getMorphologyData( "ja" ).ja;
+const morphologyDataJA = getMorphologyData( "ja" );
 let result;
 
 describe( "Matches keywords in string", function() {
@@ -317,7 +317,7 @@ describe( "Matches keywords in string", function() {
 	} );
 
 	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
-		xit( "returns the exact match as false for a Japanese multi-word keyphrase containing a function word", function() {
+		it( "returns the exact match as false for a Japanese multi-word keyphrase containing a function word", function() {
 			const mockPaper = new Paper( "", {
 				keyword: "東海道を新幹線",
 				title: "東海道新幹線の駅構内および列車内に広告を掲出することを。",
@@ -331,7 +331,7 @@ describe( "Matches keywords in string", function() {
 			expect( result.allWordsFound ).toBe( true );
 		} );
 
-		xit( "returns the exact match as false for a Japanese multi-word keyphrase with a function word in the title", function() {
+		it( "returns the exact match as false for a Japanese multi-word keyphrase with a function word in the title", function() {
 			const mockPaper = new Paper( "", {
 				keyword: "東海道新幹線",
 				title: "東海道を新幹線の駅構内および列車内に広告を掲出することを。",
@@ -345,10 +345,10 @@ describe( "Matches keywords in string", function() {
 			expect( result.allWordsFound ).toBe( true );
 		} );
 
-		xit( "returns the exact match as false for a Japanese keyphrase using a different form in the title", function() {
+		it( "returns the exact match as false for a Japanese keyphrase using a different form in the title", function() {
 			const mockPaper = new Paper( "", {
-				keyword: "頑張ら",
-				title: "頑張ります",
+				keyword: "読ん",
+				title: "読まれ",
 				locale: "ja",
 			} );
 			const researcher = new JapaneseResearcher( mockPaper );
@@ -373,7 +373,7 @@ describe( "Matches keywords in string", function() {
 			expect( result.allWordsFound ).toBe( true );
 		} );
 
-		xit( "processes a keyphrase enclosed in Japanese quotes as an exact match keyphrase and returns allWordsFound as false when the key", function() {
+		it( "processes a keyphrase enclosed in Japanese quotes as an exact match keyphrase and returns allWordsFound as false when the exact match isn't used", function() {
 			const mockPaper = new Paper( "", {
 				keyword: "『猫について』",
 				title: "猫",
