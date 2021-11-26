@@ -445,6 +445,11 @@ table.yoast_help th.divider {
 	color: rgb(60, 67, 74);
 }
 
+.workflow .yoast-field-group label {
+	font-size: 13px;
+	color: rgb(60, 67, 74);
+}
+
 .yoast-list--usp {
 	padding-left: 24px;
 }
