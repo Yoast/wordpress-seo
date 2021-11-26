@@ -170,13 +170,13 @@ class Indexable_Repository {
 	 * Gets a query that finds all indexables of a type+subtype that match the noindex value
 	 * while taking site defaults into account.
 	 *
+	 * @param bool        $noindex         The noindex value of the posts to find.
 	 * @param string      $object_type     The indexable object type.
 	 * @param string|null $object_sub_type The indexable object subtype.
-	 * @param bool        $noindex         The noindex value of the posts to find.
 	 *
 	 * @return ORM The query object.
 	 */
-	public function noindex_query( $object_type, $object_sub_type = null, $noindex = true ) {
+	public function query_where_noindex( $noindex, $object_type, $object_sub_type = null ) {
 		$query = $this
 			->query()
 			->where( 'object_type', $object_type )
