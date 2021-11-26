@@ -20,12 +20,8 @@ export function Steps( props ) {
 }
 
 Steps.propTypes = {
+	id: PropTypes.string.isRequired,
 	children: PropTypes.any.isRequired,
-	id: PropTypes.string,
-};
-
-Steps.defaultProps = {
-	id: "",
 };
 
 /**
@@ -36,9 +32,9 @@ Steps.defaultProps = {
  * @returns {WPElement} The FinishButtonSection element.
  */
 export function FinishButtonSection( {
-	id,
 	stepNumber,
 	onFinishClick,
+	buttonId,
 	finishText,
 	hasDownArrow,
 	isFinished,
@@ -54,7 +50,7 @@ export function FinishButtonSection( {
 				<Button
 					className={ `yoast-button yoast-button--secondary${ isFinished ? " yoast-button--finished" : "" }` }
 					onClick={ onFinishClick }
-					id={ id }
+					id={ buttonId }
 					{ ...additionalButtonProps }
 				>
 					{ finishText }
@@ -69,7 +65,7 @@ export function FinishButtonSection( {
 FinishButtonSection.propTypes = {
 	finishText: PropTypes.string.isRequired,
 	onFinishClick: PropTypes.func.isRequired,
-	id: PropTypes.string,
+	buttonId: PropTypes.string.isRequired,
 	stepNumber: PropTypes.number,
 	hasDownArrow: PropTypes.bool,
 	isFinished: PropTypes.bool,
@@ -79,7 +75,6 @@ FinishButtonSection.propTypes = {
 };
 
 FinishButtonSection.defaultProps = {
-	id: "",
 	stepNumber: NaN,
 	hasDownArrow: false,
 	isFinished: false,
@@ -111,10 +106,10 @@ export function Step( { id, title, subtitle, isFinished, ImageComponent, childre
 
 Step.propTypes = {
 	title: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
 	subtitle: PropTypes.oneOfType( [ PropTypes.string, PropTypes.object ] ),
 	isFinished: PropTypes.bool,
 	ImageComponent: PropTypes.func,
-	id: PropTypes.string,
 	children: PropTypes.any.isRequired,
 };
 
@@ -122,5 +117,4 @@ Step.defaultProps = {
 	subtitle: null,
 	ImageComponent: null,
 	isFinished: false,
-	id: "",
 };
