@@ -12,15 +12,6 @@ use Yoast\WP\SEO\Models\Indexable;
 class Indexable_Post_Watcher_Double extends Indexable_Post_Watcher {
 
 	/**
-	 * Updates the has_public_posts when the post indexable is built.
-	 *
-	 * @param Indexable $indexable The indexable to check.
-	 */
-	public function update_number_of_public_posts( $indexable ) {
-		parent::update_number_of_public_posts( $indexable );
-	}
-
-	/**
 	 * Updates the relations on post save or post status change.
 	 *
 	 * @param WP_Post $post The post that has been updated.

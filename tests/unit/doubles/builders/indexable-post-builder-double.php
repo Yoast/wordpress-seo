@@ -18,8 +18,8 @@ class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
 	 *
 	 * @return bool|null Whether or not the post type is public. Null if no override is set.
 	 */
-	public function is_accessible_post( $indexable ) {
-		return parent::is_accessible_post( $indexable );
+	public function is_public( $indexable ) {
+		return parent::is_public( $indexable );
 	}
 
 	/**

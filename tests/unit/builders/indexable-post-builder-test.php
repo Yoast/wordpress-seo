@@ -69,7 +69,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 *
 	 * @var Post_Helper|Mockery\MockInterface
 	 */
-	protected $post;
+	protected $post_helper;
 
 	/**
 	 * The post type helper.
@@ -98,11 +98,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->image                = Mockery::mock( Image_Helper::class );
 		$this->open_graph_image     = Mockery::mock( Open_Graph_Image_Helper::class );
 		$this->twitter_image        = Mockery::mock( Twitter_Image_Helper::class );
-		$this->post                 = Mockery::mock( Post_Helper::class );
+		$this->post_helper                 = Mockery::mock( Post_Helper::class );
 		$this->post_type_helper     = Mockery::mock( Post_Type_Helper::class );
 
 		$this->instance = new Indexable_Post_Builder_Double(
-			$this->post,
+			$this->post_helper,
 			$this->post_type_helper,
 			new Indexable_Builder_Versions()
 		);
@@ -132,20 +132,20 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 */
 	protected function twitter_image_set_by_user() {
 		$this->indexable->orm->shouldReceive( 'get' )
-			->with( 'twitter_image' )
-			->andReturn( 'twitter-image' );
+		                     ->with( 'twitter_image' )
+		                     ->andReturn( 'twitter-image' );
 
 		$this->indexable->orm->shouldReceive( 'get' )
-			->with( 'twitter_image_id' )
-			->andReturn( 'twitter-image-id' );
+		                     ->with( 'twitter_image_id' )
+		                     ->andReturn( 'twitter-image-id' );
 
 		$this->twitter_image->shouldReceive( 'get_by_id' )
-			->with( 'twitter-image-id' )
-			->andReturn( 'twitter_image' );
+		                    ->with( 'twitter-image-id' )
+		                    ->andReturn( 'twitter_image' );
 
 		$this->indexable->orm->shouldReceive( 'get' )
-			->with( 'twitter_image_source' )
-			->andReturn( 'set-by-user' );
+		                     ->with( 'twitter_image_source' )
+		                     ->andReturn( 'set-by-user' );
 	}
 
 	/**
@@ -155,21 +155,21 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 */
 	protected function open_graph_image_set_by_user( $image_meta ) {
 		$this->indexable->orm->shouldReceive( 'get' )
-			->with( 'open_graph_image' )
-			->andReturn( 'open-graph-image' );
+		                     ->with( 'open_graph_image' )
+		                     ->andReturn( 'open-graph-image' );
 
 		$this->indexable->orm->shouldReceive( 'get' )
-			->twice()
-			->with( 'open_graph_image_id' )
-			->andReturn( 'open-graph-image-id' );
+		                     ->twice()
+		                     ->with( 'open_graph_image_id' )
+		                     ->andReturn( 'open-graph-image-id' );
 
 		$this->indexable->orm->shouldReceive( 'get' )
-			->with( 'open_graph_image_source' )
-			->andReturn( 'set-by-user' );
+		                     ->with( 'open_graph_image_source' )
+		                     ->andReturn( 'set-by-user' );
 
 		$this->open_graph_image->shouldReceive( 'get_image_by_id' )
-			->with( 'open-graph-image-id' )
-			->andReturn( $image_meta );
+		                       ->with( 'open-graph-image-id' )
+		                       ->andReturn( $image_meta );
 	}
 
 	/**
@@ -235,72 +235,73 @@ class Indexable_Post_Builder_Test extends TestCase {
 		);
 		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();
 
-		$this->post->expects( 'get_post' )
-			->once()
-			->with( 1 )
-			->andReturn(
-				(object) [
-					'post_content'      => 'The content of the post',
-					'post_type'         => 'post',
-					'post_status'       => 'publish',
-					'post_password'     => '',
-					'post_author'       => '1',
-					'post_parent'       => '0',
-					'post_date_gmt'     => '1234-12-12 00:00:00',
-					'post_modified_gmt' => '1234-12-12 00:00:00',
-				]
-			);
+		$this->post_helper->expects( 'get_post' )
+		           ->once()
+		           ->with( 1 )
+		           ->andReturn(
+			           (object) [
+				           'post_content'      => 'The content of the post',
+				           'post_type'         => 'post',
+				           'post_status'       => 'publish',
+				           'post_password'     => '',
+				           'post_author'       => '1',
+				           'post_parent'       => '0',
+				           'post_date_gmt'     => '1234-12-12 00:00:00',
+				           'post_modified_gmt' => '1234-12-12 00:00:00',
+			           ]
+		           );
 
 		$this->post_type_helper
 			->expects( 'is_excluded' )
 			->with( 'post' )
 			->andReturn( false );
 
-		$this->post
+		$this->post_helper
 			->expects( 'is_post_indexable' )
 			->with( 1 )
 			->andReturn( true );
 
 		$indexable_expectations = [
-			'object_id'                      => 1,
-			'object_type'                    => 'post',
-			'object_sub_type'                => 'post',
-			'permalink'                      => 'https://permalink',
-			'canonical'                      => 'https://canonical',
-			'title'                          => 'title',
-			'breadcrumb_title'               => 'breadcrumb_title',
-			'description'                    => 'description',
-			'open_graph_title'               => 'open_graph_title',
-			'open_graph_image'               => 'open_graph_image',
-			'open_graph_image_id'            => 'open_graph_image_id',
-			'open_graph_description'         => 'open_graph_description',
-			'twitter_title'                  => 'twitter_title',
-			'twitter_image'                  => 'twitter_image',
-			'twitter_image_id'               => null,
-			'twitter_description'            => 'twitter_description',
-			'is_cornerstone'                 => true,
-			'is_robots_noindex'              => true,
-			'is_robots_nofollow'             => true,
-			'is_robots_noarchive'            => false,
-			'is_robots_noimageindex'         => false,
-			'is_robots_nosnippet'            => false,
-			'primary_focus_keyword'          => 'focuskeyword',
-			'primary_focus_keyword_score'    => 100,
-			'readability_score'              => 50,
-			'number_of_pages'                => null,
-			'is_public'                      => 0,
-			'post_status'                    => 'publish',
-			'is_protected'                   => false,
-			'author_id'                      => 1,
-			'post_parent'                    => 0,
-			'has_public_posts'               => false,
-			'blog_id'                        => 1,
-			'schema_page_type'               => 'FAQPage',
-			'schema_article_type'            => 'NewsArticle',
-			'estimated_reading_time_minutes' => 11,
-			'version'                        => 2,
-			'object_published_at'            => '1234-12-12 00:00:00',
-			'object_last_modified'           => '1234-12-12 00:00:00',
+			'object_id'                         => 1,
+			'object_type'                       => 'post',
+			'object_sub_type'                   => 'post',
+			'permalink'                         => 'https://permalink',
+			'canonical'                         => 'https://canonical',
+			'title'                             => 'title',
+			'breadcrumb_title'                  => 'breadcrumb_title',
+			'description'                       => 'description',
+			'open_graph_title'                  => 'open_graph_title',
+			'open_graph_image'                  => 'open_graph_image',
+			'open_graph_image_id'               => 'open_graph_image_id',
+			'open_graph_description'            => 'open_graph_description',
+			'twitter_title'                     => 'twitter_title',
+			'twitter_image'                     => 'twitter_image',
+			'twitter_image_id'                  => null,
+			'twitter_description'               => 'twitter_description',
+			'is_cornerstone'                    => true,
+			'is_robots_noindex'                 => true,
+			'is_robots_nofollow'                => true,
+			'is_robots_noarchive'               => false,
+			'is_robots_noimageindex'            => false,
+			'is_robots_nosnippet'               => false,
+			'primary_focus_keyword'             => 'focuskeyword',
+			'primary_focus_keyword_score'       => 100,
+			'readability_score'                 => 50,
+			'number_of_pages'                   => null,
+			'is_public'                         => 0,
+			'is_publicly_viewable'              => true,
+			'number_of_publicly_viewable_posts' => 0,
+			'post_status'                       => 'publish',
+			'is_protected'                      => false,
+			'author_id'                         => 1,
+			'post_parent'                       => 0,
+			'blog_id'                           => 1,
+			'schema_page_type'                  => 'FAQPage',
+			'schema_article_type'               => 'NewsArticle',
+			'estimated_reading_time_minutes'    => 11,
+			'version'                           => 3,
+			'object_published_at'               => '1234-12-12 00:00:00',
+			'object_last_modified'              => '1234-12-12 00:00:00',
 		];
 
 		$this->indexable      = Mockery::mock( Indexable::class );
@@ -341,10 +342,10 @@ class Indexable_Post_Builder_Test extends TestCase {
 		// We expect the open graph image, its source and its metadata to be set.
 		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_source', 'set-by-user' );
 		$this->indexable->orm->expects( 'set' )
-			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
+		                     ->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
 			// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
+			                 ->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
 
 		// We expect the twitter image and its source to be set.
 		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_source', 'set-by-user' );
@@ -354,15 +355,17 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm->expects( 'get' )->with( 'is_protected' )->andReturnFalse();
 		$this->indexable->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturn( true );
 
-		// Has public posts.
-		$this->indexable->orm->expects( 'get' )->with( 'object_sub_type' )->andReturn( 'post' );
-
 		// Breadcrumb title.
 		$this->indexable->orm->expects( 'set' )->with( 'breadcrumb_title', null );
 		$this->indexable->orm->expects( 'offsetExists' )->with( 'breadcrumb_title' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'get_the_title' )->with( 1 )->andReturn( 'breadcrumb_title' );
 		Monkey\Functions\expect( 'wp_strip_all_tags' )->with( 'breadcrumb_title', true )->andReturn( 'breadcrumb_title' );
+
+		Monkey\Functions\expect( '_deprecated_argument' );
+		Monkey\Functions\expect( 'esc_html' );
+		Monkey\Functions\expect( 'is_post_publicly_viewable' )->andReturn( true );
+
 
 		// Blog ID.
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
@@ -378,7 +381,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 	public function test_build_post_not_indexable() {
 		$this->indexable = Mockery::mock( Indexable::class );
 
-		$this->post
+		$this->post_helper
 			->expects( 'is_post_indexable' )
 			->with( 1 )
 			->andReturn( false );
@@ -396,16 +399,16 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
 		$this->indexable->orm->allows( 'get' )
-			->with( 'object_sub_type' )
-			->andReturn( 'attachment' );
+		                     ->with( 'object_sub_type' )
+		                     ->andReturn( 'attachment' );
 
 		$this->indexable->orm->allows( 'get' )
-			->with( 'object_id' )
-			->andReturn( 123 );
+		                     ->with( 'object_id' )
+		                     ->andReturn( 123 );
 
 		$this->image->allows( 'is_valid_attachment' )
-			->with( 123 )
-			->andReturn( true );
+		            ->with( 123 )
+		            ->andReturn( true );
 
 		$actual = $this->instance->find_alternative_image( $this->indexable );
 
@@ -427,16 +430,16 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
 		$this->indexable->orm->allows( 'get' )
-			->with( 'object_sub_type' )
-			->andReturn( 'post' );
+		                     ->with( 'object_sub_type' )
+		                     ->andReturn( 'post' );
 
 		$this->indexable->orm->allows( 'get' )
-			->with( 'object_id' )
-			->andReturn( 123 );
+		                     ->with( 'object_id' )
+		                     ->andReturn( 123 );
 
 		$this->image->allows( 'get_featured_image_id' )
-			->with( 123 )
-			->andReturn( 456 );
+		            ->with( 123 )
+		            ->andReturn( 456 );
 
 		$actual = $this->instance->find_alternative_image( $this->indexable );
 
@@ -459,16 +462,16 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
 		$this->indexable->orm->allows( 'get' )
-			->with( 'object_sub_type' )
-			->andReturn( 'post' );
+		                     ->with( 'object_sub_type' )
+		                     ->andReturn( 'post' );
 
 		$this->indexable->orm->allows( 'get' )
-			->with( 'object_id' )
-			->andReturn( 123 );
+		                     ->with( 'object_id' )
+		                     ->andReturn( 123 );
 
 		$this->image->allows( 'get_featured_image_id' )
-			->with( 123 )
-			->andReturn( false );
+		            ->with( 123 )
+		            ->andReturn( false );
 
 		$image_meta = [
 			'width'  => 640,
@@ -483,8 +486,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 		];
 
 		$this->image->allows( 'get_gallery_image' )
-			->with( 123 )
-			->andReturn( $image_meta );
+		            ->with( 123 )
+		            ->andReturn( $image_meta );
 
 		$actual = $this->instance->find_alternative_image( $this->indexable );
 
@@ -507,20 +510,20 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
 		$this->indexable->orm->allows( 'get' )
-			->with( 'object_sub_type' )
-			->andReturn( 'post' );
+		                     ->with( 'object_sub_type' )
+		                     ->andReturn( 'post' );
 
 		$this->indexable->orm->allows( 'get' )
-			->with( 'object_id' )
-			->andReturn( 123 );
+		                     ->with( 'object_id' )
+		                     ->andReturn( 123 );
 
 		$this->image->allows( 'get_featured_image_id' )
-			->with( 123 )
-			->andReturn( false );
+		            ->with( 123 )
+		            ->andReturn( false );
 
 		$this->image->allows( 'get_gallery_image' )
-			->with( 123 )
-			->andReturn( false );
+		            ->with( 123 )
+		            ->andReturn( false );
 
 		$image_meta = [
 			'width'  => 640,
@@ -535,8 +538,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 		];
 
 		$this->image->allows( 'get_post_content_image' )
-			->with( 123 )
-			->andReturn( $image_meta );
+		            ->with( 123 )
+		            ->andReturn( $image_meta );
 
 		$actual = $this->instance->find_alternative_image( $this->indexable );
 
@@ -559,24 +562,24 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm = Mockery::mock( ORM::class );
 
 		$this->indexable->orm->allows( 'get' )
-			->with( 'object_sub_type' )
-			->andReturn( 'post' );
+		                     ->with( 'object_sub_type' )
+		                     ->andReturn( 'post' );
 
 		$this->indexable->orm->allows( 'get' )
-			->with( 'object_id' )
-			->andReturn( 123 );
+		                     ->with( 'object_id' )
+		                     ->andReturn( 123 );
 
 		$this->image->allows( 'get_featured_image_id' )
-			->with( 123 )
-			->andReturn( false );
+		            ->with( 123 )
+		            ->andReturn( false );
 
 		$this->image->allows( 'get_gallery_image' )
-			->with( 123 )
-			->andReturn( false );
+		            ->with( 123 )
+		            ->andReturn( false );
 
 		$this->image->allows( 'get_post_content_image' )
-			->with( 123 )
-			->andReturn( false );
+		            ->with( 123 )
+		            ->andReturn( false );
 
 		$this->assertFalse( $this->instance->find_alternative_image( $this->indexable ) );
 	}
@@ -672,43 +675,43 @@ class Indexable_Post_Builder_Test extends TestCase {
 	/**
 	 * Tests is_public for when the post is protected.
 	 *
-	 * @covers ::is_accessible_post
+	 * @covers ::is_public
 	 */
 	public function test_is_public_post_protected() {
 		$this->indexable->is_protected = true;
 
-		$this->assertFalse( $this->instance->is_accessible_post( $this->indexable ) );
+		$this->assertFalse( $this->instance->is_public( $this->indexable ) );
 	}
 
 	/**
 	 * Tests is_public for when the post is noindex.
 	 *
-	 * @covers ::is_accessible_post
+	 * @covers ::is_public
 	 */
 	public function test_is_public_post_noindex() {
 		$this->indexable->is_protected      = false;
 		$this->indexable->is_robots_noindex = true;
 
-		$this->assertFalse( $this->instance->is_accessible_post( $this->indexable ) );
+		$this->assertFalse( $this->instance->is_public( $this->indexable ) );
 	}
 
 	/**
 	 * Tests is_public for when the post is an attachment.
 	 *
-	 * @covers ::is_accessible_post
+	 * @covers ::is_public
 	 */
 	public function test_is_public_post_is_attachment() {
 		$this->indexable->is_protected      = false;
 		$this->indexable->is_robots_noindex = false;
 		$this->indexable->object_sub_type   = 'attachment';
 
-		$this->assertFalse( $this->instance->is_accessible_post( $this->indexable ) );
+		$this->assertFalse( $this->instance->is_public( $this->indexable ) );
 	}
 
 	/**
 	 * Tests is_public for when the post status is not public.
 	 *
-	 * @covers ::is_accessible_post
+	 * @covers ::is_public
 	 */
 	public function test_is_public_post_status_is_not_public() {
 		$this->indexable->is_protected      = false;
@@ -716,15 +719,15 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->object_sub_type   = 'post';
 		$this->indexable->post_status       = 'private';
 
-		$this->post->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
-		$this->assertFalse( $this->instance->is_accessible_post( $this->indexable ) );
+		$this->assertFalse( $this->instance->is_public( $this->indexable ) );
 	}
 
 	/**
 	 * Tests is_public for when the post noindex is false.
 	 *
-	 * @covers ::is_accessible_post
+	 * @covers ::is_public
 	 */
 	public function test_is_public_post_noindex_false() {
 		$this->indexable->is_protected      = false;
@@ -732,15 +735,15 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->object_sub_type   = 'post';
 		$this->indexable->post_status       = 'publish';
 
-		$this->post->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
-		$this->assertTrue( $this->instance->is_accessible_post( $this->indexable ) );
+		$this->assertTrue( $this->instance->is_public( $this->indexable ) );
 	}
 
 	/**
 	 * Tests is_public for when the post noindex is null.
 	 *
-	 * @covers ::is_accessible_post
+	 * @covers ::is_public
 	 */
 	public function test_is_public_post_noindex_null() {
 		$this->indexable->is_protected      = false;
@@ -748,9 +751,9 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->object_sub_type   = 'post';
 		$this->indexable->post_status       = 'publish';
 
-		$this->post->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
 
-		$this->assertNull( $this->instance->is_accessible_post( $this->indexable ) );
+		$this->assertNull( $this->instance->is_public( $this->indexable ) );
 	}
 
 	/**
@@ -787,95 +790,17 @@ class Indexable_Post_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests has_public_posts for when the indexable does not represent an attachment.
-	 *
-	 * @covers ::has_public_posts
-	 */
-	public function test_has_public_posts_no_attachment() {
-		$this->indexable->object_sub_type = 'post';
-
-		$this->assertNull( $this->instance->has_public_posts( $this->indexable ) );
-	}
-
-	/**
-	 * Tests has_public_posts for when the attachment does not have a post parent.
-	 *
-	 * @covers ::has_public_posts
-	 */
-	public function test_has_public_posts_attachment_no_parent() {
-		$this->indexable->object_sub_type = 'attachment';
-		$this->indexable->post_parent     = 0;
-
-		$this->assertFalse( $this->instance->has_public_posts( $this->indexable ) );
-	}
-
-	/**
-	 * Tests has_public_posts for when the attachment does not have the post status inherit.
-	 *
-	 * @covers ::has_public_posts
-	 */
-	public function test_has_public_posts_attachment_no_inherit() {
-		$this->indexable->object_sub_type = 'attachment';
-		$this->indexable->post_parent     = 1;
-		$this->indexable->post_status     = 'private';
-
-		$this->assertFalse( $this->instance->has_public_posts( $this->indexable ) );
-	}
-
-	/**
-	 * Tests has_public_posts for when the attachment has a post parent.
-	 *
-	 * @covers ::has_public_posts
-	 */
-	public function test_has_public_posts_attachment_with_post_parent() {
-		$this->indexable->object_sub_type = 'attachment';
-		$this->indexable->post_parent     = 1;
-		$this->indexable->post_status     = 'inherit';
-
-		$post_parent_indexable            = Mockery::mock();
-		$post_parent_indexable->is_public = true;
-
-		$this->indexable_repository->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 1, 'post' )
-			->andReturn( $post_parent_indexable );
-
-		$this->assertTrue( $this->instance->has_public_posts( $this->indexable ) );
-	}
-
-	/**
-	 * Tests has_public_posts for when the attachment has a post parent but the ORM throws an false.
-	 *
-	 * @covers ::has_public_posts
-	 */
-	public function test_has_public_posts_attachment_with_post_parent_false() {
-		$this->indexable->object_sub_type = 'attachment';
-		$this->indexable->post_parent     = 1;
-		$this->indexable->post_status     = 'inherit';
-
-		$post_parent_indexable            = Mockery::mock();
-		$post_parent_indexable->is_public = true;
-
-		$this->indexable_repository->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 1, 'post' )
-			->andReturn( false );
-
-		$this->assertFalse( $this->instance->has_public_posts( $this->indexable ) );
-	}
-
-	/**
 	 * Tests that build throws an exception when no post could be found.
 	 *
 	 * @covers ::build
 	 */
 	public function test_build_term_null() {
-		$this->post
+		$this->post_helper
 			->expects( 'is_post_indexable' )
 			->with( 1 )
 			->andReturn( true );
 
-		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( null );
+		$this->post_helper->expects( 'get_post' )->once()->with( 1 )->andReturn( null );
 
 		$this->expectException( Post_Not_Found_Exception::class );
 
@@ -892,23 +817,23 @@ class Indexable_Post_Builder_Test extends TestCase {
 	public function test_build_post_type_excluded() {
 		$post_id = 1;
 
-		$this->post
+		$this->post_helper
 			->expects( 'is_post_indexable' )
 			->with( $post_id )
 			->andReturn( true );
 
-		$this->post->expects( 'get_post' )
-			->once()
-			->with( $post_id )
-			->andReturn(
-				(object) [
-					'post_type' => 'excluded_post_type',
-				]
-			);
+		$this->post_helper->expects( 'get_post' )
+		           ->once()
+		           ->with( $post_id )
+		           ->andReturn(
+			           (object) [
+				           'post_type' => 'excluded_post_type',
+			           ]
+		           );
 
 		$this->post_type_helper->expects( 'is_excluded' )
-			->once()
-			->andReturnTrue();
+		                       ->once()
+		                       ->andReturnTrue();
 
 		self::assertFalse( $this->instance->build( $post_id, false ) );
 	}

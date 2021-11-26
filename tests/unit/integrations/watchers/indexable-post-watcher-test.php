@@ -2,10 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
-use Brain\Monkey;
 use Exception;
 use Mockery;
-use WP_Post;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
@@ -19,6 +17,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Integrations\Watchers\Indexable_Post_Watcher_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use function Brain\Monkey\Functions\expect;
 
 /**
  * Class Indexable_Post_Watcher_Test.
@@ -55,7 +54,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	/**
 	 * The link builder.
 	 *
-	 * @var Indexable_Link_Builder
+	 * @var Mockery\MockInterface|Indexable_Link_Builder
 	 */
 	protected $link_builder;
 
@@ -69,7 +68,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	/**
 	 * Represents the class we are testing.
 	 *
-	 * @var Indexable_Post_Watcher_Double
+	 * @var Mockery\MockInterface|Indexable_Post_Watcher_Double
 	 */
 	private $instance;
 
@@ -164,19 +163,12 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$this->hierarchy_repository->expects( 'clear_ancestors' )->once()->with( $id )->andReturn( true );
 		$this->link_builder->expects( 'delete' )->once()->with( $indexable );
 
-		$this->post->expects( 'get_post' )->once()->with( $id )->andReturn( $post );
-
 		$this->instance
 			->expects( 'update_relations' )
 			->with( $post )
 			->once();
 
-		$this->instance
-			->expects( 'update_has_public_posts' )
-			->with( $indexable )
-			->once();
-
-		$this->instance->delete_indexable( $id );
+		$this->instance->delete_indexable( $id, $post );
 	}
 
 	/**
@@ -185,11 +177,18 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers ::delete_indexable
 	 */
 	public function test_delete_indexable_does_not_exist() {
-		$id = 1;
+		$id   = 1;
+		$post = (object) [];
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( false );
 
-		$this->instance->delete_indexable( $id );
+
+		$this->repository->expects( 'find_by_id_and_type' )->never();
+		$this->hierarchy_repository->expects( 'clear_ancestors' )->never();
+		$this->link_builder->expects( 'delete' )->never();
+		$this->instance->expects( 'update_relations' )->never();
+
+		$this->instance->delete_indexable( $id, $post );
 	}
 
 	/**
@@ -347,67 +346,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that update_has_public_posts updates the author archive too.
-	 *
-	 * @covers ::update_number_of_public_posts
-	 */
-	public function test_update_has_public_posts_with_post() {
-		$post_indexable                  = Mockery::mock();
-		$post_indexable->object_id       = 33;
-		$post_indexable->object_sub_type = 'post';
-		$post_indexable->author_id       = 1;
-		$post_indexable->is_public       = null;
-
-		$author_indexable            = Mockery::mock( Indexable_Mock::class );
-		$author_indexable->object_id = 11;
-
-		$this->repository
-			->expects( 'find_by_id_and_type' )
-			->with( 1, 'user' )
-			->once()
-			->andReturn( $author_indexable );
-
-		$this->author_archive
-			->expects( 'author_has_public_posts' )
-			->with( 11 )
-			->once()
-			->andReturn( true );
-		$author_indexable->expects( 'save' )->once();
-
-		$this->post->expects( 'update_has_public_posts_on_attachments' )->once()->with( 33, null )->andReturnTrue();
-
-		$this->instance->update_number_of_public_posts( $post_indexable );
-
-		$this->assertTrue( $author_indexable->has_public_posts );
-	}
-
-	/**
-	 * Tests that update_has_public_posts updates the author archive .
-	 *
-	 * @covers ::update_number_of_public_posts
-	 */
-	public function test_update_has_public_posts_with_post_throwing_exceptions() {
-		$post_indexable                  = Mockery::mock();
-		$post_indexable->object_id       = 33;
-		$post_indexable->object_sub_type = 'post';
-		$post_indexable->author_id       = 1;
-		$post_indexable->is_public       = null;
-
-		$this->repository->expects( 'find_by_id_and_type' )
-			->with( 1, 'user' )
-			->once()
-			->andThrow( new Exception( 'an error' ) );
-		$this->author_archive->expects( 'author_has_public_posts' )->never();
-		$this->post->expects( 'update_has_public_posts_on_attachments' )
-			->once()
-			->with( 33, null )
-			->andReturnTrue();
-		$this->logger->expects( 'log' )->once()->with( 'error', 'an error' );
-
-		$this->instance->update_number_of_public_posts( $post_indexable );
-	}
-
-	/**
 	 * Tests the routine for updating the relations.
 	 *
 	 * @covers ::update_relations
@@ -420,17 +358,23 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			'post_modified_gmt' => '1234-12-12 12:12:12',
 		];
 
+		expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
+
 		$indexable      = Mockery::mock( Indexable_Mock::class );
 		$indexable->orm = Mockery::mock( ORM::class );
-		$indexable->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
+
 		$indexable->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
-		$indexable->expects( 'save' )->once();
 
 		$this->instance
 			->expects( 'get_related_indexables' )
 			->once()
 			->with( $post )
 			->andReturn( [ $indexable ] );
+
+		$this->builder
+			->expects( 'recalculate_aggregates' )
+			->once()
+			->with( $indexable );
 
 		$this->instance->update_relations( $post );
 	}
@@ -447,11 +391,17 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			'ID'          => 1,
 		];
 
+		expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
+
 		$this->instance
 			->expects( 'get_related_indexables' )
 			->once()
 			->with( $post )
 			->andReturn( [] );
+
+		$this->builder
+			->expects( 'recalculate_aggregates' )
+			->never();
 
 		$this->instance->update_relations( $post );
 	}
@@ -468,7 +418,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			'ID'          => 1,
 		];
 
-		Monkey\Functions\expect( 'get_post_taxonomies' )
+		expect( 'get_post_taxonomies' )
 			->once()
 			->with( 1 )
 			->andReturn(
@@ -478,17 +428,17 @@ class Indexable_Post_Watcher_Test extends TestCase {
 				]
 			);
 
-		Monkey\Functions\expect( 'is_taxonomy_viewable' )
+		expect( 'is_taxonomy_viewable' )
 			->once()
 			->with( 'taxonomy' )
 			->andReturn( true );
 
-		Monkey\Functions\expect( 'is_taxonomy_viewable' )
+		expect( 'is_taxonomy_viewable' )
 			->once()
 			->with( 'another-taxonomy' )
 			->andReturn( true );
 
-		Monkey\Functions\expect( 'get_the_terms' )
+		expect( 'get_the_terms' )
 			->once()
 			->with( 1, 'taxonomy' )
 			->andReturn(
@@ -502,12 +452,12 @@ class Indexable_Post_Watcher_Test extends TestCase {
 				]
 			);
 
-		Monkey\Functions\expect( 'get_the_terms' )
+		expect( 'get_the_terms' )
 			->once()
 			->with( 1, 'another-taxonomy' )
 			->andReturnNull();
 
-		Monkey\Functions\expect( 'wp_list_pluck' )
+		expect( 'wp_list_pluck' )
 			->once()
 			->with(
 				[

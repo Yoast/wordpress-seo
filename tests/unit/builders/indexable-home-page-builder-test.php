@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use wpdb;
 use WPSEO_Utils;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder;
@@ -20,13 +21,13 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 /**
  * Class Indexable_Author_Test.
  *
- * @group indexables
- * @group builders
+ * @group  indexables
+ * @group  builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Author_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder
  *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 5 words is fine.
+ * @phpcs  :disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 5 words is fine.
  */
 class Indexable_Home_Page_Builder_Test extends TestCase {
 
@@ -142,13 +143,13 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_description', 'home_og_description' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', null );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'is_publicly_viewable', 1 );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'version', 2 );
 
 		// Mock offsetExists.
 		$this->indexable_mock->orm->expects( 'offsetExists' )->with( 'description' )->andReturn( true );
 
 		// Mock Indexable ORM getters.
-		$this->indexable_mock->orm->expects( 'get' )->with( 'description' )->andReturn( 'home_meta_description' );
 		$this->indexable_mock->orm->expects( 'get' )->with( 'open_graph_image' )->andReturn( 'home_og_image' );
 		$this->indexable_mock->orm->expects( 'get' )->with( 'open_graph_image_id' )->andReturn( 1337 )->twice();
 
@@ -200,6 +201,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$this->options_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( 'home_meta_description' );
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'description', 'home_meta_description' );
+		$this->indexable_mock->orm->expects( 'get' )->with( 'description' )->andReturn( 'home_meta_description' );
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
@@ -208,7 +210,10 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			SELECT 
+				COUNT(p.ID) as number_of_public_posts, 
+				MAX(p.post_modified_gmt) AS most_recent_last_modified, 
+				MIN(p.post_date_gmt) AS first_published_at 
 			FROM {$this->wpdb->posts} AS p
 			WHERE p.post_status IN (%s)
 				AND p.post_password = ''
@@ -218,13 +223,15 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		)->andReturn( 'PREPARED_QUERY' );
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
-				'last_modified' => '1234-12-12 00:00:00',
-				'published_at'  => '1234-12-12 00:00:00',
+				'number_of_public_posts'    => 20,
+				'most_recent_last_modified' => '1234-12-12 23:59:59',
+				'first_published_at'        => '1234-12-12 00:00:00',
 			]
 		);
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 00:00:00' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 23:59:59' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'number_of_publicly_viewable_posts', 20 );
 
 		$this->instance->build( $this->indexable_mock );
 	}
@@ -242,8 +249,12 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		// When no meta description is stored in the WP_Options...
 		$this->options_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( false );
+
 		// We expect the description to be `false` in the ORM layer.
-		$this->indexable_mock->orm->expects( 'set' )->with( 'description', false );
+		$this->indexable_mock->orm->expects( 'set' )->once()->with( 'description', false );
+		$this->indexable_mock->orm->expects( 'get' )->with( 'description' )->andReturn( false );
+		// Brainmonkey makes get_bloginfo( 'description' ) return 'description'.
+		$this->indexable_mock->orm->expects( 'set' )->once()->with( 'description', 'description' );
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
@@ -252,7 +263,10 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			SELECT 
+				COUNT(p.ID) as number_of_public_posts, 
+				MAX(p.post_modified_gmt) AS most_recent_last_modified, 
+				MIN(p.post_date_gmt) AS first_published_at 
 			FROM {$this->wpdb->posts} AS p
 			WHERE p.post_status IN (%s)
 				AND p.post_password = ''
@@ -262,13 +276,15 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		)->andReturn( 'PREPARED_QUERY' );
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
-				'last_modified' => '1234-12-12 00:00:00',
-				'published_at'  => '1234-12-12 00:00:00',
+				'number_of_public_posts'    => 20,
+				'most_recent_last_modified' => '1234-12-12 23:59:59',
+				'first_published_at'        => '1234-12-12 00:00:00',
 			]
 		);
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 00:00:00' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 23:59:59' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'number_of_publicly_viewable_posts', 20 );
 
 		$this->instance->build( $this->indexable_mock );
 	}
@@ -280,6 +296,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$this->options_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( 'home_meta_description' );
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'description', 'home_meta_description' );
+		$this->indexable_mock->orm->expects( 'get' )->with( 'description' )->andReturn( 'home_meta_description' );
 
 		// Transform the image meta mock to JSON, since we expect that to be stored in the DB.
 		$image_meta_mock_json = WPSEO_Utils::format_json_encode( $this->image_meta_mock );
@@ -295,7 +312,10 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			SELECT 
+				COUNT(p.ID) as number_of_public_posts, 
+				MAX(p.post_modified_gmt) AS most_recent_last_modified, 
+				MIN(p.post_date_gmt) AS first_published_at 
 			FROM {$this->wpdb->posts} AS p
 			WHERE p.post_status IN (%s)
 				AND p.post_password = ''
@@ -305,13 +325,15 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		)->andReturn( 'PREPARED_QUERY' );
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
-				'last_modified' => '1234-12-12 00:00:00',
-				'published_at'  => '1234-12-12 00:00:00',
+				'number_of_public_posts'    => 20,
+				'most_recent_last_modified' => '1234-12-12 23:59:59',
+				'first_published_at'        => '1234-12-12 00:00:00',
 			]
 		);
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 00:00:00' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 23:59:59' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'number_of_publicly_viewable_posts', 20 );
 
 		$this->instance->build( $this->indexable_mock );
 	}

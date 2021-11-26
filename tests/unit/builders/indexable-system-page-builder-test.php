@@ -39,10 +39,12 @@ class Indexable_System_Page_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'object_sub_type', 'search-result' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'search_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', true );
+		$indexable_mock->orm->expects( 'set' )->with( 'is_publicly_viewable', true );
+		$indexable_mock->orm->expects( 'set' )->with( 'number_of_publicly_viewable_posts', 0 );
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
-		$indexable_mock->orm->expects( 'set' )->with( 'version', 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'version', 2 );
 
 		$builder = new Indexable_System_Page_Builder( $options_mock, new Indexable_Builder_Versions() );
 		$builder->build( 'search-result', $indexable_mock );

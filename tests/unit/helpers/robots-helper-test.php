@@ -3,6 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
+use Mockery\MockInterface;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Robots_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -23,12 +25,19 @@ class Robots_Helper_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * A helper class that manages options.
+	 *
+	 * @var Options_Helper|MockInterface
+	 */
+	protected $options_helper;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
 		parent::set_up();
-
-		$this->instance = new Robots_Helper();
+		$this->options_helper = \Mockery::mock( Options_Helper::class );
+		$this->instance       = new Robots_Helper( $this->options_helper );
 	}
 
 	/**

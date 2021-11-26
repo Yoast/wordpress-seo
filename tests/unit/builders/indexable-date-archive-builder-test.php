@@ -34,6 +34,7 @@ class Indexable_Date_Archive_Builder_Test extends TestCase {
 		$options_mock->expects( 'get' )->with( 'title-archive-wpseo' )->andReturn( 'date_archive_title' );
 		$options_mock->expects( 'get' )->with( 'metadesc-archive-wpseo' )->andReturn( 'date_archive_meta_description' );
 		$options_mock->expects( 'get' )->with( 'noindex-archive-wpseo' )->andReturn( false );
+		$options_mock->expects( 'get' )->with( 'disable-date' )->andReturn( false );
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORM::class );
@@ -48,6 +49,10 @@ class Indexable_Date_Archive_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'version', 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'is_publicly_viewable', 1 );
+
+		Functions\expect( '_deprecated_argument' );
+		Functions\expect( 'esc_html' );
 
 		$builder = new Indexable_Date_Archive_Builder( $options_mock, new Indexable_Builder_Versions() );
 		$builder->build( $indexable_mock );

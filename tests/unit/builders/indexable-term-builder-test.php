@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
@@ -21,8 +22,8 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 /**
  * Class Indexable_Term_Builder_Test.
  *
- * @group indexables
- * @group builders
+ * @group  indexables
+ * @group  builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Term_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Term_Builder
@@ -150,19 +151,23 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @param Mockery\Mock|Indexable $indexable_mock The mocked indexable.
 	 */
 	protected function twitter_image_set_by_user( $indexable_mock ) {
-		$indexable_mock->orm->shouldReceive( 'get' )
+		$indexable_mock->orm
+			->shouldReceive( 'get' )
 			->with( 'twitter_image' )
 			->andReturn( 'twitter-image' );
 
-		$indexable_mock->orm->shouldReceive( 'get' )
+		$indexable_mock->orm
+			->shouldReceive( 'get' )
 			->with( 'twitter_image_id' )
 			->andReturn( 'twitter-image-id' );
 
-		$this->twitter_image->shouldReceive( 'get_by_id' )
+		$this->twitter_image
+			->shouldReceive( 'get_by_id' )
 			->with( 'twitter-image-id' )
 			->andReturn( 'twitter_image' );
 
-		$indexable_mock->orm->shouldReceive( 'get' )
+		$indexable_mock->orm
+			->shouldReceive( 'get' )
 			->with( 'twitter_image_source' )
 			->andReturn( 'set-by-user' );
 	}
@@ -174,20 +179,24 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @param array                  $image_meta     The mocked meta data of the image.
 	 */
 	protected function open_graph_image_set_by_user( $indexable_mock, $image_meta ) {
-		$indexable_mock->orm->shouldReceive( 'get' )
+		$indexable_mock->orm
+			->shouldReceive( 'get' )
 			->with( 'open_graph_image' )
 			->andReturn( 'open-graph-image' );
 
-		$indexable_mock->orm->shouldReceive( 'get' )
+		$indexable_mock->orm
+			->shouldReceive( 'get' )
 			->twice()
 			->with( 'open_graph_image_id' )
 			->andReturn( 'open-graph-image-id' );
 
-		$indexable_mock->orm->shouldReceive( 'get' )
+		$indexable_mock->orm
+			->shouldReceive( 'get' )
 			->with( 'open_graph_image_source' )
 			->andReturn( 'set-by-user' );
 
-		$this->open_graph_image->shouldReceive( 'get_image_by_id' )
+		$this->open_graph_image
+			->shouldReceive( 'get_image_by_id' )
 			->with( 'open-graph-image-id' )
 			->andReturn( $image_meta );
 	}
@@ -220,8 +229,10 @@ class Indexable_Term_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( $term );
 		Monkey\Functions\expect( 'get_term_link' )->once()->with( $term, 'category' )->andReturn( 'https://example.org/category/1' );
 		Monkey\Functions\expect( 'is_wp_error' )->twice()->andReturn( false );
+		Monkey\Functions\expect( 'is_taxonomy_viewable' )->once()->with( 'category' )->andReturn( true );
 
-		$this->taxonomy->expects( 'get_term_meta' )
+		$this->taxonomy
+			->expects( 'get_term_meta' )
 			->once()
 			->with( $term )
 			->andReturn(
@@ -250,7 +261,10 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		$this->wpdb->expects( 'prepare' )->once()->with(
 			"
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			SELECT 
+				COUNT(p.ID) as number_of_public_posts,
+				MAX(p.post_modified_gmt) AS most_recent_last_modified,
+				MIN(p.post_date_gmt) AS first_published_at
 			FROM	{$this->wpdb->posts} AS p
 			INNER JOIN {$this->wpdb->term_relationships} AS term_rel
 				ON		term_rel.object_id = p.ID
@@ -265,8 +279,9 @@ class Indexable_Term_Builder_Test extends TestCase {
 		)->andReturn( 'PREPARED_QUERY' );
 		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
 			(object) [
-				'last_modified' => '1234-12-12 00:00:00',
-				'published_at'  => '1234-12-12 00:00:00',
+				'number_of_public_posts'    => 10,
+				'most_recent_last_modified' => '1234-12-12 23:59:59',
+				'first_published_at'        => '1234-12-12 00:00:00',
 			]
 		);
 
@@ -296,6 +311,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 			'is_robots_noarchive'         => null,
 			'is_robots_noimageindex'      => null,
 			'is_robots_nosnippet'         => null,
+			'is_public'                   => false,
+			'is_publicly_viewable'        => true,
 			'primary_focus_keyword'       => 'focuskeyword',
 			'primary_focus_keyword_score' => 75,
 			'readability_score'           => 50,
@@ -335,10 +352,14 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$this->twitter_image_set_by_user( $indexable_mock );
 
 		// We expect the open graph image, its source and its metadata to be set.
-		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'set-by-user' );
-		$indexable_mock->orm->expects( 'set' )
+		$indexable_mock->orm
+			->expects( 'set' )
+			->with( 'open_graph_image_source', 'set-by-user' );
+		$indexable_mock->orm
+			->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
-		$indexable_mock->orm->expects( 'set' )
+		$indexable_mock->orm
+			->expects( 'set' )
 			// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
 			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
 
@@ -350,12 +371,19 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->once()->with( 'breadcrumb_title', null );
 
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'is_robots_noindex' )->andReturn( true );
-		$indexable_mock->orm->expects( 'set' )->once()->with( 'is_public', false );
+
+		$indexable_mock->orm->expects( 'get' )->with( 'object_id' )->andReturn( 1 );
+		$indexable_mock->orm->expects( 'get' )->with( 'object_sub_type' )->andReturn( 'category' );
+
+
+		Monkey\Functions\expect( '_deprecated_argument' );
+		Monkey\Functions\expect( 'esc_html' );
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
-		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 00:00:00' );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 23:59:59' );
+		$indexable_mock->orm->expects( 'set' )->with( 'number_of_publicly_viewable_posts', 10 );
 
 		$this->instance->build( 1, $indexable_mock );
 	}
@@ -463,14 +491,14 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$object_id           = 123;
 
 		$indexable_mock->orm->expects( 'get' )
-			->with( 'object_id' )
-			->andReturn( $object_id );
+		                    ->with( 'object_id' )
+		                    ->andReturn( $object_id );
 
 		$image = 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg';
 
 		$this->image->expects( 'get_term_content_image' )
-			->with( $object_id )
-			->andReturn( $image );
+		            ->with( $object_id )
+		            ->andReturn( $image );
 
 		$expected = [
 			'image'  => $image,
@@ -488,12 +516,12 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$object_id           = 123;
 
 		$indexable_mock->orm->expects( 'get' )
-			->with( 'object_id' )
-			->andReturn( $object_id );
+		                    ->with( 'object_id' )
+		                    ->andReturn( $object_id );
 
 		$this->image->expects( 'get_term_content_image' )
-			->with( $object_id )
-			->andReturn( null );
+		            ->with( $object_id )
+		            ->andReturn( null );
 
 		$this->assertFalse( $this->instance->find_alternative_image( $indexable_mock ) );
 	}

@@ -49,39 +49,4 @@ class Author_Archive_Helper_Test extends TestCase {
 
 		$this->assertEquals( $expected, $this->instance->get_author_archive_post_types() );
 	}
-
-	/**
-	 * Tests that true is returned when the author has a public post.
-	 *
-	 * @covers ::author_has_public_posts
-	 */
-	public function test_author_has_public_posts_with_public_post() {
-		$this->instance->expects( 'author_has_a_public_post' )->once()->with( 1 )->andReturnTrue();
-
-		$this->assertTrue( $this->instance->author_has_public_posts( 1 ) );
-	}
-
-	/**
-	 * Tests that null is returned when the author has a post without noindex override.
-	 *
-	 * @covers ::author_has_public_posts
-	 */
-	public function test_author_has_public_posts_with_post_without_override() {
-		$this->instance->expects( 'author_has_a_public_post' )->once()->with( 1 )->andReturnFalse();
-		$this->instance->expects( 'author_has_a_post_with_is_public_null' )->once()->with( 1 )->andReturnTrue();
-
-		$this->assertNull( $this->instance->author_has_public_posts( 1 ) );
-	}
-
-	/**
-	 * Tests that false is returned when the author has no public posts and no posts without an override.
-	 *
-	 * @covers ::author_has_public_posts
-	 */
-	public function test_author_has_public_posts_without_public_or_override_posts() {
-		$this->instance->expects( 'author_has_a_public_post' )->once()->with( 1 )->andReturnFalse();
-		$this->instance->expects( 'author_has_a_post_with_is_public_null' )->once()->with( 1 )->andReturnFalse();
-
-		$this->assertFalse( $this->instance->author_has_public_posts( 1 ) );
-	}
 }
