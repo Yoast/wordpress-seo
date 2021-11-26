@@ -472,14 +472,37 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						),
 						"https://yoa.st/config-workout-index-data"
 					) }
+					subtitleClass={ window.wpseoWorkoutsData.shouldUpdatePremium ? "disabled" : "" }
 					ImageComponent={ WorkoutStartImage }
 					isFinished={ isStep1Finished }
 				>
 					<div className="indexation-container">
 						<WorkoutIndexation
 							indexingStateCallback={ setIndexingState }
+							isEnabled={ ! window.wpseoWorkoutsData.shouldUpdatePremium }
+							indexingState={ indexingState }
 						/>
 					</div>
+					{ ( window.wpseoWorkoutsData.shouldUpdatePremium && indexingState !== "completed" ) && <Alert type="warning">
+						<p>{
+							sprintf( __( "This workout step is currently disabled, because you're not running the latest version of Yoast SEO Premium. " +
+							"Please update to the latest version (at least %1$s). ",
+							"wordpress-seo"
+							), "17.7"
+							)
+						}</p>
+						<p>{
+							addLinkToString(
+								sprintf(
+									__( "You can still run the SEO data optimization in the %1$sTools section%2$s. " +
+									"Once that is finished, please refresh this workout.", "wordpress-seo" ),
+									"<a>",
+									"</a>"
+								),
+								window.wpseoWorkoutsData.toolsPageUrl
+							) }
+						</p>
+					</Alert> }
 					<FinishButtonSection
 						stepNumber={ 1 }
 						hasDownArrow={ true }
