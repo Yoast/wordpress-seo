@@ -40,6 +40,7 @@ export function FinishButtonSection( {
 	isFinished,
 	additionalButtonProps,
 	isSaved,
+	isReady,
 	children,
 } ) {
 	return (
@@ -48,7 +49,7 @@ export function FinishButtonSection( {
 			{ children }
 			<div className="finish-button-section">
 				<Button
-					className={ `yoast-button yoast-button--secondary${ isFinished ? " yoast-button--finished" : "" }` }
+					className={ `yoast-button yoast-button--${ isReady ? "primary" : "secondary" }${ isFinished ? " yoast-button--finished" : "" }` }
 					onClick={ onFinishClick }
 					id={ buttonId }
 					{ ...additionalButtonProps }
@@ -71,6 +72,7 @@ FinishButtonSection.propTypes = {
 	isFinished: PropTypes.bool,
 	additionalButtonProps: PropTypes.object,
 	isSaved: PropTypes.bool,
+	isReady: PropTypes.bool,
 	children: PropTypes.any,
 };
 
@@ -81,6 +83,7 @@ FinishButtonSection.defaultProps = {
 	additionalButtonProps: {},
 	isSaved: false,
 	children: null,
+	isReady: false,
 };
 
 /**

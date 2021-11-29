@@ -15,6 +15,10 @@
 	text-transform: uppercase;
 }
 
+#wpseo-workouts-container-free #workout-card-blocked-description {
+	margin: 0.5em 0 0.5em 0;
+}
+
 #wpseo-workouts-container-free #workouts-page-description {
 	max-width: 600px;
 	font-size: 16px;
@@ -107,6 +111,10 @@
 	margin: 0 auto;
 }
 
+.workflow .yoast-button.yoast-button--finished {
+	opacity: 0.5;
+}
+
 .workflow .finish-button-section .finish-button-saved {
 	grid-column-start: 3;
 	grid-column-end: 3;
@@ -197,21 +205,6 @@
 	background-size: 20px 20px;
 	background-repeat: no-repeat;
 	background-position: center center;
-}
-
-.workflow li.step p.disabled {
-	opacity: 0.5;
-}
-
-.workflow li.step.finished p,
-.workflow li.step.finished ul,
-.workflow li.step.finished .yoast-field-group__title,
-.workflow li.finished table {
-	opacity: 0.5;
-}
-
-.workflow li.step.finished .tracking-radiobuttons {
-	opacity: 0.5;
 }
 
 .workflow li.step img {
@@ -596,6 +589,38 @@ table.yoast_help th.divider {
 
 #wpseo-workouts-container-free div.card.card-small.card-disabled .workout-card-progress {
 	opacity: 0.5;
+}
+
+.workout-card-blocked {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 122px;
+	box-sizing: border-box;
+	border-top: solid 1px rgb(197, 197, 197);
+	padding: 10px 24px 24px;
+	background-color: #ffffff;
+	border-radius: 0 0 8px 8px;
+}
+
+.workout-card-blocked-title {
+	margin-bottom: 0;
+	position: relative;
+	padding-left: 20px;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.workout-card-blocked-title::before {
+	position: absolute;
+	content: "";
+	background: var(--yoast-svg-icon-lock);
+	background-size: 16px 17px;
+	width: 16px;
+	height: 16px;
+	left: 0;
+	top: 1px;
 }
 
 .workflow__grid {
