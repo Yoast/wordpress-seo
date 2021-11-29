@@ -20,7 +20,7 @@ class Indexable_Builder_Versions {
 		'date-archive'      => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
 		'general'           => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
 		'home-page'         => 2,
-		'post'              => 2,
+		'post'              => 3,
 		'post-type-archive' => 2,
 		'term'              => 2,
 		'user'              => 2,

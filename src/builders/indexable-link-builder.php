@@ -178,6 +178,36 @@ class Indexable_Link_Builder {
 	 * @return string[] An array of urls.
 	 */
 	protected function gather_images( $content ) {
+		$images = $this->gather_images_from_content( $content );
+		\array_merge( $images, $this->get_featured_image() );
+
+		return $images;
+	}
+
+	/**
+	 * Gathers all images from content.
+	 *
+	 * @return string[] An array of urls.
+	 */
+	protected function get_featured_image() {
+		$featured_id = $this->image_helper->get_featured_image_id();
+		if ( ! $featured_id ) {
+			return [];
+		}
+
+		$featured_image_source = $this->image_helper->get_attachment_image_source( $featured_id );
+		return [ $featured_image_source ];
+	}
+
+
+	/**
+	 * Gathers all images from content.
+	 *
+	 * @param string $content The content.
+	 *
+	 * @return string[] An array of urls.
+	 */
+	protected function gather_images_from_content( $content ) {
 		if ( \strpos( $content, 'src' ) === false ) {
 			// Nothing to do.
 			return [];
