@@ -595,7 +595,7 @@ table.yoast_help th.divider {
 	right: 0;
 	height: 122px;
 	box-sizing: border-box;
-	border-top: solid 1px #000000;
+	border-top: solid 1px rgb(197, 197, 197);
 	padding: 10px 24px 24px;
 	background-color: #ffffff;
 	border-radius: 0 0 8px 8px;
