@@ -25,7 +25,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	protected static $image_tags = [
 		'width'     => 'width',
 		'height'    => 'height',
-		'mime-type' => 'type',
+		'type'      => 'type',
 	];
 
 	/**
