@@ -10,11 +10,14 @@ import Mark from "../../../values/Mark";
  *
  * @param {string}    sentence               The sentence to mark words in.
  * @param {[string]}  topicFoundInSentence   The words to mark in the sentence.
+ * @param {function}    matchWordCustomHelper   The language-specific helper function to match word in text.
  *
  * @returns {string} The sentence with marks.
  */
-const collectMarkingsInSentence = function( sentence, topicFoundInSentence ) {
-	const markup = sentence.replace( arrayToRegex( topicFoundInSentence ), function( x ) {
+const collectMarkingsInSentence = function( sentence, topicFoundInSentence, matchWordCustomHelper ) {
+	// If a language has a custom helper to match words, we disable the word boundary when creating the regex.
+	const topicRegex = matchWordCustomHelper ? arrayToRegex( topicFoundInSentence, true ) : arrayToRegex( topicFoundInSentence );
+	const markup = sentence.replace( topicRegex, function( x ) {
 		return addMark( x );
 	} );
 
@@ -27,20 +30,21 @@ const collectMarkingsInSentence = function( sentence, topicFoundInSentence ) {
  * @param {[string]}    wordsToMark The words to mark.
  * @param {[string]}    sentences   The sentences in which to mark these words.
  * @param {string}      locale      The locale.
+ * @param {function}    matchWordCustomHelper   The language-specific helper function to match word in text.
  *
  * @returns {[string]} The sentences with marks.
  */
-export function markWordsInSentences( wordsToMark, sentences, locale ) {
+export function markWordsInSentences( wordsToMark, sentences, locale, matchWordCustomHelper ) {
 	let topicFoundInSentence = [];
 	let markings = [];
 
 	sentences.forEach( function( sentence ) {
-		topicFoundInSentence = matchWords( sentence, wordsToMark, locale ).matches;
+		topicFoundInSentence = matchWords( sentence, wordsToMark, locale, matchWordCustomHelper ).matches;
 
 		if ( topicFoundInSentence.length > 0 ) {
 			markings = markings.concat( new Mark( {
 				original: sentence,
-				marked: collectMarkingsInSentence( sentence, topicFoundInSentence ),
+				marked: collectMarkingsInSentence( sentence, topicFoundInSentence, matchWordCustomHelper ),
 			} ) );
 		}
 	} );
