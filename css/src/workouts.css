@@ -556,7 +556,7 @@ table.yoast_help th.divider {
 }
 
 .card.card-small button.yoast-button--secondary {
-	box-shadow: rgba(0, 0, 0, 0.1);
+	box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .workout-card-content-flex ul {
