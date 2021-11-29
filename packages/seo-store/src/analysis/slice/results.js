@@ -31,11 +31,10 @@ export function* analyze() {
 
 		const results = yield { type: ANALYZE_ACTION_NAME, payload: { paper: preparedPaper, keyphrases, config } };
 
-		const processedResults = yield applyFilters( "yoast.seoStore.analysis.processResults", results.result, {
+		const processedResults = yield applyFilters( "yoast.seoStore.analysis.processResults", results, {
 			paper: preparedPaper,
 			keyphrases,
 			config,
-			resultData: results.data,
 		} );
 
 		return { type: analysisAsyncActions.success, payload: processedResults };
@@ -82,8 +81,10 @@ const resultsSlice = createSlice( {
 
 			// Update SEO results state for each keyphrase
 			forEach( payload.seo, ( keyphrasePayload, keyphraseId ) => {
-				state.seo[ keyphraseId ].score = keyphrasePayload.score;
-				state.seo[ keyphraseId ].results = keyphrasePayload.results;
+				state.seo[ keyphraseId ] = {
+					score: keyphrasePayload.score,
+					results: keyphrasePayload.results,
+				};
 			} );
 
 			state.readability.score = payload.readability.score;

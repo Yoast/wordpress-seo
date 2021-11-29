@@ -10,7 +10,19 @@ const load = async () => {
 	const defaultReplacementVariableConfigurations = createDefaultReplacementVariableConfigurations();
 
 	const { analysisTypeReplacementVariables } = await createSeoIntegration( {
-		analysisWorkerUrl: "worker-mock.js",
+		analysisWorkerUrl: "dist/bootstrapAnalysis.js",
+		dependencies: [
+			"vendor/autop.js",
+			"vendor/lodash.js",
+			"vendor/regenerator-runtime.js",
+			"vendor/wp-polyfill.js",
+
+			"yoast/jed.js",
+			"yoast/featureFlag.js",
+
+			"analysis/analysis.js",
+			"analysis/languages/default.js"
+		],
 		analysisTypes: {
 			post: {
 				name: "post",
