@@ -105,11 +105,13 @@ export function NewsletterSignup() {
 								"<a>",
 								"</a>"
 							),
-							"https://yoa.st/gdpr-config-workout"
+							"https://yoa.st/gdpr-config-workout",
+							"yoast-configuration-workout-gdpr-link"
 						)
 					}
 				/>
 				<Button
+					id="newsletter-sign-up-button"
 					variant="primary"
 					onClick={ onSignUpClick }
 					disabled={ signUpState === "loading" }
