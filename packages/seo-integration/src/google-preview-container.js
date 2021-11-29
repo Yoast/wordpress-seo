@@ -37,6 +37,39 @@ const useGooglePreviewReplacementVariables = ( replacementVariables ) => {
 };
 
 /**
+ * Retrieves the base URL from the permalink.
+ *
+ * Uses a fallback URL in order to keep working when there is no permalink (development environment).
+ *
+ * @returns {string} The base URL.
+ */
+const useBaseUrl = () => {
+	const fallbackUrl = window.location.href;
+	const permalink = useSelect( select => select( SEO_STORE_NAME ).selectPermalink() || fallbackUrl );
+
+	return useMemo( () => {
+		if ( isEmpty( permalink ) ) {
+			return fallbackUrl;
+		}
+
+		// Strip the last part of the permalink.
+		let url;
+		try {
+			url = new URL( permalink );
+		} catch ( e ) {
+			return fallbackUrl;
+		}
+
+		// Enforce ending with a slash because of the internal handling in the SnippetEditor component.
+		if ( ! url.pathname.endsWith( "/" ) ) {
+			url.pathname += "/";
+		}
+
+		return url.href;
+	}, [ permalink ] );
+};
+
+/**
  * Handles known data for a Google preview component.
  *
  * @param {JSX.Element} as A Google preview component.
@@ -52,35 +85,15 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 	const date = useSelect( select => select( SEO_STORE_NAME ).selectDate() );
 	const focusKeyphrase = useSelect( select => select( SEO_STORE_NAME ).selectKeyphrase() );
 	const morphologyResults = useSelect( select => select( SEO_STORE_NAME ).selectResearchResults( "morphology" ) );
-	const permalink = useSelect( select => select( SEO_STORE_NAME ).selectPermalink() || window.location.href );
 	const isCornerstone = useSelect( select => select( SEO_STORE_NAME ).selectIsCornerstone() );
 	const [ previewMode, setPreviewMode ] = useState( "mobile" );
 	const { updateSlug, updateSeoTitle, updateMetaDescription } = useDispatch( SEO_STORE_NAME );
 	const { analysisTypeReplacementVariables } = useContext( SeoContext );
 
-	const baseUrl = useMemo( () => {
-		if ( isEmpty( permalink ) ) {
-			return permalink;
-		}
-
-		// Strip the last part of the permalink.
-		let url;
-		try {
-			url = new URL( permalink );
-		} catch ( e ) {
-			return window.location.href;
-		}
-
-		// Enforce ending with a slash because of the internal handling in the SnippetEditor component.
-		if ( ! url.pathname.endsWith( "/" ) ) {
-			url.pathname += "/";
-		}
-
-		return url.href;
-	}, [ permalink ] );
 	const data = useMemo( () => ( { title, description, slug } ), [ title, description, slug ] );
 	const focusKeyphraseWordForms = useMemo( () => get( morphologyResults, "keyphraseForms", [] ).flat(), [ morphologyResults ] );
 
+	const baseUrl = useBaseUrl();
 	const {
 		replacementVariables,
 		recommendedReplacementVariables,
