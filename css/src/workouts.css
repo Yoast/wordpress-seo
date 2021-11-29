@@ -101,6 +101,10 @@
 	margin: 0 auto;
 }
 
+.workflow .yoast-button.yoast-button--finished {
+	opacity: 0.5;
+}
+
 .workflow .finish-button-section .finish-button-saved {
 	grid-column-start: 3;
 	grid-column-end: 3;
@@ -191,21 +195,6 @@
 	background-size: 20px 20px;
 	background-repeat: no-repeat;
 	background-position: center center;
-}
-
-.workflow li.step p.disabled {
-	opacity: 0.5;
-}
-
-.workflow li.step.finished p,
-.workflow li.step.finished ul,
-.workflow li.step.finished .yoast-field-group__title,
-.workflow li.finished table {
-	opacity: 0.5;
-}
-
-.workflow li.step.finished .tracking-radiobuttons {
-	opacity: 0.5;
 }
 
 .workflow li.step img {
