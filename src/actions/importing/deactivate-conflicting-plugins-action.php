@@ -57,19 +57,6 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Importing_Action {
 	}
 
 	/**
-	 * Can the current action import the data from plugin $plugin of type $type?
-	 *
-	 * @param string $plugin The plugin to import from.
-	 * @param string $type   The type of data to import.
-	 *
-	 * @return bool True if this action can handle the combination of Plugin and Type.
-	 */
-	public function is_compatible_with( $plugin = null, $type = null ) {
-		// This action can run on any plugin.
-		return true;
-	}
-
-	/**
 	 * Get the total number of conflicting plugins.
 	 */
 	public function get_total_unindexed() {
