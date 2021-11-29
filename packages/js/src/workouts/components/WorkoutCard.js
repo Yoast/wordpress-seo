@@ -29,6 +29,9 @@ export default function WorkoutCard( {
 	badges,
 	blocked,
 } ) {
+	// Only make configuration workout a prerequisite for other workouts for users that can do the configuration workout.
+	blocked = blocked && window.wpseoWorkoutsData.canDoConfigurationWorkout;
+
 	const { openWorkout, toggleWorkout } = useDispatch( "yoast-seo/workouts" );
 	const activeWorkout = useSelect( ( select ) => {
 		return select( "yoast-seo/workouts" ).getActiveWorkout();
