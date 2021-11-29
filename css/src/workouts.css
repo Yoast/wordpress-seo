@@ -606,20 +606,22 @@ table.yoast_help th.divider {
 }
 
 .workout-card-blocked-title {
-	font-weight: bold;
 	margin-bottom: 0;
 	position: relative;
 	padding-left: 20px;
+	font-size: 14px;
+	font-weight: 600;
 }
 
 .workout-card-blocked-title::before {
 	position: absolute;
 	content: "";
 	background: var(--yoast-svg-icon-lock);
-	background-size: 16px 16px;
+	background-size: 16px 17px;
 	width: 16px;
 	height: 16px;
 	left: 0;
+	top: 1px;
 }
 
 .workflow__grid {
