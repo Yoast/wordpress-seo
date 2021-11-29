@@ -9,7 +9,7 @@ const load = async () => {
 	registerSeoTitleWidth();
 	const defaultReplacementVariableConfigurations = createDefaultReplacementVariableConfigurations();
 
-	const { analysisTypeReplacementVariables } = await createSeoIntegration( {
+	const { analysisTypeReplacementVariables, SeoProvider } = await createSeoIntegration( {
 		analysisWorkerUrl: "worker-mock.js",
 		analysisTypes: {
 			post: {
@@ -27,13 +27,15 @@ const load = async () => {
 
 	console.log( "replacement variables interface, per analysis type", analysisTypeReplacementVariables );
 
-	return analysisTypeReplacementVariables;
+	return SeoProvider;
 };
 
-load().then( ( analysisTypeReplacementVariables) => {
+load().then( ( SeoProvider ) => {
 	render(
 		<StrictMode>
-			<App analysisTypeReplacementVariables={ analysisTypeReplacementVariables } />
+			<SeoProvider>
+				<App />
+			</SeoProvider>
 		</StrictMode>,
 		document.getElementById( "root" ),
 	);
