@@ -15,6 +15,11 @@
 	text-transform: uppercase;
 }
 
+#wpseo-workouts-container-free #workouts-page-description {
+	max-width: 600px;
+	font-size: 16px;
+}
+
 .workflow tr.cornerstone {
 	font-weight: 700;
 }
