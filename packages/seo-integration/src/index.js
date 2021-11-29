@@ -19,6 +19,8 @@ import { mapValues } from "lodash";
 import createAnalysisWorker from "./analysis";
 import createAnalysisTypeReplacementVariables from "./replacement-variables";
 
+export { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
+
 /*
  * The implementation is responsible for the replacement variable configurations per analysis type.
  * This provides a way to get the default configurations to pick from.
@@ -32,6 +34,7 @@ export { createDefaultReplacementVariableConfigurations } from "./replacement-va
  * @param {string} analysisResearcherUrl The URL of the analysis researcher.
  * @param {Object} [analysisConfiguration] The analysis configuration. Defaults to a English (US) locale.
  * @param {Object.<string, AnalysisType>} [analysisTypes] The different analysis types and their configuration.
+ * @param {Object.<string, Object>} [initialState] The initial state for the SEO store.
  *
  * @returns {Promise<SeoIntegrationInterface>} The promise of the SEO integration interface.
  */
@@ -49,6 +52,7 @@ const createSeoIntegration = async ( {
 			replacementVariableConfigurations: [],
 		},
 	},
+	initialState = {},
 } = {} ) => {
 	const analysisWorker = await createAnalysisWorker( {
 		workerUrl: analysisWorkerUrl,
@@ -56,7 +60,7 @@ const createSeoIntegration = async ( {
 		configuration: analysisConfiguration,
 	} );
 
-	registerSeoStore( { analyze: analysisWorker.analyze } );
+	registerSeoStore( { initialState, analyze: analysisWorker.analyze } );
 
 	const { set, unregister } = createAnalysisTypeReplacementVariables( mapValues( analysisTypes, "replacementVariableConfigurations" ) );
 

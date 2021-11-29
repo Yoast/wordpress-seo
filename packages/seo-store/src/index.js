@@ -1,25 +1,14 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
+import { merge } from "lodash";
 import { STORE_NAME } from "./common/constants";
 import { ANALYZE_ACTION_NAME } from "./analysis/constants";
-import analysisReducer, { analysisActions, analysisSelectors } from "./analysis/slice";
-import editorReducer, { editorActions, editorSelectors } from "./editor/slice";
-import formReducer, { formActions, formSelectors } from "./form/slice";
+import analysisReducer, { analysisActions, analysisSelectors, defaultAnalysisState } from "./analysis/slice";
+import editorReducer, { editorActions, editorSelectors, defaultEditorState } from "./editor/slice";
+import formReducer, { formActions, formSelectors, defaultFormState } from "./form/slice";
 
 export { STORE_NAME as SEO_STORE_NAME };
 
 export { useAnalyze } from "./analysis/hooks";
-
-export const actions = {
-	...analysisActions,
-	...editorActions,
-	...formActions,
-};
-
-export const selectors = {
-	...analysisSelectors,
-	...editorSelectors,
-	...formSelectors,
-};
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -33,9 +22,25 @@ export const selectors = {
  */
 const createSeoStore = ( { initialState, analyze } ) => {
 	return createReduxStore( STORE_NAME, {
-		actions,
-		selectors,
-		initialState,
+		actions: {
+			...analysisActions,
+			...editorActions,
+			...formActions,
+		},
+		selectors: {
+			...analysisSelectors,
+			...editorSelectors,
+			...formSelectors,
+		},
+		initialState: merge(
+			{},
+			{
+				analysis: defaultAnalysisState,
+				editor: defaultEditorState,
+				form: defaultFormState,
+			},
+			initialState,
+		),
 		reducer: combineReducers( {
 			analysis: analysisReducer,
 			editor: editorReducer,

@@ -2,8 +2,13 @@ import { createSelector } from "@reduxjs/toolkit";
 import { combineReducers } from "@wordpress/data";
 import { editorSelectors } from "../../editor/slice";
 import { formSelectors } from "../../form/slice";
-import configReducer, { configActions, configSelectors } from "./config";
-import resultsReducer, { resultsActions, resultsSelectors } from "./results";
+import configReducer, { configActions, configSelectors, defaultConfigState } from "./config";
+import resultsReducer, { resultsActions, resultsSelectors, defaultResultsState } from "./results";
+
+export const defaultAnalysisState = {
+	config: defaultConfigState,
+	results: defaultResultsState,
+};
 
 export const analysisSelectors = {
 	...resultsSelectors,
