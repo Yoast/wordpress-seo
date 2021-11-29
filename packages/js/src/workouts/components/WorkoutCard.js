@@ -120,7 +120,9 @@ export default function WorkoutCard( {
 			</span>
 			{ blocked && workout && <div className="workout-card-blocked">
 				<p className="workout-card-blocked-title">{ __( "Configuration required", "wordpress-seo" ) }</p>
-				<p>{ __( "Please finish the Configuration workout first in order for this workout to be effective.", "wordpress-seo" ) }</p>
+				<p id="workout-card-blocked-description">{
+					__( "Please finish the Configuration workout first in order for this workout to be effective.", "wordpress-seo" )
+				}</p>
 			</div> }
 		</div> }
 		{ workout && activeWorkout === name && <WorkoutComponent /> }
