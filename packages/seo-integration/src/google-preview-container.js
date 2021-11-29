@@ -21,7 +21,8 @@ const useGooglePreviewReplacementVariables = ( replacementVariables ) => {
 	const values = map( replacementVariables, variable => variable.getReplacement() ).join( "" );
 	const cachedValues = map( cache.current, "value" ).join( "" );
 
-	if ( cachedValues !== values ) {
+	// Set the cache when any value changed, or when it was not set before.
+	if ( cachedValues !== values || ! cache.current ) {
 		cache.current = map( replacementVariables, replacementVariable => ( {
 			name: replacementVariable.name,
 			label: replacementVariable.label,
