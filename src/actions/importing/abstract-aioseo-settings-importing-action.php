@@ -127,14 +127,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 * @return int The total number of unimported objects.
 	 */
 	public function get_total_unindexed() {
-		$limit              = null;
-		$settings_to_create = $this->query( $limit );
-
-		$number_of_settings_to_create = \count( $settings_to_create );
-		$completed                    = $number_of_settings_to_create === 0;
-		$this->set_completed( $completed );
-
-		return $number_of_settings_to_create;
+		return $this->get_unindexed_count();
 	}
 
 	/**
@@ -142,9 +135,24 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 *
 	 * @param int $limit The maximum number of unimported objects to be returned.
 	 *
-	 * @return int|false The limited number of unindexed posts. False if the query fails.
+	 * @return int The limited number of unindexed posts.
 	 */
 	public function get_limited_unindexed_count( $limit ) {
+		return $this->get_unindexed_count( $limit );
+	}
+
+	/**
+	 * Returns the number of unimported objects (limited if limit is applied).
+	 *
+	 * @param int $limit The maximum number of unimported objects to be returned.
+	 *
+	 * @return int The number of unindexed posts.
+	 */
+	protected function get_unindexed_count( $limit = null ) {
+		if ( ! \is_int( $limit ) || $limit < 1 ) {
+			$limit = null;
+		}
+
 		$settings_to_create = $this->query( $limit );
 
 		$number_of_settings_to_create = \count( $settings_to_create );
@@ -190,7 +198,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 *
 	 * @return array The (maybe chunked) unimported AiOSEO settings to import.
 	 */
-	public function query( $limit = null ) {
+	protected function query( $limit = null ) {
 		$aioseo_settings = \json_decode( \get_option( $this->get_source_option_name(), [] ), true );
 
 		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance'][ $this->settings_tab ] ) ) {
@@ -215,7 +223,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 *
 	 * @return array The (chunk of, if limit is applied)) unimported AIOSEO settings.
 	 */
-	public function get_unimported_chunk( $importable_data, $limit ) {
+	protected function get_unimported_chunk( $importable_data, $limit ) {
 		\ksort( $importable_data );
 
 		$cursor_id = $this->get_cursor_id();
@@ -237,9 +245,6 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 		// If the stored cursor now no longer exists in the data, we have no choice but to start over.
 		$position = ( isset( $keys[ $cursor ] ) ) ? ( $keys[ $cursor ] + 1 ) : 0;
 
-		if ( empty( $limit ) || $limit < 0 ) {
-			$limit = null;
-		}
 		return \array_slice( $importable_data, $position, $limit, true );
 	}
 
@@ -271,7 +276,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 *
 	 * @return void.
 	 */
-	public function map( $setting_values, $setting ) {
+	protected function map( $setting_values, $setting ) {
 		$aioseo_options_to_yoast_map = $this->aioseo_options_to_yoast_map;
 
 		if ( \is_array( $setting_values ) ) {
@@ -299,7 +304,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 *
 	 * @return void
 	 */
-	public function import_single_setting( $setting, $setting_value, $setting_mapping ) {
+	protected function import_single_setting( $setting, $setting_value, $setting_mapping ) {
 		// First, lets make the yoast key into its final form, taking into account the setting we're working on, eg. title-post, title-tax-movie-category, etc.
 		$yoast_key = str_replace( $this->get_placeholder(), $this->transform_setting_type( $setting ), $setting_mapping['yoast_name'] );
 
