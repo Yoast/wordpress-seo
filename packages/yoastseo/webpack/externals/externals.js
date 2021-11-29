@@ -4,7 +4,7 @@
  * @type {Object}
  */
 module.exports = {
-	jed: "jed",
+	jed: [ "yoast", "jed" ],
 	"lodash-es": "lodash",
 	lodash: "lodash",
 	yoastseo: [ "yoast", "analysis" ],
