@@ -166,4 +166,55 @@ class Importing_Route_Test extends TestCase {
 
 		$this->assertInstanceOf( 'WP_Error', $response );
 	}
+
+	/**
+	 * Tests if invalid arguments are correctly refused.
+	 *
+	 * @param array $data The testcase.
+	 *
+	 *@covers ::execute
+	 *
+	 * @dataProvider invalid_input_provider
+	 */
+	public function test_invalid_input( $data ) {
+		// Act.
+		$result = $this->instance->execute( $data );
+
+		// Assert.
+		$this->assertTrue( is_wp_error( $result ) );
+	}
+
+	/**
+	 * Provides test data for test_invalid_input
+	 *
+	 * @return array The testcases.
+	 */
+	public function invalid_input_provider() {
+		return [
+			[
+				[
+					'plugin_missing' => 'plugin_id',
+					'type'           => 'data_type',
+				],
+			],
+			[
+				[
+					'plugin'       => 'plugin_id',
+					'type_missing' => 'data_type',
+				],
+			],
+			[
+				[
+					'plugin_missing' => 'plugin_id',
+					'type_missing'   => 'data_type',
+				],
+			],
+			[
+				[
+					'plugin' => 'plugin_id',
+					'type'   => 'data_type',
+				],
+			],
+		];
+	}
 }

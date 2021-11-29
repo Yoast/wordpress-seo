@@ -83,7 +83,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 
 			[
 				null,
-				'deactivation',
+				'deactivate',
 			],
 
 			[
@@ -93,7 +93,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 
 			[
 				'conflicting-plugins',
-				'deactivation',
+				'deactivate',
 			],
 		];
 	}

@@ -65,9 +65,21 @@ class Importing_Route extends Abstract_Action_Route {
 	 *
 	 * @param mixed $data The request parameters.
 	 *
-	 * @return WP_REST_Response|false Response or false on non-existent route.
+	 * @return WP_REST_Response|WP_Error Response with next endpoint, or WP_Error on non-existent route.
 	 */
 	public function execute( $data ) {
+		if ( ! is_array( $data ) ||
+			 ! array_key_exists( 'plugin', $data ) ||
+			 ! array_key_exists( 'type', $data ) ) {
+			return new WP_Error(
+				'wpseo_missing_arguments',
+				'Plugin and/or type to import from were not specified',
+				[
+					'status' => 400,
+				]
+			);
+		}
+
 		$plugin = (string) $data['plugin'];
 		$type   = (string) $data['type'];
 

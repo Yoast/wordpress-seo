@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Actions\Importing;
 
-use wpdb;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Config\Conflicting_Plugins;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -27,7 +26,7 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Importing_Action {
 	 *
 	 * @var string
 	 */
-	const TYPE = 'deactivation';
+	const TYPE = 'deactivate';
 
 	/**
 	 * Knows all plugins that might possibly conflict.
