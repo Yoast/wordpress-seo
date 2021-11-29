@@ -22,9 +22,10 @@ class Yoast_Integration_Toggles_Test extends TestCase {
 	public function test_integration_toggles() {
 		$expected_names = [
 			0 => 'Semrush integration',
-			1 => 'Ryte integration',
-			2 => 'Zapier integration',
-			3 => 'Algolia integration',
+			1 => 'Wincher integration',
+			2 => 'Ryte integration',
+			3 => 'Zapier integration',
+			4 => 'Algolia integration',
 		];
 
 		$this->stubTranslationFunctions();
@@ -39,7 +40,7 @@ class Yoast_Integration_Toggles_Test extends TestCase {
 		}
 
 		$this->assertEmpty( $result[0]->read_more_url );
-		$this->assertNotEmpty( $result[1]->read_more_url );
+		$this->assertNotEmpty( $result[2]->read_more_url );
 	}
 
 	/**
@@ -53,10 +54,11 @@ class Yoast_Integration_Toggles_Test extends TestCase {
 		$expected_names = [
 			0 => 'Dummy prio 5',
 			1 => 'Semrush integration',
-			2 => 'Ryte integration',
-			3 => 'Zapier integration',
-			4 => 'Algolia integration',
-			5 => 'Dummy prio 50',
+			2 => 'Wincher integration',
+			3 => 'Ryte integration',
+			4 => 'Zapier integration',
+			5 => 'Algolia integration',
+			6 => 'Dummy prio 50',
 		];
 
 		$this->stubTranslationFunctions();

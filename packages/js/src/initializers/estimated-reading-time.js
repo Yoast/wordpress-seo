@@ -5,12 +5,13 @@ import { Paper } from "yoastseo";
 /**
  * Retrieves the estimated reading time.
  *
- * @param {string} content The content.
+ * @param {string} content  The content.
+ * @param {string} locale   The content locale.
  *
  * @returns {void}
  */
-function getEstimatedReadingTime( content ) {
-	window.YoastSEO.analysis.worker.runResearch( "readingTime", new Paper( content, {} ) )
+function getEstimatedReadingTime( content, locale ) {
+	window.YoastSEO.analysis.worker.runResearch( "readingTime", new Paper( content, { locale: locale } ) )
 		.then( ( response ) => {
 			dispatch( "yoast-seo/editor" ).setEstimatedReadingTime( response.result );
 		} );
@@ -27,6 +28,7 @@ const debouncedGetEstimatedReadingTime = debounce( getEstimatedReadingTime, 1500
 function initializeEstimatedReadingTimeClassic() {
 	const tmceEvents = [ "input", "change", "cut", "paste" ];
 	const editorHandle = get( window, "wpseoScriptData.isPost", "0" ) === "1" ? "content" : "description";
+	const locale = select( "yoast-seo/editor" ).getContentLocale();
 
 	// Once tinyMCE is initialized, add the listeners.
 	jQuery( document ).on( "tinymce-editor-init", ( event, editor ) => {
@@ -36,7 +38,7 @@ function initializeEstimatedReadingTimeClassic() {
 
 		tmceEvents.forEach( ( eventName ) => {
 			editor.on( eventName, () => {
-				debouncedGetEstimatedReadingTime( editor.getContent() );
+				debouncedGetEstimatedReadingTime( editor.getContent(), locale );
 			} );
 		} );
 	} );
@@ -44,6 +46,7 @@ function initializeEstimatedReadingTimeClassic() {
 
 // Used to trigger the initial reading time calculation for the block and Elementor editors.
 let previousContent = "";
+let previousLocale = "";
 let previousRecord = null;
 
 /**
@@ -63,9 +66,12 @@ function getEstimatedReadingTimeBlockEditor() {
 	previousRecord = record;
 
 	const content = select( "core/editor" ).getEditedPostAttribute( "content" );
-	if ( previousContent !== content ) {
+	const locale = select( "yoast-seo/editor" ).getContentLocale();
+
+	if ( previousContent !== content || previousLocale !== locale ) {
 		previousContent = content;
-		getEstimatedReadingTime( content );
+		previousLocale = locale;
+		getEstimatedReadingTime( content, locale );
 	}
 }
 
@@ -76,9 +82,12 @@ function getEstimatedReadingTimeBlockEditor() {
  */
 function getEstimatedReadingTimeElementor() {
 	const content = select( "yoast-seo/editor" ).getEditorDataContent();
-	if ( previousContent !== content ) {
+	const locale = select( "yoast-seo/editor" ).getContentLocale();
+
+	if ( previousContent !== content || previousLocale !== locale ) {
 		previousContent = content;
-		getEstimatedReadingTime( content );
+		previousLocale = locale;
+		getEstimatedReadingTime( content, locale );
 	}
 }
 

@@ -5,6 +5,12 @@
  * @package WPSEO\Main
  */
 
+use Composer\Autoload\ClassLoader;
+use Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action;
+use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
+use Yoast\WP\SEO\Actions\Wincher\Wincher_Login_Action;
+use Yoast\WP\SEO\Routes\Wincher_Route;
+
 if ( ! function_exists( 'add_filter' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -15,7 +21,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '17.7-RC7' );
+define( 'WPSEO_VERSION', '17.7-RC13' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {

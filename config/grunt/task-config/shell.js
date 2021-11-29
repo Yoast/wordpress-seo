@@ -52,6 +52,8 @@ module.exports = function( grunt ) {
 				"<%= files.pot.yoastJsConfigurationWizard %>",
 				"<%= files.pot.yoastJsHelpers %>",
 				"<%= files.pot.yoastJsSearchMetadataPreviews %>",
+				"<%= files.pot.yoastJsSocialMetadataForms %>",
+				"<%= files.pot.yoastJsReplacementVariableEditor %>",
 				"<%= files.pot.yoastComponentsConfigurationWizard %>",
 				"<%= files.pot.yoastComponentsRemaining %>",
 			],
@@ -84,6 +86,12 @@ module.exports = function( grunt ) {
 		},
 		"makepot-yoast-js-search-metadata-previews": {
 			command: "yarn i18n-yoast-js-search-metadata-previews",
+		},
+		"makepot-yoast-js-social-metadata-forms": {
+			command: "yarn i18n-yoast-js-social-metadata-forms",
+		},
+		"makepot-yoast-js-replacement-variable-editor": {
+			command: "yarn i18n-yoast-js-replacement-variable-editor",
 		},
 
 		"makepot-yoast-components-configuration-wizard": {
@@ -118,25 +126,7 @@ module.exports = function( grunt ) {
 		},
 
 		"makepot-yoastseojs": {
-			potFile: "languages/yoast-seo-js.pot",
-			textdomain: "js-text-analysis",
-			command: function() {
-				var files;
-
-				files = [ "./node_modules/yoastseo/src/**/*.js" ];
-				files = grunt.file.expand( files );
-
-				grunt.file.write( "languages/yoastseojsfiles.txt", files.join( "\n" ) );
-
-				return "xgettext" +
-					" --default-domain=js-text-analysis" +
-					" -o <%= files.pot.yoastseojs %>" +
-					" --force-po" +
-					" --from-code=UTF-8" +
-					" --add-comments=\"translators: \"" +
-					" --add-comments=\"Translators: \"" +
-					" --files-from=languages/yoastseojsfiles.txt";
-			},
+			command: "yarn i18n-yoastseo-js",
 		},
 
 		webpack: {

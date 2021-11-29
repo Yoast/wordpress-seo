@@ -1,6 +1,5 @@
 import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../../../src/parsedPaper/assess/scoreAggregators";
 import { TreeResearcher } from "../../../src/parsedPaper/research";
-import factory from "../../specHelpers/factory.js";
 
 import {
 	constructReadabilityAssessor,
@@ -8,18 +7,16 @@ import {
 } from "../../../src/parsedPaper/assess/assessorFactories";
 
 describe( "assessorFactories", () => {
-	let i18n;
 	let researcher;
 
 	beforeEach( () => {
-		i18n = factory.buildJed();
 		researcher = new TreeResearcher();
 	} );
 
 	describe( "constructSEOAssessor", () => {
 		it( "can create an SEO Assessor", () => {
 			const config = {};
-			const assessor = constructSEOAssessor( i18n, researcher, config );
+			const assessor = constructSEOAssessor( researcher, config );
 
 			const expectedAssessments = [];
 			const expectedResearcher = researcher;
@@ -34,7 +31,7 @@ describe( "assessorFactories", () => {
 			const config = {
 				taxonomy: true,
 			};
-			const assessor = constructSEOAssessor( i18n, researcher, config );
+			const assessor = constructSEOAssessor( researcher, config );
 
 			const expectedAssessments = [];
 			const expectedResearcher = researcher;
@@ -49,7 +46,7 @@ describe( "assessorFactories", () => {
 			const config = {
 				relatedKeyphrase: true,
 			};
-			const assessor = constructSEOAssessor( i18n, researcher, config );
+			const assessor = constructSEOAssessor( researcher, config );
 
 			const expectedAssessments = [];
 			const expectedResearcher = researcher;
@@ -65,7 +62,7 @@ describe( "assessorFactories", () => {
 				taxonomy: true,
 				relatedKeyphrase: true,
 			};
-			const assessor = constructSEOAssessor( i18n, researcher, config );
+			const assessor = constructSEOAssessor( researcher, config );
 
 			const expectedAssessments = [];
 			const expectedResearcher = researcher;
@@ -80,7 +77,7 @@ describe( "assessorFactories", () => {
 			const config = {
 				cornerstone: true,
 			};
-			const assessor = constructSEOAssessor( i18n, researcher, config );
+			const assessor = constructSEOAssessor( researcher, config );
 
 			const expectedAssessments = [];
 			const expectedResearcher = researcher;
@@ -96,7 +93,7 @@ describe( "assessorFactories", () => {
 				cornerstone: true,
 				relatedKeyphrase: true,
 			};
-			const assessor = constructSEOAssessor( i18n, researcher, config );
+			const assessor = constructSEOAssessor( researcher, config );
 
 			const expectedAssessments = [];
 			const expectedResearcher = researcher;
@@ -113,13 +110,13 @@ describe( "assessorFactories", () => {
 				taxonomy: true,
 			};
 
-			expect( () => constructSEOAssessor( i18n, researcher, config ) ).toThrow();
+			expect( () => constructSEOAssessor( researcher, config ) ).toThrow();
 		} );
 	} );
 
 	describe( "constructReadabilityAssessor", () => {
 		it( "construct a readability assessor", () => {
-			const assessor = constructReadabilityAssessor( i18n, researcher );
+			const assessor = constructReadabilityAssessor( researcher );
 
 			const expectedAssessments = [];
 			const expectedResearcher = researcher;
@@ -131,7 +128,7 @@ describe( "assessorFactories", () => {
 		} );
 
 		it( "construct a cornerstone readability assessor", () => {
-			const assessor = constructReadabilityAssessor( i18n, researcher, true );
+			const assessor = constructReadabilityAssessor( researcher, true );
 
 			const expectedAssessments = [];
 			const expectedResearcher = researcher;

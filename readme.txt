@@ -241,10 +241,10 @@ Release Date: November 30th, 2021
 
 Enhancements:
 
-* Introduces the configuration workout.
-* Adds a link to the archive page for the content types in the search appearance settings. Props to [felipelousantos](https://github.com/felipelousantos).
+* Replaces the configuration wizard with a configuration workout, which makes it easier to configure Yoast SEO for your website.
+* Adds a link to the archive page for the content types in the Search Appearance settings. Props to [felipelousantos](https://github.com/felipelousantos).
 * Adds a few more French transition words to be recognised by the transition words assessment. Props to [Cellophile](https://github.com/Cellophile).
-* Adds a link to the archive page for the content types in the search appearance settings. Props to [felipelousantos](https://github.com/felipelousantos). [#17174](https://github.com/Yoast/wordpress-seo/pull/17174)
+* Fixes a bug where memory issues could occur when indexing a site with large amounts of terms assigned to many posts.
 
 Bugfixes:
 

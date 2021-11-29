@@ -12,6 +12,8 @@ import { WORKOUTS } from "../config";
 
 const {
 	workouts: workoutsSetting,
+	upsellLink,
+	upsellText,
 } = window.wpseoWorkoutsData;
 
 /**
@@ -22,6 +24,8 @@ const {
 const CornerstoneCard = () => {
 	return <CornerstoneWorkoutCard
 		badges={ [ <PremiumBadge key={ "premium-badge-cornerstone-workout" } /> ] }
+		upsellLink={ upsellLink }
+		upsellText={ upsellText }
 	/>;
 };
 
@@ -33,6 +37,8 @@ const CornerstoneCard = () => {
 const OrphanedCard = () => {
 	return <OrphanedWorkoutCard
 		badges={ [ <PremiumBadge key={ "premium-badge-orphaned-workout" } /> ] }
+		upsellLink={ upsellLink }
+		upsellText={ upsellText }
 	/>;
 };
 
@@ -96,7 +102,7 @@ export default function WorkoutsPage( props ) {
 	return (
 		<div>
 			<h1>
-				{ __( "SEO workouts", "wordpress-seo-premium" ) }
+				{ __( "SEO workouts", "wordpress-seo" ) }
 			</h1>
 			<p>
 				{ __(
@@ -105,7 +111,7 @@ export default function WorkoutsPage( props ) {
 					"wordpress-seo"
 				) }
 			</p>
-			{ activeWorkout && <Button onClick={ clearActiveWorkout }>{
+			{ activeWorkout && <Button id="yoast-workouts-back-to-workouts-button" onClick={ clearActiveWorkout }>{
 				// translators: %1$s translates to a leftward pointing arrow ( ← )
 				sprintf( __( "%1$sBack to all workouts", "worpdress-seo" ), "← " )
 			}</Button> }

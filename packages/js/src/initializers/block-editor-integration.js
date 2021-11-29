@@ -27,6 +27,7 @@ import { link } from "../inline-links/edit-link";
 import PrePublish from "../containers/PrePublish";
 import DocumentSidebar from "../containers/DocumentSidebar";
 import PostPublish from "../containers/PostPublish";
+import WincherPostPublish from "../containers/WincherPostPublish";
 import getL10nObject from "../analysis/getL10nObject";
 import YoastIcon from "../components/PluginIcon";
 
@@ -144,6 +145,7 @@ function registerFills( store ) {
 				icon={ <Fragment /> }
 			>
 				<PostPublish />
+				{ preferences.isKeywordAnalysisActive && <WincherPostPublish /> }
 			</PluginPostPublishPanel>
 			{ analysesEnabled && <PluginDocumentSettingPanel
 				name="document-panel"

@@ -457,7 +457,7 @@
 }
 
 /* Specific styling for the SEMrushRelatedKeyphrasesModal */
-.yoast-related-keyphrases-modal {
+.yoast-related-keyphrases-modal, .yoast-wincher-seo-performance-modal {
 	max-width: 712px;
 }
 
