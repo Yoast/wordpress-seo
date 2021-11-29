@@ -141,6 +141,9 @@ function configurationWorkoutReducer( state, action ) {
 		case "SET_STEP_NOT_SAVED":
 			newState.savedSteps = newState.savedSteps.filter( step => step !== action.payload );
 			return newState;
+		case "SET_ALL_STEPS_NOT_SAVED":
+			newState.savedSteps = [];
+			return newState;
 		default:
 			return newState;
 	}
@@ -410,6 +413,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 				reviseStep( "configuration", steps.socialProfiles );
 				reviseStep( "configuration", steps.enableTracking );
 				reviseStep( "configuration", steps.newsletterSignup );
+				dispatch( { type: "SET_ALL_STEPS_NOT_SAVED" } );
 				return;
 			}
 			if ( ! isStep2Finished ) {
