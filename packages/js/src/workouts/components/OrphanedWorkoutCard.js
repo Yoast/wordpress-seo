@@ -40,7 +40,7 @@ export default function OrphanedWorkoutCard( {
 		upsellText={ upsellText }
 		workout={ workout }
 		badges={ badges }
-		blocked={ ! isConfigurationWorkoutFinished }
+		blocked={ ! isConfigurationWorkoutFinished && window.wpseoWorkoutsData.canDoConfigurationWorkout }
 	/>;
 }
 
