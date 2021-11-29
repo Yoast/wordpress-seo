@@ -17,6 +17,7 @@
 import registerSeoStore from "@yoast/seo-store";
 import { mapValues } from "lodash";
 import createAnalysisWorker from "./analysis";
+import createSeoProvider from "./provider";
 import createAnalysisTypeReplacementVariables from "./replacement-variables";
 
 export { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
@@ -26,6 +27,10 @@ export { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
  * This provides a way to get the default configurations to pick from.
  */
 export { createDefaultReplacementVariableConfigurations } from "./replacement-variables";
+
+export { default as GooglePreviewContainer } from "./google-preview-container";
+
+export { SeoContext } from "./provider";
 
 /**
  * Creates the SEO integration.
@@ -68,6 +73,7 @@ const createSeoIntegration = async ( {
 		analysisWorker,
 		analysisTypeReplacementVariables: set,
 		unregisterReplacementVariables: unregister,
+		SeoProvider: createSeoProvider( { analysisTypeReplacementVariables: set } ),
 	};
 };
 
