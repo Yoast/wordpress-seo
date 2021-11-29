@@ -21,6 +21,8 @@ export default function OrphanedWorkoutCard( {
 	upsellText,
 } ) {
 	const finishedSteps = useSelect( select => select( "yoast-seo/workouts" ).getFinishedSteps( WORKOUTS.orphaned ) );
+	const finishedWorkouts = useSelect( select => select( "yoast-seo/workouts" ).getFinishedWorkouts() );
+	const isConfigurationWorkoutFinished = finishedWorkouts.includes( WORKOUTS.configuration );
 	const actualUpsellLink = upsellLink ? upsellLink :  "https://yoa.st/workout-orphaned-content-upsell";
 
 	return <WorkoutCard
@@ -38,6 +40,7 @@ export default function OrphanedWorkoutCard( {
 		upsellText={ upsellText }
 		workout={ workout }
 		badges={ badges }
+		blocked={ ! isConfigurationWorkoutFinished }
 	/>;
 }
 

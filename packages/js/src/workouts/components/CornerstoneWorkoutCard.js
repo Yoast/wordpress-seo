@@ -21,6 +21,8 @@ export default function CornerstoneWorkoutCard( {
 	upsellText,
 } ) {
 	const finishedSteps = useSelect( select => select( "yoast-seo/workouts" ).getFinishedSteps( WORKOUTS.cornerstone ) );
+	const finishedWorkouts = useSelect( select => select( "yoast-seo/workouts" ).getFinishedWorkouts() );
+	const isConfigurationWorkoutFinished = finishedWorkouts.includes( WORKOUTS.configuration );
 	const actualUpsellLink = upsellLink ? upsellLink :  "https://yoa.st/workout-cornerstone-upsell";
 
 	return <WorkoutCard
@@ -38,6 +40,7 @@ export default function CornerstoneWorkoutCard( {
 		upsellText={ upsellText }
 		workout={ workout }
 		badges={ badges }
+		blocked={ ! isConfigurationWorkoutFinished }
 	/>;
 }
 

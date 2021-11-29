@@ -588,6 +588,37 @@ table.yoast_help th.divider {
 	opacity: 0.5;
 }
 
+.workout-card-blocked {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 122px;
+	box-sizing: border-box;
+	border-top: solid 1px #000000;
+	padding: 10px 24px 24px;
+	background-color: #ffffff;
+	border-radius: 0 0 8px 8px;
+}
+
+.workout-card-blocked-title {
+	font-weight: bold;
+	margin-bottom: 0;
+	position: relative;
+	padding-left: 20px;
+}
+
+.workout-card-blocked-title::before {
+	position: absolute;
+	content: "";
+	background: var(--yoast-svg-icon-lock);
+	background-size: 18px 13px;
+	width: 18px;
+	height: 13px;
+	left: 0;
+	top: 3px;
+}
+
 .workflow__grid {
 	display: grid;
 	grid-template-columns: auto 100px;
