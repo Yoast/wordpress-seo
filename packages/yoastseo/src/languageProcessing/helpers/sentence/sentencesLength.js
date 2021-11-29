@@ -1,5 +1,5 @@
 import wordCount from "../word/countWords.js";
-import {filter, forEach} from "lodash-es";
+import { forEach } from "lodash-es";
 import { stripFullTags as stripHTMLTags } from "../sanitize/stripHTMLTags.js";
 
 /**
@@ -24,7 +24,7 @@ export default function( sentences, researcher ) {
 
 		sentencesWordCount.push( {
 			sentence: strippedSentence,
-			countLength: length,
+			sentenceLength: length,
 		} );
 	} );
 	return sentencesWordCount;

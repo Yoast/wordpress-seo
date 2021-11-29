@@ -8,7 +8,7 @@ describe( "A test to count the sentence length.", function() {
 
 		const lengths = sentencesLength( sentences, new EnglishResearcher() );
 
-		expect( lengths ).toEqual( [ { sentence: "A sentence", countLength: 2 } ] );
+		expect( lengths ).toEqual( [ { sentence: "A sentence", sentenceLength: 2 } ] );
 	} );
 
 	it( "returns the string and the length of each sentence (the HTML tags should be stripped if present)", function() {
@@ -16,7 +16,7 @@ describe( "A test to count the sentence length.", function() {
 
 		const lengths = sentencesLength( sentences, new EnglishResearcher() );
 
-		expect( lengths ).toEqual( [ { sentence: "A good text", countLength: 3 }, { sentence: "this is a textstring", countLength: 4 } ] );
+		expect( lengths ).toEqual( [ { sentence: "A good text", sentenceLength: 3 }, { sentence: "this is a textstring", sentenceLength: 4 } ] );
 	} );
 
 	it( "returns the string and the length of each sentence (the HTML tags should be stripped if present) in Japanese", function() {
@@ -24,6 +24,6 @@ describe( "A test to count the sentence length.", function() {
 
 		const lengths = sentencesLength( sentences, new JapaneseResearcher() );
 
-		expect( lengths ).toEqual( [ { sentence: "自然おのずから存在しているもの", countLength: 15 }, { sentence: "歩くさわやかな森 自然", countLength: 11 } ] );
+		expect( lengths ).toEqual( [ { sentence: "自然おのずから存在しているもの", sentenceLength: 15 }, { sentence: "歩くさわやかな森 自然", sentenceLength: 11 } ] );
 	} );
 } );
