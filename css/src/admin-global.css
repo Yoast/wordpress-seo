@@ -598,25 +598,6 @@ body.folded .wpseo-admin-submit-fixed {
 	font-size: 10px;
 }
 
-.yoast-badge--sale {
-	position: absolute;
-	margin-top: -24px;
-	right: 30px;
-	transform: rotate(14deg);
-	background-color: #a4286a;
-	color: white;
-	font-size: 12px !important;
-	border-radius: 999px !important;
-}
-
-@media (max-width: 1024px) {
-	.yoast-badge--sale {
-		display: inline-block;
-		position: unset;
-		vertical-align: top;
-	}
-}
-
 .yoast-badge__is-link:hover,
 .yoast-badge__is-link:focus {
   background-color: #004973;
