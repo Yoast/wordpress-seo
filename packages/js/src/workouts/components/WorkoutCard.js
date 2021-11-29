@@ -88,7 +88,8 @@ export default function WorkoutCard( {
 				{ image && <ImageComponent /> }
 			</div>
 			<span>
-				{ workout && <Button onClick={ onClick }>{ buttonText }</Button> }
+				{ /* eslint-disable-next-line max-len */ }
+				{ workout && <Button className={ `yoast-button yoast-button--${ isToggle ? "secondary" : "primary" }` } onClick={ onClick }>{ buttonText }</Button> }
 				{ ! workout &&
 					<UpsellButton href={ upsellLink } className="yoast-button yoast-button-upsell">
 						{ actualUpsellText }

@@ -562,6 +562,10 @@ table.yoast_help th.divider {
 	min-height: 40px;
 }
 
+.card.card-small button.yoast-button--secondary {
+	box-shadow: rgba(0, 0, 0, 0.1);
+}
+
 .workout-card-content-flex ul {
 	margin-right: 8px;
 }
