@@ -1,10 +1,21 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useMemo, useRef, useState } from "@wordpress/element";
+import { useCallback, useContext, useMemo, useRef, useState } from "@wordpress/element";
 import { SEO_STORE_NAME } from "@yoast/seo-store";
 import { get, isEmpty, map } from "lodash";
 import { PropTypes } from "prop-types";
+import { SeoContext } from "./provider";
 
-const useCachedReplacementVariables = ( replacementVariables ) => {
+/**
+ * Formats the replacement variables for the Google Preview.
+ *
+ * Caches the given replacement variables so that the memory address only changes when any value changes.
+ *
+ * @param {Object.<string, ReplacementVariablesInterface[]>} replacementVariables The replacement variables.
+ *
+ * @returns {{replacementVariables: {name: string, label: string, value: *}[], recommendedReplacementVariables: string[]}} The replacement variables
+ *     and recommended replacement variables.
+ */
+const useGooglePreviewReplacementVariables = ( replacementVariables ) => {
 	const cache = useRef();
 
 	const values = map( replacementVariables, variable => variable.getReplacement() ).join( "" );
@@ -28,12 +39,12 @@ const useCachedReplacementVariables = ( replacementVariables ) => {
  * Handles known data for a Google preview component.
  *
  * @param {JSX.Element} as A Google preview component.
- * @param {ReplacementVariable[]} replacementVariables List of replacement variables.
  * @param {Object} restProps Props to pass to the Google preview component, that are unhandled by this container.
  *
  * @returns {JSX.Element} A wrapped Google preview component.
  */
-const GooglePreviewContainer = ( { as: Component, replacementVariables: currentReplacementVariables, ...restProps } ) => {
+const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
+	const analysisType = useSelect( select => select( SEO_STORE_NAME ).selectAnalysisType() );
 	const title = useSelect( select => select( SEO_STORE_NAME ).selectSeoTitle() );
 	const description = useSelect( select => select( SEO_STORE_NAME ).selectMetaDescription() );
 	const slug = useSelect( select => select( SEO_STORE_NAME ).selectSlug() );
@@ -44,6 +55,7 @@ const GooglePreviewContainer = ( { as: Component, replacementVariables: currentR
 	const isCornerstone = useSelect( select => select( SEO_STORE_NAME ).selectIsCornerstone() );
 	const [ previewMode, setPreviewMode ] = useState( "mobile" );
 	const { updateSlug, updateSeoTitle, updateMetaDescription } = useDispatch( SEO_STORE_NAME );
+	const { analysisTypeReplacementVariables } = useContext( SeoContext );
 
 	const baseUrl = useMemo( () => {
 		if ( isEmpty( permalink ) ) {
@@ -68,7 +80,10 @@ const GooglePreviewContainer = ( { as: Component, replacementVariables: currentR
 	const data = useMemo( () => ( { title, description, slug } ), [ title, description, slug ] );
 	const focusKeyphraseWordForms = useMemo( () => get( morphologyResults, "keyphraseForms", [] ).flat(), [ morphologyResults ] );
 
-	const { replacementVariables, recommendedReplacementVariables } = useCachedReplacementVariables( currentReplacementVariables );
+	const {
+		replacementVariables,
+		recommendedReplacementVariables,
+	} = useGooglePreviewReplacementVariables( get( analysisTypeReplacementVariables, `${ analysisType }.variables`, [] ) );
 
 	const handleChange = useCallback( ( key, value ) => {
 		switch ( key ) {
@@ -107,12 +122,6 @@ const GooglePreviewContainer = ( { as: Component, replacementVariables: currentR
 
 GooglePreviewContainer.propTypes = {
 	as: PropTypes.elementType.isRequired,
-	replacementVariables: PropTypes.arrayOf( PropTypes.shape( {
-		name: PropTypes.string,
-		label: PropTypes.string,
-		getReplacement: PropTypes.func,
-		regexp: PropTypes.instanceOf( RegExp ),
-	} ) ).isRequired,
 };
 
 GooglePreviewContainer.defaultProps = {};
