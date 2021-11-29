@@ -465,6 +465,8 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 		[ dispatch ]
 	);
 
+	const siteRepresentsPerson = state.companyOrPerson === "person";
+
 	/* eslint-disable max-len */
 	return (
 		<div id="yoast-configuration-workout" className="card">
@@ -647,7 +649,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							organizationName={ state.companyName }
 						/>
 					</Fragment> }
-					{ state.companyOrPerson === "person" && <Fragment>
+					{ siteRepresentsPerson && <Fragment>
 						{ ( ! state.personLogo || state.personId === 0 ) && <Alert type="warning">
 							{ __(
 								// eslint-disable-next-line max-len
@@ -699,7 +701,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 						errorFields={ state.errorFields }
 						setErrorFields={ setErrorFields }
 					/> }
-					{ state.companyOrPerson === "person" && <div>
+					{ siteRepresentsPerson && <div>
 						<p>
 							{
 								createInterpolateElement(
@@ -751,9 +753,9 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					<FinishButtonSection
 						buttonId="yoast-configuration-workout-step-social-profiles-button"
 						stepNumber={ 3 }
-						isSaved={ state.savedSteps.includes( 3 ) }
+						isSaved={ ! siteRepresentsPerson && state.savedSteps.includes( 3 ) }
 						hasDownArrow={ true }
-						finishText={ __( "Save and continue", "wordpress-seo" ) }
+						finishText={ siteRepresentsPerson ? __( "Continue", "wordpress-seo" ) :  __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishSocialProfiles }
 						isFinished={ isStep3Finished }
 						isReady={ isStepReady( 3 ) }
