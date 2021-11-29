@@ -792,8 +792,8 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 				<FinishButtonSection
 					finishText={ isWorkoutFinished ? __( "Do workout again", "wordpress-seo" ) : __( "Finish this workout", "wordpress-seo" ) }
 					onFinishClick={ toggleConfigurationWorkout }
-					isFinished={ isWorkoutFinished }
-					isReady={ isStepReady( 5 ) }
+					isFinished={ false }
+					isReady={ isWorkoutFinished ? false : isStepReady( 5 ) }
 					additionalButtonProps={ { disabled: indexingState !== "completed" || ! isTrackingOptionSelected } }
 				>
 					{ indexingState !== "completed" && <Alert type="warning">
