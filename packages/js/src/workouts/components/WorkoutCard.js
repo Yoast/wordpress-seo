@@ -89,7 +89,7 @@ export default function WorkoutCard( {
 				{ image && <ImageComponent /> }
 			</div>
 			<span>
-				{ workout && <Button onClick={ onClick }>{ buttonText }</Button> }
+				{ ! blocked && workout && <Button onClick={ onClick }>{ buttonText }</Button> }
 				{ ! workout &&
 					<UpsellButton href={ upsellLink } className="yoast-button yoast-button-upsell">
 						{ actualUpsellText }
