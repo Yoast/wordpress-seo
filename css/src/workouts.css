@@ -70,6 +70,12 @@
 	margin-left:48px;
 }
 
+/* Override premium 17.6 workout styles */
+.workflow li li {
+	counter-increment: none;
+	padding-bottom: 0;
+}
+
 .workflow li.step {
 	position: relative;
 	counter-increment: line-number;
@@ -148,6 +154,7 @@
 
 .workflow .indexation-container {
 	padding: 8px 0;
+	margin-bottom: 8px;
 }
 
 .workflow .indexation-container > .yoast-button {
@@ -434,6 +441,11 @@ table.yoast_help th.divider {
 }
 
 .workflow .yoast-field-group b {
+	font-size: 13px;
+	color: rgb(60, 67, 74);
+}
+
+.workflow .yoast-field-group label {
 	font-size: 13px;
 	color: rgb(60, 67, 74);
 }

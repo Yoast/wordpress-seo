@@ -467,9 +467,9 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 
 	/* eslint-disable max-len */
 	return (
-		<div className="card">
-			<h2>{ __( "Configuration", "wordpress-seo" ) }</h2>
-			<h3>{
+		<div id="yoast-configuration-workout" className="card">
+			<h2 id="yoast-configuration-workout-title">{ __( "Configuration", "wordpress-seo" ) }</h2>
+			<h3 id="yoast-configuration-workout-tagline">{
 				// translators: %1$s is replaced by "Yoast SEO"
 				sprintf( __( "Configure %1$s with optimal SEO settings for your site", "wordpress-seo" ), "Yoast SEO" )
 			}</h3>
@@ -499,7 +499,8 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 								"Yoast SEO",
 								"</a>"
 							),
-							"https://yoa.st/config-workout-guide"
+							"https://yoa.st/config-workout-guide",
+							"yoast-configuration-workout-guide-link"
 						)
 					}
 				</i>
@@ -524,8 +525,9 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 				}
 			</p>
 			<br />
-			<Steps>
+			<Steps id="yoast-configuration-workout-steps">
 				<Step
+					id="yoast-configuration-workout-step-optimize-seo-data"
 					title={ __( "Optimize SEO data", "wordpress-seo" ) }
 					subtitle={ addLinkToString(
 						sprintf(
@@ -538,17 +540,44 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/config-workout-index-data"
+						"https://yoa.st/config-workout-index-data",
+						"yoast-configuration-workout-index-data-link"
 					) }
+					subtitleClass={ window.wpseoWorkoutsData.shouldUpdatePremium ? "disabled" : "" }
 					ImageComponent={ WorkoutStartImage }
 					isFinished={ isStep1Finished }
 				>
-					<div className="indexation-container">
+					<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
 						<WorkoutIndexation
 							indexingStateCallback={ setIndexingState }
+							isEnabled={ ! window.wpseoWorkoutsData.shouldUpdatePremium }
+							indexingState={ indexingState }
 						/>
 					</div>
+					{ ( window.wpseoWorkoutsData.shouldUpdatePremium && indexingState !== "completed" ) && <Alert type="warning">
+						<p>{
+							// translators: %1$s is replaced by a version number.
+							sprintf( __( "This workout step is currently disabled, because you're not running the latest version of Yoast SEO Premium. " +
+							"Please update to the latest version (at least %1$s). ",
+							"wordpress-seo"
+							), "17.7"
+							)
+						}</p>
+						<p>{
+							addLinkToString(
+								sprintf(
+									// translators: %1$s and %2$s are replaced by anchor tags to make a link to the tool section.
+									__( "You can still run the SEO data optimization in the %1$sTools section%2$s. " +
+									"Once that is finished, please refresh this workout.", "wordpress-seo" ),
+									"<a>",
+									"</a>"
+								),
+								window.wpseoWorkoutsData.toolsPageUrl
+							) }
+						</p>
+					</Alert> }
 					<FinishButtonSection
+						buttonId="yoast-configuration-workout-step-optimize-seo-data-button"
 						stepNumber={ 1 }
 						hasDownArrow={ true }
 						finishText={ __( "Continue", "wordpress-seo" ) }
@@ -576,6 +605,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					}
 				</p>
 				<Step
+					id="yoast-configuration-workout-step-site-representation"
 					title={ __( "Site representation", "wordpress-seo" ) }
 					subtitle={ __( "Tell Google what kind of site you have and increase the chance it gets features in a Google Knowledge Panel. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
 					isFinished={ isStep2Finished }
@@ -647,6 +677,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 						) }
 					</Alert> }
 					<FinishButtonSection
+						buttonId="yoast-configuration-workout-step-site-representation-button"
 						stepNumber={ 2 }
 						isSaved={ state.savedSteps.includes( 2 ) }
 						hasDownArrow={ true }
@@ -657,6 +688,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					/>
 				</Step>
 				<Step
+					id="yoast-configuration-workout-step-social-profiles"
 					title={ __( "Social profiles", "wordpress-seo" ) }
 					subtitle={ state.companyOrPerson === "company" ?  __( "Do you have profiles for your site on social media? Then, add all of their URLs here, so your social profiles may also appear in a Google Knowledge Panel.", "wordpress-seo" ) : "" }
 					isFinished={ isStep3Finished }
@@ -685,7 +717,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 									{
 										b: <b />,
 										// eslint-disable-next-line jsx-a11y/anchor-has-content
-										a: <a href={ window.wpseoWorkoutsData.usersPageUrl } target="_blank" rel="noopener noreferrer" />,
+										a: <a id="yoast-configuration-workout-user-page-link-1" href={ window.wpseoWorkoutsData.usersPageUrl } target="_blank" rel="noopener noreferrer" />,
 									}
 								)
 							}
@@ -702,7 +734,8 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 										"<a>",
 										"</a>"
 									),
-									window.wpseoWorkoutsData.usersPageUrl
+									window.wpseoWorkoutsData.usersPageUrl,
+									"yoast-configuration-workout-user-page-link-2"
 								)
 							}
 						</p>
@@ -716,6 +749,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					</div>
 					}
 					<FinishButtonSection
+						buttonId="yoast-configuration-workout-step-social-profiles-button"
 						stepNumber={ 3 }
 						isSaved={ state.savedSteps.includes( 3 ) }
 						hasDownArrow={ true }
@@ -726,6 +760,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					/>
 				</Step>
 				<Step
+					id="yoast-configuration-workout-step-tracking"
 					title={ __( "Help us improve Yoast SEO", "wordpress-seo" ) }
 					isFinished={ isStep4Finished }
 				>
@@ -746,6 +781,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 						<li> { __( "always load our customer support window so we can immediately assist you when you need help.", "wordpress-seo" ) } </li>
 					</ul>
 					<RadioButtonGroup
+						id="yoast-configuration-workout-tracking-radio-button"
 						label={ __( "Can we collect anonymous information about your website and how you use it?", "wordpress-seo" ) }
 						groupName="yoast-configuration-workout-tracking"
 						selected={ state.tracking }
@@ -776,6 +812,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 						) }
 					</Alert> }
 					<FinishButtonSection
+						buttonId="yoast-configuration-workout-step-tracking-button"
 						stepNumber={ 4 }
 						isSaved={ state.savedSteps.includes( 4 ) }
 						hasDownArrow={ true }
@@ -787,12 +824,14 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					/>
 				</Step>
 				<Step
+					id="yoast-configuration-workout-step-newsletter"
 					title={ __( "Sign up for the Yoast newsletter!", "wordpress-seo" ) }
 					isFinished={ isStep5Finished }
 				>
 					<NewsletterSignup />
 				</Step>
 				<FinishButtonSection
+					buttonId="yoast-configuration-workout-finish-workout-button"
 					finishText={ isWorkoutFinished ? __( "Do workout again", "wordpress-seo" ) : __( "Finish this workout", "wordpress-seo" ) }
 					onFinishClick={ toggleConfigurationWorkout }
 					isFinished={ false }
@@ -805,10 +844,10 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					</Alert> }
 				</FinishButtonSection>
 			</Steps>
-			{ isWorkoutFinished && <div>
+			{ isWorkoutFinished && <div id="yoast-configuration-workout-congratulations">
 				<hr />
-				<h3 style={ { marginBottom: 0 } }>{ __( "Congratulations!", "wordpress-seo" ) }</h3>
-				<div style={ { display: "flex" } }>
+				<h3 id="yoast-configuration-workout-congratulations-title" style={ { marginBottom: 0 } }>{ __( "Congratulations!", "wordpress-seo" ) }</h3>
+				<div id="yoast-configuration-workout-congratulations-content" style={ { display: "flex" } }>
 					<div>
 						<p>
 							{
@@ -820,7 +859,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					</div>
 					<WorkoutDoneImage style={ { height: "119px", width: "100px", flexShrink: 0 } } />
 				</div>
-				<Button onClick={ clearActiveWorkout } variant="primary">
+				<Button id="yoast-configuration-workout-congratulations-button" onClick={ clearActiveWorkout } variant="primary">
 					{
 						// translators: %1$s translates to a rightward pointing arrow ( → )
 						sprintf( __( "View other SEO workouts%1$s", "wordpress-seo" ), " →" )

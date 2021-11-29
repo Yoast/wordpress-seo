@@ -56,14 +56,12 @@ export const StandardButton = styled( Button )`
 	font-weight: 400;
 	line-height: 1.5;
 	margin-bottom: 5px;
-	width: 112px;
-	height: 40px;
+	max-width: 200px;
+	padding: 0 0.5em;
 `;
 
 export const TriggerReplacementVariableSuggestionsButton = styled( StandardButton )`
 	font-size: 13px;
-	width: 103px;
-	height: 28px;
 	margin-left: auto;
 	& svg {
 		${ getDirectionalStyle( "margin-right", "margin-left" ) }: 7px;

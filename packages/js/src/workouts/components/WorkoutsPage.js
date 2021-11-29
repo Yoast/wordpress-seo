@@ -111,7 +111,7 @@ export default function WorkoutsPage( props ) {
 					"wordpress-seo"
 				) }
 			</p>
-			{ activeWorkout && <Button onClick={ clearActiveWorkout }>{
+			{ activeWorkout && <Button id="yoast-workouts-back-to-workouts-button" onClick={ clearActiveWorkout }>{
 				// translators: %1$s translates to a leftward pointing arrow ( ← )
 				sprintf( __( "%1$sBack to all workouts", "worpdress-seo" ), "← " )
 			}</Button> }

@@ -13,13 +13,14 @@ import { __ } from "@wordpress/i18n";
  */
 export function Steps( props ) {
 	return (
-		<ol className="workflow yoast">
+		<ol id={ props.id } className="workflow yoast">
 			{ props.children }
 		</ol>
 	);
 }
 
 Steps.propTypes = {
+	id: PropTypes.string.isRequired,
 	children: PropTypes.any.isRequired,
 };
 
@@ -33,6 +34,7 @@ Steps.propTypes = {
 export function FinishButtonSection( {
 	stepNumber,
 	onFinishClick,
+	buttonId,
 	finishText,
 	hasDownArrow,
 	isFinished,
@@ -49,6 +51,7 @@ export function FinishButtonSection( {
 				<Button
 					className={ `yoast-button yoast-button--${ isReady ? "primary" : "secondary" }${ isFinished ? " yoast-button--finished" : "" }` }
 					onClick={ onFinishClick }
+					id={ buttonId }
 					{ ...additionalButtonProps }
 				>
 					{ finishText }
@@ -63,6 +66,7 @@ export function FinishButtonSection( {
 FinishButtonSection.propTypes = {
 	finishText: PropTypes.string.isRequired,
 	onFinishClick: PropTypes.func.isRequired,
+	buttonId: PropTypes.string.isRequired,
 	stepNumber: PropTypes.number,
 	hasDownArrow: PropTypes.bool,
 	isFinished: PropTypes.bool,
@@ -89,13 +93,13 @@ FinishButtonSection.defaultProps = {
  *
  * @returns {WPElement} The Step component.
  */
-export function Step( { title, subtitle, isFinished, ImageComponent, children } ) {
+export function Step( { id, title, subtitle, subtitleClass, isFinished, ImageComponent, children } ) {
 	const finished = isFinished ? " finished" : "";
 	return (
-		<li className={ `step${finished}` }>
-			<h4>{ title }</h4>
-			<div style={ { display: "flex" } }>
-				{ subtitle && <p>{ subtitle }</p> }
+		<li id={ id } className={ `step${finished}` }>
+			<h4 id={ `${id}-title` }>{ title }</h4>
+			<div id={ `${id}-subtitle` } style={ { display: "flex" } }>
+				{ subtitle && <p className={ subtitleClass }>{ subtitle }</p> }
 				{ ImageComponent && <ImageComponent style={ { height: "119px", width: "100px", flexShrink: 0 } } /> }
 			</div>
 			{ children }
@@ -105,7 +109,9 @@ export function Step( { title, subtitle, isFinished, ImageComponent, children } 
 
 Step.propTypes = {
 	title: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
 	subtitle: PropTypes.oneOfType( [ PropTypes.string, PropTypes.object ] ),
+	subtitleClass: PropTypes.string,
 	isFinished: PropTypes.bool,
 	ImageComponent: PropTypes.func,
 	children: PropTypes.any.isRequired,
@@ -113,6 +119,7 @@ Step.propTypes = {
 
 Step.defaultProps = {
 	subtitle: null,
+	subtitleClass: "",
 	ImageComponent: null,
 	isFinished: false,
 };
