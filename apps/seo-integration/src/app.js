@@ -1,8 +1,7 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
-import GooglePreviewContainer from "@yoast/seo-integration/build/google-preview-container";
-import { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-integration";
+import { SEO_STORE_NAME, useAnalyze, GooglePreviewContainer } from "@yoast/seo-integration";
 import { debounce } from "lodash";
 import "./app.css";
 

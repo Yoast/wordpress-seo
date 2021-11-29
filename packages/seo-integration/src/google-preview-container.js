@@ -1,21 +1,23 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useContext, useMemo, useRef, useState } from "@wordpress/element";
+import { useCallback, useMemo, useRef, useState } from "@wordpress/element";
 import { SEO_STORE_NAME } from "@yoast/seo-store";
-import { get, isEmpty, map } from "lodash";
+import { get, map } from "lodash";
 import { PropTypes } from "prop-types";
-import { SeoContext } from "./provider";
+import { useSeoContext } from "./seo-context";
 
 /**
  * Formats the replacement variables for the Google Preview.
  *
  * Caches the given replacement variables so that the memory address only changes when any value changes.
  *
- * @param {Object.<string, ReplacementVariablesInterface[]>} replacementVariables The replacement variables.
- *
  * @returns {{replacementVariables: {name: string, label: string, value: *}[], recommendedReplacementVariables: string[]}} The replacement variables
  *     and recommended replacement variables.
  */
-const useGooglePreviewReplacementVariables = ( replacementVariables ) => {
+const useGooglePreviewReplacementVariables = () => {
+	const analysisType = useSelect( select => select( SEO_STORE_NAME ).selectAnalysisType() );
+	const { analysisTypeReplacementVariables } = useSeoContext();
+	const replacementVariables = get( analysisTypeReplacementVariables, `${ analysisType }.variables`, [] );
+
 	const cache = useRef();
 
 	const values = map( replacementVariables, variable => variable.getReplacement() ).join( "" );
@@ -44,20 +46,16 @@ const useGooglePreviewReplacementVariables = ( replacementVariables ) => {
  * @returns {string} The base URL.
  */
 const useBaseUrl = () => {
-	const fallbackUrl = window.location.href;
-	const permalink = useSelect( select => select( SEO_STORE_NAME ).selectPermalink() || fallbackUrl );
+	const permalink = useSelect( select => select( SEO_STORE_NAME ).selectPermalink() );
 
 	return useMemo( () => {
-		if ( isEmpty( permalink ) ) {
-			return fallbackUrl;
-		}
-
 		// Strip the last part of the permalink.
 		let url;
 		try {
 			url = new URL( permalink );
 		} catch ( e ) {
-			return fallbackUrl;
+			// Fallback on current href
+			return window.location.href;
 		}
 
 		// Enforce ending with a slash because of the internal handling in the SnippetEditor component.
@@ -78,7 +76,6 @@ const useBaseUrl = () => {
  * @returns {JSX.Element} A wrapped Google preview component.
  */
 const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
-	const analysisType = useSelect( select => select( SEO_STORE_NAME ).selectAnalysisType() );
 	const title = useSelect( select => select( SEO_STORE_NAME ).selectSeoTitle() );
 	const description = useSelect( select => select( SEO_STORE_NAME ).selectMetaDescription() );
 	const slug = useSelect( select => select( SEO_STORE_NAME ).selectSlug() );
@@ -88,7 +85,6 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 	const isCornerstone = useSelect( select => select( SEO_STORE_NAME ).selectIsCornerstone() );
 	const [ previewMode, setPreviewMode ] = useState( "mobile" );
 	const { updateSlug, updateSeoTitle, updateMetaDescription } = useDispatch( SEO_STORE_NAME );
-	const { analysisTypeReplacementVariables } = useContext( SeoContext );
 
 	const data = useMemo( () => ( { title, description, slug } ), [ title, description, slug ] );
 	const focusKeyphraseWordForms = useMemo( () => get( morphologyResults, "keyphraseForms", [] ).flat(), [ morphologyResults ] );
@@ -99,7 +95,7 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 	const {
 		replacementVariables,
 		recommendedReplacementVariables,
-	} = useGooglePreviewReplacementVariables( get( analysisTypeReplacementVariables, `${ analysisType }.variables`, [] ) );
+	} = useGooglePreviewReplacementVariables();
 
 	const handleChange = useCallback( ( key, value ) => {
 		switch ( key ) {
@@ -116,7 +112,7 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 				updateMetaDescription( value );
 				break;
 			default:
-				console.warn( "Google preview unhandled change", key, value );
+				console.warn( "Unhandled change event in Google Preview container", key, value );
 				break;
 		}
 	}, [ setPreviewMode ] );

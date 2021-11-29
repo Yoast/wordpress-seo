@@ -1,16 +1,23 @@
-import { createContext } from "@wordpress/element";
+import { createContext, useContext } from "@wordpress/element";
 import { PropTypes } from "prop-types";
 
-export const SeoContext = createContext( {} );
+const SeoContext = createContext( {} );
+
+/**
+ * Use the SEO context via hook.
+ *
+ * @returns {Object} The SEO context.
+ */
+export const useSeoContext = () => useContext( SeoContext );
 
 /**
  * Creates an SEO provider.
  *
  * @param {Object} context The context to provide.
  *
- * @returns {function({children?: JSX.Element})} The SEO provider.
+ * @returns {function({children: ?JSX.Element})} The SEO provider.
  */
-const createSeoProvider = ( context ) => {
+export const createSeoProvider = ( context ) => {
 	/**
 	 * Provides the SEO context.
 	 *
@@ -33,4 +40,4 @@ const createSeoProvider = ( context ) => {
 	return SeoProvider;
 };
 
-export default createSeoProvider;
+export default SeoContext;
