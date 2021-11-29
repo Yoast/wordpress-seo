@@ -14,6 +14,10 @@
 	text-transform: uppercase;
 }
 
+#wpseo-workouts-container-free #workout-card-blocked-description {
+	margin: 0.5em 0 0.5em 0;
+}
+
 .workflow tr.cornerstone {
 	font-weight: 700;
 }
@@ -575,6 +579,38 @@ table.yoast_help th.divider {
 
 #wpseo-workouts-container-free div.card.card-small.card-disabled .workout-card-progress {
 	opacity: 0.5;
+}
+
+.workout-card-blocked {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 122px;
+	box-sizing: border-box;
+	border-top: solid 1px rgb(197, 197, 197);
+	padding: 10px 24px 24px;
+	background-color: #ffffff;
+	border-radius: 0 0 8px 8px;
+}
+
+.workout-card-blocked-title {
+	margin-bottom: 0;
+	position: relative;
+	padding-left: 20px;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.workout-card-blocked-title::before {
+	position: absolute;
+	content: "";
+	background: var(--yoast-svg-icon-lock);
+	background-size: 16px 17px;
+	width: 16px;
+	height: 16px;
+	left: 0;
+	top: 1px;
 }
 
 .workflow__grid {
