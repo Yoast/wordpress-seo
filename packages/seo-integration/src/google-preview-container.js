@@ -92,6 +92,8 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 
 	const data = useMemo( () => ( { title, description, slug } ), [ title, description, slug ] );
 	const focusKeyphraseWordForms = useMemo( () => get( morphologyResults, "keyphraseForms", [] ).flat(), [ morphologyResults ] );
+	// eslint-disable-next-line no-undefined
+	const formattedDate = useMemo( () => new Date( date ).toLocaleDateString( undefined, { day: "numeric", month: "short", year: "numeric" } ), [ date ] );
 
 	const baseUrl = useBaseUrl();
 	const {
@@ -122,7 +124,7 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 	return <Component
 		baseUrl={ baseUrl }
 		data={ data }
-		date={ date }
+		date={ formattedDate }
 		keyword={ focusKeyphrase }
 		mode={ previewMode }
 		wordsToHighlight={ focusKeyphraseWordForms }
