@@ -67,8 +67,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 * @throws Exception If the YOAST_NAME_PLACEHOLDER constant is not set in the child class.
 	 */
 	public function get_placeholder() {
-		$class       = get_class( $this );
-		$placeholder = $class::YOAST_NAME_PLACEHOLDER;
+		$placeholder = static::YOAST_NAME_PLACEHOLDER;
 
 		if ( empty( $placeholder ) ) {
 			throw new Exception( 'Importing settings action without explicit placeholder' );
@@ -85,8 +84,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 * @throws Exception If the SOURCE_OPTION_NAME constant is not set in the child class.
 	 */
 	public function get_source_option_name() {
-		$class              = get_class( $this );
-		$source_option_name = $class::SOURCE_OPTION_NAME;
+		$source_option_name = static::SOURCE_OPTION_NAME;
 
 		if ( empty( $source_option_name ) ) {
 			throw new Exception( 'Importing settings action without explicit source option_name' );
