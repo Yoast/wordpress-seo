@@ -245,7 +245,6 @@ const stepNumberNameMap = {
  * @param {function}  reviseStep                The function to revise steps.
  * @param {function}  toggleWorkout             The function to toggle the workout state.
  * @param {function}  isStepFinished            The function to check whether a step is finished.
- * @param {string}    seoDataOptimizationNeeded The flag signaling if SEO optimization is needed.
  * @returns {WPElement} The ConfigurationWorkout component.
  */
 export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, clearActiveWorkout, isStepFinished } ) {
