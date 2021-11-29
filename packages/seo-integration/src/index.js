@@ -29,7 +29,7 @@ export { createDefaultReplacementVariableConfigurations } from "./replacement-va
  * Creates the SEO integration.
  *
  * @param {string} analysisWorkerUrl The URL of the analysis worker.
- * @param {string} analysisResearcherUrl The URL of the analysis researcher.
+ * @param {string[]} dependencies The dependencies to load in the worker.
  * @param {Object} [analysisConfiguration] The analysis configuration. Defaults to a English (US) locale.
  * @param {Object.<string, AnalysisType>} [analysisTypes] The different analysis types and their configuration.
  *
@@ -37,7 +37,7 @@ export { createDefaultReplacementVariableConfigurations } from "./replacement-va
  */
 const createSeoIntegration = async ( {
 	analysisWorkerUrl,
-	analysisResearcherUrl,
+	dependencies,
 	analysisConfiguration = { locale: "en_US" },
 	analysisTypes = {
 		post: {
@@ -52,7 +52,7 @@ const createSeoIntegration = async ( {
 } = {} ) => {
 	const analysisWorker = await createAnalysisWorker( {
 		workerUrl: analysisWorkerUrl,
-		researcherUrl: analysisResearcherUrl,
+		dependencies: dependencies,
 		configuration: analysisConfiguration,
 	} );
 

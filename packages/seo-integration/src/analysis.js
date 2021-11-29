@@ -7,14 +7,14 @@ import { AnalysisWorkerWrapper, createWorker } from "yoastseo";
  * Creates the analysis worker.
  *
  * @param {string} workerUrl The URL of the analysis worker.
- * @param {string} researcherUrl The URL of the analysis researcher.
+ * @param {string[]} dependencies The dependencies to load within the worker.
  *
  * @returns {AnalysisWorkerWrapper} The analysis worker wrapper.
  */
-const createAnalysisWorkerWrapper = ( { workerUrl, researcherUrl } ) => {
+const createAnalysisWorkerWrapper = ( { workerUrl, dependencies } ) => {
 	const worker = createWorker( workerUrl );
 
-	worker.postMessage( { dependencies: [ researcherUrl ] } );
+	worker.postMessage( { dependencies: dependencies } );
 
 	return new AnalysisWorkerWrapper( worker );
 };
@@ -36,13 +36,13 @@ const createAnalysisConfiguration = ( configuration = {} ) => {
  * Creates the analysis worker.
  *
  * @param {string} workerUrl The URL of the analysis worker.
- * @param {string} researcherUrl The URL of the analysis researcher.
+ * @param {string[]} dependencies The dependencies to load in the worker.
  * @param {Object} configuration The base configuration of the analysis worker.
  *
  * @returns {AnalysisWorkerWrapper} The analysis worker wrapper.
  */
-const createAnalysisWorker = async ( { workerUrl, researcherUrl, configuration = {} } ) => {
-	const worker = createAnalysisWorkerWrapper( { workerUrl, researcherUrl } );
+const createAnalysisWorker = async ( { workerUrl, dependencies, configuration = {} } ) => {
+	const worker = createAnalysisWorkerWrapper( { workerUrl, dependencies } );
 
 	try {
 		await worker.initialize( createAnalysisConfiguration( configuration ) );
