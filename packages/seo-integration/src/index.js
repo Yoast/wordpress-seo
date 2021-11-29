@@ -29,6 +29,7 @@ export { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
 export { createDefaultReplacementVariableConfigurations } from "./replacement-variables";
 
 export { default as GooglePreviewContainer } from "./google-preview-container";
+export { ReadabilityResultsContainer, SeoResultsContainer } from "./analysis-result-containers";
 
 export { useSeoContext } from "./seo-context";
 
