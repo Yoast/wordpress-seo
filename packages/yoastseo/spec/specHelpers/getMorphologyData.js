@@ -19,7 +19,6 @@ import sk from "../../premium-configuration/data/morphologyData-sk-v1.json";
 import el from "../../premium-configuration/data/morphologyData-el-v1.json";
 
 import { isFeatureEnabled } from "@yoast/feature-flag";
-import { enableFeatures } from "@yoast/feature-flag";
 
 const morphologyData = {
 	en,
@@ -47,7 +46,6 @@ if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
 	// eslint-disable-next-line global-require
 	morphologyData.ja = require( "../../premium-configuration/data/morphologyData-ja-v1.json" );
 }
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
 
 /**
  * Requires morphology data. To be used in the analysis to recognize different word forms.
