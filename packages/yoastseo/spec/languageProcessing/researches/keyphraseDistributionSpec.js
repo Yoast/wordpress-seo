@@ -795,7 +795,21 @@ describe( "Test for the research for Japanese language", function() {
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 25,
-			sentencesToHighlight: [],
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "どちらもとても可愛くて甘い<yoastmark class='yoast-text-mark'>猫</yoastmark>で、<yoastmark class='yoast-text-mark'>猫</yoastmark>" +
+						"の<yoastmark class='yoast-text-mark'>餌</yoastmark>を食べるのが大好きです。",
+					original: "どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。",
+				} ),
+				new Mark( {
+					marked: "彼らが好きなタイプの<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>フード</yoastmark>は新鮮なものです。",
+					original: "彼らが好きなタイプの猫用フードは新鮮なものです。",
+				} ),
+				new Mark( {
+					marked: "加工が少ない<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>食品</yoastmark>の一種。",
+					original: "加工が少ない猫用食品の一種。",
+				} ),
+			],
 		} );
 	} );
 
@@ -816,7 +830,21 @@ describe( "Test for the research for Japanese language", function() {
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 25,
-			sentencesToHighlight: [],
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "どちらもとても可愛くて甘い<yoastmark class='yoast-text-mark'>猫</yoastmark>で、<yoastmark class='yoast-text-mark'>猫</yoastmark>" +
+						"の<yoastmark class='yoast-text-mark'>餌</yoastmark>を食べるのが大好きです。",
+					original: "どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。",
+				} ),
+				new Mark( {
+					marked: "彼らが好きなタイプの<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>フード</yoastmark>は新鮮なものです。",
+					original: "彼らが好きなタイプの猫用フードは新鮮なものです。",
+				} ),
+				new Mark( {
+					marked: "加工が少ない<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>食品</yoastmark>の一種。",
+					original: "加工が少ない猫用食品の一種。",
+				} ),
+			],
 		} );
 	} );
 
@@ -859,7 +887,13 @@ describe( "Test for the research for Japanese language", function() {
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 50,
-			sentencesToHighlight: [],
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "彼女はオンラインストアで<yoastmark class='yoast-text-mark'>黒</yoastmark>の<yoastmark class='yoast-text-mark'>長袖</yoastmark>" +
+						"<yoastmark class='yoast-text-mark'>マキシドレス</yoastmark>を購入したかった。",
+					original: "彼女はオンラインストアで黒の長袖マキシドレスを購入したかった。",
+				} ),
+			],
 		} );
 	} );
 } );
