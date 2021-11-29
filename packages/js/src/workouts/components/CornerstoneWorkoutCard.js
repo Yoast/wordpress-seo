@@ -40,7 +40,7 @@ export default function CornerstoneWorkoutCard( {
 		upsellText={ upsellText }
 		workout={ workout }
 		badges={ badges }
-		blocked={ ! isConfigurationWorkoutFinished && window.wpseoWorkoutsData.canDoConfigurationWorkout }
+		blocked={ ! isConfigurationWorkoutFinished && ( window.wpseoWorkoutsData.canDoConfigurationWorkout === "1" ) }
 	/>;
 }
 
