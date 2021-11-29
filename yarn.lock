@@ -1537,13 +1537,6 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.16.0":
-  version "7.16.3"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.3.tgz#b86f0db02a04187a3c17caa77de69840165d42d5"
-  integrity sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==
-  dependencies:
-    regenerator-runtime "^0.13.4"
-
 "@babel/runtime@^7.2.0", "@babel/runtime@^7.4.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.8.3.tgz#0811944f73a6c926bb2ad35e918dcc1bfab279f1"
@@ -4867,13 +4860,6 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
 
-"@wordpress/hooks@^3.2.2":
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/@wordpress/hooks/-/hooks-3.2.2.tgz#15062a10ca729569d02db8d45fc349b85ad1757e"
-  integrity sha512-MlFWyu2ttJhmzDFBVWPRwZwIMqQdHFZTjFWFWm50NlzUzIJ3gEtNA95mHNtav1Fone24N+I2YkaYMNb6PEPTyA==
-  dependencies:
-    "@babel/runtime" "^7.16.0"
-
 "@wordpress/html-entities@^2.11.1":
   version "2.11.1"
   resolved "https://registry.yarnpkg.com/@wordpress/hooks/-/hooks-2.11.1.tgz#86ad30cb20a8212f8c119894ff197574c84360e4"
@@ -4912,19 +4898,6 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@wordpress/hooks" "^3.1.1"
-    gettext-parser "^1.3.1"
-    lodash "^4.17.21"
-    memize "^1.1.0"
-    sprintf-js "^1.1.1"
-    tannin "^1.2.0"
-
-"@wordpress/i18n@^4.2.4":
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-4.2.4.tgz#6dd8667551d0c0e43483fd187460c5e39e6cc218"
-  integrity sha512-36PnV7wTaLKCb+JZoapR3AtfrLTluhO5bIR6cUTG+QBBJ+g3gjRAdNFihnV8kz66FANu8PqDMI0T1jow/mrbYw==
-  dependencies:
-    "@babel/runtime" "^7.16.0"
-    "@wordpress/hooks" "^3.2.2"
     gettext-parser "^1.3.1"
     lodash "^4.17.21"
     memize "^1.1.0"
@@ -5410,6 +5383,9 @@
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
+
+"@yoast/browserslist-config@file:packages/browserslist-config":
+  version "1.2.2"
 
 "@yoast/grunt-plugin-tasks@^2.2":
   version "2.2.0"
@@ -11094,6 +11070,11 @@ eslint-config-prettier@^7.1.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-7.2.0.tgz#f4a4bd2832e810e8cc7c1411ec85b3e85c0c53f9"
   integrity sha512-rV4Qu0C3nfJKPOAhFujFxB7RMP+URFyQqqOZW9DMRD7ZDTFyjaIlETU3xzHELt++4ugC0+Jm084HQYkkJe+Ivg==
+
+"eslint-config-yoast@file:packages/eslint":
+  version "5.0.17"
+  dependencies:
+    js-yaml "^3.6.0"
 
 eslint-import-resolver-node@^0.3.4:
   version "0.3.4"

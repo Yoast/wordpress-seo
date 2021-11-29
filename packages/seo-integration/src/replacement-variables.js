@@ -72,13 +72,19 @@ const registerReplacementVariables = ( applies ) => {
  *
  * @param {Object.<string, ReplacementVariableConfiguration[]>} configurations The replacement variables configurations per analysis type.
  *
- * @returns {{set: Object.<string, ReplacementVariablesInterface[]>, unregister: function}} The replacement variables interface.
+ * @returns {{
+ *   analysisTypeReplacementVariables: Object.<string, ReplacementVariablesInterface[]>,
+ *   unregisterReplacementVariables: function
+ * }} The replacement variables interface.
  */
 const createAnalysisTypeReplacementVariables = ( configurations ) => {
-	const set = mapValues( configurations, createReplacementVariables );
-	const unregister = registerReplacementVariables( mapValues( set, "apply" ) );
+	const analysisTypeReplacementVariables = mapValues( configurations, createReplacementVariables );
+	const unregisterReplacementVariables = registerReplacementVariables( mapValues( analysisTypeReplacementVariables, "apply" ) );
 
-	return { set, unregister };
+	return {
+		analysisTypeReplacementVariables,
+		unregisterReplacementVariables,
+	};
 };
 
 export default createAnalysisTypeReplacementVariables;
