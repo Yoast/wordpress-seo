@@ -30,7 +30,17 @@ Steps.propTypes = {
  *
  * @returns {WPElement} The FinishButtonSection element.
  */
-export function FinishButtonSection( { stepNumber, onFinishClick, finishText, hasDownArrow, isFinished, additionalButtonProps, isSaved, isReady, children } ) {
+export function FinishButtonSection( {
+	stepNumber,
+	onFinishClick,
+	finishText,
+	hasDownArrow,
+	isFinished,
+	additionalButtonProps,
+	isSaved,
+	isReady,
+	children,
+} ) {
 	return (
 		<Fragment>
 			<hr id={ stepNumber ? `hr-scroll-target-step-${ stepNumber + 1 }` : null } />
