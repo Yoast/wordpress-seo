@@ -2,6 +2,7 @@ import KeywordDensityAssessment from "../../../../src/scoring/assessments/seo/Ke
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import GermanResearcher from "../../../../src/languageProcessing/languages/de/Researcher";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import Paper from "../../../../src/values/Paper.js";
 import Mark from "../../../../src/values/Mark.js";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
@@ -10,6 +11,8 @@ const morphologyData = getMorphologyData( "en" );
 const morphologyDataDe = getMorphologyData( "de" );
 const nonkeyword = "nonkeyword, ";
 const keyword = "keyword, ";
+const shortTextJapanese = "熱".repeat( 199 );
+const longTextJapanese = "熱".repeat( 200 );
 
 describe( "Tests for the keywordDensity assessment for languages without morphology", function() {
 	it( "runs the keywordDensity on the paper without keyword in the text", function() {
@@ -112,22 +115,32 @@ describe( "Tests for the keywordDensity assessment for languages without morphol
 
 	it( "applies to a paper with a keyword and a text of at least 100 words", function() {
 		const paper = new Paper( nonkeyword.repeat( 100 ), { keyword: "keyword" } );
-		expect( new KeywordDensityAssessment().isApplicable( paper ) ).toBe( true );
+		expect( new KeywordDensityAssessment().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( true );
 	} );
 
 	it( "does not apply to a paper with text of 100 words but without a keyword", function() {
 		const paper = new Paper( nonkeyword.repeat( 100 ), { keyword: "" } );
-		expect( new KeywordDensityAssessment().isApplicable( paper ) ).toBe( false );
+		expect( new KeywordDensityAssessment().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "does not apply to a paper with a text containing less than 100 words and with a keyword", function() {
 		const paper = new Paper( nonkeyword.repeat( 99 ), { keyword: "keyword" } );
-		expect( new KeywordDensityAssessment().isApplicable( paper ) ).toBe( false );
+		expect( new KeywordDensityAssessment().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "does not apply to a paper with a text containing less than 100 words and without a keyword", function() {
 		const paper = new Paper( nonkeyword.repeat( 99 ), { keyword: "" } );
-		expect( new KeywordDensityAssessment().isApplicable( paper ) ).toBe( false );
+		expect( new KeywordDensityAssessment().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "applies to a Japanese paper with a keyword and a text of at least 200 characters", function() {
+		const paper = new Paper( longTextJapanese, { keyword: "keyword" } );
+		expect( new KeywordDensityAssessment().isApplicable( paper, new JapaneseResearcher( paper ) ) ).toBe( true );
+	} );
+
+	it( "does not apply to a Japanese paper with text of less than 200 characters", function() {
+		const paper = new Paper( shortTextJapanese, { keyword: "keyword" } );
+		expect( new KeywordDensityAssessment().isApplicable( paper, new JapaneseResearcher( paper ) ) ).toBe( false );
 	} );
 } );
 
