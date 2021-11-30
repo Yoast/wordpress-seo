@@ -91,7 +91,7 @@ function SocialInputPersonSection( { personId } ) {
 									"</a>"
 								),
 								window.wpseoScriptData.searchAppearance.userEditUrl.replace( "{user_id}", personId ),
-								"yoast-configuration-workout-user-page-link-direct",
+								"yoast-configuration-workout-user-page-link-direct"
 							)
 						}
 					</p>
@@ -110,3 +110,12 @@ function SocialInputPersonSection( { personId } ) {
 /* eslint-enable max-len */
 
 export default SocialInputPersonSection;
+
+SocialInputPersonSection.propTypes = {
+	personId: PropTypes.number,
+};
+
+SocialInputPersonSection.defaultProps = {
+	personId: 0,
+};
+
