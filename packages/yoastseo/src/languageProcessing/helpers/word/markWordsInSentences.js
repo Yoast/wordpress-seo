@@ -10,7 +10,7 @@ import Mark from "../../../values/Mark";
  *
  * @param {string}    sentence               The sentence to mark words in.
  * @param {[string]}  topicFoundInSentence   The words to mark in the sentence.
- * @param {function}    matchWordCustomHelper   The language-specific helper function to match word in text.
+ * @param {function}  matchWordCustomHelper  The language-specific helper function to match word in text.
  *
  * @returns {string} The sentence with marks.
  */
