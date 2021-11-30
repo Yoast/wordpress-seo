@@ -30,6 +30,7 @@
 
 #wpseo-workouts-container-free hr {
 	margin-bottom: 24px;
+	margin-top: 8px;
 }
 
 #wpseo-workouts-container-free progress {
@@ -80,10 +81,17 @@
 	margin-left:48px;
 }
 
+#yoast-configuration-workout p {
+	line-height: 19px;
+	color: rgb(60, 67, 74)
+}
+
 /* Override premium 17.6 workout styles */
 .workflow li li {
 	counter-increment: none;
-	padding-bottom: 0;
+	margin-bottom: 8px;
+	line-height: 19px;
+
 }
 
 .workflow li.step {
@@ -226,6 +234,11 @@
 }
 
 .workflow .yoast-field-group {
+	font-size: 13px;
+	color: rgb(60, 67, 74);
+}
+
+.workflow .yoast-field-group__title {
 	font-size: 13px;
 	color: rgb(60, 67, 74);
 }
@@ -433,6 +446,15 @@ table.yoast_help th.divider {
 .workflow li.step h4 {
 	font-size: 14px;
 	font-weight: 600;
+	margin: 24px 0 0 0;
+}
+
+#wpseo-workouts-container-free #configuration-workout-hr-top {
+	margin-bottom: 16px;
+}
+
+#wpseo-workouts-container-free #configuration-workout-important-message {
+	margin: 0;
 }
 
 .workflow .yoast-field-group {
@@ -441,7 +463,12 @@ table.yoast_help th.divider {
 }
 
 .workflow .yoast-social-profiles-input-fields {
-	margin: 30px 0 20px 0;
+	margin: 10px 0 20px 0;
+}
+
+.workflow .tracking-radiobuttons {
+	line-height: 19px;
+	margin: 0 0 20px 0;
 }
 
 .workflow .yoast-tracking {
@@ -462,6 +489,7 @@ table.yoast_help th.divider {
 
 .yoast-list--usp {
 	padding-left: 24px;
+	margin-bottom: 16px;
 }
 
 .yoast-list--usp li {

@@ -507,8 +507,8 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					}
 				</i>
 			</p>
-			<hr />
-			<p>
+			<hr id="configuration-workout-hr-top" />
+			<p id="configuration-workout-important-message">
 				{
 					createInterpolateElement(
 						sprintf(
@@ -526,7 +526,6 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					)
 				}
 			</p>
-			<br />
 			<Steps id="yoast-configuration-workout-steps">
 				<Step
 					id="yoast-configuration-workout-step-optimize-seo-data"
@@ -830,6 +829,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					title={ __( "Sign up for the Yoast newsletter!", "wordpress-seo" ) }
 					isFinished={ isStep5Finished }
 				>
+					<br />
 					<NewsletterSignup />
 				</Step>
 				<FinishButtonSection
