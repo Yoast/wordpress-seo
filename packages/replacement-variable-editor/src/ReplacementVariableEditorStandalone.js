@@ -114,7 +114,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this._serializedContent = rawContent;
 
 		this.initializeBinds();
-		this.initializeDraftJsPlugins( props.theme.isRtl );
+		this.initializeDraftJsPlugins();
 	}
 
 	/**
@@ -134,11 +134,9 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	/**
 	 * Initializes the Draft.js mention and single line plugins.
 	 *
-	 * @param {boolean} isRtl Whether to editor is right-to-left or not.
-	 *
 	 * @returns {void}
 	 */
-	initializeDraftJsPlugins( isRtl ) {
+	initializeDraftJsPlugins() {
 		/*
 		 * The mentions plugin is used to autocomplete the replacement variable
 		 * names.
