@@ -82,9 +82,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * Checks the applicability of the assessment based on the presence of text, and, if required, text length.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
-	 * @param {Researcher}  Researcher  The language-specific or default researcher.
+	 * @param {Researcher}  researcher  The language-specific or default researcher.
 	 *
-	 * @returns {boolean} True when there is text or when the text is longer than the specified length and "shouldNotAppearInShortText" is set to true.
+	 * @returns {boolean} True when there is text or when text is longer than the specified length and "shouldNotAppearInShortText" is set to true.
 	 */
 	isApplicable( paper, researcher ) {
 		/**
@@ -96,12 +96,12 @@ class SubheadingsDistributionTooLong extends Assessment {
 			const customCountLength = researcher.getHelper( "customCountLength" );
 			const customApplicabilityConfig = researcher.getConfig( "assessmentApplicability" ).subheadingDistribution;
 			if ( customApplicabilityConfig ) {
-				this._config.applicableIfTextLongerThan = customApplicabilityConfig
+				this._config.applicableIfTextLongerThan = customApplicabilityConfig;
 			}
 
 			const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" );
 
-			return paper.hasText() && textLength > this._config.applicableIfTextLongerThan
+			return paper.hasText() && textLength > this._config.applicableIfTextLongerThan;
 		}
 
 		return paper.hasText();

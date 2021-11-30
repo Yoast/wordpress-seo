@@ -6,7 +6,7 @@ import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import { enableFeatures } from "@yoast/feature-flag";
-enableFeatures( 'JAPANESE_SUPPORT' );
+enableFeatures( "JAPANESE_SUPPORT" );
 
 const shortTextJapanese = "熱".repeat( 399 );
 const longTextJapanese = "熱".repeat( 400 );

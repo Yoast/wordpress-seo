@@ -9,7 +9,6 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark.js";
 import marker from "../../../markers/addMark.js";
 import Assessment from "../assessment";
-import getWords from "../../../languageProcessing/helpers/word/getWords";
 
 /**
  * Represents the assessment that checks whether there are enough transition words in the text.
@@ -183,13 +182,13 @@ export default class TransitionWordsAssessment extends Assessment {
 	 * @param {Paper}       paper       The paper to check.
 	 * @param {Researcher}  researcher  The researcher object.
 	 *
-	 * @returns {boolean} Returns true if the language is available, the paper is not empty and if the text is longer than the minimum required length.
+	 * @returns {boolean} Returns true if the language is available, the paper is not empty and the text is longer than the minimum required length.
 	 */
 	isApplicable( paper, researcher ) {
 		const customCountLength = researcher.getHelper( "customCountLength" );
 		const customApplicabilityConfig = researcher.getConfig( "assessmentApplicability" ).transitionWords;
 		if ( customApplicabilityConfig ) {
-			this._config.applicableIfTextLongerThan = customApplicabilityConfig
+			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
 		}
 		const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" );
 		return paper.hasText() && textLength >= this._config.applicableIfTextLongerThan && researcher.hasResearch( "findTransitionWords" );

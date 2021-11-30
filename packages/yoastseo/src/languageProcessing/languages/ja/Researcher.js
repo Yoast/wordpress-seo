@@ -46,7 +46,7 @@ export default class Researcher extends AbstractResearcher {
 			functionWords,
 			transitionWords,
 			topicLength,
-			assessmentApplicability
+			assessmentApplicability,
 		} );
 
 		Object.assign( this.helpers, {
