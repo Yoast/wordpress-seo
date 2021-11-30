@@ -14,6 +14,7 @@ export const FACEBOOK_IMAGE_SIZES = {
 	portraitWidth: 158,
 	portraitHeight: 237,
 	aspectRatio: ( 0.522 / 1 ) * 100,
+	largeThreshold: { width: 446, height: 233 },
 };
 
 /**
@@ -24,13 +25,13 @@ export const FACEBOOK_IMAGE_SIZES = {
  * @returns {string} The display mode of the image.
  */
 export function determineFacebookImageMode( originalDimensions ) {
-	const largeThreshold = { height: 233, width: 446 };
+	const { largeThreshold } = FACEBOOK_IMAGE_SIZES;
 
 	if ( originalDimensions.height > originalDimensions.width ) {
 		return "portrait";
 	}
 
-	if ( originalDimensions.height < largeThreshold.height || originalDimensions.width < largeThreshold.width ) {
+	if (  originalDimensions.width < largeThreshold.width || originalDimensions.height < largeThreshold.height ) {
 		return "square";
 	}
 

@@ -116,25 +116,43 @@ class FacebookPreview extends Component {
 	}
 
 	/**
-	 * Sets the max line count and max description line count if the image mode changes.
+	 * Sets the max line count if the image mode has been changed.
 	 *
 	 * @returns {void}
 	 */
-	componentDidUpdate() {
-		const { imageMode, maxLineCount, descriptionLineCount } = this.state;
+	maybeSetMaxLineCount() {
+		const { imageMode, maxLineCount } = this.state;
 
 		const currentMaxLineCount = imageMode === "landscape" ? 2 : 5;
 
 		if ( currentMaxLineCount !== maxLineCount ) {
 			this.setState( { maxLineCount: currentMaxLineCount } );
 		}
+	}
 
-		const currentTitleLineCount = this.getTitleLineCount();
-		const maxDescriptionLineCount = ( currentMaxLineCount - currentTitleLineCount );
+	/**
+	 * Sets the max description line count if the max line count has been changed.
+	 *
+	 * @returns {void}
+	 */
+	maybeSetDescriptionLineCount() {
+		const { descriptionLineCount, maxLineCount } = this.state;
+
+		const maxDescriptionLineCount = ( maxLineCount - this.getTitleLineCount() );
 
 		if ( maxDescriptionLineCount !== descriptionLineCount ) {
 			this.setState( { descriptionLineCount: maxDescriptionLineCount } );
 		}
+	}
+
+	/**
+	 * Conditionally set the max line count and max description line count.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate() {
+		this.maybeSetMaxLineCount();
+		this.maybeSetDescriptionLineCount();
 	}
 
 	/**

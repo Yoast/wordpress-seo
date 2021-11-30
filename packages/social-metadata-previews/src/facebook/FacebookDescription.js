@@ -2,7 +2,7 @@
 import styled from "styled-components";
 
 // Used to make sure the element also has a height when empty by setting min-height equal to line-height.
-const height = "16px";
+const descriptionLineHeight = 16;
 
 /**
  * Renders a FacebookDescription component.
@@ -12,8 +12,8 @@ const height = "16px";
  * @returns {React.Component} The rendered element.
  */
 const FacebookDescription = styled.p`
-	line-height: ${ height };
-	min-height : ${ height };
+	line-height: ${ descriptionLineHeight }px;
+	min-height : ${ descriptionLineHeight }px;
 	color: #606770;
 	font-size: 14px;
 	padding: 0;
