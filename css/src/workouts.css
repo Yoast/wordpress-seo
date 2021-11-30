@@ -91,7 +91,6 @@
 	counter-increment: none;
 	margin-bottom: 8px;
 	line-height: 19px;
-
 }
 
 .workflow li.step {
@@ -246,6 +245,7 @@
 .workflows__index {
 	display: flex;
 	gap: 16px;
+	flex-wrap: wrap;
 }
 
 .workflows__index .yoast-button {
