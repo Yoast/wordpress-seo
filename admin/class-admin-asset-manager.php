@@ -223,35 +223,40 @@ class WPSEO_Admin_Asset_Manager {
 			'block-editor',
 			'classic-editor',
 			'post-edit',
+			'classic-editor-integration',
 			'help-scout-beacon',
 		];
 		$additional_dependencies = [
-			'analysis-worker'    => [ self::PREFIX . 'analysis-package' ],
-			'api-client'         => [ 'wp-api' ],
-			'dashboard-widget'   => [ self::PREFIX . 'api-client' ],
-			'elementor'          => [ self::PREFIX . 'api-client' ],
-			'indexation'         => [
+			'analysis-worker'  => [ self::PREFIX . 'analysis-package' ],
+			'api-client'       => [ 'wp-api' ],
+			'dashboard-widget' => [ self::PREFIX . 'api-client' ],
+			'elementor'        => [ self::PREFIX . 'api-client' ],
+			'indexation'       => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
 			],
-			'post-edit'          => [
+			'post-edit'        => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'block-editor',
 				self::PREFIX . 'select2',
 			],
-			'reindex-links'      => [
+			'reindex-links'    => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
 			],
-			'settings'           => [
+			'settings'         => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'select2',
 			],
-			'term-edit'          => [
+			'term-edit'        => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'classic-editor',
+				self::PREFIX . 'select2',
+			],
+			'classic-editor'   => [
+				self::PREFIX . 'api-client',
 				self::PREFIX . 'select2',
 			],
 		];
@@ -294,21 +299,6 @@ class WPSEO_Admin_Asset_Manager {
 			$select2_scripts,
 			$renamed_scripts
 		);
-
-		$scripts['post-edit-classic'] = [
-			'name'      => 'post-edit-classic',
-			'src'       => $scripts['post-edit']['src'],
-			'deps'      => array_map(
-				static function( $dep ) {
-					if ( $dep === self::PREFIX . 'block-editor' ) {
-						return self::PREFIX . 'classic-editor';
-					}
-					return $dep;
-				},
-				$scripts['post-edit']['deps']
-			),
-			'in_footer' => ! in_array( 'post-edit-classic', $header_scripts, true ),
-		];
 
 		// Add the current language to every script that requires the analysis package.
 		foreach ( $scripts as $name => $script ) {
