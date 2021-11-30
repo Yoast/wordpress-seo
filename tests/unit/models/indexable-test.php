@@ -121,6 +121,19 @@ class Indexable_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that no "passing null to non-nullable" deprecation notice is thrown on PHP 8.1.
+	 *
+	 * @covers ::save
+	 */
+	public function test_save_without_changes() {
+		$this->instance->orm->expects( 'get' )->once()->with( 'permalink' );
+		$this->instance->orm->expects( 'get' )->once()->with( 'primary_focus_keyword' );
+		$this->instance->orm->expects( 'save' )->once();
+
+		$this->instance->save();
+	}
+
+	/**
 	 * Tests get_extension.
 	 *
 	 * @covers ::get_extension
