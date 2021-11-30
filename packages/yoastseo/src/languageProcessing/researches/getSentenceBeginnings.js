@@ -54,11 +54,13 @@ const compareFirstWords = function( sentenceBeginnings, sentences ) {
  * @param {string}  sentence                The sentence to retrieve the first word from.
  * @param {Array}   firstWordExceptions     First word exceptions to match against.
  * @param {Array}   secondWordExceptions    Second word exceptions to match against.
+ * @param {function}	getWordsCustomHelper   The language-specific helper function to retrieve words from text.
  *
  * @returns {string} The first word of the sentence.
  */
-function getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptions ) {
-	const words = getWords( stripTags( stripSpaces( sentence ) ) );
+function getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptions, getWordsCustomHelper ) {
+	const stripped = stripTags( stripSpaces( sentence ) );
+	const words = getWordsCustomHelper ? getWordsCustomHelper( stripped ) : getWords( stripped );
 
 	if ( words.length === 0 ) {
 		return "";
@@ -89,6 +91,8 @@ function getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptio
 export default function( paper, researcher ) {
 	const firstWordExceptions = researcher.getConfig( "firstWordExceptions" );
 	const secondWordExceptions = researcher.getConfig( "secondWordExceptions" );
+	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
+
 	let text = paper.getText();
 
 	// Exclude text inside tables.
@@ -97,11 +101,13 @@ export default function( paper, researcher ) {
 	let sentences = getSentences( text );
 
 	let sentenceBeginnings = sentences.map( function( sentence ) {
-		return getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptions );
+		return getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptions, getWordsCustomHelper );
 	} );
 
 	sentences = sentences.filter( function( sentence ) {
-		return getWords( stripSpaces( sentence ) ).length > 0;
+		const stripped = stripSpaces( sentence );
+		const words = getWordsCustomHelper ? getWordsCustomHelper( stripped ) : getWords( stripped );
+		return words.length > 0;
 	} );
 	sentenceBeginnings = filter( sentenceBeginnings );
 

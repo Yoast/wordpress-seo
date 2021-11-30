@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '17.6' );
+define( 'WPSEO_VERSION', '17.7-RC13' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -135,6 +135,9 @@ function wpseo_activate( $networkwide = false ) {
 		/* Multi-site network activation - activate the plugin for all blogs. */
 		wpseo_network_activate_deactivate( true );
 	}
+
+	// This is done so that the 'uninstall_{$file}' is triggered.
+	register_uninstall_hook( WPSEO_FILE, '__return_false' );
 }
 
 /**

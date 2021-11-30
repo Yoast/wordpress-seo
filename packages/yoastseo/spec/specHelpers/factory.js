@@ -44,7 +44,7 @@ FactoryProto.prototype.buildMockElement = function() {
  */
 FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false, hasMorphologyData = false,
 	config = false, helpers = false ) {
-	if ( ( multiValue && typeof expectedValue === "object" ) || ( multiValue && typeof helpers === "object" ) ) {
+	if ( multiValue && ( typeof expectedValue === "object" || typeof helpers === "object" || typeof config === "object" ) ) {
 		return {
 			/**
 			 * Return research results by research name for multi-value mock researchers.
@@ -74,6 +74,16 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 			 */
 			getHelper: function( name ) {
 				return helpers[ name ];
+			},
+
+			/**
+			 * Return the config to be used for the assessment.
+			 * @param {string} name The name of the config.
+			 *
+			 * @returns {function} The config for the assessment.
+			 */
+			getConfig: function( name ) {
+				return config[ name ];
 			},
 		};
 	}

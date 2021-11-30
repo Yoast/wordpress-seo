@@ -44,7 +44,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	getTooLongParagraphs( paragraphsLength  ) {
 		const recommendedLength = this._config.parameters.recommendedLength;
 		return filter( paragraphsLength, function( paragraph ) {
-			return paragraph.wordCount > recommendedLength;
+			return paragraph.countLength > recommendedLength;
 		} );
 	}
 
@@ -64,7 +64,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 			return {};
 		}
 
-		const longestParagraphLength = paragraphsLength[ 0 ].wordCount;
+		const longestParagraphLength = paragraphsLength[ 0 ].countLength;
 
 		if ( longestParagraphLength <= this._config.parameters.recommendedLength ) {
 			// Green indicator.
@@ -124,7 +124,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	sortParagraphs( paragraphs ) {
 		return paragraphs.sort(
 			function( a, b ) {
-				return b.wordCount - a.wordCount;
+				return b.countLength - a.countLength;
 			}
 		);
 	}

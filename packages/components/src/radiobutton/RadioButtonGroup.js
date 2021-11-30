@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
+import { noop } from "lodash";
 import FieldGroup, { FieldGroupDefaultProps, FieldGroupProps } from "../field-group/FieldGroup";
 import { getId } from "../GenerateId";
 
@@ -10,7 +11,7 @@ const radioButtonsProps = {
 	onChange: PropTypes.func.isRequired,
 	groupName: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
-	selected: PropTypes.string,
+	selected: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ),
 };
 
 const radioButtonsDefaultProps = {
@@ -46,12 +47,17 @@ const LabeledRadioButton = ( { value, label, checked, onChange, groupName, id } 
 </Fragment>;
 
 LabeledRadioButton.propTypes = {
-	value: PropTypes.string.isRequired,
+	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ).isRequired,
 	label: PropTypes.string.isRequired,
-	checked: PropTypes.bool.isRequired,
+	checked: PropTypes.bool,
 	groupName: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
+	onChange: PropTypes.func,
 	id: PropTypes.string.isRequired,
+};
+
+LabeledRadioButton.defaultProps = {
+	checked: false,
+	onChange: noop,
 };
 
 /**
@@ -159,10 +165,10 @@ RadioButtonGroup.propTypes = {
 	id: PropTypes.string,
 	groupName: PropTypes.string.isRequired,
 	options: PropTypes.arrayOf( PropTypes.shape( {
-		value: PropTypes.string.isRequired,
+		value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ).isRequired,
 		label: PropTypes.string.isRequired,
 	} ) ).isRequired,
-	selected: PropTypes.string,
+	selected: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ),
 	onChange: PropTypes.func,
 	vertical: PropTypes.bool,
 	...FieldGroupProps,
