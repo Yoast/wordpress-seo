@@ -424,7 +424,7 @@ class WPSEO_Sitemaps {
 		 *
 		 * @param int $entries The maximum number of entries per XML sitemap.
 		 */
-		$entries = (int) apply_filters( 'wpseo_sitemap_entries_per_page', 1000 );
+		$entries = (int) apply_filters( 'Yoast\WP\SEO\xml_sitemaps_entries_per_sitemap', 5000 );
 
 		return $entries;
 	}
