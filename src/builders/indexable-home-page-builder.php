@@ -132,7 +132,7 @@ class Indexable_Home_Page_Builder {
 	public function set_aggregate_values( Indexable $indexable ) {
 		$aggregates                                   = $this->get_public_post_archive_aggregates();
 		$indexable->object_published_at               = $aggregates->first_published_at;
-		$indexable->object_last_modified              = $aggregates->most_recent_last_modified;
+		$indexable->object_last_modified              = max( $indexable->object_last_modified, $aggregates->most_recent_last_modified );
 		$indexable->number_of_publicly_viewable_posts = $aggregates->number_of_public_posts;
 
 		return $indexable;
