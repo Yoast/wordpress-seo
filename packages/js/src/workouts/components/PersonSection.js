@@ -50,6 +50,9 @@ export function PersonSection( { dispatch, imageUrl, personId, isDisabled } ) {
 				hasPreview={ true }
 				label={ __( "Person logo / avatar (important)", "wordpress-seo" ) }
 				isDisabled={ isDisabled }
+				replaceImageButtonId={ "person-logo-replace-button" }
+				selectImageButtonId={ "person-logo-select-button" }
+				removeImageButtonId={ "person-logo-remove-button" }
 			/>
 		</Fragment>
 	);

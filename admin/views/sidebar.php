@@ -7,11 +7,8 @@
 
 $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
-
-$time       = time();
-$time_start = gmmktime( 11, 00, 00, 11, 25, 2021 );
-$time_end   = gmmktime( 11, 00, 00, 11, 30, 2021 );
 ?>
+
 <div class="wpseo_content_cell" id="sidebar-container">
 	<div id="sidebar" class="yoast-sidebar">
 		<div class="wpseo_content_cell_title yoast-sidebar__title">
@@ -51,10 +48,6 @@ $time_end   = gmmktime( 11, 00, 00, 11, 30, 2021 );
 				echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 				?>
 			</a>
-			<?php if ( ( $time > $time_start ) && ( $time < $time_end ) ) : ?>
-				<span class="yoast-badge yoast-badge--sale"><?php esc_html_e( '30% off!', 'wordpress-seo' ); ?></span>
-			<?php endif; ?>
-			<br>
 		</div>
 		<div class="yoast-sidebar__section">
 			<h2>
