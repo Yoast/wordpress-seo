@@ -6,14 +6,10 @@ self.onmessage = ( { data } ) => {
 		return;
 	}
 
-	for ( const dependency in data.dependencies ) {
-		if ( ! Object.prototype.hasOwnProperty.call( data.dependencies, dependency ) ) {
-			continue;
-		}
+	for ( const dependency of data.dependencies ) {
+		self.importScripts( dependency );
 
-		self.importScripts( data.dependencies[ dependency ] );
-
-		if ( dependency === "lodash" ) {
+		if ( dependency.includes( "lodash" ) ) {
 			// eslint-disable-next-line no-undef
 			self.lodash = _.noConflict();
 		}
