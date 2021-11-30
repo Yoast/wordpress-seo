@@ -9,6 +9,7 @@ import wordsCharacterCount from "./helpers/wordsCharacterCount";
 import customCountLength from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
 import getContentWords from "./helpers/getContentWords";
+import findMultiWordKeyphraseInPageTitle from "./helpers/findExactMatchMultiWordKeyphraseInTitle";
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
@@ -55,6 +56,7 @@ export default class Researcher extends AbstractResearcher {
 			wordsCharacterCount,
 			customCountLength,
 			matchTransitionWordsHelper,
+			findMultiWordKeyphraseInPageTitle,
 		} );
 
 		Object.assign( this.defaultResearches, {
