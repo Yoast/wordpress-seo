@@ -65,7 +65,7 @@ class Configuration_Workout_Action {
 
 		foreach ( self::SITE_REPRESENTATION_FIELDS as $field_name ) {
 			if ( isset( $params[ $field_name ] ) ) {
-				if ( $field_name === 'description' ) {
+				if ( $field_name === 'description' && \current_user_can( 'manage_options' ) ) {
 					$result = \update_option( 'blogdescription', $params['description'] );
 					if ( ! $result && $params['description'] === \get_option( 'blogdescription' ) ) {
 						$result = true;

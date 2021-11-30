@@ -166,10 +166,12 @@ async function updateSiteRepresentation( state ) {
 		person_logo: state.personLogo,
 		person_logo_id: state.personLogoId ? state.personLogoId : 0,
 		company_or_person_user_id: state.personId,
-		description: state.siteTagline,
 		/* eslint-enable camelcase */
 	};
 
+	if ( window.wpseoWorkoutsData.canEditWordPressOptions ) {
+		siteRepresentation.description = state.siteTagline;
+	}
 	const response = await apiFetch( {
 		path: "yoast/v1/workouts/site_representation",
 		method: "POST",
@@ -661,14 +663,14 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							personId={ state.personId }
 						/>
 					</Fragment> }
-					<TextInput
+					{ window.wpseoWorkoutsData.canEditWordPressOptions && <TextInput
 						id="site-tagline-input"
 						name="site-tagline"
 						label={ __( "Site tagline", "wordpress-seo" ) }
 						description={ sprintf( __( "Add a catchy tagline that describes your site in the best light. Use the keywords you want people to find your site with. Example: %1$s’s tagline is ‘SEO for everyone.’", "wordpress-seo" ), "Yoast" ) }
 						value={ state.siteTagline }
 						onChange={ onSiteTaglineChange }
-					/>
+					/> }
 					{ siteRepresentationEmpty && <Alert type="warning">
 						{ __(
 							// eslint-disable-next-line max-len
