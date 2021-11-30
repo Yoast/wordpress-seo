@@ -40,7 +40,7 @@ export function PersonSection( { dispatch, imageUrl, personId, isDisabled } ) {
 		sprintf(
 			// translators: %1$s is replaced by the selected user's name, and %2$s and %3$s are opening and closing anchor tags.
 			__(
-				"You have selected the user %1$s as the person this site represents. Their user profile information will now be used in search results. %2$sUpdate their profile to make sure the information is correct.%3$s",
+				"You have selected the user %1$s as the person this site represents. Their user profile information will now be used in search results. %2$sUpdate their profile to make sure the information is correct.%3$s Alternatively, ask the user or an admin to do it if you are not allowed.",
 				"wordpress-seo"
 			),
 			`<b>${ personName }</b>`,
