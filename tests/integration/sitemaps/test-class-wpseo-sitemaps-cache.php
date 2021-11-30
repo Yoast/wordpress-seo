@@ -55,8 +55,19 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 		$result = $cache->get_sitemap( $type, $page );
 
-		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Reason: There's no security risk, because users don't interact with tests.
-		$this->assertEquals( $test, unserialize( $result ) );
+		/*
+		 * In PHP < 7.4 the "old" serialization mechanism via the Serializable interface is used,
+		 * which combined with the WP logic doesn't automatically unserialize, which is why we need
+		 * to do so ourselves.
+		 * As of PHP 7.4, the new serialization using magic methods is used.
+		 */
+		if ( PHP_VERSION_ID < 70400 ) {
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Reason: There's no security risk, because users don't interact with tests.
+			$result = unserialize( $result );
+		}
+
+		$this->assertEquals( $test, $result );
+
 		$this->assertEquals( $test, $cache->get_sitemap_data( $type, $page ) );
 	}
 
