@@ -179,7 +179,11 @@ class Indexable_Link_Builder {
 	 */
 	protected function gather_images( $content ) {
 		$images = $this->gather_images_from_content( $content );
-		\array_merge( $images, $this->get_featured_image() );
+
+		$featured = $this->get_featured_image();
+		if ( $featured ) {
+			$images[] = $featured;
+		}
 
 		return $images;
 	}
@@ -187,16 +191,16 @@ class Indexable_Link_Builder {
 	/**
 	 * Gathers all images from content.
 	 *
-	 * @return string[] An array of urls.
+	 * @return string|null An url, if a thumbnail exists.
 	 */
 	protected function get_featured_image() {
 		$featured_id = $this->image_helper->get_featured_image_id();
 		if ( ! $featured_id ) {
-			return [];
+			return null;
 		}
 
 		$featured_image_source = $this->image_helper->get_attachment_image_source( $featured_id );
-		return [ $featured_image_source ];
+		return $featured_image_source;
 	}
 
 
