@@ -24,6 +24,7 @@
     "@wordpress/element": "^4.0.3",
     "@wordpress/hooks": "^3.2.1",
     "@wordpress/i18n": "^4.2.4",
+    "@yoast/analysis-report": "file:../../packages/analysis-report",
     "@yoast/search-metadata-previews": "file:../../packages/search-metadata-previews",
     "@yoast/seo-integration": "file:../../packages/seo-integration",
     "react-scripts": "4.0.3",
