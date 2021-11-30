@@ -17,7 +17,7 @@ function createPaper( data, keyphrase, configuration ) {
 			keyword: keyphrase.keyphrase,
 			synonyms: keyphrase.synonyms,
 			// General data and metadata.
-			description: data.metadescription,
+			description: data.metaDescription,
 			title: data.seoTitle,
 			titleWidth: data.seoTitleWidth,
 			permalink: data.slug,
