@@ -1,9 +1,15 @@
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import TransitionWordsAssessment from "../../../../src/scoring/assessments/readability/TransitionWordsAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
+import { enableFeatures } from "@yoast/feature-flag";
+enableFeatures( 'JAPANESE_SUPPORT' );
+
+const shortTextJapanese = "熱".repeat( 399 );
+const longTextJapanese = "熱".repeat( 400 );
 
 describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 0% of the sentences with transition words", function() {
@@ -135,6 +141,18 @@ describe( "An assessment for transition word percentage", function() {
 		const mockPaper = new Paper( "This is a string", { locale: "xx_YY" } );
 		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new DefaultResearcher( mockPaper ) );
 		expect( assessment ).toBe( false );
+	} );
+
+	it( "is not applicable when the text is less than 400 characters in Japanese", function() {
+		const mockPaper = new Paper( shortTextJapanese );
+		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new JapaneseResearcher( mockPaper ) );
+		expect( assessment ).toBe( false );
+	} );
+
+	it( "is applicable when the text is 400 characters or longer in Japanese", function() {
+		const mockPaper = new Paper( longTextJapanese );
+		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new JapaneseResearcher( mockPaper ) );
+		expect( assessment ).toBe( true );
 	} );
 } );
 
