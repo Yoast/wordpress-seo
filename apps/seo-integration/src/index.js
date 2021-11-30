@@ -20,8 +20,8 @@ const load = async () => {
 		initialState: {
 			editor: {
 				title: "This is the initial title",
-				content: "This is the initial content and the initial title is: %%title%%"
-			}
+				content: "This is the initial content and the initial title is: %%title%%",
+			},
 		},
 	} );
 

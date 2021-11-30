@@ -1,7 +1,8 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
+import { ContentAnalysis } from "@yoast/analysis-report";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
-import { SEO_STORE_NAME, useAnalyze, GooglePreviewContainer } from "@yoast/seo-integration";
+import { GooglePreviewContainer, ReadabilityResultsContainer, SEO_STORE_NAME, SeoResultsContainer, useAnalyze } from "@yoast/seo-integration";
 import { debounce } from "lodash";
 import "./app.css";
 
@@ -111,6 +112,10 @@ const Keyphrase = ( props ) => {
 				onChange={ handleSynonymsChange }
 				defaultValue={ initialSynonyms }
 			/>
+			{ props.id !== "focus" && <>
+				<h4>SEO Results</h4>
+				<SeoResultsContainer as={ ContentAnalysis } keyphraseId={ props.id } />
+			</> }
 		</fieldset>
 	);
 };
@@ -126,14 +131,14 @@ const App = () => {
 				<Keyphrases />
 				<GooglePreviewContainer as={ SnippetEditor } />
 				<h4>SEO Results</h4>
-				<div>...</div>
+				<SeoResultsContainer as={ ContentAnalysis } />
 				<h4>Readability Results</h4>
-				<div>...</div>
+				<ReadabilityResultsContainer as={ ContentAnalysis } />
 				<h4>Research Results</h4>
 				<div>...</div>
 			</aside>
 		</>
 	);
-}
+};
 
 export default App;

@@ -2621,6 +2621,17 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+"@yoast/analysis-report@file:../../packages/analysis-report":
+  version "1.21.0"
+  dependencies:
+    "@wordpress/i18n" "^1.1.0"
+    "@yoast/components" "^2.19.0"
+    "@yoast/helpers" "^0.16.0"
+    "@yoast/style-guide" "^0.13.0"
+    lodash "^4.17.11"
+    prop-types "^15.6.0"
+    styled-components "^5.2.1"
+
 "@yoast/components@^2.19.0":
   version "2.19.0"
   resolved "https://registry.yarnpkg.com/@yoast/components/-/components-2.19.0.tgz#dcbf2478db88226c10f599b044df375c1e8ef6e6"
@@ -2697,8 +2708,8 @@
 "@yoast/seo-integration@file:../../packages/seo-integration":
   version "1.0.0"
   dependencies:
-    "@yoast/replacement-variables" "file:../../../../../../Library/Caches/Yarn/v6/npm-@yoast-seo-integration-1.0.0-7845cf08-fa83-4e3b-8b97-db2dce3d363a-1637841643144/node_modules/@yoast/replacement-variables"
-    "@yoast/seo-store" "file:../../../../../../Library/Caches/Yarn/v6/npm-@yoast-seo-integration-1.0.0-7845cf08-fa83-4e3b-8b97-db2dce3d363a-1637841643144/node_modules/@yoast/seo-store"
+    "@yoast/replacement-variables" "file:../../../../../../Library/Caches/Yarn/v6/npm-@yoast-seo-integration-1.0.0-d282093b-f0fe-4d19-b949-89594a0009d1-1638256462721/node_modules/@yoast/replacement-variables"
+    "@yoast/seo-store" "file:../../../../../../Library/Caches/Yarn/v6/npm-@yoast-seo-integration-1.0.0-d282093b-f0fe-4d19-b949-89594a0009d1-1638256462721/node_modules/@yoast/seo-store"
     lodash "^4.17.21"
 
 "@yoast/seo-store@file:../../packages/seo-store":

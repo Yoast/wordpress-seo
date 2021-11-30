@@ -17,19 +17,13 @@
 import registerSeoStore from "@yoast/seo-store";
 import { mapValues } from "lodash";
 import createAnalysisWorker from "./analysis";
-import { createSeoProvider } from "./seo-context";
 import createAnalysisTypeReplacementVariables from "./replacement-variables";
+import { createSeoProvider } from "./seo-context";
 
 export { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
-
-/*
- * The implementation is responsible for the replacement variable configurations per analysis type.
- * This provides a way to get the default configurations to pick from.
- */
-export { createDefaultReplacementVariableConfigurations } from "./replacement-variables";
-
+export { ReadabilityResultsContainer, SeoResultsContainer } from "./analysis-result-containers";
 export { default as GooglePreviewContainer } from "./google-preview-container";
-
+export { createDefaultReplacementVariableConfigurations } from "./replacement-variables";
 export { useSeoContext } from "./seo-context";
 
 /**
@@ -67,7 +61,10 @@ const createSeoIntegration = async ( {
 
 	registerSeoStore( { initialState, analyze: analysisWorker.analyze } );
 
-	const { analysisTypeReplacementVariables, unregisterReplacementVariables } = createAnalysisTypeReplacementVariables( mapValues( analysisTypes, "replacementVariableConfigurations" ) );
+	const {
+		analysisTypeReplacementVariables,
+		unregisterReplacementVariables,
+	} = createAnalysisTypeReplacementVariables( mapValues( analysisTypes, "replacementVariableConfigurations" ) );
 
 	return {
 		analysisWorker,
