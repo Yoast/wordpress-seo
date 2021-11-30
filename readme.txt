@@ -241,27 +241,23 @@ Release Date: December 14th, 2021
 
 Enhancements:
 
-* Improves the UI user direction in the configuration workout.
-* Added a usleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke)
-* New integration: Wincher.com keyphrase performance tracking
+* Improves the user direction in the configuration workout.
+* Adds a sleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke).
+* Adds a new integration with Wincher for keyphrase performance tracking.
 
 Bugfixes:
 
 * Fixes a bug where on small screens the advanced setting's search engine follow checkbox would have a misplaced center.
-* Fixes a bug where the styling of our Introduction dialog in Elementor was broken due to changes in Elementor.
+* Fixes a bug where the styling of our introduction dialog in Elementor was broken due to changes in Elementor.
 * Fixes a bug where the reading time functionality was not working for languages other than English.
 * Fixes a bug where certain text in the Google, Facebook and Twitter previews would not be translated.
-
-No category:
-
-* image weight optimization
 
 Other:
 
 * Fixes some styling issues in the configuration workout.
 * Prevents SEO managers from changing the site description in the configuration workout.
 * Requires the Configuration workout to be completed to access the Cornerstone and Orphaned Content workouts.
-* Optimizes and compresses several .png images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
+* Optimizes and compresses several `.png` images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
 = 17.7 =
 Release Date: November 30th, 2021
