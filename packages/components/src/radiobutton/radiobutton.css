@@ -39,6 +39,10 @@
 	background-color: inherit;
 }
 
+.yoast-field-group__radiobutton input[type='radio']:checked:before {
+	content: none;
+}
+
 .yoast-field-group__radiobutton input[type='radio']:after {
 	background-color: transparent;
 	transition: background-color 150ms ease-out 0s;
