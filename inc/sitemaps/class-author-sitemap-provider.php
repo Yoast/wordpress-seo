@@ -95,10 +95,10 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_users( $arguments = [] ) {
 
-		global $wpdb;
+		global $wpdb, $wp_version;
 
 		$defaults = [
-			'who'        => 'authors',
+			'capability' => [ 'edit_posts' ],
 			'meta_key'   => '_yoast_wpseo_profile_updated',
 			'orderby'    => 'meta_value_num',
 			'order'      => 'DESC',
@@ -124,8 +124,13 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			],
 		];
 
+		if ( version_compare( $wp_version, '5.8.99', '<' ) ) {
+			unset( $defaults['capability'] );
+			$defaults['who'] = 'authors';
+		}
+
 		if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', true ) ) {
-			$defaults['who']                 = ''; // Otherwise it cancels out next argument.
+			unset( $defaults['who'], $defaults['capability'] ); // Otherwise it cancels out next argument.
 			$author_archive                  = new Author_Archive_Helper();
 			$defaults['has_published_posts'] = $author_archive->get_author_archive_post_types();
 		}
@@ -211,9 +216,10 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return int Count of users updated.
 	 */
 	protected function update_user_meta() {
+		global $wp_version;
 
 		$user_criteria = [
-			'who'        => 'authors',
+			'capability' => [ 'edit_posts' ],
 			'meta_query' => [
 				[
 					'key'     => '_yoast_wpseo_profile_updated',
@@ -221,9 +227,14 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				],
 			],
 		];
-		$users         = get_users( $user_criteria );
 
-		$time = time();
+		if ( version_compare( $wp_version, '5.8.99', '<' ) ) {
+			unset( $user_criteria['capability'] );
+			$user_criteria['who'] = 'authors';
+		}
+
+		$users = get_users( $user_criteria );
+		$time  = time();
 
 		foreach ( $users as $user ) {
 			update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', $time );
