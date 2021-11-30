@@ -4,6 +4,8 @@ import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher.js";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
+import { enableFeatures } from "@yoast/feature-flag";
+enableFeatures( 'JAPANESE_SUPPORT' );
 
 const subheadingDistributionTooLong = new SubheadingDistributionTooLong();
 
