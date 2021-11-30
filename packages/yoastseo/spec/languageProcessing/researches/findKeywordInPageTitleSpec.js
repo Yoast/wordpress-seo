@@ -4,14 +4,17 @@ import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Resea
 import RussianResearcher from "../../../src/languageProcessing/languages/ru/Researcher";
 import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
+import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import pageTitleKeyword from "../../../src/languageProcessing/researches/findKeywordInPageTitle.js";
 import Paper from "../../../src/values/Paper.js";
+import { isFeatureEnabled } from "@yoast/feature-flag";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataDE = getMorphologyData( "de" ).de;
 const morphologyDataFR = getMorphologyData( "fr" ).fr;
 const morphologyDataRU = getMorphologyData( "ru" ).ru;
+const morphologyDataJA = getMorphologyData( "ja" );
 let result;
 
 describe( "Matches keywords in string", function() {
@@ -234,6 +237,157 @@ describe( "Matches keywords in string", function() {
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 18 );
 	} );
+
+	it( "returns the exact match and its position for a one-word keyphrase in Japanese", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "東海道",
+			title: "東海道新幹線の駅構内および列車内に広告を掲出することを。",
+			locale: "ja",
+		} );
+		const researcher = new JapaneseResearcher( mockPaper );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns the exact match and its position for a one-word keyphrase in Japanese when the title begins with a function word", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "東海道",
+			title: "さらに東海道新幹線の駅構内および列車内に広告を掲出することを。",
+			locale: "ja",
+		} );
+		const researcher = new JapaneseResearcher( mockPaper );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns the exact match and its position for a multi-word keyphrase in Japanese", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "東海道新幹線",
+			title: "東海道新幹線の駅構内および列車内に広告を掲出することを。",
+			locale: "ja",
+		} );
+		const researcher = new JapaneseResearcher( mockPaper );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns the exact match and its position for a multi-word keyphrase in Japanese when the keyphrase is not at the beginning", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "東海道新幹線",
+			title: "東京の東海道新幹線の駅や電車内に広告を掲載する。",
+			locale: "ja",
+		} );
+		const researcher = new JapaneseResearcher( mockPaper );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 2 );
+	} );
+
+	it( "returns the exact match and its position for a multi-word keyphrase in Japanese when the title starts with a function word", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "東海道新幹線",
+			title: "さらに東海道新幹線の駅構内および列車内に広告を掲出することを。",
+			locale: "ja",
+		} );
+		const researcher = new JapaneseResearcher( mockPaper );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
+	} );
+
+	it( "returns the exact match and its position for a multi-word keyphrase in Japanese when the first word of the keyphrase occurs also before the keyphrase itself", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "猫のゴロゴロ",
+			title: "猫の鳴き声と猫のゴロゴロ",
+			locale: "ja",
+		} );
+		const researcher = new JapaneseResearcher( mockPaper );
+
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 3 );
+	} );
+
+	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
+		it( "returns the exact match as false for a Japanese multi-word keyphrase containing a function word", function() {
+			const mockPaper = new Paper( "", {
+				keyword: "東海道を新幹線",
+				title: "東海道新幹線の駅構内および列車内に広告を掲出することを。",
+				locale: "ja",
+			} );
+			const researcher = new JapaneseResearcher( mockPaper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
+
+			result = pageTitleKeyword( mockPaper, researcher );
+			expect( result.exactMatchFound ).toBe( false );
+			expect( result.allWordsFound ).toBe( true );
+		} );
+
+		it( "returns the exact match as false for a Japanese multi-word keyphrase with a function word in the title", function() {
+			const mockPaper = new Paper( "", {
+				keyword: "東海道新幹線",
+				title: "東海道を新幹線の駅構内および列車内に広告を掲出することを。",
+				locale: "ja",
+			} );
+			const researcher = new JapaneseResearcher( mockPaper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
+
+			result = pageTitleKeyword( mockPaper, researcher );
+			expect( result.exactMatchFound ).toBe( false );
+			expect( result.allWordsFound ).toBe( true );
+		} );
+
+		it( "returns the exact match as false for a Japanese keyphrase using a different form in the title", function() {
+			const mockPaper = new Paper( "", {
+				keyword: "読ん",
+				title: "読まれ",
+				locale: "ja",
+			} );
+			const researcher = new JapaneseResearcher( mockPaper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
+
+			result = pageTitleKeyword( mockPaper, researcher );
+			expect( result.exactMatchFound ).toBe( false );
+			expect( result.allWordsFound ).toBe( true );
+		} );
+
+		it( "processes a keyphrase enclosed in Japanese quotes as an exact match keyphrase", function() {
+			const mockPaper = new Paper( "", {
+				keyword: "『猫について』",
+				title: "猫について",
+				locale: "ja",
+			} );
+			const researcher = new JapaneseResearcher( mockPaper );
+
+			result = pageTitleKeyword( mockPaper, researcher );
+			expect( result.exactMatchFound ).toBe( true );
+			expect( result.exactMatchKeyphrase ).toBe( true );
+			expect( result.allWordsFound ).toBe( true );
+		} );
+
+		it( "processes a keyphrase enclosed in Japanese quotes as an exact match keyphrase and returns allWordsFound as false when the exact match isn't used", function() {
+			const mockPaper = new Paper( "", {
+				keyword: "『猫について』",
+				title: "猫",
+				locale: "ja",
+			} );
+			const researcher = new JapaneseResearcher( mockPaper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
+
+			result = pageTitleKeyword( mockPaper, researcher );
+			expect( result.exactMatchFound ).toBe( false );
+			expect( result.exactMatchKeyphrase ).toBe( true );
+			expect( result.allWordsFound ).toBe( false );
+		} );
+	}
 
 	it( "returns an exact match at the beginning", function() {
 		const mockPaper = new Paper( "", {
