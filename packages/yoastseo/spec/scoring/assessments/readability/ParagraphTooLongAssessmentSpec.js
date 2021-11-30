@@ -1,10 +1,10 @@
-/* eslint-disable max-len */
 import ParagraphTooLongAssessment from "../../../../src/scoring/assessments/readability/ParagraphTooLongAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import factory from "../../../specHelpers/factory";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import Researcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import paragraphLengthJapanese from "../../../../src/languageProcessing/languages/ja/config/paragraphLength";
 
 const paragraphTooLongAssessment = new ParagraphTooLongAssessment();
 
@@ -110,10 +110,14 @@ describe( "test for paragraph too long assessment when is used in product page a
 				maximumRecommendedLength: 100,
 			},
 		};
-		const result = new ParagraphTooLongAssessment( config ).getResult( paper, factory.buildMockResearcher( [ { countLength: 60, text: "" }, { countLength: 11, text: "" },
-			{ countLength: 13, text: "" } ] ) );
+		const result = new ParagraphTooLongAssessment( config ).getResult( paper, factory.buildMockResearcher( [
+			{ countLength: 60, text: "" },
+			{ countLength: 11, text: "" },
+			{ countLength: 13, text: "" },
+		] ) );
 		expect( result.getScore() ).toEqual( 9 );
-		expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!" );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: " +
+			"None of the paragraphs are too long. Great job!" );
 	} );
 	it( "assesses a paper from product page with paragraphs that contain more than 100 words", function() {
 		const paper = new Paper( "" );
@@ -123,10 +127,14 @@ describe( "test for paragraph too long assessment when is used in product page a
 				maximumRecommendedLength: 100,
 			},
 		};
-		const result = new ParagraphTooLongAssessment( config ).getResult( paper, factory.buildMockResearcher( [ { countLength: 110, text: "" }, { countLength: 150, text: "" },
-			{ countLength: 150, text: "" } ] ) );
+		const result = new ParagraphTooLongAssessment( config ).getResult( paper, factory.buildMockResearcher( [
+			{ countLength: 110, text: "" },
+			{ countLength: 150, text: "" },
+			{ countLength: 150, text: "" },
+		] ) );
 		expect( result.getScore() ).toEqual( 3 );
-		expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain more than the recommended maximum of 70 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain" +
+			" more than the recommended maximum of 70 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 	} );
 	it( "assesses a paper from product page with paragraphs that contain between 70 and 100 words", function() {
 		const paper = new Paper( "" );
@@ -136,9 +144,118 @@ describe( "test for paragraph too long assessment when is used in product page a
 				maximumRecommendedLength: 100,
 			},
 		};
-		const result = new ParagraphTooLongAssessment( config ).getResult( paper, factory.buildMockResearcher( [ { countLength: 90, text: "" }, { countLength: 75, text: "" },
-			{ countLength: 80, text: "" } ] ) );
+		const result = new ParagraphTooLongAssessment( config ).getResult( paper, factory.buildMockResearcher( [
+			{ countLength: 90, text: "" },
+			{ countLength: 75, text: "" },
+			{ countLength: 80, text: "" },
+		] ) );
 		expect( result.getScore() ).toEqual( 6 );
-		expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain more than the recommended maximum of 70 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain " +
+			"more than the recommended maximum of 70 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 	} );
 } );
+
+describe( "test for paragraph too long assessment for languages that have language-specific config", () => {
+	// Japanese has a language specific config for paragraph length. The config is used for the unit tests below.
+	describe( "test for non-product pages", () => {
+		it( "assesses a paper with paragraphs that contain less than 300 characters (green bullet)", function() {
+			const paper = new Paper( "" );
+			const mockResearcher = factory.buildMockResearcher( [
+				{ countLength: 200, text: "" },
+				{ countLength: 260, text: "" },
+				{ countLength: 100, text: "" },
+			],
+			false,
+			false,
+			paragraphLengthJapanese );
+
+			const result = new ParagraphTooLongAssessment().getResult( paper, mockResearcher );
+			expect( result.getScore() ).toEqual( 9 );
+			expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: " +
+				"None of the paragraphs are too long. Great job!" );
+		} );
+		it( "assesses a paper with two paragraphs that contain more than 400 characters (red bullet)", function() {
+			const paper = new Paper( "" );
+			const mockResearcher = factory.buildMockResearcher( [
+				{ countLength: 400, text: "" },
+				{ countLength: 300, text: "" },
+				{ countLength: 500, text: "" },
+			],
+			false,
+			false,
+			paragraphLengthJapanese );
+			const result = new ParagraphTooLongAssessment().getResult( paper, mockResearcher );
+
+			expect( result.getScore() ).toEqual( 3 );
+			expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 2 of the paragraphs contain " +
+				"more than the recommended maximum of 300 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
+		} );
+		it( "assesses a paper with paragraphs that contain 300-400 characters (orange bullet)", function() {
+			const paper = new Paper( "" );
+			const mockResearcher = factory.buildMockResearcher( [
+				{ countLength: 350, text: "" },
+				{ countLength: 300, text: "" },
+				{ countLength: 390, text: "" },
+			],
+			false,
+			false,
+			paragraphLengthJapanese );
+			const result = new ParagraphTooLongAssessment().getResult( paper, mockResearcher );
+
+			expect( result.getScore() ).toEqual( 6 );
+			expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 2 of the paragraphs contain " +
+				"more than the recommended maximum of 300 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
+		} );
+	} );
+	describe( "test for product pages", () => {
+		it( "assesses a paper with paragraphs that contain less than 140 characters (green bullet)", function() {
+			const paper = new Paper( "" );
+			const mockResearcher = factory.buildMockResearcher( [
+				{ countLength: 100, text: "" },
+				{ countLength: 120, text: "" },
+				{ countLength: 90, text: "" },
+			],
+			false,
+			false,
+			paragraphLengthJapanese );
+
+			const result = new ParagraphTooLongAssessment( {}, true ).getResult( paper, mockResearcher );
+			expect( result.getScore() ).toEqual( 9 );
+			expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: " +
+				"None of the paragraphs are too long. Great job!" );
+		} );
+		it( "assesses a paper with three paragraphs that contain more than 200 characters (red bullet)", function() {
+			const paper = new Paper( "" );
+			const mockResearcher = factory.buildMockResearcher( [
+				{ countLength: 400, text: "" },
+				{ countLength: 300, text: "" },
+				{ countLength: 500, text: "" },
+			],
+			false,
+			false,
+			paragraphLengthJapanese );
+			const result = new ParagraphTooLongAssessment( {}, true ).getResult( paper, mockResearcher );
+
+			expect( result.getScore() ).toEqual( 3 );
+			expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain " +
+				"more than the recommended maximum of 140 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
+		} );
+		it( "assesses a paper with all paragraphs that contain 140-200 characters (orange bullet)", function() {
+			const paper = new Paper( "" );
+			const mockResearcher = factory.buildMockResearcher( [
+				{ countLength: 150, text: "" },
+				{ countLength: 170, text: "" },
+				{ countLength: 200, text: "" },
+			],
+			false,
+			false,
+			paragraphLengthJapanese );
+			const result = new ParagraphTooLongAssessment( {}, true ).getResult( paper, mockResearcher );
+
+			expect( result.getScore() ).toEqual( 6 );
+			expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain " +
+				"more than the recommended maximum of 140 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
+		} );
+	} );
+} );
+
