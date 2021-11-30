@@ -7,11 +7,8 @@
 
 $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
-
-$time       = time();
-$time_start = gmmktime( 11, 00, 00, 11, 25, 2021 );
-$time_end   = gmmktime( 11, 00, 00, 11, 30, 2021 );
 ?>
+
 <div class="wpseo_content_cell" id="sidebar-container">
 	<div id="sidebar" class="yoast-sidebar">
 		<div class="wpseo_content_cell_title yoast-sidebar__title">
@@ -41,9 +38,6 @@ $time_end   = gmmktime( 11, 00, 00, 11, 30, 2021 );
 				<li><strong><?php esc_html_e( '24/7 email support', 'wordpress-seo' ); ?></strong></li>
 				<li><strong><?php esc_html_e( 'No ads!', 'wordpress-seo' ); ?></strong></li>
 			</ul>
-			<?php if ( ( $time > $time_start ) && ( $time < $time_end ) ) : ?>
-				<span class="yoast-badge yoast-badge--sale"><?php esc_html_e( '30% off!', 'wordpress-seo' ); ?></span>
-			<?php endif; ?>
 			<a id="wpseo-premium-button" class="yoast-button-upsell"
 				href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jj' ); ?>" target="_blank">
 				<?php
@@ -53,7 +47,7 @@ $time_end   = gmmktime( 11, 00, 00, 11, 30, 2021 );
 				echo $new_tab_message;
 				echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 				?>
-			</a><br>
+			</a>
 		</div>
 		<div class="yoast-sidebar__section">
 			<h2>

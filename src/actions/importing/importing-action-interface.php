@@ -20,4 +20,14 @@ interface Importing_Action_Interface extends Indexation_Action_Interface, Limite
 	 * @return string The type of data.
 	 */
 	public function get_type();
+
+	/**
+	 * Whether or not this action is capable of importing given a specific plugin and type.
+	 *
+	 * @param string $plugin The name of the plugin being imported.
+	 * @param string $type   The component of the plugin being imported.
+	 *
+	 * @return bool True if the action can import the given plugin's data of the given type.
+	 */
+	public function is_compatible_with( $plugin = null, $type = null );
 }

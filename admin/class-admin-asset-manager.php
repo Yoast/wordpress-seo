@@ -150,6 +150,17 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
+	 * Adds an inline script.
+	 *
+	 * @param string $handle   The script handle.
+	 * @param string $data     The l10n data.
+	 * @param string $position Optional. Whether to add the inline script before the handle or after.
+	 */
+	public function add_inline_script( $handle, $data, $position = 'after' ) {
+		\wp_add_inline_script( $this->prefix . $handle, $data, $position );
+	}
+
+	/**
 	 * A list of styles that shouldn't be registered but are needed in other locations in the plugin.
 	 *
 	 * @return array
@@ -308,6 +319,26 @@ class WPSEO_Admin_Asset_Manager {
 				$scripts['post-edit']['deps']
 			),
 			'in_footer' => ! in_array( 'post-edit-classic', $header_scripts, true ),
+		];
+
+		$scripts['workouts'] = [
+			'name' => 'workouts',
+			'src'  => 'workouts-' . $flat_version . '.js',
+			'deps' => [
+				'clipboard',
+				'lodash',
+				'wp-api-fetch',
+				'wp-a11y',
+				'wp-components',
+				'wp-compose',
+				'wp-data',
+				'wp-dom-ready',
+				'wp-element',
+				'wp-i18n',
+				self::PREFIX . 'analysis',
+				self::PREFIX . 'react-select',
+				self::PREFIX . 'yoast-components',
+			],
 		];
 
 		// Add the current language to every script that requires the analysis package.
