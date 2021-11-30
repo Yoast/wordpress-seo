@@ -263,7 +263,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 * @param string|array $setting_value The value of the AIOSEO setting at hand.
 	 * @param string       $setting       The setting at hand, eg. post or movie-category, separator etc.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	protected function map( $setting_value, $setting ) {
 		$aioseo_options_to_yoast_map = $this->aioseo_options_to_yoast_map;

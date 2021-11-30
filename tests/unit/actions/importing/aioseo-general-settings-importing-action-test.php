@@ -42,6 +42,23 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
+	 * An array of the total General Settings we can import.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	protected $full_settings_to_import = [
+		'separator'       => '&larr;',
+		'siteTitle'       => 'Site Title',
+		'metaDescription' => 'Site Desc',
+		'schema'          => [
+			'siteRepresents'   => 'person',
+			'person'           => 60,
+			'organizationName' => 'Org Name',
+			'organizationLogo' => 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg',
+		],
+	];
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
@@ -89,6 +106,132 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests flattening AIOSEO general settings.
+	 *
+	 * @covers ::flatten_settings
+	 */
+	public function test_flatten_settings() {
+		$flattened_sesttings = $this->mock_instance->flatten_settings( $this->full_settings_to_import );
+		$expected_result     = [
+			'/separator'               => '&larr;',
+			'/siteTitle'               => 'Site Title',
+			'/metaDescription'         => 'Site Desc',
+			'/schema/siteRepresents'   => 'person',
+			'/schema/person'           => 60,
+			'/schema/organizationName' => 'Org Name',
+			'/schema/organizationLogo' => 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg',
+		];
+
+		$this->assertTrue( $expected_result === $flattened_sesttings );
+	}
+
+	/**
+	 * Tests mapping AIOSEO general settings.
+	 *
+	 * @param string $setting       The setting at hand, eg. post or movie-category, separator etc.
+	 * @param string $setting_value The value of the AIOSEO setting at hand.
+	 *
+	 * @dataProvider provider_map
+	 * @covers ::map
+	 */
+	public function test_map( $setting, $setting_value ) {
+		$this->mock_instance->build_mapping();
+		$aioseo_options_to_yoast_map = $this->mock_instance->get_aioseo_options_to_yoast_map();
+
+		if ( isset( $aioseo_options_to_yoast_map[ $setting ] ) ) {
+			$this->mock_instance->shouldReceive( 'import_single_setting' )
+				->with( $setting, $setting_value, $aioseo_options_to_yoast_map[ $setting ] )
+				->once();
+		}
+		else {
+			$this->mock_instance->shouldReceive( 'import_single_setting' )
+				->never();
+		}
+
+		$this->mock_instance->map( $setting_value, $setting );
+	}
+
+	/**
+	 * Tests transforming the separator settings.
+	 *
+	 * @param string $separator               The separator.
+	 * @param string $expected_transformation The expected transformed separator.
+	 *
+	 * @dataProvider provider_transform_separator
+	 * @covers ::transform_separator
+	 */
+	public function test_transform_separator( $separator, $expected_transformation ) {
+		$transformed_separator = $this->mock_instance->transform_separator( $separator );
+
+		$this->assertEquals( $expected_transformation, $transformed_separator );
+	}
+
+	/**
+	 * Tests transforming the site represents setting.
+	 *
+	 * @param string $site_represents         The site represents setting.
+	 * @param string $expected_transformation The expected transformed separator.
+	 *
+	 * @dataProvider provider_transform_site_represents
+	 * @covers ::transform_site_represents
+	 */
+	public function test_transform_site_represents( $site_represents, $expected_transformation ) {
+		$transformed_site_represents = $this->mock_instance->transform_site_represents( $site_represents );
+
+		$this->assertEquals( $expected_transformation, $transformed_site_represents );
+	}
+
+	/**
+	 * Data provider for test_transform_site_represents().
+	 *
+	 * @return array
+	 */
+	public function provider_transform_site_represents() {
+		return [
+			[ 'person', 'person' ],
+			[ 'organization', 'company' ],
+			[ 'random_value', 'company' ],
+		];
+	}
+
+	/**
+	 * Data provider for test_transform_separator().
+	 *
+	 * @return array
+	 */
+	public function provider_transform_separator() {
+		return [
+			[ '&#45;', 'sc-dash' ],
+			[ '&ndash;', 'sc-ndash' ],
+			[ '&mdash;', 'sc-mdash' ],
+			[ '&raquo;', 'sc-raquo' ],
+			[ '&laquo;', 'sc-laquo' ],
+			[ '&gt;', 'sc-gt' ],
+			[ '&bull;', 'sc-bull' ],
+			[ '&#124;', 'sc-pipe' ],
+			[ 'random_separator', 'sc-dash' ],
+		];
+	}
+
+	/**
+	 * Data provider for test_map().
+	 *
+	 * @return array
+	 */
+	public function provider_map() {
+		return [
+			[ '/separator', '&larr;' ],
+			[ '/siteTitle', 'Site Title' ],
+			[ '/metaDescription', 'Site Desc' ],
+			[ '/schema/siteRepresents', 'person' ],
+			[ '/schema/person', 60 ],
+			[ '/schema/organizationName', 'Org Name' ],
+			[ '/schema/organizationLogo', 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg' ],
+			[ '/randomSetting', 'randomeValue' ],
+		];
+	}
+
+	/**
 	 * Data provider for test_query().
 	 *
 	 * @return string
@@ -122,17 +265,7 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 			],
 		];
 
-		$full_settings_expected = [
-			'separator'       => '&larr;',
-			'siteTitle'       => 'Site Title',
-			'metaDescription' => 'Site Desc',
-			'schema'          => [
-				'siteRepresents'   => 'person',
-				'person'           => 60,
-				'organizationName' => 'Org Name',
-				'organizationLogo' => 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg',
-			],
-		];
+		$full_settings_expected = $this->full_settings_to_import;
 
 		$missing_settings = [
 			'searchAppearance' => [

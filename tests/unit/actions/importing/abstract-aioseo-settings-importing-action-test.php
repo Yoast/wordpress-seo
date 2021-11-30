@@ -189,6 +189,60 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests importing a single AIOSEO setting.
+	 *
+	 * @param string $setting         The name of the setting.
+	 * @param string $setting_value   The values of the setting.
+	 * @param array  $setting_mapping The mapping of the setting to Yoast formats.
+	 *
+	 * @dataProvider provider_import_single_setting
+	 * @covers ::import_single_setting
+	 */
+	public function test_import_single_setting( $setting, $setting_value, $setting_mapping ) {
+		$this->options->expects( 'get_default' )
+			->once()
+			->with( 'wpseo_titles', $setting_mapping['yoast_name'] )
+			->andReturn( 'not_null' );
+
+		$this->mock_instance->expects( $setting_mapping['transform_method'] )
+			->once()
+			->with( $setting_value )
+			->andReturn( 'some_value' );
+
+		$this->options->expects( 'set' )
+			->once()
+			->with( $setting_mapping['yoast_name'], 'some_value' );
+
+		$this->mock_instance->import_single_setting( $setting, $setting_value, $setting_mapping );
+	}
+
+	/**
+	 * Data provider for test_import_single_setting().
+	 *
+	 * @return array
+	 */
+	public function provider_import_single_setting() {
+		return [
+			[
+				'/separator',
+				'&larr;',
+				[
+					'yoast_name'       => 'separator',
+					'transform_method' => 'simple_import',
+				],
+			],
+			[
+				'/taxonomy/title',
+				'Taxonomy Title',
+				[
+					'yoast_name'       => 'title-tax-taxonomy',
+					'transform_method' => 'simple_import',
+				],
+			],
+		];
+	}
+
+	/**
 	 * Data provider for test_get_total_unindexed().
 	 *
 	 * @return array
