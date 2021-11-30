@@ -5,7 +5,12 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 class Health_Check_Integration implements Integration_Interface {
-
+	
+	/**
+	 * Initializes the health checks.
+	 *
+	 * @return void
+	 */
 	public function register_hooks() {
 		// TODO
 	}
