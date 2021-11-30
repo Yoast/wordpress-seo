@@ -83,17 +83,62 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 
 			[
 				null,
-				'type',
+				'deactivation',
 			],
 
 			[
-				'plugin',
+				'conflicting-plugins',
 				null,
 			],
 
 			[
-				'plugin',
-				'type',
+				'conflicting-plugins',
+				'deactivation',
+			],
+		];
+	}
+
+	/**
+	 * Tests wether the tested class can import all data it should be able to handle
+	 *
+	 * @param string $plugin The plugin that's being imported.
+	 * @param string $type   The type of data being imported.
+	 *
+	 * @dataProvider is_compatible_with_wrong_testdata
+	 *
+	 * @covers ::is_compatible_with
+	 * @covers ::__construct
+	 */
+	public function test_is_not_compatible_with( $plugin, $type ) {
+		// Arrange.
+
+		// Act.
+		$result = $this->deactivate_conflicting_plugins_action->is_compatible_with( $plugin, $type );
+
+		// Assert.
+		$this->assertFalse( $result );
+	}
+
+	/**
+	 * Testdata for test_is_compatible_with
+	 *
+	 * @return array
+	 */
+	public function is_compatible_with_wrong_testdata() {
+		return [
+			[
+				null,
+				'random_type',
+			],
+
+			[
+				'random_plugin',
+				null,
+			],
+
+			[
+				'random_plugin',
+				'random_type',
 			],
 
 			[

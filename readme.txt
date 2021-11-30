@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.8
-Stable tag: 17.6
+Stable tag: 17.7
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -239,17 +239,19 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 17.7 =
 Release Date: November 30th, 2021
 
+Meet Yoast SEO 17.7! This release introduces a new configuration workout to help you set up the Yoast SEO plugin properly from the get-go. Get the basic settings right in Yoast SEO and create a solid foundation for your SEO! Read more about what's new in Yoast SEO 17.7 in [our release post in English](https://yoa.st/release-17-7) or [our release post in Spanish](https://yoa.st/release-17-7-spanish)!
+
 Enhancements:
 
 * Replaces the configuration wizard with a configuration workout, which makes it easier to configure Yoast SEO for your website.
 * Adds a link to the archive page for the content types in the Search Appearance settings. Props to [felipelousantos](https://github.com/felipelousantos).
 * Adds a few more French transition words to be recognised by the transition words assessment. Props to [Cellophile](https://github.com/Cellophile).
-* Fixes a bug where memory issues could occur when indexing a site with large amounts of terms assigned to many posts.
 
 Bugfixes:
 
 * Fixes a bug where non-passive Greek words ending in -ου or -είτε were previously recognized as passive. Props to [artemidaspatanews](https://github.com/artemidaspatanews).
 * Fixes a bug where some post types would cause a PHP warning about custom fields.
+* Fixes a bug where memory issues could occur when indexing a site with large amounts of terms assigned to many posts.
 
 = 17.6 =
 Release Date: November 16th, 2021
