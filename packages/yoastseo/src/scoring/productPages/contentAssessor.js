@@ -35,7 +35,7 @@ const ProductContentAssessor = function( researcher, options ) {
 			},
 			urlTitle: createAnchorOpeningTag( options.paragraphUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.paragraphCTAUrl ),
-		} ),
+		}, true ),
 		new SentenceLengthInText( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
