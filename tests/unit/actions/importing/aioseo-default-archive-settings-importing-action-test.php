@@ -4,33 +4,33 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\SEO\Actions\Importing\Aioseo_General_Settings_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Aioseo_Default_Archive_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_General_Settings_Importing_Action_Double;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Default_Archive_Settings_Importing_Action_Double;
 
 /**
- * Aioseo_General_Settings_Importing_Action_Test class
+ * Aioseo_Default_Archive_Settings_Importing_Action_Test class
  *
  * @group actions
  * @group importing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo_General_Settings_Importing_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo_Default_Archive_Settings_Importing_Action
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded, Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
-class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
+class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var Aioseo_General_Settings_Importing_Action
+	 * @var Aioseo_Default_Archive_Settings_Importing_Action
 	 */
 	protected $instance;
 
 	/**
 	 * Represents the mock instance to test.
 	 *
-	 * @var Aioseo_General_Settings_Importing_Action_Double
+	 * @var Aioseo_Default_Archive_Settings_Importing_Action_Double
 	 */
 	protected $mock_instance;
 
@@ -42,19 +42,34 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
-	 * An array of the total General Settings we can import.
+	 * An array of the total Default Archive Settings we can import.
 	 *
 	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	protected $full_settings_to_import = [
-		'separator'       => '&larr;',
-		'siteTitle'       => 'Site Title',
-		'metaDescription' => 'Site Desc',
-		'schema'          => [
-			'siteRepresents'   => 'person',
-			'person'           => 60,
-			'organizationName' => 'Org Name',
-			'organizationLogo' => 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg',
+		'author' => [
+			'show'            => true,
+			'title'           => 'Author Title',
+			'metaDescription' => 'Author Desc',
+			'advanced'        => [
+				'showDateInGooglePreview' => true,
+			],
+		],
+		'date'   => [
+			'show'            => true,
+			'title'           => 'Date Title',
+			'metaDescription' => 'Date Desc',
+			'advanced'        => [
+				'showDateInGooglePreview' => true,
+			],
+		],
+		'search' => [
+			'show'            => true,
+			'title'           => 'Search Title',
+			'metaDescription' => 'Search Desc',
+			'advanced'        => [
+				'showDateInGooglePreview' => true,
+			],
 		],
 	];
 
@@ -65,9 +80,9 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 		parent::set_up();
 
 		$this->options       = Mockery::mock( Options_Helper::class );
-		$this->instance      = new Aioseo_General_Settings_Importing_Action( $this->options );
+		$this->instance      = new Aioseo_Default_Archive_Settings_Importing_Action( $this->options );
 		$this->mock_instance = Mockery::mock(
-			Aioseo_General_Settings_Importing_Action_Double::class,
+			Aioseo_Default_Archive_Settings_Importing_Action_Double::class,
 			[ $this->options ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
@@ -106,27 +121,32 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests flattening AIOSEO general settings.
+	 * Tests flattening AIOSEO default archive settings.
 	 *
 	 * @covers ::flatten_settings
 	 */
 	public function test_flatten_settings() {
 		$flattened_sesttings = $this->mock_instance->flatten_settings( $this->full_settings_to_import );
 		$expected_result     = [
-			'/separator'               => '&larr;',
-			'/siteTitle'               => 'Site Title',
-			'/metaDescription'         => 'Site Desc',
-			'/schema/siteRepresents'   => 'person',
-			'/schema/person'           => 60,
-			'/schema/organizationName' => 'Org Name',
-			'/schema/organizationLogo' => 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg',
+			'/author/show'                             => true,
+			'/author/title'                            => 'Author Title',
+			'/author/metaDescription'                  => 'Author Desc',
+			'/author/advanced/showDateInGooglePreview' => true,
+			'/date/show'                               => true,
+			'/date/title'                              => 'Date Title',
+			'/date/metaDescription'                    => 'Date Desc',
+			'/date/advanced/showDateInGooglePreview'   => true,
+			'/search/show'                             => true,
+			'/search/title'                            => 'Search Title',
+			'/search/metaDescription'                  => 'Search Desc',
+			'/search/advanced/showDateInGooglePreview' => true,
 		];
 
 		$this->assertTrue( $expected_result === $flattened_sesttings );
 	}
 
 	/**
-	 * Tests mapping AIOSEO general settings.
+	 * Tests mapping AIOSEO default archive settings.
 	 *
 	 * @param string $setting       The setting at hand, eg. post or movie-category, separator etc.
 	 * @param string $setting_value The value of the AIOSEO setting at hand.
@@ -152,81 +172,17 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests transforming the separator settings.
-	 *
-	 * @param string $separator               The separator.
-	 * @param string $expected_transformation The expected transformed separator.
-	 *
-	 * @dataProvider provider_transform_separator
-	 * @covers ::transform_separator
-	 */
-	public function test_transform_separator( $separator, $expected_transformation ) {
-		$transformed_separator = $this->mock_instance->transform_separator( $separator );
-
-		$this->assertEquals( $expected_transformation, $transformed_separator );
-	}
-
-	/**
-	 * Tests transforming the site represents setting.
-	 *
-	 * @param string $site_represents         The site represents setting.
-	 * @param string $expected_transformation The expected transformed separator.
-	 *
-	 * @dataProvider provider_transform_site_represents
-	 * @covers ::transform_site_represents
-	 */
-	public function test_transform_site_represents( $site_represents, $expected_transformation ) {
-		$transformed_site_represents = $this->mock_instance->transform_site_represents( $site_represents );
-
-		$this->assertEquals( $expected_transformation, $transformed_site_represents );
-	}
-
-	/**
-	 * Data provider for test_transform_site_represents().
-	 *
-	 * @return array
-	 */
-	public function provider_transform_site_represents() {
-		return [
-			[ 'person', 'person' ],
-			[ 'organization', 'company' ],
-			[ 'random_value', 'company' ],
-		];
-	}
-
-	/**
-	 * Data provider for test_transform_separator().
-	 *
-	 * @return array
-	 */
-	public function provider_transform_separator() {
-		return [
-			[ '&#45;', 'sc-dash' ],
-			[ '&ndash;', 'sc-ndash' ],
-			[ '&mdash;', 'sc-mdash' ],
-			[ '&raquo;', 'sc-raquo' ],
-			[ '&laquo;', 'sc-laquo' ],
-			[ '&gt;', 'sc-gt' ],
-			[ '&bull;', 'sc-bull' ],
-			[ '&#124;', 'sc-pipe' ],
-			[ 'random_separator', 'sc-dash' ],
-		];
-	}
-
-	/**
 	 * Data provider for test_map().
 	 *
 	 * @return array
 	 */
 	public function provider_map() {
 		return [
-			[ '/separator', '&larr;' ],
-			[ '/siteTitle', 'Site Title' ],
-			[ '/metaDescription', 'Site Desc' ],
-			[ '/schema/siteRepresents', 'person' ],
-			[ '/schema/person', 60 ],
-			[ '/schema/organizationName', 'Org Name' ],
-			[ '/schema/organizationLogo', 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg' ],
+			[ '/author/title', 'Author Title' ],
+			[ '/author/metaDescription', 'Author Desc' ],
+			[ '/date/show', 'Date Title' ],
+			[ '/date/metaDescription', 'Date Title' ],
+			[ '/search/title', 'Search Title' ],
 			[ '/randomSetting', 'randomeValue' ],
 		];
 	}
@@ -239,7 +195,7 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	public function provider_query() {
 		$full_settings = [
 			'searchAppearance' => [
-				'global'     => $this->full_settings_to_import,
+				'archives'   => $this->full_settings_to_import,
 				'postypes'   => [
 					'post' => [
 						'title'           => 'title1',
@@ -278,7 +234,7 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 
 		$malformed_settings = [
 			'searchAppearance' => [
-				'global'     => 'not_array',
+				'archives'   => 'not_array',
 				'postypes'   => [
 					'post' => [
 						'title'           => 'title1',
