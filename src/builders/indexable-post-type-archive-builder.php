@@ -167,7 +167,6 @@ class Indexable_Post_Type_Archive_Builder {
 				MIN(p.post_date_gmt) AS first_published_at
 			FROM {$this->wpdb->posts} AS p
 			WHERE p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ")
-				AND p.post_password = ''
 				AND p.post_type = %s
 		";
 

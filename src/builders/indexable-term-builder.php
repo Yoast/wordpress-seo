@@ -278,7 +278,6 @@ class Indexable_Term_Builder {
 				AND		term_tax.taxonomy = %s
 				AND		term_tax.term_id = %d
 			WHERE	p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ")
-				AND		p.post_password = ''
 		";
 
 		$replacements = \array_merge( [ $taxonomy, $term_id ], $post_statuses );
