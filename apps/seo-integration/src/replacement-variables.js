@@ -1,5 +1,5 @@
 import { select } from "@wordpress/data";
-import { SEO_STORE_NAME } from "@yoast/seo-store";
+import { SEO_STORE_NAME } from "@yoast/seo-integration";
 
 const logReplacementVariable = config => ( {
 	...config,
@@ -29,20 +29,5 @@ export const createPostReplacementVariables = ( defaults ) => [
 		name: "synonyms",
 		label: "Synonyms",
 		getReplacement: () => select( SEO_STORE_NAME ).selectSynonyms(),
-	},
-	{
-		name: "seoTitle",
-		label: "SEO title",
-		getReplacement: () => select( SEO_STORE_NAME ).selectSeoTitle(),
-	},
-	{
-		name: "metaDescription",
-		label: "Meta description",
-		getReplacement: () => select( SEO_STORE_NAME ).selectMetaDescription(),
-	},
-	{
-		name: "slug",
-		label: "Slug",
-		getReplacement: () => select( SEO_STORE_NAME ).selectSlug(),
 	},
 ].map( logReplacementVariable );

@@ -183,19 +183,19 @@ describe( "Config slice", () => {
 		} );
 
 		test( "should select the is SEO active", () => {
-			const { isSeoAnalysisActive } = configSelectors;
+			const { selectIsSeoAnalysisActive } = configSelectors;
 
 			const state = { ...initialState, isSeoActive: false };
-			const result = isSeoAnalysisActive( createStoreState( state ) );
+			const result = selectIsSeoAnalysisActive( createStoreState( state ) );
 
 			expect( result ).toBe( false );
 		} );
 
 		test( "should select the is readability active", () => {
-			const { isReadabilityAnalysisActive } = configSelectors;
+			const { selectIsReadabilityAnalysisActive } = configSelectors;
 
 			const state = { ...initialState, isReadabilityActive: false };
-			const result = isReadabilityAnalysisActive( createStoreState( state ) );
+			const result = selectIsReadabilityAnalysisActive( createStoreState( state ) );
 
 			expect( result ).toBe( false );
 		} );

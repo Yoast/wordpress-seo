@@ -43,7 +43,7 @@ export function* analyze() {
 	}
 }
 
-const initialState = {
+export const defaultResultsState = {
 	status: ASYNC_STATUS.IDLE,
 	error: "",
 	seo: {
@@ -65,7 +65,7 @@ const initialState = {
 
 const resultsSlice = createSlice( {
 	name: "results",
-	initialState,
+	initialState: defaultResultsState,
 	reducers: {
 		updateActiveMarker: ( state, { payload } ) => {
 			state.activeMarker.id = payload.id;

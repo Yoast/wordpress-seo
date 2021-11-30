@@ -1,6 +1,8 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
-import { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
+import { ContentAnalysis } from "@yoast/analysis-report";
+import { SnippetEditor } from "@yoast/search-metadata-previews";
+import { GooglePreviewContainer, ReadabilityResultsContainer, SEO_STORE_NAME, SeoResultsContainer, useAnalyze } from "@yoast/seo-integration";
 import { debounce } from "lodash";
 import "./app.css";
 
@@ -29,10 +31,21 @@ const Editor = () => {
 			<h1>Editor</h1>
 			<label htmlFor="editor-title">Title</label>
 			<div className="inline-flex">
-				<input id="editor-title" name="title" onChange={ handleTitleChange } />
+				<input
+					id="editor-title"
+					name="title"
+					onChange={ handleTitleChange }
+					defaultValue="This is the initial title"
+				/>
 			</div>
 			<label htmlFor="editor-content">Content</label>
-			<textarea id="editor-content" name="content" rows="16" onChange={ handleContentChange } />
+			<textarea
+				id="editor-content"
+				name="content"
+				rows="16"
+				onChange={ handleContentChange }
+				defaultValue="This is the initial content and the initial title is: %%title%%"
+			/>
 			<label htmlFor="editor-permalink">Permalink</label>
 			<div className="inline-flex">
 				<input id="editor-permalink" name="permalink" type="url" pattern="https?://.*" onChange={ handlePermalinkChange } />
@@ -99,34 +112,15 @@ const Keyphrase = ( props ) => {
 				onChange={ handleSynonymsChange }
 				defaultValue={ initialSynonyms }
 			/>
+			{ props.id !== "focus" && <>
+				<h4>SEO Results</h4>
+				<SeoResultsContainer as={ ContentAnalysis } keyphraseId={ props.id } />
+			</> }
 		</fieldset>
 	);
 };
 
-const GooglePreview = () => {
-	const { updateSeoTitle, updateMetaDescription, updateSlug } = useDispatch( SEO_STORE_NAME );
-
-	const handleSeoTitleChange = useDebounce( event => updateSeoTitle( event.target.value ), [ updateSeoTitle ] );
-	const handleSeoDescriptionChange = useDebounce( event => updateMetaDescription( event.target.value ), [ updateMetaDescription ] );
-	const handleSlugChange = useDebounce( event => updateSlug( event.target.value ), [ updateSlug ] );
-
-	return (
-		<fieldset className="inline-flex flex-column">
-			<legend>Google preview</legend>
-			<label htmlFor="seo-title">SEO title</label>
-			<input id="seo-title" name="title" onChange={ handleSeoTitleChange } />
-			<label htmlFor="seo-title">Meta description</label>
-			<textarea id="seo-description" name="description" rows="8" onChange={ handleSeoDescriptionChange } />
-			<label htmlFor="seo-slug">Slug</label>
-			<div className="inline-flex">
-				<input id="seo-slug" name="slug" type="url" pattern="https?://.*" onChange={ handleSlugChange } />
-				<span className="validity" />
-			</div>
-		</fieldset>
-	);
-};
-
-function App() {
+const App = () => {
 	useAnalyze();
 
 	return (
@@ -135,16 +129,16 @@ function App() {
 			<aside className="sidebar inline-flex flex-column">
 				<h2>Sidebar</h2>
 				<Keyphrases />
-				<GooglePreview />
+				<GooglePreviewContainer as={ SnippetEditor } />
 				<h4>SEO Results</h4>
-				<div>...</div>
+				<SeoResultsContainer as={ ContentAnalysis } />
 				<h4>Readability Results</h4>
-				<div>...</div>
+				<ReadabilityResultsContainer as={ ContentAnalysis } />
 				<h4>Research Results</h4>
 				<div>...</div>
 			</aside>
 		</>
 	);
-}
+};
 
 export default App;

@@ -18,12 +18,13 @@ import registerSeoStore from "@yoast/seo-store";
 import { mapValues } from "lodash";
 import createAnalysisWorker from "./analysis";
 import createAnalysisTypeReplacementVariables from "./replacement-variables";
+import { createSeoProvider } from "./seo-context";
 
-/*
- * The implementation is responsible for the replacement variable configurations per analysis type.
- * This provides a way to get the default configurations to pick from.
- */
+export { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
+export { ReadabilityResultsContainer, SeoResultsContainer } from "./analysis-result-containers";
+export { default as GooglePreviewContainer } from "./google-preview-container";
 export { createDefaultReplacementVariableConfigurations } from "./replacement-variables";
+export { useSeoContext } from "./seo-context";
 
 /**
  * Creates the SEO integration.
@@ -32,6 +33,7 @@ export { createDefaultReplacementVariableConfigurations } from "./replacement-va
  * @param {string[]} dependencies The dependencies to load in the worker.
  * @param {Object} [analysisConfiguration] The analysis configuration. Defaults to a English (US) locale.
  * @param {Object.<string, AnalysisType>} [analysisTypes] The different analysis types and their configuration.
+ * @param {Object.<string, Object>} [initialState] The initial state for the SEO store.
  *
  * @returns {Promise<SeoIntegrationInterface>} The promise of the SEO integration interface.
  */
@@ -49,6 +51,7 @@ const createSeoIntegration = async ( {
 			replacementVariableConfigurations: [],
 		},
 	},
+	initialState = {},
 } = {} ) => {
 	const analyze = await createAnalysisWorker( {
 		workerUrl: analysisWorkerUrl,
@@ -56,14 +59,18 @@ const createSeoIntegration = async ( {
 		configuration: analysisConfiguration,
 	} );
 
-	registerSeoStore( { analyze } );
+	registerSeoStore( { initialState, analyze } );
 
-	const { set, unregister } = createAnalysisTypeReplacementVariables( mapValues( analysisTypes, "replacementVariableConfigurations" ) );
+	const {
+		analysisTypeReplacementVariables,
+		unregisterReplacementVariables,
+	} = createAnalysisTypeReplacementVariables( mapValues( analysisTypes, "replacementVariableConfigurations" ) );
 
 	return {
 		analyze,
-		analysisTypeReplacementVariables: set,
-		unregisterReplacementVariables: unregister,
+		analysisTypeReplacementVariables,
+		unregisterReplacementVariables,
+		SeoProvider: createSeoProvider( { analysisTypeReplacementVariables } ),
 	};
 };
 
