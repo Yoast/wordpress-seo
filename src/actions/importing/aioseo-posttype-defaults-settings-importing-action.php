@@ -20,11 +20,6 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action extends Abstract_Aioseo
 	const TYPE = 'posttype_default_settings';
 
 	/**
-	 * The placeholder of a posttype.
-	 */
-	const YOAST_NAME_PLACEHOLDER = '[posttype]';
-
-	/**
 	 * The option_name of the AIOSEO option that contains the settings.
 	 */
 	const SOURCE_OPTION_NAME = 'aioseo_options_dynamic';
@@ -34,20 +29,7 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action extends Abstract_Aioseo
 	 *
 	 * @var array
 	 */
-	protected $aioseo_options_to_yoast_map = [
-		'title'                  => [
-			'yoast_name'       => 'title-' . self::YOAST_NAME_PLACEHOLDER,
-			'transform_method' => 'simple_import',
-		],
-		'metaDescription'        => [
-			'yoast_name'       => 'metadesc-' . self::YOAST_NAME_PLACEHOLDER,
-			'transform_method' => 'simple_import',
-		],
-		'redirectAttachmentUrls' => [
-			'yoast_name'       => 'disable-attachment',
-			'transform_method' => 'import_redirect_attachment',
-		],
-	];
+	protected $aioseo_options_to_yoast_map = [];
 
 	/**
 	 * The tab of the aioseo settings we're working with.
@@ -55,6 +37,34 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action extends Abstract_Aioseo
 	 * @var string
 	 */
 	protected $settings_tab = 'postTypes';
+
+	/**
+	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
+	 *
+	 * @return void
+	 */
+	protected function build_mapping() {
+		$post_type_objects = \get_post_types( [ 'public' => true ], 'objects' );
+
+		foreach ( $post_type_objects as $pt ) {
+			// Use all the custom post types that are public.
+			$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/title' ]           = [
+				'yoast_name'       => 'title-' . $pt->name,
+				'transform_method' => 'simple_import',
+			];
+			$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/metaDescription' ] = [
+				'yoast_name'       => 'metadesc-' . $pt->name,
+				'transform_method' => 'simple_import',
+			];
+
+			if ( $pt->name === 'attachment' ) {
+				$this->aioseo_options_to_yoast_map['/attachment/redirectAttachmentUrls'] = [
+					'yoast_name'       => 'disable-attachment',
+					'transform_method' => 'import_redirect_attachment',
+				];
+			}
+		}
+	}
 
 	/**
 	 * Transforms the redirect_attachment meta data.

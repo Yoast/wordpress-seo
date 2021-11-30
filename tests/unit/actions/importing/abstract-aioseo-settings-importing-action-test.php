@@ -49,17 +49,6 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the getting of the yoast_name placeholder.
-	 *
-	 * @covers ::get_placeholder
-	 */
-	public function test_get_placeholder() {
-		$this->expectException( Exception::class );
-
-		$this->mock_instance->get_placeholder();
-	}
-
-	/**
 	 * Tests the getting of the source option_name.
 	 *
 	 * @covers ::get_source_option_name
@@ -68,17 +57,6 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 		$this->expectException( Exception::class );
 
 		$this->mock_instance->get_source_option_name();
-	}
-
-	/**
-	 * Tests the getting of the source option_name.
-	 *
-	 * @covers ::transform_setting_type
-	 */
-	public function test_transform_setting_type() {
-		$type             = 'post';
-		$transformed_type = $this->mock_instance->transform_setting_type( $type );
-		$this->assertEquals( $transformed_type, $type );
 	}
 
 	/**
@@ -131,13 +109,14 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests importing AIOSEO settings.
 	 *
-	 * @param array $query_results     The results from the query.
-	 * @param bool  $expected_finished Whether the importing action is finished or not.
+	 * @param array $query_results             The results from the query.
+	 * @param bool  $expected_finished         Whether the importing action is expected to be finished or not.
+	 * @param array $expected_created_settings The created settings that are expected to be returned.
 	 *
 	 * @dataProvider provider_index
 	 * @covers ::index
 	 */
-	public function test_index( $query_results, $expected_finished ) {
+	public function test_index( $query_results, $expected_finished, $expected_created_settings ) {
 		$this->mock_instance->expects( 'get_limit' )
 			->once()
 			->andReturn( 25 );
@@ -151,9 +130,12 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->once()
 			->with( $expected_finished );
 
+		$this->mock_instance->expects( 'build_mapping' )
+			->once();
+
 		if ( ! $expected_finished ) {
 			$this->mock_instance->expects( 'map' )
-				->times( \count( $query_results ) );
+				->times( \count( $expected_created_settings ) );
 		}
 
 		$this->mock_instance->expects( 'get_cursor_id' )
@@ -169,7 +151,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->with( $this->options, 'cursor_id', $last_key );
 
 		$created_settings = $this->mock_instance->index();
-		$this->assertEquals( $created_settings, \array_keys( $query_results ) );
+		$this->assertEquals( $created_settings, $expected_created_settings );
 	}
 
 	/**
@@ -239,12 +221,13 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function provider_index() {
 		return [
-			[ [], true ],
+			[ [], true, [] ],
 			[
 				[
 					'setting1' => 'value1',
 				],
 				false,
+				[ '/setting1' ],
 			],
 			[
 				[
@@ -252,6 +235,12 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 					'setting2' => [ 'value2-a', 'value2-c', 'value2-c' ],
 				],
 				false,
+				[
+					'/setting1',
+					'/setting2/0',
+					'/setting2/1',
+					'/setting2/2',
+				],
 			],
 		];
 	}

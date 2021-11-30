@@ -20,39 +20,16 @@ class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_S
 	const TYPE = 'default_archive_settings';
 
 	/**
-	 * The placeholder of a default archive.
-	 */
-	const YOAST_NAME_PLACEHOLDER = '[default_archive]';
-
-	/**
 	 * The option_name of the AIOSEO option that contains the settings.
 	 */
 	const SOURCE_OPTION_NAME = 'aioseo_options';
-
-	/**
-	 * The map that ties AIOSEO setting types to Yoast types.
-	 *
-	 * @var array
-	 */
-	protected $setting_types_map = [
-		'date' => 'archive',
-	];
 
 	/**
 	 * The map of aioseo_options to yoast settings.
 	 *
 	 * @var array
 	 */
-	protected $aioseo_options_to_yoast_map = [
-		'title'           => [
-			'yoast_name'       => 'title-' . self::YOAST_NAME_PLACEHOLDER . '-wpseo',
-			'transform_method' => 'simple_import',
-		],
-		'metaDescription' => [
-			'yoast_name'       => 'metadesc-' . self::YOAST_NAME_PLACEHOLDER . '-wpseo',
-			'transform_method' => 'simple_import',
-		],
-	];
+	protected $aioseo_options_to_yoast_map = [];
 
 	/**
 	 * The tab of the aioseo settings we're working with.
@@ -60,4 +37,34 @@ class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_S
 	 * @var string
 	 */
 	protected $settings_tab = 'archives';
+
+	/**
+	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
+	 *
+	 * @return void
+	 */
+	protected function build_mapping() {
+		$this->aioseo_options_to_yoast_map = [
+			'/author/title'           => [
+				'yoast_name'       => 'title-author-wpseo',
+				'transform_method' => 'simple_import',
+			],
+			'/author/metaDescription' => [
+				'yoast_name'       => 'metadesc-author-wpseo',
+				'transform_method' => 'simple_import',
+			],
+			'/date/title'             => [
+				'yoast_name'       => 'title-archive-wpseo',
+				'transform_method' => 'simple_import',
+			],
+			'/date/metaDescription'   => [
+				'yoast_name'       => 'metadesc-archive-wpseo',
+				'transform_method' => 'simple_import',
+			],
+			'/search/title'           => [
+				'yoast_name'       => 'title-search-wpseo',
+				'transform_method' => 'simple_import',
+			],
+		];
+	}
 }

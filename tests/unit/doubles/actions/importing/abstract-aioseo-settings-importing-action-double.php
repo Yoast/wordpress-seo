@@ -24,17 +24,6 @@ abstract class Abstract_Aioseo_Settings_Importing_Action_Double extends Abstract
 	}
 
 	/**
-	 * Retrieves the yoast_name placeholder.
-	 *
-	 * @return string The yoast_name placeholder.
-	 *
-	 * @throws Exception If the YOAST_NAME_PLACEHOLDER constant is not set in the child class.
-	 */
-	public function get_placeholder() {
-		return parent::get_placeholder();
-	}
-
-	/**
 	 * Retrieves the source option_name.
 	 *
 	 * @return string The source option_name.
@@ -43,16 +32,5 @@ abstract class Abstract_Aioseo_Settings_Importing_Action_Double extends Abstract
 	 */
 	public function get_source_option_name() {
 		return parent::get_source_option_name();
-	}
-
-	/**
-	 * Transform AIOSEO setting types (date, etc.) to yoast setting types (archive, etc.).
-	 *
-	 * @param string $setting_type The setting type to be transformed.
-	 *
-	 * @return string The yoast setting type.
-	 */
-	public function transform_setting_type( $setting_type ) {
-		return parent::transform_setting_type( $setting_type );
 	}
 }

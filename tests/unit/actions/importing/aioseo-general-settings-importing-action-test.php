@@ -56,16 +56,6 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the getting of the yoast_name placeholder.
-	 *
-	 * @covers ::get_placeholder
-	 */
-	public function test_get_placeholder() {
-		$placeholder = $this->instance->get_placeholder();
-		$this->assertEquals( $placeholder, '[general]' );
-	}
-
-	/**
 	 * Tests the getting of the source option_name.
 	 *
 	 * @covers ::get_source_option_name

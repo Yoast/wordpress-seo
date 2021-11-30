@@ -20,11 +20,6 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 	const TYPE = 'taxonomy_settings';
 
 	/**
-	 * The placeholder of a taxonomy.
-	 */
-	const YOAST_NAME_PLACEHOLDER = '[taxonomy]';
-
-	/**
 	 * The option_name of the AIOSEO option that contains the settings.
 	 */
 	const SOURCE_OPTION_NAME = 'aioseo_options_dynamic';
@@ -34,16 +29,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 	 *
 	 * @var array
 	 */
-	protected $aioseo_options_to_yoast_map = [
-		'title'           => [
-			'yoast_name'       => 'title-tax-' . self::YOAST_NAME_PLACEHOLDER,
-			'transform_method' => 'simple_import',
-		],
-		'metaDescription' => [
-			'yoast_name'       => 'metadesc-tax-' . self::YOAST_NAME_PLACEHOLDER,
-			'transform_method' => 'simple_import',
-		],
-	];
+	protected $aioseo_options_to_yoast_map = [];
 
 	/**
 	 * The tab of the aioseo settings we're working with.
@@ -51,4 +37,25 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 	 * @var string
 	 */
 	protected $settings_tab = 'taxonomies';
+
+	/**
+	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
+	 *
+	 * @return void
+	 */
+	protected function build_mapping() {
+		$taxonomy_objects = \get_taxonomies( [ 'public' => true ], 'object' );
+
+		foreach ( $taxonomy_objects as $tax ) {
+			// Use all the public taxonomies.
+			$this->aioseo_options_to_yoast_map[ '/' . $tax->name . '/title' ]           = [
+				'yoast_name'       => 'title-tax-' . $tax->name,
+				'transform_method' => 'simple_import',
+			];
+			$this->aioseo_options_to_yoast_map[ '/' . $tax->name . '/metaDescription' ] = [
+				'yoast_name'       => 'metadesc-tax-' . $tax->name,
+				'transform_method' => 'simple_import',
+			];
+		}
+	}
 }
