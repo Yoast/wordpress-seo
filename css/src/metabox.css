@@ -1,8 +1,8 @@
 @import url(../src/icons.css);
 @import url(../src/modal.css);
-@import "../../node_modules/draft-js-mention-plugin/lib/plugin.css";
+@import "@draft-js-plugins/mention/lib/plugin.css";
 /*!rtl:begin:ignore*/
-@import "../../node_modules/draft-js/dist/Draft.css";
+@import "draft-js/dist/Draft.css";
 /*!rtl:end:ignore*/
 
 #wpseo_meta {

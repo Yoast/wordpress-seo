@@ -41,13 +41,15 @@
     "@yoast/components": "^2.19.0",
     "@yoast/helpers": "^0.16.0",
     "@yoast/style-guide": "^0.13.0",
-    "draft-js": "^0.11.4",
-    "draft-js-mention-plugin": "^3.0.4",
-    "draft-js-plugins-editor": "^2.0.4",
-    "draft-js-single-line-plugin": "^2.0.1",
+    "@draft-js-plugins/editor": "^4.1.0",
+    "draft-js-single-line-plugin": "^2.0.5",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "styled-components": "^5.2.1",
     "yoastseo": "^1.91.0"
+  },
+  "peerDependencies": {
+    "@draft-js-plugins/mention": "^5.0.0",
+    "draft-js": "^0.11.7"
   }
 }
