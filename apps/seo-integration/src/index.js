@@ -10,7 +10,7 @@ const load = async () => {
 	const defaultReplacementVariableConfigurations = createDefaultReplacementVariableConfigurations();
 
 	const { analysisTypeReplacementVariables } = await createSeoIntegration( {
-		analysisWorkerUrl: "dist/bootstrapAnalysis.js",
+		analysisWorkerUrl: "dist/bootstrap-analysis.js",
 		dependencies: [
 			"vendor/autop.js",
 			"vendor/lodash.js",
