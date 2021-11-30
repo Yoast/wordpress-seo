@@ -1,3 +1,16 @@
+const createFakeResults = type => [
+	[ "error", -1 ],
+	[ "feedback", 0 ],
+	[ "bad", 4 ],
+	[ "ok", 5 ],
+	[ "good", 8 ],
+].map( ( [ name, score ] ) => ( {
+	identifier: `${ type }-${ name }-result`,
+	score,
+	marks: [],
+	text: `${ type } ${ name } result`,
+} ) );
+
 /* eslint-disable no-restricted-globals */
 self.onmessage = ( { data } ) => {
 	if ( ! data.type ) {
@@ -15,32 +28,12 @@ self.onmessage = ( { data } ) => {
 				seo: {
 					focus: {
 						score: 10,
-						results: [
-							{
-								score: -10,
-								rating: "bad",
-								hasMarks: false,
-								marker: [],
-								id: "test",
-								text: "Bad result text",
-								markerId: "testMarker",
-							},
-						],
+						results: createFakeResults( "SEO" ),
 					},
 				},
 				readability: {
 					score: 10,
-					results: [
-						{
-							score: -10,
-							rating: "bad",
-							hasMarks: false,
-							marker: [],
-							id: "test",
-							text: "Bad result text",
-							markerId: "testMarker",
-						},
-					],
+					results: createFakeResults( "Readability" ),
 				},
 				research: {
 					morphology: {},

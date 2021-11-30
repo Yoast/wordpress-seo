@@ -20,20 +20,21 @@
  * @property {AnalysisReportResult[]} considerationsResults The consideration results.
  */
 
-import { reduce } from "lodash";
-import { interpreters } from "yoastseo";
+import { isObject, reduce } from "lodash";
+import { AssessmentResult, interpreters } from "yoastseo";
 
 /**
  * Maps an AssessmentResult to an analysis report result.
  *
  * So that it can be used by @yoast/analysis-report's ContentAnalysis.
  *
- * @param {AssessmentResult} result Result provided by the analysis worker.
+ * @param {AssessmentResult|Object} assessmentResult Result provided by the analysis worker.
  * @param {string} idPrefix Prefix the ID with this, useful to namespace the results.
  *
  * @returns {AnalysisReportResult} The analysis report result.
  */
-const transformAnalysisResult = ( result, idPrefix = "" ) => {
+const transformAnalysisResult = ( assessmentResult, idPrefix = "" ) => {
+	const result = isObject( assessmentResult ) ? AssessmentResult.parse( assessmentResult ) : assessmentResult;
 	const score = result.getScore();
 	const rating = interpreters.scoreToRating( score );
 	let id = result.getIdentifier();
@@ -62,14 +63,14 @@ const transformAnalysisResult = ( result, idPrefix = "" ) => {
  * Transforms the analysis results, while grouping them by rating.
  *
  * @param {AssessmentResult[]} results The assessment results, as returned by the analysis.
- * @param {string} idPrefix Prefix the ID with this, useful to namespace the results.
+ * @param {string} [idPrefix] Prefix the ID with this, useful to namespace the results.
  *
  * @returns {Object.<string, AnalysisReportResults[]>} The assessment results, grouped by rating.
  */
 export const transformAnalysisResults = ( results = [], idPrefix = "" ) => reduce(
 	results,
 	( grouped, result ) => {
-		const transformed = transformAnalysisResult( result );
+		const transformed = transformAnalysisResult( result, idPrefix );
 
 		switch ( transformed.rating ) {
 			case "error":
