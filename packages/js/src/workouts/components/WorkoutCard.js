@@ -27,6 +27,7 @@ export default function WorkoutCard( {
 	upsellText,
 	workout,
 	badges,
+	blocked,
 } ) {
 	const { openWorkout, toggleWorkout } = useDispatch( "yoast-seo/workouts" );
 	const activeWorkout = useSelect( ( select ) => {
@@ -73,7 +74,7 @@ export default function WorkoutCard( {
 		__( "Unlock with %s!", "wordpress-seo" ),
 		"Premium"
 	);
-	const disabled = workout ? "" : " card-disabled";
+	const disabled = workout && ! blocked ? "" : " card-disabled";
 
 	return ( <Fragment>
 		{ ! activeWorkout && <div className={ `card card-small${ disabled }` }>
@@ -88,7 +89,8 @@ export default function WorkoutCard( {
 				{ image && <ImageComponent /> }
 			</div>
 			<span>
-				{ workout && <Button onClick={ onClick }>{ buttonText }</Button> }
+				{ /* eslint-disable-next-line max-len */ }
+				{ ! blocked && workout && <Button className={ `yoast-button yoast-button--${ isToggle ? "secondary" : "primary" }` } onClick={ onClick }>{ buttonText }</Button> }
 				{ ! workout &&
 					<UpsellButton href={ upsellLink } className="yoast-button yoast-button-upsell">
 						{ actualUpsellText }
@@ -117,6 +119,12 @@ export default function WorkoutCard( {
 					</i></label>
 				</div> }
 			</span>
+			{ blocked && workout && <div className="workout-card-blocked">
+				<p className="workout-card-blocked-title">{ __( "Configuration required", "wordpress-seo" ) }</p>
+				<p id="workout-card-blocked-description">{
+					__( "Please finish the Configuration workout first in order for this workout to be effective.", "wordpress-seo" )
+				}</p>
+			</div> }
 		</div> }
 		{ workout && activeWorkout === name && <WorkoutComponent /> }
 	</Fragment>	);
@@ -134,6 +142,7 @@ WorkoutCard.propTypes = {
 	upsellText: PropTypes.string,
 	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
+	blocked: PropTypes.bool,
 };
 
 WorkoutCard.defaultProps = {
@@ -144,5 +153,6 @@ WorkoutCard.defaultProps = {
 	upsellText: null,
 	workout: null,
 	badges: [],
+	blocked: false,
 };
 /* eslint-enable complexity */

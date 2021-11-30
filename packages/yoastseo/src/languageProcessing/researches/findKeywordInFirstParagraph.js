@@ -108,6 +108,7 @@ function paragraphHasNoText( text ) {
  */
 export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
+	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
 	const locale = paper.getLocale();
 
 	let paragraphs = matchParagraphs( paper.getText() );
@@ -126,7 +127,7 @@ export default function( paper, researcher ) {
 
 	if ( ! isEmpty( sentences ) ) {
 		sentences.forEach( function( sentence ) {
-			const resultSentence = findTopicFormsInString( topicForms, sentence, useSynonyms, locale );
+			const resultSentence = findTopicFormsInString( topicForms, sentence, useSynonyms, locale, matchWordCustomHelper );
 			if ( resultSentence.percentWordMatches === 100 ) {
 				result.foundInOneSentence = true;
 				result.foundInParagraph = true;
@@ -135,7 +136,7 @@ export default function( paper, researcher ) {
 			}
 		} );
 
-		const resultParagraph = findTopicFormsInString( topicForms, paragraphs, useSynonyms, locale );
+		const resultParagraph = findTopicFormsInString( topicForms, paragraphs, useSynonyms, locale, matchWordCustomHelper );
 		if ( resultParagraph.percentWordMatches === 100 ) {
 			result.foundInParagraph = true;
 			result.keyphraseOrSynonym = resultParagraph.keyphraseOrSynonym;
