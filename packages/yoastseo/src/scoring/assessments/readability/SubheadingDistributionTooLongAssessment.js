@@ -175,7 +175,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 					score: this._config.scores.badSubheadings,
 					resultText: sprintf(
 						/* Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
-						not separated by subheadings, %4$d expands to the recommended number of words following a
+						not separated by subheadings, %4$d expands to the recommended number of words or characters following a
 						subheading, %6$s expands to the word 'words' or 'characters', %2$s expands to the link closing tag. */
 						_n(
 							// eslint-disable-next-line max-len
