@@ -52,6 +52,7 @@ describe( "retrieveExpectedDimensions", () => {
 			portraitWidth: 158,
 			portraitHeight: 237,
 			aspectRatio: 52.2,
+			largeThreshold: { width: 446, height: 233 },
 		};
 
 		expect( actual ).toEqual( expected );
