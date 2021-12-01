@@ -1,7 +1,6 @@
 import { filter, map } from "lodash-es";
-import excludeTableOfContentsTag from "../../../helpers/sanitize/excludeTableOfContentsTag";
-import removePunctuation from "../../../helpers/sanitize/removePunctuation";
-import { stripFullTags as stripTags } from "../../../helpers/sanitize/stripHTMLTags";
+import { languageProcessing } from "yoastseo";
+const { sanitizeString, removePunctuation } = languageProcessing;
 import TinySegmenter from "tiny-segmenter";
 
 const segmenter = new TinySegmenter();
@@ -15,7 +14,7 @@ const segmenter = new TinySegmenter();
  */
 export default function( text ) {
 	// Strips HTML tags and exclude Table of Contents from the analysis.
-	text = stripTags( excludeTableOfContentsTag( text ) );
+	text = sanitizeString( text );
 	if ( text === "" ) {
 		return [];
 	}
