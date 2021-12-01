@@ -10,7 +10,7 @@ abstract class Health_Check {
 	/**
 	 * runner
 	 *
-	 * @var mixed
+	 * @var Health_Check_Runner_Interface
 	 */
 	private $runner;
 	
@@ -20,7 +20,7 @@ abstract class Health_Check {
 	 * @param  Health_Check_Runner_Interface $runner The actual health check runner
 	 * @return void
 	 */
-	public function __construct($runner) {
+	protected function __construct($runner) {
 		$this->runner = $runner;
 	}
 	
@@ -44,7 +44,7 @@ abstract class Health_Check {
 	/**
 	 * Gets the result from the health check implementation.
 	 *
-	 * @return void
+	 * @return string[]
 	 */
 	abstract protected function get_result();
 }
