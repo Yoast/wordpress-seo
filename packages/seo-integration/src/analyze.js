@@ -1,4 +1,4 @@
-import { mapValues, mapKeys } from "lodash";
+import { mapValues, mapKeys, zipObject } from "lodash";
 import { Paper } from "yoastseo";
 import { FOCUS_KEYPHRASE_ID } from "@yoast/seo-store";
 
@@ -89,13 +89,11 @@ async function analyzePaper( worker, paper, relatedKeyphrases ) {
  * @returns {Promise<Object>} The research results.
  */
 async function runResearches( researches, worker, paper ) {
-	const results = {};
+	const results = await Promise.all(
+		researches.map( research => worker.runResearch( research, paper ) ),
+	);
 
-	for ( const research of researches ) {
-		results[ research ] = await worker.runResearch( research, paper );
-	}
-
-	return results;
+	return zipObject( researches, results );
 }
 
 /**
