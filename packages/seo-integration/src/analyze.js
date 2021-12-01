@@ -128,8 +128,8 @@ export default function createAnalyzeFunction( worker, configuration ) {
 		const paper = createPaper( data, focus, configuration );
 
 		const analysisResults = await analyzePaper( worker, paper, relatedKeyphrases );
-		const researchResults = await runResearches( config.researches, worker, paper );
+		analysisResults.research = await runResearches( config.researches, worker, paper );
 
-		return Object.assign( analysisResults, { research: researchResults } );
+		return analysisResults;
 	};
 }
