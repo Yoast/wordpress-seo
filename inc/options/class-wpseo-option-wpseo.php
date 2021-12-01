@@ -87,6 +87,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'wincher_tokens'                           => [],
 		'wincher_automatically_add_keyphrases'     => false,
 		'wincher_website_id'                       => '',
+		'first_time_install'                       => false,
 	];
 
 	/**
@@ -388,6 +389,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'yoast_tracking'
 				 *  'dynamic_permalinks'
 				 *  'indexing_first_time'
+				 *  'first_time_install'
 				 *  and most of the feature variables.
 				 */
 				default:

@@ -241,16 +241,16 @@ Release Date: December 14th, 2021
 
 Enhancements:
 
+* Adds a new integration with Wincher for keyphrase performance tracking.
 * Improves the user direction in the configuration workout.
 * Adds a sleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke).
-* Adds a new integration with Wincher for keyphrase performance tracking.
 
 Bugfixes:
 
 * Fixes a bug where on small screens the advanced setting's search engine follow checkbox would have a misplaced center.
-* Fixes a bug where the styling of our introduction dialog in Elementor was broken due to changes in Elementor.
-* Fixes a bug where the reading time functionality was not working for languages other than English.
-* Fixes a bug where certain text in the Google, Facebook and Twitter previews would not be translated.
+* Fixes a bug where the styling of the introduction dialog in Elementor would be broken due to changes in Elementor.
+* Fixes a bug where the reading time functionality for languages other than English would incorrectly output English reading speed values.
+* Fixes a bug where certain text strings in the Google, Facebook and Twitter previews would not be translated.
 
 Other:
 
@@ -258,6 +258,15 @@ Other:
 * Prevents SEO managers from changing the site description in the configuration workout.
 * Requires the Configuration workout to be completed to access the Cornerstone and Orphaned Content workouts.
 * Optimizes and compresses several `.png` images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
+
+= 17.7.1 =
+Release Date: December 14th, 2021
+
+Bugfixes:
+
+* Fixes a bug where the notification to start configuring Yoast SEO would also been shown on existing installations.
+* Fixes a bug where Yoast addons would not inherit the auto-update settings from Yoast SEO.
+* Fixes a bug where changing the auto-update settings of another plugin could stop Yoast addons from being auto-updated.
 
 = 17.7 =
 Release Date: November 30th, 2021
