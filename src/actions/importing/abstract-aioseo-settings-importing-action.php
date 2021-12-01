@@ -138,17 +138,15 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 
 		$last_imported_setting = '';
 
-		$flattened_settings = $this->flatten_settings( $aioseo_settings );
 		$this->build_mapping();
 
 		try {
-			foreach ( $flattened_settings as $setting => $setting_value ) {
+			foreach ( $aioseo_settings as $setting => $setting_value ) {
 				// Map and import the values of the setting we're working with (eg. post, book-category, etc.) to the respective Yoast option.
 				$this->map( $setting_value, $setting );
 
 				// Save the type of the settings that were just imported, so that we can allow chunked imports.
-				$setting_types         = \explode( '/', \trim( $setting, '/' ), 2 );
-				$last_imported_setting = $setting_types[0];
+				$last_imported_setting = $setting;
 
 				$created_settings[] = $setting;
 			}
@@ -181,7 +179,9 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 			return [];
 		}
 
-		return $this->get_unimported_chunk( $settings_values, $limit );
+		$flattened_settings = $this->flatten_settings( $settings_values );
+
+		return $this->get_unimported_chunk( $flattened_settings, $limit );
 	}
 
 	/**
