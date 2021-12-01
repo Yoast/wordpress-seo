@@ -141,19 +141,22 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 		$flattened_settings = $this->flatten_settings( $aioseo_settings );
 		$this->build_mapping();
 
-		foreach ( $flattened_settings as $setting => $setting_value ) {
-			// Save the type of the settings that are being imported, so that we can allow chunked imports.
-			$setting_types         = \explode( '/', \trim( $setting, '/' ), 2 );
-			$last_imported_setting = $setting_types[0];
+		try {
+			foreach ( $flattened_settings as $setting => $setting_value ) {
+				// Map and import the values of the setting we're working with (eg. post, book-category, etc.) to the respective Yoast option.
+				$this->map( $setting_value, $setting );
 
-			// Map and import the values of the setting we're working with (eg. post, book-category, etc.) to the respective Yoast option.
-			$this->map( $setting_value, $setting );
+				// Save the type of the settings that were just imported, so that we can allow chunked imports.
+				$setting_types         = \explode( '/', \trim( $setting, '/' ), 2 );
+				$last_imported_setting = $setting_types[0];
 
-			$created_settings[] = $setting;
+				$created_settings[] = $setting;
+			}
 		}
-
-		$cursor_id = $this->get_cursor_id();
-		$this->set_cursor( $this->options, $cursor_id, $last_imported_setting );
+		finally {
+			$cursor_id = $this->get_cursor_id();
+			$this->set_cursor( $this->options, $cursor_id, $last_imported_setting );
+		}
 
 		return $created_settings;
 	}
