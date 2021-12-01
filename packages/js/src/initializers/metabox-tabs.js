@@ -1,4 +1,5 @@
 /* Browser:true */
+import createCustomEvent from "../helpers/createCustomEvent";
 
 /**
  * @summary Initializes the metabox tabs script.
@@ -221,6 +222,10 @@ export default function initTabs( jQuery ) {
 					jQuery( this ).parent( "li" )
 						.addClass( "active" )
 						.find( "[role='tab']" ).addClass( "yoast-active-tab" );
+
+					// Dispatch custom vanilla js event for usage in non jQuery code.
+					const metaSectionTabChangeEvent = createCustomEvent( "YoastSEO:metaSectionTabChange", { tabId: jQuery( this ).attr( "id" ) } );
+					window.dispatchEvent( metaSectionTabChangeEvent );
 
 					// Make the clicked tab focusable and set it to aria-selected=true.
 					wpseoAriaTabSetActiveAttributes( this, tabLinks );

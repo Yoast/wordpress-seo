@@ -79,6 +79,8 @@ class FacebookPreview extends Component {
 			descriptionLineCount: 0,
 		};
 		this.facebookTitleRef = React.createRef();
+		this.handleTabChange = this.handleTabChange.bind( this );
+
 		this.onImageLoaded = this.onImageLoaded.bind( this );
 
 		// Binding fields to onMouseHover to prevent arrow functions in JSX props.
@@ -153,6 +155,16 @@ class FacebookPreview extends Component {
 	componentDidUpdate() {
 		this.maybeSetMaxLineCount();
 		this.maybeSetDescriptionLineCount();
+	}
+
+	handleTabChange( event ) {
+		if ( event.detail.tabId === "wpseo-meta-tab-social" ) {
+			this.forceUpdate();
+		}
+	}
+
+	componentDidMount() {
+		window.addEventListener( "YoastSEO:metaSectionTabChange", this.handleTabChange );
 	}
 
 	/**
