@@ -179,6 +179,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'wincher_tokens',
 		'wincher_website_id',
 		'wincher_automatically_add_keyphrases',
+		'first_time_install',
 	];
 
 	/**

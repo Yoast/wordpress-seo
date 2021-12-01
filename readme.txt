@@ -259,6 +259,13 @@ Other:
 * Requires the Configuration workout to be completed to access the Cornerstone and Orphaned Content workouts.
 * Optimizes and compresses several `.png` images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
+= 17.7.1 =
+Release Date: December 14th, 2021
+
+Bugfixes:
+
+* Fixes a bug where the notification to start configuring Yoast SEO would also been shown on existing installations.
+
 = 17.7 =
 Release Date: November 30th, 2021
 
