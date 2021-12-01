@@ -241,16 +241,16 @@ Release Date: December 14th, 2021
 
 Enhancements:
 
+* Adds a new integration with Wincher for keyphrase performance tracking.
 * Improves the user direction in the configuration workout.
 * Adds a sleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke).
-* Adds a new integration with Wincher for keyphrase performance tracking.
 
 Bugfixes:
 
 * Fixes a bug where on small screens the advanced setting's search engine follow checkbox would have a misplaced center.
-* Fixes a bug where the styling of our introduction dialog in Elementor was broken due to changes in Elementor.
+* Fixes a bug where the styling of the introduction dialog in Elementor would be broken due to changes in Elementor.
 * Fixes a bug where the reading time functionality was not working for languages other than English.
-* Fixes a bug where certain text in the Google, Facebook and Twitter previews would not be translated.
+* Fixes a bug where certain text strings in the Google, Facebook and Twitter previews would not be translated.
 
 Other:
 
