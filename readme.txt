@@ -236,6 +236,29 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 17.8 =
+Release Date: December 14th, 2021
+
+Enhancements:
+
+* Improves the user direction in the configuration workout.
+* Adds a sleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke).
+* Adds a new integration with Wincher for keyphrase performance tracking.
+
+Bugfixes:
+
+* Fixes a bug where on small screens the advanced setting's search engine follow checkbox would have a misplaced center.
+* Fixes a bug where the styling of our introduction dialog in Elementor was broken due to changes in Elementor.
+* Fixes a bug where the reading time functionality was not working for languages other than English.
+* Fixes a bug where certain text in the Google, Facebook and Twitter previews would not be translated.
+
+Other:
+
+* Fixes some styling issues in the configuration workout.
+* Prevents SEO managers from changing the site description in the configuration workout.
+* Requires the Configuration workout to be completed to access the Cornerstone and Orphaned Content workouts.
+* Optimizes and compresses several `.png` images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
+
 = 17.7 =
 Release Date: November 30th, 2021
 
@@ -252,27 +275,6 @@ Bugfixes:
 * Fixes a bug where non-passive Greek words ending in -ου or -είτε were previously recognized as passive. Props to [artemidaspatanews](https://github.com/artemidaspatanews).
 * Fixes a bug where some post types would cause a PHP warning about custom fields.
 * Fixes a bug where memory issues could occur when indexing a site with large amounts of terms assigned to many posts.
-
-= 17.6 =
-Release Date: November 16th, 2021
-
-Yoast SEO 17.6 is out today! This new release brings several fixes and enhancements to improve how the plugin works. And we’re getting it ready for the upcoming WordPress 5.9 release. Go check it out! Read more about what's new in Yoast SEO 17.6 in [our release post in English](https://yoa.st/release-17-6) or [our release post in Spanish](https://yoa.st/release-17-6-spanish)!
-
-Enhancements:
-
-* Enhances the upgrade flow for add-ons by considering the minimum required WP version before showing any available updates.
-* Enables the Schema Article type for any post type supporting authors.
-* Removes the placeholder texts for title and description inputs in the Google preview and Social preview since they have no semantic value.
-
-Bugfixes:
-
-* Fixes a bug where the `page` post type wasn't allowed to display an `Article` piece in the Schema.
-* Fixes a bug where the content inside of reusable blocks would not be analyzed correctly.
-
-Other:
-
-* The plugin will no longer block installation on PHP 8.0+ when installed via Composer.
-* Deprecates the `wpseo_schema_article_post_types` filter.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
