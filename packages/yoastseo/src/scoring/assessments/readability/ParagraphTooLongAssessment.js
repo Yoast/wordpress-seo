@@ -172,7 +172,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	 */
 	getMarks( paper, researcher ) {
 		const paragraphsLength = researcher.getResearch( "getParagraphLength" );
-		const tooLongParagraphs = this.getTooLongParagraphs( paragraphsLength );
+		const tooLongParagraphs = this.getTooLongParagraphs( paragraphsLength, this.getConfig( researcher ) );
 		return map( tooLongParagraphs, function( paragraph ) {
 			const paragraphText = stripHTMLTags( paragraph.text );
 			const marked = marker( paragraphText );
