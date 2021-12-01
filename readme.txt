@@ -236,6 +236,15 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 17.7.1 =
+Release Date: December 1st, 2021
+
+Bugfixes:
+
+* Fixes a bug where the notification to start configuring Yoast SEO would also been shown on existing installations.
+* Fixes a bug where Yoast addons would not inherit the auto-update settings from Yoast SEO.
+* Fixes a bug where changing the auto-update settings of another plugin could stop Yoast addons from being auto-updated.
+
 = 17.7 =
 Release Date: November 30th, 2021
 
