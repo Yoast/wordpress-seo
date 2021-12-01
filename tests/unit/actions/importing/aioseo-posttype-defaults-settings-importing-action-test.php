@@ -196,6 +196,34 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests transforming the redirect_attachment setting.
+	 *
+	 * @param string $redirect_attachment     The redirect_attachment setting.
+	 * @param string $expected_transformation The expected transformed redirect_attachment setting.
+	 *
+	 * @dataProvider provider_import_redirect_attachment
+	 * @covers ::import_redirect_attachment
+	 */
+	public function test_import_redirect_attachment( $redirect_attachment, $expected_transformation ) {
+		$transformed_redirect_attachment = $this->mock_instance->import_redirect_attachment( $redirect_attachment );
+
+		$this->assertEquals( $expected_transformation, $transformed_redirect_attachment );
+	}
+
+	/**
+	 * Data provider for test_import_redirect_attachment().
+	 *
+	 * @return array
+	 */
+	public function provider_import_redirect_attachment() {
+		return [
+			[ 'disabled', false ],
+			[ 'attachment', true ],
+			[ 'attachment_parent', true ],
+		];
+	}
+
+	/**
 	 * Data provider for test_map().
 	 *
 	 * @return array

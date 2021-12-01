@@ -67,14 +67,14 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action extends Abstract_Aioseo
 	}
 
 	/**
-	 * Transforms the redirect_attachment meta data.
+	 * Transforms the redirect_attachment setting.
 	 *
-	 * @param string $meta_data The meta data to be imported.
+	 * @param string $redirect_attachment The redirect_attachment setting.
 	 *
-	 * @return string The transformed meta data.
+	 * @return string The transformed redirect_attachment setting.
 	 */
-	public function import_redirect_attachment( $meta_data ) {
-		switch ( $meta_data ) {
+	public function import_redirect_attachment( $redirect_attachment ) {
+		switch ( $redirect_attachment ) {
 			case 'disabled':
 				return false;
 

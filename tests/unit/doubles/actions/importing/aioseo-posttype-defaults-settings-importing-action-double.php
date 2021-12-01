@@ -66,4 +66,15 @@ abstract class Aioseo_Posttype_Defaults_Settings_Importing_Action_Double extends
 	public function map( $setting_value, $setting ) {
 		parent::map( $setting_value, $setting );
 	}
+
+	/**
+	 * Transforms the redirect_attachment setting.
+	 *
+	 * @param string $redirect_attachment The redirect_attachment setting.
+	 *
+	 * @return string The transformed redirect_attachment setting.
+	 */
+	public function import_redirect_attachment( $redirect_attachment ) {
+		return parent::import_redirect_attachment( $redirect_attachment );
+	}
 }
