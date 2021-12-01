@@ -141,9 +141,27 @@ class Addon_Update_Watcher implements Integration_Interface {
 
 		if ( $auto_updates_have_been_enabled ) {
 			$this->enable_auto_updates_for_addons( $new_value );
+			return;
 		}
 		else {
 			$this->disable_auto_updates_for_addons( $new_value );
+			return;
+		}
+
+		if ( ! $auto_updates_are_enabled ) {
+			return;
+		}
+
+		$auto_updates_have_been_removed = false;
+		foreach ( self::ADD_ON_PLUGIN_FILES as $addon ) {
+			if ( ! $this->are_auto_updates_enabled( $addon, $new_value ) ) {
+				$auto_updates_have_been_removed = true;
+				break;
+			}
+		}
+
+		if ( $auto_updates_have_been_removed ) {
+			$this->enable_auto_updates_for_addons( $new_value );
 		}
 	}
 
