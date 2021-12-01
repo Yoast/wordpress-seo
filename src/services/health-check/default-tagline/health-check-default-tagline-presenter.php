@@ -4,13 +4,33 @@ namespace Yoast\WP\SEO\Services\Health_Check\Default_Tagline;
 
 use Yoast\WP\SEO\Services\Health_Check\Health_Check_Result_Builder;
 
-class Health_Check_Default_Tagline_Presenter {
-	private $test_name;
+/**
+ * Health_Check_Default_Tagline_Presenter
+ */
+class Health_Check_Default_Tagline_Presenter {	
 
+	/**
+	 * test_name
+	 *
+	 * @var string
+	 */
+	private $test_name;
+	
+	/**
+	 * __construct
+	 *
+	 * @param  string $test_name
+	 * @return void
+	 */
 	public function __construct($test_name) {
 		$this->test_name = $test_name;
 	}
-
+	
+	/**
+	 * get_success_result
+	 *
+	 * @return string[]
+	 */
 	public function get_success_result() {
 		$result_builder = $this->get_result_builder();
 		return $result_builder
@@ -20,7 +40,12 @@ class Health_Check_Default_Tagline_Presenter {
 			->set_description(esc_html__( 'You are using a custom tagline or an empty one.', 'wordpress-seo' ))
 			->build();
 	}
-
+	
+	/**
+	 * get_has_default_tagline_result
+	 *
+	 * @return string[]
+	 */
 	public function get_has_default_tagline_result() {
 		$result_builder = $this->get_result_builder();
 		return $result_builder
@@ -31,12 +56,22 @@ class Health_Check_Default_Tagline_Presenter {
 			->set_actions($this->get_actions())
 			->build();
 	}
-
+	
+	/**
+	 * get_result_builder
+	 *
+	 * @return Health_Check_Result_Builder
+	 */
 	private function get_result_builder() {
 		$result_builder = new Health_Check_Result_Builder();
 		return $result_builder->set_test_name($this->test_name);
 	}
-
+	
+	/**
+	 * get_actions
+	 *
+	 * @return string
+	 */
 	private function get_actions() {
 		$query_args    = [
 			'autofocus[control]' => 'blogdescription',
