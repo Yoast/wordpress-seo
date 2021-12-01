@@ -85,6 +85,7 @@ function adaptResults( results ) {
  * @returns {Promise<{Object}>} The results of the analysis.
  */
 async function analyzePaper( worker, paper, relatedKeyphrases ) {
+	// Analyzing related keyphrases also analyzes the focus keyphrase.
 	const results = await worker.analyzeRelatedKeywords(
 		paper,
 		adaptRelatedKeyphrases( relatedKeyphrases ),
