@@ -300,7 +300,7 @@ class Wincher_Keyphrases_Action {
 				->query()
 				->select( 'primary_focus_keyword' )
 				->where_not_null( 'primary_focus_keyword' )
-				->where('object_type', 'post')
+				->where( 'object_type', 'post' )
 				->distinct()
 				->find_array(),
 			'primary_focus_keyword'
