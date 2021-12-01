@@ -16,7 +16,7 @@
 
 import registerSeoStore from "@yoast/seo-store";
 import { mapValues } from "lodash";
-import createAnalysisWorker from "./analysis";
+import createAnalysis from "./analysis";
 import createAnalysisTypeReplacementVariables from "./replacement-variables";
 import { createSeoProvider } from "./seo-context";
 
@@ -53,7 +53,7 @@ const createSeoIntegration = async ( {
 	},
 	initialState = {},
 } = {} ) => {
-	const analyze = await createAnalysisWorker( {
+	const { analyze } = await createAnalysis( {
 		workerUrl: analysisWorkerUrl,
 		dependencies: dependencies,
 		configuration: analysisConfiguration,

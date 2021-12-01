@@ -43,7 +43,7 @@ const createAnalysisConfiguration = ( configuration = {} ) => {
  *
  * @returns {function} The analysis worker wrapper.
  */
-const createAnalysisWorker = async ( { workerUrl, dependencies, configuration = {} } ) => {
+const createAnalysis = async ( { workerUrl, dependencies, configuration = {} } ) => {
 	const worker = createAnalysisWorkerWrapper( { workerUrl, dependencies } );
 
 	try {
@@ -55,7 +55,9 @@ const createAnalysisWorker = async ( { workerUrl, dependencies, configuration = 
 		);
 	}
 
-	return createAnalyzeFunction( worker, configuration );
+	return {
+		analyze: createAnalyzeFunction( worker, configuration ),
+	};
 };
 
-export default createAnalysisWorker;
+export default createAnalysis;
