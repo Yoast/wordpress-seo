@@ -237,7 +237,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 == Changelog ==
 
 = 17.7.1 =
-Release Date: Wednesday 1th, 2021
+Release Date: December 1st, 2021
 
 Bugfixes:
 
