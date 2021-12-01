@@ -39,6 +39,48 @@ class Aioseo_General_Settings_Importing_Action extends Abstract_Aioseo_Settings_
 	protected $settings_tab = 'global';
 
 	/**
+	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
+	 *
+	 * @return void
+	 */
+	protected function build_mapping() {
+		$this->aioseo_options_to_yoast_map = [
+			'/separator'               => [
+				'yoast_name'       => 'separator',
+				'transform_method' => 'transform_separator',
+			],
+			'/siteTitle'               => [
+				'yoast_name'       => 'title-home-wpseo',
+				'transform_method' => 'simple_import',
+			],
+			'/metaDescription'         => [
+				'yoast_name'       => 'metadesc-home-wpseo',
+				'transform_method' => 'simple_import',
+			],
+			'/schema/siteRepresents'   => [
+				'yoast_name'       => 'company_or_person',
+				'transform_method' => 'transform_site_represents',
+			],
+			'/schema/person'           => [
+				'yoast_name'       => 'company_or_person_user_id',
+				'transform_method' => 'simple_import',
+			],
+			'/schema/organizationName' => [
+				'yoast_name'       => 'company_name',
+				'transform_method' => 'simple_import',
+			],
+			'/schema/organizationLogo' => [
+				'yoast_name'       => 'company_logo',
+				'transform_method' => 'simple_import',
+			],
+			'/schema/personLogo'       => [
+				'yoast_name'       => 'person_logo',
+				'transform_method' => 'simple_import',
+			],
+		];
+	}
+
+	/**
 	 * Transforms the site represents setting.
 	 *
 	 * @param string $site_represents The site represents setting.
@@ -92,47 +134,5 @@ class Aioseo_General_Settings_Importing_Action extends Abstract_Aioseo_Settings_
 			default:
 				return 'sc-dash';
 		}
-	}
-
-	/**
-	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
-	 *
-	 * @return void
-	 */
-	protected function build_mapping() {
-		$this->aioseo_options_to_yoast_map = [
-			'/separator'               => [
-				'yoast_name'       => 'separator',
-				'transform_method' => 'transform_separator',
-			],
-			'/siteTitle'               => [
-				'yoast_name'       => 'title-home-wpseo',
-				'transform_method' => 'simple_import',
-			],
-			'/metaDescription'         => [
-				'yoast_name'       => 'metadesc-home-wpseo',
-				'transform_method' => 'simple_import',
-			],
-			'/schema/siteRepresents'   => [
-				'yoast_name'       => 'company_or_person',
-				'transform_method' => 'transform_site_represents',
-			],
-			'/schema/person'           => [
-				'yoast_name'       => 'company_or_person_user_id',
-				'transform_method' => 'simple_import',
-			],
-			'/schema/organizationName' => [
-				'yoast_name'       => 'company_name',
-				'transform_method' => 'simple_import',
-			],
-			'/schema/organizationLogo' => [
-				'yoast_name'       => 'company_logo',
-				'transform_method' => 'simple_import',
-			],
-			'/schema/personLogo'       => [
-				'yoast_name'       => 'person_logo',
-				'transform_method' => 'simple_import',
-			],
-		];
 	}
 }

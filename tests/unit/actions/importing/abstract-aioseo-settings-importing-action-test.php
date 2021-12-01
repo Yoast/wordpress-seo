@@ -278,22 +278,24 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			[ [], true, [] ],
 			[
 				[
-					'setting1' => 'value1',
+					'/setting1' => 'value1',
 				],
 				false,
 				[ '/setting1' ],
 			],
 			[
 				[
-					'setting1' => 'value1',
-					'setting2' => [ 'value2-a', 'value2-c', 'value2-c' ],
+					'/setting1'            => 'value1',
+					'/setting2/setting2-1' => 'value2-1',
+					'/setting2/setting2-2' => 'value2-2',
+					'/setting2/setting2-3' => 'value2-2',
 				],
 				false,
 				[
 					'/setting1',
-					'/setting2/0',
-					'/setting2/1',
-					'/setting2/2',
+					'/setting2/setting2-1',
+					'/setting2/setting2-2',
+					'/setting2/setting2-3',
 				],
 			],
 		];
