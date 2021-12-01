@@ -147,19 +147,20 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @param string $setting       The setting at hand, eg. post or movie-category, separator etc.
 	 * @param string $setting_value The value of the AIOSEO setting at hand.
+	 * @param int    $times         The times that we will import each setting, if any.
 	 *
 	 * @dataProvider provider_map
 	 * @covers ::map
 	 */
-	public function test_map( $setting, $setting_value ) {
+	public function test_map( $setting, $setting_value, $times ) {
 		$archives = [
 			(object) [
 				'name'     => 'book',
-				'_builtin' => true,
+				'_builtin' => false,
 			],
 			(object) [
 				'name'     => 'movie',
-				'_builtin' => true,
+				'_builtin' => false,
 			],
 		];
 		Monkey\Functions\expect( 'get_post_types' )
@@ -172,15 +173,8 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 		$this->mock_instance->build_mapping();
 		$aioseo_options_to_yoast_map = $this->mock_instance->get_aioseo_options_to_yoast_map();
 
-		if ( isset( $aioseo_options_to_yoast_map[ $setting ] ) ) {
-			$this->mock_instance->shouldReceive( 'import_single_setting' )
-				->with( $setting, $setting_value, $aioseo_options_to_yoast_map[ $setting ] )
-				->once();
-		}
-		else {
-			$this->mock_instance->shouldReceive( 'import_single_setting' )
-				->never();
-		}
+		$this->mock_instance->shouldReceive( 'import_single_setting' )
+			->times( $times );
 
 		$this->mock_instance->map( $setting_value, $setting );
 	}
@@ -192,10 +186,11 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function provider_map() {
 		return [
-			[ '/book/title', 'Book Title' ],
-			[ '/book/metaDescription', 'Book Desc' ],
-			[ '/movie/show', 'Movie Title' ],
-			[ '/movie/metaDescription', 'Movie Title' ],
+			[ '/book/title', 'Book Title', 1 ],
+			[ '/book/metaDescription', 'Book Desc', 1 ],
+			[ '/movie/show', 'Movie Title', 0 ],
+			[ '/movie/metaDescription', 'Movie Title', 1 ],
+			[ '/randome/key', 'random value', 0 ],
 		];
 	}
 

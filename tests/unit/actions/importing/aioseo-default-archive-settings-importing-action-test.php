@@ -150,23 +150,17 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @param string $setting       The setting at hand, eg. post or movie-category, separator etc.
 	 * @param string $setting_value The value of the AIOSEO setting at hand.
+	 * @param int    $times         The times that we will import each setting, if any.
 	 *
 	 * @dataProvider provider_map
 	 * @covers ::map
 	 */
-	public function test_map( $setting, $setting_value ) {
+	public function test_map( $setting, $setting_value, $times ) {
 		$this->mock_instance->build_mapping();
 		$aioseo_options_to_yoast_map = $this->mock_instance->get_aioseo_options_to_yoast_map();
 
-		if ( isset( $aioseo_options_to_yoast_map[ $setting ] ) ) {
-			$this->mock_instance->shouldReceive( 'import_single_setting' )
-				->with( $setting, $setting_value, $aioseo_options_to_yoast_map[ $setting ] )
-				->once();
-		}
-		else {
-			$this->mock_instance->shouldReceive( 'import_single_setting' )
-				->never();
-		}
+		$this->mock_instance->shouldReceive( 'import_single_setting' )
+			->times( $times );
 
 		$this->mock_instance->map( $setting_value, $setting );
 	}
@@ -178,12 +172,12 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function provider_map() {
 		return [
-			[ '/author/title', 'Author Title' ],
-			[ '/author/metaDescription', 'Author Desc' ],
-			[ '/date/show', 'Date Title' ],
-			[ '/date/metaDescription', 'Date Title' ],
-			[ '/search/title', 'Search Title' ],
-			[ '/randomSetting', 'randomeValue' ],
+			[ '/author/title', 'Author Title', 1 ],
+			[ '/author/metaDescription', 'Author Desc', 1 ],
+			[ '/date/show', 'Date Title', 0 ],
+			[ '/date/metaDescription', 'Date Title', 1 ],
+			[ '/search/title', 'Search Title', 1 ],
+			[ '/randomSetting', 'randomeValue', 0 ],
 		];
 	}
 

@@ -164,11 +164,12 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @param string $setting       The setting at hand, eg. post or movie-category, separator etc.
 	 * @param string $setting_value The value of the AIOSEO setting at hand.
+	 * @param int    $times         The times that we will import each setting, if any.
 	 *
 	 * @dataProvider provider_map
 	 * @covers ::map
 	 */
-	public function test_map( $setting, $setting_value ) {
+	public function test_map( $setting, $setting_value, $times ) {
 		$posttypes = [
 			(object) [
 				'name' => 'post',
@@ -188,15 +189,8 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 
 		$aioseo_options_to_yoast_map = $this->mock_instance->get_aioseo_options_to_yoast_map();
 
-		if ( isset( $aioseo_options_to_yoast_map[ $setting ] ) ) {
-			$this->mock_instance->shouldReceive( 'import_single_setting' )
-				->with( $setting, $setting_value, $aioseo_options_to_yoast_map[ $setting ] )
-				->once();
-		}
-		else {
-			$this->mock_instance->shouldReceive( 'import_single_setting' )
-				->never();
-		}
+		$this->mock_instance->shouldReceive( 'import_single_setting' )
+			->times( $times );
 
 		$this->mock_instance->map( $setting_value, $setting );
 	}
@@ -208,13 +202,20 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function provider_map() {
 		return [
-			[ '/category/title', 'Category Title' ],
-			[ '/category/metaDescription', 'Category Desc' ],
-			[ '/post_tag/show', 'Tag Title' ],
-			[ '/post_tag/metaDescription', 'Tag Title' ],
-			[ '/book-category/title', 'Category Title' ],
-			[ '/book-category/metaDescription', 'Category Desc' ],
-			[ '/randomSetting', 'randomeValue' ],
+			[ '/post/title', 'Post Title', 1 ],
+			[ '/post/metaDescription', 'Post Desc', 1 ],
+			[ '/post/show', true, 0 ],
+			[ '/post/advanced/robotsMeta/noindex', true, 0 ],
+			[ '/page/title', 'Page Title', 1 ],
+			[ '/page/metaDescription', 'Page Desc', 1 ],
+			[ '/page/show', true, 0 ],
+			[ '/page/advanced/robotsMeta/noindex', true, 0 ],
+			[ '/attachment/title', 'Media Title', 1 ],
+			[ '/attachment/metaDescription', 'Media Desc', 1 ],
+			[ '/attachment/show', true, 0 ],
+			[ '/attachment/advanced/robotsMeta/noindex', true, 0 ],
+			[ '/attachment/redirectAttachmentUrls', true, 1 ],
+			[ '/random/key', 'random value', 0 ],
 		];
 	}
 

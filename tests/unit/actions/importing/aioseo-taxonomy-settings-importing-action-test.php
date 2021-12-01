@@ -150,11 +150,12 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @param string $setting       The setting at hand, eg. post or movie-category, separator etc.
 	 * @param string $setting_value The value of the AIOSEO setting at hand.
+	 * @param int    $times         The times that we will import each setting, if any.
 	 *
 	 * @dataProvider provider_map
 	 * @covers ::map
 	 */
-	public function test_map( $setting, $setting_value ) {
+	public function test_map( $setting, $setting_value, $times ) {
 		$taxonomies = [
 			(object) [
 				'name' => 'category',
@@ -174,15 +175,8 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 
 		$aioseo_options_to_yoast_map = $this->mock_instance->get_aioseo_options_to_yoast_map();
 
-		if ( isset( $aioseo_options_to_yoast_map[ $setting ] ) ) {
-			$this->mock_instance->shouldReceive( 'import_single_setting' )
-				->with( $setting, $setting_value, $aioseo_options_to_yoast_map[ $setting ] )
-				->once();
-		}
-		else {
-			$this->mock_instance->shouldReceive( 'import_single_setting' )
-				->never();
-		}
+		$this->mock_instance->shouldReceive( 'import_single_setting' )
+			->times( $times );
 
 		$this->mock_instance->map( $setting_value, $setting );
 	}
@@ -194,13 +188,13 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function provider_map() {
 		return [
-			[ '/category/title', 'Category Title' ],
-			[ '/category/metaDescription', 'Category Desc' ],
-			[ '/post_tag/show', 'Tag Title' ],
-			[ '/post_tag/metaDescription', 'Tag Title' ],
-			[ '/book-category/title', 'Category Title' ],
-			[ '/book-category/metaDescription', 'Category Desc' ],
-			[ '/randomSetting', 'randomeValue' ],
+			[ '/category/title', 'Category Title', 1 ],
+			[ '/category/metaDescription', 'Category Desc', 1 ],
+			[ '/post_tag/show', 'Tag Title', 0 ],
+			[ '/post_tag/metaDescription', 'Tag Title', 1 ],
+			[ '/book-category/title', 'Category Title', 1 ],
+			[ '/book-category/metaDescription', 'Category Desc', 1 ],
+			[ '/randomSetting', 'randomeValue', 0 ],
 		];
 	}
 

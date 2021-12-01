@@ -130,23 +130,17 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @param string $setting       The setting at hand, eg. post or movie-category, separator etc.
 	 * @param string $setting_value The value of the AIOSEO setting at hand.
+	 * @param int    $times         The times that we will import each setting, if any.
 	 *
 	 * @dataProvider provider_map
 	 * @covers ::map
 	 */
-	public function test_map( $setting, $setting_value ) {
+	public function test_map( $setting, $setting_value, $times ) {
 		$this->mock_instance->build_mapping();
 		$aioseo_options_to_yoast_map = $this->mock_instance->get_aioseo_options_to_yoast_map();
 
-		if ( isset( $aioseo_options_to_yoast_map[ $setting ] ) ) {
-			$this->mock_instance->shouldReceive( 'import_single_setting' )
-				->with( $setting, $setting_value, $aioseo_options_to_yoast_map[ $setting ] )
-				->once();
-		}
-		else {
-			$this->mock_instance->shouldReceive( 'import_single_setting' )
-				->never();
-		}
+		$this->mock_instance->shouldReceive( 'import_single_setting' )
+			->times( $times );
 
 		$this->mock_instance->map( $setting_value, $setting );
 	}
@@ -220,14 +214,14 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function provider_map() {
 		return [
-			[ '/separator', '&larr;' ],
-			[ '/siteTitle', 'Site Title' ],
-			[ '/metaDescription', 'Site Desc' ],
-			[ '/schema/siteRepresents', 'person' ],
-			[ '/schema/person', 60 ],
-			[ '/schema/organizationName', 'Org Name' ],
-			[ '/schema/organizationLogo', 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg' ],
-			[ '/randomSetting', 'randomeValue' ],
+			[ '/separator', '&larr;', 1 ],
+			[ '/siteTitle', 'Site Title', 1 ],
+			[ '/metaDescription', 'Site Desc', 1 ],
+			[ '/schema/siteRepresents', 'person', 1 ],
+			[ '/schema/person', 60, 1 ],
+			[ '/schema/organizationName', 'Org Name', 1 ],
+			[ '/schema/organizationLogo', 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg', 1 ],
+			[ '/randomSetting', 'randomeValue', 0 ],
 		];
 	}
 
