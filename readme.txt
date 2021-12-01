@@ -249,7 +249,7 @@ Bugfixes:
 
 * Fixes a bug where on small screens the advanced setting's search engine follow checkbox would have a misplaced center.
 * Fixes a bug where the styling of the introduction dialog in Elementor would be broken due to changes in Elementor.
-* Fixes a bug where the reading time functionality was not working for languages other than English.
+* Fixes a bug where the reading time functionality for languages other than English would incorrectly output English reading speed values.
 * Fixes a bug where certain text strings in the Google, Facebook and Twitter previews would not be translated.
 
 Other:
