@@ -1,3 +1,4 @@
+import { mapValues } from "lodash";
 import { Paper } from "yoastseo";
 
 /**
@@ -37,18 +38,7 @@ function createPaper( data, keyphrase, configuration ) {
  * @returns {Object} The transformed related keyphrases.
  */
 function adaptRelatedKeyphrases( relatedKeyphrases ) {
-	const transformed = {};
-
-	Object.keys( relatedKeyphrases ).forEach(
-		id => {
-			transformed[ id ] = {
-				keyword: relatedKeyphrases[ id ].keyphrase,
-				synonyms: relatedKeyphrases[ id ].synonyms,
-			};
-		},
-	);
-
-	return  transformed;
+	return mapValues( relatedKeyphrases, ( { keyphrase: keyword, synonyms } ) => ( { keyword, synonyms } ) );
 }
 
 /**
