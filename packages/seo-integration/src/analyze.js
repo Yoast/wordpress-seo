@@ -39,7 +39,9 @@ function createPaper( data, keyphrase, configuration ) {
  * @returns {Object} The transformed related keyphrases.
  */
 function transformRelatedKeyprases( relatedKeyphrases ) {
-	return mapValues( relatedKeyphrases, ( { keyphrase: keyword, synonyms } ) => ( { keyword, synonyms } ) );
+	return mapValues( relatedKeyphrases, ( { keyphrase: keyword, synonyms } ) => (
+		{ keyword, synonyms }
+	) );
 }
 
 /**
@@ -120,8 +122,12 @@ export default function createAnalyzeFunction( worker, configuration ) {
 
 		const paper = createPaper( data, focusKeyphrase, configuration );
 
-		const analysisResults = await analyzePaper( worker, paper, relatedKeyphrases );
-		analysisResults.research = await runResearches( config.researches, worker, paper );
+		const [ analysisResults, researchResults ] = await Promise.all( [
+			analyzePaper( worker, paper, relatedKeyphrases ),
+			runResearches( config.researches, worker, paper ),
+		] );
+
+		analysisResults.research = researchResults;
 
 		return analysisResults;
 	};
