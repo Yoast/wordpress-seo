@@ -30,26 +30,26 @@ function createPaper( data, keyphrase, configuration ) {
 }
 
 /**
- * Adapts the object with related keyphrases to a a structure
+ * Transforms the object with related keyphrases to a a structure
  * that the analysis web worker is able to consume.
  *
  * @param {Object} relatedKeyphrases The related keyphrases.
  *
  * @returns {Object} The transformed related keyphrases.
  */
-function adaptRelatedKeyphrases( relatedKeyphrases ) {
+function transformRelatedKeyprases( relatedKeyphrases ) {
 	return mapValues( relatedKeyphrases, ( { keyphrase: keyword, synonyms } ) => ( { keyword, synonyms } ) );
 }
 
 /**
- * Adapt the results from the analysis to the structure
+ * Transforms the results from the analysis to the structure
  * that the SEO store expects.
  *
  * @param {Object} results The results returned by the analysis web worker.
  *
  * @returns {Object} The adapted results.
  */
-function adaptResults( results ) {
+function transformAnalysisResults( results ) {
 	const { seo, readability } = results.result;
 
 	// Split out the SEO result of the main focus keyphrase.
@@ -78,10 +78,10 @@ async function analyzePaper( worker, paper, relatedKeyphrases ) {
 	// Analyzing related keyphrases also analyzes the focus keyphrase.
 	const results = await worker.analyzeRelatedKeywords(
 		paper,
-		adaptRelatedKeyphrases( relatedKeyphrases ),
+		transformRelatedKeyprases( relatedKeyphrases ),
 	);
 
-	return adaptResults( results );
+	return transformAnalysisResults( results );
 }
 
 /**
