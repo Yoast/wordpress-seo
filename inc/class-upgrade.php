@@ -74,6 +74,7 @@ class WPSEO_Upgrade {
 			'16.2-RC0'   => 'upgrade_162',
 			'16.5-RC0'   => 'upgrade_165',
 			'17.2-RC0'   => 'upgrade_172',
+			'17.7.1-RC0' => 'upgrade_1771',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -842,6 +843,15 @@ class WPSEO_Upgrade {
 		if ( ! \wp_next_scheduled( \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK ) ) {
 			\wp_schedule_single_event( ( time() + ( MINUTE_IN_SECONDS * 5 ) ), \Yoast\WP\SEO\Integrations\Cleanup_Integration::START_HOOK );
 		}
+	}
+
+	/**
+	 * Performs the 17.7.1 upgrade routine.
+	 */
+	private function upgrade_1771() {
+		$enabled_auto_updates = \get_site_option( 'auto_update_plugins' );
+		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', $enabled_auto_updates, [] );
 	}
 
 	/**
