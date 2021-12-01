@@ -44,7 +44,7 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * An array of the total General Settings we can import.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper
+	 * @var array
 	 */
 	protected $full_settings_to_import = [
 		'separator'       => '&larr;',
@@ -56,6 +56,21 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 			'organizationName' => 'Org Name',
 			'organizationLogo' => 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg',
 		],
+	];
+
+	/**
+	 * The flattened array of the total General Settings we can import.
+	 *
+	 * @var array
+	 */
+	protected $flattened_settings_to_import = [
+		'/separator'               => '&larr;',
+		'/siteTitle'               => 'Site Title',
+		'/metaDescription'         => 'Site Desc',
+		'/schema/siteRepresents'   => 'person',
+		'/schema/person'           => 60,
+		'/schema/organizationName' => 'Org Name',
+		'/schema/organizationLogo' => 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg',
 	];
 
 	/**
@@ -112,15 +127,7 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function test_flatten_settings() {
 		$flattened_sesttings = $this->mock_instance->flatten_settings( $this->full_settings_to_import );
-		$expected_result     = [
-			'/separator'               => '&larr;',
-			'/siteTitle'               => 'Site Title',
-			'/metaDescription'         => 'Site Desc',
-			'/schema/siteRepresents'   => 'person',
-			'/schema/person'           => 60,
-			'/schema/organizationName' => 'Org Name',
-			'/schema/organizationLogo' => 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg',
-		];
+		$expected_result     = $this->flattened_settings_to_import;
 
 		$this->assertTrue( $expected_result === $flattened_sesttings );
 	}
@@ -249,7 +256,7 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 			],
 		];
 
-		$full_settings_expected = $this->full_settings_to_import;
+		$full_settings_expected = $this->flattened_settings_to_import;
 
 		$missing_settings = [
 			'searchAppearance' => [

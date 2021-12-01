@@ -44,7 +44,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * An array of the total Taxonomy Settings we can import.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper
+	 * @var array
 	 */
 	protected $full_settings_to_import = [
 		'category'      => [
@@ -71,6 +71,26 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 				'showDateInGooglePreview' => true,
 			],
 		],
+	];
+
+	/**
+	 * The flattened array of the total Taxonomy Settings we can import.
+	 *
+	 * @var array
+	 */
+	protected $flattened_settings_to_import = [
+		'/category/show'                                  => true,
+		'/category/title'                                 => 'Category Title',
+		'/category/metaDescription'                       => 'Category Desc',
+		'/category/advanced/showDateInGooglePreview'      => true,
+		'/post_tag/show'                                  => true,
+		'/post_tag/title'                                 => 'Tag Title',
+		'/post_tag/metaDescription'                       => 'Tag Desc',
+		'/post_tag/advanced/showDateInGooglePreview'      => true,
+		'/book-category/show'                             => true,
+		'/book-category/title'                            => 'Category Title',
+		'/book-category/metaDescription'                  => 'Category Desc',
+		'/book-category/advanced/showDateInGooglePreview' => true,
 	];
 
 	/**
@@ -127,20 +147,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function test_flatten_settings() {
 		$flattened_sesttings = $this->mock_instance->flatten_settings( $this->full_settings_to_import );
-		$expected_result     = [
-			'/category/show'                                  => true,
-			'/category/title'                                 => 'Category Title',
-			'/category/metaDescription'                       => 'Category Desc',
-			'/category/advanced/showDateInGooglePreview'      => true,
-			'/post_tag/show'                                  => true,
-			'/post_tag/title'                                 => 'Tag Title',
-			'/post_tag/metaDescription'                       => 'Tag Desc',
-			'/post_tag/advanced/showDateInGooglePreview'      => true,
-			'/book-category/show'                             => true,
-			'/book-category/title'                            => 'Category Title',
-			'/book-category/metaDescription'                  => 'Category Desc',
-			'/book-category/advanced/showDateInGooglePreview' => true,
-		];
+		$expected_result     = $this->flattened_settings_to_import;
 
 		$this->assertTrue( $expected_result === $flattened_sesttings );
 	}
@@ -216,7 +223,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 			],
 		];
 
-		$full_settings_expected = $this->full_settings_to_import;
+		$full_settings_expected = $this->flattened_settings_to_import;
 
 		$missing_settings = [
 			'searchAppearance' => [

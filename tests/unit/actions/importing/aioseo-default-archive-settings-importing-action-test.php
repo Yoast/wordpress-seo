@@ -44,7 +44,7 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * An array of the total Default Archive Settings we can import.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper
+	 * @var array
 	 */
 	protected $full_settings_to_import = [
 		'author' => [
@@ -71,6 +71,26 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 				'showDateInGooglePreview' => true,
 			],
 		],
+	];
+
+	/**
+	 * The flattened array of the total Default Archive Settings we can import.
+	 *
+	 * @var array
+	 */
+	protected $flattened_settings_to_import = [
+		'/author/show'                             => true,
+		'/author/title'                            => 'Author Title',
+		'/author/metaDescription'                  => 'Author Desc',
+		'/author/advanced/showDateInGooglePreview' => true,
+		'/date/show'                               => true,
+		'/date/title'                              => 'Date Title',
+		'/date/metaDescription'                    => 'Date Desc',
+		'/date/advanced/showDateInGooglePreview'   => true,
+		'/search/show'                             => true,
+		'/search/title'                            => 'Search Title',
+		'/search/metaDescription'                  => 'Search Desc',
+		'/search/advanced/showDateInGooglePreview' => true,
 	];
 
 	/**
@@ -127,20 +147,7 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function test_flatten_settings() {
 		$flattened_sesttings = $this->mock_instance->flatten_settings( $this->full_settings_to_import );
-		$expected_result     = [
-			'/author/show'                             => true,
-			'/author/title'                            => 'Author Title',
-			'/author/metaDescription'                  => 'Author Desc',
-			'/author/advanced/showDateInGooglePreview' => true,
-			'/date/show'                               => true,
-			'/date/title'                              => 'Date Title',
-			'/date/metaDescription'                    => 'Date Desc',
-			'/date/advanced/showDateInGooglePreview'   => true,
-			'/search/show'                             => true,
-			'/search/title'                            => 'Search Title',
-			'/search/metaDescription'                  => 'Search Desc',
-			'/search/advanced/showDateInGooglePreview' => true,
-		];
+		$expected_result     = $this->flattened_settings_to_import;
 
 		$this->assertTrue( $expected_result === $flattened_sesttings );
 	}
@@ -205,7 +212,7 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 			],
 		];
 
-		$full_settings_expected = $this->full_settings_to_import;
+		$full_settings_expected = $this->flattened_settings_to_import;
 
 		$missing_settings = [
 			'searchAppearance' => [

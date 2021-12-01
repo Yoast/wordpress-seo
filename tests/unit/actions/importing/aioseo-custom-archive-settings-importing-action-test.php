@@ -52,7 +52,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * An array of the total Custom Archive Settings we can import.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper
+	 * @var array
 	 */
 	protected $full_settings_to_import = [
 		'book'  => [
@@ -71,6 +71,22 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 				'showDateInGooglePreview' => true,
 			],
 		],
+	];
+
+	/**
+	 * The flattened array of the total Custom Archive Settings we can import.
+	 *
+	 * @var array
+	 */
+	protected $flattened_settings_to_import = [
+		'/book/show'                              => true,
+		'/book/title'                             => 'Book Title',
+		'/book/metaDescription'                   => 'Book Desc',
+		'/book/advanced/showDateInGooglePreview'  => true,
+		'/movie/show'                             => true,
+		'/movie/title'                            => 'Movie Title',
+		'/movie/metaDescription'                  => 'Movie Desc',
+		'/movie/advanced/showDateInGooglePreview' => true,
 	];
 
 	/**
@@ -128,16 +144,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function test_flatten_settings() {
 		$flattened_sesttings = $this->mock_instance->flatten_settings( $this->full_settings_to_import );
-		$expected_result     = [
-			'/book/show'                              => true,
-			'/book/title'                             => 'Book Title',
-			'/book/metaDescription'                   => 'Book Desc',
-			'/book/advanced/showDateInGooglePreview'  => true,
-			'/movie/show'                             => true,
-			'/movie/title'                            => 'Movie Title',
-			'/movie/metaDescription'                  => 'Movie Desc',
-			'/movie/advanced/showDateInGooglePreview' => true,
-		];
+		$expected_result     = $this->flattened_settings_to_import;
 
 		$this->assertTrue( $expected_result === $flattened_sesttings );
 	}
@@ -218,7 +225,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 			],
 		];
 
-		$full_settings_expected = $this->full_settings_to_import;
+		$full_settings_expected = $this->flattened_settings_to_import;
 
 		$missing_settings = [
 			'searchAppearance' => [
