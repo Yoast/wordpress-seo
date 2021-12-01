@@ -1,4 +1,4 @@
-import { mapValues } from "lodash";
+import { mapValues, mapKeys } from "lodash";
 import { Paper } from "yoastseo";
 import { FOCUS_KEYPHRASE_ID } from "@yoast/seo-store";
 
@@ -53,15 +53,9 @@ function transformRelatedKeyprases( relatedKeyphrases ) {
 function transformAnalysisResults( results ) {
 	const { seo, readability } = results.result;
 
-	// Split out the SEO result of the main focus keyphrase.
-	const focusKeyphraseResults = seo[ "" ];
-	delete seo[ "" ];
-
 	return {
-		seo: {
-			focus: focusKeyphraseResults,
-			...seo,
-		},
+		// Put the focus keyphrase results under the `FOCUS_KEYPHRASE_ID` key, instead of the "" key.
+		seo: mapKeys( seo, ( _, key ) => key === "" ? FOCUS_KEYPHRASE_ID : key ),
 		readability,
 	};
 }
