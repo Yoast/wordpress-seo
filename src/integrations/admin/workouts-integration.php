@@ -208,6 +208,10 @@ class Workouts_Integration implements Integration_Interface {
 			return false;
 		}
 
+		if ( $this->options_helper->get( 'first_time_install', false ) === false ) {
+			return false;
+		}
+
 		return ! $this->are_site_representation_name_and_logo_set() || $this->indexing_helper->get_unindexed_count() > 0;
 	}
 
