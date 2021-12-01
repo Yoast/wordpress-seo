@@ -103,7 +103,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 			hasMarks: true,
 			text: sprintf(
 				/* Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
-			%3$d expands to the number of paragraphs over the recommended word limit, %4$d expands to the word limit,
+			%3$d expands to the number of paragraphs over the recommended word / character limit, %4$d expands to the word / character limit,
 			%6$s expands to the word 'words' or 'characters'. */
 				_n(
 					// eslint-disable-next-line max-len

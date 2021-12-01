@@ -68,8 +68,11 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 		expect( assessment.getScore() ).toBe( 0 );
 		expect( assessment.getText() ).toBe( "" );
 	} );
-	it( "Counts words instead of characters in Japanese (1 paragraph slightly too long)", function() {
-		const paper = new Paper( longText );
+} );
+
+describe( "Counts words instead of characters in Japanese", function() {
+	it( "Scores 1 slightly too long paragraph", function() {
+		const paper = new Paper( longTextJapanese );
 
 		const assessment = paragraphTooLongAssessment.getResult( paper, new JapaneseResearcher( paper ) );
 		expect( assessment.getScore() ).toBe( 6 );
@@ -78,8 +81,8 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 			" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
-	it( "Counts words instead of characters in Japanese (1 paragraph too long)", function() {
-		const paper = new Paper( veryLongText );
+	it( "Scores 1 too long paragraph", function() {
+		const paper = new Paper( veryLongTextJapanese );
 
 		const assessment = paragraphTooLongAssessment.getResult( paper, new JapaneseResearcher( paper ) );
 		expect( assessment.getScore() ).toBe( 3 );
@@ -88,8 +91,8 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 			" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
-	it( "Counts words instead of characters in Japanese (2 paragraphs slightly too long)", function() {
-		const paper = new Paper( shortText + "<p>" + longText + "</p><p>" + longText + "</p>"  );
+	it( "Scores 2 slightly too long paragraphs", function() {
+		const paper = new Paper( shortTextJapanese + "<p>" + longTextJapanese + "</p><p>" + longTextJapanese + "</p>"  );
 		const assessment = paragraphTooLongAssessment.getResult( paper, new JapaneseResearcher( paper ) );
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 2 of the paragraphs" +

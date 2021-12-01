@@ -11,8 +11,7 @@ import RussianResearcher from "../../../../src/languageProcessing/languages/ru/R
 import ItalianResearcher from "../../../../src/languageProcessing/languages/it/Researcher";
 import TurkishResearcher from "../../../../src/languageProcessing/languages/tr/Researcher";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
-import polishConfig from "../../../../src/languageProcessing/languages/pl/config/sentenceLength";
-import turkishConfig from "../../../../src/languageProcessing/languages/tr/config/sentenceLength";
+import italianConfig from "../../../../src/languageProcessing/languages/it/config/sentenceLength";
 
 const shortSentenceDefault = "Word ".repeat( 18 ) + "word. ";
 const longSentenceDefault = "Word ".repeat( 20 ) + "word. ";
@@ -123,7 +122,7 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
 		expect( assessment.hasMarks() ).toBe( false );
-	} )
+	} );
 
 	it( "returns the score for 100% short sentences in a language with the maximum allowed percentage of long sentences of 15%", function() {
 		const mockPaper = new Paper( shortSentenceDefault );
@@ -194,7 +193,7 @@ describe( "An assessment for sentence length", function() {
 	} );
 
 	it( "Replaces 'words' with 'characters' in the feedbacks string for Japanese", function() {
-		const mockPaper = new Paper( "は は は は は は は は は は は は は は は は は は は は は は は は は.");
+		const mockPaper = new Paper( "は は は は は は は は は は は は は は は は は は は は は は は は は." );
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, new JapaneseResearcher( mockPaper ) );
 
 		expect( assessment.hasScore() ).toBe( true );
@@ -246,6 +245,20 @@ describe( "A test for getting the right scoring config", function() {
 		const config = merge( italianConfig, { 	countTextIn: "words", urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
 			urlTitle: "<a href='https://yoa.st/34v' target='_blank'>" } );
 		expect( new SentenceLengthInTextAssessment().getLanguageSpecificConfig( researcher ) ).toEqual( config );
+	} );
+	// Trial
+	it( "uses language-specific config if available", function() {
+		const mockPaper = new Paper( "" );
+		expect( new SentenceLengthInTextAssessment( {
+			slightlyTooMany: 20,
+			farTooMany: 25 } ).getLanguageSpecificConfig( new ItalianResearcher( mockPaper ) ) ).toEqual( {
+			countTextIn: "words",
+			farTooMany: 30,
+			recommendedWordCount: 25,
+			slightlyTooMany: 25,
+			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/34v' target='_blank'>",
+		} );
 	} );
 	it( "uses language-specific cornerstone config if available", function() {
 		const mockPaper = new Paper( "" );
