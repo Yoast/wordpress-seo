@@ -1,5 +1,6 @@
 import { mapValues } from "lodash";
 import { Paper } from "yoastseo";
+import { FOCUS_KEYPHRASE_ID } from "@yoast/seo-store";
 
 /**
  * Creates a paper based on the given data, keyphrase and configuration.
@@ -123,9 +124,9 @@ export default function createAnalyzeFunction( worker, configuration ) {
 	 * @returns {Object} The results of the analysis.
 	 */
 	return async ( data, keyphrases, config = {} ) => {
-		const { focus, ...relatedKeyphrases } = keyphrases;
+		const { [ FOCUS_KEYPHRASE_ID ]: focusKeyphrase, ...relatedKeyphrases } = keyphrases;
 
-		const paper = createPaper( data, focus, configuration );
+		const paper = createPaper( data, focusKeyphrase, configuration );
 
 		const analysisResults = await analyzePaper( worker, paper, relatedKeyphrases );
 		analysisResults.research = await runResearches( config.researches, worker, paper );
