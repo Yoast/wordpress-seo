@@ -1,5 +1,5 @@
 export default {
-	default: {
+	defaultAnalysis: {
 		recommendedMinimum: 600,
 		slightlyBelowMinimum: 500,
 		belowMinimum: 400,

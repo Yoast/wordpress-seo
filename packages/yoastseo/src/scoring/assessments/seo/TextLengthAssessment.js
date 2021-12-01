@@ -88,13 +88,13 @@ export default class TextLengthAssessment extends Assessment {
 		}
 
 		// Check if a language has a default cornerstone configuration.
-		if ( currentConfig.cornerstoneContent === true && currentConfig.customContentType === "" && languageSpecificConfig.hasOwnProperty( "defaultCornerstone" ) ) {
-			console.log( "hi" );
+		if ( currentConfig.cornerstoneContent === true && currentConfig.customContentType === "" &&
+			languageSpecificConfig.hasOwnProperty( "defaultCornerstone" ) ) {
 			return merge( currentConfig, languageSpecificConfig.defaultCornerstone );
 		}
 
-		if ( languageSpecificConfig.hasOwnProperty( "default" ) ) {
-			return merge( currentConfig, languageSpecificConfig.default );
+		if ( languageSpecificConfig.hasOwnProperty( "defaultAnalysis" ) ) {
+			return merge( currentConfig, languageSpecificConfig.defaultAnalysis );
 		}
 
 		return currentConfig;

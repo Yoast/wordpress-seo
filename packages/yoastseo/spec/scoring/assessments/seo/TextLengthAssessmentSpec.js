@@ -3,7 +3,6 @@ import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import assessmentConfigJapanese from "../../../../src/languageProcessing/languages/ja/config/textLength";
-import cornerstoneSEOAssessor from "../../../../src/scoring/cornerstone/seoAssessor";
 
 const textLengthAssessment = new TextLengthAssessment();
 
@@ -351,13 +350,14 @@ describe( "In Japanese, the text length assessment should give a score based on 
 	} );
 } );
 
-describe( "Language-specific configuration for cornerstone content is used", function() {
+describe( "Language-specific configuration for specific types of content is used", function() {
 	const paper = new Paper( "こんにちは。" );
 	const japaneseResearcher = new JapaneseResearcher( paper );
 
 	it( "checks whether language-specific cornerstone configuration is used", function() {
 		const assessment = new TextLengthAssessment( { cornerstoneContent: true } );
-		const results = assessment.getResult( paper, japaneseResearcher );
+		// Running getResult will apply language-specific configuration.
+		assessment.getResult( paper, japaneseResearcher );
 
 		expect( assessment._config.recommendedMinimum ).toEqual( assessmentConfigJapanese.defaultCornerstone.recommendedMinimum );
 		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.defaultCornerstone.slightlyBelowMinimum );
@@ -368,7 +368,8 @@ describe( "Language-specific configuration for cornerstone content is used", fun
 
 	it( "checks whether language-specific configuration for a custom content type is used (example: taxonomy page)", function() {
 		const assessment = new TextLengthAssessment( { customContentType: "TaxonomyAssessor" } );
-		const results = assessment.getResult( paper, japaneseResearcher );
+		// Running getResult will apply language-specific configuration.
+		assessment.getResult( paper, japaneseResearcher );
 
 		expect( assessment._config.recommendedMinimum ).toEqual( assessmentConfigJapanese.TaxonomyAssessor.recommendedMinimum );
 		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.TaxonomyAssessor.slightlyBelowMinimum );
@@ -379,7 +380,8 @@ describe( "Language-specific configuration for cornerstone content is used", fun
 	it( "checks whether language-specific configuration for a custom content type is used when the assessor is a custom corner stone assessor" +
 		" (example: product page cornerstone)", function() {
 		const assessment = new TextLengthAssessment( { customContentType: "ProductCornerstoneSEOAssessor", cornerstoneContent: true } );
-		const results = assessment.getResult( paper, japaneseResearcher );
+		// Running getResult will apply language-specific configuration.
+		assessment.getResult( paper, japaneseResearcher );
 
 		expect( assessment._config.recommendedMinimum ).toEqual( assessmentConfigJapanese.ProductCornerstoneSEOAssessor.recommendedMinimum );
 		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.ProductCornerstoneSEOAssessor.slightlyBelowMinimum );
