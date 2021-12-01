@@ -18,7 +18,7 @@ const FacebookWrapper = ( props ) => {
 	// Set active meta tab id on window event.
 	const handleMetaTabChange = useCallback( ( event ) => {
 		setActiveMetaTabId( event.detail.metaTabId );
-	}, [] );
+	}, [ setActiveMetaTabId ] );
 
 	useEffect( () => {
 		// Load on the next cycle because the editor inits asynchronously and we need to load the data after the component is fully loaded.

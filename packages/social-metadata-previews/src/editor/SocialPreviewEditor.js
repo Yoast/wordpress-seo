@@ -217,6 +217,7 @@ SocialPreviewEditor.propTypes = {
 	applyReplacementVariables: PropTypes.func,
 	socialPreviewLabel: PropTypes.string,
 	idSuffix: PropTypes.string,
+	activeMetaTabId: PropTypes.string,
 };
 
 SocialPreviewEditor.defaultProps = {
@@ -234,6 +235,7 @@ SocialPreviewEditor.defaultProps = {
 	applyReplacementVariables: data => data,
 	socialPreviewLabel: "",
 	idSuffix: "",
+	activeMetaTabId: "",
 };
 
 export default SocialPreviewEditor;
