@@ -79,7 +79,6 @@ class FacebookPreview extends Component {
 			descriptionLineCount: 0,
 		};
 		this.facebookTitleRef = React.createRef();
-		this.handleTabChange = this.handleTabChange.bind( this );
 
 		this.onImageLoaded = this.onImageLoaded.bind( this );
 
@@ -138,9 +137,15 @@ class FacebookPreview extends Component {
 	 * @returns {void}
 	 */
 	maybeSetDescriptionLineCount() {
-		const { descriptionLineCount, maxLineCount } = this.state;
+		const { descriptionLineCount, maxLineCount, imageMode } = this.state;
+		const titleLineCount = this.getTitleLineCount();
 
-		const maxDescriptionLineCount = ( maxLineCount - this.getTitleLineCount() );
+		// Calculate new description line count.
+		let maxDescriptionLineCount = maxLineCount - titleLineCount;
+		// Exceptions for portait image mode.
+		if ( imageMode === "portrait" ) {
+			maxDescriptionLineCount = titleLineCount === 5 ? 0 : 4;
+		}
 
 		if ( maxDescriptionLineCount !== descriptionLineCount ) {
 			this.setState( { descriptionLineCount: maxDescriptionLineCount } );
@@ -148,23 +153,14 @@ class FacebookPreview extends Component {
 	}
 
 	/**
-	 * Conditionally set the max line count and max description line count.
+	 * Component updates.
 	 *
 	 * @returns {void}
 	 */
 	componentDidUpdate() {
+		// Recalculate available lines for title and description.
 		this.maybeSetMaxLineCount();
 		this.maybeSetDescriptionLineCount();
-	}
-
-	handleTabChange( event ) {
-		if ( event.detail.tabId === "wpseo-meta-tab-social" ) {
-			this.forceUpdate();
-		}
-	}
-
-	componentDidMount() {
-		window.addEventListener( "YoastSEO:metaSectionTabChange", this.handleTabChange );
 	}
 
 	/**
@@ -227,6 +223,7 @@ FacebookPreview.propTypes = {
 	imageUrl: PropTypes.string,
 	imageFallbackUrl: PropTypes.string,
 	alt: PropTypes.string,
+	activeMetaTabId: PropTypes.string,
 	onSelect: PropTypes.func,
 	onImageClick: PropTypes.func,
 	onMouseHover: PropTypes.func,
@@ -237,6 +234,7 @@ FacebookPreview.defaultProps = {
 	alt: "",
 	imageUrl: "",
 	imageFallbackUrl: "",
+	activeMetaTabId: "",
 	onSelect: () => {},
 	onImageClick: () => {},
 	onMouseHover: () => {},

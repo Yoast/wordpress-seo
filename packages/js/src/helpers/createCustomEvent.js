@@ -1,5 +1,5 @@
 /**
- * Measures the width of the text using a hidden element.
+ * Creates a custom event with optional additional data.
  *
  * @param {string} name The name of the event.
  * @param {object} data The data of the event.

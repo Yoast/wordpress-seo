@@ -138,6 +138,7 @@ class SocialPreviewEditor extends Component {
 			isLarge,
 			socialPreviewLabel,
 			idSuffix,
+			activeMetaTabId,
 		} = this.props;
 
 		// Set fallbacks if title and/or description are empty.
@@ -162,6 +163,7 @@ class SocialPreviewEditor extends Component {
 					imageFallbackUrl={ imageFallbackUrl }
 					alt={ alt }
 					isLarge={ isLarge }
+					activeMetaTabId={ activeMetaTabId }
 				/>
 				<SocialMetadataPreviewForm
 					onDescriptionChange={ onDescriptionChange }
