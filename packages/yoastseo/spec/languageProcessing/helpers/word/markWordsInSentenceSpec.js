@@ -1,5 +1,6 @@
 import { markWordsInSentences } from "../../../../src/languageProcessing/helpers/word/markWordsInSentences";
 import Mark from "../../../../src/values/Mark";
+import matchWordCustomHelper from "../../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
 
 describe( "Adds Yoast marks to specific words in a sentence", function() {
 	it( "should add Yoast marks to all instances of specified words in a sentence", function() {
@@ -42,3 +43,33 @@ describe( "Adds Yoast marks to specific words in a sentence", function() {
 		) ).toEqual( [] );
 	} );
 } );
+
+describe( "Adds Yoast marks to specific words in a sentence for languages with custom helper to match words", function() {
+	// Japanese has the custom helper to match words.
+	it( "should add Yoast marks to all instances of specified words in a sentence", function() {
+		expect( markWordsInSentences(
+			[ "黒", "長袖", "マキシドレス" ],
+			[ "彼女はオンラインストアで黒の長袖マキシドレスを購入したかった。", "しかし、それは在庫切れでしたマキシドレス。" ],
+			"ja",
+			matchWordCustomHelper
+		) ).toEqual( [
+			new Mark( {
+				marked: "彼女はオンラインストアで<yoastmark class='yoast-text-mark'>黒</yoastmark>の<yoastmark class='yoast-text-mark'>長袖</yoastmark>" +
+					"<yoastmark class='yoast-text-mark'>マキシドレス</yoastmark>を購入したかった。",
+				original: "彼女はオンラインストアで黒の長袖マキシドレスを購入したかった。" } ),
+			new Mark( {
+				marked: "しかし、それは在庫切れでした<yoastmark class='yoast-text-mark'>マキシドレス</yoastmark>。",
+				original: "しかし、それは在庫切れでしたマキシドレス。" } ) ]
+		);
+	} );
+
+	it( "returns an empty array when the topic is not found in the sentence", function() {
+		expect( markWordsInSentences(
+			[ "書き", "甘い香ら" ],
+			[ "私はペットとして2匹の猫を飼っています。", "どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。" ],
+			"ja",
+			matchWordCustomHelper
+		) ).toEqual( [] );
+	} );
+} );
+
