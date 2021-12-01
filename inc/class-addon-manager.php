@@ -294,7 +294,7 @@ class WPSEO_Addon_Manager {
 				continue;
 			}
 
-			$plugin_data = $this->convert_subscription_to_plugin( $subscription, $yoast_free_data );
+			$plugin_data = $this->convert_subscription_to_plugin( $subscription, $yoast_free_data, false, $plugin_file );
 
 			// Let's assume for now that it will get added in the 'no_update' key that we'll return to the WP API.
 			$is_no_update = true;
@@ -483,10 +483,11 @@ class WPSEO_Addon_Manager {
 	 * @param stdClass $subscription    The subscription to convert.
 	 * @param stdClass $yoast_free_data The Yoast Free's data.
 	 * @param bool     $plugin_info     Whether we're in the plugin information modal.
+	 * @param string   $plugin_file     The plugin filename.
 	 *
 	 * @return stdClass The converted subscription.
 	 */
-	protected function convert_subscription_to_plugin( $subscription, $yoast_free_data = null, $plugin_info = false ) {
+	protected function convert_subscription_to_plugin( $subscription, $yoast_free_data = null, $plugin_info = false, $plugin_file = '' ) {
 		// We need to replace h2's and h3's with h4's because the styling expects that.
 		$changelog = str_replace( '</h2', '</h4', str_replace( '<h2', '<h4', $subscription->product->changelog ) );
 		$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
@@ -501,6 +502,7 @@ class WPSEO_Addon_Manager {
 			'new_version'      => $subscription->product->version,
 			'name'             => $subscription->product->name,
 			'slug'             => $subscription->product->slug,
+			'plugin'           => $plugin_file,
 			'url'              => $subscription->product->store_url,
 			'last_update'      => $subscription->product->last_updated,
 			'homepage'         => $subscription->product->store_url,
