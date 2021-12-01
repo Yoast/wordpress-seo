@@ -4,34 +4,33 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\SEO\Actions\Importing\Aioseo_Custom_Archive_Settings_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Aioseo_Posttype_Defaults_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Custom_Archive_Settings_Importing_Action_Double;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Posttype_Defaults_Settings_Importing_Action_Double;
 
 /**
- * Aioseo_Custom_Archive_Settings_Importing_Action_Test class
+ * Aioseo_Posttype_Defaults_Settings_Importing_Action_Test class
  *
  * @group actions
  * @group importing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo_Custom_Archive_Settings_Importing_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo_Posttype_Defaults_Settings_Importing_Action
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded, Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
-class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
+class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var Aioseo_Custom_Archive_Settings_Importing_Action
+	 * @var Aioseo_Posttype_Defaults_Settings_Importing_Action
 	 */
 	protected $instance;
 
 	/**
 	 * Represents the mock instance to test.
 	 *
-	 * @var Aioseo_Custom_Archive_Settings_Importing_Action_Double
+	 * @var Aioseo_Posttype_Defaults_Settings_Importing_Action_Double
 	 */
 	protected $mock_instance;
 
@@ -43,32 +42,43 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
-	 * The post type helper.
-	 *
-	 * @var Mockery\MockInterface|Post_Type_Helper
-	 */
-	protected $post_type;
-
-	/**
-	 * An array of the total Custom Archive Settings we can import.
+	 * An array of the total Posttype Defaults Settings we can import.
 	 *
 	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	protected $full_settings_to_import = [
-		'book'  => [
+		'post'       => [
 			'show'            => true,
-			'title'           => 'Book Title',
-			'metaDescription' => 'Book Desc',
+			'title'           => 'Post Title',
+			'metaDescription' => 'Post Desc',
 			'advanced'        => [
-				'showDateInGooglePreview' => true,
+				'robotsMeta' => [
+					'default' => true,
+					'noindex' => false,
+				],
 			],
 		],
-		'movie' => [
+		'attachment' => [
+			'show'                   => true,
+			'title'                  => 'Media Title',
+			'metaDescription'        => 'Media Desc',
+			'advanced'               => [
+				'robotsMeta' => [
+					'default' => true,
+					'noindex' => false,
+				],
+			],
+			'redirectAttachmentUrls' => 'attachment_parent',
+		],
+		'page'       => [
 			'show'            => true,
-			'title'           => 'Movie Title',
-			'metaDescription' => 'Movie Desc',
+			'title'           => 'Page Title',
+			'metaDescription' => 'Page Desc',
 			'advanced'        => [
-				'showDateInGooglePreview' => true,
+				'robotsMeta' => [
+					'default' => false,
+					'noindex' => true,
+				],
 			],
 		],
 	];
@@ -80,11 +90,10 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 		parent::set_up();
 
 		$this->options       = Mockery::mock( Options_Helper::class );
-		$this->post_type     = Mockery::mock( Post_Type_Helper::class );
-		$this->instance      = new Aioseo_Custom_Archive_Settings_Importing_Action( $this->options, $this->post_type );
+		$this->instance      = new Aioseo_Posttype_Defaults_Settings_Importing_Action( $this->options );
 		$this->mock_instance = Mockery::mock(
-			Aioseo_Custom_Archive_Settings_Importing_Action_Double::class,
-			[ $this->options, $this->post_type ]
+			Aioseo_Posttype_Defaults_Settings_Importing_Action_Double::class,
+			[ $this->options ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 
@@ -122,28 +131,36 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests flattening AIOSEO custom archive settings.
+	 * Tests flattening AIOSEO Posttype Defaults settings.
 	 *
 	 * @covers ::flatten_settings
 	 */
 	public function test_flatten_settings() {
 		$flattened_sesttings = $this->mock_instance->flatten_settings( $this->full_settings_to_import );
 		$expected_result     = [
-			'/book/show'                              => true,
-			'/book/title'                             => 'Book Title',
-			'/book/metaDescription'                   => 'Book Desc',
-			'/book/advanced/showDateInGooglePreview'  => true,
-			'/movie/show'                             => true,
-			'/movie/title'                            => 'Movie Title',
-			'/movie/metaDescription'                  => 'Movie Desc',
-			'/movie/advanced/showDateInGooglePreview' => true,
+			'/post/show'                              => true,
+			'/post/title'                             => 'Post Title',
+			'/post/metaDescription'                   => 'Post Desc',
+			'/post/advanced/robotsMeta/default'       => true,
+			'/post/advanced/robotsMeta/noindex'       => false,
+			'/attachment/show'                        => true,
+			'/attachment/title'                       => 'Media Title',
+			'/attachment/metaDescription'             => 'Media Desc',
+			'/attachment/advanced/robotsMeta/default' => true,
+			'/attachment/advanced/robotsMeta/noindex' => false,
+			'/attachment/redirectAttachmentUrls'      => 'attachment_parent',
+			'/page/show'                              => true,
+			'/page/title'                             => 'Page Title',
+			'/page/metaDescription'                   => 'Page Desc',
+			'/page/advanced/robotsMeta/default'       => false,
+			'/page/advanced/robotsMeta/noindex'       => true,
 		];
 
 		$this->assertTrue( $expected_result === $flattened_sesttings );
 	}
 
 	/**
-	 * Tests mapping AIOSEO custom archive settings.
+	 * Tests mapping AIOSEO Posttype Defaults settings.
 	 *
 	 * @param string $setting       The setting at hand, eg. post or movie-category, separator etc.
 	 * @param string $setting_value The value of the AIOSEO setting at hand.
@@ -152,24 +169,23 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	 * @covers ::map
 	 */
 	public function test_map( $setting, $setting_value ) {
-		$archives = [
+		$posttypes = [
 			(object) [
-				'name'     => 'book',
-				'_builtin' => true,
+				'name' => 'post',
 			],
 			(object) [
-				'name'     => 'movie',
-				'_builtin' => true,
+				'name' => 'page',
+			],
+			(object) [
+				'name' => 'attachment',
 			],
 		];
 		Monkey\Functions\expect( 'get_post_types' )
 			->once()
-			->andReturn( $archives );
-
-		$this->post_type->shouldReceive( 'has_archive' )
-			->andReturn( true );
+			->andReturn( $posttypes );
 
 		$this->mock_instance->build_mapping();
+
 		$aioseo_options_to_yoast_map = $this->mock_instance->get_aioseo_options_to_yoast_map();
 
 		if ( isset( $aioseo_options_to_yoast_map[ $setting ] ) ) {
@@ -192,10 +208,13 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function provider_map() {
 		return [
-			[ '/book/title', 'Book Title' ],
-			[ '/book/metaDescription', 'Book Desc' ],
-			[ '/movie/show', 'Movie Title' ],
-			[ '/movie/metaDescription', 'Movie Title' ],
+			[ '/category/title', 'Category Title' ],
+			[ '/category/metaDescription', 'Category Desc' ],
+			[ '/post_tag/show', 'Tag Title' ],
+			[ '/post_tag/metaDescription', 'Tag Title' ],
+			[ '/book-category/title', 'Category Title' ],
+			[ '/book-category/metaDescription', 'Category Desc' ],
+			[ '/randomSetting', 'randomeValue' ],
 		];
 	}
 
@@ -207,15 +226,9 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	public function provider_query() {
 		$full_settings = [
 			'searchAppearance' => [
-				'archives'   => $this->full_settings_to_import,
-				'postypes'   => [
-					'post' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-				'taxonomies' => [
-					'category' => [
+				'postTypes'   => $this->full_settings_to_import,
+				'archives'    => [
+					'author' => [
 						'title'           => 'title1',
 						'metaDescription' => 'desc1',
 					],
@@ -227,14 +240,8 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 
 		$missing_settings = [
 			'searchAppearance' => [
-				'postypes'   => [
-					'post' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-				'taxonomies' => [
-					'category' => [
+				'archives' => [
+					'author' => [
 						'title'           => 'title1',
 						'metaDescription' => 'desc1',
 					],
@@ -246,15 +253,9 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 
 		$malformed_settings = [
 			'searchAppearance' => [
-				'archives'   => 'not_array',
-				'postypes'   => [
-					'post' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-				'taxonomies' => [
-					'category' => [
+				'postTypes' => 'not_array',
+				'archives'  => [
+					'author' => [
 						'title'           => 'title1',
 						'metaDescription' => 'desc1',
 					],

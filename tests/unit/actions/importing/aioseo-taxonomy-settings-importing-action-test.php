@@ -42,7 +42,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
-	 * An array of the total Default Archive Settings we can import.
+	 * An array of the total Taxonomy Settings we can import.
 	 *
 	 * @var Mockery\MockInterface|Options_Helper
 	 */
@@ -121,7 +121,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests flattening AIOSEO default archive settings.
+	 * Tests flattening AIOSEO Taxonomy settings.
 	 *
 	 * @covers ::flatten_settings
 	 */
@@ -146,7 +146,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests mapping AIOSEO default archive settings.
+	 * Tests mapping AIOSEO Taxonomy settings.
 	 *
 	 * @param string $setting       The setting at hand, eg. post or movie-category, separator etc.
 	 * @param string $setting_value The value of the AIOSEO setting at hand.
