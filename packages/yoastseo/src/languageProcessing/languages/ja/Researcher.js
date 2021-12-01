@@ -10,12 +10,14 @@ import customCountLength from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
 import getContentWords from "./helpers/getContentWords";
 import findMultiWordKeyphraseInPageTitle from "./helpers/findExactMatchMultiWordKeyphraseInTitle";
+import textLengthResearch from "./customResearches/textLength";
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
 import functionWords from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import topicLength from "./config/topicLength";
+import textLength from "./config/textLength";
 
 // All custom researches
 import morphology from "./customResearches/getWordForms";
@@ -37,6 +39,10 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
 
+		// Replaces default researches with custom researches.
+		delete this.defaultResearches.wordCountInText;
+		this.defaultResearches.wordCountInText = textLengthResearch;
+
 		// Adds the Japanese custom research to calculate the keyword density.
 		this.addResearch( "getKeywordDensity", getKeywordDensity );
 
@@ -46,6 +52,7 @@ export default class Researcher extends AbstractResearcher {
 			functionWords,
 			transitionWords,
 			topicLength,
+			textLength,
 		} );
 
 		Object.assign( this.helpers, {

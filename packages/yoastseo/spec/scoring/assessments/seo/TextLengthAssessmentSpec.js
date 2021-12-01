@@ -1,13 +1,16 @@
 import TextLengthAssessment from "../../../../src/scoring/assessments/seo/TextLengthAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
+import assessmentConfigJapanese from "../../../../src/languageProcessing/languages/ja/config/textLength";
+import cornerstoneSEOAssessor from "../../../../src/scoring/cornerstone/seoAssessor";
 
-const wordCountAssessment = new TextLengthAssessment();
+const textLengthAssessment = new TextLengthAssessment();
 
 describe( "A word count assessment", function() {
 	it( "assesses a single word", function() {
 		const mockPaper = new Paper( "sample" );
-		const assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 1 ) );
+		const assessment = textLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 1 ) );
 
 		expect( assessment.getScore() ).toEqual( -20 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
@@ -17,7 +20,7 @@ describe( "A word count assessment", function() {
 
 	it( "assesses a low word count", function() {
 		const mockPaper = new Paper( "These are just five words" );
-		const assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 5 ) );
+		const assessment = textLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 5 ) );
 
 		expect( assessment.getScore() ).toEqual( -20 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
@@ -27,7 +30,7 @@ describe( "A word count assessment", function() {
 
 	it( "assesses a medium word count", function() {
 		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 150 ) );
-		const assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 150 ) );
+		const assessment = textLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 150 ) );
 
 		expect( assessment.getScore() ).toEqual( -10 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
@@ -37,7 +40,7 @@ describe( "A word count assessment", function() {
 
 	it( "assesses a slightly higher than medium word count", function() {
 		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 225 ) );
-		const assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 225 ) );
+		const assessment = textLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 225 ) );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
@@ -47,7 +50,7 @@ describe( "A word count assessment", function() {
 
 	it( "assesses an almost at the recommended amount, word count", function() {
 		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 275 ) );
-		const assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 275 ) );
+		const assessment = textLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 275 ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
@@ -58,7 +61,7 @@ describe( "A word count assessment", function() {
 
 	it( "assesses high word count", function() {
 		const mockPaper = new Paper( Factory.buildMockString( "Sample ", 325 ) );
-		const assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 325 ) );
+		const assessment = textLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 325 ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
@@ -272,5 +275,116 @@ describe( "A word count assessment", function() {
 
 		expect( results.getScore() ).toEqual( 9 );
 		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 425 words. Good job!" );
+	} );
+} );
+
+describe( "In Japanese, the text length assessment should give a score based on character length and use language-specific boundaries", function() {
+	const character = "あ";
+	const textVeryFarBelowMinimum = character.repeat( 199 );
+	const textFarBelowMinimum = character.repeat( 399 );
+	const textBelowMinimum = character.repeat( 499 );
+	const textSlightlyBelowMinimum = character.repeat( 599 );
+	const textAboveMinimum = character.repeat( 600 );
+
+	it( "assesses a text in the veryFarBelowMinimum category", function() {
+		const paper = new Paper( textVeryFarBelowMinimum );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		const assessment = new TextLengthAssessment();
+
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( results.getScore() ).toEqual( -20 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 199 words. " +
+			"This is far below the recommended minimum of 600 words. " +
+			"<a href='https://yoa.st/34o' target='_blank'>Add more content</a>." );
+	} );
+
+	it( "assesses a text in the farBelowMinimum category", function() {
+		const paper = new Paper( textFarBelowMinimum );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		const assessment = new TextLengthAssessment();
+
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( results.getScore() ).toEqual( -10 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 399 words. " +
+			"This is far below the recommended minimum of 600 words. " +
+			"<a href='https://yoa.st/34o' target='_blank'>Add more content</a>." );
+	} );
+
+	it( "assesses a text in the belowMinimum category", function() {
+		const paper = new Paper( textBelowMinimum );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		const assessment = new TextLengthAssessment();
+
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( results.getScore() ).toEqual( 3 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 499 words. " +
+			"This is below the recommended minimum of 600 words. " +
+			"<a href='https://yoa.st/34o' target='_blank'>Add more content</a>." );
+	} );
+
+	it( "assesses a text in the slightlyBelowMinimum category", function() {
+		const paper = new Paper( textSlightlyBelowMinimum );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		const assessment = new TextLengthAssessment();
+
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( results.getScore() ).toEqual( 6 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 599 words. " +
+			"This is slightly below the recommended minimum of 600 words. " +
+			"<a href='https://yoa.st/34o' target='_blank'>Add a bit more copy</a>." );
+	} );
+
+	it( "assesses a text in the aboveMinimum category", function() {
+		const paper = new Paper( textAboveMinimum );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		const assessment = new TextLengthAssessment();
+
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( results.getScore() ).toEqual( 9 );
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
+			"The text contains 600 words. Good job!"  );
+	} );
+} );
+
+describe( "Language-specific configuration for cornerstone content is used", function() {
+	const paper = new Paper( "こんにちは。" );
+	const japaneseResearcher = new JapaneseResearcher( paper );
+
+	it( "checks whether language-specific cornerstone configuration is used", function() {
+		const assessment = new TextLengthAssessment( { cornerstoneContent: true } );
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( assessment._config.recommendedMinimum ).toEqual( assessmentConfigJapanese.defaultCornerstone.recommendedMinimum );
+		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.defaultCornerstone.slightlyBelowMinimum );
+		expect( assessment._config.belowMinimum ).toEqual( assessmentConfigJapanese.defaultCornerstone.belowMinimum );
+		expect( assessment._config.scores.belowMinimum ).toEqual( assessmentConfigJapanese.defaultCornerstone.scores.belowMinimum );
+		expect( assessment._config.scores.farBelowMinimum ).toEqual( assessmentConfigJapanese.defaultCornerstone.scores.farBelowMinimum );
+	} );
+
+	it( "checks whether language-specific configuration for a custom content type is used (example: taxonomy page)", function() {
+		const assessment = new TextLengthAssessment( { customContentType: "TaxonomyAssessor" } );
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( assessment._config.recommendedMinimum ).toEqual( assessmentConfigJapanese.TaxonomyAssessor.recommendedMinimum );
+		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.TaxonomyAssessor.slightlyBelowMinimum );
+		expect( assessment._config.belowMinimum ).toEqual( assessmentConfigJapanese.TaxonomyAssessor.belowMinimum );
+		expect( assessment._config.veryFarBelowMinimum ).toEqual( assessmentConfigJapanese.TaxonomyAssessor.veryFarBelowMinimum );
+	} );
+
+	it( "checks whether language-specific configuration for a custom content type is used when the assessor is a custom corner stone assessor" +
+		" (example: product page cornerstone)", function() {
+		const assessment = new TextLengthAssessment( { customContentType: "ProductCornerstoneSEOAssessor", cornerstoneContent: true } );
+		const results = assessment.getResult( paper, japaneseResearcher );
+
+		expect( assessment._config.recommendedMinimum ).toEqual( assessmentConfigJapanese.ProductCornerstoneSEOAssessor.recommendedMinimum );
+		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.ProductCornerstoneSEOAssessor.slightlyBelowMinimum );
+		expect( assessment._config.belowMinimum ).toEqual( assessmentConfigJapanese.ProductCornerstoneSEOAssessor.belowMinimum );
+		expect( assessment._config.scores.belowMinimum ).toEqual( assessmentConfigJapanese.ProductCornerstoneSEOAssessor.scores.belowMinimum );
+		expect( assessment._config.scores.farBelowMinimum ).toEqual( assessmentConfigJapanese.ProductCornerstoneSEOAssessor.scores.farBelowMinimum );
 	} );
 } );

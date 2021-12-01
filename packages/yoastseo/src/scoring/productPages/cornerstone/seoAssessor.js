@@ -84,6 +84,7 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.textLengthUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.textLengthCTAUrl ),
 			cornerstoneContent: true,
+			customContentType: this.type,
 		} ),
 		new TitleKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( options.titleKeyphraseUrlTitle ),
