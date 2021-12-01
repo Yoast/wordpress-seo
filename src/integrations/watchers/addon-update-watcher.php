@@ -40,6 +40,7 @@ class Addon_Update_Watcher implements Integration_Interface {
 		\add_action( 'add_site_option_auto_update_plugins', [ $this, 'call_toggle_auto_updates_with_empty_array' ], 10, 2 );
 		\add_action( 'update_site_option_auto_update_plugins', [ $this, 'toggle_auto_updates_for_add_ons' ], 10, 3 );
 		\add_filter( 'plugin_auto_update_setting_html', [ $this, 'replace_auto_update_toggles_of_addons' ], 10, 2 );
+		\add_action( 'activated_plugin', [ $this, 'maybe_toggle_auto_updates_for_new_install' ] );
 	}
 
 	/**
@@ -144,6 +145,24 @@ class Addon_Update_Watcher implements Integration_Interface {
 		else {
 			$this->disable_auto_updates_for_addons( $new_value );
 		}
+	}
+
+	/**
+	 * Trigger a change in the auto update detection whenever a new Yoast addon is activated.
+	 *
+	 * @param string $plugin The plugin that is activated.
+	 *
+	 * @return void
+	 */
+	public function maybe_toggle_auto_updates_for_new_install( $plugin ) {
+		$not_a_yoast_addon = ! \in_array( $plugin, self::ADD_ON_PLUGIN_FILES, true );
+
+		if ( $not_a_yoast_addon ) {
+			return;
+		}
+
+		$enabled_auto_updates = \get_site_option( 'auto_update_plugins' );
+		$this->toggle_auto_updates_for_add_ons( 'auto_update_plugins', $enabled_auto_updates, [] );
 	}
 
 	/**
