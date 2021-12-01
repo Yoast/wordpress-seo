@@ -74,6 +74,16 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds Japanese sentence beginning exceptions. 
 * Activates the consecutive sentences assessment for Japanese.
 * Adapts `getParagraphLength` research for Japanese.
+* Adapts the `sentencesCountFromText` research for Japanese.
+* Adapts the `getProminentWordsForInsights` research for Japanese. 
+* Fixes the prominent words functionality in content-analysis app.
+* Adds unit tests that cover Japanese strings in `metaDescriptionLengthSpec` research file.
+* Adds the option to pass a custom matchWordInText helper and a helper for matching multiword keyphrases in the findKeywordInPageTitle research.
+* Creates a custom helper for finding exact matches of multiword keyphrases in title in Japanese.
+* Adds Japanese quotes to the function that checks whether a keyphrase is enclosed in double quotes in the findKeywordInPageTitle research.
+* Adds a custom `morphology` research for the Japanese language and edits an HTML tag typo in `matchStringWithRegexSpec.js`.
+* Adapts `getProminentWordsForInternalLinking` research for Japanese.
+* Adds `customGetStemmer` and `determineStem` helper for Japanese.
 
 
 ## 1.92.0
