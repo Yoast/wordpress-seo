@@ -1,4 +1,4 @@
-import { mapValues, mapKeys, zipObject } from "lodash";
+import { mapKeys, mapValues, zipObject } from "lodash";
 import { Paper } from "yoastseo";
 import { FOCUS_KEYPHRASE_ID } from "@yoast/seo-store";
 
@@ -45,21 +45,52 @@ function transformRelatedKeyprases( relatedKeyphrases ) {
 }
 
 /**
+ * Serialize the assessment results of each keyphrase.
+ *
+ * @param {Object} seoResults The SEO results object.
+ *
+ * @returns {Object} The SEO results object, but with the assessment results serialized.
+ */
+function serializeSeoResults( seoResults ) {
+	return mapValues(
+		seoResults,
+		( { score, results } ) => (
+			{ score, results: results.map( result => result.serialize() ) }
+		),
+	);
+}
+
+/**
+ * Put the focus keyphrase results under the `FOCUS_KEYPHRASE_ID` key, instead of the "" key.
+ *
+ * @param {Object} seoResults The results of the SEO analysis, each key corresponds to a keyphrase.
+ *
+ * @returns {Object} The results of the SEO analysis, where the focus keyphrase is available under the `FOCUS_KEYPHRASE_ID` key.
+ */
+function renameFocusKeyphraseKey( seoResults ) {
+	return mapKeys( seoResults, ( _, key ) => key === "" ? FOCUS_KEYPHRASE_ID : key );
+}
+
+/**
  * Transforms the results from the analysis to the structure
  * that the SEO store expects.
  *
- * @param {Object} results The results returned by the analysis web worker.
+ * @param {Object} analysisResults The results returned by the analysis web worker.
  *
  * @returns {Object} The adapted results.
  */
-function transformAnalysisResults( results ) {
-	const { seo, readability } = results.result;
-
-	return {
-		// Put the focus keyphrase results under the `FOCUS_KEYPHRASE_ID` key, instead of the "" key.
-		seo: mapKeys( seo, ( _, key ) => key === "" ? FOCUS_KEYPHRASE_ID : key ),
-		readability,
+function transformAnalysisResults( analysisResults ) {
+	const results = {
+		seo: analysisResults.result.seo,
+		readability: analysisResults.result.readability,
 	};
+
+	results.seo = renameFocusKeyphraseKey( results.seo );
+
+	results.seo = serializeSeoResults( results.seo );
+	results.readability.results = results.readability.results.map( result => result.serialize() );
+
+	return results;
 }
 
 /**
