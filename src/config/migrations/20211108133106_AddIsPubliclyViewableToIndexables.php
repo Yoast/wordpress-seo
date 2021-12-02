@@ -6,9 +6,9 @@ use Yoast\WP\Lib\Migrations\Migration;
 use Yoast\WP\Lib\Model;
 
 /**
- * ReplaceIsPublicOnIndexables class.
+ * AddIsPubliclyViewableToIndexables class.
  */
-class ReplaceIsPublicOnIndexables extends Migration {
+class AddIsPubliclyViewableToIndexables extends Migration {
 
 	/**
 	 * The plugin this migration belongs to.
