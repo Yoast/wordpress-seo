@@ -1,5 +1,7 @@
 import jQuery from "jquery";
 
+import IndexingService from "./services/IndexingService";
+
 const AioseoV4 = 'WPSEO_Import_AIOSEO_V4';
 
 let importButton, importForm;
@@ -12,12 +14,22 @@ let importButton, importForm;
 function watchImportForm() {
 	importButton = jQuery( "[name='import_external']" );
 	importForm = jQuery( importButton ).parents( "form:first" );
-	
+
 	if ( importForm ) {
 		importForm.on( "submit", handleImportFormSubmission );
 	}
 }
 
+/**
+ * Function called when importing progress is made.
+ *
+ * @param {number} count The amount of items processed.
+ *
+ * @returns {void}
+ */
+function importingProgress( count ) {
+	console.log( "Now processed", count, "items" );
+}
 
 /**
  * Handles the import form submission and calls the new import endpoints if necessary.
@@ -32,8 +44,11 @@ function handleImportFormSubmission( event ) {
 	if ( dropdown.val() === AioseoV4 ) {
 		event.preventDefault();
 
-		//@todo: Call the new import endpoints.
-		console.log( "Call the new import endpoints" );
+		const indexingService = new IndexingService( window.yoastIndexingData );
+
+		indexingService.index( window.yoastIndexingData.restApi.importing_endpoints.aioseo, importingProgress )
+			.then( () => console.log( "Done!" ) )
+			.catch( e => console.error( e ) );
 
 		return;
 	}
