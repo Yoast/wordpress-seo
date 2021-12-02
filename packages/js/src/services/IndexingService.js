@@ -75,7 +75,11 @@ export default class IndexingService {
 			count = count + response.objects.length;
 			progress( count );
 
-			url = response.next_url;
+			if ( response.next_url ) {
+				url = this.settings.restApi.root + response.next_url;
+			} else {
+				url = false;
+			}
 		}
 
 		return count;
@@ -96,7 +100,7 @@ export default class IndexingService {
 			},
 		} );
 
-		const responseText = await response.json();
+		const responseText = await response.text();
 
 		let data;
 		try {
