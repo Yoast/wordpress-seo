@@ -214,6 +214,11 @@
 	background-position: center center;
 }
 
+.workflow li.step.finished p,
+.workflow li.step.finished table {
+	opacity: 0.5;
+}
+
 .workflow li.step img {
 	max-width: 100%;
 }
