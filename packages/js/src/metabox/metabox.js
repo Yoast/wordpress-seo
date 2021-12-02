@@ -4,6 +4,8 @@ import { Fill } from "@wordpress/components";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { SnippetEditor } from "@yoast/search-metadata-previews";
+import { GooglePreviewContainer } from "@yoast/seo-integration";
 import { SEO_STORE_NAME } from "@yoast/seo-store";
 import { PropTypes } from "prop-types";
 import { KeywordInput } from "../components/contentAnalysis/KeywordInput";
@@ -16,7 +18,6 @@ import AdvancedSettings from "../containers/AdvancedSettings";
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 import SchemaTabContainer from "../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../containers/SEMrushRelatedKeyphrases";
-import SnippetEditor from "../containers/SnippetEditor";
 import Warning from "../containers/Warning";
 import { EDITOR_STORE_NAME } from "./editor-store";
 
@@ -62,6 +63,11 @@ FocusKeyphraseInput.propTypes = {
 const Metabox = () => {
 	const settings = useSelect( select => select( EDITOR_STORE_NAME ).getPreferences() );
 	const isKeywordAnalysisActive = useSelect( select => select( EDITOR_STORE_NAME ).getIsKeywordAnalysisActive() );
+	const baseUrl = useSelect( select => select( EDITOR_STORE_NAME ).getBaseUrlFromSettings() );
+	const shoppingData = useSelect( select => select( EDITOR_STORE_NAME ).getShoppingData() );
+	const siteIconUrl = useSelect( select => select( EDITOR_STORE_NAME ).getSiteIconUrlFromSettings() );
+	const previewImageUrl = useSelect( select => select( EDITOR_STORE_NAME ).getSnippetEditorPreviewImageUrl() );
+	const analysisType = useSelect( select => select( SEO_STORE_NAME ).selectAnalysisType() );
 
 	return (
 		<Fragment>
@@ -82,7 +88,14 @@ const Metabox = () => {
 					id={ "yoast-snippet-editor-metabox" }
 					title={ __( "Google preview", "wordpress-seo" ) } initialIsOpen={ true }
 				>
-					<SnippetEditor hasPaperStyle={ false } />
+					<GooglePreviewContainer
+						as={ SnippetEditor }
+						baseUrl={ baseUrl }
+						shoppingData={ shoppingData }
+						faviconSrc={ siteIconUrl }
+						mobileImageSrc={ previewImageUrl }
+						isTaxonomy={ analysisType === "term" }
+					/>
 				</MetaboxCollapsible>
 			</SidebarItem>
 			{ settings.isContentAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
