@@ -243,9 +243,14 @@ describe( "A test for getting the right scoring config", function() {
 	it( "uses language-specific config if available", function() {
 		const mockPaper = new Paper( "" );
 		const researcher = new ItalianResearcher( mockPaper );
-		const config = merge( italianConfig, { 	countTextIn: "words", urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
-			urlTitle: "<a href='https://yoa.st/34v' target='_blank'>" } );
-		expect( new SentenceLengthInTextAssessment().getLanguageSpecificConfig( researcher ) ).toEqual( config );
+		expect( new SentenceLengthInTextAssessment().getLanguageSpecificConfig( researcher ) ).toEqual( {
+			countTextIn: "words",
+			recommendedWordCount: 25,
+			slightlyTooMany: 25,
+			farTooMany: 30,
+			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/34v' target='_blank'>",
+		} );
 	} );
 	it( "uses language-specific cornerstone config if available", function() {
 		const mockPaper = new Paper( "" );
