@@ -1,6 +1,6 @@
 import domReady from "@wordpress/dom-ready";
 import createSeoIntegration, { createDefaultReplacementVariableConfigurations, SEO_STORE_NAME } from "@yoast/seo-integration";
-import { mapValues } from "lodash";
+import { mapValues, pick } from "lodash";
 import initAdmin from "./initializers/admin";
 import initAdminMedia from "./initializers/admin-media";
 import initClassicEditorIntegration from "./initializers/classic-editor-integration";
@@ -28,7 +28,16 @@ domReady( async () => {
 
 	const {} = await createSeoIntegration( {
 		analysisWorkerUrl: wpseoScriptData.analysis.worker.url,
-		analysisResearcherUrl: wpseoScriptData.analysis.worker.dependencies[ "yoast-seo-en-language" ],
+		analysisDependencies: pick( wpseoScriptData.analysis.worker.dependencies, [
+			"lodash",
+			"regenerator-runtime",
+			"wp-autop",
+			"wp-polyfill",
+			"yoast-seo-jed-package",
+			"yoast-seo-feature-flag-package",
+			"yoast-seo-analysis-package",
+			"yoast-seo-en-language",
+		] ),
 		analysisTypes: {
 			post: {
 				name: "post",
