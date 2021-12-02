@@ -316,7 +316,7 @@ export default function initAdmin( jQuery ) {
 
 		const data = await trackAllKeyphrases();
 
-		if ( data.status === 201 ) {
+		if ( data.status === 200 || data.status === 201 ) {
 			jQuery( "#wincher-track-all-keyphrases-success" ).show();
 		}
 
