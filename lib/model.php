@@ -511,7 +511,7 @@ class Model implements JsonSerializable {
 	 * @return mixed The value of the property
 	 */
 	public function __get( $property ) {
-		$property = $this->handleDeprecation( $property );
+		$property = $this->handle_deprecation( $property );
 		$value    = $this->orm->get( $property );
 
 		if ( $value !== null && \in_array( $property, $this->boolean_columns, true ) ) {
@@ -536,7 +536,7 @@ class Model implements JsonSerializable {
 	 * @return void
 	 */
 	public function __set( $property, $value ) {
-		$property = $this->handleDeprecation( $property );
+		$property = $this->handle_deprecation( $property );
 		if ( $value !== null && \in_array( $property, $this->boolean_columns, true ) ) {
 			$value = ( $value ) ? '1' : '0';
 		}
@@ -558,7 +558,7 @@ class Model implements JsonSerializable {
 	 * @return void
 	 */
 	public function __unset( $property ) {
-		$property = $this->handleDeprecation( $property );
+		$property = $this->handle_deprecation( $property );
 		$this->orm->__unset( $property );
 	}
 
@@ -588,7 +588,7 @@ class Model implements JsonSerializable {
 	 * @return bool True when value is set.
 	 */
 	public function __isset( $property ) {
-		$property = $this->handleDeprecation( $property );
+		$property = $this->handle_deprecation( $property );
 		return $this->orm->__isset( $property );
 	}
 
@@ -600,7 +600,7 @@ class Model implements JsonSerializable {
 	 * @return string The value of a property.
 	 */
 	public function get( $property ) {
-		$property = $this->handleDeprecation( $property );
+		$property = $this->handle_deprecation( $property );
 
 		return $this->orm->get( $property );
 	}
@@ -614,7 +614,7 @@ class Model implements JsonSerializable {
 	 * @return static Current object.
 	 */
 	public function set( $property, $value = null ) {
-		$property = $this->handleDeprecation( $property );
+		$property = $this->handle_deprecation( $property );
 		$this->orm->set( $property, $value );
 
 		return $this;
@@ -659,7 +659,7 @@ class Model implements JsonSerializable {
 	 * @return static Current object.
 	 */
 	public function set_expr( $property, $value = null ) {
-		$property = $this->handleDeprecation( $property );
+		$property = $this->handle_deprecation( $property );
 		$this->orm->set_expr( $property, $value );
 
 		return $this;
@@ -673,7 +673,7 @@ class Model implements JsonSerializable {
 	 * @return bool True when field is changed.
 	 */
 	public function is_dirty( $property ) {
-		$property = $this->handleDeprecation( $property );
+		$property = $this->handle_deprecation( $property );
 		return $this->orm->is_dirty( $property );
 	}
 
@@ -772,7 +772,7 @@ class Model implements JsonSerializable {
 	 *
 	 * @return string The deprecated property name. Or its replacement if available.
 	 */
-	protected function handleDeprecation( $property ) {
+	protected function handle_deprecation( $property ) {
 		if ( ! array_key_exists( $property, $this->deprecated_columns ) ) {
 			return $property;
 		}
