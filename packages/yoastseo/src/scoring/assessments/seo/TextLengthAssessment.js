@@ -1,4 +1,4 @@
-import { _n, sprintf } from "@wordpress/i18n";
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { inRange, merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -32,6 +32,10 @@ export default class TextLengthAssessment extends Assessment {
 				farBelowMinimum: -10,
 				veryFarBelowMinimum: -20,
 			},
+			countTextIn: {
+				singular: __( "word", "wordpress-seo" ),
+				plural: __( "words", "wordpress-seo" ),
+			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/34n" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34o" ),
 
@@ -54,6 +58,11 @@ export default class TextLengthAssessment extends Assessment {
 		const wordCount = researcher.getResearch( "wordCountInText" );
 		const assessmentResult = new AssessmentResult();
 		const calculatedResult = this.calculateResult( wordCount );
+		const countTextInCharacters = researcher.getConfig( "countCharacters" );
+		if ( countTextInCharacters ) {
+			this._config.countTextIn.singular = __( "character", "wordpress-seo" );
+			this._config.countTextIn.plural = __( "characters", "wordpress-seo" );
+		}
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -73,17 +82,17 @@ export default class TextLengthAssessment extends Assessment {
 			return {
 				score: this._config.scores.recommendedMinimum,
 				resultText: sprintf(
-					/* Translators: %1$d expands to the number of words in the text,
-					%2$s expands to a link on yoast.com, %3$s expands to the anchor end tag */
-					_n(
-						"%2$sText length%3$s: The text contains %1$d word. Good job!",
-						"%2$sText length%3$s: The text contains %1$d words. Good job!",
-						wordCount,
+					/* Translators: %1$d expands to the number of words / characters in the text,
+					%2$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
+					%4$s expands to the word 'words' or 'characters'. */
+					__(
+						"%2$sText length%3$s: The text contains %1$d %4$s. Good job!",
 						"wordpress-seo"
 					),
 					wordCount,
 					this._config.urlTitle,
-					"</a>"
+					"</a>",
+					this._config.countTextIn
 				),
 			};
 		}
@@ -99,10 +108,11 @@ export default class TextLengthAssessment extends Assessment {
 				score: badScore,
 				resultText: sprintf(
 					/* Translators: %1$d expands to the number of words in the text,
-					%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
+					%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
+					%6$d expands to the word 'word' / 'words' or 'character' / 'characters'*/
 					_n(
-						"%2$sText length%4$s: The text contains %1$d word.",
-						"%2$sText length%4$s: The text contains %1$d words.",
+						"%2$sText length%4$s: The text contains %1$d %6$d.",
+						"%2$sText length%4$s: The text contains %1$d %6$d.",
 						wordCount,
 						"wordpress-seo"
 					) + " " +
@@ -110,8 +120,7 @@ export default class TextLengthAssessment extends Assessment {
 					%3$s expands to a link on yoast.com,
 					%4$s expands to the anchor end tag,
 					%5$d expands to the recommended minimum of words. */
-					_n(
-						"This is far below the recommended minimum of %5$d word. %3$sAdd more content%4$s.",
+					__(
 						"This is far below the recommended minimum of %5$d words. %3$sAdd more content%4$s.",
 						this._config.recommendedMinimum,
 						"wordpress-seo"
