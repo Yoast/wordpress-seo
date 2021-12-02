@@ -18,7 +18,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {boolean} config			The scoring configuration that should be used.
+	 * @param {object} config			The scoring configuration that should be used.
 	 * @param {boolean} isCornerstone	Whether cornerstone configuration should be used.
 	 * @param {boolean} isProduct		Whether product configuration should be used.
 
