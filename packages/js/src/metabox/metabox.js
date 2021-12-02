@@ -1,34 +1,68 @@
-/* External dependencies */
-import { Fill } from "@wordpress/components";
-import { Fragment } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
+/* global wpseoScriptData wpseoAdminL10n */
 
-/* Internal dependencies */
-import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
-import SnippetEditor from "../containers/SnippetEditor";
-import Warning from "../containers/Warning";
-import KeywordInput from "../components/contentAnalysis/KeywordInput";
+import { Fill } from "@wordpress/components";
+import { useDispatch, useSelect } from "@wordpress/data";
+import { Fragment, useCallback } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
+import { SEO_STORE_NAME } from "@yoast/seo-store";
+import { PropTypes } from "prop-types";
+import { KeywordInput } from "../components/contentAnalysis/KeywordInput";
 import ReadabilityAnalysis from "../components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "../components/contentAnalysis/SeoAnalysis";
 import MetaboxCollapsible from "../components/MetaboxCollapsible";
+import SocialMetadataPortal from "../components/portals/SocialMetadataPortal";
 import SidebarItem from "../components/SidebarItem";
 import AdvancedSettings from "../containers/AdvancedSettings";
-import SocialMetadataPortal from "../components/portals/SocialMetadataPortal";
+import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 import SchemaTabContainer from "../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../containers/SEMrushRelatedKeyphrases";
+import SnippetEditor from "../containers/SnippetEditor";
+import Warning from "../containers/Warning";
+import { EDITOR_STORE_NAME } from "./editor-store";
 
-/* eslint-disable complexity */
+/**
+ * Creates the focus keyphrase input component.
+ *
+ * @param {string} focusKeyphraseInfoLink The URL for the help link.
+ *
+ * @returns {JSX.Element} The focus keyphrase input.
+ */
+const FocusKeyphraseInput = ( { focusKeyphraseInfoLink } ) => {
+	const focusKeyphrase = useSelect( select => select( SEO_STORE_NAME ).selectKeyphrase() );
+	const displayNoKeyphraseMessage = useSelect( select => select( EDITOR_STORE_NAME ).getSEMrushNoKeyphraseMessage() );
+	const isSEMrushIntegrationActive = useSelect( select => select( EDITOR_STORE_NAME ).getIsSEMrushIntegrationActive() );
+	const { updateKeyphrase } = useDispatch( SEO_STORE_NAME );
+	const { setMarkerPauseStatus } = useDispatch( EDITOR_STORE_NAME );
+
+	const pauseMarker = useCallback( () => setMarkerPauseStatus( true ), [ setMarkerPauseStatus ] );
+	const startMarker = useCallback( () => setMarkerPauseStatus( false ), [ setMarkerPauseStatus ] );
+
+	return (
+		<KeywordInput
+			keyword={ focusKeyphrase }
+			displayNoKeyphraseMessage={ displayNoKeyphraseMessage }
+			isSEMrushIntegrationActive={ isSEMrushIntegrationActive }
+			helpLink={ focusKeyphraseInfoLink }
+			onFocusKeywordChange={ updateKeyphrase }
+			onFocusKeyword={ pauseMarker }
+			onBlurKeyword={ startMarker }
+		/>
+	);
+};
+
+FocusKeyphraseInput.propTypes = {
+	focusKeyphraseInfoLink: PropTypes.string.isRequired,
+};
+
 /**
  * Creates the Metabox component.
  *
- * @param {Object} settings The feature toggles.
- * @param {Object} store    The Redux store.
- * @param {Object} theme    The theme to use.
- *
- * @returns {wp.Element} The Metabox component.
+ * @returns {JSX.Element} The Metabox.
  */
-export default function MetaboxFill( { settings } ) {
+const Metabox = () => {
+	const settings = useSelect( select => select( EDITOR_STORE_NAME ).getPreferences() );
+	const isKeywordAnalysisActive = useSelect( select => select( EDITOR_STORE_NAME ).getIsKeywordAnalysisActive() );
+
 	return (
 		<Fragment>
 			<SidebarItem
@@ -37,9 +71,9 @@ export default function MetaboxFill( { settings } ) {
 			>
 				<Warning />
 			</SidebarItem>
-			{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
-				<KeywordInput />
-				{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
+			{ isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
+				<FocusKeyphraseInput focusKeyphraseInfoLink={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } />
+				{ ! wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
 					<SEMrushRelatedKeyphrases />
 				</Fill> }
 			</SidebarItem> }
@@ -79,9 +113,6 @@ export default function MetaboxFill( { settings } ) {
 			</SidebarItem>
 		</Fragment>
 	);
-}
-
-MetaboxFill.propTypes = {
-	settings: PropTypes.object.isRequired,
 };
-/* eslint-enable complexity */
+
+export default Metabox;

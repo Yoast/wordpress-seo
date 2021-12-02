@@ -85,7 +85,7 @@ domReady( async () => {
 			<SeoProvider>
 				<MetaboxSlot />
 				<MetaboxFill>
-					<Metabox settings={ select( "yoast-seo/editor" ).getPreferences() } />
+					<Metabox />
 				</MetaboxFill>
 			</SeoProvider>
 		),
