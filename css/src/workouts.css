@@ -218,8 +218,8 @@
 	background-position: center center;
 }
 
-.workflow li.step.finished p,
-.workflow li.step.finished table {
+.workflow li.step.finished.grey p,
+.workflow li.step.finished.grey table {
 	opacity: 0.5;
 }
 
