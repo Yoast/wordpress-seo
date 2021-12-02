@@ -34,7 +34,7 @@ class Health_Check_Result_Builder {
 	 *
 	 * @var string
 	 */
-	private $test_name = "";
+	private $test_identifier = "";
 	
 	/**
 	 * The test status (good, recommended, critical).
@@ -74,8 +74,8 @@ class Health_Check_Result_Builder {
 	 * @param  string $test_name The identifier for the health check
 	 * @return Health_Check_Result_Builder This builder
 	 */
-	public function set_test_name($test_name) {
-		$this->test_name = $test_name;
+	public function set_test_identifier($test_identifier) {
+		$this->test_identifier = $test_identifier;
 		return $this;
 	}
 
@@ -141,14 +141,14 @@ class Health_Check_Result_Builder {
 			'badge' => $this->get_badge(),
 			'description' => $this->description,
 			'actions' => $this->actions,
-			'test' => $this->test_name
+			'test' => $this->test_identifier
 		];
 	}
 
 	/**
 	 * Generates a badge that the user can see.
 	 *
-	 * @return string
+	 * @return string[]
 	 */
 	private function get_badge() {
 		return [

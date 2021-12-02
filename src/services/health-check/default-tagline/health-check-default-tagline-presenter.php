@@ -14,16 +14,16 @@ class Health_Check_Default_Tagline_Presenter {
 	 *
 	 * @var string
 	 */
-	private $test_name;
+	private $test_identifier;
 	
 	/**
 	 * __construct
 	 *
-	 * @param  string $test_name
+	 * @param  string $test_identifier
 	 * @return void
 	 */
-	public function __construct($test_name) {
-		$this->test_name = $test_name;
+	public function __construct($test_identifier) {
+		$this->test_identifier = $test_identifier;
 	}
 	
 	/**
@@ -34,7 +34,6 @@ class Health_Check_Default_Tagline_Presenter {
 	public function get_success_result() {
 		$result_builder = $this->get_result_builder();
 		return $result_builder
-			->set_test_name($this->test_name)
 			->set_label(esc_html__( 'You changed the default WordPress tagline', 'wordpress-seo' ))
 			->set_status_good()
 			->set_description(esc_html__( 'You are using a custom tagline or an empty one.', 'wordpress-seo' ))
@@ -49,7 +48,6 @@ class Health_Check_Default_Tagline_Presenter {
 	public function get_has_default_tagline_result() {
 		$result_builder = $this->get_result_builder();
 		return $result_builder
-			->set_test_name($this->test_name)
 			->set_label(esc_html__( 'You should change the default WordPress tagline', 'wordpress-seo' ))
 			->set_status_recommended()
 			->set_description(esc_html__( 'You still have the default WordPress tagline. Even an empty one is probably better.', 'wordpress-seo' ))
@@ -64,7 +62,7 @@ class Health_Check_Default_Tagline_Presenter {
 	 */
 	private function get_result_builder() {
 		$result_builder = new Health_Check_Result_Builder();
-		return $result_builder->set_test_name($this->test_name);
+		return $result_builder->set_test_identifier($this->test_identifier);
 	}
 	
 	/**

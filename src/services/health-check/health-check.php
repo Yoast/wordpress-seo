@@ -25,11 +25,20 @@ abstract class Health_Check {
 	}
 	
 	/**
-	 * Gets the identifier string from the health check implementation. WordPress needs this to manage the health check (https://developer.wordpress.org/reference/hooks/site_status_tests/).
+	 * Gets the identifier of health check implementation. WordPress needs this to manage the health check (https://developer.wordpress.org/reference/hooks/site_status_tests/).
 	 *
 	 * @return string
 	 */
-	abstract public function get_test_name();
+	public function get_test_identifier() {
+		$label = $this->get_test_label();
+	}
+	
+	/**
+	 * Gets the name of health check implementation that the user can see. WordPress needs this to manage the health check (https://developer.wordpress.org/reference/hooks/site_status_tests/).
+	 *
+	 * @return string
+	 */
+	abstract public function get_test_label();
 	
 	/**
 	 * Runs the health check, and returns its result in the format that WordPress requires to show the results to the user (https://developer.wordpress.org/reference/hooks/site_status_test_result/).

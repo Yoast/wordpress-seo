@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Services\Health_Check\Default_Tagline;
 
-use Yoast\WP\SEO\Services\Health_ChecK\Health_Check;
+use Yoast\WP\SEO\Services\Health_Check\Health_Check;
 
 /**
  * Health_Check_Default_Tagline
@@ -25,18 +25,18 @@ class Health_Check_Default_Tagline extends Health_Check {
 
 	public function __construct() {
 		$this->runner = new Health_Check_Default_Tagline_Runner();
-		$this->presenter = new Health_Check_Default_Tagline_Presenter($this->get_test_name());
+		$this->presenter = new Health_Check_Default_Tagline_Presenter($this->get_test_identifier());
 
 		parent::__construct($this->runner);
 	}
 	
 	/**
-	 * get_test_name
+	 * get_test_label
 	 *
 	 * @return string
 	 */
-	public function get_test_name() {
-		return 'default-tagline';
+	public function get_test_label() {
+		return 'Default tagline';
 	}
 	
 	/**
