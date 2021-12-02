@@ -28,16 +28,14 @@ import { AssessmentResult, interpreters } from "yoastseo";
  *
  * So that it can be used by @yoast/analysis-report's ContentAnalysis.
  *
- * @param {AssessmentResult|Object} assessmentResult Result provided by the analysis worker.
+ * @param {Object} result Result provided by the analysis worker.
  * @param {string} idPrefix Prefix the ID with this, useful to namespace the results.
  *
  * @returns {AnalysisReportResult} The analysis report result.
  */
-const transformAnalysisResult = ( assessmentResult, idPrefix = "" ) => {
-	const result = isObject( assessmentResult ) ? AssessmentResult.parse( assessmentResult ) : assessmentResult;
-	const score = result.getScore();
-	const rating = interpreters.scoreToRating( score );
-	let id = result.getIdentifier();
+const transformAnalysisResult = ( result, idPrefix = "" ) => {
+	const rating = interpreters.scoreToRating( result.score );
+	let id = result.identifier;
 
 	if ( idPrefix.length > 0 ) {
 		id = `${ idPrefix }:${ id }`;
@@ -46,16 +44,16 @@ const transformAnalysisResult = ( assessmentResult, idPrefix = "" ) => {
 	return {
 		id,
 		markerId: id,
-		text: result.getText(),
-		score,
+		text: result.text,
+		score: result.score,
 		// Because of inconsistency between `yoastseo` and `@yoast/analysis-report`.
 		rating: rating === "ok" ? "OK" : rating,
-		hasMarks: result.hasMarks(),
+		hasMarks: result.marks.length > 0,
 		/*
 		 * Returning the marks instead of the marker to decouple the marker from the results. Leaving the marking to the UI.
 		 * This is done here to be able to leave the AnalysisList package alone, where the `marker` is the attribute passed to the button callback.
 		 */
-		marker: result.getMarks(),
+		marker: result.marks,
 	};
 };
 
