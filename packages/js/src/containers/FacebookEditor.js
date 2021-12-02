@@ -51,7 +51,6 @@ export default compose( [
 			getRecommendedReplaceVars,
 			getReplaceVars,
 			getSiteUrl,
-			getAuthorName,
 			getSeoTitleTemplate,
 			getSeoTitleTemplateNoFallback,
 			getSocialTitleTemplate,
@@ -82,7 +81,6 @@ export default compose( [
 				getSeoTitleTemplate() ||
 				titleInputPlaceholder,
 			imageWarnings: getFacebookWarnings(),
-			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
 			isPremium: !! getL10nObject().isPremium,
 			titleInputPlaceholder,

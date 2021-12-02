@@ -5,12 +5,18 @@ import PropTypes from "prop-types";
 const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	padding: 10px;
+	padding: 12px;
 	justify-content: center;
 	margin: 0;
 	box-sizing: border-box;
 	flex: auto;
 	min-width: 0px;
+	gap:2px;
+	> * {
+		line-height:20px;
+		min-height:20px;
+		font-size:15px;
+    }
 `;
 
 /**
