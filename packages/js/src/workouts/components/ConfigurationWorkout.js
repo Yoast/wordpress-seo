@@ -634,7 +634,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 						window.wpseoWorkoutsData.configuration.shouldForceCompany === 1 && <TextInput
 							id="organization-forced-readonly-text"
 							name="organization"
-							label={ __( "Does you site represent an Organization or Person?", "wordpress-seo" ) }
+							label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
 							value={ state.companyOrPersonLabel }
 							readOnly={ true }
 						/>
