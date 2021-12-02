@@ -4,12 +4,12 @@ import { Fill } from "@wordpress/components";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { ContentAnalysis } from "@yoast/analysis-report";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
-import { GooglePreviewContainer } from "@yoast/seo-integration";
+import { GooglePreviewContainer, ReadabilityResultsContainer } from "@yoast/seo-integration";
 import { SEO_STORE_NAME } from "@yoast/seo-store";
 import { PropTypes } from "prop-types";
 import { KeywordInput } from "../components/contentAnalysis/KeywordInput";
-import ReadabilityAnalysis from "../components/contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "../components/contentAnalysis/SeoAnalysis";
 import MetaboxCollapsible from "../components/MetaboxCollapsible";
 import SocialMetadataPortal from "../components/portals/SocialMetadataPortal";
@@ -99,7 +99,7 @@ const Metabox = () => {
 				</MetaboxCollapsible>
 			</SidebarItem>
 			{ settings.isContentAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
-				<ReadabilityAnalysis />
+				<ReadabilityResultsContainer as={ ContentAnalysis } />
 			</SidebarItem> }
 			{ settings.isKeywordAnalysisActive && <SidebarItem key="seo-analysis" renderPriority={ 20 }>
 				<SeoAnalysis
