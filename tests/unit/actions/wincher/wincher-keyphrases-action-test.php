@@ -493,7 +493,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 		$this->options_helper
 			->expects( 'get' )
 			->with( 'wincher_website_id' )
-			->once()
+			->twice()
 			->andReturns( '12345' );
 
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
@@ -513,6 +513,27 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 					[ 'primary_focus_keyword' => 'yoast seo' ],
 					[ 'primary_focus_keyword' => 'blog seo' ],
 					[ 'primary_focus_keyword' => '' ],
+				]
+			);
+
+		$this->client_instance
+			->expects( 'post' )
+			->once()
+			->with(
+				'https://api.wincher.com/beta/yoast/12345',
+				\WPSEO_Utils::format_json_encode(
+					[
+						'keywords' => [ 'yoast seo', 'blog seo' ],
+						'url'      => null,
+					]
+				),
+				[
+					'timeout' => 60,
+				]
+			)
+			->andReturns(
+				[
+					'data' => [],
 				]
 			);
 
@@ -564,9 +585,8 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 		$this->options_helper
 			->expects( 'get' )
 			->with( 'wincher_website_id' )
-			->once()
+			->twice()
 			->andReturns( '12345' );
-
 		$product_helper_mock = Mockery::mock( Product_Helper::class );
 		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
 		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
@@ -587,6 +607,27 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 				]
 			);
 
+		$this->client_instance
+			->expects( 'post' )
+			->once()
+			->with(
+				'https://api.wincher.com/beta/yoast/12345',
+				\WPSEO_Utils::format_json_encode(
+					[
+						'keywords' => [ 'yoast seo', 'blog seo' ],
+						'url'      => null,
+					]
+				),
+				[
+					'timeout' => 60,
+				]
+			)
+			->andReturns(
+				[
+					'data' => [],
+				]
+			);
+
 		$this->assertEquals(
 			(object) [
 				'results' => [
@@ -595,6 +636,96 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 				],
 				'error'   => 'Account limit exceeded',
 				'status'  => 400,
+			],
+			$this->instance->track_all( $limits )
+		);
+	}
+
+	/**
+	 * Tests that tracked keyphrases are excluded when counting limits etc.
+	 *
+	 * @covers ::track_all
+	 */
+	public function test_track_all_keyphrases_should_not_track_existing() {
+		$limits = (object) [
+			'canTrack' => true,
+			'limit'    => 5,
+			'usage'    => 4,
+			'status'   => 200,
+		];
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'wincher_website_id' )
+			->twice()
+			->andReturns( '12345' );
+
+		$product_helper_mock = Mockery::mock( Product_Helper::class );
+		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
+		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
+
+		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
+			(object) [
+				'helpers' => $helpers_mock,
+			]
+		);
+
+		$this->indexable_repository
+			->expects( 'query->select->where_not_null->where->distinct->find_array' )
+			->andReturns(
+				[
+					[ 'primary_focus_keyword' => 'yoast seo' ],
+					[ 'primary_focus_keyword' => 'blog seo' ],
+					[ 'primary_focus_keyword' => '' ],
+				]
+			);
+
+		$this->client_instance
+			->expects( 'post' )
+			->once()
+			->with(
+				'https://api.wincher.com/beta/yoast/12345',
+				\WPSEO_Utils::format_json_encode(
+					[
+						'keywords' => [ 'yoast seo', 'blog seo' ],
+						'url'      => null,
+					]
+				),
+				[
+					'timeout' => 60,
+				]
+			)
+			->andReturns(
+				[
+					'data' => [
+						[
+							'keyword'  => 'yoast seo',
+							'id'       => 22345,
+							'position' => 20,
+						],
+					],
+				]
+			);
+
+		$this->client_instance->expects( 'post' )->once()->andReturn(
+			[
+				'data' => [
+					[
+						'keyword' => 'blog seo',
+						'id'      => 12346,
+					],
+				],
+			]
+		);
+
+		$this->assertEquals(
+			(object) [
+				'results' => [
+					'blog seo' => [
+						'keyword' => 'blog seo',
+						'id'      => 12346,
+					],
+				],
 			],
 			$this->instance->track_all( $limits )
 		);

@@ -245,6 +245,18 @@ class Wincher_Keyphrases_Action {
 	 */
 	public function track_all( $limits ) {
 		$keyphrases = $this->collect_all_keyphrases();
+		$tracked    = $this->get_tracked_keyphrases( $keyphrases );
+
+		if ( isset( $tracked->error ) ) {
+			return $tracked;
+		}
+
+		$keyphrases = array_filter(
+			$keyphrases,
+			function( $keyphrase ) use ( $tracked ) {
+				return ! isset( $tracked->results[ $keyphrase ] );
+			}
+		);
 
 		if ( empty( $keyphrases ) ) {
 			return $this->to_result_object(
