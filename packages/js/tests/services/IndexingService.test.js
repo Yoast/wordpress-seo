@@ -66,6 +66,6 @@ describe( "IndexingService", () => {
 		const progress = jest.fn();
 		expect( progress ).toBeCalledWith( 5 );
 
-		instance.index( { test: "/path" }, progress );
+		await instance.index( { test: "/path" }, progress );
 	} );
 } );
