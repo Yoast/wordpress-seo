@@ -92,7 +92,7 @@ export default class IndexingService {
 		const response = await fetch( url, {
 			method: "POST",
 			headers: {
-				"X-WP-Nonce": this.settings.nonce,
+				"X-WP-Nonce": this.settings.restApi.nonce,
 			},
 		} );
 
