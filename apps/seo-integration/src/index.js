@@ -11,7 +11,7 @@ const load = async () => {
 
 	const { analysisTypeReplacementVariables, SeoProvider } = await createSeoIntegration( {
 		analysisWorkerUrl: "dist/bootstrap-analysis.js",
-		dependencies: [
+		analysisDependencies: [
 			"vendor/autop.js",
 			"vendor/lodash.js",
 			"yoast/jed.js",
