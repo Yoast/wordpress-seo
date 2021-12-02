@@ -1,3 +1,4 @@
+// The sentence length for Japanese is measured in characters rather than words
 export default {
-	recommendedWordCount: 40,
+	recommendedLength: 40,
 };

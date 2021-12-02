@@ -28,7 +28,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			recommendedWordCount: 20,
+			recommendedLength: 20,
 			slightlyTooMany: 25,
 			farTooMany: 30,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/34v" ),
@@ -115,8 +115,8 @@ class SentenceLengthInTextAssessment extends Assessment {
 		const currentConfig = this._config;
 		const languageSpecificConfig = researcher.getConfig( "sentenceLength" );
 
-		if ( languageSpecificConfig.hasOwnProperty( "recommendedWordCount" ) ) {
-			currentConfig.recommendedWordCount = languageSpecificConfig.recommendedWordCount;
+		if ( languageSpecificConfig.hasOwnProperty( "recommendedLength" ) ) {
+			currentConfig.recommendedLength = languageSpecificConfig.recommendedLength;
 		}
 
 		// Check if a language has specific cornerstone configuration for non-product pages.
@@ -164,7 +164,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 			this._config.urlTitle,
 			"</a>",
 			percentage + "%",
-			this._config.recommendedWordCount,
+			this._config.recommendedLength,
 			this._config.slightlyTooMany + "%",
 			this._config.urlCallToAction
 		);
@@ -222,7 +222,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {array} Array with all the sentences considered to be too long.
 	 */
 	getTooLongSentences( sentences ) {
-		return getTooLongSentences( sentences, this._config.recommendedWordCount );
+		return getTooLongSentences( sentences, this._config.recommendedLength );
 	}
 
 	/**

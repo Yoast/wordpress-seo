@@ -465,7 +465,7 @@ describe( "An assessment for sentence length", function() {
 describe( "A test for getting the right config", function() {
 	it( "uses the default config if no language-specific config is available", function() {
 		const defaultConfig = {
-			recommendedWordCount: 20,
+			recommendedLength: 20,
 			slightlyTooMany: 25,
 			farTooMany: 30,
 			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
@@ -476,7 +476,7 @@ describe( "A test for getting the right config", function() {
 	} );
 	it( "uses the default config if no language-specific config is available in cornerstone", function() {
 		const defaultConfigCornerstrone = {
-			recommendedWordCount: 20,
+			recommendedLength: 20,
 			slightlyTooMany: 20,
 			farTooMany: 25,
 			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
@@ -505,7 +505,7 @@ describe( "A test for getting the right config", function() {
 			farTooMany: 25,
 		}, true ).getLanguageSpecificConfig( new PolishResearcher( mockPaper ) ) ).toEqual( {
 			farTooMany: 20,
-			recommendedWordCount: 20,
+			recommendedLength: 20,
 			slightlyTooMany: 15,
 			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
 			urlTitle: "<a href='https://yoa.st/34v' target='_blank'>",
@@ -514,7 +514,7 @@ describe( "A test for getting the right config", function() {
 	it( "uses a combination of language-specific and default config in cornerstone if there is regular but not cornerstone config" +
 		" available", function() {
 		const expectedConfig = {
-			recommendedWordCount: 25,
+			recommendedLength: 25,
 			slightlyTooMany: 20,
 			farTooMany: 25,
 			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
