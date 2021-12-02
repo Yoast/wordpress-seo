@@ -32,10 +32,10 @@ class Author_Archive_Helper {
 	 * @return bool|null Whether the author has at least one public post.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated 17.7
+	 * @deprecated 17.9
 	 */
 	public function author_has_public_posts( $author_id ) {
-		\_deprecated_function( __METHOD__, '17.7', esc_html( Indexable_Repository::class ) . '::noindex_query' );
+		\_deprecated_function( __METHOD__, '17.9', esc_html( Indexable_Repository::class ) . '::query_where_noindex' );
 		// First check if the author has at least one public post.
 		$has_public_post = $this->author_has_a_public_post( $author_id );
 		if ( $has_public_post ) {
@@ -60,7 +60,7 @@ class Author_Archive_Helper {
 	 *
 	 * @return bool Whether the author has at least one public post.
 	 *
-	 * @deprecated 17.7
+	 * @deprecated 17.9
 	 */
 	protected function author_has_a_public_post( $author_id ) {
 		$cache_key        = 'author_has_a_public_post_' . $author_id;
@@ -93,7 +93,7 @@ class Author_Archive_Helper {
 	 *
 	 * @return bool Whether the author has at least one post with the is public null.
 	 *
-	 * @deprecated         17.7
+	 * @deprecated 17.9
 	 */
 	protected function author_has_a_post_with_is_public_null( $author_id ) {
 		$cache_key        = 'author_has_a_post_with_is_public_null_' . $author_id;

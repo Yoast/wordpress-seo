@@ -151,10 +151,10 @@ class Post_Helper {
 	 *
 	 * @return bool Whether the update was successful.
 	 *
-	 * @deprecated 17.7
+	 * @deprecated 17.9
 	 */
 	public function update_has_public_posts_on_attachments( $post_parent, $has_public_posts ) {
-		_deprecated_function( __METHOD__, '17.7' );
+		_deprecated_function( __METHOD__, '17.9' );
 		$indexable = $this->repository->find_by_id_and_type( $post_parent, 'post' );
 
 		$this->indexable_builder->recalculate_aggregates( $indexable );
