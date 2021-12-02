@@ -1,12 +1,13 @@
 import { dispatch } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
 import { __, sprintf } from "@wordpress/i18n";
-import { StyleSheetManager } from "styled-components";
 import { debounce } from "lodash";
-import { registerElementorDataHookAfter } from "../helpers/elementorHook";
-import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
+import { StyleSheetManager } from "styled-components";
+import getL10nObject from "../analysis/getL10nObject";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
+import { registerElementorDataHookAfter } from "../helpers/elementorHook";
+import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
 
 // Keep track of unsaved SEO setting changes.
 let hasUnsavedSeoChanges = false;
@@ -170,14 +171,21 @@ export default function initElementEditorIntegration() {
 	// Check whether the route to our tab is active. If so, render our React root.
 	window.$e.routes.on( "run:after", function( component, route ) {
 		if ( route === "panel/page-settings/yoast-tab" ) {
-			renderReactRoot( "elementor-panel-page-settings-controls", (
-				<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
-					<div className="yoast yoast-elementor-panel__fills">
-						<ElementorSlot />
-						<ElementorFill />
-					</div>
-				</StyleSheetManager>
-			) );
+			const localizedData = getL10nObject();
+
+			renderReactRoot( {
+				target: "elementor-panel-page-settings-controls",
+				children: (
+					<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
+						<div className="yoast yoast-elementor-panel__fills">
+							<ElementorSlot />
+							<ElementorFill />
+						</div>
+					</StyleSheetManager>
+				),
+				theme: { isRtl: localizedData.isRtl },
+				location: "sidebar",
+			} );
 		}
 	} );
 
