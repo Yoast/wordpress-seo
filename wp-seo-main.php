@@ -5,12 +5,6 @@
  * @package WPSEO\Main
  */
 
-use Composer\Autoload\ClassLoader;
-use Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action;
-use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
-use Yoast\WP\SEO\Actions\Wincher\Wincher_Login_Action;
-use Yoast\WP\SEO\Routes\Wincher_Route;
-
 if ( ! function_exists( 'add_filter' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
