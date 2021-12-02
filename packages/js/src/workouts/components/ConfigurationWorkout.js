@@ -271,6 +271,8 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	 */
 	useEffect( () => {
 		if ( indexingState === "completed" ) {
+			// Briefly override window variable to preserve indexingstate when navigating back and forth on the workouts page.
+			window.yoastIndexingData.amount = "0";
 			finishSteps( "configuration", [ steps.optimizeSeoData ] );
 		} else {
 			reviseStep( "configuration", steps.optimizeSeoData );
