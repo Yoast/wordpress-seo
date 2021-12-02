@@ -5425,6 +5425,13 @@
   dependencies:
     lodash "^4.17.21"
 
+"@yoast/seo-integration@file:packages/seo-integration":
+  version "1.0.0"
+  dependencies:
+    "@yoast/replacement-variables" "file:../../../../Library/Caches/Yarn/v6/npm-@yoast-seo-integration-1.0.0-d41b037c-1789-4494-b71a-106beb9f584c-1638280144928/node_modules/@yoast/replacement-variables"
+    "@yoast/seo-store" "file:../../../../Library/Caches/Yarn/v6/npm-@yoast-seo-integration-1.0.0-d41b037c-1789-4494-b71a-106beb9f584c-1638280144928/node_modules/@yoast/seo-store"
+    lodash "^4.17.21"
+
 "@yoast/seo-store@file:packages/seo-store":
   version "1.0.0"
   dependencies:
