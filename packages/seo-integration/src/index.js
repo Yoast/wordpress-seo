@@ -16,7 +16,7 @@
 
 import registerSeoStore from "@yoast/seo-store";
 import { mapValues } from "lodash";
-import createAnalysisWorker from "./analysis";
+import createAnalysis from "./analysis";
 import createAnalysisTypeReplacementVariables from "./replacement-variables";
 import { createSeoProvider } from "./seo-context";
 
@@ -30,7 +30,7 @@ export { useSeoContext } from "./seo-context";
  * Creates the SEO integration.
  *
  * @param {string} analysisWorkerUrl The URL of the analysis worker.
- * @param {string} analysisResearcherUrl The URL of the analysis researcher.
+ * @param {string[]} analysisDependencies The dependencies to load in the worker.
  * @param {Object} [analysisConfiguration] The analysis configuration. Defaults to a English (US) locale.
  * @param {Object.<string, AnalysisType>} [analysisTypes] The different analysis types and their configuration.
  * @param {Object.<string, Object>} [initialState] The initial state for the SEO store.
@@ -39,7 +39,7 @@ export { useSeoContext } from "./seo-context";
  */
 const createSeoIntegration = async ( {
 	analysisWorkerUrl,
-	analysisResearcherUrl,
+	analysisDependencies,
 	analysisConfiguration = { locale: "en_US" },
 	analysisTypes = {
 		post: {
@@ -53,13 +53,13 @@ const createSeoIntegration = async ( {
 	},
 	initialState = {},
 } = {} ) => {
-	const analysisWorker = await createAnalysisWorker( {
+	const { analyze } = await createAnalysis( {
 		workerUrl: analysisWorkerUrl,
-		researcherUrl: analysisResearcherUrl,
+		dependencies: analysisDependencies,
 		configuration: analysisConfiguration,
 	} );
 
-	registerSeoStore( { initialState, analyze: analysisWorker.analyze } );
+	registerSeoStore( { initialState, analyze } );
 
 	const {
 		analysisTypeReplacementVariables,
@@ -67,7 +67,7 @@ const createSeoIntegration = async ( {
 	} = createAnalysisTypeReplacementVariables( mapValues( analysisTypes, "replacementVariableConfigurations" ) );
 
 	return {
-		analysisWorker,
+		analyze,
 		analysisTypeReplacementVariables,
 		unregisterReplacementVariables,
 		SeoProvider: createSeoProvider( { analysisTypeReplacementVariables } ),
