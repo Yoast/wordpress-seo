@@ -1,8 +1,10 @@
-import { select } from "@wordpress/data";
+/* global wpseoScriptData */
+
 import domReady from "@wordpress/dom-ready";
 import createSeoIntegration, { createDefaultReplacementVariableConfigurations, SEO_STORE_NAME } from "@yoast/seo-integration";
 import { mapValues, pick } from "lodash";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
+import registerGlobalApis from "./helpers/register-global-apis";
 import initAdmin from "./initializers/admin";
 import initAdminMedia from "./initializers/admin-media";
 import initTabs from "./initializers/metabox-tabs";
@@ -66,7 +68,9 @@ domReady( async () => {
 	// Until ALL the components are carried over, the `@yoast/editor` store is still needed.
 	initEditorStore();
 
-	// TODO:
+
+	const registerApis = registerGlobalApis( "YoastSEO" );
+
 	// - expose global API (pluggable/see scrapers).
 	// - create a SEO data watcher that updates our hidden fields so that the changed data is saved along with the WP save.
 	// - traffic light & admin bar: update analysis scores?
@@ -78,6 +82,8 @@ domReady( async () => {
 	// Responsibility:
 	// - render metabox
 	// - provide slot/fill mechanism
+	// Expose registerReactComponent as an alternative to registerPlugin.
+	registerApis( [ { _registerReactComponent: registerReactComponent } ] );
 
 	renderReactRoot( {
 		target: "wpseo-metabox-root",
