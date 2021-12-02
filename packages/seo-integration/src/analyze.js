@@ -11,7 +11,7 @@ import { FOCUS_KEYPHRASE_ID } from "@yoast/seo-store";
  *
  * @returns {Paper} A paper that can be analyzed using the web worker.
  */
-function createPaper( data, keyphrase, configuration ) {
+const createPaper = ( data, keyphrase, configuration ) => {
 	return new Paper(
 		data.content,
 		{
@@ -28,7 +28,7 @@ function createPaper( data, keyphrase, configuration ) {
 			locale: configuration.locale,
 		},
 	);
-}
+};
 
 /**
  * Transforms the object with related keyphrases to a a structure
@@ -38,11 +38,13 @@ function createPaper( data, keyphrase, configuration ) {
  *
  * @returns {Object} The transformed related keyphrases.
  */
-function transformRelatedKeyprases( relatedKeyphrases ) {
-	return mapValues( relatedKeyphrases, ( { keyphrase: keyword, synonyms } ) => (
+const transformRelatedKeyprases = relatedKeyphrases => mapValues(
+	relatedKeyphrases,
+	// 'Keyphrase' is renamed to 'keyword', 'synonyms' should stay as is.
+	( { keyphrase: keyword, synonyms } ) => (
 		{ keyword, synonyms }
-	) );
-}
+	),
+);
 
 /**
  * Serialize the assessment results of each keyphrase.
@@ -51,14 +53,13 @@ function transformRelatedKeyprases( relatedKeyphrases ) {
  *
  * @returns {Object} The SEO results object, but with the assessment results serialized.
  */
-function serializeSeoResults( seoResults ) {
-	return mapValues(
-		seoResults,
-		( { score, results } ) => (
-			{ score, results: results.map( result => result.serialize() ) }
-		),
-	);
-}
+const serializeSeoResults = seoResults => mapValues(
+	seoResults,
+	// Keep the score as is, but serialize the assessment results.
+	( { score, results } ) => (
+		{ score, results: results.map( result => result.serialize() ) }
+	),
+);
 
 /**
  * Put the focus keyphrase results under the `FOCUS_KEYPHRASE_ID` key, instead of the "" key.
@@ -67,9 +68,10 @@ function serializeSeoResults( seoResults ) {
  *
  * @returns {Object} The results of the SEO analysis, where the focus keyphrase is available under the `FOCUS_KEYPHRASE_ID` key.
  */
-function renameFocusKeyphraseKey( seoResults ) {
-	return mapKeys( seoResults, ( _, key ) => key === "" ? FOCUS_KEYPHRASE_ID : key );
-}
+const renameFocusKeyphraseKey = seoResults => mapKeys(
+	seoResults,
+	( _, key ) => key === "" ? FOCUS_KEYPHRASE_ID : key,
+);
 
 /**
  * Transforms the results from the analysis to the structure
@@ -79,7 +81,7 @@ function renameFocusKeyphraseKey( seoResults ) {
  *
  * @returns {Object} The adapted results.
  */
-function transformAnalysisResults( analysisResults ) {
+const transformAnalysisResults = analysisResults => {
 	const results = {
 		seo: analysisResults.result.seo,
 		readability: analysisResults.result.readability,
@@ -91,7 +93,7 @@ function transformAnalysisResults( analysisResults ) {
 	results.readability.results = results.readability.results.map( result => result.serialize() );
 
 	return results;
-}
+};
 
 /**
  * Analyzes a given paper inside of the analysis web worker.
@@ -102,7 +104,7 @@ function transformAnalysisResults( analysisResults ) {
  *
  * @returns {Promise<{Object}>} The results of the analysis.
  */
-async function analyzePaper( worker, paper, relatedKeyphrases ) {
+const analyzePaper = async ( worker, paper, relatedKeyphrases ) => {
 	// Analyzing related keyphrases also analyzes the focus keyphrase.
 	const results = await worker.analyzeRelatedKeywords(
 		paper,
@@ -110,7 +112,7 @@ async function analyzePaper( worker, paper, relatedKeyphrases ) {
 	);
 
 	return transformAnalysisResults( results );
-}
+};
 
 /**
  * Runs a list of researches inside of the web worker.
@@ -121,13 +123,13 @@ async function analyzePaper( worker, paper, relatedKeyphrases ) {
  *
  * @returns {Promise<Object>} The research results.
  */
-async function runResearches( researches, worker, paper ) {
+const runResearches = async ( researches, worker, paper ) => {
 	const results = await Promise.all(
 		researches.map( research => worker.runResearch( research, paper ) ),
 	);
 
 	return zipObject( researches, results );
-}
+};
 
 /**
  * Creates a callback function to trigger a new analysis
@@ -138,7 +140,7 @@ async function runResearches( researches, worker, paper ) {
  *
  * @returns {function} The analysis callback function.
  */
-export default function createAnalyzeFunction( worker, configuration ) {
+const createAnalyzeFunction = ( worker, configuration ) => {
 	/**
 	 * A callback function that analyzes the data from the SEO store.
 	 *
@@ -162,4 +164,6 @@ export default function createAnalyzeFunction( worker, configuration ) {
 
 		return analysisResults;
 	};
-}
+};
+
+export default createAnalyzeFunction;
