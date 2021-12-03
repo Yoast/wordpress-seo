@@ -380,7 +380,13 @@ class Indexable_Post_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_post_type' )->andReturn( 'post-type' );
 		Monkey\Functions\expect( 'get_post_status' )->andReturn( 'published' );
 		Monkey\Functions\expect( 'is_post_type_viewable' )->andReturn( true );
-		Monkey\Functions\expect( 'is_post_status_viewable' )->andReturn( true );
+		Monkey\Functions\expect( 'get_post_status_object' )->andReturn(
+			(object) [
+				'publicly_queryable' => true,
+				'internal'           => false,
+				'protected'          => false,
+			]
+		);
 
 		// Blog ID.
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );

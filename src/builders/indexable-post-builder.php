@@ -388,11 +388,11 @@ class Indexable_Post_Builder {
 	 * Posts are considered publicly viewable if both the post status and post type
 	 * are viewable.
 	 *
-	 * @see \is_post_publicly_viewable Polyfill for WP 5.6. This function was introduced to WP core in 5.7.
-	 *
 	 * @param WP_Post $post The post.
 	 *
 	 * @return bool Whether the post is publicly viewable.
+	 *
+	 * @see \is_post_publicly_viewable Polyfill for WP 5.6. This function was introduced to WP core in 5.7.
 	 */
 	protected function is_post_publicly_viewable( $post ) {
 		if ( ! $post ) {
@@ -402,7 +402,38 @@ class Indexable_Post_Builder {
 		$post_type   = get_post_type( $post );
 		$post_status = get_post_status( $post );
 
-		return is_post_type_viewable( $post_type ) && is_post_status_viewable( $post_status );
+		return is_post_type_viewable( $post_type ) && $this->is_post_status_viewable( $post_status );
+	}
+
+	/**
+	 * Determine whether a post status is considered "viewable".
+	 *
+	 * For built-in post statuses such as publish and private, the 'public' value will be evaluted.
+	 * For all others, the 'publicly_queryable' value will be used.
+	 *
+	 * @param string|stdClass $post_status Post status name or object.
+	 *
+	 * @return bool Whether the post status should be considered viewable.
+	 *
+	 * @see \is_post_status_viewable Polyfill for WP 5.6. This function was introduced to WP core in 5.7.
+	 */
+	protected function is_post_status_viewable( $post_status ) {
+		if ( is_scalar( $post_status ) ) {
+			$post_status = \get_post_status_object( $post_status );
+			if ( ! $post_status ) {
+				return false;
+			}
+		}
+
+		if (
+			! is_object( $post_status )
+			|| $post_status->internal
+			|| $post_status->protected
+		) {
+			return false;
+		}
+
+		return $post_status->publicly_queryable || ( $post_status->_builtin && $post_status->public );
 	}
 
 	/**
