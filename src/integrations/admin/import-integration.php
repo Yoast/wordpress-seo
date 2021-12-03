@@ -5,7 +5,10 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
+use Yoast\WP\SEO\Conditionals\Import_Tool_Selected_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector;
+use Yoast\WP\SEO\Routes\Importing_Route;
 
 /**
  * Loads import script when on the Tool's page.
@@ -27,6 +30,20 @@ class Import_Integration implements Integration_Interface {
 	protected $importer_conditional;
 
 	/**
+	 * The Importable Detector service.
+	 *
+	 * @var Importable_Detector
+	 */
+	protected $importable_detector;
+
+	/**
+	 * The Importing Route class.
+	 *
+	 * @var Importing_Route
+	 */
+	protected $importing_route;
+
+	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array
@@ -34,6 +51,7 @@ class Import_Integration implements Integration_Interface {
 	public static function get_conditionals() {
 		return [
 			AIOSEO_V4_Importer_Conditional::class,
+			Import_Tool_Selected_Conditional::class,
 			Yoast_Tools_Page_Conditional::class,
 		];
 	}
@@ -43,13 +61,19 @@ class Import_Integration implements Integration_Interface {
 	 *
 	 * @param WPSEO_Admin_Asset_Manager      $asset_manager        The asset manager.
 	 * @param AIOSEO_V4_Importer_Conditional $importer_conditional The AIOSEO V4 Importer conditional.
+	 * @param Importable_Detector            $importable_detector  The importable detector.
+	 * @param Importing_Route                $importing_route      The importing route.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
-		AIOSEO_V4_Importer_Conditional $importer_conditional
+		AIOSEO_V4_Importer_Conditional $importer_conditional,
+		Importable_Detector $importable_detector,
+		Importing_Route $importing_route
 	) {
 		$this->asset_manager        = $asset_manager;
 		$this->importer_conditional = $importer_conditional;
+		$this->importable_detector  = $importable_detector;
+		$this->importing_route      = $importing_route;
 	}
 
 	/**
@@ -67,6 +91,45 @@ class Import_Integration implements Integration_Interface {
 	 * Enqueues the Import script.
 	 */
 	public function enqueue_import_script() {
+		\wp_enqueue_style( 'dashicons' );
 		$this->asset_manager->enqueue_script( 'import' );
+
+		$data = [
+			'restApi' => [
+				'root'                => \esc_url_raw( \rest_url() ),
+				'importing_endpoints' => $this->get_importing_endpoints(),
+				'nonce'               => \wp_create_nonce( 'wp_rest' ),
+			],
+			'assets'  => [
+				'spinner' => \admin_url( 'images/loading.gif' ),
+			],
+		];
+
+		/**
+		 * Filter: 'wpseo_importing_data' Filter to adapt the data used in the import process.
+		 *
+		 * @param array $data The import data to adapt.
+		 */
+		$data = \apply_filters( 'wpseo_importing_data', $data );
+
+		$this->asset_manager->localize_script( 'import', 'yoastImportData', $data );
+	}
+
+	/**
+	 * Retrieves a list of the importing endpoints to use.
+	 *
+	 * @return array The endpoints.
+	 */
+	protected function get_importing_endpoints() {
+		$available_actions   = $this->importable_detector->detect();
+		$importing_endpoints = [];
+
+		foreach ( $available_actions as $plugin => $types ) {
+			foreach ( $types as $type ) {
+				$importing_endpoints[ $plugin ][] = $this->importing_route->get_endpoint( $plugin, $type );
+			}
+		}
+
+		return $importing_endpoints;
 	}
 }

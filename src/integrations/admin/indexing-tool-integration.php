@@ -89,6 +89,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	public static function get_conditionals() {
 		return [
 			Migrations_Conditional::class,
+			No_Tool_Selected_Conditional::class,
 			Yoast_Tools_Page_Conditional::class,
 		];
 	}
