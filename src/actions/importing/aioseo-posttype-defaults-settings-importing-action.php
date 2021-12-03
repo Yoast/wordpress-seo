@@ -80,6 +80,7 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action extends Abstract_Aioseo
 
 			case 'attachment':
 			case 'attachment_parent':
+			default:
 				return true;
 		}
 	}
