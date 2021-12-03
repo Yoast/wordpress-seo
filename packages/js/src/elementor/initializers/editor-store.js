@@ -26,7 +26,6 @@ const populateStore = store => {
 		actions.setSettings( {
 			socialPreviews: {
 				sitewideImage: window.wpseoScriptData.metabox.sitewide_social_image,
-				authorName: window.wpseoScriptData.metabox.author_name,
 				siteName: window.wpseoScriptData.metabox.site_name,
 				contentImage: window.wpseoScriptData.metabox.first_content_image,
 				twitterCardType: window.wpseoScriptData.metabox.twitterCardType,

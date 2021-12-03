@@ -26,6 +26,7 @@ export default function OrphanedWorkoutCard( {
 	const actualUpsellLink = upsellLink ? upsellLink :  "https://yoa.st/workout-orphaned-content-upsell";
 
 	return <WorkoutCard
+		id={ "orphaned-workout-card" }
 		name={ WORKOUTS.orphaned }
 		title={ __( "Orphaned content", "wordpress-seo" ) }
 		subtitle={ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo" ) }

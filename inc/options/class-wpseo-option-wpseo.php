@@ -88,6 +88,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'wincher_automatically_add_keyphrases'     => false,
 		'wincher_website_id'                       => '',
 		'first_time_install'                       => false,
+		'should_redirect_after_install_free'       => false,
+		'activation_redirect_timestamp_free'       => 0,
 	];
 
 	/**
@@ -329,6 +331,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 				case 'first_activated_on':
 				case 'indexing_started':
+				case 'activation_redirect_timestamp_free':
 					$clean[ $key ] = false;
 					if ( isset( $dirty[ $key ] ) ) {
 						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
@@ -371,7 +374,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				case 'import_cursors':
-				case 'workouts_data':
 				case 'importing_completed':
 					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
@@ -390,6 +392,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'dynamic_permalinks'
 				 *  'indexing_first_time'
 				 *  'first_time_install'
+				 *  'should_redirect_after_install_free'
 				 *  and most of the feature variables.
 				 */
 				default:

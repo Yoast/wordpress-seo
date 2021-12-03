@@ -21,7 +21,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '17.8-RC1' );
+define( 'WPSEO_VERSION', '17.8-RC4' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -225,6 +225,7 @@ function _wpseo_activate() {
 
 	WPSEO_Options::set( 'indexing_reason', 'first_install' );
 	WPSEO_Options::set( 'first_time_install', true );
+	WPSEO_Options::set( 'should_redirect_after_install_free', true );
 
 	do_action( 'wpseo_register_roles' );
 	WPSEO_Role_Manager_Factory::get()->add();

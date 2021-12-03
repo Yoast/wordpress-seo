@@ -271,6 +271,8 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	 */
 	useEffect( () => {
 		if ( indexingState === "completed" ) {
+			// Briefly override window variable to preserve indexingstate when navigating back and forth on the workouts page.
+			window.yoastIndexingData.amount = "0";
 			finishSteps( "configuration", [ steps.optimizeSeoData ] );
 		} else {
 			reviseStep( "configuration", steps.optimizeSeoData );
@@ -632,7 +634,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 						window.wpseoWorkoutsData.configuration.shouldForceCompany === 1 && <TextInput
 							id="organization-forced-readonly-text"
 							name="organization"
-							label={ __( "Does you site represent an Organization or Person?", "wordpress-seo" ) }
+							label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
 							value={ state.companyOrPersonLabel }
 							readOnly={ true }
 						/>

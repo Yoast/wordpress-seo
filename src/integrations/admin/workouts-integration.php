@@ -460,6 +460,7 @@ class Workouts_Integration implements Integration_Interface {
 			$exceptions = [
 				'wpseo_workouts',
 				'wpseo_installation_successful',
+				'wpseo_installation_successful_free',
 			];
 
 			if ( ! \in_array( $page_from_get, $exceptions, true ) ) {
