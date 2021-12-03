@@ -1,0 +1,37 @@
+.installation-success-page {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.installation-success-steps {
+	background-color: red;
+}
+
+.installation-success-cards {
+	display: flex;
+	justify-content: center;
+	gap: 24px;
+}
+
+.installation-success-card {
+	background-color: white;
+	border: 1px solid rgba(0,0,0,.2);
+	border-radius: 8px;
+	width: 320px; 
+	min-height: 315px;
+	padding: 24px;
+}
+
+.installation-success-card .card-button-section {
+	display: flex;
+}
+
+.installation-success-card .card-button-section .yoast-button {
+	flex-grow: 1;
+}
+
+.installation-success-card > h2 {
+	color: var( --yoast-color-primary );
+	margin: 0;
+}
