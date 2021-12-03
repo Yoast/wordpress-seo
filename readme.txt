@@ -251,6 +251,7 @@ Bugfixes:
 * Fixes a bug where the styling of the introduction dialog in Elementor would be broken due to changes in Elementor.
 * Fixes a bug where the reading time functionality for languages other than English would incorrectly output English reading speed values.
 * Fixes a bug where certain text strings in the Google, Facebook and Twitter previews would not be translated.
+* Fixes a bug where the state of indexation was not persisted when switching between workouts and the workouts page.
 
 Other:
 
