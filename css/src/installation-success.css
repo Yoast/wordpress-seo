@@ -2,6 +2,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	height: 90vh;
 }
 
 .installation-success-steps {
@@ -12,6 +13,13 @@
 	display: flex;
 	justify-content: center;
 	gap: 24px;
+}
+
+.installation-success-page .installation-success-title {
+	font-size: 40px;
+	font-weight: 400;
+	color: var( --yoast-color-primary );
+	margin: 0 auto;
 }
 
 .installation-success-card {
