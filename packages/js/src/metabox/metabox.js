@@ -1,6 +1,7 @@
 /* global wpseoScriptData wpseoAdminL10n */
 
 import { Fill } from "@wordpress/components";
+import { useDebounce } from "@wordpress/compose";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
@@ -35,6 +36,8 @@ const FocusKeyphraseInput = ( { focusKeyphraseInfoLink } ) => {
 	const { updateKeyphrase } = useDispatch( SEO_STORE_NAME );
 	const { setMarkerPauseStatus } = useDispatch( EDITOR_STORE_NAME );
 
+	const handleFocusKeyphraseChange = useCallback( keyphrase => updateKeyphrase( { keyphrase } ), [ updateKeyphrase ] );
+
 	const pauseMarker = useCallback( () => setMarkerPauseStatus( true ), [ setMarkerPauseStatus ] );
 	const startMarker = useCallback( () => setMarkerPauseStatus( false ), [ setMarkerPauseStatus ] );
 
@@ -44,7 +47,7 @@ const FocusKeyphraseInput = ( { focusKeyphraseInfoLink } ) => {
 			displayNoKeyphraseMessage={ displayNoKeyphraseMessage }
 			isSEMrushIntegrationActive={ isSEMrushIntegrationActive }
 			helpLink={ focusKeyphraseInfoLink }
-			onFocusKeywordChange={ updateKeyphrase }
+			onFocusKeywordChange={ useDebounce( handleFocusKeyphraseChange ) }
 			onFocusKeyword={ pauseMarker }
 			onBlurKeyword={ startMarker }
 		/>
