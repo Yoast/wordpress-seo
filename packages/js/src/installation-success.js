@@ -42,6 +42,7 @@ function InstallationSuccessPage() {
 					/>
 					<div className="card-button-section">
 						<ButtonStyledLink
+							id="installation-successful-configuration-workout-link"
 							href={ window.wpseoInstallationSuccess.configurationWorkoutUrl }
 							variant="primary"
 						>
