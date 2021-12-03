@@ -1,6 +1,7 @@
 import Researcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
 import functionWords from "../../../../src/languageProcessing/languages/ja/config/functionWords";
+import sentenceLength from "../../../../src/languageProcessing/languages/ja/config/sentenceLength";
 
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import { isFeatureEnabled } from "@yoast/feature-flag";
@@ -22,11 +23,11 @@ describe( "a test for Japanese Researcher", function() {
 		expect( researcher.getHelper( "fleschReadingScore" ) ).toBe( false );
 	} );
 
-	it( "returns false if the Japanese Researcher doesn't have a certain config", function() {
-		expect( researcher.getConfig( "sentenceLength" ) ).toBe( false );
+	it( "returns the Japanese sentence length configuration", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
-	it( "returns false if the Japanese Researcher doesn't have a certain config", function() {
+	it( "returns the Japanese function words", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
 	} );
 

@@ -17,6 +17,7 @@ import functionWords from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import topicLength from "./config/topicLength";
 import assessmentApplicability from "./config/assessmentApplicabilityCharacterCount";
+import sentenceLength from "./config/sentenceLength";
 
 // All custom researches
 import morphology from "./customResearches/getWordForms";
@@ -48,6 +49,7 @@ export default class Researcher extends AbstractResearcher {
 			transitionWords,
 			topicLength,
 			assessmentApplicability,
+			sentenceLength,
 		} );
 
 		Object.assign( this.helpers, {
