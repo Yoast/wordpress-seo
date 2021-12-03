@@ -374,30 +374,6 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Retrieves a list of attachment indexables that belong to a parent post.
-	 *
-	 * @param int $parent_post_id The id of the parent post.
-	 *
-	 * @return Indexable[] Instances of the attachment indexables.
-	 */
-	public function find_for_post_attachments( $parent_post_id ) {
-		/**
-		 * Indexable instance.
-		 *
-		 * @var Indexable[] $indexables
-		 */
-		$indexables = $this
-			->query()
-			->where( 'object_type', 'post' )
-			->where( 'object_sub_type', 'attachment' )
-			->where( 'post_status', 'inherit' )
-			->where( 'post_parent', $parent_post_id )
-			->find_many();
-
-		return \array_map( [ $this, 'upgrade_indexable' ], $indexables );
-	}
-
-	/**
 	 * Retrieves an indexable by its ID and type.
 	 *
 	 * @param int    $object_id   The indexable object ID.
