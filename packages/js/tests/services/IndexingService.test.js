@@ -39,9 +39,9 @@ describe( "IndexingService", () => {
 		global.fetch = jest.fn();
 		expect( global.fetch ).not.toBeCalled();
 		const progress = jest.fn();
-		expect( progress ).not.toBeCalled();
 
 		const count = await instance.index( {}, progress );
+		expect( progress ).not.toBeCalled();
 		expect( count ).toEqual( 0 );
 	} );
 
@@ -63,9 +63,10 @@ describe( "IndexingService", () => {
 
 			return Promise.reject();
 		} );
+
 		const progress = jest.fn();
-		expect( progress ).toBeCalledWith( 5 );
 
 		await instance.index( { test: "/path" }, progress );
+		expect( progress ).toBeCalledWith( 5 );
 	} );
 } );
