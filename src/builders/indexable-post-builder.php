@@ -390,13 +390,11 @@ class Indexable_Post_Builder {
 	 *
 	 * @see \is_post_publicly_viewable Polyfill for WP 5.6. This function was introduced to WP core in 5.7.
 	 *
-	 * @param int|WP_Post|null $post Optional. Post ID or post object. Defaults to global $post.
+	 * @param WP_Post $post The post.
 	 *
 	 * @return bool Whether the post is publicly viewable.
 	 */
-	protected function is_post_publicly_viewable( $post = null ) {
-		$post = \get_post( $post );
-
+	protected function is_post_publicly_viewable( $post ) {
 		if ( ! $post ) {
 			return false;
 		}

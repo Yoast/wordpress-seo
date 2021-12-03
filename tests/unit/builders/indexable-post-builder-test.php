@@ -377,7 +377,10 @@ class Indexable_Post_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_the_title' )->with( 1 )->andReturn( 'breadcrumb_title' );
 		Monkey\Functions\expect( 'wp_strip_all_tags' )->with( 'breadcrumb_title', true )->andReturn( 'breadcrumb_title' );
 
-		Monkey\Functions\expect( 'is_post_publicly_viewable' )->andReturn( true );
+		Monkey\Functions\expect( 'get_post_type' )->andReturn( 'post-type' );
+		Monkey\Functions\expect( 'get_post_status' )->andReturn( 'published' );
+		Monkey\Functions\expect( 'is_post_type_viewable' )->andReturn( true );
+		Monkey\Functions\expect( 'is_post_status_viewable' )->andReturn( true );
 
 		// Blog ID.
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
