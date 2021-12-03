@@ -16,23 +16,6 @@ import SingleH1Assessment from "./../assessments/seo/SingleH1Assessment";
 import KeyphraseDistribution from "./../assessments/seo/KeyphraseDistributionAssessment";
 
 /**
- * Returns the text length assessment to use.
- *
- * @returns {TextLengthAssessment} The text length assessment (with collection page configuration) to use.
- */
-export const getTextLengthAssessment = function() {
-	// Export so it can be used in tests.
-	return new TextLengthAssessment( {
-		recommendedMinimum: 80,
-		slightlyBelowMinimum: 50,
-		belowMinimum: 20,
-		veryFarBelowMinimum: 10,
-		urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
-		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
-	} );
-};
-
-/**
  * Creates the Assessor used for collection pages.
  *
  * @param {object} researcher   The researcher used for the analysis.
@@ -64,7 +47,15 @@ const CollectionSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify46" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify47" ),
 		} ),
-		getTextLengthAssessment(),
+		new TextLengthAssessment( {
+			recommendedMinimum: 80,
+			slightlyBelowMinimum: 50,
+			belowMinimum: 20,
+			veryFarBelowMinimum: 10,
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
+			customContentType: this.type,
+		} ),
 		new TitleKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
