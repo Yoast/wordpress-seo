@@ -27,6 +27,7 @@ export default class TransitionWordsAssessment extends Assessment {
 		const defaultConfig = {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/34z" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/35a" ),
+			applicableIfTextLongerThan: 200,
 		};
 
 		this.identifier = "textTransitionWords";
@@ -175,15 +176,21 @@ export default class TransitionWordsAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks if the transition words assessment is applicable to the paper.
+	 * Checks if the transition words assessment is applicable to the paper. Language-specific length requirements and methods of counting text length
+	 * may apply (e.g. for Japanese, the text should be counted in characters instead of words, which also makes the minimum required length higher).
 	 *
 	 * @param {Paper}       paper       The paper to check.
 	 * @param {Researcher}  researcher  The researcher object.
 	 *
-	 * @returns {boolean} Returns true if the language is available, the paper is not empty and if the text is longer than 200 words.
+	 * @returns {boolean} Returns true if the language is available, the paper is not empty and the text is longer than the minimum required length.
 	 */
 	isApplicable( paper, researcher ) {
-		const wordCount = researcher.getResearch( "wordCountInText" );
-		return paper.hasText() && wordCount >= 200 && researcher.hasResearch( "findTransitionWords" );
+		const customCountLength = researcher.getHelper( "customCountLength" );
+		const customApplicabilityConfig = researcher.getConfig( "assessmentApplicability" ).transitionWords;
+		if ( customApplicabilityConfig ) {
+			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
+		}
+		const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" );
+		return paper.hasText() && textLength >= this._config.applicableIfTextLongerThan && researcher.hasResearch( "findTransitionWords" );
 	}
 }
