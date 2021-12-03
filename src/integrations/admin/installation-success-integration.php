@@ -50,12 +50,12 @@ class Installation_Success_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function maybe_redirect() {
-		if ( ! $this->options_helper->get( 'should_redirect_after_install_free' ) ) {
+		if ( ! $this->options_helper->get( 'should_redirect_after_install_free', false ) ) {
 			return;
 		}
 		$this->options_helper->set( 'should_redirect_after_install_free', false );
 
-		if ( ! empty( $this->options_helper->get( 'activation_redirect_timestamp_free' ) ) ) {
+		if ( ! empty( $this->options_helper->get( 'activation_redirect_timestamp_free', 0 ) ) ) {
 			return;
 		}
 		$this->options_helper->set( 'activation_redirect_timestamp_free', \time() );
