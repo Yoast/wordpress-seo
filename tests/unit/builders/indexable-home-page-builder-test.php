@@ -216,7 +216,6 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 				MIN(p.post_date_gmt) AS first_published_at 
 			FROM {$this->wpdb->posts} AS p
 			WHERE p.post_status IN (%s)
-				AND p.post_password = ''
 				AND p.post_type = 'post'
 		",
 			[ 'publish' ]
@@ -229,6 +228,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 			]
 		);
 
+		$this->indexable_mock->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-01-01 00:00:00' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 23:59:59' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'number_of_publicly_viewable_posts', 20 );
@@ -269,7 +269,6 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 				MIN(p.post_date_gmt) AS first_published_at 
 			FROM {$this->wpdb->posts} AS p
 			WHERE p.post_status IN (%s)
-				AND p.post_password = ''
 				AND p.post_type = 'post'
 		",
 			[ 'publish' ]
@@ -282,6 +281,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 			]
 		);
 
+		$this->indexable_mock->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-01-01 00:00:00' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 23:59:59' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'number_of_publicly_viewable_posts', 20 );
@@ -318,7 +318,6 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 				MIN(p.post_date_gmt) AS first_published_at 
 			FROM {$this->wpdb->posts} AS p
 			WHERE p.post_status IN (%s)
-				AND p.post_password = ''
 				AND p.post_type = 'post'
 		",
 			[ 'publish' ]
@@ -331,6 +330,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 			]
 		);
 
+		$this->indexable_mock->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-01-01 00:00:00' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 23:59:59' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'number_of_publicly_viewable_posts', 20 );

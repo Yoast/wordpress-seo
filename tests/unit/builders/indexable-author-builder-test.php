@@ -126,7 +126,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 				MIN(p.post_date_gmt) AS first_published_at
 			FROM {$this->wpdb->posts} AS p
 			WHERE p.post_status IN (%s)
-				AND p.post_password = ''
 				AND p.post_author = %d
 				AND p.post_type IN (%s, %s)
 		",

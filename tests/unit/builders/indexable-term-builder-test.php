@@ -273,7 +273,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 				AND		term_tax.taxonomy = %s
 				AND		term_tax.term_id = %d
 			WHERE	p.post_status IN (%s)
-				AND		p.post_password = ''
 		",
 			[ 'category', 1, 'publish' ]
 		)->andReturn( 'PREPARED_QUERY' );
@@ -377,6 +376,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
+		$indexable_mock->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-01-01 00:00:00' );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 23:59:59' );
 		$indexable_mock->orm->expects( 'set' )->with( 'number_of_publicly_viewable_posts', 10 );
