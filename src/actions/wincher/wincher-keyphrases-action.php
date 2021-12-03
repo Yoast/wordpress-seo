@@ -301,6 +301,7 @@ class Wincher_Keyphrases_Action {
 				->select( 'primary_focus_keyword' )
 				->where_not_null( 'primary_focus_keyword' )
 				->where( 'object_type', 'post' )
+				->where_not_equal( 'post_status', 'trash' )
 				->distinct()
 				->find_array(),
 			'primary_focus_keyword'
@@ -313,7 +314,8 @@ class Wincher_Keyphrases_Action {
 			$query = "
 				SELECT meta_value
 				FROM $wpdb->postmeta
-				WHERE meta_key = '$meta_key'
+				JOIN $wpdb->posts ON {$wpdb->posts}.id = {$wpdb->postmeta}.post_id
+				WHERE meta_key = '$meta_key' AND post_status != 'trash'
 			";
 
 			// phpcs:ignore -- ignoring since it's complaining about not using prepare when it's perfectly safe here.
