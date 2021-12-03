@@ -5,7 +5,7 @@
 }
 
 .installation-success-steps {
-	background-color: red;
+	display: block;
 }
 
 .installation-success-cards {
@@ -15,16 +15,34 @@
 }
 
 .installation-success-card {
+	box-sizing: border-box;
 	background-color: white;
 	border: 1px solid rgba(0,0,0,.2);
 	border-radius: 8px;
 	width: 320px; 
-	min-height: 315px;
+	height: 315px;
 	padding: 24px;
+	display: flex;
+	flex-direction: column;
+}
+
+.installation-success-card.active {
+	border-color: var( --yoast-color-primary );
+	box-shadow: 0 10px 20px 0px rgba(0, 0, 0, 0.1), 0 6px 6px 0 rgba(0, 0, 0, 0.06);
+	width: 320px; 
+	height: 327px;
+}
+
+.installation-success-card .man-with-tablet {
+	width: 150px; 
+	height: 120px;
+	margin: auto auto 0;
 }
 
 .installation-success-card .card-button-section {
 	display: flex;
+	justify-content: center;
+	margin-top: auto;
 }
 
 .installation-success-card .card-button-section .yoast-button {

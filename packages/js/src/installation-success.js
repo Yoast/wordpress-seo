@@ -22,15 +22,27 @@ function InstallationSuccessPage() {
 					<p>
 						{ __( "Yoast SEO rolls out the red carpet for the search bots, which helps your site perform better in search engines.", "wordpress-seo" ) }
 					</p>
+					<div className="card-button-section">
+						<img
+							className="man-with-tablet"
+							src={ window.wpseoInstallationSuccess.pluginUrl + "/images/man_with_tablet.png" }
+							alt={ __( "Man holding a tablet.", "wordpress-seo" ) }
+						/>
+					</div>
 				</div>
-				<div className="installation-success-card">
+				<div className="installation-success-card active">
 					<h2>{ __( "Configure Yoast SEO", "wordpress-seo" ) }</h2>
 					<p>
 						{ __( "Set the essential Yoast SEO settings in a few steps.", "wordpress-seo" ) }
 					</p>
+					<img
+						className="man-with-tablet"
+						src={ window.wpseoInstallationSuccess.pluginUrl + "/images/man_with_tablet.png" }
+						alt={ __( "Man holding a tablet.", "wordpress-seo" ) }
+					/>
 					<div className="card-button-section">
 						<ButtonStyledLink
-							href={ window.wp.api.utils.getRootUrl() + "wp-admin/admin.php?page=wpseo_workouts#configuration" }
+							href={ window.wpseoInstallationSuccess.configurationWorkoutUrl }
 							variant="primary"
 						>
 							{ __( "Start configuration workout!", "wordpress-seo" ) }
