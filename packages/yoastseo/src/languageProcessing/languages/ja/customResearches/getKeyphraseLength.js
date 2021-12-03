@@ -13,6 +13,7 @@ export default function( paper ) {
 
 	return {
 		keyphraseLength: characterCountHelper( keyphrase ),
+		// Returns empty array because we don't take function words into account for Japanese keyphrase length calculations.
 		functionWords: [],
 	};
 }
