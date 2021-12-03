@@ -187,19 +187,19 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	/**
 	 * Flattens the multidimensional array of AIOSEO settings. Recursive.
 	 *
-	 * @param array  $array    The array to be flattened.
-	 * @param string $main_key The key to be used as a base.
+	 * @param array  $array      The array to be flattened.
+	 * @param string $key_prefix The key to be used as a base.
 	 *
 	 * @return array The flattened array.
 	 */
-	protected function flatten_settings( $array, $main_key = '' ) {
+	protected function flatten_settings( $array, $key_prefix = '' ) {
 		$result = [];
 		foreach ( $array as $key => $value ) {
 			if ( is_array( $value ) ) {
-				$result = array_merge( $result, $this->flatten_settings( $value, $main_key . '/' . $key ) );
+				$result = array_merge( $result, $this->flatten_settings( $value, $key_prefix . '/' . $key ) );
 			}
 			else {
-				$result[ $main_key . '/' . $key ] = $value;
+				$result[ $key_prefix . '/' . $key ] = $value;
 			}
 		}
 
