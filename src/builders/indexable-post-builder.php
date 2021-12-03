@@ -145,7 +145,7 @@ class Indexable_Post_Builder {
 		$indexable->number_of_pages                   = $this->get_number_of_pages_for_post( $post );
 		$indexable->post_status                       = $post->post_status;
 		$indexable->is_protected                      = $post->post_password !== '';
-		$indexable->is_publicly_viewable              = \is_post_publicly_viewable( $post );
+		$indexable->is_publicly_viewable              = $this->is_post_publicly_viewable( $post );
 		$indexable->number_of_publicly_viewable_posts = 0;
 		$indexable->blog_id                           = \get_current_blog_id();
 
@@ -380,6 +380,31 @@ class Indexable_Post_Builder {
 		}
 
 		return $number_of_pages;
+	}
+
+	/**
+	 * Determine whether a post is publicly viewable.
+	 *
+	 * Posts are considered publicly viewable if both the post status and post type
+	 * are viewable.
+	 *
+	 * @see \is_post_publicly_viewable Polyfill for WP 5.6. This function was introduced to WP core in 5.7.
+	 *
+	 * @param int|WP_Post|null $post Optional. Post ID or post object. Defaults to global $post.
+	 *
+	 * @return bool Whether the post is publicly viewable.
+	 */
+	protected function is_post_publicly_viewable( $post = null ) {
+		$post = \get_post( $post );
+
+		if ( ! $post ) {
+			return false;
+		}
+
+		$post_type   = get_post_type( $post );
+		$post_status = get_post_status( $post );
+
+		return is_post_type_viewable( $post_type ) && is_post_status_viewable( $post_status );
 	}
 
 	/**
