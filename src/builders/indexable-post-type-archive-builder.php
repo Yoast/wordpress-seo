@@ -166,9 +166,9 @@ class Indexable_Post_Type_Archive_Builder {
 				MAX(p.post_modified_gmt) AS most_recent_last_modified,
 				MIN(p.post_date_gmt) AS first_published_at
 			FROM {$this->wpdb->posts} AS p
-			WHERE p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ")
+			WHERE p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ')
 				AND p.post_type = %s
-		";
+		';
 
 		$replacements = \array_merge( $post_statuses, [ $post_type ] );
 
