@@ -39,9 +39,8 @@ function InstallationSuccessPage() {
 						{ __( "Set the essential Yoast SEO settings in a few steps.", "wordpress-seo" ) }
 					</p>
 					<img
-						className=""
 						src={ window.wpseoInstallationSuccess.pluginUrl + "/images/mirrored_fit_bubble_woman_1_optim.svg" }
-						alt={ __( ".", "wordpress-seo" ) }
+						alt={ "" }
 					/>
 					<div className="card-button-section">
 						<ButtonStyledLink
