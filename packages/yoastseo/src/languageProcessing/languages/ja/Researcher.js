@@ -10,7 +10,6 @@ import customCountLength from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
 import getContentWords from "./helpers/getContentWords";
 import findMultiWordKeyphraseInPageTitle from "./helpers/findExactMatchMultiWordKeyphraseInTitle";
-import textLengthResearch from "./customResearches/textLength";
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
@@ -25,6 +24,7 @@ import sentenceLength from "./config/sentenceLength";
 import morphology from "./customResearches/getWordForms";
 import getKeywordDensity from "./customResearches/getKeywordDensity";
 import getKeyphraseLength from "./customResearches/getKeyphraseLength";
+import textLengthResearch from "./customResearches/textLength";
 
 /**
  * The researches contains all the researches
