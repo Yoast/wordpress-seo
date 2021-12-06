@@ -77,11 +77,6 @@ export default class TextLengthAssessment extends Assessment {
 		const currentConfig = this._config;
 		const languageSpecificConfig = researcher.getConfig( "textLength" );
 
-		// Don't do anything if there is no language-specific config.
-		if ( ! languageSpecificConfig ) {
-			return currentConfig;
-		}
-
 		// Check if a language has configuration for custom content types.
 		if ( languageSpecificConfig.hasOwnProperty( currentConfig.customContentType ) ) {
 			return merge( currentConfig, languageSpecificConfig[ currentConfig.customContentType ] );
@@ -93,11 +88,8 @@ export default class TextLengthAssessment extends Assessment {
 			return merge( currentConfig, languageSpecificConfig.defaultCornerstone );
 		}
 
-		if ( languageSpecificConfig.hasOwnProperty( "defaultAnalysis" ) ) {
-			return merge( currentConfig, languageSpecificConfig.defaultAnalysis );
-		}
-
-		return currentConfig;
+		// Use the default language-specific config for posts and pages.
+		return merge( currentConfig, languageSpecificConfig.defaultAnalysis );
 	}
 
 	/**
