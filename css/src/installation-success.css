@@ -3,6 +3,7 @@
 	flex-direction: column;
 	height: 90vh;
 	margin-top: 16vh;
+	flex-wrap: wrap;
 }
 
 .installation-success-page .step-list {
@@ -90,6 +91,8 @@
 	color: var( --yoast-color-primary );
 	margin: 24px auto;
 	letter-spacing: 0.4px;
+	line-height: normal;
+	text-align: center;
 }
 
 .installation-success-card {
