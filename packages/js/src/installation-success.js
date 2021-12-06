@@ -7,35 +7,30 @@ import { ButtonStyledLink } from "@yoast/components";
 setWordPressSeoL10n();
 
 /**
- * @returns {WPElement} The fake steppers.
+ * The non-functional, decorative steppers for the installation success page.
+ * Inspired by the Tailwind stepper. https://tailwindui.com/components/application-ui/navigation/steps#component-9a29a1d37a37b90f0b926478e8706004
+ *
+ * @returns {WPElement} The decorative steppers.
  */
 export default function Steppers() {
 	return (
 		<ul className="step-list">
-			<li className={ "step-complete" }>
+			<li className="step-complete">
 				<div className="step-first-div" aria-hidden="true">
 					<div className="step-second-div" />
 				</div>
-				<span
-					className="step-list-complete-circle"
-				>
-					{/* <CheckIcon className="w-5 h-5 text-white" aria-hidden="true" /> */}
+				<span className="step-list-complete-circle">
 					<span className="complete-check-icon" />
 				</span>
 			</li>
-			<li className={ "step-current" }>
-				<span
-					href="#"
-					className="step-list-current-circle"
-					aria-current="step"
-				>
+			<li className="step-current">
+				<span className="step-list-current-circle" aria-current="step">
 					<span className="step-list-current-inner-circle" aria-hidden="true" />
 				</span>
 			</li>
 		</ul>
 	);
 }
-
 
 /**
  * The installation success page.
@@ -45,7 +40,13 @@ export default function Steppers() {
 function InstallationSuccessPage() {
 	return (
 		<div className="installation-success-page">
-			<h1 className="installation-success-title">{ __( "You've successfully installed Yoast SEO!", "wordpress-seo" ) }</h1>
+			<h1 className="installation-success-title">
+				{ sprintf(
+					/* translators: %s expands to Yoast SEO. */
+					__( "You've successfully installed %s!", "wordpress-seo" ),
+					"Yoast SEO" )
+				}
+			</h1>
 			<div className="installation-success-steps">
 				<Steppers />
 			</div>
