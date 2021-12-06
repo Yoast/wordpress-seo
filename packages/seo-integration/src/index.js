@@ -7,6 +7,15 @@
  */
 
 /**
+ * @typedef AnalysisConfig
+ *
+ * @property {string} workerUrl The URL of the analysis worker.
+ * @property {string[]} dependencies The dependencies to load in the worker.
+ * @property {Object} [configuration] The analysis configuration. Defaults to an English (US) locale.
+ * @property {Object.<string, AnalysisType>} [types] The different analysis types and their configuration.
+ */
+
+/**
  * @typedef {Object} SeoIntegrationInterface
  *
  * @property {AnalysisWorkerWrapper} analysisWorker The analysis worker wrapper.
@@ -29,26 +38,25 @@ export { useSeoContext } from "./seo-context";
 /**
  * Creates the SEO integration.
  *
- * @param {string} analysisWorkerUrl The URL of the analysis worker.
- * @param {string[]} analysisDependencies The dependencies to load in the worker.
- * @param {Object} [analysisConfiguration] The analysis configuration. Defaults to a English (US) locale.
- * @param {Object.<string, AnalysisType>} [analysisTypes] The different analysis types and their configuration.
+ * @param {AnalysisConfig} analysis Analysis-specific configuration.
  * @param {Object.<string, Object>} [initialState] The initial state for the SEO store.
  *
  * @returns {Promise<SeoIntegrationInterface>} The promise of the SEO integration interface.
  */
 const createSeoIntegration = async ( {
-	analysisWorkerUrl,
-	analysisDependencies,
-	analysisConfiguration = { locale: "en_US" },
-	analysisTypes = {
-		post: {
-			name: "post",
-			replacementVariableConfigurations: [],
-		},
-		term: {
-			name: "term",
-			replacementVariableConfigurations: [],
+	analysis: {
+		workerUrl: analysisWorkerUrl,
+		dependencies: analysisDependencies,
+		configuration: analysisConfiguration = { locale: "en_US" },
+		types: analysisTypes = {
+			post: {
+				name: "post",
+				replacementVariableConfigurations: [],
+			},
+			term: {
+				name: "term",
+				replacementVariableConfigurations: [],
+			},
 		},
 	},
 	initialState = {},

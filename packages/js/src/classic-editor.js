@@ -28,25 +28,27 @@ domReady( async () => {
 	const watcher = createClassicEditorWatcher( { storeName: SEO_STORE_NAME } );
 
 	const {} = await createSeoIntegration( {
-		analysisWorkerUrl: wpseoScriptData.analysis.worker.url,
-		analysisDependencies: pick( wpseoScriptData.analysis.worker.dependencies, [
-			"lodash",
-			"regenerator-runtime",
-			"wp-autop",
-			"wp-polyfill",
-			"yoast-seo-jed-package",
-			"yoast-seo-feature-flag-package",
-			"yoast-seo-analysis-package",
-			"yoast-seo-en-language",
-		] ),
-		analysisTypes: {
-			post: {
-				name: "post",
-				replacementVariableConfigurations: mapValues( createDefaultReplacementVariableConfigurations() ),
-			},
-			term: {
-				name: "term",
-				replacementVariableConfigurations: mapValues( createDefaultReplacementVariableConfigurations() ),
+		analysis: {
+			workerUrl: wpseoScriptData.analysis.worker.url,
+			dependencies: pick( wpseoScriptData.analysis.worker.dependencies, [
+				"lodash",
+				"regenerator-runtime",
+				"wp-autop",
+				"wp-polyfill",
+				"yoast-seo-jed-package",
+				"yoast-seo-feature-flag-package",
+				"yoast-seo-analysis-package",
+				"yoast-seo-en-language",
+			] ),
+			types: {
+				post: {
+					name: "post",
+					replacementVariableConfigurations: mapValues( createDefaultReplacementVariableConfigurations() ),
+				},
+				term: {
+					name: "term",
+					replacementVariableConfigurations: mapValues( createDefaultReplacementVariableConfigurations() ),
+				},
 			},
 		},
 		initialState: {

@@ -10,19 +10,21 @@ const load = async () => {
 	const defaultReplacementVariableConfigurations = createDefaultReplacementVariableConfigurations();
 
 	const { analysisTypeReplacementVariables, SeoProvider } = await createSeoIntegration( {
-		analysisWorkerUrl: "dist/bootstrap-analysis.js",
-		analysisDependencies: [
-			"vendor/autop.js",
-			"vendor/lodash.js",
-			"yoast/jed.js",
-			"yoast/featureFlag.js",
-			"analysis/analysis.js",
-			"analysis/languages/default.js"
-		],
-		analysisTypes: {
-			post: {
-				name: "post",
-				replacementVariableConfigurations: createPostReplacementVariables( defaultReplacementVariableConfigurations ),
+		analysis: {
+			workerUrl: "dist/bootstrap-analysis.js",
+			dependencies: [
+				"vendor/autop.js",
+				"vendor/lodash.js",
+				"yoast/jed.js",
+				"yoast/featureFlag.js",
+				"analysis/analysis.js",
+				"analysis/languages/default.js"
+			],
+			types: {
+				post: {
+					name: "post",
+					replacementVariableConfigurations: createPostReplacementVariables( defaultReplacementVariableConfigurations ),
+				},
 			},
 		},
 		initialState: {
