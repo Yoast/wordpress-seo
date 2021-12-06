@@ -1,6 +1,7 @@
 import { get, mapValues } from "lodash";
 import { enabledFeatures } from "@yoast/feature-flag";
 import { createDefaultReplacementVariableConfigurations } from "@yoast/seo-integration";
+import getTranslations from "../analysis/getTranslations";
 
 /**
  * Creates the analysis-related configuration needed for booting up the SEO integration.
@@ -27,6 +28,7 @@ export function getAnalysisConfiguration() {
 			defaultQueryParams: get( window, [ "wpseoAdminL10n", "default_query_params" ], {} ),
 			logLevel: get( window, [ "wpseoScriptData", "analysis", "worker", "log_level" ], "ERROR" ),
 			enabledFeatures: enabledFeatures() || [],
+			translations: getTranslations(),
 		},
 	};
 }

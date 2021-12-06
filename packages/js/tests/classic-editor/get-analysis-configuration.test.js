@@ -1,6 +1,37 @@
 import { getAnalysisConfiguration } from "../../src/classic-editor/get-analysis-configuration";
 
+/* eslint-disable camelcase */
+jest.mock( "../../src/analysis/getTranslations", () => {
+	return jest.fn( () => (
+		{
+			domain: "js-text-analysis",
+			locale_data: {
+				"js-text-analysis": {
+					"": {},
+				},
+			},
+		}
+	) );
+} );
+
+jest.mock( "@yoast/feature-flag", () => (
+	{
+		enabledFeatures: jest.fn( () => (
+			[ "SOME_LANGUAGE" ]
+		) ),
+	}
+) );
+
 describe( "The getAnalysisConfiguration function", () => {
+	const translations = {
+		domain: "js-text-analysis",
+		locale_data: {
+			"js-text-analysis": {
+				"": {},
+			},
+		},
+	};
+
 	it( "returns a default configuration when the global script data is not available", () => {
 		const actual = getAnalysisConfiguration();
 
@@ -10,7 +41,8 @@ describe( "The getAnalysisConfiguration function", () => {
 			locale: "en_US",
 			defaultQueryParams: {},
 			logLevel: "ERROR",
-			enabledFeatures: [],
+			enabledFeatures: [ "SOME_LANGUAGE" ],
+			translations,
 		} );
 	} );
 
@@ -28,7 +60,6 @@ describe( "The getAnalysisConfiguration function", () => {
 			"yoast-seo-en-language": "http://basic.wordpress.test/wp-content/plugins/wordpress-seo/js/dist/languages/en-175-RC1.js",
 		};
 
-		/* eslint-disable camelcase */
 		const defaultQueryArgs = {
 			php_version: "7.4",
 			platform: "wordpress",
@@ -55,7 +86,6 @@ describe( "The getAnalysisConfiguration function", () => {
 				},
 			},
 		};
-		/* eslint-enable camelcase */
 
 		const actual = getAnalysisConfiguration();
 
@@ -65,7 +95,8 @@ describe( "The getAnalysisConfiguration function", () => {
 			locale: "nl_NL",
 			defaultQueryParams: defaultQueryArgs,
 			logLevel: "DEBUG",
-			enabledFeatures: [],
+			enabledFeatures: [ "SOME_LANGUAGE" ],
+			translations,
 		} );
 	} );
 } );
