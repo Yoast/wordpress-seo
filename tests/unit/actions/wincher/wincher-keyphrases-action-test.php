@@ -674,7 +674,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->expects( 'query->select->where_not_null->where->distinct->find_array' )
 			->andReturns(
 				[
-					[ 'primary_focus_keyword' => 'yoast seo' ],
+					[ 'primary_focus_keyword' => 'Yoast SEO' ],
 					[ 'primary_focus_keyword' => 'blog seo' ],
 					[ 'primary_focus_keyword' => '' ],
 				]

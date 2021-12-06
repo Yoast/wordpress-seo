@@ -344,8 +344,9 @@ class Wincher_Keyphrases_Action {
 			}
 		}
 
-		// Filter out empty entries.
-		return \array_filter( $keyphrases );
+		// Filter out empty entries and convert the rest to lowercase.
+		$strtolower_fn = \function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
+		return \array_map( $strtolower_fn, \array_filter( $keyphrases ) );
 	}
 
 	/**
