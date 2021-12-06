@@ -20,7 +20,10 @@ function InstallationSuccessPage() {
 				<div className="installation-success-card">
 					<h2>{ __( "Your site is now easy to find for search engines!", "wordpress-seo" ) }</h2>
 					<p>
-						{ __( "Yoast SEO rolls out the red carpet for the search bots, which helps your site perform better in search engines.", "wordpress-seo" ) }
+						{
+							__( "Yoast SEO rolls out the red carpet for the search bots, which helps your site perform better in search engines.",
+								"wordpress-seo" )
+						}
 					</p>
 					<div className="card-button-section">
 						<img
