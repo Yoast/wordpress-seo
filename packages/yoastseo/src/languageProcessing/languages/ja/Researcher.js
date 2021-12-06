@@ -42,10 +42,6 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
 
-		// Replaces default researches with custom researches.
-		delete this.defaultResearches.wordCountInText;
-		this.defaultResearches.wordCountInText = textLengthResearch;
-
 		// Adds the Japanese custom research to calculate the keyword density.
 		this.addResearch( "getKeywordDensity", getKeywordDensity );
 
@@ -74,6 +70,7 @@ export default class Researcher extends AbstractResearcher {
 		Object.assign( this.defaultResearches, {
 			morphology,
 			keyphraseLength: getKeyphraseLength,
+			wordCountInText: textLengthResearch,
 		} );
 	}
 }
