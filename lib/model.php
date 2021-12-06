@@ -174,6 +174,10 @@ class Model implements JsonSerializable {
 
 		$properties = \get_class_vars( $class_name );
 
+		if ( $properties[ $property ] === null ) {
+			return $class_name::$$property;
+		}
+
 		return $properties[ $property ];
 	}
 
