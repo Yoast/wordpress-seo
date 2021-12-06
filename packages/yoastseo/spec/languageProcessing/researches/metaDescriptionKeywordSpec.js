@@ -81,7 +81,7 @@ describe( "the metadescription keyword match research", function() {
 		expect( result ).toEqual( 3 );
 	} );
 
-	it( "returns the number ( 3 ) of keywords and synonyms found, even when the keyphrase contains function words.", function() {
+	it( "returns the number ( 3 ) of keywords and synonyms found, even when the keyphrase contains function words", function() {
 		const paper = new Paper( "", { keyword: "key and word", synonyms: "key or phrase", description: "Keys word. Key wordly. Keys phrases." } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
@@ -89,21 +89,21 @@ describe( "the metadescription keyword match research", function() {
 		expect( result ).toEqual( 3 );
 	} );
 
-	it( "returns the number ( 1 ) of keywords and synonyms found, with no morphology data.", function() {
+	it( "returns the number ( 1 ) of keywords and synonyms found, with no morphology data", function() {
 		const paper = new Paper( "", { keyword: "key word", synonyms: "key phrase", description: "Key word. Key wordly. Keys phrases." } );
 		const researcher = new Researcher( paper );
 		const result = metaDescriptionKeyword( paper, researcher );
 		expect( result ).toEqual( 1 );
 	} );
 
-	it( "returns the number ( 2 ) of keywords and synonyms found, with no morphology data.", function() {
+	it( "returns the number ( 2 ) of keywords and synonyms found, with no morphology data", function() {
 		const paper = new Paper( "", { keyword: "key word", synonyms: "key phrase", description: "Key word. Key wordly. Key phrase." } );
 		const researcher = new Researcher( paper );
 		const result = metaDescriptionKeyword( paper, researcher );
 		expect( result ).toEqual( 2 );
 	} );
 
-	it( "returns the number ( 2 ) of keywords and synonyms found.", function() {
+	it( "returns the number ( 2 ) of keywords and synonyms found", function() {
 		const paper = new Paper( "", { keyword: "cats and dogs", synonyms: "hounds and felines",
 			description: "This is a meta description. It’s about dogs and cats and hounds and felines and more felines. " +
 				"A sdfkjhsdk hskdf sd. And hounds." } );
@@ -117,7 +117,7 @@ describe( "the metadescription keyword match research", function() {
 describe( "the meta description keyword match research for languages that have custom helper to match words", function() {
 	// Japanese has a custom helper to match words.
 	describe( "test the research with morphology data unavailable", () => {
-		it( "returns 1 when only the keyword is found in the meta description.", function() {
+		it( "returns 1 when only the keyword is found in the meta description", function() {
 			const paper = new Paper( "", { keyword: "小さい花の刺繍", synonyms: "野生のハーブの刺繡", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
 					"基本的な情報を紹介します。私は美しい猫を飼っています。" }  );
 			const researcher = new JapaneseResearcher( paper );
@@ -125,14 +125,14 @@ describe( "the meta description keyword match research for languages that have c
 			expect( result ).toEqual( 1 );
 		} );
 
-		it( "returns 1 when only the synonym is found in the meta description.", function() {
+		it( "returns 1 when only the synonym is found in the meta description", function() {
 			const paper = new Paper( "", { keyword: "小さい花の刺繍", synonyms: "野生のハーブの刺繡", description: "私は美しい猫を飼っています。野生のハーブの刺繡。" }  );
 			const researcher = new JapaneseResearcher( paper );
 			const result = metaDescriptionKeyword( paper, researcher );
 			expect( result ).toEqual( 1 );
 		} );
 
-		it( "returns 2 when both the keyword and synonym are found once in the meta description.", function() {
+		it( "returns 2 when both the keyword and synonym are found once in the meta description", function() {
 			const paper = new Paper( "", { keyword: "小さい花の刺繍", synonyms: "野生のハーブの刺繡", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
 					"基本的な情報を紹介します。私は美しい猫を飼っています。 野生のハーブの刺繡。" } );
 			const researcher = new JapaneseResearcher( paper );
