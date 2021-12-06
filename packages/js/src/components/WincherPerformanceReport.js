@@ -29,7 +29,7 @@ const WicnherSEOPerformanceContainer = styled.div`
 /**
  * Wincher SEO Performance top text.
  */
-const WincherSEOPerformanceReportText = styled.p`
+const WincherSEOPerformanceReportText = styled.div`
 	font-size: 14px;
 `;
 
@@ -109,7 +109,7 @@ NotConnectedMessage.defaultProps = {
 const Row = ( { keyphrase, websiteId } ) => {
 	const { id, keyword } = keyphrase;
 	return (
-		<tr key={ `trackable-keyphrase-${keyword}` }>
+		<tr>
 			<td>{ keyword }</td>
 			<td>{ getKeyphrasePosition( keyphrase ) }</td>
 			<td className="yoast-table--nopadding">{ <PositionOverTimeChart chartData={ keyphrase } /> }</td>
@@ -158,12 +158,8 @@ const GetUserMessage = ( props ) => {
 
 GetUserMessage.propTypes = {
 	isLoggedIn: PropTypes.bool.isRequired,
-	data: PropTypes.object,
+	data: PropTypes.object.isRequired,
 	onConnectAction: PropTypes.func.isRequired,
-};
-
-GetUserMessage.defaultProps = {
-	data: {},
 };
 
 /**
@@ -215,8 +211,9 @@ const WincherPerformanceReport = ( props ) => {
 					</thead>
 					<tbody>
 						{
-							map( data.results, ( entry ) => {
+							map( data.results, ( entry, index ) => {
 								return <Row
+									key={ `keyphrase-${index}` }
 									keyphrase={ entry }
 									websiteId={ websiteId }
 								/>;
