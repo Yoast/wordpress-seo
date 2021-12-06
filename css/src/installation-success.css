@@ -27,7 +27,8 @@
 	background-color: white;
 	border: 1px solid rgba(0,0,0,.2);
 	border-radius: 8px;
-	width: 320px; 
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+	width: 320px;
 	height: 315px;
 	padding: 24px;
 	display: flex;
@@ -36,13 +37,13 @@
 
 .installation-success-card.active {
 	border-color: var( --yoast-color-primary );
-	box-shadow: 0 10px 20px 0px rgba(0, 0, 0, 0.1), 0 6px 6px 0 rgba(0, 0, 0, 0.06);
-	width: 320px; 
+	box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1), 0 6px 6px 0 rgba(0, 0, 0, 0.06);
+	width: 320px;
 	height: 327px;
 }
 
-.installation-success-card .man-with-tablet {
-	width: 150px; 
+.installation-success-card img {
+	width: 150px;
 	height: 120px;
 	margin: auto auto 0;
 }
@@ -60,4 +61,29 @@
 .installation-success-card > h2 {
 	color: var( --yoast-color-primary );
 	margin: 0;
+	line-height: 25px;
+	font-size: 18px;
+	font-weight: 500;
+	letter-spacing: 0.2px;
+}
+
+.installation-success-card > p {
+	font-weight: 400;
+	font-size: 13px;
+	letter-spacing: -0.1px;
+	line-height: 19px;
+	color: rgb(60, 67, 74);
+	margin: 16px 0 24px 0;
+}
+
+#installation-success-card-configuration-workout p {
+	margin: 8px 0 0 0;
+}
+
+#installation-success-card-configuration-workout img {
+	margin: 24px auto 24px auto;
+}
+
+#installation-success-card-configuration-workout .yoast-button {
+	box-shadow: inset 0 -3px rgba(0, 0, 0, 0.3);
 }

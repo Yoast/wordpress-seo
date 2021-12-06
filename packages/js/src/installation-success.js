@@ -17,7 +17,7 @@ function InstallationSuccessPage() {
 				<p>stepper stuff</p>
 			</div>
 			<div className="installation-success-cards">
-				<div className="installation-success-card">
+				<div id="installation-success-card-optimized-site" className="installation-success-card">
 					<h2>{ __( "Your site is now easy to find for search engines!", "wordpress-seo" ) }</h2>
 					<p>
 						{
@@ -33,15 +33,15 @@ function InstallationSuccessPage() {
 						/>
 					</div>
 				</div>
-				<div className="installation-success-card active">
-					<h2>{ __( "Configure Yoast SEO", "wordpress-seo" ) }</h2>
+				<div id="installation-success-card-configuration-workout" className="installation-success-card active">
+					<h2>{ __( "Configure Yoast SEO!", "wordpress-seo" ) }</h2>
 					<p>
 						{ __( "Set the essential Yoast SEO settings in a few steps.", "wordpress-seo" ) }
 					</p>
 					<img
-						className="man-with-tablet"
-						src={ window.wpseoInstallationSuccess.pluginUrl + "/images/man_with_tablet.png" }
-						alt={ __( "Man holding a tablet.", "wordpress-seo" ) }
+						className=""
+						src={ window.wpseoInstallationSuccess.pluginUrl + "/images/mirrored_fit_bubble_woman_1_optim.svg" }
+						alt={ __( ".", "wordpress-seo" ) }
 					/>
 					<div className="card-button-section">
 						<ButtonStyledLink
