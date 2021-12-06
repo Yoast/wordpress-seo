@@ -1,3 +1,4 @@
+/* global wpseoScriptData, wpseoPrimaryCategoryL10n */
 import domReady from "@wordpress/dom-ready";
 import createSeoIntegration, { createDefaultReplacementVariableConfigurations, SEO_STORE_NAME } from "@yoast/seo-integration";
 import { mapValues, pick } from "lodash";
