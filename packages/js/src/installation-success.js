@@ -1,5 +1,5 @@
 import domReady from "@wordpress/dom-ready";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { renderReactRoot } from "./helpers/reactRoot";
 import { setWordPressSeoL10n } from "./helpers/i18n";
 import { ButtonStyledLink } from "@yoast/components";
@@ -20,10 +20,12 @@ function InstallationSuccessPage() {
 				<div id="installation-success-card-optimized-site" className="installation-success-card">
 					<h2>{ __( "Your site is now easy to find for search engines!", "wordpress-seo" ) }</h2>
 					<p>
-						{
-							__( "Yoast SEO rolls out the red carpet for the search bots, which helps your site perform better in search engines.",
-								"wordpress-seo" )
-						}
+						{ sprintf(
+							/* translators: %s expands to Yoast SEO. */
+							__( "%s rolls out the red carpet for the search bots, which helps your site perform better in search engines.",
+								"wordpress-seo" ),
+							"Yoast SEO"
+						) }
 					</p>
 					<div className="card-button-section">
 						<img
@@ -34,9 +36,19 @@ function InstallationSuccessPage() {
 					</div>
 				</div>
 				<div id="installation-success-card-configuration-workout" className="installation-success-card active">
-					<h2>{ __( "Configure Yoast SEO!", "wordpress-seo" ) }</h2>
+					<h2>
+						{ sprintf(
+							/* translators: %s expands to Yoast SEO. */
+							__( "Configure %s!", "wordpress-seo" ),
+							"Yoast SEO"
+						) }
+					</h2>
 					<p>
-						{ __( "Set the essential Yoast SEO settings in a few steps.", "wordpress-seo" ) }
+						{ sprintf(
+							/* translators: %s expands to Yoast SEO. */
+							__( "Set the essential %s settings in a few steps.", "wordpress-seo" ),
+							"Yoast SEO"
+						) }
 					</p>
 					<img
 						src={ window.wpseoInstallationSuccess.pluginUrl + "/images/mirrored_fit_bubble_woman_1_optim.svg" }
