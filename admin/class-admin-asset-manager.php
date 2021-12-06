@@ -244,6 +244,7 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'externals-components',
 				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
 			],
 			'indexation'         => [
 				'jquery-ui-core',
@@ -254,6 +255,7 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'block-editor',
 				self::PREFIX . 'externals-components',
 				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'select2',
 			],
 			'reindex-links'      => [
@@ -271,6 +273,7 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'classic-editor',
 				self::PREFIX . 'externals-components',
 				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'select2',
 			],
 		];

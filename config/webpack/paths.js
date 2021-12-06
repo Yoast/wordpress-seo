@@ -23,6 +23,7 @@ const entry = {
 	elementor: "./packages/js/src/elementor.js",
 	"externals-components": "./packages/js/src/externals/components.js",
 	"externals-contexts": "./packages/js/src/externals/contexts.js",
+	"externals-redux": "./packages/js/src/externals/redux.js",
 	"filter-explanation": "./packages/js/src/filter-explanation.js",
 	"help-scout-beacon": "./packages/js/src/help-scout-beacon.js",
 	indexation: "./packages/js/src/indexation.js",
