@@ -107,7 +107,7 @@ NotConnectedMessage.defaultProps = {
  * @returns {wp.Element} The message.
  */
 const NoTrackedKeyphrasesMessage = ( props ) => {
-	const { className, onTrackAllAction, limits } = props;
+	const { className, onTrackAllAction, limits, data } = props;
 
 	return (
 		<WincherSEOPerformanceReportText
@@ -116,19 +116,21 @@ const NoTrackedKeyphrasesMessage = ( props ) => {
 			{ ! isEmpty( limits ) && <WincherLimitReached limit={ limits.limit } /> }
 			{ isEmpty( limits )  && <WincherNoTrackedKeyphrasesAlert /> }
 
-			<div className={ "yoast" }>
-				<NewButton
-					variant={ "secondary" }
-					id="yoast-wincher-dashboard-widget-track-all"
-					onClick={ onTrackAllAction }
-				>
-					{ sprintf(
-						/* translators: %s expands to Wincher */
-						__( "Add your existing keyphrases to %s", "wordpress-seo" ),
-						"Wincher"
-					) }
-				</NewButton>
-			</div>
+			{ data && ! data.noKeyphrases && (
+				<div className={ "yoast" }>
+					<NewButton
+						variant={ "secondary" }
+						id="yoast-wincher-dashboard-widget-track-all"
+						onClick={ onTrackAllAction }
+					>
+						{ sprintf(
+							/* translators: %s expands to Wincher */
+							__( "Add your existing keyphrases to %s", "wordpress-seo" ),
+							"Wincher"
+						) }
+					</NewButton>
+				</div>
+			) }
 		</WincherSEOPerformanceReportText>
 	);
 };
@@ -137,11 +139,13 @@ NoTrackedKeyphrasesMessage.propTypes = {
 	className: PropTypes.string,
 	onTrackAllAction: PropTypes.func.isRequired,
 	limits: PropTypes.object,
+	data: PropTypes.object,
 };
 
 NoTrackedKeyphrasesMessage.defaultProps = {
 	className: "",
 	limits: {},
+	data: null,
 };
 
 /**

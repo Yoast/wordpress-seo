@@ -165,6 +165,7 @@ class DashboardWidget extends Component {
 			this.setState( {
 				wincherData: {
 					results,
+					noKeyphrases: !! keyphraseChartData.no_keyphrases,
 					status: keyphraseChartData.status,
 				},
 			} );

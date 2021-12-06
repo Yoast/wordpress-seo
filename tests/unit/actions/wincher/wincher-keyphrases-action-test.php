@@ -478,6 +478,31 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests retrieval of keyphrases when used_keyphrases is empty.
+	 *
+	 * @covers ::get_tracked_keyphrases
+	 */
+	public function test_get_tracked_keyphrases_without_used_keyphrases() {
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'wincher_website_id' )
+			->never();
+
+		$this->client_instance
+			->expects( 'post' )
+			->never();
+
+		$this->assertEquals(
+			(object) [
+				'status'        => 200,
+				'no_keyphrases' => true,
+				'results'       => [],
+			],
+			$this->instance->get_tracked_keyphrases( [] )
+		);
+	}
+
+	/**
 	 * Tests tracking of all keyphrases.
 	 *
 	 * @covers ::track_all

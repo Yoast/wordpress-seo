@@ -195,6 +195,17 @@ class Wincher_Keyphrases_Action {
 				$used_keyphrases = $this->collect_all_keyphrases();
 			}
 
+			// Don't bother proceeding if we don't have any keyphrases to fetch data for as API will 400 anyway.
+			if ( empty( $used_keyphrases ) ) {
+				return $this->to_result_object(
+					[
+						'status'        => 200,
+						'no_keyphrases' => true,  // to differentiate between 0 in Wincher and 0 in DB
+						'results'       => [],
+					]
+				);
+			}
+
 			$endpoint = \sprintf(
 				self::KEYPHRASES_URL,
 				$this->options_helper->get( 'wincher_website_id' )
@@ -217,9 +228,7 @@ class Wincher_Keyphrases_Action {
 				return $this->to_result_object( $results );
 			}
 
-			if ( ! empty( $used_keyphrases ) ) {
-				$results['data'] = $this->filter_results_by_used_keyphrases( $results['data'], $used_keyphrases );
-			}
+			$results['data'] = $this->filter_results_by_used_keyphrases( $results['data'], $used_keyphrases );
 
 			// Extract the positional data and assign it to the keyphrase.
 			$results['data'] = \array_combine(
