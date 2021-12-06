@@ -22,6 +22,14 @@ jest.mock( "@yoast/feature-flag", () => (
 	}
 ) );
 
+jest.mock( "../../src/analysis/isKeywordAnalysisActive", () => {
+	return jest.fn( () => true );
+} );
+
+jest.mock( "../../src/analysis/isContentAnalysisActive", () => {
+	return jest.fn( () => false );
+} );
+
 describe( "The getAnalysisConfiguration function", () => {
 	const translations = {
 		domain: "js-text-analysis",
@@ -43,6 +51,8 @@ describe( "The getAnalysisConfiguration function", () => {
 			logLevel: "ERROR",
 			enabledFeatures: [ "SOME_LANGUAGE" ],
 			translations,
+			isReadabilityActive: false,
+			isSeoActive: true,
 		} );
 	} );
 
@@ -97,6 +107,8 @@ describe( "The getAnalysisConfiguration function", () => {
 			logLevel: "DEBUG",
 			enabledFeatures: [ "SOME_LANGUAGE" ],
 			translations,
+			isReadabilityActive: false,
+			isSeoActive: true,
 		} );
 	} );
 } );

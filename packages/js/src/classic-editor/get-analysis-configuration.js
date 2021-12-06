@@ -2,6 +2,8 @@ import { get, mapValues } from "lodash";
 import { enabledFeatures } from "@yoast/feature-flag";
 import { createDefaultReplacementVariableConfigurations } from "@yoast/seo-integration";
 import getTranslations from "../analysis/getTranslations";
+import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
+import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 
 /**
  * Creates the analysis-related configuration needed for booting up the SEO integration.
@@ -9,7 +11,6 @@ import getTranslations from "../analysis/getTranslations";
  * @returns {Object} The analysis configuration.
  */
 export function getAnalysisConfiguration() {
-	// TODO: This is incredibly tightly coupled to the `wpseoScriptData` and `wpseoAdminL10n` global variables. Find a way to decouple it.
 	return {
 		workerUrl: get( window, [ "wpseoScriptData", "analysis", "worker", "url" ], "analysis-worker.js" ),
 		dependencies: get( window, [ "wpseoScriptData", "analysis", "worker", "dependencies" ], {} ),
@@ -29,6 +30,8 @@ export function getAnalysisConfiguration() {
 			logLevel: get( window, [ "wpseoScriptData", "analysis", "worker", "log_level" ], "ERROR" ),
 			enabledFeatures: enabledFeatures() || [],
 			translations: getTranslations(),
+			isSeoActive: isKeywordAnalysisActive(),
+			isReadabilityActive: isContentAnalysisActive(),
 		},
 	};
 }

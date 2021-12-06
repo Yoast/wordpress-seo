@@ -29,9 +29,18 @@ const createAnalysisWorkerWrapper = ( { workerUrl, dependencies } ) => {
  * @returns {Object} The analysis configuration.
  */
 const createAnalysisConfiguration = ( configuration = {} ) => {
-	const processedConfig = applyFilters( "yoast.seoIntegration.analysis.configuration", configuration );
+	const config = {
+		...configuration,
+		isContentAnalysisActive: configuration.isReadabilityActive,
+		isKeywordAnalysisActive: configuration.isSEOActive,
+	};
 
-	return isObject( processedConfig ) ? processedConfig : configuration;
+	delete config.isReadabilityActive;
+	delete config.isSEOActive;
+
+	const processedConfig = applyFilters( "yoast.seoIntegration.analysis.configuration", config );
+
+	return isObject( processedConfig ) ? processedConfig : config;
 };
 
 /**
