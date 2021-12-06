@@ -16,11 +16,13 @@ import firstWordExceptions from "./config/firstWordExceptions";
 import functionWords from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import topicLength from "./config/topicLength";
+import assessmentApplicability from "./config/assessmentApplicabilityCharacterCount";
 import sentenceLength from "./config/sentenceLength";
 
 // All custom researches
 import morphology from "./customResearches/getWordForms";
 import getKeywordDensity from "./customResearches/getKeywordDensity";
+import getKeyphraseLength from "./customResearches/getKeyphraseLength";
 
 /**
  * The researches contains all the researches
@@ -47,6 +49,7 @@ export default class Researcher extends AbstractResearcher {
 			functionWords,
 			transitionWords,
 			topicLength,
+			assessmentApplicability,
 			sentenceLength,
 		} );
 
@@ -63,6 +66,7 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.defaultResearches, {
 			morphology,
+			keyphraseLength: getKeyphraseLength,
 		} );
 	}
 }
