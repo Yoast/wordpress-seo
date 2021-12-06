@@ -9,7 +9,7 @@ import { isFeatureEnabled } from "@yoast/feature-flag";
 const morphologyDataJA = getMorphologyData( "ja" );
 
 describe( "a test for Japanese Researcher", function() {
-	const researcher = new Researcher( new Paper( "" ) );
+	const researcher = new Researcher( ( new Paper( "", { keyword: "小さい花の刺繍" } ) ) );
 
 	it( "returns true if the Japanese Researcher has a specific research", function() {
 		expect( researcher.hasResearch( "getParagraphLength" ) ).toBe( true );
@@ -38,6 +38,10 @@ describe( "a test for Japanese Researcher", function() {
 			allWordsFound: true,
 			position: 0,
 		} );
+	} );
+
+	it( "returns the keyphrase length", function() {
+		expect( researcher.getResearch( "keyphraseLength" ).keyphraseLength ).toEqual( 7 );
 	} );
 
 	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {

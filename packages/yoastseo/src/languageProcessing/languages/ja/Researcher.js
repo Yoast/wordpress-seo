@@ -23,6 +23,7 @@ import sentenceLength from "./config/sentenceLength";
 // All custom researches
 import morphology from "./customResearches/getWordForms";
 import getKeywordDensity from "./customResearches/getKeywordDensity";
+import getKeyphraseLength from "./customResearches/getKeyphraseLength";
 
 /**
  * The researches contains all the researches
@@ -67,6 +68,7 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.defaultResearches, {
 			morphology,
+			keyphraseLength: getKeyphraseLength,
 		} );
 	}
 }
