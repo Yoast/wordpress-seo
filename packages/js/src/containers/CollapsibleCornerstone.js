@@ -1,7 +1,7 @@
 /* globals wpseoAdminL10n */
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
-import CollapsibleCornerstone from "../components/CollapsibleCornerstone";
+import { CollapsibleCornerstone } from "@yoast/externals/components";
 import withLocation from "../helpers/withLocation";
 
 /**
