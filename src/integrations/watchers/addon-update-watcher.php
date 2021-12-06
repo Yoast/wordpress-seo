@@ -189,7 +189,7 @@ class Addon_Update_Watcher implements Integration_Interface {
 	 * @param string[] $auto_updated_plugins The current list of auto-updated plugins.
 	 */
 	protected function enable_auto_updates_for_addons( $auto_updated_plugins ) {
-		$plugins = \array_merge( $auto_updated_plugins, self::ADD_ON_PLUGIN_FILES );
+		$plugins = \array_unique( \array_merge( $auto_updated_plugins, self::ADD_ON_PLUGIN_FILES ) );
 		\update_site_option( 'auto_update_plugins', $plugins );
 	}
 

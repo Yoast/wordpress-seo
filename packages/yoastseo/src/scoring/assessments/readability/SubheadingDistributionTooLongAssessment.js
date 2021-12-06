@@ -39,6 +39,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 				badSubheadings: 3,
 				badLongTextNoSubheadings: 2,
 			},
+			applicableIfTextLongerThan: 300,
 			shouldNotAppearInShortText: false,
 		};
 
@@ -83,15 +84,32 @@ class SubheadingsDistributionTooLong extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has text.
+	 * Checks the applicability of the assessment based on the presence of text, and, if required, text length.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The language-specific or default researcher.
 	 *
-	 * @returns {boolean} True when there is text or when the text contains more than 300 words if "shouldNotAppearInShortText" is set to true.
+	 * @returns {boolean} True when there is text or when text is longer than the specified length and "shouldNotAppearInShortText" is set to true.
 	 */
-	isApplicable( paper ) {
-		const textLength = getWords( paper.getText() ).length;
-		return this._config.shouldNotAppearInShortText ? paper.hasText() && textLength > 300 : paper.hasText();
+	isApplicable( paper, researcher ) {
+		/**
+		 * If the assessment should not appear for shorter texts, only set the assessment as applicable if the text meets the minimum required length.
+		 * Language-specific length requirements and methods of counting text length may apply (e.g. for Japanese, the text should be counted in
+		 * characters instead of words, which also makes the minimum required length higher).
+		**/
+		if ( this._config.shouldNotAppearInShortText ) {
+			const customCountLength = researcher.getHelper( "customCountLength" );
+			const customApplicabilityConfig = researcher.getConfig( "assessmentApplicability" ).subheadingDistribution;
+			if ( customApplicabilityConfig ) {
+				this._config.applicableIfTextLongerThan = customApplicabilityConfig;
+			}
+
+			const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" );
+
+			return paper.hasText() && textLength > this._config.applicableIfTextLongerThan;
+		}
+
+		return paper.hasText();
 	}
 
 	/**

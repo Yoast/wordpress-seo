@@ -1,14 +1,18 @@
 import { merge } from "lodash-es";
-import addMark from "../../../../src/markers/addMark";
+
 import SentenceLengthInTextAssessment from "../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
+
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
+import addMark from "../../../../src/markers/addMark";
+import Factory from "../../../specHelpers/factory.js";
+
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import PolishResearcher from "../../../../src/languageProcessing/languages/pl/Researcher";
 import RussianResearcher from "../../../../src/languageProcessing/languages/ru/Researcher";
 import ItalianResearcher from "../../../../src/languageProcessing/languages/it/Researcher";
+<<<<<<< HEAD
 import TurkishResearcher from "../../../../src/languageProcessing/languages/tr/Researcher";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 
@@ -18,6 +22,18 @@ const shortSentence15WordsLimit = "Word ".repeat( 13 ) + "word. ";
 const longSentence15WordsLimit = "Word ".repeat( 15 ) + "word. ";
 const shortSentence25WordsLimit = "Word ".repeat( 23 ) + "word. ";
 const longSentence25WordsLimit = "Word ".repeat( 25 ) + "word. ";
+=======
+
+import catalanConfig from "../../../../src/languageProcessing/languages/ca/config/sentenceLength";
+import spanishConfig from "../../../../src/languageProcessing/languages/es/config/sentenceLength";
+import hebrewConfig from "../../../../src/languageProcessing/languages/he/config/sentenceLength";
+import italianConfig from "../../../../src/languageProcessing/languages/it/config/sentenceLength";
+import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/sentenceLength";
+import russianConfig from "../../../../src/languageProcessing/languages/ru/config/sentenceLength";
+import polishConfig from "../../../../src/languageProcessing/languages/pl/config/sentenceLength";
+import portugueseConfig from "../../../../src/languageProcessing/languages/pt/config/sentenceLength";
+import turkishConfig from "../../../../src/languageProcessing/languages/tr/config/sentenceLength";
+>>>>>>> 907eacfb4f87a51469bc6d0e8e7e87e0805758bc
 
 // eslint-disable-next-line max-statements
 describe( "An assessment for sentence length", function() {
@@ -203,6 +219,108 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
+<<<<<<< HEAD
+=======
+	it( "returns the score for 25% long sentences in Hebrew", function() {
+		const mockPaper = new Paper( "text", { locale: "he_IL" } );
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 16 },
+			{ sentence: "", sentenceLength: 15 },
+			{ sentence: "", sentenceLength: 15 },
+			{ sentence: "", sentenceLength: 15 },
+		], false, false, hebrewConfig ) );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for 100% short sentences in Hebrew", function() {
+		const mockPaper = new Paper();
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 14 },
+		], false, false, hebrewConfig ) );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
+		expect( assessment.hasMarks() ).toBe( false );
+	} );
+
+	it( "returns the score for 100% short sentences in Turkish", function() {
+		const mockPaper = new Paper();
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 14 },
+		], false, false, turkishConfig ) );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
+		expect( assessment.hasMarks() ).toBe( false );
+	} );
+
+	it( "returns the score for 25% long sentences in Turkish", function() {
+		const mockPaper = new Paper();
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 30 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+			{ sentence: "", sentenceLength: 1 },
+		], false, false, turkishConfig ) );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
+			"25% of the sentences contain more than 15 words, which is more than the recommended maximum of 20%." +
+			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for 100% long sentences in Japanese", function() {
+		const mockPaper = new Paper( "" );
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 41 },
+		], false, false, japaneseConfig ) );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 3 );
+		// Update words to characters in LINGO-1109
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
+			"100% of the sentences contain more than 40 words, which is more than the recommended maximum of 25%." +
+			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+	it( "returns the score for 100% short sentences in Japanese", function() {
+		const mockPaper = new Paper( "" );
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 39 },
+		], false, false, japaneseConfig ) );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
+		expect( assessment.hasMarks() ).toBe( false );
+	} );
+
+	it( "returns the score for 25% long sentences in Japanese", function() {
+		const mockPaper = new Paper( "" );
+		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
+			{ sentence: "", sentenceLength: 39 },
+			{ sentence: "", sentenceLength: 30 },
+			{ sentence: "", sentenceLength: 42 },
+			{ sentence: "", sentenceLength: 38 },
+		], false, false, japaneseConfig ) );
+
+		expect( assessment.hasScore() ).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!" );
+		expect( assessment.hasMarks() ).toBe( true );
+	} );
+
+
+>>>>>>> 907eacfb4f87a51469bc6d0e8e7e87e0805758bc
 	it( "is not applicable for empty papers", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().isApplicable( mockPaper );
@@ -213,8 +331,12 @@ describe( "An assessment for sentence length", function() {
 describe( "A test for getting the right scoring config", function() {
 	it( "uses the default config if no language-specific config is available", function() {
 		const defaultConfig = {
+<<<<<<< HEAD
 			countTextIn: "words",
 			recommendedWordCount: 20,
+=======
+			recommendedLength: 20,
+>>>>>>> 907eacfb4f87a51469bc6d0e8e7e87e0805758bc
 			slightlyTooMany: 25,
 			farTooMany: 30,
 			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
@@ -225,8 +347,12 @@ describe( "A test for getting the right scoring config", function() {
 	} );
 	it( "uses the default config if no language-specific config is available in cornerstone", function() {
 		const defaultConfigCornerstrone = {
+<<<<<<< HEAD
 			countTextIn: "words",
 			recommendedWordCount: 20,
+=======
+			recommendedLength: 20,
+>>>>>>> 907eacfb4f87a51469bc6d0e8e7e87e0805758bc
 			slightlyTooMany: 20,
 			farTooMany: 25,
 			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
@@ -241,6 +367,7 @@ describe( "A test for getting the right scoring config", function() {
 	it( "uses language-specific config if available", function() {
 		const mockPaper = new Paper( "" );
 		const researcher = new ItalianResearcher( mockPaper );
+<<<<<<< HEAD
 		expect( new SentenceLengthInTextAssessment().getLanguageSpecificConfig( researcher ) ).toEqual( {
 			countTextIn: "words",
 			recommendedWordCount: 25,
@@ -249,6 +376,14 @@ describe( "A test for getting the right scoring config", function() {
 			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
 			urlTitle: "<a href='https://yoa.st/34v' target='_blank'>",
 		} );
+=======
+		const config = merge( italianConfig, {
+			slightlyTooMany: 25,
+			farTooMany: 30,
+			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
+			urlTitle: "<a href='https://yoa.st/34v' target='_blank'>" } );
+		expect( new SentenceLengthInTextAssessment().getLanguageSpecificConfig( researcher ) ).toEqual( config );
+>>>>>>> 907eacfb4f87a51469bc6d0e8e7e87e0805758bc
 	} );
 	it( "uses language-specific cornerstone config if available", function() {
 		const mockPaper = new Paper( "" );
@@ -258,7 +393,7 @@ describe( "A test for getting the right scoring config", function() {
 		}, true ).getLanguageSpecificConfig( new PolishResearcher( mockPaper ) ) ).toEqual( {
 			countTextIn: "words",
 			farTooMany: 20,
-			recommendedWordCount: 20,
+			recommendedLength: 20,
 			slightlyTooMany: 15,
 			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
 			urlTitle: "<a href='https://yoa.st/34v' target='_blank'>",
@@ -267,8 +402,12 @@ describe( "A test for getting the right scoring config", function() {
 	it( "uses a combination of language-specific and default config in cornerstone if there is regular but not cornerstone config" +
 		" available", function() {
 		const expectedConfig = {
+<<<<<<< HEAD
 			countTextIn: "words",
 			recommendedWordCount: 25,
+=======
+			recommendedLength: 25,
+>>>>>>> 907eacfb4f87a51469bc6d0e8e7e87e0805758bc
 			slightlyTooMany: 20,
 			farTooMany: 25,
 			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",

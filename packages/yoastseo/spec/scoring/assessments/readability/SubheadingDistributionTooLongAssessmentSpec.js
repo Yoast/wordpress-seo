@@ -2,13 +2,20 @@ import SubheadingDistributionTooLong from "../../../../src/scoring/assessments/r
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
+<<<<<<< HEAD
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
+=======
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher.js";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
+>>>>>>> 907eacfb4f87a51469bc6d0e8e7e87e0805758bc
 
 const subheadingDistributionTooLong = new SubheadingDistributionTooLong();
 
 const shortText = "a ".repeat( 200 );
 const longText = "a ".repeat( 330 );
 const veryLongText = "a ".repeat( 360 );
+const shortTextJapanese = "熱".repeat( 599 );
+const longTextJapanese = "熱".repeat( 601 );
 const subheading = "<h2> some subheading </h2>";
 
 // For Japanese specs
@@ -127,17 +134,32 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 	} );
 
 	it( "Returns false when the assessment shouldn't appear in short text analysis and the text contains less than 300 words", function() {
-		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( new Paper( shortText ) );
+		const paper = new Paper( shortText );
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( paper, new DefaultResearcher( paper ) );
 		expect( assessment ).toBe( false );
 	} );
 
 	it( "Returns false when the assessment shouldn't appear in short text analysis and the paper is empty", function() {
-		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( new Paper( "" ) );
+		const paper = new Paper( "" );
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( paper, new DefaultResearcher( paper ) );
 		expect( assessment ).toBe( false );
 	} );
 
 	it( "Returns true when the assessment shouldn't appear in short text analysis but the text contains more than 300 words", function() {
-		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( new Paper( longText ) );
+		const paper = new Paper( longText );
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( paper, new DefaultResearcher( paper ) );
+		expect( assessment ).toBe( true );
+	} );
+
+	it( "Returns false when the assessment shouldn't appear in short text analysis and the text contains less than 600 characters in Japanese", function() {
+		const paper = new Paper( shortTextJapanese );
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( paper, new JapaneseResearcher( paper ) );
+		expect( assessment ).toBe( false );
+	} );
+
+	it( "Returns true when the assessment shouldn't appear in short text analysis but the text contains more than 600 characters in Japanese", function() {
+		const paper = new Paper( longTextJapanese );
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( paper, new JapaneseResearcher( paper ) );
 		expect( assessment ).toBe( true );
 	} );
 } );
