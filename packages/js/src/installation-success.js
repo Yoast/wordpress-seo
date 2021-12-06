@@ -7,6 +7,7 @@ import { ButtonStyledLink } from "@yoast/components";
 setWordPressSeoL10n();
 
 /**
+ * The installation success page.
  *
  * @returns {WPElement} The installation success page.
  */
