@@ -34,17 +34,6 @@ class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
 	}
 
 	/**
-	 * Determines the value of has_public_posts.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return bool|null Whether the attachment has a public parent, can be true, false and null. Null when it is not an attachment.
-	 */
-	public function has_public_posts( $indexable ) {
-		return parent::has_public_posts( $indexable );
-	}
-
-	/**
 	 * Gets the number of pages for a post.
 	 *
 	 * @param object $post The post object.
