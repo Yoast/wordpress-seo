@@ -367,7 +367,6 @@ describe( "A test for getting the right scoring config", function() {
 	it( "uses language-specific config if available", function() {
 		const mockPaper = new Paper( "" );
 		const researcher = new ItalianResearcher( mockPaper );
-<<<<<<< HEAD
 		expect( new SentenceLengthInTextAssessment().getLanguageSpecificConfig( researcher ) ).toEqual( {
 			countTextIn: "words",
 			recommendedWordCount: 25,
@@ -376,14 +375,6 @@ describe( "A test for getting the right scoring config", function() {
 			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
 			urlTitle: "<a href='https://yoa.st/34v' target='_blank'>",
 		} );
-=======
-		const config = merge( italianConfig, {
-			slightlyTooMany: 25,
-			farTooMany: 30,
-			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
-			urlTitle: "<a href='https://yoa.st/34v' target='_blank'>" } );
-		expect( new SentenceLengthInTextAssessment().getLanguageSpecificConfig( researcher ) ).toEqual( config );
->>>>>>> 907eacfb4f87a51469bc6d0e8e7e87e0805758bc
 	} );
 	it( "uses language-specific cornerstone config if available", function() {
 		const mockPaper = new Paper( "" );
