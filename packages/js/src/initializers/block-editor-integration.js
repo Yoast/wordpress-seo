@@ -14,13 +14,12 @@ import { __, sprintf } from "@wordpress/i18n";
 import { registerFormatType } from "@wordpress/rich-text";
 import { get } from "lodash-es";
 import { Slot } from "@wordpress/components";
-
+import { actions } from "@yoast/externals/redux";
 
 /* Internal dependencies */
 import PluginIcon from "../containers/PluginIcon";
 import SidebarFill from "../containers/SidebarFill";
 import MetaboxPortal from "../components/portals/MetaboxPortal";
-import { setMarkerStatus } from "../redux/actions";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
 import SidebarSlot from "../components/slots/SidebarSlot";
 import { link } from "../inline-links/edit-link";
@@ -173,7 +172,7 @@ function registerFills( store ) {
  */
 function initializeAnnotations( store ) {
 	if ( isAnnotationAvailable() ) {
-		store.dispatch( setMarkerStatus( "enabled" ) );
+		store.dispatch( actions.setMarkerStatus( "enabled" ) );
 	}
 }
 

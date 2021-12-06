@@ -1,9 +1,6 @@
+import { actions } from "@yoast/externals/redux";
+import { flatten, uniq } from "lodash-es";
 import { Paper } from "yoastseo";
-import { updateWordsToHighlight } from "../redux/actions/snippetEditor";
-import {
-	flatten,
-	uniq,
-} from "lodash-es";
 
 /**
  * Requests morphological forms of the focus keyword and makes them ready for the snippet editor.
@@ -18,8 +15,8 @@ export default function( runResearch, store, keyword ) {
 	runResearch( "morphology", new Paper( "", { keyword } ) ).then( researchResult => {
 		const keyphraseForms = researchResult.result.keyphraseForms;
 		// Prepare the original array to be used for highlighting in SnippetPreview and dispatch it to the store.
-		store.dispatch( updateWordsToHighlight( uniq( flatten( keyphraseForms ) ) ) );
+		store.dispatch( actions.updateWordsToHighlight( uniq( flatten( keyphraseForms ) ) ) );
 	} ).catch( () => {
-		store.dispatch( updateWordsToHighlight( [] ) );
+		store.dispatch( actions.updateWordsToHighlight( [] ) );
 	} );
 }
