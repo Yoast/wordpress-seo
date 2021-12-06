@@ -61,7 +61,6 @@ const matchPerSentence = function( sentence, topicForms, locale, matchWordCustom
 
 /**
  * Counts the number of full keyphrase matches in the description.
- * Returns -1 if no description is specified in the given paper.
  *
  * @param {Paper}       paper       The paper object containing the description.
  * @param {Researcher}  researcher  The researcher object to gather researchers from.
