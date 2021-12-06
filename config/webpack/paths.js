@@ -21,6 +21,8 @@ const entry = {
 	"edit-page": "./packages/js/src/edit-page.js",
 	"editor-modules": "./packages/js/src/editor-modules.js",
 	elementor: "./packages/js/src/elementor.js",
+	"externals-components": "./packages/js/src/externals/components.js",
+	"externals-contexts": "./packages/js/src/externals/contexts.js",
 	"filter-explanation": "./packages/js/src/filter-explanation.js",
 	"help-scout-beacon": "./packages/js/src/help-scout-beacon.js",
 	indexation: "./packages/js/src/indexation.js",
