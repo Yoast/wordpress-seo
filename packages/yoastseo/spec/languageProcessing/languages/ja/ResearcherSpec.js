@@ -1,7 +1,7 @@
 import Researcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
 import functionWords from "../../../../src/languageProcessing/languages/ja/config/functionWords";
-
+import subheadingsTooLong from "../../../../src/languageProcessing/languages/ja/config/subheadingsTooLong";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import { isFeatureEnabled } from "@yoast/feature-flag";
 
@@ -28,6 +28,10 @@ describe( "a test for Japanese Researcher", function() {
 
 	it( "returns false if the Japanese Researcher doesn't have a certain config", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
+	} );
+
+	it( "returns the Japanese subheading distribution configuration", function() {
+		expect( researcher.getConfig( "subheadingsTooLong" ) ).toEqual( subheadingsTooLong );
 	} );
 
 	it( "checks whether there is an exact match of a multiword keyphrase in title", function() {

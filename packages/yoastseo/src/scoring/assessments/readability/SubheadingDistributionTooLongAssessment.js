@@ -40,11 +40,30 @@ class SubheadingsDistributionTooLong extends Assessment {
 			},
 			shouldNotAppearInShortText: false,
 		};
-
 		this.identifier = "subheadingsTooLong";
 		this._config = merge( defaultConfig, config );
 	}
+	/**
+	 * Check if there is language-specific config, and if so, overwrite the current config with it.
+	 *
+	 * @param {Researcher} researcher The researcher to use.
+	 *
+	 * @returns {Object} The config that should be used.
+	 */
+	getConfig( researcher ) {
+		const currentConfig = this._config;
+		const languageSpecificConfig = researcher.getConfig( "subheadingsTooLong" );
 
+		/*
+		 * If a language has a specific config for subheading distribution, override it with the language specific
+		 * config.
+		 */
+		if ( languageSpecificConfig ) {
+			currentConfig.parameters = languageSpecificConfig.parameters;
+		}
+
+		return currentConfig;
+	}
 	/**
 	 * Runs the getSubheadingTextLength research and checks scores based on length.
 	 *
@@ -55,7 +74,9 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		this._subheadingTextsLength = researcher.getResearch( "getSubheadingTextLengths" );
-
+		if	( researcher.getConfig( "subheadingsTooLong" ) ) {
+			this._config = this.getLanguageSpecificConfig( researcher );
+		}
 		this._subheadingTextsLength = this._subheadingTextsLength.sort( function( a, b ) {
 			return b.countLength - a.countLength;
 		} );
@@ -76,7 +97,24 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		return assessmentResult;
 	}
+	/**
+	 * Check if there is language-specific config, and if so, overwrite the current config with it.
+	 *
+	 * @param {Researcher} researcher The researcher to use.
+	 *
+	 * @returns {Object} The config that should be used.
+	 */
+	getLanguageSpecificConfig( researcher ) {
+		const currentConfig = this._config;
+		const languageSpecificConfig = researcher.getConfig( "subheadingsTooLong" );
+		// Check if a language has a default cornerstone configuration.
+		if ( currentConfig.cornerstoneContent === true && languageSpecificConfig.hasOwnProperty( "cornerstoneParameters" ) ) {
+			return merge( currentConfig, languageSpecificConfig.cornerstoneParameters );
+		}
 
+		// Use the default language-specific config for non-cornerstone condition
+		return merge( currentConfig, languageSpecificConfig.defaultParameters );
+	}
 	/**
 	 * Checks whether the paper has text.
 	 *
