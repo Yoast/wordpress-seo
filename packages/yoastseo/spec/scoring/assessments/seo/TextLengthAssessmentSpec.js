@@ -367,26 +367,26 @@ describe( "Language-specific configuration for specific types of content is used
 	} );
 
 	it( "checks whether language-specific configuration for a custom content type is used (example: taxonomy page)", function() {
-		const assessment = new TextLengthAssessment( { customContentType: "TaxonomyAssessor" } );
+		const assessment = new TextLengthAssessment( { customContentType: "taxonomyAssessor" } );
 		// Running getResult will apply language-specific configuration.
 		assessment.getResult( paper, japaneseResearcher );
 
-		expect( assessment._config.recommendedMinimum ).toEqual( assessmentConfigJapanese.TaxonomyAssessor.recommendedMinimum );
-		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.TaxonomyAssessor.slightlyBelowMinimum );
-		expect( assessment._config.belowMinimum ).toEqual( assessmentConfigJapanese.TaxonomyAssessor.belowMinimum );
-		expect( assessment._config.veryFarBelowMinimum ).toEqual( assessmentConfigJapanese.TaxonomyAssessor.veryFarBelowMinimum );
+		expect( assessment._config.recommendedMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.recommendedMinimum );
+		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.slightlyBelowMinimum );
+		expect( assessment._config.belowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.belowMinimum );
+		expect( assessment._config.veryFarBelowMinimum ).toEqual( assessmentConfigJapanese.taxonomyAssessor.veryFarBelowMinimum );
 	} );
 
 	it( "checks whether language-specific configuration for a custom content type is used when the assessor is a custom corner stone assessor" +
 		" (example: product page cornerstone)", function() {
-		const assessment = new TextLengthAssessment( { customContentType: "ProductCornerstoneSEOAssessor", cornerstoneContent: true } );
+		const assessment = new TextLengthAssessment( { customContentType: "productCornerstoneSEOAssessor", cornerstoneContent: true } );
 		// Running getResult will apply language-specific configuration.
 		assessment.getResult( paper, japaneseResearcher );
 
-		expect( assessment._config.recommendedMinimum ).toEqual( assessmentConfigJapanese.ProductCornerstoneSEOAssessor.recommendedMinimum );
-		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.ProductCornerstoneSEOAssessor.slightlyBelowMinimum );
-		expect( assessment._config.belowMinimum ).toEqual( assessmentConfigJapanese.ProductCornerstoneSEOAssessor.belowMinimum );
-		expect( assessment._config.scores.belowMinimum ).toEqual( assessmentConfigJapanese.ProductCornerstoneSEOAssessor.scores.belowMinimum );
-		expect( assessment._config.scores.farBelowMinimum ).toEqual( assessmentConfigJapanese.ProductCornerstoneSEOAssessor.scores.farBelowMinimum );
+		expect( assessment._config.recommendedMinimum ).toEqual( assessmentConfigJapanese.productCornerstoneSEOAssessor.recommendedMinimum );
+		expect( assessment._config.slightlyBelowMinimum ).toEqual( assessmentConfigJapanese.productCornerstoneSEOAssessor.slightlyBelowMinimum );
+		expect( assessment._config.belowMinimum ).toEqual( assessmentConfigJapanese.productCornerstoneSEOAssessor.belowMinimum );
+		expect( assessment._config.scores.belowMinimum ).toEqual( assessmentConfigJapanese.productCornerstoneSEOAssessor.scores.belowMinimum );
+		expect( assessment._config.scores.farBelowMinimum ).toEqual( assessmentConfigJapanese.productCornerstoneSEOAssessor.scores.farBelowMinimum );
 	} );
 } );

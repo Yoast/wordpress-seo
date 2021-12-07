@@ -24,7 +24,7 @@ import KeyphraseDistribution from "./../assessments/seo/KeyphraseDistributionAss
  */
 const CollectionSEOAssessor = function( researcher, options ) {
 	Assessor.call( this, researcher, options );
-	this.type = "CollectionSEOAssessor";
+	this.type = "collectionSEOAssessor";
 
 	this._assessments = [
 		new IntroductionKeywordAssessment( {

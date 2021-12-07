@@ -28,7 +28,7 @@ export const getTextLengthAssessment = function() {
 		veryFarBelowMinimum: 50,
 		urlTitle: createAnchorOpeningTag( "https://yoa.st/34j" ),
 		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34k" ),
-		customContentType: "TaxonomyAssessor",
+		customContentType: "taxonomyAssessor",
 	} );
 };
 
@@ -41,7 +41,7 @@ export const getTextLengthAssessment = function() {
  */
 const TaxonomyAssessor = function( researcher, options ) {
 	Assessor.call( this, researcher, options );
-	this.type = "TaxonomyAssessor";
+	this.type = "taxonomyAssessor";
 
 	this._assessments = [
 		new IntroductionKeywordAssessment(),

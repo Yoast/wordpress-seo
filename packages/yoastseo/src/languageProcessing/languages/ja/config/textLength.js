@@ -14,7 +14,7 @@ export default {
 			farBelowMinimum: -20,
 		},
 	},
-	TaxonomyAssessor: {
+	taxonomyAssessor: {
 		recommendedMinimum: 500,
 		slightlyBelowMinimum: 400,
 		belowMinimum: 200,
@@ -26,7 +26,7 @@ export default {
 		belowMinimum: 200,
 		veryFarBelowMinimum: 100,
 	},
-	ProductCornerstoneSEOAssessor: {
+	productCornerstoneSEOAssessor: {
 		recommendedMinimum: 800,
 		slightlyBelowMinimum: 600,
 		belowMinimum: 400,
@@ -35,13 +35,13 @@ export default {
 			farBelowMinimum: -20,
 		},
 	},
-	CollectionSEOAssessor: {
+	collectionSEOAssessor: {
 		recommendedMinimum: 160,
 		slightlyBelowMinimum: 100,
 		belowMinimum: 40,
 		veryFarBelowMinimum: 20,
 	},
-	CollectionCornerstoneSEOAssessor: {
+	collectionCornerstoneSEOAssessor: {
 		recommendedMinimum: 200,
 		slightlyBelowMinimum: 160,
 		belowMinimum: 100,
