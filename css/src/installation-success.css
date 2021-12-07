@@ -87,3 +87,13 @@
 #installation-success-card-configuration-workout .yoast-button {
 	box-shadow: inset 0 -3px rgba(0, 0, 0, 0.3);
 }
+
+#installation-success-skip-link {
+	align-self: end;
+	bottom: 0;
+	margin-bottom: 9px;
+	position: absolute;
+	margin-right: 20px;
+	letter-spacing: -0.08px;
+	line-height: 19px;
+}
