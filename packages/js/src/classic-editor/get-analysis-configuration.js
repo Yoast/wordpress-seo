@@ -28,7 +28,7 @@ export function getAnalysisConfiguration() {
 			locale: get( window, [ "wpseoScriptData", "metabox", "contentLocale" ], "en_US" ),
 			defaultQueryParams: get( window, [ "wpseoAdminL10n", "default_query_params" ], {} ),
 			logLevel: get( window, [ "wpseoScriptData", "analysis", "worker", "log_level" ], "ERROR" ),
-			enabledFeatures: enabledFeatures() || [],
+			enabledFeatures: enabledFeatures(),
 			translations: getTranslations(),
 			isSeoActive: isKeywordAnalysisActive(),
 			isReadabilityActive: isContentAnalysisActive(),
