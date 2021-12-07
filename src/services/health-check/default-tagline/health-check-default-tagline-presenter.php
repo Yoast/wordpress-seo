@@ -17,12 +17,12 @@ class Health_Check_Default_Tagline_Presenter {
 	private $test_identifier;
 	
 	/**
-	 * __construct
+	 * set_test_identifier
 	 *
 	 * @param  string $test_identifier
 	 * @return void
 	 */
-	public function __construct($test_identifier) {
+	public function set_test_identifier($test_identifier) {
 		$this->test_identifier = $test_identifier;
 	}
 	

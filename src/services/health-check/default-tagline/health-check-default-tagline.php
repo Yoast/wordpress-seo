@@ -27,7 +27,7 @@ class Health_Check_Default_Tagline extends Health_Check {
 		$this->runner = new Health_Check_Default_Tagline_Runner();
 		$this->presenter = new Health_Check_Default_Tagline_Presenter($this->get_test_identifier());
 
-		parent::__construct($this->runner);
+		$this->set_runner($this->runner);
 	}
 	
 	/**

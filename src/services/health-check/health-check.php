@@ -15,17 +15,17 @@ abstract class Health_Check {
 	private $runner;
 	
 	/**
-	 * Constructor to be called from a health check implementation.
+	 * The health check implementation sets the runner so this class can start a health check.
 	 *
-	 * @param  Health_Check_Runner_Interface $runner The actual health check runner
+	 * @param  Health_Check_Runner_Interface $runner The health check runner
 	 * @return void
 	 */
-	protected function __construct($runner) {
+	protected function set_runner($runner) {
 		$this->runner = $runner;
 	}
 	
 	/**
-	 * Gets the identifier of health check implementation. WordPress needs this to manage the health check (https://developer.wordpress.org/reference/hooks/site_status_tests/).
+	 * Returns the identifier of health check implementation. WordPress needs this to manage the health check (https://developer.wordpress.org/reference/hooks/site_status_tests/).
 	 *
 	 * @return string
 	 */
@@ -34,7 +34,7 @@ abstract class Health_Check {
 	}
 	
 	/**
-	 * Gets the name of health check implementation that the user can see. WordPress needs this to manage the health check (https://developer.wordpress.org/reference/hooks/site_status_tests/).
+	 * Returns the name of health check implementation that the user can see. WordPress needs this to manage the health check (https://developer.wordpress.org/reference/hooks/site_status_tests/).
 	 *
 	 * @return string
 	 */

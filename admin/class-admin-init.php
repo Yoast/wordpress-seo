@@ -49,6 +49,7 @@ class WPSEO_Admin_Init {
 		 */
 		add_action( 'admin_notices', [ $this, 'search_engines_discouraged_notice' ] );
 
+		/*
 		$health_checks = [
 			new WPSEO_Health_Check_Page_Comments(),
 			new WPSEO_Health_Check_Ryte(),
@@ -61,6 +62,7 @@ class WPSEO_Admin_Init {
 		foreach ( $health_checks as $health_check ) {
 			$health_check->register_test();
 		}
+		*/
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
