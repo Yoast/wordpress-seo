@@ -35,7 +35,7 @@
 	background-color: white;
 	border-radius: 9999px;
 	box-sizing: border-box;
-	border: var( --yoast-color-primary ) solid 3px;
+	border: var( --yoast-color-primary ) solid 2px;
 }
 
 .installation-success-page .complete-check-icon {
@@ -70,7 +70,7 @@
 }
 
 .installation-success-page .step-second-div {
-	height: 3px;
+	height: 2px;
 	width: 100%;
 	background-color: var( --yoast-color-primary );
 }
