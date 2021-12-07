@@ -34,8 +34,8 @@
 	justify-content: center;
 	background-color: white;
 	border-radius: 9999px;
-	outline: 0.2rem solid var( --yoast-color-primary );
-	outline-offset: -0.2rem;
+	box-sizing: border-box;
+	border: var( --yoast-color-primary ) solid 3px;
 }
 
 .installation-success-page .complete-check-icon {
