@@ -79,6 +79,13 @@ class Indexable_Builder {
 	private $primary_term_builder;
 
 	/**
+	 * The link builder.
+	 *
+	 * @var Indexable_Link_Builder
+	 */
+	private $link_builder;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -110,6 +117,7 @@ class Indexable_Builder {
 	 * @param Indexable_Date_Archive_Builder      $date_archive_builder      The date archive builder for creating missing indexables.
 	 * @param Indexable_System_Page_Builder       $system_page_builder       The search result builder for creating missing indexables.
 	 * @param Indexable_Hierarchy_Builder         $hierarchy_builder         The hierarchy builder for creating the indexable hierarchy.
+	 * @param Indexable_Link_Builder			  $link_builder              The link builder.
 	 * @param Primary_Term_Builder                $primary_term_builder      The primary term builder for creating primary terms for posts.
 	 * @param Indexable_Helper                    $indexable_helper          The indexable helper.
 	 * @param Indexable_Version_Manager           $version_manager           The indexable version manager.
@@ -123,6 +131,7 @@ class Indexable_Builder {
 		Indexable_Date_Archive_Builder $date_archive_builder,
 		Indexable_System_Page_Builder $system_page_builder,
 		Indexable_Hierarchy_Builder $hierarchy_builder,
+		Indexable_Link_Builder $link_builder,
 		Primary_Term_Builder $primary_term_builder,
 		Indexable_Helper $indexable_helper,
 		Indexable_Version_Manager $version_manager
@@ -135,6 +144,7 @@ class Indexable_Builder {
 		$this->date_archive_builder      = $date_archive_builder;
 		$this->system_page_builder       = $system_page_builder;
 		$this->hierarchy_builder         = $hierarchy_builder;
+		$this->link_builder              = $link_builder;
 		$this->primary_term_builder      = $primary_term_builder;
 		$this->indexable_helper          = $indexable_helper;
 		$this->version_manager           = $version_manager;
@@ -343,6 +353,9 @@ class Indexable_Builder {
 						];
 						$this->build( $author_indexable, $author_defaults );
 					}
+
+					// All incoming/outgoing links need to be added/verified.
+					$this->link_builder->build( $indexable );
 					break;
 
 				case 'user':
@@ -352,6 +365,8 @@ class Indexable_Builder {
 				case 'term':
 					$indexable = $this->term_builder->build( $indexable->object_id, $indexable );
 					$this->hierarchy_builder->build( $indexable );
+					// All incoming/outgoing links need to be added/verified.
+					$this->link_builder->build( $indexable );
 					break;
 
 				case 'home-page':

@@ -88,17 +88,20 @@ class Indexable_Link_Builder {
 	/**
 	 * Builds the links for a post.
 	 *
-	 * @param Indexable $indexable The indexable.
-	 * @param string    $content   The content. Expected to be unfiltered.
+	 * @param Indexable   $indexable The indexable.
+	 * @param string|null $content   The content. Expected to be unfiltered.
 	 *
 	 * @return SEO_Links[] The created SEO links.
 	 */
-	public function build( $indexable, $content ) {
+	public function build( $indexable, $content = null ) {
 		global $post;
 		if ( $indexable->object_type === 'post' ) {
 			$post_backup = $post;
 			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- To setup the post we need to do this explicitly.
 			$post = $this->post_helper->get_post( $indexable->object_id );
+			if ( ! $content ) {
+				$content = $post->post_content;
+			}
 			\setup_postdata( $post );
 			$content = \apply_filters( 'the_content', $content );
 			\wp_reset_postdata();
@@ -189,18 +192,22 @@ class Indexable_Link_Builder {
 	}
 
 	/**
-	 * Gathers all images from content.
+	 * Gathers the thumbnail from the current post.
 	 *
 	 * @return string|null An url, if a thumbnail exists.
 	 */
 	protected function get_featured_image() {
-		$featured_id = $this->image_helper->get_featured_image_id();
+		global $post;
+		if ( ! $post ) {
+			return null;
+		}
+
+		$featured_id = $this->image_helper->get_featured_image_id( $post->ID );
 		if ( ! $featured_id ) {
 			return null;
 		}
 
-		$featured_image_source = $this->image_helper->get_attachment_image_source( $featured_id );
-		return $featured_image_source;
+		return $this->image_helper->get_attachment_image_source( $featured_id );
 	}
 
 
