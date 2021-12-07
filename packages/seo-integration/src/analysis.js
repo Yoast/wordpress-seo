@@ -32,11 +32,11 @@ const createAnalysisConfiguration = ( configuration = {} ) => {
 	const config = {
 		...configuration,
 		isContentAnalysisActive: configuration.isReadabilityActive,
-		isKeywordAnalysisActive: configuration.isSEOActive,
+		isKeywordAnalysisActive: configuration.isSeoActive,
 	};
 
 	delete config.isReadabilityActive;
-	delete config.isSEOActive;
+	delete config.isSeoActive;
 
 	const processedConfig = applyFilters( "yoast.seoIntegration.analysis.configuration", config );
 
