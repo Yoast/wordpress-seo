@@ -126,7 +126,7 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	public function localize_dashboard_script() {
 		$is_wincher_active = WPSEO_Options::get( 'wincher_integration_active', true );
 
-		// If feature flag is disabled, set wincher should not be active.
+		// If feature flag is disabled, Wincher should not be active.
 		$conditional = new Wincher_Conditional();
 		if ( ! $conditional->is_met() ) {
 			$is_wincher_active = false;
