@@ -174,7 +174,7 @@ class Health_Check_Result_Builder {
 	 * @return string
 	 */
 	private function get_badge_color() {
-		if ($this->status === $this->STATUS_CRITICAL || $this->status === $this->STATUS_RECOMMENDED) {
+		if ($this->status === self::STATUS_CRITICAL || $this->status === self::STATUS_RECOMMENDED) {
 			return "red";
 		}
 

@@ -32,7 +32,7 @@ class Health_Check_Default_Tagline_Runner implements Health_Check_Runner_Interfa
 		// We are using the WordPress internal translation.
 		$translated_blog_description = __($this->DEFAULT_BLOG_DESCRIPTION, 'default' );
 
-		$this->has_default_startline = $translated_blog_description === $blog_description || $this->DEFAULT_BLOG_DESCRIPTION === $blog_description;
+		$this->has_default_startline = $translated_blog_description === $blog_description || self::DEFAULT_BLOG_DESCRIPTION === $blog_description;
 	}
 	
 	/**
