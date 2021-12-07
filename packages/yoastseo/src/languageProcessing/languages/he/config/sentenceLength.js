@@ -1,3 +1,3 @@
 export default {
-	recommendedWordCount: 15,
+	recommendedLength: 15,
 };

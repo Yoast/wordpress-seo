@@ -1,4 +1,5 @@
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
+import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import altTagCountFunction from "../../../src/languageProcessing/researches/altTagCount";
 import Paper from "../../../src/values/Paper";
@@ -280,5 +281,20 @@ describe( "Counts images in a text", function() {
 		expect( stringToCheck.withAlt ).toBe( 0 );
 		expect( stringToCheck.withAltKeyword ).toBe( 2 );
 		expect( stringToCheck.withAltNonKeyword ).toBe( 3 );
+	} );
+} );
+
+describe( "test for alt tag attributes in Japanese", () => {
+	it( "returns result when no morphology data is supplied", () => {
+		const paper = new Paper( "<img src=\"http://basic.wordpress.test/wp-content/uploads/2021/10/images.jpeg\" alt=\"会えるトイレ\"> " +
+			"<img src=\"http://basic.wordpress.test/wp-content/uploads/2021/10/images.jpeg\" alt=\"我が家はみんな元気じゃないです\">",
+		{ keyword: "会える" } );
+		const researcher = new JapaneseResearcher( paper );
+		const stringToCheck = altTagCountFunction( paper, researcher );
+
+		expect( stringToCheck.noAlt ).toBe( 0 );
+		expect( stringToCheck.withAlt ).toBe( 0 );
+		expect( stringToCheck.withAltKeyword ).toBe( 1 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 1 );
 	} );
 } );

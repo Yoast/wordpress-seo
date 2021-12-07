@@ -240,12 +240,14 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->with( 1 )
 			->andReturn(
 				(object) [
-					'post_content'  => 'The content of the post',
-					'post_type'     => 'post',
-					'post_status'   => 'publish',
-					'post_password' => '',
-					'post_author'   => '1',
-					'post_parent'   => '0',
+					'post_content'      => 'The content of the post',
+					'post_type'         => 'post',
+					'post_status'       => 'publish',
+					'post_password'     => '',
+					'post_author'       => '1',
+					'post_parent'       => '0',
+					'post_date_gmt'     => '1234-12-12 00:00:00',
+					'post_modified_gmt' => '1234-12-12 00:00:00',
 				]
 			);
 
@@ -296,7 +298,9 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'schema_page_type'               => 'FAQPage',
 			'schema_article_type'            => 'NewsArticle',
 			'estimated_reading_time_minutes' => 11,
-			'version'                        => 1,
+			'version'                        => 2,
+			'object_published_at'            => '1234-12-12 00:00:00',
+			'object_last_modified'           => '1234-12-12 00:00:00',
 		];
 
 		$this->indexable      = Mockery::mock( Indexable::class );

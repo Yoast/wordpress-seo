@@ -1,7 +1,6 @@
 /* External dependencies */
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
-import { __, sprintf } from "@wordpress/i18n";
 import { validateTwitterImage } from "@yoast/helpers";
 
 /* Internal dependencies */
@@ -72,7 +71,6 @@ export default compose( [
 			getEditorDataImageFallback,
 			getRecommendedReplaceVars,
 			getSiteUrl,
-			getAuthorName,
 			getSeoTitleTemplate,
 			getSeoTitleTemplateNoFallback,
 			getSocialTitleTemplate,
@@ -81,19 +79,9 @@ export default compose( [
 			getEditorDataExcerptWithFallback,
 		} = select( "yoast-seo/editor" );
 
-		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
-		const titleInputPlaceholder  = sprintf(
-			/* Translators: %s expands to the social medium name, i.e. Faceboook. */
-			__( "Modify your %s title by editing it right here...", "wordpress-seo" ),
-			socialMediumName
-		);
+		const titleInputPlaceholder  = "";
 
-		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
-		const descriptionInputPlaceholder  = sprintf(
-			/* Translators: %s expands to the social medium name, i.e. Faceboook. */
-			__( "Modify your %s description by editing it right here...", "wordpress-seo" ),
-			socialMediumName
-		);
+		const descriptionInputPlaceholder  = "";
 
 		return {
 			imageUrl: getTwitterImageUrl(),
@@ -115,7 +103,6 @@ export default compose( [
 				getSeoTitleTemplate() ||
 				titleInputPlaceholder,
 			imageWarnings: getTwitterWarnings(),
-			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
 			isPremium: !! getL10nObject().isPremium,
 			isLarge: getTwitterImageType() !== "summary",

@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { map, merge } from "lodash-es";
 
 import formatNumber from "../../../helpers/formatNumber";
@@ -26,6 +27,7 @@ export default class TransitionWordsAssessment extends Assessment {
 		const defaultConfig = {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/34z" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/35a" ),
+			applicableIfTextLongerThan: 200,
 		};
 
 		this.identifier = "textTransitionWords";
@@ -75,11 +77,10 @@ export default class TransitionWordsAssessment extends Assessment {
 	 *
 	 * @param {object} transitionWordSentences  The object containing the total number of sentences and the number of sentences containing
 	 *                                          a transition word.
-	 * @param {object} i18n                     The object used for translations.
 	 *
 	 * @returns {object} Object containing score and text.
 	 */
-	calculateTransitionWordResult( transitionWordSentences, i18n ) {
+	calculateTransitionWordResult( transitionWordSentences ) {
 		const percentage = this.calculateTransitionWordPercentage( transitionWordSentences );
 		const score = this.calculateScoreFromPercentage( percentage );
 		const hasMarks   = ( percentage > 0 );
@@ -88,10 +89,11 @@ export default class TransitionWordsAssessment extends Assessment {
 			return {
 				score: formatNumber( score ),
 				hasMarks: hasMarks,
-				text: i18n.sprintf(
+				text: sprintf(
 					/* Translators: %1$s and %3$s expand to a link to yoast.com, %2$s expands to the anchor end tag */
-					i18n.dgettext( "js-text-analysis",
-						"%1$sTransition words%2$s: None of the sentences contain transition words. %3$sUse some%2$s."
+					__(
+						"%1$sTransition words%2$s: None of the sentences contain transition words. %3$sUse some%2$s.",
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
@@ -103,12 +105,13 @@ export default class TransitionWordsAssessment extends Assessment {
 			return {
 				score: formatNumber( score ),
 				hasMarks: hasMarks,
-				text: i18n.sprintf(
+				text: sprintf(
 					/* Translators: %1$s and %4$s expand to a link to yoast.com, %2$s expands to the anchor end tag,
 					%3$s expands to the percentage of sentences containing transition words */
-					i18n.dgettext( "js-text-analysis",
-						"%1$sTransition words%2$s: Only %3$s of the sentences contain transition words, which is not enough." +
-						" %4$sUse more of them%2$s."
+					__(
+						// eslint-disable-next-line max-len
+						"%1$sTransition words%2$s: Only %3$s of the sentences contain transition words, which is not enough. %4$sUse more of them%2$s.",
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>",
@@ -120,10 +123,11 @@ export default class TransitionWordsAssessment extends Assessment {
 		return {
 			score: formatNumber( score ),
 			hasMarks: hasMarks,
-			text: i18n.sprintf(
+			text: sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
-				i18n.dgettext( "js-text-analysis",
-					"%1$sTransition words%2$s: Well done!"
+				__(
+					"%1$sTransition words%2$s: Well done!",
+					"wordpress-seo"
 				),
 				this._config.urlTitle,
 				"</a>" ),
@@ -135,13 +139,12 @@ export default class TransitionWordsAssessment extends Assessment {
 	 *
 	 * @param {object} paper        The paper to use for the assessment.
 	 * @param {object} researcher   The researcher used for calling research.
-	 * @param {object} i18n         The object used for translations.
 	 *
 	 * @returns {object} The Assessment result.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		const transitionWordSentences = researcher.getResearch( "findTransitionWords" );
-		const transitionWordResult = this.calculateTransitionWordResult( transitionWordSentences, i18n );
+		const transitionWordResult = this.calculateTransitionWordResult( transitionWordSentences );
 		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( transitionWordResult.score );
@@ -173,15 +176,21 @@ export default class TransitionWordsAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks if the transition words assessment is applicable to the paper.
+	 * Checks if the transition words assessment is applicable to the paper. Language-specific length requirements and methods of counting text length
+	 * may apply (e.g. for Japanese, the text should be counted in characters instead of words, which also makes the minimum required length higher).
 	 *
 	 * @param {Paper}       paper       The paper to check.
 	 * @param {Researcher}  researcher  The researcher object.
 	 *
-	 * @returns {boolean} Returns true if the language is available, the paper is not empty and if the text is longer than 200 words.
+	 * @returns {boolean} Returns true if the language is available, the paper is not empty and the text is longer than the minimum required length.
 	 */
 	isApplicable( paper, researcher ) {
-		const wordCount = researcher.getResearch( "wordCountInText" );
-		return paper.hasText() && wordCount >= 200 && researcher.hasResearch( "findTransitionWords" );
+		const customCountLength = researcher.getHelper( "customCountLength" );
+		const customApplicabilityConfig = researcher.getConfig( "assessmentApplicability" ).transitionWords;
+		if ( customApplicabilityConfig ) {
+			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
+		}
+		const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" );
+		return paper.hasText() && textLength >= this._config.applicableIfTextLongerThan && researcher.hasResearch( "findTransitionWords" );
 	}
 }

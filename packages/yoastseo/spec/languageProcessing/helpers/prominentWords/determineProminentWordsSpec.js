@@ -1,3 +1,4 @@
+import { enableFeatures, isFeatureEnabled } from "@yoast/feature-flag";
 import ProminentWord from "../../../../src/languageProcessing/values/ProminentWord";
 import {
 	getProminentWords,
@@ -8,6 +9,11 @@ import {
 	retrieveAbbreviations,
 } from "../../../../src/languageProcessing/helpers/prominentWords/determineProminentWords";
 import baseStemmer from "../../../../src/languageProcessing/helpers/morphology/baseStemmer";
+import getWordsCustomHelper from "../../../../src/languageProcessing/languages/ja/helpers/getWords";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
+
+enableFeatures( [ "JAPANESE_SUPPORT" ] );
 
 describe( "retrieveAbbreviations", function() {
 	it( "makes a list of all abbreviations from the input text", function() {
@@ -184,6 +190,25 @@ describe( "collapseProminentWordsOnStem collapses over duplicates by stem", func
 		expect( result ).toEqual( expectedResult );
 	} );
 
+	it( "properly sorts the input array by stem before collapsing in Japanese", function() {
+		const wordCombinations = [
+			new ProminentWord( "猫", "猫", 2 ),
+			new ProminentWord( "読まれ", "読ん", 11 ),
+			new ProminentWord( "手紙", "手紙", 2 ),
+			new ProminentWord( "読ん", "読ん", 10 ),
+		];
+
+		const expectedResult = [
+			new ProminentWord( "手紙", "手紙", 2 ),
+			new ProminentWord( "猫", "猫", 2 ),
+			new ProminentWord( "読ん", "読ん", 21 ),
+		];
+
+		const result = collapseProminentWordsOnStem( wordCombinations );
+
+		expect( result ).toEqual( expectedResult );
+	} );
+
 	it( "properly sorts the input array by stem before collapsing: Also with abbreviations", function() {
 		const wordCombinations = [
 			new ProminentWord( "sentence", "sentence", 2 ),
@@ -231,6 +256,40 @@ describe( "collapseProminentWordsOnStem collapses over duplicates by stem", func
 			new ProminentWord( "site", "site", 4 ),
 			new ProminentWord( "update", "update", 1 ),
 			new ProminentWord( "yoast", "yoast", 6 ),
+		];
+
+		const result = collapseProminentWordsOnStem( wordCombinations );
+
+		expect( result ).toEqual( expectedResult );
+	} );
+
+	it( "deals with multiple repetitions of forms of the same stem in Japanese", function() {
+		const wordCombinations = [
+			new ProminentWord( "休め", "休め", 6 ),
+			new ProminentWord( "木材", "木材", 6 ),
+			new ProminentWord( "含む全て", "含む全た", 3 ),
+			new ProminentWord( "休ま", "休め", 3 ),
+			new ProminentWord( "予定", "予定", 3 ),
+			new ProminentWord( "話せる", "話さ", 3 ),
+			new ProminentWord( "休め", "休め", 3 ),
+			new ProminentWord( "休ませる", "休め", 2 ),
+			new ProminentWord( "話", "話", 2 ),
+			new ProminentWord( "天気", "天気", 2 ),
+			new ProminentWord( "木材", "木材", 2 ),
+			new ProminentWord( "休め", "休め", 1 ),
+			new ProminentWord( "話さ", "話さ", 1 ),
+			new ProminentWord( "ブログ", "ブログ", 1 ),
+		];
+
+		const expectedResult = [
+			new ProminentWord( "ブログ", "ブログ", 1 ),
+			new ProminentWord( "予定", "予定", 3 ),
+			new ProminentWord( "休め", "休め", 15 ),
+			new ProminentWord( "含む全て", "含む全た", 3 ),
+			new ProminentWord( "天気", "天気", 2 ),
+			new ProminentWord( "木材", "木材", 8 ),
+			new ProminentWord( "話", "話", 2 ),
+			new ProminentWord( "話さ", "話さ", 4 ),
 		];
 
 		const result = collapseProminentWordsOnStem( wordCombinations );
@@ -339,7 +398,7 @@ describe( "getProminentWords", function() {
 			new ProminentWord( "words", "words", 1 ),
 		];
 
-		const words = getProminentWords( input, [], baseStemmer, [] );
+		const words = getProminentWords( input, [], baseStemmer, [], false );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -347,7 +406,7 @@ describe( "getProminentWords", function() {
 	it( "does not break if the input is empty", function() {
 		const input = "";
 
-		const words = getProminentWords( input, [], baseStemmer, [] );
+		const words = getProminentWords( input, [], baseStemmer, [], false );
 
 		expect( words ).toEqual( [] );
 	} );
@@ -356,7 +415,7 @@ describe( "getProminentWords", function() {
 		const input = "! - ?.... ";
 		const expected = [];
 		const functionWords = [];
-		const words = getProminentWords( input, [], baseStemmer, functionWords );
+		const words = getProminentWords( input, [], baseStemmer, functionWords, false );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -368,7 +427,7 @@ describe( "getProminentWords", function() {
 			new ProminentWord( "words", "words", 1 ),
 		];
 
-		const words = getProminentWords( input, [], baseStemmer, [ "a", "of", "contains", "this", "is" ] );
+		const words = getProminentWords( input, [], baseStemmer, [ "a", "of", "contains", "this", "is" ], false );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -386,7 +445,7 @@ describe( "getProminentWords", function() {
 			new ProminentWord( "words", "words", 11 ),
 		];
 
-		const words = getProminentWords( input, [], baseStemmer, [ "more", "a", "new", "with", "here" ] );
+		const words = getProminentWords( input, [], baseStemmer, [ "more", "a", "new", "with", "here" ], false );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -417,7 +476,7 @@ describe( "getProminentWords", function() {
 			"is", "when", "it", "to", "comes", "them", "on", "it's", "so", "different", "just", "then", "tiny", "almost",
 			"no", "at", "all", "that", "and", "again" ];
 
-		const words = getProminentWords( input, [ "cta" ], baseStemmer, functionWords );
+		const words = getProminentWords( input, [ "cta" ], baseStemmer, functionWords, false );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -433,10 +492,44 @@ describe( "getProminentWords", function() {
 			new ProminentWord( "ton", "ton", 2 ),
 		];
 
-		const words = getProminentWords( input, [], baseStemmer, [] );
+		const words = getProminentWords( input, [], baseStemmer, [], false );
 
 		expect( words ).toEqual( expected );
 	} );
+
+	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
+		it( "get the prominent words when the custom helper to get words from text is available", function() {
+			// Japanese has the custom helper to get words from text.
+			const input = "決機てわひ直基5易ワクニ改生終ル法境ヒ用続フメヲコ地新わ場田玲東るまル著固偏ぶてつ。";
+			const expected = [
+				new ProminentWord( "てつ", "てつ", 1 ),
+				new ProminentWord( "ぶ", "ぶ", 1 ),
+				new ProminentWord( "フメヲコ", "フメヲコ", 1 ),
+				new ProminentWord( "ま", "ま", 1 ),
+				new ProminentWord( "ル著", "ル著", 1 ),
+				new ProminentWord( "ワクニ", "ワクニ", 1 ),
+				new ProminentWord( "わひ", "わひ", 1 ),
+				new ProminentWord( "固偏", "固偏", 1 ),
+				new ProminentWord( "地新", "地新", 1 ),
+				new ProminentWord( "場田", "場田", 1 ),
+				new ProminentWord( "改生", "改生", 1 ),
+				new ProminentWord( "易", "易", 1 ),
+				new ProminentWord( "決機", "決機", 1 ),
+				new ProminentWord( "法境ヒ", "法境ヒ", 1 ),
+				new ProminentWord( "玲東る", "玲東る", 1 ),
+				new ProminentWord( "用続", "用続", 1 ),
+				new ProminentWord( "直基", "直基", 1 ),
+				new ProminentWord( "終ル", "終ル", 1 ),
+			];
+			const researcher = new JapaneseResearcher( input );
+			researcher.addResearchData( getMorphologyData( "ja" ), "morphology" );
+			const japaneseStemmer = researcher.getHelper( "customGetStemmer" )( researcher );
+
+			const words = getProminentWords( input, [], japaneseStemmer, [ "て", "わ", "5" ], getWordsCustomHelper );
+
+			expect( words ).toEqual( expected );
+		} );
+	}
 } );
 
 describe( "getRelevantWordsFromPaperAttributes", function() {
@@ -464,9 +557,49 @@ describe( "getRelevantWordsFromPaperAttributes", function() {
 			],
 			[ "nice" ],
 			baseStemmer,
-			[ "interesting", "this", "is", "a", "an", "one", "two", "and", "long", "of", "the", "that", "we", "are", "have", "in", "nice" ]
+			[ "interesting", "this", "is", "a", "an", "one", "two", "and", "long", "of", "the", "that", "we", "are", "have", "in", "nice" ],
+			false
 		);
 
 		expect( words ).toEqual( expected );
 	} );
+
+	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
+		it( "get the prominent words from the attributes when the custom helper to get words from text is available", function() {
+			// Japanese has the custom helper to get words from text.
+			const expected = [
+				new ProminentWord( "キーフレーズ", "キーフレーズ", 1 ),
+				new ProminentWord( "タイトル", "タイトル", 1 ),
+				new ProminentWord( "メタディスクリプション", "メタディスクリプション", 1 ),
+				new ProminentWord( "最初", "最初", 1 ),
+				new ProminentWord( "分析", "分析", 1 ),
+				new ProminentWord( "同義", "同義", 2 ),
+				new ProminentWord( "小見出し", "小見出し", 2 ),
+				new ProminentWord( "持っ", "持っ", 1 ),
+				new ProminentWord( "深い", "深い", 1 ),
+				new ProminentWord( "番目", "番目", 1 ),
+				new ProminentWord( "興味", "興味", 2 ),
+				new ProminentWord( "語", "語", 2 ),
+				new ProminentWord( "論文", "論文", 1 ),
+				new ProminentWord( "長い", "長い", 1 ),
+
+			];
+			const researcher = new JapaneseResearcher( "" );
+			researcher.addResearchData( getMorphologyData( "ja" ), "morphology" );
+			const japaneseStemmer = researcher.getHelper( "customGetStemmer" )( researcher );
+
+			const words = getProminentWordsFromPaperAttributes( [
+				"これはいいキーフレーズです",
+				"これは同義語1と同義語2です",
+				"これはかなり長いタイトルです！",
+				"これは、私たちが分析していて興味を持っている論文の興味深いメタディスクリプションです。",
+				[ "最初の小見出し", "2番目の小見出し" ].join( " " ) ],
+			[],
+			japaneseStemmer,
+			[ "2", "1", "い", "いい", "いる", "が", "かなり", "これ", "し", "たち", "て", "です", "と", "の", "は", "を", "私" ],
+			getWordsCustomHelper );
+
+			expect( words ).toEqual( expected );
+		} );
+	}
 } );

@@ -289,7 +289,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$enriched_defaults[ 'display-metabox-pt-' . $pt->name ]      = true;
 				$enriched_defaults[ 'post_types-' . $pt->name . '-maintax' ] = 0; // Select box.
 				$enriched_defaults[ 'schema-page-type-' . $pt->name ]        = 'WebPage';
-				$enriched_defaults[ 'schema-article-type-' . $pt->name ]     = ( YoastSEO()->helpers->schema->article->is_article_post_type( $pt->name ) ) ? 'Article' : 'None';
+				$enriched_defaults[ 'schema-article-type-' . $pt->name ]     = ( $pt->name === 'post' ) ? 'Article' : 'None';
 
 				if ( $pt->name !== 'attachment' ) {
 					$enriched_defaults[ 'social-title-' . $pt->name ]       = '%%title%%'; // Text field.
@@ -979,6 +979,14 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			'sc-smstar' => [
 				'option' => '&#8902;',
 				'label'  => __( 'Low asterisk', 'wordpress-seo' ),
+			],
+			'sc-pipe'   => [
+				'option' => '|',
+				'label'  => __( 'Vertical bar', 'wordpress-seo' ),
+			],
+			'sc-tilde'  => [
+				'option' => '~',
+				'label'  => __( 'Small tilde', 'wordpress-seo' ),
 			],
 			'sc-laquo'  => [
 				'option' => '&laquo;',

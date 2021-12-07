@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { escape, merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -39,27 +40,27 @@ class FunctionWordsInKeyphraseAssessment extends Assessment {
 	 * @param {Paper} 		paper 		The paper to use for the assessment.
 	 * @param {Researcher} 	researcher 	The researcher used for calling research.
 	 *
-	 * @param {Jed} i18n The object used for translations.
-	 *
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		this._functionWordsInKeyphrase = researcher.getResearch( "functionWordsInKeyphrase" );
 		this._keyword = escape( paper.getKeyword() );
 		const assessmentResult = new AssessmentResult();
 
 		if ( this._functionWordsInKeyphrase ) {
 			assessmentResult.setScore( this._config.scores.onlyFunctionWords );
-			assessmentResult.setText( i18n.sprintf(
+			assessmentResult.setText( sprintf(
 				/**
 				 * Translators:
 				 * %1$s and %2$s expand to links on yoast.com,
 				 * %3$s expands to the anchor end tag,
 				 * %4$s expands to the focus keyphrase of the article.
 				 */
-				i18n.dgettext( "js-text-analysis", "%1$sFunction words in keyphrase%3$s: " +
-					"Your keyphrase \"%4$s\" contains function words only. " +
-					"%2$sLearn more about what makes a good keyphrase.%3$s" ),
+				__(
+					// eslint-disable-next-line max-len
+					"%1$sFunction words in keyphrase%3$s: Your keyphrase \"%4$s\" contains function words only. %2$sLearn more about what makes a good keyphrase.%3$s",
+					"wordpress-seo"
+				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,
 				"</a>",

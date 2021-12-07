@@ -1,9 +1,7 @@
 import EnglishResearcher from "../../src/languageProcessing/languages/en/Researcher";
 import Assessor from "../../src/scoring/relatedKeywordTaxonomyAssessor.js";
 import Paper from "../../src/values/Paper.js";
-import factory from "../specHelpers/factory.js";
-const i18n = factory.buildJed();
-const assessor = new Assessor( i18n, new EnglishResearcher() );
+const assessor = new Assessor( new EnglishResearcher() );
 import getResults from "../specHelpers/getAssessorResults";
 
 describe( "running assessments in the assessor", function() {

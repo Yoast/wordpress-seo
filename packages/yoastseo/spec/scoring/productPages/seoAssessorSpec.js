@@ -1,15 +1,13 @@
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import Assessor from "../../../src/scoring/productPages/seoAssessor.js";
 import Paper from "../../../src/values/Paper.js";
-import factory from "../../specHelpers/factory.js";
 import getResults from "../../specHelpers/getAssessorResults";
-const i18n = factory.buildJed();
 
 describe( "running assessments in the product page SEO assessor", function() {
 	let assessor;
 
 	beforeEach( () => {
-		assessor = new Assessor( i18n, new DefaultResearcher(), {
+		assessor = new Assessor( new DefaultResearcher(), {
 			introductionKeyphraseUrlTitle: "https://yoast.com/1",
 			introductionKeyphraseCTAUrl: "https://yoast.com/2",
 			keyphraseLengthUrlTitle: "https://yoast.com/3",

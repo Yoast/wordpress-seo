@@ -2,8 +2,6 @@ import MetaDescriptionKeywordAssessment from "../../../../src/scoring/assessment
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
 
-const i18n = Factory.buildJed();
-
 const mockResearcherNoMatches = Factory.buildMockResearcher( 0 );
 const mockResearcherOneMatch = Factory.buildMockResearcher( 1 );
 const mockResearcherTwoMatches = Factory.buildMockResearcher( 2 );
@@ -12,7 +10,7 @@ const mockResearcherThreeMatches = Factory.buildMockResearcher( 3 );
 describe( "the metadescription keyword assessment", function() {
 	it( "returns a bad result when the meta description doesn't contain the keyword", function() {
 		const mockPaper = new Paper();
-		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherNoMatches, i18n );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherNoMatches );
 
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: " +
@@ -23,7 +21,7 @@ describe( "the metadescription keyword assessment", function() {
 	it( "returns a good result and an appropriate feedback message when at least one sentence contains every keyword term " +
 		"at least once in the same sentence.", function() {
 		const mockPaper = new Paper();
-		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherOneMatch, i18n );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherOneMatch );
 
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: " +
@@ -33,7 +31,7 @@ describe( "the metadescription keyword assessment", function() {
 	it( "returns a good result and an appropriate feedback message when the meta description contains the keyword " +
 		"two times in the same sentence", function() {
 		const mockPaper = new Paper();
-		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherTwoMatches, i18n );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherTwoMatches );
 
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
@@ -42,7 +40,7 @@ describe( "the metadescription keyword assessment", function() {
 
 	it( "returns a bad result when the meta description contains the keyword three times in the same sentence", function() {
 		const mockPaper = new Paper();
-		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherThreeMatches, i18n );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherThreeMatches );
 
 		expect( assessment.getScore() ).toBe( 3 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +

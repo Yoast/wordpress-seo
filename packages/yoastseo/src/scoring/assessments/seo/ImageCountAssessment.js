@@ -1,3 +1,4 @@
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange";
 
@@ -40,15 +41,14 @@ export default class TextImagesAssessment extends Assessment {
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
 	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
-	 * @param {Jed}         i18n        The locale object.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		this.imageCount = researcher.getResearch( "imageCount" );
 		this.videoCount = researcher.getResearch( "videoCount" );
 
-		const calculatedScore = this.calculateResult( i18n );
+		const calculatedScore = this.calculateResult();
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedScore.score );
@@ -71,11 +71,9 @@ export default class TextImagesAssessment extends Assessment {
 	/**
 	 * Calculate the result based on the availability of images in the text, including videos in product pages.
 	 *
-	 * @param {Object} i18n The object used for translations.
-	 *
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult( i18n ) {
+	calculateResult() {
 		// If "countVideos" is on, we include videos in the assessment
 		const mediaCount = this._countVideos ? this.imageCount + this.videoCount : this.imageCount;
 
@@ -84,11 +82,11 @@ export default class TextImagesAssessment extends Assessment {
 			if ( this._countVideos ) {
 				return {
 					score: this._config.scores.bad,
-					resultText: i18n.sprintf(
+					resultText: sprintf(
 						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-						i18n.dgettext(
-							"js-text-analysis",
-							"%1$sImages and videos%3$s: No images or videos appear on this page. %2$sAdd some%3$s!"
+						__(
+							"%1$sImages and videos%3$s: No images or videos appear on this page. %2$sAdd some%3$s!",
+							"wordpress-seo"
 						),
 						this._config.urlTitle,
 						this._config.urlCallToAction,
@@ -98,11 +96,11 @@ export default class TextImagesAssessment extends Assessment {
 			}
 			return {
 				score: this._config.scores.bad,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sImages%3$s: No images appear on this page. %2$sAdd some%3$s!"
+					__(
+						"%1$sImages%3$s: No images appear on this page. %2$sAdd some%3$s!",
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -115,17 +113,15 @@ export default class TextImagesAssessment extends Assessment {
 			if ( inRangeStartEndInclusive( mediaCount, 1, 3 ) && ! this._countVideos ) {
 				return {
 					score: this._config.scores.okay,
-					resultText: i18n.sprintf(
+					resultText: sprintf(
 						/* Translators: %3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
 						* %1$d expands to the number of images found in the text,
 						* %2$d expands to the recommended number of images in the text, */
-						i18n.dngettext(
-							"js-text-analysis",
-							"%3$sImages%5$s: Only %1$d image appears on this page. We recommend at least %2$d. " +
-							"%4$sAdd more relevant images%5$s!",
-							"%3$sImages%5$s: Only %1$d images appear on this page. We recommend at least %2$d. " +
-							"%4$sAdd more relevant images%5$s!",
-							mediaCount
+						_n(
+							"%3$sImages%5$s: Only %1$d image appears on this page. We recommend at least %2$d. %4$sAdd more relevant images%5$s!",
+							"%3$sImages%5$s: Only %1$d images appear on this page. We recommend at least %2$d. %4$sAdd more relevant images%5$s!",
+							mediaCount,
+							"wordpress-seo"
 						),
 						mediaCount,
 						this._config.recommendedCount,
@@ -137,17 +133,17 @@ export default class TextImagesAssessment extends Assessment {
 			} else if ( inRangeStartEndInclusive( mediaCount, 1, 3 ) && this._countVideos ) {
 				return {
 					score: this._config.scores.okay,
-					resultText: i18n.sprintf(
+					resultText: sprintf(
 						/* Translators: %3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
 						* %1$d expands to the number of images found in the text,
 						* %2$d expands to the recommended number of images in the text, */
-						i18n.dngettext(
-							"js-text-analysis",
-							"%3$sImages and videos%5$s: Only %1$d image or video appears on this page. We recommend at least %2$d. " +
-							"%4$sAdd more relevant images or videos%5$s!",
-							"%3$sImages and videos%5$s: Only %1$d images or videos appear on this page. We recommend at least %2$d. " +
-							"%4$sAdd more relevant images or videos%5$s!",
-							mediaCount
+						_n(
+							// eslint-disable-next-line max-len
+							"%3$sImages and videos%5$s: Only %1$d image or video appears on this page. We recommend at least %2$d. %4$sAdd more relevant images or videos%5$s!",
+							// eslint-disable-next-line max-len
+							"%3$sImages and videos%5$s: Only %1$d images or videos appear on this page. We recommend at least %2$d. %4$sAdd more relevant images or videos%5$s!",
+							mediaCount,
+							"wordpress-seo"
 						),
 						mediaCount,
 						this._config.recommendedCount,
@@ -163,12 +159,12 @@ export default class TextImagesAssessment extends Assessment {
 			// Text with at least one image or one video.
 			return {
 				score: this._config.scores.good,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators: %1$s expands to a link on yoast.com,
 					 * %2$s expands to the anchor end tag. */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sImages and videos%2$s: Good job!"
+					__(
+						"%1$sImages and videos%2$s: Good job!",
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>"
@@ -179,12 +175,12 @@ export default class TextImagesAssessment extends Assessment {
 		// Text with at least one image.
 		return {
 			score: this._config.scores.good,
-			resultText: i18n.sprintf(
+			resultText: sprintf(
 				/* Translators: %1$s expands to a link on yoast.com,
 				 * %2$s expands to the anchor end tag. */
-				i18n.dgettext(
-					"js-text-analysis",
-					"%1$sImages%2$s: Good job!"
+				__(
+					"%1$sImages%2$s: Good job!",
+					"wordpress-seo"
 				),
 				this._config.urlTitle,
 				"</a>"

@@ -166,7 +166,7 @@ class Actions {
 	/**
 	 * Runs PHPCS on the staged files.
 	 *
-	 * Used the composer check-staged-cs command.
+	 * Used by the composer check-branch-cs command.
 	 *
 	 * @param Event $event Composer event that triggered this script.
 	 *
@@ -328,114 +328,25 @@ TPL;
 	}
 
 	/**
-	 * Extract the number of errors, warnings and affected files from the phpcs summary
-	 *
-	 * Thanks for the inspiration from https://github.com/OXID-eSales/coding_standards_wrapper
-	 *
-	 * @param array $output Raw console output of the PHPCS command.
-	 *
-	 * @return array ['error_count' = (int), 'warning_count' = (int)] Errors and warnings found by PHPCS.
-	 */
-	private static function extract_cs_statistics( $output ) {
-		$result  = false;
-		$matches = [];
-
-		/**
-		 * The only key of the filtered array already holds the summary.
-		 * $summary is NULL, if the summary was not present in the output
-		 */
-		$summary = \array_filter(
-			$output,
-			static function( $value ) {
-				return \strpos( $value, 'A TOTAL OF' ) !== false;
-			}
-		);
-
-		// Extract the stats for the summary.
-		if ( $summary ) {
-			\preg_match(
-				'/A TOTAL OF (?P<error_count>\d+) ERRORS AND (?P<warning_count>\d+) WARNINGS WERE FOUND IN \d+ FILES/',
-				\end( $summary ),
-				$matches
-			);
-		}
-
-		// Validate the result of extraction.
-		if ( isset( $matches['error_count'] ) && isset( $matches['warning_count'] ) ) {
-			// We need integers for the further processing.
-			$result = \array_map( 'intval', $matches );
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Checks if the CS errors and warnings are below or at thresholds.
 	 *
-	 * Thanks for the inspiration from https://github.com/OXID-eSales/coding_standards_wrapper
+	 * @return void
 	 */
 	public static function check_cs_thresholds() {
-		$error_threshold   = (int) \getenv( 'YOASTCS_THRESHOLD_ERRORS' );
-		$warning_threshold = (int) \getenv( 'YOASTCS_THRESHOLD_WARNINGS' );
-
 		echo 'Running coding standards checks, this may take some time.', \PHP_EOL;
-		$command = 'composer check-cs-summary';
+		$command = 'composer check-cs-warnings -- -mq --report="YoastCS\\Yoast\\Reports\\Threshold"';
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Non-WP context, this is fine.
 		@\exec( $command, $phpcs_output, $return );
 
-		$statistics = self::extract_cs_statistics( $phpcs_output );
-		if ( ! $statistics ) {
-			echo 'Error occurred when parsing the coding standards results.', \PHP_EOL;
-			exit( 1 );
+		$phpcs_output = \implode( \PHP_EOL, $phpcs_output );
+		echo $phpcs_output;
+
+		$above_threshold = true;
+		if ( \strpos( $phpcs_output, 'Coding standards checks have passed!' ) !== false ) {
+			$above_threshold = false;
 		}
 
-		echo \PHP_EOL;
-		echo 'CODE SNIFFER RESULTS', \PHP_EOL;
-		echo '--------------------', \PHP_EOL;
-
-		$error_count   = $statistics['error_count'];
-		$warning_count = $statistics['warning_count'];
-
-		self::color_line_success(
-			"Coding standards errors: $error_count/$error_threshold." . \PHP_EOL,
-			( $error_count <= $error_threshold )
-		);
-
-		self::color_line_success(
-			"Coding standards warnings: $warning_count/$warning_threshold." . \PHP_EOL,
-			( $warning_count <= $warning_threshold )
-		);
-
-		$above_threshold = false;
-
-		if ( $error_count > $error_threshold ) {
-			echo 'Please fix any errors introduced in your code and run composer check-cs-warnings to verify.', \PHP_EOL;
-			$above_threshold = true;
-		}
-
-		if ( $error_count < $error_threshold ) {
-			echo \PHP_EOL;
-			echo 'Found less errors than the threshold, great job!', \PHP_EOL;
-			echo "Please update the error threshold in the composer.json file to $error_count.", \PHP_EOL;
-		}
-
-		if ( $warning_count > $warning_threshold ) {
-			echo 'Please fix any warnings introduced in your code and run check-cs-thresholds to verify.', \PHP_EOL;
-			$above_threshold = true;
-		}
-
-		if ( $warning_count < $warning_threshold ) {
-			echo \PHP_EOL;
-			echo 'Found less warnings than the threshold, great job!', \PHP_EOL;
-			echo "Please update the warning threshold in the composer.json file to $warning_count.", \PHP_EOL;
-		}
-
-		if ( ! $above_threshold ) {
-			echo \PHP_EOL;
-			echo 'Coding standards checks have passed!', \PHP_EOL;
-		}
-
-		if ( $above_threshold ) {
+		if ( $above_threshold === true ) {
 			echo \PHP_EOL;
 			echo 'Running check-branch-cs.', \PHP_EOL;
 			echo 'This might show problems on untouched lines. Focus on the lines you\'ve changed first.', \PHP_EOL;
@@ -445,31 +356,7 @@ TPL;
 			@\passthru( 'composer check-branch-cs' );
 		}
 
-		exit( ( $above_threshold ) ? 1 : 0 );
-	}
-
-	/**
-	 * Color the output of the line.
-	 *
-	 * @param string $line  Line to output.
-	 * @param string $color Color to give the line.
-	 *
-	 * @return void
-	 */
-	private static function color_line( $line, $color ) {
-		echo $color . $line . "\e[0m";
-	}
-
-	/**
-	 * Color the line based on success status.
-	 *
-	 * @param string $line    Line to output.
-	 * @param bool   $success Success status.
-	 *
-	 * @return void
-	 */
-	private static function color_line_success( $line, $success ) {
-		self::color_line( $line, ( $success ) ? "\e[32m" : "\e[31m" );
+		exit( ( $above_threshold === true || $return > 2 ) ? $return : 0 );
 	}
 
 	/**

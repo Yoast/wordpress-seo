@@ -13,14 +13,13 @@ import ListsPresence from "../assessments/readability/ListAssessment.js";
 /**
  * Creates the Assessor
  *
- * @param {object} i18n         The i18n object used for translations.
  * @param {object} researcher   The researcher to use for the analysis.
  * @param {Object} options      The options for this assessor.
  *
  * @constructor
  */
-const ProductContentAssessor = function( i18n, researcher, options ) {
-	Assessor.call( this, i18n, researcher, options );
+const ProductContentAssessor = function( researcher, options ) {
+	Assessor.call( this, researcher, options );
 	this.type = "productContentAssessor";
 
 	this._assessments = [
@@ -36,7 +35,7 @@ const ProductContentAssessor = function( i18n, researcher, options ) {
 			},
 			urlTitle: createAnchorOpeningTag( options.paragraphUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.paragraphCTAUrl ),
-		} ),
+		}, true ),
 		new SentenceLengthInText( {
 			slightlyTooMany: 20,
 			farTooMany: 25,

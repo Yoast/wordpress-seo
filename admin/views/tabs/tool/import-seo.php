@@ -91,11 +91,11 @@ function wpseo_import_external_select( $name, $plugins ) {
 </div>
 
 <div class="tab-block">
-	<h3><?php esc_html_e( 'Step 4: Run the configuration wizard', 'wordpress-seo' ); ?></h3>
+	<h3><?php esc_html_e( 'Step 4: Do the configuration workout', 'wordpress-seo' ); ?></h3>
 	<p>
 		<?php
 		printf(
-			esc_html__( 'You should run the configuration wizard, from the SEO &rarr; General &rarr; Dashboard page, to make sure all the settings for your site are correct.', 'wordpress-seo' ),
+			esc_html__( 'You should complete the configuration workout, from the SEO &rarr; Workouts page, to make sure the most important settings for your site are correct and your SEO data has been optimized.', 'wordpress-seo' ),
 			'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) . '">',
 			'</a>'
 		);

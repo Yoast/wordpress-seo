@@ -56,6 +56,17 @@ export function getIsTerm( state ) {
 }
 
 /**
+ * Returns whether this is a draft post or not.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {Boolean} Whether this is a draft post.
+ */
+export function getIsDraft( state ) {
+	return [ "draft", "auto-draft" ].includes( get( state, "editorContext.postStatus", "" ) );
+}
+
+/**
  * Returns which type of editor this is.
  *
  * @param {Object} state The state.

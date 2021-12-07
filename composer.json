@@ -22,8 +22,8 @@
 		"source": "https://github.com/Yoast/wordpress-seo"
 	},
 	"require": {
-		"php": "^5.6.20||^7.0",
-		"composer/installers": "^1.9.0",
+		"php": "^5.6.20 || ^7.0 || ^8.0",
+		"composer/installers": "^1.12.0",
 		"yoast/i18n-module": "^3.1.1"
 	},
 	"require-dev": {
@@ -78,12 +78,9 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=255",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=222",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=251",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=221",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
-		],
-		"check-cs-summary": [
-			"@check-cs-warnings --report=summary"
 		],
 		"check-cs": [
 			"@check-cs-warnings -n"
