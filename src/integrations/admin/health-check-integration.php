@@ -57,5 +57,7 @@ class Health_Check_Integration implements Integration_Interface {
 				'test' => [$health_check, 'run_and_get_result']
 			];
 		}
+
+		return $tests;
 	}
 }

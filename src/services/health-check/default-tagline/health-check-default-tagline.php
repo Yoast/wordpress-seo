@@ -25,7 +25,8 @@ class Health_Check_Default_Tagline extends Health_Check {
 
 	public function __construct() {
 		$this->runner = new Health_Check_Default_Tagline_Runner();
-		$this->presenter = new Health_Check_Default_Tagline_Presenter($this->get_test_identifier());
+		$this->presenter = new Health_Check_Default_Tagline_Presenter();
+		$this->presenter->set_test_identifier($this->get_test_identifier());
 
 		$this->set_runner($this->runner);
 	}

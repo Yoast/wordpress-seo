@@ -85,7 +85,7 @@ class Health_Check_Result_Builder {
 	 * @return Health_Check_Result_Builder This builder
 	 */
 	public function set_status_good() {
-		$this->status = $this->STATUS_GOOD;
+		$this->status = self::STATUS_GOOD;
 		return $this;
 	}
 
@@ -95,7 +95,7 @@ class Health_Check_Result_Builder {
 	 * @return Health_Check_Result_Builder This builder
 	 */
 	public function set_status_recommended() {
-		$this->status = $this->STATUS_RECOMMENDED;
+		$this->status = self::STATUS_RECOMMENDED;
 		return $this;
 	}
 
@@ -105,7 +105,7 @@ class Health_Check_Result_Builder {
 	 * @return Health_Check_Result_Builder This builder
 	 */
 	public function set_status_critical() {
-		$this->status = $this->STATUS_CRITICAL;
+		$this->status = self::STATUS_CRITICAL;
 		return $this;
 	}
 
@@ -116,6 +116,7 @@ class Health_Check_Result_Builder {
 	 * @return Health_Check_Result_Builder This builder
 	 */
 	public function set_description($description) {
+		$this->description = $description;
 		return $this;
 	}
 
@@ -126,6 +127,7 @@ class Health_Check_Result_Builder {
 	 * @return Health_Check_Result_Builder This builder
 	 */
 	public function set_actions($actions) {
+		$this->actions = $actions;
 		return $this;
 	}
 
@@ -140,7 +142,7 @@ class Health_Check_Result_Builder {
 			'status' => $this->status,
 			'badge' => $this->get_badge(),
 			'description' => $this->description,
-			'actions' => $this->actions,
+			'actions' => $this->get_actions_with_signature(),
 			'test' => $this->test_identifier
 		];
 	}
@@ -163,7 +165,7 @@ class Health_Check_Result_Builder {
 	 * @return string
 	 */
 	private function get_badge_label() {
-		__('SEO', 'wordpress-seo');
+		return __('SEO', 'wordpress-seo');
 	}
 	
 	/**
@@ -177,5 +179,29 @@ class Health_Check_Result_Builder {
 		}
 
 		return "blue";
+	}
+	
+	/**
+	 * Concatenates the set actions with Yoast's signature.
+	 *
+	 * @return string
+	 */
+	private function get_actions_with_signature() {
+		return $this->actions . $this->get_signature();
+	}
+	
+	/**
+	 * Generates Yoast's signature that's displayed at the bottom of the health check result.
+	 *
+	 * @return string
+	 */
+	private function get_signature() {
+		return sprintf(
+			/* translators: 1: Start of a paragraph beginning with the Yoast icon, 2: Expands to 'Yoast SEO', 3: Paragraph closing tag. */
+			esc_html__( '%1$sThis was reported by the %2$s plugin%3$s', 'wordpress-seo' ),
+			'<p class="yoast-site-health__signature"><img src="' . esc_url( plugin_dir_url( WPSEO_FILE ) . 'packages/js/images/Yoast_SEO_Icon.svg' ) . '" alt="" height="20" width="20" class="yoast-site-health__signature-icon">',
+			'Yoast SEO',
+			'</p>'
+		);
 	}
 }

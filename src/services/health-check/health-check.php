@@ -8,6 +8,11 @@ namespace Yoast\WP\SEO\Services\Health_Check;
 abstract class Health_Check {
 	
 	/**
+	 * The prefix to add to the test identifier. Used to differentiate between Yoast's health checks, and other health checks.
+	 */
+	const TEST_IDENTIFIER_PREFIX = "yoast-";
+	
+	/**
 	 * runner
 	 *
 	 * @var Health_Check_Runner_Interface
@@ -31,6 +36,10 @@ abstract class Health_Check {
 	 */
 	public function get_test_identifier() {
 		$label = $this->get_test_label();
+		$lowercase = strtolower($label);
+		$whitespace_as_dashes = str_replace(" ", "-", $lowercase);
+		$with_prefix = self::TEST_IDENTIFIER_PREFIX . $whitespace_as_dashes;
+		return $with_prefix;
 	}
 	
 	/**
