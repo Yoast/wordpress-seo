@@ -19,6 +19,7 @@ import SchemaTabContainer from "../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases";
 import WincherSEOPerformance from "../../containers/WincherSEOPerformance";
 import { colors } from "@yoast/style-guide";
+import { isFeatureEnabled } from "@yoast/feature-flag";
 
 /* eslint-disable complexity */
 /**
@@ -75,7 +76,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 					shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 				/>
 			</SidebarItem> }
-			{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
+			{ isFeatureEnabled( "WINCHER_INTEGRATION" ) && settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
 				<SidebarItem key="wincher-seo-performance" renderPriority={ 25 }>
 					<MetaboxCollapsible
 						id={ "yoast-wincher-seo-performance-metabox" }
