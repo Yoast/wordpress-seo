@@ -42,6 +42,7 @@ export default class Researcher extends AbstractResearcher {
 		// Deletes researches that are not available for languages that we haven't supported yet.
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
+		delete this.defaultResearches.keywordCountInUrl;
 
 		// Adds the Japanese custom research to calculate the keyword density.
 		this.addResearch( "getKeywordDensity", getKeywordDensity );
