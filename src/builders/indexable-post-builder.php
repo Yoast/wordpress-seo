@@ -399,10 +399,10 @@ class Indexable_Post_Builder {
 			return false;
 		}
 
-		$post_type   = get_post_type( $post );
-		$post_status = get_post_status( $post );
+		$post_type   = \get_post_type( $post );
+		$post_status = \get_post_status( $post );
 
-		return is_post_type_viewable( $post_type ) && $this->is_post_status_viewable( $post_status );
+		return \is_post_type_viewable( $post_type ) && $this->is_post_status_viewable( $post_status );
 	}
 
 	/**
