@@ -14,7 +14,7 @@ class KeyphraseLengthAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
-	 * @param {boolean} useCustomConfig Whether product page scoring is used or not.
+	 * @param {boolean} isProductPage Whether product page scoring is used or not.
 	 * @param {number} [config.parameters.recommendedMinimum] The recommended minimum length of the keyphrase (in words).
 	 * @param {number} [config.parameters.acceptableMaximum] The acceptable maximum length of the keyphrase (in words).
 	 * @param {number} [config.scores.veryBad] The score to return if the length of the keyphrase is below recommended minimum.
@@ -22,7 +22,7 @@ class KeyphraseLengthAssessment extends Assessment {
 	 *
 	 * @returns {void}
 	 */
-	constructor( config, useCustomConfig = false ) {
+	constructor( config, isProductPage = false ) {
 		super();
 
 		this.defaultConfig = {
@@ -48,7 +48,7 @@ class KeyphraseLengthAssessment extends Assessment {
 
 		this.identifier = "keyphraseLength";
 		this._config = merge( this.defaultConfig, config );
-		this._useCustomConfig = useCustomConfig;
+		this._isProductPage = isProductPage;
 	}
 
 	/**
@@ -61,13 +61,20 @@ class KeyphraseLengthAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		this._keyphraseLengthData = researcher.getResearch( "keyphraseLength" );
-		this._configToUse = this.getConfig( researcher );
 		const assessmentResult = new AssessmentResult();
-		this._boundaries = this._configToUse.parameters;
 
-		// Make the boundaries less strict if the language of the current paper doesn't have function word support.
-		if ( this._keyphraseLengthData.functionWords.length === 0 ) {
-			this._boundaries = merge( {}, this._configToUse.parameters, this._configToUse.parametersNoFunctionWordSupport  );
+		// Check whether the researcher has custom config and use it instead of the current config.
+		const customConfig = researcher.getConfig( "keyphraseLength" );
+		if ( customConfig ) {
+			this._config = this.getCustomConfig( researcher );
+		}
+
+		// Set a variable that contains the scoring boundaries.
+		this._boundaries = this._config.parameters;
+
+		// If custom config was not applied, and the language doesn't have function word support, make the boundaries less strict.
+		if ( ! customConfig && this._keyphraseLengthData.functionWords.length === 0 ) {
+			this._boundaries = merge( {}, this._config.parameters, this._config.parametersNoFunctionWordSupport  );
 		}
 
 		const calculatedResult = this.calculateResult();
@@ -84,14 +91,15 @@ class KeyphraseLengthAssessment extends Assessment {
 	 *
 	 * @returns {Object} Configuration to use.
 	 */
-	getConfig( researcher ) {
-		let config = this._config;
+	getCustomConfig( researcher ) {
 		const customKeyphraseLengthConfig = researcher.getConfig( "keyphraseLength" );
-		if ( this._useCustomConfig && customKeyphraseLengthConfig ) {
-			// If a language has specific configuration for keyphrase length, that configuration is used. (German, Dutch and Swedish)
-			config = merge( this.defaultConfig, customKeyphraseLengthConfig );
+
+		if ( this._isProductPage && customKeyphraseLengthConfig.hasOwnProperty( "productPages" ) ) {
+			// If a language has specific configuration for keyphrase length in product pages, that configuration is used.
+			return merge( this._config, customKeyphraseLengthConfig.productPages );
 		}
-		return config;
+
+		return merge( this._config, customKeyphraseLengthConfig.defaultAnalysis );
 	}
 	/**
 	 * Calculates the result based on the keyphraseLength research.
@@ -99,25 +107,25 @@ class KeyphraseLengthAssessment extends Assessment {
 	 * @returns {Object} Object with score and text.
 	 */
 	calculateResult() {
-		if ( this._useCustomConfig ) {
+		if ( this._isProductPage ) {
 			if ( this._keyphraseLengthData.keyphraseLength === 0 ) {
-				if ( this._configToUse.isRelatedKeyphrase ) {
+				if ( this._config.isRelatedKeyphrase ) {
 					return {
-						score: this._configToUse.scores.veryBad,
+						score: this._config.scores.veryBad,
 						resultText: sprintf(
 							/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 							__(
 								"%1$sKeyphrase length%3$s: %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
 								"wordpress-seo"
 							),
-							this._configToUse.urlTitle,
-							this._configToUse.urlCallToAction,
+							this._config.urlTitle,
+							this._config.urlCallToAction,
 							"</a>"
 						),
 					};
 				}
 				return {
-					score: this._configToUse.scores.veryBad,
+					score: this._config.scores.veryBad,
 					resultText: sprintf(
 						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 						__(
@@ -125,8 +133,8 @@ class KeyphraseLengthAssessment extends Assessment {
 							"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
 							"wordpress-seo"
 						),
-						this._configToUse.urlTitle,
-						this._configToUse.urlCallToAction,
+						this._config.urlTitle,
+						this._config.urlCallToAction,
 						"</a>"
 					),
 				};
@@ -134,7 +142,7 @@ class KeyphraseLengthAssessment extends Assessment {
 			// Calculates bad score for custom pages
 			if ( this._keyphraseLengthData.keyphraseLength <= this._boundaries.acceptableMinimum ) {
 				return {
-					score: this._configToUse.scores.bad,
+					score: this._config.scores.bad,
 					resultText: sprintf(
 						/* Translators:
 				%1$d expands to the number of words in the keyphrase,
@@ -151,15 +159,15 @@ class KeyphraseLengthAssessment extends Assessment {
 						),
 						this._keyphraseLengthData.keyphraseLength,
 						this._boundaries.recommendedMinimum,
-						this._configToUse.urlTitle,
-						this._configToUse.urlCallToAction,
+						this._config.urlTitle,
+						this._config.urlCallToAction,
 						"</a>"
 					),
 				};
 			}
 			if ( this._keyphraseLengthData.keyphraseLength > this._boundaries.acceptableMaximum ) {
 				return {
-					score: this._configToUse.scores.bad,
+					score: this._config.scores.bad,
 					resultText: sprintf(
 						/* Translators:
 				%1$d expands to the number of words in the keyphrase,
@@ -173,8 +181,8 @@ class KeyphraseLengthAssessment extends Assessment {
 						),
 						this._keyphraseLengthData.keyphraseLength,
 						this._boundaries.recommendedMaximum,
-						this._configToUse.urlTitle,
-						this._configToUse.urlCallToAction,
+						this._config.urlTitle,
+						this._config.urlCallToAction,
 						"</a>"
 					),
 				};
@@ -182,7 +190,7 @@ class KeyphraseLengthAssessment extends Assessment {
 			// Calculates okay score for custom pages
 			if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.acceptableMinimum, this._boundaries.recommendedMinimum ) ) {
 				return {
-					score: this._configToUse.scores.okay,
+					score: this._config.scores.okay,
 					resultText: sprintf(
 						/* Translators:
 						%1$d expands to the number of words in the keyphrase,
@@ -196,8 +204,8 @@ class KeyphraseLengthAssessment extends Assessment {
 						),
 						this._keyphraseLengthData.keyphraseLength,
 						this._boundaries.recommendedMinimum,
-						this._configToUse.urlTitle,
-						this._configToUse.urlCallToAction,
+						this._config.urlTitle,
+						this._config.urlCallToAction,
 						"</a>"
 					),
 				};
@@ -205,7 +213,7 @@ class KeyphraseLengthAssessment extends Assessment {
 			if ( inRangeEndInclusive( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMaximum,
 				this._boundaries.acceptableMaximum ) ) {
 				return {
-					score: this._configToUse.scores.okay,
+					score: this._config.scores.okay,
 					resultText: sprintf(
 						/* Translators:
 						%1$d expands to the number of words in the keyphrase,
@@ -219,8 +227,8 @@ class KeyphraseLengthAssessment extends Assessment {
 						),
 						this._keyphraseLengthData.keyphraseLength,
 						this._boundaries.recommendedMaximum,
-						this._configToUse.urlTitle,
-						this._configToUse.urlCallToAction,
+						this._config.urlTitle,
+						this._config.urlCallToAction,
 						"</a>"
 					),
 				};
@@ -229,14 +237,14 @@ class KeyphraseLengthAssessment extends Assessment {
 			if ( inRangeStartEndInclusive( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMinimum,
 				this._boundaries.recommendedMaximum ) ) {
 				return {
-					score: this._configToUse.scores.good,
+					score: this._config.scores.good,
 					resultText: sprintf(
 						/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 						__(
 							"%1$sKeyphrase length%2$s: Good job!",
 							"wordpress-seo"
 						),
-						this._configToUse.urlTitle,
+						this._config.urlTitle,
 						"</a>"
 					),
 				};
@@ -245,23 +253,23 @@ class KeyphraseLengthAssessment extends Assessment {
 
 		// Calcatules scores for regular pages
 		if ( this._keyphraseLengthData.keyphraseLength < this._boundaries.recommendedMinimum ) {
-			if ( this._configToUse.isRelatedKeyphrase ) {
+			if ( this._config.isRelatedKeyphrase ) {
 				return {
-					score: this._configToUse.scores.veryBad,
+					score: this._config.scores.veryBad,
 					resultText: sprintf(
 						/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 						__(
 							"%1$sKeyphrase length%3$s: %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
 							"wordpress-seo"
 						),
-						this._configToUse.urlTitle,
-						this._configToUse.urlCallToAction,
+						this._config.urlTitle,
+						this._config.urlCallToAction,
 						"</a>"
 					),
 				};
 			}
 			return {
-				score: this._configToUse.scores.veryBad,
+				score: this._config.scores.veryBad,
 				resultText: sprintf(
 					/* Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
 					__(
@@ -269,29 +277,29 @@ class KeyphraseLengthAssessment extends Assessment {
 						"%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. %2$sSet a keyphrase in order to calculate your SEO score%3$s.",
 						"wordpress-seo"
 					),
-					this._configToUse.urlTitle,
-					this._configToUse.urlCallToAction,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
 		}
 		if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMinimum, this._boundaries.recommendedMaximum + 1 ) ) {
 			return {
-				score: this._configToUse.scores.good,
+				score: this._config.scores.good,
 				resultText: sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					__(
 						"%1$sKeyphrase length%2$s: Good job!",
 						"wordpress-seo"
 					),
-					this._configToUse.urlTitle,
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
 		}
 		if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMaximum + 1, this._boundaries.acceptableMaximum + 1 ) ) {
 			return {
-				score: this._configToUse.scores.okay,
+				score: this._config.scores.okay,
 				resultText: sprintf(
 					/* Translators:
 					%1$d expands to the number of words in the keyphrase,
@@ -305,15 +313,15 @@ class KeyphraseLengthAssessment extends Assessment {
 					),
 					this._keyphraseLengthData.keyphraseLength,
 					this._boundaries.recommendedMaximum,
-					this._configToUse.urlTitle,
-					this._configToUse.urlCallToAction,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
 		}
 
 		return {
-			score: this._configToUse.scores.bad,
+			score: this._config.scores.bad,
 			resultText: sprintf(
 				/* Translators:
 				%1$d expands to the number of words in the keyphrase,
@@ -327,8 +335,8 @@ class KeyphraseLengthAssessment extends Assessment {
 				),
 				this._keyphraseLengthData.keyphraseLength,
 				this._boundaries.recommendedMaximum,
-				this._configToUse.urlTitle,
-				this._configToUse.urlCallToAction,
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>"
 			),
 		};
