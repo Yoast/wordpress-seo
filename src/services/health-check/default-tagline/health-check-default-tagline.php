@@ -22,10 +22,17 @@ class Health_Check_Default_Tagline extends Health_Check {
 	 * @var Health_Check_Default_Tagline_Presenter
 	 */
 	private $presenter;
-
-	public function __construct() {
-		$this->runner = new Health_Check_Default_Tagline_Runner();
-		$this->presenter = new Health_Check_Default_Tagline_Presenter();
+	
+	/**
+	 * __construct
+	 *
+	 * @param  mixed $runner
+	 * @param  mixed $presenter
+	 * @return void
+	 */
+	public function __construct(Health_Check_Default_Tagline_Runner $runner, Health_Check_Default_Tagline_Presenter $presenter) {
+		$this->runner = $runner;
+		$this->presenter = $presenter;
 		$this->presenter->set_test_identifier($this->get_test_identifier());
 
 		$this->set_runner($this->runner);
