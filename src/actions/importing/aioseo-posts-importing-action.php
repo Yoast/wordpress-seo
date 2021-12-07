@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 
 /**
  * Importing action for AIOSEO post data.
@@ -72,6 +73,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	protected $wpdb_helper;
 
 	/**
+	 * The replacevar handler.
+	 *
+	 * @var Aioseo_Replacevar_Handler
+	 */
+	protected $replacevar_handler;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param Indexable_Repository         $indexable_repository        The indexables repository.
@@ -79,19 +87,22 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @param Indexable_To_Postmeta_Helper $indexable_to_postmeta       The indexable_to_postmeta helper.
 	 * @param Options_Helper               $options                     The options helper.
 	 * @param Wpdb_Helper                  $wpdb_helper                 The wpdb_helper helper.
+	 * @param Aioseo_Replacevar_Handler    $replacevar_handler          The replacevar handler.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
 		wpdb $wpdb,
 		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
 		Options_Helper $options,
-		Wpdb_Helper $wpdb_helper ) {
+		Wpdb_Helper $wpdb_helper,
+		Aioseo_Replacevar_Handler $replacevar_handler ) {
 		parent::__construct( $options );
 
 		$this->indexable_repository  = $indexable_repository;
 		$this->wpdb                  = $wpdb;
 		$this->indexable_to_postmeta = $indexable_to_postmeta;
 		$this->wpdb_helper           = $wpdb_helper;
+		$this->replacevar_handler    = $replacevar_handler;
 	}
 
 	/**
@@ -231,7 +242,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			}
 
 			if ( ! empty( $aioseo_indexable[ $aioseo_key ] ) ) {
-				$indexable->{$yoast_key} = $aioseo_indexable[ $aioseo_key ];
+				$indexable->{$yoast_key} = $this->replacevar_handler->transform( $aioseo_indexable[ $aioseo_key ] );
 			}
 		}
 
