@@ -1,5 +1,4 @@
 /** @module analyses/findKeywordInPageTitle */
-import { isFeatureEnabled } from "@yoast/feature-flag";
 import wordMatch from "../helpers/match/matchTextWithWord.js";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
 
@@ -38,9 +37,7 @@ const processExactMatchRequest = function( keyword ) {
 	const exactMatchRequest = { exactMatchRequested: false, keyword: keyword };
 
 	// Check if morphology is suppressed. If so, strip the quotation marks from the keyphrase.
-	let doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
-	const japaneseQuotes = [ "\u300c", "\u300d", "\u300e", "\u300f" ];
-	doubleQuotes = isFeatureEnabled( "JAPANESE_SUPPORT" ) ? doubleQuotes.concat( japaneseQuotes ) : doubleQuotes;
+	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
 	if ( includes( doubleQuotes, keyword[ 0 ] ) && includes( doubleQuotes, keyword[ keyword.length - 1 ] ) ) {
 		exactMatchRequest.keyword = keyword.substring( 1, keyword.length - 1 );
 		exactMatchRequest.exactMatchRequested = true;
@@ -95,8 +92,6 @@ const adjustPosition = function( title, position ) {
  */
 const findKeyphraseInPageTitle = function( paper, researcher ) {
 	functionWords = researcher.getConfig( "functionWords" );
-	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
-	const matchMultiWordKeyphraseCustomHelper = researcher.getHelper( "findMultiWordKeyphraseInPageTitle" );
 
 	let keyword = escapeRegExp( paper.getKeyword() );
 	const title = paper.getTitle();
@@ -112,7 +107,7 @@ const findKeyphraseInPageTitle = function( paper, researcher ) {
 	}
 
 	// Check if the exact match of the keyphrase is found in the title.
-	const keywordMatched = wordMatch( title, keyword, locale, matchWordCustomHelper );
+	const keywordMatched = wordMatch( title, keyword, locale );
 
 	if ( keywordMatched.count > 0 ) {
 		result.exactMatchFound = true;
@@ -122,21 +117,13 @@ const findKeyphraseInPageTitle = function( paper, researcher ) {
 		return result;
 	}
 
-	// If no match was found, check if the language has a custom helper for matching multi-word keyphrases.
-	if ( matchMultiWordKeyphraseCustomHelper ) {
-		const multiWordKeywordMatches = matchMultiWordKeyphraseCustomHelper( title, keyword, functionWords );
-		if ( ! isEmpty( multiWordKeywordMatches ) ) {
-			return Object.assign( result, multiWordKeywordMatches );
-		}
-	}
-
 	// Check 2: Are all content words from the keyphrase in the title?
 	const topicForms = researcher.getResearch( "morphology" );
 
 	// Use only keyphrase (not the synonyms) to match topic words in the title.
 	const useSynonyms = false;
 
-	const separateWordsMatched = findTopicFormsInString( topicForms, title, useSynonyms, locale, matchWordCustomHelper );
+	const separateWordsMatched = findTopicFormsInString( topicForms, title, useSynonyms, locale );
 
 	if ( separateWordsMatched.percentWordMatches === 100 ) {
 		result.allWordsFound = true;
