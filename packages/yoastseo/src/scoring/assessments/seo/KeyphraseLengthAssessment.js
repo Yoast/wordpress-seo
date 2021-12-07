@@ -68,14 +68,13 @@ class KeyphraseLengthAssessment extends Assessment {
 		if ( customConfig ) {
 			this._config = this.getCustomConfig( researcher );
 		}
+		// If custom config was not applied, and the language doesn't have function word support, make the boundaries less strict.
+		else if ( this._keyphraseLengthData.functionWords.length === 0 ) {
+			this._config.parameters = merge( {}, this._config.parameters, this._config.parametersNoFunctionWordSupport  );
+		}
 
 		// Set a variable that contains the scoring boundaries.
 		this._boundaries = this._config.parameters;
-
-		// If custom config was not applied, and the language doesn't have function word support, make the boundaries less strict.
-		if ( ! customConfig && this._keyphraseLengthData.functionWords.length === 0 ) {
-			this._boundaries = merge( {}, this._config.parameters, this._config.parametersNoFunctionWordSupport  );
-		}
 
 		const calculatedResult = this.calculateResult();
 
