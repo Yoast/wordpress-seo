@@ -91,7 +91,9 @@ describe( "A keyword in url count assessment", function() {
 describe( "tests for the assessment applicability.", function() {
 	it( "returns false when there is no keyword and url found.", function() {
 		const paper = new Paper( "sample keyword" );
-		expect( keywordInUrl.isApplicable( paper ) ).toBe( false );
+		const researcher = new DefaultResearcher( paper );
+
+		expect( keywordInUrl.isApplicable( paper, researcher ) ).toBe( false );
 	} );
 
 	it( "returns true when the paper has keyword and url.", function() {
@@ -99,7 +101,9 @@ describe( "tests for the assessment applicability.", function() {
 			url: "sample-with-keyword",
 			keyword: "kéyword",
 		} );
-		expect( keywordInUrl.isApplicable( paper ) ).toBe( true );
+		const researcher = new DefaultResearcher( paper );
+
+		expect( keywordInUrl.isApplicable( paper, researcher ) ).toBe( true );
 	} );
 
 	it( "returns false when the researcher doesn't have the keywordCountInUrl research.", function() {
@@ -120,7 +124,7 @@ describe( "tests for the assessment applicability.", function() {
 			keyword: "keyword",
 		} );
 
-		// The Japanese researcher doesn't have the keywordCountInUrl research.
+		// The default researcher has the keywordCountInUrl research.
 		const researcher = new DefaultResearcher( paper );
 
 		expect( keywordInUrl.isApplicable( paper, researcher ) ).toBe( true );
