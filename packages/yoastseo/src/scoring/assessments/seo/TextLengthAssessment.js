@@ -108,21 +108,15 @@ export default class TextLengthAssessment extends Assessment {
 				score: badScore,
 				resultText: sprintf(
 					/* Translators: %1$d expands to the number of words / characters in the text,
-					%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
+					%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
+					%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words,
 					%6$d expands to the word 'word' / 'words' or 'character' / 'characters'. */
 					_n(
-						"%2$sText length%4$s: The text contains %1$d %6$d.",
-						"%2$sText length%4$s: The text contains %1$d %6$d.",
+						// eslint-disable-next-line max-len
+						"%2$sText length%4$s: The text contains %1$d %6$d. This is far below the recommended minimum of %5$d %6$d. %3$sAdd more content%4$s.",
+						// eslint-disable-next-line max-len
+						"%2$sText length%4$s: The text contains %1$d %6$d. This is far below the recommended minimum of %5$d %6$d. %3$sAdd more content%4$s.",
 						wordCount,
-						"wordpress-seo"
-					) + " " +
-					/* Translators: The preceding sentence is "Text length: The text contains x words / characters.",
-					%3$s expands to a link on yoast.com,
-					%4$s expands to the anchor end tag,
-					%5$d expands to the recommended minimum of words,
-					%6$d expands to the word 'words' or 'characters'. */
-					__(
-						"This is far below the recommended minimum of %5$d %6$d. %3$sAdd more content%4$s.",
 						"wordpress-seo"
 					),
 					wordCount,
@@ -141,18 +135,12 @@ export default class TextLengthAssessment extends Assessment {
 					score: this._config.scores.slightlyBelowMinimum,
 					resultText: sprintf(
 						/* Translators: %1$d expands to the number of words in the text,
-						%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
+						%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
+						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words,
 						%6$d expands to the word 'words' or 'characters'. */
 						__(
-							"%2$sText length%4$s: The text contains %1$d %6$d.",
-							"wordpress-seo"
-						) + " " +
-						/* Translators: The preceding sentence is "Text length: The text contains x words / characters.",
-						%3$s expands to a link on yoast.com,
-						%4$s expands to the anchor end tag,
-						%5$d expands to the recommended minimum of words. */
-						__(
-							"This is slightly below the recommended minimum of %5$d %6$d. %3$sAdd a bit more copy%4$s.",
+							// eslint-disable-next-line max-len
+							"%2$sText length%4$s: The text contains %1$d %6$d. This is slightly below the recommended minimum of %5$d %6$d. %3$sAdd a bit more copy%4$s.",
 							"wordpress-seo"
 						),
 						wordCount,
@@ -168,19 +156,13 @@ export default class TextLengthAssessment extends Assessment {
 			return {
 				score: this._config.scores.belowMinimum,
 				resultText: sprintf(
-					__(
-						/* Translators: %1$d expands to the number of words in the text,
-						%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
+					/* Translators: %1$d expands to the number of words in the text,
+						%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
+						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words,
 						%6$d expands to the word 'words' or 'characters'. */
-						"%2$sText length%4$s: The text contains %1$d %6$d.",
-						"wordpress-seo"
-					) + " " +
-					/* Translators: The preceding sentence is "Text length: The text contains x words.",
-					%3$s expands to a link on yoast.com,
-					%4$s expands to the anchor end tag,
-					%5$d expands to the recommended minimum of words. */
 					__(
-						"This is below the recommended minimum of %5$d %6$d. %3$sAdd more content%4$s.",
+						// eslint-disable-next-line max-len
+						"%2$sText length%4$s: The text contains %1$d %6$d. This is below the recommended minimum of %5$d %6$d. %3$sAdd more content%4$s.",
 						"wordpress-seo"
 					),
 					wordCount,

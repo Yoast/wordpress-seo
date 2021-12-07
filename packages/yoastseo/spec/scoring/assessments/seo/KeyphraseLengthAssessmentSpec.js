@@ -4,6 +4,8 @@ import factory from "../../../specHelpers/factory.js";
 import keyphraseLengthConfig from "../../../../src/languageProcessing/languages/de/config/keyphraseLength";
 import { all as englishFunctionWords } from "../../../../src/languageProcessing/languages/en/config/functionWords";
 import { all as germanFunctionWords } from "../../../../src/languageProcessing/languages/de/config/functionWords";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
+
 describe( "the keyphrase length assessment", function() {
 	it( "should assess a custom paper with one-word keyphrase as bad ", function() {
 		const paper = new Paper();
@@ -262,6 +264,18 @@ describe( "the keyphrase length assessment", function() {
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase is 9 words long. That's more than the recommended maximum of 6 words. " +
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
+	} );
+} );
+
+describe( "checks feedback strings for Japanese", function() {
+	it( "should assess paper with a 10-word keyphrase as too long and output 'characters' instead of 'words", function() {
+		const paper = new Paper( "", { keyword: "1 2 3 4 5 6 7 8 9 10" } );
+		const result = new KeyphraseLengthAssessment().getResult( paper, new JapaneseResearcher( paper ) );
+
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"The keyphrase is 11 characters long. That's way more than the recommended maximum of 6 characters. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 } );

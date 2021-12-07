@@ -148,14 +148,13 @@ class KeyphraseLengthAssessment extends Assessment {
 						/* Translators:
 				%1$d expands to the number of words / characters in the keyphrase,
 				%2$d expands to the recommended maximum of words / characters in the keyphrase,
-				%3$s and %4$s expand to links on yoast.com,
-				%5$s expands to the anchor end tag,
-				%6$s expands to the word 'word' / 'words' or 'character' / 'characters'. */
+				%3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
+				%6$s expands to the word 'word' or 'character', %7$s expands to the word 'words or 'characters'. */
 						_n(
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's shorter than the recommended minimum of %2$d %6$s. %4$sMake it longer%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's shorter than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's shorter than the recommended minimum of %2$d %6$s. %4$sMake it longer%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %7$s long. That's shorter than the recommended minimum of %7$d %6$s. %4$sMake it longer%5$s!",
 							this._keyphraseLengthData.keyphraseLength,
 							"wordpress-seo"
 						),
@@ -164,7 +163,8 @@ class KeyphraseLengthAssessment extends Assessment {
 						this._configToUse.urlTitle,
 						this._configToUse.urlCallToAction,
 						"</a>",
-						this._config.countTextIn
+						this._config.countTextIn.singular,
+						this._config.countTextIn.plural
 					),
 				};
 			}
@@ -188,7 +188,7 @@ class KeyphraseLengthAssessment extends Assessment {
 						this._configToUse.urlTitle,
 						this._configToUse.urlCallToAction,
 						"</a>",
-						this._config.countTextIn
+						this._config.countTextIn.plural
 					),
 				};
 			}
@@ -213,7 +213,7 @@ class KeyphraseLengthAssessment extends Assessment {
 						this._configToUse.urlTitle,
 						this._configToUse.urlCallToAction,
 						"</a>",
-						this._config.countTextIn
+						this._config.countTextIn.plural
 					),
 				};
 			}
@@ -238,7 +238,7 @@ class KeyphraseLengthAssessment extends Assessment {
 						this._configToUse.urlTitle,
 						this._configToUse.urlCallToAction,
 						"</a>",
-						this._config.countTextIn
+						this._config.countTextIn.plural
 					),
 				};
 			}
@@ -326,7 +326,7 @@ class KeyphraseLengthAssessment extends Assessment {
 					this._configToUse.urlTitle,
 					this._configToUse.urlCallToAction,
 					"</a>",
-					this._config.countTextIn
+					this._config.countTextIn.plural
 				),
 			};
 		}
@@ -350,7 +350,7 @@ class KeyphraseLengthAssessment extends Assessment {
 				this._configToUse.urlTitle,
 				this._configToUse.urlCallToAction,
 				"</a>",
-				this._config.countTextIn
+				this._config.countTextIn.plural
 			),
 		};
 	}

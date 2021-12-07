@@ -1,5 +1,3 @@
-import { merge } from "lodash-es";
-
 import SentenceLengthInTextAssessment from "../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
 
 import Paper from "../../../../src/values/Paper.js";
@@ -12,7 +10,6 @@ import EnglishResearcher from "../../../../src/languageProcessing/languages/en/R
 import PolishResearcher from "../../../../src/languageProcessing/languages/pl/Researcher";
 import RussianResearcher from "../../../../src/languageProcessing/languages/ru/Researcher";
 import ItalianResearcher from "../../../../src/languageProcessing/languages/it/Researcher";
-<<<<<<< HEAD
 import TurkishResearcher from "../../../../src/languageProcessing/languages/tr/Researcher";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 
@@ -22,18 +19,10 @@ const shortSentence15WordsLimit = "Word ".repeat( 13 ) + "word. ";
 const longSentence15WordsLimit = "Word ".repeat( 15 ) + "word. ";
 const shortSentence25WordsLimit = "Word ".repeat( 23 ) + "word. ";
 const longSentence25WordsLimit = "Word ".repeat( 25 ) + "word. ";
-=======
 
-import catalanConfig from "../../../../src/languageProcessing/languages/ca/config/sentenceLength";
-import spanishConfig from "../../../../src/languageProcessing/languages/es/config/sentenceLength";
 import hebrewConfig from "../../../../src/languageProcessing/languages/he/config/sentenceLength";
-import italianConfig from "../../../../src/languageProcessing/languages/it/config/sentenceLength";
 import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/sentenceLength";
-import russianConfig from "../../../../src/languageProcessing/languages/ru/config/sentenceLength";
-import polishConfig from "../../../../src/languageProcessing/languages/pl/config/sentenceLength";
-import portugueseConfig from "../../../../src/languageProcessing/languages/pt/config/sentenceLength";
 import turkishConfig from "../../../../src/languageProcessing/languages/tr/config/sentenceLength";
->>>>>>> 907eacfb4f87a51469bc6d0e8e7e87e0805758bc
 
 // eslint-disable-next-line max-statements
 describe( "An assessment for sentence length", function() {
@@ -219,8 +208,6 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
-<<<<<<< HEAD
-=======
 	it( "returns the score for 25% long sentences in Hebrew", function() {
 		const mockPaper = new Paper( "text", { locale: "he_IL" } );
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
@@ -319,8 +306,6 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
-
->>>>>>> 907eacfb4f87a51469bc6d0e8e7e87e0805758bc
 	it( "is not applicable for empty papers", function() {
 		const mockPaper = new Paper();
 		const assessment = new SentenceLengthInTextAssessment().isApplicable( mockPaper );
@@ -331,12 +316,10 @@ describe( "An assessment for sentence length", function() {
 describe( "A test for getting the right scoring config", function() {
 	it( "uses the default config if no language-specific config is available", function() {
 		const defaultConfig = {
-<<<<<<< HEAD
+
 			countTextIn: "words",
 			recommendedWordCount: 20,
-=======
 			recommendedLength: 20,
->>>>>>> 907eacfb4f87a51469bc6d0e8e7e87e0805758bc
 			slightlyTooMany: 25,
 			farTooMany: 30,
 			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
@@ -347,12 +330,9 @@ describe( "A test for getting the right scoring config", function() {
 	} );
 	it( "uses the default config if no language-specific config is available in cornerstone", function() {
 		const defaultConfigCornerstrone = {
-<<<<<<< HEAD
 			countTextIn: "words",
 			recommendedWordCount: 20,
-=======
 			recommendedLength: 20,
->>>>>>> 907eacfb4f87a51469bc6d0e8e7e87e0805758bc
 			slightlyTooMany: 20,
 			farTooMany: 25,
 			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
@@ -393,12 +373,9 @@ describe( "A test for getting the right scoring config", function() {
 	it( "uses a combination of language-specific and default config in cornerstone if there is regular but not cornerstone config" +
 		" available", function() {
 		const expectedConfig = {
-<<<<<<< HEAD
 			countTextIn: "words",
 			recommendedWordCount: 25,
-=======
 			recommendedLength: 25,
->>>>>>> 907eacfb4f87a51469bc6d0e8e7e87e0805758bc
 			slightlyTooMany: 20,
 			farTooMany: 25,
 			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",

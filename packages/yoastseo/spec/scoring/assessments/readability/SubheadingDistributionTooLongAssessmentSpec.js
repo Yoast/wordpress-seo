@@ -2,12 +2,8 @@ import SubheadingDistributionTooLong from "../../../../src/scoring/assessments/r
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
-<<<<<<< HEAD
-import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
-=======
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher.js";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
->>>>>>> 907eacfb4f87a51469bc6d0e8e7e87e0805758bc
 
 const subheadingDistributionTooLong = new SubheadingDistributionTooLong();
 
@@ -19,9 +15,9 @@ const longTextJapanese = "熱".repeat( 601 );
 const subheading = "<h2> some subheading </h2>";
 
 // For Japanese specs
-const shortTextJapanese = "a ".repeat( 100 );
-const longTextJapanese = "a ".repeat( 170 );
-const veryLongTextJapanese = "a ".repeat( 190 );
+const shortTextJapaneseForFeedback = "a ".repeat( 100 );
+const longTextJapaneseForFeedback = "a ".repeat( 170 );
+const veryLongTextJapaneseForFeedback = "a ".repeat( 190 );
 
 describe( "An assessment for scoring too long text fragments without a subheading.", function() {
 	it( "Scores a short text (<300 words), which does not have subheadings.", function() {
@@ -166,7 +162,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 
 describe( "Replaces 'words' with 'characters' in feedback strings for Japanese.", function() {
 	it( "Scores a text where one section is slightly too long.", function() {
-		const paper = new Paper( shortTextJapanese + subheading + longTextJapanese + subheading + shortTextJapanese );
+		const paper = new Paper( shortTextJapaneseForFeedback + subheading + longTextJapaneseForFeedback + subheading + shortTextJapaneseForFeedback );
 		const assessment = subheadingDistributionTooLong.getResult( paper, new JapaneseResearcher( paper ) );
 
 		expect( assessment.getScore() ).toBe( 6 );
@@ -176,7 +172,7 @@ describe( "Replaces 'words' with 'characters' in feedback strings for Japanese."
 	} );
 
 	it( "Scores a text where multiple sections are slightly too long.", function() {
-		const paper = new Paper( shortTextJapanese + subheading + longTextJapanese + subheading + longTextJapanese );
+		const paper = new Paper( shortTextJapaneseForFeedback + subheading + longTextJapaneseForFeedback + subheading + longTextJapaneseForFeedback );
 		const assessment = subheadingDistributionTooLong.getResult( paper, new JapaneseResearcher( paper ) );
 
 		expect( assessment.getScore() ).toBe( 6 );
@@ -186,7 +182,7 @@ describe( "Replaces 'words' with 'characters' in feedback strings for Japanese."
 	} );
 
 	it( "Scores a text where one section is too long.", function() {
-		const paper = new Paper( shortTextJapanese + subheading + veryLongTextJapanese + subheading + shortTextJapanese );
+		const paper = new Paper( shortTextJapaneseForFeedback + subheading + veryLongTextJapaneseForFeedback + subheading + shortTextJapaneseForFeedback );
 		const assessment = subheadingDistributionTooLong.getResult( paper, new JapaneseResearcher( paper ) );
 
 		expect( assessment.getScore() ).toBe( 3 );
@@ -196,7 +192,7 @@ describe( "Replaces 'words' with 'characters' in feedback strings for Japanese."
 	} );
 
 	it( "Scores a text where multiple sections are too long.", function() {
-		const paper = new Paper( shortTextJapanese + subheading + veryLongTextJapanese + subheading + veryLongTextJapanese );
+		const paper = new Paper( shortTextJapaneseForFeedback + subheading + veryLongTextJapaneseForFeedback + subheading + veryLongTextJapaneseForFeedback );
 		const assessment = subheadingDistributionTooLong.getResult( paper, new JapaneseResearcher( paper ) );
 
 		expect( assessment.getScore() ).toBe( 3 );
