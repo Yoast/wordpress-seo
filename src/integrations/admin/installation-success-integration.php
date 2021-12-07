@@ -95,7 +95,20 @@ class Installation_Success_Integration implements Integration_Interface {
 		}
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_script( 'installation-success' );
+		$asset_manager->enqueue_style( 'installation-success' );
 		$asset_manager->enqueue_style( 'monorepo' );
+
+		$asset_manager->localize_script(
+			'installation-success',
+			'wpseoInstallationSuccess',
+			[
+				'pluginUrl'                 => \esc_url( \plugins_url( '', WPSEO_FILE ) ),
+				'configurationWorkoutUrl'   => \esc_url( \admin_url( 'admin.php?page=wpseo_workouts#configuration' ) ),
+				'canDoConfigurationWorkout' => \current_user_can( 'wpseo_manage_options' ),
+				'canEditWordPressOptions'   => \current_user_can( 'manage_options' ),
+			]
+		);
 	}
 
 	/**

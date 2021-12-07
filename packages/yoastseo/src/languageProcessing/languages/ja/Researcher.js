@@ -17,6 +17,7 @@ import functionWords from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import topicLength from "./config/topicLength";
 import textLength from "./config/textLength";
+import paragraphLength from "./config/paragraphLength";
 import assessmentApplicability from "./config/assessmentApplicabilityCharacterCount";
 import sentenceLength from "./config/sentenceLength";
 
@@ -52,6 +53,7 @@ export default class Researcher extends AbstractResearcher {
 			transitionWords,
 			topicLength,
 			textLength,
+			paragraphLength,
 			assessmentApplicability,
 			sentenceLength,
 		} );
