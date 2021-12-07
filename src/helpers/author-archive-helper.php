@@ -16,12 +16,19 @@ class Author_Archive_Helper {
 	 * @return array The post types that are shown on an author's archive.
 	 */
 	public function get_author_archive_post_types() {
+		$default_post_types = [ 'post' ];
 		/**
 		 * Filters the array of post types that are shown on an author's archive.
 		 *
 		 * @param array $args The post types that are shown on an author archive.
 		 */
-		return \apply_filters( 'wpseo_author_archive_post_types', [ 'post' ] );
+		$post_types = \apply_filters( 'wpseo_author_archive_post_types', $default_post_types );
+
+		if ( ! is_array( $post_types ) ) {
+			return $default_post_types;
+		}
+
+		return $post_types;
 	}
 
 	/**
@@ -60,7 +67,7 @@ class Author_Archive_Helper {
 	 *
 	 * @return bool Whether the author has at least one public post.
 	 *
-	 * @deprecated 17.9
+	 * @deprecated         17.9
 	 */
 	protected function author_has_a_public_post( $author_id ) {
 		$cache_key        = 'author_has_a_public_post_' . $author_id;
@@ -68,12 +75,12 @@ class Author_Archive_Helper {
 
 		if ( $indexable_exists === false ) {
 			$indexable_exists = Model::of_type( 'Indexable' )
-				->select( 'id' )
-				->where( 'object_type', 'post' )
-				->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
-				->where( 'author_id', $author_id )
-				->where( 'is_public', 1 )
-				->find_one();
+			                         ->select( 'id' )
+			                         ->where( 'object_type', 'post' )
+			                         ->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
+			                         ->where( 'author_id', $author_id )
+			                         ->where( 'is_public', 1 )
+			                         ->find_one();
 
 			if ( $indexable_exists === false ) {
 				// Cache no results to prevent full table scanning on authors with no public posts.
@@ -93,7 +100,7 @@ class Author_Archive_Helper {
 	 *
 	 * @return bool Whether the author has at least one post with the is public null.
 	 *
-	 * @deprecated 17.9
+	 * @deprecated         17.9
 	 */
 	protected function author_has_a_post_with_is_public_null( $author_id ) {
 		$cache_key        = 'author_has_a_post_with_is_public_null_' . $author_id;
@@ -101,12 +108,12 @@ class Author_Archive_Helper {
 
 		if ( $indexable_exists === false ) {
 			$indexable_exists = Model::of_type( 'Indexable' )
-				->select( 'id' )
-				->where( 'object_type', 'post' )
-				->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
-				->where( 'author_id', $author_id )
-				->where_null( 'is_public' )
-				->find_one();
+			                         ->select( 'id' )
+			                         ->where( 'object_type', 'post' )
+			                         ->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
+			                         ->where( 'author_id', $author_id )
+			                         ->where_null( 'is_public' )
+			                         ->find_one();
 
 			if ( $indexable_exists === false ) {
 				// Cache no results to prevent full table scanning on authors with no is public null posts.
