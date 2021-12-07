@@ -77,6 +77,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 		if	( researcher.getConfig( "subheadingsTooLong" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
 		}
+		console.log( this._config );
 		this._subheadingTextsLength = this._subheadingTextsLength.sort( function( a, b ) {
 			return b.countLength - a.countLength;
 		} );
@@ -109,11 +110,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 		const languageSpecificConfig = researcher.getConfig( "subheadingsTooLong" );
 		// Check if a language has a default cornerstone configuration.
 		if ( currentConfig.cornerstoneContent === true && languageSpecificConfig.hasOwnProperty( "cornerstoneParameters" ) ) {
-			return merge( currentConfig, languageSpecificConfig.cornerstoneParameters );
+			return merge( currentConfig.parameters, languageSpecificConfig.cornerstoneParameters );
 		}
 
 		// Use the default language-specific config for non-cornerstone condition
-		return merge( currentConfig, languageSpecificConfig.defaultParameters );
+		return merge( currentConfig.parameters, languageSpecificConfig.defaultParameters );
 	}
 	/**
 	 * Checks whether the paper has text.
