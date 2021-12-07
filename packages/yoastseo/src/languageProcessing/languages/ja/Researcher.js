@@ -16,6 +16,7 @@ import firstWordExceptions from "./config/firstWordExceptions";
 import functionWords from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import topicLength from "./config/topicLength";
+import paragraphLength from "./config/paragraphLength";
 import assessmentApplicability from "./config/assessmentApplicabilityCharacterCount";
 import sentenceLength from "./config/sentenceLength";
 
@@ -49,12 +50,10 @@ export default class Researcher extends AbstractResearcher {
 			functionWords,
 			transitionWords,
 			topicLength,
-<<<<<<< HEAD
-			countCharacters: true,
-=======
+			paragraphLength,
 			assessmentApplicability,
 			sentenceLength,
->>>>>>> 907eacfb4f87a51469bc6d0e8e7e87e0805758bc
+			countCharacters: true,
 		} );
 
 		Object.assign( this.helpers, {
