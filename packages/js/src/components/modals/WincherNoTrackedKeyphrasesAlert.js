@@ -16,7 +16,8 @@ const WincherNoTrackedKeyphrasesAlert = () => {
 				sprintf(
 					/* translators: %s: Expands to "Wincher". */
 					__(
-						"Your %s account does not contain any keyphrases for this website yet. ",
+						// eslint-disable-next-line max-len
+						"Your %s account does not contain any keyphrases for this website yet. You can track keyphrases by using the \"Track SEO Performance\" button in the post editor.",
 						"wordpress-seo"
 					),
 					"Wincher"
