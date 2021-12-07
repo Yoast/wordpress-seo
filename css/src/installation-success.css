@@ -70,7 +70,7 @@
 }
 
 .installation-success-page .step-second-div {
-	height: 0.138rem;
+	height: 3px;
 	width: 100%;
 	background-color: var( --yoast-color-primary );
 }
