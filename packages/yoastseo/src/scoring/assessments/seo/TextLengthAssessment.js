@@ -40,6 +40,7 @@ export default class TextLengthAssessment extends Assessment {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34o" ),
 
 			cornerstoneContent: false,
+			customContentType: "",
 		};
 
 		this.identifier = "textLength";
@@ -56,7 +57,10 @@ export default class TextLengthAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const wordCount = researcher.getResearch( "wordCountInText" );
-		const assessmentResult = new AssessmentResult();
+
+		if	( researcher.getConfig( "textLength" ) ) {
+			this._config = this.getLanguageSpecificConfig( researcher );
+		}
 		const calculatedResult = this.calculateResult( wordCount );
 		const countTextInCharacters = researcher.getConfig( "countCharacters" );
 		if ( countTextInCharacters ) {
@@ -64,10 +68,37 @@ export default class TextLengthAssessment extends Assessment {
 			this._config.countTextIn.plural = __( "characters", "wordpress-seo" );
 		}
 
+		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 
 		return assessmentResult;
+	}
+
+	/**
+	 * Check if there is language-specific config, and if so, overwrite the current config with it.
+	 *
+	 * @param {Researcher} researcher The researcher to use.
+	 *
+	 * @returns {Object} The config that should be used.
+	 */
+	getLanguageSpecificConfig( researcher ) {
+		const currentConfig = this._config;
+		const languageSpecificConfig = researcher.getConfig( "textLength" );
+
+		// Check if a language has configuration for custom content types.
+		if ( languageSpecificConfig.hasOwnProperty( currentConfig.customContentType ) ) {
+			return merge( currentConfig, languageSpecificConfig[ currentConfig.customContentType ] );
+		}
+
+		// Check if a language has a default cornerstone configuration.
+		if ( currentConfig.cornerstoneContent === true && currentConfig.customContentType === "" &&
+			languageSpecificConfig.hasOwnProperty( "defaultCornerstone" ) ) {
+			return merge( currentConfig, languageSpecificConfig.defaultCornerstone );
+		}
+
+		// Use the default language-specific config for posts and pages.
+		return merge( currentConfig, languageSpecificConfig.defaultAnalysis );
 	}
 
 	/**
