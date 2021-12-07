@@ -16,6 +16,8 @@ import firstWordExceptions from "./config/firstWordExceptions";
 import functionWords from "./config/functionWords";
 import transitionWords from "./config/transitionWords";
 import topicLength from "./config/topicLength";
+import textLength from "./config/textLength";
+import paragraphLength from "./config/paragraphLength";
 import assessmentApplicability from "./config/assessmentApplicabilityCharacterCount";
 import sentenceLength from "./config/sentenceLength";
 
@@ -23,6 +25,7 @@ import sentenceLength from "./config/sentenceLength";
 import morphology from "./customResearches/getWordForms";
 import getKeywordDensity from "./customResearches/getKeywordDensity";
 import getKeyphraseLength from "./customResearches/getKeyphraseLength";
+import textLengthResearch from "./customResearches/textLength";
 
 /**
  * The researches contains all the researches
@@ -49,6 +52,8 @@ export default class Researcher extends AbstractResearcher {
 			functionWords,
 			transitionWords,
 			topicLength,
+			textLength,
+			paragraphLength,
 			assessmentApplicability,
 			sentenceLength,
 		} );
@@ -67,6 +72,7 @@ export default class Researcher extends AbstractResearcher {
 		Object.assign( this.defaultResearches, {
 			morphology,
 			keyphraseLength: getKeyphraseLength,
+			wordCountInText: textLengthResearch,
 		} );
 	}
 }
