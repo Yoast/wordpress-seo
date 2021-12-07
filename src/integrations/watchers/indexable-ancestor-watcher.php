@@ -116,7 +116,8 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 			return false;
 		}
 
-		if ( $indexable->permalink === $indexable_before->permalink ) {
+		// If the permalink was null it means it was reset instead of changed.
+		if ( $indexable->permalink === $indexable_before->permalink || \is_null( $indexable_before->permalink ) ) {
 			return false;
 		}
 

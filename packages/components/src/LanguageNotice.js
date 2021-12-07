@@ -48,10 +48,10 @@ export default class LanguageNotice extends PureComponent {
 
 		// Determine the correct text.
 		/* Translators: %s expands to the actual language. */
-		let text = __( "Your site language is set to %s. ", "yoast-components" );
+		let text = __( "Your site language is set to %s. ", "wordpress-seo" );
 		if ( ! canChangeLanguage ) {
 			/* Translators: %s expands to the actual language. */
-			text = __( "Your site language is set to %s. If this is not correct, contact your site administrator.", "yoast-components" );
+			text = __( "Your site language is set to %s. If this is not correct, contact your site administrator.", "wordpress-seo" );
 		}
 
 		// Replace the %s with a strong marked language.
@@ -67,7 +67,7 @@ export default class LanguageNotice extends PureComponent {
 			<YoastLanguageNotice>
 				{ text }
 				{ canChangeLanguage && <ChangeLanguageLink href={ changeLanguageLink }>
-					{ __( "Change language", "yoast-components" ) }
+					{ __( "Change language", "wordpress-seo" ) }
 				</ChangeLanguageLink> }
 			</YoastLanguageNotice>
 		);

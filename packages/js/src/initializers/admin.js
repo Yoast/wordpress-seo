@@ -2,6 +2,8 @@
 
 import a11ySpeak from "a11y-speak";
 import { debounce } from "lodash-es";
+import LoginPopup from "../helpers/loginPopup";
+import { getAuthorizationUrl, authenticate, trackAllKeyphrases } from "../helpers/wincherEndpoints";
 
 /**
  * @summary Initializes the admin script.
@@ -191,7 +193,7 @@ export default function initAdmin( jQuery ) {
 		}
 
 		jQuery( "#" + activeTabId ).addClass( "active" );
-		jQuery( "#" + activeTabId + "-tab" ).addClass( "nav-tab-active" ).click();
+		jQuery( "#" + activeTabId + "-tab" ).addClass( "nav-tab-active" ).trigger( "click" );
 	}
 
 	/**
@@ -267,7 +269,7 @@ export default function initAdmin( jQuery ) {
 
 		const xmlSitemapWarning = jQuery( "#yoast-seo-sitemaps-disabled-warning" );
 
-		jQuery( "#enable_xml_sitemap input[type=radio]" ).change( function() {
+		jQuery( "#enable_xml_sitemap input[type=radio]" ).on( "change", function() {
 			if ( this.value === "off" ) {
 				xmlSitemapWarning.show();
 			} else {
@@ -296,9 +298,114 @@ export default function initAdmin( jQuery ) {
 				// Clear the selection and move focus back to the trigger.
 				event.clearSelection();
 				// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680
-				jQuery( event.trigger ).focus();
+				jQuery( event.trigger ).trigger( "focus" );
 			} );
 		}
+	}
+
+	// Variable to store the popup reference in.
+	let wincherPopup = null;
+
+	/**
+	 * Performs the adding of exisitng keywords to Wincher request.
+	 *
+	 * @returns {void}
+	 */
+	async function addExistingKeyphrasesRequest() {
+		jQuery( "#wincher-track-all-keyohrases-success, #wincher-track-all-keyohrases-error" ).hide();
+
+		const data = await trackAllKeyphrases();
+
+		if ( data.status === 201 ) {
+			jQuery( "#wincher-track-all-keyphrases-success" ).show();
+		}
+
+		if ( data.status === 400 ) {
+			jQuery( "#wincher-track-all-limit" ).text( data.results.limit );
+			jQuery( "#wincher-track-all-keyphrases-error" ).show();
+		}
+
+		if ( data.status === 403 || data.status === 404 ) {
+			jQuery( "#wincher-website-error" ).show();
+		}
+	}
+
+	/**
+	 * Get the tokens using the provided code after user has granted authorization.
+	 *
+	 * @param {Object} data The message data.
+	 *
+	 * @returns {void}
+	 */
+	async function performAuthenticationRequest( data ) {
+		const response = await authenticate( data );
+
+		if ( response.status !== 200 ) {
+			return;
+		}
+
+		const popup = wincherPopup.getPopup();
+
+		if ( popup ) {
+			popup.close();
+		}
+
+		jQuery( "#wincher-login-success" ).show();
+		// We need to set the value so that it's not reset on save.
+		jQuery( "#hidden_wincher_website_id" ).val( data.websiteId );
+
+		await addExistingKeyphrasesRequest();
+	}
+
+	/**
+	 * Fires when the user wants to connect to Wincher.
+	 *
+	 * @returns {void}
+	 */
+	async function onConnect() {
+		if ( wincherPopup && ! wincherPopup.isClosed() ) {
+			wincherPopup.focus();
+			return;
+		}
+
+		const { url } = await getAuthorizationUrl();
+
+		wincherPopup = new LoginPopup(
+			url,
+			{
+				success: {
+					type: "wincher:oauth:success",
+					callback: async( data ) => await performAuthenticationRequest( data ),
+				},
+				error: {
+					type: "wincher:oauth:error",
+					callback: () => {},
+				},
+			},
+			{
+				title: "Wincher_login",
+				width: 500,
+				height: 700,
+			}
+		);
+
+		wincherPopup.createPopup();
+	}
+
+	/**
+	 * Adds the existing keyphrases to Wincher.
+	 *
+	 * @returns {void}
+	 */
+	async function addExistingKeyphrasesToWincher() {
+		// Check if we're logged in first.
+		if ( ! wpseoAdminGlobalL10n.wincher_is_logged_in ) {
+			onConnect();
+
+			return;
+		}
+
+		await addExistingKeyphrasesRequest();
 	}
 
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
@@ -314,12 +421,12 @@ export default function initAdmin( jQuery ) {
 		wpseoSetTabHash();
 
 		// Toggle the Author archives section.
-		jQuery( "#disable-author input[type='radio']" ).change( function() {
+		jQuery( "#disable-author input[type='radio']" ).on( "change", function() {
 			// The value on is disabled, off is enabled.
 			if ( jQuery( this ).is( ":checked" ) ) {
 				jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
 			}
-		} ).change();
+		} ).trigger( "change" );
 
 		const authorArchivesDisabled = jQuery( "#noindex-author-wpseo-off" );
 		const authorArchivesEnabled  = jQuery( "#noindex-author-wpseo-on" );
@@ -329,50 +436,58 @@ export default function initAdmin( jQuery ) {
 		}
 
 		// Disable Author archives without posts when Show author archives is toggled off.
-		authorArchivesEnabled.change( () => {
+		authorArchivesEnabled.on( "change", () => {
 			if ( ! jQuery( this ).is( ":checked" ) ) {
 				setAuthorsWithoutPostsToggleVisibilty( false );
 			}
 		} );
 
 		// Enable Author archives without posts when Show author archives is toggled on.
-		authorArchivesDisabled.change( () => {
+		authorArchivesDisabled.on( "change", () => {
 			if ( ! jQuery( this ).is( ":checked" ) ) {
 				setAuthorsWithoutPostsToggleVisibilty( true );
 			}
 		} );
 
 		// Toggle the Date archives section.
-		jQuery( "#disable-date input[type='radio']" ).change( function() {
+		jQuery( "#disable-date input[type='radio']" ).on( "change", function() {
 			// The value on is disabled, off is enabled.
 			if ( jQuery( this ).is( ":checked" ) ) {
 				jQuery( "#date-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
 			}
-		} ).change();
+		} ).trigger( "change" );
 
 		// Toggle the Media section.
-		jQuery( "#disable-attachment input[type='radio']" ).change( function() {
+		jQuery( "#disable-attachment input[type='radio']" ).on( "change", function() {
 			// The value on is disabled, off is enabled.
 			if ( jQuery( this ).is( ":checked" ) ) {
 				jQuery( "#media_settings" ).toggle( jQuery( this ).val() === "off" );
 			}
-		} ).change();
+		} ).trigger( "change" );
 
 		// Toggle the Format-based archives section.
-		jQuery( "#disable-post_format" ).change( function() {
+		jQuery( "#disable-post_format" ).on( "change", function() {
 			jQuery( "#post_format-titles-metas" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
-		} ).change();
+		} ).trigger( "change" );
 
 		// Toggle the Zapier connection section.
-		jQuery( "#zapier_integration_active input[type='radio']" ).change( function() {
+		jQuery( "#zapier_integration_active input[type='radio']" ).on( "change", function() {
 			// The value on is enabled, off is disabled.
 			if ( jQuery( this ).is( ":checked" ) ) {
 				jQuery( "#zapier-connection" ).toggle( jQuery( this ).val() === "on" );
 			}
+		} ).trigger( "change" );
+
+		// Toggle the Wincher section.
+		jQuery( "#wincher_integration_active input[type='radio']" ).change( function() {
+			// The value on is enabled, off is disabled.
+			if ( jQuery( this ).is( ":checked" ) ) {
+				jQuery( "#wincher-connection" ).toggle( jQuery( this ).val() === "on" );
+			}
 		} ).change();
 
 		// Handle the settings pages tabs.
-		jQuery( "#wpseo-tabs" ).find( "a" ).click( function() {
+		jQuery( "#wpseo-tabs" ).find( "a" ).on( "click", function() {
 			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
 			jQuery( ".wpseotab" ).removeClass( "active" );
 
@@ -390,7 +505,7 @@ export default function initAdmin( jQuery ) {
 		} );
 
 		// Handle the Company or Person select.
-		jQuery( "#company_or_person" ).change( function() {
+		jQuery( "#company_or_person" ).on( "change", function() {
 			var companyOrPerson = jQuery( this ).val();
 			if ( "company" === companyOrPerson ) {
 				jQuery( "#knowledge-graph-company" ).show();
@@ -402,7 +517,7 @@ export default function initAdmin( jQuery ) {
 				jQuery( "#knowledge-graph-company" ).hide();
 				jQuery( "#knowledge-graph-person" ).hide();
 			}
-		} ).change();
+		} ).trigger( "change" );
 
 		// Check correct variables usage in title and description templates.
 		jQuery( ".template" ).on( "input", function() {
@@ -427,12 +542,24 @@ export default function initAdmin( jQuery ) {
 				.find( "span" ).toggleClass( "dashicons-arrow-up-alt2 dashicons-arrow-down-alt2" );
 		} );
 
+		jQuery( "#wincher-track-all-keyphrases" ).on( "click", ( event ) => {
+			event.preventDefault();
+
+			addExistingKeyphrasesToWincher();
+		} );
+
+		jQuery( "#wincher-track-all-website-error-link" ).on( "click", ( event ) => {
+			event.preventDefault();
+
+			onConnect();
+		} );
+
 		const opengraphToggle = jQuery( "#opengraph" );
 		const facebookSettingsContainer = jQuery( "#wpseo-opengraph-settings" );
 		if ( opengraphToggle.length && facebookSettingsContainer.length ) {
 			facebookSettingsContainer.toggle( opengraphToggle[ 0 ].checked );
 
-			opengraphToggle.change( ( event ) => {
+			opengraphToggle.on( "change", ( event ) => {
 				facebookSettingsContainer.toggle( event.target.checked );
 			} );
 		}

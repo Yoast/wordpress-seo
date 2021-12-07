@@ -62,6 +62,10 @@ class KeywordInput extends Component {
 			errors.push( __( "Please enter a focus keyphrase first to get related keyphrases", "wordpress-seo" ) );
 		}
 
+		if ( this.props.keyword.trim().length === 0 && this.props.displayNoKeyphrasForTrackingMessage ) {
+			errors.push( __( "Please enter a focus keyphrase first to track keyphrase performance", "wordpress-seo" ) );
+		}
+
 		if ( this.props.keyword.includes( "," ) ) {
 			errors.push(  __( "Are you trying to use multiple keyphrases? You should add them separately below.", "wordpress-seo" )  );
 		}
@@ -118,22 +122,25 @@ KeywordInput.propTypes = {
 	onBlurKeyword: PropTypes.func.isRequired,
 	isSEMrushIntegrationActive: PropTypes.bool,
 	displayNoKeyphraseMessage: PropTypes.bool,
+	displayNoKeyphrasForTrackingMessage: PropTypes.bool,
 };
 
 KeywordInput.defaultProps = {
 	keyword: "",
 	isSEMrushIntegrationActive: false,
 	displayNoKeyphraseMessage: false,
+	displayNoKeyphrasForTrackingMessage: false,
 };
 
 export { KeywordInput };
 
 export default compose( [
 	withSelect( ( select ) => {
-		const { getFocusKeyphrase, getSEMrushNoKeyphraseMessage } = select( "yoast-seo/editor" );
+		const { getFocusKeyphrase, getSEMrushNoKeyphraseMessage, hasWincherNoKeyphrase } = select( "yoast-seo/editor" );
 		return {
 			keyword: getFocusKeyphrase(),
 			displayNoKeyphraseMessage: getSEMrushNoKeyphraseMessage(),
+			displayNoKeyphrasForTrackingMessage: hasWincherNoKeyphrase(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

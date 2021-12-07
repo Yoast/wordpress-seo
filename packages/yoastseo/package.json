@@ -72,7 +72,8 @@
     "parse5": "^5.1.0",
     "sassdash": "0.9.0",
     "tokenizer2": "^2.0.1",
-    "tiny-segmenter": "^0.2.0"
+    "tiny-segmenter": "^0.2.0",
+    "@wordpress/i18n": "^3.19.1"
   },
   "browserify": {
     "transform": [

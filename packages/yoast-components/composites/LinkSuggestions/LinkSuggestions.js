@@ -18,17 +18,20 @@ const LinkSuggestionsWrapper = styled.div`
 `;
 
 const noRelevantPostsMessage = __(
-	"We could not find any relevant articles on your website that you could link to from your post.", "yoast-components" );
+	"We could not find any relevant articles on your website that you could link to from your post.",
+	"wordpress-seo"
+);
 
 // Translators: Text between {{a}} and {{/a}} will be a link to an article about site structure.
 const articleLinkString = __(
-	"{{a}}Read our article about site structure{{/a}} " +
-	"to learn more about how internal linking can help improve your SEO.", "yoast-components" );
+	"{{a}}Read our article about site structure{{/a}} to learn more about how internal linking can help improve your SEO.",
+	"wordpress-seo"
+);
 
 // Translators: Text between {{a}} and {{/a}} will be a link to an article about cornerstone content.
-const cornerstoneLinkString = __( "Consider linking to these {{a}}cornerstone articles:{{/a}}", "yoast-components" );
+const cornerstoneLinkString = __( "Consider linking to these {{a}}cornerstone articles:{{/a}}", "wordpress-seo" );
 
-const nonCornerstoneLinkString = __( "Consider linking to these articles:", "yoast-components" );
+const nonCornerstoneLinkString = __( "Consider linking to these articles:", "wordpress-seo" );
 
 /**
  * Represents the Suggestions component.
@@ -59,7 +62,7 @@ class LinkSuggestions extends React.Component {
 	 * @returns {void}
 	 */
 	handleSuccess( evt ) {
-		const message = __( "Copied!", "yoast-components" );
+		const message = __( "Copied!", "wordpress-seo" );
 
 		// Move focus back to the Clipboard trigger button.
 		evt.trigger.focus();
@@ -78,7 +81,7 @@ class LinkSuggestions extends React.Component {
 	 * @returns {void}
 	 */
 	handleError( evt ) {
-		const message = __( "Not supported!", "yoast-components" );
+		const message = __( "Not supported!", "wordpress-seo" );
 
 		// Update the button `aria-label` attribute.
 		evt.trigger.el.setAttribute( "aria-label", message );

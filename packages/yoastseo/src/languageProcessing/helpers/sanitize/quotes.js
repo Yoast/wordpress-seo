@@ -5,7 +5,7 @@
  * @returns {string} The normalized text.
  */
 function normalizeSingleQuotes( text ) {
-	return text.replace( /[‘’‛`]/g, "'" );
+	return text.replace( /[‘’‛`「」『』]/g, "'" );
 }
 
 /**

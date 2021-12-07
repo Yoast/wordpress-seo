@@ -150,6 +150,17 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
+	 * Adds an inline script.
+	 *
+	 * @param string $handle   The script handle.
+	 * @param string $data     The l10n data.
+	 * @param string $position Optional. Whether to add the inline script before the handle or after.
+	 */
+	public function add_inline_script( $handle, $data, $position = 'after' ) {
+		\wp_add_inline_script( $this->prefix . $handle, $data, $position );
+	}
+
+	/**
 	 * A list of styles that shouldn't be registered but are needed in other locations in the plugin.
 	 *
 	 * @return array
@@ -300,6 +311,39 @@ class WPSEO_Admin_Asset_Manager {
 			$renamed_scripts
 		);
 
+		$scripts[ "installation-success" ] = [
+			'name' => 'installation-success',
+			'src'  => 'installation-success-' . $flat_version . '.js',
+			'deps' => [
+				'wp-a11y',
+				'wp-dom-ready',
+				'wp-components',
+				'wp-element',
+				'wp-i18n',
+				self::PREFIX . 'yoast-components',
+			],
+		];
+
+		$scripts['workouts'] = [
+			'name' => 'workouts',
+			'src'  => 'workouts-' . $flat_version . '.js',
+			'deps' => [
+				'clipboard',
+				'lodash',
+				'wp-api-fetch',
+				'wp-a11y',
+				'wp-components',
+				'wp-compose',
+				'wp-data',
+				'wp-dom-ready',
+				'wp-element',
+				'wp-i18n',
+				self::PREFIX . 'analysis',
+				self::PREFIX . 'react-select',
+				self::PREFIX . 'yoast-components',
+			],
+		];
+
 		// Add the current language to every script that requires the analysis package.
 		foreach ( $scripts as $name => $script ) {
 			if ( substr( $name, -8 ) === 'language' ) {
@@ -408,7 +452,7 @@ class WPSEO_Admin_Asset_Manager {
 			'deps'    => [
 				'jquery',
 			],
-			'version' => '4.0.3',
+			'version' => '4.1.0-rc.0',
 		];
 		$scripts['select2-translations'] = [
 			'name'    => 'select2-translations',
@@ -417,7 +461,7 @@ class WPSEO_Admin_Asset_Manager {
 				'jquery',
 				self::PREFIX . 'select2-core',
 			],
-			'version' => '4.0.3',
+			'version' => '4.1.0-rc.0',
 		];
 
 		return $scripts;
@@ -542,7 +586,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name'    => 'select2',
 				'src'     => 'select2/select2',
 				'suffix'  => '.min',
-				'version' => '4.0.1',
+				'version' => '4.1.0-rc.0',
 				'rtl'     => false,
 			],
 			[
@@ -591,6 +635,11 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'workouts',
 				'src'  => 'workouts-' . $flat_version,
+				'deps' => [ self::PREFIX . 'monorepo' ],
+			],
+			[
+				'name' => 'installation-success',
+				'src'  => 'installation-success-' . $flat_version,
 				'deps' => [ self::PREFIX . 'monorepo' ],
 			],
 		];

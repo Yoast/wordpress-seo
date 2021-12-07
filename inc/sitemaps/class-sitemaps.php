@@ -151,12 +151,12 @@ class WPSEO_Sitemaps {
 	/**
 	 * Register your own sitemap. Call this during 'init'.
 	 *
-	 * @param string   $name     The name of the sitemap.
-	 * @param callback $function Function to build your sitemap.
-	 * @param string   $rewrite  Optional. Regular expression to match your sitemap with.
+	 * @param string   $name              The name of the sitemap.
+	 * @param callback $building_function Function to build your sitemap.
+	 * @param string   $rewrite           Optional. Regular expression to match your sitemap with.
 	 */
-	public function register_sitemap( $name, $function, $rewrite = '' ) {
-		add_action( 'wpseo_do_sitemap_' . $name, $function );
+	public function register_sitemap( $name, $building_function, $rewrite = '' ) {
+		add_action( 'wpseo_do_sitemap_' . $name, $building_function );
 		if ( ! empty( $rewrite ) ) {
 			add_rewrite_rule( $rewrite, 'index.php?sitemap=' . $name, 'top' );
 		}
@@ -167,12 +167,12 @@ class WPSEO_Sitemaps {
 	 *
 	 * @since 1.4.23
 	 *
-	 * @param string   $name     The name of the XSL file.
-	 * @param callback $function Function to build your XSL file.
-	 * @param string   $rewrite  Optional. Regular expression to match your sitemap with.
+	 * @param string   $name              The name of the XSL file.
+	 * @param callback $building_function Function to build your XSL file.
+	 * @param string   $rewrite           Optional. Regular expression to match your sitemap with.
 	 */
-	public function register_xsl( $name, $function, $rewrite = '' ) {
-		add_action( 'wpseo_xsl_' . $name, $function );
+	public function register_xsl( $name, $building_function, $rewrite = '' ) {
+		add_action( 'wpseo_xsl_' . $name, $building_function );
 		if ( ! empty( $rewrite ) ) {
 			add_rewrite_rule( $rewrite, 'index.php?yoast-sitemap-xsl=' . $name, 'top' );
 		}
@@ -202,10 +202,10 @@ class WPSEO_Sitemaps {
 	/**
 	 * Set as true to make the request 404. Used stop the display of empty sitemaps or invalid requests.
 	 *
-	 * @param bool $bool Is this a bad request. True or false.
+	 * @param bool $is_bad Is this a bad request. True or false.
 	 */
-	public function set_bad_sitemap( $bool ) {
-		$this->bad_sitemap = (bool) $bool;
+	public function set_bad_sitemap( $is_bad ) {
+		$this->bad_sitemap = (bool) $is_bad;
 	}
 
 	/**
@@ -444,7 +444,8 @@ class WPSEO_Sitemaps {
 	 */
 	public function output() {
 		$this->send_headers();
-		echo $this->renderer->get_output( $this->sitemap, $this->transient );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping sitemap as either xml or html results in empty document.
+		echo $this->renderer->get_output( $this->sitemap );
 	}
 
 	/**

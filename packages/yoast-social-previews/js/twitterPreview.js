@@ -126,12 +126,8 @@ var TwitterPreview = function( opts, i18n ) {
 	this.i18n = i18n || this.constructI18n();
 
 	twitterDefaults.placeholder = {
-		title: this.i18n.dgettext( "yoast-social-previews", "This is an example title - edit by clicking here" ),
-		description: this.i18n.sprintf(
-			/** translators: %1$s expands to twitter */
-			this.i18n.dgettext( "yoast-social-previews", "Modify your %1$s description by editing it right here" ),
-			"twitter"
-		),
+		title: "",
+		description: "",
 		imageUrl: "",
 	};
 

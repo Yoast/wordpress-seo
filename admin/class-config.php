@@ -119,7 +119,7 @@ class WPSEO_Admin_Pages {
 			$yoast_components_l10n->localize_script( 'settings' );
 		}
 
-		if ( in_array( $page, [ 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_titles' ], true ) ) {
+		if ( in_array( $page, [ 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_titles', 'wpseo_workouts' ], true ) ) {
 			wp_enqueue_media();
 
 			$script_data['media'] = [

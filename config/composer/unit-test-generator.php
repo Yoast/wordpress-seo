@@ -159,7 +159,7 @@ class Unit_Test_Generator {
 	 *
 	 * @param string $fully_qualified_class_name   The fully qualified class name of the class that is tested.
 	 * @param string $name                         The name of the class that is tested.
-	 * @param string $namespace                    The namespace of the test class.
+	 * @param string $class_namespace              The namespace of the test class.
 	 * @param string $use_statements               The use statements, one for each mocked constructor argument.
 	 * @param string $groups                       The unit test groups.
 	 * @param string $property_statements          The property statements, one for each mocked constructor argument.
@@ -172,7 +172,7 @@ class Unit_Test_Generator {
 	protected function unit_test_template(
 		$fully_qualified_class_name,
 		$name,
-		$namespace,
+		$class_namespace,
 		$use_statements,
 		$groups,
 		$property_statements,
@@ -182,7 +182,7 @@ class Unit_Test_Generator {
 		return <<<TPL
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\\{$namespace};
+namespace Yoast\WP\SEO\Tests\Unit\\{$class_namespace};
 
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

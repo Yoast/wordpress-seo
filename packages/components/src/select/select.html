@@ -10,7 +10,7 @@
 			src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 			integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
 			crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.js"></script>
 
 	<style>
 		/* Demo styling */
@@ -31,7 +31,7 @@
 	<link rel='stylesheet' href='../help-icon/help-icon.css' type='text/css' media='all'/>
 	<link rel='stylesheet' href='../button/buttons.css' type='text/css' media='all'/>
 	<link rel='stylesheet' href='select.css' type='text/css' media='all'/>
-	<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body class="yoast">
 <form>
@@ -110,15 +110,15 @@
 <script>
 	$(document).ready(function() {
 		$('.js-example-basic-multiple').select2({
-			containerCssClass: 'yoast-multiselect',
+			selectionCssClass: 'yoast-multiselect',
 			dropdownCssClass: "yoast-select__dropdown",
 		});
 	});
 
 	$(document).ready(function() {
 		$('.js-example-basic-multiple-inline').select2({
-			containerCssClass: 'yoast-multiselect',
-			theme: 'default yoast-select2--inline',
+			selectionCssClass: 'yoast-multiselect ',
+			theme: 'default',
 			dropdownCssClass: "yoast-select__dropdown",
 		});
 	});

@@ -1,6 +1,7 @@
 /* global wpseoScriptData */
 
 /* External dependencies */
+import { __ } from "@wordpress/i18n";
 import { get } from "lodash-es";
 import { markers } from "yoastseo";
 import { select } from "@wordpress/data";
@@ -11,14 +12,11 @@ import { update as updateAdminBar } from "../ui/adminBar";
 import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as tmceHelper from "../lib/tinymce";
-import getI18n from "./getI18n";
 import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 
 const { tmceId } = tmceHelper;
 const $ = jQuery;
-const i18n = getI18n();
-
 /**
  * Show warning in console when the unsupported CkEditor is used
  *
@@ -261,7 +259,7 @@ PostDataCollector.prototype.getPermalink = function() {
 PostDataCollector.prototype.getCategoryName = function( li ) {
 	var clone = li.clone();
 	clone.children().remove();
-	return $.trim( clone.text() );
+	return clone.text().trim();
 };
 
 /**
@@ -385,9 +383,9 @@ PostDataCollector.prototype.saveScores = function( score, keyword ) {
 
 	if ( "" === keyword ) {
 		indicator.className = "na";
-		indicator.screenReaderText = i18n.dgettext(
-			"js-text-analysis",
-			"Enter a focus keyphrase to calculate the SEO score"
+		indicator.screenReaderText = __(
+			"Enter a focus keyphrase to calculate the SEO score",
+			"wordpress-seo"
 		);
 	}
 

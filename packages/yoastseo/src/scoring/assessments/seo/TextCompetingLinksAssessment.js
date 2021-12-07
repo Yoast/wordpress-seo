@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { isUndefined, merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -41,16 +42,15 @@ class TextCompetingLinksAssessment extends Assessment {
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 * @param {Researcher}  researcher  The researcher used for calling research.
-	 * @param {Jed}         i18n        The object used for translations.
 	 *
 	 * @returns {Object} The AssessmentResult.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		const assessmentResult = new AssessmentResult();
 
 		this.linkCount = researcher.getResearch( "getLinkStatistics" );
 
-		const calculatedResult = this.calculateResult( i18n );
+		const calculatedResult = this.calculateResult();
 
 		if ( isUndefined( calculatedResult ) ) {
 			return assessmentResult;
@@ -77,21 +77,18 @@ class TextCompetingLinksAssessment extends Assessment {
 	/**
 	 * Returns a result based on the number of links.
 	 *
-	 * @param {Jed} i18n The object used for translations.
-	 *
 	 * @returns {Object} ResultObject with score and text.
 	 */
-	calculateResult( i18n ) {
+	calculateResult() {
 		if ( this.linkCount.keyword.totalKeyword > this._config.parameters.recommendedMaximum ) {
 			return {
 				score: this._config.scores.bad,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sLink keyphrase%3$s: " +
-						"You're linking to another page with the words you want this page to rank for. " +
-						"%2$sDon't do that%3$s!"
+					__(
+						// eslint-disable-next-line max-len
+						"%1$sLink keyphrase%3$s: You're linking to another page with the words you want this page to rank for. %2$sDon't do that%3$s!",
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,

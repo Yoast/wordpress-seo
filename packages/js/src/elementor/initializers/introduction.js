@@ -31,7 +31,7 @@ export default function initializeIntroduction() {
 			// Close the introduction after the user clicks on the element it points to.
 			window.$e.routes.on( "run:after", function( component, route ) {
 				if ( route === "panel/menu" ) {
-					dialog.getElements( "ok" ).click();
+					dialog.getElements( "ok" ).trigger( "click" );
 				}
 			} );
 

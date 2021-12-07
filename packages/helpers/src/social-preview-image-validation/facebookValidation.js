@@ -21,7 +21,7 @@ export const validateSize = ( image ) => {
 		/* Translators: %d expands to the minimum width, %d expands to the minimum hight */
 		__(
 			"Your image dimensions are not suitable. The minimum dimensions are %dx%d pixels.",
-			"yoast-components"
+			"wordpress-seo"
 		),
 		MIN_WIDTH, MIN_HEIGHT
 	);
@@ -44,7 +44,7 @@ export const validateType = ( image ) => {
 		/* Translators: %s expands to the jpg format, %s expands to the png format, %s expands to the gif format. */
 		__(
 			"The format of the uploaded image is not supported. The supported formats are: %s, %s and %s.",
-			"yoast-components"
+			"wordpress-seo"
 		),
 		"JPG", "PNG", "GIF"
 	);

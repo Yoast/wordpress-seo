@@ -3,6 +3,7 @@ export const TWITTER_IMAGE_SIZES = {
 	squareHeight: 125,
 	landscapeWidth: 506,
 	landscapeHeight: 265,
+	aspectRatio: ( 0.502 / 1 ) * 100,
 };
 
 export const FACEBOOK_IMAGE_SIZES = {
@@ -12,6 +13,8 @@ export const FACEBOOK_IMAGE_SIZES = {
 	landscapeHeight: 273,
 	portraitWidth: 158,
 	portraitHeight: 237,
+	aspectRatio: ( 0.522 / 1 ) * 100,
+	largeThreshold: { width: 446, height: 233 },
 };
 
 /**
@@ -22,8 +25,14 @@ export const FACEBOOK_IMAGE_SIZES = {
  * @returns {string} The display mode of the image.
  */
 export function determineFacebookImageMode( originalDimensions ) {
+	const { largeThreshold } = FACEBOOK_IMAGE_SIZES;
+
 	if ( originalDimensions.height > originalDimensions.width ) {
 		return "portrait";
+	}
+
+	if (  originalDimensions.width < largeThreshold.width || originalDimensions.height < largeThreshold.height ) {
+		return "square";
 	}
 
 	if ( originalDimensions.height === originalDimensions.width ) {
