@@ -35,12 +35,18 @@ class KeywordInput extends Component {
 	/**
 	 * Renders a help link.
 	 *
-	 * @returns {wp.Element} The help link component.
+	 * @param {string} link The help link.
+	 *
+	 * @returns {JSX.Element} The help link component.
 	 */
-	static renderHelpLink() {
+	static renderHelpLink( link ) {
+		if ( ! link ) {
+			return null;
+		}
+
 		return (
 			<HelpLink
-				href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }
+				href={ link }
 				className="dashicons"
 			>
 				<span className="screen-reader-text">
@@ -67,11 +73,11 @@ class KeywordInput extends Component {
 		}
 
 		if ( this.props.keyword.includes( "," ) ) {
-			errors.push(  __( "Are you trying to use multiple keyphrases? You should add them separately below.", "wordpress-seo" )  );
+			errors.push( __( "Are you trying to use multiple keyphrases? You should add them separately below.", "wordpress-seo" ) );
 		}
 
 		if ( this.props.keyword.length > 191 ) {
-			errors.push(  __( "Your keyphrase is too long. It can be a maximum of 191 characters.",	"wordpress-seo"	)  );
+			errors.push( __( "Your keyphrase is too long. It can be a maximum of 191 characters.", "wordpress-seo" ) );
 		}
 
 		return errors;
@@ -87,14 +93,14 @@ class KeywordInput extends Component {
 
 		return <LocationConsumer>
 			{ context => (
-				<div style={ context === "sidebar" ? {  borderBottom: "1px solid #f0f0f0" } : {} }>
+				<div style={ context === "sidebar" ? { borderBottom: "1px solid #f0f0f0" } : {} }>
 					<KeywordInputContainer location={ context }>
 						<KeywordInputComponent
 							id={ `focus-keyword-input-${ context }` }
 							onChange={ this.props.onFocusKeywordChange }
 							keyword={ this.props.keyword }
 							label={ __( "Focus keyphrase", "wordpress-seo" ) }
-							helpLink={ KeywordInput.renderHelpLink() }
+							helpLink={ KeywordInput.renderHelpLink( this.props.helpLink ) }
 							onBlurKeyword={ this.props.onBlurKeyword }
 							onFocusKeyword={ this.props.onFocusKeyword }
 							hasError={ errors.length > 0 }
@@ -123,6 +129,7 @@ KeywordInput.propTypes = {
 	isSEMrushIntegrationActive: PropTypes.bool,
 	displayNoKeyphraseMessage: PropTypes.bool,
 	displayNoKeyphrasForTrackingMessage: PropTypes.bool,
+	helpLink: PropTypes.string,
 };
 
 KeywordInput.defaultProps = {
@@ -130,17 +137,20 @@ KeywordInput.defaultProps = {
 	isSEMrushIntegrationActive: false,
 	displayNoKeyphraseMessage: false,
 	displayNoKeyphrasForTrackingMessage: false,
+	helpLink: "",
 };
 
 export { KeywordInput };
 
 export default compose( [
 	withSelect( ( select ) => {
-		const { getFocusKeyphrase, getSEMrushNoKeyphraseMessage, hasWincherNoKeyphrase } = select( "yoast-seo/editor" );
+		const { getFocusKeyphrase, getSEMrushNoKeyphraseMessage, getIsSEMrushIntegrationActive, hasWincherNoKeyphrase } = select( "yoast-seo/editor" );
 		return {
 			keyword: getFocusKeyphrase(),
 			displayNoKeyphraseMessage: getSEMrushNoKeyphraseMessage(),
 			displayNoKeyphrasForTrackingMessage: hasWincherNoKeyphrase(),
+			isSEMrushIntegrationActive: getIsSEMrushIntegrationActive(),
+			helpLink: wpseoAdminL10n[ "shortlinks.focus_keyword_info" ],
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

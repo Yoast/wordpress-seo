@@ -49,9 +49,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 				<Alert />
 			</SidebarItem>
 			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
-				<KeywordInput
-					isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
-				/>
+				<KeywordInput />
 				{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
 					<SEMrushRelatedKeyphrases />
 				</Fill> }
