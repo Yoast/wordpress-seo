@@ -24,6 +24,7 @@ const entry = {
 	"filter-explanation": "./packages/js/src/filter-explanation.js",
 	"help-scout-beacon": "./packages/js/src/help-scout-beacon.js",
 	indexation: "./packages/js/src/indexation.js",
+	"installation-success": "./packages/js/src/installation-success.js",
 	"network-admin": "./packages/js/src/network-admin.js",
 	"post-edit": "./packages/js/src/post-edit.js",
 	"quick-edit-handler": "./packages/js/src/quick-edit-handler.js",

@@ -59,11 +59,12 @@ class UrlKeywordAssessment extends Assessment {
 	 * Checks whether the paper has a keyword and a url.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The researcher object.
 	 *
-	 * @returns {boolean} True when there is a keyword and an url.
+	 * @returns {boolean} True if the paper contains a keyword and a URL, and if the keywordCountInUrl research is available on the researcher.
 	 */
-	isApplicable( paper ) {
-		return paper.hasKeyword() && paper.hasUrl();
+	isApplicable( paper, researcher ) {
+		return paper.hasKeyword() && paper.hasUrl() && researcher.hasResearch( "keywordCountInUrl" );
 	}
 
 	/**

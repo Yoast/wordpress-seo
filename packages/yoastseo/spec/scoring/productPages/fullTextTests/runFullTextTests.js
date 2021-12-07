@@ -285,7 +285,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the urlKeyword assessment", function() {
-			const isApplicable = urlKeywordAssessment.isApplicable( paper );
+			const isApplicable = urlKeywordAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.urlKeyword.isApplicable );
 
 			if ( isApplicable ) {
