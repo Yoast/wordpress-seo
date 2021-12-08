@@ -39,21 +39,20 @@ function adjustPosition( title, position ) {
 
 /**
  * Checks the occurrences of the keyphrase in the page title. Returns a result that contains information on
- * (1) whether an exact-match is found
- * (2) whether all the keyphrase forms are found,
- * (3) the lowest number of the positions of the matches, and
- * (4) whether the exact match keyphrase is requested.
+ * (1) whether all the keyphrase forms are found,
+ * (2) the lowest number of the positions of the matches, and
+ * (3) whether the exact match keyphrase is requested.
  *
  * @param {Object} paper 			The paper containing title and keyword.
  * @param {Researcher} researcher 	The researcher to use for analysis.
  *
- * @returns {Object} An object containing these info: (1) whether an exact-match is found, (2) whether all the keyphrase forms are found,
- * (3) the lowest number of the positions of the matches, and (4) whether the exact match keyphrase is requested.
+ * @returns {Object} An object containing these info: (1) whether all the keyphrase forms are found,
+ * (2) the lowest number of the positions of the matches, and (3) whether the exact match keyphrase is requested.
  */
 export default function( paper, researcher ) {
 	const title = paper.getTitle();
 	let keyphrase = paper.getKeyword();
-	const result = { exactMatchFound: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false  };
+	const result = { allWordsFound: false, position: -1, exactMatchKeyphrase: false  };
 
 	// Check if the keyword is enclosed in quotation mark.
 	// If yes, remove the quotation marks and check if the exact match of the keyphrase is found in the title.
@@ -67,17 +66,28 @@ export default function( paper, researcher ) {
 		const keyphraseMatched = wordMatch( title, keyphrase, "ja", japaneseWordMatchHelper );
 
 		if ( keyphraseMatched.count > 0 ) {
+			/*
+			 * The exactMatchFound is true only when the keyphrase is enclosed in double quotes.
+			 * We don't need to return this information for other cases,
+			 * because in Japanese we don't require an exact match of a keyphrase in the title.
+			 */
 			result.exactMatchFound = true;
 			result.allWordsFound = true;
 			result.position = adjustPosition( title, keyphraseMatched.position );
+		} else {
+			result.exactMatchFound = false;
 		}
+		/*
+		 * When the exact match process is requested, we don't need to run the check for the different word forms,
+		 * and return the result here.
+		 */
 		return result;
 	}
 
-	// Get the forms of the keyword (using the morphology research).
-	const keyphraseForms = researcher.getResearch( "morphology" );
-
+	// Get the forms of the keyphrase (using the morphology research).
+	const keyphraseForms = researcher.getResearch( "morphology" ).keyphraseForms;
 	const separateWordFormsMatched = findWordFormsInString( keyphraseForms, title, "ja", japaneseWordMatchHelper );
+
 	if ( separateWordFormsMatched.percentWordMatches === 100 ) {
 		result.allWordsFound = true;
 		result.position = adjustPosition( title, separateWordFormsMatched.position );
