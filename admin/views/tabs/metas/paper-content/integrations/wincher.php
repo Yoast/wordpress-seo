@@ -8,6 +8,13 @@
  */
 
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
+use Yoast\WP\SEO\Conditionals\Wincher_Conditional;
+
+// Don't render when feature flag is not enabled.
+$conditional = new Wincher_Conditional();
+if ( ! $conditional->is_met() ) {
+	return;
+}
 
 $asset_manager = new WPSEO_Admin_Asset_Manager();
 $asset_manager->enqueue_style( 'monorepo' );
