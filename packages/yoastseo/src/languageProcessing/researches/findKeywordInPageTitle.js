@@ -81,15 +81,16 @@ const findKeyphraseInPageTitle = function( paper, researcher ) {
 	const result = { exactMatchFound: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false  };
 
 	// Check if the keyphrase is enclosed in double quotation marks to ensure that only exact matches are processed.
-	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„" ];
+	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
 	const exactMatchRequest = processExactMatchRequest( keyword, doubleQuotes );
+
 	if ( exactMatchRequest.exactMatchRequested ) {
-		keyword = exactMatchRequest.keyword;
+		keyword = exactMatchRequest.keyphrase;
 		result.exactMatchKeyphrase = true;
 	}
 
 	// Check if the exact match of the keyphrase is found in the title.
-	const keywordMatched = wordMatch( title, keyword, locale );
+	const keywordMatched = wordMatch( title, keyword, locale, false );
 
 	if ( keywordMatched.count > 0 ) {
 		result.exactMatchFound = true;
@@ -105,7 +106,7 @@ const findKeyphraseInPageTitle = function( paper, researcher ) {
 	// Use only keyphrase (not the synonyms) to match topic words in the title.
 	const useSynonyms = false;
 
-	const separateWordsMatched = findTopicFormsInString( topicForms, title, useSynonyms, locale );
+	const separateWordsMatched = findTopicFormsInString( topicForms, title, useSynonyms, locale, false );
 
 	if ( separateWordsMatched.percentWordMatches === 100 ) {
 		result.allWordsFound = true;
