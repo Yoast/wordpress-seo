@@ -1,4 +1,4 @@
-import { get } from "lodash";
+import { get, set } from "lodash";
 
 import { tmceId, getContentTinyMce } from "../lib/tinymce";
 import { excerptFromContent } from "../helpers/replacementVariableHelpers";
@@ -25,8 +25,6 @@ export const DOM_IDS = {
  * @type {string}
  */
 const FEATURED_IMAGE_QUERY_SELECTOR = "#set-post-thumbnail img";
-
-export const getTitleElem = () => document.getElementById( DOM_IDS.TITLE );
 
 /**
  * Gets the title from the document.
@@ -114,3 +112,19 @@ const getFeaturedImageSetInEditor = () => document.querySelector( FEATURED_IMAGE
  * @returns {string} The featured image URL.
  */
 export const getFeaturedImageUrl = () => getFeaturedImageSetInEditor() || firstImageUrlInContent( getContent() ) || "";
+
+/**
+ * Set the SEO title value prop on its DOM element.
+ *
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
+ */
+export const setSeoTitle = ( value ) => set( document.getElementById( DOM_IDS.SEO_TITLE ), "value", value );
+
+/**
+  * Set the meta description value prop on its DOM element.
+  *
+  * @param {*} value The value to set.
+  * @returns {HTMLElement} The DOM element.
+  */
+export const setMetaDescription = ( value ) => set( document.getElementById( DOM_IDS.META_DESCRIPTION ), "value", value );
