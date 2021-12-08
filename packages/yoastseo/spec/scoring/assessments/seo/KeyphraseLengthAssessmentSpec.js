@@ -1,7 +1,6 @@
 import KeyphraseLengthAssessment from "../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import factory from "../../../specHelpers/factory.js";
-import keyphraseLengthConfig from "../../../../src/languageProcessing/languages/de/config/keyphraseLength";
 import { all as englishFunctionWords } from "../../../../src/languageProcessing/languages/en/config/functionWords";
 import { all as germanFunctionWords } from "../../../../src/languageProcessing/languages/de/config/functionWords";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
@@ -95,7 +94,7 @@ describe( "the keyphrase length assessment", function() {
 	it( "should assess a language-specific custom paper with one-word keyphrase as bad ", function() {
 		const paper = new Paper();
 		const researcher = factory.buildMockResearcher( { keyphraseLength: 1, functionWords: germanFunctionWords }, false,
-			true, keyphraseLengthConfig );
+			true );
 
 		const result = new KeyphraseLengthAssessment( {
 			parameters: {

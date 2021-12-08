@@ -54,12 +54,13 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const sentences = researcher.getResearch( "countSentencesFromText" );
+		if	( researcher.getConfig( "sentenceLength" ) ) {
+			this._config = this.getLanguageSpecificConfig( researcher );
+		}
+
 		const countTextInCharacters = researcher.getConfig( "countCharacters" );
 		if ( countTextInCharacters ) {
 			this._config.countTextIn = __( "characters", "wordpress-seo" );
-		}
-		if	( researcher.getConfig( "sentenceLength" ) ) {
-			this._config = this.getLanguageSpecificConfig( researcher );
 		}
 
 		const percentage = this.calculatePercentage( sentences );

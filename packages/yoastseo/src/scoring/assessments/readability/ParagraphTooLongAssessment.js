@@ -169,7 +169,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	 * Creates a marker for the paragraphs.
 	 *
 	 * @param {object} paper        The paper to use for the assessment.
-	 * @param {object} researcher   The researcher used for calling research.
+	 * @param {Researcher} researcher   The researcher used for calling research.
 	 *
 	 * @returns {Array} An array with marked paragraphs.
 	 */

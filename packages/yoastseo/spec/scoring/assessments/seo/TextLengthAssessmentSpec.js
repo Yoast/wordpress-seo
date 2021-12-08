@@ -3,6 +3,7 @@ import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import assessmentConfigJapanese from "../../../../src/languageProcessing/languages/ja/config/textLength";
+import KeyphraseLengthAssessment from "../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";
 
 const textLengthAssessment = new TextLengthAssessment();
 
@@ -277,7 +278,7 @@ describe( "A word count assessment", function() {
 	} );
 } );
 
-describe( "In Japanese, the text length assessment should give a score based on character length, use language-specific boundaries", function() {
+describe( "In Japanese, the text length assessment should give a score based on character length and use language-specific boundaries", function() {
 	const character = "あ";
 	const textVeryFarBelowMinimum = character.repeat( 199 );
 	const textFarBelowMinimum = character.repeat( 399 );

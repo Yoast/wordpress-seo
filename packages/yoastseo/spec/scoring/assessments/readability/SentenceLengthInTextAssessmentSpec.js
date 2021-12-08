@@ -203,7 +203,7 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
-			"100% of the sentences contain more than 20 characters, which is more than the recommended maximum of 25%." +
+			"100% of the sentences contain more than 40 characters, which is more than the recommended maximum of 25%." +
 			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
@@ -272,9 +272,8 @@ describe( "An assessment for sentence length", function() {
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
-		// Update words to characters in LINGO-1109
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
-			"100% of the sentences contain more than 40 words, which is more than the recommended maximum of 25%." +
+			"100% of the sentences contain more than 40 characters, which is more than the recommended maximum of 25%." +
 			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
@@ -318,7 +317,6 @@ describe( "A test for getting the right scoring config", function() {
 		const defaultConfig = {
 
 			countTextIn: "words",
-			recommendedWordCount: 20,
 			recommendedLength: 20,
 			slightlyTooMany: 25,
 			farTooMany: 30,
@@ -331,7 +329,6 @@ describe( "A test for getting the right scoring config", function() {
 	it( "uses the default config if no language-specific config is available in cornerstone", function() {
 		const defaultConfigCornerstrone = {
 			countTextIn: "words",
-			recommendedWordCount: 20,
 			recommendedLength: 20,
 			slightlyTooMany: 20,
 			farTooMany: 25,
@@ -349,7 +346,7 @@ describe( "A test for getting the right scoring config", function() {
 		const researcher = new ItalianResearcher( mockPaper );
 		expect( new SentenceLengthInTextAssessment().getLanguageSpecificConfig( researcher ) ).toEqual( {
 			countTextIn: "words",
-			recommendedWordCount: 25,
+			recommendedLength: 25,
 			slightlyTooMany: 25,
 			farTooMany: 30,
 			urlCallToAction: "<a href='https://yoa.st/34w' target='_blank'>",
@@ -374,7 +371,6 @@ describe( "A test for getting the right scoring config", function() {
 		" available", function() {
 		const expectedConfig = {
 			countTextIn: "words",
-			recommendedWordCount: 25,
 			recommendedLength: 25,
 			slightlyTooMany: 20,
 			farTooMany: 25,

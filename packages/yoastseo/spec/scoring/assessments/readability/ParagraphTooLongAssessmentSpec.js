@@ -274,7 +274,7 @@ describe( "test for paragraph too long assessment for languages that have langua
 
 			expect( result.getScore() ).toEqual( 3 );
 			expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain " +
-				"more than the recommended maximum of 140 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
+				"more than the recommended maximum of 140 characters. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		} );
 		it( "assesses a paper with all paragraphs that contain 140-200 characters (orange bullet)", function() {
 			const paper = new Paper( "" );
@@ -290,7 +290,7 @@ describe( "test for paragraph too long assessment for languages that have langua
 
 			expect( result.getScore() ).toEqual( 6 );
 			expect( result.getText() ).toEqual( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain " +
-				"more than the recommended maximum of 140 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
+				"more than the recommended maximum of 140 characters. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!" );
 		} );
 	} );
 } );

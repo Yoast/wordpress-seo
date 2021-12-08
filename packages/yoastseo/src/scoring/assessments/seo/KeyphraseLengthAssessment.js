@@ -154,7 +154,7 @@ class KeyphraseLengthAssessment extends Assessment {
 							// eslint-disable-next-line max-len
 							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's shorter than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %7$s long. That's shorter than the recommended minimum of %7$d %6$s. %4$sMake it longer%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %7$s long. That's shorter than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
 							this._keyphraseLengthData.keyphraseLength,
 							"wordpress-seo"
 						),
