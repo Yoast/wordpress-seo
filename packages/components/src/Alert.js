@@ -15,7 +15,7 @@ import SvgIcon from "./SvgIcon";
 const AlertContainer = styled.div`
 	display: flex;
 	align-items: flex-start;
-	font-size: 14px;
+	font-size: 13px;
 	line-height: 1.5;
 	border: 1px solid rgba(0, 0, 0, 0.2);
 	padding: 16px;
@@ -30,7 +30,7 @@ const AlertContent = styled.div`
 	a {
 		color: ${ colors.$color_alert_link_text };
 	}
-	
+
 	p {
 		margin-top: 0;
 	}
