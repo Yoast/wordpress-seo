@@ -1,4 +1,4 @@
-import { getAnalysisConfiguration } from "../../src/classic-editor/get-analysis-configuration";
+import { getAnalysisConfiguration } from "../../src/classic-editor/analysis";
 
 /* eslint-disable camelcase */
 jest.mock( "../../src/analysis/getTranslations", () => {
