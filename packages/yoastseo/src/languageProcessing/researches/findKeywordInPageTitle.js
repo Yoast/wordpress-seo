@@ -3,6 +3,7 @@ import wordMatch from "../helpers/match/matchTextWithWord.js";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
 
 import { escapeRegExp, filter, includes, isEmpty } from "lodash-es";
+import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
 import getWords from "../helpers/word/getWords";
 
 let functionWords = [];
@@ -27,27 +28,7 @@ const stripFunctionWordsFromStart = function( str ) {
 };
 
 /**
- * Checks if exact match functionality is requested by enclosing the keyphrase in double quotation marks.
- *
- * @param {string} keyword The keyword to check.
- *
- * @returns {Object} Whether the exact match functionality is requested and the keyword stripped from double quotes.
- */
-const processExactMatchRequest = function( keyword ) {
-	const exactMatchRequest = { exactMatchRequested: false, keyword: keyword };
-
-	// Check if morphology is suppressed. If so, strip the quotation marks from the keyphrase.
-	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
-	if ( includes( doubleQuotes, keyword[ 0 ] ) && includes( doubleQuotes, keyword[ keyword.length - 1 ] ) ) {
-		exactMatchRequest.keyword = keyword.substring( 1, keyword.length - 1 );
-		exactMatchRequest.exactMatchRequested = true;
-	}
-
-	return exactMatchRequest;
-};
-
-/**
- * Checks whether an exact match of the keyphrase is found in the title.
+ * Checks the position of the keyphrase in the title.
  *
  * @param {string} title The title of the paper.
  * @param {number} position The position of the keyphrase in the title.
@@ -100,7 +81,8 @@ const findKeyphraseInPageTitle = function( paper, researcher ) {
 	const result = { exactMatchFound: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false  };
 
 	// Check if the keyphrase is enclosed in double quotation marks to ensure that only exact matches are processed.
-	const exactMatchRequest = processExactMatchRequest( keyword );
+	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„" ];
+	const exactMatchRequest = processExactMatchRequest( keyword, doubleQuotes );
 	if ( exactMatchRequest.exactMatchRequested ) {
 		keyword = exactMatchRequest.keyword;
 		result.exactMatchKeyphrase = true;
