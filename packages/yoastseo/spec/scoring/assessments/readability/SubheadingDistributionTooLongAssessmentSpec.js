@@ -3,8 +3,7 @@ import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
-import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/subheadingsTooLong";
-import {enableFeatures} from "@yoast/feature-flag";
+import { enableFeatures } from "@yoast/feature-flag";
 enableFeatures( [ "JAPANESE_SUPPORT" ] );
 
 const subheadingDistributionTooLong = new SubheadingDistributionTooLong();
@@ -100,9 +99,9 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			"2 sections of your text are longer than 300 words and are not separated by any subheadings." +
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
-	const shortTextJA = "a ".repeat( 400 );
-	const longTextJA = "a ".repeat( 700 );
-	const veryLongTextJA = "a ".repeat( 800 );
+	const shortTextJA = "a ".repeat( 200 );
+	const longTextJA = "a ".repeat( 320 );
+	const veryLongTextJA = "a ".repeat( 400 );
 	const subheadingJA = "<h2> some subheading </h2>";
 	it( "Scores a short text in Japanese (<600 words), which does not have subheadings.", function() {
 		const paper = new Paper( shortTextJA );
@@ -144,36 +143,36 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 	} );
 
 	it( "Scores a long text in Japanese (>600 words), which has subheadings and all sections of the text are <600 words, except for one, " +
-		"which is between 300 and 350 words long.", function() {
+		"which is between 650 and 700 words long.", function() {
 		const paper = new Paper( shortTextJA + subheadingJA + longTextJA + subheadingJA + shortTextJA  );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();
 		const results = subheadingDistributionTooLongJA.getResult( paper, japaneseResearcher );
 		expect( results.getScore() ).toBe( 6 );
 		expect( results.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
-			"1 section of your text is longer than 300 words and is not separated by any subheadings." +
+			"1 section of your text is longer than 600 words and is not separated by any subheadings." +
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 	it( "Scores a long text in Japanese (>600 words), which has subheadings and all sections of the text are <600 words, except for two, " +
-		"which are between 600 and 700 words long.", function() {
+		"which are between 650 and 700 words long.", function() {
 		const paper = new  Paper( shortTextJA + subheadingJA + longTextJA + subheadingJA + longTextJA );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();
 		const results = subheadingDistributionTooLongJA.getResult( paper, japaneseResearcher );
 		expect( results.getScore() ).toBe( 6 );
 		expect( results.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
-			"2 sections of your text are longer than 300 words and are not separated by any subheadings." +
+			"2 sections of your text are longer than 600 words and are not separated by any subheadings." +
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
 	it( "Scores a long text in Japanese (>600 words), which has subheadings and some sections of the text are above 700 words long.", function() {
-		const paper = new  Paper( shortTextJA + subheadingJA + longTextJA + subheadingJA + longTextJA );
+		const paper = new  Paper( shortTextJA + subheadingJA + veryLongTextJA + subheadingJA + veryLongTextJA );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();
 		const results = subheadingDistributionTooLongJA.getResult( paper, japaneseResearcher );
 		expect( results.getScore() ).toBe( 3 );
 		expect( results.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
-			"2 sections of your text are longer than 300 words and are not separated by any subheadings." +
+			"2 sections of your text are longer than 600 words and are not separated by any subheadings." +
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
@@ -185,18 +184,18 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		const results = subheadingDistributionTooLongJA.getResult( paper, japaneseResearcher );
 		expect( results.getScore() ).toBe( 3 );
 		expect( results.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
-			"1 section of your text is longer than 300 words and is not separated by any subheadings." +
+			"1 section of your text is longer than 600 words and is not separated by any subheadings." +
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
 	it( "Scores a long text (>600 words), which has subheadings and some sections of the text are above 700 words long.", function() {
-		const paper = new Paper( shortTextJA + subheadingJA + longTextJA + subheadingJA + longTextJA );
+		const paper = new Paper( shortTextJA + subheadingJA + veryLongTextJA + subheadingJA + veryLongTextJA );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();
 		const results = subheadingDistributionTooLongJA.getResult( paper, japaneseResearcher );
 		expect( results.getScore( paper, japaneseResearcher ) ).toBe( 3 );
 		expect( results.getText( paper, japaneseResearcher ) ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
-			"2 sections of your text are longer than 300 words and are not separated by any subheadings." +
+			"2 sections of your text are longer than 600 words and are not separated by any subheadings." +
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 	it( "Returns false from isApplicable to the paper without text", function() {
