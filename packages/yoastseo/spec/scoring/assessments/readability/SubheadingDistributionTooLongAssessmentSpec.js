@@ -3,7 +3,6 @@ import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher.js";
-import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import { enableFeatures } from "@yoast/feature-flag";
 enableFeatures( [ "JAPANESE_SUPPORT" ] );
@@ -107,7 +106,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 	const longTextJA = "a ".repeat( 320 );
 	const veryLongTextJA = "a ".repeat( 400 );
 	const subheadingJA = "<h2> some subheading </h2>";
-	it( "Scores a short text in Japanese (<600 words), which does not have subheadings.", function() {
+	it( "Scores a short text in Japanese (<600 characters), which does not have subheadings.", function() {
 		const paper = new Paper( shortTextJA );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();
@@ -117,7 +116,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			"You are not using any subheadings, but your text is short enough and probably doesn't need them." );
 	} );
 
-	it( "Scores a short text in Japanese (<600 words), which has subheadings.", function() {
+	it( "Scores a short text in Japanese (<600 characters), which has subheadings.", function() {
 		const paper = new Paper( "定冠詞 " + subheadingJA + shortTextJA );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();
@@ -126,7 +125,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		expect( results.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: Great job!" );
 	} );
 
-	it( "Scores a long text in Japanese (>600 words), which does not have subheadings.", function() {
+	it( "Scores a long text in Japanese (>600 characters), which does not have subheadings.", function() {
 		const paper = new Paper( longTextJA );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();
@@ -137,7 +136,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			"Try and add some subheadings</a>." );
 	} );
 
-	it( "Scores a long text in Japanese (>600 words), which has subheadings and all sections of the text are <600 words.", function() {
+	it( "Scores a long text in Japanese (>600 characters), which has subheadings and all sections of the text are <600 characters.", function() {
 		const paper = new Paper( shortTextJA + subheadingJA + shortTextJA );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();
@@ -146,8 +145,8 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		expect( results.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: Great job!" );
 	} );
 
-	it( "Scores a long text in Japanese (>600 words), which has subheadings and all sections of the text are <600 words, except for one, " +
-		"which is between 650 and 700 words long.", function() {
+	it( "Scores a long text in Japanese (>600 characters), which has subheadings and all sections of the text are <600 characters, except for one, " +
+		"which is between 650 and 700 characters long.", function() {
 		const paper = new Paper( shortTextJA + subheadingJA + longTextJA + subheadingJA + shortTextJA  );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();
@@ -157,8 +156,8 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			"1 section of your text is longer than 600 words and is not separated by any subheadings." +
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
-	it( "Scores a long text in Japanese (>600 words), which has subheadings and all sections of the text are <600 words, except for two, " +
-		"which are between 650 and 700 words long.", function() {
+	it( "Scores a long text in Japanese (>600 characters), which has subheadings and all sections of the text are <600 characters, except for two, " +
+		"which are between 650 and 700 characters long.", function() {
 		const paper = new  Paper( shortTextJA + subheadingJA + longTextJA + subheadingJA + longTextJA );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();
@@ -169,7 +168,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
-	it( "Scores a long text in Japanese (>600 words), which has subheadings and some sections of the text are above 700 words long.", function() {
+	it( "Scores a long text in Japanese (>600 characters), which has subheadings and some sections of the text are above 700 characters long.", function() {
 		const paper = new  Paper( shortTextJA + subheadingJA + veryLongTextJA + subheadingJA + veryLongTextJA );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();
@@ -180,7 +179,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
-	it( "Scores a long text in Japanese (>600 words), which has subheadings and all sections of the text are <600 words, except for one, " +
+	it( "Scores a long text in Japanese (>600 characters), which has subheadings and all sections of the text are <600 characters, except for one, " +
 		"which is above 700 words long.", function() {
 		const paper = new  Paper( shortTextJA + subheadingJA + veryLongTextJA + subheadingJA + shortTextJA );
 		const japaneseResearcher = new JapaneseResearcher( paper );
@@ -192,7 +191,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
 
-	it( "Scores a long text (>600 words), which has subheadings and some sections of the text are above 700 words long.", function() {
+	it( "Scores a long text (>600 characters), which has subheadings and some sections of the text are above 700 characters long.", function() {
 		const paper = new Paper( shortTextJA + subheadingJA + veryLongTextJA + subheadingJA + veryLongTextJA );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();
