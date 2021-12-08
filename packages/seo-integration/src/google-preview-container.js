@@ -1,7 +1,7 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useMemo, useRef, useState } from "@wordpress/element";
 import { SEO_STORE_NAME } from "@yoast/seo-store";
-import { get, map } from "lodash";
+import { filter, get, map } from "lodash";
 import { PropTypes } from "prop-types";
 import { useSeoContext } from "./seo-context";
 
@@ -21,21 +21,22 @@ const useGooglePreviewReplacementVariables = () => {
 	const cache = useRef();
 
 	const values = map( replacementVariables, variable => variable.getReplacement() ).join( "" );
-	const cachedValues = map( cache.current, "value" ).join( "" );
+	const cachedValues = map( cache.current?.replacementVariables, "value" ).join( "" );
 
 	// Set the cache when any value changed, or when it was not set before.
 	if ( cachedValues !== values || ! cache.current ) {
-		cache.current = map( replacementVariables, replacementVariable => ( {
-			name: replacementVariable.name,
-			label: replacementVariable.label,
-			value: replacementVariable.getReplacement(),
-		} ) );
+		cache.current = {
+			replacementVariables: map( replacementVariables, replacementVariable => ( {
+				name: replacementVariable.name,
+				label: replacementVariable.label,
+				value: replacementVariable.getReplacement(),
+				hidden: ! replacementVariable.isVisible,
+			} ) ),
+			recommendedReplacementVariables: map( filter( replacementVariables, "isRecommended" ), "name" ),
+		};
 	}
 
-	return {
-		replacementVariables: cache.current,
-		recommendedReplacementVariables: map( cache.current, "name" ),
-	};
+	return cache.current;
 };
 
 /**
@@ -89,7 +90,11 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 	const data = useMemo( () => ( { title, description, slug } ), [ title, description, slug ] );
 	const focusKeyphraseWordForms = useMemo( () => get( morphologyResults, "keyphraseForms", [] ).flat(), [ morphologyResults ] );
 	// eslint-disable-next-line no-undefined
-	const formattedDate = useMemo( () => new Date( date ).toLocaleDateString( undefined, { day: "numeric", month: "short", year: "numeric" } ), [ date ] );
+	const formattedDate = useMemo( () => new Date( date ).toLocaleDateString( undefined, {
+		day: "numeric",
+		month: "short",
+		year: "numeric",
+	} ), [ date ] );
 
 	const baseUrl = useBaseUrl();
 	const {
