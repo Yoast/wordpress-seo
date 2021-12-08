@@ -7,7 +7,6 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
-import countWords from "./../../../languageProcessing/helpers/word/countWords";
 
 /**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.
@@ -63,6 +62,7 @@ class KeywordDensityAssessment extends Assessment {
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33v" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33w" ),
+			applicableIfTextLongerThan: 100,
 		};
 
 		this.identifier = "keywordDensity";
@@ -310,15 +310,24 @@ class KeywordDensityAssessment extends Assessment {
 
 
 	/**
-	 * Checks whether the paper has a text with at least 100 words and a keyword
-	 * is set.
+	 * Checks whether the paper has a text of the minimum required length and a keyword is set. Language-specific length requirements and methods
+	 * of counting text length may apply (e.g. for Japanese, the text should be counted in characters instead of words, which also makes the minimum
+	 * required length higher).
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Paper} 		paper 		The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The paper to use for the assessment.
 	 *
 	 * @returns {boolean} True if applicable.
 	 */
-	isApplicable( paper ) {
-		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
+	isApplicable( paper, researcher ) {
+		const customCountLength = researcher.getHelper( "customCountLength" );
+		const customApplicabilityConfig = researcher.getConfig( "assessmentApplicability" ).keyphraseDensity;
+		if ( customApplicabilityConfig ) {
+			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
+		}
+		const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" );
+
+		return paper.hasText() && paper.hasKeyword() && textLength >= this._config.applicableIfTextLongerThan;
 	}
 }
 

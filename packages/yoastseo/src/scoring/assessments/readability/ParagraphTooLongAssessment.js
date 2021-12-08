@@ -15,11 +15,12 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {object} config The configuration to use.
+	 * @param {object} config       The configuration to use.
+	 * @param {boolean} isProduct   Whether product configuration should be used.
 	 *
 	 * @returns {void}
 	 */
-	constructor( config = {} ) {
+	constructor( config = {}, isProduct = false ) {
 		super();
 
 		const defaultConfig = {
@@ -33,20 +34,45 @@ export default class ParagraphTooLongAssessment extends Assessment {
 
 		this.identifier = "textParagraphTooLong";
 		this._config = merge( defaultConfig, config );
+		this._isProduct = isProduct;
 	}
 
 	/**
 	 * Returns an array containing only the paragraphs longer than the recommended length.
 	 *
 	 * @param {array} paragraphsLength The array containing the lengths of individual paragraphs.
+	 * @param {object} config          The config to use.
 	 *
 	 * @returns {array} The number of too long paragraphs.
 	 */
-	getTooLongParagraphs( paragraphsLength  ) {
-		const recommendedLength = this._config.parameters.recommendedLength;
+	getTooLongParagraphs( paragraphsLength, config  ) {
+		const recommendedLength = config.parameters.recommendedLength;
 		return filter( paragraphsLength, function( paragraph ) {
 			return paragraph.countLength > recommendedLength;
 		} );
+	}
+
+	/**
+	 * Check if there is language-specific config, and if so, overwrite the current config with it.
+	 *
+	 * @param {Researcher} researcher The researcher to use.
+	 *
+	 * @returns {Object} The config that should be used.
+	 */
+	getConfig( researcher ) {
+		const currentConfig = this._config;
+		const languageSpecificConfig = researcher.getConfig( "paragraphLength" );
+
+		/*
+		 * If a language has a specific paragraph length config, check further if the assessment is run in product pages.
+		 * If it's run in product pages, override the default config parameters with the language specific config for product pages,
+		 * otherwise override it with the language specific config for default pages analysis.
+		 */
+		if ( languageSpecificConfig ) {
+			currentConfig.parameters = this._isProduct ? languageSpecificConfig.productPageParams : languageSpecificConfig.defaultPageParams;
+		}
+
+		return currentConfig;
 	}
 
 	/**
@@ -54,10 +80,11 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	 *
 	 * @param {array} paragraphsLength  The array containing the lengths of individual paragraphs.
 	 * @param {array} tooLongParagraphs The number of too long paragraphs.
+	 * @param {object} config           The config to use.
 	 *
-	 * @returns {{score: number, text: string }} the assessmentResult.
+	 * @returns {{score: number, text: string }} The assessmentResult.
 	 */
-	calculateResult( paragraphsLength, tooLongParagraphs ) {
+	calculateResult( paragraphsLength, tooLongParagraphs, config ) {
 		let score;
 
 		if ( paragraphsLength.length === 0 ) {
@@ -66,17 +93,17 @@ export default class ParagraphTooLongAssessment extends Assessment {
 
 		const longestParagraphLength = paragraphsLength[ 0 ].countLength;
 
-		if ( longestParagraphLength <= this._config.parameters.recommendedLength ) {
+		if ( longestParagraphLength <= config.parameters.recommendedLength ) {
 			// Green indicator.
 			score = 9;
 		}
 
-		if ( inRange( longestParagraphLength, this._config.parameters.recommendedLength, this._config.parameters.maximumRecommendedLength ) ) {
+		if ( inRange( longestParagraphLength, config.parameters.recommendedLength, config.parameters.maximumRecommendedLength ) ) {
 			// Orange indicator.
 			score = 6;
 		}
 
-		if ( longestParagraphLength > this._config.parameters.maximumRecommendedLength ) {
+		if ( longestParagraphLength > config.parameters.maximumRecommendedLength ) {
 			// Red indicator.
 			score = 3;
 		}
@@ -92,7 +119,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 						"%1$sParagraph length%2$s: None of the paragraphs are too long. Great job!",
 						"wordpress-seo"
 					),
-					this._config.urlTitle,
+					config.urlTitle,
 					"</a>"
 				),
 			};
@@ -111,11 +138,11 @@ export default class ParagraphTooLongAssessment extends Assessment {
 					tooLongParagraphs.length,
 					"wordpress-seo"
 				),
-				this._config.urlTitle,
+				config.urlTitle,
 				"</a>",
 				tooLongParagraphs.length,
-				this._config.parameters.recommendedLength,
-				this._config.urlCallToAction
+				config.parameters.recommendedLength,
+				config.urlCallToAction
 			),
 		};
 	}
@@ -145,7 +172,7 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	 */
 	getMarks( paper, researcher ) {
 		const paragraphsLength = researcher.getResearch( "getParagraphLength" );
-		const tooLongParagraphs = this.getTooLongParagraphs( paragraphsLength );
+		const tooLongParagraphs = this.getTooLongParagraphs( paragraphsLength, this.getConfig( researcher ) );
 		return map( tooLongParagraphs, function( paragraph ) {
 			const paragraphText = stripHTMLTags( paragraph.text );
 			const marked = marker( paragraphText );
@@ -168,9 +195,10 @@ export default class ParagraphTooLongAssessment extends Assessment {
 		let paragraphsLength = researcher.getResearch( "getParagraphLength" );
 
 		paragraphsLength = this.sortParagraphs( paragraphsLength );
+		const config = this.getConfig( researcher );
 
-		const tooLongParagraphs = this.getTooLongParagraphs( paragraphsLength );
-		const paragraphLengthResult = this.calculateResult( paragraphsLength, tooLongParagraphs );
+		const tooLongParagraphs = this.getTooLongParagraphs( paragraphsLength, config );
+		const paragraphLengthResult = this.calculateResult( paragraphsLength, tooLongParagraphs, config );
 		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( paragraphLengthResult.score );

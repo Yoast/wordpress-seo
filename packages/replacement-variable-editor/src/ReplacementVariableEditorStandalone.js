@@ -1,7 +1,7 @@
 // External dependencies.
 import React from "react";
-import Editor from "draft-js-plugins-editor";
-import createMentionPlugin from "draft-js-mention-plugin";
+import Editor from "@draft-js-plugins/editor";
+import createMentionPlugin from "@draft-js-plugins/mention";
 import createSingleLinePlugin from "draft-js-single-line-plugin";
 import debounce from "lodash/debounce";
 import isEmpty from "lodash/isEmpty";
@@ -19,7 +19,6 @@ import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "./constants";
-import { positionSuggestions } from "./helpers/positionSuggestions";
 import { Mention } from "./Mention";
 import {
 	serializeEditor,
@@ -102,6 +101,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.state = {
 			editorState,
 			searchValue: "",
+			isSuggestionsOpen: false,
 			suggestions: this.mapReplacementVariablesToSuggestions( currentReplacementVariables ),
 		};
 
@@ -114,7 +114,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this._serializedContent = rawContent;
 
 		this.initializeBinds();
-		this.initializeDraftJsPlugins( props.theme.isRtl );
+		this.initializeDraftJsPlugins();
 	}
 
 	/**
@@ -128,16 +128,15 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.setEditorRef = this.setEditorRef.bind( this );
 		this.handleCopyCutEvent = this.handleCopyCutEvent.bind( this );
 		this.debouncedA11ySpeak = debounce( a11ySpeak.bind( this ), 500 );
+		this.onSuggestionsOpenChange = this.onSuggestionsOpenChange.bind( this );
 	}
 
 	/**
 	 * Initializes the Draft.js mention and single line plugins.
 	 *
-	 * @param {boolean} isRtl Whether to editor is right-to-left or not.
-	 *
 	 * @returns {void}
 	 */
-	initializeDraftJsPlugins( isRtl ) {
+	initializeDraftJsPlugins() {
 		/*
 		 * The mentions plugin is used to autocomplete the replacement variable
 		 * names.
@@ -145,7 +144,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.mentionsPlugin = createMentionPlugin( {
 			mentionTrigger: "%",
 			entityMutability: "IMMUTABLE",
-			positionSuggestions: ( args ) => positionSuggestions( args, isRtl ),
 			mentionComponent: Mention,
 		} );
 
@@ -296,6 +294,17 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		setTimeout( () => {
 			this.announceSearchResults();
 		} );
+	}
+
+	/**
+	 * Handles open and closing of the suggestions dropdown.
+	 *
+	 * @param {boolean} isOpen Whether the suggestions should be open.
+	 *
+	 * @returns {void}
+	 */
+	onSuggestionsOpenChange( isOpen ) {
+		this.setState( { isSuggestionsOpen: isOpen } );
 	}
 
 	/**
@@ -491,7 +500,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	render() {
 		const { MentionSuggestions } = this.mentionsPlugin;
 		const { onFocus, onBlur, ariaLabelledBy, placeholder, theme, isDisabled } = this.props;
-		const { editorState, suggestions } = this.state;
+		const { editorState, suggestions, isSuggestionsOpen } = this.state;
 
 		return (
 			<React.Fragment>
@@ -513,6 +522,8 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					<MentionSuggestions
 						onSearchChange={ this.onSearchChange }
 						suggestions={ suggestions }
+						onOpenChange={ this.onSuggestionsOpenChange }
+						open={ isSuggestionsOpen }
 					/>
 				</ZIndexOverride>
 			</React.Fragment>

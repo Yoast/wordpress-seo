@@ -14,7 +14,7 @@ const WincherNoPermalinkAlert = () => {
 		<Alert type="error">
 			{ __(
 				// eslint-disable-next-line max-len
-				"Before you can track your SEO performance make sure to set either the post’s title and save it as a draft or manually set the post’s slug",
+				"Before you can track your SEO performance make sure to set either the post’s title and save it as a draft or manually set the post’s slug.",
 				"wordpress-seo"
 			) }
 		</Alert>

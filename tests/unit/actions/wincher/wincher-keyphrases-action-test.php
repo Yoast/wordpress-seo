@@ -251,7 +251,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->andReturns( '12345' );
 
 		$this->indexable_repository
-			->expects( 'query->select->where_not_null->distinct->find_array' )
+			->expects( 'query->select->where_not_null->where->where_not_equal->distinct->find_array' )
 			->andReturns(
 				[
 					[ 'primary_focus_keyword' => 'yoast seo' ],
@@ -507,7 +507,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 		);
 
 		$this->indexable_repository
-			->expects( 'query->select->where_not_null->distinct->find_array' )
+			->expects( 'query->select->where_not_null->where->where_not_equal->distinct->find_array' )
 			->andReturns(
 				[
 					[ 'primary_focus_keyword' => 'yoast seo' ],
@@ -578,7 +578,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 		);
 
 		$this->indexable_repository
-			->expects( 'query->select->where_not_null->distinct->find_array' )
+			->expects( 'query->select->where_not_null->where->where_not_equal->distinct->find_array' )
 			->andReturns(
 				[
 					[ 'primary_focus_keyword' => 'yoast seo' ],

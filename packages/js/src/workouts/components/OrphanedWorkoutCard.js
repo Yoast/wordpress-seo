@@ -21,11 +21,10 @@ export default function OrphanedWorkoutCard( {
 	upsellText,
 } ) {
 	const finishedSteps = useSelect( select => select( "yoast-seo/workouts" ).getFinishedSteps( WORKOUTS.orphaned ) );
-	const finishedWorkouts = useSelect( select => select( "yoast-seo/workouts" ).getFinishedWorkouts() );
-	const isConfigurationWorkoutFinished = finishedWorkouts.includes( WORKOUTS.configuration );
 	const actualUpsellLink = upsellLink ? upsellLink :  "https://yoa.st/workout-orphaned-content-upsell";
 
 	return <WorkoutCard
+		id={ "orphaned-workout-card" }
 		name={ WORKOUTS.orphaned }
 		title={ __( "Orphaned content", "wordpress-seo" ) }
 		subtitle={ __( "Clean up your unlinked content to make sure people can find it", "wordpress-seo" ) }
@@ -40,7 +39,6 @@ export default function OrphanedWorkoutCard( {
 		upsellText={ upsellText }
 		workout={ workout }
 		badges={ badges }
-		blocked={ ! isConfigurationWorkoutFinished && ( window.wpseoWorkoutsData.canDoConfigurationWorkout === "1" ) }
 	/>;
 }
 

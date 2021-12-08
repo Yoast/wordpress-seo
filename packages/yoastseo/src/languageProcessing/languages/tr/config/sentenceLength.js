@@ -1,5 +1,5 @@
 export default {
-	recommendedWordCount: 15,
+	recommendedLength: 15,
 	percentages: {
 		slightlyTooMany: 20,
 		farTooMany: 25,
