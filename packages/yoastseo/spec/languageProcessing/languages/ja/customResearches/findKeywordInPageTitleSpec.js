@@ -1,4 +1,4 @@
-import { isFeatureEnabled, enableFeatures } from "@yoast/feature-flag";
+import { isFeatureEnabled } from "@yoast/feature-flag";
 import JapaneseResearcher from "../../../../../src/languageProcessing/languages/ja/Researcher";
 import pageTitleKeywordResearch from "../../../../../src/languageProcessing/languages/ja/customResearches/findKeywordInPageTitle";
 import Paper from "../../../../../src/values/Paper";
