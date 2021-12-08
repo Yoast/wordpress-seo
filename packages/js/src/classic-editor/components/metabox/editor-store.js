@@ -1,9 +1,9 @@
 import { combineReducers, registerStore } from "@wordpress/data";
 import { pickBy } from "lodash";
-import * as actions from "../redux/actions";
-import * as controls from "../redux/controls";
-import reducers from "../redux/reducers";
-import * as selectors from "../redux/selectors";
+import * as actions from "../../../redux/actions";
+import * as controls from "../../../redux/controls";
+import reducers from "../../../redux/reducers";
+import * as selectors from "../../../redux/selectors";
 
 export const EDITOR_STORE_NAME = "yoast-seo/editor";
 

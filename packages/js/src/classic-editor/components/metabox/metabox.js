@@ -10,16 +10,16 @@ import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { GooglePreviewContainer, ReadabilityResultsContainer } from "@yoast/seo-integration";
 import { SEO_STORE_NAME } from "@yoast/seo-store";
 import { PropTypes } from "prop-types";
-import { KeywordInput } from "../components/contentAnalysis/KeywordInput";
-import SeoAnalysis from "../components/contentAnalysis/SeoAnalysis";
-import MetaboxCollapsible from "../components/MetaboxCollapsible";
-import SocialMetadataPortal from "../components/portals/SocialMetadataPortal";
-import SidebarItem from "../components/SidebarItem";
-import AdvancedSettings from "../containers/AdvancedSettings";
-import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
-import SchemaTabContainer from "../containers/SchemaTab";
-import SEMrushRelatedKeyphrases from "../containers/SEMrushRelatedKeyphrases";
-import Warning from "../containers/Warning";
+import { KeywordInput } from "../../../components/contentAnalysis/KeywordInput";
+import SeoAnalysis from "../../../components/contentAnalysis/SeoAnalysis";
+import MetaboxCollapsible from "../../../components/MetaboxCollapsible";
+import SocialMetadataPortal from "../../../components/portals/SocialMetadataPortal";
+import SidebarItem from "../../../components/SidebarItem";
+import AdvancedSettings from "../../../containers/AdvancedSettings";
+import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
+import SchemaTabContainer from "../../../containers/SchemaTab";
+import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
+import Warning from "../../../containers/Warning";
 import { EDITOR_STORE_NAME } from "./editor-store";
 
 /**
