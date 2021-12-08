@@ -277,7 +277,7 @@ describe( "A word count assessment", function() {
 	} );
 } );
 
-describe( "In Japanese, the text length assessment should give a score based on character length and use language-specific boundaries", function() {
+describe( "In Japanese, the text length assessment should give a score based on character length, use language-specific boundaries", function() {
 	const character = "あ";
 	const textVeryFarBelowMinimum = character.repeat( 199 );
 	const textFarBelowMinimum = character.repeat( 399 );
@@ -293,8 +293,8 @@ describe( "In Japanese, the text length assessment should give a score based on 
 		const results = assessment.getResult( paper, japaneseResearcher );
 
 		expect( results.getScore() ).toEqual( -20 );
-		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 199 words. " +
-			"This is far below the recommended minimum of 600 words. " +
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 199 characters. " +
+			"This is far below the recommended minimum of 600 characters. " +
 			"<a href='https://yoa.st/34o' target='_blank'>Add more content</a>." );
 	} );
 
@@ -306,8 +306,8 @@ describe( "In Japanese, the text length assessment should give a score based on 
 		const results = assessment.getResult( paper, japaneseResearcher );
 
 		expect( results.getScore() ).toEqual( -10 );
-		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 399 words. " +
-			"This is far below the recommended minimum of 600 words. " +
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 399 characters. " +
+			"This is far below the recommended minimum of 600 characters. " +
 			"<a href='https://yoa.st/34o' target='_blank'>Add more content</a>." );
 	} );
 
@@ -319,8 +319,8 @@ describe( "In Japanese, the text length assessment should give a score based on 
 		const results = assessment.getResult( paper, japaneseResearcher );
 
 		expect( results.getScore() ).toEqual( 3 );
-		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 499 words. " +
-			"This is below the recommended minimum of 600 words. " +
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 499 characters. " +
+			"This is below the recommended minimum of 600 characters. " +
 			"<a href='https://yoa.st/34o' target='_blank'>Add more content</a>." );
 	} );
 
@@ -332,8 +332,8 @@ describe( "In Japanese, the text length assessment should give a score based on 
 		const results = assessment.getResult( paper, japaneseResearcher );
 
 		expect( results.getScore() ).toEqual( 6 );
-		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 599 words. " +
-			"This is slightly below the recommended minimum of 600 words. " +
+		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 599 characters. " +
+			"This is slightly below the recommended minimum of 600 characters. " +
 			"<a href='https://yoa.st/34o' target='_blank'>Add a bit more copy</a>." );
 	} );
 
@@ -346,7 +346,7 @@ describe( "In Japanese, the text length assessment should give a score based on 
 
 		expect( results.getScore() ).toEqual( 9 );
 		expect( results.getText() ).toEqual( "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: " +
-			"The text contains 600 words. Good job!"  );
+			"The text contains 600 characters. Good job!"  );
 	} );
 } );
 

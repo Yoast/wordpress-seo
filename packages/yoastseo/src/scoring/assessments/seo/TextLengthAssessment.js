@@ -123,7 +123,7 @@ export default class TextLengthAssessment extends Assessment {
 					wordCount,
 					this._config.urlTitle,
 					"</a>",
-					this._config.countTextIn
+					this._config.countTextIn.plural
 				),
 			};
 		}
@@ -140,13 +140,13 @@ export default class TextLengthAssessment extends Assessment {
 				resultText: sprintf(
 					/* Translators: %1$d expands to the number of words / characters in the text,
 					%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
-					%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words,
-					%6$d expands to the word 'word' / 'words' or 'character' / 'characters'. */
+					%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
+					%6$d expands to the word 'word' or 'character', %7$d expands to the word 'words' or 'characters'. */
 					_n(
 						// eslint-disable-next-line max-len
-						"%2$sText length%4$s: The text contains %1$d %6$d. This is far below the recommended minimum of %5$d %6$d. %3$sAdd more content%4$s.",
+						"%2$sText length%4$s: The text contains %1$d %6$d. This is far below the recommended minimum of %5$d %7$d. %3$sAdd more content%4$s.",
 						// eslint-disable-next-line max-len
-						"%2$sText length%4$s: The text contains %1$d %6$d. This is far below the recommended minimum of %5$d %6$d. %3$sAdd more content%4$s.",
+						"%2$sText length%4$s: The text contains %1$d %7$d. This is far below the recommended minimum of %5$d %7$d. %3$sAdd more content%4$s.",
 						wordCount,
 						"wordpress-seo"
 					),
@@ -155,7 +155,8 @@ export default class TextLengthAssessment extends Assessment {
 					this._config.urlCallToAction,
 					"</a>",
 					this._config.recommendedMinimum,
-					this._config.countTextIn
+					this._config.countTextIn.singular,
+					this._config.countTextIn.plural
 				),
 			};
 		}
@@ -165,9 +166,9 @@ export default class TextLengthAssessment extends Assessment {
 				return {
 					score: this._config.scores.slightlyBelowMinimum,
 					resultText: sprintf(
-						/* Translators: %1$d expands to the number of words in the text,
+						/* Translators: %1$d expands to the number of words / characters in the text,
 						%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
-						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words,
+						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
 						%6$d expands to the word 'words' or 'characters'. */
 						__(
 							// eslint-disable-next-line max-len
@@ -179,7 +180,7 @@ export default class TextLengthAssessment extends Assessment {
 						this._config.urlCallToAction,
 						"</a>",
 						this._config.recommendedMinimum,
-						this._config.countTextIn
+						this._config.countTextIn.plural
 					),
 				};
 			}
@@ -187,9 +188,9 @@ export default class TextLengthAssessment extends Assessment {
 			return {
 				score: this._config.scores.belowMinimum,
 				resultText: sprintf(
-					/* Translators: %1$d expands to the number of words in the text,
+					/* Translators: %1$d expands to the number of words / characters in the text,
 						%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
-						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words,
+						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
 						%6$d expands to the word 'words' or 'characters'. */
 					__(
 						// eslint-disable-next-line max-len
@@ -201,7 +202,7 @@ export default class TextLengthAssessment extends Assessment {
 					this._config.urlCallToAction,
 					"</a>",
 					this._config.recommendedMinimum,
-					this._config.countTextIn
+					this._config.countTextIn.plural
 				),
 			};
 		}

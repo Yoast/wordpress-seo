@@ -269,13 +269,23 @@ describe( "the keyphrase length assessment", function() {
 } );
 
 describe( "checks feedback strings for Japanese", function() {
-	it( "should assess paper with a 10-word keyphrase as too long and output 'characters' instead of 'words", function() {
+	// Tests written before the assessment was adapted for Japanese.
+	it( "should assess paper with an 11-character keyphrase as too long and output 'characters' instead of 'words", function() {
 		const paper = new Paper( "", { keyword: "1 2 3 4 5 6 7 8 9 10" } );
 		const result = new KeyphraseLengthAssessment().getResult( paper, new JapaneseResearcher( paper ) );
 
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase is 11 characters long. That's way more than the recommended maximum of 6 characters. " +
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
+	} );
+	it( "should assess paper with a 7-character keyphrase as too long and output 'characters' instead of 'words", function() {
+		const paper = new Paper( "", { keyword: "初恋 学校 面白い" } );
+		const result = new KeyphraseLengthAssessment().getResult( paper, new JapaneseResearcher( paper ) );
+
+		expect( result.getScore() ).toEqual( 6 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"The keyphrase is 7 characters long. That's more than the recommended maximum of 6 characters. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 } );
