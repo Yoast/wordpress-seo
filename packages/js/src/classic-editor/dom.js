@@ -1,6 +1,7 @@
-import { get, set } from "lodash";
+import { get } from "lodash";
 
 import { tmceId, getContentTinyMce } from "../lib/tinymce";
+import { excerptFromContent } from "../helpers/replacementVariableHelpers";
 
 export const DOM_IDS = {
 	// WP classic editor ids
@@ -12,6 +13,8 @@ export const DOM_IDS = {
 	// Yoast hidden input ids
 	SEO_TITLE: "yoast_wpseo_title",
 	META_DESCRIPTION: "yoast_wpseo_metadesc",
+	FOCUS_KEYPHRASE: "yoast_wpseo_focuskw",
+	CORNERSTONE: "yoast_wpseo_is_cornerstone",
 };
 
 export const getTitleElem = () => document.getElementById( DOM_IDS.TITLE );
@@ -31,13 +34,6 @@ export const getTitle = () => get( document.getElementById( DOM_IDS.TITLE ), "va
 export const getContent = () => getContentTinyMce( DOM_IDS.CONTENT );
 
 /**
- * Gets the excerpt from the document.
- *
- * @returns {string} The excerpt or an empty string.
- */
-export const getExcerpt = () => get( document.getElementById( DOM_IDS.EXCERPT ), "value", "" );
-
-/**
  * Gets the permalink from the document.
  *
  * @returns {string} The permalink or an empty string.
@@ -50,3 +46,68 @@ export const getPermalink = () => get( document.getElementById( DOM_IDS.PERMALIN
  * @returns {string} The date or an empty string.
  */
 export const getDate = () => get( document.getElementById( DOM_IDS.DATE ), "value", "" );
+
+/**
+ * Gets the meta description from the document.
+ *
+ * @returns {string} The meta description or an empty string.
+ */
+export const getMetaDescription = () => get( document.getElementById( DOM_IDS.META_DESCRIPTION ), "value", "" );
+
+/**
+ * Gets the SEO title from the document.
+ *
+ * @returns {string} The SEO title or an empty string.
+ */
+export const getSeoTitle = () => get( document.getElementById( DOM_IDS.SEO_TITLE ), "value", "" );
+
+/**
+ * Gets the focus keyphrase from the document.
+ *
+ * @returns {string} The focus keyphrase or an empty string.
+ */
+export const getFocusKeyphrase = () => get( document.getElementById( DOM_IDS.FOCUS_KEYPHRASE ), "value", "" );
+
+/**
+ * Gets the focus keyphrase from the document.
+ *
+ * @returns {string} The focus keyphrase or an empty string.
+ */
+export const isCornerstone = () => get( document.getElementById( DOM_IDS.CORNERSTONE ), "value", false );
+
+/**
+ * Gets the slug from the document.
+ *
+ * @returns {string} The slug or an empty string.
+ */
+export const getSlug = () => {
+	let slug = "";
+
+	const newPostSlug = document.getElementById( "new-post-slug" );
+
+	if ( newPostSlug ) {
+		slug = newPostSlug.value;
+	} else if ( document.getElementById( "editable-post-name-full" ) !== null ) {
+		slug = document.getElementById( "editable-post-name-full" ).textContent;
+	}
+
+	return slug;
+};
+
+/**
+ * Gets the excerpt from the document.
+ *
+ * @param {boolean} useFallBack If we want to use a fallback.
+ *
+ * @returns {string} The excerpt or an empty string.
+ */
+export const getExcerpt = ( useFallBack = false ) => {
+	const excerptElement = document.getElementById( "excerpt" );
+	const excerptValue   = excerptElement && excerptElement.value || "";
+
+	if ( excerptValue !== "" || useFallBack === false ) {
+		return excerptValue;
+	}
+
+	return excerptFromContent( this.getContent() );
+};
