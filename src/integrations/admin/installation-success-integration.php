@@ -6,6 +6,7 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Installation_Success_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -21,6 +22,13 @@ class Installation_Success_Integration implements Integration_Interface {
 	protected $options_helper;
 
 	/**
+	 * The product helper.
+	 *
+	 * @var Product_Helper
+	 */
+	private $product_helper;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -31,9 +39,11 @@ class Installation_Success_Integration implements Integration_Interface {
 	 * Installation_Success_Integration constructor.
 	 *
 	 * @param Options_Helper $options_helper The options helper.
+	 * @param Product_Helper $product_helper The product helper.
 	 */
-	public function __construct( Options_Helper $options_helper ) {
+	public function __construct( Options_Helper $options_helper, Product_Helper $product_helper ) {
 		$this->options_helper = $options_helper;
+		$this->product_helper = $product_helper;
 	}
 
 	/**
@@ -60,6 +70,10 @@ class Installation_Success_Integration implements Integration_Interface {
 			return;
 		}
 		$this->options_helper->set( 'activation_redirect_timestamp_free', \time() );
+
+		if ( $this->product_helper->is_premium() ) {
+			return;
+		}
 
 		\wp_safe_redirect( \admin_url( 'admin.php?page=wpseo_installation_successful_free' ), 302, 'Yoast SEO' );
 		exit;
