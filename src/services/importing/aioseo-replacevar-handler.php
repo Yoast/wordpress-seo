@@ -37,7 +37,7 @@ class Aioseo_Replacevar_Handler {
 		'#post_year'         => '%%post_year%%',
 		'#post_excerpt_only' => '%%excerpt_only%%',
 		'#post_excerpt'      => '%%excerpt%%',
-		'#search_term '      => '%%searchphrase%%', // Check.
+		'#search_term'       => '%%searchphrase%%', // Check.
 		'#separator_sa'      => '%%sep%%',
 		'#site_title'        => '%%sitename%%',
 		'#tagline'           => '%%sitedesc%%',
