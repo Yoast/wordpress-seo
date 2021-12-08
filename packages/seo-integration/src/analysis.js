@@ -1,6 +1,6 @@
 import { applyFilters } from "@wordpress/hooks";
 import { __ } from "@wordpress/i18n";
-import { isObject } from "lodash";
+import { isObject, omit } from "lodash";
 import { AnalysisWorkerWrapper, createWorker } from "yoastseo";
 
 import createAnalyzeFunction from "./analyze";
@@ -30,13 +30,10 @@ const createAnalysisWorkerWrapper = ( { workerUrl, dependencies } ) => {
  */
 const createAnalysisConfiguration = ( configuration = {} ) => {
 	const config = {
-		...configuration,
+		...omit( configuration, [ "isReadabilityActive", "isSeoActive" ] ),
 		isContentAnalysisActive: configuration.isReadabilityActive,
 		isKeywordAnalysisActive: configuration.isSeoActive,
 	};
-
-	delete config.isReadabilityActive;
-	delete config.isSeoActive;
 
 	const processedConfig = applyFilters( "yoast.seoIntegration.analysis.configuration", config );
 
