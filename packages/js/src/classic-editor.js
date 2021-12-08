@@ -7,6 +7,7 @@ import initClassicEditorIntegration from "./initializers/classic-editor-integrat
 import initTabs from "./initializers/metabox-tabs";
 import initPrimaryCategory from "./initializers/primary-category";
 import createClassicEditorWatcher, { getEditorData } from "./watchers/classicEditorWatcher";
+import { getEditorInitialState } from "./classic-editor/initial-state";
 
 domReady( async () => {
 	// Initialize the tab behavior of the metabox.
@@ -49,7 +50,7 @@ domReady( async () => {
 			},
 		},
 		initialState: {
-			editor: getEditorData(),
+			editor: getEditorInitialState(),
 		},
 	} );
 
