@@ -244,6 +244,7 @@ Enhancements:
 * Introduces a keyphrase position tracking tool that gives insight into how your content ranks in the search results. Powered by Wincher.
 * Improves the user direction in the configuration workout.
 * Adds a sleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke).
+* Optimizes and compresses several `.png` images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
 Bugfixes:
 
