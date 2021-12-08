@@ -63,20 +63,22 @@ class KeywordInput extends Component {
 	 */
 	validate() {
 		const errors = [];
+		const { keyword, displayNoKeyphraseMessage, displayNoKeyphrasForTrackingMessage } = this.props;
 
-		if ( this.props.keyword.trim().length === 0 && this.props.displayNoKeyphraseMessage ) {
-			errors.push( __( "Please enter a focus keyphrase first to get related keyphrases", "wordpress-seo" ) );
+		if ( keyword.trim().length === 0 ) {
+			if ( displayNoKeyphraseMessage ) {
+				errors.push( __( "Please enter a focus keyphrase first to get related keyphrases", "wordpress-seo" ) );
+			}
+			if ( displayNoKeyphrasForTrackingMessage ) {
+				errors.push( __( "Please enter a focus keyphrase first to track keyphrase performance", "wordpress-seo" ) );
+			}
 		}
 
-		if ( this.props.keyword.trim().length === 0 && this.props.displayNoKeyphrasForTrackingMessage ) {
-			errors.push( __( "Please enter a focus keyphrase first to track keyphrase performance", "wordpress-seo" ) );
-		}
-
-		if ( this.props.keyword.includes( "," ) ) {
+		if ( keyword.includes( "," ) ) {
 			errors.push( __( "Are you trying to use multiple keyphrases? You should add them separately below.", "wordpress-seo" ) );
 		}
 
-		if ( this.props.keyword.length > 191 ) {
+		if ( keyword.length > 191 ) {
 			errors.push( __( "Your keyphrase is too long. It can be a maximum of 191 characters.", "wordpress-seo" ) );
 		}
 
@@ -144,7 +146,10 @@ export { KeywordInput };
 
 export default compose( [
 	withSelect( ( select ) => {
-		const { getFocusKeyphrase, getSEMrushNoKeyphraseMessage, getIsSEMrushIntegrationActive, hasWincherNoKeyphrase } = select( "yoast-seo/editor" );
+		const { getFocusKeyphrase,
+			getSEMrushNoKeyphraseMessage,
+			getIsSEMrushIntegrationActive,
+			hasWincherNoKeyphrase } = select( "yoast-seo/editor" );
 		return {
 			keyword: getFocusKeyphrase(),
 			displayNoKeyphraseMessage: getSEMrushNoKeyphraseMessage(),
