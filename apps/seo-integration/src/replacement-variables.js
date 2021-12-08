@@ -13,21 +13,25 @@ const logReplacementVariable = config => ( {
 export const createPostReplacementVariables = ( defaults ) => [
 	defaults.title,
 	defaults.excerpt,
+	defaults.excerpt_only,
 	defaults.date,
-	defaults.focusKeyphrase,
+	defaults.focus_keyphrase,
 	{
 		name: "permalink",
 		label: "Permalink",
 		getReplacement: () => select( SEO_STORE_NAME ).selectPermalink(),
+		isVisible: false,
 	},
 	{
-		name: "featuredImage",
+		name: "featured_image",
 		label: "Featured image",
 		getReplacement: () => select( SEO_STORE_NAME ).selectFeaturedImage()?.url ?? "",
+		isVisible: false,
 	},
 	{
 		name: "synonyms",
 		label: "Synonyms",
 		getReplacement: () => select( SEO_STORE_NAME ).selectSynonyms(),
 	},
+	defaults.content,
 ].map( logReplacementVariable );
