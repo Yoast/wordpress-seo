@@ -1,17 +1,16 @@
 /* global wpseoScriptData */
 
 import domReady from "@wordpress/dom-ready";
-import createSeoIntegration, { createDefaultReplacementVariableConfigurations, SEO_STORE_NAME } from "@yoast/seo-integration";
-import { mapValues, pick } from "lodash";
+import createSeoIntegration, { SEO_STORE_NAME } from "@yoast/seo-integration";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
 import registerGlobalApis from "./helpers/register-global-apis";
 import initAdmin from "./initializers/admin";
 import initAdminMedia from "./initializers/admin-media";
 import initTabs from "./initializers/metabox-tabs";
 import initPrimaryCategory from "./initializers/primary-category";
-import initEditorStore from "./metabox/editor-store";
-import Metabox from "./metabox/metabox";
-import { MetaboxFill, MetaboxSlot } from "./metabox/slot-fill";
+import initEditorStore from "./classic-editor/editor-store";
+import Metabox from "./classic-editor/components/metabox";
+import { MetaboxFill, MetaboxSlot } from "./classic-editor/components/metabox/slot-fill";
 import createClassicEditorWatcher, { getEditorData } from "./watchers/classicEditorWatcher";
 import { getAnalysisConfiguration } from "./classic-editor/analysis";
 
@@ -33,33 +32,8 @@ domReady( async () => {
 
 	const watcher = createClassicEditorWatcher( { storeName: SEO_STORE_NAME } );
 
-<<<<<<< HEAD
-	const {} = await createSeoIntegration( {
-		analysis: getAnalysisConfiguration(),
-=======
 	const { SeoProvider } = await createSeoIntegration( {
-		analysisWorkerUrl: wpseoScriptData.analysis.worker.url,
-		analysisDependencies: pick( wpseoScriptData.analysis.worker.dependencies, [
-			"lodash",
-			"regenerator-runtime",
-			"wp-autop",
-			"wp-polyfill",
-			"yoast-seo-jed-package",
-			"yoast-seo-feature-flag-package",
-			"yoast-seo-analysis-package",
-			"yoast-seo-en-language",
-		] ),
-		analysisTypes: {
-			post: {
-				name: "post",
-				replacementVariableConfigurations: mapValues( createDefaultReplacementVariableConfigurations() ),
-			},
-			term: {
-				name: "term",
-				replacementVariableConfigurations: mapValues( createDefaultReplacementVariableConfigurations() ),
-			},
-		},
->>>>>>> 522fc90221 (Swap out the metabox for a copy)
+		analysis: getAnalysisConfiguration(),
 		initialState: {
 			editor: getEditorData(),
 		},

@@ -1,5 +1,5 @@
 import { Fill, Slot } from "@wordpress/components";
-import sortComponentsByRenderPriority from "../helpers/sortComponentsByRenderPriority";
+import sortComponentsByRenderPriority from "../../../helpers/sortComponentsByRenderPriority";
 
 export const METABOX_SLOT_NAME = "YoastMetabox";
 
