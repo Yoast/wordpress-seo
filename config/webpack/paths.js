@@ -15,7 +15,6 @@ const entry = {
 	"bulk-editor": "./packages/js/src/bulk-editor.js",
 	"schema-blocks": "./packages/js/src/schema-blocks.js",
 	"classic-editor": "./packages/js/src/classic-editor.js",
-	"configuration-wizard": "./packages/js/src/configuration-wizard.js",
 	"dashboard-widget": "./packages/js/src/dashboard-widget.js",
 	"dynamic-blocks": "./packages/js/src/dynamic-blocks.js",
 	"edit-page": "./packages/js/src/edit-page.js",
