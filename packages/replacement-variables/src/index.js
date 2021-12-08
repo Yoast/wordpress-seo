@@ -5,6 +5,8 @@
  * @property {string} label The visual label that can be used in the UI.
  * @property {function(Object): string} getReplacement Function that should return the replacement value.
  * @property {RegExp} [regexp] Optional regular expression used to replace, defaults to the name surrounded by `%%`.
+ * @property {bool} [isRecommended=false] Optional, whether the replacement variable is recommended to use in the editor.
+ * @property {bool} [isVisible=true] Optional, whether the replacement variable is visible in the editor.
  */
 
 /**
@@ -14,6 +16,8 @@
  * @property {string} label The visual label that can be used in the UI.
  * @property {function(Object): string} getReplacement Function that should return the replacement value.
  * @property {RegExp} regexp Regular expression used to replace.
+ * @property {bool} isRecommended Whether the replacement variable is recommended to use in the editor.
+ * @property {bool} isVisible Whether the replacement variable is visible in the editor.
  */
 
 /**
@@ -23,7 +27,7 @@
  * @property {function(string, Object?): string} apply Applies the replacement variables to a string.
  */
 
-import { reduce, map } from "lodash";
+import { map, reduce } from "lodash";
 
 /**
  * Creates replacement variables and provides an apply function.
@@ -33,11 +37,13 @@ import { reduce, map } from "lodash";
  * @returns {ReplacementVariablesInterface} The replacement variables and an apply function.
  */
 const createReplacementVariables = ( configurations ) => {
-	const variables = map( configurations, ( { name, label, getReplacement, regexp = null } = {} ) => ( {
+	const variables = map( configurations, ( { name, label, getReplacement, regexp = null, isRecommended = false, isVisible = true } = {} ) => ( {
 		name,
 		label,
 		getReplacement,
 		regexp: regexp || new RegExp( `%%${ name }%%`, "g" ),
+		isRecommended,
+		isVisible,
 	} ) );
 
 	/**
