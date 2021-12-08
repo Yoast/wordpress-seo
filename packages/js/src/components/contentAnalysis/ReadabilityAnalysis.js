@@ -15,7 +15,7 @@ import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import { LocationConsumer } from "../contexts/location";
 import HelpLink from "../HelpLink";
-import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
+import Portal from "../portals/Portal";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -95,7 +95,7 @@ class ReadabilityAnalysis extends Component {
 
 					if ( location === "metabox" ) {
 						return (
-							<ReadabilityResultsPortal target="wpseo-metabox-readability-root">
+							<Portal target="wpseo-metabox-readability-root">
 								<ReadabilityResultsTabContainer>
 									<ScoreIconPortal
 										target="wpseo-readability-score-icon"
@@ -103,7 +103,7 @@ class ReadabilityAnalysis extends Component {
 									/>
 									{ this.renderResults() }
 								</ReadabilityResultsTabContainer>
-							</ReadabilityResultsPortal>
+							</Portal>
 						);
 					}
 				} }
