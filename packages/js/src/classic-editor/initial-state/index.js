@@ -6,7 +6,7 @@ import {
 	getMetaDescription,
 	getPermalink,
 	getSeoTitle,
-	getSlug,
+	getSlug, getSnippetImage,
 	getTitle,
 	isCornerstone,
 } from "../dom";
@@ -23,7 +23,7 @@ const getEditorInitialState = () => ( {
 	permalink: getPermalink(),
 	excerpt: getExcerpt(),
 	content: getContent(),
-	featuredImage: {},
+	featuredImage: getSnippetImage(),
 } );
 
 /**

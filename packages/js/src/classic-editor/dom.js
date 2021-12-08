@@ -109,3 +109,36 @@ export const getExcerpt = () => {
 
 	return excerptFromContent( getContent() );
 };
+
+/**
+ * Returns the featured image source if one is set.
+ *
+ * @returns {string} The source of the featured image.
+ */
+const getFeaturedImage = () => jQuery( "#set-post-thumbnail img" ).prop( "src" ) || "";
+
+/**
+ * Retrieves the fist image from the content.
+ *
+ * @param {string} content The content.
+ *
+ * @returns {string} The first image from the content.
+ */
+const getFirstImageFromContent = ( content ) => {
+	const images = content.match( new RegExp( "<img(?:[^>]+)?>", "ig" ) );
+
+	if ( images.length === 0 ) {
+		return "";
+	}
+
+	const imageUrls = images.map( image => jQuery( image ).prop( "src" ) );
+
+	return imageUrls[ 0 ] || "";
+};
+
+/**
+ * Gets the featured image if one is set. Falls back to the first image from the content.
+ *
+ * @returns {string} The featured image.
+ */
+export const getSnippetImage = () => getFeaturedImage() || getFirstImageFromContent( getContent() ) || "";
