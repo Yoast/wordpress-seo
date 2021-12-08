@@ -6,6 +6,9 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Services\Health_Check\Health_Check;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 
+/**
+ * Integrates health checks with WordPress' Site Health.
+ */
 class Health_Check_Integration implements Integration_Interface {
 
 	/**
@@ -18,20 +21,20 @@ class Health_Check_Integration implements Integration_Interface {
 	/**
 	 * Uses the dependency injection container to obtain all available implementations of the Health_Check interface.
 	 *
-	 * @param  mixed $health_checks The available health checks implementations.
+	 * @param  Health_Check ...$health_checks The available health checks implementations.
 	 * @return void
 	 */
-	public function __construct(Health_Check ...$health_checks) {
+	public function __construct( Health_Check ...$health_checks ) {
 		$this->health_checks = $health_checks;
 	}
 
 	/**
-	 * Initializes the health checks.
+	 * Hooks the health checks into WordPress' site status tests.
 	 *
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_filter( 'site_status_tests', [ $this, 'register_health_checks' ] );
+		add_filter( 'site_status_tests', [ $this, 'add_health_checks' ] );
 	}
 
 	/**
@@ -42,19 +45,19 @@ class Health_Check_Integration implements Integration_Interface {
 	 * @return array The conditionals.
 	 */
 	public static function get_conditionals() {
-		return [Admin_Conditional::class];
+		return [ Admin_Conditional::class ];
 	}
 
 	/**
-	 * register_health_check
+	 * Adds the health checks to WordPress' site status tests.
 	 *
-	 * @param  string[] $tests
-	 * @return void
+	 * @param  string[] $tests Array containing WordPress site status tests.
+	 * @return string[]
 	 */
-	public function register_health_checks($tests) {
-		foreach ($this->health_checks as $health_check) {
-			$tests['direct'][$health_check->get_test_identifier()] = [
-				'test' => [$health_check, 'run_and_get_result']
+	public function add_health_checks( $tests ) {
+		foreach ( $this->health_checks as $health_check ) {
+			$tests['direct'][ $health_check->get_test_identifier() ] = [
+				'test' => [ $health_check, 'run_and_get_result' ],
 			];
 		}
 
