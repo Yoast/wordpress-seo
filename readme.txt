@@ -241,7 +241,6 @@ Release Date: December 14th, 2021
 
 Enhancements:
 
-* Adds a new integration with Wincher for keyphrase performance tracking.
 * Improves the user direction in the configuration workout.
 * Adds a sleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke).
 
@@ -257,7 +256,6 @@ Other:
 
 * Fixes some styling issues in the configuration workout.
 * Prevents SEO managers from changing the site description in the configuration workout.
-* Requires the Configuration workout to be completed to access the Cornerstone and Orphaned Content workouts.
 * Optimizes and compresses several `.png` images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
 = 17.7.1 =
