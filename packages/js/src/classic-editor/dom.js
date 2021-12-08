@@ -97,17 +97,15 @@ export const getSlug = () => {
 /**
  * Gets the excerpt from the document.
  *
- * @param {boolean} useFallBack If we want to use a fallback.
- *
  * @returns {string} The excerpt or an empty string.
  */
-export const getExcerpt = ( useFallBack = false ) => {
+export const getExcerpt = () => {
 	const excerptElement = document.getElementById( "excerpt" );
 	const excerptValue   = excerptElement && excerptElement.value || "";
 
-	if ( excerptValue !== "" || useFallBack === false ) {
+	if ( excerptValue !== "" ) {
 		return excerptValue;
 	}
 
-	return excerptFromContent( this.getContent() );
+	return excerptFromContent( getContent() );
 };
