@@ -176,12 +176,12 @@ YoastReplaceVarPlugin.prototype.subscribeToGutenberg = function() {
 					this._currentParentPageTitle = response.title.rendered;
 					fetchedParents[ newParent ] = this._currentParentPageTitle;
 					this.declareReloaded();
-				},
+				}
 			).fail(
 				() => {
 					this._currentParentPageTitle = "";
 					this.declareReloaded();
-				},
+				}
 			);
 		} );
 	} );
