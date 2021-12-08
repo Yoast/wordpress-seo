@@ -368,9 +368,6 @@ function wpseo_init_rest_api() {
 	}
 
 	// Boot up REST API.
-	$configuration_service = new WPSEO_Configuration_Service();
-	$configuration_service->initialize();
-
 	$statistics_service = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
 
 	$endpoints   = [];
