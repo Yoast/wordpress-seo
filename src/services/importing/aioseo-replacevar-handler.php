@@ -54,6 +54,24 @@ class Aioseo_Replacevar_Handler {
 	public function transform( $aioseo_replacevar ) {
 		$yoast_replacevar = \str_replace( \array_keys( $this->replace_vars_map ), \array_values( $this->replace_vars_map ), $aioseo_replacevar );
 
+		// Transform the '#custom_field-<custom_field>' tags into '%%cf_<custom_field>%%' ones.
+		$yoast_replacevar = preg_replace_callback(
+			'/#custom_field-([a-zA-Z0-9_-]+)/',
+			function ( $cf_matches ) {
+				return '%%cf_' . $cf_matches[1] . '%%';
+			},
+			$yoast_replacevar
+		);
+
+		// Transform the '#tax_name-<custom-tax-name>' tags into '%%ct_<custom-tax-name>%%' ones.
+		$yoast_replacevar = preg_replace_callback(
+			'/#tax_name-([a-zA-Z0-9_-]+)/',
+			function ( $ct_matches ) {
+				return '%%ct_' . $ct_matches[1] . '%%';
+			},
+			$yoast_replacevar
+		);
+
 		return $yoast_replacevar;
 	}
 }
