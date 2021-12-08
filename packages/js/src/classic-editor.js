@@ -1,6 +1,6 @@
+/* global wpseoPrimaryCategoryL10n */
 import domReady from "@wordpress/dom-ready";
-import createSeoIntegration, { createDefaultReplacementVariableConfigurations, SEO_STORE_NAME } from "@yoast/seo-integration";
-import { mapValues, pick } from "lodash";
+import createSeoIntegration, { SEO_STORE_NAME } from "@yoast/seo-integration";
 import initAdmin from "./initializers/admin";
 import initAdminMedia from "./initializers/admin-media";
 import initClassicEditorIntegration from "./initializers/classic-editor-integration";
@@ -8,6 +8,7 @@ import initTabs from "./initializers/metabox-tabs";
 import initPrimaryCategory from "./initializers/primary-category";
 import createClassicEditorWatcher, { getEditorData } from "./watchers/classicEditorWatcher";
 import { getEditorInitialState } from "./classic-editor/initial-state";
+import { getAnalysisConfiguration } from "./classic-editor/analysis";
 
 domReady( async () => {
 	// Initialize the tab behavior of the metabox.
@@ -28,27 +29,7 @@ domReady( async () => {
 	const watcher = createClassicEditorWatcher( { storeName: SEO_STORE_NAME } );
 
 	const {} = await createSeoIntegration( {
-		analysisWorkerUrl: wpseoScriptData.analysis.worker.url,
-		analysisDependencies: pick( wpseoScriptData.analysis.worker.dependencies, [
-			"lodash",
-			"regenerator-runtime",
-			"wp-autop",
-			"wp-polyfill",
-			"yoast-seo-jed-package",
-			"yoast-seo-feature-flag-package",
-			"yoast-seo-analysis-package",
-			"yoast-seo-en-language",
-		] ),
-		analysisTypes: {
-			post: {
-				name: "post",
-				replacementVariableConfigurations: mapValues( createDefaultReplacementVariableConfigurations() ),
-			},
-			term: {
-				name: "term",
-				replacementVariableConfigurations: mapValues( createDefaultReplacementVariableConfigurations() ),
-			},
-		},
+		analysis: getAnalysisConfiguration(),
 		initialState: {
 			editor: getEditorInitialState(),
 		},
