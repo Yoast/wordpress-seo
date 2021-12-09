@@ -2,6 +2,7 @@ import { get } from "lodash";
 
 import { tmceId, getContentTinyMce } from "../lib/tinymce";
 import { excerptFromContent } from "../helpers/replacementVariableHelpers";
+import firstImageUrlInContent from "../helpers/firstImageUrlInContent";
 
 export const DOM_IDS = {
 	// WP classic editor ids
@@ -125,27 +126,8 @@ export const getExcerpt = () => {
 const getFeaturedImageSetInEditor = () => document.querySelector( FEATURED_IMAGE_QUERY_SELECTOR ).getAttribute( "src" ) || "";
 
 /**
- * Retrieves the fist image from the content.
- *
- * @param {string} content The content.
- *
- * @returns {string} The first image from the content.
- */
-const getFirstImageFromContent = ( content ) => {
-	const images = content.match( new RegExp( "<img(?:[^>]+)?>", "ig" ) );
-
-	if ( images.length === 0 ) {
-		return "";
-	}
-
-	const imageUrls = images.map( image => jQuery( image ).prop( "src" ) );
-
-	return imageUrls[ 0 ] || "";
-};
-
-/**
  * Gets the featured image if one is set. Falls back to the first image from the content.
  *
  * @returns {string} The featured image.
  */
-export const getFeaturedImage = () => getFeaturedImageSetInEditor() || getFirstImageFromContent( getContent() ) || "";
+export const getFeaturedImage = () => getFeaturedImageSetInEditor() || firstImageUrlInContent( getContent() ) || "";
