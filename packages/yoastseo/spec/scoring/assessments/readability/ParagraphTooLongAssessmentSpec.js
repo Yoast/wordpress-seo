@@ -119,19 +119,10 @@ describe( "Applicability of the assessment.", function() {
 } );
 
 describe( "A test for marking the sentences", function() {
-	it( "returns markers", function() {
-		const paper = new Paper( "This is a very interesting paper." );
-		const paragraphTooLong = Factory.buildMockResearcher( [ { countLength: 210, text: "This is a very interesting paper." } ] );
-		const expected = [
-			new Mark( { original: "This is a very interesting paper.", marked: "<yoastmark class='yoast-text-mark'>This is" +
-					" a very interesting paper.</yoastmark>" } ),
-		];
-		expect( paragraphTooLongAssessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
-	} );
 
 	it( "returns markers for a default text", function() {
 		const assessment = new ParagraphTooLongAssessment();
-		const paper = new Paper( "You just got Yoast SEO, and you are ready to get the most out of it! Or, have you already been using it for a" +
+		const paper = new Paper( "You just got Yoast SEO, and you are ready to get the most out of it! Or, have you already been using it for a " +
 			"while and know your way around it? Either way, you should use some essential Yoast SEO settings to let the plugin work at its best. " +
 			"That’s why we’ve created a Yoast SEO configuration workout! In five steps, we guide you in setting up Yoast SEO the right way! Read " +
 			"on to learn more about each step. If you just installed Yoast SEO, you’ll find a link to the workout at the top of your general " +
@@ -152,7 +143,7 @@ describe( "A test for marking the sentences", function() {
 					"menu (see bottom of image). Now, let’s go through the workout’s steps. Choose Organization if you have a professional or a " +
 					"company website. For example, if we were filling in the data for yoast.com, we would choose Organization. You’ll then need to" +
 					" add the Organization’s name, logo, and tagline.", marked: "<yoastmark class='yoast-text-mark'>You just got Yoast SEO, and " +
-					"you are ready to get the most out of it! Or, have you already been using it for a while" +
+					"you are ready to get the most out of it! Or, have you already been using it for a while " +
 					"and know your way around it? Either way, you should use some essential Yoast SEO settings to let the plugin work at its best. " +
 					"That’s why we’ve created a Yoast SEO configuration workout! In five steps, we guide you in setting up Yoast SEO the right way!" +
 					" Read on to learn more about each step. If you just installed Yoast SEO, you’ll find a link to the workout at the top of your" +
@@ -163,7 +154,7 @@ describe( "A test for marking the sentences", function() {
 					"website. For example, if we were filling in the data for yoast.com, we would choose Organization. You’ll then need to add " +
 					"the Organization’s name, logo, and tagline.</yoastmark>" } ),
 		];
-		expect( paragraphTooLongAssessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
+		expect( assessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
 	} );
 
 	it( "returns markers for a text in Japanese", function() {
