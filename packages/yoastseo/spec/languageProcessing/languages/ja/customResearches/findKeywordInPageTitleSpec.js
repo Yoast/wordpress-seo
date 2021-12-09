@@ -9,7 +9,7 @@ let result;
 
 
 describe( "a test for matching keyphrase in page title for Japanese", () => {
-	describe( "a test for when the morpgology data is not available", () => {
+	describe( "a test for when the morphology data is not available", () => {
 		it( "returns the result a keyphrase in Japanese that is enclosed in quotation mark " +
 			"and it is in the beginning of the title", function() {
 			const mockPaper = new Paper( "", {
@@ -257,6 +257,21 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 				const mockPaper = new Paper( "", {
 					keyword: "読ん一冊の本",
 					title: "読まれ一冊の本なにか",
+					locale: "ja",
+				} );
+				const researcher = new JapaneseResearcher( mockPaper );
+				researcher.addResearchData( "morphology", morphologyDataJA );
+
+				result = pageTitleKeywordResearch( mockPaper, researcher );
+				expect( result.allWordsFound ).toBe( true );
+				expect( result.position ).toBe( 0 );
+			} );
+
+			it( "returns the result for a Japanese keyphrase enclosed in double quotes " +
+				"and a different form of the keyphrase is used in the title", function() {
+				const mockPaper = new Paper( "", {
+					keyword: "「読ん一冊の本」",
+					title: "読ん一冊の本なにか",
 					locale: "ja",
 				} );
 				const researcher = new JapaneseResearcher( mockPaper );
