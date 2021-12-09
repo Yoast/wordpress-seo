@@ -22,7 +22,6 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			result = pageTitleKeywordResearch( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.exactMatchKeyphrase ).toBe( true );
-			expect( result.exactMatchFound ).toBe( true );
 			expect( result.position ).toBe( 0 );
 		} );
 
@@ -38,7 +37,6 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			result = pageTitleKeywordResearch( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.exactMatchKeyphrase ).toBe( true );
-			expect( result.exactMatchFound ).toBe( true );
 			expect( result.position ).toBe( 0 );
 		} );
 
@@ -54,7 +52,6 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			result = pageTitleKeywordResearch( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( false );
 			expect( result.exactMatchKeyphrase ).toBe( true );
-			expect( result.exactMatchFound ).toBe( false );
 			expect( result.position ).toBe( -1 );
 		} );
 
@@ -166,7 +163,6 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 				result = pageTitleKeywordResearch( mockPaper, researcher );
 				expect( result.allWordsFound ).toBe( true );
 				expect( result.exactMatchKeyphrase ).toBe( true );
-				expect( result.exactMatchFound ).toBe( true );
 				expect( result.position ).toBe( 0 );
 			} );
 
@@ -183,7 +179,6 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 				result = pageTitleKeywordResearch( mockPaper, researcher );
 				expect( result.allWordsFound ).toBe( true );
 				expect( result.exactMatchKeyphrase ).toBe( true );
-				expect( result.exactMatchFound ).toBe( true );
 				expect( result.position ).toBe( 0 );
 			} );
 
@@ -200,7 +195,6 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 				result = pageTitleKeywordResearch( mockPaper, researcher );
 				expect( result.allWordsFound ).toBe( false );
 				expect( result.exactMatchKeyphrase ).toBe( true );
-				expect( result.exactMatchFound ).toBe( false );
 				expect( result.position ).toBe( -1 );
 			} );
 

@@ -52,10 +52,13 @@ function adjustPosition( title, position ) {
 export default function( paper, researcher ) {
 	const title = paper.getTitle();
 	let keyphrase = paper.getKeyword();
+
 	const result = { allWordsFound: false, position: -1, exactMatchKeyphrase: false  };
 
-	// Check if the keyword is enclosed in quotation mark.
-	// If yes, remove the quotation marks and check if the exact match of the keyphrase is found in the title.
+	/*
+	 * Check if the keyword is enclosed in quotation mark.
+	 * If yes, remove the quotation marks and check if the exact match of the keyphrase is found in the title.
+	 */
 	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"", "\u300c", "\u300d", "\u300e", "\u300f" ];
 	const exactMatchRequest = processExactMatchRequest( keyphrase, doubleQuotes );
 	if ( exactMatchRequest.exactMatchRequested ) {
@@ -66,16 +69,8 @@ export default function( paper, researcher ) {
 		const keyphraseMatched = wordMatch( title, keyphrase, "ja", japaneseWordMatchHelper );
 
 		if ( keyphraseMatched.count > 0 ) {
-			/*
-			 * The exactMatchFound is true only when the keyphrase is enclosed in double quotes.
-			 * We don't need to return this information for other cases,
-			 * because in Japanese we don't require an exact match of a keyphrase in the title.
-			 */
-			result.exactMatchFound = true;
 			result.allWordsFound = true;
 			result.position = adjustPosition( title, keyphraseMatched.position );
-		} else {
-			result.exactMatchFound = false;
 		}
 		/*
 		 * When the exact match process is requested, we don't need to run the check for the different word forms,
