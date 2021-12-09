@@ -97,6 +97,7 @@ function registerFills( store ) {
 	const preferences = store.getState().preferences;
 	const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
 	const showZapierPanel = preferences.isZapierIntegrationActive && ! preferences.isZapierConnected;
+	const showWincherPanel = preferences.isKeywordAnalysisActive && preferences.isWincherIntegrationActive;
 	initiallyOpenDocumentSettings();
 
 	/**
@@ -145,7 +146,7 @@ function registerFills( store ) {
 				icon={ <Fragment /> }
 			>
 				<PostPublish />
-				{ preferences.isKeywordAnalysisActive && <WincherPostPublish /> }
+				{ showWincherPanel && <WincherPostPublish /> }
 			</PluginPostPublishPanel>
 			{ analysesEnabled && <PluginDocumentSettingPanel
 				name="document-panel"
