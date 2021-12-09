@@ -6,6 +6,7 @@ import Mark from "../../../../src/values/Mark.js";
 import Researcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import paragraphLengthJapanese from "../../../../src/languageProcessing/languages/ja/config/paragraphLength";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
 const paragraphTooLongAssessment = new ParagraphTooLongAssessment();
 const shortTextJapanese = "は".repeat( 300 );
@@ -124,6 +125,65 @@ describe( "A test for marking the sentences", function() {
 		const expected = [
 			new Mark( { original: "This is a very interesting paper.", marked: "<yoastmark class='yoast-text-mark'>This is" +
 					" a very interesting paper.</yoastmark>" } ),
+		];
+		expect( paragraphTooLongAssessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
+	} );
+
+	it( "returns markers for a default text", function() {
+		const paper = new Paper( "You just got Yoast SEO, and you are ready to get the most out of it! Or, have you already been using it for a" +
+			"while and know your way around it? Either way, you should use some essential Yoast SEO settings to let the plugin work at its best. " +
+			"That’s why we’ve created a Yoast SEO configuration workout! In five steps, we guide you in setting up Yoast SEO the right way! Read " +
+			"on to learn more about each step. If you just installed Yoast SEO, you’ll find a link to the workout at the top of your general " +
+			"WordPress Dashboard, as well as on top of all the screens of the Yoast SEO settings (see image). The link takes you to the Workouts " +
+			"screen, where you can find and access the Configuration workout by clicking the Start workout button. If you’ve finished the workout " +
+			"but want to revise some steps, you can find it in the Workouts menu item of the SEO menu (see bottom of image). Now, let’s go through " +
+			"the workout’s steps. Choose Organization if you have a professional or a company website. For example, if we were filling in the data " +
+			"for yoast.com, we would choose Organization. You’ll then need to add the Organization’s name, logo, and tagline." );
+		const paragraphTooLong = new EnglishResearcher( paper );
+		const expected = [
+			new Mark( { original: "You just got Yoast SEO, and you are ready to get the most out of it! Or, have you already been using it for a " +
+					"while and know your way around it? Either way, you should use some essential Yoast SEO settings to let the plugin work at its " +
+					"best. That’s why we’ve created a Yoast SEO configuration workout! In five steps, we guide you in setting up Yoast SEO the " +
+					"right way! Read on to learn more about each step. If you just installed Yoast SEO, you’ll find a link to the workout at the " +
+					"top of your general WordPress Dashboard, as well as on top of all the screens of the Yoast SEO settings (see image). The link" +
+					" takes you to the Workouts screen, where you can find and access the Configuration workout by clicking the Start workout " +
+					"button. If you’ve finished the workout but want to revise some steps, you can find it in the Workouts menu item of the SEO " +
+					"menu (see bottom of image). Now, let’s go through the workout’s steps. Choose Organization if you have a professional or a " +
+					"company website. For example, if we were filling in the data for yoast.com, we would choose Organization. You’ll then need to" +
+					" add the Organization’s name, logo, and tagline.", marked: "<yoastmark class='yoast-text-mark'>You just got Yoast SEO, and " +
+					"you are ready to get the most out of it! Or, have you already been using it for a while" +
+					"and know your way around it? Either way, you should use some essential Yoast SEO settings to let the plugin work at its best. " +
+					"That’s why we’ve created a Yoast SEO configuration workout! In five steps, we guide you in setting up Yoast SEO the right way!" +
+					" Read on to learn more about each step. If you just installed Yoast SEO, you’ll find a link to the workout at the top of your" +
+					" general WordPress Dashboard, as well as on top of all the screens of the Yoast SEO settings (see image). The link takes you " +
+					"to the Workouts screen, where you can find and access the Configuration workout by clicking the Start workout button. If " +
+					"you’ve finished the workout but want to revise some steps, you can find it in the Workouts menu item of the SEO menu (see " +
+					"bottom of image). Now, let’s go through the workout’s steps. Choose Organization if you have a professional or a company " +
+					"website. For example, if we were filling in the data for yoast.com, we would choose Organization. You’ll then need to add " +
+					"the Organization’s name, logo, and tagline.</yoastmark>" } ),
+		];
+		expect( paragraphTooLongAssessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
+	} );
+
+	it( "returns markers for a text in Japanese", function() {
+		const paper = new Paper( "接続詞は、文と文との中間に位置しています。前文と後文との間にあって、両者の関係を示している言葉です。学校文法では、接続詞は文の成分" +
+			"としては独立語として扱われておりますが、独立語でないとする文法学説もあります。松下文法では一品詞としないで副詞に含め、山田文法では副詞の一類として接続副詞" +
+			"としており、芳賀やすしは接続詞を承前副詞と並立連体詞とに二分しています。時枝文法では「辞」として扱っています。つまり、接続詞は前文を受けて、後文の文末まで" +
+			"係っていく副詞のような働きをしているということです。独立語として中立的に結びつけている言葉ではありません。このように接続詞は前文の内容を後文へと持ち込んで、" +
+			"どんな関係になっているかを示し、後文の文末まで係っていく、そうした副詞と似た働きをしています。後文への修飾語的性格を持っています。" );
+		const paragraphTooLong = new JapaneseResearcher( paper );
+		const expected = [
+			new Mark( { original: "接続詞は、文と文との中間に位置しています。前文と後文との間にあって、両者の関係を示している言葉です。学校文法では、接続詞は文の成分" +
+					"としては独立語として扱われておりますが、独立語でないとする文法学説もあります。松下文法では一品詞としないで副詞に含め、山田文法では副詞の一類として接続副詞" +
+					"としており、芳賀やすしは接続詞を承前副詞と並立連体詞とに二分しています。時枝文法では「辞」として扱っています。つまり、接続詞は前文を受けて、後文の文末まで" +
+					"係っていく副詞のような働きをしているということです。独立語として中立的に結びつけている言葉ではありません。このように接続詞は前文の内容を後文へと持ち込んで、" +
+					"どんな関係になっているかを示し、後文の文末まで係っていく、そうした副詞と似た働きをしています。後文への修飾語的性格を持っています。", marked:
+					"<yoastmark class='yoast-text-mark'>接続詞は、文と文との中間に位置しています。前文と後文との間にあって、両者の関係を示している言葉です。" +
+					"学校文法では、接続詞は文の成分としては独立語として扱われておりますが、独立語でないとする文法学説もあります。松下文法では一品詞としないで副詞に含め、" +
+					"山田文法では副詞の一類として接続副詞としており、芳賀やすしは接続詞を承前副詞と並立連体詞とに二分しています。時枝文法では「辞」として扱っています。" +
+					"つまり、接続詞は前文を受けて、後文の文末まで係っていく副詞のような働きをしているということです。独立語として中立的に結びつけている言葉ではありません。" +
+					"このように接続詞は前文の内容を後文へと持ち込んで、どんな関係になっているかを示し、後文の文末まで係っていく、そうした副詞と似た働きをしています。" +
+					"後文への修飾語的性格を持っています。</yoastmark>" } ),
 		];
 		expect( paragraphTooLongAssessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
 	} );
