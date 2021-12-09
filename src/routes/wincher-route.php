@@ -320,11 +320,11 @@ class Wincher_Route implements Route_Interface {
 	}
 
 	/**
-	 * Whether the current user is allowed to edit post/pages and thus use the Wincher integration.
+	 * Whether the current user is allowed to publish post/pages and thus use the Wincher integration.
 	 *
 	 * @return bool Whether the current user is allowed to use Wincher.
 	 */
 	public function can_use_wincher() {
-		return \current_user_can( 'edit_posts' ) || \current_user_can( 'edit_pages' );
+		return \current_user_can( 'publish_posts' ) || \current_user_can( 'publish_pages' );
 	}
 }
