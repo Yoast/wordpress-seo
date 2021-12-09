@@ -1,8 +1,78 @@
 .installation-success-page {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	height: 90vh;
+	margin-top: 16vh;
+	flex-wrap: wrap;
+}
+
+.installation-success-page .step-list {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 24px auto;
+	gap: 312px;
+}
+
+.installation-success-page .step-list-complete-circle {
+	position: relative;
+	width: 2rem;
+	height: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var( --yoast-color-primary );
+	border-radius: 9999px;
+}
+
+.installation-success-page .step-list-current-circle {
+	position: relative;
+	width: 2rem;
+	height: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: white;
+	border-radius: 9999px;
+	box-sizing: border-box;
+	border: var( --yoast-color-primary ) solid 2px;
+}
+
+.installation-success-page .complete-check-icon {
+	background-color: white;
+	color: white;
+	mask-image: var(--yoast-svg-icon-check-ok);
+	-webkit-mask-image: var(--yoast-svg-icon-check-ok);
+	mask-size: 100% 100%;
+	-webkit-mask-size: 100% 100%;
+	display: inline-block;
+	width: 1.25rem;
+	height: 1.25rem;
+}
+
+.installation-success-page .step-list > li {
+	position: relative;
+}
+
+.installation-success-page .step-list-current-inner-circle {
+	height: 0.625rem;
+	width: 0.625rem;
+	border-radius: 9999px;
+	background-color: var( --yoast-color-primary );
+}
+
+.installation-success-page .step-first-div {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	width: 376px;
+}
+
+.installation-success-page .step-second-div {
+	height: 2px;
+	width: 100%;
+	background-color: var( --yoast-color-primary );
 }
 
 .installation-success-steps {
@@ -19,7 +89,10 @@
 	font-size: 40px;
 	font-weight: 400;
 	color: var( --yoast-color-primary );
-	margin: 0 auto;
+	margin: 24px auto;
+	letter-spacing: 0.4px;
+	line-height: normal;
+	text-align: center;
 }
 
 .installation-success-card {
