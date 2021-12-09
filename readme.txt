@@ -260,8 +260,6 @@ Other:
 
 * Fixes some styling issues in the configuration workout.
 * Prevents SEO managers from changing the site description in the configuration workout.
-* This change has been reverted. Requires the Configuration workout to be completed to access the Cornerstone and Orphaned Content workouts.
-* Optimizes and compresses several .png images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
 = 17.7.1 =
 Release Date: December 1st, 2021
