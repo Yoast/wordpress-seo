@@ -61,6 +61,7 @@ class Installation_Success_Integration implements Integration_Interface {
 		}
 		$this->options_helper->set( 'activation_redirect_timestamp_free', \time() );
 
+		// phpcs:ignore WordPress.Security.NonceVerification -- This is not a form.
 		if ( isset( $_REQUEST['activate-multi'] ) && $_REQUEST['activate-multi'] === 'true' ) {
 			return;
 		}
