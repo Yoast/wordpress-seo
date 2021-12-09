@@ -317,7 +317,7 @@ class WPSEO_Admin_Asset_Manager {
 			$renamed_scripts
 		);
 
-		$scripts[ "installation-success" ] = [
+		$scripts['installation-success'] = [
 			'name' => 'installation-success',
 			'src'  => 'installation-success-' . $flat_version . '.js',
 			'deps' => [
