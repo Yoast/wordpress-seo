@@ -29,7 +29,6 @@ const Metabox = () => {
 	const settings = useSelect( select => select( EDITOR_STORE_NAME ).getPreferences() );
 	const isSeoAnalysisActive = useSelect( select => select( SEO_STORE_NAME ).selectIsSeoAnalysisActive() );
 	const isReadabilityAnalysisActive = useSelect( select => select( SEO_STORE_NAME ).selectIsReadabilityAnalysisActive() );
-	const baseUrl = useSelect( select => select( EDITOR_STORE_NAME ).getBaseUrlFromSettings() );
 	const shoppingData = useSelect( select => select( EDITOR_STORE_NAME ).getShoppingData() );
 	const siteIconUrl = useSelect( select => select( EDITOR_STORE_NAME ).getSiteIconUrlFromSettings() );
 	const previewImageUrl = useSelect( select => select( EDITOR_STORE_NAME ).getSnippetEditorPreviewImageUrl() );
@@ -56,7 +55,6 @@ const Metabox = () => {
 				>
 					<GooglePreviewContainer
 						as={ SnippetEditor }
-						baseUrl={ baseUrl }
 						shoppingData={ shoppingData }
 						faviconSrc={ siteIconUrl }
 						mobileImageSrc={ previewImageUrl }
