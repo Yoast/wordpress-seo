@@ -1,4 +1,4 @@
-/* global wpseoScriptData */
+/* global wpseoScriptData wpseoPrimaryCategoryL10n */
 
 import domReady from "@wordpress/dom-ready";
 import createSeoIntegration, { SEO_STORE_NAME } from "@yoast/seo-integration";

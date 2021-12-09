@@ -1,6 +1,8 @@
 /* global wpseoScriptData wpseoAdminL10n */
 
 import { Fill } from "@wordpress/components";
+import { useSelect } from "@wordpress/data";
+import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { GooglePreviewContainer } from "@yoast/seo-integration";
@@ -25,7 +27,8 @@ import FocusKeyphraseInput from "../focus-keyphrase-input";
  */
 const Metabox = () => {
 	const settings = useSelect( select => select( EDITOR_STORE_NAME ).getPreferences() );
-	const isKeywordAnalysisActive = useSelect( select => select( EDITOR_STORE_NAME ).getIsKeywordAnalysisActive() );
+	const isSeoAnalysisActive = useSelect( select => select( SEO_STORE_NAME ).selectIsSeoAnalysisActive() );
+	const isReadabilityAnalysisActive = useSelect( select => select( SEO_STORE_NAME ).selectIsReadabilityAnalysisActive() );
 	const baseUrl = useSelect( select => select( EDITOR_STORE_NAME ).getBaseUrlFromSettings() );
 	const shoppingData = useSelect( select => select( EDITOR_STORE_NAME ).getShoppingData() );
 	const siteIconUrl = useSelect( select => select( EDITOR_STORE_NAME ).getSiteIconUrlFromSettings() );
@@ -40,7 +43,7 @@ const Metabox = () => {
 			>
 				<Warning />
 			</SidebarItem>
-			{ isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
+			{ isSeoAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 				<FocusKeyphraseInput focusKeyphraseInfoLink={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } />
 				{ ! wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
 					<SEMrushRelatedKeyphrases />
@@ -61,12 +64,11 @@ const Metabox = () => {
 					/>
 				</MetaboxCollapsible>
 			</SidebarItem>
-			{ settings.isContentAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
+			{ isReadabilityAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
 				<ReadabilityAnalysis />
 			</SidebarItem> }
-			{ settings.isKeywordAnalysisActive && <SidebarItem key="seo-analysis" renderPriority={ 20 }>
+			{ isSeoAnalysisActive && <SidebarItem key="seo-analysis" renderPriority={ 20 }>
 				<SeoAnalysis
-					resultsContainer={ <SeoResultsContainer as={ ContentAnalysis } /> }
 					shouldUpsell={ settings.shouldUpsell }
 					shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 				/>
