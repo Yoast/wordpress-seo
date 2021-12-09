@@ -247,23 +247,6 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasMarks() ).toBe( false );
 	} );
 
-	it( "returns the score for 25% long sentences in Turkish", function() {
-		const mockPaper = new Paper();
-		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
-			{ sentence: "", sentenceLength: 30 },
-			{ sentence: "", sentenceLength: 1 },
-			{ sentence: "", sentenceLength: 1 },
-			{ sentence: "", sentenceLength: 1 },
-		], false, false, turkishConfig ) );
-
-		expect( assessment.hasScore() ).toBe( true );
-		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
-			"25% of the sentences contain more than 15 words, which is more than the recommended maximum of 20%." +
-			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
-		expect( assessment.hasMarks() ).toBe( true );
-	} );
-
 	it( "returns the score for 100% long sentences in Japanese", function() {
 		const mockPaper = new Paper( "" );
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, Factory.buildMockResearcher( [
