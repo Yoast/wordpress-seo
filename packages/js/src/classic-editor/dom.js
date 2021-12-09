@@ -17,6 +17,13 @@ export const DOM_IDS = {
 	CORNERSTONE: "yoast_wpseo_is_cornerstone",
 };
 
+/**
+ * The query selector for finding the featured image in the classic editor.
+ *
+ * @type {string}
+ */
+const FEATURED_IMAGE_QUERY_SELECTOR = "#set-post-thumbnail img";
+
 export const getTitleElem = () => document.getElementById( DOM_IDS.TITLE );
 
 /**
@@ -115,7 +122,7 @@ export const getExcerpt = () => {
  *
  * @returns {string} The source of the featured image.
  */
-const getFeaturedImageSetInEditor = () => jQuery( "#set-post-thumbnail img" ).prop( "src" ) || "";
+const getFeaturedImageSetInEditor = () => document.querySelector( FEATURED_IMAGE_QUERY_SELECTOR ).getAttribute( "src" ) || "";
 
 /**
  * Retrieves the fist image from the content.
