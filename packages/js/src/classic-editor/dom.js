@@ -10,7 +10,6 @@ export const DOM_IDS = {
 	CONTENT: tmceId,
 	EXCERPT: "excerpt",
 	PERMALINK: "sample-permalink",
-	DATE: "date",
 	// Yoast hidden input ids
 	SEO_TITLE: "yoast_wpseo_title",
 	META_DESCRIPTION: "yoast_wpseo_metadesc",
@@ -53,7 +52,7 @@ export const getPermalink = () => get( document.getElementById( DOM_IDS.PERMALIN
  *
  * @returns {string} The date or an empty string.
  */
-export const getDate = () => get( document.getElementById( DOM_IDS.DATE ), "value", "" );
+export const getDate = () => get( window, [ "wpseoScriptData", "metabox", "metaDescriptionDate" ], "" );
 
 /**
  * Gets the meta description from the document.
