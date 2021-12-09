@@ -1,10 +1,12 @@
 import getKeywordDensity from "../../../src/languageProcessing/researches/getKeywordDensity.js";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
+import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataEN = getMorphologyData( "en" ).en;
+const morphologyDataJA = getMorphologyData( "ja" ).ja;
 
 describe( "Test for counting the keyword density in a text", function() {
 	// eslint-disable-next-line max-statements
@@ -60,6 +62,15 @@ describe( "Test for counting the keyword density in a text", function() {
 		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.142857142857142 );
 		mockPaper = new Paper( "a string with quotes to match the key'word, even if the quotes differ", { keyword: "key’word" } );
 		expect( getKeywordDensity( mockPaper, new EnglishResearcher( mockPaper ) ) ).toBe( 7.6923076923076925 );
+	} );
+} );
+
+describe( "test for counting the keyword density in a text in Japanese", function() {
+	it( "returns keyword density in Japanese", function() {
+		const mockPaper = new Paper( "猫はテーブルの上にいます。", { keyword: "猫" } );
+		const mockResearcher = new JapaneseResearcher( mockPaper );
+		mockResearcher.addResearchData( "morphology",  morphologyDataJA );
+		expect( getKeywordDensity( mockPaper, new JapaneseResearcher( mockPaper ) ) ).toBe( 50 );
 	} );
 } );
 
