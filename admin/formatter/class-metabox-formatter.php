@@ -58,7 +58,7 @@ class WPSEO_Metabox_Formatter {
 
 		$is_wincher_active = WPSEO_Options::get( 'wincher_integration_active', true );
 
-		// If feature flag is disabled, set wincher should not be active.
+		// If feature flag is disabled, Wincher should not be active.
 		$conditional = new Wincher_Conditional();
 		if ( ! $conditional->is_met() ) {
 			$is_wincher_active = false;
