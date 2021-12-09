@@ -1,11 +1,16 @@
-/* global wpseoPrimaryCategoryL10n */
+/* global wpseoScriptData wpseoPrimaryCategoryL10n */
+
 import domReady from "@wordpress/dom-ready";
 import createSeoIntegration, { SEO_STORE_NAME } from "@yoast/seo-integration";
+import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
+import registerGlobalApis from "./helpers/register-global-apis";
 import initAdmin from "./initializers/admin";
 import initAdminMedia from "./initializers/admin-media";
-import initClassicEditorIntegration from "./initializers/classic-editor-integration";
 import initTabs from "./initializers/metabox-tabs";
 import initPrimaryCategory from "./initializers/primary-category";
+import initEditorStore from "./classic-editor/editor-store";
+import Metabox from "./classic-editor/components/metabox";
+import { MetaboxFill, MetaboxSlot } from "./classic-editor/components/metabox/slot-fill";
 import createClassicEditorWatcher from "./watchers/classicEditorWatcher";
 import { getInitialState } from "./classic-editor/initial-state";
 import { getAnalysisConfiguration } from "./classic-editor/analysis";
@@ -28,13 +33,17 @@ domReady( async() => {
 
 	const watcher = createClassicEditorWatcher( { storeName: SEO_STORE_NAME } );
 
-	const {} = await createSeoIntegration( {
+	const { SeoProvider } = await createSeoIntegration( {
 		analysis: getAnalysisConfiguration(),
 		initialState: getInitialState(),
 	} );
 
+	// Until ALL the components are carried over, the `@yoast/editor` store is still needed.
+	initEditorStore();
 
-	// TODO:
+
+	const registerApis = registerGlobalApis( "YoastSEO" );
+
 	// - expose global API (pluggable/see scrapers).
 	// - create a SEO data watcher that updates our hidden fields so that the changed data is saved along with the WP save.
 	// - traffic light & admin bar: update analysis scores?
@@ -46,5 +55,20 @@ domReady( async() => {
 	// Responsibility:
 	// - render metabox
 	// - provide slot/fill mechanism
-	initClassicEditorIntegration( {} );
+	// Expose registerReactComponent as an alternative to registerPlugin.
+	registerApis( [ { _registerReactComponent: registerReactComponent } ] );
+
+	renderReactRoot( {
+		target: "wpseo-metabox-root",
+		children: (
+			<SeoProvider>
+				<MetaboxSlot />
+				<MetaboxFill>
+					<Metabox />
+				</MetaboxFill>
+			</SeoProvider>
+		),
+		theme: { isRtl: Boolean( wpseoScriptData.metabox.isRtl ) },
+		location: "metabox",
+	} );
 } );

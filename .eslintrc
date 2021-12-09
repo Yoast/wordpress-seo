@@ -51,6 +51,11 @@ overrides:
           message: Please use @wordpress/element instead. No need to import just for JSX.
         - name: react-dom
           message: Please use @wordpress/element instead.
+      space-before-function-paren:
+        - error
+        - anonymous: never
+          named: never
+          asyncArrow: always
 
       # Disabled rules
       # In the editor, we're using the pragma `wp.element.createElement`

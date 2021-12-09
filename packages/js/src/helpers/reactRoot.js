@@ -1,6 +1,5 @@
 import { SlotFillProvider } from "@wordpress/components";
 import { Component as wpComponent, createRef, Fragment, render } from "@wordpress/element";
-import getL10nObject from "../analysis/getL10nObject";
 import TopLevelProviders from "../components/TopLevelProviders";
 
 const registeredComponents = [];
@@ -58,26 +57,23 @@ class RegisteredComponentsContainer extends wpComponent {
 }
 
 /**
- * Renders a React tree for the classic editor.
+ * Renders a React tree with providers and a register mechanism.
  *
  * @param {string} target The id of the DOM target.
- * @param {wp.Element} children The children to render.
+ * @param {JSX.Element} children The children to render.
+ * @param {Object} theme The theme to provide.
+ * @param {string} location The location to provide.
  *
  * @returns {void}
  */
-export function renderReactRoot( target, children ) {
-	const localizedData = getL10nObject();
+export function renderReactRoot( { target, children, theme, location } ) {
 	containerRef = createRef();
-
-	const theme = {
-		isRtl: localizedData.isRtl,
-	};
 
 	render(
 		(
 			<TopLevelProviders
 				theme={ theme }
-				location={ "sidebar" }
+				location={ location }
 			>
 				<SlotFillProvider>
 					<Fragment>

@@ -1,12 +1,13 @@
 import { dispatch } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
 import { __, sprintf } from "@wordpress/i18n";
-import { StyleSheetManager } from "styled-components";
 import { debounce } from "lodash";
-import { registerElementorDataHookAfter } from "../helpers/elementorHook";
-import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
+import { StyleSheetManager } from "styled-components";
+import getL10nObject from "../analysis/getL10nObject";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
+import { registerElementorDataHookAfter } from "../helpers/elementorHook";
+import { registerReactComponent, renderReactRoot } from "../helpers/reactRoot";
 
 // Keep track of unsaved SEO setting changes.
 let hasUnsavedSeoChanges = false;
@@ -50,12 +51,15 @@ function updateSaveAsDraftWarning() {
 	let message;
 
 	if ( hasUnsavedSeoChanges ) {
-		/* Translators: %1$s translates to the Post Label in singular form */
-		message = sprintf( __(
-			// eslint-disable-next-line max-len
-			"Unfortunately we cannot save changes to your SEO settings while you are working on a draft of an already-published %1$s. If you want to save your SEO changes, make sure to click 'Update', or wait to make your SEO changes until you are ready to update the %1$s.",
-			"wordpress-seo"
-		), window.wpseoAdminL10n.postTypeNameSingular.toLowerCase() );
+		message = sprintf(
+			/* translators: %1$s translates to the Post Label in singular form */
+			__(
+				// eslint-disable-next-line max-len
+				"Unfortunately we cannot save changes to your SEO settings while you are working on a draft of an already-published %1$s. If you want to save your SEO changes, make sure to click 'Update', or wait to make your SEO changes until you are ready to update the %1$s.",
+				"wordpress-seo"
+			),
+			window.wpseoAdminL10n.postTypeNameSingular.toLowerCase()
+		);
 	}
 
 	// Don't show the warning for drafts.
@@ -170,14 +174,21 @@ export default function initElementEditorIntegration() {
 	// Check whether the route to our tab is active. If so, render our React root.
 	window.$e.routes.on( "run:after", function( component, route ) {
 		if ( route === "panel/page-settings/yoast-tab" ) {
-			renderReactRoot( "elementor-panel-page-settings-controls", (
-				<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
-					<div className="yoast yoast-elementor-panel__fills">
-						<ElementorSlot />
-						<ElementorFill />
-					</div>
-				</StyleSheetManager>
-			) );
+			const localizedData = getL10nObject();
+
+			renderReactRoot( {
+				target: "elementor-panel-page-settings-controls",
+				children: (
+					<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
+						<div className="yoast yoast-elementor-panel__fills">
+							<ElementorSlot />
+							<ElementorFill />
+						</div>
+					</StyleSheetManager>
+				),
+				theme: { isRtl: localizedData.isRtl },
+				location: "sidebar",
+			} );
 		}
 	} );
 
@@ -187,13 +198,13 @@ export default function initElementEditorIntegration() {
 	const handleSave = sendFormData.bind( null, document.getElementById( "yoast-form" ) );
 	registerElementorDataHookAfter( "document/save/save", "yoast-seo-save", () => {
 		/*
-		* Do not save our data to a revision.
-		*
-		* WordPress saves the metadata to the post parent, not the revision. See `update_post_meta`.
-		* Most likely this is because saving a revision on a published post will unpublish in WordPress itself.
-		* But Elementor does not unpublish your post when you save a draft.
-		* This would result in Yoast SEO data being live while saving a draft.
-		*/
+		 * Do not save our data to a revision.
+		 *
+		 * WordPress saves the metadata to the post parent, not the revision. See `update_post_meta`.
+		 * Most likely this is because saving a revision on a published post will unpublish in WordPress itself.
+		 * But Elementor does not unpublish your post when you save a draft.
+		 * This would result in Yoast SEO data being live while saving a draft.
+		 */
 		if ( window.elementor.config.document.id === window.elementor.config.document.revisions.current_id ) {
 			handleSave();
 		}
