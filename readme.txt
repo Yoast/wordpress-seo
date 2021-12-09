@@ -243,6 +243,7 @@ Enhancements:
 
 * Improves the user direction in the configuration workout.
 * Adds a sleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke).
+* Optimizes and compresses several `.png` images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
 Bugfixes:
 
@@ -251,12 +252,12 @@ Bugfixes:
 * Fixes a bug where the reading time functionality for languages other than English would incorrectly output English reading speed values.
 * Fixes a bug where certain text strings in the Google, Facebook and Twitter previews would not be translated.
 * Fixes a bug where the state of indexation was not persisted when switching between workouts and the workouts page.
+* Fixes a bug where the Workouts page wasn't displaying translations.
 
 Other:
 
 * Fixes some styling issues in the configuration workout.
 * Prevents SEO managers from changing the site description in the configuration workout.
-* Optimizes and compresses several `.png` images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
 = 17.7.1 =
 Release Date: December 1st, 2021

@@ -1,10 +1,4 @@
-import {
-	setOverallReadabilityScore,
-	setOverallSeoScore,
-	setReadabilityResults,
-	setSeoResultsForKeyword,
-} from "yoast-components";
-import { refreshSnippetEditor } from "../redux/actions/snippetEditor";
+import { actions } from "@yoast/externals/redux";
 import handleWorkerError from "./handleWorkerError";
 
 let isInitialized = false;
@@ -51,9 +45,9 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 
 				seoResults.results = sortResultsByIdentifier( seoResults.results );
 
-				store.dispatch( setSeoResultsForKeyword( paper.getKeyword(), seoResults.results ) );
-				store.dispatch( setOverallSeoScore( seoResults.score, paper.getKeyword() ) );
-				store.dispatch( refreshSnippetEditor() );
+				store.dispatch( actions.setSeoResultsForKeyword( paper.getKeyword(), seoResults.results ) );
+				store.dispatch( actions.setOverallSeoScore( seoResults.score, paper.getKeyword() ) );
+				store.dispatch( actions.refreshSnippetEditor() );
 
 				dataCollector.saveScores( seoResults.score, paper.getKeyword() );
 			}
@@ -66,9 +60,9 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 
 				readability.results = sortResultsByIdentifier( readability.results );
 
-				store.dispatch( setReadabilityResults( readability.results ) );
-				store.dispatch( setOverallReadabilityScore( readability.score ) );
-				store.dispatch( refreshSnippetEditor() );
+				store.dispatch( actions.setReadabilityResults( readability.results ) );
+				store.dispatch( actions.setOverallReadabilityScore( readability.score ) );
+				store.dispatch( actions.refreshSnippetEditor() );
 
 				dataCollector.saveContentScore( readability.score );
 			}

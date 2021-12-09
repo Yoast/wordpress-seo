@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Admin_Asset_Yoast_Components_L10n;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -154,6 +155,9 @@ class Workouts_Integration implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_style( 'workouts' );
 
 		$workouts_option = $this->get_workouts_option();
+
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
+		$yoast_components_l10n->localize_script( 'workouts' );
 
 		$this->admin_asset_manager->enqueue_script( 'workouts' );
 		$this->admin_asset_manager->localize_script(
