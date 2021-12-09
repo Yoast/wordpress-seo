@@ -10,6 +10,10 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Default_Tagline_Test
+ *
+ * @group health-check
+ *
+ * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Default_Tagline
  */
 class Default_Tagline_Test extends TestCase {
 
@@ -62,6 +66,7 @@ class Default_Tagline_Test extends TestCase {
 	 * Checks if the correct result is returned when the health check passes.
 	 *
 	 * @covers ::get_result
+	 * @covers ::__construct
 	 */
 	public function test_returns_successful_result() {
 		$expected = [ 'correct' ];
@@ -86,6 +91,7 @@ class Default_Tagline_Test extends TestCase {
 	 * Checks if the correct result is returned when the health check fails.
 	 *
 	 * @covers ::get_result
+	 * @covers ::__construct
 	 */
 	public function test_returns_failed_result() {
 		$expected = [ 'correct' ];

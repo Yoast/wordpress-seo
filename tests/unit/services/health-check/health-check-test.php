@@ -4,11 +4,16 @@ namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Services\Health_Check;
+use Yoast\WP\SEO\Services\Health_Check\Health_Check;
+use Yoast\WP\SEO\Services\Health_Check\Runner_Interface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Services\Health_Check\Health_Check_Double;
 
 /**
  * Health_Check_Test
+ *
+ * @group health-check
+ *
+ * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Health_Check
  */
 class Health_Check_Test extends TestCase {
 
@@ -44,6 +49,7 @@ class Health_Check_Test extends TestCase {
 	 * Checks if the health check runner is called when calling run_and_get_result().
 	 *
 	 * @covers ::run_and_get_result
+	 * @covers ::set_runner
 	 */
 	public function test_calls_run() {
 		$this->runner
@@ -59,6 +65,7 @@ class Health_Check_Test extends TestCase {
 	 * Checks if run_and_get_result() returns the results from the health check implementation.
 	 *
 	 * @covers ::run_and_get_result
+	 * @covers ::set_runner
 	 */
 	public function test_returns_result_from_implementation() {
 		$expected = [ 'return value' ];
@@ -72,7 +79,6 @@ class Health_Check_Test extends TestCase {
 		$actual = $this->instance->run_and_get_result();
 
 		$this->assertEquals( $expected, $actual );
-		Mockery::close();
 	}
 
 	/**
