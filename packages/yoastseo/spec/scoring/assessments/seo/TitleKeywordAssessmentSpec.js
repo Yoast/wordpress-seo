@@ -16,7 +16,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		} );
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false } ),
+			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false } )
 		);
 
 		expect( assessment.getScore() ).toBe( 2 );
@@ -34,7 +34,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		} );
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher( { exactMatchFound: true, allWordsFound: true, position: 0, exactMatchKeyphrase: false } ),
+			Factory.buildMockResearcher( { exactMatchFound: true, allWordsFound: true, position: 0, exactMatchKeyphrase: false } )
 		);
 
 		expect( assessment.getScore() ).toBe( 9 );
@@ -51,7 +51,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		} );
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher( { exactMatchFound: true, allWordsFound: true, position: 41, exactMatchKeyphrase: false } ),
+			Factory.buildMockResearcher( { exactMatchFound: true, allWordsFound: true, position: 41, exactMatchKeyphrase: false } )
 		);
 
 		expect( assessment.getScore() ).toBe( 6 );
@@ -69,7 +69,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		} );
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: true, position: -1, exactMatchKeyphrase: false  } ),
+			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: true, position: -1, exactMatchKeyphrase: false  } )
 		);
 
 		expect( assessment.getScore() ).toBe( 6 );
@@ -87,7 +87,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		} );
 		const assessment = new TitleKeywordAssessment().getResult(
 			paper,
-			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: false, position: 0, exactMatchKeyphrase: true } ),
+			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: false, position: 0, exactMatchKeyphrase: true } )
 		);
 
 		expect( assessment.getScore() ).toBe( 2 );
@@ -151,7 +151,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			expect( assessment.getScore() ).toBe( 6 );
 			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
 				"Title does not begin with the focus keyphrase. <a href='https://yoa.st/33h' target='_blank'>" +
-				"Move your focus keyphrase to the beginning of the title.</a>." );
+				"Move your focus keyphrase to the beginning of the title</a>." );
 		} );
 		it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
 			"and it is preceded by a function word in the beginning of the title", function() {
@@ -213,7 +213,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			expect( assessment.getScore() ).toBe( 6 );
 			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
 				"Title does not begin with the focus keyphrase. <a href='https://yoa.st/33h' target='_blank'>" +
-				"Move your focus keyphrase to the beginning of the title.</a>." );
+				"Move your focus keyphrase to the beginning of the title</a>." );
 		} );
 		it( "returns an assessment result with a multi-word keyphrase in Japanese but no match in the title", function() {
 			const paper = new Paper( "", {
@@ -248,6 +248,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				"the beginning of the title</a>." );
 		} );
 	} );
+
 	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
 		describe( "a test with morphology data available", () => {
 			it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
@@ -281,7 +282,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				expect( assessment.getScore() ).toBe( 6 );
 				expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
 					"Title does not begin with the focus keyphrase. <a href='https://yoa.st/33h' target='_blank'>" +
-					"Move your focus keyphrase to the beginning of the title.</a>." );
+					"Move your focus keyphrase to the beginning of the title</a>." );
 			} );
 			it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
 				"and it is preceded by a function word in the beginning of the title", function() {
@@ -347,7 +348,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				expect( assessment.getScore() ).toBe( 6 );
 				expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
 					"Title does not begin with the focus keyphrase. <a href='https://yoa.st/33h' target='_blank'>" +
-					"Move your focus keyphrase to the beginning of the title.</a>." );
+					"Move your focus keyphrase to the beginning of the title</a>." );
 			} );
 			it( "returns an assessment result with a multi-word keyphrase in Japanese but no match in the title", function() {
 				const paper = new Paper( "", {

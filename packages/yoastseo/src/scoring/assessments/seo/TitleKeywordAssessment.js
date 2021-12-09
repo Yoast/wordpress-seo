@@ -157,7 +157,7 @@ class TitleKeywordAssessment extends Assessment {
 						%3$s expands to the anchor end tag. */
 						__(
 							// eslint-disable-next-line max-len
-							"%1$sKeyphrase in title%3$s: Title does not begin with the focus keyphrase. %2$sMove your focus keyphrase to the beginning of the title.%3$s.",
+							"%1$sKeyphrase in title%3$s: Title does not begin with the focus keyphrase. %2$sMove your focus keyphrase to the beginning of the title%3$s.",
 							"wordpress-seo"
 						),
 						this._config.urlTitle,
