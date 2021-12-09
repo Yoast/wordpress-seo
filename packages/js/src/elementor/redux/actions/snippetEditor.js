@@ -1,6 +1,8 @@
 import { get } from "lodash";
 import SearchMetadataFields from "../../../helpers/fields/SearchMetadataFields";
-import { UPDATE_DATA, LOAD_SNIPPET_EDITOR_DATA } from "../../../redux/actions";
+import { actions } from "@yoast/externals/redux";
+
+const { UPDATE_DATA, LOAD_SNIPPET_EDITOR_DATA } = actions;
 
 /**
  * Updates the data of the snippet editor.

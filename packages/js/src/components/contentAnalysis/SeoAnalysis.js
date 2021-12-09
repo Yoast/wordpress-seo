@@ -9,7 +9,7 @@ import styled from "styled-components";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import Results from "../../containers/Results";
 import AnalysisUpsell from "../AnalysisUpsell";
-import { LocationConsumer } from "../contexts/location";
+import { LocationConsumer } from "@yoast/externals/contexts";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import { ModalContainer, ModalIcon } from "../modals/Container";
 import KeywordSynonyms from "../modals/KeywordSynonyms";

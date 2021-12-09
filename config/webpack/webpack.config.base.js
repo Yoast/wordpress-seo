@@ -62,6 +62,9 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 					if ( request === "react-select/async" ) {
 						return [ "yoast", "reactSelectAsync" ];
 					}
+					if ( request.startsWith( "@yoast/externals/" ) ) {
+						return [ "yoast", "externals", request.substr( 17 ) ];
+					}
 				},
 				/**
 				 * Handles requests to externals.
@@ -80,6 +83,9 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 					}
 					if ( request === "react-select" || request === "react-select/async" ) {
 						return "yoast-seo-react-select";
+					}
+					if ( request.startsWith( "@yoast/externals/" ) ) {
+						return "yoast-seo-externals-" + request.substr( 17 );
 					}
 				},
 			} ),
