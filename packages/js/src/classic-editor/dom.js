@@ -115,7 +115,7 @@ export const getExcerpt = () => {
  *
  * @returns {string} The source of the featured image.
  */
-const getFeaturedImage = () => jQuery( "#set-post-thumbnail img" ).prop( "src" ) || "";
+const getFeaturedImageSetInEditor = () => jQuery( "#set-post-thumbnail img" ).prop( "src" ) || "";
 
 /**
  * Retrieves the fist image from the content.
@@ -141,4 +141,4 @@ const getFirstImageFromContent = ( content ) => {
  *
  * @returns {string} The featured image.
  */
-export const getSnippetImage = () => getFeaturedImage() || getFirstImageFromContent( getContent() ) || "";
+export const getFeaturedImage = () => getFeaturedImageSetInEditor() || getFirstImageFromContent( getContent() ) || "";

@@ -2,11 +2,12 @@ import {
 	getContent,
 	getDate,
 	getExcerpt,
+	getFeaturedImage,
 	getFocusKeyphrase,
 	getMetaDescription,
 	getPermalink,
 	getSeoTitle,
-	getSlug, getSnippetImage,
+	getSlug,
 	getTitle,
 	isCornerstone,
 } from "../dom";
@@ -23,7 +24,7 @@ const getEditorInitialState = () => ( {
 	permalink: getPermalink(),
 	excerpt: getExcerpt(),
 	content: getContent(),
-	featuredImage: getSnippetImage(),
+	featuredImage: getFeaturedImage(),
 } );
 
 /**
