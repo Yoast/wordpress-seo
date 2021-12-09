@@ -8,7 +8,7 @@ import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/
 import { isFeatureEnabled, enableFeatures } from "@yoast/feature-flag";
 enableFeatures([ "JAPANESE_SUPPORT" ] );
 
-/*describe( "the keyphrase length assessment", function() {
+describe( "the keyphrase length assessment", function() {
 	it( "should assess a custom paper with one-word keyphrase as bad ", function() {
 		const paper = new Paper();
 		const researcher = factory.buildMockResearcher( { keyphraseLength: 1, functionWords: englishFunctionWords } );
@@ -177,10 +177,10 @@ describe( "the keyphrase length assessment", function() {
 			"The keyphrase is 9 words long. That's longer than the recommended maximum of 6 words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
-} );*/
+} );
 
 describe( "the keyphrase length assessment", function() {
-	/*it( "should assess a paper without a keyword as extremely bad", function() {
+	it( "should assess a paper without a keyword as extremely bad", function() {
 		const paper = new Paper();
 		const researcher = factory.buildMockResearcher( { keyphraseLength: 0, functionWords: [] } );
 
@@ -203,6 +203,25 @@ describe( "the keyphrase length assessment", function() {
 			"<a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
 	} );
 
+	it( "should assess a product page without a keyword as extremely bad", function() {
+		const paper = new Paper();
+		const researcher = factory.buildMockResearcher( { keyphraseLength: 0, functionWords: [] } );
+
+		const result = new KeyphraseLengthAssessment( {
+			parameters: {
+				recommendedMinimum: 3,
+				recommendedMaximum: 6,
+				acceptableMaximum: 7,
+				acceptableMinimum: 1,
+			},
+		}, true ).getResult( paper, researcher );
+
+		expect( result.getScore() ).toEqual( -999 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"No focus keyphrase was set for this page. " +
+			"<a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
+	} );
+
 	it( "should show a different feedback text when no keyphrase is set for a related keyphrase", function() {
 		const paper = new Paper();
 		const researcher = factory.buildMockResearcher( { keyphraseLength: 0, functionWords: englishFunctionWords } );
@@ -212,6 +231,24 @@ describe( "the keyphrase length assessment", function() {
 		expect( result.getScore() ).toEqual( -999 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"<a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
+	} );
+
+	it( "should assess a product page without a related keyphrase as extremely bad", function() {
+		const paper = new Paper();
+		const researcher = factory.buildMockResearcher( { keyphraseLength: 0, functionWords: [] } );
+
+		const result = new KeyphraseLengthAssessment( { isRelatedKeyphrase: true,
+			parameters: {
+				recommendedMinimum: 3,
+				recommendedMaximum: 6,
+				acceptableMaximum: 7,
+				acceptableMinimum: 1,
+			},
+		}, true ).getResult( paper, researcher );
+
+		expect( result.getScore() ).toEqual( -999 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>:" +
+			" <a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
 	} );
 
 	it( "should assess a paper with a keyphrase that's too long as bad", function() {
@@ -267,7 +304,7 @@ describe( "the keyphrase length assessment", function() {
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
 			"The keyphrase is 9 words long. That's more than the recommended maximum of 6 words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
-	} );*/
+	} );
 	it( "should assess a paper with a good length keyphrase in Japanese", function() {
 		const paper = new Paper( "", { keyword: "猫" } );
 
@@ -344,5 +381,4 @@ describe( "the keyphrase length assessment", function() {
 			"The keyphrase is 20 words long. That's longer than the recommended maximum of 12 words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
-
 } );
