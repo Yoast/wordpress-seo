@@ -1,6 +1,16 @@
 import { actions } from "@yoast/externals/redux";
 import handleWorkerError from "./handleWorkerError";
 
+/**
+ * These actions NEED to be imported from yoast-components here.
+ * The actions from @yoast/externals/redux contain a synching mechanism to our hidden DOM elements
+ * that doesn't handle the difference between these elements on post and term pages correctly.
+ */
+import {
+	setOverallReadabilityScore,
+	setOverallSeoScore,
+} from "yoast-components";
+
 let isInitialized = false;
 
 /**
@@ -46,9 +56,8 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 				seoResults.results = sortResultsByIdentifier( seoResults.results );
 
 				store.dispatch( actions.setSeoResultsForKeyword( paper.getKeyword(), seoResults.results ) );
-				store.dispatch( actions.setOverallSeoScore( seoResults.score, paper.getKeyword() ) );
+				store.dispatch( setOverallSeoScore( seoResults.score, paper.getKeyword() ) );
 				store.dispatch( actions.refreshSnippetEditor() );
-
 				dataCollector.saveScores( seoResults.score, paper.getKeyword() );
 			}
 
@@ -59,9 +68,8 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 				} );
 
 				readability.results = sortResultsByIdentifier( readability.results );
-
 				store.dispatch( actions.setReadabilityResults( readability.results ) );
-				store.dispatch( actions.setOverallReadabilityScore( readability.score ) );
+				store.dispatch( setOverallReadabilityScore( readability.score ) );
 				store.dispatch( actions.refreshSnippetEditor() );
 
 				dataCollector.saveContentScore( readability.score );
