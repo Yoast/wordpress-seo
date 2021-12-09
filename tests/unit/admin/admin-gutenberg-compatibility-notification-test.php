@@ -58,14 +58,6 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 	}
 
 	/**
-	 * Tear down the test mocks.
-	 */
-	public function tear_down() {
-		parent::tear_down();
-		Mockery::close();
-	}
-
-	/**
 	 * Tests the conditions that remove the Gutenberg notification.
 	 *
 	 * @dataProvider data_provider_manage_notification_remove_notification
@@ -84,9 +76,12 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 				->andReturn( false );
 		}
 
-		$this->gutenberg_compatibility_mock->allows()->is_installed()->andReturns( $installed );
-
-		$this->gutenberg_compatibility_mock->allows()->is_fully_compatible()->andReturns( $fully_compatible );
+		$this->gutenberg_compatibility_mock->allows(
+			[
+				'is_installed'        => $installed,
+				'is_fully_compatible' => $fully_compatible,
+			]
+		);
 
 		$this->notification_center_mock->expects( 'remove_notification_by_id' )->once()->with( 'wpseo-outdated-gutenberg-plugin' );
 
@@ -135,17 +130,17 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 			]
 		);
 
-		$this->gutenberg_compatibility_mock->allows()->is_installed()->andReturns( true );
-
-		$this->gutenberg_compatibility_mock->allows()->is_fully_compatible()->andReturns( false );
+		$this->gutenberg_compatibility_mock->allows(
+			[
+				'is_installed'        => true,
+				'is_fully_compatible' => false,
+			]
+		);
 
 		$this->notification_center_mock->expects( 'add_notification' )->once()->withArgs(
 			static function ( $arg ) {
 				// Verify that the added notification is a Yoast_Notification object and has the correct id.
-				if ( \is_a( $arg, 'Yoast_Notification' ) && $arg->get_id() === 'wpseo-outdated-gutenberg-plugin' ) {
-					return true;
-				}
-				return false;
+				return ( \is_a( $arg, 'Yoast_Notification' ) && $arg->get_id() === 'wpseo-outdated-gutenberg-plugin' );
 			}
 		);
 

@@ -7,6 +7,32 @@ import { ButtonStyledLink } from "@yoast/components";
 setWordPressSeoL10n();
 
 /**
+ * The non-functional, decorative steppers for the installation success page.
+ * Inspired by the Tailwind stepper. https://tailwindui.com/components/application-ui/navigation/steps#component-9a29a1d37a37b90f0b926478e8706004
+ *
+ * @returns {WPElement} The decorative steppers.
+ */
+export default function Steppers() {
+	return (
+		<ul className="step-list">
+			<li className="step-complete">
+				<div className="step-first-div" aria-hidden="true">
+					<div className="step-second-div" />
+				</div>
+				<span className="step-list-complete-circle">
+					<span className="complete-check-icon" />
+				</span>
+			</li>
+			<li className="step-current">
+				<span className="step-list-current-circle" aria-current="step">
+					<span className="step-list-current-inner-circle" aria-hidden="true" />
+				</span>
+			</li>
+		</ul>
+	);
+}
+
+/**
  * The installation success page.
  *
  * @returns {WPElement} The installation success page.
@@ -14,8 +40,15 @@ setWordPressSeoL10n();
 function InstallationSuccessPage() {
 	return (
 		<div className="installation-success-page">
+			<h1 className="installation-success-title">
+				{ sprintf(
+					/* translators: %s expands to Yoast SEO. */
+					__( "You've successfully installed %s!", "wordpress-seo" ),
+					"Yoast SEO" )
+				}
+			</h1>
 			<div className="installation-success-steps">
-				<p>stepper stuff</p>
+				<Steppers />
 			</div>
 			<div className="installation-success-cards">
 				<div id="installation-success-card-optimized-site" className="installation-success-card">
@@ -66,6 +99,12 @@ function InstallationSuccessPage() {
 					</div>
 				</div>
 			</div>
+			<a id="installation-success-skip-link" href={ "/wp-admin/admin.php?page=wpseo_dashboard" }>
+				{
+					/* translators: %s expands to ' »'. */
+					sprintf( __( "Skip%s", "wordpress-seo" ), " »" )
+				}
+			</a>
 		</div>
 	);
 }

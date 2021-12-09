@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Conditionals\Wincher_Conditional;
+
 /**
  * Class for managing integration toggles.
  */
@@ -117,7 +119,12 @@ class Yoast_Integration_Toggles {
 				'premium_url'     => 'https://yoa.st/4ex',
 				'order'           => 25,
 			],
-			(object) [
+		];
+
+		// Don't render when feature flag is not enabled.
+		$conditional = new Wincher_Conditional();
+		if ( $conditional->is_met() ) {
+			$integration_toggles[] = (object) [
 				/* translators: %s: 'Wincher' */
 				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'Wincher' ),
 				'setting'         => 'wincher_integration_active',
@@ -127,8 +134,8 @@ class Yoast_Integration_Toggles {
 					'Wincher'
 				),
 				'order'           => 11,
-			],
-		];
+			];
+		}
 
 		/**
 		 * Filter to add integration toggles from add-ons.
