@@ -119,7 +119,6 @@ describe( "Applicability of the assessment.", function() {
 } );
 
 describe( "A test for marking the sentences", function() {
-
 	it( "returns markers for a default text", function() {
 		const assessment = new ParagraphTooLongAssessment();
 		const paper = new Paper( "You just got Yoast SEO, and you are ready to get the most out of it! Or, have you already been using it for a " +
@@ -156,7 +155,6 @@ describe( "A test for marking the sentences", function() {
 		];
 		expect( assessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
 	} );
-
 	it( "returns markers for a text in Japanese", function() {
 		const paper = new Paper( "接続詞は、文と文との中間に位置しています。前文と後文との間にあって、両者の関係を示している言葉です。学校文法では、接続詞は文の成分" +
 			"としては独立語として扱われておりますが、独立語でないとする文法学説もあります。松下文法では一品詞としないで副詞に含め、山田文法では副詞の一類として接続副詞" +
@@ -179,7 +177,6 @@ describe( "A test for marking the sentences", function() {
 		];
 		expect( paragraphTooLongAssessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
 	} );
-
 	it( "returns no markers", function() {
 		const paper = new Paper( "This is a very interesting paper." );
 		const paragraphTooLong = Factory.buildMockResearcher( [ { countLength: 60, text: "" }, { countLength: 11, text: "" },
