@@ -22,7 +22,7 @@ class Installation_Success_Integration_Test extends TestCase {
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var Installation_Success_Integration
+	 * @var Installation_Success_Integration|Mockery\Mock
 	 */
 	protected $instance;
 
@@ -40,7 +40,7 @@ class Installation_Success_Integration_Test extends TestCase {
 		parent::set_up();
 
 		$this->options_helper = Mockery::mock( Options_Helper::class );
-		$this->instance       = new Installation_Success_Integration( $this->options_helper );
+		$this->instance       = Mockery::mock( Installation_Success_Integration::class, [ $this->options_helper ] )->makePartial();
 	}
 
 	/**
@@ -83,15 +83,87 @@ class Installation_Success_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the successful redirection.
+	 *
+	 * @covers ::maybe_redirect
+	 */
+	public function test_maybe_redirect_successful() {
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'should_redirect_after_install_free', false )
+			->andReturnTrue();
+
+		$this->options_helper
+			->expects( 'set' )
+			->with( 'should_redirect_after_install_free', false );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'activation_redirect_timestamp_free', 0 )
+			->andReturn( 0 );
+
+		$this->options_helper
+			->expects( 'set' )
+			->withSomeOfArgs( 'activation_redirect_timestamp_free' );
+
+		$redirect_url = 'http://basic.wordpress.test/wp-admin/admin.php?page=wpseo_installation_successful_free';
+
+		Monkey\Functions\expect( 'admin_url' )
+			->with( 'admin.php?page=wpseo_installation_successful_free' )
+			->andReturn( $redirect_url );
+
+		Monkey\Functions\expect( 'wp_safe_redirect' )
+			->with( $redirect_url, 302, 'Yoast SEO' );
+
+		$this->instance
+			->expects( 'terminate_execution' )
+			->andReturn();
+
+		$this->instance->maybe_redirect();
+	}
+
+	/**
 	 * Tests that the redirection does not occur when it's already happened.
 	 *
 	 * @covers ::maybe_redirect
 	 */
-	public function test_maybe_redirect_prevented() {
+	public function test_maybe_redirect_already_happened() {
 		$this->options_helper
 			->expects( 'get' )
 			->with( 'should_redirect_after_install_free', false )
 			->andReturnFalse();
+
+		Monkey\Functions\expect( 'wp_safe_redirect' )
+			->never();
+
+		$this->instance->maybe_redirect();
+	}
+
+	/**
+	 * Tests that the redirection does not occur when in a bulk activation.
+	 *
+	 * @covers ::maybe_redirect
+	 */
+	public function test_maybe_redirect_bulk_activation() {
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'should_redirect_after_install_free', false )
+			->andReturnTrue();
+
+		$this->options_helper
+			->expects( 'set' )
+			->with( 'should_redirect_after_install_free', false );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'activation_redirect_timestamp_free', 0 )
+			->andReturn( 0 );
+
+		$this->options_helper
+			->expects( 'set' )
+			->withSomeOfArgs( 'activation_redirect_timestamp_free' );
+
+		$_REQUEST['activate-multi'] = 'true';
 
 		Monkey\Functions\expect( 'wp_safe_redirect' )
 			->never();

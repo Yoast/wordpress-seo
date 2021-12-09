@@ -66,7 +66,7 @@ class Installation_Success_Integration implements Integration_Interface {
 		}
 
 		\wp_safe_redirect( \admin_url( 'admin.php?page=wpseo_installation_successful_free' ), 302, 'Yoast SEO' );
-		exit;
+		$this->terminate_execution();
 	}
 
 	/**
@@ -120,5 +120,12 @@ class Installation_Success_Integration implements Integration_Interface {
 	 */
 	public function render_page() {
 		echo '<div id="wpseo-installation-successful-free" class="yoast"></div>';
+	}
+
+	/**
+	 * Wrap the `exit` function to make unit testing easier.
+	 */
+	public function terminate_execution() {
+		exit;
 	}
 }
