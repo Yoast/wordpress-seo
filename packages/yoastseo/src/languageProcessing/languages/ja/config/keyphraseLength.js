@@ -3,7 +3,7 @@ export default {
 		parameters: {
 			recommendedMaximum: 12,
 			acceptableMaximum: 18,
-		}
+		},
 	},
 	productPages: {
 		parameters: {
@@ -11,6 +11,6 @@ export default {
 			recommendedMaximum: 12,
 			acceptableMaximum: 18,
 			acceptableMinimum: 4,
-		}
+		},
 	},
 };
