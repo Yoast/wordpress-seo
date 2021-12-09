@@ -61,6 +61,10 @@ class Installation_Success_Integration implements Integration_Interface {
 		}
 		$this->options_helper->set( 'activation_redirect_timestamp_free', \time() );
 
+		if ( isset( $_REQUEST['activate-multi'] ) && $_REQUEST['activate-multi'] === 'true' ) {
+			return;
+		}
+
 		\wp_safe_redirect( \admin_url( 'admin.php?page=wpseo_installation_successful_free' ), 302, 'Yoast SEO' );
 		exit;
 	}
