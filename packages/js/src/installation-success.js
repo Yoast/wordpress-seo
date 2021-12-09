@@ -66,6 +66,12 @@ function InstallationSuccessPage() {
 					</div>
 				</div>
 			</div>
+			<a id="installation-success-skip-link" href={ "/wp-admin/admin.php?page=wpseo_dashboard" }>
+				{
+					/* translators: %s expands to ' »'. */
+					sprintf( __( "Skip%s", "wordpress-seo" ), " »" )
+				}
+			</a>
 		</div>
 	);
 }
