@@ -1,11 +1,10 @@
-import { enableFeatures, isFeatureEnabled } from "@yoast/feature-flag";
+import { isFeatureEnabled } from "@yoast/feature-flag";
 import TitleKeywordAssessment from "../../../../src/scoring/assessments/seo/TitleKeywordAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
 const morphologyDataJA = getMorphologyData( "ja" );
 
 describe( "an assessment to check if the keyword is in the pageTitle", function() {
