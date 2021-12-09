@@ -72,8 +72,8 @@ describe( "Analysis slice", () => {
 			[
 				"selectAnalysisConfig",
 				"selectAnalysisType",
-				"isSeoAnalysisActive",
-				"isReadabilityAnalysisActive",
+				"selectIsSeoAnalysisActive",
+				"selectIsReadabilityAnalysisActive",
 				"selectResearches",
 				"selectSeoScore",
 				"selectSeoResults",

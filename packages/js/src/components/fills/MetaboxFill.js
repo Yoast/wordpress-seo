@@ -51,9 +51,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				<Warning />
 			</SidebarItem>
 			{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
-				<KeywordInput
-					isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
-				/>
+				<KeywordInput />
 				{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
 					<SEMrushRelatedKeyphrases />
 				</Fill> }

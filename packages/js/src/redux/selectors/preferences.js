@@ -21,3 +21,14 @@ export function getPreferences( state ) {
 export function getIsKeywordAnalysisActive( state ) {
 	return get( state, "preferences.isKeywordAnalysisActive", false );
 }
+
+/**
+ * Gets the isSEMrushIntegrationActive.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} The isSEMrushIntegrationActive.
+ */
+export function getIsSEMrushIntegrationActive( state ) {
+	return get( state, "preferences.isSEMrushIntegrationActive", false );
+}
