@@ -130,6 +130,7 @@ describe( "A test for marking the sentences", function() {
 	} );
 
 	it( "returns markers for a default text", function() {
+		const assessment = new ParagraphTooLongAssessment();
 		const paper = new Paper( "You just got Yoast SEO, and you are ready to get the most out of it! Or, have you already been using it for a" +
 			"while and know your way around it? Either way, you should use some essential Yoast SEO settings to let the plugin work at its best. " +
 			"That’s why we’ve created a Yoast SEO configuration workout! In five steps, we guide you in setting up Yoast SEO the right way! Read " +
