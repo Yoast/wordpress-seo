@@ -1,7 +1,8 @@
 import { isEmpty } from "lodash-es";
 import { findWordFormsInString } from "../../../helpers/match/findKeywordFormsInString";
-import wordMatch from "../../../helpers/match/matchTextWithWord";
+import wordMatch from "../../../helpers/match/matchTextWithArray";
 import processExactMatchRequest from "../../../helpers/match/processExactMatchRequest";
+import getContentWords from "../helpers/getContentWords";
 import japaneseWordMatchHelper from "../helpers/matchTextWithWord";
 import functionWords from "../config/functionWords";
 import getWords from "../helpers/getWords";
@@ -63,12 +64,13 @@ export default function( paper, researcher ) {
 	const exactMatchRequest = processExactMatchRequest( keyphrase, doubleQuotes );
 	if ( exactMatchRequest.exactMatchRequested ) {
 		result.exactMatchKeyphrase = true;
-		keyphrase = exactMatchRequest.keyphrase;
+		keyphrase = getContentWords( exactMatchRequest.keyphrase );
 
 		// Check if the exact match of the keyphrase is found in the title.
 		const keyphraseMatched = wordMatch( title, keyphrase, "ja", japaneseWordMatchHelper );
 
-		if ( keyphraseMatched.count > 0 ) {
+		// It's an exact match if the length of the matched keyphrase is the same as the keyphrase length.
+		if ( keyphraseMatched.matches.length === keyphrase.length ) {
 			result.allWordsFound = true;
 			result.position = adjustPosition( title, keyphraseMatched.position );
 		}
