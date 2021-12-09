@@ -110,6 +110,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 0,
 			percentWordMatches: 0,
 			keyphraseOrSynonym: "keyphrase",
+			position: -1,
 		} );
 
 		expect( findTopicFormsInString(
@@ -127,6 +128,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 2,
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "keyphrase",
+			position: 5,
 		} );
 
 		expect( findTopicFormsInString(
@@ -145,6 +147,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 1,
 			percentWordMatches: 50,
 			keyphraseOrSynonym: "keyphrase",
+			position: 5,
 		} );
 	} );
 	it( "returns the number and the percentage of words matched, synonyms required", function() {
@@ -163,6 +166,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 2,
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "keyphrase",
+			position: 5,
 		} );
 
 		expect( findTopicFormsInString(
@@ -180,6 +184,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 2,
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "synonym",
+			position: 5,
 		} );
 
 		expect( findTopicFormsInString(
@@ -198,6 +203,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 2,
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "keyphrase",
+			position: 5,
 		} );
 
 		expect( findTopicFormsInString(
@@ -216,6 +222,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 2,
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "synonym",
+			position: 5,
 		} );
 
 		expect( findTopicFormsInString(
@@ -234,6 +241,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 2,
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "synonym",
+			position: 5,
 		} );
 	} );
 
@@ -250,6 +258,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 1,
 			percentWordMatches: 50,
 			keyphraseOrSynonym: "keyphrase",
+			position: 5,
 		} );
 	} );
 
@@ -266,6 +275,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 0,
 			percentWordMatches: 0,
 			keyphraseOrSynonym: "keyphrase",
+			position: -1,
 		} );
 	} );
 
@@ -282,6 +292,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 1,
 			percentWordMatches: 50,
 			keyphraseOrSynonym: "synonym",
+			position: 5,
 		} );
 	} );
 
@@ -297,6 +308,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 1,
 			percentWordMatches: 50,
 			keyphraseOrSynonym: "keyphrase",
+			position: 5,
 		} );
 	} );
 
@@ -313,6 +325,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 				countWordMatches: 1,
 				percentWordMatches: 100,
 				keyphraseOrSynonym: "keyphrase",
+				position: 0,
 			} );
 		} );
 
@@ -328,6 +341,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 				countWordMatches: 0,
 				percentWordMatches: 0,
 				keyphraseOrSynonym: "keyphrase",
+				position: -1,
 			} );
 		} );
 
@@ -343,6 +357,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 				countWordMatches: 1,
 				percentWordMatches: 100,
 				keyphraseOrSynonym: "keyphrase",
+				position: 0,
 			} );
 		} );
 
@@ -358,6 +373,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 				countWordMatches: 0,
 				percentWordMatches: 0,
 				keyphraseOrSynonym: "keyphrase",
+				position: -1,
 			} );
 		} );
 	} );
@@ -414,6 +430,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 1,
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "synonym",
+			position: 5,
 		} );
 	} );
 } );
