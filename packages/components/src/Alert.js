@@ -37,7 +37,7 @@ const AlertContent = styled.div`
 `;
 
 const AlertIcon = styled( SvgIcon )`
-	margin-top: 0.125rem;
+	margin-top: 0.1rem;
 	${ getDirectionalStyle( "margin-right: 8px", "margin-left: 8px" ) };
 `;
 

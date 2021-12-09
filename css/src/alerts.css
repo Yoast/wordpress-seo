@@ -31,7 +31,7 @@
 /* Needs higher specificity than a Gutenberg ruleset selector. */
 .yoast-alert__icon.yoast-alert__icon {
 	display: block;
-	margin-top: 0.125rem;
+	margin-top: 0.1rem;
 	margin-right: 8px;
 	height: 16px;
 	width: 16px;
