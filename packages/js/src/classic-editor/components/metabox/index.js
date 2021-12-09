@@ -13,7 +13,7 @@ import MetaboxCollapsible from "../../../components/MetaboxCollapsible";
 import SocialMetadataPortal from "../../../components/portals/SocialMetadataPortal";
 import SidebarItem from "../../../components/SidebarItem";
 import AdvancedSettings from "../../../containers/AdvancedSettings";
-import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
+import CornerstoneContent from "../cornerstone-content";
 import SchemaTabContainer from "../../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
 import Warning from "../../../containers/Warning";
@@ -72,7 +72,7 @@ const Metabox = () => {
 				/>
 			</SidebarItem> }
 			{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
-				<CollapsibleCornerstone />
+				<CornerstoneContent cornerstoneContentInfoLink={ wpseoAdminL10n[ "shortlinks.cornerstone_content_info" ] } />
 			</SidebarItem> }
 			{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 40 }>
 				<MetaboxCollapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
