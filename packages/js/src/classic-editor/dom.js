@@ -9,7 +9,7 @@ export const DOM_IDS = {
 	TITLE: "title",
 	CONTENT: tmceId,
 	EXCERPT: "excerpt",
-	PERMALINK: "permalink",
+	PERMALINK: "sample-permalink",
 	DATE: "date",
 	// Yoast hidden input ids
 	SEO_TITLE: "yoast_wpseo_title",
@@ -46,7 +46,7 @@ export const getContent = () => getContentTinyMce( DOM_IDS.CONTENT );
  *
  * @returns {string} The permalink or an empty string.
  */
-export const getPermalink = () => get( document.getElementById( DOM_IDS.PERMALINK ), "value", "" );
+export const getPermalink = () => get( document.getElementById( DOM_IDS.PERMALINK ), "innerText", "" );
 
 /**
  * Gets the date from the document.
