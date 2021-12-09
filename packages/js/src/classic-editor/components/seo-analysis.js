@@ -1,5 +1,7 @@
 /* global wpseoAdminL10n */
+
 import { useSelect } from "@wordpress/data";
+import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { YoastSeoIcon } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
@@ -156,7 +158,7 @@ const SeoAnalysisContainer = props => {
 	}
 
 	return (
-		<>
+		<Fragment>
 			<MetaboxCollapsible
 				title={ __( "SEO analysis", "wordpress-seo" ) }
 				titleScreenReaderText={ score.screenReaderReadabilityText }
@@ -167,10 +169,10 @@ const SeoAnalysisContainer = props => {
 			>
 				<SynonymSlot location="metabox" />
 				{ shouldUpsell &&
-					<>
+					<Fragment>
 						<SynonymsUpsell />
 						<MultipleKeywordsUpsell />
-					</>
+					</Fragment>
 				}
 				{ shouldUpsellWordFormRecognition && <AnalysisUpsell
 					url={ wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_metabox" ] }
@@ -186,7 +188,7 @@ const SeoAnalysisContainer = props => {
 				target="wpseo-seo-score-icon"
 				scoreIndicator={ score.className }
 			/>
-		</>
+		</Fragment>
 	);
 };
 
