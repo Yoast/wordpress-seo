@@ -1,9 +1,9 @@
-import { get, mapValues } from "lodash";
 import { enabledFeatures } from "@yoast/feature-flag";
-import { createDefaultReplacementVariableConfigurations } from "@yoast/seo-integration";
+import { get } from "lodash";
 import getTranslations from "../analysis/getTranslations";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
+import { createPostReplacementVariableConfigurations, createTermReplacementVariableConfigurations } from "./replacement-variables";
 
 /**
  * Creates the analysis-related configuration needed for booting up the SEO integration.
@@ -17,11 +17,11 @@ export function getAnalysisConfiguration() {
 		types: {
 			post: {
 				name: "post",
-				replacementVariableConfigurations: mapValues( createDefaultReplacementVariableConfigurations() ),
+				replacementVariableConfigurations: createPostReplacementVariableConfigurations(),
 			},
 			term: {
 				name: "term",
-				replacementVariableConfigurations: mapValues( createDefaultReplacementVariableConfigurations() ),
+				replacementVariableConfigurations: createTermReplacementVariableConfigurations(),
 			},
 		},
 		configuration: {

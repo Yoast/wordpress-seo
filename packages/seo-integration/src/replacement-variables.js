@@ -14,26 +14,38 @@ import { get, identity, mapValues } from "lodash";
  * @returns {Object.<string, ReplacementVariableConfiguration>} The default replacement variable configurations, keyed by name for easy reference.
  */
 export const createDefaultReplacementVariableConfigurations = () => ( {
-	title: {
-		name: "title",
-		label: __( "Title", "wordpress-seo" ),
-		getReplacement: () => select( SEO_STORE_NAME ).selectTitle(),
-	},
-	excerpt: {
-		name: "excerpt",
-		label: __( "Excerpt", "wordpress-seo" ),
-		getReplacement: () => select( SEO_STORE_NAME ).selectExcerpt(),
+	content: {
+		name: "content",
+		label: __( "Content", "wordpress-seo" ),
+		getReplacement: () => select( SEO_STORE_NAME ).selectContent(),
+		isVisible: false,
 	},
 	date: {
 		name: "date",
 		label: __( "Date", "wordpress-seo" ),
 		getReplacement: () => select( SEO_STORE_NAME ).selectDate(),
 	},
-	focusKeyphrase: {
-		name: "focusKeyphrase",
+	excerpt: {
+		name: "excerpt",
+		label: __( "Excerpt", "wordpress-seo" ),
+		getReplacement: () => select( SEO_STORE_NAME ).selectExcerpt(),
+	},
+	excerpt_only: {
+		name: "excerpt_only",
+		label: __( "Excerpt only", "wordpress-seo" ),
+		getReplacement: () => select( SEO_STORE_NAME ).selectExcerpt(),
+	},
+	focus_keyphrase: {
+		name: "focus_keyphrase",
 		label: __( "Focus keyphrase", "wordpress-seo" ),
 		getReplacement: () => select( SEO_STORE_NAME ).selectKeyphrase(),
 		regexp: new RegExp( "%%focuskw%%|%%keyword%%", "g" ),
+	},
+	title: {
+		name: "title",
+		label: __( "Title", "wordpress-seo" ),
+		getReplacement: () => select( SEO_STORE_NAME ).selectTitle(),
+		isRecommended: true,
 	},
 } );
 
