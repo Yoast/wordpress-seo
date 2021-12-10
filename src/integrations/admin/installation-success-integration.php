@@ -61,8 +61,13 @@ class Installation_Success_Integration implements Integration_Interface {
 		}
 		$this->options_helper->set( 'activation_redirect_timestamp_free', \time() );
 
+		// phpcs:ignore WordPress.Security.NonceVerification -- This is not a form.
+		if ( isset( $_REQUEST['activate-multi'] ) && $_REQUEST['activate-multi'] === 'true' ) {
+			return;
+		}
+
 		\wp_safe_redirect( \admin_url( 'admin.php?page=wpseo_installation_successful_free' ), 302, 'Yoast SEO' );
-		exit;
+		$this->terminate_execution();
 	}
 
 	/**
@@ -116,5 +121,12 @@ class Installation_Success_Integration implements Integration_Interface {
 	 */
 	public function render_page() {
 		echo '<div id="wpseo-installation-successful-free" class="yoast"></div>';
+	}
+
+	/**
+	 * Wrap the `exit` function to make unit testing easier.
+	 */
+	public function terminate_execution() {
+		exit;
 	}
 }

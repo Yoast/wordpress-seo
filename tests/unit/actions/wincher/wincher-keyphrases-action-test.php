@@ -417,7 +417,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	/**
 	 * Tests retrieval of tracked keyphrases chart data filtered by the passed permalink.
 	 *
-	 * @covers ::get_keyphrase_chart_data
+	 * @covers ::get_tracked_keyphrases
 	 */
 	public function test_get_tracked_keyphrases_with_permalink() {
 		$this->options_helper

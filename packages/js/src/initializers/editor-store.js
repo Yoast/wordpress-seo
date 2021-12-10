@@ -1,8 +1,6 @@
 import { pickBy } from "lodash";
 import { combineReducers, registerStore } from "@wordpress/data";
-import reducers from "../redux/reducers";
-import * as selectors from "../redux/selectors";
-import * as actions from "../redux/actions";
+import { reducers, selectors, actions } from "@yoast/externals/redux";
 import * as controls from "../redux/controls";
 
 /**
