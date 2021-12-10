@@ -29,43 +29,50 @@ const Metabox = () => {
 
 	return (
 		<Fragment>
-			<SidebarItem
-				key="warning"
-				renderPriority={ 1 }
-			>
+			<SidebarItem key="warning" renderPriority={ 1 }>
 				<Warning />
 			</SidebarItem>
-			{ isSeoAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
-				<FocusKeyphraseInput focusKeyphraseInfoLink={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } />
-				{ ! wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
-					<SEMrushRelatedKeyphrases />
-				</Fill> }
-			</SidebarItem> }
+			{ isSeoAnalysisActive &&
+				<SidebarItem key="keyword-input" renderPriority={ 8 }>
+					<FocusKeyphraseInput focusKeyphraseInfoLink={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } />
+					{ ! wpseoScriptData.metabox.isPremium &&
+						<Fill name="YoastRelatedKeyphrases">
+							<SEMrushRelatedKeyphrases />
+						</Fill>
+					}
+				</SidebarItem>
+			}
 			<SidebarItem key="google-preview" renderPriority={ 9 }>
 				<GooglePreview />
 			</SidebarItem>
-			{ isReadabilityAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
-				<ReadabilityAnalysis />
-			</SidebarItem> }
-			{ isSeoAnalysisActive && <SidebarItem key="seo-analysis" renderPriority={ 20 }>
-				<SeoAnalysis
-					shouldUpsell={ settings.shouldUpsell }
-					shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-				/>
-			</SidebarItem> }
-			{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
-				<CornerstoneContent cornerstoneContentInfoLink={ wpseoAdminL10n[ "shortlinks.cornerstone_content_info" ] } />
-			</SidebarItem> }
-			{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 40 }>
-				<AdvancedSettings />
-			</SidebarItem> }
-			{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 50 }>
-				<SchemaTabContainer />
-			</SidebarItem> }
-			<SidebarItem
-				key="social"
-				renderPriority={ -1 }
-			>
+			{ isReadabilityAnalysisActive &&
+				<SidebarItem key="readability-analysis" renderPriority={ 10 }>
+					<ReadabilityAnalysis />
+				</SidebarItem> }
+			{ isSeoAnalysisActive &&
+				<SidebarItem key="seo-analysis" renderPriority={ 20 }>
+					<SeoAnalysis
+						shouldUpsell={ settings.shouldUpsell }
+						shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+					/>
+				</SidebarItem>
+			}
+			{ settings.isCornerstoneActive &&
+				<SidebarItem key="cornerstone" renderPriority={ 30 }>
+					<CornerstoneContent cornerstoneContentInfoLink={ wpseoAdminL10n[ "shortlinks.cornerstone_content_info" ] } />
+				</SidebarItem>
+			}
+			{ settings.displayAdvancedTab &&
+				<SidebarItem key="advanced" renderPriority={ 40 }>
+					<AdvancedSettings />
+				</SidebarItem>
+			}
+			{ settings.displaySchemaSettings &&
+				<SidebarItem key="schema" renderPriority={ 50 }>
+					<SchemaTabContainer />
+				</SidebarItem>
+			}
+			<SidebarItem key="social" renderPriority={ -1 }>
 				<SocialMetadataPortal target="wpseo-section-social" />
 			</SidebarItem>
 		</Fragment>
