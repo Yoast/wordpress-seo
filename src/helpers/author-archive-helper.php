@@ -75,12 +75,12 @@ class Author_Archive_Helper {
 
 		if ( $indexable_exists === false ) {
 			$indexable_exists = Model::of_type( 'Indexable' )
-			                         ->select( 'id' )
-			                         ->where( 'object_type', 'post' )
-			                         ->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
-			                         ->where( 'author_id', $author_id )
-			                         ->where( 'is_public', 1 )
-			                         ->find_one();
+				->select( 'id' )
+				->where( 'object_type', 'post' )
+				->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
+				->where( 'author_id', $author_id )
+				->where( 'is_public', 1 )
+				->find_one();
 
 			if ( $indexable_exists === false ) {
 				// Cache no results to prevent full table scanning on authors with no public posts.
@@ -108,12 +108,12 @@ class Author_Archive_Helper {
 
 		if ( $indexable_exists === false ) {
 			$indexable_exists = Model::of_type( 'Indexable' )
-			                         ->select( 'id' )
-			                         ->where( 'object_type', 'post' )
-			                         ->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
-			                         ->where( 'author_id', $author_id )
-			                         ->where_null( 'is_public' )
-			                         ->find_one();
+				->select( 'id' )
+				->where( 'object_type', 'post' )
+				->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
+				->where( 'author_id', $author_id )
+				->where_null( 'is_public' )
+				->find_one();
 
 			if ( $indexable_exists === false ) {
 				// Cache no results to prevent full table scanning on authors with no is public null posts.

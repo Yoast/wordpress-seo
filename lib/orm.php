@@ -48,7 +48,6 @@ use Yoast\WP\SEO\Config\Migration_Status;
  * @see http://www.php-fig.org/psr/psr-1/
  */
 class ORM implements \ArrayAccess {
-
 	/*
 	 * --- CLASS CONSTANTS ---
 	 */

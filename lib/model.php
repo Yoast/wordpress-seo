@@ -512,8 +512,8 @@ class Model implements JsonSerializable {
 	 */
 	public function __get( $property ) {
 		$original_property = $property;
-		$property = $this->handle_deprecation( $property );
-		$value    = $this->orm->get( $property );
+		$property          = $this->handle_deprecation( $property );
+		$value             = $this->orm->get( $property );
 
 		// The types of a deprecated property and its replacement may differ. To prevent this kind of deprecation from being a breaking change, use the old/originally requested type.
 		if ( $value !== null && \in_array( $original_property, $this->boolean_columns, true ) ) {
@@ -784,7 +784,7 @@ class Model implements JsonSerializable {
 			// There is no _deprecated_property. This matches our usecase best.
 			\_deprecated_argument(
 				__FUNCTION__,
-				$deprecation['since'],
+				esc_html( $deprecation['since'] ),
 				'Use the \"' . esc_html( $deprecation['replacement'] ) . '\" property instead of \"' . esc_html( $property ) . '\" '
 			);
 
@@ -795,7 +795,7 @@ class Model implements JsonSerializable {
 			return $property;
 		}
 		// There is no _deprecated_property. This matches our usecase best.
-		\_deprecated_argument( __FUNCTION__, $deprecation['since'], 'The \"' . esc_html( $property ) . '\" property will be removed in a future version' );
+		\_deprecated_argument( __FUNCTION__, esc_html( $deprecation['since'] ), 'The \"' . esc_html( $property ) . '\" property will be removed in a future version' );
 
 		return $property;
 	}
