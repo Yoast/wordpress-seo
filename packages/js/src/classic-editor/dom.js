@@ -52,7 +52,7 @@ export const getPermalink = () => get( document.getElementById( DOM_IDS.PERMALIN
  *
  * @returns {string} The date or an empty string.
  */
-export const getDate = () => get( window, [ "wpseoScriptData", "metabox", "metaDescriptionDate" ], "" );
+export const getDate = () => get( window, "wpseoScriptData.metabox.metaDescriptionDate", "" );
 
 /**
  * Gets the meta description from the document.
