@@ -1,7 +1,6 @@
 /** @module analyses/getKeywordDensity */
 
 import countWords from "../helpers/word/countWords.js";
-import getWords from "../languages/ja/helpers/getWords.js";
 
 /**
  * Calculates the keyword density.
@@ -12,12 +11,12 @@ import getWords from "../languages/ja/helpers/getWords.js";
  * @returns {Object} The keyword density.
  */
 export default function( paper, researcher ) {
+	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
 	let wordCount = countWords( paper.getText() );
-	const locale = paper.getLocale();
 
-	// If there is a Japanese locale use the output of getWords for countWords.
-	if ( locale === "ja" ) {
-		wordCount = countWords( getWords( paper.getText() ) );
+	// If there is a custom getWords helper use its output for countWords.
+	if ( getWordsCustomHelper ) {
+		wordCount =  getWordsCustomHelper( paper.getText() ).length;
 	}
 
 	if ( wordCount === 0 ) {

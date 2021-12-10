@@ -1,3 +1,4 @@
+import { enableFeatures, isFeatureEnabled } from "@yoast/feature-flag";
 import getKeywordDensity from "../../../src/languageProcessing/researches/getKeywordDensity.js";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
@@ -5,8 +6,9 @@ import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Res
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
-const morphologyDataEN = getMorphologyData( "en" ).en;
-const morphologyDataJA = getMorphologyData( "ja" ).ja;
+const morphologyDataJA = getMorphologyData( "ja" );
+const morphologyDataEN = getMorphologyData( "en" );
+
 
 describe( "Test for counting the keyword density in a text", function() {
 	// eslint-disable-next-line max-statements
@@ -65,19 +67,65 @@ describe( "Test for counting the keyword density in a text", function() {
 	} );
 } );
 
-describe( "test for counting the keyword density in a text in Japanese", function() {
-	it( "returns keyword density in Japanese", function() {
-		const mockPaper = new Paper( "猫はテーブルの上にいます。", { keyword: "猫" } );
-		const mockResearcher = new JapaneseResearcher( mockPaper );
-		mockResearcher.addResearchData( "morphology",  morphologyDataJA );
-		expect( getKeywordDensity( mockPaper, new JapaneseResearcher( mockPaper ) ) ).toBe( 50 );
-	} );
-} );
-
 describe( "test for counting the keyword density in a text in a language that we haven't supported yet", function() {
 	it( "returns keyword density", function() {
 		const mockPaper = new Paper( "Ukara sing isine cemeng.", { keyword: "cemeng" } );
 		expect( getKeywordDensity( mockPaper, new DefaultResearcher( mockPaper ) ) ).toBe( 25 );
 	} );
 } );
+
+if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
+	describe( "test for counting the keyword density in a text in Japanese", function() {
+		it( "returns keyword density when the keyword is not found in the sentence", function() {
+			const mockPaper = new Paper( "小さくて可愛い花の刺繍に関する一般一般の記事です。", { keyword: "猫" } );
+			const mockResearcher = new JapaneseResearcher( mockPaper );
+			mockResearcher.addResearchData( "morphology", morphologyDataJA );
+			expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 0 );
+		} );
+
+		it( "returns the keyword density when the keyword is found once", function() {
+			const mockPaper = new Paper( "私の猫はかわいいです。", { keyword: "猫" } );
+			const mockResearcher = new JapaneseResearcher( mockPaper );
+			mockResearcher.addResearchData( "morphology", morphologyDataJA );
+			expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 16.666666666666664 );
+		} );
+
+		it( "returns the keyword density when the keyword contains multiple words and the sentence contains an inflected form", function() {
+			// 小さく is the inflected form of 小さい.
+			const mockPaper = new Paper( "小さくて可愛い花の刺繍に関する一般一般の記事です。", { keyword: "小さい花の刺繍" } );
+			const mockResearcher = new JapaneseResearcher( mockPaper );
+			mockResearcher.addResearchData( "morphology", morphologyDataJA );
+			expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 6.666666666666667 );
+		} );
+
+		it( "returns the keyword density when the morphologyData is not available to detect inflected forms", function() {
+			// 小さく is the inflected form of 小さい.
+			const mockPaper = new Paper( "小さくて可愛い花の刺繍に関する一般一般の記事です。", { keyword: "小さい花の刺繍" } );
+			const mockResearcher = new JapaneseResearcher( mockPaper );
+			expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 0 );
+		} );
+
+		it( "returns the keyword density when the keyword contains multiple words with an exact match separated in the sentence", function() {
+			const mockPaper = new Paper( "一日一冊の面白い本を買って読んでるのはできるかどうかやってみます。", { keyword: "一冊の本を読む" } );
+			const mockResearcher = new JapaneseResearcher( mockPaper );
+			mockResearcher.addResearchData( "morphology", morphologyDataJA );
+			expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 5 );
+		} );
+
+		it( "returns the keyword density when the keyword contains multiple words with an exact match in the sentence", function() {
+			const mockPaper = new Paper( "一日一冊の本を読むのはできるかどうかやってみます。", { keyword: "一冊の本を読む" } );
+			const mockResearcher = new JapaneseResearcher( mockPaper );
+			mockResearcher.addResearchData( "morphology", morphologyDataJA );
+			expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 6.666666666666667 );
+		} );
+
+		it( "returns 0 when the text is empty", function() {
+			const mockPaper = new Paper( "", { keyword: "猫" } );
+			const mockResearcher = new JapaneseResearcher( mockPaper );
+			mockResearcher.addResearchData( "morphology", morphologyDataJA );
+			expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 0 );
+		} );
+	} );
+}
+
 
