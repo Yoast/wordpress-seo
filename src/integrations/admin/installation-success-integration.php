@@ -26,7 +26,7 @@ class Installation_Success_Integration implements Integration_Interface {
 	 *
 	 * @var Product_Helper
 	 */
-	private $product_helper;
+	protected $product_helper;
 
 	/**
 	 * {@inheritDoc}

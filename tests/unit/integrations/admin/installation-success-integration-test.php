@@ -154,29 +154,6 @@ class Installation_Success_Integration_Test extends TestCase {
 			->with( 'should_redirect_after_install_free', false )
 			->andReturnFalse();
 
-		$this->options_helper
-			->expects( 'set' )
-			->with( 'should_redirect_after_install_free', false )
-			->never();
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'activation_redirect_timestamp_free', 0 )
-			->never();
-
-		$this->options_helper
-			->expects( 'set' )
-			->with( 'activation_redirect_timestamp_free', \time() )
-			->never();
-
-		$this->product_helper
-			->expects( 'is_premium' )
-			->never();
-
-		Monkey\Functions\expect( 'admin_url' )
-			->with( 'admin.php?page=wpseo_installation_successful_free', 302, 'Yoast SEO' )
-			->never();
-
 		Monkey\Functions\expect( 'wp_safe_redirect' )
 			->never();
 
@@ -202,19 +179,6 @@ class Installation_Success_Integration_Test extends TestCase {
 			->expects( 'get' )
 			->with( 'activation_redirect_timestamp_free', 0 )
 			->andReturn( '1638969347' );
-
-		$this->options_helper
-			->expects( 'set' )
-			->with( 'activation_redirect_timestamp_free', \time() )
-			->never();
-
-		$this->product_helper
-			->expects( 'is_premium' )
-			->never();
-
-		Monkey\Functions\expect( 'admin_url' )
-			->with( 'admin.php?page=wpseo_installation_successful_free', 302, 'Yoast SEO' )
-			->never();
 
 		Monkey\Functions\expect( 'wp_safe_redirect' )
 			->never();
@@ -249,10 +213,6 @@ class Installation_Success_Integration_Test extends TestCase {
 		$this->product_helper
 			->expects( 'is_premium' )
 			->andReturnTrue();
-
-		Monkey\Functions\expect( 'admin_url' )
-			->with( 'admin.php?page=wpseo_installation_successful_free', 302, 'Yoast SEO' )
-			->never();
 
 		Monkey\Functions\expect( 'wp_safe_redirect' )
 			->never();
