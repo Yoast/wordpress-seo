@@ -395,6 +395,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 1,
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "keyphrase",
+			position: 7,
 		} );
 	} );
 	it( "returns the number and the percentage of words matched (i.e. only one keyphrase form is found in the text), " +
@@ -413,6 +414,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 1,
 			percentWordMatches: 50,
 			keyphraseOrSynonym: "keyphrase",
+			position: 7,
 		} );
 	} );
 	it( "returns the number and the percentage of words matched, uses synonyms", function() {
@@ -430,7 +432,7 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			countWordMatches: 1,
 			percentWordMatches: 100,
 			keyphraseOrSynonym: "synonym",
-			position: 5,
+			position: 10,
 		} );
 	} );
 } );
