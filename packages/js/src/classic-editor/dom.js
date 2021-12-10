@@ -122,7 +122,7 @@ export const getExcerpt = () => {
  *
  * @returns {string} The source of the featured image.
  */
-const getFeaturedImageSetInEditor = () => document.querySelector( FEATURED_IMAGE_QUERY_SELECTOR ).getAttribute( "src" ) || "";
+const getFeaturedImageSetInEditor = () => document.querySelector( FEATURED_IMAGE_QUERY_SELECTOR )?.getAttribute( "src" ) || "";
 
 /**
  * Gets the featured image if one is set. Falls back to the first image from the content.
