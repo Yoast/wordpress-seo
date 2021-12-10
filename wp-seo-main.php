@@ -219,7 +219,9 @@ function _wpseo_activate() {
 
 	WPSEO_Options::set( 'indexing_reason', 'first_install' );
 	WPSEO_Options::set( 'first_time_install', true );
-	WPSEO_Options::set( 'should_redirect_after_install_free', true );
+	if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
+		WPSEO_Options::set( 'should_redirect_after_install_free', true );
+	}
 
 	do_action( 'wpseo_register_roles' );
 	WPSEO_Role_Manager_Factory::get()->add();
