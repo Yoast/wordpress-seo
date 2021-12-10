@@ -130,7 +130,7 @@ class WPSEO_Sitemaps_Renderer {
 	/**
 	 * Produce final XML output with debug information.
 	 *
-	 * @param string $sitemap   Sitemap XML.
+	 * @param string $sitemap Sitemap XML.
 	 *
 	 * @return string
 	 */
@@ -208,7 +208,6 @@ class WPSEO_Sitemaps_Renderer {
 	public function sitemap_url( $url ) {
 
 		$date = null;
-
 
 		if ( ! empty( $url['mod'] ) ) {
 			// Create a DateTime object date in the correct timezone.
