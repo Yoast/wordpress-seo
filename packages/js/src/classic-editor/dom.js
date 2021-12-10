@@ -10,6 +10,8 @@ export const DOM_IDS = {
 	CONTENT: tmceId,
 	EXCERPT: "excerpt",
 	PERMALINK: "sample-permalink",
+	SLUG_NEW_POST: "new-post-slug",
+	SLUG_EDIT_POST: "editable-post-name-full",
 	// Yoast hidden input ids
 	SEO_TITLE: "yoast_wpseo_title",
 	META_DESCRIPTION: "yoast_wpseo_metadesc",
@@ -87,35 +89,17 @@ export const isCornerstone = () => get( document.getElementById( DOM_IDS.CORNERS
  *
  * @returns {string} The slug or an empty string.
  */
-export const getSlug = () => {
-	let slug = "";
-
-	const newPostSlug = document.getElementById( "new-post-slug" );
-
-	if ( newPostSlug ) {
-		slug = newPostSlug.value;
-	} else if ( document.getElementById( "editable-post-name-full" ) !== null ) {
-		slug = document.getElementById( "editable-post-name-full" ).textContent;
-	}
-
-	return slug;
-};
+export const getSlug = () => (
+	get( document.getElementById( DOM_IDS.SLUG_NEW_POST ), "value" ) ||
+	get( document.getElementById( DOM_IDS.SLUG_EDIT_POST ), "textContent", "" )
+);
 
 /**
  * Gets the excerpt from the document.
  *
  * @returns {string} The excerpt or an empty string.
  */
-export const getExcerpt = () => {
-	const excerptElement = document.getElementById( "excerpt" );
-	const excerptValue   = excerptElement && excerptElement.value || "";
-
-	if ( excerptValue !== "" ) {
-		return excerptValue;
-	}
-
-	return excerptFromContent( getContent() );
-};
+export const getExcerpt = () => get( document.getElementById( DOM_IDS.EXCERPT ), "value", "" ) || excerptFromContent( getContent() );
 
 /**
  * Returns the featured image source if one is set.
