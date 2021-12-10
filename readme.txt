@@ -245,7 +245,6 @@ Enhancements:
 
 * Improves the user direction in the configuration workout.
 * Adds a sleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke).
-* Optimizes and compresses several `.png` images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
 Bugfixes:
 
@@ -260,7 +259,6 @@ Other:
 
 * Fixes some styling issues in the configuration workout.
 * Prevents SEO managers from changing the site description in the configuration workout.
-* This change has been reverted. Requires the Configuration workout to be completed to access the Cornerstone and Orphaned Content workouts.
 * Optimizes and compresses several .png images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
 = 17.7.1 =
