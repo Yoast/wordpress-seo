@@ -4,9 +4,8 @@ import { Fill } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { SnippetEditor } from "@yoast/search-metadata-previews";
-import { GooglePreviewContainer } from "@yoast/seo-integration";
 import { SEO_STORE_NAME } from "@yoast/seo-store";
+import GooglePreview from "../google-preview";
 import SeoAnalysis from "../seo-analysis";
 import ReadabilityAnalysis from "../readability-analysis";
 import MetaboxCollapsible from "../../../components/MetaboxCollapsible";
@@ -29,10 +28,6 @@ const Metabox = () => {
 	const settings = useSelect( select => select( EDITOR_STORE_NAME ).getPreferences() );
 	const isSeoAnalysisActive = useSelect( select => select( SEO_STORE_NAME ).selectIsSeoAnalysisActive() );
 	const isReadabilityAnalysisActive = useSelect( select => select( SEO_STORE_NAME ).selectIsReadabilityAnalysisActive() );
-	const shoppingData = useSelect( select => select( EDITOR_STORE_NAME ).getShoppingData() );
-	const siteIconUrl = useSelect( select => select( EDITOR_STORE_NAME ).getSiteIconUrlFromSettings() );
-	const previewImageUrl = useSelect( select => select( EDITOR_STORE_NAME ).getSnippetEditorPreviewImageUrl() );
-	const analysisType = useSelect( select => select( SEO_STORE_NAME ).selectAnalysisType() );
 
 	return (
 		<Fragment>
@@ -49,18 +44,7 @@ const Metabox = () => {
 				</Fill> }
 			</SidebarItem> }
 			<SidebarItem key="google-preview" renderPriority={ 9 }>
-				<MetaboxCollapsible
-					id={ "yoast-snippet-editor-metabox" }
-					title={ __( "Google preview", "wordpress-seo" ) } initialIsOpen={ true }
-				>
-					<GooglePreviewContainer
-						as={ SnippetEditor }
-						shoppingData={ shoppingData }
-						faviconSrc={ siteIconUrl }
-						mobileImageSrc={ previewImageUrl }
-						isTaxonomy={ analysisType === "term" }
-					/>
-				</MetaboxCollapsible>
+				<GooglePreview />
 			</SidebarItem>
 			{ isReadabilityAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
 				<ReadabilityAnalysis />
