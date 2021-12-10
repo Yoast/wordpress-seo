@@ -25,7 +25,7 @@ export default compose( [
 
 		return {
 			trackAll: () => {
-				setWincherTrackAllKeyphrases();
+				setWincherTrackAllKeyphrases( true );
 				setWincherOpenModal( "sidebar" );
 			},
 		};

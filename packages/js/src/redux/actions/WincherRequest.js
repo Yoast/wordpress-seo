@@ -78,11 +78,14 @@ export function setWincherLoginStatus( loginStatus, newlyAuthenticated ) {
 /**
  * Tracks all keyphrases associated with the current article.
  *
+ * @param {boolean} trackAll Whether to trackAll keyphrases or not.
+ *
  * @returns {Object} Action object.
  */
-export function setWincherTrackAllKeyphrases() {
+export function setWincherTrackAllKeyphrases( trackAll ) {
 	return {
 		type: WINCHER_SET_TRACK_ALL_REQUEST,
+		trackAll,
 	};
 }
 

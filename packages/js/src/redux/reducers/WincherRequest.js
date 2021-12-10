@@ -44,7 +44,6 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 				...state,
 				isSuccess: true,
 				response: action.response,
-				trackAll: false,
 			};
 		case WINCHER_SET_REQUEST_FAILED:
 			// The status code should be an error code here.
@@ -52,14 +51,12 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 				...state,
 				isSuccess: false,
 				response: action.response,
-				trackAll: false,
 			};
 		case WINCHER_SET_REQUEST_LIMIT_REACHED:
 			return {
 				...state,
 				limitReached: true,
 				limit: action.limit,
-				trackAll: false,
 			};
 		case WINCHER_SET_LOGIN_STATUS:
 			return {
@@ -70,7 +67,7 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 		case WINCHER_SET_TRACK_ALL_REQUEST:
 			return {
 				...state,
-				trackAll: true,
+				trackAll: action.trackAll,
 			};
 		case WINCHER_SET_AUTOMATICALLY_TRACK_ALL_REQUEST:
 			return {

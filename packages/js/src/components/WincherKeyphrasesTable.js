@@ -2,9 +2,9 @@
 
 /* External dependencies */
 import PropTypes from "prop-types";
-import { Fragment, Component } from "@wordpress/element";
+import { Fragment, useRef, useState, useEffect, useCallback, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { isEmpty, filter, debounce } from "lodash-es";
+import { isEmpty, filter, debounce, without, difference } from "lodash-es";
 import styled from "styled-components";
 
 /* Yoast dependencies */
@@ -43,92 +43,141 @@ const TableWrapper = styled.div`
 `;
 
 /**
- * The WincherKeyphrasesTable component.
+ * Hook that returns the previous value.
+ *
+ * @param {*} value The current value.
+ *
+ * @returns {*} The previous value.
  */
-class WincherKeyphrasesTable extends Component {
+const usePrevious = ( value ) => {
+	const ref = useRef();
+	useEffect( () => {
+		ref.current = value;
+	} );
+	return ref.current;
+};
+
+/**
+ * The WincherKeyphrasesTable component.
+ *
+ * @param {Object} props The props to use.
+ *
+ * @returns {wp.Element} The WincherKeyphrasesTable.
+ *
+ */
+const WincherKeyphrasesTable = ( props ) => {
+	const {
+		addTrackedKeyphrase,
+		isLoggedIn,
+		keyphrases,
+		permalink,
+		removeTrackedKeyphrase,
+		setKeyphraseLimitReached,
+		setRequestFailed,
+		setRequestSucceeded,
+		setTrackedKeyphrases,
+		setHasTrackedAll,
+		trackAll,
+		trackedKeyphrases,
+		isNewlyAuthenticated,
+		websiteId,
+		focusKeyphrase,
+		newRequest,
+	} = props;
+
+	const interval = useRef();
+	const abortController = useRef();
+	const hasFetchedKeyphrasesAfterConnect = useRef( false );
+	const [ loadingKeyphrases, setLoadingKeyphrases ] = useState( [] );
+
 	/**
-	 * Constructs the Related Keyphrases table.
+	 * Gets the passed keyphrase from the tracked keyphrases data object.
 	 *
-	 * @param {Object} props The props for the Related Keyphrases table.
+	 * @param {string} keyphrase The keyphrase to search for.
+	 *
+	 * @returns {Object|null} The keyphrase object. Returns null if it can't be found.
+	 */
+	const getKeyphraseData = useCallback( ( keyphrase ) => {
+		const targetKeyphrase = keyphrase.toLowerCase();
+
+		if ( trackedKeyphrases && ! isEmpty( trackedKeyphrases ) && trackedKeyphrases.hasOwnProperty( targetKeyphrase ) ) {
+			return trackedKeyphrases[ targetKeyphrase ];
+		}
+
+		return null;
+	}, [ trackedKeyphrases ] );
+
+	/**
+	 * Gets the tracked keyphrases.
 	 *
 	 * @returns {void}
 	 */
-	constructor( props ) {
-		super( props );
-
-		this.onTrackKeyphrase     = this.onTrackKeyphrase.bind( this );
-		this.onUntrackKeyphrase   = this.onUntrackKeyphrase.bind( this );
-		// This is debounced since the permalink might change rapidly when typing.
-		this.getTrackedKeyphrases = debounce( this.getTrackedKeyphrases, 500, {
-			leading: true,
-		} ).bind( this );
-
-		this.interval = null;
-		this.hasFetchedKeyphrasesAfterConnect = false;
-	}
+	const getTrackedKeyphrases = useMemo( () => debounce( async() => {
+		await handleAPIResponse(
+			() => {
+				// Ensure that we're not waiting for multiple of these requests at once.
+				if ( abortController.current ) {
+					abortController.current.abort();
+				}
+				abortController.current = typeof AbortController === "undefined" ? null : new AbortController();
+				return getKeyphrases( keyphrases, permalink, abortController.current.signal );
+			},
+			( response ) => {
+				setRequestSucceeded( response );
+				setTrackedKeyphrases( response.results );
+			},
+			( response ) => {
+				setRequestFailed( response );
+			}
+		);
+	}, 300, { leading: true } ), [
+		setRequestSucceeded,
+		setRequestFailed,
+		setTrackedKeyphrases,
+		keyphrases,
+		permalink,
+	] );
 
 	/**
 	 * Performs the tracking request for one or more keyphrases.
 	 *
-	 * @param {Array|string} keyphrases The keyphrase(s) to track.
+	 * @param {Array|string} keyphrasesToTrack The keyphrase(s) to track.
 	 *
 	 * @returns {void}
 	 */
-	async performTrackingRequest( keyphrases ) {
-		const {
-			setKeyphraseLimitReached,
-			addTrackedKeyphrase,
-			setRequestSucceeded,
-			setRequestFailed,
-			removeTrackedKeyphrase,
-		} = this.props;
+	const performTrackingRequest = useCallback( async( keyphrasesToTrack ) => {
+		const keyphrasesArray = ( Array.isArray( keyphrasesToTrack ) ? keyphrasesToTrack : [ keyphrasesToTrack ] )
+			.map( k => k.toLowerCase() );
 
-		const keyphrasesArray = Array.isArray( keyphrases ) ? keyphrases : [ keyphrases ];
-
-		// Add the keyphrases already for instant UX. Will be removed again if the request fails or the limit is reached.
-		keyphrasesArray.map( k => addTrackedKeyphrase( {
-			[ k.toLowerCase() ]: { keyword: k },
-		} ) );
+		setLoadingKeyphrases( curr => [ ...curr, ...keyphrasesArray ] );
 
 		const trackLimits = await getAccountLimits();
 
 		if ( trackLimits.status === 200 && ! trackLimits.canTrack ) {
-			keyphrasesArray.map( k => removeTrackedKeyphrase( k ) );
 			setKeyphraseLimitReached( trackLimits.limit );
-
-			return;
+		} else {
+			await handleAPIResponse(
+				() => trackKeyphrases( keyphrasesArray ),
+				( response ) => {
+					setRequestSucceeded( response );
+					addTrackedKeyphrase( response.results );
+					getTrackedKeyphrases();
+				},
+				( response ) => {
+					setRequestFailed( response );
+				},
+				201
+			);
 		}
 
-		await handleAPIResponse(
-			() => trackKeyphrases( keyphrases ),
-			async( response ) => {
-				setRequestSucceeded( response );
-				addTrackedKeyphrase( response.results );
-				await this.getTrackedKeyphrases( Object.keys( this.props.trackedKeyphrases ) );
-			},
-			async( response ) => {
-				setRequestFailed( response );
-				keyphrasesArray.map( k => removeTrackedKeyphrase( k ) );
-			},
-			201
-		);
-	}
-
-	/**
-	 * Fires when a keyphrase is set to be tracked.
-	 *
-	 * @param {string} keyphrase The keyphrase to track.
-	 *
-	 * @returns {void}
-	 */
-	async onTrackKeyphrase( keyphrase ) {
-		const { newRequest } = this.props;
-
-		// Prepare a new request.
-		newRequest();
-
-		await this.performTrackingRequest( keyphrase );
-	}
+		setLoadingKeyphrases( curr => without( curr, ...keyphrasesArray ) );
+	}, [
+		setRequestSucceeded,
+		setRequestFailed,
+		setKeyphraseLimitReached,
+		addTrackedKeyphrase,
+		getTrackedKeyphrases,
+	] );
 
 	/**
 	 * Fires when a keyphrase is set to be untracked.
@@ -138,17 +187,10 @@ class WincherKeyphrasesTable extends Component {
 	 *
 	 * @returns {void}
 	 */
-	async onUntrackKeyphrase( keyphrase, keyphraseID ) {
-		const {
-			setRequestSucceeded,
-			removeTrackedKeyphrase,
-			addTrackedKeyphrase,
-			setRequestFailed,
-		} = this.props;
-
+	const onUntrackKeyphrase = useCallback( async( keyphrase, keyphraseID ) => {
 		keyphrase = keyphrase.toLowerCase();
-		const oldData = this.getKeyphraseData( keyphrase );
-		removeTrackedKeyphrase( keyphrase );
+
+		setLoadingKeyphrases( curr => [ ...curr, keyphrase ] );
 
 		await handleAPIResponse(
 			() => untrackKeyphrase( keyphraseID ),
@@ -156,265 +198,174 @@ class WincherKeyphrasesTable extends Component {
 				setRequestSucceeded( response );
 				removeTrackedKeyphrase( keyphrase );
 			},
-			async( response ) => {
+			( response ) => {
 				setRequestFailed( response );
-				addTrackedKeyphrase( { [ keyphrase ]: oldData } );
 			}
 		);
-	}
+
+		setLoadingKeyphrases( curr => without( curr, keyphrase ) );
+	}, [
+		setRequestSucceeded,
+		removeTrackedKeyphrase,
+		setRequestFailed,
+	] );
 
 	/**
-	 * Gets the tracked keyphrases.
+	 * Fires when a keyphrase is set to be tracked.
 	 *
-	 * @param {Array} keyphrases The keyphrases used in the post.
+	 * @param {string} keyphrase The keyphrase to track.
 	 *
 	 * @returns {void}
 	 */
-	 async getTrackedKeyphrases( keyphrases ) {
-		const {
-			setRequestSucceeded,
-			setTrackedKeyphrases,
-			setRequestFailed,
-			permalink,
-		} = this.props;
+	const onTrackKeyphrase = useCallback( async( keyphrase ) => {
+		// Prepare a new request.
+		newRequest();
+		await performTrackingRequest( keyphrase );
+	}, [ newRequest, performTrackingRequest ] );
 
-		await handleAPIResponse(
-			() => getKeyphrases( keyphrases, permalink ),
-			async( response ) => {
-				setRequestSucceeded( response );
-				setTrackedKeyphrases( response.results );
+	// Fetch initial data and re-fetch if the permalink or keyphrases change.
+	const prevPermalink = usePrevious( permalink );
+	const prevKeyphrases = usePrevious( keyphrases );
+	useEffect( () => {
+		if ( isLoggedIn && permalink && ( permalink !== prevPermalink || difference( keyphrases, prevKeyphrases ).length ) ) {
+			getTrackedKeyphrases();
+		}
+	}, [
+		isLoggedIn,
+		permalink,
+		prevPermalink,
+		keyphrases,
+		prevKeyphrases,
+		getTrackedKeyphrases,
+	] );
 
-				if ( isEmpty( response.results ) ) {
-					clearInterval( this.interval );
-					return;
-				}
-			},
-			async( response ) => {
-				setRequestFailed( response );
+	// Tracks remaining keyphrases if trackAll is set and we have data.
+	useEffect( () => {
+		if ( isLoggedIn && trackAll && trackedKeyphrases !== null ) {
+			const toTrack = keyphrases.filter( k => ! getKeyphraseData( k ) );
+			if ( toTrack.length ) {
+				performTrackingRequest( toTrack );
 			}
-		);
-	}
+			setHasTrackedAll();
+		}
+	}, [
+		isLoggedIn,
+		trackAll,
+		trackedKeyphrases,
+		performTrackingRequest,
+		setHasTrackedAll,
+		getKeyphraseData,
+		keyphrases,
+	] );
 
-	/**
-	 * Determines whether there are any tracked keyphrases that still miss
-	 * ranking data completely.
-	 *
-	 * @returns {boolean} Whether there are some keyphrases missing ranking data.
-	 */
-	someKeyphrasesHaveNoRankingData() {
-		const { trackedKeyphrases } = this.props;
+	// Fetch data after connect.
+	useEffect( () => {
+		if ( isNewlyAuthenticated && ! hasFetchedKeyphrasesAfterConnect.current ) {
+			getTrackedKeyphrases();
+			hasFetchedKeyphrasesAfterConnect.current = true;
+		}
+	}, [
+		isNewlyAuthenticated,
+		getTrackedKeyphrases,
+	] );
 
-		if ( isEmpty( trackedKeyphrases ) ) {
-			return false;
+
+	// Set up interval to update ranking data if some of the keyphrases do not have ranking data yet.
+	useEffect( () => {
+		if ( ! isLoggedIn || isEmpty( trackedKeyphrases ) ) {
+			return;
 		}
 
-		return filter( trackedKeyphrases, ( trackedKeyphrase ) => {
+		const someKeyphrasesHaveNoRankingData = filter( trackedKeyphrases, ( trackedKeyphrase ) => {
 			return isEmpty( trackedKeyphrase.updated_at );
 		} ).length > 0;
-	}
 
-	/**
-	 * Loads tracking data when the table is mounted in the DOM.
-	 *
-	 * @returns {void}
-	 */
-	async componentDidMount() {
-		const { trackAll, isLoggedIn, keyphrases, permalink } = this.props;
-
-		if ( ! isLoggedIn ) {
-			return;
-		}
-
-		if ( trackAll ) {
-			await this.performTrackingRequest( keyphrases );
-
-			return;
-		}
-
-		if ( permalink ) {
-			this.interval = setInterval( async() => {
-				await this.getTrackedKeyphrases( keyphrases );
-			}, 10000 );
-
-			await this.getTrackedKeyphrases( keyphrases );
-		}
-	}
-
-	/**
-	 * Sets up the interval that refreshes the data when some keyphrases are
-	 * missing ranking data.
-	 *
-	 * @returns {void}
-	 */
-	setupInterval() {
-		const { keyphrases } = this.props;
-
-		clearInterval( this.interval );
-		if ( this.someKeyphrasesHaveNoRankingData() ) {
-			this.interval = setInterval( async() => {
-				await this.getTrackedKeyphrases( keyphrases );
+		if ( someKeyphrasesHaveNoRankingData ) {
+			interval.current = setInterval( () => {
+				getTrackedKeyphrases();
 			}, 10000 );
 		}
-	}
 
-	/**
-	 * Fetches keyword data if necessary according to the current state.
-	 *
-	 * @param {Object} prevProps The previous props.
-	 *
-	 * @returns {void}
-	 */
-	fetchKeyphraseDataIfNeeded( prevProps ) {
-		const {
-			keyphrases,
-			isNewlyAuthenticated,
-			permalink,
-		} = this.props;
+		return () => {
+			clearInterval( interval.current );
+		};
+	}, [
+		isLoggedIn,
+		trackedKeyphrases,
+		getTrackedKeyphrases,
+	] );
 
-		// Re-fetch data when the permalink changes
-		if ( permalink && prevProps.permalink !== permalink ) {
-			this.getTrackedKeyphrases( keyphrases );
-		}
+	const isDataLoading = isLoggedIn && trackedKeyphrases === null;
 
-		// Fetch data after authentication
-		if ( isNewlyAuthenticated && ! this.hasFetchedKeyphrasesAfterConnect ) {
-			this.getTrackedKeyphrases( keyphrases );
-			this.hasFetchedKeyphrasesAfterConnect = true;
-		}
-	}
-
-	/**
-	 * Re-fetches data in certain cases and resets the interval.
-	 *
-	 * @param {Object} prevProps The previous props.
-	 *
-	 * @returns {void}
-	 */
-	componentDidUpdate( prevProps ) {
-		const { isLoggedIn } = this.props;
-
-		if ( ! isLoggedIn ) {
-			return;
-		}
-
-		this.fetchKeyphraseDataIfNeeded( prevProps );
-		this.setupInterval();
-	}
-
-	/**
-	 * Unsets the polling when the modal is closed.
-	 *
-	 * @returns {void}
-	 */
-	componentWillUnmount() {
-		clearInterval( this.interval );
-	}
-
-	/**
-	 * Gets the passed keyphrase from the tracked keyphrases data object.
-	 *
-	 * @param {string} keyphrase The keyphrase to search for.
-	 *
-	 * @returns {Object|null} The keyphrase object. Returns null if it can't be found.
-	 */
-	getKeyphraseData( keyphrase ) {
-		const { trackedKeyphrases } = this.props;
-		const targetKeyphrase = keyphrase.toLowerCase();
-
-		if ( trackedKeyphrases && ! isEmpty( trackedKeyphrases ) && trackedKeyphrases.hasOwnProperty( targetKeyphrase ) ) {
-			return trackedKeyphrases[ targetKeyphrase ];
-		}
-
-		return null;
-	}
-
-	/**
-	 * Renders the table.
-	 *
-	 * @returns {React.Element} The table.
-	 */
-	render() {
-		const {
-			websiteId,
-			keyphrases,
-			isLoggedIn,
-			trackedKeyphrases,
-			focusKeyphrase,
-		} = this.props;
-
-		const isLoading = isLoggedIn && trackedKeyphrases === null;
-		const isDisabled = ! isLoggedIn;
-
-		return (
-			keyphrases && ! isEmpty( keyphrases ) && <Fragment>
-				<TableWrapper>
-					<table className="yoast yoast-table">
-						<thead>
-							<tr>
-								<th
-									scope="col"
-									abbr={ __( "Tracking", "wordpress-seo" ) }
-								>
-									{ __( "Tracking", "wordpress-seo" ) }
-								</th>
-								<th
-									scope="col"
-									abbr={ __( "Keyphrase", "wordpress-seo" ) }
-								>
-									{ __( "Keyphrase", "wordpress-seo" ) }
-								</th>
-								<th
-									scope="col"
-									abbr={ __( "Position", "wordpress-seo" ) }
-								>
-									{ __( "Position", "wordpress-seo" ) }
-								</th>
-								<th
-									scope="col"
-									abbr={ __( "Position over time", "wordpress-seo" ) }
-								>
-									{ __( "Position over time", "wordpress-seo" ) }
-								</th>
-								<ViewColumn className="yoast-table--nobreak" />
-							</tr>
-						</thead>
-						<tbody>
-							{
-								keyphrases.map( ( keyphrase, index ) => {
-									return ( <WincherTableRow
-										key={ `trackable-keyphrase-${index}` }
-										keyphrase={ keyphrase }
-										onTrackKeyphrase={ this.onTrackKeyphrase }
-										onUntrackKeyphrase={ this.onUntrackKeyphrase }
-										rowData={ this.getKeyphraseData( keyphrase ) }
-										isFocusKeyphrase={ keyphrase === focusKeyphrase.trim() }
-										websiteId={ websiteId }
-										isDisabled={ isDisabled }
-										isLoading={ isLoading }
-									/> );
-								} )
-							}
-						</tbody>
-					</table>
-				</TableWrapper>
-				<p style={ { marginBottom: 0, position: "relative" } }>
-					<GetMoreInsightsLink
-						href={ wpseoAdminGlobalL10n[ "links.wincher.login" ] }
-					>
-						{ sprintf(
-							/* translators: %s expands to Wincher */
-							__( "Get more insights over at %s", "wordpress-seo" ),
-							"Wincher"
-						) }
-					</GetMoreInsightsLink>
-					<FocusKeyphraseFootnote>
-						{ __( "* focus keyphrase", "wordpress-seo" ) }
-					</FocusKeyphraseFootnote>
-				</p>
-			</Fragment>
-		);
-	}
-}
+	return (
+		keyphrases && ! isEmpty( keyphrases ) && <Fragment>
+			<TableWrapper>
+				<table className="yoast yoast-table">
+					<thead>
+						<tr>
+							<th
+								scope="col"
+								abbr={ __( "Tracking", "wordpress-seo" ) }
+							>
+								{ __( "Tracking", "wordpress-seo" ) }
+							</th>
+							<th
+								scope="col"
+								abbr={ __( "Keyphrase", "wordpress-seo" ) }
+							>
+								{ __( "Keyphrase", "wordpress-seo" ) }
+							</th>
+							<th
+								scope="col"
+								abbr={ __( "Position", "wordpress-seo" ) }
+							>
+								{ __( "Position", "wordpress-seo" ) }
+							</th>
+							<th
+								scope="col"
+								abbr={ __( "Position over time", "wordpress-seo" ) }
+							>
+								{ __( "Position over time", "wordpress-seo" ) }
+							</th>
+							<ViewColumn className="yoast-table--nobreak" />
+						</tr>
+					</thead>
+					<tbody>
+						{
+							keyphrases.map( ( keyphrase, index ) => {
+								return ( <WincherTableRow
+									key={ `trackable-keyphrase-${index}` }
+									keyphrase={ keyphrase }
+									onTrackKeyphrase={ onTrackKeyphrase }
+									onUntrackKeyphrase={ onUntrackKeyphrase }
+									rowData={ getKeyphraseData( keyphrase ) }
+									isFocusKeyphrase={ keyphrase === focusKeyphrase.trim() }
+									websiteId={ websiteId }
+									isDisabled={ ! isLoggedIn }
+									isLoading={ isDataLoading || loadingKeyphrases.indexOf( keyphrase.toLowerCase() ) >= 0 }
+								/> );
+							} )
+						}
+					</tbody>
+				</table>
+			</TableWrapper>
+			<p style={ { marginBottom: 0, position: "relative" } }>
+				<GetMoreInsightsLink
+					href={ wpseoAdminGlobalL10n[ "links.wincher.login" ] }
+				>
+					{ sprintf(
+						/* translators: %s expands to Wincher */
+						__( "Get more insights over at %s", "wordpress-seo" ),
+						"Wincher"
+					) }
+				</GetMoreInsightsLink>
+				<FocusKeyphraseFootnote>
+					{ __( "* focus keyphrase", "wordpress-seo" ) }
+				</FocusKeyphraseFootnote>
+			</p>
+		</Fragment>
+	);
+};
 
 WincherKeyphrasesTable.propTypes = {
 	addTrackedKeyphrase: PropTypes.func.isRequired,
@@ -427,6 +378,7 @@ WincherKeyphrasesTable.propTypes = {
 	setKeyphraseLimitReached: PropTypes.func.isRequired,
 	setRequestSucceeded: PropTypes.func.isRequired,
 	setTrackedKeyphrases: PropTypes.func.isRequired,
+	setHasTrackedAll: PropTypes.func.isRequired,
 	trackAll: PropTypes.bool,
 	trackedKeyphrases: PropTypes.object,
 	websiteId: PropTypes.string,
@@ -439,7 +391,7 @@ WincherKeyphrasesTable.defaultProps = {
 	isNewlyAuthenticated: false,
 	keyphrases: [],
 	trackAll: false,
-	trackedKeyphrases: {},
+	trackedKeyphrases: null,
 	websiteId: "",
 	focusKeyphrase: "",
 };
