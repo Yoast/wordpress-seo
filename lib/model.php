@@ -511,16 +511,18 @@ class Model implements JsonSerializable {
 	 * @return mixed The value of the property
 	 */
 	public function __get( $property ) {
+		$original_property = $property;
 		$property = $this->handle_deprecation( $property );
 		$value    = $this->orm->get( $property );
 
-		if ( $value !== null && \in_array( $property, $this->boolean_columns, true ) ) {
+		// The types of a deprecated property and its replacement may differ. To prevent this kind of deprecation from being a breaking change, use the old/originally requested type.
+		if ( $value !== null && \in_array( $original_property, $this->boolean_columns, true ) ) {
 			return (bool) $value;
 		}
-		if ( $value !== null && \in_array( $property, $this->int_columns, true ) ) {
+		if ( $value !== null && \in_array( $original_property, $this->int_columns, true ) ) {
 			return (int) $value;
 		}
-		if ( $value !== null && \in_array( $property, $this->float_columns, true ) ) {
+		if ( $value !== null && \in_array( $original_property, $this->float_columns, true ) ) {
 			return (float) $value;
 		}
 

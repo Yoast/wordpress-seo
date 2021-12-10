@@ -112,6 +112,8 @@ class Indexable extends Model {
 		'is_cornerstone',
 		'is_publicly_viewable',
 		'is_protected',
+		'is_public',
+		'has_public_posts',
 	];
 
 	/**
