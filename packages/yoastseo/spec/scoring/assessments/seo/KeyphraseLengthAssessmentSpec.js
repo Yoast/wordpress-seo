@@ -233,7 +233,7 @@ describe( "the keyphrase length assessment", function() {
 			"<a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
 	} );
 
-	it( "should assess a product page without a related keyphrase as extremely bad", function() {
+	it( "should assess the related keyphrase analysis of a product page with no keyphrase as extremely bad", function() {
 		const paper = new Paper();
 		const researcher = factory.buildMockResearcher( { keyphraseLength: 0, functionWords: [] } );
 
