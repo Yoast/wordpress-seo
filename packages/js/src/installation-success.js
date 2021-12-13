@@ -44,6 +44,7 @@ function InstallationSuccessPage() {
 				{ sprintf(
 					/* translators: %s expands to Yoast SEO. */
 					__( "You've successfully installed %s!", "wordpress-seo" ),
+					// The space between 'Yoast' and 'SEO' is a non-breaking space (Unicode 160).
 					"Yoast SEO" )
 				}
 			</h1>
