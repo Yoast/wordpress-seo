@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Wordpress_Helper;
 
 /**
  * Sitemap provider for author archives.
@@ -98,7 +99,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		global $wpdb;
 
 		$defaults = [
-			'who'        => 'authors',
+			'capability' => [ 'edit_posts' ],
 			'meta_key'   => '_yoast_wpseo_profile_updated',
 			'orderby'    => 'meta_value_num',
 			'order'      => 'DESC',
@@ -124,8 +125,20 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			],
 		];
 
+		$wordpress_helper  = new Wordpress_Helper();
+		$wordpress_version = $wordpress_helper->get_wordpress_version();
+
+		// Capability queries were only introduced in WP 5.9.
+		if ( version_compare( $wordpress_version, '5.9-alpha', '<' ) ) {
+			$defaults['who'] = 'authors';
+ 	        unset( $defaults['capability'] );
+ 	    }
+
 		if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', true ) ) {
-			$defaults['who']                 = ''; // Otherwise it cancels out next argument.
+			unset( $defaults['capability'] );
+			if ( version_compare( $wordpress_version, '5.9-alpha', '<' ) ) {
+				$defaults['who'] = ''; // Otherwise it cancels out next argument.
+			}
 			$author_archive                  = new Author_Archive_Helper();
 			$defaults['has_published_posts'] = $author_archive->get_author_archive_post_types();
 		}
@@ -213,7 +226,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	protected function update_user_meta() {
 
 		$user_criteria = [
-			'who'        => 'authors',
+			'capability' => [ 'edit_posts' ],
 			'meta_query' => [
 				[
 					'key'     => '_yoast_wpseo_profile_updated',
@@ -221,7 +234,17 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				],
 			],
 		];
-		$users         = get_users( $user_criteria );
+
+		$wordpress_helper  = new Wordpress_Helper();
+		$wordpress_version = $wordpress_helper->get_wordpress_version();
+
+		// Capability queries were only introduced in WP 5.9.
+		if ( version_compare( $wordpress_version, '5.9-alpha', '<' ) ) {
+			$defaults['who'] = 'authors';
+			unset( $defaults['capability'] );
+		}
+
+		$users = get_users( $user_criteria );
 
 		$time = time();
 
