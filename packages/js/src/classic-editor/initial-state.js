@@ -10,7 +10,7 @@ import {
 	getSlug,
 	getTitle,
 	getIsCornerstone,
-} from "../dom";
+} from "./dom";
 import { FOCUS_KEYPHRASE_ID } from "@yoast/seo-integration";
 
 /**
