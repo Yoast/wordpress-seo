@@ -5,7 +5,7 @@ describe( "Apply function", () => {
 		const { apply } = createReplacementVariables( [
 			{
 				name: "test",
-				label: "Test",
+				getLabel: () => "Test",
 				getReplacement: () => "test",
 			},
 		] );
@@ -19,7 +19,7 @@ describe( "Apply function", () => {
 		const { apply } = createReplacementVariables( [
 			{
 				name: "test",
-				label: "Test",
+				getLabel: () => "Test",
 				getReplacement: () => "test",
 			},
 		] );
@@ -33,12 +33,12 @@ describe( "Apply function", () => {
 		const { apply } = createReplacementVariables( [
 			{
 				name: "test",
-				label: "Test",
+				getLabel: () => "Test",
 				getReplacement: () => "test",
 			},
 			{
 				name: "hello",
-				label: "Hello",
+				getLabel: () => "Hello",
 				getReplacement: () => "Hello",
 			},
 		] );
@@ -52,12 +52,12 @@ describe( "Apply function", () => {
 		const { apply } = createReplacementVariables( [
 			{
 				name: "test",
-				label: "Test",
+				getLabel: () => "Test",
 				getReplacement: () => "test",
 			},
 			{
 				name: "hello",
-				label: "Hello",
+				getLabel: () => "Hello",
 				getReplacement: () => "Hello",
 			},
 		] );
@@ -71,12 +71,12 @@ describe( "Apply function", () => {
 		const { apply } = createReplacementVariables( [
 			{
 				name: "test",
-				label: "Test",
+				getLabel: () => "Test",
 				getReplacement: () => "TEST",
 			},
 			{
 				name: "hello",
-				label: "Hello",
+				getLabel: () => "Hello",
 				getReplacement: () => "HELLO",
 			},
 		] );
@@ -91,7 +91,7 @@ describe( "Apply function", () => {
 		const { apply } = createReplacementVariables( [
 			{
 				name: "test",
-				label: "Test",
+				getLabel: () => "Test",
 				getReplacement: ( { replacement } ) => replacement,
 			},
 		] );
@@ -107,7 +107,7 @@ describe( "Apply function", () => {
 		const { apply } = createReplacementVariables( [
 			{
 				name: "test",
-				label: "Test",
+				getLabel: () => "Test",
 				getReplacement: ( { replacement } ) => replacement,
 			},
 		] );
@@ -119,16 +119,17 @@ describe( "Apply function", () => {
 
 describe( "Replacement variables", () => {
 	test( "should create multiple replacement variables", () => {
-		const getReplacement = () => {};
+		const getReplacement = () => {
+		};
 		const { variables } = createReplacementVariables( [
 			{
 				name: "test1",
-				label: "Test 1",
+				getLabel: () => "Test 1",
 				getReplacement,
 			},
 			{
 				name: "test2",
-				label: "Test 2",
+				getLabel: () => "Test 2",
 				getReplacement,
 			},
 		] );
@@ -137,11 +138,12 @@ describe( "Replacement variables", () => {
 	} );
 
 	test( "should create a regexp", () => {
-		const getReplacement = () => {};
+		const getReplacement = () => {
+		};
 		const { variables } = createReplacementVariables( [
 			{
 				name: "test",
-				label: "Test",
+				getLabel: () => "Test",
 				getReplacement,
 			},
 		] );

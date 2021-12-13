@@ -1,8 +1,8 @@
 /**
  * @typedef {Object} ReplacementVariableConfiguration
  *
- * @property {string} name A unique name. By default this is what is used in the regexp, see below.
- * @property {string} label The visual label that can be used in the UI.
+ * @property {string} name A unique name. By default, this is what is used in the regexp, see below.
+ * @property {function: string} getLabel Function that should return the visual label that can be used in the UI.
  * @property {function(Object): string} getReplacement Function that should return the replacement value.
  * @property {RegExp} [regexp] Optional regular expression used to replace, defaults to the name surrounded by `%%`.
  * @property {bool} [isRecommended=false] Optional, whether the replacement variable is recommended to use in the editor.
@@ -12,7 +12,7 @@
 /**
  * @typedef {Object} ReplacementVariable
  *
- * @property {string} name A unique name. By default this is what is used in the regexp, see below.
+ * @property {string} name A unique name. By default, this is what is used in the regexp, see below.
  * @property {string} label The visual label that can be used in the UI.
  * @property {function(Object): string} getReplacement Function that should return the replacement value.
  * @property {RegExp} regexp Regular expression used to replace.
@@ -23,7 +23,7 @@
 /**
  * @typedef {Object} ReplacementVariablesInterface
  *
- * @property {ReplacementVariable[]} variables A unique name. By default this is what is used in the regexp, see below.
+ * @property {ReplacementVariable[]} variables A unique name. By default, this is what is used in the regexp, see below.
  * @property {function(string, Object?): string} apply Applies the replacement variables to a string.
  */
 
@@ -37,9 +37,9 @@ import { map, reduce } from "lodash";
  * @returns {ReplacementVariablesInterface} The replacement variables and an apply function.
  */
 const createReplacementVariables = ( configurations ) => {
-	const variables = map( configurations, ( { name, label, getReplacement, regexp = null, isRecommended = false, isVisible = true } = {} ) => ( {
+	const variables = map( configurations, ( { name, getLabel, getReplacement, regexp = null, isRecommended = false, isVisible = true } = {} ) => ( {
 		name,
-		label,
+		label: getLabel(),
 		getReplacement,
 		regexp: regexp || new RegExp( `%%${ name }%%`, "g" ),
 		isRecommended,
