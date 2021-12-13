@@ -308,7 +308,8 @@ class WPSEO_Admin {
 		// Capability queries were only introduced in WP 5.9.
 		if ( version_compare( $wordpress_version, '5.9-alpha', '<' ) ) {
 			$users = get_users( [ 'who' => 'authors' ] );
-		} else {
+		}
+		else {
 			$users = get_users( [ 'capability' => 'edit_posts' ] );
 		}
 
