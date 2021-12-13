@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Routes;
 
-use WP_Query;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action;
