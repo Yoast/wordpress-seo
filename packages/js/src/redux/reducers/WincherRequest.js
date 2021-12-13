@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 
 import {
-	WINCHER_SET_REQUEST_LIMIT_REACHED,
+	WINCHER_SET_KEYPHRASE_LIMIT_REACHED,
 	WINCHER_SET_REQUEST_FAILED,
 	WINCHER_SET_REQUEST_SUCCEEDED,
 	WINCHER_NEW_REQUEST,
@@ -52,7 +52,7 @@ function WincherRequestReducer( state = INITIAL_STATE, action ) {
 				isSuccess: false,
 				response: action.response,
 			};
-		case WINCHER_SET_REQUEST_LIMIT_REACHED:
+		case WINCHER_SET_KEYPHRASE_LIMIT_REACHED:
 			return {
 				...state,
 				limitReached: true,
