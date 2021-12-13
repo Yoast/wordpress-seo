@@ -2,20 +2,9 @@ import jQuery from "jquery";
 
 import IndexingService from "./services/IndexingService";
 
-const AioseoV4 = 'WPSEO_Import_AIOSEO_V4';
+const AioseoV4 = "WPSEO_Import_AIOSEO_V4";
 
 let importButton, importForm, spinner, checkMark, errorMark;
-
-/**
- * Watches the Import form.
- *
- * @returns {void}
- */
-function watchImportForm() {
-	if ( importForm ) {
-		importForm.on( "submit", handleImportFormSubmission );
-	}
-}
 
 /**
  * Adds Progress UI elements in the page.
@@ -39,7 +28,7 @@ function importingProgress( count ) {
 	console.log( "Now processed", count, "items" );
 	spinner.show();
 
-	importButton.prop('disabled', true);
+	importButton.prop( "disabled", true );
 }
 
 /**
@@ -48,11 +37,11 @@ function importingProgress( count ) {
  * @returns {void}
  */
 function importingSuccess() {
-	console.log( "Done!" )
+	console.log( "Done!" );
 	spinner.hide();
 	checkMark.show();
 
-	importButton.prop('disabled', false);
+	importButton.prop( "disabled", false );
 }
 
 /**
@@ -63,11 +52,11 @@ function importingSuccess() {
  * @returns {void}
  */
 function importingFailure( e ) {
-	console.log( "Failed: " + e )
+	console.log( "Failed: " + e );
 	spinner.hide();
 	errorMark.show();
 
-	importButton.prop('disabled', false);
+	importButton.prop( "disabled", false );
 }
 
 /**
@@ -78,9 +67,10 @@ function importingFailure( e ) {
  * @returns {void}
  */
 function handleImportFormSubmission( event ) {
-	let dropdown = jQuery( "[name='import_external_plugin']" );
+	const dropdown = jQuery( "[name='import_external_plugin']" );
 
 	if ( dropdown.val() === AioseoV4 ) {
+		// Do not actually submit the form.
 		event.preventDefault();
 
 		const indexingService = new IndexingService( window.yoastImportData );
@@ -88,8 +78,6 @@ function handleImportFormSubmission( event ) {
 		indexingService.index( window.yoastImportData.restApi.importing_endpoints.aioseo, importingProgress )
 			.then( () => importingSuccess() )
 			.catch( e => importingFailure( e ) );
-
-		return;
 	}
 }
 
@@ -101,30 +89,41 @@ function handleImportFormSubmission( event ) {
 function initElements() {
 	importButton = jQuery( "[name='import_external']" );
 	importForm = jQuery( importButton ).parents( "form:first" );
-	spinner = jQuery( '<img>' )
-					.attr( 'src', window.yoastImportData.assets.spinner )
-					.css( {
-						"display": "inline-block",
-						"margin-left": "10px",
-						"vertical-align": "middle"
-					} )
-					.hide();
-	checkMark = jQuery( '<span>' )
-						.addClass( 'dashicons dashicons-yes-alt' )
-						.css( {
-							"margin-left": "10px",
-							"vertical-align": "middle",
-							"color": "green"
-						} )
-						.hide();
-	errorMark = jQuery( '<span>' )
-						.addClass( 'dashicons dashicons-no' )
-						.css( {
-							"margin-left": "10px",
-							"vertical-align": "middle",
-							"color": "red"
-						} )
-						.hide();
+	spinner = jQuery( "<img>" )
+		.attr( "src", window.yoastImportData.assets.spinner )
+		.css( {
+			display: "inline-block",
+			"margin-left": "10px",
+			"vertical-align": "middle",
+		} )
+		.hide();
+	checkMark = jQuery( "<span>" )
+		.addClass( "dashicons dashicons-yes-alt" )
+		.css( {
+			"margin-left": "10px",
+			"vertical-align": "middle",
+			color: "green",
+		} )
+		.hide();
+	errorMark = jQuery( "<span>" )
+		.addClass( "dashicons dashicons-no" )
+		.css( {
+			"margin-left": "10px",
+			"vertical-align": "middle",
+			color: "red",
+		} )
+		.hide();
+}
+
+/**
+ * Watches the `Import` form.
+ *
+ * @returns {void}
+ */
+function watchImportForm() {
+	if ( importForm ) {
+		importForm.on( "submit", handleImportFormSubmission );
+	}
 }
 
 jQuery( function() {
