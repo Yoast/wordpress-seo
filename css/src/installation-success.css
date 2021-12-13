@@ -2,7 +2,9 @@
 	display: flex;
 	flex-direction: column;
 	height: 88vh;
-	justify-content: center;
+	justify-content: start;
+	padding-top: 7%;
+	box-sizing: border-box;
 }
 
 .installation-success-page .step-list {
@@ -173,6 +175,7 @@
 @media screen and (max-width: 768px) {
 	.installation-success-page {
 		height: unset;
+		padding-top: unset;
 		padding-right: 10px;
 	}
 
