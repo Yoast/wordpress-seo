@@ -97,7 +97,7 @@ const filterAnchorsContainedInTopic = function( anchors, topicForms, locale, cus
 
 	anchors.forEach( function( currentAnchor ) {
 		// Get single words from the anchor.
-		let anchorWords = uniq( getWordsCustomHelper ? getWordsCustomHelper( currentAnchor) : getWords( currentAnchor ) );
+		let anchorWords = uniq( getWordsCustomHelper ? getWordsCustomHelper( currentAnchor ) : getWords( currentAnchor ) );
 
 		// Filter function words out of the anchor text.
 		const filteredAnchorWords = filterWordsFromArray( anchorWords, functionWords );
@@ -107,7 +107,8 @@ const filterAnchorsContainedInTopic = function( anchors, topicForms, locale, cus
 
 		// Check if anchorWords are contained in the topic phrase words
 		for ( let i = 0; i < keyphraseAndSynonymsWords.length; i++ ) {
-			if ( anchorWords.every( anchorWord => matchTextWithArray( anchorWord, keyphraseAndSynonymsWords[ i ], locale, matchWordCustomHelper ).count > 0 ) ) {
+			const topicForm =  keyphraseAndSynonymsWords[ i ];
+			if ( anchorWords.every( anchorWord => matchTextWithArray( anchorWord, topicForm, locale, matchWordCustomHelper ).count > 0 ) ) {
 				anchorsContainedInTopic.push( true );
 				break;
 			}
