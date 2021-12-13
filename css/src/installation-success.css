@@ -1,9 +1,8 @@
 .installation-success-page {
 	display: flex;
 	flex-direction: column;
-	height: 90vh;
-	margin-top: 16vh;
-	flex-wrap: wrap;
+	height: 88vh;
+	justify-content: center;
 }
 
 .installation-success-page .step-list {
@@ -163,10 +162,45 @@
 
 #installation-success-skip-link {
 	align-self: end;
-	bottom: 0;
+	bottom: 20px;
+	right: 0;
 	margin-bottom: 9px;
 	position: absolute;
 	margin-right: 20px;
 	letter-spacing: -0.08px;
 	line-height: 19px;
+}
+
+@media screen and (max-width: 768px) {
+	.installation-success-page {
+		height: unset;
+		padding-right: 10px;
+	}
+
+	.installation-success-content {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.installation-success-cards {
+		flex-direction: column;
+	}
+
+	.installation-success-page .step-list {
+		flex-direction: column;
+		margin: auto 24px auto 0;
+	}
+
+	.installation-success-page .step-first-div {
+		width: unset;
+		height: 376px;
+		flex-direction: column;
+	}
+
+	.installation-success-page .step-second-div {
+		width: 2px;
+		height: 100%;
+	}
 }
