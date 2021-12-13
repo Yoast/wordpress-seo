@@ -112,8 +112,10 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 		expect( new SentenceLengthInTextAssessment().getMarks( mockPaper, new ItalianResearcher( mockPaper ) ) ).toEqual( [
 			new Mark( {
-				original: "Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word word.",
-				marked: addMark( "Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word word." ),
+				original: "Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word " +
+					"Word Word Word Word Word Word word.",
+				marked: addMark( "Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word Word " +
+					"Word Word Word Word Word Word Word Word Word word." ),
 			} ),
 		] );
 	} );
@@ -144,7 +146,7 @@ describe( "An assessment for sentence length", function() {
 
 		expect( assessment.hasScore() ).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
-		expect( assessment.getText() ).toEqual(  "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: " +
 			"100% of the sentences contain more than 20 words, which is more than the recommended maximum of 15%." +
 			" <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>." );
 		expect( assessment.hasMarks() ).toBe( true );
@@ -184,7 +186,8 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
-	it( "returns the score for 25% long sentences in a language with a sentence length limit of 15 and the maximum allowed percentage of long sentences of 20%", function() {
+	it( "returns the score for 25% long sentences in a language with a sentence length limit of 15 " +
+		"and the maximum allowed percentage of long sentences of 20%", function() {
 		const mockPaper = new Paper( longSentence15WordsLimit + shortSentence15WordsLimit.repeat( 3 ) );
 		const assessment = new SentenceLengthInTextAssessment().getResult( mockPaper, new TurkishResearcher( mockPaper ) );
 
@@ -298,7 +301,6 @@ describe( "An assessment for sentence length", function() {
 describe( "A test for getting the right scoring config", function() {
 	it( "uses the default config if no language-specific config is available", function() {
 		const defaultConfig = {
-
 			countTextIn: "words",
 			recommendedLength: 20,
 			slightlyTooMany: 25,
@@ -310,7 +312,7 @@ describe( "A test for getting the right scoring config", function() {
 		expect( new SentenceLengthInTextAssessment().getLanguageSpecificConfig( new DefaultResearcher( mockPaper ) ) ).toEqual( defaultConfig );
 	} );
 	it( "uses the default config if no language-specific config is available in cornerstone", function() {
-		const defaultConfigCornerstrone = {
+		const defaultConfigCornerstone = {
 			countTextIn: "words",
 			recommendedLength: 20,
 			slightlyTooMany: 20,
@@ -322,7 +324,7 @@ describe( "A test for getting the right scoring config", function() {
 		expect( new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,
 			farTooMany: 25,
-		}, true ).getLanguageSpecificConfig( new DefaultResearcher( mockPaper ) ) ).toEqual( defaultConfigCornerstrone );
+		}, true ).getLanguageSpecificConfig( new DefaultResearcher( mockPaper ) ) ).toEqual( defaultConfigCornerstone );
 	} );
 	it( "uses language-specific config if available", function() {
 		const mockPaper = new Paper( "" );

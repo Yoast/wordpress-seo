@@ -267,7 +267,8 @@ describe( "the keyphrase length assessment", function() {
 	} );
 } );
 
-describe( "checks feedback strings for Japanese", function() {
+describe( "A test for feedback strings that use 'characters' instead of 'words'", function() {
+	// Japanese uses 'characters' in the feedback strings instead of 'words'.
 	// Tests written before the assessment was adapted for Japanese.
 	it( "should assess paper with an 11-character keyphrase as too long and output 'characters' instead of 'words", function() {
 		const paper = new Paper( "", { keyword: "1 2 3 4 5 6 7 8 9 10" } );

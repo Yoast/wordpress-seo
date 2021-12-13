@@ -131,38 +131,43 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 
 	it( "Returns false when the assessment shouldn't appear in short text analysis and the text contains less than 300 words", function() {
 		const paper = new Paper( shortText );
-		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( paper, new DefaultResearcher( paper ) );
-		expect( assessment ).toBe( false );
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } );
+		expect( assessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "Returns false when the assessment shouldn't appear in short text analysis and the paper is empty", function() {
 		const paper = new Paper( "" );
-		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( paper, new DefaultResearcher( paper ) );
-		expect( assessment ).toBe( false );
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } );
+		expect( assessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "Returns true when the assessment shouldn't appear in short text analysis but the text contains more than 300 words", function() {
 		const paper = new Paper( longText );
-		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( paper, new DefaultResearcher( paper ) );
-		expect( assessment ).toBe( true );
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } );
+		expect( assessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( true );
 	} );
 
-	it( "Returns false when the assessment shouldn't appear in short text analysis and the text contains less than 600 characters in Japanese", function() {
+	it( "Returns false when the assessment shouldn't appear in short text analysis and the text contains less " +
+		"than 600 characters in Japanese", function() {
 		const paper = new Paper( shortTextJapanese );
-		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( paper, new JapaneseResearcher( paper ) );
-		expect( assessment ).toBe( false );
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } );
+		expect( assessment.isApplicable( paper, new JapaneseResearcher( paper ) ) ).toBe( false );
 	} );
 
-	it( "Returns true when the assessment shouldn't appear in short text analysis but the text contains more than 600 characters in Japanese", function() {
+	it( "Returns true when the assessment shouldn't appear in short text analysis but the text contains more " +
+		"than 600 characters in Japanese", function() {
 		const paper = new Paper( longTextJapanese );
-		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } ).isApplicable( paper, new JapaneseResearcher( paper ) );
-		expect( assessment ).toBe( true );
+		const assessment = new SubheadingDistributionTooLong( { shouldNotAppearInShortText: true } );
+		expect( assessment.isApplicable( paper, new JapaneseResearcher( paper ) ) ).toBe( true );
 	} );
 } );
 
-describe( "Replaces 'words' with 'characters' in feedback strings for Japanese.", function() {
+describe( "A test for scoring too long text fragments without a subheading for languages that use 'characters' " +
+	"in the feedback strings instead of 'words'", function() {
+	// Japanese uses 'characters' in the feedback strings.
 	it( "Scores a text where one section is slightly too long.", function() {
-		const paper = new Paper( shortTextJapaneseForFeedback + subheading + longTextJapaneseForFeedback + subheading + shortTextJapaneseForFeedback );
+		const paper = new Paper( shortTextJapaneseForFeedback + subheading + longTextJapaneseForFeedback +
+			subheading + shortTextJapaneseForFeedback );
 		const assessment = subheadingDistributionTooLong.getResult( paper, new JapaneseResearcher( paper ) );
 
 		expect( assessment.getScore() ).toBe( 6 );
@@ -182,7 +187,8 @@ describe( "Replaces 'words' with 'characters' in feedback strings for Japanese."
 	} );
 
 	it( "Scores a text where one section is too long.", function() {
-		const paper = new Paper( shortTextJapaneseForFeedback + subheading + veryLongTextJapaneseForFeedback + subheading + shortTextJapaneseForFeedback );
+		const paper = new Paper( shortTextJapaneseForFeedback + subheading + veryLongTextJapaneseForFeedback +
+			subheading + shortTextJapaneseForFeedback );
 		const assessment = subheadingDistributionTooLong.getResult( paper, new JapaneseResearcher( paper ) );
 
 		expect( assessment.getScore() ).toBe( 3 );
@@ -192,7 +198,8 @@ describe( "Replaces 'words' with 'characters' in feedback strings for Japanese."
 	} );
 
 	it( "Scores a text where multiple sections are too long.", function() {
-		const paper = new Paper( shortTextJapaneseForFeedback + subheading + veryLongTextJapaneseForFeedback + subheading + veryLongTextJapaneseForFeedback );
+		const paper = new Paper( shortTextJapaneseForFeedback + subheading + veryLongTextJapaneseForFeedback +
+			subheading + veryLongTextJapaneseForFeedback );
 		const assessment = subheadingDistributionTooLong.getResult( paper, new JapaneseResearcher( paper ) );
 
 		expect( assessment.getScore() ).toBe( 3 );

@@ -71,7 +71,8 @@ describe( "An assessment for scoring too long paragraphs.", function() {
 	} );
 } );
 
-describe( "Counts words instead of characters in Japanese", function() {
+describe( "An assessment for scoring too long paragraphs in Japanese where character length is used " +
+	"in the calculation instead of word length", function() {
 	it( "Scores 1 slightly too long paragraph", function() {
 		const paper = new Paper( longTextJapanese );
 
