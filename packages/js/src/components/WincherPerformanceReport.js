@@ -16,9 +16,11 @@ import WincherConnectExplanation from "./modals/WincherConnectExplanation";
 import WincherNoTrackedKeyphrasesAlert from "./modals/WincherNoTrackedKeyphrasesAlert";
 import { getKeyphrasePosition, PositionOverTimeChart } from "./WincherTableRow";
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
+import interpolateComponents from "interpolate-components";
 
 const ViewLink = makeOutboundLink();
 const GetMoreInsightsLink = makeOutboundLink();
+const WincherAccountLink = makeOutboundLink();
 
 /**
  * Wincher SEO Performance container.
@@ -168,6 +170,39 @@ GetUserMessage.propTypes = {
 };
 
 /**
+ * TableFootnote component.
+ *
+ * @returns {wp.Element} The footnote.
+ */
+const TableExplanation = () => {
+	const message = sprintf(
+		/* translators: %s expands to a link to Wincher login */
+		// eslint-disable-next-line max-len
+		__( "This overview only shows you keyphrases added to Yoast SEO. There may be other keyphrases added to your %s.", "wordpress-seo" ),
+		"{{wincherAccountLink/}}"
+	);
+
+	return <p>
+		{
+			interpolateComponents( {
+				mixedString: message,
+				components: {
+					wincherAccountLink: <WincherAccountLink href={ wpseoAdminGlobalL10n[ "links.wincher.login" ] }>
+						{
+							sprintf(
+								/* translators: %s : Expands to "Wincher". */
+								__( "%s account", "wordpress-seo" ),
+								"Wincher"
+							)
+						}
+					</WincherAccountLink>,
+				},
+			} )
+		}
+	</p>;
+};
+
+/**
  * The Dashboard Wincer SEO Performance component.
  *
  * @param {Object} props The component props.
@@ -190,6 +225,8 @@ const WincherPerformanceReport = ( props ) => {
 			<GetUserMessage { ...props } />
 
 			{ isLoggedIn && data && ! isEmpty( data ) && ! isEmpty( data.results ) && <Fragment>
+				<TableExplanation />
+
 				<WincherSEOPerformanceTableWrapper>
 					<table className="yoast yoast-table">
 						<thead>
