@@ -44,7 +44,7 @@ function InstallationSuccessPage() {
 				{ sprintf(
 					/* translators: %s expands to Yoast SEO. */
 					__( "You've successfully installed %s!", "wordpress-seo" ),
-					"Yoast SEO" )
+					"Yoast SEO" )
 				}
 			</h1>
 			<div className="installation-success-content">
