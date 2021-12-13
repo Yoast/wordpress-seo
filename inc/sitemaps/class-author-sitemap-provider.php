@@ -240,8 +240,8 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		// Capability queries were only introduced in WP 5.9.
 		if ( version_compare( $wordpress_version, '5.9-alpha', '<' ) ) {
-			$defaults['who'] = 'authors';
-			unset( $defaults['capability'] );
+			$user_criteria['who'] = 'authors';
+			unset( $user_criteria['capability'] );
 		}
 
 		$users = get_users( $user_criteria );
