@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Routes;
 use WP_Error;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Services\Importing\Importer_Action_Filter_Trait;
 
@@ -15,8 +15,6 @@ use Yoast\WP\SEO\Services\Importing\Importer_Action_Filter_Trait;
  * Importing route for importing from other SEO plugins.
  */
 class Importing_Route extends Abstract_Action_Route {
-
-	use No_Conditionals;
 
 	use Importer_Action_Filter_Trait;
 
@@ -41,6 +39,15 @@ class Importing_Route extends Abstract_Action_Route {
 	 */
 	public function __construct( Importing_Action_Interface ...$importers ) {
 		$this->importers = $importers;
+	}
+
+	/**
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
+	 */
+	public static function get_conditionals() {
+		return [ AIOSEO_V4_Importer_Conditional::class ];
 	}
 
 	/**
@@ -145,6 +152,6 @@ class Importing_Route extends Abstract_Action_Route {
 	 * @return bool Whether or not the current user is allowed to import.
 	 */
 	public function is_user_permitted_to_import() {
-		return \current_user_can( 'edit_posts' );
+		return \current_user_can( 'activate_plugins' );
 	}
 }
