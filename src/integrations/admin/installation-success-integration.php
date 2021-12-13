@@ -80,7 +80,7 @@ class Installation_Success_Integration implements Integration_Interface {
 			return;
 		}
 
-		if ( \is_network_admin() ) {
+		if ( \is_network_admin() || \is_plugin_active_for_network( WPSEO_BASENAME ) ) {
 			return;
 		}
 
