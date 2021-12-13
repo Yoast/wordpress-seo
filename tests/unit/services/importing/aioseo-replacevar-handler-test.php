@@ -63,6 +63,10 @@ class Aioseo_Replacevar_Handler_Test extends TestCase {
 				'expected_yoast_data' => '%%user_description%%',
 			],
 			[
+				'aioseo_data'         => '#attachment_caption',
+				'expected_yoast_data' => '%%caption%%',
+			],
+			[
 				'aioseo_data'         => '#author_first_name',
 				'expected_yoast_data' => '%%author_first_name%%',
 			],
@@ -93,6 +97,10 @@ class Aioseo_Replacevar_Handler_Test extends TestCase {
 			[
 				'aioseo_data'         => '#current_year',
 				'expected_yoast_data' => '%%currentyear%%',
+			],
+			[
+				'aioseo_data'         => '#parent_title',
+				'expected_yoast_data' => '%%parent_title%%',
 			],
 			[
 				'aioseo_data'         => '#page_number',
@@ -153,6 +161,10 @@ class Aioseo_Replacevar_Handler_Test extends TestCase {
 			[
 				'aioseo_data'         => '#taxonomy_title',
 				'expected_yoast_data' => '%%category_title%%',
+			],
+			[
+				'aioseo_data'         => '#taxonomy_description',
+				'expected_yoast_data' => '%%term_description%%',
 			],
 			[
 				'aioseo_data'         => '#custom_field-cf-1',

@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Actions\Importing;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 /**
  * Importing action for AIOSEO custom archive settings data.
  *
@@ -50,11 +51,12 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 	/**
 	 * Abstract_Importing_Action constructor.
 	 *
-	 * @param Options_Helper   $options   The options helper.
-	 * @param Post_Type_Helper $post_type The post type helper.
+	 * @param Options_Helper            $options            The options helper.
+	 * @param Post_Type_Helper          $post_type          The post type helper.
+	 * @param Aioseo_Replacevar_Handler $replacevar_handler The replacevar handler.
 	 */
-	public function __construct( Options_Helper $options, Post_Type_Helper $post_type ) {
-		parent::__construct( $options );
+	public function __construct( Options_Helper $options, Post_Type_Helper $post_type, Aioseo_Replacevar_Handler $replacevar_handler ) {
+		parent::__construct( $options, $replacevar_handler );
 
 		$this->post_type = $post_type;
 	}
