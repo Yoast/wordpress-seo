@@ -32,7 +32,7 @@ import { createSeoProvider } from "./seo-context";
 export { SEO_STORE_NAME, FOCUS_KEYPHRASE_ID, useAnalyze } from "@yoast/seo-store";
 export { ReadabilityResultsContainer, SeoResultsContainer } from "./analysis-result-containers";
 export { default as GooglePreviewContainer } from "./google-preview-container";
-export { createDefaultReplacementVariableConfigurations } from "./replacement-variables";
+export * as replacementVariableConfigurations from "./replacement-variables/configurations";
 export { useSeoContext } from "./seo-context";
 
 /**
