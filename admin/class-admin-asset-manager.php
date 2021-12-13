@@ -327,6 +327,7 @@ class WPSEO_Admin_Asset_Manager {
 				'wp-element',
 				'wp-i18n',
 				self::PREFIX . 'yoast-components',
+				self::PREFIX . 'externals-components',
 			],
 		];
 
