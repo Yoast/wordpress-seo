@@ -29,7 +29,7 @@ import createAnalysis from "./analysis";
 import createAnalysisTypeReplacementVariables from "./replacement-variables";
 import { createSeoProvider } from "./seo-context";
 
-export { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-store";
+export { SEO_STORE_NAME, FOCUS_KEYPHRASE_ID, useAnalyze } from "@yoast/seo-store";
 export { ReadabilityResultsContainer, SeoResultsContainer } from "./analysis-result-containers";
 export { default as GooglePreviewContainer } from "./google-preview-container";
 export { createDefaultReplacementVariableConfigurations } from "./replacement-variables";

@@ -2,16 +2,16 @@ import {
 	getContent,
 	getDate,
 	getExcerpt,
-	getFeaturedImage,
+	getFeaturedImageUrl,
 	getFocusKeyphrase,
 	getMetaDescription,
 	getPermalink,
 	getSeoTitle,
 	getSlug,
 	getTitle,
-	isCornerstone,
+	getIsCornerstone,
 } from "../dom";
-import { FOCUS_KEYPHRASE_ID } from "@yoast/seo-store";
+import { FOCUS_KEYPHRASE_ID } from "@yoast/seo-integration";
 
 /**
  * Gather the initial state of the classic editor.
@@ -24,7 +24,9 @@ const getEditorInitialState = () => ( {
 	permalink: getPermalink(),
 	excerpt: getExcerpt(),
 	content: getContent(),
-	featuredImage: getFeaturedImage(),
+	featuredImage: {
+		url: getFeaturedImageUrl(),
+	},
 } );
 
 /**
@@ -37,7 +39,7 @@ const getFormInitialState = () => ( {
 		title: getSeoTitle(),
 		description: getMetaDescription(),
 		slug: getSlug(),
-		isCornerstone: isCornerstone(),
+		isCornerstone: getIsCornerstone(),
 	},
 	keyphrases: {
 		[ FOCUS_KEYPHRASE_ID ]: {

@@ -7,8 +7,7 @@ import { YoastSeoIcon } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { SeoResultsContainer } from "@yoast/seo-integration";
-import { SEO_STORE_NAME } from "@yoast/seo-store";
+import { SeoResultsContainer, SEO_STORE_NAME } from "@yoast/seo-integration";
 import { ContentAnalysis } from "@yoast/analysis-report";
 
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";

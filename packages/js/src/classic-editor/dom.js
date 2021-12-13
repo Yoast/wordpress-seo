@@ -82,7 +82,7 @@ export const getFocusKeyphrase = () => get( document.getElementById( DOM_IDS.FOC
  *
  * @returns {string} The focus keyphrase or an empty string.
  */
-export const isCornerstone = () => get( document.getElementById( DOM_IDS.CORNERSTONE ), "value", false );
+export const getIsCornerstone = () => Boolean( get( document.getElementById( DOM_IDS.CORNERSTONE ), "value", false ) );
 
 /**
  * Gets the slug from the document.
@@ -111,6 +111,6 @@ const getFeaturedImageSetInEditor = () => document.querySelector( FEATURED_IMAGE
 /**
  * Gets the featured image if one is set. Falls back to the first image from the content.
  *
- * @returns {string} The featured image.
+ * @returns {string} The featured image URL.
  */
-export const getFeaturedImage = () => getFeaturedImageSetInEditor() || firstImageUrlInContent( getContent() ) || "";
+export const getFeaturedImageUrl = () => getFeaturedImageSetInEditor() || firstImageUrlInContent( getContent() ) || "";
