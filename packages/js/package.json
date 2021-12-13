@@ -42,7 +42,7 @@
     "@yoast/replacement-variable-editor": "^1.17.0",
     "@yoast/schema-blocks": "^1.7.0",
     "@yoast/search-metadata-previews": "^2.24.0",
-    "@yoast/seo-integration": "file:../seo-integration",
+    "@yoast/seo-integration": "link:packages/seo-integration",
     "@yoast/social-metadata-forms": "^1.16.0",
     "@yoast/style-guide": "^0.13.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
