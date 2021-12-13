@@ -251,7 +251,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->andReturns( '12345' );
 
 		$this->indexable_repository
-			->expects( 'query->select->where_not_null->distinct->find_array' )
+			->expects( 'query->select->where_not_null->where->where_not_equal->distinct->find_array' )
 			->andReturns(
 				[
 					[ 'primary_focus_keyword' => 'yoast seo' ],
@@ -417,7 +417,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	/**
 	 * Tests retrieval of tracked keyphrases chart data filtered by the passed permalink.
 	 *
-	 * @covers ::get_keyphrase_chart_data
+	 * @covers ::get_tracked_keyphrases
 	 */
 	public function test_get_tracked_keyphrases_with_permalink() {
 		$this->options_helper
@@ -507,7 +507,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 		);
 
 		$this->indexable_repository
-			->expects( 'query->select->where_not_null->distinct->find_array' )
+			->expects( 'query->select->where_not_null->where->where_not_equal->distinct->find_array' )
 			->andReturns(
 				[
 					[ 'primary_focus_keyword' => 'yoast seo' ],
@@ -578,7 +578,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 		);
 
 		$this->indexable_repository
-			->expects( 'query->select->where_not_null->distinct->find_array' )
+			->expects( 'query->select->where_not_null->where->where_not_equal->distinct->find_array' )
 			->andReturns(
 				[
 					[ 'primary_focus_keyword' => 'yoast seo' ],

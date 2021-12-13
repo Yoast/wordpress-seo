@@ -3,10 +3,14 @@ import EnglishResearcher from "../../../src/languageProcessing/languages/en/Rese
 import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
 import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
 import TurkishResearcher from "../../../src/languageProcessing/languages/tr/Researcher";
+import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
+import factory from "../../../../yoastseo/spec/specHelpers/factory";
+import matchWordsHelper from "../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
 
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import firstParagraph from "../../../src/languageProcessing/researches/findKeywordInFirstParagraph.js";
 import Paper from "../../../src/values/Paper.js";
+import { enableFeatures } from "@yoast/feature-flag";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataDe = getMorphologyData( "de" ).de;
@@ -615,6 +619,212 @@ describe( "tests for edge cases", function() {
 		);
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+} );
+
+const keyphraseJA = "自然の中を歩く";
+const sentenceWithAllKeywordsJA = "人によって心地よく感じるポイントは異なりますが、自然の中で本来あるべき場所に、明るく爽やかな森の中を歩く時間は、それだけで心と体を癒してくれるものです。";
+const sentenceWithSomeKeywordsJA = "自然とは、人為によってではなく、おのずから存在しているもの。";
+const sentenceWithTheOtherKeywordsJA = "歩くさわやかな森の中で時間が速くなります。";
+const sentenceWithoutKeywordsJA = "会議は時間通りです。";
+
+const paragraphWithSentenceMatchJA = "<p>" + sentenceWithAllKeywordsJA + sentenceWithSomeKeywordsJA + sentenceWithoutKeywordsJA + "/<p>";
+const paragraphWithParagraphMatchJA = "<p>" + sentenceWithSomeKeywordsJA + sentenceWithTheOtherKeywordsJA +
+	sentenceWithSomeKeywordsJA + sentenceWithoutKeywordsJA + "/<p>";
+const paragraphWithoutMatchJA = "<p>" + sentenceWithoutKeywordsJA + sentenceWithoutKeywordsJA + sentenceWithoutKeywordsJA + "/<p>";
+
+/**
+ * Mocks Japanese Researcher.
+ * @param {Array} keyphraseForms        The morphological forms of the kyphrase to be added to the researcher.
+ * @param {Array} synonymsForms         The morphological forms of the synonyms to be added to the researcher.
+ * @param {function} helper1    A helper needed for the assesment.
+ * @returns {Researcher} The mock researcher with added morphological forms and custom helper.
+ */
+const buildJapaneseMockResearcher = function( keyphraseForms, synonymsForms, helper1 ) {
+	return factory.buildMockResearcher( {
+		morphology: {
+			keyphraseForms: keyphraseForms,
+			synonymsForms: synonymsForms,
+		},
+	},
+	true,
+	true,
+	false,
+	{
+		matchWordCustomHelper: helper1,
+	} );
+};
+
+enableFeatures( [ "JAPANESE_SUPPORT" ] );
+
+describe( "checks for the content words from the keyphrase in the first paragraph (Japanese, but no morphology data provided)", function() {
+	it( "returns whether all keywords were matched in one sentence", function() {
+		const paper = new Paper(
+			paragraphWithSentenceMatchJA, {
+				keyword: "自然",
+				locale: "ja_JA",
+			}
+		);
+		const researcher = new JapaneseResearcher( paper );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		const paper = new Paper(
+			paragraphWithParagraphMatchJA, {
+				keyword: "自然",
+				locale: "ja_JA",
+			}
+		);
+
+		const researcher = new JapaneseResearcher( paper );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		const paper = new Paper(
+			paragraphWithoutMatchJA, {
+				keyword: keyphraseJA,
+				locale: "ja_JA",
+			}
+		);
+		const researcher = new JapaneseResearcher( paper );
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+} );
+
+describe( "checks for the content words from the keyphrase in the first paragraph (Japanese)", function() {
+	it( "returns whether all keywords were matched in one sentence", function() {
+		const paper = new Paper(
+			paragraphWithSentenceMatchJA, {
+				keyword: keyphraseJA,
+				locale: "ja_JA",
+			}
+		);
+		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
+			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
+		const synonymsForms = [ [ [ "自然" ], [ "散歩" ] ] ];
+		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
+		primeLanguageSpecificData.cache.clear();
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		const paper = new Paper(
+			paragraphWithParagraphMatchJA, {
+				keyword: keyphraseJA,
+				locale: "ja_JA",
+			}
+		);
+		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
+			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
+		const synonymsForms = [ [ [ "自然" ], [ "歩く" ] ] ];
+		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
+		primeLanguageSpecificData.cache.clear();
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		const paper = new Paper(
+			paragraphWithoutMatchJA, {
+				keyword: keyphraseJA,
+				locale: "ja_JA",
+			}
+		);
+		const keyphraseForms = [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
+			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ];
+		const synonymsForms = [ [ [ "自然" ], [ "歩く" ] ] ];
+		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
+		primeLanguageSpecificData.cache.clear();
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+} );
+
+describe( "checks for the content words from a synonym phrase in the first paragraph (Japanese)", function() {
+	it( "returns whether all keywords were matched in one sentence", function() {
+		const paper = new Paper(
+			paragraphWithSentenceMatchJA, {
+				keyword: "生活",
+				synonyms: keyphraseJA,
+				locale: "ja_JA",
+			}
+		);
+
+		const keyphraseForms = [ [ "自然" ], [ "散歩" ] ];
+		const synonymsForms = [ [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
+			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ] ];
+		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
+		primeLanguageSpecificData.cache.clear();
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "synonym",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		const paper = new Paper(
+			paragraphWithParagraphMatchJA, {
+				keyword: "生活",
+				synonyms: keyphraseJA,
+				locale: "ja_JA",
+			}
+		);
+		const keyphraseForms = [ [ "自然" ], [ "散歩" ] ];
+		const synonymsForms = [ [ [ "自然" ], [ "歩く", "歩き", "歩か", "歩け", "歩こ", "歩い", "歩ける", "歩かせ", "歩かせる",
+			"歩かれ", "歩かれる", "歩こう", "歩かっ" ] ] ];
+		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, matchWordsHelper );
+		primeLanguageSpecificData.cache.clear();
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "synonym",
+		} );
+	} );
+
+	it( "returns whether all keywords were matched in the paragraph", function() {
+		const paper = new Paper(
+			paragraphWithoutMatchJA, {
+				keyword: "生活",
+				synonyms: keyphraseJA,
+				locale: "ja_JA",
+			}
+		);
+		const researcher = new JapaneseResearcher( paper );
+		primeLanguageSpecificData.cache.clear();
+
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: false,
 			foundInParagraph: false,

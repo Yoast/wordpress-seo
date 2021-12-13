@@ -194,7 +194,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the keywordDensity assessment", function() {
-			const isApplicable = keywordDensityAssessment.isApplicable( paper );
+			const isApplicable = keywordDensityAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.keywordDensity.isApplicable );
 
 			if ( isApplicable ) {
@@ -285,7 +285,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the urlKeyword assessment", function() {
-			const isApplicable = urlKeywordAssessment.isApplicable( paper );
+			const isApplicable = urlKeywordAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.urlKeyword.isApplicable );
 
 			if ( isApplicable ) {
@@ -364,7 +364,7 @@ testPapers.forEach( function( testPaper ) {
 
 		// Readability assessments.
 		it( "returns a score and the associated feedback text for the subheadingsTooLong assessment", function() {
-			const isApplicable = subheadingDistributionTooLongAssessment.isApplicable( paper );
+			const isApplicable = subheadingDistributionTooLongAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.subheadingsTooLong.isApplicable );
 
 			if ( isApplicable ) {

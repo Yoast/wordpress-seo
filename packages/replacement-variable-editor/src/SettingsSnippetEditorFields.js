@@ -265,6 +265,7 @@ SettingsSnippetEditorFields.propTypes = {
 
 SettingsSnippetEditorFields.defaultProps = {
 	replacementVariables: [],
+	recommendedReplacementVariables: [],
 	onFocus: () => {},
 	onBlur: () => {},
 	containerPadding: "0 20px",
@@ -273,6 +274,8 @@ SettingsSnippetEditorFields.defaultProps = {
 	hasNewBadge: false,
 	isDisabled: false,
 	hasPremiumBadge: false,
+	activeField: "",
+	hoveredField: "",
 };
 
 export default SettingsSnippetEditorFields;

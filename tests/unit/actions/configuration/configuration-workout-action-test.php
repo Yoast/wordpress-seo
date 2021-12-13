@@ -73,6 +73,10 @@ class Configuration_Workout_Action_Test extends TestCase {
 			->times( $times )
 			->andReturn( ...$yoast_options_results );
 
+		Monkey\Functions\expect( 'current_user_can' )
+			->with( 'manage_options' )
+			->andReturnTrue();
+
 		Monkey\Functions\expect( 'update_option' )
 			->with( 'blogdescription' )
 			->andReturn( $wp_option_result );

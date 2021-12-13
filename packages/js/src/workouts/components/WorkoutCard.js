@@ -20,6 +20,7 @@ export default function WorkoutCard( {
 	title,
 	subtitle,
 	usps,
+	id,
 	image,
 	finishableSteps,
 	finishedSteps,
@@ -27,6 +28,7 @@ export default function WorkoutCard( {
 	upsellText,
 	workout,
 	badges,
+	blocked,
 } ) {
 	const { openWorkout, toggleWorkout } = useDispatch( "yoast-seo/workouts" );
 	const activeWorkout = useSelect( ( select ) => {
@@ -73,24 +75,25 @@ export default function WorkoutCard( {
 		__( "Unlock with %s!", "wordpress-seo" ),
 		"Premium"
 	);
-	const disabled = workout ? "" : " card-disabled";
+	const disabled = workout && ! blocked ? "" : " card-disabled";
 
 	return ( <Fragment>
-		{ ! activeWorkout && <div className={ `card card-small${ disabled }` }>
+		{ ! activeWorkout && <div id={ id } className={ `card card-small${ disabled }` }>
 			<h2>{ title } { badges }</h2>
 			<h3>{ subtitle }</h3>
 			<div className="workout-card-content-flex">
-				<ul className="yoast-list--usp">
+				<ul id={ `${ id }-usp-list` } className="yoast-list--usp">
 					{
-						usps.map( ( usp, index ) => <li key={ `${ title }-${ index }` }>{ usp }</li> )
+						usps.map( ( usp, index ) => <li id={ `${ id }-usp-${ index }` } key={ `${ id }-${ index }` }>{ usp }</li> )
 					}
 				</ul>
 				{ image && <ImageComponent /> }
 			</div>
 			<span>
-				{ workout && <Button onClick={ onClick }>{ buttonText }</Button> }
+				{ /* eslint-disable-next-line max-len */ }
+				{ ! blocked && workout && <Button id={ `${ id }-action-button` } className={ `yoast-button yoast-button--${ isToggle ? "secondary" : "primary" }` } onClick={ onClick }>{ buttonText }</Button> }
 				{ ! workout &&
-					<UpsellButton href={ upsellLink } className="yoast-button yoast-button-upsell">
+					<UpsellButton id={ `${ id }-upsell-button` } href={ upsellLink } className="yoast-button yoast-button-upsell">
 						{ actualUpsellText }
 						<span aria-hidden="true" className="yoast-button-upsell__caret" />
 					</UpsellButton>
@@ -98,11 +101,11 @@ export default function WorkoutCard( {
 				{ finishableSteps && finishedSteps &&
 				<div className="workout-card-progress">
 					<ProgressBar
-						id={ `${title}-workout-progress` }
+						id={ `${ id }-progress` }
 						max={ finishableSteps.length }
 						value={ finishedSteps.length }
 					/>
-					<label htmlFor={ `${title}-workout-progress` }><i>
+					<label htmlFor={ `${ id }-progress` }><i>
 						{
 							sprintf(
 								// translators: %1$s: number of finished steps, %2$s: number of finishable steps
@@ -117,6 +120,12 @@ export default function WorkoutCard( {
 					</i></label>
 				</div> }
 			</span>
+			{ blocked && workout && <div id={ `${ id }-blocked-section` }className="workout-card-blocked">
+				<p id={ `${ id }-blocked-title` } className="workout-card-blocked-title">{ __( "Configuration required", "wordpress-seo" ) }</p>
+				<p id={ `${ id }-blocked-description` }>{
+					__( "Please finish the Configuration workout first in order for this workout to be effective.", "wordpress-seo" )
+				}</p>
+			</div> }
 		</div> }
 		{ workout && activeWorkout === name && <WorkoutComponent /> }
 	</Fragment>	);
@@ -127,6 +136,7 @@ WorkoutCard.propTypes = {
 	title: PropTypes.string.isRequired,
 	subtitle: PropTypes.string.isRequired,
 	usps: PropTypes.arrayOf( PropTypes.string ).isRequired,
+	id: PropTypes.string,
 	finishableSteps: PropTypes.arrayOf( PropTypes.string ),
 	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
 	image: PropTypes.func,
@@ -134,9 +144,11 @@ WorkoutCard.propTypes = {
 	upsellText: PropTypes.string,
 	workout: PropTypes.func,
 	badges: PropTypes.arrayOf( PropTypes.element ),
+	blocked: PropTypes.bool,
 };
 
 WorkoutCard.defaultProps = {
+	id: "",
 	finishableSteps: null,
 	finishedSteps: null,
 	image: null,
@@ -144,5 +156,6 @@ WorkoutCard.defaultProps = {
 	upsellText: null,
 	workout: null,
 	badges: [],
+	blocked: false,
 };
 /* eslint-enable complexity */

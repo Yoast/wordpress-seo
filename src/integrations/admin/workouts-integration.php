@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Admin_Asset_Yoast_Components_L10n;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -155,6 +156,9 @@ class Workouts_Integration implements Integration_Interface {
 
 		$workouts_option = $this->get_workouts_option();
 
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
+		$yoast_components_l10n->localize_script( 'workouts' );
+
 		$this->admin_asset_manager->enqueue_script( 'workouts' );
 		$this->admin_asset_manager->localize_script(
 			'workouts',
@@ -170,6 +174,7 @@ class Workouts_Integration implements Integration_Interface {
 				'upsellText'                => $this->get_upsell_text(),
 				'upsellLink'                => $this->get_upsell_link(),
 				'canDoConfigurationWorkout' => $this->user_can_do_configuration_workout(),
+				'canEditWordPressOptions'   => $this->user_can_edit_wordpress_options(),
 			]
 		);
 	}
@@ -205,6 +210,10 @@ class Workouts_Integration implements Integration_Interface {
 		}
 
 		if ( $this->is_configuration_workout_finished() ) {
+			return false;
+		}
+
+		if ( $this->options_helper->get( 'first_time_install', false ) === false ) {
 			return false;
 		}
 
@@ -427,6 +436,15 @@ class Workouts_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Whether the user can edit WordPress options.
+	 *
+	 * @return bool Whether the current user can edit WordPress options.
+	 */
+	private function user_can_edit_wordpress_options() {
+		return \current_user_can( 'manage_options' );
+	}
+
+	/**
 	 * Whether the user is currently visiting one of our admin pages or the WordPress dashboard.
 	 *
 	 * @return bool Whether the current page is a Yoast SEO admin page
@@ -446,6 +464,7 @@ class Workouts_Integration implements Integration_Interface {
 			$exceptions = [
 				'wpseo_workouts',
 				'wpseo_installation_successful',
+				'wpseo_installation_successful_free',
 			];
 
 			if ( ! \in_array( $page_from_get, $exceptions, true ) ) {

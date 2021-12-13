@@ -17,7 +17,7 @@ import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphrase
  */
 const RelatedKeywordTaxonomyAssessor = function( researcher, options ) {
 	Assessor.call( this, researcher, options );
-	this.type = "RelatedKeywordsTaxonomyAssessor";
+	this.type = "relatedKeywordsTaxonomyAssessor";
 
 	this._assessments = [
 		new IntroductionKeywordAssessment(),

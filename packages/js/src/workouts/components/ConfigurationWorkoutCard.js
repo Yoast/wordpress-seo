@@ -20,10 +20,11 @@ export default function ConfigurationWorkoutCard( {
 } ) {
 	const finishedSteps = useSelect( select => select( "yoast-seo/workouts" ).getFinishedSteps( "configuration" ) );
 	return <WorkoutCard
+		id={ "configuration-workout-card" }
 		name={ "configuration" }
 		title={ __( "Configuration", "wordpress-seo" ) }
 		// translators: %s translates to Yoast SEO.
-		subtitle={ sprintf( __( "Configure %s with the optimal SEO settings for your site", "wordpress-seo" ), "Yoast SEO" ) }
+		subtitle={ sprintf( __( "Configure %s", "wordpress-seo" ), "Yoast SEO" ) }
 		usps={ [
 			sprintf( __(
 				"Configure %s in a few steps",

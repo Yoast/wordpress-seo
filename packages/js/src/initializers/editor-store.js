@@ -1,8 +1,6 @@
 import { pickBy } from "lodash";
 import { combineReducers, registerStore } from "@wordpress/data";
-import reducers from "../redux/reducers";
-import * as selectors from "../redux/selectors";
-import * as actions from "../redux/actions";
+import { reducers, selectors, actions } from "@yoast/externals/redux";
 import * as controls from "../redux/controls";
 
 /**
@@ -17,7 +15,6 @@ const populateStore = store => {
 		actions.setSettings( {
 			socialPreviews: {
 				sitewideImage: window.wpseoScriptData.metabox.sitewide_social_image,
-				authorName: window.wpseoScriptData.metabox.author_name,
 				siteName: window.wpseoScriptData.metabox.site_name,
 				contentImage: window.wpseoScriptData.metabox.first_content_image,
 				twitterCardType: window.wpseoScriptData.metabox.twitterCardType,
