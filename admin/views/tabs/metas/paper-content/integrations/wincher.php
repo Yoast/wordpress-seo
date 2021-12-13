@@ -8,6 +8,13 @@
  */
 
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
+use Yoast\WP\SEO\Conditionals\Wincher_Conditional;
+
+// Don't render when feature flag is not enabled.
+$conditional = new Wincher_Conditional();
+if ( ! $conditional->is_met() ) {
+	return;
+}
 
 $asset_manager = new WPSEO_Admin_Asset_Manager();
 $asset_manager->enqueue_style( 'monorepo' );
@@ -66,7 +73,7 @@ $wincher_is_logged_in = YoastSEO()->helpers->wincher->login_status();
 
 		$limit_reached_message = sprintf(
 			/* translators: 1: A span element associated with the account limit, 2: The span closing tag, 3: Link start tag to the Wincher website, 4: expands to Wincher, 5: Link closing tag. */
-			esc_html__( 'You\'ve reached the maximum amount of %1$s%2$s keyphrases you can add to your %4$s account. If you wish to add more keyphrases, please %3$supgrade your %4$s plan.%5$s.', 'wordpress-seo' ),
+			esc_html__( 'You\'ve reached the maximum amount of %1$s%2$s keyphrases you can add to your %4$s account. If you wish to add more keyphrases, please %3$supgrade your %4$s plan.%5$s', 'wordpress-seo' ),
 			'<span id="wincher-track-all-limit">',
 			'</span>',
 			'<a href="https://www.wincher.com/pricing?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast">',

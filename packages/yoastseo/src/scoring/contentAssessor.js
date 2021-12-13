@@ -31,7 +31,7 @@ import { sum } from "lodash-es";
  */
 const ContentAssessor = function( researcher, options = {} ) {
 	Assessor.call( this, researcher, options );
-	this.type = "ContentAssessor";
+	this.type = "contentAssessor";
 	this._assessments = [
 
 		fleschReadingEase,

@@ -239,9 +239,10 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 17.8 =
 Release Date: December 14th, 2021
 
+Yoast SEO 17.8 is out now and ready for you to download. In this release, we fix a number of bugs and added a few enhancements for you to enjoy! Read more about what's new in Yoast SEO 17.8 in [our release post in English](https://yoa.st/release-17-8) or [our release post in Spanish](https://yoa.st/release-17-8-spanish)!
+
 Enhancements:
 
-* Adds a new integration with Wincher for keyphrase performance tracking.
 * Improves the user direction in the configuration workout.
 * Adds a sleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke).
 
@@ -251,13 +252,14 @@ Bugfixes:
 * Fixes a bug where the styling of the introduction dialog in Elementor would be broken due to changes in Elementor.
 * Fixes a bug where the reading time functionality for languages other than English would incorrectly output English reading speed values.
 * Fixes a bug where certain text strings in the Google, Facebook and Twitter previews would not be translated.
+* Fixes a bug where the state of indexation was not persisted when switching between workouts and the workouts page.
+* Fixes a bug where the Workouts page wouldn't display translations.
 
 Other:
 
 * Fixes some styling issues in the configuration workout.
 * Prevents SEO managers from changing the site description in the configuration workout.
-* Requires the Configuration workout to be completed to access the Cornerstone and Orphaned Content workouts.
-* Optimizes and compresses several `.png` images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
+* Optimizes and compresses several .png images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
 = 17.7.1 =
 Release Date: December 1st, 2021

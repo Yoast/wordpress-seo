@@ -27,8 +27,9 @@
   "scripts": {
     "lint": "lerna run lint --",
     "test": "lerna run test --stream --",
-    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack/webpack.config.js --progress",
-    "webpack-analyze-bundle": "cross-env BUNDLE_ANALYZER=1 NODE_ENV=production webpack --config ./config/webpack/webpack.config.js --progress",
+    "build": "wp-scripts build --config config/webpack/webpack.config.js",
+    "build:dev": "cross-env NODE_ENV=development wp-scripts build --config config/webpack/webpack.config.js",
+    "webpack-analyze-bundle": "wp-scripts build --config config/webpack/webpack.config.js --webpack-bundle-analyzer",
     "i18n-wordpress-seo": "cross-env NODE_ENV=production babel packages/js/src --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-yoastseo-js": "cross-env NODE_ENV=production babel packages/yoastseo/src --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-yoast-components": "cross-env NODE_ENV=production babel packages/yoast-components --ignore packages/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot | shusher",
@@ -40,7 +41,7 @@
     "i18n-yoast-js-social-metadata-forms": "cross-env NODE_ENV=production babel packages/social-metadata-forms --ignore packages/social-metadata-forms/node_modules,__mocks__/*.js --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-yoast-js-replacement-variable-editor": "cross-env NODE_ENV=production babel packages/replacement-variable-editor --ignore packages/replacement-variable-editor/node_modules,__mocks__/*.js --plugins=@wordpress/babel-plugin-makepot | shusher",
     "prestart": "grunt build:css && grunt copy:js-dependencies",
-    "start": "webpack-dev-server --config ./config/webpack/webpack.config.js --progress --env.environment=development"
+    "start": "wp-scripts start --config config/webpack/webpack.config.js"
   },
   "dependencies": {},
   "devDependencies": {
@@ -52,7 +53,7 @@
     "@wordpress/dependency-extraction-webpack-plugin": "^3.1.0",
     "@wordpress/scripts": "^14.1.1",
     "@yoast/browserslist-config": "file:packages/browserslist-config",
-    "@yoast/grunt-plugin-tasks": "^2.2",
+    "@yoast/grunt-plugin-tasks": "^2.2.1",
     "babel-plugin-dynamic-import-webpack": "^1.1.0",
     "colors": "^1.4.0",
     "cross-env": "^7.0.3",
@@ -81,7 +82,7 @@
     "typescript": "^4.2.4"
   },
   "yoast": {
-    "pluginVersion": "17.8-RC3"
+    "pluginVersion": "17.8-RC9"
   },
   "version": "0.0.0"
 }

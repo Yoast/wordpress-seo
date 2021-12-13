@@ -39,7 +39,7 @@ const ProductCornerstoneContentAssessor = function( researcher, options ) {
 			},
 			urlTitle: createAnchorOpeningTag( options.paragraphUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.paragraphCTAUrl ),
-		} ),
+		}, true ),
 		new SentenceLengthInText( {
 			slightlyTooMany: 15,
 			farTooMany: 20,

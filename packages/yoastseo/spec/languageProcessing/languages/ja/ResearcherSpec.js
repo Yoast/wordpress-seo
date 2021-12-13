@@ -1,6 +1,7 @@
 import Researcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
 import functionWords from "../../../../src/languageProcessing/languages/ja/config/functionWords";
+import sentenceLength from "../../../../src/languageProcessing/languages/ja/config/sentenceLength";
 
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import { isFeatureEnabled } from "@yoast/feature-flag";
@@ -8,7 +9,7 @@ import { isFeatureEnabled } from "@yoast/feature-flag";
 const morphologyDataJA = getMorphologyData( "ja" );
 
 describe( "a test for Japanese Researcher", function() {
-	const researcher = new Researcher( new Paper( "" ) );
+	const researcher = new Researcher( ( new Paper( "", { keyword: "小さい花の刺繍" } ) ) );
 
 	it( "returns true if the Japanese Researcher has a specific research", function() {
 		expect( researcher.hasResearch( "getParagraphLength" ) ).toBe( true );
@@ -16,27 +17,24 @@ describe( "a test for Japanese Researcher", function() {
 
 	it( "returns false if the default research is deleted in the Japanese Researcher", function() {
 		expect( researcher.getResearch( "getFleschReadingScore" ) ).toBe( false );
+		expect( researcher.getResearch( "getPassiveVoiceResult" ) ).toBe( false );
+		expect( researcher.getResearch( "keywordCountInUrl" ) ).toBe( false );
 	} );
 
 	it( "returns false if the Japanese Researcher doesn't have a certain helper", function() {
 		expect( researcher.getHelper( "fleschReadingScore" ) ).toBe( false );
 	} );
 
-	it( "returns false if the Japanese Researcher doesn't have a certain config", function() {
-		expect( researcher.getConfig( "sentenceLength" ) ).toBe( false );
+	it( "returns the Japanese sentence length configuration", function() {
+		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
-	it( "returns false if the Japanese Researcher doesn't have a certain config", function() {
+	it( "returns the Japanese function words", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
 	} );
 
-	it( "checks whether there is an exact match of a multiword keyphrase in title", function() {
-		expect( researcher.getHelper( "findMultiWordKeyphraseInPageTitle" )( "東海道新幹線の駅構内および列車内に広告を掲出することを。", "東海道新幹線",
-			functionWords ) ).toEqual( {
-			exactMatchFound: true,
-			allWordsFound: true,
-			position: 0,
-		} );
+	it( "returns the keyphrase length", function() {
+		expect( researcher.getResearch( "keyphraseLength" ).keyphraseLength ).toEqual( 7 );
 	} );
 
 	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {

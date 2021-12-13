@@ -16,7 +16,7 @@ import { map } from "lodash-es";
  * @param {string}      locale                  The locale used for transliteration.
  * @param {function}    matchWordCustomHelper   The helper function to match word in text.
  *
- * @returns {Object} The matches found and the number of matches.
+ * @returns {Object} An array with all matches of the text, the number of the matches, and the lowest number of positions of the matches.
  */
 export default function( text, wordToMatch, locale, matchWordCustomHelper ) {
 	text = stripSomeTags( text );
@@ -37,6 +37,6 @@ export default function( text, wordToMatch, locale, matchWordCustomHelper ) {
 	return {
 		count: matches.length,
 		matches: matches,
-		position: Math.min( ...positions ),
+		position: positions.length === 0 ? -1 : Math.min( ...positions ),
 	};
 }
