@@ -100,7 +100,7 @@
 	border: 1px solid rgba(0,0,0,.2);
 	border-radius: 8px;
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-	width: 320px;
+	max-width: 320px;
 	height: 315px;
 	padding: 24px;
 	display: flex;
@@ -110,7 +110,6 @@
 .installation-success-card.active {
 	border-color: var( --yoast-color-primary );
 	box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1), 0 6px 6px 0 rgba(0, 0, 0, 0.06);
-	width: 320px;
 	height: 327px;
 }
 
@@ -175,6 +174,10 @@
 	.installation-success-page {
 		height: unset;
 		padding-right: 10px;
+	}
+
+	.installation-success-page .installation-success-title {
+		font-size: 32px;
 	}
 
 	.installation-success-content {
