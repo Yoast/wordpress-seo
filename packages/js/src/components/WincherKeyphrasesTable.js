@@ -13,7 +13,6 @@ import { getDirectionalStyle, makeOutboundLink } from "@yoast/helpers";
 /* Internal dependencies */
 import WincherTableRow from "./WincherTableRow";
 import {
-	getAccountLimits,
 	getKeyphrases,
 	handleAPIResponse,
 	trackKeyphrases,
@@ -151,24 +150,21 @@ const WincherKeyphrasesTable = ( props ) => {
 
 		setLoadingKeyphrases( curr => [ ...curr, ...keyphrasesArray ] );
 
-		const trackLimits = await getAccountLimits();
-
-		if ( trackLimits.status === 200 && ! trackLimits.canTrack ) {
-			setKeyphraseLimitReached( trackLimits.limit );
-		} else {
-			await handleAPIResponse(
-				() => trackKeyphrases( keyphrasesArray ),
-				( response ) => {
-					setRequestSucceeded( response );
-					addTrackedKeyphrase( response.results );
-					getTrackedKeyphrases();
-				},
-				( response ) => {
-					setRequestFailed( response );
-				},
-				201
-			);
-		}
+		await handleAPIResponse(
+			() => trackKeyphrases( keyphrasesArray ),
+			( response ) => {
+				setRequestSucceeded( response );
+				addTrackedKeyphrase( response.results );
+				getTrackedKeyphrases();
+			},
+			( response ) => {
+				if ( response.status === 400 && response.results && response.results.canTrack === false ) {
+					setKeyphraseLimitReached( response.results.limit );
+				}
+				setRequestFailed( response );
+			},
+			201
+		);
 
 		setLoadingKeyphrases( curr => without( curr, ...keyphrasesArray ) );
 	}, [

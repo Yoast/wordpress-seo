@@ -108,18 +108,6 @@ export async function getKeyphrases( keyphrases = null, permalink = null, signal
 }
 
 /**
- * Gets the currently set limit information associated with the connected Wincher account.
- *
- * @returns {Promise} The API response promise.
- */
-export async function getAccountLimits() {
-	return await callEndpoint( {
-		path: "yoast/v1/wincher/limits",
-		method: "GET",
-	} );
-}
-
-/**
  * Tracks one or more keyphrases.
  *
  * @param {Array|string} keyphrases The keyphrases to track. Can be a string.
