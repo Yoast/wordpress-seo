@@ -1,4 +1,4 @@
-import { get, debounce } from "lodash";
+import { get, debounce, forEach } from "lodash";
 import { subscribe, dispatch, select } from "@wordpress/data";
 import { SEO_STORE_NAME } from "@yoast/seo-integration";
 import * as dom from "./helpers/dom";
@@ -34,8 +34,26 @@ const watchDomChanges = () => {
 	createStoreSync( DOM_IDS.TITLE, actions.updateTitle );
 	createStoreSync( DOM_IDS.EXCERPT, actions.updateExcerpt );
 	createStoreSync( DOM_IDS.PERMALINK, actions.updatePermalink );
-	createStoreSync( DOM_IDS.DATE, actions.updateData );
-	// Special sync for content TinyMCE editor.
+	createStoreSync( DOM_IDS.DATE, actions.updateDate );
+
+	// Special sync to store for featured image field.
+	// eslint-disable-next-line no-unused-expressions
+	document.getElementById( DOM_IDS.FEATURED_IMAGE_ID )?.addEventListener( "change", ( event ) => (
+		actions.updateFeaturedImage( {
+			id: get( event, "target.value", "" ),
+			url: dom.getFeaturedImageUrl(),
+		} )
+	) );
+
+	// Special sync to store for multiple date fields.
+	forEach(
+		[ DOM_IDS.DATE_MONTH, DOM_IDS.DATE_DAY, DOM_IDS.DATE_YEAR ],
+		( domId ) => document.getElementById( domId )?.addEventListener( "change", () => (
+			actions.updateDate( window?.wp?.date?.dateI18n( "M j, Y", dom.getDate() ) ) )
+		)
+	);
+
+	// Special sync to store for content TinyMCE editor.
 	addTinyMceEventHandlers( DOM_IDS.CONTENT, [ "input", "change", "cut", "paste" ], createHandleValueChange( actions.updateContent ) );
 };
 
@@ -63,6 +81,7 @@ const watchStoreChanges = () => {
 	// Sync store changes to DOM.
 	createDomSync( selectors.selectSeoTitle, { domGet: dom.getSeoTitle, domSet: dom.setSeoTitle } );
 	createDomSync( selectors.selectMetaDescription, { domGet: dom.getMetaDescription, domSet: dom.setMetaDescription } );
+	createDomSync( selectors.selectKeyphrase, { domGet: dom.getFocusKeyphrase, domSet: dom.setFocusKeyphrase } );
 };
 
 /**

@@ -1,35 +1,42 @@
 import { get, set } from "lodash";
 
-import { tmceId, getContentTinyMce } from "../lib/tinymce";
-import { excerptFromContent } from "../helpers/replacementVariableHelpers";
-import firstImageUrlInContent from "../helpers/firstImageUrlInContent";
+import { tmceId, getContentTinyMce } from "../../lib/tinymce";
+import { excerptFromContent } from "../../helpers/replacementVariableHelpers";
+import firstImageUrlInContent from "../../helpers/firstImageUrlInContent";
 
 export const DOM_IDS = {
-	// WP classic editor ids
 	TITLE: "title",
 	CONTENT: tmceId,
 	EXCERPT: "excerpt",
 	PERMALINK: "sample-permalink",
+	FEATURED_IMAGE_ID: "_thumbnail_id",
+	SLUG: "slug",
 	SLUG_NEW_POST: "new-post-slug",
 	SLUG_EDIT_POST: "editable-post-name-full",
-	// Yoast hidden input ids
+	DATE_MONTH: "mm",
+	DATE_DAY: "jj",
+	DATE_YEAR: "aa",
+	DATE_HOUR: "hh",
+	DATE_MINUTE: "mn",
+};
+
+export const DOM_QUERIES = {
+	FEATURED_IMAGE_URL: "set-post-thumbnail img",
+};
+
+export const DOM_HIDDEN_YOAST_IDS = {
 	SEO_TITLE: "yoast_wpseo_title",
 	META_DESCRIPTION: "yoast_wpseo_metadesc",
 	FOCUS_KEYPHRASE: "yoast_wpseo_focuskw",
-	CORNERSTONE: "yoast_wpseo_is_cornerstone",
+	RELATED_KEYPHRASES: "yoast_wpseo_focuskeywords",
+	KEYPHRASE_SYNONYMS: "yoast_wpseo_keywordsynonyms",
+	IS_CORNERSTONE: "yoast_wpseo_is_cornerstone",
 };
-
-/**
- * The query selector for finding the featured image in the classic editor.
- *
- * @type {string}
- */
-const FEATURED_IMAGE_QUERY_SELECTOR = "#set-post-thumbnail img";
 
 /**
  * Gets the title from the document.
  *
- * @returns {string} The title or an empty string.
+ * @returns {string} The 	title or an empty string.
  */
 export const getTitle = () => get( document.getElementById( DOM_IDS.TITLE ), "value", "" );
 
@@ -48,39 +55,60 @@ export const getContent = () => getContentTinyMce( DOM_IDS.CONTENT );
 export const getPermalink = () => get( document.getElementById( DOM_IDS.PERMALINK ), "innerText", "" );
 
 /**
+ * Gets the date month from the document.
+ *
+ * @returns {string} The date month or an empty string.
+ */
+export const getDateMonth = () => get( document.getElementById( DOM_IDS.DATE_MONTH ), "value", "" );
+
+/**
+ * Gets the date day from the document.
+ *
+ * @returns {string} The date day or an empty string.
+ */
+export const getDateDay = () => get( document.getElementById( DOM_IDS.DATE_DAY ), "value", "" );
+
+/**
+ * Gets the date year from the document.
+ *
+ * @returns {string} The date year or an empty string.
+ */
+export const getDateYear = () => get( document.getElementById( DOM_IDS.DATE_YEAR ), "value", "" );
+
+/**
  * Gets the date from the document.
  *
  * @returns {string} The date or an empty string.
  */
-export const getDate = () => get( window, "wpseoScriptData.metabox.metaDescriptionDate", "" );
+export const getDate = () => `${ getDateMonth() }-${ getDateDay() }-${ getDateYear() }`;
 
 /**
  * Gets the meta description from the document.
  *
  * @returns {string} The meta description or an empty string.
  */
-export const getMetaDescription = () => get( document.getElementById( DOM_IDS.META_DESCRIPTION ), "value", "" );
+export const getMetaDescription = () => get( document.getElementById( DOM_YOAST_HIDDEN_IDS.META_DESCRIPTION ), "value", "" );
 
 /**
  * Gets the SEO title from the document.
  *
  * @returns {string} The SEO title or an empty string.
  */
-export const getSeoTitle = () => get( document.getElementById( DOM_IDS.SEO_TITLE ), "value", "" );
+export const getSeoTitle = () => get( document.getElementById( DOM_YOAST_HIDDEN_IDS.SEO_TITLE ), "value", "" );
 
 /**
  * Gets the focus keyphrase from the document.
  *
  * @returns {string} The focus keyphrase or an empty string.
  */
-export const getFocusKeyphrase = () => get( document.getElementById( DOM_IDS.FOCUS_KEYPHRASE ), "value", "" );
+export const getFocusKeyphrase = () => get( document.getElementById( DOM_YOAST_HIDDEN_IDS.FOCUS_KEYPHRASE ), "value", "" );
 
 /**
  * Gets the focus keyphrase from the document.
  *
  * @returns {string} The focus keyphrase or an empty string.
  */
-export const getIsCornerstone = () => Boolean( get( document.getElementById( DOM_IDS.CORNERSTONE ), "value", false ) );
+export const getIsCornerstone = () => Boolean( get( document.getElementById( DOM_YOAST_HIDDEN_IDS.IS_CORNERSTONE ), "value", false ) );
 
 /**
  * Gets the slug from the document.
@@ -104,7 +132,7 @@ export const getExcerpt = () => get( document.getElementById( DOM_IDS.EXCERPT ),
  *
  * @returns {string} The source of the featured image.
  */
-const getFeaturedImageSetInEditor = () => document.querySelector( FEATURED_IMAGE_QUERY_SELECTOR )?.getAttribute( "src" ) || "";
+const getFeaturedImageSetInEditor = () => document.querySelector( DOM_QUERIES.FEATURED_IMAGE )?.getAttribute( "src" ) || "";
 
 /**
  * Gets the featured image if one is set. Falls back to the first image from the content.
@@ -119,7 +147,7 @@ export const getFeaturedImageUrl = () => getFeaturedImageSetInEditor() || firstI
  * @param {*} value The value to set.
  * @returns {HTMLElement} The DOM element.
  */
-export const setSeoTitle = ( value ) => set( document.getElementById( DOM_IDS.SEO_TITLE ), "value", value );
+export const setSeoTitle = ( value ) => set( document.getElementById( DOM_YOAST_HIDDEN_IDS.SEO_TITLE ), "value", value );
 
 /**
   * Set the meta description value prop on its DOM element.
@@ -127,4 +155,20 @@ export const setSeoTitle = ( value ) => set( document.getElementById( DOM_IDS.SE
   * @param {*} value The value to set.
   * @returns {HTMLElement} The DOM element.
   */
-export const setMetaDescription = ( value ) => set( document.getElementById( DOM_IDS.META_DESCRIPTION ), "value", value );
+export const setMetaDescription = ( value ) => set( document.getElementById( DOM_YOAST_HIDDEN_IDS.META_DESCRIPTION ), "value", value );
+
+/**
+  * Set the is cornerstone value prop on its DOM element.
+  *
+  * @param {boolean} value The value to set.
+  * @returns {HTMLElement} The DOM element.
+  */
+export const setIsCornerstone = ( value ) => set( document.getElementById( DOM_YOAST_HIDDEN_IDS.IS_CORNERSTONE ), "checked", value );
+
+/**
+  * Set the focus keyphrase value prop on its DOM element.
+  *
+  * @param {boolean} value The value to set.
+  * @returns {HTMLElement} The DOM element.
+  */
+export const setFocusKeyphrase = ( value ) => set( document.getElementById( DOM_YOAST_HIDDEN_IDS.FOCUS_KEYPHRASE ), "value", value );
