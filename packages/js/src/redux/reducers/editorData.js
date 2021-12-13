@@ -2,7 +2,6 @@ import {
 	SET_EDITOR_DATA_CONTENT,
 	SET_EDITOR_DATA_EXCERPT,
 	SET_EDITOR_DATA_IMAGE_URL,
-	SET_EDITOR_DATA_SLUG,
 	SET_EDITOR_DATA_TITLE,
 } from "../actions";
 
@@ -39,11 +38,6 @@ const editorDataReducer = ( state = INITIAL_STATE, action ) => {
 			return {
 				...state,
 				imageUrl: action.imageUrl,
-			};
-		case SET_EDITOR_DATA_SLUG:
-			return {
-				...state,
-				slug: action.slug,
 			};
 		case SET_EDITOR_DATA_TITLE:
 			return {

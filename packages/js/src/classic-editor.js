@@ -11,10 +11,11 @@ import initPrimaryCategory from "./initializers/primary-category";
 import initEditorStore from "./classic-editor/editor-store";
 import Metabox from "./classic-editor/components/metabox";
 import { MetaboxFill, MetaboxSlot } from "./classic-editor/components/metabox/slot-fill";
-import createClassicEditorWatcher, { getEditorData } from "./watchers/classicEditorWatcher";
+import createClassicEditorWatcher from "./watchers/classicEditorWatcher";
+import { getInitialState } from "./classic-editor/initial-state";
 import { getAnalysisConfiguration } from "./classic-editor/analysis";
 
-domReady( async () => {
+domReady( async() => {
 	// Initialize the tab behavior of the metabox.
 	initTabs( jQuery );
 
@@ -34,9 +35,7 @@ domReady( async () => {
 
 	const { SeoProvider } = await createSeoIntegration( {
 		analysis: getAnalysisConfiguration(),
-		initialState: {
-			editor: getEditorData(),
-		},
+		initialState: getInitialState(),
 	} );
 
 	// Until ALL the components are carried over, the `@yoast/editor` store is still needed.

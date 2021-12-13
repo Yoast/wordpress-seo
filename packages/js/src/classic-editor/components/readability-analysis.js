@@ -7,9 +7,8 @@ import { isNil } from "lodash-es";
 /* Internal components */
 
 import ScoreIconPortal from "../../components/portals/ScoreIconPortal";
-import { ReadabilityResultsContainer } from "@yoast/seo-integration";
+import { ReadabilityResultsContainer, SEO_STORE_NAME } from "@yoast/seo-integration";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
-import { SEO_STORE_NAME } from "@yoast/seo-store";
 import HelpLink from "../../components/HelpLink";
 import Portal from "../../components/portals/Portal";
 import { ContentAnalysis } from "@yoast/analysis-report";
