@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { ThemeProvider } from "styled-components";
-import { LocationProvider } from "./contexts/location";
+import { LocationProvider } from "@yoast/externals/contexts";
 
 /**
  * A collection of top level providers that are used by multiple parts of the application.
