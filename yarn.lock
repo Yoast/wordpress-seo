@@ -5563,23 +5563,17 @@
     load-grunt-config "^1.0.1"
     time-grunt "^1.0.0"
 
-"@yoast/replacement-variables@file:packages/replacement-variables":
-  version "1.0.0"
-  dependencies:
-    lodash "^4.17.21"
+"@yoast/replacement-variables@link:packages/seo-integration/packages/replacement-variables":
+  version "0.0.0"
+  uid ""
 
-"@yoast/seo-integration@file:packages/seo-integration":
-  version "1.0.0"
-  dependencies:
-    "@yoast/replacement-variables" "file:../../../../../../Library/Caches/Yarn/v6/npm-@yoast-seo-integration-1.0.0-50cd3f10-c4a8-48e9-a165-b1c3cad96868-1638870768227/node_modules/@yoast/replacement-variables"
-    "@yoast/seo-store" "file:../../../../../../Library/Caches/Yarn/v6/npm-@yoast-seo-integration-1.0.0-50cd3f10-c4a8-48e9-a165-b1c3cad96868-1638870768227/node_modules/@yoast/seo-store"
-    lodash "^4.17.21"
+"@yoast/seo-integration@link:packages/js/packages/seo-integration":
+  version "0.0.0"
+  uid ""
 
-"@yoast/seo-store@file:packages/seo-store":
-  version "1.0.0"
-  dependencies:
-    "@reduxjs/toolkit" "^1.6.2"
-    lodash "^4.17.21"
+"@yoast/seo-store@link:packages/seo-integration/packages/seo-store":
+  version "0.0.0"
+  uid ""
 
 JSONStream@^0.10.0:
   version "0.10.0"
