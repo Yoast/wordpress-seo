@@ -23,7 +23,6 @@ import sentenceLength from "./config/sentenceLength";
 
 // All custom researches
 import morphology from "./customResearches/getWordForms";
-import getKeywordDensity from "./customResearches/getKeywordDensity";
 import getKeyphraseLength from "./customResearches/getKeyphraseLength";
 import textLengthResearch from "./customResearches/textLength";
 
@@ -43,9 +42,6 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
 		delete this.defaultResearches.keywordCountInUrl;
-
-		// Adds the Japanese custom research to calculate the keyword density.
-		this.addResearch( "getKeywordDensity", getKeywordDensity );
 
 		Object.assign( this.config, {
 			language: "ja",
