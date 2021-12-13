@@ -127,6 +127,9 @@ class Installation_Success_Integration_Test extends TestCase {
 			->expects( 'is_premium' )
 			->andReturnFalse();
 
+		Monkey\Functions\expect( 'is_network_admin' )
+			->andReturn( false );
+
 		$redirect_url = 'http://basic.wordpress.test/wp-admin/admin.php?page=wpseo_installation_successful_free';
 
 		Monkey\Functions\expect( 'admin_url' )
@@ -245,6 +248,45 @@ class Installation_Success_Integration_Test extends TestCase {
 			->withSomeOfArgs( 'activation_redirect_timestamp_free' );
 
 		$_REQUEST['activate-multi'] = 'true';
+
+		Monkey\Functions\expect( 'wp_safe_redirect' )
+			->never();
+
+		$this->instance->maybe_redirect();
+	}
+
+	/**
+	 * Tests that the redirection does not occur when free is Network Activated.
+	 *
+	 * @covers ::maybe_redirect
+	 */
+	public function test_maybe_redirect_network_admin() {
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'should_redirect_after_install_free', false )
+			->andReturnTrue();
+
+		$this->options_helper
+			->expects( 'set' )
+			->with( 'should_redirect_after_install_free', false );
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'activation_redirect_timestamp_free', 0 )
+			->andReturn( '0' );
+
+		$this->options_helper
+			->expects( 'set' )
+			->with( 'activation_redirect_timestamp_free', \time() );
+
+		$_REQUEST['activate-multi'] = null;
+
+		$this->product_helper
+			->expects( 'is_premium' )
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_network_admin' )
+			->andReturn( true );
 
 		Monkey\Functions\expect( 'wp_safe_redirect' )
 			->never();

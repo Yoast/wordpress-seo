@@ -80,6 +80,10 @@ class Installation_Success_Integration implements Integration_Interface {
 			return;
 		}
 
+		if ( \is_network_admin() ) {
+			return;
+		}
+
 		\wp_safe_redirect( \admin_url( 'admin.php?page=wpseo_installation_successful_free' ), 302, 'Yoast SEO' );
 		$this->terminate_execution();
 	}
