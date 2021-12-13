@@ -15,13 +15,14 @@ trait Import_Cursor_Manager_Trait {
 	 *
 	 * @param Options_Helper $options_helper The options helper.
 	 * @param string         $cursor_id      The cursor id.
+	 * @param mixed          $default        The default value if no cursor has been set yet.
 	 *
 	 * @return int The stored cursor value.
 	 */
-	public function get_cursor( $options_helper, $cursor_id ) {
+	public function get_cursor( $options_helper, $cursor_id, $default = 0 ) {
 		$import_cursors = $options_helper->get( 'import_cursors', [] );
 
-		return ( isset( $import_cursors[ $cursor_id ] ) ) ? $import_cursors[ $cursor_id ] : 0;
+		return ( isset( $import_cursors[ $cursor_id ] ) ) ? $import_cursors[ $cursor_id ] : $default;
 	}
 
 	/**
