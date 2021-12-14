@@ -48,13 +48,17 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action extends Abstract_Aioseo
 
 		foreach ( $post_type_objects as $pt ) {
 			// Use all the custom post types that are public.
-			$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/title' ]           = [
+			$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/title' ]                = [
 				'yoast_name'       => 'title-' . $pt->name,
 				'transform_method' => 'simple_import',
 			];
-			$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/metaDescription' ] = [
+			$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/metaDescription' ]      = [
 				'yoast_name'       => 'metadesc-' . $pt->name,
 				'transform_method' => 'simple_import',
+			];
+			$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/advanced/showMetaBox' ] = [
+				'yoast_name'       => 'display-metabox-pt-' . $pt->name,
+				'transform_method' => 'simple_boolean_import',
 			];
 
 			if ( $pt->name === 'attachment' ) {
