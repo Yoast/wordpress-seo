@@ -5,7 +5,9 @@
  * @property {string} output The HTML to output instead of the shortcode.
  */
 
+import { dispatch } from "@wordpress/data";
 import { addFilter, removeFilter } from "@wordpress/hooks";
+import { SEO_STORE_NAME } from "@yoast/seo-integration";
 import { filter, get, some, uniq } from "lodash";
 
 const shortcodeNameMatcher = "[^<>&/\\[\\]\x00-\x20=]+?";
@@ -123,7 +125,7 @@ const removeUnknownShortCodes = text => text.replace( shortcodeStartRegex, "" ).
  *
  * @returns {string} The text with parsed shortcodes.
  */
-const parseShortcodes = async ( text ) => {
+const parseShortcodes = text => {
 	const foundShortcodes = getShortcodes( text );
 	const unparsedShortcodes = uniq( filter(
 		foundShortcodes,
@@ -131,11 +133,12 @@ const parseShortcodes = async ( text ) => {
 	) );
 
 	if ( unparsedShortcodes.length > 0 ) {
-		try {
-			parsedShortcodes = parsedShortcodes.concat( await fetchShortcodes( unparsedShortcodes ) );
-		} catch ( e ) {
-			// Ignore fetch error.
-		}
+		fetchShortcodes( unparsedShortcodes ).then( fetchedShortcodes => {
+			parsedShortcodes = parsedShortcodes.concat( fetchedShortcodes );
+
+			// Filters do not support async: request a new analysis after receiving the new shortcodes.
+			dispatch( SEO_STORE_NAME ).analyze();
+		} );
 	}
 
 	for ( const shortcode of parsedShortcodes ) {
@@ -156,6 +159,7 @@ const registerShortcodes = () => {
 		return;
 	}
 
+	// Priority of 11 to run it after the replacement variables (priority 10). As a shortcode is not expected to have replacement variables.
 	addFilter(
 		"yoast.seoStore.analysis.preparePaper",
 		"yoast/free/parseShortcodes",
@@ -163,6 +167,7 @@ const registerShortcodes = () => {
 			...paper,
 			content: parseShortcodes( paper.content ),
 		} ),
+		11,
 	);
 
 	return () => removeFilter( "yoast.seoStore.analysis.preparePaper", "yoast/free/parseShortcodes" );
