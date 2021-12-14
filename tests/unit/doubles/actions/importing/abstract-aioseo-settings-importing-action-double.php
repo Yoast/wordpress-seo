@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing;
 
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 
 /**
  * Class Abstract_Aioseo_Settings_Importing_Action_Double
@@ -19,8 +20,15 @@ abstract class Abstract_Aioseo_Settings_Importing_Action_Double extends Abstract
 	 */
 	protected $options;
 
-	public function __construct( Options_Helper $options ) {
-		return parent::__construct( $options );
+	/**
+	 * The replacevar handler.
+	 *
+	 * @var Aioseo_Replacevar_Handler
+	 */
+	protected $replacevar_handler;
+
+	public function __construct( Options_Helper $options, Aioseo_Replacevar_Handler $replacevar_handler ) {
+		return parent::__construct( $options, $replacevar_handler );
 	}
 
 	/**
