@@ -502,6 +502,11 @@ class Elementor implements Integration_Interface {
 	protected function get_post_slug() {
 		$post = $this->get_metabox_post();
 
+		// In case get_metabox_post returns null for whatever reason.
+		if ( ! $post instanceof WP_Post ) {
+			return '';
+		}
+
 		// Drafts might not have a post_name unless the slug has been manually changed.
 		// In this case we get it using get_sample_permalink.
 		if ( ! $post->post_name ) {
