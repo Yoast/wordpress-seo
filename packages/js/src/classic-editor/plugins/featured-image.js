@@ -41,9 +41,11 @@ function initFeaturedImagePlugin() {
 
 	// Remove the featured image when it is removed in the editor.
 	const removeFeaturedImageLink = document.getElementById( "remove-post-thumbnail" );
-	removeFeaturedImageLink.addEventListener( "click", () => {
-		featuredImageHtml = "";
-	} );
+	if ( removeFeaturedImageLink ) {
+		removeFeaturedImageLink.addEventListener( "click", () => {
+			featuredImageHtml = "";
+		} );
+	}
 
 	/**
 	 * Adds the featured image to the paper.
