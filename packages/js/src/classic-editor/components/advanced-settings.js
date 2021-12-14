@@ -6,7 +6,7 @@ import AdvancedSettingsContainer from "../../containers/AdvancedSettings";
 /**
  * The Advanced settings component.
  *
- * @returns {wp.Element} The Advanced settings component.
+ * @returns {JSX.Element} The Advanced settings component.
  */
 const AdvancedSettings = () => {
 	return (

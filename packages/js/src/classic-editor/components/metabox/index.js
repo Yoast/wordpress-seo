@@ -48,7 +48,8 @@ const Metabox = () => {
 			{ isReadabilityAnalysisActive &&
 				<SidebarItem key="readability-analysis" renderPriority={ 10 }>
 					<ReadabilityAnalysis />
-				</SidebarItem> }
+				</SidebarItem>
+			}
 			{ isSeoAnalysisActive &&
 				<SidebarItem key="seo-analysis" renderPriority={ 20 }>
 					<SeoAnalysis
