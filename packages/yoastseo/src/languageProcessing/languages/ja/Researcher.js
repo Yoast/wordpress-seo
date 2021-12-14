@@ -57,6 +57,7 @@ export default class Researcher extends AbstractResearcher {
 			paragraphLength,
 			assessmentApplicability,
 			sentenceLength,
+			countCharacters: true,
 		} );
 
 		Object.assign( this.helpers, {
