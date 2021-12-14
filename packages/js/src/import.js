@@ -4,7 +4,7 @@ import IndexingService from "./services/IndexingService";
 
 const AioseoV4 = "WPSEO_Import_AIOSEO_V4";
 
-let importButton, importForm, spinner, checkMark, errorMark;
+let importButton, importForm, spinner, loading_msg, checkMark, errorMark;
 
 /**
  * Adds Progress UI elements in the page.
@@ -15,6 +15,7 @@ function addProgressElements() {
 	jQuery( spinner ).insertAfter( importButton );
 	jQuery( checkMark ).insertAfter( spinner );
 	jQuery( errorMark ).insertAfter( spinner );
+	jQuery( loading_msg ).insertAfter( spinner );
 }
 
 /**
@@ -27,6 +28,7 @@ function addProgressElements() {
 function importingProgress( count ) {
 	console.log( "Now processed", count, "items" );
 	spinner.show();
+	loading_msg.show();
 
 	importButton.prop( "disabled", true );
 }
@@ -39,6 +41,7 @@ function importingProgress( count ) {
 function importingSuccess() {
 	console.log( "Done!" );
 	spinner.hide();
+	loading_msg.hide();
 	checkMark.show();
 
 	importButton.prop( "disabled", false );
@@ -54,6 +57,7 @@ function importingSuccess() {
 function importingFailure( e ) {
 	console.log( "Failed: " + e );
 	spinner.hide();
+	loading_msg.hide();
 	errorMark.show();
 
 	importButton.prop( "disabled", false );
@@ -94,6 +98,13 @@ function initElements() {
 		.css( {
 			display: "inline-block",
 			"margin-left": "10px",
+			"vertical-align": "middle",
+		} )
+		.hide();
+	loading_msg = jQuery( "<span>" )
+		.html( window.yoastImportData.assets.loading_msg )
+		.css( {
+			"margin-left": "5px",
 			"vertical-align": "middle",
 		} )
 		.hide();

@@ -101,7 +101,8 @@ class Import_Integration implements Integration_Interface {
 				'nonce'               => \wp_create_nonce( 'wp_rest' ),
 			],
 			'assets'  => [
-				'spinner' => \admin_url( 'images/loading.gif' ),
+				'loading_msg' => \esc_html__( 'The import can take a long time depending on your site\'s size', 'wordpress-seo' ),
+				'spinner'     => \admin_url( 'images/loading.gif' ),
 			],
 		];
 
