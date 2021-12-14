@@ -142,7 +142,7 @@ const parseShortcodes = text => {
 	}
 
 	for ( const shortcode of parsedShortcodes ) {
-		text = text.replace( shortcode.shortcode, shortcode.output );
+		text = text.replaceAll( shortcode.shortcode, shortcode.output );
 	}
 
 	return removeUnknownShortCodes( text );
