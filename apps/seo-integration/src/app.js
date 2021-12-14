@@ -84,7 +84,7 @@ const Keyphrases = () => {
 
 const Keyphrase = ( props ) => {
 	const initialKeyphrase = useSelect( select => select( SEO_STORE_NAME ).selectKeyphrase( props.id ) );
-	const initialSynonyms = useSelect( select => select( SEO_STORE_NAME ).selectSynonyms( props.id ) );
+	const initialSynonyms = useSelect( select => select( SEO_STORE_NAME ).selectKeyphraseSynonyms( props.id ) );
 	const { updateKeyphrase, updateSynonyms } = useDispatch( SEO_STORE_NAME );
 
 	const handleKeyphraseChange = useDebounce( ( event ) => {

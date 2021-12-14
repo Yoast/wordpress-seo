@@ -33,8 +33,6 @@ domReady( async () => {
 		initPrimaryCategory( jQuery );
 	}
 
-	const watcher = createClassicEditorWatcher();
-
 	const { SeoProvider } = await createSeoIntegration( {
 		analysis: getAnalysisConfiguration(),
 		initialState: getInitialState(),
@@ -49,7 +47,8 @@ domReady( async () => {
 	// - create a SEO data watcher that updates our hidden fields so that the changed data is saved along with the WP save.
 	// - traffic light & admin bar: update analysis scores?
 
-	// Start watching the editor data.
+	// Start watching and syncing between store and editor data.
+	const watcher = createClassicEditorWatcher();
 	watcher.watch();
 
 	// We have to do this differently: all the components are coupled to the store, which we are changing :)

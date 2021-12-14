@@ -26,7 +26,7 @@ export const createPostReplacementVariables = () => [
 	{
 		name: "synonyms",
 		getLabel: () => "Synonyms",
-		getReplacement: () => select( SEO_STORE_NAME ).selectSynonyms(),
+		getReplacement: () => select( SEO_STORE_NAME ).selectKeyphraseSynonyms(),
 	},
 	replacementVariableConfigurations.content,
 ].map( logReplacementVariable );

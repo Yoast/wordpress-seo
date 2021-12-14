@@ -1,6 +1,7 @@
-import { get, debounce, forEach } from "lodash";
+/* eslint-disable no-unused-expressions */
+import { get, set, debounce, forEach, isEqual, reduce } from "lodash";
 import { subscribe, dispatch, select } from "@wordpress/data";
-import { SEO_STORE_NAME } from "@yoast/seo-integration";
+import { SEO_STORE_NAME, FOCUS_KEYPHRASE_ID } from "@yoast/seo-integration";
 import * as dom from "./helpers/dom";
 import { addEventHandler as addTinyMceEventHandlers } from "../lib/tinymce";
 
@@ -20,24 +21,13 @@ const watchDomChanges = () => {
 	 * @param {Function} action Store action.
 	 * @returns {Function} Value change event handler.
 	 */
-	const createHandleValueChange = ( action ) => ( event ) => debounce( action( get( event, "target.value", "" ) ), SYNC_DEBOUNCE_MS );
-	/**
-	 * Creates a store sync functino that subscribes to a DOM element and updates a store prop.
-	 *
-	 * @param {string} domId Id of DOM element.
-	 * @param {Function} action Store action.
-	 * @returns {void}
-	 */
-	const createStoreSync = ( domId, action ) => document.getElementById( domId )?.addEventListener( "change", createHandleValueChange( action ) );
+	const createHandleValueChange = ( action ) => debounce( ( event ) => action( get( event, "target.value", "" ) ), SYNC_DEBOUNCE_MS );
 
-	// Sync editor changes to store.
-	createStoreSync( DOM_IDS.TITLE, actions.updateTitle );
-	createStoreSync( DOM_IDS.EXCERPT, actions.updateExcerpt );
-	createStoreSync( DOM_IDS.PERMALINK, actions.updatePermalink );
-	createStoreSync( DOM_IDS.DATE, actions.updateDate );
+	// Sync simple editor changes to store.
+	document.getElementById( DOM_IDS.TITLE )?.addEventListener( "input", createHandleValueChange( actions.updateTitle ) );
+	document.getElementById( DOM_IDS.EXCERPT )?.addEventListener( "input", createHandleValueChange( actions.updateExcerpt ) );
 
-	// Special sync to store for featured image field.
-	// eslint-disable-next-line no-unused-expressions
+	// Sync featured image to store, note the structuring.
 	document.getElementById( DOM_IDS.FEATURED_IMAGE_ID )?.addEventListener( "change", ( event ) => (
 		actions.updateFeaturedImage( {
 			id: get( event, "target.value", "" ),
@@ -45,15 +35,22 @@ const watchDomChanges = () => {
 		} )
 	) );
 
-	// Special sync to store for multiple date fields.
+	// Sync multiple slug fields changes to store.
+	forEach(
+		[ DOM_IDS.SLUG, DOM_IDS.SLUG_NEW_POST, DOM_IDS.SLUG_EDIT_POST ],
+		( domId ) => document.getElementById( domId )?.addEventListener( "change", createHandleValueChange( actions.updateSlug ) )
+	);
+
+	// Sync multiple date fields changes to store.
 	forEach(
 		[ DOM_IDS.DATE_MONTH, DOM_IDS.DATE_DAY, DOM_IDS.DATE_YEAR ],
 		( domId ) => document.getElementById( domId )?.addEventListener( "change", () => (
+			// Format date according to standards using WP date API.
 			actions.updateDate( window?.wp?.date?.dateI18n( "M j, Y", dom.getDate() ) ) )
 		)
 	);
 
-	// Special sync to store for content TinyMCE editor.
+	// Sync TinyMCE editor changes to store.
 	addTinyMceEventHandlers( DOM_IDS.CONTENT, [ "input", "change", "cut", "paste" ], createHandleValueChange( actions.updateContent ) );
 };
 
@@ -64,24 +61,50 @@ const watchDomChanges = () => {
  */
 const watchStoreChanges = () => {
 	const selectors = select( SEO_STORE_NAME );
+	let cache = {};
+
 	/**
 	 * Creates a debounced DOM sync function that subscribes to store changes and maybe updates a DOM element.
 	 *
 	 * @param {Function} selector Store selector.
-	 * @param {{ domGet: Function, domSet: Function }} domLens Lens for getting or setting a DOM elements value.
+	 * @param {Function} domSet DOM element value setter.
+	 * @param {string} [cacheKey] Optional key to use in the cache.
 	 * @returns {Function} Unsubscribe function.
 	 */
-	const createDomSync = ( selector, { domGet, domSet } ) => subscribe( debounce( () => {
+	const createDomSync = ( selector, domSet, cacheKey = "" ) => subscribe( debounce( () => {
+		const cacheValue = get( cache, cacheKey );
 		const storeValue = selector();
-		if ( domGet() !== storeValue ) {
+		if ( ! isEqual( cacheValue, storeValue ) ) {
+			// Update DOM if store value changed.
 			domSet( storeValue );
+			// Update cache if cache key exists.
+			cache = cacheKey ? set( cache, cacheKey, storeValue ) : cache;
 		}
 	}, SYNC_DEBOUNCE_MS ) );
 
-	// Sync store changes to DOM.
-	createDomSync( selectors.selectSeoTitle, { domGet: dom.getSeoTitle, domSet: dom.setSeoTitle } );
-	createDomSync( selectors.selectMetaDescription, { domGet: dom.getMetaDescription, domSet: dom.setMetaDescription } );
-	createDomSync( selectors.selectKeyphrase, { domGet: dom.getFocusKeyphrase, domSet: dom.setFocusKeyphrase } );
+	// Sync simple store changes to hidden inputs.
+	createDomSync( selectors.selectSeoTitle, dom.setSeoTitle, "seoTitle" );
+	createDomSync( selectors.selectMetaDescription, dom.setMetaDescription, "metaDescription" );
+	createDomSync( selectors.selectKeyphrase, dom.setFocusKeyphrase, "focusKeyphrase" );
+	createDomSync( selectors.selectSynonyms, dom.setSynonyms, "synonyms" );
+
+	/**
+	 * Select related keyphrase entries and transform to same structure as present in hidden input for eqaulity check.
+	 * Kind of a heavy function, might need some memoizing in the future.
+	 *
+	 * @returns {{ keyword: string, score: number }[]} Array of related keyphrase entries.
+	 */
+	const selectRelatedKeyphraseEntries = () => reduce(
+		selectors.selectKeyphraseEntries(),
+		( acc, { keyphrase, id } ) => isEqual( id, FOCUS_KEYPHRASE_ID ) ? acc : [
+			...acc,
+			{ keyword: keyphrase, score: selectors.selectSeoScore( id ) },
+		],
+		[]
+	);
+
+	// Sync related keyphrase changes to hidden input.
+	createDomSync( selectRelatedKeyphraseEntries, dom.setRelatedKeyphraseEntries, "relatedKeyphraseEntries" );
 };
 
 /**

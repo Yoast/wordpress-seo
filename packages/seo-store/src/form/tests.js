@@ -188,9 +188,9 @@ describe( "Keyphrases slice", () => {
 		const createStoreState = curry( set )( {}, "form.keyphrases" );
 
 		test( "should select the keyphrases", () => {
-			const { selectKeyphrases } = keyphrasesSelectors;
+			const { selectKeyphraseEntries } = keyphrasesSelectors;
 
-			const result = selectKeyphrases( createStoreState( initialState ) );
+			const result = selectKeyphraseEntries( createStoreState( initialState ) );
 
 			expect( result ).toEqual( initialState );
 		} );
@@ -222,27 +222,27 @@ describe( "Keyphrases slice", () => {
 		} );
 
 		test( "should select the focus synonyms", () => {
-			const { selectSynonyms } = keyphrasesSelectors;
+			const { selectKeyphraseSynonyms } = keyphrasesSelectors;
 
 			const state = merge( {}, initialState, {
 				focus: {
 					synonyms: "test",
 				},
 			} );
-			const result = selectSynonyms( createStoreState( state ) );
+			const result = selectKeyphraseSynonyms( createStoreState( state ) );
 
 			expect( result ).toEqual( "test" );
 		} );
 
 		test( "should select synonyms", () => {
-			const { selectSynonyms } = keyphrasesSelectors;
+			const { selectKeyphraseSynonyms } = keyphrasesSelectors;
 
 			const state = merge( {}, initialState, {
 				a: {
 					synonyms: "test",
 				},
 			} );
-			const result = selectSynonyms( createStoreState( state ), "a" );
+			const result = selectKeyphraseSynonyms( createStoreState( state ), "a" );
 
 			expect( result ).toEqual( "test" );
 		} );
