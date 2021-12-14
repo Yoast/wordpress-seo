@@ -41,6 +41,10 @@ class KeyphraseLengthAssessment extends Assessment {
 				okay: 6,
 				good: 9,
 			},
+			countTextIn: {
+				singular: __( "word", "wordpress-seo" ),
+				plural: __( "words", "wordpress-seo" ),
+			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33i" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33j" ),
 			isRelatedKeyphrase: false,
@@ -64,6 +68,11 @@ class KeyphraseLengthAssessment extends Assessment {
 		this._configToUse = this.getConfig( researcher );
 		const assessmentResult = new AssessmentResult();
 		this._boundaries = this._configToUse.parameters;
+		const countTextInCharacters = researcher.getConfig( "countCharacters" );
+		if ( countTextInCharacters ) {
+			this._config.countTextIn.singular = __( "character", "wordpress-seo" );
+			this._config.countTextIn.plural = __( "characters", "wordpress-seo" );
+		}
 
 		// Make the boundaries less strict if the language of the current paper doesn't have function word support.
 		if ( this._keyphraseLengthData.functionWords.length === 0 ) {
@@ -137,15 +146,15 @@ class KeyphraseLengthAssessment extends Assessment {
 					score: this._configToUse.scores.bad,
 					resultText: sprintf(
 						/* Translators:
-				%1$d expands to the number of words in the keyphrase,
-				%2$d expands to the recommended maximum of words in the keyphrase,
-				%3$s and %4$s expand to links on yoast.com,
-				%5$s expands to the anchor end tag. */
+				%1$d expands to the number of words / characters in the keyphrase,
+				%2$d expands to the recommended maximum of words / characters in the keyphrase,
+				%3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
+				%6$s expands to the word 'word' or 'character', %7$s expands to the word 'words or 'characters'. */
 						_n(
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d word long. That's shorter than the recommended minimum of %2$d words. %4$sMake it longer%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's shorter than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's shorter than the recommended minimum of %2$d words. %4$sMake it longer%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %7$s long. That's shorter than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
 							this._keyphraseLengthData.keyphraseLength,
 							"wordpress-seo"
 						),
@@ -153,7 +162,9 @@ class KeyphraseLengthAssessment extends Assessment {
 						this._boundaries.recommendedMinimum,
 						this._configToUse.urlTitle,
 						this._configToUse.urlCallToAction,
-						"</a>"
+						"</a>",
+						this._config.countTextIn.singular,
+						this._config.countTextIn.plural
 					),
 				};
 			}
@@ -162,20 +173,22 @@ class KeyphraseLengthAssessment extends Assessment {
 					score: this._configToUse.scores.bad,
 					resultText: sprintf(
 						/* Translators:
-				%1$d expands to the number of words in the keyphrase,
-				%2$d expands to the recommended maximum of words in the keyphrase,
+				%1$d expands to the number of words / characters in the keyphrase,
+				%2$d expands to the recommended maximum of words / characters in the keyphrase,
 				%3$s and %4$s expand to links on yoast.com,
-				%5$s expands to the anchor end tag. */
+				%5$s expands to the anchor end tag,
+				%6$s expands to the word 'words' or 'characters'. */
 						__(
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's longer than the recommended maximum of %2$d words. %4$sMake it shorter%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's longer than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
 							"wordpress-seo"
 						),
 						this._keyphraseLengthData.keyphraseLength,
 						this._boundaries.recommendedMaximum,
 						this._configToUse.urlTitle,
 						this._configToUse.urlCallToAction,
-						"</a>"
+						"</a>",
+						this._config.countTextIn.plural
 					),
 				};
 			}
@@ -185,20 +198,22 @@ class KeyphraseLengthAssessment extends Assessment {
 					score: this._configToUse.scores.okay,
 					resultText: sprintf(
 						/* Translators:
-						%1$d expands to the number of words in the keyphrase,
-						%2$d expands to the recommended maximum of words in the keyphrase,
+						%1$d expands to the number of words / characters in the keyphrase,
+						%2$d expands to the recommended maximum of words / characters in the keyphrase,
 						%3$s and %4$s expand to links on yoast.com,
-						%5$s expands to the anchor end tag. */
+						%5$s expands to the anchor end tag,
+						%6$s expands to the word 'words' or 'characters'. */
 						__(
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's slightly shorter than the recommended minimum of %2$d words. %4$sMake it longer%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's slightly shorter than the recommended minimum of %2$d %6$s. %4$sMake it longer%5$s!",
 							"wordpress-seo"
 						),
 						this._keyphraseLengthData.keyphraseLength,
 						this._boundaries.recommendedMinimum,
 						this._configToUse.urlTitle,
 						this._configToUse.urlCallToAction,
-						"</a>"
+						"</a>",
+						this._config.countTextIn.plural
 					),
 				};
 			}
@@ -208,20 +223,22 @@ class KeyphraseLengthAssessment extends Assessment {
 					score: this._configToUse.scores.okay,
 					resultText: sprintf(
 						/* Translators:
-						%1$d expands to the number of words in the keyphrase,
-						%2$d expands to the recommended maximum of words in the keyphrase,
+						%1$d expands to the number of words / characters in the keyphrase,
+						%2$d expands to the recommended maximum of words / characters in the keyphrase,
 						%3$s and %4$s expand to links on yoast.com,
-						%5$s expands to the anchor end tag. */
+						%5$s expands to the anchor end tag,
+						%6$s expands to the word 'words' or 'characters'. */
 						__(
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's longer than the recommended maximum of %2$d words. %4$sMake it shorter%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's longer than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
 							"wordpress-seo"
 						),
 						this._keyphraseLengthData.keyphraseLength,
 						this._boundaries.recommendedMaximum,
 						this._configToUse.urlTitle,
 						this._configToUse.urlCallToAction,
-						"</a>"
+						"</a>",
+						this._config.countTextIn.plural
 					),
 				};
 			}
@@ -294,20 +311,22 @@ class KeyphraseLengthAssessment extends Assessment {
 				score: this._configToUse.scores.okay,
 				resultText: sprintf(
 					/* Translators:
-					%1$d expands to the number of words in the keyphrase,
-					%2$d expands to the recommended maximum of words in the keyphrase,
+					%1$d expands to the number of words / characters in the keyphrase,
+					%2$d expands to the recommended maximum of words / characters in the keyphrase,
 					%3$s and %4$s expand to links on yoast.com,
-					%5$s expands to the anchor end tag. */
+					%5$s expands to the anchor end tag,
+					%6$s expands to the word 'words' or 'characters'. */
 					__(
 						// eslint-disable-next-line max-len
-						"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's more than the recommended maximum of %2$d words. %4$sMake it shorter%5$s!",
+						"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's more than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
 						"wordpress-seo"
 					),
 					this._keyphraseLengthData.keyphraseLength,
 					this._boundaries.recommendedMaximum,
 					this._configToUse.urlTitle,
 					this._configToUse.urlCallToAction,
-					"</a>"
+					"</a>",
+					this._config.countTextIn.plural
 				),
 			};
 		}
@@ -316,20 +335,22 @@ class KeyphraseLengthAssessment extends Assessment {
 			score: this._configToUse.scores.bad,
 			resultText: sprintf(
 				/* Translators:
-				%1$d expands to the number of words in the keyphrase,
-				%2$d expands to the recommended maximum of words in the keyphrase,
+				%1$d expands to the number of words / characters in the keyphrase,
+				%2$d expands to the recommended maximum of words / characters in the keyphrase,
 				%3$s and %4$s expand to links on yoast.com,
-				%5$s expands to the anchor end tag. */
+				%5$s expands to the anchor end tag,
+				%6$s expands to the word 'words' or 'characters'. */
 				__(
 					// eslint-disable-next-line max-len
-					"%3$sKeyphrase length%5$s: The keyphrase is %1$d words long. That's way more than the recommended maximum of %2$d words. %4$sMake it shorter%5$s!",
+					"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's way more than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
 					"wordpress-seo"
 				),
 				this._keyphraseLengthData.keyphraseLength,
 				this._boundaries.recommendedMaximum,
 				this._configToUse.urlTitle,
 				this._configToUse.urlCallToAction,
-				"</a>"
+				"</a>",
+				this._config.countTextIn.plural
 			),
 		};
 	}
