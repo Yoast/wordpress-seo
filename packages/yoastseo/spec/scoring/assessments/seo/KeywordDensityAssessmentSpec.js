@@ -216,7 +216,7 @@ if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
 			" of the keyphrase forms", function() {
 			const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 32 ), {
 				keyword: "一冊の本を読む",
-				locale: "ja"
+				locale: "ja",
 			} );
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
@@ -231,7 +231,7 @@ if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
 			" of the keyphrase forms", function() {
 			const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 16 ), {
 				keyword: "一冊の本を読む",
-				locale: "ja"
+				locale: "ja",
 			} );
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
@@ -256,7 +256,7 @@ if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
 		it( "gives a BAD result when keyword density is between 0 and 0.5%", function() {
 			const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 1 ), {
 				keyword: "一冊の本を読む",
-				locale: "ja"
+				locale: "ja",
 			} );
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
@@ -270,7 +270,7 @@ if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
 		it( "gives a GOOD result when keyword density is between 0.5% and 3.5% when the text contains keyphrase forms", function() {
 			const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 8 ), {
 				keyword: "一冊の本を読む",
-				locale: "ja"
+				locale: "ja",
 			} );
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
@@ -283,7 +283,7 @@ if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
 		it( "gives a GOOD result when keyword density is between 0.5% and 3%, when the exact match of the keyphrase is in the text", function() {
 			const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphraseExactMatch.repeat( 8 ), {
 				keyword: "一冊の本を読む",
-				locale: "ja"
+				locale: "ja",
 			} );
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
@@ -296,7 +296,7 @@ if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
 		it( "gives a BAD result when keyword density is between 0.5% and 3.5%, if morphology is added, but there is no morphology data", function() {
 			const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 8 ), {
 				keyword: "一冊の本を読む",
-				locale: "ja"
+				locale: "ja",
 			} );
 			const researcher = new JapaneseResearcher( paper );
 			const result = new KeywordDensityAssessment().getResult( paper, researcher );
