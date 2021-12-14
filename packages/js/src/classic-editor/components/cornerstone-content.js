@@ -14,6 +14,8 @@ const LearnMoreLink = makeOutboundLink();
 /**
  * Renders the 'Cornerstone content' collapsible.
  *
+ * @param {string} cornerstoneContentInfoLink A URL to a page to read more about cornerstone content.
+ *
  * @returns {JSX.Element} The collapsible cornerstone toggle component.
  */
 const CornerstoneContent = ( { cornerstoneContentInfoLink } ) => {
