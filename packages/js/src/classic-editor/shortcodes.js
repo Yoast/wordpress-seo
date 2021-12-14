@@ -151,6 +151,11 @@ const parseShortcodes = async ( text ) => {
  * @returns {function} Unregister function.
  */
 const registerShortcodes = () => {
+	const isPost = get( window, "wpseoScriptData.isPost", "" ) === "1";
+	if ( ! isPost ) {
+		return;
+	}
+
 	addFilter(
 		"yoast.seoStore.analysis.preparePaper",
 		"yoast/free/parseShortcodes",
