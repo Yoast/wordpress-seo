@@ -10,7 +10,7 @@ import MetaboxCollapsible from "../../components/MetaboxCollapsible";
 /**
  * The Google preview component.
  *
- * @returns {wp.Element} The Google preview component.
+ * @returns {JSX.Element} The Google preview component.
  */
 const GooglePreview = () => {
 	const shoppingData = useSelect( select => select( EDITOR_STORE_NAME ).getShoppingData() );
