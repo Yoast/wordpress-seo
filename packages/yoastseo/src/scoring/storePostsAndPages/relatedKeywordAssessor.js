@@ -13,15 +13,14 @@ import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphras
 /**
  * Creates the Assessor
  *
- * @param {object}  i18n            The i18n object used for translations.
  * @param {object}  researcher      The researcher to use for the analysis.
  * @param {Object}  options         The options for this assessor.
  * @param {Object}  options.marker  The marker to pass the list of marks to.
  *
  * @constructor
  */
-const StorePostsAndPagesRelatedKeywordAssessor = function( i18n, researcher, options ) {
-	Assessor.call( this, i18n, researcher, options );
+const StorePostsAndPagesRelatedKeywordAssessor = function( researcher, options ) {
+	Assessor.call( this, researcher, options );
 	this.type = "storePostsAndPagesRelatedKeywordAssessor";
 
 	this._assessments = [

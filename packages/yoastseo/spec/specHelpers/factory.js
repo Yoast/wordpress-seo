@@ -1,23 +1,9 @@
-// Make sure the Jed object is globally available
-import Jed from "jed";
-
 /**
  * A mock factory function.
  *
  * @returns {void}
  */
 const FactoryProto = function() {};
-
-FactoryProto.prototype.buildJed = function() {
-	return new Jed( {
-		domain: "js-text-analysis",
-		locale_data: { // eslint-disable-line camelcase
-			"js-text-analysis": {
-				"": {},
-			},
-		},
-	} );
-};
 
 /**
  * Returns a mock element that lodash accepts as an element

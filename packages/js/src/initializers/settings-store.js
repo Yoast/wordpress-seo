@@ -1,11 +1,11 @@
 import { combineReducers, registerStore } from "@wordpress/data";
+import { reducers, selectors, actions } from "@yoast/externals/redux";
 import { get } from "lodash";
-import { dismissAlert, setSettings, updateReplacementVariable } from "../redux/actions";
 import * as controls from "../redux/controls/dismissedAlerts";
-import dismissedAlerts from "../redux/reducers/dismissedAlerts";
-import settings from "../redux/reducers/settings";
-import snippetEditor from "../redux/reducers/snippetEditor";
-import { getRecommendedReplaceVars, getReplaceVars, isAlertDismissed } from "../redux/selectors";
+
+const { dismissedAlerts, settings, snippetEditor } = reducers;
+const { getRecommendedReplaceVars, getReplaceVars, isAlertDismissed } = selectors;
+const { dismissAlert, setSettings, updateReplacementVariable } = actions;
 
 /**
  * Populates the store.

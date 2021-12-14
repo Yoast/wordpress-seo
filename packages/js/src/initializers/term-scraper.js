@@ -2,10 +2,6 @@
 
 // External dependencies.
 import { App, TaxonomyAssessor } from "yoastseo";
-import {
-	setReadabilityResults,
-	setSeoResultsForKeyword,
-} from "yoast-components";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import {
 	isUndefined,
@@ -36,14 +32,19 @@ import CustomAnalysisData from "../analysis/CustomAnalysisData";
 import getApplyMarks from "../analysis/getApplyMarks";
 import { refreshDelay } from "../analysis/constants";
 import handleWorkerError from "../analysis/handleWorkerError";
-
-// Redux dependencies.
-import { refreshSnippetEditor, updateData } from "../redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
-import { setFocusKeyword } from "../redux/actions/focusKeyword";
-import { setCornerstoneContent } from "../redux/actions/cornerstoneContent";
-import { setMarkerStatus } from "../redux/actions/markerButtons";
 import initializeUsedKeywords from "./used-keywords-assessment";
+import { actions } from "@yoast/externals/redux";
+
+const {
+	refreshSnippetEditor,
+	updateData,
+	setFocusKeyword,
+	setCornerstoneContent,
+	setMarkerStatus,
+	setReadabilityResults,
+	setSeoResultsForKeyword,
+} = actions;
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -351,7 +352,7 @@ export default function initTermScraper( $, store, editorData ) {
 		store.subscribe( handleStoreChange.bind( null, store, app.refresh ) );
 
 		if ( isKeywordAnalysisActive() ) {
-			app.seoAssessor = new TaxonomyAssessor( app.i18n, app.config.researcher );
+			app.seoAssessor = new TaxonomyAssessor( app.config.researcher );
 			app.seoAssessorPresenter.assessor = app.seoAssessor;
 		}
 

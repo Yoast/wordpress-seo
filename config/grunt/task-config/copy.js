@@ -79,6 +79,18 @@ module.exports = {
 		src: "gettext.pot",
 		dest: "<%= files.pot.yoastJsSearchMetadataPreviews %>",
 	},
+	"makepot-yoast-js-social-metadata-forms": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsSocialMetadataForms %>",
+	},
+	"makepot-yoast-js-replacement-variable-editor": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsReplacementVariableEditor %>",
+	},
+	"makepot-yoastseojs": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastseojs %>",
+	},
 
 	// The default de_CH is formal on WordPress.org, but that one is not translated enough for wordpress-seo.
 	// So we need to copy the `-informal` so we have a good translation.

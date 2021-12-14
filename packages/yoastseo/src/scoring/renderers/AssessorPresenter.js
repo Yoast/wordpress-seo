@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import { forEach } from "lodash-es";
 import { isNumber } from "lodash-es";
 import { isObject } from "lodash-es";
@@ -16,17 +17,15 @@ import createConfig from "../../config/presenter.js";
  * @param {string} args.targets.overall The HTML element to render the overall rating out to.
  * @param {string} args.keyword The keyword to use for checking, when calculating the overall rating.
  * @param {SEOAssessor} args.assessor The Assessor object to retrieve assessment results from.
- * @param {Jed} args.i18n The translation object.
  *
  * @constructor
  */
 var AssessorPresenter = function( args ) {
 	this.keyword = args.keyword;
 	this.assessor = args.assessor;
-	this.i18n = args.i18n;
 	this.output = args.targets.output;
 	this.overall = args.targets.overall || "overallScore";
-	this.presenterConfig = createConfig( args.i18n );
+	this.presenterConfig = createConfig();
 
 	this._disableMarkerButtons = false;
 
@@ -347,9 +346,9 @@ AssessorPresenter.prototype.renderIndividualRatings = function() {
 	outputTarget.innerHTML = template( {
 		scores: scores,
 		i18n: {
-			disabledMarkText: this.i18n.dgettext( "js-text-analysis", "Marks are disabled in current view" ),
-			markInText: this.i18n.dgettext( "js-text-analysis", "Mark this result in the text" ),
-			removeMarksInText: this.i18n.dgettext( "js-text-analysis", "Remove marks in the text" ),
+			disabledMarkText: __( "Marks are disabled in current view", "wordpress-seo" ),
+			markInText: __( "Mark this result in the text", "wordpress-seo" ),
+			removeMarksInText: __( "Remove marks in the text", "wordpress-seo" ),
 		},
 		activeMarker: this._activeMarker,
 		markerButtonsDisabled: this._disableMarkerButtons,

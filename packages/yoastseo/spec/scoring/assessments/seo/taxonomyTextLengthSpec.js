@@ -4,17 +4,15 @@ import { getTextLengthAssessment } from "../../../../src/scoring/taxonomyAssesso
 
 describe( "A taxonomy page text length assessment.", function() {
 	let assessment;
-	let i18n;
 
 	beforeEach( () => {
 		// Taxonomy assessor has a text length assessment with specific boundaries.
 		assessment = getTextLengthAssessment();
-		i18n = Factory.buildJed();
 	} );
 
 	it( "assesses a single word", function() {
 		const mockPaper = new Paper( "sample" );
-		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 1 ), i18n );
+		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 1 ) );
 
 		expect( result.getScore() ).toEqual( -20 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text contains 1 word. " +
@@ -23,7 +21,7 @@ describe( "A taxonomy page text length assessment.", function() {
 
 	it( "assesses a couple of words", function() {
 		const mockPaper = new Paper( "sample" );
-		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 5 ), i18n );
+		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 5 ) );
 
 		expect( result.getScore() ).toEqual( -20 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text contains 5 words. " +
@@ -32,7 +30,7 @@ describe( "A taxonomy page text length assessment.", function() {
 
 	it( "assesses words far below the minimum.", function() {
 		const mockPaper = new Paper( "sample" );
-		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 51 ), i18n );
+		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 51 ) );
 
 		expect( result.getScore() ).toEqual( -10 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text contains 51 words. " +
@@ -41,7 +39,7 @@ describe( "A taxonomy page text length assessment.", function() {
 
 	it( "assesses words below the minimum.", function() {
 		const mockPaper = new Paper( "sample" );
-		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 101 ), i18n );
+		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 101 ) );
 
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text contains 101 words. " +
@@ -50,7 +48,7 @@ describe( "A taxonomy page text length assessment.", function() {
 
 	it( "assesses words slightly below the minimum.", function() {
 		const mockPaper = new Paper( "sample" );
-		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 201 ), i18n );
+		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 201 ) );
 
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text contains 201 words. " +
@@ -59,7 +57,7 @@ describe( "A taxonomy page text length assessment.", function() {
 
 	it( "assesses words above the minimum.", function() {
 		const mockPaper = new Paper( "sample" );
-		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 251 ), i18n );
+		const result = assessment.getResult( mockPaper, Factory.buildMockResearcher( 251 ) );
 
 		expect( result.getScore() ).toEqual( 9 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34j' target='_blank'>Text length</a>: The text contains 251 words. Good job!" );

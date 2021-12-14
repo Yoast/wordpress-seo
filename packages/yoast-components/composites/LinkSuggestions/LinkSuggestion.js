@@ -62,10 +62,10 @@ const Badge = styled.span`
  * @constructor
  */
 const LinkSuggestion = ( { value, url, isActive, type } ) => {
-	const label = __( "Copy link", "yoast-components" );
+	const label = __( "Copy link", "wordpress-seo" );
 	const ariaLabel = sprintf(
 		/* translators: %s expands to the link value */
-		__( "Copy link to suggested article: %s", "yoast-components" ),
+		__( "Copy link to suggested article: %s", "wordpress-seo" ),
 		value
 	);
 

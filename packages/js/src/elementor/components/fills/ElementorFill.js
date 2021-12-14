@@ -7,9 +7,7 @@ import PropTypes from "prop-types";
 // Internal dependencies.
 import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
 import Alert from "../../containers/Alert";
-import KeywordInput from "../../../components/contentAnalysis/KeywordInput";
-import ReadabilityAnalysis from "../../../components/contentAnalysis/ReadabilityAnalysis";
-import SeoAnalysis from "../../../components/contentAnalysis/SeoAnalysis";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
 import SidebarItem from "../../../components/SidebarItem";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
 import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
@@ -18,6 +16,7 @@ import SidebarCollapsible from "../../../components/SidebarCollapsible";
 import SchemaTabContainer from "../../../containers/SchemaTab";
 import AdvancedSettings from "../../../containers/AdvancedSettings";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
+import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanceModal";
 
 /* eslint-disable complexity */
 /**
@@ -87,6 +86,10 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 				/>
 			</SidebarItem> }
+			{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
+				<SidebarItem key="wincher-seo-performance" renderPriority={ 21 }>
+					<WincherSEOPerformanceModal location="sidebar" />
+				</SidebarItem> }
 			{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
 				<CollapsibleCornerstone />
 			</SidebarItem> }

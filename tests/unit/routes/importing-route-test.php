@@ -76,11 +76,11 @@ class Importing_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'/import/(?P<plugin>\w+)/(?P<type>\w+)',
+				'/import/(?P<plugin>[\w-]+)/(?P<type>[\w-]+)',
 				[
 					'methods'             => [ 'POST' ],
 					'callback'            => [ $this->instance, 'execute' ],
-					'permission_callback' => [ $this->instance, 'can_import' ],
+					'permission_callback' => [ $this->instance, 'is_user_permitted_to_import' ],
 				]
 			);
 
@@ -101,6 +101,9 @@ class Importing_Route_Test extends TestCase {
 		Mockery::mock( 'overload:WP_REST_Response' );
 
 		$importer = array_values( $this->importers )[0];
+		$importer->expects( 'is_compatible_with' )
+			->once()
+			->andReturnTrue();
 		$importer->expects( 'index' )
 			->once()
 			->andReturn( [ 'test' ] );

@@ -1,7 +1,6 @@
 import KeyphraseInImagesAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
-const i18n = Factory.buildJed();
 
 const keyphraseInImagesAssessment = new KeyphraseInImagesAssessment();
 
@@ -16,7 +15,7 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
@@ -35,7 +34,7 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
@@ -55,7 +54,7 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 0,
 				withAltNonKeyword: 1,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
@@ -76,7 +75,7 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 0,
 				withAltNonKeyword: 4,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
@@ -96,7 +95,7 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 1,
 				withAltNonKeyword: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
@@ -115,7 +114,7 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 1,
 				withAltNonKeyword: 1,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Good job!" );
@@ -135,7 +134,7 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 2,
 				withAltNonKeyword: 1,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Good job!" );
@@ -153,7 +152,7 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 6,
 				withAltNonKeyword: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
@@ -175,7 +174,7 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 1,
 				withAltNonKeyword: 4,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
@@ -198,7 +197,7 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 2,
 				withAltNonKeyword: 1,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Good job!" );
@@ -217,7 +216,7 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 4,
 				withAltNonKeyword: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Good job!" );
@@ -236,7 +235,7 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 5,
 				withAltNonKeyword: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
@@ -258,7 +257,7 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 1,
 				withAltNonKeyword: 3,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
@@ -278,7 +277,7 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +

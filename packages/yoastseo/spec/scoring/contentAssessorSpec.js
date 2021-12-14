@@ -3,12 +3,9 @@ import DutchResearcher from "../../src/languageProcessing/languages/nl/Researche
 import DefaultResearcher from "../../src/languageProcessing/languages/_default/Researcher";
 import ContentAssessor from "../../src/scoring/contentAssessor.js";
 import AssessmentResult from "../../src/values/AssessmentResult.js";
-import Factory from "../specHelpers/factory.js";
 import Paper from "../../src/values/Paper.js";
 
 import { forEach } from "lodash-es";
-
-const i18n = Factory.buildJed();
 
 describe( "A content assessor", function() {
 	describe( "calculatePenaltyPoints", function() {
@@ -16,7 +13,7 @@ describe( "A content assessor", function() {
 		let results;
 		const paper = new Paper();
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
+			contentAssessor = new ContentAssessor( new EnglishResearcher( paper ) );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -102,7 +99,7 @@ describe( "A content assessor", function() {
 		let points, results, contentAssessor;
 
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, new EnglishResearcher() );
+			contentAssessor = new ContentAssessor( new EnglishResearcher() );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -170,7 +167,7 @@ describe( "A content assessor", function() {
 			"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod.", { locale: "nl_NL" } );
 
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, new DutchResearcher( paper ) );
+			contentAssessor = new ContentAssessor( new DutchResearcher( paper ) );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -210,7 +207,7 @@ describe( "A content assessor", function() {
 		const paper = new Paper( "", { locale: "jv_ID" } );
 
 		beforeEach( function() {
-			contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
+			contentAssessor = new ContentAssessor( new DefaultResearcher( paper ) );
 			contentAssessor.getValidResults = function() {
 				return results;
 			};
@@ -259,7 +256,7 @@ describe( "A content assessor", function() {
 				"accommodare. Mutat gloriatur ex cum, rebum salutandi ei his, vis delenit quaestio ne. Iisque qualisque duo ei. " +
 				"Splendide tincidunt te sit, commune oporteat quo id. Sumo recusabo suscipiantur duo an, no eum malis vulputate " +
 				"consectetuer. Mel te noster invenire, nec ad vidisse constituto. Eos ut quod.", { locale: "en_US" } );
-			const contentAssessor = new ContentAssessor( i18n, new EnglishResearcher( paper ) );
+			const contentAssessor = new ContentAssessor( new EnglishResearcher( paper ) );
 
 			contentAssessor.getPaper = function() {
 				return paper;
@@ -271,7 +268,7 @@ describe( "A content assessor", function() {
 
 		it( "Should have 4 available assessments for a basic supported language", function() {
 			const paper = new Paper( "test", { locale: "xx_XX" } );
-			const contentAssessor = new ContentAssessor( i18n, new DefaultResearcher( paper ) );
+			const contentAssessor = new ContentAssessor( new DefaultResearcher( paper ) );
 
 			contentAssessor.getPaper = function() {
 				return paper;

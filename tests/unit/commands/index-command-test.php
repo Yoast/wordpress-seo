@@ -177,11 +177,13 @@ class Index_Command_Test extends TestCase {
 			->times( 6 )
 			->with( Mockery::type( 'string' ), 30 )
 			->andReturn( $progress_bar_mock );
+		Monkey\Functions\expect( '\WP_CLI\Utils\wp_clear_object_cache' )
+			->times( 12 );
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 25 );
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 5 );
 		$progress_bar_mock->expects( 'finish' )->times( 6 );
 
-		$this->instance->index();
+		$this->instance->index( null, [ 'interval' => 500 ] );
 	}
 
 	/**
@@ -218,6 +220,8 @@ class Index_Command_Test extends TestCase {
 			->times( 6 )
 			->with( Mockery::type( 'string' ), 30 )
 			->andReturn( $progress_bar_mock );
+		Monkey\Functions\expect( '\WP_CLI\Utils\wp_clear_object_cache' )
+			->times( 12 );
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 25 );
 		$progress_bar_mock->expects( 'tick' )->times( 6 )->with( 5 );
 		$progress_bar_mock->expects( 'finish' )->times( 6 );
@@ -265,7 +269,13 @@ class Index_Command_Test extends TestCase {
 			->once()
 			->with( 'wpseo_total_unindexed_terms' );
 
-		$this->instance->index( null, [ 'reindex' => true ] );
+		$this->instance->index(
+			null,
+			[
+				'reindex'  => true,
+				'interval' => 500,
+			]
+		);
 	}
 
 	/**
@@ -323,11 +333,19 @@ class Index_Command_Test extends TestCase {
 			->times( 12 )
 			->with( Mockery::type( 'string' ), 30 )
 			->andReturn( $progress_bar_mock );
+		Monkey\Functions\expect( '\WP_CLI\Utils\wp_clear_object_cache' )
+			->times( 24 );
 		$progress_bar_mock->expects( 'tick' )->times( 12 )->with( 25 );
 		$progress_bar_mock->expects( 'tick' )->times( 12 )->with( 5 );
 		$progress_bar_mock->expects( 'finish' )->times( 12 );
 
-		$this->instance->index( null, [ 'network' => true ] );
+		$this->instance->index(
+			null,
+			[
+				'network'  => true,
+				'interval' => 500,
+			]
+		);
 	}
 
 	/**

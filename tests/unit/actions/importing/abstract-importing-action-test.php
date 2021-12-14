@@ -32,34 +32,6 @@ class Abstract_Importing_Action_Test extends TestCase {
 	protected $mock_instance;
 
 	/**
-	 * Represents the indexable repository.
-	 *
-	 * @var Mockery\MockInterface|Indexable_Repository
-	 */
-	protected $indexable_repository;
-
-	/**
-	 * The mocked WordPress database object.
-	 *
-	 * @var Mockery\MockInterface|\wpdb
-	 */
-	protected $wpdb;
-
-	/**
-	 * The mocked meta helper.
-	 *
-	 * @var Mockery\MockInterface|Meta_Helper
-	 */
-	protected $meta;
-
-	/**
-	 * The mocked indexable_to_postmeta helper.
-	 *
-	 * @var Mockery\MockInterface|Indexable_To_Postmeta_Helper
-	 */
-	protected $indexable_to_postmeta;
-
-	/**
 	 * The mocked options helper.
 	 *
 	 * @var Mockery\MockInterface|Options_Helper
@@ -67,36 +39,16 @@ class Abstract_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
-	 * The wpdb helper.
-	 *
-	 * @var Wpdb_Helper
-	 */
-	protected $wpdb_helper;
-
-	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->indexable_repository  = Mockery::mock( Indexable_Repository::class );
-		$this->wpdb                  = Mockery::mock( 'wpdb' );
-		$this->meta                  = Mockery::mock( Meta_Helper::class );
-		$this->indexable_to_postmeta = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
-		$this->options               = Mockery::mock( Options_Helper::class );
-		$this->wpdb_helper           = Mockery::mock( Wpdb_Helper::class );
-		$this->mock_instance         = Mockery::mock(
+		$this->options       = Mockery::mock( Options_Helper::class );
+		$this->mock_instance = Mockery::mock(
 			Abstract_Importing_Action_Double::class,
-			[
-				$this->indexable_repository,
-				$this->wpdb,
-				$this->indexable_to_postmeta,
-				$this->options,
-				$this->wpdb_helper,
-			]
+			[ $this->options ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
-
-		$this->wpdb->prefix = 'wp_';
 	}
 
 	/**

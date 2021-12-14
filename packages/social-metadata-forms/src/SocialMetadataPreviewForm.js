@@ -173,11 +173,11 @@ class SocialMetadataPreviewForm extends Component {
 		const imageSelected = !! imageUrl;
 
 		/* Translators: %s expands to the social medium name, i.e. Facebook. */
-		const imageSelectTitle = sprintf( __( "%s image", "yoast-components" ), socialMediumName );
+		const imageSelectTitle = sprintf( __( "%s image", "wordpress-seo" ), socialMediumName );
 		/* Translators: %s expands to the social medium name, i.e. Facebook. */
-		const titleEditorTitle = sprintf( __( "%s title", "yoast-components" ), socialMediumName );
+		const titleEditorTitle = sprintf( __( "%s title", "wordpress-seo" ), socialMediumName );
 		/* Translators: %s expands to the social medium name, i.e. Facebook. */
-		const descEditorTitle = sprintf( __( "%s description", "yoast-components" ), socialMediumName );
+		const descEditorTitle = sprintf( __( "%s description", "wordpress-seo" ), socialMediumName );
 
 		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
 

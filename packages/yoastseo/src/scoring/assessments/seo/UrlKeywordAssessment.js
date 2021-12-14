@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -39,16 +40,15 @@ class UrlKeywordAssessment extends Assessment {
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
 	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
-	 * @param {Jed}         i18n        The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		this._keywordInURL = researcher.getResearch( "keywordCountInUrl" );
 
 		const assessmentResult = new AssessmentResult();
 
-		const calculatedResult = this.calculateResult( i18n );
+		const calculatedResult = this.calculateResult();
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 
@@ -69,20 +69,19 @@ class UrlKeywordAssessment extends Assessment {
 	/**
 	 * Determines the score and the result text based on whether or not there's a keyword in the url.
 	 *
-	 * @param {Jed} i18n The object used for translations.
 	 *
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
-	calculateResult( i18n ) {
+	calculateResult() {
 		if ( this._keywordInURL.keyphraseLength < 3 ) {
 			if ( this._keywordInURL.percentWordMatches === 100 ) {
 				return {
 					score: this._config.scores.good,
-					resultText: i18n.sprintf(
+					resultText: sprintf(
 						/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-						i18n.dgettext(
-							"js-text-analysis",
-							"%1$sKeyphrase in slug%2$s: Great work!"
+						__(
+							"%1$sKeyphrase in slug%2$s: Great work!",
+							"wordpress-seo"
 						),
 						this._config.urlTitle,
 						"</a>"
@@ -92,11 +91,11 @@ class UrlKeywordAssessment extends Assessment {
 
 			return {
 				score: this._config.scores.okay,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!"
+					__(
+						"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!",
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
@@ -108,11 +107,11 @@ class UrlKeywordAssessment extends Assessment {
 		if ( this._keywordInURL.percentWordMatches > 50 ) {
 			return {
 				score: this._config.scores.good,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sKeyphrase in slug%2$s: More than half of your keyphrase appears in the slug. That's great!"
+					__(
+						"%1$sKeyphrase in slug%2$s: More than half of your keyphrase appears in the slug. That's great!",
+						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					"</a>"
@@ -121,11 +120,11 @@ class UrlKeywordAssessment extends Assessment {
 		}
 		return {
 			score: this._config.scores.okay,
-			resultText: i18n.sprintf(
+			resultText: sprintf(
 				/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-				i18n.dgettext(
-					"js-text-analysis",
-					"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!"
+				__(
+					"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!",
+					"wordpress-seo"
 				),
 				this._config.urlTitle,
 				this._config.urlCallToAction,

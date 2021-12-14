@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Routes;
 use WP_Error;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Services\Importing\Importer_Action_Filter_Trait;
 
@@ -16,8 +16,6 @@ use Yoast\WP\SEO\Services\Importing\Importer_Action_Filter_Trait;
  */
 class Importing_Route extends Abstract_Action_Route {
 
-	use No_Conditionals;
-
 	use Importer_Action_Filter_Trait;
 
 	/**
@@ -25,7 +23,7 @@ class Importing_Route extends Abstract_Action_Route {
 	 *
 	 * @var string
 	 */
-	const ROUTE = '/import/(?P<plugin>\w+)/(?P<type>\w+)';
+	const ROUTE = '/import/(?P<plugin>[\w-]+)/(?P<type>[\w-]+)';
 
 	/**
 	 * List of available importers.
@@ -44,6 +42,15 @@ class Importing_Route extends Abstract_Action_Route {
 	}
 
 	/**
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
+	 */
+	public static function get_conditionals() {
+		return [ AIOSEO_V4_Importer_Conditional::class ];
+	}
+
+	/**
 	 * Registers routes with WordPress.
 	 *
 	 * @return void
@@ -54,7 +61,7 @@ class Importing_Route extends Abstract_Action_Route {
 			self::ROUTE,
 			[
 				'callback'            => [ $this, 'execute' ],
-				'permission_callback' => [ $this, 'can_import' ],
+				'permission_callback' => [ $this, 'is_user_permitted_to_import' ],
 				'methods'             => [ 'POST' ],
 			]
 		);
@@ -144,7 +151,7 @@ class Importing_Route extends Abstract_Action_Route {
 	 *
 	 * @return bool Whether or not the current user is allowed to import.
 	 */
-	public function can_import() {
-		return \current_user_can( 'edit_posts' );
+	public function is_user_permitted_to_import() {
+		return \current_user_can( 'activate_plugins' );
 	}
 }

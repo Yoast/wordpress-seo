@@ -47,6 +47,9 @@ export function OrganizationSection( { dispatch, imageUrl, organizationName, isD
 				hasPreview={ true }
 				label={ __( "Organization logo (important)", "wordpress-seo" ) }
 				isDisabled={ isDisabled }
+				replaceImageButtonId={ "organization-logo-replace-button" }
+				selectImageButtonId={ "organization-logo-select-button" }
+				removeImageButtonId={ "organization-logo-remove-button" }
 			/>
 		</Fragment>
 	);

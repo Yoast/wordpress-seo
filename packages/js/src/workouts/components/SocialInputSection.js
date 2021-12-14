@@ -36,9 +36,10 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 	);
 
 	return (
-		<div className="yoast-social-profiles-input-fields">
+		<div id="social-input-section" className="yoast-social-profiles-input-fields">
 			<SocialInput
 				label={ __( "Facebook URL", "wordpress-seo" ) }
+				id="social-input-facebook-url"
 				value={ socialProfiles.facebookUrl }
 				socialMedium="facebookUrl"
 				onChange={ onChangeHandler }
@@ -47,6 +48,7 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 			/>
 			<SocialInput
 				label={ __( "Twitter URL", "wordpress-seo" ) }
+				id="social-input-twitter-url"
 				value={ socialProfiles.twitterUsername }
 				socialMedium="twitterUsername"
 				onChange={ onChangeHandler }
@@ -55,6 +57,7 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 			/>
 			<SocialInput
 				label={ __( "Instagram URL", "wordpress-seo" ) }
+				id="social-input-instagram-url"
 				value={ socialProfiles.instagramUrl }
 				socialMedium="instagramUrl"
 				onChange={ onChangeHandler }
@@ -63,6 +66,7 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 			/>
 			<SocialInput
 				label={ __( "LinkedIn URL", "wordpress-seo" ) }
+				id="social-input-linkedin-url"
 				value={ socialProfiles.linkedinUrl }
 				socialMedium="linkedinUrl"
 				onChange={ onChangeHandler }
@@ -71,6 +75,7 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 			/>
 			<SocialInput
 				label={ __( "MySpace URL", "wordpress-seo" ) }
+				id="social-input-myspace-url"
 				value={ socialProfiles.myspaceUrl }
 				socialMedium="myspaceUrl"
 				onChange={ onChangeHandler }
@@ -79,6 +84,7 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 			/>
 			<SocialInput
 				label={ __( "Pinterest URL", "wordpress-seo" ) }
+				id="social-input-pinterest-url"
 				value={ socialProfiles.pinterestUrl }
 				socialMedium="pinterestUrl"
 				onChange={ onChangeHandler }
@@ -87,6 +93,7 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 			/>
 			<SocialInput
 				label={ __( "YouTube URL", "wordpress-seo" ) }
+				id="social-input-youtube-url"
 				value={ socialProfiles.youtubeUrl }
 				socialMedium="youtubeUrl"
 				onChange={ onChangeHandler }
@@ -95,6 +102,7 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 			/>
 			<SocialInput
 				label={ __( "Wikipedia URL", "wordpress-seo" ) }
+				id="social-input-wikipedia-url"
 				value={ socialProfiles.wikipediaUrl }
 				socialMedium="wikipediaUrl"
 				onChange={ onChangeHandler }

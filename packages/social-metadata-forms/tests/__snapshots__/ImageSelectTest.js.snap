@@ -150,8 +150,8 @@ exports[`The ImageSelect component displays warnings 1`] = `
   font-weight: 400;
   line-height: 1.5;
   margin-bottom: 5px;
-  width: 112px;
-  height: 40px;
+  max-width: 200px;
+  padding: 0 0.5em;
 }
 
 .c16 {
@@ -386,8 +386,8 @@ exports[`The ImageSelect component renders 1`] = `
   font-weight: 400;
   line-height: 1.5;
   margin-bottom: 5px;
-  width: 112px;
-  height: 40px;
+  max-width: 200px;
+  padding: 0 0.5em;
 }
 
 .c0 {

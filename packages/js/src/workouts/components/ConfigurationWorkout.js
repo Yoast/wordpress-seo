@@ -17,6 +17,7 @@ import { PersonSection } from "./PersonSection";
 import { NewsletterSignup } from "./NewsletterSignup";
 import { WorkoutIndexation } from "./WorkoutIndexation";
 import SocialInputSection from "./SocialInputSection";
+import SocialInputPersonSection from "./SocialInputPersonSection";
 import { scrollToStep } from "../helpers";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
@@ -24,6 +25,51 @@ window.wpseoScriptData.searchAppearance = {
 	...window.wpseoScriptData.searchAppearance,
 	userEditUrl: "/wp-admin/user-edit.php?user_id={user_id}",
 };
+
+/**
+ * Adds a step to editedSteps if not there already.
+ *
+ * @param {Array} editedSteps Steps that have been edited.
+ * @param {number} stepNumber  The number of the field that was edited.
+ *
+ * @returns {Array} The new array of editedSteps.
+ */
+function addStepToEditedSteps( editedSteps, stepNumber ) {
+	if ( editedSteps.includes( stepNumber ) ) {
+		return [ ...editedSteps ];
+	}
+	return [ ...editedSteps, stepNumber ];
+}
+
+/**
+ * Removes a step from savedSteps.
+ *
+ * @param {Array} savedSteps Steps that have been saved.
+ * @param {number} stepNumber  The number of the step that was edited.
+ *
+ * @returns {Array} The new array of savedSteps
+ */
+function removeStepFromSavedSteps( savedSteps, stepNumber ) {
+	return savedSteps.filter( step => step !== stepNumber );
+}
+
+/**
+ * Adjusts the editedSteps and savedSteps and returns the full state;
+ *
+ * @param {Object} state      The state.
+ * @param {number} stepNumber The number of the step that was edited.
+ *
+ * @returns {Object} The new state;
+ */
+function handleStepEdit( state, stepNumber ) {
+	const newEditedSteps = addStepToEditedSteps( state.editedSteps, stepNumber );
+	const newSavedSteps = removeStepFromSavedSteps( state.savedSteps, stepNumber );
+	return {
+		...state,
+		editedSteps: newEditedSteps,
+		savedSteps: newSavedSteps,
+	};
+}
 
 /* eslint-disable complexity */
 /**
@@ -35,47 +81,69 @@ window.wpseoScriptData.searchAppearance = {
  * @returns {Object} The state as altered by the action.
  */
 function configurationWorkoutReducer( state, action ) {
-	const newState = cloneDeep( state );
+	let newState = cloneDeep( state );
 	switch ( action.type ) {
 		case "SET_COMPANY_OR_PERSON":
+			newState = handleStepEdit( newState, 2 );
 			newState.companyOrPerson = action.payload;
 			newState.companyOrPersonLabel = window.wpseoWorkoutsData.configuration.companyOrPersonOptions.filter( ( item ) => {
 				return item.value === action.payload;
 			} ).pop().name;
 			return newState;
 		case "CHANGE_COMPANY_NAME":
+			newState = handleStepEdit( newState, 2 );
 			newState.companyName = action.payload;
 			return newState;
 		case "SET_COMPANY_LOGO":
+			newState = handleStepEdit( newState, 2 );
 			newState.companyLogo = action.payload.url;
 			newState.companyLogoId = action.payload.id;
 			return newState;
 		case "REMOVE_COMPANY_LOGO":
+			newState = handleStepEdit( newState, 2 );
 			newState.companyLogo = "";
 			newState.companyLogoId = "";
 			return newState;
 		case "SET_PERSON_LOGO":
+			newState = handleStepEdit( newState, 2 );
 			newState.personLogo = action.payload.url;
 			newState.personLogoId = action.payload.id;
 			return newState;
 		case "REMOVE_PERSON_LOGO":
+			newState = handleStepEdit( newState, 2 );
 			newState.personLogo = "";
 			newState.personLogoId = "";
 			return newState;
 		case "SET_PERSON_ID":
+			newState = handleStepEdit( newState, 2 );
 			newState.personId = action.payload;
 			return newState;
 		case "CHANGE_SOCIAL_PROFILE":
+			newState = handleStepEdit( newState, 3 );
 			newState.socialProfiles[ action.payload.socialMedium ] = action.payload.value;
 			return newState;
 		case "SET_ERROR_FIELDS":
 			newState.errorFields = action.payload;
 			return newState;
 		case "CHANGE_SITE_TAGLINE":
+			newState = handleStepEdit( newState, 2 );
 			newState.siteTagline = action.payload;
 			return newState;
 		case "SET_TRACKING":
+			newState = handleStepEdit( newState, 4 );
 			newState.tracking = action.payload;
+			return newState;
+		case "SET_STEP_SAVED":
+			if ( ! newState.savedSteps.includes( action.payload ) ) {
+				newState.savedSteps = [ ...newState.savedSteps, action.payload ];
+			}
+			newState.editedSteps = newState.editedSteps.filter( step => step !== action.payload );
+			return newState;
+		case "SET_STEP_NOT_SAVED":
+			newState.savedSteps = newState.savedSteps.filter( step => step !== action.payload );
+			return newState;
+		case "SET_ALL_STEPS_NOT_SAVED":
+			newState.savedSteps = [];
 			return newState;
 		default:
 			return newState;
@@ -99,10 +167,12 @@ async function updateSiteRepresentation( state ) {
 		person_logo: state.personLogo,
 		person_logo_id: state.personLogoId ? state.personLogoId : 0,
 		company_or_person_user_id: state.personId,
-		description: state.siteTagline,
 		/* eslint-enable camelcase */
 	};
 
+	if ( window.wpseoWorkoutsData.canEditWordPressOptions ) {
+		siteRepresentation.description = state.siteTagline;
+	}
 	const response = await apiFetch( {
 		path: "yoast/v1/workouts/site_representation",
 		method: "POST",
@@ -164,6 +234,15 @@ async function updateTracking( state ) {
 	return await response.json;
 }
 
+const stepNumberNameMap = {
+	1: STEPS.configuration.optimizeSeoData,
+	2: STEPS.configuration.siteRepresentation,
+	3: STEPS.configuration.socialProfiles,
+	4: STEPS.configuration.enableTracking,
+	5: STEPS.configuration.newsletterSignup,
+};
+
+/* eslint-disable max-statements */
 /**
  * The configuration workout.
  *
@@ -172,14 +251,17 @@ async function updateTracking( state ) {
  * @param {function}  reviseStep                The function to revise steps.
  * @param {function}  toggleWorkout             The function to toggle the workout state.
  * @param {function}  isStepFinished            The function to check whether a step is finished.
- * @param {string}    seoDataOptimizationNeeded The flag signaling if SEO optimization is needed.
  * @returns {WPElement} The ConfigurationWorkout component.
  */
-export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, toggleWorkout, clearActiveWorkout, isStepFinished } ) {
-	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, { ...window.wpseoWorkoutsData.configuration, errorFields: [] } );
+export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, clearActiveWorkout, isStepFinished } ) {
+	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, {
+		...window.wpseoWorkoutsData.configuration,
+		errorFields: [],
+		editedSteps: [],
+		savedSteps: [],
+	} );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "completed" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
-	const [ savedSteps, setSavedSteps ] = useState( [] );
 	const steps = STEPS.configuration;
 
 	const isTrackingOptionSelected = state.tracking === 0 || state.tracking === 1;
@@ -189,11 +271,20 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 	 */
 	useEffect( () => {
 		if ( indexingState === "completed" ) {
+			// Briefly override window variable to preserve indexingstate when navigating back and forth on the workouts page.
+			window.yoastIndexingData.amount = "0";
 			finishSteps( "configuration", [ steps.optimizeSeoData ] );
 		} else {
 			reviseStep( "configuration", steps.optimizeSeoData );
 		}
 	}, [ indexingState ] );
+
+	// Whenever a step is edited, toggle the saved state for that step.
+	useEffect( () => {
+		state.editedSteps.forEach( stepNumber => {
+			reviseStep( "configuration", stepNumberNameMap[ stepNumber ] );
+		} );
+	}, [ state.editedSteps ] );
 
 	/**
 	 * Sets the step to isSaved.
@@ -203,23 +294,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 	 * @returns {void}
 	 */
 	const setStepIsSaved = ( stepNumber ) => {
-		setSavedSteps( ( prevState ) => {
-			return [ stepNumber, ...prevState ];
-		} );
-		return;
-	};
-
-	/**
-	 * Sets a step to not saved.
-	 *
-	 * @param {number} stepNumber The number of the step to unsave.
-	 *
-	 * @returns {void}
-	 */
-	const setStepIsNotSaved = ( stepNumber ) => {
-		setSavedSteps( prevState => {
-			return prevState.filter( step => step !== stepNumber );
-		} );
+		dispatch( { type: "SET_STEP_SAVED", payload: stepNumber } );
 	};
 
 	const isStep1Finished = isStepFinished( "configuration", steps.optimizeSeoData );
@@ -236,17 +311,30 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 	].every( Boolean );
 
 	/**
-	 * Returns a function that toggles a specific step (based on step name).
+	 * A function that tests whether criteria are met.
 	 *
-	 * @param {string} stepName The name of the step to toggle.
+	 * @param {number} stepNumber The number of the step to verify readiness for.
 	 *
-	 * @returns {func} A function that toggles a specific step.
+	 * @returns {Boolean} Whether the step is ready to be saved.
 	 */
-	const makeStepToggle = ( stepName ) => () => toggleStep( "configuration", stepName );
-
-	const toggleStepSiteRepresentation = makeStepToggle( steps.siteRepresentation );
-	const toggleStepSocialProfiles = makeStepToggle( steps.socialProfiles );
-	const toggleStepEnableTracking = makeStepToggle( steps.enableTracking );
+	function isStepReady( stepNumber ) {
+		switch ( stepNumber ) {
+			case 1:
+				return [ "in_progress", "completed" ].includes( indexingState );
+			case 2:
+				if ( state.companyOrPerson === "company" ) {
+					return Boolean( state.companyLogo && state.companyName );
+				}
+				return Boolean( state.personLogo && state.personId );
+			case 3:
+			case 4:
+				return true;
+			case 5:
+				return [ isStep1Finished, isStep2Finished, isStep3Finished, isStep4Finished ].every( Boolean ) && indexingState === "completed";
+			default:
+				return false;
+		}
+	}
 
 	const setTracking = useCallback( ( value ) => {
 		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
@@ -269,25 +357,20 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 	 * @returns {void}
 	 */
 	function updateOnFinishSiteRepresentation() {
-		if ( isStep2Finished ) {
-			setStepIsNotSaved( 2 );
-			toggleStepSiteRepresentation();
+		if ( ! siteRepresentationEmpty &&
+			state.companyOrPerson === "company" &&
+			( ! state.companyName || ! state.companyLogo ) ) {
+			setSiteRepresentationEmpty( true );
+		} else if (  ! siteRepresentationEmpty &&
+			state.companyOrPerson === "person" &&
+			( ! state.personId || ! state.personLogo ) ) {
+			setSiteRepresentationEmpty( true );
 		} else {
-			if ( ! siteRepresentationEmpty &&
-				state.companyOrPerson === "company" &&
-				( ! state.companyName || ! state.companyLogo ) ) {
-				setSiteRepresentationEmpty( true );
-			} else if (  ! siteRepresentationEmpty &&
-				state.companyOrPerson === "person" &&
-				( ! state.personId || ! state.personLogo ) ) {
-				setSiteRepresentationEmpty( true );
-			} else {
-				setSiteRepresentationEmpty( false );
-				updateSiteRepresentation( state )
-					.then( () => setStepIsSaved( 2 ) )
-					.then( toggleStepSiteRepresentation );
-				scrollToStep( 3 );
-			}
+			setSiteRepresentationEmpty( false );
+			updateSiteRepresentation( state )
+				.then( () => setStepIsSaved( 2 ) )
+				.then( () => finishSteps( "configuration", [ steps.siteRepresentation ] ) );
+			scrollToStep( 3 );
 		}
 	}
 
@@ -297,26 +380,21 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 	 * @returns {void}
 	 */
 	function updateOnFinishSocialProfiles() {
-		if ( isStep3Finished ) {
-			setStepIsNotSaved( 3 );
-			toggleStepSocialProfiles();
-		} else {
-			updateSocialProfiles( state )
-				.then( () => setStepIsSaved( 3 ) )
-				.then( () => {
-					setErrorFields( [] );
-					toggleStepSocialProfiles();
-					scrollToStep( 4 );
-				} )
-				.catch(
-					( e ) => {
-						if ( e.failures ) {
-							setErrorFields( e.failures );
-						}
-						return false;
+		updateSocialProfiles( state )
+			.then( () => setStepIsSaved( 3 ) )
+			.then( () => {
+				setErrorFields( [] );
+				finishSteps( "configuration", [ steps.socialProfiles ] );
+				scrollToStep( 4 );
+			} )
+			.catch(
+				( e ) => {
+					if ( e.failures ) {
+						setErrorFields( e.failures );
 					}
-				);
-		}
+					return false;
+				}
+			);
 	}
 
 	/**
@@ -325,15 +403,10 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 	 * @returns {void}
 	 */
 	function updateOnFinishEnableTracking() {
-		if ( isStep4Finished ) {
-			setStepIsNotSaved( 4 );
-			toggleStepEnableTracking();
-		} else {
-			updateTracking( state )
-				.then( () => setStepIsSaved( 4 ) )
-				.then( toggleStepEnableTracking );
-			scrollToStep( 5 );
-		}
+		updateTracking( state )
+			.then( () => setStepIsSaved( 4 ) )
+			.then( () => finishSteps( "configuration", [ steps.enableTracking ] ) );
+		scrollToStep( 5 );
 	}
 
 	const toggleConfigurationWorkout = useCallback(
@@ -341,11 +414,11 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 			const stepsToFinish = [];
 
 			if ( isWorkoutFinished ) {
-				setSavedSteps( [] );
 				reviseStep( "configuration", steps.siteRepresentation );
 				reviseStep( "configuration", steps.socialProfiles );
 				reviseStep( "configuration", steps.enableTracking );
 				reviseStep( "configuration", steps.newsletterSignup );
+				dispatch( { type: "SET_ALL_STEPS_NOT_SAVED" } );
 				return;
 			}
 			if ( ! isStep2Finished ) {
@@ -397,11 +470,13 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 		[ dispatch ]
 	);
 
+	const siteRepresentsPerson = state.companyOrPerson === "person";
+
 	/* eslint-disable max-len */
 	return (
-		<div className="card">
-			<h2>{ __( "Configuration", "wordpress-seo" ) }</h2>
-			<h3>{
+		<div id="yoast-configuration-workout" className="card">
+			<h2 id="yoast-configuration-workout-title">{ __( "Configuration", "wordpress-seo" ) }</h2>
+			<h3 id="yoast-configuration-workout-tagline">{
 				// translators: %1$s is replaced by "Yoast SEO"
 				sprintf( __( "Configure %1$s with optimal SEO settings for your site", "wordpress-seo" ), "Yoast SEO" )
 			}</h3>
@@ -431,13 +506,14 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 								"Yoast SEO",
 								"</a>"
 							),
-							"https://yoa.st/config-workout-guide"
+							"https://yoa.st/config-workout-guide",
+							"yoast-configuration-workout-guide-link"
 						)
 					}
 				</i>
 			</p>
-			<hr />
-			<p>
+			<hr id="configuration-workout-hr-top" />
+			<p id="configuration-workout-important-message">
 				{
 					createInterpolateElement(
 						sprintf(
@@ -455,9 +531,9 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					)
 				}
 			</p>
-			<br />
-			<Steps>
+			<Steps id="yoast-configuration-workout-steps">
 				<Step
+					id="yoast-configuration-workout-step-optimize-seo-data"
 					title={ __( "Optimize SEO data", "wordpress-seo" ) }
 					subtitle={ addLinkToString(
 						sprintf(
@@ -470,13 +546,14 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/config-workout-index-data"
+						"https://yoa.st/config-workout-index-data",
+						"yoast-configuration-workout-index-data-link"
 					) }
 					subtitleClass={ window.wpseoWorkoutsData.shouldUpdatePremium ? "disabled" : "" }
 					ImageComponent={ WorkoutStartImage }
 					isFinished={ isStep1Finished }
 				>
-					<div className="indexation-container">
+					<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
 						<WorkoutIndexation
 							indexingStateCallback={ setIndexingState }
 							isEnabled={ ! window.wpseoWorkoutsData.shouldUpdatePremium }
@@ -506,11 +583,13 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						</p>
 					</Alert> }
 					<FinishButtonSection
+						buttonId="yoast-configuration-workout-step-optimize-seo-data-button"
 						stepNumber={ 1 }
 						hasDownArrow={ true }
 						finishText={ __( "Continue", "wordpress-seo" ) }
 						onFinishClick={	onFinishOptimizeSeoData }
 						isFinished={ isStep1Finished }
+						isReady={ isStepReady( 1 ) }
 					/>
 				</Step>
 				<p className="extra-list-content">
@@ -532,6 +611,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					}
 				</p>
 				<Step
+					id="yoast-configuration-workout-step-site-representation"
 					title={ __( "Site representation", "wordpress-seo" ) }
 					subtitle={ __( "Tell Google what kind of site you have and increase the chance it gets features in a Google Knowledge Panel. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
 					isFinished={ isStep2Finished }
@@ -539,24 +619,26 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
 						{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
 					</Alert> }
-					{ ! window.wpseoWorkoutsData.configuration.shouldForceCompany && ! isStep2Finished &&
-					<SingleSelect
-						id="organization-person-select"
-						htmlFor="organization-person-select"
-						name="organization"
-						label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
-						selected={ state.companyOrPerson }
-						onChange={ onOrganizationOrPersonChange }
-						options={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
-					/> }
-					{ (  window.wpseoWorkoutsData.configuration.shouldForceCompany || isStep2Finished ) &&
-					<TextInput
-						id="organization-forced-readonly-text"
-						name="organization"
-						label={ __( "Does you site represent an Organization or Person?", "wordpress-seo" ) }
-						value={ state.companyOrPersonLabel }
-						readOnly={ true }
-					/> }
+					{
+						window.wpseoWorkoutsData.configuration.shouldForceCompany === 0 && <SingleSelect
+							id="organization-person-select"
+							htmlFor="organization-person-select"
+							name="organization"
+							label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
+							selected={ state.companyOrPerson }
+							onChange={ onOrganizationOrPersonChange }
+							options={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
+						/>
+					}
+					{
+						window.wpseoWorkoutsData.configuration.shouldForceCompany === 1 && <TextInput
+							id="organization-forced-readonly-text"
+							name="organization"
+							label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
+							value={ state.companyOrPersonLabel }
+							readOnly={ true }
+						/>
+					}
 					{ state.companyOrPerson === "company" && <Fragment>
 						{ ( ! state.companyName || ! state.companyLogo ) && <Alert type="warning">
 							{ __(
@@ -569,10 +651,9 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 							dispatch={ dispatch }
 							imageUrl={ state.companyLogo }
 							organizationName={ state.companyName }
-							isDisabled={ isStep2Finished }
 						/>
 					</Fragment> }
-					{ state.companyOrPerson === "person" && <Fragment>
+					{ siteRepresentsPerson && <Fragment>
 						{ ( ! state.personLogo || state.personId === 0 ) && <Alert type="warning">
 							{ __(
 								// eslint-disable-next-line max-len
@@ -584,18 +665,16 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 							dispatch={ dispatch }
 							imageUrl={ state.personLogo }
 							personId={ state.personId }
-							isDisabled={ isStep2Finished }
 						/>
 					</Fragment> }
-					<TextInput
+					{ window.wpseoWorkoutsData.canEditWordPressOptions && <TextInput
 						id="site-tagline-input"
 						name="site-tagline"
 						label={ __( "Site tagline", "wordpress-seo" ) }
 						description={ sprintf( __( "Add a catchy tagline that describes your site in the best light. Use the keywords you want people to find your site with. Example: %1$s’s tagline is ‘SEO for everyone.’", "wordpress-seo" ), "Yoast" ) }
 						value={ state.siteTagline }
 						onChange={ onSiteTaglineChange }
-						readOnly={ isStep2Finished }
-					/>
+					/> }
 					{ siteRepresentationEmpty && <Alert type="warning">
 						{ __(
 							// eslint-disable-next-line max-len
@@ -604,15 +683,18 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						) }
 					</Alert> }
 					<FinishButtonSection
+						buttonId="yoast-configuration-workout-step-site-representation-button"
 						stepNumber={ 2 }
-						isSaved={ savedSteps.includes( 2 ) }
-						hasDownArrow={ ! isStep2Finished }
-						finishText={ isStep2Finished ? __( "Revise this step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
+						isSaved={ state.savedSteps.includes( 2 ) }
+						hasDownArrow={ true }
+						finishText={ __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishSiteRepresentation }
 						isFinished={ isStep2Finished }
+						isReady={ isStepReady( 2 ) }
 					/>
 				</Step>
 				<Step
+					id="yoast-configuration-workout-step-social-profiles"
 					title={ __( "Social profiles", "wordpress-seo" ) }
 					subtitle={ state.companyOrPerson === "company" ?  __( "Do you have profiles for your site on social media? Then, add all of their URLs here, so your social profiles may also appear in a Google Knowledge Panel.", "wordpress-seo" ) : "" }
 					isFinished={ isStep3Finished }
@@ -622,66 +704,21 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						dispatch={ dispatch }
 						errorFields={ state.errorFields }
 						setErrorFields={ setErrorFields }
-						isDisabled={ isStep3Finished }
 					/> }
-					{ state.companyOrPerson === "person" && <div>
-						<p>
-							{
-								createInterpolateElement(
-									sprintf(
-										__(
-											// translators: %1$s and %2$s are replaced by opening and closing <b> tags, %3$s and %4$s are replaced by opening and closing anchor tags
-											"%1$sNote%2$s: In this step, you need to add the personal social profiles of the person your site represents. To do that, you should go to the %3$sUsers%4$s > Profile page in a new browser tab.",
-											"wordpress-seo"
-										),
-										"<b>",
-										"</b>",
-										"<a>",
-										"</a>"
-									),
-									{
-										b: <b />,
-										// eslint-disable-next-line jsx-a11y/anchor-has-content
-										a: <a href={ window.wpseoWorkoutsData.usersPageUrl } target="_blank" rel="noopener noreferrer" />,
-									}
-								)
-							}
-						</p>
-						<p>
-							{
-								addLinkToString(
-									sprintf(
-										__(
-											// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
-											"On the %1$sUsers%2$s page, hover your mouse over the username you want to edit. Click ‘Edit’ to access the user’s profile. Then, scroll down to the ‘Contact info’ section and fill in the URLs of the personal social profiles you want to add.",
-											"wordpress-seo"
-										),
-										"<a>",
-										"</a>"
-									),
-									window.wpseoWorkoutsData.usersPageUrl
-								)
-							}
-						</p>
-						<p>
-							<b>{ __( "Screenshot:", "wordpress-seo" ) }</b>
-							<img
-								src={ window.wpseoWorkoutsData.pluginUrl + "/images/profile-social-fields.png" }
-								alt={ __( "A screenshot of the Contact Info section of a user's Profile page", "wordpress-seo" ) }
-							/>
-						</p>
-					</div>
-					}
+					{ siteRepresentsPerson && <SocialInputPersonSection personId={ state.personId } /> }
 					<FinishButtonSection
+						buttonId="yoast-configuration-workout-step-social-profiles-button"
 						stepNumber={ 3 }
-						isSaved={ savedSteps.includes( 3 ) }
-						hasDownArrow={ ! isStep3Finished }
-						finishText={ isStep3Finished ? __( "Revise this step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
+						isSaved={ ! siteRepresentsPerson && state.savedSteps.includes( 3 ) }
+						hasDownArrow={ true }
+						finishText={ siteRepresentsPerson ? __( "Continue", "wordpress-seo" ) :  __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishSocialProfiles }
 						isFinished={ isStep3Finished }
+						isReady={ isStepReady( 3 ) }
 					/>
 				</Step>
 				<Step
+					id="yoast-configuration-workout-step-tracking"
 					title={ __( "Help us improve Yoast SEO", "wordpress-seo" ) }
 					isFinished={ isStep4Finished }
 				>
@@ -702,6 +739,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						<li> { __( "always load our customer support window so we can immediately assist you when you need help.", "wordpress-seo" ) } </li>
 					</ul>
 					<RadioButtonGroup
+						id="yoast-configuration-workout-tracking-radio-button"
 						label={ __( "Can we collect anonymous information about your website and how you use it?", "wordpress-seo" ) }
 						groupName="yoast-configuration-workout-tracking"
 						selected={ state.tracking }
@@ -732,25 +770,31 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 						) }
 					</Alert> }
 					<FinishButtonSection
+						buttonId="yoast-configuration-workout-step-tracking-button"
 						stepNumber={ 4 }
-						isSaved={ savedSteps.includes( 4 ) }
-						hasDownArrow={ ! isStep4Finished }
-						finishText={ isStep4Finished ? __( "Revise this step", "wordpress-seo" ) : __( "Save and continue", "wordpress-seo" ) }
+						isSaved={ state.savedSteps.includes( 4 ) }
+						hasDownArrow={ true }
+						finishText={ __( "Save and continue", "wordpress-seo" ) }
 						onFinishClick={ updateOnFinishEnableTracking }
 						isFinished={ isStep4Finished }
 						additionalButtonProps={ { disabled: ! isTrackingOptionSelected } }
+						isReady={ isStepReady( 4 ) }
 					/>
 				</Step>
 				<Step
+					id="yoast-configuration-workout-step-newsletter"
 					title={ __( "Sign up for the Yoast newsletter!", "wordpress-seo" ) }
 					isFinished={ isStep5Finished }
 				>
+					<br />
 					<NewsletterSignup />
 				</Step>
 				<FinishButtonSection
+					buttonId="yoast-configuration-workout-finish-workout-button"
 					finishText={ isWorkoutFinished ? __( "Do workout again", "wordpress-seo" ) : __( "Finish this workout", "wordpress-seo" ) }
 					onFinishClick={ toggleConfigurationWorkout }
-					isFinished={ isWorkoutFinished }
+					isFinished={ false }
+					isReady={ isWorkoutFinished ? false : isStepReady( 5 ) }
 					additionalButtonProps={ { disabled: indexingState !== "completed" || ! isTrackingOptionSelected } }
 				>
 					{ indexingState !== "completed" && <Alert type="warning">
@@ -759,10 +803,10 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					</Alert> }
 				</FinishButtonSection>
 			</Steps>
-			{ isWorkoutFinished && <div>
+			{ isWorkoutFinished && <div id="yoast-configuration-workout-congratulations">
 				<hr />
-				<h3 style={ { marginBottom: 0 } }>{ __( "Congratulations!", "wordpress-seo" ) }</h3>
-				<div style={ { display: "flex" } }>
+				<h3 id="yoast-configuration-workout-congratulations-title" style={ { marginBottom: 0 } }>{ __( "Congratulations!", "wordpress-seo" ) }</h3>
+				<div id="yoast-configuration-workout-congratulations-content" style={ { display: "flex" } }>
 					<div>
 						<p>
 							{
@@ -774,7 +818,7 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 					</div>
 					<WorkoutDoneImage style={ { height: "119px", width: "100px", flexShrink: 0 } } />
 				</div>
-				<Button onClick={ clearActiveWorkout } variant="primary">
+				<Button id="yoast-configuration-workout-congratulations-button" onClick={ clearActiveWorkout } variant="primary">
 					{
 						// translators: %1$s translates to a rightward pointing arrow ( → )
 						sprintf( __( "View other SEO workouts%1$s", "wordpress-seo" ), " →" )
@@ -787,7 +831,6 @@ export function ConfigurationWorkout( { toggleStep, finishSteps, reviseStep, tog
 }
 
 ConfigurationWorkout.propTypes = {
-	toggleStep: PropTypes.func.isRequired,
 	finishSteps: PropTypes.func.isRequired,
 	reviseStep: PropTypes.func.isRequired,
 	toggleWorkout: PropTypes.func.isRequired,
@@ -837,3 +880,4 @@ export default compose(
 		),
 	]
 )( ConfigurationWorkout );
+/* eslint-enable max-statements */

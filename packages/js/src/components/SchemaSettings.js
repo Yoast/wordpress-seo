@@ -83,8 +83,8 @@ class SchemaSettings extends Component {
 					description={ sprintf(
 						/* translators: %1$s expands to an indexable object's name, e.g. Posts or Pages. */
 						__(
-							"Choose how your %1$s should be described by default in your site's schema.org markup. " +
-							"You can change these settings for individual %1$s.",
+							// eslint-disable-next-line max-len
+							"Choose how your %1$s should be described by default in your site's schema.org markup. You can change these settings for individual %1$s.",
 							"wordpress-seo"
 						),
 						this.props.postTypeName
@@ -95,8 +95,7 @@ class SchemaSettings extends Component {
 						/* translators: %1$s expands to an indexable object's name, e.g. Posts or Pages. */
 						_n(
 							"Upon saving, this setting will apply to all of your %1$s. %1$s that are manually configured will be left untouched.",
-							"Upon saving, these settings will apply to all of your %1$s." +
-							" %1$s that are manually configured will be left untouched.",
+							"Upon saving, these settings will apply to all of your %1$s. %1$s that are manually configured will be left untouched.",
 							this.props.articleType ? 2 : 1,
 							"wordpress-seo"
 						),
