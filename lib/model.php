@@ -163,7 +163,7 @@ class Model implements JsonSerializable {
 	 *
 	 * @param string      $class_name    The target class name.
 	 * @param string      $property      The property to get the value for.
-	 * @param mixed|null $default_value Default value when property does not exist.
+	 * @param mixed|null  $default_value Default value when property does not exist.
 	 *
 	 * @return mixed|null The value of the property.
 	 */
