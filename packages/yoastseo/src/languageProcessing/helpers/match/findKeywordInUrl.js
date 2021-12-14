@@ -3,10 +3,10 @@
 import { findTopicFormsInString } from "./findKeywordFormsInString.js";
 
 /**
- * Matches the keyword in the URL.
+ * Matches the keyword in the anchor text.
  *
- * @param {string}      url         The url to check for keyword
- * @param {Object}      topicForms  The keyphrase and synonyms forms to look for
+ * @param {string}      url         The url to check for keyword.
+ * @param {Object}      topicForms  The keyphrase and synonyms forms to look for.
  * @param {string}      locale      The locale used for transliteration.
  * @param {function}    matchWordCustomHelper The helper function to match word in text.
  *
