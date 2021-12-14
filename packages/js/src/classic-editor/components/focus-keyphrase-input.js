@@ -2,7 +2,7 @@ import { PropTypes } from "prop-types";
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useDebounce } from "@wordpress/compose";
 import { useCallback } from "@wordpress/element";
-import { SEO_STORE_NAME } from "@yoast/seo-store";
+import { SEO_STORE_NAME } from "@yoast/seo-integration";
 
 import { EDITOR_STORE_NAME } from "../editor-store";
 import { KeywordInput } from "../../components/contentAnalysis/KeywordInput";
