@@ -20,7 +20,7 @@ import { getInitialPostState, getInitialTermState } from "./classic-editor/initi
 import { getAnalysisConfiguration } from "./classic-editor/analysis";
 import { refreshDelay } from "./analysis/constants";
 import { initTermDescriptionTinyMce } from "./initializers/tiny-mce";
-import initFeaturedImagePlugin from "./classic-editor/plugins/featuredImage";
+import initFeaturedImagePlugin from "./classic-editor/plugins/featured-image";
 
 // These are either "1" or undefined.
 const isPost = Boolean( get( window, "wpseoScriptData.isPost" ) );
