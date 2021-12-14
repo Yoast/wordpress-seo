@@ -53,7 +53,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * The replacevar handler.
 	 *
-	 * @var Aioseo_Replacevar_Handler
+	 * @var Mockery\MockInterface|Aioseo_Replacevar_Handler
 	 */
 	protected $replacevar_handler;
 
@@ -105,7 +105,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 
 		$this->options            = Mockery::mock( Options_Helper::class );
 		$this->post_type          = Mockery::mock( Post_Type_Helper::class );
-		$this->replacevar_handler = new Aioseo_Replacevar_Handler();
+		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Handler::class );
 		$this->instance           = new Aioseo_Custom_Archive_Settings_Importing_Action( $this->options, $this->post_type, $this->replacevar_handler );
 		$this->mock_instance      = Mockery::mock(
 			Aioseo_Custom_Archive_Settings_Importing_Action_Double::class,
@@ -189,7 +189,16 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 		$this->mock_instance->build_mapping();
 		$aioseo_options_to_yoast_map = $this->mock_instance->get_aioseo_options_to_yoast_map();
 
-		$this->mock_instance->shouldReceive( 'import_single_setting' )
+		$this->options->shouldReceive( 'get_default' )
+			->times( $times )
+			->andReturn( 'not_null' );
+
+		$this->replacevar_handler->shouldReceive( 'transform' )
+			->times( $times )
+			->with( $setting_value )
+			->andReturn( $setting_value );
+
+		$this->options->shouldReceive( 'set' )
 			->times( $times );
 
 		$this->mock_instance->map( $setting_value, $setting );

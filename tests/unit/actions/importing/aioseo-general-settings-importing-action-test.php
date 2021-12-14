@@ -45,7 +45,7 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * The replacevar handler.
 	 *
-	 * @var Aioseo_Replacevar_Handler
+	 * @var Mockery\MockInterface|Aioseo_Replacevar_Handler
 	 */
 	protected $replacevar_handler;
 
@@ -88,7 +88,7 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 		parent::set_up();
 
 		$this->options            = Mockery::mock( Options_Helper::class );
-		$this->replacevar_handler = new Aioseo_Replacevar_Handler();
+		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Handler::class );
 		$this->instance           = new Aioseo_General_Settings_Importing_Action( $this->options, $this->replacevar_handler );
 		$this->mock_instance      = Mockery::mock(
 			Aioseo_General_Settings_Importing_Action_Double::class,
@@ -144,18 +144,28 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests mapping AIOSEO general settings.
 	 *
-	 * @param string $setting       The setting at hand, eg. post or movie-category, separator etc.
-	 * @param string $setting_value The value of the AIOSEO setting at hand.
-	 * @param int    $times         The times that we will import each setting, if any.
+	 * @param string $setting         The setting at hand, eg. post or movie-category, separator etc.
+	 * @param string $setting_value   The value of the AIOSEO setting at hand.
+	 * @param int    $times           The times that we will import each setting, if any.
+	 * @param int    $transform_times The times that we will transform each setting, if any.
 	 *
 	 * @dataProvider provider_map
 	 * @covers ::map
 	 */
-	public function test_map( $setting, $setting_value, $times ) {
+	public function test_map( $setting, $setting_value, $times, $transform_times ) {
 		$this->mock_instance->build_mapping();
 		$aioseo_options_to_yoast_map = $this->mock_instance->get_aioseo_options_to_yoast_map();
 
-		$this->mock_instance->shouldReceive( 'import_single_setting' )
+		$this->options->shouldReceive( 'get_default' )
+			->times( $times )
+			->andReturn( 'not_null' );
+
+		$this->replacevar_handler->shouldReceive( 'transform' )
+			->times( $transform_times )
+			->with( $setting_value )
+			->andReturn( $setting_value );
+
+		$this->options->shouldReceive( 'set' )
 			->times( $times );
 
 		$this->mock_instance->map( $setting_value, $setting );
@@ -230,14 +240,14 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function provider_map() {
 		return [
-			[ '/separator', '&larr;', 1 ],
-			[ '/siteTitle', 'Site Title', 1 ],
-			[ '/metaDescription', 'Site Desc', 1 ],
-			[ '/schema/siteRepresents', 'person', 1 ],
-			[ '/schema/person', 60, 1 ],
-			[ '/schema/organizationName', 'Org Name', 1 ],
-			[ '/schema/organizationLogo', 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg', 1 ],
-			[ '/randomSetting', 'randomeValue', 0 ],
+			[ '/separator', '&larr;', 1, 0 ],
+			[ '/siteTitle', 'Site Title', 1, 1 ],
+			[ '/metaDescription', 'Site Desc', 1, 1 ],
+			[ '/schema/siteRepresents', 'person', 1, 0 ],
+			[ '/schema/person', 60, 1, 1 ],
+			[ '/schema/organizationName', 'Org Name', 1, 1 ],
+			[ '/schema/organizationLogo', 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg', 1, 1 ],
+			[ '/randomSetting', 'randomeValue', 0, 0 ],
 		];
 	}
 

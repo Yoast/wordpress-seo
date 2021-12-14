@@ -82,4 +82,28 @@ abstract class Aioseo_Custom_Archive_Settings_Importing_Action_Double extends Ai
 	public function map( $setting_value, $setting ) {
 		parent::map( $setting_value, $setting );
 	}
+
+	/**
+	 * Imports a single setting in the db after transforming it to adhere to Yoast conventions.
+	 *
+	 * @param string $setting         The name of the setting.
+	 * @param string $setting_value   The values of the setting.
+	 * @param array  $setting_mapping The mapping of the setting to Yoast formats.
+	 *
+	 * @return void.
+	 */
+	public function import_single_setting( $setting, $setting_value, $setting_mapping ) {
+		parent::import_single_setting( $setting, $setting_value, $setting_mapping );
+	}
+
+	/**
+	 * Minimally transforms data to be imported.
+	 *
+	 * @param string $meta_data The meta data to be imported.
+	 *
+	 * @return string The transformed meta data.
+	 */
+	public function simple_import( $meta_data ) {
+		return parent::simple_import( $meta_data );
+	}
 }
