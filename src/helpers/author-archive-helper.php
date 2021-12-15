@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * A helper object for author archives.
@@ -15,12 +16,19 @@ class Author_Archive_Helper {
 	 * @return array The post types that are shown on an author's archive.
 	 */
 	public function get_author_archive_post_types() {
+		$default_post_types = [ 'post' ];
 		/**
 		 * Filters the array of post types that are shown on an author's archive.
 		 *
 		 * @param array $args The post types that are shown on an author archive.
 		 */
-		return \apply_filters( 'wpseo_author_archive_post_types', [ 'post' ] );
+		$post_types = \apply_filters( 'wpseo_author_archive_post_types', $default_post_types );
+
+		if ( ! is_array( $post_types ) ) {
+			return $default_post_types;
+		}
+
+		return $post_types;
 	}
 
 	/**
@@ -29,8 +37,12 @@ class Author_Archive_Helper {
 	 * @param int $author_id The author ID.
 	 *
 	 * @return bool|null Whether the author has at least one public post.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 17.9
 	 */
 	public function author_has_public_posts( $author_id ) {
+		\_deprecated_function( __METHOD__, '17.9', esc_html( Indexable_Repository::class ) . '::query_where_noindex' );
 		// First check if the author has at least one public post.
 		$has_public_post = $this->author_has_a_public_post( $author_id );
 		if ( $has_public_post ) {
@@ -54,6 +66,8 @@ class Author_Archive_Helper {
 	 * @param int $author_id The author ID.
 	 *
 	 * @return bool Whether the author has at least one public post.
+	 *
+	 * @deprecated         17.9
 	 */
 	protected function author_has_a_public_post( $author_id ) {
 		$cache_key        = 'author_has_a_public_post_' . $author_id;
@@ -85,6 +99,8 @@ class Author_Archive_Helper {
 	 * @param int $author_id The author ID.
 	 *
 	 * @return bool Whether the author has at least one post with the is public null.
+	 *
+	 * @deprecated         17.9
 	 */
 	protected function author_has_a_post_with_is_public_null( $author_id ) {
 		$cache_key        = 'author_has_a_post_with_is_public_null_' . $author_id;

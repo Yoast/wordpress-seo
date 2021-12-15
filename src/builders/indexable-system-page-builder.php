@@ -20,7 +20,7 @@ class Indexable_System_Page_Builder {
 	 */
 	const OPTION_MAPPING = [
 		'search-result' => [
-			'title'            => 'title-search-wpseo',
+			'title' => 'title-search-wpseo',
 		],
 		'404'           => [
 			'title'            => 'title-404-wpseo',
@@ -65,11 +65,13 @@ class Indexable_System_Page_Builder {
 	 * @return Indexable The extended indexable.
 	 */
 	public function build( $object_sub_type, Indexable $indexable ) {
-		$indexable->object_type       = 'system-page';
-		$indexable->object_sub_type   = $object_sub_type;
-		$indexable->title             = $this->options->get( static::OPTION_MAPPING[ $object_sub_type ]['title'] );
-		$indexable->is_robots_noindex = true;
-		$indexable->blog_id           = \get_current_blog_id();
+		$indexable->object_type                       = 'system-page';
+		$indexable->object_sub_type                   = $object_sub_type;
+		$indexable->title                             = $this->options->get( static::OPTION_MAPPING[ $object_sub_type ]['title'] );
+		$indexable->is_robots_noindex                 = true;
+		$indexable->number_of_publicly_viewable_posts = 0;
+		$indexable->is_publicly_viewable              = true;
+		$indexable->blog_id                           = \get_current_blog_id();
 
 		if ( \array_key_exists( 'breadcrumb_title', static::OPTION_MAPPING[ $object_sub_type ] ) ) {
 			$indexable->breadcrumb_title = $this->options->get( static::OPTION_MAPPING[ $object_sub_type ]['breadcrumb_title'] );

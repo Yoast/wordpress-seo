@@ -95,6 +95,13 @@ class Model implements JsonSerializable {
 	protected $float_columns = [];
 
 	/**
+	 * Which columns are deprecated.
+	 *
+	 * @var array
+	 */
+	protected $deprecated_columns = [];
+
+	/**
 	 * Hacks around the Model to provide WordPress prefix to tables.
 	 *
 	 * @param string $class_name   Type of Model to load.
@@ -506,15 +513,18 @@ class Model implements JsonSerializable {
 	 * @return mixed The value of the property
 	 */
 	public function __get( $property ) {
-		$value = $this->orm->get( $property );
+		$original_property = $property;
+		$property          = $this->handle_deprecation( $property );
+		$value             = $this->orm->get( $property );
 
-		if ( $value !== null && \in_array( $property, $this->boolean_columns, true ) ) {
+		// The types of a deprecated property and its replacement may differ. To prevent this kind of deprecation from being a breaking change, use the old/originally requested type.
+		if ( $value !== null && \in_array( $original_property, $this->boolean_columns, true ) ) {
 			return (bool) $value;
 		}
-		if ( $value !== null && \in_array( $property, $this->int_columns, true ) ) {
+		if ( $value !== null && \in_array( $original_property, $this->int_columns, true ) ) {
 			return (int) $value;
 		}
-		if ( $value !== null && \in_array( $property, $this->float_columns, true ) ) {
+		if ( $value !== null && \in_array( $original_property, $this->float_columns, true ) ) {
 			return (float) $value;
 		}
 
@@ -530,6 +540,7 @@ class Model implements JsonSerializable {
 	 * @return void
 	 */
 	public function __set( $property, $value ) {
+		$property = $this->handle_deprecation( $property );
 		if ( $value !== null && \in_array( $property, $this->boolean_columns, true ) ) {
 			$value = ( $value ) ? '1' : '0';
 		}
@@ -551,6 +562,7 @@ class Model implements JsonSerializable {
 	 * @return void
 	 */
 	public function __unset( $property ) {
+		$property = $this->handle_deprecation( $property );
 		$this->orm->__unset( $property );
 	}
 
@@ -580,6 +592,7 @@ class Model implements JsonSerializable {
 	 * @return bool True when value is set.
 	 */
 	public function __isset( $property ) {
+		$property = $this->handle_deprecation( $property );
 		return $this->orm->__isset( $property );
 	}
 
@@ -591,6 +604,8 @@ class Model implements JsonSerializable {
 	 * @return string The value of a property.
 	 */
 	public function get( $property ) {
+		$property = $this->handle_deprecation( $property );
+
 		return $this->orm->get( $property );
 	}
 
@@ -603,6 +618,37 @@ class Model implements JsonSerializable {
 	 * @return static Current object.
 	 */
 	public function set( $property, $value = null ) {
+		$property = $this->handle_deprecation( $property );
+		$this->orm->set( $property, $value );
+
+		return $this;
+	}
+
+	/**
+	 * Setter method for model properties that are deprecated, but still need to updated while they wait to be removed.
+	 *
+	 * @param string|array $property The property to set.
+	 * @param string|null  $value    The value to give.
+	 *
+	 * @return static Current object.
+	 *
+	 * @internal
+	 */
+	public function set_deprecated_property( $property, $value = null ) {
+		if ( ! array_key_exists( $property, $this->deprecated_columns ) ) {
+			return $this;
+		}
+
+		if ( $value !== null && \in_array( $property, $this->boolean_columns, true ) ) {
+			$value = ( $value ) ? '1' : '0';
+		}
+		if ( $value !== null && \in_array( $property, $this->int_columns, true ) ) {
+			$value = (string) $value;
+		}
+		if ( $value !== null && \in_array( $property, $this->float_columns, true ) ) {
+			$value = (string) $value;
+		}
+
 		$this->orm->set( $property, $value );
 
 		return $this;
@@ -617,6 +663,7 @@ class Model implements JsonSerializable {
 	 * @return static Current object.
 	 */
 	public function set_expr( $property, $value = null ) {
+		$property = $this->handle_deprecation( $property );
 		$this->orm->set_expr( $property, $value );
 
 		return $this;
@@ -630,6 +677,7 @@ class Model implements JsonSerializable {
 	 * @return bool True when field is changed.
 	 */
 	public function is_dirty( $property ) {
+		$property = $this->handle_deprecation( $property );
 		return $this->orm->is_dirty( $property );
 	}
 
@@ -719,5 +767,38 @@ class Model implements JsonSerializable {
 		$model = static::factory( \get_called_class() );
 
 		return \call_user_func_array( [ $model, $method ], $arguments );
+	}
+
+	/**
+	 * Checks if a property is deprecated and handles notifications and replacement.
+	 *
+	 * @param string $property The property to check for deprecation.
+	 *
+	 * @return string The deprecated property name. Or its replacement if available.
+	 */
+	protected function handle_deprecation( $property ) {
+		if ( ! array_key_exists( $property, $this->deprecated_columns ) ) {
+			return $property;
+		}
+		$deprecation = $this->deprecated_columns[ $property ];
+
+		if ( ! empty( $deprecation['replacement'] ) ) {
+			// There is no _deprecated_property. This matches our usecase best.
+			\_deprecated_argument(
+				__FUNCTION__,
+				esc_html( $deprecation['since'] ),
+				'Use the \"' . esc_html( $deprecation['replacement'] ) . '\" property instead of \"' . esc_html( $property ) . '\" '
+			);
+
+			if ( $deprecation['automatically_use_replacement'] === true ) {
+				return $deprecation['replacement'];
+			}
+
+			return $property;
+		}
+		// There is no _deprecated_property. This matches our usecase best.
+		\_deprecated_argument( __FUNCTION__, esc_html( $deprecation['since'] ), 'The \"' . esc_html( $property ) . '\" property will be removed in a future version' );
+
+		return $property;
 	}
 }
