@@ -31,7 +31,7 @@ import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
  */
 const CornerstoneSEOAssessor = function( researcher, options ) {
 	Assessor.call( this, researcher, options );
-	this.type = "CornerstoneSEOAssessor";
+	this.type = "cornerstoneSEOAssessor";
 
 	this._assessments = [
 		new IntroductionKeywordAssessment(),

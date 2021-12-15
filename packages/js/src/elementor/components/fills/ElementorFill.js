@@ -7,9 +7,7 @@ import PropTypes from "prop-types";
 // Internal dependencies.
 import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
 import Alert from "../../containers/Alert";
-import KeywordInput from "../../../components/contentAnalysis/KeywordInput";
-import ReadabilityAnalysis from "../../../components/contentAnalysis/ReadabilityAnalysis";
-import SeoAnalysis from "../../../components/contentAnalysis/SeoAnalysis";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
 import SidebarItem from "../../../components/SidebarItem";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
 import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";

@@ -241,7 +241,12 @@ class WPSEO_Admin_Asset_Manager {
 			'analysis-worker'  => [ self::PREFIX . 'analysis-package' ],
 			'api-client'       => [ 'wp-api' ],
 			'dashboard-widget' => [ self::PREFIX . 'api-client' ],
-			'elementor'        => [ self::PREFIX . 'api-client' ],
+			'elementor'        => [
+				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
+			],
 			'indexation'       => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
@@ -249,6 +254,9 @@ class WPSEO_Admin_Asset_Manager {
 			'post-edit'        => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'block-editor',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'select2',
 			],
 			'reindex-links'    => [
@@ -264,10 +272,16 @@ class WPSEO_Admin_Asset_Manager {
 			'term-edit'        => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'classic-editor',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'select2',
 			],
 			'classic-editor'   => [
 				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'select2',
 			],
 		];
@@ -311,7 +325,7 @@ class WPSEO_Admin_Asset_Manager {
 			$renamed_scripts
 		);
 
-		$scripts[ "installation-success" ] = [
+		$scripts['installation-success'] = [
 			'name' => 'installation-success',
 			'src'  => 'installation-success-' . $flat_version . '.js',
 			'deps' => [
@@ -321,6 +335,7 @@ class WPSEO_Admin_Asset_Manager {
 				'wp-element',
 				'wp-i18n',
 				self::PREFIX . 'yoast-components',
+				self::PREFIX . 'externals-components',
 			],
 		];
 
@@ -338,6 +353,9 @@ class WPSEO_Admin_Asset_Manager {
 				'wp-dom-ready',
 				'wp-element',
 				'wp-i18n',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'analysis',
 				self::PREFIX . 'react-select',
 				self::PREFIX . 'yoast-components',

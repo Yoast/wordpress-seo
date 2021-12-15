@@ -7,9 +7,7 @@ import { __ } from "@wordpress/i18n";
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import Warning from "../../containers/Warning";
-import KeywordInput from "../contentAnalysis/KeywordInput";
-import ReadabilityAnalysis from "../contentAnalysis/ReadabilityAnalysis";
-import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
 import SidebarItem from "../SidebarItem";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
 import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";

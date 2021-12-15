@@ -293,6 +293,7 @@ class Person extends Abstract_Schema_Piece {
 		$same_as_urls = $this->get_social_profiles( $same_as_urls, $user_id );
 
 		if ( ! empty( $same_as_urls ) ) {
+			$same_as_urls   = \array_values( \array_unique( $same_as_urls ) );
 			$data['sameAs'] = $same_as_urls;
 		}
 
