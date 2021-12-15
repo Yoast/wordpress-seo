@@ -38,6 +38,11 @@ const WincherSEOPerformanceReportHeader = styled.h3`
 	font-size: 1em;
 `;
 
+const WincherSEOPerformanceTableWrapper = styled.div`
+	width: 100%;
+	overflow-y: auto;
+`;
+
 
 /**
  * Creates a view link URL based on the passed props.
@@ -185,42 +190,44 @@ const WincherPerformanceReport = ( props ) => {
 			<GetUserMessage { ...props } />
 
 			{ isLoggedIn && data && ! isEmpty( data ) && ! isEmpty( data.results ) && <Fragment>
-				<table className="yoast yoast-table">
-					<thead>
-						<tr>
-							<th
-								scope="col"
-								abbr={ __( "Keyphrase", "wordpress-seo" ) }
-							>
-								{ __( "Keyphrase", "wordpress-seo" ) }
-							</th>
-							<th
-								scope="col"
-								abbr={ __( "Position", "wordpress-seo" ) }
-							>
-								{ __( "Position", "wordpress-seo" ) }
-							</th>
-							<th
-								scope="col"
-								abbr={ __( "Position over time", "wordpress-seo" ) }
-							>
-								{ __( "Position over time", "wordpress-seo" ) }
-							</th>
-							<td className="yoast-table--nobreak" />
-						</tr>
-					</thead>
-					<tbody>
-						{
-							map( data.results, ( entry, index ) => {
-								return <Row
-									key={ `keyphrase-${index}` }
-									keyphrase={ entry }
-									websiteId={ websiteId }
-								/>;
-							} )
-						}
-					</tbody>
-				</table>
+				<WincherSEOPerformanceTableWrapper>
+					<table className="yoast yoast-table">
+						<thead>
+							<tr>
+								<th
+									scope="col"
+									abbr={ __( "Keyphrase", "wordpress-seo" ) }
+								>
+									{ __( "Keyphrase", "wordpress-seo" ) }
+								</th>
+								<th
+									scope="col"
+									abbr={ __( "Position", "wordpress-seo" ) }
+								>
+									{ __( "Position", "wordpress-seo" ) }
+								</th>
+								<th
+									scope="col"
+									abbr={ __( "Position over time", "wordpress-seo" ) }
+								>
+									{ __( "Position over time", "wordpress-seo" ) }
+								</th>
+								<td className="yoast-table--nobreak" />
+							</tr>
+						</thead>
+						<tbody>
+							{
+								map( data.results, ( entry, index ) => {
+									return <Row
+										key={ `keyphrase-${index}` }
+										keyphrase={ entry }
+										websiteId={ websiteId }
+									/>;
+								} )
+							}
+						</tbody>
+					</table>
+				</WincherSEOPerformanceTableWrapper>
 				<p style={ { marginBottom: 0, position: "relative" } }>
 					<GetMoreInsightsLink
 						href={ wpseoAdminGlobalL10n[ "links.wincher.login" ] }
