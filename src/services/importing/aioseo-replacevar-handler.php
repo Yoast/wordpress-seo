@@ -55,7 +55,7 @@ class Aioseo_Replacevar_Handler {
 	 *
 	 * @return void.
 	 */
-	public function edit_map( $aioseo_var, $yoast_var ) {
+	public function compose_map( $aioseo_var, $yoast_var ) {
 		$map = $this->replace_vars_map;
 
 		$map[ $aioseo_var ] = $yoast_var;

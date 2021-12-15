@@ -27,7 +27,10 @@ abstract class Abstract_Aioseo_Settings_Importing_Action_Double extends Abstract
 	 */
 	protected $replacevar_handler;
 
-	public function __construct( Options_Helper $options, Aioseo_Replacevar_Handler $replacevar_handler ) {
+	public function __construct(
+		Options_Helper $options,
+		Aioseo_Replacevar_Handler $replacevar_handler
+	) {
 		return parent::__construct( $options, $replacevar_handler );
 	}
 

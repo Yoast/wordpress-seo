@@ -71,7 +71,10 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 * @param Options_Helper            $options            The options helper.
 	 * @param Aioseo_Replacevar_Handler $replacevar_handler The replacevar handler.
 	 */
-	public function __construct( Options_Helper $options, Aioseo_Replacevar_Handler $replacevar_handler ) {
+	public function __construct(
+		Options_Helper $options,
+		Aioseo_Replacevar_Handler $replacevar_handler
+	) {
 		parent::__construct( $options );
 
 		$this->replacevar_handler = $replacevar_handler;
@@ -173,7 +176,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 
 		// Prepare the replacement var mapping.
 		foreach ( $this->replace_vars_edited_map as $aioseo_var => $yoast_var ) {
-			$this->replacevar_handler->edit_map( $aioseo_var, $yoast_var );
+			$this->replacevar_handler->compose_map( $aioseo_var, $yoast_var );
 		}
 
 		try {

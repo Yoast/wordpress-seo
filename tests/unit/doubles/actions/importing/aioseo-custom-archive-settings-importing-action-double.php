@@ -35,7 +35,11 @@ abstract class Aioseo_Custom_Archive_Settings_Importing_Action_Double extends Ai
 	 */
 	protected $replacevar_handler;
 
-	public function __construct( Options_Helper $options, Post_Type_Helper $post_type, Aioseo_Replacevar_Handler $replacevar_handler ) {
+	public function __construct(
+		Options_Helper $options,
+		Post_Type_Helper $post_type,
+		Aioseo_Replacevar_Handler $replacevar_handler
+	) {
 		return parent::__construct( $options, $post_type, $replacevar_handler );
 	}
 
