@@ -1,7 +1,7 @@
 import { register, dispatch, createReduxStore, registerStore } from "@wordpress/data";
 import { Fill } from "@wordpress/components";
 import domReady from "@wordpress/dom-ready";
-
+import getL10nObject from "./analysis/getL10nObject";
 import Workouts from "./workouts/redux/container";
 import * as actions from "./workouts/redux/actions";
 import * as selectors from "./workouts/redux/selectors";
@@ -54,5 +54,12 @@ if ( window.wpseoWorkoutsData.canDoConfigurationWorkout ) {
 }
 
 domReady( () => {
-	renderReactRoot( "wpseo-workouts-container-free", <Workouts /> );
+	const localizedData = getL10nObject();
+
+	renderReactRoot( {
+		target: "wpseo-workouts-container-free",
+		children: <Workouts />,
+		theme: { isRtl: localizedData.isRtl },
+		location: "sidebar",
+	} );
 } );
