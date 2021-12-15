@@ -4,7 +4,7 @@ import { Slot } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import { HelpText } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
-import { SEO_STORE_NAME } from "@yoast/seo-store";
+import { SEO_STORE_NAME } from "@yoast/seo-integration";
 
 import MetaboxCollapsible from "../../components/MetaboxCollapsible";
 import CornerstoneToggle from "../../components/CornerstoneToggle";

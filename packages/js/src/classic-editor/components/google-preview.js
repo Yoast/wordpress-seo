@@ -1,6 +1,6 @@
 import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { GooglePreviewContainer } from "@yoast/seo-integration";
-import { SEO_STORE_NAME } from "@yoast/seo-store";
+import { SEO_STORE_NAME } from "@yoast/seo-integration";
 import { __ } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
 
