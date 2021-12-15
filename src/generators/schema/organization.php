@@ -38,7 +38,7 @@ class Organization extends Abstract_Schema_Piece {
 			'@id'    => $this->context->site_url . Schema_IDs::ORGANIZATION_HASH,
 			'name'   => $this->helpers->schema->html->smart_strip_tags( $this->context->company_name ),
 			'url'    => $this->context->site_url,
-			'sameAs' => array_unique( $this->fetch_social_profiles() ),
+			'sameAs' => \array_values( \array_unique( $this->fetch_social_profiles() ) ),
 			'logo'   => $logo,
 			'image'  => [ '@id' => $logo_schema_id ],
 		];
