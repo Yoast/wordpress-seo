@@ -23,7 +23,7 @@
 /**
  * @typedef {Object} ReplacementVariablesInterface
  *
- * @property {ReplacementVariable[]} variables A unique name. By default, this is what is used in the regexp, see below.
+ * @property {ReplacementVariable[]} variables The list of replacement variables.
  * @property {function(string, Object?): string} apply Applies the replacement variables to a string.
  */
 
