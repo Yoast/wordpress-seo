@@ -711,6 +711,49 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		expect( foundLinks.keyword.totalKeyword ).toEqual( 0 );
 		expect( foundLinks.keyword.matchedAnchors ).toEqual( [] );
 	} );
+
+	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
+		it( "checks the keyphrase in the anchor text when the keyphrase is enclosed in double quotes", function() {
+			const paperAttributes = {
+				keyword: "「読ん一冊の本」",
+				url: "http://yoast.com",
+				permalink: "http://yoast.com",
+			};
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>読ん一冊の本</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+			expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com'>読ん一冊の本</a>" ] );
+		} );
+
+		it( "checks the keyphrase in the anchor text when the keyphrase is enclosed in double quotes " +
+			"and the keyphrase is preceded by a function word in the anchor text", function() {
+			const paperAttributes = {
+				keyword: "「読ん一冊の本」",
+				url: "http://yoast.com",
+				permalink: "http://yoast.com",
+			};
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>から読ん一冊の本</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+			expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com'>から読ん一冊の本</a>" ] );
+		} );
+
+		it( "checks the keyphrase in the anchor text when the keyphrase is enclosed in double quotes " +
+			"and the keyphrase is preceded by a function word and a content word in the anchor text", function() {
+			const paperAttributes = {
+				keyword: "「読ん一冊の本」",
+				url: "http://yoast.com",
+				permalink: "http://yoast.com",
+			};
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>猫から読ん一冊の本</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
+			expect( foundLinks.keyword.matchedAnchors ).toEqual( [] );
+		} );
+	}
 } );
 
 describe( "a test for anchors and its attributes in languages that have a custom helper " +
@@ -764,47 +807,6 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			expect( foundLinks.externalDofollow ).toBe( 0 );
 			expect( foundLinks.internalNofollow ).toBe( 1 );
 			expect( foundLinks.internalDofollow ).toBe( 0 );
-		} );
-
-		it( "checks the keyphrase in the anchor text when the keyphrase is enclosed in double quotes", function() {
-			paperAttributes = {
-				keyword: "「読ん一冊の本」",
-				url: "http://yoast.com",
-				permalink: "http://yoast.com",
-			};
-			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>読ん一冊の本</a>", paperAttributes );
-			const researcher = new JapaneseResearcher( mockPaper );
-			foundLinks = linkCount( mockPaper, researcher );
-			expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
-			expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com'>読ん一冊の本</a>" ] );
-		} );
-
-		it( "checks the keyphrase in the anchor text when the keyphrase is enclosed in double quotes " +
-			"and the keyphrase is preceded by a function word in the anchor text", function() {
-			paperAttributes = {
-				keyword: "「読ん一冊の本」",
-				url: "http://yoast.com",
-				permalink: "http://yoast.com",
-			};
-			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>から読ん一冊の本</a>", paperAttributes );
-			const researcher = new JapaneseResearcher( mockPaper );
-			foundLinks = linkCount( mockPaper, researcher );
-			expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
-			expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com'>から読ん一冊の本</a>" ] );
-		} );
-
-		it( "checks the keyphrase in the anchor text when the keyphrase is enclosed in double quotes " +
-			"and the keyphrase is preceded by a function word and a content word in the anchor text", function() {
-			paperAttributes = {
-				keyword: "「読ん一冊の本」",
-				url: "http://yoast.com",
-				permalink: "http://yoast.com",
-			};
-			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>猫から読ん一冊の本</a>", paperAttributes );
-			const researcher = new JapaneseResearcher( mockPaper );
-			foundLinks = linkCount( mockPaper, researcher );
-			expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
-			expect( foundLinks.keyword.matchedAnchors ).toEqual( [] );
 		} );
 
 		it( "assesses the anchor text where not all content words in the text present in the keyphrse", function() {
