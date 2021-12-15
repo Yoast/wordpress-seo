@@ -117,19 +117,20 @@ const watchStoreChanges = () => {
 			return false;
 		}
 
+		if ( cacheKey ) {
+			// Update cache if cache key exists.
+			cache = set( cache, cacheKey, storeValue );
+		}
+
 		// Update DOM if store value changed.
 		domSet( storeValue );
-		// Update cache if cache key exists.
-		cache = cacheKey ? set( cache, cacheKey, storeValue ) : cache;
 	}, SYNC_DEBOUNCE_MS ) );
 
 	// Sync simple store changes to hidden inputs.
 	createDomSync( selectors.selectSeoTitle, { domGet: dom.getSeoTitle, domSet: dom.setSeoTitle }, "seoTitle" );
 	createDomSync( selectors.selectMetaDescription, { domGet: dom.getMetaDescription, domSet: dom.setMetaDescription }, "metaDescription" );
 	createDomSync( selectors.selectKeyphrase, { domGet: dom.getFocusKeyphrase, domSet: dom.setFocusKeyphrase }, "focusKeyphrase" );
-
-	// Sync cornerstone store changes to hidden input with boolean to number selector.
-	createDomSync( () => Number( selectors.selectIsCornerstone() ), { domGet: dom.getIsCornerstone, domSet: dom.setIsCornerstone }, "isCornerstone" );
+	createDomSync( selectors.selectIsCornerstone, { domGet: dom.getIsCornerstone, domSet: dom.setIsCornerstone }, "isCornerstone" );
 };
 
 /**

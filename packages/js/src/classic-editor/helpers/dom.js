@@ -1,4 +1,4 @@
-import { get, set, map, isEqual } from "lodash";
+import { get, set, isEqual } from "lodash";
 
 import { getContentTinyMce } from "../../lib/tinymce";
 import { excerptFromContent } from "../../helpers/replacementVariableHelpers";
@@ -29,8 +29,6 @@ export const DOM_YOAST_IDS = {
 	SEO_TITLE: "yoast_wpseo_title",
 	META_DESCRIPTION: "yoast_wpseo_metadesc",
 	FOCUS_KEYPHRASE: "yoast_wpseo_focuskw",
-	RELATED_KEYPHRASE_ENTRIES: "yoast_wpseo_focuskeywords",
-	SYNONYMS: "yoast_wpseo_keywordsynonyms",
 	IS_CORNERSTONE: "yoast_wpseo_is_cornerstone",
 };
 
@@ -165,7 +163,7 @@ export const setMetaDescription = ( value ) => set( document.getElementById( DOM
   * @param {boolean} value The value to set.
   * @returns {HTMLElement} The DOM element.
   */
-export const setIsCornerstone = ( value ) => set( document.getElementById( DOM_YOAST_IDS.IS_CORNERSTONE ), "value", value );
+export const setIsCornerstone = ( value ) => set( document.getElementById( DOM_YOAST_IDS.IS_CORNERSTONE ), "value", value ? 1 : 0 );
 
 /**
   * Set the focus keyphrase value prop on its DOM element.
