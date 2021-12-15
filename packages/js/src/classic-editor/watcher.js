@@ -6,7 +6,7 @@ import { addEventHandler as addTinyMceEventListener, getContentTinyMce } from ".
 import * as dom from "./helpers/dom";
 
 const SYNC_DEBOUNCE_MS = 200;
-const { DOM_IDS } = dom;
+const { DOM_IDS, DOM_QUERIES } = dom;
 
 /**
  * Watches and syncs DOM change to the store.
@@ -48,16 +48,51 @@ const watchDomChanges = () => {
 		} )
 	) );
 
-	// Sync multiple slug fields changes to store.
+	/**
+	 * Updates slug changes in store by dispatching actions for updating both slug and permalink.
+	 *
+	 * @param {string} slug New slug.
+	 * @returns {void}
+	 */
+	const updateSlugAndPermalink = ( slug ) => {
+		actions.updateSlug( slug );
+		actions.updatePermalink( get( window, "wpseoScriptData.metabox.base_url", "" ) + slug );
+	};
+
+	// Sync term slug field changes to store.
+	createStoreSync( DOM_IDS.SLUG, updateSlugAndPermalink, "input" );
+
+	/**
+	 * Handles attaching listeners to opening and closing of edit post slug field.
+	 *
+	 * @returns {void}
+	 */
+	const addSlugChangeListener = () => {
+		document.querySelector( DOM_QUERIES.EDIT_SLUG_BUTTON )?.addEventListener( "click", () => {
+			// Hack to back of queue
+			setTimeout( () => {
+				createStoreSync( DOM_IDS.SLUG_NEW_POST, updateSlugAndPermalink, "input" );
+				// Reattach edit slug button listener if field is closed.
+				forEach(
+					[ DOM_QUERIES.SAVE_SLUG_BUTTON, DOM_QUERIES.CANCEL_SLUG_BUTTON ],
+					( domQuery ) => document.querySelector( domQuery )?.addEventListener( "click", addSlugChangeListener )
+				);
+			}, 0 );
+		} );
+	};
+	// Sync post slug field changes to store
+	addSlugChangeListener();
+
 	forEach(
-		[ DOM_IDS.SLUG, DOM_IDS.SLUG_NEW_POST, DOM_IDS.SLUG_EDIT_POST ],
-		( domId ) => createStoreSync( domId, actions.updateSlug )
+		[ DOM_IDS.DATE_MONTH, DOM_IDS.DATE_DAY, DOM_IDS.DATE_YEAR ],
+		( domId ) => createStoreSync( domId, () => actions.updateDate( dom.getDate() ) )
 	);
+
 
 	// Sync multiple date fields changes to store.
 	forEach(
 		[ DOM_IDS.DATE_MONTH, DOM_IDS.DATE_DAY, DOM_IDS.DATE_YEAR ],
-		( domId ) => document.getElementById( domId )?.addEventListener( "change", () => actions.updateDate( dom.getDate() ) )
+		( domId ) => createStoreSync( domId, () => actions.updateDate( dom.getDate() ) )
 	);
 
 	/**

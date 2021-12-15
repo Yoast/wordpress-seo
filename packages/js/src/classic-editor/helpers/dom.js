@@ -22,7 +22,9 @@ export const DOM_IDS = {
 };
 
 export const DOM_QUERIES = {
-	FEATURED_IMAGE_URL: "set-post-thumbnail img",
+	EDIT_SLUG_BUTTON: "#edit-slug-buttons .edit-slug",
+	SAVE_SLUG_BUTTON: "#edit-slug-buttons .save",
+	CANCEL_SLUG_BUTTON: "#edit-slug-buttons .cancel",
 };
 
 export const DOM_YOAST_IDS = {
@@ -45,13 +47,6 @@ export const getTitle = () => get( document.getElementById( DOM_IDS.TITLE ), "va
  * @returns {string} The content or an empty string.
  */
 export const getContent = () => getContentTinyMce( DOM_IDS.CONTENT ) || getContentTinyMce( DOM_IDS.CONTENT_TERM ) || "";
-
-/**
- * Gets the permalink from the document.
- *
- * @returns {string} The permalink or an empty string.
- */
-export const getPermalink = () => get( document.getElementById( DOM_IDS.PERMALINK ), "innerText", "" );
 
 /**
  * Gets the date month from the document.
@@ -110,8 +105,16 @@ export const getIsCornerstone = () => isEqual( "1", get( document.getElementById
  */
 export const getSlug = () => (
 	get( document.getElementById( DOM_IDS.SLUG_NEW_POST ), "value" ) ||
-	get( document.getElementById( DOM_IDS.SLUG_EDIT_POST ), "textContent", "" )
+	get( document.getElementById( DOM_IDS.SLUG_EDIT_POST ), "textContent" ) ||
+	get( document.getElementById( DOM_IDS.SLUG ), "value", "" )
 );
+
+/**
+ * Gets the permalink from the document.
+ *
+ * @returns {string} The permalink or an empty string.
+ */
+export const getPermalink = () => get( window, "wpseoScriptData.metabox.base_url", "" ) + getSlug();
 
 /**
  * Gets the excerpt from the document.
