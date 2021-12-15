@@ -62,8 +62,6 @@ function markTinyMCE( editor, paper, marks ) {
  * @returns {Function} The function that can be called to decorate the editor.
  */
 export function tinyMCEDecorator( editor ) {
-	window.test = editor;
-
 	return markTinyMCE.bind( null, editor );
 }
 
