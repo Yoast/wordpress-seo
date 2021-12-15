@@ -172,7 +172,7 @@ export const customTaxonomies = map(
 	get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.custom_taxonomies", {} ),
 	( { name, description }, key ) => ( {
 		name: `ct_${ key }`,
-		getLabel: sprintf(
+		getLabel: () => sprintf(
 			// translators: %s expands to the key of the custom taxonomy.
 			__( "%s (custom taxonomy)", "wordpress-seo" ),
 			key,
@@ -185,7 +185,7 @@ export const customTaxonomyDescriptions = map(
 	get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.custom_taxonomies", {} ),
 	( { name, description }, key ) => ( {
 		name: `ct_desc_${ key }`,
-		getLabel: sprintf(
+		getLabel: () => sprintf(
 			// translators: %s expands to the key of the custom taxonomy.
 			__( "%s description (custom taxonomy)", "wordpress-seo" ),
 			key,
