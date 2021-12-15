@@ -1,3 +1,4 @@
+import { isFeatureEnabled } from "@yoast/feature-flag";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import FarsiResearcher from "../../../src/languageProcessing/languages/fa/Researcher";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
@@ -6,8 +7,11 @@ import linkCount from "../../../src/languageProcessing/researches/getLinkStatist
 import Paper from "../../../src/values/Paper.js";
 
 const morphologyData = getMorphologyData( "en" );
+const morphologyDataJA = getMorphologyData( "ja" );
+
 let foundLinks;
 
+// eslint-disable-next-line max-statements
 describe( "Tests a string for anchors and its attributes", function() {
 	const paperAttributes = {
 		keyword: "link",
@@ -632,56 +636,192 @@ describe( "Tests a string for anchors and its attributes", function() {
 	} );
 } );
 
-describe( "Tests a string for anchors and its attributes in languages that have a custom helper " +
+describe( "a test for anchors and its attributes in languages that have a custom helper " +
 	"to get the words from the text and matching them in the text", () => {
 	// Japanese has custom helpers to get the words from the text and matching them in the text.
-	const paperAttributes = {
-		keyword: "リンク",
-		url: "http://yoast.com",
-		permalink: "http://yoast.com",
-	};
+	describe( "a test for when the morphology data is not available", () => {
+		let paperAttributes = {
+			keyword: "リンク",
+			url: "http://yoast.com",
+			permalink: "http://yoast.com",
+		};
 
-	it( "should detect internal links", function() {
-		const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>", paperAttributes );
-		const researcher = new JapaneseResearcher( mockPaper );
-		foundLinks = linkCount( mockPaper, researcher );
-		expect( foundLinks.total ).toBe( 1 );
-		expect( foundLinks.internalTotal ).toBe( 1 );
-		expect( foundLinks.internalDofollow ).toBe( 1 );
-		expect( foundLinks.externalTotal ).toBe( 0 );
+		it( "should detect internal links", function() {
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.total ).toBe( 1 );
+			expect( foundLinks.internalTotal ).toBe( 1 );
+			expect( foundLinks.internalDofollow ).toBe( 1 );
+			expect( foundLinks.externalTotal ).toBe( 0 );
+		} );
+
+		it( "should detect external links", function() {
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>リンク</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.total ).toBe( 2 );
+			expect( foundLinks.internalTotal ).toBe( 1 );
+			expect( foundLinks.externalTotal ).toBe( 1 );
+			expect( foundLinks.externalDofollow ).toBe( 1 );
+			expect( foundLinks.internalDofollow ).toBe( 1 );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+			expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com'>リンク</a>" ] );
+		} );
+
+		it( "should detect nofollow as rel attribute", function() {
+			let mockPaper = new Paper( "言葉 <a href='http://example.com' rel='nofollow'>リンク</a>", paperAttributes );
+			let researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.total ).toBe( 1 );
+			expect( foundLinks.externalNofollow ).toBe( 1 );
+			expect( foundLinks.externalDofollow ).toBe( 0 );
+			expect( foundLinks.internalNofollow ).toBe( 0 );
+			expect( foundLinks.internalDofollow ).toBe( 0 );
+
+			mockPaper = new Paper( "言葉 <a href='http://yoast.com' rel=' nofollow '>リンク</a>", paperAttributes );
+			researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.total ).toBe( 1 );
+			expect( foundLinks.externalNofollow ).toBe( 0 );
+			expect( foundLinks.externalDofollow ).toBe( 0 );
+			expect( foundLinks.internalNofollow ).toBe( 1 );
+			expect( foundLinks.internalDofollow ).toBe( 0 );
+		} );
+
+		xit( "checks the keyphrase in the anchor text when the keyphrase is enclosed in double quotes", function() {
+			paperAttributes = {
+				keyword: "「読ん一冊の本」",
+				url: "http://yoast.com",
+				permalink: "http://yoast.com",
+			};
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>読ん一冊の本なにか</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+			expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com'>リンク</a>" ] );
+		} );
+
+		it( "assesses the anchor text where not all content words in the text present in the keyphrse", function() {
+			paperAttributes = {
+				keyword: "読ん一冊の本",
+				url: "http://yoast.com",
+				permalink: "http://yoast.com",
+			};
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>猫と読ん一冊の本</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.total ).toBe( 2 );
+			expect( foundLinks.internalTotal ).toBe( 1 );
+			expect( foundLinks.externalTotal ).toBe( 1 );
+			expect( foundLinks.externalDofollow ).toBe( 1 );
+			expect( foundLinks.internalDofollow ).toBe( 1 );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
+		} );
+
+		it( "assesses the anchor text where all content words in the text present in the keyphrase", function() {
+			paperAttributes = {
+				keyword: "から小さい花の刺繍",
+				url: "http://yoast.com",
+				permalink: "http://yoast.com",
+			};
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.total ).toBe( 2 );
+			expect( foundLinks.internalTotal ).toBe( 1 );
+			expect( foundLinks.externalTotal ).toBe( 1 );
+			expect( foundLinks.externalDofollow ).toBe( 1 );
+			expect( foundLinks.internalDofollow ).toBe( 1 );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+			expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com'>小さい花の刺繍</a>" ] );
+		} );
+
+		it( "assesses the anchor text where all content words in the text present in the keyphrase, but in a different form", function() {
+			paperAttributes = {
+				keyword: "から小さく花の刺繍",
+				url: "http://yoast.com",
+				permalink: "http://yoast.com",
+			};
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.total ).toBe( 2 );
+			expect( foundLinks.internalTotal ).toBe( 1 );
+			expect( foundLinks.externalTotal ).toBe( 1 );
+			expect( foundLinks.externalDofollow ).toBe( 1 );
+			expect( foundLinks.internalDofollow ).toBe( 1 );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
+		} );
 	} );
 
-	it( "should detect external links", function() {
-		const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>リンク</a>", paperAttributes );
-		const researcher = new JapaneseResearcher( mockPaper );
-		foundLinks = linkCount( mockPaper, researcher );
-		expect( foundLinks.total ).toBe( 2 );
-		expect( foundLinks.internalTotal ).toBe( 1 );
-		expect( foundLinks.externalTotal ).toBe( 1 );
-		expect( foundLinks.externalDofollow ).toBe( 1 );
-		expect( foundLinks.internalDofollow ).toBe( 1 );
-		expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
-		expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com'>リンク</a>" ] );
-	} );
+	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
+		describe( "a test for when the morphology data is available", () => {
+			it( "assesses the anchor text where not all content words in the text present in the keyphrse", function() {
+				const paperAttributes = {
+					keyword: "読ん一冊の本",
+					url: "http://yoast.com",
+					permalink: "http://yoast.com",
+				};
+				const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>猫と読ん一冊の本</a>", paperAttributes );
+				const researcher = new JapaneseResearcher( mockPaper );
+				researcher.addResearchData( "morphology", morphologyDataJA );
+				foundLinks = linkCount( mockPaper, researcher );
 
-	it( "should detect nofollow as rel attribute", function() {
-		let mockPaper = new Paper( "言葉 <a href='http://example.com' rel='nofollow'>リンク</a>", paperAttributes );
-		let researcher = new JapaneseResearcher( mockPaper );
-		foundLinks = linkCount( mockPaper, researcher );
-		expect( foundLinks.total ).toBe( 1 );
-		expect( foundLinks.externalNofollow ).toBe( 1 );
-		expect( foundLinks.externalDofollow ).toBe( 0 );
-		expect( foundLinks.internalNofollow ).toBe( 0 );
-		expect( foundLinks.internalDofollow ).toBe( 0 );
+				expect( foundLinks.total ).toBe( 2 );
+				expect( foundLinks.internalTotal ).toBe( 1 );
+				expect( foundLinks.externalTotal ).toBe( 1 );
+				expect( foundLinks.externalDofollow ).toBe( 1 );
+				expect( foundLinks.internalDofollow ).toBe( 1 );
+				expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
+			} );
 
-		mockPaper = new Paper( "言葉 <a href='http://yoast.com' rel=' nofollow '>リンク</a>", paperAttributes );
-		researcher = new JapaneseResearcher( mockPaper );
-		foundLinks = linkCount( mockPaper, researcher );
-		expect( foundLinks.total ).toBe( 1 );
-		expect( foundLinks.externalNofollow ).toBe( 0 );
-		expect( foundLinks.externalDofollow ).toBe( 0 );
-		expect( foundLinks.internalNofollow ).toBe( 1 );
-		expect( foundLinks.internalDofollow ).toBe( 0 );
-	} );
+			it( "assesses the anchor text where all content words in the text present in the keyphrase", function() {
+				const paperAttributes = {
+					keyword: "から小さい花の刺繍",
+					url: "http://yoast.com",
+					permalink: "http://yoast.com",
+				};
+				const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>", paperAttributes );
+				const researcher = new JapaneseResearcher( mockPaper );
+				researcher.addResearchData( "morphology", morphologyDataJA );
+
+				foundLinks = linkCount( mockPaper, researcher );
+
+				expect( foundLinks.total ).toBe( 2 );
+				expect( foundLinks.internalTotal ).toBe( 1 );
+				expect( foundLinks.externalTotal ).toBe( 1 );
+				expect( foundLinks.externalDofollow ).toBe( 1 );
+				expect( foundLinks.internalDofollow ).toBe( 1 );
+				expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+				expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com'>小さい花の刺繍</a>" ] );
+			} );
+
+			it( "assesses the anchor text where all content words in the text present in the keyphrase, but in a different form", function() {
+				const paperAttributes = {
+					keyword: "から小さく花の刺繍",
+					url: "http://yoast.com",
+					permalink: "http://yoast.com",
+				};
+				const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>" +
+					" <a href='http://example.com'>小さける花の刺繍</a>", paperAttributes );
+				const researcher = new JapaneseResearcher( mockPaper );
+				researcher.addResearchData( "morphology", morphologyDataJA );
+
+				foundLinks = linkCount( mockPaper, researcher );
+
+				expect( foundLinks.total ).toBe( 3 );
+				expect( foundLinks.internalTotal ).toBe( 1 );
+				expect( foundLinks.externalTotal ).toBe( 2 );
+				expect( foundLinks.externalDofollow ).toBe( 2 );
+				expect( foundLinks.internalDofollow ).toBe( 1 );
+				expect( foundLinks.keyword.totalKeyword ).toBe( 2 );
+				expect( foundLinks.keyword.matchedAnchors ).toEqual( [
+					"<a href='http://example.com'>小さい花の刺繍</a>",
+					"<a href='http://example.com'>小さける花の刺繍</a>",
+				] );
+			} );
+		} );
+	}
 } );
 
