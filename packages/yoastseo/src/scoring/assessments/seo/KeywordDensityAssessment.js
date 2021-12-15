@@ -78,14 +78,14 @@ class KeywordDensityAssessment extends Assessment {
 	 *
 	 * @returns {void}
 	 */
-	setBoundaries( text, keyphraseLength ) {
+	setBoundaries( text, keyphraseLength, customGetWords ) {
 		if ( this._hasMorphologicalForms ) {
 			this._boundaries = this._config.parameters.multipleWordForms;
 		} else {
 			this._boundaries = this._config.parameters.noWordForms;
 		}
-		this._minRecommendedKeywordCount = recommendedKeywordCount( text, keyphraseLength, this._boundaries.minimum, "min" );
-		this._maxRecommendedKeywordCount = recommendedKeywordCount( text, keyphraseLength, this._boundaries.maximum, "max" );
+		this._minRecommendedKeywordCount = recommendedKeywordCount( text, keyphraseLength, this._boundaries.minimum, "min", customGetWords );
+		this._maxRecommendedKeywordCount = recommendedKeywordCount( text, keyphraseLength, this._boundaries.maximum, "max", customGetWords );
 	}
 
 	/**
@@ -98,6 +98,7 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher ) {
+		const customGetWords = researcher.getHelper( "getWordsCustomHelper" );
 		this._keywordCount = researcher.getResearch( "keywordCount" );
 		const keyphraseLength = this._keywordCount.length;
 
@@ -107,7 +108,7 @@ class KeywordDensityAssessment extends Assessment {
 
 		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
-		this.setBoundaries( paper.getText(), keyphraseLength );
+		this.setBoundaries( paper.getText(), keyphraseLength, customGetWords );
 
 		this._keywordDensity = this._keywordDensity * keyphraseLengthFactor( keyphraseLength );
 		const calculatedScore = this.calculateResult();
