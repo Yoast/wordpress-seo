@@ -636,6 +636,83 @@ describe( "Tests a string for anchors and its attributes", function() {
 	} );
 } );
 
+describe( "a test for anchors and its attributes when the exact match of a keyphrase is requested", () => {
+	it( "should match all words from keyphrase in the link text and vice versa when the keyphrase is enclosed in double quotes", function() {
+		const attributes = {
+			keyword: "\"walking in nature\"",
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
+		};
+
+		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>walking in nature</a>", attributes );
+		const researcher = new EnglishResearcher( mockPaper );
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toEqual( 1 );
+		expect( foundLinks.totalNaKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.totalKeyword ).toEqual( 1 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com/keyword'>walking in nature</a>" ] );
+	} );
+
+	it( "should match all words from keyphrase in the link text and vice versa when the keyphrase is enclosed in double quotes " +
+		"and the keyphrase is preceded by a function word in the anchor text", function() {
+		const attributes = {
+			keyword: "\"walking in nature\"",
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
+		};
+
+		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>" +
+			"immediately walking in nature</a>", attributes );
+		const researcher = new EnglishResearcher( mockPaper );
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toEqual( 1 );
+		expect( foundLinks.totalNaKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.totalKeyword ).toEqual( 1 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com/keyword'>immediately walking in nature</a>" ] );
+	} );
+
+	it( "should not return a match of keyphrase in the anchor text and vice versa when the keyphrase is enclosed in double quotes " +
+		"and the keyphrase is followed by a content word in the anchor text", function() {
+		const attributes = {
+			keyword: "\"walking in nature\"",
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
+		};
+
+		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>" +
+			"walking in nature activity</a>", attributes );
+		const researcher = new EnglishResearcher( mockPaper );
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toEqual( 1 );
+		expect( foundLinks.totalNaKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.totalKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [] );
+	} );
+
+	it( "should not return a match of keyphrase in the anchor text and vice versa when the keyphrase is enclosed in double quotes " +
+		"and the keyphrase appears in a different form in the anchor text", function() {
+		const attributes = {
+			keyword: "\"walking in nature\"",
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
+		};
+
+		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>" +
+			"walks in nature</a>", attributes );
+		const researcher = new EnglishResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toEqual( 1 );
+		expect( foundLinks.totalNaKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.totalKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [] );
+	} );
+} );
+
 describe( "a test for anchors and its attributes in languages that have a custom helper " +
 	"to get the words from the text and matching them in the text", () => {
 	// Japanese has custom helpers to get the words from the text and matching them in the text.
