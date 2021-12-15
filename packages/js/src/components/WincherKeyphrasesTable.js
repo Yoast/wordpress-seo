@@ -23,13 +23,23 @@ import {
 const GetMoreInsightsLink = makeOutboundLink();
 
 const FocusKeyphraseFootnote = styled.span`
-	position: absolute;
-	${ getDirectionalStyle( "right", "left" ) }: 8px;
+	display: block;
 	font-style: italic;
+
+	@media (min-width: 782px) {
+		display: inline;
+		position: absolute;
+		${ getDirectionalStyle( "right", "left" ) }: 8px;
+	}
 `;
 
 const ViewColumn = styled.th`
 	min-width: 60px;
+`;
+
+const TableWrapper = styled.div`
+	width: 100%;
+	overflow-y: auto;
 `;
 
 /**
@@ -337,54 +347,56 @@ class WincherKeyphrasesTable extends Component {
 
 		return (
 			keyphrases && ! isEmpty( keyphrases ) && <Fragment>
-				<table className="yoast yoast-table">
-					<thead>
-						<tr>
-							<th
-								scope="col"
-								abbr={ __( "Tracking", "wordpress-seo" ) }
-							>
-								{ __( "Tracking", "wordpress-seo" ) }
-							</th>
-							<th
-								scope="col"
-								abbr={ __( "Keyphrase", "wordpress-seo" ) }
-							>
-								{ __( "Keyphrase", "wordpress-seo" ) }
-							</th>
-							<th
-								scope="col"
-								abbr={ __( "Position", "wordpress-seo" ) }
-							>
-								{ __( "Position", "wordpress-seo" ) }
-							</th>
-							<th
-								scope="col"
-								abbr={ __( "Position over time", "wordpress-seo" ) }
-							>
-								{ __( "Position over time", "wordpress-seo" ) }
-							</th>
-							<ViewColumn className="yoast-table--nobreak" />
-						</tr>
-					</thead>
-					<tbody>
-						{
-							keyphrases.map( ( keyphrase, index ) => {
-								return ( <WincherTableRow
-									key={ `trackable-keyphrase-${index}` }
-									keyphrase={ keyphrase }
-									onTrackKeyphrase={ this.onTrackKeyphrase }
-									onUntrackKeyphrase={ this.onUntrackKeyphrase }
-									rowData={ this.getKeyphraseData( keyphrase ) }
-									isFocusKeyphrase={ keyphrase === focusKeyphrase.trim() }
-									websiteId={ websiteId }
-									isDisabled={ isDisabled }
-									isLoading={ isLoading }
-								/> );
-							} )
-						}
-					</tbody>
-				</table>
+				<TableWrapper>
+					<table className="yoast yoast-table">
+						<thead>
+							<tr>
+								<th
+									scope="col"
+									abbr={ __( "Tracking", "wordpress-seo" ) }
+								>
+									{ __( "Tracking", "wordpress-seo" ) }
+								</th>
+								<th
+									scope="col"
+									abbr={ __( "Keyphrase", "wordpress-seo" ) }
+								>
+									{ __( "Keyphrase", "wordpress-seo" ) }
+								</th>
+								<th
+									scope="col"
+									abbr={ __( "Position", "wordpress-seo" ) }
+								>
+									{ __( "Position", "wordpress-seo" ) }
+								</th>
+								<th
+									scope="col"
+									abbr={ __( "Position over time", "wordpress-seo" ) }
+								>
+									{ __( "Position over time", "wordpress-seo" ) }
+								</th>
+								<ViewColumn className="yoast-table--nobreak" />
+							</tr>
+						</thead>
+						<tbody>
+							{
+								keyphrases.map( ( keyphrase, index ) => {
+									return ( <WincherTableRow
+										key={ `trackable-keyphrase-${index}` }
+										keyphrase={ keyphrase }
+										onTrackKeyphrase={ this.onTrackKeyphrase }
+										onUntrackKeyphrase={ this.onUntrackKeyphrase }
+										rowData={ this.getKeyphraseData( keyphrase ) }
+										isFocusKeyphrase={ keyphrase === focusKeyphrase.trim() }
+										websiteId={ websiteId }
+										isDisabled={ isDisabled }
+										isLoading={ isLoading }
+									/> );
+								} )
+							}
+						</tbody>
+					</table>
+				</TableWrapper>
 				<p style={ { marginBottom: 0, position: "relative" } }>
 					<GetMoreInsightsLink
 						href={ wpseoAdminGlobalL10n[ "links.wincher.login" ] }

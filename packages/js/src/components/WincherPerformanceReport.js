@@ -29,13 +29,18 @@ const WicnherSEOPerformanceContainer = styled.div`
 /**
  * Wincher SEO Performance top text.
  */
-const WincherSEOPerformanceReportText = styled.p`
+const WincherSEOPerformanceReportText = styled.div`
 	font-size: 14px;
 `;
 
 const WincherSEOPerformanceReportHeader = styled.h3`
 	margin: 8px 0;
 	font-size: 1em;
+`;
+
+const WincherSEOPerformanceTableWrapper = styled.div`
+	width: 100%;
+	overflow-y: auto;
 `;
 
 
@@ -109,7 +114,7 @@ NotConnectedMessage.defaultProps = {
 const Row = ( { keyphrase, websiteId } ) => {
 	const { id, keyword } = keyphrase;
 	return (
-		<tr key={ `trackable-keyphrase-${keyword}` }>
+		<tr>
 			<td>{ keyword }</td>
 			<td>{ getKeyphrasePosition( keyphrase ) }</td>
 			<td className="yoast-table--nopadding">{ <PositionOverTimeChart chartData={ keyphrase } /> }</td>
@@ -158,12 +163,8 @@ const GetUserMessage = ( props ) => {
 
 GetUserMessage.propTypes = {
 	isLoggedIn: PropTypes.bool.isRequired,
-	data: PropTypes.object,
+	data: PropTypes.object.isRequired,
 	onConnectAction: PropTypes.func.isRequired,
-};
-
-GetUserMessage.defaultProps = {
-	data: {},
 };
 
 /**
@@ -189,41 +190,44 @@ const WincherPerformanceReport = ( props ) => {
 			<GetUserMessage { ...props } />
 
 			{ isLoggedIn && data && ! isEmpty( data ) && ! isEmpty( data.results ) && <Fragment>
-				<table className="yoast yoast-table">
-					<thead>
-						<tr>
-							<th
-								scope="col"
-								abbr={ __( "Keyphrase", "wordpress-seo" ) }
-							>
-								{ __( "Keyphrase", "wordpress-seo" ) }
-							</th>
-							<th
-								scope="col"
-								abbr={ __( "Position", "wordpress-seo" ) }
-							>
-								{ __( "Position", "wordpress-seo" ) }
-							</th>
-							<th
-								scope="col"
-								abbr={ __( "Position over time", "wordpress-seo" ) }
-							>
-								{ __( "Position over time", "wordpress-seo" ) }
-							</th>
-							<td className="yoast-table--nobreak" />
-						</tr>
-					</thead>
-					<tbody>
-						{
-							map( data.results, ( entry ) => {
-								return <Row
-									keyphrase={ entry }
-									websiteId={ websiteId }
-								/>;
-							} )
-						}
-					</tbody>
-				</table>
+				<WincherSEOPerformanceTableWrapper>
+					<table className="yoast yoast-table">
+						<thead>
+							<tr>
+								<th
+									scope="col"
+									abbr={ __( "Keyphrase", "wordpress-seo" ) }
+								>
+									{ __( "Keyphrase", "wordpress-seo" ) }
+								</th>
+								<th
+									scope="col"
+									abbr={ __( "Position", "wordpress-seo" ) }
+								>
+									{ __( "Position", "wordpress-seo" ) }
+								</th>
+								<th
+									scope="col"
+									abbr={ __( "Position over time", "wordpress-seo" ) }
+								>
+									{ __( "Position over time", "wordpress-seo" ) }
+								</th>
+								<td className="yoast-table--nobreak" />
+							</tr>
+						</thead>
+						<tbody>
+							{
+								map( data.results, ( entry, index ) => {
+									return <Row
+										key={ `keyphrase-${index}` }
+										keyphrase={ entry }
+										websiteId={ websiteId }
+									/>;
+								} )
+							}
+						</tbody>
+					</table>
+				</WincherSEOPerformanceTableWrapper>
 				<p style={ { marginBottom: 0, position: "relative" } }>
 					<GetMoreInsightsLink
 						href={ wpseoAdminGlobalL10n[ "links.wincher.login" ] }
