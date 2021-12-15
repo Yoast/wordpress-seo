@@ -171,7 +171,7 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
 		const japaneseDoubleQuotes = [ "\u300c", "\u300d", "\u300e", "\u300f" ];
 		doubleQuotes = doubleQuotes.concat( japaneseDoubleQuotes );
 	}
-	
+
 	const isExactMatchRequested = processExactMatchRequest( paper.getKeyword(), doubleQuotes );
 
 	// Check if any anchors contain keyphrase or synonyms in them.
