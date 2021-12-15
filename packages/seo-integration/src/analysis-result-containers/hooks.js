@@ -9,14 +9,15 @@ import { SEO_STORE_NAME } from "@yoast/seo-store";
  */
 export const useMarker = () => {
 	const markerId = useSelect( select => select( SEO_STORE_NAME ).selectActiveMarkerId() );
-	const { setMarker, resetMarker } = useDispatch( SEO_STORE_NAME );
+	const { updateActiveMarker } = useDispatch( SEO_STORE_NAME );
 
 	const handleMarkClick = useCallback( ( id, marks ) => {
 		if ( id === markerId ) {
-			return resetMarker();
+			updateActiveMarker( { id: "", marks: [] } );
+			return;
 		}
-		setMarker( id, marks );
-	}, [ markerId, setMarker, resetMarker ] );
+		updateActiveMarker( { id, marks } );
+	}, [ markerId, updateActiveMarker ] );
 
 	return {
 		markerId,
