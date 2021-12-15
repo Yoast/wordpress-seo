@@ -3,7 +3,7 @@
 import { Fill } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
-import { SEO_STORE_NAME } from "@yoast/seo-store";
+import { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-integration";
 import GooglePreview from "../google-preview";
 import SeoAnalysis from "../seo-analysis";
 import ReadabilityAnalysis from "../readability-analysis";
@@ -26,6 +26,8 @@ const Metabox = () => {
 	const settings = useSelect( select => select( EDITOR_STORE_NAME ).getPreferences() );
 	const isSeoAnalysisActive = useSelect( select => select( SEO_STORE_NAME ).selectIsSeoAnalysisActive() );
 	const isReadabilityAnalysisActive = useSelect( select => select( SEO_STORE_NAME ).selectIsReadabilityAnalysisActive() );
+
+	useAnalyze();
 
 	return (
 		<Fragment>
