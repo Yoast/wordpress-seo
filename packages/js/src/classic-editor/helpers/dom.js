@@ -1,12 +1,13 @@
 import { get, set, map } from "lodash";
 
-import { tmceId, getContentTinyMce } from "../../lib/tinymce";
+import { getContentTinyMce } from "../../lib/tinymce";
 import { excerptFromContent } from "../../helpers/replacementVariableHelpers";
 import firstImageUrlInContent from "../../helpers/firstImageUrlInContent";
 
 export const DOM_IDS = {
 	TITLE: "title",
-	CONTENT: tmceId,
+	CONTENT: "content",
+	CONTENT_TERM: "description",
 	EXCERPT: "excerpt",
 	PERMALINK: "sample-permalink",
 	FEATURED_IMAGE_ID: "_thumbnail_id",
@@ -41,11 +42,11 @@ export const DOM_YOAST_IDS = {
 export const getTitle = () => get( document.getElementById( DOM_IDS.TITLE ), "value", "" );
 
 /**
- * Gets the cotnent from the document.
+ * Gets the content from the document.
  *
- * @returns {string} The cotnent or an empty string.
+ * @returns {string} The content or an empty string.
  */
-export const getContent = () => getContentTinyMce( DOM_IDS.CONTENT );
+export const getContent = () => getContentTinyMce( DOM_IDS.CONTENT ) || getContentTinyMce( DOM_IDS.CONTENT_TERM ) || "";
 
 /**
  * Gets the permalink from the document.
@@ -80,7 +81,7 @@ export const getDateYear = () => get( document.getElementById( DOM_IDS.DATE_YEAR
  *
  * @returns {string} The date or an empty string.
  */
-export const getDate = () => `${ getDateMonth() }-${ getDateDay() }-${ getDateYear() }`;
+export const getDate = () => `${ getDateYear() }-${ getDateMonth() }-${ getDateDay() }`;
 
 /**
  * Gets the meta description from the document.
