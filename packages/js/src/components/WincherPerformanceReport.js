@@ -15,7 +15,6 @@ import { NewButton } from "@yoast/components";
 import WincherConnectExplanation from "./modals/WincherConnectExplanation";
 import WincherNoTrackedKeyphrasesAlert from "./modals/WincherNoTrackedKeyphrasesAlert";
 import { getKeyphrasePosition, PositionOverTimeChart } from "./WincherTableRow";
-import WincherLimitReached from "./modals/WincherLimitReached";
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
 
 const ViewLink = makeOutboundLink();
@@ -100,51 +99,6 @@ NotConnectedMessage.defaultProps = {
 };
 
 /**
- * Renders the 'No tracked keyphrases' message.
- *
- * @param {Object} props The props to use.
- *
- * @returns {wp.Element} The message.
- */
-const NoTrackedKeyphrasesMessage = ( props ) => {
-	const { className, onTrackAllAction, limits } = props;
-
-	return (
-		<WincherSEOPerformanceReportText
-			className={ `${ className }__text` }
-		>
-			{ ! isEmpty( limits ) && <WincherLimitReached limit={ limits.limit } /> }
-			{ isEmpty( limits )  && <WincherNoTrackedKeyphrasesAlert /> }
-
-			<div className={ "yoast" }>
-				<NewButton
-					variant={ "secondary" }
-					id="yoast-wincher-dashboard-widget-track-all"
-					onClick={ onTrackAllAction }
-				>
-					{ sprintf(
-						/* translators: %s expands to Wincher */
-						__( "Add your existing keyphrases to %s", "wordpress-seo" ),
-						"Wincher"
-					) }
-				</NewButton>
-			</div>
-		</WincherSEOPerformanceReportText>
-	);
-};
-
-NoTrackedKeyphrasesMessage.propTypes = {
-	className: PropTypes.string,
-	onTrackAllAction: PropTypes.func.isRequired,
-	limits: PropTypes.object,
-};
-
-NoTrackedKeyphrasesMessage.defaultProps = {
-	className: "",
-	limits: {},
-};
-
-/**
  * Creates a new row to be displayed in the table.
  *
  * @param {string} keyphrase The keyphrase data to be used in the row.
@@ -196,7 +150,7 @@ const GetUserMessage = ( props ) => {
 	}
 
 	if ( ! data || isEmpty( data.results ) ) {
-		return <NoTrackedKeyphrasesMessage { ...props } />;
+		return <WincherNoTrackedKeyphrasesAlert />;
 	}
 
 	return null;

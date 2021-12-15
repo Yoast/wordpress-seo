@@ -3,7 +3,7 @@ import { useCallback, Fragment } from "@wordpress/element";
 import Modal from "../Modal";
 import PropTypes from "prop-types";
 import SidebarButton from "../../SidebarButton";
-import { LocationProvider } from "../../contexts/location";
+import { LocationProvider } from "@yoast/externals/contexts";
 
 /**
  * Returns false for events passed to onRequestClose, that should not lead to the modal closing.

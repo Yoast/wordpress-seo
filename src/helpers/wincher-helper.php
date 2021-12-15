@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WPSEO_Options;
+use Yoast\WP\SEO\Conditionals\Wincher_Conditional;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
@@ -11,6 +13,25 @@ use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
  * A helper object for Wincher matters.
  */
 class Wincher_Helper {
+
+	/**
+	 * Checks if the integration is active for the current user.
+	 *
+	 * @return bool Whether or not the integration is active.
+	 */
+	public function is_active() {
+		// If feature flag is disabled, Wincher should not be active.
+		$conditional = new Wincher_Conditional();
+		if ( ! $conditional->is_met() ) {
+			return false;
+		}
+
+		if ( ! \current_user_can( 'publish_posts' ) && ! \current_user_can( 'publish_pages' ) ) {
+			return false;
+		}
+
+		return ! ! WPSEO_Options::get( 'wincher_integration_active', true );
+	}
 
 	/**
 	 * Checks if the user is logged in to Wincher.

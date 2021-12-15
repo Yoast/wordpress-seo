@@ -499,15 +499,15 @@ class Meta_Surface_Test extends TestCase {
 	 */
 	public function for_url_provider() {
 		return [
-			[ 'post', 'post', 1, 'Static_Home_Page' ],
-			[ 'post', 'post', 1, 'Static_Posts_Page' ],
-			[ 'post', 'post', 1, 'Post_Type' ],
-			[ 'term', 'tag', 1, 'Term_Archive' ],
-			[ 'user', null, 1, 'Author_Archive' ],
-			[ 'home-page', null, 1, 'Home_Page' ],
-			[ 'post-type-archive', 'book', 1, 'Post_Type_Archive' ],
-			[ 'system-page', 'search-result', 1, 'Search_Result_Page' ],
-			[ 'system-page', '404', 1, 'Error_Page' ],
+			'Static_Home_Page'   => [ 'post', 'post', 1, 'Static_Home_Page' ],
+			'Static_Posts_Page'  => [ 'post', 'post', 1, 'Static_Posts_Page' ],
+			'Post_Type'          => [ 'post', 'post', 1, 'Post_Type' ],
+			'Term_Archive'       => [ 'term', 'tag', 1, 'Term_Archive' ],
+			'Author_Archive'     => [ 'user', null, 1, 'Author_Archive' ],
+			'Home_Page'          => [ 'home-page', null, 1, 'Home_Page' ],
+			'Post_Type_Archive'  => [ 'post-type-archive', 'book', 1, 'Post_Type_Archive' ],
+			'Search_Result_Page' => [ 'system-page', 'search-result', 1, 'Search_Result_Page' ],
+			'Error_Page'         => [ 'system-page', '404', 1, 'Error_Page' ],
 		];
 	}
 }
