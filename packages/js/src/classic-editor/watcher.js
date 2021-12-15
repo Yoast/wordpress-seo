@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
-import { get, set, debounce, forEach, isEqual, reduce } from "lodash";
+import { get, set, debounce, forEach, isEqual } from "lodash";
 import { subscribe, dispatch, select } from "@wordpress/data";
-import { SEO_STORE_NAME, FOCUS_KEYPHRASE_ID } from "@yoast/seo-integration";
+import { SEO_STORE_NAME } from "@yoast/seo-integration";
 import { addEventHandler as addTinyMceEventListener, getContentTinyMce } from "../lib/tinymce";
 import * as dom from "./helpers/dom";
 
@@ -127,29 +127,9 @@ const watchStoreChanges = () => {
 	createDomSync( selectors.selectSeoTitle, { domGet: dom.getSeoTitle, domSet: dom.setSeoTitle }, "seoTitle" );
 	createDomSync( selectors.selectMetaDescription, { domGet: dom.getMetaDescription, domSet: dom.setMetaDescription }, "metaDescription" );
 	createDomSync( selectors.selectKeyphrase, { domGet: dom.getFocusKeyphrase, domSet: dom.setFocusKeyphrase }, "focusKeyphrase" );
-	createDomSync( selectors.selectSynonyms, { domGet: dom.getSynonyms, domSet: dom.setSynonyms }, "synonyms" );
 
-	/**
-	 * Select related keyphrase entries and transform to same structure as present in hidden input for eqaulity check.
-	 * Kind of a heavy function, might need some memoizing in the future.
-	 *
-	 * @returns {{ keyword: string, score: number }[]} Array of related keyphrase entries.
-	 */
-	const selectRelatedKeyphraseEntries = () => reduce(
-		selectors.selectKeyphraseEntries(),
-		( acc, { keyphrase, id } ) => isEqual( id, FOCUS_KEYPHRASE_ID ) ? acc : [
-			...acc,
-			{ keyword: keyphrase, score: selectors.selectSeoScore( id ) },
-		],
-		[]
-	);
-
-	// Sync related keyphrase changes to hidden input.
-	createDomSync(
-		selectRelatedKeyphraseEntries,
-		{ domGet: dom.getRelatedKeyphraseEntries, domSet: dom.setRelatedKeyphraseEntries },
-		"relatedKeyphrases"
-	);
+	// Sync cornerstone store changes to hidden input with boolean to number selector.
+	createDomSync( () => Number( selectors.selectIsCornerstone() ), { domGet: dom.getIsCornerstone, domSet: dom.setIsCornerstone }, "isCornerstone" );
 };
 
 /**
@@ -160,7 +140,7 @@ const watchStoreChanges = () => {
 const createClassicEditorWatcher = () => ( {
 	watch: () => {
 		watchDomChanges();
-		// WatchStoreChanges();
+		watchStoreChanges();
 	},
 } );
 

@@ -1,4 +1,4 @@
-import { get, set, map } from "lodash";
+import { get, set, map, isEqual } from "lodash";
 
 import { getContentTinyMce } from "../../lib/tinymce";
 import { excerptFromContent } from "../../helpers/replacementVariableHelpers";
@@ -103,7 +103,7 @@ export const getSeoTitle = () => get( document.getElementById( DOM_YOAST_IDS.SEO
  *
  * @returns {string} The focus keyphrase or an empty string.
  */
-export const getIsCornerstone = () => Boolean( get( document.getElementById( DOM_YOAST_IDS.IS_CORNERSTONE ), "value", false ) );
+export const getIsCornerstone = () => isEqual( "1", get( document.getElementById( DOM_YOAST_IDS.IS_CORNERSTONE ), "value", "0" ) );
 
 /**
  * Gets the slug from the document.
@@ -193,7 +193,7 @@ export const setMetaDescription = ( value ) => set( document.getElementById( DOM
   * @param {boolean} value The value to set.
   * @returns {HTMLElement} The DOM element.
   */
-export const setIsCornerstone = ( value ) => set( document.getElementById( DOM_YOAST_IDS.IS_CORNERSTONE ), "checked", value );
+export const setIsCornerstone = ( value ) => set( document.getElementById( DOM_YOAST_IDS.IS_CORNERSTONE ), "value", value );
 
 /**
   * Set the focus keyphrase value prop on its DOM element.
