@@ -248,6 +248,23 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 		} );
 	} );
 
+	it( "returns an assessment result with a keyphrase in Japanese enclosed in double quotes: " +
+		"the same forms of the keyphrase are used in the title but they don't occur exactly in the same order as the keyphrase", function() {
+		const paper = new Paper( "", {
+			keyword: "「小さく花の刺繍」",
+			title: "小さくて可愛い花の刺繍に関する一般一般の記事です",
+			locale: "ja",
+		} );
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+
+		const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			"The focus keyphrase appears at the beginning of the SEO title. Good job!" );
+	} );
+
 	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
 		describe( "a test with morphology data available", () => {
 			it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
