@@ -1,9 +1,10 @@
 .installation-success-page {
 	display: flex;
 	flex-direction: column;
-	height: 90vh;
-	margin-top: 16vh;
-	flex-wrap: wrap;
+	height: 88vh;
+	justify-content: start;
+	padding-top: 7%;
+	box-sizing: border-box;
 }
 
 .installation-success-page .step-list {
@@ -101,7 +102,7 @@
 	border: 1px solid rgba(0,0,0,.2);
 	border-radius: 8px;
 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-	width: 320px;
+	max-width: 320px;
 	height: 315px;
 	padding: 24px;
 	display: flex;
@@ -111,7 +112,6 @@
 .installation-success-card.active {
 	border-color: var( --yoast-color-primary );
 	box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1), 0 6px 6px 0 rgba(0, 0, 0, 0.06);
-	width: 320px;
 	height: 327px;
 }
 
@@ -163,10 +163,50 @@
 
 #installation-success-skip-link {
 	align-self: end;
-	bottom: 0;
+	bottom: 20px;
+	right: 0;
 	margin-bottom: 9px;
 	position: absolute;
 	margin-right: 20px;
 	letter-spacing: -0.08px;
 	line-height: 19px;
+}
+
+@media screen and (max-width: 768px) {
+	.installation-success-page {
+		height: unset;
+		padding-top: unset;
+		padding-right: 10px;
+	}
+
+	.installation-success-page .installation-success-title {
+		font-size: 32px;
+	}
+
+	.installation-success-content {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.installation-success-cards {
+		flex-direction: column;
+	}
+
+	.installation-success-page .step-list {
+		flex-direction: column;
+		margin: auto 24px auto 0;
+	}
+
+	.installation-success-page .step-first-div {
+		width: unset;
+		height: 376px;
+		flex-direction: column;
+	}
+
+	.installation-success-page .step-second-div {
+		width: 2px;
+		height: 100%;
+	}
 }
