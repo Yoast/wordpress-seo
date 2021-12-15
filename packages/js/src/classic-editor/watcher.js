@@ -83,12 +83,6 @@ const watchDomChanges = () => {
 	// Sync post slug field changes to store
 	addSlugChangeListener();
 
-	forEach(
-		[ DOM_IDS.DATE_MONTH, DOM_IDS.DATE_DAY, DOM_IDS.DATE_YEAR ],
-		( domId ) => createStoreSync( domId, () => actions.updateDate( dom.getDate() ) )
-	);
-
-
 	// Sync multiple date fields changes to store.
 	forEach(
 		[ DOM_IDS.DATE_MONTH, DOM_IDS.DATE_DAY, DOM_IDS.DATE_YEAR ],
