@@ -144,34 +144,6 @@ export const getFeaturedImageUrl = () => getFeaturedImageSetInEditor() || firstI
 export const getFocusKeyphrase = () => get( document.getElementById( DOM_YOAST_IDS.FOCUS_KEYPHRASE ), "value", "" );
 
 /**
- * Gets the related keyphrases from the document.
- *
- * @returns {string[]} The related keyphrases or an empty array.
- */
-export const getRelatedKeyphraseEntries = () => JSON.parse( get( document.getElementById( DOM_IDS.RELATED_KEYPHRASE_ENTRIES ), "value", "[]" ) );
-
-/**
- * Gets the related keyphrases from the document.
- *
- * @returns {string[]} The related keyphrases or an empty array.
- */
-export const getRelatedKeyphrases = () => map( getRelatedKeyphraseEntries(), "keyword" );
-
-/**
- * Gets the synomyms from the document.
- *
- * @returns {string[]} The synonyms or an empty array.
- */
-export const getSynonyms = () => JSON.parse( get( document.getElementById( DOM_IDS.SYNONYMS ), "value", "[]" ) );
-
-/**
- * Gets the keyphrases from the document. Combines focus keyphrase with related keyphrases.
- *
- * @returns {string} The keyphrases or an empty array.
- */
-export const getKeyphrases = () => [ getFocusKeyphrase(), ...getRelatedKeyphrases() ];
-
-/**
  * Set the SEO title value prop on its DOM element.
  *
  * @param {*} value The value to set.
@@ -202,19 +174,3 @@ export const setIsCornerstone = ( value ) => set( document.getElementById( DOM_Y
   * @returns {HTMLElement} The DOM element.
   */
 export const setFocusKeyphrase = ( value ) => set( document.getElementById( DOM_YOAST_IDS.FOCUS_KEYPHRASE ), "value", value );
-
-/**
-  * Set the related keyphrases value prop on its DOM element.
-  *
-  * @param {boolean} value The value to set.
-  * @returns {HTMLElement} The DOM element.
-  */
-export const setRelatedKeyphraseEntries = ( value ) => set( document.getElementById( DOM_YOAST_IDS.RELATED_KEYPHRASE_ENTRIES ), "value", value );
-
-/**
-  * Set the keyphrase synonyms value prop on its DOM element.
-  *
-  * @param {boolean} value The value to set.
-  * @returns {HTMLElement} The DOM element.
-  */
-export const setSynonyms = ( value ) => set( document.getElementById( DOM_YOAST_IDS.SYNONYMS ), "value", value );
