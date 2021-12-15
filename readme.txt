@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.8
-Stable tag: 17.5
+Stable tag: 17.8
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -236,42 +236,56 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 17.6 =
-Release Date: November 16th, 2021
+= 17.8 =
+Release Date: December 14th, 2021
+
+Yoast SEO 17.8 is out now and ready for you to download. In this release, we fix a number of bugs and added a few enhancements for you to enjoy! Read more about what's new in Yoast SEO 17.8 in [our release post in English](https://yoa.st/release-17-8) or [our release post in Spanish](https://yoa.st/release-17-8-spanish)!
 
 Enhancements:
 
-* Enhances the upgrade flow for add-ons by considering the minimum required WP version before showing any available updates.
-* Enables the Schema Article type for any post type supporting authors.
-* Removes the placeholder texts for title and description inputs in the Google preview and Social preview since they have no semantic value.
+* Improves the user direction in the configuration workout.
+* Adds a sleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke).
 
 Bugfixes:
 
-* Fixes a bug where the `page` post type wasn't allowed to display an `Article` piece in the Schema.
-* Fixes a bug where the content inside of reusable blocks would not be analyzed correctly.
+* Fixes a bug where on small screens the advanced setting's search engine follow checkbox would have a misplaced center.
+* Fixes a bug where the styling of the introduction dialog in Elementor would be broken due to changes in Elementor.
+* Fixes a bug where the reading time functionality for languages other than English would incorrectly output English reading speed values.
+* Fixes a bug where certain text strings in the Google, Facebook and Twitter previews would not be translated.
+* Fixes a bug where the state of indexation was not persisted when switching between workouts and the workouts page.
+* Fixes a bug where the Workouts page wouldn't display translations.
 
 Other:
 
-* The plugin will no longer block installation on PHP 8.0+ when installed via Composer.
-* Deprecates the `wpseo_schema_article_post_types` filter.
+* Fixes some styling issues in the configuration workout.
+* Prevents SEO managers from changing the site description in the configuration workout.
+* Optimizes and compresses several .png images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
-= 17.5 =
-Release Date: November 2nd, 2021
-
-Say hello to Yoast SEO 17.5! Or maybe γεια would fit better, as this release introduces Greek readability support. Plus: you’ll also be able to find | and ~ title separators again. Happy updating! Read more about what's new in Yoast SEO 17.5 in [our release post in English](https://yoa.st/release-17-5) or [our release post in Spanish](https://yoa.st/release-17-5-spanish)!
-
-Enhancements:
-
-* Completes the readability analysis for Greek by adding the transition words, sentence beginnings and passive voice assessments.
-* Improves keyword detection for Greek by adding a function words list.
-* Reduces the right padding of the collapsible sidebar buttons to match the block editor's new styling.
-* Restores the `|` and `~` separators.
-* Reduces the right padding of the collapsible sidebar buttons to match Gutenberg's new styling.
+= 17.7.1 =
+Release Date: December 1st, 2021
 
 Bugfixes:
 
-* Fixes a bug where the analysis highlight button would be visible on tags, categories, and custom taxonomies even though we don't support highlighting for those types.
-* Fixes a bug where links to items on the same page were incorrectly identified as links to other pages, leading to an incorrect result on the Link keyphrase assessment.
+* Fixes a bug where the notification to start configuring Yoast SEO would also been shown on existing installations.
+* Fixes a bug where Yoast addons would not inherit the auto-update settings from Yoast SEO.
+* Fixes a bug where changing the auto-update settings of another plugin could stop Yoast addons from being auto-updated.
+
+= 17.7 =
+Release Date: November 30th, 2021
+
+Meet Yoast SEO 17.7! This release introduces a new configuration workout to help you set up the Yoast SEO plugin properly from the get-go. Get the basic settings right in Yoast SEO and create a solid foundation for your SEO! Read more about what's new in Yoast SEO 17.7 in [our release post in English](https://yoa.st/release-17-7) or [our release post in Spanish](https://yoa.st/release-17-7-spanish)!
+
+Enhancements:
+
+* Replaces the configuration wizard with a configuration workout, which makes it easier to configure Yoast SEO for your website.
+* Adds a link to the archive page for the content types in the Search Appearance settings. Props to [felipelousantos](https://github.com/felipelousantos).
+* Adds a few more French transition words to be recognised by the transition words assessment. Props to [Cellophile](https://github.com/Cellophile).
+
+Bugfixes:
+
+* Fixes a bug where non-passive Greek words ending in -ου or -είτε were previously recognized as passive. Props to [artemidaspatanews](https://github.com/artemidaspatanews).
+* Fixes a bug where some post types would cause a PHP warning about custom fields.
+* Fixes a bug where memory issues could occur when indexing a site with large amounts of terms assigned to many posts.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

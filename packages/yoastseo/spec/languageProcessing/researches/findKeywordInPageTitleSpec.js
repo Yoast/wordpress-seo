@@ -12,8 +12,10 @@ const morphologyData = getMorphologyData( "en" );
 const morphologyDataDE = getMorphologyData( "de" ).de;
 const morphologyDataFR = getMorphologyData( "fr" ).fr;
 const morphologyDataRU = getMorphologyData( "ru" ).ru;
+
 let result;
 
+// eslint-disable-next-line max-statements
 describe( "Matches keywords in string", function() {
 	it( "returns the exact match and its position", function() {
 		const mockPaper = new Paper( "", {

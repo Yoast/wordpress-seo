@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Login_Action;
 use Yoast\WP\SEO\Config\SEMrush_Client;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
+use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
 
 /**
  * Class SEMrush_Login_Action_Test
@@ -80,7 +80,7 @@ class SEMrush_Login_Action_Test extends TestCase {
 			]
 		);
 
-		$tokens_class = Mockery::mock( SEMrush_Token::class );
+		$tokens_class = Mockery::mock( OAuth_Token::class );
 		$tokens_class
 			->expects( 'to_array' )
 			->andReturn( $token_data );

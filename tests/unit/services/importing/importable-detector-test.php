@@ -148,14 +148,22 @@ class Importable_Detector_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the detector actually detects when there are unimported data.
+	 * Tests if the detector actually detects when there are unimported data and the action hasn't been finished.
 	 *
 	 * @covers ::detect
 	 */
-	public function test_detect_data_to_import() {
+	public function test_detect_data_to_import_unifinished() {
 		$this->mock_instance->expects( 'filter_actions' )
 			->once()
 			->andReturn( self::getPropertyValue( $this->instance, 'importers' ) );
+
+		$this->importing_action->expects( 'is_enabled' )
+				->once()
+				->andReturn( true );
+
+		$this->importing_action->expects( 'get_completed' )
+			->once()
+			->andReturn( false ); // Any number between 1-25.
 
 		$this->importing_action->expects( 'get_limited_unindexed_count' )
 			->once()
@@ -172,18 +180,73 @@ class Importable_Detector_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the detector detects when there are no unimported data.
+	 * Tests if the detector actually detects when there are unimported data but the action has been finished.
 	 *
 	 * @covers ::detect
 	 */
-	public function test_detect_no_data_to_import() {
+	public function test_detect_data_to_import_finished() {
 		$this->mock_instance->expects( 'filter_actions' )
 			->once()
 			->andReturn( self::getPropertyValue( $this->instance, 'importers' ) );
 
+		$this->importing_action->expects( 'is_enabled' )
+			->once()
+			->andReturn( true );
+
+		$this->importing_action->expects( 'get_completed' )
+			->once()
+			->andReturn( true );
+
+		$this->importing_action->expects( 'get_limited_unindexed_count' )
+			->never();
+
+		$detected = $this->mock_instance->detect();
+
+		$this->assertTrue( \is_array( $detected ) );
+		$this->assertTrue( \count( $detected ) === 0 );
+	}
+
+	/**
+	 * Tests if the detector detects when there are no unimported data but the action has not finished.
+	 *
+	 * @covers ::detect
+	 */
+	public function test_detect_no_data_to_import_unfinished() {
+		$this->mock_instance->expects( 'filter_actions' )
+			->once()
+			->andReturn( self::getPropertyValue( $this->instance, 'importers' ) );
+
+		$this->importing_action->expects( 'is_enabled' )
+			->once()
+			->andReturn( true );
+
+		$this->importing_action->expects( 'get_completed' )
+			->once()
+			->andReturn( false );
+
 		$this->importing_action->expects( 'get_limited_unindexed_count' )
 			->once()
 			->andReturn( 0 );
+
+		$detected = $this->mock_instance->detect();
+
+		$this->assertTrue( \is_array( $detected ) );
+		$this->assertTrue( \count( $detected ) === 0 );
+	}
+
+	/**
+	 * Tests if the detector detects when there are no enabled importers.
+	 *
+	 * @covers ::detect
+	 */
+	public function test_detect_no_data_when_no_enabled_importers() {
+		$this->mock_instance->expects( 'filter_actions' )
+			->once()
+			->andReturn( self::getPropertyValue( $this->instance, 'importers' ) );
+
+		$this->importing_action->expects( 'is_enabled' )
+			->once()
+			->andReturn( false );
 
 		$detected = $this->mock_instance->detect();
 

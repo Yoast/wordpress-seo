@@ -86,7 +86,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   border: 1px solid rgba(0,0,0,0.2);
   padding: 16px;
@@ -111,7 +111,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
 }
 
 .c4 {
-  margin-top: 0.125rem;
+  margin-top: 0.1rem;
   margin-right: 8px;
 }
 
@@ -150,8 +150,8 @@ exports[`The ImageSelect component displays warnings 1`] = `
   font-weight: 400;
   line-height: 1.5;
   margin-bottom: 5px;
-  width: 112px;
-  height: 40px;
+  max-width: 200px;
+  padding: 0 0.5em;
 }
 
 .c16 {
@@ -386,8 +386,8 @@ exports[`The ImageSelect component renders 1`] = `
   font-weight: 400;
   line-height: 1.5;
   margin-bottom: 5px;
-  width: 112px;
-  height: 40px;
+  max-width: 200px;
+  padding: 0 0.5em;
 }
 
 .c0 {

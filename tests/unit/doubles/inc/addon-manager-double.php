@@ -42,7 +42,7 @@ class Addon_Manager_Double extends WPSEO_Addon_Manager {
 	 *
 	 * @return stdClass The converted subscription.
 	 */
-	public function convert_subscription_to_plugin( $subscription, $yoast_free_data = null, $plugin_info = false ) {
+	public function convert_subscription_to_plugin( $subscription, $yoast_free_data = null, $plugin_info = false, $plugin_file = '' ) {
 		Monkey\Functions\expect( '_get_plugin_data_markup_translate' )
 			->withAnyArgs()
 			->andReturn( (object) $subscription );

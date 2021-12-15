@@ -16,6 +16,18 @@ const SidebarButton = ( props ) => {
 				onClick={ props.onClick }
 				className="components-button components-panel__body-toggle"
 			>
+				{ props.prefixIcon && ( <span
+					className="yoast-icon-span"
+					style={ { fill: `${ props.prefixIcon && props.prefixIcon.color || "" }` } }
+				>
+					{
+						 <SvgIcon
+							size={ props.prefixIcon.size }
+							icon={ props.prefixIcon.icon }
+						 />
+					}
+				</span> ) }
+
 				<span className="yoast-title-container">
 					<div className="yoast-title">{ props.title }</div>
 					<div className="yoast-subtitle">{ props.subTitle }</div>
@@ -39,10 +51,12 @@ SidebarButton.propTypes = {
 	id: PropTypes.string,
 	subTitle: PropTypes.string,
 	suffixIcon: PropTypes.object,
+	prefixIcon: PropTypes.object,
 };
 
 SidebarButton.defaultProps = {
 	id: "",
 	suffixIcon: null,
+	prefixIcon: null,
 	subTitle: "",
 };

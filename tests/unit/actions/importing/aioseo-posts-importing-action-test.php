@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Aioseo_Posts_Importing_Action_Test class
  *
  * @group actions
- * @group indexing
+ * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
@@ -114,6 +114,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @covers ::get_total_unindexed
 	 */
 	public function test_get_total_unindexed() {
+		$this->mock_instance->expects( 'set_completed' )
+			->once();
+
 		$this->mock_instance->expects( 'get_cursor' )
 			->once()
 			->andReturn( 1337 );
@@ -167,6 +170,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	public function test_donot_index_if_no_importables() {
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		define( 'ARRAY_A', 'ARRAY_A' );
+
+		$this->mock_instance->expects( 'set_completed' )
+			->once();
 
 		$this->mock_instance->expects( 'get_cursor' )
 			->once()

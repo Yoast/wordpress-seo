@@ -20,6 +20,7 @@ use WPSEO_Utils;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
+use Yoast\WP\SEO\Config\Wincher_Links;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -386,11 +387,13 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->enqueue_style( 'admin-css' );
 		$this->asset_manager->enqueue_style( 'elementor' );
 
+		$this->asset_manager->enqueue_script( 'admin-global' );
 		$this->asset_manager->enqueue_script( 'elementor' );
 
 		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 		$yoast_components_l10n->localize_script( 'elementor' );
 
+		$this->asset_manager->localize_script( 'elementor', 'wpseoAdminGlobalL10n', \YoastSEO()->helpers->wincher->get_admin_global_links() );
 		$this->asset_manager->localize_script( 'elementor', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 		$this->asset_manager->localize_script( 'elementor', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
@@ -428,6 +431,7 @@ class Elementor implements Integration_Interface {
 			'isPost'            => true,
 			'isBlockEditor'     => WP_Screen::get()->is_block_editor(),
 			'isElementorEditor' => true,
+			'postStatus'        => get_post_status( $post_id ),
 			'analysis'          => [
 				'plugins'                     => $plugins_script_data,
 				'worker'                      => $worker_script_data,

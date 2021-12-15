@@ -150,6 +150,17 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
+	 * Adds an inline script.
+	 *
+	 * @param string $handle   The script handle.
+	 * @param string $data     The l10n data.
+	 * @param string $position Optional. Whether to add the inline script before the handle or after.
+	 */
+	public function add_inline_script( $handle, $data, $position = 'after' ) {
+		\wp_add_inline_script( $this->prefix . $handle, $data, $position );
+	}
+
+	/**
 	 * A list of styles that shouldn't be registered but are needed in other locations in the plugin.
 	 *
 	 * @return array
@@ -229,7 +240,12 @@ class WPSEO_Admin_Asset_Manager {
 			'analysis-worker'    => [ self::PREFIX . 'analysis-package' ],
 			'api-client'         => [ 'wp-api' ],
 			'dashboard-widget'   => [ self::PREFIX . 'api-client' ],
-			'elementor'          => [ self::PREFIX . 'api-client' ],
+			'elementor'          => [
+				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
+			],
 			'indexation'         => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
@@ -237,6 +253,9 @@ class WPSEO_Admin_Asset_Manager {
 			'post-edit'          => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'block-editor',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'select2',
 			],
 			'reindex-links'      => [
@@ -252,6 +271,9 @@ class WPSEO_Admin_Asset_Manager {
 			'term-edit'          => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'classic-editor',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'select2',
 			],
 		];
@@ -295,6 +317,20 @@ class WPSEO_Admin_Asset_Manager {
 			$renamed_scripts
 		);
 
+		$scripts['installation-success'] = [
+			'name' => 'installation-success',
+			'src'  => 'installation-success-' . $flat_version . '.js',
+			'deps' => [
+				'wp-a11y',
+				'wp-dom-ready',
+				'wp-components',
+				'wp-element',
+				'wp-i18n',
+				self::PREFIX . 'yoast-components',
+				self::PREFIX . 'externals-components',
+			],
+		];
+
 		$scripts['post-edit-classic'] = [
 			'name'      => 'post-edit-classic',
 			'src'       => $scripts['post-edit']['src'],
@@ -308,6 +344,29 @@ class WPSEO_Admin_Asset_Manager {
 				$scripts['post-edit']['deps']
 			),
 			'in_footer' => ! in_array( 'post-edit-classic', $header_scripts, true ),
+		];
+
+		$scripts['workouts'] = [
+			'name' => 'workouts',
+			'src'  => 'workouts-' . $flat_version . '.js',
+			'deps' => [
+				'clipboard',
+				'lodash',
+				'wp-api-fetch',
+				'wp-a11y',
+				'wp-components',
+				'wp-compose',
+				'wp-data',
+				'wp-dom-ready',
+				'wp-element',
+				'wp-i18n',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
+				self::PREFIX . 'analysis',
+				self::PREFIX . 'react-select',
+				self::PREFIX . 'yoast-components',
+			],
 		];
 
 		// Add the current language to every script that requires the analysis package.
@@ -601,6 +660,11 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'workouts',
 				'src'  => 'workouts-' . $flat_version,
+				'deps' => [ self::PREFIX . 'monorepo' ],
+			],
+			[
+				'name' => 'installation-success',
+				'src'  => 'installation-success-' . $flat_version,
 				'deps' => [ self::PREFIX . 'monorepo' ],
 			],
 		];

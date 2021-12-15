@@ -18,7 +18,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {boolean} config			The scoring configuration that should be used.
+	 * @param {object} config			The scoring configuration that should be used.
 	 * @param {boolean} isCornerstone	Whether cornerstone configuration should be used.
 	 * @param {boolean} isProduct		Whether product configuration should be used.
 
@@ -28,11 +28,12 @@ class SentenceLengthInTextAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			recommendedWordCount: 20,
+			recommendedLength: 20,
 			slightlyTooMany: 25,
 			farTooMany: 30,
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/34v" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34w" ),
+			countTextIn: __( "words", "wordpress-seo" ),
 		};
 
 		// Add cornerstone and/or product-specific config if applicable.
@@ -55,6 +56,11 @@ class SentenceLengthInTextAssessment extends Assessment {
 		const sentences = researcher.getResearch( "countSentencesFromText" );
 		if	( researcher.getConfig( "sentenceLength" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
+		}
+
+		const countTextInCharacters = researcher.getConfig( "countCharacters" );
+		if ( countTextInCharacters ) {
+			this._config.countTextIn = __( "characters", "wordpress-seo" );
 		}
 
 		const percentage = this.calculatePercentage( sentences );
@@ -115,8 +121,8 @@ class SentenceLengthInTextAssessment extends Assessment {
 		const currentConfig = this._config;
 		const languageSpecificConfig = researcher.getConfig( "sentenceLength" );
 
-		if ( languageSpecificConfig.hasOwnProperty( "recommendedWordCount" ) ) {
-			currentConfig.recommendedWordCount = languageSpecificConfig.recommendedWordCount;
+		if ( languageSpecificConfig.hasOwnProperty( "recommendedLength" ) ) {
+			currentConfig.recommendedLength = languageSpecificConfig.recommendedLength;
 		}
 
 		// Check if a language has specific cornerstone configuration for non-product pages.
@@ -155,18 +161,19 @@ class SentenceLengthInTextAssessment extends Assessment {
 		return sprintf(
 			/* Translators: %1$s and %6$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
 			%3$d expands to percentage of sentences, %4$s expands to the recommended maximum sentence length,
-			%5$s expands to the recommended maximum percentage. */
+			%5$s expands to the recommended maximum percentage, %7$s expands to the word 'words' or 'characters'. */
 			__(
 				// eslint-disable-next-line max-len
-				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s words, which is more than the recommended maximum of %5$s. %6$sTry to shorten the sentences%2$s.",
+				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s %7$s, which is more than the recommended maximum of %5$s. %6$sTry to shorten the sentences%2$s.",
 				"wordpress-seo"
 			),
 			this._config.urlTitle,
 			"</a>",
 			percentage + "%",
-			this._config.recommendedWordCount,
+			this._config.recommendedLength,
 			this._config.slightlyTooMany + "%",
-			this._config.urlCallToAction
+			this._config.urlCallToAction,
+			this._config.countTextIn
 		);
 	}
 
@@ -222,7 +229,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {array} Array with all the sentences considered to be too long.
 	 */
 	getTooLongSentences( sentences ) {
-		return getTooLongSentences( sentences, this._config.recommendedWordCount );
+		return getTooLongSentences( sentences, this._config.recommendedLength );
 	}
 
 	/**

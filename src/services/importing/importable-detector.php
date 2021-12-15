@@ -40,7 +40,7 @@ class Importable_Detector {
 
 		$detected = [];
 		foreach ( $detectors as $detector ) {
-			if ( $detector->get_limited_unindexed_count( 1 ) > 0 ) {
+			if ( $detector->is_enabled() && ! $detector->get_completed() && $detector->get_limited_unindexed_count( 1 ) > 0 ) {
 				$detected[ $detector->get_plugin() ][] = $detector->get_type();
 			}
 		}

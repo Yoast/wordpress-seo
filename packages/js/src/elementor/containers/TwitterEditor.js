@@ -71,7 +71,6 @@ export default compose( [
 			getEditorDataImageFallback,
 			getRecommendedReplaceVars,
 			getSiteUrl,
-			getAuthorName,
 			getSeoTitleTemplate,
 			getSeoTitleTemplateNoFallback,
 			getSocialTitleTemplate,
@@ -104,7 +103,6 @@ export default compose( [
 				getSeoTitleTemplate() ||
 				titleInputPlaceholder,
 			imageWarnings: getTwitterWarnings(),
-			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
 			isPremium: !! getL10nObject().isPremium,
 			isLarge: getTwitterImageType() !== "summary",

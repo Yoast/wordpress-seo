@@ -565,7 +565,7 @@ describe( "a test for finding transition words from a string", function() {
 
 	it( "returns 1 when a (single) transition word is found in a sentence (Japanese)", function() {
 		// Transition word: とりわけ
-		mockPaper = new Paper( "とりわけ、いくつかの良い例が必要です", { locale: "ja_JA" } );
+		mockPaper = new Paper( "とりわけ、いくつかの良い例が必要です", { locale: "ja" } );
 		result = transitionWordsResearch( mockPaper, new JapaneseResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
@@ -573,14 +573,14 @@ describe( "a test for finding transition words from a string", function() {
 
 	it( "returns 1 when a (multiple) transition word is found in a sentence (Japanese)", function() {
 		// Transition word: ゆえに (tokenized: [ "ゆえ", "に" ])
-		mockPaper = new Paper( "我思う、ゆえに我あり。", { locale: "ja_JA" } );
+		mockPaper = new Paper( "我思う、ゆえに我あり。", { locale: "ja" } );
 		result = transitionWordsResearch( mockPaper, new JapaneseResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 
 	it( "returns 0 when no transition words are present in a sentence (Japanese)", function() {
-		mockPaper = new Paper( "この例文は、書き方のサンプルなので必要に応じて内容を追加削除をしてからお使いください。", { locale: "ja_JA" } );
+		mockPaper = new Paper( "この例文は、書き方のサンプルなので必要に応じて内容を追加削除をしてからお使いください。", { locale: "ja" } );
 		result = transitionWordsResearch( mockPaper, new JapaneseResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 0 );
