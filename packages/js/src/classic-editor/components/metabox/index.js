@@ -2,20 +2,22 @@
 
 import { Fill } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
-import { Fragment } from "@wordpress/element";
+import { Fragment, useEffect } from "@wordpress/element";
 import { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-integration";
-import GooglePreview from "../google-preview";
-import SeoAnalysis from "../seo-analysis";
-import ReadabilityAnalysis from "../readability-analysis";
+import { forEach } from "lodash";
+import { markers } from "yoastseo";
 import SocialMetadataPortal from "../../../components/portals/SocialMetadataPortal";
 import SidebarItem from "../../../components/SidebarItem";
-import AdvancedSettings from "../advanced-settings";
-import CornerstoneContent from "../cornerstone-content";
 import SchemaTabContainer from "../../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
 import Warning from "../../../containers/Warning";
 import { EDITOR_STORE_NAME } from "../../editor-store";
+import AdvancedSettings from "../advanced-settings";
+import CornerstoneContent from "../cornerstone-content";
 import FocusKeyphraseInput from "../focus-keyphrase-input";
+import GooglePreview from "../google-preview";
+import ReadabilityAnalysis from "../readability-analysis";
+import SeoAnalysis from "../seo-analysis";
 
 /**
  * Creates the Metabox component.
@@ -27,7 +29,36 @@ const Metabox = () => {
 	const isSeoAnalysisActive = useSelect( select => select( SEO_STORE_NAME ).selectIsSeoAnalysisActive() );
 	const isReadabilityAnalysisActive = useSelect( select => select( SEO_STORE_NAME ).selectIsReadabilityAnalysisActive() );
 
+	const activeMarkerId = useSelect( select => select( SEO_STORE_NAME ).selectActiveMarkerId() );
+	const marks = useSelect( select => select( SEO_STORE_NAME ).selectActiveMarks() );
+
 	useAnalyze();
+
+	useEffect( () => {
+		const editor = window.tinyMCE.editors.content;
+
+		let content = editor.getContent();
+		content = markers.removeMarks( content );
+
+		forEach( marks, mark => {
+			content = content.split( mark.original ).join( mark.marked );
+		} );
+		content = content
+			.replace( new RegExp( "&lt;yoastmark.+?&gt;", "g" ), "" )
+			.replace( new RegExp( "&lt;/yoastmark&gt;", "g" ), "" );
+
+		editor.setContent( content );
+
+		const markElements = editor.dom.select( "yoastmark" );
+
+		/*
+		* The `mce-bogus` data is an internal tinyMCE indicator that the elements themselves shouldn't be saved.
+		* Add data-mce-bogus after the elements have been inserted because setContent strips elements with data-mce-bogus.
+		*/
+		forEach( markElements, markElement => {
+			markElement.setAttribute( "data-mce-bogus", "1" );
+		} );
+	}, [ activeMarkerId, marks ] );
 
 	return (
 		<Fragment>
