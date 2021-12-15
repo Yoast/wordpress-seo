@@ -40,14 +40,6 @@ const watchDomChanges = () => {
 	createStoreSync( DOM_IDS.TITLE, actions.updateTitle, "input" );
 	createStoreSync( DOM_IDS.EXCERPT, actions.updateExcerpt, "input" );
 
-	// Sync featured image to store, note the transform.
-	document.getElementById( DOM_IDS.FEATURED_IMAGE_ID )?.addEventListener( "change", ( event ) => (
-		actions.updateFeaturedImage( {
-			id: get( event, "target.value", "" ),
-			url: dom.getFeaturedImageUrl(),
-		} )
-	) );
-
 	/**
 	 * Updates slug changes in store by dispatching actions for updating both slug and permalink.
 	 *
