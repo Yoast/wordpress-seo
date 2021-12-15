@@ -96,7 +96,7 @@ class KeyphraseLengthAssessment extends Assessment {
 		return assessmentResult;
 	}
 	/**
-	 * Checks which configuration to use.
+	 * Merges language-specific configurations for product/regular pages.
 	 *
 	 * @param {Researcher} researcher The researcher used for calling research.
 	 *
@@ -110,6 +110,7 @@ class KeyphraseLengthAssessment extends Assessment {
 			return merge( this._config, customKeyphraseLengthConfig.productPages );
 		}
 
+		// If a language has a configuration for keyphrase length for regular pages, that configuration is used.
 		return merge( this._config, customKeyphraseLengthConfig.defaultAnalysis );
 	}
 	/**
@@ -119,6 +120,7 @@ class KeyphraseLengthAssessment extends Assessment {
 	 */
 	calculateResult() {
 		if ( this._isProductPage ) {
+			// Calculates very bad score for product pages
 			if ( this._keyphraseLengthData.keyphraseLength === 0 ) {
 				if ( this._config.isRelatedKeyphrase ) {
 					return {
@@ -150,16 +152,16 @@ class KeyphraseLengthAssessment extends Assessment {
 					),
 				};
 			}
-			// Calculates bad score for custom pages
+			// Calculates bad score for product pages
 			if ( this._keyphraseLengthData.keyphraseLength <= this._boundaries.acceptableMinimum ) {
 				return {
 					score: this._config.scores.bad,
 					resultText: sprintf(
 						/* Translators:
-				%1$d expands to the number of words / characters in the keyphrase,
-				%2$d expands to the recommended maximum of words / characters in the keyphrase,
-				%3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
-				%6$s expands to the word 'word' or 'character', %7$s expands to the word 'words or 'characters'. */
+						%1$d expands to the number of words / characters in the keyphrase,
+						%2$d expands to the recommended maximum of words / characters in the keyphrase,
+						%3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
+						%6$s expands to the word 'word' or 'character', %7$s expands to the word 'words or 'characters'. */
 						_n(
 							// eslint-disable-next-line max-len
 							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's shorter than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
@@ -183,11 +185,11 @@ class KeyphraseLengthAssessment extends Assessment {
 					score: this._config.scores.bad,
 					resultText: sprintf(
 						/* Translators:
-				%1$d expands to the number of words / characters in the keyphrase,
-				%2$d expands to the recommended maximum of words / characters in the keyphrase,
-				%3$s and %4$s expand to links on yoast.com,
-				%5$s expands to the anchor end tag,
-				%6$s expands to the word 'words' or 'characters'. */
+						%1$d expands to the number of words / characters in the keyphrase,
+						%2$d expands to the recommended maximum of words / characters in the keyphrase,
+						%3$s and %4$s expand to links on yoast.com,
+						%5$s expands to the anchor end tag,
+						%6$s expands to the word 'words' or 'characters'. */
 						__(
 							// eslint-disable-next-line max-len
 							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's longer than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
@@ -202,7 +204,7 @@ class KeyphraseLengthAssessment extends Assessment {
 					),
 				};
 			}
-			// Calculates okay score for custom pages
+			// Calculates okay score for product pages
 			if ( inRange( this._keyphraseLengthData.keyphraseLength, this._boundaries.acceptableMinimum, this._boundaries.recommendedMinimum ) ) {
 				return {
 					score: this._config.scores.okay,
@@ -252,7 +254,7 @@ class KeyphraseLengthAssessment extends Assessment {
 					),
 				};
 			}
-			// // Calculates good score for custom pages
+			// Calculates good score for product pages
 			if ( inRangeStartEndInclusive( this._keyphraseLengthData.keyphraseLength, this._boundaries.recommendedMinimum,
 				this._boundaries.recommendedMaximum ) ) {
 				return {
@@ -270,7 +272,7 @@ class KeyphraseLengthAssessment extends Assessment {
 			}
 		}
 
-		// Calcatules scores for regular pages
+		// Calculates scores for regular pages
 		if ( this._keyphraseLengthData.keyphraseLength < this._boundaries.recommendedMinimum ) {
 			if ( this._config.isRelatedKeyphrase ) {
 				return {
