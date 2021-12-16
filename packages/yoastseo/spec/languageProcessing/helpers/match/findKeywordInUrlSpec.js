@@ -54,6 +54,16 @@ describe( "checks keyword occurences in links", function() {
 			mockExactMatchRequestObject
 		) ).toBe( true );
 	} );
+
+	it( "returns keywords not found for when the exact match is requested", function() {
+		const url = "<a href='http://yoast.com'>cat</a>";
+		expect( findKeywordInUrl( url,
+			{ keyphraseForms: [ [ "cats" ] ] },
+			"en_US",
+			matchWordCustomHelper,
+			mockExactMatchRequestObject
+		) ).toBe( false );
+	} );
 	/*
 	// This test does not work with the current implementation of morphological researcher.
 	it( "returns keywords found", function() {
