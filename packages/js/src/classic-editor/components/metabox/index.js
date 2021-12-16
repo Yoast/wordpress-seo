@@ -1,17 +1,17 @@
 /* global wpseoScriptData wpseoAdminL10n */
 
 import { Fill } from "@wordpress/components";
-import { useSelect } from "@wordpress/data";
-import { Fragment, useEffect } from "@wordpress/element";
-import { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-integration";
-import { forEach, get } from "lodash";
+import { useDispatch, useSelect } from "@wordpress/data";
+import { Fragment, useCallback, useEffect, useState } from "@wordpress/element";
+import { MARKER_STATUS, SEO_STORE_NAME, useAnalyze } from "@yoast/seo-integration";
+import { forEach } from "lodash";
 import { markers } from "yoastseo";
 import SocialMetadataPortal from "../../../components/portals/SocialMetadataPortal";
 import SidebarItem from "../../../components/SidebarItem";
 import SchemaTabContainer from "../../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
 import Warning from "../../../containers/Warning";
-import { isTextViewActive } from "../../../lib/tinymce";
+import { DOM_IDS } from "../../dom";
 import { EDITOR_STORE_NAME } from "../../editor-store";
 import AdvancedSettings from "../advanced-settings";
 import CornerstoneContent from "../cornerstone-content";
@@ -19,6 +19,41 @@ import FocusKeyphraseInput from "../focus-keyphrase-input";
 import GooglePreview from "../google-preview";
 import ReadabilityAnalysis from "../readability-analysis";
 import SeoAnalysis from "../seo-analysis";
+
+const useEditor = () => {
+	const [ editor, setEditor ] = useState( null );
+
+	const contentEditorListener = useCallback( ( e ) => {
+		if ( e.editor.id === DOM_IDS.CONTENT ) {
+			setEditor( e.editor );
+		}
+	}, [ setEditor ] );
+
+	useEffect( () => {
+		if ( ! tinymce ) {
+			return;
+		}
+
+		// Is the editor already present? Use that.
+		const contentEditor = tinymce.get( DOM_IDS.CONTENT );
+		if ( contentEditor ) {
+			setEditor( contentEditor );
+			return;
+		}
+
+		// Listen for the editor.
+		tinymce.on( "AddEditor", contentEditorListener );
+	}, [ tinymce ] );
+
+	// Remove our listener (whether it was actually enabled or not).
+	useEffect( () => {
+		if ( editor ) {
+			tinymce.off( "AddEditor", contentEditorListener );
+		}
+	}, [ editor ] );
+
+	return editor;
+};
 
 /**
  * Creates the Metabox component.
@@ -32,13 +67,18 @@ const Metabox = () => {
 
 	const activeMarkerId = useSelect( select => select( SEO_STORE_NAME ).selectActiveMarkerId() );
 	const marks = useSelect( select => select( SEO_STORE_NAME ).selectActiveMarks() );
+	const markerStatus = useSelect( select => select( SEO_STORE_NAME ).selectMarkerStatus() );
+	const { updateActiveMarker, updateMarkerStatus } = useDispatch( SEO_STORE_NAME );
 
 	useAnalyze();
 
-	useEffect( () => {
-		const editor = get( window, "tinyMCE.editors.content", false );
+	const editor = useEditor();
 
-		if ( ! editor ) {
+	useEffect( () => {
+		const hasEditor = editor && editor.dom;
+		const hasMarkings = activeMarkerId !== "" && marks.length > 0;
+
+		if ( ! hasEditor || ! hasMarkings ) {
 			return;
 		}
 
@@ -48,34 +88,37 @@ const Metabox = () => {
 		forEach( marks, mark => {
 			content = content.split( mark.original ).join( mark.marked );
 		} );
+
 		content = content
 			.replace( new RegExp( "&lt;yoastmark.+?&gt;", "g" ), "" )
 			.replace( new RegExp( "&lt;/yoastmark&gt;", "g" ), "" );
 
 		editor.setContent( content );
 
-		const markElements = editor.dom.select( "yoastmark" );
-
 		/*
-		* The `mce-bogus` data is an internal tinyMCE indicator that the elements themselves shouldn't be saved.
-		* Add data-mce-bogus after the elements have been inserted because setContent strips elements with data-mce-bogus.
-		*/
+		 * The `mce-bogus` data is an internal tinyMCE indicator that the elements themselves shouldn't be saved.
+		 * Add data-mce-bogus after the elements have been inserted because setContent strips elements with data-mce-bogus.
+		 */
+		const markElements = editor.dom.select( "yoastmark" );
 		forEach( markElements, markElement => {
 			markElement.setAttribute( "data-mce-bogus", "1" );
 		} );
-	}, [ activeMarkerId, marks ] );
+	}, [ editor, activeMarkerId, marks ] );
 
 	useEffect( () => {
-		const editor = get( window, "tinyMCE.editors.content", false );
-
-		if ( ! editor ) {
+		if ( editor === null ) {
 			return;
 		}
 
-		editor.on( "hide", function( e ) {
-			console.log( "🚀 ~ file: index.js ~ line 79 ~ editor.on ~ editorId", e );
+		updateMarkerStatus( editor.isHidden() ? MARKER_STATUS.DISABLED : MARKER_STATUS.ENABLED );
+		editor.on( "hide", () => {
+			updateActiveMarker( { id: "", marks: [] } );
+			updateMarkerStatus( MARKER_STATUS.DISABLED );
 		} );
-	}, [] );
+		editor.on( "show", () => {
+			updateMarkerStatus( MARKER_STATUS.ENABLED );
+		} );
+	}, [ editor ] );
 
 	return (
 		<Fragment>
