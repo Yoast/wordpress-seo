@@ -510,7 +510,12 @@ class Elementor implements Integration_Interface {
 		// Drafts might not have a post_name unless the slug has been manually changed.
 		// In this case we get it using get_sample_permalink.
 		if ( ! $post->post_name ) {
-			return \get_sample_permalink( $post->id )[1];
+			$sample = \get_sample_permalink( $post->id );
+
+			// Since get_sample_permalink runs through filters, ensure that it has the expected return value.
+			if ( is_array( $sample ) && count( $sample ) === 2 && is_string( $sample[1] ) ) {
+				return $sample[1];
+			}
 		}
 
 		return $post->post_name;
