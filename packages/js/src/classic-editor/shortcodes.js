@@ -46,7 +46,7 @@ const fetchShortcodes = shortcodes => new Promise( ( resolve, reject ) => {
 			action: "wpseo_filter_shortcodes",
 			_wpnonce: nonce,
 			data: shortcodes,
-		},
+		}
 	)
 		.done( response => {
 			try {
@@ -129,7 +129,7 @@ const parseShortcodes = text => {
 	const foundShortcodes = getShortcodes( text );
 	const unparsedShortcodes = uniq( filter(
 		foundShortcodes,
-		foundShortcode => ! some( parsedShortcodes, parsedShortcode => parsedShortcode.shortcode === foundShortcode ),
+		foundShortcode => ! some( parsedShortcodes, parsedShortcode => parsedShortcode.shortcode === foundShortcode )
 	) );
 
 	if ( unparsedShortcodes.length > 0 ) {
@@ -167,7 +167,7 @@ const registerShortcodes = () => {
 			...paper,
 			content: parseShortcodes( paper.content ),
 		} ),
-		11,
+		11
 	);
 
 	return () => removeFilter( "yoast.seoStore.analysis.preparePaper", "yoast/free/parseShortcodes" );
