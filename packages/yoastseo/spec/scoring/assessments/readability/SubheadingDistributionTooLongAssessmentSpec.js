@@ -4,6 +4,8 @@ import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher.js";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
+import subheadingsTooLong from "../../../../src/languageProcessing/languages/ja/config/subheadingsTooLong.js";
+
 import { enableFeatures } from "@yoast/feature-flag";
 enableFeatures( [ "JAPANESE_SUPPORT" ] );
 
@@ -200,6 +202,20 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		expect( results.getText( paper, japaneseResearcher ) ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
 			"2 sections of your text are longer than 600 words and are not separated by any subheadings." +
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
+	} );
+
+	describe( "Language-specific configuration for specific types of content is used", function() {
+		const paper = new  Paper( shortTextJA + subheadingJA + veryLongTextJA );
+		const japaneseResearcher = new JapaneseResearcher( paper );
+		it( "checks whether language-specific cornerstone configuration is used", function() {
+			const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();
+			const results = new SubheadingDistributionTooLong( { cornerstoneContent: true } );
+			// Running getResult will apply language-specific configuration.
+			subheadingDistributionTooLongJA.getResult( paper, japaneseResearcher );
+			expect( results._config.recommendedMaximumWordCount ).toEqual( subheadingsTooLong.cornerstoneParameters.recommendedMaximumWordCount );
+			expect( results._config.slightlyTooMany ).toEqual( subheadingsTooLong.cornerstoneParameters.slightlyTooMany );
+			expect( results._config.farTooMany ).toEqual( subheadingsTooLong.cornerstoneParameters.farTooMany );
+		} );
 	} );
 	it( "Returns false from isApplicable to the paper without text", function() {
 		const paper = new Paper( "" );
