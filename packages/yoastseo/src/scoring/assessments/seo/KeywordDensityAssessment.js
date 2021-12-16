@@ -69,12 +69,14 @@ class KeywordDensityAssessment extends Assessment {
 		this._config = merge( defaultConfig, config );
 	}
 
+
 	/**
 	 * Determines correct boundaries depending on the availability
 	 * of morphological forms.
 	 *
 	 * @param {string} text The paper text.
 	 * @param {number} keyphraseLength The length of the keyphrase in words.
+	 * @param {function} customGetWords A helper to get words from the text for languages that don't use the default approach.
 	 *
 	 * @returns {void}
 	 */
