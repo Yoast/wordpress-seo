@@ -78,9 +78,6 @@ module.exports = function( grunt ) {
 		"makepot-yoast-js-components": {
 			command: "yarn i18n-yoast-js-components",
 		},
-		"makepot-yoast-js-configuration-wizard": {
-			command: "yarn i18n-yoast-js-configuration-wizard",
-		},
 		"makepot-yoast-js-helpers": {
 			command: "yarn i18n-yoast-js-helpers",
 		},
@@ -92,29 +89,6 @@ module.exports = function( grunt ) {
 		},
 		"makepot-yoast-js-replacement-variable-editor": {
 			command: "yarn i18n-yoast-js-replacement-variable-editor",
-		},
-
-		"makepot-yoast-components-configuration-wizard": {
-			fromFiles: [
-				// On these 2 folders in yoast-components have the old i18n-calypso system.
-				"node_modules/yoast-components/composites/LinkSuggestions/**/*.js",
-				"node_modules/yoast-components/composites/OnboardingWizard/**/*.js",
-
-				// Only these 3 files have the old i18n-calypso system:
-				"<%= paths.js %>components/MailchimpSignup.js",
-				"<%= paths.js %>components/MediaUpload.js",
-			],
-			textdomain: "yoast-components",
-			command: function() {
-				let files = grunt.config.get( "shell.makepot-yoast-components-configuration-wizard.fromFiles" );
-
-				files = grunt.file.expand( files );
-
-				return path.normalize( "./node_modules/.bin/i18n-calypso" ) +
-					" -o <%= files.pot.yoastComponentsConfigurationWizard %>" +
-					" -f POT" +
-					" " + files.join( " " );
-			},
 		},
 
 		"makepot-yoast-components-remaining": {
