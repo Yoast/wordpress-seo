@@ -203,7 +203,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 	} );
 
 	describe( "Language-specific configuration for specific types of content is used", function() {
-		const paper = new  Paper( shortTextJA + subheadingJA + veryLongTextJA );
+		const paper = new  Paper( shortTextJapanese + subheading + veryLongTextJapanese );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		it( "checks whether language-specific cornerstone configuration is used", function() {
 			const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();

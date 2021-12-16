@@ -62,7 +62,6 @@ export default class Researcher extends AbstractResearcher {
 			keyphraseLength,
 			subheadingsTooLong,
 			countCharacters: true,
-			subheadingsTooLong,
 		} );
 
 		Object.assign( this.helpers, {
