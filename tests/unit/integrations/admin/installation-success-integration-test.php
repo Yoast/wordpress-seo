@@ -214,7 +214,7 @@ class Installation_Success_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'set' )
-			->with( 'activation_redirect_timestamp_free', \time() );
+			->withSomeOfArgs( 'activation_redirect_timestamp_free' );
 
 		$this->product_helper
 			->expects( 'is_premium' )
@@ -280,7 +280,7 @@ class Installation_Success_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'set' )
-			->with( 'activation_redirect_timestamp_free', \time() );
+			->withSomeOfArgs( 'activation_redirect_timestamp_free' );
 
 		$_REQUEST['activate-multi'] = null;
 
@@ -319,7 +319,7 @@ class Installation_Success_Integration_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'set' )
-			->with( 'activation_redirect_timestamp_free', \time() );
+			->withSomeOfArgs( 'activation_redirect_timestamp_free' );
 
 		$_REQUEST['activate-multi'] = null;
 
