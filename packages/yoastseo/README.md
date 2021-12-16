@@ -98,19 +98,20 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 | Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Portuguese 	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Catalan    	| ✅                	|                     	|               	|                     	|                             	|                            	|
+| Catalan    	| ✅                	| ❌<sup>4</sup>         | ❌<sup>4</sup>    | ❌<sup>4</sup>        | ❌<sup>4</sup>                 |  ❌<sup>4</sup>                  |
 | Polish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Swedish    	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Hungarian  	| ✅                	| ❌<sup>3</sup>        |  ✅          	|     ✅           	|         ✅             	|             ✅                 	|                            	|
+| Hungarian  	| ✅                	| ❌<sup>3</sup>        |  ✅          	    | ✅           	        | ✅             	            | ✅                 	        |
 | Indonesian 	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Arabic    	| ✅                	| ❌<sup>3</sup>        | ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Hebrew      |   ✅                | ❌<sup>3</sup>             | ✅             |    ✅               |      ✅                   |           ✅                     | ✅                         |
-| Farsi    	  |   ✅               	| ❌<sup>3</sup>            | ✅              	| ✅                    | ✅                             | ✅                          	|
+| Hebrew        | ✅                    | ❌<sup>3</sup>        | ✅                | ✅                     | ✅                            | ✅                             |
+| Farsi    	    | ✅                    | ❌<sup>3</sup>        | ✅              	| ✅                    | ✅                             | ✅                          	|
 | Turkish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Norwegian     | ✅                	| ❌<sup>3</sup>        | ✅                 | ✅                   	| ✅                           	| ✅                          	|
 | Czech     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Slovak     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Greek     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Japanese     	| ✅                	| ❌<sup>3</sup>       	| ❌<sup>5</sup>    | ✅                    | ✅                            | ✅                             |
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
 
@@ -118,6 +119,9 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 
 <sup>3</sup> There is no existing Flesch reading ease formula for these languages.
 
+<sup>4</sup> This means that the functionality for this assessment is currently not available for these languages.
+
+<sup>5</sup> The Passive voice check for Japanese is not implemented since the structure is the same as the potential form and can additionally be used for an honorific purpose. Identifying whether a verb is in its passive, honorific or potential form is problematic without contextual information.
 
 The following readability assessments are available for all languages:
 - sentence length (with a default upper limit of 20 words, see<sup>1</sup> above )
