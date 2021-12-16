@@ -19,7 +19,7 @@ export default function( url, topicForms, locale = "en_EN", matchWordCustomHelpe
 		formatUrl = formatUrl[ 0 ].replace( /<.*?>\s?/ig, "" );
 		formatUrl = formatUrl.slice( 1 ).toString();
 
-		// Return true when the exact match is requested and the the anchor text contains the keyphrase.
+		// Return true when the exact match is requested and the anchor text contains the keyphrase.
 		if ( isExactMatchRequested.exactMatchRequested && formatUrl.includes( isExactMatchRequested.keyphrase ) ) {
 			return true;
 		}
