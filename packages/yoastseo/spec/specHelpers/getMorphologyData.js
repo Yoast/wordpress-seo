@@ -42,11 +42,6 @@ const morphologyData = {
 	el,
 };
 
-if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
-	// eslint-disable-next-line global-require
-	morphologyData.ja = require( "../../premium-configuration/data/morphologyData-ja-v1.json" );
-}
-
 /**
  * Requires morphology data. To be used in the analysis to recognize different word forms.
  *
@@ -55,6 +50,11 @@ if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
  * @returns {Object} The morphology data.
  */
 export default function getMorphologyData( language ) {
+	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
+		// eslint-disable-next-line global-require
+		morphologyData.ja = require( "../../premium-configuration/data/morphologyData-ja-v1.json" );
+	}
+
 	if ( morphologyData[ language ] ) {
 		return morphologyData[ language ];
 	}

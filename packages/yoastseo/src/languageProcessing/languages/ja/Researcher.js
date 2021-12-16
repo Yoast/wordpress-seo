@@ -9,7 +9,6 @@ import wordsCharacterCount from "./helpers/wordsCharacterCount";
 import customCountLength from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
 import getContentWords from "./helpers/getContentWords";
-import findMultiWordKeyphraseInPageTitle from "./helpers/findExactMatchMultiWordKeyphraseInTitle";
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
@@ -21,12 +20,14 @@ import paragraphLength from "./config/paragraphLength";
 import assessmentApplicability from "./config/assessmentApplicabilityCharacterCount";
 import sentenceLength from "./config/sentenceLength";
 import subheadingsTooLong from "./config/subheadingsTooLong";
+import keyphraseLength from "./config/keyphraseLength";
 
 // All custom researches
 import morphology from "./customResearches/getWordForms";
 import getKeywordDensity from "./customResearches/getKeywordDensity";
 import getKeyphraseLength from "./customResearches/getKeyphraseLength";
 import textLengthResearch from "./customResearches/textLength";
+import findKeywordInPageTitle from "./customResearches/findKeywordInPageTitle";
 
 /**
  * The researches contains all the researches
@@ -58,6 +59,8 @@ export default class Researcher extends AbstractResearcher {
 			paragraphLength,
 			assessmentApplicability,
 			sentenceLength,
+			keyphraseLength,
+			countCharacters: true,
 			subheadingsTooLong,
 		} );
 
@@ -69,13 +72,13 @@ export default class Researcher extends AbstractResearcher {
 			wordsCharacterCount,
 			customCountLength,
 			matchTransitionWordsHelper,
-			findMultiWordKeyphraseInPageTitle,
 		} );
 
 		Object.assign( this.defaultResearches, {
 			morphology,
 			keyphraseLength: getKeyphraseLength,
 			wordCountInText: textLengthResearch,
+			findKeywordInPageTitle,
 		} );
 	}
 }

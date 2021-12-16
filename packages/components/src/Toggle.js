@@ -13,6 +13,7 @@ const ToggleDiv = styled.div`
 	width: 100%;
 	justify-content: space-between;
 	align-items: center;
+	position: relative;
 `;
 
 const ToggleLabel = styled.span`

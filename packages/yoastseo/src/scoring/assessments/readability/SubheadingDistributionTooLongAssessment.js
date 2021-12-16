@@ -29,6 +29,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 				slightlyTooMany: 300,
 				farTooMany: 350,
 			},
+			countTextIn: __( "words", "wordpress-seo" ),
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/34x" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34y" ),
 			scores: {
@@ -78,6 +79,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 		if	( researcher.getConfig( "subheadingsTooLong" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
 		}
+		const countTextInCharacters = researcher.getConfig( "countCharacters" );
+		if ( countTextInCharacters ) {
+			this._config.countTextIn = __( "characters", "wordpress-seo" );
+		}
+
 		this._subheadingTextsLength = this._subheadingTextsLength.sort( function( a, b ) {
 			return b.countLength - a.countLength;
 		} );
@@ -201,13 +207,13 @@ class SubheadingsDistributionTooLong extends Assessment {
 							/*
 							 * Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
 							 * not separated by subheadings, %4$d expands to the recommended number of words following a
-							 * subheading, %2$s expands to the link closing tag.
+							 * subheading, %6$s expands to the word 'words' or 'characters', %2$s expands to the link closing tag.
 							 */
 							_n(
 								// eslint-disable-next-line max-len
-								"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d words and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+								"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d %6$s and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 								// eslint-disable-next-line max-len
-								"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d words and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+								"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d %6$s and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 								this._tooLongTextsNumber,
 								"wordpress-seo"
 							),
@@ -215,7 +221,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 							"</a>",
 							this._tooLongTextsNumber,
 							this._config.parameters.recommendedMaximumWordCount,
-							this._config.urlCallToAction
+							this._config.urlCallToAction,
+							this._config.countTextIn
 						),
 					};
 				}
@@ -225,13 +232,13 @@ class SubheadingsDistributionTooLong extends Assessment {
 					score: this._config.scores.badSubheadings,
 					resultText: sprintf(
 						/* Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
-						not separated by subheadings, %4$d expands to the recommended number of words following a
-						subheading, %2$s expands to the link closing tag. */
+						not separated by subheadings, %4$d expands to the recommended number of words or characters following a
+						subheading, %6$s expands to the word 'words' or 'characters', %2$s expands to the link closing tag. */
 						_n(
 							// eslint-disable-next-line max-len
-							"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d words and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+							"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d %6$s and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 							// eslint-disable-next-line max-len
-							"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d words and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+							"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d %6$s and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 							this._tooLongTextsNumber,
 							"wordpress-seo"
 						),
@@ -239,7 +246,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 						"</a>",
 						this._tooLongTextsNumber,
 						this._config.parameters.recommendedMaximumWordCount,
-						this._config.urlCallToAction
+						this._config.urlCallToAction,
+						this._config.countTextIn
 					),
 				};
 			}

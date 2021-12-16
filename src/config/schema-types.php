@@ -38,6 +38,7 @@ class Schema_Types {
 	 */
 	const ARTICLE_TYPES = [
 		'Article'                  => '',
+		'BlogPosting'              => '',
 		'SocialMediaPosting'       => '',
 		'NewsArticle'              => '',
 		'AdvertiserContentArticle' => '',
@@ -125,6 +126,10 @@ class Schema_Types {
 				[
 					'name'  => \__( 'Article', 'wordpress-seo' ),
 					'value' => 'Article',
+				],
+				[
+					'name'  => \__( 'Blog Post', 'wordpress-seo' ),
+					'value' => 'BlogPosting',
 				],
 				[
 					'name'  => \__( 'Social Media Posting', 'wordpress-seo' ),

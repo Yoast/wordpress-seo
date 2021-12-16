@@ -4,7 +4,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert, MultiSelect, RadioButtonGroup, Select, TextInput } from "@yoast/components";
 import { join } from "@yoast/helpers";
 import PropTypes from "prop-types";
-import { LocationConsumer } from "./contexts/location";
+import { LocationConsumer } from "@yoast/externals/contexts";
 
 /**
  * Boolean that tells whether the current object refers to a post or a taxonomy.

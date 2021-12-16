@@ -192,17 +192,6 @@ class Wincher_Route_Test extends TestCase {
 				]
 			);
 
-		Monkey\Functions\expect( 'register_rest_route' )
-			->with(
-				'yoast/v1',
-				'wincher/keyphrases/track/all',
-				[
-					'methods'             => 'POST',
-					'callback'            => [ $this->instance, 'track_all' ],
-					'permission_callback' => [ $this->instance, 'can_use_wincher' ],
-				]
-			);
-
 		$this->instance->register_routes();
 	}
 
@@ -445,34 +434,5 @@ class Wincher_Route_Test extends TestCase {
 		Mockery::mock( 'overload:WP_REST_Response' );
 
 		$this->assertIsObject( $this->instance->untrack_keyphrase( $request ) );
-	}
-
-	/**
-	 * Tests the track_all route.
-	 *
-	 * @covers ::track_all
-	 */
-	public function test_track_all() {
-		$limit_response = (object) [
-			'canTrack'  => true,
-			'limit'     => 100,
-			'usage'     => 20,
-			'status'    => 200,
-		];
-
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
-
-		$this->account_action
-			->expects( 'check_limit' )
-			->andReturn( $limit_response );
-
-		$this->keyphrases_action
-			->expects( 'track_all' )
-			->with( $limit_response )
-			->andReturn( $limit_response );
-
-		Mockery::mock( 'overload:WP_REST_Response' );
-
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->track_all( $request ) );
 	}
 }
