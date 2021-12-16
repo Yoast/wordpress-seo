@@ -83,6 +83,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'workouts_data'                            => [ 'configuration' => [ 'finishedSteps' => [] ] ],
 		'dismiss_configuration_workout_notice'     => false,
 		'importing_completed'                      => [],
+		'aioseo_robots_defaults'                   => [],
 		'wincher_integration_active'               => true,
 		'wincher_tokens'                           => [],
 		'wincher_automatically_add_keyphrases'     => false,
@@ -375,6 +376,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 				case 'import_cursors':
 				case 'importing_completed':
+				case 'aioseo_robots_defaults':
 					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}

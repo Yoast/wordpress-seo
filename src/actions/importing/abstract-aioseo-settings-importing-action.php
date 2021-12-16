@@ -48,6 +48,13 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	protected $settings_tab = '';
 
 	/**
+	 * The name of the option where we'll save the imported setting.
+	 *
+	 * @var string
+	 */
+	protected $option_name = 'wpseo_titles';
+
+	/**
 	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
 	 *
 	 * @return void
@@ -69,6 +76,15 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 		}
 
 		return $source_option_name;
+	}
+
+	/**
+	 * Retrieves the name of the option where we'll save the imported setting.
+	 *
+	 * @return string The name of the option where we'll save the imported setting.
+	 */
+	public function get_option_name() {
+		return $this->option_name;
 	}
 
 	/**
@@ -136,10 +152,9 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 		$completed = \count( $aioseo_settings ) === 0;
 		$this->set_completed( $completed );
 
+		$this->build_mapping();		
+
 		$last_imported_setting = '';
-
-		$this->build_mapping();
-
 		try {
 			foreach ( $aioseo_settings as $setting => $setting_value ) {
 				// Map and import the values of the setting we're working with (eg. post, book-category, etc.) to the respective Yoast option.
@@ -289,7 +304,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 		$yoast_key = $setting_mapping['yoast_name'];
 
 		// Check if we're supposed to save the setting.
-		if ( $this->options->get_default( 'wpseo_titles', $yoast_key ) !== null ) {
+		if ( $this->options->get_default( $this->get_option_name(), $yoast_key ) !== null ) {
 			// Then, do any needed data transfomation before actually saving the incoming data.
 			$transformed_data = \call_user_func( [ $this, $setting_mapping['transform_method'] ], $setting_value );
 
