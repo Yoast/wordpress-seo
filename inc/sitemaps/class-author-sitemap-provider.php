@@ -96,7 +96,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_users( $arguments = [] ) {
 
-		global $wpdb, $wp_version;
+		global $wpdb;
 
 		$defaults = [
 			'capability' => [ 'edit_posts' ],
