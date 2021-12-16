@@ -1,24 +1,16 @@
+import { select, subscribe } from "@wordpress/data";
+import { actions } from "@yoast/externals/redux";
 import { debounce } from "lodash-es";
 import { languageProcessing } from "yoastseo";
-import { select, subscribe } from "@wordpress/data";
+import { reapplyAnnotationsForSelectedBlock } from "../decorator/gutenberg";
+import { excerptFromContent, fillReplacementVariables, mapCustomFields, mapCustomTaxonomies } from "../helpers/replacementVariableHelpers";
 
-import {
+const {
 	updateReplacementVariable,
 	updateData,
 	hideReplacementVariables,
-} from "../redux/actions/snippetEditor";
-import {
 	setContentImage,
-} from "../redux/actions/settings";
-import {
-	excerptFromContent,
-	fillReplacementVariables,
-	mapCustomFields,
-	mapCustomTaxonomies,
-} from "../helpers/replacementVariableHelpers";
-import {
-	reapplyAnnotationsForSelectedBlock,
-} from "../decorator/gutenberg";
+} = actions;
 
 const $ = global.jQuery;
 
@@ -322,7 +314,7 @@ export default class BlockEditorData {
 	areNewAnalysisResultsAvailable() {
 		const yoastSeoEditorSelectors = select( "yoast-seo/editor" );
 		const readabilityResults = yoastSeoEditorSelectors.getReadabilityResults();
-		const seoResults         = yoastSeoEditorSelectors.getResultsForFocusKeyword();
+		const seoResults = yoastSeoEditorSelectors.getResultsForFocusKeyword();
 
 		if (
 			this._previousReadabilityResults !== readabilityResults ||
@@ -352,9 +344,7 @@ export default class BlockEditorData {
 	 */
 	subscribeToGutenberg() {
 		this.subscriber = debounce( this.refreshYoastSEO, 500 );
-		subscribe(
-			this.subscriber
-		);
+		subscribe( this.subscriber );
 	}
 
 	/**

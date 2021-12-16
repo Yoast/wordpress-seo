@@ -16,7 +16,7 @@ import createClassicEditorWatcher from "./watchers/classicEditorWatcher";
 import { getInitialState } from "./classic-editor/initial-state";
 import { getAnalysisConfiguration } from "./classic-editor/analysis";
 
-domReady( async() => {
+domReady( async () => {
 	// Initialize the tab behavior of the metabox.
 	initTabs( jQuery );
 
@@ -74,4 +74,6 @@ domReady( async() => {
 		theme: { isRtl: Boolean( wpseoScriptData.metabox.isRtl ) },
 		location: "metabox",
 	} );
+
+	jQuery( window ).trigger( "YoastSEO:ready" );
 } );

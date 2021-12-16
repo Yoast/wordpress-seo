@@ -57,8 +57,11 @@ class Wincher_Account_Action {
 				'usage'     => $usage,
 				'status'    => 200,
 			];
-		} catch ( Authentication_Failed_Exception $e ) {
-			return $e->get_response();
+		} catch ( \Exception $e ) {
+			return (object) [
+				'status' => $e->getCode(),
+				'error'  => $e->getMessage(),
+			];
 		}
 	}
 }

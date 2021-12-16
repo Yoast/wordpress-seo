@@ -70,6 +70,11 @@ export const transformAnalysisResults = ( results = [], idPrefix = "" ) => reduc
 	( grouped, result ) => {
 		const transformed = transformAnalysisResult( result, idPrefix );
 
+		// Filter out empty results.
+		if ( transformed.text === "" ) {
+			return grouped;
+		}
+
 		switch ( transformed.rating ) {
 			case "error":
 				grouped.errorsResults.push( transformed );
