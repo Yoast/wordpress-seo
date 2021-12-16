@@ -7,6 +7,7 @@ use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Abstract_Aioseo_Settings_Importing_Action_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -36,15 +37,23 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
+	 * The replacevar handler.
+	 *
+	 * @var Aioseo_Replacevar_Handler
+	 */
+	protected $replacevar_handler;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options       = Mockery::mock( Options_Helper::class );
-		$this->mock_instance = Mockery::mock(
+		$this->options            = Mockery::mock( Options_Helper::class );
+		$this->replacevar_handler = new Aioseo_Replacevar_Handler();
+		$this->mock_instance      = Mockery::mock(
 			Abstract_Aioseo_Settings_Importing_Action_Double::class,
-			[ $this->options ]
+			[ $this->options, $this->replacevar_handler ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 

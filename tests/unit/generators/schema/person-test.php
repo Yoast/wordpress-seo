@@ -97,7 +97,6 @@ class Person_Test extends TestCase {
 			'display_name' => 'John',
 			'description'  => 'Description',
 		];
-		$person_logo_id        = 42;
 		$person_schema_logo_id = $this->instance->context->site_url . Schema_IDs::PERSON_LOGO_HASH;
 		$image_schema          = [
 			'@type'      => 'ImageObject',
@@ -440,6 +439,90 @@ class Person_Test extends TestCase {
 			->andReturn( true );
 
 		$this->assertFalse( $this->instance->is_needed() );
+	}
+
+	/**
+	 * Tests whether generate returns the expected schema when duplicated URLs are provded.
+	 *
+	 * @covers ::generate
+	 * @covers ::determine_user_id
+	 * @covers ::build_person_data
+	 * @covers ::add_image
+	 * @covers ::set_image_from_options
+	 * @covers ::set_image_from_avatar
+	 * @covers ::get_social_profiles
+	 * @covers ::url_social_site
+	 */
+	public function test_generate_duplicated_URLs() {
+		$this->instance->context->site_user_id     = 1337;
+		$this->instance->context->site_url         = 'https://example.com/';
+		$this->instance->context->site_represents  = 'person';
+		$this->instance->context->person_logo_meta = [
+			'height' => 100,
+			'width'  => 100,
+			'url'    => 'http://example.com/image.png',
+		];
+
+		$user_data             = (object) [
+			'display_name' => 'John',
+			'description'  => 'Description',
+		];
+		$person_schema_logo_id = $this->instance->context->site_url . Schema_IDs::PERSON_LOGO_HASH;
+		$image_schema          = [
+			'@type'      => 'ImageObject',
+			'@id'        => $person_schema_logo_id,
+			'inLanguage' => 'en-US',
+			'url'        => 'https://example.com/image.png',
+			'width'      => 64,
+			'height'     => 128,
+			'caption'    => 'Person image',
+		];
+
+		$duplicated_social_profiles = [
+			'facebook',
+			'facebook',
+			'linkedin',
+			'pinterest',
+			'twitter',
+			'myspace',
+			'youtube',
+			'soundcloud',
+			'tumblr',
+			'wikipedia',
+		];
+
+
+		$expected = [
+			'@type'       => [ 'Person', 'Organization' ],
+			'@id'         => 'person_id',
+			'name'        => 'John',
+			'logo'        => [ '@id' => 'https://example.com/#personlogo' ],
+			'description' => 'Description',
+			'sameAs'      => [
+				'https://example.com/social/facebook',
+				'https://example.com/social/linkedin',
+				'https://example.com/social/pinterest',
+				'https://twitter.com/https://example.com/social/twitter',
+				'https://example.com/social/myspace',
+				'https://example.com/social/youtube',
+				'https://example.com/social/soundcloud',
+				'https://example.com/social/tumblr',
+				'https://example.com/social/wikipedia',
+			],
+			'image'       => $image_schema,
+		];
+
+		$this->expects_for_determine_user_id();
+		$this->expects_for_get_userdata( $user_data );
+
+		$this->instance->helpers->schema->image->expects( 'generate_from_attachment_meta' )
+			->once()
+			->with( $person_schema_logo_id, $this->instance->context->person_logo_meta, $user_data->display_name )
+			->andReturn( $image_schema );
+
+		$this->expects_for_social_profiles( $duplicated_social_profiles );
+
+		$this->assertEquals( $expected, $this->instance->generate( $this->instance->context ) );
 	}
 
 	/**

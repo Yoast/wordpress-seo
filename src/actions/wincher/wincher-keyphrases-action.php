@@ -237,28 +237,6 @@ class Wincher_Keyphrases_Action {
 	}
 
 	/**
-	 * Tracks all the available keyphrases known to Yoast SEO.
-	 *
-	 * @param object $limits The limit API request response.
-	 *
-	 * @return object The tracked keyphrases response object.
-	 */
-	public function track_all( $limits ) {
-		$keyphrases = $this->collect_all_keyphrases();
-
-		if ( empty( $keyphrases ) ) {
-			return $this->to_result_object(
-				[
-					'data'   => [],
-					'status' => 200,
-				]
-			);
-		}
-
-		return $this->track_keyphrases( $keyphrases, $limits );
-	}
-
-	/**
 	 * Collects the keyphrases associated with the post.
 	 *
 	 * @param WP_Post $post The post object.

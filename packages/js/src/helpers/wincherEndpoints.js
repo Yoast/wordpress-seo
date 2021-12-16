@@ -147,15 +147,3 @@ export async function untrackKeyphrase( keyphraseID ) {
 		data: { keyphraseID },
 	} );
 }
-
-/**
- * Tracks all available keyphrases
- *
- * @returns {Promise} The API response promise.
- */
-export async function trackAllKeyphrases() {
-	return await callEndpoint( {
-		path: "yoast/v1/wincher/keyphrases/track/all",
-		method: "POST",
-	} );
-}

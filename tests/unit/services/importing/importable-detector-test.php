@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 use Yoast\WP\SEO\Services\Importing\Importable_Detector;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Posts_Importing_Action_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Services\Importing\Importable_Detector_Double;
@@ -81,6 +82,13 @@ class Importable_Detector_Test extends TestCase {
 	protected $wpdb_helper;
 
 	/**
+	 * The replacevar handler.
+	 *
+	 * @var Aioseo_Replacevar_Handler
+	 */
+	protected $replacevar_handler;
+
+	/**
 	 * Set up the test fixtures.
 	 */
 	protected function set_up() {
@@ -92,6 +100,7 @@ class Importable_Detector_Test extends TestCase {
 		$this->indexable_to_postmeta = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
 		$this->options               = Mockery::mock( Options_Helper::class );
 		$this->wpdb_helper           = Mockery::mock( Wpdb_Helper::class );
+		$this->replacevar_handler    = new Aioseo_Replacevar_Handler();
 
 		$this->importing_action = Mockery::mock(
 			Aioseo_Posts_Importing_Action_Double::class,
@@ -101,6 +110,7 @@ class Importable_Detector_Test extends TestCase {
 				$this->indexable_to_postmeta,
 				$this->options,
 				$this->wpdb_helper,
+				$this->replacevar_handler,
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
