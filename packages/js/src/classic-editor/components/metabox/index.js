@@ -4,13 +4,14 @@ import { Fill } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import { Fragment, useEffect } from "@wordpress/element";
 import { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-integration";
-import { forEach } from "lodash";
+import { forEach, get } from "lodash";
 import { markers } from "yoastseo";
 import SocialMetadataPortal from "../../../components/portals/SocialMetadataPortal";
 import SidebarItem from "../../../components/SidebarItem";
 import SchemaTabContainer from "../../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
 import Warning from "../../../containers/Warning";
+import { isTextViewActive } from "../../../lib/tinymce";
 import { EDITOR_STORE_NAME } from "../../editor-store";
 import AdvancedSettings from "../advanced-settings";
 import CornerstoneContent from "../cornerstone-content";
@@ -35,7 +36,11 @@ const Metabox = () => {
 	useAnalyze();
 
 	useEffect( () => {
-		const editor = window.tinyMCE.editors.content;
+		const editor = get( window, "tinyMCE.editors.content", false );
+
+		if ( ! editor ) {
+			return;
+		}
 
 		let content = editor.getContent();
 		content = markers.removeMarks( content );
@@ -59,6 +64,18 @@ const Metabox = () => {
 			markElement.setAttribute( "data-mce-bogus", "1" );
 		} );
 	}, [ activeMarkerId, marks ] );
+
+	useEffect( () => {
+		const editor = get( window, "tinyMCE.editors.content", false );
+
+		if ( ! editor ) {
+			return;
+		}
+
+		editor.on( "hide", function( e ) {
+			console.log( "🚀 ~ file: index.js ~ line 79 ~ editor.on ~ editorId", e );
+		} );
+	}, [] );
 
 	return (
 		<Fragment>
