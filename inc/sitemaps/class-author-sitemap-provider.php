@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Wordpress_Helper;
 
 /**
  * Sitemap provider for author archives.
@@ -124,9 +125,13 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			],
 		];
 
-		if ( version_compare( $wp_version, '5.8.99', '<' ) ) {
-			unset( $defaults['capability'] );
+		$wordpress_helper  = new Wordpress_Helper();
+		$wordpress_version = $wordpress_helper->get_wordpress_version();
+
+		// Capability queries were only introduced in WP 5.9.
+		if ( version_compare( $wordpress_version, '5.8.99', '<' ) ) {
 			$defaults['who'] = 'authors';
+			unset( $defaults['capability'] );
 		}
 
 		if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', true ) ) {
@@ -216,7 +221,6 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return int Count of users updated.
 	 */
 	protected function update_user_meta() {
-		global $wp_version;
 
 		$user_criteria = [
 			'capability' => [ 'edit_posts' ],
@@ -228,13 +232,18 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			],
 		];
 
-		if ( version_compare( $wp_version, '5.8.99', '<' ) ) {
-			unset( $user_criteria['capability'] );
+		$wordpress_helper  = new Wordpress_Helper();
+		$wordpress_version = $wordpress_helper->get_wordpress_version();
+
+		// Capability queries were only introduced in WP 5.9.
+		if ( version_compare( $wordpress_version, '5.8.99', '<' ) ) {
 			$user_criteria['who'] = 'authors';
+			unset( $user_criteria['capability'] );
 		}
 
 		$users = get_users( $user_criteria );
-		$time  = time();
+
+		$time = time();
 
 		foreach ( $users as $user ) {
 			update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', $time );

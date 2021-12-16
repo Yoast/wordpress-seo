@@ -1,21 +1,12 @@
 /* global wp */
-
-/* External dependencies */
+import { actions } from "@yoast/externals/redux";
+import { debounce, isUndefined } from "lodash-es";
 import analysis from "yoastseo";
-const { removeMarks } = analysis.markers;
-import { isUndefined, debounce } from "lodash-es";
-
-/* Internal dependencies */
-import { updateReplacementVariable, updateData, hideReplacementVariables } from "../redux/actions/snippetEditor";
-import { setContentImage } from "../redux/actions/settings";
-import {
-	excerptFromContent,
-	fillReplacementVariables,
-	mapCustomFields,
-	mapCustomTaxonomies,
-} from "../helpers/replacementVariableHelpers";
+import { excerptFromContent, fillReplacementVariables, mapCustomFields, mapCustomTaxonomies } from "../helpers/replacementVariableHelpers";
 import * as tmceHelper from "../lib/tinymce";
 
+const { removeMarks } = analysis.markers;
+const { updateReplacementVariable, updateData, hideReplacementVariables, setContentImage } = actions;
 const $ = jQuery;
 
 /**
@@ -154,7 +145,7 @@ export default class ClassicEditorData {
 		const content = this.getContent();
 
 		const images = analysis.languageProcessing.imageInText( content );
-		let image  = "";
+		let image = "";
 
 		if ( images.length === 0 ) {
 			return image;
@@ -193,7 +184,7 @@ export default class ClassicEditorData {
 	 */
 	getExcerpt( useFallBack = true ) {
 		const excerptElement = document.getElementById( "excerpt" );
-		const excerptValue   = excerptElement && excerptElement.value || "";
+		const excerptValue = excerptElement && excerptElement.value || "";
 
 		if ( excerptValue !== "" || useFallBack === false ) {
 			return excerptValue;
@@ -355,9 +346,7 @@ export default class ClassicEditorData {
 	 */
 	subscribeToStore() {
 		this.subscriber = debounce( this.refreshYoastSEO, 500 );
-		this._store.subscribe(
-			this.subscriber
-		);
+		this._store.subscribe( this.subscriber );
 	}
 
 	/**

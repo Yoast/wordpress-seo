@@ -15,8 +15,10 @@ describe( "Counts the occurences of a word in a string", function() {
 	it( "should not match in HTML tags", function() {
 		expect( wordMatch( "<img alt='keyword' />", "keyword", "en_US" ).count ).toBe( 0 );
 		expect( wordMatch( "<img alt='keyword' />", "keyword", "en_US" ).matches ).toEqual( [] );
+		expect( wordMatch( "<img width='100' />", "width", "en_US" ).position ).toEqual( -1 );
 		expect( wordMatch( "<img width='100' />", "width", "en_US" ).count ).toBe( 0 );
 		expect( wordMatch( "<img width='100' />", "width", "en_US" ).matches ).toEqual( [] );
+		expect( wordMatch( "<img width='100' />", "width", "en_US" ).position ).toEqual( -1 );
 	} );
 
 	it( "should match quotes", function() {
@@ -56,11 +58,14 @@ describe( "Counts the occurences of a word in a string", function() {
 			"överlåtelsebesiktning", "sv_SE" ).matches ).toContain( "oeverlaatelsebesiktning" );
 		expect( wordMatch( "oeverlaatelsebesiktning and overlatelsebesiktning",
 			"överlåtelsebesiktning", "sv_SE" ).matches ).toContain( "overlatelsebesiktning" );
+		expect( wordMatch( "oeverlaatelsebesiktning and overlatelsebesiktning",
+			"överlåtelsebesiktning", "sv_SE" ).position ).toBe( 0 );
 
 		expect( wordMatch( "København and Koebenhavn and Kobenhavn", "København", "nb_NO" ).count ).toBe( 3 );
 		expect( wordMatch( "København and Koebenhavn and Kobenhavn", "København", "nb_NO" ).matches ).toContain( "København" );
 		expect( wordMatch( "København and Koebenhavn and Kobenhavn", "København", "nb_NO" ).matches ).toContain( "Koebenhavn" );
 		expect( wordMatch( "København and Koebenhavn and Kobenhavn", "København", "nb_NO" ).matches ).toContain( "Kobenhavn" );
+		expect( wordMatch( "København and Koebenhavn and Kobenhavn", "København", "nb_NO" ).position ).toBe( 0 );
 
 		expect( wordMatch( "Türkçe and Turkce", "Türkçe", "tr_TR" ).count ).toBe( 2 );
 		expect( wordMatch( "Türkçe and Turkce", "Türkçe", "tr_TR" ).matches ).toContain( "Türkçe" );

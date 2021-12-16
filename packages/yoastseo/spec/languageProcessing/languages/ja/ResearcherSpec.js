@@ -17,6 +17,8 @@ describe( "a test for Japanese Researcher", function() {
 
 	it( "returns false if the default research is deleted in the Japanese Researcher", function() {
 		expect( researcher.getResearch( "getFleschReadingScore" ) ).toBe( false );
+		expect( researcher.getResearch( "getPassiveVoiceResult" ) ).toBe( false );
+		expect( researcher.getResearch( "keywordCountInUrl" ) ).toBe( false );
 	} );
 
 	it( "returns false if the Japanese Researcher doesn't have a certain helper", function() {
@@ -29,15 +31,6 @@ describe( "a test for Japanese Researcher", function() {
 
 	it( "returns the Japanese function words", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
-	} );
-
-	it( "checks whether there is an exact match of a multiword keyphrase in title", function() {
-		expect( researcher.getHelper( "findMultiWordKeyphraseInPageTitle" )( "東海道新幹線の駅構内および列車内に広告を掲出することを。", "東海道新幹線",
-			functionWords ) ).toEqual( {
-			exactMatchFound: true,
-			allWordsFound: true,
-			position: 0,
-		} );
 	} );
 
 	it( "returns the keyphrase length", function() {

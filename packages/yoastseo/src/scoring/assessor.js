@@ -24,7 +24,7 @@ const ScoreRating = 9;
  * @constructor
  */
 const Assessor = function( researcher, options ) {
-	this.type = "Assessor";
+	this.type = "assessor";
 	this.setResearcher( researcher );
 	this._assessments = [];
 

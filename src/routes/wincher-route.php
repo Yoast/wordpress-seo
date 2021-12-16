@@ -66,13 +66,6 @@ class Wincher_Route implements Route_Interface {
 	const UNTRACK_KEYPHRASE_ROUTE = self::ROUTE_PREFIX . '/keyphrases/untrack';
 
 	/**
-	 * The track all keyphrases route constant.
-	 *
-	 * @var string
-	 */
-	const KEYPHRASE_TRACK_ALL_ROUTE = self::ROUTE_PREFIX . '/keyphrases/track/all';
-
-	/**
 	 * The login action.
 	 *
 	 * @var Wincher_Login_Action
@@ -194,14 +187,6 @@ class Wincher_Route implements Route_Interface {
 		];
 
 		\register_rest_route( Main::API_V1_NAMESPACE, self::UNTRACK_KEYPHRASE_ROUTE, $delete_keyphrase_route_args );
-
-		$track_all_route_args = [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'track_all' ],
-			'permission_callback' => [ $this, 'can_use_wincher' ],
-		];
-
-		\register_rest_route( Main::API_V1_NAMESPACE, self::KEYPHRASE_TRACK_ALL_ROUTE, $track_all_route_args );
 	}
 
 	/**
@@ -238,7 +223,6 @@ class Wincher_Route implements Route_Interface {
 	 */
 	public function check_limit( WP_REST_Request $request ) {
 		$data = $this->account_action->check_limit();
-
 		return new WP_REST_Response( $data, $data->status );
 	}
 
@@ -251,7 +235,12 @@ class Wincher_Route implements Route_Interface {
 	 */
 	public function track_keyphrases( WP_REST_Request $request ) {
 		$limits = $this->account_action->check_limit();
-		$data   = $this->keyphrases_action->track_keyphrases( $request['keyphrases'], $limits );
+
+		if ( $limits->status !== 200 ) {
+			return new WP_REST_Response( $limits, $limits->status );
+		}
+
+		$data = $this->keyphrases_action->track_keyphrases( $request['keyphrases'], $limits );
 
 		return new WP_REST_Response( $data, $data->status );
 	}
@@ -284,20 +273,6 @@ class Wincher_Route implements Route_Interface {
 	}
 
 	/**
-	 * Collects all keyphrases and sends it to Wincher to track.
-	 *
-	 * @param WP_REST_Request $request The request. This request should have a keyphrases param set.
-	 *
-	 * @return WP_REST_Response The response.
-	 */
-	public function track_all( WP_REST_Request $request ) {
-		$limits = $this->account_action->check_limit();
-		$data   = $this->keyphrases_action->track_all( $limits );
-
-		return new WP_REST_Response( $data, $data->status );
-	}
-
-	/**
 	 * Checks if a valid code was returned.
 	 *
 	 * @param string $code The code to check.
@@ -320,11 +295,11 @@ class Wincher_Route implements Route_Interface {
 	}
 
 	/**
-	 * Whether the current user is allowed to edit post/pages and thus use the Wincher integration.
+	 * Whether the current user is allowed to publish post/pages and thus use the Wincher integration.
 	 *
 	 * @return bool Whether the current user is allowed to use Wincher.
 	 */
 	public function can_use_wincher() {
-		return \current_user_can( 'edit_posts' ) || \current_user_can( 'edit_pages' );
+		return \current_user_can( 'publish_posts' ) || \current_user_can( 'publish_pages' );
 	}
 }
