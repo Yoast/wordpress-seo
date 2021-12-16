@@ -2,6 +2,7 @@
 
 import domReady from "@wordpress/dom-ready";
 import createSeoIntegration, { SEO_STORE_NAME } from "@yoast/seo-integration";
+import registerShortcodes from "./classic-editor/shortcodes";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
 import registerGlobalApis from "./helpers/register-global-apis";
 import initAdmin from "./initializers/admin";
@@ -45,6 +46,8 @@ domReady( async () => {
 	const registerApis = registerGlobalApis( "YoastSEO" );
 
 	// - expose global API (pluggable/see scrapers).
+	registerShortcodes();
+
 	// - create a SEO data watcher that updates our hidden fields so that the changed data is saved along with the WP save.
 	// - traffic light & admin bar: update analysis scores?
 
