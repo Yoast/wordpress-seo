@@ -28,9 +28,9 @@ class DashboardWidget extends Component {
 		this.state = {
 			statistics: null,
 			feed: null,
-			wincherData: null,
+			wincherData: {},
 			wincherWebsiteId: wpseoDashboardWidgetL10n.wincher_website_id,
-			wincherIsLoggedIn: wpseoDashboardWidgetL10n.wincher_is_logged_in,
+			wincherIsLoggedIn: wpseoDashboardWidgetL10n.wincher_is_logged_in === "1",
 			isDataFetched: false,
 		};
 
@@ -279,6 +279,7 @@ class DashboardWidget extends Component {
 		}
 
 		return <WincherPerformanceReport
+			key="wincher-performance-report"
 			data={ this.state.wincherData }
 			websiteId={ this.state.wincherWebsiteId }
 			isLoggedIn={ this.state.wincherIsLoggedIn }
