@@ -1,4 +1,4 @@
-import { enableFeatures, isFeatureEnabled } from "@yoast/feature-flag";
+import { isFeatureEnabled } from "@yoast/feature-flag";
 import KeywordDensityAssessment from "../../../../src/scoring/assessments/seo/KeywordDensityAssessment";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import GermanResearcher from "../../../../src/languageProcessing/languages/de/Researcher";
@@ -211,7 +211,6 @@ describe( "A test for marking the keyword", function() {
 
 if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
 	describe( "A test for keyword density in Japanese", function() {
-
 		it( "gives a very BAD result when keyword density is above 4% when the text contains way too many instances" +
 			" of the keyphrase forms", function() {
 			const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 32 ), {
