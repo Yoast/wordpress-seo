@@ -95,7 +95,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		this._hasSubheadings = this.hasSubheadings( paper );
 
-		this._textLength = getWords( paper.getText() ).length;
+		const customCountLength = researcher.getHelper( "customCountLength" );
+		this._textLength = customCountLength ? customCountLength( paper.getText() ) : getWords( paper.getText() ).length;
 
 		const calculatedResult = this.calculateResult();
 		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
@@ -180,7 +181,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * @returns {Object} The calculated result.
 	 */
 	calculateResult() {
-		if ( this._textLength > 300 ) {
+		if ( this._textLength > this._config.applicableIfTextLongerThan ) {
 			if ( this._hasSubheadings ) {
 				const longestSubheadingTextLength = this._subheadingTextsLength[ 0 ].countLength;
 				if ( longestSubheadingTextLength <= this._config.parameters.slightlyTooMany ) {

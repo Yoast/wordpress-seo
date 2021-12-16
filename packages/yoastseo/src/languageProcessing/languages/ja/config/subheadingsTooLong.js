@@ -5,6 +5,7 @@ export default {
 			slightlyTooMany: 600,
 			farTooMany: 700,
 		},
+		applicableIfTextLongerThan: 600,
 	},
 	cornerstoneParameters: {
 		parameters: {

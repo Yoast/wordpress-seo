@@ -60,6 +60,7 @@ export default class Researcher extends AbstractResearcher {
 			assessmentApplicability,
 			sentenceLength,
 			keyphraseLength,
+			subheadingsTooLong,
 			countCharacters: true,
 			subheadingsTooLong,
 		} );
