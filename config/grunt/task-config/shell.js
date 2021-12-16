@@ -1,5 +1,3 @@
-const path = require( "path" );
-
 // See https://github.com/sindresorhus/grunt-shell
 module.exports = function( grunt ) {
 	/**
@@ -49,12 +47,10 @@ module.exports = function( grunt ) {
 			fromFiles: [
 				"<%= files.pot.yoastJsAnalysisReport %>",
 				"<%= files.pot.yoastJsComponents %>",
-				"<%= files.pot.yoastJsConfigurationWizard %>",
 				"<%= files.pot.yoastJsHelpers %>",
 				"<%= files.pot.yoastJsSearchMetadataPreviews %>",
 				"<%= files.pot.yoastJsSocialMetadataForms %>",
 				"<%= files.pot.yoastJsReplacementVariableEditor %>",
-				"<%= files.pot.yoastComponentsConfigurationWizard %>",
 				"<%= files.pot.yoastComponentsRemaining %>",
 			],
 			toFile: "<%= files.pot.yoastComponents %>",
