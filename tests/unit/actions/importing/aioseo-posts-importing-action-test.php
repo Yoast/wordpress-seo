@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Posts_Importing_Action_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -82,6 +83,13 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	protected $wpdb_helper;
 
 	/**
+	 * The replacevar handler.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Replacevar_Handler
+	 */
+	protected $replacevar_handler;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
@@ -93,7 +101,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->indexable_to_postmeta = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
 		$this->options               = Mockery::mock( Options_Helper::class );
 		$this->wpdb_helper           = Mockery::mock( Wpdb_Helper::class );
-		$this->instance              = new Aioseo_Posts_Importing_Action( $this->indexable_repository, $this->wpdb, $this->indexable_to_postmeta, $this->options, $this->wpdb_helper );
+		$this->replacevar_handler    = Mockery::mock( Aioseo_Replacevar_Handler::class );
+		$this->instance              = new Aioseo_Posts_Importing_Action( $this->indexable_repository, $this->wpdb, $this->indexable_to_postmeta, $this->options, $this->wpdb_helper, $this->replacevar_handler );
 		$this->mock_instance         = Mockery::mock(
 			Aioseo_Posts_Importing_Action_Double::class,
 			[
@@ -102,6 +111,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				$this->indexable_to_postmeta,
 				$this->options,
 				$this->wpdb_helper,
+				$this->replacevar_handler,
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
@@ -233,6 +243,36 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			'twitter_description'  => 'twitter_description1',
 		];
 
+		$this->replacevar_handler->shouldReceive( 'transform' )
+			->once()
+			->with( $aioseio_indexable['title'] )
+			->andReturn( $aioseio_indexable['title'] );
+
+		$this->replacevar_handler->shouldReceive( 'transform' )
+			->once()
+			->with( $aioseio_indexable['description'] )
+			->andReturn( $aioseio_indexable['description'] );
+
+		$this->replacevar_handler->shouldReceive( 'transform' )
+			->once()
+			->with( $aioseio_indexable['og_title'] )
+			->andReturn( $aioseio_indexable['og_title'] );
+
+		$this->replacevar_handler->shouldReceive( 'transform' )
+			->once()
+			->with( $aioseio_indexable['og_description'] )
+			->andReturn( $aioseio_indexable['og_description'] );
+
+		$this->replacevar_handler->shouldReceive( 'transform' )
+			->once()
+			->with( $aioseio_indexable['twitter_title'] )
+			->andReturn( $aioseio_indexable['twitter_title'] );
+
+		$this->replacevar_handler->shouldReceive( 'transform' )
+			->once()
+			->with( $aioseio_indexable['twitter_description'] )
+			->andReturn( $aioseio_indexable['twitter_description'] );
+
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
 
 		$this->assertEquals( 'title1', $indexable->title );
@@ -264,6 +304,26 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			'twitter_description'  => 'twitter_description1',
 		];
 
+		$this->replacevar_handler->shouldReceive( 'transform' )
+			->once()
+			->with( $aioseio_indexable['og_title'] )
+			->andReturn( $aioseio_indexable['og_title'] );
+
+		$this->replacevar_handler->shouldReceive( 'transform' )
+			->once()
+			->with( $aioseio_indexable['og_description'] )
+			->andReturn( $aioseio_indexable['og_description'] );
+
+		$this->replacevar_handler->shouldReceive( 'transform' )
+			->once()
+			->with( $aioseio_indexable['twitter_title'] )
+			->andReturn( $aioseio_indexable['twitter_title'] );
+
+		$this->replacevar_handler->shouldReceive( 'transform' )
+			->once()
+			->with( $aioseio_indexable['twitter_description'] )
+			->andReturn( $aioseio_indexable['twitter_description'] );
+
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
 
 		$this->assertEquals( 'existing_title', $indexable->title );
@@ -286,6 +346,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$indexable->twitter_description = null;
 
 		$aioseio_indexable = [];
+
+		$this->replacevar_handler->shouldReceive( 'transform' )
+			->never();
 
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
 

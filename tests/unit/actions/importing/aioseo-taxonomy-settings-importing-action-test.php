@@ -6,6 +6,7 @@ use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Actions\Importing\Aioseo_Taxonomy_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Taxonomy_Settings_Importing_Action_Double;
 
@@ -40,6 +41,13 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	protected $options;
+
+	/**
+	 * The replacevar handler.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Replacevar_Handler
+	 */
+	protected $replacevar_handler;
 
 	/**
 	 * An array of the total Taxonomy Settings we can import.
@@ -99,11 +107,12 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options       = Mockery::mock( Options_Helper::class );
-		$this->instance      = new Aioseo_Taxonomy_Settings_Importing_Action( $this->options );
-		$this->mock_instance = Mockery::mock(
+		$this->options            = Mockery::mock( Options_Helper::class );
+		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Handler::class );
+		$this->instance           = new Aioseo_Taxonomy_Settings_Importing_Action( $this->options, $this->replacevar_handler );
+		$this->mock_instance      = Mockery::mock(
 			Aioseo_Taxonomy_Settings_Importing_Action_Double::class,
-			[ $this->options ]
+			[ $this->options, $this->replacevar_handler ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 
@@ -182,7 +191,16 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 
 		$aioseo_options_to_yoast_map = $this->mock_instance->get_aioseo_options_to_yoast_map();
 
-		$this->mock_instance->shouldReceive( 'import_single_setting' )
+		$this->options->shouldReceive( 'get_default' )
+			->times( $times )
+			->andReturn( 'not_null' );
+
+		$this->replacevar_handler->shouldReceive( 'transform' )
+			->times( $times )
+			->with( $setting_value )
+			->andReturn( $setting_value );
+
+		$this->options->shouldReceive( 'set' )
 			->times( $times );
 
 		$this->mock_instance->map( $setting_value, $setting );
