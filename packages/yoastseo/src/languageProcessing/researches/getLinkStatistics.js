@@ -172,7 +172,7 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
 		doubleQuotes = doubleQuotes.concat( japaneseDoubleQuotes );
 	}
 
-	const isExactMatchRequested = processExactMatchRequest( paper.getKeyword(), doubleQuotes );
+	const isExactMatchRequested = processExactMatchRequest( keyword, doubleQuotes );
 
 	// Check if any anchors contain keyphrase or synonyms in them.
 	anchors = filterAnchorsContainingTopic( anchors, topicForms, locale, customHelpers.matchWordCustomHelper, isExactMatchRequested );
