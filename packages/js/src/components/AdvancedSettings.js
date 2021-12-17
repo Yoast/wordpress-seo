@@ -5,6 +5,7 @@ import { Alert, MultiSelect, RadioButtonGroup, Select, TextInput } from "@yoast/
 import { join } from "@yoast/helpers";
 import PropTypes from "prop-types";
 import { LocationConsumer } from "@yoast/externals/contexts";
+import TimestampToggle from "./TimestampToggle";
 
 /**
  * Boolean that tells whether the current object refers to a post or a taxonomy.
@@ -238,6 +239,32 @@ CanonicalURL.propTypes = {
 };
 
 /**
+ * Functional component for the timestamp toggle.
+ *
+ * @param {Object} props The props object
+ *
+ * @returns {JSX.Element} The canonical URL.
+ */
+const WordProofTimestamp = ( { timestamp, onTimestampChange } ) => {
+	return <LocationConsumer>
+		{
+			location => {
+				return <TimestampToggle
+					id={ join( [ "yoast-timestamp", location ] ) }
+					isEnabled={ timestamp }
+					onToggle={ onTimestampChange }
+				/>;
+			}
+		}
+	</LocationConsumer>;
+};
+
+WordProofTimestamp.propTypes = {
+	timestamp: PropTypes.bool,
+	onTimestampChange: PropTypes.func,
+};
+
+/**
  * The Advanced Settings component.
  *
  * @param {Object} props The props object
@@ -251,11 +278,13 @@ const AdvancedSettings = ( props ) => {
 		advanced,
 		breadcrumbsTitle,
 		canonical,
+		timestamp,
 		onNoIndexChange,
 		onNoFollowChange,
 		onAdvancedChange,
 		onBreadcrumbsTitleChange,
 		onCanonicalChange,
+		onTimestampChange,
 		onLoad,
 		isLoading,
 		editorContext,
@@ -298,6 +327,11 @@ const AdvancedSettings = ( props ) => {
 		onCanonicalChange,
 	};
 
+	const timestampProps = {
+		timestamp,
+		onTimestampChange,
+	};
+
 	if ( isLoading ) {
 		return null;
 	}
@@ -311,6 +345,7 @@ const AdvancedSettings = ( props ) => {
 				! isBreadcrumbsDisabled && <BreadcrumbsTitle { ...breadcrumbsTitleProps } />
 			}
 			<CanonicalURL { ...canonicalProps } />
+			<WordProofTimestamp { ...timestampProps } />
 		</Fragment>
 	);
 };
@@ -318,8 +353,10 @@ const AdvancedSettings = ( props ) => {
 AdvancedSettings.propTypes = {
 	noIndex: PropTypes.string.isRequired,
 	canonical: PropTypes.string.isRequired,
+	timestamp: PropTypes.bool,
 	onNoIndexChange: PropTypes.func.isRequired,
 	onCanonicalChange: PropTypes.func.isRequired,
+	onTimestampChange: PropTypes.func,
 	onLoad: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	editorContext: PropTypes.object.isRequired,
@@ -341,6 +378,8 @@ AdvancedSettings.defaultProps = {
 	breadcrumbsTitle: "",
 	onBreadcrumbsTitleChange: () => {},
 	isPrivateBlog: false,
+	onTimestampChange: () => {},
+	timestamp: false,
 };
 
 export default AdvancedSettings;

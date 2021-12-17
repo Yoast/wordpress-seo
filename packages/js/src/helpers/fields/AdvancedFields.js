@@ -48,6 +48,15 @@ export default class AdvancedFields {
 	}
 
 	/**
+	 * Getter for the timestamplElement.
+	 *
+	 * @returns {HTMLElement} The timestampElement.
+	 */
+	static get timestampElement() {
+		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_timestamp" : "hidden_wpseo_timestamp" );
+	}
+
+	/**
 	 * Getter for the No Index setting.
 	 *
 	 * @returns {string} The No Index setting.
@@ -145,5 +154,25 @@ export default class AdvancedFields {
 	 */
 	static set canonical( value ) {
 		AdvancedFields.canonicalElement.value = value;
+	}
+
+	/**
+	 * Getter for the Timestamp setting.
+	 *
+	 * @returns {boolean} The Timestamp setting.
+	 */
+	static get timestamp() {
+		return AdvancedFields.timestampElement && AdvancedFields.timestampElement.value || false;
+	}
+
+	/**
+	 * Setter for the Timestamp setting.
+	 *
+	 * @param {boolean} value The value to set.
+	 *
+	 * @returns {void}
+	 */
+	static set timestamp( value ) {
+		AdvancedFields.timestampElement.value = value;
 	}
 }

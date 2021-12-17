@@ -45,6 +45,15 @@ export const getBreadcrumbsTitle = state => get( state, "advancedSettings.breadc
  */
 export const getCanonical = state => get( state, "advancedSettings.canonical", "" );
 
+/**
+ * Gets the Twitter image src from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String} Twitter image src.
+ */
+export const getTimestamp = state => get( state, "advancedSettings.timestamp", true );
+
 /** Gets the Twitter image src from the state.
  *
  * @param {Object} state The state.
