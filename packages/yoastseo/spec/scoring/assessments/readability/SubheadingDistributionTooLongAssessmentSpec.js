@@ -180,7 +180,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 	} );
 
 	it( "Scores a long text in Japanese (>600 characters), which has subheadings and all sections of the text are <600 characters, except for one, " +
-		"which is above 700 words long.", function() {
+		"which is above 700 characters long.", function() {
 		const paper = new  Paper( shortTextJapanese + subheading + veryLongTextJapanese + subheading + shortTextJapanese );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();

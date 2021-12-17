@@ -9,9 +9,9 @@ export default {
 	},
 	cornerstoneParameters: {
 		parameters: {
-			recommendedMaximumWordCount: 300,
-			slightlyTooMany: 300,
-			farTooMany: 350,
+			recommendedMaximumWordCount: 500,
+			slightlyTooMany: 600,
+			farTooMany: 500,
 		},
 	},
 };
