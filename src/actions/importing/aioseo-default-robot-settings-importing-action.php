@@ -79,30 +79,6 @@ class Aioseo_Default_Robot_Settings_Importing_Action extends Abstract_Aioseo_Set
 				'yoast_name'       => 'aioseo_robots_defaults',
 				'transform_method' => 'robots_defaults_import',
 			],
-			'/default'           => [
-				'yoast_name'       => 'title-author-wpseo',
-				'transform_method' => 'simple_import',
-			],
-			'/noindex' => [
-				'yoast_name'       => 'metadesc-author-wpseo',
-				'transform_method' => 'simple_import',
-			],
-			'/nofollow'             => [
-				'yoast_name'       => 'title-archive-wpseo',
-				'transform_method' => 'simple_import',
-			],
-			'/noarchive'   => [
-				'yoast_name'       => 'metadesc-archive-wpseo',
-				'transform_method' => 'simple_import',
-			],
-			'/noimageindex'           => [
-				'yoast_name'       => 'title-search-wpseo',
-				'transform_method' => 'simple_import',
-			],
-			'/nosnippet'           => [
-				'yoast_name'       => 'title-search-wpseo',
-				'transform_method' => 'simple_import',
-			],
 		];
 	}
 
