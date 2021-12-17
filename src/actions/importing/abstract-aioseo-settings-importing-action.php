@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Actions\Importing;
 
 use Exception;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 
 /**
  * Abstract class for importing AIOSEO settings.
@@ -53,6 +55,37 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 * @var string
 	 */
 	protected $option_name = 'wpseo_titles';
+
+	/**
+	 * The replacevar handler.
+	 *
+	 * @var Aioseo_Replacevar_Handler
+	 */
+	protected $replacevar_handler;
+
+	/**
+	 * Additional mapping between AiOSEO replace vars and Yoast replace vars.
+	 *
+	 * @var array
+	 *
+	 * @see https://yoast.com/help/list-available-snippet-variables-yoast-seo/
+	 */
+	protected $replace_vars_edited_map = [];
+
+	/**
+	 * Class constructor.
+	 *
+	 * @param Options_Helper            $options            The options helper.
+	 * @param Aioseo_Replacevar_Handler $replacevar_handler The replacevar handler.
+	 */
+	public function __construct(
+		Options_Helper $options,
+		Aioseo_Replacevar_Handler $replacevar_handler
+	) {
+		parent::__construct( $options );
+
+		$this->replacevar_handler = $replacevar_handler;
+	}
 
 	/**
 	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
@@ -152,7 +185,12 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 		$completed = \count( $aioseo_settings ) === 0;
 		$this->set_completed( $completed );
 
-		$this->build_mapping();		
+		$this->build_mapping();
+
+		// Prepare the replacement var mapping.
+		foreach ( $this->replace_vars_edited_map as $aioseo_var => $yoast_var ) {
+			$this->replacevar_handler->compose_map( $aioseo_var, $yoast_var );
+		}
 
 		$last_imported_setting = '';
 		try {
@@ -317,11 +355,9 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 *
 	 * @param string $meta_data The meta data to be imported.
 	 *
-	 * @todo This will later replace all replace vars.
-	 *
 	 * @return string The transformed meta data.
 	 */
 	public function simple_import( $meta_data ) {
-		return $meta_data;
+		return $this->replacevar_handler->transform( $meta_data );
 	}
 }
