@@ -205,6 +205,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
 
+		WPSEO_Meta::$meta_fields['advanced']['timestamp']['title'] = __( 'Timestamp this %1$s', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['timestamp']['description'] = __( 'Hello!', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['timestamp']['options']['0'] = __( 'Off', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['timestamp']['options']['1'] = __( 'On', 'wordpress-seo' );
+
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['title']       = __( '301 Redirect', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
 
