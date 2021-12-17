@@ -61,6 +61,10 @@ class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_S
 				'yoast_name'       => 'metadesc-archive-wpseo',
 				'transform_method' => 'simple_import',
 			],
+			'/search/title'           => [
+				'yoast_name'       => 'title-search-wpseo',
+				'transform_method' => 'simple_import',
+			],
 			'/author/advanced/robotsMeta/default' => [
 				'yoast_name'       => 'robots_defaults-author-wpseo',
 				'transform_method' => 'simple_boolean_import',
