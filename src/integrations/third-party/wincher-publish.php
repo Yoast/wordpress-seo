@@ -6,7 +6,6 @@ use WP_Post;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
 use Yoast\WP\SEO\Conditionals\Wincher_Automatically_Track_Conditional;
-use Yoast\WP\SEO\Conditionals\Wincher_Conditional;
 use Yoast\WP\SEO\Conditionals\Wincher_Enabled_Conditional;
 use Yoast\WP\SEO\Conditionals\Wincher_Token_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -94,7 +93,6 @@ class Wincher_Publish implements Integration_Interface {
 	 */
 	public static function get_conditionals() {
 		return [
-			Wincher_Conditional::class,
 			Wincher_Enabled_Conditional::class,
 			Wincher_Automatically_Track_Conditional::class,
 			Wincher_Token_Conditional::class,
