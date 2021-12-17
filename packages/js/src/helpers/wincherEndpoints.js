@@ -22,11 +22,9 @@ export async function callEndpoint( endpoint  ) {
 			return await e.json();
 		}
 
-		// Likely some type of connection error.
-		return {
-			status: 0,
-			error: e.message,
-		};
+		// Likely AbortError, otherwise a connection error.
+		// We need to somehow upgrade @wordpress/api-fetch to differentiate between these.
+		return false;
 	}
 }
 
@@ -44,11 +42,16 @@ export async function handleAPIResponse( apiRequest, onSuccessCallback, onFailur
 	try {
 		const response = await apiRequest();
 
-		if ( response.status === expectedStatusCode ) {
-			return onSuccessCallback( response );
+		// No response if the request was aborted.
+		if ( response ) {
+			if ( response.status === expectedStatusCode ) {
+				return onSuccessCallback( response );
+			}
+
+			return onFailureCallback( response );
 		}
 
-		return onFailureCallback( response );
+		return false;
 	} catch ( e ) {
 		console.error( e.message );
 	}
@@ -87,11 +90,12 @@ export async function authenticate( responseData ) {
  * Gets the tracked keyphrases data via POST.
  *
  * @param {Array}   keyphrases     The keyphrases to get the data for.
- * @param {String}  permalink  The post's/page's permalink. Optional.
+ * @param {String}  permalink  	The post's/page's permalink. Optional.
+ * @param {AbortSignal} signal (optional) Abort signal.
  *
  * @returns {Promise} The API response promise.
  */
-export async function getKeyphrases( keyphrases = null, permalink = null ) {
+export async function getKeyphrases( keyphrases = null, permalink = null, signal ) {
 	return await callEndpoint( {
 		path: "yoast/v1/wincher/keyphrases",
 		method: "POST",
@@ -99,18 +103,7 @@ export async function getKeyphrases( keyphrases = null, permalink = null ) {
 			keyphrases,
 			permalink,
 		},
-	} );
-}
-
-/**
- * Gets the currently set limit information associated with the connected Wincher account.
- *
- * @returns {Promise} The API response promise.
- */
-export async function getAccountLimits() {
-	return await callEndpoint( {
-		path: "yoast/v1/wincher/limits",
-		method: "GET",
+		signal,
 	} );
 }
 
