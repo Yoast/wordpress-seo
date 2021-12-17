@@ -21,11 +21,18 @@
 		"wiki": "https://github.com/Yoast/wordpress-seo/wiki",
 		"source": "https://github.com/Yoast/wordpress-seo"
 	},
+  "repositories": [
+    {
+      "type": "path",
+      "url": "/Users/marijnbent/Projects/wordproof/wordpress-sdk"
+    }
+  ],
 	"require": {
 		"php": "^5.6.20 || ^7.0 || ^8.0",
 		"composer/installers": "^1.12.0",
-		"yoast/i18n-module": "^3.1.1"
-	},
+		"yoast/i18n-module": "^3.1.1",
+		"wordproof/wordpress-sdk": "0.7.4"
+    },
 	"require-dev": {
 		"humbug/php-scoper": "^0.13.4",
 		"league/oauth2-client": "2.4.1",
@@ -103,7 +110,7 @@
 		],
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",
-			"composer prefix-symfony"
+            "composer prefix-symfony"
 		],
 		"prefix-oauth2-client": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet",
