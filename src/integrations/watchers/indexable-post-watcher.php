@@ -193,8 +193,8 @@ class Indexable_Post_Watcher implements Integration_Interface {
 				$this->link_builder->build( $indexable, $post->post_content );
 				// Save indexable to persist the updated link count.
 				$indexable->save();
-				$this->updated_indexable( $indexable, $post );
 			}
+			$this->updated_indexable( $indexable, $post );
 		} catch ( Exception $exception ) {
 			$this->logger->log( LogLevel::ERROR, $exception->getMessage() );
 		}
