@@ -671,3 +671,9 @@ table.yoast_help th.divider {
 	flex-wrap: wrap;
 	justify-content: flex-end;
 }
+
+@media screen and (max-width: 768px) {
+	#wpseo-workouts-container-free #workouts-page-description {
+		max-width: 320px;
+	}
+}
