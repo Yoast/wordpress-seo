@@ -809,7 +809,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			expect( foundLinks.internalDofollow ).toBe( 0 );
 		} );
 
-		it( "assesses the anchor text where not all content words in the text present in the keyphrse", function() {
+		it( "assesses the anchor text where not all content words in the text are present in the keyphrse", function() {
 			paperAttributes = {
 				keyword: "読ん一冊の本",
 				url: "http://yoast.com",
@@ -861,7 +861,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
 		} );
 
-		it( "assesses the anchor text where all content words in the text present in the synonym and in the keyphrase", function() {
+		it( "assesses the anchor text where all content words in the text are present in the synonym and in the keyphrase", function() {
 			paperAttributes = {
 				keyword: "から小さく花の刺繍",
 				synonyms: "猫用のフード, 猫用食品",
