@@ -61,10 +61,46 @@ class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_S
 				'yoast_name'       => 'metadesc-archive-wpseo',
 				'transform_method' => 'simple_import',
 			],
-			'/search/title'           => [
-				'yoast_name'       => 'title-search-wpseo',
-				'transform_method' => 'simple_import',
+			'/author/advanced/robotsMeta/default' => [
+				'yoast_name'       => 'robots_defaults-author-wpseo',
+				'transform_method' => 'simple_boolean_import',
 			],
+			'/author/advanced/robotsMeta/noindex' => [
+				'yoast_name'       => 'noindex-author-wpseo',
+				'transform_method' => 'import_author_noindex',
+			],
+			// '/date/advanced/robotsMeta/default'    => [
+			// 	'yoast_name'       => 'robots_defaults-archive-wpseo',
+			// 	'transform_method' => 'simple_boolean_import',
+			// ],
+			// '/date/advanced/robotsMeta/noindex'    => [
+			// 	'yoast_name'       => 'noindex-archive-wpseo',
+			// 	'transform_method' => 'import_archive_noindex',
+			// ],
 		];
+	}
+	
+
+	/**
+	 * Imports the author archives noindex, taking into consideration whether they defer to global defaults.
+	 *
+	 * @param bool $default Whether author archives defer to global defaults.
+	 *
+	 * @return bool The transformed separator.
+	 */
+	public function import_author_noindex( $noindex ) {
+		$defers_to_defaults = $this->options->get( 'robots_defaults-author-wpseo' );
+
+		if ( $defers_to_defaults ) {
+			$global_defaults = $this->options->get( 'aioseo_robots_defaults' );
+
+			if ( $global_defaults['default'] ) {
+				return false;
+			}
+
+			return $global_defaults['noindex'];
+		}
+
+		return $noindex;
 	}
 }
