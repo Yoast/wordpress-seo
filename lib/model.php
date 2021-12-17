@@ -781,7 +781,7 @@ class Model implements JsonSerializable {
 		$deprecation = $this->deprecated_columns[ $property ];
 
 		if ( ! empty( $deprecation['replacement'] ) ) {
-			// There is no _deprecated_property. This matches our usecase best.
+			// There is no _deprecated_property() function, so we use the closest match _deprecated_argument().
 			\_deprecated_argument(
 				__FUNCTION__,
 				esc_html( $deprecation['since'] ),
@@ -794,7 +794,7 @@ class Model implements JsonSerializable {
 
 			return $property;
 		}
-		// There is no _deprecated_property. This matches our usecase best.
+		// There is no _deprecated_property() function, so we use the closest match _deprecated_argument().
 		\_deprecated_argument( __FUNCTION__, esc_html( $deprecation['since'] ), 'The \"' . esc_html( $property ) . '\" property will be removed in a future version' );
 
 		return $property;
