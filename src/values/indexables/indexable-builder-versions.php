@@ -22,14 +22,14 @@ class Indexable_Builder_Versions {
 	 * @var array
 	 */
 	protected $indexable_builder_versions_by_type = [
-		'date-archive'      => 2, // since 17.9
-		'general'           => 2, // since 17.9
-		'home-page'         => 3, // since 17.9
-		'post'              => 3, // since 17.9
-		'post-type-archive' => 3, // since 17.9
-		'term'              => 3, // since 17.9
-		'user'              => 3, // since 17.9
-		'system-page'       => 2, // since 17.9
+		'date-archive'      => 2, // Since 17.9.
+		'general'           => 2, // Since 17.9.
+		'home-page'         => 3, // Since 17.9.
+		'post'              => 3, // Since 17.9.
+		'post-type-archive' => 3, // Since 17.9.
+		'term'              => 3, // Since 17.9.
+		'user'              => 3, // Since 17.9.
+		'system-page'       => 2, // Since 17.9.
 	];
 
 	/**
