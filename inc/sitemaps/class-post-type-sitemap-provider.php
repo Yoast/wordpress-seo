@@ -89,6 +89,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			if ( $max_pages > 1 ) {
 				global $wpdb;
 
+				// Our orm doesn't support querying table subqueries, which we need in order to get row numbers in MySQL < 8.
+				// Get the highest object_last_modified value for every link in the index.
 				$sql = 'SELECT object_last_modified
 				    FROM ( SELECT @rownum:=0 ) init
 				    JOIN ' . Model::get_table_name( 'Indexable' ) . '
@@ -99,12 +101,19 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				    ORDER BY object_last_modified ASC';
 
 				// phpcs:ignore WordPress.DB
-				$all_dates    = array_merge( $wpdb->get_col( $wpdb->prepare( $sql, $post_type->object_sub_type, $max_entries ) ), [ $post_type->max_object_last_modified ] );
+				$query                         = $wpdb->prepare( $sql, $post_type->object_sub_type, $max_entries );
+				$most_recent_mod_date_per_page = $wpdb->get_col( $query );
+
+				// The last page doesn't always get a proper last_mod date from this query. So we use the most recent date from the posttype instead.
+				if ( $post_type->count % $max_entries !== 0 ) {
+					$most_recent_mod_date_per_page[] = $post_type->max_object_last_modified;
+				}
+
 				$page_counter = 1;
-				foreach ( $all_dates as $date ) {
+				foreach ( $most_recent_mod_date_per_page as $most_recent_mod_date_of_page ) {
 					$index[] = [
 						'loc'     => WPSEO_Sitemaps_Router::get_base_url( $post_type->object_sub_type . '-sitemap' . $page_counter . '.xml' ),
-						'lastmod' => $date,
+						'lastmod' => $most_recent_mod_date_of_page,
 					];
 					$page_counter++;
 				}
