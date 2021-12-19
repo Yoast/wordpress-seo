@@ -155,7 +155,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$query = $this->repository
 			->query_where_noindex( false, 'term', $type )
 			->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
-			->order_by_desc( 'object_last_modified' )
+			->order_by_asc( 'object_last_modified' )
 			->offset( $offset )
 			->limit( $steps );
 
