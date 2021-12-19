@@ -58,7 +58,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$query = $this->repository
 			->query_where_noindex( false, 'user' )
 			->select_many( 'id', 'permalink', 'object_last_modified' )
-			->order_by_desc( 'object_last_modified' );
+			->order_by_asc( 'object_last_modified' );
 
 		$users_to_exclude = $this->exclude_users( [] );
 		if ( count( $users_to_exclude ) > 0 ) {
@@ -110,7 +110,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$query = $this->repository
 			->query_where_noindex( false, 'user' )
 			->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
-			->order_by_desc( 'object_last_modified' )
+			->order_by_asc( 'object_last_modified' )
 			->offset( $offset )
 			->limit( $max_entries );
 
