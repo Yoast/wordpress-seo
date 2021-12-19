@@ -52,16 +52,15 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 *
 	 * @param int $max_entries Entries per sitemap.
 	 *
-	 * @return array
+	 * @return array The index links.
 	 */
 	public function get_index_links( $max_entries ) {
-		$post_types = $this->repository->query()
+		$post_types = $this->repository
+			->query_where_noindex( false, 'post' )
 			->select( 'object_sub_type' )
 			->select_expr( 'MAX( `object_last_modified` ) AS max_object_last_modified' )
 			->select_expr( 'COUNT(*) AS count' )
-			->where( 'object_type', 'post' )
 			->where( 'is_protected', true )
-			->where_raw( '( `is_robots_noindex` = 0 OR `is_robots_noindex` IS NULL )' )
 			->group_by( 'object_sub_type' )
 			->find_many();
 
@@ -128,7 +127,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @param int    $max_entries  Entries per sitemap.
 	 * @param int    $current_page Current page of the sitemap.
 	 *
-	 * @return array
+	 * @return array The links.
 	 *
 	 * @throws OutOfBoundsException When an invalid page is requested.
 	 */
@@ -140,37 +139,47 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$steps  = min( 100, $max_entries );
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
 
-		// By only checking object-sub-type, we automatically include post type archives if they're indexable.
-		// By ordering on object-type, we'll get the archive first.
 		$query = $this->repository
-			->query()
+			->query_where_noindex( false, 'post', $type )
 			->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
-			->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
-			->where_raw( '( is_public = 1 OR is_public IS NULL )' )
 			->order_by_desc( 'object_last_modified' )
+			->where( 'is_publicly_viewable', true )
 			->offset( $offset )
 			->limit( $steps );
 
-		if ( $type === 'attachment' ) {
-			$query->where_raw( '( post_status = "inherit" OR post_status = "publish" OR post_status IS NULL )' );
-		}
-		else {
-			$query->where_raw( '( post_status = "publish" OR post_status IS NULL )' );
-		}
 
-		if ( $type === 'page' ) {
-			$query->where_raw( '( object_sub_type = "page" OR object_sub_type IS NULL )' )
-				->where_in( 'object_type', [ 'home-page', 'post' ] );
-		}
-		else {
-			$query->where( 'object_sub_type', $type );
-		}
 		$posts_to_exclude = $this->get_excluded_posts( $type );
 		if ( count( $posts_to_exclude ) > 0 ) {
 			$query->where_not_in( 'object_id', $posts_to_exclude );
 		}
 
 		$indexables = $query->find_many();
+
+		// Add the home page or archive to the first page.
+		if ( $current_page === 1 ) {
+			if ( $type === 'page' ) {
+				$home_page = $this->repository
+					->query_where_noindex( false, 'home-page' )
+					->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
+					->where( 'is_publicly_viewable', true )
+					->find_one();
+				if ( $home_page ) {
+					// Prepend homepage.
+					array_unshift( $indexables, $home_page);
+				}
+			}
+			else {
+				$archive_page = $this->repository
+					->query_where_noindex( false, 'post-type-archive', $type )
+					->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
+					->where( 'is_publicly_viewable', true )
+					->find_one();
+				if ( $archive_page ) {
+					// Prepend archive.
+					array_unshift( $indexables, $archive_page);
+				}
+			}
+		}
 
 		// If total post type count is lower than the offset, an invalid page is requested.
 		if ( count( $indexables ) === 0 ) {
