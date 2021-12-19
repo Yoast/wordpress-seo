@@ -24,7 +24,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
-		$this->repository = YoastSEO()->classes->get( 'Yoast\WP\SEO\Repositories\Indexable_Repository' );
+		$this->repository = YoastSEO()->classes->get( Indexable_Repository::class );
 	}
 
 	/**
