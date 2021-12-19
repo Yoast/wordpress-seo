@@ -68,22 +68,25 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$indexables = $query->find_many();
 		$user_pages = array_chunk( $indexables, $max_entries );
 
+		$page = 1;
 		if ( count( $user_pages ) === 1 ) {
 			$page = '';
 		}
 
+		$index_links = [];
 		foreach ( $user_pages as $users_page ) {
 			array_shift( $users_page );
-
-			$index[] = [
+			$index_links[] = [
 				'loc'     => WPSEO_Sitemaps_Router::get_base_url( 'author-sitemap' . $page . '.xml' ),
 				'lastmod' => $users_page[0]->object_last_modified,
 			];
 
-			++$page;
+			if ( is_int( $page ) ) {
+				++$page;
+			}
 		}
 
-		return $index;
+		return $index_links;
 	}
 
 	/**
