@@ -180,23 +180,25 @@ class Indexable_Repository {
 	public function query_where_noindex( $noindex, $object_type, $object_sub_type = null, $noindex_empty_archives = true ) {
 		$query = $this
 			->query()
-			->where( 'object_type', $object_type )
-			->where( 'object_sub_type', $object_sub_type );
+			->where( 'object_type', $object_type );
+
+		if ( $object_sub_type !== null ) {
+			$query->where( 'object_sub_type', $object_sub_type );
+		}
 
 		$default_noindex = $this->robots_helper->get_default_noindex_for_object( $object_type, $object_sub_type );
-
 
 		$condition = 'is_robots_noindex = %d ';
 		// If the requested noindex value matches the default, include NULL values in the result.
 		if ( $default_noindex === $noindex ) {
-			$condition .= 'OR is_robot_noindex IS NULL';
+			$condition = '(' . $condition . 'OR is_robots_noindex IS NULL )';
 		}
 
 		// Let the number of posts in an archive determine the noindex value.
 		$is_archive_type = in_array( $object_type, [ 'post-type-archive', 'term', 'user', 'home-page' ], true );
 		if ( $is_archive_type && $noindex_empty_archives ) {
 			if ( $noindex === true ) {
-				$condition .= ' OR number_of_publicly_viewable_posts = 0';
+				$condition = '(' . $condition . ') OR number_of_publicly_viewable_posts = 0';
 			}
 			else {
 				$condition = '(' . $condition . ') AND number_of_publicly_viewable_posts > 0';
