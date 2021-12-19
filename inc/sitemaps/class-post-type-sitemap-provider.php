@@ -94,9 +94,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				$sql = 'SELECT object_last_modified
 				    FROM ( SELECT @rownum:=0 ) init
 				    JOIN ' . Model::get_table_name( 'Indexable' ) . '
-				    WHERE ( post_status = "publish" OR post_status IS NULL )
+				    WHERE object_sub_type = %s
+				      AND is_publicly_viewable = 1
 				      AND ( is_robots_noindex = 0 OR is_robots_noindex IS NULL )
-				      AND object_sub_type = %s
 				      AND ( @rownum:=@rownum+1 ) %% %d = 0
 				    ORDER BY object_last_modified ASC';
 
