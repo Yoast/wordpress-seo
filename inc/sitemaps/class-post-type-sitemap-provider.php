@@ -151,8 +151,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$query = $this->repository
 			->query_where_noindex( false, 'post', $type )
 			->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
-			->order_by_desc( 'object_last_modified' )
 			->where( 'is_publicly_viewable', true )
+			->order_by_asc( 'object_last_modified' )
 			->offset( $offset )
 			->limit( $steps );
 
