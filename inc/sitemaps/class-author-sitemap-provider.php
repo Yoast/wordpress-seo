@@ -5,6 +5,7 @@
  * @package WPSEO\XML_Sitemaps
  */
 
+use Yoast\WP\SEO\Helpers\XML_Sitemap_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -20,10 +21,18 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	private $repository;
 
 	/**
+	 * The XML sitemap helper.
+	 *
+	 * @var XML_Sitemap_Helper
+	 */
+	private $xml_sitemap_helper;
+
+	/**
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
 		$this->repository = YoastSEO()->classes->get( Indexable_Repository::class );
+		$this->xml_sitemap_helper = YoastSEO()->helpers->xml_sitemap;
 	}
 
 	/**
@@ -126,7 +135,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
-		return YoastSEO()->helpers->xml_sitemap->convert_indexables_to_sitemap_links( $indexables, 'user' );
+		return $this->xml_sitemap_helper->convert_indexables_to_sitemap_links( $indexables, 'user' );
 	}
 
 	/**

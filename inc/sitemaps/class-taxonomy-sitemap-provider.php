@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Helpers\XML_Sitemap_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -21,10 +22,18 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	private $repository;
 
 	/**
+	 * The XML sitemap helper.
+	 *
+	 * @var XML_Sitemap_Helper
+	 */
+	private $xml_sitemap_helper;
+
+	/**
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
 		$this->repository = YoastSEO()->classes->get( Indexable_Repository::class );
+		$this->xml_sitemap_helper = YoastSEO()->helpers->xml_sitemap;
 	}
 
 	/**
@@ -155,7 +164,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$indexables = $query->find_many();
 
-		return YoastSEO()->helpers->xml_sitemap->convert_indexables_to_sitemap_links( $indexables, 'term' );
+		return $this->xml_sitemap_helper->convert_indexables_to_sitemap_links( $indexables, 'term' );
 	}
 
 	/**
