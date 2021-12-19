@@ -75,7 +75,6 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$index_links = [];
 		foreach ( $user_pages as $users_page ) {
-			array_shift( $users_page );
 			$index_links[] = [
 				'loc'     => WPSEO_Sitemaps_Router::get_base_url( 'author-sitemap' . $page . '.xml' ),
 				'lastmod' => $users_page[0]->object_last_modified,
