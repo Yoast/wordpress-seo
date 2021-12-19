@@ -57,10 +57,8 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		$query = $this->repository
-			->query()
+			->query_where_noindex( false, 'user' )
 			->select_many( 'id', 'permalink', 'object_last_modified' )
-			->where( 'object_type', 'user' )
-			->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
 			->order_by_desc( 'object_last_modified' );
 
 		$users_to_exclude = $this->exclude_users( [] );
@@ -109,10 +107,8 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$offset = ( ( $current_page - 1 ) * $max_entries );
 
 		$query = $this->repository
-			->query()
+			->query_where_noindex( false, 'user' )
 			->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
-			->where( 'object_type', 'user' )
-			->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
 			->order_by_desc( 'object_last_modified' )
 			->offset( $offset )
 			->limit( $max_entries );
