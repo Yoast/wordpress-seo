@@ -6,7 +6,6 @@
  */
 
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Helpers\Wordpress_Helper;
 
 /**
  * Sitemap provider for author archives.
