@@ -64,12 +64,12 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	public function get_index_links( $max_entries ) {
 		$index = [];
 
-		$taxonomies = $this->repository->query()
+		$taxonomies = $this->repository
+			->query_where_noindex( false, 'term' )
 			->select( 'object_sub_type' )
 			->select_expr( 'MAX( `object_last_modified` ) AS max_object_last_modified' )
 			->select_expr( 'COUNT(*) AS count' )
-			->where( 'object_type', 'term' )
-			->where_raw( '( `is_robots_noindex` = 0 OR `is_robots_noindex` IS NULL )' )
+			->where( 'is_publicly_viewable', true )
 			->group_by( 'object_sub_type' )
 			->find_many();
 
@@ -99,6 +99,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				    JOIN ' . Model::get_table_name( 'Indexable' ) . '
 				    WHERE `object_type` = "term"
 				      AND `object_sub_type` = %s
+				      AND is_publicly_viewable = 1
 				      AND ( `is_robots_noindex` = 0 OR `is_robots_noindex` IS NULL )
 				      AND ( @rownum:=@rownum+1 ) %% %d = 0
 				    ORDER BY object_last_modified ASC';
@@ -152,10 +153,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
 
 		$query = $this->repository
-			->query()
+			->query_where_noindex( false, 'term', $type )
 			->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
-			->where( 'object_sub_type', $type )
-			->where_raw( '( is_robots_noindex = 0 OR is_robots_noindex IS NULL )' )
 			->order_by_desc( 'object_last_modified' )
 			->offset( $offset )
 			->limit( $steps );
