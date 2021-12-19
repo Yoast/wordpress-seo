@@ -145,7 +145,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
-		$steps  = min( 100, $max_entries );
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
 
 		$query = $this->repository
@@ -154,8 +153,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			->where( 'is_publicly_viewable', true )
 			->order_by_asc( 'object_last_modified' )
 			->offset( $offset )
-			->limit( $steps );
-
+			->limit( $max_entries );
 
 		$posts_to_exclude = $this->get_excluded_posts( $type );
 		if ( count( $posts_to_exclude ) > 0 ) {
