@@ -60,7 +60,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			->select( 'object_sub_type' )
 			->select_expr( 'MAX( `object_last_modified` ) AS max_object_last_modified' )
 			->select_expr( 'COUNT(*) AS count' )
-			->where( 'is_protected', true )
+			->where( 'is_publicly_viewable', true )
 			->group_by( 'object_sub_type' )
 			->find_many();
 
