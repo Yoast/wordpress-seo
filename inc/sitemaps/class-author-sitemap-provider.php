@@ -69,7 +69,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			->select_many( 'id', 'permalink', 'object_last_modified' )
 			->order_by_asc( 'object_last_modified' );
 
-		$users_to_exclude = $this->exclude_users( [] );
+		$users_to_exclude = $this->exclude_users();
 		if ( count( $users_to_exclude ) > 0 ) {
 			$query->where_not_in( 'object_id', $users_to_exclude );
 		}
@@ -123,7 +123,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			->offset( $offset )
 			->limit( $max_entries );
 
-		$users_to_exclude = $this->exclude_users( [] );
+		$users_to_exclude = $this->exclude_users();
 		if ( count( $users_to_exclude ) > 0 ) {
 			$query->where_not_in( 'object_id', $users_to_exclude );
 		}
@@ -141,16 +141,14 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Wrap legacy filter to deduplicate calls.
 	 *
-	 * @param array $users Array of user objects to filter.
-	 *
 	 * @return array
 	 */
-	protected function exclude_users( $users ) {
+	protected function exclude_users() {
 		/**
 		 * Filter the authors, included in XML sitemap.
 		 *
 		 * @param array $users Array of user objects to filter.
 		 */
-		return apply_filters( 'wpseo_sitemap_exclude_author', $users );
+		return apply_filters( 'wpseo_sitemap_exclude_author', [ 0 ] );
 	}
 }
