@@ -3,8 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
 use Brain\Monkey;
-use Mockery;
-use WP_Post;
 use Yoast\WP\SEO\Conditionals\Wincher_Conditional;
 use Yoast\WP\SEO\Integrations\Third_Party\Wincher;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
