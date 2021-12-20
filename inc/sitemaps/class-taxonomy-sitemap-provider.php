@@ -32,7 +32,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
-		$this->repository = YoastSEO()->classes->get( Indexable_Repository::class );
+		$this->repository         = YoastSEO()->classes->get( Indexable_Repository::class );
 		$this->xml_sitemap_helper = YoastSEO()->helpers->xml_sitemap;
 	}
 
@@ -105,11 +105,12 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				    ORDER BY object_last_modified ASC';
 
 				// phpcs:ignore WordPress.DB
-				$query                         = $wpdb->prepare( $sql, $taxonomy->object_sub_type, $max_entries );
+				$query = $wpdb->prepare( $sql, $taxonomy->object_sub_type, $max_entries );
+				// phpcs:ignore WordPress.DB
 				$most_recent_mod_date_per_page = $wpdb->get_col( $query );
 
 				// The last page doesn't always get a proper last_mod date from this query. So we use the most recent date from the taxonomy instead.
-				if ( $taxonomy->count % $max_entries !== 0 ) {
+				if ( ( $taxonomy->count % $max_entries ) !== 0 ) {
 					$most_recent_mod_date_per_page[] = $taxonomy->max_object_last_modified;
 				}
 

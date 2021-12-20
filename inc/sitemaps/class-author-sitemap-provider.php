@@ -31,7 +31,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
-		$this->repository = YoastSEO()->classes->get( Indexable_Repository::class );
+		$this->repository         = YoastSEO()->classes->get( Indexable_Repository::class );
 		$this->xml_sitemap_helper = YoastSEO()->helpers->xml_sitemap;
 	}
 

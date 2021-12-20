@@ -32,7 +32,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
-		$this->repository = YoastSEO()->classes->get( Indexable_Repository::class );
+		$this->repository         = YoastSEO()->classes->get( Indexable_Repository::class );
 		$this->xml_sitemap_helper = YoastSEO()->helpers->xml_sitemap;
 	}
 
@@ -101,11 +101,12 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				    ORDER BY object_last_modified ASC';
 
 				// phpcs:ignore WordPress.DB
-				$query                         = $wpdb->prepare( $sql, $post_type->object_sub_type, $max_entries );
+				$query = $wpdb->prepare( $sql, $post_type->object_sub_type, $max_entries );
+				// phpcs:ignore WordPress.DB
 				$most_recent_mod_date_per_page = $wpdb->get_col( $query );
 
 				// The last page doesn't always get a proper last_mod date from this query. So we use the most recent date from the posttype instead.
-				if ( $post_type->count % $max_entries !== 0 ) {
+				if ( ( $post_type->count % $max_entries ) !== 0 ) {
 					$most_recent_mod_date_per_page[] = $post_type->max_object_last_modified;
 				}
 
@@ -172,7 +173,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 					->find_one();
 				if ( $home_page ) {
 					// Prepend homepage.
-					array_unshift( $indexables, $home_page);
+					array_unshift( $indexables, $home_page );
 				}
 			}
 			else {
@@ -183,7 +184,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 					->find_one();
 				if ( $archive_page ) {
 					// Prepend archive.
-					array_unshift( $indexables, $archive_page);
+					array_unshift( $indexables, $archive_page );
 				}
 			}
 		}
