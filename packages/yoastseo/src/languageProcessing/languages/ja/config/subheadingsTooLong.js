@@ -10,8 +10,8 @@ export default {
 	cornerstoneParameters: {
 		parameters: {
 			recommendedMaximumLength: 500,
-			slightlyTooMany: 600,
-			farTooMany: 500,
+			slightlyTooMany: 500,
+			farTooMany: 600,
 		},
 	},
 };
