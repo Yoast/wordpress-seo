@@ -43,6 +43,11 @@ class Indexable_Test extends TestCase {
 	public function test_save() {
 		$permalink = 'https://example.com/';
 
+		Functions\expect( 'get_option' )
+			->once()
+			->with( 'permalink_structure' )
+			->andReturn( '' );
+
 		Functions\expect( 'wp_parse_url' )
 			->once()
 			->with( 'https://example.com/' )
