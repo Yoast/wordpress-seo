@@ -165,7 +165,7 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
 	const locale = paper.getLocale();
 	const topicForms = researcher.getResearch( "morphology" );
 
-	let doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"", "\u300c", "\u300d", "\u300e", "\u300f" ];
+	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"", "\u300c", "\u300d", "\u300e", "\u300f" ];
 
 	const isExactMatchRequested = processExactMatchRequest( keyword, doubleQuotes );
 

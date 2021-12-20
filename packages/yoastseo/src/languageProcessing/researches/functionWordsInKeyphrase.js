@@ -17,7 +17,7 @@ export default function( paper, researcher ) {
 	const keyphrase = paper.getKeyword();
 
 	// Return false if there are double quotes around the keyphrase.
-	let doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"", "「", "」", "『", "』" ];
+	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"", "「", "」", "『", "』" ];
 
 	if ( includes( doubleQuotes, keyphrase[ 0 ] ) && includes( doubleQuotes, keyphrase[ keyphrase.length - 1 ] ) ) {
 		return false;
