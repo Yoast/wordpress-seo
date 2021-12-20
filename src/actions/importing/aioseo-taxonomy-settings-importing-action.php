@@ -39,6 +39,17 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 	protected $settings_tab = 'taxonomies';
 
 	/**
+	 * Additional mapping between AiOSEO replace vars and Yoast replace vars.
+	 *
+	 * @var array
+	 *
+	 * @see https://yoast.com/help/list-available-snippet-variables-yoast-seo/
+	 */
+	protected $replace_vars_edited_map = [
+		'#taxonomy_title' => '%%term_title%%',
+	];
+
+	/**
 	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
 	 *
 	 * @return void

@@ -51,6 +51,8 @@ class Post_Helper {
 	 * @required
 	 *
 	 * @return void
+	 *
+	 * When the deprecated `$this->update_has_public_posts_on_attachments()` function is removed, this setter should also be removed.
 	 */
 	public function set_indexable_builder( Indexable_Builder $indexable_builder ) {
 		$this->indexable_builder = $indexable_builder;
@@ -152,6 +154,7 @@ class Post_Helper {
 	 * @return bool Whether the update was successful.
 	 *
 	 * @deprecated 17.9
+	 * When this function is removed, also remove the indexable_builder setter.
 	 */
 	public function update_has_public_posts_on_attachments( $post_parent, $has_public_posts ) {
 		_deprecated_function( __METHOD__, '17.9' );

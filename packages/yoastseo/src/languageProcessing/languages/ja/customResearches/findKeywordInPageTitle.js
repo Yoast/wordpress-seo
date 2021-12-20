@@ -64,9 +64,14 @@ export default function( paper, researcher ) {
 	const exactMatchRequest = processExactMatchRequest( keyphrase, doubleQuotes );
 	if ( exactMatchRequest.exactMatchRequested ) {
 		result.exactMatchKeyphrase = true;
+
+		// Check if the exact match of the keyphrase is found in the title and directly return the result if there is no match.
+		if ( ! title.includes( exactMatchRequest.keyphrase ) ) {
+			return result;
+		}
+
 		keyphrase = getContentWords( exactMatchRequest.keyphrase );
 
-		// Check if the exact match of the keyphrase is found in the title.
 		const keyphraseMatched = wordMatch( title, keyphrase, "ja", japaneseWordMatchHelper );
 
 		// It's an exact match if the length of the matched keyphrase is the same as the keyphrase length.
