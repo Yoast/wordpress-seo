@@ -1,6 +1,7 @@
 import Researcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
 import functionWords from "../../../../src/languageProcessing/languages/ja/config/functionWords";
+import subheadingsTooLong from "../../../../src/languageProcessing/languages/ja/config/subheadingsTooLong";
 import sentenceLength from "../../../../src/languageProcessing/languages/ja/config/sentenceLength";
 
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
@@ -31,6 +32,10 @@ describe( "a test for Japanese Researcher", function() {
 
 	it( "returns the Japanese function words", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
+	} );
+
+	it( "returns the Japanese subheading distribution configuration", function() {
+		expect( researcher.getConfig( "subheadingsTooLong" ) ).toEqual( subheadingsTooLong );
 	} );
 
 	it( "returns the keyphrase length", function() {

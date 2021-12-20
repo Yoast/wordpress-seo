@@ -36,8 +36,9 @@ const CornerStoneContentAssessor = function( researcher, options = {} ) {
 			parameters:	{
 				slightlyTooMany: 250,
 				farTooMany: 300,
-				recommendedMaximumWordCount: 250,
+				recommendedMaximumLength: 250,
 			},
+			cornerstoneContent: true,
 		} ),
 		new ParagraphTooLong(),
 		new SentenceLengthInText( {
