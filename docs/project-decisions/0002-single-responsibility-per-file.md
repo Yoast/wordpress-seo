@@ -14,8 +14,10 @@ We want clean code. Part of that is to limit a code file to a single responsibil
 
 Each code file (including but not limited to `.php`, `.js`, `.ts`, `.sh`) should have a single responsibility.
 As a consequence of that decision:
-- Interfaces, Types, Classes and global functions should get their own file.
+- Interfaces, Classes and global functions should get their own file.
 - every JavaScript / TypeScript file should have a `default export` statement exporting the single element defined in the file.
+As exception to these rules, Javascript Types may (but not _must_) get their own file: It is generally more convenient to have the Types in the same file that uses them and not in a separate file.
+
 
 ## Consequences
 
