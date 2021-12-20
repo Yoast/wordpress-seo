@@ -13,16 +13,6 @@ use Yoast_Integration_Toggles;
  * @covers \Yoast_Integration_Toggles
  */
 class Yoast_Integration_Toggles_Test extends TestCase {
-	/**
-	 * Sets up the test fixtures.
-	 */
-	protected function set_up() {
-		parent::set_up();
-
-		if ( ! defined( 'YOAST_SEO_WINCHER_INTEGRATION' ) ) {
-			define( 'YOAST_SEO_WINCHER_INTEGRATION', true );
-		}
-	}
 
 	/**
 	 * Test the basic functionality of the Yoast_Integration_Toggles class.
@@ -32,10 +22,9 @@ class Yoast_Integration_Toggles_Test extends TestCase {
 	public function test_integration_toggles() {
 		$expected_names = [
 			0 => 'Semrush integration',
-			1 => 'Wincher integration',
-			2 => 'Ryte integration',
-			3 => 'Zapier integration',
-			4 => 'Algolia integration',
+			1 => 'Ryte integration',
+			2 => 'Zapier integration',
+			3 => 'Algolia integration',
 		];
 
 		$this->stubTranslationFunctions();
@@ -64,11 +53,10 @@ class Yoast_Integration_Toggles_Test extends TestCase {
 		$expected_names = [
 			0 => 'Dummy prio 5',
 			1 => 'Semrush integration',
-			2 => 'Wincher integration',
-			3 => 'Ryte integration',
-			4 => 'Zapier integration',
-			5 => 'Algolia integration',
-			6 => 'Dummy prio 50',
+			2 => 'Ryte integration',
+			3 => 'Zapier integration',
+			4 => 'Algolia integration',
+			5 => 'Dummy prio 50',
 		];
 
 		$this->stubTranslationFunctions();
@@ -92,7 +80,7 @@ class Yoast_Integration_Toggles_Test extends TestCase {
 	 * @param array $toggles Current array with integration toggle objects where each object
 	 *                       should have a `name`, `setting` and `label` property.
 	 *
-	 * @return Adjusted array with integration toggle objects.
+	 * @return array Adjusted array with integration toggle objects.
 	 */
 	public function toggle_filter_callback( $toggles ) {
 		$toggles[] = (object) [
