@@ -41,11 +41,15 @@ describe( "a test for Japanese Researcher", function() {
 		expect( researcher.getResearch( "keyphraseLength" ).keyphraseLength ).toEqual( 7 );
 	} );
 
-	it( "creates the word forms when the Japanese morphology data is available", function() {
+	it( "returns the keyphrase unaltered when the Japanese morphology data is not available", function() {
+		expect( researcher.getHelper( "customGetStemmer" )( researcher )( "日帰り" ) ).toEqual(
+			"日帰り" );
+	} );
+
+	it( "creates the stem when the Japanese morphology data is available", function() {
 		researcher.addResearchData( "morphology", morphologyDataJA );
-		expect( researcher.getHelper( "getStemmer" )( researcher )( "日帰り" ) ).toEqual(
-			[ "日帰る", "日帰り", "日帰ら", "日帰れ", "日帰ろ", "日帰っ", "日帰れる", "日帰らせ",
-				"日帰らせる", "日帰られ", "日帰られる", "日帰ろう" ]
+		expect( researcher.getHelper( "customGetStemmer" )( researcher )( "日帰り" ) ).toEqual(
+			"日帰っ"
 		);
 	} );
 } );
