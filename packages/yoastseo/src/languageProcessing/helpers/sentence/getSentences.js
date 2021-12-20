@@ -8,7 +8,7 @@ import { memoize } from "lodash-es";
 // Internal dependencies.
 import { getBlocks } from "../html/html.js";
 import { unifyNonBreakingSpace as unifyWhitespace } from "../sanitize/unifyWhitespace.js";
-import JapaneseSentenceTokenizer from "./SentenceTokenizerJapanese";
+import SentenceTokenizer from "./SentenceTokenizer";
 import excludeTableOfContentsTag from "../sanitize/excludeTableOfContentsTag";
 
 // Character classes.
@@ -24,7 +24,7 @@ const newLineRegex = new RegExp( newLines );
  * @returns {Array<string>} The list of sentences in the block.
  */
 function getSentenceTokenizer( block ) {
-	const sentenceTokenizer = new JapaneseSentenceTokenizer();
+	const sentenceTokenizer = new SentenceTokenizer();
 	const { tokenizer, tokens } = sentenceTokenizer.createTokenizer();
 	sentenceTokenizer.tokenize( tokenizer, block );
 
