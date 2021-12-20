@@ -1,4 +1,3 @@
-import { enableFeatures } from "@yoast/feature-flag";
 import getWords from "../../../../../src/languageProcessing/languages/ja/helpers/getWords";
 
 describe( "test for getting Japanese segmented words", function() {

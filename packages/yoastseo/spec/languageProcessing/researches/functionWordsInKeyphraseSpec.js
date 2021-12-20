@@ -1,4 +1,3 @@
-import { enableFeatures } from "@yoast/feature-flag";
 import functionWordsInKeyphrase from "../../../src/languageProcessing/researches/functionWordsInKeyphrase.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import DutchResearcher from "../../../src/languageProcessing/languages/nl/Researcher";

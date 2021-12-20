@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from "@yoast/feature-flag";
 import TitleKeywordAssessment from "../../../../src/scoring/assessments/seo/TitleKeywordAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
@@ -429,6 +428,6 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			expect( assessment.getScore() ).toBe( 9 );
 			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
 				"The focus keyphrase appears at the beginning of the SEO title. Good job!" );
-			} );
 		} );
+	} );
 } );

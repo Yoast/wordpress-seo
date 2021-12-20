@@ -1,4 +1,3 @@
-import { enableFeatures } from "@yoast/feature-flag";
 import getKeyphraseLength from "../../../../../src/languageProcessing/languages/ja/customResearches/getKeyphraseLength";
 import Paper from "../../../../../src/values/Paper";
 

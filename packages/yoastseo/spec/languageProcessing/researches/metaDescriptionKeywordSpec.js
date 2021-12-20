@@ -184,13 +184,13 @@ describe( "the meta description keyword match research for languages that have c
 		} );
 
 		it( "returns 1 when only synonym is found once in the meta description (non-exact match)", function() {
-				const paper = new Paper( "", { keyword: "野生のハーブの刺繡", synonyms: "小さい花の刺繍", description: "小さくて可愛い花の刺繍に関する一般一般の記事です。" +
-						"私は美しい猫を飼っています。" } );
-				const researcher = new JapaneseResearcher( paper );
-				researcher.addResearchData( "morphology", morphologyDataJA );
-				const result = metaDescriptionKeyword( paper, researcher );
-				expect( result ).toEqual( 1 );
-			} );
+			const paper = new Paper( "", { keyword: "野生のハーブの刺繡", synonyms: "小さい花の刺繍", description: "小さくて可愛い花の刺繍に関する一般一般の記事です。" +
+					"私は美しい猫を飼っています。" } );
+			const researcher = new JapaneseResearcher( paper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 1 );
+		} );
 
 		it( "returns 2 when both keyphrase and synonym are found in the meta description (exact match)", function() {
 			const paper = new Paper( "", { keyword: "小さい花の刺繍", synonyms: "野生のハーブの刺繡", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +

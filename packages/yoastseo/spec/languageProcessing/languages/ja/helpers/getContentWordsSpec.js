@@ -1,4 +1,3 @@
-import { enableFeatures } from "@yoast/feature-flag";
 import getContentWords from "../../../../../src/languageProcessing/languages/ja/helpers/getContentWords";
 
 describe( "test for getting the Japanese content words", function() {

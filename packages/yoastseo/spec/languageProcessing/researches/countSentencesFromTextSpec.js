@@ -2,7 +2,6 @@ import getSentences from "../../../src/languageProcessing/researches/countSenten
 import Paper from "../../../src/values/Paper";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
-import { enableFeatures } from "@yoast/feature-flag";
 
 describe( "counts words in sentences from text", function() {
 	let paper;

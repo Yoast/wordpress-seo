@@ -522,7 +522,7 @@ describe( "getProminentWords", function() {
 		const japaneseStemmer = researcher.getHelper( "customGetStemmer" )( researcher );
 		const words = getProminentWords( input, [], japaneseStemmer, [ "て", "わ", "5" ], getWordsCustomHelper );
 		expect( words ).toEqual( expected );
-		} );
+	} );
 } );
 
 describe( "getRelevantWordsFromPaperAttributes", function() {
@@ -581,5 +581,5 @@ describe( "getRelevantWordsFromPaperAttributes", function() {
 		const words = getProminentWordsFromPaperAttributes( [
 			"これはいいキーフレーズです", "これは同義語1と同義語2です", "これはかなり長いタイトルです！", "これは、私たちが分析していて興味を持っている論文の興味深いメタディスクリプションです。", [ "最初の小見出し", "2番目の小見出し" ].join( " " ) ], [], japaneseStemmer, [ "2", "1", "い", "いい", "いる", "が", "かなり", "これ", "し", "たち", "て", "です", "と", "の", "は", "を", "私" ], getWordsCustomHelper );
 		expect( words ).toEqual( expected );
-		} );
+	} );
 } );

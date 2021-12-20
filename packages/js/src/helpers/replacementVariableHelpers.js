@@ -13,7 +13,6 @@ import { stripTags } from "@wordpress/sanitize";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
 import { firstToUpperCase } from "./stringHelpers";
 
-import { isFeatureEnabled } from "@yoast/feature-flag";
 import { strings } from "@yoast/helpers";
 const { stripHTMLTags } = strings;
 

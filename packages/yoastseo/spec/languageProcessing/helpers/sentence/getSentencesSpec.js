@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { enableFeatures } from "@yoast/feature-flag";
 import getSentences from "../../../../src/languageProcessing/helpers/sentence/getSentences.js";
 
 import {

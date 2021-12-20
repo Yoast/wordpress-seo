@@ -1,4 +1,3 @@
-import { enableFeatures } from "@yoast/feature-flag";
 import removePunctuation from "../../../../src/languageProcessing/helpers/sanitize/removePunctuation.js";
 
 describe( "a test for removing punctuation from a string", function() {

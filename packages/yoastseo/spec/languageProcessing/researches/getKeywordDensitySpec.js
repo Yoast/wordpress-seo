@@ -123,6 +123,6 @@ describe( "test for counting the keyword density in a text in Japanese", functio
 		mockResearcher.addResearchData( "morphology", morphologyDataJA );
 		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 0 );
 	} );
-}
+} );
 
 
