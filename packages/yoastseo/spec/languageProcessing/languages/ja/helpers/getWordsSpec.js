@@ -1,8 +1,6 @@
 import { enableFeatures } from "@yoast/feature-flag";
 import getWords from "../../../../../src/languageProcessing/languages/ja/helpers/getWords";
 
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
-
 describe( "test for getting Japanese segmented words", function() {
 	it( "returns an empty array if the text is empty", function() {
 		const words = getWords( "" );

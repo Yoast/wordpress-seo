@@ -15,7 +15,7 @@ class Japanese_Support_Conditional extends Feature_Flag_Conditional {
 	 * Returns the name of the feature flag.
 	 * 'YOAST_SEO_' is automatically prepended to it and it will be uppercased.
 	 *
-	 * @deprecated 17.5
+	 * @deprecated 17.9
 	 * @codeCoverageIgnore
 	 *
 	 * @return string the name of the feature flag.

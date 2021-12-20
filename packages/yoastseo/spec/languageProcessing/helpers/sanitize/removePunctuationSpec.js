@@ -1,8 +1,6 @@
 import { enableFeatures } from "@yoast/feature-flag";
 import removePunctuation from "../../../../src/languageProcessing/helpers/sanitize/removePunctuation.js";
 
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
-
 describe( "a test for removing punctuation from a string", function() {
 	it( "returns string without dash at the end", function() {
 		expect( removePunctuation( "test-" ) ).toBe( "test" );

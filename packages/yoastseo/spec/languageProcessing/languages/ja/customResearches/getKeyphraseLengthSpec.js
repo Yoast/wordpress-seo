@@ -2,9 +2,6 @@ import { enableFeatures } from "@yoast/feature-flag";
 import getKeyphraseLength from "../../../../../src/languageProcessing/languages/ja/customResearches/getKeyphraseLength";
 import Paper from "../../../../../src/values/Paper";
 
-// The Japanese support is enabled in this spec file so that the Japanese punctuation(s) are available.
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
-
 describe( "test for calculating the Japanese keyphrase length research", function() {
 	it( "returns the length of the keyphrase without function word(s)", function() {
 		const mockPaper = new Paper( "私の猫はかわいいです。", { keyword: "猫用フード" } );

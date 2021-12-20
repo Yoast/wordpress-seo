@@ -50,11 +50,6 @@ const morphologyData = {
  * @returns {Object} The morphology data.
  */
 export default function getMorphologyData( language ) {
-	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
-		// eslint-disable-next-line global-require
-		morphologyData.ja = require( "../../premium-configuration/data/morphologyData-ja-v1.json" );
-	}
-
 	if ( morphologyData[ language ] ) {
 		return morphologyData[ language ];
 	}

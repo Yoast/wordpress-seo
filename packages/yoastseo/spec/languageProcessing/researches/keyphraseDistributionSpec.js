@@ -1,4 +1,3 @@
-import { enableFeatures } from "@yoast/feature-flag";
 import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
 import {
 	computeScoresPerSentenceShortTopic,
@@ -773,8 +772,6 @@ const buildJapaneseMockResearcher = function( keyphraseForms, synonymsForms, get
 		wordsCharacterCount: wordsCharacterCount,
 	} );
 };
-
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
 
 describe( "Test for the research for Japanese language", function() {
 	it( "returns a score over all sentences and all topic forms (short topic); returns markers for sentences that contain the topic " +

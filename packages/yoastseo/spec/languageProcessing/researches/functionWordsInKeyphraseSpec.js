@@ -8,8 +8,6 @@ import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Res
 
 import Paper from "../../../src/values/Paper.js";
 
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
-
 describe( "Test for checking if the keyphrase contains function words only", function() {
 	it( "returns true if the keyphrase contains one function word only", function() {
 		const mockPaper = new Paper( "", { keyword: "a", locale: "en_EN" } );

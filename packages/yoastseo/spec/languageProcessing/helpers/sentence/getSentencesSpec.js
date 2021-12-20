@@ -19,8 +19,6 @@ import {
 
 import { forEach } from "lodash-es";
 
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
-
 /**
  * Helper to test sentence detection.
  *

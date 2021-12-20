@@ -1,4 +1,3 @@
-import { enableFeatures } from "@yoast/feature-flag";
 import keywordCount from "../../../src/languageProcessing/researches/keywordCount.js";
 import Paper from "../../../src/values/Paper.js";
 import factory from "../../specHelpers/factory";
@@ -201,8 +200,6 @@ const buildJapaneseMockResearcher = function( keyphraseForms, helper1, helper2 )
 		matchWordCustomHelper: helper2,
 	} );
 };
-
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
 
 describe( "Test for counting the keyword in a text for Japanese", () => {
 	it( "counts/marks a string of text with a keyword in it.", function() {

@@ -1,8 +1,6 @@
 import { enableFeatures } from "@yoast/feature-flag";
 import getContentWords from "../../../../../src/languageProcessing/languages/ja/helpers/getContentWords";
 
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
-
 describe( "test for getting the Japanese content words", function() {
 	it( "returns an empty array if the text is empty", function() {
 		const words = getContentWords( "" );
