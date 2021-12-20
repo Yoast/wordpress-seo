@@ -39,6 +39,7 @@ const StorePostsAndPagesCornerstoneContentAssessor = function( researcher, optio
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify68" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
+			cornerstoneContent: true,
 		} ),
 		new ParagraphTooLong( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify66" ),

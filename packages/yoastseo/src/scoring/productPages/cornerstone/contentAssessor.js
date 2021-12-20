@@ -31,6 +31,7 @@ const ProductCornerstoneContentAssessor = function( researcher, options ) {
 			shouldNotAppearInShortText: true,
 			urlTitle: createAnchorOpeningTag( options.subheadingUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.subheadingCTAUrl ),
+			cornerstoneContent: true,
 		} ),
 		new ParagraphTooLong( {
 			parameters: {

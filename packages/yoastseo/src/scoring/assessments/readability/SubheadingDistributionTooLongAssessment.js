@@ -41,6 +41,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			},
 			applicableIfTextLongerThan: 300,
 			shouldNotAppearInShortText: false,
+			cornerstoneContent: false,
 		};
 		this.identifier = "subheadingsTooLong";
 		this._config = merge( defaultConfig, config );
