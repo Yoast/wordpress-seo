@@ -19,10 +19,10 @@ import textLength from "./config/textLength";
 import paragraphLength from "./config/paragraphLength";
 import assessmentApplicability from "./config/assessmentApplicabilityCharacterCount";
 import sentenceLength from "./config/sentenceLength";
+import keyphraseLength from "./config/keyphraseLength";
 
 // All custom researches
 import morphology from "./customResearches/getWordForms";
-import getKeywordDensity from "./customResearches/getKeywordDensity";
 import getKeyphraseLength from "./customResearches/getKeyphraseLength";
 import textLengthResearch from "./customResearches/textLength";
 import findKeywordInPageTitle from "./customResearches/findKeywordInPageTitle";
@@ -44,9 +44,6 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getPassiveVoiceResult;
 		delete this.defaultResearches.keywordCountInUrl;
 
-		// Adds the Japanese custom research to calculate the keyword density.
-		this.addResearch( "getKeywordDensity", getKeywordDensity );
-
 		Object.assign( this.config, {
 			language: "ja",
 			firstWordExceptions,
@@ -57,6 +54,8 @@ export default class Researcher extends AbstractResearcher {
 			paragraphLength,
 			assessmentApplicability,
 			sentenceLength,
+			keyphraseLength,
+			countCharacters: true,
 		} );
 
 		Object.assign( this.helpers, {

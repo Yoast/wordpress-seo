@@ -9,7 +9,7 @@
 export default function processExactMatchRequest( keyphrase, doubleQuotes ) {
 	const exactMatchRequest = { exactMatchRequested: false, keyphrase: keyphrase };
 
-	// Check if morphology is suppressed. If so, strip the quotation marks from the keyphrase.
+	// Check if only exact match processing is requested by the user. If so, strip the quotation marks from the keyphrase.
 	if ( doubleQuotes.includes( keyphrase[ 0 ] ) && doubleQuotes.includes( keyphrase[ keyphrase.length - 1 ] ) ) {
 		exactMatchRequest.keyphrase = keyphrase.substring( 1, keyphrase.length - 1 );
 		exactMatchRequest.exactMatchRequested = true;

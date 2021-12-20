@@ -1,12 +1,17 @@
+import { isFeatureEnabled } from "@yoast/feature-flag";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import FarsiResearcher from "../../../src/languageProcessing/languages/fa/Researcher";
+import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import linkCount from "../../../src/languageProcessing/researches/getLinkStatistics.js";
 import Paper from "../../../src/values/Paper.js";
 
 const morphologyData = getMorphologyData( "en" );
+const morphologyDataJA = getMorphologyData( "ja" );
+
 let foundLinks;
 
+// eslint-disable-next-line max-statements
 describe( "Tests a string for anchors and its attributes", function() {
 	const paperAttributes = {
 		keyword: "link",
@@ -630,3 +635,363 @@ describe( "Tests a string for anchors and its attributes", function() {
 		expect( foundLinks.keyword.matchedAnchors ).toEqual(  [] );
 	} );
 } );
+
+describe( "a test for anchors and its attributes when the exact match of a keyphrase is requested", () => {
+	it( "should match all words from keyphrase in the link text and vice versa when the keyphrase is enclosed in double quotes", function() {
+		const attributes = {
+			keyword: "\"walking in nature\"",
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
+		};
+
+		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>walking in nature</a>", attributes );
+		const researcher = new EnglishResearcher( mockPaper );
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toEqual( 1 );
+		expect( foundLinks.totalNaKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.totalKeyword ).toEqual( 1 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com/keyword'>walking in nature</a>" ] );
+	} );
+
+	it( "should match all words from keyphrase in the link text and vice versa when the keyphrase is enclosed in double quotes " +
+		"and the keyphrase is preceded by a function word in the anchor text", function() {
+		const attributes = {
+			keyword: "\"walking in nature\"",
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
+		};
+
+		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>" +
+			"immediately walking in nature</a>", attributes );
+		const researcher = new EnglishResearcher( mockPaper );
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toEqual( 1 );
+		expect( foundLinks.totalNaKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.totalKeyword ).toEqual( 1 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com/keyword'>immediately walking in nature</a>" ] );
+	} );
+
+	it( "should not return a match of keyphrase in the anchor text and vice versa when the keyphrase is enclosed in double quotes " +
+		"and the keyphrase is followed by a content word in the anchor text", function() {
+		const attributes = {
+			keyword: "\"walking in nature\"",
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
+		};
+
+		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>" +
+			"walking in nature activity</a>", attributes );
+		const researcher = new EnglishResearcher( mockPaper );
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toEqual( 1 );
+		expect( foundLinks.totalNaKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.totalKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [] );
+	} );
+
+	it( "should not return a match of keyphrase in the anchor text and vice versa when the keyphrase is enclosed in double quotes " +
+		"and the keyphrase appears in a different form in the anchor text", function() {
+		const attributes = {
+			keyword: "\"walking in nature\"",
+			url: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
+		};
+
+		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>" +
+			"walks in nature</a>", attributes );
+		const researcher = new EnglishResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toEqual( 1 );
+		expect( foundLinks.totalNaKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.totalKeyword ).toEqual( 0 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [] );
+	} );
+
+	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
+		it( "checks the keyphrase in the anchor text when the keyphrase is enclosed in double quotes", function() {
+			const paperAttributes = {
+				keyword: "「読ん一冊の本」",
+				url: "http://yoast.com",
+				permalink: "http://yoast.com",
+			};
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>読ん一冊の本</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+			expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com'>読ん一冊の本</a>" ] );
+		} );
+
+		it( "checks the keyphrase in the anchor text when the keyphrase is enclosed in double quotes " +
+			"and the keyphrase is preceded by a function word in the anchor text", function() {
+			const paperAttributes = {
+				keyword: "「読ん一冊の本」",
+				url: "http://yoast.com",
+				permalink: "http://yoast.com",
+			};
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>から読ん一冊の本</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+			expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com'>から読ん一冊の本</a>" ] );
+		} );
+
+		it( "checks the keyphrase in the anchor text when the keyphrase is enclosed in double quotes " +
+			"and the keyphrase is preceded by a function word and a content word in the anchor text", function() {
+			const paperAttributes = {
+				keyword: "「読ん一冊の本」",
+				url: "http://yoast.com",
+				permalink: "http://yoast.com",
+			};
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>猫から読ん一冊の本</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
+			expect( foundLinks.keyword.matchedAnchors ).toEqual( [] );
+		} );
+	}
+} );
+
+describe( "a test for anchors and its attributes in languages that have a custom helper " +
+	"to get the words from the text and matching them in the text", () => {
+	// Japanese has custom helpers to get the words from the text and matching them in the text.
+	describe( "a test for when the morphology data is not available", () => {
+		let paperAttributes = {
+			keyword: "リンク",
+			url: "http://yoast.com",
+			permalink: "http://yoast.com",
+		};
+
+		it( "should detect internal links", function() {
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.total ).toBe( 1 );
+			expect( foundLinks.internalTotal ).toBe( 1 );
+			expect( foundLinks.internalDofollow ).toBe( 1 );
+			expect( foundLinks.externalTotal ).toBe( 0 );
+		} );
+
+		it( "should detect external links", function() {
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>リンク</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.total ).toBe( 2 );
+			expect( foundLinks.internalTotal ).toBe( 1 );
+			expect( foundLinks.externalTotal ).toBe( 1 );
+			expect( foundLinks.externalDofollow ).toBe( 1 );
+			expect( foundLinks.internalDofollow ).toBe( 1 );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+			expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com'>リンク</a>" ] );
+		} );
+
+		it( "should detect nofollow as rel attribute", function() {
+			let mockPaper = new Paper( "言葉 <a href='http://example.com' rel='nofollow'>リンク</a>", paperAttributes );
+			let researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.total ).toBe( 1 );
+			expect( foundLinks.externalNofollow ).toBe( 1 );
+			expect( foundLinks.externalDofollow ).toBe( 0 );
+			expect( foundLinks.internalNofollow ).toBe( 0 );
+			expect( foundLinks.internalDofollow ).toBe( 0 );
+
+			mockPaper = new Paper( "言葉 <a href='http://yoast.com' rel=' nofollow '>リンク</a>", paperAttributes );
+			researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.total ).toBe( 1 );
+			expect( foundLinks.externalNofollow ).toBe( 0 );
+			expect( foundLinks.externalDofollow ).toBe( 0 );
+			expect( foundLinks.internalNofollow ).toBe( 1 );
+			expect( foundLinks.internalDofollow ).toBe( 0 );
+		} );
+
+		it( "assesses the anchor text where not all content words in the text are present in the keyphrse", function() {
+			paperAttributes = {
+				keyword: "読ん一冊の本",
+				url: "http://yoast.com",
+				permalink: "http://yoast.com",
+			};
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>猫と読ん一冊の本</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.total ).toBe( 2 );
+			expect( foundLinks.internalTotal ).toBe( 1 );
+			expect( foundLinks.externalTotal ).toBe( 1 );
+			expect( foundLinks.externalDofollow ).toBe( 1 );
+			expect( foundLinks.internalDofollow ).toBe( 1 );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
+		} );
+
+		it( "assesses the anchor text where all content words in the text present in the keyphrase", function() {
+			paperAttributes = {
+				keyword: "から小さい花の刺繍",
+				url: "http://yoast.com",
+				permalink: "http://yoast.com",
+			};
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.total ).toBe( 2 );
+			expect( foundLinks.internalTotal ).toBe( 1 );
+			expect( foundLinks.externalTotal ).toBe( 1 );
+			expect( foundLinks.externalDofollow ).toBe( 1 );
+			expect( foundLinks.internalDofollow ).toBe( 1 );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+			expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com'>小さい花の刺繍</a>" ] );
+		} );
+
+		it( "assesses the anchor text where all content words in the text present in the keyphrase, but in a different form", function() {
+			paperAttributes = {
+				keyword: "から小さく花の刺繍",
+				url: "http://yoast.com",
+				permalink: "http://yoast.com",
+			};
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+			foundLinks = linkCount( mockPaper, researcher );
+			expect( foundLinks.total ).toBe( 2 );
+			expect( foundLinks.internalTotal ).toBe( 1 );
+			expect( foundLinks.externalTotal ).toBe( 1 );
+			expect( foundLinks.externalDofollow ).toBe( 1 );
+			expect( foundLinks.internalDofollow ).toBe( 1 );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
+		} );
+
+		it( "assesses the anchor text where all content words in the text are present in the synonym and in the keyphrase", function() {
+			paperAttributes = {
+				keyword: "から小さく花の刺繍",
+				synonyms: "猫用のフード, 猫用食品",
+				url: "http://yoast.com",
+				permalink: "http://yoast.com",
+			};
+			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さく花の刺繍</a>" +
+				" <a href='http://example.com'>から猫用のフード</a>", paperAttributes );
+			const researcher = new JapaneseResearcher( mockPaper );
+
+			foundLinks = linkCount( mockPaper, researcher );
+
+			expect( foundLinks.total ).toBe( 3 );
+			expect( foundLinks.internalTotal ).toBe( 1 );
+			expect( foundLinks.externalTotal ).toBe( 2 );
+			expect( foundLinks.externalDofollow ).toBe( 2 );
+			expect( foundLinks.internalDofollow ).toBe( 1 );
+			expect( foundLinks.keyword.totalKeyword ).toBe( 2 );
+			expect( foundLinks.keyword.matchedAnchors ).toEqual( [
+				"<a href='http://example.com'>小さく花の刺繍</a>",
+				"<a href='http://example.com'>から猫用のフード</a>",
+			] );
+		} );
+	} );
+	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
+		describe( "a test for when the morphology data is available", () => {
+			it( "assesses the anchor text where not all content words in the text present in the keyphrse", function() {
+				const paperAttributes = {
+					keyword: "読ん一冊の本",
+					url: "http://yoast.com",
+					permalink: "http://yoast.com",
+				};
+				const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>猫と読ん一冊の本</a>", paperAttributes );
+				const researcher = new JapaneseResearcher( mockPaper );
+				researcher.addResearchData( "morphology", morphologyDataJA );
+				foundLinks = linkCount( mockPaper, researcher );
+
+				expect( foundLinks.total ).toBe( 2 );
+				expect( foundLinks.internalTotal ).toBe( 1 );
+				expect( foundLinks.externalTotal ).toBe( 1 );
+				expect( foundLinks.externalDofollow ).toBe( 1 );
+				expect( foundLinks.internalDofollow ).toBe( 1 );
+				expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
+			} );
+
+			it( "assesses the anchor text where all content words in the text present in the keyphrase", function() {
+				const paperAttributes = {
+					keyword: "から小さい花の刺繍",
+					url: "http://yoast.com",
+					permalink: "http://yoast.com",
+				};
+				const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>", paperAttributes );
+				const researcher = new JapaneseResearcher( mockPaper );
+				researcher.addResearchData( "morphology", morphologyDataJA );
+
+				foundLinks = linkCount( mockPaper, researcher );
+
+				expect( foundLinks.total ).toBe( 2 );
+				expect( foundLinks.internalTotal ).toBe( 1 );
+				expect( foundLinks.externalTotal ).toBe( 1 );
+				expect( foundLinks.externalDofollow ).toBe( 1 );
+				expect( foundLinks.internalDofollow ).toBe( 1 );
+				expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+				expect( foundLinks.keyword.matchedAnchors ).toEqual( [ "<a href='http://example.com'>小さい花の刺繍</a>" ] );
+			} );
+
+			it( "assesses the anchor text where all content words in the text present in the keyphrase, but in a different form", function() {
+				const paperAttributes = {
+					keyword: "から小さく花の刺繍",
+					url: "http://yoast.com",
+					permalink: "http://yoast.com",
+				};
+				const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>" +
+					" <a href='http://example.com'>小さける花の刺繍</a>", paperAttributes );
+				const researcher = new JapaneseResearcher( mockPaper );
+				researcher.addResearchData( "morphology", morphologyDataJA );
+
+				foundLinks = linkCount( mockPaper, researcher );
+
+				expect( foundLinks.total ).toBe( 3 );
+				expect( foundLinks.internalTotal ).toBe( 1 );
+				expect( foundLinks.externalTotal ).toBe( 2 );
+				expect( foundLinks.externalDofollow ).toBe( 2 );
+				expect( foundLinks.internalDofollow ).toBe( 1 );
+				expect( foundLinks.keyword.totalKeyword ).toBe( 2 );
+				expect( foundLinks.keyword.matchedAnchors ).toEqual( [
+					"<a href='http://example.com'>小さい花の刺繍</a>",
+					"<a href='http://example.com'>小さける花の刺繍</a>",
+				] );
+			} );
+
+			it( "assesses the anchor text where all content words in the text present in the synonyms, but in a different form", function() {
+				const paperAttributes = {
+					keyword: "猫用食品",
+					synonyms: "小さく花の刺繍",
+					url: "http://yoast.com",
+					permalink: "http://yoast.com",
+				};
+				const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>," +
+					" <a href='http://example.com'>から小さい花の刺繍</a>", paperAttributes );
+				const researcher = new JapaneseResearcher( mockPaper );
+				researcher.addResearchData( "morphology", morphologyDataJA );
+
+				foundLinks = linkCount( mockPaper, researcher );
+
+				expect( foundLinks.total ).toBe( 2 );
+				expect( foundLinks.internalTotal ).toBe( 1 );
+				expect( foundLinks.externalTotal ).toBe( 1 );
+				expect( foundLinks.externalDofollow ).toBe( 1 );
+				expect( foundLinks.internalDofollow ).toBe( 1 );
+				expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+				expect( foundLinks.keyword.matchedAnchors ).toEqual( [
+					"<a href='http://example.com'>から小さい花の刺繍</a>",
+				] );
+			} );
+			it( "checks the keyphrase in the anchor text when the keyphrase is enclosed in double quotes, " +
+				"and the anchor text contains a different form of the keyphrase", function() {
+				const paperAttributes = {
+					keyword: "「小さく花の刺繍」",
+					synonyms: "something, something else",
+					url: "http://yoast.com",
+					permalink: "http://yoast.com",
+				};
+				const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>", paperAttributes );
+				const researcher = new JapaneseResearcher( mockPaper );
+				foundLinks = linkCount( mockPaper, researcher );
+				expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
+				expect( foundLinks.keyword.matchedAnchors ).toEqual( [] );
+			} );
+		} );
+	}
+} );
+

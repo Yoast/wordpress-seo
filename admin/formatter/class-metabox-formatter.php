@@ -55,14 +55,7 @@ class WPSEO_Metabox_Formatter {
 		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 		$schema_types         = new Schema_Types();
-
-		$is_wincher_active = WPSEO_Options::get( 'wincher_integration_active', true );
-
-		// If feature flag is disabled, Wincher should not be active.
-		$conditional = new Wincher_Conditional();
-		if ( ! $conditional->is_met() ) {
-			$is_wincher_active = false;
-		}
+		$is_wincher_active    = YoastSEO()->helpers->wincher->is_active();
 
 		return [
 			'author_name'                 => get_the_author_meta( 'display_name' ),
@@ -176,8 +169,8 @@ class WPSEO_Metabox_Formatter {
 			'analysisHeadingTitle'        => __( 'Analysis', 'wordpress-seo' ),
 			'zapierIntegrationActive'     => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
 			'zapierConnectedStatus'       => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
-			'wincherIntegrationActive'    => $is_wincher_active ? 1 : 0,
-			'wincherLoginStatus'          => $is_wincher_active ? YoastSEO()->helpers->wincher->login_status() : false,
+			'wincherIntegrationActive'    => ( $is_wincher_active ) ? 1 : 0,
+			'wincherLoginStatus'          => ( $is_wincher_active ) ? YoastSEO()->helpers->wincher->login_status() : false,
 			'wincherWebsiteId'            => WPSEO_Options::get( 'wincher_website_id', '' ),
 			'wincherAutoAddKeyphrases'    => WPSEO_Options::get( 'wincher_automatically_add_keyphrases', false ),
 

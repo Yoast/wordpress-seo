@@ -11,7 +11,7 @@ import { getPostFeed } from "@yoast/helpers";
 // Internal dependencies.
 import { setYoastComponentsL10n } from "./helpers/i18n";
 import WincherPerformanceReport from "./components/WincherPerformanceReport";
-import { authenticate, getAuthorizationUrl, getKeyphrases, trackAllKeyphrases } from "./helpers/wincherEndpoints";
+import { authenticate, getAuthorizationUrl, getKeyphrases } from "./helpers/wincherEndpoints";
 import LoginPopup from "./helpers/loginPopup";
 import { isEmpty, filter, sortBy } from "lodash-es";
 
@@ -28,17 +28,15 @@ class DashboardWidget extends Component {
 		this.state = {
 			statistics: null,
 			feed: null,
-			wincherData: null,
+			wincherData: {},
 			wincherWebsiteId: wpseoDashboardWidgetL10n.wincher_website_id,
-			wincherIsLoggedIn: wpseoDashboardWidgetL10n.wincher_is_logged_in,
-			wincherLimits: {},
+			wincherIsLoggedIn: wpseoDashboardWidgetL10n.wincher_is_logged_in === "1",
 			isDataFetched: false,
 		};
 
 		this.onConnect = this.onConnect.bind( this );
 		this.getWincherData = this.getWincherData.bind( this );
 		this.performAuthenticationRequest = this.performAuthenticationRequest.bind( this );
-		this.onTrackAll = this.onTrackAll.bind( this );
 	}
 
 	/**
@@ -271,24 +269,6 @@ class DashboardWidget extends Component {
 	}
 
 	/**
-	 * Tracks all keyphrases.
-	 *
-	 * @returns {void}
-	 */
-	async onTrackAll() {
-		const response = await trackAllKeyphrases();
-
-		// If we hit the limit with this call, display the error message.
-		if ( response.status === 400 ) {
-			this.setState( {
-				wincherLimits: response.results,
-			} );
-		} else {
-			await this.getWincherData();
-		}
-	}
-
-	/**
 	 * Gets the Wincher SEO Performance entry.
 	 *
 	 * @returns {void|wp.Element} The Wincher performance entry.
@@ -299,12 +279,11 @@ class DashboardWidget extends Component {
 		}
 
 		return <WincherPerformanceReport
+			key="wincher-performance-report"
 			data={ this.state.wincherData }
 			websiteId={ this.state.wincherWebsiteId }
 			isLoggedIn={ this.state.wincherIsLoggedIn }
 			onConnectAction={ this.onConnect }
-			onTrackAllAction={ this.onTrackAll }
-			limits={ this.state.wincherLimits }
 		/>;
 	}
 
